@@ -29,25 +29,24 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                 datatype: 'json'
             });
         });
-
-        // Add Click Close Donate Notice
-        jQuery('#wps-donate-notice').on('click', '.notice-dismiss', function () {
-            jQuery.ajax({
-                url: wps_js.global.admin_url + 'admin-ajax.php',
-                type: 'get',
-                data: {
-                    'action': 'wp_statistics_close_notice',
-                    'notice': 'donate',
-                    'wps_nonce': '' + wps_js.global.rest_api_nonce + ''
-                },
-                datatype: 'json',
-            });
-        });
-
-        // Fix Show Image Ads
-        jQuery('#wps_overview_ads_image').on('error', function () {
-            jQuery('#wps_overview_ads_postbox').remove();
-        });
     }
 
+    // Add Click Close Donate Notice
+    jQuery('#wps-donate-notice').on('click', '.notice-dismiss', function () {
+        jQuery.ajax({
+            url: wps_js.global.admin_url + 'admin-ajax.php',
+            type: 'get',
+            data: {
+                'action': 'wp_statistics_close_notice',
+                'notice': 'donate',
+                'wps_nonce': '' + wps_js.global.rest_api_nonce + ''
+            },
+            datatype: 'json',
+        });
+    });
+
+    // Fix Show Image Ads
+    jQuery('#wps_overview_ads_image').on('error', function () {
+        jQuery('#wps_overview_ads_postbox').remove();
+    });
 }

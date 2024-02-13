@@ -17,7 +17,8 @@ class DB
         'pages',
         'search',
         'historical',
-        'visitor_relationships'
+        'visitor_relationships',
+        'events'
     );
 
     /**

@@ -191,6 +191,56 @@
                     jQuery("#delete-ip").value('');
                 });
         });
+
+        jQuery("#delete-user-ids-submit").click(function () {
+
+            var agree = confirm('<?php _e('Are you sure?', 'wp-statistics'); ?>');
+
+            if (!agree)
+                return false;
+
+            jQuery("#delete-user-ids-submit").attr("disabled", "disabled");
+            jQuery("#delete-user-ids-status").html("<img src='<?php echo esc_url(plugins_url('wp-statistics')); ?>/assets/images/loading.gif'/>");
+            jQuery.ajax({
+                url: ajaxurl,
+                type: 'post',
+                data: {
+                    'action': 'wp_statistics_delete_user_ids',
+                    'wps_nonce': '<?php echo wp_create_nonce('wp_rest'); ?>'
+                },
+                datatype: 'json',
+            })
+                .always(function (result) {
+                    jQuery("#delete-user-ids-status").html("");
+                    jQuery("#delete-user-ids-result").html(result);
+                    jQuery("#delete-user-ids-submit").removeAttr("disabled");
+                });
+        });
+
+        jQuery("#clear-user-agent-strings-submit").click(function () {
+
+            var agree = confirm('<?php _e('Are you sure?', 'wp-statistics'); ?>');
+
+            if (!agree)
+                return false;
+
+            jQuery("#clear-user-agent-strings-submit").attr("disabled", "disabled");
+            jQuery("#clear-user-agent-strings-status").html("<img src='<?php echo esc_url(plugins_url('wp-statistics')); ?>/assets/images/loading.gif'/>");
+            jQuery.ajax({
+                url: ajaxurl,
+                type: 'post',
+                data: {
+                    'action': 'wp_statistics_clear_user_agent_strings',
+                    'wps_nonce': '<?php echo wp_create_nonce('wp_rest'); ?>'
+                },
+                datatype: 'json',
+            })
+                .always(function (result) {
+                    jQuery("#clear-user-agent-strings-status").html("");
+                    jQuery("#clear-user-agent-strings-result").html(result);
+                    jQuery("#clear-user-agent-strings-submit").removeAttr("disabled");
+                });
+        });
     });
 </script>
 <div class="wrap wps-wrap">
@@ -256,6 +306,38 @@
                     <input id="purge-visitor-hits-submit" class="button button-primary" type="submit" value="<?php _e('Start Purging Now', 'wp-statistics'); ?>" name="purge-visitor-hits-submit" Onclick="return false;"/>
                     <span id="purge-visitor-hits-status"></span>
                     <div id="purge-visitor-hits-result"></div>
+                </td>
+            </tr>
+
+            <tr>
+                <th scope="row">
+                    <label for="delete-user-ids-submit"><?php _e('Remove User IDs', 'wp-statistics'); ?></label>
+                </th>
+                <td>
+                    <input id="delete-user-ids-submit" class="button button-primary" type="submit" value="<?php _e('Delete User IDs Now', 'wp-statistics'); ?>" name="delete_user_ids_submit">
+                    <p class="description">
+                        <?php _e('Use this option to permanently delete all stored User IDs from your database. It is useful if you need to anonymize your user visit records or comply with privacy regulations.', 'wp-statistics'); ?><br>
+                        <span class="wps-note"><?php _e('Warning:', 'wp-statistics'); ?></span>
+                        <?php _e('This action is irreversible and should be used with caution.', 'wp-statistics'); ?>
+                    </p>
+                    <span id="delete-user-ids-status"></span>
+                    <div id="delete-user-ids-result"></div>
+                </td>
+            </tr>
+
+            <tr>
+                <th scope="row">
+                    <label for="clear-user-agent-strings-submit"><?php _e('Clear User Agent Strings', 'wp-statistics'); ?></label>
+                </th>
+                <td>
+                    <input id="clear-user-agent-strings-submit" class="button button-primary" type="submit" value="<?php _e('Clear User Agent Data Now', 'wp-statistics'); ?>" name="clear_user_agent_strings_submit">
+                    <p class="description">
+                        <?php _e('Select this option to permanently remove all User Agent Strings from your database. This should be done once troubleshooting is completed to ensure unnecessary data is not stored.', 'wp-statistics'); ?><br>
+                        <span class="wps-note"><?php _e('Warning:', 'wp-statistics'); ?></span>
+                        <?php _e('This action cannot be undone.', 'wp-statistics'); ?>
+                    </p>
+                    <span id="clear-user-agent-strings-status"></span>
+                    <div id="clear-user-agent-strings-result"></div>
                 </td>
             </tr>
             </tbody>

@@ -16,7 +16,7 @@
                                     <?php if (WP_STATISTICS\GeoIP::active('city')) { ?>
                                         <td><?php _e('City', 'wp-statistics'); ?></td>
                                     <?php } ?>
-                                    <td><?php _e('IP', 'wp-statistics'); ?></td>
+                                    <td><?php echo \WP_STATISTICS\Option::get('hash_ips') == true ? __('Daily Visitor Hash', 'wp-statistics') : __('IP Address', 'wp-statistics'); ?></td>
                                     <td><?php _e('Online For', 'wp-statistics'); ?></td>
                                     <td><?php _e('Page', 'wp-statistics'); ?></td>
                                     <td><?php _e('Referrer', 'wp-statistics'); ?></td>
@@ -37,7 +37,7 @@
                                         <?php if (WP_STATISTICS\GeoIP::active('city')) { ?>
                                             <td><?php echo esc_attr($item['city']); ?></td>
                                         <?php } ?>
-                                        <td style='text-align: left' class="wps-admin-column__ip"><?php echo(isset($item['hash_ip']) ? esc_attr($item['hash_ip']) : "<a href='" . esc_url($item['ip']['link']) . "'>" . esc_attr($item['ip']['value']) . "</a>"); ?></td>
+                                        <td style='text-align: left' class="wps-admin-column__ip"><?php echo sprintf('<a href="%s">%s</a>', esc_url($item['ip']['link']), esc_attr($item['ip']['value'])); ?></td>
                                         <td style='text-align: left'><span><?php echo esc_attr($item['online_for']); ?></span></td>
                                         <td style='text-align: left'><?php echo ($item['page']['link'] != '' ? '<a href="' . esc_url($item['page']['link']) . '" target="_blank" class="wps-text-muted">' : '') . esc_attr($item['page']['title']) . ($item['page']['link'] != '' ? '</a>' : ''); ?></td>
                                         <td style='text-align: left' class="wps-admin-column__referred"><?php echo wp_kses_post($item['referred']); ?></td>

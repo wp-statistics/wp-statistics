@@ -69,6 +69,8 @@ class Option
             'exclude_loginpage'     => true,
             'exclude_404s'          => true,
             'exclude_feeds'         => true,
+            'schedule_dbmaint'      => true,
+            'schedule_dbmaint_days' => '180'
         );
 
         return $options;

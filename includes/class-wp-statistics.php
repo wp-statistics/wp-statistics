@@ -1,6 +1,8 @@
 <?php
 
 # Exit if accessed directly
+use WP_STATISTICS\Helper;
+
 defined('ABSPATH') || exit;
 
 /**
@@ -133,6 +135,7 @@ final class WP_Statistics
     {
         // third-party Libraries
         require_once WP_STATISTICS_DIR . 'includes/vendor/autoload.php';
+        require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-helper.php';
 
         // Create the plugin upload directory in advance.
         $this->create_upload_directory();
@@ -142,7 +145,6 @@ final class WP_Statistics
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-timezone.php';
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-option.php';
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-user.php';
-        require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-helper.php';
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-mail.php';
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-menus.php';
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-meta-box.php';
@@ -241,7 +243,13 @@ final class WP_Statistics
         $upload_dir      = wp_upload_dir();
         $upload_dir_name = $upload_dir['basedir'] . '/' . WP_STATISTICS_UPLOADS_DIR;
 
-        wp_mkdir_p($upload_dir_name);
+        $result = wp_mkdir_p($upload_dir_name);
+
+        // Check if the directory creation failed.
+        if (!$result) {
+            $errorMessage = sprintf(__('Unable to create the required upload directory at <code>%s</code>. Please check that the web server has write permissions for the parent directory. Alternatively, you can manually create the directory yourself. Please keep in mind that the GeoIP database may not work correctly if the directory structure is not properly set up.', 'wp-statistics'), esc_html($upload_dir_name));
+            Helper::addAdminNotice($errorMessage, 'warning', false);
+        }
 
         /**
          * Create .htaccess to avoid public access.

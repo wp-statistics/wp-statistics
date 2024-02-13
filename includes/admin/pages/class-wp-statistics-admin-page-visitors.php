@@ -165,8 +165,19 @@ class visitors_page
         $args['total'] = $CurrentView[key($CurrentView)]['count'];
         $args['list']  = array();
         if ($args['total'] > 0) {
+
+            $condition         = Helper::getConditionSQL($sql);
+            $visitorTable      = DB::table('visitor');
+            $relationshipTable = DB::table('visitor_relationships');
+
+            if (isset($_GET['ip'])) {
+                $sql = "SELECT * FROM `{$visitorTable}`, `{$relationshipTable}` {$condition} AND `{$visitorTable}`.ID = `{$relationshipTable}`.visitor_id ORDER BY `{$relationshipTable}`.date DESC";
+            } else {
+                $sql = "SELECT vsr.*, vs.* FROM ( SELECT visitor_id, page_id, MAX(date) AS latest_visit_date FROM `{$relationshipTable}` GROUP BY visitor_id ) AS latest_visits JOIN `{$visitorTable}` vs ON latest_visits.visitor_id = vs.ID JOIN `{$relationshipTable}` vsr ON vsr.visitor_id = latest_visits.visitor_id AND vsr.date = latest_visits.latest_visit_date {$condition} ORDER BY vsr.date DESC";
+            }
+
             $args['list'] = Visitor::get(array(
-                'sql'      => "SELECT * FROM `" . DB::table('visitor') . "` " . Helper::getConditionSQL($sql) . " ORDER BY `last_counter` {$order}, `ID` {$order}",
+                'sql'      => $sql,
                 'per_page' => Admin_Template::$item_per_page,
                 'paged'    => $args['paged'],
             ));

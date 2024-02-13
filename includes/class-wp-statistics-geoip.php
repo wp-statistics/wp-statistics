@@ -105,7 +105,6 @@ class GeoIP
                 //Load GeoIP Reader
                 return new \GeoIp2\Database\Reader($file);
             } catch (\Exception $e) {
-                \WP_Statistics::log($e->getMessage());
                 return false;
             }
         } else {
@@ -278,6 +277,8 @@ class GeoIP
         // Apply filter to allow third-party plugins to modify the download url
         $download_url = apply_filters('wp_statistics_geo_ip_download_url', $download_url, GeoIP::$library[$pack]['source'], $pack);
 
+        ini_set('max_execution_time', '60');
+
         $response = wp_remote_get($download_url, array(
             'timeout'   => 60,
             'sslverify' => false
@@ -290,7 +291,7 @@ class GeoIP
 
         // Change download url if the maxmind.com doesn't response.
         if (wp_remote_retrieve_response_code($response) != '200') {
-            return array_merge($result, array("notice" => sprintf(__('Error Retrieving %s from %s', 'wp-statistics'), $pack, $download_url)));
+            return array_merge($result, array("notice" => sprintf(__('Error: %s, Request URL: %s', 'wp-statistics'), wp_remote_retrieve_body($response), $download_url)));
         }
 
         // Create a variable with the name of the database file to download.

@@ -62,9 +62,9 @@ class Referred
         // Sanitize Referer Url
         $referred = esc_url_raw(strip_tags($referred));
 
-        // If Referer is Empty then use same WebSite Url
+        // If Referer is empty, set only ''
         if (empty($referred)) {
-            $referred = get_bloginfo('url');
+            $referred = '';
         }
 
         // Check Search Engine
@@ -123,6 +123,8 @@ class Referred
             // Get Html Link
             return "<a href='{$html_referrer}' title='{$title}'" . ($is_blank === true ? ' target="_blank"' : '') . ">{$base_url['host']}</a>";
         }
+
+        return '-';
     }
 
     /**
@@ -176,7 +178,7 @@ class Referred
         $sql = $wpdb->prepare("SELECT " . ($type == 'number' ? 'COUNT(*)' : '*') . " FROM `" . DB::table('visitor') . "` WHERE `referred` REGEXP \"^(https?://|www\\.)[\.A-Za-z0-9\-]+\\.[a-zA-Z]{2,4}\" AND referred <> '' AND LENGTH(referred) >=12 AND (`referred` LIKE  %s OR `referred` LIKE %s OR `referred` LIKE %s OR `referred` LIKE %s) " . $time_sql . " ORDER BY `" . DB::table('visitor') . "`.`ID` DESC " . ($limit != null ? " LIMIT " . $limit : "") . "", 'https://www.' . $wpdb->esc_like($search_url) . '%', 'https://' . $wpdb->esc_like($search_url) . '%', 'http://www.' . $wpdb->esc_like($search_url) . '%', 'http://' . $wpdb->esc_like($search_url) . '%');
 
         //Get Count
-        return ($type == 'number' ? $wpdb->get_var($sql) : Visitor::PrepareData($wpdb->get_results($sql)));
+        return ($type == 'number' ? $wpdb->get_var($sql) : Visitor::prepareData($wpdb->get_results($sql)));
     }
 
     /**
@@ -254,7 +256,7 @@ class Referred
 
             $sql = $wpdb->prepare("ORDER BY `number` DESC LIMIT %d", $number);
 
-            $result = $wpdb->get_results(self::GenerateReferSQL($sql, ''));
+            $result = $wpdb->get_results(self::generateReferSql($sql, ''));
             foreach ($result as $items) {
                 $get_urls[$items->domain] = self::get_referer_from_domain($items->domain);
             }
@@ -356,7 +358,7 @@ class Referred
         }
 
         // Return List
-        return $wpdb->get_results(self::GenerateReferSQL($having . " ORDER BY `number` DESC " . $limit, $where));
+        return $wpdb->get_results(self::generateReferSql($having . " ORDER BY `number` DESC " . $limit, $where));
     }
 
     /**
@@ -366,7 +368,7 @@ class Referred
      * @param string $extra
      * @return string
      */
-    public static function GenerateReferSQL($extra = '', $where = '')
+    public static function generateReferSql($extra = '', $where = '')
     {
 
         // Check Protocol Of domain

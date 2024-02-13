@@ -28,7 +28,7 @@
 
                 <tr valign="top">
                     <th scope="row">
-                        <label for="populate-submit"><?php _e('Convert IP Addresses to Hash', 'wp-statistics'); ?></label>
+                        <label for="hash-ips-submit"><?php _e('Convert IP Addresses to Hash', 'wp-statistics'); ?></label>
                     </th>
 
                     <td>

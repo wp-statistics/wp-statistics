@@ -9,13 +9,14 @@ class Admin_Notices
      *
      * @var array
      */
-    private static $core_notices = array(
+    private $core_notices = array(
         'use_cache_plugin',
         'enable_rest_api',
         'active_geo_ip',
         'donate_plugin',
         'active_collation',
-        'disable_addons'
+        'disable_addons',
+        'performance_and_clean_up'
     );
 
     /**
@@ -28,15 +29,18 @@ class Admin_Notices
 
     public function setup()
     {
-        if (is_admin() and !Helper::is_request('ajax')) {
-            $list_notice = self::$core_notices;
-            foreach ($list_notice as $notice) {
-                self::{$notice}();
+        $this->core_notices = apply_filters('wp_statistics_admin_notices', $this->core_notices);
+
+        if (is_admin() && !Helper::is_request('ajax')) {
+            foreach ($this->core_notices as $notice) {
+                if (method_exists($this, $notice)) {
+                    call_user_func([$this, $notice]);
+                }
             }
         }
     }
 
-    public function use_cache_plugin()
+    private function use_cache_plugin()
     {
         $plugin = Helper::is_active_cache_plugin();
         if (!Option::get('use_cache_plugin') and $plugin['status'] === true) {
@@ -45,7 +49,7 @@ class Admin_Notices
         }
     }
 
-    public function enable_rest_api()
+    private function enable_rest_api()
     {
         if (isset($_GET['page']) and $_GET['page'] === 'wps_overview_page' and Option::get('use_cache_plugin') and false === ($check_rest_api = get_transient('wps_check_rest_api'))) {
 
@@ -79,28 +83,28 @@ class Admin_Notices
                 if (!empty($message)) {
                     $error_msg .= '<br />' . $message . '<br />';
                 }
-                $error_msg .= sprintf(__('Flush Rewrite Rules by Updating Permalink in %1$sSettings->Permalinks%2$s and Verify WP REST API is Enabled.', 'wp-statistics'), '<a href="' . esc_url(admin_url('options-permalink.php')) . '">', '</a>');
+                $error_msg .= sprintf(__('Flush Rewrite Rules by Updating Permalink in %1$sSettings → Permalinks%2$s and Verify WP REST API is Enabled.', 'wp-statistics'), '<a href="' . esc_url(admin_url('options-permalink.php')) . '">', '</a>');
                 Helper::wp_admin_notice($error_msg, 'warning', true);
             }
         }
 
     }
 
-    public function active_geo_ip()
+    private function active_geo_ip()
     {
         if (Menus::in_plugin_page() and !Option::get('geoip') and GeoIp::IsSupport() and User::Access('manage') and !Option::get('hide_notices')) {
             Helper::wp_admin_notice(sprintf(__('GeoIP collection is not enabled. Please go to <a href="%s">setting page</a> to enable GeoIP for getting more information and location (country) from the visitor.', 'wp-statistics'), Menus::admin_url('settings', array('tab' => 'externals-settings'))), 'warning', true);
         }
     }
 
-    public function donate_plugin()
+    private function donate_plugin()
     {
         if (Menus::in_page('overview') and !Option::get('disable_donation_nag', false)) {
             Helper::wp_admin_notice(__('Have you thought about donating to WP Statistics?', 'wp-statistics') . ' <a href="https://wp-statistics.com/donate/" target="_blank">' . __('Donate Now!', 'wp-statistics') . '</a>', 'warning', true, 'wps-donate-notice');
         }
     }
 
-    public function active_collation()
+    private function active_collation()
     {
         if (Menus::in_plugin_page() and User::Access('manage') and !Option::get('hide_notices')) {
 
@@ -128,7 +132,7 @@ class Admin_Notices
         }
     }
 
-    public function disable_addons()
+    private function disable_addons()
     {
         $option = get_option('wp_statistics_disable_addons_notice');
         if (!empty($option) and $option == "no") {
@@ -152,6 +156,27 @@ class Admin_Notices
                 });
             </script>
             <?php
+        }
+    }
+
+    private function performance_and_clean_up()
+    {
+        $totalDbRows = DB::getTableRows();
+        $totalRows   = array_sum(array_column($totalDbRows, 'rows'));
+
+        if ($totalRows > apply_filters('wp_statistics_notice_db_row_threshold', 100000)) {
+            $settingsUrl      = admin_url('admin.php?page=wps_settings_page&tab=maintenance-settings');
+            $optimizationUrl  = admin_url('admin.php?page=wps_optimization_page');
+            $documentationUrl = 'https://wp-statistics.com/resources/optimizing-database-size-for-improved-performance/';
+
+            $message = sprintf(
+                __('Attention: Your database has accumulated a significant number of records, which may impact your site\'s performance. To address this, consider visiting <a href="%s">Settings &gt; Data Management</a> where you can enable the option to prevent recording old data. You can also perform an immediate database clean-up on the <a href="%s">Optimization page</a>. For more information, <a href="%s" target="_blank">click here</a>.', 'wp-statistics'),
+                esc_url($settingsUrl),
+                esc_url($optimizationUrl),
+                esc_url($documentationUrl)
+            );
+
+            Helper::wp_admin_notice($message, 'warning', false);
         }
     }
 }

@@ -446,7 +446,7 @@ class SearchEngine
             //Prepare Data
             $array   = array();
             $array[] = $items;
-            $item    = Visitor::PrepareData($array);
+            $item    = Visitor::prepareData($array);
             $list[]  = $item[0];
         }
 

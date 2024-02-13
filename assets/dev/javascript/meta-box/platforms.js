@@ -30,7 +30,7 @@ wps_js.platforms_meta_box = {
         let backgroundColor = [];
         let color;
         for (let i = 0; i <= 20; i++) {
-            color = wps_js.random_color();
+            color = wps_js.random_color(i);
             backgroundColor.push('rgba(' + color[0] + ',' + color[1] + ',' + color[2] + ',' + '0.4)');
         }
 

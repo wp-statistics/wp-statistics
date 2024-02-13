@@ -83,19 +83,55 @@ class IP
     }
 
     /**
-     * Generate hash string
+     * Generates a hashed version of an IP address using a daily salt, provided the hashing option is enabled.
      *
-     * @param bool $ip
-     * @return bool
+     * @param string|false $ip Optional. The IP address to be hashed. If false, the current user's IP is used.
+     * @return string|false The hashed IP address if hashing is enabled and successful, false otherwise.
      */
     public static function getHashIP($ip = false)
     {
-
-        // Check Enabled Options
+        // Check if the option to hash IP addresses is enabled in the settings.
         if (Option::get('hash_ips') == true) {
-            return apply_filters('wp_statistics_hash_ip', self::$hash_ip_prefix . sha1(($ip === false ? self::getIP() : $ip) . (UserAgent::getHttpUserAgent() == '' ? 'Unknown' : UserAgent::getHttpUserAgent())));
+            $date           = date('Y-m-d'); // Capture the current date to use in salt generation.
+            $saltOptionName = 'wp_statistics_daily_salt'; // Define the option name for storing the daily salt.
+
+            // Retrieve the currently stored daily salt from the WordPress options.
+            $dailySalt = get_option($saltOptionName);
+
+            // If today's date is different from the stored salt's date, generate and save a new daily salt.
+            if (isset($dailySalt['date']) && $dailySalt['date'] != $date) {
+                $dailySalt = [
+                    'date' => $date, // Update the salt's date to today.
+                    'salt' => sha1(wp_generate_password()) // Generate a new salt based on a new password and today's date.
+                ];
+
+                // Save the new daily salt in the WordPress options for future use.
+                update_option($saltOptionName, $dailySalt, true);
+            }
+
+            // If there is no existing daily salt, generate and save it.
+            if (!$dailySalt) {
+                $dailySalt = [
+                    'date' => $date, // Set the salt's date to today.
+                    'salt' => sha1(wp_generate_password()) // Generate a new salt.
+                ];
+
+                // Save the new daily salt in the WordPress options.
+                update_option($saltOptionName, $dailySalt, true);
+            }
+
+            // Determine the IP address to hash; use the provided IP or the current user's IP if none is provided.
+            $ip = ($ip === false ? self::getIP() : $ip);
+
+            // Retrieve the current user agent, defaulting to 'Unknown' if unavailable or empty.
+            $userAgent = (UserAgent::getHttpUserAgent() == '' ? 'Unknown' : UserAgent::getHttpUserAgent());
+
+            // Hash the combination of daily salt, IP, and user agent to create a unique identifier.
+            // This hash is then prefixed and filtered for potential modification before being returned.
+            return apply_filters('wp_statistics_hash_ip', self::$hash_ip_prefix . sha1($dailySalt['salt'] . $ip . $userAgent));
         }
 
+        // If hashing IP addresses is not enabled, return false to indicate no action was taken.
         return false;
     }
 

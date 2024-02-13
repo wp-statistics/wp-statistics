@@ -40,7 +40,12 @@
                     <label for="geoip-enable">
                         <?php _e('Enable', 'wp-statistics'); ?>
                         <input type="hidden" name="geoip_name" value="country">
-                        <?php submit_button(__("Update Database", 'wp-statistics'), "secondary", "update_geoip", false); ?>
+
+                        <?php
+                        if (WP_STATISTICS\Option::get('geoip')) {
+                            submit_button(__("Update Database", 'wp-statistics'), "secondary", "update_geoip", false);
+                        }
+                        ?>
                     </label>
 
                     <p class="description"><?php _e('Enable this to gather and display geographic information (country) related to your visitors.', 'wp-statistics'); ?></p>
@@ -57,7 +62,12 @@
                     <label for="geoip-city">
                         <?php _e('Enable', 'wp-statistics'); ?>
                         <input type="hidden" name="geoip_name" value="city">
-                        <?php submit_button(__("Update Database", 'wp-statistics'), "secondary", "update_geoip", false); ?>
+
+                        <?php
+                        if (WP_STATISTICS\Option::get('geoip_city')) {
+                            submit_button(__("Update Database", 'wp-statistics'), "secondary", "update_geoip", false);
+                        }
+                        ?>
                     </label>
                     <p class="description"><?php _e('Activate this feature if you wish to see the city details of your visitors.', 'wp-statistics'); ?></p>
                 </td>

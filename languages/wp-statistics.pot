@@ -1,17 +1,17 @@
-# Copyright (C) 2023 VeronaLabs
+# Copyright (C) 2024 VeronaLabs
 # This file is distributed under the same license as the WP Statistics plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: WP Statistics 14.2\n"
+"Project-Id-Version: WP Statistics 14.4\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wp-statistics\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-12-19T08:14:28+00:00\n"
+"POT-Creation-Date: 2024-02-13T15:14:29+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.7.1\n"
+"X-Generator: WP-CLI 2.9.0\n"
 "X-Domain: wp-statistics\n"
 
 #. Plugin Name of the plugin
@@ -37,61 +37,79 @@ msgstr ""
 msgid "https://veronalabs.com/"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-ajax.php:108
+#: includes/admin/class-wp-statistics-admin-ajax.php:111
 msgid "Successfully deleted %s agent data."
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-ajax.php:110
-msgid "Couldn’t find agent data to delete."
-msgstr ""
-
 #: includes/admin/class-wp-statistics-admin-ajax.php:113
-#: includes/admin/class-wp-statistics-admin-ajax.php:150
-#: includes/admin/class-wp-statistics-admin-ajax.php:186
-#: includes/admin/class-wp-statistics-admin-ajax.php:208
-msgid "Kindly select the items you want to work with."
+msgid "Couldn’t find agent data to delete."
 msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-ajax.php:116
 #: includes/admin/class-wp-statistics-admin-ajax.php:153
 #: includes/admin/class-wp-statistics-admin-ajax.php:189
-#: includes/admin/class-wp-statistics-admin-ajax.php:220
-#: includes/admin/class-wp-statistics-admin-ajax.php:236
-#: includes/admin/class-wp-statistics-admin-ajax.php:261
-#: includes/admin/class-wp-statistics-admin-ajax.php:290
-#: includes/admin/class-wp-statistics-admin-ajax.php:387
+#: includes/admin/class-wp-statistics-admin-ajax.php:266
+msgid "Kindly select the items you want to work with."
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-ajax.php:119
+#: includes/admin/class-wp-statistics-admin-ajax.php:156
+#: includes/admin/class-wp-statistics-admin-ajax.php:192
+#: includes/admin/class-wp-statistics-admin-ajax.php:219
+#: includes/admin/class-wp-statistics-admin-ajax.php:247
+#: includes/admin/class-wp-statistics-admin-ajax.php:278
+#: includes/admin/class-wp-statistics-admin-ajax.php:294
+#: includes/admin/class-wp-statistics-admin-ajax.php:319
+#: includes/admin/class-wp-statistics-admin-ajax.php:348
+#: includes/admin/class-wp-statistics-admin-ajax.php:448
 msgid "Unauthorized access!"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-ajax.php:145
+#: includes/admin/class-wp-statistics-admin-ajax.php:148
 msgid "Successfully deleted %s platform data."
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-ajax.php:147
+#: includes/admin/class-wp-statistics-admin-ajax.php:150
 msgid "Couldn’t find platform data to delete."
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-ajax.php:181
+#: includes/admin/class-wp-statistics-admin-ajax.php:184
 msgid "Successfully deleted %s IP data."
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-ajax.php:183
+#: includes/admin/class-wp-statistics-admin-ajax.php:186
 msgid "Couldn’t find any IP address data to delete."
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-ajax.php:285
+#: includes/admin/class-wp-statistics-admin-ajax.php:213
+msgid "Successfully deleted User ID data."
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-ajax.php:215
+msgid "Couldn’t find any user ID data to delete."
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-ajax.php:241
+msgid "Successfully deleted user agent strings data."
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-ajax.php:243
+msgid "Couldn’t find any user agent strings data to delete."
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-ajax.php:343
 msgid "Visit count must be 10 or more!"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-ajax.php:377
+#: includes/admin/class-wp-statistics-admin-ajax.php:436
 msgid "Please first enable GeoIP Collection and save settings!"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-ajax.php:379
+#: includes/admin/class-wp-statistics-admin-ajax.php:438
 msgid "Please first enable GeoIP City and save settings!"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-ajax.php:420
+#: includes/admin/class-wp-statistics-admin-ajax.php:481
 #: includes/api/v2/class-wp-statistics-api-meta-box.php:71
 msgid "Invalid MetaBox Name in Request."
 msgstr ""
@@ -106,7 +124,7 @@ msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-assets.php:260
 #: includes/admin/pages/class-wp-statistics-admin-page-online.php:25
-#: includes/admin/templates/pages/page-chart.php:73
+#: includes/admin/templates/pages/page-chart.php:86
 #: includes/admin/TinyMCE/class-wp-statistics-tinymce.php:36
 #: includes/class-wp-statistics-shortcode.php:195
 #: includes/class-wp-statistics-widget.php:41
@@ -134,13 +152,12 @@ msgstr ""
 #: includes/admin/class-wp-statistics-admin-taxonomy.php:56
 #: includes/admin/class-wp-statistics-admin-taxonomy.php:63
 #: includes/admin/class-wp-statistics-admin-user.php:33
-#: includes/admin/templates/optimization/purging.php:250
+#: includes/admin/templates/optimization/purging.php:303
 #: includes/admin/templates/pages/hits.php:23
 #: includes/admin/templates/pages/pages.php:46
 #: includes/admin/templates/pages/taxonomies.php:98
 #: includes/admin/templates/pages/taxonomies.php:123
 #: includes/admin/templates/pages/top-visitors.php:31
-#: includes/admin/templates/pages/visitors.php:41
 #: includes/admin/templates/settings/maintenance.php:70
 #: includes/admin/TinyMCE/class-wp-statistics-tinymce.php:37
 #: includes/class-wp-statistics-menus.php:172
@@ -210,7 +227,6 @@ msgstr ""
 #: includes/admin/templates/pages/refer.url.php:37
 #: includes/admin/templates/pages/top-visitors.php:2
 #: includes/admin/templates/pages/top-visitors.php:26
-#: includes/admin/templates/pages/visitors.php:35
 #: includes/admin/templates/pages/words.php:34
 msgid "Date"
 msgstr ""
@@ -278,6 +294,20 @@ msgid "Visitor's City"
 msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-assets.php:289
+#: includes/admin/templates/pages/online.php:19
+#: includes/admin/templates/pages/refer.url.php:32
+#: includes/admin/templates/pages/top-visitors.php:27
+#: includes/admin/templates/pages/visitors.php:39
+#: includes/admin/templates/pages/words.php:35
+msgid "Daily Visitor Hash"
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-assets.php:289
+#: includes/admin/templates/pages/online.php:19
+#: includes/admin/templates/pages/refer.url.php:32
+#: includes/admin/templates/pages/top-visitors.php:27
+#: includes/admin/templates/pages/visitors.php:39
+#: includes/admin/templates/pages/words.php:35
 msgid "IP Address"
 msgstr ""
 
@@ -479,73 +509,79 @@ msgid "Exclusions"
 msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-network.php:73
+#: includes/admin/templates/header.php:33
 #: includes/class-wp-statistics-menus.php:270
 msgid "Optimization"
 msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-network.php:74
-#: includes/class-wp-statistics-install.php:304
+#: includes/admin/templates/header.php:32
+#: includes/class-wp-statistics-install.php:342
 #: includes/class-wp-statistics-menus.php:277
 msgid "Settings"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-notices.php:43
+#: includes/admin/class-wp-statistics-admin-notices.php:47
 msgid "WP Statistics might not count the stats since <code>WP_CACHE</code> is detected in <code>wp-config.php</code>"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-notices.php:43
+#: includes/admin/class-wp-statistics-admin-notices.php:47
 msgid "Potential Inaccuracy Due to <b>%s</b> Plugin"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-notices.php:44
+#: includes/admin/class-wp-statistics-admin-notices.php:48
 msgid "Enable %1$sCache Compatibility%2$s to Correct This or Dismiss if Counts Are Accurate. Check out <a href=\\“%3$s\\” target=\\“_blank\\“>this article</a> to disable this notice permanently."
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-notices.php:78
+#: includes/admin/class-wp-statistics-admin-notices.php:82
 msgid "<b>Warning:</b> WP REST API Connection Error Detected."
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-notices.php:82
-msgid "Flush Rewrite Rules by Updating Permalink in %1$sSettings->Permalinks%2$s and Verify WP REST API is Enabled."
+#: includes/admin/class-wp-statistics-admin-notices.php:86
+msgid "Flush Rewrite Rules by Updating Permalink in %1$sSettings → Permalinks%2$s and Verify WP REST API is Enabled."
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-notices.php:92
+#: includes/admin/class-wp-statistics-admin-notices.php:96
 msgid "GeoIP collection is not enabled. Please go to <a href=\"%s\">setting page</a> to enable GeoIP for getting more information and location (country) from the visitor."
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-notices.php:99
+#: includes/admin/class-wp-statistics-admin-notices.php:103
 msgid "Have you thought about donating to WP Statistics?"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-notices.php:99
+#: includes/admin/class-wp-statistics-admin-notices.php:103
 msgid "Donate Now!"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-notices.php:112
+#: includes/admin/class-wp-statistics-admin-notices.php:116
 #: includes/admin/templates/settings/general.php:16
 msgid "Display Online Users"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-notices.php:117
+#: includes/admin/class-wp-statistics-admin-notices.php:121
 #: includes/admin/templates/settings/general.php:61
 msgid "Track Page Views"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-notices.php:122
+#: includes/admin/class-wp-statistics-admin-notices.php:126
 #: includes/admin/templates/settings/general.php:73
 msgid "Monitor Unique Visitors"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-notices.php:126
+#: includes/admin/class-wp-statistics-admin-notices.php:130
 msgid "Certain features are currently turned off. Please visit the %ssettings page%s to activate them: %s"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-notices.php:126
+#: includes/admin/class-wp-statistics-admin-notices.php:130
 msgid ","
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-notices.php:135
+#: includes/admin/class-wp-statistics-admin-notices.php:139
 msgid "Your WP Statistics Add-On(s) need WP Statistics version 12.6.13 or higher. Please update your WP Statistics plugin."
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-notices.php:173
+msgid "Attention: Your database has accumulated a significant number of records, which may impact your site's performance. To address this, consider visiting <a href=\"%s\">Settings &gt; Data Management</a> where you can enable the option to prevent recording old data. You can also perform an immediate database clean-up on the <a href=\"%s\">Optimization page</a>. For more information, <a href=\"%s\" target=\"_blank\">click here</a>."
 msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-post.php:86
@@ -653,8 +689,8 @@ msgstr ""
 #: includes/admin/pages/class-wp-statistics-admin-page-visitors.php:54
 #: includes/admin/pages/class-wp-statistics-admin-page-words.php:44
 #: includes/admin/templates/layout/select.php:32
-#: includes/admin/templates/optimization/database.php:47
-#: includes/admin/templates/optimization/purging.php:217
+#: includes/admin/templates/optimization/database.php:51
+#: includes/admin/templates/optimization/purging.php:267
 #: includes/admin/templates/pages/refer.url.php:3
 #: includes/admin/templates/pages/top.refer.php:4
 #: includes/class-wp-statistics-widget.php:326
@@ -662,7 +698,7 @@ msgid "All"
 msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-template.php:274
-#: includes/class-wp-statistics-geoip.php:503
+#: includes/class-wp-statistics-geoip.php:504
 #: includes/class-wp-statistics-user-agent.php:84
 msgid "Unknown"
 msgstr ""
@@ -797,7 +833,7 @@ msgid "Statistics by Author"
 msgstr ""
 
 #: includes/admin/pages/class-wp-statistics-admin-page-authors.php:62
-msgid "Leading Author by Page Visits"
+msgid "Top Authors by Page Visits"
 msgstr ""
 
 #: includes/admin/pages/class-wp-statistics-admin-page-authors.php:73
@@ -881,20 +917,20 @@ msgstr ""
 msgid "Historical Data Successfully Updated."
 msgstr ""
 
-#: includes/admin/pages/class-wp-statistics-admin-page-pages.php:54
+#: includes/admin/pages/class-wp-statistics-admin-page-pages.php:55
 msgid "Request Invalid or Unsupported."
 msgstr ""
 
-#: includes/admin/pages/class-wp-statistics-admin-page-pages.php:113
+#: includes/admin/pages/class-wp-statistics-admin-page-pages.php:114
 #: includes/admin/pages/class-wp-statistics-admin-page-taxonomies.php:103
 msgid "Top "
 msgstr ""
 
-#: includes/admin/pages/class-wp-statistics-admin-page-pages.php:116
+#: includes/admin/pages/class-wp-statistics-admin-page-pages.php:117
 msgid "Top 5 Trending "
 msgstr ""
 
-#: includes/admin/pages/class-wp-statistics-admin-page-pages.php:202
+#: includes/admin/pages/class-wp-statistics-admin-page-pages.php:203
 msgid "Statistics for Individual Pages"
 msgstr ""
 
@@ -922,12 +958,16 @@ msgstr ""
 msgid "Spam Referrer Blacklist Successfully Updated."
 msgstr ""
 
-#: includes/admin/pages/class-wp-statistics-admin-page-settings.php:139
+#: includes/admin/pages/class-wp-statistics-admin-page-settings.php:127
 msgid "Settings Successfully Saved."
 msgstr ""
 
-#: includes/admin/pages/class-wp-statistics-admin-page-settings.php:144
+#: includes/admin/pages/class-wp-statistics-admin-page-settings.php:132
 msgid "All Settings Have Been Reset to Default."
+msgstr ""
+
+#: includes/admin/pages/class-wp-statistics-admin-page-settings.php:315
+msgid "GeoIP functionality could not be activated due to an error: %s."
 msgstr ""
 
 #: includes/admin/pages/class-wp-statistics-admin-page-settings.php:356
@@ -962,7 +1002,7 @@ msgstr ""
 msgid "Custom filter"
 msgstr ""
 
-#: includes/admin/pages/class-wp-statistics-admin-page-visitors.php:203
+#: includes/admin/pages/class-wp-statistics-admin-page-visitors.php:214
 msgid "Filters"
 msgstr ""
 
@@ -995,6 +1035,7 @@ msgstr ""
 #: includes/admin/templates/meta-box/pages-countries-preview.php:3
 #: includes/admin/templates/meta-box/pages-platforms-preview.php:3
 #: includes/admin/templates/meta-box/pages-referring-preview.php:3
+#: includes/admin/templates/meta-box/pages-summary-preview.php:3
 #: includes/admin/templates/meta-box/pages-top_visitors-preview.php:3
 #: includes/admin/templates/meta-box/pages-useronline-preview.php:3
 #: includes/admin/templates/meta-box/pages-visitors-preview.php:3
@@ -1010,6 +1051,40 @@ msgstr ""
 msgid "Unlock Advanced Reporting"
 msgstr ""
 
+#: includes/admin/templates/header.php:9
+#: includes/admin/templates/meta-box/about.php:21
+#: includes/admin/templates/settings/about.php:87
+msgid "Documentation"
+msgstr ""
+
+#: includes/admin/templates/header.php:15
+msgid "Troubleshooting"
+msgstr ""
+
+#: includes/admin/templates/header.php:21
+msgid "More"
+msgstr ""
+
+#: includes/admin/templates/header.php:34
+#: includes/admin/templates/meta-box/about.php:26
+#: includes/admin/templates/plugins.php:4
+#: includes/class-wp-statistics-menus.php:284
+#: includes/class-wp-statistics-menus.php:285
+msgid "Add-Ons"
+msgstr ""
+
+#: includes/admin/templates/header.php:46
+msgid "Upgrade to Bundle"
+msgstr ""
+
+#: includes/admin/templates/header.php:47
+msgid "Save 50%"
+msgstr ""
+
+#: includes/admin/templates/header.php:59
+msgid "License Status: %d of %d activated"
+msgstr ""
+
 #: includes/admin/templates/layout/date.range.php:15
 msgid "Select"
 msgstr ""
@@ -1018,95 +1093,83 @@ msgstr ""
 msgid "Last 30 Days"
 msgstr ""
 
-#: includes/admin/templates/layout/select.php:6
-msgid "Select Page"
-msgstr ""
-
-#: includes/admin/templates/layout/tabs-optimization.php:2
+#: includes/admin/templates/layout/menu-optimization.php:8
 msgid "Overview & Info"
 msgstr ""
 
-#: includes/admin/templates/layout/tabs-optimization.php:3
+#: includes/admin/templates/layout/menu-optimization.php:15
 msgid "Data Export"
 msgstr ""
 
-#: includes/admin/templates/layout/tabs-optimization.php:4
+#: includes/admin/templates/layout/menu-optimization.php:22
 msgid "Data Cleanup"
 msgstr ""
 
-#: includes/admin/templates/layout/tabs-optimization.php:5
+#: includes/admin/templates/layout/menu-optimization.php:29
 msgid "Database Management"
 msgstr ""
 
-#: includes/admin/templates/layout/tabs-optimization.php:6
+#: includes/admin/templates/layout/menu-optimization.php:36
 msgid "Plugin Maintenance"
 msgstr ""
 
-#: includes/admin/templates/layout/tabs-optimization.php:7
+#: includes/admin/templates/layout/menu-optimization.php:44
 msgid "Historical Data"
 msgstr ""
 
-#: includes/admin/templates/layout/tabs-settings.php:3
-msgid "Basic Tracking Settings"
+#: includes/admin/templates/layout/menu-settings.php:6
+msgid "Basic Tracking"
 msgstr ""
 
-#: includes/admin/templates/layout/tabs-settings.php:4
-msgid "IP Detection Settings"
+#: includes/admin/templates/layout/menu-settings.php:22
+msgid "IP Detection"
 msgstr ""
 
-#: includes/admin/templates/layout/tabs-settings.php:5
+#: includes/admin/templates/layout/menu-settings.php:30
 msgid "User Data Protection"
 msgstr ""
 
-#: includes/admin/templates/layout/tabs-settings.php:6
+#: includes/admin/templates/layout/menu-settings.php:38
 msgid "Admin Notifications"
 msgstr ""
 
-#: includes/admin/templates/layout/tabs-settings.php:7
+#: includes/admin/templates/layout/menu-settings.php:48
 #: includes/admin/templates/settings/overview-display.php:9
 msgid "Dashboard Widgets"
 msgstr ""
 
-#: includes/admin/templates/layout/tabs-settings.php:8
+#: includes/admin/templates/layout/menu-settings.php:55
 #: includes/admin/templates/settings/access-level.php:9
 msgid "Access Control"
 msgstr ""
 
-#: includes/admin/templates/layout/tabs-settings.php:9
+#: includes/admin/templates/layout/menu-settings.php:63
 msgid "Filtering & Exceptions"
 msgstr ""
 
-#: includes/admin/templates/layout/tabs-settings.php:10
+#: includes/admin/templates/layout/menu-settings.php:70
 msgid "Data Sources"
 msgstr ""
 
-#: includes/admin/templates/layout/tabs-settings.php:11
+#: includes/admin/templates/layout/menu-settings.php:77
 msgid "Data Management"
 msgstr ""
 
-#: includes/admin/templates/layout/tabs-settings.php:12
+#: includes/admin/templates/layout/menu-settings.php:84
 #: includes/admin/templates/settings/reset.php:5
 msgid "Restore Default Settings"
 msgstr ""
 
-#: includes/admin/templates/layout/tabs-settings.php:13
+#: includes/admin/templates/layout/menu-settings.php:91
 msgid "WP Statistics - Overview"
+msgstr ""
+
+#: includes/admin/templates/layout/select.php:6
+msgid "Select Page"
 msgstr ""
 
 #: includes/admin/templates/meta-box/about.php:17
 msgid "V%s"
-msgstr ""
-
-#: includes/admin/templates/meta-box/about.php:21
-#: includes/admin/templates/settings/about.php:87
-msgid "Documentation"
-msgstr ""
-
-#: includes/admin/templates/meta-box/about.php:26
-#: includes/admin/templates/plugins.php:4
-#: includes/class-wp-statistics-menus.php:284
-#: includes/class-wp-statistics-menus.php:285
-msgid "Add-Ons"
 msgstr ""
 
 #: includes/admin/templates/meta-box/about.php:31
@@ -1125,6 +1188,7 @@ msgstr ""
 #: includes/admin/templates/meta-box/pages-countries-preview.php:4
 #: includes/admin/templates/meta-box/pages-platforms-preview.php:4
 #: includes/admin/templates/meta-box/pages-referring-preview.php:5
+#: includes/admin/templates/meta-box/pages-summary-preview.php:4
 #: includes/admin/templates/meta-box/pages-top_visitors-preview.php:5
 #: includes/admin/templates/meta-box/pages-useronline-preview.php:5
 #: includes/admin/templates/meta-box/pages-visitors-preview.php:5
@@ -1152,34 +1216,48 @@ msgstr ""
 msgid "Reinitialize Now!"
 msgstr ""
 
-#: includes/admin/templates/optimization/database.php:18
-msgid "Use this option to set up the plugin from the beginning. This might be needed if you face issues related to missing database tables or other core components. <b>Warning: This action might reset certain data.</b>"
+#: includes/admin/templates/optimization/database.php:19
+msgid "Use this option to set up the plugin from the beginning. This might be needed if you face issues related to missing database tables or other core components."
 msgstr ""
 
-#: includes/admin/templates/optimization/database.php:32
+#: includes/admin/templates/optimization/database.php:20
+#: includes/admin/templates/optimization/purging.php:271
+#: includes/admin/templates/optimization/purging.php:320
+#: includes/admin/templates/optimization/purging.php:336
+#: includes/admin/templates/optimization/purging.php:371
+#: includes/admin/templates/optimization/purging.php:400
+#: includes/admin/templates/optimization/purging.php:418
+msgid "Warning:"
+msgstr ""
+
+#: includes/admin/templates/optimization/database.php:21
+msgid "This action might reset certain data."
+msgstr ""
+
+#: includes/admin/templates/optimization/database.php:36
 msgid "Optimize & Repair"
 msgstr ""
 
-#: includes/admin/templates/optimization/database.php:37
+#: includes/admin/templates/optimization/database.php:41
 msgid "Choose a Table to Optimize"
 msgstr ""
 
-#: includes/admin/templates/optimization/database.php:41
-#: includes/admin/templates/optimization/purging.php:211
-#: includes/admin/templates/optimization/purging.php:275
-#: includes/admin/templates/optimization/purging.php:299
+#: includes/admin/templates/optimization/database.php:45
+#: includes/admin/templates/optimization/purging.php:261
+#: includes/admin/templates/optimization/purging.php:360
+#: includes/admin/templates/optimization/purging.php:387
 msgid "Select an Option"
 msgstr ""
 
-#: includes/admin/templates/optimization/database.php:49
+#: includes/admin/templates/optimization/database.php:53
 msgid "Select a specific database table to optimize and repair. This can help improve the efficiency and performance of the selected table."
 msgstr ""
 
-#: includes/admin/templates/optimization/database.php:53
+#: includes/admin/templates/optimization/database.php:57
 msgid "Execute Optimization!"
 msgstr ""
 
-#: includes/admin/templates/optimization/database.php:67
+#: includes/admin/templates/optimization/database.php:71
 msgid "Please select database table"
 msgstr ""
 
@@ -1193,7 +1271,7 @@ msgstr ""
 
 #: includes/admin/templates/optimization/export.php:19
 #: includes/admin/templates/optimization/export.php:38
-#: includes/admin/templates/settings/exclusions.php:123
+#: includes/admin/templates/settings/exclusions.php:111
 #: includes/admin/templates/settings/general.php:229
 #: includes/admin/templates/settings/notifications.php:113
 #: includes/admin/templates/settings/notifications.php:148
@@ -1258,99 +1336,133 @@ msgstr ""
 #: includes/admin/templates/optimization/purging.php:104
 #: includes/admin/templates/optimization/purging.php:137
 #: includes/admin/templates/optimization/purging.php:170
+#: includes/admin/templates/optimization/purging.php:197
+#: includes/admin/templates/optimization/purging.php:222
 msgid "Are you sure?"
 msgstr ""
 
-#: includes/admin/templates/optimization/purging.php:201
+#: includes/admin/templates/optimization/purging.php:251
 msgid "Data"
 msgstr ""
 
-#: includes/admin/templates/optimization/purging.php:206
-msgid "Clear Table Contents:"
+#: includes/admin/templates/optimization/purging.php:256
+msgid "Clear Table Contents"
 msgstr ""
 
-#: includes/admin/templates/optimization/purging.php:220
-msgid "Warning: All data in the table will be permanently deleted."
+#: includes/admin/templates/optimization/purging.php:272
+msgid "All data in the table will be permanently deleted."
 msgstr ""
 
-#: includes/admin/templates/optimization/purging.php:221
+#: includes/admin/templates/optimization/purging.php:274
 msgid "Erase Data Now"
 msgstr ""
 
-#: includes/admin/templates/optimization/purging.php:229
-msgid "Delete Records Older Than:"
+#: includes/admin/templates/optimization/purging.php:282
+msgid "Delete Records Older Than"
 msgstr ""
 
-#: includes/admin/templates/optimization/purging.php:234
+#: includes/admin/templates/optimization/purging.php:287
 #: includes/admin/templates/settings/maintenance.php:36
 msgid "Days"
 msgstr ""
 
-#: includes/admin/templates/optimization/purging.php:236
+#: includes/admin/templates/optimization/purging.php:289
 msgid "Erase User Stats Older Than Specified Days."
 msgstr ""
 
-#: includes/admin/templates/optimization/purging.php:236
+#: includes/admin/templates/optimization/purging.php:289
 msgid "Minimum Age for Deletion: 30 Days.."
 msgstr ""
 
-#: includes/admin/templates/optimization/purging.php:237
-#: includes/admin/templates/optimization/purging.php:253
+#: includes/admin/templates/optimization/purging.php:290
+#: includes/admin/templates/optimization/purging.php:306
 msgid "Start Purging Now"
 msgstr ""
 
-#: includes/admin/templates/optimization/purging.php:245
-msgid "Remove Visitors Exceeding:"
+#: includes/admin/templates/optimization/purging.php:298
+msgid "Remove Visitors Exceeding"
 msgstr ""
 
-#: includes/admin/templates/optimization/purging.php:252
+#: includes/admin/templates/optimization/purging.php:305
 msgid "Erase User Stats for Visitors Exceeding Daily Visit Limit."
 msgstr ""
 
-#: includes/admin/templates/optimization/purging.php:252
+#: includes/admin/templates/optimization/purging.php:305
 msgid "Useful for cleaning bot-related data."
 msgstr ""
 
-#: includes/admin/templates/optimization/purging.php:252
+#: includes/admin/templates/optimization/purging.php:305
 msgid "Removes visitor and their site visits, but not individual page visits, as they are not recorded per user."
 msgstr ""
 
-#: includes/admin/templates/optimization/purging.php:252
+#: includes/admin/templates/optimization/purging.php:305
 msgid "Minimum Hit Threshold: 10 Visits."
 msgstr ""
 
-#: includes/admin/templates/optimization/purging.php:265
+#: includes/admin/templates/optimization/purging.php:314
+msgid "Remove User IDs"
+msgstr ""
+
+#: includes/admin/templates/optimization/purging.php:317
+msgid "Delete User IDs Now"
+msgstr ""
+
+#: includes/admin/templates/optimization/purging.php:319
+msgid "Use this option to permanently delete all stored User IDs from your database. It is useful if you need to anonymize your user visit records or comply with privacy regulations."
+msgstr ""
+
+#: includes/admin/templates/optimization/purging.php:321
+msgid "This action is irreversible and should be used with caution."
+msgstr ""
+
+#: includes/admin/templates/optimization/purging.php:330
+msgid "Clear User Agent Strings"
+msgstr ""
+
+#: includes/admin/templates/optimization/purging.php:333
+msgid "Clear User Agent Data Now"
+msgstr ""
+
+#: includes/admin/templates/optimization/purging.php:335
+msgid "Select this option to permanently remove all User Agent Strings from your database. This should be done once troubleshooting is completed to ensure unnecessary data is not stored."
+msgstr ""
+
+#: includes/admin/templates/optimization/purging.php:337
+msgid "This action cannot be undone."
+msgstr ""
+
+#: includes/admin/templates/optimization/purging.php:350
 msgid "Remove Certain User Agent Types"
 msgstr ""
 
-#: includes/admin/templates/optimization/purging.php:270
-msgid "Choose Agents to Delete:"
+#: includes/admin/templates/optimization/purging.php:355
+msgid "Choose Agents to Delete"
 msgstr ""
 
-#: includes/admin/templates/optimization/purging.php:285
-msgid "Warning: All data for this agent type will be lost."
+#: includes/admin/templates/optimization/purging.php:372
+msgid "All data for this agent type will be lost."
 msgstr ""
 
-#: includes/admin/templates/optimization/purging.php:286
-#: includes/admin/templates/optimization/purging.php:312
-#: includes/admin/templates/optimization/purging.php:327
+#: includes/admin/templates/optimization/purging.php:374
+#: includes/admin/templates/optimization/purging.php:403
+#: includes/admin/templates/optimization/purging.php:421
 msgid "Delete Selected Items Now"
 msgstr ""
 
-#: includes/admin/templates/optimization/purging.php:294
-msgid "Choose Platforms to Delete:"
+#: includes/admin/templates/optimization/purging.php:382
+msgid "Choose Platforms to Delete"
 msgstr ""
 
-#: includes/admin/templates/optimization/purging.php:311
-msgid "Warning: All data for this platform type will be lost."
+#: includes/admin/templates/optimization/purging.php:401
+msgid "All data for this platform type will be lost."
 msgstr ""
 
-#: includes/admin/templates/optimization/purging.php:320
-msgid "Erase Data for Specific IP:"
+#: includes/admin/templates/optimization/purging.php:411
+msgid "Erase Data for Specific IP"
 msgstr ""
 
-#: includes/admin/templates/optimization/purging.php:326
-msgid "Warning: All data associated with this IP will be lost."
+#: includes/admin/templates/optimization/purging.php:419
+msgid "All data associated with this IP will be lost."
 msgstr ""
 
 #: includes/admin/templates/optimization/resources.php:6
@@ -1409,13 +1521,13 @@ msgstr ""
 
 #: includes/admin/templates/optimization/resources.php:84
 #: includes/admin/templates/optimization/resources.php:100
-#: includes/admin/templates/settings/general.php:283
+#: includes/admin/templates/settings/general.php:284
 msgid "Yes"
 msgstr ""
 
 #: includes/admin/templates/optimization/resources.php:86
 #: includes/admin/templates/optimization/resources.php:102
-#: includes/admin/templates/settings/general.php:284
+#: includes/admin/templates/settings/general.php:285
 msgid "No"
 msgstr ""
 
@@ -1464,7 +1576,7 @@ msgstr ""
 #: includes/admin/templates/optimization/resources.php:149
 #: includes/admin/templates/optimization/resources.php:165
 #: includes/admin/templates/optimization/resources.php:181
-#: src/Service/Admin/AddOnDecorator.php:140
+#: src/Service/Admin/AddOnDecorator.php:144
 msgid "Not installed"
 msgstr ""
 
@@ -1712,20 +1824,11 @@ msgstr ""
 msgid "City"
 msgstr ""
 
-#: includes/admin/templates/pages/online.php:19
-#: includes/admin/templates/pages/refer.url.php:32
-#: includes/admin/templates/pages/top-visitors.php:27
-#: includes/admin/templates/pages/visitors.php:39
-#: includes/admin/templates/pages/words.php:35
-msgid "IP"
-msgstr ""
-
 #: includes/admin/templates/pages/online.php:20
 msgid "Online For"
 msgstr ""
 
 #: includes/admin/templates/pages/online.php:21
-#: includes/admin/templates/pages/visitors.php:46
 msgid "Page"
 msgstr ""
 
@@ -1750,71 +1853,80 @@ msgid "Email"
 msgstr ""
 
 #: includes/admin/templates/pages/online.php:51
-#: includes/admin/templates/pages/refer.url.php:55
-#: includes/admin/templates/pages/top-visitors.php:60
+#: includes/admin/templates/pages/refer.url.php:57
+#: includes/admin/templates/pages/top-visitors.php:62
 #: includes/admin/templates/pages/visitors.php:68
 msgid "Map"
 msgstr ""
 
 #: includes/admin/templates/pages/page-chart.php:17
-msgid "Top Browsers"
+#: includes/class-wp-statistics-meta-box.php:87
+msgid "Traffic Summary"
 msgstr ""
 
 #: includes/admin/templates/pages/page-chart.php:19
-msgid "Toggle panel: Top Browsers"
+msgid "Toggle panel: Traffic Summary"
 msgstr ""
 
 #: includes/admin/templates/pages/page-chart.php:30
-msgid "Top Platforms"
+msgid "Top Browsers"
 msgstr ""
 
 #: includes/admin/templates/pages/page-chart.php:32
-msgid "Toggle panel: Top Platforms"
+msgid "Toggle panel: Top Browsers"
 msgstr ""
 
 #: includes/admin/templates/pages/page-chart.php:43
+msgid "Top Platforms"
+msgstr ""
+
+#: includes/admin/templates/pages/page-chart.php:45
+msgid "Toggle panel: Top Platforms"
+msgstr ""
+
+#: includes/admin/templates/pages/page-chart.php:56
 #: includes/class-wp-statistics-meta-box.php:140
 msgid "Top Countries"
 msgstr ""
 
-#: includes/admin/templates/pages/page-chart.php:45
+#: includes/admin/templates/pages/page-chart.php:58
 msgid "Toggle panel: Top Countries"
 msgstr ""
 
-#: includes/admin/templates/pages/page-chart.php:60
+#: includes/admin/templates/pages/page-chart.php:73
 msgid "Visitors Map"
 msgstr ""
 
-#: includes/admin/templates/pages/page-chart.php:62
+#: includes/admin/templates/pages/page-chart.php:75
 msgid "Toggle panel: Visitors Map"
 msgstr ""
 
-#: includes/admin/templates/pages/page-chart.php:75
+#: includes/admin/templates/pages/page-chart.php:88
 msgid "Toggle panel: Online Users"
 msgstr ""
 
-#: includes/admin/templates/pages/page-chart.php:86
+#: includes/admin/templates/pages/page-chart.php:99
 msgid "Latest Visitors"
 msgstr ""
 
-#: includes/admin/templates/pages/page-chart.php:88
+#: includes/admin/templates/pages/page-chart.php:101
 msgid "Toggle panel: Latest Visitors"
 msgstr ""
 
-#: includes/admin/templates/pages/page-chart.php:99
+#: includes/admin/templates/pages/page-chart.php:112
 msgid "Top Visitors"
 msgstr ""
 
-#: includes/admin/templates/pages/page-chart.php:101
+#: includes/admin/templates/pages/page-chart.php:114
 msgid "Toggle panel: Top Visitors"
 msgstr ""
 
-#: includes/admin/templates/pages/page-chart.php:112
+#: includes/admin/templates/pages/page-chart.php:125
 #: includes/class-wp-statistics-meta-box.php:154
 msgid "Top Referring"
 msgstr ""
 
-#: includes/admin/templates/pages/page-chart.php:114
+#: includes/admin/templates/pages/page-chart.php:127
 msgid "Toggle panel: Top Referring"
 msgstr ""
 
@@ -1889,6 +2001,21 @@ msgstr ""
 
 #: includes/admin/templates/pages/top.refer.php:22
 msgid "Site Title"
+msgstr ""
+
+#: includes/admin/templates/pages/visitors.php:35
+msgid "Last Visit"
+msgstr ""
+
+#: includes/admin/templates/pages/visitors.php:41
+#: includes/admin/templates/settings/notifications.php:189
+#: includes/class-wp-statistics-widget.php:97
+#: includes/class-wp-statistics-widget.php:296
+msgid "Total Visits"
+msgstr ""
+
+#: includes/admin/templates/pages/visitors.php:46
+msgid "Latest Page"
 msgstr ""
 
 #: includes/admin/templates/pages/words.php:26
@@ -2076,14 +2203,14 @@ msgid "If your needs go beyond the default capabilities and roles, or you wish f
 msgstr ""
 
 #: includes/admin/templates/settings/access-level.php:83
-#: includes/admin/templates/settings/exclusions.php:251
-#: includes/admin/templates/settings/externals.php:271
-#: includes/admin/templates/settings/general.php:376
+#: includes/admin/templates/settings/exclusions.php:227
+#: includes/admin/templates/settings/externals.php:281
+#: includes/admin/templates/settings/general.php:372
 #: includes/admin/templates/settings/maintenance.php:78
-#: includes/admin/templates/settings/notifications.php:204
+#: includes/admin/templates/settings/notifications.php:207
 #: includes/admin/templates/settings/overview-display.php:42
-#: includes/admin/templates/settings/privacy.php:88
-#: includes/admin/templates/settings/visitor-ip.php:172
+#: includes/admin/templates/settings/privacy.php:76
+#: includes/admin/templates/settings/visitor-ip.php:167
 msgid "Update"
 msgstr ""
 
@@ -2091,90 +2218,90 @@ msgstr ""
 msgid "User Role Exclusions"
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:9
+#: includes/admin/templates/settings/exclusions.php:5
 msgid "Exclude specific user roles from data collection."
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:26
-#: includes/admin/templates/settings/exclusions.php:184
-#: includes/admin/templates/settings/exclusions.php:191
-#: includes/admin/templates/settings/exclusions.php:198
+#: includes/admin/templates/settings/exclusions.php:22
+#: includes/admin/templates/settings/exclusions.php:164
+#: includes/admin/templates/settings/exclusions.php:171
+#: includes/admin/templates/settings/exclusions.php:178
 msgid "Exclude"
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:27
+#: includes/admin/templates/settings/exclusions.php:23
 msgid "Exclude data collection for users with the %s role."
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:38
+#: includes/admin/templates/settings/exclusions.php:34
 msgid "IP Exclusions"
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:42
+#: includes/admin/templates/settings/exclusions.php:34
 msgid "Specify which IP addresses or ranges should be excluded from statistics."
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:46
+#: includes/admin/templates/settings/exclusions.php:38
 msgid "Excluded IP Address List"
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:49
+#: includes/admin/templates/settings/exclusions.php:41
 msgid "Specify the IP addresses you want to exclude. Enter one IP address or range per line."
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:50
+#: includes/admin/templates/settings/exclusions.php:42
 msgid "For IPv4 addresses, both 192.168.0.0/24 and 192.168.0.0/255.255.255.0 formats are acceptable. To specify an IP address, use a subnet value of 32 or 255.255.255.255."
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:51
+#: includes/admin/templates/settings/exclusions.php:43
 msgid "For IPv6 addresses, use the fc00::/7 format."
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:55
+#: includes/admin/templates/settings/exclusions.php:47
 msgid "Add"
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:68
+#: includes/admin/templates/settings/exclusions.php:60
 msgid "Robot Exclusions"
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:72
+#: includes/admin/templates/settings/exclusions.php:60
 msgid "Define bots and spiders to exclude from your website's statistics."
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:76
-msgid "Robot List:"
+#: includes/admin/templates/settings/exclusions.php:64
+msgid "Robot List"
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:87
+#: includes/admin/templates/settings/exclusions.php:75
 msgid "Enter robot agents to exclude. One agent name per line, minimum four characters."
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:88
+#: includes/admin/templates/settings/exclusions.php:76
 msgid "Reset to Default"
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:94
+#: includes/admin/templates/settings/exclusions.php:82
 msgid "Robot Visit Threshold"
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:98
+#: includes/admin/templates/settings/exclusions.php:86
 msgid "Set a threshold for daily robot visits. Robots exceeding this number daily will be identified as bots."
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:104
+#: includes/admin/templates/settings/exclusions.php:92
 msgid "Force Robot List Update After Upgrades"
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:107
-#: includes/admin/templates/settings/exclusions.php:115
-#: includes/admin/templates/settings/exclusions.php:134
-#: includes/admin/templates/settings/exclusions.php:243
+#: includes/admin/templates/settings/exclusions.php:95
+#: includes/admin/templates/settings/exclusions.php:103
+#: includes/admin/templates/settings/exclusions.php:122
+#: includes/admin/templates/settings/exclusions.php:219
 #: includes/admin/templates/settings/externals.php:41
-#: includes/admin/templates/settings/externals.php:58
-#: includes/admin/templates/settings/externals.php:73
-#: includes/admin/templates/settings/externals.php:111
-#: includes/admin/templates/settings/externals.php:218
+#: includes/admin/templates/settings/externals.php:63
+#: includes/admin/templates/settings/externals.php:83
+#: includes/admin/templates/settings/externals.php:121
+#: includes/admin/templates/settings/externals.php:228
 #: includes/admin/templates/settings/general.php:21
 #: includes/admin/templates/settings/general.php:45
 #: includes/admin/templates/settings/general.php:66
@@ -2185,143 +2312,143 @@ msgstr ""
 #: includes/admin/templates/settings/general.php:200
 #: includes/admin/templates/settings/general.php:212
 #: includes/admin/templates/settings/general.php:253
-#: includes/admin/templates/settings/general.php:297
-#: includes/admin/templates/settings/general.php:318
-#: includes/admin/templates/settings/general.php:367
+#: includes/admin/templates/settings/general.php:298
+#: includes/admin/templates/settings/general.php:319
+#: includes/admin/templates/settings/general.php:363
 #: includes/admin/templates/settings/maintenance.php:24
 #: includes/admin/templates/settings/maintenance.php:58
 #: includes/admin/templates/settings/notifications.php:34
 #: includes/admin/templates/settings/notifications.php:55
 #: includes/admin/templates/settings/notifications.php:67
 #: includes/admin/templates/settings/notifications.php:88
-#: includes/admin/templates/settings/privacy.php:18
-#: includes/admin/templates/settings/privacy.php:29
-#: includes/admin/templates/settings/privacy.php:54
-#: includes/admin/templates/settings/privacy.php:80
+#: includes/admin/templates/settings/privacy.php:14
+#: includes/admin/templates/settings/privacy.php:25
+#: includes/admin/templates/settings/privacy.php:46
+#: includes/admin/templates/settings/privacy.php:68
 msgid "Enable"
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:108
+#: includes/admin/templates/settings/exclusions.php:96
 msgid "Reset the robot list to default after WP Statistics updates. Custom entries will be lost if enabled."
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:113
+#: includes/admin/templates/settings/exclusions.php:101
 msgid "Activate Honey Pot Protection"
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:116
+#: includes/admin/templates/settings/exclusions.php:104
 msgid "Turn on Honey Pot to detect and filter out bots. This adds a hidden trap for malicious automated scripts."
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:121
+#: includes/admin/templates/settings/exclusions.php:109
 msgid "Honey Pot Trap Page"
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:124
+#: includes/admin/templates/settings/exclusions.php:112
 msgid "Choose an existing Honey Pot trap page from the list or set up a new one to catch bots."
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:125
+#: includes/admin/templates/settings/exclusions.php:113
 msgid "Create a new Honey Pot page"
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:131
+#: includes/admin/templates/settings/exclusions.php:119
 msgid "Identify Incomplete Browser Data as Bot Activity"
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:135
+#: includes/admin/templates/settings/exclusions.php:123
 msgid "Enable this to classify visitors with incomplete browser details, such as a missing IP or user agent, as bots. This helps in preventing skewed analytics from corrupt data."
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:145
+#: includes/admin/templates/settings/exclusions.php:133
 msgid "GeoIP Exclusions"
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:149
+#: includes/admin/templates/settings/exclusions.php:133
 msgid "Filter out or specifically include visits from certain countries."
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:153
+#: includes/admin/templates/settings/exclusions.php:137
 msgid "Excluded Countries"
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:156
+#: includes/admin/templates/settings/exclusions.php:140
 msgid "Enter country codes to exclude from stats. Use '000' for unknown countries."
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:161
+#: includes/admin/templates/settings/exclusions.php:145
 msgid "Included Countries"
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:164
+#: includes/admin/templates/settings/exclusions.php:148
 msgid "Specify country codes to include in stats. '000' means unknown countries."
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:174
+#: includes/admin/templates/settings/exclusions.php:158
 msgid "URL Exclusions"
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:178
+#: includes/admin/templates/settings/exclusions.php:158
 msgid "Choose specific site URLs to keep out of the statistics."
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:182
+#: includes/admin/templates/settings/exclusions.php:162
 msgid "Excluded Login Page"
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:185
+#: includes/admin/templates/settings/exclusions.php:165
 msgid "Prevent the login page from being counted as a hit."
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:189
+#: includes/admin/templates/settings/exclusions.php:169
 msgid "Excluded RSS Feeds"
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:192
+#: includes/admin/templates/settings/exclusions.php:172
 msgid "Stop RSS feeds from being recorded as hits."
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:196
+#: includes/admin/templates/settings/exclusions.php:176
 msgid "Excluded 404 Pages"
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:199
+#: includes/admin/templates/settings/exclusions.php:179
 msgid "Exclude URLs that return a '404 - Not Found' message."
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:203
+#: includes/admin/templates/settings/exclusions.php:183
 msgid "Excluded URLs"
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:206
+#: includes/admin/templates/settings/exclusions.php:186
 msgid "Enter specific URLs to exclude. URL parameters aren't considered"
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:216
+#: includes/admin/templates/settings/exclusions.php:196
 msgid "Host Exclusions"
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:220
+#: includes/admin/templates/settings/exclusions.php:196
 msgid "Filter out visits from specific hosts."
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:224
+#: includes/admin/templates/settings/exclusions.php:200
 msgid "Excluded Hosts"
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:227
+#: includes/admin/templates/settings/exclusions.php:203
 msgid "Provide host names to exclude. Relies on cached IP, not live DNS lookup."
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:237
+#: includes/admin/templates/settings/exclusions.php:213
 msgid "General Exclusions"
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:241
+#: includes/admin/templates/settings/exclusions.php:217
 msgid "Enable Record Exclusions"
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:244
+#: includes/admin/templates/settings/exclusions.php:220
 msgid "Maintain a log of all excluded hits for insight into exclusions."
 msgstr ""
 
@@ -2357,102 +2484,102 @@ msgstr ""
 msgid "GeoIP Collection"
 msgstr ""
 
-#: includes/admin/templates/settings/externals.php:43
-#: includes/admin/templates/settings/externals.php:60
+#: includes/admin/templates/settings/externals.php:46
+#: includes/admin/templates/settings/externals.php:68
 msgid "Update Database"
 msgstr ""
 
-#: includes/admin/templates/settings/externals.php:46
+#: includes/admin/templates/settings/externals.php:51
 msgid "Enable this to gather and display geographic information (country) related to your visitors."
 msgstr ""
 
-#: includes/admin/templates/settings/externals.php:52
+#: includes/admin/templates/settings/externals.php:57
 msgid "GeoIP City"
 msgstr ""
 
-#: includes/admin/templates/settings/externals.php:62
+#: includes/admin/templates/settings/externals.php:72
 msgid "Activate this feature if you wish to see the city details of your visitors."
 msgstr ""
 
-#: includes/admin/templates/settings/externals.php:68
+#: includes/admin/templates/settings/externals.php:78
 msgid "Schedule Monthly Update of GeoIP Database"
 msgstr ""
 
-#: includes/admin/templates/settings/externals.php:76
-#: includes/admin/templates/settings/externals.php:251
+#: includes/admin/templates/settings/externals.php:86
+#: includes/admin/templates/settings/externals.php:261
 msgid "Next update will be"
 msgstr ""
 
-#: includes/admin/templates/settings/externals.php:78
+#: includes/admin/templates/settings/externals.php:88
 #: includes/class-wp-statistics-schedule.php:185
 msgid "First Tuesday of this month"
 msgstr ""
 
-#: includes/admin/templates/settings/externals.php:81
+#: includes/admin/templates/settings/externals.php:91
 msgid "First Tuesday of next month"
 msgstr ""
 
-#: includes/admin/templates/settings/externals.php:100
+#: includes/admin/templates/settings/externals.php:110
 msgid "Set up a monthly update for the GeoIP database to ensure accurate and up-to-date geographical data. The scheduled download will occur 2 days after the first Tuesday of the month. This setting is crucial for maintaining current geographical data."
 msgstr ""
 
-#: includes/admin/templates/settings/externals.php:106
+#: includes/admin/templates/settings/externals.php:116
 msgid "Update Missing GeoIP Data"
 msgstr ""
 
-#: includes/admin/templates/settings/externals.php:112
+#: includes/admin/templates/settings/externals.php:122
 msgid "If, for any reason, there are gaps in the GeoIP data, use this feature to fill in the missing pieces after a fresh database download."
 msgstr ""
 
-#: includes/admin/templates/settings/externals.php:118
+#: includes/admin/templates/settings/externals.php:128
 msgid "Country Code for Private IP Addresses"
 msgstr ""
 
-#: includes/admin/templates/settings/externals.php:123
+#: includes/admin/templates/settings/externals.php:133
 msgid "Specify a default country code for private (non-routable) IP addresses. For example, using \"US\" for United States or \"CA\" for Canada. If uncertain, use \"000\" to label them as \"Unknown\"."
 msgstr ""
 
-#: includes/admin/templates/settings/externals.php:130
+#: includes/admin/templates/settings/externals.php:140
 msgid "GeoIP collection is disabled due to the following reasons:"
 msgstr ""
 
-#: includes/admin/templates/settings/externals.php:134
+#: includes/admin/templates/settings/externals.php:144
 msgid "GeoIP collection requires the cURL PHP extension and it is not loaded on your version of PHP!"
 msgstr ""
 
-#: includes/admin/templates/settings/externals.php:140
+#: includes/admin/templates/settings/externals.php:150
 msgid "GeoIP collection requires the BC Math PHP extension and it is not loaded on your version of PHP!"
 msgstr ""
 
-#: includes/admin/templates/settings/externals.php:146
+#: includes/admin/templates/settings/externals.php:156
 msgid "PHP safe mode detected! GeoIP collection is not supported with PHP's safe mode enabled!"
 msgstr ""
 
-#: includes/admin/templates/settings/externals.php:207
+#: includes/admin/templates/settings/externals.php:217
 msgid "Matomo Referrer Spam Blacklist Settings"
 msgstr ""
 
-#: includes/admin/templates/settings/externals.php:213
+#: includes/admin/templates/settings/externals.php:223
 msgid "Referrer Spam Blacklist"
 msgstr ""
 
-#: includes/admin/templates/settings/externals.php:219
+#: includes/admin/templates/settings/externals.php:229
 msgid "Enable the integration with Matomo's Referrer Spam Blacklist to prevent spammers from skewing your site statistics. This helps ensure the integrity of your data by filtering out known spam referrers. For more details on the blacklist source, visit <a href=\"https://github.com/matomo-org/referrer-spam-blacklist\" target=\"_blank\">Matomo's Referrer Spam Blacklist</a>."
 msgstr ""
 
-#: includes/admin/templates/settings/externals.php:227
+#: includes/admin/templates/settings/externals.php:237
 msgid "Refresh Blacklist Data"
 msgstr ""
 
-#: includes/admin/templates/settings/externals.php:235
+#: includes/admin/templates/settings/externals.php:245
 msgid "Click here to manually download the latest set of referrer spam filters from Matomo."
 msgstr ""
 
-#: includes/admin/templates/settings/externals.php:243
+#: includes/admin/templates/settings/externals.php:253
 msgid "Automate Blacklist Updates"
 msgstr ""
 
-#: includes/admin/templates/settings/externals.php:248
+#: includes/admin/templates/settings/externals.php:258
 msgid "Weekly Auto-Update"
 msgstr ""
 
@@ -2497,15 +2624,15 @@ msgid "Tracks individual users to determine how many unique visitors you have."
 msgstr ""
 
 #: includes/admin/templates/settings/general.php:84
-msgid "Track Page Visits"
+msgid "Record User Page Visits"
 msgstr ""
 
 #: includes/admin/templates/settings/general.php:88
-msgid "Enable Tracking"
+msgid "Track User Activity"
 msgstr ""
 
 #: includes/admin/templates/settings/general.php:89
-msgid "Switch on to track and generate reports on individual user page visits, providing insights into user engagement on your site."
+msgid "Enable this to save each logged-in user’s visits along with their user ID. This lets you see who visited which pages, giving you a clear picture of individual activity on your site.<br />note: If you’re subject to GDPR or other privacy laws, ensure you have obtained clear consent from your users to collect and process their data. Inform users through your privacy policy about what data is collected, why it’s collected, and how it will be used, ensuring transparency and compliance with data protection regulations."
 msgstr ""
 
 #: includes/admin/templates/settings/general.php:95
@@ -2562,7 +2689,7 @@ msgstr ""
 
 #: includes/admin/templates/settings/general.php:177
 #: includes/admin/templates/settings/general.php:188
-#: includes/admin/templates/settings/general.php:346
+#: includes/admin/templates/settings/general.php:342
 #: includes/admin/templates/settings/overview-display.php:19
 #: includes/admin/templates/settings/overview-display.php:31
 msgid "Disable"
@@ -2632,59 +2759,59 @@ msgstr ""
 msgid "To prevent Google index the REST API endpoints, add the below code in <strong>robots.txt</strong>"
 msgstr ""
 
-#: includes/admin/templates/settings/general.php:273
+#: includes/admin/templates/settings/general.php:274
 msgid "Admin Interface Settings"
 msgstr ""
 
-#: includes/admin/templates/settings/general.php:278
+#: includes/admin/templates/settings/general.php:279
 msgid "Show Stats in Admin Menu Bar"
 msgstr ""
 
-#: includes/admin/templates/settings/general.php:286
+#: includes/admin/templates/settings/general.php:287
 msgid "This will add a quick-access link to your statistics in the WordPress admin menu bar."
 msgstr ""
 
-#: includes/admin/templates/settings/general.php:292
+#: includes/admin/templates/settings/general.php:293
 msgid "Hide Admin Notices About Non-active Features"
 msgstr ""
 
-#: includes/admin/templates/settings/general.php:298
+#: includes/admin/templates/settings/general.php:299
 msgid "If a feature is turned off, this will prevent notifications about it."
 msgstr ""
 
-#: includes/admin/templates/settings/general.php:308
+#: includes/admin/templates/settings/general.php:309
 msgid "Search Engine Handling"
 msgstr ""
 
-#: includes/admin/templates/settings/general.php:313
+#: includes/admin/templates/settings/general.php:314
 msgid "Add Page Title to Empty Search Words"
 msgstr ""
 
-#: includes/admin/templates/settings/general.php:319
+#: includes/admin/templates/settings/general.php:320
 msgid "If a visitor arrives from a search engine without a clear query, this title will be used instead."
 msgstr ""
 
-#: includes/admin/templates/settings/general.php:324
+#: includes/admin/templates/settings/general.php:325
 msgid "Search Engine Filters"
 msgstr ""
 
-#: includes/admin/templates/settings/general.php:329
+#: includes/admin/templates/settings/general.php:325
 msgid "Exclusions allow you to stop tracking data from specific search engines. Here are the search engines you can exclude:"
 msgstr ""
 
-#: includes/admin/templates/settings/general.php:347
+#: includes/admin/templates/settings/general.php:343
 msgid "Disable %s from data collection and reporting."
 msgstr ""
 
-#: includes/admin/templates/settings/general.php:358
+#: includes/admin/templates/settings/general.php:354
 msgid "Graphical Data Presentation"
 msgstr ""
 
-#: includes/admin/templates/settings/general.php:363
+#: includes/admin/templates/settings/general.php:359
 msgid "Include Totals in Charts"
 msgstr ""
 
-#: includes/admin/templates/settings/general.php:368
+#: includes/admin/templates/settings/general.php:364
 msgid "For charts that represent multiple values, this will include a total sum at the bottom."
 msgstr ""
 
@@ -2809,69 +2936,67 @@ msgstr ""
 msgid "Delivery Channel: Select how you would like to receive the generated reports. Currently, reports can be sent to you via email or downloaded directly from the plugin."
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:157
-msgid "Note: To send SMS text messages please install the %s plugin."
+#: includes/admin/templates/settings/notifications.php:158
+msgid "Note:"
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:157
+#: includes/admin/templates/settings/notifications.php:159
+msgid "To send SMS text messages please install the %s plugin."
+msgstr ""
+
+#: includes/admin/templates/settings/notifications.php:159
 msgid "WP SMS"
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:164
+#: includes/admin/templates/settings/notifications.php:167
 msgid "Report Composition"
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:169
+#: includes/admin/templates/settings/notifications.php:172
 msgid "Report Content: Customize the content of your reports by using WP Statistics shortcodes to display various statistics."
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:172
+#: includes/admin/templates/settings/notifications.php:175
 msgid "Insert any of the following shortcode examples to show corresponding data:"
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:174
+#: includes/admin/templates/settings/notifications.php:177
 msgid "Current Online Users"
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:176
-#: includes/admin/templates/settings/notifications.php:178
+#: includes/admin/templates/settings/notifications.php:179
+#: includes/admin/templates/settings/notifications.php:181
 #: includes/class-wp-statistics-admin-bar.php:98
 #: includes/class-wp-statistics-widget.php:48
 #: includes/class-wp-statistics-widget.php:268
 msgid "Today's Visits"
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:180
+#: includes/admin/templates/settings/notifications.php:183
 #: includes/class-wp-statistics-admin-bar.php:102
 #: includes/class-wp-statistics-widget.php:69
 #: includes/class-wp-statistics-widget.php:280
 msgid "Yesterday's Visitors"
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:182
+#: includes/admin/templates/settings/notifications.php:185
 #: includes/class-wp-statistics-admin-bar.php:106
 #: includes/class-wp-statistics-widget.php:62
 #: includes/class-wp-statistics-widget.php:276
 msgid "Yesterday's Visits"
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:184
+#: includes/admin/templates/settings/notifications.php:187
 #: includes/class-wp-statistics-widget.php:104
 #: includes/class-wp-statistics-widget.php:300
 msgid "Total Visitors"
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:186
-#: includes/class-wp-statistics-widget.php:97
-#: includes/class-wp-statistics-widget.php:296
-msgid "Total Visits"
-msgstr ""
-
-#: includes/admin/templates/settings/notifications.php:189
+#: includes/admin/templates/settings/notifications.php:192
 msgid "Refer to our complete  <a href=\"%s\" target=\"_blank\">shortcode guide</a> for more options."
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:194
+#: includes/admin/templates/settings/notifications.php:197
 msgid "Visual Reporting"
 msgstr ""
 
@@ -2895,87 +3020,87 @@ msgstr ""
 msgid "Data Protection"
 msgstr ""
 
-#: includes/admin/templates/settings/privacy.php:9
+#: includes/admin/templates/settings/privacy.php:5
 msgid "Ensure your website adheres to data protection standards."
 msgstr ""
 
-#: includes/admin/templates/settings/privacy.php:14
+#: includes/admin/templates/settings/privacy.php:10
 msgid "Anonymize IP Addresses"
 msgstr ""
 
-#: includes/admin/templates/settings/privacy.php:19
-msgid "By enabling this option, the user IP address will be anonymized (e.g., <code>888.888.888.***</code>). This is especially useful for GDPR compliance."
+#: includes/admin/templates/settings/privacy.php:15
+msgid "Enable this setting to anonymize user IP addresses by masking the last part of the IP. This modification is crucial for privacy preservation and is a requirement under the GDPR for protecting user data. Anonymization helps ensure that a user’s full IP address is not stored or processed, thus maintaining their anonymity."
 msgstr ""
 
-#: includes/admin/templates/settings/privacy.php:25
+#: includes/admin/templates/settings/privacy.php:21
 msgid "Hash IP Addresses"
 msgstr ""
 
-#: includes/admin/templates/settings/privacy.php:30
-msgid "By enabling this feature, IP addresses will be hashed before being stored, preventing future access to the original address. This will also disable the \"Store Entire User Agent String\" setting."
+#: includes/admin/templates/settings/privacy.php:26
+msgid "When activated, this feature will hash IP addresses using a secure algorithm before they are stored. Hashing is a form of pseudonymization that transforms the IP address into a unique string of characters, which cannot be reversed to reveal the original IP. This process provides an additional layer of security and is in line with data protection regulations such as GDPR, which encourage the use of pseudonymization to protect personal data."
 msgstr ""
 
-#: includes/admin/templates/settings/privacy.php:30
+#: includes/admin/templates/settings/privacy.php:26
 msgid "Also, it disables the \"Store entire user agent string\" setting."
 msgstr ""
 
-#: includes/admin/templates/settings/privacy.php:40
+#: includes/admin/templates/settings/privacy.php:36
 msgid "Debugging & Advanced Options"
 msgstr ""
 
-#: includes/admin/templates/settings/privacy.php:44
+#: includes/admin/templates/settings/privacy.php:36
 msgid "Advanced settings for website administrators."
 msgstr ""
 
-#: includes/admin/templates/settings/privacy.php:49
+#: includes/admin/templates/settings/privacy.php:41
 msgid "Store Entire User Agent String"
 msgstr ""
 
-#: includes/admin/templates/settings/privacy.php:55
-msgid "This option is recommended for debugging purposes only. If \"Hash IP Addresses\" is active, this setting will be automatically disabled."
+#: includes/admin/templates/settings/privacy.php:47
+msgid "This setting is intended for use in troubleshooting and should only be enabled temporarily for debugging. It records the full user agent string, which contains details about the user’s browser and operating system. Please note that if “Hash IP Addresses” is enabled to protect user privacy, this setting will be turned off to prevent the storage of potentially identifiable information."
 msgstr ""
 
-#: includes/admin/templates/settings/privacy.php:66
+#: includes/admin/templates/settings/privacy.php:58
 msgid "User Preferences"
 msgstr ""
 
-#: includes/admin/templates/settings/privacy.php:70
+#: includes/admin/templates/settings/privacy.php:58
 msgid "Respect and prioritize your website visitors' browsing preferences."
 msgstr ""
 
-#: includes/admin/templates/settings/privacy.php:75
-msgid "Do Not Track"
+#: includes/admin/templates/settings/privacy.php:63
+msgid "Do Not Track (DNT)"
 msgstr ""
 
-#: includes/admin/templates/settings/privacy.php:81
-msgid "Enabling this will ensure that the plugin doesn't collect or store any data from users who have enabled the \"Do Not Track\" setting in their browsers. Note: This may affect the accuracy of your website's analytics."
+#: includes/admin/templates/settings/privacy.php:69
+msgid "When you enable this feature, our plugin respects visitors’ choices to not be tracked by their browser settings. This isn’t required by privacy laws like GDPR, but it shows we care about user privacy. Turning on DNT might affect the detail of your website stats, as it stops collecting data from users who prefer not to be tracked."
 msgstr ""
 
-#: includes/admin/templates/settings/reset.php:9
+#: includes/admin/templates/settings/reset.php:5
 msgid "Here you can revert WP Statistics to its original configuration. Please proceed with caution as changes made here are irreversible."
 msgstr ""
 
-#: includes/admin/templates/settings/reset.php:14
+#: includes/admin/templates/settings/reset.php:10
 msgid "Reset Options"
 msgstr ""
 
-#: includes/admin/templates/settings/reset.php:19
+#: includes/admin/templates/settings/reset.php:15
 msgid "Reset"
 msgstr ""
 
-#: includes/admin/templates/settings/reset.php:20
+#: includes/admin/templates/settings/reset.php:16
 msgid "Revert all user-specific and global configurations to the WP Statistics default settings, preserving your existing data."
 msgstr ""
 
-#: includes/admin/templates/settings/reset.php:21
-msgid "<i>Caution</i>: This change is irreversible."
+#: includes/admin/templates/settings/reset.php:17
+msgid "<b>Caution</b>: This change is irreversible."
 msgstr ""
 
-#: includes/admin/templates/settings/reset.php:22
-msgid "<i>For multisite users</i>: Every site within the network will return to the default settings."
+#: includes/admin/templates/settings/reset.php:18
+msgid "<b>For multisite users</b>: Every site within the network will return to the default settings."
 msgstr ""
 
-#: includes/admin/templates/settings/reset.php:29
+#: includes/admin/templates/settings/reset.php:25
 msgid "Restore Defaults"
 msgstr ""
 
@@ -2992,7 +3117,7 @@ msgid "Your IP Information"
 msgstr ""
 
 #: includes/admin/templates/settings/visitor-ip.php:48
-msgid "Your IP address as detected by the SeeIP.org service:"
+msgid "Your IP address as detected by the Ipify.org service:"
 msgstr ""
 
 #: includes/admin/templates/settings/visitor-ip.php:65
@@ -3003,34 +3128,38 @@ msgstr ""
 msgid "Main IP Detection Method"
 msgstr ""
 
-#: includes/admin/templates/settings/visitor-ip.php:90
+#: includes/admin/templates/settings/visitor-ip.php:85
 msgid "The options below retrieve IP addresses based on different server configurations. Select the one that best matches your server setup."
 msgstr ""
 
-#: includes/admin/templates/settings/visitor-ip.php:106
+#: includes/admin/templates/settings/visitor-ip.php:100
 msgid "Use <code>%1$s</code>"
 msgstr ""
 
-#: includes/admin/templates/settings/visitor-ip.php:111
-#: includes/admin/templates/settings/visitor-ip.php:150
+#: includes/admin/templates/settings/visitor-ip.php:105
+#: includes/admin/templates/settings/visitor-ip.php:144
 msgid "No available data."
 msgstr ""
 
-#: includes/admin/templates/settings/visitor-ip.php:116
-#: includes/admin/templates/settings/visitor-ip.php:155
+#: includes/admin/templates/settings/visitor-ip.php:110
+#: includes/admin/templates/settings/visitor-ip.php:149
 msgid "Your value required to sanitize user IP"
 msgstr ""
 
-#: includes/admin/templates/settings/visitor-ip.php:138
+#: includes/admin/templates/settings/visitor-ip.php:132
 msgid "Specify a Custom Header for IP Detection"
 msgstr ""
 
-#: includes/admin/templates/settings/visitor-ip.php:158
+#: includes/admin/templates/settings/visitor-ip.php:152
 msgid "If your server uses a custom key in <code>$_SERVER</code> for IP detection (e.g., <code>HTTP_CF_CONNECTING_IP</code> for CloudFlare), specify it here."
 msgstr ""
 
-#: includes/admin/templates/settings/visitor-ip.php:160
+#: includes/admin/templates/settings/visitor-ip.php:154
 msgid "View <code>$_SERVER</code> in your server."
+msgstr ""
+
+#: includes/admin/templates/settings/visitor-ip.php:156
+msgid "Refer to our <a href=\"%s\" target=\"_blank\">Documentation</a> for more info and how to configure IP Detection properly."
 msgstr ""
 
 #: includes/admin/TinyMCE/class-wp-statistics-tinymce.php:34
@@ -3160,43 +3289,43 @@ msgstr ""
 msgid "Unlock Mini Chart!"
 msgstr ""
 
-#: includes/class-wp-statistics-db.php:64
+#: includes/class-wp-statistics-db.php:65
 msgid "This table keeps a record of users currently online on your website. Each row corresponds to a unique user session."
 msgstr ""
 
-#: includes/class-wp-statistics-db.php:65
+#: includes/class-wp-statistics-db.php:66
 msgid "This table logs each unique visit to your website. A new row is added every time a visitor accesses your site."
 msgstr ""
 
-#: includes/class-wp-statistics-db.php:66
+#: includes/class-wp-statistics-db.php:67
 msgid "This table keeps a record of individual visitors to your website. Each row represents a unique visitor's information and their activities."
 msgstr ""
 
-#: includes/class-wp-statistics-db.php:67
+#: includes/class-wp-statistics-db.php:68
 msgid "This table logs visits that have been excluded based on certain criteria, like bots or specific IP addresses. It helps keep your statistics clean from non-human or unwanted traffic."
 msgstr ""
 
-#: includes/class-wp-statistics-db.php:68
+#: includes/class-wp-statistics-db.php:69
 msgid "This table logs the number of views each page on your website receives. Each row represents the data for a specific page."
 msgstr ""
 
-#: includes/class-wp-statistics-db.php:69
+#: includes/class-wp-statistics-db.php:70
 msgid "This table records the search queries made on your website. It helps you understand what visitors are looking for."
 msgstr ""
 
-#: includes/class-wp-statistics-db.php:70
+#: includes/class-wp-statistics-db.php:71
 msgid "This table stores historical data about visits and visitors over time. It's useful for tracking trends and patterns in your website's traffic."
 msgstr ""
 
-#: includes/class-wp-statistics-db.php:71
+#: includes/class-wp-statistics-db.php:72
 msgid "This table captures the relationships between visitors and the content they interact with, helping you understand user behavior and preferences."
 msgstr ""
 
-#: includes/class-wp-statistics-db.php:152
+#: includes/class-wp-statistics-db.php:153
 msgid "Data from the %s Table Successfully Deleted."
 msgstr ""
 
-#: includes/class-wp-statistics-db.php:156
+#: includes/class-wp-statistics-db.php:157
 msgid "Error: %s Table Not Cleared!"
 msgstr ""
 
@@ -3290,48 +3419,48 @@ msgstr ""
 msgid "Visits: %s"
 msgstr ""
 
-#: includes/class-wp-statistics-geoip.php:266
+#: includes/class-wp-statistics-geoip.php:265
 msgid "Error: <code>gzopen()</code> Function Not Found!"
 msgstr ""
 
-#: includes/class-wp-statistics-geoip.php:293
-msgid "Error Retrieving %s from %s"
+#: includes/class-wp-statistics-geoip.php:294
+msgid "Error: %s, Request URL: %s"
 msgstr ""
 
-#: includes/class-wp-statistics-geoip.php:306
+#: includes/class-wp-statistics-geoip.php:307
 msgid "Error Creating GeoIP Database Directory. Ensure Web Server Has Directory Creation Permissions in: %s"
 msgstr ""
 
-#: includes/class-wp-statistics-geoip.php:315
+#: includes/class-wp-statistics-geoip.php:316
 msgid "Error Setting Permissions for GeoIP Database Directory. Check Write Permissions for Directories in: %s"
 msgstr ""
 
-#: includes/class-wp-statistics-geoip.php:327
+#: includes/class-wp-statistics-geoip.php:328
 msgid "Error Downloading GeoIP Database from: %s - %s"
 msgstr ""
 
-#: includes/class-wp-statistics-geoip.php:342
+#: includes/class-wp-statistics-geoip.php:343
 msgid "Error Opening Downloaded GeoIP Database for Reading: %s"
 msgstr ""
 
-#: includes/class-wp-statistics-geoip.php:351
+#: includes/class-wp-statistics-geoip.php:352
 msgid "Error Opening Destination GeoIP Database for Writing: %s"
 msgstr ""
 
-#: includes/class-wp-statistics-geoip.php:366
+#: includes/class-wp-statistics-geoip.php:367
 msgid "GeoIP Database Successfully Updated!"
 msgstr ""
 
-#: includes/class-wp-statistics-geoip.php:389
-#: includes/class-wp-statistics-geoip.php:392
+#: includes/class-wp-statistics-geoip.php:390
+#: includes/class-wp-statistics-geoip.php:393
 msgid "GeoIP update on"
 msgstr ""
 
-#: includes/class-wp-statistics-geoip.php:418
+#: includes/class-wp-statistics-geoip.php:419
 msgid "Cannot Load GeoIP Database. Ensure It's Downloaded via Settings Page."
 msgstr ""
 
-#: includes/class-wp-statistics-geoip.php:449
+#: includes/class-wp-statistics-geoip.php:450
 msgid "Updated %s GeoIP Records in Visitor Database."
 msgstr ""
 
@@ -3347,39 +3476,39 @@ msgstr ""
 msgid "Tags"
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:321
+#: includes/class-wp-statistics-install.php:359
 msgid "Click here to visit the plugin on WordPress.org"
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:321
+#: includes/class-wp-statistics-install.php:359
 msgid "Visit WordPress.org page"
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:323
+#: includes/class-wp-statistics-install.php:361
 msgid "Click here to rate and review this plugin on WordPress.org"
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:323
+#: includes/class-wp-statistics-install.php:361
 msgid "Rate this plugin"
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:507
+#: includes/class-wp-statistics-install.php:578
 msgid "WP Statistics database requires upgrade."
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:510
+#: includes/class-wp-statistics-install.php:581
 msgid "Upgrade Database"
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:534
+#: includes/class-wp-statistics-install.php:605
 msgid "Database Upgrade Completed Successfully!"
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:572
+#: includes/class-wp-statistics-install.php:643
 msgid "Error During Operation. Please Refresh the Page."
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:585
+#: includes/class-wp-statistics-install.php:656
 msgid "Item processed"
 msgstr ""
 
@@ -3389,10 +3518,6 @@ msgstr ""
 
 #: includes/class-wp-statistics-meta-box.php:80
 msgid "Quick Stats"
-msgstr ""
-
-#: includes/class-wp-statistics-meta-box.php:87
-msgid "Traffic Summary"
 msgstr ""
 
 #: includes/class-wp-statistics-meta-box.php:88
@@ -3533,42 +3658,42 @@ msgstr ""
 msgid "Visitor's data for user ID #%s"
 msgstr ""
 
-#: includes/class-wp-statistics-purge.php:46
-#: includes/class-wp-statistics-purge.php:76
-#: includes/class-wp-statistics-purge.php:87
+#: includes/class-wp-statistics-purge.php:48
+#: includes/class-wp-statistics-purge.php:84
 #: includes/class-wp-statistics-purge.php:97
-#: includes/class-wp-statistics-purge.php:159
+#: includes/class-wp-statistics-purge.php:109
+#: includes/class-wp-statistics-purge.php:175
 msgid "Data from %s Older Than %s Days Successfully Purged."
 msgstr ""
 
-#: includes/class-wp-statistics-purge.php:48
-#: includes/class-wp-statistics-purge.php:78
-#: includes/class-wp-statistics-purge.php:89
+#: includes/class-wp-statistics-purge.php:50
+#: includes/class-wp-statistics-purge.php:86
 #: includes/class-wp-statistics-purge.php:99
-#: includes/class-wp-statistics-purge.php:161
+#: includes/class-wp-statistics-purge.php:111
+#: includes/class-wp-statistics-purge.php:177
 msgid "No Records to Purge from %s!"
 msgstr ""
 
-#: includes/class-wp-statistics-purge.php:167
-#: includes/class-wp-statistics-purge.php:168
-#: includes/class-wp-statistics-purge.php:230
-#: includes/class-wp-statistics-purge.php:231
-msgid "Database pruned on"
+#: includes/class-wp-statistics-purge.php:183
+#: includes/class-wp-statistics-purge.php:184
+#: includes/class-wp-statistics-purge.php:247
+#: includes/class-wp-statistics-purge.php:248
+msgid "WP Statistics - Database Clean-Up Report for"
 msgstr ""
 
-#: includes/class-wp-statistics-purge.php:173
+#: includes/class-wp-statistics-purge.php:190
 msgid "Please select a value over 30 days."
 msgstr ""
 
-#: includes/class-wp-statistics-purge.php:217
+#: includes/class-wp-statistics-purge.php:234
 msgid "%s Records Successfully Purged."
 msgstr ""
 
-#: includes/class-wp-statistics-purge.php:221
+#: includes/class-wp-statistics-purge.php:238
 msgid "No Visitor Records Found for Purging."
 msgstr ""
 
-#: includes/class-wp-statistics-purge.php:224
+#: includes/class-wp-statistics-purge.php:241
 msgid "Number of visits must be greater than or equal to 10!"
 msgstr ""
 
@@ -3823,19 +3948,23 @@ msgstr ""
 msgid "Choose a Specific Search Engine Type"
 msgstr ""
 
-#: includes/class-wp-statistics.php:81
+#: includes/class-wp-statistics.php:83
 msgid "Cloning is forbidden."
 msgstr ""
 
-#: includes/class-wp-statistics.php:295
+#: includes/class-wp-statistics.php:250
+msgid "Unable to create the required upload directory at <code>%s</code>. Please check that the web server has write permissions for the parent directory. Alternatively, you can manually create the directory yourself. Please keep in mind that the GeoIP database may not work correctly if the directory structure is not properly set up."
+msgstr ""
+
+#: includes/class-wp-statistics.php:303
 msgid "Your installed PHP Version is: "
 msgstr ""
 
-#: includes/class-wp-statistics.php:296
+#: includes/class-wp-statistics.php:304
 msgid "The <strong>WP Statistics</strong> plugin requires PHP version <strong>"
 msgstr ""
 
-#: includes/class-wp-statistics.php:296
+#: includes/class-wp-statistics.php:304
 msgid "</strong> or greater."
 msgstr ""
 
@@ -3844,14 +3973,14 @@ msgctxt "Country"
 msgid "Unknown"
 msgstr ""
 
-#: src/Service/Admin/AddOnDecorator.php:131
+#: src/Service/Admin/AddOnDecorator.php:133
 msgid "Activated"
 msgstr ""
 
-#: src/Service/Admin/AddOnDecorator.php:133
+#: src/Service/Admin/AddOnDecorator.php:136
 msgid "Not activated"
 msgstr ""
 
-#: src/Service/Admin/AddOnDecorator.php:137
+#: src/Service/Admin/AddOnDecorator.php:141
 msgid "Inactive"
 msgstr ""

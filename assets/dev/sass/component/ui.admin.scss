@@ -147,9 +147,8 @@
     }
   }
 
-
   .wps-adminFooterDescription {
-    color: #8A8A8A;
+    color: #8a8a8a;
     font-size: 12px;
     line-height: 1.6;
     max-width: 300px;
@@ -165,7 +164,7 @@
       background-color: white;
       border-radius: 8px;
       margin: 15px 5px;
-      transition: .3s all ease-out;
+      transition: 0.3s all ease-out;
       width: 30px;
       height: 30px;
       display: flex;
@@ -174,8 +173,8 @@
 
       svg {
         width: 35px;
-        fill: #8A8A8A;
-        transition: .3s all ease-out;
+        fill: #8a8a8a;
+        transition: 0.3s all ease-out;
       }
     }
   }
@@ -184,7 +183,7 @@
 .wps-adminHeader {
   width: 100%;
   box-sizing: border-box;
-  background-color: #404BF2;
+  background-color: #404bf2;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -212,7 +211,7 @@
     .wps-adminHeader__menuItem {
       border-radius: 4px;
       background-color: rgba(white, 0);
-      transition: .3s all ease-out;
+      transition: 0.3s all ease-out;
       padding: 10px;
       display: flex;
       align-items: center;
@@ -229,11 +228,12 @@
       }
 
       &:hover {
-        background-color: rgba(white, .2);
+        background-color: rgba(white, 0.2);
       }
 
       &.mega {
         position: relative;
+        z-index: 9999;
 
         &:hover {
           background-color: rgba(white, 0);
@@ -254,7 +254,7 @@
           padding: 10px 0;
           border-radius: 8px;
           background-color: white;
-          box-shadow: 0 2px 25px rgba(black, .1);
+          box-shadow: 0 2px 25px rgba(black, 0.1);
           top: 40px;
           left: 15px;
           width: 250px;
@@ -263,7 +263,7 @@
           display: none;
 
           &:before {
-            content: '';
+            content: "";
             width: 100%;
             height: 20px;
             position: absolute;
@@ -276,15 +276,15 @@
             align-items: center;
             justify-content: flex-start;
             padding: 15px;
-            transition: .3s all ease-out;
-            color: #56585A;
+            transition: 0.3s all ease-out;
+            color: #56585a;
             font-size: 15px;
             font-weight: 500;
             text-decoration: none;
 
             &.active-item {
-              color: #404BF2;
-              background-color: #F0F5FF;
+              color: #404bf2;
+              background-color: #f0f5ff;
             }
 
             &.with-badge {
@@ -293,20 +293,20 @@
               justify-content: space-between;
 
               span.badge {
-                background-color: #F0F5FF;
+                background-color: #f0f5ff;
                 border-radius: 4px;
                 padding: 4px 6px;
                 text-align: center;
-                color: #404BF2;
+                color: #404bf2;
                 font-weight: 300;
                 font-size: 13px;
-                transition: .3s all ease-out;
+                transition: 0.3s all ease-out;
               }
             }
 
             &:hover {
-              background-color: #F0F5FF;
-              color: #404BF2;
+              background-color: #f0f5ff;
+              color: #404bf2;
 
               &.with-badge {
                 span.badge {
@@ -405,7 +405,7 @@
 }
 
 .wps-wrap .notice:not(.hidden) {
-  padding: 2px 14px;
+  padding: 2px 41px 2px 14px;
   border-radius: 4px;
   color: #242a31;
   font-weight: normal;
@@ -653,8 +653,8 @@
 .wps-wrap input[type="checkbox"],
 .wps-wrap input[type="radio"] {
   background: #fff;
-  width: 24px;
-  height: 24px;
+  width: 20px;
+  height: 20px;
   border-radius: 2px;
   border: 1px solid #5b5b5b !important;
   transition: 0.2s;
@@ -673,9 +673,9 @@
 .wps-wrap input[type="radio"]:checked::before {
   background-color: #fff !important;
   transition: 0.2s;
-  width: 10px;
-  height: 10px;
-  margin: 0.38rem !important;
+  width: 8px;
+  height: 8px;
+  margin: 5px !important;
 }
 
 .wps-wrap input[type="checkbox"]:hover {
@@ -688,7 +688,6 @@
 }
 
 .wps-wrap input[type="checkbox"]:checked::before {
-  margin: -0.07rem 0 0 -0.12rem !important;
   content: url("data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2020%2020%27%3E%3Cpath%20d%3D%27M14.83%204.89l1.34.94-5.81%208.38H9.02L5.78%209.67l1.34-1.25%202.57%202.4z%27%20fill%3D%27%23fff%27%2F%3E%3C%2Fsvg%3E") !important;
   height: 1.5rem !important;
   width: 1.5rem !important;

@@ -2,6 +2,7 @@
 
 namespace WP_STATISTICS\MetaBox;
 
+use WP_STATISTICS\DB;
 use WP_STATISTICS\Visitor;
 
 class recent
@@ -20,7 +21,14 @@ class recent
 
         // Prepare Response
         try {
+
+            $visitorTable      = DB::table('visitor');
+            $relationshipTable = DB::table('visitor_relationships');
+
+            $args['sql'] = "SELECT vsr.*, vs.* FROM ( SELECT visitor_id, page_id, MAX(date) AS latest_visit_date FROM `{$relationshipTable}` GROUP BY visitor_id ) AS latest_visits JOIN `{$visitorTable}` vs ON latest_visits.visitor_id = vs.ID JOIN `{$relationshipTable}` vsr ON vsr.visitor_id = latest_visits.visitor_id AND vsr.date = latest_visits.latest_visit_date ORDER BY vsr.date DESC";
+
             $response = Visitor::get($args);
+
         } catch (\Exception $e) {
             \WP_Statistics::log($e->getMessage());
             $response = array();

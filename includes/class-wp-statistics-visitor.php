@@ -149,8 +149,17 @@ class Visitor
                     // Action Before Visitor Update
                     do_action('wp_statistics_update_visitor_hits', $visitor_id, $same_visitor);
 
+                    $visitorTable = DB::table('visitor');
+
                     // Update Visitor Count in DB
-                    $wpdb->query($wpdb->prepare('UPDATE `' . DB::table('visitor') . '` SET `hits` = `hits` + %d WHERE `ID` = %d', 1, $visitor_id));
+                    $sql = $wpdb->prepare(
+                        "UPDATE `{$visitorTable}` SET `hits` = `hits` + %d, user_id = %s WHERE `ID` = %d",
+                        1,
+                        User::get_user_id(),
+                        $visitor_id
+                    );
+
+                    $wpdb->query($sql);
                 }
             }
         }
@@ -159,7 +168,7 @@ class Visitor
     }
 
     /**
-     * Save visitor relationShip
+     * Saves or updates a visitor relationship entry in the database.
      *
      * @param $page_id
      * @param $visitor_id
@@ -169,24 +178,53 @@ class Visitor
     {
         global $wpdb;
 
-        // Save To DB
-        $insert = $wpdb->insert(
-            DB::table('visitor_relationships'),
-            array(
-                'visitor_id' => $visitor_id,
-                'page_id'    => $page_id,
-                'date'       => current_time('mysql')
-            ),
-            array('%d', '%d', '%s')
-        );
-        if (!$insert) {
+        $tableName   = DB::table('visitor_relationships');
+        $currentDate = TimeZone::getCurrentDate('Y-m-d');
+
+        /**
+         * Check if a record already exists for the same visitor_id, page_id, and current date.
+         * The query counts the number of matching records.
+         *
+         * Note: Ideally, this operation should be handled with a REPLACE INTO or INSERT OR REPLACE query.
+         * However, since the table was not considered a unique key at first for these fields, As they say, "Fools tie knots, and wise men loose them :)" we manually check for the record's existence,
+         *
+         */
+        $sql   = $wpdb->prepare("SELECT COUNT(*) FROM {$tableName} WHERE `visitor_id` = %d AND `page_id` = %d AND DATE(`date`) = %s", $visitor_id, $page_id, $currentDate);
+        $exist = $wpdb->get_var($sql);
+
+        /**
+         * If a record exists, update its date to the current date.
+         * Otherwise, insert a new record with the visitor ID, page ID, and current date.
+         */
+        if ($exist) {
+
+            $sql    = $wpdb->prepare("UPDATE {$tableName} SET `date` = %s WHERE DATE(`date`) = %s AND `visitor_id` = %d AND `page_id` = %d", TimeZone::getCurrentDate(), $currentDate, $visitor_id, $page_id);
+            $result = $wpdb->query($sql);
+
+        } else {
+
+            $result = $wpdb->insert($tableName,
+                array(
+                    'visitor_id' => $visitor_id,
+                    'page_id'    => $page_id,
+                    'date'       => TimeZone::getCurrentDate()
+                ),
+                array('%d', '%d', '%s')
+            );
+        }
+
+        if (!$result) {
             if (!empty($wpdb->last_error)) {
                 \WP_Statistics::log($wpdb->last_error);
             }
         }
+
         $insert_id = $wpdb->insert_id;
 
-        // Save visitor Relationship Action
+        /**
+         * Trigger a WordPress action hook after saving the visitor relationship.
+         * This allows for custom actions to be executed.
+         */
         do_action('wp_statistics_save_visitor_relationship', $page_id, $visitor_id, $insert_id);
 
         return $insert_id;
@@ -259,7 +297,7 @@ class Visitor
         $result = $wpdb->get_results($args['sql']);
 
         // Get Visitor Data
-        return self::PrepareData($result);
+        return self::prepareData($result);
     }
 
     /**
@@ -269,7 +307,7 @@ class Visitor
      * @return array
      * @throws \Exception
      */
-    public static function PrepareData($result = array())
+    public static function prepareData($result = array())
     {
 
         // Prepare List
@@ -280,17 +318,22 @@ class Visitor
 
             $ip       = esc_html($items->ip);
             $agent    = esc_html($items->agent);
+            $version  = esc_html($items->version);
             $platform = esc_html($items->platform);
 
             $item = array(
                 'hits'     => (int)$items->hits,
                 'referred' => Referred::get_referrer_link($items->referred),
                 'refer'    => $items->referred,
-                'date'     => date_i18n(apply_filters('wp_statistics_visitor_date_format', 'j M'), strtotime($items->last_counter)),
+                'date'     => date_i18n(get_option('date_format'), strtotime($items->last_counter)),
                 'agent'    => $agent,
                 'platform' => $platform,
                 'version'  => esc_html($items->version)
             );
+
+            if (isset($items->date)) {
+                $item['date'] = date_i18n(get_option('date_format') . ' ' . get_option('time_format'), strtotime($items->date));
+            }
 
             // Push User Data
             if ($items->user_id > 0 and User::exists($items->user_id)) {
@@ -303,14 +346,15 @@ class Visitor
 
             // Push Browser
             $item['browser'] = array(
-                'name' => $agent,
-                'logo' => UserAgent::getBrowserLogo($agent),
-                'link' => Menus::admin_url('visitors', array('agent' => $agent))
+                'name'    => $agent,
+                'version' => $version,
+                'logo'    => UserAgent::getBrowserLogo($agent),
+                'link'    => Menus::admin_url('visitors', array('agent' => $agent))
             );
 
             // Push IP
             if (IP::IsHashIP($ip)) {
-                $item['hash_ip'] = IP::$hash_ip_prefix;
+                $item['ip'] = array('value' => substr($ip, 6, 10), 'link' => Menus::admin_url('visitors', array('ip' => urlencode($ip))));
             } else {
                 $item['ip']  = array('value' => $ip, 'link' => Menus::admin_url('visitors', array('ip' => $ip)));
                 $item['map'] = GeoIP::geoIPTools($ip);
@@ -332,8 +376,8 @@ class Visitor
             }
 
             // Get What is Page
-            if (Option::get('visitors_log')) {
-                $item['page'] = self::get_page_by_visitor_id($items->ID);
+            if (Option::get('visitors_log') && isset($items->page_id)) {
+                $item['page'] = self::get_page_by_id($items->page_id);
             }
 
             $list[] = $item;
@@ -343,12 +387,12 @@ class Visitor
     }
 
     /**
-     * Get Page Information By visitor ID
+     * Get Page Information By page ID
      *
-     * @param $visitor_ID
+     * @param $page_id
      * @return mixed
      */
-    public static function get_page_by_visitor_id($visitor_ID)
+    public static function get_page_by_id($page_id)
     {
         global $wpdb;
 
@@ -360,8 +404,12 @@ class Visitor
             return $params;
         }
 
+        $pageTable = DB::table('pages');
+
         // Get Row
-        $item = $wpdb->get_row(" SELECT " . DB::table('pages') . ".* FROM `" . DB::table('pages') . "` INNER JOIN `" . DB::table('visitor_relationships') . "` ON `" . DB::table('pages') . "`.`page_id` = `" . DB::table('visitor_relationships') . "`.`page_id` INNER JOIN `" . DB::table('visitor') . "` ON `" . DB::table('visitor_relationships') . "`.`visitor_id` = `" . DB::table('visitor') . "`.`ID` WHERE `" . DB::table('visitor') . "`.`ID` = {$visitor_ID};", ARRAY_A);
+        $sql  = $wpdb->prepare("SELECT * FROM {$pageTable} WHERE page_id = %s", $page_id);
+        $item = $wpdb->get_row($sql, ARRAY_A);
+
         if ($item !== null) {
             $params = Pages::get_page_info($item['id'], $item['type']);
         }

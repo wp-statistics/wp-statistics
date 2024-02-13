@@ -12,7 +12,7 @@
             <td>
                 <input id="anonymize_ips" type="checkbox" value="1" name="wps_anonymize_ips" <?php echo WP_STATISTICS\Option::get('anonymize_ips') == true ? "checked='checked'" : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
                 <label for="anonymize_ips"><?php _e('Enable', 'wp-statistics'); ?></label>
-                <p class="description"><?php echo __('By enabling this option, the user IP address will be anonymized (e.g., <code>888.888.888.***</code>). This is especially useful for GDPR compliance.', 'wp-statistics'); ?></p>
+                <p class="description"><?php echo __('Enable this setting to anonymize user IP addresses by masking the last part of the IP. This modification is crucial for privacy preservation and is a requirement under the GDPR for protecting user data. Anonymization helps ensure that a user’s full IP address is not stored or processed, thus maintaining their anonymity.', 'wp-statistics'); ?></p>
             </td>
         </tr>
 
@@ -23,7 +23,7 @@
             <td>
                 <input id="hash_ips" type="checkbox" value="1" name="wps_hash_ips" <?php echo WP_STATISTICS\Option::get('hash_ips') == true ? "checked='checked'" : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
                 <label for="hash_ips"><?php _e('Enable', 'wp-statistics'); ?></label>
-                <p class="description"><?php echo __('By enabling this feature, IP addresses will be hashed before being stored, preventing future access to the original address. This will also disable the "Store Entire User Agent String" setting.', 'wp-statistics') . ' ' . __('Also, it disables the "Store entire user agent string" setting.', 'wp-statistics'); ?></p>
+                <p class="description"><?php echo __('When activated, this feature will hash IP addresses using a secure algorithm before they are stored. Hashing is a form of pseudonymization that transforms the IP address into a unique string of characters, which cannot be reversed to reveal the original IP. This process provides an additional layer of security and is in line with data protection regulations such as GDPR, which encourage the use of pseudonymization to protect personal data.', 'wp-statistics') . ' ' . __('Also, it disables the "Store entire user agent string" setting.', 'wp-statistics'); ?></p>
             </td>
         </tr>
         </tbody>
@@ -44,7 +44,7 @@
             <td>
                 <input id="store_ua" type="checkbox" value="1" name="wps_store_ua" <?php echo WP_STATISTICS\Option::get('store_ua') == true ? "checked='checked'" : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
                 <label for="store_ua"><?php _e('Enable', 'wp-statistics'); ?></label>
-                <p class="description"><?php _e('This option is recommended for debugging purposes only. If "Hash IP Addresses" is active, this setting will be automatically disabled.', 'wp-statistics'); ?></p>
+                <p class="description"><?php _e('This setting is intended for use in troubleshooting and should only be enabled temporarily for debugging. It records the full user agent string, which contains details about the user’s browser and operating system. Please note that if “Hash IP Addresses” is enabled to protect user privacy, this setting will be turned off to prevent the storage of potentially identifiable information.', 'wp-statistics'); ?></p>
             </td>
         </tr>
 
@@ -60,13 +60,13 @@
 
         <tr valign="top">
             <th scope="row">
-                <label for="do_not_track"><?php _e('Do Not Track', 'wp-statistics'); ?></label>
+                <label for="do_not_track"><?php _e('Do Not Track (DNT)', 'wp-statistics'); ?></label>
             </th>
 
             <td>
                 <input id="do_not_track" type="checkbox" value="1" name="wps_do_not_track" <?php echo WP_STATISTICS\Option::get('do_not_track') == true ? "checked='checked'" : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
                 <label for="do_not_track"><?php _e('Enable', 'wp-statistics'); ?></label>
-                <p class="description"><?php _e("Enabling this will ensure that the plugin doesn't collect or store any data from users who have enabled the \"Do Not Track\" setting in their browsers. Note: This may affect the accuracy of your website's analytics.", 'wp-statistics'); ?></p>
+                <p class="description"><?php _e("If this option is on, the plugin will not track visitors who set their browser to “Do Not Track”. This isn’t required by privacy laws like GDPR, but it’s a way to show that we value privacy. Keep in mind that turning this on means you won’t get information from visitors who don’t want to be tracked.", 'wp-statistics'); ?></p>
             </td>
         </tr>
 

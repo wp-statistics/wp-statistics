@@ -6,12 +6,13 @@ var gulp = require('gulp'),
     babel = require('gulp-babel'),
     uglify = require('gulp-uglify'),
     replace = require('gulp-replace'),
-    sass = require('gulp-sass')(require('sass')),
     pipeline = require('readable-stream').pipeline;
+const sass = require('gulp-sass')(require('sass'));
 
-// Gulp Sass Compiler
-sass.compiler = require('node-sass');
-gulp.task('sass', function () {
+// Now you can use gulpSass in your gulp tasks
+
+
+function buildStyles(done) {
     return gulp.src([
         './assets/dev/sass/admin.scss',
         './assets/dev/sass/jquery-datepicker/datepicker.scss',
@@ -20,12 +21,11 @@ gulp.task('sass', function () {
     ])
         .pipe(sass({outputStyle: 'compressed'}))
         .pipe(rename({suffix: '.min'}))
-        .pipe(gulp.dest(['./assets/css/']));
-});
+        .pipe(gulp.dest('./assets/css/'));
+};
 
-//Gulp Script Concat
-gulp.task('script', function () {
-    return gulp.src([
+function buildScripts(done) {
+    gulp.src([
         './assets/dev/javascript/plugin/*.js',
         './assets/dev/javascript/config.js',
         './assets/dev/javascript/ajax.js',
@@ -46,35 +46,40 @@ gulp.task('script', function () {
         .pipe(replace("  ", ''))
         .pipe(uglify())
         .pipe(gulp.dest('./assets/js/'));
-});
+    done()
+}
 
 // Gulp TinyMce Script
-gulp.task('mce', function () {
-    return gulp.src(['./assets/dev/javascript/Tinymce/*.js'])
+function tineMCE(done) {
+    gulp.src(['./assets/dev/javascript/Tinymce/*.js'])
         .pipe(concat('tinymce.min.js'))
         .pipe(gulp.dest('./assets/js/')).pipe(babel({presets: ['@babel/env']})).pipe(replace("\\n", '')).pipe(replace("\\t", '')).pipe(replace("  ", '')).pipe(uglify()).pipe(gulp.dest('./assets/js/'));
-});
+    done()
+}
 
 // Gulp Frontend Script
-gulp.task('frontScript', function () {
-    return gulp.src(['./assets/dev/javascript/tracker.js'])
+function frontScripts(done) {
+    gulp.src(['./assets/dev/javascript/tracker.js'])
         .pipe(gulp.dest('./assets/js/')).pipe(babel({presets: ['@babel/env']})).pipe(replace("\\n", '')).pipe(replace("\\t", '')).pipe(replace("  ", '')).pipe(uglify()).pipe(gulp.dest('./assets/js/'));
-});
+    done()
+}
+
 
 // Gulp Script Minify
-gulp.task('js', function () {
-    return gulp.src(['./assets/js/*.js', '!./assets/js/*.min.js'])
+function concatScripts(done) {
+    gulp.src(['./assets/js/*.js', '!./assets/js/*.min.js'])
         .pipe(babel({presets: ['@babel/env']}))
         .pipe(uglify())
         .pipe(rename({suffix: '.min'}))
         .pipe(gulp.dest(function (file) {
             return file.base;
         }));
-});
+    done()
+}
 
 // Gulp Css Minify
-gulp.task('css', function () {
-    return gulp.src(['./assets/css/*.css', '!./assets/css/*.min.css'])
+function minifyCss(done) {
+    gulp.src(['./assets/css/*.css', '!./assets/css/*.min.css'])
         .pipe(cleanCSS({
             keepSpecialComments: 1,
             level: 2
@@ -83,13 +88,23 @@ gulp.task('css', function () {
         .pipe(gulp.dest(function (file) {
             return file.base;
         }));
-});
+    done()
+}
 
 // Gulp Watch
-gulp.task('watch', function () {
-    gulp.watch('assets/dev/javascript/**/*.js', gulp.series('script'));
-    gulp.watch('assets/dev/sass/**/*.scss', gulp.series('sass'));
-});
+function watch() {
+    gulp.watch('assets/dev/javascript/**/*.js', gulp.series(buildScripts));
+    gulp.watch('assets/dev/sass/**/*.scss', gulp.series(buildStyles));
+    console.log(" - Development is ready...")
+}
 
 // global Task
-gulp.task('default', gulp.parallel('sass', 'script', 'mce', 'frontScript'));
+exports.compileSass = buildStyles;
+exports.script = buildScripts;
+exports.mce = tineMCE;
+exports.frontScript = frontScripts;
+exports.concatScripts = concatScripts;
+exports.minifyCss = minifyCss;
+exports.watch = watch;
+
+exports.default = gulp.series(watch);

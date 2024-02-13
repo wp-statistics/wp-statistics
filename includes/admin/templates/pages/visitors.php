@@ -20,7 +20,7 @@
                     <?php if (!is_array($list) || (is_array($list) and count($list) < 1)) { ?>
                         <div class='wps-wrap--no-content wps-center'><?php _e("No recent data available.", "wp-statistics"); ?></div>
                     <?php } else { ?>
-                    <div class="o-table-wrapper">
+                        <div class="o-table-wrapper">
                             <table width="100%" class="o-table">
                                 <tr>
                                     <td><?php _e('Browser', 'wp-statistics'); ?></td>
@@ -31,19 +31,19 @@
                                         <td><?php _e('City', 'wp-statistics'); ?></td>
                                     <?php } ?>
                                     <td>
-                                        <a href="<?php echo esc_url( add_query_arg('order', ((isset($_GET['order']) and $_GET['order'] == "asc") ? 'desc' : 'asc'))); ?>">
-                                            <?php _e('Date', 'wp-statistics'); ?>
+                                        <a href="<?php echo esc_url(add_query_arg('order', ((isset($_GET['order']) and $_GET['order'] == "asc") ? 'desc' : 'asc'))); ?>">
+                                            <?php _e('Last Visit', 'wp-statistics'); ?>
                                             <span class="dashicons dashicons-arrow-<?php echo((isset($_GET['order']) and $_GET['order'] == "asc") ? 'up' : 'down'); ?>"></span>
                                         </a>
                                     </td>
-                                    <td><?php _e('IP', 'wp-statistics'); ?></td>
+                                    <td><?php echo \WP_STATISTICS\Option::get('hash_ips') == true ? __('Daily Visitor Hash', 'wp-statistics') : __('IP Address', 'wp-statistics'); ?></td>
                                     <td><?php _e('Platform', 'wp-statistics'); ?></td>
-                                    <td><?php _e('Visits', 'wp-statistics'); ?></td>
+                                    <td><?php _e('Total Visits', 'wp-statistics'); ?></td>
                                     <td><?php _e('User', 'wp-statistics'); ?></td>
                                     <?php
                                     if (\WP_STATISTICS\Option::get('visitors_log')) {
                                         ?>
-                                        <td class="tbl-page-column"><?php _e('Page', 'wp-statistics'); ?></td>
+                                        <td class="tbl-page-column"><?php _e('Latest Page', 'wp-statistics'); ?></td>
                                         <?php
                                     }
                                     ?>
@@ -53,7 +53,7 @@
                                 <?php foreach ($list as $item) { ?>
                                     <tr>
                                         <td>
-                                            <a href="<?php echo esc_url($item['browser']['link']); ?>" title="<?php echo esc_attr($item['browser']['name']); ?>"><img src="<?php echo esc_url($item['browser']['logo']); ?>" alt="<?php echo esc_attr($item['browser']['name']); ?>" class="wps-flag log-tools" title="<?php echo esc_attr($item['browser']['name']); ?>"/></a>
+                                            <a href="<?php echo esc_url($item['browser']['link']); ?>" title="<?php echo esc_attr($item['browser']['name']); ?> (<?php echo esc_attr($item['browser']['version']); ?>)"><img src="<?php echo esc_url($item['browser']['logo']); ?>" alt="<?php echo esc_attr($item['browser']['name']); ?>" class="wps-flag log-tools" title="<?php echo esc_attr($item['browser']['name']); ?> (<?php echo esc_attr($item['browser']['version']); ?>)"/></a>
                                         </td>
                                         <?php if (WP_STATISTICS\GeoIP::active()) { ?>
                                             <td>
@@ -66,7 +66,7 @@
                                         <td><span><?php echo esc_attr($item['date']); ?></span></td>
                                         <td class="wps-admin-column__ip">
                                             <?php echo(isset($item['map']) ? "<a class='show-map' href='" . esc_url($item['map']) . "' target='_blank' title='" . __('Map', 'wp-statistics') . "'>" . WP_STATISTICS\Admin_Template::icons('dashicons-location-alt') . "</a>" : ""); ?>
-                                            <?php echo(isset($item['hash_ip']) ? esc_attr($item['hash_ip']) : "<a href='" . esc_url($item['ip']['link']) . "'>" . esc_attr($item['ip']['value']) . "</a>"); ?>
+                                            <?php echo sprintf('<a href="%s">%s</a>', esc_url($item['ip']['link']), esc_attr($item['ip']['value'])); ?>
                                         </td>
                                         <td><?php echo esc_attr($item['platform']); ?></td>
                                         <td><?php echo esc_attr($item['hits']); ?></td>

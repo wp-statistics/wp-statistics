@@ -16,7 +16,7 @@ class Install
         add_filter('plugin_action_links_' . plugin_basename(WP_STATISTICS_MAIN_FILE), array($this, 'settings_links'), 10, 2);
         add_filter('plugin_row_meta', array($this, 'add_meta_links'), 10, 2);
 
-        // Upgrades WordPress Plugin
+        // Upgrade WordPress Plugin
         add_action('init', array($this, 'plugin_upgrades'));
 
         // Page Type Updater @since 12.6
@@ -69,7 +69,6 @@ class Install
      */
     public static function table_sql()
     {
-
         // Load dbDelta WordPress
         self::load_dbDelta();
 
@@ -180,7 +179,6 @@ class Install
 						value bigint(20) NOT NULL,
 						PRIMARY KEY  (ID),
 						KEY category (category),
-						UNIQUE KEY page_id (page_id),
 						UNIQUE KEY uri (uri)
 					) {$collate}");
         dbDelta($create_historical_table);
@@ -200,6 +198,9 @@ class Install
 						KEY host (host)
 					) {$collate}");
         dbDelta($create_search_table);
+
+        // Create events table
+        self::create_events_table();
     }
 
     /**
@@ -207,10 +208,6 @@ class Install
      */
     public static function create_visitor_relationship_table()
     {
-
-        // Load WordPress DBDelta
-        self::load_dbDelta();
-
         // Get Table name
         $table_name = DB::table('visitor_relationships');
 
@@ -233,6 +230,48 @@ class Install
 
             dbDelta($create_visitor_relationships_table);
         }
+    }
+
+    public static function create_events_table()
+    {
+        $table_name = DB::table('events');
+        $collate    = DB::charset_collate();
+
+        $create_events_table =
+            "CREATE TABLE IF NOT EXISTS $table_name (
+				`ID` bigint(20) NOT NULL AUTO_INCREMENT,
+				`date` datetime NOT NULL,
+				`page_id` bigint(20) NULL,
+				`visitor_id` bigint(20) NULL,
+				`event_name` varchar(64) NOT NULL,
+				`event_data` text NOT NULL,
+				PRIMARY KEY  (ID),
+				KEY visitor_id (visitor_id),
+				KEY page_id (page_id),
+				KEY event_name (event_name)
+			) {$collate}";
+
+        dbDelta($create_events_table);
+    }
+
+    public static function delete_duplicate_data()
+    {
+        global $wpdb;
+
+        // Define the table name
+        $table_name = DB::table('visitor_relationships');
+
+        // Start a transaction
+        $wpdb->query('START TRANSACTION');
+
+        // Prepare the delete query with a self-join to identify and delete duplicates
+        $delete_query = "DELETE v1 FROM {$table_name} AS v1 INNER JOIN {$table_name} AS v2 WHERE v1.ID > v2.ID AND v1.visitor_id = v2.visitor_id AND v1.page_id = v2.page_id AND DATE(v1.date) = DATE(v2.date)";
+
+        // Execute the delete query
+        $wpdb->query($delete_query);
+
+        // If no errors, commit the transaction
+        $wpdb->query('COMMIT');
     }
 
     /**
@@ -333,6 +372,9 @@ class Install
     {
         global $wpdb;
 
+        // Load WordPress DBDelta
+        self::load_dbDelta();
+
         // Check installed plugin version
         $installed_version = get_option('wp_statistics_plugin_version');
         if ($installed_version == WP_STATISTICS_VERSION) {
@@ -342,6 +384,7 @@ class Install
         $userOnlineTable = DB::table('useronline');
         $pagesTable      = DB::table('pages');
         $visitorTable    = DB::table('visitor');
+        $historicalTable = DB::table('historical');
 
         /**
          * Add visitor device type
@@ -392,6 +435,13 @@ class Install
         self::create_visitor_relationship_table();
 
         /**
+         * Create events table
+         *
+         * @version 14.4
+         */
+        self::create_events_table();
+
+        /**
          * Change Charset All Table To New WordPress Collate
          * Reset Overview Order Meta Box View
          * Added User_id column in wp_statistics_visitor Table
@@ -431,6 +481,21 @@ class Install
             $result = $wpdb->query("SHOW INDEX FROM {$userOnlineTable} WHERE Key_name = 'ip'");
             if (!$result) {
                 $wpdb->query("ALTER TABLE {$userOnlineTable} ADD index (ip)");
+            }
+        }
+
+        /**
+         * Historical
+         *
+         * @version 14.4
+         *
+         */
+        if (DB::ExistTable($historicalTable)) {
+            $result = $wpdb->query("SHOW INDEX FROM {$historicalTable} WHERE Key_name = 'page_id'");
+
+            // Remove index
+            if ($result) {
+                $wpdb->query("DROP INDEX `page_id` ON {$historicalTable}");
             }
         }
 
@@ -478,6 +543,13 @@ class Install
         if (Option::get('force_robot_update')) {
             Referred::download_referrer_spam();
         }
+
+        /**
+         * Removes duplicate entries from the visitor_relationships table.
+         *
+         * @version 14.4
+         */
+        self::delete_duplicate_data();
 
         // Store the new version information.
         update_option('wp_statistics_plugin_version', WP_STATISTICS_VERSION);
