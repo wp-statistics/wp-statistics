@@ -4,7 +4,7 @@ Donate link: https://wp-statistics.com/donate/
 Tags: analytics, wordpress analytics, stats, statistics, visit, visitors, hits, chart, browser, today, yesterday, week, month, year, total, post, page, sidebar, google, live visit, search word, agent, google analytics, webmasters, google webmasters, geoip, location
 Requires at least: 5.0
 Tested up to: 6.4
-Stable tag: 14.4
+Stable tag: 14.4.1
 Requires PHP: 5.6
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -15,10 +15,10 @@ This plugin gives you the complete information on your website's visitors.
 = WP Statistics: THE #1 WORDPRESS STATISTICS PLUGIN =
 Do you need a simple tool to know your website statistics? Do you need to represent these statistics? Are you caring about your users’ privacy while analyzing who are interested in your business or website? With WP Statistics you can know your website statistics without any need to send your users’ data anywhere. You can know how many people visit your personal or business website, where they’re coming from, what browsers and search engines they use, and which of your contents, categories, tags and users get more visits.
 
+[Checkout Demo](https://wp-statistics.com/demo)
+
 = Data Privacy =
 WP Statistics stores all data, including IP addresses, safely on your server. WP Statistics respects user privacy and is GDPR compliant, as detailed on our [GDPR compliant](http://bit.ly/2x0AFgT) page. It anonymizes IPs, uses IP hashing with random daily Salt Mechanism for extra security, and follows Do Not Track (DNT) requests from browsers. This keeps user information private while giving you insights into your website traffic.
-
-[Checkout Demo!](https://wp-statistics.com/demo)
 
 = ACT BETTER  BY KNOWING WHAT YOUR USERS ARE LOOKING FOR =
 * Anonymize IP to Better Privacy
@@ -36,7 +36,7 @@ WP Statistics stores all data, including IP addresses, safely on your server. WP
 * Data Export in TSV, XML, and CSV formats
 * Statistical Reporting Emails
 * Statistical of pages with query strings and UTM parameters
-* [Premium] [DataPlus stats](https://wp-statistics.com/product/wp-statistics-data-plus?utm_source=wp_statistics&utm_medium=display&utm_campaign=wordpress)
+* [Premium] [Data Plus](https://wp-statistics.com/product/wp-statistics-data-plus?utm_source=wp_statistics&utm_medium=display&utm_campaign=wordpress)
 * [Premium] [More Advanced reporting](http://bit.ly/2MjZE3l)
 * And much more information represented in graphs & charts along with data filtering
 
@@ -136,7 +136,7 @@ Thank you for being part of our community. We’ve been working hard for one yea
 If you encounter any bug, please create an issue on [GitHub](https://github.com/wp-statistics/wp-statistics/issues/new) where we can act upon them more efficiently. Since [GitHub](https://github.com/wp-statistics/wp-statistics) is not a support forum, just bugs are welcomed, and any other request will be closed.
 
 == Changelog ==
-= v14.4 - 13.02.2024 =
+= 14.4.1 - 13.02.2024 =
 We’re delighted to roll out WP Statistics 14.4, bringing advanced privacy features and performance enhancements to your WordPress experience. This update includes a robust Random Daily Salt Mechanism for IP hashing, options for data anonymization, and numerous optimizations for better site efficiency. For a deep dive into all the new features and improvements, check out our detailed [blog post](https://wp-statistics.com/2024/02/13/wp-statistics-14-4-elevating-privacy-and-performance/)
 
 * Feature: Added option to removal `user_id` and `UAString` from visitor table.
@@ -147,7 +147,6 @@ We’re delighted to roll out WP Statistics 14.4, bringing advanced privacy feat
 * Improvement: Set 'Purge Old Data Daily' to 180 days for fresh installation.
 * Improvement: Extended 'Keep User Online' duration to 5 minutes for enhanced performance.
 * Improvement: Upgraded `visitor_relationships` table to support efficient handling of record updates or insertions
-* Improvement: Optimized to eliminate duplicate entries in the `visitor_relationships` table.
 * Improvement: Refined sorting algorithm to prioritize visitors by their most recent visits.
 * Improvement: Enhanced the relationship deletion process in purge schedule.
 * Improvement: Modified purge conditions to encompass a 30-day threshold.

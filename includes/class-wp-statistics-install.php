@@ -549,7 +549,7 @@ class Install
          *
          * @version 14.4
          */
-        self::delete_duplicate_data();
+        //self::delete_duplicate_data(); // todo to move in background cronjob
 
         // Store the new version information.
         update_option('wp_statistics_plugin_version', WP_STATISTICS_VERSION);
