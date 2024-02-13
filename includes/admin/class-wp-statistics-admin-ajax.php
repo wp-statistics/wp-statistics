@@ -19,6 +19,7 @@ class Ajax
             'delete_agents',
             'delete_platforms',
             'delete_ip',
+            'delete_user_ids',
             'empty_table',
             'purge_data',
             'purge_visitor_hits',
@@ -186,6 +187,33 @@ class Ajax
             } else {
                 _e('Kindly select the items you want to work with.', 'wp-statistics');
             }
+        } else {
+            _e('Unauthorized access!', 'wp-statistics');
+        }
+
+        exit;
+    }
+    /**
+     * Setup an AJAX action to delete user id data from visitors table.
+     */
+    public function delete_user_ids_action_callback()
+    {
+        global $wpdb;
+
+        if (Helper::is_request('ajax') and User::Access('manage')) {
+
+            // Check Refer Ajax
+            check_ajax_referer('wp_rest', 'wps_nonce');
+
+            // Delete user ids
+            $result = $wpdb->query($wpdb->prepare("UPDATE " . DB::table('visitor') . " SET `user_id` = NULL"));
+
+            if ($result) {
+                _e('Successfully deleted User ID data.', 'wp-statistics');
+            } else {
+                _e('Couldn’t find any user ID data to delete.', 'wp-statistics');
+            }
+
         } else {
             _e('Unauthorized access!', 'wp-statistics');
         }
