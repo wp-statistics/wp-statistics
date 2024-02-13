@@ -15,15 +15,18 @@ This plugin gives you the complete information on your website's visitors.
 = WP Statistics: THE #1 WORDPRESS STATISTICS PLUGIN =
 Do you need a simple tool to know your website statistics? Do you need to represent these statistics? Are you caring about your users’ privacy while analyzing who are interested in your business or website? With WP Statistics you can know your website statistics without any need to send your users’ data anywhere. You can know how many people visit your personal or business website, where they’re coming from, what browsers and search engines they use, and which of your contents, categories, tags and users get more visits.
 
-All these data are recorded in your server, and YES! WP Statistics is [GDPR compliant](http://bit.ly/2x0AFgT).
+= Data Privacy =
+WP Statistics stores all data, including IP addresses, safely on your server. WP Statistics respects user privacy and is GDPR compliant, as detailed on our [GDPR compliant](http://bit.ly/2x0AFgT) page. It anonymizes IPs, uses IP hashing with random daily Salt Mechanism for extra security, and follows Do Not Track (DNT) requests from browsers. This keeps user information private while giving you insights into your website traffic.
 
 [Checkout Demo!](https://wp-statistics.com/demo)
 
 = ACT BETTER  BY KNOWING WHAT YOUR USERS ARE LOOKING FOR =
+* Anonymize IP to Better Privacy
+* Enhance IP Hashing with Random Daily Salt Mechanism
+* Respect for User Privacy with Do Not Track (DNT) Compliance
 * Visitor Data Records including IP, Referring Site, Browser, Search Engine, OS, Country and City
 * Stunning Graphs and Visual Statistics
-* Visitor’s Country Recognition
-* Visitor’s City Recognition
+* Visitor’s Country & City Recognition
 * The number of Visitors coming from each Search Engine
 * The number of Referrals from each Referring Site
 * Top 10 common browsers; Top 10 countries with most visitors; Top 10 most-visited pages; Top 10 referring sites
@@ -33,7 +36,7 @@ All these data are recorded in your server, and YES! WP Statistics is [GDPR comp
 * Data Export in TSV, XML, and CSV formats
 * Statistical Reporting Emails
 * Statistical of pages with query strings and UTM parameters
-* [Premium] [Real-time stats](http://bit.ly/2Mj4Nss)
+* [Premium] [DataPlus stats](https://wp-statistics.com/product/wp-statistics-data-plus?utm_source=wp_statistics&utm_medium=display&utm_campaign=wordpress)
 * [Premium] [More Advanced reporting](http://bit.ly/2MjZE3l)
 * And much more information represented in graphs & charts along with data filtering
 
@@ -94,9 +97,8 @@ Search Engine Referrals and Words are highly dependent on the search engines pro
 = Does WP Statistics support the UTM parameters? =
 Yes, It does! WP Statistics logs all query strings in the URL such as UTM parameters.
 
-= PHP 7 Support? =
-WP Statistics is PHP 7 compliant; however, some versions of PHP 7 have bugs that can cause issues. One known issue is that PHP 7.0.4 cause memory exhaustion errors. Newer versions of PHP 7 do not have this issue.
-At this time (September 2018) WP Statistics seems to run fine with PHP 7.2.6. But  you may experience issues that we haven’t found yet. If you do, feel free to report it after you make sure it is not a problem with PHP.
+= PHP v8.0 Support? =
+WP Statistics is PHP 8.0 compliant.
 
 = IPv6 Support? =
 WP Statistics supports IPv6 as of version 11.0; however, PHP must be compiled with IPv6 support enabled; otherwise you may see warnings when a visitor from an IPv6 address hits your site.
@@ -134,9 +136,11 @@ Thank you for being part of our community. We’ve been working hard for one yea
 If you encounter any bug, please create an issue on [GitHub](https://github.com/wp-statistics/wp-statistics/issues/new) where we can act upon them more efficiently. Since [GitHub](https://github.com/wp-statistics/wp-statistics) is not a support forum, just bugs are welcomed, and any other request will be closed.
 
 == Changelog ==
-= v14.4 - *.02.2024 =
+= v14.4 - 13.02.2024 =
+We’re delighted to roll out WP Statistics 14.4, bringing advanced privacy features and performance enhancements to your WordPress experience. This update includes a robust Random Daily Salt Mechanism for IP hashing, options for data anonymization, and numerous optimizations for better site efficiency. For a deep dive into all the new features and improvements, check out our detailed [blog post](https://wp-statistics.com/2024/02/13/wp-statistics-14-4-elevating-privacy-and-performance/)
+
 * Feature: Added option to removal `user_id` and `UAString` from visitor table.
-* Feature: Enhance IP Hashing with Random Daily Salt Mechanism.
+* Feature: Enhance IP Hashing with [Random Daily Salt Mechanism](https://wp-statistics.com/2024/02/13/enhancing-privacy-with-our-updated-ip-hashing-mechanism/).
 * Feature: Included browser version information in 'Latest Visitor' data.
 * Feature: Added the link for IPs that are hashed.
 * Feature: Introduced a new notification for database cleanup and performance optimization.
