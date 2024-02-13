@@ -2,13 +2,13 @@
     <img class="wps-adminHeader__logo" src="<?php echo esc_url(WP_STATISTICS_URL . 'assets/images/white-header-logo.svg'); ?>"/>
 
     <div class="wps-adminHeader__menuFlex">
-        <a href="https://wp-statistics.com/documentation/" target="_blank" class="wps-adminHeader__menuItem">
+        <a href="https://wp-statistics.com/documentation/?utm_source=wp-statistics&utm_medium=link&utm_campaign=plugin-menu" target="_blank" class="wps-adminHeader__menuItem">
             <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd" clip-rule="evenodd" d="M3.12868 2.37868C2.25 3.25736 2.25 4.67157 2.25 7.5V10.5C2.25 13.3284 2.25 14.7427 3.12868 15.6213C4.00736 16.5 5.42157 16.5 8.25 16.5H9.75C12.5784 16.5 13.9927 16.5 14.8713 15.6213C15.75 14.7427 15.75 13.3284 15.75 10.5V7.5C15.75 4.67157 15.75 3.25736 14.8713 2.37868C13.9927 1.5 12.5784 1.5 9.75 1.5H8.25C5.42157 1.5 4.00736 1.5 3.12868 2.37868ZM5.4375 6C5.4375 5.68934 5.68934 5.4375 6 5.4375H12C12.3107 5.4375 12.5625 5.68934 12.5625 6C12.5625 6.31066 12.3107 6.5625 12 6.5625H6C5.68934 6.5625 5.4375 6.31066 5.4375 6ZM5.4375 9C5.4375 8.68935 5.68934 8.4375 6 8.4375H12C12.3107 8.4375 12.5625 8.68935 12.5625 9C12.5625 9.31065 12.3107 9.5625 12 9.5625H6C5.68934 9.5625 5.4375 9.31065 5.4375 9ZM6 11.4375C5.68934 11.4375 5.4375 11.6893 5.4375 12C5.4375 12.3106 5.68934 12.5625 6 12.5625H9.75C10.0607 12.5625 10.3125 12.3106 10.3125 12C10.3125 11.6893 10.0607 11.4375 9.75 11.4375H6Z" fill="white"/>
             </svg>
             <?php _e('Documentation', 'wp-statistics'); ?>
         </a>
-        <a href="https://wp-statistics.com/resources-category/troubleshooting/" target="_blank" class="wps-adminHeader__menuItem">
+        <a href="https://wp-statistics.com/resources-category/troubleshooting/?utm_source=wp-statistics&utm_medium=link&utm_campaign=plugin-menu" target="_blank" class="wps-adminHeader__menuItem">
             <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd" clip-rule="evenodd" d="M6.28001 1.5C8.91993 1.5 11.06 3.64008 11.06 6.28001C11.06 6.76291 10.9884 7.22908 10.8552 7.66849L15.84 12.6533C16.72 13.5333 16.72 14.96 15.84 15.84C14.96 16.72 13.5333 16.72 12.6533 15.84L7.66849 10.8552C7.22908 10.9884 6.76291 11.06 6.28001 11.06C3.64008 11.06 1.5 8.91993 1.5 6.28001C1.5 5.77056 1.5797 5.27973 1.72731 4.81929L3.9884 7.07667L6.22955 6.33027L6.32964 6.23019L7.07667 3.99113L4.81294 1.72935C5.27521 1.58043 5.76821 1.5 6.28001 1.5Z" fill="white" fill-opacity="0.8"/>
             </svg>
@@ -42,7 +42,7 @@
                 }
                 ?>
 
-                <a href="https://wp-statistics.com/product/add-ons-bundle/" target="_blank" class="wps-adminHeader__submenuItem with-badge">
+                <a href="https://wp-statistics.com/product/add-ons-bundle/?utm_source=wp-statistics&utm_medium=link&utm_campaign=plugin-menu" target="_blank" class="wps-adminHeader__submenuItem with-badge">
                     <?php _e('Upgrade to Bundle', 'wp-statistics'); ?>
                     <span class="badge"><?php _e('Save 50%', 'wp-statistics'); ?></span>
                 </a>

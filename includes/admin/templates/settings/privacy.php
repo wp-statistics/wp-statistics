@@ -66,7 +66,7 @@
             <td>
                 <input id="do_not_track" type="checkbox" value="1" name="wps_do_not_track" <?php echo WP_STATISTICS\Option::get('do_not_track') == true ? "checked='checked'" : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
                 <label for="do_not_track"><?php _e('Enable', 'wp-statistics'); ?></label>
-                <p class="description"><?php _e("When you enable this feature, our plugin respects visitors’ choices to not be tracked by their browser settings. This isn’t required by privacy laws like GDPR, but it shows we care about user privacy. Turning on DNT might affect the detail of your website stats, as it stops collecting data from users who prefer not to be tracked.", 'wp-statistics'); ?></p>
+                <p class="description"><?php _e("If this option is on, the plugin will not track visitors who set their browser to “Do Not Track”. This isn’t required by privacy laws like GDPR, but it’s a way to show that we value privacy. Keep in mind that turning this on means you won’t get information from visitors who don’t want to be tracked.", 'wp-statistics'); ?></p>
             </td>
         </tr>
 
