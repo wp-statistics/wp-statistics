@@ -334,7 +334,7 @@
                     <p class="description">
                         <?php _e('Select this option to permanently remove all User Agent Strings from your database. This should be done once troubleshooting is completed to ensure unnecessary data is not stored.', 'wp-statistics'); ?><br>
                         <span class="wps-note"><?php _e('Warning:', 'wp-statistics'); ?></span>
-                        <?php _e('Please note, this action cannot be undone.', 'wp-statistics'); ?>
+                        <?php _e('This action cannot be undone.', 'wp-statistics'); ?>
                     </p>
                     <span id="clear-user-agent-strings-status"></span>
                     <div id="clear-user-agent-strings-result"></div>

@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-02-12T17:25:03+00:00\n"
+"POT-Creation-Date: 2024-02-13T15:14:29+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.9.0\n"
 "X-Domain: wp-statistics\n"
@@ -37,61 +37,79 @@ msgstr ""
 msgid "https://veronalabs.com/"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-ajax.php:109
+#: includes/admin/class-wp-statistics-admin-ajax.php:111
 msgid "Successfully deleted %s agent data."
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-ajax.php:111
+#: includes/admin/class-wp-statistics-admin-ajax.php:113
 msgid "Couldn’t find agent data to delete."
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-ajax.php:114
-#: includes/admin/class-wp-statistics-admin-ajax.php:151
-#: includes/admin/class-wp-statistics-admin-ajax.php:187
-#: includes/admin/class-wp-statistics-admin-ajax.php:209
+#: includes/admin/class-wp-statistics-admin-ajax.php:116
+#: includes/admin/class-wp-statistics-admin-ajax.php:153
+#: includes/admin/class-wp-statistics-admin-ajax.php:189
+#: includes/admin/class-wp-statistics-admin-ajax.php:266
 msgid "Kindly select the items you want to work with."
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-ajax.php:117
-#: includes/admin/class-wp-statistics-admin-ajax.php:154
-#: includes/admin/class-wp-statistics-admin-ajax.php:190
-#: includes/admin/class-wp-statistics-admin-ajax.php:221
-#: includes/admin/class-wp-statistics-admin-ajax.php:237
-#: includes/admin/class-wp-statistics-admin-ajax.php:262
-#: includes/admin/class-wp-statistics-admin-ajax.php:291
-#: includes/admin/class-wp-statistics-admin-ajax.php:391
+#: includes/admin/class-wp-statistics-admin-ajax.php:119
+#: includes/admin/class-wp-statistics-admin-ajax.php:156
+#: includes/admin/class-wp-statistics-admin-ajax.php:192
+#: includes/admin/class-wp-statistics-admin-ajax.php:219
+#: includes/admin/class-wp-statistics-admin-ajax.php:247
+#: includes/admin/class-wp-statistics-admin-ajax.php:278
+#: includes/admin/class-wp-statistics-admin-ajax.php:294
+#: includes/admin/class-wp-statistics-admin-ajax.php:319
+#: includes/admin/class-wp-statistics-admin-ajax.php:348
+#: includes/admin/class-wp-statistics-admin-ajax.php:448
 msgid "Unauthorized access!"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-ajax.php:146
+#: includes/admin/class-wp-statistics-admin-ajax.php:148
 msgid "Successfully deleted %s platform data."
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-ajax.php:148
+#: includes/admin/class-wp-statistics-admin-ajax.php:150
 msgid "Couldn’t find platform data to delete."
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-ajax.php:182
+#: includes/admin/class-wp-statistics-admin-ajax.php:184
 msgid "Successfully deleted %s IP data."
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-ajax.php:184
+#: includes/admin/class-wp-statistics-admin-ajax.php:186
 msgid "Couldn’t find any IP address data to delete."
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-ajax.php:286
+#: includes/admin/class-wp-statistics-admin-ajax.php:213
+msgid "Successfully deleted User ID data."
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-ajax.php:215
+msgid "Couldn’t find any user ID data to delete."
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-ajax.php:241
+msgid "Successfully deleted user agent strings data."
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-ajax.php:243
+msgid "Couldn’t find any user agent strings data to delete."
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-ajax.php:343
 msgid "Visit count must be 10 or more!"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-ajax.php:379
+#: includes/admin/class-wp-statistics-admin-ajax.php:436
 msgid "Please first enable GeoIP Collection and save settings!"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-ajax.php:381
+#: includes/admin/class-wp-statistics-admin-ajax.php:438
 msgid "Please first enable GeoIP City and save settings!"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-ajax.php:424
+#: includes/admin/class-wp-statistics-admin-ajax.php:481
 #: includes/api/v2/class-wp-statistics-api-meta-box.php:71
 msgid "Invalid MetaBox Name in Request."
 msgstr ""
@@ -134,7 +152,7 @@ msgstr ""
 #: includes/admin/class-wp-statistics-admin-taxonomy.php:56
 #: includes/admin/class-wp-statistics-admin-taxonomy.php:63
 #: includes/admin/class-wp-statistics-admin-user.php:33
-#: includes/admin/templates/optimization/purging.php:253
+#: includes/admin/templates/optimization/purging.php:303
 #: includes/admin/templates/pages/hits.php:23
 #: includes/admin/templates/pages/pages.php:46
 #: includes/admin/templates/pages/taxonomies.php:98
@@ -672,7 +690,7 @@ msgstr ""
 #: includes/admin/pages/class-wp-statistics-admin-page-words.php:44
 #: includes/admin/templates/layout/select.php:32
 #: includes/admin/templates/optimization/database.php:51
-#: includes/admin/templates/optimization/purging.php:217
+#: includes/admin/templates/optimization/purging.php:267
 #: includes/admin/templates/pages/refer.url.php:3
 #: includes/admin/templates/pages/top.refer.php:4
 #: includes/class-wp-statistics-widget.php:326
@@ -1203,10 +1221,12 @@ msgid "Use this option to set up the plugin from the beginning. This might be ne
 msgstr ""
 
 #: includes/admin/templates/optimization/database.php:20
-#: includes/admin/templates/optimization/purging.php:221
-#: includes/admin/templates/optimization/purging.php:289
-#: includes/admin/templates/optimization/purging.php:318
+#: includes/admin/templates/optimization/purging.php:271
+#: includes/admin/templates/optimization/purging.php:320
 #: includes/admin/templates/optimization/purging.php:336
+#: includes/admin/templates/optimization/purging.php:371
+#: includes/admin/templates/optimization/purging.php:400
+#: includes/admin/templates/optimization/purging.php:418
 msgid "Warning:"
 msgstr ""
 
@@ -1223,9 +1243,9 @@ msgid "Choose a Table to Optimize"
 msgstr ""
 
 #: includes/admin/templates/optimization/database.php:45
-#: includes/admin/templates/optimization/purging.php:211
-#: includes/admin/templates/optimization/purging.php:278
-#: includes/admin/templates/optimization/purging.php:305
+#: includes/admin/templates/optimization/purging.php:261
+#: includes/admin/templates/optimization/purging.php:360
+#: includes/admin/templates/optimization/purging.php:387
 msgid "Select an Option"
 msgstr ""
 
@@ -1316,98 +1336,132 @@ msgstr ""
 #: includes/admin/templates/optimization/purging.php:104
 #: includes/admin/templates/optimization/purging.php:137
 #: includes/admin/templates/optimization/purging.php:170
+#: includes/admin/templates/optimization/purging.php:197
+#: includes/admin/templates/optimization/purging.php:222
 msgid "Are you sure?"
 msgstr ""
 
-#: includes/admin/templates/optimization/purging.php:201
+#: includes/admin/templates/optimization/purging.php:251
 msgid "Data"
 msgstr ""
 
-#: includes/admin/templates/optimization/purging.php:206
+#: includes/admin/templates/optimization/purging.php:256
 msgid "Clear Table Contents"
 msgstr ""
 
-#: includes/admin/templates/optimization/purging.php:222
+#: includes/admin/templates/optimization/purging.php:272
 msgid "All data in the table will be permanently deleted."
 msgstr ""
 
-#: includes/admin/templates/optimization/purging.php:224
+#: includes/admin/templates/optimization/purging.php:274
 msgid "Erase Data Now"
 msgstr ""
 
-#: includes/admin/templates/optimization/purging.php:232
+#: includes/admin/templates/optimization/purging.php:282
 msgid "Delete Records Older Than"
 msgstr ""
 
-#: includes/admin/templates/optimization/purging.php:237
+#: includes/admin/templates/optimization/purging.php:287
 #: includes/admin/templates/settings/maintenance.php:36
 msgid "Days"
 msgstr ""
 
-#: includes/admin/templates/optimization/purging.php:239
+#: includes/admin/templates/optimization/purging.php:289
 msgid "Erase User Stats Older Than Specified Days."
 msgstr ""
 
-#: includes/admin/templates/optimization/purging.php:239
+#: includes/admin/templates/optimization/purging.php:289
 msgid "Minimum Age for Deletion: 30 Days.."
 msgstr ""
 
-#: includes/admin/templates/optimization/purging.php:240
-#: includes/admin/templates/optimization/purging.php:256
+#: includes/admin/templates/optimization/purging.php:290
+#: includes/admin/templates/optimization/purging.php:306
 msgid "Start Purging Now"
 msgstr ""
 
-#: includes/admin/templates/optimization/purging.php:248
+#: includes/admin/templates/optimization/purging.php:298
 msgid "Remove Visitors Exceeding"
 msgstr ""
 
-#: includes/admin/templates/optimization/purging.php:255
+#: includes/admin/templates/optimization/purging.php:305
 msgid "Erase User Stats for Visitors Exceeding Daily Visit Limit."
 msgstr ""
 
-#: includes/admin/templates/optimization/purging.php:255
+#: includes/admin/templates/optimization/purging.php:305
 msgid "Useful for cleaning bot-related data."
 msgstr ""
 
-#: includes/admin/templates/optimization/purging.php:255
+#: includes/admin/templates/optimization/purging.php:305
 msgid "Removes visitor and their site visits, but not individual page visits, as they are not recorded per user."
 msgstr ""
 
-#: includes/admin/templates/optimization/purging.php:255
+#: includes/admin/templates/optimization/purging.php:305
 msgid "Minimum Hit Threshold: 10 Visits."
 msgstr ""
 
-#: includes/admin/templates/optimization/purging.php:268
-msgid "Remove Certain User Agent Types"
+#: includes/admin/templates/optimization/purging.php:314
+msgid "Remove User IDs"
 msgstr ""
 
-#: includes/admin/templates/optimization/purging.php:273
-msgid "Choose Agents to Delete"
-msgstr ""
-
-#: includes/admin/templates/optimization/purging.php:290
-msgid "All data for this agent type will be lost."
-msgstr ""
-
-#: includes/admin/templates/optimization/purging.php:292
-#: includes/admin/templates/optimization/purging.php:321
-#: includes/admin/templates/optimization/purging.php:339
-msgid "Delete Selected Items Now"
-msgstr ""
-
-#: includes/admin/templates/optimization/purging.php:300
-msgid "Choose Platforms to Delete"
+#: includes/admin/templates/optimization/purging.php:317
+msgid "Delete User IDs Now"
 msgstr ""
 
 #: includes/admin/templates/optimization/purging.php:319
-msgid "All data for this platform type will be lost."
+msgid "Use this option to permanently delete all stored User IDs from your database. It is useful if you need to anonymize your user visit records or comply with privacy regulations."
 msgstr ""
 
-#: includes/admin/templates/optimization/purging.php:329
-msgid "Erase Data for Specific IP"
+#: includes/admin/templates/optimization/purging.php:321
+msgid "This action is irreversible and should be used with caution."
+msgstr ""
+
+#: includes/admin/templates/optimization/purging.php:330
+msgid "Clear User Agent Strings"
+msgstr ""
+
+#: includes/admin/templates/optimization/purging.php:333
+msgid "Clear User Agent Data Now"
+msgstr ""
+
+#: includes/admin/templates/optimization/purging.php:335
+msgid "Select this option to permanently remove all User Agent Strings from your database. This should be done once troubleshooting is completed to ensure unnecessary data is not stored."
 msgstr ""
 
 #: includes/admin/templates/optimization/purging.php:337
+msgid "This action cannot be undone."
+msgstr ""
+
+#: includes/admin/templates/optimization/purging.php:350
+msgid "Remove Certain User Agent Types"
+msgstr ""
+
+#: includes/admin/templates/optimization/purging.php:355
+msgid "Choose Agents to Delete"
+msgstr ""
+
+#: includes/admin/templates/optimization/purging.php:372
+msgid "All data for this agent type will be lost."
+msgstr ""
+
+#: includes/admin/templates/optimization/purging.php:374
+#: includes/admin/templates/optimization/purging.php:403
+#: includes/admin/templates/optimization/purging.php:421
+msgid "Delete Selected Items Now"
+msgstr ""
+
+#: includes/admin/templates/optimization/purging.php:382
+msgid "Choose Platforms to Delete"
+msgstr ""
+
+#: includes/admin/templates/optimization/purging.php:401
+msgid "All data for this platform type will be lost."
+msgstr ""
+
+#: includes/admin/templates/optimization/purging.php:411
+msgid "Erase Data for Specific IP"
+msgstr ""
+
+#: includes/admin/templates/optimization/purging.php:419
 msgid "All data associated with this IP will be lost."
 msgstr ""
 
