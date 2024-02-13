@@ -44,7 +44,7 @@
 
                 <a href="https://wp-statistics.com/product/add-ons-bundle/?utm_source=wp-statistics&utm_medium=link&utm_campaign=plugin-menu" target="_blank" class="wps-adminHeader__submenuItem with-badge">
                     <?php _e('Upgrade to Bundle', 'wp-statistics'); ?>
-                    <span class="badge"><?php _e('Save 50%', 'wp-statistics'); ?></span>
+                    <span class="badge"><?php _e('Save 60%', 'wp-statistics'); ?></span>
                 </a>
             </div>
 
