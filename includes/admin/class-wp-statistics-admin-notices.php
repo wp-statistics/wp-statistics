@@ -164,7 +164,7 @@ class Admin_Notices
         $totalDbRows = DB::getTableRows();
         $totalRows   = array_sum(array_column($totalDbRows, 'rows'));
 
-        if ($totalRows > apply_filters('wp_statistics_notice_db_row_threshold', 100000)) {
+        if ($totalRows > apply_filters('wp_statistics_notice_db_row_threshold', 300000)) {
             $settingsUrl      = admin_url('admin.php?page=wps_settings_page&tab=maintenance-settings');
             $optimizationUrl  = admin_url('admin.php?page=wps_optimization_page');
             $documentationUrl = 'https://wp-statistics.com/resources/optimizing-database-size-for-improved-performance/';
