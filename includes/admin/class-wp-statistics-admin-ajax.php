@@ -16,6 +16,7 @@ class Ajax
         $list = apply_filters('wp_statistics_ajax_list', array(
             'close_notice',
             'close_overview_ads',
+            'clear_user_agent_strings',
             'delete_agents',
             'delete_platforms',
             'delete_ip',
@@ -212,6 +213,34 @@ class Ajax
                 _e('Successfully deleted User ID data.', 'wp-statistics');
             } else {
                 _e('Couldn’t find any user ID data to delete.', 'wp-statistics');
+            }
+
+        } else {
+            _e('Unauthorized access!', 'wp-statistics');
+        }
+
+        exit;
+    }
+
+    /**
+     * Setup an AJAX action to clear UAStrings data from visitors table.
+     */
+    public function clear_user_agent_strings_action_callback()
+    {
+        global $wpdb;
+
+        if (Helper::is_request('ajax') and User::Access('manage')) {
+
+            // Check Refer Ajax
+            check_ajax_referer('wp_rest', 'wps_nonce');
+
+            // Delete UAStrings
+            $result = $wpdb->query($wpdb->prepare("UPDATE " . DB::table('visitor') . " SET `UAString` = NULL"));
+
+            if ($result) {
+                _e('Successfully deleted user agent strings data.', 'wp-statistics');
+            } else {
+                _e('Couldn’t find any user agent strings data to delete.', 'wp-statistics');
             }
 
         } else {
