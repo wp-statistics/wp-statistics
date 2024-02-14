@@ -4,7 +4,7 @@ Donate link: https://wp-statistics.com/donate/
 Tags: analytics, wordpress analytics, stats, statistics, visit, visitors, hits, chart, browser, today, yesterday, week, month, year, total, post, page, sidebar, google, live visit, search word, agent, google analytics, webmasters, google webmasters, geoip, location
 Requires at least: 5.0
 Tested up to: 6.4
-Stable tag: 14.4.2
+Stable tag: 14.4.3
 Requires PHP: 5.6
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -136,7 +136,10 @@ Thank you for being part of our community. We’ve been working hard for one yea
 If you encounter any bug, please create an issue on [GitHub](https://github.com/wp-statistics/wp-statistics/issues/new) where we can act upon them more efficiently. Since [GitHub](https://github.com/wp-statistics/wp-statistics) is not a support forum, just bugs are welcomed, and any other request will be closed.
 
 == Changelog ==
-= 14.4.2 - 13.02.2024 =
+= 14.4.3 - 14.02.2024 =
+* Improvement: Introduced a close button for easily dismissing the admin notice regarding database cleanup.
+
+= 14.4 - 13.02.2024 =
 We’re delighted to roll out WP Statistics 14.4, bringing advanced privacy features and performance enhancements to your WordPress experience. This update includes a robust Random Daily Salt Mechanism for IP hashing, options for data anonymization, and numerous optimizations for better site efficiency. For a deep dive into all the new features and improvements, check out our detailed [blog post](https://wp-statistics.com/2024/02/13/wp-statistics-14-4-elevating-privacy-and-performance/)
 
 * Feature: Added option to removal `user_id` and `UAString` from visitor table.
