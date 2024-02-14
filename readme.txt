@@ -18,7 +18,7 @@ Do you need a simple tool to know your website statistics? Do you need to repres
 [Checkout Demo](https://wp-statistics.com/demo)
 
 = Data Privacy =
-WP Statistics stores all data, including IP addresses, safely on your server. WP Statistics respects user privacy and is GDPR compliant, as detailed on our [GDPR compliant](http://bit.ly/2x0AFgT) page. It anonymizes IPs, uses IP hashing with random daily Salt Mechanism for extra security, and follows Do Not Track (DNT) requests from browsers. This keeps user information private while giving you insights into your website traffic.
+WP Statistics stores all data, including IP addresses, safely on your server. WP Statistics respects user privacy and is GDPR, CCPA compliant, as detailed on our [GDPR, CCPA and cookie law compliant](https://wp-statistics.com/resources/what-we-collect/) page. It anonymizes IPs, uses IP hashing with random daily Salt Mechanism for extra security, and follows Do Not Track (DNT) requests from browsers. This keeps user information private while giving you insights into your website traffic.
 
 = ACT BETTER  BY KNOWING WHAT YOUR USERS ARE LOOKING FOR =
 * Anonymize IP to Better Privacy
@@ -55,7 +55,7 @@ If you encounter any bug, please create an issue on [GitHub](https://github.com/
 == Frequently Asked Questions ==
 = GDPR Compliant? =
 The greatest advantage of WP Statistics is that all the data is saved locally in WordPress.
-This helps a lot while implementing the new GDPR restrictions; because it’s not necessary to create a data processing contract with an external company! [Read more about WP Statistics compliance with GDPR](http://bit.ly/2x0AFgT).
+This helps a lot while implementing the new GDPR restrictions; because it’s not necessary to create a data processing contract with an external company! [Read more about WP Statistics compliance with GDPR](https://wp-statistics.com/resources/what-we-collect/).
 
 = Does WP Statistics support Multisite? =
 WP Statistics doesn't officially support the multisite feature; however, it does have limited functionally associated with it and should function without any issue. However, no support is provided at this time.
