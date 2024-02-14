@@ -58,6 +58,10 @@ class Ajax
                 case 'disable_all_addons':
                     update_option('wp_statistics_disable_addons_notice', 'yes');
                     break;
+
+                case 'disable_cleanup_db':
+                    Option::update('disable_db_cleanup_notice', true);
+                    break;
             }
 
             Option::update('admin_notices', false);
@@ -194,6 +198,7 @@ class Ajax
 
         exit;
     }
+
     /**
      * Setup an AJAX action to delete user id data from visitors table.
      */
