@@ -164,7 +164,7 @@ class Admin_Notices
         $totalDbRows = DB::getTableRows();
         $totalRows   = array_sum(array_column($totalDbRows, 'rows'));
 
-        if ($totalRows > apply_filters('wp_statistics_notice_db_row_threshold', 300000)) {
+        if ($totalRows > apply_filters('wp_statistics_notice_db_row_threshold', 300000) and !Option::get('disable_db_cleanup_notice')) {
             $settingsUrl      = admin_url('admin.php?page=wps_settings_page&tab=maintenance-settings');
             $optimizationUrl  = admin_url('admin.php?page=wps_optimization_page');
             $documentationUrl = 'https://wp-statistics.com/resources/optimizing-database-size-for-improved-performance/';
@@ -176,7 +176,26 @@ class Admin_Notices
                 esc_url($documentationUrl)
             );
 
-            Helper::wp_admin_notice($message, 'warning', false);
+            Helper::wp_admin_notice($message, 'warning', true, 'wp-statistics-disable-cleanup-db-notice');
+            ?>
+            <script>
+                jQuery(document).ready(function ($) {
+                    $(document).on("click", "#wp-statistics-disable-cleanup-db-notice button.notice-dismiss", function (e) {
+                        e.preventDefault();
+                        jQuery.ajax({
+                            url: ajaxurl,
+                            type: "post",
+                            data: {
+                                'action': 'wp_statistics_close_notice',
+                                'notice': 'disable_cleanup_db',
+                                'wps_nonce': '<?php echo wp_create_nonce('wp_rest'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>'
+                            },
+                            datatype: 'json'
+                        });
+                    });
+                });
+            </script>
+            <?php
         }
     }
 }
