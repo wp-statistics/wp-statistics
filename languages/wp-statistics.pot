@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the WP Statistics plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: WP Statistics 14.4\n"
+"Project-Id-Version: WP Statistics 14.4.2\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wp-statistics\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-02-13T15:14:29+00:00\n"
+"POT-Creation-Date: 2024-02-14T07:11:46+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.9.0\n"
 "X-Domain: wp-statistics\n"
@@ -516,7 +516,7 @@ msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-network.php:74
 #: includes/admin/templates/header.php:32
-#: includes/class-wp-statistics-install.php:342
+#: includes/class-wp-statistics-install.php:343
 #: includes/class-wp-statistics-menus.php:277
 msgid "Settings"
 msgstr ""
@@ -1078,7 +1078,7 @@ msgid "Upgrade to Bundle"
 msgstr ""
 
 #: includes/admin/templates/header.php:47
-msgid "Save 50%"
+msgid "Save 60%"
 msgstr ""
 
 #: includes/admin/templates/header.php:59
@@ -2829,7 +2829,7 @@ msgid "Automatic Cleanup"
 msgstr ""
 
 #: includes/admin/templates/settings/maintenance.php:25
-msgid "Turn on this feature to automatically remove data entries older than a specified number of days. This helps keep your database optimized."
+msgid "Turn on this feature to automatically remove data entries older than a specified number of days. This helps keep your database optimized. Note: This cleaner will be run the next day."
 msgstr ""
 
 #: includes/admin/templates/settings/maintenance.php:31
@@ -3073,7 +3073,7 @@ msgid "Do Not Track (DNT)"
 msgstr ""
 
 #: includes/admin/templates/settings/privacy.php:69
-msgid "When you enable this feature, our plugin respects visitors’ choices to not be tracked by their browser settings. This isn’t required by privacy laws like GDPR, but it shows we care about user privacy. Turning on DNT might affect the detail of your website stats, as it stops collecting data from users who prefer not to be tracked."
+msgid "If this option is on, the plugin will not track visitors who set their browser to “Do Not Track”. This isn’t required by privacy laws like GDPR, but it’s a way to show that we value privacy. Keep in mind that turning this on means you won’t get information from visitors who don’t want to be tracked."
 msgstr ""
 
 #: includes/admin/templates/settings/reset.php:5
@@ -3476,39 +3476,39 @@ msgstr ""
 msgid "Tags"
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:359
+#: includes/class-wp-statistics-install.php:360
 msgid "Click here to visit the plugin on WordPress.org"
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:359
+#: includes/class-wp-statistics-install.php:360
 msgid "Visit WordPress.org page"
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:361
+#: includes/class-wp-statistics-install.php:362
 msgid "Click here to rate and review this plugin on WordPress.org"
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:361
+#: includes/class-wp-statistics-install.php:362
 msgid "Rate this plugin"
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:578
+#: includes/class-wp-statistics-install.php:579
 msgid "WP Statistics database requires upgrade."
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:581
+#: includes/class-wp-statistics-install.php:582
 msgid "Upgrade Database"
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:605
+#: includes/class-wp-statistics-install.php:606
 msgid "Database Upgrade Completed Successfully!"
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:643
+#: includes/class-wp-statistics-install.php:644
 msgid "Error During Operation. Please Refresh the Page."
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:656
+#: includes/class-wp-statistics-install.php:657
 msgid "Item processed"
 msgstr ""
 

@@ -22,7 +22,7 @@
             <td>
                 <input id="wps_schedule_dbmaint" type="checkbox" name="wps_schedule_dbmaint" <?php echo WP_STATISTICS\Option::get('schedule_dbmaint') == true ? "checked='checked'" : ''; ?> onclick='DBMaintWarning();'>
                 <label for="wps_schedule_dbmaint"><?php _e('Enable', 'wp-statistics'); ?></label>
-                <p class="description"><?php _e('Turn on this feature to automatically remove data entries older than a specified number of days. This helps keep your database optimized.', 'wp-statistics'); ?></p>
+                <p class="description"><?php _e('Turn on this feature to automatically remove data entries older than a specified number of days. This helps keep your database optimized. Note: This cleaner will be run the next day.', 'wp-statistics'); ?></p>
             </td>
         </tr>
 
