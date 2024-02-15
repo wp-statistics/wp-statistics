@@ -170,10 +170,14 @@ class visitors_page
             $visitorTable      = DB::table('visitor');
             $relationshipTable = DB::table('visitor_relationships');
 
-            if (isset($_GET['ip'])) {
-                $sql = "SELECT * FROM `{$visitorTable}`, `{$relationshipTable}` {$condition} AND `{$visitorTable}`.ID = `{$relationshipTable}`.visitor_id ORDER BY `{$relationshipTable}`.date DESC";
+            if (Option::get('visitors_log')) {
+                if (isset($_GET['ip'])) {
+                    $sql = "SELECT * FROM `{$visitorTable}`, `{$relationshipTable}` {$condition} AND `{$visitorTable}`.ID = `{$relationshipTable}`.visitor_id ORDER BY `{$relationshipTable}`.date DESC";
+                } else {
+                    $sql = "SELECT vsr.*, vs.* FROM ( SELECT visitor_id, page_id, MAX(date) AS latest_visit_date FROM `{$relationshipTable}` GROUP BY visitor_id ) AS latest_visits JOIN `{$visitorTable}` vs ON latest_visits.visitor_id = vs.ID JOIN `{$relationshipTable}` vsr ON vsr.visitor_id = latest_visits.visitor_id AND vsr.date = latest_visits.latest_visit_date {$condition} ORDER BY vsr.date DESC";
+                }
             } else {
-                $sql = "SELECT vsr.*, vs.* FROM ( SELECT visitor_id, page_id, MAX(date) AS latest_visit_date FROM `{$relationshipTable}` GROUP BY visitor_id ) AS latest_visits JOIN `{$visitorTable}` vs ON latest_visits.visitor_id = vs.ID JOIN `{$relationshipTable}` vsr ON vsr.visitor_id = latest_visits.visitor_id AND vsr.date = latest_visits.latest_visit_date {$condition} ORDER BY vsr.date DESC";
+                $sql = "SELECT * FROM `{$visitorTable}` {$condition} ORDER BY `last_counter` {$order}, `hits` {$order}";
             }
 
             $args['list'] = Visitor::get(array(
