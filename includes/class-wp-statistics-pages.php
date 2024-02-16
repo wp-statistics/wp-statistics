@@ -349,7 +349,7 @@ class Pages
                     break;
                 case "home":
                     $arg = array(
-                        'title' => __('Home Page', 'wp-statistics'),
+                        'title' => sprintf(__('Home Page: %s', 'wp-statistics'), get_the_title($page_id)),
                         'link'  => get_site_url()
                     );
                     break;
@@ -465,8 +465,13 @@ class Pages
 
         // Post Type SQL
         $postTypeSql = '';
+
         if (!empty($args['type'])) {
-            $postTypeSql = $wpdb->prepare(" AND `pages`.`type`=%s", $args['type']);
+            if ($args['type'] == 'page') {
+                $postTypeSql = $wpdb->prepare(" AND `pages`.`type` IN (%s, %s)", $args['type'], 'home');
+            } else {
+                $postTypeSql = $wpdb->prepare(" AND `pages`.`type` = %s", $args['type']);
+            }
         }
 
         // Generate SQL
@@ -475,8 +480,8 @@ class Pages
         // Get List Of Pages
         $list   = array();
         $result = $wpdb->get_results($sql . " LIMIT " . ($args['paged'] - 1) * $args['per_page'] . "," . $args['per_page']);
-        foreach ($result as $item) {
 
+        foreach ($result as $item) {
             // Lookup the post title.
             $page_info = Pages::get_page_info($item->id, $item->type, $item->uri);
 
