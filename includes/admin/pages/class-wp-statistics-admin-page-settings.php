@@ -447,7 +447,7 @@ class settings_page
         }
         foreach ($selist as $se) {
             $se_post     = 'wps_disable_se_' . $se['tag'];
-            $optionValue = isset($_POST[$se_post]) ? sanitize_text_field($_POST[$se_post]) : '';
+            $optionValue = isset($_POST[$se_post]) && sanitize_text_field($_POST[$se_post]) == '1' ? '' : '1';
 
             $wp_statistics_options[self::input_name_to_option($se_post)] = $optionValue;
         }
