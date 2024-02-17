@@ -8,14 +8,14 @@
         </tr>
 
         <tr valign="top">
-            <th scope="row"><label for="wps_geoip_license_type"><?php _e('GeoIP Server Type', 'wp-statistics'); ?></label></th>
+            <th scope="row"><label for="wps_geoip_license_type"><?php _e('GeoIP Database Update Source', 'wp-statistics'); ?></label></th>
             <td>
                 <select name="wps_geoip_license_type" id="geoip_license_type">
                     <option value="js-deliver" <?php selected(WP_STATISTICS\Option::get('geoip_license_type'), 'js-deliver'); ?>><?php _e('Use the JsDelivr', 'wp-statistics'); ?></option>
                     <option value="user-license" <?php selected(WP_STATISTICS\Option::get('geoip_license_type'), 'user-license'); ?>><?php _e('Use the MaxMind server with your own license key', 'wp-statistics'); ?></option>
                 </select>
 
-                <p class="description"><?php _e('Choose the preferred server type for GeoIP services. The options help determine a visitor\'s geographical location based on their IP address.', 'wp-statistics'); ?></p>
+                <p class="description"><?php _e('Use this setting to select a service that updates the GeoIP database, ensuring the geographic information displayed is accurate and up-to-date. It\'s only used for database updates, not for real-time location lookups.', 'wp-statistics'); ?></p>
             </td>
         </tr>
 

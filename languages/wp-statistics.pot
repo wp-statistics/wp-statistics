@@ -2,16 +2,16 @@
 # This file is distributed under the same license as the WP Statistics plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: WP Statistics 14.4.2\n"
+"Project-Id-Version: WP Statistics 14.4.4\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wp-statistics\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-02-14T07:11:46+00:00\n"
+"POT-Creation-Date: 2024-02-17T06:53:02+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.9.0\n"
+"X-Generator: WP-CLI 2.8.1\n"
 "X-Domain: wp-statistics\n"
 
 #. Plugin Name of the plugin
@@ -37,79 +37,79 @@ msgstr ""
 msgid "https://veronalabs.com/"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-ajax.php:111
+#: includes/admin/class-wp-statistics-admin-ajax.php:115
 msgid "Successfully deleted %s agent data."
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-ajax.php:113
+#: includes/admin/class-wp-statistics-admin-ajax.php:117
 msgid "Couldn’t find agent data to delete."
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-ajax.php:116
-#: includes/admin/class-wp-statistics-admin-ajax.php:153
-#: includes/admin/class-wp-statistics-admin-ajax.php:189
-#: includes/admin/class-wp-statistics-admin-ajax.php:266
+#: includes/admin/class-wp-statistics-admin-ajax.php:120
+#: includes/admin/class-wp-statistics-admin-ajax.php:157
+#: includes/admin/class-wp-statistics-admin-ajax.php:193
+#: includes/admin/class-wp-statistics-admin-ajax.php:271
 msgid "Kindly select the items you want to work with."
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-ajax.php:119
-#: includes/admin/class-wp-statistics-admin-ajax.php:156
-#: includes/admin/class-wp-statistics-admin-ajax.php:192
-#: includes/admin/class-wp-statistics-admin-ajax.php:219
-#: includes/admin/class-wp-statistics-admin-ajax.php:247
-#: includes/admin/class-wp-statistics-admin-ajax.php:278
-#: includes/admin/class-wp-statistics-admin-ajax.php:294
-#: includes/admin/class-wp-statistics-admin-ajax.php:319
-#: includes/admin/class-wp-statistics-admin-ajax.php:348
-#: includes/admin/class-wp-statistics-admin-ajax.php:448
+#: includes/admin/class-wp-statistics-admin-ajax.php:123
+#: includes/admin/class-wp-statistics-admin-ajax.php:160
+#: includes/admin/class-wp-statistics-admin-ajax.php:196
+#: includes/admin/class-wp-statistics-admin-ajax.php:224
+#: includes/admin/class-wp-statistics-admin-ajax.php:252
+#: includes/admin/class-wp-statistics-admin-ajax.php:283
+#: includes/admin/class-wp-statistics-admin-ajax.php:299
+#: includes/admin/class-wp-statistics-admin-ajax.php:324
+#: includes/admin/class-wp-statistics-admin-ajax.php:353
+#: includes/admin/class-wp-statistics-admin-ajax.php:453
 msgid "Unauthorized access!"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-ajax.php:148
+#: includes/admin/class-wp-statistics-admin-ajax.php:152
 msgid "Successfully deleted %s platform data."
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-ajax.php:150
+#: includes/admin/class-wp-statistics-admin-ajax.php:154
 msgid "Couldn’t find platform data to delete."
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-ajax.php:184
+#: includes/admin/class-wp-statistics-admin-ajax.php:188
 msgid "Successfully deleted %s IP data."
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-ajax.php:186
+#: includes/admin/class-wp-statistics-admin-ajax.php:190
 msgid "Couldn’t find any IP address data to delete."
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-ajax.php:213
+#: includes/admin/class-wp-statistics-admin-ajax.php:218
 msgid "Successfully deleted User ID data."
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-ajax.php:215
+#: includes/admin/class-wp-statistics-admin-ajax.php:220
 msgid "Couldn’t find any user ID data to delete."
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-ajax.php:241
+#: includes/admin/class-wp-statistics-admin-ajax.php:246
 msgid "Successfully deleted user agent strings data."
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-ajax.php:243
+#: includes/admin/class-wp-statistics-admin-ajax.php:248
 msgid "Couldn’t find any user agent strings data to delete."
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-ajax.php:343
+#: includes/admin/class-wp-statistics-admin-ajax.php:348
 msgid "Visit count must be 10 or more!"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-ajax.php:436
+#: includes/admin/class-wp-statistics-admin-ajax.php:441
 msgid "Please first enable GeoIP Collection and save settings!"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-ajax.php:438
+#: includes/admin/class-wp-statistics-admin-ajax.php:443
 msgid "Please first enable GeoIP City and save settings!"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-ajax.php:481
+#: includes/admin/class-wp-statistics-admin-ajax.php:486
 #: includes/api/v2/class-wp-statistics-api-meta-box.php:71
 msgid "Invalid MetaBox Name in Request."
 msgstr ""
@@ -930,7 +930,7 @@ msgstr ""
 msgid "Top 5 Trending "
 msgstr ""
 
-#: includes/admin/pages/class-wp-statistics-admin-page-pages.php:203
+#: includes/admin/pages/class-wp-statistics-admin-page-pages.php:204
 msgid "Statistics for Individual Pages"
 msgstr ""
 
@@ -1002,7 +1002,7 @@ msgstr ""
 msgid "Custom filter"
 msgstr ""
 
-#: includes/admin/pages/class-wp-statistics-admin-page-visitors.php:214
+#: includes/admin/pages/class-wp-statistics-admin-page-visitors.php:218
 msgid "Filters"
 msgstr ""
 
@@ -2457,7 +2457,7 @@ msgid "GeoIP Settings"
 msgstr ""
 
 #: includes/admin/templates/settings/externals.php:11
-msgid "GeoIP Server Type"
+msgid "GeoIP Database Update Source"
 msgstr ""
 
 #: includes/admin/templates/settings/externals.php:14
@@ -2469,7 +2469,7 @@ msgid "Use the MaxMind server with your own license key"
 msgstr ""
 
 #: includes/admin/templates/settings/externals.php:18
-msgid "Choose the preferred server type for GeoIP services. The options help determine a visitor's geographical location based on their IP address."
+msgid "Use this setting to select a service that updates the GeoIP database, ensuring the geographic information displayed is accurate and up-to-date. It's only used for database updates, not for real-time location lookups."
 msgstr ""
 
 #: includes/admin/templates/settings/externals.php:24
@@ -3626,7 +3626,7 @@ msgid "Pages Visits"
 msgstr ""
 
 #: includes/class-wp-statistics-pages.php:352
-msgid "Home Page"
+msgid "Home Page: %s"
 msgstr ""
 
 #: includes/class-wp-statistics-pages.php:371
