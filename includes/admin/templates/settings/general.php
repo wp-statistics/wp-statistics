@@ -173,8 +173,8 @@ if (!$disable_strip_uri_parameters) {
             </th>
 
             <td>
-                <input id="disable-editor" type="checkbox" value="1" name="wps_disable_editor" <?php echo WP_STATISTICS\Option::get('disable_editor') == true ? "checked='checked'" : ''; ?>>
-                <label for="disable-editor"><?php _e('Disable', 'wp-statistics'); ?></label>
+                <input id="disable-editor" type="checkbox" value="1" name="wps_disable_editor" <?php echo WP_STATISTICS\Option::get('disable_editor') == '1' ? '' : "checked='checked'"; ?>>
+                <label for="disable-editor"><?php _e('Enable', 'wp-statistics'); ?></label>
                 <p class="description"><?php _e('Shows content view statistics in a graphical format when editing.', 'wp-statistics'); ?></p>
             </td>
         </tr>
@@ -184,8 +184,8 @@ if (!$disable_strip_uri_parameters) {
                 <label for="disable_column"><?php _e('Visits Column', 'wp-statistics'); ?></label>
             </th>
             <td>
-                <input id="disable_column" type="checkbox" value="1" name="wps_disable_column" <?php echo WP_STATISTICS\Option::get('disable_column') == true ? "checked='checked'" : ''; ?>>
-                <label for="disable_column"><?php _e('Disable', 'wp-statistics'); ?></label>
+                <input id="disable_column" type="checkbox" value="1" name="wps_disable_column" <?php echo WP_STATISTICS\Option::get('disable_column') == '1' ? '' : "checked='checked'"; ?>>
+                <label for="disable_column"><?php _e('Enable', 'wp-statistics'); ?></label>
                 <p class="description"><?php _e('Displays the number of views for each content item in your content list.', 'wp-statistics'); ?></p>
             </td>
         </tr>
@@ -322,7 +322,7 @@ if (!$disable_strip_uri_parameters) {
         </tr>
 
         <tr valign="top">
-            <th scope="row" colspan="2"><h3><?php _e('Search Engine Filters', 'wp-statistics'); ?> <a href="#" class="wps-tooltip" title="<?php _e('Exclusions allow you to stop tracking data from specific search engines. Here are the search engines you can exclude:', 'wp-statistics'); ?>"><i class="wps-tooltip-icon"></i></a></h3></th>
+            <th scope="row" colspan="2"><h3><?php _e('Search Engine Filters', 'wp-statistics'); ?> <a href="#" class="wps-tooltip" title="<?php _e('Select which search engines are permitted to gather and report usage data when visitors arrive at your site from these sources', 'wp-statistics'); ?>"><i class="wps-tooltip-icon"></i></a></h3></th>
         </tr>
 
         <?php
