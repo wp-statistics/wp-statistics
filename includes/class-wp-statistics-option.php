@@ -48,6 +48,7 @@ class Option
             'pages'                 => true,
             'check_online'          => UserOnline::$reset_user_time,
             'menu_bar'              => false,
+            'cache_plugin'          => true,
             'coefficient'           => Visitor::getCoefficient(),
             'stats_report'          => true,
             'time_report'           => 'weekly',
