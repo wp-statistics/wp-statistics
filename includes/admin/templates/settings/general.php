@@ -135,32 +135,6 @@
         </tbody>
     </table>
 </div>
-<?php
-if (!$disable_strip_uri_parameters) {
-    ?>
-    <div class="postbox">
-        <table class="form-table">
-            <tbody>
-            <tr valign="top">
-                <th scope="row" colspan="2"><h3><?php _e('URL Simplification', 'wp-statistics'); ?></h3></th>
-            </tr>
-            <tr valign="top">
-                <th scope="row">
-                    <label for="strip_uri_parameters"><?php _e('Strip URL Parameters', 'wp-statistics'); ?></label>
-                </th>
-
-                <td>
-                    <input id="strip_uri_parameters" type="checkbox" value="1" name="wps_strip_uri_parameters" <?php echo WP_STATISTICS\Option::get('strip_uri_parameters') == true ? "checked='checked'" : ''; ?>>
-                    <label for="strip_uri_parameters"><?php _e('Enable', 'wp-statistics'); ?></label>
-                    <p class="description"><?php _e('Remove any parameters after \'?\' in URLs.', 'wp-statistics'); ?></p>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-    <?php
-}
-?>
 <div class="postbox">
     <table class="form-table">
         <tbody>

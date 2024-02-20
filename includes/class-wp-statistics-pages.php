@@ -196,7 +196,7 @@ class Pages
         }
 
         // Check Strip Url Parameter
-        if (Option::get('strip_uri_parameters') and array_key_exists("search_query", $current_page) === false) {
+        if (array_key_exists("search_query", $current_page) === false) {
             $temp = explode('?', $page_uri);
             if ($temp !== false) {
                 $page_uri = $temp[0];
