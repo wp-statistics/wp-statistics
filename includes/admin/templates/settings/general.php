@@ -86,7 +86,7 @@
             <td>
                 <input id="visitors_log" type="checkbox" value="1" name="wps_visitors_log" <?php echo WP_STATISTICS\Option::get('visitors_log') == true ? "checked='checked'" : ''; ?>>
                 <label for="visitors_log"><?php _e('Track User Activity', 'wp-statistics'); ?></label>
-                <p class="description"><?php _e('Logs each visit made by signed-in users, along with their user IDs, to provide a detailed view of page traffic and user engagement. Note: Compliance with GDPR and other privacy regulations is essential. Inform users about data collection and usage through your privacy policy. For details on data handling and privacy, visit <a href="https://wp-statistics.com/resources/avoiding-pii-data-collection/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings">Avoiding PII Data Collection</a>.', 'wp-statistics'); ?></p>
+                <p class="description"><?php _e('Logs each visit made by signed-in users, along with their user IDs, to provide a detailed view of page traffic and user engagement. Note: Compliance with GDPR and other privacy regulations is essential. Inform users about data collection and usage through your privacy policy. For details on data handling and privacy, visit <a href="https://wp-statistics.com/resources/avoiding-pii-data-collection/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" target="_blank">Avoiding PII Data Collection</a>.', 'wp-statistics'); ?></p>
             </td>
         </tr>
 
