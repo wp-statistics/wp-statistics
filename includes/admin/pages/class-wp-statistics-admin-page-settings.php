@@ -365,6 +365,7 @@ class settings_page
         $wps_option_list = array(
             'wps_record_exclusions',
             'wps_robotlist',
+            'wps_query_params_allow_list',
             'wps_exclude_ip',
             'wps_exclude_loginpage',
             'wps_force_robot_update',

@@ -255,6 +255,33 @@ class Helper
     }
 
     /**
+     * Get URL Query Parameters List
+     *
+     * @param string $type
+     * @return array|bool|string
+     */
+    public static function get_query_params_allow_list($type = 'list')
+    {
+        global $WP_Statistics;
+
+        # Set Default
+        $list = array();
+
+        # Load From global
+        if (isset($WP_Statistics->query_params_allow_list)) {
+            $list = $WP_Statistics->query_params_allow_list;
+        }
+
+        # Load From file
+        include WP_STATISTICS_DIR . "includes/defines/query-params-allow-list.php";
+        if (isset($wps_query_params_allow_list_array)) {
+            $list = $wps_query_params_allow_list_array;
+        }
+
+        return ($type == "array" ? $list : implode("\n", $list));
+    }
+
+    /**
      * Get Number Days From install this plugin
      * this method used for `ALL` Option in Time Range Pages
      */

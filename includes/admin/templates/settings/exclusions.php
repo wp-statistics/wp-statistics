@@ -192,6 +192,32 @@
 <div class="postbox">
     <table class="form-table">
         <tbody>
+            <tr valign="top">
+                <th scope="row" colspan="2"><h3><?php _e('URL Query Parameters', 'wp-statistics'); ?> <a href="#" class="wps-tooltip" title="<?php _e('', 'wp-statistics') ?>"><i class="wps-tooltip-icon"></i></a></h3></th>
+            </tr>
+
+            <tr valign="top">
+                <th scope="row"><label for="wps_query_params_allow_list"><?php _e('Allowed Query Parameters', 'wp-statistics'); ?></label></th>
+                <td>
+                        <textarea name="wps_query_params_allow_list" class="code textarea-input-reset" dir="ltr" rows="10" cols="60" id="wps_query_params_allow_list"><?php
+                            $query_params_allow_list = WP_STATISTICS\Option::get('query_params_allow_list');
+                            if ($query_params_allow_list == '') {
+                                $query_params_allow_list = WP_STATISTICS\Helper::get_query_params_allow_list();
+                                update_option('wps_query_params_allow_list', $query_params_allow_list);
+                            }
+                            echo esc_textarea($query_params_allow_list);
+                            ?>
+                        </textarea>
+                    <p class="description"><?php echo __('Control which URL query parameters are retained in your statistics. The default parameters allowed are: <code>ref</code>, <code>source</code>, <code>utm_source</code>, <code>utm_medium</code>, <code>utm_campaign</code>, <code>utm_content</code>, <code>utm_term</code>, <code>s</code>, <code>p</code>. You can add or remove parameters from this list to suit your tracking needs. Enter one parameter per line. For a detailed explanation of each default parameter and guidance on customizing this list, visit our documentation here.', 'wp-statistics'); ?></p>
+                    <a onclick="var wps_query_params_allow_list = getElementById('wps_query_params_allow_list'); wps_query_params_allow_list.value = '<?php echo str_replace(array("\r\n", "\n", "\r"), '\n', esc_html(\WP_STATISTICS\Helper::get_query_params_allow_list())); ?>';" class="button"><?php _e('Reset to Default', 'wp-statistics'); ?></a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div class="postbox">
+    <table class="form-table">
+        <tbody>
         <tr valign="top">
             <th scope="row" colspan="2"><h3><?php _e('Host Exclusions', 'wp-statistics'); ?> <a href="#" class="wps-tooltip" title="<?php _e('Filter out visits from specific hosts.', 'wp-statistics') ?>"><i class="wps-tooltip-icon"></i></a></h3></th>
         </tr>
