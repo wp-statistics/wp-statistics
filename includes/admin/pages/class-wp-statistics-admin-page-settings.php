@@ -230,7 +230,7 @@ class settings_page
      */
     public static function save_dashboard_option($wp_statistics_options)
     {
-        $wps_option_list = array('wps_disable_map', 'wps_disable_dashboard', 'wps_disable_editor');
+        $wps_option_list = array('wps_disable_map', 'wps_disable_dashboard');
         foreach ($wps_option_list as $option) {
             $wp_statistics_options[self::input_name_to_option($option)] = (isset($_POST[$option]) ? sanitize_text_field($_POST[$option]) : '');
         }
@@ -447,7 +447,7 @@ class settings_page
         }
         foreach ($selist as $se) {
             $se_post     = 'wps_disable_se_' . $se['tag'];
-            $optionValue = isset($_POST[$se_post]) ? sanitize_text_field($_POST[$se_post]) : '';
+            $optionValue = isset($_POST[$se_post]) && sanitize_text_field($_POST[$se_post]) == '1' ? '' : '1';
 
             $wp_statistics_options[self::input_name_to_option($se_post)] = $optionValue;
         }
@@ -461,7 +461,6 @@ class settings_page
             'wps_pages',
             'wps_track_all_pages',
             'wps_use_cache_plugin',
-            'wps_disable_column',
             'wps_hit_post_metabox',
             'wps_show_hits',
             'wps_display_hits_position',
@@ -483,6 +482,12 @@ class settings_page
         foreach ($wps_option_list as $option) {
             $optionValue                                                = isset($_POST[$option]) ? sanitize_text_field($_POST[$option]) : '';
             $wp_statistics_options[self::input_name_to_option($option)] = $optionValue;
+        }
+
+        // Save Visits Column & Visit Chart Metabox
+        foreach (array('wps_disable_column', 'wps_disable_editor') as $option) {
+            $wps_disable_column = isset($_POST[$option]) && sanitize_text_field($_POST[$option]) == '1' ? '' : '1';
+            $wp_statistics_options[self::input_name_to_option($option)] = $wps_disable_column;
         }
 
         //Add Visitor RelationShip Table

@@ -82,7 +82,7 @@ add_thickbox();
     <table class="form-table">
         <tbody>
         <tr valign="top">
-            <th scope="row" colspan="2"><h3><?php _e('Main IP Detection Method', 'wp-statistics'); ?> <a href="#" class="wps-tooltip" title="<?php _e('The options below retrieve IP addresses based on different server configurations. Select the one that best matches your server setup.', 'wp-statistics'); ?>"><i class="wps-tooltip-icon"></i></a></h3></th>
+            <th scope="row" colspan="2"><h3><?php _e('Main IP Detection Method', 'wp-statistics'); ?> <a href="#" class="wps-tooltip" title="<?php _e('Select the preferred method for determining the visitor\'s IP address. The method should correspond to the way your server and network infrastructure relay IP information. Choose the option that reflects the correct IP in your server environment.', 'wp-statistics'); ?>"><i class="wps-tooltip-icon"></i></a></h3></th>
         </tr>
 
         <?php

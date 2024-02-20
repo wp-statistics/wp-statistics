@@ -2,16 +2,16 @@
 # This file is distributed under the same license as the WP Statistics plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: WP Statistics 14.4.2\n"
+"Project-Id-Version: WP Statistics 14.4.4\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wp-statistics\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-02-14T07:11:46+00:00\n"
+"POT-Creation-Date: 2024-02-20T09:34:12+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.9.0\n"
+"X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: wp-statistics\n"
 
 #. Plugin Name of the plugin
@@ -37,79 +37,79 @@ msgstr ""
 msgid "https://veronalabs.com/"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-ajax.php:111
+#: includes/admin/class-wp-statistics-admin-ajax.php:115
 msgid "Successfully deleted %s agent data."
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-ajax.php:113
+#: includes/admin/class-wp-statistics-admin-ajax.php:117
 msgid "Couldn’t find agent data to delete."
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-ajax.php:116
-#: includes/admin/class-wp-statistics-admin-ajax.php:153
-#: includes/admin/class-wp-statistics-admin-ajax.php:189
-#: includes/admin/class-wp-statistics-admin-ajax.php:266
+#: includes/admin/class-wp-statistics-admin-ajax.php:120
+#: includes/admin/class-wp-statistics-admin-ajax.php:157
+#: includes/admin/class-wp-statistics-admin-ajax.php:193
+#: includes/admin/class-wp-statistics-admin-ajax.php:271
 msgid "Kindly select the items you want to work with."
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-ajax.php:119
-#: includes/admin/class-wp-statistics-admin-ajax.php:156
-#: includes/admin/class-wp-statistics-admin-ajax.php:192
-#: includes/admin/class-wp-statistics-admin-ajax.php:219
-#: includes/admin/class-wp-statistics-admin-ajax.php:247
-#: includes/admin/class-wp-statistics-admin-ajax.php:278
-#: includes/admin/class-wp-statistics-admin-ajax.php:294
-#: includes/admin/class-wp-statistics-admin-ajax.php:319
-#: includes/admin/class-wp-statistics-admin-ajax.php:348
-#: includes/admin/class-wp-statistics-admin-ajax.php:448
+#: includes/admin/class-wp-statistics-admin-ajax.php:123
+#: includes/admin/class-wp-statistics-admin-ajax.php:160
+#: includes/admin/class-wp-statistics-admin-ajax.php:196
+#: includes/admin/class-wp-statistics-admin-ajax.php:224
+#: includes/admin/class-wp-statistics-admin-ajax.php:252
+#: includes/admin/class-wp-statistics-admin-ajax.php:283
+#: includes/admin/class-wp-statistics-admin-ajax.php:299
+#: includes/admin/class-wp-statistics-admin-ajax.php:324
+#: includes/admin/class-wp-statistics-admin-ajax.php:353
+#: includes/admin/class-wp-statistics-admin-ajax.php:453
 msgid "Unauthorized access!"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-ajax.php:148
+#: includes/admin/class-wp-statistics-admin-ajax.php:152
 msgid "Successfully deleted %s platform data."
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-ajax.php:150
+#: includes/admin/class-wp-statistics-admin-ajax.php:154
 msgid "Couldn’t find platform data to delete."
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-ajax.php:184
+#: includes/admin/class-wp-statistics-admin-ajax.php:188
 msgid "Successfully deleted %s IP data."
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-ajax.php:186
+#: includes/admin/class-wp-statistics-admin-ajax.php:190
 msgid "Couldn’t find any IP address data to delete."
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-ajax.php:213
+#: includes/admin/class-wp-statistics-admin-ajax.php:218
 msgid "Successfully deleted User ID data."
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-ajax.php:215
+#: includes/admin/class-wp-statistics-admin-ajax.php:220
 msgid "Couldn’t find any user ID data to delete."
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-ajax.php:241
+#: includes/admin/class-wp-statistics-admin-ajax.php:246
 msgid "Successfully deleted user agent strings data."
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-ajax.php:243
+#: includes/admin/class-wp-statistics-admin-ajax.php:248
 msgid "Couldn’t find any user agent strings data to delete."
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-ajax.php:343
+#: includes/admin/class-wp-statistics-admin-ajax.php:348
 msgid "Visit count must be 10 or more!"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-ajax.php:436
+#: includes/admin/class-wp-statistics-admin-ajax.php:441
 msgid "Please first enable GeoIP Collection and save settings!"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-ajax.php:438
+#: includes/admin/class-wp-statistics-admin-ajax.php:443
 msgid "Please first enable GeoIP City and save settings!"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-ajax.php:481
+#: includes/admin/class-wp-statistics-admin-ajax.php:486
 #: includes/api/v2/class-wp-statistics-api-meta-box.php:71
 msgid "Invalid MetaBox Name in Request."
 msgstr ""
@@ -930,7 +930,7 @@ msgstr ""
 msgid "Top 5 Trending "
 msgstr ""
 
-#: includes/admin/pages/class-wp-statistics-admin-page-pages.php:203
+#: includes/admin/pages/class-wp-statistics-admin-page-pages.php:204
 msgid "Statistics for Individual Pages"
 msgstr ""
 
@@ -1002,7 +1002,7 @@ msgstr ""
 msgid "Custom filter"
 msgstr ""
 
-#: includes/admin/pages/class-wp-statistics-admin-page-visitors.php:214
+#: includes/admin/pages/class-wp-statistics-admin-page-visitors.php:218
 msgid "Filters"
 msgstr ""
 
@@ -2309,11 +2309,14 @@ msgstr ""
 #: includes/admin/templates/settings/general.php:119
 #: includes/admin/templates/settings/general.php:130
 #: includes/admin/templates/settings/general.php:154
+#: includes/admin/templates/settings/general.php:177
+#: includes/admin/templates/settings/general.php:188
 #: includes/admin/templates/settings/general.php:200
 #: includes/admin/templates/settings/general.php:212
 #: includes/admin/templates/settings/general.php:253
 #: includes/admin/templates/settings/general.php:298
 #: includes/admin/templates/settings/general.php:319
+#: includes/admin/templates/settings/general.php:342
 #: includes/admin/templates/settings/general.php:363
 #: includes/admin/templates/settings/maintenance.php:24
 #: includes/admin/templates/settings/maintenance.php:58
@@ -2457,7 +2460,7 @@ msgid "GeoIP Settings"
 msgstr ""
 
 #: includes/admin/templates/settings/externals.php:11
-msgid "GeoIP Server Type"
+msgid "GeoIP Database Update Source"
 msgstr ""
 
 #: includes/admin/templates/settings/externals.php:14
@@ -2469,7 +2472,7 @@ msgid "Use the MaxMind server with your own license key"
 msgstr ""
 
 #: includes/admin/templates/settings/externals.php:18
-msgid "Choose the preferred server type for GeoIP services. The options help determine a visitor's geographical location based on their IP address."
+msgid "Use this setting to select a service that updates the GeoIP database, ensuring the geographic information displayed is accurate and up-to-date. It's only used for database updates, not for real-time location lookups."
 msgstr ""
 
 #: includes/admin/templates/settings/externals.php:24
@@ -2588,7 +2591,7 @@ msgid "User Presence Monitoring"
 msgstr ""
 
 #: includes/admin/templates/settings/general.php:22
-msgid "Enables the feature to display current online users on the site."
+msgid "Shows current online users on the site."
 msgstr ""
 
 #: includes/admin/templates/settings/general.php:28
@@ -2600,7 +2603,7 @@ msgid "Seconds"
 msgstr ""
 
 #: includes/admin/templates/settings/general.php:34
-msgid "Defines how often the plugin checks for online users. For example, 120 seconds means it checks every 2 minutes."
+msgid "Defines how often the plugin checks for online users. '120 seconds' means updates every 2 minutes."
 msgstr ""
 
 #: includes/admin/templates/settings/general.php:40
@@ -2608,7 +2611,7 @@ msgid "Record All Traffic"
 msgstr ""
 
 #: includes/admin/templates/settings/general.php:46
-msgid "Use this to troubleshoot or get a full visitor count. May include bots or duplicate users."
+msgid "Records all site traffic, including bots and unfiltered visits, useful for troubleshooting. May lead to duplicates in visitor count."
 msgstr ""
 
 #: includes/admin/templates/settings/general.php:56
@@ -2616,7 +2619,7 @@ msgid "Visitor Analytics"
 msgstr ""
 
 #: includes/admin/templates/settings/general.php:67
-msgid "Enable to keep track of how many times each page on your site is visited."
+msgid "Counts the number of times each page is visited."
 msgstr ""
 
 #: includes/admin/templates/settings/general.php:78
@@ -2632,7 +2635,7 @@ msgid "Track User Activity"
 msgstr ""
 
 #: includes/admin/templates/settings/general.php:89
-msgid "Enable this to save each logged-in user’s visits along with their user ID. This lets you see who visited which pages, giving you a clear picture of individual activity on your site.<br />note: If you’re subject to GDPR or other privacy laws, ensure you have obtained clear consent from your users to collect and process their data. Inform users through your privacy policy about what data is collected, why it’s collected, and how it will be used, ensuring transparency and compliance with data protection regulations."
+msgid "Logs each visit made by signed-in users, along with their user IDs, to provide a detailed view of page traffic and user engagement. Note: Compliance with GDPR and other privacy regulations is essential. Inform users about data collection and usage through your privacy policy. For details on data handling and privacy, visit <a href=\"https://wp-statistics.com/resources/avoiding-pii-data-collection/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings\" target=\"_blank\">Avoiding PII Data Collection</a>."
 msgstr ""
 
 #: includes/admin/templates/settings/general.php:95
@@ -2644,7 +2647,7 @@ msgid "Show Visit Logs"
 msgstr ""
 
 #: includes/admin/templates/settings/general.php:100
-msgid "Enable to add a column in the WordPress admin's user list, displaying a log of user visits for easy access and review."
+msgid "Adds a column in the WordPress admin's user list to display a log of user visits."
 msgstr ""
 
 #: includes/admin/templates/settings/general.php:110
@@ -2656,7 +2659,7 @@ msgid "Count Page Visits"
 msgstr ""
 
 #: includes/admin/templates/settings/general.php:120
-msgid "Activate to get a count of visits for each individual page."
+msgid "Tracks how many times each individual page is visited."
 msgstr ""
 
 #: includes/admin/templates/settings/general.php:126
@@ -2664,7 +2667,7 @@ msgid "Monitor All Content Types"
 msgstr ""
 
 #: includes/admin/templates/settings/general.php:131
-msgid "This setting captures data from every content type, not just standard posts and pages."
+msgid "Gathers visitor data from every type of content, including non-standard posts and pages."
 msgstr ""
 
 #: includes/admin/templates/settings/general.php:145
@@ -2676,7 +2679,7 @@ msgid "Strip URL Parameters"
 msgstr ""
 
 #: includes/admin/templates/settings/general.php:155
-msgid "Activating this will remove any parameters after '?' in URLs, simplifying your statistics."
+msgid "Remove any parameters after '?' in URLs."
 msgstr ""
 
 #: includes/admin/templates/settings/general.php:168
@@ -2687,16 +2690,8 @@ msgstr ""
 msgid "Visits Chart Metabox"
 msgstr ""
 
-#: includes/admin/templates/settings/general.php:177
-#: includes/admin/templates/settings/general.php:188
-#: includes/admin/templates/settings/general.php:342
-#: includes/admin/templates/settings/overview-display.php:19
-#: includes/admin/templates/settings/overview-display.php:31
-msgid "Disable"
-msgstr ""
-
 #: includes/admin/templates/settings/general.php:178
-msgid "Provides a graphical representation of hits for each content when editing."
+msgid "Shows content view statistics in a graphical format when editing."
 msgstr ""
 
 #: includes/admin/templates/settings/general.php:184
@@ -2704,7 +2699,7 @@ msgid "Visits Column"
 msgstr ""
 
 #: includes/admin/templates/settings/general.php:189
-msgid "This will display how many times each content has been viewed directly in your content list."
+msgid "Displays the number of views for each content item in your content list."
 msgstr ""
 
 #: includes/admin/templates/settings/general.php:195
@@ -2712,7 +2707,7 @@ msgid "Visits in Publish Metabox"
 msgstr ""
 
 #: includes/admin/templates/settings/general.php:201
-msgid "Provides a quick view of hits right in the publish box of each content."
+msgid "Presents a snapshot of content views in the publish box for quick reference."
 msgstr ""
 
 #: includes/admin/templates/settings/general.php:207
@@ -2720,7 +2715,7 @@ msgid "Visits in Single Pages"
 msgstr ""
 
 #: includes/admin/templates/settings/general.php:213
-msgid "This will show the number of views directly within your content for visitors to see."
+msgid "Shows the view count on the content's page for visitor insight."
 msgstr ""
 
 #: includes/admin/templates/settings/general.php:224
@@ -2748,15 +2743,15 @@ msgid "Cache Compatibility Mode"
 msgstr ""
 
 #: includes/admin/templates/settings/general.php:254
-msgid "If you're using a caching plugin or service, enable this to ensure WP Statistics records data correctly."
+msgid "Ensures accurate statistics recording with caching plugins or services."
 msgstr ""
 
 #: includes/admin/templates/settings/general.php:257
-msgid "To register WP Statistics REST API endpoint ( %s ) , go to the <a href=\"%s\">Permalink page</a> and update the permalink by pressing Save Changes and then clear the cache."
+msgid "Remember to update permalinks in the WP Statistics REST API settings and clear the cache for full integration."
 msgstr ""
 
 #: includes/admin/templates/settings/general.php:259
-msgid "To prevent Google index the REST API endpoints, add the below code in <strong>robots.txt</strong>"
+msgid "To keep Google from indexing REST API endpoints, add the specified code to your <strong>robots.txt</strong> file:"
 msgstr ""
 
 #: includes/admin/templates/settings/general.php:274
@@ -2768,15 +2763,15 @@ msgid "Show Stats in Admin Menu Bar"
 msgstr ""
 
 #: includes/admin/templates/settings/general.php:287
-msgid "This will add a quick-access link to your statistics in the WordPress admin menu bar."
+msgid "View your site's statistics directly from the WordPress admin menu bar."
 msgstr ""
 
 #: includes/admin/templates/settings/general.php:293
-msgid "Hide Admin Notices About Non-active Features"
+msgid "Disable Inactive Essential Feature Notices"
 msgstr ""
 
 #: includes/admin/templates/settings/general.php:299
-msgid "If a feature is turned off, this will prevent notifications about it."
+msgid "Stops displaying messages for essential features that are currently switched off."
 msgstr ""
 
 #: includes/admin/templates/settings/general.php:309
@@ -2788,7 +2783,7 @@ msgid "Add Page Title to Empty Search Words"
 msgstr ""
 
 #: includes/admin/templates/settings/general.php:320
-msgid "If a visitor arrives from a search engine without a clear query, this title will be used instead."
+msgid "When a search engine directs a visitor without search terms, the page title substitutes the search words."
 msgstr ""
 
 #: includes/admin/templates/settings/general.php:325
@@ -2796,11 +2791,11 @@ msgid "Search Engine Filters"
 msgstr ""
 
 #: includes/admin/templates/settings/general.php:325
-msgid "Exclusions allow you to stop tracking data from specific search engines. Here are the search engines you can exclude:"
+msgid "Select which search engines are permitted to gather and report usage data when visitors arrive at your site from these sources"
 msgstr ""
 
 #: includes/admin/templates/settings/general.php:343
-msgid "Disable %s from data collection and reporting."
+msgid "Allow %s to collect and report data."
 msgstr ""
 
 #: includes/admin/templates/settings/general.php:354
@@ -2812,7 +2807,7 @@ msgid "Include Totals in Charts"
 msgstr ""
 
 #: includes/admin/templates/settings/general.php:364
-msgid "For charts that represent multiple values, this will include a total sum at the bottom."
+msgid "For charts that represent multiple values, show the combined amount of all items at the bottom."
 msgstr ""
 
 #: includes/admin/templates/settings/maintenance.php:5
@@ -3004,6 +2999,11 @@ msgstr ""
 msgid "Display WP Statistics Widgets"
 msgstr ""
 
+#: includes/admin/templates/settings/overview-display.php:19
+#: includes/admin/templates/settings/overview-display.php:31
+msgid "Disable"
+msgstr ""
+
 #: includes/admin/templates/settings/overview-display.php:20
 msgid "Toggle this setting to enable or disable the display of WP Statistics widgets on your WordPress dashboard."
 msgstr ""
@@ -3029,7 +3029,7 @@ msgid "Anonymize IP Addresses"
 msgstr ""
 
 #: includes/admin/templates/settings/privacy.php:15
-msgid "Enable this setting to anonymize user IP addresses by masking the last part of the IP. This modification is crucial for privacy preservation and is a requirement under the GDPR for protecting user data. Anonymization helps ensure that a user’s full IP address is not stored or processed, thus maintaining their anonymity."
+msgid "Masks the last segment of a user's IP address for privacy, complying with GDPR and preventing the full IP from being stored. More details can be found at <a href=\"https://wp-statistics.com/resources/avoiding-pii-data-collection/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings\" target=\"_blank\">Avoiding PII Data Collection.</a>"
 msgstr ""
 
 #: includes/admin/templates/settings/privacy.php:21
@@ -3037,11 +3037,7 @@ msgid "Hash IP Addresses"
 msgstr ""
 
 #: includes/admin/templates/settings/privacy.php:26
-msgid "When activated, this feature will hash IP addresses using a secure algorithm before they are stored. Hashing is a form of pseudonymization that transforms the IP address into a unique string of characters, which cannot be reversed to reveal the original IP. This process provides an additional layer of security and is in line with data protection regulations such as GDPR, which encourage the use of pseudonymization to protect personal data."
-msgstr ""
-
-#: includes/admin/templates/settings/privacy.php:26
-msgid "Also, it disables the \"Store entire user agent string\" setting."
+msgid "Transforms IP addresses into a unique, non-reversible string using a secure algorithm, enhancing privacy protection and complying with data privacy regulations. For an in-depth explanation, refer to <a href=\"https://wp-statistics.com/resources/counting-unique-visitors-without-cookies/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings\" target=\"blank\">Counting Unique Visitors Without Cookies</a>."
 msgstr ""
 
 #: includes/admin/templates/settings/privacy.php:36
@@ -3057,7 +3053,7 @@ msgid "Store Entire User Agent String"
 msgstr ""
 
 #: includes/admin/templates/settings/privacy.php:47
-msgid "This setting is intended for use in troubleshooting and should only be enabled temporarily for debugging. It records the full user agent string, which contains details about the user’s browser and operating system. Please note that if “Hash IP Addresses” is enabled to protect user privacy, this setting will be turned off to prevent the storage of potentially identifiable information."
+msgid "Records full details of visitors for diagnostic purposes. When 'Hash IP Addresses' is operational, this feature is bypassed, and data collection is disabled to ensure privacy. Refer to our <a href=\"https://wp-statistics.com/resources/avoiding-pii-data-collection/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings\" target=\"_blank\">avoiding PII data collection guide</a> for more information."
 msgstr ""
 
 #: includes/admin/templates/settings/privacy.php:58
@@ -3073,7 +3069,7 @@ msgid "Do Not Track (DNT)"
 msgstr ""
 
 #: includes/admin/templates/settings/privacy.php:69
-msgid "If this option is on, the plugin will not track visitors who set their browser to “Do Not Track”. This isn’t required by privacy laws like GDPR, but it’s a way to show that we value privacy. Keep in mind that turning this on means you won’t get information from visitors who don’t want to be tracked."
+msgid "Respects the visitor's browser setting to not track their web activity. Privacy laws like GDPR do not mandate this feature, but activating it demonstrates a commitment to privacy. Be aware that with DNT respected, information from visitors preferring not to be tracked will not be collected."
 msgstr ""
 
 #: includes/admin/templates/settings/reset.php:5
@@ -3129,7 +3125,7 @@ msgid "Main IP Detection Method"
 msgstr ""
 
 #: includes/admin/templates/settings/visitor-ip.php:85
-msgid "The options below retrieve IP addresses based on different server configurations. Select the one that best matches your server setup."
+msgid "Select the preferred method for determining the visitor's IP address. The method should correspond to the way your server and network infrastructure relay IP information. Choose the option that reflects the correct IP in your server environment."
 msgstr ""
 
 #: includes/admin/templates/settings/visitor-ip.php:100
@@ -3626,7 +3622,7 @@ msgid "Pages Visits"
 msgstr ""
 
 #: includes/class-wp-statistics-pages.php:352
-msgid "Home Page"
+msgid "Home Page: %s"
 msgstr ""
 
 #: includes/class-wp-statistics-pages.php:371
