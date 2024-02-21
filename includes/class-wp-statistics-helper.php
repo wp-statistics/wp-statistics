@@ -613,7 +613,7 @@ class Helper
 
     /**
      *
-     * Filter certain query string in the URL based on Query Params Allowed list
+     * Filter certain query string in the URL based on Query Params Allowed List
      * @param string $url
      * @return string
      */
@@ -631,14 +631,14 @@ class Helper
             // Parse query strings passed via the URL
             parse_str(substr($url, $url_query + 1), $parsed_query);
 
-            // Loop through params and unset ones not allowed  
+            // Loop through query params and unset ones not allowed  
             foreach ($parsed_query as $key => $value) {
                 if (!in_array($key, $allowed_query_params)) {
                     unset($parsed_query[$key]);
                 }
             }
 
-            // Rebuild query string with allowed params
+            // Rebuild URL with allowed params
             if (!empty($parsed_query)) {
                 $filtered_query = http_build_query($parsed_query);
                 $url_path       = substr($url, 0, $url_query);
