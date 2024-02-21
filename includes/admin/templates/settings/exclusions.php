@@ -193,7 +193,7 @@
     <table class="form-table">
         <tbody>
             <tr valign="top">
-                <th scope="row" colspan="2"><h3><?php _e('URL Query Parameters', 'wp-statistics'); ?> <a href="#" class="wps-tooltip" title="<?php _e('', 'wp-statistics') ?>"><i class="wps-tooltip-icon"></i></a></h3></th>
+                <th scope="row" colspan="2"><h3><?php _e('URL Query Parameters', 'wp-statistics'); ?></h3></th>
             </tr>
 
             <tr valign="top">
