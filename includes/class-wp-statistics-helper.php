@@ -260,24 +260,32 @@ class Helper
      * @param string $type
      * @return array|bool|string
      */
-    public static function get_query_params_allow_list($type = 'list')
+    public static function get_query_params_allow_list($type = 'array')
     {
-        global $WP_Statistics;
-
         # Set Default
-        $list = array();
+        $list = [];
 
-        # Load From global
-        if (isset($WP_Statistics->query_params_allow_list)) {
-            $list = $WP_Statistics->query_params_allow_list;
+        if (Option::get('query_params_allow_list') !== false) {
+            # Load from options
+            $list = array_map('trim', explode("\n", Option::get('query_params_allow_list')));
+        } else {
+            # Load the default options
+            $list = self::get_default_query_params_allow_list();
         }
 
-        # Load From file
+        return ($type == "array" ? $list : implode("\n", $list));
+    }
+
+
+    /**
+     * Get the default URL Query Parameters List
+     * @param string $type
+     * @return array|string
+     */
+    public static function get_default_query_params_allow_list($type = 'array')
+    {
         include WP_STATISTICS_DIR . "includes/defines/query-params-allow-list.php";
-        if (isset($wps_query_params_allow_list_array)) {
-            $list = $wps_query_params_allow_list_array;
-        }
-
+        $list = isset($wps_query_params_allow_list_array) ? $wps_query_params_allow_list_array : [];
         return ($type == "array" ? $list : implode("\n", $list));
     }
 
@@ -637,10 +645,12 @@ class Helper
             }
 
             // Rebuild URL with allowed params
+            $urlPath = substr($url, 0, $urlQuery);
             if (!empty($parsedQuery)) {
                 $filteredQuery = http_build_query($parsedQuery);
-                $urlPath        = substr($url, 0, $urlQuery);
-                $url            = $urlPath . '?' . $filteredQuery;
+                $url           = $urlPath . '?' . $filteredQuery;
+            } else {
+                $url = $urlPath;
             }
         }
 

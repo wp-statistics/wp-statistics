@@ -269,7 +269,7 @@ class Ajax
             check_ajax_referer('wp_rest', 'wps_nonce');
 
             // Get allowed query params
-            $allowedQueryParams = array_map('trim', explode("\n", Option::get('query_params_allow_list')));
+            $allowedQueryParams = Helper::get_query_params_allow_list();
 
             // Get all page URIs from pages table
             $rows = $wpdb->get_results($wpdb->prepare("SELECT * FROM " . DB::table('pages')));
@@ -278,7 +278,7 @@ class Ajax
 
                 // Update query strings based on allow list
                 foreach ($rows as $row) {
-                    $rows = $wpdb->update(
+                    $wpdb->update(
                         DB::table('pages'),
                         ['uri' => Helper::FilterQueryStringUrl($row->uri, $allowedQueryParams)],
                         ['page_id' => $row->page_id]

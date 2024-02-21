@@ -204,10 +204,7 @@ class Pages
         }
 
         // Filter query parameters based on allowed query params list
-        $allowed_query_params = array_map('trim', explode("\n", Option::get('query_params_allow_list')));
-        if (!empty($allowed_query_params)) {
-            $page_uri = Helper::FilterQueryStringUrl($page_uri, $allowed_query_params);
-        }
+        $page_uri = Helper::FilterQueryStringUrl($page_uri, Helper::get_query_params_allow_list());
 
         // Limit the URI length to 255 characters, otherwise we may overrun the SQL field size.
         return substr($page_uri, 0, 255);
