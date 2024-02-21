@@ -15,7 +15,7 @@
                     <option value="user-license" <?php selected(WP_STATISTICS\Option::get('geoip_license_type'), 'user-license'); ?>><?php _e('Use the MaxMind server with your own license key', 'wp-statistics'); ?></option>
                 </select>
 
-                <p class="description"><?php _e('Use this setting to select a service that updates the GeoIP database, ensuring the geographic information displayed is accurate and up-to-date. It\'s only used for database updates, not for real-time location lookups.', 'wp-statistics'); ?></p>
+                <p class="description"><?php _e('Select a service that updates the GeoIP database, ensuring the geographic information displayed is accurate and up-to-date. It\'s only used for database updates, not for real-time location lookups.', 'wp-statistics'); ?></p>
             </td>
         </tr>
 
@@ -48,7 +48,7 @@
                         ?>
                     </label>
 
-                    <p class="description"><?php _e('Enable this to gather and display geographic information (country) related to your visitors.', 'wp-statistics'); ?></p>
+                    <p class="description"><?php _e('Gather and display geographic information (country) related to your visitors.', 'wp-statistics'); ?></p>
                 </td>
             </tr>
 
@@ -69,7 +69,7 @@
                         }
                         ?>
                     </label>
-                    <p class="description"><?php _e('Activate this feature if you wish to see the city details of your visitors.', 'wp-statistics'); ?></p>
+                    <p class="description"><?php _e('Provides city-level geographic details for website visitor analysis.', 'wp-statistics'); ?></p>
                 </td>
             </tr>
 
@@ -107,7 +107,7 @@
                         echo '</code></p>';
                     }
                     ?>
-                    <p class="description"><?php _e('Set up a monthly update for the GeoIP database to ensure accurate and up-to-date geographical data. The scheduled download will occur 2 days after the first Tuesday of the month. This setting is crucial for maintaining current geographical data.', 'wp-statistics'); ?></p>
+                    <p class="description"><?php _e('Automates monthly GeoIP database updates for the latest geographical data, occurring two days after the first Tuesday each month.', 'wp-statistics'); ?></p>
                 </td>
             </tr>
 
@@ -119,7 +119,7 @@
                 <td>
                     <input id="geoip-auto-pop" type="checkbox" name="wps_auto_pop" <?php echo WP_STATISTICS\Option::get('auto_pop') == true ? "checked='checked'" : ''; ?>>
                     <label for="geoip-auto-pop"><?php _e('Enable', 'wp-statistics'); ?></label>
-                    <p class="description"><?php _e('If, for any reason, there are gaps in the GeoIP data, use this feature to fill in the missing pieces after a fresh database download.', 'wp-statistics'); ?></p>
+                    <p class="description"><?php _e('Fills in any gaps in the GeoIP database following a new download.', 'wp-statistics'); ?></p>
                 </td>
             </tr>
 
@@ -130,7 +130,7 @@
 
                 <td>
                     <input type="text" size="3" id="geoip-private-country-code" name="wps_private_country_code" value="<?php echo esc_attr(WP_STATISTICS\Option::get('private_country_code', \WP_STATISTICS\GeoIP::$private_country)); ?>">
-                    <p class="description"><?php echo __('Specify a default country code for private (non-routable) IP addresses. For example, using "US" for United States or "CA" for Canada. If uncertain, use "000" to label them as "Unknown".', 'wp-statistics'); ?></p>
+                    <p class="description"><?php echo __('Assigns a default country code for private IP addresses that cannot be geographically located.', 'wp-statistics'); ?></p>
                 </td>
             </tr>
         <?php } else { ?>
@@ -226,7 +226,7 @@
             <td>
                 <input id="referrerspam-enable" type="checkbox" name="wps_referrerspam" <?php echo WP_STATISTICS\Option::get('referrerspam') == true ? "checked='checked'" : ''; ?>>
                 <label for="referrerspam-enable"><?php _e('Enable', 'wp-statistics'); ?></label>
-                <p class="description"><?php _e('Enable the integration with Matomo\'s Referrer Spam Blacklist to prevent spammers from skewing your site statistics. This helps ensure the integrity of your data by filtering out known spam referrers. For more details on the blacklist source, visit <a href="https://github.com/matomo-org/referrer-spam-blacklist" target="_blank">Matomo\'s Referrer Spam Blacklist</a>.', 'wp-statistics'); ?></p>
+                <p class="description"><?php _e('Integrates with Matomo’s Referrer Spam Blacklist to exclude known spam referrers from site statistics. For more details on the blacklist source, visit <a href="https://github.com/matomo-org/referrer-spam-blacklist" target="_blank">Matomo\'s Referrer Spam Blacklist</a>.', 'wp-statistics'); ?></p>
             </td>
         </tr>
 
