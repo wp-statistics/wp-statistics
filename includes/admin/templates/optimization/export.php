@@ -24,7 +24,7 @@
                             ?>
                         </select>
 
-                        <p class="description"><?php _e('Choose the specific table or data source you wish to export from.', 'wp-statistics'); ?></p>
+                        <p class="description"><?php _e('Choose a specific table or dataset for export.', 'wp-statistics'); ?></p>
                     </td>
                 </tr>
 
@@ -41,7 +41,7 @@
                             <option value="tsv">TSV</option>
                         </select>
 
-                        <p class="description"><?php _e('Select the desired file format for your exported data.', 'wp-statistics'); ?></p>
+                        <p class="description"><?php _e('Select a file format for the exported data.', 'wp-statistics'); ?></p>
                     </td>
                 </tr>
 
@@ -52,7 +52,18 @@
 
                     <td>
                         <input id="export-headers" type="checkbox" value="1" name="export-headers">
-                        <p class="description"><?php _e('Toggle this option to include a header row in your exported file, which provides column names for clarity.', 'wp-statistics'); ?></p>
+                        <p class="description"><?php _e('Include column names at the top of the exported file.', 'wp-statistics'); ?></p>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th></td>
+                    <td>
+                        <div class="wp-statistics-notice">
+                            <strong><?php _e('Privacy Notice for Data Export', 'wp-statistics') ?></strong>
+                            <p><?php _e('Exported data may contain personal information. Review our <a href="https://wp-statistics.com/resources/handling-of-personal-data-during-export-procedures/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" target="_blank">Handling of Personal Data During Export Procedures</a> before exporting to ensure compliance with privacy laws.', 'wp-statistics') ?></p>
+                        </div>
+
                         <?php submit_button(__('Begin Export', 'wp-statistics'), 'primary', 'export-file-submit'); ?>
                     </td>
                 </tr>

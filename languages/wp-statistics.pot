@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-02-21T20:55:09+00:00\n"
+"POT-Creation-Date: 2024-02-21T21:17:35+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: wp-statistics\n"
@@ -1279,7 +1279,7 @@ msgid "Please select"
 msgstr ""
 
 #: includes/admin/templates/optimization/export.php:27
-msgid "Choose the specific table or data source you wish to export from."
+msgid "Choose a specific table or dataset for export."
 msgstr ""
 
 #: includes/admin/templates/optimization/export.php:33
@@ -1287,7 +1287,7 @@ msgid "Choose Export Format"
 msgstr ""
 
 #: includes/admin/templates/optimization/export.php:44
-msgid "Select the desired file format for your exported data."
+msgid "Select a file format for the exported data."
 msgstr ""
 
 #: includes/admin/templates/optimization/export.php:50
@@ -1295,10 +1295,18 @@ msgid "Add Header Row"
 msgstr ""
 
 #: includes/admin/templates/optimization/export.php:55
-msgid "Toggle this option to include a header row in your exported file, which provides column names for clarity."
+msgid "Include column names at the top of the exported file."
 msgstr ""
 
-#: includes/admin/templates/optimization/export.php:56
+#: includes/admin/templates/optimization/export.php:63
+msgid "Privacy Notice for Data Export"
+msgstr ""
+
+#: includes/admin/templates/optimization/export.php:64
+msgid "Exported data may contain personal information. Review our <a href=\"https://wp-statistics.com/resources/handling-of-personal-data-during-export-procedures/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings\" target=\"_blank\">Handling of Personal Data During Export Procedures</a> before exporting to ensure compliance with privacy laws."
+msgstr ""
+
+#: includes/admin/templates/optimization/export.php:67
 msgid "Begin Export"
 msgstr ""
 
