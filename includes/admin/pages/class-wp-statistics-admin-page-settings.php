@@ -232,7 +232,7 @@ class settings_page
     {
         $wps_option_list = array('wps_disable_map', 'wps_disable_dashboard');
         foreach ($wps_option_list as $option) {
-            $wp_statistics_options[self::input_name_to_option($option)] = (isset($_POST[$option]) ? sanitize_text_field($_POST[$option]) : '');
+            $wp_statistics_options[self::input_name_to_option($option)] = (isset($_POST[$option]) && sanitize_text_field($_POST[$option]) == '1' ? '' : '1');
         }
 
         return $wp_statistics_options;
