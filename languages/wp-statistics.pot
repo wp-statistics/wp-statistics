@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-02-21T20:13:15+00:00\n"
+"POT-Creation-Date: 2024-02-21T20:14:59+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: wp-statistics\n"
@@ -1274,7 +1274,7 @@ msgstr ""
 #: includes/admin/templates/settings/exclusions.php:111
 #: includes/admin/templates/settings/general.php:229
 #: includes/admin/templates/settings/notifications.php:113
-#: includes/admin/templates/settings/notifications.php:148
+#: includes/admin/templates/settings/notifications.php:147
 msgid "Please select"
 msgstr ""
 
@@ -1848,7 +1848,7 @@ msgid "User"
 msgstr ""
 
 #: includes/admin/templates/pages/online.php:46
-#: includes/admin/templates/settings/notifications.php:149
+#: includes/admin/templates/settings/notifications.php:148
 msgid "Email"
 msgstr ""
 
@@ -2008,7 +2008,7 @@ msgid "Last Visit"
 msgstr ""
 
 #: includes/admin/templates/pages/visitors.php:41
-#: includes/admin/templates/settings/notifications.php:189
+#: includes/admin/templates/settings/notifications.php:188
 #: includes/class-wp-statistics-widget.php:97
 #: includes/class-wp-statistics-widget.php:296
 msgid "Total Visits"
@@ -2207,7 +2207,7 @@ msgstr ""
 #: includes/admin/templates/settings/externals.php:281
 #: includes/admin/templates/settings/general.php:372
 #: includes/admin/templates/settings/maintenance.php:78
-#: includes/admin/templates/settings/notifications.php:207
+#: includes/admin/templates/settings/notifications.php:206
 #: includes/admin/templates/settings/overview-display.php:42
 #: includes/admin/templates/settings/privacy.php:76
 #: includes/admin/templates/settings/visitor-ip.php:167
@@ -2862,15 +2862,15 @@ msgid "Recipient Email Addresses"
 msgstr ""
 
 #: includes/admin/templates/settings/notifications.php:23
-msgid "Specify the email addresses that should receive the reports. Separate multiple addresses with a comma."
+msgid "Enter email addresses to receive reports. Use a comma to separate multiple addresses."
 msgstr ""
 
 #: includes/admin/templates/settings/notifications.php:29
-msgid "Email Statistical Reports"
+msgid "Automated Report Delivery"
 msgstr ""
 
 #: includes/admin/templates/settings/notifications.php:35
-msgid "Receive regular statistical reports in your inbox."
+msgid "Set preferences for receiving automated, detailed statistical reports by email."
 msgstr ""
 
 #: includes/admin/templates/settings/notifications.php:45
@@ -2902,7 +2902,7 @@ msgid "Display All WP Statistics Notices"
 msgstr ""
 
 #: includes/admin/templates/settings/notifications.php:89
-msgid "Enable this to see all notifications, alerts, and suggestions from WP Statistics in your admin dashboard. If disabled, only critical warnings or errors will be shown, keeping your dashboard less cluttered."
+msgid "All notifications, alerts, and suggestions from WP Statistics appear in the admin dashboard. Without selection, only critical warnings or errors are shown for a streamlined dashboard view."
 msgstr ""
 
 #: includes/admin/templates/settings/notifications.php:104
@@ -2910,91 +2910,91 @@ msgid "Advanced Reporting Options"
 msgstr ""
 
 #: includes/admin/templates/settings/notifications.php:108
-msgid "Reporting Schedule"
+msgid "Report Frequency"
 msgstr ""
 
 #: includes/admin/templates/settings/notifications.php:136
-msgid "Report Timing: Choose how frequently you want your statistical reports to be compiled and sent. Options range from hourly to monthly."
+msgid "Select the frequency of report deliveries. For custom schedules, more information can be found in our <a href=\"https://wp-statistics.com/resources/schedule-statistical-reports/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings\" target=\"_blank\">documentation</a>."
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:137
-msgid "For setting up a custom schedule, please refer to our <a href=\"%s\" target=\"_blank\">documentation</a>."
-msgstr ""
-
-#: includes/admin/templates/settings/notifications.php:143
+#: includes/admin/templates/settings/notifications.php:142
 msgid "Delivery Method"
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:151
+#: includes/admin/templates/settings/notifications.php:150
 msgid "SMS"
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:155
-msgid "Delivery Channel: Select how you would like to receive the generated reports. Currently, reports can be sent to you via email or downloaded directly from the plugin."
+#: includes/admin/templates/settings/notifications.php:154
+msgid "Choose how to receive reports, either via email or SMS."
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:158
+#: includes/admin/templates/settings/notifications.php:157
 msgid "Note:"
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:159
+#: includes/admin/templates/settings/notifications.php:158
 msgid "To send SMS text messages please install the %s plugin."
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:159
+#: includes/admin/templates/settings/notifications.php:158
 msgid "WP SMS"
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:167
-msgid "Report Composition"
+#: includes/admin/templates/settings/notifications.php:166
+msgid "Custom Report Builder"
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:172
-msgid "Report Content: Customize the content of your reports by using WP Statistics shortcodes to display various statistics."
+#: includes/admin/templates/settings/notifications.php:171
+msgid "Using WP Statistics shortcodes to display specific statistics."
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:175
+#: includes/admin/templates/settings/notifications.php:174
 msgid "Insert any of the following shortcode examples to show corresponding data:"
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:177
+#: includes/admin/templates/settings/notifications.php:176
 msgid "Current Online Users"
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:179
-#: includes/admin/templates/settings/notifications.php:181
+#: includes/admin/templates/settings/notifications.php:178
+#: includes/admin/templates/settings/notifications.php:180
 #: includes/class-wp-statistics-admin-bar.php:98
 #: includes/class-wp-statistics-widget.php:48
 #: includes/class-wp-statistics-widget.php:268
 msgid "Today's Visits"
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:183
+#: includes/admin/templates/settings/notifications.php:182
 #: includes/class-wp-statistics-admin-bar.php:102
 #: includes/class-wp-statistics-widget.php:69
 #: includes/class-wp-statistics-widget.php:280
 msgid "Yesterday's Visitors"
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:185
+#: includes/admin/templates/settings/notifications.php:184
 #: includes/class-wp-statistics-admin-bar.php:106
 #: includes/class-wp-statistics-widget.php:62
 #: includes/class-wp-statistics-widget.php:276
 msgid "Yesterday's Visits"
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:187
+#: includes/admin/templates/settings/notifications.php:186
 #: includes/class-wp-statistics-widget.php:104
 #: includes/class-wp-statistics-widget.php:300
 msgid "Total Visitors"
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:192
-msgid "Refer to our complete  <a href=\"%s\" target=\"_blank\">shortcode guide</a> for more options."
+#: includes/admin/templates/settings/notifications.php:191
+msgid "Refer to our complete <a href=\"https://wp-statistics.com/resources/shortcodes/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings\" target=\"_blank\">shortcode guide</a> for more options."
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:197
-msgid "Visual Reporting"
+#: includes/admin/templates/settings/notifications.php:196
+msgid "Enhanced Visual Report"
+msgstr ""
+
+#: includes/admin/templates/settings/notifications.php:199
+msgid "For graphical representations of your data, explore our <a href=\"https://wp-statistics.com/product/wp-statistics-advanced-reporting/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings\" target=\"_blank\">Advanced Reporting Add-on</a> for additional chart and graph options."
 msgstr ""
 
 #: includes/admin/templates/settings/overview-display.php:14
