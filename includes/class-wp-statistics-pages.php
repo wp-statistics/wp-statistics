@@ -86,7 +86,7 @@ class Pages
         }
 
         //is search page
-        $search_query = sanitize_url(get_search_query(false));
+        $search_query = sanitize_text_field(get_search_query(false));
         if (trim($search_query) != "") {
             return array("type" => "search", "id" => 0, "search_query" => $search_query);
         }
