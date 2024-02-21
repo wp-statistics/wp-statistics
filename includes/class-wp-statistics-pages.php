@@ -203,6 +203,7 @@ class Pages
             }
         }
 
+        // Remove query strings that are not allowed
         $page_uri = Helper::FilterQueryStringUrl($page_uri);
 
         // Limit the URI length to 255 characters, otherwise we may overrun the SQL field size.
