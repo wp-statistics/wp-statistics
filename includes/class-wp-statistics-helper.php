@@ -615,34 +615,32 @@ class Helper
      *
      * Filter certain query string in the URL based on Query Params Allowed List
      * @param string $url
+     * @param array $allowedParams
      * @return string
      */
-    public static function FilterQueryStringUrl($url)
+    public static function FilterQueryStringUrl($url, $allowedParams)
     {
         // Get query from the URL
-        $url_query  = strpos($url, '?');
+        $urlQuery  = strpos($url, '?');
 
         // Check if the URL has query strings
-        if ($url_query !== false) {
-
-            // Get allowed query params list 
-            $allowed_query_params = array_map('trim', explode("\n", Option::get('query_params_allow_list')));
+        if ($urlQuery !== false) {
 
             // Parse query strings passed via the URL
-            parse_str(substr($url, $url_query + 1), $parsed_query);
+            parse_str(substr($url, $urlQuery + 1), $parsedQuery);
 
             // Loop through query params and unset ones not allowed  
-            foreach ($parsed_query as $key => $value) {
-                if (!in_array($key, $allowed_query_params)) {
-                    unset($parsed_query[$key]);
+            foreach ($parsedQuery as $key => $value) {
+                if (!in_array($key, $allowedParams)) {
+                    unset($parsedQuery[$key]);
                 }
             }
 
             // Rebuild URL with allowed params
-            if (!empty($parsed_query)) {
-                $filtered_query = http_build_query($parsed_query);
-                $url_path       = substr($url, 0, $url_query);
-                $url            = $url_path . '?' . $filtered_query;
+            if (!empty($parsedQuery)) {
+                $filteredQuery = http_build_query($parsedQuery);
+                $urlPath        = substr($url, 0, $urlQuery);
+                $url            = $urlPath . '?' . $filteredQuery;
             }
         }
 
