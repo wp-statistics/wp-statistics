@@ -51,6 +51,7 @@ class Option
             'menu_bar'                  => false,
             'coefficient'               => Visitor::getCoefficient(),
             'stats_report'              => true,
+            'cache_plugin'              => true,
             'time_report'               => 'weekly',
             'send_report'               => 'mail',
             'geoip_license_type'        => 'js-deliver',

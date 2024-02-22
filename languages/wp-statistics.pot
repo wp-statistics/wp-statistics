@@ -1284,12 +1284,12 @@ msgstr ""
 #: includes/admin/templates/settings/exclusions.php:111
 #: includes/admin/templates/settings/general.php:203
 #: includes/admin/templates/settings/notifications.php:113
-#: includes/admin/templates/settings/notifications.php:148
+#: includes/admin/templates/settings/notifications.php:147
 msgid "Please select"
 msgstr ""
 
 #: includes/admin/templates/optimization/export.php:27
-msgid "Choose the specific table or data source you wish to export from."
+msgid "Choose a specific table or dataset for export."
 msgstr ""
 
 #: includes/admin/templates/optimization/export.php:33
@@ -1297,7 +1297,7 @@ msgid "Choose Export Format"
 msgstr ""
 
 #: includes/admin/templates/optimization/export.php:44
-msgid "Select the desired file format for your exported data."
+msgid "Select a file format for the exported data."
 msgstr ""
 
 #: includes/admin/templates/optimization/export.php:50
@@ -1305,10 +1305,18 @@ msgid "Add Header Row"
 msgstr ""
 
 #: includes/admin/templates/optimization/export.php:55
-msgid "Toggle this option to include a header row in your exported file, which provides column names for clarity."
+msgid "Include column names at the top of the exported file."
 msgstr ""
 
-#: includes/admin/templates/optimization/export.php:56
+#: includes/admin/templates/optimization/export.php:63
+msgid "Privacy Notice for Data Export"
+msgstr ""
+
+#: includes/admin/templates/optimization/export.php:64
+msgid "Exported data may contain personal information. Review our <a href=\"https://wp-statistics.com/resources/handling-of-personal-data-during-export-procedures/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings\" target=\"_blank\">Handling of Personal Data During Export Procedures</a> before exporting to ensure compliance with privacy laws."
+msgstr ""
+
+#: includes/admin/templates/optimization/export.php:67
 msgid "Begin Export"
 msgstr ""
 
@@ -1875,7 +1883,7 @@ msgid "User"
 msgstr ""
 
 #: includes/admin/templates/pages/online.php:46
-#: includes/admin/templates/settings/notifications.php:149
+#: includes/admin/templates/settings/notifications.php:148
 msgid "Email"
 msgstr ""
 
@@ -2035,7 +2043,7 @@ msgid "Last Visit"
 msgstr ""
 
 #: includes/admin/templates/pages/visitors.php:41
-#: includes/admin/templates/settings/notifications.php:189
+#: includes/admin/templates/settings/notifications.php:188
 #: includes/class-wp-statistics-widget.php:97
 #: includes/class-wp-statistics-widget.php:296
 msgid "Total Visits"
@@ -2234,7 +2242,7 @@ msgstr ""
 #: includes/admin/templates/settings/externals.php:281
 #: includes/admin/templates/settings/general.php:346
 #: includes/admin/templates/settings/maintenance.php:78
-#: includes/admin/templates/settings/notifications.php:207
+#: includes/admin/templates/settings/notifications.php:206
 #: includes/admin/templates/settings/overview-display.php:42
 #: includes/admin/templates/settings/privacy.php:76
 #: includes/admin/templates/settings/visitor-ip.php:167
@@ -2351,6 +2359,8 @@ msgstr ""
 #: includes/admin/templates/settings/notifications.php:55
 #: includes/admin/templates/settings/notifications.php:67
 #: includes/admin/templates/settings/notifications.php:88
+#: includes/admin/templates/settings/overview-display.php:19
+#: includes/admin/templates/settings/overview-display.php:31
 #: includes/admin/templates/settings/privacy.php:14
 #: includes/admin/templates/settings/privacy.php:25
 #: includes/admin/templates/settings/privacy.php:46
@@ -2387,7 +2397,7 @@ msgid "Identify Incomplete Browser Data as Bot Activity"
 msgstr ""
 
 #: includes/admin/templates/settings/exclusions.php:123
-msgid "Enable this to classify visitors with incomplete browser details, such as a missing IP or user agent, as bots. This helps in preventing skewed analytics from corrupt data."
+msgid "Visitors with missing browser details such as IP address or user agent are marked as bots."
 msgstr ""
 
 #: includes/admin/templates/settings/exclusions.php:133
@@ -2427,7 +2437,7 @@ msgid "Excluded Login Page"
 msgstr ""
 
 #: includes/admin/templates/settings/exclusions.php:165
-msgid "Prevent the login page from being counted as a hit."
+msgid "Login page visits will not be included in site visit counts."
 msgstr ""
 
 #: includes/admin/templates/settings/exclusions.php:169
@@ -2435,7 +2445,7 @@ msgid "Excluded RSS Feeds"
 msgstr ""
 
 #: includes/admin/templates/settings/exclusions.php:172
-msgid "Stop RSS feeds from being recorded as hits."
+msgid "RSS feeds visits will not be included in site visit counts."
 msgstr ""
 
 #: includes/admin/templates/settings/exclusions.php:176
@@ -2443,7 +2453,7 @@ msgid "Excluded 404 Pages"
 msgstr ""
 
 #: includes/admin/templates/settings/exclusions.php:179
-msgid "Exclude URLs that return a '404 - Not Found' message."
+msgid "404 Page visits will not be included in site visit counts."
 msgstr ""
 
 #: includes/admin/templates/settings/exclusions.php:183
@@ -2451,7 +2461,7 @@ msgid "Excluded URLs"
 msgstr ""
 
 #: includes/admin/templates/settings/exclusions.php:186
-msgid "Enter specific URLs to exclude. URL parameters aren't considered"
+msgid "List specific URLs here that you wish to exclude from tracking. URL parameters aren't considered."
 msgstr ""
 
 #: includes/admin/templates/settings/exclusions.php:196
@@ -2486,14 +2496,6 @@ msgstr ""
 msgid "General Exclusions"
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:243
-msgid "Enable Record Exclusions"
-msgstr ""
-
-#: includes/admin/templates/settings/exclusions.php:246
-msgid "Maintain a log of all excluded hits for insight into exclusions."
-msgstr ""
-
 #: includes/admin/templates/settings/externals.php:6
 msgid "GeoIP Settings"
 msgstr ""
@@ -2511,7 +2513,7 @@ msgid "Use the MaxMind server with your own license key"
 msgstr ""
 
 #: includes/admin/templates/settings/externals.php:18
-msgid "Use this setting to select a service that updates the GeoIP database, ensuring the geographic information displayed is accurate and up-to-date. It's only used for database updates, not for real-time location lookups."
+msgid "Select a service that updates the GeoIP database, ensuring the geographic information displayed is accurate and up-to-date. It's only used for database updates, not for real-time location lookups."
 msgstr ""
 
 #: includes/admin/templates/settings/externals.php:24
@@ -2532,7 +2534,7 @@ msgid "Update Database"
 msgstr ""
 
 #: includes/admin/templates/settings/externals.php:51
-msgid "Enable this to gather and display geographic information (country) related to your visitors."
+msgid "Gather and display geographic information (country) related to your visitors."
 msgstr ""
 
 #: includes/admin/templates/settings/externals.php:57
@@ -2540,7 +2542,7 @@ msgid "GeoIP City"
 msgstr ""
 
 #: includes/admin/templates/settings/externals.php:72
-msgid "Activate this feature if you wish to see the city details of your visitors."
+msgid "Provides city-level geographic details for website visitor analysis."
 msgstr ""
 
 #: includes/admin/templates/settings/externals.php:78
@@ -2562,7 +2564,7 @@ msgid "First Tuesday of next month"
 msgstr ""
 
 #: includes/admin/templates/settings/externals.php:110
-msgid "Set up a monthly update for the GeoIP database to ensure accurate and up-to-date geographical data. The scheduled download will occur 2 days after the first Tuesday of the month. This setting is crucial for maintaining current geographical data."
+msgid "Automates monthly GeoIP database updates for the latest geographical data, occurring two days after the first Tuesday each month."
 msgstr ""
 
 #: includes/admin/templates/settings/externals.php:116
@@ -2570,7 +2572,7 @@ msgid "Update Missing GeoIP Data"
 msgstr ""
 
 #: includes/admin/templates/settings/externals.php:122
-msgid "If, for any reason, there are gaps in the GeoIP data, use this feature to fill in the missing pieces after a fresh database download."
+msgid "Fills in any gaps in the GeoIP database following a new download."
 msgstr ""
 
 #: includes/admin/templates/settings/externals.php:128
@@ -2578,7 +2580,7 @@ msgid "Country Code for Private IP Addresses"
 msgstr ""
 
 #: includes/admin/templates/settings/externals.php:133
-msgid "Specify a default country code for private (non-routable) IP addresses. For example, using \"US\" for United States or \"CA\" for Canada. If uncertain, use \"000\" to label them as \"Unknown\"."
+msgid "Assigns a default country code for private IP addresses that cannot be geographically located."
 msgstr ""
 
 #: includes/admin/templates/settings/externals.php:140
@@ -2606,7 +2608,7 @@ msgid "Referrer Spam Blacklist"
 msgstr ""
 
 #: includes/admin/templates/settings/externals.php:229
-msgid "Enable the integration with Matomo's Referrer Spam Blacklist to prevent spammers from skewing your site statistics. This helps ensure the integrity of your data by filtering out known spam referrers. For more details on the blacklist source, visit <a href=\"https://github.com/matomo-org/referrer-spam-blacklist\" target=\"_blank\">Matomo's Referrer Spam Blacklist</a>."
+msgid "Integrates with Matomo’s Referrer Spam Blacklist to exclude known spam referrers from site statistics. For more details on the blacklist source, visit <a href=\"https://github.com/matomo-org/referrer-spam-blacklist\" target=\"_blank\">Matomo's Referrer Spam Blacklist</a>."
 msgstr ""
 
 #: includes/admin/templates/settings/externals.php:237
@@ -2851,7 +2853,7 @@ msgid "Automatic Cleanup"
 msgstr ""
 
 #: includes/admin/templates/settings/maintenance.php:25
-msgid "Turn on this feature to automatically remove data entries older than a specified number of days. This helps keep your database optimized. Note: This cleaner will be run the next day."
+msgid "Automatic deletion of data entries that are more than a specified number of days old to keep the database optimized. The process runs the following day."
 msgstr ""
 
 #: includes/admin/templates/settings/maintenance.php:31
@@ -2859,7 +2861,7 @@ msgid "Purge Data Older Than"
 msgstr ""
 
 #: includes/admin/templates/settings/maintenance.php:37
-msgid "Define the age of data entries to be removed. Only data older than the specified number of days will be purged. Setting a lower value might result in the loss of valuable historical data. The minimum value allowed is 30 days. Inputting invalid values will halt the cleanup process."
+msgid "Sets the age threshold for deleting data entries. Data exceeding the specified age in days will be removed. The minimum setting is 30 days."
 msgstr ""
 
 #: includes/admin/templates/settings/maintenance.php:47
@@ -2867,7 +2869,7 @@ msgid "Purge High Hit Count Visitors Daily"
 msgstr ""
 
 #: includes/admin/templates/settings/maintenance.php:59
-msgid "Activate this to automatically purge user statistics data if the user has an unusually high number of hits in a day, which might indicate bot activity."
+msgid "Removes user statistics data daily for users with an abnormally high number of visits, indicating potential bot activity."
 msgstr ""
 
 #: includes/admin/templates/settings/maintenance.php:65
@@ -2875,7 +2877,7 @@ msgid "Purge Visitors More Than"
 msgstr ""
 
 #: includes/admin/templates/settings/maintenance.php:71
-msgid "Set the threshold for the number of hits by a user in a single day to qualify them for purging. Users exceeding this threshold are likely bots. The minimum threshold is 10 hits. Invalid entries will suspend the cleanup process."
+msgid "Establishes a daily visit limit. Users with visit counts above this limit are considered for removal, with the minimum set threshold being 10 visits."
 msgstr ""
 
 #: includes/admin/templates/settings/notifications.php:10
@@ -2887,15 +2889,15 @@ msgid "Recipient Email Addresses"
 msgstr ""
 
 #: includes/admin/templates/settings/notifications.php:23
-msgid "Specify the email addresses that should receive the reports. Separate multiple addresses with a comma."
+msgid "Enter email addresses to receive reports. Use a comma to separate multiple addresses."
 msgstr ""
 
 #: includes/admin/templates/settings/notifications.php:29
-msgid "Email Statistical Reports"
+msgid "Automated Report Delivery"
 msgstr ""
 
 #: includes/admin/templates/settings/notifications.php:35
-msgid "Receive regular statistical reports in your inbox."
+msgid "Set preferences for receiving automated, detailed statistical reports by email."
 msgstr ""
 
 #: includes/admin/templates/settings/notifications.php:45
@@ -2927,7 +2929,7 @@ msgid "Display All WP Statistics Notices"
 msgstr ""
 
 #: includes/admin/templates/settings/notifications.php:89
-msgid "Enable this to see all notifications, alerts, and suggestions from WP Statistics in your admin dashboard. If disabled, only critical warnings or errors will be shown, keeping your dashboard less cluttered."
+msgid "All notifications, alerts, and suggestions from WP Statistics appear in the admin dashboard. Without selection, only critical warnings or errors are shown for a streamlined dashboard view."
 msgstr ""
 
 #: includes/admin/templates/settings/notifications.php:104
@@ -2935,112 +2937,107 @@ msgid "Advanced Reporting Options"
 msgstr ""
 
 #: includes/admin/templates/settings/notifications.php:108
-msgid "Reporting Schedule"
+msgid "Report Frequency"
 msgstr ""
 
 #: includes/admin/templates/settings/notifications.php:136
-msgid "Report Timing: Choose how frequently you want your statistical reports to be compiled and sent. Options range from hourly to monthly."
+msgid "Select the frequency of report deliveries. For custom schedules, more information can be found in our <a href=\"https://wp-statistics.com/resources/schedule-statistical-reports/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings\" target=\"_blank\">documentation</a>."
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:137
-msgid "For setting up a custom schedule, please refer to our <a href=\"%s\" target=\"_blank\">documentation</a>."
-msgstr ""
-
-#: includes/admin/templates/settings/notifications.php:143
+#: includes/admin/templates/settings/notifications.php:142
 msgid "Delivery Method"
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:151
+#: includes/admin/templates/settings/notifications.php:150
 msgid "SMS"
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:155
-msgid "Delivery Channel: Select how you would like to receive the generated reports. Currently, reports can be sent to you via email or downloaded directly from the plugin."
+#: includes/admin/templates/settings/notifications.php:154
+msgid "Choose how to receive reports, either via email or SMS."
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:158
+#: includes/admin/templates/settings/notifications.php:157
 msgid "Note:"
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:159
+#: includes/admin/templates/settings/notifications.php:158
 msgid "To send SMS text messages please install the %s plugin."
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:159
+#: includes/admin/templates/settings/notifications.php:158
 msgid "WP SMS"
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:167
-msgid "Report Composition"
+#: includes/admin/templates/settings/notifications.php:166
+msgid "Custom Report Builder"
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:172
-msgid "Report Content: Customize the content of your reports by using WP Statistics shortcodes to display various statistics."
+#: includes/admin/templates/settings/notifications.php:171
+msgid "Using WP Statistics shortcodes to display specific statistics."
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:175
+#: includes/admin/templates/settings/notifications.php:174
 msgid "Insert any of the following shortcode examples to show corresponding data:"
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:177
+#: includes/admin/templates/settings/notifications.php:176
 msgid "Current Online Users"
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:179
-#: includes/admin/templates/settings/notifications.php:181
+#: includes/admin/templates/settings/notifications.php:178
+#: includes/admin/templates/settings/notifications.php:180
 #: includes/class-wp-statistics-admin-bar.php:98
 #: includes/class-wp-statistics-widget.php:48
 #: includes/class-wp-statistics-widget.php:268
 msgid "Today's Visits"
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:183
+#: includes/admin/templates/settings/notifications.php:182
 #: includes/class-wp-statistics-admin-bar.php:102
 #: includes/class-wp-statistics-widget.php:69
 #: includes/class-wp-statistics-widget.php:280
 msgid "Yesterday's Visitors"
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:185
+#: includes/admin/templates/settings/notifications.php:184
 #: includes/class-wp-statistics-admin-bar.php:106
 #: includes/class-wp-statistics-widget.php:62
 #: includes/class-wp-statistics-widget.php:276
 msgid "Yesterday's Visits"
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:187
+#: includes/admin/templates/settings/notifications.php:186
 #: includes/class-wp-statistics-widget.php:104
 #: includes/class-wp-statistics-widget.php:300
 msgid "Total Visitors"
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:192
-msgid "Refer to our complete  <a href=\"%s\" target=\"_blank\">shortcode guide</a> for more options."
+#: includes/admin/templates/settings/notifications.php:191
+msgid "Refer to our complete <a href=\"https://wp-statistics.com/resources/shortcodes/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings\" target=\"_blank\">shortcode guide</a> for more options."
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:197
-msgid "Visual Reporting"
+#: includes/admin/templates/settings/notifications.php:196
+msgid "Enhanced Visual Report"
+msgstr ""
+
+#: includes/admin/templates/settings/notifications.php:199
+msgid "For graphical representations of your data, explore our <a href=\"https://wp-statistics.com/product/wp-statistics-advanced-reporting/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings\" target=\"_blank\">Advanced Reporting Add-on</a> for additional chart and graph options."
 msgstr ""
 
 #: includes/admin/templates/settings/overview-display.php:14
 msgid "Display WP Statistics Widgets"
 msgstr ""
 
-#: includes/admin/templates/settings/overview-display.php:19
-#: includes/admin/templates/settings/overview-display.php:31
-msgid "Disable"
-msgstr ""
-
 #: includes/admin/templates/settings/overview-display.php:20
-msgid "Toggle this setting to enable or disable the display of WP Statistics widgets on your WordPress dashboard."
+msgid "View WP Statistics widgets in the WordPress dashboard."
 msgstr ""
 
 #: includes/admin/templates/settings/overview-display.php:26
-msgid "Enable Geographic Map"
+msgid "Display Global Visitor"
 msgstr ""
 
 #: includes/admin/templates/settings/overview-display.php:32
-msgid "Activate this setting to display a geographic map on your dashboard, providing insights into your visitors' locations."
+msgid "View the 'Global Visitor Distribution' widget in the dashboard."
 msgstr ""
 
 #: includes/admin/templates/settings/privacy.php:5
