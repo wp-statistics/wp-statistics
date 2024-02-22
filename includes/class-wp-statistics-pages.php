@@ -86,7 +86,7 @@ class Pages
         }
 
         //is search page
-        $search_query = sanitize_url(get_search_query(false));
+        $search_query = sanitize_text_field(get_search_query(false));
         if (trim($search_query) != "") {
             return array("type" => "search", "id" => 0, "search_query" => $search_query);
         }
@@ -196,12 +196,15 @@ class Pages
         }
 
         // Check Strip Url Parameter
-        if (Option::get('strip_uri_parameters') and array_key_exists("search_query", $current_page) === false) {
+        if (array_key_exists("search_query", $current_page) === false) {
             $temp = explode('?', $page_uri);
             if ($temp !== false) {
                 $page_uri = $temp[0];
             }
         }
+
+        // Filter query parameters based on allowed query params list
+        $page_uri = Helper::FilterQueryStringUrl($page_uri, Helper::get_query_params_allow_list());
 
         // Limit the URI length to 255 characters, otherwise we may overrun the SQL field size.
         return substr($page_uri, 0, 255);

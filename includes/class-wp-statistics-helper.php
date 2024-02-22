@@ -255,6 +255,41 @@ class Helper
     }
 
     /**
+     * Get URL Query Parameters List
+     *
+     * @param string $type
+     * @return array|bool|string
+     */
+    public static function get_query_params_allow_list($type = 'array')
+    {
+        # Set Default
+        $list = [];
+
+        if (Option::get('query_params_allow_list') !== false) {
+            # Load from options
+            $list = array_map('trim', explode("\n", Option::get('query_params_allow_list')));
+        } else {
+            # Load the default options
+            $list = self::get_default_query_params_allow_list();
+        }
+
+        return ($type == "array" ? $list : implode("\n", $list));
+    }
+
+
+    /**
+     * Get the default URL Query Parameters List
+     * @param string $type
+     * @return array|string
+     */
+    public static function get_default_query_params_allow_list($type = 'array')
+    {
+        include WP_STATISTICS_DIR . "includes/defines/query-params-allow-list.php";
+        $list = isset($wps_query_params_allow_list_array) ? $wps_query_params_allow_list_array : [];
+        return ($type == "array" ? $list : implode("\n", $list));
+    }
+
+    /**
      * Get Number Days From install this plugin
      * this method used for `ALL` Option in Time Range Pages
      */
@@ -582,6 +617,44 @@ class Helper
     public static function RemoveQueryStringUrl($url)
     {
         return substr($url, 0, strrpos($url, "?"));
+    }
+
+    /**
+     *
+     * Filter certain query string in the URL based on Query Params Allowed List
+     * @param string $url
+     * @param array $allowedParams
+     * @return string
+     */
+    public static function FilterQueryStringUrl($url, $allowedParams)
+    {
+        // Get query from the URL
+        $urlQuery  = strpos($url, '?');
+
+        // Check if the URL has query strings
+        if ($urlQuery !== false) {
+
+            // Parse query strings passed via the URL
+            parse_str(substr($url, $urlQuery + 1), $parsedQuery);
+
+            // Loop through query params and unset ones not allowed  
+            foreach ($parsedQuery as $key => $value) {
+                if (!in_array($key, $allowedParams)) {
+                    unset($parsedQuery[$key]);
+                }
+            }
+
+            // Rebuild URL with allowed params
+            $urlPath = substr($url, 0, $urlQuery);
+            if (!empty($parsedQuery)) {
+                $filteredQuery = http_build_query($parsedQuery);
+                $url           = $urlPath . '?' . $filteredQuery;
+            } else {
+                $url = $urlPath;
+            }
+        }
+
+        return $url;
     }
 
     /**

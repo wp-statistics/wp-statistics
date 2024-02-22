@@ -241,6 +241,31 @@
                     jQuery("#clear-user-agent-strings-submit").removeAttr("disabled");
                 });
         });
+
+        jQuery("#query-params-cleanup-submit").click(function () {
+
+            var agree = confirm('<?php _e('Are you sure?', 'wp-statistics'); ?>');
+
+            if (!agree)
+                return false;
+
+            jQuery("#query-params-cleanup-submit").attr("disabled", "disabled");
+            jQuery("#query-params-cleanup-status").html("<img src='<?php echo esc_url(plugins_url('wp-statistics')); ?>/assets/images/loading.gif'/>");
+            jQuery.ajax({
+                url: ajaxurl,
+                type: 'post',
+                data: {
+                    'action': 'wp_statistics_query_params_cleanup',
+                    'wps_nonce': '<?php echo wp_create_nonce('wp_rest'); ?>'
+                },
+                datatype: 'json',
+            })
+                .always(function (result) {
+                    jQuery("#query-params-cleanup-status").html("");
+                    jQuery("#query-params-cleanup-result").html(result);
+                    jQuery("#query-params-cleanup-submit").removeAttr("disabled");
+                });
+        });
     });
 </script>
 <div class="wrap wps-wrap">
@@ -338,6 +363,22 @@
                     </p>
                     <span id="clear-user-agent-strings-status"></span>
                     <div id="clear-user-agent-strings-result"></div>
+                </td>
+            </tr>
+
+            <tr>
+                <th scope="row">
+                    <label for="query-params-cleanup-submit"><?php _e('Clean Up Recorded Query Parameters', 'wp-statistics'); ?></label>
+                </th>
+                <td>
+                    <input id="query-params-cleanup-submit" class="button button-primary" type="submit" value="<?php _e('Run Cleanup', 'wp-statistics'); ?>" name="query_params_cleanup_submit">
+                    <p class="description">
+                        <?php _e('Perform a cleanup of query parameters previously recorded in your data. This action will remove unwanted query parameters from your historical statistics based on your current Allow List settings. Use this to ensure consistency in your data and to apply new privacy settings retroactively.', 'wp-statistics'); ?><br>
+                        <span class="wps-note"><?php _e('Warning:', 'wp-statistics'); ?></span>
+                        <?php _e('Please note that this operation cannot be undone, so it is recommended to back up your database before proceeding.', 'wp-statistics'); ?>
+                    </p>
+                    <span id="query-params-cleanup-status"></span>
+                    <div id="query-params-cleanup-result"></div>
                 </td>
             </tr>
             </tbody>

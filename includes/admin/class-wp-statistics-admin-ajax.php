@@ -17,6 +17,7 @@ class Ajax
             'close_notice',
             'close_overview_ads',
             'clear_user_agent_strings',
+            'query_params_cleanup',
             'delete_agents',
             'delete_platforms',
             'delete_ip',
@@ -248,6 +249,46 @@ class Ajax
                 _e('Couldn’t find any user agent strings data to delete.', 'wp-statistics');
             }
 
+        } else {
+            _e('Unauthorized access!', 'wp-statistics');
+        }
+
+        exit;
+    }
+
+    /**
+     * Setup an AJAX action to clean up query parameters from pages table.
+     */
+    public function query_params_cleanup_action_callback()
+    {
+        global $wpdb;
+
+        if (Helper::is_request('ajax') and User::Access('manage')) {
+
+            // Check Refer Ajax
+            check_ajax_referer('wp_rest', 'wps_nonce');
+
+            // Get allowed query params
+            $allowedQueryParams = Helper::get_query_params_allow_list();
+
+            // Get all page URIs from pages table
+            $rows = $wpdb->get_results($wpdb->prepare("SELECT * FROM " . DB::table('pages')));
+
+            if ($rows) {
+
+                // Update query strings based on allow list
+                foreach ($rows as $row) {
+                    $wpdb->update(
+                        DB::table('pages'),
+                        ['uri' => Helper::FilterQueryStringUrl($row->uri, $allowedQueryParams)],
+                        ['page_id' => $row->page_id]
+                    );
+                }
+
+                _e('Successfully removed query string parameter data.', 'wp-statistics');
+            } else {
+                _e('Couldn’t find any user query string parameter data to delete.', 'wp-statistics');
+            }
         } else {
             _e('Unauthorized access!', 'wp-statistics');
         }

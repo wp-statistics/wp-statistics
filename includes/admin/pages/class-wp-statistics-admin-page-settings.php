@@ -47,11 +47,7 @@ class settings_page
         $args['selist'] = SearchEngine::getList(true);
 
         // Get Permalink Structure
-        $args['permalink']                    = get_option('permalink_structure');
-        $args['disable_strip_uri_parameters'] = false;
-        if ($args['permalink'] == '' || strpos($args['permalink'], '?') !== false) {
-            $args['disable_strip_uri_parameters'] = true;
-        }
+        $args['permalink'] = get_option('permalink_structure');
 
         // Get List All Options
         $args['wp_statistics_options'] = Option::getOptions();
@@ -365,6 +361,7 @@ class settings_page
         $wps_option_list = array(
             'wps_record_exclusions',
             'wps_robotlist',
+            'wps_query_params_allow_list',
             'wps_exclude_ip',
             'wps_exclude_loginpage',
             'wps_force_robot_update',
@@ -438,13 +435,8 @@ class settings_page
     public static function save_general_option($wp_statistics_options)
     {
 
-        $selist                       = SearchEngine::getList(true);
-        $permalink                    = get_option('permalink_structure');
-        $disable_strip_uri_parameters = false;
+        $selist = SearchEngine::getList(true);
 
-        if ($permalink == '' || strpos($permalink, '?') !== false) {
-            $disable_strip_uri_parameters = true;
-        }
         foreach ($selist as $se) {
             $se_post     = 'wps_disable_se_' . $se['tag'];
             $optionValue = isset($_POST[$se_post]) && sanitize_text_field($_POST[$se_post]) == '1' ? '' : '1';
@@ -470,14 +462,8 @@ class settings_page
             'wps_chart_totals',
             'wps_hide_notices',
             'wps_all_online',
-            'wps_strip_uri_parameters',
             'wps_addsearchwords',
         );
-
-        // We need to check the permalink format for the strip_uri_parameters option
-        if ($disable_strip_uri_parameters) {
-            $_POST['wps_strip_uri_parameters'] = '';
-        }
 
         foreach ($wps_option_list as $option) {
             $optionValue                                                = isset($_POST[$option]) ? sanitize_text_field($_POST[$option]) : '';
