@@ -293,7 +293,7 @@
                     </select>
 
                     <p class="description">
-                        <span class="wps-note"><?php _e('Warning:', 'wp-statistics'); ?></span>
+                        <span class="wps-note"><?php _e('Caution:', 'wp-statistics'); ?></span>
                         <?php _e('All data in the table will be permanently deleted.', 'wp-statistics'); ?>
                     </p>
                     <input id="empty-table-submit" class="button button-primary" type="submit" value="<?php _e('Erase Data Now', 'wp-statistics'); ?>" name="empty-table-submit" Onclick="return false;"/>
@@ -311,7 +311,7 @@
                     <input type="text" class="small-text code" id="purge-data" name="wps_purge_data" value="365"/>
                     <label for="purge-data"><?php _e('Days', 'wp-statistics'); ?></label>
 
-                    <p class="description"><?php echo __('Erase User Stats Older Than Specified Days.', 'wp-statistics') . ' ' . __('Minimum Age for Deletion: 30 Days..', 'wp-statistics'); ?></p>
+                    <p class="description"><?php echo __('Erase User Stats Older Than Specified Days.', 'wp-statistics') . ' ' . __('Minimum Age for Deletion: 30 Days.', 'wp-statistics'); ?></p>
                     <input id="purge-data-submit" class="button button-primary" type="submit" value="<?php _e('Start Purging Now', 'wp-statistics'); ?>" name="purge-data-submit" Onclick="return false;"/>
                     <span id="purge-data-status"></span>
                     <div id="purge-data-result"></div>

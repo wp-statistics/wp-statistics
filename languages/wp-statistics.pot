@@ -9,9 +9,9 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-02-24T06:46:39+00:00\n"
+"POT-Creation-Date: 2024-02-24T07:18:19+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.8.1\n"
+"X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: wp-statistics\n"
 
 #. Plugin Name of the plugin
@@ -1230,9 +1230,11 @@ msgid "Click to begin the setup process for the plugin from scratch, useful when
 msgstr ""
 
 #: includes/admin/templates/optimization/database.php:20
+#: includes/admin/templates/optimization/purging.php:296
 #: includes/admin/templates/optimization/purging.php:345
 #: includes/admin/templates/optimization/purging.php:361
 #: includes/admin/templates/optimization/purging.php:377
+#: includes/admin/templates/settings/reset.php:17
 msgid "Caution:"
 msgstr ""
 
@@ -1278,7 +1280,7 @@ msgstr ""
 #: includes/admin/templates/optimization/export.php:19
 #: includes/admin/templates/optimization/export.php:38
 #: includes/admin/templates/settings/exclusions.php:111
-#: includes/admin/templates/settings/general.php:203
+#: includes/admin/templates/settings/general.php:204
 #: includes/admin/templates/settings/notifications.php:113
 #: includes/admin/templates/settings/notifications.php:147
 msgid "Please select"
@@ -1364,10 +1366,6 @@ msgstr ""
 msgid "Clear Table Contents"
 msgstr ""
 
-#: includes/admin/templates/optimization/purging.php:296
-msgid "Warning:"
-msgstr ""
-
 #: includes/admin/templates/optimization/purging.php:297
 msgid "All data in the table will be permanently deleted."
 msgstr ""
@@ -1390,7 +1388,7 @@ msgid "Erase User Stats Older Than Specified Days."
 msgstr ""
 
 #: includes/admin/templates/optimization/purging.php:314
-msgid "Minimum Age for Deletion: 30 Days.."
+msgid "Minimum Age for Deletion: 30 Days."
 msgstr ""
 
 #: includes/admin/templates/optimization/purging.php:315
@@ -1544,13 +1542,13 @@ msgstr ""
 
 #: includes/admin/templates/optimization/resources.php:84
 #: includes/admin/templates/optimization/resources.php:100
-#: includes/admin/templates/settings/general.php:258
+#: includes/admin/templates/settings/general.php:259
 msgid "Yes"
 msgstr ""
 
 #: includes/admin/templates/optimization/resources.php:86
 #: includes/admin/templates/optimization/resources.php:102
-#: includes/admin/templates/settings/general.php:259
+#: includes/admin/templates/settings/general.php:260
 msgid "No"
 msgstr ""
 
@@ -1723,39 +1721,39 @@ msgstr ""
 msgid "Set by services like the Nginx proxy to indicate the true client IP. Turn this on if your server environment uses the <code>HTTP_X_REAL_IP</code> header."
 msgstr ""
 
-#: includes/admin/templates/optimization/updates.php:9
+#: includes/admin/templates/optimization/updates.php:10
 msgid "GeoLocation Settings"
 msgstr ""
 
-#: includes/admin/templates/optimization/updates.php:14
+#: includes/admin/templates/optimization/updates.php:16
 msgid "Update Country Data"
 msgstr ""
 
-#: includes/admin/templates/optimization/updates.php:19
+#: includes/admin/templates/optimization/updates.php:21
 msgid "Refresh Country Data"
 msgstr ""
 
-#: includes/admin/templates/optimization/updates.php:20
+#: includes/admin/templates/optimization/updates.php:22
 msgid "This action updates and corrects any unidentified or missing country data in the database. Please be patient, as the process might take some time, depending on the amount of data."
 msgstr ""
 
-#: includes/admin/templates/optimization/updates.php:26
+#: includes/admin/templates/optimization/updates.php:40
 msgid "IP Address Management"
 msgstr ""
 
-#: includes/admin/templates/optimization/updates.php:31
+#: includes/admin/templates/optimization/updates.php:46
 msgid "Convert IP Addresses to Hash"
 msgstr ""
 
-#: includes/admin/templates/optimization/updates.php:36
+#: includes/admin/templates/optimization/updates.php:51
 msgid "This will replace all IP addresses in the database with hash values and cannot be undo, are you sure?"
 msgstr ""
 
-#: includes/admin/templates/optimization/updates.php:36
+#: includes/admin/templates/optimization/updates.php:51
 msgid "Initiate Conversion"
 msgstr ""
 
-#: includes/admin/templates/optimization/updates.php:37
+#: includes/admin/templates/optimization/updates.php:52
 msgid "This function will transform all stored IP addresses into hashed values. Please note that after hashing, original IP addresses cannot be retrieved. The hashing process ensures user privacy while still allowing the system to generate accurate location-based insights. This operation might be time-consuming, so we recommend performing it during off-peak hours."
 msgstr ""
 
@@ -2228,7 +2226,7 @@ msgstr ""
 #: includes/admin/templates/settings/access-level.php:83
 #: includes/admin/templates/settings/exclusions.php:245
 #: includes/admin/templates/settings/externals.php:281
-#: includes/admin/templates/settings/general.php:346
+#: includes/admin/templates/settings/general.php:347
 #: includes/admin/templates/settings/maintenance.php:78
 #: includes/admin/templates/settings/notifications.php:206
 #: includes/admin/templates/settings/overview-display.php:42
@@ -2330,17 +2328,17 @@ msgstr ""
 #: includes/admin/templates/settings/general.php:45
 #: includes/admin/templates/settings/general.php:66
 #: includes/admin/templates/settings/general.php:77
-#: includes/admin/templates/settings/general.php:119
-#: includes/admin/templates/settings/general.php:130
-#: includes/admin/templates/settings/general.php:151
-#: includes/admin/templates/settings/general.php:162
-#: includes/admin/templates/settings/general.php:174
-#: includes/admin/templates/settings/general.php:186
-#: includes/admin/templates/settings/general.php:227
-#: includes/admin/templates/settings/general.php:272
-#: includes/admin/templates/settings/general.php:293
-#: includes/admin/templates/settings/general.php:316
-#: includes/admin/templates/settings/general.php:337
+#: includes/admin/templates/settings/general.php:120
+#: includes/admin/templates/settings/general.php:131
+#: includes/admin/templates/settings/general.php:152
+#: includes/admin/templates/settings/general.php:163
+#: includes/admin/templates/settings/general.php:175
+#: includes/admin/templates/settings/general.php:187
+#: includes/admin/templates/settings/general.php:228
+#: includes/admin/templates/settings/general.php:273
+#: includes/admin/templates/settings/general.php:294
+#: includes/admin/templates/settings/general.php:317
+#: includes/admin/templates/settings/general.php:338
 #: includes/admin/templates/settings/maintenance.php:24
 #: includes/admin/templates/settings/maintenance.php:58
 #: includes/admin/templates/settings/notifications.php:34
@@ -2672,166 +2670,170 @@ msgid "Track User Activity"
 msgstr ""
 
 #: includes/admin/templates/settings/general.php:89
-msgid "Logs each visit made by signed-in users, along with their user IDs, to provide a detailed view of page traffic and user engagement. Note: Compliance with GDPR and other privacy regulations is essential. Inform users about data collection and usage through your privacy policy. For details on data handling and privacy, visit <a href=\"https://wp-statistics.com/resources/avoiding-pii-data-collection/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings\" target=\"_blank\">Avoiding PII Data Collection</a>."
+msgid "Logs each visit made by signed-in users, along with their user IDs, to provide a detailed view of page traffic and user engagement."
 msgstr ""
 
-#: includes/admin/templates/settings/general.php:95
+#: includes/admin/templates/settings/general.php:90
+msgid "Note: Compliance with GDPR and other privacy regulations is essential. Inform users about data collection and usage through your privacy policy. For details on data handling and privacy, visit <a href=\"https://wp-statistics.com/resources/avoiding-pii-data-collection/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings\" target=\"_blank\">Avoiding PII Data Collection</a>."
+msgstr ""
+
+#: includes/admin/templates/settings/general.php:96
 msgid "Display User Visit Logs"
 msgstr ""
 
-#: includes/admin/templates/settings/general.php:99
+#: includes/admin/templates/settings/general.php:100
 msgid "Show Visit Logs"
 msgstr ""
 
-#: includes/admin/templates/settings/general.php:100
+#: includes/admin/templates/settings/general.php:101
 msgid "Adds a column in the WordPress admin's user list to display a log of user visits."
 msgstr ""
 
-#: includes/admin/templates/settings/general.php:110
+#: includes/admin/templates/settings/general.php:111
 msgid "Content Engagement Metrics"
 msgstr ""
 
-#: includes/admin/templates/settings/general.php:115
+#: includes/admin/templates/settings/general.php:116
 msgid "Count Page Visits"
 msgstr ""
 
-#: includes/admin/templates/settings/general.php:120
+#: includes/admin/templates/settings/general.php:121
 msgid "Tracks how many times each individual page is visited."
 msgstr ""
 
-#: includes/admin/templates/settings/general.php:126
+#: includes/admin/templates/settings/general.php:127
 msgid "Monitor All Content Types"
 msgstr ""
 
-#: includes/admin/templates/settings/general.php:131
-msgid "Gathers visitor data from every type of content, including non-standard posts and pages."
+#: includes/admin/templates/settings/general.php:132
+msgid "Tracks visitor data for custom post types in addition to standard posts and pages. To access more detailed statistics for custom post types, download the <a href=\"https://wp-statistics.com/product/wp-statistics-data-plus/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings\">DataPlus add-on</a>."
 msgstr ""
 
-#: includes/admin/templates/settings/general.php:142
+#: includes/admin/templates/settings/general.php:143
 msgid "User Interface Preferences"
 msgstr ""
 
-#: includes/admin/templates/settings/general.php:146
+#: includes/admin/templates/settings/general.php:147
 msgid "Visits Chart Metabox"
 msgstr ""
 
-#: includes/admin/templates/settings/general.php:152
+#: includes/admin/templates/settings/general.php:153
 msgid "Shows content view statistics in a graphical format when editing."
 msgstr ""
 
-#: includes/admin/templates/settings/general.php:158
+#: includes/admin/templates/settings/general.php:159
 msgid "Visits Column"
 msgstr ""
 
-#: includes/admin/templates/settings/general.php:163
+#: includes/admin/templates/settings/general.php:164
 msgid "Displays the number of views for each content item in your content list."
 msgstr ""
 
-#: includes/admin/templates/settings/general.php:169
+#: includes/admin/templates/settings/general.php:170
 msgid "Visits in Publish Metabox"
 msgstr ""
 
-#: includes/admin/templates/settings/general.php:175
+#: includes/admin/templates/settings/general.php:176
 msgid "Presents a snapshot of content views in the publish box for quick reference."
 msgstr ""
 
-#: includes/admin/templates/settings/general.php:181
+#: includes/admin/templates/settings/general.php:182
 msgid "Visits in Single Pages"
 msgstr ""
 
-#: includes/admin/templates/settings/general.php:187
+#: includes/admin/templates/settings/general.php:188
 msgid "Shows the view count on the content's page for visitor insight."
 msgstr ""
 
-#: includes/admin/templates/settings/general.php:198
+#: includes/admin/templates/settings/general.php:199
 msgid "Display position"
 msgstr ""
 
-#: includes/admin/templates/settings/general.php:204
+#: includes/admin/templates/settings/general.php:205
 msgid "Before Content"
 msgstr ""
 
-#: includes/admin/templates/settings/general.php:205
+#: includes/admin/templates/settings/general.php:206
 msgid "After Content"
 msgstr ""
 
-#: includes/admin/templates/settings/general.php:207
+#: includes/admin/templates/settings/general.php:208
 msgid "Choose the position to show Visits."
 msgstr ""
 
-#: includes/admin/templates/settings/general.php:217
+#: includes/admin/templates/settings/general.php:218
 msgid "Cache Integration"
 msgstr ""
 
-#: includes/admin/templates/settings/general.php:222
+#: includes/admin/templates/settings/general.php:223
 msgid "Cache Compatibility Mode"
 msgstr ""
 
-#: includes/admin/templates/settings/general.php:228
+#: includes/admin/templates/settings/general.php:229
 msgid "Ensures accurate statistics recording with caching plugins or services."
 msgstr ""
 
-#: includes/admin/templates/settings/general.php:231
+#: includes/admin/templates/settings/general.php:232
 msgid "Remember to update permalinks in the WP Statistics REST API settings and clear the cache for full integration."
 msgstr ""
 
-#: includes/admin/templates/settings/general.php:233
+#: includes/admin/templates/settings/general.php:234
 msgid "To keep Google from indexing REST API endpoints, add the specified code to your <strong>robots.txt</strong> file:"
 msgstr ""
 
-#: includes/admin/templates/settings/general.php:248
+#: includes/admin/templates/settings/general.php:249
 msgid "Admin Interface Settings"
 msgstr ""
 
-#: includes/admin/templates/settings/general.php:253
+#: includes/admin/templates/settings/general.php:254
 msgid "Show Stats in Admin Menu Bar"
 msgstr ""
 
-#: includes/admin/templates/settings/general.php:261
+#: includes/admin/templates/settings/general.php:262
 msgid "View your site's statistics directly from the WordPress admin menu bar."
 msgstr ""
 
-#: includes/admin/templates/settings/general.php:267
+#: includes/admin/templates/settings/general.php:268
 msgid "Disable Inactive Essential Feature Notices"
 msgstr ""
 
-#: includes/admin/templates/settings/general.php:273
+#: includes/admin/templates/settings/general.php:274
 msgid "Stops displaying messages for essential features that are currently switched off."
 msgstr ""
 
-#: includes/admin/templates/settings/general.php:283
+#: includes/admin/templates/settings/general.php:284
 msgid "Search Engine Handling"
 msgstr ""
 
-#: includes/admin/templates/settings/general.php:288
+#: includes/admin/templates/settings/general.php:289
 msgid "Add Page Title to Empty Search Words"
 msgstr ""
 
-#: includes/admin/templates/settings/general.php:294
+#: includes/admin/templates/settings/general.php:295
 msgid "When a search engine directs a visitor without search terms, the page title substitutes the search words."
 msgstr ""
 
-#: includes/admin/templates/settings/general.php:299
+#: includes/admin/templates/settings/general.php:300
 msgid "Search Engine Filters"
 msgstr ""
 
-#: includes/admin/templates/settings/general.php:299
+#: includes/admin/templates/settings/general.php:300
 msgid "Select which search engines are permitted to gather and report usage data when visitors arrive at your site from these sources"
 msgstr ""
 
-#: includes/admin/templates/settings/general.php:317
+#: includes/admin/templates/settings/general.php:318
 msgid "Allow %s to collect and report data."
 msgstr ""
 
-#: includes/admin/templates/settings/general.php:328
+#: includes/admin/templates/settings/general.php:329
 msgid "Graphical Data Presentation"
 msgstr ""
 
-#: includes/admin/templates/settings/general.php:333
+#: includes/admin/templates/settings/general.php:334
 msgid "Include Totals in Charts"
 msgstr ""
 
-#: includes/admin/templates/settings/general.php:338
+#: includes/admin/templates/settings/general.php:339
 msgid "For charts that represent multiple values, show the combined amount of all items at the bottom."
 msgstr ""
 
@@ -3064,10 +3066,6 @@ msgstr ""
 msgid "Debugging & Advanced Options"
 msgstr ""
 
-#: includes/admin/templates/settings/privacy.php:36
-msgid "Advanced settings for website administrators."
-msgstr ""
-
 #: includes/admin/templates/settings/privacy.php:41
 msgid "Store Entire User Agent String"
 msgstr ""
@@ -3109,7 +3107,7 @@ msgid "Revert all user-specific and global configurations to the WP Statistics d
 msgstr ""
 
 #: includes/admin/templates/settings/reset.php:17
-msgid "<b>Caution</b>: This change is irreversible."
+msgid "This change is irreversible."
 msgstr ""
 
 #: includes/admin/templates/settings/reset.php:18
