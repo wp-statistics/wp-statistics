@@ -5,6 +5,7 @@
 $wps_query_params_allow_list_array = array(
     'ref',
     'source',
+    'utm_id',
     'utm_source',
     'utm_medium',
     'utm_campaign',
