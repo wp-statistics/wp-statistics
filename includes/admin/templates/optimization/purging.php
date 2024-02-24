@@ -373,9 +373,9 @@
                 <td>
                     <input id="query-params-cleanup-submit" class="button button-primary" type="submit" value="<?php _e('Run Cleanup', 'wp-statistics'); ?>" name="query_params_cleanup_submit">
                     <p class="description">
-                        <?php _e('Perform a cleanup of query parameters previously recorded in your data. This action will remove unwanted query parameters from your historical statistics based on your current Allow List settings. Use this to ensure consistency in your data and to apply new privacy settings retroactively.', 'wp-statistics'); ?><br>
-                        <span class="wps-note"><?php _e('Warning:', 'wp-statistics'); ?></span>
-                        <?php _e('Please note that this operation cannot be undone, so it is recommended to back up your database before proceeding.', 'wp-statistics'); ?>
+                        <?php _e('Removes previously stored query parameters from your historical data, ensuring consistency with your current privacy settings.', 'wp-statistics'); ?><br>
+                        <span class="wps-note"><?php _e('Caution:', 'wp-statistics'); ?></span>
+                        <?php _e('It is recommended to back up your database before proceeding, as this cleanup is irreversible.', 'wp-statistics'); ?>
                     </p>
                     <span id="query-params-cleanup-status"></span>
                     <div id="query-params-cleanup-result"></div>
