@@ -2,16 +2,16 @@
 # This file is distributed under the same license as the WP Statistics plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: WP Statistics 14.4.4\n"
+"Project-Id-Version: WP Statistics 14.5\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wp-statistics\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-02-24T07:18:19+00:00\n"
+"POT-Creation-Date: 2024-02-24T12:59:45+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.7.1\n"
+"X-Generator: WP-CLI 2.8.1\n"
 "X-Domain: wp-statistics\n"
 
 #. Plugin Name of the plugin
@@ -48,7 +48,7 @@ msgstr ""
 #: includes/admin/class-wp-statistics-admin-ajax.php:121
 #: includes/admin/class-wp-statistics-admin-ajax.php:158
 #: includes/admin/class-wp-statistics-admin-ajax.php:194
-#: includes/admin/class-wp-statistics-admin-ajax.php:312
+#: includes/admin/class-wp-statistics-admin-ajax.php:329
 msgid "Kindly select the items you want to work with."
 msgstr ""
 
@@ -57,12 +57,12 @@ msgstr ""
 #: includes/admin/class-wp-statistics-admin-ajax.php:197
 #: includes/admin/class-wp-statistics-admin-ajax.php:225
 #: includes/admin/class-wp-statistics-admin-ajax.php:253
-#: includes/admin/class-wp-statistics-admin-ajax.php:293
-#: includes/admin/class-wp-statistics-admin-ajax.php:324
-#: includes/admin/class-wp-statistics-admin-ajax.php:340
-#: includes/admin/class-wp-statistics-admin-ajax.php:365
-#: includes/admin/class-wp-statistics-admin-ajax.php:394
-#: includes/admin/class-wp-statistics-admin-ajax.php:494
+#: includes/admin/class-wp-statistics-admin-ajax.php:310
+#: includes/admin/class-wp-statistics-admin-ajax.php:341
+#: includes/admin/class-wp-statistics-admin-ajax.php:357
+#: includes/admin/class-wp-statistics-admin-ajax.php:382
+#: includes/admin/class-wp-statistics-admin-ajax.php:411
+#: includes/admin/class-wp-statistics-admin-ajax.php:511
 msgid "Unauthorized access!"
 msgstr ""
 
@@ -98,27 +98,35 @@ msgstr ""
 msgid "Couldn’t find any user agent strings data to delete."
 msgstr ""
 
+#: includes/admin/class-wp-statistics-admin-ajax.php:286
+msgid "Successfully removed query string parameter data from 'pages' table. <br>"
+msgstr ""
+
 #: includes/admin/class-wp-statistics-admin-ajax.php:288
-msgid "Successfully removed query string parameter data."
+msgid "Couldn't find any user query string parameter data to delete from 'pages' table. <br>"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-ajax.php:290
-msgid "Couldn’t find any user query string parameter data to delete."
+#: includes/admin/class-wp-statistics-admin-ajax.php:304
+msgid "Successfully removed query string parameter data from 'visitor' table."
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-ajax.php:389
+#: includes/admin/class-wp-statistics-admin-ajax.php:306
+msgid "Couldn't find any user query string parameter data to delete from 'visitor' table."
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-ajax.php:406
 msgid "Visit count must be 10 or more!"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-ajax.php:482
+#: includes/admin/class-wp-statistics-admin-ajax.php:499
 msgid "Please first enable GeoIP Collection and save settings!"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-ajax.php:484
+#: includes/admin/class-wp-statistics-admin-ajax.php:501
 msgid "Please first enable GeoIP City and save settings!"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-ajax.php:527
+#: includes/admin/class-wp-statistics-admin-ajax.php:544
 #: includes/api/v2/class-wp-statistics-api-meta-box.php:71
 msgid "Invalid MetaBox Name in Request."
 msgstr ""
@@ -2459,7 +2467,7 @@ msgid "Allowed Query Parameters"
 msgstr ""
 
 #: includes/admin/templates/settings/exclusions.php:203
-msgid "Control which URL query parameters are retained in your statistics. The default parameters allowed are: <code>ref</code>, <code>source</code>, <code>utm_id</code>, <code>utm_source</code>, <code>utm_medium</code>, <code>utm_campaign</code>, <code>utm_content</code>, <code>utm_term</code>, <code>s</code>, <code>p</code>. You can add or remove parameters from this list to suit your tracking needs. Enter one parameter per line. For a detailed explanation of each default parameter and guidance on customizing this list, visit our documentation <a href=\"https://wp-statistics.com/resources/managing-url-query-parameters/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings\" target=\"_blank\">here</a>."
+msgid "Control which URL query parameters are retained in your statistics. The default parameters allowed are: <code>ref</code>, <code>source</code>, <code>utm_source</code>, <code>utm_medium</code>, <code>utm_campaign</code>, <code>utm_content</code>, <code>utm_term</code>, <code>utm_id</code>, <code>s</code>, <code>p</code>. You can add or remove parameters from this list to suit your tracking needs. Enter one parameter per line. For a detailed explanation of each default parameter and guidance on customizing this list, visit our documentation <a href=\"https://wp-statistics.com/resources/managing-url-query-parameters/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings\" target=\"_blank\">here</a>."
 msgstr ""
 
 #: includes/admin/templates/settings/exclusions.php:214
