@@ -22,7 +22,7 @@
             <td>
                 <input id="wps_schedule_dbmaint" type="checkbox" name="wps_schedule_dbmaint" <?php echo WP_STATISTICS\Option::get('schedule_dbmaint') == true ? "checked='checked'" : ''; ?> onclick='DBMaintWarning();'>
                 <label for="wps_schedule_dbmaint"><?php _e('Enable', 'wp-statistics'); ?></label>
-                <p class="description"><?php _e('Turn on this feature to automatically remove data entries older than a specified number of days. This helps keep your database optimized. Note: This cleaner will be run the next day.', 'wp-statistics'); ?></p>
+                <p class="description"><?php _e('Automatic deletion of data entries that are more than a specified number of days old to keep the database optimized. The process runs the following day.', 'wp-statistics'); ?></p>
             </td>
         </tr>
 
@@ -34,7 +34,7 @@
             <td>
                 <input type="text" class="small-text code" id="wps_schedule_dbmaint_days" name="wps_schedule_dbmaint_days" value="<?php echo esc_attr(WP_STATISTICS\Option::get('schedule_dbmaint_days', "365")); ?>"/>
                 <?php _e('Days', 'wp-statistics'); ?>
-                <p class="description"><?php echo __('Define the age of data entries to be removed. Only data older than the specified number of days will be purged. Setting a lower value might result in the loss of valuable historical data. The minimum value allowed is 30 days. Inputting invalid values will halt the cleanup process.', 'wp-statistics'); ?></p>
+                <p class="description"><?php echo __('Sets the age threshold for deleting data entries. Data exceeding the specified age in days will be removed. The minimum setting is 30 days.', 'wp-statistics'); ?></p>
             </td>
         </tr>
         </tbody>
@@ -56,7 +56,7 @@
             <td>
                 <input id="wps_schedule_dbmaint_visitor" type="checkbox" name="wps_schedule_dbmaint_visitor" <?php echo WP_STATISTICS\Option::get('schedule_dbmaint_visitor') == true ? "checked='checked'" : ''; ?> onclick='DBMaintWarning();'>
                 <label for="wps_schedule_dbmaint_visitor"><?php _e('Enable', 'wp-statistics'); ?></label>
-                <p class="description"><?php _e('Activate this to automatically purge user statistics data if the user has an unusually high number of hits in a day, which might indicate bot activity.', 'wp-statistics'); ?></p>
+                <p class="description"><?php _e('Removes user statistics data daily for users with an abnormally high number of visits, indicating potential bot activity.', 'wp-statistics'); ?></p>
             </td>
         </tr>
 
@@ -68,7 +68,7 @@
             <td>
                 <input type="text" class="small-text code" id="wps_schedule_dbmaint_visitor_hits" name="wps_schedule_dbmaint_visitor_hits" value="<?php echo esc_attr(WP_STATISTICS\Option::get('schedule_dbmaint_visitor_hits', '50')); ?>"/>
                 <?php _e('Visits', 'wp-statistics'); ?>
-                <p class="description"><?php echo __('Set the threshold for the number of hits by a user in a single day to qualify them for purging. Users exceeding this threshold are likely bots. The minimum threshold is 10 hits. Invalid entries will suspend the cleanup process.', 'wp-statistics'); ?></p>
+                <p class="description"><?php echo __('Establishes a daily visit limit. Users with visit counts above this limit are considered for removal, with the minimum set threshold being 10 visits.', 'wp-statistics'); ?></p>
             </td>
         </tr>
         </tbody>

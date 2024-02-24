@@ -17,6 +17,7 @@ class Ajax
             'close_notice',
             'close_overview_ads',
             'clear_user_agent_strings',
+            'query_params_cleanup',
             'delete_agents',
             'delete_platforms',
             'delete_ip',
@@ -246,6 +247,63 @@ class Ajax
                 _e('Successfully deleted user agent strings data.', 'wp-statistics');
             } else {
                 _e('Couldn’t find any user agent strings data to delete.', 'wp-statistics');
+            }
+
+        } else {
+            _e('Unauthorized access!', 'wp-statistics');
+        }
+
+        exit;
+    }
+
+    /**
+     * Setup an AJAX action to clean up query parameters from pages table.
+     */
+    public function query_params_cleanup_action_callback()
+    {
+        global $wpdb;
+
+        if (Helper::is_request('ajax') and User::Access('manage')) {
+
+            // Check Refer Ajax
+            check_ajax_referer('wp_rest', 'wps_nonce');
+
+            // Get allowed query params
+            $allowedQueryParams = Helper::get_query_params_allow_list();
+
+            // Get all rows from pages table
+            $pages = $wpdb->get_results($wpdb->prepare("SELECT * FROM " . DB::table('pages')));
+            if ($pages) {
+                // Update query strings based on allow list
+                foreach ($pages as $page) {
+                    $wpdb->update(
+                        DB::table('pages'),
+                        ['uri' => Helper::FilterQueryStringUrl($page->uri, $allowedQueryParams)],
+                        ['page_id' => $page->page_id]
+                    );
+                }
+
+                _e('Successfully removed query string parameter data from \'pages\' table. <br>', 'wp-statistics');
+            } else {
+                _e('Couldn\'t find any user query string parameter data to delete from \'pages\' table. <br>', 'wp-statistics');
+            }
+
+
+            // Get all rows from visitors table
+            $referrers = $wpdb->get_results($wpdb->prepare("SELECT * FROM " . DB::table('visitor')));
+            if ($referrers) {
+                // Update query strings based on allow list
+                foreach ($referrers as $referrer) {
+                    $wpdb->update(
+                        DB::table('visitor'),
+                        ['referred' => Helper::FilterQueryStringUrl($referrer->referred, $allowedQueryParams)],
+                        ['ID' => $referrer->ID]
+                    );
+                }
+
+                _e('Successfully removed query string parameter data from \'visitor\' table.', 'wp-statistics');
+            } else {
+                _e('Couldn\'t find any user query string parameter data to delete from \'visitor\' table.', 'wp-statistics');
             }
 
         } else {

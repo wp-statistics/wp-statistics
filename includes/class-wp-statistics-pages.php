@@ -86,7 +86,7 @@ class Pages
         }
 
         //is search page
-        $search_query = sanitize_url(get_search_query(false));
+        $search_query = sanitize_text_field(get_search_query(false));
         if (trim($search_query) != "") {
             return array("type" => "search", "id" => 0, "search_query" => $search_query);
         }
@@ -196,12 +196,15 @@ class Pages
         }
 
         // Check Strip Url Parameter
-        if (Option::get('strip_uri_parameters') and array_key_exists("search_query", $current_page) === false) {
+        if (array_key_exists("search_query", $current_page) === false) {
             $temp = explode('?', $page_uri);
             if ($temp !== false) {
                 $page_uri = $temp[0];
             }
         }
+
+        // Filter query parameters based on allowed query params list
+        $page_uri = Helper::FilterQueryStringUrl($page_uri, Helper::get_query_params_allow_list());
 
         // Limit the URI length to 255 characters, otherwise we may overrun the SQL field size.
         return substr($page_uri, 0, 255);
@@ -349,7 +352,7 @@ class Pages
                     break;
                 case "home":
                     $arg = array(
-                        'title' => __('Home Page', 'wp-statistics'),
+                        'title' => sprintf(__('Home Page: %s', 'wp-statistics'), get_the_title($page_id)),
                         'link'  => get_site_url()
                     );
                     break;
@@ -465,8 +468,13 @@ class Pages
 
         // Post Type SQL
         $postTypeSql = '';
+
         if (!empty($args['type'])) {
-            $postTypeSql = $wpdb->prepare(" AND `pages`.`type`=%s", $args['type']);
+            if ($args['type'] == 'page') {
+                $postTypeSql = $wpdb->prepare(" AND `pages`.`type` IN (%s, %s)", $args['type'], 'home');
+            } else {
+                $postTypeSql = $wpdb->prepare(" AND `pages`.`type` = %s", $args['type']);
+            }
         }
 
         // Generate SQL
@@ -475,8 +483,8 @@ class Pages
         // Get List Of Pages
         $list   = array();
         $result = $wpdb->get_results($sql . " LIMIT " . ($args['paged'] - 1) * $args['per_page'] . "," . $args['per_page']);
-        foreach ($result as $item) {
 
+        foreach ($result as $item) {
             // Lookup the post title.
             $page_info = Pages::get_page_info($item->id, $item->type, $item->uri);
 

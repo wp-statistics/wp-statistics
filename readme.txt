@@ -4,7 +4,7 @@ Donate link: https://wp-statistics.com/donate/
 Tags: analytics, wordpress analytics, stats, statistics, visit, visitors, hits, chart, browser, today, yesterday, week, month, year, total, post, page, sidebar, google, live visit, search word, agent, google analytics, webmasters, google webmasters, geoip, location
 Requires at least: 5.0
 Tested up to: 6.4
-Stable tag: 14.4.4
+Stable tag: 14.5
 Requires PHP: 5.6
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -136,6 +136,13 @@ Thank you for being part of our community. We’ve been working hard for one yea
 If you encounter any bug, please create an issue on [GitHub](https://github.com/wp-statistics/wp-statistics/issues/new) where we can act upon them more efficiently. Since [GitHub](https://github.com/wp-statistics/wp-statistics) is not a support forum, just bugs are welcomed, and any other request will be closed.
 
 == Changelog ==
+= 14.5 - 24.02.2024 =
+* Feature: Added 'Allowed Query Parameters' option for specifying permissible URL query parameters. [Read more](https://wp-statistics.com/resources/managing-url-query-parameters/?utm_source=plugin&utm_medium=changelog&utm_campaign=settings).
+* Fixes: Resolved issue with displaying the home page in Top Pages.
+* Improvement: Updated name and description settings for better clarity and coherence.
+* Improvement: Enabled JavaScript tracking by default instead of relying on HTTP requests.
+* Deprecate: Removed 'Strip URI Parameter' option from the plugin.
+
 = 14.4.4 - 15.02.2024 =
 * Fixes: Resolved issue with latest visitor when option 'Record User Page Visits' is disabled.
 

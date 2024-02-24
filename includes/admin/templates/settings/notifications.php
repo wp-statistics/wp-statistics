@@ -20,19 +20,19 @@
                     $wp_statistics_options['email_list'] = get_bloginfo('admin_email');
                 }
                 echo esc_textarea(WP_STATISTICS\Option::get('email_list')); ?>"/>
-                <p class="description"><?php _e('Specify the email addresses that should receive the reports. Separate multiple addresses with a comma.', 'wp-statistics'); ?></p>
+                <p class="description"><?php _e('Enter email addresses to receive reports. Use a comma to separate multiple addresses.', 'wp-statistics'); ?></p>
             </td>
         </tr>
 
         <tr valign="top">
             <th scope="row">
-                <label for="stats-report"><?php _e('Email Statistical Reports', 'wp-statistics'); ?></label>
+                <label for="stats-report"><?php _e('Automated Report Delivery', 'wp-statistics'); ?></label>
             </th>
 
             <td>
                 <input id="stats-report" type="checkbox" value="1" name="wps_stats_report" <?php echo WP_STATISTICS\Option::get('stats_report') == true ? "checked='checked'" : ''; ?> onClick='ToggleStatOptions();'>
                 <label for="stats-report"><?php _e('Enable', 'wp-statistics'); ?></label>
-                <p class="description"><?php _e('Receive regular statistical reports in your inbox.', 'wp-statistics'); ?></p>
+                <p class="description"><?php _e('Set preferences for receiving automated, detailed statistical reports by email.', 'wp-statistics'); ?></p>
             </td>
         </tr>
         </tbody>
@@ -86,7 +86,7 @@
             <td>
                 <input id="admin-notices" type="checkbox" value="1" name="wps_admin_notices" <?php echo WP_STATISTICS\Option::get('admin_notices') == true ? "checked='checked'" : ''; ?>>
                 <label for="admin-notices"><?php _e('Enable', 'wp-statistics'); ?></label>
-                <p class="description"><?php _e('Enable this to see all notifications, alerts, and suggestions from WP Statistics in your admin dashboard. If disabled, only critical warnings or errors will be shown, keeping your dashboard less cluttered.', 'wp-statistics'); ?></p>
+                <p class="description"><?php _e('All notifications, alerts, and suggestions from WP Statistics appear in the admin dashboard. Without selection, only critical warnings or errors are shown for a streamlined dashboard view.', 'wp-statistics'); ?></p>
             </td>
         </tr>
         </tbody>
@@ -105,7 +105,7 @@
         </tr>
         <tr valign="top">
             <th scope="row" style="vertical-align: top;">
-                <label for="time-report"><?php _e('Reporting Schedule', 'wp-statistics'); ?></label>
+                <label for="time-report"><?php _e('Report Frequency', 'wp-statistics'); ?></label>
             </th>
 
             <td>
@@ -133,8 +133,7 @@
                     }
                     ?>
                 </select>
-                <p class="description"><?php _e('Report Timing: Choose how frequently you want your statistical reports to be compiled and sent. Options range from hourly to monthly.', 'wp-statistics'); ?></p>
-                <p class="description"><?php echo sprintf(__('For setting up a custom schedule, please refer to our <a href="%s" target="_blank">documentation</a>.', 'wp-statistics'), 'https://wp-statistics.com/resources/schedule-statistical-reports/'); ?></p>
+                <p class="description"><?php _e('Select the frequency of report deliveries. For custom schedules, more information can be found in our <a href="https://wp-statistics.com/resources/schedule-statistical-reports/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" target="_blank">documentation</a>.', 'wp-statistics'); ?></p>
             </td>
         </tr>
 
@@ -152,7 +151,7 @@
                     <?php } ?>
                 </select>
 
-                <p class="description"><?php _e('Delivery Channel: Select how you would like to receive the generated reports. Currently, reports can be sent to you via email or downloaded directly from the plugin.', 'wp-statistics'); ?></p>
+                <p class="description"><?php _e('Choose how to receive reports, either via email or SMS.', 'wp-statistics'); ?></p>
                 <?php if (!is_plugin_active('wp-sms/wp-sms.php')) { ?>
                     <p class="description">
                         <span class="wps-note"><?php _e('Note:', 'wp-statistics'); ?></span>
@@ -164,12 +163,12 @@
 
         <tr valign="top">
             <th scope="row" style="vertical-align: top;">
-                <label for="content-report"><?php _e('Report Composition', 'wp-statistics'); ?></label>
+                <label for="content-report"><?php _e('Custom Report Builder', 'wp-statistics'); ?></label>
             </th>
 
             <td>
                 <?php wp_editor(WP_STATISTICS\Option::get('content_report'), 'content-report', array('media_buttons' => false, 'textarea_name' => 'wps_content_report', 'textarea_rows' => 5)); ?>
-                <p class="description"><?php _e('Report Content: Customize the content of your reports by using WP Statistics shortcodes to display various statistics.', 'wp-statistics'); ?></p>
+                <p class="description"><?php _e('Using WP Statistics shortcodes to display specific statistics.', 'wp-statistics'); ?></p>
 
                 <p class="description data">
                     <?php _e('Insert any of the following shortcode examples to show corresponding data:', 'wp-statistics'); ?>
@@ -189,15 +188,15 @@
                     <?php _e('Total Visits', 'wp-statistics'); ?>:
                     <code>[wpstatistics stat=visits time=total]</code><br>
                 </p>
-                <p class="description"><?php echo sprintf(__('Refer to our complete  <a href="%s" target="_blank">shortcode guide</a> for more options.', 'wp-statistics'), 'https://wp-statistics.com/resources/shortcodes/'); ?></p>
+                <p class="description"><?php _e('Refer to our complete <a href="https://wp-statistics.com/resources/shortcodes/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" target="_blank">shortcode guide</a> for more options.', 'wp-statistics'); ?></p>
             </td>
         </tr>
         <tr valign="top">
             <th scope="row" style="vertical-align: top;">
-                <label for="content-report"><?php _e('Visual Reporting', 'wp-statistics'); ?></label>
+                <label for="content-report"><?php _e('Enhanced Visual Report', 'wp-statistics'); ?></label>
             </th>
             <td>
-                <div>Graphical Reports: Interested in visual representations of your data? Explore our <a target="_blank" href="https://wp-statistics.com/product/wp-statistics-advanced-reporting?utm_source=wp_statistics&utm_medium=display&utm_campaign=wordpress">Advanced Reporting Add-on</a> for chart and graph options.</div>
+                <div><?php _e('For graphical representations of your data, explore our <a href="https://wp-statistics.com/product/wp-statistics-advanced-reporting/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" target="_blank">Advanced Reporting Add-on</a> for additional chart and graph options.', 'wp-statistics') ?></div>
             </td>
         </tr>
         </tbody>

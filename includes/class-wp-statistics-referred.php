@@ -89,6 +89,8 @@ class Referred
             }
         }
 
+        $referred = Helper::FilterQueryStringUrl($referred, Helper::get_query_params_allow_list());
+
         return apply_filters('wp_statistics_user_referer', $referred);
     }
 

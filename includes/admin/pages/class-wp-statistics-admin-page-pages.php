@@ -174,6 +174,7 @@ class pages_page
             $args['perPage']     = self::ITEM_PER_PAGE;
             $args['currentPage'] = Admin_Template::getCurrentPaged();
             $args['pagination']  = '';
+
             if ($args['total'] > 0) {
                 $args['pagination'] = Admin_Template::paginate_links(array(
                     'item_per_page' => self::ITEM_PER_PAGE,
@@ -255,7 +256,7 @@ class pages_page
 
             foreach ($query as $item) {
                 $get_page_info = Pages::get_page_info($item['id'], $Type);
-                
+
                 if (isset($get_page_info['title']) and strlen($get_page_info['title']) > 2 and $item['id'] != $ID) {
                     $args['list'][$item['id']] = $get_page_info['title'];
                 }

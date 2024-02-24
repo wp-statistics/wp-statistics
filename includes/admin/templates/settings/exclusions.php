@@ -120,7 +120,7 @@
             </th>
             <td>
                 <input id="corrupt_browser_info" type="checkbox" value="1" name="wps_corrupt_browser_info" <?php echo WP_STATISTICS\Option::get('corrupt_browser_info') == true ? "checked='checked'" : ''; ?>><label for="corrupt_browser_info"><?php _e('Enable', 'wp-statistics'); ?></label>
-                <p class="description"><?php echo __('Enable this to classify visitors with incomplete browser details, such as a missing IP or user agent, as bots. This helps in preventing skewed analytics from corrupt data.', 'wp-statistics'); ?></p>
+                <p class="description"><?php echo __('Visitors with missing browser details such as IP address or user agent are marked as bots.', 'wp-statistics'); ?></p>
             </td>
         </tr>
         </tbody>
@@ -162,30 +162,48 @@
             <th scope="row"><label for="wps-exclude-loginpage"><?php _e('Excluded Login Page', 'wp-statistics'); ?></label></th>
             <td>
                 <input id="wps-exclude-loginpage" type="checkbox" value="1" name="wps_exclude_loginpage" <?php echo WP_STATISTICS\Option::get('exclude_loginpage') == true ? "checked='checked'" : ''; ?>><label for="wps-exclude-loginpage"><?php _e('Exclude', 'wp-statistics'); ?></label>
-                <p class="description"><?php _e('Prevent the login page from being counted as a hit.', 'wp-statistics'); ?></p>
+                <p class="description"><?php _e('Login page visits will not be included in site visit counts.', 'wp-statistics'); ?></p>
             </td>
         </tr>
         <tr valign="top">
             <th scope="row"><label for="wps-exclude-feeds"><?php _e('Excluded RSS Feeds', 'wp-statistics'); ?></label></th>
             <td>
                 <input id="wps-exclude-feeds" type="checkbox" value="1" name="wps_exclude_feeds" <?php echo WP_STATISTICS\Option::get('exclude_feeds') == true ? "checked='checked'" : ''; ?>><label for="wps-exclude-feeds"><?php _e('Exclude', 'wp-statistics'); ?></label>
-                <p class="description"><?php _e('Stop RSS feeds from being recorded as hits.', 'wp-statistics'); ?></p>
+                <p class="description"><?php _e('RSS feeds visits will not be included in site visit counts.', 'wp-statistics'); ?></p>
             </td>
         </tr>
         <tr valign="top">
             <th scope="row"><label for="wps-exclude-404s"><?php _e('Excluded 404 Pages', 'wp-statistics'); ?></label></th>
             <td>
                 <input id="wps-exclude-404s" type="checkbox" value="1" name="wps_exclude_404s" <?php echo WP_STATISTICS\Option::get('exclude_404s') == true ? "checked='checked'" : ''; ?>><label for="wps-exclude-404s"><?php _e('Exclude', 'wp-statistics'); ?></label>
-                <p class="description"><?php _e('Exclude URLs that return a \'404 - Not Found\' message.', 'wp-statistics'); ?></p>
+                <p class="description"><?php _e('404 Page visits will not be included in site visit counts.', 'wp-statistics'); ?></p>
             </td>
         </tr>
         <tr valign="top">
             <th scope="row"><label for="wps_excluded_urls"><?php _e('Excluded URLs', 'wp-statistics'); ?></label></th>
             <td>
                 <textarea id="wps_excluded_urls" name="wps_excluded_urls" rows="5" cols="80" class="code" dir="ltr"><?php echo esc_textarea(WP_STATISTICS\Option::get('excluded_urls')); ?></textarea>
-                <p class="description"><?php echo __('Enter specific URLs to exclude. URL parameters aren\'t considered', 'wp-statistics'); ?></p>
+                <p class="description"><?php echo __('List specific URLs here that you wish to exclude from tracking. URL parameters aren\'t considered.', 'wp-statistics'); ?></p>
             </td>
         </tr>
+        </tbody>
+    </table>
+</div>
+<div class="postbox">
+    <table class="form-table">
+        <tbody>
+            <tr valign="top">
+                <th scope="row" colspan="2"><h3><?php _e('URL Query Parameters', 'wp-statistics'); ?></h3></th>
+            </tr>
+
+            <tr valign="top">
+                <th scope="row"><label for="wps_query_params_allow_list"><?php _e('Allowed Query Parameters', 'wp-statistics'); ?></label></th>
+                <td>
+                    <textarea name="wps_query_params_allow_list" class="code textarea-input-reset" dir="ltr" rows="10" cols="60" id="wps_query_params_allow_list"><?php echo esc_textarea(WP_STATISTICS\Helper::get_query_params_allow_list('string'));?></textarea>
+                    <p class="description"><?php echo __('Control which URL query parameters are retained in your statistics. The default parameters allowed are: <code>ref</code>, <code>source</code>, <code>utm_source</code>, <code>utm_medium</code>, <code>utm_campaign</code>, <code>utm_content</code>, <code>utm_term</code>, <code>utm_id</code>, <code>s</code>, <code>p</code>. You can add or remove parameters from this list to suit your tracking needs. Enter one parameter per line. For a detailed explanation of each default parameter and guidance on customizing this list, visit our documentation <a href="https://wp-statistics.com/resources/managing-url-query-parameters/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" target="_blank">here</a>.', 'wp-statistics'); ?></p>
+                    <a onclick="var wps_query_params_allow_list = getElementById('wps_query_params_allow_list'); wps_query_params_allow_list.value = '<?php echo str_replace(array("\r\n", "\n", "\r"), '\n', esc_html(WP_STATISTICS\Helper::get_default_query_params_allow_list('string'))); ?>';" class="button"><?php _e('Reset to Default', 'wp-statistics'); ?></a>
+                </td>
+            </tr>
         </tbody>
     </table>
 </div>
@@ -214,10 +232,10 @@
         </tr>
 
         <tr valign="top">
-            <th scope="row"><label for="wps-exclusions"><?php _e('Enable Record Exclusions', 'wp-statistics'); ?></label></th>
+            <th scope="row"><label for="wps-exclusions"><?php _e('Log Record Exclusions', 'wp-statistics'); ?></label></th>
             <td>
                 <input id="wps-exclusions" type="checkbox" value="1" name="wps_record_exclusions" <?php echo WP_STATISTICS\Option::get('record_exclusions') == true ? "checked='checked'" : ''; ?>><label for="wps-exclusions"><?php _e('Enable', 'wp-statistics'); ?></label>
-                <p class="description"><?php echo __('Maintain a log of all excluded hits for insight into exclusions.', 'wp-statistics') ?></p>
+                <p class="description"><?php echo __('Maintain a log of all excluded visits for insight into exclusions.', 'wp-statistics') ?></p>
             </td>
         </tr>
         </tbody>

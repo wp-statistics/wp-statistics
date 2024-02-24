@@ -82,7 +82,7 @@ add_thickbox();
     <table class="form-table">
         <tbody>
         <tr valign="top">
-            <th scope="row" colspan="2"><h3><?php _e('Main IP Detection Method', 'wp-statistics'); ?> <a href="#" class="wps-tooltip" title="<?php _e('The options below retrieve IP addresses based on different server configurations. Select the one that best matches your server setup.', 'wp-statistics'); ?>"><i class="wps-tooltip-icon"></i></a></h3></th>
+            <th scope="row" colspan="2"><h3><?php _e('Main IP Detection Method', 'wp-statistics'); ?> <a href="#" class="wps-tooltip" title="<?php _e('Select the preferred method for determining the visitor\'s IP address. The method should correspond to the way your server and network infrastructure relay IP information. Choose the option that reflects the correct IP in your server environment.', 'wp-statistics'); ?>"><i class="wps-tooltip-icon"></i></a></h3></th>
         </tr>
 
         <?php
@@ -153,7 +153,7 @@ add_thickbox();
                             <p class="description">
                                 <a href="#TB_inline?&width=850&height=600&inlineId=list-of-php-server" class="thickbox"><?php _e('View <code>$_SERVER</code> in your server.', 'wp-statistics'); ?></a>
                             </p>
-                            <p class="description"><?php echo sprintf(__('Refer to our <a href="%s" target="_blank">Documentation</a> for more info and how to configure IP Detection properly.', 'wp-statistics'), 'https://wp-statistics.com/resources/how-to-configure-ip-detection-in-wp-statistics-for-accurate-visitor-tracking/'); ?></p>
+                            <p class="description"><?php echo sprintf(__('Refer to our <a href="%s" target="_blank">Documentation</a> for more info and how to configure IP Detection properly.', 'wp-statistics'), 'https://wp-statistics.com/resources/how-to-configure-ip-detection-in-wp-statistics-for-accurate-visitor-tracking/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings'); ?></p>
                         </td>
                     </tr>
                 </table>

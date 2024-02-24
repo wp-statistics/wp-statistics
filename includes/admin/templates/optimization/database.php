@@ -14,11 +14,11 @@
                     </th>
                     <td>
                         <input type="hidden" name="submit" value="1"/>
-                        <button id="install-submit" class="button button-primary" type="submit" value="1" name="install-submit"><?php _e('Reinitialize Now!', 'wp-statistics'); ?></button>
+                        <button id="install-submit" class="button button-primary" type="submit" value="1" name="install-submit"><?php _e('Reinitialize Now', 'wp-statistics'); ?></button>
                         <p class="description">
-                            <?php _e('Use this option to set up the plugin from the beginning. This might be needed if you face issues related to missing database tables or other core components.', 'wp-statistics'); ?><br>
-                            <span class="wps-note"><?php _e('Warning:', 'wp-statistics'); ?></span>
-                            <?php _e('This action might reset certain data.', 'wp-statistics'); ?>
+                            <?php _e('Click to begin the setup process for the plugin from scratch, useful when you encounter issues with missing elements or inconsistencies in the database setup.', 'wp-statistics'); ?><br>
+                            <span class="wps-note"><?php _e('Caution:', 'wp-statistics'); ?></span>
+                            <?php _e('Executing this may lead to the loss of certain data.', 'wp-statistics'); ?>
                         </p>
                     </td>
                 </tr>
@@ -54,7 +54,7 @@
                                 'wp-statistics'); ?></p>
 
                         <input type="hidden" name="submit" value="1"/>
-                        <button class="button button-primary" type="submit" value="1" name="optimize-database-submit" style="margin-top:5px;"><?php _e('Execute Optimization!', 'wp-statistics'); ?></button>
+                        <button class="button button-primary" type="submit" value="1" name="optimize-database-submit" style="margin-top:5px;"><?php _e('Execute Optimization', 'wp-statistics'); ?></button>
                     </td>
                 </tr>
 

@@ -241,6 +241,31 @@
                     jQuery("#clear-user-agent-strings-submit").removeAttr("disabled");
                 });
         });
+
+        jQuery("#query-params-cleanup-submit").click(function () {
+
+            var agree = confirm('<?php _e('Are you sure?', 'wp-statistics'); ?>');
+
+            if (!agree)
+                return false;
+
+            jQuery("#query-params-cleanup-submit").attr("disabled", "disabled");
+            jQuery("#query-params-cleanup-status").html("<img src='<?php echo esc_url(plugins_url('wp-statistics')); ?>/assets/images/loading.gif'/>");
+            jQuery.ajax({
+                url: ajaxurl,
+                type: 'post',
+                data: {
+                    'action': 'wp_statistics_query_params_cleanup',
+                    'wps_nonce': '<?php echo wp_create_nonce('wp_rest'); ?>'
+                },
+                datatype: 'json',
+            })
+                .always(function (result) {
+                    jQuery("#query-params-cleanup-status").html("");
+                    jQuery("#query-params-cleanup-result").html(result);
+                    jQuery("#query-params-cleanup-submit").removeAttr("disabled");
+                });
+        });
     });
 </script>
 <div class="wrap wps-wrap">
@@ -268,7 +293,7 @@
                     </select>
 
                     <p class="description">
-                        <span class="wps-note"><?php _e('Warning:', 'wp-statistics'); ?></span>
+                        <span class="wps-note"><?php _e('Caution:', 'wp-statistics'); ?></span>
                         <?php _e('All data in the table will be permanently deleted.', 'wp-statistics'); ?>
                     </p>
                     <input id="empty-table-submit" class="button button-primary" type="submit" value="<?php _e('Erase Data Now', 'wp-statistics'); ?>" name="empty-table-submit" Onclick="return false;"/>
@@ -286,7 +311,7 @@
                     <input type="text" class="small-text code" id="purge-data" name="wps_purge_data" value="365"/>
                     <label for="purge-data"><?php _e('Days', 'wp-statistics'); ?></label>
 
-                    <p class="description"><?php echo __('Erase User Stats Older Than Specified Days.', 'wp-statistics') . ' ' . __('Minimum Age for Deletion: 30 Days..', 'wp-statistics'); ?></p>
+                    <p class="description"><?php echo __('Erase User Stats Older Than Specified Days.', 'wp-statistics') . ' ' . __('Minimum Age for Deletion: 30 Days.', 'wp-statistics'); ?></p>
                     <input id="purge-data-submit" class="button button-primary" type="submit" value="<?php _e('Start Purging Now', 'wp-statistics'); ?>" name="purge-data-submit" Onclick="return false;"/>
                     <span id="purge-data-status"></span>
                     <div id="purge-data-result"></div>
@@ -302,7 +327,7 @@
                     <input type="text" class="small-text code" id="purge-visitor-hits" name="wps_purge_visitor_hits" value="10"/>
                     <label for="purge-visitor-hits"><?php _e('Visits', 'wp-statistics'); ?></label>
 
-                    <p class="description"><?php echo __('Erase User Stats for Visitors Exceeding Daily Visit Limit.', 'wp-statistics') . ' ' . __('Useful for cleaning bot-related data.', 'wp-statistics') . ' ' . __('Removes visitor and their site visits, but not individual page visits, as they are not recorded per user.', 'wp-statistics') . ' ' . __('Minimum Hit Threshold: 10 Visits.', 'wp-statistics'); ?></p>
+                    <p class="description"><?php echo __('Erase User Stats for Visitors Exceeding Daily Visit Limit. Useful for cleaning bot-related data. Removes visitor and their site visits, but not individual page visits, as they are not recorded per user. Minimum Visit Threshold: 10 Visits.', 'wp-statistics'); ?></p>
                     <input id="purge-visitor-hits-submit" class="button button-primary" type="submit" value="<?php _e('Start Purging Now', 'wp-statistics'); ?>" name="purge-visitor-hits-submit" Onclick="return false;"/>
                     <span id="purge-visitor-hits-status"></span>
                     <div id="purge-visitor-hits-result"></div>
@@ -316,9 +341,9 @@
                 <td>
                     <input id="delete-user-ids-submit" class="button button-primary" type="submit" value="<?php _e('Delete User IDs Now', 'wp-statistics'); ?>" name="delete_user_ids_submit">
                     <p class="description">
-                        <?php _e('Use this option to permanently delete all stored User IDs from your database. It is useful if you need to anonymize your user visit records or comply with privacy regulations.', 'wp-statistics'); ?><br>
-                        <span class="wps-note"><?php _e('Warning:', 'wp-statistics'); ?></span>
-                        <?php _e('This action is irreversible and should be used with caution.', 'wp-statistics'); ?>
+                        <?php _e('Permanently deletes all stored User IDs from the database to anonymize user visit records or to comply with privacy regulations.', 'wp-statistics'); ?><br>
+                        <span class="wps-note"><?php _e('Caution:', 'wp-statistics'); ?></span>
+                        <?php _e('Permanent and cannot be reversed.', 'wp-statistics'); ?>
                     </p>
                     <span id="delete-user-ids-status"></span>
                     <div id="delete-user-ids-result"></div>
@@ -332,12 +357,28 @@
                 <td>
                     <input id="clear-user-agent-strings-submit" class="button button-primary" type="submit" value="<?php _e('Clear User Agent Data Now', 'wp-statistics'); ?>" name="clear_user_agent_strings_submit">
                     <p class="description">
-                        <?php _e('Select this option to permanently remove all User Agent Strings from your database. This should be done once troubleshooting is completed to ensure unnecessary data is not stored.', 'wp-statistics'); ?><br>
-                        <span class="wps-note"><?php _e('Warning:', 'wp-statistics'); ?></span>
-                        <?php _e('This action cannot be undone.', 'wp-statistics'); ?>
+                        <?php _e('Permanently erases all User Agent Strings from the database, typically done after troubleshooting to remove unnecessary data.', 'wp-statistics'); ?><br>
+                        <span class="wps-note"><?php _e('Caution:', 'wp-statistics'); ?></span>
+                        <?php _e('Permanent and cannot be undone.', 'wp-statistics'); ?>
                     </p>
                     <span id="clear-user-agent-strings-status"></span>
                     <div id="clear-user-agent-strings-result"></div>
+                </td>
+            </tr>
+
+            <tr>
+                <th scope="row">
+                    <label for="query-params-cleanup-submit"><?php _e('Clean Up Recorded Query Parameters', 'wp-statistics'); ?></label>
+                </th>
+                <td>
+                    <input id="query-params-cleanup-submit" class="button button-primary" type="submit" value="<?php _e('Run Cleanup', 'wp-statistics'); ?>" name="query_params_cleanup_submit">
+                    <p class="description">
+                        <?php _e('Removes previously stored query parameters from your historical data, ensuring consistency with your current privacy settings.', 'wp-statistics'); ?><br>
+                        <span class="wps-note"><?php _e('Caution:', 'wp-statistics'); ?></span>
+                        <?php _e('It is recommended to back up your database before proceeding, as this cleanup is irreversible.', 'wp-statistics'); ?>
+                    </p>
+                    <span id="query-params-cleanup-status"></span>
+                    <div id="query-params-cleanup-result"></div>
                 </td>
             </tr>
             </tbody>
@@ -367,10 +408,7 @@
                         ?>
                     </select>
 
-                    <p class="description">
-                        <span class="wps-note"><?php _e('Warning:', 'wp-statistics'); ?></span>
-                        <?php _e('All data for this agent type will be lost.', 'wp-statistics'); ?>
-                    </p>
+                    <p class="description"><?php _e('Select and delete specific User Agents from the database. All associated data will be permanently removed.', 'wp-statistics'); ?></p>
                     <input id="delete-agents-submit" class="button button-primary" type="submit" value="<?php _e('Delete Selected Items Now', 'wp-statistics'); ?>" name="delete-agents-submit" Onclick="return false;">
                     <span id="delete-agents-status"></span>
                     <div id="delete-agents-result"></div>
@@ -396,10 +434,7 @@
                         ?>
                     </select>
 
-                    <p class="description">
-                        <span class="wps-note"><?php _e('Warning:', 'wp-statistics'); ?></span>
-                        <?php _e('All data for this platform type will be lost.', 'wp-statistics'); ?>
-                    </p>
+                    <p class="description"><?php _e('Select and delete specific platforms from the database. All associated data will be permanently removed.', 'wp-statistics'); ?></p>
                     <input id="delete-platforms-submit" class="button button-primary" type="submit" value="<?php _e('Delete Selected Items Now', 'wp-statistics'); ?>" name="delete-platforms-submit" Onclick="return false;">
                     <span id="delete-platforms-status"></span>
                     <div id="delete-platforms-result"></div>
@@ -414,10 +449,7 @@
                 <td>
                     <input dir="ltr" id="delete-ip" type="text" name="delete-ip"/>
 
-                    <p class="description">
-                        <span class="wps-note"><?php _e('Warning:', 'wp-statistics'); ?></span>
-                        <?php _e('All data associated with this IP will be lost.', 'wp-statistics'); ?>
-                    </p>
+                    <p class="description"><?php _e('Input and delete all data associated with a particular IP address. All associated data will be permanently removed.', 'wp-statistics'); ?></p>
                     <input id="delete-ip-submit" class="button button-primary" type="submit" value="<?php _e('Delete Selected Items Now', 'wp-statistics'); ?>" name="delete-ip-submit" Onclick="return false;">
                     <span id="delete-ip-status"></span>
                     <div id="delete-ip-result"></div>
