@@ -164,7 +164,12 @@ class Visitor
             }
         }
 
-        return (isset($visitor_id) ? $visitor_id : false);
+        $visitor_id = (isset($visitor_id) ? $visitor_id : false);
+
+        // Do Action After Record New Visitor
+        do_action('wp_statistics_record_visitor', $visitor_id);
+
+        return $visitor_id;
     }
 
     /**
