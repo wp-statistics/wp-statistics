@@ -165,11 +165,6 @@ class Hits
         # Record Visitor Detail
         if (Visitor::active()) {
             $visitor_id = Visitor::record($exclusion);
-
-            // Store visitor id in the cookies
-            if (!isset($_COOKIE['wps_visitor_id'])) {
-                setcookie('wps_visitor_id', $visitor_id);
-            }
         }
 
         # Record Search Engine
