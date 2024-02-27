@@ -1,4 +1,3 @@
-== Changelog ==
 = v13.2.16 - 03.02.2023 =
 * Bugfix: The exclusion cache issue
 * Improvement: Populate post type title for archive pages
