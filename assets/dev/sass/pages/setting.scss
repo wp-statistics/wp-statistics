@@ -86,8 +86,10 @@
     align-items: start;
 
     .wps-optionsMenu {
+      background-color: $white-color;
+      border: 1px solid $light-color;
       display: block;
-      padding: 0 0 8px 0;
+      padding: 30px 0;
       flex: 0 0 20%;
       border-radius: 8px;
 
@@ -100,6 +102,7 @@
         transition: .3s all ease-out;
         cursor: pointer;
         margin-bottom: 3px;
+        border-left: 3px solid transparent;
 
         svg {
           fill: #56585A;
@@ -125,9 +128,9 @@
 
         &.current {
           box-shadow: 0 1px 1px rgba(0, 0, 0, .04);
-          background-color: #ffffff;
-          border-radius: 8px;
-
+          background-color: $primary-light-color;
+          border-left-color: $primary-color;
+          
           span {
             color: #404BF2;
           }
@@ -191,7 +194,7 @@
     }
 
     .wps-settingsBox,
-    .wps-optimizationBox,
+    .wps-optimizationBox
     {
       flex: 0 0 78%;
 
@@ -199,6 +202,22 @@
         .wp-statistics-container {
 
           .form-table {
+            tr:first-child {
+              border-bottom: 1px solid $light-color;
+            }
+
+            tr:nth-child(2) {
+              th, td {
+                padding-top: 40px;
+              }
+            }
+
+            tr:last-child {
+              th, td {
+                padding-bottom: 40px;
+              }
+            }
+
             h3 {
               margin: 5px 0;
               font-size: 18px;

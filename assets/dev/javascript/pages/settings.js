@@ -15,4 +15,17 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             $('#wp-statistics-settings-form ul.tabs li[data-tab=' + ActiveTab + ']').click();
         }
     }
+
+    // Add active class when user clicks on group input
+    jQuery('.wp-statistics-settings .wps-settingsPageFlex .input-group').click(function (e) {
+        e.preventDefault();
+        $(e.currentTarget).addClass('active')
+        $(e.currentTarget).children('input').focus();
+    });
+
+    // Remove active class when group input loses focus
+    jQuery('.wp-statistics-settings .wps-settingsPageFlex .input-group input').blur(function (e) {
+        e.preventDefault();
+        $(e.target).parent().removeClass('active');
+    });
 }

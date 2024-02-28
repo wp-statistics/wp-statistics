@@ -32,8 +32,10 @@
             </th>
 
             <td>
-                <input type="text" class="small-text code" id="wps_schedule_dbmaint_days" name="wps_schedule_dbmaint_days" value="<?php echo esc_attr(WP_STATISTICS\Option::get('schedule_dbmaint_days', "365")); ?>"/>
-                <?php _e('Days', 'wp-statistics'); ?>
+                <div class="input-group">
+                    <input type="text" class="small-text code" id="wps_schedule_dbmaint_days" name="wps_schedule_dbmaint_days" value="<?php echo esc_attr(WP_STATISTICS\Option::get('schedule_dbmaint_days', "365")); ?>"/>
+                    <span class="input-append"><?php _e('Days', 'wp-statistics'); ?></span>
+                </div>
                 <p class="description"><?php echo __('Sets the age threshold for deleting data entries. Data exceeding the specified age in days will be removed. The minimum setting is 30 days.', 'wp-statistics'); ?></p>
             </td>
         </tr>
@@ -66,8 +68,10 @@
             </th>
 
             <td>
-                <input type="text" class="small-text code" id="wps_schedule_dbmaint_visitor_hits" name="wps_schedule_dbmaint_visitor_hits" value="<?php echo esc_attr(WP_STATISTICS\Option::get('schedule_dbmaint_visitor_hits', '50')); ?>"/>
-                <?php _e('Visits', 'wp-statistics'); ?>
+                <div class="input-group">
+                    <input type="text" class="small-text code" id="wps_schedule_dbmaint_visitor_hits" name="wps_schedule_dbmaint_visitor_hits" value="<?php echo esc_attr(WP_STATISTICS\Option::get('schedule_dbmaint_visitor_hits', '50')); ?>"/>
+                    <span class="input-append"><?php _e('Visits', 'wp-statistics'); ?></span>
+                </div>
                 <p class="description"><?php echo __('Establishes a daily visit limit. Users with visit counts above this limit are considered for removal, with the minimum set threshold being 10 visits.', 'wp-statistics'); ?></p>
             </td>
         </tr>
