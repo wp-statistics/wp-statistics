@@ -1,16 +1,5 @@
-.wps-wrap__title {
-  background-color: $white-color;
-  border-bottom: 1px solid $light-color;
-  padding: 25px 8px;
-
-  @media screen and (min-width: 768px) {
-    padding: 25px 20px;
-  }
-}
-
 .wps-wrap__main {
   padding: 20px 8px;
-  background-color: $light-tertiary-color;
 
   @media screen and (min-width: 768px) {
     padding: 20px;
@@ -514,7 +503,7 @@
 
 .wps-wrap .postbox {
   background: #ffffff;
-  border: 1px solid $light-color;
+  border: 0;
   border-radius: 8px;
 
   &:focus-within,
@@ -622,48 +611,17 @@
   input[type="password"],
   input[type="number"],
   select {
-    padding: 8px 10px !important;
+    padding: 12px 16px !important;
     font-weight: normal;
     font-size: 14px;
     line-height: 20px;
-    border: 1px solid #003233 !important;
+    border: 1px solid #5b5b5b !important;
     box-sizing: border-box;
-    border-radius: 4px;
-  }
-
-  .input-group {
-    border: 1px solid #003233 !important;
-    border-radius: 4px;
-    display: inline-flex;
-    align-items: center;
-    gap: 2px;
-
-    &.active {
-      border-color: #1e27bf;
-      box-shadow: 0 0 0 1px #1e27bf;
-      outline: 2px solid transparent;
-    }
-    
-    input[type="text"], input[type="password"], input[type="number"] {
-      border: none !important;
-      padding: 8px 0 8px 10px !important;
-      min-width: 50px;
-
-      &:focus {
-        border: none;
-        box-shadow: none;
-      }
-    }
-
-    .input-append {
-      color: #a3a5b1;
-      user-select: none;
-      padding: 8px 10px 8px 0px !important;
-    }
+    border-radius: 2px;
   }
 
   select {
-    padding: 8px 24px 8px 8px !important;
+    padding: 12px 24px 12px 8px !important;
 
     option {
       font-family: $font-base;
@@ -672,7 +630,7 @@
 }
 
 .rtl .wps-wrap select {
-  padding: 8px 8px 8px 24px !important;
+  padding: 12px 8px 12px 24px !important;
 }
 
 .wps-wrap input[type="text"]:focus,
@@ -697,6 +655,7 @@
   background: #fff;
   width: 20px;
   height: 20px;
+  border-radius: 2px;
   border: 1px solid #5b5b5b !important;
   transition: 0.2s;
 }
@@ -719,10 +678,6 @@
   margin: 5px !important;
 }
 
-.wps-wrap input[type="checkbox"] {
-  border-radius: 3px;
-}
-
 .wps-wrap input[type="checkbox"]:hover {
   border-color: #404bf2 !important;
 }
@@ -733,10 +688,9 @@
 }
 
 .wps-wrap input[type="checkbox"]:checked::before {
-  content: url("data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2213%22%20height%3D%2210%22%20viewBox%3D%220%200%2013%2010%22%20fill%3D%22none%22%3E%0A%3Cpath%20d%3D%22M12.8874%201.43753L4.93739%209.38753C4.86698%209.45852%204.77113%209.49845%204.67114%209.49845C4.57115%209.49845%204.4753%209.45852%204.40489%209.38753L0.362389%205.34503C0.291397%205.27461%200.251465%205.17877%200.251465%205.07878C0.251465%204.97879%200.291397%204.88294%200.362389%204.81253L0.887389%204.28753C0.957802%204.21653%201.05365%204.1766%201.15364%204.1766C1.25363%204.1766%201.34948%204.21653%201.41989%204.28753L4.66739%207.53503L11.8299%200.372527C11.9782%200.228689%2012.214%200.228689%2012.3624%200.372527L12.8874%200.905027C12.9584%200.975439%2012.9983%201.07129%2012.9983%201.17128C12.9983%201.27127%2012.9584%201.36711%2012.8874%201.43753Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E") !important;
-  width: 1.6rem !important;
+  content: url("data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2020%2020%27%3E%3Cpath%20d%3D%27M14.83%204.89l1.34.94-5.81%208.38H9.02L5.78%209.67l1.34-1.25%202.57%202.4z%27%20fill%3D%27%23fff%27%2F%3E%3C%2Fsvg%3E") !important;
   height: 1.5rem !important;
-  margin-top: 4px;
+  width: 1.5rem !important;
 }
 
 .wps-wrap .btn-danger:hover {
