@@ -18,4 +18,4 @@ $plugin_data = get_plugin_data(WP_STATISTICS_MAIN_FILE);
 # Set another useful Plugin defines.
 define('WP_STATISTICS_VERSION', $plugin_data['Version']);
 define('WP_STATISTICS_SITE', $plugin_data['PluginURI']);
-define('WP_STATISTICS_REQUIRE_PHP_VERSION', '5.4.0');
+define('WP_STATISTICS_REQUIRE_PHP_VERSION', '5.6');
