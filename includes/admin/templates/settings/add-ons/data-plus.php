@@ -13,7 +13,7 @@ $isDataPlusActive = WP_STATISTICS\Helper::isAddOnActive('data-plus');
                 <tr class="upgrade-notice" valign="top">
                     <th scope="row" colspan="2">
                         <p style="font-size: 1em"><?php _e('Event Tacking feature is currently restricted in your current version. Unlock premium features to gain a deeper insight into your website.', 'wp-statistics') ?></p>
-                        <a target="_blank" class="button button-primary" href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/product/wp-statistics-data-plus/'); ?>"><?php _e('Upgrade', 'wp-statistics') ?></a>
+                        <a target="_blank" class="button button-primary" href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/product/wp-statistics-data-plus/?utm_source=wp-statistics&utm_medium=link&utm_campaign=plugin-settings'); ?>"><?php _e('Upgrade', 'wp-statistics') ?></a>
                     </th>
                 </tr>
             <?php endif; ?>
