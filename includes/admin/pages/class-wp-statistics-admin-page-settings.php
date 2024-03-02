@@ -81,7 +81,8 @@ class settings_page
                 'maintenance',
                 'notification',
                 'dashboard',
-                'privacy'
+                'privacy',
+                'data_plus'
             );
             foreach ($method_list as $method) {
                 $wp_statistics_options = self::{'save_' . $method . '_option'}($wp_statistics_options);
@@ -531,6 +532,26 @@ class settings_page
 
         // Update Option
         update_option(Option::$opt_name, $default_options);
+    }
+
+    /**
+     * Save Data Plus Addon Option
+     *
+     * @param $wp_statistics_options
+     * @return mixed
+     */
+    public static function save_data_plus_option($wp_statistics_options)
+    {
+        $wps_option_list = array(
+            'wps_link_tracker',
+            'wps_download_tracker'
+        );
+
+        foreach ($wps_option_list as $option) {
+            $wp_statistics_options[self::input_name_to_option($option)] = isset($_POST[$option]) ? sanitize_text_field($_POST[$option]) : '';
+        }
+
+        return $wp_statistics_options;
     }
 }
 
