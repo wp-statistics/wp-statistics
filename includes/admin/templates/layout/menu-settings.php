@@ -91,21 +91,21 @@
         <span><?php _e('WP Statistics - Overview', 'wp-statistics'); ?></span>
     </a>
 
-    <?php /*
     <div class="wps-optionsMenuItem__title"><?php _e('Add-Ons', 'wp-statistics'); ?></div>
 
-    <a href="https://wp-statistics.com/product/wp-statistics-data-plus/" target="_blank" class="wps-optionsMenuItem__extention">
-        <span class="wps-optionsMenuItem__extentionTitle"><?php _e('Data Plus', 'wp-statistics'); ?></span>
-        <span class="wps-optionsMenuItem__extentionStatus"><?php _e('Add-on', 'wp-statistics'); ?></span>
+    <a data-tab="data-plus-settings" class="wps-optionsMenuItem wps-optionsMenuItem--extension">
+        <span class="wps-optionsMenuItem__title--extension"><?php _e('Data Plus', 'wp-statistics'); ?></span>
+        <span class="wps-optionsMenuItem__status--extension"><?php _e('Add-on', 'wp-statistics'); ?></span>
     </a>
 
-    <a href="https://wp-statistics.com/product/wp-statistics-customization/" target="_blank" class="wps-optionsMenuItem__extention">
-        <span class="wps-optionsMenuItem__extentionTitle"><?php _e('Customization', 'wp-statistics'); ?></span>
-        <span class="wps-optionsMenuItem__extentionStatus"><?php _e('Add-on', 'wp-statistics'); ?></span>
+    <?php /*
+    <a href="https://wp-statistics.com/product/wp-statistics-customization/" target="_blank" class="wps-optionsMenuItem--extension">
+        <span class="wps-optionsMenuItem__title--extension"><?php _e('Customization', 'wp-statistics'); ?></span>
+        <span class="wps-optionsMenuItem__status--extension"><?php _e('Add-on', 'wp-statistics'); ?></span>
     </a>
 
-    <a href="https://wp-statistics.com/product/wp-statistics-widgets/" target="_blank" class="wps-optionsMenuItem__extention">
-        <span class="wps-optionsMenuItem__extentionTitle"><?php _e('Advanced widgets', 'wp-statistics'); ?></span>
-        <span class="wps-optionsMenuItem__extentionStatus"><?php _e('Add-on', 'wp-statistics'); ?></span>
+    <a href="https://wp-statistics.com/product/wp-statistics-widgets/" target="_blank" class="wps-optionsMenuItem--extension">
+        <span class="wps-optionsMenuItem__title--extension"><?php _e('Advanced widgets', 'wp-statistics'); ?></span>
+        <span class="wps-optionsMenuItem__status--extension"><?php _e('Add-on', 'wp-statistics'); ?></span>
     </a>*/ ?>
 </div>
