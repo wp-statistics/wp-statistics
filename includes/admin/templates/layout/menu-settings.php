@@ -95,7 +95,10 @@
 
     <a data-tab="data-plus-settings" class="wps-optionsMenuItem wps-optionsMenuItem--extension">
         <span class="wps-optionsMenuItem__title--extension"><?php _e('Data Plus', 'wp-statistics'); ?></span>
-        <span class="wps-optionsMenuItem__status--extension"><?php _e('Add-on', 'wp-statistics'); ?></span>
+        
+        <?php if (!WP_STATISTICS\Helper::isAddOnActive('data-plus')) : ?>
+            <span class="wps-optionsMenuItem__status--extension"><?php _e('Add-on', 'wp-statistics'); ?></span>
+        <?php endif; ?>
     </a>
 
     <?php /*
