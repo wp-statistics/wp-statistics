@@ -1,0 +1,52 @@
+<?php
+$isDataPlusActive = WP_STATISTICS\Helper::isAddOnActive('data-plus');
+?>
+
+<div class="postbox">
+    <table class="form-table <?php echo !$isDataPlusActive ? 'form-table--preview' : '' ?>">
+        <tbody>
+            <tr valign="top">
+                <th scope="row" colspan="2"><h3><?php _e('Event Tracking', 'wp-statistics'); ?> <a href="#" class="wps-tooltip" title="<?php _e('Enable or disable tracking features for clicks and downloads', 'wp-statistics') ?>"><i class="wps-tooltip-icon"></i></a></h3></th>
+            </tr>
+
+            <tr class="upgrade-notice" valign="top">
+                <?php if (!$isDataPlusActive) : ?>
+                    <th scope="row" colspan="2">
+                        <p style="font-size: 1em"><?php _e('Event Tacking feature is currently restricted in your current version. Unlock premium features to gain a deeper insight into your website.', 'wp-statistics') ?></p>
+                        <a class="button button-primary" href="<?php echo esc_url(admin_url('admin.php?page=wps_plugins_page')); ?>"><?php _e('Upgrade', 'wp-statistics') ?></a>
+                    </th>
+                <?php endif; ?>
+            </tr>
+
+            <tr valign="top">
+                <th scope="row">
+                    <label for="link-tracker"><?php _e('Link Tracker', 'wp-statistics'); ?></label>
+                </th>
+
+                <td>
+                    <input id="link-tracker" type="checkbox" value="1" name="wps_link_tracker" <?php checked(WP_STATISTICS\Option::get('link_tracker')) ?>>
+                    <label for="link-tracker"><?php _e('Enable', 'wp-statistics'); ?></label>
+                    <p class="description"><?php _e('Toggle this to start monitoring and recording all link clicks on your site. Gain insights into which links capture user interest and drive engagement.', 'wp-statistics'); ?></p>
+                </td>
+            </tr>
+
+            <tr valign="top">
+                <th scope="row">
+                    <label for="download-tracker"><?php _e('Download Tracker', 'wp-statistics'); ?></label>
+                </th>
+
+                <td>
+                    <input id="download-tracker" type="checkbox" value="1" name="wps_download_tracker" <?php checked(WP_STATISTICS\Option::get('download_tracker')) ?>>
+                    <label for="download-tracker"><?php _e('Enable', 'wp-statistics'); ?></label>
+                    <p class="description"><?php _e('Activate this feature to keep track of file downloads. Understand which materials are most sought after and measure content effectiveness.', 'wp-statistics'); ?></p>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<?php 
+    if ($isDataPlusActive) {
+        submit_button(__('Update', 'wp-statistics'), 'primary', 'submit', '', array('OnClick' => "var wpsCurrentTab = getElementById('wps_current_tab'); wpsCurrentTab.value='data-plus-settings'")); 
+    }
+?>

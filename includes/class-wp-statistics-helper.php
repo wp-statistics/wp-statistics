@@ -1266,4 +1266,18 @@ class Helper
 
         return sanitize_url(wp_unslash($_SERVER['REQUEST_URI']));
     }
+
+    /**
+     * Check whether an add-on is active or not 
+     * 
+     * @param string $name 
+     * @return bool
+     */    
+    public static function isAddOnActive($name) 
+    {
+        $addOns = get_option('wp_statistics_activate_addons', []);
+        $addOn  = "wp-statistics-$name"; 
+
+        return !empty($addOns[$addOn]);
+    }
 }
