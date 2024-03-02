@@ -147,21 +147,21 @@
         font-weight: 600;
       }
 
-      .wps-optionsMenuItem__extention {
+      .wps-optionsMenuItem--extension {
         display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 12px 15px;
+        align-items: center !important;
+        justify-content: space-between !important;
+        padding: 12px 15px !important;
         cursor: pointer;
 
-        .wps-optionsMenuItem__extentionTitle {
+        .wps-optionsMenuItem__title--extension {
           font-size: 15px;
           color: #A3A5B1;
           font-weight: 400;
           transition: .3s all ease-out;
         }
 
-        .wps-optionsMenuItem__extentionStatus {
+        .wps-optionsMenuItem__status--extension {
           display: flex;
           align-items: center;
           justify-content: flex-end;
@@ -183,7 +183,7 @@
         }
 
         &:hover {
-          .wps-optionsMenuItem__extentionTitle {
+          .wps-optionsMenuItem__title--extension {
             color: #404BF2;
           }
         }
@@ -191,7 +191,7 @@
     }
 
     .wps-settingsBox,
-    .wps-optimizationBox,
+    .wps-optimizationBox
     {
       flex: 0 0 78%;
 
@@ -263,7 +263,7 @@
         justify-content: space-between;
 
         a.wps-optionsMenuItem,
-        .wps-optionsMenuItem__extention {
+        .wps-optionsMenuItem--extension {
           flex: 0 0 48.5%;
           box-sizing: border-box;
         }
@@ -277,7 +277,7 @@
     @media (max-width: 480px) {
       .wps-optionsMenu {
         a.wps-optionsMenuItem,
-        .wps-optionsMenuItem__extention {
+        .wps-optionsMenuItem--extension {
           flex: 0 0 100%;
         }
       }
