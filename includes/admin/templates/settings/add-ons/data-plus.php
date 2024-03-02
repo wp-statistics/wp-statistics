@@ -9,14 +9,14 @@ $isDataPlusActive = WP_STATISTICS\Helper::isAddOnActive('data-plus');
                 <th scope="row" colspan="2"><h3><?php _e('Event Tracking', 'wp-statistics'); ?> <a href="#" class="wps-tooltip" title="<?php _e('Enable or disable tracking features for clicks and downloads', 'wp-statistics') ?>"><i class="wps-tooltip-icon"></i></a></h3></th>
             </tr>
 
-            <tr class="upgrade-notice" valign="top">
-                <?php if (!$isDataPlusActive) : ?>
+            <?php if (!$isDataPlusActive) : ?>
+                <tr class="upgrade-notice" valign="top">
                     <th scope="row" colspan="2">
                         <p style="font-size: 1em"><?php _e('Event Tacking feature is currently restricted in your current version. Unlock premium features to gain a deeper insight into your website.', 'wp-statistics') ?></p>
                         <a class="button button-primary" href="<?php echo esc_url(admin_url('admin.php?page=wps_plugins_page')); ?>"><?php _e('Upgrade', 'wp-statistics') ?></a>
                     </th>
-                <?php endif; ?>
-            </tr>
+                </tr>
+            <?php endif; ?>
 
             <tr valign="top">
                 <th scope="row">
