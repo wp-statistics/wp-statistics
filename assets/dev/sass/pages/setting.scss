@@ -136,6 +136,17 @@
             fill: #404BF2;
           }
         }
+
+        &.active {
+          .wps-optionsMenuItem__title--extension {
+            color: #56585a !important;
+            font-weight: inherit !important;
+          }
+          
+          .wps-optionsMenuItem__status--extension {
+            display: none;
+          }
+        }
       }
 
       .wps-optionsMenuItem__title {
@@ -191,8 +202,7 @@
     }
 
     .wps-settingsBox,
-    .wps-optimizationBox
-    {
+    .wps-optimizationBox {
       flex: 0 0 78%;
 
       #wp-statistics-settings-form {
