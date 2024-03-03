@@ -9,7 +9,15 @@
         <?php if (!empty($tabs) && is_array($tabs)) { ?>
             <ul class="wps-tabs">
                 <?php foreach ($tabs as $tab) { ?>
-                    <li class="wps-tab-link <?php echo esc_attr($tab['class']); ?>"><a href="<?php echo esc_attr($tab['link']); ?>"><?php echo esc_html($tab['title']); ?></a></li>
+                    <li class="wps-tab-link <?php echo esc_attr($tab['class']); ?>">
+                        <a href="<?php echo esc_attr($tab['link']); ?>">
+                            <?php echo esc_html($tab['title']); ?>
+                            <?php if (isset($tab['tooltip']) && !empty($tab['tooltip'])) : ?>
+                                <span class="wps-tooltip" title="<?php echo esc_html($tab['tooltip']); ?>"><i class="wps-tooltip-icon info"></i></span>
+                            <?php endif; ?>
+                        </a>
+
+                    </li>
                 <?php } ?>
             </ul>
         <?php } ?>
