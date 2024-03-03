@@ -159,8 +159,7 @@
     border-color: #222;
     background: #222;
     border-radius: 6px;
-    max-width: 154px;
-  }
+   }
 
   .tooltipster-arrow {
     .tooltipster-arrow-border {
@@ -176,7 +175,7 @@
 .wps-tooltip {
   flex-grow: inherit;
   margin-left: 5px;
-
+  cursor: auto;
   &:hover {
     cursor: auto;
   }
