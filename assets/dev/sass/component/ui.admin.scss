@@ -722,7 +722,11 @@
     display: flex;
   }
 }
-
+.wps-page-header .wps_description{
+  color:#0C0C0D;
+  font-size: 0.81rem;
+  line-height: 24px;
+}
 .statistics_page_wps_categories_page,
 .statistics_page_wps_categories_page,
 .statistics_page_wps_countries_page,
@@ -743,6 +747,15 @@
   }
 }
 .statistics_page_wps_download_tracker_page,.statistics_page_wps_link_tracker_page{
+  .wps_title .wps-tooltip {
+    margin-left:0;
+    .wps-tooltip-icon{
+      width: 14px;
+      height: 14px;
+      margin-bottom: -2px;
+      background-image: url("data:image/svg+xml;base64,Cjxzdmcgd2lkdGg9IjE0IiBoZWlnaHQ9IjE0IiB2aWV3Qm94PSIwIDAgMTQgMTQiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxnIGNsaXAtcGF0aD0idXJsKCNjbGlwMF81MDI5XzgxOTEpIj4KPHBhdGggZD0iTTcgMTIuMjVDOS44OTk1IDEyLjI1IDEyLjI1IDkuODk5NSAxMi4yNSA3QzEyLjI1IDQuMTAwNTEgOS44OTk1IDEuNzUgNyAxLjc1QzQuMTAwNTEgMS43NSAxLjc1IDQuMTAwNTEgMS43NSA3QzEuNzUgOS44OTk1IDQuMTAwNTEgMTIuMjUgNyAxMi4yNVoiIHN0cm9rZT0iIzU2NTg1QSIgc3Ryb2tlLXdpZHRoPSIwLjkiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPgo8cGF0aCBkPSJNNi41NjI1IDYuNTYyNUg3VjkuNjI1SDcuNDM3NSIgc3Ryb2tlPSIjNTY1ODVBIiBzdHJva2Utd2lkdGg9IjAuOSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+CjxwYXRoIGQ9Ik02Ljk5MjcxIDUuNDU0MTdDNy40MTE1MiA1LjQ1NDE3IDcuNzUxMDQgNS4xMTQ2NSA3Ljc1MTA0IDQuNjk1ODNDNy43NTEwNCA0LjI3NzAyIDcuNDExNTIgMy45Mzc1IDYuOTkyNzEgMy45Mzc1QzYuNTczODkgMy45Mzc1IDYuMjM0MzggNC4yNzcwMiA2LjIzNDM4IDQuNjk1ODNDNi4yMzQzOCA1LjExNDY1IDYuNTczODkgNS40NTQxNyA2Ljk5MjcxIDUuNDU0MTdaIiBmaWxsPSIjNTY1ODVBIi8+CjwvZz4KPGRlZnM+CjxjbGlwUGF0aCBpZD0iY2xpcDBfNTAyOV84MTkxIj4KPHJlY3Qgd2lkdGg9IjE0IiBoZWlnaHQ9IjE0IiBmaWxsPSJ3aGl0ZSIvPgo8L2NsaXBQYXRoPgo8L2RlZnM+Cjwvc3ZnPgo=");
+    }
+  }
   .tooltipster-sidetip.tooltipster-bottom .tooltipster-arrow-background{
     border-bottom-color: #222;
     top: 0;
