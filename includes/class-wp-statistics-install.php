@@ -411,19 +411,26 @@ class Install
          *
          * @version 13.0.0
          */
-        if (!DB::isColumnType('visitor', 'ID', 'bigint(20)')) {
+        /*
+         * MySQL since version 8.0.19 doesn't honot  display width specification
+         * so we have to handle accept BIGINT(20) and BIGINT.
+         *
+         * see: https://dev.mysql.com/doc/relnotes/mysql/8.0/en/news-8-0-19.html  
+         * - section Deprecation and Removal Notes
+         */
+        if (!DB::isColumnType('visitor', 'ID', 'bigint(20)') && !DB::isColumnType('visitor', 'ID', 'bigint')) {
             $wpdb->query("ALTER TABLE `{$visitorTable}` CHANGE `ID` `ID` BIGINT(20) NOT NULL AUTO_INCREMENT;");
         }
 
-        if (!DB::isColumnType('exclusions', 'ID', 'bigint(20)')) {
+        if (!DB::isColumnType('exclusions', 'ID', 'bigint(20)') && !DB::isColumnType('exclusions', 'ID', 'bigint')) {
             $wpdb->query("ALTER TABLE `" . DB::table('exclusions') . "` CHANGE `ID` `ID` BIGINT(20) NOT NULL AUTO_INCREMENT;");
         }
 
-        if (!DB::isColumnType('useronline', 'ID', 'bigint(20)')) {
+        if (!DB::isColumnType('useronline', 'ID', 'bigint(20)') && !DB::isColumnType('useronline', 'ID', 'bigint')) {
             $wpdb->query("ALTER TABLE `{$userOnlineTable}` CHANGE `ID` `ID` BIGINT(20) NOT NULL AUTO_INCREMENT;");
         }
 
-        if (!DB::isColumnType('visit', 'ID', 'bigint(20)')) {
+        if (!DB::isColumnType('visit', 'ID', 'bigint(20)') && !DB::isColumnType('visit', 'ID', 'bigint')) {
             $wpdb->query("ALTER TABLE `" . DB::table('visit') . "` CHANGE `ID` `ID` BIGINT(20) NOT NULL AUTO_INCREMENT;");
         }
 
