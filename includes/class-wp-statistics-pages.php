@@ -490,9 +490,9 @@ class Pages
 
             // Push to list
             $list[] = array(
-                'title'     => $page_info['title'],
+                'title'     => esc_html($page_info['title']),
                 'link'      => $page_info['link'],
-                'str_url'   => urldecode($item->uri),
+                'str_url'   => esc_url(urldecode($item->uri)),
                 'hits_page' => Menus::admin_url('pages', array('ID' => $item->id, 'type' => $item->type)),
                 'number'    => number_format_i18n($item->count_sum)
             );
