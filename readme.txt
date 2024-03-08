@@ -138,7 +138,8 @@ If you encounter any bug, please create an issue on [GitHub](https://github.com/
 == Changelog ==
 = 14.5.1 - 08.03.2024 =
 * Development: Action `wp_statistics_record_visitor` added.
-* Enhancement: Escaped `str_url` in output of page metabox.
-* Enhancement: Minor Improvements
+* Improvement: Escaped `str_url` in output of page metabox.
+* Improvement: Changed `check_online` input type to number & add failsafe for non-numeric values.
+* Improvement: Minor Improvements.
 
 [See changelog for all versions](https://raw.githubusercontent.com/wp-statistics/wp-statistics/master/CHANGELOG.md).

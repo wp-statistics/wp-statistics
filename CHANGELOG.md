@@ -1,3 +1,9 @@
+= 14.5.1 - 08.03.2024 =
+* Development: Action `wp_statistics_record_visitor` added.
+* Improvement: Escaped `str_url` in output of page metabox.
+* Improvement: Changed `check_online` input type to number & add failsafe for non-numeric values.
+* Improvement: Minor Improvements.
+
 = 14.5 - 24.02.2024 =
 * Feature: Added 'Allowed Query Parameters' option for specifying permissible URL query parameters. [Read more](https://wp-statistics.com/resources/managing-url-query-parameters/?utm_source=plugin&utm_medium=changelog&utm_campaign=settings).
 * Fixes: Resolved issue with displaying the home page in Top Pages.
