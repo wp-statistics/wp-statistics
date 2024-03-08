@@ -66,6 +66,11 @@ class UserOnline
                 $reset_time = Option::get('check_online');
             }
 
+            // Failsafe
+            if (!is_numeric($reset_time)) {
+                $reset_time = 120;
+            }
+
             // We want to delete users that are over the number of seconds set by the admin.
             $time_diff = (int)$now - (int)$reset_time;
 

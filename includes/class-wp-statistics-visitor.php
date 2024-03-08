@@ -70,14 +70,16 @@ class Visitor
      *
      * @param $ip
      * @param $date
-     * @return bool
+     * @param array $fields
+     * @return bool|object
      */
-    public static function exist_ip_in_day($ip, $date = false)
+    public static function exist_ip_in_day($ip, $date = false, $fields = [])
     {
         global $wpdb;
 
+        $columns      = (empty($fields) ? '*' : implode(',', $fields)); 
         $last_counter = ($date === false ? TimeZone::getCurrentDate('Y-m-d') : $date);
-        $sql          = $wpdb->prepare("SELECT * FROM `" . DB::table('visitor') . "` WHERE `last_counter` = %s AND `ip` = %s", $last_counter, $ip);
+        $sql          = $wpdb->prepare("SELECT {$columns} FROM `" . DB::table('visitor') . "` WHERE `last_counter` = %s AND `ip` = %s", $last_counter, $ip);
         $visitor      = $wpdb->get_row($sql);
 
         return (!$visitor ? false : $visitor);
@@ -164,7 +166,12 @@ class Visitor
             }
         }
 
-        return (isset($visitor_id) ? $visitor_id : false);
+        $visitor_id = (isset($visitor_id) ? $visitor_id : false);
+
+        // Do Action After Record New Visitor
+        do_action('wp_statistics_record_visitor', $visitor_id);
+
+        return $visitor_id;
     }
 
     /**
