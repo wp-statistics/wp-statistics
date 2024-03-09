@@ -127,6 +127,51 @@
       a.is-normal-text {
         color: $dim-black-color !important;
       }
+
+      a.button {
+        border-radius: 4px;
+        font-weight: 500 !important;
+        padding: 12px 10px;
+        background-color: #fafafb !important;
+        line-height: 0;
+        text-align: center;
+
+        span {
+          color: inherit;
+        }
+
+        .hover-effect {
+          min-width: 85px;
+        }
+
+        .hover-effect--show {
+          display: none !important;
+        }
+
+        &:hover {
+          .hover-effect--show {
+            display: inline-block !important;
+          }
+
+          .hover-effect--hide {
+            display: none !important;
+          }
+        }
+
+        svg {
+          vertical-align: middle;
+        }
+      }
+    }
+
+    a.button.disabled {
+      &:hover {
+        color: #A7AAAD !important;
+      }
+      
+      span:hover {
+        color: #A7AAAD !important;
+      }
     }
 
     tbody {
