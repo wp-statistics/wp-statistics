@@ -36,7 +36,6 @@
         td, th {
           padding: 14px 40px 14px 0 !important;
           text-align: right !important;
-
           a, span {
             text-align: right !important;
           }
@@ -71,6 +70,20 @@
     }
   }
 }
+&.statistics_page_wps_download_tracker_page,&.statistics_page_wps_link_tracker_page{
+  .o-table--tracker{
+    td , th{
+      .tooltipstered{
+        margin-right: 2px;
+        margin-left: 0;
+      }
+      &.o-table__cell--right{
+        text-align: left!important;
+      }
+    }
+  }
+}
+
 
 #wp-statistics-pages-widget,
 #wp-statistics-countries-widget,

@@ -337,8 +337,8 @@ class Helper
     public static function get_list_post_type()
     {
         // Get default post types which are public (exclude media post type)
-        $post_types     = get_post_types(array('public' => true, '_builtin' => true), 'names', 'and');
-        $post_types     = array_diff($post_types, ['attachment']);
+        $post_types = get_post_types(array('public' => true, '_builtin' => true), 'names', 'and');
+        $post_types = array_diff($post_types, ['attachment']);
 
         // Get custom post types which are public
         $custom_post_types = get_post_types(array('public' => true, '_builtin' => false), 'names', 'and');
@@ -629,7 +629,7 @@ class Helper
     public static function FilterQueryStringUrl($url, $allowedParams)
     {
         // Get query from the URL
-        $urlQuery  = strpos($url, '?');
+        $urlQuery = strpos($url, '?');
 
         // Check if the URL has query strings
         if ($urlQuery !== false) {
@@ -1265,5 +1265,22 @@ class Helper
         }
 
         return sanitize_url(wp_unslash($_SERVER['REQUEST_URI']));
+    }
+
+    /**
+     * Check whether an add-on is active or not
+     *
+     * @param string $slug
+     * @return bool
+     */
+    public static function isAddOnActive($slug)
+    {
+        if (!function_exists('is_plugin_active')) {
+            include_once(ABSPATH . 'wp-admin/includes/plugin.php');
+        }
+
+        $pluginName = sprintf('wp-statistics-%1$s/wp-statistics-%1$s.php', $slug);
+
+        return is_plugin_active($pluginName);
     }
 }

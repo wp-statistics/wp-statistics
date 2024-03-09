@@ -99,6 +99,23 @@
         min-width: unset;
       }
 
+      span.truncate{
+        max-width: 147px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        color: inherit;
+        display: inline-block;
+
+        &:hover {
+          color: inherit;
+        }
+      }
+
+      span.disabled {
+        color: #999;
+      }
+
       a {
         color: $primary-color !important;
         display: inline-block;
@@ -107,9 +124,53 @@
           color: $dark-color !important;
         }
       }
-
       a.is-normal-text {
         color: $dim-black-color !important;
+      }
+
+      a.button {
+        border-radius: 4px;
+        font-weight: 500 !important;
+        padding: 12px 10px;
+        background-color: #fafafb !important;
+        line-height: 0;
+        text-align: center;
+
+        span {
+          color: inherit;
+        }
+
+        .hover-effect {
+          min-width: 85px;
+        }
+
+        .hover-effect--show {
+          display: none !important;
+        }
+
+        &:hover {
+          .hover-effect--show {
+            display: inline-block !important;
+          }
+
+          .hover-effect--hide {
+            display: none !important;
+          }
+        }
+
+        svg {
+          vertical-align: middle;
+        }
+      }
+    }
+
+    a.button.disabled {
+      &:hover {
+        color: #A7AAAD !important;
+      }
+      
+      span:hover {
+        color: #A7AAAD !important;
       }
     }
 
@@ -455,6 +516,38 @@
 
         span {
           color: $dark-color !important;
+        }
+      }
+    }
+  }
+  .o-table--tracker{
+    thead{
+      th{
+        white-space: nowrap;
+        .wps-tooltip{
+          margin-left: 2px;
+        }
+        &.o-table__cell--right{
+          text-align: right;
+        }
+      }
+    }
+    tbody{
+      tr{
+        td{
+          &.o-table__cell--right{
+            text-align: right;
+          }
+          ul{
+            display: flex;
+            margin: 0;
+            gap:5px;
+            justify-content: flex-end;
+            align-items: center;
+            li{
+              margin-bottom: 0;
+            }
+          }
         }
       }
     }
