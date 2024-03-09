@@ -112,6 +112,10 @@
         }
       }
 
+      span.disabled {
+        color: #999;
+      }
+
       a {
         color: $primary-color !important;
         display: inline-block;
