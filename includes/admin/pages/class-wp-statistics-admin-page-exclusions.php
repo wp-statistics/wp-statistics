@@ -44,6 +44,10 @@ class exclusions_page
         // Get Total Exclusions
         $args['total_exclusions'] = $wpdb->get_var("SELECT SUM(count) FROM `" . DB::table('exclusions') . "`");
 
+        if (!$args['total_exclusions']) {
+            $args['total_exclusions'] = 0;
+        }
+
         // Show Template Page
         Admin_Template::get_template(array('layout/header', 'layout/title', 'layout/date.range', 'pages/exclusions', 'layout/footer'), $args);
     }
