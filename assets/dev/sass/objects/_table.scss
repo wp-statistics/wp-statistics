@@ -99,21 +99,25 @@
         min-width: unset;
       }
 
+      span.truncate{
+        max-width: 147px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        color: inherit;
+        display: inline-block;
+
+        &:hover {
+          color: inherit;
+        }
+      }
+
       a {
         color: $primary-color !important;
         display: inline-block;
-        span.truncate{
-          max-width: 147px;
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          color: $primary-color !important;
-        }
+
         &:hover {
           color: $dark-color !important;
-          span.truncate{
-            color: $dark-color !important;
-          }
         }
       }
       a.is-normal-text {
