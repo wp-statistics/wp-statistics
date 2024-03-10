@@ -521,20 +521,15 @@
     }
   }
   .o-table--tracker{
-    thead{
-      th{
-        white-space: nowrap;
-        .wps-tooltip{
-          margin-left: 2px;
-        }
-        &.o-table__cell--right{
-          text-align: right;
-        }
-      }
-    }
     tbody{
       tr{
         td{
+          &.head{
+            white-space: nowrap;
+            .wps-tooltip{
+              margin-left: 2px;
+            }
+          }
           &.o-table__cell--right{
             text-align: right;
           }
