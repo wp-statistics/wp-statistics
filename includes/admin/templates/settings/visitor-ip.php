@@ -1,4 +1,7 @@
 <?php
+use WP_STATISTICS\Country;
+use WP_STATISTICS\GeoIP;
+
 // Get IP Method
 $ip_method = \WP_STATISTICS\IP::getIPMethod();
 
@@ -105,6 +108,17 @@ add_thickbox();
                                         _e('No available data.', 'wp-statistics');
                                     } ?>
                                 </code>
+
+                                <?php 
+                                    if (!empty($_SERVER[$method]) && GeoIP::active()) { 
+                                        $countryCode = GeoIP::getCountry($_SERVER[$method]);
+                                        $countryFlag = Country::flag($countryCode);
+                                        $countryName = Country::getName($countryCode);
+                                        
+                                        ?><img src="<?php echo esc_attr($countryFlag) ?>" alt="<?php echo esc_attr($countryName) ?>" title="<?php echo esc_attr($countryName) ?>" class="wps-flag" style="margin-left: 5px; vertical-align: top;"/><?php
+                                    } 
+                                ?>
+
                                 <?php
                                 if (isset($_SERVER[$method]) and !empty($_SERVER[$method]) and \WP_STATISTICS\IP::check_sanitize_ip($_SERVER[$method]) === false) {
                                     echo ' &nbsp;&nbsp;<a href="https://wp-statistics.com/sanitize-user-ip/" style="color: #d04f4f;" target="_blank" title="' . __('Your value required to sanitize user IP', 'wp-statistics') . '"><span class="dashicons dashicons-warning"></span></a>';
