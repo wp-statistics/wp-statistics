@@ -111,11 +111,11 @@ add_thickbox();
 
                                 <?php 
                                     if (!empty($_SERVER[$method]) && GeoIP::active()) { 
-                                        $countryCode = GeoIP::getCountry($_SERVER[$method]);
+                                        $countryCode = GeoIP::getCountry(wp_unslash($_SERVER[$method]));
                                         $countryFlag = Country::flag($countryCode);
                                         $countryName = Country::getName($countryCode);
                                         
-                                        ?><img src="<?php echo esc_attr($countryFlag) ?>" alt="<?php echo esc_attr($countryName) ?>" title="<?php echo esc_attr($countryName) ?>" class="wps-flag" style="margin-left: 5px; vertical-align: top;"/><?php
+                                        ?><img src="<?php echo esc_url($countryFlag) ?>" alt="<?php echo esc_attr($countryName) ?>" title="<?php echo esc_attr($countryName) ?>" class="wps-flag" style="margin-left: 5px; vertical-align: top;"/><?php
                                     } 
                                 ?>
 
