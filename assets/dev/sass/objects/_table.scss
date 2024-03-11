@@ -131,17 +131,19 @@
       a.button {
         border-radius: 4px;
         font-weight: 500 !important;
-        padding: 12px 10px;
+        padding: 7px 10px;
         background-color: #fafafb !important;
         line-height: 0;
         text-align: center;
+        font-size: 11px;
 
         span {
+          font-size: inherit;
           color: inherit;
         }
 
         .hover-effect {
-          min-width: 85px;
+          min-width: 70px;
         }
 
         .hover-effect--show {
