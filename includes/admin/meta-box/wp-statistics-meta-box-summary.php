@@ -133,7 +133,7 @@ class summary
 
                 // Last Year
                 $data['visitors']['last-year'] = array(
-                    'link'  => Menus::admin_url('visitors', array('from' => TimeZone::getTimeAgo((365 * 2)), 'to' => TimeZone::getTimeAgo(365))),
+                    'link'  => Menus::admin_url('visitors', array('from' => TimeZone::getTimeAgo(365, 'Y-01-01'), 'to' => TimeZone::getTimeAgo(365, 'Y-12-31'))),
                     'value' => number_format_i18n(wp_statistics_visitor('last-year', null, true))
                 );
 
@@ -207,7 +207,7 @@ class summary
 
                 // Last Year
                 $data['visits']['last-year'] = array(
-                    'link'  => Menus::admin_url('hits', array('from' => TimeZone::getTimeAgo((365 * 2)), 'to' => TimeZone::getTimeAgo(365))),
+                    'link'  => Menus::admin_url('hits', array('from' => TimeZone::getTimeAgo(365, 'Y-01-01'), 'to' => TimeZone::getTimeAgo(365, 'Y-12-31'))),
                     'value' => number_format_i18n(wp_statistics_visit('last-year'))
                 );
 

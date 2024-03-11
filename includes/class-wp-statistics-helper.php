@@ -942,8 +942,8 @@ class Helper
                 $where    = "`$field` BETWEEN '{$fromDate}' AND '{$toDate}'";
                 break;
             case 'last-year':
-                $fromDate = TimeZone::getTimeAgo((365 * 2), 'Y-m-d');
-                $toDate   = TimeZone::getTimeAgo(365, 'Y-m-d');
+                $fromDate = TimeZone::getTimeAgo(365, 'Y-01-01');
+                $toDate   = TimeZone::getTimeAgo(365, 'Y-12-31');
                 $where    = "`$field` BETWEEN '{$fromDate}' AND '{$toDate}'";
                 break;
             case 'total':
