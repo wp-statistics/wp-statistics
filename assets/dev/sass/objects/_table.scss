@@ -526,6 +526,9 @@
     tbody{
       tr{
         td{
+           a{
+             display: inline!important;
+           }
           &.head{
             white-space: nowrap;
             .wps-tooltip{
