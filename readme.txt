@@ -4,7 +4,7 @@ Donate link: https://wp-statistics.com/donate/
 Tags: analytics, stats, statistics, visitors, chart
 Requires at least: 5.0
 Tested up to: 6.4
-Stable tag: 14.5.1
+Stable tag: 14.5.2
 Requires PHP: 5.6
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -37,6 +37,8 @@ WP Statistics stores all data, including IP addresses, safely on your server. WP
 * Statistical Reporting Emails
 * Statistical of pages with query strings and UTM parameters
 * [Premium] [Data Plus](https://wp-statistics.com/product/wp-statistics-data-plus?utm_source=wp_statistics&utm_medium=display&utm_campaign=wordpress)
+ * Link Tracker: Tracks clicks on outgoing links, offering insights into visitor engagement with external content.
+ * Download Tracker: Observes which files are downloaded, providing clarity on content effectiveness.
 * [Premium] [More Advanced reporting](http://bit.ly/2MjZE3l)
 * And much more information represented in graphs & charts along with data filtering
 
@@ -126,6 +128,10 @@ Referrer spam blacklist is provided by Matomo, available from https://github.com
 9. Dashboard widgets
 10. Theme widget
 11. Page Statistics Overview
+12. Link Tracker: Recent Clicks
+13. Link Tracker: Top Clicks
+14. Download Activity Tracker: Recent Downloads
+15. Download Activity Tracker: Top Downloads
 
 == Upgrade Notice ==
 = 14.0 =
@@ -136,10 +142,10 @@ Thank you for being part of our community. We’ve been working hard for one yea
 If you encounter any bug, please create an issue on [GitHub](https://github.com/wp-statistics/wp-statistics/issues/new) where we can act upon them more efficiently. Since [GitHub](https://github.com/wp-statistics/wp-statistics) is not a support forum, just bugs are welcomed, and any other request will be closed.
 
 == Changelog ==
-= 14.5.1 - 08.03.2024 =
-* Development: Action `wp_statistics_record_visitor` added.
-* Improvement: Escaped `str_url` in output of page metabox.
-* Improvement: Changed `check_online` input type to number & add failsafe for non-numeric values.
+= 14.5.2 - 12.03.2024 =
+* Feature: Added section 'Event Tracking' in the settings page. [More info](https://wp-statistics.com/2024/03/11/big-news-for-data-plus-introducing-link-and-download-tracking)
+* Fixes: The last year stats issue.
+* Improvement: Tooltip and improvement the admin styles.
 * Improvement: Minor Improvements.
 
 [See changelog for all versions](https://raw.githubusercontent.com/wp-statistics/wp-statistics/master/CHANGELOG.md).

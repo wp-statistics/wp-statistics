@@ -2,14 +2,14 @@
 # This file is distributed under the GPL-2.0+.
 msgid ""
 msgstr ""
-"Project-Id-Version: WP Statistics 14.5.1\n"
+"Project-Id-Version: WP Statistics 14.5.2\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wp-statistics\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-03-08T11:10:14+00:00\n"
+"POT-Creation-Date: 2024-03-12T13:41:04+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.9.0\n"
 "X-Domain: wp-statistics\n"
@@ -967,31 +967,31 @@ msgstr ""
 msgid "Detailed Statistics on Search Engine Referrals"
 msgstr ""
 
-#: includes/admin/pages/class-wp-statistics-admin-page-settings.php:101
+#: includes/admin/pages/class-wp-statistics-admin-page-settings.php:103
 msgid "Error Encountered While Updating Spam Referrer Blacklist."
 msgstr ""
 
-#: includes/admin/pages/class-wp-statistics-admin-page-settings.php:103
+#: includes/admin/pages/class-wp-statistics-admin-page-settings.php:105
 msgid "Spam Referrer Blacklist Successfully Updated."
 msgstr ""
 
-#: includes/admin/pages/class-wp-statistics-admin-page-settings.php:123
+#: includes/admin/pages/class-wp-statistics-admin-page-settings.php:125
 msgid "Settings Successfully Saved."
 msgstr ""
 
-#: includes/admin/pages/class-wp-statistics-admin-page-settings.php:128
+#: includes/admin/pages/class-wp-statistics-admin-page-settings.php:130
 msgid "All Settings Have Been Reset to Default."
 msgstr ""
 
-#: includes/admin/pages/class-wp-statistics-admin-page-settings.php:311
+#: includes/admin/pages/class-wp-statistics-admin-page-settings.php:313
 msgid "GeoIP functionality could not be activated due to an error: %s."
 msgstr ""
 
-#: includes/admin/pages/class-wp-statistics-admin-page-settings.php:352
+#: includes/admin/pages/class-wp-statistics-admin-page-settings.php:354
 msgid "WP Statistics - Honey Pot Page for Tracking"
 msgstr ""
 
-#: includes/admin/pages/class-wp-statistics-admin-page-settings.php:353
+#: includes/admin/pages/class-wp-statistics-admin-page-settings.php:355
 msgid "Do Not Delete: Honey Pot Page for WP Statistics Tracking."
 msgstr ""
 
@@ -1083,6 +1083,7 @@ msgid "More"
 msgstr ""
 
 #: includes/admin/templates/header.php:34
+#: includes/admin/templates/layout/menu-settings.php:94
 #: includes/admin/templates/meta-box/about.php:26
 #: includes/admin/templates/plugins.php:4
 #: includes/class-wp-statistics-menus.php:284
@@ -1179,6 +1180,14 @@ msgstr ""
 
 #: includes/admin/templates/layout/menu-settings.php:91
 msgid "WP Statistics - Overview"
+msgstr ""
+
+#: includes/admin/templates/layout/menu-settings.php:97
+msgid "Data Plus"
+msgstr ""
+
+#: includes/admin/templates/layout/menu-settings.php:98
+msgid "Add-on"
 msgstr ""
 
 #: includes/admin/templates/layout/select.php:6
@@ -2232,6 +2241,7 @@ msgid "If your needs go beyond the default capabilities and roles, or you wish f
 msgstr ""
 
 #: includes/admin/templates/settings/access-level.php:83
+#: includes/admin/templates/settings/add-ons/data-plus.php:50
 #: includes/admin/templates/settings/exclusions.php:245
 #: includes/admin/templates/settings/externals.php:281
 #: includes/admin/templates/settings/general.php:347
@@ -2239,8 +2249,81 @@ msgstr ""
 #: includes/admin/templates/settings/notifications.php:206
 #: includes/admin/templates/settings/overview-display.php:42
 #: includes/admin/templates/settings/privacy.php:76
-#: includes/admin/templates/settings/visitor-ip.php:167
+#: includes/admin/templates/settings/visitor-ip.php:181
 msgid "Update"
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/data-plus.php:9
+msgid "Event Tracking"
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/data-plus.php:9
+msgid "Enable or disable tracking features for clicks and downloads"
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/data-plus.php:15
+msgid "Event Tacking feature is currently restricted in your current version. Unlock premium features to gain a deeper insight into your website."
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/data-plus.php:16
+msgid "Upgrade"
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/data-plus.php:23
+msgid "Link Tracker"
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/data-plus.php:28
+#: includes/admin/templates/settings/add-ons/data-plus.php:40
+#: includes/admin/templates/settings/exclusions.php:95
+#: includes/admin/templates/settings/exclusions.php:103
+#: includes/admin/templates/settings/exclusions.php:122
+#: includes/admin/templates/settings/exclusions.php:237
+#: includes/admin/templates/settings/externals.php:41
+#: includes/admin/templates/settings/externals.php:63
+#: includes/admin/templates/settings/externals.php:83
+#: includes/admin/templates/settings/externals.php:121
+#: includes/admin/templates/settings/externals.php:228
+#: includes/admin/templates/settings/general.php:21
+#: includes/admin/templates/settings/general.php:45
+#: includes/admin/templates/settings/general.php:66
+#: includes/admin/templates/settings/general.php:77
+#: includes/admin/templates/settings/general.php:120
+#: includes/admin/templates/settings/general.php:131
+#: includes/admin/templates/settings/general.php:152
+#: includes/admin/templates/settings/general.php:163
+#: includes/admin/templates/settings/general.php:175
+#: includes/admin/templates/settings/general.php:187
+#: includes/admin/templates/settings/general.php:228
+#: includes/admin/templates/settings/general.php:273
+#: includes/admin/templates/settings/general.php:294
+#: includes/admin/templates/settings/general.php:317
+#: includes/admin/templates/settings/general.php:338
+#: includes/admin/templates/settings/maintenance.php:24
+#: includes/admin/templates/settings/maintenance.php:58
+#: includes/admin/templates/settings/notifications.php:34
+#: includes/admin/templates/settings/notifications.php:55
+#: includes/admin/templates/settings/notifications.php:67
+#: includes/admin/templates/settings/notifications.php:88
+#: includes/admin/templates/settings/overview-display.php:19
+#: includes/admin/templates/settings/overview-display.php:31
+#: includes/admin/templates/settings/privacy.php:14
+#: includes/admin/templates/settings/privacy.php:25
+#: includes/admin/templates/settings/privacy.php:46
+#: includes/admin/templates/settings/privacy.php:68
+msgid "Enable"
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/data-plus.php:29
+msgid "See which outside links people click on your site."
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/data-plus.php:35
+msgid "Download Tracker"
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/data-plus.php:41
+msgid "Watch which files people download and learn what’s popular."
 msgstr ""
 
 #: includes/admin/templates/settings/exclusions.php:5
@@ -2321,45 +2404,6 @@ msgstr ""
 
 #: includes/admin/templates/settings/exclusions.php:92
 msgid "Force Robot List Update After Upgrades"
-msgstr ""
-
-#: includes/admin/templates/settings/exclusions.php:95
-#: includes/admin/templates/settings/exclusions.php:103
-#: includes/admin/templates/settings/exclusions.php:122
-#: includes/admin/templates/settings/exclusions.php:237
-#: includes/admin/templates/settings/externals.php:41
-#: includes/admin/templates/settings/externals.php:63
-#: includes/admin/templates/settings/externals.php:83
-#: includes/admin/templates/settings/externals.php:121
-#: includes/admin/templates/settings/externals.php:228
-#: includes/admin/templates/settings/general.php:21
-#: includes/admin/templates/settings/general.php:45
-#: includes/admin/templates/settings/general.php:66
-#: includes/admin/templates/settings/general.php:77
-#: includes/admin/templates/settings/general.php:120
-#: includes/admin/templates/settings/general.php:131
-#: includes/admin/templates/settings/general.php:152
-#: includes/admin/templates/settings/general.php:163
-#: includes/admin/templates/settings/general.php:175
-#: includes/admin/templates/settings/general.php:187
-#: includes/admin/templates/settings/general.php:228
-#: includes/admin/templates/settings/general.php:273
-#: includes/admin/templates/settings/general.php:294
-#: includes/admin/templates/settings/general.php:317
-#: includes/admin/templates/settings/general.php:338
-#: includes/admin/templates/settings/maintenance.php:24
-#: includes/admin/templates/settings/maintenance.php:58
-#: includes/admin/templates/settings/notifications.php:34
-#: includes/admin/templates/settings/notifications.php:55
-#: includes/admin/templates/settings/notifications.php:67
-#: includes/admin/templates/settings/notifications.php:88
-#: includes/admin/templates/settings/overview-display.php:19
-#: includes/admin/templates/settings/overview-display.php:31
-#: includes/admin/templates/settings/privacy.php:14
-#: includes/admin/templates/settings/privacy.php:25
-#: includes/admin/templates/settings/privacy.php:46
-#: includes/admin/templates/settings/privacy.php:68
-msgid "Enable"
 msgstr ""
 
 #: includes/admin/templates/settings/exclusions.php:96
@@ -3126,61 +3170,61 @@ msgstr ""
 msgid "Restore Defaults"
 msgstr ""
 
-#: includes/admin/templates/settings/visitor-ip.php:18
+#: includes/admin/templates/settings/visitor-ip.php:21
 msgid "$_SERVER"
 msgstr ""
 
-#: includes/admin/templates/settings/visitor-ip.php:19
+#: includes/admin/templates/settings/visitor-ip.php:22
 msgid "Value"
 msgstr ""
 
-#: includes/admin/templates/settings/visitor-ip.php:43
+#: includes/admin/templates/settings/visitor-ip.php:46
 msgid "Your IP Information"
 msgstr ""
 
-#: includes/admin/templates/settings/visitor-ip.php:48
+#: includes/admin/templates/settings/visitor-ip.php:51
 msgid "Your IP address as detected by the Ipify.org service:"
 msgstr ""
 
-#: includes/admin/templates/settings/visitor-ip.php:65
+#: includes/admin/templates/settings/visitor-ip.php:68
 msgid "Unable to retrieve some IP data. Ensure your internet connection is active and retry."
 msgstr ""
 
-#: includes/admin/templates/settings/visitor-ip.php:85
+#: includes/admin/templates/settings/visitor-ip.php:88
 msgid "Main IP Detection Method"
 msgstr ""
 
-#: includes/admin/templates/settings/visitor-ip.php:85
+#: includes/admin/templates/settings/visitor-ip.php:88
 msgid "Select the preferred method for determining the visitor's IP address. The method should correspond to the way your server and network infrastructure relay IP information. Choose the option that reflects the correct IP in your server environment."
 msgstr ""
 
-#: includes/admin/templates/settings/visitor-ip.php:100
+#: includes/admin/templates/settings/visitor-ip.php:103
 msgid "Use <code>%1$s</code>"
 msgstr ""
 
-#: includes/admin/templates/settings/visitor-ip.php:105
-#: includes/admin/templates/settings/visitor-ip.php:144
+#: includes/admin/templates/settings/visitor-ip.php:108
+#: includes/admin/templates/settings/visitor-ip.php:158
 msgid "No available data."
 msgstr ""
 
-#: includes/admin/templates/settings/visitor-ip.php:110
-#: includes/admin/templates/settings/visitor-ip.php:149
+#: includes/admin/templates/settings/visitor-ip.php:124
+#: includes/admin/templates/settings/visitor-ip.php:163
 msgid "Your value required to sanitize user IP"
 msgstr ""
 
-#: includes/admin/templates/settings/visitor-ip.php:132
+#: includes/admin/templates/settings/visitor-ip.php:146
 msgid "Specify a Custom Header for IP Detection"
 msgstr ""
 
-#: includes/admin/templates/settings/visitor-ip.php:152
+#: includes/admin/templates/settings/visitor-ip.php:166
 msgid "If your server uses a custom key in <code>$_SERVER</code> for IP detection (e.g., <code>HTTP_CF_CONNECTING_IP</code> for CloudFlare), specify it here."
 msgstr ""
 
-#: includes/admin/templates/settings/visitor-ip.php:154
+#: includes/admin/templates/settings/visitor-ip.php:168
 msgid "View <code>$_SERVER</code> in your server."
 msgstr ""
 
-#: includes/admin/templates/settings/visitor-ip.php:156
+#: includes/admin/templates/settings/visitor-ip.php:170
 msgid "Refer to our <a href=\"%s\" target=\"_blank\">Documentation</a> for more info and how to configure IP Detection properly."
 msgstr ""
 

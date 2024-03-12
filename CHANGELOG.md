@@ -1,3 +1,9 @@
+= 14.5.2 - 12.03.2024 =
+* Feature: Added section 'Event Tracking' in the settings page. [More info](https://wp-statistics.com/2024/03/11/big-news-for-data-plus-introducing-link-and-download-tracking)
+* Fixes: The last year stats issue.
+* Improvement: Tooltip and improvement the admin styles.
+* Improvement: Minor Improvements.
+
 = 14.5.1 - 08.03.2024 =
 * Development: Action `wp_statistics_record_visitor` added.
 * Improvement: Escaped `str_url` in output of page metabox.

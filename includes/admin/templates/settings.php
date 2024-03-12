@@ -38,6 +38,9 @@
                         <div id="reset-settings" class="tab-content">
                             <?php include WP_STATISTICS_DIR . 'includes/admin/templates/settings/reset.php'; ?>
                         </div>
+                        <div id="data-plus-settings" class="tab-content">
+                            <?php include WP_STATISTICS_DIR . 'includes/admin/templates/settings/add-ons/data-plus.php'; ?>
+                        </div>
                     <?php } ?>
                     <div id="about" class="tab-content">
                         <?php include WP_STATISTICS_DIR . 'includes/admin/templates/settings/about.php'; ?>

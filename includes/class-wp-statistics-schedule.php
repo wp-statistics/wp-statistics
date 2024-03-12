@@ -262,7 +262,7 @@ class Schedule
             /**
              * Fire actions after sending email
              */
-            do_action('wp_statistics_after_report_email', $result_email, $email_receivers, $email_content);
+            do_action('wp_statistics_after_report_email', $result_email, $email_receivers, $final_report_text);
 
         }
 

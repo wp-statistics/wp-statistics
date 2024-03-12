@@ -87,6 +87,8 @@ class settings_page
                 $wp_statistics_options = self::{'save_' . $method . '_option'}($wp_statistics_options);
             }
 
+            $wp_statistics_options = apply_filters('wp_statistics_options', $wp_statistics_options);
+
             // Save Option
             Option::save_options($wp_statistics_options);
 

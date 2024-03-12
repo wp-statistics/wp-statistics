@@ -43,7 +43,7 @@ wps_js.tooltip = function () {
     jQuery('.wps-tooltip').tooltipster({
         theme: 'tooltipster-flat'
     });
-    jQuery('body').on('mouseenter', '.wps-tooltip:not(.tooltipstered)', function () {
+    jQuery('body').on('mouseenter touchstart', '.wps-tooltip:not(.tooltipstered)', function () {
         $(this).tooltipster({
             theme: 'tooltipster-flat'
         }).tooltipster('open');
