@@ -25,7 +25,7 @@
                                 </div>
 
                                 <div class="desc column-description">
-                                    <p><?php echo wp_trim_words(wp_kses_post($addOn->getDescription()), 15); ?></p>
+                                    <p><?php echo wp_trim_words(wp_kses_post($addOn->getDescription()), 30); ?></p>
 
                                     <div class="version">
                                         <strong><?php _e('Current Version:', 'wp-statistics'); ?></strong><?php echo ' ' . esc_html($addOn->getVersion()); ?>
