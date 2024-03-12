@@ -128,6 +128,10 @@ Referrer spam blacklist is provided by Matomo, available from https://github.com
 9. Dashboard widgets
 10. Theme widget
 11. Page Statistics Overview
+12. Link Tracker: Recent Clicks
+13. Link Tracker: Top Clicks
+14. Download Activity Tracker: Recent Downloads
+15. Download Activity Tracker: Top Downloads
 
 == Upgrade Notice ==
 = 14.0 =
