@@ -26,7 +26,7 @@ $isDataPlusActive = WP_STATISTICS\Helper::isAddOnActive('data-plus');
                 <td>
                     <input id="link-tracker" type="checkbox" value="1" name="wps_link_tracker" <?php checked(WP_STATISTICS\Option::get('link_tracker')) ?>>
                     <label for="link-tracker"><?php _e('Enable', 'wp-statistics'); ?></label>
-                    <p class="description"><?php _e('Toggle this to start monitoring and recording all link clicks on your site. Gain insights into which links capture user interest and drive engagement.', 'wp-statistics'); ?></p>
+                    <p class="description"><?php _e('See which outside links people click on your site.', 'wp-statistics'); ?></p>
                 </td>
             </tr>
 
@@ -38,7 +38,7 @@ $isDataPlusActive = WP_STATISTICS\Helper::isAddOnActive('data-plus');
                 <td>
                     <input id="download-tracker" type="checkbox" value="1" name="wps_download_tracker" <?php checked(WP_STATISTICS\Option::get('download_tracker')) ?>>
                     <label for="download-tracker"><?php _e('Enable', 'wp-statistics'); ?></label>
-                    <p class="description"><?php _e('Activate this feature to keep track of file downloads. Understand which materials are most sought after and measure content effectiveness.', 'wp-statistics'); ?></p>
+                    <p class="description"><?php _e('Watch which files people download and learn what’s popular.', 'wp-statistics'); ?></p>
                 </td>
             </tr>
         </tbody>
