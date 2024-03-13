@@ -46,7 +46,7 @@ function buildScripts(done) {
         .pipe(replace("\\t", ''))
         .pipe(replace("  ", ''))
         .pipe(uglify())
-         .pipe(gulp.dest('./assets/js/'));
+        .pipe(gulp.dest('./assets/js/'));
     done()
 }
 
