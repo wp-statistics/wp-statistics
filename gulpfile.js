@@ -36,6 +36,7 @@ function buildScripts(done) {
         './assets/dev/javascript/pages/*.js',
         './assets/dev/javascript/run.js',
     ])
+        .pipe(uglify())
         .pipe(concat('admin.min.js'))
         .pipe(insert.prepend('jQuery(document).ready(function ($) {'))
         .pipe(insert.append('});'))
