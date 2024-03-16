@@ -9,9 +9,9 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-03-12T13:41:04+00:00\n"
+"POT-Creation-Date: 2024-03-16T12:40:33+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.9.0\n"
+"X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: wp-statistics\n"
 
 #. Plugin Name of the plugin
@@ -538,67 +538,71 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-notices.php:47
+#: includes/admin/class-wp-statistics-admin-notices.php:48
 msgid "WP Statistics might not count the stats since <code>WP_CACHE</code> is detected in <code>wp-config.php</code>"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-notices.php:47
+#: includes/admin/class-wp-statistics-admin-notices.php:48
 msgid "Potential Inaccuracy Due to <b>%s</b> Plugin"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-notices.php:48
+#: includes/admin/class-wp-statistics-admin-notices.php:49
 msgid "Enable %1$sCache Compatibility%2$s to Correct This or Dismiss if Counts Are Accurate. Check out <a href=\\“%3$s\\” target=\\“_blank\\“>this article</a> to disable this notice permanently."
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-notices.php:82
+#: includes/admin/class-wp-statistics-admin-notices.php:83
 msgid "<b>Warning:</b> WP REST API Connection Error Detected."
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-notices.php:86
+#: includes/admin/class-wp-statistics-admin-notices.php:87
 msgid "Flush Rewrite Rules by Updating Permalink in %1$sSettings → Permalinks%2$s and Verify WP REST API is Enabled."
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-notices.php:96
+#: includes/admin/class-wp-statistics-admin-notices.php:97
 msgid "GeoIP collection is not enabled. Please go to <a href=\"%s\">setting page</a> to enable GeoIP for getting more information and location (country) from the visitor."
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-notices.php:103
+#: includes/admin/class-wp-statistics-admin-notices.php:104
 msgid "Have you thought about donating to WP Statistics?"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-notices.php:103
+#: includes/admin/class-wp-statistics-admin-notices.php:104
 msgid "Donate Now!"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-notices.php:116
+#: includes/admin/class-wp-statistics-admin-notices.php:117
 #: includes/admin/templates/settings/general.php:16
 msgid "Display Online Users"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-notices.php:121
+#: includes/admin/class-wp-statistics-admin-notices.php:122
 #: includes/admin/templates/settings/general.php:61
 msgid "Track Page Views"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-notices.php:126
+#: includes/admin/class-wp-statistics-admin-notices.php:127
 #: includes/admin/templates/settings/general.php:73
 msgid "Monitor Unique Visitors"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-notices.php:130
+#: includes/admin/class-wp-statistics-admin-notices.php:131
 msgid "Certain features are currently turned off. Please visit the %ssettings page%s to activate them: %s"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-notices.php:130
+#: includes/admin/class-wp-statistics-admin-notices.php:131
 msgid ","
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-notices.php:139
+#: includes/admin/class-wp-statistics-admin-notices.php:140
 msgid "Your WP Statistics Add-On(s) need WP Statistics version 12.6.13 or higher. Please update your WP Statistics plugin."
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-notices.php:173
+#: includes/admin/class-wp-statistics-admin-notices.php:174
 msgid "Attention: Your database has accumulated a significant number of records, which may impact your site's performance. To address this, consider visiting <a href=\"%s\">Settings &gt; Data Management</a> where you can enable the option to prevent recording old data. You can also perform an immediate database clean-up on the <a href=\"%s\">Optimization page</a>. For more information, <a href=\"%s\" target=\"_blank\">click here</a>."
+msgstr ""
+
+#: includes/admin/class-wp-statistics-admin-notices.php:207
+msgid "Your server memory limit is too low. Please contact your hosting provider to increase the memory limit."
 msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-post.php:86
