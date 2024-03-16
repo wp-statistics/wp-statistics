@@ -16,7 +16,8 @@ class Admin_Notices
         'donate_plugin',
         'active_collation',
         'disable_addons',
-        'performance_and_clean_up'
+        'performance_and_clean_up',
+        'memory_limit_check',
     );
 
     /**
@@ -196,6 +197,15 @@ class Admin_Notices
                 });
             </script>
             <?php
+        }
+    }
+
+    public function memory_limit_check()
+    {
+        if (Menus::in_page('optimization') and User::Access('manage') and !Option::get('hide_notices')) {
+            if (Helper::checkMemoryLimit()) {
+                Helper::wp_admin_notice(__('Your server memory limit is too low. Please contact your hosting provider to increase the memory limit.', 'wp-statistics'), 'warning', true);
+            }
         }
     }
 }

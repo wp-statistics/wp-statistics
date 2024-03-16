@@ -1283,4 +1283,34 @@ class Helper
 
         return is_plugin_active($pluginName);
     }
+
+    public static function convertBytes($input)
+    {
+        $unit  = strtoupper(substr($input, -1));
+        $value = (int)$input;
+        switch ($unit) {
+            case 'G':
+                $value *= 1024;
+            case 'M':
+                $value *= 1024;
+            case 'K':
+                $value *= 1024;
+        }
+        return $value;
+    }
+
+    public static function checkMemoryLimit(): bool
+    {
+        if (!function_exists('memory_get_peak_usage') or !function_exists('ini_get')) {
+            return false;
+        }
+
+        $memoryLimit = ini_get('memory_limit');
+
+        if (memory_get_peak_usage(true) > self::convertBytes($memoryLimit)) {
+            return true;
+        }
+
+        return false;
+    }
 }
