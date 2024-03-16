@@ -89,58 +89,15 @@ wps_js.hits_meta_box = {
                     },
                     scales: {
                         y: {
-                            type: 'linear',
-                            position: 'left',
                             ticks: {
-                                beginAtZero: true,
                                 stepSize: 1,
                             }
                         },
-                    },
-                    plugins: {
-                        draggable: true
-                    },
+                    }
                 },
             }
         }
 
         wps_js.line_chart(tag_id, params['title'], params['date'], datasets, options);
-
-        // Event listener for Y-axis scale adjustment
-        let isDragging = false;
-        let initialY = 0;
-
-        const ctx = document.getElementById(wps_js.chart_id('hits')).getContext('2d');
-        const chart = Chart.getChart(ctx);
-
-        document.getElementById(wps_js.chart_id('hits')).addEventListener('mousedown', function(e) {
-
-            console.log(e.offsetX);
-            console.log(chart.chartArea.right);
-
-            if (e.offsetX >= chart.chartArea.right && e.offsetX <= chart.chartArea.right + 10) {
-                isDragging = true;
-                initialY = e.offsetY;
-            }
-        });
-
-        document.getElementById(wps_js.chart_id('hits')).addEventListener('mousemove', function(e) {
-            if (isDragging) {
-                let deltaY = e.offsetY - initialY;
-                let scaleChange = deltaY * 0.05; // Adjust sensitivity here
-
-                chart.options.scales.y.min += scaleChange;
-                chart.options.scales.y.max += scaleChange;
-
-                initialY = e.offsetY;
-                chart.update();
-
-                console.log(scaleChange);
-            }
-        });
-
-        document.getElementById(wps_js.chart_id('hits')).addEventListener('mouseup', function() {
-            isDragging = false;
-        });
     }
 };
