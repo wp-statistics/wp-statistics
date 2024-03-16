@@ -1299,7 +1299,7 @@ class Helper
         return $value;
     }
 
-    public static function checkMemoryLimit(): bool
+    public static function checkMemoryLimit()
     {
         if (!function_exists('memory_get_peak_usage') or !function_exists('ini_get')) {
             return false;
