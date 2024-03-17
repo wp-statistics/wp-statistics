@@ -227,7 +227,7 @@ class Helper
         return path_join($upload_dir['basedir'], $path);
     }
 
-    /**
+    /** 
      * Get Robots List
      *
      * @param string $type
@@ -982,6 +982,18 @@ class Helper
     public static function compare_uri_hits($a, $b)
     {
         return $a[1] < $b[1];
+    }
+
+    /**
+     * Easy U-sort Array
+     *
+     * @param $a
+     * @param $b
+     * @return int
+     */
+    public static function compare_uri_hits_spaceship($a, $b)
+    {
+        return $a[1] <=> $b[1] ;
     }
 
     /**
