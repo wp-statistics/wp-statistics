@@ -3,7 +3,7 @@ Contributors: mostafa.s1990, kashani, veronalabs, GregRoss
 Donate link: https://wp-statistics.com/donate/
 Tags: analytics, stats, statistics, visitors, chart
 Requires at least: 5.0
-Tested up to: 6.4
+Tested up to: 6.5
 Stable tag: 14.5.2
 Requires PHP: 5.6
 License: GPL-2.0+
