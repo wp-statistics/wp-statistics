@@ -158,6 +158,7 @@ class UserOnline
             'platform'  => $user_agent['platform'],
             'version'   => $user_agent['version'],
             'location'  => GeoIP::getCountry(IP::getIP()),
+            'city'      => GeoIP::getCity(IP::getIP()),
             'user_id'   => User::get_user_id(),
             'page_id'   => $current_page['id'],
             'type'      => $current_page['type']
@@ -318,7 +319,7 @@ class UserOnline
 
             // Push City
             if (GeoIP::active('city')) {
-                $item['city'] = GeoIP::getCity($ip);
+                $item['city'] = !empty($items->city) ? $items->city : GeoIP::getCity($ip);
             }
 
             // Online For Time

@@ -88,6 +88,7 @@ class Install
 						platform varchar(255),
 						version varchar(255),
 						location varchar(10),
+                        city varchar(100),
 						`user_id` BIGINT(48) NOT NULL,
 						`page_id` BIGINT(48) NOT NULL,
 						`type` VARCHAR(100) NOT NULL,
@@ -124,6 +125,7 @@ class Install
 						user_id BIGINT(40) NOT NULL,
 						hits int(11),
 						honeypot int(11),
+						city varchar(100),
 						PRIMARY KEY  (ID),
 						UNIQUE KEY date_ip_agent (last_counter,ip,agent(50),platform(50),version(50)),
 						KEY agent (agent),
@@ -385,6 +387,26 @@ class Install
         $pagesTable      = DB::table('pages');
         $visitorTable    = DB::table('visitor');
         $historicalTable = DB::table('historical');
+
+        /**
+         * Add visitor city
+         *
+         * @version 14.5.2
+         */
+        $result = $wpdb->query("SHOW COLUMNS FROM {$visitorTable} LIKE 'city'");
+        if ($result == 0) {
+            $wpdb->query("ALTER TABLE {$visitorTable} ADD `city` VARCHAR(100) NULL;");
+        }
+
+        /**
+         * Add online user city
+         *
+         * @version 14.5.2
+         */
+        $result = $wpdb->query("SHOW COLUMNS FROM {$userOnlineTable} LIKE 'city'");
+        if ($result == 0) {
+            $wpdb->query("ALTER TABLE {$userOnlineTable} ADD `city` VARCHAR(100) NULL;");
+        }
 
         /**
          * Add visitor device type
