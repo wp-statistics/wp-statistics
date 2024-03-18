@@ -359,27 +359,17 @@ class SearchEngine
                     $search_regex = self::regex($key);
                     preg_match('/' . $search_regex . '/', $parts['host'], $matches);
                     if (isset($matches[1])) {
-                        // Get Search Words
-                        $words = (SearchEngine::getByQueryString($referred) == self::$error_found ? '' : SearchEngine::getByQueryString($referred));
-                        
-                        // If the length of Search Words is more than 190 characters
-                        // Crop it, so it can be stored in the database
-                        if (strlen($words) > 190) {
-                            $words = substr($words, 0, 190);
-                        }
-
-                        // Prepare Search Word Data
-                        $search_word = array(
+                        // Prepare Search Data
+                        $search_data = array(
                             'last_counter' => TimeZone::getCurrentDate('Y-m-d'),
                             'engine'       => $key,
-                            'words'        => $words,
                             'host'         => $parts['host'],
                             'visitor'      => $args['visitor_id'],
                         );
-                        $search_word = apply_filters('wp_statistics_search_engine_word', $search_word);
+                        $search_data = apply_filters('wp_statistics_search_engine_data', $search_data);
 
                         // Save To DB
-                        self::save_word($search_word);
+                        self::save($search_data);
                     }
                 }
             }
@@ -387,11 +377,11 @@ class SearchEngine
     }
 
     /**
-     * Added new Search Word record to DB
+     * Added new Search record to DB
      *
      * @param array $data
      */
-    public static function save_word($data = array())
+    public static function save($data = array())
     {
         global $wpdb;
 
@@ -407,51 +397,7 @@ class SearchEngine
         }
 
         # Action after Save Search Engine Word
-        do_action('wp_statistics_save_search_word', $data, $wpdb->insert_id);
+        do_action('wp_statistics_save_search_data', $data, $wpdb->insert_id);
     }
-
-    /**
-     * Get Last Search Word
-     *
-     * @param array $arg
-     * @return array
-     * @throws \Exception
-     */
-    public static function getLastSearchWord($arg = array())
-    {
-        global $wpdb;
-
-        // Define the array of defaults
-        $defaults = array(
-            'search_engine' => 'all',
-            'per_page'      => 10,
-            'paged'         => 1,
-            'limit'         => null
-        );
-        $args     = wp_parse_args($arg, $defaults);
-
-        // Prepare Query
-        $search_query = wp_statistics_searchword_query($args['search_engine']);
-        $result       = $wpdb->get_results("SELECT * FROM `" . DB::table('search') . "` INNER JOIN `" . DB::table('visitor') . "` on `" . DB::table('search') . "`.`visitor` = " . DB::table('visitor') . ".`ID` WHERE {$search_query} ORDER BY `" . DB::table('search') . "`.`ID` DESC " . ($args['limit'] != null ? " LIMIT " . $args['limit'] : " LIMIT 0, {$args['per_page']}"));
-
-        // Get List
-        $list = array();
-        foreach ($result as $items) {
-
-            // Check Sanitize Parse Search engine name from Url referred
-            if (!self::getByQueryString($items->referred)) {
-                continue;
-            }
-
-            //Prepare Data
-            $array   = array();
-            $array[] = $items;
-            $item    = Visitor::prepareData($array);
-            $list[]  = $item[0];
-        }
-
-        return $list;
-    }
-
 
 }
