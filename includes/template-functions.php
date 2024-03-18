@@ -597,7 +597,7 @@ function wp_statistics_get_top_pages($rangestartdate = null, $rangeenddate = nul
 
     // If we have more than one result, let's sort them using usort.
     if (count($uris) > 1) {
-        usort($uris, array('\WP_STATISTICS\Helper', 'compare_uri_hits_spaceship'));
+        usort($uris, array('\WP_STATISTICS\Helper', 'compare_uri_hits_int'));
     }
 
     array_splice($uris, $spliceLimit);

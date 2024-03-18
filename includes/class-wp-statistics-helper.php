@@ -991,9 +991,12 @@ class Helper
      * @param $b
      * @return int
      */
-    public static function compare_uri_hits_spaceship($a, $b)
+    public static function compare_uri_hits_int($a, $b)
     {
-        return $a[1] <=> $b[1] ;
+        if($a[1] == $b[1]) return 0;
+        if($a[1] > $b[1]) return 1;
+        if($a[1] < $b[1]) return -1;
+
     }
 
     /**
