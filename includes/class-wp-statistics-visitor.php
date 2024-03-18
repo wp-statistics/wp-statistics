@@ -377,11 +377,6 @@ class Visitor
                 $item['city'] = GeoIP::getCity($ip);
             }
 
-            // Check If Search Word
-            if (isset($items->words)) {
-                $item['word'] = $items->words;
-            }
-
             // Get What is Page
             if (Option::get('visitors_log') && isset($items->page_id)) {
                 $item['page'] = self::get_page_by_id($items->page_id);

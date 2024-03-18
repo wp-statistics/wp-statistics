@@ -67,28 +67,6 @@ class Referred
             $referred = '';
         }
 
-        // Check Search Engine
-        if (Option::get('addsearchwords', false)) {
-
-            // Check to see if this is a search engine referrer
-            $SEInfo = SearchEngine::getByUrl($referred);
-            if (is_array($SEInfo)) {
-
-                // If we're a known SE, check the query string
-                if ($SEInfo['tag'] != '') {
-                    $result = SearchEngine::getByQueryString($referred);
-
-                    // If there were no search words, let's add the page title
-                    if ($result == '' || $result == SearchEngine::$error_found) {
-                        $result = wp_title('', false);
-                        if ($result != '') {
-                            $referred = esc_url(add_query_arg($SEInfo['querykey'], urlencode('~"' . $result . '"'), $referred));
-                        }
-                    }
-                }
-            }
-        }
-
         $referred = Helper::FilterQueryStringUrl($referred, Helper::get_query_params_allow_list());
 
         return apply_filters('wp_statistics_user_referer', $referred);

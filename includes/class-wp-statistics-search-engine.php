@@ -271,59 +271,6 @@ class SearchEngine
     }
 
     /**
-     * Parses a URL from a referrer and return the search query words used.
-     *
-     * @param bool|false $url
-     * @return bool|string
-     */
-    public static function getByQueryString($url = false)
-    {
-
-        // Get Referred Url
-        $referred_url = Referred::getRefererURL();
-
-        // If no URL was passed in, get the current referrer for the session.
-        if (!$url) {
-            $url = ($referred_url == "" ? false : $referred_url);
-        }
-
-        // If there is no URL and no referrer, always return false.
-        if ($url == false) {
-            return false;
-        }
-
-        // Parse the URL in to it's component parts.
-        $parts = @parse_url($url);
-
-        // Check query exist
-        if (array_key_exists('query', $parts)) {
-            parse_str($parts['query'], $query);
-        } else {
-            $query = array();
-        }
-
-        // Get the list of search engines we currently support.
-        $search_engines = self::getList();
-
-        // Loop through the SE list until we find which search engine matches.
-        foreach ($search_engines as $key => $value) {
-            $search_regex = self::regex($key);
-            preg_match('/' . $search_regex . '/', $parts['host'], $matches);
-            if (isset($matches[1])) {
-                if (array_key_exists($search_engines[$key]['querykey'], $query)) {
-                    $words = strip_tags($query[$search_engines[$key]['querykey']]);
-                } else {
-                    $words = '';
-                }
-
-                return ($words == "" ? self::$error_found : $words);
-            }
-        }
-
-        return self::$error_found;
-    }
-
-    /**
      * Record Search Engine
      *
      * @param array $arg

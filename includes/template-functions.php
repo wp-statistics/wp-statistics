@@ -765,36 +765,6 @@ function wp_statistics_agent_version($agent, $version, $rangestartdate = null, $
 }
 
 /**
- * Return the SQL WHERE clause for getting the search words for a given search engine.
- *
- * @param string $search_engine
- * @return bool|string
- */
-function wp_statistics_searchword_query($search_engine = 'all')
-{
-    global $wpdb;
-
-    // Get a complete list of search engines
-    $search_engine_list = WP_STATISTICS\SearchEngine::getList();
-    $search_query       = '';
-
-    // Are we getting results for all search engines or a specific one?
-    if (strtolower($search_engine) == 'all') {
-        // For all of them?  Ok, look through the search engine list and create a SQL query string to get them all from the database.
-        foreach ($search_engine_list as $key => $se) {
-            $search_query .= $wpdb->prepare("( `engine` = %s AND `words` <> '' ) OR ", $key);
-        }
-
-        // Trim off the last ' OR ' for the loop above.
-        $search_query = substr($search_query, 0, strlen($search_query) - 4);
-    } else {
-        $search_query .= $wpdb->prepare("`engine` = %s AND `words` <> ''", $search_engine);
-    }
-
-    return $search_query;
-}
-
-/**
  * Return the SQL WHERE clause for getting the search engine.
  *
  * @param string $search_engine
@@ -845,8 +815,6 @@ function wp_statistics_get_search_engine_query($search_engine = 'all', $time = '
     // Get a complete list of search engines
     if ($search_by == "query") {
         $search_query = wp_statistics_searchengine_query($search_engine);
-    } else {
-        $search_query = wp_statistics_searchword_query($search_engine);
     }
 
     //Generate Base Sql
@@ -920,16 +888,4 @@ function wp_statistics_referrer($time = null)
     $get_urls = array_count_values($urls);
 
     return count($get_urls);
-}
-
-/**
- * Return the statistics for a given search engine for a given time frame.
- *
- * @param string $search_engine
- * @param string $time
- * @return mixed
- */
-function wp_statistics_searchword($search_engine = 'all', $time = 'total')
-{
-    return wp_statistics_get_search_engine_query($search_engine, $time, $search_by = 'word');
 }
