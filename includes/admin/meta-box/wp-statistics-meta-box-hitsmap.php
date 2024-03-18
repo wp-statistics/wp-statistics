@@ -38,11 +38,11 @@ class hitsmap extends MetaBoxAbstract
         $days_time_list = array_keys(self::$daysList);
 
         // Get List Country Of Visitors
-        $sql    = $wpdb->prepare("SELECT * FROM `" . DB::table('visitor') . "` WHERE `last_counter` BETWEEN '%s' AND %s", reset($days_time_list), end($days_time_list));
+        $sql    = $wpdb->prepare("SELECT location, hits, last_counter, agent, ip FROM `" . DB::table('visitor') . "` WHERE `last_counter` BETWEEN '%s' AND %s", reset($days_time_list), end($days_time_list));
         $result = $wpdb->get_results($sql);
-
+  
         if ($result) {
-            foreach ($result as $new_country) {
+            foreach (self::rowGenerator($result) as $new_country) {
                 $final_result[strtolower($new_country->location)][] = $new_country;
             }
         }
@@ -57,7 +57,7 @@ class hitsmap extends MetaBoxAbstract
         foreach ($final_result as $items) {
 
             // Get Visitors Row
-            foreach ($items as $markets) {
+            foreach (self::rowGenerator($items) as $markets) {
 
                 // Check User is Unknown IP
                 if ($markets->location == GeoIP::$private_country) {
@@ -114,5 +114,15 @@ class hitsmap extends MetaBoxAbstract
 
         return self::response($response);
     }
+
+
+    private static function rowGenerator($rows)
+    {
+        $c = count($rows);
+        for ($i=0; $i < $c; $i++) { 
+            yield $rows[$i];
+        }
+    }
+
 
 }
