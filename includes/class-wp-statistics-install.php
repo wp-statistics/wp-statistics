@@ -494,7 +494,7 @@ class Install
              *
              * @version 14.5.2
              */
-            $result = $wpdb->query("SHOW COLUMNS FROM {$searchTable} LIKE 'AString'");
+            $result = $wpdb->query("SHOW COLUMNS FROM {$searchTable} LIKE 'words'");
             if ($result > 0) {
                 $wpdb->query("ALTER TABLE `{$searchTable}` DROP `words`");
             }
