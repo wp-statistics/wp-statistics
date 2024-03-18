@@ -436,9 +436,10 @@ class Admin_Assets
                     'user_email' => function_exists('wp_get_current_user') ? wp_get_current_user()->user_email : '',
                     'platform'   => 'wordpress-admin',
                     'config'     => [
-                        'color'    => '#2831bc',
-                        'button'   => __('Feedback', 'wp-sms'),
-                        'subtitle' => __('Feel free to share your thoughts!', 'wp-sms'),
+                        'color'         => '#2831bc',
+                        'button'        => __('Feedback', 'wp-sms'),
+                        'subtitle'      => __('Feel free to share your thoughts!', 'wp-sms'),
+                        'opening_style' => 'modal',
                     ],
                     'meta'       => [
                         'php_version'    => PHP_VERSION,
