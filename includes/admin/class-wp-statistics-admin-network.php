@@ -61,7 +61,6 @@ class Network
                     __('Online', 'wp-statistics')             => Menus::get_page_slug('online'),
                     __('Visitors', 'wp-statistics')           => Menus::get_page_slug('visitors'),
                     __('Referrers', 'wp-statistics')          => Menus::get_page_slug('referrers'),
-                    __('Search Words', 'wp-statistics')       => Menus::get_page_slug('words'),
                     __('Search Engines', 'wp-statistics')     => Menus::get_page_slug('searches'),
                     __('Post Types', 'wp-statistics')         => Menus::get_page_slug('pages'),
                     __('Taxonomies', 'wp-statistics')         => Menus::get_page_slug('taxonomies'),

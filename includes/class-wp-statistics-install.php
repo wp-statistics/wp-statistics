@@ -192,7 +192,6 @@ class Install
 						last_counter date NOT NULL,
 						engine varchar(64) NOT NULL,
 						host varchar(190),
-						words varchar(190),
 						visitor bigint(20),
 						PRIMARY KEY  (ID),
 						KEY last_counter (last_counter),
@@ -387,6 +386,7 @@ class Install
         $pagesTable      = DB::table('pages');
         $visitorTable    = DB::table('visitor');
         $historicalTable = DB::table('historical');
+        $searchTable     = DB::table('search');
 
         /**
          * Add visitor city
@@ -486,6 +486,18 @@ class Install
         $result = $wpdb->query("SHOW COLUMNS FROM {$visitorTable} LIKE 'user_id'");
         if ($result == 0) {
             $wpdb->query("ALTER TABLE `{$visitorTable}` ADD `user_id` BIGINT(48) NOT NULL AFTER `location`");
+        }
+
+        if (DB::ExistTable($searchTable)) {
+            /**
+             * Remove words from search table
+             *
+             * @version 14.5.2
+             */
+            $result = $wpdb->query("SHOW COLUMNS FROM {$searchTable} LIKE 'AString'");
+            if ($result > 0) {
+                $wpdb->query("ALTER TABLE `{$searchTable}` DROP `words`");
+            }
         }
 
         /**

@@ -464,7 +464,6 @@ class settings_page
             'wps_chart_totals',
             'wps_hide_notices',
             'wps_all_online',
-            'wps_addsearchwords',
         );
 
         foreach ($wps_option_list as $option) {

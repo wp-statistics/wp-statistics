@@ -285,18 +285,6 @@
         </tr>
 
         <tr valign="top">
-            <th scope="row">
-                <label for="addsearchwords"><?php _e('Add Page Title to Empty Search Words', 'wp-statistics'); ?></label>
-            </th>
-
-            <td>
-                <input id="addsearchwords" type="checkbox" value="1" name="wps_addsearchwords" <?php echo WP_STATISTICS\Option::get('addsearchwords') == true ? "checked='checked'" : ''; ?>>
-                <label for="addsearchwords"><?php _e('Enable', 'wp-statistics'); ?></label>
-                <p class="description"><?php _e('When a search engine directs a visitor without search terms, the page title substitutes the search words.', 'wp-statistics'); ?></p>
-            </td>
-        </tr>
-
-        <tr valign="top">
             <th scope="row" colspan="2"><h3><?php _e('Search Engine Filters', 'wp-statistics'); ?> <a href="#" class="wps-tooltip" title="<?php _e('Select which search engines are permitted to gather and report usage data when visitors arrive at your site from these sources', 'wp-statistics'); ?>"><i class="wps-tooltip-icon"></i></a></h3></th>
         </tr>
 

@@ -27,7 +27,6 @@ class Menus
         'tags'         => 'tags',
         'referrers'    => 'referrers',
         'searches'     => 'searches',
-        'words'        => 'words',
         'top-visitors' => 'top_visitors',
         'visitors'     => 'visitors',
         'optimization' => 'optimization',
@@ -193,13 +192,6 @@ class Menus
                 'title'    => __('Referrers', 'wp-statistics'),
                 'page_url' => 'referrers',
                 'method'   => 'refer',
-            ),
-            'words'        => array(
-                'require'  => array('visitors' => true),
-                'sub'      => 'overview',
-                'title'    => __('Search Words', 'wp-statistics'),
-                'page_url' => 'words',
-                'method'   => 'words',
             ),
             'searches'     => array(
                 'require'  => array('visitors' => true),
