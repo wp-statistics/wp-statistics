@@ -130,6 +130,7 @@ class Visitor
                     'model'        => $user_agent['model'],
                     'ip'           => $user_ip,
                     'location'     => GeoIP::getCountry(IP::getIP()),
+                    'city'         => GeoIP::getCity(IP::getIP()),
                     'user_id'      => User::get_user_id(),
                     'UAString'     => (Option::get('store_ua') == true ? UserAgent::getHttpUserAgent() : ''),
                     'hits'         => 1,
@@ -374,7 +375,7 @@ class Visitor
 
             // Push City
             if (GeoIP::active('city')) {
-                $item['city'] = GeoIP::getCity($ip);
+                $item['city'] = $items->city;
             }
 
             // Check If Search Word
