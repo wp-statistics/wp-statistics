@@ -375,7 +375,7 @@ class Visitor
 
             // Push City
             if (GeoIP::active('city')) {
-                $item['city'] = $items->city;
+                $item['city'] = !empty($items->city) ? $items->city : GeoIP::getCity($ip);;
             }
 
             // Check If Search Word
