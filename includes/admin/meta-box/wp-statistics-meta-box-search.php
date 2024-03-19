@@ -9,8 +9,6 @@ use WP_STATISTICS\TimeZone;
 class search extends MetaBoxAbstract
 {
 
-    private static $transient_key = 'meta_box_search_';
-
     /**
      * Get Search Engine Chart
      *
@@ -42,13 +40,6 @@ class search extends MetaBoxAbstract
 
         // Filter By Date
         self::filterByDate($args);
-
-        // get cached data if exists
-        $keyHash = self::$transient_key . md5(json_encode($args));
-        if ($result = get_transient($keyHash)) {
-            return self::response($result);
-        }
-
 
         // Get List Of Days
         $days_time_list = array_keys(self::$daysList);
@@ -102,8 +93,6 @@ class search extends MetaBoxAbstract
             $response['no_data'] = 1;
         }
 
-        // set cache
-        set_transient($keyHash, $response, 60 * 60 * 12);
         // Response
         return self::response($response);
     }

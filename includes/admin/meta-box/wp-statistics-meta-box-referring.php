@@ -7,8 +7,6 @@ use WP_STATISTICS\Referred;
 class referring extends MetaBoxAbstract
 {
 
-    private static $transient_key = 'meta_box_referring_';
-
     public static function get($args = array())
     {
         /**
@@ -30,12 +28,6 @@ class referring extends MetaBoxAbstract
         $args['to']    = self::$toDate;
         $args['limit'] = $number;
 
-        // get cached data if exists
-        $keyHash = self::$transient_key . md5(json_encode($args));
-        if ($result = get_transient($keyHash)) {
-            return self::response($result);
-        }
-
         // Get List Top Referring
         try {
             $result   = Referred::getList($args);
@@ -54,9 +46,6 @@ class referring extends MetaBoxAbstract
         if (count($response['referring']) < 1) {
             $response['no_data'] = 1;
         }
-
-        // set cache
-        set_transient($keyHash, $response, 60 * 60 * 12);
 
         // Response
         return self::response($response);

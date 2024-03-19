@@ -12,8 +12,6 @@ use WP_STATISTICS\UserAgent;
 class hitsmap extends MetaBoxAbstract
 {
 
-    private static $transient_key = 'meta_box_hitmaps_';
-
     public static function get($args = array())
     {
         /**
@@ -37,12 +35,6 @@ class hitsmap extends MetaBoxAbstract
         // Filter By Date
         self::filterByDate($args);
 
-        // return cached data 
-        $keyHash = self::$transient_key . md5(json_encode($args));
-        if ($result = get_transient($keyHash)) {
-            return self::response($result);
-        }
-
         $days_time_list = array_keys(self::$daysList);
 
         // Get List Country Of Visitors
@@ -50,8 +42,14 @@ class hitsmap extends MetaBoxAbstract
         $result = $wpdb->get_results($sql);
 
         if ($result) {
-            foreach (Helper::yieldARow($result) as $new_country) {
-                $final_result[strtolower($new_country->location)][] = $new_country;
+            try {
+                foreach (Helper::yieldARow($result) as $new_country) {
+                    $final_result[strtolower($new_country->location)][] = $new_country;
+                }
+            } catch (\Exception $e) {
+                foreach ($result as $new_country) {
+                    $final_result[strtolower($new_country->location)][] = $new_country;
+                }
             }
         }
         $final_total = count($result) - count($final_result[GeoIP::$private_country]);
@@ -66,7 +64,14 @@ class hitsmap extends MetaBoxAbstract
         $i = 0;
         while ($items = current($final_result)) {
             // Get Visitors Row
-            foreach (Helper::yieldARow($items) as $markets) {
+
+            try {
+                $result_items = Helper::yieldARow($items);
+            } catch (\Exception $e) {
+                $result_items = $items;
+            }
+
+            foreach ($result_items as $markets) {
 
                 // Check User is Unknown IP
                 if ($markets->location == GeoIP::$private_country) {
@@ -125,8 +130,6 @@ class hitsmap extends MetaBoxAbstract
 
         // Set Total
         $response['total'] = $final_total;
-        // set cache
-        set_transient($keyHash, $response, HOUR_IN_SECONDS);
 
         return self::response($response);
     }

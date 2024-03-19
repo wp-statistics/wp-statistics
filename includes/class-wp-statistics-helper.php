@@ -1332,8 +1332,7 @@ class Helper
 
     public static function yieldARow($rows)
     {
-        if(!is_iterable($rows)) throw new Exception( __METHOD__ . " expects a iterable argument '" . gettype($rows) . "' given");
-        
+        if(! in_array(gettype($rows), ['object', 'array'])) throw new Exception( __METHOD__ . " expects a iterable argument '" . gettype($rows) . "' given");
         $i = 0;
         while($row = current($rows))
         {
