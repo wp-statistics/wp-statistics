@@ -7,6 +7,8 @@ use WP_STATISTICS\Referred;
 class referring extends MetaBoxAbstract
 {
 
+    private static $transient_key = 'meta_box_referring_';
+
     public static function get($args = array())
     {
         /**
@@ -18,6 +20,7 @@ class referring extends MetaBoxAbstract
          */
         $args = apply_filters('wp_statistics_meta_box_referring_args', $args);
 
+
         // Check Number of Country
         $number = (!empty($args['number']) ? $args['number'] : 10);
 
@@ -26,6 +29,12 @@ class referring extends MetaBoxAbstract
         $args['from']  = self::$fromDate;
         $args['to']    = self::$toDate;
         $args['limit'] = $number;
+
+        // get cached data if exists
+        $keyHash = self::$transient_key . md5(json_encode($args));
+        if ($result = get_transient($keyHash)) {
+            return self::response($result);
+        }
 
         // Get List Top Referring
         try {
@@ -46,6 +55,9 @@ class referring extends MetaBoxAbstract
             $response['no_data'] = 1;
         }
 
+        // set cache
+        set_transient($keyHash, $response, 60 * 60 * 12);
+
         // Response
         return self::response($response);
     }
@@ -57,6 +69,4 @@ class referring extends MetaBoxAbstract
             'references' => __('Referral Sources', 'wp-statistics')
         );
     }
-
-
 }

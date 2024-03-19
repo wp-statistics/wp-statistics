@@ -7,11 +7,12 @@ use WP_STATISTICS\DB;
 use WP_STATISTICS\GeoIP;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\IP;
-use WP_STATISTICS\Timezone;
 use WP_STATISTICS\UserAgent;
 
 class hitsmap extends MetaBoxAbstract
 {
+
+    private static $transient_key = 'meta_box_hitmaps_';
 
     public static function get($args = array())
     {
@@ -24,8 +25,9 @@ class hitsmap extends MetaBoxAbstract
          */
         $args = apply_filters('wp_statistics_meta_box_hitsmap_args', $args);
 
-        global $wpdb;
 
+
+        global $wpdb;
         // Set Default Unknown Country
         $final_result[GeoIP::$private_country] = array();
 
@@ -35,14 +37,20 @@ class hitsmap extends MetaBoxAbstract
         // Filter By Date
         self::filterByDate($args);
 
+        // return cached data 
+        $keyHash = self::$transient_key . md5(json_encode($args));
+        if ($result = get_transient($keyHash)) {
+            return self::response($result);
+        }
+
         $days_time_list = array_keys(self::$daysList);
 
         // Get List Country Of Visitors
         $sql    = $wpdb->prepare("SELECT location, hits, last_counter, agent, ip FROM `" . DB::table('visitor') . "` WHERE `last_counter` BETWEEN '%s' AND %s", reset($days_time_list), end($days_time_list));
         $result = $wpdb->get_results($sql);
-  
+
         if ($result) {
-            foreach (self::rowGenerator($result) as $new_country) {
+            foreach (Helper::yieldARow($result) as $new_country) {
                 $final_result[strtolower($new_country->location)][] = $new_country;
             }
         }
@@ -53,11 +61,12 @@ class hitsmap extends MetaBoxAbstract
         $startColor = array(200, 238, 255);
         $endColor   = array(0, 100, 145);
 
-        // Get Every Country
-        foreach ($final_result as $items) {
 
+        // Get Every Country
+        $i = 0;
+        while ($items = current($final_result)) {
             // Get Visitors Row
-            foreach (self::rowGenerator($items) as $markets) {
+            foreach (Helper::yieldARow($items) as $markets) {
 
                 // Check User is Unknown IP
                 if ($markets->location == GeoIP::$private_country) {
@@ -107,22 +116,18 @@ class hitsmap extends MetaBoxAbstract
                 // Set total Every Country
                 $response['total_country'][strtolower($markets->location)] = $market_total;
             }
+
+            $items = next($final_result);
+            unset($final_result[$i]);
+            $i++;
         }
+
 
         // Set Total
         $response['total'] = $final_total;
+        // set cache
+        set_transient($keyHash, $response, HOUR_IN_SECONDS);
 
         return self::response($response);
     }
-
-
-    private static function rowGenerator($rows)
-    {
-        $c = count($rows);
-        for ($i=0; $i < $c; $i++) { 
-            yield $rows[$i];
-        }
-    }
-
-
 }

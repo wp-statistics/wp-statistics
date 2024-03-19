@@ -120,5 +120,4 @@ class hits extends MetaBoxAbstract
 
         return $data;
     }
-
 }
