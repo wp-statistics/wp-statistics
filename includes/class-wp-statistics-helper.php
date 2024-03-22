@@ -227,7 +227,7 @@ class Helper
         return path_join($upload_dir['basedir'], $path);
     }
 
-    /** 
+    /**
      * Get Robots List
      *
      * @param string $type
@@ -993,9 +993,9 @@ class Helper
      */
     public static function compare_uri_hits_int($a, $b)
     {
-        if($a[1] == $b[1]) return 0;
-        if($a[1] > $b[1]) return 1;
-        if($a[1] < $b[1]) return -1;
+        if ($a[1] == $b[1]) return 0;
+        if ($a[1] > $b[1]) return 1;
+        if ($a[1] < $b[1]) return -1;
 
     }
 
@@ -1329,13 +1329,11 @@ class Helper
         return false;
     }
 
-
     public static function yieldARow($rows)
     {
-        if(! in_array(gettype($rows), ['object', 'array'])) throw new Exception( __METHOD__ . " expects a iterable argument '" . gettype($rows) . "' given");
+        if (!in_array(gettype($rows), ['object', 'array'])) throw new Exception(__METHOD__ . " expects a iterable argument '" . gettype($rows) . "' given");
         $i = 0;
-        while($row = current($rows))
-        {
+        while ($row = current($rows)) {
             yield $row;
             unset($rows[$i]);
             $i++;

@@ -23,8 +23,6 @@ class hitsmap extends MetaBoxAbstract
          */
         $args = apply_filters('wp_statistics_meta_box_hitsmap_args', $args);
 
-
-
         global $wpdb;
         // Set Default Unknown Country
         $final_result[GeoIP::$private_country] = array();
@@ -126,7 +124,6 @@ class hitsmap extends MetaBoxAbstract
             unset($final_result[$i]);
             $i++;
         }
-
 
         // Set Total
         $response['total'] = $final_total;

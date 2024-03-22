@@ -143,6 +143,6 @@ If you encounter any bug, please create an issue on [GitHub](https://github.com/
 
 == Changelog ==
 = 14.6.0 - **.03.2024 =
-* Improvement: 
+* Improvement:
 
 [See changelog for all versions](https://raw.githubusercontent.com/wp-statistics/wp-statistics/master/CHANGELOG.md).
