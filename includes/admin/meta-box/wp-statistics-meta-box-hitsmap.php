@@ -49,12 +49,17 @@ class hitsmap extends MetaBoxAbstract
         );
         $locationCount =  $wpdb->get_results($sql, OBJECT_K);
 
-        $chunk = 1000;
+        $count = $wpdb->get_var(
+            $wpdb->prepare("SELECT COUNT(*) FROM `" . DB::table('visitor') . "` WHERE `last_counter` BETWEEN '%s' AND %s", reset($days_time_list), end($days_time_list),)
+        );
+
+        $chunk = 10000;
         $total = 0;
         $offset = 0;
-        $result = self::getData($days_time_list, $chunk, $offset);
-
-        while ($result) {
+        $roll = $count > $chunk ? ceil($count / $chunk) : 1;
+        for ($i = 0; $i < $roll; $i++) {
+            $offset = $i * $chunk;
+            $result = self::getData($days_time_list, $chunk, $offset);
             foreach (Helper::yieldARow($result) as $country) {
                 // Check User is Unknown IP
                 if ($country->location == GeoIP::$private_country) {
@@ -90,9 +95,6 @@ class hitsmap extends MetaBoxAbstract
 
                 $total++;
             }
-
-            $offset += $chunk;
-            $result = self::getData($days_time_list, $chunk, $offset);
         }
 
         // Default Color for Country Map
