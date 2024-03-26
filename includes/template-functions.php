@@ -239,7 +239,6 @@ function wp_statistics_visit($time, $daily = null)
         if (null !== $result) {
             $sum = $result->visit;
         }
-
     } else {
 
         //Generate MySql Time Conditions
@@ -774,11 +773,20 @@ function wp_statistics_searchengine_query($search_engine = 'all')
 {
     global $wpdb;
 
-    // Get a complete list of search engines
     $search_query      = '';
-
     // Are we getting results for all search engines or a specific one?
-    if (strtolower($search_engine) != 'all') {
+    if (strtolower($search_engine) == 'all') {
+        // Get a complete list of search engines
+        $searchengine_list = WP_STATISTICS\SearchEngine::getList();
+        // For all of them?  Ok, look through the search engine list and create a SQL query string to get them all from the database.
+        foreach ($searchengine_list as $key => $se) {
+            $search_query .= $wpdb->prepare("`engine` = %s OR ", $key);
+        }
+
+        // Trim off the last ' OR ' for the loop above.
+        $search_query = substr($search_query, 0, strlen($search_query) - 4);
+    } else {
+        // Are we getting results for all search engines or a specific one?
         $search_query .= $wpdb->prepare("`engine` = %s", $search_engine);
     }
 
