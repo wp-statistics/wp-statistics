@@ -313,8 +313,10 @@ class Install
     public function add_table_on_create_blog($blog_id)
     {
         if (is_plugin_active_for_network(plugin_basename(WP_STATISTICS_MAIN_FILE))) {
+            $options = get_option(Option::$opt_name);
             switch_to_blog($blog_id);
             self::table_sql();
+            update_option(Option::$opt_name, $options);
             restore_current_blog();
         }
     }
