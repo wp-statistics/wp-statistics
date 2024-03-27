@@ -254,4 +254,26 @@ class Option
 
         return Option::get('email_list');
     }
+
+    public static function getByAddon($option_name, $addon_name = '', $default = null)
+    {
+        $setting_name = "wpstatistics_{$addon_name}_settings";
+
+        $options = get_option($setting_name);
+        if (!isset($options) || !is_array($options)) {
+            $options = array();
+        }
+
+        if (!array_key_exists($option_name, $options)) {
+            return $default ?? false;
+        }
+
+        return apply_filters("wp_statistics_option_{$setting_name}_{$option_name}", $options[$option_name]);
+    }
+
+    public static function saveByAddon($options, $addon_name = '')
+    {
+        $setting_name = "wpstatistics_{$addon_name}_settings";
+        update_option($setting_name, $options);
+    }
 }

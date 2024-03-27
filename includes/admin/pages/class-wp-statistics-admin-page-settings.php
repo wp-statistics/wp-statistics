@@ -92,6 +92,15 @@ class settings_page
             // Save Option
             Option::save_options($wp_statistics_options);
 
+            // Save Addons Options
+            if (!empty($_POST['wps_addon_settings']) && is_array($_POST['wps_addon_settings'])) {
+                foreach ($_POST['wps_addon_settings'] as $addon_name => $addon_options) {
+                    if (!empty($addon_options) && is_array($addon_options)) {
+                        self::save_addons_options($addon_name, $addon_options);
+                    }
+                }
+            }
+
             // Get tab name for redirect to the current tab
             $tab = isset($_POST['tab']) && $_POST['tab'] ? sanitize_text_field($_POST['tab']) : 'general-settings';
 
@@ -488,6 +497,22 @@ class settings_page
         }
 
         return $wp_statistics_options;
+    }
+
+    /**
+     * Save Addons Options
+     *
+     * @param $addon_name
+     * @param $addon_options
+     */
+    public static function save_addons_options($addon_name, $addon_options)
+    {
+        $options = [];
+        foreach ($addon_options as $option_name => $option_value) {
+            $options [$option_name] = sanitize_text_field($option_value);
+        }
+
+        Option::saveByAddon($options, $addon_name);
     }
 
     /**

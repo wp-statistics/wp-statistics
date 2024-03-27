@@ -98,6 +98,11 @@
         <span class="wps-optionsMenuItem__status--extension"><?php _e('Add-on', 'wp-statistics'); ?></span>
     </a>
 
+    <a data-tab="realtime-stats-settings" class="wps-optionsMenuItem wps-optionsMenuItem--extension <?php echo (\WP_STATISTICS\Helper::isAddOnActive('realtime-stats')) ? 'active' : ''; ?>">
+        <span class="wps-optionsMenuItem__title--extension"><?php _e('Real-time Stats', 'wp-statistics'); ?></span>
+        <span class="wps-optionsMenuItem__status--extension"><?php _e('Add-on', 'wp-statistics'); ?></span>
+    </a>
+
     <?php /*
     <a href="https://wp-statistics.com/product/wp-statistics-customization/" target="_blank" class="wps-optionsMenuItem--extension">
         <span class="wps-optionsMenuItem__title--extension"><?php _e('Customization', 'wp-statistics'); ?></span>

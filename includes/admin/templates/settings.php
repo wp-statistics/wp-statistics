@@ -41,6 +41,9 @@
                         <div id="data-plus-settings" class="tab-content">
                             <?php include WP_STATISTICS_DIR . 'includes/admin/templates/settings/add-ons/data-plus.php'; ?>
                         </div>
+                        <div id="realtime-stats-settings" class="tab-content">
+                            <?php include WP_STATISTICS_DIR . 'includes/admin/templates/settings/add-ons/realtime-stats.php'; ?>
+                        </div>
                     <?php } ?>
                     <div id="about" class="tab-content">
                         <?php include WP_STATISTICS_DIR . 'includes/admin/templates/settings/about.php'; ?>
