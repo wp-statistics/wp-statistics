@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-03-27T14:21:53+00:00\n"
+"POT-Creation-Date: 2024-03-29T13:34:43+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: wp-statistics\n"
@@ -155,6 +155,7 @@ msgstr ""
 #: includes/admin/pages/class-wp-statistics-admin-page-visitors.php:32
 #: includes/admin/templates/pages/country.php:12
 #: includes/admin/templates/pages/hits.php:25
+#: includes/admin/templates/settings/add-ons/customization.php:9
 #: includes/admin/TinyMCE/class-wp-statistics-tinymce.php:38
 #: includes/class-wp-statistics-menus.php:185
 #: includes/class-wp-statistics-shortcode.php:197
@@ -175,6 +176,7 @@ msgstr ""
 #: includes/admin/templates/pages/taxonomies.php:98
 #: includes/admin/templates/pages/taxonomies.php:123
 #: includes/admin/templates/pages/top-visitors.php:31
+#: includes/admin/templates/settings/add-ons/customization.php:7
 #: includes/admin/templates/settings/maintenance.php:70
 #: includes/admin/TinyMCE/class-wp-statistics-tinymce.php:37
 #: includes/class-wp-statistics-menus.php:171
@@ -254,6 +256,7 @@ msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-assets.php:277
 #: includes/admin/class-wp-statistics-admin-network.php:68
+#: includes/admin/templates/settings/add-ons/customization.php:16
 #: includes/class-wp-statistics-menus.php:234
 msgid "Browsers"
 msgstr ""
@@ -454,6 +457,7 @@ msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-network.php:29
 #: includes/admin/class-wp-statistics-admin-network.php:59
+#: includes/admin/templates/settings/add-ons/customization.php:6
 #: includes/class-wp-statistics-menus.php:165
 msgid "Overview"
 msgstr ""
@@ -467,16 +471,19 @@ msgid "Options"
 msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-network.php:61
+#: includes/admin/templates/settings/add-ons/customization.php:8
 #: includes/class-wp-statistics-menus.php:178
 msgid "Online"
 msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-network.php:63
+#: includes/admin/templates/settings/add-ons/customization.php:10
 #: includes/class-wp-statistics-menus.php:192
 msgid "Referrers"
 msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-network.php:64
+#: includes/admin/templates/settings/add-ons/customization.php:12
 #: includes/class-wp-statistics-menus.php:199
 msgid "Search Engines"
 msgstr ""
@@ -487,6 +494,7 @@ msgid "Post Types"
 msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-network.php:66
+#: includes/admin/templates/settings/add-ons/customization.php:14
 #: includes/class-wp-statistics-menus.php:220
 msgid "Taxonomies"
 msgstr ""
@@ -499,12 +507,14 @@ msgstr ""
 #: includes/admin/class-wp-statistics-admin-network.php:69
 #: includes/admin/meta-box/wp-statistics-meta-box-platforms.php:90
 #: includes/admin/meta-box/wp-statistics-meta-box-platforms.php:92
+#: includes/admin/templates/settings/add-ons/customization.php:17
 #: includes/class-wp-statistics-menus.php:241
 msgid "Platforms"
 msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-network.php:70
 #: includes/admin/pages/class-wp-statistics-admin-page-top-visitors-today.php:33
+#: includes/admin/templates/settings/add-ons/customization.php:18
 #: includes/class-wp-statistics-menus.php:248
 msgid "Top Visitors Today"
 msgstr ""
@@ -1177,11 +1187,16 @@ msgstr ""
 
 #: includes/admin/templates/layout/menu-settings.php:98
 #: includes/admin/templates/layout/menu-settings.php:103
+#: includes/admin/templates/layout/menu-settings.php:108
 msgid "Add-on"
 msgstr ""
 
 #: includes/admin/templates/layout/menu-settings.php:102
 msgid "Real-time Stats"
+msgstr ""
+
+#: includes/admin/templates/layout/menu-settings.php:107
+msgid "Customization"
 msgstr ""
 
 #: includes/admin/templates/layout/select.php:6
@@ -1553,6 +1568,9 @@ msgstr ""
 
 #: includes/admin/templates/optimization/resources.php:84
 #: includes/admin/templates/optimization/resources.php:100
+#: includes/admin/templates/settings/add-ons/customization.php:45
+#: includes/admin/templates/settings/add-ons/customization.php:59
+#: includes/admin/templates/settings/add-ons/customization.php:160
 #: includes/admin/templates/settings/add-ons/realtime-stats.php:60
 #: includes/admin/templates/settings/general.php:259
 msgid "Yes"
@@ -1560,6 +1578,9 @@ msgstr ""
 
 #: includes/admin/templates/optimization/resources.php:86
 #: includes/admin/templates/optimization/resources.php:102
+#: includes/admin/templates/settings/add-ons/customization.php:46
+#: includes/admin/templates/settings/add-ons/customization.php:60
+#: includes/admin/templates/settings/add-ons/customization.php:161
 #: includes/admin/templates/settings/add-ons/realtime-stats.php:59
 #: includes/admin/templates/settings/general.php:260
 msgid "No"
@@ -2230,6 +2251,7 @@ msgid "If your needs go beyond the default capabilities and roles, or you wish f
 msgstr ""
 
 #: includes/admin/templates/settings/access-level.php:83
+#: includes/admin/templates/settings/add-ons/customization.php:199
 #: includes/admin/templates/settings/add-ons/data-plus.php:50
 #: includes/admin/templates/settings/add-ons/realtime-stats.php:72
 #: includes/admin/templates/settings/exclusions.php:245
@@ -2243,6 +2265,110 @@ msgstr ""
 msgid "Update"
 msgstr ""
 
+#: includes/admin/templates/settings/add-ons/customization.php:11
+msgid "Search Words"
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/customization.php:13
+msgid "Pages"
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/customization.php:15
+msgid "Author"
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/customization.php:26
+msgid "Settings Overview"
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/customization.php:32
+#: includes/admin/templates/settings/add-ons/customization.php:80
+#: includes/admin/templates/settings/add-ons/customization.php:115
+#: includes/admin/templates/settings/add-ons/customization.php:147
+#: includes/admin/templates/settings/add-ons/realtime-stats.php:15
+#: includes/admin/templates/settings/add-ons/realtime-stats.php:46
+msgid "This feature is currently restricted in your current version. Unlock premium features to gain a deeper insight into your website."
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/customization.php:33
+#: includes/admin/templates/settings/add-ons/customization.php:81
+#: includes/admin/templates/settings/add-ons/customization.php:116
+#: includes/admin/templates/settings/add-ons/customization.php:148
+#: includes/admin/templates/settings/add-ons/data-plus.php:16
+#: includes/admin/templates/settings/add-ons/realtime-stats.php:16
+#: includes/admin/templates/settings/add-ons/realtime-stats.php:47
+msgid "Upgrade"
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/customization.php:40
+msgid "Display Overview Ads"
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/customization.php:48
+msgid "Display advertising banners on the Overview page."
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/customization.php:54
+msgid "Display Settings & Optimization Ads"
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/customization.php:62
+msgid "Show advertising content within Settings and Optimization sections."
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/customization.php:74
+msgid "Manage Admin Menus"
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/customization.php:88
+msgid "Disable Menus"
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/customization.php:97
+#: includes/admin/templates/settings/add-ons/customization.php:129
+msgid "Choose which menus you want to remove from the WordPress sidebar."
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/customization.php:109
+msgid "Change the header banner"
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/customization.php:123
+msgid "Choose a banner"
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/customization.php:128
+msgid "Upload File"
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/customization.php:141
+msgid "Overview Widget Customization"
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/customization.php:155
+msgid "Enable Overview Widget"
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/customization.php:163
+msgid "Activate a custom widget on the Overview page."
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/customization.php:169
+msgid "Widget Title"
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/customization.php:174
+msgid "Enter a title for your custom widget."
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/customization.php:180
+msgid "Widget Content"
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/customization.php:189
+msgid "Craft the content for your widget; text, images, and HTML are supported."
+msgstr ""
+
 #: includes/admin/templates/settings/add-ons/data-plus.php:9
 msgid "Event Tracking"
 msgstr ""
@@ -2253,12 +2379,6 @@ msgstr ""
 
 #: includes/admin/templates/settings/add-ons/data-plus.php:15
 msgid "Event Tacking feature is currently restricted in your current version. Unlock premium features to gain a deeper insight into your website."
-msgstr ""
-
-#: includes/admin/templates/settings/add-ons/data-plus.php:16
-#: includes/admin/templates/settings/add-ons/realtime-stats.php:16
-#: includes/admin/templates/settings/add-ons/realtime-stats.php:47
-msgid "Upgrade"
 msgstr ""
 
 #: includes/admin/templates/settings/add-ons/data-plus.php:23
@@ -2319,11 +2439,6 @@ msgstr ""
 
 #: includes/admin/templates/settings/add-ons/realtime-stats.php:9
 msgid "Update Interval"
-msgstr ""
-
-#: includes/admin/templates/settings/add-ons/realtime-stats.php:15
-#: includes/admin/templates/settings/add-ons/realtime-stats.php:46
-msgid "This feature is currently restricted in your current version. Unlock premium features to gain a deeper insight into your website."
 msgstr ""
 
 #: includes/admin/templates/settings/add-ons/realtime-stats.php:23

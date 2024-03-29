@@ -482,7 +482,7 @@ class settings_page
 
         // Save Visits Column & Visit Chart Metabox
         foreach (array('wps_disable_column', 'wps_disable_editor') as $option) {
-            $wps_disable_column = isset($_POST[$option]) && sanitize_text_field($_POST[$option]) == '1' ? '' : '1';
+            $wps_disable_column                                         = isset($_POST[$option]) && sanitize_text_field($_POST[$option]) == '1' ? '' : '1';
             $wp_statistics_options[self::input_name_to_option($option)] = $wps_disable_column;
         }
 
@@ -509,7 +509,11 @@ class settings_page
     {
         $options = [];
         foreach ($addon_options as $option_name => $option_value) {
-            $options [$option_name] = sanitize_text_field($option_value);
+            if ($option_name == 'wps_about_widget_content') {
+                $options[$option_name] = wp_kses_post($option_value);
+            } else {
+                $options[$option_name] = sanitize_text_field($option_value);
+            }
         }
 
         Option::saveByAddon($options, $addon_name);
