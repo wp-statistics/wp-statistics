@@ -341,7 +341,7 @@ class WP_Statistics_Mail
 
         } elseif ($extension === 'html') {
 
-            $template = file_get_contents($templateFile);
+            $template = wp_remote_get($templateFile);
             if (!is_array($variables) || empty($variables)) {
                 return $template;
             }

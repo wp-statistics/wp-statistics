@@ -154,7 +154,9 @@ class Admin_Post
     public static function modify_delete_post($post_id)
     {
         global $wpdb;
-        $wpdb->query("DELETE FROM `" . DB::table('pages') . "` WHERE `id` = " . esc_sql($post_id) . " AND (`type` = 'post' OR `type` = 'page' OR `type` = 'product');");
+        $wpdb->query(
+            $wpdb->prepare("DELETE FROM %i WHERE `id` = %d AND (`type` = 'post' OR `type` = 'page' OR `type` = 'product');", DB::table('pages'), esc_sql($post_id))
+        );
     }
 
     /**

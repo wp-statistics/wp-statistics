@@ -25,7 +25,7 @@ add_thickbox();
         foreach ($_SERVER as $key => $value) {
             // Check Value is Array
             if (is_array($value)) {
-                $value = json_encode($value);
+                $value = wp_json_encode($value);
             }
             ?>
             <tr>

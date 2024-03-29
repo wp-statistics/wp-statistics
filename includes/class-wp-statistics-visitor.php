@@ -79,8 +79,9 @@ class Visitor
 
         $columns      = (empty($fields) ? '*' : implode(',', $fields)); 
         $last_counter = ($date === false ? TimeZone::getCurrentDate('Y-m-d') : $date);
-        $sql          = $wpdb->prepare("SELECT {$columns} FROM `" . DB::table('visitor') . "` WHERE `last_counter` = %s AND `ip` = %s", $last_counter, $ip);
-        $visitor      = $wpdb->get_row($sql);
+        $visitor      = $wpdb->get_row(
+            $wpdb->prepare("SELECT %s FROM %i WHERE `last_counter` = %s AND `ip` = %s", $columns, DB::table('visitor'), $last_counter, $ip)
+        );
 
         return (!$visitor ? false : $visitor);
     }
@@ -155,14 +156,16 @@ class Visitor
                     $visitorTable = DB::table('visitor');
 
                     // Update Visitor Count in DB
-                    $sql = $wpdb->prepare(
-                        "UPDATE `{$visitorTable}` SET `hits` = `hits` + %d, user_id = %s WHERE `ID` = %d",
-                        1,
-                        User::get_user_id(),
-                        $visitor_id
-                    );
 
-                    $wpdb->query($sql);
+                    $wpdb->query(
+                        $wpdb->prepare(
+                            "UPDATE %s SET `hits` = `hits` + %d, user_id = %s WHERE `ID` = %d",
+                            $visitorTable,
+                            1,
+                            User::get_user_id(),
+                            $visitor_id
+                        )
+                    );	
                 }
             }
         }
@@ -197,8 +200,9 @@ class Visitor
          * However, since the table was not considered a unique key at first for these fields, As they say, "Fools tie knots, and wise men loose them :)" we manually check for the record's existence,
          *
          */
-        $sql   = $wpdb->prepare("SELECT COUNT(*) FROM {$tableName} WHERE `visitor_id` = %d AND `page_id` = %d AND DATE(`date`) = %s", $visitor_id, $page_id, $currentDate);
-        $exist = $wpdb->get_var($sql);
+        $exist = $wpdb->get_var(
+            $wpdb->prepare("SELECT COUNT(*) FROM %i WHERE `visitor_id` = %d AND `page_id` = %d AND DATE(`date`) = %s", $tableName, $visitor_id, $page_id, $currentDate) 
+        );
 
         /**
          * If a record exists, update its date to the current date.
@@ -206,8 +210,9 @@ class Visitor
          */
         if ($exist) {
 
-            $sql    = $wpdb->prepare("UPDATE {$tableName} SET `date` = %s WHERE DATE(`date`) = %s AND `visitor_id` = %d AND `page_id` = %d", TimeZone::getCurrentDate(), $currentDate, $visitor_id, $page_id);
-            $result = $wpdb->query($sql);
+            $result = $wpdb->query(
+                $wpdb->prepare("UPDATE %s SET `date` = %s WHERE DATE(`date`) = %s AND `visitor_id` = %d AND `page_id` = %d", $tableName, TimeZone::getCurrentDate(), $currentDate, $visitor_id, $page_id)
+            );
 
         } else {
 
@@ -261,11 +266,11 @@ class Visitor
         if ($args['day'] == 'today') {
             $sql_time = TimeZone::getCurrentDate('Y-m-d');
         } else {
-            $sql_time = date('Y-m-d', strtotime($args['day']));
+            $sql_time = date('Y-m-d', strtotime($args['day'])); // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date	
         }
 
         // Prepare Query
-        $args['sql'] = $wpdb->prepare("SELECT * FROM `" . DB::table('visitor') . "` WHERE last_counter = %s ORDER BY hits DESC", $sql_time);
+        $args['sql'] = $wpdb->prepare("SELECT * FROM %i WHERE last_counter = %s ORDER BY hits DESC", DB::table('visitor'), $sql_time);
 
         // Get Visitors Data
         return self::get($args);
@@ -302,7 +307,7 @@ class Visitor
         $args['sql'] = $args['sql'] . $wpdb->prepare(" LIMIT %d, %d", $limit, $args['per_page']);
 
         // Send Request
-        $result = $wpdb->get_results($args['sql']);
+        $result = $wpdb->get_results($args['sql']); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared	
 
         // Get Visitor Data
         return self::prepareData($result);
@@ -410,8 +415,9 @@ class Visitor
         $pageTable = DB::table('pages');
 
         // Get Row
-        $sql  = $wpdb->prepare("SELECT * FROM {$pageTable} WHERE page_id = %s", $page_id);
-        $item = $wpdb->get_row($sql, ARRAY_A);
+        $item = $wpdb->get_row(
+            $wpdb->prepare("SELECT * FROM %i WHERE page_id = %s", $pageTable, $page_id), 
+            ARRAY_A);
 
         if ($item !== null) {
             $params = Pages::get_page_info($item['id'], $item['type']);
@@ -436,9 +442,10 @@ class Visitor
         $pages_table                 = DB::table('pages');
 
         // Get Result
-        $query = $wpdb->prepare("SELECT DISTINCT {$pages_table}.id, {$pages_table}.uri FROM {$pages_table} INNER JOIN {$visitor_relationships_table} ON {$pages_table}.page_id = {$visitor_relationships_table}.page_id WHERE {$visitor_relationships_table}.visitor_id = %d ORDER BY {$pages_table}.count DESC LIMIT %d", $visitor_ID, $total);
-
-        return $wpdb->get_results($query, ARRAY_N);
+        return $wpdb->get_results(
+            $wpdb->prepare("SELECT DISTINCT {$pages_table}.id, {$pages_table}.uri FROM {$pages_table} INNER JOIN {$visitor_relationships_table} ON {$pages_table}.page_id = {$visitor_relationships_table}.page_id WHERE {$visitor_relationships_table}.visitor_id = %d ORDER BY {$pages_table}.count DESC LIMIT %d", $visitor_ID, $total), // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared	 
+            ARRAY_N
+        );
     }
 
     /**
@@ -463,7 +470,10 @@ class Visitor
     public static function get_users_visitor()
     {
         global $wpdb;
-        $query = $wpdb->get_results("SELECT `user_id` FROM `" . DB::table('visitor') . "` WHERE `user_id` >0 AND EXISTS (SELECT `ID` FROM `{$wpdb->users}` WHERE " . DB::table('visitor') . ".user_id = {$wpdb->users}.ID) GROUP BY `user_id` ORDER BY `user_id` DESC", ARRAY_A);
+        $query = $wpdb->get_results(
+            $wpdb->prepare("SELECT `user_id` FROM %i as visitors WHERE `user_id` >0 AND EXISTS (SELECT `ID` FROM %i as users WHERE visitors.user_id = users.ID) GROUP BY `user_id` ORDER BY `user_id` DESC", DB::table('visitor'), $wpdb->users), 
+            ARRAY_A
+        );
         $item  = array();
         foreach ($query as $row) {
             $user_data             = User::get($row['user_id']);

@@ -145,7 +145,9 @@ class Admin_Taxonomy
     public static function modify_delete_term($term, $term_id)
     {
         global $wpdb;
-        $wpdb->query("DELETE FROM `" . DB::table('pages') . "` WHERE `id` = " . esc_sql($term_id) . " AND (`type` = 'category' OR `type` = 'post_tag' OR `type` = 'tax');");
+        $wpdb->query(
+            $wpdb->prepare("DELETE FROM %i WHERE `id` = %d AND (`type` = 'category' OR `type` = 'post_tag' OR `type` = 'tax');", DB::table('pages'), esc_sql($term_id))
+        );
     }
 }
 

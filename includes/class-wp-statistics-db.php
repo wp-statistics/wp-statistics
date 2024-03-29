@@ -141,7 +141,7 @@ class DB
 
         if ($table_name) {
             // TRUNCATE TABLE
-            $result = $wpdb->query('TRUNCATE TABLE ' . $table_name);
+            $result = $wpdb->query($wpdb->prepare('TRUNCATE TABLE %s', $table_name));
 
             // Check Result
             if ($result) {
@@ -229,7 +229,9 @@ class DB
     {
         global $wpdb;
 
-        return $wpdb->get_row('SHOW COLUMNS FROM ' . self::table($tableName) . ' LIKE "' . $column . '"');
+        return $wpdb->get_row(
+            $wpdb->prepare('SHOW COLUMNS FROM %i LIKE %s', self::table($tableName), $column)
+        );
     }
 
     /**

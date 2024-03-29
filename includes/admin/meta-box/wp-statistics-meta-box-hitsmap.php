@@ -42,15 +42,23 @@ class hitsmap extends MetaBoxAbstract
 
         $days_time_list = array_keys(self::$daysList);
 
-        $sql    = $wpdb->prepare(
-            "SELECT location, COUNT(`location`) as count FROM `" . DB::table('visitor') . "` WHERE `last_counter` BETWEEN '%s' AND %s GROUP BY `location`",
-            reset($days_time_list),
-            end($days_time_list),
+        $locationCount =  $wpdb->get_results(
+            $wpdb->prepare(
+                "SELECT location, COUNT(`location`) as count FROM %i WHERE `last_counter` BETWEEN %s AND %s GROUP BY `location`",
+                DB::table('visitor'),
+                reset($days_time_list),
+                end($days_time_list),
+            ),
+            OBJECT_K
         );
-        $locationCount =  $wpdb->get_results($sql, OBJECT_K);
 
         $count = $wpdb->get_var(
-            $wpdb->prepare("SELECT COUNT(*) FROM `" . DB::table('visitor') . "` WHERE `last_counter` BETWEEN '%s' AND %s", reset($days_time_list), end($days_time_list),)
+            $wpdb->prepare(
+                "SELECT COUNT(*) FROM %i WHERE `last_counter` BETWEEN %s AND %s",
+                DB::table('visitor'),
+                reset($days_time_list),
+                end($days_time_list)
+            )
         );
 
         $chunk = 10000;
@@ -127,14 +135,16 @@ class hitsmap extends MetaBoxAbstract
     {
         global $wpdb;
         // Get List Country Of Visitors
-        $sql    = $wpdb->prepare(
-            "SELECT location, hits, agent, ip FROM `" . DB::table('visitor') . "` WHERE `last_counter` BETWEEN '%s' AND %s LIMIT %d OFFSET %d",
-            reset($days),
-            end($days),
-            $limit,
-            $offset
-        );
-        return $wpdb->get_results($sql, OBJECT);
+        return $wpdb->get_results(
+            $wpdb->prepare(
+                "SELECT location, hits, agent, ip FROM %i WHERE `last_counter` BETWEEN %s AND %s LIMIT %d OFFSET %d",
+                DB::table('visitor'),
+                reset($days),
+                end($days),
+                $limit,
+                $offset
+            ), 
+            OBJECT);
     }
 
 

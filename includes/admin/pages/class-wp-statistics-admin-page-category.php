@@ -52,9 +52,7 @@ class category_page
         );
 
         // Get List Category
-        $terms = get_terms('category', array(
-            'hide_empty' => true,
-        ));
+        $terms = get_terms('category');
 
         // Set All Item
         $args['select_box']['list'][0] = __('All', 'wp-statistics');

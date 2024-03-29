@@ -212,9 +212,10 @@ class GeoIP
     {
         global $wpdb;
 
-        $date = date('Y-m-d', current_time('timestamp') - self::$library['country']['cache']);
-        $sql  = $wpdb->prepare("SELECT `location` FROM " . DB::table('visitor') . " WHERE `ip` = %s and `last_counter` >= %s ORDER BY `ID` DESC LIMIT 1", $ip, $date);
-        $user = $wpdb->get_row($sql);
+        $date = date('Y-m-d', current_time('timestamp') - self::$library['country']['cache']); // phpcs:ignore 	WordPress.DateTime.RestrictedFunctions.date_date
+        $user = $wpdb->get_row(
+            $wpdb->prepare("SELECT `location` FROM %i WHERE `ip` = %s and `last_counter` >= %s ORDER BY `ID` DESC LIMIT 1", DB::table('visitor'), $ip, $date)
+        );
 
         if (null !== $user) {
             return $user->location;
@@ -233,6 +234,7 @@ class GeoIP
      */
     public static function download($pack, $type = "enable")
     {
+        global $wp_filesystem;
 
         // Create Empty Return Function
         $result["status"] = false;
@@ -299,7 +301,7 @@ class GeoIP
 
         // Check to see if the subdirectory we're going to upload to exists, if not create it.
         if (!file_exists($upload_dir['basedir'] . '/' . WP_STATISTICS_UPLOADS_DIR)) {
-            if (!@mkdir($upload_dir['basedir'] . '/' . WP_STATISTICS_UPLOADS_DIR, 0755)) {
+                if (!$wp_filesystem->mkdir($upload_dir['basedir'] . '/' . WP_STATISTICS_UPLOADS_DIR, 0755)) {
                 if ($type == "enable") {
                     Option::update(GeoIP::$library[$pack]['opt'], '');
                 }
@@ -308,7 +310,7 @@ class GeoIP
             }
         }
 
-        if (!is_writable($upload_dir['basedir'] . '/' . WP_STATISTICS_UPLOADS_DIR)) {
+        if (!$wp_filesystem->is_writable($upload_dir['basedir'] . '/' . WP_STATISTICS_UPLOADS_DIR)) {
             if ($type == "enable") {
                 Option::update(GeoIP::$library[$pack]['opt'], '');
             }
@@ -331,7 +333,7 @@ class GeoIP
             $ZipHandle = gzopen($TempFile, 'rb');
 
             // Create th new file to unzip to.
-            $DBfh = fopen($DBFile, 'wb');
+            $DBfh = fopen($DBFile, 'wb'); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fopen	
 
             // If we failed to open the downloaded file, through an error and remove the temporary file.  Otherwise do the actual unzip.
             if (!$ZipHandle) {
@@ -339,7 +341,7 @@ class GeoIP
                     Option::update(GeoIP::$library[$pack]['opt'], '');
                 }
 
-                unlink($TempFile);
+                wp_delete_file($TempFile);
                 return array_merge($result, array("notice" => sprintf(__('Error Opening Downloaded GeoIP Database for Reading: %s', 'wp-statistics'), $TempFile)));
             } else {
                 // If we failed to open the new file, throw and error and remove the temporary file.  Otherwise actually do the unzip.
@@ -348,19 +350,19 @@ class GeoIP
                         Option::update(GeoIP::$library[$pack]['opt'], '');
                     }
 
-                    unlink($TempFile);
+                    wp_delete_file($TempFile);
                     return array_merge($result, array("notice" => sprintf(__('Error Opening Destination GeoIP Database for Writing: %s', 'wp-statistics'), $DBFile)));
                 } else {
                     while (($data = gzread($ZipHandle, 4096)) != false) {
-                        fwrite($DBfh, $data);
+                        fwrite($DBfh, $data); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fwrite	
                     }
 
                     // Close the files.
                     gzclose($ZipHandle);
-                    fclose($DBfh);
+                    fclose($DBfh); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fclose	
 
                     // Delete the temporary file.
-                    unlink($TempFile);
+                    wp_delete_file($TempFile);
 
                     // Display the success message.
                     $result["status"] = true;
@@ -407,7 +409,9 @@ class GeoIP
         global $wpdb;
 
         // Find all rows in the table that currently don't have GeoIP info or have an unknown ('000') location.
-        $result = $wpdb->get_results("SELECT id,ip FROM `" . DB::table('visitor') . "` WHERE location = '' or location = '" . GeoIP::$private_country . "' or location IS NULL");
+        $result = $wpdb->get_results(
+            $wpdb->prepare("SELECT id,ip FROM %i WHERE location = '' or location = %s or location IS NULL", DB::table('visitor'), GeoIP::$private_country)
+        );
 
         // Try create a new reader instance.
         $reader = false;

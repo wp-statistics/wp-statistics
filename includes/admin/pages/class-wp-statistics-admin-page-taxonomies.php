@@ -75,9 +75,7 @@ class taxonomies_page
         $taxonomy = get_taxonomy(self::$taxonomy);
 
         // Get List Category
-        $terms = get_terms(self::$taxonomy, array(
-            'hide_empty' => true,
-        ));
+        $terms = get_terms(self::$taxonomy);
 
         $args['tabs'] = [];
         foreach (self::$taxonomies as $slug => $title) {

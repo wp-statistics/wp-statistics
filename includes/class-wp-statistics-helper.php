@@ -306,7 +306,9 @@ class Helper
             'pages'   => array('order_by' => 'page_id', 'column' => 'date'),
         );
         foreach ($list_tbl as $tbl => $val) {
-            $first_day = $wpdb->get_var("SELECT `" . $val['column'] . "` FROM `" . WP_STATISTICS\DB::table($tbl) . "` ORDER BY `" . $val['order_by'] . "` ASC LIMIT 1");
+            $first_day = $wpdb->get_var(
+                $wpdb->prepare("SELECT %s FROM %i ORDER BY %s ASC LIMIT 1", $val['column'], WP_STATISTICS\DB::table($tbl), $val['order_by'])
+            );
             if (!empty($first_day)) {
                 break;
             }
@@ -366,7 +368,7 @@ class Helper
      */
     public static function check_url_scheme($url, $accept = array('http', 'https'))
     {
-        $scheme = @parse_url($url, PHP_URL_SCHEME);
+        $scheme = @wp_parse_url($url, PHP_URL_SCHEME);
         return in_array($scheme, $accept);
     }
 
@@ -417,7 +419,7 @@ class Helper
             $array[$key] = html_entity_decode((string)$value, ENT_QUOTES, 'UTF-8');
         }
 
-        return json_encode($array, JSON_UNESCAPED_SLASHES);
+        return wp_json_encode($array, JSON_UNESCAPED_SLASHES);
     }
 
     /**
@@ -539,7 +541,7 @@ class Helper
         $characters   = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $randomString = '';
         for ($i = 0; $i < $num; $i++) {
-            $randomString .= $characters[rand(0, strlen($characters) - 1)];
+            $randomString .= $characters[wp_rand(0, strlen($characters) - 1)];
         }
 
         return $randomString;
@@ -798,7 +800,7 @@ class Helper
             'site_url'     => home_url(),
             'site_title'   => get_bloginfo('name'),
             'footer_text'  => '',
-            'email_title'  => apply_filters('wp_statistics_email_title', __('Email from', 'wp-statistics') . ' ' . parse_url(get_site_url())['host']),
+            'email_title'  => apply_filters('wp_statistics_email_title', __('Email from', 'wp-statistics') . ' ' . wp_parse_url(get_site_url())['host']),
             'logo_image'   => apply_filters('wp_statistics_email_logo', WP_STATISTICS_URL . 'assets/images/logo-statistics-header-blue.png'),
             'logo_url'     => apply_filters('wp_statistics_email_logo_url', get_bloginfo('url')),
             'copyright'    => apply_filters('wp_statistics_email_footer_copyright', Admin_Template::get_template('emails/copyright', array(), true)),
@@ -860,7 +862,7 @@ class Helper
         foreach ($get_tax as $object) {
             $object = get_object_vars($object);
             if ($hide_empty === true) {
-                $count_term_in_tax = wp_count_terms($object['name'], array('hide_empty' => false, 'parent' => 0));
+                $count_term_in_tax = wp_count_terms($object['name']);
                 if ($count_term_in_tax > 0 and isset($object['rewrite']['slug'])) {
                     $taxonomies[$object['name']] = $object['labels']->name;
                 }
@@ -937,7 +939,7 @@ class Helper
                 $where = $field_sql(-365);
                 break;
             case 'this-year':
-                $fromDate = TimeZone::getLocalDate('Y-m-d', strtotime(date('Y-01-01')));
+                $fromDate = TimeZone::getLocalDate('Y-m-d', strtotime(gmdate('Y-01-01')));
                 $toDate   = TimeZone::getCurrentDate('Y-m-d');
                 $where    = "`$field` BETWEEN '{$fromDate}' AND '{$toDate}'";
                 break;

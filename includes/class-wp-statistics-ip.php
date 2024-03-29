@@ -92,7 +92,7 @@ class IP
     {
         // Check if the option to hash IP addresses is enabled in the settings.
         if (Option::get('hash_ips') == true) {
-            $date           = date('Y-m-d'); // Capture the current date to use in salt generation.
+            $date           = gmdate('Y-m-d'); // Capture the current date to use in salt generation.
             $saltOptionName = 'wp_statistics_daily_salt'; // Define the option name for storing the daily salt.
 
             // Retrieve the currently stored daily salt from the WordPress options.
@@ -260,7 +260,7 @@ class IP
         global $wpdb;
 
         // Get the rows from the Visitors table.
-        $result = $wpdb->get_results("SELECT DISTINCT ip FROM " . DB::table('visitor'));
+        $result = $wpdb->get_results($wpdb->prepare("SELECT DISTINCT ip FROM %i", DB::table('visitor')));
         foreach ($result as $row) {
             if (IP::IsHashIP($row->ip)) {
                 $wpdb->update(

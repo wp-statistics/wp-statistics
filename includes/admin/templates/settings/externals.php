@@ -262,10 +262,10 @@
                     $next_schedule = wp_next_scheduled('wp_statistics_referrerspam_hook');
 
                     if ($next_schedule) {
-                        echo esc_attr(date(get_option('date_format'), $next_schedule) . ' @ ' . date(get_option('time_format'), $next_schedule));
-                    } else {
+                        echo esc_attr(date(get_option('date_format'), $next_schedule) . ' @ ' . date(get_option('time_format'), $next_schedule));  // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date	
+                    } else { 
                         $next_update = time() + (86400 * 7);
-                        echo esc_attr(date(get_option('date_format'), $next_update) . ' @ ' . date(get_option('time_format'), time()));
+                        echo esc_attr(date(get_option('date_format'), $next_update) . ' @ ' . date(get_option('time_format'), time()));  // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date	
                     }
 
                     echo '</code></p>';

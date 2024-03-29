@@ -88,7 +88,9 @@ class Exclusion
         }
 
         // Check Exist this Exclusion in this day
-        $result = $wpdb->query("UPDATE " . DB::table('exclusions') . " SET `count` = `count` + 1 WHERE `date` = '" . TimeZone::getCurrentDate('Y-m-d') . "' AND `reason` = '{$exclusion['exclusion_reason']}'");
+        $result = $wpdb->query(
+            $wpdb->prepare("UPDATE %s SET `count` = `count` + 1 WHERE `date` = %s AND `reason` = %s", DB::table('exclusions'), TimeZone::getCurrentDate('Y-m-d'), $exclusion['exclusion_reason'])
+        );
         if (!$result) {
             $insert = $wpdb->insert(
                 DB::table('exclusions'),
@@ -349,7 +351,7 @@ class Exclusion
                 $page_url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://{$_SERVER["HTTP_HOST"]}{$requestUri}";
 
                 //Check Link file
-                $page_url = parse_url($page_url, PHP_URL_PATH);
+                $page_url = wp_parse_url($page_url, PHP_URL_PATH);
                 $ext      = pathinfo($page_url, PATHINFO_EXTENSION);
                 if (!empty($ext) and $ext != 'php') {
                     return true;

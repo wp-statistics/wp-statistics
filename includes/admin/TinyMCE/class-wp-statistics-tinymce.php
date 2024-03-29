@@ -67,7 +67,7 @@ class TinyMCE
         );
 
         $locale     = \_WP_Editors::$mce_locale;
-        $translated = 'tinyMCE.addI18n("' . $locale . '.wp_statistic_tinymce_plugin", ' . json_encode($strings) . ");\n";
+        $translated = 'tinyMCE.addI18n("' . $locale . '.wp_statistic_tinymce_plugin", ' . wp_json_encode($strings) . ");\n";
 
         return array('locale' => $locale, 'translate' => $translated);
     }

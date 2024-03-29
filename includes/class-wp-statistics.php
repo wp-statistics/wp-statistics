@@ -253,15 +253,18 @@ final class WP_Statistics
         /**
          * Create .htaccess to avoid public access.
          */
-        if (is_dir($upload_dir_name) and is_writable($upload_dir_name)) {
+        // phpcs:disable
+        if (is_dir($upload_dir_name) and is_writable($upload_dir_name)) { 	
             $htaccess_file = path_join($upload_dir_name, '.htaccess');
 
             if (!file_exists($htaccess_file)
-                and $handle = @fopen($htaccess_file, 'w')) {
+                and $handle = @fopen($htaccess_file, 'w')) { 
                 fwrite($handle, "Deny from all\n");
                 fclose($handle);
             }
         }
+        // phpcs:enable
+
     }
 
     /**
@@ -317,7 +320,7 @@ final class WP_Statistics
     public static function log($message)
     {
         if (is_array($message)) {
-            $message = json_encode($message);
+            $message = wp_json_encode($message);
         }
 
         error_log(sprintf('WP Statistics Error: %s', $message));

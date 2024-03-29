@@ -75,14 +75,16 @@ class country_page
 
         // Get Result
         $limitQuery = $wpdb->prepare("LIMIT %d, %d", $args['offset'], $args['limit']);
-        $sqlQuery   = $wpdb->prepare("SELECT `location`, COUNT(`location`) AS `count` FROM `" . DB::table('visitor') . "` WHERE `last_counter` BETWEEN %s AND %s GROUP BY `location` ORDER BY `count` DESC", $args['from'], $args['to']);
 
         // Set Total
-        $totalQuery    = $wpdb->get_results($sqlQuery);
+        $totalQuery    = $wpdb->get_results(
+            $wpdb->prepare("SELECT `location`, COUNT(`location`) AS `count` FROM %i WHERE `last_counter` BETWEEN %s AND %s GROUP BY `location` ORDER BY `count` DESC", DB::table('visitor'), $args['from'], $args['to'])
+        );
         $args['total'] = count($totalQuery);
-
         // Set Result
-        $result = $wpdb->get_results($sqlQuery . " " . $limitQuery);
+        $result = $wpdb->get_results(
+            $wpdb->prepare("SELECT `location`, COUNT(`location`) AS `count` FROM %i WHERE `last_counter` BETWEEN %s AND %s GROUP BY `location` ORDER BY `count` DESC $limitQuery", DB::table('visitor'), $args['from'], $args['to'])
+        );
 
         foreach ($result as $item) {
             $item->location = strtoupper($item->location);
@@ -109,7 +111,6 @@ class country_page
         // Show Template
         Admin_Template::get_template(array('layout/header', 'layout/title', 'layout/date.range', 'pages/country', 'layout/postbox.toggle', 'layout/footer'), $args);
     }
-
 }
 
 new country_page;

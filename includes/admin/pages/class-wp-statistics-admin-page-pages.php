@@ -45,11 +45,12 @@ class pages_page
                  */
                 $pageTablePage = DB::table('pages');
                 $preparedSql   = $wpdb->prepare(
-                    "SELECT COUNT(*) FROM {$pageTablePage} WHERE `id` = %s AND `type` = %s",
+                    "SELECT COUNT(*) FROM %i WHERE `id` = %s AND `type` = %s",
+                    $pageTablePage,
                     sanitize_text_field($_GET['ID']),
                     sanitize_text_field($_GET['type'])
                 );
-                $page_count    = $wpdb->get_var($preparedSql);
+                $page_count    = $wpdb->get_var($preparedSql); //phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared	
 
                 if ($page_count < 1) {
                     wp_die(__('Request Invalid or Unsupported.', 'wp-statistics'));
@@ -224,7 +225,9 @@ class pages_page
         $_is_term   = in_array($Type, array("category", "post_tag", "tax"));
 
         if ($_is_post === true || $_is_term === true) {
-            $query = $wpdb->get_results($wpdb->prepare("SELECT `id`, SUM(count) as total FROM `" . DB::table('pages') . "` WHERE `type` = %s GROUP BY `id` ORDER BY `total` DESC LIMIT 0,100", $Type), ARRAY_A);
+            $query = $wpdb->get_results(
+                $wpdb->prepare("SELECT `id`, SUM(count) as total FROM %i WHERE `type` = %s GROUP BY `id` ORDER BY `total` DESC LIMIT 0,100", DB::table('pages'), $Type)
+                , ARRAY_A);
         }
 
         // Create Select List For WordPress Posts
@@ -241,7 +244,9 @@ class pages_page
         }
 
         $subList      = [];
-        $subListQuery = $wpdb->get_results($wpdb->prepare("SELECT `uri`, `page_id`, SUM(count) as total FROM `" . DB::table('pages') . "` WHERE `id` = %s AND `type` = %s GROUP BY `uri` ORDER BY `total` DESC LIMIT 0,100", $ID, $Type), ARRAY_A);
+        $subListQuery = $wpdb->get_results(
+            $wpdb->prepare("SELECT `uri`, `page_id`, SUM(count) as total FROM %i WHERE `id` = %s AND `type` = %s GROUP BY `uri` ORDER BY `total` DESC LIMIT 0,100", DB::table('pages'), $ID, $Type)
+        , ARRAY_A);
 
         foreach ($subListQuery as $item) {
             $subList[$item['page_id']] = $item['uri'];

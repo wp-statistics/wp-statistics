@@ -247,7 +247,7 @@ class SearchEngine
         }
 
         // Parse the URL in to its component parts.
-        $parts = @parse_url($url);
+        $parts = @wp_parse_url($url);
 
         if (empty($parts['host'])) {
             return false;
@@ -297,7 +297,7 @@ class SearchEngine
             if (wp_http_validate_url($referred)) {
 
                 // Parse Url and Check Search Engine Match regex
-                $parts = @parse_url($referred);
+                $parts = @wp_parse_url($referred);
 
                 // Loop through the SE list until we find which search engine matches.
                 foreach ($search_engines as $key => $value) {

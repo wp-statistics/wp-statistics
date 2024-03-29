@@ -53,9 +53,7 @@ class tags_page
         );
 
         // Get List Tag
-        $terms = get_terms('post_tag', array(
-            'hide_empty' => true
-        ));
+        $terms = get_terms('post_tag');
 
         // Set All Item
         $args['select_box']['list'][0] = __('All', 'wp-statistics');

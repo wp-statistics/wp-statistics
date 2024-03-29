@@ -83,7 +83,8 @@ class UserOnline
             }
 
             // Call the deletion query.
-            $wpdb->query("DELETE FROM `" . DB::table('useronline') . "` WHERE timestamp < {$time_diff}");
+            $wpdb->query(
+                $wpdb->prepare("DELETE FROM %i WHERE timestamp < %s", DB::table('useronline'), $time_diff));
 
             //Update Last run this Action
             update_option(self::$check_user_online_opt, $now);
@@ -127,7 +128,9 @@ class UserOnline
     public static function is_ip_online($user_ip = false)
     {
         global $wpdb;
-        $user_online = $wpdb->query("SELECT * FROM `" . DB::table('useronline') . "` WHERE `ip` = '{$user_ip}'");
+        $user_online = $wpdb->query(
+            $wpdb->prepare("SELECT * FROM %i WHERE `ip` = %s", DB::table('useronline'), $user_ip)
+        );
         return (!$user_online ? false : $user_online);
     }
 
@@ -254,7 +257,7 @@ class UserOnline
 
         // Check Count
         if ($args['fields'] == "count") {
-            return $wpdb->get_var($SQL);
+            return $wpdb->get_var($SQL); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared	
         }
 
         // Prepare Query
@@ -266,7 +269,7 @@ class UserOnline
         $args['sql'] = esc_sql($args['sql']) . $wpdb->prepare(" LIMIT %d, %d", $args['offset'], $args['per_page']);
 
         // Send Request
-        $result = $wpdb->get_results($args['sql']);
+        $result = $wpdb->get_results($args['sql']); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared	
 
         // Get List
         $list = array();
@@ -325,11 +328,11 @@ class UserOnline
             // Online For Time
             $time_diff = ($items->timestamp - $items->created);
             if ($time_diff > 3600) {
-                $item['online_for'] = date("H:i:s", ($items->timestamp - $items->created));
-            } else if ($time_diff > 60) {
-                $item['online_for'] = "00:" . date("i:s", ($items->timestamp - $items->created));
+                $item['online_for'] = date("H:i:s", ($items->timestamp - $items->created)); // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date	
+            } else if ($time_diff > 60) { 
+                $item['online_for'] = "00:" . date("i:s", ($items->timestamp - $items->created)); // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
             } else {
-                $item['online_for'] = "00:00:" . date("s", ($items->timestamp - $items->created));
+                $item['online_for'] = "00:00:" . date("s", ($items->timestamp - $items->created)); // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
             }
 
             $list[] = $item;

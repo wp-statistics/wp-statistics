@@ -42,7 +42,7 @@ class exclusions_page
         $args['DateRang'] = Admin_Template::DateRange();
 
         // Get Total Exclusions
-        $args['total_exclusions'] = $wpdb->get_var("SELECT SUM(count) FROM `" . DB::table('exclusions') . "`");
+        $args['total_exclusions'] = $wpdb->get_var($wpdb->prepare("SELECT SUM(count) FROM %i", DB::table('exclusions')));
 
         if (!$args['total_exclusions']) {
             $args['total_exclusions'] = 0;
