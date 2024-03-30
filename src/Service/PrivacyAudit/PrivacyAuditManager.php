@@ -10,6 +10,9 @@ class PrivacyAuditManager
         add_action('admin_menu', [$this, 'addMenuItems'], 11);
     }
 
+    /**
+     * Add menu items
+     */
     public function addMenuItems()
     {
         add_submenu_page(
@@ -25,7 +28,7 @@ class PrivacyAuditManager
 
 
     /**
-     * Render Link Tracker admin page
+     * Render admin page
      */
     public function renderPage()
     {
