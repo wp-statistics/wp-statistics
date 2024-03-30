@@ -14,24 +14,25 @@ class Menus
      * @var array
      */
     public static $pages = array(
-        'overview'     => 'overview',
-        'browser'      => 'browsers',
-        'platform'     => 'platforms',
-        'countries'    => 'countries',
-        'exclusions'   => 'exclusions',
-        'hits'         => 'hits',
-        'online'       => 'online',
-        'pages'        => 'pages',
-        'categories'   => 'categories',
-        'authors'      => 'authors',
-        'tags'         => 'tags',
-        'referrers'    => 'referrers',
-        'searches'     => 'searches',
-        'top-visitors' => 'top_visitors',
-        'visitors'     => 'visitors',
-        'optimization' => 'optimization',
-        'settings'     => 'settings',
-        'plugins'      => 'plugins',
+        'overview'      => 'overview',
+        'browser'       => 'browsers',
+        'platform'      => 'platforms',
+        'countries'     => 'countries',
+        'exclusions'    => 'exclusions',
+        'hits'          => 'hits',
+        'online'        => 'online',
+        'pages'         => 'pages',
+        'categories'    => 'categories',
+        'authors'       => 'authors',
+        'tags'          => 'tags',
+        'referrers'     => 'referrers',
+        'searches'      => 'searches',
+        'top-visitors'  => 'top_visitors',
+        'visitors'      => 'visitors',
+        'privacy-audit' => 'privacy_audit',
+        'optimization'  => 'optimization',
+        'settings'      => 'settings',
+        'plugins'       => 'plugins',
     );
 
     /**
@@ -248,6 +249,12 @@ class Menus
                 'title'    => __('Top Visitors Today', 'wp-statistics'),
                 'page_url' => 'top-visitors',
                 'method'   => 'top_visitors'
+            ),
+            'privacy.audit' => array(
+                'sub'       => 'overview',
+                'title'     => __('Privacy Audit', 'wp-statistics'),
+                'page_url'  => 'privacy-audit',
+                'method'    => 'privacy_audit'
             ),
             'exclusions'   => array(
                 'require'  => array('record_exclusions' => true),
