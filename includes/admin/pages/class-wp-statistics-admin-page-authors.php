@@ -4,6 +4,10 @@ namespace WP_STATISTICS;
 
 class authors_page
 {
+    private static $tabs = [
+        'performance',
+        'pages'
+    ];
 
     public function __construct()
     {
@@ -34,68 +38,42 @@ class authors_page
      */
     public static function view()
     {
+        // Get current tab
+        $currentTab = isset($_GET['tab'])? sanitize_text_field($_GET['tab']) : 'performance';
+
+        // Throw error when invalid tab provided
+        if (!in_array($currentTab, self::$tabs)) {
+            throw new \InvalidArgumentException(esc_html__('Invalid tab provided', 'wp-statistics'));
+        }
 
         // Page title
-        $args['title'] = __('Statistics by Author', 'wp-statistics');
+        $args['title']      = esc_html__('Author Analytics', 'wp-statistics');
+        $args['tooltip']    = esc_html__('', 'wp-statistics');
 
         // Get Current Page Url
         $args['pageName']   = Menus::get_page_slug('authors');
         $args['pagination'] = Admin_Template::getCurrentPaged();
+        $args['custom_get'] = ['tab' => $currentTab];
+        $args['tabs']       = [
+            [
+                'link'    => Menus::admin_url(Menus::get_page_slug('authors'), ['tab' => 'performance']),
+                'title'   => esc_html__('Authors Performance', 'wp-statistics'),
+                'tooltip' => esc_html__('', 'wp-statistics'),
+                'class'   => $currentTab === 'performance' ? 'current' : '',
+            ],
+            [
+                'link'    => Menus::admin_url(Menus::get_page_slug('authors'), ['tab' => 'pages']),
+                'title'   => esc_html__('Author Pages', 'wp-statistics'),
+                'tooltip' => esc_html__('', 'wp-statistics'),
+                'class'   => $currentTab === 'pages' ? 'current' : '',
+            ]
+        ];
 
         // Get Date-Range
         $args['DateRang'] = Admin_Template::DateRange();
 
-        // Get List Authors
-        $users = get_users((User::Access('manage') ? array('role__in' => array('author', 'administrator')) : array('role__in' => 'author')));
-
-        // Check Number Post From a author
-        if (isset($_GET['ID']) and $_GET['ID'] > 0) {
-            $args['number_post_from_user'] = count_user_posts((int)trim($_GET['ID']));
-        }
-
-        // Get Top Categories By Hits
-        $args['top_list'] = array();
-        if (!isset($_GET['ID']) || (isset($_GET['ID']) and $_GET['ID'] == 0)) {
-
-            // Set Type List
-            $args['top_list_type'] = 'user';
-            $args['top_title']     = __('Top Authors by Page Visits', 'wp-statistics');
-
-            // Push List Category
-            foreach ($users as $user) {
-                $args['top_list'][$user->ID] = array('ID' => $user->ID, 'name' => User::get_name($user->ID), 'link' => add_query_arg('ID', $user->ID), 'count_visit' => (int)wp_statistics_pages('total', null, $user->ID, null, null, 'author'));
-            }
-
-        } else {
-
-            // Set Type List
-            $args['top_list_type'] = 'post';
-            $args['top_title']     = __('Author’s Top Posts by Visits', 'wp-statistics');
-
-            // Get Top Posts From Category
-            $post_lists = Helper::get_post_list(array(
-                'post_type' => 'post',
-                'author'    => sanitize_text_field($_GET['ID'])
-            ));
-            foreach ($post_lists as $post_id => $post_title) {
-                $args['top_list'][$post_id] = array('ID' => $post_id, 'name' => $post_title, 'link' => Menus::admin_url('pages', array('ID' => $post_id)), 'count_visit' => (int)wp_statistics_pages('total', null, $post_id, null, null, 'post'));
-            }
-
-        }
-
-        // Sort By Visit Count
-        Helper::SortByKeyValue($args['top_list'], 'count_visit');
-
-        $author_items = apply_filters('wp_statistics_author_items', 10);
-
-        // Get Only 5 Item
-        if (count($args['top_list']) > $author_items) {
-            $args['top_list'] = array_chunk($args['top_list'], $author_items);
-            $args['top_list'] = $args['top_list'][0];
-        }
-
         // Show Template Page
-        Admin_Template::get_template(array('layout/header', 'layout/title', 'layout/date.range', 'pages/author', 'layout/postbox.hide', 'layout/footer'), $args);
+        Admin_Template::get_template(['layout/header', 'layout/tabbed-page-header', "pages/author/$currentTab", 'layout/postbox.hide', 'layout/footer'], $args);
     }
 
 }
