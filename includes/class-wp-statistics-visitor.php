@@ -159,8 +159,7 @@ class Visitor
 
                     $wpdb->query(
                         $wpdb->prepare(
-                            "UPDATE %s SET `hits` = `hits` + %d, user_id = %s WHERE `ID` = %d",
-                            $visitorTable,
+                            "UPDATE `".$visitorTable."` SET `hits` = `hits` + %d, user_id = %s WHERE `ID` = %d",
                             1,
                             User::get_user_id(),
                             $visitor_id

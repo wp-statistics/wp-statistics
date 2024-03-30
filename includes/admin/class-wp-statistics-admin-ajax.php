@@ -213,7 +213,7 @@ class Ajax
             check_ajax_referer('wp_rest', 'wps_nonce');
 
             // Delete user ids
-            $result = $wpdb->query($wpdb->prepare("UPDATE %s SET `user_id` = 0", DB::table('visitor')));
+            $result = $wpdb->query("UPDATE `".DB::table('visitor')."` SET `user_id` = 0");
 
             if ($result) {
                 _e('Successfully deleted User ID data.', 'wp-statistics');
@@ -241,7 +241,7 @@ class Ajax
             check_ajax_referer('wp_rest', 'wps_nonce');
 
             // Delete UAStrings
-            $result = $wpdb->query($wpdb->prepare("UPDATE %s SET `UAString` = NULL", DB::table('visitor')));
+            $result = $wpdb->query("UPDATE `".DB::table('visitor')."` SET `UAString` = NULL");
 
             if ($result) {
                 _e('Successfully deleted user agent strings data.', 'wp-statistics');
