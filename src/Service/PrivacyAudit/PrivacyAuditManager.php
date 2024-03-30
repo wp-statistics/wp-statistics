@@ -12,18 +12,18 @@ class PrivacyAuditManager
 
     /**
      * Add menu item
-     * 
+     *
      * @param array $items
      * @return array
      */
-    public function addMenuItem( $items )
+    public function addMenuItem($items)
     {
         $newItem = [
             'privacy_audit' => [
-                'sub'       => 'overview',
-                'title'     => esc_html__('Privacy Audit', 'wp-statistics'),
-                'page_url'  => 'privacy-audit',
-                'class'     => new PrivacyAuditPage()
+                'sub'      => 'overview',
+                'title'    => esc_html__('Privacy Audit', 'wp-statistics'),
+                'page_url' => 'privacy-audit',
+                'callback' => PrivacyAuditPage::class,
             ]
         ];
 

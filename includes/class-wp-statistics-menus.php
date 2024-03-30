@@ -14,24 +14,24 @@ class Menus
      * @var array
      */
     public static $pages = array(
-        'overview'      => 'overview',
-        'browser'       => 'browsers',
-        'platform'      => 'platforms',
-        'countries'     => 'countries',
-        'exclusions'    => 'exclusions',
-        'hits'          => 'hits',
-        'online'        => 'online',
-        'pages'         => 'pages',
-        'categories'    => 'categories',
-        'authors'       => 'authors',
-        'tags'          => 'tags',
-        'referrers'     => 'referrers',
-        'searches'      => 'searches',
-        'top-visitors'  => 'top_visitors',
-        'visitors'      => 'visitors',
-        'optimization'  => 'optimization',
-        'settings'      => 'settings',
-        'plugins'       => 'plugins',
+        'overview'     => 'overview',
+        'browser'      => 'browsers',
+        'platform'     => 'platforms',
+        'countries'    => 'countries',
+        'exclusions'   => 'exclusions',
+        'hits'         => 'hits',
+        'online'       => 'online',
+        'pages'        => 'pages',
+        'categories'   => 'categories',
+        'authors'      => 'authors',
+        'tags'         => 'tags',
+        'referrers'    => 'referrers',
+        'searches'     => 'searches',
+        'top-visitors' => 'top_visitors',
+        'visitors'     => 'visitors',
+        'optimization' => 'optimization',
+        'settings'     => 'settings',
+        'plugins'      => 'plugins',
     );
 
     /**
@@ -136,7 +136,7 @@ class Menus
     {
 
         // Get the read/write capabilities.
-        $manage_cap     = User::ExistCapability(Option::get('manage_capability', 'manage_options'));
+        $manage_cap = User::ExistCapability(Option::get('manage_capability', 'manage_options'));
 
         /**
          * List of WP Statistics Admin Menu
@@ -349,10 +349,17 @@ class Menus
                 $name = $menu['name'];
             }
 
-            if (isset($menu['class'])) {
-                $callback = [$menu['class'], 'view'];
+            // Assume '\WP_STATISTICS\\' is a constant base namespace for your classes.
+            $baseNamespace = '\WP_STATISTICS\\';
+
+            // Determine the class name. Use $menu['callback'] if it's set; otherwise, construct the name from $method.
+            $className = isset($menu['callback']) ? $menu['callback'] : $baseNamespace . $method . '_page';
+
+            // Now, ensure that the 'view' method exists in the determined class.
+            if (method_exists($className, 'view')) {
+                $callback = [$className, 'view'];
             } else {
-                $callback = ['\WP_STATISTICS\\' . $method . '_page', 'view'];
+                continue;
             }
 
             //Check if SubMenu or Main Menu
