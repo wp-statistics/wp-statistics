@@ -1340,4 +1340,16 @@ class Helper
             $i++;
         }
     }
+
+    public static function prepareArrayToStringForQuery($fields = array())
+    {
+        global $wpdb;
+    
+        foreach ($fields as &$value) {
+            $value = $wpdb->prepare('%s', $value);
+        }
+
+        return implode(', ', $fields);
+    }
+
 }

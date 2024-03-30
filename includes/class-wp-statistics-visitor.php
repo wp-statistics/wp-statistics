@@ -77,10 +77,10 @@ class Visitor
     {
         global $wpdb;
 
-        $columns      = (empty($fields) ? '*' : implode(',', $fields)); 
+        $columns      = (empty($fields) ? '*' : Helper::prepareArrayToStringForQuery($fields));
         $last_counter = ($date === false ? TimeZone::getCurrentDate('Y-m-d') : $date);
         $visitor      = $wpdb->get_row(
-            $wpdb->prepare("SELECT %s FROM `".DB::table('visitor')."` WHERE `last_counter` = %s AND `ip` = %s", $columns, $last_counter, $ip)
+            $wpdb->prepare("SELECT $columns FROM `".DB::table('visitor')."` WHERE `last_counter` = %s AND `ip` = %s", $last_counter, $ip)
         );
 
         return (!$visitor ? false : $visitor);
