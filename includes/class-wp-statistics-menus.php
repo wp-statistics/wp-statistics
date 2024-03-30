@@ -336,14 +336,23 @@ class Menus
             $capability = $read_cap;
             $method     = 'log';
             $name       = $menu['title'];
+
             if (array_key_exists('cap', $menu)) {
                 $capability = $menu['cap'];
             }
+
             if (array_key_exists('method', $menu)) {
                 $method = $menu['method'];
             }
+
             if (array_key_exists('name', $menu)) {
                 $name = $menu['name'];
+            }
+
+            if (isset($menu['class'])) {
+                $callback = [$menu['class'], 'view'];
+            } else {
+                $callback = ['\WP_STATISTICS\\' . $method . '_page', 'view'];
             }
 
             //Check if SubMenu or Main Menu
@@ -351,15 +360,15 @@ class Menus
 
                 //Check Conditions For Show Menu
                 if (Option::check_option_require($menu) === true) {
-                    add_submenu_page(self::get_page_slug($menu['sub']), $menu['title'], $name, $capability, self::get_page_slug($menu['page_url']), array('\WP_STATISTICS\\' . $method . '_page', 'view'));
+                    add_submenu_page(self::get_page_slug($menu['sub']), $menu['title'], $name, $capability, self::get_page_slug($menu['page_url']), $callback);
                 }
 
                 //Check if add Break Line
                 if (array_key_exists('break', $menu)) {
-                    add_submenu_page(self::get_page_slug($menu['sub']), '', '', $capability, 'wps_break_menu', array('\WP_STATISTICS\\' . $method . '_page', $method));
+                    add_submenu_page(self::get_page_slug($menu['sub']), '', '', $capability, 'wps_break_menu', $callback);
                 }
             } else {
-                add_menu_page($menu['title'], $name, $capability, self::get_page_slug($menu['page_url']), array('\WP_STATISTICS\\' . $method . '_page', 'view'), $menu['icon']);
+                add_menu_page($menu['title'], $name, $capability, self::get_page_slug($menu['page_url']), $callback, $menu['icon']);
             }
         }
 

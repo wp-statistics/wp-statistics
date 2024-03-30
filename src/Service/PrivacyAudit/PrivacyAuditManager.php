@@ -7,32 +7,29 @@ class PrivacyAuditManager
 
     public function __construct()
     {
-        add_action('admin_menu', [$this, 'addMenuItems'], 11);
+        add_filter('wp_statistics_admin_menu_list', [$this, 'addMenuItem']);
     }
 
     /**
-     * Add menu items
+     * Add menu item
+     * 
+     * @param array $items
+     * @return array
      */
-    public function addMenuItems()
+    public function addMenuItem( $items )
     {
-        add_submenu_page(
-            'wps_overview_page', 
-            esc_html__('Privacy Audit', 'wp-statistics'), 
-            esc_html__('Privacy Audit', 'wp-statistics'), 
-            'manage_options', 
-            'wps_privacy_audit_page', 
-            [$this, 'renderPage'], 
-            13
-        );
+        $newItem = [
+            'privacy_audit' => [
+                'sub'       => 'overview',
+                'title'     => esc_html__('Privacy Audit', 'wp-statistics'),
+                'page_url'  => 'privacy-audit',
+                'class'     => new PrivacyAuditPage()
+            ]
+        ];
+
+        array_splice($items, 14, 0, $newItem);
+
+        return $items;
     }
 
-
-    /**
-     * Render admin page
-     */
-    public function renderPage()
-    {
-        $page = new PrivacyAuditPage();
-        $page->view();
-    }
 }

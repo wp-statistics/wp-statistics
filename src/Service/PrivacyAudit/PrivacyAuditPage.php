@@ -10,7 +10,7 @@ class PrivacyAuditPage
     public function __construct()
     {
         // Check if in Privacy Audit page
-        if (Menus::in_page('privacy_audit')) {
+        if (Menus::in_page('privacy-audit')) {
             // Disable Screen Option
             add_filter('screen_options_show_screen', '__return_false');
         }
