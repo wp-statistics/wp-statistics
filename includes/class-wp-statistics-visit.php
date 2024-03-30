@@ -22,9 +22,7 @@ class Visit
         global $wpdb;
 
         // Check to see if we're a returning visitor.
-        $result = $wpdb->get_row(
-            $wpdb->prepare("SELECT * FROM %i ORDER BY ID DESC", DB::table('visit'))
-        );
+        $result = $wpdb->get_row("SELECT * FROM `".DB::table('visit')."` ORDER BY ID DESC");
 
 
         // if we have not a Visitor in This Day then create new row or Update before row in DB

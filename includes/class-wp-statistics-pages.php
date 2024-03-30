@@ -238,8 +238,7 @@ class Pages
         $search_query = array_key_exists("search_query", $current_page) === true ? "AND `uri` = '" . esc_sql($page_uri) . "'" : "";
         $exist = $wpdb->get_row(
             $wpdb->prepare(
-                "SELECT `page_id` FROM %i WHERE `date` = %s %s AND `type` = %s AND `id` = %d",
-                DB::table('pages'),
+                "SELECT `page_id` FROM `". DB::table('pages') ."` WHERE `date` = %s %s AND `type` = %s AND `id` = %d",
                 TimeZone::getCurrentDate('Y-m-d'), 
                 $search_query,
                 $current_page['type'],
@@ -251,8 +250,7 @@ class Pages
         if (null !== $exist) {
             $search_query = array_key_exists("search_query", $current_page) === true ? "AND `uri` = '" . esc_sql($page_uri) . "'" : "";
             $wpdb->query(
-                $wpdb->prepare("UPDATE %s SET `count` = `count` + 1 WHERE `date` = %s %s AND `type` = %s AND `id` = %d", 
-                    DB::table('pages'),
+                $wpdb->prepare("UPDATE `". DB::table('pages') ."` SET `count` = `count` + 1 WHERE `date` = %s %s AND `type` = %s AND `id` = %d", 
                     TimeZone::getCurrentDate('Y-m-d'),
                     $search_query,
                     $current_page['type'],
@@ -543,9 +541,7 @@ class Pages
         $where = !empty($where) ? "WHERE " . implode(" AND ", $where) : "";
 
         // Return
-        return $wpdb->get_var(
-            $wpdb->prepare("SELECT COUNT(*) FROM (SELECT COUNT(page_id) FROM %i `pages` {$where} GROUP BY `{$group_by}`) AS totalCount", DB::table('pages')) // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared	
-        );
+        return $wpdb->get_var("SELECT COUNT(*) FROM (SELECT COUNT(page_id) FROM `".DB::table('pages')."` `pages` {$where} GROUP BY `{$group_by}`) AS totalCount"); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
     }
 
     /**
@@ -570,7 +566,7 @@ class Pages
     {
         global $wpdb;
         $result = $wpdb->get_var(
-            $wpdb->prepare("SELECT id FROM %i WHERE `uri` = %s and id > 0 ORDER BY date DESC", DB::table('pages'), $uri)
+            $wpdb->prepare("SELECT id FROM `". DB::table('pages') ."` WHERE `uri` = %s and id > 0 ORDER BY date DESC", $uri)
         );
         if ($result == 0) {
             $result = 0;

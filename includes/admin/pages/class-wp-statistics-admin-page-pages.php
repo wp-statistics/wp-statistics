@@ -45,8 +45,7 @@ class pages_page
                  */
                 $pageTablePage = DB::table('pages');
                 $preparedSql   = $wpdb->prepare(
-                    "SELECT COUNT(*) FROM %i WHERE `id` = %s AND `type` = %s",
-                    $pageTablePage,
+                    "SELECT COUNT(*) FROM `".$pageTablePage."` WHERE `id` = %s AND `type` = %s",
                     sanitize_text_field($_GET['ID']),
                     sanitize_text_field($_GET['type'])
                 );
@@ -226,7 +225,7 @@ class pages_page
 
         if ($_is_post === true || $_is_term === true) {
             $query = $wpdb->get_results(
-                $wpdb->prepare("SELECT `id`, SUM(count) as total FROM %i WHERE `type` = %s GROUP BY `id` ORDER BY `total` DESC LIMIT 0,100", DB::table('pages'), $Type)
+                $wpdb->prepare("SELECT `id`, SUM(count) as total FROM `".DB::table('pages')."` WHERE `type` = %s GROUP BY `id` ORDER BY `total` DESC LIMIT 0,100", $Type)
                 , ARRAY_A);
         }
 
@@ -245,7 +244,7 @@ class pages_page
 
         $subList      = [];
         $subListQuery = $wpdb->get_results(
-            $wpdb->prepare("SELECT `uri`, `page_id`, SUM(count) as total FROM %i WHERE `id` = %s AND `type` = %s GROUP BY `uri` ORDER BY `total` DESC LIMIT 0,100", DB::table('pages'), $ID, $Type)
+            $wpdb->prepare("SELECT `uri`, `page_id`, SUM(count) as total FROM `".DB::table('pages')."` WHERE `id` = %s AND `type` = %s GROUP BY `uri` ORDER BY `total` DESC LIMIT 0,100", $ID, $Type)
         , ARRAY_A);
 
         foreach ($subListQuery as $item) {

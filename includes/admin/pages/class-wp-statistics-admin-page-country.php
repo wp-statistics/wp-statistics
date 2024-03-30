@@ -78,12 +78,12 @@ class country_page
 
         // Set Total
         $totalQuery    = $wpdb->get_results(
-            $wpdb->prepare("SELECT `location`, COUNT(`location`) AS `count` FROM %i WHERE `last_counter` BETWEEN %s AND %s GROUP BY `location` ORDER BY `count` DESC", DB::table('visitor'), $args['from'], $args['to'])
+            $wpdb->prepare("SELECT `location`, COUNT(`location`) AS `count` FROM `".DB::table('visitor')."` WHERE `last_counter` BETWEEN %s AND %s GROUP BY `location` ORDER BY `count` DESC", $args['from'], $args['to'])
         );
         $args['total'] = count($totalQuery);
         // Set Result
         $result = $wpdb->get_results(
-            $wpdb->prepare("SELECT `location`, COUNT(`location`) AS `count` FROM %i WHERE `last_counter` BETWEEN %s AND %s GROUP BY `location` ORDER BY `count` DESC $limitQuery", DB::table('visitor'), $args['from'], $args['to'])
+            $wpdb->prepare("SELECT `location`, COUNT(`location`) AS `count` FROM `".DB::table('visitor')."` WHERE `last_counter` BETWEEN %s AND %s GROUP BY `location` ORDER BY `count` DESC $limitQuery", $args['from'], $args['to'])
         );
 
         foreach ($result as $item) {

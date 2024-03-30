@@ -155,7 +155,7 @@ class Admin_Post
     {
         global $wpdb;
         $wpdb->query(
-            $wpdb->prepare("DELETE FROM %i WHERE `id` = %d AND (`type` = 'post' OR `type` = 'page' OR `type` = 'product');", DB::table('pages'), esc_sql($post_id))
+            $wpdb->prepare("DELETE FROM `".DB::table('pages')."` WHERE `id` = %d AND (`type` = 'post' OR `type` = 'page' OR `type` = 'product');", esc_sql($post_id))
         );
     }
 

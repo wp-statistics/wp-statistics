@@ -214,7 +214,7 @@ class GeoIP
 
         $date = date('Y-m-d', current_time('timestamp') - self::$library['country']['cache']); // phpcs:ignore 	WordPress.DateTime.RestrictedFunctions.date_date
         $user = $wpdb->get_row(
-            $wpdb->prepare("SELECT `location` FROM %i WHERE `ip` = %s and `last_counter` >= %s ORDER BY `ID` DESC LIMIT 1", DB::table('visitor'), $ip, $date)
+            $wpdb->prepare("SELECT `location` FROM `". DB::table('visitor') ."` WHERE `ip` = %s and `last_counter` >= %s ORDER BY `ID` DESC LIMIT 1",  $ip, $date)
         );
 
         if (null !== $user) {
@@ -410,7 +410,7 @@ class GeoIP
 
         // Find all rows in the table that currently don't have GeoIP info or have an unknown ('000') location.
         $result = $wpdb->get_results(
-            $wpdb->prepare("SELECT id,ip FROM %i WHERE location = '' or location = %s or location IS NULL", DB::table('visitor'), GeoIP::$private_country)
+            $wpdb->prepare("SELECT id,ip FROM `". DB::table('visitor') ."` WHERE location = '' or location = %s or location IS NULL", GeoIP::$private_country)
         );
 
         // Try create a new reader instance.

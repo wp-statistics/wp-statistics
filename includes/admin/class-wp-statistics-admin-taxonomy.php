@@ -146,7 +146,7 @@ class Admin_Taxonomy
     {
         global $wpdb;
         $wpdb->query(
-            $wpdb->prepare("DELETE FROM %i WHERE `id` = %d AND (`type` = 'category' OR `type` = 'post_tag' OR `type` = 'tax');", DB::table('pages'), esc_sql($term_id))
+            $wpdb->prepare("DELETE FROM `".DB::table('pages')."` WHERE `id` = %d AND (`type` = 'category' OR `type` = 'post_tag' OR `type` = 'tax');", esc_sql($term_id))
         );
     }
 }

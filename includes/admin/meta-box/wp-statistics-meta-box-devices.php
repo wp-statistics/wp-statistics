@@ -61,8 +61,7 @@ class devices extends MetaBoxAbstract
         // Get List All Platforms
         $list = $wpdb->get_results(
                     $wpdb->prepare(
-                    "SELECT device, COUNT(*) as count FROM %i WHERE device != %s AND `last_counter` BETWEEN %s AND %s GROUP BY device {$order_by}", 
-                    DB::table('visitor'),
+                    "SELECT device, COUNT(*) as count FROM `".DB::table('visitor')."` WHERE device != %s AND `last_counter` BETWEEN %s AND %s GROUP BY device {$order_by}", 
                     _x('Unknown', 'Device', 'wp-statistics'),
                     reset($days_time_list), 
                     end($days_time_list)), 

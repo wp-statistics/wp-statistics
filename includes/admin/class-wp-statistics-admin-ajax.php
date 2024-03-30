@@ -109,7 +109,7 @@ class Ajax
                 $agent = sanitize_text_field($_POST['agent-name']);
 
                 // Remove Type Of Agent
-                $result = $wpdb->query($wpdb->prepare("DELETE FROM %i WHERE `agent` = %s", DB::table('visitor'), $agent));
+                $result = $wpdb->query($wpdb->prepare("DELETE FROM `".DB::table('visitor')."` WHERE `agent` = %s", $agent));
 
                 // Show Result
                 if ($result) {
@@ -146,7 +146,7 @@ class Ajax
                 $platform = sanitize_text_field($_POST['platform-name']);
 
                 // Delete List
-                $result = $wpdb->query($wpdb->prepare("DELETE FROM %i WHERE `platform` = %s", DB::table('visitor'), $platform));
+                $result = $wpdb->query($wpdb->prepare("DELETE FROM `".DB::table('visitor')."` WHERE `platform` = %s", $platform));
 
                 // Return Result
                 if ($result) {
@@ -183,7 +183,7 @@ class Ajax
                 $ip_address = sanitize_text_field($_POST['ip-address']);
 
                 // Delete IP
-                $result = $wpdb->query($wpdb->prepare("DELETE FROM %i WHERE `ip` = %s", DB::table('visitor'), $ip_address));
+                $result = $wpdb->query($wpdb->prepare("DELETE FROM `".DB::table('visitor')."` WHERE `ip` = %s", $ip_address));
 
                 if ($result) {
                     echo sprintf(__('Successfully deleted %s IP data.', 'wp-statistics'), '<code>' . esc_attr($ip_address) . '</code>');
@@ -272,7 +272,7 @@ class Ajax
             $allowedQueryParams = Helper::get_query_params_allow_list();
 
             // Get all rows from pages table
-            $pages = $wpdb->get_results($wpdb->prepare("SELECT * FROM %i", DB::table('pages')));
+            $pages = $wpdb->get_results("SELECT * FROM `".DB::table('pages')."`");
             if ($pages) {
                 // Update query strings based on allow list
                 foreach ($pages as $page) {
@@ -290,7 +290,7 @@ class Ajax
 
 
             // Get all rows from visitors table
-            $referrers = $wpdb->get_results($wpdb->prepare("SELECT * FROM %i", DB::table('visitor')));
+            $referrers = $wpdb->get_results("SELECT * FROM " . DB::table('visitor'));
             if ($referrers) {
                 // Update query strings based on allow list
                 foreach ($referrers as $referrer) {

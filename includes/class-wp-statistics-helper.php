@@ -307,7 +307,7 @@ class Helper
         );
         foreach ($list_tbl as $tbl => $val) {
             $first_day = $wpdb->get_var(
-                $wpdb->prepare("SELECT %s FROM %i ORDER BY %s ASC LIMIT 1", $val['column'], WP_STATISTICS\DB::table($tbl), $val['order_by'])
+                $wpdb->prepare("SELECT %s FROM `". WP_STATISTICS\DB::table($tbl) ."` ORDER BY %s ASC LIMIT 1", $val['column'], $val['order_by'])
             );
             if (!empty($first_day)) {
                 break;

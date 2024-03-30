@@ -230,7 +230,7 @@ class DB
         global $wpdb;
 
         return $wpdb->get_row(
-            $wpdb->prepare('SHOW COLUMNS FROM %i LIKE %s', self::table($tableName), $column)
+            $wpdb->prepare('SHOW COLUMNS FROM `'.self::table($tableName).'` LIKE %s', $column)
         );
     }
 

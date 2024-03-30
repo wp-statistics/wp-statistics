@@ -260,7 +260,7 @@ class IP
         global $wpdb;
 
         // Get the rows from the Visitors table.
-        $result = $wpdb->get_results($wpdb->prepare("SELECT DISTINCT ip FROM %i", DB::table('visitor')));
+        $result = $wpdb->get_results("SELECT DISTINCT ip FROM " . DB::table('visitor'));
         foreach ($result as $row) {
             if (IP::IsHashIP($row->ip)) {
                 $wpdb->update(

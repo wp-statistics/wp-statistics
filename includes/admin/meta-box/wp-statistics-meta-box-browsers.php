@@ -81,11 +81,11 @@ class browsers extends MetaBoxAbstract
             //Add Unknown Agent to total
             if (empty($args['from']) and empty($args['to']) and $args['ago'] == "all") {
                 $total += $other_agent_count = $wpdb->get_var(
-                    $wpdb->prepare('SELECT COUNT(*) FROM %i WHERE `agent` NOT IN (%s)', DB::table('visitor'), implode("','", $Browsers))
+                    $wpdb->prepare('SELECT COUNT(*) FROM `'.DB::table('visitor').'` WHERE `agent` NOT IN (%s)', implode("','", $Browsers))
                 );
             } else {
                 $total += $other_agent_count = $wpdb->get_var(
-                    $wpdb->prepare('SELECT COUNT(*) FROM %i WHERE `agent` NOT IN (%s) AND `last_counter` BETWEEN %s AND %s', DB::table('visitor'), implode("','", $Browsers), reset($days_time_list), end($days_time_list))
+                    $wpdb->prepare('SELECT COUNT(*) FROM `'. DB::table('visitor').'` WHERE `agent` NOT IN (%s) AND `last_counter` BETWEEN %s AND %s', implode("','", $Browsers), reset($days_time_list), end($days_time_list))
                 );
             }
 
@@ -122,7 +122,7 @@ class browsers extends MetaBoxAbstract
 
             // Get List Of Version From Custom Browser
             $list = $wpdb->get_results(
-                $wpdb->prepare("SELECT version, COUNT(*) as count FROM %i WHERE agent = %s AND `last_counter` BETWEEN %s AND %s GROUP BY version", DB::table('visitor'), $args['browser'], reset($days_time_list), end($days_time_list)), 
+                $wpdb->prepare("SELECT version, COUNT(*) as count FROM `".DB::table('visitor')."` WHERE agent = %s AND `last_counter` BETWEEN %s AND %s GROUP BY version", $args['browser'], reset($days_time_list), end($days_time_list)), 
                 ARRAY_A);
 
             // Sort By Count

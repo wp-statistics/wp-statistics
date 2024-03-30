@@ -60,7 +60,7 @@ class platforms extends MetaBoxAbstract
 
         // Get List All Platforms
         $list = $wpdb->get_results(
-            $wpdb->prepare("SELECT platform, COUNT(*) as count FROM %i WHERE platform != %s AND `last_counter` BETWEEN %s AND %s GROUP BY platform {$order_by}", DB::table('visitor'), _x('Unknown', 'Platform', 'wp-statistics'), reset($days_time_list), end($days_time_list)), 
+            $wpdb->prepare("SELECT platform, COUNT(*) as count FROM `".DB::table('visitor')."` WHERE platform != %s AND `last_counter` BETWEEN %s AND %s GROUP BY platform {$order_by}", _x('Unknown', 'Platform', 'wp-statistics'), reset($days_time_list), end($days_time_list)), 
             ARRAY_A); 
 
         // Sort By Count

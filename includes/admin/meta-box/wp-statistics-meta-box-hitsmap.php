@@ -44,8 +44,7 @@ class hitsmap extends MetaBoxAbstract
 
         $locationCount =  $wpdb->get_results(
             $wpdb->prepare(
-                "SELECT location, COUNT(`location`) as count FROM %i WHERE `last_counter` BETWEEN %s AND %s GROUP BY `location`",
-                DB::table('visitor'),
+                "SELECT location, COUNT(`location`) as count FROM `".DB::table('visitor')."` WHERE `last_counter` BETWEEN %s AND %s GROUP BY `location`",
                 reset($days_time_list),
                 end($days_time_list),
             ),
@@ -54,8 +53,7 @@ class hitsmap extends MetaBoxAbstract
 
         $count = $wpdb->get_var(
             $wpdb->prepare(
-                "SELECT COUNT(*) FROM %i WHERE `last_counter` BETWEEN %s AND %s",
-                DB::table('visitor'),
+                "SELECT COUNT(*) FROM `".DB::table('visitor')."` WHERE `last_counter` BETWEEN %s AND %s",
                 reset($days_time_list),
                 end($days_time_list)
             )
@@ -137,8 +135,7 @@ class hitsmap extends MetaBoxAbstract
         // Get List Country Of Visitors
         return $wpdb->get_results(
             $wpdb->prepare(
-                "SELECT location, hits, agent, ip FROM %i WHERE `last_counter` BETWEEN %s AND %s LIMIT %d OFFSET %d",
-                DB::table('visitor'),
+                "SELECT location, hits, agent, ip FROM `".DB::table('visitor')."` WHERE `last_counter` BETWEEN %s AND %s LIMIT %d OFFSET %d",
                 reset($days),
                 end($days),
                 $limit,

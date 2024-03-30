@@ -220,7 +220,7 @@ function wp_statistics_visit($time, $daily = null)
     }
 
     //Generate Base Sql
-    $sql = $wpdb->prepare("SELECT %i FROM %i", $selector, $table_name);
+    $sql = "SELECT `".$selector."` FROM `".$table_name."` ";
 
     //Create Sum Visits variable
     $sum = 0;
@@ -621,16 +621,16 @@ function wp_statistics_ua_list($rangestartdate = null, $rangeenddate = null)
     if ($rangestartdate != null && $rangeenddate != null) {
         if ($rangeenddate == 'CURDATE()') {
             $result = $wpdb->get_results(
-                $wpdb->prepare("SELECT DISTINCT agent FROM %i WHERE `last_counter` BETWEEN %s AND CURDATE()", \WP_STATISTICS\DB::table('visitor'), $rangestartdate), 
+                $wpdb->prepare("SELECT DISTINCT agent FROM `".\WP_STATISTICS\DB::table('visitor')."` WHERE `last_counter` BETWEEN %s AND CURDATE()", $rangestartdate), 
                 ARRAY_N);
         } else {
             $result = $wpdb->get_results(
-                $wpdb->prepare("SELECT DISTINCT agent FROM %i WHERE `last_counter` BETWEEN %s AND %s", \WP_STATISTICS\DB::table('visitor'), $rangestartdate, $rangeenddate), 
+                $wpdb->prepare("SELECT DISTINCT agent FROM `".\WP_STATISTICS\DB::table('visitor')."` WHERE `last_counter` BETWEEN %s AND %s", $rangestartdate, $rangeenddate), 
                 ARRAY_N);
         }
     } else {
         $result = $wpdb->get_results( 
-            $wpdb->prepare("SELECT DISTINCT agent FROM %i", \WP_STATISTICS\DB::table('visitor')), 
+            "SELECT DISTINCT agent FROM  `".\WP_STATISTICS\DB::table('visitor')."` ", 
             ARRAY_N);
     }
 
@@ -663,16 +663,16 @@ function wp_statistics_useragent($agent, $rangestartdate = null, $rangeenddate =
     if ($rangestartdate != null || $rangeenddate != null) {
         if ($rangeenddate == null) {
             $result = $wpdb->get_var(
-                $wpdb->prepare("SELECT COUNT(agent) FROM %i WHERE `agent` = %s AND `last_counter` = %s", \WP_STATISTICS\DB::table('visitor'), $agent, $rangestartdate)
+                $wpdb->prepare("SELECT COUNT(agent) FROM  `".\WP_STATISTICS\DB::table('visitor')."` WHERE `agent` = %s AND `last_counter` = %s", $agent, $rangestartdate)
             );
         } else {
             $result = $wpdb->get_var(
-                $wpdb->prepare("SELECT COUNT(agent) FROM %i WHERE `agent` = %s AND `last_counter` BETWEEN %s AND %s", \WP_STATISTICS\DB::table('visitor'), $agent, $rangestartdate, $rangeenddate)
+                $wpdb->prepare("SELECT COUNT(agent) FROM  `".\WP_STATISTICS\DB::table('visitor')."` WHERE `agent` = %s AND `last_counter` BETWEEN %s AND %s", $agent, $rangestartdate, $rangeenddate)
             );
         }
     } else {
         $result = $wpdb->get_var(
-            $wpdb->prepare("SELECT COUNT(agent) FROM %i WHERE `agent` = %s", \WP_STATISTICS\DB::table('visitor'), $agent)
+            $wpdb->prepare("SELECT COUNT(agent) FROM  `".\WP_STATISTICS\DB::table('visitor')."` WHERE `agent` = %s", $agent)
         );
     }
 
@@ -692,11 +692,11 @@ function wp_statistics_platform_list($rangestartdate = null, $rangeenddate = nul
 
     if ($rangestartdate != null && $rangeenddate != null) {
         $result = $wpdb->get_results(
-            $wpdb->prepare("SELECT DISTINCT platform FROM %i WHERE `last_counter` BETWEEN %s AND %s",  \WP_STATISTICS\DB::table('visitor'), $rangestartdate, $rangeenddate), 
+            $wpdb->prepare("SELECT DISTINCT platform FROM  `".\WP_STATISTICS\DB::table('visitor')."`  WHERE `last_counter` BETWEEN %s AND %s", $rangestartdate, $rangeenddate), 
             ARRAY_N);
     } else {
         $result = $wpdb->get_results(
-            $wpdb->prepare("SELECT DISTINCT platform FROM %i", \WP_STATISTICS\DB::table('visitor')), 
+            "SELECT DISTINCT platform FROM  `".\WP_STATISTICS\DB::table('visitor')."` ",
             ARRAY_N);
     }
 
@@ -722,11 +722,11 @@ function wp_statistics_platform($platform, $rangestartdate = null, $rangeenddate
 
     if ($rangestartdate != null && $rangeenddate != null) {
         $result = $wpdb->get_var(
-            $wpdb->prepare("SELECT COUNT(platform) FROM %i WHERE `platform` = %s AND `last_counter` BETWEEN %s AND %s", \WP_STATISTICS\DB::table('visitor'), $platform, $rangestartdate, $rangeenddate)
+            $wpdb->prepare("SELECT COUNT(platform) FROM `".\WP_STATISTICS\DB::table('visitor')."` WHERE `platform` = %s AND `last_counter` BETWEEN %s AND %s", $platform, $rangestartdate, $rangeenddate)
         );
     } else {
         $result = $wpdb->get_var(
-            $wpdb->prepare("SELECT COUNT(platform) FROM %i WHERE `platform` = %s", \WP_STATISTICS\DB::table('visitor'), $platform)
+            $wpdb->prepare("SELECT COUNT(platform) FROM `".\WP_STATISTICS\DB::table('visitor')."` WHERE `platform` = %s", $platform)
         );
     }
 
@@ -747,11 +747,11 @@ function wp_statistics_agent_version_list($agent, $rangestartdate = null, $range
 
     if ($rangestartdate != null && $rangeenddate != null) {
         $result = $wpdb->get_results(
-            $wpdb->prepare("SELECT DISTINCT `version` FROM %i WHERE agent = %s AND `last_counter` BETWEEN %s AND %s", \WP_STATISTICS\DB::table('visitor'), $agent, $rangestartdate, $rangeenddate), 
+            $wpdb->prepare("SELECT DISTINCT `version` FROM `".\WP_STATISTICS\DB::table('visitor')."` WHERE agent = %s AND `last_counter` BETWEEN %s AND %s", $agent, $rangestartdate, $rangeenddate), 
             ARRAY_N);
     } else {
         $result = $wpdb->get_results(
-            $wpdb->prepare("SELECT DISTINCT `version` FROM %i WHERE agent = %s", \WP_STATISTICS\DB::table('visitor'), $agent), 
+            $wpdb->prepare("SELECT DISTINCT `version` FROM `".\WP_STATISTICS\DB::table('visitor')."` WHERE agent = %s", $agent), 
             ARRAY_N);
     }
 
@@ -778,11 +778,11 @@ function wp_statistics_agent_version($agent, $version, $rangestartdate = null, $
 
     if ($rangestartdate != null && $rangeenddate != null) {
         $result = $wpdb->get_var(
-            $wpdb->prepare("SELECT COUNT(version) FROM %i WHERE agent = %s AND version = %s AND `last_counter` BETWEEN %s AND %s", \WP_STATISTICS\DB::table('visitor'), $agent, $version, $rangestartdate, $rangeenddate)
+            $wpdb->prepare("SELECT COUNT(version) FROM `".\WP_STATISTICS\DB::table('visitor')."` WHERE agent = %s AND version = %s AND `last_counter` BETWEEN %s AND %s", $agent, $version, $rangestartdate, $rangeenddate)
         );
     } else {
         $result = $wpdb->get_var(
-            $wpdb->prepare("SELECT COUNT(version) FROM %i WHERE agent = %s AND version = %s", \WP_STATISTICS\DB::table('visitor'), $agent, $version)
+            $wpdb->prepare("SELECT COUNT(version) FROM `".\WP_STATISTICS\DB::table('visitor')."` WHERE agent = %s AND version = %s", $agent, $version)
         );
     }
 

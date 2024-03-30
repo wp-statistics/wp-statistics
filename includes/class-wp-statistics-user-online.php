@@ -84,7 +84,7 @@ class UserOnline
 
             // Call the deletion query.
             $wpdb->query(
-                $wpdb->prepare("DELETE FROM %i WHERE timestamp < %s", DB::table('useronline'), $time_diff));
+                $wpdb->prepare("DELETE FROM `".DB::table('useronline')."` WHERE timestamp < %s", $time_diff));
 
             //Update Last run this Action
             update_option(self::$check_user_online_opt, $now);
@@ -129,7 +129,7 @@ class UserOnline
     {
         global $wpdb;
         $user_online = $wpdb->query(
-            $wpdb->prepare("SELECT * FROM %i WHERE `ip` = %s", DB::table('useronline'), $user_ip)
+            $wpdb->prepare("SELECT * FROM `".DB::table('useronline')."` WHERE `ip` = %s", $user_ip)
         );
         return (!$user_online ? false : $user_online);
     }

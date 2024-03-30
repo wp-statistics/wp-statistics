@@ -43,7 +43,7 @@ class top_visitors_page
         $args['total'] = Visitor::Count(array('key' => 'last_counter', 'compare' => '=', 'value' => trim($args['day'])));
         $args['list']  = array();
         if ($args['total'] > 0) {
-            $sql          = $wpdb->prepare("SELECT * FROM %i WHERE last_counter = %s ORDER BY hits DESC", DB::table('visitor'), $args['day']);
+            $sql          = $wpdb->prepare("SELECT * FROM `".DB::table('visitor')."` WHERE last_counter = %s ORDER BY hits DESC", $args['day']);
             $args['list'] = Visitor::get(array(
                 'sql'      => $sql,
                 'per_page' => Admin_Template::$item_per_page,

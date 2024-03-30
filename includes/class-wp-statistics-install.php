@@ -266,9 +266,7 @@ class Install
         $wpdb->query('START TRANSACTION');
 
         // Execute the delete query
-        $wpdb->query(
-            $wpdb->prepare( "DELETE v1 FROM %i AS v1 INNER JOIN %s AS v2 WHERE v1.ID > v2.ID AND v1.visitor_id = v2.visitor_id AND v1.page_id = v2.page_id AND DATE(v1.date) = DATE(v2.date)", $table_name, $table_name)
-        );
+        $wpdb->query("DELETE v1 FROM `". $table_name ."` AS v1 INNER JOIN `". $table_name ."` AS v2 WHERE v1.ID > v2.ID AND v1.visitor_id = v2.visitor_id AND v1.page_id = v2.page_id AND DATE(v1.date) = DATE(v2.date)");
 
         // If no errors, commit the transaction
         $wpdb->query('COMMIT');
@@ -492,22 +490,18 @@ class Install
             $tbl_info = DB::getTableInformation($name);
             if (!empty($tbl_info['Collation']) && $tbl_info['Collation'] != $wpdb->collate) {
                 $wpdb->query(
-                    $wpdb->prepare("ALTER TABLE %s DEFAULT CHARSET=%s COLLATE %s ROW_FORMAT = COMPACT;", $name, $wpdb->charset, $wpdb->collate )
+                    $wpdb->prepare("ALTER TABLE `". $name ."` DEFAULT CHARSET=%s COLLATE %s ROW_FORMAT = COMPACT;", $wpdb->charset, $wpdb->collate )
                 );
             }
         }
 
         if (isset($installed_version) and version_compare($installed_version, '13.0', '<=')) {
-            $wpdb->query(
-                $wpdb->prepare("DELETE FROM %i WHERE `meta_key` = 'meta-box-order_toplevel_page_wps_overview_page'", $wpdb->usermeta)
-            );
+            $wpdb->query("DELETE FROM `". $wpdb->usermeta ."` WHERE `meta_key` = 'meta-box-order_toplevel_page_wps_overview_page'");
         }
 
         $result = $wpdb->query("SHOW COLUMNS FROM {$visitorTable} LIKE 'user_id'");
         if ($result == 0) {
-            $wpdb->query(
-                $wpdb->prepare("ALTER TABLE %s ADD `user_id` BIGINT(48) NOT NULL AFTER `location`", $visitorTable)
-            );
+            $wpdb->query("ALTER TABLE `". $visitorTable ."` ADD `user_id` BIGINT(48) NOT NULL AFTER `location`" );
         }
 
         if (DB::ExistTable($searchTable)) {
@@ -516,13 +510,9 @@ class Install
              *
              * @version 14.5.2
              */
-            $result = $wpdb->query(
-                $wpdb->prepare("SHOW COLUMNS FROM %i LIKE 'words'", $searchTable)
-            );
+            $result = $wpdb->query("SHOW COLUMNS FROM `".$searchTable."` LIKE 'words'");
             if ($result > 0) {
-                $wpdb->query(
-                    $wpdb->prepare("ALTER TABLE %d DROP `words`", $searchTable)
-                );
+                $wpdb->query("ALTER TABLE `".$searchTable."` DROP `words`");
             }
         }
 
@@ -532,23 +522,15 @@ class Install
          * @version 12.6.1
          */
         if (DB::ExistTable($userOnlineTable)) {
-            $result = $wpdb->query(
-                $wpdb->prepare("SHOW COLUMNS FROM %i LIKE 'user_id'", $userOnlineTable)
-            );
+            $result = $wpdb->query("SHOW COLUMNS FROM `".$userOnlineTable."` LIKE 'user_id'");
             if ($result == 0) {
-                $wpdb->query(
-                    $wpdb->prepare("ALTER TABLE %s ADD `user_id` BIGINT(48) NOT NULL AFTER `location`, ADD `page_id` BIGINT(48) NOT NULL AFTER `user_id`, ADD `type` VARCHAR(100) NOT NULL AFTER `page_id`;", $userOnlineTable)
-                );
+                $wpdb->query("ALTER TABLE `".$userOnlineTable."` ADD `user_id` BIGINT(48) NOT NULL AFTER `location`, ADD `page_id` BIGINT(48) NOT NULL AFTER `user_id`, ADD `type` VARCHAR(100) NOT NULL AFTER `page_id`;");
             }
 
             // Add index ip
-            $result = $wpdb->query(
-                $wpdb->prepare("SHOW INDEX FROM %i WHERE Key_name = 'ip'", $userOnlineTable)
-            );
+            $result = $wpdb->query("SHOW INDEX FROM `".$userOnlineTable."` WHERE Key_name = 'ip'");
             if (!$result) {
-                $wpdb->query(
-                    $wpdb->prepare("ALTER TABLE %s ADD index (ip)", $userOnlineTable)
-                );
+                $wpdb->query("ALTER TABLE `".$userOnlineTable."` ADD index (ip)");
             }
         }
 
@@ -559,15 +541,11 @@ class Install
          *
          */
         if (DB::ExistTable($historicalTable)) {
-            $result = $wpdb->query(
-                $wpdb->prepare("SHOW INDEX FROM %i WHERE Key_name = 'page_id'", $historicalTable)
-            );
+            $result = $wpdb->query("SHOW INDEX FROM `".$historicalTable."` WHERE Key_name = 'page_id'");
 
             // Remove index
             if ($result) {
-                $wpdb->query(
-                    $wpdb->prepare("DROP INDEX `page_id` ON %s", $historicalTable)
-                );
+                $wpdb->query("DROP INDEX `page_id` ON " . $historicalTable);
             }
         }
 
@@ -577,13 +555,9 @@ class Install
          * @version 12.5.3
          */
         if (DB::ExistTable($pagesTable)) {
-            $result = $wpdb->query(
-                $wpdb->prepare("SHOW COLUMNS FROM %i LIKE 'page_id'", $pagesTable)
-            );
+            $result = $wpdb->query("SHOW COLUMNS FROM `". $pagesTable ."` LIKE 'page_id'");
             if ($result == 0) {
-                $wpdb->query(
-                    $wpdb->prepare("ALTER TABLE %s ADD `page_id` BIGINT(20) NOT NULL AUTO_INCREMENT FIRST, ADD PRIMARY KEY (`page_id`);", $pagesTable)
-                );
+                $wpdb->query("ALTER TABLE `". $pagesTable ."` ADD `page_id` BIGINT(20) NOT NULL AUTO_INCREMENT FIRST, ADD PRIMARY KEY (`page_id`);");
             }
         }
 
@@ -594,32 +568,20 @@ class Install
          * @version 6.0
          */
         if (DB::ExistTable($visitorTable)) {
-            $result = $wpdb->query(
-                $wpdb->prepare("SHOW INDEX FROM %i WHERE Key_name = 'date_ip'", $visitorTable)
-            );
+            $result = $wpdb->query("SHOW INDEX FROM `". $visitorTable ."` WHERE Key_name = 'date_ip'");
             if ($result > 1) {
-                $wpdb->query(
-                    $wpdb->prepare("DROP INDEX `date_ip` ON %s", $visitorTable)
-                );
+                $wpdb->query("DROP INDEX `date_ip` ON " . $visitorTable);
             }
 
-            $result = $wpdb->query(
-                $wpdb->prepare("SHOW COLUMNS FROM %i LIKE 'AString'", $visitorTable)
-            );
+            $result = $wpdb->query("SHOW COLUMNS FROM `".$visitorTable."` LIKE 'AString'");
             if ($result > 0) {
-                $wpdb->query(
-                    $wpdb->prepare("ALTER TABLE %s DROP `AString`", $visitorTable)
-                );
+                $wpdb->query("ALTER TABLE `". $visitorTable ."` DROP `AString`");
             }
 
             // Add index ip
-            $result = $wpdb->query(
-                $wpdb->prepare("SHOW INDEX FROM %i WHERE Key_name = 'ip'", $visitorTable)
-            );
+            $result = $wpdb->query("SHOW INDEX FROM `". $visitorTable ."` WHERE Key_name = 'ip'");
             if (!$result) {
-                $wpdb->query(
-                    $wpdb->prepare("ALTER TABLE %s ADD index (ip)", $visitorTable)
-                );
+                $wpdb->query("ALTER TABLE `". $visitorTable ."` ADD index (ip)");
             }
         }
 
@@ -789,7 +751,7 @@ class Install
 
                         # Start Query
                         $query = $wpdb->get_results(
-                            $wpdb->prepare("SELECT * FROM %i WHERE `type` = '' ORDER BY `page_id` DESC LIMIT 0,%d", DB::table('pages'), $number_per_query), 
+                            $wpdb->prepare("SELECT * FROM `". DB::table('pages') ."` WHERE `type` = '' ORDER BY `page_id` DESC LIMIT 0,%d", $number_per_query), 
                             ARRAY_A);
                         foreach ($query as $row) {
 
