@@ -29,7 +29,6 @@ class Menus
         'searches'      => 'searches',
         'top-visitors'  => 'top_visitors',
         'visitors'      => 'visitors',
-        'privacy-audit' => 'privacy_audit',
         'optimization'  => 'optimization',
         'settings'      => 'settings',
         'plugins'       => 'plugins',
@@ -249,12 +248,6 @@ class Menus
                 'title'    => __('Top Visitors Today', 'wp-statistics'),
                 'page_url' => 'top-visitors',
                 'method'   => 'top_visitors'
-            ),
-            'privacy.audit' => array(
-                'sub'       => 'overview',
-                'title'     => __('Privacy Audit', 'wp-statistics'),
-                'page_url'  => 'privacy-audit',
-                'method'    => 'privacy_audit'
             ),
             'exclusions'   => array(
                 'require'  => array('record_exclusions' => true),
