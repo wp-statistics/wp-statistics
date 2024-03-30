@@ -1,12 +1,14 @@
 <?php
 
-namespace WP_STATISTICS;
+namespace WP_Statistics\Service\PrivacyAudit;
 
-class privacy_audit_page
+use WP_STATISTICS\Menus;
+use WP_STATISTICS\Admin_Template;
+
+class PrivacyAuditPage
 {
     public function __construct()
     {
-
         // Check if in Privacy Audit page
         if (Menus::in_page('privacy_audit')) {
             // Disable Screen Option
@@ -15,23 +17,18 @@ class privacy_audit_page
     }
 
     /**
-     * Display Html Page
-     *
-     * @throws \Exception
+     * Display HTML
      */
-    public static function view()
+    public function view()
     {
-
         // Page title
-        $args['title'] = __('Privacy Audit', 'wp-statistics');
+        $args['title'] = esc_html__('Privacy Audit', 'wp-statistics');
 
         // Get Current Page Url
-        $args['pageName']   = Menus::get_page_slug('privacy-audit');
+        $args['pageName']   = Menus::get_page_slug('privacy_audit');
         $args['pagination'] = Admin_Template::getCurrentPaged();
 
         // Show Template Page
         Admin_Template::get_template(array('layout/header', 'layout/title', 'pages/privacy-audit', 'layout/footer'), $args);
     }
 }
-
-new privacy_audit_page;
