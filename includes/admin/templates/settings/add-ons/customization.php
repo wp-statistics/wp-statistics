@@ -126,7 +126,6 @@ $disableMenuArray = array(
                 <td>
                     <input type="text" class="regular-text wps-customization_upload_field" id="wps_addon_settings[customization][wps_modify_banner]" name="wps_addon_settings[customization][wps_modify_banner]" value="<?php echo esc_attr(stripslashes(WP_STATISTICS\Option::getByAddon('wps_modify_banner', 'customization'))) ?>"/>
                     <span>&nbsp;<input type="button" class="wps_customization_settings_upload_button wps_customization_settings_clear_upload_button button" style="margin: 0; padding-top: 13px; padding-bottom: 13px;" value="<?php echo __('Upload File', 'wp-statistics') ?>"/></span>
-                    <p class="description"><?php _e('Choose which menus you want to remove from the WordPress sidebar.', 'wp-statistics'); ?></p>
                 </td>
             </tr>
 
