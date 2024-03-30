@@ -48,7 +48,7 @@ class authors_page
 
         // Page title
         $args['title']      = esc_html__('Author Analytics', 'wp-statistics');
-        $args['tooltip']    = esc_html__('', 'wp-statistics');
+        $args['tooltip']    = esc_html__('Page Tooltip', 'wp-statistics');
 
         // Get Current Page Url
         $args['pageName']   = Menus::get_page_slug('authors');
@@ -58,13 +58,13 @@ class authors_page
             [
                 'link'    => Menus::admin_url(Menus::get_page_slug('authors'), ['tab' => 'performance']),
                 'title'   => esc_html__('Authors Performance', 'wp-statistics'),
-                'tooltip' => esc_html__('', 'wp-statistics'),
+                'tooltip' => esc_html__('Tab Tooltip', 'wp-statistics'),
                 'class'   => $currentTab === 'performance' ? 'current' : '',
             ],
             [
                 'link'    => Menus::admin_url(Menus::get_page_slug('authors'), ['tab' => 'pages']),
                 'title'   => esc_html__('Author Pages', 'wp-statistics'),
-                'tooltip' => esc_html__('', 'wp-statistics'),
+                'tooltip' => esc_html__('Tab Tooltip', 'wp-statistics'),
                 'class'   => $currentTab === 'pages' ? 'current' : '',
             ]
         ];
