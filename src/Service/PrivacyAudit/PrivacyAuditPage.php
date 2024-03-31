@@ -19,7 +19,7 @@ class PrivacyAuditPage
     /**
      * Display HTML
      */
-    public static function view()
+    public function view()
     {
         // Page title
         $args['title'] = esc_html__('Privacy Audit', 'wp-statistics');
