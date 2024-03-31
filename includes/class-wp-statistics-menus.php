@@ -357,7 +357,7 @@ class Menus
 
             // Now, ensure that the 'view' method exists in the determined class.
             if (method_exists($className, 'view')) {
-                $callback = [$className, 'view'];
+                $callback = [new $className(), 'view'];
             } else {
                 continue;
             }
