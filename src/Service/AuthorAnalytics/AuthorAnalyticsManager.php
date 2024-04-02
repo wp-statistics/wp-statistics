@@ -32,5 +32,4 @@ class AuthorAnalyticsManager
 
         return $items;
     }
-
 }

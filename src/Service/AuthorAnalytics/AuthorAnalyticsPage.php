@@ -45,13 +45,13 @@ class AuthorAnalyticsPage
     public function view()
     {
         // If Author ID is set show single author template, otherwise, show authors analytics template
-        isset ($_GET['ID']) ? $this->singleAuthorView() : $this->authorsView();
+        isset($_GET['ID']) ? $this->singleAuthorView() : $this->authorsView();
     }
 
     /**
      * Display authors template
      */
-    private function authorsView() 
+    private function authorsView()
     {
         $currentTab = isset($_GET['tab']) ? sanitize_text_field($_GET['tab']) : 'performance';
 
@@ -84,9 +84,9 @@ class AuthorAnalyticsPage
     /**
      * Display single author template
      */
-    private function singleAuthorView() 
+    private function singleAuthorView()
     {
-        $authorID = isset( $_GET['author_id'] ) ? $_GET['author'] : '';
+        $authorID = isset($_GET['author_id']) ? $_GET['author'] : '';
 
         $args = [
             'title'      => esc_html__('Single Author', 'wp-statistics'),
