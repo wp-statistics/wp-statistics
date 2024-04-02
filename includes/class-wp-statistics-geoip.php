@@ -293,7 +293,7 @@ class GeoIP
 
         // Change download url if the maxmind.com doesn't response.
         if (wp_remote_retrieve_response_code($response) != '200') {
-            return array_merge($result, array("notice" => sprintf(__('Error: %s, Request URL: %s', 'wp-statistics'), wp_remote_retrieve_body($response), $download_url)));
+            return array_merge($result, array("notice" => sprintf(__('Error: %1$s, Request URL: %2$s', 'wp-statistics'), wp_remote_retrieve_body($response), $download_url)));
         }
 
         // Create a variable with the name of the database file to download.
@@ -327,7 +327,7 @@ class GeoIP
                 Option::update(GeoIP::$library[$pack]['opt'], '');
             }
 
-            return array_merge($result, array("notice" => sprintf(__('Error Downloading GeoIP Database from: %s - %s', 'wp-statistics'), $download_url, $TempFile->get_error_message())));
+            return array_merge($result, array("notice" => sprintf(__('Error Downloading GeoIP Database from: %1$s - %2$s', 'wp-statistics'), $download_url, $TempFile->get_error_message())));
         } else {
             // Open the downloaded file to unzip it.
             $ZipHandle = gzopen($TempFile, 'rb');

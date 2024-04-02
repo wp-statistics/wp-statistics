@@ -231,7 +231,6 @@ class visitors_page
     private static function verifyNonceFilter()
     {
         if((isset($_GET["location"])    || 
-            isset($_GET["agent"])       || 
             isset($_GET["platform"])    || 
             isset($_GET["referrer"])    || 
             isset($_GET["user_id"])     || 

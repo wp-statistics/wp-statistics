@@ -91,9 +91,9 @@ class devices extends MetaBoxAbstract
 
         // Set Title
         if (end($days_time_list) == TimeZone::getCurrentDate("Y-m-d")) {
-            $title = sprintf(__('Statistics for %s in the Past %s Days', 'wp-statistics'), __('Devices', 'wp-statistics'), self::$countDays);
+            $title = sprintf(__('Statistics for %1$s in the Past %2$s Days', 'wp-statistics'), __('Devices', 'wp-statistics'), self::$countDays);
         } else {
-            $title = sprintf(__('Statistics for %s Between %s and %s', 'wp-statistics'), __('Devices', 'wp-statistics'), $args['from'], $args['to']);
+            $title = sprintf(__('Statistics for %1$s Between %2$s and %3$s', 'wp-statistics'), __('Devices', 'wp-statistics'), $args['from'], $args['to']);
         }
 
         // Prepare Response

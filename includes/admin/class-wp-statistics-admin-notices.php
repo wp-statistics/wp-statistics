@@ -128,7 +128,7 @@ class Admin_Notices
             }
 
             if (count($active_collation) > 0) {
-                Helper::wp_admin_notice(sprintf(__('Certain features are currently turned off. Please visit the %ssettings page%s to activate them: %s', 'wp-statistics'), '<a href="' . Menus::admin_url('settings') . '">', '</a>', implode(__(',', 'wp-statistics'), $active_collation)), 'info', true);
+                Helper::wp_admin_notice(sprintf(__('Certain features are currently turned off. Please visit the %1$ssettings page%2$s to activate them: %3$s', 'wp-statistics'), '<a href="' . Menus::admin_url('settings') . '">', '</a>', implode(__(',', 'wp-statistics'), $active_collation)), 'info', true);
             }
         }
     }
@@ -171,7 +171,7 @@ class Admin_Notices
             $documentationUrl = 'https://wp-statistics.com/resources/optimizing-database-size-for-improved-performance/';
 
             $message = sprintf(
-                __('Attention: Your database has accumulated a significant number of records, which may impact your site\'s performance. To address this, consider visiting <a href="%s">Settings &gt; Data Management</a> where you can enable the option to prevent recording old data. You can also perform an immediate database clean-up on the <a href="%s">Optimization page</a>. For more information, <a href="%s" target="_blank">click here</a>.', 'wp-statistics'),
+                __('Attention: Your database has accumulated a significant number of records, which may impact your site\'s performance. To address this, consider visiting <a href="%1$s">Settings &gt; Data Management</a> where you can enable the option to prevent recording old data. You can also perform an immediate database clean-up on the <a href="%2$s">Optimization page</a>. For more information, <a href="%3$s" target="_blank">click here</a>.', 'wp-statistics'),
                 esc_url($settingsUrl),
                 esc_url($optimizationUrl),
                 esc_url($documentationUrl)

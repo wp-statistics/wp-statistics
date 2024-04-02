@@ -56,7 +56,7 @@
         $activatedAddOns = \WP_Statistics\Service\Admin\AddOnDecorator::countActivatedAddOns();
         if ($activatedAddOns) {
             echo '<span></span>';
-            printf(__('License Status: %d of %d activated', 'wp-statistics'), $activatedAddOns, count(get_option('wp_statistics_activate_addons', [])));
+            echo sprintf(__('License Status: %1$d of %2$d activated', 'wp-statistics'), $activatedAddOns, count(get_option('wp_statistics_activate_addons', [])));
         } ?>
     </div>
 </div>

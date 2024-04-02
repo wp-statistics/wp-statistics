@@ -111,10 +111,10 @@ class pages_page
             }
 
             // Page title
-            $args['title'] = __('Top ' . $objectTitle, 'wp-statistics');
+            $args['title'] = sprintf(__('Top %s', 'wp-statistics'), $objectTitle);
 
             // Top Trending Title
-            $args['top_trending_title'] = __('Top 5 Trending ' . $objectTitle, 'wp-statistics');
+            $args['top_trending_title'] = sprintf(__('Top 5 Trending $s' , 'wp-statistics'), $objectTitle);
 
             // Get Current Page Url
             $args['pageName'] = Menus::get_page_slug('pages');

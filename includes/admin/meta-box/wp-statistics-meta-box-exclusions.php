@@ -69,7 +69,7 @@ class exclusions
         if (end($days_time_list) == TimeZone::getCurrentDate("Y-m-d")) {
             $title = sprintf(__('Excluded Data in the Last %s Days', 'wp-statistics'), $count_day);
         } else {
-            $title = sprintf(__('Data Exclusions FROM `'.$args['from'].'` to %s', 'wp-statistics'), $args['to']);
+            $title = sprintf(__('Data Exclusions FROM %1$s to %2$s', 'wp-statistics'), $args['from'], $args['to']);
         }
 
         // Push Basic Chart Data

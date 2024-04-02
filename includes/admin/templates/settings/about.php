@@ -18,7 +18,7 @@
         <tr valign="top">
             <td scope="row" align="center">
                 <?php echo sprintf(
-                    __('Developed by %s, featuring GeoLite2 data by %s. Artwork and design contributions by %s.', 'wp-statistics'),
+                    __('Developed by %1$s, featuring GeoLite2 data by %2$s. Artwork and design contributions by %3$s.', 'wp-statistics'),
                     '<a href="https://veronalabs.com" target=_blank>VeronaLabs</a>',
                     '<a href="https://www.maxmind.com" target=_blank>MaxMind</a>',
                     '<a href="https://veronalabs.com" target=_blank>VeronaLabs</a>',
@@ -75,27 +75,27 @@
 
                 <ul style="list-style-type: disc; list-style-position: inside; padding-left: 25px;">
                     <li><?php echo sprintf(
-                            __('Frequently Asked Questions (%sFAQs%s)', 'wp-statistics'),
+                            __('Frequently Asked Questions (%1$sFAQs%2$s)', 'wp-statistics'),
                             '<a title="' .
                             __('FAQs', 'wp-statistics') .
                             '" href="https://wp-statistics.com/category/faq/" target="_blank">',
                             '</a>'
                         ); ?></li>
                     <li><?php echo sprintf(
-                            __('%sDocumentation%s and User Guides', 'wp-statistics'),
+                            __('%1$sDocumentation%2$s and User Guides', 'wp-statistics'),
                             '<a title="' .
                             __('Documentation', 'wp-statistics') .
                             '" href="https://wp-statistics.com/category/documentation/">',
                             '</a>'
                         ); ?></li>
                     <li><?php echo sprintf(
-                            __('%sSupport Forum%s for Common Issues', 'wp-statistics'),
+                            __('%1$sSupport Forum%2$s for Common Issues', 'wp-statistics'),
                             '<a href="https://wordpress.org/support/plugin/wp-statistics" target="_blank">',
                             '</a>'
                         ); ?></li>
                     <li><?php _e('Ensure access to your PHP error logs', 'wp-statistics'); ?></li>
                     <li><?php echo sprintf(
-                            __('%sContact Us%s', 'wp-statistics'),
+                            __('%1$sContact Us%2$s', 'wp-statistics'),
                             '<a title="' .
                             __('Contact Us', 'wp-statistics') .
                             '" href="https://wp-statistics.com/contact-us/">',
@@ -113,7 +113,7 @@
                     <li><?php _e('Check your site\'s error logs.', 'wp-statistics'); ?></li>
                 </ol>
 
-                <p><?php echo sprintf(__('If your issue persists, open a thread on the %sWordPress.org support forum%s, and our team will assist you promptly.', 'wp-statistics'), '<a href="https://wordpress.org/support/plugin/wp-statistics" target="_blank">', '</a>'); ?></p>
+                <p><?php echo sprintf(__('If your issue persists, open a thread on the %1$sWordPress.org support forum%2$s, and our team will assist you promptly.', 'wp-statistics'), '<a href="https://wordpress.org/support/plugin/wp-statistics" target="_blank">', '</a>'); ?></p>
             </td>
         </tr>
 

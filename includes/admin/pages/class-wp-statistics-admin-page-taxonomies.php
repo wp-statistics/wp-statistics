@@ -59,7 +59,7 @@ class taxonomies_page
     {
         // Page title
         $taxonomyTitle = array_key_exists(self::$taxonomy, self::$taxonomies) ? self::$taxonomies[self::$taxonomy] : '';
-        $args['title'] = __($taxonomyTitle . ' statistics', 'wp-statistics');
+        $args['title'] = sprintf(__('%s statistics', 'wp-statistics'), $taxonomyTitle);
 
         // Taxonomy
         $args['taxonomies']    = self::$taxonomies;
@@ -98,23 +98,22 @@ class taxonomies_page
 
             // Set Type List
             $args['top_list_type'] = self::$taxonomy;
-            $args['top_title']     = __('Top ' . strtolower($taxonomyTitle) . ' Sorted by Visits', 'wp-statistics');
+            $args['top_title']     = sprintf(__('Top %s Sorted by Visits', 'wp-statistics'), strtolower($taxonomyTitle));
 
             // Push List Category
             foreach ($terms as $term) {
                 $args['top_list'][$term->term_id] = array('ID' => $term->term_id, 'name' => $term->name, 'link' => add_query_arg('ID', $term->term_id), 'count_visit' => (int)wp_statistics_pages('total', null, $term->term_id, null, null, self::$taxonomy));
             }
-
         } else {
             $termID = (int)sanitize_text_field($_GET['ID']);
             $term   = get_term($termID);
 
             // Set Type List
             $args['top_list_type'] = $taxonomy->object_type;
-            $args['top_title']     = __($taxonomyTitle . ': ' . ucfirst($term->name) . ' Most Popular Posts by Visits', 'wp-statistics');
+            $args['top_title']     = sprintf(__('%1$s: %2$s Most Popular Posts by Visits', 'wp-statistics'), $taxonomyTitle, ucfirst($term->name));
 
             // Set Title
-            $args['title']      = __($taxonomyTitle . ': ' . ucfirst($term->name) . ' Statistics', 'wp-statistics');
+            $args['title']      = sprintf(__('%1$s: %2$s Statistics', 'wp-statistics'), $taxonomyTitle, ucfirst($term->name));
             $args['term_title'] = $term->name;
 
             // Get Top Posts From Category
@@ -169,7 +168,6 @@ class taxonomies_page
         // Show Template Page
         Admin_Template::get_template(array('layout/header', 'layout/tabbed-page-header', 'pages/taxonomies', 'layout/postbox.hide', 'layout/footer'), $args);
     }
-
 }
 
 new taxonomies_page;

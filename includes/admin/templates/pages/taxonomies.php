@@ -3,9 +3,9 @@
         <div class="meta-box-sortables">
             <div class="postbox" id="<?php echo \WP_STATISTICS\Meta_Box::getMetaBoxKey('pages-chart'); ?>">
                 <div class="postbox-header postbox-toggle">
-                    <h2 class="hndle wps-d-inline-block"><span><?php _e($title . ' chart', 'wp-statistics'); ?></span></h2>
+                    <h2 class="hndle wps-d-inline-block"><span><?php echo sprintf(__('%s chart', 'wp-statistics'), esc_html($title)); ?></span></h2>
                     <button class="handlediv" type="button" aria-expanded="true">
-                        <span class="screen-reader-text"><?php printf(__('Toggle panel: %s', 'wp-statistics'), __($title . ' Chart', 'wp-statistics')); ?></span>
+                        <span class="screen-reader-text"><?php echo printf(__('Toggle panel: %s Chart', 'wp-statistics'), esc_html($title)); ?></span>
                         <span class="toggle-indicator" aria-hidden="true"></span>
                     </button>
                 </div>
@@ -22,9 +22,9 @@
         <div class="meta-box-sortables">
             <div class="postbox">
                 <div class="postbox-header postbox-toggle">
-                    <h2 class="hndle wps-d-inline-block"><span><?php _e($title . ' summary', 'wp-statistics'); ?></span></h2>
+                    <h2 class="hndle wps-d-inline-block"><span><?php echo printf(__('%s Summary', 'wp-statistics'), esc_html($title)); ?></span></h2>
                     <button class="handlediv" type="button" aria-expanded="true">
-                        <span class="screen-reader-text"><?php printf(__('Toggle panel: %s', 'wp-statistics'), __($title . ' Summary', 'wp-statistics')); ?></span>
+                        <span class="screen-reader-text"><?php echo printf(__('Toggle panel: %s Summary', 'wp-statistics'), esc_html($title)); ?></span>
                         <span class="toggle-indicator" aria-hidden="true"></span>
                     </button>
                 </div>
