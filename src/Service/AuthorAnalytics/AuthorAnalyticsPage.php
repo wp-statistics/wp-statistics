@@ -27,9 +27,14 @@ class AuthorAnalyticsPage
                 wp_die($DateRequest['message']);
             }
 
+            // Throw error when invalid tab provided
+            if (isset($_GET['tab']) && !in_array($_GET['tab'], self::$tabs)) {
+                throw new InvalidArgumentException(esc_html__('Invalid tab provided.', 'wp-statistics'));
+            }
+
             // Check Validate int Params
-            if (isset($_GET['ID']) and (!is_numeric($_GET['ID']) || ($_GET['ID'] != 0 and User::exists((int)trim($_GET['ID'])) === false))) {
-                wp_die(esc_html__("The request is invalid.", "wp-statistics"));
+            if (isset($_GET['ID']) && !User::exists(intval($_GET['ID']))) {
+                throw new InvalidArgumentException(esc_html__('Invalid author ID provided.', 'wp-statistics'));
             }
         }
     }
@@ -39,41 +44,58 @@ class AuthorAnalyticsPage
      */
     public function view()
     {
-        // Get current tab
+        // If Author ID is set show single author template, otherwise, show authors analytics template
+        isset ($_GET['ID']) ? $this->singleAuthorView() : $this->authorsView();
+    }
+
+    /**
+     * Display authors template
+     */
+    private function authorsView() 
+    {
         $currentTab = isset($_GET['tab']) ? sanitize_text_field($_GET['tab']) : 'performance';
 
-        // Throw error when invalid tab provided
-        if (!in_array($currentTab, self::$tabs)) {
-            throw new InvalidArgumentException(esc_html__('Invalid tab provided.', 'wp-statistics'));
-        }
-
-        // Page title
-        $args['title']      = esc_html__('Author Analytics', 'wp-statistics');
-        $args['tooltip']    = esc_html__('Page Tooltip', 'wp-statistics');
-
-        // Get Current Page Url
-        $args['pageName']   = Menus::get_page_slug('author-analytics');
-        $args['pagination'] = Admin_Template::getCurrentPaged();
-        $args['custom_get'] = ['tab' => $currentTab];
-        $args['tabs']       = [
-            [
-                'link'    => Menus::admin_url(Menus::get_page_slug('author-analytics'), ['tab' => 'performance']),
-                'title'   => esc_html__('Authors Performance', 'wp-statistics'),
-                'tooltip' => esc_html__('Tab Tooltip', 'wp-statistics'),
-                'class'   => $currentTab === 'performance' ? 'current' : '',
+        $args = [
+            'title'      => esc_html__('Author Analytics', 'wp-statistics'),
+            'tooltip'    => esc_html__('Page Tooltip', 'wp-statistics'),
+            'pageName'   => Menus::get_page_slug('author-analytics'),
+            'pagination' => Admin_Template::getCurrentPaged(),
+            'custom_get' => ['tab' => $currentTab],
+            'DateRang' => Admin_Template::DateRange(),
+            'tabs'       => [
+                [
+                    'link'    => Menus::admin_url(Menus::get_page_slug('author-analytics'), ['tab' => 'performance']),
+                    'title'   => esc_html__('Authors Performance', 'wp-statistics'),
+                    'tooltip' => esc_html__('Tab Tooltip', 'wp-statistics'),
+                    'class'   => $currentTab === 'performance' ? 'current' : '',
+                ],
+                [
+                    'link'    => Menus::admin_url(Menus::get_page_slug('author-analytics'), ['tab' => 'pages']),
+                    'title'   => esc_html__('Author Pages', 'wp-statistics'),
+                    'tooltip' => esc_html__('Tab Tooltip', 'wp-statistics'),
+                    'class'   => $currentTab === 'pages' ? 'current' : '',
+                ]
             ],
-            [
-                'link'    => Menus::admin_url(Menus::get_page_slug('author-analytics'), ['tab' => 'pages']),
-                'title'   => esc_html__('Author Pages', 'wp-statistics'),
-                'tooltip' => esc_html__('Tab Tooltip', 'wp-statistics'),
-                'class'   => $currentTab === 'pages' ? 'current' : '',
-            ]
         ];
 
-        // Get Date-Range
-        $args['DateRang'] = Admin_Template::DateRange();
+        Admin_Template::get_template(['layout/header', 'layout/tabbed-page-header', "pages/author-analytics/authors-$currentTab", 'layout/postbox.hide', 'layout/footer'], $args);
+    }
 
-        // Show Template Page
-        Admin_Template::get_template(['layout/header', 'layout/tabbed-page-header', "pages/author-analytics/$currentTab", 'layout/postbox.hide', 'layout/footer'], $args);
+    /**
+     * Display single author template
+     */
+    private function singleAuthorView() 
+    {
+        $authorID = isset( $_GET['author_id'] ) ? $_GET['author'] : '';
+
+        $args = [
+            'title'      => esc_html__('Single Author', 'wp-statistics'),
+            'pageName'   => Menus::get_page_slug('author-analytics'),
+            'pagination' => Admin_Template::getCurrentPaged(),
+            'custom_get' => ['ID' => $authorID],
+            'DateRang'   => Admin_Template::DateRange()
+        ];
+
+        Admin_Template::get_template(['layout/header', 'layout/title', 'layout/date.range', 'pages/author-analytics/author-single', 'layout/postbox.toggle', 'layout/footer'], $args);
     }
 }
