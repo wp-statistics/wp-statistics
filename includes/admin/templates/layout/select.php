@@ -3,7 +3,6 @@ if (isset($list) and is_array($list) and count($list) > 0) {
     ?>
     <div class="c-pages-select-page">
         <form action="" method="get" id="wp-statistics-select-pages">
-            <?php wp_nonce_field('wps-select-pages', 'wp-statistics-nonce'); ?>
             <span class="select-title"><?php _e('Select Page', 'wp-statistics'); ?>:</span>
             <input name="page" type="hidden" value="<?php echo esc_attr($pageName); ?>">
             <?php

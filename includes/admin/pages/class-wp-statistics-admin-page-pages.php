@@ -195,10 +195,6 @@ class pages_page
     {
         global $wpdb;
 
-        if (isset($_GET['page_id']) && !wp_verify_nonce($_GET['wp-statistics-nonce'], 'wps-select-pages')) {
-            exit;
-        }
-
         // Page ID
         $ID     = sanitize_text_field($_GET['ID']);
         $Type   = sanitize_text_field($_GET['type']);
