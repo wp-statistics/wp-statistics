@@ -1,8 +1,13 @@
 <?php
 
-namespace WP_STATISTICS;
+namespace WP_Statistics\Service\AuthorAnalytics;
 
-class authors_page
+use WP_STATISTICS\User;
+use WP_STATISTICS\Menus;
+use WP_STATISTICS\Admin_Template;
+use InvalidArgumentException;
+
+class AuthorAnalyticsPage
 {
     private static $tabs = [
         'performance',
@@ -11,10 +16,8 @@ class authors_page
 
     public function __construct()
     {
-
-        // Check if in category Page
-        if (Menus::in_page('authors')) {
-
+        // Check if in Author Analytics page
+        if (Menus::in_page('author-analytics')) {
             // Disable Screen Option
             add_filter('screen_options_show_screen', '__return_false');
 
@@ -26,24 +29,22 @@ class authors_page
 
             // Check Validate int Params
             if (isset($_GET['ID']) and (!is_numeric($_GET['ID']) || ($_GET['ID'] != 0 and User::exists((int)trim($_GET['ID'])) === false))) {
-                wp_die(__("The request is invalid.", "wp-statistics"));
+                wp_die(esc_html__("The request is invalid.", "wp-statistics"));
             }
         }
     }
 
     /**
-     * Display Html Page
-     *
-     * @throws \Exception
+     * Display HTML
      */
-    public static function view()
+    public function view()
     {
         // Get current tab
-        $currentTab = isset($_GET['tab'])? sanitize_text_field($_GET['tab']) : 'performance';
+        $currentTab = isset($_GET['tab']) ? sanitize_text_field($_GET['tab']) : 'performance';
 
         // Throw error when invalid tab provided
         if (!in_array($currentTab, self::$tabs)) {
-            throw new \InvalidArgumentException(esc_html__('Invalid tab provided', 'wp-statistics'));
+            throw new InvalidArgumentException(esc_html__('Invalid tab provided.', 'wp-statistics'));
         }
 
         // Page title
@@ -51,18 +52,18 @@ class authors_page
         $args['tooltip']    = esc_html__('Page Tooltip', 'wp-statistics');
 
         // Get Current Page Url
-        $args['pageName']   = Menus::get_page_slug('authors');
+        $args['pageName']   = Menus::get_page_slug('author-analytics');
         $args['pagination'] = Admin_Template::getCurrentPaged();
         $args['custom_get'] = ['tab' => $currentTab];
         $args['tabs']       = [
             [
-                'link'    => Menus::admin_url(Menus::get_page_slug('authors'), ['tab' => 'performance']),
+                'link'    => Menus::admin_url(Menus::get_page_slug('author-analytics'), ['tab' => 'performance']),
                 'title'   => esc_html__('Authors Performance', 'wp-statistics'),
                 'tooltip' => esc_html__('Tab Tooltip', 'wp-statistics'),
                 'class'   => $currentTab === 'performance' ? 'current' : '',
             ],
             [
-                'link'    => Menus::admin_url(Menus::get_page_slug('authors'), ['tab' => 'pages']),
+                'link'    => Menus::admin_url(Menus::get_page_slug('author-analytics'), ['tab' => 'pages']),
                 'title'   => esc_html__('Author Pages', 'wp-statistics'),
                 'tooltip' => esc_html__('Tab Tooltip', 'wp-statistics'),
                 'class'   => $currentTab === 'pages' ? 'current' : '',
@@ -73,9 +74,6 @@ class authors_page
         $args['DateRang'] = Admin_Template::DateRange();
 
         // Show Template Page
-        Admin_Template::get_template(['layout/header', 'layout/tabbed-page-header', "pages/author/$currentTab", 'layout/postbox.hide', 'layout/footer'], $args);
+        Admin_Template::get_template(['layout/header', 'layout/tabbed-page-header', "pages/author-analytics/$currentTab", 'layout/postbox.hide', 'layout/footer'], $args);
     }
-
 }
-
-new authors_page;

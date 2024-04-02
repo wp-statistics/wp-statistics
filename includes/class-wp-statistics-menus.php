@@ -23,7 +23,6 @@ class Menus
         'online'       => 'online',
         'pages'        => 'pages',
         'categories'   => 'categories',
-        'authors'      => 'authors',
         'tags'         => 'tags',
         'referrers'    => 'referrers',
         'searches'     => 'searches',
@@ -220,13 +219,6 @@ class Menus
                 'title'    => __('Taxonomies', 'wp-statistics'),
                 'page_url' => 'taxonomies',
                 'method'   => 'taxonomies',
-            ),
-            'authors'      => array(
-                'require'  => array('pages' => true),
-                'sub'      => 'overview',
-                'title'    => __('Authors', 'wp-statistics'),
-                'page_url' => 'authors',
-                'method'   => 'authors'
             ),
             'browsers'     => array(
                 'require'  => array('visitors' => true),
