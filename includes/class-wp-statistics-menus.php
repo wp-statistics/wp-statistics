@@ -136,7 +136,7 @@ class Menus
     {
 
         // Get the read/write capabilities.
-        $manage_cap     = User::ExistCapability(Option::get('manage_capability', 'manage_options'));
+        $manage_cap = User::ExistCapability(Option::get('manage_capability', 'manage_options'));
 
         /**
          * List of WP Statistics Admin Menu
@@ -336,14 +336,30 @@ class Menus
             $capability = $read_cap;
             $method     = 'log';
             $name       = $menu['title'];
+
             if (array_key_exists('cap', $menu)) {
                 $capability = $menu['cap'];
             }
+
             if (array_key_exists('method', $menu)) {
                 $method = $menu['method'];
             }
+
             if (array_key_exists('name', $menu)) {
                 $name = $menu['name'];
+            }
+
+            // Assume '\WP_STATISTICS\\' is a constant base namespace for your classes.
+            $baseNamespace = '\WP_STATISTICS\\';
+
+            // Determine the class name. Use $menu['callback'] if it's set; otherwise, construct the name from $method.
+            $className = isset($menu['callback']) ? $menu['callback'] : $baseNamespace . $method . '_page';
+
+            // Now, ensure that the 'view' method exists in the determined class.
+            if (method_exists($className, 'view')) {
+                $callback = [new $className(), 'view'];
+            } else {
+                continue;
             }
 
             //Check if SubMenu or Main Menu
@@ -351,15 +367,15 @@ class Menus
 
                 //Check Conditions For Show Menu
                 if (Option::check_option_require($menu) === true) {
-                    add_submenu_page(self::get_page_slug($menu['sub']), $menu['title'], $name, $capability, self::get_page_slug($menu['page_url']), array('\WP_STATISTICS\\' . $method . '_page', 'view'));
+                    add_submenu_page(self::get_page_slug($menu['sub']), $menu['title'], $name, $capability, self::get_page_slug($menu['page_url']), $callback);
                 }
 
                 //Check if add Break Line
                 if (array_key_exists('break', $menu)) {
-                    add_submenu_page(self::get_page_slug($menu['sub']), '', '', $capability, 'wps_break_menu', array('\WP_STATISTICS\\' . $method . '_page', $method));
+                    add_submenu_page(self::get_page_slug($menu['sub']), '', '', $capability, 'wps_break_menu', $callback);
                 }
             } else {
-                add_menu_page($menu['title'], $name, $capability, self::get_page_slug($menu['page_url']), array('\WP_STATISTICS\\' . $method . '_page', 'view'), $menu['icon']);
+                add_menu_page($menu['title'], $name, $capability, self::get_page_slug($menu['page_url']), $callback, $menu['icon']);
             }
         }
 
