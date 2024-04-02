@@ -45,7 +45,7 @@ class pages_page
                  */
                 $pageTablePage = DB::table('pages');
                 $preparedSql   = $wpdb->prepare(
-                    "SELECT COUNT(*) FROM `".$pageTablePage."` WHERE `id` = %s AND `type` = %s",
+                    "SELECT COUNT(*) FROM `" . $pageTablePage . "` WHERE `id` = %s AND `type` = %s",
                     sanitize_text_field($_GET['ID']),
                     sanitize_text_field($_GET['type'])
                 );
@@ -195,6 +195,10 @@ class pages_page
     {
         global $wpdb;
 
+        if (isset($_GET['page_id']) && !wp_verify_nonce($_GET['wp-statistics-nonce'], 'wps-select-pages')) {
+            exit;
+        }
+
         // Page ID
         $ID     = sanitize_text_field($_GET['ID']);
         $Type   = sanitize_text_field($_GET['type']);
@@ -225,8 +229,9 @@ class pages_page
 
         if ($_is_post === true || $_is_term === true) {
             $query = $wpdb->get_results(
-                $wpdb->prepare("SELECT `id`, SUM(count) as total FROM `".DB::table('pages')."` WHERE `type` = %s GROUP BY `id` ORDER BY `total` DESC LIMIT 0,100", $Type)
-                , ARRAY_A);
+                $wpdb->prepare("SELECT `id`, SUM(count) as total FROM `" . DB::table('pages') . "` WHERE `type` = %s GROUP BY `id` ORDER BY `total` DESC LIMIT 0,100", $Type),
+                ARRAY_A
+            );
         }
 
         // Create Select List For WordPress Posts
@@ -244,8 +249,9 @@ class pages_page
 
         $subList      = [];
         $subListQuery = $wpdb->get_results(
-            $wpdb->prepare("SELECT `uri`, `page_id`, SUM(count) as total FROM `".DB::table('pages')."` WHERE `id` = %s AND `type` = %s GROUP BY `uri` ORDER BY `total` DESC LIMIT 0,100", $ID, $Type)
-        , ARRAY_A);
+            $wpdb->prepare("SELECT `uri`, `page_id`, SUM(count) as total FROM `" . DB::table('pages') . "` WHERE `id` = %s AND `type` = %s GROUP BY `uri` ORDER BY `total` DESC LIMIT 0,100", $ID, $Type),
+            ARRAY_A
+        );
 
         foreach ($subListQuery as $item) {
             $subList[$item['page_id']] = $item['uri'];
@@ -269,7 +275,8 @@ class pages_page
 
         // Load Single Page Components
         foreach (self::SINGLE_PAGE_COMPONENTS as $component) {
-            $args[$component] = apply_filters('wp_statistics_pages_chart_' . $component,
+            $args[$component] = apply_filters(
+                'wp_statistics_pages_chart_' . $component,
                 Admin_Template::get_template(array('meta-box/pages-' . $component . '-preview'), null, true),
                 $args
             );
@@ -278,7 +285,6 @@ class pages_page
         // Show Template Page
         Admin_Template::get_template(array('layout/header', 'layout/title', 'layout/select', 'layout/date.range', 'pages/page-chart', 'layout/postbox.hide', 'layout/footer'), $args);
     }
-
 }
 
 new pages_page;

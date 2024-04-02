@@ -28,17 +28,19 @@ class top_visitors_page
     public static function view()
     {
         global $wpdb;
+        
+        if(isset($_GET['day']) && !wp_verify_nonce($_GET['wp-statistics-nonce'], 'wps-search-date'))
+        {
+            exit;
+        }
 
         // Page title
         $args['title'] = __('Top Visitors Today', 'wp-statistics');
-
         // Get Current Page Url
         $args['pageName'] = Menus::get_page_slug('top-visitors');
         $args['paged']    = Admin_Template::getCurrentPaged();
-
         // Get Day
         $args['day'] = (isset($_GET['day']) ? sanitize_text_field($_GET['day']) : TimeZone::getCurrentDate('Y-m-d'));
-
         //Get Total List
         $args['total'] = Visitor::Count(array('key' => 'last_counter', 'compare' => '=', 'value' => trim($args['day'])));
         $args['list']  = array();

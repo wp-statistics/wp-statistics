@@ -1,4 +1,5 @@
 <form class="wps-search-date" method="get" style="margin-top: 15px;">
+    <?php wp_nonce_field('wps-search-date', 'wp-statistics-nonce'); ?>
     <label for="search-date-input"><?php _e('Date', 'wp-statistics'); ?>:</label>
     <input type="hidden" name="page" value="<?php echo esc_attr($pageName); ?>">
     <input class="wps-search-date__input wps-js-calendar-field" id="search-date-input" type="text" size="18" name="day" data-wps-date-picker="day" value="<?php echo esc_attr($day); ?>" autocomplete="off" placeholder="YYYY-MM-DD" required>
