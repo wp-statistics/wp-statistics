@@ -21,10 +21,10 @@ class AuthorAnalyticsPage
             // Disable Screen Option
             add_filter('screen_options_show_screen', '__return_false');
 
-            // Is Validate Date Request
+            // Throw error when invalid date provided
             $DateRequest = Admin_Template::isValidDateRequest();
             if (!$DateRequest['status']) {
-                wp_die($DateRequest['message']);
+                throw new InvalidArgumentException(esc_html($DateRequest['message']));
             }
 
             // Throw error when invalid tab provided
@@ -32,7 +32,7 @@ class AuthorAnalyticsPage
                 throw new InvalidArgumentException(esc_html__('Invalid tab provided.', 'wp-statistics'));
             }
 
-            // Check Validate int Params
+            // Throw error when invalid author ID provided
             if (isset($_GET['ID']) && !User::exists(intval($_GET['ID']))) {
                 throw new InvalidArgumentException(esc_html__('Invalid author ID provided.', 'wp-statistics'));
             }
