@@ -201,14 +201,14 @@ class WP_Statistics_Mail
             $this->attachments = array();
             foreach ($path as $path_) {
                 if (!file_exists($path_)) {
-                    throw new Exception("Attachment not found at $path");
+                    throw new Exception("Attachment not found at " . esc_html($path));
                 } else {
                     $this->attachments[] = $path_;
                 }
             }
         } else {
             if (!file_exists($path)) {
-                throw new Exception("Attachment not found at $path");
+                throw new Exception("Attachment not found at " . esc_html($path));
             }
             $this->attachments = array($path);
         }
@@ -348,7 +348,7 @@ class WP_Statistics_Mail
             return $this->parseAsMustache($template, $variables);
 
         } else {
-            throw new Exception("Unknown extension {$extension} in path '{$templateFile}'");
+            throw new Exception( sprintf('Unknown extension %1$s in path %2$s', esc_html($extension), esc_html($templateFile)) );
         }
     }
 

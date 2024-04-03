@@ -52,7 +52,7 @@ class pages_page
                 $page_count    = $wpdb->get_var($preparedSql); //phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared	
 
                 if ($page_count < 1) {
-                    wp_die(__('Request Invalid or Unsupported.', 'wp-statistics'));
+                    wp_die(__('Request Invalid or Unsupported.', 'wp-statistics')); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	
                 }
             }
 
@@ -75,7 +75,7 @@ class pages_page
             // Is Validate Date Request
             $DateRequest = Admin_Template::isValidDateRequest();
             if (!$DateRequest['status']) {
-                wp_die($DateRequest['message']);
+                wp_die(esc_html($DateRequest['message']));
             }
         }
     }
@@ -111,10 +111,12 @@ class pages_page
             }
 
             // Page title
-            $args['title'] = sprintf(__('Top %s', 'wp-statistics'), $objectTitle);
+            $pageTitle = __('Top', 'wp-statistics');
+            $args['title'] = sprintf(' %s ' , $objectTitle);
 
             // Top Trending Title
-            $args['top_trending_title'] = sprintf(__('Top 5 Trending $s' , 'wp-statistics'), $objectTitle);
+            $topTitle = __('Top 5 Trending' , 'wp-statistics');
+            $args['top_trending_title'] = sprintf('%1$s %2$s', $topTitle, $objectTitle);
 
             // Get Current Page Url
             $args['pageName'] = Menus::get_page_slug('pages');

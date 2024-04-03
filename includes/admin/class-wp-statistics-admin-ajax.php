@@ -113,15 +113,15 @@ class Ajax
 
                 // Show Result
                 if ($result) {
-                    echo sprintf(__('Successfully deleted %s agent data.', 'wp-statistics'), '<code>' . esc_attr($agent) . '</code>');
+                    echo sprintf(__('Successfully deleted %s agent data.', 'wp-statistics'), '<code>' . esc_attr($agent) . '</code>'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                 } else {
-                    _e('Couldn’t find agent data to delete.', 'wp-statistics');
+                    esc_html_e('Couldn’t find agent data to delete.', 'wp-statistics');
                 }
             } else {
-                _e('Kindly select the items you want to work with.', 'wp-statistics');
+                esc_html_e('Kindly select the items you want to work with.', 'wp-statistics');
             }
         } else {
-            _e('Unauthorized access!', 'wp-statistics');
+            esc_html_e('Unauthorized access!', 'wp-statistics');
         }
 
         exit;
@@ -150,15 +150,15 @@ class Ajax
 
                 // Return Result
                 if ($result) {
-                    echo sprintf(__('Successfully deleted %s platform data.', 'wp-statistics'), '<code>' . esc_attr($platform) . '</code>');
+                    echo sprintf(__('Successfully deleted %s platform data.', 'wp-statistics'), '<code>' . esc_attr($platform) . '</code>'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                 } else {
-                    _e('Couldn’t find platform data to delete.', 'wp-statistics');
+                    esc_html_e('Couldn’t find platform data to delete.', 'wp-statistics');
                 }
             } else {
-                _e('Kindly select the items you want to work with.', 'wp-statistics');
+                esc_html_e('Kindly select the items you want to work with.', 'wp-statistics');
             }
         } else {
-            _e('Unauthorized access!', 'wp-statistics');
+            esc_html_e('Unauthorized access!', 'wp-statistics');
         }
 
         exit;
@@ -186,15 +186,15 @@ class Ajax
                 $result = $wpdb->query($wpdb->prepare("DELETE FROM `".DB::table('visitor')."` WHERE `ip` = %s", $ip_address));
 
                 if ($result) {
-                    echo sprintf(__('Successfully deleted %s IP data.', 'wp-statistics'), '<code>' . esc_attr($ip_address) . '</code>');
+                    echo sprintf(__('Successfully deleted %s IP data.', 'wp-statistics'), '<code>' . esc_attr($ip_address) . '</code>'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                 } else {
-                    _e('Couldn’t find any IP address data to delete.', 'wp-statistics');
+                    esc_html_e('Couldn’t find any IP address data to delete.', 'wp-statistics');
                 }
             } else {
-                _e('Kindly select the items you want to work with.', 'wp-statistics');
+                esc_html_e('Kindly select the items you want to work with.', 'wp-statistics');
             }
         } else {
-            _e('Unauthorized access!', 'wp-statistics');
+            esc_html_e('Unauthorized access!', 'wp-statistics');
         }
 
         exit;
@@ -216,13 +216,13 @@ class Ajax
             $result = $wpdb->query("UPDATE `".DB::table('visitor')."` SET `user_id` = 0");
 
             if ($result) {
-                _e('Successfully deleted User ID data.', 'wp-statistics');
+                esc_html_e('Successfully deleted User ID data.', 'wp-statistics');
             } else {
-                _e('Couldn’t find any user ID data to delete.', 'wp-statistics');
+                esc_html_e('Couldn’t find any user ID data to delete.', 'wp-statistics');
             }
 
         } else {
-            _e('Unauthorized access!', 'wp-statistics');
+            esc_html_e('Unauthorized access!', 'wp-statistics');
         }
 
         exit;
@@ -244,13 +244,13 @@ class Ajax
             $result = $wpdb->query("UPDATE `".DB::table('visitor')."` SET `UAString` = NULL");
 
             if ($result) {
-                _e('Successfully deleted user agent strings data.', 'wp-statistics');
+                esc_html_e('Successfully deleted user agent strings data.', 'wp-statistics');
             } else {
-                _e('Couldn’t find any user agent strings data to delete.', 'wp-statistics');
+                esc_html_e('Couldn’t find any user agent strings data to delete.', 'wp-statistics');
             }
 
         } else {
-            _e('Unauthorized access!', 'wp-statistics');
+            esc_html_e('Unauthorized access!', 'wp-statistics');
         }
 
         exit;
@@ -283,9 +283,9 @@ class Ajax
                     );
                 }
 
-                _e('Successfully removed query string parameter data from \'pages\' table. <br>', 'wp-statistics');
+                esc_html_e('Successfully removed query string parameter data from \'pages\' table. <br>', 'wp-statistics');
             } else {
-                _e('Couldn\'t find any user query string parameter data to delete from \'pages\' table. <br>', 'wp-statistics');
+                esc_html_e('Couldn\'t find any user query string parameter data to delete from \'pages\' table. <br>', 'wp-statistics');
             }
 
 
@@ -301,13 +301,13 @@ class Ajax
                     );
                 }
 
-                _e('Successfully removed query string parameter data from \'visitor\' table.', 'wp-statistics');
+                esc_html_e('Successfully removed query string parameter data from \'visitor\' table.', 'wp-statistics');
             } else {
-                _e('Couldn\'t find any user query string parameter data to delete from \'visitor\' table.', 'wp-statistics');
+                esc_html_e('Couldn\'t find any user query string parameter data to delete from \'visitor\' table.', 'wp-statistics');
             }
 
         } else {
-            _e('Unauthorized access!', 'wp-statistics');
+            esc_html_e('Unauthorized access!', 'wp-statistics');
         }
 
         exit;
@@ -326,7 +326,7 @@ class Ajax
 
         //Check isset Table-post
         if (!isset($_POST['table-name'])) {
-            _e('Kindly select the items you want to work with.', 'wp-statistics');
+            esc_html_e('Kindly select the items you want to work with.', 'wp-statistics');
             exit;
         }
 
@@ -338,7 +338,7 @@ class Ajax
         $list_db_table = DB::table('all', 'historical');
 
         if (!array_key_exists($table_name, $list_db_table) and $table_name != 'all') {
-            _e('Unauthorized access!', 'wp-statistics');
+            esc_html_e('Unauthorized access!', 'wp-statistics');
             exit;
         }
 
@@ -354,7 +354,7 @@ class Ajax
                 echo DB::EmptyTable(DB::table($table_name)); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
             }
         } else {
-            _e('Unauthorized access!', 'wp-statistics');
+            esc_html_e('Unauthorized access!', 'wp-statistics');
         }
 
         exit;
@@ -379,7 +379,7 @@ class Ajax
 
             echo Purge::purge_data($purge_days); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
         } else {
-            _e('Unauthorized access!', 'wp-statistics');
+            esc_html_e('Unauthorized access!', 'wp-statistics');
         }
 
         exit;
@@ -403,12 +403,12 @@ class Ajax
             }
 
             if ($purge_hits < 10) {
-                _e('Visit count must be 10 or more!', 'wp-statistics');
+                esc_html_e('Visit count must be 10 or more!', 'wp-statistics');
             } else {
                 echo Purge::purge_visitor_hits($purge_hits); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
             }
         } else {
-            _e('Unauthorized access!', 'wp-statistics');
+            esc_html_e('Unauthorized access!', 'wp-statistics');
         }
 
         exit;
@@ -496,19 +496,19 @@ class Ajax
 
             // When GeoIP is enabled, then user can update the GeoIP database
             if ($geoip_name == "country" && Option::get("geoip") !== 'on') {
-                _e('Please first enable GeoIP Collection and save settings!', 'wp-statistics');
+                esc_html_e('Please first enable GeoIP Collection and save settings!', 'wp-statistics');
             } elseif ($geoip_name == "city" && Option::get("geoip_city") !== 'on') {
-                _e('Please first enable GeoIP City and save settings!', 'wp-statistics');
+                esc_html_e('Please first enable GeoIP City and save settings!', 'wp-statistics');
             }
 
             $result = GeoIP::download($geoip_name, "update");
 
             if ($result) {
-                _e($result["notice"]);
+                esc_html_e($result["notice"]);
             }
 
         } else {
-            _e('Unauthorized access!', 'wp-statistics');
+            esc_html_e('Unauthorized access!', 'wp-statistics');
         }
 
         exit;

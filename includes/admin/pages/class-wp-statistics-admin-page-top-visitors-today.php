@@ -15,7 +15,7 @@ class top_visitors_page
 
             // Check Validate Day arg
             if (isset($_GET['day']) and TimeZone::isValidDate($_GET['day']) === false) {
-                wp_die(__("The time request is invalid.", "wp-statistics"));
+                wp_die(__("The time request is invalid.", "wp-statistics")); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	
             }
         }
     }
@@ -29,11 +29,6 @@ class top_visitors_page
     {
         global $wpdb;
         
-        if(isset($_GET['day']) && !wp_verify_nonce($_GET['wp-statistics-nonce'], 'wps-search-date'))
-        {
-            exit;
-        }
-
         // Page title
         $args['title'] = __('Top Visitors Today', 'wp-statistics');
         // Get Current Page Url

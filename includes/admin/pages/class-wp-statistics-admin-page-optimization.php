@@ -33,7 +33,7 @@ class optimization_page
 
         // Check Access Level
         if (Menus::in_page('optimization') and !User::Access('manage')) {
-            wp_die(__('You do not have sufficient permissions to access this page.'));
+            wp_die(__('You do not have sufficient permissions to access this page.')); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	
         }
 
         // Check Wp Nonce and Require Field

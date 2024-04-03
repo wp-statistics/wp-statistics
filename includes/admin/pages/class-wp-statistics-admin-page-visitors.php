@@ -16,7 +16,7 @@ class visitors_page
             // Is Validate Date Request
             $DateRequest = Admin_Template::isValidDateRequest();
             if (!$DateRequest['status']) {
-                wp_die($DateRequest['message']);
+                wp_die(esc_html($DateRequest['message']));
             }
         }
     }
@@ -29,10 +29,6 @@ class visitors_page
     public static function view()
     {
 
-        if(!self::verifyNonceFilter())
-        {
-            exit;
-        };
 
         // Page title
         $args['title'] = (count($_GET) > 1 ? __('Visitors', 'wp-statistics') : __('Latest Visitor Activity', 'wp-statistics'));

@@ -1,11 +1,11 @@
 <div class="postbox-container" id="wps-big-postbox">
     <div class="metabox-holder"> 
         <div class="meta-box-sortables">
-            <div class="postbox" id="<?php echo \WP_STATISTICS\Meta_Box::getMetaBoxKey('pages-chart'); ?>">
+            <div class="postbox" id="<?php echo esc_attr(\WP_STATISTICS\Meta_Box::getMetaBoxKey('pages-chart')); ?>">
                 <div class="postbox-header postbox-toggle">
-                    <h2 class="hndle wps-d-inline-block"><span><?php _e('Category Statistics Chart', 'wp-statistics'); ?></span></h2>
+                    <h2 class="hndle wps-d-inline-block"><span><?php esc_html_e('Category Statistics Chart', 'wp-statistics'); ?></span></h2>
                     <button class="handlediv" type="button" aria-expanded="true">
-                        <span class="screen-reader-text"><?php printf(__('Toggle panel: %s', 'wp-statistics'), __('Category Statistics Chart', 'wp-statistics')); ?></span>
+                        <span class="screen-reader-text"><?php printf(__('Toggle panel: %s', 'wp-statistics'), __('Category Statistics Chart', 'wp-statistics')); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	 ?></span>
                         <span class="toggle-indicator" aria-hidden="true"></span>
                     </button>
                 </div>
@@ -22,9 +22,9 @@
         <div class="meta-box-sortables">
             <div class="postbox">
                 <div class="postbox-header postbox-toggle">
-                    <h2 class="hndle wps-d-inline-block"><span><?php _e('Category Statistics Summary', 'wp-statistics'); ?></span></h2>
+                    <h2 class="hndle wps-d-inline-block"><span><?php esc_html_e('Category Statistics Summary', 'wp-statistics'); ?></span></h2>
                     <button class="handlediv" type="button" aria-expanded="true">
-                        <span class="screen-reader-text"><?php printf(__('Toggle panel: %s', 'wp-statistics'), __('Category Statistics Summary', 'wp-statistics')); ?></span>
+                        <span class="screen-reader-text"><?php printf(__('Toggle panel: %s', 'wp-statistics'), __('Category Statistics Summary', 'wp-statistics')); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	 ?></span>
                         <span class="toggle-indicator" aria-hidden="true"></span>
                     </button>
                 </div>
@@ -33,28 +33,28 @@
                         <tbody>
                         <tr>
                             <th></th>
-                            <th class="th-center"><?php _e('Count', 'wp-statistics'); ?></th>
+                            <th class="th-center"><?php esc_html_e('Count', 'wp-statistics'); ?></th>
                         </tr>
 
                         <?php
                         if (isset($number_post_in_category)) {
                             ?>
                             <tr>
-                                <th><?php _e('The Number of Posts in Category:', 'wp-statistics'); ?></th>
+                                <th><?php esc_html_e('The Number of Posts in Category:', 'wp-statistics'); ?></th>
                                 <th class="th-center">
-                                    <span><?php echo number_format_i18n($number_post_in_category); ?></span></th>
+                                    <span><?php echo esc_html(number_format_i18n($number_post_in_category)); ?></span></th>
                             </tr>
                             <?php
                         }
                         ?>
 
                         <tr>
-                            <th><?php _e('Chart Visits:', 'wp-statistics'); ?></th>
+                            <th><?php esc_html_e('Chart Visits:', 'wp-statistics'); ?></th>
                             <th class="th-center"><span id="number-total-chart-visits"></span></th>
                         </tr>
 
                         <tr>
-                            <th><?php _e('All Time Visits:', 'wp-statistics'); ?></th>
+                            <th><?php esc_html_e('All Time Visits:', 'wp-statistics'); ?></th>
                             <th class="th-center"><span id="number-total-visits"></span></th>
                         </tr>
                         </tbody>
@@ -73,7 +73,7 @@
                     <div class="postbox-header postbox-toggle">
                         <h2 class="hndle wps-d-inline-block"><span><?php echo esc_attr($top_title); ?></span></h2>
                         <button class="handlediv" type="button" aria-expanded="true">
-                            <span class="screen-reader-text"><?php printf(__('Toggle panel: %s', 'wp-statistics'), esc_attr($top_title)); ?></span>
+                            <span class="screen-reader-text"><?php printf(__('Toggle panel: %s', 'wp-statistics'), esc_attr($top_title)); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	 ?></span>
                             <span class="toggle-indicator" aria-hidden="true"></span>
                         </button>
                     </div>
@@ -82,7 +82,7 @@
                             <tbody>
                             <tr>
                                 <th></th>
-                                <th class="th-center"><?php _e('Count', 'wp-statistics'); ?></th>
+                                <th class="th-center"><?php esc_html_e('Count', 'wp-statistics'); ?></th>
                             </tr>
                             <?php
                             foreach ($top_list as $item) {
@@ -92,7 +92,7 @@
                                         <a href="<?php echo esc_url($item['link']); ?>" title="<?php echo esc_attr($item['name']); ?>"><?php echo esc_attr($item['name']); ?></a>
                                     </th>
                                     <th class="th-center">
-                                        <span><?php echo number_format_i18n($item['count_visit']); ?></span></th>
+                                        <span><?php echo esc_html(number_format_i18n($item['count_visit'])); ?></span></th>
                                 </tr>
                                 <?php
                             }

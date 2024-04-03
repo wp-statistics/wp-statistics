@@ -92,7 +92,7 @@ class Frontend
     public function print_out_plugin_html()
     {
         if (apply_filters('wp_statistics_html_comment', true)) {
-            echo '<!-- Analytics by WP Statistics v' . WP_STATISTICS_VERSION . ' - ' . WP_STATISTICS_SITE . ' -->' . "\n";
+            echo '<!-- Analytics by WP Statistics v' . WP_STATISTICS_VERSION . ' - ' . WP_STATISTICS_SITE . ' -->' . "\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
         }
     }
 

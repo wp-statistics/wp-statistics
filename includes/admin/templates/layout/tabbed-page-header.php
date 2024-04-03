@@ -1,13 +1,13 @@
 <div class="wps-wrap__main">
     <div class="wps-page-header">
         <h2 class="wps_title">
-            <span><?php echo(isset($title) ? esc_html($title) : (function_exists('get_admin_page_title') ? get_admin_page_title() : '')); ?></span>
+            <span><?php echo(isset($title) ? esc_html($title) : (function_exists('get_admin_page_title') ? esc_html(get_admin_page_title()) : '')); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
             <?php if (!empty($tooltip)) : ?>
                 <span class="wps-tooltip" title="<?php echo esc_attr($tooltip); ?>"><i class="wps-tooltip-icon info"></i></span>
             <?php endif; ?>
         </h2>
 
-        <p class="wps_description"><?php echo !empty($description) ? esc_html($description) : '' ?></p>
+        <p class="wps_description"><?php echo !empty($description) ? esc_html($description) : ''  // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	?></p>
 
         <?php do_action('wp_statistics_after_admin_page_title'); ?>
         <div class="wp-clearfix"></div>

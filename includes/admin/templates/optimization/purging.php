@@ -7,7 +7,7 @@
             if (action == 0)
                 return false;
 
-            var agree = confirm('<?php _e('Are you sure?', 'wp-statistics'); ?>');
+            var agree = confirm('<?php esc_html_e('Are you sure?', 'wp-statistics'); ?>');
 
             if (!agree)
                 return false;
@@ -20,7 +20,7 @@
                 data: {
                     'action': 'wp_statistics_purge_data',
                     'purge-days': action,
-                    'wps_nonce': '<?php echo wp_create_nonce('wp_rest'); ?>'
+                    'wps_nonce': '<?php echo wp_create_nonce('wp_rest'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>' 
                 },
                 datatype: 'json',
             })
@@ -39,7 +39,7 @@
             if (action == 0)
                 return false;
 
-            var agree = confirm('<?php _e('Are you sure?', 'wp-statistics'); ?>');
+            var agree = confirm('<?php esc_html_e('Are you sure?', 'wp-statistics'); ?>');
 
             if (!agree)
                 return false;
@@ -52,7 +52,7 @@
                 data: {
                     'action': 'wp_statistics_purge_visitor_hits',
                     'purge-hits': action,
-                    'wps_nonce': '<?php echo wp_create_nonce('wp_rest'); ?>'
+                    'wps_nonce': '<?php echo wp_create_nonce('wp_rest'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>'
                 },
                 datatype: 'json',
             })
@@ -70,7 +70,7 @@
             if (action == 0)
                 return false;
 
-            var agree = confirm('<?php _e('Are you sure?', 'wp-statistics'); ?>');
+            var agree = confirm('<?php esc_html_e('Are you sure?', 'wp-statistics'); ?>');
 
             if (!agree)
                 return false;
@@ -83,7 +83,7 @@
                 data: {
                     'action': 'wp_statistics_empty_table',
                     'table-name': action,
-                    'wps_nonce': '<?php echo wp_create_nonce('wp_rest'); ?>'
+                    'wps_nonce': '<?php echo wp_create_nonce('wp_rest'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>'
                 },
                 datatype: 'json',
             })
@@ -101,7 +101,7 @@
             if (action == 0)
                 return false;
 
-            var agree = confirm('<?php _e('Are you sure?', 'wp-statistics'); ?>');
+            var agree = confirm('<?php esc_html_e('Are you sure?', 'wp-statistics'); ?>');
 
             if (!agree)
                 return false;
@@ -114,7 +114,7 @@
                 data: {
                     'action': 'wp_statistics_delete_agents',
                     'agent-name': action,
-                    'wps_nonce': '<?php echo wp_create_nonce('wp_rest'); ?>'
+                    'wps_nonce': '<?php echo wp_create_nonce('wp_rest'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>'
                 },
                 datatype: 'json',
             })
@@ -134,7 +134,7 @@
             if (action == 0)
                 return false;
 
-            var agree = confirm('<?php _e('Are you sure?', 'wp-statistics'); ?>');
+            var agree = confirm('<?php esc_html_e('Are you sure?', 'wp-statistics'); ?>');
 
             if (!agree)
                 return false;
@@ -147,7 +147,7 @@
                 data: {
                     'action': 'wp_statistics_delete_platforms',
                     'platform-name': action,
-                    'wps_nonce': '<?php echo wp_create_nonce('wp_rest'); ?>'
+                    'wps_nonce': '<?php echo wp_create_nonce('wp_rest'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>'
                 },
                 datatype: 'json',
             })
@@ -167,7 +167,7 @@
             if (value == 0)
                 return false;
 
-            var agree = confirm('<?php _e('Are you sure?', 'wp-statistics'); ?>');
+            var agree = confirm('<?php esc_html_e('Are you sure?', 'wp-statistics'); ?>');
 
             if (!agree)
                 return false;
@@ -180,7 +180,7 @@
                 data: {
                     'action': 'wp_statistics_delete_ip',
                     'ip-address': value,
-                    'wps_nonce': '<?php echo wp_create_nonce('wp_rest'); ?>'
+                    'wps_nonce': '<?php echo wp_create_nonce('wp_rest');  // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>'
                 },
                 datatype: 'json',
             })
@@ -194,7 +194,7 @@
 
         jQuery("#delete-user-ids-submit").click(function () {
 
-            var agree = confirm('<?php _e('Are you sure?', 'wp-statistics'); ?>');
+            var agree = confirm('<?php esc_html_e('Are you sure?', 'wp-statistics'); ?>');
 
             if (!agree)
                 return false;
@@ -206,7 +206,7 @@
                 type: 'post',
                 data: {
                     'action': 'wp_statistics_delete_user_ids',
-                    'wps_nonce': '<?php echo wp_create_nonce('wp_rest'); ?>'
+                    'wps_nonce': '<?php echo wp_create_nonce('wp_rest'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>'
                 },
                 datatype: 'json',
             })
@@ -219,7 +219,7 @@
 
         jQuery("#clear-user-agent-strings-submit").click(function () {
 
-            var agree = confirm('<?php _e('Are you sure?', 'wp-statistics'); ?>');
+            var agree = confirm('<?php esc_html_e('Are you sure?', 'wp-statistics'); ?>');
 
             if (!agree)
                 return false;
@@ -231,7 +231,7 @@
                 type: 'post',
                 data: {
                     'action': 'wp_statistics_clear_user_agent_strings',
-                    'wps_nonce': '<?php echo wp_create_nonce('wp_rest'); ?>'
+                    'wps_nonce': '<?php echo wp_create_nonce('wp_rest'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>'
                 },
                 datatype: 'json',
             })
@@ -244,7 +244,7 @@
 
         jQuery("#query-params-cleanup-submit").click(function () {
 
-            var agree = confirm('<?php _e('Are you sure?', 'wp-statistics'); ?>');
+            var agree = confirm('<?php esc_html_e('Are you sure?', 'wp-statistics'); ?>');
 
             if (!agree)
                 return false;
@@ -256,7 +256,7 @@
                 type: 'post',
                 data: {
                     'action': 'wp_statistics_query_params_cleanup',
-                    'wps_nonce': '<?php echo wp_create_nonce('wp_rest'); ?>'
+                    'wps_nonce': '<?php echo wp_create_nonce('wp_rest'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>'
                 },
                 datatype: 'json',
             })
@@ -273,30 +273,30 @@
         <table class="form-table">
             <tbody>
             <tr valign="top">
-                <th scope="row" colspan="2"><h3><?php _e('Data', 'wp-statistics'); ?></h3></th>
+                <th scope="row" colspan="2"><h3><?php esc_html_e('Data', 'wp-statistics'); ?></h3></th>
             </tr>
 
             <tr valign="top">
                 <th scope="row">
-                    <label for="empty-table"><?php _e('Clear Table Contents', 'wp-statistics'); ?></label>
+                    <label for="empty-table"><?php esc_html_e('Clear Table Contents', 'wp-statistics'); ?></label>
                 </th>
 
                 <td>
                     <select dir="<?php echo(is_rtl() ? 'rtl' : 'ltr'); ?>" id="empty-table" name="empty-table">
-                        <option value="0"><?php _e('Select an Option', 'wp-statistics'); ?></option>
+                        <option value="0"><?php esc_html_e('Select an Option', 'wp-statistics'); ?></option>
                         <?php
                         foreach (WP_STATISTICS\DB::table('all', 'historical') as $tbl_key => $tbl_name) {
                             echo '<option value="' . esc_attr($tbl_key) . '">' . esc_attr($tbl_name) . '</option>';
                         }
                         ?>
-                        <option value="all"><?php echo __('All', 'wp-statistics'); ?></option>
+                        <option value="all"><?php echo esc_html__('All', 'wp-statistics'); ?></option>
                     </select>
 
                     <p class="description">
-                        <span class="wps-note"><?php _e('Caution:', 'wp-statistics'); ?></span>
-                        <?php _e('All data in the table will be permanently deleted.', 'wp-statistics'); ?>
+                        <span class="wps-note"><?php esc_html_e('Caution:', 'wp-statistics'); ?></span>
+                        <?php esc_html_e('All data in the table will be permanently deleted.', 'wp-statistics'); ?>
                     </p>
-                    <input id="empty-table-submit" class="button button-primary" type="submit" value="<?php _e('Erase Data Now', 'wp-statistics'); ?>" name="empty-table-submit" Onclick="return false;"/>
+                    <input id="empty-table-submit" class="button button-primary" type="submit" value="<?php esc_html_e('Erase Data Now', 'wp-statistics'); ?>" name="empty-table-submit" Onclick="return false;"/>
                     <span id="empty-status"></span>
                     <div id="empty-result"></div>
                 </td>
@@ -304,15 +304,15 @@
 
             <tr>
                 <th scope="row">
-                    <label for="purge-data"><?php _e('Delete Records Older Than', 'wp-statistics'); ?></label>
+                    <label for="purge-data"><?php esc_html_e('Delete Records Older Than', 'wp-statistics'); ?></label>
                 </th>
 
                 <td>
                     <input type="text" class="small-text code" id="purge-data" name="wps_purge_data" value="365"/>
-                    <label for="purge-data"><?php _e('Days', 'wp-statistics'); ?></label>
+                    <label for="purge-data"><?php esc_html_e('Days', 'wp-statistics'); ?></label>
 
-                    <p class="description"><?php echo __('Erase User Stats Older Than Specified Days.', 'wp-statistics') . ' ' . __('Minimum Age for Deletion: 30 Days.', 'wp-statistics'); ?></p>
-                    <input id="purge-data-submit" class="button button-primary" type="submit" value="<?php _e('Start Purging Now', 'wp-statistics'); ?>" name="purge-data-submit" Onclick="return false;"/>
+                    <p class="description"><?php echo esc_html__('Erase User Stats Older Than Specified Days.', 'wp-statistics') . ' ' . esc_html__('Minimum Age for Deletion: 30 Days.', 'wp-statistics'); ?></p>
+                    <input id="purge-data-submit" class="button button-primary" type="submit" value="<?php esc_html_e('Start Purging Now', 'wp-statistics'); ?>" name="purge-data-submit" Onclick="return false;"/>
                     <span id="purge-data-status"></span>
                     <div id="purge-data-result"></div>
                 </td>
@@ -320,15 +320,15 @@
 
             <tr>
                 <th scope="row">
-                    <label for="purge-visitor-hits"><?php _e('Remove Visitors Exceeding', 'wp-statistics'); ?></label>
+                    <label for="purge-visitor-hits"><?php esc_html_e('Remove Visitors Exceeding', 'wp-statistics'); ?></label>
                 </th>
 
                 <td>
                     <input type="text" class="small-text code" id="purge-visitor-hits" name="wps_purge_visitor_hits" value="10"/>
-                    <label for="purge-visitor-hits"><?php _e('Visits', 'wp-statistics'); ?></label>
+                    <label for="purge-visitor-hits"><?php esc_html_e('Visits', 'wp-statistics'); ?></label>
 
-                    <p class="description"><?php echo __('Erase User Stats for Visitors Exceeding Daily Visit Limit. Useful for cleaning bot-related data. Removes visitor and their site visits, but not individual page visits, as they are not recorded per user. Minimum Visit Threshold: 10 Visits.', 'wp-statistics'); ?></p>
-                    <input id="purge-visitor-hits-submit" class="button button-primary" type="submit" value="<?php _e('Start Purging Now', 'wp-statistics'); ?>" name="purge-visitor-hits-submit" Onclick="return false;"/>
+                    <p class="description"><?php echo esc_html__('Erase User Stats for Visitors Exceeding Daily Visit Limit. Useful for cleaning bot-related data. Removes visitor and their site visits, but not individual page visits, as they are not recorded per user. Minimum Visit Threshold: 10 Visits.', 'wp-statistics'); ?></p>
+                    <input id="purge-visitor-hits-submit" class="button button-primary" type="submit" value="<?php esc_html_e('Start Purging Now', 'wp-statistics'); ?>" name="purge-visitor-hits-submit" Onclick="return false;"/>
                     <span id="purge-visitor-hits-status"></span>
                     <div id="purge-visitor-hits-result"></div>
                 </td>
@@ -336,14 +336,14 @@
 
             <tr>
                 <th scope="row">
-                    <label for="delete-user-ids-submit"><?php _e('Remove User IDs', 'wp-statistics'); ?></label>
+                    <label for="delete-user-ids-submit"><?php esc_html_e('Remove User IDs', 'wp-statistics'); ?></label>
                 </th>
                 <td>
-                    <input id="delete-user-ids-submit" class="button button-primary" type="submit" value="<?php _e('Delete User IDs Now', 'wp-statistics'); ?>" name="delete_user_ids_submit">
+                    <input id="delete-user-ids-submit" class="button button-primary" type="submit" value="<?php esc_html_e('Delete User IDs Now', 'wp-statistics'); ?>" name="delete_user_ids_submit">
                     <p class="description">
-                        <?php _e('Permanently deletes all stored User IDs from the database to anonymize user visit records or to comply with privacy regulations.', 'wp-statistics'); ?><br>
-                        <span class="wps-note"><?php _e('Caution:', 'wp-statistics'); ?></span>
-                        <?php _e('Permanent and cannot be reversed.', 'wp-statistics'); ?>
+                        <?php esc_html_e('Permanently deletes all stored User IDs from the database to anonymize user visit records or to comply with privacy regulations.', 'wp-statistics'); ?><br>
+                        <span class="wps-note"><?php esc_html_e('Caution:', 'wp-statistics'); ?></span>
+                        <?php esc_html_e('Permanent and cannot be reversed.', 'wp-statistics'); ?>
                     </p>
                     <span id="delete-user-ids-status"></span>
                     <div id="delete-user-ids-result"></div>
@@ -352,14 +352,14 @@
 
             <tr>
                 <th scope="row">
-                    <label for="clear-user-agent-strings-submit"><?php _e('Clear User Agent Strings', 'wp-statistics'); ?></label>
+                    <label for="clear-user-agent-strings-submit"><?php esc_html_e('Clear User Agent Strings', 'wp-statistics'); ?></label>
                 </th>
                 <td>
-                    <input id="clear-user-agent-strings-submit" class="button button-primary" type="submit" value="<?php _e('Clear User Agent Data Now', 'wp-statistics'); ?>" name="clear_user_agent_strings_submit">
+                    <input id="clear-user-agent-strings-submit" class="button button-primary" type="submit" value="<?php esc_html_e('Clear User Agent Data Now', 'wp-statistics'); ?>" name="clear_user_agent_strings_submit">
                     <p class="description">
-                        <?php _e('Permanently erases all User Agent Strings from the database, typically done after troubleshooting to remove unnecessary data.', 'wp-statistics'); ?><br>
-                        <span class="wps-note"><?php _e('Caution:', 'wp-statistics'); ?></span>
-                        <?php _e('Permanent and cannot be undone.', 'wp-statistics'); ?>
+                        <?php esc_html_e('Permanently erases all User Agent Strings from the database, typically done after troubleshooting to remove unnecessary data.', 'wp-statistics'); ?><br>
+                        <span class="wps-note"><?php esc_html_e('Caution:', 'wp-statistics'); ?></span>
+                        <?php esc_html_e('Permanent and cannot be undone.', 'wp-statistics'); ?>
                     </p>
                     <span id="clear-user-agent-strings-status"></span>
                     <div id="clear-user-agent-strings-result"></div>
@@ -368,14 +368,14 @@
 
             <tr>
                 <th scope="row">
-                    <label for="query-params-cleanup-submit"><?php _e('Clean Up Recorded Query Parameters', 'wp-statistics'); ?></label>
+                    <label for="query-params-cleanup-submit"><?php esc_html_e('Clean Up Recorded Query Parameters', 'wp-statistics'); ?></label>
                 </th>
                 <td>
-                    <input id="query-params-cleanup-submit" class="button button-primary" type="submit" value="<?php _e('Run Cleanup', 'wp-statistics'); ?>" name="query_params_cleanup_submit">
+                    <input id="query-params-cleanup-submit" class="button button-primary" type="submit" value="<?php esc_html_e('Run Cleanup', 'wp-statistics'); ?>" name="query_params_cleanup_submit">
                     <p class="description">
-                        <?php _e('Removes previously stored query parameters from your historical data, ensuring consistency with your current privacy settings.', 'wp-statistics'); ?><br>
-                        <span class="wps-note"><?php _e('Caution:', 'wp-statistics'); ?></span>
-                        <?php _e('It is recommended to back up your database before proceeding, as this cleanup is irreversible.', 'wp-statistics'); ?>
+                        <?php esc_html_e('Removes previously stored query parameters from your historical data, ensuring consistency with your current privacy settings.', 'wp-statistics'); ?><br>
+                        <span class="wps-note"><?php esc_html_e('Caution:', 'wp-statistics'); ?></span>
+                        <?php esc_html_e('It is recommended to back up your database before proceeding, as this cleanup is irreversible.', 'wp-statistics'); ?>
                     </p>
                     <span id="query-params-cleanup-status"></span>
                     <div id="query-params-cleanup-result"></div>
@@ -388,28 +388,28 @@
         <table class="form-table">
             <tbody>
             <tr valign="top">
-                <th scope="row" colspan="2"><h3><?php _e('Remove Certain User Agent Types', 'wp-statistics'); ?></h3></th>
+                <th scope="row" colspan="2"><h3><?php esc_html_e('Remove Certain User Agent Types', 'wp-statistics'); ?></h3></th>
             </tr>
 
             <tr valign="top">
                 <th scope="row">
-                    <label for="delete-agent"><?php _e('Choose Agents to Delete', 'wp-statistics'); ?></label>
+                    <label for="delete-agent"><?php esc_html_e('Choose Agents to Delete', 'wp-statistics'); ?></label>
                 </th>
 
                 <td>
                     <select dir="ltr" id="delete-agent" name="delete-agent">
-                        <option value="0"><?php _e('Select an Option', 'wp-statistics'); ?></option>
+                        <option value="0"><?php esc_html_e('Select an Option', 'wp-statistics'); ?></option>
                         <?php
                         $agents = wp_statistics_ua_list();
                         foreach ($agents as $agent) {
                             $aid = preg_replace("/[^a-zA-Z]/", "", $agent);
-                            echo "<option value='$agent' id='agent-" . esc_attr($aid) . "-id'>" . esc_attr($agent) . "</option>";
+                            echo "<option value='$agent' id='agent-" . esc_attr($aid) . "-id'>" . esc_attr($agent) . "</option>"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                         }
                         ?>
                     </select>
 
-                    <p class="description"><?php _e('Select and delete specific User Agents from the database. All associated data will be permanently removed.', 'wp-statistics'); ?></p>
-                    <input id="delete-agents-submit" class="button button-primary" type="submit" value="<?php _e('Delete Selected Items Now', 'wp-statistics'); ?>" name="delete-agents-submit" Onclick="return false;">
+                    <p class="description"><?php esc_html_e('Select and delete specific User Agents from the database. All associated data will be permanently removed.', 'wp-statistics'); ?></p>
+                    <input id="delete-agents-submit" class="button button-primary" type="submit" value="<?php esc_html_e('Delete Selected Items Now', 'wp-statistics'); ?>" name="delete-agents-submit" Onclick="return false;">
                     <span id="delete-agents-status"></span>
                     <div id="delete-agents-result"></div>
                 </td>
@@ -417,25 +417,25 @@
 
             <tr valign="top">
                 <th scope="row">
-                    <label for="delete-platform"><?php _e('Choose Platforms to Delete', 'wp-statistics'); ?></label>
+                    <label for="delete-platform"><?php esc_html_e('Choose Platforms to Delete', 'wp-statistics'); ?></label>
                 </th>
 
                 <td>
                     <select dir="ltr" id="delete-platform" name="delete-platform">
-                        <option value="0"><?php _e('Select an Option', 'wp-statistics'); ?></option>
+                        <option value="0"><?php esc_html_e('Select an Option', 'wp-statistics'); ?></option>
                         <?php
                         $platforms = wp_statistics_platform_list();
                         foreach ($platforms as $platform) {
                             if (!empty($platform)) {
                                 $pid = preg_replace("/[^a-zA-Z]/", "", $platform);
-                                echo "<option value='$platform' id='platform-" . esc_attr($pid) . "-id'>" . esc_attr($platform) . "</option>";
-                            }
+                                echo "<option value='$platform' id='platform-" . esc_attr($pid) . "-id'>" . esc_attr($platform) . "</option>"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                            } 
                         }
                         ?>
                     </select>
 
-                    <p class="description"><?php _e('Select and delete specific platforms from the database. All associated data will be permanently removed.', 'wp-statistics'); ?></p>
-                    <input id="delete-platforms-submit" class="button button-primary" type="submit" value="<?php _e('Delete Selected Items Now', 'wp-statistics'); ?>" name="delete-platforms-submit" Onclick="return false;">
+                    <p class="description"><?php esc_html_e('Select and delete specific platforms from the database. All associated data will be permanently removed.', 'wp-statistics'); ?></p>
+                    <input id="delete-platforms-submit" class="button button-primary" type="submit" value="<?php esc_html_e('Delete Selected Items Now', 'wp-statistics'); ?>" name="delete-platforms-submit" Onclick="return false;">
                     <span id="delete-platforms-status"></span>
                     <div id="delete-platforms-result"></div>
                 </td>
@@ -443,14 +443,14 @@
 
             <tr valign="top">
                 <th scope="row">
-                    <label for="delete-ip"><?php _e('Erase Data for Specific IP', 'wp-statistics'); ?></label>
+                    <label for="delete-ip"><?php esc_html_e('Erase Data for Specific IP', 'wp-statistics'); ?></label>
                 </th>
 
                 <td>
                     <input dir="ltr" id="delete-ip" type="text" name="delete-ip"/>
 
-                    <p class="description"><?php _e('Input and delete all data associated with a particular IP address. All associated data will be permanently removed.', 'wp-statistics'); ?></p>
-                    <input id="delete-ip-submit" class="button button-primary" type="submit" value="<?php _e('Delete Selected Items Now', 'wp-statistics'); ?>" name="delete-ip-submit" Onclick="return false;">
+                    <p class="description"><?php esc_html_e('Input and delete all data associated with a particular IP address. All associated data will be permanently removed.', 'wp-statistics'); ?></p>
+                    <input id="delete-ip-submit" class="button button-primary" type="submit" value="<?php esc_html_e('Delete Selected Items Now', 'wp-statistics'); ?>" name="delete-ip-submit" Onclick="return false;">
                     <span id="delete-ip-status"></span>
                     <div id="delete-ip-result"></div>
                 </td>

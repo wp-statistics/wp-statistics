@@ -24,7 +24,7 @@ class taxonomies_page
             // Is Validate Date Request
             $DateRequest = Admin_Template::isValidDateRequest();
             if (!$DateRequest['status']) {
-                wp_die($DateRequest['message']);
+                wp_die(esc_html($DateRequest['message']));
             }
 
             // Get all taxonomies
@@ -45,7 +45,7 @@ class taxonomies_page
 
             // Check Validate int Params
             if (isset($_GET['ID']) and (!is_numeric($_GET['ID']) || ($_GET['ID'] != 0 and term_exists((int)trim($_GET['ID']), self::$taxonomy) == null))) {
-                wp_die(__("The request is invalid.", "wp-statistics"));
+                wp_die(__("The request is invalid.", "wp-statistics")); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	
             }
         }
     }

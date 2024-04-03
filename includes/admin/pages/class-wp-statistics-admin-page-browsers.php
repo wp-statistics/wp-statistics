@@ -20,7 +20,7 @@ class browser_page
             // Is Validate Date Request
             $DateRequest = Admin_Template::isValidDateRequest();
             if (!$DateRequest['status']) {
-                wp_die($DateRequest['message']);
+                wp_die(esc_html($DateRequest['message']));
             }
         }
     }
@@ -32,7 +32,6 @@ class browser_page
      */
     public static function view()
     {
-
         // Page title
         $args['title'] = __('Web Browser Usage Statistics', 'wp-statistics');
 

@@ -306,7 +306,7 @@ final class WP_Statistics
         $error .= __('The <strong>WP Statistics</strong> plugin requires PHP version <strong>', 'wp-statistics') . WP_STATISTICS_REQUIRE_PHP_VERSION . __('</strong> or greater.', 'wp-statistics');
         ?>
         <div class="error">
-            <p><?php printf($error); ?></p>
+            <p><?php printf(esc_html($error)); ?></p>
         </div>
         <?php
     }
