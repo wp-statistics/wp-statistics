@@ -29,10 +29,8 @@ class visitors_page
     public static function view()
     {
 
-
         // Page title
         $args['title'] = (count($_GET) > 1 ? __('Visitors', 'wp-statistics') : __('Latest Visitor Activity', 'wp-statistics'));
-
         // Get Current Page Url
         $args['pageName'] = Menus::get_page_slug('visitors');
         $args['paged']    = Admin_Template::getCurrentPaged();
@@ -222,25 +220,6 @@ class visitors_page
         // Return Data
         return $filter;
     }
-
-
-    private static function verifyNonceFilter()
-    {
-        if((isset($_GET["location"])    || 
-            isset($_GET["platform"])    || 
-            isset($_GET["referrer"])    || 
-            isset($_GET["user_id"])     || 
-            isset($_GET["ip"])          ||
-            isset($_GET["date-from"])   || 
-            isset($_GET["date-to"])
-        ) && !wp_verify_nonce($_GET['wp-statistics-nonce'], 'wps-visitors-filter-popup'))
-        {
-            return false;
-        }
-
-        return true;
-    }
-
 }
 
 new visitors_page;

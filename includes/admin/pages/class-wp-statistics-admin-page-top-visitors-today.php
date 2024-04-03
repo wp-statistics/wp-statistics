@@ -28,7 +28,7 @@ class top_visitors_page
     public static function view()
     {
         global $wpdb;
-        
+
         // Page title
         $args['title'] = __('Top Visitors Today', 'wp-statistics');
         // Get Current Page Url
@@ -40,7 +40,7 @@ class top_visitors_page
         $args['total'] = Visitor::Count(array('key' => 'last_counter', 'compare' => '=', 'value' => trim($args['day'])));
         $args['list']  = array();
         if ($args['total'] > 0) {
-            $sql          = $wpdb->prepare("SELECT * FROM `".DB::table('visitor')."` WHERE last_counter = %s ORDER BY hits DESC", $args['day']);
+            $sql          = $wpdb->prepare("SELECT * FROM `" . DB::table('visitor') . "` WHERE last_counter = %s ORDER BY hits DESC", $args['day']);
             $args['list'] = Visitor::get(array(
                 'sql'      => $sql,
                 'per_page' => Admin_Template::$item_per_page,
@@ -59,7 +59,6 @@ class top_visitors_page
 
         Admin_Template::get_template(array('layout/header', 'layout/title', 'pages/top-visitors', 'layout/footer'), $args);
     }
-
 }
 
 new top_visitors_page;
