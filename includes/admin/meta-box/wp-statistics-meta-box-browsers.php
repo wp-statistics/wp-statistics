@@ -115,7 +115,6 @@ class browsers extends MetaBoxAbstract
             }
 
         } else {
-            return self::response($args);
             // Set Browser info
             $lists_keys[] = strtolower($args['browser']);
             $lists_logo[] = UserAgent::getBrowserLogo($args['browser']);
