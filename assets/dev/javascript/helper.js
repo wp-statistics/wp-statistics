@@ -180,9 +180,9 @@ wps_js.pie_chart = function (tag_id, label, data, label_callback = false) {
         plugins: [{
             afterDraw: function (chart) {
                 if (chart.data.datasets[0].data.every(x => x == 0) === true) {
-                    let ctx = chart.chart.ctx;
-                    let width = chart.chart.width;
-                    let height = chart.chart.height;
+                    let ctx = chart.ctx;
+                    let width = chart.width;
+                    let height = chart.height;
                     chart.clear();
                     ctx.save();
                     ctx.textAlign = 'center';
