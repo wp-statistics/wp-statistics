@@ -220,7 +220,7 @@ class pages_page
         $args['list'] = array();
 
         // Check Is Post Or Term
-        $_is_post   = in_array($Type, array("page", "post", "product", "attachment"));
+        $_is_post   = in_array($Type, array("home", "page", "post", "product", "attachment"));
         $_post_type = (strpos($Type, 'post_type_') !== false) ? str_replace('post_type_', '', $Type) : $Type;
         $_is_post   = ($_is_post == false) ? in_array($_post_type, self::$postTypes) : $_is_post;
         $_is_term   = in_array($Type, array("category", "post_tag", "tax"));
