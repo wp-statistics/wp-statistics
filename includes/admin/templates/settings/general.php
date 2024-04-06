@@ -29,7 +29,7 @@
             </th>
 
             <td>
-                <input type="number" class="small-text code" id="check_online" name="wps_check_online" value="<?php echo esc_attr(WP_STATISTICS\Option::get('check_online')); ?>"/>
+                <input type="number" class="code" id="check_online" name="wps_check_online" value="<?php echo esc_attr(WP_STATISTICS\Option::get('check_online')); ?>" style="width: 100px"/>
                 <?php esc_html_e('Seconds', 'wp-statistics'); ?>
                 <p class="description"><?php esc_html_e('Defines how often the plugin checks for online users. \'120 seconds\' means updates every 2 minutes.', 'wp-statistics') ?></p>
             </td>
