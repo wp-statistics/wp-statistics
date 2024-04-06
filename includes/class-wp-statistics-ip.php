@@ -85,6 +85,7 @@ class IP
     /**
      * Generates a hashed version of an IP address using a daily salt, provided the hashing option is enabled.
      *
+     * @example 192.168.1.1 -> #hash#e7b398f96b14993b571215e36b41850c65f39b1a
      * @param string|false $ip Optional. The IP address to be hashed. If false, the current user's IP is used.
      * @return string|false The hashed IP address if hashing is enabled and successful, false otherwise.
      */
@@ -121,7 +122,9 @@ class IP
             }
 
             // Determine the IP address to hash; use the provided IP or the current user's IP if none is provided.
-            $ip = ($ip === false ? self::getIP() : $ip);
+            if (!$ip) {
+                $ip = self::getIP();
+            }
 
             // Retrieve the current user agent, defaulting to 'Unknown' if unavailable or empty.
             $userAgent = (UserAgent::getHttpUserAgent() == '' ? 'Unknown' : UserAgent::getHttpUserAgent());
@@ -171,10 +174,9 @@ class IP
         }
 
         /**
-         * If the hash IP is enabled because of the data privacy & GDPR.
-         * @example 192.168.1.1 -> #hash#e7b398f96b14993b571215e36b41850c65f39b1a
+         * Check if the option to hash IP addresses is enabled in the settings.
          */
-        if (self::getHashIP()) {
+        if (Option::get('hash_ips') == true) {
             $user_ip = self::getHashIP($user_ip);
         }
 
