@@ -109,16 +109,18 @@ class Visitor
         if ($args['exclusion_match'] === false || $args['exclusion_reason'] == 'Honeypot') {
 
             // Get User IP
-            $user_ip = IP::getStoreIP();
+            $userStoredIp = IP::getStoreIP();
 
             // Get User Agent
             $user_agent = UserAgent::getUserAgent();
 
             //Check Exist This User in Current Day
-            $same_visitor = self::exist_ip_in_day($user_ip);
+            $same_visitor = self::exist_ip_in_day($userStoredIp);
 
             // If we have a new Visitor in Day
             if (!$same_visitor) {
+
+                $userIp = IP::getIP();
 
                 // Prepare Visitor information
                 $visitor = array(
@@ -129,9 +131,9 @@ class Visitor
                     'version'      => $user_agent['version'],
                     'device'       => $user_agent['device'],
                     'model'        => $user_agent['model'],
-                    'ip'           => $user_ip,
-                    'location'     => GeoIP::getCountry(IP::getIP()),
-                    'city'         => GeoIP::getCity(IP::getIP()),
+                    'ip'           => $userStoredIp,
+                    'location'     => GeoIP::getCountry($userIp),
+                    'city'         => GeoIP::getCity($userIp),
                     'user_id'      => User::get_user_id(),
                     'UAString'     => (Option::get('store_ua') == true ? UserAgent::getHttpUserAgent() : ''),
                     'hits'         => 1,
@@ -164,7 +166,7 @@ class Visitor
                             User::get_user_id(),
                             $visitor_id
                         )
-                    );	
+                    );
                 }
             }
         }
@@ -200,7 +202,7 @@ class Visitor
          *
          */
         $exist = $wpdb->get_var(
-            $wpdb->prepare("SELECT COUNT(*) FROM `".$tableName."` WHERE `visitor_id` = %d AND `page_id` = %d AND DATE(`date`) = %s", $visitor_id, $page_id, $currentDate) 
+            $wpdb->prepare("SELECT COUNT(*) FROM `".$tableName."` WHERE `visitor_id` = %d AND `page_id` = %d AND DATE(`date`) = %s", $visitor_id, $page_id, $currentDate)
         );
 
         /**
@@ -415,7 +417,7 @@ class Visitor
 
         // Get Row
         $item = $wpdb->get_row(
-            $wpdb->prepare("SELECT * FROM `".$pageTable."` WHERE page_id = %s", $page_id), 
+            $wpdb->prepare("SELECT * FROM `".$pageTable."` WHERE page_id = %s", $page_id),
             ARRAY_A);
 
         if ($item !== null) {
@@ -470,7 +472,7 @@ class Visitor
     {
         global $wpdb;
         $query = $wpdb->get_results(
-            "SELECT `user_id` FROM `".DB::table('visitor')."` as visitors WHERE `user_id` >0 AND EXISTS (SELECT `ID` FROM `".$wpdb->users."` as users WHERE visitors.user_id = users.ID) GROUP BY `user_id` ORDER BY `user_id` DESC", 
+            "SELECT `user_id` FROM `".DB::table('visitor')."` as visitors WHERE `user_id` >0 AND EXISTS (SELECT `ID` FROM `".$wpdb->users."` as users WHERE visitors.user_id = users.ID) GROUP BY `user_id` ORDER BY `user_id` DESC",
             ARRAY_A
         );
         $item  = array();
