@@ -215,6 +215,7 @@ class pages_page
 
         // Get Date-Range
         $args['DateRang'] = Admin_Template::DateRange();
+        $args['HasDateRang'] = True;
 
         // List Of Pages From custom Type
         $args['list'] = array();
@@ -281,7 +282,7 @@ class pages_page
         }
 
         // Show Template Page
-        Admin_Template::get_template(array('layout/header', 'layout/title', 'layout/select', 'layout/date.range', 'pages/page-chart', 'layout/postbox.hide', 'layout/footer'), $args);
+        Admin_Template::get_template(array('layout/header', 'layout/title', 'layout/select',  'pages/page-chart', 'layout/postbox.hide', 'layout/footer'), $args);
     }
 }
 

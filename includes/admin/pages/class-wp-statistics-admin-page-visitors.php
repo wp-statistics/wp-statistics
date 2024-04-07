@@ -40,6 +40,7 @@ class visitors_page
 
         // Get Date-Range
         $args['DateRang'] = Admin_Template::DateRange();
+        $args['HasDateRang'] = True;
 
         // Default Parameter Link
         $data_link = array('from' => $args['DateRang']['from'], 'to' => $args['DateRang']['to']);
@@ -196,7 +197,7 @@ class visitors_page
             ));
         }
 
-        Admin_Template::get_template(array('layout/header', 'layout/title', 'layout/date.range', 'pages/visitors', 'layout/visitors.filter', 'layout/footer'), $args);
+        Admin_Template::get_template(array('layout/header', 'layout/title', 'pages/visitors', 'layout/visitors.filter', 'layout/footer'), $args);
     }
 
     /**

@@ -65,5 +65,8 @@ jQuery(document).ready(function () {
                 format: 'YYYY-MM-DD'
             }
         });
+        datePickerField.on('apply.daterangepicker', function(ev, picker) {
+             jQuery('.wps-today-datepicker').submit();
+        });
     }
 });

@@ -72,7 +72,6 @@ final class WP_Statistics
          */
         do_action('wp_statistics_loaded');
     }
-
     /**
      * Cloning is forbidden.
      *

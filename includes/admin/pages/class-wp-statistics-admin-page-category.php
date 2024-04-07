@@ -44,6 +44,7 @@ class category_page
 
         // Get Date-Range
         $args['DateRang'] = Admin_Template::DateRange();
+        $args['HasDateRang'] = True;
 
         // Create Select Box
         $args['select_box'] = array(
@@ -111,7 +112,7 @@ class category_page
         }
 
         // Show Template Page
-        Admin_Template::get_template(array('layout/header', 'layout/title', 'layout/date.range', 'pages/category', 'layout/postbox.hide', 'layout/footer'), $args);
+        Admin_Template::get_template(array('layout/header', 'layout/title', 'pages/category', 'layout/postbox.hide', 'layout/footer'), $args);
     }
 
 }

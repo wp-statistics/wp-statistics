@@ -41,10 +41,11 @@ class browser_page
 
         // Get Date-Range
         $args['DateRang'] = Admin_Template::DateRange();
+        $args['HasDateRang'] = True;
 
 
         // Show Template Page
-        Admin_Template::get_template(array('layout/header', 'layout/title', 'layout/date.range', 'pages/browsers', 'layout/postbox.toggle', 'layout/footer'), $args);
+        Admin_Template::get_template(array('layout/header', 'layout/title', 'pages/browsers', 'layout/postbox.toggle', 'layout/footer'), $args);
     }
 
 }

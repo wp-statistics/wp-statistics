@@ -44,6 +44,7 @@ class authors_page
 
         // Get Date-Range
         $args['DateRang'] = Admin_Template::DateRange();
+        $args['HasDateRang'] = True;
 
         // Get List Authors
         $users = get_users((User::Access('manage') ? array('role__in' => array('author', 'administrator')) : array('role__in' => 'author')));
@@ -95,7 +96,7 @@ class authors_page
         }
 
         // Show Template Page
-        Admin_Template::get_template(array('layout/header', 'layout/title', 'layout/date.range', 'pages/author', 'layout/postbox.hide', 'layout/footer'), $args);
+        Admin_Template::get_template(array('layout/header', 'layout/title', 'pages/author', 'layout/postbox.hide', 'layout/footer'), $args);
     }
 
 }

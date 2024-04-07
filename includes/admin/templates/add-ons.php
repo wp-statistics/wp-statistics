@@ -1,4 +1,4 @@
-k<div id="poststuff" class="wp-statistics-plugins">
+<div id="poststuff" class="wp-statistics-plugins">
     <div id="post-body" class="metabox-holder">
         <div class="wp-list-table widefat widefat plugin-install">
             <form action="<?php echo esc_url(admin_url('admin.php?page=wps_plugins_page')); ?>" method="post">
