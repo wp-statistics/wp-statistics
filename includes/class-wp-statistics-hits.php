@@ -2,6 +2,8 @@
 
 namespace WP_STATISTICS;
 
+use WP_Statistics\Service\Analytics\VisitorProfile;
+
 class Hits
 {
     /**
@@ -157,6 +159,8 @@ class Hits
             Exclusion::record($exclusion);
         }
 
+        $visitorProfile = new VisitorProfile();
+
         # Record User Visits
         if (Visit::active() and $exclusion['exclusion_match'] === false) {
             Visit::record();
@@ -164,7 +168,7 @@ class Hits
 
         # Record Visitor Detail
         if (Visitor::active()) {
-            $visitor_id = Visitor::record($exclusion);
+            $visitor_id = Visitor::record($visitorProfile, $exclusion);
         }
 
         # Record Search Engine
@@ -184,7 +188,7 @@ class Hits
 
         # Record User Online
         if (UserOnline::active() and ($exclusion['exclusion_match'] === false || Option::get('all_online'))) {
-            UserOnline::record();
+            UserOnline::record($visitorProfile);
         }
 
         return $exclusion;

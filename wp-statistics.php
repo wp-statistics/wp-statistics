@@ -2,9 +2,9 @@
 /**
  * Plugin Name: WP Statistics
  * Plugin URI: https://wp-statistics.com/
- * GitHub Plugin URI:‌ https://github.com/wp-statistics/wp-statistics
+ * GitHub Plugin URI: https://github.com/wp-statistics/wp-statistics
  * Description: This plugin gives you the complete information on your website's visitors.
- * Version: 14.6.0
+ * Version: 14.7.0
  * Author: VeronaLabs
  * Author URI: https://veronalabs.com/
  * Text Domain: wp-statistics

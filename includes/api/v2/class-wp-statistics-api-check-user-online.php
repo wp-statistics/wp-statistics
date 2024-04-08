@@ -2,6 +2,8 @@
 
 namespace WP_STATISTICS\Api\v2;
 
+use WP_Statistics\Service\Analytics\VisitorProfile;
+
 class CheckUserOnline extends \WP_STATISTICS\RestAPI
 {
     /**
@@ -25,8 +27,8 @@ class CheckUserOnline extends \WP_STATISTICS\RestAPI
     public function register_online_user_rest_api()
     {
         register_rest_route(self::$namespace, '/' . self::$endpoint, array(
-            'methods' => 'GET',
-            'callback' => [$this, 'onlineUserUpdateCallback'],
+            'methods'             => 'GET',
+            'callback'            => [$this, 'onlineUserUpdateCallback'],
             'permission_callback' => function (\WP_REST_Request $request) {
                 return true;
             }
@@ -35,10 +37,12 @@ class CheckUserOnline extends \WP_STATISTICS\RestAPI
 
     public function onlineUserUpdateCallback()
     {
-        \WP_STATISTICS\UserOnline::record();
+        $visitorProfile = new VisitorProfile();
+
+        \WP_STATISTICS\UserOnline::record($visitorProfile);
 
         $response = [
-            'status' => true,
+            'status'  => true,
             'message' => 'User is online, the data is updated successfully.',
         ];
         return rest_ensure_response($response);

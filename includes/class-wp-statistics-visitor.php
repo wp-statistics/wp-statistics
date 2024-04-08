@@ -2,6 +2,8 @@
 
 namespace WP_STATISTICS;
 
+use WP_Statistics\Service\Analytics\VisitorProfile;
+
 class Visitor
 {
     /**
@@ -33,9 +35,10 @@ class Visitor
      * Save new Visitor To DB
      *
      * @param array $visitor
+     * @param $visitorProfile VisitorProfile
      * @return INT
      */
-    public static function save_visitor($visitor = array())
+    public static function save_visitor($visitor, $visitorProfile)
     {
         global $wpdb;
 
@@ -60,7 +63,7 @@ class Visitor
         remove_filter('query', array('\WP_STATISTICS\DB', 'insert_ignore'), 10);
 
         # Do Action After Save New Visitor
-        do_action('wp_statistics_save_visitor', $visitor_id, $visitor, Pages::get_page_type());
+        do_action('wp_statistics_save_visitor', $visitor_id, $visitor, $visitorProfile->getCurrentPageType());
 
         return $visitor_id;
     }
@@ -80,7 +83,7 @@ class Visitor
         $columns      = (empty($fields) ? '*' : Helper::prepareArrayToStringForQuery($fields));
         $last_counter = ($date === false ? TimeZone::getCurrentDate('Y-m-d') : $date);
         $visitor      = $wpdb->get_row(
-            $wpdb->prepare("SELECT $columns FROM `".DB::table('visitor')."` WHERE `last_counter` = %s AND `ip` = %s", $last_counter, $ip)
+            $wpdb->prepare("SELECT $columns FROM `" . DB::table('visitor') . "` WHERE `last_counter` = %s AND `ip` = %s", $last_counter, $ip)
         );
 
         return (!$visitor ? false : $visitor);
@@ -90,10 +93,11 @@ class Visitor
      * Record Uniq Visitor Detail in DB
      *
      * @param array $arg
+     * @param $visitorProfile VisitorProfile
      * @return bool|INT
      * @throws \Exception
      */
-    public static function record($arg = array())
+    public static function record($visitorProfile, $arg = array())
     {
         global $wpdb;
 
@@ -108,41 +112,36 @@ class Visitor
         // Check User Exclusion
         if ($args['exclusion_match'] === false || $args['exclusion_reason'] == 'Honeypot') {
 
-            // Get User IP
-            $userStoredIp = IP::getStoreIP();
-
             // Get User Agent
-            $user_agent = UserAgent::getUserAgent();
+            $user_agent = $visitorProfile->getUserAgent();
 
             //Check Exist This User in Current Day
-            $same_visitor = self::exist_ip_in_day($userStoredIp);
+            $same_visitor = self::exist_ip_in_day($visitorProfile->getProcessedIPForStorage());
 
             // If we have a new Visitor in Day
             if (!$same_visitor) {
 
-                $userIp = IP::getIP();
-
                 // Prepare Visitor information
                 $visitor = array(
                     'last_counter' => TimeZone::getCurrentDate('Y-m-d'),
-                    'referred'     => Referred::get(),
+                    'referred'     => $visitorProfile->getReferrer(),
                     'agent'        => $user_agent['browser'],
                     'platform'     => $user_agent['platform'],
                     'version'      => $user_agent['version'],
                     'device'       => $user_agent['device'],
                     'model'        => $user_agent['model'],
-                    'ip'           => $userStoredIp,
-                    'location'     => GeoIP::getCountry($userIp),
-                    'city'         => GeoIP::getCity($userIp),
-                    'user_id'      => User::get_user_id(),
-                    'UAString'     => (Option::get('store_ua') == true ? UserAgent::getHttpUserAgent() : ''),
+                    'ip'           => $visitorProfile->getProcessedIPForStorage(),
+                    'location'     => $visitorProfile->getCountry(),
+                    'city'         => $visitorProfile->getCity(),
+                    'user_id'      => $visitorProfile->getUserId(),
+                    'UAString'     => (Option::get('store_ua') == true ? $visitorProfile->getHttpUserAgent() : ''),
                     'hits'         => 1,
                     'honeypot'     => ($args['exclusion_reason'] == 'Honeypot' ? 1 : 0),
                 );
                 $visitor = apply_filters('wp_statistics_visitor_information', $visitor);
 
                 //Save Visitor TO DB
-                $visitor_id = self::save_visitor($visitor);
+                $visitor_id = self::save_visitor($visitor, $visitorProfile);
 
             } else {
 
@@ -158,12 +157,11 @@ class Visitor
                     $visitorTable = DB::table('visitor');
 
                     // Update Visitor Count in DB
-
                     $wpdb->query(
                         $wpdb->prepare(
-                            "UPDATE `".$visitorTable."` SET `hits` = `hits` + %d, user_id = %s WHERE `ID` = %d",
+                            "UPDATE `" . $visitorTable . "` SET `hits` = `hits` + %d, user_id = %s WHERE `ID` = %d",
                             1,
-                            User::get_user_id(),
+                            $visitorProfile->getUserId(),
                             $visitor_id
                         )
                     );
@@ -202,7 +200,7 @@ class Visitor
          *
          */
         $exist = $wpdb->get_var(
-            $wpdb->prepare("SELECT COUNT(*) FROM `".$tableName."` WHERE `visitor_id` = %d AND `page_id` = %d AND DATE(`date`) = %s", $visitor_id, $page_id, $currentDate)
+            $wpdb->prepare("SELECT COUNT(*) FROM `" . $tableName . "` WHERE `visitor_id` = %d AND `page_id` = %d AND DATE(`date`) = %s", $visitor_id, $page_id, $currentDate)
         );
 
         /**
@@ -212,7 +210,7 @@ class Visitor
         if ($exist) {
 
             $result = $wpdb->query(
-                $wpdb->prepare("UPDATE `".$tableName."` SET `date` = %s WHERE DATE(`date`) = %s AND `visitor_id` = %d AND `page_id` = %d", TimeZone::getCurrentDate(), $currentDate, $visitor_id, $page_id)
+                $wpdb->prepare("UPDATE `" . $tableName . "` SET `date` = %s WHERE DATE(`date`) = %s AND `visitor_id` = %d AND `page_id` = %d", TimeZone::getCurrentDate(), $currentDate, $visitor_id, $page_id)
             );
 
         } else {
@@ -271,7 +269,7 @@ class Visitor
         }
 
         // Prepare Query
-        $args['sql'] = $wpdb->prepare("SELECT * FROM `".DB::table('visitor')."` WHERE last_counter = %s ORDER BY hits DESC", $sql_time);
+        $args['sql'] = $wpdb->prepare("SELECT * FROM `" . DB::table('visitor') . "` WHERE last_counter = %s ORDER BY hits DESC", $sql_time);
 
         // Get Visitors Data
         return self::get($args);
@@ -417,7 +415,7 @@ class Visitor
 
         // Get Row
         $item = $wpdb->get_row(
-            $wpdb->prepare("SELECT * FROM `".$pageTable."` WHERE page_id = %s", $page_id),
+            $wpdb->prepare("SELECT * FROM `" . $pageTable . "` WHERE page_id = %s", $page_id),
             ARRAY_A);
 
         if ($item !== null) {
@@ -472,7 +470,7 @@ class Visitor
     {
         global $wpdb;
         $query = $wpdb->get_results(
-            "SELECT `user_id` FROM `".DB::table('visitor')."` as visitors WHERE `user_id` >0 AND EXISTS (SELECT `ID` FROM `".$wpdb->users."` as users WHERE visitors.user_id = users.ID) GROUP BY `user_id` ORDER BY `user_id` DESC",
+            "SELECT `user_id` FROM `" . DB::table('visitor') . "` as visitors WHERE `user_id` >0 AND EXISTS (SELECT `ID` FROM `" . $wpdb->users . "` as users WHERE visitors.user_id = users.ID) GROUP BY `user_id` ORDER BY `user_id` DESC",
             ARRAY_A
         );
         $item  = array();
