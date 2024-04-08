@@ -11,10 +11,9 @@
     padding: 32px 32px 0;
   }
 }
-
 .c-footer__filter {
   position: relative;
-  z-index: 999;
+  z-index: 1;
 }
 
 .c-footer__more__link {
@@ -336,4 +335,7 @@
   .wps-wrap input[type="text"].c-footer__filters__custom-date-input {
     right: 160px;
   }
+}
+.wps_page #wpfooter{
+  margin-left: 0;
 }

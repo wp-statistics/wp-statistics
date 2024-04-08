@@ -528,6 +528,26 @@
         td{
            a{
              display: inline!important;
+             &.button{
+               color: #0C0C0D;
+               font-size: 12px;
+               font-weight: 400;
+               line-height: 20px;
+               border: 1px solid #EEEFF1;
+               &:hover{
+                 font-weight: 500;
+                 border: 1px solid #DADCE0;
+                 background: #FAFAFB;
+               }
+               &.disabled, &.disabled:focus{
+                 border: 1px solid #DADCE0;
+                 background: #EEEFF1;
+                 span,span:hover{
+                   color: #56585A!important;
+                 }
+
+               }
+             }
            }
           &.head{
             white-space: nowrap;
@@ -548,6 +568,7 @@
               margin-bottom: 0;
             }
           }
+
         }
       }
     }

@@ -36,6 +36,15 @@
 
   .postbox-header .handle-actions {
     margin-top: 8px;
+    .wps-refresh{
+      .wps-refresh-icon{
+        width: 10px!important;
+        height: 12px!important;
+      }
+      .screen-reader-text{
+        font-size: 11px;
+      }
+    }
   }
 
   .postbox-header.postbox-toggle {
@@ -149,10 +158,10 @@
 
     h2 {
       font-family: $font-stack;
-      font-weight: 600;
+      font-weight: 500;
       font-size: 14px;
       margin: 0;
-      line-height: 1.4;
+      line-height:16.41px;
     }
   }
 

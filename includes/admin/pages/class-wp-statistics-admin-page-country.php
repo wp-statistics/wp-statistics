@@ -42,7 +42,7 @@ class country_page
 
         // Get Date-Range
         $args['DateRang'] = Admin_Template::DateRange();
-
+        $args['HasDateRang'] = True;
 
         // From Date and To Date
         $days_list    = array_keys(TimeZone::getListDays(array('from' => TimeZone::getTimeAgo(30))));
@@ -109,7 +109,7 @@ class country_page
         }
 
         // Show Template
-        Admin_Template::get_template(array('layout/header', 'layout/title', 'layout/date.range', 'pages/country', 'layout/postbox.toggle', 'layout/footer'), $args);
+        Admin_Template::get_template(array('layout/header', 'layout/title', 'pages/country', 'layout/postbox.toggle', 'layout/footer'), $args);
     }
 }
 
