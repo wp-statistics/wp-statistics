@@ -375,6 +375,15 @@ wps_js.sum = function (array) {
     }, 0);
 };
 
+document.addEventListener('DOMContentLoaded', () => {
+    const notices = document.querySelectorAll('.notice');
+    if (notices.length > 0 && document.body.classList.contains('wps_page')) {
+        notices.forEach(notice => {
+            notice.classList.remove('inline');
+        })
+    }
+});
+
 /**
  * FeedbackBird position
  * */
@@ -384,7 +393,7 @@ function moveFeedbackBird() {
     const feedbackBirdTitle = document.querySelector('.c-fbb-widget__header__title');
     const license = document.querySelector('.wps-mobileMenuContent .wps-bundle');
     const support = document.querySelector('.wps-adminHeader__side');
-    if (feedbackBird && (document.body.classList.contains('wps_page') )) {
+    if (feedbackBird && (document.body.classList.contains('wps_page'))) {
         if (windowWidth <= 1030) {
             const cutDiv = feedbackBird.parentNode.removeChild(feedbackBird);
             license.parentNode.insertBefore(cutDiv, license);
@@ -393,7 +402,7 @@ function moveFeedbackBird() {
             support.appendChild(cutDiv);
         }
         feedbackBird.style.display = 'block';
-        feedbackBird.setAttribute('title',feedbackBirdTitle.innerHTML);
+        feedbackBird.setAttribute('title', feedbackBirdTitle.innerHTML);
     }
 }
 
