@@ -8,7 +8,7 @@ $href = esc_url(admin_url('admin.php?page=' . $slug));
 
 $badge_count_html = '';
 if ($badge_count !== null) {
-    $badge_count_html = '<span class="badge">' . esc_html($badge_count) . '</span>';
+    $badge_count_html = '<span class="badge"><span>' . esc_html($badge_count) . '</span></span>';
 }
 ?>
 

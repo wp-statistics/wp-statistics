@@ -275,7 +275,7 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
       color: #fff;
       text-decoration: none;
       font-size: 14px;
-      font-weight: 500;
+      font-weight: 400;
       line-height: 16px;
       transition: 0.3s background ease-out;
       @media(max-width: 1030px) {
@@ -342,8 +342,8 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
       }
 
       span.badge {
-        min-width: 12px;
-        height: 12px;
+        min-width: 16px;
+        height: 16px;
         background: rgba(255, 255, 255, .3019607843);
         color: #fff;
         text-align: center;
@@ -351,22 +351,43 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
         line-height: 14px;
         border-radius: 50%;
         position: relative;
-        padding: 2px;
         margin-left: 10px;
         opacity: 1 !important;
+        span{
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translateX(-50%) translateY(-50%);
+          opacity: 1 !important;
+        }
+        &:before {
+          content: '';
+          position: relative;
+          display: block;
+          width: 300%;
+          height: 300%;
+          box-sizing: border-box;
+          margin-left: -100%;
+          margin-top: -100%;
+          border-radius: 50%;
+          background-color: #ffffff17;
+          animation: pulse-ring 12s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+         }
 
         &:after {
           content: '';
           position: absolute;
-          width: 110%;
-          height: 110%;
-          top: -5%;
-          left: -5%;
-          background: #FFFFFF4D;
+          left: 0;
+          top: 0;
+          display: block;
+          width: 100%;
+          height: 100%;
+          background-color: #ffffff3b;
           border-radius: 50%;
-          z-index: -1;
-          animation: pulse-blob 1000ms cubic-bezier(0.9, 0.7, 0.5, 0.9) infinite;
+          /* box-shadow: 0 0 8px rgba(0,0,0,.3); */
+          animation: pulse-dot 4.5s cubic-bezier(0.455, 0.03, 0.515, 0.955) -.4s infinite;
         }
+
       }
     }
   }
@@ -507,7 +528,7 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
   }
 
   #wps-menu-toggle:checked ~ .hamburger-menu-container .menu-bar:nth-child(3) {
-    transform: translateY(-4px) rotate(-45deg);
+    transform: translateY(-4.5px) rotate(-45deg);
     opacity: 1;
   }
 
@@ -2090,13 +2111,24 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
   }
 }
 
-@keyframes pulse-blob {
+@keyframes pulse-ring {
   0% {
+    transform: scale(.33);
+  }
+  80%, 100% {
+    opacity: 0;
+  }
+}
 
+@keyframes pulse-dot {
+  0% {
+    transform: scale(.8);
   }
   50% {
-    transform: scale(1.4);
-
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(.8);
   }
 }
 
@@ -2106,7 +2138,7 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
   text-decoration: none;
   display: flex;
   align-items: center;
-  font-weight: 500;
+  font-weight: 400;
   line-height: 16px;
   white-space: nowrap;
   border: 1px solid #0E0E2233;
@@ -2116,6 +2148,7 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
   transition: 0.3s all ease-out;
   gap: 3px;
   opacity: 70%;
+  text-transform: uppercase;
 
   &:before {
     content: "";
@@ -2161,7 +2194,7 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
   position: relative;
   font-size: 14px;
   line-height: 17px;
-  font-weight: 500;
+  font-weight: 400;
   display: flex;
   gap: 4px;
   padding: 8px;
@@ -2199,7 +2232,7 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
     text-decoration: none;
     font-size: 14px;
     line-height: 17px;
-    font-weight: 500;
+    font-weight: 400;
     color: #4E5154;
     display: flex;
     padding: 12px;
@@ -2249,6 +2282,9 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
       #feedback-bird-app .c-fbb-btn--default > span {
         display: flex !important;
         align-items: center;
+        font-size: 14px;
+        line-height: 17px;
+        font-weight: 400;
       }
 
       .c-fbb-btn--default > span:before {
