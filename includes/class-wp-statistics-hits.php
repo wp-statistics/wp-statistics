@@ -150,6 +150,7 @@ class Hits
      */
     public static function record()
     {
+        $visitorProfile = new VisitorProfile();
 
         # Check Exclusion This Hits
         $exclusion = Exclusion::check();
@@ -158,8 +159,6 @@ class Hits
         if ($exclusion['exclusion_match'] === true) {
             Exclusion::record($exclusion);
         }
-
-        $visitorProfile = new VisitorProfile();
 
         # Record User Visits
         if (Visit::active() and $exclusion['exclusion_match'] === false) {

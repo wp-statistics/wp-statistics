@@ -13,13 +13,6 @@ defined('ABSPATH') || exit;
 final class WP_Statistics
 {
     /**
-     * Holds various class instances
-     *
-     * @var array
-     */
-    private $container = array();
-
-    /**
      * The single instance of the class.
      *
      * @var WP Statistics
@@ -83,17 +76,6 @@ final class WP_Statistics
     }
 
     /**
-     * Magic getter to bypass referencing plugin.
-     *
-     * @param $key
-     * @return mixed
-     */
-    public function __get($key)
-    {
-        return $this->container[$key];
-    }
-
-    /**
      * Constructors plugin Setup
      *
      * @throws Exception
@@ -116,11 +98,6 @@ final class WP_Statistics
              * Display Admin Notices
              */
             add_action('admin_notices', array('\\WP_STATISTICS\\Helper', 'displayAdminNotices'));
-
-            /**
-             * instantiate Plugin
-             */
-            $this->instantiate();
 
         } catch (Exception $e) {
             self::log($e->getMessage());
@@ -351,23 +328,6 @@ final class WP_Statistics
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-db.php';
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-uninstall.php';
         new \WP_STATISTICS\Uninstall();
-    }
-
-    /**
-     * Instantiate the classes
-     *
-     * @return void
-     * @throws Exception
-     */
-    public function instantiate()
-    {
-        $this->container['country_codes'] = \WP_STATISTICS\Country::getList();
-        $this->container['user_id']       = \WP_STATISTICS\User::get_user_id();
-        $this->container['option']        = new \WP_STATISTICS\Option();
-        $this->container['ip']            = \WP_STATISTICS\IP::getIP();
-        $this->container['agent']         = \WP_STATISTICS\UserAgent::getUserAgent();
-        $this->container['users_online']  = new \WP_STATISTICS\UserOnline();
-        $this->container['visitor']       = new \WP_STATISTICS\Visitor();
     }
 
     /**

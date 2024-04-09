@@ -235,15 +235,8 @@ class Helper
      */
     public static function get_robots_list($type = 'list')
     {
-        global $WP_Statistics;
-
         # Set Default
         $list = array();
-
-        # Load From global
-        if (isset($WP_Statistics->robots_list)) {
-            $list = $WP_Statistics->robots_list;
-        }
 
         # Load From file
         include WP_STATISTICS_DIR . "includes/defines/robots-list.php";
@@ -897,13 +890,11 @@ class Helper
      */
     public static function mysql_time_conditions($field = 'date', $time = 'total', $range = array())
     {
-        global $WP_Statistics;
-
         //Get Current Date From WP
         $current_date = TimeZone::getCurrentDate('Y-m-d');
 
         //Create Field Sql
-        $field_sql = function ($time) use ($current_date, $field, $WP_Statistics, $range) {
+        $field_sql = function ($time) use ($current_date, $field, $range) {
             $is_current     = array_key_exists('current_date', $range);
             $getCurrentDate = TimeZone::getCurrentDate('Y-m-d', (int)$time);
             return "`$field` " . ($is_current === true ? '=' : 'BETWEEN') . " '{$getCurrentDate}'" . ($is_current === false ? " AND '{$current_date}'" : "");

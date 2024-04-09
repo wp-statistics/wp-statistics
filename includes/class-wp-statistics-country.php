@@ -18,13 +18,6 @@ class Country
      */
     public static function getList()
     {
-        global $WP_Statistics;
-
-        # Load From global
-        if (isset($WP_Statistics->country_codes)) {
-            return $WP_Statistics->country_codes;
-        }
-
         # Load From file
         include WP_STATISTICS_DIR . "includes/defines/country-codes.php";
         if (isset($ISOCountryCode)) {

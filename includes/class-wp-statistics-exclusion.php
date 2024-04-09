@@ -3,6 +3,7 @@
 namespace WP_STATISTICS;
 
 use Jaybizzle\CrawlerDetect\CrawlerDetect;
+use WP_Statistics\Service\Analytics\VisitorProfile;
 
 class Exclusion
 {
@@ -63,10 +64,15 @@ class Exclusion
         // Check Exclusion
         foreach ($exclusion_list as $list) {
             $method = 'exclusion_' . strtolower(str_replace(array("-", " "), "_", $list));
-            $check  = self::{$method}();
-            if ($check === true) {
-                $exclude = array('exclusion_match' => true, 'exclusion_reason' => $list);
-                break;
+
+            // Check if method exists
+            if (method_exists(self::class, $method)) {
+                $check = call_user_func([self::class, $method]);
+
+                if ($check) {
+                    $exclude = array('exclusion_match' => true, 'exclusion_reason' => $list);
+                    break;
+                }
             }
         }
 
@@ -89,8 +95,9 @@ class Exclusion
 
         // Check Exist this Exclusion in this day
         $result = $wpdb->query(
-            $wpdb->prepare("UPDATE `".DB::table('exclusions')."` SET `count` = `count` + 1 WHERE `date` = %s AND `reason` = %s", TimeZone::getCurrentDate('Y-m-d'), $exclusion['exclusion_reason'])
+            $wpdb->prepare("UPDATE `" . DB::table('exclusions') . "` SET `count` = `count` + 1 WHERE `date` = %s AND `reason` = %s", TimeZone::getCurrentDate('Y-m-d'), $exclusion['exclusion_reason'])
         );
+
         if (!$result) {
             $insert = $wpdb->insert(
                 DB::table('exclusions'),
@@ -100,6 +107,7 @@ class Exclusion
                     'count'  => 1,
                 )
             );
+
             if (!$insert) {
                 if (!empty($wpdb->last_error)) {
                     \WP_Statistics::log($wpdb->last_error);
@@ -430,8 +438,6 @@ class Exclusion
      */
     public static function exclusion_hostname()
     {
-        global $WP_Statistics;
-
         // Get Host name List
         $excluded_host = explode("\n", Option::get('excluded_hosts'));
 
@@ -458,8 +464,10 @@ class Exclusion
                 set_transient($transient_name, $hostname_cache, 360);
             }
 
+            $id = \WP_STATISTICS\IP::getIP();
+
             // Check if the current IP address matches one of the ones in the excluded hosts list.
-            if (in_array($WP_Statistics->ip, $hostname_cache)) {
+            if (in_array($id, $hostname_cache)) {
                 return true;
             }
         }
