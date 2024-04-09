@@ -69,7 +69,7 @@ class Option
             'force_robot_update'        => true,
             'ip_method'                 => 'REMOTE_ADDR',
             'exclude_loginpage'         => true,
-            'exclude_404s'              => true,
+            'exclude_404s'              => false,
             'exclude_feeds'             => true,
             'schedule_dbmaint'          => true,
             'schedule_dbmaint_days'     => '180'
