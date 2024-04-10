@@ -25,7 +25,7 @@
             </th>
             <td>
                 <input id="geoip_license_key" type="text" size="30" name="wps_geoip_license_key" value="<?php echo esc_attr(WP_STATISTICS\Option::get('geoip_license_key')); ?>">
-                <p class="description"><?php echo  esc_html__('Put your license key here and save settings to apply it.', 'wp-statistics'); ?></p>
+                <p class="description"><?php echo esc_html__('Put your license key here and save settings to apply it.', 'wp-statistics'); ?></p>
             </td>
         </tr>
 
@@ -43,7 +43,7 @@
 
                         <?php
                         if (WP_STATISTICS\Option::get('geoip')) {
-                            submit_button( esc_html__("Update Database", 'wp-statistics'), "secondary", "update_geoip", false);
+                            submit_button(esc_html__("Update Database", 'wp-statistics'), "secondary", "update_geoip", false);
                         }
                         ?>
                     </label>
@@ -65,7 +65,7 @@
 
                         <?php
                         if (WP_STATISTICS\Option::get('geoip_city')) {
-                            submit_button( esc_html__("Update Database", 'wp-statistics'), "secondary", "update_geoip", false);
+                            submit_button(esc_html__("Update Database", 'wp-statistics'), "secondary", "update_geoip", false);
                         }
                         ?>
                     </label>
@@ -83,12 +83,12 @@
                     <label for="geoip-schedule"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
                     <?php
                     if (WP_STATISTICS\Option::get('schedule_geoip')) {
-                        echo '<p class="description">' .  esc_html__('Next update will be', 'wp-statistics') . ': <code>';
+                        echo '<p class="description">' . esc_html__('Next update will be', 'wp-statistics') . ': <code>';
                         $last_update = WP_STATISTICS\Option::get('last_geoip_dl');
-                        $this_month  = strtotime( esc_html__('First Tuesday of this month', 'wp-statistics'));
+                        $this_month  = strtotime(esc_html__('First Tuesday of this month', 'wp-statistics'));
 
                         if ($last_update > $this_month) {
-                            $next_update = strtotime( esc_html__('First Tuesday of next month', 'wp-statistics')) + (86400 * 2);
+                            $next_update = strtotime(esc_html__('First Tuesday of next month', 'wp-statistics')) + (86400 * 2);
                         } else {
                             $next_update = $this_month + (86400 * 2);
                         }
@@ -130,14 +130,14 @@
 
                 <td>
                     <input type="text" size="3" id="geoip-private-country-code" name="wps_private_country_code" value="<?php echo esc_attr(WP_STATISTICS\Option::get('private_country_code', \WP_STATISTICS\GeoIP::$private_country)); ?>">
-                    <p class="description"><?php echo  esc_html__('Assigns a default country code for private IP addresses that cannot be geographically located.', 'wp-statistics'); ?></p>
+                    <p class="description"><?php echo esc_html__('Assigns a default country code for private IP addresses that cannot be geographically located.', 'wp-statistics'); ?></p>
                 </td>
             </tr>
         <?php } else { ?>
             <tr valign="top">
                 <th scope="row" colspan="2">
                     <?php
-                    echo  esc_html__('GeoIP collection is disabled due to the following reasons:', 'wp-statistics') . '<br><br>';
+                    echo esc_html__('GeoIP collection is disabled due to the following reasons:', 'wp-statistics') . '<br><br>';
 
                     if (!function_exists('curl_init')) {
                         echo '<br>&nbsp;&nbsp;&nbsp;&nbsp;* ';
@@ -197,11 +197,13 @@
                             'wps_nonce': '<?php echo wp_create_nonce('wp_rest'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	 ?>'
                         },
                         datatype: 'json',
-                    })
-                        .always(function (result) {
-                            jQuery(".geoip-update-loading").remove();
-                            jQuery(geoip_clicked_button).after("<span class='update_geoip_result'>" + result + "</span>")
-                        });
+                    }).success(function (result) {
+                        jQuery(".geoip-update-loading").remove();
+                        jQuery(geoip_clicked_button).after("<span class='update_geoip_result'>" + result + "</span>")
+                    }).error(function (result) {
+                        jQuery(".geoip-update-loading").remove();
+                        jQuery(geoip_clicked_button).after("<span class='update_geoip_result'><?php _e('Oops! Something went wrong. Please try again. For more details, check the <b>PHP Error Log</b>.', 'wp-statistics'); ?></span>")
+                    });
                 });
             });
         </script>
@@ -258,12 +260,12 @@
                 <label for="referrerspam-schedule"><?php esc_html_e('Weekly Auto-Update', 'wp-statistics'); ?></label>
                 <?php
                 if (WP_STATISTICS\Option::get('schedule_referrerspam')) {
-                    echo '<p class="description">' .  esc_html__('Next update will be', 'wp-statistics') . ': <code>';
+                    echo '<p class="description">' . esc_html__('Next update will be', 'wp-statistics') . ': <code>';
                     $next_schedule = wp_next_scheduled('wp_statistics_referrerspam_hook');
 
                     if ($next_schedule) {
                         echo esc_attr(date(get_option('date_format'), $next_schedule) . ' @ ' . date(get_option('time_format'), $next_schedule));  // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date	
-                    } else { 
+                    } else {
                         $next_update = time() + (86400 * 7);
                         echo esc_attr(date(get_option('date_format'), $next_update) . ' @ ' . date(get_option('time_format'), time()));  // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date	
                     }
@@ -278,4 +280,4 @@
     </table>
 </div>
 
-<?php submit_button( esc_html__('Update', 'wp-statistics'), 'primary', 'submit', '', array('OnClick' => "var wpsCurrentTab = getElementById('wps_current_tab'); wpsCurrentTab.value='externals-settings'")); ?>
+<?php submit_button(esc_html__('Update', 'wp-statistics'), 'primary', 'submit', '', array('OnClick' => "var wpsCurrentTab = getElementById('wps_current_tab'); wpsCurrentTab.value='externals-settings'")); ?>
