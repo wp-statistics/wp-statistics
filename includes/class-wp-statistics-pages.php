@@ -236,21 +236,21 @@ class Pages
 
         // Check if we have already been to this page today.
         $search_query = array_key_exists("search_query", $current_page) === true ? "AND `uri` = '" . esc_sql($page_uri) . "'" : "";
-        $exist = $wpdb->get_row(
+        $exist        = $wpdb->get_row(
             $wpdb->prepare(
-                "SELECT `page_id` FROM `". DB::table('pages') ."` WHERE `date` = %s %s AND `type` = %s AND `id` = %d",
-                TimeZone::getCurrentDate('Y-m-d'), 
+                "SELECT `page_id` FROM `" . DB::table('pages') . "` WHERE `date` = %s %s AND `type` = %s AND `id` = %d",
+                TimeZone::getCurrentDate('Y-m-d'),
                 $search_query,
                 $current_page['type'],
                 $current_page['id']
             ),
-        ARRAY_A);
+            ARRAY_A);
 
         // Update Exist Page
         if (null !== $exist) {
             $search_query = array_key_exists("search_query", $current_page) === true ? "AND `uri` = '" . esc_sql($page_uri) . "'" : "";
             $wpdb->query(
-                $wpdb->prepare("UPDATE `". DB::table('pages') ."` SET `count` = `count` + 1 WHERE `date` = %s %s AND `type` = %s AND `id` = %d", 
+                $wpdb->prepare("UPDATE `" . DB::table('pages') . "` SET `count` = `count` + 1 WHERE `date` = %s %s AND `type` = %s AND `id` = %d",
                     TimeZone::getCurrentDate('Y-m-d'),
                     $search_query,
                     $current_page['type'],
@@ -494,7 +494,7 @@ class Pages
         }
 
         // Generate SQL
-        $sql = "SELECT `pages`.`date`,`pages`.`uri`,`pages`.`id`,`pages`.`type`, SUM(`pages`.`count`) + IFNULL(`historical`.`value`, 0) AS `count_sum` FROM `" . DB::table('pages') . "` `pages` LEFT JOIN `" . DB::table('historical') . "` `historical` ON `pages`.`uri`=`historical`.`uri` AND `historical`.`category`='uri' {$DateTimeSql} {$postTypeSql} GROUP BY `pages`.`id` ORDER BY `count_sum` DESC";
+        $sql = "SELECT `pages`.`date`,`pages`.`uri`,`pages`.`id`,`pages`.`type`, SUM(`pages`.`count`) AS `count_sum` FROM `" . DB::table('pages') . "` `pages` {$DateTimeSql} {$postTypeSql} GROUP BY `pages`.`id` ORDER BY `count_sum` DESC";
 
         // Get List Of Pages
         $list   = array();
@@ -541,7 +541,7 @@ class Pages
         $where = !empty($where) ? "WHERE " . implode(" AND ", $where) : "";
 
         // Return
-        return $wpdb->get_var("SELECT COUNT(*) FROM (SELECT COUNT(page_id) FROM `".DB::table('pages')."` `pages` {$where} GROUP BY `{$group_by}`) AS totalCount"); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+        return $wpdb->get_var("SELECT COUNT(*) FROM (SELECT COUNT(page_id) FROM `" . DB::table('pages') . "` `pages` {$where} GROUP BY `{$group_by}`) AS totalCount"); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
     }
 
     /**
@@ -566,7 +566,7 @@ class Pages
     {
         global $wpdb;
         $result = $wpdb->get_var(
-            $wpdb->prepare("SELECT id FROM `". DB::table('pages') ."` WHERE `uri` = %s and id > 0 ORDER BY date DESC", $uri)
+            $wpdb->prepare("SELECT id FROM `" . DB::table('pages') . "` WHERE `uri` = %s and id > 0 ORDER BY date DESC", $uri)
         );
         if ($result == 0) {
             $result = 0;
