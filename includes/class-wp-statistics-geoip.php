@@ -43,13 +43,6 @@ class GeoIP
     public static $private_country = '000';
 
     /**
-     * Cache Option name For Store User City
-     *
-     * @var string
-     */
-    public static $city_cache_object_name = 'wp_statistics_users_city';
-
-    /**
      * Get Geo IP Path
      *
      * @param $pack
@@ -497,13 +490,6 @@ class GeoIP
             return $user_city;
         }
 
-        // Check in WordPress Persist Cache
-        $user_city = self::getCacheCity($ip);
-        if ($user_city != false) {
-            self::setCacheCity($ip, $user_city);
-            return $user_city;
-        }
-
         // Default City Name
         $default_city = __('Unknown', 'wp-statistics');
 
@@ -545,69 +531,11 @@ class GeoIP
 
         # Check Has Location
         if (isset($location) and !empty($location)) {
-            self::setCacheCity($ip, $location);
+            wp_cache_set('city-' . $ip, $location, 'wp-statistics', DAY_IN_SECONDS);
             return $location;
         }
 
         return $default_city;
-    }
-
-    /**
-     * Set Cache User City
-     *
-     * @param $ip
-     * @param $city
-     * @param bool $opt
-     */
-    public static function setCacheCity($ip, $city, $opt = false)
-    {
-        if (!$opt) {
-            $opt = get_option(self::$city_cache_object_name);
-        }
-        if (empty($opt) || !is_array($opt)) {
-            $opt = array();
-        }
-        $opt[$ip] = array($city, current_time('timestamp'));
-        wp_cache_set('city-' . $ip, $city, 'wp-statistics', DAY_IN_SECONDS);
-        $opt = self::cleanCacheCity($opt);
-        update_option(self::$city_cache_object_name, $opt, 'no');
-    }
-
-    /**
-     * Clean Cache City
-     *
-     * @param bool $option
-     * @param bool $save
-     * @return bool
-     */
-    public static function cleanCacheCity($option = false, $save = false)
-    {
-        if (!$option) {
-            $option = get_option(self::$city_cache_object_name);
-        }
-        if (!empty($option) and is_array($option) and count($option) > 0) {
-            foreach ($option as $ip => $value) {
-                if (isset($value[1])) {
-                    $expire_time = (int)$value[1] + self::$library['city']['cache'];
-                    if ($expire_time <= current_time('timestamp')) {
-                        unset($option[$ip]);
-                    }
-                }
-            }
-        }
-        if ($save) {
-            update_option(self::$city_cache_object_name, $option, 'no');
-        }
-        return $option;
-    }
-
-    /*
-     * Get City with IP From WordPress Option Cache
-     */
-    public static function getCacheCity($ip)
-    {
-        $opt = get_option(self::$city_cache_object_name);
-        return (isset($opt[$ip]) ? $opt[$ip][0] : false);
     }
 
     /**
