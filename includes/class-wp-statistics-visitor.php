@@ -379,7 +379,7 @@ class Visitor
 
             // Push City
             if (GeoIP::active('city')) {
-                $item['city'] = !empty($items->city) ? $items->city : GeoIP::getCity($ip);;
+                $item['city'] = !empty($items->city) ? $items->city : GeoIP::getCity($ip);
             }
 
             // Get What is Page
