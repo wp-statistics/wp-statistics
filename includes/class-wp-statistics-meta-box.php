@@ -39,7 +39,6 @@ class Meta_Box
         require_once WP_STATISTICS_DIR . 'includes/admin/meta-box/wp-statistics-meta-box-pages.php';
         require_once WP_STATISTICS_DIR . 'includes/admin/meta-box/wp-statistics-meta-box-referring.php';
         require_once WP_STATISTICS_DIR . 'includes/admin/meta-box/wp-statistics-meta-box-search.php';
-        require_once WP_STATISTICS_DIR . 'includes/admin/meta-box/wp-statistics-meta-box-words.php';
         require_once WP_STATISTICS_DIR . 'includes/admin/meta-box/wp-statistics-meta-box-top-visitors.php';
         require_once WP_STATISTICS_DIR . 'includes/admin/meta-box/wp-statistics-meta-box-recent.php';
         require_once WP_STATISTICS_DIR . 'includes/admin/meta-box/wp-statistics-meta-box-hitsmap.php';
@@ -253,16 +252,6 @@ class Meta_Box
                 'hidden'            => true,
                 'show_on_dashboard' => true,
                 'place'             => 'normal'
-            ),
-            'words'           => array(
-                'page_url'          => 'words',
-                'name'              => __('Recent Search Queries', 'wp-statistics'),
-                'description'       => __('Check out the latest search terms that brought users to your website.', 'wp-statistics'),
-                'require'           => array('visitors' => true),
-                'hidden'            => true,
-                'show_on_dashboard' => true,
-                'place'             => 'normal',
-                'hidden_overview'   => true
             ),
             'about'           => array(
                 'name'              => apply_filters('wp_statistics_about_widget_title', __('WP Statistics', 'wp-statistics')),

@@ -19,7 +19,7 @@ class refer_page
             // Is Validate Date Request
             $DateRequest = Admin_Template::isValidDateRequest();
             if (!$DateRequest['status']) {
-                wp_die($DateRequest['message']);
+                wp_die(esc_html($DateRequest['message']));
             }
         }
     }
@@ -42,6 +42,7 @@ class refer_page
 
         // Get Date-Range
         $args['DateRang'] = Admin_Template::DateRange();
+        $args['HasDateRang'] = True;
 
         // Get Total List
         if (!isset($_GET['referrer'])) {
@@ -98,7 +99,7 @@ class refer_page
             ));
         }
 
-        Admin_Template::get_template(array('layout/header', 'layout/title', 'layout/date.range', (isset($referrer) ? 'pages/refer.url' : 'pages/top.refer'), 'layout/footer'), $args);
+        Admin_Template::get_template(array('layout/header', 'layout/title', (isset($referrer) ? 'pages/refer.url' : 'pages/top.refer'), 'layout/footer'), $args);
     }
 
 }

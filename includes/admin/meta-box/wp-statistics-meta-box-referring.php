@@ -18,6 +18,7 @@ class referring extends MetaBoxAbstract
          */
         $args = apply_filters('wp_statistics_meta_box_referring_args', $args);
 
+
         // Check Number of Country
         $number = (!empty($args['number']) ? $args['number'] : 10);
 
@@ -57,6 +58,4 @@ class referring extends MetaBoxAbstract
             'references' => __('Referral Sources', 'wp-statistics')
         );
     }
-
-
 }

@@ -180,9 +180,9 @@ wps_js.pie_chart = function (tag_id, label, data, label_callback = false) {
         plugins: [{
             afterDraw: function (chart) {
                 if (chart.data.datasets[0].data.every(x => x == 0) === true) {
-                    let ctx = chart.chart.ctx;
-                    let width = chart.chart.width;
-                    let height = chart.chart.height;
+                    let ctx = chart.ctx;
+                    let width = chart.width;
+                    let height = chart.height;
                     chart.clear();
                     ctx.save();
                     ctx.textAlign = 'center';
@@ -374,3 +374,39 @@ wps_js.sum = function (array) {
         return a + b;
     }, 0);
 };
+
+
+/**
+ * FeedbackBird position
+ * */
+function moveFeedbackBird() {
+    let windowWidth = window.outerWidth || document.documentElement.clientWidth;
+    const feedbackBird = document.getElementById('feedback-bird-app');
+    const feedbackBirdTitle = document.querySelector('.c-fbb-widget__header__title');
+    const license = document.querySelector('.wps-mobileMenuContent .wps-bundle');
+    const support = document.querySelector('.wps-adminHeader__side');
+    if (feedbackBird && (document.body.classList.contains('wps_page'))) {
+        if (windowWidth <= 1030) {
+            const cutDiv = feedbackBird.parentNode.removeChild(feedbackBird);
+            license.parentNode.insertBefore(cutDiv, license);
+        } else {
+            const cutDiv = feedbackBird.parentNode.removeChild(feedbackBird);
+            support.appendChild(cutDiv);
+        }
+        feedbackBird.style.display = 'block';
+        feedbackBird.setAttribute('title', feedbackBirdTitle.innerHTML);
+    }
+}
+
+window.onload = moveFeedbackBird;
+window.addEventListener('resize', moveFeedbackBird);
+
+jQuery(document).ready(function () {
+    const targetElement = document.querySelector('.wp-header-end');
+    const noticeElement = document.querySelector('.notice.notice-warning.update-nag');
+    // Check if both targetElement and noticeElement exist
+    if (targetElement && noticeElement) {
+        // Move the notice element after the target element
+        targetElement.parentNode.insertBefore(noticeElement, targetElement.nextSibling);
+    }
+});

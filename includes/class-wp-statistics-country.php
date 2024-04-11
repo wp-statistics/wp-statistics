@@ -18,13 +18,6 @@ class Country
      */
     public static function getList()
     {
-        global $WP_Statistics;
-
-        # Load From global
-        if (isset($WP_Statistics->country_codes)) {
-            return $WP_Statistics->country_codes;
-        }
-
         # Load From file
         include WP_STATISTICS_DIR . "includes/defines/country-codes.php";
         if (isset($ISOCountryCode)) {
@@ -117,8 +110,8 @@ class Country
 
         // Get Result
         $limitQuery = (isset($args['limit']) and $args['limit'] > 0) ? $wpdb->prepare("LIMIT %d", $args['limit']) : '';
-        $sqlQuery   = $wpdb->prepare("SELECT `location`, COUNT(`location`) AS `count` FROM `" . DB::table('visitor') . "` WHERE `last_counter` BETWEEN %s AND %s GROUP BY location ORDER BY `count` DESC", reset($days_time_list), end($days_time_list));
-        $result     = $wpdb->get_results($sqlQuery . " " . $limitQuery);
+        $sqlQuery   = $wpdb->prepare("SELECT `location`, COUNT(`location`) AS `count` FROM `". DB::table('visitor') ."` WHERE `last_counter` BETWEEN %s AND %s GROUP BY location ORDER BY `count` DESC", reset($days_time_list), end($days_time_list));
+        $result     = $wpdb->get_results($sqlQuery . " " . $limitQuery); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared	
         foreach ($result as $item) {
             $item->location = strtoupper($item->location);
             $list[]         = array(

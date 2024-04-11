@@ -8,15 +8,15 @@
                             <tbody>
                             <tr>
                                 <td></td>
-                                <td><?php echo __('Country', 'wp-statistics'); ?></td>
-                                <td><?php echo __('Visitors', 'wp-statistics'); ?></td>
+                                <td><?php echo esc_html__('Country', 'wp-statistics'); ?></td>
+                                <td><?php echo esc_html__('Visitors', 'wp-statistics'); ?></td>
                             </tr>
 
                             <?php $i = 0;
                             foreach ($list as $item) {
                                 $i++ ?>
                                 <tr>
-                                    <td class="row-id"><?php echo intval($i) ?></td>
+                                    <td class="row-id"><?php echo esc_html(intval($i)) ?></td>
                                     <td>
                                         <img src="<?php echo esc_attr($item['flag']) ?>" title="<?php echo esc_attr($item['name']) ?>" alt="<?php echo esc_attr($item['name']) ?>" class="wps-flag wps-flag--first"/> <?php echo esc_html($item['name']) ?>
                                     </td>

@@ -81,7 +81,7 @@ class Export
 
                     $i            = 1;
                     $more_results = true;
-                    $result       = $wpdb->get_results($query, ARRAY_A);
+                    $result       = $wpdb->get_results($query, ARRAY_A); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared	
 
                     // If we didn't get any rows, don't output anything.
                     if (count($result) < 1) {
@@ -109,7 +109,7 @@ class Export
                         $wpdb->flush();
 
                         $query  = $query_base . ' LIMIT ' . ($i * 1000) . ',1000';
-                        $result = $wpdb->get_results($query, ARRAY_A);
+                        $result = $wpdb->get_results($query, ARRAY_A); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared	
 
                         if (count($result) == 0) {
                             $more_results = false;

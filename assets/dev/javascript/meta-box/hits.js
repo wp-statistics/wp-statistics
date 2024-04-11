@@ -94,7 +94,7 @@ wps_js.hits_meta_box = {
                             }
                         },
                     }
-                }
+                },
             }
         }
 

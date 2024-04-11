@@ -15,7 +15,7 @@ class settings_page
 
         // Check Access Level
         if (Menus::in_page('settings') and !User::Access('manage')) {
-            wp_die(__('You do not have sufficient permissions to access this page.'));
+            wp_die(__('You do not have sufficient permissions to access this page.')); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	
         }
     }
 
@@ -91,6 +91,15 @@ class settings_page
 
             // Save Option
             Option::save_options($wp_statistics_options);
+
+            // Save Addons Options
+            if (!empty($_POST['wps_addon_settings']) && is_array($_POST['wps_addon_settings'])) {
+                foreach ($_POST['wps_addon_settings'] as $addon_name => $addon_options) {
+                    if (!empty($addon_options) && is_array($addon_options)) {
+                        self::save_addons_options($addon_name, $addon_options);
+                    }
+                }
+            }
 
             // Get tab name for redirect to the current tab
             $tab = isset($_POST['tab']) && $_POST['tab'] ? sanitize_text_field($_POST['tab']) : 'general-settings';
@@ -464,7 +473,6 @@ class settings_page
             'wps_chart_totals',
             'wps_hide_notices',
             'wps_all_online',
-            'wps_addsearchwords',
         );
 
         foreach ($wps_option_list as $option) {
@@ -474,7 +482,7 @@ class settings_page
 
         // Save Visits Column & Visit Chart Metabox
         foreach (array('wps_disable_column', 'wps_disable_editor') as $option) {
-            $wps_disable_column = isset($_POST[$option]) && sanitize_text_field($_POST[$option]) == '1' ? '' : '1';
+            $wps_disable_column                                         = isset($_POST[$option]) && sanitize_text_field($_POST[$option]) == '1' ? '' : '1';
             $wp_statistics_options[self::input_name_to_option($option)] = $wps_disable_column;
         }
 
@@ -489,6 +497,26 @@ class settings_page
         }
 
         return $wp_statistics_options;
+    }
+
+    /**
+     * Save Addons Options
+     *
+     * @param $addon_name
+     * @param $addon_options
+     */
+    public static function save_addons_options($addon_name, $addon_options)
+    {
+        $options = [];
+        foreach ($addon_options as $option_name => $option_value) {
+            if ($option_name == 'wps_about_widget_content') {
+                $options[$option_name] = wp_kses_post($option_value);
+            } else {
+                $options[$option_name] = sanitize_text_field($option_value);
+            }
+        }
+
+        Option::saveByAddon($options, $addon_name);
     }
 
     /**

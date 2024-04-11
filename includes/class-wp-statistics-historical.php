@@ -33,20 +33,20 @@ class Historical
         # Create SQL
         switch ($type) {
             case 'uri':
-                $sql = "SELECT `value` FROM " . DB::table('historical') . " WHERE `category` = 'uri'";
+                $sql = "SELECT `value` FROM `". DB::table('historical') ."` WHERE `category` = 'uri'";
                 break;
             case 'page':
-                $sql = $wpdb->prepare("SELECT `value` FROM " . DB::table('historical') . " WHERE `category` = 'uri' AND `page_id` = %d", $id);
+                $sql = $wpdb->prepare("SELECT `value` FROM `". DB::table('historical') ."` WHERE `category` = 'uri' AND `page_id` = %d", $id);
                 break;
             case 'visitors':
             case 'visits':
             default:
-                $sql = $wpdb->prepare("SELECT `value` FROM " . DB::table('historical') . " WHERE `category` = %s", $type);
+                $sql = $wpdb->prepare("SELECT `value` FROM `". DB::table('historical') ."` WHERE `category` = %s", $type);
                 break;
         }
 
         # Get Count Dara
-        $result = $wpdb->get_var($sql);
+        $result = $wpdb->get_var($sql); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared	
 
         # Return
         return $result > $count ? $result : $count;
@@ -58,7 +58,7 @@ class Historical
     public static function isEmpty()
     {
         global $wpdb;
-        return ($wpdb->get_var("SELECT COUNT(*) FROM " . DB::table('historical')) < 1);
+        return ($wpdb->get_var( "SELECT COUNT(*) FROM " . DB::table('historical')) < 1);
     }
 
 }

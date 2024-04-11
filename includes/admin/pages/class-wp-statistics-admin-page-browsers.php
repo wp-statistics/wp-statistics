@@ -20,7 +20,7 @@ class browser_page
             // Is Validate Date Request
             $DateRequest = Admin_Template::isValidDateRequest();
             if (!$DateRequest['status']) {
-                wp_die($DateRequest['message']);
+                wp_die(esc_html($DateRequest['message']));
             }
         }
     }
@@ -32,7 +32,6 @@ class browser_page
      */
     public static function view()
     {
-
         // Page title
         $args['title'] = __('Web Browser Usage Statistics', 'wp-statistics');
 
@@ -42,10 +41,11 @@ class browser_page
 
         // Get Date-Range
         $args['DateRang'] = Admin_Template::DateRange();
+        $args['HasDateRang'] = True;
 
 
         // Show Template Page
-        Admin_Template::get_template(array('layout/header', 'layout/title', 'layout/date.range', 'pages/browsers', 'layout/postbox.toggle', 'layout/footer'), $args);
+        Admin_Template::get_template(array('layout/header', 'layout/title', 'pages/browsers', 'layout/postbox.toggle', 'layout/footer'), $args);
     }
 
 }

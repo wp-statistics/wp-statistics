@@ -17,12 +17,12 @@ class tags_page
             // Is Validate Date Request
             $DateRequest = Admin_Template::isValidDateRequest();
             if (!$DateRequest['status']) {
-                wp_die($DateRequest['message']);
+                wp_die(esc_html($DateRequest['message']));
             }
 
             // Check Validate int Params
             if (isset($_GET['ID']) and (!is_numeric($_GET['ID']) || ($_GET['ID'] != 0 and term_exists((int)trim($_GET['ID']), 'post_tag') == null))) {
-                wp_die(__("The request is invalid.", "wp-statistics"));
+                wp_die(__("The request is invalid.", "wp-statistics")); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	 
             }
 
         }
@@ -45,6 +45,7 @@ class tags_page
 
         // Get Date-Range
         $args['DateRang'] = Admin_Template::DateRange();
+        $args['HasDateRang'] = True;
 
         // Create Select Box
         $args['select_box'] = array(
@@ -53,9 +54,7 @@ class tags_page
         );
 
         // Get List Tag
-        $terms = get_terms('post_tag', array(
-            'hide_empty' => true
-        ));
+        $terms = get_terms('post_tag');
 
         // Set All Item
         $args['select_box']['list'][0] = __('All', 'wp-statistics');
@@ -114,7 +113,7 @@ class tags_page
         }
 
         // Show Template Page
-        Admin_Template::get_template(array('layout/header', 'layout/title', 'layout/date.range', 'pages/tag', 'layout/postbox.hide', 'layout/footer'), $args);
+        Admin_Template::get_template(array('layout/header', 'layout/title' , 'pages/tag', 'layout/postbox.hide', 'layout/footer'), $args);
     }
 
 }

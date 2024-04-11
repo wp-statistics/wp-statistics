@@ -27,7 +27,7 @@ class Helper
             do_action('doing_it_wrong_run', $function, $message, $version);
             error_log("{$function} was called incorrectly. {$message}. This message was added in version {$version}.");
         } else {
-            _doing_it_wrong($function, $message, $version);
+            _doing_it_wrong($function, $message, $version); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
         }
     }
 
@@ -235,15 +235,8 @@ class Helper
      */
     public static function get_robots_list($type = 'list')
     {
-        global $WP_Statistics;
-
         # Set Default
         $list = array();
-
-        # Load From global
-        if (isset($WP_Statistics->robots_list)) {
-            $list = $WP_Statistics->robots_list;
-        }
 
         # Load From file
         include WP_STATISTICS_DIR . "includes/defines/robots-list.php";
@@ -306,7 +299,9 @@ class Helper
             'pages'   => array('order_by' => 'page_id', 'column' => 'date'),
         );
         foreach ($list_tbl as $tbl => $val) {
-            $first_day = $wpdb->get_var("SELECT `" . $val['column'] . "` FROM `" . WP_STATISTICS\DB::table($tbl) . "` ORDER BY `" . $val['order_by'] . "` ASC LIMIT 1");
+            $first_day = $wpdb->get_var(
+                $wpdb->prepare("SELECT %s FROM `". WP_STATISTICS\DB::table($tbl) ."` ORDER BY %s ASC LIMIT 1", $val['column'], $val['order_by'])
+            );
             if (!empty($first_day)) {
                 break;
             }
@@ -366,7 +361,7 @@ class Helper
      */
     public static function check_url_scheme($url, $accept = array('http', 'https'))
     {
-        $scheme = @parse_url($url, PHP_URL_SCHEME);
+        $scheme = @wp_parse_url($url, PHP_URL_SCHEME);
         return in_array($scheme, $accept);
     }
 
@@ -417,7 +412,7 @@ class Helper
             $array[$key] = html_entity_decode((string)$value, ENT_QUOTES, 'UTF-8');
         }
 
-        return json_encode($array, JSON_UNESCAPED_SLASHES);
+        return wp_json_encode($array, JSON_UNESCAPED_SLASHES);
     }
 
     /**
@@ -539,7 +534,7 @@ class Helper
         $characters   = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $randomString = '';
         for ($i = 0; $i < $num; $i++) {
-            $randomString .= $characters[rand(0, strlen($characters) - 1)];
+            $randomString .= $characters[wp_rand(0, strlen($characters) - 1)];
         }
 
         return $randomString;
@@ -798,7 +793,7 @@ class Helper
             'site_url'     => home_url(),
             'site_title'   => get_bloginfo('name'),
             'footer_text'  => '',
-            'email_title'  => apply_filters('wp_statistics_email_title', __('Email from', 'wp-statistics') . ' ' . parse_url(get_site_url())['host']),
+            'email_title'  => apply_filters('wp_statistics_email_title', __('Email from', 'wp-statistics') . ' ' . wp_parse_url(get_site_url())['host']),
             'logo_image'   => apply_filters('wp_statistics_email_logo', WP_STATISTICS_URL . 'assets/images/logo-statistics-header-blue.png'),
             'logo_url'     => apply_filters('wp_statistics_email_logo_url', get_bloginfo('url')),
             'copyright'    => apply_filters('wp_statistics_email_footer_copyright', Admin_Template::get_template('emails/copyright', array(), true)),
@@ -860,7 +855,7 @@ class Helper
         foreach ($get_tax as $object) {
             $object = get_object_vars($object);
             if ($hide_empty === true) {
-                $count_term_in_tax = wp_count_terms($object['name'], array('hide_empty' => false, 'parent' => 0));
+                $count_term_in_tax = wp_count_terms($object['name']);
                 if ($count_term_in_tax > 0 and isset($object['rewrite']['slug'])) {
                     $taxonomies[$object['name']] = $object['labels']->name;
                 }
@@ -895,13 +890,11 @@ class Helper
      */
     public static function mysql_time_conditions($field = 'date', $time = 'total', $range = array())
     {
-        global $WP_Statistics;
-
         //Get Current Date From WP
         $current_date = TimeZone::getCurrentDate('Y-m-d');
 
         //Create Field Sql
-        $field_sql = function ($time) use ($current_date, $field, $WP_Statistics, $range) {
+        $field_sql = function ($time) use ($current_date, $field, $range) {
             $is_current     = array_key_exists('current_date', $range);
             $getCurrentDate = TimeZone::getCurrentDate('Y-m-d', (int)$time);
             return "`$field` " . ($is_current === true ? '=' : 'BETWEEN') . " '{$getCurrentDate}'" . ($is_current === false ? " AND '{$current_date}'" : "");
@@ -937,7 +930,7 @@ class Helper
                 $where = $field_sql(-365);
                 break;
             case 'this-year':
-                $fromDate = TimeZone::getLocalDate('Y-m-d', strtotime(date('Y-01-01')));
+                $fromDate = TimeZone::getLocalDate('Y-m-d', strtotime(gmdate('Y-01-01')));
                 $toDate   = TimeZone::getCurrentDate('Y-m-d');
                 $where    = "`$field` BETWEEN '{$fromDate}' AND '{$toDate}'";
                 break;
@@ -982,6 +975,21 @@ class Helper
     public static function compare_uri_hits($a, $b)
     {
         return $a[1] < $b[1];
+    }
+
+    /**
+     * Easy U-sort Array
+     *
+     * @param $a
+     * @param $b
+     * @return int
+     */
+    public static function compare_uri_hits_int($a, $b)
+    {
+        if ($a[1] == $b[1]) return 0;
+        if ($a[1] > $b[1]) return 1;
+        if ($a[1] < $b[1]) return -1;
+
     }
 
     /**
@@ -1283,4 +1291,56 @@ class Helper
 
         return is_plugin_active($pluginName);
     }
+
+    public static function convertBytes($input)
+    {
+        $unit  = strtoupper(substr($input, -1));
+        $value = (int)$input;
+        switch ($unit) {
+            case 'G':
+                $value *= 1024;
+            case 'M':
+                $value *= 1024;
+            case 'K':
+                $value *= 1024;
+        }
+        return $value;
+    }
+
+    public static function checkMemoryLimit()
+    {
+        if (!function_exists('memory_get_peak_usage') or !function_exists('ini_get')) {
+            return false;
+        }
+
+        $memoryLimit = ini_get('memory_limit');
+
+        if (memory_get_peak_usage(true) > self::convertBytes($memoryLimit)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public static function yieldARow($rows)
+    {
+        $i = 0;
+        while ($row = current($rows)) {
+            yield $row;
+            unset($rows[$i]);
+            $i++;
+        }
+    }
+
+    public static function prepareArrayToStringForQuery($fields = array())
+    {
+        global $wpdb;
+    
+        foreach ($fields as &$value) {
+            $value = $wpdb->prepare('%s', $value);
+        }
+
+        return implode(', ', $fields);
+    }
+
 }

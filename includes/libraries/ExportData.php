@@ -9,7 +9,7 @@ abstract class ExportData {
 
 	public function __construct( $exportTo = "browser", $filename = "exportdata" ) {
 		if ( ! in_array( $exportTo, array( 'browser', 'file', 'string' ) ) ) {
-			throw new Exception( "$exportTo is not a valid ExportData export type" );
+			throw new Exception( sprintf('%s is not a valid ExportData export type', esc_html($exportTo))  );
 		}
 		$this->exportTo = $exportTo;
 		$this->filename = $filename;

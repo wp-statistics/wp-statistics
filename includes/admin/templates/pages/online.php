@@ -9,18 +9,18 @@
                         <div class="o-table-wrapper">
                             <table width="100%" class="o-table">
                                 <tr>
-                                    <td><?php _e('Browser', 'wp-statistics'); ?></td>
+                                    <td><?php esc_html_e('Browser', 'wp-statistics'); ?></td>
                                     <?php if (WP_STATISTICS\GeoIP::active()) { ?>
-                                        <td><?php _e('Country', 'wp-statistics'); ?></td>
+                                        <td><?php esc_html_e('Country', 'wp-statistics'); ?></td>
                                     <?php } ?>
                                     <?php if (WP_STATISTICS\GeoIP::active('city')) { ?>
-                                        <td><?php _e('City', 'wp-statistics'); ?></td>
+                                        <td><?php esc_html_e('City', 'wp-statistics'); ?></td>
                                     <?php } ?>
-                                    <td><?php echo \WP_STATISTICS\Option::get('hash_ips') == true ? __('Daily Visitor Hash', 'wp-statistics') : __('IP Address', 'wp-statistics'); ?></td>
-                                    <td><?php _e('Online For', 'wp-statistics'); ?></td>
-                                    <td><?php _e('Page', 'wp-statistics'); ?></td>
-                                    <td><?php _e('Referrer', 'wp-statistics'); ?></td>
-                                    <td><?php _e('User', 'wp-statistics'); ?></td>
+                                    <td><?php echo esc_html(\WP_STATISTICS\Option::get('hash_ips') == true ? __('Daily Visitor Hash', 'wp-statistics') : __('IP Address', 'wp-statistics')); ?></td>
+                                    <td><?php esc_html_e('Online For', 'wp-statistics'); ?></td>
+                                    <td><?php esc_html_e('Page', 'wp-statistics'); ?></td>
+                                    <td><?php esc_html_e('Referrer', 'wp-statistics'); ?></td>
+                                    <td><?php esc_html_e('User', 'wp-statistics'); ?></td>
                                     <td></td>
                                 </tr>
 
@@ -43,12 +43,12 @@
                                         <td style='text-align: left' class="wps-admin-column__referred"><?php echo wp_kses_post($item['referred']); ?></td>
                                         <td style='text-align: left'>
                                             <?php if (isset($item['user']) and isset($item['user']['ID']) and $item['user']['ID'] > 0) { ?>
-                                                <p><?php _e('ID', 'wp-statistics'); ?>: <a href="<?php echo get_edit_user_link($item['user']['ID']); ?>" target="_blank" class="wps-text-success">#<?php echo esc_attr($item['user']['ID']); ?></a></p><p><?php _e('Email', 'wp-statistics'); ?>: <?php echo esc_attr($item['user']['user_email']); ?></p><p><?php echo sprintf('Role: %s', implode(',', get_userdata($item['user']['ID'])->roles)) ?></p>
+                                                <p><?php esc_html_e('ID', 'wp-statistics'); ?>: <a href="<?php echo esc_url(get_edit_user_link($item['user']['ID'])); ?>" target="_blank" class="wps-text-success">#<?php echo esc_attr($item['user']['ID']); ?></a></p><p><?php esc_html_e('Email', 'wp-statistics'); ?>: <?php echo esc_attr($item['user']['user_email']); ?></p><p><?php echo sprintf('Role: %s', implode(',', get_userdata($item['user']['ID'])->roles)) // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></p>
                                             <?php } else { ?>
-                                                <?php echo \WP_STATISTICS\Admin_Template::UnknownColumn(); ?>
+                                                <?php echo \WP_STATISTICS\Admin_Template::UnknownColumn(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
                                             <?php } ?>
                                         </td>
-                                        <td style='text-align: center'><?php echo(isset($item['map']) ? "<a class='wps-text-muted' href='" . esc_url($item['ip']['link']) . "'>" . WP_STATISTICS\Admin_Template::icons('dashicons-visibility') . "</a><a class='show-map wps-text-muted' href='" . esc_url($item['map']) . "' target='_blank' title='" . __('Map', 'wp-statistics') . "'>" . WP_STATISTICS\Admin_Template::icons('dashicons-location-alt') . "</a>" : ""); ?></td>
+                                        <td style='text-align: center'><?php echo(isset($item['map']) ? "<a class='wps-text-muted' href='" . esc_url($item['ip']['link']) . "'>" . WP_STATISTICS\Admin_Template::icons('dashicons-visibility') . "</a><a class='show-map wps-text-muted' href='" . esc_url($item['map']) . "' target='_blank' title='" . __('Map', 'wp-statistics') . "'>" . WP_STATISTICS\Admin_Template::icons('dashicons-location-alt') . "</a>" : ""); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></td>
                                     </tr>
                                 <?php } ?>
 

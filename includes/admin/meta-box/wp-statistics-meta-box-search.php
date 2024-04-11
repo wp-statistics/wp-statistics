@@ -8,6 +8,7 @@ use WP_STATISTICS\TimeZone;
 
 class search extends MetaBoxAbstract
 {
+
     /**
      * Get Search Engine Chart
      *
@@ -51,7 +52,7 @@ class search extends MetaBoxAbstract
         if (end($days_time_list) == TimeZone::getCurrentDate("Y-m-d")) {
             $title = sprintf(__('Referrals from Search Engines in the Past %s Days', 'wp-statistics'), self::$countDays);
         } else {
-            $title = sprintf(__('Search Engine Referrals Between %s and %s', 'wp-statistics'), $args['from'], $args['to']);
+            $title = sprintf(__('Search Engine Referrals Between %1$s and %2$s', 'wp-statistics'), $args['from'], $args['to']);
         }
 
         //Check Chart total is activate
@@ -95,5 +96,4 @@ class search extends MetaBoxAbstract
         // Response
         return self::response($response);
     }
-
 }
