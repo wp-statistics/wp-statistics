@@ -21,16 +21,6 @@ class UserOnline
     public static $reset_user_time = 120; # Second
 
     /**
-     * UserOnline constructor.
-     */
-    public function __construct()
-    {
-
-        # Reset User Online Count
-        add_action('wp_loaded', array($this, 'reset_user_online'));
-    }
-
-    /**
      * Check Active User Online System
      *
      * @return mixed
@@ -50,7 +40,7 @@ class UserOnline
      *
      * @return string
      */
-    public function reset_user_online()
+    public static function reset_user_online()
     {
         global $wpdb;
 
@@ -78,6 +68,7 @@ class UserOnline
 
             //Last check Time
             $wps_run = get_option(self::$check_user_online_opt);
+
             if (isset($wps_run) and is_numeric($wps_run)) {
                 if (($wps_run + $reset_time) > $now) {
                     return;
@@ -119,6 +110,8 @@ class UserOnline
             # Update current User Time
             self::update_user_online($visitorProfile);
         }
+
+        self::reset_user_online();
     }
 
     /**
