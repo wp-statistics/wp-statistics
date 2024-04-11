@@ -18,6 +18,7 @@ class Admin_Notices
         'disable_addons',
         'performance_and_clean_up',
         'memory_limit_check',
+        'php_version_check',
     );
 
     /**
@@ -206,6 +207,32 @@ class Admin_Notices
             if (Helper::checkMemoryLimit()) {
                 Helper::wp_admin_notice(__('Your server memory limit is too low. Please contact your hosting provider to increase the memory limit.', 'wp-statistics'), 'warning', true);
             }
+        }
+    }
+
+    public function php_version_check()
+    {
+        if (version_compare(PHP_VERSION, '7.2', '<') && !Option::get('disable_php_version_check_notice')) {
+            Helper::wp_admin_notice(__('<b>WP Statistics Plugin: PHP Version Update Alert</b> Starting with <b>Version 15</b>, WP Statistics will require <b>PHP 7.2 or higher</b>. Please upgrade your PHP version to ensure uninterrupted use of the plugin.'), 'warning', true, 'wp-statistics-disable-php_version_check-notice');
+            ?>
+            <script>
+                jQuery(document).ready(function ($) {
+                    $(document).on("click", "#wp-statistics-disable-php_version_check-notice button.notice-dismiss", function (e) {
+                        e.preventDefault();
+                        jQuery.ajax({
+                            url: ajaxurl,
+                            type: "post",
+                            data: {
+                                'action': 'wp_statistics_close_notice',
+                                'notice': 'disable_php_version_check',
+                                'wps_nonce': '<?php echo wp_create_nonce('wp_rest'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>'
+                            },
+                            datatype: 'json'
+                        });
+                    });
+                });
+            </script>
+            <?php
         }
     }
 }

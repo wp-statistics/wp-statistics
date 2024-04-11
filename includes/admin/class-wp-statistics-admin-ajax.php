@@ -63,6 +63,10 @@ class Ajax
                 case 'disable_cleanup_db':
                     Option::update('disable_db_cleanup_notice', true);
                     break;
+
+                case 'disable_php_version_check':
+                    Option::update('disable_php_version_check_notice', true);
+                    break;
             }
 
             Option::update('admin_notices', false);
@@ -109,7 +113,7 @@ class Ajax
                 $agent = sanitize_text_field($_POST['agent-name']);
 
                 // Remove Type Of Agent
-                $result = $wpdb->query($wpdb->prepare("DELETE FROM `".DB::table('visitor')."` WHERE `agent` = %s", $agent));
+                $result = $wpdb->query($wpdb->prepare("DELETE FROM `" . DB::table('visitor') . "` WHERE `agent` = %s", $agent));
 
                 // Show Result
                 if ($result) {
@@ -146,7 +150,7 @@ class Ajax
                 $platform = sanitize_text_field($_POST['platform-name']);
 
                 // Delete List
-                $result = $wpdb->query($wpdb->prepare("DELETE FROM `".DB::table('visitor')."` WHERE `platform` = %s", $platform));
+                $result = $wpdb->query($wpdb->prepare("DELETE FROM `" . DB::table('visitor') . "` WHERE `platform` = %s", $platform));
 
                 // Return Result
                 if ($result) {
@@ -183,7 +187,7 @@ class Ajax
                 $ip_address = sanitize_text_field($_POST['ip-address']);
 
                 // Delete IP
-                $result = $wpdb->query($wpdb->prepare("DELETE FROM `".DB::table('visitor')."` WHERE `ip` = %s", $ip_address));
+                $result = $wpdb->query($wpdb->prepare("DELETE FROM `" . DB::table('visitor') . "` WHERE `ip` = %s", $ip_address));
 
                 if ($result) {
                     echo sprintf(__('Successfully deleted %s IP data.', 'wp-statistics'), '<code>' . esc_attr($ip_address) . '</code>'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
@@ -213,7 +217,7 @@ class Ajax
             check_ajax_referer('wp_rest', 'wps_nonce');
 
             // Delete user ids
-            $result = $wpdb->query("UPDATE `".DB::table('visitor')."` SET `user_id` = 0");
+            $result = $wpdb->query("UPDATE `" . DB::table('visitor') . "` SET `user_id` = 0");
 
             if ($result) {
                 esc_html_e('Successfully deleted User ID data.', 'wp-statistics');
@@ -241,7 +245,7 @@ class Ajax
             check_ajax_referer('wp_rest', 'wps_nonce');
 
             // Delete UAStrings
-            $result = $wpdb->query("UPDATE `".DB::table('visitor')."` SET `UAString` = NULL");
+            $result = $wpdb->query("UPDATE `" . DB::table('visitor') . "` SET `UAString` = NULL");
 
             if ($result) {
                 esc_html_e('Successfully deleted user agent strings data.', 'wp-statistics');
@@ -272,7 +276,7 @@ class Ajax
             $allowedQueryParams = Helper::get_query_params_allow_list();
 
             // Get all rows from pages table
-            $pages = $wpdb->get_results("SELECT * FROM `".DB::table('pages')."`");
+            $pages = $wpdb->get_results("SELECT * FROM `" . DB::table('pages') . "`");
             if ($pages) {
                 // Update query strings based on allow list
                 foreach ($pages as $page) {
