@@ -375,14 +375,6 @@ wps_js.sum = function (array) {
     }, 0);
 };
 
-document.addEventListener('DOMContentLoaded', () => {
-    const notices = document.querySelectorAll('.notice');
-    if (notices.length > 0 && document.body.classList.contains('wps_page')) {
-        notices.forEach(notice => {
-            notice.classList.remove('inline');
-        })
-    }
-});
 
 /**
  * FeedbackBird position
@@ -408,3 +400,13 @@ function moveFeedbackBird() {
 
 window.onload = moveFeedbackBird;
 window.addEventListener('resize', moveFeedbackBird);
+
+jQuery(document).ready(function () {
+    const targetElement = document.querySelector('.wp-header-end');
+    const noticeElement = document.querySelector('.notice.notice-warning.update-nag');
+    // Check if both targetElement and noticeElement exist
+    if (targetElement && noticeElement) {
+        // Move the notice element after the target element
+        targetElement.parentNode.insertBefore(noticeElement, targetElement.nextSibling);
+    }
+});
