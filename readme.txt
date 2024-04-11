@@ -144,7 +144,7 @@ If you encounter any bug, please create an issue on [GitHub](https://github.com/
 == Changelog ==
 = 14.6.0 - 11.04.2024 =
 - Updated: A new admin header is needed for easier use and quick access to important links.
-- Performance: Moved a 'tracker.js' script to footer load last for faster page display.
+- Performance: Moved a `tracker.js` script to footer load last for faster page display.
 - Performance: Made scripts smaller to speed up loading.
 - Performance: Added fast, in-memory data storage for user profiles.
 - Performance: Improved 'Visits' functionality for faster performance.
