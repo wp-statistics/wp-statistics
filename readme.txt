@@ -143,19 +143,19 @@ If you encounter any bug, please create an issue on [GitHub](https://github.com/
 
 == Changelog ==
 = 14.6.0 - 11.04.2024 =
-- Updated: New admin interface for easier use and quick access to important links.
-- Performance: Moved a key script to load last for faster page display.
+- Updated: A new admin header is needed for easier use and quick access to important links.
+- Performance: Moved a 'tracker.js' script to footer load last for faster page display.
 - Performance: Made scripts smaller to speed up loading.
 - Performance: Added fast, in-memory data storage for user profiles.
-- Performance: Improved Hitmap feature for faster performance.
+- Performance: Improved 'Visits' functionality for faster performance.
 - Performance: Made general speed improvements.
 - Performance: Made city data storage and retrieval faster.
 - Fixes: Fixed "Unknown" issue in showing the cities.
 - Fixes: Fixed a bug in the Most Visited Pages display.
-- Fixes: Fixed the bug in resting the user online.
+- Fixes: Fixed the bug when resetting the user online.
 - Fixes: Fixed issues with charts not displaying correctly in some browsers.
 - Fixes: Fixed a tracking bug on the homepage.
-- Fixes: Updated links for GeoLite2 to get better location data.
+- Fixes: A GeoLite2 download URL to get the latest version of databases.
 - Fixes: Made sure dashboard widgets stay visible after updates.
 - Improvement: Moved some settings to a more logical place in the menu.
 - Improvement: Updated and simplified various parts of the plugin.
