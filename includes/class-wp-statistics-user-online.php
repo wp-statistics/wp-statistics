@@ -21,6 +21,15 @@ class UserOnline
     public static $reset_user_time = 120; # Second
 
     /**
+     * UserOnline constructor.
+     */
+    public function __construct()
+    {
+        # Reset User Online Count
+        add_action('admin_init', array($this, 'reset_user_online'));
+    }
+
+    /**
      * Check Active User Online System
      *
      * @return mixed
@@ -40,7 +49,7 @@ class UserOnline
      *
      * @return string
      */
-    public static function reset_user_online()
+    public function reset_user_online()
     {
         global $wpdb;
 
@@ -77,7 +86,8 @@ class UserOnline
 
             // Call the deletion query.
             $wpdb->query(
-                $wpdb->prepare("DELETE FROM `" . DB::table('useronline') . "` WHERE timestamp < %s", $time_diff));
+                $wpdb->prepare("DELETE FROM `" . DB::table('useronline') . "` WHERE timestamp < %s", $time_diff)
+            );
 
             //Update Last run this Action
             update_option(self::$check_user_online_opt, $now);
@@ -109,9 +119,8 @@ class UserOnline
 
             # Update current User Time
             self::update_user_online($visitorProfile);
-        }
 
-        self::reset_user_online();
+        }
     }
 
     /**

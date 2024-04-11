@@ -151,6 +151,8 @@ final class WP_Statistics
         // Admin classes
         if (is_admin()) {
 
+            $userOnline = new \WP_STATISTICS\UserOnline();
+
             require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-install.php';
             require_once WP_STATISTICS_DIR . 'includes/admin/class-wp-statistics-admin-ajax.php';
             require_once WP_STATISTICS_DIR . 'includes/admin/class-wp-statistics-admin-dashboard.php';
