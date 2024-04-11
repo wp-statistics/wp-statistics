@@ -5,7 +5,7 @@
         //Get Total User Online
         $total_user_online = \WP_STATISTICS\UserOnline::get(array('fields' => 'count'));
         echo \WP_STATISTICS\Admin_Template::get_template('layout/partials/menu-link', ['slug' => 'wps_overview_page', 'link_text' => __('Overview', 'wp-statistics'), 'icon_class' => 'overview', 'badge_count' => null], true);
-        echo \WP_STATISTICS\Admin_Template::get_template('layout/partials/menu-link', ['slug' => 'wps_online_page', 'link_text' => __('Online Users', 'wp-statistics'), 'icon_class' => 'online-users', 'badge_count' => $total_user_online ? $total_user_online : 1], true);
+        echo \WP_STATISTICS\Admin_Template::get_template('layout/partials/menu-link', ['slug' => 'wps_online_page', 'link_text' => __('Online Users', 'wp-statistics'), 'icon_class' => 'online-users', 'badge_count' => $total_user_online], true);
         echo \WP_STATISTICS\Admin_Template::get_template('layout/partials/menu-link', ['slug' => 'wps_plugins_page', 'link_text' => __('Add-Ons', 'wp-statistics'), 'icon_class' => 'addons', 'badge_count' => null], true);
         ?>
     </div>

@@ -152,7 +152,7 @@ If you encounter any bug, please create an issue on [GitHub](https://github.com/
 - Performance: Made city data storage and retrieval faster.
 - Fixes: Fixed "Unknown" issue in showing the cities.
 - Fixes: Fixed a bug in the Most Visited Pages display.
-- Fixes: Fixed a bug in keeping & resting the user online.
+- Fixes: Fixed the bug in resting the user online.
 - Fixes: Fixed issues with charts not displaying correctly in some browsers.
 - Fixes: Fixed a tracking bug on the homepage.
 - Fixes: Updated links for GeoLite2 to get better location data.
