@@ -4,7 +4,7 @@ Donate link: https://wp-statistics.com/donate/
 Tags: analytics, stats, statistics, visitors, chart
 Requires at least: 5.0
 Tested up to: 6.5
-Stable tag: 14.7.0
+Stable tag: 14.6.0
 Requires PHP: 5.6
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -142,7 +142,7 @@ Thank you for being part of our community. We’ve been working hard for one yea
 If you encounter any bug, please create an issue on [GitHub](https://github.com/wp-statistics/wp-statistics/issues/new) where we can act upon them more efficiently. Since [GitHub](https://github.com/wp-statistics/wp-statistics) is not a support forum, just bugs are welcomed, and any other request will be closed.
 
 == Changelog ==
-= 14.7.0 - 11.04.2024 =
+= 14.6.0 - 11.04.2024 =
 - Updated: New admin interface for easier use and quick access to important links.
 - Performance: Moved a key script to load last for faster page display.
 - Performance: Made scripts smaller to speed up loading.
@@ -152,7 +152,7 @@ If you encounter any bug, please create an issue on [GitHub](https://github.com/
 - Performance: Made city data storage and retrieval faster.
 - Fixes: Fixed "Unknown" issue in showing the cities.
 - Fixes: Fixed a bug in the Most Visited Pages display.
-- Fixes: Fixed a bug in keeping the user online.
+- Fixes: Fixed a bug in keeping & resting the user online.
 - Fixes: Fixed issues with charts not displaying correctly in some browsers.
 - Fixes: Fixed a tracking bug on the homepage.
 - Fixes: Updated links for GeoLite2 to get better location data.
