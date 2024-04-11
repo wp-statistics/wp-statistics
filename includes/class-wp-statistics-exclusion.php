@@ -51,8 +51,9 @@ class Exclusion
 
     /**
      * Checks exclusion tracking visits and visitors.
+     * @param $visitorProfile VisitorProfile
      */
-    public static function check()
+    public static function check($visitorProfile)
     {
 
         // Create Default Object
@@ -67,7 +68,7 @@ class Exclusion
 
             // Check if method exists
             if (method_exists(self::class, $method)) {
-                $check = call_user_func([self::class, $method]);
+                $check = call_user_func([self::class, $method], $visitorProfile);
 
                 if ($check) {
                     $exclude = array('exclusion_match' => true, 'exclusion_reason' => $list);
@@ -168,10 +169,12 @@ class Exclusion
 
     /**
      * Detect if robot threshold.
+     * @param $visitorProfile VisitorProfile
      */
-    public static function exclusion_robot_threshold()
+    public static function exclusion_robot_threshold($visitorProfile)
     {
-        $visitor = Visitor::exist_ip_in_day(IP::getStoreIP());
+        $visitor = $visitorProfile->isIpActiveToday();
+
         return ($visitor != false and Option::get('robot_threshold') > 0 && $visitor->hits + 1 > Option::get('robot_threshold'));
     }
 

@@ -153,7 +153,7 @@ class Hits
         $visitorProfile = new VisitorProfile();
 
         # Check Exclusion This Hits
-        $exclusion = Exclusion::check();
+        $exclusion = Exclusion::check($visitorProfile);
 
         # Record Hits Exclusion
         if ($exclusion['exclusion_match'] === true) {

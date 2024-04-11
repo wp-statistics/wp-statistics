@@ -8,11 +8,13 @@ use WP_STATISTICS\Pages;
 use WP_STATISTICS\Referred;
 use WP_STATISTICS\User;
 use WP_STATISTICS\UserAgent;
+use WP_STATISTICS\Visitor;
 
 class VisitorProfile
 {
     private $ip;
     private $processedIPForStorage;
+    private $isIpActiveToday;
     private $referrer;
     private $country;
     private $city;
@@ -41,6 +43,15 @@ class VisitorProfile
         }
 
         return $this->processedIPForStorage;
+    }
+
+    public function isIpActiveToday()
+    {
+        if (!$this->isIpActiveToday) {
+            $this->isIpActiveToday = Visitor::exist_ip_in_day($this->getProcessedIPForStorage());
+        }
+
+        return $this->isIpActiveToday;
     }
 
     public function getCountry()

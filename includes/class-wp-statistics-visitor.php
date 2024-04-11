@@ -112,11 +112,8 @@ class Visitor
         // Check User Exclusion
         if ($args['exclusion_match'] === false || $args['exclusion_reason'] == 'Honeypot') {
 
-            // Get User Agent
-            $user_agent = $visitorProfile->getUserAgent();
-
-            //Check Exist This User in Current Day
-            $same_visitor = self::exist_ip_in_day($visitorProfile->getProcessedIPForStorage());
+            $user_agent   = $visitorProfile->getUserAgent();
+            $same_visitor = $visitorProfile->isIpActiveToday();
 
             // If we have a new Visitor in Day
             if (!$same_visitor) {
