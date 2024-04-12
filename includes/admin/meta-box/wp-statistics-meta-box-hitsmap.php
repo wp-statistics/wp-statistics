@@ -13,10 +13,10 @@ class hitsmap extends MetaBoxAbstract
 {
 
     private static $response = array(
-        "country"           =>  array(),
-        "total_country"     => array(),
-        "visitor"          => array(),
-        "color"             =>  array()
+        "country"       => array(),
+        "total_country" => array(),
+        "visitor"       => array(),
+        "color"         => array()
     );
 
     public static function get($args = array())
@@ -33,7 +33,6 @@ class hitsmap extends MetaBoxAbstract
         global $wpdb;
 
 
-
         // Get List Country Code
         $CountryCode = Country::getList();
 
@@ -42,27 +41,27 @@ class hitsmap extends MetaBoxAbstract
 
         $days_time_list = array_keys(self::$daysList);
 
-        $locationCount =  $wpdb->get_results(
+        $locationCount = $wpdb->get_results(
             $wpdb->prepare(
-                "SELECT location, COUNT(`location`) as count FROM `".DB::table('visitor')."` WHERE `last_counter` BETWEEN %s AND %s GROUP BY `location`",
+                "SELECT location, COUNT(`location`) as count FROM `" . DB::table('visitor') . "` WHERE `last_counter` BETWEEN %s AND %s GROUP BY `location`",
                 reset($days_time_list),
-                end($days_time_list),
+                end($days_time_list)
             ),
             OBJECT_K
         );
 
         $count = $wpdb->get_var(
             $wpdb->prepare(
-                "SELECT COUNT(*) FROM `".DB::table('visitor')."` WHERE `last_counter` BETWEEN %s AND %s",
+                "SELECT COUNT(*) FROM `" . DB::table('visitor') . "` WHERE `last_counter` BETWEEN %s AND %s",
                 reset($days_time_list),
                 end($days_time_list)
             )
         );
 
-        $chunk = 10000;
-        $total = 0;
+        $chunk  = 10000;
+        $total  = 0;
         $offset = 0;
-        $roll = $count > $chunk ? ceil($count / $chunk) : 1;
+        $roll   = $count > $chunk ? ceil($count / $chunk) : 1;
         for ($i = 0; $i < $roll; $i++) {
             $offset = $i * $chunk;
             $result = self::getData($days_time_list, $chunk, $offset);
@@ -94,8 +93,8 @@ class hitsmap extends MetaBoxAbstract
                 if (!array_key_exists($locationLower, self::$response['country'])) {
                     self::$response['country'][$locationLower] = array(
                         'location' => $country->location,
-                        'name' => $CountryCode[$country->location],
-                        'flag' => Country::flag($country->location)
+                        'name'     => $CountryCode[$country->location],
+                        'flag'     => Country::flag($country->location)
                     );
                 }
 
@@ -113,7 +112,7 @@ class hitsmap extends MetaBoxAbstract
             $locationLower = strtolower($country['location']);
             // Set Color For Country
             if (!array_key_exists($locationLower, self::$response['color'])) {
-                $devided = self::$response['total_country'][$locationLower] / $total;
+                $devided                                 = self::$response['total_country'][$locationLower] / $total;
                 self::$response['color'][$locationLower] = sprintf(
                     "#%02X%02X%02X",
                     round($startColor[0] + ($endColor[0] - $startColor[0]) * $devided),
@@ -135,12 +134,12 @@ class hitsmap extends MetaBoxAbstract
         // Get List Country Of Visitors
         return $wpdb->get_results(
             $wpdb->prepare(
-                "SELECT location, hits, agent, ip FROM `".DB::table('visitor')."` WHERE `last_counter` BETWEEN %s AND %s LIMIT %d OFFSET %d",
+                "SELECT location, hits, agent, ip FROM `" . DB::table('visitor') . "` WHERE `last_counter` BETWEEN %s AND %s LIMIT %d OFFSET %d",
                 reset($days),
                 end($days),
                 $limit,
                 $offset
-            ), 
+            ),
             OBJECT);
     }
 
