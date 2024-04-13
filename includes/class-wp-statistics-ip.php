@@ -73,8 +73,10 @@ class IP
                     break;
                 }
             }
-        } else if (isset($_SERVER[$ip_method])) {
-            $ip = sanitize_text_field($_SERVER[$ip_method]);
+        } else {
+            if (isset($_SERVER[$ip_method])) {
+                $ip = sanitize_text_field($_SERVER[$ip_method]);
+            }
         }
 
         /**
