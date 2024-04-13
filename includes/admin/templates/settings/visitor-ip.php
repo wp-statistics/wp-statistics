@@ -154,14 +154,14 @@ add_thickbox();
                 <table>
                     <tr>
                         <td style="width: 10px; padding: 0px;">
-                            <input type="radio" name="ip_method" style="vertical-align: -3px;" value="CUSTOM_HEADER" <?php echo !in_array($ip_method, IP::getIPOptions()) ? checked(true) : '' ?>>
+                            <input type="radio" name="ip_method" style="vertical-align: -3px;" value="CUSTOM_HEADER" <?php echo !in_array($ip_method, IP::getIpOptions()) ? checked(true) : '' ?>>
                         </td>
                         <td style="width: 250px;"> <?php echo esc_html__('Specify a Custom Header for IP Detection', 'wp-statistics'); ?></td>
                         <td style="padding-left: 0px;">
-                            <input type="text" name="user_custom_header_ip_method" autocomplete="off" style="padding: 5px; width: 250px;height: 35px;" value="<?php echo !in_array($ip_method, IP::getIPOptions()) ? esc_attr($ip_method) : '' ?>">
+                            <input type="text" name="user_custom_header_ip_method" autocomplete="off" style="padding: 5px; width: 250px;height: 35px;" value="<?php echo !in_array($ip_method, IP::getIpOptions()) ? esc_attr($ip_method) : '' ?>">
 
                             <p class="description">
-                                <?php if (!in_array($ip_method, IP::getIPOptions())) {
+                                <?php if (!in_array($ip_method, IP::getIpOptions())) {
                                     echo '<code>';
                                     if (isset($_SERVER[$ip_method]) and !empty($_SERVER[$ip_method])) {
                                         echo esc_html(sanitize_text_field(wp_unslash($_SERVER[$ip_method])));
@@ -170,7 +170,7 @@ add_thickbox();
                                     }
                                 }
                                 echo '</code>';
-                                if (!in_array($ip_method, IP::getIPOptions()) && isset($_SERVER[$ip_method]) && !empty($_SERVER[$ip_method]) && IP::check_sanitize_ip($_SERVER[$ip_method]) === false) {
+                                if (!in_array($ip_method, IP::getIpOptions()) && isset($_SERVER[$ip_method]) && !empty($_SERVER[$ip_method]) && IP::check_sanitize_ip($_SERVER[$ip_method]) === false) {
                                     echo ' &nbsp;&nbsp;<a href="https://wp-statistics.com/sanitize-user-ip/" style="color: #d04f4f;" target="_blank" title="' . esc_html__('Your value required to sanitize user IP', 'wp-statistics') . '"><span class="dashicons dashicons-warning"></span></a>';
                                 }
                                 ?></p>

@@ -46,7 +46,7 @@ class IP
      *
      * @return array
      */
-    public static function getIPOptions()
+    public static function getIpOptions()
     {
         return array_merge(self::$ip_methods_server, ['sequential']);
     }
