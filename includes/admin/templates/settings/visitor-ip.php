@@ -97,9 +97,13 @@ add_thickbox();
                     <table>
                         <tr>
                             <td style="width: 10px; padding: 0px;">
-                                <input type="radio" name="ip_method" style="vertical-align: -3px;" value="<?php echo esc_attr($method); ?>" <?php checked($ip_method, $method) ?>>
+                                <input id="<?php echo esc_attr($method); ?>" type="radio" name="ip_method" style="vertical-align: -3px;" value="<?php echo esc_attr($method); ?>" <?php checked($ip_method, $method) ?>>
                             </td>
-                            <td style="width: 250px;"> <?php printf(__('Use <code>%1$s</code>', 'wp-statistics'), esc_attr($method));  // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped		 ?></td>
+                            <td style="width: 250px;">
+                                <label for="<?php echo esc_attr($method) ?>">
+                                    <?php printf(__('Use <code>%1$s</code>', 'wp-statistics'), esc_attr($method));  // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+                                </label>
+                            </td>
                             <td><code><?php
                                     if (isset($_SERVER[$method]) and !empty($_SERVER[$method])) {
                                         echo esc_attr(wp_unslash($_SERVER[$method]));
@@ -132,14 +136,17 @@ add_thickbox();
         }
         ?>
 
+        <!-- Sequential IP Detection -->
         <tr valign="top">
             <th scope="row" colspan="2" style="padding-top: 0px;padding-bottom: 0px;">
                 <table>
                     <tr>
                         <td style="width: 10px; padding: 0px;">
-                            <input type="radio" name="ip_method" style="vertical-align: -3px;" value="sequential" <?php checked($ip_method, 'sequential') ?>>
+                            <input id="sequential" type="radio" name="ip_method" style="vertical-align: -3px;" value="sequential" <?php checked($ip_method, 'sequential') ?>>
                         </td>
-                        <td style="width: 250px;"> <?php echo esc_html__('Sequential IP Detection', 'wp-statistics'); ?></td>
+                        <td style="width: 250px;">
+                            <label for="sequential"><?php esc_html_e('Sequential IP Detection', 'wp-statistics'); ?></label>
+                        </td>
                         <td style="padding-left: 0px;">
                             <p class="description"><?php _e('Automatically detects the user\'s IP address by checking a sequence of server variables. The detection order is: <code>HTTP_X_FORWARDED_FOR</code>, <code>HTTP_X_FORWARDED</code>, <code>HTTP_FORWARDED_FOR</code>, <code>HTTP_FORWARDED</code>, <code>REMOTE_ADDR</code>, <code>HTTP_CLIENT_IP</code>, <code>HTTP_X_CLUSTER_CLIENT_IP</code>, <code>HTTP_X_REAL_IP</code>, <code>HTTP_INCAP_CLIENT_IP</code>. Stops at the first valid IP found.', 'wp-statistics') ?></p>
                         </td>
@@ -154,9 +161,11 @@ add_thickbox();
                 <table>
                     <tr>
                         <td style="width: 10px; padding: 0px;">
-                            <input type="radio" name="ip_method" style="vertical-align: -3px;" value="CUSTOM_HEADER" <?php echo !in_array($ip_method, IP::getIpOptions()) ? checked(true) : '' ?>>
+                            <input id="custom-header" type="radio" name="ip_method" style="vertical-align: -3px;" value="CUSTOM_HEADER" <?php echo !in_array($ip_method, IP::getIpOptions()) ? checked(true) : '' ?>>
                         </td>
-                        <td style="width: 250px;"> <?php echo esc_html__('Specify a Custom Header for IP Detection', 'wp-statistics'); ?></td>
+                        <td style="width: 250px;">
+                            <label for="custom-header"><?php esc_html_e('Specify a Custom Header for IP Detection', 'wp-statistics'); ?></label>
+                        </td>
                         <td style="padding-left: 0px;">
                             <input type="text" name="user_custom_header_ip_method" autocomplete="off" style="padding: 5px; width: 250px;height: 35px;" value="<?php echo !in_array($ip_method, IP::getIpOptions()) ? esc_attr($ip_method) : '' ?>">
 
