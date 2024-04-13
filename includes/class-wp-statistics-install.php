@@ -488,7 +488,7 @@ class Install
         $list_table = DB::table('all');
         foreach ($list_table as $k => $name) {
             $tbl_info = DB::getTableInformation($name);
-            if (!empty($tbl_info['Collation']) && $tbl_info['Collation'] != $wpdb->collate) {
+            if (!empty($tbl_info['Collation']) && !empty($wpdb->collate) && $tbl_info['Collation'] != $wpdb->collate) {
                 $wpdb->query(
                     $wpdb->prepare("ALTER TABLE `". $name ."` DEFAULT CHARSET=%s COLLATE %s ROW_FORMAT = COMPACT;", $wpdb->charset, $wpdb->collate )
                 );
