@@ -197,6 +197,10 @@
   .wps-adminHeader .wps-adminHeader__menu a span.badge {
     margin-right: 10px;
     margin-left: unset;
+    &:before{
+      margin-left: unset;
+      margin-right: -15%;
+    }
   }
 
   .wps-adminHeader a.wps-adminHeader__bundle:before, .wps-adminHeader a.wps-adminHeader__bundle:after {
