@@ -1,4 +1,5 @@
 <?php
+
 use WP_STATISTICS\IP;
 use WP_STATISTICS\Country;
 use WP_STATISTICS\GeoIP;
@@ -112,14 +113,14 @@ add_thickbox();
                                     } ?>
                                 </code>
 
-                                <?php 
-                                    if (!empty($_SERVER[$method]) && GeoIP::active()) { 
-                                        $countryCode = GeoIP::getCountry(wp_unslash($_SERVER[$method]));
-                                        $countryFlag = Country::flag($countryCode);
-                                        $countryName = Country::getName($countryCode);
-                                        
-                                        ?><img src="<?php echo esc_url($countryFlag) ?>" alt="<?php echo esc_attr($countryName) ?>" title="<?php echo esc_attr($countryName) ?>" class="wps-flag" style="margin-left: 5px; vertical-align: top;"/><?php
-                                    } 
+                                <?php
+                                if (!empty($_SERVER[$method]) && GeoIP::active()) {
+                                    $countryCode = GeoIP::getCountry(wp_unslash($_SERVER[$method]));
+                                    $countryFlag = Country::flag($countryCode);
+                                    $countryName = Country::getName($countryCode);
+
+                                    ?><img src="<?php echo esc_url($countryFlag) ?>" alt="<?php echo esc_attr($countryName) ?>" title="<?php echo esc_attr($countryName) ?>" class="wps-flag" style="margin-left: 5px; vertical-align: top;"/><?php
+                                }
                                 ?>
 
                                 <?php
@@ -183,9 +184,9 @@ add_thickbox();
                                     echo ' &nbsp;&nbsp;<a href="https://wp-statistics.com/sanitize-user-ip/" style="color: #d04f4f;" target="_blank" title="' . esc_html__('Your value required to sanitize user IP', 'wp-statistics') . '"><span class="dashicons dashicons-warning"></span></a>';
                                 }
                                 ?></p>
-                            <p class="description"><?php _e('If your server uses a custom key in <code>$_SERVER</code> for IP detection (e.g., <code>HTTP_CF_CONNECTING_IP</code> for CloudFlare), specify it here.', 'wp-statistics');  // phpcs:ignore WordPress.Security.EscapeOutput.UnsafePrintingFunction  ?></p>
                             <p class="description">
-                                <a href="#TB_inline?&width=850&height=600&inlineId=list-of-php-server" class="thickbox"><?php _e('View <code>$_SERVER</code> in your server.', 'wp-statistics');   // phpcs:ignore WordPress.Security.EscapeOutput.UnsafePrintingFunction  ?></a>
+                                <?php _e('If your server uses a custom key in <code>$_SERVER</code> for IP detection (e.g., <code>HTTP_CF_CONNECTING_IP</code> for CloudFlare), specify it here.', 'wp-statistics');  // phpcs:ignore WordPress.Security.EscapeOutput.UnsafePrintingFunction  ?>
+                                <a href="#TB_inline?&width=950&height=600&inlineId=list-of-php-server" class="thickbox"><?php _e('View <code>$_SERVER</code> in your server.', 'wp-statistics');   // phpcs:ignore WordPress.Security.EscapeOutput.UnsafePrintingFunction  ?></a>
                             </p>
                             <p class="description"><?php _e('Refer to our <a href="https://wp-statistics.com/resources/how-to-configure-ip-detection-in-wp-statistics-for-accurate-visitor-tracking/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" target="_blank">Documentation</a> for more info and how to configure IP Detection properly.', 'wp-statistics');  // phpcs:ignore WordPress.Security.EscapeOutput.UnsafePrintingFunction  ?></p>
                         </td>
