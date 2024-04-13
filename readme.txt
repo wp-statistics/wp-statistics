@@ -4,7 +4,7 @@ Donate link: https://wp-statistics.com/donate/
 Tags: analytics, stats, statistics, visitors, chart
 Requires at least: 5.0
 Tested up to: 6.5
-Stable tag: 14.6.0
+Stable tag: 14.6.1
 Requires PHP: 5.6
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -142,24 +142,9 @@ Thank you for being part of our community. We’ve been working hard for one yea
 If you encounter any bug, please create an issue on [GitHub](https://github.com/wp-statistics/wp-statistics/issues/new) where we can act upon them more efficiently. Since [GitHub](https://github.com/wp-statistics/wp-statistics) is not a support forum, just bugs are welcomed, and any other request will be closed.
 
 == Changelog ==
-= 14.6.0 - 11.04.2024 =
-- Updated: A new admin header is needed for easier use and quick access to important links.
-- Performance: Moved a `tracker.js` script to footer load last for faster page display.
-- Performance: Made scripts smaller to speed up loading.
-- Performance: Added fast, in-memory data storage for user profiles.
-- Performance: Improved 'Visits' functionality for faster performance.
-- Performance: Made general speed improvements.
-- Performance: Made city data storage and retrieval faster.
-- Fixes: Fixed "Unknown" issue in showing the cities.
-- Fixes: Fixed a bug in the Most Visited Pages display.
-- Fixes: Fixed the bug when resetting the user online.
-- Fixes: Fixed issues with charts not displaying correctly in some browsers.
-- Fixes: Fixed a tracking bug on the homepage.
-- Fixes: A GeoLite2 download URL to get the latest version of databases.
-- Fixes: Made sure dashboard widgets stay visible after updates.
-- Improvement: Moved some settings to a more logical place in the menu.
-- Improvement: Updated and simplified various parts of the plugin.
-- Improvement: Removed outdated "Search Words" feature.
-- Improvement: Made setting default options easier in multisite setups.
+= 14.6.1 - 13.04.2024 =
+- Feature: Introduced a sequential IP detection method in Settings → Basic Tracking
+- Fixes: Updated the Compatibility Visits meta-box and Widget to support PHP version 7.0.
+- Fixes: Refined and optimized SQL query processes for accurate page count calculations.
 
 [See changelog for all versions](https://raw.githubusercontent.com/wp-statistics/wp-statistics/master/CHANGELOG.md).
