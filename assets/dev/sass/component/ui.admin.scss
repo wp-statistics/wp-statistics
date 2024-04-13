@@ -74,12 +74,6 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
   }
 
   .inside {
-    overflow-x: visible;
-
-    @media screen and (min-width: 768px) {
-      overflow-x: visible;
-    }
-
     table {
       td {
         white-space: nowrap;
@@ -1054,12 +1048,15 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
 .wps-wrap .wp-statistics-sub-fullwidth .button-primary {
   padding: 7px 14px !important;
 }
-
-.wps-wrap .meta-box-sortables {
+#wp-statistics-platforms-table-widget .inside{
+  overflow-x: auto;
+}
+.statistics_page_wps_visitors_page .wps-wrap .meta-box-sortables {
   .inside {
-    //padding: 15px !important;
-    overflow-x:hidden;
+     overflow-x:hidden;
   }
+}
+.wps-wrap .meta-box-sortables {
 
   .inside-no-padding {
     margin-bottom: 20px;
@@ -1140,12 +1137,6 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
 
   .c-footer__filter__btn--sm {
     display: none;
-  }
-}
-
-.wps_page .daterangepicker {
-  @media(min-width: 699px){
-    right: 23px !important;
   }
 }
 
