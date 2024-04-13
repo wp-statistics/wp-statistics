@@ -25,7 +25,7 @@ class IP
      *
      * @var array
      */
-    public static $ip_methods_server = array('REMOTE_ADDR', 'HTTP_CLIENT_IP', 'HTTP_X_FORWARDED_FOR', 'HTTP_X_FORWARDED', 'HTTP_FORWARDED_FOR', 'HTTP_FORWARDED', 'HTTP_X_REAL_IP', 'HTTP_X_CLUSTER_CLIENT_IP');
+    public static $ip_methods_server = array('HTTP_X_FORWARDED_FOR', 'HTTP_X_FORWARDED', 'HTTP_FORWARDED_FOR', 'HTTP_FORWARDED', 'REMOTE_ADDR', 'HTTP_CLIENT_IP', 'HTTP_X_CLUSTER_CLIENT_IP', 'HTTP_X_REAL_IP', 'HTTP_INCAP_CLIENT_IP');
 
     /**
      * Default $_SERVER for Get User Real IP
@@ -42,6 +42,16 @@ class IP
     public static $hash_ip_prefix = '#hash#';
 
     /**
+     * Returns available IP configuration options.
+     *
+     * @return array
+     */
+    public static function getIPOptions()
+    {
+        return array_merge(self::$ip_methods_server, ['sequential']);
+    }
+
+    /**
      * Returns the current IP address of the remote client.
      *
      * @return bool|string
@@ -55,8 +65,15 @@ class IP
         // Get User IP Methods
         $ip_method = self::getIPMethod();
 
-        // Check isset $_SERVER
-        if (isset($_SERVER[$ip_method])) {
+        // Check IP detection method
+        if ($ip_method === 'sequential') {
+            foreach (self::$ip_methods_server as $method) {
+                if (isset($_SERVER[$method])) {
+                    $ip = sanitize_text_field($_SERVER[$method]);
+                    break;
+                }
+            }
+        } else if (isset($_SERVER[$ip_method])) {
             $ip = sanitize_text_field($_SERVER[$ip_method]);
         }
 
