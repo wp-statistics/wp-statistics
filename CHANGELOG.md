@@ -1,3 +1,8 @@
+= 14.6.1 - 13.04.2024 =
+- Feature: Introduced a sequential IP detection method in Settings → Basic Tracking
+- Fixes: Updated the Compatibility Visits meta-box and Widget to support PHP version 7.0.
+- Fixes: Refined and optimized SQL query processes for accurate page count calculations.
+
 = 14.6.0 - 11.04.2024 =
 - Updated: A new admin header is needed for easier use and quick access to important links.
 - Performance: Moved a `tracker.js` script to footer load last for faster page display.
