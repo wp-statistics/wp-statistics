@@ -17,6 +17,8 @@ $disableMenuArray = array(
     'platforms'    => __('Platforms', 'wp-statistics'),
     'top.visitors' => __('Top Visitors Today', 'wp-statistics')
 );
+
+$disabledMenuItems = WP_STATISTICS\Option::getByAddon('disable_menus', 'customization', []);
 ?>
 
     <div class="postbox">
@@ -91,7 +93,7 @@ $disableMenuArray = array(
                 <td>
                     <select name="wps_addon_settings[customization][disable_menus][]" id="wps_addon_settings[customization][disable_menus]" multiple>
                         <?php foreach ($disableMenuArray as $key => $title) { ?>
-                            <option value="overview" <?php echo in_array($key, WP_STATISTICS\Option::getByAddon('disable_menus', 'customization', [])) ? 'selected' : '' ?>><?php echo esc_html($title) ?></option>
+                            <option value="overview" <?php echo in_array($key, $disabledMenuItems ? $disabledMenuItems : []) ? 'selected' : '' ?>><?php echo esc_html($title) ?></option>
                         <?php } ?>
                     </select>
                     <p class="description"><?php esc_html_e('Choose which menus you want to remove from the WordPress sidebar.', 'wp-statistics'); ?></p>
