@@ -74,9 +74,7 @@ class IP
                 }
             }
         } else {
-            if (isset($_SERVER[$ip_method])) {
-                $ip = $_SERVER[$ip_method];
-            }
+            $ip = isset($_SERVER[$ip_method]) ? $_SERVER[$ip_method] : false;
         }
 
         /**
