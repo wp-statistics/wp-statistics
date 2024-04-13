@@ -69,13 +69,13 @@ class IP
         if ($ip_method === 'sequential') {
             foreach (self::$ip_methods_server as $method) {
                 if (isset($_SERVER[$method])) {
-                    $ip = sanitize_text_field($_SERVER[$method]);
+                    $ip = $_SERVER[$method];
                     break;
                 }
             }
         } else {
             if (isset($_SERVER[$ip_method])) {
-                $ip = sanitize_text_field($_SERVER[$ip_method]);
+                $ip = $_SERVER[$ip_method];
             }
         }
 
@@ -83,7 +83,7 @@ class IP
          * This Filter Used For Custom $_SERVER String
          * @see https://wp-statistics.com/sanitize-user-ip/
          */
-        $ip = apply_filters('wp_statistics_sanitize_user_ip', $ip);
+        $ip = apply_filters('wp_statistics_sanitize_user_ip', sanitize_text_field($ip));
 
         // Sanitize For HTTP_X_FORWARDED
         foreach (explode(',', $ip) as $user_ip) {
