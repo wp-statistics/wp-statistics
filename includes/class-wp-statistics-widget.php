@@ -197,7 +197,7 @@ class WP_Statistics_Widget extends \WP_Widget
      */
     public function update($new_instance, $old_instance)
     {
-        if (array_keyesc_html_exists('wp_statistics_control_widget_submit', $new_instance)) {
+        if (array_key_exists('wp_statistics_control_widget_submit', $new_instance)) {
             $keys = array(
                 'name_widget'       => 'name_widget',
                 'useronline_widget' => 'useronline_widget',
@@ -226,7 +226,7 @@ class WP_Statistics_Widget extends \WP_Widget
             );
 
             foreach ($keys as $key => $post) {
-                if (array_keyesc_html_exists($post, $new_instance)) {
+                if (array_key_exists($post, $new_instance)) {
                     $widget_options[$key] = $new_instance[$post];
                 } else {
                     $widget_options[$key] = '';
