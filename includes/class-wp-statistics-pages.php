@@ -235,28 +235,26 @@ class Pages
         }
 
         // Check if we have already been to this page today.
-        $search_query = array_key_exists("search_query", $current_page) === true ? "AND `uri` = '" . esc_sql($page_uri) . "'" : "";
-        $exist        = $wpdb->get_row(
-            $wpdb->prepare(
-                "SELECT `page_id` FROM `" . DB::table('pages') . "` WHERE `date` = %s %s AND `type` = %s AND `id` = %d",
-                TimeZone::getCurrentDate('Y-m-d'),
-                $search_query,
-                $current_page['type'],
-                $current_page['id']
-            ),
-            ARRAY_A);
+        $search_query = array_key_exists("search_query", $current_page) === true ? $wpdb->prepare("AND `uri` = %s", $page_uri) : "";
+        $tablePage    = DB::table('pages');
+
+        $query = $wpdb->prepare(
+            "SELECT `page_id` FROM `{$tablePage}` WHERE `date` = %s {$search_query} AND `type` = %s AND `id` = %d",
+            TimeZone::getCurrentDate('Y-m-d'),
+            $current_page['type'],
+            $current_page['id']
+        );
+        $exist = $wpdb->get_row($query, ARRAY_A);
 
         // Update Exist Page
         if (null !== $exist) {
-            $search_query = array_key_exists("search_query", $current_page) === true ? "AND `uri` = '" . esc_sql($page_uri) . "'" : "";
-            $wpdb->query(
-                $wpdb->prepare("UPDATE `" . DB::table('pages') . "` SET `count` = `count` + 1 WHERE `date` = %s %s AND `type` = %s AND `id` = %d",
-                    TimeZone::getCurrentDate('Y-m-d'),
-                    $search_query,
-                    $current_page['type'],
-                    $current_page['id']
-                )
+            $query = $wpdb->prepare("UPDATE `{$tablePage}` SET `count` = `count` + 1 WHERE `date` = %s {$search_query} AND `type` = %s AND `id` = %d",
+                TimeZone::getCurrentDate('Y-m-d'),
+                $current_page['type'],
+                $current_page['id']
             );
+
+            $wpdb->query($query);
             $page_id = $exist['page_id'];
 
         } else {
