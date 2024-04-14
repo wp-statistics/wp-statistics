@@ -99,12 +99,13 @@ class Referred
         // Get Page title
         $title = (trim($title) == "" ? $html_referrer : $title);
 
-        if (isset($base_url['host'])) {
-            // Get Html Link
-            return "<a href='{$html_referrer}' title='{$title}'" . ($is_blank === true ? ' target="_blank"' : '') . ">{$base_url['host']}</a>";
+        // If referrer is the current site or empty, return empty string
+        if (empty($base_url['host']) || strpos($referrer, site_url()) !== false) {
+            return '-';
         }
 
-        return '-';
+        // Get Html Link
+        return "<a href='{$html_referrer}' title='{$title}'" . ($is_blank === true ? ' target="_blank"' : '') . ">{$base_url['host']}</a>";
     }
 
     /**
