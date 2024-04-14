@@ -14,13 +14,6 @@ defined('ABSPATH') || exit;
 final class WP_Statistics
 {
     /**
-     * Holds various class instances
-     *
-     * @var array
-     */
-    private $container = array();
-
-    /**
      * The single instance of the class.
      *
      * @var WP Statistics
@@ -73,7 +66,6 @@ final class WP_Statistics
          */
         do_action('wp_statistics_loaded');
     }
-
     /**
      * Cloning is forbidden.
      *
@@ -82,17 +74,6 @@ final class WP_Statistics
     public function __clone()
     {
         \WP_STATISTICS\Helper::doing_it_wrong(__CLASS__, esc_html__('Cloning is forbidden.', 'wp-statistics'));
-    }
-
-    /**
-     * Magic getter to bypass referencing plugin.
-     *
-     * @param $key
-     * @return mixed
-     */
-    public function __get($key)
-    {
-        return $this->container[$key];
     }
 
     /**
@@ -118,11 +99,6 @@ final class WP_Statistics
              * Display Admin Notices
              */
             add_action('admin_notices', array('\\WP_STATISTICS\\Helper', 'displayAdminNotices'));
-
-            /**
-             * instantiate Plugin
-             */
-            $this->instantiate();
 
         } catch (Exception $e) {
             self::log($e->getMessage());
@@ -175,6 +151,8 @@ final class WP_Statistics
 
         // Admin classes
         if (is_admin()) {
+
+            $userOnline = new \WP_STATISTICS\UserOnline();
 
             require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-install.php';
             require_once WP_STATISTICS_DIR . 'includes/admin/class-wp-statistics-admin-ajax.php';
@@ -256,15 +234,18 @@ final class WP_Statistics
         /**
          * Create .htaccess to avoid public access.
          */
-        if (is_dir($upload_dir_name) and is_writable($upload_dir_name)) {
+        // phpcs:disable
+        if (is_dir($upload_dir_name) and is_writable($upload_dir_name)) { 	
             $htaccess_file = path_join($upload_dir_name, '.htaccess');
 
             if (!file_exists($htaccess_file)
-                and $handle = @fopen($htaccess_file, 'w')) {
+                and $handle = @fopen($htaccess_file, 'w')) { 
                 fwrite($handle, "Deny from all\n");
                 fclose($handle);
             }
         }
+        // phpcs:enable
+
     }
 
     /**
@@ -306,7 +287,7 @@ final class WP_Statistics
         $error .= __('The <strong>WP Statistics</strong> plugin requires PHP version <strong>', 'wp-statistics') . WP_STATISTICS_REQUIRE_PHP_VERSION . __('</strong> or greater.', 'wp-statistics');
         ?>
         <div class="error">
-            <p><?php printf($error); ?></p>
+            <p><?php printf(esc_html($error)); ?></p>
         </div>
         <?php
     }
@@ -320,7 +301,7 @@ final class WP_Statistics
     public static function log($message)
     {
         if (is_array($message)) {
-            $message = json_encode($message);
+            $message = wp_json_encode($message);
         }
 
         error_log(sprintf('WP Statistics Error: %s', $message));
@@ -352,23 +333,6 @@ final class WP_Statistics
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-db.php';
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-uninstall.php';
         new \WP_STATISTICS\Uninstall();
-    }
-
-    /**
-     * Instantiate the classes
-     *
-     * @return void
-     * @throws Exception
-     */
-    public function instantiate()
-    {
-        $this->container['country_codes'] = \WP_STATISTICS\Country::getList();
-        $this->container['user_id']       = \WP_STATISTICS\User::get_user_id();
-        $this->container['option']        = new \WP_STATISTICS\Option();
-        $this->container['ip']            = \WP_STATISTICS\IP::getIP();
-        $this->container['agent']         = \WP_STATISTICS\UserAgent::getUserAgent();
-        $this->container['users_online']  = new \WP_STATISTICS\UserOnline();
-        $this->container['visitor']       = new \WP_STATISTICS\Visitor();
     }
 
     /**

@@ -154,7 +154,7 @@ class Schedule
         $date = TimeZone::getCurrentDate('Y-m-d', '+1');
 
         // check if the record already exists
-        $exists = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM " . DB::table('visit') . " WHERE `last_counter` = %s", $date));
+        $exists = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM `". DB::table('visit') ."` WHERE `last_counter` = %s", $date));
         if ($exists > 0) {
             return;
         }

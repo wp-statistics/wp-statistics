@@ -22,15 +22,23 @@ class Visit
         global $wpdb;
 
         // Check to see if we're a returning visitor.
-        $result = $wpdb->get_row("SELECT * FROM `" . DB::table('visit') . "` ORDER BY `" . DB::table('visit') . "`.`ID` DESC");
+        $result = $wpdb->get_row("SELECT * FROM `".DB::table('visit')."` ORDER BY ID DESC");
+
 
         // if we have not a Visitor in This Day then create new row or Update before row in DB
         if (is_null($result) || ($result->last_counter != TimeZone::getCurrentDate('Y-m-d'))) {
-            $wpdb->query($wpdb->prepare('INSERT INTO `' . DB::table('visit') . '` (last_visit, last_counter, visit) VALUES ( %s, %s, %d) ON DUPLICATE KEY UPDATE visit = visit + ' . Visitor::getCoefficient(), TimeZone::getCurrentDate(), TimeZone::getCurrentDate('Y-m-d'), Visitor::getCoefficient()));
+            $wpdb->query(
+                $wpdb->prepare('INSERT INTO `'.DB::table('visit').'` (last_visit, last_counter, visit) VALUES ( %s, %s, %d) ON DUPLICATE KEY UPDATE visit = visit + %s',  TimeZone::getCurrentDate(), TimeZone::getCurrentDate('Y-m-d'), Visitor::getCoefficient(),  Visitor::getCoefficient())
+            );
         } else {
-            $wpdb->query('UPDATE `' . DB::table('visit') . '` SET `visit` = `visit` + ' . Visitor::getCoefficient() . ', `last_visit` = "' . TimeZone::getCurrentDate() . '" WHERE `last_counter` = "' . $result->last_counter . '"');
+            $wpdb->query(
+                $wpdb->prepare(
+                    'UPDATE `'.DB::table('visit').'` SET `visit` = `visit` + %s, `last_visit` = %s WHERE `last_counter` = %s', 
+                    Visitor::getCoefficient(),
+                    TimeZone::getCurrentDate(),
+                    $result->last_counter
+                )
+            );
         }
-
     }
-
 }

@@ -15,7 +15,7 @@ class top_visitors_page
 
             // Check Validate Day arg
             if (isset($_GET['day']) and TimeZone::isValidDate($_GET['day']) === false) {
-                wp_die(__("The time request is invalid.", "wp-statistics"));
+                wp_die(__("The time request is invalid.", "wp-statistics")); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	
             }
         }
     }
@@ -31,14 +31,11 @@ class top_visitors_page
 
         // Page title
         $args['title'] = __('Top Visitors Today', 'wp-statistics');
-
         // Get Current Page Url
         $args['pageName'] = Menus::get_page_slug('top-visitors');
         $args['paged']    = Admin_Template::getCurrentPaged();
-
         // Get Day
         $args['day'] = (isset($_GET['day']) ? sanitize_text_field($_GET['day']) : TimeZone::getCurrentDate('Y-m-d'));
-
         //Get Total List
         $args['total'] = Visitor::Count(array('key' => 'last_counter', 'compare' => '=', 'value' => trim($args['day'])));
         $args['list']  = array();
@@ -59,10 +56,9 @@ class top_visitors_page
                 'echo'  => false
             ));
         }
-
+        $args['Datepicker']=true;
         Admin_Template::get_template(array('layout/header', 'layout/title', 'pages/top-visitors', 'layout/footer'), $args);
     }
-
 }
 
 new top_visitors_page;

@@ -195,7 +195,7 @@ function wp_statistics_useronline($options = array())
     }
 
     //Return Number od user Online
-    return ($arg['return'] == "count" ? $wpdb->get_var($sql) : $wpdb->get_results($sql));
+    return ($arg['return'] == "count" ? $wpdb->get_var($sql) : $wpdb->get_results($sql)); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared	
 }
 
 /**
@@ -220,7 +220,7 @@ function wp_statistics_visit($time, $daily = null)
     }
 
     //Generate Base Sql
-    $sql = "SELECT {$selector} FROM {$table_name}";
+    $sql = "SELECT " . $selector . " FROM `" . $table_name . "` ";
 
     //Create Sum Visits variable
     $sum = 0;
@@ -235,7 +235,7 @@ function wp_statistics_visit($time, $daily = null)
             $d = TimeZone::getCurrentDate('Y-m-d', $time);
         }
 
-        $result = $wpdb->get_row($sql . " WHERE `$date_column` = '" . $d . "'");
+        $result = $wpdb->get_row($sql . " WHERE `$date_column` = '" . $d . "'");  // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared	
         if (null !== $result) {
             $sum = $result->visit;
         }
@@ -248,7 +248,7 @@ function wp_statistics_visit($time, $daily = null)
         }
 
         //Request To database
-        $result = $wpdb->get_var($sql);
+        $result = $wpdb->get_var($sql); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared		
 
         //Custom Action
         if ($time == "total") {
@@ -403,10 +403,10 @@ function wp_statistics_visitor($time, $daily = null, $count_only = false, $optio
 
     // Execute the SQL call, if we're only counting we can use get_var(), otherwise we use query().
     if ($count_only == true) {
-        $sum = $wpdb->get_var($sql);
+        $sum = $wpdb->get_var($sql); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
         $sum += $history;
     } else {
-        $sum = $wpdb->query($sql);
+        $sum = $wpdb->query($sql); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
     }
 
     return $sum;
@@ -430,22 +430,30 @@ function wp_statistics_pages($time, $page_uri = '', $id = -1, $rangestartdate = 
     //Date Column Name in visits table
     $table_name  = WP_STATISTICS\DB::table('pages');
     $date_column = 'date';
+
+    // History Vars
     $history     = 0;
+    $history_key = null;
+    $history_id  = null;
 
     //Check Where Condition
     $where = [];
 
     //Check Query By Page ID or Page Url
-    if ($type != false) {
+    if ($type) {
         $query = $wpdb->prepare("`type` = %s", $type);
 
         if ($id != -1) {
-            $query .= $wpdb->prepare(" AND `id` = %d", $id);
+            $query       .= $wpdb->prepare(" AND `id` = %d", $id);
+            $history_key = 'page';
+            $history_id  = absint($id);
         }
 
         if ($page_uri != '') {
             $page_uri_sql = esc_sql($page_uri);
             $query        .= $wpdb->prepare(" AND `URI` = %s", $page_uri_sql);
+            $history_key  = 'uri';
+            $history_id   = $page_uri;
         }
 
         $where[] = apply_filters('wp_statistics_pages_where_type_query', $query, $id, $type);
@@ -467,9 +475,11 @@ function wp_statistics_pages($time, $page_uri = '', $id = -1, $rangestartdate = 
             $history_key = 'uri';
             $history_id  = $page_uri;
         }
+    }
 
-        //Custom Action
-        if ($time == "total") {
+    //Custom Action
+    if ($time == "total") {
+        if ($history_key && $history_id) {
             $history = WP_STATISTICS\Historical::get($history_key, $history_id);
         }
     }
@@ -498,7 +508,7 @@ function wp_statistics_pages($time, $page_uri = '', $id = -1, $rangestartdate = 
     }
 
     //Request Get data
-    $sum = $wpdb->get_var($sql);
+    $sum = $wpdb->get_var($sql); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
     $sum += $history;
 
     //Return Number Statistic
@@ -524,14 +534,16 @@ function wp_statistics_get_top_pages($rangestartdate = null, $rangeenddate = nul
     // Get every unique URI from the pages database.
     if ($rangestartdate != null && $rangeenddate != null) {
         $whereType = ($post_type != null ? $wpdb->prepare(" AND `type`=%s", $post_type) : '');
-        $result    = $wpdb->get_results($wpdb->prepare("SELECT `uri`,`id`,`type` FROM " . \WP_STATISTICS\DB::table('pages') . " WHERE `date` BETWEEN %s AND %s {$whereType} GROUP BY `id`" . ($limit != null ? ' LIMIT ' . $limit : ''), $rangestartdate, $rangeenddate), ARRAY_N);
+        $result    = $wpdb->get_results(
+            $wpdb->prepare("SELECT `uri`,`id`,`type` FROM " . \WP_STATISTICS\DB::table('pages') . " WHERE `date` BETWEEN %s AND %s {$whereType} GROUP BY `id`" . ($limit != null ? ' LIMIT ' . $limit : ''), $rangestartdate, $rangeenddate), // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+            ARRAY_N);
     } else {
         $limitQuery = '';
         if ($limit) {
             $limitQuery = $wpdb->prepare(" LIMIT %d", $limit);
         }
         $whereType = ($post_type != null ? $wpdb->prepare(" WHERE `type`=%s", $post_type) : '');
-        $result    = $wpdb->get_results("SELECT `uri`, `id`, `type` FROM " . \WP_STATISTICS\DB::table('pages') . " {$whereType} GROUP BY `id` {$limitQuery}", ARRAY_N);
+        $result    = $wpdb->get_results("SELECT `uri`, `id`, `type` FROM " . \WP_STATISTICS\DB::table('pages') . " {$whereType} GROUP BY `id` {$limitQuery}", ARRAY_N); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
     }
 
     $total = 0;
@@ -618,12 +630,18 @@ function wp_statistics_ua_list($rangestartdate = null, $rangeenddate = null)
 
     if ($rangestartdate != null && $rangeenddate != null) {
         if ($rangeenddate == 'CURDATE()') {
-            $result = $wpdb->get_results($wpdb->prepare("SELECT DISTINCT agent FROM " . \WP_STATISTICS\DB::table('visitor') . " WHERE `last_counter` BETWEEN %s AND CURDATE()", $rangestartdate), ARRAY_N);
+            $result = $wpdb->get_results(
+                $wpdb->prepare("SELECT DISTINCT agent FROM `" . \WP_STATISTICS\DB::table('visitor') . "` WHERE `last_counter` BETWEEN %s AND CURDATE()", $rangestartdate),
+                ARRAY_N);
         } else {
-            $result = $wpdb->get_results($wpdb->prepare("SELECT DISTINCT agent FROM " . \WP_STATISTICS\DB::table('visitor') . " WHERE `last_counter` BETWEEN %s AND %s", $rangestartdate, $rangeenddate), ARRAY_N);
+            $result = $wpdb->get_results(
+                $wpdb->prepare("SELECT DISTINCT agent FROM `" . \WP_STATISTICS\DB::table('visitor') . "` WHERE `last_counter` BETWEEN %s AND %s", $rangestartdate, $rangeenddate),
+                ARRAY_N);
         }
     } else {
-        $result = $wpdb->get_results("SELECT DISTINCT agent FROM " . \WP_STATISTICS\DB::table('visitor'), ARRAY_N);
+        $result = $wpdb->get_results(
+            "SELECT DISTINCT agent FROM  `" . \WP_STATISTICS\DB::table('visitor') . "` ",
+            ARRAY_N);
     }
 
     $Browsers        = array();
@@ -654,12 +672,18 @@ function wp_statistics_useragent($agent, $rangestartdate = null, $rangeenddate =
 
     if ($rangestartdate != null || $rangeenddate != null) {
         if ($rangeenddate == null) {
-            $result = $wpdb->get_var($wpdb->prepare("SELECT COUNT(agent) FROM `" . \WP_STATISTICS\DB::table('visitor') . "` WHERE `agent` = %s AND `last_counter` = %s", $agent, $rangestartdate));
+            $result = $wpdb->get_var(
+                $wpdb->prepare("SELECT COUNT(agent) FROM  `" . \WP_STATISTICS\DB::table('visitor') . "` WHERE `agent` = %s AND `last_counter` = %s", $agent, $rangestartdate)
+            );
         } else {
-            $result = $wpdb->get_var($wpdb->prepare("SELECT COUNT(agent) FROM `" . \WP_STATISTICS\DB::table('visitor') . "` WHERE `agent` = %s AND `last_counter` BETWEEN %s AND %s", $agent, $rangestartdate, $rangeenddate));
+            $result = $wpdb->get_var(
+                $wpdb->prepare("SELECT COUNT(agent) FROM  `" . \WP_STATISTICS\DB::table('visitor') . "` WHERE `agent` = %s AND `last_counter` BETWEEN %s AND %s", $agent, $rangestartdate, $rangeenddate)
+            );
         }
     } else {
-        $result = $wpdb->get_var($wpdb->prepare("SELECT COUNT(agent) FROM `" . \WP_STATISTICS\DB::table('visitor') . "` WHERE `agent` = %s", $agent));
+        $result = $wpdb->get_var(
+            $wpdb->prepare("SELECT COUNT(agent) FROM  `" . \WP_STATISTICS\DB::table('visitor') . "` WHERE `agent` = %s", $agent)
+        );
     }
 
     return $result;
@@ -677,9 +701,13 @@ function wp_statistics_platform_list($rangestartdate = null, $rangeenddate = nul
     global $wpdb;
 
     if ($rangestartdate != null && $rangeenddate != null) {
-        $result = $wpdb->get_results($wpdb->prepare("SELECT DISTINCT platform FROM `" . \WP_STATISTICS\DB::table('visitor') . "` WHERE `last_counter` BETWEEN %s AND %s", $rangestartdate, $rangeenddate), ARRAY_N);
+        $result = $wpdb->get_results(
+            $wpdb->prepare("SELECT DISTINCT platform FROM  `" . \WP_STATISTICS\DB::table('visitor') . "`  WHERE `last_counter` BETWEEN %s AND %s", $rangestartdate, $rangeenddate),
+            ARRAY_N);
     } else {
-        $result = $wpdb->get_results("SELECT DISTINCT platform FROM `" . \WP_STATISTICS\DB::table('visitor') . "`", ARRAY_N);
+        $result = $wpdb->get_results(
+            "SELECT DISTINCT platform FROM  `" . \WP_STATISTICS\DB::table('visitor') . "` ",
+            ARRAY_N);
     }
 
     $Platforms = array();
@@ -703,9 +731,13 @@ function wp_statistics_platform($platform, $rangestartdate = null, $rangeenddate
     global $wpdb;
 
     if ($rangestartdate != null && $rangeenddate != null) {
-        $result = $wpdb->get_var($wpdb->prepare("SELECT COUNT(platform) FROM " . \WP_STATISTICS\DB::table('visitor') . " WHERE `platform` = %s AND `last_counter` BETWEEN %s AND %s", $platform, $rangestartdate, $rangeenddate));
+        $result = $wpdb->get_var(
+            $wpdb->prepare("SELECT COUNT(platform) FROM `" . \WP_STATISTICS\DB::table('visitor') . "` WHERE `platform` = %s AND `last_counter` BETWEEN %s AND %s", $platform, $rangestartdate, $rangeenddate)
+        );
     } else {
-        $result = $wpdb->get_var($wpdb->prepare("SELECT COUNT(platform) FROM " . \WP_STATISTICS\DB::table('visitor') . " WHERE `platform` = %s", $platform));
+        $result = $wpdb->get_var(
+            $wpdb->prepare("SELECT COUNT(platform) FROM `" . \WP_STATISTICS\DB::table('visitor') . "` WHERE `platform` = %s", $platform)
+        );
     }
 
     return $result;
@@ -724,9 +756,13 @@ function wp_statistics_agent_version_list($agent, $rangestartdate = null, $range
     global $wpdb;
 
     if ($rangestartdate != null && $rangeenddate != null) {
-        $result = $wpdb->get_results($wpdb->prepare("SELECT DISTINCT `version` FROM " . \WP_STATISTICS\DB::table('visitor') . " WHERE agent = %s AND `last_counter` BETWEEN %s AND %s", $agent, $rangestartdate, $rangeenddate), ARRAY_N);
+        $result = $wpdb->get_results(
+            $wpdb->prepare("SELECT DISTINCT `version` FROM `" . \WP_STATISTICS\DB::table('visitor') . "` WHERE agent = %s AND `last_counter` BETWEEN %s AND %s", $agent, $rangestartdate, $rangeenddate),
+            ARRAY_N);
     } else {
-        $result = $wpdb->get_results($wpdb->prepare("SELECT DISTINCT `version` FROM " . \WP_STATISTICS\DB::table('visitor') . " WHERE agent = %s", $agent), ARRAY_N);
+        $result = $wpdb->get_results(
+            $wpdb->prepare("SELECT DISTINCT `version` FROM `" . \WP_STATISTICS\DB::table('visitor') . "` WHERE agent = %s", $agent),
+            ARRAY_N);
     }
 
     $Versions = array();
@@ -752,11 +788,11 @@ function wp_statistics_agent_version($agent, $version, $rangestartdate = null, $
 
     if ($rangestartdate != null && $rangeenddate != null) {
         $result = $wpdb->get_var(
-            $wpdb->prepare("SELECT COUNT(version) FROM " . \WP_STATISTICS\DB::table('visitor') . " WHERE agent = %s AND version = %s AND `last_counter` BETWEEN %s AND %s", $agent, $version, $rangestartdate, $rangeenddate)
+            $wpdb->prepare("SELECT COUNT(version) FROM `" . \WP_STATISTICS\DB::table('visitor') . "` WHERE agent = %s AND version = %s AND `last_counter` BETWEEN %s AND %s", $agent, $version, $rangestartdate, $rangeenddate)
         );
     } else {
         $result = $wpdb->get_var(
-            $wpdb->prepare("SELECT COUNT(version) FROM " . \WP_STATISTICS\DB::table('visitor') . " WHERE agent = %s AND version = %s", $agent, $version)
+            $wpdb->prepare("SELECT COUNT(version) FROM `" . \WP_STATISTICS\DB::table('visitor') . "` WHERE agent = %s AND version = %s", $agent, $version)
         );
     }
 
@@ -773,7 +809,7 @@ function wp_statistics_searchengine_query($search_engine = 'all')
 {
     global $wpdb;
 
-    $search_query      = '';
+    $search_query = '';
     // Are we getting results for all search engines or a specific one?
     if (strtolower($search_engine) == 'all') {
         // Get a complete list of search engines
@@ -832,7 +868,7 @@ function wp_statistics_get_search_engine_query($search_engine = 'all', $time = '
     }
 
     //Request Data
-    return $wpdb->get_var($sql);
+    return $wpdb->get_var($sql); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared	
 }
 
 /**
@@ -874,11 +910,11 @@ function wp_statistics_referrer($time = null)
         //Set Default
         $sql .= " AND (`last_counter` = '" . TimeZone::getCurrentDate('Y-m-d', $time) . "')";
     }
-    $result = $wpdb->get_results($sql);
+    $result = $wpdb->get_results($sql); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared	
 
     $urls = array();
     foreach ($result as $item) {
-        $url = parse_url($item->referred);
+        $url = wp_parse_url($item->referred);
         if (empty($url['host']) || stristr(get_bloginfo('url'), $url['host'])) {
             continue;
         }
@@ -888,3 +924,4 @@ function wp_statistics_referrer($time = null)
 
     return count($get_urls);
 }
+ 

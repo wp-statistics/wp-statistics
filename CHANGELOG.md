@@ -1,3 +1,28 @@
+= 14.6.1 - 13.04.2024 =
+- Feature: Introduced a sequential IP detection method in Settings → Basic Tracking
+- Fixes: Updated the Compatibility Visits meta-box and Widget to support PHP version 7.0.
+- Fixes: Refined and optimized SQL query processes for accurate page count calculations.
+
+= 14.6.0 - 11.04.2024 =
+- Updated: A new admin header is needed for easier use and quick access to important links.
+- Performance: Moved a `tracker.js` script to footer load last for faster page display.
+- Performance: Made scripts smaller to speed up loading.
+- Performance: Added fast, in-memory data storage for user profiles.
+- Performance: Improved 'Visits' functionality for faster performance.
+- Performance: Made general speed improvements.
+- Performance: Made city data storage and retrieval faster.
+- Fixes: Fixed "Unknown" issue in showing the cities.
+- Fixes: Fixed a bug in the Most Visited Pages display.
+- Fixes: Fixed the bug when resetting the user online.
+- Fixes: Fixed issues with charts not displaying correctly in some browsers.
+- Fixes: Fixed a tracking bug on the homepage.
+- Fixes: A GeoLite2 download URL to get the latest version of databases.
+- Fixes: Made sure dashboard widgets stay visible after updates.
+- Improvement: Moved some settings to a more logical place in the menu.
+- Improvement: Updated and simplified various parts of the plugin.
+- Improvement: Removed outdated "Search Words" feature.
+- Improvement: Made setting default options easier in multisite setups.
+
 = 14.5.2 - 12.03.2024 =
 * Feature: Added section 'Event Tracking' in the settings page. [More info](https://wp-statistics.com/2024/03/11/big-news-for-data-plus-introducing-link-and-download-tracking)
 * Fixes: The last year stats issue.

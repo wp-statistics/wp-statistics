@@ -18,6 +18,7 @@ class Admin_Notices
         'disable_addons',
         'performance_and_clean_up',
         'memory_limit_check',
+        'php_version_check',
     );
 
     /**
@@ -128,7 +129,7 @@ class Admin_Notices
             }
 
             if (count($active_collation) > 0) {
-                Helper::wp_admin_notice(sprintf(__('Certain features are currently turned off. Please visit the %ssettings page%s to activate them: %s', 'wp-statistics'), '<a href="' . Menus::admin_url('settings') . '">', '</a>', implode(__(',', 'wp-statistics'), $active_collation)), 'info', true);
+                Helper::wp_admin_notice(sprintf(__('Certain features are currently turned off. Please visit the %1$ssettings page%2$s to activate them: %3$s', 'wp-statistics'), '<a href="' . Menus::admin_url('settings') . '">', '</a>', implode(__(',', 'wp-statistics'), $active_collation)), 'info', true);
             }
         }
     }
@@ -171,7 +172,7 @@ class Admin_Notices
             $documentationUrl = 'https://wp-statistics.com/resources/optimizing-database-size-for-improved-performance/';
 
             $message = sprintf(
-                __('Attention: Your database has accumulated a significant number of records, which may impact your site\'s performance. To address this, consider visiting <a href="%s">Settings &gt; Data Management</a> where you can enable the option to prevent recording old data. You can also perform an immediate database clean-up on the <a href="%s">Optimization page</a>. For more information, <a href="%s" target="_blank">click here</a>.', 'wp-statistics'),
+                __('Attention: Your database has accumulated a significant number of records, which may impact your site\'s performance. To address this, consider visiting <a href="%1$s">Settings &gt; Data Management</a> where you can enable the option to prevent recording old data. You can also perform an immediate database clean-up on the <a href="%2$s">Optimization page</a>. For more information, <a href="%3$s" target="_blank">click here</a>.', 'wp-statistics'),
                 esc_url($settingsUrl),
                 esc_url($optimizationUrl),
                 esc_url($documentationUrl)
@@ -206,6 +207,32 @@ class Admin_Notices
             if (Helper::checkMemoryLimit()) {
                 Helper::wp_admin_notice(__('Your server memory limit is too low. Please contact your hosting provider to increase the memory limit.', 'wp-statistics'), 'warning', true);
             }
+        }
+    }
+
+    public function php_version_check()
+    {
+        if (version_compare(PHP_VERSION, '7.2', '<') && !Option::get('disable_php_version_check_notice')) {
+            Helper::wp_admin_notice(__('<b>WP Statistics Plugin: PHP Version Update Alert</b> Starting with <b>Version 15</b>, WP Statistics will require <b>PHP 7.2 or higher</b>. Please upgrade your PHP version to ensure uninterrupted use of the plugin.'), 'warning', true, 'wp-statistics-disable-php_version_check-notice');
+            ?>
+            <script>
+                jQuery(document).ready(function ($) {
+                    $(document).on("click", "#wp-statistics-disable-php_version_check-notice button.notice-dismiss", function (e) {
+                        e.preventDefault();
+                        jQuery.ajax({
+                            url: ajaxurl,
+                            type: "post",
+                            data: {
+                                'action': 'wp_statistics_close_notice',
+                                'notice': 'disable_php_version_check',
+                                'wps_nonce': '<?php echo wp_create_nonce('wp_rest'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>'
+                            },
+                            datatype: 'json'
+                        });
+                    });
+                });
+            </script>
+            <?php
         }
     }
 }

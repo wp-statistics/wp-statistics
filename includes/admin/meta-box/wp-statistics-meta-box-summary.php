@@ -127,7 +127,7 @@ class summary
 
                 // This Year
                 $data['visitors']['this-year'] = array(
-                    'link'  => Menus::admin_url('visitors', array('from' => TimeZone::getLocalDate('Y-m-d', strtotime(date('Y-01-01'))), 'to' => TimeZone::getCurrentDate("Y-m-d"))),
+                    'link'  => Menus::admin_url('visitors', array('from' => TimeZone::getLocalDate('Y-m-d', strtotime(date('Y-01-01'))), 'to' => TimeZone::getCurrentDate("Y-m-d"))),  // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date	
                     'value' => number_format_i18n(wp_statistics_visitor('this-year', null, true))
                 );
 
@@ -201,7 +201,7 @@ class summary
 
                 // This Year
                 $data['visits']['this-year'] = array(
-                    'link'  => Menus::admin_url('hits', array('from' => TimeZone::getLocalDate('Y-m-d', strtotime(date('Y-01-01'))), 'to' => TimeZone::getCurrentDate("Y-m-d"))),
+                    'link'  => Menus::admin_url('hits', array('from' => TimeZone::getLocalDate('Y-m-d', strtotime(date('Y-01-01'))), 'to' => TimeZone::getCurrentDate("Y-m-d"))),  // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date	
                     'value' => number_format_i18n(wp_statistics_visit('this-year'))
                 );
 
@@ -232,7 +232,7 @@ class summary
 
                 // Push to List
                 $data['search-engine'][$key] = array(
-                    'name'      => __($value['name'], 'wp-statistics'),
+                    'name'      => sprintf(__('%s', 'wp-statistics'), $value['name']),
                     'logo'      => $value['logo_url'],
                     'today'     => number_format_i18n($today),
                     'yesterday' => number_format_i18n($yesterday)

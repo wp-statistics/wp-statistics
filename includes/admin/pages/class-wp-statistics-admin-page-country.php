@@ -19,7 +19,7 @@ class country_page
             // Is Validate Date Request
             $DateRequest = Admin_Template::isValidDateRequest();
             if (!$DateRequest['status']) {
-                wp_die($DateRequest['message']);
+                wp_die(esc_html($DateRequest['message']));
             }
         }
     }
@@ -42,7 +42,7 @@ class country_page
 
         // Get Date-Range
         $args['DateRang'] = Admin_Template::DateRange();
-
+        $args['HasDateRang'] = True;
 
         // From Date and To Date
         $days_list    = array_keys(TimeZone::getListDays(array('from' => TimeZone::getTimeAgo(30))));
@@ -75,14 +75,16 @@ class country_page
 
         // Get Result
         $limitQuery = $wpdb->prepare("LIMIT %d, %d", $args['offset'], $args['limit']);
-        $sqlQuery   = $wpdb->prepare("SELECT `location`, COUNT(`location`) AS `count` FROM `" . DB::table('visitor') . "` WHERE `last_counter` BETWEEN %s AND %s GROUP BY `location` ORDER BY `count` DESC", $args['from'], $args['to']);
 
         // Set Total
-        $totalQuery    = $wpdb->get_results($sqlQuery);
+        $totalQuery    = $wpdb->get_results(
+            $wpdb->prepare("SELECT `location`, COUNT(`location`) AS `count` FROM `".DB::table('visitor')."` WHERE `last_counter` BETWEEN %s AND %s GROUP BY `location` ORDER BY `count` DESC", $args['from'], $args['to'])
+        );
         $args['total'] = count($totalQuery);
-
         // Set Result
-        $result = $wpdb->get_results($sqlQuery . " " . $limitQuery);
+        $result = $wpdb->get_results(
+            $wpdb->prepare("SELECT `location`, COUNT(`location`) AS `count` FROM `".DB::table('visitor')."` WHERE `last_counter` BETWEEN %s AND %s GROUP BY `location` ORDER BY `count` DESC $limitQuery", $args['from'], $args['to'])
+        );
 
         foreach ($result as $item) {
             $item->location = strtoupper($item->location);
@@ -107,9 +109,8 @@ class country_page
         }
 
         // Show Template
-        Admin_Template::get_template(array('layout/header', 'layout/title', 'layout/date.range', 'pages/country', 'layout/postbox.toggle', 'layout/footer'), $args);
+        Admin_Template::get_template(array('layout/header', 'layout/title', 'pages/country', 'layout/postbox.toggle', 'layout/footer'), $args);
     }
-
 }
 
 new country_page;

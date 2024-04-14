@@ -58,10 +58,10 @@ class models extends MetaBoxAbstract
             $order_by = "ORDER BY `count` " . esc_sql($args['order']);
         }
 
-        $sql = $wpdb->prepare("SELECT model, COUNT(*) as count FROM " . DB::table('visitor') . " WHERE model != '" . _x('Unknown', 'Model', 'wp-statistics') . "' AND `last_counter` BETWEEN %s AND %s GROUP BY model {$order_by}", reset($days_time_list), end($days_time_list));
-
         // Get List All Platforms
-        $list = $wpdb->get_results($sql, ARRAY_A);
+        $list = $wpdb->get_results(
+            $wpdb->prepare("SELECT model, COUNT(*) as count FROM `".DB::table('visitor')."` WHERE model != %s AND `last_counter` BETWEEN %s AND %s GROUP BY model {$order_by}", _x('Unknown', 'Model', 'wp-statistics'), reset($days_time_list), end($days_time_list)), 
+            ARRAY_A);
 
         // Sort By Count
         Helper::SortByKeyValue($list, 'count');
@@ -87,9 +87,9 @@ class models extends MetaBoxAbstract
 
         // Set Title
         if (end($days_time_list) == TimeZone::getCurrentDate("Y-m-d")) {
-            $title = sprintf(__('Statistics for %s in the Past %s Days', 'wp-statistics'), __('Manufacturers', 'wp-statistics'), self::$countDays);
+            $title = sprintf(__('Statistics for %1$s in the Past %2$s Days', 'wp-statistics'), __('Manufacturers', 'wp-statistics'), self::$countDays);
         } else {
-            $title = sprintf(__('Statistics for %s Between %s and %s', 'wp-statistics'), __('Manufacturers', 'wp-statistics'), $args['from'], $args['to']);
+            $title = sprintf(__('Statistics for %1$s Between %2$s and %3$s', 'wp-statistics'), __('Manufacturers', 'wp-statistics'), $args['from'], $args['to']);
         }
 
         // Prepare Response

@@ -19,8 +19,10 @@ wps_js.ajaxQ = function (url, params, callback, error_callback, type = 'GET', in
     // Check Url
     if (url === false || url === "metabox") {
         url = wps_js.global.meta_box_api;
-        params['wps_nonce'] = wps_js.global.rest_api_nonce
     }
+
+    // Add nonce to the params
+    params['wps_nonce'] = wps_js.global.rest_api_nonce;
 
     // prepare Ajax Parameter
     let ajaxQ = {
