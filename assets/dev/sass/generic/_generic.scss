@@ -69,7 +69,30 @@
   }
 }
 
-.wps-wrap {
+.wps-wrap ,.rtl .wps-wrap{
+  .wps-postbox-wrap.postbox{
+    padding: 20px 32px;
+    @media(max-width: 600px){
+      padding: 20px 15px;
+    }
+    .postbox-header{
+      border-bottom: 0!important;
+      padding: 0!important;
+      h2{
+        padding: 0;
+        margin-bottom: 25px;
+        margin-top: 0;
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 16.41px;
+        display: flex;
+        justify-content: flex-start;
+        .wps-tooltip{
+          flex-grow: unset;
+        }
+      }
+    }
+  }
   .postbox-container {
     border-radius: 8px;
     overflow: visible;

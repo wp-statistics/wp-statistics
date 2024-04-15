@@ -23,6 +23,7 @@ class PrivacyAuditPage
     {
         // Page title
         $args['title'] = esc_html__('Privacy Audit', 'wp-statistics');
+        $args['tooltip'] = esc_html__('Privacy Audit tooltip', 'wp-statistics');
 
         // Get Current Page Url
         $args['pageName']   = Menus::get_page_slug('privacy_audit');
