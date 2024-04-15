@@ -28,7 +28,7 @@
                             </div>
                         </div>
                         <div class="wps-privacy-mode__content">
-                            <?php esc_html_e('You have successfully configured your website for privacy friendliness.', 'wp-statistics'); ?>
+                            <?php esc_html_e('You have successfully configured your website for privacy friendliness.','wp-statistics'); ?>
                         </div>
                     </label>
                 </div>
