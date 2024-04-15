@@ -512,7 +512,11 @@ class settings_page
             if ($option_name == 'wps_about_widget_content') {
                 $options[$option_name] = wp_kses_post($option_value);
             } else {
-                $options[$option_name] = sanitize_text_field($option_value);
+                if (is_array($option_value)) {
+                    $options[$option_name] = array_map('sanitize_text_field', $option_value);
+                } else {
+                    $options[$option_name] = sanitize_text_field($option_value);
+                }
             }
         }
 
