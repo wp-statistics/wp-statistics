@@ -400,18 +400,24 @@ class Exclusion
             }
         }
 
-        // Check User IP is empty Or Not User Agent
+        // Check user ip is empty or not user agent
         if (Option::get('corrupt_browser_info')) {
             if ($visitorProfile->getHttpUserAgent() == '' || $visitorProfile->getIp() == '') {
                 return true;
             }
         }
 
+        $userAgent = $visitorProfile->getUserAgent();
+
+        if ($userAgent['isBrowserDetected'] == false and $userAgent['isPlatformDetected'] == false) {
+            return true;
+        }
+
         return false;
     }
 
     /**
-     * Detect if GEO-IP include Or Exclude Country.
+     * Detect if GeoIP include or exclude country.
      *
      * @param $visitorProfile VisitorProfile
      * @throws \Exception
@@ -485,7 +491,7 @@ class Exclusion
     }
 
     /**
-     *  Detect if XMLRPC
+     *  Detect if XML-RPC
      */
     public static function exclusion_xmlrpc()
     {

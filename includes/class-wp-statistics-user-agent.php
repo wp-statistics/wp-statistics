@@ -36,11 +36,13 @@ class UserAgent
             }
 
             $agent = array(
-                'browser'  => (isset($result->browser->name)) ? $result->browser->name : _x('Unknown', 'Browser', 'wp-statistics'),
-                'platform' => (isset($result->os->name)) ? $result->os->name : _x('Unknown', 'Platform', 'wp-statistics'),
-                'version'  => $version,
-                'device'   => isset($result->device->type) ? $result->getType() : _x('Unknown', 'Device', 'wp-statistics'),
-                'model'    => isset($result->device->manufacturer) ? $result->device->getModel() : _x('Unknown', 'Model', 'wp-statistics'),
+                'browser'            => (isset($result->browser->name)) ? $result->browser->name : _x('Unknown', 'Browser', 'wp-statistics'),
+                'platform'           => (isset($result->os->name)) ? $result->os->name : _x('Unknown', 'Platform', 'wp-statistics'),
+                'version'            => $version,
+                'device'             => isset($result->device->type) ? $result->getType() : _x('Unknown', 'Device', 'wp-statistics'),
+                'model'              => isset($result->device->manufacturer) ? $result->device->getModel() : _x('Unknown', 'Model', 'wp-statistics'),
+                'isBrowserDetected'  => isset($result->browser->name) ? true : false,
+                'isPlatformDetected' => isset($result->os->name) ? true : false
             );
         } else {
             $agent = self::getBrowserInfo($user_agent);
@@ -104,8 +106,10 @@ class UserAgent
 
     public static function getBrowserInfo($userAgent = null)
     {
-        $version = '';
-        $model   = _x('Unknown', 'Device Model', 'wp-statistics');
+        $version            = '';
+        $model              = _x('Unknown', 'Device Model', 'wp-statistics');
+        $isBrowserDetected  = true;
+        $isPlatformDetected = true;
 
         if (preg_match('/linux|ubuntu/i', $userAgent)) {
             $platform = 'linux';
@@ -120,7 +124,8 @@ class UserAgent
         } elseif (preg_match('/webos/i', $userAgent)) {
             $platform = 'Mobile';
         } else {
-            $platform = _x('Unknown', 'Platform', 'wp-statistics');
+            $platform           = _x('Unknown', 'Platform', 'wp-statistics');
+            $isPlatformDetected = false;
         }
 
         if (preg_match('/MSIE\/([0-9.]*)/i', $userAgent, $match) && !preg_match('/Opera/i', $userAgent)) {
@@ -150,7 +155,8 @@ class UserAgent
         } elseif (preg_match('/Trident\/([0-9.]*)/i', $userAgent, $match)) {
             $browser = 'Internet Explorer';
         } else {
-            $browser = _x('Unknown', 'Browser', 'wp-statistics');
+            $browser           = _x('Unknown', 'Browser', 'wp-statistics');
+            $isBrowserDetected = false;
         }
 
         $pattern = '#(?<browser>)[/ ]+(?<version>[0-9.|a-zA-Z.]*)#';
@@ -169,11 +175,13 @@ class UserAgent
         }
 
         return array(
-            'browser'  => $browser,
-            'version'  => $version,
-            'platform' => $platform,
-            'device'   => $device,
-            'model'    => $model,
+            'browser'            => $browser,
+            'version'            => $version,
+            'platform'           => $platform,
+            'device'             => $device,
+            'model'              => $model,
+            'isBrowserDetected'  => $isBrowserDetected,
+            'isPlatformDetected' => $isPlatformDetected
         );
     }
 
