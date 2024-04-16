@@ -160,10 +160,11 @@ class Exclusion
 
     /**
      * Detect if honeypot.
+     * @param $visitorProfile VisitorProfile
      */
-    public static function exclusion_honeypot()
+    public static function exclusion_honeypot($visitorProfile)
     {
-        $current_page = Pages::get_page_type();
+        $current_page = $visitorProfile->getCurrentPageType();
         return (Option::get('use_honeypot') && Option::get('honeypot_postid') > 0 && Option::get('honeypot_postid') == $current_page['id'] && $current_page['id'] > 0);
     }
 
