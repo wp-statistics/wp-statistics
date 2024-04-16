@@ -238,13 +238,13 @@ class Exclusion
 
     /**
      * Detect if Referrer Spam.
+     * @param $visitorProfile VisitorProfile
      */
-    public static function exclusion_referrer_spam()
+    public static function exclusion_referrer_spam($visitorProfile)
     {
-
         // Check to see if we're excluding referrer spam.
         if (Option::get('referrerspam')) {
-            $referrer = Referred::get();
+            $referrer = $visitorProfile->getReferrer();
 
             // Pull the referrer spam list from the database.
             $referrer_spam_list = explode("\n", Option::get('referrerspamlist'));
