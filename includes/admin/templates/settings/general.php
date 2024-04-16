@@ -34,18 +34,6 @@
                 <p class="description"><?php esc_html_e('Defines how often the plugin checks for online users. \'120 seconds\' means updates every 2 minutes.', 'wp-statistics') ?></p>
             </td>
         </tr>
-
-        <tr valign="top">
-            <th scope="row">
-                <label for="allonline"><?php esc_html_e('Record All Traffic', 'wp-statistics'); ?></label>
-            </th>
-
-            <td>
-                <input id="allonline" type="checkbox" value="1" name="wps_all_online" <?php echo WP_STATISTICS\Option::get('all_online') == true ? "checked='checked'" : ''; ?>>
-                <label for="allonline"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
-                <p class="description"><?php esc_html_e('Records all site traffic, including bots and unfiltered visits, useful for troubleshooting. May lead to duplicates in visitor count.', 'wp-statistics'); ?></p>
-            </td>
-        </tr>
         </tbody>
     </table>
 </div>
@@ -302,7 +290,7 @@
                     <label for="<?php echo esc_attr($option_name); ?>"><?php echo esc_attr($se['name']); ?></label>
                 </th>
                 <td>
-                <input id="<?php echo esc_attr($option_name); ?>" type="checkbox" value="1" name="<?php echo esc_attr($option_name); ?>" <?php echo WP_STATISTICS\Option::get($store_name) == '1' ? '' : "checked='checked'"; ?>><label for="<?php echo esc_attr($option_name); ?>"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
+                    <input id="<?php echo esc_attr($option_name); ?>" type="checkbox" value="1" name="<?php echo esc_attr($option_name); ?>" <?php echo WP_STATISTICS\Option::get($store_name) == '1' ? '' : "checked='checked'"; ?>><label for="<?php echo esc_attr($option_name); ?>"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
                     <p class="description"><?php echo esc_attr(sprintf(__('Allow %s to collect and report data.', 'wp-statistics'), $se['name'])); ?></p>
                 </td>
             </tr>

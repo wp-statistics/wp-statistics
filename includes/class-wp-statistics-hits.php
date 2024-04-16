@@ -186,7 +186,7 @@ class Hits
         }
 
         # Record User Online
-        if (UserOnline::active() and ($exclusion['exclusion_match'] === false || Option::get('all_online'))) {
+        if (UserOnline::active() and ($exclusion['exclusion_match'] === false)) {
             UserOnline::record($visitorProfile);
         }
 

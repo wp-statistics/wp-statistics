@@ -163,7 +163,6 @@ class settings_page
             'wps_anonymize_ips',
             'wps_hash_ips',
             'wps_store_ua',
-            'wps_all_online',
             'wps_do_not_track',
         );
 
@@ -471,8 +470,7 @@ class settings_page
             'wps_menu_bar',
             'wps_coefficient',
             'wps_chart_totals',
-            'wps_hide_notices',
-            'wps_all_online',
+            'wps_hide_notices'
         );
 
         foreach ($wps_option_list as $option) {
