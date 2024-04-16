@@ -154,6 +154,7 @@ class ComposerStaticInit2ac516f03a394ec3d1721352b7f43359
         'Psr\\Cache\\InvalidArgumentException' => __DIR__ . '/..' . '/psr/cache/src/InvalidArgumentException.php',
         'WP_Statistics\\Service\\Admin\\AddOnDecorator' => __DIR__ . '/../../..' . '/src/Service/Admin/AddOnDecorator.php',
         'WP_Statistics\\Service\\Admin\\AddOnsFactory' => __DIR__ . '/../../..' . '/src/Service/Admin/AddOnsFactory.php',
+        'WP_Statistics\\Service\\Admin\\AdminManager' => __DIR__ . '/../../..' . '/src/Service/Admin/AdminManager.php',
         'WP_Statistics\\Service\\Analytics\\VisitorProfile' => __DIR__ . '/../../..' . '/src/Service/Analytics/VisitorProfile.php',
         'WhichBrowser\\Analyser' => __DIR__ . '/..' . '/whichbrowser/parser/src/Analyser.php',
         'WhichBrowser\\Analyser\\Camouflage' => __DIR__ . '/..' . '/whichbrowser/parser/src/Analyser/Camouflage.php',
