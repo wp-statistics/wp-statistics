@@ -3,6 +3,7 @@
 namespace WP_Statistics\Service\Analytics;
 
 use WP_STATISTICS\GeoIP;
+use WP_STATISTICS\Helper;
 use WP_STATISTICS\IP;
 use WP_STATISTICS\Pages;
 use WP_STATISTICS\Referred;
@@ -22,6 +23,7 @@ class VisitorProfile
     private $httpUserAgent;
     private $userId;
     private $currentPageType;
+    private $requestUri;
 
     public function __construct()
     {
@@ -97,6 +99,15 @@ class VisitorProfile
         }
 
         return $this->httpUserAgent;
+    }
+
+    public function getRequestUri()
+    {
+        if (!$this->requestUri) {
+            $this->requestUri = Helper::getRequestUri();
+        }
+
+        return $this->requestUri;
     }
 
     public function getUserId()
