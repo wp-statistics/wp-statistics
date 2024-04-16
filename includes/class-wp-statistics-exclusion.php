@@ -409,7 +409,7 @@ class Exclusion
 
         $userAgent = $visitorProfile->getUserAgent();
 
-        if ($userAgent['isBrowserDetected'] == false and $userAgent['isPlatformDetected'] == false) {
+        if (!$userAgent['isBrowserDetected'] && !$userAgent['isPlatformDetected']) {
             return true;
         }
 
