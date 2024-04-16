@@ -101,7 +101,7 @@ class Referred
 
         // If referrer is the current site or empty, return empty string
         if (empty($base_url['host']) || strpos($referrer, site_url()) !== false) {
-            return '-';
+            return \WP_STATISTICS\Admin_Template::UnknownColumn();
         }
 
         // Get Html Link
