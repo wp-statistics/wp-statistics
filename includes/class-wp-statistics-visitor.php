@@ -467,7 +467,7 @@ class Visitor
     {
         global $wpdb;
         $query = $wpdb->get_results(
-            "SELECT `user_id` FROM `" . DB::table('visitor') . "` as visitors WHERE `user_id` >0 AND EXISTS (SELECT `ID` FROM `" . $wpdb->users . "` as users WHERE visitors.user_id = users.ID) GROUP BY `user_id` ORDER BY `user_id` DESC",
+            "SELECT `user_id` FROM `" . DB::table('visitor') . "` as visitors WHERE `user_id` > 0 AND EXISTS (SELECT `ID` FROM `" . $wpdb->users . "` as users WHERE visitors.user_id = users.ID) GROUP BY `user_id` ORDER BY `user_id` DESC",
             ARRAY_A
         );
         $item  = array();
