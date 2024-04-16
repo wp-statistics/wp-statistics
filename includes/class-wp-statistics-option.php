@@ -265,7 +265,7 @@ class Option
         }
 
         if (!array_key_exists($option_name, $options)) {
-            return $default ?? false;
+            return $default ? $default : false;
         }
 
         return apply_filters("wp_statistics_option_{$setting_name}_{$option_name}", $options[$option_name]);

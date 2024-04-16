@@ -60,7 +60,14 @@ wps_js.search_meta_box = {
                 interaction: {
                     intersect: false,
                     mode: 'index',
-                }
+                },
+                scales: {
+                    y: {
+                        ticks: {
+                            stepSize: 1,
+                        }
+                    },
+                },
             }
         });
     },
