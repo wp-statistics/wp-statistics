@@ -111,6 +111,25 @@ wps_js.line_chart = function (tag_id, title, label, data, newOptions) {
                         stepSize: 1,
                     }
                 },
+            },
+            plugins: {
+                zoom: {
+                    pan: {
+                        enabled: true,
+                        mode: 'xy',
+                    },
+                    zoom: {
+                        wheel: {
+                            enabled: true,
+                            speed: 0.05,
+                            modifierKey: 'ctrl'
+                        },
+                        pinch: {
+                            enabled: true
+                        },
+                        mode: 'xy',
+                    }
+                }
             }
         }
     };
