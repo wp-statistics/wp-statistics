@@ -395,7 +395,7 @@ jQuery(document).on("click", '.wps-refresh', function (e) {
     // Run Meta Box
     wps_js.run_meta_box(meta_box_name, data, false);
     setTimeout(function () {
-        jQuery('#' + parentID).find('.wps-refresh').blur();
+        jQuery('#' + parentID).find('.wps-refresh').trigger('blur');
     }, 1000);
 });
 
