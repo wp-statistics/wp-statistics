@@ -122,7 +122,7 @@ class IP
             ];
 
             // Save the new daily salt in the WordPress options for future use.
-            update_option($saltOptionName, $dailySalt, true);
+            update_option($saltOptionName, $dailySalt);
         }
 
         // If there is no existing daily salt, generate and save it.
@@ -133,7 +133,7 @@ class IP
             ];
 
             // Save the new daily salt in the WordPress options.
-            update_option($saltOptionName, $dailySalt, true);
+            update_option($saltOptionName, $dailySalt);
         }
 
         // Determine the IP address to hash; use the provided IP or the current user's IP if none is provided.
