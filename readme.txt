@@ -147,6 +147,8 @@ If you encounter any bug, please create an issue on [GitHub](https://github.com/
 * Fixes: Addressed the builder scripts problem to minify the `tracker.js`.
 * Fixes: Corrected deprecated jQuery event and resolved errors on the overview page.
 * Improvement: Changed the autoload setting for the dailySalt option to false to compatible with Cache plugins.
+* Improvement: Encoded search query parameter for more consistency in hit request.
 * Improvement: Enhanced visitor identification by flagging users as robots when browser and platform data are absent, improving accuracy of statistics.
+* Improvement: Enhanced performance by optimizing VisitorProfile handling in class `Pages`
 
 [See changelog for all versions](https://raw.githubusercontent.com/wp-statistics/wp-statistics/master/CHANGELOG.md).
