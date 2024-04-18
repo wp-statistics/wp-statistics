@@ -78,7 +78,7 @@ class Hits
             return array(
                 'type'         => esc_sql($this->rest_hits->current_page_type),
                 'id'           => esc_sql($this->rest_hits->current_page_id),
-                'search_query' => isset($this->rest_hits->search_query) ? $this->rest_hits->search_query : ''
+                'search_query' => isset($this->rest_hits->search_query) ? base64_decode($this->rest_hits->search_query) : ''
             );
         }
 
