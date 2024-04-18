@@ -143,7 +143,7 @@ If you encounter any bug, please create an issue on [GitHub](https://github.com/
 
 == Changelog ==
 = 14.6.3 - 18.04.2024 =
-* Fixes: Resolved SQL query issues while purging the table from optimization.
+* Fixes: Resolved SQL query issues while purging the table from optimization & getting the browsers count.
 * Fixes: Addressed the builder scripts problem to minify the `tracker.js`.
 * Fixes: Corrected deprecated jQuery event and resolved errors on the overview page.
 * Improvement: Changed the autoload setting for the dailySalt option to false to compatible with Cache plugins.
