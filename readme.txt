@@ -1,7 +1,7 @@
-=== WP Statistics ===
+=== WP Statistics - The Most Popular Privacy-Friendly Analytics Plugin ===
 Contributors: mostafa.s1990, kashani, veronalabs, GregRoss
 Donate link: https://wp-statistics.com/donate/
-Tags: analytics, stats, statistics, visitors, chart
+Tags: analytics, google analytics, insights, stats, site visitors
 Requires at least: 5.0
 Tested up to: 6.5
 Stable tag: 14.6.2
