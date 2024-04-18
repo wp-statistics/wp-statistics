@@ -177,7 +177,7 @@ class Hits
 
         # Record Pages
         if (Pages::active() and $exclusion['exclusion_match'] === false and Pages::is_track_all_page() === true) {
-            $page_id = Pages::record();
+            $page_id = Pages::record($visitorProfile);
         }
 
         # Record Visitor Relationship
