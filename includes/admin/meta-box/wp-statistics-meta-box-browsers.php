@@ -78,16 +78,17 @@ class browsers extends MetaBoxAbstract
             }
 
             //Add Unknown Agent to total
-            $browsers = Helper::prepareArrayToStringForQuery($Browsers);
-            if (empty($args['from']) and empty($args['to']) and $args['ago'] == "all") {
-                $total += $other_agent_count = $wpdb->get_var('SELECT COUNT(*) FROM `' . DB::table('visitor') . '` WHERE `agent` NOT IN (%s)', $browsers);
-            } else {
+            $browsers     = Helper::prepareArrayToStringForQuery($Browsers);
+            $visitorTable = DB::table('visitor');
 
+            if (empty($args['from']) and empty($args['to']) and $args['ago'] == "all") {
+                $total += $other_agent_count = $wpdb->get_var("SELECT COUNT(*) FROM `{$visitorTable}` WHERE `agent` NOT IN ($browsers)");
+            } else {
                 $total += $other_agent_count = $wpdb->get_var(
-                    $wpdb->prepare('SELECT COUNT(*) FROM `' . DB::table('visitor') . '` WHERE `agent` NOT IN (%s) AND `last_counter` BETWEEN %s AND %s', $browsers, reset($days_time_list), end($days_time_list))
+                    $wpdb->prepare("SELECT COUNT(*) FROM `{$visitorTable}` WHERE `agent` NOT IN ($browsers) AND `last_counter` BETWEEN %s AND %s", reset($days_time_list), end($days_time_list))
                 );
             }
-            
+
             //Sort Browser List By Visitor ASC
             arsort($BrowserVisits);
 
