@@ -56,7 +56,7 @@ class top_visitors_page
                 'echo'  => false
             ));
         }
-        $args['Datepicker']=true;
+        $args['Datepicker'] = true;
         Admin_Template::get_template(array('layout/header', 'layout/title', 'pages/top-visitors', 'layout/footer'), $args);
     }
 }

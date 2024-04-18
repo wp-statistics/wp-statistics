@@ -26,27 +26,27 @@ if (isset($list) and is_array($list) and count($list) > 0) {
                 }
                 ?>
             </select>
-            <?php if(!empty($sub_list)){ ?>
+            <?php if (!empty($sub_list)) { ?>
                 <?php $selectStatus = apply_filters('wp_statistics_pages_page_sub_list_select', false) ?>
                 <select name="page_id" data-type-show="select2">
                     <option value=""><?php esc_html_e('All', 'wp-statistics'); ?></option>
                     <?php
                     foreach ($sub_list as $id => $name) {
                         ?>
-                        <option value="<?php echo esc_attr($id); ?>" <?php selected((!empty($_GET['page_id']) ? $_GET['page_id'] : ''), $id); ?> <?php echo !$selectStatus ? 'disabled' : '' ?>><?php echo esc_attr($name); ?> <?php echo !$selectStatus ? '(Unlock with Data Plus)' : '' ?></option>
+                        <option value="<?php echo esc_attr($id); ?>" <?php selected((!empty($_GET['page_id']) ? $_GET['page_id'] : ''), $id); ?> <?php echo !$selectStatus ? 'disabled' : '' ?>><?php echo esc_attr($name); ?><?php echo !$selectStatus ? '(Unlock with Data Plus)' : '' ?></option>
                         <?php
                     }
                     ?>
                 </select>
-                <?php if ($selectStatus){ ?>
-                    <script>
-                        jQuery(document).ready(function () {
-                            jQuery('select[name="page_id"]').on('change', function () {
-                                jQuery('#wp-statistics-select-pages').submit();
-                            });
+            <?php if ($selectStatus){ ?>
+                <script>
+                    jQuery(document).ready(function () {
+                        jQuery('select[name="page_id"]').on('change', function () {
+                            jQuery('#wp-statistics-select-pages').submit();
                         });
-                    </script>
-                <?php } ?>
+                    });
+                </script>
+            <?php } ?>
             <?php } ?>
         </form>
     </div>

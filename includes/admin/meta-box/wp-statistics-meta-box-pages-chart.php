@@ -41,7 +41,6 @@ class pages_chart
         );
         $args     = wp_parse_args($arg, $defaults);
 
-        
 
         // Set Default Params
         $date = $stats = array();

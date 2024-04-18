@@ -6,7 +6,7 @@
         <?php endif; ?>
     </h2>
 
-    <?php  if(!empty($description))  echo '<p class="wps_description">'. esc_html($description) . '</p>'    // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	?>
+    <?php if (!empty($description)) echo '<p class="wps_description">' . esc_html($description) . '</p>'    // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	?>
 
     <?php do_action('wp_statistics_after_admin_page_title'); ?>
     <div class="wp-clearfix"></div>

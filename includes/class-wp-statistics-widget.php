@@ -252,7 +252,7 @@ class WP_Statistics_Widget extends \WP_Widget
 
         ?>
         <p>
-            <label for="name_widget"><?php esc_html_e('Name', 'wp-statistics');  ?>: 
+            <label for="name_widget"><?php esc_html_e('Name', 'wp-statistics'); ?>:
                 <input id="name_widget" name="<?php echo esc_attr($this->get_field_name('name_widget')); ?>" type="text" value="<?php if (isset($widget_options['name_widget'])) echo esc_attr($widget_options['name_widget']); ?>"/>
             </label>
         </p>
