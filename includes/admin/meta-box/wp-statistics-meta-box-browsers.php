@@ -31,7 +31,6 @@ class browsers extends MetaBoxAbstract
         global $wpdb;
 
 
-        
         // Set Default Params
         $defaults = array(
             'ago'     => 0,
@@ -55,7 +54,7 @@ class browsers extends MetaBoxAbstract
         // Set Default Value
         $total         = $count = $top_ten = 0;
         $BrowserVisits = $lists_value = $lists_name = $lists_keys = $lists_logo = array();
-        
+
         // Check Custom Browsers or ALL Browsers
         if ($args['browser'] == "all") {
             $Browsers = wp_statistics_ua_list();
@@ -81,11 +80,11 @@ class browsers extends MetaBoxAbstract
             //Add Unknown Agent to total
             $browsers = Helper::prepareArrayToStringForQuery($Browsers);
             if (empty($args['from']) and empty($args['to']) and $args['ago'] == "all") {
-                $total += $other_agent_count = $wpdb->get_var('SELECT COUNT(*) FROM `'.DB::table('visitor').'` WHERE `agent` NOT IN ('.$browsers.')');
+                $total += $other_agent_count = $wpdb->get_var('SELECT COUNT(*) FROM `' . DB::table('visitor') . '` WHERE `agent` NOT IN (' . $browsers . ')');
             } else {
 
                 $total += $other_agent_count = $wpdb->get_var(
-                    $wpdb->prepare('SELECT COUNT(*) FROM `'. DB::table('visitor').'` WHERE `agent` NOT IN ('.$browsers.') AND `last_counter` BETWEEN %s AND %s', reset($days_time_list), end($days_time_list))
+                    $wpdb->prepare('SELECT COUNT(*) FROM `' . DB::table('visitor') . '` WHERE `agent` NOT IN (' . $browsers . ') AND `last_counter` BETWEEN %s AND %s', reset($days_time_list), end($days_time_list))
                 );
             }
 
@@ -121,7 +120,7 @@ class browsers extends MetaBoxAbstract
 
             // Get List Of Version From Custom Browser
             $list = $wpdb->get_results(
-                $wpdb->prepare("SELECT version, COUNT(*) as count FROM `".DB::table('visitor')."` WHERE agent = %s AND `last_counter` BETWEEN %s AND %s GROUP BY version", $args['browser'], reset($days_time_list), end($days_time_list)), 
+                $wpdb->prepare("SELECT version, COUNT(*) as count FROM `" . DB::table('visitor') . "` WHERE agent = %s AND `last_counter` BETWEEN %s AND %s GROUP BY version", $args['browser'], reset($days_time_list), end($days_time_list)),
                 ARRAY_A);
 
             // Sort By Count

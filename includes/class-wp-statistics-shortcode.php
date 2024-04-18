@@ -135,6 +135,7 @@ class ShortCode
 
         return $result;
     }
+
     /**
      * Format a number in shorthand notation (1K, 1M, 1B).
      *
@@ -236,9 +237,9 @@ class ShortCode
                             ),
                             'value'       => 'none',
                             'options'     => array(
-                                'none'    => __('None', 'wp-statistics'),
-                                'english' => __('English', 'wp-statistics'),
-                                'i18n'    => __('International', 'wp-statistics'),
+                                'none'        => __('None', 'wp-statistics'),
+                                'english'     => __('English', 'wp-statistics'),
+                                'i18n'        => __('International', 'wp-statistics'),
                                 'abbreviated' => __('Abbreviated', 'wp-statistics'), // Added for shorthand notation
                             ),
                         ),

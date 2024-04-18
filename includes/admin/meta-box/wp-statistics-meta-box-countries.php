@@ -44,7 +44,7 @@ class countries extends MetaBoxAbstract
 
         // Get Result
         $limitQuery = (isset($args['limit']) and $args['limit'] > 0) ? $wpdb->prepare("LIMIT %d", $args['limit']) : '';
-        $sqlQuery   = $wpdb->prepare("SELECT `location`, COUNT(`location`) AS `count` FROM `".DB::table('visitor')."` WHERE `last_counter` BETWEEN %s AND %s GROUP BY `location` ORDER BY `count` DESC", reset($days_time_list), end($days_time_list));
+        $sqlQuery   = $wpdb->prepare("SELECT `location`, COUNT(`location`) AS `count` FROM `" . DB::table('visitor') . "` WHERE `last_counter` BETWEEN %s AND %s GROUP BY `location` ORDER BY `count` DESC", reset($days_time_list), end($days_time_list));
         $result     = $wpdb->get_results($sqlQuery . " " . $limitQuery); //phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared	
         foreach ($result as $item) {
             $item->location = strtoupper($item->location);

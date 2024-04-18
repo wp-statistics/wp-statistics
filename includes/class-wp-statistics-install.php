@@ -444,8 +444,8 @@ class Install
         }
 
         if (!DB::isColumnType('exclusions', 'ID', 'bigint(20)') && !DB::isColumnType('exclusions', 'ID', 'bigint')) {
-            
-            $wpdb->query("ALTER TABLE `".DB::table('exclusions')."` CHANGE `ID` `ID` BIGINT(20) NOT NULL AUTO_INCREMENT;");
+
+            $wpdb->query("ALTER TABLE `" . DB::table('exclusions') . "` CHANGE `ID` `ID` BIGINT(20) NOT NULL AUTO_INCREMENT;");
         }
 
         if (!DB::isColumnType('useronline', 'ID', 'bigint(20)') && !DB::isColumnType('useronline', 'ID', 'bigint')) {
@@ -453,7 +453,7 @@ class Install
         }
 
         if (!DB::isColumnType('visit', 'ID', 'bigint(20)') && !DB::isColumnType('visit', 'ID', 'bigint')) {
-            $wpdb->query("ALTER TABLE `".DB::table('visit')."` CHANGE `ID` `ID` BIGINT(20) NOT NULL AUTO_INCREMENT;");
+            $wpdb->query("ALTER TABLE `" . DB::table('visit') . "` CHANGE `ID` `ID` BIGINT(20) NOT NULL AUTO_INCREMENT;");
         }
 
         /**
@@ -481,7 +481,7 @@ class Install
         $list_table = DB::table('all');
         foreach ($list_table as $k => $name) {
             $tbl_info = DB::getTableInformation($name);
-            
+
             if (!empty($tbl_info['Collation']) && !empty($wpdb->collate) && $tbl_info['Collation'] != $wpdb->collate) {
                 $wpdb->query(
                     $wpdb->prepare("ALTER TABLE `" . $name . "` DEFAULT CHARSET=%s COLLATE %s ROW_FORMAT = COMPACT;", $wpdb->charset, $wpdb->collate)

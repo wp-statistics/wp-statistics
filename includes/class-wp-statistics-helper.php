@@ -300,7 +300,7 @@ class Helper
         );
         foreach ($list_tbl as $tbl => $val) {
             $first_day = $wpdb->get_var(
-                $wpdb->prepare("SELECT %s FROM `". WP_STATISTICS\DB::table($tbl) ."` ORDER BY %s ASC LIMIT 1", $val['column'], $val['order_by'])
+                $wpdb->prepare("SELECT %s FROM `" . WP_STATISTICS\DB::table($tbl) . "` ORDER BY %s ASC LIMIT 1", $val['column'], $val['order_by'])
             );
             if (!empty($first_day)) {
                 break;
@@ -1335,7 +1335,7 @@ class Helper
     public static function prepareArrayToStringForQuery($fields = array())
     {
         global $wpdb;
-    
+
         foreach ($fields as &$value) {
             $value = $wpdb->prepare('%s', $value);
         }

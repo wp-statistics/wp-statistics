@@ -2,9 +2,9 @@
 $isDataPlusActive = WP_STATISTICS\Helper::isAddOnActive('data-plus');
 ?>
 
-<div class="postbox">
-    <table class="form-table <?php echo !$isDataPlusActive ? 'form-table--preview' : '' ?>">
-        <tbody>
+    <div class="postbox">
+        <table class="form-table <?php echo !$isDataPlusActive ? 'form-table--preview' : '' ?>">
+            <tbody>
             <tr valign="top">
                 <th scope="row" colspan="2"><h3><?php esc_html_e('Event Tracking', 'wp-statistics'); ?> <a href="#" class="wps-tooltip" title="<?php esc_html_e('Enable or disable tracking features for clicks and downloads', 'wp-statistics') ?>"><i class="wps-tooltip-icon"></i></a></h3></th>
             </tr>
@@ -41,12 +41,12 @@ $isDataPlusActive = WP_STATISTICS\Helper::isAddOnActive('data-plus');
                     <p class="description"><?php esc_html_e('Watch which files people download and learn what’s popular.', 'wp-statistics'); ?></p>
                 </td>
             </tr>
-        </tbody>
-    </table>
-</div>
+            </tbody>
+        </table>
+    </div>
 
-<?php 
-    if ($isDataPlusActive) {
-        submit_button(__('Update', 'wp-statistics'), 'primary', 'submit', '', array('OnClick' => "var wpsCurrentTab = getElementById('wps_current_tab'); wpsCurrentTab.value='data-plus-settings'")); 
-    }
+<?php
+if ($isDataPlusActive) {
+    submit_button(__('Update', 'wp-statistics'), 'primary', 'submit', '', array('OnClick' => "var wpsCurrentTab = getElementById('wps_current_tab'); wpsCurrentTab.value='data-plus-settings'"));
+}
 ?>

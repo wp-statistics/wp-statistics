@@ -99,15 +99,15 @@ class Admin_Dashboard
         update_user_meta(User::get_user_id(), $hidden_opt, $hidden_widgets);
     }
 
-	public function add_plugin_body_class($classes)
-	{
-		// Add class for the admin body only for plugin's pages
-		if (isset($_GET['page']) && strpos($_GET['page'], 'wps_') === 0) {
-			$classes .= ' wps_page';
-		}
+    public function add_plugin_body_class($classes)
+    {
+        // Add class for the admin body only for plugin's pages
+        if (isset($_GET['page']) && strpos($_GET['page'], 'wps_') === 0) {
+            $classes .= ' wps_page';
+        }
 
-		return $classes;
-	}
+        return $classes;
+    }
 }
 
 new Admin_Dashboard;

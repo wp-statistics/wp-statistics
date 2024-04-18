@@ -29,11 +29,11 @@
                                 <?php foreach ($list as $item) { ?>
                                     <tr>
                                         <td>
-                                            <a href="<?php echo esc_url($item['browser']['link']); ?>" title="<?php echo esc_attr($item['browser']['name']); ?>"><img src="<?php echo esc_url($item['browser']['logo']); ?>" alt="<?php echo esc_attr($item['browser']['name']); ?>" class="wps-flag log-tools" title="<?php echo esc_attr($item['browser']['name']); ?>" /></a>
+                                            <a href="<?php echo esc_url($item['browser']['link']); ?>" title="<?php echo esc_attr($item['browser']['name']); ?>"><img src="<?php echo esc_url($item['browser']['logo']); ?>" alt="<?php echo esc_attr($item['browser']['name']); ?>" class="wps-flag log-tools" title="<?php echo esc_attr($item['browser']['name']); ?>"/></a>
                                         </td>
                                         <?php if (WP_STATISTICS\GeoIP::active()) { ?>
                                             <td>
-                                                <img src="<?php echo esc_url($item['country']['flag']); ?>" alt="<?php echo esc_attr($item['country']['name']); ?>" title="<?php echo esc_attr($item['country']['name']); ?>" class="log-tools wps-flag" />
+                                                <img src="<?php echo esc_url($item['country']['flag']); ?>" alt="<?php echo esc_attr($item['country']['name']); ?>" title="<?php echo esc_attr($item['country']['name']); ?>" class="log-tools wps-flag"/>
                                             </td>
                                         <?php } ?>
                                         <?php if (WP_STATISTICS\GeoIP::active('city')) { ?>
@@ -54,8 +54,8 @@
                                         </td>
                                         <td class="wps-admin-column__referred"><?php echo wp_kses_post($item['referred']); ?></td>
                                         <td><?php echo esc_attr($item['hits']); ?></td>
-                                        <td style='text-align: center'><?php echo (isset($item['map']) ? "<a class='table-icon-btn wps-text-muted' href='" . esc_url($item['ip']['link']) . "'>" . WP_STATISTICS\Admin_Template::icons('dashicons-visibility') . "</a><a class='table-icon-btn show-map wps-text-muted' href='" . esc_url($item['map']) . "' target='_blank' title='" . __('Map', 'wp-statistics') . "'>" . WP_STATISTICS\Admin_Template::icons('dashicons-location-alt') . "</a>" : ""); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	 
-                                                                        ?></td>
+                                        <td style='text-align: center'><?php echo(isset($item['map']) ? "<a class='table-icon-btn wps-text-muted' href='" . esc_url($item['ip']['link']) . "'>" . WP_STATISTICS\Admin_Template::icons('dashicons-visibility') . "</a><a class='table-icon-btn show-map wps-text-muted' href='" . esc_url($item['map']) . "' target='_blank' title='" . __('Map', 'wp-statistics') . "'>" . WP_STATISTICS\Admin_Template::icons('dashicons-location-alt') . "</a>" : ""); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                                            ?></td>
                                     </tr>
                                 <?php } ?>
                             </table>

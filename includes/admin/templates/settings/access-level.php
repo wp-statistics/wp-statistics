@@ -2,9 +2,9 @@
 //Get List Roles Wordpress
 global $wp_roles;
 ?>
-<div class="postbox">
-    <table class="form-table">
-        <tbody>
+    <div class="postbox">
+        <table class="form-table">
+            <tbody>
             <tr valign="top">
                 <th scope="row" colspan="2">
                     <h3><?php esc_html_e('Access Control', 'wp-statistics'); ?></h3>
@@ -43,7 +43,7 @@ global $wp_roles;
                 </th>
                 <td>
                     <select dir="ltr" id="wps_read_capability" name="wps_read_capability"><?php echo $option_list; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped 
-                                                                                            ?></select>
+                        ?></select>
                     <p class="description"><?php esc_html_e('Select the least privileged user role allowed to view WP Statistics. Note that higher roles will also have this permission.', 'wp-statistics') ?></p>
                 </td>
             </tr>
@@ -66,7 +66,7 @@ global $wp_roles;
                 </th>
                 <td>
                     <select dir="ltr" id="wps_manage_capability" name="wps_manage_capability"><?php echo $option_list; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped 
-                                                                                                ?></select>
+                        ?></select>
                     <p class="description"><?php esc_html_e('Select the least privileged user role allowed to change WP Statistics settings. This should typically be reserved for trusted roles.', 'wp-statistics') ?></p>
                 </td>
             </tr>
@@ -80,8 +80,8 @@ global $wp_roles;
                 </th>
             </tr>
 
-        </tbody>
-    </table>
-</div>
+            </tbody>
+        </table>
+    </div>
 
 <?php submit_button(__('Update', 'wp-statistics'), 'primary', 'submit', '', array('OnClick' => "var wpsCurrentTab = getElementById('wps_current_tab'); wpsCurrentTab.value='access-settings'")); ?>
