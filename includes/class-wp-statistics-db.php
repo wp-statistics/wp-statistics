@@ -141,7 +141,7 @@ class DB
 
         if ($table_name) {
             // TRUNCATE TABLE
-            $result = $wpdb->query($wpdb->prepare('TRUNCATE TABLE %s', $table_name));
+            $result = $wpdb->query('TRUNCATE TABLE ' . $table_name);
 
             // Check Result
             if ($result) {
