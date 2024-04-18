@@ -1,3 +1,10 @@
+= 14.6.3 - 18.04.2024 =
+* Fixes: Resolved SQL query issues while purging the table from optimization.
+* Fixes: Addressed the builder scripts problem to minify the `tracker.js`.
+* Fixes: Corrected deprecated jQuery event and resolved errors on the overview page.
+* Improvement: Changed the autoload setting for the dailySalt option to false to compatible with Cache plugins.
+* Improvement: Enhanced visitor identification by flagging users as robots when browser and platform data are absent, improving accuracy of statistics.
+
 = 14.6.2 - 16.04.2024 =
 * Addition: Integrated Chart Zoom Library
 * Fixes: Removed self-referred URLs from statistics
