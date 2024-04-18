@@ -405,12 +405,12 @@ class Exclusion
             if ($visitorProfile->getHttpUserAgent() == '' || $visitorProfile->getIp() == '') {
                 return true;
             }
-        }
 
-        $userAgent = $visitorProfile->getUserAgent();
+            $userAgent = $visitorProfile->getUserAgent();
 
-        if (!$userAgent['isBrowserDetected'] && !$userAgent['isPlatformDetected']) {
-            return true;
+            if (!$userAgent['isBrowserDetected'] && !$userAgent['isPlatformDetected']) {
+                return true;
+            }
         }
 
         return false;

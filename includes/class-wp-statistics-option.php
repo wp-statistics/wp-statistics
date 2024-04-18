@@ -62,6 +62,7 @@ class Option
             'do_not_track'            => true,
             'exclude_administrator'   => true,
             'referrerspam'            => true,
+            'corrupt_browser_info'    => true,
             'disable_se_clearch'      => true,
             'disable_se_qwant'        => true,
             'disable_se_baidu'        => true,
