@@ -111,11 +111,11 @@ class pages_page
             }
 
             // Page title
-            $pageTitle = __('Top', 'wp-statistics');
-            $args['title'] = sprintf(' %s ' , $objectTitle);
+            $pageTitle     = __('Top', 'wp-statistics');
+            $args['title'] = sprintf(' %s ', $objectTitle);
 
             // Top Trending Title
-            $topTitle = __('Top 5 Trending' , 'wp-statistics');
+            $topTitle                   = __('Top 5 Trending', 'wp-statistics');
             $args['top_trending_title'] = sprintf('%1$s %2$s', $topTitle, $objectTitle);
 
             // Get Current Page Url
@@ -214,7 +214,7 @@ class pages_page
         );
 
         // Get Date-Range
-        $args['DateRang'] = Admin_Template::DateRange();
+        $args['DateRang']    = Admin_Template::DateRange();
         $args['HasDateRang'] = True;
 
         // List Of Pages From custom Type
@@ -282,7 +282,7 @@ class pages_page
         }
 
         // Show Template Page
-        Admin_Template::get_template(array('layout/header', 'layout/title', 'layout/select',  'pages/page-chart', 'layout/postbox.hide', 'layout/footer'), $args);
+        Admin_Template::get_template(array('layout/header', 'layout/title', 'layout/select', 'pages/page-chart', 'layout/postbox.hide', 'layout/footer'), $args);
     }
 }
 

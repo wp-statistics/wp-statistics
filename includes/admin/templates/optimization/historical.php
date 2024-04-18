@@ -44,7 +44,7 @@ $historical_visits = WP_STATISTICS\Historical::get('visits');
 
                 <tr valign="top">
                     <td colspan=2>
-                        <input type="hidden" name="submit" value="1" />
+                        <input type="hidden" name="submit" value="1"/>
                         <button id="historical-submit" class="button button-primary" type="submit" value="1" name="historical-submit"><?php esc_html_e('Save Changes', 'wp-statistics'); ?></button>
                     </td>
                 </tr>

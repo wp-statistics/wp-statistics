@@ -90,7 +90,7 @@ class exclusions
             $list_item  = array();
             foreach ($days_time_list as $d) {
                 $total_item += $list_item[] = (int)$wpdb->get_var(
-                    $wpdb->prepare("SELECT `count` FROM `".DB::table('exclusions')."` WHERE `reason` = %s AND date = %s", $key, $d)
+                    $wpdb->prepare("SELECT `count` FROM `" . DB::table('exclusions') . "` WHERE `reason` = %s AND date = %s", $key, $d)
                 );
             }
             $data['value'][$key] = $list_item;

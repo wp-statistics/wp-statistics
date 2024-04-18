@@ -39,11 +39,11 @@ class exclusions_page
         $args['pagination'] = Admin_Template::getCurrentPaged();
 
         // Get Date-Range
-        $args['DateRang'] = Admin_Template::DateRange();
+        $args['DateRang']    = Admin_Template::DateRange();
         $args['HasDateRang'] = True;
 
         // Get Total Exclusions
-        $args['total_exclusions'] = $wpdb->get_var("SELECT SUM(count) FROM ". DB::table('exclusions'));
+        $args['total_exclusions'] = $wpdb->get_var("SELECT SUM(count) FROM " . DB::table('exclusions'));
 
         if (!$args['total_exclusions']) {
             $args['total_exclusions'] = 0;

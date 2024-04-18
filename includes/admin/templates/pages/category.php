@@ -1,5 +1,5 @@
 <div class="postbox-container" id="wps-big-postbox">
-    <div class="metabox-holder"> 
+    <div class="metabox-holder">
         <div class="meta-box-sortables">
             <div class="postbox" id="<?php echo esc_attr(\WP_STATISTICS\Meta_Box::getMetaBoxKey('pages-chart')); ?>">
                 <div class="postbox-header postbox-toggle">

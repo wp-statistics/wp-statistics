@@ -44,7 +44,7 @@ class tags_page
         $args['pagination'] = Admin_Template::getCurrentPaged();
 
         // Get Date-Range
-        $args['DateRang'] = Admin_Template::DateRange();
+        $args['DateRang']    = Admin_Template::DateRange();
         $args['HasDateRang'] = True;
 
         // Create Select Box
@@ -113,7 +113,7 @@ class tags_page
         }
 
         // Show Template Page
-        Admin_Template::get_template(array('layout/header', 'layout/title' , 'pages/tag', 'layout/postbox.hide', 'layout/footer'), $args);
+        Admin_Template::get_template(array('layout/header', 'layout/title', 'pages/tag', 'layout/postbox.hide', 'layout/footer'), $args);
     }
 
 }

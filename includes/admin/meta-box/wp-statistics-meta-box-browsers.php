@@ -31,7 +31,6 @@ class browsers extends MetaBoxAbstract
         global $wpdb;
 
 
-        
         // Set Default Params
         $defaults = array(
             'ago'     => 0,
@@ -55,7 +54,7 @@ class browsers extends MetaBoxAbstract
         // Set Default Value
         $total         = $count = $top_ten = 0;
         $BrowserVisits = $lists_value = $lists_name = $lists_keys = $lists_logo = array();
-        
+
         // Check Custom Browsers or ALL Browsers
         if ($args['browser'] == "all") {
             $Browsers = wp_statistics_ua_list();
@@ -88,7 +87,7 @@ class browsers extends MetaBoxAbstract
                     $wpdb->prepare('SELECT COUNT(*) FROM `' . DB::table('visitor') . '` WHERE `agent` NOT IN (%s) AND `last_counter` BETWEEN %s AND %s', $browsers, reset($days_time_list), end($days_time_list))
                 );
             }
-
+            
             //Sort Browser List By Visitor ASC
             arsort($BrowserVisits);
 
@@ -121,7 +120,7 @@ class browsers extends MetaBoxAbstract
 
             // Get List Of Version From Custom Browser
             $list = $wpdb->get_results(
-                $wpdb->prepare("SELECT version, COUNT(*) as count FROM `".DB::table('visitor')."` WHERE agent = %s AND `last_counter` BETWEEN %s AND %s GROUP BY version", $args['browser'], reset($days_time_list), end($days_time_list)), 
+                $wpdb->prepare("SELECT version, COUNT(*) as count FROM `" . DB::table('visitor') . "` WHERE agent = %s AND `last_counter` BETWEEN %s AND %s GROUP BY version", $args['browser'], reset($days_time_list), end($days_time_list)),
                 ARRAY_A);
 
             // Sort By Count

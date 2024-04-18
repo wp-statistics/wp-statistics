@@ -20,7 +20,7 @@
                 data: {
                     'action': 'wp_statistics_purge_data',
                     'purge-days': action,
-                    'wps_nonce': '<?php echo wp_create_nonce('wp_rest'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>' 
+                    'wps_nonce': '<?php echo wp_create_nonce('wp_rest'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>'
                 },
                 datatype: 'json',
             })
@@ -429,7 +429,7 @@
                             if (!empty($platform)) {
                                 $pid = preg_replace("/[^a-zA-Z]/", "", $platform);
                                 echo "<option value='$platform' id='platform-" . esc_attr($pid) . "-id'>" . esc_attr($platform) . "</option>"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-                            } 
+                            }
                         }
                         ?>
                     </select>

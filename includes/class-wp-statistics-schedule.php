@@ -86,7 +86,7 @@ class Schedule
             add_action('wp_statistics_dbmaint_hook', array($this, 'dbmaint_event'));
             add_action('wp_statistics_dbmaint_visitor_hook', array($this, 'dbmaint_visitor_event'));
         }
-        
+
         // Add the report schedule if it doesn't exist and is enabled.
         if (!wp_next_scheduled('wp_statistics_report_hook') && Option::get('stats_report')) {
             wp_schedule_event(time(), Option::get('time_report'), 'wp_statistics_report_hook');
@@ -155,7 +155,7 @@ class Schedule
         $date = TimeZone::getCurrentDate('Y-m-d', '+1');
 
         // check if the record already exists
-        $exists = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM `". DB::table('visit') ."` WHERE `last_counter` = %s", $date));
+        $exists = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM `" . DB::table('visit') . "` WHERE `last_counter` = %s", $date));
         if ($exists > 0) {
             return;
         }

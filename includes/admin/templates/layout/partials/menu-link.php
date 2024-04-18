@@ -13,5 +13,5 @@ if ($badge_count !== null) {
 ?>
 
 <a class="<?php echo esc_attr($icon_class) . ' ' . esc_attr($class); ?> " href="<?php echo esc_url($href); ?>">
-    <span class="icon"></span><span><?php echo esc_html($link_text)?></span><?php echo $badge_count_html; ?>
+    <span class="icon"></span><span><?php echo esc_html($link_text) ?></span><?php echo $badge_count_html; ?>
 </a>

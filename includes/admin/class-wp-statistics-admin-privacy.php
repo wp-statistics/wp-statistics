@@ -44,17 +44,17 @@ class Privacy
             '<li>' . __('Pages Viewed: This helps us analyze site usage statistics and understand user behavior.', 'wp-statistics') . '</li>' .
             '<li>' . __('Browser user agent: we’ll use this for purposes like creating charts of views, most used browsers, etc.', 'wp-statistics') . '</li>';
 
-            if (!Option::get('anonymize_ips') and !Option::get('hash_ips')) {
-                $content .= '<li>' . __('IP address', 'wp-statistics') . '</li>';
-            } else {
-                if (Option::get('anonymize_ips')) {
-                    $content .= '<li>' . __('An anonymize string created from your ip address, For example, 888.888.888.888 > 888.888.888.000).', 'wp-statistics') . '</li>';
-                }
-
-                if (Option::get('hash_ips')) {
-                    $content .= '<li>' . __('An hashed string created from your ip address.', 'wp-statistics') . '</li>';
-                }
+        if (!Option::get('anonymize_ips') and !Option::get('hash_ips')) {
+            $content .= '<li>' . __('IP address', 'wp-statistics') . '</li>';
+        } else {
+            if (Option::get('anonymize_ips')) {
+                $content .= '<li>' . __('An anonymize string created from your ip address, For example, 888.888.888.888 > 888.888.888.000).', 'wp-statistics') . '</li>';
             }
+
+            if (Option::get('hash_ips')) {
+                $content .= '<li>' . __('An hashed string created from your ip address.', 'wp-statistics') . '</li>';
+            }
+        }
 
         $content .= '</ul></div>';
 

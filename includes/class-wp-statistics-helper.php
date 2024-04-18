@@ -300,7 +300,7 @@ class Helper
         );
         foreach ($list_tbl as $tbl => $val) {
             $first_day = $wpdb->get_var(
-                $wpdb->prepare("SELECT %s FROM `". WP_STATISTICS\DB::table($tbl) ."` ORDER BY %s ASC LIMIT 1", $val['column'], $val['order_by'])
+                $wpdb->prepare("SELECT %s FROM `" . WP_STATISTICS\DB::table($tbl) . "` ORDER BY %s ASC LIMIT 1", $val['column'], $val['order_by'])
             );
             if (!empty($first_day)) {
                 break;
@@ -1226,7 +1226,7 @@ class Helper
         $get_page_type               = Pages::get_page_type();
         $params['current_page_type'] = $get_page_type['type'];
         $params['current_page_id']   = $get_page_type['id'];
-        $params['search_query']      = (isset($get_page_type['search_query']) ? esc_html($get_page_type['search_query']) : '');
+        $params['search_query']      = (isset($get_page_type['search_query']) ? base64_encode(esc_html($get_page_type['search_query'])) : '');
 
         //page url
         $params['page_uri'] = base64_encode(Pages::get_page_uri());
@@ -1335,7 +1335,7 @@ class Helper
     public static function prepareArrayToStringForQuery($fields = array())
     {
         global $wpdb;
-    
+
         foreach ($fields as &$value) {
             $value = $wpdb->prepare('%s', $value);
         }
