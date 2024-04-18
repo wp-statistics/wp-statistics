@@ -23,7 +23,7 @@ WP Statistics stores all data, including IP addresses, safely on your server. WP
 = ACT BETTER  BY KNOWING WHAT YOUR USERS ARE LOOKING FOR =
 * Anonymize IP to Better Privacy
 * Enhance IP Hashing with Random Daily Salt Mechanism
-* Respect for User Privacy with Do Not Track (DNT) Compliance
+* Respect for User Privacy with [Do Not Track (DNT)](https://en.wikipedia.org/wiki/Do_Not_Track) Compliance
 * Visitor Data Records including IP, Referring Site, Browser, Search Engine, OS, Country and City
 * Stunning Graphs and Visual Statistics
 * Visitor’s Country & City Recognition
