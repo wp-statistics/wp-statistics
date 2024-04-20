@@ -75,7 +75,7 @@
 
                 <ul style="list-style-type: disc; list-style-position: inside; padding-left: 25px;">
                     <li><?php echo sprintf(
-                            esc_html__('Frequently Asked Questions (%1$sFAQs%2$s)', 'wp-statistics'),
+                            esc_html__('%1$sFrequently Asked Questions%2$s', 'wp-statistics'),
                             '<a title="' .
                             esc_html__('FAQs', 'wp-statistics') .
                             '" href="https://wp-statistics.com/category/faq/" target="_blank">',
@@ -93,7 +93,16 @@
                             '<a href="https://wordpress.org/support/plugin/wp-statistics" target="_blank">',
                             '</a>'
                         ); ?></li>
-                    <li><?php esc_html_e('Ensure access to your PHP error logs', 'wp-statistics'); ?></li>
+                    <li><?php echo sprintf(
+                            esc_html__('%1$sEnhancing Data Accuracy%2$s', 'wp-statistics'),
+                            '<a href="https://wp-statistics.com/resources/enhancing-data-accuracy/" target="_blank">',
+                            '</a>'
+                        ); ?></li>
+                    <li><?php echo sprintf(
+                            esc_html__('%1$sTroubleshoot with Cache Plugins%2$s', 'wp-statistics'),
+                            '<a href="https://wp-statistics.com/resources/troubleshoot-with-cache-plugins/" target="_blank">',
+                            '</a>'
+                        ); ?></li>
                     <li><?php echo sprintf(
                             esc_html__('%1$sContact Us%2$s', 'wp-statistics'),
                             '<a title="' .
