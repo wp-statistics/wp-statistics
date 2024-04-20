@@ -184,7 +184,7 @@ global $wp_version;
 
             <tr valign="top">
                 <th scope="row">
-                    <label for="wps_addon_settings[advanced_reporting][email_top_ten_countries]"><?php esc_html_e('Top Pages', 'wp-statistics'); ?></label>
+                    <label for="wps_addon_settings[advanced_reporting][email_top_ten_countries]"><?php esc_html_e('Top Countries', 'wp-statistics'); ?></label>
                 </th>
 
                 <td>
