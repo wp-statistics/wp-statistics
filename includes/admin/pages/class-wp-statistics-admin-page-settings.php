@@ -507,7 +507,7 @@ class settings_page
     {
         $options = [];
         foreach ($addon_options as $option_name => $option_value) {
-            if ($option_name == 'wps_about_widget_content') {
+            if (in_array($option_name, ['wps_about_widget_content', 'email_content_header', 'email_content_footer'])) {
                 $options[$option_name] = wp_kses_post($option_value);
             } else {
                 if (is_array($option_value)) {
