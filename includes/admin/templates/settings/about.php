@@ -106,7 +106,7 @@
                 <p><?php esc_html_e('Quick Troubleshooting Tips', 'wp-statistics'); ?></p>
 
                 <ol style="padding-left: 15px;">
-                    <li><?php esc_html_e('Check your PHP <code>memory_limit</code>.', 'wp-statistics'); ?></li>
+                    <li><?php _e('Check your PHP <code>memory_limit</code>.', 'wp-statistics'); ?></li>
                     <li><?php esc_html_e('Disable conflicting plugins.', 'wp-statistics'); ?></li>
                     <li><?php esc_html_e('Validate plugin settings.', 'wp-statistics'); ?></li>
                     <li><?php esc_html_e('Clear cache if using caching plugins.', 'wp-statistics'); ?></li>
