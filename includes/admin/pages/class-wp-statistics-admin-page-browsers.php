@@ -40,7 +40,7 @@ class browser_page
         $args['pagination'] = Admin_Template::getCurrentPaged();
 
         // Get Date-Range
-        $args['DateRang'] = Admin_Template::DateRange();
+        $args['DateRang']    = Admin_Template::DateRange();
         $args['HasDateRang'] = True;
 
 

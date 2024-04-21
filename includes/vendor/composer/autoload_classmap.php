@@ -75,6 +75,7 @@ return array(
     'Psr\\Cache\\InvalidArgumentException' => $vendorDir . '/psr/cache/src/InvalidArgumentException.php',
     'WP_Statistics\\Service\\Admin\\AddOnDecorator' => $baseDir . '/src/Service/Admin/AddOnDecorator.php',
     'WP_Statistics\\Service\\Admin\\AddOnsFactory' => $baseDir . '/src/Service/Admin/AddOnsFactory.php',
+    'WP_Statistics\\Service\\Admin\\AdminManager' => $baseDir . '/src/Service/Admin/AdminManager.php',
     'WP_Statistics\\Service\\Analytics\\VisitorProfile' => $baseDir . '/src/Service/Analytics/VisitorProfile.php',
     'WhichBrowser\\Analyser' => $vendorDir . '/whichbrowser/parser/src/Analyser.php',
     'WhichBrowser\\Analyser\\Camouflage' => $vendorDir . '/whichbrowser/parser/src/Analyser/Camouflage.php',

@@ -66,6 +66,7 @@ final class WP_Statistics
          */
         do_action('wp_statistics_loaded');
     }
+
     /**
      * Cloning is forbidden.
      *
@@ -152,7 +153,8 @@ final class WP_Statistics
         // Admin classes
         if (is_admin()) {
 
-            $userOnline = new \WP_STATISTICS\UserOnline();
+            $userOnline   = new \WP_STATISTICS\UserOnline();
+            $adminManager = new \WP_Statistics\Service\Admin\AdminManager();
 
             require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-install.php';
             require_once WP_STATISTICS_DIR . 'includes/admin/class-wp-statistics-admin-ajax.php';
@@ -235,11 +237,11 @@ final class WP_Statistics
          * Create .htaccess to avoid public access.
          */
         // phpcs:disable
-        if (is_dir($upload_dir_name) and is_writable($upload_dir_name)) { 	
+        if (is_dir($upload_dir_name) and is_writable($upload_dir_name)) {
             $htaccess_file = path_join($upload_dir_name, '.htaccess');
 
             if (!file_exists($htaccess_file)
-                and $handle = @fopen($htaccess_file, 'w')) { 
+                and $handle = @fopen($htaccess_file, 'w')) {
                 fwrite($handle, "Deny from all\n");
                 fclose($handle);
             }

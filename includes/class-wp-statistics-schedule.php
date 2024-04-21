@@ -41,16 +41,6 @@ class Schedule
 
         } else {
 
-            // Add the report schedule if it doesn't exist and is enabled.
-            if (!wp_next_scheduled('wp_statistics_report_hook') && Option::get('stats_report')) {
-                wp_schedule_event(time(), Option::get('time_report'), 'wp_statistics_report_hook');
-            }
-
-            // Remove the report schedule if it does exist and is disabled.
-            if (wp_next_scheduled('wp_statistics_report_hook') && !Option::get('stats_report')) {
-                wp_unschedule_event(wp_next_scheduled('wp_statistics_report_hook'), 'wp_statistics_report_hook');
-            }
-
             // Add the referrerspam update schedule if it doesn't exist and it should be.
             if (!wp_next_scheduled('wp_statistics_referrerspam_hook') && Option::get('schedule_referrerspam')) {
                 wp_schedule_event(time(), 'weekly', 'wp_statistics_referrerspam_hook');
@@ -95,8 +85,19 @@ class Schedule
             add_action('wp_statistics_add_visit_hook', array($this, 'add_visit_event'));
             add_action('wp_statistics_dbmaint_hook', array($this, 'dbmaint_event'));
             add_action('wp_statistics_dbmaint_visitor_hook', array($this, 'dbmaint_visitor_event'));
-            add_action('wp_statistics_report_hook', array($this, 'send_report'));
         }
+
+        // Add the report schedule if it doesn't exist and is enabled.
+        if (!wp_next_scheduled('wp_statistics_report_hook') && Option::get('stats_report')) {
+            wp_schedule_event(time(), Option::get('time_report'), 'wp_statistics_report_hook');
+        }
+
+        // Remove the report schedule if it does exist and is disabled.
+        if (wp_next_scheduled('wp_statistics_report_hook') && !Option::get('stats_report')) {
+            wp_unschedule_event(wp_next_scheduled('wp_statistics_report_hook'), 'wp_statistics_report_hook');
+        }
+
+        add_action('wp_statistics_report_hook', array($this, 'send_report'));
     }
 
     /**
@@ -154,7 +155,7 @@ class Schedule
         $date = TimeZone::getCurrentDate('Y-m-d', '+1');
 
         // check if the record already exists
-        $exists = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM `". DB::table('visit') ."` WHERE `last_counter` = %s", $date));
+        $exists = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM `" . DB::table('visit') . "` WHERE `last_counter` = %s", $date));
         if ($exists > 0) {
             return;
         }

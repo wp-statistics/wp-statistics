@@ -348,7 +348,7 @@ class WP_Statistics_Mail
             return $this->parseAsMustache($template, $variables);
 
         } else {
-            throw new Exception( sprintf('Unknown extension %1$s in path %2$s', esc_html($extension), esc_html($templateFile)) );
+            throw new Exception(sprintf('Unknown extension %1$s in path %2$s', esc_html($extension), esc_html($templateFile)));
         }
     }
 

@@ -1,10 +1,10 @@
-=== WP Statistics ===
+=== WP Statistics - The Most Popular Privacy-Friendly Analytics Plugin ===
 Contributors: mostafa.s1990, kashani, veronalabs, GregRoss
 Donate link: https://wp-statistics.com/donate/
-Tags: analytics, stats, statistics, visitors, chart
+Tags: analytics, google analytics, insights, stats, site visitors
 Requires at least: 5.0
 Tested up to: 6.5
-Stable tag: 14.6.1
+Stable tag: 14.6.3
 Requires PHP: 5.6
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -23,7 +23,7 @@ WP Statistics stores all data, including IP addresses, safely on your server. WP
 = ACT BETTER  BY KNOWING WHAT YOUR USERS ARE LOOKING FOR =
 * Anonymize IP to Better Privacy
 * Enhance IP Hashing with Random Daily Salt Mechanism
-* Respect for User Privacy with Do Not Track (DNT) Compliance
+* Respect for User Privacy with [Do Not Track (DNT)](https://en.wikipedia.org/wiki/Do_Not_Track) Compliance
 * Visitor Data Records including IP, Referring Site, Browser, Search Engine, OS, Country and City
 * Stunning Graphs and Visual Statistics
 * Visitor’s Country & City Recognition
@@ -142,9 +142,13 @@ Thank you for being part of our community. We’ve been working hard for one yea
 If you encounter any bug, please create an issue on [GitHub](https://github.com/wp-statistics/wp-statistics/issues/new) where we can act upon them more efficiently. Since [GitHub](https://github.com/wp-statistics/wp-statistics) is not a support forum, just bugs are welcomed, and any other request will be closed.
 
 == Changelog ==
-= 14.6.1 - 13.04.2024 =
-- Feature: Introduced a sequential IP detection method in Settings → Basic Tracking
-- Fixes: Updated the Compatibility Visits meta-box and Widget to support PHP version 7.0.
-- Fixes: Refined and optimized SQL query processes for accurate page count calculations.
+= 14.6.3 - 18.04.2024 =
+* Fixes: Resolved SQL query issues while purging the table from optimization & getting the browsers count.
+* Fixes: Addressed the builder scripts problem to minify the `tracker.js`.
+* Fixes: Corrected deprecated jQuery event and resolved errors on the overview page.
+* Improvement: Changed the autoload setting for the dailySalt option to false to compatible with Cache plugins.
+* Improvement: Encoded search query parameter for more consistency in hit request.
+* Improvement: Enhanced visitor identification by flagging users as robots when browser and platform data are absent, improving accuracy of statistics.
+* Improvement: Enhanced performance by optimizing VisitorProfile handling in class `Pages`
 
 [See changelog for all versions](https://raw.githubusercontent.com/wp-statistics/wp-statistics/master/CHANGELOG.md).

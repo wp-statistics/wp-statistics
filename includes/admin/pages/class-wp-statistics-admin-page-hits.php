@@ -38,7 +38,7 @@ class hits_page
         $args['pagination'] = Admin_Template::getCurrentPaged();
 
         // Get Date-Range
-        $args['DateRang'] = Admin_Template::DateRange();
+        $args['DateRang']    = Admin_Template::DateRange();
         $args['HasDateRang'] = True;
 
         // Get Total Visits and Visitors
@@ -46,7 +46,7 @@ class hits_page
         $args['total_visitors'] = (Option::get('visitors') ? wp_statistics_visitor('total', null, true) : 0);
 
         // Show Template Page
-        Admin_Template::get_template(array('layout/header', 'layout/title',   'pages/hits', 'layout/footer'), $args);
+        Admin_Template::get_template(array('layout/header', 'layout/title', 'pages/hits', 'layout/footer'), $args);
     }
 
 }

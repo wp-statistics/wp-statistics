@@ -160,10 +160,11 @@ class Exclusion
 
     /**
      * Detect if honeypot.
+     * @param $visitorProfile VisitorProfile
      */
-    public static function exclusion_honeypot()
+    public static function exclusion_honeypot($visitorProfile)
     {
-        $current_page = Pages::get_page_type();
+        $current_page = $visitorProfile->getCurrentPageType();
         return (Option::get('use_honeypot') && Option::get('honeypot_postid') > 0 && Option::get('honeypot_postid') == $current_page['id'] && $current_page['id'] > 0);
     }
 
@@ -209,12 +210,13 @@ class Exclusion
 
     /**
      * Detect if Excluded URL.
+     * @param $visitorProfile VisitorProfile
      */
-    public static function exclusion_excluded_url()
+    public static function exclusion_excluded_url($visitorProfile)
     {
 
         if (Option::get('excluded_urls')) {
-            $script    = Helper::getRequestUri();
+            $script    = $visitorProfile->getRequestUri();
             $delimiter = strpos($script, '?');
 
             if ($delimiter > 0) {
@@ -238,13 +240,13 @@ class Exclusion
 
     /**
      * Detect if Referrer Spam.
+     * @param $visitorProfile VisitorProfile
      */
-    public static function exclusion_referrer_spam()
+    public static function exclusion_referrer_spam($visitorProfile)
     {
-
         // Check to see if we're excluding referrer spam.
         if (Option::get('referrerspam')) {
-            $referrer = Referred::get();
+            $referrer = $visitorProfile->getReferrer();
 
             // Pull the referrer spam list from the database.
             $referrer_spam_list = explode("\n", Option::get('referrerspamlist'));
@@ -280,10 +282,11 @@ class Exclusion
 
     /**
      * Detect if Self Referral WordPress.
+     * @param $visitorProfile VisitorProfile
      */
-    public static function exclusion_self_referral()
+    public static function exclusion_self_referral($visitorProfile)
     {
-        return UserAgent::getHttpUserAgent() == 'WordPress/' . Helper::get_wordpress_version() . '; ' . get_home_url(null, '/') || UserAgent::getHttpUserAgent() == 'WordPress/' . Helper::get_wordpress_version() . '; ' . get_home_url();
+        return $visitorProfile->getHttpUserAgent() == 'WordPress/' . Helper::get_wordpress_version() . '; ' . get_home_url(null, '/') || $visitorProfile->getHttpUserAgent() == 'WordPress/' . Helper::get_wordpress_version() . '; ' . get_home_url();
     }
 
     /**
@@ -296,11 +299,12 @@ class Exclusion
 
     /**
      * Detect if WordPress Admin Page.
+     * @param $visitorProfile VisitorProfile
      */
-    public static function exclusion_admin_page()
+    public static function exclusion_admin_page($visitorProfile)
     {
 
-        $requestUri = Helper::getRequestUri();
+        $requestUri = $visitorProfile->getRequestUri();
 
         if (isset($_SERVER['SERVER_NAME']) and isset($requestUri)) {
 
@@ -347,13 +351,14 @@ class Exclusion
 
     /**
      * Detect if Broken Link.
+     * @param $visitorProfile VisitorProfile
      */
-    public static function exclusion_brokenfile()
+    public static function exclusion_brokenfile($visitorProfile)
     {
         // Check is 404
         if (is_404()) {
 
-            $requestUri = Helper::getRequestUri();
+            $requestUri = $visitorProfile->getRequestUri();
 
             //Check Current Page
             if (isset($_SERVER["HTTP_HOST"]) and isset($requestUri)) {
@@ -375,8 +380,9 @@ class Exclusion
 
     /**
      * Detect if Robots.
+     * @param $visitorProfile VisitorProfile
      */
-    public static function exclusion_robot()
+    public static function exclusion_robot($visitorProfile)
     {
 
         // Pull the robots from the database.
@@ -388,15 +394,21 @@ class Exclusion
 
             // If the match case is less than 4 characters long, it might match too much so don't execute it.
             if (strlen($robot) > 3) {
-                if (stripos(UserAgent::getHttpUserAgent(), $robot) !== false) {
+                if (stripos($visitorProfile->getHttpUserAgent(), $robot) !== false) {
                     return true;
                 }
             }
         }
 
-        // Check User IP is empty Or Not User Agent
+        // Check user ip is empty or not user agent
         if (Option::get('corrupt_browser_info')) {
-            if (UserAgent::getHttpUserAgent() == '' || IP::getIP() == '') {
+            if ($visitorProfile->getHttpUserAgent() == '' || $visitorProfile->getIp() == '') {
+                return true;
+            }
+
+            $userAgent = $visitorProfile->getUserAgent();
+
+            if (!$userAgent['isBrowserDetected'] && !$userAgent['isPlatformDetected']) {
                 return true;
             }
         }
@@ -405,14 +417,15 @@ class Exclusion
     }
 
     /**
-     * Detect if GEO-IP include Or Exclude Country.
+     * Detect if GeoIP include or exclude country.
      *
+     * @param $visitorProfile VisitorProfile
      * @throws \Exception
      */
-    public static function exclusion_geoip()
+    public static function exclusion_geoip($visitorProfile)
     {
         // Get User Location
-        $location = GeoIP::getCountry();
+        $location = $visitorProfile->getCountry();
 
         // Grab the excluded/included countries lists, force the country codes to be in upper case to match what the GeoIP code uses.
         $excluded_countries        = explode("\n", strtoupper(str_replace("\r\n", "\n", Option::get('excluded_countries'))));
@@ -438,8 +451,9 @@ class Exclusion
 
     /**
      * Detect if Exclude Host name.
+     * @param $visitorProfile VisitorProfile
      */
-    public static function exclusion_hostname()
+    public static function exclusion_hostname($visitorProfile)
     {
         // Get Host name List
         $excluded_host = explode("\n", Option::get('excluded_hosts'));
@@ -467,10 +481,8 @@ class Exclusion
                 set_transient($transient_name, $hostname_cache, 360);
             }
 
-            $id = \WP_STATISTICS\IP::getIP();
-
             // Check if the current IP address matches one of the ones in the excluded hosts list.
-            if (in_array($id, $hostname_cache)) {
+            if (in_array($visitorProfile->getIp(), $hostname_cache)) {
                 return true;
             }
         }
@@ -479,7 +491,7 @@ class Exclusion
     }
 
     /**
-     *  Detect if XMLRPC
+     *  Detect if XML-RPC
      */
     public static function exclusion_xmlrpc()
     {

@@ -13,7 +13,7 @@
         <a href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/product/add-ons-bundle?utm_source=wp-statistics&utm_medium=link&utm_campaign=header'); ?>" target="_blank" class="wps-adminHeader__bundle">
             <?php esc_html_e('Upgrade to Bundle', 'wp-statistics'); ?>
         </a>
-        <a  title="<?php esc_html_e('Privacy Audit (Coming Soon)', 'wp-statistics'); ?>" class="privacy disabled"></a>
+        <a title="<?php esc_html_e('Privacy Audit (Coming Soon)', 'wp-statistics'); ?>" class="privacy disabled"></a>
         <a href="<?php echo esc_url(admin_url('admin.php?page=wps_optimization_page')); ?>" title="<?php esc_html_e('Optimization', 'wp-statistics'); ?>" class="optimization <?php if (isset($_GET['page']) && $_GET['page'] === 'wps_optimization_page') {
             echo 'active';
         } ?>"></a>

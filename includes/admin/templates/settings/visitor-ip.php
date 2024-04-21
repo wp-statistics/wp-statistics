@@ -90,6 +90,25 @@ add_thickbox();
             <th scope="row" colspan="2"><h3><?php esc_html_e('Main IP Detection Method', 'wp-statistics'); ?> <a href="#" class="wps-tooltip" title="<?php esc_html_e('Select the preferred method for determining the visitor\'s IP address. The method should correspond to the way your server and network infrastructure relay IP information. Choose the option that reflects the correct IP in your server environment.', 'wp-statistics'); ?>"><i class="wps-tooltip-icon"></i></a></h3></th>
         </tr>
 
+        <!-- Sequential IP Detection -->
+        <tr valign="top">
+            <th scope="row" colspan="2" style="padding-top: 0px;padding-bottom: 0px;">
+                <table>
+                    <tr>
+                        <td style="width: 10px; padding: 0px;">
+                            <input id="sequential" type="radio" name="ip_method" style="vertical-align: -3px;" value="sequential" <?php checked($ip_method, 'sequential') ?>>
+                        </td>
+                        <td style="width: 250px;">
+                            <label for="sequential"><?php esc_html_e('Sequential IP Detection (Recommended)', 'wp-statistics'); ?></label>
+                        </td>
+                        <td style="padding-left: 0px;">
+                            <p class="description"><?php _e('Automatically detects the user\'s IP address by checking a sequence of server variables. The detection order is: <code>HTTP_X_FORWARDED_FOR</code>, <code>HTTP_X_FORWARDED</code>, <code>HTTP_FORWARDED_FOR</code>, <code>HTTP_FORWARDED</code>, <code>REMOTE_ADDR</code>, <code>HTTP_CLIENT_IP</code>, <code>HTTP_X_CLUSTER_CLIENT_IP</code>, <code>HTTP_X_REAL_IP</code>, <code>HTTP_INCAP_CLIENT_IP</code>. Stops at the first valid IP found.', 'wp-statistics') ?></p>
+                        </td>
+                    </tr>
+                </table>
+            </th>
+        </tr>
+
         <?php
         foreach (IP::$ip_methods_server as $method) {
             ?>
@@ -136,25 +155,6 @@ add_thickbox();
             <?php
         }
         ?>
-
-        <!-- Sequential IP Detection -->
-        <tr valign="top">
-            <th scope="row" colspan="2" style="padding-top: 0px;padding-bottom: 0px;">
-                <table>
-                    <tr>
-                        <td style="width: 10px; padding: 0px;">
-                            <input id="sequential" type="radio" name="ip_method" style="vertical-align: -3px;" value="sequential" <?php checked($ip_method, 'sequential') ?>>
-                        </td>
-                        <td style="width: 250px;">
-                            <label for="sequential"><?php esc_html_e('Sequential IP Detection', 'wp-statistics'); ?></label>
-                        </td>
-                        <td style="padding-left: 0px;">
-                            <p class="description"><?php _e('Automatically detects the user\'s IP address by checking a sequence of server variables. The detection order is: <code>HTTP_X_FORWARDED_FOR</code>, <code>HTTP_X_FORWARDED</code>, <code>HTTP_FORWARDED_FOR</code>, <code>HTTP_FORWARDED</code>, <code>REMOTE_ADDR</code>, <code>HTTP_CLIENT_IP</code>, <code>HTTP_X_CLUSTER_CLIENT_IP</code>, <code>HTTP_X_REAL_IP</code>, <code>HTTP_INCAP_CLIENT_IP</code>. Stops at the first valid IP found.', 'wp-statistics') ?></p>
-                        </td>
-                    </tr>
-                </table>
-            </th>
-        </tr>
 
         <!-- Custom Header -->
         <tr valign="top">

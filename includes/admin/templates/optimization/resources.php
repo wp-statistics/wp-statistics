@@ -296,7 +296,7 @@
             $list = array(
                 'SERVER_SOFTWARE'      => __('The web server software running on your hosting server.', 'wp-statistics'),
                 'HTTP_HOST'            => __('The domain name of your website as recognized by the server.', 'wp-statistics'),
-                'REMOTE_ADDR'          => __('The IP address of the server where your website is hosted.', 'wp-statistics'),
+                'SERVER_ADDR'          => __('The IP address of the server where your website is hosted.', 'wp-statistics'),
                 'HTTP_CLIENT_IP'       => __('Used by some proxies or load balancers to relay the original IP. Enable this if your setup uses the `HTTP_CLIENT_IP` header to identify visitor IPs.', 'wp-statistics'),
                 'HTTP_X_FORWARDED_FOR' => __('If your server is behind a proxy, this is the original IP address forwarded by the proxy.', 'wp-statistics'),
                 'HTTP_X_FORWARDED'     => __('Another header set by certain proxies or load balancers. If your server uses the `HTTP_X_FORWARDED` header for IP forwarding, activate this.', 'wp-statistics'),

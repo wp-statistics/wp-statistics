@@ -23,7 +23,7 @@ class Referred
      *
      * @var string
      */
-    public static $referrer_spam_link = 'https://cdn.jsdelivr.net/gh/matomo-org/referrer-spam-list@4.0.0/spammers.txt';
+    public static $referrer_spam_link = 'https://cdn.jsdelivr.net/gh/matomo-org/referrer-spam-list@master/spammers.txt';
 
     /**
      * Referred constructor.
@@ -101,7 +101,7 @@ class Referred
 
         // If referrer is the current site or empty, return empty string
         if (empty($base_url['host']) || strpos($referrer, site_url()) !== false) {
-            return '-';
+            return \WP_STATISTICS\Admin_Template::UnknownColumn();
         }
 
         // Get Html Link

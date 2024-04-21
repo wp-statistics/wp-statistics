@@ -38,41 +38,43 @@ class Option
     {
 
         $options = array(
-            'robotlist'                 => Helper::get_robots_list(),
-            'query_params_allow_list'   => Helper::get_default_query_params_allow_list('string'),
-            'anonymize_ips'             => true,
-            'hash_ips'                  => true,
-            'geoip'                     => false,
-            'useronline'                => true,
-            'visits'                    => true,
-            'visitors'                  => true,
-            'pages'                     => true,
-            'check_online'              => UserOnline::$reset_user_time,
-            'menu_bar'                  => false,
-            'coefficient'               => Visitor::getCoefficient(),
-            'stats_report'              => true,
-            'cache_plugin'              => true,
-            'time_report'               => 'weekly',
-            'send_report'               => 'mail',
-            'geoip_license_type'        => 'js-deliver',
-            'geoip_license_key'         => '',
-            'content_report'            => Admin_Template::get_template('emails/default', array(), true),
-            'update_geoip'              => true,
-            'store_ua'                  => false,
-            'do_not_track'              => true,
-            'exclude_administrator'     => true,
-            'disable_se_clearch'        => true,
-            'disable_se_qwant'          => true,
-            'disable_se_baidu'          => true,
-            'disable_se_ask'            => true,
-            'map_type'                  => 'jqvmap',
-            'force_robot_update'        => true,
-            'ip_method'                 => 'sequential',
-            'exclude_loginpage'         => true,
-            'exclude_404s'              => false,
-            'exclude_feeds'             => true,
-            'schedule_dbmaint'          => true,
-            'schedule_dbmaint_days'     => '180'
+            'robotlist'               => Helper::get_robots_list(),
+            'query_params_allow_list' => Helper::get_default_query_params_allow_list('string'),
+            'anonymize_ips'           => true,
+            'hash_ips'                => true,
+            'geoip'                   => false,
+            'useronline'              => true,
+            'visits'                  => true,
+            'visitors'                => true,
+            'pages'                   => true,
+            'check_online'            => UserOnline::$reset_user_time,
+            'menu_bar'                => false,
+            'coefficient'             => Visitor::getCoefficient(),
+            'stats_report'            => true,
+            'cache_plugin'            => true,
+            'time_report'             => 'weekly',
+            'send_report'             => 'mail',
+            'geoip_license_type'      => 'js-deliver',
+            'geoip_license_key'       => '',
+            'content_report'          => Admin_Template::get_template('emails/default', array(), true),
+            'update_geoip'            => true,
+            'store_ua'                => false,
+            'do_not_track'            => true,
+            'exclude_administrator'   => true,
+            'referrerspam'            => true,
+            'corrupt_browser_info'    => true,
+            'disable_se_clearch'      => true,
+            'disable_se_qwant'        => true,
+            'disable_se_baidu'        => true,
+            'disable_se_ask'          => true,
+            'map_type'                => 'jqvmap',
+            'force_robot_update'      => true,
+            'ip_method'               => 'sequential',
+            'exclude_loginpage'       => true,
+            'exclude_404s'            => false,
+            'exclude_feeds'           => true,
+            'schedule_dbmaint'        => true,
+            'schedule_dbmaint_days'   => '180'
         );
 
         return $options;
@@ -265,7 +267,7 @@ class Option
         }
 
         if (!array_key_exists($option_name, $options)) {
-            return $default ?? false;
+            return !is_null($default) ? $default : false;
         }
 
         return apply_filters("wp_statistics_option_{$setting_name}_{$option_name}", $options[$option_name]);

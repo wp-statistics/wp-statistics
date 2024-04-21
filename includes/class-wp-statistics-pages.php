@@ -2,6 +2,8 @@
 
 namespace WP_STATISTICS;
 
+use WP_Statistics\Service\Analytics\VisitorProfile;
+
 class Pages
 {
     /**
@@ -175,12 +177,13 @@ class Pages
 
     /**
      * Sanitize Page Url For Push to Database
+     * @param $visitorProfile VisitorProfile
      */
-    public static function sanitize_page_uri()
+    public static function sanitize_page_uri($visitorProfile)
     {
 
         // Get Current WordPress Page
-        $current_page = self::get_page_type();
+        $current_page = $visitorProfile->getCurrentPageType();
 
         // Get the current page URI.
         $page_uri = Pages::get_page_uri();
@@ -212,13 +215,14 @@ class Pages
 
     /**
      * Record Page in Database
+     * @param $visitorProfile VisitorProfile
      */
-    public static function record()
+    public static function record($visitorProfile)
     {
         global $wpdb;
 
         // Get Current WordPress Page
-        $current_page = self::get_page_type();
+        $current_page = $visitorProfile->getCurrentPageType();
 
         // If we didn't find a page id, we don't have anything else to do.
         if ($current_page['type'] == "unknown" || !isset($current_page['id'])) {
@@ -226,7 +230,7 @@ class Pages
         }
 
         // Get Page uri
-        $page_uri = self::sanitize_page_uri();
+        $page_uri = self::sanitize_page_uri($visitorProfile);
 
         // If the length of URI is more than 190 characters
         // Crop it, so it can be stored in the database

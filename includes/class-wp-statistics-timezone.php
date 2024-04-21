@@ -101,7 +101,7 @@ class TimeZone
             }
         } else {
             return date($format, time());  // phpcs:ignore Wordpress.DateTime.RestrictedFuncitons.date_date
-        } 
+        }
     }
 
     /**
