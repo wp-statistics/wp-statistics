@@ -361,8 +361,8 @@ class Menus
             // Now, ensure that the 'view' method exists in the determined class.
             if (method_exists($className, 'view')) {
                 if (!in_array($className, $instantiatedClasses)) {
-                    $callback = [new $className(), 'view'];
-                    $instantiatedClasses[] = $className;
+                    $callback               = [new $className(), 'view'];
+                    $instantiatedClasses[]  = $className;
                 }
             } else {
                 continue;
