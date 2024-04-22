@@ -33,5 +33,4 @@ class top_visitors
         // Response
         return $response;
     }
-
 }

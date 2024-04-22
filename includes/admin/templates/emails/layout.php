@@ -89,4 +89,4 @@ $email_body = '<table role="presentation" class="body" style="background-color: 
     </tbody>
 </table>';
 
-echo $email_body;
+echo $email_body; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	

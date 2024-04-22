@@ -2,6 +2,8 @@
 
 namespace WP_STATISTICS;
 
+use WP_Statistics\Service\Analytics\VisitorProfile;
+
 class Hits
 {
     /**
@@ -76,7 +78,7 @@ class Hits
             return array(
                 'type'         => esc_sql($this->rest_hits->current_page_type),
                 'id'           => esc_sql($this->rest_hits->current_page_id),
-                'search_query' => isset($this->rest_hits->search_query) ? $this->rest_hits->search_query : ''
+                'search_query' => isset($this->rest_hits->search_query) ? base64_decode($this->rest_hits->search_query) : ''
             );
         }
 
@@ -148,9 +150,10 @@ class Hits
      */
     public static function record()
     {
+        $visitorProfile = new VisitorProfile();
 
         # Check Exclusion This Hits
-        $exclusion = Exclusion::check();
+        $exclusion = Exclusion::check($visitorProfile);
 
         # Record Hits Exclusion
         if ($exclusion['exclusion_match'] === true) {
@@ -164,7 +167,7 @@ class Hits
 
         # Record Visitor Detail
         if (Visitor::active()) {
-            $visitor_id = Visitor::record($exclusion);
+            $visitor_id = Visitor::record($visitorProfile, $exclusion);
         }
 
         # Record Search Engine
@@ -174,7 +177,7 @@ class Hits
 
         # Record Pages
         if (Pages::active() and $exclusion['exclusion_match'] === false and Pages::is_track_all_page() === true) {
-            $page_id = Pages::record();
+            $page_id = Pages::record($visitorProfile);
         }
 
         # Record Visitor Relationship
@@ -183,8 +186,8 @@ class Hits
         }
 
         # Record User Online
-        if (UserOnline::active() and ($exclusion['exclusion_match'] === false || Option::get('all_online'))) {
-            UserOnline::record();
+        if (UserOnline::active() and ($exclusion['exclusion_match'] === false)) {
+            UserOnline::record($visitorProfile);
         }
 
         return $exclusion;

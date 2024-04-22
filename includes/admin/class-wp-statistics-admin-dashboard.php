@@ -51,7 +51,16 @@ class Admin_Dashboard
 
         // Check Hidden User Dashboard Option
         $user_dashboard = Option::getUserOption(self::$dashboard_set);
-        if ($user_dashboard === false || $user_dashboard != WP_STATISTICS_VERSION) {
+
+
+        /**
+         * @note This code is commented due to reset widget issue on plugin update, and not sure why it's been added in the first place! Anyway, let's comment it!
+         */
+        // if ($user_dashboard != WP_STATISTICS_VERSION) {
+        //     self::set_user_hidden_dashboard_option();
+        // }
+
+        if ($user_dashboard === false) {
             self::set_user_hidden_dashboard_option();
         }
 
@@ -90,15 +99,15 @@ class Admin_Dashboard
         update_user_meta(User::get_user_id(), $hidden_opt, $hidden_widgets);
     }
 
-	public function add_plugin_body_class($classes)
-	{
-		// Add class for the admin body only for plugin's pages
-		if (isset($_GET['page']) && strpos($_GET['page'], 'wps_') === 0) {
-			$classes .= ' wps_page';
-		}
+    public function add_plugin_body_class($classes)
+    {
+        // Add class for the admin body only for plugin's pages
+        if (isset($_GET['page']) && strpos($_GET['page'], 'wps_') === 0) {
+            $classes .= ' wps_page';
+        }
 
-		return $classes;
-	}
+        return $classes;
+    }
 }
 
 new Admin_Dashboard;

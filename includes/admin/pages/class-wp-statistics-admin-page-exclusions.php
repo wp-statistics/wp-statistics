@@ -17,7 +17,7 @@ class exclusions_page
             // Is Validate Date Request
             $DateRequest = Admin_Template::isValidDateRequest();
             if (!$DateRequest['status']) {
-                wp_die($DateRequest['message']);
+                wp_die(esc_html($DateRequest['message']));
             }
         }
     }
@@ -39,17 +39,18 @@ class exclusions_page
         $args['pagination'] = Admin_Template::getCurrentPaged();
 
         // Get Date-Range
-        $args['DateRang'] = Admin_Template::DateRange();
+        $args['DateRang']    = Admin_Template::DateRange();
+        $args['HasDateRang'] = True;
 
         // Get Total Exclusions
-        $args['total_exclusions'] = $wpdb->get_var("SELECT SUM(count) FROM ". DB::table('exclusions'));
+        $args['total_exclusions'] = $wpdb->get_var("SELECT SUM(count) FROM " . DB::table('exclusions'));
 
         if (!$args['total_exclusions']) {
             $args['total_exclusions'] = 0;
         }
 
         // Show Template Page
-        Admin_Template::get_template(array('layout/header', 'layout/title', 'layout/date.range', 'pages/exclusions', 'layout/footer'), $args);
+        Admin_Template::get_template(array('layout/header', 'layout/title', 'pages/exclusions', 'layout/footer'), $args);
     }
 
 }

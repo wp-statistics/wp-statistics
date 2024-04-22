@@ -69,7 +69,7 @@ class exclusions
         if (end($days_time_list) == TimeZone::getCurrentDate("Y-m-d")) {
             $title = sprintf(__('Excluded Data in the Last %s Days', 'wp-statistics'), $count_day);
         } else {
-            $title = sprintf(__('Data Exclusions FROM `'.$args['from'].'` to %s', 'wp-statistics'), $args['to']);
+            $title = sprintf(__('Data Exclusions FROM %1$s to %2$s', 'wp-statistics'), $args['from'], $args['to']);
         }
 
         // Push Basic Chart Data
@@ -90,7 +90,7 @@ class exclusions
             $list_item  = array();
             foreach ($days_time_list as $d) {
                 $total_item += $list_item[] = (int)$wpdb->get_var(
-                    $wpdb->prepare("SELECT `count` FROM `".DB::table('exclusions')."` WHERE `reason` = %s AND date = %s", $key, $d)
+                    $wpdb->prepare("SELECT `count` FROM `" . DB::table('exclusions') . "` WHERE `reason` = %s AND date = %s", $key, $d)
                 );
             }
             $data['value'][$key] = $list_item;

@@ -45,14 +45,14 @@ class pages_page
                  */
                 $pageTablePage = DB::table('pages');
                 $preparedSql   = $wpdb->prepare(
-                    "SELECT COUNT(*) FROM `".$pageTablePage."` WHERE `id` = %s AND `type` = %s",
+                    "SELECT COUNT(*) FROM `" . $pageTablePage . "` WHERE `id` = %s AND `type` = %s",
                     sanitize_text_field($_GET['ID']),
                     sanitize_text_field($_GET['type'])
                 );
                 $page_count    = $wpdb->get_var($preparedSql); //phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared	
 
                 if ($page_count < 1) {
-                    wp_die(__('Request Invalid or Unsupported.', 'wp-statistics'));
+                    wp_die(__('Request Invalid or Unsupported.', 'wp-statistics')); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	
                 }
             }
 
@@ -75,7 +75,7 @@ class pages_page
             // Is Validate Date Request
             $DateRequest = Admin_Template::isValidDateRequest();
             if (!$DateRequest['status']) {
-                wp_die($DateRequest['message']);
+                wp_die(esc_html($DateRequest['message']));
             }
         }
     }
@@ -111,10 +111,12 @@ class pages_page
             }
 
             // Page title
-            $args['title'] = __('Top ' . $objectTitle, 'wp-statistics');
+            $pageTitle     = __('Top', 'wp-statistics');
+            $args['title'] = sprintf(' %s ', $objectTitle);
 
             // Top Trending Title
-            $args['top_trending_title'] = __('Top 5 Trending ' . $objectTitle, 'wp-statistics');
+            $topTitle                   = __('Top 5 Trending', 'wp-statistics');
+            $args['top_trending_title'] = sprintf('%1$s %2$s', $topTitle, $objectTitle);
 
             // Get Current Page Url
             $args['pageName'] = Menus::get_page_slug('pages');
@@ -212,21 +214,23 @@ class pages_page
         );
 
         // Get Date-Range
-        $args['DateRang'] = Admin_Template::DateRange();
+        $args['DateRang']    = Admin_Template::DateRange();
+        $args['HasDateRang'] = True;
 
         // List Of Pages From custom Type
         $args['list'] = array();
 
         // Check Is Post Or Term
-        $_is_post   = in_array($Type, array("page", "post", "product", "attachment"));
+        $_is_post   = in_array($Type, array("home", "page", "post", "product", "attachment"));
         $_post_type = (strpos($Type, 'post_type_') !== false) ? str_replace('post_type_', '', $Type) : $Type;
         $_is_post   = ($_is_post == false) ? in_array($_post_type, self::$postTypes) : $_is_post;
         $_is_term   = in_array($Type, array("category", "post_tag", "tax"));
 
         if ($_is_post === true || $_is_term === true) {
             $query = $wpdb->get_results(
-                $wpdb->prepare("SELECT `id`, SUM(count) as total FROM `".DB::table('pages')."` WHERE `type` = %s GROUP BY `id` ORDER BY `total` DESC LIMIT 0,100", $Type)
-                , ARRAY_A);
+                $wpdb->prepare("SELECT `id`, SUM(count) as total FROM `" . DB::table('pages') . "` WHERE `type` = %s GROUP BY `id` ORDER BY `total` DESC LIMIT 0,100", $Type),
+                ARRAY_A
+            );
         }
 
         // Create Select List For WordPress Posts
@@ -244,8 +248,9 @@ class pages_page
 
         $subList      = [];
         $subListQuery = $wpdb->get_results(
-            $wpdb->prepare("SELECT `uri`, `page_id`, SUM(count) as total FROM `".DB::table('pages')."` WHERE `id` = %s AND `type` = %s GROUP BY `uri` ORDER BY `total` DESC LIMIT 0,100", $ID, $Type)
-        , ARRAY_A);
+            $wpdb->prepare("SELECT `uri`, `page_id`, SUM(count) as total FROM `" . DB::table('pages') . "` WHERE `id` = %s AND `type` = %s GROUP BY `uri` ORDER BY `total` DESC LIMIT 0,100", $ID, $Type),
+            ARRAY_A
+        );
 
         foreach ($subListQuery as $item) {
             $subList[$item['page_id']] = $item['uri'];
@@ -269,16 +274,16 @@ class pages_page
 
         // Load Single Page Components
         foreach (self::SINGLE_PAGE_COMPONENTS as $component) {
-            $args[$component] = apply_filters('wp_statistics_pages_chart_' . $component,
+            $args[$component] = apply_filters(
+                'wp_statistics_pages_chart_' . $component,
                 Admin_Template::get_template(array('meta-box/pages-' . $component . '-preview'), null, true),
                 $args
             );
         }
 
         // Show Template Page
-        Admin_Template::get_template(array('layout/header', 'layout/title', 'layout/select', 'layout/date.range', 'pages/page-chart', 'layout/postbox.hide', 'layout/footer'), $args);
+        Admin_Template::get_template(array('layout/header', 'layout/title', 'layout/select', 'pages/page-chart', 'layout/postbox.hide', 'layout/footer'), $args);
     }
-
 }
 
 new pages_page;

@@ -128,9 +128,9 @@ class Admin_Assets
         }
 
         // Load Jquery-ui theme
-//        if (Menus::in_plugin_page() and Menus::in_page('optimization') === false and Menus::in_page('settings') === false) {
-//            wp_enqueue_style(self::$prefix . '-jquery-datepicker', self::url('datepicker.min.css'), array(), '1.11.4');
-//        }
+        //        if (Menus::in_plugin_page() and Menus::in_page('optimization') === false and Menus::in_page('settings') === false) {
+        //            wp_enqueue_style(self::$prefix . '-jquery-datepicker', self::url('datepicker.min.css'), array(), '1.11.4');
+        //        }
 
         // Load Select2
         if (Menus::in_page('visitors') || (Menus::in_page('pages') and isset($_GET['ID']))) {
@@ -157,24 +157,26 @@ class Admin_Assets
 
         // Load Chart Js Library [ Load in <head> Tag ]
         if (Menus::in_plugin_page() || (in_array($screen_id, array('dashboard')) and !Option::get('disable_dashboard')) || (in_array($hook, array('post.php', 'edit.php', 'post-new.php')) and !Option::get('disable_editor'))) {
-            wp_enqueue_script(self::$prefix . '-chart.js', self::url('chartjs/chart.umd.min.js'), false, '4.4.0', false);
+            wp_enqueue_script(self::$prefix . '-chart.js', self::url('chartjs/chart.umd.min.js'), [], '4.4.2', false);
+            wp_enqueue_script(self::$prefix . '-hammer.js', self::url('chartjs/hammer.min.js'), [], '2.0.8', false);
+            wp_enqueue_script(self::$prefix . '-chartjs-plugin-zoom.js', self::url('chartjs/chartjs-plugin-zoom.min.js'), [self::$prefix . '-hammer.js'], '2.0.1', false);
         }
 
         // Load Jquery VMap Js Library
         if (!Option::get('disable_map') and (Menus::in_page('overview') || Menus::in_page('pages') || (in_array($screen_id, array('dashboard')) and !Option::get('disable_dashboard')))) {
-            wp_enqueue_script(self::$prefix . '-jqvmap', self::url('jqvmap/jquery.vmap.min.js'), true, '1.5.1');
-            wp_enqueue_script(self::$prefix . '-jqvmap-world', self::url('jqvmap/jquery.vmap.world.min.js'), true, '1.5.1');
+            wp_enqueue_script(self::$prefix . '-jqvmap', self::url('jqvmap/jquery.vmap.min.js'), array('jquery'), "1.5.1", ['in_footer' => true]);
+            wp_enqueue_script(self::$prefix . '-jqvmap-world', self::url('jqvmap/jquery.vmap.world.min.js'), array('jquery'), "1.5.1", ['in_footer' => true]);
         }
 
         // Load Jquery UI
-//        if (Menus::in_plugin_page() and Menus::in_page('optimization') === false and Menus::in_page('settings') === false) {
-//            wp_enqueue_script('jquery-ui-datepicker');
-//            wp_localize_script('jquery-ui-datepicker', 'wps_i18n_jquery_datepicker', self::localize_jquery_datepicker());
-//        }
+        //        if (Menus::in_plugin_page() and Menus::in_page('optimization') === false and Menus::in_page('settings') === false) {
+        //            wp_enqueue_script('jquery-ui-datepicker');
+        //            wp_localize_script('jquery-ui-datepicker', 'wps_i18n_jquery_datepicker', self::localize_jquery_datepicker());
+        //        }
 
         // Load Select2
         if (Menus::in_page('visitors') || (Menus::in_page('pages') and isset($_GET['ID']))) {
-            wp_enqueue_script(self::$prefix . '-select2', self::url('select2/select2.full.min.js'), array('jquery'), '4.0.9');
+            wp_enqueue_script(self::$prefix . '-select2', self::url('select2/select2.full.min.js'), array('jquery'), "4.1.0", ['in_footer' => true]);
         }
 
         // Load WordPress PostBox Script
@@ -186,13 +188,13 @@ class Admin_Assets
 
         // Load Admin Js
         if (Menus::in_plugin_page() || (in_array($screen_id, array('dashboard')) and !Option::get('disable_dashboard')) || (in_array($hook, array('post.php', 'edit.php', 'post-new.php')) and !Option::get('disable_editor'))) {
-            wp_enqueue_script(self::$prefix, self::url('admin.min.js'), array('jquery'), self::version());
+            wp_enqueue_script(self::$prefix, self::url('admin.min.js'), array('jquery'), self::version(), ['in_footer' => true]);
             wp_localize_script(self::$prefix, 'wps_global', self::wps_global($hook));
         }
 
         // Load TinyMCE for Widget Page
         if (in_array($screen_id, array('widgets'))) {
-            wp_enqueue_script(self::$prefix . '-button-widget', self::url('tinymce.min.js'), array('jquery'), self::version());
+            wp_enqueue_script(self::$prefix . '-button-widget', self::url('tinymce.min.js'), array('jquery'), "3.2.5", ['in_footer' => true]);
         }
 
         // Add Thick box
@@ -203,12 +205,12 @@ class Admin_Assets
 
         // Add RangeDatePicker
         if (Menus::in_plugin_page() || Menus::in_page('pages') || in_array($screen_id, array('dashboard'))) {
-            wp_enqueue_script(self::$prefix . '-moment', self::url('datepicker/moment.min.js'), array(), self::version());
-            wp_enqueue_script(self::$prefix . '-daterangepicker', self::url('datepicker/daterangepicker.min.js'), array(), self::version());
+            wp_enqueue_script(self::$prefix . '-moment', self::url('datepicker/moment.min.js'), array(), "2.18.1", ['in_footer' => true]);
+            wp_enqueue_script(self::$prefix . '-daterangepicker', self::url('datepicker/daterangepicker.min.js'), array(), "1.13.2", ['in_footer' => true]);
         }
 
         if (Menus::in_page('pages')) {
-            wp_enqueue_script(self::$prefix . '-datepicker', self::url('datepicker/datepicker.js'), array(), self::version());
+            wp_enqueue_script(self::$prefix . '-datepicker', self::url('datepicker/datepicker.js'), array(), self::version(), ['in_footer' => true]);
         }
     }
 
@@ -431,7 +433,7 @@ class Admin_Assets
             $screen = get_current_screen();
 
             if (stristr($screen->id, 'wps_')) {
-                wp_enqueue_script('feedbackbird-widget', 'https://cdn.jsdelivr.net/gh/feedbackbird/assets@master/wp/app.js?uid=01H34YMWXSA9XPS61M4S11RV6Z');
+                wp_enqueue_script('feedbackbird-widget', 'https://cdn.jsdelivr.net/gh/feedbackbird/assets@master/wp/app.js?uid=01H34YMWXSA9XPS61M4S11RV6Z', [], self::version(), false);
                 wp_add_inline_script('feedbackbird-widget', sprintf('var feedbackBirdObject = %s;', wp_json_encode([
                     'user_email' => function_exists('wp_get_current_user') ? wp_get_current_user()->user_email : '',
                     'platform'   => 'wordpress-admin',

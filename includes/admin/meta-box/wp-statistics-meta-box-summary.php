@@ -232,7 +232,7 @@ class summary
 
                 // Push to List
                 $data['search-engine'][$key] = array(
-                    'name'      => __($value['name'], 'wp-statistics'),
+                    'name'      => sprintf(__('%s', 'wp-statistics'), $value['name']),
                     'logo'      => $value['logo_url'],
                     'today'     => number_format_i18n($today),
                     'yesterday' => number_format_i18n($yesterday)

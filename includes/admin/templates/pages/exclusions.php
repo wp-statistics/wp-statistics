@@ -1,7 +1,7 @@
 <div class="postbox-container" id="wps-big-postbox">
     <div class="metabox-holder">
         <div class="meta-box-sortables">
-            <div class="postbox" id="<?php echo \WP_STATISTICS\Meta_Box::getMetaBoxKey('exclusions'); ?>">
+            <div class="postbox" id="<?php echo esc_attr(\WP_STATISTICS\Meta_Box::getMetaBoxKey('exclusions')); ?>">
                 <div class="inside">
                     <!-- Do Js -->
                 </div>
@@ -19,17 +19,17 @@
                         <tbody>
                         <tr>
                             <th></th>
-                            <th class="th-center"><?php _e('Exclusions', 'wp-statistics'); ?></th>
+                            <th class="th-center"><?php esc_html_e('Exclusions', 'wp-statistics'); ?></th>
                         </tr>
 
                         <tr>
-                            <th><?php _e('Chart Total:', 'wp-statistics'); ?></th>
+                            <th><?php esc_html_e('Chart Total:', 'wp-statistics'); ?></th>
                             <th class="th-center"><span id="number-total-chart-exclusions"></span></th>
                         </tr>
 
                         <tr>
-                            <th class="wps-text-muted"><?php _e('All Time Total:', 'wp-statistics'); ?></th>
-                            <th class="th-center"><span style="color: #DC3545 !important;"><?php echo number_format_i18n($total_exclusions); ?></span></th>
+                            <th class="wps-text-muted"><?php esc_html_e('All Time Total:', 'wp-statistics'); ?></th>
+                            <th class="th-center"><span style="color: #DC3545 !important;"><?php echo esc_html(number_format_i18n($total_exclusions)); ?></span></th>
                         </tr>
                         </tbody>
                     </table>

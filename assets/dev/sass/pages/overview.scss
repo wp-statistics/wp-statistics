@@ -137,8 +137,9 @@ body.toplevel_page_wps_overview_page,
 
       a.wps-tooltip {
         display: inline-block;
-        transform: translateY(-2px);
-        position: absolute;
+         position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
       }
     }
   }

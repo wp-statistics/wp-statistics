@@ -2,7 +2,7 @@
     <div id="post-body" class="metabox-holder">
         <div class="wp-list-table widefat widefat plugin-install">
             <form action="<?php echo esc_url(admin_url('admin.php?page=wps_plugins_page')); ?>" method="post">
-                <?php wp_nonce_field( 'wps_optimization_nonce' ); ?>
+                <?php wp_nonce_field('wps_optimization_nonce'); ?>
                 <div id="the-list">
                     <?php
                     /* @var $addOns \WP_Statistics\Service\Admin\AddOnDecorator[] */
@@ -25,11 +25,11 @@
                                 </div>
 
                                 <div class="desc column-description">
-                                    <p><?php echo wp_trim_words(wp_kses_post($addOn->getDescription()), 30); ?></p>
+                                    <p><?php echo esc_html(wp_trim_words(wp_kses_post($addOn->getDescription()), 30)); ?></p>
 
                                     <div class="version">
-                                        <strong><?php _e('Current Version:', 'wp-statistics'); ?></strong><?php echo ' ' . esc_html($addOn->getVersion()); ?>
-                                        <div class="status"><strong><?php _e('Current Status:', 'wp-statistics'); ?></strong>
+                                        <strong><?php esc_html_e('Current Version:', 'wp-statistics'); ?></strong><?php echo ' ' . esc_html($addOn->getVersion()); ?>
+                                        <div class="status"><strong><?php esc_html_e('Current Status:', 'wp-statistics'); ?></strong>
                                             <span class="<?php echo $addOn->isActivated() ? 'wps-text-success' : 'wps-text-danger'; ?>"><?php echo esc_html($addOn->getStatus()); ?></span>
                                         </div>
                                     </div>
@@ -44,14 +44,14 @@
 
                                 <div class="column-right-side">
                                     <?php if ($addOn->isEnabled()) { ?>
-                                        <input type="submit" class="button" name="update-licence" value="<?php _e('Update License'); ?>"/>
+                                        <input type="submit" class="button" name="update-licence" value="<?php esc_html_e('Update License'); ?>"/>
                                     <?php } else { ?>
                                         <?php if ($addOn->isExist()) { ?>
-                                            <a href="<?php echo esc_attr($addOn->getActivateUrl()); ?>" class="button"><?php _e('Activate Add-On', 'wp-statistics'); ?></a>
+                                            <a href="<?php echo esc_attr($addOn->getActivateUrl()); ?>" class="button"><?php esc_html_e('Activate Add-On', 'wp-statistics'); ?></a>
                                         <?php } else { ?>
-                                        <div class="column-price">
-                                            <strong><?php echo wp_kses_post($addOn->getPrice()); ?></strong>
-                                        </div><a target="_blank" href="<?php echo esc_url($addOn->getUrl()); ?>" class="button-primary"><?php _e('Purchase Add-On', 'wp-statistics'); ?></a>
+                                            <div class="column-price">
+                                                <strong><?php echo wp_kses_post($addOn->getPrice()); ?></strong>
+                                            </div><a target="_blank" href="<?php echo esc_url($addOn->getUrl()); ?>" class="button-primary"><?php esc_html_e('Purchase Add-On', 'wp-statistics'); ?></a>
                                         <?php } ?>
                                     <?php } ?>
                                 </div>

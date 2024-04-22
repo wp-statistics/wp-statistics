@@ -35,9 +35,14 @@ wps_js.no_meta_box_data = function () {
  */
 wps_js.error_meta_box_data = function (xhr) {
     if (typeof xhr !== 'undefined') {
-        let data = JSON.parse(xhr);
-        if (wps_js.isset(data, 'message')) {
-            return '<div class="o-wrap o-wrap--no-data">' + data['message'] + '</div>';
+        try {
+            let data = JSON.parse(xhr);
+
+            if (wps_js.isset(data, 'message')) {
+                return '<div class="o-wrap o-wrap--no-data">' + data['message'] + '</div>';
+            }
+        } catch (error) {
+            console.log('An unexpected error occurred: ', xhr, error);
         }
     }
     return '<div class="o-wrap o-wrap--no-data">' + wps_js._('rest_connect') + '</div>';
@@ -390,7 +395,7 @@ jQuery(document).on("click", '.wps-refresh', function (e) {
     // Run Meta Box
     wps_js.run_meta_box(meta_box_name, data, false);
     setTimeout(function () {
-        jQuery('#' + parentID).find('.wps-refresh').blur();
+        jQuery('#' + parentID).find('.wps-refresh').trigger('blur');
     }, 1000);
 });
 

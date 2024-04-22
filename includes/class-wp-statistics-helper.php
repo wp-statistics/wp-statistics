@@ -27,7 +27,7 @@ class Helper
             do_action('doing_it_wrong_run', $function, $message, $version);
             error_log("{$function} was called incorrectly. {$message}. This message was added in version {$version}.");
         } else {
-            _doing_it_wrong($function, $message, $version);
+            _doing_it_wrong($function, $message, $version); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
         }
     }
 
@@ -235,15 +235,8 @@ class Helper
      */
     public static function get_robots_list($type = 'list')
     {
-        global $WP_Statistics;
-
         # Set Default
         $list = array();
-
-        # Load From global
-        if (isset($WP_Statistics->robots_list)) {
-            $list = $WP_Statistics->robots_list;
-        }
 
         # Load From file
         include WP_STATISTICS_DIR . "includes/defines/robots-list.php";
@@ -307,7 +300,7 @@ class Helper
         );
         foreach ($list_tbl as $tbl => $val) {
             $first_day = $wpdb->get_var(
-                $wpdb->prepare("SELECT %s FROM `". WP_STATISTICS\DB::table($tbl) ."` ORDER BY %s ASC LIMIT 1", $val['column'], $val['order_by'])
+                $wpdb->prepare("SELECT %s FROM `" . WP_STATISTICS\DB::table($tbl) . "` ORDER BY %s ASC LIMIT 1", $val['column'], $val['order_by'])
             );
             if (!empty($first_day)) {
                 break;
@@ -897,13 +890,11 @@ class Helper
      */
     public static function mysql_time_conditions($field = 'date', $time = 'total', $range = array())
     {
-        global $WP_Statistics;
-
         //Get Current Date From WP
         $current_date = TimeZone::getCurrentDate('Y-m-d');
 
         //Create Field Sql
-        $field_sql = function ($time) use ($current_date, $field, $WP_Statistics, $range) {
+        $field_sql = function ($time) use ($current_date, $field, $range) {
             $is_current     = array_key_exists('current_date', $range);
             $getCurrentDate = TimeZone::getCurrentDate('Y-m-d', (int)$time);
             return "`$field` " . ($is_current === true ? '=' : 'BETWEEN') . " '{$getCurrentDate}'" . ($is_current === false ? " AND '{$current_date}'" : "");
@@ -1235,7 +1226,7 @@ class Helper
         $get_page_type               = Pages::get_page_type();
         $params['current_page_type'] = $get_page_type['type'];
         $params['current_page_id']   = $get_page_type['id'];
-        $params['search_query']      = (isset($get_page_type['search_query']) ? esc_html($get_page_type['search_query']) : '');
+        $params['search_query']      = (isset($get_page_type['search_query']) ? base64_encode(esc_html($get_page_type['search_query'])) : '');
 
         //page url
         $params['page_uri'] = base64_encode(Pages::get_page_uri());
@@ -1344,7 +1335,7 @@ class Helper
     public static function prepareArrayToStringForQuery($fields = array())
     {
         global $wpdb;
-    
+
         foreach ($fields as &$value) {
             $value = $wpdb->prepare('%s', $value);
         }

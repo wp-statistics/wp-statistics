@@ -16,7 +16,7 @@ class visitors_page
             // Is Validate Date Request
             $DateRequest = Admin_Template::isValidDateRequest();
             if (!$DateRequest['status']) {
-                wp_die($DateRequest['message']);
+                wp_die(esc_html($DateRequest['message']));
             }
         }
     }
@@ -28,9 +28,9 @@ class visitors_page
      */
     public static function view()
     {
+
         // Page title
         $args['title'] = (count($_GET) > 1 ? __('Visitors', 'wp-statistics') : __('Latest Visitor Activity', 'wp-statistics'));
-
         // Get Current Page Url
         $args['pageName'] = Menus::get_page_slug('visitors');
         $args['paged']    = Admin_Template::getCurrentPaged();
@@ -39,7 +39,8 @@ class visitors_page
         $order = ((isset($_GET['order']) and ($_GET['order'] == "asc" || $_GET['order'] == "desc")) ? $_GET['order'] : 'desc');
 
         // Get Date-Range
-        $args['DateRang'] = Admin_Template::DateRange();
+        $args['DateRang']    = Admin_Template::DateRange();
+        $args['HasDateRang'] = True;
 
         // Default Parameter Link
         $data_link = array('from' => $args['DateRang']['from'], 'to' => $args['DateRang']['to']);
@@ -171,11 +172,7 @@ class visitors_page
             $relationshipTable = DB::table('visitor_relationships');
 
             if (Option::get('visitors_log')) {
-                if (isset($_GET['ip'])) {
-                    $sql = "SELECT * FROM `{$visitorTable}`, `{$relationshipTable}` {$condition} AND `{$visitorTable}`.ID = `{$relationshipTable}`.visitor_id ORDER BY `{$relationshipTable}`.date DESC";
-                } else {
-                    $sql = "SELECT vsr.*, vs.* FROM ( SELECT visitor_id, page_id, MAX(date) AS latest_visit_date FROM `{$relationshipTable}` GROUP BY visitor_id ) AS latest_visits JOIN `{$visitorTable}` vs ON latest_visits.visitor_id = vs.ID JOIN `{$relationshipTable}` vsr ON vsr.visitor_id = latest_visits.visitor_id AND vsr.date = latest_visits.latest_visit_date {$condition} ORDER BY vsr.date DESC";
-                }
+                $sql = "SELECT vsr.*, vs.* FROM ( SELECT visitor_id, page_id, MAX(date) AS latest_visit_date FROM `{$relationshipTable}` GROUP BY visitor_id ) AS latest_visits JOIN `{$visitorTable}` vs ON latest_visits.visitor_id = vs.ID JOIN `{$relationshipTable}` vsr ON vsr.visitor_id = latest_visits.visitor_id AND vsr.date = latest_visits.latest_visit_date {$condition} ORDER BY vsr.date DESC";
             } else {
                 $sql = "SELECT * FROM `{$visitorTable}` {$condition} ORDER BY `last_counter` {$order}, `hits` {$order}";
             }
@@ -196,7 +193,7 @@ class visitors_page
             ));
         }
 
-        Admin_Template::get_template(array('layout/header', 'layout/title', 'layout/date.range', 'pages/visitors', 'layout/visitors.filter', 'layout/footer'), $args);
+        Admin_Template::get_template(array('layout/header', 'layout/title', 'pages/visitors', 'layout/visitors.filter', 'layout/footer'), $args);
     }
 
     /**
@@ -220,7 +217,6 @@ class visitors_page
         // Return Data
         return $filter;
     }
-
 }
 
 new visitors_page;

@@ -5,7 +5,7 @@
         <li class="all">
             <a <?php if ($item['active'] === true) { ?> class="current" <?php } ?> href="<?php echo esc_url($item['link']); ?>">
                 <?php echo esc_attr($item['title']); ?>
-                <span class='count'>(<?php echo number_format_i18n($item['count']); ?>)</span>
+                <span class='count'>(<?php echo esc_html(number_format_i18n($item['count'])); ?>)</span>
             </a>
         </li>
         <?php $sub_keys = array_keys($sub);
@@ -18,36 +18,36 @@
             <div class="postbox">
                 <div class="inside">
                     <?php if (!is_array($list) || (is_array($list) and count($list) < 1)) { ?>
-                        <div class='wps-wrap--no-content wps-center'><?php _e("No recent data available.", "wp-statistics"); ?></div>
+                        <div class='wps-wrap--no-content wps-center'><?php esc_html_e("No recent data available.", "wp-statistics"); ?></div>
                     <?php } else { ?>
                         <div class="o-table-wrapper">
                             <table width="100%" class="o-table">
                                 <tr>
-                                    <td><?php _e('Browser', 'wp-statistics'); ?></td>
+                                    <td><?php esc_html_e('Browser', 'wp-statistics'); ?></td>
                                     <?php if (WP_STATISTICS\GeoIP::active()) { ?>
-                                        <td><?php _e('Country', 'wp-statistics'); ?></td>
+                                        <td><?php esc_html_e('Country', 'wp-statistics'); ?></td>
                                     <?php } ?>
                                     <?php if (WP_STATISTICS\GeoIP::active('city')) { ?>
-                                        <td><?php _e('City', 'wp-statistics'); ?></td>
+                                        <td><?php esc_html_e('City', 'wp-statistics'); ?></td>
                                     <?php } ?>
                                     <td>
                                         <a href="<?php echo esc_url(add_query_arg('order', ((isset($_GET['order']) and $_GET['order'] == "asc") ? 'desc' : 'asc'))); ?>">
-                                            <?php _e('Last Visit', 'wp-statistics'); ?>
+                                            <?php esc_html_e('Last Visit', 'wp-statistics'); ?>
                                             <span class="dashicons dashicons-arrow-<?php echo((isset($_GET['order']) and $_GET['order'] == "asc") ? 'up' : 'down'); ?>"></span>
                                         </a>
                                     </td>
-                                    <td><?php echo \WP_STATISTICS\Option::get('hash_ips') == true ? __('Daily Visitor Hash', 'wp-statistics') : __('IP Address', 'wp-statistics'); ?></td>
-                                    <td><?php _e('Platform', 'wp-statistics'); ?></td>
-                                    <td><?php _e('Total Visits', 'wp-statistics'); ?></td>
-                                    <td><?php _e('User', 'wp-statistics'); ?></td>
+                                    <td><?php echo esc_html(\WP_STATISTICS\Option::get('hash_ips') == true ? __('Daily Visitor Hash', 'wp-statistics') : __('IP Address', 'wp-statistics')); ?></td>
+                                    <td><?php esc_html_e('Platform', 'wp-statistics'); ?></td>
+                                    <td><?php esc_html_e('Total Visits', 'wp-statistics'); ?></td>
+                                    <td><?php esc_html_e('User', 'wp-statistics'); ?></td>
                                     <?php
                                     if (\WP_STATISTICS\Option::get('visitors_log')) {
                                         ?>
-                                        <td class="tbl-page-column"><?php _e('Latest Page', 'wp-statistics'); ?></td>
+                                        <td class="tbl-page-column"><?php esc_html_e('Latest Page', 'wp-statistics'); ?></td>
                                         <?php
                                     }
                                     ?>
-                                    <td><?php _e('Referrer', 'wp-statistics'); ?></td>
+                                    <td><?php esc_html_e('Referrer', 'wp-statistics'); ?></td>
                                 </tr>
 
                                 <?php foreach ($list as $item) { ?>
@@ -65,7 +65,7 @@
                                         <?php } ?>
                                         <td><span><?php echo esc_attr($item['date']); ?></span></td>
                                         <td class="wps-admin-column__ip">
-                                            <?php echo(isset($item['map']) ? "<a class='show-map' href='" . esc_url($item['map']) . "' target='_blank' title='" . __('Map', 'wp-statistics') . "'>" . WP_STATISTICS\Admin_Template::icons('dashicons-location-alt') . "</a>" : ""); ?>
+                                            <?php echo(isset($item['map']) ? "<a class='show-map' href='" . esc_url($item['map']) . "' target='_blank' title='" . __('Map', 'wp-statistics') . "'>" . WP_STATISTICS\Admin_Template::icons('dashicons-location-alt') . "</a>" : ""); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	 ?>
                                             <?php echo sprintf('<a href="%s">%s</a>', esc_url($item['ip']['link']), esc_attr($item['ip']['value'])); ?>
                                         </td>
                                         <td><?php echo esc_attr($item['platform']); ?></td>
@@ -83,7 +83,7 @@
                                         if (\WP_STATISTICS\Option::get('visitors_log')) {
                                             ?>
                                             <td style='text-align: left;' class="tbl-page-column">
-                                                <span class="txt-overflow" title="<?php echo($item['page']['title'] != "" ? esc_attr($item['page']['title']) : ''); ?>"><?php echo ($item['page']['link'] != '' ? '<a href="' . esc_url($item['page']['link']) . '" target="_blank" class="wps-text-muted">' : '') . ($item['page']['title'] != "" ? $item['page']['title'] : \WP_STATISTICS\Admin_Template::UnknownColumn()) . ($item['page']['link'] != '' ? '</a>' : ''); ?></span>
+                                                <span class="txt-overflow" title="<?php echo esc_attr($item['page']['title'] != "" ? esc_attr($item['page']['title']) : ''); ?>"><?php echo ($item['page']['link'] != '' ? '<a href="' . esc_url($item['page']['link']) . '" target="_blank" class="wps-text-muted">' : '') . ($item['page']['title'] != "" ? $item['page']['title'] : \WP_STATISTICS\Admin_Template::UnknownColumn()) . ($item['page']['link'] != '' ? '</a>' : ''); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
                                             </td>
                                             <?php
                                         }
