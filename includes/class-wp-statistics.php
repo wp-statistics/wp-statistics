@@ -2,6 +2,7 @@
 
 # Exit if accessed directly
 use WP_STATISTICS\Helper;
+use WP_Statistics\Service\ContentAnalytics\ContentAnalyticsManager;
 
 defined('ABSPATH') || exit;
 
@@ -152,8 +153,9 @@ final class WP_Statistics
         // Admin classes
         if (is_admin()) {
 
-            $userOnline   = new \WP_STATISTICS\UserOnline();
-            $adminManager = new \WP_Statistics\Service\Admin\AdminManager();
+            $userOnline       = new \WP_STATISTICS\UserOnline();
+            $adminManager     = new \WP_Statistics\Service\Admin\AdminManager();
+            $contentAnalytics = new ContentAnalyticsManager();
 
             require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-install.php';
             require_once WP_STATISTICS_DIR . 'includes/admin/class-wp-statistics-admin-ajax.php';
