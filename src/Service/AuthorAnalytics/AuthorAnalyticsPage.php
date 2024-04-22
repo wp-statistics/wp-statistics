@@ -86,7 +86,7 @@ class AuthorAnalyticsPage
      */
     private function singleAuthorView()
     {
-        $authorID = isset($_GET['author_id']) ? sanitize_text_field($_GET['author']) : '';
+        $authorID = isset($_GET['ID']) ? sanitize_text_field($_GET['ID']) : '';
 
         $args = [
             'title'      => esc_html__('Single Author', 'wp-statistics'),
