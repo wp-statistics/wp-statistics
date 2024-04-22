@@ -60,7 +60,8 @@
         </div>
     </div>
     <div class="postbox-container wps-half-card">
-        <!-- Classes : success or warning-->
+        <!-- Classes : success or warning -->
+        <!-- Class : loading for load page -->
         <div class="postbox wps-postbox-wrap wps-privacy-status warning">
             <div class="wps-privacy-status__header">
                 <div class="privacy-status__icon"></div>

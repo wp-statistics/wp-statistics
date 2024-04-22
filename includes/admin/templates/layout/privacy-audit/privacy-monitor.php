@@ -100,7 +100,7 @@
             'type_class'   => 'warning',
             'icon_class'   => 'warning',
             'title_text'   => esc_html__('The “Hash IP Addresses” feature is currently disabled on your website. ', 'wp-statistics'),
-            'button_class' => 'resolve',
+            'button_class' => 'resolve loading',
             'button_text'  => esc_html__('Resolved', 'wp-statistics'),
             'content'      => __('<p>With this setting deactivated, IP addresses are not subjected to the secure, irreversible hashing process and may be stored in their original form. This could potentially allow for the identification of individual users, impacting user privacy and your site’s compliance with privacy laws.</p>
               <p>Implications</p>
@@ -159,7 +159,7 @@
             'type_class'   => 'warning',
             'icon_class'   => 'warning',
             'title_text'   => esc_html__('Previous Use of “Store Entire User Agent String” Detected ', 'wp-statistics'),
-            'button_class' => 'warning',
+            'button_class' => 'warning loading',
             'button_text'  => esc_html__('Action Required', 'wp-statistics'),
             'content'      => __('<p>Our system has detected remnants of full user agent strings in your database, indicating that the “Store Entire User Agent String” feature was enabled at some point in the past. To align with best practices for user privacy, we recommend clearing this data if it is no longer necessary for diagnostic purposes.</p>
               <p>How to Clear User Agent String Data</p>
