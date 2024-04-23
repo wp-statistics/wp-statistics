@@ -35,7 +35,7 @@ class ContentAnalyticsPage
      */
     public function view()
     {
-        // If post ID is set add hook to display single template, otherwise, add show tab view
+        // If post ID is set add hook to register single content view, otherwise, show tabs view
         isset($_GET['ID']) ? do_action('wp_statistics_content_analytics_single_view') : $this->tabView();
     }
 
@@ -112,7 +112,7 @@ class ContentAnalyticsPage
             'data'       => $this->getTabData($currentTab)
         ];
 
-        // Load the template If current tab is part of the core plugin, otherwise, add hook to add custom tab view
+        // Get template If current tab is part of the core plugin, otherwise, add hook to register custom tab views
         if (!$isAddonTab) {
             Admin_Template::get_template(['layout/header', 'layout/tabbed-page-header', "pages/content-analytics/$currentTab", 'layout/postbox.hide', 'layout/footer'], $args);
         } else {
