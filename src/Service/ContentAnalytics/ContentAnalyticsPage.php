@@ -31,6 +31,15 @@ class ContentAnalyticsPage
     }
 
     /**
+     * Display HTML view
+     */
+    public function view()
+    {
+        // If post ID is set add hook to display single template, otherwise, add show tab view
+        isset($_GET['ID']) ? do_action('wp_statistics_content_analytics_single_view') : $this->tabView();
+    }
+
+    /**
      * Get active tab
      * 
      * @return string
@@ -81,15 +90,6 @@ class ContentAnalyticsPage
 
         $data = apply_filters('wp_statistics_content_analytics_tab_data', $data, $currentTab);
         return $data;
-    }
-
-    /**
-     * Display HTML
-     */
-    public function view()
-    {
-        // If tab is set, show the tabs view, otherwise, add hook to add custom views
-        isset($_GET['tab']) ? $this->tabView() : do_action('wp_statistics_content_analytics_view');
     }
 
     /**
