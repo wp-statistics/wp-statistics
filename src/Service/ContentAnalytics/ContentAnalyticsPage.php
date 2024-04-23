@@ -88,13 +88,14 @@ class ContentAnalyticsPage
      */
     public function view()
     {
-        $this->contentView();
+        // If tab is set, show the tabs view, otherwise, add hook to add custom views
+        isset($_GET['tab']) ? $this->tabView() : do_action('wp_statistics_content_analytics_view');
     }
 
     /**
-     * Display content template
+     * Display tab template
      */
-    private function contentView()
+    private function tabView()
     {
         $currentTab = $this->getCurrentTab();
         $tabs       = $this->getTabs();
@@ -111,12 +112,13 @@ class ContentAnalyticsPage
             'data'       => $this->getTabData($currentTab)
         ];
 
-        // Load the template If current tab is part of the core plugin
+        // Load the template If current tab is part of the core plugin, otherwise, add hook to add custom tab view
         if (!$isAddonTab) {
             Admin_Template::get_template(['layout/header', 'layout/tabbed-page-header', "pages/content-analytics/$currentTab", 'layout/postbox.hide', 'layout/footer'], $args);
+        } else {
+            do_action('wp_statistics_content_analytics_tab_view', $currentTab, $args);
         }
 
-        do_action('wp_statistics_content_analytics_tabs_view', $currentTab, $args);
     }
 
 }
