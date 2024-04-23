@@ -2,7 +2,6 @@
 
 namespace WP_Statistics\Service\ContentAnalytics;
 
-use WP_STATISTICS\User;
 use WP_STATISTICS\Menus;
 use WP_STATISTICS\Admin_Template;
 use InvalidArgumentException;
@@ -10,9 +9,8 @@ use InvalidArgumentException;
 class ContentAnalyticsPage
 {
     private static $tabs = [
-        'posts',
-        'pages',
-        'products',
+        'post',
+        'page',
     ];
 
     public function __construct()
@@ -33,11 +31,6 @@ class ContentAnalyticsPage
             if (isset($_GET['tab']) && !in_array($_GET['tab'], self::$tabs)) {
                 throw new InvalidArgumentException(esc_html__('Invalid tab provided.', 'wp-statistics'));
             }
-
-            // Throw error when invalid post ID provided
-            if (isset($_GET['ID']) && is_null(get_post(intval($_GET['ID'])))) {
-                throw new InvalidArgumentException(esc_html__('Invalid post ID provided.', 'wp-statistics'));
-            }
         }
     }
 
@@ -46,8 +39,7 @@ class ContentAnalyticsPage
      */
     public function view()
     {
-        // If post ID is set show single content template, otherwise, show content analytics template
-        isset($_GET['ID']) ? $this->singleView() : $this->contentView();
+        $this->contentView();
     }
 
     /**
@@ -55,7 +47,7 @@ class ContentAnalyticsPage
      */
     private function contentView()
     {
-        $currentTab = isset($_GET['tab']) ? sanitize_text_field($_GET['tab']) : 'posts';
+        $currentTab = isset($_GET['tab']) ? sanitize_text_field($_GET['tab']) : 'post';
 
         $args = [
             'title'      => esc_html__('Content Analytics', 'wp-statistics'),
@@ -63,47 +55,24 @@ class ContentAnalyticsPage
             'pageName'   => Menus::get_page_slug('content-analytics'),
             'pagination' => Admin_Template::getCurrentPaged(),
             'custom_get' => ['tab' => $currentTab],
-            'DateRang' => Admin_Template::DateRange(),
+            'DateRang'   => Admin_Template::DateRange(),
             'tabs'       => [
                 [
-                    'link'    => Menus::admin_url(Menus::get_page_slug('content-analytics'), ['tab' => 'posts']),
+                    'link'    => Menus::admin_url(Menus::get_page_slug('content-analytics'), ['tab' => 'post']),
                     'title'   => esc_html__('Posts', 'wp-statistics'),
                     'tooltip' => esc_html__('Tab Tooltip', 'wp-statistics'),
-                    'class'   => $currentTab === 'posts' ? 'current' : '',
+                    'class'   => $currentTab === 'post' ? 'current' : '',
                 ],
                 [
-                    'link'    => Menus::admin_url(Menus::get_page_slug('content-analytics'), ['tab' => 'pages']),
+                    'link'    => Menus::admin_url(Menus::get_page_slug('content-analytics'), ['tab' => 'page']),
                     'title'   => esc_html__('Pages', 'wp-statistics'),
                     'tooltip' => esc_html__('Tab Tooltip', 'wp-statistics'),
-                    'class'   => $currentTab === 'pages' ? 'current' : '',
-                ],
-                [
-                    'link'    => Menus::admin_url(Menus::get_page_slug('content-analytics'), ['tab' => 'products']),
-                    'title'   => esc_html__('Products', 'wp-statistics'),
-                    'tooltip' => esc_html__('Tab Tooltip', 'wp-statistics'),
-                    'class'   => $currentTab === 'products' ? 'current' : '',
+                    'class'   => $currentTab === 'page' ? 'current' : '',
                 ]
-            ],
+            ]
         ];
 
-        Admin_Template::get_template(['layout/header', 'layout/tabbed-page-header', "pages/content-analytics/content-$currentTab", 'layout/postbox.hide', 'layout/footer'], $args);
+        Admin_Template::get_template(['layout/header', 'layout/tabbed-page-header', "pages/content-analytics/$currentTab", 'layout/postbox.hide', 'layout/footer'], $args);
     }
 
-    /**
-     * Display single content template
-     */
-    private function singleView()
-    {
-        $postID = isset($_GET['ID']) ? sanitize_text_field($_GET['ID']) : '';
-
-        $args = [
-            'title'      => esc_html__('Single Content Analytics', 'wp-statistics'),
-            'pageName'   => Menus::get_page_slug('content-analytics'),
-            'pagination' => Admin_Template::getCurrentPaged(),
-            'custom_get' => ['ID' => $postID],
-            'DateRang'   => Admin_Template::DateRange()
-        ];
-
-        Admin_Template::get_template(['layout/header', 'layout/title', 'layout/date.range', 'pages/content-analytics/content-single', 'layout/postbox.toggle', 'layout/footer'], $args);
-    }
 }
