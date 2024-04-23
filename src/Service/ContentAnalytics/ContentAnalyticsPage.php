@@ -97,6 +97,8 @@ class ContentAnalyticsPage
     private function contentView()
     {
         $currentTab = $this->getCurrentTab();
+        $tabs       = $this->getTabs();
+        $isAddonTab = array_key_exists('addon', $tabs[$currentTab]) ? $tabs[$currentTab]['addon'] : false;
 
         $args = [
             'title'      => esc_html__('Content Analytics', 'wp-statistics'),
@@ -105,11 +107,16 @@ class ContentAnalyticsPage
             'pagination' => Admin_Template::getCurrentPaged(),
             'custom_get' => ['tab' => $currentTab],
             'DateRang'   => Admin_Template::DateRange(),
-            'tabs'       => $this->getTabs(),
+            'tabs'       => $tabs,
             'data'       => $this->getTabData($currentTab)
         ];
 
-        Admin_Template::get_template(['layout/header', 'layout/tabbed-page-header', "pages/content-analytics/$currentTab", 'layout/postbox.hide', 'layout/footer'], $args);
+        // Load the template If current tab is part of the core plugin
+        if (!$isAddonTab) {
+            Admin_Template::get_template(['layout/header', 'layout/tabbed-page-header', "pages/content-analytics/$currentTab", 'layout/postbox.hide', 'layout/footer'], $args);
+        }
+
+        do_action('wp_statistics_content_analytics_tabs_view', $currentTab, $args);
     }
 
 }
