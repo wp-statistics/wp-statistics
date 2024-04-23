@@ -101,6 +101,9 @@ class settings_page
                 }
             }
 
+            // Trigger Save Settings Action
+            do_action('wp_statistics_save_settings');
+
             // Get tab name for redirect to the current tab
             $tab = isset($_POST['tab']) && $_POST['tab'] ? sanitize_text_field($_POST['tab']) : 'general-settings';
 
