@@ -12,9 +12,8 @@
             <a class="wps-privacy-list__button wps-privacy-list__button--<?php echo esc_attr($button_class); ?>"><?php echo $button_text; ?></a>
         <?php endif;
         endif; ?>
-
-
     </div>
+    
     <div class="wps-privacy-list__content">
         <?php echo $content; ?>
     </div>
