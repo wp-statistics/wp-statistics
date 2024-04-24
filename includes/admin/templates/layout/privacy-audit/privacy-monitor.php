@@ -1,3 +1,7 @@
+<?php 
+use WP_STATISTICS\Admin_Template;
+?>
+
 <div class="postbox wps-postbox-wrap wps-privacy-list">
     <div class="postbox-header">
         <h2><?php esc_html_e('Privacy Audit', 'wp-statistics'); ?></h2>
@@ -6,21 +10,19 @@
     <div class="wps-privacy-list__items">
         <?php
 
-        use WP_STATISTICS\Admin_Template;
-
         // Item 1
-        $args1 = array(
+        $args1 = [
             'type_class'   => 'success',
             'icon_class'   => 'success',
             'title_text'   => esc_html__('The “Record User Page Visits” feature is currently disabled on your website.', 'wp-statistics'),
             'button_class' => 'success',
             'button_text'  => esc_html__('Passed', 'wp-statistics'),
             'content'      => __('<p> This status indicates that individual user page visits and WordPress user IDs are not being tracked. Your privacy settings are configured to prioritize user privacy in alignment with applicable laws and regulations.</p><p>Why is this important?</p><p>Keeping this feature disabled ensures that your website minimally impacts user privacy, aligning with best practices for data protection and compliance with privacy laws such as GDPR and CCPA. If your operational or analytical needs change, please review our Guide to <a target="_blank" href="https://wp-statistics.com/resources/avoiding-pii-data-collection/?utm_source=wp-statistics&utm_medium=link&utm_campaign=privacy">Avoiding PII Data Collection</a> to ensure compliance and user transparency before enabling this feature.</p>', 'wp-statistics'),
-        );
-        Admin_Template::get_template(array('layout/privacy-audit/privacy-audit-section'), $args1);
+        ];
+        Admin_Template::get_template(['layout/privacy-audit/privacy-audit-section'], $args1);
 
         // Item 2
-        $args2 = array(
+        $args2 = [
             'type_class'   => 'warning',
             'icon_class'   => 'warning',
             'title_text'   => esc_html__('The “Record User Page Visits” feature is currently enabled on your website.', 'wp-statistics'),
@@ -34,11 +36,11 @@
                         <li><b>Review and Action:</b> Regularly review the necessity of keeping this feature enabled. If the feature is no longer needed, or if you wish to enhance user privacy, consider disabling it. Refer to our guide on <a href="https://chat.openai.com/c/42e80126-57c8-4608-9440-b13d86b8bf5a#" target="_blank">Adjusting Your Privacy Settings</a> for detailed instructions on managing this feature.</li>
                      </ol>
                 ', 'wp-statistics'),
-        );
-        Admin_Template::get_template(array('layout/privacy-audit/privacy-audit-section'), $args2);
+        ];
+        Admin_Template::get_template(['layout/privacy-audit/privacy-audit-section'], $args2);
 
         // Item 3
-        $args3 = array(
+        $args3 = [
             'type_class'   => 'success',
             'icon_class'   => 'success',
             'title_text'   => esc_html__('The “Anonymize IP Addresses” feature is currently enabled on your website.', 'wp-statistics'),
@@ -54,11 +56,11 @@
                         <li><b>Transparency:</b> Ensure your privacy policy reflects this practice, enhancing trust with your site visitors.</li>
                     </ol>
                 ', 'wp-statistics'),
-        );
-        Admin_Template::get_template(array('layout/privacy-audit/privacy-audit-section'), $args3);
+        ];
+        Admin_Template::get_template(['layout/privacy-audit/privacy-audit-section'], $args3);
 
         // Item 4
-        $args4 = array(
+        $args4 = [
             'type_class'   => 'warning',
             'icon_class'   => 'warning-square',
             'title_text'   => esc_html__('The “Anonymize IP Addresses” feature is currently disabled on your website.', 'wp-statistics'),
@@ -74,11 +76,11 @@
                     <li><b>Review Privacy Practices:</b> If you have specific reasons for keeping this feature disabled, ensure you have adequate measures in place to protect user data and comply with applicable laws. This might include obtaining explicit consent from users for processing their complete IP addresses.</li>
                 </ol>
                 ', 'wp-statistics'),
-        );
-        Admin_Template::get_template(array('layout/privacy-audit/privacy-audit-section'), $args4);
+        ];
+        Admin_Template::get_template(['layout/privacy-audit/privacy-audit-section'], $args4);
 
         // Item 5
-        $args5 = array(
+        $args5 = [
             'type_class'   => 'success',
             'icon_class'   => 'success',
             'title_text'   => esc_html__('The “Hash IP Addresses” feature is currently enabled on your website. ', 'wp-statistics'),
@@ -92,11 +94,11 @@
                     <li><b>Maintain Enabled Status: </b> Keeping this feature enabled is recommended to uphold the highest standards of user privacy and security. This default setting ensures that all IP addresses are hashed from the start, offering a robust privacy-first approach.</li>
                     <li><b>Retroactive Hashing: </b> For users seeking to enhance privacy for previously stored data, WP Statistics offers guidance on converting existing IP addresses to hashes, further strengthening privacy measures.</li>
                 </ol>'), 'wp-statistics'),
-        );
-        Admin_Template::get_template(array('layout/privacy-audit/privacy-audit-section'), $args5);
+        ];
+        Admin_Template::get_template(['layout/privacy-audit/privacy-audit-section'], $args5);
 
         // Item 6
-        $args6 = array(
+        $args6 = [
             'type_class'   => 'warning',
             'icon_class'   => 'warning',
             'title_text'   => esc_html__('The “Hash IP Addresses” feature is currently disabled on your website. ', 'wp-statistics'),
@@ -112,11 +114,11 @@
               <li><b>Disclosure:</b> If there are specific reasons for keeping hashing disabled, ensure transparent communication with your users by clearly disclosing this in your privacy policy, including the implications for their data privacy.</li>
               </ol>
             ', 'wp-statistics'),
-        );
-        Admin_Template::get_template(array('layout/privacy-audit/privacy-audit-section'), $args6);
+        ];
+        Admin_Template::get_template(['layout/privacy-audit/privacy-audit-section'], $args6);
 
         // Item 7
-        $args7 = array(
+        $args7 = [
             'type_class'   => 'warning',
             'icon_class'   => 'warning',
             'title_text'   => esc_html__('The “Store Entire User Agent String” feature is currently enabled on your website. ', 'wp-statistics'),
@@ -133,11 +135,11 @@
                   <li><b>Data Removal:</b> For instructions on deleting previously stored user agent data, refer to our guide here.</li>
               </ol>
             ', 'wp-statistics'),
-        );
-        Admin_Template::get_template(array('layout/privacy-audit/privacy-audit-section'), $args7);
+        ];
+        Admin_Template::get_template(['layout/privacy-audit/privacy-audit-section'], $args7);
 
         // Item 8
-        $args8 = array(
+        $args8 = [
             'type_class'   => 'success',
             'icon_class'   => 'success',
             'title_text'   => esc_html__('The “Store Entire User Agent String” feature is currently disabled on your website.', 'wp-statistics'),
@@ -151,11 +153,11 @@
                     <li><b>Considerations for Enabling: </b> Should you need to enable this feature for debugging or optimization purposes, ensure it’s used judiciously and for a limited time only.</li>
                     <li><b>Transparency with Users: </b> If activated, update your privacy policy to reflect the temporary collection of full user agent strings, including the purpose and scope of data collection.</li>
                 </ol>'), 'wp-statistics'),
-        );
-        Admin_Template::get_template(array('layout/privacy-audit/privacy-audit-section'), $args8);
+        ];
+        Admin_Template::get_template(['layout/privacy-audit/privacy-audit-section'], $args8);
 
         // Item 9
-        $args9 = array(
+        $args9 = [
             'type_class'   => 'warning',
             'icon_class'   => 'warning',
             'title_text'   => esc_html__('Previous Use of “Store Entire User Agent String” Detected ', 'wp-statistics'),
@@ -172,11 +174,11 @@
               <p>Need More Information?</p>
               <p>For detailed instructions and further information on the importance of this cleanup process, please visit our dedicated resource: <a target="_blank" href="https://wp-statistics.com/resources/how-to-clear-user-agent-strings/?utm_source=wp-statistics&utm_medium=link&utm_campaign=privacy">How to Clear User Agent Strings</a>.</p>
             ', 'wp-statistics'),
-        );
-        Admin_Template::get_template(array('layout/privacy-audit/privacy-audit-section'), $args9);
+        ];
+        Admin_Template::get_template(['layout/privacy-audit/privacy-audit-section'], $args9);
 
         // Item 10
-        $args10 = array(
+        $args10 = [
             'type_class'   => 'warning',
             'icon_class'   => 'warning',
             'title_text'   => esc_html__('Unhashed IP Addresses Detected', 'wp-statistics'),
@@ -193,11 +195,11 @@
               <p>Need More Information?</p>
               <p>For a comprehensive guide on this process and to understand the benefits of IP address hashing, please refer to our detailed documentation: <a target="_blank" href="https://wp-statistics.com/resources/converting-ip-addresses-to-hash/?utm_source=wp-statistics&utm_medium=link&utm_campaign=privacy">Converting IP Addresses to Hash</a>.</p>
             ', 'wp-statistics'),
-        );
-        Admin_Template::get_template(array('layout/privacy-audit/privacy-audit-section'), $args10);
+        ];
+        Admin_Template::get_template(['layout/privacy-audit/privacy-audit-section'], $args10);
 
         // Item 11
-        $args11 = array(
+        $args11 = [
             'type_class'   => 'warning',
             'icon_class'   => 'warning',
             'title_text'   => esc_html__('Previous Recording of User IDs Detected', 'wp-statistics'),
@@ -214,8 +216,8 @@
               <p>Need More Information?</p>
               <p>For step-by-step instructions and additional details on the importance of removing User IDs, please consult our guide: <a target="_blank" href="https://wp-statistics.com/resources/removing-user-ids-from-your-database/?utm_source=wp-statistics&utm_medium=link&utm_campaign=privacy">Removing User IDs from Your Database.</a>.</p>
             ', 'wp-statistics'),
-        );
-        Admin_Template::get_template(array('layout/privacy-audit/privacy-audit-section'), $args11);
+        ];
+        Admin_Template::get_template(['layout/privacy-audit/privacy-audit-section'], $args11);
         ?>
     </div>
 </div>
