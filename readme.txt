@@ -118,20 +118,17 @@ Referrer spam blacklist is provided by Matomo, available from https://github.com
 
 == Screenshots ==
 1. Overview
-2. Browsers Statistics
-3. Top Countries
-4. Hit Statistics
-5. Top pages
-6. Category Statistics
-7. Search Engine Referral Statistics
-8. Last Search Words
-9. Dashboard widgets
-10. Theme widget
-11. Page Statistics Overview
-12. Link Tracker: Recent Clicks
-13. Link Tracker: Top Clicks
-14. Download Activity Tracker: Recent Downloads
-15. Download Activity Tracker: Top Downloads
+2. Website Traffic Overview
+3. Live User Activity Tracker
+4. Optimization
+5. Settings
+6. Real-Time Stats
+7. Download Tracker
+8. Referrals
+9. Countries
+10. Author Analytics
+11. Browsers
+12. Link Tracker
 
 == Upgrade Notice ==
 = 14.0 =
