@@ -4,6 +4,7 @@ namespace WP_Statistics\Service\PrivacyAudit;
 
 use WP_STATISTICS\Menus;
 use WP_STATISTICS\Admin_Template;
+use WP_Statistics\Components\Assets;
 
 class PrivacyAuditPage
 {
@@ -13,6 +14,9 @@ class PrivacyAuditPage
         if (Menus::in_page('privacy-audit')) {
             // Disable Screen Option
             add_filter('screen_options_show_screen', '__return_false');
+
+            // Enqueue scripts
+            Assets::script('privacy-audit', 'dev/javascript/pages/privacy-audit.js');
         }
     }
 
