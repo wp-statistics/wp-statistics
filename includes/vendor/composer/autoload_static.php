@@ -156,6 +156,8 @@ class ComposerStaticInit2ac516f03a394ec3d1721352b7f43359
         'WP_Statistics\\Service\\Admin\\AddOnsFactory' => __DIR__ . '/../../..' . '/src/Service/Admin/AddOnsFactory.php',
         'WP_Statistics\\Service\\Admin\\AdminManager' => __DIR__ . '/../../..' . '/src/Service/Admin/AdminManager.php',
         'WP_Statistics\\Service\\Analytics\\VisitorProfile' => __DIR__ . '/../../..' . '/src/Service/Analytics/VisitorProfile.php',
+        'WP_Statistics\\Service\\PrivacyAudit\\PrivacyAuditManager' => __DIR__ . '/../../..' . '/src/Service/PrivacyAudit/PrivacyAuditManager.php',
+        'WP_Statistics\\Service\\PrivacyAudit\\PrivacyAuditPage' => __DIR__ . '/../../..' . '/src/Service/PrivacyAudit/PrivacyAuditPage.php',
         'WhichBrowser\\Analyser' => __DIR__ . '/..' . '/whichbrowser/parser/src/Analyser.php',
         'WhichBrowser\\Analyser\\Camouflage' => __DIR__ . '/..' . '/whichbrowser/parser/src/Analyser/Camouflage.php',
         'WhichBrowser\\Analyser\\Corrections' => __DIR__ . '/..' . '/whichbrowser/parser/src/Analyser/Corrections.php',
