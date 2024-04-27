@@ -11,7 +11,7 @@
             </div>
             <div class="wps-privacy-mode__items">
                 <div class="wps-privacy-mode__item">
-                    <input type="radio" id="privacy-mode-friendly" name="privacy-mode">
+                    <input type="radio" id="privacy-mode-friendly" name="privacy-mode" checked>
                     <label for="privacy-mode-friendly">
                         <div class="wps-privacy-mode__head">
                             <div class="wps-privacy-mode__icon">
