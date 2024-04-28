@@ -13,25 +13,32 @@ class Ajax
         /**
          * List Of Setup Ajax request in WordPress
          */
-        $list = apply_filters('wp_statistics_ajax_list', array(
-            'close_notice',
-            'close_overview_ads',
-            'clear_user_agent_strings',
-            'query_params_cleanup',
-            'delete_agents',
-            'delete_platforms',
-            'delete_ip',
-            'delete_user_ids',
-            'empty_table',
-            'purge_data',
-            'purge_visitor_hits',
-            'visitors_page_filters',
-            'update_geoip_database',
-            'admin_meta_box'
-        ));
+        $list = apply_filters('wp_statistics_ajax_list', [
+            [$this, 'close_notice'],
+            [$this, 'close_overview_ads'],
+            [$this, 'clear_user_agent_strings'],
+            [$this, 'query_params_cleanup'],
+            [$this, 'delete_agents'],
+            [$this, 'delete_platforms'],
+            [$this, 'delete_ip'],
+            [$this, 'delete_user_ids'],
+            [$this, 'empty_table'],
+            [$this, 'purge_data'],
+            [$this, 'purge_visitor_hits'],
+            [$this, 'visitors_page_filters'],
+            [$this, 'update_geoip_database'],
+            [$this, 'admin_meta_box'],
+        ]);
 
-        foreach ($list as $method) {
-            add_action('wp_ajax_wp_statistics_' . $method, array($this, $method . '_action_callback'));
+        foreach ($list as $item) {
+            // Deconstruct item to get class and action name
+            [$class, $action] = $item;
+            $callback = $action . '_action_callback';
+
+            // If callback exists in the class, skip
+            if (!method_exists($class, $callback)) continue;
+
+            add_action('wp_ajax_wp_statistics_' . $action, [$class, $callback]);
         }
     }
 
