@@ -4,16 +4,20 @@ namespace WP_STATISTICS;
 
 class Ajax
 {
-    /**
-     * WP Statistics Ajax
-     */
     public function __construct()
     {
+        add_action('admin_init', [$this, 'registerAjaxCallbacks']);
+    }
 
+    /**
+     * Register AJAX callbacks
+     */
+    public function registerAjaxCallbacks()
+    {
         /**
          * List Of Setup Ajax request in WordPress
          */
-        $list = apply_filters('wp_statistics_ajax_list', [
+        $list = [
             [$this, 'close_notice'],
             [$this, 'close_overview_ads'],
             [$this, 'clear_user_agent_strings'],
@@ -28,7 +32,9 @@ class Ajax
             [$this, 'visitors_page_filters'],
             [$this, 'update_geoip_database'],
             [$this, 'admin_meta_box'],
-        ]);
+        ];
+
+        $list = apply_filters('wp_statistics_ajax_list', $list);
 
         foreach ($list as $item) {
             $class    = $item[0];
@@ -294,9 +300,9 @@ class Ajax
                     );
                 }
 
-                esc_html_e('Successfully removed query string parameter data from \'pages\' table. <br>', 'wp-statistics');
+                _e('Successfully removed query string parameter data from \'pages\' table. <br>', 'wp-statistics');
             } else {
-                esc_html_e('Couldn\'t find any user query string parameter data to delete from \'pages\' table. <br>', 'wp-statistics');
+                _e('Couldn\'t find any user query string parameter data to delete from \'pages\' table. <br>', 'wp-statistics');
             }
 
 
