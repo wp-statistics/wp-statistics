@@ -93,11 +93,11 @@
     </table>
 </div>
 <?php if (WP_STATISTICS\Option::get('stats_report')) {
-    $hidden = "";
+    $style = "";
 } else {
-    $hidden = " style='display: none;'";
+    $style = "display: none;";
 } ?>
-<div class="postbox"<?php echo esc_html($hidden); ?> id='wps_stats_report_option'>
+<div class="postbox" style="<?php echo esc_attr($style); ?>" id='wps_stats_report_option'>
     <table class="form-table">
         <tbody>
         <tr valign="top">
