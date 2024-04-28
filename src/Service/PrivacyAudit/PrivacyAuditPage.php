@@ -14,9 +14,6 @@ class PrivacyAuditPage
         if (Menus::in_page('privacy-audit')) {
             // Disable Screen Option
             add_filter('screen_options_show_screen', '__return_false');
-
-            // Enqueue scripts
-            Assets::script('privacy-audit', 'dev/javascript/pages/privacy-audit.js');
         }
     }
 
