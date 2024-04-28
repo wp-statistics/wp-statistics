@@ -6,7 +6,7 @@ class Ajax
 {
     public function __construct()
     {
-        add_action('admin_init', [$this, 'registerAjaxCallbacks']);
+        add_action('init', [$this, 'registerAjaxCallbacks']);
     }
 
     /**
@@ -18,32 +18,94 @@ class Ajax
          * List Of Setup Ajax request in WordPress
          */
         $list = [
-            [$this, 'close_notice'],
-            [$this, 'close_overview_ads'],
-            [$this, 'clear_user_agent_strings'],
-            [$this, 'query_params_cleanup'],
-            [$this, 'delete_agents'],
-            [$this, 'delete_platforms'],
-            [$this, 'delete_ip'],
-            [$this, 'delete_user_ids'],
-            [$this, 'empty_table'],
-            [$this, 'purge_data'],
-            [$this, 'purge_visitor_hits'],
-            [$this, 'visitors_page_filters'],
-            [$this, 'update_geoip_database'],
-            [$this, 'admin_meta_box'],
+            [
+                'class'  => $this, 
+                'action' => 'close_notice',
+                'public' => false
+            ],
+            [
+                'class'  => $this, 
+                'action' => 'close_overview_ads',
+                'public' => false
+            ],
+            [
+                'class'  => $this, 
+                'action' => 'clear_user_agent_strings',
+                'public' => false
+            ],
+            [
+                'class'  => $this, 
+                'action' => 'query_params_cleanup',
+                'public' => false
+            ],
+            [
+                'class'  => $this, 
+                'action' => 'delete_agents',
+                'public' => false
+            ],
+            [
+                'class'  => $this, 
+                'action' => 'delete_platforms',
+                'public' => false
+            ],
+            [
+                'class'  => $this, 
+                'action' => 'delete_ip',
+                'public' => false
+            ],
+            [
+                'class'  => $this, 
+                'action' => 'delete_user_ids',
+                'public' => false
+            ],
+            [
+                'class'  => $this, 
+                'action' => 'empty_table',
+                'public' => false
+            ],
+            [
+                'class'  => $this, 
+                'action' => 'purge_data',
+                'public' => false
+            ],
+            [
+                'class'  => $this, 
+                'action' => 'purge_visitor_hits',
+                'public' => false
+            ],
+            [
+                'class'  => $this, 
+                'action' => 'visitors_page_filters',
+                'public' => false
+            ],
+            [
+                'class'  => $this, 
+                'action' => 'update_geoip_database',
+                'public' => false
+            ],
+            [
+                'class'  => $this, 
+                'action' => 'admin_meta_box',
+                'public' => false
+            ],
         ];
 
         $list = apply_filters('wp_statistics_ajax_list', $list);
 
         foreach ($list as $item) {
-            $class    = $item[0];
-            $action   = $item[1];
+            $class    = $item['class'];
+            $action   = $item['action'];
             $callback = $action . '_action_callback';
+            $isPublic = isset($item['public']) && $item['public'] == true ? true : false;
 
             // If callback exists in the class, register the action
             if (method_exists($class, $callback)) {
                 add_action('wp_ajax_wp_statistics_' . $action, [$class, $callback]);
+            
+                // Register the AJAX callback publicly
+                if ($isPublic) {
+                    add_action('wp_ajax_nopriv_wp_statistics_' . $action, [$class, $callback]);
+                }
             }
         }
     }
