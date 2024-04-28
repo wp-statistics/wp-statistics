@@ -33,7 +33,7 @@ class Ajax
         foreach ($list as $item) {
             $class    = $item[0];
             $action   = $item[1];
-            $callback = $item[1] . '_action_callback';
+            $callback = $action . '_action_callback';
 
             // If callback exists in the class, register the action
             if (method_exists($class, $callback)) {
