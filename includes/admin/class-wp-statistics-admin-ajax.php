@@ -35,7 +35,7 @@ class Ajax
             [$class, $action] = $item;
             $callback = $action . '_action_callback';
 
-            // If callback exists in the class, skip
+            // If callback does not exist in the class, skip
             if (!method_exists($class, $callback)) continue;
 
             add_action('wp_ajax_wp_statistics_' . $action, [$class, $callback]);
