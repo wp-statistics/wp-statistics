@@ -31,14 +31,14 @@ class Ajax
         ]);
 
         foreach ($list as $item) {
-            // Deconstruct item to get class and action name
-            [$class, $action] = $item;
-            $callback = $action . '_action_callback';
+            $class    = $item[0];
+            $action   = $item[1];
+            $callback = $item[1] . '_action_callback';
 
             // If callback does not exist in the class, skip
-            if (!method_exists($class, $callback)) continue;
-
-            add_action('wp_ajax_wp_statistics_' . $action, [$class, $callback]);
+            if (method_exists($item[0], $callback)) {
+                add_action('wp_ajax_wp_statistics_' . $action, [$class, $callback]);
+            }
         }
     }
 
