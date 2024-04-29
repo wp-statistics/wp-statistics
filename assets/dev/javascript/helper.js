@@ -429,22 +429,18 @@ jQuery(document).ready(function () {
         targetElement.parentNode.insertBefore(noticeElement, targetElement.nextSibling);
     }
 
-    const items = document.querySelectorAll('.wps-privacy-list__item');
-    if(items){
-        items.forEach(item => {
-            const title = item.querySelector('.wps-privacy-list__title');
-            const content = item.querySelector('.wps-privacy-list__content');
+    jQuery(document).on('click', '.wps-privacy-list__item .wps-privacy-list__title', (e) => {
+        const title = jQuery(e.currentTarget);
+        const content = title.siblings('.wps-privacy-list__content');
 
-            title.addEventListener('click', function() {
-                title.classList.toggle('open');
-                if (content.classList.contains('show')) {
-                    content.classList.remove('show');
-                } else {
-                    content.classList.add('show');
-                }
-            });
-        });
-    }
+        title.toggleClass('open');
+
+        if (content.hasClass('show')) {
+            content.removeClass('show');
+        } else {
+            content.addClass('show');
+        }
+    });
 });
 
 
