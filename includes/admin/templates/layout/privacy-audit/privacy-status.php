@@ -62,22 +62,22 @@
     <div class="postbox-container wps-half-card">
         <!-- Classes : success or warning -->
         <!-- Class : loading for load page -->
-        <div class="postbox wps-postbox-wrap wps-privacy-status warning">
+        <div class="postbox wps-postbox-wrap wps-privacy-status loading">
             <div class="wps-privacy-status__header">
                 <div class="privacy-status__icon"></div>
                 <div>
                     <h3><?php esc_html_e('Compliance Status', 'wp-statistics'); ?></h3>
-                    <p>4 <?php esc_html_e('Rules mapped', 'wp-statistics'); ?></p>
+                    <p><span class="wps-privacy-status__rules-mapped-value"></span> <?php esc_html_e('Rules mapped', 'wp-statistics'); ?></p>
                 </div>
             </div>
             <div class="wps-privacy-status__content">
-                <div class="wps-privacy-status__percent">43<?php esc_html_e('% Ready', 'wp-statistics'); ?></div>
+                <div class="wps-privacy-status__percent"><span class="wps-privacy-status__percent-value"></span> <?php esc_html_e('% Ready', 'wp-statistics'); ?></div>
                 <div class="wps-privacy-status__bars">
                     <div class="wps-privacy-status__bar wps-privacy-status__bar-passed">
-                        <span class="dot"></span> 3 <?php esc_html_e('Passed', 'wp-statistics'); ?>
+                        <span class="dot"></span> <span class="wps-privacy-status__passed-value"></span> <?php esc_html_e('Passed', 'wp-statistics'); ?>
                     </div>
                     <div class="wps-privacy-status__bar wps-privacy-status__bar-need-work">
-                        <span class="dot"></span> 1 <?php esc_html_e('Need Work', 'wp-statistics'); ?>
+                        <span class="dot"></span> <span class="wps-privacy-status__need-work-value"></span> <?php esc_html_e('Need Work', 'wp-statistics'); ?>
                     </div>
                 </div>
             </div>
