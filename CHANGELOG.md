@@ -2,6 +2,8 @@
 * Fixes: Improved data comparison logic.
 * Fixes: Fixed some fields visibility on settings page.
 * Fixes: Fixed filter loading on Visitors page.
+* Fixes: Fixed and improved the Convert IP Addresses to Hash in Optimization.
+* Fixes: Fixed loading Date Picker in Visitors filter.
 * Improvement: Updated plugin header and screenshots.
 * Improvement: Minor enhancements made.
 
