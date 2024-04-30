@@ -14,6 +14,11 @@ class AuthorAnalyticsPage
         'pages'
     ];
 
+    private static $reports = [
+        'authors',
+        'posts'
+    ];
+
     public function __construct()
     {
         // Check if in Author Analytics page
@@ -25,6 +30,11 @@ class AuthorAnalyticsPage
             $DateRequest = Admin_Template::isValidDateRequest();
             if (!$DateRequest['status']) {
                 throw new InvalidArgumentException(esc_html($DateRequest['message']));
+            }
+
+            // Throw error when invalid report provided
+            if (isset($_GET['report']) && !in_array($_GET['report'], self::$reports)) {
+                throw new InvalidArgumentException(esc_html__('Invalid report provided.', 'wp-statistics'));
             }
 
             // Throw error when invalid tab provided
@@ -44,15 +54,32 @@ class AuthorAnalyticsPage
      */
     public function view()
     {
-        // If Author ID is set show single author template, otherwise, show authors analytics template
-        isset($_GET['author_id']) ? $this->singleAuthorView() : $this->authorsView();
+        $authorID   = isset($_GET['author_id']) ? intval($_GET['author_id']) : false;
+        $reportType = isset($_GET['report']) ? sanitize_text_field($_GET['report']) : false;
 
+        // Show author posts report view
+        if ($reportType == 'posts') {
+            return $this->postsReportView();
+        } 
+
+        // Show all authors report view
+        if ($reportType == 'authors') {
+            return $this->authorsReportView();
+        }
+
+        // Show single author view
+        if ($authorID) {
+            return $this->singleAuthorView();
+        }
+        
+        // Show main tabs view
+        return $this->tabsView();
       }
 
     /**
      * Display authors template
      */
-    private function authorsView()
+    private function tabsView()
     {
         $currentTab = isset($_GET['tab']) ? sanitize_text_field($_GET['tab']) : 'performance';
 
@@ -104,35 +131,40 @@ class AuthorAnalyticsPage
 
 
     /**
-     * Display authors template
+     * Display authors report template
      */
-    private function authorsList()
+    private function authorsReportView()
     {
         $args = [
             'title'      => esc_html__('Authors', 'wp-statistics'),
             'pageName'   => Menus::get_page_slug('author-lists'),
             'pagination' => Admin_Template::getCurrentPaged(),
             'DateRang'   => Admin_Template::DateRange(),
-            'HasDateRang' > True,
+            'HasDateRang'=> true,
         ];
 
-        Admin_Template::get_template(['layout/header', 'layout/title', 'pages/author-analytics/authors-list', 'layout/postbox.toggle', 'layout/footer'], $args);
+        Admin_Template::get_template(['layout/header', 'layout/title', 'pages/author-analytics/authors-report', 'layout/postbox.toggle', 'layout/footer'], $args);
     }
 
 
     /**
-     * Display single author template
+     * Display author posts template
      */
-    private function authorPosts()
+    private function postsReportView()
     {
-        $postID = isset($_GET['POSTID']) ? sanitize_text_field($_GET['POSTID']) : '';
+        $authorID = isset($_GET['author_id']) ? sanitize_text_field($_GET['author_id']) : false;
+
+        if (!$authorID) {
+            throw new InvalidArgumentException(esc_html__('Author ID must be provided.', 'wp-statistics'));
+        }
+
         $args = [
             'title'      => esc_html__('Posts', 'wp-statistics'),
             'pageName'   => Menus::get_page_slug('author-posts'),
             'pagination' => Admin_Template::getCurrentPaged(),
-            'custom_get' => ['POSTID' => $postID],
+            'custom_get' => ['author_id' => $authorID],
             'DateRang'   => Admin_Template::DateRange(),
-            'HasDateRang' > True,
+            'HasDateRang'=> true,
         ];
 
         Admin_Template::get_template(['layout/header', 'layout/title', 'pages/author-analytics/author-posts', 'layout/postbox.toggle', 'layout/footer'], $args);
