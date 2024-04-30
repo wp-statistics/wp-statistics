@@ -85,9 +85,9 @@ class hits extends MetaBoxAbstract
 
         // Set Title
         if (end($days_time_list) == TimeZone::getCurrentDate("Y-m-d")) {
-            $title = sprintf(__('Visits in the last %s days', 'wp-statistics'), self::$countDays);
+            $title = sprintf(__('Views in the last %s days', 'wp-statistics'), self::$countDays);
         } else {
-            $title = sprintf(__('Visits from %1$s to %2$s', 'wp-statistics'), $args['from'], $args['to']);
+            $title = sprintf(__('Views from %1$s to %2$s', 'wp-statistics'), $args['from'], $args['to']);
         }
 
         // Push Basic Chart Data
@@ -96,7 +96,7 @@ class hits extends MetaBoxAbstract
             'date'  => $date
         );
 
-        // Get Visits Chart
+        // Get Views Chart
         if (Option::get('visits')) {
             foreach ($days_time_list as $d) {
                 $total_visits += $visits[] = (int)wp_statistics_visit($d, true);

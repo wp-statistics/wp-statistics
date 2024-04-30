@@ -77,7 +77,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             }
         }
 
-        // Display Top Platforms Chart
+        // Display Top Operating Systems Chart
         if (wps_js.exist_tag("div[data-top-platforms-chart='true']")) {
             let platformsEl = jQuery("div[data-top-platforms-chart='true']");
             // Get Names

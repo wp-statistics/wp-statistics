@@ -60,7 +60,7 @@ $isRealTimeStatsActive = WP_STATISTICS\Helper::isAddOnActive('realtime-stats');
                         <option value="1" <?php selected(WP_STATISTICS\Option::getByAddon('exclude_pages', 'realtime_stats'), '1'); ?>><?php esc_html_e('Yes', 'wp-statistics'); ?></option>
                     </select>
                     <p class="description">
-                        <?php _e(sprintf(__('Select \'Yes\' to exclude all posts from the real-time statistics. For detailed logs, ensure "Record User Page Visits" are activated in <a href="%s">WP Statistics Settings</a>.', 'wp-statistics'), admin_url('admin.php?page=wps_settings_page&tab=general-settings'))); ?>
+                        <?php _e(sprintf(__('Select \'Yes\' to exclude all posts from the real-time statistics. For detailed logs, ensure "Record User Page Views" are activated in <a href="%s">WP Statistics Settings</a>.', 'wp-statistics'), admin_url('admin.php?page=wps_settings_page&tab=general-settings'))); ?>
                     </p>
                 </td>
             </tr>

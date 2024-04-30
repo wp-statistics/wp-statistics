@@ -49,12 +49,12 @@
                         ?>
 
                         <tr>
-                            <th><?php esc_html_e('Chart Visits:', 'wp-statistics'); ?></th>
+                            <th><?php esc_html_e('Chart Views:', 'wp-statistics'); ?></th>
                             <th class="th-center"><span id="number-total-chart-visits"></span></th>
                         </tr>
 
                         <tr>
-                            <th><?php esc_html_e('All Time Visits:', 'wp-statistics'); ?></th>
+                            <th><?php esc_html_e('All Time Views:', 'wp-statistics'); ?></th>
                             <th class="th-center"><span id="number-total-visits"></span></th>
                         </tr>
                         </tbody>

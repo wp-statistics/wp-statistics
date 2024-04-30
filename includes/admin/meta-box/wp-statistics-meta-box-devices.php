@@ -58,7 +58,7 @@ class devices extends MetaBoxAbstract
             $order_by = "ORDER BY `count` " . esc_sql($args['order']);
         }
 
-        // Get List All Platforms
+        // Get List All Operating Systems
         $list = $wpdb->get_results(
             $wpdb->prepare(
                 "SELECT device, COUNT(*) as count FROM `" . DB::table('visitor') . "` WHERE device != %s AND `last_counter` BETWEEN %s AND %s GROUP BY device {$order_by}",

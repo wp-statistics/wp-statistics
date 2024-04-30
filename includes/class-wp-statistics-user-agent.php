@@ -37,7 +37,7 @@ class UserAgent
 
             $agent = array(
                 'browser'            => (isset($result->browser->name)) ? $result->browser->name : _x('Unknown', 'Browser', 'wp-statistics'),
-                'platform'           => (isset($result->os->name)) ? $result->os->name : _x('Unknown', 'Platform', 'wp-statistics'),
+                'platform'           => (isset($result->os->name)) ? $result->os->name : _x('Unknown', 'Operating System', 'wp-statistics'),
                 'version'            => $version,
                 'device'             => isset($result->device->type) ? $result->getType() : _x('Unknown', 'Device', 'wp-statistics'),
                 'model'              => isset($result->device->manufacturer) ? $result->device->getModel() : _x('Unknown', 'Model', 'wp-statistics'),
@@ -124,7 +124,7 @@ class UserAgent
         } elseif (preg_match('/webos/i', $userAgent)) {
             $platform = 'Mobile';
         } else {
-            $platform           = _x('Unknown', 'Platform', 'wp-statistics');
+            $platform           = _x('Unknown', 'Operating System', 'wp-statistics');
             $isPlatformDetected = false;
         }
 

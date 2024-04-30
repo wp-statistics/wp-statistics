@@ -9,21 +9,16 @@ wps_js.exist_tag = function (tag) {
  * Jquery UI Picker
  */
 wps_js.date_picker = function () {
-    if (jQuery.fn.datepicker && typeof wps_i18n_jquery_datepicker !== 'undefined') {
-        jQuery("input[data-wps-date-picker]").datepicker({
-            monthNames: wps_i18n_jquery_datepicker.monthNames,
-            monthNamesShort: wps_i18n_jquery_datepicker.monthNamesShort,
-            dayNames: wps_i18n_jquery_datepicker.dayNames,
-            dayNamesShort: wps_i18n_jquery_datepicker.dayNamesShort,
-            dayNamesMin: wps_i18n_jquery_datepicker.dayNamesMin,
-            dateFormat: wps_i18n_jquery_datepicker.dateFormat,
-            firstDay: wps_i18n_jquery_datepicker.firstDay,
-            isRTL: wps_i18n_jquery_datepicker.isRTL,
-            onSelect: function (selectedDate) {
-                let ID = jQuery(this).attr("data-wps-date-picker");
-                if (selectedDate.length > 0) {
-                    jQuery("input[id=date-" + ID + "]").val(selectedDate);
-                }
+    const datePickerField = jQuery('input[data-wps-date-picker]');
+    if (datePickerField.length) {
+        datePickerField.daterangepicker({
+            singleDatePicker: true,
+            showDropdowns: true,
+            minYear: 1998,
+            drops:'up',
+            maxYear: parseInt(new Date().getFullYear() + 1),
+            locale: {
+                format: 'YYYY-MM-DD'
             }
         });
     }

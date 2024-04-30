@@ -1,3 +1,12 @@
+= 14.6.4 - **.05.2024 =
+* Fixes: Improved data comparison logic.
+* Fixes: Fixed some fields visibility on settings page.
+* Fixes: Fixed filter loading on Visitors page.
+* Fixes: Fixed and improved the Convert IP Addresses to Hash in Optimization.
+* Fixes: Fixed loading Date Picker in Visitors filter.
+* Improvement: Updated plugin header and screenshots.
+* Improvement: Minor enhancements made.
+
 = 14.6.3 - 18.04.2024 =
 * Fixes: Resolved SQL query issues while purging the table from optimization & getting the browsers count.
 * Fixes: Addressed the builder scripts problem to minify the `tracker.js`.
