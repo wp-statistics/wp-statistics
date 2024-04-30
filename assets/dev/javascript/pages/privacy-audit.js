@@ -119,11 +119,22 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         const complianceStatusWrapper = jQuery('.wps-privacy-status');
         
         complianceStatusWrapper.removeClass('loading success warning');
+
+
         complianceStatusWrapper.addClass(complianceData.percentage_ready == 100 ? 'success' : 'warning');
 
         complianceStatusWrapper.find('.wps-privacy-status__percent-value').text(complianceData.percentage_ready);
         complianceStatusWrapper.find('.wps-privacy-status__rules-mapped-value').text(complianceData.rules_mapped);
         complianceStatusWrapper.find('.wps-privacy-status__passed-value').text(complianceData.summary.passed);
         complianceStatusWrapper.find('.wps-privacy-status__need-work-value').text(complianceData.summary.action_required);
+
+        if(complianceData.summary.passed == 0 && complianceData.percentage_ready!= 100 ){
+            complianceStatusWrapper.find('.wps-privacy-status__bar-passed').css('display','none');
+            complianceStatusWrapper.find('.wps-privacy-status__bar-need-work').css('width','100%');
+        }
+        if(complianceData.summary.action_required == 0){
+            complianceStatusWrapper.find('.wps-privacy-status__bar-passed').css('width','100%');
+            complianceStatusWrapper.find('.wps-privacy-status__bar-need-work').css('display','none')
+        }
     }
 }
