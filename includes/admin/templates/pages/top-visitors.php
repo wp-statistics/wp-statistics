@@ -22,7 +22,7 @@
                                     <td><?php esc_html_e('Operating System', 'wp-statistics'); ?></td>
                                     <td><?php esc_html_e('User', 'wp-statistics'); ?></td>
                                     <td><?php esc_html_e('Referrer', 'wp-statistics'); ?></td>
-                                    <td><?php esc_html_e('Visits', 'wp-statistics'); ?></td>
+                                    <td><?php esc_html_e('Views', 'wp-statistics'); ?></td>
                                     <td></td>
                                 </tr>
 

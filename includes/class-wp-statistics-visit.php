@@ -5,7 +5,7 @@ namespace WP_STATISTICS;
 class Visit
 {
     /**
-     * Check Active Record Visits
+     * Check Active Record Views
      *
      * @return mixed
      */
@@ -15,7 +15,7 @@ class Visit
     }
 
     /**
-     * Record Users Visit in DB
+     * Record Users View in DB
      */
     public static function record()
     {

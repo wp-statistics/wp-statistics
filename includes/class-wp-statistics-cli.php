@@ -57,14 +57,14 @@ class WP_STATISTICS_CLI extends \WP_CLI_Command
                 'Time' => $time
             );
 
-            foreach (array("Visitors", "Visits") as $state) {
+            foreach (array("Visitors", "Views") as $state) {
                 $item[$state] = number_format((strtolower($state) == "visitors" ? wp_statistics_visitor(strtolower($time), null, true) : wp_statistics_visit(strtolower($time))));
             }
 
             $items[] = $item;
         }
 
-        \WP_CLI\Utils\format_items($assoc_args['format'], $items, array('Time', 'Visitors', 'Visits'));
+        \WP_CLI\Utils\format_items($assoc_args['format'], $items, array('Time', 'Visitors', 'Views'));
     }
 
     /**

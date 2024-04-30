@@ -175,17 +175,17 @@
                     <br><br>
                     <?php esc_html_e('Current Online Users', 'wp-statistics'); ?>:
                     <code>[wpstatistics stat=usersonline]</code><br>
-                    <?php esc_html_e('Today\'s Visits', 'wp-statistics'); ?>:
+                    <?php esc_html_e('Today\'s Views', 'wp-statistics'); ?>:
                     <code>[wpstatistics stat=visitors time=today]</code><br>
-                    <?php esc_html_e('Today\'s Visits', 'wp-statistics'); ?>:
+                    <?php esc_html_e('Today\'s Views', 'wp-statistics'); ?>:
                     <code>[wpstatistics stat=visits time=today]</code><br>
                     <?php esc_html_e('Yesterday\'s Visitors', 'wp-statistics'); ?>:
                     <code>[wpstatistics stat=visitors time=yesterday]</code><br>
-                    <?php esc_html_e('Yesterday\'s Visits', 'wp-statistics'); ?>:
+                    <?php esc_html_e('Yesterday\'s Views', 'wp-statistics'); ?>:
                     <code>[wpstatistics stat=visits time=yesterday]</code><br>
                     <?php esc_html_e('Total Visitors', 'wp-statistics'); ?>:
                     <code>[wpstatistics stat=visitors time=total]</code><br>
-                    <?php esc_html_e('Total Visits', 'wp-statistics'); ?>:
+                    <?php esc_html_e('Total Views', 'wp-statistics'); ?>:
                     <code>[wpstatistics stat=visits time=total]</code><br>
                 </p>
                 <p class="description"><?php _e('Refer to our complete <a href="https://wp-statistics.com/resources/shortcodes/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" target="_blank">shortcode guide</a> for more options.', 'wp-statistics'); // phpcs:ignore WordPress.Security.EscapeOutput.UnsafePrintingFunction	?></p>

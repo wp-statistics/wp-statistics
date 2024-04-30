@@ -4,7 +4,7 @@ global $wp_version;
 
 $disableMenuArray = array(
     'overview'     => __('Overview', 'wp-statistics'),
-    'hits'         => __('Visits', 'wp-statistics'),
+    'hits'         => __('Views', 'wp-statistics'),
     'online'       => __('Online', 'wp-statistics'),
     'visitors'     => __('Visitors', 'wp-statistics'),
     'referrers'    => __('Referrers', 'wp-statistics'),

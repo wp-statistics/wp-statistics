@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-04-30T07:13:20+00:00\n"
+"POT-Creation-Date: 2024-04-30T07:27:21+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.9.0\n"
 "X-Domain: wp-statistics\n"
@@ -116,7 +116,7 @@ msgid "Couldn't find any user query string parameter data to delete from 'visito
 msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-ajax.php:410
-msgid "Visit count must be 10 or more!"
+msgid "View count must be 10 or more!"
 msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-ajax.php:503
@@ -183,7 +183,7 @@ msgstr ""
 #: includes/admin/TinyMCE/class-wp-statistics-tinymce.php:37
 #: includes/class-wp-statistics-menus.php:171
 #: includes/class-wp-statistics-shortcode.php:197
-msgid "Visits"
+msgid "Views"
 msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-assets.php:265
@@ -777,12 +777,12 @@ msgid "Data Exclusions FROM %1$s to %2$s"
 msgstr ""
 
 #: includes/admin/meta-box/wp-statistics-meta-box-hits.php:88
-msgid "Visits in the last %s days"
+msgid "Views in the last %s days"
 msgstr ""
 
 #: includes/admin/meta-box/wp-statistics-meta-box-hits.php:90
 #: includes/admin/meta-box/wp-statistics-meta-box-pages-chart.php:81
-msgid "Visits from %1$s to %2$s"
+msgid "Views from %1$s to %2$s"
 msgstr ""
 
 #: includes/admin/meta-box/wp-statistics-meta-box-models.php:63
@@ -797,7 +797,7 @@ msgid "Manufacturers"
 msgstr ""
 
 #: includes/admin/meta-box/wp-statistics-meta-box-pages-chart.php:79
-msgid "Visits in the in the last %s days"
+msgid "Views in the in the last %s days"
 msgstr ""
 
 #: includes/admin/meta-box/wp-statistics-meta-box-platforms.php:63
@@ -812,7 +812,7 @@ msgid "This post is not yet published."
 msgstr ""
 
 #: includes/admin/meta-box/wp-statistics-meta-box-post.php:69
-msgid "Number of Visits"
+msgid "Number of Views"
 msgstr ""
 
 #: includes/admin/meta-box/wp-statistics-meta-box-referring.php:57
@@ -864,11 +864,11 @@ msgid "Statistics by Author"
 msgstr ""
 
 #: includes/admin/pages/class-wp-statistics-admin-page-authors.php:63
-msgid "Top Authors by Page Visits"
+msgid "Top Authors by Page Views"
 msgstr ""
 
 #: includes/admin/pages/class-wp-statistics-admin-page-authors.php:74
-msgid "Author’s Top Posts by Visits"
+msgid "Author’s Top Posts by Views"
 msgstr ""
 
 #: includes/admin/pages/class-wp-statistics-admin-page-browsers.php:36
@@ -884,11 +884,11 @@ msgid "Choose a Category"
 msgstr ""
 
 #: includes/admin/pages/class-wp-statistics-admin-page-category.php:81
-msgid "Most Popular Category by Visits"
+msgid "Most Popular Category by Views"
 msgstr ""
 
 #: includes/admin/pages/class-wp-statistics-admin-page-category.php:92
-msgid "Top Posts in This Category by Visits"
+msgid "Top Posts in This Category by Views"
 msgstr ""
 
 #: includes/admin/pages/class-wp-statistics-admin-page-country.php:37
@@ -900,7 +900,7 @@ msgid "Statistics on Excluded Data"
 msgstr ""
 
 #: includes/admin/pages/class-wp-statistics-admin-page-hits.php:34
-msgid "Visit Statistics"
+msgid "View Statistics"
 msgstr ""
 
 #: includes/admin/pages/class-wp-statistics-admin-page-online.php:34
@@ -1017,11 +1017,11 @@ msgid "Choose a Tag"
 msgstr ""
 
 #: includes/admin/pages/class-wp-statistics-admin-page-tags.php:82
-msgid "Most Popular Tag by Visits"
+msgid "Most Popular Tag by Views"
 msgstr ""
 
 #: includes/admin/pages/class-wp-statistics-admin-page-tags.php:93
-msgid "Top Posts Under This Tag by Visits"
+msgid "Top Posts Under This Tag by Views"
 msgstr ""
 
 #: includes/admin/pages/class-wp-statistics-admin-page-taxonomies.php:62
@@ -1029,11 +1029,11 @@ msgid "%s statistics"
 msgstr ""
 
 #: includes/admin/pages/class-wp-statistics-admin-page-taxonomies.php:101
-msgid "Top %s Sorted by Visits"
+msgid "Top %s Sorted by Views"
 msgstr ""
 
 #: includes/admin/pages/class-wp-statistics-admin-page-taxonomies.php:113
-msgid "%1$s: %2$s Most Popular Posts by Visits"
+msgid "%1$s: %2$s Most Popular Posts by Views"
 msgstr ""
 
 #: includes/admin/pages/class-wp-statistics-admin-page-taxonomies.php:116
@@ -1391,7 +1391,7 @@ msgid "Enter the accumulated count of unique visitors to your site from its ince
 msgstr ""
 
 #: includes/admin/templates/optimization/historical.php:37
-msgid "Historical Total Site Visits"
+msgid "Historical Total Site Views"
 msgstr ""
 
 #: includes/admin/templates/optimization/historical.php:41
@@ -1457,7 +1457,7 @@ msgid "Remove Visitors Exceeding"
 msgstr ""
 
 #: includes/admin/templates/optimization/purging.php:330
-msgid "Erase User Stats for Visitors Exceeding Daily Visit Limit. Useful for cleaning bot-related data. Removes visitor and their site visits, but not individual page visits, as they are not recorded per user. Minimum Visit Threshold: 10 Visits."
+msgid "Erase User Stats for Visitors Exceeding Daily View Limit. Useful for cleaning bot-related data. Removes visitor and their site visits, but not individual page visits, as they are not recorded per user. Minimum View Threshold: 10 Views."
 msgstr ""
 
 #: includes/admin/templates/optimization/purging.php:339
@@ -1862,13 +1862,13 @@ msgstr ""
 
 #: includes/admin/templates/pages/author.php:52
 #: includes/admin/templates/pages/tag.php:52
-msgid "Visits Total:"
+msgid "Total Views:"
 msgstr ""
 
 #: includes/admin/templates/pages/author.php:57
 #: includes/admin/templates/pages/category.php:57
 #: includes/admin/templates/pages/tag.php:57
-msgid "All Time Visits:"
+msgid "All Time Views:"
 msgstr ""
 
 #: includes/admin/templates/pages/category.php:6
@@ -1886,7 +1886,7 @@ msgid "The Number of Posts in Category:"
 msgstr ""
 
 #: includes/admin/templates/pages/category.php:52
-msgid "Chart Visits:"
+msgid "Chart Views:"
 msgstr ""
 
 #: includes/admin/templates/pages/exclusions.php:26
@@ -2094,14 +2094,14 @@ msgid "Site Title"
 msgstr ""
 
 #: includes/admin/templates/pages/visitors.php:35
-msgid "Last Visit"
+msgid "Last View"
 msgstr ""
 
 #: includes/admin/templates/pages/visitors.php:41
 #: includes/admin/templates/settings/notifications.php:188
 #: includes/class-wp-statistics-widget.php:97
 #: includes/class-wp-statistics-widget.php:296
-msgid "Total Visits"
+msgid "Total Views"
 msgstr ""
 
 #: includes/admin/templates/pages/visitors.php:46
@@ -2438,7 +2438,7 @@ msgid "Choose to receive detailed charts on visitor counts and behavior patterns
 msgstr ""
 
 #: includes/admin/templates/settings/add-ons/advanced-reporting.php:120
-msgid "Visits Insights"
+msgid "Views Insights"
 msgstr ""
 
 #: includes/admin/templates/settings/add-ons/advanced-reporting.php:126
@@ -2793,7 +2793,7 @@ msgid "Exclude Posts in Statistics"
 msgstr ""
 
 #: includes/admin/templates/settings/add-ons/realtime-stats.php:63
-msgid "Select 'Yes' to exclude all posts from the real-time statistics. For detailed logs, ensure \"Record User Page Visits\" are activated in <a href=\"%s\">WP Statistics Settings</a>."
+msgid "Select 'Yes' to exclude all posts from the real-time statistics. For detailed logs, ensure \"Record User Page Views\" are activated in <a href=\"%s\">WP Statistics Settings</a>."
 msgstr ""
 
 #: includes/admin/templates/settings/exclusions.php:5
@@ -2865,7 +2865,7 @@ msgid "Reset to Default"
 msgstr ""
 
 #: includes/admin/templates/settings/exclusions.php:82
-msgid "Robot Visit Threshold"
+msgid "Robot View Threshold"
 msgstr ""
 
 #: includes/admin/templates/settings/exclusions.php:86
@@ -3180,7 +3180,7 @@ msgid "Tracks individual users to determine how many unique visitors you have."
 msgstr ""
 
 #: includes/admin/templates/settings/general.php:72
-msgid "Record User Page Visits"
+msgid "Record User Page Views"
 msgstr ""
 
 #: includes/admin/templates/settings/general.php:76
@@ -3196,11 +3196,11 @@ msgid "Note: Compliance with GDPR and other privacy regulations is essential. In
 msgstr ""
 
 #: includes/admin/templates/settings/general.php:84
-msgid "Display User Visit Logs"
+msgid "Display User View Logs"
 msgstr ""
 
 #: includes/admin/templates/settings/general.php:88
-msgid "Show Visit Logs"
+msgid "Show View Logs"
 msgstr ""
 
 #: includes/admin/templates/settings/general.php:89
@@ -3212,7 +3212,7 @@ msgid "Content Engagement Metrics"
 msgstr ""
 
 #: includes/admin/templates/settings/general.php:104
-msgid "Count Page Visits"
+msgid "Count Page Views"
 msgstr ""
 
 #: includes/admin/templates/settings/general.php:109
@@ -3232,7 +3232,7 @@ msgid "User Interface Preferences"
 msgstr ""
 
 #: includes/admin/templates/settings/general.php:135
-msgid "Visits Chart Metabox"
+msgid "Chart Metabox Views"
 msgstr ""
 
 #: includes/admin/templates/settings/general.php:141
@@ -3240,7 +3240,7 @@ msgid "Shows content view statistics in a graphical format when editing."
 msgstr ""
 
 #: includes/admin/templates/settings/general.php:147
-msgid "Visits Column"
+msgid "Views Column"
 msgstr ""
 
 #: includes/admin/templates/settings/general.php:152
@@ -3248,7 +3248,7 @@ msgid "Displays the number of views for each content item in your content list."
 msgstr ""
 
 #: includes/admin/templates/settings/general.php:158
-msgid "Visits in Publish Metabox"
+msgid "Views Metabox"
 msgstr ""
 
 #: includes/admin/templates/settings/general.php:164
@@ -3256,7 +3256,7 @@ msgid "Presents a snapshot of content views in the publish box for quick referen
 msgstr ""
 
 #: includes/admin/templates/settings/general.php:170
-msgid "Visits in Single Pages"
+msgid "Views in Single Pages"
 msgstr ""
 
 #: includes/admin/templates/settings/general.php:176
@@ -3276,7 +3276,7 @@ msgid "After Content"
 msgstr ""
 
 #: includes/admin/templates/settings/general.php:191
-msgid "Choose the position to show Visits."
+msgid "Choose the position to show views."
 msgstr ""
 
 #: includes/admin/templates/settings/general.php:201
@@ -3497,7 +3497,7 @@ msgstr ""
 #: includes/class-wp-statistics-admin-bar.php:98
 #: includes/class-wp-statistics-widget.php:48
 #: includes/class-wp-statistics-widget.php:268
-msgid "Today's Visits"
+msgid "Today's Views"
 msgstr ""
 
 #: includes/admin/templates/settings/notifications.php:182
@@ -3511,7 +3511,7 @@ msgstr ""
 #: includes/class-wp-statistics-admin-bar.php:106
 #: includes/class-wp-statistics-widget.php:62
 #: includes/class-wp-statistics-widget.php:276
-msgid "Yesterday's Visits"
+msgid "Yesterday's Views"
 msgstr ""
 
 #: includes/admin/templates/settings/notifications.php:186
@@ -3699,7 +3699,7 @@ msgid "WP Statistics Shortcodes"
 msgstr ""
 
 #: includes/admin/TinyMCE/class-wp-statistics-tinymce.php:39
-msgid "Number of Page Visits"
+msgid "Number of Page Views"
 msgstr ""
 
 #: includes/admin/TinyMCE/class-wp-statistics-tinymce.php:40
@@ -3792,6 +3792,7 @@ msgid "Visitor Interaction Successfully Logged."
 msgstr ""
 
 #: includes/class-wp-statistics-admin-bar.php:48
+#: includes/class-wp-statistics-shortcode.php:199
 msgid "Page Views"
 msgstr ""
 
@@ -3948,7 +3949,7 @@ msgid "Pre-flight Request"
 msgstr ""
 
 #: includes/class-wp-statistics-frontend.php:118
-msgid "Visits: %s"
+msgid "Views: %s"
 msgstr ""
 
 #: includes/class-wp-statistics-geoip.php:262
@@ -4154,7 +4155,7 @@ msgid "Top 5 Trending Pages"
 msgstr ""
 
 #: includes/class-wp-statistics-meta-box.php:276
-msgid "Pages Visits"
+msgid "Pages Views"
 msgstr ""
 
 #: includes/class-wp-statistics-pages.php:373
@@ -4280,10 +4281,6 @@ msgstr ""
 
 #: includes/class-wp-statistics-shortcode.php:193
 msgid "Select the statistic you wish to display."
-msgstr ""
-
-#: includes/class-wp-statistics-shortcode.php:199
-msgid "Page Visits"
 msgstr ""
 
 #: includes/class-wp-statistics-shortcode.php:201
@@ -4421,17 +4418,17 @@ msgstr ""
 
 #: includes/class-wp-statistics-widget.php:76
 #: includes/class-wp-statistics-widget.php:284
-msgid "Last 7 Days Visits"
+msgid "Last 7 Days Views"
 msgstr ""
 
 #: includes/class-wp-statistics-widget.php:83
 #: includes/class-wp-statistics-widget.php:288
-msgid "Last 30 Days Visits"
+msgid "Last 30 Days Views"
 msgstr ""
 
 #: includes/class-wp-statistics-widget.php:90
 #: includes/class-wp-statistics-widget.php:292
-msgid "Last 365 Days Visits"
+msgid "Last 365 Days Views"
 msgstr ""
 
 #: includes/class-wp-statistics-widget.php:111

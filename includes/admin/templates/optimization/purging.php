@@ -325,9 +325,9 @@
 
                 <td>
                     <input type="text" class="small-text code" id="purge-visitor-hits" name="wps_purge_visitor_hits" value="10"/>
-                    <label for="purge-visitor-hits"><?php esc_html_e('Visits', 'wp-statistics'); ?></label>
+                    <label for="purge-visitor-hits"><?php esc_html_e('Views', 'wp-statistics'); ?></label>
 
-                    <p class="description"><?php echo esc_html__('Erase User Stats for Visitors Exceeding Daily Visit Limit. Useful for cleaning bot-related data. Removes visitor and their site visits, but not individual page visits, as they are not recorded per user. Minimum Visit Threshold: 10 Visits.', 'wp-statistics'); ?></p>
+                    <p class="description"><?php echo esc_html__('Erase User Stats for Visitors Exceeding Daily View Limit. Useful for cleaning bot-related data. Removes visitor and their site visits, but not individual page visits, as they are not recorded per user. Minimum View Threshold: 10 Views.', 'wp-statistics'); ?></p>
                     <input id="purge-visitor-hits-submit" class="button button-primary" type="submit" value="<?php esc_html_e('Start Purging Now', 'wp-statistics'); ?>" name="purge-visitor-hits-submit" Onclick="return false;"/>
                     <span id="purge-visitor-hits-status"></span>
                     <div id="purge-visitor-hits-result"></div>

@@ -32,13 +32,13 @@
                                     <?php } ?>
                                     <td>
                                         <a href="<?php echo esc_url(add_query_arg('order', ((isset($_GET['order']) and $_GET['order'] == "asc") ? 'desc' : 'asc'))); ?>">
-                                            <?php esc_html_e('Last Visit', 'wp-statistics'); ?>
+                                            <?php esc_html_e('Last View', 'wp-statistics'); ?>
                                             <span class="dashicons dashicons-arrow-<?php echo((isset($_GET['order']) and $_GET['order'] == "asc") ? 'up' : 'down'); ?>"></span>
                                         </a>
                                     </td>
                                     <td><?php echo esc_html(\WP_STATISTICS\Option::get('hash_ips') == true ? __('Daily Visitor Hash', 'wp-statistics') : __('IP Address', 'wp-statistics')); ?></td>
                                     <td><?php esc_html_e('Operating System', 'wp-statistics'); ?></td>
-                                    <td><?php esc_html_e('Total Visits', 'wp-statistics'); ?></td>
+                                    <td><?php esc_html_e('Total Views', 'wp-statistics'); ?></td>
                                     <td><?php esc_html_e('User', 'wp-statistics'); ?></td>
                                     <?php
                                     if (\WP_STATISTICS\Option::get('visitors_log')) {

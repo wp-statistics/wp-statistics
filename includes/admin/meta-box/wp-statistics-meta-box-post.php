@@ -66,7 +66,7 @@ class post
         // Push Basic Chart Data
         $response = array(
             'days'       => $days,
-            'title'      => __('Number of Visits', 'wp-statistics'),
+            'title'      => __('Number of Views', 'wp-statistics'),
             'post_title' => get_the_title($post->ID),
             'date'       => $date,
             'state'      => $stats

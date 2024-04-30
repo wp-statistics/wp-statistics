@@ -117,7 +117,7 @@ global $wp_version;
 
             <tr valign="top">
                 <th scope="row">
-                    <label for="wps_addon_settings[advanced_reporting][email_top_hits_visits]"><?php esc_html_e('Visits Insights', 'wp-statistics'); ?></label>
+                    <label for="wps_addon_settings[advanced_reporting][email_top_hits_visits]"><?php esc_html_e('Views Insights', 'wp-statistics'); ?></label>
                 </th>
 
                 <td>

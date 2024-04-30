@@ -481,7 +481,7 @@ class settings_page
             $wp_statistics_options[self::input_name_to_option($option)] = $optionValue;
         }
 
-        // Save Visits Column & Visit Chart Metabox
+        // Save Views Column & View Chart Metabox
         foreach (array('wps_disable_column', 'wps_disable_editor') as $option) {
             $wps_disable_column                                         = isset($_POST[$option]) && sanitize_text_field($_POST[$option]) == '1' ? '' : '1';
             $wp_statistics_options[self::input_name_to_option($option)] = $wps_disable_column;

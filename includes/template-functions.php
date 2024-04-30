@@ -222,7 +222,7 @@ function wp_statistics_visit($time, $daily = null)
     //Generate Base Sql
     $sql = "SELECT " . $selector . " FROM `" . $table_name . "` ";
 
-    //Create Sum Visits variable
+    //Create Sum Views variable
     $sum = 0;
 
     //Check if daily Report

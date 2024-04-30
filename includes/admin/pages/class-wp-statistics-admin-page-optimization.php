@@ -137,7 +137,7 @@ class optimization_page
                 }
             }
 
-            // Historical Visits
+            // Historical Views
             if (isset($_POST['wps_historical_visits'])) {
                 // Update DB
                 $result = $wpdb->update($historical_table, array('value' => sanitize_text_field($_POST['wps_historical_visits'])), array('category' => 'visits'));

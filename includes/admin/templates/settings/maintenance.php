@@ -67,7 +67,7 @@
 
             <td>
                 <input type="text" class="small-text code" id="wps_schedule_dbmaint_visitor_hits" name="wps_schedule_dbmaint_visitor_hits" value="<?php echo esc_attr(WP_STATISTICS\Option::get('schedule_dbmaint_visitor_hits', '50')); ?>"/>
-                <?php esc_html_e('Visits', 'wp-statistics'); ?>
+                <?php esc_html_e('Views', 'wp-statistics'); ?>
                 <p class="description"><?php echo esc_html__('Establishes a daily visit limit. Users with visit counts above this limit are considered for removal, with the minimum set threshold being 10 visits.', 'wp-statistics'); ?></p>
             </td>
         </tr>
