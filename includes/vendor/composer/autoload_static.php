@@ -157,6 +157,8 @@ class ComposerStaticInit2ac516f03a394ec3d1721352b7f43359
         'WP_Statistics\\Service\\Admin\\AddOnsFactory' => __DIR__ . '/../../..' . '/src/Service/Admin/AddOnsFactory.php',
         'WP_Statistics\\Service\\Admin\\AdminManager' => __DIR__ . '/../../..' . '/src/Service/Admin/AdminManager.php',
         'WP_Statistics\\Service\\Analytics\\VisitorProfile' => __DIR__ . '/../../..' . '/src/Service/Analytics/VisitorProfile.php',
+        'WP_Statistics\\Service\\PrivacyAudit\\Actions\\AbstractPrivacyAction' => __DIR__ . '/../../..' . '/src/Service/PrivacyAudit/Actions/AbstractPrivacyAction.php',
+        'WP_Statistics\\Service\\PrivacyAudit\\Actions\\RecordUserPageVisits' => __DIR__ . '/../../..' . '/src/Service/PrivacyAudit/Actions/RecordUserPageVisits.php',
         'WP_Statistics\\Service\\PrivacyAudit\\PrivacyAuditCheck' => __DIR__ . '/../../..' . '/src/Service/PrivacyAudit/PrivacyAuditCheck.php',
         'WP_Statistics\\Service\\PrivacyAudit\\PrivacyAuditController' => __DIR__ . '/../../..' . '/src/Service/PrivacyAudit/PrivacyAuditController.php',
         'WP_Statistics\\Service\\PrivacyAudit\\PrivacyAuditManager' => __DIR__ . '/../../..' . '/src/Service/PrivacyAudit/PrivacyAuditManager.php',
