@@ -10,9 +10,11 @@ class PrivacyAuditController
     {
         check_ajax_referer('wp_rest', 'wps_nonce');
 
+        // Get the compliance and audit list status
         $response['compliance_status'] = PrivacyAuditCheck::complianceStatus();
         $response['audit_list']        = PrivacyAuditCheck::auditListStatus();
 
+        // Send the response
         wp_send_json($response);
         exit;
     }
@@ -33,11 +35,14 @@ class PrivacyAuditController
             throw new InvalidArgumentException(esc_html__('Undefined action type.', 'wp-statistics'));
         }
 
+        // Run the action
         $item::$actionType();
 
+        // Get the updated audit item status 
         $response['compliance_status']  = PrivacyAuditCheck::complianceStatus();
         $response['audit_item']         = $item::getState();
 
+        // Send the response
         wp_send_json($response);
         exit;
     }
