@@ -13,5 +13,12 @@
     "gulp-uglify": "^3.0.2",
     "readable-stream": "^4.5.2",
     "sass": "^1.70.0"
+  },
+  "dependencies": {
+    "chartjs-adapter-date-fns": "^3.0.0",
+    "chartjs-adapter-moment": "^1.0.1",
+    "chartjs-chart-matrix": "^2.0.1",
+    "date-fns": "^3.6.0",
+    "moment": "^2.30.1"
   }
 }

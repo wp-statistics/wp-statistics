@@ -46,7 +46,8 @@ class AuthorAnalyticsPage
     {
         // If Author ID is set show single author template, otherwise, show authors analytics template
         isset($_GET['ID']) ? $this->singleAuthorView() : $this->authorsView();
-    }
+
+      }
 
     /**
      * Display authors template
@@ -89,13 +90,50 @@ class AuthorAnalyticsPage
         $authorID = isset($_GET['ID']) ? sanitize_text_field($_GET['ID']) : '';
 
         $args = [
-            'title'      => esc_html__('Single Author', 'wp-statistics'),
+            'title'      => esc_html__('Author:' , 'wp-statistics') . $authorID,
             'pageName'   => Menus::get_page_slug('author-analytics'),
             'pagination' => Admin_Template::getCurrentPaged(),
             'custom_get' => ['ID' => $authorID],
-            'DateRang'   => Admin_Template::DateRange()
+            'DateRang'   => Admin_Template::DateRange(),
+            'HasDateRang' > True,
         ];
 
-        Admin_Template::get_template(['layout/header', 'layout/title', 'layout/date.range', 'pages/author-analytics/author-single', 'layout/postbox.toggle', 'layout/footer'], $args);
+        Admin_Template::get_template(['layout/header', 'layout/title', 'pages/author-analytics/author-single', 'layout/postbox.toggle', 'layout/footer'], $args);
+    }
+
+
+    /**
+     * Display authors template
+     */
+    private function authorsList()
+    {
+        $args = [
+            'title'      => esc_html__('Authors', 'wp-statistics'),
+            'pageName'   => Menus::get_page_slug('author-lists'),
+            'pagination' => Admin_Template::getCurrentPaged(),
+            'DateRang'   => Admin_Template::DateRange(),
+            'HasDateRang' > True,
+        ];
+
+        Admin_Template::get_template(['layout/header', 'layout/title', 'pages/author-analytics/authors-list', 'layout/postbox.toggle', 'layout/footer'], $args);
+    }
+
+
+    /**
+     * Display single author template
+     */
+    private function authorPosts()
+    {
+        $postID = isset($_GET['POSTID']) ? sanitize_text_field($_GET['POSTID']) : '';
+        $args = [
+            'title'      => esc_html__('Posts', 'wp-statistics'),
+            'pageName'   => Menus::get_page_slug('author-posts'),
+            'pagination' => Admin_Template::getCurrentPaged(),
+            'custom_get' => ['POSTID' => $postID],
+            'DateRang'   => Admin_Template::DateRange(),
+            'HasDateRang' > True,
+        ];
+
+        Admin_Template::get_template(['layout/header', 'layout/title', 'pages/author-analytics/author-posts', 'layout/postbox.toggle', 'layout/footer'], $args);
     }
 }

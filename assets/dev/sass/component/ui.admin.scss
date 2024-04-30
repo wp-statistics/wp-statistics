@@ -1993,6 +1993,9 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
   line-height: 24px;
   font-weight: 500;
   text-transform: capitalize;
+  @media (max-width: 360px) {
+    font-size: 12px;
+  }
 }
 
 .wps-tab-link a .wps-tooltip .wps-tooltip-icon.info {
@@ -2465,4 +2468,8 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
   100% {
     transform: scale(1)
   }
+}
+
+.wps-flex-container{
+  display: flex;
 }

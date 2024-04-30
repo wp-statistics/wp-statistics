@@ -35,7 +35,7 @@ function buildScripts(done) {
         './assets/dev/javascript/meta-box/*.js',
         './assets/dev/javascript/pages/*.js',
         './assets/dev/javascript/run.js',
-    ])
+     ])
         .pipe(uglify())
         .pipe(concat('admin.min.js'))
         .pipe(insert.prepend('jQuery(document).ready(function ($) {'))
@@ -65,6 +65,15 @@ function frontScripts(done) {
     done()
 }
 
+// Gulp charts Script
+function chartScripts(done) {
+    gulp.src([
+            './assets/dev/javascript/plugin/chartjs-adapter-date-fns.bundle.min.js',
+            './assets/dev/javascript/plugin/chartjs-chart-matrix.min.js'])
+            .pipe(concat('chart-matrix.min.js'))
+            .pipe(gulp.dest('./assets/js/chartjs')).pipe(babel({presets: ['@babel/env']})).pipe(replace("\\n", '')).pipe(replace("\\t", '')).pipe(replace("  ", '')).pipe(uglify()).pipe(gulp.dest('./assets/js/chartjs/'));
+    done()
+}
 
 // Gulp Script Minify
 function concatScripts(done) {
@@ -102,6 +111,7 @@ function watch() {
 // global Task
 exports.compileSass = buildStyles;
 exports.script = buildScripts;
+exports.chartScript = chartScripts;
 exports.mce = tineMCE;
 exports.frontScript = frontScripts;
 exports.concatScripts = concatScripts;
