@@ -13,7 +13,11 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             dataType: 'json',
             data: params,
             timeout: 30000,
-            success: function (data) {
+            success: function ({data, success}) {
+
+                // If request is not successful, return early
+                if (success == false) return console.log(data);
+
                 const auditList        = data.audit_list;
                 const complianceStatus = data.compliance_status;
 
@@ -80,7 +84,11 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             dataType: 'json',
             data: params,
             timeout: 30000,
-            success: function (data) {
+            success: function ({data, success}) {
+
+                // If request is not successful, return early
+                if (success == false) return console.log(data);
+
                 const auditItem        = data.audit_item;
                 const complianceStatus = data.compliance_status;
 

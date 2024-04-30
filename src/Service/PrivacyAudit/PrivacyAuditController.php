@@ -16,7 +16,7 @@ class PrivacyAuditController
         $response['audit_list']        = PrivacyAuditCheck::auditListStatus();
 
         // Send the response
-        wp_send_json($response);
+        wp_send_json_success($response);
         exit;
     }
 
@@ -45,10 +45,10 @@ class PrivacyAuditController
             $response['audit_item']        = $item::getState();
 
             // Send the response
-            wp_send_json($response);
+            wp_send_json_success($response);
 
         } catch (\Exception $e) {
-            wp_send_json_error($e->getMessage()); // todo the js need to be tested with this state.
+            wp_send_json_error($e->getMessage());
         }
 
         exit;
