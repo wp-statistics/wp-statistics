@@ -89,7 +89,8 @@ class AuthorAnalyticsPage
             'pageName'   => Menus::get_page_slug('author-analytics'),
             'pagination' => Admin_Template::getCurrentPaged(),
             'custom_get' => ['tab' => $currentTab],
-            'DateRang' => Admin_Template::DateRange(),
+            'DateRang'   => Admin_Template::DateRange(),
+            'filters'    => ['author'],
             'tabs'       => [
                 [
                     'link'    => Menus::admin_url(Menus::get_page_slug('author-analytics'), ['tab' => 'performance']),
@@ -105,6 +106,10 @@ class AuthorAnalyticsPage
                 ]
             ],
         ];
+
+        if ($currentTab === 'pages') {
+            $args['filters'][] = 'post-type';
+        }
 
         Admin_Template::get_template(['layout/header', 'layout/tabbed-page-header', "pages/author-analytics/authors-$currentTab", 'layout/postbox.hide', 'layout/footer'], $args);
     }

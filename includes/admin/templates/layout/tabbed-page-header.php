@@ -13,6 +13,15 @@
     <div class="wps-datepicker">
         <?php include 'date.range.php'; ?>
     </div>
+
+    <?php 
+        if (!empty($filters)) {
+            foreach ($filters as $filter) {
+                require_once "filters/$filter-filter.php";
+            }
+        }
+    ?>
+
     <?php if (!empty($tabs) && is_array($tabs)) { ?>
         <ul class="wps-tabs">
             <?php foreach ($tabs as $tab) { ?>
