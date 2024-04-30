@@ -62,7 +62,6 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
 
         // Add loading class
         button.addClass('loading');
-        jQuery('.wps-privacy-status').removeClass('loading success warning');
         jQuery('.wps-privacy-status').addClass('loading');
 
         let params = {
@@ -108,6 +107,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
 
     function updateComplianceStatus(complianceStatusObj) {
         const complianceStatusElement = jQuery('.wps-privacy-status');
+        
         complianceStatusElement.removeClass('loading success warning');
         complianceStatusElement.addClass(complianceStatusObj.percentage_ready == 100 ? 'success' : 'warning');
 
