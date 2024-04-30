@@ -19,7 +19,7 @@
                                     <?php } ?>
                                     <td><?php esc_html_e('Date', 'wp-statistics'); ?></td>
                                     <td><?php echo esc_html(\WP_STATISTICS\Option::get('hash_ips')) == true ? esc_html__('Daily Visitor Hash', 'wp-statistics') : esc_html__('IP Address', 'wp-statistics'); ?></td>
-                                    <td><?php esc_html_e('Platform', 'wp-statistics'); ?></td>
+                                    <td><?php esc_html_e('Operating System', 'wp-statistics'); ?></td>
                                     <td><?php esc_html_e('User', 'wp-statistics'); ?></td>
                                     <td><?php esc_html_e('Referrer', 'wp-statistics'); ?></td>
                                     <td><?php esc_html_e('Visits', 'wp-statistics'); ?></td>

@@ -136,7 +136,7 @@ function wp_statistics_useronline($options = array())
          */
         'agent'        => 'all',
         /**
-         * Search filter by User Platform name
+         * Search filter by User Operating System name
          * e.g : Windows, iPad, Macintosh, Unknown, ..
          *
          */
@@ -317,7 +317,7 @@ function wp_statistics_visitor($time, $daily = null, $count_only = false, $optio
          */
         'agent'    => 'all',
         /**
-         * Search filter by User Platform name
+         * Search filter by User Operating System name
          * e.g : Windows, iPad, Macintosh, Unknown, ..
          *
          */

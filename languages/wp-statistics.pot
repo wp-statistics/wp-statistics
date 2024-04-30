@@ -2,16 +2,16 @@
 # This file is distributed under the GPL-2.0+.
 msgid ""
 msgstr ""
-"Project-Id-Version: WP Statistics 14.6.3\n"
+"Project-Id-Version: WP Statistics 14.6.4\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wp-statistics\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-04-20T07:44:48+00:00\n"
+"POT-Creation-Date: 2024-04-30T07:13:20+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.7.1\n"
+"X-Generator: WP-CLI 2.9.0\n"
 "X-Domain: wp-statistics\n"
 
 #. Plugin Name of the plugin
@@ -338,6 +338,8 @@ msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-assets.php:295
 #: includes/admin/templates/optimization/resources.php:277
+#: includes/admin/templates/pages/top-visitors.php:22
+#: includes/admin/templates/pages/visitors.php:40
 msgid "Operating System"
 msgstr ""
 
@@ -508,11 +510,11 @@ msgid "Authors"
 msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-network.php:69
-#: includes/admin/meta-box/wp-statistics-meta-box-platforms.php:90
-#: includes/admin/meta-box/wp-statistics-meta-box-platforms.php:92
+#: includes/admin/meta-box/wp-statistics-meta-box-platforms.php:91
+#: includes/admin/meta-box/wp-statistics-meta-box-platforms.php:93
 #: includes/admin/templates/settings/add-ons/customization.php:17
 #: includes/class-wp-statistics-menus.php:241
-msgid "Platforms"
+msgid "Operating Systems"
 msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-network.php:70
@@ -744,14 +746,14 @@ msgstr ""
 #: includes/admin/meta-box/wp-statistics-meta-box-browsers.php:162
 #: includes/admin/meta-box/wp-statistics-meta-box-devices.php:94
 #: includes/admin/meta-box/wp-statistics-meta-box-models.php:90
-#: includes/admin/meta-box/wp-statistics-meta-box-platforms.php:90
+#: includes/admin/meta-box/wp-statistics-meta-box-platforms.php:91
 msgid "Statistics for %1$s in the Past %2$s Days"
 msgstr ""
 
 #: includes/admin/meta-box/wp-statistics-meta-box-browsers.php:164
 #: includes/admin/meta-box/wp-statistics-meta-box-devices.php:96
 #: includes/admin/meta-box/wp-statistics-meta-box-models.php:92
-#: includes/admin/meta-box/wp-statistics-meta-box-platforms.php:92
+#: includes/admin/meta-box/wp-statistics-meta-box-platforms.php:93
 msgid "Statistics for %1$s Between %2$s and %3$s"
 msgstr ""
 
@@ -801,7 +803,7 @@ msgstr ""
 #: includes/admin/meta-box/wp-statistics-meta-box-platforms.php:63
 #: includes/class-wp-statistics-user-agent.php:40
 #: includes/class-wp-statistics-user-agent.php:127
-msgctxt "Platform"
+msgctxt "Operating System"
 msgid "Unknown"
 msgstr ""
 
@@ -963,7 +965,7 @@ msgid "Statistics for Individual Pages"
 msgstr ""
 
 #: includes/admin/pages/class-wp-statistics-admin-page-platforms.php:37
-msgid "User Platform Usage Statistics"
+msgid "User Operating System Usage Statistics"
 msgstr ""
 
 #: includes/admin/pages/class-wp-statistics-admin-page-refer.php:37
@@ -978,31 +980,31 @@ msgstr ""
 msgid "Detailed Statistics on Search Engine Referrals"
 msgstr ""
 
-#: includes/admin/pages/class-wp-statistics-admin-page-settings.php:112
+#: includes/admin/pages/class-wp-statistics-admin-page-settings.php:115
 msgid "Error Encountered While Updating Spam Referrer Blacklist."
 msgstr ""
 
-#: includes/admin/pages/class-wp-statistics-admin-page-settings.php:114
+#: includes/admin/pages/class-wp-statistics-admin-page-settings.php:117
 msgid "Spam Referrer Blacklist Successfully Updated."
 msgstr ""
 
-#: includes/admin/pages/class-wp-statistics-admin-page-settings.php:134
+#: includes/admin/pages/class-wp-statistics-admin-page-settings.php:137
 msgid "Settings Successfully Saved."
 msgstr ""
 
-#: includes/admin/pages/class-wp-statistics-admin-page-settings.php:139
+#: includes/admin/pages/class-wp-statistics-admin-page-settings.php:142
 msgid "All Settings Have Been Reset to Default."
 msgstr ""
 
-#: includes/admin/pages/class-wp-statistics-admin-page-settings.php:321
+#: includes/admin/pages/class-wp-statistics-admin-page-settings.php:324
 msgid "GeoIP functionality could not be activated due to an error: %s."
 msgstr ""
 
-#: includes/admin/pages/class-wp-statistics-admin-page-settings.php:362
+#: includes/admin/pages/class-wp-statistics-admin-page-settings.php:365
 msgid "WP Statistics - Honey Pot Page for Tracking"
 msgstr ""
 
-#: includes/admin/pages/class-wp-statistics-admin-page-settings.php:363
+#: includes/admin/pages/class-wp-statistics-admin-page-settings.php:366
 msgid "Do Not Delete: Honey Pot Page for WP Statistics Tracking."
 msgstr ""
 
@@ -1334,7 +1336,7 @@ msgstr ""
 #: includes/admin/templates/optimization/export.php:19
 #: includes/admin/templates/optimization/export.php:38
 #: includes/admin/templates/settings/exclusions.php:111
-#: includes/admin/templates/settings/general.php:192
+#: includes/admin/templates/settings/general.php:187
 #: includes/admin/templates/settings/notifications.php:113
 #: includes/admin/templates/settings/notifications.php:147
 msgid "Please select"
@@ -1525,7 +1527,7 @@ msgid "Delete Selected Items Now"
 msgstr ""
 
 #: includes/admin/templates/optimization/purging.php:420
-msgid "Choose Platforms to Delete"
+msgid "Choose Operating Systems to Delete"
 msgstr ""
 
 #: includes/admin/templates/optimization/purging.php:437
@@ -1600,7 +1602,7 @@ msgstr ""
 #: includes/admin/templates/settings/add-ons/customization.php:61
 #: includes/admin/templates/settings/add-ons/customization.php:161
 #: includes/admin/templates/settings/add-ons/realtime-stats.php:60
-#: includes/admin/templates/settings/general.php:247
+#: includes/admin/templates/settings/general.php:242
 msgid "Yes"
 msgstr ""
 
@@ -1610,7 +1612,7 @@ msgstr ""
 #: includes/admin/templates/settings/add-ons/customization.php:62
 #: includes/admin/templates/settings/add-ons/customization.php:162
 #: includes/admin/templates/settings/add-ons/realtime-stats.php:59
-#: includes/admin/templates/settings/general.php:248
+#: includes/admin/templates/settings/general.php:243
 msgid "No"
 msgstr ""
 
@@ -1955,14 +1957,15 @@ msgid "Toggle panel: Top Browsers"
 msgstr ""
 
 #: includes/admin/templates/pages/page-chart.php:43
-msgid "Top Platforms"
+msgid "Top Operating Systems"
 msgstr ""
 
 #: includes/admin/templates/pages/page-chart.php:45
-msgid "Toggle panel: Top Platforms"
+msgid "Toggle panel: Top Operating Systems"
 msgstr ""
 
 #: includes/admin/templates/pages/page-chart.php:56
+#: includes/admin/templates/settings/add-ons/advanced-reporting.php:187
 #: includes/class-wp-statistics-meta-box.php:139
 msgid "Top Countries"
 msgstr ""
@@ -2078,11 +2081,6 @@ msgstr ""
 msgid "No information is available for this day."
 msgstr ""
 
-#: includes/admin/templates/pages/top-visitors.php:22
-#: includes/admin/templates/pages/visitors.php:40
-msgid "Platform"
-msgstr ""
-
 #: includes/admin/templates/pages/top.refer.php:20
 msgid "Rating"
 msgstr ""
@@ -2179,7 +2177,7 @@ msgid "Before contacting us, these resources might address your concerns:"
 msgstr ""
 
 #: includes/admin/templates/settings/about.php:78
-msgid "Frequently Asked Questions (%1$sFAQs%2$s)"
+msgid "%1$sFrequently Asked Questions%2$s"
 msgstr ""
 
 #: includes/admin/templates/settings/about.php:80
@@ -2194,67 +2192,71 @@ msgstr ""
 msgid "%1$sSupport Forum%2$s for Common Issues"
 msgstr ""
 
-#: includes/admin/templates/settings/about.php:96
-msgid "Ensure access to your PHP error logs"
+#: includes/admin/templates/settings/about.php:97
+msgid "%1$sEnhancing Data Accuracy%2$s"
 msgstr ""
 
-#: includes/admin/templates/settings/about.php:98
+#: includes/admin/templates/settings/about.php:102
+msgid "%1$sTroubleshoot with Cache Plugins%2$s"
+msgstr ""
+
+#: includes/admin/templates/settings/about.php:107
 msgid "%1$sContact Us%2$s"
 msgstr ""
 
-#: includes/admin/templates/settings/about.php:100
+#: includes/admin/templates/settings/about.php:109
 msgid "Contact Us"
 msgstr ""
 
-#: includes/admin/templates/settings/about.php:106
+#: includes/admin/templates/settings/about.php:115
 msgid "Quick Troubleshooting Tips"
 msgstr ""
 
-#: includes/admin/templates/settings/about.php:109
+#: includes/admin/templates/settings/about.php:118
 msgid "Check your PHP <code>memory_limit</code>."
 msgstr ""
 
-#: includes/admin/templates/settings/about.php:110
+#: includes/admin/templates/settings/about.php:119
 msgid "Disable conflicting plugins."
 msgstr ""
 
-#: includes/admin/templates/settings/about.php:111
+#: includes/admin/templates/settings/about.php:120
 msgid "Validate plugin settings."
 msgstr ""
 
-#: includes/admin/templates/settings/about.php:112
+#: includes/admin/templates/settings/about.php:121
 msgid "Clear cache if using caching plugins."
 msgstr ""
 
-#: includes/admin/templates/settings/about.php:113
+#: includes/admin/templates/settings/about.php:122
 msgid "Check your site's error logs."
 msgstr ""
 
-#: includes/admin/templates/settings/about.php:116
+#: includes/admin/templates/settings/about.php:125
 msgid "If your issue persists, open a thread on the %1$sWordPress.org support forum%2$s, and our team will assist you promptly."
 msgstr ""
 
-#: includes/admin/templates/settings/about.php:121
+#: includes/admin/templates/settings/about.php:130
 msgid "Translations"
 msgstr ""
 
-#: includes/admin/templates/settings/about.php:126
+#: includes/admin/templates/settings/about.php:135
 msgid "WP Statistics supports multiple languages. Help us reach more users by contributing to our translations."
 msgstr ""
 
-#: includes/admin/templates/settings/about.php:127
+#: includes/admin/templates/settings/about.php:136
 msgid "Contribute to Translations"
 msgstr ""
 
-#: includes/admin/templates/settings/about.php:132
+#: includes/admin/templates/settings/about.php:141
 msgid "More from VeronaLabs"
 msgstr ""
 
-#: includes/admin/templates/settings/about.php:137
+#: includes/admin/templates/settings/about.php:146
 msgid "Explore other plugins and tools designed to enhance your WordPress experience."
 msgstr ""
 
-#: includes/admin/templates/settings/about.php:138
+#: includes/admin/templates/settings/about.php:147
 msgid "VeronaLabs Products/Plugins"
 msgstr ""
 
@@ -2297,7 +2299,7 @@ msgstr ""
 #: includes/admin/templates/settings/add-ons/realtime-stats.php:74
 #: includes/admin/templates/settings/exclusions.php:245
 #: includes/admin/templates/settings/externals.php:283
-#: includes/admin/templates/settings/general.php:323
+#: includes/admin/templates/settings/general.php:318
 #: includes/admin/templates/settings/maintenance.php:78
 #: includes/admin/templates/settings/notifications.php:206
 #: includes/admin/templates/settings/overview-display.php:42
@@ -2319,7 +2321,7 @@ msgstr ""
 #: includes/admin/templates/settings/add-ons/advanced-reporting.php:354
 #: includes/admin/templates/settings/add-ons/advanced-reporting.php:441
 #: includes/admin/templates/settings/add-ons/advanced-reporting.php:472
-#: includes/admin/templates/settings/add-ons/advanced-reporting.php:502
+#: includes/admin/templates/settings/add-ons/advanced-reporting.php:503
 #: includes/admin/templates/settings/add-ons/customization.php:34
 #: includes/admin/templates/settings/add-ons/customization.php:82
 #: includes/admin/templates/settings/add-ons/customization.php:117
@@ -2338,7 +2340,7 @@ msgstr ""
 #: includes/admin/templates/settings/add-ons/advanced-reporting.php:355
 #: includes/admin/templates/settings/add-ons/advanced-reporting.php:442
 #: includes/admin/templates/settings/add-ons/advanced-reporting.php:473
-#: includes/admin/templates/settings/add-ons/advanced-reporting.php:503
+#: includes/admin/templates/settings/add-ons/advanced-reporting.php:504
 #: includes/admin/templates/settings/add-ons/customization.php:35
 #: includes/admin/templates/settings/add-ons/customization.php:83
 #: includes/admin/templates/settings/add-ons/customization.php:118
@@ -2411,7 +2413,7 @@ msgstr ""
 #: includes/admin/templates/settings/add-ons/advanced-reporting.php:280
 #: includes/admin/templates/settings/add-ons/advanced-reporting.php:325
 #: includes/admin/templates/settings/add-ons/advanced-reporting.php:454
-#: includes/admin/templates/settings/add-ons/advanced-reporting.php:515
+#: includes/admin/templates/settings/add-ons/advanced-reporting.php:485
 msgid "Active"
 msgstr ""
 
@@ -2464,7 +2466,6 @@ msgid "Get visual analytics on search engine referrals for a comprehensive view 
 msgstr ""
 
 #: includes/admin/templates/settings/add-ons/advanced-reporting.php:175
-#: includes/admin/templates/settings/add-ons/advanced-reporting.php:187
 msgid "Top Pages"
 msgstr ""
 
@@ -2585,39 +2586,39 @@ msgid "Insert a custom footer in your email reports for additional notes, discla
 msgstr ""
 
 #: includes/admin/templates/settings/add-ons/advanced-reporting.php:435
-msgid "PDF Reports"
-msgstr ""
-
-#: includes/admin/templates/settings/add-ons/advanced-reporting.php:449
-msgid "Email PDF Report Attachments"
-msgstr ""
-
-#: includes/admin/templates/settings/add-ons/advanced-reporting.php:455
-msgid "Select this option to automatically attach a PDF version of your report to your email updates, providing a convenient and printable document for recipients."
-msgstr ""
-
-#: includes/admin/templates/settings/add-ons/advanced-reporting.php:466
-msgid "Preview and Send"
-msgstr ""
-
-#: includes/admin/templates/settings/add-ons/advanced-reporting.php:480
-msgid "Test Your Report"
-msgstr ""
-
-#: includes/admin/templates/settings/add-ons/advanced-reporting.php:485
-msgid "Enter an email to send a preview, ensuring your report looks just right before it goes out to your audience."
-msgstr ""
-
-#: includes/admin/templates/settings/add-ons/advanced-reporting.php:496
 msgid "Control and Compliance"
 msgstr ""
 
-#: includes/admin/templates/settings/add-ons/advanced-reporting.php:510
+#: includes/admin/templates/settings/add-ons/advanced-reporting.php:449
 msgid "Copyright Notice"
 msgstr ""
 
-#: includes/admin/templates/settings/add-ons/advanced-reporting.php:516
+#: includes/admin/templates/settings/add-ons/advanced-reporting.php:455
 msgid "Opt to show or hide the plugin’s copyright notice, depending on your preference."
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/advanced-reporting.php:466
+msgid "PDF Reports"
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/advanced-reporting.php:480
+msgid "Email PDF Report Attachments"
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/advanced-reporting.php:486
+msgid "Select this option to automatically attach a PDF version of your report to your email updates, providing a convenient and printable document for recipients."
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/advanced-reporting.php:497
+msgid "Preview and Send"
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/advanced-reporting.php:511
+msgid "Test Your Report"
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/advanced-reporting.php:516
+msgid "Enter an email to send a preview, ensuring your report looks just right before it goes out to your audience."
 msgstr ""
 
 #: includes/admin/templates/settings/add-ons/customization.php:11
@@ -2740,10 +2741,10 @@ msgstr ""
 #: includes/admin/templates/settings/general.php:151
 #: includes/admin/templates/settings/general.php:163
 #: includes/admin/templates/settings/general.php:175
-#: includes/admin/templates/settings/general.php:216
-#: includes/admin/templates/settings/general.php:261
-#: includes/admin/templates/settings/general.php:293
-#: includes/admin/templates/settings/general.php:314
+#: includes/admin/templates/settings/general.php:211
+#: includes/admin/templates/settings/general.php:256
+#: includes/admin/templates/settings/general.php:288
+#: includes/admin/templates/settings/general.php:309
 #: includes/admin/templates/settings/maintenance.php:24
 #: includes/admin/templates/settings/maintenance.php:58
 #: includes/admin/templates/settings/notifications.php:34
@@ -3262,87 +3263,87 @@ msgstr ""
 msgid "Shows the view count on the content's page for visitor insight."
 msgstr ""
 
-#: includes/admin/templates/settings/general.php:187
+#: includes/admin/templates/settings/general.php:182
 msgid "Display position"
 msgstr ""
 
-#: includes/admin/templates/settings/general.php:193
+#: includes/admin/templates/settings/general.php:188
 msgid "Before Content"
 msgstr ""
 
-#: includes/admin/templates/settings/general.php:194
+#: includes/admin/templates/settings/general.php:189
 msgid "After Content"
 msgstr ""
 
-#: includes/admin/templates/settings/general.php:196
+#: includes/admin/templates/settings/general.php:191
 msgid "Choose the position to show Visits."
 msgstr ""
 
-#: includes/admin/templates/settings/general.php:206
+#: includes/admin/templates/settings/general.php:201
 msgid "Cache Integration"
 msgstr ""
 
-#: includes/admin/templates/settings/general.php:211
+#: includes/admin/templates/settings/general.php:206
 msgid "Cache Compatibility Mode"
 msgstr ""
 
-#: includes/admin/templates/settings/general.php:217
+#: includes/admin/templates/settings/general.php:212
 msgid "Ensures accurate statistics recording with caching plugins or services."
 msgstr ""
 
-#: includes/admin/templates/settings/general.php:220
+#: includes/admin/templates/settings/general.php:215
 msgid "Remember to update permalinks in the WP Statistics REST API settings and clear the cache for full integration."
 msgstr ""
 
-#: includes/admin/templates/settings/general.php:222
+#: includes/admin/templates/settings/general.php:217
 msgid "To keep Google from indexing REST API endpoints, add the specified code to your <strong>robots.txt</strong> file:"
 msgstr ""
 
-#: includes/admin/templates/settings/general.php:237
+#: includes/admin/templates/settings/general.php:232
 msgid "Admin Interface Settings"
 msgstr ""
 
-#: includes/admin/templates/settings/general.php:242
+#: includes/admin/templates/settings/general.php:237
 msgid "Show Stats in Admin Menu Bar"
 msgstr ""
 
-#: includes/admin/templates/settings/general.php:250
+#: includes/admin/templates/settings/general.php:245
 msgid "View your site's statistics directly from the WordPress admin menu bar."
 msgstr ""
 
-#: includes/admin/templates/settings/general.php:256
+#: includes/admin/templates/settings/general.php:251
 msgid "Disable Inactive Essential Feature Notices"
 msgstr ""
 
-#: includes/admin/templates/settings/general.php:262
+#: includes/admin/templates/settings/general.php:257
 msgid "Stops displaying messages for essential features that are currently switched off."
 msgstr ""
 
-#: includes/admin/templates/settings/general.php:272
+#: includes/admin/templates/settings/general.php:267
 msgid "Search Engine Handling"
 msgstr ""
 
-#: includes/admin/templates/settings/general.php:276
+#: includes/admin/templates/settings/general.php:271
 msgid "Search Engine Filters"
 msgstr ""
 
-#: includes/admin/templates/settings/general.php:276
+#: includes/admin/templates/settings/general.php:271
 msgid "Select which search engines are permitted to gather and report usage data when visitors arrive at your site from these sources"
 msgstr ""
 
-#: includes/admin/templates/settings/general.php:294
+#: includes/admin/templates/settings/general.php:289
 msgid "Allow %s to collect and report data."
 msgstr ""
 
-#: includes/admin/templates/settings/general.php:305
+#: includes/admin/templates/settings/general.php:300
 msgid "Graphical Data Presentation"
 msgstr ""
 
-#: includes/admin/templates/settings/general.php:310
+#: includes/admin/templates/settings/general.php:305
 msgid "Include Totals in Charts"
 msgstr ""
 
-#: includes/admin/templates/settings/general.php:315
+#: includes/admin/templates/settings/general.php:310
 msgid "For charts that represent multiple values, show the combined amount of all items at the bottom."
 msgstr ""
 
@@ -4068,7 +4069,7 @@ msgid "Distribution of visitors based on the browsers they use."
 msgstr ""
 
 #: includes/class-wp-statistics-meta-box.php:109
-msgid "Most Used Platforms"
+msgid "Most Used Operating Systems"
 msgstr ""
 
 #: includes/class-wp-statistics-meta-box.php:110

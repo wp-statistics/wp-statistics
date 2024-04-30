@@ -417,7 +417,7 @@
 
             <tr valign="top">
                 <th scope="row">
-                    <label for="delete-platform"><?php esc_html_e('Choose Platforms to Delete', 'wp-statistics'); ?></label>
+                    <label for="delete-platform"><?php esc_html_e('Choose Operating Systems to Delete', 'wp-statistics'); ?></label>
                 </th>
 
                 <td>

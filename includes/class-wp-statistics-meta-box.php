@@ -106,7 +106,7 @@ class Meta_Box
             ),
             'platforms'       => array(
                 'page_url'          => 'platform',
-                'name'              => __('Most Used Platforms', 'wp-statistics'),
+                'name'              => __('Most Used Operating Systems', 'wp-statistics'),
                 'description'       => __('Identify the operating systems most commonly used by your website visitors.', 'wp-statistics'),
                 'require'           => array('visitors' => true),
                 'hidden'            => true,
@@ -116,7 +116,7 @@ class Meta_Box
                     'filter_by_date'      => true,
                     'default_date_filter' => User::getDefaultDateFilter('platforms', 'filter|30days'),
                     'display_more_link'   => true,
-                    'more_link_title'     => __('View Most Used Platforms'),
+                    'more_link_title'     => __('View Most Used Operating Systems'),
                 ]
             ),
             'devices'         => array(

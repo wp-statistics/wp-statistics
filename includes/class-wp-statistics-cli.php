@@ -179,7 +179,7 @@ class WP_STATISTICS_CLI extends \WP_CLI_Command
         }
 
         // Set Column
-        $column = array('IP', 'Date', 'Browser', 'Referrer', 'Platform', 'User ID');
+        $column = array('IP', 'Date', 'Browser', 'Referrer', 'Operating System', 'User ID');
         if (GeoIP::active() === true) {
             $column[] = 'Country';
         }
@@ -192,7 +192,7 @@ class WP_STATISTICS_CLI extends \WP_CLI_Command
                 'Date'     => $row['date'],
                 'Browser'  => $row['browser']['name'],
                 'Referrer' => wp_strip_all_tags($row['referred']),
-                'Platform' => $row['platform'],
+                'Operating System' => $row['platform'],
                 'User ID'  => ((isset($row['user']) and isset($row['user']['ID']) and $row['user']['ID'] > 0) ? $row['user']['ID'] : '-')
             );
 

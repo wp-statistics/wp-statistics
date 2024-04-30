@@ -238,7 +238,7 @@ class Menus
             'platforms'    => array(
                 'require'  => array('visitors' => true),
                 'sub'      => 'overview',
-                'title'    => __('Platforms', 'wp-statistics'),
+                'title'    => __('Operating Systems', 'wp-statistics'),
                 'page_url' => 'platform',
                 'method'   => 'platform'
             ),

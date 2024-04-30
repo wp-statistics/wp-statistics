@@ -103,7 +103,7 @@ class visitors_page
         }
 
         /**
-         * Platform Filter
+         * Operating System Filter
          */
         if (isset($_GET['platform']) and !empty($_GET['platform'])) {
             // Add Params To SQL

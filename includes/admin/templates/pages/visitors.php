@@ -37,7 +37,7 @@
                                         </a>
                                     </td>
                                     <td><?php echo esc_html(\WP_STATISTICS\Option::get('hash_ips') == true ? __('Daily Visitor Hash', 'wp-statistics') : __('IP Address', 'wp-statistics')); ?></td>
-                                    <td><?php esc_html_e('Platform', 'wp-statistics'); ?></td>
+                                    <td><?php esc_html_e('Operating System', 'wp-statistics'); ?></td>
                                     <td><?php esc_html_e('Total Visits', 'wp-statistics'); ?></td>
                                     <td><?php esc_html_e('User', 'wp-statistics'); ?></td>
                                     <?php
