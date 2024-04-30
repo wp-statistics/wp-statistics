@@ -88,9 +88,10 @@ class AuthorAnalyticsPage
     private function singleAuthorView()
     {
         $authorID = isset($_GET['author_id']) ? sanitize_text_field($_GET['author_id']) : '';
+        $author   = get_userdata($authorID);
 
         $args = [
-            'title'      => esc_html__('Author:' , 'wp-statistics') . $authorID,
+            'title'      => esc_html__('Author: ' , 'wp-statistics') . $author->display_name,
             'pageName'   => Menus::get_page_slug('author-analytics'),
             'pagination' => Admin_Template::getCurrentPaged(),
             'custom_get' => ['author_id' => $authorID],
