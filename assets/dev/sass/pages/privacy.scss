@@ -409,6 +409,31 @@
       border-radius: 8px;
       flex-direction: column;
 
+      &.loading{
+        position: relative;
+        overflow: hidden;
+        background-color: rgba(0, 0, 0, .12);
+        cursor: wait;
+        mask-image: radial-gradient(#fff, #000);
+        border-radius: 4px;
+        height: 63px;
+        &:after{
+          content: "";
+          position: absolute;
+          top: 0;
+          right: 0;
+          bottom: 0;
+          left: 0;
+          z-index: 0;
+          background: linear-gradient(90deg, transparent, hsla(0, 0%, 100%, .4), transparent);
+          -webkit-animation: skeleton-animate-wave 1.75s linear infinite;
+          animation: skeleton-animate-wave 1.75s linear infinite;
+        }
+        &>div{
+          display: none;
+        }
+      }
+
       &--success {
         background: #0E94440D;
       }
