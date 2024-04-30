@@ -33,7 +33,7 @@ class AuthorAnalyticsPage
             }
 
             // Throw error when invalid author ID provided
-            if (isset($_GET['ID']) && !User::exists(intval($_GET['ID']))) {
+            if (isset($_GET['author_id']) && !User::exists(intval($_GET['author_id']))) {
                 throw new InvalidArgumentException(esc_html__('Invalid author ID provided.', 'wp-statistics'));
             }
         }
@@ -45,7 +45,7 @@ class AuthorAnalyticsPage
     public function view()
     {
         // If Author ID is set show single author template, otherwise, show authors analytics template
-        isset($_GET['ID']) ? $this->singleAuthorView() : $this->authorsView();
+        isset($_GET['author_id']) ? $this->singleAuthorView() : $this->authorsView();
 
       }
 
@@ -87,13 +87,13 @@ class AuthorAnalyticsPage
      */
     private function singleAuthorView()
     {
-        $authorID = isset($_GET['ID']) ? sanitize_text_field($_GET['ID']) : '';
+        $authorID = isset($_GET['author_id']) ? sanitize_text_field($_GET['author_id']) : '';
 
         $args = [
             'title'      => esc_html__('Author:' , 'wp-statistics') . $authorID,
             'pageName'   => Menus::get_page_slug('author-analytics'),
             'pagination' => Admin_Template::getCurrentPaged(),
-            'custom_get' => ['ID' => $authorID],
+            'custom_get' => ['author_id' => $authorID],
             'DateRang'   => Admin_Template::DateRange(),
             'HasDateRang' > True,
         ];
