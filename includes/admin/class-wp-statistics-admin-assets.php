@@ -168,6 +168,7 @@ class Admin_Assets
             wp_enqueue_script(self::$prefix . '-jqvmap-world', self::url('jqvmap/jquery.vmap.world.min.js'), array('jquery'), "1.5.1", ['in_footer' => true]);
         }
 
+
         // Load Jquery UI
         //        if (Menus::in_plugin_page() and Menus::in_page('optimization') === false and Menus::in_page('settings') === false) {
         //            wp_enqueue_script('jquery-ui-datepicker');
