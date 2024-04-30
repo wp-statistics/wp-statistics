@@ -273,16 +273,21 @@ class IP
         global $wpdb;
 
         // Get the rows from the Visitors table.
-        $result = $wpdb->get_results("SELECT DISTINCT ip FROM " . DB::table('visitor'));
+        $visitorTable = DB::table('visitor');
+        $result       = $wpdb->get_results("SELECT DISTINCT ip FROM {$visitorTable} WHERE ip NOT LIKE '#hash#%'");
+        $resultUpdate = [];
+
         foreach ($result as $row) {
-            if (IP::IsHashIP($row->ip)) {
-                $wpdb->update(
-                    DB::table('visitor'),
-                    array('ip' => IP::$hash_ip_prefix . sha1($row->ip . Helper::random_string()),),
+            if (!self::IsHashIP($row->ip)) {
+                $resultUpdate[] = $wpdb->update(
+                    $visitorTable,
+                    array('ip' => self::hashUserIp($row->ip)),
                     array('ip' => $row->ip)
                 );
             }
         }
+
+        return count($resultUpdate);
     }
 
 }

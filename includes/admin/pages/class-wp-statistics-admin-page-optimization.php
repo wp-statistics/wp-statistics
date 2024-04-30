@@ -51,10 +51,10 @@ class optimization_page
 
         // Check Hash IP Update
         if (isset($_POST['submit'], $_POST['hash-ips-submit']) and intval($_POST['hash-ips-submit']) == 1) {
-            IP::Update_HashIP_Visitor();
+            $result = IP::Update_HashIP_Visitor();
 
             // Show Notice
-            Helper::addAdminNotice(__('IP Addresses Anonymized with Hash Values.', "wp-statistics"), "success");
+            Helper::addAdminNotice(sprintf(__('Successfully anonymized <b>%d</b> IP addresses using hash values.', 'wp-statistics'), $result), 'success');
         }
 
         // Re-install All DB Table
