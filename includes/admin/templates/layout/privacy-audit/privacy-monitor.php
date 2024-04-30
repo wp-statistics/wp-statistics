@@ -7,7 +7,7 @@ use WP_STATISTICS\Admin_Template;
         <h2><?php esc_html_e('Privacy Audit', 'wp-statistics'); ?></h2>
         <p><?php esc_html_e('Audit List: Monitor Compliance Status', 'wp-statistics'); ?></p>
     </div>
-    <div class="wps-privacy-list__items">
+    <div class="wps-privacy-list__items loading">
         <?php
             // $privacy_items = [
             //     [

@@ -41,7 +41,9 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                         </div>
                     `;
 
-                    jQuery('.wps-privacy-list .wps-privacy-list__items').append(auditElement);
+                    const privacyItemsWrapper = jQuery('.wps-privacy-list .wps-privacy-list__items');
+                    privacyItemsWrapper.removeClass('loading');
+                    privacyItemsWrapper.append(auditElement);
                 });
             },
             error: function (xhr, status, error) {
