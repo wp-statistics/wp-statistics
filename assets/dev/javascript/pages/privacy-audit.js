@@ -17,8 +17,8 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                 const auditList        = data.audit_list;
                 const complianceStatus = data.compliance_status;
 
-                // Update compliance status information
-                updateComplianceStatus(complianceStatus);
+                // Update compliance information
+                updateComplianceData(complianceStatus);
 
                 // Append audit items to the page.
                 auditList.forEach(item => {
@@ -86,7 +86,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
 
                 // Remove loading
                 button.removeClass('loading');
-                updateComplianceStatus(complianceStatus);
+                updateComplianceData(complianceStatus);
 
                 auditElement.attr('class', `wps-privacy-list__item wps-privacy-list__item--${auditItem.status}`);
                 auditElement.find('.wps-privacy-list__icon').attr('class', `wps-privacy-list__icon wps-privacy-list__icon--${auditItem.status}`);
@@ -107,15 +107,15 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         });
     });
 
-    function updateComplianceStatus(complianceStatusObj) {
-        const complianceStatusElement = jQuery('.wps-privacy-status');
+    function updateComplianceData(complianceData) {
+        const complianceStatusWrapper = jQuery('.wps-privacy-status');
         
-        complianceStatusElement.removeClass('loading success warning');
-        complianceStatusElement.addClass(complianceStatusObj.percentage_ready == 100 ? 'success' : 'warning');
+        complianceStatusWrapper.removeClass('loading success warning');
+        complianceStatusWrapper.addClass(complianceData.percentage_ready == 100 ? 'success' : 'warning');
 
-        complianceStatusElement.find('.wps-privacy-status__percent-value').text(complianceStatusObj.percentage_ready);
-        complianceStatusElement.find('.wps-privacy-status__rules-mapped-value').text(complianceStatusObj.rules_mapped);
-        complianceStatusElement.find('.wps-privacy-status__passed-value').text(complianceStatusObj.summary.passed);
-        complianceStatusElement.find('.wps-privacy-status__need-work-value').text(complianceStatusObj.summary.action_required);
+        complianceStatusWrapper.find('.wps-privacy-status__percent-value').text(complianceData.percentage_ready);
+        complianceStatusWrapper.find('.wps-privacy-status__rules-mapped-value').text(complianceData.rules_mapped);
+        complianceStatusWrapper.find('.wps-privacy-status__passed-value').text(complianceData.summary.passed);
+        complianceStatusWrapper.find('.wps-privacy-status__need-work-value').text(complianceData.summary.action_required);
     }
 }
