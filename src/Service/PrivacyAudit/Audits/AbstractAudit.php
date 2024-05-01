@@ -1,7 +1,7 @@
 <?php 
-namespace WP_Statistics\Service\PrivacyAudit\Actions;
+namespace WP_Statistics\Service\PrivacyAudit\Audits;
 
-abstract class AbstractPrivacyAction 
+abstract class AbstractAudit 
 {
     abstract static public function getStatus();
 

@@ -1,9 +1,9 @@
 <?php 
-namespace WP_Statistics\Service\PrivacyAudit\Actions;
+namespace WP_Statistics\Service\PrivacyAudit\Audits;
 
 use WP_STATISTICS\Option;
 
-class RecordUserPageVisits extends AbstractPrivacyAction
+class RecordUserPageVisits extends AbstractAudit
 {
     private static $optionKey = 'visitors_log';
 

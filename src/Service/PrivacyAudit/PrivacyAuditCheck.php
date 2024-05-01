@@ -2,13 +2,13 @@
 
 namespace WP_Statistics\Service\PrivacyAudit;
 
-use WP_Statistics\Service\PrivacyAudit\Actions\AbstractPrivacyAction;
-use WP_Statistics\Service\PrivacyAudit\Actions\RecordUserPageVisits;
+use WP_Statistics\Service\PrivacyAudit\Audits\AbstractAudit;
+use WP_Statistics\Service\PrivacyAudit\Audits\RecordUserPageVisits;
 
 class PrivacyAuditCheck
 {
-    /** @var AbstractPrivacyAction[] $actions */
-    public static $list = [
+    /** @var AbstractAudit[] $audits */
+    public static $audits = [
         'record_user_page_visits' => RecordUserPageVisits::class,
     ];
 
@@ -16,16 +16,16 @@ class PrivacyAuditCheck
     {
         $list = [];
 
-        foreach (self::$list as $key => $action) {
-            $item = $action::getState();
+        foreach (self::$audits as $key => $audit) {
+            $auditInfo = $audit::getState();
 
             $list[] = [
                 'name'      => $key, 
-                'title'     => $item['title'], 
-                'notes'     => $item['notes'],
-                'status'    => $item['status'], 
-                'action'    => $item['action'],
-                'compliance'=> $item['compliance'],
+                'title'     => $auditInfo['title'], 
+                'notes'     => $auditInfo['notes'],
+                'status'    => $auditInfo['status'], 
+                'action'    => $auditInfo['action'],
+                'compliance'=> $auditInfo['compliance'],
             ];
         }
 
@@ -38,9 +38,9 @@ class PrivacyAuditCheck
         $actionRequired = 0;
         $passed         = 0;
 
-        foreach (self::$list as $action) {
+        foreach (self::$audits as $audit) {
             $rulesMapped++;
-            $action::getStatus() == 'passed' ? $passed++ : $actionRequired++;
+            $audit::getStatus() == 'passed' ? $passed++ : $actionRequired++;
         }
 
         return [

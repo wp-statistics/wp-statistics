@@ -26,23 +26,23 @@ class PrivacyAuditController
             check_ajax_referer('wp_rest', 'wps_nonce');
 
             // Get and sanitize data
-            $actionName = isset($_POST['action_name']) ? sanitize_text_field($_POST['action_name']) : '';
-            $actionType = isset($_POST['action_type']) ? sanitize_text_field($_POST['action_type']) : '';
+            $auditName   = isset($_POST['audit_name']) ? sanitize_text_field($_POST['audit_name']) : '';
+            $auditAction = isset($_POST['audit_action']) ? sanitize_text_field($_POST['audit_action']) : '';
 
-            // Find the audit item based on provided action name
-            $item = PrivacyAuditCheck::$list[$actionName];
+            // Find the audit class based on provided audit name
+            $auditClass = PrivacyAuditCheck::$audits[$auditName];
 
             // If action is not defined in the class, throw error
-            if (!method_exists($item, $actionType)) {
+            if (!method_exists($auditClass, $auditAction)) {
                 throw new InvalidArgumentException(esc_html__('Undefined action type.', 'wp-statistics'));
             }
 
             // Run the action
-            $item::$actionType();
+            $auditClass::$auditAction();
 
             // Get the updated audit item status
             $response['compliance_status'] = PrivacyAuditCheck::complianceStatus();
-            $response['audit_item']        = $item::getState();
+            $response['audit_item']        = $auditClass::getState();
 
             // Send the response
             wp_send_json_success($response);

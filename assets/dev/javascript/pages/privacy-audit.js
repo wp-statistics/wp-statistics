@@ -29,7 +29,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                     // If item is not passed and has action, set proper data attribute
                     let actionData = '';
                     if (item.compliance.key != 'passed' && item.hasOwnProperty('action')) {
-                        actionData = `data-action-name="${item.name}" data-action-type="${item.action.key}"`;
+                        actionData = `data-audit="${item.name}" data-action="${item.action.key}"`;
                     }
 
                     const auditElement  = `
@@ -57,11 +57,11 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
     });
 
 
-    jQuery(document).on('click', '.wps-privacy-list__button[data-action-type]', (e) => {
+    jQuery(document).on('click', '.wps-privacy-list__button[data-action]', (e) => {
         const button        = jQuery(e.currentTarget);
-        const actionName    = jQuery(e.currentTarget).data('action-name');
-        const actionType    = jQuery(e.currentTarget).data('action-type');
-        const auditElement  = jQuery('#' + actionName);
+        const auditName     = jQuery(e.currentTarget).data('audit');
+        const auditAction   = jQuery(e.currentTarget).data('action');
+        const auditElement  = jQuery('#' + auditName);
 
         // Do not proceed if button is in loading state
         if (button.hasClass('loading')) return;
@@ -73,8 +73,8 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         let params = {
             'wps_nonce': wps_js.global.rest_api_nonce,
             'action': 'wp_statistics_updatePrivacyStatus',
-            'action_name': actionName,
-            'action_type': actionType
+            'audit_name': auditName,
+            'audit_action': auditAction
         };
         params = Object.assign(params, wps_js.global.request_params);
 
@@ -104,8 +104,8 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
 
                 if (auditItem.hasOwnProperty('action')) {
                     auditElement.find('.wps-privacy-list__button').attr('class', `wps-privacy-list__button wps-privacy-list__button--${auditItem.action.key}`);
-                    auditElement.find('.wps-privacy-list__button').attr('data-action-type', auditItem.action.key);
-                    auditElement.find('.wps-privacy-list__button').data('action-type', auditItem.action.key);
+                    auditElement.find('.wps-privacy-list__button').attr('data-action', auditItem.action.key);
+                    auditElement.find('.wps-privacy-list__button').data('action', auditItem.action.key);
                     auditElement.find('.wps-privacy-list__button').text(auditItem.action.value);
                 }
             },
