@@ -43,7 +43,7 @@
                                             if ($user) : ?>
                                                  <img src="<?php echo esc_url(get_avatar_url($user->ID)); ?>" alt="Author Name"/>
                                             <?php endif ?>
-                                            <span>Author Name</span>
+                                            <span title="Author Name">Author Name</span>
                                         </div>
                                     </td>
                                     <td class="wps-pd-l">

@@ -64,7 +64,7 @@ $publishedChartData = [
                     max: 20,
                     ticks: {
                         stepSize: 4,
-                        color: '#c0c0c1',
+                        color: '#56585A',
                         fontSize: 13,
                         padding: 15,
                     },
@@ -95,7 +95,7 @@ $publishedChartData = [
                         autoSkip: false,
                         maxRotation: 90,
                         minRotation: 90,
-                        color: '#c0c0c1',
+                        color: '#56585A',
                         padding: 15,
                         fontSize: 13
                     },

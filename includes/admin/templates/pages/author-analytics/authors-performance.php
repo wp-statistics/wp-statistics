@@ -3,54 +3,29 @@
         <?php
         use WP_STATISTICS\Admin_Template;
 
-        // Item 1
-        $args1 = array(
-            'title_text'   => esc_html__('Authors', 'wp-statistics'),
-            'tooltip_text'   => esc_html__('Authors tooltip', 'wp-statistics'),
-            'icon_class'   => 'authors',
-            'total'   => '2.5K',
-            'active'   => '46',
-            'avg'   => '10.56',
-            'avg_title'   => esc_html__('Post/Authors', 'wp-statistics'),
-        );
-         Admin_Template::get_template(array('layout/author-analytics/performance-summary'), $args1);
+        function generate_item_args($title, $tooltip, $icon, $total, $active = null, $avg = null, $avg_title = null) {
+            return array(
+                'title_text'   => esc_html__($title, 'wp-statistics'),
+                'tooltip_text' => esc_html__($tooltip, 'wp-statistics'),
+                'icon_class'   => $icon,
+                'total'        => $total,
+                'active'       => $active,
+                'avg'          => $avg,
+                'avg_title'    => esc_html__($avg_title ?? 'Avg. Per Post', 'wp-statistics'),
+            );
+        }
 
-        // Item 2
-        $args2 = array(
-            'title_text'   => esc_html__('Views', 'wp-statistics'),
-            'tooltip_text'   => esc_html__('Views tooltip', 'wp-statistics'),
-            'icon_class'   => 'views',
-            'total'   => '35.1M',
-            'active'   => null,
-            'avg'   => '16.2K',
-            'avg_title'   => esc_html__('Avg. Per Post', 'wp-statistics'),
+        $items = array(
+            generate_item_args('Authors', 'Authors tooltip', 'authors', '2.5K', '46', '10.56', 'Post/Authors'),
+            generate_item_args('Views', 'Views tooltip', 'views', '35.1M', null, '16.2K'),
+            generate_item_args('Words', 'Words tooltip', 'words', '25.2M', null, '8.2K'),
+            generate_item_args('Comments', 'Comments tooltip', 'comments', '61K', null, '300')
         );
-        Admin_Template::get_template(array('layout/author-analytics/performance-summary'), $args2);
 
-        // Item 3
-        $args3 = array(
-            'title_text'   => esc_html__('Words', 'wp-statistics'),
-            'tooltip_text'   => esc_html__('Words tooltip', 'wp-statistics'),
-            'icon_class'   => 'words',
-            'total'   => '25.2M',
-            'active'   => null,
-            'avg'   => '8.2K',
-            'avg_title'   => esc_html__('Avg. Per Post', 'wp-statistics'),
-        );
-        Admin_Template::get_template(array('layout/author-analytics/performance-summary'), $args3);
-
-        // Item 4
-        $args4 = array(
-            'title_text'   => esc_html__('Comments', 'wp-statistics'),
-            'tooltip_text'   => esc_html__('Comments tooltip', 'wp-statistics'),
-            'icon_class'   => 'comments',
-            'total'   => '61K',
-            'active'   => null,
-            'avg'   => '300',
-            'avg_title'   => esc_html__('Avg. Per Post', 'wp-statistics'),
-        );
-        Admin_Template::get_template(array('layout/author-analytics/performance-summary'), $args4);
-       ?>
+        foreach ($items as $args) {
+            Admin_Template::get_template(array('layout/author-analytics/performance-summary'), $args);
+        }
+        ?>
     </div>
 
     <div class="postbox-container" id="wps-postbox-container-2">

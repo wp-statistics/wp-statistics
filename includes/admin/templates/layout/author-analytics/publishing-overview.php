@@ -105,6 +105,7 @@
                 maxRotation: 0,
                 autoSkip: true,
                 padding: 5,
+                color:'#000',
                 font: {
                     size: 12
                 }
@@ -134,6 +135,7 @@
                 maxRotation: 0,
                 autoSkip: true,
                 padding: 5,
+                color:'#000000',
                  font: {
                     size: 12
                 },
@@ -186,9 +188,12 @@
         }
     };
 
+    jQuery(document).ready(function () {
+        const myChart = new Chart(
+            document.getElementById('myChart'),
+            config
+        );
+    });
     // render init block
-    const myChart = new Chart(
-        document.getElementById('myChart'),
-        config
-    );
+
  </script>

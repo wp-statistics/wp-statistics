@@ -86,7 +86,7 @@
   direction: rtl;
 }
 
-.wps-datepicker {
+.wps-head-filters {
   right: unset;
   left: 23px;
 }
@@ -170,12 +170,12 @@
       right: unset;
     }
   }
-  .wps-datepicker .js-date-range-picker-btn:after{
+  .wps-head-filters .js-date-range-picker-btn:after{
     margin-left: unset;
     margin-right: 3px;
     margin-top: 2px;
   }
-  .wps-datepicker #visitors-filter{
+  .wps-head-filters #visitors-filter{
     margin-right: unset;
     margin-left: 12px;
   }

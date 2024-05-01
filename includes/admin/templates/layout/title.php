@@ -1,4 +1,8 @@
 <div class="wps-wrap__top">
+    <?php if (isset($PreviousUrl) &&  isset($PreviousTitle)): ?>
+        <a href="<?php echo  $PreviousUrl ?>" title="<?php echo $PreviousTitle?>" class="wps-previous-url"><?php echo $PreviousTitle?></a>
+    <?php endif ?>
+
     <h2 class="wps_title"><?php echo(isset($title) ? esc_attr($title) : (function_exists('get_admin_page_title') ? get_admin_page_title() : '')); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	 ?></h2>
     <?php do_action('wp_statistics_after_admin_page_title'); ?>
     <?php if (isset($Datepicker)): ?>
@@ -10,8 +14,15 @@
         </form>
     <?php endif ?>
     <?php if (isset($HasDateRang)): ?>
-        <div class="wps-datepicker">
+        <div class="wps-head-filters">
             <?php include 'date.range.php'; ?>
+            <?php
+            if (!empty($filters)) {
+                foreach ($filters as $filter) {
+                    require_once "filters/$filter-filter.php";
+                }
+            }
+            ?>
         </div>
     <?php endif ?>
 </div>

@@ -90,7 +90,7 @@ class AuthorAnalyticsPage
             'pagination' => Admin_Template::getCurrentPaged(),
             'custom_get' => ['tab' => $currentTab],
             'DateRang'   => Admin_Template::DateRange(),
-            'filters'    => ['author'],
+            'filters'    => ['post-type'],
             'tabs'       => [
                 [
                     'link'    => Menus::admin_url(Menus::get_page_slug('author-analytics'), ['tab' => 'performance']),
@@ -108,7 +108,7 @@ class AuthorAnalyticsPage
         ];
 
         if ($currentTab === 'pages') {
-            $args['filters'][] = 'post-type';
+            $args['filters'][] = 'author';
         }
 
         Admin_Template::get_template(['layout/header', 'layout/tabbed-page-header', "pages/author-analytics/authors-$currentTab", 'layout/postbox.hide', 'layout/footer'], $args);
@@ -128,7 +128,10 @@ class AuthorAnalyticsPage
             'pagination' => Admin_Template::getCurrentPaged(),
             'custom_get' => ['author_id' => $authorID],
             'DateRang'   => Admin_Template::DateRange(),
-            'HasDateRang' > True,
+            'HasDateRang'=> true,
+            'PreviousUrl'=> esc_url(admin_url('admin.php?page=wps_author-analytics_page')),
+            'PreviousTitle'=> esc_html__('Authors Performance', 'wp-statistics'),
+            'filters'    => ['post-type'],
         ];
 
         Admin_Template::get_template(['layout/header', 'layout/title', 'pages/author-analytics/author-single', 'layout/postbox.toggle', 'layout/footer'], $args);
@@ -146,6 +149,9 @@ class AuthorAnalyticsPage
             'pagination' => Admin_Template::getCurrentPaged(),
             'DateRang'   => Admin_Template::DateRange(),
             'HasDateRang'=> true,
+            'filters'    => ['post-type'],
+            'PreviousUrl'=> esc_url(admin_url('admin.php?page=wps_author-analytics_page')),
+            'PreviousTitle'=> esc_html__('Authors Performance', 'wp-statistics')
         ];
 
         Admin_Template::get_template(['layout/header', 'layout/title', 'pages/author-analytics/authors-report', 'layout/postbox.toggle', 'layout/footer'], $args);
@@ -170,6 +176,10 @@ class AuthorAnalyticsPage
             'custom_get' => ['author_id' => $authorID],
             'DateRang'   => Admin_Template::DateRange(),
             'HasDateRang'=> true,
+            'PreviousUrl'=> esc_url(admin_url('admin.php?page=wps_author-analytics_page')),
+            'PreviousTitle'=> esc_html__('Authors Performance', 'wp-statistics'),
+            'filters'    => ['post-type','author'],
+
         ];
 
         Admin_Template::get_template(['layout/header', 'layout/title', 'pages/author-analytics/author-posts', 'layout/postbox.toggle', 'layout/footer'], $args);

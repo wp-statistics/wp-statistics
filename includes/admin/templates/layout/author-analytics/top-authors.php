@@ -18,7 +18,7 @@
                     $users = array("Navid" => "15.1K", "Mostafa" => "12.5K", "Byimrez" => "8.3K", "James" => "5.6K", "Emily" => "4.7K");
                     $counter = 1; // Initialize counter variable
                     foreach ($users as $name => $pageviews) : ?>
-                        <a class="wps-author-tabs__item" href="">
+                        <a class="wps-author-tabs__item" href="<?php echo esc_url(admin_url('admin.php?page=wps_author-analytics_page&author_id=1')); ?>">
                             <div class="wps-author-tabs__item--image">
                                 <?php $user = wp_get_current_user();
                                     if ($user) : ?>
@@ -28,7 +28,7 @@
                             </div>
                             <div class="wps-author-tabs__item--content">
                                 <h3><?php echo $name; ?></h3>
-                                <span><?php echo $pageviews; ?> page views</span>
+                                <span><?php echo $pageviews; ?> <?php echo esc_html__('page views', 'wp-statistics') ?></span>
                             </div>
                         </a>
                         <?php $counter++;?>
@@ -51,7 +51,7 @@
                             </div>
                             <div class="wps-author-tabs__item--content">
                                 <h3><?php echo $name; ?></h3>
-                                <span><?php echo $pageviews; ?> page publish</span>
+                                <span><?php echo $pageviews; ?> <?php echo esc_html__('page publish', 'wp-statistics') ?></span>
                             </div>
                         </a>
                         <?php $counter++;?>
@@ -102,7 +102,7 @@
                             </div>
                             <div class="wps-author-tabs__item--content">
                                 <h3><?php echo $name; ?></h3>
-                                <span><?php echo $pageviews; ?> views/post</span>
+                                <span><?php echo $pageviews; ?> <?php echo esc_html__('views/post', 'wp-statistics') ?></span>
                             </div>
                         </a>
                         <?php $counter++;?>
@@ -126,7 +126,7 @@
                             </div>
                             <div class="wps-author-tabs__item--content">
                                 <h3><?php echo $name; ?></h3>
-                                <span><?php echo $pageviews; ?> words/post</span>
+                                <span><?php echo $pageviews; ?> <?php echo esc_html__('words/post', 'wp-statistics') ?></span>
                             </div>
                         </a>
                         <?php $counter++;?>
@@ -137,7 +137,7 @@
     </div>
     <div class="c-footer">
         <div class="c-footer__more">
-            <a href="" class="c-footer__more__link" title="<?php echo esc_html__('See all authors', 'wp-statistics') ?>"><?php echo esc_html__('See all authors', 'wp-statistics') ?></a>
+            <a href="<?php echo esc_url(admin_url('admin.php?page=wps_author-analytics_page&report=authors')); ?>" class="c-footer__more__link" title="<?php echo esc_html__('See all authors', 'wp-statistics') ?>"><?php echo esc_html__('See all authors', 'wp-statistics') ?></a>
         </div>
     </div>
 </div>

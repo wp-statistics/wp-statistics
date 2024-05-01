@@ -2,7 +2,7 @@
     <div class="wps-card__title">
         <h2>
             <?php echo $title_text ?>
-            <?php if($tooltip_text):?>
+            <?php if(isset($tooltip_text)):?>
                 <span class="wps-tooltip" title="<?php echo esc_attr($tooltip_text); ?>"><i class="wps-tooltip-icon info"></i></span>
             <?php endif?>
         </h2>
@@ -12,15 +12,19 @@
             <span><?php echo $total ?></span>
             <span><?php echo esc_html__('Total', 'wp-statistics') ?></span>
         </div>
-        <?php if($active):?>
+        <?php if(isset($active)):?>
             <div class="wps-card__summary--active">
                 <span><?php echo $active ?></span>
                 <span><?php echo esc_html__('Active', 'wp-statistics') ?></span>
             </div>
         <?php endif?>
         <div class="wps-card__summary--avg">
-            <span><?php echo $avg ?></span>
-            <span><?php echo $avg_title ?></span>
+            <?php if(isset($avg)):?>
+                <span><?php echo $avg ?></span>
+            <?php endif?>
+            <?php if(isset($avg_title)):?>
+                <span><?php echo $avg_title ?></span>
+            <?php endif?>
         </div>
      </div>
 </div>
