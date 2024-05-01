@@ -7,17 +7,19 @@ use WP_Statistics\Service\PrivacyAudit\Audits\AnonymizeIpAddress;
 use WP_Statistics\Service\PrivacyAudit\Audits\RecordUserPageVisits;
 use WP_Statistics\Service\PrivacyAudit\Audits\HashIpAddress;
 use WP_Statistics\Service\PrivacyAudit\Audits\StoreUserAgentString;
+use WP_Statistics\Service\PrivacyAudit\Audits\StoredUserAgentStringData;
 use WP_Statistics\Service\PrivacyAudit\Audits\UnhashedIpAddress;
 
 class PrivacyAuditCheck
 {
     /** @var AbstractAudit[] $audits */
     public static $audits = [
-        'record_user_page_visits'   => RecordUserPageVisits::class,
-        'anonymize_ip_address'      => AnonymizeIpAddress::class,
-        'hash_ip_address'           => HashIpAddress::class,
-        'store_user_agent_string'   => StoreUserAgentString::class,
-        'unhashed_ip_address'       => UnhashedIpAddress::class,
+        'record_user_page_visits'       => RecordUserPageVisits::class,
+        'anonymize_ip_address'          => AnonymizeIpAddress::class,
+        'hash_ip_address'               => HashIpAddress::class,
+        'store_user_agent_string'       => StoreUserAgentString::class,
+        'stored_user_agent_string_data' => StoredUserAgentStringData::class,
+        'unhashed_ip_address'           => UnhashedIpAddress::class,
     ];
 
     public static function auditListStatus()
