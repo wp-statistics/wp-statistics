@@ -37,7 +37,7 @@ class PrivacyAuditCheck
             ];
 
             // If audit has action in the current state, add it to the audit item array.
-            if (!empty($auditState['status'])) {
+            if (!empty($auditState['action'])) {
                 $auditItem['action'] = $auditState['action'];
             }
 
