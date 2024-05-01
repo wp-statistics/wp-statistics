@@ -3,13 +3,15 @@
 namespace WP_Statistics\Service\PrivacyAudit;
 
 use WP_Statistics\Service\PrivacyAudit\Audits\AbstractAudit;
+use WP_Statistics\Service\PrivacyAudit\Audits\AnonymizeIpAddress;
 use WP_Statistics\Service\PrivacyAudit\Audits\RecordUserPageVisits;
 
 class PrivacyAuditCheck
 {
     /** @var AbstractAudit[] $audits */
     public static $audits = [
-        'record_user_page_visits' => RecordUserPageVisits::class,
+        'record_user_page_visits'   => RecordUserPageVisits::class,
+        'anonymize_ip_address'      => AnonymizeIpAddress::class,
     ];
 
     public static function auditListStatus()
