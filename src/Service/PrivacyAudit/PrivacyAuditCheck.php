@@ -5,6 +5,7 @@ namespace WP_Statistics\Service\PrivacyAudit;
 use WP_Statistics\Service\PrivacyAudit\Audits\AbstractAudit;
 use WP_Statistics\Service\PrivacyAudit\Audits\AnonymizeIpAddress;
 use WP_Statistics\Service\PrivacyAudit\Audits\RecordUserPageVisits;
+use WP_Statistics\Service\PrivacyAudit\Audits\HashIpAddress;
 
 class PrivacyAuditCheck
 {
@@ -12,6 +13,7 @@ class PrivacyAuditCheck
     public static $audits = [
         'record_user_page_visits'   => RecordUserPageVisits::class,
         'anonymize_ip_address'      => AnonymizeIpAddress::class,
+        'hash_ip_address'           => HashIpAddress::class,
     ];
 
     public static function auditListStatus()
@@ -46,7 +48,7 @@ class PrivacyAuditCheck
         }
 
         return [
-            'percentage_ready'  => ($passed / $rulesMapped) * 100,
+            'percentage_ready'  => floor(($passed / $rulesMapped) * 100),
             'rules_mapped'      => $rulesMapped,
             'summary'           => [
                 'passed'          => $passed,
