@@ -6,6 +6,7 @@ use WP_Statistics\Service\PrivacyAudit\Audits\AbstractAudit;
 use WP_Statistics\Service\PrivacyAudit\Audits\AnonymizeIpAddress;
 use WP_Statistics\Service\PrivacyAudit\Audits\RecordUserPageVisits;
 use WP_Statistics\Service\PrivacyAudit\Audits\HashIpAddress;
+use WP_Statistics\Service\PrivacyAudit\Audits\StoreUserAgentString;
 
 class PrivacyAuditCheck
 {
@@ -14,6 +15,7 @@ class PrivacyAuditCheck
         'record_user_page_visits'   => RecordUserPageVisits::class,
         'anonymize_ip_address'      => AnonymizeIpAddress::class,
         'hash_ip_address'           => HashIpAddress::class,
+        'store_user_agent_string'   => StoreUserAgentString::class,
     ];
 
     public static function auditListStatus()
@@ -23,14 +25,20 @@ class PrivacyAuditCheck
         foreach (self::$audits as $key => $audit) {
             $auditInfo = $audit::getState();
 
-            $list[] = [
+            $auditItem = [
                 'name'      => $key, 
                 'title'     => $auditInfo['title'], 
                 'notes'     => $auditInfo['notes'],
                 'status'    => $auditInfo['status'], 
-                'action'    => $auditInfo['action'],
                 'compliance'=> $auditInfo['compliance'],
             ];
+
+            // If audit has action in the current state, add it to the audit item array.
+            if (!empty($auditInfo['status'])) {
+                $auditItem['action'] = $auditInfo['action'];
+            }
+
+            $list[] = $auditItem;
         }
 
         return $list;
