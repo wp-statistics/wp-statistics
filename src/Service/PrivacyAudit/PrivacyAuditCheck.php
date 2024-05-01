@@ -9,6 +9,7 @@ use WP_Statistics\Service\PrivacyAudit\Audits\HashIpAddress;
 use WP_Statistics\Service\PrivacyAudit\Audits\StoreUserAgentString;
 use WP_Statistics\Service\PrivacyAudit\Audits\StoredUserAgentStringData;
 use WP_Statistics\Service\PrivacyAudit\Audits\UnhashedIpAddress;
+use WP_Statistics\Service\PrivacyAudit\Audits\StoredUserIdData;
 
 class PrivacyAuditCheck
 {
@@ -20,6 +21,7 @@ class PrivacyAuditCheck
         'store_user_agent_string'       => StoreUserAgentString::class,
         'stored_user_agent_string_data' => StoredUserAgentStringData::class,
         'unhashed_ip_address'           => UnhashedIpAddress::class,
+        'stored_user_id_data'           => StoredUserIdData::class,
     ];
 
     public static function auditListStatus()
