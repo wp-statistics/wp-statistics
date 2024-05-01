@@ -412,6 +412,27 @@ function moveFeedbackBird() {
     }
 }
 
+// Head filters drop down
+jQuery(document).ready(function () {
+   var dropdowns = document.querySelectorAll(".wps-head-filters__item") ;
+   dropdowns.forEach(function(dropdown) {
+   dropdown.classList.remove('loading');
+     dropdown.addEventListener("click", function(event) {
+       var dropdownContent = dropdown.querySelector(".dropdown-content");
+       dropdownContent.classList.toggle("show");
+     });
+   });
+   window.addEventListener("click", function(event) {
+     dropdowns.forEach(function(dropdown) {
+       if (!dropdown.contains(event.target)) {
+         dropdown.querySelector(".dropdown-content").classList.remove("show");
+       }
+     });
+   });
+ });
+
+
+
 window.onload = moveFeedbackBird;
 window.addEventListener('resize', moveFeedbackBird);
 
@@ -424,3 +445,4 @@ jQuery(document).ready(function () {
         targetElement.parentNode.insertBefore(noticeElement, targetElement.nextSibling);
     }
 });
+
