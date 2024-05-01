@@ -6,13 +6,14 @@ use WP_STATISTICS\IP;
 
 class UnhashedIpAddress extends AbstractAudit
 {
+    private static $columnName = 'ip';
 
     public static function getStatus()
     {
         global $wpdb;
 
         // Count unhashed IPs from the visitors table.
-        $unhashedIPs = $wpdb->get_var('SELECT COUNT(DISTINCT ip) FROM ' . DB::table('visitor') . ' WHERE ip NOT LIKE "#hash#%"');
+        $unhashedIPs = $wpdb->get_var('SELECT COUNT(DISTINCT ' . self::$columnName . ') FROM ' . DB::table('visitor') . ' WHERE ' . self::$columnName . ' NOT LIKE "#hash#%"');
 
         return $unhashedIPs > 0 ? 'action_required' : 'passed';
     }

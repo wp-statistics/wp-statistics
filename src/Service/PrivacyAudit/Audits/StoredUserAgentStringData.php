@@ -5,13 +5,14 @@ use WP_STATISTICS\DB;
 
 class StoredUserAgentStringData extends AbstractAudit
 {
+    private static $columnName = 'UAString';
 
     public static function getStatus()
     {
         global $wpdb;
         
         // Count previously stored user agent string data
-        $userAgentData = $wpdb->get_var('SELECT COUNT(`UAString`) FROM ' . DB::table('visitor') . ' WHERE `UAString` IS NOT NULL');
+        $userAgentData = $wpdb->get_var('SELECT COUNT(`' . self::$columnName . '`) FROM ' . DB::table('visitor') . ' WHERE `' . self::$columnName . '` IS NOT NULL');
 
         return $userAgentData > 0 ? 'action_required' : 'passed';
     }
@@ -19,7 +20,7 @@ class StoredUserAgentStringData extends AbstractAudit
     public static function resolve()
     {
         global $wpdb;
-        $wpdb->query("UPDATE `" . DB::table('visitor') . "` SET `UAString` = NULL");
+        $wpdb->query('UPDATE `' . DB::table('visitor') . '` SET `' . self::$columnName . '` = NULL');
     }
 
     public static function getStates()
