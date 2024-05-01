@@ -21,11 +21,6 @@ class RecordUserPageVisits extends AbstractAudit
     {
         return Option::get(self::$optionKey) == true ? 'action_required' : 'passed';
     }
-    
-    public static function getState() 
-    {
-        return self::getStates()[self::getStatus()];
-    }
 
     public static function getStates()
     {
