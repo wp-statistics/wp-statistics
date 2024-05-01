@@ -23,19 +23,22 @@ class PrivacyAuditCheck
         $list = [];
 
         foreach (self::$audits as $key => $audit) {
-            $auditInfo = $audit::getState();
+            $auditState = $audit::getState();
+
+            // If current state data is not available, skip
+            if (empty($auditState)) continue;
 
             $auditItem = [
                 'name'      => $key, 
-                'title'     => $auditInfo['title'], 
-                'notes'     => $auditInfo['notes'],
-                'status'    => $auditInfo['status'], 
-                'compliance'=> $auditInfo['compliance'],
+                'title'     => $auditState['title'], 
+                'notes'     => $auditState['notes'],
+                'status'    => $auditState['status'], 
+                'compliance'=> $auditState['compliance'],
             ];
 
             // If audit has action in the current state, add it to the audit item array.
-            if (!empty($auditInfo['status'])) {
-                $auditItem['action'] = $auditInfo['action'];
+            if (!empty($auditState['status'])) {
+                $auditItem['action'] = $auditState['action'];
             }
 
             $list[] = $auditItem;
@@ -51,6 +54,9 @@ class PrivacyAuditCheck
         $passed         = 0;
 
         foreach (self::$audits as $audit) {
+            // If current state data is not available, skip
+            if (empty($audit::getState())) continue;
+
             $rulesMapped++;
             $audit::getStatus() == 'passed' ? $passed++ : $actionRequired++;
         }
