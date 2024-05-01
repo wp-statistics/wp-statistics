@@ -26,10 +26,16 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
 
                 // Append audit items to the page.
                 auditList.forEach(item => {
-                    // If item is not passed and has action, set proper data attribute
                     let actionData = '';
+
+                    // If item is not passed and has action, set proper data attribute
                     if (item.compliance.key != 'passed' && item.hasOwnProperty('action')) {
-                        actionData = `data-audit="${item.name}" data-action="${item.action.key}"`;
+                        actionData += `data-audit="${item.name}" data-action="${item.action.key}"`;
+
+                        // if action needs confirmation, set data attribute.
+                        if (item.action.hasOwnProperty('confirmation') && item.action.confirmation == true) {
+                            actionData += ` data-confirm="true"`;
+                        }
                     }
 
                     const auditElement  = `
@@ -58,13 +64,20 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
 
 
     jQuery(document).on('click', '.wps-privacy-list__button[data-action]', (e) => {
-        const button        = jQuery(e.currentTarget);
-        const auditName     = jQuery(e.currentTarget).data('audit');
-        const auditAction   = jQuery(e.currentTarget).data('action');
-        const auditElement  = jQuery('#' + auditName);
+        const button            = jQuery(e.currentTarget);
+        const auditName         = jQuery(e.currentTarget).data('audit');
+        const auditAction       = jQuery(e.currentTarget).data('action');
+        const needsConfirmation = jQuery(e.currentTarget).data('confirm');
+        const auditElement      = jQuery('#' + auditName);
 
         // Do not proceed if button is in loading state
         if (button.hasClass('loading')) return;
+
+        // if action needs confirmation, show confirmation box.
+        if (needsConfirmation) {
+            const agree = confirm(wps_js._('confirmation'));
+            if (!agree) return false;
+        }
 
         // Add loading class
         button.addClass('loading');

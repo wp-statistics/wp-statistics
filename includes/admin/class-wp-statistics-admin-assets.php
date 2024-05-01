@@ -258,6 +258,7 @@ class Admin_Assets
 
         // Global Lang
         $list['i18n'] = array(
+            'confirmation'   => __('This action is irreversible. Are you sure?', 'wp-statistics'),
             'more_detail'    => __('View Details', 'wp-statistics'),
             'reload'         => __('Reload', 'wp-statistics'),
             'online_users'   => __('Online Users', 'wp-statistics'),

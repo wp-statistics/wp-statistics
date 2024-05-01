@@ -44,9 +44,10 @@ class StoredUserAgentStringData extends AbstractAudit
                     'key'   => 'action_required',
                     'value' => esc_html__('Action Required', 'wp-statistics'),
                 ],
-                'action'     => [
-                    'key'   => 'resolve',
-                    'value' => esc_html__('Resolve', 'wp-statistics'),
+                'action'        => [
+                    'key'           => 'resolve',
+                    'value'         => esc_html__('Resolve', 'wp-statistics'),
+                    'confirmation'  => true
                 ],
             ]
         ];
