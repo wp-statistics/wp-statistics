@@ -128,13 +128,20 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         complianceStatusWrapper.find('.wps-privacy-status__passed-value').text(complianceData.summary.passed);
         complianceStatusWrapper.find('.wps-privacy-status__need-work-value').text(complianceData.summary.action_required);
 
-        if(complianceData.summary.passed == 0 && complianceData.percentage_ready!= 100 ){
-            complianceStatusWrapper.find('.wps-privacy-status__bar-passed').css('display','none');
-            complianceStatusWrapper.find('.wps-privacy-status__bar-need-work').css('width','100%');
+        // Update action required audits percentage bar
+        if (complianceData.summary.action_required > 0) {
+            complianceStatusWrapper.find('.wps-privacy-status__bar-need-work').css('display', 'block');
+            complianceStatusWrapper.find('.wps-privacy-status__bar-need-work').css('width', `${100 - complianceData.percentage_ready}%`);
+        } else {
+            complianceStatusWrapper.find('.wps-privacy-status__bar-need-work').css('display', 'none')
         }
-        if(complianceData.summary.action_required == 0){
-            complianceStatusWrapper.find('.wps-privacy-status__bar-passed').css('width','100%');
-            complianceStatusWrapper.find('.wps-privacy-status__bar-need-work').css('display','none')
+
+        // Update passed audits percentage bar
+        if (complianceData.summary.passed > 0) {
+            complianceStatusWrapper.find('.wps-privacy-status__bar-passed').css('display', 'block');
+            complianceStatusWrapper.find('.wps-privacy-status__bar-passed').css('width', `${complianceData.percentage_ready}%`);
+        } else {
+            complianceStatusWrapper.find('.wps-privacy-status__bar-passed').css('display', 'none');
         }
     }
 }
