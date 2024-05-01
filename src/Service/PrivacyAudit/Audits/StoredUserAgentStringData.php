@@ -9,17 +9,18 @@ class StoredUserAgentStringData extends AbstractAudit
     public static function getStatus()
     {
         global $wpdb;
-
+        
         // Count previously stored user agent string data
         $userAgentData = $wpdb->get_var('SELECT COUNT(`UAString`) FROM ' . DB::table('visitor') . ' WHERE `UAString` IS NOT NULL');
 
         return $userAgentData > 0 ? 'action_required' : 'passed';
     }
 
-    // public static function resolve()
-    // {
-        // $result = $wpdb->query("UPDATE `" . DB::table('visitor') . "` SET `UAString` = NULL")
-    // }
+    public static function resolve()
+    {
+        global $wpdb;
+        $wpdb->query("UPDATE `" . DB::table('visitor') . "` SET `UAString` = NULL");
+    }
 
     public static function getStates()
     {
@@ -42,10 +43,10 @@ class StoredUserAgentStringData extends AbstractAudit
                     'key'   => 'action_required',
                     'value' => esc_html__('Action Required', 'wp-statistics'),
                 ],
-                // 'action'     => [
-                //     'key'   => 'resolve',
-                //     'value' => esc_html__('Resolve', 'wp-statistics'),
-                // ],
+                'action'     => [
+                    'key'   => 'resolve',
+                    'value' => esc_html__('Resolve', 'wp-statistics'),
+                ],
             ]
         ];
     }
