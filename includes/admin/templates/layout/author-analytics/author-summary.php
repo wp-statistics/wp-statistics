@@ -24,7 +24,7 @@
                     <th class="wps-pd-l">
                         <?php echo esc_html__('Visitors', 'wp-statistics') ?>
                     </th>
-                    <th class="wps-pd-l">
+                    <th class="wps-pd-l start">
                         <?php echo esc_html__('Views ', 'wp-statistics') ?>
                     </th>
                 </tr>
@@ -34,7 +34,7 @@
                     <tr>
                         <td><b>This year (Jan-Today)</b></td>
                         <td class="wps-pd-l">8,834</td>
-                        <td class="wps-pd-l">12,099</td>
+                        <td class="wps-pd-l start">12,099</td>
                     </tr>
                 <?php endfor; ?>
                 </tbody>

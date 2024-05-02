@@ -53,8 +53,8 @@
                                         126
                                     </td>
                                     <td class="view-more">
-                                        <!-- a class disabled-->
-                                        <a href="" title="<?php echo esc_html__('View Details', 'wp-statistics') ?>">
+                                        <!-- add class disabled-->
+                                        <a href="<?php echo esc_url(admin_url('admin.php?page=wps_author-analytics_page&author_id=1')); ?>" title="<?php echo esc_html__('View Details', 'wp-statistics') ?>">
                                             <?php echo esc_html__('View Details', 'wp-statistics') ?>
                                         </a>
                                     </td>

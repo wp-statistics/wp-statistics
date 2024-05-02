@@ -1,0 +1,46 @@
+<div class="wps-card">
+    <div class="wps-card__title">
+        <h2>
+            <?php echo $title_text ?>
+            <?php if ($tooltip_text): ?>
+                <span class="wps-tooltip" title="<?php echo esc_attr($tooltip_text); ?>"><i class="wps-tooltip-icon info"></i></span>
+            <?php endif ?>
+        </h2>
+    </div>
+    <div class="wps-top-categories__content">
+        <div class="wps-author-tabs">
+            <input type="radio" name="categories-tabs" id="top-categories" checked>
+            <label for="top-categories"><?php echo esc_html__('Category', 'wp-statistics') ?></label>
+            <div class="wps-author-tabs__content">
+                <?php
+                $cats    = array("title" => "13", "title1" => "14", "title2" => "15", "title3" => "16", "title4" => "18");
+                $counter = 1; // Initialize counter variable
+                foreach ($cats as $name => $published) : ?>
+                    <a class="wps-author-tabs__item" href="">
+                        <div class="wps-author-tabs__item--content">
+                            <h3><?php echo $name; ?></h3>
+                            <span><?php echo $published; ?><?php echo esc_html__('Published Content(s)', 'wp-statistics') ?></span>
+                        </div>
+                    </a>
+                    <?php $counter++; ?>
+                <?php endforeach; ?>
+            </div>
+            <input type="radio" name="categories-tabs" id="top-tag">
+            <label for="top-tag"><?php echo esc_html__('Tag', 'wp-statistics') ?></label>
+            <div class="wps-author-tabs__content">
+                <?php
+                $tags    = array("Tag name" => "20", "Tag name2" => "10", "Tag name3" => "5", "Tag name4" => "2");
+                $counter = 1; // Initialize counter variable
+                foreach ($tags as $name => $published) : ?>
+                    <a class="wps-author-tabs__item" href="">
+                        <div class="wps-author-tabs__item--content">
+                            <h3><?php echo $name; ?></h3>
+                            <span><?php echo $published; ?><?php echo esc_html__('Published Content(s)', 'wp-statistics') ?></span>
+                        </div>
+                    </a>
+                    <?php $counter++; ?>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,3 +1,31 @@
+<?php
+function generateChartData() {
+    $data = [];
+    $end = new DateTime();
+    $end->setTime(0, 0, 0);
+    $end->modify('today');
+    $start = (new DateTime())->modify('-365 days');
+
+    while($start <= $end) {
+        $iso = $start->format('Y-m-d');
+        $data[] = [
+            'x' => $iso,
+            'y' => isoDayOfWeek($start),
+            'd' => $iso,
+            'v' => rand(0, 50)
+        ];
+        $start->modify('+1 day');
+    }
+    return $data;
+}
+
+function isoDayOfWeek($dt) {
+    $wd = $dt->format('N'); // 1 (for Monday) through 7 (for Sunday)
+    return $wd;
+}
+
+$data = generateChartData();
+?>
 <div class="wps-card">
     <div class="wps-card__title">
         <h2>
@@ -30,38 +58,11 @@
     </div>
 </div>
  <script>
-    //date setting
-    function  isoDayOfWeek(dt){
-        let wd=dt.getDay(); //0...6 , from sunday
-        wd=(wd+6) % 7 + 1 // 1 ..7 , starting week from monday
-        return '' + wd; // string so it gets parsed
-    }
-
-    //setup date 365 days //squares
-    function  generateData(){
-         const d= new Date();
-         const data=[];
-        const end =  new Date(d.getFullYear(),d.getMonth() , d.getDate() ,0 ,0 ,0 ,0);
-        let dt = new Date(new Date().setDate(end.getDate() - 365));
-        while(dt  <= end){
-            const iso=  dt.toISOString().substr(0, 10);
-            data.push({
-                x: iso,
-                y: isoDayOfWeek(dt),
-                d: iso,
-                v: Math.random() * 50
-            });
-            dt = new Date(dt.setDate(dt.getDate() + 1));
-         }
-         console.log(data) ;
-         return data;
-    }
-
      //setup block
     const data = {
         datasets: [{
             label: 'overview',
-            data: generateData(),
+            data: <?php echo json_encode($data); ?>,
             backgroundColor(c) {
                 const value = c.dataset.data[c.dataIndex].v;
                 const alpha = (10 + value) / 60;
