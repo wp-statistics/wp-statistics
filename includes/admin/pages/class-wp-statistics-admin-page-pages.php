@@ -147,7 +147,7 @@ class pages_page
 
                 if (!in_array($postTypeSlug, self::$defaultPostTypes)) {
                     $class .= ' wps-locked';
-                    $link  = sprintf('%s/product/wp-statistics-data-plus?utm_source=wp_statistics&utm_medium=display&utm_campaign=wordpress', WP_STATISTICS_SITE_URL);
+                    $link  = sprintf('%s/product/wp-statistics-data-plus?utm_source=wp-statistics&utm_medium=link&utm_campaign=dp-cpt', WP_STATISTICS_SITE_URL);
                 }
 
                 $object = get_post_type_object($slug);

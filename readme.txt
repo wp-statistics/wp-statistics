@@ -36,7 +36,7 @@ WP Statistics stores all data, including IP addresses, safely on your server. WP
 * Data Export in TSV, XML, and CSV formats
 * Statistical Reporting Emails
 * Statistical of pages with query strings and UTM parameters
-* [Premium] [Data Plus](https://wp-statistics.com/product/wp-statistics-data-plus?utm_source=wp_statistics&utm_medium=display&utm_campaign=wordpress)
+* [Premium] [Data Plus](https://wp-statistics.com/product/wp-statistics-data-plus?utm_source=wporg&utm_medium=link&utm_campaign=dp)
  * Link Tracker: Tracks clicks on outgoing links, offering insights into visitor engagement with external content.
  * Download Tracker: Observes which files are downloaded, providing clarity on content effectiveness.
 * [Premium] [More Advanced reporting](http://bit.ly/2MjZE3l)
