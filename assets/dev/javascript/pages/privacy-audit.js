@@ -121,18 +121,18 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                 const auditItem        = data.audit_item;
                 const complianceStatus = data.compliance_status;
 
+                // Remove loading
+                button.removeClass('loading');
+
+                // Update compliance data
+                updateComplianceData(complianceStatus);
+
                 // If element is removable, hide it after success response
                 if (isRemovable) {
                     alert(successText);
                     auditElement.slideUp();
                     return;
                 }
-
-                // Remove loading
-                button.removeClass('loading');
-
-                // Update compliance data
-                updateComplianceData(complianceStatus);
 
                 auditElement.attr('class', `wps-privacy-list__item wps-privacy-list__item--${auditItem.status}`);
                 auditElement.find('.wps-privacy-list__icon').attr('class', `wps-privacy-list__icon wps-privacy-list__icon--${auditItem.status}`);
