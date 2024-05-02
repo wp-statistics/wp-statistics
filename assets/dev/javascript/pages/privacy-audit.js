@@ -33,9 +33,22 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                         actionData += `data-audit="${item.name}" data-action="${item.action.key}"`;
 
                         // if action needs confirmation, set data attribute.
-                        if (item.action.hasOwnProperty('confirmation') && item.action.confirmation == true) {
+                        if (item.action.hasOwnProperty('confirm') && item.action.confirm == true) {
                             actionData += ` data-confirm="true"`;
+
+                            if (item.action.hasOwnProperty('confirm_text')) {
+                                actionData += ` data-confirm-text="${item.action.confirm_text}"`;
+                            }
+
+                            if (item.action.hasOwnProperty('success_text')) {
+                                actionData += ` data-success-text="${item.action.success_text}"`;
+                            }
+
+                            if (item.action.hasOwnProperty('removable')) {
+                                actionData += ` data-removable="${item.action.removable}"`;
+                            }
                         }
+
                     }
 
                     const auditElement  = `
@@ -64,18 +77,21 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
 
 
     jQuery(document).on('click', '.wps-privacy-list__button[data-action]', (e) => {
-        const button            = jQuery(e.currentTarget);
-        const auditName         = jQuery(e.currentTarget).data('audit');
-        const auditAction       = jQuery(e.currentTarget).data('action');
-        const needsConfirmation = jQuery(e.currentTarget).data('confirm');
-        const auditElement      = jQuery('#' + auditName);
+        const button        = jQuery(e.currentTarget);
+        const auditName     = button.data('audit');
+        const auditAction   = button.data('action');
+        const needsConfirm  = button.data('confirm');
+        const isRemovable   = button.data('removable');
+        const confirmText   = button.data('confirm-text');
+        const successText   = button.data('success-text');
+        const auditElement  = jQuery('#' + auditName);
 
         // Do not proceed if button is in loading state
         if (button.hasClass('loading')) return;
 
         // if action needs confirmation, show confirmation box.
-        if (needsConfirmation) {
-            const agree = confirm(wps_js._('confirmation'));
+        if (needsConfirm) {
+            const agree = confirm(confirmText || wps_js._('confirm'));
             if (!agree) return false;
         }
 
@@ -105,8 +121,17 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                 const auditItem        = data.audit_item;
                 const complianceStatus = data.compliance_status;
 
+                // If element is removable, hide it after success response
+                if (isRemovable) {
+                    alert(successText);
+                    auditElement.slideUp();
+                    return;
+                }
+
                 // Remove loading
                 button.removeClass('loading');
+
+                // Update compliance data
                 updateComplianceData(complianceStatus);
 
                 auditElement.attr('class', `wps-privacy-list__item wps-privacy-list__item--${auditItem.status}`);
