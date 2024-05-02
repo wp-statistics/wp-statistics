@@ -45,9 +45,12 @@ class UnhashedIpAddress extends AbstractAudit
                     'value' => esc_html__('Action Required', 'wp-statistics'),
                 ],
                 'action'        => [
-                    'key'          => 'resolve',
-                    'value'        => esc_html__('Resolve', 'wp-statistics'),
-                    'confirmation' => true,
+                    'key'           => 'resolve',
+                    'value'         => esc_html__('Resolve', 'wp-statistics'),
+                    'confirm'       => true,
+                    'removable'     => true,
+                    'confirm_text'  => esc_html__('This will replace all IP addresses in the database with hash values and cannot be undo, are you sure?', 'wp-statistics'),
+                    'success_text'  => esc_html__('Successfully anonymized IP addresses using hash values.', 'wp-statistics')
                 ]
             ]
         ];
