@@ -126,7 +126,7 @@ class IP
         }
 
         // If there is no existing daily salt, generate and save it.
-        if (!$dailySalt) {
+        if (!$dailySalt || !is_array($dailySalt)) {
             $dailySalt = [
                 'date' => $date, // Set the salt's date to today.
                 'salt' => sha1(wp_generate_password()) // Generate a new salt.
