@@ -187,6 +187,11 @@ class Admin_Assets
             wp_enqueue_script('postbox');
         }
 
+        if (Menus::in_page('settings')) {
+            wp_enqueue_style('wp-color-picker');
+            wp_enqueue_script('wp-color-picker');
+        }
+
         // Load Admin Js
         if (Menus::in_plugin_page() || (in_array($screen_id, array('dashboard')) and !Option::get('disable_dashboard')) || (in_array($hook, array('post.php', 'edit.php', 'post-new.php')) and !Option::get('disable_editor'))) {
             wp_enqueue_script(self::$prefix, self::url('admin.min.js'), array('jquery'), self::version(), ['in_footer' => true]);
