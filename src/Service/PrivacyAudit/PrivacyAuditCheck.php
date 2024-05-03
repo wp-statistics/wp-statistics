@@ -97,7 +97,8 @@ class PrivacyAuditCheck
             if (empty($faq)) continue;
 
             $list[] = [
-                'title'     => $faq['title'], 
+                'question'  => $faq['question'], 
+                'answer'    => $faq['answer'], 
                 'notes'     => $faq['notes'],
                 'status'    => $faq['status']
             ];
