@@ -134,6 +134,9 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                     return;
                 }
 
+                // If audit item is not null, update it with new data
+                if (!auditItem) return;
+                    
                 auditElement.attr('class', `wps-privacy-list__item wps-privacy-list__item--${auditItem.status}`);
                 auditElement.find('.wps-privacy-list__icon').attr('class', `wps-privacy-list__icon wps-privacy-list__icon--${auditItem.status}`);
                 auditElement.find('.wps-privacy-list__button').attr('class', `wps-privacy-list__button wps-privacy-list__button--${auditItem.status}`);
