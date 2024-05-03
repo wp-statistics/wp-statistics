@@ -10,6 +10,11 @@ use WP_Statistics\Service\PrivacyAudit\Audits\StoreUserAgentString;
 use WP_Statistics\Service\PrivacyAudit\Audits\StoredUserAgentStringData;
 use WP_Statistics\Service\PrivacyAudit\Audits\UnhashedIpAddress;
 use WP_Statistics\Service\PrivacyAudit\Audits\StoredUserIdData;
+use WP_Statistics\Service\PrivacyAudit\Faqs\AbstractFaq;
+use WP_Statistics\Service\PrivacyAudit\Faqs\MentionPlugin;
+use WP_Statistics\Service\PrivacyAudit\Faqs\RequireConsent;
+use WP_Statistics\Service\PrivacyAudit\Faqs\RequireCookieBanner;
+use WP_Statistics\Service\PrivacyAudit\Faqs\TransferData;
 
 class PrivacyAuditCheck
 {
@@ -22,6 +27,14 @@ class PrivacyAuditCheck
         'stored_user_agent_string_data' => StoredUserAgentStringData::class,
         'unhashed_ip_address'           => UnhashedIpAddress::class,
         'stored_user_id_data'           => StoredUserIdData::class,
+    ];
+
+    /** @var AbstractFaq[] $faqs */
+    public static $faqs = [
+        RequireConsent::class,
+        RequireCookieBanner::class,
+        TransferData::class,
+        MentionPlugin::class
     ];
 
     public static function auditListStatus()
@@ -71,6 +84,26 @@ class PrivacyAuditCheck
                 'action_required' => $actionRequired
             ]
         ];
+    }
+
+    public static function faqListStatus()
+    {
+        $list = [];
+
+        foreach (self::$faqs as $key => $faq) {
+            $faq = $faq::getState();
+
+            // If current state data is not available, skip
+            if (empty($faq)) continue;
+
+            $list[] = [
+                'title'     => $faq['title'], 
+                'notes'     => $faq['notes'],
+                'status'    => $faq['status']
+            ];
+        }
+
+        return $list;
     }
 
 }

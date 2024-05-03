@@ -11,9 +11,10 @@ class PrivacyAuditController
     {
         check_ajax_referer('wp_rest', 'wps_nonce');
 
-        // Get the compliance and audit list status
+        // Get the compliance, audit and faq list status
         $response['compliance_status'] = PrivacyAuditCheck::complianceStatus();
         $response['audit_list']        = PrivacyAuditCheck::auditListStatus();
+        $response['faq_list']          = PrivacyAuditCheck::faqListStatus();
 
         // Send the response
         wp_send_json_success($response);
