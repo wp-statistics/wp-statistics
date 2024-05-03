@@ -4,7 +4,7 @@ Donate link: https://wp-statistics.com/donate/
 Tags: analytics, google analytics, insights, stats, site visitors
 Requires at least: 5.0
 Tested up to: 6.5
-Stable tag: 14.6.3
+Stable tag: 14.6.4
 Requires PHP: 5.6
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -36,7 +36,7 @@ WP Statistics stores all data, including IP addresses, safely on your server. WP
 * Data Export in TSV, XML, and CSV formats
 * Statistical Reporting Emails
 * Statistical of pages with query strings and UTM parameters
-* [Premium] [Data Plus](https://wp-statistics.com/product/wp-statistics-data-plus?utm_source=wp_statistics&utm_medium=display&utm_campaign=wordpress)
+* [Premium] [Data Plus](https://wp-statistics.com/product/wp-statistics-data-plus?utm_source=wporg&utm_medium=link&utm_campaign=dp)
  * Link Tracker: Tracks clicks on outgoing links, offering insights into visitor engagement with external content.
  * Download Tracker: Observes which files are downloaded, providing clarity on content effectiveness.
 * [Premium] [More Advanced reporting](http://bit.ly/2MjZE3l)
@@ -118,20 +118,17 @@ Referrer spam blacklist is provided by Matomo, available from https://github.com
 
 == Screenshots ==
 1. Overview
-2. Browsers Statistics
-3. Top Countries
-4. Hit Statistics
-5. Top pages
-6. Category Statistics
-7. Search Engine Referral Statistics
-8. Last Search Words
-9. Dashboard widgets
-10. Theme widget
-11. Page Statistics Overview
-12. Link Tracker: Recent Clicks
-13. Link Tracker: Top Clicks
-14. Download Activity Tracker: Recent Downloads
-15. Download Activity Tracker: Top Downloads
+2. Website Traffic Overview
+3. Live User Activity Tracker
+4. Optimization
+5. Settings
+6. Real-Time Stats
+7. Download Tracker
+8. Referrals
+9. Countries
+10. Author Analytics
+11. Browsers
+12. Link Tracker
 
 == Upgrade Notice ==
 = 14.0 =
@@ -142,13 +139,14 @@ Thank you for being part of our community. We’ve been working hard for one yea
 If you encounter any bug, please create an issue on [GitHub](https://github.com/wp-statistics/wp-statistics/issues/new) where we can act upon them more efficiently. Since [GitHub](https://github.com/wp-statistics/wp-statistics) is not a support forum, just bugs are welcomed, and any other request will be closed.
 
 == Changelog ==
-= 14.6.3 - 18.04.2024 =
-* Fixes: Resolved SQL query issues while purging the table from optimization & getting the browsers count.
-* Fixes: Addressed the builder scripts problem to minify the `tracker.js`.
-* Fixes: Corrected deprecated jQuery event and resolved errors on the overview page.
-* Improvement: Changed the autoload setting for the dailySalt option to false to compatible with Cache plugins.
-* Improvement: Encoded search query parameter for more consistency in hit request.
-* Improvement: Enhanced visitor identification by flagging users as robots when browser and platform data are absent, improving accuracy of statistics.
-* Improvement: Enhanced performance by optimizing VisitorProfile handling in class `Pages`
+= 14.6.4 - 03.05.2024 =
+* Fixes: Improved data comparison logic.
+* Fixes: Fixed some fields visibility on settings page.
+* Fixes: Fixed filter loading on Visitors page.
+* Fixes: Fixed and improved the Convert IP Addresses to Hash in Optimization.
+* Fixes: Fixed loading Date Picker in Visitors filter.
+* Improvement: Updated plugin header and screenshots.
+* Improvement: Add-ons settings page now located under Settings for simplicity.
+* Improvement: Minor enhancements made.
 
 [See changelog for all versions](https://raw.githubusercontent.com/wp-statistics/wp-statistics/master/CHANGELOG.md).

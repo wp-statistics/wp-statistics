@@ -47,6 +47,12 @@
                         <div id="customization-settings" class="tab-content">
                             <?php include WP_STATISTICS_DIR . 'includes/admin/templates/settings/add-ons/customization.php'; ?>
                         </div>
+                        <div id="advanced-reporting-settings" class="tab-content">
+                            <?php include WP_STATISTICS_DIR . 'includes/admin/templates/settings/add-ons/advanced-reporting.php'; ?>
+                        </div>
+                        <div id="mini-chart-settings" class="tab-content">
+                            <?php include WP_STATISTICS_DIR . 'includes/admin/templates/settings/add-ons/mini-chart.php'; ?>
+                        </div>
                     <?php } ?>
                     <div id="about" class="tab-content">
                         <?php include WP_STATISTICS_DIR . 'includes/admin/templates/settings/about.php'; ?>

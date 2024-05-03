@@ -96,7 +96,7 @@ class Install
 					) {$collate}");
         dbDelta($create_user_online_table);
 
-        // Visit Table
+        // Views Table
         $create_visit_table = ("
 					CREATE TABLE " . DB::table('visit') . " (
 						ID bigint(20) NOT NULL AUTO_INCREMENT,

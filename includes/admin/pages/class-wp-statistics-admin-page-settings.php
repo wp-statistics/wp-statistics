@@ -101,6 +101,9 @@ class settings_page
                 }
             }
 
+            // Trigger Save Settings Action
+            do_action('wp_statistics_save_settings');
+
             // Get tab name for redirect to the current tab
             $tab = isset($_POST['tab']) && $_POST['tab'] ? sanitize_text_field($_POST['tab']) : 'general-settings';
 
@@ -478,7 +481,7 @@ class settings_page
             $wp_statistics_options[self::input_name_to_option($option)] = $optionValue;
         }
 
-        // Save Visits Column & Visit Chart Metabox
+        // Save Views Column & View Chart Metabox
         foreach (array('wps_disable_column', 'wps_disable_editor') as $option) {
             $wps_disable_column                                         = isset($_POST[$option]) && sanitize_text_field($_POST[$option]) == '1' ? '' : '1';
             $wp_statistics_options[self::input_name_to_option($option)] = $wps_disable_column;
@@ -507,7 +510,7 @@ class settings_page
     {
         $options = [];
         foreach ($addon_options as $option_name => $option_value) {
-            if ($option_name == 'wps_about_widget_content') {
+            if (in_array($option_name, ['wps_about_widget_content', 'email_content_header', 'email_content_footer'])) {
                 $options[$option_name] = wp_kses_post($option_value);
             } else {
                 if (is_array($option_value)) {

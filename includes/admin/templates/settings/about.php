@@ -3,7 +3,7 @@
         <tbody>
         <tr valign="top">
             <td scope="row" align="center">
-                <a href="https://wp-statistics.com" target="_blank">
+                <a href="https://wp-statistics.com?utm_source=wp-statistics&utm_medium=link&utm_campaign=about" target="_blank">
                     <img src="<?php echo esc_url(WP_STATISTICS_URL . 'assets/images/logo-250.png'); ?>">
                 </a>
             </td>
@@ -50,7 +50,7 @@
         <tr valign="top">
             <td scope="row" colspan="2">
                 <p style="display: inline-block"><?php esc_html_e('Discover more features, tutorials, and updates on our official site.', 'wp-statistics') ?></p>
-                <a href="https://wp-statistics.com/" class="button" target="_blank" style="font-size: 12px; margin: 2px 5px 0; padding: 5px 15px; transform: translateY(-3px);"><?php esc_html_e('Visit Us', 'wp-statistics'); ?></a>
+                <a href="https://wp-statistics.com/?utm_source=wp-statistics&utm_medium=link&utm_campaign=about" class="button" target="_blank" style="font-size: 12px; margin: 2px 5px 0; padding: 5px 15px; transform: translateY(-3px);"><?php esc_html_e('Visit Us', 'wp-statistics'); ?></a>
             </td>
         </tr>
 
@@ -75,17 +75,17 @@
 
                 <ul style="list-style-type: disc; list-style-position: inside; padding-left: 25px;">
                     <li><?php echo sprintf(
-                            esc_html__('Frequently Asked Questions (%1$sFAQs%2$s)', 'wp-statistics'),
+                            esc_html__('%1$sFrequently Asked Questions%2$s', 'wp-statistics'),
                             '<a title="' .
                             esc_html__('FAQs', 'wp-statistics') .
-                            '" href="https://wp-statistics.com/category/faq/" target="_blank">',
+                            '" href="https://wp-statistics.com/category/faq/?utm_source=wp-statistics&utm_medium=link&utm_campaign=about" target="_blank">',
                             '</a>'
                         ); ?></li>
                     <li><?php echo sprintf(
                             esc_html__('%1$sDocumentation%2$s and User Guides', 'wp-statistics'),
                             '<a title="' .
                             esc_html__('Documentation', 'wp-statistics') .
-                            '" href="https://wp-statistics.com/category/documentation/">',
+                            '" href="https://wp-statistics.com/category/documentation/?utm_source=wp-statistics&utm_medium=link&utm_campaign=about">',
                             '</a>'
                         ); ?></li>
                     <li><?php echo sprintf(
@@ -93,12 +93,21 @@
                             '<a href="https://wordpress.org/support/plugin/wp-statistics" target="_blank">',
                             '</a>'
                         ); ?></li>
-                    <li><?php esc_html_e('Ensure access to your PHP error logs', 'wp-statistics'); ?></li>
+                    <li><?php echo sprintf(
+                            esc_html__('%1$sEnhancing Data Accuracy%2$s', 'wp-statistics'),
+                            '<a href="https://wp-statistics.com/resources/enhancing-data-accuracy/?utm_source=wp-statistics&utm_medium=link&utm_campaign=about" target="_blank">',
+                            '</a>'
+                        ); ?></li>
+                    <li><?php echo sprintf(
+                            esc_html__('%1$sTroubleshoot with Cache Plugins%2$s', 'wp-statistics'),
+                            '<a href="https://wp-statistics.com/resources/troubleshoot-with-cache-plugins/?utm_source=wp-statistics&utm_medium=link&utm_campaign=about" target="_blank">',
+                            '</a>'
+                        ); ?></li>
                     <li><?php echo sprintf(
                             esc_html__('%1$sContact Us%2$s', 'wp-statistics'),
                             '<a title="' .
                             esc_html__('Contact Us', 'wp-statistics') .
-                            '" href="https://wp-statistics.com/contact-us/">',
+                            '" href="https://wp-statistics.com/contact-us/?utm_source=wp-statistics&utm_medium=link&utm_campaign=about">',
                             '</a>'
                         ); ?></li>
                 </ul>
@@ -106,7 +115,7 @@
                 <p><?php esc_html_e('Quick Troubleshooting Tips', 'wp-statistics'); ?></p>
 
                 <ol style="padding-left: 15px;">
-                    <li><?php esc_html_e('Check your PHP <code>memory_limit</code>.', 'wp-statistics'); ?></li>
+                    <li><?php _e('Check your PHP <code>memory_limit</code>.', 'wp-statistics'); ?></li>
                     <li><?php esc_html_e('Disable conflicting plugins.', 'wp-statistics'); ?></li>
                     <li><?php esc_html_e('Validate plugin settings.', 'wp-statistics'); ?></li>
                     <li><?php esc_html_e('Clear cache if using caching plugins.', 'wp-statistics'); ?></li>
@@ -124,7 +133,7 @@
         <tr valign="top">
             <td scope="row" colspan="2">
                 <p style="display: inline-block"><?php esc_html_e('WP Statistics supports multiple languages. Help us reach more users by contributing to our translations.', 'wp-statistics') ?></p>
-                <a href="https://wp-statistics.com/translations/" class="button" target="_blank" style="font-size: 12px; margin: 2px 5px 0; padding: 5px 15px; transform: translateY(-3px);"><?php esc_html_e('Contribute to Translations', 'wp-statistics'); ?></a>
+                <a href="https://wp-statistics.com/translations/?utm_source=wp-statistics&utm_medium=link&utm_campaign=about" class="button" target="_blank" style="font-size: 12px; margin: 2px 5px 0; padding: 5px 15px; transform: translateY(-3px);"><?php esc_html_e('Contribute to Translations', 'wp-statistics'); ?></a>
             </td>
         </tr>
 

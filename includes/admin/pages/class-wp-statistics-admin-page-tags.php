@@ -79,7 +79,7 @@ class tags_page
 
             // Set Type List
             $args['top_list_type'] = 'tag';
-            $args['top_title']     = __('Most Popular Tag by Visits', 'wp-statistics');
+            $args['top_title']     = __('Most Popular Tag by Views', 'wp-statistics');
 
             // Push List Category
             foreach ($terms as $tag) {
@@ -90,7 +90,7 @@ class tags_page
 
             // Set Type List
             $args['top_list_type'] = 'post';
-            $args['top_title']     = __('Top Posts Under This Tag by Visits', 'wp-statistics');
+            $args['top_title']     = __('Top Posts Under This Tag by Views', 'wp-statistics');
 
             // Get Top Posts From Category
             $post_lists = Helper::get_post_list(array(
@@ -103,7 +103,7 @@ class tags_page
 
         }
 
-        // Sort By Visit Count
+        // Sort By View Count
         Helper::SortByKeyValue($args['top_list'], 'count_visit');
 
         // Get Only 5 Item

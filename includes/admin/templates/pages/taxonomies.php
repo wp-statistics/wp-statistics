@@ -95,7 +95,7 @@
                                 <tbody>
                                 <tr>
                                     <th></th>
-                                    <th width="15%"><?php esc_html_e('Visits', 'wp-statistics'); ?></th>
+                                    <th width="15%"><?php esc_html_e('Views', 'wp-statistics'); ?></th>
                                 </tr>
                                 <?php
                                 foreach ($top_list as $item) {
@@ -120,7 +120,7 @@
                                     <tr>
                                         <td width='5%'><?php esc_html_e('ID', 'wp-statistics'); ?></td>
                                         <td><?php esc_html_e('Title', 'wp-statistics'); ?></td>
-                                        <td width='15%'><?php esc_html_e('Visits', 'wp-statistics'); ?></td>
+                                        <td width='15%'><?php esc_html_e('Views', 'wp-statistics'); ?></td>
                                     </tr>
 
                                     <?php

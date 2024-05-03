@@ -168,6 +168,7 @@ class Admin_Assets
             wp_enqueue_script(self::$prefix . '-jqvmap-world', self::url('jqvmap/jquery.vmap.world.min.js'), array('jquery'), "1.5.1", ['in_footer' => true]);
         }
 
+
         // Load Jquery UI
         //        if (Menus::in_plugin_page() and Menus::in_page('optimization') === false and Menus::in_page('settings') === false) {
         //            wp_enqueue_script('jquery-ui-datepicker');
@@ -184,6 +185,11 @@ class Admin_Assets
             wp_enqueue_script('common');
             wp_enqueue_script('wp-lists');
             wp_enqueue_script('postbox');
+        }
+
+        if (Menus::in_page('settings')) {
+            wp_enqueue_style('wp-color-picker');
+            wp_enqueue_script('wp-color-picker');
         }
 
         // Load Admin Js
@@ -261,7 +267,7 @@ class Admin_Assets
             'reload'         => __('Reload', 'wp-statistics'),
             'online_users'   => __('Online Users', 'wp-statistics'),
             'visitors'       => __('Visitors', 'wp-statistics'),
-            'visits'         => __('Visits', 'wp-statistics'),
+            'visits'         => __('Views', 'wp-statistics'),
             'today'          => __('Today', 'wp-statistics'),
             'yesterday'      => __('Yesterday', 'wp-statistics'),
             'last-week'      => __('Last week', 'wp-statistics'),
@@ -290,7 +296,7 @@ class Admin_Assets
             'city'           => __('Visitor\'s City', 'wp-statistics'),
             'ip'             => Option::get('hash_ips') == true ? __('Daily Visitor Hash', 'wp-statistics') : __('IP Address', 'wp-statistics'),
             'referrer'       => __('Referring Site', 'wp-statistics'),
-            'hits'           => __('Visits', 'wp-statistics'),
+            'hits'           => __('Views', 'wp-statistics'),
             'agent'          => __('User Agent', 'wp-statistics'),
             'platform'       => __('Operating System', 'wp-statistics'),
             'version'        => __('Browser/OS Version', 'wp-statistics'),
