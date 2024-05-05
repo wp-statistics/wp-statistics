@@ -118,4 +118,9 @@
         <span class="wps-optionsMenuItem__title--extension"><?php esc_html_e('Mini Chart', 'wp-statistics'); ?></span>
         <span class="wps-optionsMenuItem__status--extension"><?php esc_html_e('Add-on', 'wp-statistics'); ?></span>
     </a>
+
+    <a data-tab="rest-api-settings" class="wps-optionsMenuItem wps-optionsMenuItem--extension <?php echo (\WP_STATISTICS\Helper::isAddOnActive('rest-api')) ? 'active' : ''; ?>">
+        <span class="wps-optionsMenuItem__title--extension"><?php esc_html_e('REST API', 'wp-statistics'); ?></span>
+        <span class="wps-optionsMenuItem__status--extension"><?php esc_html_e('Add-on', 'wp-statistics'); ?></span>
+    </a>
 </div>
