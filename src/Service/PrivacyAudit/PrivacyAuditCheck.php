@@ -18,19 +18,27 @@ use WP_Statistics\Service\PrivacyAudit\Faqs\TransferData;
 
 class PrivacyAuditCheck
 {
+    /**
+     * @return AbstractFaq[] $faqs
+     */
+    public static function getFaqs()
+    {
+        $faqs = [
+            RequireConsent::class,
+            RequireCookieBanner::class,
+            TransferData::class,
+            RequireMention::class
+        ];
 
+        return apply_filters('wp_statistics_privacy_faqs_list', $faqs);
+    }
 
-    /** @var AbstractFaq[] $faqs */
-    public static $faqs = [
-        RequireConsent::class,
-        RequireCookieBanner::class,
-        TransferData::class,
-        RequireMention::class
-    ];
-
+    
+    /**
+     * @return AbstractAudit[] $audits
+     */
     public static function getAudits()
     {
-        /** @var AbstractAudit[] $audits */
         $audits = [
             'record_user_page_visits'       => RecordUserPageVisits::class,
             'anonymize_ip_address'          => AnonymizeIpAddress::class,
@@ -85,6 +93,28 @@ class PrivacyAuditCheck
         return $list;
     }
 
+    public static function faqListStatus()
+    {
+        $faqs = self::getFaqs();
+        $list = [];
+
+        foreach ($faqs as $faq) {
+            $faq = $faq::getState();
+
+            // If current state data is not available, skip
+            if (empty($faq)) continue;
+
+            $list[] = [
+                'title'     => $faq['title'], 
+                'summary'   => $faq['summary'], 
+                'notes'     => $faq['notes'],
+                'status'    => $faq['status']
+            ];
+        }
+
+        return $list;
+    }
+
     public static function complianceStatus()
     {
         $audits         = self::getAudits();
@@ -104,27 +134,6 @@ class PrivacyAuditCheck
                 'action_required' => $actionRequired
             ]
         ];
-    }
-
-    public static function faqListStatus()
-    {
-        $list = [];
-
-        foreach (self::$faqs as $key => $faq) {
-            $faq = $faq::getState();
-
-            // If current state data is not available, skip
-            if (empty($faq)) continue;
-
-            $list[] = [
-                'title'     => $faq['title'], 
-                'summary'   => $faq['summary'], 
-                'notes'     => $faq['notes'],
-                'status'    => $faq['status']
-            ];
-        }
-
-        return $list;
     }
 
 }
