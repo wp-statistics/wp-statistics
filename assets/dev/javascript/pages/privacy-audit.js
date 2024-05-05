@@ -83,6 +83,9 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                 // Update compliance data
                 updateComplianceInfo(data.compliance_status);
 
+                // Load faq items
+                loadFaqs(data.faq_list);
+
                 // If element is removable, hide it after success response
                 if (isRemovable) {
                     alert(successText);
@@ -94,9 +97,6 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                 if (data.audit_item) {
                     updateAuditElement(auditElement, data.audit_item);
                 }
-
-                // Load faq items
-                loadFaqs(data.faq_list);
             },
             error: function (xhr, status, error) {
                 console.log(error);
