@@ -34,7 +34,7 @@ class PrivacyAuditCheck
         RequireConsent::class,
         RequireCookieBanner::class,
         TransferData::class,
-        // RequireMention::class
+        RequireMention::class
     ];
 
     public static function auditListStatus()
