@@ -7,6 +7,9 @@ use InvalidArgumentException;
 class PrivacyAuditController
 {
 
+    /**
+     * Get latest privacy status information
+     */
     public function getPrivacyStatus_action_callback()
     {
         check_ajax_referer('wp_rest', 'wps_nonce');
@@ -21,6 +24,10 @@ class PrivacyAuditController
         exit;
     }
 
+
+    /**
+     * Update privacy audit status
+     */
     public function updatePrivacyStatus_action_callback()
     {
         try {
@@ -38,7 +45,7 @@ class PrivacyAuditController
                 throw new InvalidArgumentException(esc_html__("$auditAction method is not defined for $auditName", 'wp-statistics'));
             }
 
-            // Run the action
+            // Call specified action from the audit class
             $auditClass::$auditAction();
 
             // Get the updated audit item status

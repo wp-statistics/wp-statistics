@@ -15,10 +15,13 @@ use WP_Statistics\Service\PrivacyAudit\Faqs\RequireMention;
 use WP_Statistics\Service\PrivacyAudit\Faqs\RequireConsent;
 use WP_Statistics\Service\PrivacyAudit\Faqs\RequireCookieBanner;
 use WP_Statistics\Service\PrivacyAudit\Faqs\TransferData;
+use InvalidArgumentException;
 
 class PrivacyAuditCheck
 {
     /**
+     * Get list of privacy faq items
+     * 
      * @return AbstractFaq[] $faqs
      */
     public static function getFaqs()
@@ -35,6 +38,8 @@ class PrivacyAuditCheck
 
     
     /**
+     * Get list of all privacy audit items
+     * 
      * @return AbstractAudit[] $audits
      */
     public static function getAudits()
@@ -52,17 +57,31 @@ class PrivacyAuditCheck
         return apply_filters('wp_statistics_privacy_audits_list', $audits);
     }
 
+
+    /**
+     * Find privacy audit class by name
+     * 
+     * @param string $auditName
+     * @return AbstractAudit $auditClass
+     * @throws InvalidArgumentException if audit class is not found.
+     */
     public static function getAudit($auditName)
     {
         $audits = self::getAudits();
         
         if (!isset($audits[$auditName])) {
-            throw new \InvalidArgumentException(esc_html__("$auditName is not a valid audit item.", 'wp-statistics'));
+            throw new InvalidArgumentException(esc_html__("$auditName is not a valid audit item.", 'wp-statistics'));
         }
 
         return $audits[$auditName];
     }
 
+
+    /**
+     * Get privacy audits status
+     * 
+     * @return array $audits
+     */
     public static function auditListStatus()
     {
         $audits = self::getAudits();
@@ -93,6 +112,12 @@ class PrivacyAuditCheck
         return $list;
     }
 
+
+    /**
+     * Get privacy faqs status
+     * 
+     * @return array $faqs
+     */
     public static function faqListStatus()
     {
         $faqs = self::getFaqs();
@@ -115,6 +140,12 @@ class PrivacyAuditCheck
         return $list;
     }
 
+
+    /**
+     * Get privacy compliance status
+     * 
+     * @return array $complianceStatus
+     */
     public static function complianceStatus()
     {
         $audits         = self::getAudits();
