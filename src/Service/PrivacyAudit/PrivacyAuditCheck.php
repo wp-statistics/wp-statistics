@@ -32,7 +32,7 @@ class PrivacyAuditCheck
     /** @var AbstractFaq[] $faqs */
     public static $faqs = [
         RequireConsent::class,
-        // RequireCookieBanner::class,
+        RequireCookieBanner::class,
         // TransferData::class,
         // RequireMention::class
     ];
