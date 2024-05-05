@@ -79,7 +79,7 @@
 
         <tr valign="top">
             <th scope="row">
-                <label for="wps_robot_threshold"><?php esc_html_e('Robot Visit Threshold', 'wp-statistics'); ?></label>
+                <label for="wps_robot_threshold"><?php esc_html_e('Robot View Threshold', 'wp-statistics'); ?></label>
             </th>
             <td>
                 <input id="wps_robot_threshold" type="text" size="5" name="wps_robot_threshold" value="<?php echo esc_attr(WP_STATISTICS\Option::get('robot_threshold')); ?>">

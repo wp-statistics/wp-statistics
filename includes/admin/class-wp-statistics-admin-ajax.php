@@ -407,7 +407,7 @@ class Ajax
             }
 
             if ($purge_hits < 10) {
-                esc_html_e('Visit count must be 10 or more!', 'wp-statistics');
+                esc_html_e('View count must be 10 or more!', 'wp-statistics');
             } else {
                 echo Purge::purge_visitor_hits($purge_hits); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
             }

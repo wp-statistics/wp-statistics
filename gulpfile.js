@@ -15,7 +15,6 @@ const sass = require('gulp-sass')(require('sass'));
 function buildStyles(done) {
     return gulp.src([
         './assets/dev/sass/admin.scss',
-        './assets/dev/sass/jquery-datepicker/datepicker.scss',
         './assets/dev/sass/rtl.scss',
         './assets/dev/sass/frontend.scss',
     ])

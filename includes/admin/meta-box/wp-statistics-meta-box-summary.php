@@ -146,7 +146,7 @@ class summary
             }
         }
 
-        // Get Visits
+        // Get Views
         if (in_array('visits', $component)) {
             if (Option::get('visits')) {
                 $data['visits'] = array();

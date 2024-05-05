@@ -478,3 +478,6 @@
   border-left: none !important;
 }
 
+.statistics_page_wps_visitors_page .daterangepicker.drop-up{
+    z-index: 999999;
+}

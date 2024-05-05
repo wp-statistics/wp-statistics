@@ -78,7 +78,7 @@ class category_page
 
             // Set Type List
             $args['top_list_type'] = 'category';
-            $args['top_title']     = __('Most Popular Category by Visits', 'wp-statistics');
+            $args['top_title']     = __('Most Popular Category by Views', 'wp-statistics');
 
             // Push List Category
             foreach ($terms as $category) {
@@ -89,7 +89,7 @@ class category_page
 
             // Set Type List
             $args['top_list_type'] = 'post';
-            $args['top_title']     = __('Top Posts in This Category by Visits', 'wp-statistics');
+            $args['top_title']     = __('Top Posts in This Category by Views', 'wp-statistics');
 
             // Get Top Posts From Category
             $post_lists = Helper::get_post_list(array(
@@ -102,7 +102,7 @@ class category_page
 
         }
 
-        // Sort By Visit Count
+        // Sort By View Count
         Helper::SortByKeyValue($args['top_list'], 'count_visit');
 
         // Get Only 5 Item

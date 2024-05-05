@@ -20,7 +20,7 @@
                         <tr>
                             <th></th>
                             <?php if (\WP_STATISTICS\Option::get('visits')) { ?>
-                                <th class="th-center"><?php esc_html_e('Visits', 'wp-statistics'); ?></th> <?php } ?>
+                                <th class="th-center"><?php esc_html_e('Views', 'wp-statistics'); ?></th> <?php } ?>
                             <?php if (\WP_STATISTICS\Option::get('visitors')) { ?>
                                 <th class="th-center"><?php esc_html_e('Visitors', 'wp-statistics'); ?></th> <?php } ?>
                         </tr>

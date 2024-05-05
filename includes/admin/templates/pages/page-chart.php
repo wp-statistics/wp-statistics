@@ -40,9 +40,9 @@
 
         <div class="postbox" id="wp-statistics-pages-widget">
             <div class="postbox-header postbox-toggle">
-                <h2 class="hndle wps-d-inline-block"><span><?php esc_html_e('Top Platforms', 'wp-statistics'); ?></span></h2>
+                <h2 class="hndle wps-d-inline-block"><span><?php esc_html_e('Top Operating Systems', 'wp-statistics'); ?></span></h2>
                 <button class="handlediv" type="button" aria-expanded="true">
-                    <span class="screen-reader-text"><?php esc_html_e('Toggle panel: Top Platforms', 'wp-statistics'); ?></span>
+                    <span class="screen-reader-text"><?php esc_html_e('Toggle panel: Top Operating Systems', 'wp-statistics'); ?></span>
                     <span class="toggle-indicator" aria-hidden="true"></span>
                 </button>
             </div>

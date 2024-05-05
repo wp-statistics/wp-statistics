@@ -10,7 +10,7 @@ use WP_STATISTICS\TimeZone;
 class platforms extends MetaBoxAbstract
 {
     /**
-     * Get Platforms Chart
+     * Get Operating Systems Chart
      *
      * @param array $arg
      * @return array
@@ -55,13 +55,14 @@ class platforms extends MetaBoxAbstract
 
         $order_by = '';
         if ($args['order'] and in_array($args['order'], array('DESC', 'ASC', 'desc', 'asc'))) {
-            $order_by = $wpdb->prepare("ORDER BY `count` %s", esc_sql($args['order']));
+            $order_by = "ORDER BY `count` " . esc_sql($args['order']);
         }
 
-        // Get List All Platforms
+        // Get List All Operating Systems
         $list = $wpdb->get_results(
-            $wpdb->prepare("SELECT platform, COUNT(*) as count FROM `" . DB::table('visitor') . "` WHERE platform != %s AND `last_counter` BETWEEN %s AND %s GROUP BY platform {$order_by}", _x('Unknown', 'Platform', 'wp-statistics'), reset($days_time_list), end($days_time_list)),
-            ARRAY_A);
+            $wpdb->prepare("SELECT platform, COUNT(*) as count FROM `" . DB::table('visitor') . "` WHERE platform != %s AND `last_counter` BETWEEN %s AND %s GROUP BY platform {$order_by}", _x('Unknown', 'Operating System', 'wp-statistics'), reset($days_time_list), end($days_time_list)),
+            ARRAY_A
+        );
 
         // Sort By Count
         Helper::SortByKeyValue($list, 'count');
@@ -87,9 +88,9 @@ class platforms extends MetaBoxAbstract
 
         // Set Title
         if (end($days_time_list) == TimeZone::getCurrentDate("Y-m-d")) {
-            $title = sprintf(__('Statistics for %1$s in the Past %2$s Days', 'wp-statistics'), __('Platforms', 'wp-statistics'), self::$countDays);
+            $title = sprintf(__('Statistics for %1$s in the Past %2$s Days', 'wp-statistics'), __('Operating Systems', 'wp-statistics'), self::$countDays);
         } else {
-            $title = sprintf(__('Statistics for %1$s Between %2$s and %3$s', 'wp-statistics'), __('Platforms', 'wp-statistics'), $args['from'], $args['to']);
+            $title = sprintf(__('Statistics for %1$s Between %2$s and %3$s', 'wp-statistics'), __('Operating Systems', 'wp-statistics'), $args['from'], $args['to']);
         }
 
         // Prepare Response

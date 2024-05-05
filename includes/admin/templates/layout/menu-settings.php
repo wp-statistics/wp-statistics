@@ -114,14 +114,13 @@
         <span class="wps-optionsMenuItem__status--extension"><?php esc_html_e('Add-on', 'wp-statistics'); ?></span>
     </a>
 
-    <?php /*
-    <a href="https://wp-statistics.com/product/wp-statistics-customization/" target="_blank" class="wps-optionsMenuItem--extension">
-        <span class="wps-optionsMenuItem__title--extension"><?php esc_html_e('Customization', 'wp-statistics'); ?></span>
+    <a data-tab="mini-chart-settings" class="wps-optionsMenuItem wps-optionsMenuItem--extension <?php echo (\WP_STATISTICS\Helper::isAddOnActive('mini-chart')) ? 'active' : ''; ?>">
+        <span class="wps-optionsMenuItem__title--extension"><?php esc_html_e('Mini Chart', 'wp-statistics'); ?></span>
         <span class="wps-optionsMenuItem__status--extension"><?php esc_html_e('Add-on', 'wp-statistics'); ?></span>
     </a>
 
-    <a href="https://wp-statistics.com/product/wp-statistics-widgets/" target="_blank" class="wps-optionsMenuItem--extension">
-        <span class="wps-optionsMenuItem__title--extension"><?php esc_html_e('Advanced widgets', 'wp-statistics'); ?></span>
+    <a data-tab="rest-api-settings" class="wps-optionsMenuItem wps-optionsMenuItem--extension <?php echo (\WP_STATISTICS\Helper::isAddOnActive('rest-api')) ? 'active' : ''; ?>">
+        <span class="wps-optionsMenuItem__title--extension"><?php esc_html_e('REST API', 'wp-statistics'); ?></span>
         <span class="wps-optionsMenuItem__status--extension"><?php esc_html_e('Add-on', 'wp-statistics'); ?></span>
-    </a>*/ ?>
+    </a>
 </div>

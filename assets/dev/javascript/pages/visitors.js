@@ -5,7 +5,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         e.preventDefault();
 
         // Show
-        tb_show('', '#TB_inline?&width=430&height=668&inlineId=visitors-filter-popup');
+        tb_show('', '#TB_inline?&width=430&height=615&inlineId=visitors-filter-popup');
 
         // Add Content
         setTimeout(function () {
@@ -160,10 +160,16 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
 
         // Set datePicker and Select 2
         setTimeout(function () {
+
+            jQuery(FORM_ID + " input[data-wps-date-picker]").on('change', function() {
+                var dateType = jQuery(this).attr('data-wps-date-picker');
+                jQuery(FORM_ID + " input[name=" + dateType + "]").val(jQuery(this).val());
+            });
             wps_js.date_picker();
             wps_js.select2();
         }, 200);
     }
+
 }
 
 // When close TickBox

@@ -45,7 +45,7 @@ class WP_Statistics_Widget extends \WP_Widget
 
         if ($widget_options['tvisit_widget']) {
             echo '<li>';
-            echo '<label>' . __('Today\'s Visits', 'wp-statistics') . ':&nbsp;</label>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+            echo '<label>' . __('Today\'s Views', 'wp-statistics') . ':&nbsp;</label>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
             echo number_format_i18n(wp_statistics_visit('today')); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
             echo '</li>';
         }
@@ -59,7 +59,7 @@ class WP_Statistics_Widget extends \WP_Widget
 
         if ($widget_options['yvisit_widget']) {
             echo '<li>';
-            echo '<label>' . __('Yesterday\'s Visits', 'wp-statistics') . ':&nbsp;</label>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+            echo '<label>' . __('Yesterday\'s Views', 'wp-statistics') . ':&nbsp;</label>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
             echo number_format_i18n(wp_statistics_visit('yesterday')); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
             echo '</li>';
         }
@@ -73,28 +73,28 @@ class WP_Statistics_Widget extends \WP_Widget
 
         if ($widget_options['wvisit_widget']) {
             echo '<li>';
-            echo '<label>' . __('Last 7 Days Visits', 'wp-statistics') . ':&nbsp;</label>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+            echo '<label>' . __('Last 7 Days Views', 'wp-statistics') . ':&nbsp;</label>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
             echo number_format_i18n(wp_statistics_visit('week')); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
             echo '</li>';
         }
 
         if ($widget_options['mvisit_widget']) {
             echo '<li>';
-            echo '<label>' . __('Last 30 Days Visits', 'wp-statistics') . ':&nbsp;</label>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+            echo '<label>' . __('Last 30 Days Views', 'wp-statistics') . ':&nbsp;</label>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
             echo number_format_i18n(wp_statistics_visit('month')); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
             echo '</li>';
         }
 
         if ($widget_options['ysvisit_widget']) {
             echo '<li>';
-            echo '<label>' . __('Last 365 Days Visits', 'wp-statistics') . ':&nbsp;</label>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+            echo '<label>' . __('Last 365 Days Views', 'wp-statistics') . ':&nbsp;</label>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
             echo number_format_i18n(wp_statistics_visit('year')); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
             echo '</li>';
         }
 
         if ($widget_options['ttvisit_widget']) {
             echo '<li>';
-            echo '<label>' . __('Total Visits', 'wp-statistics') . ':&nbsp;</label>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+            echo '<label>' . __('Total Views', 'wp-statistics') . ':&nbsp;</label>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
             echo number_format_i18n(wp_statistics_visit('total')); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
             echo '</li>';
         }
@@ -265,7 +265,7 @@ class WP_Statistics_Widget extends \WP_Widget
             </li>
             <li>
                 <input type="checkbox" id="<?php echo esc_attr($this->get_field_id('tvisit_widget')); ?>" name="<?php echo esc_attr($this->get_field_name('tvisit_widget')); ?>" <?php if (isset($widget_options['tvisit_widget'])) checked('on', $widget_options['tvisit_widget']); ?>/>
-                <label for="<?php echo esc_attr($this->get_field_id('tvisit_widget')); ?>"><?php esc_html_e('Today\'s Visits', 'wp-statistics'); ?></label>
+                <label for="<?php echo esc_attr($this->get_field_id('tvisit_widget')); ?>"><?php esc_html_e('Today\'s Views', 'wp-statistics'); ?></label>
             </li>
             <li>
                 <input type="checkbox" id="<?php echo esc_attr($this->get_field_id('tvisitor_widget')); ?>" name="<?php echo esc_attr($this->get_field_name('tvisitor_widget')); ?>" <?php if (isset($widget_options['tvisitor_widget'])) checked('on', $widget_options['tvisitor_widget']); ?>/>
@@ -273,7 +273,7 @@ class WP_Statistics_Widget extends \WP_Widget
             </li>
             <li>
                 <input type="checkbox" id="<?php echo esc_attr($this->get_field_id('yvisit_widget')); ?>" name="<?php echo esc_attr($this->get_field_name('yvisit_widget')); ?>" <?php if (isset($widget_options['yvisit_widget'])) checked('on', $widget_options['yvisit_widget']); ?>/>
-                <label for="<?php echo esc_attr($this->get_field_id('yvisit_widget')); ?>"><?php esc_html_e('Yesterday\'s Visits', 'wp-statistics'); ?></label>
+                <label for="<?php echo esc_attr($this->get_field_id('yvisit_widget')); ?>"><?php esc_html_e('Yesterday\'s Views', 'wp-statistics'); ?></label>
             </li>
             <li>
                 <input type="checkbox" id="<?php echo esc_attr($this->get_field_id('yvisitor_widget')); ?>" name="<?php echo esc_attr($this->get_field_name('yvisitor_widget')); ?>" <?php if (isset($widget_options['yvisitor_widget'])) checked('on', $widget_options['yvisitor_widget']); ?>/>
@@ -281,19 +281,19 @@ class WP_Statistics_Widget extends \WP_Widget
             </li>
             <li>
                 <input type="checkbox" id="<?php echo esc_attr($this->get_field_id('wvisit_widget')); ?>" name="<?php echo esc_attr($this->get_field_name('wvisit_widget')); ?>" <?php if (isset($widget_options['wvisit_widget'])) checked('on', $widget_options['wvisit_widget']); ?>/>
-                <label for="<?php echo esc_attr($this->get_field_id('wvisit_widget')); ?>"><?php esc_html_e('Last 7 Days Visits', 'wp-statistics'); ?></label>
+                <label for="<?php echo esc_attr($this->get_field_id('wvisit_widget')); ?>"><?php esc_html_e('Last 7 Days Views', 'wp-statistics'); ?></label>
             </li>
             <li>
                 <input type="checkbox" id="<?php echo esc_attr($this->get_field_id('mvisit_widget')); ?>" name="<?php echo esc_attr($this->get_field_name('mvisit_widget')); ?>" <?php if (isset($widget_options['mvisit_widget'])) checked('on', $widget_options['mvisit_widget']); ?>/>
-                <label for="<?php echo esc_attr($this->get_field_id('mvisit_widget')); ?>"><?php esc_html_e('Last 30 Days Visits', 'wp-statistics'); ?></label>
+                <label for="<?php echo esc_attr($this->get_field_id('mvisit_widget')); ?>"><?php esc_html_e('Last 30 Days Views', 'wp-statistics'); ?></label>
             </li>
             <li>
                 <input type="checkbox" id="<?php echo esc_attr($this->get_field_id('ysvisit_widget')); ?>" name="<?php echo esc_attr($this->get_field_name('ysvisit_widget')); ?>" <?php if (isset($widget_options['ysvisit_widget'])) checked('on', $widget_options['ysvisit_widget']); ?>/>
-                <label for="<?php echo esc_attr($this->get_field_id('ysvisit_widget')); ?>"><?php esc_html_e('Last 365 Days Visits', 'wp-statistics'); ?></label>
+                <label for="<?php echo esc_attr($this->get_field_id('ysvisit_widget')); ?>"><?php esc_html_e('Last 365 Days Views', 'wp-statistics'); ?></label>
             </li>
             <li>
                 <input type="checkbox" id="<?php echo esc_attr($this->get_field_id('ttvisit_widget')); ?>" name="<?php echo esc_attr($this->get_field_name('ttvisit_widget')); ?>" <?php if (isset($widget_options['ttvisit_widget'])) checked('on', $widget_options['ttvisit_widget']); ?>/>
-                <label for="<?php echo esc_attr($this->get_field_id('ttvisit_widget')); ?>"><?php esc_html_e('Total Visits', 'wp-statistics'); ?></label>
+                <label for="<?php echo esc_attr($this->get_field_id('ttvisit_widget')); ?>"><?php esc_html_e('Total Views', 'wp-statistics'); ?></label>
             </li>
             <li>
                 <input type="checkbox" id="<?php echo esc_attr($this->get_field_id('ttvisitor_widget')); ?>" name="<?php echo esc_attr($this->get_field_name('ttvisitor_widget')); ?>" <?php if (isset($widget_options['ttvisitor_widget'])) checked('on', $widget_options['ttvisitor_widget']); ?>/>

@@ -5,11 +5,11 @@
             <?php wp_nonce_field('wp_statistics_export_nonce', 'wps_export_file'); ?>
             <table class="form-table">
                 <tbody>
-                <tr valign="top">
+                <tr>
                     <th scope="row" colspan="2"><h3><?php esc_html_e('Export', 'wp-statistics'); ?></h3></th>
                 </tr>
 
-                <tr valign="top">
+                <tr>
                     <th scope="row">
                         <label for="table-to-export"><?php esc_html_e('Select Data Source', 'wp-statistics'); ?></label>
                     </th>
@@ -28,7 +28,7 @@
                     </td>
                 </tr>
 
-                <tr valign="top">
+                <tr>
                     <th scope="row">
                         <label for="export-file-type"><?php esc_html_e('Choose Export Format', 'wp-statistics'); ?></label>
                     </th>
@@ -45,7 +45,7 @@
                     </td>
                 </tr>
 
-                <tr valign="top">
+                <tr>
                     <th scope="row">
                         <label for="export-headers"><?php esc_html_e('Add Header Row', 'wp-statistics'); ?></label>
                     </th>
@@ -57,7 +57,7 @@
                 </tr>
 
                 <tr>
-                    <th></td>
+                    <td></td>
                     <td>
                         <div class="wp-statistics-notice">
                             <strong><?php esc_html_e('Privacy Notice for Data Export', 'wp-statistics') ?></strong>

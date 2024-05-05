@@ -144,7 +144,7 @@ add_thickbox();
 
                                 <?php
                                 if (isset($_SERVER[$method]) && !empty($_SERVER[$method]) && IP::check_sanitize_ip($_SERVER[$method]) === false) {
-                                    echo ' &nbsp;&nbsp;<a href="https://wp-statistics.com/sanitize-user-ip/" style="color: #d04f4f;" target="_blank" title="' . esc_html__('Your value required to sanitize user IP', 'wp-statistics') . '"><span class="dashicons dashicons-warning"></span></a>';  // phpcs:ignore WordPress.Security.EscapeOutput.UnsafePrintingFunction	
+                                    echo ' &nbsp;&nbsp;<a href="https://wp-statistics.com/sanitize-user-ip/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" style="color: #d04f4f;" target="_blank" title="' . esc_html__('Your value required to sanitize user IP', 'wp-statistics') . '"><span class="dashicons dashicons-warning"></span></a>';  // phpcs:ignore WordPress.Security.EscapeOutput.UnsafePrintingFunction
                                 }
                                 ?>
                             </td>
@@ -182,7 +182,7 @@ add_thickbox();
                             </div>
 
                             <?php if (!in_array($ip_method, IP::getIpOptions()) && isset($_SERVER[$ip_method]) && !empty($_SERVER[$ip_method]) && IP::check_sanitize_ip($_SERVER[$ip_method]) === false) {
-                                echo ' &nbsp;&nbsp;<a href="https://wp-statistics.com/sanitize-user-ip/" style="color: #d04f4f;" target="_blank" title="' . esc_html__('Your value required to sanitize user IP', 'wp-statistics') . '"><span class="dashicons dashicons-warning"></span></a>';
+                                echo ' &nbsp;&nbsp;<a href="https://wp-statistics.com/sanitize-user-ip/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" style="color: #d04f4f;" target="_blank" title="' . esc_html__('Your value required to sanitize user IP', 'wp-statistics') . '"><span class="dashicons dashicons-warning"></span></a>';
                             } ?>
                             <p class="description">
                                 <?php _e('If your server uses a custom key in <code>$_SERVER</code> for IP detection (e.g., <code>HTTP_CF_CONNECTING_IP</code> for CloudFlare), specify it here.', 'wp-statistics');  // phpcs:ignore WordPress.Security.EscapeOutput.UnsafePrintingFunction  ?>
