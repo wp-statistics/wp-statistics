@@ -43,6 +43,7 @@ class PrivacyAuditController
 
             // Get the updated audit item status
             $response['compliance_status'] = PrivacyAuditCheck::complianceStatus();
+            $response['faq_list']          = PrivacyAuditCheck::faqListStatus();
             $response['audit_item']        = $auditClass::getState();
 
             // Send the response

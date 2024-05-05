@@ -32,9 +32,9 @@ class PrivacyAuditCheck
     /** @var AbstractFaq[] $faqs */
     public static $faqs = [
         RequireConsent::class,
-        RequireCookieBanner::class,
-        TransferData::class,
-        RequireMention::class
+        // RequireCookieBanner::class,
+        // TransferData::class,
+        // RequireMention::class
     ];
 
     public static function auditListStatus()
@@ -97,8 +97,8 @@ class PrivacyAuditCheck
             if (empty($faq)) continue;
 
             $list[] = [
-                'question'  => $faq['question'], 
-                'answer'    => $faq['answer'], 
+                'title'     => $faq['title'], 
+                'summary'   => $faq['summary'], 
                 'notes'     => $faq['notes'],
                 'status'    => $faq['status']
             ];

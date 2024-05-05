@@ -18,55 +18,30 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                 // If request is not successful, return early
                 if (success == false) return console.log(data);
 
+                // Get response data
                 const auditList        = data.audit_list;
+                const faqList          = data.faq_list;
                 const complianceStatus = data.compliance_status;
 
                 // Update compliance information
                 updateComplianceData(complianceStatus);
 
                 // Append audit items to the page.
-                auditList.forEach(item => {
-                    let actionData = '';
-
-                    // If item is not passed and has action, set proper data attribute
-                    if (item.compliance.key != 'passed' && item.hasOwnProperty('action')) {
-                        actionData += `data-audit="${item.name}" data-action="${item.action.key}"`;
-
-                        // if action needs confirmation, set data attribute.
-                        if (item.action.hasOwnProperty('confirm') && item.action.confirm == true) {
-                            actionData += ` data-confirm="true"`;
-
-                            if (item.action.hasOwnProperty('confirm_text')) {
-                                actionData += ` data-confirm-text="${item.action.confirm_text}"`;
-                            }
-
-                            if (item.action.hasOwnProperty('success_text')) {
-                                actionData += ` data-success-text="${item.action.success_text}"`;
-                            }
-
-                            if (item.action.hasOwnProperty('removable')) {
-                                actionData += ` data-removable="${item.action.removable}"`;
-                            }
-                        }
-
-                    }
-
-                    const auditElement  = `
-                        <div id="${item.name}" class="wps-privacy-list__item wps-privacy-list__item--${item.status}">
-                            <div class="wps-privacy-list__title">
-                                <div>
-                                    <span class="wps-privacy-list__icon wps-privacy-list__icon--${item.status}"></span>
-                                    <span class="wps-privacy-list__text">${item.title}</span>
-                                </div>
-                                <a ${actionData}  class="wps-privacy-list__button wps-privacy-list__button--${item.status}">${item.compliance.value}</a>
-                            </div>
-                            <div class="wps-privacy-list__content">${item.notes}</div>
-                        </div>
-                    `;
-
+                auditList.forEach(auditData => {
                     const privacyItemsWrapper = jQuery('.wps-privacy-list .wps-privacy-list__items');
+                    const auditElement        = generateAuditElement(auditData);
+
                     privacyItemsWrapper.removeClass('loading');
                     privacyItemsWrapper.append(auditElement);
+                });
+
+                // Append faq items to the page.
+                faqList.forEach(faqData => {
+                    const faqItemsWrapper = jQuery('.wps-privacy-questions .wps-privacy-list__items');
+                    const faqElement      = generateFaqElement(faqData);
+
+                    faqItemsWrapper.removeClass('loading');
+                    faqItemsWrapper.append(faqElement);
                 });
             },
             error: function (xhr, status, error) {
@@ -85,6 +60,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         const confirmText   = button.data('confirm-text');
         const successText   = button.data('success-text');
         const auditElement  = jQuery('#' + auditName);
+        const faqWrapper    = jQuery('.wps-privacy-questions .wps-privacy-list__items');
 
         // Do not proceed if button is in loading state
         if (button.hasClass('loading')) return;
@@ -97,6 +73,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
 
         // Add loading class
         button.addClass('loading');
+        faqWrapper.addClass('loading');
         jQuery('.wps-privacy-status').addClass('loading');
 
         let params = {
@@ -118,7 +95,9 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                 // If request is not successful, return early
                 if (success == false) return console.log(data);
 
-                const auditItem        = data.audit_item;
+                // Get data
+                const auditData        = data.audit_item;
+                const faqList          = data.faq_list;
                 const complianceStatus = data.compliance_status;
 
                 // Remove loading
@@ -134,27 +113,27 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                     return;
                 }
 
-                // If audit item is not null, update it with new data
-                if (!auditItem) return;
-                    
-                auditElement.attr('class', `wps-privacy-list__item wps-privacy-list__item--${auditItem.status}`);
-                auditElement.find('.wps-privacy-list__icon').attr('class', `wps-privacy-list__icon wps-privacy-list__icon--${auditItem.status}`);
-                auditElement.find('.wps-privacy-list__button').attr('class', `wps-privacy-list__button wps-privacy-list__button--${auditItem.status}`);
-                auditElement.find('.wps-privacy-list__text').html(auditItem.title);
-                auditElement.find('.wps-privacy-list__content').html(auditItem.notes);
-
-                if (auditItem.hasOwnProperty('action')) {
-                    auditElement.find('.wps-privacy-list__button').attr('class', `wps-privacy-list__button wps-privacy-list__button--${auditItem.action.key}`);
-                    auditElement.find('.wps-privacy-list__button').attr('data-action', auditItem.action.key);
-                    auditElement.find('.wps-privacy-list__button').data('action', auditItem.action.key);
-                    auditElement.find('.wps-privacy-list__button').text(auditItem.action.value);
+                // If audit item data is not null, update it with new data
+                if (auditData) {
+                    updateAuditElement(auditElement, auditData);
                 }
+
+                // Append faq items to the page.
+                faqWrapper.html('');
+                
+                faqList.forEach(faqData => {
+                    const faqElement = generateFaqElement(faqData);
+
+                    faqWrapper.removeClass('loading');
+                    faqWrapper.append(faqElement);
+                });
             },
             error: function (xhr, status, error) {
                 console.log(error);
             }
         });
     });
+
 
     function updateComplianceData(complianceData) {
         const complianceStatusWrapper = jQuery('.wps-privacy-status');
@@ -182,5 +161,80 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             complianceStatusWrapper.find('.wps-privacy-status__bar-passed').css('display', 'block');
             complianceStatusWrapper.find('.wps-privacy-status__bar-passed').css('width', `${complianceData.percentage_ready}%`);
         }
+    }
+
+
+    function generateAuditElement(data) {
+        let actionData = '';
+
+        // If item is not passed and has action, set proper data attribute
+        if (data.compliance.key != 'passed' && data.hasOwnProperty('action')) {
+            actionData += `data-audit="${data.name}" data-action="${data.action.key}"`;
+
+            // if action needs confirmation, set data attribute.
+            if (data.action.hasOwnProperty('confirm') && data.action.confirm == true) {
+                actionData += ` data-confirm="true"`;
+
+                if (data.action.hasOwnProperty('confirm_text')) {
+                    actionData += ` data-confirm-text="${data.action.confirm_text}"`;
+                }
+
+                if (data.action.hasOwnProperty('success_text')) {
+                    actionData += ` data-success-text="${data.action.success_text}"`;
+                }
+
+                if (data.action.hasOwnProperty('removable')) {
+                    actionData += ` data-removable="${data.action.removable}"`;
+                }
+            }
+        }
+
+        const auditElement = `
+            <div id="${data.name}" class="wps-privacy-list__item wps-privacy-list__item--${data.status}">
+                <div class="wps-privacy-list__title">
+                    <div>
+                        <span class="wps-privacy-list__icon wps-privacy-list__icon--${data.status}"></span>
+                        <span class="wps-privacy-list__text">${data.title}</span>
+                    </div>
+                    <a ${actionData}  class="wps-privacy-list__button wps-privacy-list__button--${data.status}">${data.compliance.value}</a>
+                </div>
+                <div class="wps-privacy-list__content">${data.notes}</div>
+            </div>`;
+
+        return auditElement;
+    }
+
+
+    function updateAuditElement(element, data) {
+        // Update content
+        element.attr('class', `wps-privacy-list__item wps-privacy-list__item--${data.status}`);
+        element.find('.wps-privacy-list__icon').attr('class', `wps-privacy-list__icon wps-privacy-list__icon--${data.status}`);
+        element.find('.wps-privacy-list__button').attr('class', `wps-privacy-list__button wps-privacy-list__button--${data.status}`);
+        element.find('.wps-privacy-list__text').html(data.title);
+        element.find('.wps-privacy-list__content').html(data.notes);
+
+        // Update action
+        if (data.hasOwnProperty('action')) {
+            element.find('.wps-privacy-list__button').attr('class', `wps-privacy-list__button wps-privacy-list__button--${data.action.key}`);
+            element.find('.wps-privacy-list__button').attr('data-action', data.action.key);
+            element.find('.wps-privacy-list__button').data('action', data.action.key);
+            element.find('.wps-privacy-list__button').text(data.action.value);
+        }
+    }
+
+    function generateFaqElement(data) {
+        const faqElement = `
+            <div class="wps-privacy-list__item wps-privacy-list__item--${data.status}">
+                <div class="wps-privacy-list__title">
+                    <span class="wps-privacy-list__icon wps-privacy-list__icon--${data.status}"></span>
+                    <div>
+                        <span>${data.title}</span>
+                        <span>${data.summary}</span>
+                    </div>
+                </div>
+                <div class="wps-privacy-list__content">${data.notes}</div>
+            </div>`;
+
+        return faqElement;
     }
 }
