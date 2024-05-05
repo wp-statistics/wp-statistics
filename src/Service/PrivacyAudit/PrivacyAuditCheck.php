@@ -11,7 +11,7 @@ use WP_Statistics\Service\PrivacyAudit\Audits\StoredUserAgentStringData;
 use WP_Statistics\Service\PrivacyAudit\Audits\UnhashedIpAddress;
 use WP_Statistics\Service\PrivacyAudit\Audits\StoredUserIdData;
 use WP_Statistics\Service\PrivacyAudit\Faqs\AbstractFaq;
-use WP_Statistics\Service\PrivacyAudit\Faqs\MentionPlugin;
+use WP_Statistics\Service\PrivacyAudit\Faqs\RequireMention;
 use WP_Statistics\Service\PrivacyAudit\Faqs\RequireConsent;
 use WP_Statistics\Service\PrivacyAudit\Faqs\RequireCookieBanner;
 use WP_Statistics\Service\PrivacyAudit\Faqs\TransferData;
@@ -34,7 +34,7 @@ class PrivacyAuditCheck
         RequireConsent::class,
         RequireCookieBanner::class,
         TransferData::class,
-        MentionPlugin::class
+        RequireMention::class
     ];
 
     public static function auditListStatus()

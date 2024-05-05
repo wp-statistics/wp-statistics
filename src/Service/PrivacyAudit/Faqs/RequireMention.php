@@ -1,7 +1,7 @@
 <?php 
 namespace WP_Statistics\Service\PrivacyAudit\Faqs;
 
-class MentionPlugin extends AbstractFaq
+class RequireMention extends AbstractFaq
 {
     static public function getStatus()
     {
