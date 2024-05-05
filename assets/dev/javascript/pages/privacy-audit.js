@@ -19,7 +19,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                 if (success == false) return console.log(data);
 
                 // Update compliance information
-                updateComplianceData(data.compliance_status);
+                updateComplianceInfo(data.compliance_status);
 
                 // Append audit items to the page.
                 loadAudits(data.audit_list);
@@ -81,7 +81,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                 button.removeClass('loading');
 
                 // Update compliance data
-                updateComplianceData(data.compliance_status);
+                updateComplianceInfo(data.compliance_status);
 
                 // If element is removable, hide it after success response
                 if (isRemovable) {
@@ -105,7 +105,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
     });
 
 
-    function updateComplianceData(complianceData) {
+    function updateComplianceInfo(complianceData) {
         const complianceStatusWrapper = jQuery('.wps-privacy-status');
         
         // Reset previous styles
