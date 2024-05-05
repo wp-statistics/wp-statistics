@@ -18,31 +18,14 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                 // If request is not successful, return early
                 if (success == false) return console.log(data);
 
-                // Get response data
-                const auditList        = data.audit_list;
-                const faqList          = data.faq_list;
-                const complianceStatus = data.compliance_status;
-
                 // Update compliance information
-                updateComplianceData(complianceStatus);
+                updateComplianceData(data.compliance_status);
 
                 // Append audit items to the page.
-                auditList.forEach(auditData => {
-                    const privacyItemsWrapper = jQuery('.wps-privacy-list .wps-privacy-list__items');
-                    const auditElement        = generateAuditElement(auditData);
-
-                    privacyItemsWrapper.removeClass('loading');
-                    privacyItemsWrapper.append(auditElement);
-                });
+                loadAudits(data.audit_list);
 
                 // Append faq items to the page.
-                faqList.forEach(faqData => {
-                    const faqItemsWrapper = jQuery('.wps-privacy-questions .wps-privacy-list__items');
-                    const faqElement      = generateFaqElement(faqData);
-
-                    faqItemsWrapper.removeClass('loading');
-                    faqItemsWrapper.append(faqElement);
-                });
+                loadFaqs(data.faq_list);
             },
             error: function (xhr, status, error) {
                 console.log(error);
@@ -60,7 +43,6 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         const confirmText   = button.data('confirm-text');
         const successText   = button.data('success-text');
         const auditElement  = jQuery('#' + auditName);
-        const faqWrapper    = jQuery('.wps-privacy-questions .wps-privacy-list__items');
 
         // Do not proceed if button is in loading state
         if (button.hasClass('loading')) return;
@@ -73,7 +55,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
 
         // Add loading class
         button.addClass('loading');
-        faqWrapper.addClass('loading');
+        jQuery('.wps-privacy-questions .wps-privacy-list__items').addClass('loading');
         jQuery('.wps-privacy-status').addClass('loading');
 
         let params = {
@@ -95,16 +77,11 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                 // If request is not successful, return early
                 if (success == false) return console.log(data);
 
-                // Get data
-                const auditData        = data.audit_item;
-                const faqList          = data.faq_list;
-                const complianceStatus = data.compliance_status;
-
                 // Remove loading
                 button.removeClass('loading');
 
                 // Update compliance data
-                updateComplianceData(complianceStatus);
+                updateComplianceData(data.compliance_status);
 
                 // If element is removable, hide it after success response
                 if (isRemovable) {
@@ -114,19 +91,12 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                 }
 
                 // If audit item data is not null, update it with new data
-                if (auditData) {
-                    updateAuditElement(auditElement, auditData);
+                if (data.audit_item) {
+                    updateAuditElement(auditElement, data.audit_item);
                 }
 
-                // Append faq items to the page.
-                faqWrapper.html('');
-                
-                faqList.forEach(faqData => {
-                    const faqElement = generateFaqElement(faqData);
-
-                    faqWrapper.removeClass('loading');
-                    faqWrapper.append(faqElement);
-                });
+                // Load faq items
+                loadFaqs(data.faq_list);
             },
             error: function (xhr, status, error) {
                 console.log(error);
@@ -161,6 +131,36 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             complianceStatusWrapper.find('.wps-privacy-status__bar-passed').css('display', 'block');
             complianceStatusWrapper.find('.wps-privacy-status__bar-passed').css('width', `${complianceData.percentage_ready}%`);
         }
+    }
+
+
+    function updateAuditElement(element, data) {
+        // Update content
+        element.attr('class', `wps-privacy-list__item wps-privacy-list__item--${data.status}`);
+        element.find('.wps-privacy-list__icon').attr('class', `wps-privacy-list__icon wps-privacy-list__icon--${data.status}`);
+        element.find('.wps-privacy-list__button').attr('class', `wps-privacy-list__button wps-privacy-list__button--${data.status}`);
+        element.find('.wps-privacy-list__text').html(data.title);
+        element.find('.wps-privacy-list__content').html(data.notes);
+
+        // Update action
+        if (data.hasOwnProperty('action')) {
+            element.find('.wps-privacy-list__button').attr('class', `wps-privacy-list__button wps-privacy-list__button--${data.action.key}`);
+            element.find('.wps-privacy-list__button').attr('data-action', data.action.key);
+            element.find('.wps-privacy-list__button').data('action', data.action.key);
+            element.find('.wps-privacy-list__button').text(data.action.value);
+        }
+    }
+
+
+    function loadAudits(auditList) {
+        const privacyItemsWrapper = jQuery('.wps-privacy-list .wps-privacy-list__items');
+        privacyItemsWrapper.html('');
+        privacyItemsWrapper.removeClass('loading');
+
+        auditList.forEach(auditData => {
+            const auditElement = generateAuditElement(auditData);
+            privacyItemsWrapper.append(auditElement);
+        });
     }
 
 
@@ -205,23 +205,18 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
     }
 
 
-    function updateAuditElement(element, data) {
-        // Update content
-        element.attr('class', `wps-privacy-list__item wps-privacy-list__item--${data.status}`);
-        element.find('.wps-privacy-list__icon').attr('class', `wps-privacy-list__icon wps-privacy-list__icon--${data.status}`);
-        element.find('.wps-privacy-list__button').attr('class', `wps-privacy-list__button wps-privacy-list__button--${data.status}`);
-        element.find('.wps-privacy-list__text').html(data.title);
-        element.find('.wps-privacy-list__content').html(data.notes);
-
-        // Update action
-        if (data.hasOwnProperty('action')) {
-            element.find('.wps-privacy-list__button').attr('class', `wps-privacy-list__button wps-privacy-list__button--${data.action.key}`);
-            element.find('.wps-privacy-list__button').attr('data-action', data.action.key);
-            element.find('.wps-privacy-list__button').data('action', data.action.key);
-            element.find('.wps-privacy-list__button').text(data.action.value);
-        }
+    function loadFaqs(faqList) {
+        const faqWrapper = jQuery('.wps-privacy-questions .wps-privacy-list__items');
+        faqWrapper.html('');
+        faqWrapper.removeClass('loading');
+                
+        faqList.forEach(faqData => {
+            const faqElement = generateFaqElement(faqData);
+            faqWrapper.append(faqElement);
+        });
     }
 
+    
     function generateFaqElement(data) {
         const faqElement = `
             <div class="wps-privacy-list__item wps-privacy-list__item--${data.status}">
