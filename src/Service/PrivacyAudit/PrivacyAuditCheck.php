@@ -33,7 +33,7 @@ class PrivacyAuditCheck
     public static $faqs = [
         RequireConsent::class,
         RequireCookieBanner::class,
-        // TransferData::class,
+        TransferData::class,
         // RequireMention::class
     ];
 
