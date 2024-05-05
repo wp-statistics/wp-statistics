@@ -18,16 +18,7 @@ use WP_Statistics\Service\PrivacyAudit\Faqs\TransferData;
 
 class PrivacyAuditCheck
 {
-    /** @var AbstractAudit[] $audits */
-    public static $audits = [
-        'record_user_page_visits'       => RecordUserPageVisits::class,
-        'anonymize_ip_address'          => AnonymizeIpAddress::class,
-        'hash_ip_address'               => HashIpAddress::class,
-        'store_user_agent_string'       => StoreUserAgentString::class,
-        'stored_user_agent_string_data' => StoredUserAgentStringData::class,
-        'unhashed_ip_address'           => UnhashedIpAddress::class,
-        'stored_user_id_data'           => StoredUserIdData::class,
-    ];
+
 
     /** @var AbstractFaq[] $faqs */
     public static $faqs = [
@@ -37,11 +28,39 @@ class PrivacyAuditCheck
         RequireMention::class
     ];
 
+    public static function getAudits()
+    {
+        /** @var AbstractAudit[] $audits */
+        $audits = [
+            'record_user_page_visits'       => RecordUserPageVisits::class,
+            'anonymize_ip_address'          => AnonymizeIpAddress::class,
+            'hash_ip_address'               => HashIpAddress::class,
+            'store_user_agent_string'       => StoreUserAgentString::class,
+            'stored_user_agent_string_data' => StoredUserAgentStringData::class,
+            'unhashed_ip_address'           => UnhashedIpAddress::class,
+            'stored_user_id_data'           => StoredUserIdData::class,
+        ];
+
+        return apply_filters('wp_statistics_privacy_audits_list', $audits);
+    }
+
+    public static function getAudit($auditName)
+    {
+        $audits = self::getAudits();
+        
+        if (!isset($audits[$auditName])) {
+            throw new \InvalidArgumentException(esc_html__("$auditName is not a valid audit item.", 'wp-statistics'));
+        }
+
+        return $audits[$auditName];
+    }
+
     public static function auditListStatus()
     {
-        $list = [];
+        $audits = self::getAudits();
+        $list   = [];
 
-        foreach (self::$audits as $key => $audit) {
+        foreach ($audits as $key => $audit) {
             $auditState = $audit::getState();
 
             // If current state data is not available, skip
@@ -68,11 +87,12 @@ class PrivacyAuditCheck
 
     public static function complianceStatus()
     {
-        $rulesMapped    = count(self::$audits);
+        $audits         = self::getAudits();
+        $rulesMapped    = count($audits);
         $actionRequired = 0;
         $passed         = 0;
 
-        foreach (self::$audits as $audit) {
+        foreach ($audits as $audit) {
             $audit::getStatus() == 'passed' ? $passed++ : $actionRequired++;
         }
 

@@ -31,7 +31,7 @@ class PrivacyAuditController
             $auditAction = isset($_POST['audit_action']) ? sanitize_text_field($_POST['audit_action']) : '';
 
             // Find the audit class based on provided audit name
-            $auditClass = PrivacyAuditCheck::$audits[$auditName];
+            $auditClass = PrivacyAuditCheck::getAudit($auditName);
 
             // If action is not defined in the class, throw error
             if (!method_exists($auditClass, $auditAction)) {
