@@ -58,10 +58,11 @@
       border: 1px solid #A3A5B1 !important;
 
       &[disabled] {
+        cursor: not-allowed;
         & + label {
           background: #EEEFF1;
           border: 1px dashed #A9AAAE;
-          cursor: default;
+          cursor: not-allowed;
 
           .wps-privacy-mode__head h3, .wps-privacy-mode__head p {
             color: #56585a;

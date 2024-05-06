@@ -87,6 +87,8 @@
         line-height: 16.41px;
         display: flex;
         justify-content: flex-start;
+        cursor: default;
+
         .wps-tooltip{
           flex-grow: unset;
         }
