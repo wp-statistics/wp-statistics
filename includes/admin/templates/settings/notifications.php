@@ -151,13 +151,7 @@
                     <?php } ?>
                 </select>
 
-                <p class="description"><?php esc_html_e('Choose how to receive reports, either via email or SMS.', 'wp-statistics'); ?></p>
-                <?php if (!is_plugin_active('wp-sms/wp-sms.php')) { ?>
-                    <p class="description">
-                        <span class="wps-note"><?php esc_html_e('Note:', 'wp-statistics'); ?></span>
-                        <?php echo sprintf(__('To send SMS text messages please install the %s plugin.', 'wp-statistics'), '<a href="http://wordpress.org/extend/plugins/wp-sms/" target="_blank">' . __('WP SMS', 'wp-statistics') . '</a>'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	 ?>
-                    </p>
-                <?php } ?>
+                <p class="description"><?php echo sprintf(__('Select your preferred method for receiving reports: via email or SMS ( SMS notifications are sent using the %s Plugin to the Admin Mobile Number).', 'wp-statistics'), '<a href="http://wordpress.org/extend/plugins/wp-sms/" target="_blank">' . __('WP SMS', 'wp-statistics') . '</a>'); ?></p>
             </td>
         </tr>
 

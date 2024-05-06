@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-05-06T07:36:32+00:00\n"
+"POT-Creation-Date: 2024-05-06T09:03:56+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: wp-statistics\n"
@@ -2113,7 +2113,7 @@ msgid "Last View"
 msgstr ""
 
 #: includes/admin/templates/pages/visitors.php:41
-#: includes/admin/templates/settings/notifications.php:186
+#: includes/admin/templates/settings/notifications.php:180
 #: includes/class-wp-statistics-widget.php:97
 #: includes/class-wp-statistics-widget.php:296
 msgid "Total Views"
@@ -2319,7 +2319,7 @@ msgstr ""
 #: includes/admin/templates/settings/externals.php:283
 #: includes/admin/templates/settings/general.php:318
 #: includes/admin/templates/settings/maintenance.php:78
-#: includes/admin/templates/settings/notifications.php:204
+#: includes/admin/templates/settings/notifications.php:198
 #: includes/admin/templates/settings/overview-display.php:42
 #: includes/admin/templates/settings/privacy.php:76
 #: includes/admin/templates/settings/visitor-ip.php:202
@@ -3587,76 +3587,68 @@ msgid "SMS"
 msgstr ""
 
 #: includes/admin/templates/settings/notifications.php:154
-msgid "Choose how to receive reports, either via email or SMS."
+msgid "Select your preferred method for receiving reports: via email or SMS ( SMS notifications are sent using the %s Plugin to the Admin Mobile Number)."
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:157
-msgid "Note:"
-msgstr ""
-
-#: includes/admin/templates/settings/notifications.php:158
-msgid "To send SMS text messages please install the %s plugin."
-msgstr ""
-
-#: includes/admin/templates/settings/notifications.php:158
+#: includes/admin/templates/settings/notifications.php:154
 msgid "WP SMS"
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:166
+#: includes/admin/templates/settings/notifications.php:160
 msgid "Custom Report Builder"
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:171
+#: includes/admin/templates/settings/notifications.php:165
 msgid "Using WP Statistics shortcodes to display specific statistics."
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:174
+#: includes/admin/templates/settings/notifications.php:168
 msgid "Insert any of the following shortcode examples to show corresponding data:"
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:176
+#: includes/admin/templates/settings/notifications.php:170
 #: includes/class-wp-statistics-admin-bar.php:94
 #: includes/class-wp-statistics-widget.php:55
 #: includes/class-wp-statistics-widget.php:272
 msgid "Today's Visitors"
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:178
+#: includes/admin/templates/settings/notifications.php:172
 #: includes/class-wp-statistics-admin-bar.php:98
 #: includes/class-wp-statistics-widget.php:48
 #: includes/class-wp-statistics-widget.php:268
 msgid "Today's Views"
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:180
+#: includes/admin/templates/settings/notifications.php:174
 #: includes/class-wp-statistics-admin-bar.php:102
 #: includes/class-wp-statistics-widget.php:69
 #: includes/class-wp-statistics-widget.php:280
 msgid "Yesterday's Visitors"
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:182
+#: includes/admin/templates/settings/notifications.php:176
 #: includes/class-wp-statistics-admin-bar.php:106
 #: includes/class-wp-statistics-widget.php:62
 #: includes/class-wp-statistics-widget.php:276
 msgid "Yesterday's Views"
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:184
+#: includes/admin/templates/settings/notifications.php:178
 #: includes/class-wp-statistics-widget.php:104
 #: includes/class-wp-statistics-widget.php:300
 msgid "Total Visitors"
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:189
+#: includes/admin/templates/settings/notifications.php:183
 msgid "Refer to our complete <a href=\"https://wp-statistics.com/resources/shortcodes/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings\" target=\"_blank\">shortcode guide</a> for more options."
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:194
+#: includes/admin/templates/settings/notifications.php:188
 msgid "Enhanced Visual Report"
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:197
+#: includes/admin/templates/settings/notifications.php:191
 msgid "For graphical representations of your data, explore our <a href=\"https://wp-statistics.com/product/wp-statistics-advanced-reporting/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings\" target=\"_blank\">Advanced Reporting Add-on</a> for additional chart and graph options."
 msgstr ""
 
