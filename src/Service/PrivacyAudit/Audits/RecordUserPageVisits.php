@@ -46,7 +46,7 @@ class RecordUserPageVisits extends AbstractAudit
                     <ol>
                         <li><b>Transparency:</b> Your website’s privacy policy should clearly describe the data collection practices, including the specific types of data collected and their intended use.</li>
                         <li><b>Informed Consent:</b> Adequate measures are in place to inform users about the data collection and to obtain their consent where necessary. This may include consent banners, notifications, or other user interfaces that clearly communicate this information.</li>
-                        <li><b>Review and Action:</b> Regularly review the necessity of keeping this feature enabled. If the feature is no longer needed, or if you wish to enhance user privacy, consider disabling it. Refer to our guide on <a href="https://chat.openai.com/c/42e80126-57c8-4608-9440-b13d86b8bf5a#" target="_blank">Adjusting Your Privacy Settings</a> for detailed instructions on managing this feature.</li>
+                        <li><b>Review and Action:</b> Regularly review the necessity of keeping this feature enabled. If the feature is no longer needed, or if you wish to enhance user privacy, consider disabling it. Refer to our guide on Adjusting Your Privacy Settings for detailed instructions on managing this feature.</li>
                     </ol>', 'wp-statistics'),
                 'compliance'    => [
                     'key'   => 'action_required',

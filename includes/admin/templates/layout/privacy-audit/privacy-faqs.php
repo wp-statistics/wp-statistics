@@ -19,7 +19,7 @@
             <div class="postbox-content">
                 <ul>
                     <li>
-                        <?php echo _e('<a href="https://wp-statistics.com/resources/avoiding-pii-data-collection/?utm_source=wp-statistics&utm_medium=link&utm_campaign=privacy?" target="blank">Configuring for Maximum Privacy: A Guide to Avoiding PII Data Collection</a>', 'wp-statistics'); ?>
+                        <?php echo _e('<a href="https://wp-statistics.com/resources/avoiding-pii-data-collection/?utm_source=wp-statistics&utm_medium=link&utm_campaign=privacy" target="blank">Configuring for Maximum Privacy: A Guide to Avoiding PII Data Collection</a>', 'wp-statistics'); ?>
                     </li>
                     <li>
                         <?php echo _e('<a href="https://wp-statistics.com/resources/what-we-collect/?utm_source=wp-statistics&utm_medium=link&utm_campaign=privacy" target="blank">GDPR, CCPA and cookie law compliant site analytics</a>', 'wp-statistics'); ?>
