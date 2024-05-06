@@ -70,6 +70,12 @@ class ContentAnalyticsPage
                 'title'   => esc_html__('Pages', 'wp-statistics'),
                 'tooltip' => esc_html__('Tab Tooltip', 'wp-statistics'),
                 'class'   => $currentTab === 'page' ? 'current' : '',
+            ],
+            'product' => [
+                'link'    => Menus::admin_url(Menus::get_page_slug('content-analytics'), ['tab' => 'product']),
+                'title'   => esc_html__('Products', 'wp-statistics'),
+                'tooltip' => esc_html__('Tab Tooltip', 'wp-statistics'),
+                'class'   => $currentTab === 'product' ? 'current' : '',
             ]
         ];
 

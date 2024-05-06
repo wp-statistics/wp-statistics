@@ -1,3 +1,4 @@
+
 <div class="metabox-holder wps-content-analytics">
     <div class="postbox-container" id="wps-postbox-container-1">
         <?php
@@ -6,8 +7,8 @@
 
         // Item 1
         $args1 = array(
-            'title_text'   => esc_html__('Published Pages', 'wp-statistics'),
-            'tooltip_text' => esc_html__('Published Pages tooltip', 'wp-statistics'),
+            'title_text'   => esc_html__('Published Products', 'wp-statistics'),
+            'tooltip_text' => esc_html__('Published Products tooltip', 'wp-statistics'),
             'icon_class'   => 'posts',
             'total'        => '2.5K',
         );
@@ -20,7 +21,7 @@
             'icon_class'   => 'views',
             'total'        => '35.1M',
             'avg'          => '16.2K',
-            'avg_title'    => esc_html__('Avg. Per Page', 'wp-statistics'),
+            'avg_title'    => esc_html__('Avg. Per Product', 'wp-statistics'),
         );
         Admin_Template::get_template(array('layout/content-analytics/overview-card'), $args2);
 
@@ -31,7 +32,7 @@
             'icon_class'   => 'visitors',
             'total'        => '35.1M',
             'avg'          => '10.2K',
-            'avg_title'    => esc_html__('Avg. Per Page', 'wp-statistics'),
+            'avg_title'    => esc_html__('Avg. Per Product', 'wp-statistics'),
         );
         Admin_Template::get_template(array('layout/content-analytics/overview-card'), $args3);
 
@@ -42,7 +43,7 @@
             'icon_class'   => 'words',
             'total'        => '35.1M',
             'avg'          => '10.2K',
-            'avg_title'    => esc_html__('Avg. Per Page', 'wp-statistics'),
+            'avg_title'    => esc_html__('Avg. Per Product', 'wp-statistics'),
         );
         Admin_Template::get_template(array('layout/content-analytics/overview-card'), $args4);
 
@@ -53,7 +54,7 @@
             'icon_class'   => 'comments',
             'total'        => '35.1M',
             'avg'          => '300',
-            'avg_title'    => esc_html__('Avg. Per Page', 'wp-statistics'),
+            'avg_title'    => esc_html__('Avg. Per Product', 'wp-statistics'),
         );
         Admin_Template::get_template(array('layout/content-analytics/overview-card'), $args5);
         ?>
@@ -69,12 +70,12 @@
         ?>
 
         <?php
-        $top_pages = array(
-            'title_text'   => esc_html__('Top Pages', 'wp-statistics'),
-            'tooltip_text' => esc_html__('Top Pages tooltip', 'wp-statistics'),
-            'type' => esc_html__('page', 'wp-statistics'),
+        $top_products = array(
+            'title_text'   => esc_html__('Top Products', 'wp-statistics'),
+            'tooltip_text' => esc_html__('Top Products tooltip', 'wp-statistics'),
+            'type' => esc_html__('product', 'wp-statistics'),
         );
-        Admin_Template::get_template(array('layout/content-analytics/top-picks'), $top_pages);
+        Admin_Template::get_template(array('layout/content-analytics/top-picks'), $top_products);
         ?>
 
         <?php
