@@ -2594,6 +2594,9 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
     height: 9px;
     display: inline-flex;
     background: url("data:image/svg+xml;base64,Cjxzdmcgd2lkdGg9IjEwIiBoZWlnaHQ9IjEwIiB2aWV3Qm94PSIwIDAgMTAgMTAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik0yLjU2NjI2IDQuNDE2ODVIOS42NjYzNFY1LjU4MzUySDIuNTY2MjZMNS42OTUyNCA4LjcxMjQ2TDQuODcwMjkgOS41Mzc0MUwwLjMzMzAwOCA1LjAwMDE5TDQuODcwMjkgMC40NjI4OTFMNS42OTUyNCAxLjI4Nzg1TDIuNTY2MjYgNC40MTY4NVoiIGZpbGw9IiM0MDRCRjIiLz4KPC9zdmc+Cg==") center center/contain no-repeat;
+    .rtl & {
+      transform:rotate(180deg);
+    }
   }
 }
 
