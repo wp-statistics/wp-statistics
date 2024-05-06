@@ -151,7 +151,7 @@
                     <?php } ?>
                 </select>
 
-                <p class="description"><?php echo sprintf(__('Select your preferred method for receiving reports: via email or SMS ( SMS notifications are sent using the %s Plugin to the Admin Mobile Number).', 'wp-statistics'), '<a href="http://wordpress.org/extend/plugins/wp-sms/" target="_blank">' . __('WP SMS', 'wp-statistics') . '</a>'); ?></p>
+                <p class="description"><?php echo sprintf(__('Select your preferred method for receiving reports: via email or SMS (SMS notifications are sent using the %s Plugin to the Admin Mobile Number).', 'wp-statistics'), '<a href="http://wordpress.org/extend/plugins/wp-sms/" target="_blank">' . __('WP SMS', 'wp-statistics') . '</a>'); ?></p>
             </td>
         </tr>
 
