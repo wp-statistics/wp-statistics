@@ -173,9 +173,7 @@
                 <p class="description data">
                     <?php esc_html_e('Insert any of the following shortcode examples to show corresponding data:', 'wp-statistics'); ?>
                     <br><br>
-                    <?php esc_html_e('Current Online Users', 'wp-statistics'); ?>:
-                    <code>[wpstatistics stat=usersonline]</code><br>
-                    <?php esc_html_e('Today\'s Views', 'wp-statistics'); ?>:
+                    <?php esc_html_e('Today\'s Visitors', 'wp-statistics'); ?>:
                     <code>[wpstatistics stat=visitors time=today]</code><br>
                     <?php esc_html_e('Today\'s Views', 'wp-statistics'); ?>:
                     <code>[wpstatistics stat=visits time=today]</code><br>
