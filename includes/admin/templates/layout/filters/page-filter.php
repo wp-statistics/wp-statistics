@@ -18,12 +18,12 @@ $query = new WP_Query([
     <div class="wps-dropdown">
         <label for="wps-page-filter" class="selectedItemLabel"><?php esc_html_e('Page:', 'wp-statistics'); ?></label>
         <select id="wps-page-filter" class="wps-select2" data-type-show="select2">
-            <option value="<?php echo esc_url($baseUrl) ?>" <?php echo !$postId ? 'selected' : '' ?>>
+            <option value="<?php echo esc_url($baseUrl) ?>" <?php selected(!$postId) ?> >
                 <?php esc_html_e('All', 'wp-statistics'); ?>
             </option>
             <?php while ($query->have_posts()) : $query->the_post(); ?>
                 <?php $url = add_query_arg([$queryKey => get_the_ID()], $baseUrl); ?>
-                <option value="<?php echo esc_url($url) ?>" <?php echo get_the_ID() == $postId ? 'selected' : '' ?>>
+                <option value="<?php echo esc_url($url) ?>" <?php selected($postId, get_the_ID()) ?>>
                     <?php the_title() ?>
                 </option>
             <?php endwhile; ?>
