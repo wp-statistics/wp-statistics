@@ -35,7 +35,7 @@ const wpsSelect2 = jQuery('.wps-select2');
 const wpsFilterPage = jQuery('.wps-filter-page');
 const wpsBody = jQuery('body');
 
-if (wpsSelect2.length) {
+if (wpsSelect2.length && wpsFilterPage) {
   if (wpsBody.hasClass('rtl')) {
         wpsSelect2.select2({
             dropdownParent: $('.wps-filter-page'),
@@ -448,22 +448,28 @@ function moveFeedbackBird() {
 
 // Head filters drop down
 jQuery(document).ready(function () {
-   var dropdowns = document.querySelectorAll(".wps-head-filters__item") ;
-   dropdowns.forEach(function(dropdown) {
-   dropdown.classList.remove('loading');
-     dropdown.addEventListener("click", function(event) {
-       var dropdownContent = dropdown.querySelector(".dropdown-content");
-       dropdownContent.classList.toggle("show");
-     });
-   });
-   window.addEventListener("click", function(event) {
-     dropdowns.forEach(function(dropdown) {
-       if (!dropdown.contains(event.target)) {
-         dropdown.querySelector(".dropdown-content").classList.remove("show");
-       }
-     });
-   });
- });
+  var dropdowns = document.querySelectorAll(".wps-head-filters__item");
+
+  dropdowns.forEach(function(dropdown) {
+    dropdown.classList.remove('loading');
+    dropdown.addEventListener("click", function(event) {
+      var dropdownContent = dropdown.querySelector(".dropdown-content");
+      if (dropdownContent) {
+        dropdownContent.classList.toggle("show");
+      }
+    });
+  });
+
+  window.addEventListener("click", function(event) {
+    dropdowns.forEach(function(dropdown) {
+      var dropdownContent = dropdown.querySelector(".dropdown-content");
+      if (dropdownContent && !dropdown.contains(event.target)) {
+        dropdownContent.classList.remove("show");
+      }
+    });
+  });
+});
+
 
 
 
