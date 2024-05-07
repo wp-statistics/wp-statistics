@@ -1,25 +1,23 @@
 <?php 
 namespace WP_Statistics\Service\PrivacyAudit\Audits;
 
-use WP_STATISTICS\Option;
-
 class AnonymizeIpAddress extends AbstractAudit
 {
-    private static $optionKey = 'anonymize_ips';
+    private static $optionKey = '';
 
     public static function getStatus()
     {
-        return Option::get(self::$optionKey) == true ? 'passed' : 'action_required';
+        return true ? 'passed' : 'action_required';
     }
 
     public static function resolve()
     {
-        Option::update(self::$optionKey, true);
+        
     }
 
     public static function undo()
     {
-        Option::update(self::$optionKey, false);
+        
     }
 
     public static function getStates()

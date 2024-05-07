@@ -1,25 +1,23 @@
 <?php 
 namespace WP_Statistics\Service\PrivacyAudit\Audits;
 
-use WP_STATISTICS\Option;
-
 class RecordUserPageVisits extends AbstractAudit
 {
-    private static $optionKey = 'visitors_log';
+    private static $optionKey = '';
+
+    public static function getStatus()
+    {
+        return true ? 'action_required' : 'passed';
+    }
 
     public static function resolve()
     {
-        Option::update(self::$optionKey, false);
+        
     }
 
     public static function undo()
     {
-        Option::update(self::$optionKey, true);
-    }
-
-    public static function getStatus()
-    {
-        return Option::get(self::$optionKey) == true ? 'action_required' : 'passed';
+        
     }
 
     public static function getStates()

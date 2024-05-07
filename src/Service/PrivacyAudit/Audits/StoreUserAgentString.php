@@ -1,25 +1,23 @@
 <?php 
 namespace WP_Statistics\Service\PrivacyAudit\Audits;
 
-use WP_STATISTICS\Option;
-
 class StoreUserAgentString extends AbstractAudit
 {
-    private static $optionKey = 'store_ua';
+    private static $optionKey = '';
 
     public static function getStatus()
     {
-        return Option::get(self::$optionKey) == true ? 'action_required' : 'passed';
+        return true ? 'action_required' : 'passed';
     }
 
     public static function resolve()
     {
-        Option::update(self::$optionKey, false);
+        
     }
 
     public static function undo()
     {
-        Option::update(self::$optionKey, true);
+        
     }
 
     public static function getStates()
