@@ -4,12 +4,14 @@ namespace WP_Statistics\Service\PrivacyAudit\Faqs;
 use WP_Statistics\Service\PrivacyAudit\Audits\AnonymizeIpAddress;
 use WP_Statistics\Service\PrivacyAudit\Audits\HashIpAddress;
 use WP_Statistics\Service\PrivacyAudit\Audits\StoreUserAgentString;
+use WP_Statistics\Service\PrivacyAudit\Audits\RecordUserPageVisits;
 
 class RequireConsent extends AbstractFaq
 {
     static public function getStatus()
     {
         $requirements = [
+            RecordUserPageVisits::getStatus(),
             HashIpAddress::getStatus(),
             AnonymizeIpAddress::getStatus(),
             StoreUserAgentString::getStatus()
