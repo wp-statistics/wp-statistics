@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-05-06T09:25:18+00:00\n"
+"POT-Creation-Date: 2024-05-07T13:16:51+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: wp-statistics\n"
@@ -2471,7 +2471,7 @@ msgid "Views Insights"
 msgstr ""
 
 #: includes/admin/templates/settings/add-ons/advanced-reporting.php:126
-msgid "Choose to receive detailed charts on visits counts and behavior patterns."
+msgid "Choose to receive detailed charts on views counts and behavior patterns."
 msgstr ""
 
 #: includes/admin/templates/settings/add-ons/advanced-reporting.php:137
@@ -3334,7 +3334,7 @@ msgid "Show View Logs"
 msgstr ""
 
 #: includes/admin/templates/settings/general.php:89
-msgid "Adds a column in the WordPress admin's user list to display a log of user visits."
+msgid "Adds a column in the WordPress admin's user list to display a log of user views."
 msgstr ""
 
 #: includes/admin/templates/settings/general.php:99
@@ -3949,7 +3949,7 @@ msgid "This table keeps a record of individual visitors to your website. Each ro
 msgstr ""
 
 #: includes/class-wp-statistics-db.php:68
-msgid "This table logs visits that have been excluded based on certain criteria, like bots or specific IP addresses. It helps keep your statistics clean from non-human or unwanted traffic."
+msgid "This table logs views that have been excluded based on certain criteria, like bots or specific IP addresses. It helps keep your statistics clean from non-human or unwanted traffic."
 msgstr ""
 
 #: includes/class-wp-statistics-db.php:69
@@ -3961,7 +3961,7 @@ msgid "This table records the search queries made on your website. It helps you 
 msgstr ""
 
 #: includes/class-wp-statistics-db.php:71
-msgid "This table stores historical data about visits and visitors over time. It's useful for tracking trends and patterns in your website's traffic."
+msgid "This table stores historical data about views and visitors over time. It's useful for tracking trends and patterns in your website's traffic."
 msgstr ""
 
 #: includes/class-wp-statistics-db.php:72
@@ -4209,7 +4209,7 @@ msgid "Daily Traffic Trend"
 msgstr ""
 
 #: includes/class-wp-statistics-meta-box.php:168
-msgid "Day-by-day breakdown of visits and page views over the selected period."
+msgid "Day-by-day breakdown of views and page views over the selected period."
 msgstr ""
 
 #: includes/class-wp-statistics-meta-box.php:182
@@ -4217,7 +4217,7 @@ msgid "Referrals from Search Engines"
 msgstr ""
 
 #: includes/class-wp-statistics-meta-box.php:183
-msgid "A breakdown of visits from different search engines over time."
+msgid "A breakdown of views from different search engines over time."
 msgstr ""
 
 #: includes/class-wp-statistics-meta-box.php:197
@@ -4225,7 +4225,7 @@ msgid "Most Visited Pages"
 msgstr ""
 
 #: includes/class-wp-statistics-meta-box.php:198
-msgid "Pages on your website with the highest number of visits in the selected time frame."
+msgid "Pages on your website with the highest number of views in the selected time frame."
 msgstr ""
 
 #: includes/class-wp-statistics-meta-box.php:212
@@ -4233,7 +4233,7 @@ msgid "Most Active Visitors"
 msgstr ""
 
 #: includes/class-wp-statistics-meta-box.php:213
-msgid "Visitors with the highest number of visits, including their country, city, IP address, and browser."
+msgid "Visitors with the highest number of views, including their country, city, IP address, and browser."
 msgstr ""
 
 #: includes/class-wp-statistics-meta-box.php:222
@@ -4341,7 +4341,7 @@ msgid "No Visitor Records Found for Purging."
 msgstr ""
 
 #: includes/class-wp-statistics-purge.php:241
-msgid "Number of visits must be greater than or equal to 10!"
+msgid "Number of views must be greater than or equal to 10!"
 msgstr ""
 
 #: includes/class-wp-statistics-schedule.php:258
