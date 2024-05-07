@@ -1,14 +1,16 @@
 <?php 
 $queryKey       = 'pid';
 $postId         = isset($_GET[$queryKey]) ? intval($_GET[$queryKey]) : '';
-$postType       = isset($_GET['pt']) ? sanitize_text_field($_GET['pt']) : false;
+$authorId       = isset($_GET['author_id']) ? intval($_GET['author_id']) : '';
+$postType       = isset($_GET['pt']) ? sanitize_text_field($_GET['pt']) : '';
 $selectedOption = $postId ? get_the_title($postId) : __('All', 'wp-statistics');
-$baseUrl        = remove_query_arg($queryKey);
+$baseUrl        = remove_query_arg($queryKey); // remove post id from query
 
 $query = new WP_Query([
     'post_status'    => 'publish', 
     'posts_per_page' => -1,
-    'post_type'      => $postType
+    'post_type'      => $postType,
+    'author'         => $authorId
 ]);
 ?>
 
@@ -20,7 +22,7 @@ $query = new WP_Query([
             <a href="<?php echo esc_url($baseUrl) ?>" data-index="0" class="<?php echo !$postId ? 'selected' : '' ?>"><?php  esc_html_e('All', 'wp-statistics'); ?></a>
 
             <?php while ($query->have_posts()) : $query->the_post(); ?>
-                <?php $url = add_query_arg([$queryKey => get_the_ID()]); ?>
+                <?php $url = add_query_arg([$queryKey => get_the_ID()], $baseUrl); ?>
 
                 <a href="<?php echo esc_url($url) ?>" data-index="<?php echo esc_attr($key + 1) ?>" title="<?php echo esc_attr(get_the_title()) ?>" class="<?php echo get_the_ID() == $postId ? 'selected' : '' ?>">
                     <?php the_title() ?>

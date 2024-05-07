@@ -1,8 +1,8 @@
 <?php 
 $queryKey         = 'pt';
-$selectedOption = isset($_GET[$queryKey]) ? sanitize_text_field($_GET[$queryKey]) : false;
+$selectedOption   = isset($_GET[$queryKey]) ? sanitize_text_field($_GET[$queryKey]) : false;
 $postTypes        = array_values(array_diff(get_post_types(['public' => true]), ['attachment']));
-$baseUrl          = remove_query_arg($queryKey);
+$baseUrl          = remove_query_arg([$queryKey, 'pid']); // remove post type and post id from query
 ?>
 
 <div class="wps-filter-post-type wps-head-filters__item loading">
@@ -13,7 +13,7 @@ $baseUrl          = remove_query_arg($queryKey);
             <a href="<?php echo esc_url($baseUrl) ?>" data-index="0" class="<?php echo !$selectedOption ? 'selected' : '' ?>"><?php esc_html_e('All', 'wp-statistics'); ?></a>
 
             <?php foreach ($postTypes as $key => $postType) : ?>
-                <?php $url = add_query_arg([$queryKey => $postType]); ?>
+                <?php $url = add_query_arg([$queryKey => $postType], $baseUrl); ?>
 
                 <a href="<?php echo esc_url($url) ?>" data-index="<?php echo esc_attr($key + 1) ?>" title="<?php echo esc_attr(ucfirst($postType)) ?>" class="<?php echo $selectedOption == $postType ? 'selected' : '' ?>">
                     <?php echo esc_html(ucfirst($postType)) ?>
