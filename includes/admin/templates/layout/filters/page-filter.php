@@ -16,19 +16,19 @@ $query = new WP_Query([
 
 <div class="wps-filter-page wps-head-filters__item loading">
     <div class="wps-dropdown">
-        <label class="selectedItemLabel"><?php esc_html_e('Page:', 'wp-statistics'); ?> </label>
-        <button type="button" class="dropbtn"><?php echo esc_html($selectedOption); ?></button>
-        <div class="dropdown-content">
-            <a href="<?php echo esc_url($baseUrl) ?>" data-index="0" class="<?php echo !$postId ? 'selected' : '' ?>"><?php  esc_html_e('All', 'wp-statistics'); ?></a>
-
+        <label for="wps-page-filter" class="selectedItemLabel"><?php esc_html_e('Page:', 'wp-statistics'); ?></label>
+        <select id="wps-page-filter" class="wps-select2" data-type-show="select2">
+            <option value="<?php echo esc_url($baseUrl) ?>" <?php echo !$postId ? 'selected' : '' ?>>
+                <?php esc_html_e('All', 'wp-statistics'); ?>
+            </option>
             <?php while ($query->have_posts()) : $query->the_post(); ?>
                 <?php $url = add_query_arg([$queryKey => get_the_ID()], $baseUrl); ?>
-
-                <a href="<?php echo esc_url($url) ?>" data-index="<?php echo esc_attr($key + 1) ?>" title="<?php echo esc_attr(get_the_title()) ?>" class="<?php echo get_the_ID() == $postId ? 'selected' : '' ?>">
+                <option value="<?php echo esc_url($url) ?>" <?php echo get_the_ID() == $postId ? 'selected' : '' ?>>
                     <?php the_title() ?>
-                </a>
+                </option>
             <?php endwhile; ?>
             <?php wp_reset_query(); ?>
-        </div>
+        </select>
     </div>
 </div>
+

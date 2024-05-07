@@ -88,7 +88,8 @@
 
 .wps-head-filters {
   right: unset;
-  left: 23px;
+  left: 24px;
+  flex-direction: row;
 }
 
 .wps_page_title {
@@ -216,12 +217,7 @@
   .wps-adminHeader a.wps-adminHeader__bundle:after {
     transform: rotate(180deg);
   }
-  .daterangepicker{
-    @media (min-width: 699px){
-      right: unset !important;
-      left: 23px !important;
-    }
-  }
+
   &.toplevel_page_wps_overview_page #screen-meta-links {
     left: 0;
     right: unset;

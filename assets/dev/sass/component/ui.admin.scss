@@ -1932,7 +1932,8 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
     position: absolute !important;
     top: 100% !important;
   }
-  .wps-head-filters__item.loading{
+
+  .wps-head-filters__item.loading {
     position: relative;
     overflow: hidden;
     background-color: rgba(0, 0, 0, .12);
@@ -1959,18 +1960,19 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
       display: none !important;
     }
   }
+
   .wps-dropdown {
     border: 1px solid #DADCE0;
     padding: 4px 21px 4px 21px;
     border-radius: 3px;
     position: relative;
-     cursor: pointer;
+    cursor: pointer;
     flex-wrap: nowrap;
     display: inline-flex;
     gap: 4px;
 
-    &:hover{
-      background:#eeeff1 ;
+    &:hover {
+      background: #eeeff1;
     }
 
     label {
@@ -1984,21 +1986,21 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
 
     .dropbtn {
       font-size: 13px;
-      color:#0C0C0D;
+      color: #0C0C0D;
       line-height: 24px;
       box-shadow: none !important;
       outline: none !important;
       border: none !important;
       padding: 0 !important;
-      background:transparent;
+      background: transparent;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       white-space: nowrap;
       gap: 4px;
 
-      &:after{
-        content:'';
+      &:after {
+        content: '';
         width: 7px;
         height: 4px;
         display: inline-block;
@@ -2008,13 +2010,14 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
 
     .dropdown-content {
       display: none;
+      border-radius: 4px;
       position: absolute;
       background-color: #fff;
       min-width: 192px;
       border: 1px solid #DADCE0;
       z-index: 1;
-      right: 0;
-      top: calc(100% + 8px);
+      left: 0;
+      top: calc(100% + 7.5px);
       max-height: 306px;
       overflow-y: auto;
 
@@ -2030,7 +2033,7 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
       /* Track */
       &::-webkit-scrollbar-track {
         width: 4px !important;
-        background: #FAFAFB!important;
+        background: #FAFAFB !important;
       }
 
       /* Handle */
@@ -2047,7 +2050,7 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
 
       a {
         display: block;
-        padding: 10px 12px;
+        padding: 5px 12px;
         font-size: 13px;
         font-weight: 400;
         line-height: 24px;
@@ -2061,9 +2064,18 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
           width: unset;
         }
 
+        &:first-child.selected {
+          border-top: 0 !important;
+        }
+
+        &:last-child.selected {
+          border-bottom: 0 !important;
+        }
+
         &:hover {
           background-color: #eff0f3 !important;
         }
+
         &.selected {
           background-color: #EEEFF1 !important;
           border-top: 1px solid #DADCE0;
@@ -2544,6 +2556,92 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
   }
 }
 
+.wps-filter-page {
+  .select2-container--default .select2-selection--single {
+    border: none !important;
+    background: transparent !important;
+    line-height: 24px;
+    height: unset !important;
+    outline: none !important;
+
+    &:focus-visible{
+      outline: none !important;
+    }
+    .select2-selection__rendered {
+      padding-left: 0 !important;
+      padding-right: 11px !important;
+      line-height: 24px;
+      font-size: 13px;
+      color: #0c0c0d!important;
+      outline: none !important;
+
+      &:focus-visible{
+        outline: none !important;
+      }
+      .rtl &{
+        padding-left: 11px !important;
+        padding-right: 0px !important;
+      }
+    }
+
+    .select2-selection__arrow {
+      width: 7px;
+      height: 4px;
+      display: inline-block;
+      top: 50%;
+      background: url(data:image/svg+xml;base64,Cjxzdmcgd2lkdGg9IjgiIGhlaWdodD0iNCIgdmlld0JveD0iMCAwIDggNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTQuMDAwMDkgNC4wMDAwOUMzLjkzNDI5IDQuMDAwNDcgMy44NjkwNiAzLjk4Nzg2IDMuODA4MTQgMy45NjI5OEMzLjc0NzIyIDMuOTM4MDkgMy42OTE4MSAzLjkwMTQzIDMuNjQ1MDkgMy44NTUwOUwwLjY0NTA5MyAwLjg1NTA5M0MwLjU1MDk0MSAwLjc2MDk0MSAwLjQ5ODA0NyAwLjYzMzI0MyAwLjQ5ODA0NyAwLjUwMDA5M0MwLjQ5ODA0NyAwLjM2Njk0MiAwLjU1MDk0MSAwLjIzOTI0NSAwLjY0NTA5MyAwLjE0NTA5M0MwLjczOTI0NSAwLjA1MDk0MDkgMC44NjY5NDIgLTAuMDAxOTUzMTIgMS4wMDAwOSAtMC4wMDE5NTMxMkMxLjEzMzI0IC0wLjAwMTk1MzEyIDEuMjYwOTQgMC4wNTA5NDA5IDEuMzU1MDkgMC4xNDUwOTNMNC4wMDAwOSAyLjc5NTA5TDYuNjQ1MDkgMC4xNTAwOTNDNi43NDA3NCAwLjA2ODE3OTYgNi44NjM3OCAwLjAyNTM3NjQgNi45ODk2MiAwLjAzMDIzN0M3LjExNTQ2IDAuMDM1MDk3NSA3LjIzNDgzIDAuMDg3MjY0IDcuMzIzODcgMC4xNzYzMTFDNy40MTI5MiAwLjI2NTM1OCA3LjQ2NTA5IDAuMzg0NzI4IDcuNDY5OTUgMC41MTA1NjZDNy40NzQ4MSAwLjYzNjQwNCA3LjQzMiAwLjc1OTQ0MiA3LjM1MDA5IDAuODU1MDkzTDQuMzUwMDkgMy44NTUwOUM0LjI1Njk2IDMuOTQ3NDYgNC4xMzEyNiAzLjk5OTU0IDQuMDAwMDkgNC4wMDAwOVoiIGZpbGw9IiNBOUFBQUUiLz4KPC9zdmc+Cg==) center center / contain no-repeat;
+
+      b {
+        display: none !important;
+      }
+    }
+  }
+}
+
+.wps-select2-filter-dropdown {
+  border: 1px solid #dadce0 !important;
+  border-radius: 4px !important;
+  min-width: 192px !important;
+  margin-top: 12px !important;
+  margin-left: -59px !important;
+
+  .rtl &{
+    margin-left: -23px !important;
+  }
+
+  .select2-results__option {
+    border-top: 1px solid transparent !important;
+    border-bottom: 1px solid transparent !important;
+    font-size: 13px !important;
+    margin: 0;
+    color: #56585a !important;
+
+    &:hover {
+      background-color: #eeeff1 !important;
+      color: #56585a !important;
+    }
+  }
+
+  .select2-results__option:last-child {
+    &.select2-results__option--highlighted {
+      border-bottom: 1px solid transparent !important;
+    }
+  }
+
+  .select2-results__option--highlighted[aria-selected] {
+    background-color: #eeeff1 !important;
+    border-top: 1px solid #dadce0 !important;
+    border-bottom: 1px solid #dadce0 !important;
+    color: #5100fd !important;
+  }
+
+  .select2-search--dropdown .select2-search__field{
+    border: 1px solid #dadce0!important;
+  }
+  .select2-results__option[aria-selected=true]{
+    background-color: #eeeff1 !important;
+  }
+}
 
 @media screen and (max-width: 1280px) {
   .wps-adminHeader__menu {
@@ -2645,11 +2743,12 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
     transform: scale(1)
   }
 }
+
 @keyframes skeleton-animate-wave {
   0% {
-     transform: translateX(-100%)
+    transform: translateX(-100%)
   }
   to {
-     transform: translateX(100%)
+    transform: translateX(100%)
   }
 }

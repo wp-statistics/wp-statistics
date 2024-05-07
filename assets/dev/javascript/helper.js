@@ -29,7 +29,41 @@ wps_js.date_picker = function () {
  */
 wps_js.select2 = function () {
     jQuery("select[data-type-show=select2]").select2();
-};
+}
+
+const wpsSelect2 = jQuery('.wps-select2');
+const wpsFilterPage = jQuery('.wps-filter-page');
+const wpsBody = jQuery('body');
+
+if (wpsSelect2.length) {
+  if (wpsBody.hasClass('rtl')) {
+        wpsSelect2.select2({
+            dropdownParent: $('.wps-filter-page'),
+            dir: 'rtl',
+            dropdownAutoWidth: true,
+            dropdownCssClass: 'wps-select2-filter-dropdown'
+       });
+    } else {
+        wpsSelect2.select2({
+            dropdownParent: $('.wps-filter-page'),
+            dir: 'ltr',
+            dropdownAutoWidth: true,
+            dropdownCssClass: 'wps-select2-filter-dropdown'
+       });
+    }
+
+    wpsFilterPage.on('click', function() {
+        wpsSelect2.select2('open');
+    });
+    wpsSelect2.on('change', function() {
+        var selectedOption = jQuery(this).find('option:selected');
+        var url = selectedOption.val();
+
+        if (url) {
+            window.location.href = url;
+        }
+    });
+}
 
 /**
  * Set Tooltip
