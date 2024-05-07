@@ -165,11 +165,15 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
 
 
     function generateAuditElement(data) {
-        let actionData = '';
+        let actionData  = '';
+        let buttonClass = data.status;
+        let buttonTitle = data.compliance.value;
 
         // If item is not passed and has action, set proper data attribute
         if (data.compliance.key != 'passed' && data.hasOwnProperty('action')) {
             actionData += `data-audit="${data.name}" data-action="${data.action.key}"`;
+            buttonClass = data.action.key;
+            buttonTitle = data.action.value;
         }
 
         const auditElement = `
@@ -179,7 +183,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                         <span class="wps-privacy-list__icon wps-privacy-list__icon--${data.status}"></span>
                         <span class="wps-privacy-list__text">${data.title}</span>
                     </div>
-                    <a ${actionData}  class="wps-privacy-list__button wps-privacy-list__button--${data.status}">${data.compliance.value}</a>
+                    <a ${actionData} class="wps-privacy-list__button wps-privacy-list__button--${buttonClass}">${buttonTitle}</a>
                 </div>
                 <div class="wps-privacy-list__content">${data.notes}</div>
             </div>`;
