@@ -17,12 +17,6 @@ class StoredUserIdData extends AbstractAudit
         return $userIDs > 0 ? 'action_required' : 'passed';
     }
 
-    public static function resolve()
-    {
-        global $wpdb;
-        $wpdb->query('UPDATE `' . DB::table('visitor') . '` SET `' . self::$columnName . '` = 0');
-    }
-
     public static function getStates()
     {
         return [
@@ -43,11 +37,7 @@ class StoredUserIdData extends AbstractAudit
                 'compliance'    => [
                     'key'   => 'action_required',
                     'value' => esc_html__('Action Required', 'wp-statistics'),
-                ],
-                'action'        => [
-                    'key'           => 'resolve',
-                    'value'         => esc_html__('Resolve', 'wp-statistics'),
-                ],
+                ]
             ]
         ];
     }

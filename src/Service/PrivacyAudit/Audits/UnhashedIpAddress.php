@@ -18,11 +18,6 @@ class UnhashedIpAddress extends AbstractAudit
         return $unhashedIPs > 0 ? 'action_required' : 'passed';
     }
 
-    public static function resolve()
-    {
-        IP::Update_HashIP_Visitor();
-    }
-
     public static function getStates()
     {
         return [
@@ -43,10 +38,6 @@ class UnhashedIpAddress extends AbstractAudit
                 'compliance'    => [
                     'key'   => 'action_required',
                     'value' => esc_html__('Action Required', 'wp-statistics'),
-                ],
-                'action'        => [
-                    'key'           => 'resolve',
-                    'value'         => esc_html__('Resolve', 'wp-statistics'),
                 ]
             ]
         ];
