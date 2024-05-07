@@ -86,7 +86,7 @@
             <td>
                 <input id="enable_user_column" type="checkbox" value="1" name="wpsesc_html_enable_user_column" <?php echo WP_STATISTICS\Option::get('enable_user_column') == true ? "checked='checked'" : ''; ?>>
                 <label for="enable_user_column"><?php esc_html_e('Show View Logs', 'wp-statistics'); ?></label>
-                <p class="description"><?php esc_html_e('Adds a column in the WordPress admin\'s user list to display a log of user visits.', 'wp-statistics'); ?></p>
+                <p class="description"><?php esc_html_e('Adds a column in the WordPress admin\'s user list to display a log of user views.', 'wp-statistics'); ?></p>
             </td>
         </tr>
         </tbody>
