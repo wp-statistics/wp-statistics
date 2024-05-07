@@ -1,11 +1,10 @@
 <?php 
-$queryKey   = 'author_id';
-$baseUrl    = remove_query_arg($queryKey);
-$authors    = get_users(['has_published_posts' => true]);
-
+$queryKey       = 'author_id';
 $authorId       = isset($_GET[$queryKey]) ? intval($_GET[$queryKey]) : false;
-$author         = get_userdata($authorId);
-$selectedOption = $author ? get_userdata($authorId)->display_name : __('All', 'wp-statistics');
+$authors        = get_users(['has_published_posts' => true]);
+$authorInfo     = get_userdata($authorId);
+$selectedOption = $authorInfo ? get_userdata($authorId)->display_name : __('All', 'wp-statistics');
+$baseUrl        = remove_query_arg($queryKey);
 ?>
 
 <div class="wps-filter-author wps-head-filters__item loading">
