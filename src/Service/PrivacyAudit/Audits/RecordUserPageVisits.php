@@ -47,7 +47,10 @@ class RecordUserPageVisits extends AbstractAudit
                         <li><b>Transparency:</b> Your website’s privacy policy should clearly describe the data collection practices, including the specific types of data collected and their intended use.</li>
                         <li><b>Informed Consent:</b> Adequate measures are in place to inform users about the data collection and to obtain their consent where necessary. This may include consent banners, notifications, or other user interfaces that clearly communicate this information.</li>
                         <li><b>Review and Action:</b> Regularly review the necessity of keeping this feature enabled. If the feature is no longer needed, or if you wish to enhance user privacy, consider disabling it. Refer to our guide on Adjusting Your Privacy Settings for detailed instructions on managing this feature.</li>
-                    </ol>', 'wp-statistics'),
+                    </ol>
+                    <div class="wps-privacy-list__content--note wps-privacy-list__content--warning">
+                        <b>To disable this feature,</b> navigate to <b>Settings -> Basic Tracking -> Record User Page Visits</b> and uncheck <b>"Track User Activity"</b>.
+                    </div>', 'wp-statistics'),
                 'compliance'    => [
                     'key'   => 'action_required',
                     'value' => esc_html__('Action Required', 'wp-statistics'),
