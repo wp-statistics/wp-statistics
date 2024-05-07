@@ -29,7 +29,41 @@ wps_js.date_picker = function () {
  */
 wps_js.select2 = function () {
     jQuery("select[data-type-show=select2]").select2();
-};
+}
+
+const wpsSelect2 = jQuery('.wps-select2');
+const wpsFilterPage = jQuery('.wps-filter-page');
+const wpsBody = jQuery('body');
+
+if (wpsSelect2.length) {
+  if (wpsBody.hasClass('rtl')) {
+        wpsSelect2.select2({
+            dropdownParent: $('.wps-filter-page'),
+            dir: 'rtl',
+            dropdownAutoWidth: true,
+            dropdownCssClass: 'wps-select2-filter-dropdown'
+       });
+    } else {
+        wpsSelect2.select2({
+            dropdownParent: $('.wps-filter-page'),
+            dir: 'ltr',
+            dropdownAutoWidth: true,
+            dropdownCssClass: 'wps-select2-filter-dropdown'
+       });
+    }
+
+    wpsFilterPage.on('click', function() {
+        wpsSelect2.select2('open');
+    });
+    wpsSelect2.on('change', function() {
+        var selectedOption = jQuery(this).find('option:selected');
+        var url = selectedOption.val();
+
+        if (url) {
+            window.location.href = url;
+        }
+    });
+}
 
 /**
  * Set Tooltip
@@ -412,6 +446,27 @@ function moveFeedbackBird() {
     }
 }
 
+// Head filters drop down
+jQuery(document).ready(function () {
+   var dropdowns = document.querySelectorAll(".wps-head-filters__item") ;
+   dropdowns.forEach(function(dropdown) {
+   dropdown.classList.remove('loading');
+     dropdown.addEventListener("click", function(event) {
+       var dropdownContent = dropdown.querySelector(".dropdown-content");
+       dropdownContent.classList.toggle("show");
+     });
+   });
+   window.addEventListener("click", function(event) {
+     dropdowns.forEach(function(dropdown) {
+       if (!dropdown.contains(event.target)) {
+         dropdown.querySelector(".dropdown-content").classList.remove("show");
+       }
+     });
+   });
+ });
+
+
+
 window.onload = moveFeedbackBird;
 window.addEventListener('resize', moveFeedbackBird);
 
@@ -424,3 +479,4 @@ jQuery(document).ready(function () {
         targetElement.parentNode.insertBefore(noticeElement, targetElement.nextSibling);
     }
 });
+
