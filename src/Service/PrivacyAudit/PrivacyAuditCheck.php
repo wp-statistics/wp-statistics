@@ -70,7 +70,7 @@ class PrivacyAuditCheck
         $audits = self::getAudits();
         
         if (!isset($audits[$auditName])) {
-            throw new InvalidArgumentException(esc_html__("$auditName is not a valid audit item.", 'wp-statistics'));
+            throw new InvalidArgumentException(esc_html__(sprintf("%s is not a valid audit item.", $auditName), 'wp-statistics'));
         }
 
         return $audits[$auditName];

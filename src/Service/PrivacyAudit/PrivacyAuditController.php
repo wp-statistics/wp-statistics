@@ -42,7 +42,7 @@ class PrivacyAuditController
 
             // If action is not defined in the class, throw error
             if (!method_exists($auditClass, $auditAction)) {
-                throw new InvalidArgumentException(esc_html__("$auditAction method is not defined for $auditName", 'wp-statistics'));
+                throw new InvalidArgumentException(esc_html__(sprintf("%s method is not defined for %s", $auditAction, $auditName), 'wp-statistics'));
             }
 
             // Call specified action from the audit class
