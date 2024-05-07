@@ -7,7 +7,8 @@ abstract class AbstractAudit
     
     abstract static public function getStates();
     
-    static public function getState() {
+    static public function getState() 
+    {
         $states = static::getStates();
         $status = static::getStatus();
 
