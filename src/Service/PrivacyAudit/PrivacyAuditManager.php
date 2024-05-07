@@ -9,6 +9,17 @@ class PrivacyAuditManager
     {
         add_filter('wp_statistics_admin_menu_list', [$this, 'addMenuItem']);
         add_filter('wp_statistics_ajax_list', [$this, 'registerAjaxCallbacks']);
+        add_action('admin_init', [$this, 'addPrivacyStatusOption']);
+    }
+
+    /**
+     * Add privacy audit status options, if not already added.
+     *
+     * @return void
+     */
+    public function addPrivacyStatusOption()
+    {
+        add_option('wp_statistics_privacy_status');
     }
 
     /**
