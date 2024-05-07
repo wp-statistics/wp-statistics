@@ -170,23 +170,6 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         // If item is not passed and has action, set proper data attribute
         if (data.compliance.key != 'passed' && data.hasOwnProperty('action')) {
             actionData += `data-audit="${data.name}" data-action="${data.action.key}"`;
-
-            // if action needs confirmation, set data attribute.
-            if (data.action.hasOwnProperty('confirm') && data.action.confirm == true) {
-                actionData += ` data-confirm="true"`;
-
-                if (data.action.hasOwnProperty('confirm_text')) {
-                    actionData += ` data-confirm-text="${data.action.confirm_text}"`;
-                }
-
-                if (data.action.hasOwnProperty('success_text')) {
-                    actionData += ` data-success-text="${data.action.success_text}"`;
-                }
-
-                if (data.action.hasOwnProperty('removable')) {
-                    actionData += ` data-removable="${data.action.removable}"`;
-                }
-            }
         }
 
         const auditElement = `

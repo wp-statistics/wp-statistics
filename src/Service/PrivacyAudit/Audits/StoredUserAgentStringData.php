@@ -47,10 +47,6 @@ class StoredUserAgentStringData extends AbstractAudit
                 'action'        => [
                     'key'           => 'resolve',
                     'value'         => esc_html__('Resolve', 'wp-statistics'),
-                    'confirm'       => true,
-                    'removable'     => true,
-                    'success_text'  => esc_html__('Successfully deleted user agent strings data.', 'wp-statistics')
-                    // 'confirm_text'  => esc_html__('', 'wp-statistics'),
                 ],
             ]
         ];

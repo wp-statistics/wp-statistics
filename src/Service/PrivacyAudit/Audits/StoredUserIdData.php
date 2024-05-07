@@ -47,10 +47,6 @@ class StoredUserIdData extends AbstractAudit
                 'action'        => [
                     'key'           => 'resolve',
                     'value'         => esc_html__('Resolve', 'wp-statistics'),
-                    'confirm'       => true,
-                    'removable'     => true,
-                    'success_text'  => esc_html__('Successfully deleted User ID data.', 'wp-statistics')
-                    // 'confirm_text'  => esc_html__('', 'wp-statistics'),
                 ],
             ]
         ];
