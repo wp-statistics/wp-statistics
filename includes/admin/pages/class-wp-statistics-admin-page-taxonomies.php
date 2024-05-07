@@ -83,7 +83,7 @@ class taxonomies_page
             $link  = Menus::admin_url('wps_taxonomies_page', ['taxonomy' => $slug]);
             if (!in_array($slug, self::$defaultTaxonomies)) {
                 $class .= ' wps-locked';
-                $link  = sprintf('%s/product/wp-statistics-data-plus?utm_source=wp_statistics&utm_medium=display&utm_campaign=wordpress', WP_STATISTICS_SITE_URL);
+                $link  = sprintf('%s/product/wp-statistics-data-plus?utm_source=wp-statistics&utm_medium=link&utm_campaign=dp-ctax', WP_STATISTICS_SITE_URL);
             }
             $args['tabs'][] = [
                 'link'  => $link,

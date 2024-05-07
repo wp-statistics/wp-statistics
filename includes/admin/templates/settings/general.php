@@ -46,7 +46,7 @@
 
         <tr valign="top">
             <th scope="row">
-                <label for="visits"><?php esc_html_e('Track Page Views', 'wp-statistics'); ?></label>
+                <label for="visits"><?php esc_html_e('Track Views', 'wp-statistics'); ?></label>
             </th>
 
             <td>
@@ -101,7 +101,7 @@
 
         <tr valign="top">
             <th scope="row">
-                <label for="pages"><?php esc_html_e('Views Metabox', 'wp-statistics'); ?></label>
+                <label for="pages"><?php esc_html_e('Track Page Views', 'wp-statistics'); ?></label>
             </th>
             <td>
                 <input id="pages" type="checkbox" value="1" name="wps_pages" <?php echo WP_STATISTICS\Option::get('pages') == true ? "checked='checked'" : ''; ?>>
@@ -136,7 +136,7 @@
             </th>
 
             <td>
-                <input id="disable-editor" type="checkbox" value="1" name="wps_disableesc_html_editor" <?php echo WP_STATISTICS\Option::get('disableesc_html_editor') == '1' ? '' : "checked='checked'"; ?>>
+                <input id="disable-editor" type="checkbox" value="1" name="wps_disable_editor" <?php echo WP_STATISTICS\Option::get('disable_editor') == '1' ? '' : "checked='checked'"; ?>>
                 <label for="disable-editor"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
                 <p class="description"><?php esc_html_e('Shows content view statistics in a graphical format when editing.', 'wp-statistics'); ?></p>
             </td>
@@ -167,7 +167,7 @@
 
         <tr valign="top">
             <th scope="row">
-                <label for="show_hits"><?php esc_html_e('Views in Single Pages', 'wp-statistics'); ?></label>
+                <label for="show_hits"><?php esc_html_e('Views in Single Contents', 'wp-statistics'); ?></label>
             </th>
 
             <td>

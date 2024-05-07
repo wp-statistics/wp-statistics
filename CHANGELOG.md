@@ -1,10 +1,11 @@
-= 14.6.4 - **.05.2024 =
+= 14.6.4 - 03.05.2024 =
 * Fixes: Improved data comparison logic.
 * Fixes: Fixed some fields visibility on settings page.
 * Fixes: Fixed filter loading on Visitors page.
 * Fixes: Fixed and improved the Convert IP Addresses to Hash in Optimization.
 * Fixes: Fixed loading Date Picker in Visitors filter.
 * Improvement: Updated plugin header and screenshots.
+* Improvement: Add-ons settings page now located under Settings for simplicity.
 * Improvement: Minor enhancements made.
 
 = 14.6.3 - 18.04.2024 =

@@ -9,9 +9,9 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-04-30T08:17:19+00:00\n"
+"POT-Creation-Date: 2024-05-06T09:25:18+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.9.0\n"
+"X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: wp-statistics\n"
 
 #. Plugin Name of the plugin
@@ -132,15 +132,15 @@ msgstr ""
 msgid "Invalid MetaBox Name in Request."
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:260
+#: includes/admin/class-wp-statistics-admin-assets.php:266
 msgid "View Details"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:261
+#: includes/admin/class-wp-statistics-admin-assets.php:267
 msgid "Reload"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:262
+#: includes/admin/class-wp-statistics-admin-assets.php:268
 #: includes/admin/pages/class-wp-statistics-admin-page-online.php:25
 #: includes/admin/templates/header.php:8
 #: includes/admin/templates/pages/page-chart.php:86
@@ -151,8 +151,8 @@ msgstr ""
 msgid "Online Users"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:263
-#: includes/admin/class-wp-statistics-admin-assets.php:283
+#: includes/admin/class-wp-statistics-admin-assets.php:269
+#: includes/admin/class-wp-statistics-admin-assets.php:289
 #: includes/admin/class-wp-statistics-admin-network.php:62
 #: includes/admin/pages/class-wp-statistics-admin-page-visitors.php:33
 #: includes/admin/templates/pages/country.php:12
@@ -164,8 +164,8 @@ msgstr ""
 msgid "Visitors"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:264
-#: includes/admin/class-wp-statistics-admin-assets.php:293
+#: includes/admin/class-wp-statistics-admin-assets.php:270
+#: includes/admin/class-wp-statistics-admin-assets.php:299
 #: includes/admin/class-wp-statistics-admin-network.php:60
 #: includes/admin/class-wp-statistics-admin-post.php:60
 #: includes/admin/class-wp-statistics-admin-post.php:169
@@ -186,91 +186,91 @@ msgstr ""
 msgid "Views"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:265
-#: includes/admin/class-wp-statistics-admin-assets.php:298
-#: includes/admin/class-wp-statistics-admin-assets.php:410
+#: includes/admin/class-wp-statistics-admin-assets.php:271
+#: includes/admin/class-wp-statistics-admin-assets.php:304
+#: includes/admin/class-wp-statistics-admin-assets.php:416
 #: includes/admin/TinyMCE/class-wp-statistics-tinymce.php:54
 msgid "Today"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:266
-#: includes/admin/class-wp-statistics-admin-assets.php:299
+#: includes/admin/class-wp-statistics-admin-assets.php:272
+#: includes/admin/class-wp-statistics-admin-assets.php:305
 #: includes/admin/TinyMCE/class-wp-statistics-tinymce.php:55
 msgid "Yesterday"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:267
+#: includes/admin/class-wp-statistics-admin-assets.php:273
 msgid "Last week"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:268
-#: includes/admin/class-wp-statistics-admin-assets.php:300
+#: includes/admin/class-wp-statistics-admin-assets.php:274
+#: includes/admin/class-wp-statistics-admin-assets.php:306
 msgid "Last 7 days"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:269
-#: includes/admin/class-wp-statistics-admin-assets.php:302
+#: includes/admin/class-wp-statistics-admin-assets.php:275
+#: includes/admin/class-wp-statistics-admin-assets.php:308
 msgid "Last 30 days"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:270
-#: includes/admin/class-wp-statistics-admin-assets.php:304
+#: includes/admin/class-wp-statistics-admin-assets.php:276
+#: includes/admin/class-wp-statistics-admin-assets.php:310
 msgid "Last 60 days"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:271
-#: includes/admin/class-wp-statistics-admin-assets.php:305
+#: includes/admin/class-wp-statistics-admin-assets.php:277
+#: includes/admin/class-wp-statistics-admin-assets.php:311
 msgid "Last 90 days"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:272
+#: includes/admin/class-wp-statistics-admin-assets.php:278
 msgid "Last 12 months"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:273
+#: includes/admin/class-wp-statistics-admin-assets.php:279
 msgid "This year (Jan-Today)"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:274
+#: includes/admin/class-wp-statistics-admin-assets.php:280
 msgid "Last year"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:275
+#: includes/admin/class-wp-statistics-admin-assets.php:281
 #: includes/admin/TinyMCE/class-wp-statistics-tinymce.php:59
 msgid "Total"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:276
+#: includes/admin/class-wp-statistics-admin-assets.php:282
 msgid "Daily Total"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:277
+#: includes/admin/class-wp-statistics-admin-assets.php:283
 #: includes/admin/templates/pages/refer.url.php:37
 #: includes/admin/templates/pages/top-visitors.php:20
 msgid "Date"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:278
+#: includes/admin/class-wp-statistics-admin-assets.php:284
 #: includes/admin/TinyMCE/class-wp-statistics-tinymce.php:52
 msgid "Time"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:279
+#: includes/admin/class-wp-statistics-admin-assets.php:285
 #: includes/admin/class-wp-statistics-admin-network.php:68
 #: includes/admin/templates/settings/add-ons/customization.php:16
 #: includes/class-wp-statistics-menus.php:234
 msgid "Browsers"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:280
+#: includes/admin/class-wp-statistics-admin-assets.php:286
 msgid "#"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:281
+#: includes/admin/class-wp-statistics-admin-assets.php:287
 msgid "Country Flag"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:282
+#: includes/admin/class-wp-statistics-admin-assets.php:288
 #: includes/admin/templates/pages/country.php:11
 #: includes/admin/templates/pages/online.php:14
 #: includes/admin/templates/pages/refer.url.php:35
@@ -280,7 +280,7 @@ msgstr ""
 msgid "Country"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:284
+#: includes/admin/class-wp-statistics-admin-assets.php:290
 #: includes/admin/templates/pages/online.php:46
 #: includes/admin/templates/pages/pages.php:44
 #: includes/admin/templates/pages/taxonomies.php:121
@@ -288,31 +288,31 @@ msgstr ""
 msgid "ID"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:285
+#: includes/admin/class-wp-statistics-admin-assets.php:291
 msgid "Page Title"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:286
+#: includes/admin/class-wp-statistics-admin-assets.php:292
 msgid "Page Link"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:287
+#: includes/admin/class-wp-statistics-admin-assets.php:293
 msgid "URL Address"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:288
+#: includes/admin/class-wp-statistics-admin-assets.php:294
 msgid "Search Term"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:289
+#: includes/admin/class-wp-statistics-admin-assets.php:295
 msgid "Visitor's Browser"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:290
+#: includes/admin/class-wp-statistics-admin-assets.php:296
 msgid "Visitor's City"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:291
+#: includes/admin/class-wp-statistics-admin-assets.php:297
 #: includes/admin/templates/pages/online.php:19
 #: includes/admin/templates/pages/refer.url.php:32
 #: includes/admin/templates/pages/top-visitors.php:21
@@ -320,7 +320,7 @@ msgstr ""
 msgid "Daily Visitor Hash"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:291
+#: includes/admin/class-wp-statistics-admin-assets.php:297
 #: includes/admin/templates/pages/online.php:19
 #: includes/admin/templates/pages/refer.url.php:32
 #: includes/admin/templates/pages/top-visitors.php:21
@@ -328,127 +328,127 @@ msgstr ""
 msgid "IP Address"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:292
+#: includes/admin/class-wp-statistics-admin-assets.php:298
 msgid "Referring Site"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:294
+#: includes/admin/class-wp-statistics-admin-assets.php:300
 msgid "User Agent"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:295
+#: includes/admin/class-wp-statistics-admin-assets.php:301
 #: includes/admin/templates/optimization/resources.php:277
 #: includes/admin/templates/pages/top-visitors.php:22
 #: includes/admin/templates/pages/visitors.php:40
 msgid "Operating System"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:296
+#: includes/admin/class-wp-statistics-admin-assets.php:302
 msgid "Browser/OS Version"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:297
+#: includes/admin/class-wp-statistics-admin-assets.php:303
 msgid "Visited Page"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:301
+#: includes/admin/class-wp-statistics-admin-assets.php:307
 msgid "Last 14 days"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:303
+#: includes/admin/class-wp-statistics-admin-assets.php:309
 #: includes/admin/templates/settings/add-ons/advanced-reporting.php:57
 msgid "Last Month"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:306
+#: includes/admin/class-wp-statistics-admin-assets.php:312
 msgid "Last 120 days"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:307
+#: includes/admin/class-wp-statistics-admin-assets.php:313
 msgid "Last 6 months"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:308
+#: includes/admin/class-wp-statistics-admin-assets.php:314
 msgid "This year"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:309
+#: includes/admin/class-wp-statistics-admin-assets.php:315
 msgid "Go Back"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:310
+#: includes/admin/class-wp-statistics-admin-assets.php:316
 msgid "Select Custom Range..."
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:311
+#: includes/admin/class-wp-statistics-admin-assets.php:317
 msgid "Additional Date Ranges"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:312
+#: includes/admin/class-wp-statistics-admin-assets.php:318
 msgid "Custom Date Range"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:313
+#: includes/admin/class-wp-statistics-admin-assets.php:319
 msgid "To (End Date)"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:314
+#: includes/admin/class-wp-statistics-admin-assets.php:320
 msgid "From (Start Date)"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:315
+#: includes/admin/class-wp-statistics-admin-assets.php:321
 msgid "Apply Range"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:316
+#: includes/admin/class-wp-statistics-admin-assets.php:322
 msgid "Sorry, there's no data available for this selection."
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:317
+#: includes/admin/class-wp-statistics-admin-assets.php:323
 msgid "Total Number"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:318
+#: includes/admin/class-wp-statistics-admin-assets.php:324
 msgid "Percent Share"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:319
+#: includes/admin/class-wp-statistics-admin-assets.php:325
 msgid "List of All Versions"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:320
+#: includes/admin/class-wp-statistics-admin-assets.php:326
 msgid "Apply Filters"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:321
+#: includes/admin/class-wp-statistics-admin-assets.php:327
 msgid "All Entries"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:322
+#: includes/admin/class-wp-statistics-admin-assets.php:328
 msgid "Select Desired Time Range"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:323
+#: includes/admin/class-wp-statistics-admin-assets.php:329
 msgid "Enter a Valid IP Address"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:324
+#: includes/admin/class-wp-statistics-admin-assets.php:330
 msgid "Loading, Please Wait..."
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:325
+#: includes/admin/class-wp-statistics-admin-assets.php:331
 msgid "User Information"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:326
+#: includes/admin/class-wp-statistics-admin-assets.php:332
 msgid "Error connecting to WordPress REST API. Disable ad-blocker for this page or unblock /wp-json/wp-statistics/v2/metabox in the ad-blocker configuration."
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:409
+#: includes/admin/class-wp-statistics-admin-assets.php:415
 msgid "Action Completed"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-assets.php:413
+#: includes/admin/class-wp-statistics-admin-assets.php:419
 msgid "Display Other Month"
 msgstr ""
 
@@ -584,7 +584,7 @@ msgid "Display Online Users"
 msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-notices.php:123
-#: includes/admin/templates/settings/general.php:49
+#: includes/admin/templates/settings/general.php:104
 msgid "Track Page Views"
 msgstr ""
 
@@ -1048,7 +1048,7 @@ msgstr ""
 msgid "Custom filter"
 msgstr ""
 
-#: includes/admin/pages/class-wp-statistics-admin-page-visitors.php:215
+#: includes/admin/pages/class-wp-statistics-admin-page-visitors.php:219
 msgid "Filters"
 msgstr ""
 
@@ -1209,6 +1209,9 @@ msgstr ""
 #: includes/admin/templates/layout/menu-settings.php:104
 #: includes/admin/templates/layout/menu-settings.php:109
 #: includes/admin/templates/layout/menu-settings.php:114
+#: includes/admin/templates/layout/menu-settings.php:119
+#: includes/admin/templates/layout/menu-settings.php:124
+#: includes/admin/templates/layout/menu-settings.php:129
 msgid "Add-on"
 msgstr ""
 
@@ -1222,6 +1225,18 @@ msgstr ""
 
 #: includes/admin/templates/layout/menu-settings.php:113
 msgid "Advanced Reporting"
+msgstr ""
+
+#: includes/admin/templates/layout/menu-settings.php:118
+msgid "Mini Chart"
+msgstr ""
+
+#: includes/admin/templates/layout/menu-settings.php:123
+msgid "REST API"
+msgstr ""
+
+#: includes/admin/templates/layout/menu-settings.php:128
+msgid "Advanced Widgets"
 msgstr ""
 
 #: includes/admin/templates/layout/select.php:6
@@ -2098,7 +2113,7 @@ msgid "Last View"
 msgstr ""
 
 #: includes/admin/templates/pages/visitors.php:41
-#: includes/admin/templates/settings/notifications.php:188
+#: includes/admin/templates/settings/notifications.php:180
 #: includes/class-wp-statistics-widget.php:97
 #: includes/class-wp-statistics-widget.php:296
 msgid "Total Views"
@@ -2296,12 +2311,15 @@ msgstr ""
 #: includes/admin/templates/settings/add-ons/advanced-reporting.php:525
 #: includes/admin/templates/settings/add-ons/customization.php:200
 #: includes/admin/templates/settings/add-ons/data-plus.php:50
+#: includes/admin/templates/settings/add-ons/mini-chart.php:115
 #: includes/admin/templates/settings/add-ons/realtime-stats.php:74
+#: includes/admin/templates/settings/add-ons/rest-api.php:50
+#: includes/admin/templates/settings/add-ons/widgets.php:75
 #: includes/admin/templates/settings/exclusions.php:245
 #: includes/admin/templates/settings/externals.php:283
 #: includes/admin/templates/settings/general.php:318
 #: includes/admin/templates/settings/maintenance.php:78
-#: includes/admin/templates/settings/notifications.php:206
+#: includes/admin/templates/settings/notifications.php:198
 #: includes/admin/templates/settings/overview-display.php:42
 #: includes/admin/templates/settings/privacy.php:76
 #: includes/admin/templates/settings/visitor-ip.php:202
@@ -2326,8 +2344,13 @@ msgstr ""
 #: includes/admin/templates/settings/add-ons/customization.php:82
 #: includes/admin/templates/settings/add-ons/customization.php:117
 #: includes/admin/templates/settings/add-ons/customization.php:148
+#: includes/admin/templates/settings/add-ons/mini-chart.php:29
+#: includes/admin/templates/settings/add-ons/mini-chart.php:65
 #: includes/admin/templates/settings/add-ons/realtime-stats.php:15
 #: includes/admin/templates/settings/add-ons/realtime-stats.php:46
+#: includes/admin/templates/settings/add-ons/rest-api.php:15
+#: includes/admin/templates/settings/add-ons/widgets.php:15
+#: includes/admin/templates/settings/add-ons/widgets.php:51
 msgid "This feature is currently restricted in your current version. Unlock premium features to gain a deeper insight into your website."
 msgstr ""
 
@@ -2346,8 +2369,13 @@ msgstr ""
 #: includes/admin/templates/settings/add-ons/customization.php:118
 #: includes/admin/templates/settings/add-ons/customization.php:149
 #: includes/admin/templates/settings/add-ons/data-plus.php:16
+#: includes/admin/templates/settings/add-ons/mini-chart.php:30
+#: includes/admin/templates/settings/add-ons/mini-chart.php:66
 #: includes/admin/templates/settings/add-ons/realtime-stats.php:16
 #: includes/admin/templates/settings/add-ons/realtime-stats.php:47
+#: includes/admin/templates/settings/add-ons/rest-api.php:16
+#: includes/admin/templates/settings/add-ons/widgets.php:16
+#: includes/admin/templates/settings/add-ons/widgets.php:52
 msgid "Upgrade"
 msgstr ""
 
@@ -2414,6 +2442,7 @@ msgstr ""
 #: includes/admin/templates/settings/add-ons/advanced-reporting.php:325
 #: includes/admin/templates/settings/add-ons/advanced-reporting.php:454
 #: includes/admin/templates/settings/add-ons/advanced-reporting.php:485
+#: includes/admin/templates/settings/add-ons/rest-api.php:28
 msgid "Active"
 msgstr ""
 
@@ -2723,6 +2752,7 @@ msgstr ""
 
 #: includes/admin/templates/settings/add-ons/data-plus.php:28
 #: includes/admin/templates/settings/add-ons/data-plus.php:40
+#: includes/admin/templates/settings/add-ons/widgets.php:64
 #: includes/admin/templates/settings/exclusions.php:95
 #: includes/admin/templates/settings/exclusions.php:103
 #: includes/admin/templates/settings/exclusions.php:122
@@ -2772,6 +2802,54 @@ msgstr ""
 msgid "Watch which files people download and learn what’s popular."
 msgstr ""
 
+#: includes/admin/templates/settings/add-ons/mini-chart.php:23
+msgid "Chart Preferences"
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/mini-chart.php:37
+msgid "Chart Display"
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/mini-chart.php:47
+msgid "Customize the appearance of mini charts on your posts and pages for a quick glance at their performance."
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/mini-chart.php:59
+msgid "Chart Appearance"
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/mini-chart.php:73
+msgid "Type"
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/mini-chart.php:78
+msgid "Bar"
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/mini-chart.php:79
+msgid "Line"
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/mini-chart.php:82
+msgid "Choose a chart type that best represents your data."
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/mini-chart.php:89
+msgid "Primary Color"
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/mini-chart.php:94
+msgid "Select a color for your chart’s main elements to match your website’s theme."
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/mini-chart.php:100
+msgid "Border Color"
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/mini-chart.php:105
+msgid "Pick a border color to enhance the visibility of your chart on the dashboard."
+msgstr ""
+
 #: includes/admin/templates/settings/add-ons/realtime-stats.php:9
 msgid "Update Interval"
 msgstr ""
@@ -2794,6 +2872,54 @@ msgstr ""
 
 #: includes/admin/templates/settings/add-ons/realtime-stats.php:63
 msgid "Select 'Yes' to exclude all posts from the real-time statistics. For detailed logs, ensure \"Record User Page Views\" are activated in <a href=\"%s\">WP Statistics Settings</a>."
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/rest-api.php:9
+msgid "WordPress REST API Integration"
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/rest-api.php:23
+msgid "API Service Status"
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/rest-api.php:29
+msgid "Toggle to activate or deactivate WP-Statistics data endpoints within the WordPress REST API."
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/rest-api.php:35
+msgid "Authentication Token"
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/rest-api.php:40
+msgid "Secure your API with a unique token. Enter your personal token here to authorize REST API requests."
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/widgets.php:9
+msgid "Widget Cache Duration"
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/widgets.php:23
+msgid "Refresh Every"
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/widgets.php:32
+msgid "hour(s)"
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/widgets.php:33
+msgid "Set the time interval for refreshing the statistics displayed in widgets. After the chosen period, fresh data will be fetched and displayed."
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/widgets.php:45
+msgid "Widget Design Customization"
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/widgets.php:59
+msgid "Use Default Widget Styling"
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/widgets.php:65
+msgid "Uncheck to allow theme or custom styles to determine widget appearance."
 msgstr ""
 
 #: includes/admin/templates/settings/exclusions.php:5
@@ -3171,6 +3297,10 @@ msgstr ""
 msgid "Visitor Analytics"
 msgstr ""
 
+#: includes/admin/templates/settings/general.php:49
+msgid "Track Views"
+msgstr ""
+
 #: includes/admin/templates/settings/general.php:55
 msgid "Counts the number of times each page is visited."
 msgstr ""
@@ -3211,11 +3341,6 @@ msgstr ""
 msgid "Content Engagement Metrics"
 msgstr ""
 
-#: includes/admin/templates/settings/general.php:104
-#: includes/admin/templates/settings/general.php:158
-msgid "Views Metabox"
-msgstr ""
-
 #: includes/admin/templates/settings/general.php:109
 msgid "Tracks how many times each individual page is visited."
 msgstr ""
@@ -3248,12 +3373,16 @@ msgstr ""
 msgid "Displays the number of views for each content item in your content list."
 msgstr ""
 
+#: includes/admin/templates/settings/general.php:158
+msgid "Views Metabox"
+msgstr ""
+
 #: includes/admin/templates/settings/general.php:164
 msgid "Presents a snapshot of content views in the publish box for quick reference."
 msgstr ""
 
 #: includes/admin/templates/settings/general.php:170
-msgid "Views in Single Pages"
+msgid "Views in Single Contents"
 msgstr ""
 
 #: includes/admin/templates/settings/general.php:176
@@ -3458,74 +3587,68 @@ msgid "SMS"
 msgstr ""
 
 #: includes/admin/templates/settings/notifications.php:154
-msgid "Choose how to receive reports, either via email or SMS."
+msgid "Select your preferred method for receiving reports: via email or SMS (SMS notifications are sent using the %s Plugin to the Admin Mobile Number)."
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:157
-msgid "Note:"
-msgstr ""
-
-#: includes/admin/templates/settings/notifications.php:158
-msgid "To send SMS text messages please install the %s plugin."
-msgstr ""
-
-#: includes/admin/templates/settings/notifications.php:158
+#: includes/admin/templates/settings/notifications.php:154
 msgid "WP SMS"
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:166
+#: includes/admin/templates/settings/notifications.php:160
 msgid "Custom Report Builder"
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:171
+#: includes/admin/templates/settings/notifications.php:165
 msgid "Using WP Statistics shortcodes to display specific statistics."
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:174
+#: includes/admin/templates/settings/notifications.php:168
 msgid "Insert any of the following shortcode examples to show corresponding data:"
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:176
-msgid "Current Online Users"
+#: includes/admin/templates/settings/notifications.php:170
+#: includes/class-wp-statistics-admin-bar.php:94
+#: includes/class-wp-statistics-widget.php:55
+#: includes/class-wp-statistics-widget.php:272
+msgid "Today's Visitors"
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:178
-#: includes/admin/templates/settings/notifications.php:180
+#: includes/admin/templates/settings/notifications.php:172
 #: includes/class-wp-statistics-admin-bar.php:98
 #: includes/class-wp-statistics-widget.php:48
 #: includes/class-wp-statistics-widget.php:268
 msgid "Today's Views"
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:182
+#: includes/admin/templates/settings/notifications.php:174
 #: includes/class-wp-statistics-admin-bar.php:102
 #: includes/class-wp-statistics-widget.php:69
 #: includes/class-wp-statistics-widget.php:280
 msgid "Yesterday's Visitors"
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:184
+#: includes/admin/templates/settings/notifications.php:176
 #: includes/class-wp-statistics-admin-bar.php:106
 #: includes/class-wp-statistics-widget.php:62
 #: includes/class-wp-statistics-widget.php:276
 msgid "Yesterday's Views"
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:186
+#: includes/admin/templates/settings/notifications.php:178
 #: includes/class-wp-statistics-widget.php:104
 #: includes/class-wp-statistics-widget.php:300
 msgid "Total Visitors"
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:191
+#: includes/admin/templates/settings/notifications.php:183
 msgid "Refer to our complete <a href=\"https://wp-statistics.com/resources/shortcodes/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings\" target=\"_blank\">shortcode guide</a> for more options."
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:196
+#: includes/admin/templates/settings/notifications.php:188
 msgid "Enhanced Visual Report"
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:199
+#: includes/admin/templates/settings/notifications.php:191
 msgid "For graphical representations of your data, explore our <a href=\"https://wp-statistics.com/product/wp-statistics-advanced-reporting/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings\" target=\"_blank\">Advanced Reporting Add-on</a> for additional chart and graph options."
 msgstr ""
 
@@ -3807,12 +3930,6 @@ msgstr ""
 
 #: includes/class-wp-statistics-admin-bar.php:67
 msgid "Total Website Views"
-msgstr ""
-
-#: includes/class-wp-statistics-admin-bar.php:94
-#: includes/class-wp-statistics-widget.php:55
-#: includes/class-wp-statistics-widget.php:272
-msgid "Today's Visitors"
 msgstr ""
 
 #: includes/class-wp-statistics-admin-bar.php:112
