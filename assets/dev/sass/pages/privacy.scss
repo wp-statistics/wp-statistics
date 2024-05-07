@@ -33,18 +33,37 @@
       width: calc(50%);
     }
 
-    &:first-child .wps-privacy-mode__content {
-      @media (min-width: 1087px) and (max-width: 1299px) {
-        line-height: 22px;
-        padding: 3px 0;
+    &.wps-privacy-mode__item--warning{
+      input[type="radio"]{
+        &:checked{
+          background-color: #FF8A00 !important;
+          border-color: #FF8A00 !important;
+          & + label{
+            background: #FF8A001A;
+            border: 1px solid #FF8A00;
+
+            .wps-privacy-mode__head {
+              .wps-privacy-mode__icon {
+                background: #FF8A0026;
+
+                svg path {
+                  fill: #FF8A00;
+                }
+              }
+
+              h3 {
+                color: #FF8A00;
+              }
+            }
+          }
+        }
       }
+    }
+
+    &:first-child .wps-privacy-mode__content {
       @media (min-width: 1300px) and (max-width: 1980px) {
         line-height: 14px;
         padding: 0;
-      }
-      @media (min-width: 1981px) {
-        line-height: 22px;
-        padding: 3px 0;
       }
     }
 
@@ -142,7 +161,7 @@
           font-size: 11px;
           font-weight: 400;
           line-height: 12.9px;
-          color: #0c0c0d;
+          color: #56585A;
           margin: 0;
         }
 
@@ -169,10 +188,12 @@
         font-weight: 400;
         line-height: 14px;
         color: #56585A;
+        min-height: 28px;
 
         .coming-soon {
+          color: #0C0C0D;
           font-size: 13px;
-          font-weight: 700;
+          font-weight: 600;
           display: flex;
           line-height: 22px;
           align-items: center;
@@ -429,7 +450,11 @@
     }
   }
 }
-
+.postbox.wps-postbox-wrap.wps-privacy-list{
+  margin-bottom: 8px;
+  border-radius: 8px;
+  border: 1px solid #dadce0;
+}
 .wps-privacy-list, .wps-privacy-questions {
   .wps-privacy-list__items {
     display: flex;

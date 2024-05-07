@@ -10,8 +10,9 @@
                 </h2>
             </div>
             <div class="wps-privacy-mode__items">
-                <div class="wps-privacy-mode__item">
+                <div class="wps-privacy-mode__item wps-privacy-mode__item--warning" >
                     <input type="radio" id="privacy-mode-friendly" name="privacy-mode" checked>
+
                     <label for="privacy-mode-friendly">
                         <div class="wps-privacy-mode__head">
                             <div class="wps-privacy-mode__icon">
@@ -23,12 +24,12 @@
                                 <p><?php esc_html_e('Mode', 'wp-statistics'); ?></p>
                                 <h3>
                                     <?php esc_html_e('Privacy Friendly', 'wp-statistics'); ?>
-                                    <a href="#" class="wps-tooltip" title="<?php echo __('Privacy Friendly tooltip', 'wp-statistics') ?>"><i class="wps-tooltip-icon"></i></a>
+                                    <a href="#" class="wps-tooltip" title="<?php echo __('This indicator reflects the privacy compliance of your WP Statistics settings.', 'wp-statistics') ?>"><i class="wps-tooltip-icon"></i></a>
                                 </h3>
                             </div>
                         </div>
                         <div class="wps-privacy-mode__content">
-                            <?php esc_html_e('You have successfully configured your website for privacy friendliness.','wp-statistics'); ?>
+                            <?php esc_html_e('Your WP Statistics settings are not privacy-compliant. Please update your settings.','wp-statistics'); ?>
                         </div>
                     </label>
                 </div>
@@ -70,7 +71,7 @@
                 </div>
             </div>
             <div class="wps-privacy-status__content">
-                <div class="wps-privacy-status__percent"><span class="wps-privacy-status__percent-value"></span> <?php esc_html_e('% Ready', 'wp-statistics'); ?></div>
+                <div class="wps-privacy-status__percent"><span class="wps-privacy-status__percent-value"></span><?php esc_html_e('% Ready', 'wp-statistics'); ?></div>
                 <div class="wps-privacy-status__bars">
                     <div class="wps-privacy-status__bar wps-privacy-status__bar-passed">
                         <span class="dot"></span> <span class="wps-privacy-status__passed-value"></span> <?php esc_html_e('Passed', 'wp-statistics'); ?>

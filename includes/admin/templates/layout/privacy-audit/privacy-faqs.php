@@ -2,8 +2,7 @@
     <div class="postbox-container wps-half-card">
         <div class="postbox wps-postbox-wrap wps-privacy-questions">
             <div class="postbox-header">
-                <h2><?php esc_html_e('Popular Questions', 'wp-statistics'); ?></h2>
-                <p><?php esc_html_e('Audit List: Monitor Compliance Status', 'wp-statistics'); ?></p>
+                <h2><?php esc_html_e('FAQs', 'wp-statistics'); ?></h2>
             </div>
             <div class="wps-privacy-list__items loading">
                 <!-- load faq items using js -->
@@ -14,7 +13,6 @@
         <div class="postbox wps-postbox-wrap wps-privacy-resources">
             <div class="postbox-header">
                 <h2><?php esc_html_e('Useful Privacy Resources and References', 'wp-statistics'); ?></h2>
-                <p><?php esc_html_e('Discover essential resources, laws, and articles to help you navigate the complexities of online privacy and ensure your site\'s compliance', 'wp-statistics'); ?></p>
             </div>
             <div class="postbox-content">
                 <ul>
