@@ -15,7 +15,7 @@ class PrivacyStatusOption
             // If has no action, no need to store the status in database
             if (!$audit::hasAction()) continue;
 
-            $defaultOptions[$audit::$optionKey] = $audit::getStatusByOption();
+            $defaultOptions[$audit::$optionKey] = $audit::getStatus();
         }
 
         return $defaultOptions;

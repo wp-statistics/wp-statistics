@@ -23,9 +23,7 @@ abstract class AbstractAudit
     static public function getState() 
     {
         $states = static::getStates();
-
-        // If audit related option is not enabled, set status to 'passed' otherwise get independent status of the audit
-        $status = self::isOptionEnabled() ? 'passed' : self::getStatus();
+        $status = self::getStatus();
 
         $currentState = isset($states[$status]) ? $states[$status] : null;
         return $currentState;
@@ -45,25 +43,23 @@ abstract class AbstractAudit
 
     /**
      * Get the privacy status of the audit item stored in `wp_statistics_privacy_status` option.
-     * If the audit is resolved from Privacy Audit page, return 'passed' otherwise 'action_required'.
+     * If audit related option is enabled, return passed regardless of the independent status of the audit item
      * 
      * @return string
      */
     public static function getStatus()
     {
-        return PrivacyStatusOption::get(static::$optionKey, 'action_required');
+        // Get the independent status of the audit item
+        $status = PrivacyStatusOption::get(static::$optionKey, 'action_required');
+        
+        // If audit related option is enabled, set status to 'passed' 
+        if (self::isOptionEnabled()) {
+            $status = 'passed';
+        }
+
+        return $status;
     }
 
-    /**
-     * Based on the `wp_statistics_options` option, return the privacy status of the audit item. 
-     * If the option is enabled in the settings, returns 'passed', otherwise 'action_required'
-     * 
-     * @return string
-     */
-    public static function getStatusByOption()
-    {
-        return self::isOptionEnabled() ? 'passed' : 'action_required';
-    }
 
     /**
      * If the option related to the audit item is enabled in the settings return true, otherwise false
