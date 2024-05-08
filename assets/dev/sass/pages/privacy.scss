@@ -33,6 +33,33 @@
       width: calc(50%);
     }
 
+    &.loading {
+      position: relative;
+      overflow: hidden;
+      background-color: rgba(0, 0, 0, .12);
+      cursor: wait;
+      mask-image: radial-gradient(#fff, #000);
+      height: 103px;
+      border-radius: 6px;
+
+      &:after {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 0;
+        background: linear-gradient(90deg, transparent, hsla(0, 0%, 100%, .4), transparent);
+        -webkit-animation: skeleton-animate-wave 1.75s linear infinite;
+        animation: skeleton-animate-wave 1.75s linear infinite;
+      }
+
+      & > label , & > input{
+        display: none;
+      }
+    }
+
     &.wps-privacy-mode__item--warning {
       input[type="radio"] {
         &:checked {

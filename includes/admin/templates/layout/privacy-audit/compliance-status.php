@@ -10,7 +10,7 @@
                 </h2>
             </div>
             <div class="wps-privacy-mode__items">
-                <div class="wps-privacy-mode__item wps-privacy-mode__item--warning" >
+                <div class="wps-privacy-mode__item wps-privacy-mode__item--warning  " >
                     <input type="radio" id="privacy-mode-friendly" name="privacy-mode" checked>
 
                     <label for="privacy-mode-friendly">
