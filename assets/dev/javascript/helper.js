@@ -34,8 +34,9 @@ wps_js.select2 = function () {
 const wpsSelect2 = jQuery('.wps-select2');
 const wpsFilterPage = jQuery('.wps-filter-page');
 const wpsBody = jQuery('body');
+const wpsDropdown = jQuery('.wps-dropdown');
 
-if (wpsSelect2.length && wpsFilterPage) {
+if (wpsSelect2.length && wpsFilterPage.length) {
   var dirValue = wpsBody.hasClass('rtl') ? 'rtl' : 'ltr';
 
   wpsSelect2.select2({
@@ -45,18 +46,28 @@ if (wpsSelect2.length && wpsFilterPage) {
       dropdownCssClass: 'wps-select2-filter-dropdown'
   });
 
-    wpsFilterPage.on('click', function() {
-        wpsSelect2.select2('open');
-    });
-    wpsSelect2.on('change', function() {
-        var selectedOption = jQuery(this).find('option:selected');
-        var url = selectedOption.val();
+  wpsFilterPage.on('click', function() {
+      wpsSelect2.select2('open');
+  });
 
-        if (url) {
-            window.location.href = url;
-        }
-    });
+   wpsSelect2.on('select2:open', function() {
+      wpsDropdown.addClass('active');
+  });
+
+   wpsSelect2.on('select2:close', function() {
+      wpsDropdown.removeClass('active');
+  });
+
+  wpsSelect2.on('change', function() {
+      var selectedOption = jQuery(this).find('option:selected');
+      var url = selectedOption.val();
+
+      if (url) {
+          window.location.href = url;
+      }
+  });
 }
+
 
 /**
  * Set Tooltip
