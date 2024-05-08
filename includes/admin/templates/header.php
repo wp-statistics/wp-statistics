@@ -1,19 +1,29 @@
+<?php 
+use WP_STATISTICS\Admin_Template;
+use WP_STATISTICS\UserOnline;
+use WP_STATISTICS\Option;
+?>
+
 <div class="wps-adminHeader">
     <img class="wps-adminHeader__logo" src="<?php echo esc_url(WP_STATISTICS_URL . 'assets/images/white-header-logo.svg'); ?>"/>
     <div class="wps-adminHeader__menu">
         <?php
         //Get Total User Online
-        $total_user_online = \WP_STATISTICS\UserOnline::get(array('fields' => 'count'));
-        echo \WP_STATISTICS\Admin_Template::get_template('layout/partials/menu-link', ['slug' => 'wps_overview_page', 'link_text' => __('Overview', 'wp-statistics'), 'icon_class' => 'overview', 'badge_count' => null], true);
-        echo \WP_STATISTICS\Admin_Template::get_template('layout/partials/menu-link', ['slug' => 'wps_online_page', 'link_text' => __('Online Users', 'wp-statistics'), 'icon_class' => 'online-users', 'badge_count' => $total_user_online], true);
-        echo \WP_STATISTICS\Admin_Template::get_template('layout/partials/menu-link', ['slug' => 'wps_plugins_page', 'link_text' => __('Add-Ons', 'wp-statistics'), 'icon_class' => 'addons', 'badge_count' => null], true);
+        $total_user_online = UserOnline::get(array('fields' => 'count'));
+        echo Admin_Template::get_template('layout/partials/menu-link', ['slug' => 'wps_overview_page', 'link_text' => __('Overview', 'wp-statistics'), 'icon_class' => 'overview', 'badge_count' => null], true);
+        echo Admin_Template::get_template('layout/partials/menu-link', ['slug' => 'wps_online_page', 'link_text' => __('Online Users', 'wp-statistics'), 'icon_class' => 'online-users', 'badge_count' => $total_user_online], true);
+        echo Admin_Template::get_template('layout/partials/menu-link', ['slug' => 'wps_plugins_page', 'link_text' => __('Add-Ons', 'wp-statistics'), 'icon_class' => 'addons', 'badge_count' => null], true);
         ?>
     </div>
     <div class="wps-adminHeader__side">
         <a href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/product/add-ons-bundle?utm_source=wp-statistics&utm_medium=link&utm_campaign=header'); ?>" target="_blank" class="wps-adminHeader__bundle">
             <?php esc_html_e('Upgrade to Bundle', 'wp-statistics'); ?>
         </a>
-        <a href="<?php echo esc_url(admin_url('admin.php?page=wps_privacy-audit_page')); ?>" title="<?php esc_html_e('Privacy Audit', 'wp-statistics'); ?>" class="privacy"></a>
+
+        <?php if (Option::get('privacy_audit')) : ?>
+            <a href="<?php echo esc_url(admin_url('admin.php?page=wps_privacy-audit_page')); ?>" title="<?php esc_html_e('Privacy Audit', 'wp-statistics'); ?>" class="privacy"></a>
+        <?php endif; ?>
+
         <a href="<?php echo esc_url(admin_url('admin.php?page=wps_optimization_page')); ?>" title="<?php esc_html_e('Optimization', 'wp-statistics'); ?>" class="optimization <?php if (isset($_GET['page']) && $_GET['page'] === 'wps_optimization_page') {
             echo 'active';
         } ?>"></a>
@@ -34,9 +44,9 @@
             </label>
             <div class="wps-mobileMenuContent">
                 <?php
-                echo \WP_STATISTICS\Admin_Template::get_template('layout/partials/menu-link', ['slug' => 'wps_plugins_page', 'link_text' => __('Add-Ons', 'wp-statistics'), 'icon_class' => 'addons', 'badge_count' => null], true);
-                echo \WP_STATISTICS\Admin_Template::get_template('layout/partials/menu-link', ['slug' => 'wps_settings_page', 'link_text' => __('Settings', 'wp-statistics'), 'icon_class' => 'settings', 'badge_count' => null], true);
-                echo \WP_STATISTICS\Admin_Template::get_template('layout/partials/menu-link', ['slug' => 'wps_optimization_page', 'link_text' => __('Optimization', 'wp-statistics'), 'icon_class' => 'optimization', 'badge_count' => null], true);
+                echo Admin_Template::get_template('layout/partials/menu-link', ['slug' => 'wps_plugins_page', 'link_text' => __('Add-Ons', 'wp-statistics'), 'icon_class' => 'addons', 'badge_count' => null], true);
+                echo Admin_Template::get_template('layout/partials/menu-link', ['slug' => 'wps_settings_page', 'link_text' => __('Settings', 'wp-statistics'), 'icon_class' => 'settings', 'badge_count' => null], true);
+                echo Admin_Template::get_template('layout/partials/menu-link', ['slug' => 'wps_optimization_page', 'link_text' => __('Optimization', 'wp-statistics'), 'icon_class' => 'optimization', 'badge_count' => null], true);
                 ?>
                 <a href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/support?utm_source=wp-statistics&utm_medium=link&utm_campaign=header'); ?>" target="_blank" title="<?php esc_html_e('Help Center', 'wp-statistics'); ?>" class="help">
                     <span class="icon"></span>
