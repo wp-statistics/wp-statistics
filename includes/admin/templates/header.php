@@ -13,7 +13,7 @@
         <a href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/product/add-ons-bundle?utm_source=wp-statistics&utm_medium=link&utm_campaign=header'); ?>" target="_blank" class="wps-adminHeader__bundle">
             <?php esc_html_e('Upgrade to Bundle', 'wp-statistics'); ?>
         </a>
-        <a title="<?php esc_html_e('Privacy Audit (Coming Soon)', 'wp-statistics'); ?>" class="privacy disabled"></a>
+        <a href="<?php echo esc_url(admin_url('admin.php?page=wps_privacy-audit_page')); ?>" title="<?php esc_html_e('Privacy Audit', 'wp-statistics'); ?>" class="privacy"></a>
         <a href="<?php echo esc_url(admin_url('admin.php?page=wps_optimization_page')); ?>" title="<?php esc_html_e('Optimization', 'wp-statistics'); ?>" class="optimization <?php if (isset($_GET['page']) && $_GET['page'] === 'wps_optimization_page') {
             echo 'active';
         } ?>"></a>
@@ -38,7 +38,7 @@
                 echo \WP_STATISTICS\Admin_Template::get_template('layout/partials/menu-link', ['slug' => 'wps_settings_page', 'link_text' => __('Settings', 'wp-statistics'), 'icon_class' => 'settings', 'badge_count' => null], true);
                 echo \WP_STATISTICS\Admin_Template::get_template('layout/partials/menu-link', ['slug' => 'wps_optimization_page', 'link_text' => __('Optimization', 'wp-statistics'), 'icon_class' => 'optimization', 'badge_count' => null], true);
                 ?>
-                <a href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/support?utm_source=wp-sms&utm_medium=link&utm_campaign=header'); ?>" target="_blank" title="<?php esc_html_e('Help Center', 'wp-statistics'); ?>" class="help">
+                <a href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/support?utm_source=wp-statistics&utm_medium=link&utm_campaign=header'); ?>" target="_blank" title="<?php esc_html_e('Help Center', 'wp-statistics'); ?>" class="help">
                     <span class="icon"></span>
                     <?php esc_html_e('Help Center', 'wp-statistics'); ?>
                 </a>

@@ -238,7 +238,7 @@ class Purge
                 $result_string = __('No Visitor Records Found for Purging.', 'wp-statistics');
             }
         } else {
-            $result_string = __('Number of visits must be greater than or equal to 10!', 'wp-statistics');
+            $result_string = __('Number of views must be greater than or equal to 10!', 'wp-statistics');
         }
 
         // Send Email

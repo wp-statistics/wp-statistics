@@ -108,7 +108,7 @@ class IP
      */
     public static function hashUserIp($ip = false)
     {
-        $date           = gmdate('Y-m-d'); // Capture the current date to use in salt generation.
+        $date           = date('Y-m-d'); // Capture the current date to use in salt generation.
         $saltOptionName = 'wp_statistics_daily_salt'; // Define the option name for storing the daily salt.
 
         // Retrieve the currently stored daily salt from the WordPress options.
@@ -126,7 +126,7 @@ class IP
         }
 
         // If there is no existing daily salt, generate and save it.
-        if (!$dailySalt) {
+        if (!$dailySalt || !is_array($dailySalt)) {
             $dailySalt = [
                 'date' => $date, // Set the salt's date to today.
                 'salt' => sha1(wp_generate_password()) // Generate a new salt.

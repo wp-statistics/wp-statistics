@@ -268,8 +268,9 @@ class Schedule
         }
 
         // If SMS
-        if ($type == 'sms' and function_exists('wp_sms_send')) {
-            wp_sms_send(array(get_option('wp_admin_mobile')), $final_text_report);
+        if ($type == 'sms' and function_exists('wp_sms_send') and class_exists('\WP_SMS\Option')) {
+            $adminMobileNumber = \WP_SMS\Option::getOption('admin_mobile_number');
+            wp_sms_send($adminMobileNumber, $email_content);
         }
     }
 
