@@ -149,11 +149,15 @@ class PrivacyAuditCheck
     public static function complianceStatus()
     {
         $audits         = self::getAudits();
-        $rulesMapped    = count($audits);
+        $rulesMapped    = 0;
         $actionRequired = 0;
         $passed         = 0;
 
         foreach ($audits as $audit) {
+            // If audit doesn't require taking any action, skip showing it in the status
+            if (!$audit::hasAction()) continue;
+
+            $rulesMapped++;
             $audit::getStatus() == 'passed' ? $passed++ : $actionRequired++;
         }
 

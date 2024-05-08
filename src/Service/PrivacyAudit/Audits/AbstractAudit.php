@@ -15,4 +15,11 @@ abstract class AbstractAudit
         $currentState = isset($states[$status]) ? $states[$status] : null;
         return $currentState;
     }
+
+    static public function hasAction()
+    {
+        $states     = static::getStates();
+        $hasAction  = array_filter(array_column($states, 'action'));
+        return !empty($hasAction) ? true : false;
+    }
 }
