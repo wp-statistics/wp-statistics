@@ -46,6 +46,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         // Add loading class
         button.addClass('loading');
         jQuery('.wps-privacy-questions .wps-privacy-list__items').addClass('loading');
+        jQuery('.wps-privacy-mode__items .wps-privacy-mode__item').addClass('loading');
         jQuery('.wps-privacy-status').addClass('loading');
 
         let params = {
@@ -94,6 +95,8 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         const complianceStatusWrapper   = jQuery('.wps-privacy-status');
         
         // Reset previous styles
+        privacyModeWrapper.find('.wps-privacy-mode__item').removeClass('loading');
+        
         complianceStatusWrapper.removeClass('loading success warning');
         complianceStatusWrapper.find('.wps-privacy-status__bar-passed').css('display', 'none');
         complianceStatusWrapper.find('.wps-privacy-status__bar-need-work').css('display', 'none')
