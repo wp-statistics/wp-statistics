@@ -167,6 +167,7 @@ $data = generateChartData();
             maintainAspectRatio:false,
             scales: scales,
             aspectRatio:10,
+            animation: false,
             plugins:{
                 chartAreaBorder: {
                     borderWidth:5,
