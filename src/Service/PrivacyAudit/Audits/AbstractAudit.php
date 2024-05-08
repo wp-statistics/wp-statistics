@@ -9,14 +9,14 @@ abstract class AbstractAudit
     static public $optionKey;
 
     /**
-     * Returns an array of all states with details an audit item could have.
+     * Returns an array of all states an audit item could have with details.
      * 
      * @return array
      */
     abstract static public function getStates();
         
     /**
-     * Returns the current state details of the audit item based on its current status
+     * Returns the current state of the audit item based on its current status
      * 
      * @return array
      */
@@ -30,7 +30,7 @@ abstract class AbstractAudit
     }
 
     /**
-     * Returns a boolean value indicating whether the audit item has any action or not
+     * Returns a boolean value indicating whether the audit item has any action or not.
      * 
      * @return bool
      */
@@ -43,7 +43,7 @@ abstract class AbstractAudit
 
     /**
      * Get the privacy status of the audit item stored in `wp_statistics_privacy_status` option.
-     * If audit related option is enabled, return passed regardless of the independent status of the audit item
+     * If audit related option is enabled, return 'passed' regardless of the independent status of the audit item.
      * 
      * @return string
      */
@@ -62,7 +62,7 @@ abstract class AbstractAudit
 
 
     /**
-     * If the option related to the audit item is enabled in the settings return true, otherwise false
+     * If the option related to the audit item is enabled in the settings return true, otherwise false.
      * 
      * @return bool
      */
