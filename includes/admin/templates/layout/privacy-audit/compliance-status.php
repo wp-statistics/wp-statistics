@@ -28,9 +28,7 @@
                                 </h3>
                             </div>
                         </div>
-                        <div class="wps-privacy-mode__content">
-                            <?php esc_html_e('Your WP Statistics settings are not privacy-compliant. Please update your settings.','wp-statistics'); ?>
-                        </div>
+                        <div class="wps-privacy-mode__content"></div>
                     </label>
                 </div>
                 <div class="wps-privacy-mode__item">
