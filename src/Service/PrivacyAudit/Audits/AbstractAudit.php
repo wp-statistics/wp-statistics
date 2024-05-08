@@ -2,6 +2,7 @@
 namespace WP_Statistics\Service\PrivacyAudit\Audits;
 
 use WP_Statistics\Service\PrivacyAudit\PrivacyStatusOption;
+use WP_STATISTICS\Option;
 
 abstract class AbstractAudit 
 {
@@ -28,6 +29,16 @@ abstract class AbstractAudit
     public static function getStatus()
     {
         return PrivacyStatusOption::get(static::$optionKey, 'action_required');
+    }
+
+    public static function isOptionEnabled()
+    {
+        return Option::get(static::$optionKey) == true;
+    }
+
+    public static function getStatusByOption()
+    {
+        return self::isOptionEnabled() ? 'passed' : 'action_required';
     }
 
     public static function resolve()

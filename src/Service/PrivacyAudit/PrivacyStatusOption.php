@@ -6,9 +6,24 @@ class PrivacyStatusOption
 {
     CONST KEY = 'wp_statistics_privacy_status';
 
+    private static function defaultOptions()
+    {
+        $defaultOptions = [];
+        $audits         = PrivacyAuditCheck::getAudits();
+
+        foreach ($audits as $audit) {
+            // If has no action, no need to store the status in database
+            if (!$audit::hasAction()) continue;
+
+            $defaultOptions[$audit::$optionKey] = $audit::getStatusByOption();
+        }
+
+        return $defaultOptions;
+    }
+
     public static function init()
     {
-        add_option(self::KEY, []);
+        add_option(self::KEY, self::defaultOptions());
     }
 
     public static function getAll()
