@@ -2,7 +2,9 @@
 
 namespace WP_STATISTICS;
 
-class settings_page
+use WP_Statistics\Components\Singleton;
+
+class settings_page extends Singleton
 {
 
     private static $redirectAfterSave = true;
@@ -570,4 +572,4 @@ class settings_page
     }
 }
 
-new settings_page;
+settings_page::get_instance();
