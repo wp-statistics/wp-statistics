@@ -28,7 +28,7 @@ class AddOnDecorator
 
     public function getUrl()
     {
-        return $this->addOn->url;
+        return $this->addOn->url . '?' . AddOnsFactory::$addOnUtm[$this->getSlug()];
     }
 
     public function getDescription()

@@ -43,7 +43,7 @@
                                 <tr>
                                     <td width='10%'><?php esc_html_e('ID', 'wp-statistics'); ?></td>
                                     <td width='40%'><?php esc_html_e('Title', 'wp-statistics'); ?></td>
-                                    <td width='10%'><?php esc_html_e('Visits', 'wp-statistics'); ?></td>
+                                    <td width='10%'><?php esc_html_e('Views', 'wp-statistics'); ?></td>
                                 </tr>
 
                                 <?php

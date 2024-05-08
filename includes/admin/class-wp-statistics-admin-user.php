@@ -10,7 +10,7 @@ class Admin_User
     public function __construct()
     {
 
-        // Add Visits Column in All Admin User Wp_List_Table
+        // Add Views Column in All Admin User Wp_List_Table
         if (User::Access('read') and Option::get('enable_user_column')) {
             add_filter('manage_users_columns', array($this, 'add_column_user_table'));
             add_filter('manage_users_custom_column', array($this, 'modify_user_table_row'), 10, 3);
@@ -23,14 +23,14 @@ class Admin_User
     }
 
     /**
-     * Add Visits Link
+     * Add Views Link
      *
      * @param $column
      * @return mixed
      */
     public function add_column_user_table($column)
     {
-        $column['visits'] = __("Visits", "wp-statistics");
+        $column['visits'] = __("Views", "wp-statistics");
         return $column;
     }
 

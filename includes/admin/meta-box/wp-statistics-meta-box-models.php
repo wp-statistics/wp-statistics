@@ -58,7 +58,7 @@ class models extends MetaBoxAbstract
             $order_by = "ORDER BY `count` " . esc_sql($args['order']);
         }
 
-        // Get List All Platforms
+        // Get List All Operating Systems
         $list = $wpdb->get_results(
             $wpdb->prepare("SELECT model, COUNT(*) as count FROM `" . DB::table('visitor') . "` WHERE model != %s AND `last_counter` BETWEEN %s AND %s GROUP BY model {$order_by}", _x('Unknown', 'Model', 'wp-statistics'), reset($days_time_list), end($days_time_list)),
             ARRAY_A);

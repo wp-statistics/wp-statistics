@@ -106,7 +106,7 @@ class Meta_Box
             ),
             'platforms'       => array(
                 'page_url'          => 'platform',
-                'name'              => __('Most Used Platforms', 'wp-statistics'),
+                'name'              => __('Most Used Operating Systems', 'wp-statistics'),
                 'description'       => __('Identify the operating systems most commonly used by your website visitors.', 'wp-statistics'),
                 'require'           => array('visitors' => true),
                 'hidden'            => true,
@@ -116,7 +116,7 @@ class Meta_Box
                     'filter_by_date'      => true,
                     'default_date_filter' => User::getDefaultDateFilter('platforms', 'filter|30days'),
                     'display_more_link'   => true,
-                    'more_link_title'     => __('View Most Used Platforms'),
+                    'more_link_title'     => __('View Most Used Operating Systems'),
                 ]
             ),
             'devices'         => array(
@@ -165,7 +165,7 @@ class Meta_Box
             'hits'            => array(
                 'page_url'          => 'hits',
                 'name'              => __('Daily Traffic Trend', 'wp-statistics'),
-                'description'       => __('Day-by-day breakdown of visits and page views over the selected period.', 'wp-statistics'),
+                'description'       => __('Day-by-day breakdown of views and page views over the selected period.', 'wp-statistics'),
                 'require'           => array('visits' => true),
                 'hidden'            => true,
                 'show_on_dashboard' => true,
@@ -180,7 +180,7 @@ class Meta_Box
             'search'          => array(
                 'page_url'          => 'searches',
                 'name'              => __('Referrals from Search Engines', 'wp-statistics'),
-                'description'       => __('A breakdown of visits from different search engines over time.', 'wp-statistics'),
+                'description'       => __('A breakdown of views from different search engines over time.', 'wp-statistics'),
                 'require'           => array('visitors' => true),
                 'hidden'            => true,
                 'show_on_dashboard' => true,
@@ -195,7 +195,7 @@ class Meta_Box
             'pages'           => array(
                 'page_url'          => 'pages',
                 'name'              => __('Most Visited Pages', 'wp-statistics'),
-                'description'       => __('Pages on your website with the highest number of visits in the selected time frame.', 'wp-statistics'),
+                'description'       => __('Pages on your website with the highest number of views in the selected time frame.', 'wp-statistics'),
                 'require'           => array('pages' => true),
                 'hidden'            => true,
                 'show_on_dashboard' => true,
@@ -210,7 +210,7 @@ class Meta_Box
             'top-visitors'    => array(
                 'page_url'          => 'top-visitors',
                 'name'              => __('Most Active Visitors', 'wp-statistics'),
-                'description'       => __('Visitors with the highest number of visits, including their country, city, IP address, and browser.', 'wp-statistics'),
+                'description'       => __('Visitors with the highest number of views, including their country, city, IP address, and browser.', 'wp-statistics'),
                 'require'           => array('visitors' => true),
                 'hidden'            => true,
                 'show_on_dashboard' => true,
@@ -273,7 +273,7 @@ class Meta_Box
                 'disable_overview'  => true
             ),
             'pages-chart'     => array(
-                'name'              => __('Pages Visits', 'wp-statistics'),
+                'name'              => __('Pages Views', 'wp-statistics'),
                 'show_on_dashboard' => false,
                 'disable_overview'  => true
             ),

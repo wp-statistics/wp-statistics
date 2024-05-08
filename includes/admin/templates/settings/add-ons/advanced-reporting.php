@@ -26,8 +26,8 @@ global $wp_version;
 
                 <td>
                     <select name="wps_addon_settings[advanced_reporting][report_time_frame_type]" id="wps_addon_settings[advanced_reporting][report_time_frame_type]">
-                        <option value="specific_time" <?php selected(WP_STATISTICS\Option::getByAddon('show_ads_overview', 'advanced_reporting'), 'specific_time'); ?>><?php esc_html_e('From a specific time', 'wp-statistics'); ?></option>
-                        <option value="time_range" <?php selected(WP_STATISTICS\Option::getByAddon('show_ads_overview', 'advanced_reporting'), 'time_range'); ?>><?php esc_html_e('Time-range', 'wp-statistics'); ?></option>
+                        <option value="specific_time" <?php selected(WP_STATISTICS\Option::getByAddon('report_time_frame_type', 'advanced_reporting'), 'specific_time'); ?>><?php esc_html_e('From a specific time', 'wp-statistics'); ?></option>
+                        <option value="time_range" <?php selected(WP_STATISTICS\Option::getByAddon('report_time_frame_type', 'advanced_reporting'), 'time_range'); ?>><?php esc_html_e('Time-range', 'wp-statistics'); ?></option>
                     </select>
                     <p class="description"><?php esc_html_e('Select how often you’d like to receive updates. Opt for a specific date or a recurring schedule to keep your reports timely and relevant.', 'wp-statistics'); ?></p>
                 </td>
@@ -117,13 +117,13 @@ global $wp_version;
 
             <tr valign="top">
                 <th scope="row">
-                    <label for="wps_addon_settings[advanced_reporting][email_top_hits_visits]"><?php esc_html_e('Visits Insights', 'wp-statistics'); ?></label>
+                    <label for="wps_addon_settings[advanced_reporting][email_top_hits_visits]"><?php esc_html_e('Views Insights', 'wp-statistics'); ?></label>
                 </th>
 
                 <td>
                     <input id="wps_addon_settings[advanced_reporting][email_top_hits_visits]" name="wps_addon_settings[advanced_reporting][email_top_hits_visits]" type="checkbox" value="1" <?php checked(WP_STATISTICS\Option::getByAddon('email_top_hits_visits', 'advanced_reporting')) ?>>
                     <label for="wps_addon_settings[advanced_reporting][email_top_hits_visits]"><?php esc_html_e('Active', 'wp-statistics'); ?></label>
-                    <p class="description"><?php esc_html_e('Choose to receive detailed charts on visits counts and behavior patterns.', 'wp-statistics'); ?></p>
+                    <p class="description"><?php esc_html_e('Choose to receive detailed charts on views counts and behavior patterns.', 'wp-statistics'); ?></p>
                 </td>
             </tr>
             </tbody>
@@ -432,6 +432,37 @@ global $wp_version;
         <table class="form-table <?php echo !$isAdvancedReportingActive ? 'form-table--preview' : '' ?>">
             <tbody>
             <tr valign="top">
+                <th scope="row" colspan="2"><h3><?php esc_html_e('Control and Compliance', 'wp-statistics'); ?></h3></th>
+            </tr>
+
+            <?php if (!$isAdvancedReportingActive) : ?>
+                <tr class="upgrade-notice" valign="top">
+                    <th scope="row" colspan="2">
+                        <p style="font-size: 1em"><?php esc_html_e('This feature is currently restricted in your current version. Unlock premium features to gain a deeper insight into your website.', 'wp-statistics') ?></p>
+                        <a target="_blank" class="button button-primary" href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/product/wp-statistics-advanced-reporting/?utm_source=wp-statistics&utm_medium=link&utm_campaign=plugin-settings'); ?>"><?php esc_html_e('Upgrade', 'wp-statistics') ?></a>
+                    </th>
+                </tr>
+            <?php endif; ?>
+
+            <tr valign="top">
+                <th scope="row">
+                    <label for="wps_addon_settings[advanced_reporting][email_disable_copyright]"><?php esc_html_e('Copyright Notice', 'wp-statistics'); ?></label>
+                </th>
+
+                <td>
+                    <input id="wps_addon_settings[advanced_reporting][email_disable_copyright]" name="wps_addon_settings[advanced_reporting][email_disable_copyright]" type="checkbox" value="1" <?php checked(WP_STATISTICS\Option::getByAddon('email_disable_copyright', 'advanced_reporting')) ?>>
+                    <label for="wps_addon_settings[advanced_reporting][email_disable_copyright]"><?php esc_html_e('Active', 'wp-statistics'); ?></label>
+                    <p class="description"><?php esc_html_e('Opt to show or hide the plugin’s copyright notice, depending on your preference.', 'wp-statistics'); ?></p>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="postbox">
+        <table class="form-table <?php echo !$isAdvancedReportingActive ? 'form-table--preview' : '' ?>">
+            <tbody>
+            <tr valign="top">
                 <th scope="row" colspan="2"><h3><?php esc_html_e('PDF Reports', 'wp-statistics'); ?></h3></th>
             </tr>
 
@@ -481,39 +512,8 @@ global $wp_version;
                 </th>
 
                 <td>
-                    <input id="wps_addon_settings[advanced_reporting][email_preview_content]" name="wps_addon_settings[advanced_reporting][email_preview_content]" type="text" class="regular-text" value="<?php echo esc_attr(WP_STATISTICS\Option::getByAddon('email_preview_content', 'advanced_reporting')) ?>"/> &nbsp; <input type="submit" name="submit-preview" id="submit-preview" class="button" value="Send" style="margin: 0; padding-top: 13px; padding-bottom: 13px;"/>
+                    <input id="wps_addon_settings[advanced_reporting][email_preview_content]" name="wps_addon_settings[advanced_reporting][email_preview_content]" type="text" class="regular-text" value="<?php echo esc_attr(WP_STATISTICS\Option::getByAddon('email_preview_content', 'advanced_reporting')) ?>"/> &nbsp; <input type="submit" name="submit-preview" id="submit-preview" class="button" value="Send" style="margin: 0; padding-top: 13px; padding-bottom: 13px;" onclick="var wpsCurrentTab = getElementById('wps_current_tab'); wpsCurrentTab.value='advanced-reporting-settings'"/>
                     <p class="description"><?php esc_html_e('Enter an email to send a preview, ensuring your report looks just right before it goes out to your audience.', 'wp-statistics'); ?></p>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-
-    <div class="postbox">
-        <table class="form-table <?php echo !$isAdvancedReportingActive ? 'form-table--preview' : '' ?>">
-            <tbody>
-            <tr valign="top">
-                <th scope="row" colspan="2"><h3><?php esc_html_e('Control and Compliance', 'wp-statistics'); ?></h3></th>
-            </tr>
-
-            <?php if (!$isAdvancedReportingActive) : ?>
-                <tr class="upgrade-notice" valign="top">
-                    <th scope="row" colspan="2">
-                        <p style="font-size: 1em"><?php esc_html_e('This feature is currently restricted in your current version. Unlock premium features to gain a deeper insight into your website.', 'wp-statistics') ?></p>
-                        <a target="_blank" class="button button-primary" href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/product/wp-statistics-advanced-reporting/?utm_source=wp-statistics&utm_medium=link&utm_campaign=plugin-settings'); ?>"><?php esc_html_e('Upgrade', 'wp-statistics') ?></a>
-                    </th>
-                </tr>
-            <?php endif; ?>
-
-            <tr valign="top">
-                <th scope="row">
-                    <label for="wps_addon_settings[advanced_reporting][email_disable_copyright]"><?php esc_html_e('Copyright Notice', 'wp-statistics'); ?></label>
-                </th>
-
-                <td>
-                    <input id="wps_addon_settings[advanced_reporting][email_disable_copyright]" name="wps_addon_settings[advanced_reporting][email_disable_copyright]" type="checkbox" value="1" <?php checked(WP_STATISTICS\Option::getByAddon('email_disable_copyright', 'advanced_reporting')) ?>>
-                    <label for="wps_addon_settings[advanced_reporting][email_disable_copyright]"><?php esc_html_e('Active', 'wp-statistics'); ?></label>
-                    <p class="description"><?php esc_html_e('Opt to show or hide the plugin’s copyright notice, depending on your preference.', 'wp-statistics'); ?></p>
                 </td>
             </tr>
             </tbody>

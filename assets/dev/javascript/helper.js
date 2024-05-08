@@ -8,21 +8,16 @@ wps_js.exist_tag = function (tag) {
  * Jquery UI Picker
  */
 wps_js.date_picker = function () {
-    if (jQuery.fn.datepicker && typeof wps_i18n_jquery_datepicker !== 'undefined') {
-        jQuery("input[data-wps-date-picker]").datepicker({
-            monthNames: wps_i18n_jquery_datepicker.monthNames,
-            monthNamesShort: wps_i18n_jquery_datepicker.monthNamesShort,
-            dayNames: wps_i18n_jquery_datepicker.dayNames,
-            dayNamesShort: wps_i18n_jquery_datepicker.dayNamesShort,
-            dayNamesMin: wps_i18n_jquery_datepicker.dayNamesMin,
-            dateFormat: wps_i18n_jquery_datepicker.dateFormat,
-            firstDay: wps_i18n_jquery_datepicker.firstDay,
-            isRTL: wps_i18n_jquery_datepicker.isRTL,
-            onSelect: function (selectedDate) {
-                let ID = jQuery(this).attr("data-wps-date-picker");
-                if (selectedDate.length > 0) {
-                    jQuery("input[id=date-" + ID + "]").val(selectedDate);
-                }
+    const datePickerField = jQuery('input[data-wps-date-picker]');
+    if (datePickerField.length) {
+        datePickerField.daterangepicker({
+            singleDatePicker: true,
+            showDropdowns: true,
+            minYear: 1998,
+            drops:'up',
+            maxYear: parseInt(new Date().getFullYear() + 1),
+            locale: {
+                format: 'YYYY-MM-DD'
             }
         });
     }
@@ -33,7 +28,41 @@ wps_js.date_picker = function () {
  */
 wps_js.select2 = function () {
     jQuery("select[data-type-show=select2]").select2();
-};
+}
+
+const wpsSelect2 = jQuery('.wps-select2');
+const wpsFilterPage = jQuery('.wps-filter-page');
+const wpsBody = jQuery('body');
+
+if (wpsSelect2.length && wpsFilterPage) {
+  if (wpsBody.hasClass('rtl')) {
+        wpsSelect2.select2({
+            dropdownParent: $('.wps-filter-page'),
+            dir: 'rtl',
+            dropdownAutoWidth: true,
+            dropdownCssClass: 'wps-select2-filter-dropdown'
+       });
+    } else {
+        wpsSelect2.select2({
+            dropdownParent: $('.wps-filter-page'),
+            dir: 'ltr',
+            dropdownAutoWidth: true,
+            dropdownCssClass: 'wps-select2-filter-dropdown'
+       });
+    }
+
+    wpsFilterPage.on('click', function() {
+        wpsSelect2.select2('open');
+    });
+    wpsSelect2.on('change', function() {
+        var selectedOption = jQuery(this).find('option:selected');
+        var url = selectedOption.val();
+
+        if (url) {
+            window.location.href = url;
+        }
+    });
+}
 
 /**
  * Set Tooltip
@@ -437,6 +466,33 @@ function moveFeedbackBird() {
     }
 }
 
+// Head filters drop down
+jQuery(document).ready(function () {
+  var dropdowns = document.querySelectorAll(".wps-head-filters__item");
+
+  dropdowns.forEach(function(dropdown) {
+    dropdown.classList.remove('loading');
+    dropdown.addEventListener("click", function(event) {
+      var dropdownContent = dropdown.querySelector(".dropdown-content");
+      if (dropdownContent) {
+        dropdownContent.classList.toggle("show");
+      }
+    });
+  });
+
+  window.addEventListener("click", function(event) {
+    dropdowns.forEach(function(dropdown) {
+      var dropdownContent = dropdown.querySelector(".dropdown-content");
+      if (dropdownContent && !dropdown.contains(event.target)) {
+        dropdownContent.classList.remove("show");
+      }
+    });
+  });
+});
+
+
+
+
 window.onload = moveFeedbackBird;
 window.addEventListener('resize', moveFeedbackBird);
 
@@ -449,3 +505,4 @@ jQuery(document).ready(function () {
         targetElement.parentNode.insertBefore(noticeElement, targetElement.nextSibling);
     }
 });
+

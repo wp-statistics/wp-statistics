@@ -57,7 +57,7 @@ class Admin_Post
      */
     public function add_hit_column($columns)
     {
-        $columns['wp-statistics-post-hits'] = __('Visits', 'wp-statistics');
+        $columns['wp-statistics-post-hits'] = __('Views', 'wp-statistics');
         return $columns;
     }
 
@@ -166,7 +166,7 @@ class Admin_Post
     {
         global $post;
         if ($post->post_status == 'publish') {
-            echo "<div class='misc-pub-section misc-pub-hits'>" . __('Visits', 'wp-statistics') . ": <a href='" . Menus::admin_url('pages', array('ID' => $post->ID, 'type' => Pages::get_post_type($post->ID))) . "'>" . esc_html(number_format(wp_statistics_pages('total', "", $post->ID))) . "</a></div>"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+            echo "<div class='misc-pub-section misc-pub-hits'>" . __('Views', 'wp-statistics') . ": <a href='" . Menus::admin_url('pages', array('ID' => $post->ID, 'type' => Pages::get_post_type($post->ID))) . "'>" . esc_html(number_format(wp_statistics_pages('total', "", $post->ID))) . "</a></div>"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
         }
     }
 

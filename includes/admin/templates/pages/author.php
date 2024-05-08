@@ -3,11 +3,11 @@
         <div class="meta-box-sortables">
             <div class="postbox" id="<?php echo esc_attr(\WP_STATISTICS\Meta_Box::getMetaBoxKey('pages-chart')); ?>">
                 <div class="postbox-header postbox-toggle">
+                    <h2 class="hndle wps-d-inline-block"><span><?php esc_html_e('Author Statistics Chart', 'wp-statistics'); ?></span></h2>
                     <button class="handlediv" type="button" aria-expanded="true">
-                        <span class="screen-reader-text"><?php printf(__('Toggle panel: %s', 'wp-statistics'), __('Tag Statistics Chart', 'wp-statistics')); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
+                        <span class="screen-reader-text"><?php printf(__('Toggle panel: %s', 'wp-statistics'), __('Author Statistics Chart', 'wp-statistics')); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	 ?></span>
                         <span class="toggle-indicator" aria-hidden="true"></span>
                     </button>
-                    <h2 class="hndle wps-d-inline-block"><span><?php esc_html_e('Tag Statistics Chart', 'wp-statistics'); ?></span></h2>
                 </div>
                 <div class="inside">
                     <!-- Do Js -->
@@ -22,14 +22,14 @@
         <div class="meta-box-sortables">
             <div class="postbox">
                 <div class="postbox-header postbox-toggle">
+                    <h2 class="hndle wps-d-inline-block"><span><?php esc_html_e('Author Statistics Summary', 'wp-statistics'); ?></span></h2>
                     <button class="handlediv" type="button" aria-expanded="true">
-                        <span class="screen-reader-text"><?php printf(__('Toggle panel: %s', 'wp-statistics'), __('Tag Statistics Summary', 'wp-statistics')); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	 ?></span>
+                        <span class="screen-reader-text"><?php printf(__('Toggle panel: %s', 'wp-statistics'), __('Author Statistics Summary', 'wp-statistics')); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	 ?></span>
                         <span class="toggle-indicator" aria-hidden="true"></span>
                     </button>
-                    <h2 class="hndle wps-d-inline-block"><span><?php esc_html_e('Tag Statistics Summary', 'wp-statistics'); ?></span></h2>
                 </div>
                 <div class="inside">
-                    <table class="widefat table-stats wps-summary-stats" id="summary-stats">
+                    <table class="o-table" id="summary-stats">
                         <tbody>
                         <tr>
                             <th></th>
@@ -37,12 +37,12 @@
                         </tr>
 
                         <?php
-                        if (isset($number_post_in_tag)) {
+                        if (isset($number_post_from_user)) {
                             ?>
                             <tr>
-                                <th><?php esc_html_e('Number of posts in tag:', 'wp-statistics'); ?></th>
+                                <th><?php esc_html_e('Number of posts by author:', 'wp-statistics'); ?></th>
                                 <th class="th-center">
-                                    <span><?php echo esc_html(number_format_i18n($number_post_in_tag)); ?></span></th>
+                                    <span><?php echo esc_html(number_format_i18n($number_post_from_user)); ?></span></th>
                             </tr>
                             <?php
                         }
@@ -71,11 +71,11 @@
             <div class="meta-box-sortables">
                 <div class="postbox">
                     <div class="postbox-header postbox-toggle">
+                        <h2 class="hndle wps-d-inline-block"><span><?php echo esc_attr($top_title); ?></span></h2>
                         <button class="handlediv" type="button" aria-expanded="true">
                             <span class="screen-reader-text"><?php printf(__('Toggle panel: %s', 'wp-statistics'), esc_attr($top_title)); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	 ?></span>
                             <span class="toggle-indicator" aria-hidden="true"></span>
                         </button>
-                        <h2 class="hndle wps-d-inline-block"><span><?php echo esc_attr($top_title); ?></span></h2>
                     </div>
                     <div class="inside">
                         <table class="widefat table-stats wps-summary-stats" id="summary-stats">
@@ -92,7 +92,8 @@
                                         <a href="<?php echo esc_url($item['link']); ?>" title="<?php echo esc_attr($item['name']); ?>"><?php echo esc_attr($item['name']); ?></a>
                                     </th>
                                     <th class="th-center">
-                                        <span><?php echo esc_html(number_format_i18n($item['count_visit'])); ?></span></th>
+                                        <span><?php echo esc_html(number_format_i18n($item['count_visit'])); ?></span>
+                                    </th>
                                 </tr>
                                 <?php
                             }

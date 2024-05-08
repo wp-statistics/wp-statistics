@@ -115,7 +115,12 @@
     }
   }
 }
-
+.statistics_page_wps_visitors_page.wps_page #TB_window{
+  overflow-y: auto;
+  #TB_ajaxContent{
+    overflow: visible;
+  }
+}
 .select2-search--dropdown .select2-search__field {
   padding: 0 12px !important;
   line-height: 36px !important;

@@ -160,7 +160,7 @@ class Hits
             Exclusion::record($exclusion);
         }
 
-        # Record User Visits
+        # Record User Views
         if (Visit::active() and $exclusion['exclusion_match'] === false) {
             Visit::record();
         }

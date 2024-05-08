@@ -142,7 +142,7 @@
             color: #56585a !important;
             font-weight: inherit !important;
           }
-          
+
           .wps-optionsMenuItem__status--extension {
             display: none;
           }
@@ -317,5 +317,15 @@
 @media only screen and (max-width: 1327px) {
   .wp-statistics-settings ul.tabs li {
     padding: 10px 5px;
+  }
+}
+
+.wp-picker-container {
+  input[type=text].wp-color-picker {
+    height: 30px;
+  }
+
+  .wp-picker-clear {
+    margin: 0 9px !important;
   }
 }

@@ -95,7 +95,7 @@ class AdminBar
                 ),
                 'wp-statistics-menu-todayvisit'       => array(
                     'parent' => 'wp-statistic-menu',
-                    'title'  => __('Today\'s Visits', 'wp-statistics') . ": " . wp_statistics_visit('today')
+                    'title'  => __('Today\'s Views', 'wp-statistics') . ": " . wp_statistics_visit('today')
                 ),
                 'wp-statistics-menu-yesterdayvisitor' => array(
                     'parent' => 'wp-statistic-menu',
@@ -103,7 +103,7 @@ class AdminBar
                 ),
                 'wp-statistics-menu-yesterdayvisit'   => array(
                     'parent' => 'wp-statistic-menu',
-                    'title'  => __('Yesterday\'s Visits', 'wp-statistics') . ": " . wp_statistics_visit('yesterday')
+                    'title'  => __('Yesterday\'s Views', 'wp-statistics') . ": " . wp_statistics_visit('yesterday')
                 ),
                 'wp-statistics-menu-page'             => array(
                     'parent' => 'wp-statistic-menu',
