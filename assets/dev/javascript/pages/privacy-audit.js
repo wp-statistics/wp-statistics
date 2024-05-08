@@ -38,20 +38,10 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         const button        = jQuery(e.currentTarget);
         const auditName     = button.data('audit');
         const auditAction   = button.data('action');
-        const needsConfirm  = button.data('confirm');
-        const isRemovable   = button.data('removable');
-        const confirmText   = button.data('confirm-text');
-        const successText   = button.data('success-text');
         const auditElement  = jQuery('#' + auditName);
 
         // Do not proceed if button is in loading state
         if (button.hasClass('loading')) return;
-
-        // if action needs confirmation, show confirmation box.
-        if (needsConfirm) {
-            const agree = confirm(confirmText || wps_js._('confirm'));
-            if (!agree) return false;
-        }
 
         // Add loading class
         button.addClass('loading');
@@ -86,12 +76,6 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                 // Load faq items
                 loadFaqs(data.faq_list);
 
-                // If element is removable, hide it after success response
-                if (isRemovable) {
-                    alert(successText);
-                    auditElement.slideUp();
-                    return;
-                }
 
                 // If audit item data is not null, update it with new data
                 if (data.audit_item) {
@@ -124,7 +108,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         // Update elements that depend on action required audits 
         if (complianceData.summary.action_required > 0) {
             privacyModeWrapper.find('.wps-privacy-mode__item input:checked').parent().addClass('wps-privacy-mode__item--warning');
-            
+
             complianceStatusWrapper.find('.wps-privacy-status__bar-need-work').css('display', 'block');
             complianceStatusWrapper.find('.wps-privacy-status__bar-need-work').css('width', `${100 - complianceData.percentage_ready}%`);
         } else {
