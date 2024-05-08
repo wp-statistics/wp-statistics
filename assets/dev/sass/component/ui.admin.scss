@@ -2624,6 +2624,7 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
     font-size: 13px !important;
     margin: 0;
     color: #56585a !important;
+    word-break: break-word;
 
     &:hover {
       background-color: #eeeff1 !important;
