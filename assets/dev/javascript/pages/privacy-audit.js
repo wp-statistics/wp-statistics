@@ -169,8 +169,8 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         let buttonClass = data.status;
         let buttonTitle = data.compliance.value;
 
-        // If item is not passed and has action, set proper data attribute
-        if (data.compliance.key != 'passed' && data.hasOwnProperty('action')) {
+        // If item has action, set proper data attribute
+        if (data.hasOwnProperty('action')) {
             actionData += `data-audit="${data.name}" data-action="${data.action.key}"`;
             buttonClass = data.action.key;
             buttonTitle = data.action.value;

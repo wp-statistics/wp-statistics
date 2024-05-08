@@ -1,24 +1,11 @@
 <?php 
 namespace WP_Statistics\Service\PrivacyAudit\Audits;
 
+use WP_STATISTICS\Option;
+
 class AnonymizeIpAddress extends AbstractAudit
 {
-    private static $optionKey = '';
-
-    public static function getStatus()
-    {
-        return true ? 'passed' : 'action_required';
-    }
-
-    public static function resolve()
-    {
-        
-    }
-
-    public static function undo()
-    {
-        
-    }
+    public static $optionKey = 'anonymize_ips';
 
     public static function getStates()
     {
@@ -39,10 +26,8 @@ class AnonymizeIpAddress extends AbstractAudit
                     'key'   => 'passed',
                     'value' => esc_html__('Passed', 'wp-statistics'),
                 ],
-                'action'     => [
-                    'key'   => 'undo',
-                    'value' => esc_html__('Undo', 'wp-statistics'),
-                ],
+                // If option is enabled in the setting, no action could be performed.
+                'action'     => Option::get(self::$optionKey)  ? [] : ['key' => 'undo', 'value' => esc_html__('Undo', 'wp-statistics')]
             ],
             'action_required' => [
                 'status'        => 'warning',
@@ -63,7 +48,7 @@ class AnonymizeIpAddress extends AbstractAudit
                 'action'        => [
                     'key'   => 'resolve',
                     'value' => esc_html__('Resolve', 'wp-statistics'),
-                ],
+                ]
             ]
         ];
     }

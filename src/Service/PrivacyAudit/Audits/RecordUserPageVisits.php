@@ -1,24 +1,11 @@
 <?php 
 namespace WP_Statistics\Service\PrivacyAudit\Audits;
 
+use WP_STATISTICS\Option;
+
 class RecordUserPageVisits extends AbstractAudit
 {
-    private static $optionKey = '';
-
-    public static function getStatus()
-    {
-        return true ? 'action_required' : 'passed';
-    }
-
-    public static function resolve()
-    {
-        
-    }
-
-    public static function undo()
-    {
-        
-    }
+    public static $optionKey = 'visitors_log';
 
     public static function getStates()
     {
@@ -31,10 +18,8 @@ class RecordUserPageVisits extends AbstractAudit
                     'key'   => 'passed',
                     'value' => esc_html__('Passed', 'wp-statistics'),
                 ],
-                'action'     => [
-                    'key'   => 'undo',
-                    'value' => esc_html__('Undo', 'wp-statistics'),
-                ],
+                // If option is enabled in the setting, no action could be performed.
+                'action'     => Option::get(self::$optionKey)  ? [] : ['key' => 'undo', 'value' => esc_html__('Undo', 'wp-statistics')]
             ],
             'action_required' => [
                 'status'        => 'warning',
