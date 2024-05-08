@@ -12,7 +12,7 @@ class PrivacyStatusOption
         $audits         = PrivacyAuditCheck::getAudits();
 
         foreach ($audits as $audit) {
-            // If has no action, no need to store the status in database
+            // If audit has no action, no need to store the status in database
             if (!$audit::hasAction()) continue;
 
             $defaultOptions[$audit::$optionKey] = $audit::getStatus();
