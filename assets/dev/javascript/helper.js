@@ -470,9 +470,6 @@ jQuery(document).ready(function () {
   });
 });
 
-window.onload = moveFeedbackBird;
-window.addEventListener('resize', moveFeedbackBird);
-
 jQuery(document).ready(function () {
     const targetElement = document.querySelector('.wp-header-end');
     const noticeElement = document.querySelector('.notice.notice-warning.update-nag');
