@@ -1912,7 +1912,7 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
   transform: translateY(-50%);
   display: flex;
   flex-direction: row-reverse;
-  gap: 4px;
+  gap: 9px;
   z-index: 1;
   display: flex;
   flex-wrap: wrap;
@@ -1963,7 +1963,7 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
 
   .wps-dropdown {
     border: 1px solid #DADCE0;
-    padding: 4px 21px 4px 21px;
+    padding: 4px 16px;
     border-radius: 3px;
     position: relative;
     cursor: pointer;
@@ -2067,17 +2067,11 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
         overflow: hidden;
         width: 182px;
         white-space: nowrap;
+        line-height: 28px;
+
         @media(max-width: 1122px) {
           max-width: 100%;
           width: unset;
-        }
-
-        &:first-child.selected {
-          border-top: 0 !important;
-        }
-
-        &:last-child.selected {
-          border-bottom: 0 !important;
         }
 
         &:hover {
@@ -2085,17 +2079,16 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
         }
 
         &.selected {
-          background-color: #EEEFF1 !important;
-          border-top: 1px solid #DADCE0;
-          border-bottom: 1px solid #DADCE0;
-          color: #5100FD
+          background-color: #f2f2f2 !important;
+          color: #404BF2;
+          font-weight: 500;
         }
       }
     }
   }
 
   .js-date-range-picker-btn {
-    padding: 4px 21px !important;
+    padding: 4px 16px !important;
 
 
     &:after {
@@ -2193,6 +2186,9 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
   line-height: 24px;
   font-weight: 500;
   text-transform: capitalize;
+  &:hover{
+    border-bottom: 3px solid #0C0C0D!important;
+  }
 }
 
 .wps-tab-link a .wps-tooltip .wps-tooltip-icon.info {
@@ -2208,7 +2204,7 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
 
 .wps-tab-link.current a {
   color: #0C0C0D;
-  border-bottom: 2px solid #404bf2;
+  border-bottom: 3px solid #404bf2;
 }
 
 .wps-tab-link.wps-locked a {
@@ -2559,8 +2555,9 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
   }
 
   .daterangepicker .ranges li.active {
-    background-color: #EEEFF1 !important;
+    background-color: #f2f2f2 !important;
     color: #404BF2;
+    font-weight: 500;
   }
 }
 
@@ -2628,30 +2625,28 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
   }
 
   .select2-results__option {
-    border-top: 1px solid transparent !important;
-    border-bottom: 1px solid transparent !important;
     font-size: 13px !important;
     margin: 0;
     color: #56585a !important;
     word-break: break-word;
+    line-height: 28px;
+    padding: 5px 12px;
+    overflow: hidden;
+    max-width: 100%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 
     &:hover {
-      background-color: #eeeff1 !important;
+      background-color: #eff0f3 !important;
       color: #56585a !important;
     }
   }
 
-  .select2-results__option:last-child {
-    &.select2-results__option--highlighted {
-      border-bottom: 1px solid transparent !important;
-    }
-  }
 
   .select2-results__option--highlighted[aria-selected] {
-    background-color: #eeeff1 !important;
-    border-top: 1px solid #dadce0 !important;
-    border-bottom: 1px solid #dadce0 !important;
-    color: #5100fd !important;
+    background-color: #eff0f3 !important;
+    color: #56585a !important;
+    font-weight: 400;
   }
 
   .select2-search--dropdown .select2-search__field {
@@ -2659,7 +2654,9 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
   }
 
   .select2-results__option[aria-selected=true] {
-    background-color: #eeeff1 !important;
+    background-color: #f2f2f2 !important;
+    color: #404BF2 !important;
+    font-weight: 500;
   }
 }
 
