@@ -23,7 +23,7 @@ abstract class AbstractAudit
     static public function getState() 
     {
         $states = static::getStates();
-        $status = self::getStatus();
+        $status = static::getStatus();
 
         $currentState = isset($states[$status]) ? $states[$status] : null;
         return $currentState;
