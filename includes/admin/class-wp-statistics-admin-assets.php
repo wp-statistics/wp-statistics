@@ -133,7 +133,7 @@ class Admin_Assets
         //        }
 
         // Load Select2
-        if (Menus::in_page('visitors') || (Menus::in_page('pages') and isset($_GET['ID']))) {
+        if (Menus::in_page('visitors') || Menus::in_page('link_tracker') || Menus::in_page('download_tracker') || (Menus::in_page('pages') and isset($_GET['ID']))) {
             wp_enqueue_style(self::$prefix . '-select2', self::url('select2/select2.min.css'), array(), '4.0.9');
         }
 
@@ -176,7 +176,7 @@ class Admin_Assets
         //        }
 
         // Load Select2
-        if (Menus::in_page('visitors') || (Menus::in_page('pages') and isset($_GET['ID']))) {
+        if (Menus::in_page('visitors') || Menus::in_page('link_tracker') || Menus::in_page('download_tracker') || (Menus::in_page('pages') and isset($_GET['ID']))) {
             wp_enqueue_script(self::$prefix . '-select2', self::url('select2/select2.full.min.js'), array('jquery'), "4.1.0", ['in_footer' => true]);
         }
 
@@ -185,6 +185,11 @@ class Admin_Assets
             wp_enqueue_script('common');
             wp_enqueue_script('wp-lists');
             wp_enqueue_script('postbox');
+        }
+
+        if (Menus::in_page('settings')) {
+            wp_enqueue_style('wp-color-picker');
+            wp_enqueue_script('wp-color-picker');
         }
 
         // Load Admin Js

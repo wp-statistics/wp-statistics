@@ -14,7 +14,7 @@
         </form>
     <?php endif ?>
     <?php if (isset($HasDateRang)): ?>
-        <div class="wps-datepicker">
+        <div class="wps-head-filters">
             <?php include 'date.range.php'; ?>
         </div>
     <?php endif ?>

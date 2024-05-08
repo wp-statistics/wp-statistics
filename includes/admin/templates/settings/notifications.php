@@ -151,13 +151,7 @@
                     <?php } ?>
                 </select>
 
-                <p class="description"><?php esc_html_e('Choose how to receive reports, either via email or SMS.', 'wp-statistics'); ?></p>
-                <?php if (!is_plugin_active('wp-sms/wp-sms.php')) { ?>
-                    <p class="description">
-                        <span class="wps-note"><?php esc_html_e('Note:', 'wp-statistics'); ?></span>
-                        <?php echo sprintf(__('To send SMS text messages please install the %s plugin.', 'wp-statistics'), '<a href="http://wordpress.org/extend/plugins/wp-sms/" target="_blank">' . __('WP SMS', 'wp-statistics') . '</a>'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	 ?>
-                    </p>
-                <?php } ?>
+                <p class="description"><?php echo sprintf(__('Select your preferred method for receiving reports: via email or SMS (SMS notifications are sent using the %s Plugin to the Admin Mobile Number).', 'wp-statistics'), '<a href="http://wordpress.org/extend/plugins/wp-sms/" target="_blank">' . __('WP SMS', 'wp-statistics') . '</a>'); ?></p>
             </td>
         </tr>
 
@@ -173,9 +167,7 @@
                 <p class="description data">
                     <?php esc_html_e('Insert any of the following shortcode examples to show corresponding data:', 'wp-statistics'); ?>
                     <br><br>
-                    <?php esc_html_e('Current Online Users', 'wp-statistics'); ?>:
-                    <code>[wpstatistics stat=usersonline]</code><br>
-                    <?php esc_html_e('Today\'s Views', 'wp-statistics'); ?>:
+                    <?php esc_html_e('Today\'s Visitors', 'wp-statistics'); ?>:
                     <code>[wpstatistics stat=visitors time=today]</code><br>
                     <?php esc_html_e('Today\'s Views', 'wp-statistics'); ?>:
                     <code>[wpstatistics stat=visits time=today]</code><br>

@@ -22,7 +22,7 @@
         <div class="meta-box-sortables">
             <div class="postbox">
                 <div class="postbox-header postbox-toggle">
-                    <h2 class="hndle wps-d-inline-block"><span><?php echo printf(__('%s Summary', 'wp-statistics'), esc_html($title)); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	 ?></span></h2>
+                    <h2 class="hndle wps-d-inline-block"><span><?php echo sprintf(__('%s Summary', 'wp-statistics'), esc_html($title)); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	 ?></span></h2>
                     <button class="handlediv" type="button" aria-expanded="true">
                         <span class="screen-reader-text"><?php echo printf(__('Toggle panel: %s Summary', 'wp-statistics'), esc_html($title)); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	 ?></span>
                         <span class="toggle-indicator" aria-hidden="true"></span>

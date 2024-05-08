@@ -123,7 +123,7 @@ global $wp_version;
                 <td>
                     <input id="wps_addon_settings[advanced_reporting][email_top_hits_visits]" name="wps_addon_settings[advanced_reporting][email_top_hits_visits]" type="checkbox" value="1" <?php checked(WP_STATISTICS\Option::getByAddon('email_top_hits_visits', 'advanced_reporting')) ?>>
                     <label for="wps_addon_settings[advanced_reporting][email_top_hits_visits]"><?php esc_html_e('Active', 'wp-statistics'); ?></label>
-                    <p class="description"><?php esc_html_e('Choose to receive detailed charts on visits counts and behavior patterns.', 'wp-statistics'); ?></p>
+                    <p class="description"><?php esc_html_e('Choose to receive detailed charts on views counts and behavior patterns.', 'wp-statistics'); ?></p>
                 </td>
             </tr>
             </tbody>
