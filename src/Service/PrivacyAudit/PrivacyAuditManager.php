@@ -2,14 +2,18 @@
 
 namespace WP_Statistics\Service\PrivacyAudit;
 
+use WP_STATISTICS\Option;
+
 class PrivacyAuditManager
 {
 
     public function __construct()
     {
-        add_filter('wp_statistics_admin_menu_list', [$this, 'addMenuItem']);
-        add_filter('wp_statistics_ajax_list', [$this, 'registerAjaxCallbacks']);
-        add_action('admin_init', [$this, 'initPrivacyStatusOption']);
+        if (Option::get('privacy_audit')) {
+            add_filter('wp_statistics_admin_menu_list', [$this, 'addMenuItem']);
+            add_filter('wp_statistics_ajax_list', [$this, 'registerAjaxCallbacks']);
+            add_action('admin_init', [$this, 'initPrivacyStatusOption']);
+        }
     }
 
     /**

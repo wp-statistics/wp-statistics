@@ -38,6 +38,18 @@
 
         <tr valign="top">
             <th scope="row">
+                <label for="privacy_audit"><?php esc_html_e('Privacy Audit', 'wp-statistics'); ?></label>
+            </th>
+            
+            <td>
+                <input id="privacy_audit" type="checkbox" value="1" name="wps_privacy_audit" <?php checked(WP_STATISTICS\Option::get('privacy_audit')) ?>>
+                <label for="privacy_audit"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
+                <p class="description"><?php esc_html_e('Checking WP Statistics settings for privacy compliance.', 'wp-statistics'); ?></p>
+            </td>
+        </tr>
+
+        <tr valign="top">
+            <th scope="row">
                 <label for="store_ua"><?php esc_html_e('Store Entire User Agent String', 'wp-statistics'); ?></label>
             </th>
 

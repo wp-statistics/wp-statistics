@@ -165,6 +165,7 @@ class settings_page
         $wps_option_list = array(
             'wps_anonymize_ips',
             'wps_hash_ips',
+            'wps_privacy_audit',
             'wps_store_ua',
             'wps_do_not_track',
         );
