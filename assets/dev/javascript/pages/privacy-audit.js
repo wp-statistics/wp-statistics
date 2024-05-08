@@ -107,11 +107,13 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
 
         // Update elements that depend on action required audits 
         if (complianceData.summary.action_required > 0) {
+            privacyModeWrapper.find('.wps-privacy-mode__item input:checked').next().find('.wps-privacy-mode__content').text(wps_js._('non_privacy_compliant'));
             privacyModeWrapper.find('.wps-privacy-mode__item input:checked').parent().addClass('wps-privacy-mode__item--warning');
 
             complianceStatusWrapper.find('.wps-privacy-status__bar-need-work').css('display', 'block');
             complianceStatusWrapper.find('.wps-privacy-status__bar-need-work').css('width', `${100 - complianceData.percentage_ready}%`);
         } else {
+            privacyModeWrapper.find('.wps-privacy-mode__item input:checked').next().find('.wps-privacy-mode__content').text(wps_js._('privacy_compliant'));
             privacyModeWrapper.find('.wps-privacy-mode__item input:checked').parent().removeClass('wps-privacy-mode__item--warning');
         }
 
