@@ -106,7 +106,8 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
 
 
     function updateComplianceInfo(complianceData) {
-        const complianceStatusWrapper = jQuery('.wps-privacy-status');
+        const privacyModeWrapper        = jQuery('.wps-privacy-mode__items');
+        const complianceStatusWrapper   = jQuery('.wps-privacy-status');
         
         // Reset previous styles
         complianceStatusWrapper.removeClass('loading success warning');
@@ -120,13 +121,17 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         complianceStatusWrapper.find('.wps-privacy-status__passed-value').text(complianceData.summary.passed);
         complianceStatusWrapper.find('.wps-privacy-status__need-work-value').text(complianceData.summary.action_required);
 
-        // Update action required audits percentage bar
+        // Update elements that depend on action required audits 
         if (complianceData.summary.action_required > 0) {
+            privacyModeWrapper.find('.wps-privacy-mode__item input:checked').parent().addClass('wps-privacy-mode__item--warning');
+            
             complianceStatusWrapper.find('.wps-privacy-status__bar-need-work').css('display', 'block');
             complianceStatusWrapper.find('.wps-privacy-status__bar-need-work').css('width', `${100 - complianceData.percentage_ready}%`);
+        } else {
+            privacyModeWrapper.find('.wps-privacy-mode__item input:checked').parent().removeClass('wps-privacy-mode__item--warning');
         }
 
-        // Update passed audits percentage bar
+        // Update elements that depend on passed audit
         if (complianceData.summary.passed > 0) {
             complianceStatusWrapper.find('.wps-privacy-status__bar-passed').css('display', 'block');
             complianceStatusWrapper.find('.wps-privacy-status__bar-passed').css('width', `${complianceData.percentage_ready}%`);
