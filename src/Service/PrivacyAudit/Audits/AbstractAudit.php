@@ -16,14 +16,16 @@ abstract class AbstractAudit
     abstract static public function getStates();
         
     /**
-     * Returns current the current state details of the audit item based on its current status
+     * Returns the current state details of the audit item based on its current status
      * 
      * @return array
      */
     static public function getState() 
     {
         $states = static::getStates();
-        $status = static::getStatus();
+
+        // If audit related option is not enabled, set status to 'passed' otherwise get independent status of the audit
+        $status = self::isOptionEnabled() ? 'passed' : self::getStatus();
 
         $currentState = isset($states[$status]) ? $states[$status] : null;
         return $currentState;
