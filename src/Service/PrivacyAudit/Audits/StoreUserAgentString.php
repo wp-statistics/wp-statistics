@@ -1,9 +1,16 @@
 <?php 
 namespace WP_Statistics\Service\PrivacyAudit\Audits;
 
+use WP_Statistics\Service\PrivacyAudit\PrivacyStatusOption;
+
 class StoreUserAgentString extends AbstractAudit
 {
     public static $optionKey = 'store_ua';
+
+    public static function getStatus()
+    {
+        return !self::isOptionEnabled() ? 'passed' : PrivacyStatusOption::get(static::$optionKey, 'action_required');
+    }
 
     public static function getStates()
     {
@@ -23,8 +30,8 @@ class StoreUserAgentString extends AbstractAudit
                     'key'   => 'passed',
                     'value' => esc_html__('Passed', 'wp-statistics'),
                 ],
-                // If option is enabled in the setting, no action could be performed.
-                'action'     => self::isOptionEnabled() ? [] : ['key' => 'undo', 'value' => esc_html__('Undo', 'wp-statistics')]
+                // If option is disabled in the setting, no action could be performed.
+                'action'     => !self::isOptionEnabled() ? [] : ['key' => 'undo', 'value' => esc_html__('Undo', 'wp-statistics')]
             ],
             'action_required' => [
                 'status'        => 'warning',
