@@ -2,7 +2,6 @@
 namespace WP_Statistics\Service\PrivacyAudit\Audits;
 
 use WP_STATISTICS\DB;
-use WP_STATISTICS\IP;
 
 class UnhashedIpAddress extends AbstractAudit
 {
@@ -12,10 +11,12 @@ class UnhashedIpAddress extends AbstractAudit
     {
         global $wpdb;
 
+        $isOptionEnabled = HashIpAddress::isOptionEnabled();
+
         // Count unhashed IPs from the visitors table.
         $unhashedIPs = $wpdb->get_var('SELECT COUNT(DISTINCT ' . self::$columnName . ') FROM ' . DB::table('visitor') . ' WHERE ' . self::$columnName . ' NOT LIKE "#hash#%"');
 
-        return $unhashedIPs > 0 ? 'action_required' : 'passed';
+        return $isOptionEnabled && $unhashedIPs > 0 ? 'action_required' : 'passed';
     }
 
     public static function getStates()
