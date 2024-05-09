@@ -10,11 +10,13 @@ class StoredUserAgentStringData extends AbstractAudit
     public static function getStatus()
     {
         global $wpdb;
-        
+
+        $isOptionEnabled = StoreUserAgentString::isOptionEnabled();
+
         // Count previously stored user agent string data
         $userAgentData = $wpdb->get_var('SELECT COUNT(`' . self::$columnName . '`) FROM ' . DB::table('visitor') . ' WHERE `' . self::$columnName . '` IS NOT NULL');
 
-        return $userAgentData > 0 ? 'action_required' : 'passed';
+        return $isOptionEnabled && $userAgentData > 0 ? 'action_required' : 'passed';
     }
 
     public static function getStates()
