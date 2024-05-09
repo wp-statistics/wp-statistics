@@ -34,6 +34,7 @@
     font-family: 'Roboto', arial;
     font-size: 15px;
     line-height: 1em;
+    overflow: hidden;
 }
 
 .daterangepicker:before, .daterangepicker:after {
@@ -251,6 +252,7 @@
     position: relative;
     z-index: 1;
 }
+
 .daterangepicker td.active:after, .daterangepicker td.active:hover:after {
     content: '';
     width: 85%;
@@ -264,6 +266,7 @@
     transform: translate(-50%, -50%);
     background: var(--color-drp-fg-accent)
 }
+
 .daterangepicker th.month {
     width: auto;
 }
@@ -470,20 +473,36 @@
     text-align: left;
     padding: 5px 12px;
     font-weight: 400;
-    font-size: 13px;
-    line-height: 28px;
+    font-size: 12px;
+    line-height: 24px;
     color: #5F6368;
     transition: 0.15s;
     cursor: pointer;
     margin: 0;
 }
 
+.daterangepicker .ranges ul li:first-child {
+    margin-top: 4px;
+}
+
 .daterangepicker .ranges ul li:last-child {
-     border-top: 1px solid rgba(218, 220, 224, 0.45);
- }
+    margin-bottom: 4px;
+    margin-top: 8px;
+    position: relative;
+}
+
+.daterangepicker .ranges ul li:last-child:before{
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background:rgba(218, 220, 224, 0.45) ;
+    top: -4px;
+}
 
 .daterangepicker .ranges ul li:not(.active):hover {
-    background-color: #eff0f3;
+    background-color: #F8F8F8;
 }
 
 .daterangepicker.show-ranges.ltr .drp-calendar.left {

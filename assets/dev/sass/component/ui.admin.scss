@@ -2102,15 +2102,22 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
       a {
         display: block;
         padding: 5px 12px;
-        font-size: 13px;
+        font-size: 12px;
         font-weight: 400;
-        line-height: 24px;
         color: #56585A;
         text-overflow: ellipsis;
         overflow: hidden;
         width: 182px;
         white-space: nowrap;
-        line-height: 28px;
+        line-height: 24px;
+
+        &:first-child {
+          margin-top: 4px;
+        }
+
+        &:last-child {
+          margin-bottom: 4px;
+        }
 
         @media(max-width: 1122px) {
           max-width: 100%;
@@ -2118,7 +2125,7 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
         }
 
         &:hover {
-          background-color: #eff0f3 !important;
+          background-color: #F8F8F8 !important;
         }
 
         &.selected {
@@ -2606,6 +2613,11 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
 }
 
 .wps-filter-page {
+
+  .wps-dropdown.active{
+    background: #eeeff1;
+  }
+
   .select2-container {
     min-width: 32px !important;
   }
@@ -2675,26 +2687,26 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
   }
 
   .select2-results__option {
-    font-size: 13px !important;
+    font-size: 12px !important;
     margin: 0;
     color: #56585a !important;
     word-break: break-word;
-    line-height: 28px;
+    line-height: 24px;
     padding: 5px 12px;
     overflow: hidden;
     max-width: 100%;
     text-overflow: ellipsis;
     white-space: nowrap;
 
-    &:hover {
-      background-color: #eff0f3 !important;
-      color: #56585a !important;
+    &:last-child {
+      margin-bottom: 4px;
     }
   }
 
 
-  .select2-results__option--highlighted, .select2-results__option--highlighted.select2-results__option[aria-selected="true"] {
-    background-color: #eff0f3 !important;
+  .select2-results__option--highlighted:not(.select2-results__option--selected),
+  .select2-results__option--highlighted.select2-results__option[aria-selected="true"]:not(.select2-results__option--selected) {
+    background-color: #F8F8F8 !important;
     color: #56585a !important;
     font-weight: 400;
   }
