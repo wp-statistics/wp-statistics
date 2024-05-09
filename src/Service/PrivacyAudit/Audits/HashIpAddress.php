@@ -22,8 +22,8 @@ class HashIpAddress extends AbstractAudit
                     'key'   => 'passed',
                     'value' => esc_html__('Passed', 'wp-statistics'),
                 ],
-                // If option is enabled in the setting, no action could be performed.
-                'action'     => self::isOptionEnabled() ? [] : ['key' => 'undo', 'value' => esc_html__('Undo', 'wp-statistics')]
+                // If option is passed, no action could be performed.
+                'action'     => self::isOptionPassed() ? [] : ['key' => 'undo', 'value' => esc_html__('Undo', 'wp-statistics')]
             ],
             'action_required' => [
                 'status'        => 'warning',

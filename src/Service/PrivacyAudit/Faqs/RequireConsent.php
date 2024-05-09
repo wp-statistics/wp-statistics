@@ -11,10 +11,10 @@ class RequireConsent extends AbstractFaq
     static public function getStatus()
     {
         $requirements = [
-            !RecordUserPageVisits::isOptionEnabled(),
-            HashIpAddress::isOptionEnabled(),
-            AnonymizeIpAddress::isOptionEnabled(),
-            !StoreUserAgentString::isOptionEnabled()
+            RecordUserPageVisits::isOptionPassed(),
+            HashIpAddress::isOptionPassed(),
+            AnonymizeIpAddress::isOptionPassed(),
+            StoreUserAgentString::isOptionPassed()
         ];
 
         if (in_array(false, $requirements)) {
