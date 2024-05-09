@@ -11,10 +11,10 @@ class RequireMention extends AbstractFaq
     static public function getStatus()
     {
         $requirements = [
-            RecordUserPageVisits::isOptionEnabled(),
+            !RecordUserPageVisits::isOptionEnabled(),
             HashIpAddress::isOptionEnabled(),
             AnonymizeIpAddress::isOptionEnabled(),
-            StoreUserAgentString::isOptionEnabled()
+            !StoreUserAgentString::isOptionEnabled()
         ];
 
         if (in_array(false, $requirements)) {
