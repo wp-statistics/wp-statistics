@@ -10,11 +10,13 @@ class StoredUserIdData extends AbstractAudit
     public static function getStatus()
     {
         global $wpdb;
+
+        $isOptionEnabled = RecordUserPageVisits::isOptionEnabled();
         
         // Count previously stored user id data
         $userIDs = $wpdb->get_var('SELECT COUNT(`' . self::$columnName . '`) FROM ' . DB::table('visitor') . ' WHERE `' . self::$columnName . '` != 0');
 
-        return $userIDs > 0 ? 'action_required' : 'passed';
+        return !$isOptionEnabled && $userIDs > 0 ? 'action_required' : 'passed';
     }
 
     public static function getStates()
