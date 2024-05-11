@@ -82,11 +82,11 @@ abstract class AbstractAudit
     }
 
     /**
-     * Update audit item status to 'passed' when resolve button is clicked.
+     * Update audit item status to 'resolved' when resolve button is clicked.
      */
     public static function resolve()
     {
-        PrivacyStatusOption::update(static::$optionKey, 'passed');
+        PrivacyStatusOption::update(static::$optionKey, 'resolved');
     }
 
     /**
