@@ -1,8 +1,6 @@
 <?php 
 namespace WP_Statistics\Service\PrivacyAudit\Audits;
 
-use WP_Statistics\Service\PrivacyAudit\PrivacyStatusOption;
-
 class RecordUserPageVisits extends AbstractAudit
 {
     public static $optionKey = 'visitors_log';
