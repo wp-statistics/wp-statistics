@@ -6,9 +6,7 @@ abstract class BaseAudit
 {
 
     /**
-     * Get the privacy status of the audit item stored in `wp_statistics_privacy_status` option.
-     * If audit related option is passed, return 'passed' regardless of the independent status of the audit item.
-     * 
+     * Get the privacy status of the audit item. This status will be used to get the current state of the audit.
      * @return string
      */
     abstract public static function getStatus();
