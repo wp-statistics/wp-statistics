@@ -103,6 +103,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
 
     function updateComplianceInfo(complianceData) {
         const privacyModeWrapper        = jQuery('.wps-privacy-mode__items');
+        const headerPrivacyIndicator    = jQuery('.wps-adminHeader .wps-adminHeader__side .privacy');
         const complianceStatusWrapper   = jQuery('.wps-privacy-status');
         
         // Reset previous styles
@@ -126,9 +127,13 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
 
             complianceStatusWrapper.find('.wps-privacy-status__bar-need-work').css('display', 'block');
             complianceStatusWrapper.find('.wps-privacy-status__bar-need-work').css('width', `${100 - complianceData.percentage_ready}%`);
+
+            headerPrivacyIndicator.addClass('warning');
         } else {
             privacyModeWrapper.find('.wps-privacy-mode__item input:checked').next().find('.wps-privacy-mode__content').text(wps_js._('privacy_compliant'));
             privacyModeWrapper.find('.wps-privacy-mode__item input:checked').parent().removeClass('wps-privacy-mode__item--warning');
+
+            headerPrivacyIndicator.removeClass('warning');
         }
 
         // Update elements that depend on passed audit
