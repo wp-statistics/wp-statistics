@@ -52,7 +52,7 @@ class RecordUserPageVisits extends AbstractAudit
                 ],
             ],
             'resolved' => [
-                'status'    => 'success',
+                'status'        => 'success',
                 'title'         => $unpassedInfo['title'],
                 'notes'         => $unpassedInfo['notes'],
                 'compliance'    => [
