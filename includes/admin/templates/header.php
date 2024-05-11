@@ -1,7 +1,10 @@
 <?php 
 use WP_STATISTICS\Admin_Template;
+use WP_STATISTICS\Menus;
 use WP_STATISTICS\UserOnline;
 use WP_STATISTICS\Option;
+use WP_Statistics\Service\PrivacyAudit\PrivacyAuditCheck;
+
 ?>
 
 <div class="wps-adminHeader">
@@ -21,7 +24,7 @@ use WP_STATISTICS\Option;
         </a>
 
         <?php if (Option::get('privacy_audit')) : ?>
-            <a href="<?php echo esc_url(admin_url('admin.php?page=wps_privacy-audit_page')); ?>" title="<?php esc_html_e('Privacy Audit', 'wp-statistics'); ?>" class="privacy"></a>
+            <a href="<?php echo esc_url(admin_url('admin.php?page=wps_privacy-audit_page')); ?>" title="<?php esc_html_e('Privacy Audit', 'wp-statistics'); ?>" class="privacy <?php echo PrivacyAuditCheck::complianceStatus()['percentage_ready'] != 100 ? 'warning' : ''; ?> <?php echo Menus::in_page('privacy-audit') ? 'active' : ''; ?>"></a>
         <?php endif; ?>
 
         <a href="<?php echo esc_url(admin_url('admin.php?page=wps_optimization_page')); ?>" title="<?php esc_html_e('Optimization', 'wp-statistics'); ?>" class="optimization <?php if (isset($_GET['page']) && $_GET['page'] === 'wps_optimization_page') {
