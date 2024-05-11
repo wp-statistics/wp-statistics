@@ -11,33 +11,63 @@ class RecordUserPageVisits extends AbstractAudit
         return !self::isOptionEnabled();
     }
 
+    public static function getPassedStateInfo()
+    {
+        return [
+            'title' => esc_html__('The “Record User Page Visits” feature is currently disabled on your website.', 'wp-statistics'),
+            'notes' => __('<p> This status indicates that individual user page visits and WordPress user IDs are not being tracked. Your privacy settings are configured to prioritize user privacy in alignment with applicable laws and regulations.</p><p>Why is this important?</p><p>Keeping this feature disabled ensures that your website minimally impacts user privacy, aligning with best practices for data protection and compliance with privacy laws such as GDPR and CCPA. If your operational or analytical needs change, please review our Guide to <a target="_blank" href="https://wp-statistics.com/resources/avoiding-pii-data-collection/?utm_source=wp-statistics&utm_medium=link&utm_campaign=privacy">Avoiding PII Data Collection</a> to ensure compliance and user transparency before enabling this feature.</p>', 'wp-statistics')
+        ];
+    }
+
+    public static function getUnpassedStateInfo()
+    {
+        return [
+            'title' => esc_html__('The “Record User Page Visits” feature is currently enabled on your website.', 'wp-statistics'),
+            'notes' => __('<p>This status means that individual user page visits and WordPress user IDs are being actively tracked. While this functionality provides valuable insights into user behavior, it’s important to handle the collected data responsibly.</p><p>Why is this important?</p>
+            <p>Enabling this feature necessitates a careful approach to privacy and data protection. To maintain compliance with privacy laws such as GDPR and CCPA, and to uphold user trust, please ensure the following:</p>
+            <ol>
+                <li><b>Transparency:</b> Your website’s privacy policy should clearly describe the data collection practices, including the specific types of data collected and their intended use.</li>
+                <li><b>Informed Consent:</b> Adequate measures are in place to inform users about the data collection and to obtain their consent where necessary. This may include consent banners, notifications, or other user interfaces that clearly communicate this information.</li>
+                <li><b>Review and Action:</b> Regularly review the necessity of keeping this feature enabled. If the feature is no longer needed, or if you wish to enhance user privacy, consider disabling it. Refer to our guide on Adjusting Your Privacy Settings for detailed instructions on managing this feature.</li>
+            </ol>
+            <div class="wps-privacy-list__content--note wps-privacy-list__content--warning">
+                <b>To disable this feature,</b> navigate to <b>Settings -> Basic Tracking -> Record User Page Visits</b> and uncheck <b>"Track User Activity"</b>.
+            </div>', 'wp-statistics')
+        ];
+    }
+
     public static function getStates()
     {
+        $passedInfo     = self::getPassedStateInfo();
+        $unpassedInfo   = self::getUnpassedStateInfo();
+
         return [
             'passed' => [
                 'status'     => 'success',
-                'title'      => esc_html__('The “Record User Page Visits” feature is currently disabled on your website.', 'wp-statistics'),
-                'notes'      => __('<p> This status indicates that individual user page visits and WordPress user IDs are not being tracked. Your privacy settings are configured to prioritize user privacy in alignment with applicable laws and regulations.</p><p>Why is this important?</p><p>Keeping this feature disabled ensures that your website minimally impacts user privacy, aligning with best practices for data protection and compliance with privacy laws such as GDPR and CCPA. If your operational or analytical needs change, please review our Guide to <a target="_blank" href="https://wp-statistics.com/resources/avoiding-pii-data-collection/?utm_source=wp-statistics&utm_medium=link&utm_campaign=privacy">Avoiding PII Data Collection</a> to ensure compliance and user transparency before enabling this feature.</p>', 'wp-statistics'),
+                'title'      => $passedInfo['title'],
+                'notes'      => $passedInfo['notes'],
                 'compliance' => [
                     'key'   => 'passed',
                     'value' => esc_html__('Passed', 'wp-statistics'),
                 ],
-                // If option is passed, no action could be performed.
-                'action'     => self::isOptionPassed() ? [] : ['key' => 'undo', 'value' => esc_html__('Undo', 'wp-statistics')]
+            ],
+            'resolved' => [
+                'status'    => 'success',
+                'title'         => $unpassedInfo['title'],
+                'notes'         => $unpassedInfo['notes'],
+                'compliance'    => [
+                    'key'   =>'resolved',
+                    'value' => esc_html__('Resolved', 'wp-statistics'),
+                ],
+                'action'    => [
+                    'key' => 'undo', 
+                    'value' => esc_html__('Undo', 'wp-statistics')
+                ]
             ],
             'action_required' => [
                 'status'        => 'warning',
-                'title'         => esc_html__('The “Record User Page Visits” feature is currently enabled on your website.', 'wp-statistics'),
-                'notes'         => __('<p>This status means that individual user page visits and WordPress user IDs are being actively tracked. While this functionality provides valuable insights into user behavior, it’s important to handle the collected data responsibly.</p><p>Why is this important?</p>
-                    <p>Enabling this feature necessitates a careful approach to privacy and data protection. To maintain compliance with privacy laws such as GDPR and CCPA, and to uphold user trust, please ensure the following:</p>
-                    <ol>
-                        <li><b>Transparency:</b> Your website’s privacy policy should clearly describe the data collection practices, including the specific types of data collected and their intended use.</li>
-                        <li><b>Informed Consent:</b> Adequate measures are in place to inform users about the data collection and to obtain their consent where necessary. This may include consent banners, notifications, or other user interfaces that clearly communicate this information.</li>
-                        <li><b>Review and Action:</b> Regularly review the necessity of keeping this feature enabled. If the feature is no longer needed, or if you wish to enhance user privacy, consider disabling it. Refer to our guide on Adjusting Your Privacy Settings for detailed instructions on managing this feature.</li>
-                    </ol>
-                    <div class="wps-privacy-list__content--note wps-privacy-list__content--warning">
-                        <b>To disable this feature,</b> navigate to <b>Settings -> Basic Tracking -> Record User Page Visits</b> and uncheck <b>"Track User Activity"</b>.
-                    </div>', 'wp-statistics'),
+                'title'         => $unpassedInfo['title'],
+                'notes'         => $unpassedInfo['notes'],
                 'compliance'    => [
                     'key'   => 'action_required',
                     'value' => esc_html__('Action Required', 'wp-statistics'),
@@ -45,7 +75,7 @@ class RecordUserPageVisits extends AbstractAudit
                 'action'        => [
                     'key'   => 'resolve',
                     'value' => esc_html__('Resolve', 'wp-statistics'),
-                ],
+                ]
             ]
         ];
     }
