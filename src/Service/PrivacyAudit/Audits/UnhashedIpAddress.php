@@ -27,7 +27,7 @@ class UnhashedIpAddress extends BaseAudit
                 'status'        => 'warning',
                 'title'         => esc_html__('Unhashed IP Addresses Detected', 'wp-statistics'),
                 'notes'         => __('<p>Our system has identified that raw IP addresses are stored in your database, likely due to the “Hash IP Addresses” feature being disabled in the past. To enhance data protection and align with privacy best practices, converting these IP addresses to a hashed format is strongly recommended.</p>
-                    <p>How to Convert IP Addresses to Hash</p>
+                    <p><b>How to Convert IP Addresses to Hash?</b></p>
                     <ol>
                         <li>Go to the <b>Optimization</b> section.</li>
                         <li>Select <b>Plugin Maintenance</b>.</li>

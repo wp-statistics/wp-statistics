@@ -27,7 +27,7 @@ class StoredUserIdData extends BaseAudit
                 'status'        => 'warning',
                 'title'         => esc_html__('Previous Recording of User IDs Detected', 'wp-statistics'),
                 'notes'         => __('<p>Our system has found that User IDs have previously been recorded in your database, which may have occurred while the “Record User Page Visits” feature was active. To ensure the privacy and security of your users, we recommend removing these User IDs from your database.</p>
-                    <p>How to Remove User IDs</p>
+                    <p><b>How to Remove User IDs?</b></p>
                     <ol>
                         <li>Go to the <b>Optimization</b> tab in the WP Statistics settings.</li>
                         <li>Click on <b>Data Cleanup</b>.</li>

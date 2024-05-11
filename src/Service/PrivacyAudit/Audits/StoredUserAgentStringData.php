@@ -27,7 +27,7 @@ class StoredUserAgentStringData extends BaseAudit
                 'status'        => 'warning',
                 'title'         => esc_html__('Previous Use of “Store Entire User Agent String” Detected', 'wp-statistics'),
                 'notes'         => __('<p>Our system has detected remnants of full user agent strings in your database, indicating that the “Store Entire User Agent String” feature was enabled at some point in the past. To align with best practices for user privacy, we recommend clearing this data if it is no longer necessary for diagnostic purposes.</p>
-                    <p>How to Clear User Agent String Data</p>
+                    <p><b>How to Clear User Agent String Data?</b></p>
                     <ol>
                         <li>Navigate to the <b>Optimization</b> tab.</li>
                         <li>Select <b>Data Cleanup</b>.</li>
