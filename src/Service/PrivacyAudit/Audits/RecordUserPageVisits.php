@@ -1,7 +1,9 @@
 <?php 
 namespace WP_Statistics\Service\PrivacyAudit\Audits;
 
-class RecordUserPageVisits extends AbstractAudit
+use WP_Statistics\Service\PrivacyAudit\Audits\Abstracts\ResolvableAudit;
+
+class RecordUserPageVisits extends ResolvableAudit
 {
     public static $optionKey = 'visitors_log';
 
@@ -33,50 +35,6 @@ class RecordUserPageVisits extends AbstractAudit
             <div class="wps-privacy-list__content--note wps-privacy-list__content--warning">
                 <b>To disable this feature,</b> navigate to <b>Settings -> Basic Tracking -> Record User Page Visits</b> and uncheck <b>"Track User Activity"</b>.
             </div>', 'wp-statistics')
-        ];
-    }
-
-    public static function getStates()
-    {
-        $passedInfo     = self::getPassedStateInfo();
-        $unpassedInfo   = self::getUnpassedStateInfo();
-
-        return [
-            'passed' => [
-                'status'     => 'success',
-                'title'      => $passedInfo['title'],
-                'notes'      => $passedInfo['notes'],
-                'compliance' => [
-                    'key'   => 'passed',
-                    'value' => esc_html__('Passed', 'wp-statistics'),
-                ],
-            ],
-            'resolved' => [
-                'status'        => 'success',
-                'title'         => $unpassedInfo['title'],
-                'notes'         => $unpassedInfo['notes'],
-                'compliance'    => [
-                    'key'   =>'resolved',
-                    'value' => esc_html__('Resolved', 'wp-statistics'),
-                ],
-                'action'    => [
-                    'key' => 'undo', 
-                    'value' => esc_html__('Undo', 'wp-statistics')
-                ]
-            ],
-            'action_required' => [
-                'status'        => 'warning',
-                'title'         => $unpassedInfo['title'],
-                'notes'         => $unpassedInfo['notes'],
-                'compliance'    => [
-                    'key'   => 'action_required',
-                    'value' => esc_html__('Action Required', 'wp-statistics'),
-                ],
-                'action'        => [
-                    'key'   => 'resolve',
-                    'value' => esc_html__('Resolve', 'wp-statistics'),
-                ]
-            ]
         ];
     }
 }

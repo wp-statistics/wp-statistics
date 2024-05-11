@@ -1,7 +1,9 @@
 <?php 
 namespace WP_Statistics\Service\PrivacyAudit\Audits;
 
-class StoreUserAgentString extends AbstractAudit
+use WP_Statistics\Service\PrivacyAudit\Audits\Abstracts\ResolvableAudit;
+
+class StoreUserAgentString extends ResolvableAudit
 {
     public static $optionKey = 'store_ua';
 
@@ -43,47 +45,4 @@ class StoreUserAgentString extends AbstractAudit
         ];
     }
 
-    public static function getStates()
-    {
-        $passedInfo     = self::getPassedStateInfo();
-        $unpassedInfo   = self::getUnpassedStateInfo();
-
-        return [
-            'passed' => [
-                'status'     => 'success',
-                'title'      => $passedInfo['title'],
-                'notes'      => $passedInfo['notes'],
-                'compliance' => [
-                    'key'   => 'passed',
-                    'value' => esc_html__('Passed', 'wp-statistics'),
-                ],
-            ],
-            'resolved' => [
-                'status'        => 'success',
-                'title'         => $unpassedInfo['title'],
-                'notes'         => $unpassedInfo['notes'],
-                'compliance'    => [
-                    'key'   =>'resolved',
-                    'value' => esc_html__('Resolved', 'wp-statistics'),
-                ],
-                'action'    => [
-                    'key' => 'undo', 
-                    'value' => esc_html__('Undo', 'wp-statistics')
-                ]
-            ],
-            'action_required' => [
-                'status'        => 'warning',
-                'title'         => $unpassedInfo['title'],
-                'notes'         => $unpassedInfo['notes'],
-                'compliance'    => [
-                    'key'   => 'action_required',
-                    'value' => esc_html__('Action Required', 'wp-statistics'),
-                ],
-                'action'        => [
-                    'key'   => 'resolve',
-                    'value' => esc_html__('Resolve', 'wp-statistics'),
-                ]
-            ]
-        ];
-    }
 }

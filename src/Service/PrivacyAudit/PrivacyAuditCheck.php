@@ -2,7 +2,8 @@
 
 namespace WP_Statistics\Service\PrivacyAudit;
 
-use WP_Statistics\Service\PrivacyAudit\Audits\AbstractAudit;
+use WP_Statistics\Service\PrivacyAudit\Audits\Abstracts\BaseAudit;
+use WP_Statistics\Service\PrivacyAudit\Audits\Abstracts\ResolvableAudit;
 use WP_Statistics\Service\PrivacyAudit\Audits\AnonymizeIpAddress;
 use WP_Statistics\Service\PrivacyAudit\Audits\RecordUserPageVisits;
 use WP_Statistics\Service\PrivacyAudit\Audits\HashIpAddress;
@@ -40,7 +41,7 @@ class PrivacyAuditCheck
     /**
      * Get list of all privacy audit items
      * 
-     * @return AbstractAudit[] $audits
+     * @return BaseAudit[] $audits
      */
     public static function getAudits()
     {
@@ -62,7 +63,7 @@ class PrivacyAuditCheck
      * Find privacy audit class by name
      * 
      * @param string $auditName
-     * @return AbstractAudit $auditClass
+     * @return BaseAudit $auditClass
      * @throws InvalidArgumentException if audit class is not found.
      */
     public static function getAudit($auditName)
@@ -154,8 +155,8 @@ class PrivacyAuditCheck
         $passed         = 0;
 
         foreach ($audits as $audit) {
-            // If audit doesn't require taking any action, skip showing it in the status
-            if (!$audit::hasAction()) continue;
+            // If audit is not resolvable, skip showing it in the status
+            if (!is_subclass_of($audit, ResolvableAudit::class)) continue;
 
             $rulesMapped++;
             in_array($audit::getStatus(), ['passed', 'resolved'])  ? $passed++ : $actionRequired++;

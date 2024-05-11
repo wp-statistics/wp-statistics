@@ -2,6 +2,8 @@
 
 namespace WP_Statistics\Service\PrivacyAudit;
 
+use WP_Statistics\Service\PrivacyAudit\Audits\Abstracts\ResolvableAudit;
+
 class PrivacyStatusOption
 {
     CONST KEY = 'wp_statistics_privacy_status';
@@ -11,9 +13,10 @@ class PrivacyStatusOption
         $defaultOptions = [];
         $audits         = PrivacyAuditCheck::getAudits();
 
+        /** @var ResolvableAudit $audit */
         foreach ($audits as $audit) {
-            // If audit has no action, no need to store the status in database
-            if (!$audit::hasAction()) continue;
+            // Only resolvable audits state needs to be stored in options
+            if (!is_subclass_of($audit, ResolvableAudit::class)) continue;
 
             // By default, all audits should be action_required
             $defaultOptions[$audit::$optionKey] = 'action_required';

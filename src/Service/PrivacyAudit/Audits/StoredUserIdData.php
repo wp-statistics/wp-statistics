@@ -2,8 +2,9 @@
 namespace WP_Statistics\Service\PrivacyAudit\Audits;
 
 use WP_STATISTICS\DB;
+use WP_Statistics\Service\PrivacyAudit\Audits\Abstracts\BaseAudit;
 
-class StoredUserIdData extends AbstractAudit
+class StoredUserIdData extends BaseAudit
 {
     private static $columnName = 'user_id';
 
