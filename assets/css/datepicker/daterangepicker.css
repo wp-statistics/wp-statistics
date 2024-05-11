@@ -386,6 +386,11 @@
     background-color: var(--color-drp-fg-primary);
     color: var(--color-drp-bg);
 }
+@media(min-width: 1122px){
+    body:not(.rtl) .daterangepicker.opensright{
+        right: 32px!important;
+    }
+}
 
 /*  Larger Screen Styling */
 @media (min-width: 564px) {
