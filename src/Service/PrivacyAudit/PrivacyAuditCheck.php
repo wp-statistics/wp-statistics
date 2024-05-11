@@ -158,7 +158,7 @@ class PrivacyAuditCheck
             if (!$audit::hasAction()) continue;
 
             $rulesMapped++;
-            $audit::getStatus() == 'passed' ? $passed++ : $actionRequired++;
+            in_array($audit::getStatus(), ['passed', 'resolved'])  ? $passed++ : $actionRequired++;
         }
 
         return [
