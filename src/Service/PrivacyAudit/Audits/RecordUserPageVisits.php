@@ -1,4 +1,5 @@
-<?php 
+<?php
+
 namespace WP_Statistics\Service\PrivacyAudit\Audits;
 
 use WP_Statistics\Service\PrivacyAudit\Audits\Abstracts\ResolvableAudit;
@@ -17,7 +18,10 @@ class RecordUserPageVisits extends ResolvableAudit
     {
         return [
             'title' => esc_html__('The “Record User Page Visits” feature is currently disabled on your website.', 'wp-statistics'),
-            'notes' => __('<p> This status indicates that individual user page visits and WordPress user IDs are not being tracked. Your privacy settings are configured to prioritize user privacy in alignment with applicable laws and regulations.</p><p><b>Why is this important?</b></p><p>Keeping this feature disabled ensures that your website minimally impacts user privacy, aligning with best practices for data protection and compliance with privacy laws such as GDPR and CCPA. If your operational or analytical needs change, please review our Guide to <a target="_blank" href="https://wp-statistics.com/resources/avoiding-pii-data-collection/?utm_source=wp-statistics&utm_medium=link&utm_campaign=privacy">Avoiding PII Data Collection</a> to ensure compliance and user transparency before enabling this feature.</p>', 'wp-statistics')
+            'notes' => __('<p> This status indicates that individual user page visits and WordPress user IDs are not being tracked. Your privacy settings are configured to prioritize user privacy in alignment with applicable laws and regulations.</p><p><b>Why is this important?</b></p><p>Keeping this feature disabled ensures that your website minimally impacts user privacy, aligning with best practices for data protection and compliance with privacy laws such as GDPR and CCPA. If your operational or analytical needs change, please review our Guide to <a target="_blank" href="https://wp-statistics.com/resources/avoiding-pii-data-collection/?utm_source=wp-statistics&utm_medium=link&utm_campaign=privacy">Avoiding PII Data Collection</a> to ensure compliance and user transparency before enabling this feature.</p>
+                            <div class="wps-privacy-list__content--note">
+                                <b>To disable this feature,</b> navigate to <b>Settings -> Basic Tracking -> Record User Page Visits</b> and uncheck <b>"Track User Activity"</b>.
+                            </div>', 'wp-statistics')
         ];
     }
 
@@ -32,7 +36,7 @@ class RecordUserPageVisits extends ResolvableAudit
                 <li><b>Informed Consent:</b> Adequate measures are in place to inform users about the data collection and to obtain their consent where necessary. This may include consent banners, notifications, or other user interfaces that clearly communicate this information.</li>
                 <li><b>Review and Action:</b> Regularly review the necessity of keeping this feature enabled. If the feature is no longer needed, or if you wish to enhance user privacy, consider disabling it. Refer to our guide on Adjusting Your Privacy Settings for detailed instructions on managing this feature.</li>
             </ol>
-            <div class="wps-privacy-list__content--note wps-privacy-list__content--warning">
+            <div class="wps-privacy-list__content--note">
                 <b>To disable this feature,</b> navigate to <b>Settings -> Basic Tracking -> Record User Page Visits</b> and uncheck <b>"Track User Activity"</b>.
             </div>', 'wp-statistics')
         ];

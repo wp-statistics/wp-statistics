@@ -55,7 +55,7 @@
         animation: skeleton-animate-wave 1.75s linear infinite;
       }
 
-      & > label , & > input{
+      & > label, & > input {
         display: none;
       }
     }
@@ -529,10 +529,21 @@
 
       &--success {
         background: #0E94440D;
+
+        .wps-privacy-list__content--note {
+          background: #0E94441A;
+          border-left: 2px solid #0E9444;
+          text-decoration: line-through;
+        }
       }
 
       &--warning {
         background: #FF8A000D;
+
+        .wps-privacy-list__content--note {
+          background: #FFECD5;
+          border-left: 2px solid #FF8A00;
+        }
       }
 
       .wps-privacy-list__title {
@@ -704,15 +715,7 @@
             font-weight: 600;
           }
 
-          &.wps-privacy-list__content--warning {
-            background: #FFECD5;
-            border-left: 2px solid #FF8A00;
 
-            .rtl & {
-              border-left: 0;
-              border-right: 2px solid #FF8A00;
-            }
-          }
         }
 
         p {
@@ -733,6 +736,22 @@
           flex-direction: column;
         }
       }
+    }
+  }
+}
+
+.rtl .wps-privacy-list__item {
+  &--success {
+    .wps-privacy-list__content--note {
+      border-left: 0!important;
+      border-right: 2px solid #0E9444;
+    }
+  }
+
+  &--warning {
+    .wps-privacy-list__content--note {
+      border-left: 0!important;
+      border-right: 2px solid #FF8A00;
     }
   }
 }
