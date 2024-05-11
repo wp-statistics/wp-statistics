@@ -17,7 +17,7 @@ class StoreUserAgentString extends ResolvableAudit
     {
         return [
             'title' => esc_html__('The “Store Entire User Agent String” feature is currently disabled on your website.', 'wp-statistics'),
-            'notes' => __('<p>This default setting ensures that extensive details about your visitors’ browsing environments are not recorded, aligning with best practices for user privacy and data minimization.</p><p>Why This Matters</p>
+            'notes' => __('<p>This default setting ensures that extensive details about your visitors’ browsing environments are not recorded, aligning with best practices for user privacy and data minimization.</p><p><b>Why This Matters?</b></p>
             <ol>
                 <li><b>Privacy Preservation: </b> Disabling this feature helps prevent the collection of data that could potentially identify individuals, fostering a safer and more private browsing experience.</li>
                 <li><b>Compliance with Privacy Laws: </b> Keeping this setting disabled by default supports compliance with stringent privacy regulations by avoiding the unnecessary collection of detailed user information.
@@ -33,7 +33,7 @@ class StoreUserAgentString extends ResolvableAudit
         return [
             'title' => esc_html__('The “Store Entire User Agent String” feature is currently enabled on your website.', 'wp-statistics'),
             'notes' => __('<p>This setting allows for the collection of complete user agent strings from your visitors, offering detailed insights into their browsing devices and environments. While invaluable for debugging and optimizing user experience, this feature gathers detailed user information, warranting careful use and consideration for privacy.</p>
-            <p>Privacy Considerations</p>
+            <p><b>Privacy Considerations:</b></p>
             <ol>
                 <li><b>Temporary Activation:</b> Intended for short-term diagnostic purposes, it’s recommended to disable this feature once specific issues have been resolved to minimize the collection of extensive user data.</li>
                 <li><b>Privacy Compliance:</b> The activation of this feature necessitates clear disclosure within your privacy policy about the collection of full user agent strings and their purpose.
