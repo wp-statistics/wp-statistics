@@ -9,14 +9,14 @@ abstract class ResolvableAudit extends BaseAudit
     static public $optionKey;
 
     /**
-     * Returns the content of audit in when it is not in passed state.
+     * Returns the content of audit in passed state.
      * 
      * @return array
      */
     abstract static public function getPassedStateInfo();
 
     /**
-     * Returns the content of audit in passed state.
+     * Returns the content of audit in when it is not in passed state.
      * 
      * @return array
      */
