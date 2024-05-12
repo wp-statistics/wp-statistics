@@ -44,7 +44,7 @@ class PrivacyAuditManager
             ]
         ];
 
-        array_splice($items, 14, 0, $newItem);
+        array_splice($items, 17, 0, $newItem);
 
         return $items;
     }
