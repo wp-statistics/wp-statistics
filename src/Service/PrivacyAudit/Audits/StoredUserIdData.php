@@ -34,7 +34,7 @@ class StoredUserIdData extends BaseAudit
                         <li>Select <b>Remove User IDs</b> to start the removal process.</li>
                     </ol>
                     <p>Initiating this process will delete all previously stored User IDs, further securing user data and aligning your site with best privacy practices.</p>
-                    <p>Need More Information?</p>
+                    <p><b>Need More Information?</b></p>
                     <p>For step-by-step instructions and additional details on the importance of removing User IDs, please consult our guide: <a target="_blank" href="https://wp-statistics.com/resources/removing-user-ids-from-your-database/?utm_source=wp-statistics&utm_medium=link&utm_campaign=privacy">Removing User IDs from Your Database.</a>.</p>
                     ', 'wp-statistics'),
                 'compliance'    => [

@@ -41,7 +41,7 @@
                                 <p><?php esc_html_e('Mode', 'wp-statistics'); ?></p>
                                 <h3>
                                     <?php esc_html_e('Privacy First', 'wp-statistics'); ?>
-                                    <a href="#" class="wps-tooltip" title="<?php echo __('This indicator reflects the privacy compliance of your WP Statistics settings.', 'wp-statistics') ?>"><i class="wps-tooltip-icon"></i></a>
+                                    <a href="#" class="wps-tooltip" title="<?php echo __('Coming soon in 2024. In Privacy first mode, we change our data tracking method to not use IP address at all (instead we use page_refer to detect return user + timezone to detect the country)', 'wp-statistics') ?>"><i class="wps-tooltip-icon"></i></a>
                                 </h3>
                             </div>
                         </div>

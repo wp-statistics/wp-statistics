@@ -18,10 +18,7 @@ class RecordUserPageVisits extends ResolvableAudit
     {
         return [
             'title' => esc_html__('The “Record User Page Visits” feature is currently disabled on your website.', 'wp-statistics'),
-            'notes' => __('<p> This status indicates that individual user page visits and WordPress user IDs are not being tracked. Your privacy settings are configured to prioritize user privacy in alignment with applicable laws and regulations.</p><p><b>Why is this important?</b></p><p>Keeping this feature disabled ensures that your website minimally impacts user privacy, aligning with best practices for data protection and compliance with privacy laws such as GDPR and CCPA. If your operational or analytical needs change, please review our Guide to <a target="_blank" href="https://wp-statistics.com/resources/avoiding-pii-data-collection/?utm_source=wp-statistics&utm_medium=link&utm_campaign=privacy">Avoiding PII Data Collection</a> to ensure compliance and user transparency before enabling this feature.</p>
-                            <div class="wps-privacy-list__content--note">
-                                <b>To disable this feature,</b> navigate to <b>Settings -> Basic Tracking -> Record User Page Visits</b> and uncheck <b>"Track User Activity"</b>.
-                            </div>', 'wp-statistics')
+            'notes' => __('<p> This status indicates that individual user page visits and WordPress user IDs are not being tracked. Your privacy settings are configured to prioritize user privacy in alignment with applicable laws and regulations.</p><p><b>Why is this important?</b></p><p>Keeping this feature disabled ensures that your website minimally impacts user privacy, aligning with best practices for data protection and compliance with privacy laws such as GDPR and CCPA. If your operational or analytical needs change, please review our Guide to <a target="_blank" href="https://wp-statistics.com/resources/avoiding-pii-data-collection/?utm_source=wp-statistics&utm_medium=link&utm_campaign=privacy">Avoiding PII Data Collection</a> to ensure compliance and user transparency before enabling this feature.</p>', 'wp-statistics')
         ];
     }
 

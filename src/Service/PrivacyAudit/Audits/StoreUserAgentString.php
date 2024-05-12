@@ -41,7 +41,10 @@ class StoreUserAgentString extends ResolvableAudit
                 <li><b>Selective Use:</b> Enable this feature only as needed for troubleshooting or enhancing website functionality.</li>
                 <li><b>Disabling After Use:</b> Remember to deactivate this setting after debugging processes to ensure unnecessary data is not collected.</li>
                 <li><b>Data Removal:</b> For instructions on deleting previously stored user agent data, refer to our guide here.</li>
-            </ol>', 'wp-statistics')
+            </ol>
+            <div class="wps-privacy-list__content--note">
+                <b>To disable this feature,</b> navigate to <b>Settings -> User Data Protection -> Store Entire User Agent String</b> and uncheck <b>"Enable"</b>.
+            </div>', 'wp-statistics')
         ];
     }
 

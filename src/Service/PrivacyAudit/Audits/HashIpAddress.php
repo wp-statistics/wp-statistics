@@ -32,7 +32,10 @@ class HashIpAddress extends ResolvableAudit
                 <li><b>Compliance Risks:</b> Operating without this layer of data protection may affect your website’s alignment with privacy regulations, necessitating additional safeguards or disclosures.Recommendations</li>
                 <li><b>Consider Re-Enabling:</b> To enhance user privacy and ensure compliance with privacy laws, it is advisable to re-enable the “Hash IP Addresses” feature.</li>
                 <li><b>Disclosure:</b> If there are specific reasons for keeping hashing disabled, ensure transparent communication with your users by clearly disclosing this in your privacy policy, including the implications for their data privacy.</li>
-            </ol>', 'wp-statistics')
+            </ol>
+            <div class="wps-privacy-list__content--note">
+                <b>To enable this feature,</b> navigate to <b>Settings -> User Data Protection -> Hash IP Addresses</b> and check <b>"Enable"</b>.
+            </div>', 'wp-statistics')
         ];
     }
 }

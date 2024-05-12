@@ -35,7 +35,10 @@ class AnonymizeIpAddress extends ResolvableAudit
                 Recommendations.</li>
                 <li><b>Enable Anonymization:</b> We recommend enabling the “Anonymize IP Addresses” feature to enhance user privacy and align with privacy laws and best practices.</li>
                 <li><b>Review Privacy Practices:</b> If you have specific reasons for keeping this feature disabled, ensure you have adequate measures in place to protect user data and comply with applicable laws. This might include obtaining explicit consent from users for processing their complete IP addresses.</li>
-            </ol>', 'wp-statistics')
+            </ol>
+            <div class="wps-privacy-list__content--note">
+                <b>To enable this feature,</b> navigate to <b>Settings -> User Data Protection -> Anonymize IP Addresses</b> and check <b>"Enable"</b>.
+            </div>', 'wp-statistics')
         ];
     }
 
