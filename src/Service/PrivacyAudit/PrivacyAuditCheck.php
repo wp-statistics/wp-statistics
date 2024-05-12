@@ -201,7 +201,7 @@ class PrivacyAuditCheck
 
 		if ($isPrivacyCompliant == false) {
 			$result['label']          = esc_html__('Your WP Statistics settings are not privacy-compliant. Please update your settings.', 'wp-statistics');
-			$result['description'] = __('<p>Your WP Statistics settings do not meet the necessary privacy standards. Immediate adjustments are required to ensure compliance and protect user data. Please review and update your settings as recommended on the Privacy Audit page.</p>', 'wp-statistics');
+			$result['description']    = __('<p>Your WP Statistics settings do not meet the necessary privacy standards. Immediate adjustments are required to ensure compliance and protect user data. Please review and update your settings as recommended on the Privacy Audit page.</p>', 'wp-statistics');
 			$result['status']         = 'recommended';
 			$result['badge']['color'] = 'orange';
 		}
