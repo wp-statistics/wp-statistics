@@ -11,12 +11,12 @@ class Singleton
     /**
      * @var Singleton $instance Instance
      */
-    private static $instance;
+    private static $instances = [];
 
     /**
      * Construct
      */
-    private function __construct()
+    protected function __construct()
     {
     }
 
@@ -25,12 +25,14 @@ class Singleton
      *
      * @return Singleton Instance
      */
-    public static function get_instance()
+    public static function instance()
     {
-        if (!isset(self::$instance)) {
-            self::$instance = new self();
+        $class = static::class;
+
+        if (!isset(self::$instances[$class])) {
+            self::$instances[$class] = new static();
         }
 
-        return self::$instance;
+        return self::$instances[$class];
     }
 }
