@@ -33,36 +33,40 @@ wps_js.select2 = function () {
 const wpsSelect2 = jQuery('.wps-select2');
 const wpsFilterPage = jQuery('.wps-filter-page');
 const wpsBody = jQuery('body');
+const wpsDropdown = jQuery('.wps-dropdown');
 
-if (wpsSelect2.length && wpsFilterPage) {
-  if (wpsBody.hasClass('rtl')) {
-        wpsSelect2.select2({
-            dropdownParent: $('.wps-filter-page'),
-            dir: 'rtl',
-            dropdownAutoWidth: true,
-            dropdownCssClass: 'wps-select2-filter-dropdown'
-       });
-    } else {
-        wpsSelect2.select2({
-            dropdownParent: $('.wps-filter-page'),
-            dir: 'ltr',
-            dropdownAutoWidth: true,
-            dropdownCssClass: 'wps-select2-filter-dropdown'
-       });
-    }
+if (wpsSelect2.length && wpsFilterPage.length) {
+  var dirValue = wpsBody.hasClass('rtl') ? 'rtl' : 'ltr';
 
-    wpsFilterPage.on('click', function() {
-        wpsSelect2.select2('open');
-    });
-    wpsSelect2.on('change', function() {
-        var selectedOption = jQuery(this).find('option:selected');
-        var url = selectedOption.val();
+  wpsSelect2.select2({
+      dropdownParent: $('.wps-filter-page'),
+      dir: dirValue,
+      dropdownAutoWidth: true,
+      dropdownCssClass: 'wps-select2-filter-dropdown'
+  });
 
-        if (url) {
-            window.location.href = url;
-        }
-    });
+  wpsFilterPage.on('click', function() {
+      wpsSelect2.select2('open');
+  });
+
+   wpsSelect2.on('select2:open', function() {
+      wpsDropdown.addClass('active');
+  });
+
+   wpsSelect2.on('select2:close', function() {
+      wpsDropdown.removeClass('active');
+  });
+
+  wpsSelect2.on('change', function() {
+      var selectedOption = jQuery(this).find('option:selected');
+      var url = selectedOption.val();
+
+      if (url) {
+          window.location.href = url;
+      }
+  });
 }
+
 
 /**
  * Set Tooltip

@@ -1,7 +1,9 @@
 <?php
+use WP_STATISTICS\Helper;
+
 $queryKey         = 'pt';
 $selectedOption   = isset($_GET[$queryKey]) ? sanitize_text_field($_GET[$queryKey]) : false;
-$postTypes        = array_values(array_diff(get_post_types(['public' => true]), ['attachment']));
+$postTypes        = array_values(Helper::get_list_post_type());
 $baseUrl          = remove_query_arg([$queryKey, 'pid']); // remove post type and post id from query
 ?>
 

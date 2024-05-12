@@ -1,13 +1,15 @@
 <?php
+use WP_STATISTICS\Helper;
+
 $queryKey       = 'pid';
 $postId         = isset($_GET[$queryKey]) ? intval($_GET[$queryKey]) : '';
 $authorId       = isset($_GET['author_id']) ? intval($_GET['author_id']) : '';
-$postType       = isset($_GET['pt']) ? sanitize_text_field($_GET['pt']) : '';
+$postType       = isset($_GET['pt']) ? sanitize_text_field($_GET['pt']) : array_values(Helper::get_list_post_type());
 $selectedOption = $postId ? get_the_title($postId) : __('All', 'wp-statistics');
 $baseUrl        = remove_query_arg($queryKey); // remove post id from query
 
 $query = new WP_Query([
-    'post_status'    => 'publish',
+    'post_status'    => 'publish', 
     'posts_per_page' => -1,
     'post_type'      => $postType,
     'author'         => $authorId
