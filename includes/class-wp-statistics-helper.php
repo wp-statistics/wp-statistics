@@ -781,9 +781,9 @@ class Helper
         }
 
         // Email from
-        $from_name  = get_bloginfo('name');
-        $from_email = get_bloginfo('admin_email');
-        $from       = sprintf('%s <%s>', $from_name, $from_email);
+//        $from_name  = get_bloginfo('name');
+//        $from_email = get_bloginfo('admin_email');
+//        $from       = sprintf('%s <%s>', $from_name, $from_email);
 
         //Template Arg
         $template_arg = array(
@@ -809,7 +809,6 @@ class Helper
         try {
 
             WP_Statistics_Mail::init()
-                ->setFrom($from)
                 ->setTo($to)
                 ->setSubject($subject)
                 ->setBody($content)
