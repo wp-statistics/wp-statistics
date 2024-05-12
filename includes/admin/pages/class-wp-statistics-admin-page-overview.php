@@ -1,8 +1,9 @@
 <?php
 
 namespace WP_STATISTICS;
+use WP_Statistics\Components\Singleton;
 
-class log_page
+class log_page extends Singleton
 {
     /**
      * Overview ADS API
@@ -113,4 +114,4 @@ class log_page
     }
 }
 
-new log_page();
+log_page::instance();

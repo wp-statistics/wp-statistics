@@ -2,7 +2,9 @@
 
 namespace WP_STATISTICS;
 
-class settings_page
+use WP_Statistics\Components\Singleton;
+
+class settings_page extends Singleton
 {
 
     private static $redirectAfterSave = true;
@@ -165,6 +167,7 @@ class settings_page
         $wps_option_list = array(
             'wps_anonymize_ips',
             'wps_hash_ips',
+            'wps_privacy_audit',
             'wps_store_ua',
             'wps_do_not_track',
         );
@@ -569,4 +572,4 @@ class settings_page
     }
 }
 
-new settings_page;
+settings_page::instance();

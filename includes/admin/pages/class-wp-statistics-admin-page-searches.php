@@ -1,8 +1,9 @@
 <?php
 
 namespace WP_STATISTICS;
+use WP_Statistics\Components\Singleton;
 
-class searches_page
+class searches_page extends Singleton
 {
 
     public function __construct()
@@ -47,4 +48,4 @@ class searches_page
 
 }
 
-new searches_page;
+searches_page::instance();

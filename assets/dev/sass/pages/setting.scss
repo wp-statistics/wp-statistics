@@ -213,6 +213,11 @@
               margin: 5px 0;
               font-size: 18px;
             }
+            @media(min-width: 783px){
+              th{
+                width: 206px;
+              }
+            }
           }
 
           .form-table--preview {

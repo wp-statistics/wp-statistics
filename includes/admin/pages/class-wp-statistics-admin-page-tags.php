@@ -1,8 +1,9 @@
 <?php
 
 namespace WP_STATISTICS;
+use WP_Statistics\Components\Singleton;
 
-class tags_page
+class tags_page extends Singleton
 {
 
     public function __construct()
@@ -118,4 +119,4 @@ class tags_page
 
 }
 
-new tags_page;
+tags_page::instance();

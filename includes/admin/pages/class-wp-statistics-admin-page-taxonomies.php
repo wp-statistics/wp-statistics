@@ -1,8 +1,9 @@
 <?php
 
 namespace WP_STATISTICS;
+use WP_Statistics\Components\Singleton;
 
-class taxonomies_page
+class taxonomies_page extends Singleton
 {
     private static $taxonomies = [];
     private static $defaultTaxonomies = [];
@@ -170,4 +171,4 @@ class taxonomies_page
     }
 }
 
-new taxonomies_page;
+taxonomies_page::instance();

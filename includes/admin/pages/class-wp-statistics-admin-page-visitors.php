@@ -1,8 +1,9 @@
 <?php
 
 namespace WP_STATISTICS;
+use WP_Statistics\Components\Singleton;
 
-class visitors_page
+class visitors_page extends Singleton
 {
     public function __construct()
     {
@@ -223,4 +224,4 @@ class visitors_page
     }
 }
 
-new visitors_page;
+visitors_page::instance();

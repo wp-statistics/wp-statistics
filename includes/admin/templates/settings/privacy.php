@@ -7,7 +7,12 @@
 
         <tr valign="top">
             <th scope="row">
-                <label for="anonymize_ips"><?php esc_html_e('Anonymize IP Addresses', 'wp-statistics'); ?></label>
+                <label for="anonymize_ips">
+                    <?php esc_html_e('Anonymize IP Addresses', 'wp-statistics'); ?>
+                    <?php if (\WP_STATISTICS\Option::get('privacy_audit')): ?>
+                        <a href="#" class="wps-tooltip" title="<?php esc_html_e('Privacy Impact - This setting affects user privacy. Adjust with caution to ensure compliance with privacy standards. For more details, visit the Privacy Audit page.', 'wp-statistics') ?>"><i class="wps-tooltip-icon privacy"></i></a>
+                    <?php endif ?>
+                 </label>
             </th>
             <td>
                 <input id="anonymize_ips" type="checkbox" value="1" name="wps_anonymize_ips" <?php echo WP_STATISTICS\Option::get('anonymize_ips') == true ? "checked='checked'" : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
@@ -19,6 +24,9 @@
         <tr valign="top">
             <th scope="row">
                 <label for="hash_ips"><?php esc_html_e('Hash IP Addresses', 'wp-statistics'); ?></label>
+                <?php if (\WP_STATISTICS\Option::get('privacy_audit')): ?>
+                    <a href="#" class="wps-tooltip" title="<?php esc_html_e('Privacy Impact - This setting affects user privacy. Adjust with caution to ensure compliance with privacy standards. For more details, visit the Privacy Audit page.', 'wp-statistics') ?>"><i class="wps-tooltip-icon privacy"></i></a>
+                <?php endif ?>
             </th>
             <td>
                 <input id="hash_ips" type="checkbox" value="1" name="wps_hash_ips" <?php echo WP_STATISTICS\Option::get('hash_ips') == true ? "checked='checked'" : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
@@ -38,7 +46,22 @@
 
         <tr valign="top">
             <th scope="row">
+                <label for="privacy_audit"><?php esc_html_e('Privacy Audit', 'wp-statistics'); ?></label>
+            </th>
+            
+            <td>
+                <input id="privacy_audit" type="checkbox" value="1" name="wps_privacy_audit" <?php checked(WP_STATISTICS\Option::get('privacy_audit')) ?>>
+                <label for="privacy_audit"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
+                <p class="description"><?php esc_html_e('Checking WP Statistics settings for privacy compliance.', 'wp-statistics'); ?></p>
+            </td>
+        </tr>
+
+        <tr valign="top">
+            <th scope="row">
                 <label for="store_ua"><?php esc_html_e('Store Entire User Agent String', 'wp-statistics'); ?></label>
+                <?php if (\WP_STATISTICS\Option::get('privacy_audit')): ?>
+                    <a href="#" class="wps-tooltip" title="<?php esc_html_e('Privacy Impact - This setting affects user privacy. Adjust with caution to ensure compliance with privacy standards. For more details, visit the Privacy Audit page.', 'wp-statistics') ?>"><i class="wps-tooltip-icon privacy"></i></a>
+                <?php endif ?>
             </th>
 
             <td>
