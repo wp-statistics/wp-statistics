@@ -17,6 +17,7 @@ use WP_Statistics\Service\PrivacyAudit\Faqs\RequireConsent;
 use WP_Statistics\Service\PrivacyAudit\Faqs\RequireCookieBanner;
 use WP_Statistics\Service\PrivacyAudit\Faqs\TransferData;
 use InvalidArgumentException;
+use WP_STATISTICS\Menus;
 
 class PrivacyAuditCheck
 {
@@ -172,4 +173,39 @@ class PrivacyAuditCheck
         ];
     }
 
+    /**
+     * Privacy compliance test result for WordPress site health.
+     * 
+     * @return array $result
+     */
+    public static function privacyComplianceTest()
+    {
+        $complianceStatus   = self::complianceStatus();
+        $isPrivacyCompliant = $complianceStatus['percentage_ready'] == 100;
+
+		$result = [
+			'label'       => esc_html__( 'Your WP Statistics settings are privacy-compliant.', 'wp-statistics' ),
+			'status'      => 'good',
+			'badge'       => [
+				'label' => esc_html__('Privacy', 'wp-statistics'),
+				'color' => 'blue'
+			],
+			'description' => __('<p>The settings in your WP Statistics account comply with the privacy regulations. Visit the Privacy Audit page to learn more about best practices.</p>', 'wp-statistics'),
+			'actions'     => sprintf(
+				'<p><a target="_blank" href="%s">%s</a></p>',
+				esc_url(Menus::admin_url(Menus::get_page_slug('privacy-audit'))),
+				esc_html__('Privacy Audit Page', 'wp-statistics')
+			),
+            'test'        => 'wp_statistics_privacy_compliance_status'
+		];
+
+		if ($isPrivacyCompliant == false) {
+			$result['label']          = esc_html__('Your WP Statistics settings are not privacy-compliant. Please update your settings.', 'wp-statistics');
+			$result['description'] = __('<p>Your WP Statistics settings do not meet the necessary privacy standards. Immediate adjustments are required to ensure compliance and protect user data. Please review and update your settings as recommended on the Privacy Audit page.</p>', 'wp-statistics');
+			$result['status']         = 'recommended';
+			$result['badge']['color'] = 'orange';
+		}
+
+		return $result;
+    }
 }

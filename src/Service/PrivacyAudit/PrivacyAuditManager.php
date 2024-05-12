@@ -12,6 +12,7 @@ class PrivacyAuditManager
         if (Option::get('privacy_audit')) {
             add_filter('wp_statistics_admin_menu_list', [$this, 'addMenuItem']);
             add_filter('wp_statistics_ajax_list', [$this, 'registerAjaxCallbacks']);
+            add_filter( 'site_status_tests', [$this, 'registerHealthStatusTests']);
             add_action('admin_init', [$this, 'initPrivacyStatusOption']);
         }
     }
@@ -69,6 +70,22 @@ class PrivacyAuditManager
         ];
 
         return $list;
+    }
+
+
+    /**
+     * Register privacy compliance test for WordPress site health.
+     * 
+     * @return array $tests
+     */
+    public function registerHealthStatusTests($tests) 
+    {
+        $tests['direct']['wp_statistics_privacy_compliance_status'] = [
+			'label' => esc_html__('Are your WP Statistics settings privacy-compliant?', 'wp-statistics' ),
+			'test'  => [PrivacyAuditCheck::class, 'privacyComplianceTest'],
+		];
+
+        return $tests;
     }
 
 }
