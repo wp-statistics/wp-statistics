@@ -199,8 +199,13 @@ class settings_page extends Singleton
                 if (wp_next_scheduled('wp_statistics_report_hook')) {
                     wp_unschedule_event(wp_next_scheduled('wp_statistics_report_hook'), 'wp_statistics_report_hook');
                 }
-
-                wp_schedule_event(time(), sanitize_text_field($_POST['wps_time_report']), 'wp_statistics_report_hook');
+                $timeReports = sanitize_text_field($_POST['wps_time_report']);
+                $schedulesInterval = wp_get_schedules();
+                $timeReportsInterval = 86400;
+                if (isset($schedulesInterval[$timeReports])) {
+                    $timeReportsInterval = $schedulesInterval[$timeReports]['interval'];
+                }
+                wp_schedule_event(time() + $timeReportsInterval, $timeReports, 'wp_statistics_report_hook');
             }
         }
 
