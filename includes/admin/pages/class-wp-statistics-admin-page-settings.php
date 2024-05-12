@@ -202,7 +202,7 @@ class settings_page extends Singleton
                 $timeReports = sanitize_text_field($_POST['wps_time_report']);
                 $schedulesInterval = wp_get_schedules();
                 $timeReportsInterval = 86400;
-                if (isset($schedulesInterval[$timeReports])) {
+                if (isset($schedulesInterval[$timeReports]['interval'])) {
                     $timeReportsInterval = $schedulesInterval[$timeReports]['interval'];
                 }
                 wp_schedule_event(time() + $timeReportsInterval, $timeReports, 'wp_statistics_report_hook');
