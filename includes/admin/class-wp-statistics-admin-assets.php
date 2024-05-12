@@ -332,8 +332,7 @@ class Admin_Assets
             'rest_connect'          => __('Error connecting to WordPress REST API. Disable ad-blocker for this page or unblock /wp-json/wp-statistics/v2/metabox in the ad-blocker configuration.', 'wp-statistics'),
             'privacy_compliant'     => __('Your WP Statistics settings are privacy-compliant.', 'wp-statistics'),
             'non_privacy_compliant' => __('Your WP Statistics settings are not privacy-compliant. Please update your settings.', 'wp-statistics'),
-            'privacy_confirm'       => __('By manually resolving this item, please ensure your website’s privacy policy is updated to accurately reflect this setting. This is essential for maintaining compliance and transparency with your users.', 'wp-statistics'),
-            'privacy_updated'       => __('Privacy Policy Updated', 'wp-statistics'),
+            'privacy_resolve_alert' => __('By manually resolving this item, please ensure your website’s privacy policy is updated to accurately reflect this setting. This is essential for maintaining compliance and transparency with your users.', 'wp-statistics'),
         );
 
         // Rest-API Meta Box Url

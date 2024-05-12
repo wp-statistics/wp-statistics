@@ -43,10 +43,9 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         // Do not proceed if button is in loading state
         if (button.hasClass('loading')) return;
 
-        // Show confirmation message when user tries to resolve the audit
+        // Show alert message when user tries to resolve the audit
         if (auditAction === 'resolve') {
-            const agree = confirm(wps_js._('privacy_confirm'));
-            if (!agree) return false;
+            alert(wps_js._('privacy_resolve_alert'));
         }
 
 
@@ -87,11 +86,6 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                 // If audit item data is not null, update it with new data
                 if (data.audit_item) {
                     updateAuditElement(auditElement, data.audit_item);
-                }
-
-                // Show success message
-                if (auditAction === 'resolve') {
-                    alert(wps_js._('privacy_updated'));
                 }
             },
             error: function (xhr, status, error) {
