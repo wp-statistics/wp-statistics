@@ -572,4 +572,4 @@ class settings_page extends Singleton
     }
 }
 
-settings_page::get_instance();
+settings_page::instance();

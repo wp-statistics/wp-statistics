@@ -2,9 +2,10 @@
 
 namespace WP_STATISTICS;
 
+use WP_Statistics\Components\Singleton;
 use WP_Statistics\Service\Admin\AddOnsFactory;
 
-class plugins_page
+class plugins_page extends Singleton
 {
     /**
      * plugins_page constructor.
@@ -97,4 +98,4 @@ class plugins_page
 
 }
 
-new plugins_page;
+plugins_page::instance();

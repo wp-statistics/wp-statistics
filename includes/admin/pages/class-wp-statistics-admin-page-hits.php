@@ -1,8 +1,9 @@
 <?php
 
 namespace WP_STATISTICS;
+use WP_Statistics\Components\Singleton;
 
-class hits_page
+class hits_page extends Singleton
 {
 
     public function __construct()
@@ -51,4 +52,4 @@ class hits_page
 
 }
 
-new hits_page;
+hits_page::instance();

@@ -1,8 +1,9 @@
 <?php
 
 namespace WP_STATISTICS;
+use WP_Statistics\Components\Singleton;
 
-class online_page
+class online_page extends Singleton
 {
 
     public function __construct()
@@ -48,4 +49,4 @@ class online_page
 
 }
 
-new online_page;
+online_page::instance();

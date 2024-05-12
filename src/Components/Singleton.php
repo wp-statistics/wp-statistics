@@ -9,14 +9,14 @@ class Singleton
 {
 
     /**
-     * @var Singleton $instance Instance
+     * @var Singleton[] $instance Instance
      */
     private static $instances = [];
 
     /**
      * Construct
      */
-    protected function __construct()
+    private function __construct()
     {
     }
 

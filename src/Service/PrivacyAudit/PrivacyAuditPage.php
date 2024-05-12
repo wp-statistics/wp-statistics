@@ -2,10 +2,11 @@
 
 namespace WP_Statistics\Service\PrivacyAudit;
 
+use WP_Statistics\Components\Singleton;
 use WP_STATISTICS\Menus;
 use WP_STATISTICS\Admin_Template;
 
-class PrivacyAuditPage
+class PrivacyAuditPage extends Singleton
 {
     public function __construct()
     {

@@ -1,8 +1,9 @@
 <?php
 
 namespace WP_STATISTICS;
+use WP_Statistics\Components\Singleton;
 
-class exclusions_page
+class exclusions_page extends Singleton
 {
 
     public function __construct()
@@ -55,4 +56,4 @@ class exclusions_page
 
 }
 
-new exclusions_page;
+exclusions_page::instance();
