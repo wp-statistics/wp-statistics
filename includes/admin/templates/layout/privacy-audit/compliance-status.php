@@ -3,10 +3,7 @@
         <div class="postbox wps-postbox-wrap wps-privacy-mode">
             <div class="postbox-header">
                 <h2 class="hndle ui-sortable-handle">
-                    <?php
-                    esc_html_e('Privacy Mode', 'wp-statistics');
-                    echo '<a href="#" class="wps-tooltip" title="' . __('Privacy Mode tooltip', 'wp-statistics') . '"><i class="wps-tooltip-icon"></i></a>';
-                    ?>
+                    <?php esc_html_e('Privacy Mode', 'wp-statistics'); ?>
                 </h2>
             </div>
             <div class="wps-privacy-mode__items">
@@ -44,7 +41,7 @@
                                 <p><?php esc_html_e('Mode', 'wp-statistics'); ?></p>
                                 <h3>
                                     <?php esc_html_e('Privacy First', 'wp-statistics'); ?>
-                                    <a href="#" class="wps-tooltip" title="<?php echo __('Privacy First tooltip', 'wp-statistics') ?>"><i class="wps-tooltip-icon"></i></a>
+                                    <a href="#" class="wps-tooltip" title="<?php echo __('This indicator reflects the privacy compliance of your WP Statistics settings.', 'wp-statistics') ?>"><i class="wps-tooltip-icon"></i></a>
                                 </h3>
                             </div>
                         </div>
