@@ -4,7 +4,6 @@ namespace WP_Statistics\Service\PrivacyAudit;
 
 use WP_STATISTICS\Menus;
 use WP_STATISTICS\Admin_Template;
-use WP_Statistics\Components\Assets;
 
 class PrivacyAuditPage
 {
