@@ -2,12 +2,13 @@
 
 namespace WP_Statistics\Service\AuthorAnalytics;
 
+use WP_Statistics\Components\Singleton;
 use WP_STATISTICS\User;
 use WP_STATISTICS\Menus;
 use WP_STATISTICS\Admin_Template;
 use InvalidArgumentException;
 
-class AuthorAnalyticsPage
+class AuthorAnalyticsPage extends Singleton
 {
     private static $tabs = [
         'performance',

@@ -24,7 +24,7 @@ class AuthorAnalyticsManager
                 'pages'     => array('pages' => true),
                 'title'     => esc_html__('Author Analytics', 'wp-statistics'),
                 'page_url'  => 'author-analytics',
-                'callback'  => AuthorAnalyticsPage::class,
+                'callback'  => AuthorAnalyticsPage::class
             ]
         ];
 
