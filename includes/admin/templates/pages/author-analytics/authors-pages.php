@@ -15,17 +15,17 @@
                             <tr>
                                 <th></th>
                                 <th>
-                                    <a href="" class="sort"><?php echo esc_html__('Author', 'wp-statistics') ?></a>
+                                    <a href="" class="sort"><?php esc_html_e('Author', 'wp-statistics') ?></a>
                                 </th>
                                 <th class="wps-pd-l">
                                     <a href="" class="sort des">
-                                        <?php echo esc_html__('Published Posts', 'wp-statistics') ?>
+                                        <?php esc_html_e('Published Posts', 'wp-statistics') ?>
                                     </a>
                                 </th>
                                 <th class="wps-pd-l">
                                     <a href="" class="sort">
-                                        <?php echo esc_html__('Author\'s Page Views', 'wp-statistics') ?>
-                                        <span class="wps-tooltip" title="<?php echo esc_html__('Published Posts tooltip', 'wp-statistics') ?>"><i class="wps-tooltip-icon info"></i></span>
+                                        <?php esc_html_e('Author\'s Page Views', 'wp-statistics') ?>
+                                        <span class="wps-tooltip" title="<?php esc_html_e('Published Posts tooltip', 'wp-statistics') ?>"><i class="wps-tooltip-icon info"></i></span>
                                     </a>
                                 </th>
                                 <th></th>
@@ -35,7 +35,7 @@
                             <?php for ($i = 1; $i < 10; $i++): ?>
                                 <tr>
                                     <td>
-                                        <?php echo $i  ?>
+                                        <?php echo esc_html($i)  ?>
                                     </td>
                                     <td>
                                         <div class="wps-author-name">
@@ -54,8 +54,8 @@
                                     </td>
                                     <td class="view-more">
                                         <!-- add class disabled-->
-                                        <a href="<?php echo esc_url(admin_url('admin.php?page=wps_author-analytics_page&author_id=1')); ?>" title="<?php echo esc_html__('View Details', 'wp-statistics') ?>">
-                                            <?php echo esc_html__('View Details', 'wp-statistics') ?>
+                                        <a href="<?php echo esc_url(admin_url('admin.php?page=wps_author-analytics_page&author_id=1')); ?>" title="<?php esc_html_e('View Details', 'wp-statistics') ?>">
+                                            <?php esc_html_e('View Details', 'wp-statistics') ?>
                                         </a>
                                     </td>
                                 </tr>

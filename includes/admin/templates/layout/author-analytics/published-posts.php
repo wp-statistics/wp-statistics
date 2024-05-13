@@ -1,5 +1,4 @@
 <?php
-// Define your data as a PHP array
 
 //test image
 $user = wp_get_current_user();
@@ -19,7 +18,7 @@ $publishedChartData = [
 <div class="wps-card">
     <div class="wps-card__title">
         <h2>
-            <?php echo $title_text ?>
+            <?php echo esc_html($title_text); ?>
             <?php if ($tooltip_text): ?>
                 <span class="wps-tooltip" title="<?php echo esc_attr($tooltip_text); ?>"><i class="wps-tooltip-icon info"></i></span>
             <?php endif ?>
