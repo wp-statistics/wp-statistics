@@ -74,51 +74,44 @@
                 Admin_Template::get_template(array('layout/author-analytics/performance-summary'), $args);
             }
 
-            $topCategories = [
+            Admin_Template::get_template(['layout/author-analytics/top-categories'], [
                 'title_text'   => esc_html__('Top Categories', 'wp-statistics'),
                 'tooltip_text' => esc_html__('Top Categories tooltip', 'wp-statistics'),
-            ];
-            Admin_Template::get_template(['layout/author-analytics/top-categories'], $topCategories);
+            ]);
 
-            $operating_system = [
+            Admin_Template::get_template(['layout/author-analytics/operating-systems'], [
                 'title_text'   => esc_html__('Operating Systems', 'wp-statistics'),
                 'tooltip_text' => esc_html__('Operating Systems tooltip', 'wp-statistics'),
-            ];
-            Admin_Template::get_template(['layout/author-analytics/operating-systems'], $operating_system);
+            ]);
 
-            $browsers = [
+            Admin_Template::get_template(['layout/author-analytics/browsers'], [
                 'title_text'   => esc_html__('Browsers', 'wp-statistics'),
                 'tooltip_text' => esc_html__('Browsers tooltip', 'wp-statistics'),
-            ];
-            Admin_Template::get_template(['layout/author-analytics/browsers'], $browsers);
+            ]);
         ?>
     </div>
     <div class="postbox-container" id="wps-postbox-container-2">
         <?php
-            $overview_args = [
+            Admin_Template::get_template(['layout/author-analytics/publishing-overview'], [
                 'title_text'        => esc_html__('Publishing Overview', 'wp-statistics'),
                 'tooltip_text'      => esc_html__('Publishing Overview tooltip', 'wp-statistics'),
                 'title_description' => esc_html__('Last 12 Months', 'wp-statistics'),
-            ];
-            Admin_Template::get_template(['layout/author-analytics/publishing-overview'], $overview_args);
+            ]);
 
-            $top_posts = [
+            Admin_Template::get_template(['layout/author-analytics/top-posts'], $top_posts = [
                 'title_text'   => esc_html__('Top Posts', 'wp-statistics'),
                 'tooltip_text' => esc_html__('Top Posts tooltip', 'wp-statistics'),
-            ];
-            Admin_Template::get_template(['layout/author-analytics/top-posts'], $top_posts);
+            ]);
 
-            $author_summary = [
+            Admin_Template::get_template(['layout/author-analytics/author-summary'], [
                 'title_text'   => esc_html__('Summary', 'wp-statistics'),
                 'tooltip_text' => esc_html__('Summary tooltip', 'wp-statistics'),
-            ];
-            Admin_Template::get_template(['layout/author-analytics/author-summary'], $author_summary);
+            ]);
 
-            $top_countries = [
+            Admin_Template::get_template(['layout/author-analytics/top-countries'], [
                 'title_text'   => esc_html__('Top Countries', 'wp-statistics'),
                 'tooltip_text' => esc_html__('Top Countries tooltip', 'wp-statistics'),
-            ];
-            Admin_Template::get_template(['layout/author-analytics/top-countries'], $top_countries);
+            ]);
         ?>
     </div>
 </div>

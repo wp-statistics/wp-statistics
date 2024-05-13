@@ -47,24 +47,21 @@
 
     <div class="postbox-container" id="wps-postbox-container-2">
         <?php
-            $overview_args = [
+            Admin_Template::get_template(['layout/author-analytics/publishing-overview'], [
                 'title_text'   => esc_html__('Publishing Overview', 'wp-statistics'),
                 'tooltip_text'   => esc_html__('Publishing Overview tooltip', 'wp-statistics'),
                 'title_description'   => esc_html__('Last 12 Months', 'wp-statistics'),
-            ];
-            Admin_Template::get_template(['layout/author-analytics/publishing-overview'], $overview_args);
+            ]);
             
-            $top_authors_args = [
+            Admin_Template::get_template(['layout/author-analytics/top-authors'], [
                 'title_text'    => esc_html__('Top Authors', 'wp-statistics'),
                 'tooltip_text'  => esc_html__('Top Authors tooltip', 'wp-statistics'),
-            ];
-            Admin_Template::get_template(['layout/author-analytics/top-authors'], $top_authors_args);
+            ]);
             
-            $posts_args = [
+            Admin_Template::get_template(['layout/author-analytics/published-posts'], [
                 'title_text'   => esc_html__('Views/Published Posts', 'wp-statistics'),
                 'tooltip_text'   => esc_html__('Views/Published Posts tooltip', 'wp-statistics'),
-            ];
-            Admin_Template::get_template(['layout/author-analytics/published-posts'], $posts_args);
+            ]);
         ?>
     </div>
 </div>
