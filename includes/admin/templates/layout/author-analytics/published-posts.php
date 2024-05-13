@@ -34,12 +34,65 @@ $publishedChartData = [
 <script>
     const publishedChartData = <?php echo json_encode($publishedChartData); ?>;
     const chartImageUrls = publishedChartData.map(point => point.img);
+
     // Preload images
     const chartImages = chartImageUrls.map(url => {
         const img = new Image();
         img.src = url;
         return img;
     });
+    let chartRendered = 0
+    const afterRenderPlugin = {
+        id: 'afterRenderPlugin',  // A unique id for the plugin
+        afterDraw: function (chart, args, options) {
+            const canvas = document.getElementById('publishedChart');
+            const ctx = canvas.getContext('2d');
+            chart.data.datasets.forEach((dataset, datasetIndex) => {
+                dataset.data.forEach((point, index) => {
+                    const img = chartImages[index % chartImages.length];
+                    const x = chart.scales.x.getPixelForValue(point.x);
+                    const y = chart.scales.y.getPixelForValue(point.y);
+                    const radius = 15;
+                    const borderWidth = 2; // Adjust border width
+                    const centerX = x - radius;
+                    const centerY = y - radius;
+
+                    // Draw border circle
+                    ctx.beginPath();
+                    ctx.arc(x, y, radius + borderWidth, 0, 2 * Math.PI);
+                    ctx.lineWidth = borderWidth * 2;
+                    ctx.strokeStyle = 'rgba(81,0,253,20%)';
+                    ctx.stroke();
+                    ctx.closePath();
+
+                    // Clip to the circle
+                    ctx.save();
+                    ctx.beginPath();
+                    ctx.arc(x, y, radius, 0, 2 * Math.PI);
+                    ctx.clip();
+
+                    // Draw image
+                    ctx.drawImage(img, centerX, centerY, radius * 2, radius * 2);
+                    ctx.restore();
+                });
+            });
+        }
+    };
+
+    Chart.register(afterRenderPlugin);
+    Chart.Tooltip.positioners.top = function (element, eventPosition) {
+        const tooltip = this;
+
+        const {chartArea: {bottom}, scales: {x, y}} = this.chart;
+
+            return {
+            x: x.getPixelForValue(x.getValueForPixel(eventPosition.x)),
+            y: y.getPixelForValue(y.getValueForPixel(eventPosition.y)) - 20,
+            xAlign: 'center',
+            yAlign: 'bottom'
+        }
+    }
+
     const publishedData = {
         datasets: [{
             label: 'Views/Published Posts',
@@ -51,6 +104,12 @@ $publishedChartData = [
         type: 'scatter',
         data: publishedData,
         options: {
+            pointRadius: 16,
+            pointHoverRadius: 16,
+            tooltipPosition: {
+                x: 10,
+                y: 30
+            },
             layout: {
                 padding: {
                     Right: 20,
@@ -108,44 +167,13 @@ $publishedChartData = [
             plugins: {
                 legend: {
                     display: false
+                },
+                tooltip: {
+                    position: 'top'
                 }
             },
-            animation: {
-                onComplete: function (animation) {
-                    const canvas = document.getElementById('publishedChart');
-                    const ctx = canvas.getContext('2d');
-                    this.data.datasets.forEach((dataset, datasetIndex) => {
-                        dataset.data.forEach((point, index) => {
-                            const img = chartImages[index % chartImages.length];
-                            const x = this.scales.x.getPixelForValue(point.x);
-                            const y = this.scales.y.getPixelForValue(point.y);
-                            const radius = 15;
-                            const borderWidth = 2; // Adjust border width
-                            const centerX = x - radius;
-                            const centerY = y - radius;
-
-                            // Draw border circle
-                            ctx.beginPath();
-                            ctx.arc(x, y, radius + borderWidth, 0, 2 * Math.PI);
-                            ctx.lineWidth = borderWidth * 2;
-                            ctx.strokeStyle = 'rgba(81,0,253,20%)';
-                            ctx.stroke();
-                            ctx.closePath();
-
-                            // Clip to the circle
-                            ctx.save();
-                            ctx.beginPath();
-                            ctx.arc(x, y, radius, 0, 2 * Math.PI);
-                            ctx.clip();
-
-                            // Draw image
-                            ctx.drawImage(img, centerX, centerY, radius * 2, radius * 2);
-                            ctx.restore();
-                        });
-                    });
-                }
-            }
-        }
+        },
+        plugins: [afterRenderPlugin]
     };
 
     // Render chart
