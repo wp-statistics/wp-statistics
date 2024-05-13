@@ -380,15 +380,19 @@ class WP_Statistics_Mail
     {
         $headers = '';
         $headers .= implode("\r\n", $this->headers) . "\r\n";
+
         foreach ($this->bcc as $bcc) {
             $headers .= sprintf("Bcc: %s \r\n", $bcc);
         }
+
         foreach ($this->cc as $cc) {
             $headers .= sprintf("Cc: %s \r\n", $cc);
         }
-        if (!empty($this->from)) {
+
+        if ($this->from && $this->from != '') {
             $headers .= sprintf("From: %s \r\n", $this->from);
         }
+
         return $headers;
     }
 

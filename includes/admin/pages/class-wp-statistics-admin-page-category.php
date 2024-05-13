@@ -1,8 +1,9 @@
 <?php
 
 namespace WP_STATISTICS;
+use WP_Statistics\Components\Singleton;
 
-class category_page
+class category_page extends Singleton
 {
 
     public function __construct()
@@ -117,4 +118,4 @@ class category_page
 
 }
 
-new category_page;
+category_page::instance();

@@ -426,7 +426,59 @@ wps_js.sum = function (array) {
     }, 0);
 };
 
- 
+
+// Head filters drop down
+jQuery(document).ready(function () {
+  var dropdowns = document.querySelectorAll(".wps-head-filters__item");
+
+  dropdowns.forEach(function(dropdown) {
+    dropdown.classList.remove('loading');
+    dropdown.addEventListener("click", function(event) {
+      var dropdownContent = dropdown.querySelector(".dropdown-content");
+      if (dropdownContent) {
+        dropdownContent.classList.toggle("show");
+      }
+    });
+  });
+
+  window.addEventListener("click", function(event) {
+    dropdowns.forEach(function(dropdown) {
+      var dropdownContent = dropdown.querySelector(".dropdown-content");
+      if (dropdownContent && !dropdown.contains(event.target)) {
+        dropdownContent.classList.remove("show");
+      }
+    });
+  });
+});
+
+jQuery(document).ready(function () {
+    const targetElement = document.querySelector('.wp-header-end');
+    const noticeElement = document.querySelector('.notice.notice-warning.update-nag');
+    // Check if both targetElement and noticeElement exist
+    if (targetElement && noticeElement) {
+        // Move the notice element after the target element
+        targetElement.parentNode.insertBefore(noticeElement, targetElement.nextSibling);
+    }
+
+    jQuery(document).on('click', '.wps-privacy-list__item .wps-privacy-list__title', (e) => {
+        const title   = jQuery(e.currentTarget);
+        const content = title.siblings('.wps-privacy-list__content');
+
+        // If the action button is clicked, don't expand the item
+        if (jQuery(e.target).is('.wps-privacy-list__button')) {
+            return;
+        }
+
+        title.toggleClass('open');
+
+        if (content.hasClass('show')) {
+            content.removeClass('show');
+        } else {
+            content.addClass('show');
+        }
+    });
+});
+
 
 /**
  * FeedbackBird position
@@ -453,31 +505,6 @@ function moveFeedbackBird() {
 window.onload = moveFeedbackBird;
 window.addEventListener('resize', moveFeedbackBird);
 
-// Head filters drop down
-jQuery(document).ready(function () {
-  var dropdowns = document.querySelectorAll(".wps-head-filters__item");
-
-  dropdowns.forEach(function(dropdown) {
-    dropdown.classList.remove('loading');
-    dropdown.addEventListener("click", function(event) {
-      var dropdownContent = dropdown.querySelector(".dropdown-content");
-      if (dropdownContent) {
-        dropdownContent.classList.toggle("show");
-      }
-    });
-  });
-
-  window.addEventListener("click", function(event) {
-    dropdowns.forEach(function(dropdown) {
-      var dropdownContent = dropdown.querySelector(".dropdown-content");
-      if (dropdownContent && !dropdown.contains(event.target)) {
-        dropdownContent.classList.remove("show");
-      }
-    });
-  });
-});
-
-
 jQuery(document).ready(function () {
     const targetElement = document.querySelector('.wp-header-end');
     const noticeElement = document.querySelector('.notice.notice-warning.update-nag');
@@ -487,4 +514,3 @@ jQuery(document).ready(function () {
         targetElement.parentNode.insertBefore(noticeElement, targetElement.nextSibling);
     }
 });
-

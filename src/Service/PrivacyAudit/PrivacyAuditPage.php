@@ -2,10 +2,11 @@
 
 namespace WP_Statistics\Service\PrivacyAudit;
 
+use WP_Statistics\Components\Singleton;
 use WP_STATISTICS\Menus;
 use WP_STATISTICS\Admin_Template;
 
-class PrivacyAuditPage
+class PrivacyAuditPage extends Singleton
 {
     public function __construct()
     {
@@ -22,7 +23,8 @@ class PrivacyAuditPage
     public function view()
     {
         // Page title
-        $args['title'] = esc_html__('Privacy Audit', 'wp-statistics');
+        $args['title']   = esc_html__('Privacy Audit', 'wp-statistics');
+        $args['tooltip'] = esc_html__('Check your privacy settings here to make sure WP Statistics is set up safely. This page helps you see if any settings might be collecting personal information and guides you on how to adjust them for better privacy. It\'s an easy way to keep your site\'s data use clear and safe.', 'wp-statistics');
 
         // Get Current Page Url
         $args['pageName']   = Menus::get_page_slug('privacy_audit');

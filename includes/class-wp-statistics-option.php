@@ -58,6 +58,7 @@ class Option
             'geoip_license_key'       => '',
             'content_report'          => Admin_Template::get_template('emails/default', array(), true),
             'update_geoip'            => true,
+            'privacy_audit'           => true,
             'store_ua'                => false,
             'do_not_track'            => true,
             'exclude_administrator'   => true,

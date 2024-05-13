@@ -69,7 +69,12 @@
 
         <tr valign="top" data-view="visitors_log_tr" <?php echo(WP_STATISTICS\Option::get('visitors') == false ? 'style="display:none;"' : '') ?>>
             <th scope="row">
-                <label for="visitors_log"><?php esc_html_e('Record User Page Views', 'wp-statistics'); ?></label>
+                <label for="visitors_log">
+                    <?php esc_html_e('Record User Page Views', 'wp-statistics'); ?>
+                </label>
+                <?php if (\WP_STATISTICS\Option::get('privacy_audit')): ?>
+                    <a href="#" class="wps-tooltip" title="<?php esc_html_e('Privacy Impact - This setting affects user privacy. Adjust with caution to ensure compliance with privacy standards. For more details, visit the Privacy Audit page.', 'wp-statistics') ?>"><i class="wps-tooltip-icon privacy"></i></a>
+                <?php endif ?>
             </th>
             <td>
                 <input id="visitors_log" type="checkbox" value="1" name="wps_visitors_log" <?php echo WP_STATISTICS\Option::get('visitors_log') == true ? "checked='checked'" : ''; ?>>

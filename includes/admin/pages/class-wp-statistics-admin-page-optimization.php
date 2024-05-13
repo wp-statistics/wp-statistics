@@ -1,8 +1,9 @@
 <?php
 
 namespace WP_STATISTICS;
+use WP_Statistics\Components\Singleton;
 
-class optimization_page
+class optimization_page extends Singleton
 {
 
     public function __construct()
@@ -153,4 +154,4 @@ class optimization_page
     }
 }
 
-new optimization_page;
+optimization_page::instance();

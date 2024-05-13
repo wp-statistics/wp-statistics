@@ -2,9 +2,11 @@
     <?php if (isset($PreviousUrl) &&  isset($PreviousTitle)): ?>
         <a href="<?php echo  $PreviousUrl ?>" title="<?php echo $PreviousTitle?>" class="wps-previous-url"><?php echo $PreviousTitle?></a>
     <?php endif ?>
-
-    <h2 class="wps_title"><?php echo(isset($title) ? esc_attr($title) : (function_exists('get_admin_page_title') ? get_admin_page_title() : '')); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	 ?></h2>
-    <?php do_action('wp_statistics_after_admin_page_title'); ?>
+    <h2 class="wps_title"><?php echo(isset($title) ? esc_attr($title) : (function_exists('get_admin_page_title') ? get_admin_page_title() : '')); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	 ?>
+        <?php if (!empty($tooltip)) : ?>
+            <span class="wps-tooltip" title="<?php echo esc_attr($tooltip); ?>"><i class="wps-tooltip-icon info"></i></span>
+        <?php endif; ?>
+    </h2>    <?php do_action('wp_statistics_after_admin_page_title'); ?>
     <?php if (isset($Datepicker)): ?>
         <form class="wps-search-date wps-today-datepicker" method="get">
             <div>
