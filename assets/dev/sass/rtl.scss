@@ -110,6 +110,18 @@
   float: right;
 }
 
+.rtl .wp-statistics-plugins .widefat  .button{
+  font-weight: 500 !important;
+  font-size: 13px;
+  line-height: 170%;
+  padding: 7px 16px;
+  border-radius: 4px;
+}
+
+.rtl .wp-statistics-plugins .widefat .plugin-card .desc>p {
+    margin-left: 0;
+}
+
 .rtl .wp-statistics-plugins .widefat .plugin-card .desc,
 .rtl .wp-statistics-plugins .widefat .plugin-card .name {
   margin-right: 148px;
