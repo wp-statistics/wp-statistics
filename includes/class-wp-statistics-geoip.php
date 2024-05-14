@@ -487,9 +487,9 @@ class GeoIP
     public static function getCity($ip = false, $dataScope = false)
     {
         $default_location = [
-            'city'      => null,
-            'region'    => null,
-            'continent' => null
+            'city'      => __('Unknown', 'wp-statistics'),
+            'region'    => __('Unknown', 'wp-statistics'),
+            'continent' => __('Unknown', 'wp-statistics')
         ];
 
         // Get User IP
