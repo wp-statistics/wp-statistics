@@ -1,8 +1,9 @@
 <?php
 
 namespace WP_STATISTICS;
+use WP_Statistics\Components\Singleton;
 
-class authors_page
+class authors_page extends Singleton
 {
 
     public function __construct()
@@ -101,4 +102,4 @@ class authors_page
 
 }
 
-new authors_page;
+authors_page::instance();

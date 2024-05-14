@@ -1,6 +1,7 @@
 var gulp = require('gulp'),
     cleanCSS = require('gulp-clean-css'),
     rename = require('gulp-rename'),
+    inlineCss = require('gulp-inline-css');
     concat = require('gulp-concat'),
     insert = require('gulp-insert'),
     babel = require('gulp-babel'),
@@ -22,6 +23,21 @@ function buildStyles(done) {
         .pipe(rename({suffix: '.min'}))
         .pipe(gulp.dest('./assets/css/'));
 };
+
+function mailStyle(done) {
+    return gulp.src([
+        './assets/dev/sass/mail.scss',
+    ])
+        .pipe(sass({outputStyle: 'compressed'}))
+        .pipe(gulp.dest('./assets/css/'));
+};
+function inlineMailStyle(done) {
+    return gulp.src('./assets/mail/*.html')
+        .pipe(inlineCss())
+        .pipe(gulp.dest('./assets/mail/build/'));
+};
+
+
 
 function buildScripts(done) {
     gulp.src([
@@ -103,6 +119,7 @@ exports.compileSass = buildStyles;
 exports.script = buildScripts;
 exports.mce = tineMCE;
 exports.frontScript = frontScripts;
+exports.mailStyle = gulp.series(mailStyle ,inlineMailStyle)  ;
 exports.concatScripts = concatScripts;
 exports.minifyCss = minifyCss;
 exports.watch = watch;

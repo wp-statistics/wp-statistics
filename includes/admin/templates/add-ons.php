@@ -6,7 +6,9 @@
                 <div id="the-list">
                     <?php
                     /* @var $addOns \WP_Statistics\Service\Admin\AddOnDecorator[] */
+                    $activatedAddonsCount = \WP_STATISTICS\Service\Admin\AddOnDecorator::countActivatedAddOns();
                     foreach ($addOns as $addOn) : ?>
+                        <?php if ($activatedAddonsCount === (count($addOns) - 1) && $addOn->getSlug() == 'add-ons-bundle') continue; ?>
                         <div class="plugin-card">
                             <?php if ($addOn->isFeatured() and $addOn->getFeaturedLabel()) : ?>
                                 <div class="cover-ribbon">

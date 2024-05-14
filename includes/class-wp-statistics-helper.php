@@ -780,10 +780,10 @@ class Helper
             $email_template = wp_normalize_path(WP_STATISTICS_DIR . 'includes/admin/templates/emails/layout.php');
         }
 
-        // Email from
-        $from_name  = get_bloginfo('name');
-        $from_email = get_bloginfo('admin_email');
-        $from       = sprintf('%s <%s>', $from_name, $from_email);
+        // Sent from
+//        $from_name  = get_bloginfo('name');
+//        $from_email = get_bloginfo('admin_email');
+//        $from       = sprintf('%s <%s>', $from_name, $from_email);
 
         //Template Arg
         $template_arg = array(
@@ -793,7 +793,7 @@ class Helper
             'site_url'     => home_url(),
             'site_title'   => get_bloginfo('name'),
             'footer_text'  => '',
-            'email_title'  => apply_filters('wp_statistics_email_title', __('Email from', 'wp-statistics') . ' ' . wp_parse_url(get_site_url())['host']),
+            'email_title'  => apply_filters('wp_statistics_email_title', __('Sent from', 'wp-statistics') . ' ' . wp_parse_url(get_site_url())['host']),
             'logo_image'   => apply_filters('wp_statistics_email_logo', WP_STATISTICS_URL . 'assets/images/logo-statistics-header-blue.png'),
             'logo_url'     => apply_filters('wp_statistics_email_logo_url', get_bloginfo('url')),
             'copyright'    => apply_filters('wp_statistics_email_footer_copyright', Admin_Template::get_template('emails/copyright', array(), true)),
@@ -809,7 +809,6 @@ class Helper
         try {
 
             WP_Statistics_Mail::init()
-                ->setFrom($from)
                 ->setTo($to)
                 ->setSubject($subject)
                 ->setBody($content)

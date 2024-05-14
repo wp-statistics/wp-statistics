@@ -9,13 +9,34 @@
 
   .widefat .plugin-card {
     position: relative;
+
+    h3 {
+      @media (min-width: 782px) and (max-width: 1060px) {
+        margin-right: 0;
+        font-size: 17px;
+      }
+    }
   }
 
   .widefat .plugin-card .desc, .widefat .plugin-card .name {
     margin-right: 0;
 
     > p {
-      min-height: 42px;
+      min-height: 100px;
+      margin-right: 0;
+
+      @media (min-width: 988px) and (max-width: 1145px) {
+        min-height: 136px;
+      }
+
+      @media (min-width: 821px) and (max-width: 987px) {
+        min-height: 160px;
+      }
+
+      @media (min-width: 782px) and (max-width: 820px) {
+        min-height: 170px;
+        font-size: 12.5px;
+      }
     }
 
     .version {
@@ -38,6 +59,14 @@
 
     span.from {
       display: none;
+    }
+
+    .button-primary {
+      font-weight: 500 !important;
+      font-size: 13px;
+      line-height: 170%;
+      padding: 7px 16px;
+      border-radius: 4px;
     }
   }
 
@@ -91,7 +120,7 @@
     }
   }
 
-  .column-right-side .button{
+  .column-right-side .button {
     font-weight: 500 !important;
     font-size: 13px;
     line-height: 170%;

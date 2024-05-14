@@ -2,21 +2,16 @@
 $isWidgetsActive = WP_STATISTICS\Helper::isAddOnActive('widgets');
 ?>
 
+<?php
+if (!$isWidgetsActive) echo \WP_STATISTICS\Admin_Template::get_template('layout/partials/addon-premium-feature', ['addon_slug' =>  esc_url(WP_STATISTICS_SITE_URL . '/product/wp-statistics-widgets/?utm_source=wp-statistics&utm_medium=link&utm_campaign=plugin-settings')], true);
+?>
+
     <div class="postbox">
         <table class="form-table <?php echo !$isWidgetsActive ? 'form-table--preview' : '' ?>">
             <tbody>
             <tr valign="top">
                 <th scope="row" colspan="2"><h3><?php esc_html_e('Widget Cache Duration', 'wp-statistics'); ?></h3></th>
             </tr>
-
-            <?php if (!$isWidgetsActive) : ?>
-                <tr class="upgrade-notice" valign="top">
-                    <th scope="row" colspan="2">
-                        <p style="font-size: 1em"><?php esc_html_e('This feature is currently restricted in your current version. Unlock premium features to gain a deeper insight into your website.', 'wp-statistics') ?></p>
-                        <a target="_blank" class="button button-primary" href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/product/wp-statistics-widgets/?utm_source=wp-statistics&utm_medium=link&utm_campaign=plugin-settings'); ?>"><?php esc_html_e('Upgrade', 'wp-statistics') ?></a>
-                    </th>
-                </tr>
-            <?php endif; ?>
 
             <tr valign="top">
                 <th scope="row">
@@ -42,17 +37,8 @@ $isWidgetsActive = WP_STATISTICS\Helper::isAddOnActive('widgets');
         <table class="form-table <?php echo !$isWidgetsActive ? 'form-table--preview' : '' ?>">
             <tbody>
             <tr valign="top">
-                <th scope="row" colspan="2"><h3><?php esc_html_e('Widget Design Customization', 'wp-statistics'); ?> <a href="#" class="wps-tooltip" title="<?php esc_attr_e('Toggle this to enable or disable the default styling for widgets. When disabled, widgets will inherit styling from the theme or custom CSS.', 'wp-statistics'); ?>"><i class="wps-tooltip-icon"></i></a></h3></th>
+                <th scope="row" colspan="2"><h3><?php esc_html_e('Widget Design Customization', 'wp-statistics'); ?></h3></th>
             </tr>
-
-            <?php if (!$isWidgetsActive) : ?>
-                <tr class="upgrade-notice" valign="top">
-                    <th scope="row" colspan="2">
-                        <p style="font-size: 1em"><?php esc_html_e('This feature is currently restricted in your current version. Unlock premium features to gain a deeper insight into your website.', 'wp-statistics') ?></p>
-                        <a target="_blank" class="button button-primary" href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/product/wp-statistics-widgets/?utm_source=wp-statistics&utm_medium=link&utm_campaign=plugin-settings'); ?>"><?php esc_html_e('Upgrade', 'wp-statistics') ?></a>
-                    </th>
-                </tr>
-            <?php endif; ?>
 
             <tr valign="top">
                 <th scope="row">
@@ -61,7 +47,7 @@ $isWidgetsActive = WP_STATISTICS\Helper::isAddOnActive('widgets');
 
                 <td>
                     <input id="wps_addon_settings[widgets][disable_styles]" name="wps_addon_settings[widgets][disable_styles]" type="checkbox" value="1" <?php checked(WP_STATISTICS\Option::getByAddon('disable_styles', 'widgets')) ?>>
-                    <label for="wps_addon_settings[widgets][disable_styles]"><?php esc_html_e('Active', 'wp-statistics'); ?></label>
+                    <label for="wps_addon_settings[widgets][disable_styles]"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
                     <p class="description"><?php esc_html_e('Uncheck to allow theme or custom styles to determine widget appearance.', 'wp-statistics'); ?></p>
                 </td>
             </tr>

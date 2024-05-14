@@ -69,7 +69,12 @@
 
         <tr valign="top" data-view="visitors_log_tr" <?php echo(WP_STATISTICS\Option::get('visitors') == false ? 'style="display:none;"' : '') ?>>
             <th scope="row">
-                <label for="visitors_log"><?php esc_html_e('Record User Page Views', 'wp-statistics'); ?></label>
+                <label for="visitors_log">
+                    <?php esc_html_e('Record User Page Views', 'wp-statistics'); ?>
+                </label>
+                <?php if (\WP_STATISTICS\Option::get('privacy_audit')): ?>
+                    <a href="#" class="wps-tooltip" title="<?php esc_html_e('Privacy Impact - This setting affects user privacy. Adjust with caution to ensure compliance with privacy standards. For more details, visit the Privacy Audit page.', 'wp-statistics') ?>"><i class="wps-tooltip-icon privacy"></i></a>
+                <?php endif ?>
             </th>
             <td>
                 <input id="visitors_log" type="checkbox" value="1" name="wps_visitors_log" <?php echo WP_STATISTICS\Option::get('visitors_log') == true ? "checked='checked'" : ''; ?>>
@@ -86,7 +91,7 @@
             <td>
                 <input id="enable_user_column" type="checkbox" value="1" name="wpsesc_html_enable_user_column" <?php echo WP_STATISTICS\Option::get('enable_user_column') == true ? "checked='checked'" : ''; ?>>
                 <label for="enable_user_column"><?php esc_html_e('Show View Logs', 'wp-statistics'); ?></label>
-                <p class="description"><?php esc_html_e('Adds a column in the WordPress admin\'s user list to display a log of user visits.', 'wp-statistics'); ?></p>
+                <p class="description"><?php esc_html_e('Adds a column in the WordPress admin\'s user list to display a log of user views.', 'wp-statistics'); ?></p>
             </td>
         </tr>
         </tbody>

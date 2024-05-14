@@ -1,8 +1,9 @@
 <?php
 
 namespace WP_STATISTICS;
+use WP_Statistics\Components\Singleton;
 
-class refer_page
+class refer_page extends Singleton
 {
 
     public function __construct()
@@ -104,4 +105,4 @@ class refer_page
 
 }
 
-new refer_page;
+refer_page::instance();

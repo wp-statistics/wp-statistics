@@ -1,8 +1,9 @@
 <?php
 
 namespace WP_STATISTICS;
+use WP_Statistics\Components\Singleton;
 
-class platform_page
+class platform_page extends Singleton
 {
 
     public function __construct()
@@ -51,4 +52,4 @@ class platform_page
 
 }
 
-new platform_page;
+platform_page::instance();

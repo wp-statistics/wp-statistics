@@ -1,8 +1,9 @@
 <?php
 
 namespace WP_STATISTICS;
+use WP_Statistics\Components\Singleton;
 
-class pages_page
+class pages_page extends Singleton
 {
 
     const ITEM_PER_PAGE = 20;
@@ -286,4 +287,4 @@ class pages_page
     }
 }
 
-new pages_page;
+pages_page::instance();

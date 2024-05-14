@@ -1,6 +1,12 @@
 <?php
+
+use WP_STATISTICS\Admin_Template;
+
 $isAdvancedReportingActive = WP_STATISTICS\Helper::isAddOnActive('advanced-reporting');
 global $wp_version;
+?>
+<?php
+if (!$isAdvancedReportingActive) echo Admin_Template::get_template('layout/partials/addon-premium-feature', ['addon_slug' => esc_url(WP_STATISTICS_SITE_URL . '/product/wp-statistics-advanced-reporting/?utm_source=wp-statistics&utm_medium=link&utm_campaign=plugin-settings')], true);
 ?>
 
     <div class="postbox">
@@ -10,14 +16,6 @@ global $wp_version;
                 <th scope="row" colspan="2"><h3><?php esc_html_e('Report Scheduling', 'wp-statistics'); ?></h3></th>
             </tr>
 
-            <?php if (!$isAdvancedReportingActive) : ?>
-                <tr class="upgrade-notice" valign="top">
-                    <th scope="row" colspan="2">
-                        <p style="font-size: 1em"><?php esc_html_e('This feature is currently restricted in your current version. Unlock premium features to gain a deeper insight into your website.', 'wp-statistics') ?></p>
-                        <a target="_blank" class="button button-primary" href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/product/wp-statistics-advanced-reporting/?utm_source=wp-statistics&utm_medium=link&utm_campaign=plugin-settings'); ?>"><?php esc_html_e('Upgrade', 'wp-statistics') ?></a>
-                    </th>
-                </tr>
-            <?php endif; ?>
 
             <tr valign="top">
                 <th scope="row">
@@ -70,15 +68,6 @@ global $wp_version;
                 <th scope="row" colspan="2"><h3><?php esc_html_e('Email Notifications', 'wp-statistics'); ?></h3></th>
             </tr>
 
-            <?php if (!$isAdvancedReportingActive) : ?>
-                <tr class="upgrade-notice" valign="top">
-                    <th scope="row" colspan="2">
-                        <p style="font-size: 1em"><?php esc_html_e('This feature is currently restricted in your current version. Unlock premium features to gain a deeper insight into your website.', 'wp-statistics') ?></p>
-                        <a target="_blank" class="button button-primary" href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/product/wp-statistics-advanced-reporting/?utm_source=wp-statistics&utm_medium=link&utm_campaign=plugin-settings'); ?>"><?php esc_html_e('Upgrade', 'wp-statistics') ?></a>
-                    </th>
-                </tr>
-            <?php endif; ?>
-
             <tr valign="top">
                 <th scope="row">
                     <label for="wps_addon_settings[advanced_reporting][email_summary_stats]"><?php esc_html_e('Summary Statistics', 'wp-statistics'); ?></label>
@@ -123,7 +112,7 @@ global $wp_version;
                 <td>
                     <input id="wps_addon_settings[advanced_reporting][email_top_hits_visits]" name="wps_addon_settings[advanced_reporting][email_top_hits_visits]" type="checkbox" value="1" <?php checked(WP_STATISTICS\Option::getByAddon('email_top_hits_visits', 'advanced_reporting')) ?>>
                     <label for="wps_addon_settings[advanced_reporting][email_top_hits_visits]"><?php esc_html_e('Active', 'wp-statistics'); ?></label>
-                    <p class="description"><?php esc_html_e('Choose to receive detailed charts on visits counts and behavior patterns.', 'wp-statistics'); ?></p>
+                    <p class="description"><?php esc_html_e('Choose to receive detailed charts on views counts and behavior patterns.', 'wp-statistics'); ?></p>
                 </td>
             </tr>
             </tbody>
@@ -136,15 +125,6 @@ global $wp_version;
             <tr valign="top">
                 <th scope="row" colspan="2"><h3><?php esc_html_e('Report Components', 'wp-statistics'); ?></h3></th>
             </tr>
-
-            <?php if (!$isAdvancedReportingActive) : ?>
-                <tr class="upgrade-notice" valign="top">
-                    <th scope="row" colspan="2">
-                        <p style="font-size: 1em"><?php esc_html_e('This feature is currently restricted in your current version. Unlock premium features to gain a deeper insight into your website.', 'wp-statistics') ?></p>
-                        <a target="_blank" class="button button-primary" href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/product/wp-statistics-advanced-reporting/?utm_source=wp-statistics&utm_medium=link&utm_campaign=plugin-settings'); ?>"><?php esc_html_e('Upgrade', 'wp-statistics') ?></a>
-                    </th>
-                </tr>
-            <?php endif; ?>
 
             <tr valign="top">
                 <th scope="row">
@@ -204,15 +184,6 @@ global $wp_version;
                 <th scope="row" colspan="2"><h3><?php esc_html_e('Customization Options', 'wp-statistics'); ?></h3></th>
             </tr>
 
-            <?php if (!$isAdvancedReportingActive) : ?>
-                <tr class="upgrade-notice" valign="top">
-                    <th scope="row" colspan="2">
-                        <p style="font-size: 1em"><?php esc_html_e('This feature is currently restricted in your current version. Unlock premium features to gain a deeper insight into your website.', 'wp-statistics') ?></p>
-                        <a target="_blank" class="button button-primary" href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/product/wp-statistics-advanced-reporting/?utm_source=wp-statistics&utm_medium=link&utm_campaign=plugin-settings'); ?>"><?php esc_html_e('Upgrade', 'wp-statistics') ?></a>
-                    </th>
-                </tr>
-            <?php endif; ?>
-
             <tr valign="top">
                 <th scope="row">
                     <label for="wps_addon_settings[advanced_reporting][email_top_ten_number]"><?php esc_html_e('Number of Top Pages', 'wp-statistics'); ?></label>
@@ -261,15 +232,6 @@ global $wp_version;
                 <th scope="row" colspan="2"><h3><?php esc_html_e('Visual Enhancements', 'wp-statistics'); ?></h3></th>
             </tr>
 
-            <?php if (!$isAdvancedReportingActive) : ?>
-                <tr class="upgrade-notice" valign="top">
-                    <th scope="row" colspan="2">
-                        <p style="font-size: 1em"><?php esc_html_e('This feature is currently restricted in your current version. Unlock premium features to gain a deeper insight into your website.', 'wp-statistics') ?></p>
-                        <a target="_blank" class="button button-primary" href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/product/wp-statistics-advanced-reporting/?utm_source=wp-statistics&utm_medium=link&utm_campaign=plugin-settings'); ?>"><?php esc_html_e('Upgrade', 'wp-statistics') ?></a>
-                    </th>
-                </tr>
-            <?php endif; ?>
-
             <tr valign="top">
                 <th scope="row">
                     <label for="wps_addon_settings[advanced_reporting][email_chart_top_browsers]"><?php esc_html_e('Browser Chart', 'wp-statistics'); ?></label>
@@ -306,15 +268,6 @@ global $wp_version;
                 <th scope="row" colspan="2"><h3><?php esc_html_e('Additional Features', 'wp-statistics'); ?></h3></th>
             </tr>
 
-            <?php if (!$isAdvancedReportingActive) : ?>
-                <tr class="upgrade-notice" valign="top">
-                    <th scope="row" colspan="2">
-                        <p style="font-size: 1em"><?php esc_html_e('This feature is currently restricted in your current version. Unlock premium features to gain a deeper insight into your website.', 'wp-statistics') ?></p>
-                        <a target="_blank" class="button button-primary" href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/product/wp-statistics-advanced-reporting/?utm_source=wp-statistics&utm_medium=link&utm_campaign=plugin-settings'); ?>"><?php esc_html_e('Upgrade', 'wp-statistics') ?></a>
-                    </th>
-                </tr>
-            <?php endif; ?>
-
             <tr valign="top">
                 <th scope="row">
                     <label for="wps_addon_settings[advanced_reporting][email_more_info_button]"><?php esc_html_e('More Information Button', 'wp-statistics'); ?></label>
@@ -348,15 +301,6 @@ global $wp_version;
                 <th scope="row" colspan="2"><h3><?php esc_html_e('Branding Your Reports', 'wp-statistics'); ?></h3></th>
             </tr>
 
-            <?php if (!$isAdvancedReportingActive) : ?>
-                <tr class="upgrade-notice" valign="top">
-                    <th scope="row" colspan="2">
-                        <p style="font-size: 1em"><?php esc_html_e('This feature is currently restricted in your current version. Unlock premium features to gain a deeper insight into your website.', 'wp-statistics') ?></p>
-                        <a target="_blank" class="button button-primary" href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/product/wp-statistics-advanced-reporting/?utm_source=wp-statistics&utm_medium=link&utm_campaign=plugin-settings'); ?>"><?php esc_html_e('Upgrade', 'wp-statistics') ?></a>
-                    </th>
-                </tr>
-            <?php endif; ?>
-
             <tr valign="top">
                 <th scope="row">
                     <label for="wps_addon_settings[advanced_reporting][custom_header_logo]"><?php esc_html_e('Report Logo Upload', 'wp-statistics'); ?></label>
@@ -378,7 +322,7 @@ global $wp_version;
                 <td>
                     <div class='wps-ar-preview-wrapper'><img id='wps-ar-image-preview' src='<?php echo esc_attr($header_logo_url) ?>' alt="Header Logo"></div>
                     <input id="wps_addon_settings[advanced_reporting][custom_header_logo]" name="wps_addon_settings[advanced_reporting][custom_header_logo]" type="text" class="regular-text" value="<?php echo esc_attr(WP_STATISTICS\Option::getByAddon('custom_header_logo', 'advanced_reporting')) ?>"/>
-                    <span>&nbsp;<input type="button" class="wps_ar_settings_upload_button button" value="<?php esc_html_e('Upload File', 'wp-statistics-advanced-reporting') ?>" style="margin: 0; padding-top: 13px; padding-bottom: 13px;" />&nbsp;<input type="button" class="wps_ar_settings_clear_upload_button button" style="<?php echo $display_clear ?> margin: 0; padding-top: 13px; padding-bottom: 13px;" value="<?php esc_html_e('X', 'wp-statistics-advanced-reporting') ?>"/></span>
+                    <span>&nbsp;<input type="button" class="wps_ar_settings_upload_button button" value="<?php esc_html_e('Upload File', 'wp-statistics-advanced-reporting') ?>" style="margin: 0; padding-top: 13px; padding-bottom: 13px;"/>&nbsp;<input type="button" class="wps_ar_settings_clear_upload_button button" style="<?php echo $display_clear ?> margin: 0; padding-top: 13px; padding-bottom: 13px;" value="<?php esc_html_e('X', 'wp-statistics-advanced-reporting') ?>"/></span>
 
                     <p class="description"><?php esc_html_e('Upload your own logo to replace the default in report headers, establishing your brand\'s presence in all reports.', 'wp-statistics'); ?></p>
                 </td>
@@ -435,15 +379,6 @@ global $wp_version;
                 <th scope="row" colspan="2"><h3><?php esc_html_e('Control and Compliance', 'wp-statistics'); ?></h3></th>
             </tr>
 
-            <?php if (!$isAdvancedReportingActive) : ?>
-                <tr class="upgrade-notice" valign="top">
-                    <th scope="row" colspan="2">
-                        <p style="font-size: 1em"><?php esc_html_e('This feature is currently restricted in your current version. Unlock premium features to gain a deeper insight into your website.', 'wp-statistics') ?></p>
-                        <a target="_blank" class="button button-primary" href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/product/wp-statistics-advanced-reporting/?utm_source=wp-statistics&utm_medium=link&utm_campaign=plugin-settings'); ?>"><?php esc_html_e('Upgrade', 'wp-statistics') ?></a>
-                    </th>
-                </tr>
-            <?php endif; ?>
-
             <tr valign="top">
                 <th scope="row">
                     <label for="wps_addon_settings[advanced_reporting][email_disable_copyright]"><?php esc_html_e('Copyright Notice', 'wp-statistics'); ?></label>
@@ -466,15 +401,6 @@ global $wp_version;
                 <th scope="row" colspan="2"><h3><?php esc_html_e('PDF Reports', 'wp-statistics'); ?></h3></th>
             </tr>
 
-            <?php if (!$isAdvancedReportingActive) : ?>
-                <tr class="upgrade-notice" valign="top">
-                    <th scope="row" colspan="2">
-                        <p style="font-size: 1em"><?php esc_html_e('This feature is currently restricted in your current version. Unlock premium features to gain a deeper insight into your website.', 'wp-statistics') ?></p>
-                        <a target="_blank" class="button button-primary" href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/product/wp-statistics-advanced-reporting/?utm_source=wp-statistics&utm_medium=link&utm_campaign=plugin-settings'); ?>"><?php esc_html_e('Upgrade', 'wp-statistics') ?></a>
-                    </th>
-                </tr>
-            <?php endif; ?>
-
             <tr valign="top">
                 <th scope="row">
                     <label for="wps_addon_settings[advanced_reporting][pdf_report_status]"><?php esc_html_e('Email PDF Report Attachments', 'wp-statistics'); ?></label>
@@ -496,15 +422,6 @@ global $wp_version;
             <tr valign="top">
                 <th scope="row" colspan="2"><h3><?php esc_html_e('Preview and Send', 'wp-statistics'); ?></h3></th>
             </tr>
-
-            <?php if (!$isAdvancedReportingActive) : ?>
-                <tr class="upgrade-notice" valign="top">
-                    <th scope="row" colspan="2">
-                        <p style="font-size: 1em"><?php esc_html_e('This feature is currently restricted in your current version. Unlock premium features to gain a deeper insight into your website.', 'wp-statistics') ?></p>
-                        <a target="_blank" class="button button-primary" href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/product/wp-statistics-advanced-reporting/?utm_source=wp-statistics&utm_medium=link&utm_campaign=plugin-settings'); ?>"><?php esc_html_e('Upgrade', 'wp-statistics') ?></a>
-                    </th>
-                </tr>
-            <?php endif; ?>
 
             <tr valign="top">
                 <th scope="row">

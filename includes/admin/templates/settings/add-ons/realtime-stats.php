@@ -2,22 +2,16 @@
 $isRealTimeStatsActive = WP_STATISTICS\Helper::isAddOnActive('realtime-stats');
 ?>
 
+<?php
+if (!$isRealTimeStatsActive) echo \WP_STATISTICS\Admin_Template::get_template('layout/partials/addon-premium-feature', ['addon_slug' => esc_url(WP_STATISTICS_SITE_URL . '/product/wp-statistics-realtime-stats/?utm_source=wp-statistics&utm_medium=link&utm_campaign=plugin-settings')], true);
+?>
+
     <div class="postbox">
         <table class="form-table <?php echo !$isRealTimeStatsActive ? 'form-table--preview' : '' ?>">
             <tbody>
             <tr valign="top">
                 <th scope="row" colspan="2"><h3><?php esc_html_e('Update Interval', 'wp-statistics'); ?></h3></th>
             </tr>
-
-            <?php if (!$isRealTimeStatsActive) : ?>
-                <tr class="upgrade-notice" valign="top">
-                    <th scope="row" colspan="2">
-                        <p style="font-size: 1em"><?php esc_html_e('This feature is currently restricted in your current version. Unlock premium features to gain a deeper insight into your website.', 'wp-statistics') ?></p>
-                        <a target="_blank" class="button button-primary" href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/product/wp-statistics-realtime-stats/?utm_source=wp-statistics&utm_medium=link&utm_campaign=plugin-settings'); ?>"><?php esc_html_e('Upgrade', 'wp-statistics') ?></a>
-                    </th>
-                </tr>
-            <?php endif; ?>
-
             <tr valign="top">
                 <th scope="row">
                     <label for="realtime-stats-interval-time"><?php esc_html_e('Chart & Map Refresh Rate (seconds)', 'wp-statistics'); ?></label>
@@ -39,15 +33,6 @@ $isRealTimeStatsActive = WP_STATISTICS\Helper::isAddOnActive('realtime-stats');
             <tr valign="top">
                 <th scope="row" colspan="2"><h3><?php esc_html_e('Content Filtering', 'wp-statistics'); ?></h3></th>
             </tr>
-
-            <?php if (!$isRealTimeStatsActive) : ?>
-                <tr class="upgrade-notice" valign="top">
-                    <th scope="row" colspan="2">
-                        <p style="font-size: 1em"><?php esc_html_e('This feature is currently restricted in your current version. Unlock premium features to gain a deeper insight into your website.', 'wp-statistics') ?></p>
-                        <a target="_blank" class="button button-primary" href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/product/wp-statistics-realtime-stats/?utm_source=wp-statistics&utm_medium=link&utm_campaign=plugin-settings'); ?>"><?php esc_html_e('Upgrade', 'wp-statistics') ?></a>
-                    </th>
-                </tr>
-            <?php endif; ?>
 
             <tr valign="top">
                 <th scope="row">

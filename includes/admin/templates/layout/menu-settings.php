@@ -125,7 +125,7 @@
     </a>
 
     <a data-tab="widgets-settings" class="wps-optionsMenuItem wps-optionsMenuItem--extension <?php echo (\WP_STATISTICS\Helper::isAddOnActive('widgets')) ? 'active' : ''; ?>">
-        <span class="wps-optionsMenuItem__title--extension"><?php esc_html_e('Widgets', 'wp-statistics'); ?></span>
+        <span class="wps-optionsMenuItem__title--extension"><?php esc_html_e('Advanced Widgets', 'wp-statistics'); ?></span>
         <span class="wps-optionsMenuItem__status--extension"><?php esc_html_e('Add-on', 'wp-statistics'); ?></span>
     </a>
 </div>

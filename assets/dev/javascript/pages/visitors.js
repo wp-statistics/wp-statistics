@@ -145,10 +145,10 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         let input_date_style = 'width: calc(50% - 5px);display: inline-block;';
         html += `<tr>
                             <td>
-                                <div style="${input_date_style}">${wps_js._('from')}: <input name="date-from" data-wps-date-picker="from" value="${(wps_js.getLinkParams('from') != null ? wps_js.getLinkParams('from') : ``)}" style="width: calc(100% - 5px);" placeholder="YYYY-MM-DD" autocomplete="off"></div>
-                                <div style="${input_date_style}">${wps_js._('to')}: <input name="date-to" data-wps-date-picker="to" value="${(wps_js.getLinkParams('to') != null ? wps_js.getLinkParams('to') : ``)}" style="width: 100%;" placeholder="YYYY-MM-DD" autocomplete="off"></div>
-                                <input type="hidden" name="from" id="date-from" value="${(wps_js.getLinkParams('from') != null ? wps_js.getLinkParams('from') : ``)}">
-                                <input type="hidden" name="to" id="date-to" value="${(wps_js.getLinkParams('to') != null ? wps_js.getLinkParams('to') : ``)}">
+                                <div style="${input_date_style}">${wps_js._('from')}: <input name="date-from" class="modal-input" data-wps-date-picker="from" value="${(wps_js.getLinkParams('from') != null ? wps_js.getLinkParams('from') : ``)}" style="width: calc(100% - 5px);" placeholder="YYYY-MM-DD" autocomplete="off"></div>
+                                <div style="${input_date_style}">${wps_js._('to')}: <input name="date-to" class="modal-input" data-wps-date-picker="to" value="${(wps_js.getLinkParams('to') != null ? wps_js.getLinkParams('to') : ``)}" style="width: 100%;" placeholder="YYYY-MM-DD" autocomplete="off"></div>
+                                <input type="hidden" name="from" id="date-from" class="modal-input" value="${(wps_js.getLinkParams('from') != null ? wps_js.getLinkParams('from') : ``)}">
+                                <input type="hidden" name="to" id="date-to" class="modal-input" value="${(wps_js.getLinkParams('to') != null ? wps_js.getLinkParams('to') : ``)}">
                             </td>
                             </tr>`;
 
@@ -167,7 +167,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             });
             wps_js.date_picker();
             wps_js.select2();
-        }, 200);
+        }, 500);
     }
 
 }

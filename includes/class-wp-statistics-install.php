@@ -89,6 +89,8 @@ class Install
 						version varchar(255),
 						location varchar(10),
                         city varchar(100),
+                        region varchar(100),
+                        continent varchar(50),
 						`user_id` BIGINT(48) NOT NULL,
 						`page_id` BIGINT(48) NOT NULL,
 						`type` VARCHAR(100) NOT NULL,
@@ -126,6 +128,8 @@ class Install
 						hits int(11),
 						honeypot int(11),
 						city varchar(100),
+                        region varchar(100),
+                        continent varchar(50),
 						PRIMARY KEY  (ID),
 						UNIQUE KEY date_ip_agent (last_counter,ip,agent(50),platform(50),version(50)),
 						KEY agent (agent),
@@ -355,7 +359,7 @@ class Install
     public function add_meta_links($links, $file)
     {
         if ($file == plugin_basename(WP_STATISTICS_MAIN_FILE)) {
-            $plugin_url = 'http://wordpress.org/plugins/wp-statistics/';
+            $plugin_url = 'https://wordpress.org/plugins/wp-statistics/';
 
             $links[]  = '<a href="' . $plugin_url . '" target="_blank" title="' . __('Click here to visit the plugin on WordPress.org', 'wp-statistics') . '">' . __('Visit WordPress.org page', 'wp-statistics') . '</a>';
             $rate_url = 'https://wordpress.org/support/plugin/wp-statistics/reviews/?rate=5#new-post';
@@ -398,6 +402,26 @@ class Install
         }
 
         /**
+         * Add visitor region
+         *
+         * @version 14.7.0
+         */
+        $result = $wpdb->query("SHOW COLUMNS FROM {$visitorTable} LIKE 'region'");
+        if ($result == 0) {
+            $wpdb->query("ALTER TABLE {$visitorTable} ADD `region` VARCHAR(100) NULL;");
+        }
+
+        /**
+         * Add visitor continent
+         *
+         * @version 14.7.0
+         */
+        $result = $wpdb->query("SHOW COLUMNS FROM {$visitorTable} LIKE 'continent'");
+        if ($result == 0) {
+            $wpdb->query("ALTER TABLE {$visitorTable} ADD `continent` VARCHAR(50) NULL;");
+        }
+
+        /**
          * Add online user city
          *
          * @version 14.5.2
@@ -405,6 +429,26 @@ class Install
         $result = $wpdb->query("SHOW COLUMNS FROM {$userOnlineTable} LIKE 'city'");
         if ($result == 0) {
             $wpdb->query("ALTER TABLE {$userOnlineTable} ADD `city` VARCHAR(100) NULL;");
+        }
+
+        /**
+         * Add online user region
+         *
+         * @version 14.7.0
+         */
+        $result = $wpdb->query("SHOW COLUMNS FROM {$userOnlineTable} LIKE 'region'");
+        if ($result == 0) {
+            $wpdb->query("ALTER TABLE {$userOnlineTable} ADD `region` VARCHAR(100) NULL;");
+        }
+
+        /**
+         * Add online user continent
+         *
+         * @version 14.7.0
+         */
+        $result = $wpdb->query("SHOW COLUMNS FROM {$userOnlineTable} LIKE 'continent'");
+        if ($result == 0) {
+            $wpdb->query("ALTER TABLE {$userOnlineTable} ADD `continent` VARCHAR(50) NULL;");
         }
 
         /**

@@ -16,21 +16,16 @@ foreach ($miniChartPostTypes as $p) {
 }
 ?>
 
+<?php
+if (!$isMiniChartActive) echo \WP_STATISTICS\Admin_Template::get_template('layout/partials/addon-premium-feature', ['addon_slug' => esc_url(WP_STATISTICS_SITE_URL . '/product/wp-statistics-mini-chart/?utm_source=wp-statistics&utm_medium=link&utm_campaign=plugin-settings')], true);
+?>
+
 <div class="postbox">
     <table class="form-table <?php echo !$isMiniChartActive ? 'form-table--preview' : '' ?>">
         <tbody>
         <tr>
             <th scope="row" colspan="2"><h3><?php esc_html_e('Chart Preferences', 'wp-statistics'); ?></h3></th>
         </tr>
-
-        <?php if (!$isMiniChartActive) : ?>
-            <tr class="upgrade-notice">
-                <th scope="row" colspan="2">
-                    <p style="font-size: 1em"><?php esc_html_e('This feature is currently restricted in your current version. Unlock premium features to gain a deeper insight into your website.', 'wp-statistics') ?></p>
-                    <a target="_blank" class="button button-primary" href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/product/wp-statistics-mini-chart/?utm_source=wp-statistics&utm_medium=link&utm_campaign=plugin-settings'); ?>"><?php esc_html_e('Upgrade', 'wp-statistics') ?></a>
-                </th>
-            </tr>
-        <?php endif; ?>
 
         <tr>
             <th scope="row">
@@ -58,15 +53,6 @@ foreach ($miniChartPostTypes as $p) {
         <tr>
             <th scope="row" colspan="2"><h3><?php esc_html_e('Chart Appearance', 'wp-statistics'); ?></h3></th>
         </tr>
-
-        <?php if (!$isMiniChartActive) : ?>
-            <tr class="upgrade-notice">
-                <th scope="row" colspan="2">
-                    <p style="font-size: 1em"><?php esc_html_e('This feature is currently restricted in your current version. Unlock premium features to gain a deeper insight into your website.', 'wp-statistics') ?></p>
-                    <a target="_blank" class="button button-primary" href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/product/wp-statistics-mini-chart/?utm_source=wp-statistics&utm_medium=link&utm_campaign=plugin-settings'); ?>"><?php esc_html_e('Upgrade', 'wp-statistics') ?></a>
-                </th>
-            </tr>
-        <?php endif; ?>
 
         <tr>
             <th scope="row">

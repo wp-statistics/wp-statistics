@@ -111,8 +111,8 @@ wps_js.meta_box_tooltip = function (key) {
     if (meta_box_info.hasOwnProperty('description')) {
         const title = jQuery(selector).text();
         const tooltip = meta_box_info.description;
-        const newTitle = '<span>' + title + '</span><a href="#" class="wps-tooltip" title="' + tooltip + '"><i class="wps-tooltip-icon"></i></a>';
-        jQuery(selector).html(newTitle);
+        const newTitle = '<a href="#" class="wps-tooltip" title="' + tooltip + '"><i class="wps-tooltip-icon"></i></a>';
+         jQuery(selector).append(newTitle);
     }
 }
 

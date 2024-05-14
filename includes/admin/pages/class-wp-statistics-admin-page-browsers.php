@@ -1,8 +1,9 @@
 <?php
 
 namespace WP_STATISTICS;
+use WP_Statistics\Components\Singleton;
 
-class browser_page
+class browser_page extends Singleton
 {
 
     public function __construct()
@@ -50,4 +51,4 @@ class browser_page
 
 }
 
-new browser_page;
+browser_page::instance();

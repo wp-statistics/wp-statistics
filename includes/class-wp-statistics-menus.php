@@ -22,9 +22,7 @@ class Menus
         'hits'         => 'hits',
         'online'       => 'online',
         'pages'        => 'pages',
-        'categories'   => 'categories',
         'authors'      => 'authors',
-        'tags'         => 'tags',
         'referrers'    => 'referrers',
         'searches'     => 'searches',
         'top-visitors' => 'top_visitors',
@@ -325,8 +323,6 @@ class Menus
      */
     public function wp_admin_menu()
     {
-        // Keep track of instantiated classes to prevent running codes multiple times
-        $instantiatedClasses = [];
 
         // Get the read/write capabilities.
         $read_cap = User::ExistCapability(Option::get('read_capability', 'manage_options'));
@@ -338,7 +334,7 @@ class Menus
             $capability = $read_cap;
             $method     = 'log';
             $name       = $menu['title'];
-            $callback   = '';
+
 
             if (array_key_exists('cap', $menu)) {
                 $capability = $menu['cap'];
@@ -360,10 +356,7 @@ class Menus
 
             // Now, ensure that the 'view' method exists in the determined class.
             if (method_exists($className, 'view')) {
-                if (!in_array($className, $instantiatedClasses)) {
-                    $callback               = [new $className(), 'view'];
-                    $instantiatedClasses[]  = $className;
-                }
+                $callback = [$className::instance(), 'view'];
             } else {
                 continue;
             }

@@ -1,3 +1,13 @@
+= 14.7 - **.05.2024 =
+* Addition: Introduced Privacy Audit to ensure compliance with privacy laws. Includes disabling "Record User Page Views," "Anonymize IP Addresses," and "Hash IP Addresses" for GDPR compliance. [More info click here](https://...)
+* Addition: Added two new columns, `region` and `continent`, to the visitor table to enhance geographic data.
+* Improvement: Enhanced the styling of email reports for improved readability and aesthetics.
+* Improvement: Updated filters and styles for better user experience.
+* Improvement: Enhanced event scheduling and email handling for improved performance.
+* Improvement: Refined language strings and admin interface for easier use.
+* Improvement: Merged REST API and Advanced Widgets settings into main plugin settings for better management.
+* Improvement: Various minor enhancements to boost plugin stability and performance.
+
 = 14.6.4 - 03.05.2024 =
 * Fixes: Improved data comparison logic.
 * Fixes: Fixed some fields visibility on settings page.
