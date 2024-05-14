@@ -467,15 +467,14 @@ class Visitor
     {
         global $wpdb;
         $query = $wpdb->get_results(
-            "SELECT `user_id` FROM `" . DB::table('visitor') . "` as visitors WHERE `user_id` > 0 AND EXISTS (SELECT `ID` FROM `" . $wpdb->users . "` as users WHERE visitors.user_id = users.ID) GROUP BY `user_id` ORDER BY `user_id` DESC",
+            "SELECT visitors.user_id, users.user_login, users.user_email FROM `" . DB::table('visitor') . "` AS visitors JOIN `" . $wpdb->users . "` AS users ON visitors.user_id = users.ID WHERE visitors.user_id > 0 GROUP BY visitors.user_id ORDER BY visitors.user_id DESC;",
             ARRAY_A
         );
         $item  = array();
         foreach ($query as $row) {
-            $user_data             = User::get($row['user_id']);
             $item[$row['user_id']] = array(
-                'user_login' => $user_data['user_login'],
-                'user_email' => $user_data['user_email']
+                'user_login' => $row['user_login'],
+                'user_email' => $row['user_email']
             );
         }
 
