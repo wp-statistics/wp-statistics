@@ -2,8 +2,6 @@
 
 namespace WP_STATISTICS;
 
-use GeoIp2\Exception\AddressNotFoundException;
-
 class GeoIP
 {
     /**
@@ -38,7 +36,7 @@ class GeoIP
     /**
      * Default Private Country
      *
-     * @var String
+     * @var string
      */
     public static $private_country = '000';
 
@@ -56,7 +54,7 @@ class GeoIP
     /**
      * Check Is Active Geo-ip
      *
-     * @param bool $which
+     * @param mixed $which
      * @param bool $CheckDBFile
      * @return boolean
      */
@@ -108,7 +106,7 @@ class GeoIP
     /**
      * Get Default Country Code
      *
-     * @return String
+     * @return string
      */
     public static function getDefaultCountryCode()
     {
@@ -126,7 +124,7 @@ class GeoIP
      *
      * @param bool $ip
      * @param string $return
-     * @return String|null
+     * @return string|null
      * @throws \Exception
      * @see https://github.com/maxmind/GeoIP2-php
      */
@@ -481,52 +479,47 @@ class GeoIP
     /**
      * Get City Detail By User IP
      *
-     * @param bool $ip
-     * @param string $return
-     * @return String|null
-     * @throws \Exception
+     * @param string|bool $ip
+     * @param bool $dataScope
+     * @return array|string
      * @see https://github.com/maxmind/GeoIP2-php
      */
-    public static function getCity($ip = false, $return = 'name')
+    public static function getCity($ip = false, $dataScope = false)
     {
-
-        // Check in WordPress WP_Cache
-        $user_city = wp_cache_get('city-' . $ip, 'wp-statistics');
-        if ($user_city != false) {
-            return $user_city;
-        }
-
-        // Default City Name
-        $default_city = __('Unknown', 'wp-statistics');
+        $default_location = [
+            'city'      => __('Unknown', 'wp-statistics'),
+            'region'    => __('Unknown', 'wp-statistics'),
+            'continent' => __('Unknown', 'wp-statistics')
+        ];
 
         // Get User IP
         $ip = ($ip === false ? IP::getIP() : $ip);
-
-        // Sanitize IP
-        if (IP::isIP($ip) === false) {
-            return $default_city;
-        }
 
         // Load GEO-IP
         $reader = self::Loader('city');
 
         //Get City name
-        if ($reader != false) {
-
+        if ($reader != false && IP::isIP($ip) != false) {
             try {
                 //Search in Geo-IP
                 $record = $reader->city($ip);
 
+                $location = [];
+
                 //Get City
-                if ($return == "all") {
-                    $location = $record->city;
-                } elseif ($return == "name") {
-                    $subdiv   = $record->mostSpecificSubdivision->name;
-                    $city     = $record->city->name;
-                    $location = (!empty($city) ? $city : $default_city) . ($subdiv ? (", ") : "") . $subdiv;
-                } else {
-                    $location = $record->city->{$return};
+                $city             = $record->city->name;
+                $location['city'] = !empty($city) ? $city : $default_location['city'];
+
+                //Get Region
+                if ($dataScope) {
+                    $region             = $record->mostSpecificSubdivision->name;
+                    $location['region'] = !empty($region) ? $region : $default_location['region'];
+
+                    // Get Continent
+                    $continent             = $record->continent->name;
+                    $location['continent'] = !empty($continent) ? $continent : $default_location['continent'];
                 }
+
             } catch (\Exception $e) {
                 /**
                  * For debugging, you can comment out the logger.
@@ -536,12 +529,11 @@ class GeoIP
         }
 
         # Check Has Location
-        if (isset($location) and !empty($location)) {
-            wp_cache_set('city-' . $ip, $location, 'wp-statistics', DAY_IN_SECONDS);
-            return $location;
+        if (isset($location)) {
+            return $dataScope ? $location : $location['city'];
         }
 
-        return $default_city;
+        return $dataScope ? $default_location : $default_location['city'];
     }
 
     /**
