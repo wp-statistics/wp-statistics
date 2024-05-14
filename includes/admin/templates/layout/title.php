@@ -1,6 +1,6 @@
 <div class="wps-wrap__top">
-    <?php if (isset($PreviousUrl) &&  isset($PreviousTitle)): ?>
-        <a href="<?php echo  $PreviousUrl ?>" title="<?php echo $PreviousTitle?>" class="wps-previous-url"><?php echo $PreviousTitle?></a>
+    <?php if (isset($backUrl) &&  isset($backTitle)): ?>
+        <a href="<?php echo  $backUrl ?>" title="<?php echo $backTitle?>" class="wps-previous-url"><?php echo $backTitle?></a>
     <?php endif ?>
     <h2 class="wps_title"><?php echo(isset($title) ? esc_attr($title) : (function_exists('get_admin_page_title') ? get_admin_page_title() : '')); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	 ?>
         <?php if (!empty($tooltip)) : ?>
