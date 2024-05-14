@@ -62,10 +62,13 @@ class Menus
         /**
          * Get List Page
          */
+        $admin_list_page = [];
+
         foreach (self::$pages as $page_key => $page_slug) {
             $admin_list_page[$page_key] = self::get_page_slug($page_slug);
         }
-        return isset($admin_list_page) ? $admin_list_page : array();
+
+        return apply_filters('wp_statistics_admin_page_list', $admin_list_page);
     }
 
     /**
