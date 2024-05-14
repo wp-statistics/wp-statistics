@@ -37,7 +37,9 @@ $email_body = '
                 </table>
                 ' . $email_header .'
                 <div class="content" style="background: #fff; border-radius: 8px; box-sizing: border-box; font-family:  \'Roboto\',Arial,Helvetica,sans-serif; margin: 0; padding: 47px 34px 47px 34px; text-decoration: none;">
+                    <div style="margin-bottom: 15px">
                     ' . wp_kses_post($content) .'
+                    </div>
                      <div class="content__tip" style="background: #f0f5ff; border: 1px solid #9da3f7; border-radius: 8px; box-sizing: border-box; font-family: \'Roboto\',Arial,Helvetica,sans-serif; margin: 0; padding: 18px; text-decoration: none;">
                         <div class="content__tip--title" style="box-sizing: border-box; font-family: \'Roboto\',Arial,Helvetica,sans-serif; margin: 0; margin-bottom: 22px; padding: 0; position: relative; text-decoration: none;">
                             <h2 style="box-sizing: border-box; font-family: \'Roboto\',Arial,Helvetica,sans-serif; font-size: 16px; font-weight: 500; line-height: 25px; margin: 0; text-decoration: none;">
