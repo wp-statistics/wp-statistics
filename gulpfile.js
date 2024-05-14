@@ -26,10 +26,10 @@ function buildStyles(done) {
 
 function mailStyle(done) {
     return gulp.src([
-        './assets/mail/scss/mail.scss',
+        './assets/dev/sass/mail.scss',
     ])
         .pipe(sass({outputStyle: 'compressed'}))
-        .pipe(gulp.dest('./assets/mail/css/'));
+        .pipe(gulp.dest('./assets/css/'));
 };
 function inlineMailStyle(done) {
     return gulp.src('./assets/mail/*.html')
