@@ -20,6 +20,15 @@ $disableMenuArray = array(
 
 $disabledMenuItems = WP_STATISTICS\Option::getByAddon('disable_menus', 'customization', []);
 ?>
+<?php if (!$isCustomizationActive) : ?>
+    <div class="wps-premium-feature">
+        <div>
+            <h1><?php esc_html_e('This feature is currently restricted in your current version.', 'wp-statistics'); ?></h1>
+            <p><?php esc_html_e('Unlock premium features to gain a deeper insight into your website.', 'wp-statistics'); ?></p>
+        </div>
+        <a target="_blank" class="button button-primary" href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/product/wp-statistics-customization/?utm_source=wp-statistics&utm_medium=link&utm_campaign=plugin-settings'); ?>"><?php esc_html_e('Upgrade Now', 'wp-statistics') ?></a>
+    </div>
+<?php endif; ?>
 
     <div class="postbox">
         <table class="form-table <?php echo !$isCustomizationActive ? 'form-table--preview' : '' ?>">
@@ -27,15 +36,6 @@ $disabledMenuItems = WP_STATISTICS\Option::getByAddon('disable_menus', 'customiz
             <tr valign="top">
                 <th scope="row" colspan="2"><h3><?php esc_html_e('Settings Overview', 'wp-statistics'); ?></h3></th>
             </tr>
-
-            <?php if (!$isCustomizationActive) : ?>
-                <tr class="upgrade-notice" valign="top">
-                    <th scope="row" colspan="2">
-                        <p style="font-size: 1em"><?php esc_html_e('This feature is currently restricted in your current version. Unlock premium features to gain a deeper insight into your website.', 'wp-statistics') ?></p>
-                        <a target="_blank" class="button button-primary" href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/product/wp-statistics-customization/?utm_source=wp-statistics&utm_medium=link&utm_campaign=plugin-settings'); ?>"><?php esc_html_e('Upgrade', 'wp-statistics') ?></a>
-                    </th>
-                </tr>
-            <?php endif; ?>
 
             <tr valign="top">
                 <th scope="row">
@@ -76,15 +76,6 @@ $disabledMenuItems = WP_STATISTICS\Option::getByAddon('disable_menus', 'customiz
                 <th scope="row" colspan="2"><h3><?php esc_html_e('Manage Admin Menus', 'wp-statistics'); ?></h3></th>
             </tr>
 
-            <?php if (!$isCustomizationActive) : ?>
-                <tr class="upgrade-notice" valign="top">
-                    <th scope="row" colspan="2">
-                        <p style="font-size: 1em"><?php esc_html_e('This feature is currently restricted in your current version. Unlock premium features to gain a deeper insight into your website.', 'wp-statistics') ?></p>
-                        <a target="_blank" class="button button-primary" href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/product/wp-statistics-customization/?utm_source=wp-statistics&utm_medium=link&utm_campaign=plugin-settings'); ?>"><?php esc_html_e('Upgrade', 'wp-statistics') ?></a>
-                    </th>
-                </tr>
-            <?php endif; ?>
-
             <tr valign="top">
                 <th scope="row">
                     <label for="wps_addon_settings[customization][disable_menus]"><?php esc_html_e('Disable Menus', 'wp-statistics'); ?></label>
@@ -111,15 +102,6 @@ $disabledMenuItems = WP_STATISTICS\Option::getByAddon('disable_menus', 'customiz
                 <th scope="row" colspan="2"><h3><?php esc_html_e('Change the header banner', 'wp-statistics'); ?></h3></th>
             </tr>
 
-            <?php if (!$isCustomizationActive) : ?>
-                <tr class="upgrade-notice" valign="top">
-                    <th scope="row" colspan="2">
-                        <p style="font-size: 1em"><?php esc_html_e('This feature is currently restricted in your current version. Unlock premium features to gain a deeper insight into your website.', 'wp-statistics') ?></p>
-                        <a target="_blank" class="button button-primary" href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/product/wp-statistics-customization/?utm_source=wp-statistics&utm_medium=link&utm_campaign=plugin-settings'); ?>"><?php esc_html_e('Upgrade', 'wp-statistics') ?></a>
-                    </th>
-                </tr>
-            <?php endif; ?>
-
             <tr valign="top">
                 <th scope="row">
                     <label for="wps_addon_settings[customization][wps_modify_banner]"><?php esc_html_e('Choose a banner', 'wp-statistics'); ?></label>
@@ -141,15 +123,6 @@ $disabledMenuItems = WP_STATISTICS\Option::getByAddon('disable_menus', 'customiz
             <tr valign="top">
                 <th scope="row" colspan="2"><h3><?php esc_html_e('Overview Widget Customization', 'wp-statistics'); ?></h3></th>
             </tr>
-
-            <?php if (!$isCustomizationActive) : ?>
-                <tr class="upgrade-notice" valign="top">
-                    <th scope="row" colspan="2">
-                        <p style="font-size: 1em"><?php esc_html_e('This feature is currently restricted in your current version. Unlock premium features to gain a deeper insight into your website.', 'wp-statistics') ?></p>
-                        <a target="_blank" class="button button-primary" href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/product/wp-statistics-customization/?utm_source=wp-statistics&utm_medium=link&utm_campaign=plugin-settings'); ?>"><?php esc_html_e('Upgrade', 'wp-statistics') ?></a>
-                    </th>
-                </tr>
-            <?php endif; ?>
 
             <tr valign="top">
                 <th scope="row">
