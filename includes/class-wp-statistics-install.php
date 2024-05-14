@@ -359,7 +359,7 @@ class Install
     public function add_meta_links($links, $file)
     {
         if ($file == plugin_basename(WP_STATISTICS_MAIN_FILE)) {
-            $plugin_url = 'http://wordpress.org/plugins/wp-statistics/';
+            $plugin_url = 'https://wordpress.org/plugins/wp-statistics/';
 
             $links[]  = '<a href="' . $plugin_url . '" target="_blank" title="' . __('Click here to visit the plugin on WordPress.org', 'wp-statistics') . '">' . __('Visit WordPress.org page', 'wp-statistics') . '</a>';
             $rate_url = 'https://wordpress.org/support/plugin/wp-statistics/reviews/?rate=5#new-post';
