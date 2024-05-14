@@ -1,16 +1,13 @@
 <?php
+
+use WP_STATISTICS\Admin_Template;
+
 $isAdvancedReportingActive = WP_STATISTICS\Helper::isAddOnActive('advanced-reporting');
 global $wp_version;
 ?>
-<?php if (!$isAdvancedReportingActive) : ?>
-    <div class="wps-premium-feature">
-        <div>
-            <h1><?php esc_html_e('This feature is currently restricted in your current version.', 'wp-statistics'); ?></h1>
-            <p><?php esc_html_e('Unlock premium features to gain a deeper insight into your website.', 'wp-statistics'); ?></p>
-        </div>
-        <a target="_blank" class="button button-primary" href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/product/wp-statistics-advanced-reporting/?utm_source=wp-statistics&utm_medium=link&utm_campaign=plugin-settings'); ?>"><?php esc_html_e('Upgrade Now', 'wp-statistics') ?></a>
-    </div>
-<?php endif; ?>
+<?php
+if (!$isAdvancedReportingActive) echo Admin_Template::get_template('layout/partials/addon-premium-feature', ['addon_slug' => esc_url(WP_STATISTICS_SITE_URL . '/product/wp-statistics-advanced-reporting/?utm_source=wp-statistics&utm_medium=link&utm_campaign=plugin-settings')], true);
+?>
 
     <div class="postbox">
         <table class="form-table <?php echo !$isAdvancedReportingActive ? 'form-table--preview' : '' ?>">
