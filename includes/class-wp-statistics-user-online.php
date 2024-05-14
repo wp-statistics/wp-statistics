@@ -326,7 +326,7 @@ class UserOnline
             // Push City
             if (GeoIP::active('city')) {
                 $item['city']   = !empty($items->city) ? $items->city : GeoIP::getCity($ip);
-                $item['region'] = !empty($items->region) ? $items->region : esc_html__('Unknown', 'wp-statistics');
+                $item['region'] = $items->region;
             }
 
             // Online For Time

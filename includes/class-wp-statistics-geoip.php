@@ -487,7 +487,7 @@ class GeoIP
     public static function getCity($ip = false, $dataScope = false)
     {
         $default_location = [
-            'city'      => __('Unknown', 'wp-statistics'), // Keep it 'unknown' for backward compatibility
+            'city'      => null,
             'region'    => null,
             'continent' => null
         ];

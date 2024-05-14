@@ -69,8 +69,8 @@ use WP_STATISTICS\Menus;
                                             </td>
                                         <?php } ?>
                                         <?php if (GeoIP::active('city')) { ?>
-                                            <td><?php echo esc_html($item['city']); ?></td>
-                                            <td><?php echo esc_html($item['region']); ?></td>
+                                            <td><?php echo !empty($item['city']) ? esc_html($item['city']) : Admin_Template::UnknownColumn(); ?></td>
+                                            <td><?php echo !empty($item['region']) ? esc_html($item['region']) : Admin_Template::UnknownColumn(); ?></td>
                                         <?php } ?>
                                         <td><span><?php echo esc_attr($item['date']); ?></span></td>
                                         <td class="wps-admin-column__ip">
