@@ -43,7 +43,7 @@ use WP_STATISTICS\Admin_Template;
                                         <?php } ?>
                                         <?php if (GeoIP::active('city')) { ?>
                                             <td><?php echo esc_html($item['city']); ?></td>
-                                            <td><?php echo esc_html($item['region']) ?></td>
+                                            <td><?php echo !empty($item['region']) ? esc_html($item['region']) : Admin_Template::UnknownColumn() ?></td>
                                         <?php } ?>
                                         <td style='text-align: left' class="wps-admin-column__ip"><?php echo sprintf('<a href="%s">%s</a>', esc_url($item['ip']['link']), esc_attr($item['ip']['value'])); ?></td>
                                         <td style='text-align: left'><span><?php echo esc_attr($item['online_for']); ?></span></td>
