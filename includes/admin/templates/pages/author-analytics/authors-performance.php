@@ -48,9 +48,9 @@
     <div class="postbox-container" id="wps-postbox-container-2">
         <?php
             Admin_Template::get_template(['layout/author-analytics/publishing-overview'], [
-                'title_text'   => esc_html__('Publishing Overview', 'wp-statistics'),
-                'tooltip_text'   => esc_html__('Publishing Overview tooltip', 'wp-statistics'),
-                'title_description'   => esc_html__('Last 12 Months', 'wp-statistics'),
+                'title_text'        => esc_html__('Publishing Overview', 'wp-statistics'),
+                'tooltip_text'      => esc_html__('Publishing Overview tooltip', 'wp-statistics'),
+                'title_description' => esc_html__('Last 12 Months', 'wp-statistics'),
             ]);
             
             Admin_Template::get_template(['layout/author-analytics/top-authors'], [

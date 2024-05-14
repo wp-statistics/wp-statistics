@@ -6,7 +6,7 @@ function generateChartData() {
     $end->modify('today');
     $start = (new DateTime())->modify('-365 days');
 
-    while($start <= $end) {
+    while ($start <= $end) {
         $iso = $start->format('Y-m-d');
         $data[] = [
             'x' => $iso,
@@ -40,11 +40,11 @@ $data = generateChartData();
     </div>
     <div class="wps-card__chart-matrix">
         <div class="chart-container">
-            <canvas id="myChart" >
+            <canvas id="myChart">
         </div>
         <div class="wps-card__chart-guide">
             <div class="wps-card__chart-guide--items">
-                <span><?php esc_html_e('Less', 'wp-statistics')?></span>
+                <span><?php esc_html_e('Less', 'wp-statistics') ?></span>
                 <ul>
                     <li class="wps-card__chart-guide--item"></li>
                     <li class="wps-card__chart-guide--item"></li>
@@ -52,14 +52,14 @@ $data = generateChartData();
                     <li class="wps-card__chart-guide--item"></li>
                     <li class="wps-card__chart-guide--item"></li>
                 </ul>
-                <span><?php esc_html_e('More', 'wp-statistics')?></span>
+                <span><?php esc_html_e('More', 'wp-statistics') ?></span>
             </div>
         </div>
     </div>
 </div>
 
- <script>
-     //setup block
+<script>
+    //setup block
     const data = {
         datasets: [{
             label: 'overview',
@@ -72,13 +72,13 @@ $data = generateChartData();
                 let color = colors[index];
                 return Chart.helpers.color(color).rgbString();
             },
-            borderColor:'transparent',
+            borderColor: 'transparent',
             borderWidth: 4,
-            borderRadius:2,
-            boxShadow:0,
-             width(c) {
+            borderRadius: 2,
+            boxShadow: 0,
+            width(c) {
                 const a = c.chart.chartArea || {};
-                 return ((a.right - a.left) / 53 - 1) - 2;
+                return ((a.right - a.left) / 53 - 1) - 2;
             },
             height(c) {
                 const a = c.chart.chartArea || {};
@@ -88,43 +88,43 @@ $data = generateChartData();
     }
 
     //scales
-    const scales={
-        y:{
+    const scales = {
+        y: {
             type: 'time',
-            offset:true,
-            time:{
-                unit:'day',
-                round:'day',
-                isoWeek:1,
-                parser:'i',
-                displayFormats:{
-                    day:'iiiiii'
+            offset: true,
+            time: {
+                unit: 'day',
+                round: 'day',
+                isoWeek: 1,
+                parser: 'i',
+                displayFormats: {
+                    day: 'iiiiii'
                 }
             },
             reverse: true,
-            position:'left',
-            ticks:{
+            position: 'left',
+            ticks: {
                 maxRotation: 0,
                 autoSkip: true,
                 padding: 5,
-                color:'#000',
+                color: '#000',
                 font: {
                     size: 12
                 }
             },
-            grid:{
+            grid: {
                 display: false,
                 drawBorder: false,
                 tickLength: 0,
-             },
+            },
             border: {
                 display: false
             },
         },
-        x:{
+        x: {
             type: 'time',
-            offset:true,
-            position:'top',
+            offset: true,
+            position: 'top',
             time: {
                 unit: 'month',
                 round: 'week',
@@ -137,13 +137,15 @@ $data = generateChartData();
                 maxRotation: 0,
                 autoSkip: true,
                 padding: 5,
-                color:'#000000',
-                 font: {
+                color: '#000000',
+                font: {
                     size: 12
                 },
                 callback: function(value, index, values) {
                     const date = new Date(value);
-                    const month = date.toLocaleString('default', { month: 'short' });
+                    const month = date.toLocaleString('default', {
+                        month: 'short'
+                    });
                     const day = date.getDate();
                     return day === 1 ? month : month + ' ' + day;
                 }
@@ -165,13 +167,13 @@ $data = generateChartData();
         type: 'matrix',
         data,
         options: {
-            maintainAspectRatio:false,
+            maintainAspectRatio: false,
             scales: scales,
-            aspectRatio:10,
+            aspectRatio: 10,
             animation: false,
-            plugins:{
+            plugins: {
                 chartAreaBorder: {
-                    borderWidth:5,
+                    borderWidth: 5,
                     borderColor: '#fff',
                 },
                 legend: false,
@@ -191,12 +193,11 @@ $data = generateChartData();
         }
     };
 
-    jQuery(document).ready(function () {
+    jQuery(document).ready(function() {
         const myChart = new Chart(
             document.getElementById('myChart'),
             config
         );
     });
     // render init block
-
- </script>
+</script>
