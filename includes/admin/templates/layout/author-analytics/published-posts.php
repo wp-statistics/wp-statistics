@@ -1,26 +1,26 @@
 <?php
+$user       = wp_get_current_user();
+$imageSrc   = '';
 
-//test image
-$user = wp_get_current_user();
 if ($user) {
-    $imagesrc = esc_url(get_avatar_url($user->ID));
+    $imageSrc = esc_url(get_avatar_url($user->ID));
 }
 
 $publishedChartData = [
-    ['x' => 30000, 'y' => 7, 'img' => $imagesrc],
-    ['x' => 40000, 'y' => 5, 'img' => $imagesrc],
-    ['x' => 75000, 'y' => 15, 'img' => $imagesrc],
-    ['x' => 125000, 'y' => 11, 'img' => $imagesrc],
-    ['x' => 180000, 'y' => 17, 'img' => $imagesrc]
+    ['x' => 30000,  'y' => 7,  'img' => $imageSrc],
+    ['x' => 40000,  'y' => 5,  'img' => $imageSrc],
+    ['x' => 75000,  'y' => 15, 'img' => $imageSrc],
+    ['x' => 125000, 'y' => 11, 'img' => $imageSrc],
+    ['x' => 180000, 'y' => 17, 'img' => $imageSrc]
 ];
 ?>
 
 <div class="wps-card">
     <div class="wps-card__title">
         <h2>
-            <?php echo esc_html($title_text); ?>
-            <?php if ($tooltip_text): ?>
-                <span class="wps-tooltip" title="<?php echo esc_attr($tooltip_text); ?>"><i class="wps-tooltip-icon info"></i></span>
+            <?php echo esc_html($title); ?>
+            <?php if ($tooltip): ?>
+                <span class="wps-tooltip" title="<?php echo esc_attr($tooltip); ?>"><i class="wps-tooltip-icon info"></i></span>
             <?php endif ?>
         </h2>
     </div>

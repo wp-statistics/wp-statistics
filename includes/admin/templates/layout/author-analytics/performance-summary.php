@@ -1,9 +1,9 @@
 <div class="wps-card wps-card__icon wps-card__icon--<?php echo esc_attr($icon_class) ?>">
     <div class="wps-card__title">
         <h2>
-            <?php echo esc_html($title_text); ?>
-            <?php if (isset($tooltip_text)) : ?>
-                <span class="wps-tooltip" title="<?php echo esc_attr($tooltip_text); ?>"><i class="wps-tooltip-icon info"></i></span>
+            <?php echo esc_html($title); ?>
+            <?php if (isset($tooltip)) : ?>
+                <span class="wps-tooltip" title="<?php echo esc_attr($tooltip); ?>"><i class="wps-tooltip-icon info"></i></span>
             <?php endif?>
         </h2>
     </div>

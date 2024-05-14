@@ -29,40 +29,40 @@
         <?php
             $items = [
                 [
-                    'title_text'   => esc_html__('Published Posts', 'wp-statistics'),
-                    'tooltip_text' => esc_html__('Published Posts tooltip', 'wp-statistics'),
+                    'title'        => esc_html__('Published Posts', 'wp-statistics'),
+                    'tooltip'      => esc_html__('Published Posts tooltip', 'wp-statistics'),
                     'icon_class'   => 'authors',
                     'total'        => '2.5K',
                     'avg'          => '1.1K',
                     'avg_title'    => esc_html__('Avg. Per Post', 'wp-statistics')
                 ],
                 [
-                    'title_text'   => esc_html__('Views', 'wp-statistics'),
-                    'tooltip_text' => esc_html__('Views tooltip', 'wp-statistics'),
+                    'title'        => esc_html__('Views', 'wp-statistics'),
+                    'tooltip'      => esc_html__('Views tooltip', 'wp-statistics'),
                     'icon_class'   => 'views',
                     'total'        => '12.3K',
                     'avg'          => '1.1K',
                     'avg_title'    => esc_html__('Avg. Per Post', 'wp-statistics')
                 ],
                 [
-                    'title_text'   => esc_html__('Visitors', 'wp-statistics'),
-                    'tooltip_text' => esc_html__('Visitors tooltip', 'wp-statistics'),
+                    'title'        => esc_html__('Visitors', 'wp-statistics'),
+                    'tooltip'      => esc_html__('Visitors tooltip', 'wp-statistics'),
                     'icon_class'   => 'visitors',
                     'total'        => '8.2K',
                     'avg'          => '850',
                     'avg_title'    => esc_html__('Avg. Per Post', 'wp-statistics')
                 ],
                 [
-                    'title_text'   => esc_html__('Words', 'wp-statistics'),
-                    'tooltip_text' => esc_html__('Words tooltip', 'wp-statistics'),
+                    'title'        => esc_html__('Words', 'wp-statistics'),
+                    'tooltip'      => esc_html__('Words tooltip', 'wp-statistics'),
                     'icon_class'   => 'words',
                     'total'        => '61K',
                     'avg'          => '300',
                     'avg_title'    => esc_html__('Avg. Per Post', 'wp-statistics')
                 ],
                 [
-                    'title_text'   => esc_html__('Comments', 'wp-statistics'),
-                    'tooltip_text' => esc_html__('Comments tooltip', 'wp-statistics'),
+                    'title'        => esc_html__('Comments', 'wp-statistics'),
+                    'tooltip'      => esc_html__('Comments tooltip', 'wp-statistics'),
                     'icon_class'   => 'comments',
                     'total'        => '61K',
                     'avg'          => '300',
@@ -75,42 +75,42 @@
             }
 
             Admin_Template::get_template(['layout/author-analytics/top-categories'], [
-                'title_text'   => esc_html__('Top Categories', 'wp-statistics'),
-                'tooltip_text' => esc_html__('Top Categories tooltip', 'wp-statistics'),
+                'title'   => esc_html__('Top Categories', 'wp-statistics'),
+                'tooltip' => esc_html__('Top Categories tooltip', 'wp-statistics'),
             ]);
 
             Admin_Template::get_template(['layout/author-analytics/operating-systems'], [
-                'title_text'   => esc_html__('Operating Systems', 'wp-statistics'),
-                'tooltip_text' => esc_html__('Operating Systems tooltip', 'wp-statistics'),
+                'title'   => esc_html__('Operating Systems', 'wp-statistics'),
+                'tooltip' => esc_html__('Operating Systems tooltip', 'wp-statistics'),
             ]);
 
             Admin_Template::get_template(['layout/author-analytics/browsers'], [
-                'title_text'   => esc_html__('Browsers', 'wp-statistics'),
-                'tooltip_text' => esc_html__('Browsers tooltip', 'wp-statistics'),
+                'title'   => esc_html__('Browsers', 'wp-statistics'),
+                'tooltip' => esc_html__('Browsers tooltip', 'wp-statistics'),
             ]);
         ?>
     </div>
     <div class="postbox-container" id="wps-postbox-container-2">
         <?php
             Admin_Template::get_template(['layout/author-analytics/publishing-overview'], [
-                'title_text'        => esc_html__('Publishing Overview', 'wp-statistics'),
-                'tooltip_text'      => esc_html__('Publishing Overview tooltip', 'wp-statistics'),
-                'title_description' => esc_html__('Last 12 Months', 'wp-statistics'),
+                'title'        => esc_html__('Publishing Overview', 'wp-statistics'),
+                'tooltip'      => esc_html__('Publishing Overview tooltip', 'wp-statistics'),
+                'description'  => esc_html__('Last 12 Months', 'wp-statistics'),
             ]);
 
             Admin_Template::get_template(['layout/author-analytics/top-posts'], $top_posts = [
-                'title_text'   => esc_html__('Top Posts', 'wp-statistics'),
-                'tooltip_text' => esc_html__('Top Posts tooltip', 'wp-statistics'),
+                'title'   => esc_html__('Top Posts', 'wp-statistics'),
+                'tooltip' => esc_html__('Top Posts tooltip', 'wp-statistics'),
             ]);
 
             Admin_Template::get_template(['layout/author-analytics/author-summary'], [
-                'title_text'   => esc_html__('Summary', 'wp-statistics'),
-                'tooltip_text' => esc_html__('Summary tooltip', 'wp-statistics'),
+                'title'   => esc_html__('Summary', 'wp-statistics'),
+                'tooltip' => esc_html__('Summary tooltip', 'wp-statistics'),
             ]);
 
             Admin_Template::get_template(['layout/author-analytics/top-countries'], [
-                'title_text'   => esc_html__('Top Countries', 'wp-statistics'),
-                'tooltip_text' => esc_html__('Top Countries tooltip', 'wp-statistics'),
+                'title'   => esc_html__('Top Countries', 'wp-statistics'),
+                'tooltip' => esc_html__('Top Countries tooltip', 'wp-statistics'),
             ]);
         ?>
     </div>
