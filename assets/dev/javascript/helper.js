@@ -15,11 +15,16 @@ wps_js.date_picker = function () {
             singleDatePicker: true,
             showDropdowns: true,
             minYear: 1998,
-            drops:'up',
+            drops: 'up',
+            opens: document.getElementById('TB_window') ? 'center' : 'right',
             maxYear: parseInt(new Date().getFullYear() + 1),
             locale: {
                 format: 'YYYY-MM-DD'
             }
+        });
+        datePickerField.on('show.daterangepicker', function (ev, picker) {
+            const correspondingPicker = picker.container;
+            jQuery(correspondingPicker).addClass(ev.target.className);
         });
     }
 };
@@ -37,35 +42,35 @@ const wpsBody = jQuery('body');
 const wpsDropdown = jQuery('.wps-dropdown');
 
 if (wpsSelect2.length && wpsFilterPage.length) {
-  var dirValue = wpsBody.hasClass('rtl') ? 'rtl' : 'ltr';
+    var dirValue = wpsBody.hasClass('rtl') ? 'rtl' : 'ltr';
 
-  wpsSelect2.select2({
-      dropdownParent: $('.wps-filter-page'),
-      dir: dirValue,
-      dropdownAutoWidth: true,
-      dropdownCssClass: 'wps-select2-filter-dropdown'
-  });
+    wpsSelect2.select2({
+        dropdownParent: $('.wps-filter-page'),
+        dir: dirValue,
+        dropdownAutoWidth: true,
+        dropdownCssClass: 'wps-select2-filter-dropdown'
+    });
 
-  wpsFilterPage.on('click', function() {
-      wpsSelect2.select2('open');
-  });
+    wpsFilterPage.on('click', function () {
+        wpsSelect2.select2('open');
+    });
 
-   wpsSelect2.on('select2:open', function() {
-      wpsDropdown.addClass('active');
-  });
+    wpsSelect2.on('select2:open', function () {
+        wpsDropdown.addClass('active');
+    });
 
-   wpsSelect2.on('select2:close', function() {
-      wpsDropdown.removeClass('active');
-  });
+    wpsSelect2.on('select2:close', function () {
+        wpsDropdown.removeClass('active');
+    });
 
-  wpsSelect2.on('change', function() {
-      var selectedOption = jQuery(this).find('option:selected');
-      var url = selectedOption.val();
+    wpsSelect2.on('change', function () {
+        var selectedOption = jQuery(this).find('option:selected');
+        var url = selectedOption.val();
 
-      if (url) {
-          window.location.href = url;
-      }
-  });
+        if (url) {
+            window.location.href = url;
+        }
+    });
 }
 
 
@@ -452,26 +457,26 @@ function moveFeedbackBird() {
 
 // Head filters drop down
 jQuery(document).ready(function () {
-  var dropdowns = document.querySelectorAll(".wps-head-filters__item");
+    var dropdowns = document.querySelectorAll(".wps-head-filters__item");
 
-  dropdowns.forEach(function(dropdown) {
-    dropdown.classList.remove('loading');
-    dropdown.addEventListener("click", function(event) {
-      var dropdownContent = dropdown.querySelector(".dropdown-content");
-      if (dropdownContent) {
-        dropdownContent.classList.toggle("show");
-      }
+    dropdowns.forEach(function (dropdown) {
+        dropdown.classList.remove('loading');
+        dropdown.addEventListener("click", function (event) {
+            var dropdownContent = dropdown.querySelector(".dropdown-content");
+            if (dropdownContent) {
+                dropdownContent.classList.toggle("show");
+            }
+        });
     });
-  });
 
-  window.addEventListener("click", function(event) {
-    dropdowns.forEach(function(dropdown) {
-      var dropdownContent = dropdown.querySelector(".dropdown-content");
-      if (dropdownContent && !dropdown.contains(event.target)) {
-        dropdownContent.classList.remove("show");
-      }
+    window.addEventListener("click", function (event) {
+        dropdowns.forEach(function (dropdown) {
+            var dropdownContent = dropdown.querySelector(".dropdown-content");
+            if (dropdownContent && !dropdown.contains(event.target)) {
+                dropdownContent.classList.remove("show");
+            }
+        });
     });
-  });
 });
 
 jQuery(document).ready(function () {
@@ -484,7 +489,7 @@ jQuery(document).ready(function () {
     }
 
     jQuery(document).on('click', '.wps-privacy-list__item .wps-privacy-list__title', (e) => {
-        const title   = jQuery(e.currentTarget);
+        const title = jQuery(e.currentTarget);
         const content = title.siblings('.wps-privacy-list__content');
 
         // If the action button is clicked, don't expand the item

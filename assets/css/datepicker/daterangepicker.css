@@ -387,8 +387,9 @@
     color: var(--color-drp-bg);
 }
 @media(min-width: 1122px){
-    body:not(.rtl) .daterangepicker.opensright{
-        right: 32px!important;
+    body:not(.rtl) .daterangepicker.opensright.c-footer__filters__custom-date-input:not(.modal-input),
+    body:not(.rtl) .daterangepicker.opensright.wps-search-date__input:not(.modal-input){
+        right: 31px!important;
     }
 }
 
@@ -468,7 +469,7 @@
 }
 
 
-.daterangepicker .ranges ul {
+.daterangepicker.show-calendar .ranges ul {
     border-right: 1px solid rgba(218, 220, 224, 0.45);
 }
 

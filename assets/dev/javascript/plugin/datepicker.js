@@ -43,6 +43,10 @@ jQuery(document).ready(function () {
             });
         }
 
+        datePickerElement.on('show.daterangepicker', function (ev, picker) {
+            const correspondingPicker = picker.container;
+            jQuery(correspondingPicker).addClass(ev.target.className);
+        });
         datePickerElement.on('apply.daterangepicker', function (ev, picker) {
             const inputFrom = datePickerForm.find('.js-date-range-picker-input-from').first();
             const inputTo = datePickerForm.find('.js-date-range-picker-input-to').first();
@@ -64,6 +68,10 @@ jQuery(document).ready(function () {
             locale: {
                 format: 'YYYY-MM-DD'
             }
+        });
+        datePickerField.on('show.daterangepicker', function (ev, picker) {
+            const correspondingPicker = picker.container;
+            jQuery(correspondingPicker).addClass(ev.target.className);
         });
         datePickerField.on('apply.daterangepicker', function(ev, picker) {
              jQuery('.wps-today-datepicker').submit();
