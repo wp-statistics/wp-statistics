@@ -6,87 +6,53 @@ if (!defined('ABSPATH')) {
 
 
 // Setting up the logo.
-$final_logo = '<a target="_blank" style="text-decoration: none;" href="' . $logo_url . '"><img class="logo-image" border="0" vspace="0" hspace="0" src="' . $logo_image . '" style="-ms-interpolation-mode: bicubic; border: none; max-width: 100%; width: 100%;" data-style="LogoWidthTo100px"/></a>';
+ $final_logo = ' <a href="' . $logo_url . '" target="_blank" class="wp-statistics-logo" style="box-sizing: border-box; font-family: "Roboto" ,Arial,Helvetica,sans-serif; margin: 0; padding: 0; text-decoration: none;"><img src="' . $logo_image . '" width="197" height="46" title="WP Statistics" alt="WP Statistics" style="box-sizing: border-box; font-family: "Roboto",Arial,Helvetica,sans-serif; margin: 0; margin-bottom: 24px; padding: 0; text-decoration: none;"></a>';
 
 // Advertisement For WP Statistics Advanced Report Plugin
-$advanced_reporting_ad = is_plugin_active('wp-statistics-advanced-reporting/wp-statistics-advanced-reporting.php') ? '' :
-    '<div class="advanced-report-section" style="padding: 0;margin: 40px 0 0 0;box-sizing: border-box;-webkit-font-smoothing: antialiased;border: 1px solid #979797;">
-                                <h2 style="padding: 20px 30px;margin: 0;box-sizing: border-box;-webkit-font-smoothing: antialiased;text-align: center;color: white;font-weight: 700;font-size: 14px;background-color: #404bf2;display: block;">Advanced Reporting</h2>
-                                <h3 style="padding: 0;margin: 30px auto 10px auto;box-sizing: border-box;-webkit-font-smoothing: antialiased;text-align: center;color: #4a4a4a;font-size: 16px;line-height: 1.6;font-weight: 700;">' . __('Are you looking for more reports with charts?', 'wp-statistics') . '</h3>
-                                <p style="padding: 0;margin: auto;box-sizing: border-box;-webkit-font-smoothing: antialiased;color: #585858;text-align: center;line-height: 1.4;font-size: 14px;margin-bottom: 20px;max-width: 90%;">
-                                    ' . __('A summary of stats, hits, search engine referrals, top referrals, pages and more in your email!', 'wp-statistics') . '
-                                </p>
-                
-                                <a target="_blank" href="https://wp-statistics.com/product/wp-statistics-advanced-reporting/" style="width: 225px;padding: 12px 10px;margin: 40px auto;box-sizing: border-box;-webkit-font-smoothing: antialiased;background-color: #404bf2;display: block;text-align: center;font-weight: 700;font-size: 14px;color: white;text-decoration: none;">' . __('Unlock Advanced Reporting', 'wp-statistics') . '</a>
-                            </div>';
+$advanced_reporting_ad = is_plugin_active('wp-statistics-advanced-reporting/wp-statistics-advanced-reporting.php') ?  '' :
+    '<div class="better-reports" style="background: #404bf2; border: 1px solid #404bf2; border-radius: 8px; box-sizing: border-box; font-family: \'Roboto\', Arial, Helvetica, sans-serif; margin: 0; margin-top: 39px; padding: 32px 18px 32px 18px; text-align: center; text-decoration: none;">
+        <h2 class="better-reports__title" style="box-sizing: border-box; color: #fff; font-family: \'Roboto\', Arial, Helvetica, sans-serif; font-size: 18px; font-weight: 600; line-height: 21.09px; margin: 0 0 24px; padding: 0; text-decoration: none;">' . __('Get Better Reports', 'wp-statistics') . '</h2>
+        <p style="box-sizing: border-box; color: #fff; font-family: \'Roboto\', Arial, Helvetica, sans-serif; font-size: 15px; font-weight: 400; line-height: 25px; margin: 0 0 32px; padding: 0; text-decoration: none;">
+           ' . __('Detailed and customizable email reports are available with the Advanced Reporting add-on. Make sure you always have the insights you need to make informed decisions by digging deeper into your website analytics.', 'wp-statistics') . '
+        </p>
+        <a href="https://wp-statistics.com/product/wp-statistics-advanced-reporting/?utm_source=wp_statistics&utm_medium=display&utm_campaign=email_report" target="_blank" title="' . __('See the Full Picture — Try Advanced Reporting Today', 'wp-statistics') . '" style="background-color: #fff; background-image: url(\'' . esc_url(WP_STATISTICS_URL . 'assets/mail/images/arrow-right.png') . '\'); background-position: center right 24px; background-repeat: no-repeat; background-size: 16px; border-radius: 4px; box-sizing: border-box; color: #404bf2; display: inline-block; font-family: \'Roboto\', Arial, Helvetica, sans-serif; font-size: 15px; font-weight: 600; line-height: 17.58px; margin: 0; padding: 12px 50px 12px 16px; position: relative; text-decoration: none; word-break: break-word;">
+            ' . __('See the Full Picture — Try Advanced Reporting Today', 'wp-statistics') . '
+        </a></div>';
 
-$email_body = '<table role="presentation" class="body" style="background-color: #f6f6f6; border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;" cellspacing="0" cellpadding="0" border="0">
-    <tbody>
-    <tr>
-        <td class="container" style="Margin: 0 auto !important; display: block; font-size: 14px; max-width: 580px; padding: 10px; vertical-align: top; width: 580px;">
-            <div class="content" style="Margin: 0 auto; box-sizing: border-box; display: block; max-width: 580px; padding: 10px;">
-                <table class="logo" style="border-collapse: separate; margin: 20px auto; mso-table-lspace: 0pt; mso-table-rspace: 0pt; text-align: center; width: 40%;" data-style="HeaderTo100%">
-                    <tbody>
-                    <tr>
-                        <td style="font-size: 14px; vertical-align: top;">
-                          ' . $final_logo . '
+
+$email_body = '
+        <div class="mail-body" style="background: #e1ebfd; box-sizing: border-box; font-family: \'Roboto\', Arial, Helvetica, sans-serif; margin: 0; padding: 43px 0; text-decoration: none;">
+            <div class="main-section" style="box-sizing: border-box; font-family: \'Roboto\', Arial, Helvetica, sans-serif; margin:0 auto; max-width: 100%; padding: 0 5px; text-decoration: none; width: 628px; box-sizing: border-box;">
+                <table class="header" style="box-sizing: border-box; font-family: \'Roboto\', Arial, Helvetica, sans-serif; margin: 0; padding: 0; text-align: center; text-decoration: none; width: 100%;">
+                    <tr style="box-sizing: border-box; font-family: \'Roboto\', Arial, Helvetica, sans-serif; margin: 0; padding: 0; text-decoration: none;">
+                        <td style="box-sizing: border-box; font-family: \'Roboto\', Arial, Helvetica, sans-serif; margin: 0; padding: 0; text-decoration: none;">
+                             ' . $final_logo . '
                         </td>
                     </tr>
-                    </tbody>
-                <tr>
-                    <td align="center" valign="top" style="white-space: nowrap;border-collapse: collapse; border-spacing: 0; margin: 0; padding: 0; padding-left: 6.25%; padding-right: 6.25%; width: 87.5%; font-size: 13px; font-weight: 400; line-height: 150%;padding-top: 20px;padding-bottom: 20px;color: #999999;font-family: Nunito;" class="footer">
-                    ' . $email_title . '                        
-                    </td>
-                </tr>
-            </table>            
-            
-            ' . $email_header . '
+                    <tr style="box-sizing: border-box; font-family: \'Roboto\', Arial, Helvetica, sans-serif; margin: 0; padding: 0; text-decoration: none;">
+                        <td style="box-sizing: border-box; font-family: \'Roboto\', Arial, Helvetica, sans-serif; margin: 0; padding: 0; text-decoration: none;">
+                            <p style="box-sizing: border-box; color: #303032 ; font-family: \'Roboto\', Arial, Helvetica, sans-serif; font-size: 16px; font-style: italic; font-weight: 600; line-height: 18.75px; margin: 0; margin-bottom: 16px; margin-top: 24px; padding: 0;">' . $email_title . '</p>
+                        </td>
+                    </tr>
+                </table>
+                ' . $email_header .'
+                <div class="content" style="background: #fff; border-radius: 8px; box-sizing: border-box; font-family:  \'Roboto\',Arial,Helvetica,sans-serif; margin: 0; padding: 47px 34px 47px 34px; text-decoration: none;">
+                    ' . wp_kses_post($content) .'
+                     <div class="content__tip" style="background: #f0f5ff; border: 1px solid #9da3f7; border-radius: 8px; box-sizing: border-box; font-family: \'Roboto\',Arial,Helvetica,sans-serif; margin: 0; padding: 18px; text-decoration: none;">
+                        <div class="content__tip--title" style="box-sizing: border-box; font-family: \'Roboto\',Arial,Helvetica,sans-serif; margin: 0; margin-bottom: 22px; padding: 0; position: relative; text-decoration: none;">
+                            <h2 style="box-sizing: border-box; font-family: \'Roboto\',Arial,Helvetica,sans-serif; font-size: 16px; font-weight: 500; line-height: 25px; margin: 0; text-decoration: none;">
+                                <span style="background-color: #404bf2; background-position: center left 4px; background-repeat: no-repeat; background-size: 13px; border-radius: 4px; box-sizing: border-box; color: #fff; font-family: \'Roboto\',Arial,Helvetica,sans-serif; font-size: 15px; font-weight: 500; line-height: 17.58px; margin: 0; padding: 4px 4px 4px 25px;  text-decoration: none; float:right;background-image: url('. esc_url(WP_STATISTICS_URL . '/assets/mail/images/tip.png').');">
+                                     ' . __('Tip', 'wp-statistics') . '
+                                </span>
+                                ' . __('Optimize Your Content Strategy', 'wp-statistics') . '
+                            </h2>
+                        </div>
+                        <div class="content__tip--description" style="box-sizing: border-box; color: #303032; font-family: \'Roboto\',Arial,Helvetica,sans-serif; font-size: 15px; font-weight: 400; line-height: 17.58px; margin: 0; padding: 0; text-decoration: none;">
+                            ' . __('Use WP Statistics to identify your most popular pages and posts. Analyze the data to understand what content resonates with your audience, and use these insights to guide your content creation efforts.', 'wp-statistics') . '
+                        </div>
+                     </div>
+                 </div>
+                 ' .  $advanced_reporting_ad . $email_footer .  $copyright . '</div></div>';
 
-            
-             <!-- START CENTERED WHITE CONTAINER -->
-                <span class="preheader" style="color: transparent; display: none; height: 0; max-height: 0; max-width: 0; mso-hide: all; opacity: 0; overflow: hidden; visibility: hidden; width: 0;">This is preheader text. Some clients will show this text as a preview.</span>
-                <table role="presentation" class="main" style="background: #ffffff; border-collapse: separate; border-radius: 3px; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;">
 
-                    <!-- START MAIN CONTENT AREA -->
-                    <tbody>
-                    <tr>
-                        <td class="wrapper" style="box-sizing: border-box; font-size: 14px; padding: 20px; vertical-align: top;">
-                            <table role="presentation" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;" cellspacing="0" cellpadding="0" border="0">
-                                <tbody>
-                                <tr>
-                                    <td style="font-size: 14px; vertical-align: top;">
-                                    ' . wp_kses_post($content) . '
-			                        </td>
-			                    </tr>
-			                        
-                                <tr>
-                                    <td>
-                                    ' . $advanced_reporting_ad . '
-                                    </td>
-                                </tr>
-                                    
-			                    </tbody>
-			                </table>
-			            </td>
-			        </tr>
-             <!-- END MAIN CONTENT AREA -->
-                </tbody>
-            </table>
-
-           <!-- START FOOTER -->
-                <div class="footer" style="margin-top: 10px; clear: both; width: 100%;">
-                
-    
-               ' . $email_footer . $copyright . '
-
-                </div>
-                <!-- END FOOTER -->
-
-         <!-- END CENTERED WHITE CONTAINER -->
-            </div>
-        </td>
-    </tr>
-    </tbody>
-</table>';
-
-echo $email_body; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	
+echo $email_body; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
