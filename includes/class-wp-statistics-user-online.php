@@ -142,7 +142,7 @@ class UserOnline
      * Add User Online to Database
      *
      * @param array $args
-     * @param $visitorProfile VisitorProfile
+     * @param VisitorProfile $visitorProfile
      * @throws \Exception
      */
     public static function add_user_online($visitorProfile, $args = array())
@@ -163,6 +163,8 @@ class UserOnline
             'platform'  => $user_agent['platform'],
             'version'   => $user_agent['version'],
             'location'  => $visitorProfile->getCountry(),
+            'region'    => $visitorProfile->getRegion(),
+            'continent' => $visitorProfile->getContinent(),
             'city'      => $visitorProfile->getCity(),
             'user_id'   => $visitorProfile->getUserId(),
             'page_id'   => $current_page['id'],
@@ -323,7 +325,8 @@ class UserOnline
 
             // Push City
             if (GeoIP::active('city')) {
-                $item['city'] = !empty($items->city) ? $items->city : GeoIP::getCity($ip);
+                $item['city']   = !empty($items->city) ? $items->city : GeoIP::getCity($ip);
+                $item['region'] = !empty($items->region) ? $items->region : esc_html__('Unknown', 'wp-statistics');
             }
 
             // Online For Time

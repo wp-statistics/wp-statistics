@@ -19,6 +19,8 @@ class VisitorProfile
     private $referrer;
     private $country;
     private $city;
+    private $region;
+    private $continent;
     private $userAgent;
     private $httpUserAgent;
     private $userId;
@@ -72,6 +74,26 @@ class VisitorProfile
         }
 
         return $this->city;
+    }
+
+    public function getRegion()
+    {
+        if (!$this->region) {
+            $location     = GeoIP::getCity($this->getIp(), true);
+            $this->region = $location['region'];
+        }
+
+        return $this->region;
+    }
+
+    public function getContinent()
+    {
+        if (!$this->continent) {
+            $location        = GeoIP::getCity($this->getIp(), true);
+            $this->continent = $location['continent'];
+        }
+
+        return $this->continent;
     }
 
     public function getReferrer()

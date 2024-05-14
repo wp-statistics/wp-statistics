@@ -93,7 +93,7 @@ class Visitor
      * Record Uniq Visitor Detail in DB
      *
      * @param array $arg
-     * @param $visitorProfile VisitorProfile
+     * @param VisitorProfile $visitorProfile
      * @return bool|INT
      * @throws \Exception
      */
@@ -130,6 +130,8 @@ class Visitor
                     'ip'           => $visitorProfile->getProcessedIPForStorage(),
                     'location'     => $visitorProfile->getCountry(),
                     'city'         => $visitorProfile->getCity(),
+                    'region'       => $visitorProfile->getRegion(),
+                    'continent'    => $visitorProfile->getContinent(),
                     'user_id'      => $visitorProfile->getUserId(),
                     'UAString'     => (Option::get('store_ua') == true ? $visitorProfile->getHttpUserAgent() : ''),
                     'hits'         => 1,
@@ -376,7 +378,8 @@ class Visitor
 
             // Push City
             if (GeoIP::active('city')) {
-                $item['city'] = !empty($items->city) ? $items->city : GeoIP::getCity($ip);
+                $item['city']   = !empty($items->city) ? $items->city : GeoIP::getCity($ip);
+                $item['region'] = !empty($items->region) ? $items->region : esc_html__('Unknown', 'wp-statistics');
             }
 
             // Get What is Page

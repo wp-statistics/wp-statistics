@@ -1,3 +1,9 @@
+<?php 
+use WP_STATISTICS\GeoIP;
+use WP_STATISTICS\Option;
+use WP_STATISTICS\Admin_Template;
+?>
+
 <div class="postbox-container" id="wps-big-postbox">
     <div class="metabox-holder">
         <div class="meta-box-sortables">
@@ -10,13 +16,14 @@
                             <table width="100%" class="o-table">
                                 <tr>
                                     <td><?php esc_html_e('Browser', 'wp-statistics'); ?></td>
-                                    <?php if (WP_STATISTICS\GeoIP::active()) { ?>
+                                    <?php if (GeoIP::active()) { ?>
                                         <td><?php esc_html_e('Country', 'wp-statistics'); ?></td>
                                     <?php } ?>
-                                    <?php if (WP_STATISTICS\GeoIP::active('city')) { ?>
+                                    <?php if (GeoIP::active('city')) { ?>
                                         <td><?php esc_html_e('City', 'wp-statistics'); ?></td>
+                                        <td><?php esc_html_e('Region', 'wp-statistics'); ?></td>
                                     <?php } ?>
-                                    <td><?php echo esc_html(\WP_STATISTICS\Option::get('hash_ips') == true ? __('Daily Visitor Hash', 'wp-statistics') : __('IP Address', 'wp-statistics')); ?></td>
+                                    <td><?php echo esc_html(Option::get('hash_ips') == true ? __('Daily Visitor Hash', 'wp-statistics') : __('IP Address', 'wp-statistics')); ?></td>
                                     <td><?php esc_html_e('Online For', 'wp-statistics'); ?></td>
                                     <td><?php esc_html_e('Page', 'wp-statistics'); ?></td>
                                     <td><?php esc_html_e('Referrer', 'wp-statistics'); ?></td>
@@ -29,13 +36,14 @@
                                         <td style="text-align: left">
                                             <a href="<?php echo esc_url($item['browser']['link']); ?>" title="<?php echo esc_attr($item['browser']['name']); ?>"><img src="<?php echo esc_url($item['browser']['logo']); ?>" alt="<?php echo esc_attr($item['browser']['name']); ?>" class="wps-flag log-tools" title="<?php echo esc_attr($item['browser']['name']); ?>"/></a>
                                         </td>
-                                        <?php if (WP_STATISTICS\GeoIP::active()) { ?>
+                                        <?php if (GeoIP::active()) { ?>
                                             <td style="text-align: left">
                                                 <img src="<?php echo esc_url($item['country']['flag']); ?>" alt="<?php echo esc_attr($item['country']['name']); ?>" title="<?php echo esc_attr($item['country']['name']); ?>" class="log-tools wps-flag"/>
                                             </td>
                                         <?php } ?>
-                                        <?php if (WP_STATISTICS\GeoIP::active('city')) { ?>
-                                            <td><?php echo esc_attr($item['city']); ?></td>
+                                        <?php if (GeoIP::active('city')) { ?>
+                                            <td><?php echo esc_html($item['city']); ?></td>
+                                            <td><?php echo esc_html($item['region']); ?></td>
                                         <?php } ?>
                                         <td style='text-align: left' class="wps-admin-column__ip"><?php echo sprintf('<a href="%s">%s</a>', esc_url($item['ip']['link']), esc_attr($item['ip']['value'])); ?></td>
                                         <td style='text-align: left'><span><?php echo esc_attr($item['online_for']); ?></span></td>
@@ -45,10 +53,10 @@
                                             <?php if (isset($item['user']) and isset($item['user']['ID']) and $item['user']['ID'] > 0) { ?>
                                                 <p><?php esc_html_e('ID', 'wp-statistics'); ?>: <a href="<?php echo esc_url(get_edit_user_link($item['user']['ID'])); ?>" target="_blank" class="wps-text-success">#<?php echo esc_attr($item['user']['ID']); ?></a></p><p><?php esc_html_e('Email', 'wp-statistics'); ?>: <?php echo esc_attr($item['user']['user_email']); ?></p><p><?php echo sprintf('Role: %s', implode(',', get_userdata($item['user']['ID'])->roles)) // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></p>
                                             <?php } else { ?>
-                                                <?php echo \WP_STATISTICS\Admin_Template::UnknownColumn(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+                                                <?php echo Admin_Template::UnknownColumn(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
                                             <?php } ?>
                                         </td>
-                                        <td style='text-align: center'><?php echo(isset($item['map']) ? "<a class='wps-text-muted' href='" . esc_url($item['ip']['link']) . "'>" . WP_STATISTICS\Admin_Template::icons('dashicons-visibility') . "</a><a class='show-map wps-text-muted' href='" . esc_url($item['map']) . "' target='_blank' title='" . __('Map', 'wp-statistics') . "'>" . WP_STATISTICS\Admin_Template::icons('dashicons-location-alt') . "</a>" : ""); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></td>
+                                        <td style='text-align: center'><?php echo(isset($item['map']) ? "<a class='wps-text-muted' href='" . esc_url($item['ip']['link']) . "'>" . Admin_Template::icons('dashicons-visibility') . "</a><a class='show-map wps-text-muted' href='" . esc_url($item['map']) . "' target='_blank' title='" . __('Map', 'wp-statistics') . "'>" . Admin_Template::icons('dashicons-location-alt') . "</a>" : ""); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></td>
                                     </tr>
                                 <?php } ?>
 
