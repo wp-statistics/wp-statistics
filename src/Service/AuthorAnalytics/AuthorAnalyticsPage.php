@@ -60,6 +60,11 @@ class AuthorAnalyticsPage extends Singleton
 
         // Show author posts report view
         if ($reportType == 'posts') {
+            // Throw error when author ID not provided
+            if (!$authorID) {
+                throw new InvalidArgumentException(esc_html__('Author ID must be provided.', 'wp-statistics'));
+            }
+
             return $this->postsReportView();
         } 
 
@@ -124,13 +129,13 @@ class AuthorAnalyticsPage extends Singleton
         $author   = get_userdata($authorID);
 
         $args = [
-            'title'       => esc_html__('Author: ' , 'wp-statistics') . $author->display_name,
+            'title'       => esc_html__('Author: ', 'wp-statistics') . $author->display_name,
             'pageName'    => Menus::get_page_slug('author-analytics'),
             'pagination'  => Admin_Template::getCurrentPaged(),
             'custom_get'  => ['author_id' => $authorID],
             'DateRang'    => Admin_Template::DateRange(),
             'HasDateRang' => true,
-            'backUrl'     => esc_url(admin_url('admin.php?page=wps_author-analytics_page')),
+            'backUrl'     => Menus::admin_url(Menus::get_page_slug('author-analytics')),
             'backTitle'   => esc_html__('Authors Performance', 'wp-statistics'),
             'filters'     => ['post-type'],
         ];
@@ -146,12 +151,12 @@ class AuthorAnalyticsPage extends Singleton
     {
         $args = [
             'title'         => esc_html__('Authors', 'wp-statistics'),
-            'pageName'      => Menus::get_page_slug('author-lists'),
+            'pageName'      => Menus::get_page_slug('author-analytics'),
             'pagination'    => Admin_Template::getCurrentPaged(),
             'DateRang'      => Admin_Template::DateRange(),
             'HasDateRang'   => true,
             'filters'       => ['post-type'],
-            'backUrl'       => esc_url(admin_url('admin.php?page=wps_author-analytics_page')),
+            'backUrl'       => Menus::admin_url(Menus::get_page_slug('author-analytics')),
             'backTitle'     => esc_html__('Authors Performance', 'wp-statistics')
         ];
 
@@ -166,18 +171,14 @@ class AuthorAnalyticsPage extends Singleton
     {
         $authorID = isset($_GET['author_id']) ? sanitize_text_field($_GET['author_id']) : false;
 
-        if (!$authorID) {
-            throw new InvalidArgumentException(esc_html__('Author ID must be provided.', 'wp-statistics'));
-        }
-
         $args = [
             'title'         => esc_html__('Posts', 'wp-statistics'),
-            'pageName'      => Menus::get_page_slug('author-posts'),
+            'pageName'      => Menus::get_page_slug('author-analytics'),
             'pagination'    => Admin_Template::getCurrentPaged(),
             'custom_get'    => ['author_id' => $authorID],
             'DateRang'      => Admin_Template::DateRange(),
             'HasDateRang'   => true,
-            'backUrl'       => esc_url(admin_url('admin.php?page=wps_author-analytics_page')),
+            'backUrl'       => Menus::admin_url(Menus::get_page_slug('author-analytics')),
             'backTitle'     => esc_html__('Authors Performance', 'wp-statistics'),
             'filters'       => ['post-type','author'],
         ];
