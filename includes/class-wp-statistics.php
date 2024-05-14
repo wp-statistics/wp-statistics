@@ -3,6 +3,8 @@
 # Exit if accessed directly
 use WP_STATISTICS\Helper;
 use WP_Statistics\Service\PrivacyAudit\PrivacyAuditManager;
+use WP_Statistics\Service\ContentAnalytics\ContentAnalyticsManager;
+
 
 defined('ABSPATH') || exit;
 
