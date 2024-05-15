@@ -14,23 +14,24 @@ class Menus
      * @var array
      */
     public static $pages = array(
-        'overview'     => 'overview',
-        'browser'      => 'browsers',
-        'platform'     => 'platforms',
-        'countries'    => 'countries',
-        'exclusions'   => 'exclusions',
-        'hits'         => 'hits',
-        'online'       => 'online',
-        'pages'        => 'pages',
-        'categories'   => 'categories',
-        'tags'         => 'tags',
-        'referrers'    => 'referrers',
-        'searches'     => 'searches',
-        'top-visitors' => 'top_visitors',
-        'visitors'     => 'visitors',
-        'optimization' => 'optimization',
-        'settings'     => 'settings',
-        'plugins'      => 'plugins',
+        'overview'          => 'overview',
+        'browser'           => 'browsers',
+        'platform'          => 'platforms',
+        'countries'         => 'countries',
+        'exclusions'        => 'exclusions',
+        'hits'              => 'hits',
+        'online'            => 'online',
+        'pages'             => 'pages',
+        'categories'        => 'categories',
+        'tags'              => 'tags',
+        'referrers'         => 'referrers',
+        'searches'          => 'searches',
+        'top-visitors'      => 'top_visitors',
+        'visitors'          => 'visitors',
+        'optimization'      => 'optimization',
+        'settings'          => 'settings',
+        'plugins'           => 'plugins',
+        'author-analytics'  => 'author-analytics'
     );
 
     /**
