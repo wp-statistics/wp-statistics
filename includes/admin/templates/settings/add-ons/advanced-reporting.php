@@ -6,7 +6,17 @@ $isAdvancedReportingActive = WP_STATISTICS\Helper::isAddOnActive('advanced-repor
 global $wp_version;
 ?>
 <?php
-if (!$isAdvancedReportingActive) echo Admin_Template::get_template('layout/partials/addon-premium-feature', ['addon_slug' => esc_url(WP_STATISTICS_SITE_URL . '/product/wp-statistics-advanced-reporting/?utm_source=wp-statistics&utm_medium=link&utm_campaign=plugin-settings')], true);
+if (!$isAdvancedReportingActive) echo Admin_Template::get_template('layout/partials/addon-premium-feature',
+    ['addon_slug'           => esc_url(WP_STATISTICS_SITE_URL . '/product/wp-statistics-advanced-reporting/?utm_source=wp-statistics&utm_medium=link&utm_campaign=plugin-settings'),
+     'addon_title'          => 'Advanced Reporting Add-On',
+     'addon_description'    => 'The settings on this page are part of the Advanced Reporting add-on, which allows you to stay up-to-date on your website\'s performance by receiving graphical representations of your website\'s statistics directly in your inbox.',
+     'addon_features'       => [
+         'Receive graphical statistics charts via email.',
+         'Schedule reports to be sent to any inbox of your choice.',
+         'Monitor your website\'s traffic and activity with no hassle.',
+     ],
+     'addon_info'           => 'Keep a close eye on your website\'s performance with the Advanced Reporting add-on.',
+    ], true);
 ?>
 
     <div class="postbox">

@@ -1,9 +1,21 @@
 <?php
+
+use WP_STATISTICS\Admin_Template;
+
 $isRealTimeStatsActive = WP_STATISTICS\Helper::isAddOnActive('realtime-stats');
 ?>
 
 <?php
-if (!$isRealTimeStatsActive) echo \WP_STATISTICS\Admin_Template::get_template('layout/partials/addon-premium-feature', ['addon_slug' => esc_url(WP_STATISTICS_SITE_URL . '/product/wp-statistics-realtime-stats/?utm_source=wp-statistics&utm_medium=link&utm_campaign=plugin-settings')], true);
+if (!$isRealTimeStatsActive) echo Admin_Template::get_template('layout/partials/addon-premium-feature',
+    ['addon_slug'           => esc_url(WP_STATISTICS_SITE_URL . '/product/wp-statistics-realtime-stats/?utm_source=wp-statistics&utm_medium=link&utm_campaign=plugin-settings'),
+     'addon_title'          => 'Real-Time Add-On',
+     'addon_description'    => 'The settings on this page are part of the Real-Time add-on, which allows you to track your visitors and online users in real time without needing to refresh the page.',
+     'addon_features'       => [
+         'Monitor website traffic and activity instantly.',
+         'Display real-time statistics directly on your WordPress dashboard.',
+     ],
+     'addon_info'           => 'Keep a close eye on your website\'s performance with the Real-Time add-on.',
+    ], true);
 ?>
 
     <div class="postbox">
