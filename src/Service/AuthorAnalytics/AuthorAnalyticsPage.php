@@ -3,7 +3,6 @@
 namespace WP_Statistics\Service\AuthorAnalytics;
 
 use WP_STATISTICS\Menus;
-use WP_Statistics;
 use WP_Statistics\Components\Singleton;
 use WP_Statistics\Service\AuthorAnalytics\Views\AuthorsView;
 use WP_Statistics\Service\AuthorAnalytics\Views\PostsView;
@@ -59,26 +58,21 @@ class AuthorAnalyticsPage extends Singleton
      */
     public function view()
     {
-        try {
-            // Get current view
-            $currentView = $this->getCurrentView();
+        // Get current view
+        $currentView = $this->getCurrentView();
 
-            // Check if the view does not exist, throw exception
-            if (!isset($this->views[$currentView])) {
-                throw new Exception(esc_html__('View is not valid.', 'wp-statistics'));
-            }
-
-            // Check if the class does not have view method, throw exception
-            if (!method_exists($this->views[$currentView], 'view')) {
-                throw new Exception(sprintf(esc_html__('View method is not defined within %s class.', 'wp-statistics'), $currentView));
-            }
-
-            // Instantiate the view class and render content
-            $class = new $this->views[$currentView];
-            $class->view();
-
-        } catch (Exception $e) {
-            WP_Statistics::log($e->getMessage());
+        // Check if the view does not exist, throw exception
+        if (!isset($this->views[$currentView])) {
+            throw new Exception(esc_html__('View is not valid.', 'wp-statistics'));
         }
+
+        // Check if the class does not have view method, throw exception
+        if (!method_exists($this->views[$currentView], 'view')) {
+            throw new Exception(sprintf(esc_html__('View method is not defined within %s class.', 'wp-statistics'), $currentView));
+        }
+
+        // Instantiate the view class and render content
+        $class = new $this->views[$currentView];
+        $class->view();
     }
 }
