@@ -26,6 +26,7 @@ WP Statistics is GDPR, CCPA, PECR, and cookie compliance by default.
 * Enhance IP Hashing with Random Daily Salt Mechanism
 * Features to export and delete data for GDPR
 * Respect for User Privacy with Do Not Track (DNT)
+* Privacy Audit Tool for compliance with privacy laws
 
 Your site won't need to have a cookie popup since WP Statistics uses [cookie-less tracking](https://wp-statistics.com/resources/counting-unique-visitors-without-cookies/?utm_source=wporg&utm_medium=link&utm_campaign=doc).
 
@@ -127,13 +128,13 @@ If you encounter any bug, please create an issue on [GitHub](https://github.com/
 
 == Changelog ==
 = 14.7 - **.05.2024 =
-* Addition: Introduced Privacy Audit to ensure compliance with privacy laws. Includes disabling "Record User Page Views," "Anonymize IP Addresses," and "Hash IP Addresses" for GDPR compliance. [More info click here](https://...)
-* Addition: Added two new columns, `region` and `continent`, to the visitor table to enhance geographic data.
-* Improvement: Enhanced the styling of email reports for improved readability and aesthetics.
-* Improvement: Updated filters and styles for better user experience.
+* Addition: Introduced Privacy Audit Tool to ensure compliance with privacy laws. [More info click here](https://wp-statistics.com/2024/05/12/introducing-privacy-audit-in-wp-statistics-14-7/)
+* Addition: Added two new database columns, region and continent, to the visitor table to enhance geographical data.
+* Improvement: Enhanced email report appearance for better readability and aesthetics.
+* Improvement: Updated filters and styles for a better user experience.
 * Improvement: Enhanced event scheduling and email handling for improved performance.
-* Improvement: Refined language strings and admin interface for easier use.
-* Improvement: Merged REST API and Advanced Widgets settings into main plugin settings for better management.
+* Improvement: Refined language strings and an admin interface for easier use.
+* Improvement: Merged REST API and Advanced Widgets settings into the main plugin settings for better management.
 * Improvement: Various minor enhancements to boost plugin stability and performance.
 
 [See changelog for all versions](https://raw.githubusercontent.com/wp-statistics/wp-statistics/master/CHANGELOG.md).
