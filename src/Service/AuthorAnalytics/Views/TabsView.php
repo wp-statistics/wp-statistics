@@ -21,9 +21,30 @@ class TabsView
         }
     }
 
+    /**
+     * Get performance tab data
+     * 
+     * @return array
+     */
+    public function performanceTabData()
+    {
+        return [];
+    }
+
+    /**
+     * Get pages tab data
+     * 
+     * @return array
+     */
+    public function pagesTabData()
+    {
+        return [];
+    }
+
     public function view()
     {
         $currentTab = isset($_GET['tab']) ? sanitize_text_field($_GET['tab']) : 'performance';
+        $tabData    = [$this, "{$currentTab}TabData"];
 
         $args = [
             'title'      => esc_html__('Author Analytics', 'wp-statistics'),
@@ -33,6 +54,7 @@ class TabsView
             'custom_get' => ['tab' => $currentTab],
             'DateRang'   => Admin_Template::DateRange(),
             'filters'    => ['post-type'],
+            'data'       => $tabData,
             'tabs'       => [
                 [
                     'link'    => Menus::admin_url('author-analytics', ['tab' => 'performance']),
