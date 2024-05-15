@@ -14,7 +14,7 @@
             <div class="wps-author-tabs__content">
                 <?php
                 $cats    = ["title" => "13", "title1" => "14", "title2" => "15", "title3" => "16", "title4" => "18"];
-                $counter = 1; 
+                $counter = 1;
                 foreach ($cats as $name => $published) : ?>
                     <a class="wps-author-tabs__item" href="">
                         <div class="wps-author-tabs__item--content">
@@ -30,7 +30,7 @@
             <div class="wps-author-tabs__content">
                 <?php
                 $tags    = ["Tag name" => "20", "Tag name2" => "10", "Tag name3" => "5", "Tag name4" => "2"];
-                $counter = 1; 
+                $counter = 1;
                 foreach ($tags as $name => $published) : ?>
                     <a class="wps-author-tabs__item" href="">
                         <div class="wps-author-tabs__item--content">
