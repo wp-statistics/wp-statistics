@@ -1,9 +1,29 @@
 <?php
+
+use WP_STATISTICS\Admin_Template;
+
 $isRestApiActive = WP_STATISTICS\Helper::isAddOnActive('rest-api');
 ?>
 
 <?php
-if (!$isRestApiActive) echo \WP_STATISTICS\Admin_Template::get_template('layout/partials/addon-premium-feature', ['addon_slug' => esc_url(WP_STATISTICS_SITE_URL . '/product/wp-statistics-rest-api/?utm_source=wp-statistics&utm_medium=link&utm_campaign=plugin-settings')], true);
+if (!$isRestApiActive) echo Admin_Template::get_template('layout/partials/addon-premium-feature',
+    ['addon_slug'                => esc_url(WP_STATISTICS_SITE_URL . '/product/wp-statistics-rest-api/?utm_source=wp-statistics&utm_medium=link&utm_campaign=plugin-settings'),
+     'addon_title'               => 'Rest API Add-On',
+     'addon_description'         => 'The settings on this page are part of the REST API add-on, which enables the following endpoints in the WordPress REST API:',
+     'addon_features'            => [
+         'Browsers',
+         'Hits',
+         'Referrers',
+         'Search Engines',
+         'Summary',
+         'Visitors',
+         'Pages',
+     ],
+     'addon_info'                => 'For more information about the API and endpoints, please refer to the',
+     'addon_documentation_title' => 'API documentation',
+     'addon_documentation_slug'  => esc_url('https://documenter.getpostman.com/view/3239688/2s8Z6vZER4'),
+
+    ], true);
 ?>
 
 

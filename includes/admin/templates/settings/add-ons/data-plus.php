@@ -1,9 +1,24 @@
 <?php
+
+use WP_STATISTICS\Admin_Template;
+
 $isDataPlusActive = WP_STATISTICS\Helper::isAddOnActive('data-plus');
 ?>
 
 <?php
-if (!$isDataPlusActive) echo \WP_STATISTICS\Admin_Template::get_template('layout/partials/addon-premium-feature', ['addon_slug' => esc_url(WP_STATISTICS_SITE_URL . '/product/wp-statistics-data-plus/?utm_source=wp-statistics&utm_medium=link&utm_campaign=plugin-settings')], true);
+if (!$isDataPlusActive) echo Admin_Template::get_template('layout/partials/addon-premium-feature',
+    ['addon_slug'           => esc_url(WP_STATISTICS_SITE_URL . '/product/wp-statistics-data-plus/?utm_source=wp-statistics&utm_medium=link&utm_campaign=plugin-settings'),
+     'addon_title'          => 'DataPlus Add-On',
+     'addon_description'    => 'The settings on this page are part of the DataPlus add-on, which enhances WP Statistics by expanding tracking capabilities and providing detailed visitor insights.',
+     'addon_features'       => [
+         'Track custom post types and taxonomies.',
+         'Use advanced filtering for specific query parameters and UTM tags.',
+         'Monitor outbound link clicks and downloads.',
+         'Compare weekly traffic and view hourly visitor patterns.',
+         'Analyze individual content pieces with detailed widgets.',
+     ],
+     'addon_info'           => 'Unlock deeper insights into your website\'s performance with DataPlus.',
+    ], true);
 ?>
     <div class="postbox">
         <table class="form-table <?php echo !$isDataPlusActive ? 'form-table--preview' : '' ?>">
