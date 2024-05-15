@@ -1,3 +1,7 @@
+<?php 
+use WP_STATISTICS\Menus;
+?>
+
 <div class="postbox-container wps-postbox-full">
     <div class="metabox-holder">
         <div class="meta-box-sortables">
@@ -54,7 +58,7 @@
                                     </td>
                                     <td class="view-more">
                                         <!-- add class disabled-->
-                                        <a href="<?php echo esc_url(admin_url('admin.php?page=wps_author-analytics_page&author_id=1')); ?>" title="<?php esc_html_e('View Details', 'wp-statistics') ?>">
+                                        <a href="<?php echo esc_url(Menus::admin_url('author-analytics', ['type' => 'single-author', 'author_id' => 1])) ?>" title="<?php esc_html_e('View Details', 'wp-statistics') ?>">
                                             <?php esc_html_e('View Details', 'wp-statistics') ?>
                                         </a>
                                     </td>

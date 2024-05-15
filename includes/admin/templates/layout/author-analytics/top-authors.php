@@ -1,3 +1,7 @@
+<?php 
+use WP_STATISTICS\Menus; 
+?>
+
 <div class="wps-card">
     <div class="wps-card__title">
         <h2>
@@ -137,7 +141,7 @@
     </div>
     <div class="c-footer">
         <div class="c-footer__more">
-            <a href="<?php echo esc_url(admin_url('admin.php?page=wps_author-analytics_page&report=authors')); ?>" class="c-footer__more__link" title="<?php esc_html_e('See all authors', 'wp-statistics') ?>"><?php esc_html_e('See all authors', 'wp-statistics') ?></a>
+            <a href="<?php echo esc_url(Menus::admin_url('author-analytics', ['type' => 'authors'])); ?>" class="c-footer__more__link" title="<?php esc_html_e('See all authors', 'wp-statistics') ?>"><?php esc_html_e('See all authors', 'wp-statistics') ?></a>
         </div>
     </div>
 </div>
