@@ -322,7 +322,7 @@ class Admin_Assets
             'no_data'               => __('Sorry, there\'s no data available for this selection.', 'wp-statistics'),
             'count'                 => __('Total Number', 'wp-statistics'),
             'percentage'            => __('Percent Share', 'wp-statistics'),
-            'version_list'          => __('List of All Versions', 'wp-statistics'),
+            'version_list'          => __('Version', 'wp-statistics'),
             'filter'                => __('Apply Filters', 'wp-statistics'),
             'all'                   => __('All Entries', 'wp-statistics'),
             'er_datepicker'         => __('Select Desired Time Range', 'wp-statistics'),
