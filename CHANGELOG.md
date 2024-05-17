@@ -6,6 +6,7 @@
 * Improvement: Enhanced event scheduling and email handling for improved performance.
 * Improvement: Refined language strings and an admin interface for easier use.
 * Improvement: Merged REST API and Advanced Widgets settings into the main plugin settings for better management.
+* Improvement: Showing the Hash IP properly in HitsMap modal.
 * Improvement: Various minor enhancements to boost plugin stability and performance.
 
 = 14.6.4 - 03.05.2024 =

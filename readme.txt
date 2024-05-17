@@ -137,6 +137,7 @@ https://www.youtube.com/watch?v=6G50BZRWPd4
 * Improvement: Enhanced event scheduling and email handling for improved performance.
 * Improvement: Refined language strings and an admin interface for easier use.
 * Improvement: Merged REST API and Advanced Widgets settings into the main plugin settings for better management.
+* Improvement: Showing the Hash IP properly in HitsMap modal.
 * Improvement: Various minor enhancements to boost plugin stability and performance.
 
 [See changelog for all versions](https://raw.githubusercontent.com/wp-statistics/wp-statistics/master/CHANGELOG.md).
