@@ -30,6 +30,7 @@ class Menus
         'optimization' => 'optimization',
         'settings'     => 'settings',
         'plugins'      => 'plugins',
+        'taxonomies'   => 'taxonomies',
     );
 
     /**
