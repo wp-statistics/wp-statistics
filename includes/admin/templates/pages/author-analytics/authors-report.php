@@ -13,8 +13,7 @@
                         <table width="100%" class="o-table wps-authors-table">
                             <thead>
                                 <tr>
-                                    <th></th>
-                                    <th>
+                                    <th class="wps-pd-l">
                                         <a href="" class="sort"><?php esc_html_e('Author', 'wp-statistics') ?></a>
                                     </th>
                                     <th class="wps-pd-l">
@@ -65,9 +64,6 @@
                             <tbody>
                                 <?php for ($i = 1; $i < 10; $i++): ?>
                                     <tr>
-                                        <td>
-                                            <?php echo esc_html($i)  ?>
-                                        </td>
                                         <td>
                                             <div class="wps-author-name">
                                                 <?php $user = wp_get_current_user();
