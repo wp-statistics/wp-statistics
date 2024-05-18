@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-05-17T12:30:57+00:00\n"
+"POT-Creation-Date: 2024-05-18T08:29:52+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.9.0\n"
 "X-Domain: wp-statistics\n"
@@ -155,7 +155,7 @@ msgstr ""
 #: includes/admin/class-wp-statistics-admin-assets.php:289
 #: includes/admin/class-wp-statistics-admin-network.php:62
 #: includes/admin/pages/class-wp-statistics-admin-page-visitors.php:34
-#: includes/admin/templates/pages/country.php:12
+#: includes/admin/templates/pages/country.php:11
 #: includes/admin/templates/pages/hits.php:25
 #: includes/admin/templates/settings/add-ons/customization.php:12
 #: includes/admin/TinyMCE/class-wp-statistics-tinymce.php:38
@@ -271,7 +271,7 @@ msgid "Country Flag"
 msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-assets.php:288
-#: includes/admin/templates/pages/country.php:11
+#: includes/admin/templates/pages/country.php:10
 #: includes/admin/templates/pages/online.php:20
 #: includes/admin/templates/pages/refer.url.php:39
 #: includes/admin/templates/pages/top-visitors.php:15
@@ -297,7 +297,8 @@ msgid "Page Link"
 msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-assets.php:293
-msgid "URL Address"
+#: includes/admin/templates/pages/top.refer.php:21
+msgid "Domain Address"
 msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-assets.php:294
@@ -839,7 +840,8 @@ msgid "Server IP"
 msgstr ""
 
 #: includes/admin/meta-box/wp-statistics-meta-box-referring.php:58
-msgid "Referral Sources"
+#: includes/admin/templates/pages/top.refer.php:27
+msgid "Number of Referrals"
 msgstr ""
 
 #: includes/admin/meta-box/wp-statistics-meta-box-search.php:53
@@ -2241,16 +2243,8 @@ msgstr ""
 msgid "No information is available for this day."
 msgstr ""
 
-#: includes/admin/templates/pages/top.refer.php:21
-msgid "Domain Address"
-msgstr ""
-
 #: includes/admin/templates/pages/top.refer.php:22
 msgid "Site Title"
-msgstr ""
-
-#: includes/admin/templates/pages/top.refer.php:27
-msgid "Number of Referrals"
 msgstr ""
 
 #: includes/admin/templates/pages/visitors.php:43

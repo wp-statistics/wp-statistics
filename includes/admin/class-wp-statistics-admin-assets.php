@@ -290,7 +290,7 @@ class Admin_Assets
             'id'                    => __('ID', 'wp-statistics'),
             'title'                 => __('Page Title', 'wp-statistics'),
             'link'                  => __('Page Link', 'wp-statistics'),
-            'address'               => __('URL Address', 'wp-statistics'),
+            'address'               => __('Domain Address', 'wp-statistics'),
             'word'                  => __('Search Term', 'wp-statistics'),
             'browser'               => __('Visitor\'s Browser', 'wp-statistics'),
             'city'                  => __('Visitor\'s City', 'wp-statistics'),
