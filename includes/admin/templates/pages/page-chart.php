@@ -1,10 +1,12 @@
+<?php 
+use WP_STATISTICS\Option;
+use WP_STATISTICS\Meta_Box;
+?>
+
 <div class="postbox-container" id="wps-big-postbox">
     <div class="metabox-holder">
         <div class="meta-box-sortables">
-            <div class="postbox" id="<?php use WP_STATISTICS\Meta_Box;
-            use WP_STATISTICS\Option;
-
-            echo esc_html(Meta_Box::getMetaBoxKey('pages-chart')); ?>">
+            <div class="postbox" id="<?php echo esc_html(Meta_Box::getMetaBoxKey('pages-chart')); ?>">
                 <div class="inside">
                     <!-- Do Js -->
                 </div>
@@ -72,7 +74,6 @@
 <div id="wps-postbox-container-2" style="float: left; margin-left: 0" class="postbox-container">
     <div id="normal-sortables" class="meta-box-sortables ui-sortable">
         <?php if (!Option::get('disable_map')) : ?>
-
             <div class="postbox" id="wp-statistics-pages-widget">
                 <div class="postbox-header postbox-toggle">
                     <h2 class="hndle wps-d-inline-block"><span><?php esc_html_e('Visitors Map', 'wp-statistics'); ?></span></h2>
