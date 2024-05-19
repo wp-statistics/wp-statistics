@@ -370,7 +370,7 @@ class Pages
                     break;
                 case "home":
                     $arg = array(
-                        'title' => sprintf(__('Home Page: %s', 'wp-statistics'), get_the_title($page_id)),
+                        'title' => $page_id ? sprintf(__('Home Page: %s', 'wp-statistics'), get_the_title($page_id)) : __('Home Page', 'wp-statistics'),
                         'link'  => get_site_url()
                     );
                     break;
