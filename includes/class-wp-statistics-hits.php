@@ -187,7 +187,10 @@ class Hits
 
         # Record User Online
         if (UserOnline::active() and ($exclusion['exclusion_match'] === false)) {
-            UserOnline::record($visitorProfile);
+            $pageID = isset($page_id) && $page_id > 0 ? $page_id : 0;
+            UserOnline::record($visitorProfile, [
+                'page_id' => $pageID,
+            ]);
         }
 
         return $exclusion;
