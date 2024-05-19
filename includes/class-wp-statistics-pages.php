@@ -498,7 +498,7 @@ class Pages
         }
 
         // Generate SQL
-        $sql = "SELECT `pages`.`date`,`pages`.`uri`,`pages`.`id`,`pages`.`type`, SUM(`pages`.`count`) AS `count_sum` FROM `" . DB::table('pages') . "` `pages` {$DateTimeSql} {$postTypeSql} GROUP BY `pages`.`id` ORDER BY `count_sum` DESC";
+        $sql = "SELECT `pages`.`date`,`pages`.`uri`,`pages`.`id`,`pages`.`type`, SUM(`pages`.`count`) AS `count_sum` FROM `" . DB::table('pages') . "` `pages` {$DateTimeSql} {$postTypeSql} GROUP BY `pages`.`type` ORDER BY `count_sum` DESC";
 
         // Get List Of Pages
         $list   = array();

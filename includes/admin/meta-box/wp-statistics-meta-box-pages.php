@@ -52,6 +52,7 @@ class pages extends MetaBoxAbstract
             'to'       => end($days_time_list),
         ]);
 
+        // Todo Not sure why historical is commented, we need to consider the count of the historical as well.
 //        // Date Time SQL
 //        $DateTimeSql = "WHERE (`pages`.`date` BETWEEN '" . reset($days_time_list) . "' AND '" . end($days_time_list) . "')";
 //
