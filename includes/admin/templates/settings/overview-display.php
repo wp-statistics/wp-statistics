@@ -29,7 +29,7 @@ if ($wps_admin) {
                 <td>
                     <input id="disable-map" type="checkbox" value="1" name="wps_disable_map" <?php echo WP_STATISTICS\Option::get('disable_map') == '1' ? "" : "checked='checked'"; ?>>
                     <label for="disable-map"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
-                    <p class="description"><?php esc_html_e('View the \'Global Visitor Distribution\' widget in the dashboard.', 'wp-statistics'); ?></p>
+                    <p class="description"><?php esc_html_e('View the \'Global Visitor Distribution\' widget in the overviews.', 'wp-statistics'); ?></p>
                 </td>
             </tr>
 
