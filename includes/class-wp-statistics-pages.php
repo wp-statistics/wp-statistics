@@ -401,8 +401,10 @@ class Pages
 
                         if ($post_object instanceof \WP_Post_Type) {
                             $arg['title'] = sprintf(__('Post Archive: %s', 'wp-statistics'), $post_object->labels->name);
+                            $arg['link']  = get_post_type_archive_link($post_type);
                         } else {
                             $arg['title'] = sprintf(__('Post Archive: %s', 'wp-statistics'), $slug);
+                            $arg['link']  = home_url($slug);
                         }
                     } else {
                         $arg['title'] = __('Post Archive', 'wp-statistics');

@@ -118,7 +118,7 @@ class UserOnline
         } else {
 
             # Update current User Time
-            self::update_user_online($visitorProfile);
+            self::update_user_online($visitorProfile, $args);
 
         }
     }
@@ -195,7 +195,7 @@ class UserOnline
      * Update User Online
      * @param $visitorProfile VisitorProfile
      */
-    public static function update_user_online($visitorProfile)
+    public static function update_user_online($visitorProfile, $args = array())
     {
         global $wpdb;
 
@@ -211,7 +211,7 @@ class UserOnline
             'page_id'   => $current_page['id'],
             'type'      => $current_page['type']
         );
-        $user_online = apply_filters('wp_statistics_update_user_online_data', $user_online);
+        $user_online = apply_filters('wp_statistics_update_user_online_data', wp_parse_args($args, $user_online));
 
         # Update the database with the new information.
         $wpdb->update(DB::table('useronline'), $user_online, array(
@@ -301,7 +301,7 @@ class UserOnline
             }
 
             // Page info
-            $item['page'] = Pages::get_page_info($items->page_id, $items->type);
+            $item['page'] = Visitor::get_page_by_id($items->page_id);
 
             // Push Browser
             $item['browser'] = array(

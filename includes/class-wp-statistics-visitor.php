@@ -419,7 +419,7 @@ class Visitor
             ARRAY_A);
 
         if ($item !== null) {
-            $params = Pages::get_page_info($item['id'], $item['type']);
+            $params = Pages::get_page_info($item['id'], $item['type'], $item['uri']);
         }
 
         return $params;
