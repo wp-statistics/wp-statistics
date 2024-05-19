@@ -181,7 +181,7 @@ wps_js.line_chart = function (tag_id, title, label, data, newOptions) {
 /**
  * Create pie Chart JS
  */
-wps_js.pie_chart = function (tag_id, label, data, label_callback = false) {
+wps_js.pie_chart = function (tag_id, label, data, label_callback = false, tooltip_callback = false) {
 
     // Get Element By ID
     let ctx = document.getElementById(tag_id).getContext('2d');
@@ -192,18 +192,18 @@ wps_js.pie_chart = function (tag_id, label, data, label_callback = false) {
             defaultFontFamily: "Tahoma"
         }
     }
-
     // Set Default Label Callback
     if (label_callback === false) {
-        label_callback = function (tooltipItem, data) {
-            let dataset = data.datasets[tooltipItem.datasetIndex];
-            let total = dataset.data.reduce(function (previousValue, currentValue, currentIndex, array) {
-                return previousValue + currentValue;
-            });
-            let currentValue = dataset.data[tooltipItem.index];
-            let percentage = Math.floor(((currentValue / total) * 100) + 0.5);
-            return percentage + "% - " + data.labels[tooltipItem.index];
+         label_callback = function (tooltipItem) {
+            return tooltipItem.formattedValue
         };
+    }
+
+    // Set Default tooltip title Callback
+    if( tooltip_callback === false){
+        tooltip_callback = function (tooltipItem ) {
+            return tooltipItem.label;
+        }
     }
 
     // Create Chart
@@ -223,16 +223,18 @@ wps_js.pie_chart = function (tag_id, label, data, label_callback = false) {
                         }
                         return 'top';
                     }
+                },
+                tooltip: {
+                    enable: true,
+                    callbacks: {
+                        label: label_callback,
+                        title: tooltip_callback
+                    }
                 }
             },
             animation: {
                 duration: 1500,
             },
-            tooltips: {
-                callbacks: {
-                    label: label_callback
-                }
-            }
         },
         plugins: [{
             afterDraw: function (chart) {

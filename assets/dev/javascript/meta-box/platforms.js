@@ -41,9 +41,15 @@ wps_js.platforms_meta_box = {
             backgroundColor: backgroundColor,
             tension: 0.4
         }];
+        const label_callback = function (tooltipItem) {
+            return wps_js._('platform') + ':' + tooltipItem.formattedValue
+        }
+        const title_callback = (ctx) => {
+            return ctx[0].label;
+        }
 
         // Show Chart
-        wps_js.pie_chart(wps_js.chart_id('platforms'), args['platform_name'], data);
+        wps_js.pie_chart(wps_js.chart_id('platforms'), args['platform_name'], data, label_callback, title_callback);
 
         // Check Table information
         if (wps_js.exist_tag('#' + wps_js.getMetaBoxKey('platforms-table'))) {
