@@ -132,6 +132,10 @@ https://www.youtube.com/watch?v=6G50BZRWPd4
 = 14.7 - **.05.2024 =
 * Addition: Introduced Privacy Audit Tool to ensure compliance with privacy laws. [More info click here](https://wp-statistics.com/2024/05/12/introducing-privacy-audit-in-wp-statistics-14-7/)
 * Addition: Added two new database columns, region and continent, to the visitor table to enhance geographical data.
+* Fixes: Resolved issues with the Date Picker filter and Visitor Map.
+* Fixes: Fixed bug displaying archive page information on the online and visitors pages.
+* Improvement: Enhanced the top pages query for better performance.
+* Improvement: Improved tooltip display for browser pie charts.
 * Improvement: Enhanced email report appearance for better readability and aesthetics.
 * Improvement: Updated filters and styles for a better user experience.
 * Improvement: Enhanced event scheduling and email handling for improved performance.
