@@ -18,8 +18,7 @@
             <table width="100%" class="o-table wps-authors-table wps-top-countries-table">
                 <thead>
                 <tr>
-                    <th></th>
-                    <th>
+                    <th class="wps-pd-l">
                         <?php esc_html_e('Country', 'wp-statistics') ?>
                         <span class="wps-tooltip" title="<?php esc_html_e('Country tooltip', 'wp-statistics') ?>"><i class="wps-tooltip-icon info"></i></span>
                     </th>
@@ -31,7 +30,6 @@
                 <tbody >
                 <?php for ($i = 1; $i < 10; $i++): ?>
                     <tr>
-                        <td> <?php echo esc_html($i)  ?></td>
                         <td>
                             <div >
                                 <img src="<?php echo WP_STATISTICS_URL?>/assets/images/flags/000.svg" alt="">
