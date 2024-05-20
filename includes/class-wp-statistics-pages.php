@@ -392,7 +392,7 @@ class Pages
                     $arg['title'] = __('Search Page', 'wp-statistics');
                     break;
                 case "404":
-                    $arg['title'] = sprintf(__('404 not found (%s)', 'wp-statistics'), esc_html($slug));
+                    $arg['title'] = sprintf(__('404 not found (%s)', 'wp-statistics'), esc_html(substr($slug, 0, 20)));
                     break;
                 case "archive":
                     if ($slug) {
