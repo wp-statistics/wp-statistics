@@ -6,12 +6,19 @@ use WP_STATISTICS\Helper;
 class AuthorsPerformanceData
 {
 
+    /**
+     * Generates SQL conditions based on the given arguments.
+     *
+     * @param array $args An array of arguments to generate the SQL conditions.
+     * @return string The generated SQL conditions.
+     */
     private static function generateSqlConditions($args)
     {
         global $wpdb;
 
         $sql = " WHERE post_status = 'publish'";
 
+        // Post type condition
         if (!empty($args['post_type'])) {
             $sql .= $wpdb->prepare(" AND post_type = '%s'", $args['post_type']);
         } else {
@@ -46,6 +53,12 @@ class AuthorsPerformanceData
     }
 
     
+    /**
+     * Calculates the average number of posts per author based on the given arguments.
+     *
+     * @param array $args An array of arguments to filter the count.
+     * @return float|int The average number of posts per author. Returns 0 if no authors are found.
+     */
     public static function averagePostsPerAuthor($args = [])
     {
         global $wpdb;
