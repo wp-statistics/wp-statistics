@@ -34,8 +34,16 @@ wps_js.models_meta_box = {
             tension: 0.4
         }];
 
+        const label_callback = function (tooltipItem) {
+            return tooltipItem.label;
+        }
+
+        const title_callback = (ctx) => {
+            return wps_js._('visitors') + ':' + ctx[0].formattedValue
+        }
+
         // Show Chart
-        wps_js.pie_chart(wps_js.chart_id('models'), args['model_name'], data);
+        wps_js.pie_chart(wps_js.chart_id('models'), args['model_name'], data, label_callback, title_callback);
     }
 
 };

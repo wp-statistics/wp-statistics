@@ -41,11 +41,13 @@ wps_js.platforms_meta_box = {
             backgroundColor: backgroundColor,
             tension: 0.4
         }];
+
         const label_callback = function (tooltipItem) {
-            return wps_js._('platform') + ':' + tooltipItem.formattedValue
+            return tooltipItem.label;
         }
+
         const title_callback = (ctx) => {
-            return ctx[0].label;
+            return wps_js._('visitors') + ':' + ctx[0].formattedValue
         }
 
         // Show Chart
