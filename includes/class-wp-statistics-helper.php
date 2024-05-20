@@ -1342,4 +1342,20 @@ class Helper
         return implode(', ', $fields);
     }
 
+    
+    /**
+     * Formats a number into a string with appropriate units (K, M, B, T).
+     *
+     * @param int|float $number The number to be formatted.
+     * @return string The formatted number with appropriate units.
+     */
+    public static function formatNumberWithUnit($number)
+    {
+        $units = ['', 'K', 'M', 'B', 'T'];
+        for ($i = 0; $number >= 1000 && $i < 4; $i++) {
+            $number /= 1000;
+        }
+        return round($number, 1) . $units[$i];
+    }
+
 }
