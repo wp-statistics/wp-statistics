@@ -1,8 +1,9 @@
 <?php
 
 namespace WP_STATISTICS;
+use WP_Statistics\Components\Singleton;
 
-class country_page
+class country_page extends Singleton
 {
 
     public function __construct()
@@ -113,4 +114,4 @@ class country_page
     }
 }
 
-new country_page;
+country_page::instance();

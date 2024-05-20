@@ -13,14 +13,14 @@ jQuery(document).ready(function () {
             "ranges": {
                 'Today': [moment(), moment()],
                 'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-                'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-                'Last 14 Days': [moment().subtract(13, 'days'), moment()],
-                'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                'Last 7 Days': [moment().subtract(7, 'days'), moment()],
+                'Last 14 Days': [moment().subtract(14, 'days'), moment()],
+                'Last 30 Days': [moment().subtract(30, 'days'), moment()],
                 'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
-                'Last 60 Days': [moment().subtract(59, 'days'), moment()],
-                'Last 90 Days': [moment().subtract(89, 'days'), moment()],
-                'Last 120 Days': [moment().subtract(119, 'days'), moment()],
-                'Last 6 Months': [moment().subtract(179, 'days'), moment()],
+                'Last 60 Days': [moment().subtract(60, 'days'), moment()],
+                'Last 90 Days': [moment().subtract(90, 'days'), moment()],
+                'Last 120 Days': [moment().subtract(120, 'days'), moment()],
+                'Last 6 Months': [moment().subtract(180, 'days'), moment()],
                 'This Year': [moment().startOf('year'), moment().endOf('year')],
             },
         });
@@ -43,6 +43,10 @@ jQuery(document).ready(function () {
             });
         }
 
+        datePickerElement.on('show.daterangepicker', function (ev, picker) {
+            const correspondingPicker = picker.container;
+            jQuery(correspondingPicker).addClass(ev.target.className);
+        });
         datePickerElement.on('apply.daterangepicker', function (ev, picker) {
             const inputFrom = datePickerForm.find('.js-date-range-picker-input-from').first();
             const inputTo = datePickerForm.find('.js-date-range-picker-input-to').first();
@@ -64,6 +68,10 @@ jQuery(document).ready(function () {
             locale: {
                 format: 'YYYY-MM-DD'
             }
+        });
+        datePickerField.on('show.daterangepicker', function (ev, picker) {
+            const correspondingPicker = picker.container;
+            jQuery(correspondingPicker).addClass(ev.target.className);
         });
         datePickerField.on('apply.daterangepicker', function(ev, picker) {
              jQuery('.wps-today-datepicker').submit();

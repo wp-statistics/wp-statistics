@@ -215,7 +215,7 @@ class Pages
 
     /**
      * Record Page in Database
-     * @param $visitorProfile VisitorProfile
+     * @param VisitorProfile $visitorProfile
      */
     public static function record($visitorProfile)
     {
@@ -370,7 +370,7 @@ class Pages
                     break;
                 case "home":
                     $arg = array(
-                        'title' => sprintf(__('Home Page: %s', 'wp-statistics'), get_the_title($page_id)),
+                        'title' => $page_id ? sprintf(__('Home Page: %s', 'wp-statistics'), get_the_title($page_id)) : __('Home Page', 'wp-statistics'),
                         'link'  => get_site_url()
                     );
                     break;
@@ -392,7 +392,7 @@ class Pages
                     $arg['title'] = __('Search Page', 'wp-statistics');
                     break;
                 case "404":
-                    $arg['title'] = __('404 not found', 'wp-statistics');
+                    $arg['title'] = sprintf(__('404 not found (%s)', 'wp-statistics'), esc_html(substr($slug, 0, 20)));
                     break;
                 case "archive":
                     if ($slug) {
@@ -401,8 +401,10 @@ class Pages
 
                         if ($post_object instanceof \WP_Post_Type) {
                             $arg['title'] = sprintf(__('Post Archive: %s', 'wp-statistics'), $post_object->labels->name);
+                            $arg['link']  = get_post_type_archive_link($post_type);
                         } else {
                             $arg['title'] = sprintf(__('Post Archive: %s', 'wp-statistics'), $slug);
+                            $arg['link']  = home_url($slug);
                         }
                     } else {
                         $arg['title'] = __('Post Archive', 'wp-statistics');
@@ -496,7 +498,15 @@ class Pages
         }
 
         // Generate SQL
-        $sql = "SELECT `pages`.`date`,`pages`.`uri`,`pages`.`id`,`pages`.`type`, SUM(`pages`.`count`) AS `count_sum` FROM `" . DB::table('pages') . "` `pages` {$DateTimeSql} {$postTypeSql} GROUP BY `pages`.`id` ORDER BY `count_sum` DESC";
+        $selectSql = "SELECT `pages`.`date`,`pages`.`uri`,`pages`.`id`,`pages`.`type`, SUM(`pages`.`count`) AS `count_sum` FROM `" . DB::table('pages') . "` `pages` {$DateTimeSql} {$postTypeSql}";
+
+        // Group pages with ID of 0 by type and URI, and group the rest of pages by ID
+        $sql = "
+            ($selectSql AND `pages`.`id` != 0 GROUP BY `pages`.`id`)
+            UNION
+            ($selectSql AND `pages`.`id` = 0 GROUP BY `pages`.`uri`, `pages`.`type`)
+            ORDER BY `count_sum` DESC
+        ";
 
         // Get List Of Pages
         $list   = array();

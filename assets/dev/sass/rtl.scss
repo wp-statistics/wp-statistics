@@ -54,20 +54,6 @@
   float: left;
 }
 
-/** Welcome page **/
-.wp-statistics-welcome .normal-section .left {
-  float: right;
-  text-align: right;
-}
-
-.wp-statistics-welcome .normal-section h2 {
-  text-align: right;
-}
-
-.wp-statistics-welcome .normal-section .right {
-  float: left;
-}
-
 /** Travod **/
 .wp-statistics-travod .header p {
   margin-left: 17px;
@@ -86,9 +72,10 @@
   direction: rtl;
 }
 
-.wps-datepicker {
+.wps-head-filters {
   right: unset;
-  left: 23px;
+  left: 24px;
+  flex-direction: row;
 }
 
 .wps_page_title {
@@ -107,6 +94,18 @@
 
 .rtl .wp-statistics-plugins .widefat > * {
   float: right;
+}
+
+.rtl .wp-statistics-plugins .widefat  .button{
+  font-weight: 500 !important;
+  font-size: 13px;
+  line-height: 170%;
+  padding: 7px 16px;
+  border-radius: 4px;
+}
+
+.rtl .wp-statistics-plugins .widefat .plugin-card .desc>p {
+    margin-left: 0;
 }
 
 .rtl .wp-statistics-plugins .widefat .plugin-card .desc,
@@ -170,12 +169,12 @@
       right: unset;
     }
   }
-  .wps-datepicker .js-date-range-picker-btn:after{
+  .wps-head-filters .js-date-range-picker-btn:after{
     margin-left: unset;
     margin-right: 3px;
     margin-top: 2px;
   }
-  .wps-datepicker #visitors-filter{
+  .wps-head-filters #visitors-filter{
     margin-right: unset;
     margin-left: 12px;
   }
@@ -216,12 +215,7 @@
   .wps-adminHeader a.wps-adminHeader__bundle:after {
     transform: rotate(180deg);
   }
-  .daterangepicker{
-    @media (min-width: 699px){
-      right: unset !important;
-      left: 23px !important;
-    }
-  }
+
   &.toplevel_page_wps_overview_page #screen-meta-links {
     left: 0;
     right: unset;

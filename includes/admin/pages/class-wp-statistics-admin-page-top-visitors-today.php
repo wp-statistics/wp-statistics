@@ -1,8 +1,9 @@
 <?php
 
 namespace WP_STATISTICS;
+use WP_Statistics\Components\Singleton;
 
-class top_visitors_page
+class top_visitors_page extends Singleton
 {
 
     public function __construct()
@@ -61,4 +62,4 @@ class top_visitors_page
     }
 }
 
-new top_visitors_page;
+top_visitors_page::instance();

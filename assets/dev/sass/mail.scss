@@ -1,0 +1,254 @@
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src: url('../fonts/roboto-v30-latin-regular.eot'); /* IE9 Compat Modes */
+  src: local(''),
+  url('../fonts/roboto-v30-latin-regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('../fonts/roboto-v30-latin-regular.woff2') format('woff2'), /* Super Modern Browsers */
+  url('../fonts/roboto-v30-latin-regular.woff') format('woff'), /* Modern Browsers */
+  url('../fonts/roboto-v30-latin-regular.ttf') format('truetype'), /* Safari, Android, iOS */
+  url('../fonts/roboto-v30-latin-regular.svg#Roboto') format('svg'); /* Legacy iOS */
+}
+
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 500;
+  src: url('../fonts/roboto-v30-latin-500.eot'); /* IE9 Compat Modes */
+  src: local(''),
+  url('../fonts/roboto-v30-latin-500.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('../fonts/roboto-v30-latin-500.woff2') format('woff2'), /* Super Modern Browsers */
+  url('../fonts/roboto-v30-latin-500.woff') format('woff'), /* Modern Browsers */
+  url('../fonts/roboto-v30-latin-500.ttf') format('truetype'), /* Safari, Android, iOS */
+  url('../fonts/roboto-v30-latin-500.svg#Roboto') format('svg'); /* Legacy iOS */
+}
+
+/* roboto-700 - latin */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 700;
+  src: url('../fonts/roboto-v30-latin-700.eot'); /* IE9 Compat Modes */
+  src: local(''),
+  url('../fonts/roboto-v30-latin-700.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('../fonts/roboto-v30-latin-700.woff2') format('woff2'), /* Super Modern Browsers */
+  url('../fonts/roboto-v30-latin-700.woff') format('woff'), /* Modern Browsers */
+  url('../fonts/roboto-v30-latin-700.ttf') format('truetype'), /* Safari, Android, iOS */
+  url('../fonts/roboto-v30-latin-700.svg#Roboto') format('svg'); /* Legacy iOS */
+}
+
+
+.mail-body {
+  margin: 0;
+  padding: 43px 0;
+  box-sizing: border-box;
+  text-decoration: none;
+  font-family: "Roboto", Arial, Helvetica, sans-serif;
+
+  & * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    font-family: "Roboto", Arial, Helvetica, sans-serif;
+  }
+
+  a {
+    text-decoration: none;
+  }
+
+  background: #E1EBFD;
+
+  .main-section {
+    width: 628px;
+    max-width: 100%;
+    margin: 0 auto;
+    box-sizing: border-box;
+    padding: 0 5px;
+  }
+
+  table.header {
+    text-align: center;
+    width: 100%;
+
+
+
+    p {
+      margin-top: 24px;
+      margin-bottom: 16px;
+      font-size: 16px;
+      font-style: italic;
+      font-weight: 600;
+      line-height: 18.75px;
+      color: #303032;
+    }
+  }
+
+  .content {
+    padding: 47px 34px 47px 34px;
+    border-radius: 8px;
+    background: #FFFFFF;
+
+    .content__report {
+      &--main, &--head ,&--footer{
+        margin-bottom: 46px;
+        color: #303032;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 18.75px;
+      }
+
+      &--footer{
+        margin-bottom: 31px;
+      }
+
+      &--head p:first-child {
+        margin-bottom: 16px;
+      }
+
+      &--main {
+        table {
+           width: 281px;
+          max-width: 100%;
+
+          tr {
+            td {
+              padding-bottom: 14px;
+            }
+
+            td:first-child {
+              font-size: 16px;
+              font-weight: 500;
+              line-height: 18.75px;
+              color: #0C0C0D;
+            }
+
+            td:last-child {
+              color: #404BF2;
+              font-size: 17px;
+              font-weight: 700;
+              line-height: 19.92px;
+            }
+          }
+
+        }
+      }
+    }
+
+    .content__tip {
+      border: 1px solid #9DA3F7;
+      background: #F0F5FF;
+      padding: 18px;
+      border-radius: 8px;
+
+      &--title {
+        margin-bottom: 22px;
+        position: relative;
+
+        h2 {
+          font-size: 16px;
+          font-weight: 500;
+          line-height: 25px;
+          margin: 0;
+
+          span {
+            float: right;
+            background-color: #404BF2;
+            color: #fff;
+            border-radius: 4px;
+            font-size: 15px;
+            font-weight: 500;
+            line-height: 17.58px;
+            background-image: url("../images/tip.png");
+            background-position: center left 4px;
+            padding: 4px 4px 4px 25px;
+            background-repeat: no-repeat;
+            background-size: 13px;
+          }
+
+        }
+
+
+      }
+
+      &--description {
+        color: #303032;
+        font-size: 15px;
+        font-weight: 400;
+        line-height: 17.58px;
+      }
+    }
+  }
+
+  .better-reports {
+    padding: 32px 18px 32px 18px;
+    border-radius: 8px;
+    background: #404BF2;
+    border: 1px solid #404BF2;
+    text-align: center;
+    margin-top: 39px;
+
+    &__title {
+      font-size: 18px;
+      font-weight: 600;
+      line-height: 21.09px;
+      color: #FFFFFF;
+      margin: 0 0 24px;
+      padding: 0;
+    }
+
+    p {
+      font-size: 15px;
+      font-weight: 400;
+      line-height: 25px;
+      color: #fff;
+      padding: 0;
+      margin: 0 0 32px;
+    }
+
+    a {
+      background-color: #FFFFFF;
+      border-radius: 4px;
+      color: #404BF2;
+      font-size: 15px;
+      font-weight: 600;
+      line-height: 17.58px;
+      position: relative;
+      word-break: break-word;
+      display: inline-block;
+      padding: 12px 50px 12px 16px;
+      background-image: url("../images/arrow-right.png");
+      background-position: center right 24px;
+      background-repeat: no-repeat;
+      background-size: 16px;
+
+      &:hover {
+        background-color: #f0f5ff;
+      }
+    }
+  }
+
+  .footer {
+    margin-top: 48px;
+    text-align: center;
+
+    span, a {
+      font-size: 14px;
+      font-style: italic;
+      font-weight: 500;
+      line-height: 16.41px;
+      color: #56585A;
+    }
+
+    a {
+      color: #175DA4;
+
+      &:hover {
+        color: #404bf2;
+      }
+    }
+  }
+}

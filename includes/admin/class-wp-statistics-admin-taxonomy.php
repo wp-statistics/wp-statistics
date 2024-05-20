@@ -88,7 +88,7 @@ class Admin_Taxonomy
                 $value = apply_filters("wp_statistics_before_hit_column", $preview_chart_unlock_html, $term_id, $term->taxonomy);
 
                 $value .= sprintf('<a href="%s">%s</a>',
-                    Menus::admin_url('pages', array('type' => $term->taxonomy, 'ID' => $term_id)),
+                    Menus::admin_url('taxonomies', array('taxonomy' => $term->taxonomy, 'ID' => $term_id)),
                     number_format($hit_number)
                 );
             }

@@ -68,10 +68,28 @@ class VisitorProfile
     public function getCity()
     {
         if (!$this->city) {
-            $this->city = GeoIP::getCity($this->getIp());
+            $this->city = GeoIP::getCity($this->getIp(), true);
         }
 
-        return $this->city;
+        return $this->city['city'];
+    }
+
+    public function getRegion()
+    {
+        if (!$this->city) {
+            $this->city = GeoIP::getCity($this->getIp(), true);
+        }
+
+        return $this->city['region'];
+    }
+
+    public function getContinent()
+    {
+        if (!$this->city) {
+            $this->city = GeoIP::getCity($this->getIp(), true);
+        }
+
+        return $this->city['continent'];
     }
 
     public function getReferrer()

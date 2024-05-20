@@ -10,8 +10,15 @@
 
     <?php do_action('wp_statistics_after_admin_page_title'); ?>
     <div class="wp-clearfix"></div>
-    <div class="wps-datepicker">
+    <div class="wps-head-filters">
         <?php include 'date.range.php'; ?>
+        <?php
+        if (!empty($filters)) {
+            foreach ($filters as $filter) {
+                require_once "filters/$filter-filter.php";
+            }
+        }
+        ?>
     </div>
     <?php if (!empty($tabs) && is_array($tabs)) { ?>
         <ul class="wps-tabs">

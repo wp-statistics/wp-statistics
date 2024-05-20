@@ -181,7 +181,7 @@ class Purge
             if (Option::get('prune_report') == true) {
 
                 Helper::send_mail(Option::getEmailNotification(), __('WP Statistics - Database Clean-Up Report for', 'wp-statistics') . ' ' . get_bloginfo('name'), $result_string, true,
-                    array("email_title" => __('WP Statistics - Database Clean-Up Report for', 'wp-statistics') . ' <a href="' . get_bloginfo('url') . '" target="_blank" style="text-decoration: underline; color: #999999; font-family: Nunito; font-size: 13px; font-weight: 400; line-height: 150%;">' . get_bloginfo('name') . '</a>'));
+                    array("email_title" => __('WP Statistics - Database Clean-Up Report for', 'wp-statistics') . ' <a href="' . get_bloginfo('url') . '" target="_blank" style="text-decoration: none; color: #303032; font-family: Roboto,Arial,Helvetica,sans-serif; font-size: 16px; font-weight: 600; line-height: 18.75px;font-style: italic">' . get_bloginfo('name') . '</a>'));
             }
 
             return $result_string;
@@ -238,14 +238,14 @@ class Purge
                 $result_string = __('No Visitor Records Found for Purging.', 'wp-statistics');
             }
         } else {
-            $result_string = __('Number of visits must be greater than or equal to 10!', 'wp-statistics');
+            $result_string = __('Number of views must be greater than or equal to 10!', 'wp-statistics');
         }
 
         // Send Email
         if (Option::get('prune_report') == true) {
 
             Helper::send_mail(Option::getEmailNotification(), __('WP Statistics - Database Clean-Up Report for', 'wp-statistics') . ' ' . get_bloginfo('name'), $result_string, true,
-                array("email_title" => __('WP Statistics - Database Clean-Up Report for', 'wp-statistics') . ' <a href="' . get_bloginfo('url') . '" target="_blank" style="text-decoration: underline; color: #999999; font-family: Nunito; font-size: 13px; font-weight: 400; line-height: 150%;">' . get_bloginfo('name') . '</a>'));
+                array("email_title" => __('WP Statistics - Database Clean-Up Report for', 'wp-statistics') . ' <a href="' . get_bloginfo('url') . '" target="_blank" style="text-decoration: none; color: #303032; font-family: Roboto,Arial,Helvetica,sans-serif; font-size: 16px; font-weight: 600; line-height: 18.75px;font-style: italic;">' . get_bloginfo('name') . '</a>'));
         }
 
         return $result_string;

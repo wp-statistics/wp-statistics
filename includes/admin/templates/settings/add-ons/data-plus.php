@@ -1,7 +1,25 @@
 <?php
+
+use WP_STATISTICS\Admin_Template;
+
 $isDataPlusActive = WP_STATISTICS\Helper::isAddOnActive('data-plus');
 ?>
 
+<?php
+if (!$isDataPlusActive) echo Admin_Template::get_template('layout/partials/addon-premium-feature',
+    ['addon_slug'           => esc_url(WP_STATISTICS_SITE_URL . '/product/wp-statistics-data-plus/?utm_source=wp-statistics&utm_medium=link&utm_campaign=plugin-settings'),
+     'addon_title'          => 'DataPlus Add-On',
+     'addon_description'    => 'The settings on this page are part of the DataPlus add-on, which enhances WP Statistics by expanding tracking capabilities and providing detailed visitor insights.',
+     'addon_features'       => [
+         'Track custom post types and taxonomies.',
+         'Use advanced filtering for specific query parameters and UTM tags.',
+         'Monitor outbound link clicks and downloads.',
+         'Compare weekly traffic and view hourly visitor patterns.',
+         'Analyze individual content pieces with detailed widgets.',
+     ],
+     'addon_info'           => 'Unlock deeper insights into your website\'s performance with DataPlus.',
+    ], true);
+?>
     <div class="postbox">
         <table class="form-table <?php echo !$isDataPlusActive ? 'form-table--preview' : '' ?>">
             <tbody>
@@ -9,14 +27,6 @@ $isDataPlusActive = WP_STATISTICS\Helper::isAddOnActive('data-plus');
                 <th scope="row" colspan="2"><h3><?php esc_html_e('Event Tracking', 'wp-statistics'); ?> <a href="#" class="wps-tooltip" title="<?php esc_html_e('Enable or disable tracking features for clicks and downloads', 'wp-statistics') ?>"><i class="wps-tooltip-icon"></i></a></h3></th>
             </tr>
 
-            <?php if (!$isDataPlusActive) : ?>
-                <tr class="upgrade-notice" valign="top">
-                    <th scope="row" colspan="2">
-                        <p style="font-size: 1em"><?php esc_html_e('Event Tacking feature is currently restricted in your current version. Unlock premium features to gain a deeper insight into your website.', 'wp-statistics') ?></p>
-                        <a target="_blank" class="button button-primary" href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/product/wp-statistics-data-plus/?utm_source=wp-statistics&utm_medium=link&utm_campaign=plugin-settings'); ?>"><?php esc_html_e('Upgrade', 'wp-statistics') ?></a>
-                    </th>
-                </tr>
-            <?php endif; ?>
 
             <tr valign="top">
                 <th scope="row">

@@ -15,11 +15,16 @@ wps_js.date_picker = function () {
             singleDatePicker: true,
             showDropdowns: true,
             minYear: 1998,
-            drops:'up',
+            drops: 'up',
+            opens: document.getElementById('TB_window') ? 'center' : 'right',
             maxYear: parseInt(new Date().getFullYear() + 1),
             locale: {
                 format: 'YYYY-MM-DD'
             }
+        });
+        datePickerField.on('show.daterangepicker', function (ev, picker) {
+            const correspondingPicker = picker.container;
+            jQuery(correspondingPicker).addClass(ev.target.className);
         });
     }
 };
@@ -29,7 +34,45 @@ wps_js.date_picker = function () {
  */
 wps_js.select2 = function () {
     jQuery("select[data-type-show=select2]").select2();
-};
+}
+
+const wpsSelect2 = jQuery('.wps-select2');
+const wpsFilterPage = jQuery('.wps-filter-page');
+const wpsBody = jQuery('body');
+const wpsDropdown = jQuery('.wps-dropdown');
+
+if (wpsSelect2.length && wpsFilterPage.length) {
+    var dirValue = wpsBody.hasClass('rtl') ? 'rtl' : 'ltr';
+
+    wpsSelect2.select2({
+        dropdownParent: $('.wps-filter-page'),
+        dir: dirValue,
+        dropdownAutoWidth: true,
+        dropdownCssClass: 'wps-select2-filter-dropdown'
+    });
+
+    wpsFilterPage.on('click', function () {
+        wpsSelect2.select2('open');
+    });
+
+    wpsSelect2.on('select2:open', function () {
+        wpsDropdown.addClass('active');
+    });
+
+    wpsSelect2.on('select2:close', function () {
+        wpsDropdown.removeClass('active');
+    });
+
+    wpsSelect2.on('change', function () {
+        var selectedOption = jQuery(this).find('option:selected');
+        var url = selectedOption.val();
+
+        if (url) {
+            window.location.href = url;
+        }
+    });
+}
+
 
 /**
  * Set Tooltip
@@ -138,7 +181,7 @@ wps_js.line_chart = function (tag_id, title, label, data, newOptions) {
 /**
  * Create pie Chart JS
  */
-wps_js.pie_chart = function (tag_id, label, data, label_callback = false) {
+wps_js.pie_chart = function (tag_id, label, data, label_callback = false, tooltip_callback = false) {
 
     // Get Element By ID
     let ctx = document.getElementById(tag_id).getContext('2d');
@@ -149,18 +192,18 @@ wps_js.pie_chart = function (tag_id, label, data, label_callback = false) {
             defaultFontFamily: "Tahoma"
         }
     }
-
     // Set Default Label Callback
     if (label_callback === false) {
-        label_callback = function (tooltipItem, data) {
-            let dataset = data.datasets[tooltipItem.datasetIndex];
-            let total = dataset.data.reduce(function (previousValue, currentValue, currentIndex, array) {
-                return previousValue + currentValue;
-            });
-            let currentValue = dataset.data[tooltipItem.index];
-            let percentage = Math.floor(((currentValue / total) * 100) + 0.5);
-            return percentage + "% - " + data.labels[tooltipItem.index];
+         label_callback = function (tooltipItem) {
+            return tooltipItem.formattedValue
         };
+    }
+
+    // Set Default tooltip title Callback
+    if( tooltip_callback === false){
+        tooltip_callback = function (tooltipItem ) {
+            return tooltipItem.label;
+        }
     }
 
     // Create Chart
@@ -180,16 +223,18 @@ wps_js.pie_chart = function (tag_id, label, data, label_callback = false) {
                         }
                         return 'top';
                     }
+                },
+                tooltip: {
+                    enable: true,
+                    callbacks: {
+                        label: label_callback,
+                        title: tooltip_callback
+                    }
                 }
             },
             animation: {
                 duration: 1500,
             },
-            tooltips: {
-                callbacks: {
-                    label: label_callback
-                }
-            }
         },
         plugins: [{
             afterDraw: function (chart) {
@@ -388,6 +433,81 @@ wps_js.sum = function (array) {
         return a + b;
     }, 0);
 };
+
+
+/**
+ * FeedbackBird position
+ * */
+function moveFeedbackBird() {
+    let windowWidth = window.outerWidth || document.documentElement.clientWidth;
+    const feedbackBird = document.getElementById('feedback-bird-app');
+    const feedbackBirdTitle = document.querySelector('.c-fbb-widget__header__title');
+    const license = document.querySelector('.wps-mobileMenuContent .wps-bundle');
+    const support = document.querySelector('.wps-adminHeader__side');
+    if (feedbackBird && (document.body.classList.contains('wps_page'))) {
+        if (windowWidth <= 1030) {
+            const cutDiv = feedbackBird.parentNode.removeChild(feedbackBird);
+            license.parentNode.insertBefore(cutDiv, license);
+        } else {
+            const cutDiv = feedbackBird.parentNode.removeChild(feedbackBird);
+            support.appendChild(cutDiv);
+        }
+        feedbackBird.style.display = 'block';
+        feedbackBird.setAttribute('title', feedbackBirdTitle.innerHTML);
+    }
+}
+
+// Head filters drop down
+jQuery(document).ready(function () {
+    var dropdowns = document.querySelectorAll(".wps-head-filters__item");
+
+    dropdowns.forEach(function (dropdown) {
+        dropdown.classList.remove('loading');
+        dropdown.addEventListener("click", function (event) {
+            var dropdownContent = dropdown.querySelector(".dropdown-content");
+            if (dropdownContent) {
+                dropdownContent.classList.toggle("show");
+            }
+        });
+    });
+
+    window.addEventListener("click", function (event) {
+        dropdowns.forEach(function (dropdown) {
+            var dropdownContent = dropdown.querySelector(".dropdown-content");
+            if (dropdownContent && !dropdown.contains(event.target)) {
+                dropdownContent.classList.remove("show");
+            }
+        });
+    });
+});
+
+jQuery(document).ready(function () {
+    const targetElement = document.querySelector('.wp-header-end');
+    const noticeElement = document.querySelector('.notice.notice-warning.update-nag');
+    // Check if both targetElement and noticeElement exist
+    if (targetElement && noticeElement) {
+        // Move the notice element after the target element
+        targetElement.parentNode.insertBefore(noticeElement, targetElement.nextSibling);
+    }
+
+    jQuery(document).on('click', '.wps-privacy-list__item .wps-privacy-list__title', (e) => {
+        const title = jQuery(e.currentTarget);
+        const content = title.siblings('.wps-privacy-list__content');
+
+        // If the action button is clicked, don't expand the item
+        if (jQuery(e.target).is('.wps-privacy-list__button')) {
+            return;
+        }
+
+        title.toggleClass('open');
+
+        if (content.hasClass('show')) {
+            content.removeClass('show');
+        } else {
+            content.addClass('show');
+        }
+    });
+});
 
 
 /**

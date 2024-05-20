@@ -1,3 +1,7 @@
+<?php 
+use WP_STATISTICS\Helper;
+?>
+
 <ul class="subsubsub">
     <li class="all">
         <a href="<?php echo esc_url(\WP_STATISTICS\Menus::admin_url('referrers')); ?>"><?php esc_html_e('All', 'wp-statistics'); ?></a>
@@ -40,7 +44,7 @@
                             <?php foreach ($list as $item) { ?>
                                 <tr>
                                     <td style="text-align: left" class="wps-admin-column__referred">
-                                        <a href="<?php echo esc_url($item['refer']); ?>" target="_blank" title="<?php echo esc_attr($item['refer']); ?>"><?php echo esc_html(preg_replace("(^https?://)", "", trim($item['refer']))); ?></a>
+                                        <a href="<?php echo esc_url($item['refer']); ?>" target="_blank" title="<?php echo esc_attr($item['refer']); ?>"><?php echo esc_html(Helper::get_domain_name($item['refer'])); ?></a>
                                     </td>
                                     <td style='text-align: left;' class="wps-admin-column__ip">
                                         <?php echo sprintf('<a href="%s">%s</a>', esc_url($item['ip']['link']), esc_attr($item['ip']['value'])); ?>

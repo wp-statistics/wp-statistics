@@ -2,6 +2,7 @@
 
 # Exit if accessed directly
 use WP_STATISTICS\Helper;
+use WP_Statistics\Service\PrivacyAudit\PrivacyAuditManager;
 
 defined('ABSPATH') || exit;
 
@@ -186,6 +187,8 @@ final class WP_Statistics
             require_once WP_STATISTICS_DIR . 'includes/admin/pages/class-wp-statistics-admin-page-platforms.php';
             require_once WP_STATISTICS_DIR . 'includes/admin/pages/class-wp-statistics-admin-page-top-visitors-today.php';
             require_once WP_STATISTICS_DIR . 'includes/admin/pages/class-wp-statistics-admin-page-exclusions.php';
+
+            $privacyAudit = new PrivacyAuditManager();
         }
 
         // WordPress ShortCode and Widget

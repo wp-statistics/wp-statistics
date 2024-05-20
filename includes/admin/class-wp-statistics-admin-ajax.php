@@ -4,34 +4,109 @@ namespace WP_STATISTICS;
 
 class Ajax
 {
-    /**
-     * WP Statistics Ajax
-     */
     public function __construct()
     {
+        add_action('init', [$this, 'registerAjaxCallbacks']);
+    }
 
+    /**
+     * Register AJAX callbacks
+     */
+    public function registerAjaxCallbacks()
+    {
         /**
          * List Of Setup Ajax request in WordPress
          */
-        $list = apply_filters('wp_statistics_ajax_list', array(
-            'close_notice',
-            'close_overview_ads',
-            'clear_user_agent_strings',
-            'query_params_cleanup',
-            'delete_agents',
-            'delete_platforms',
-            'delete_ip',
-            'delete_user_ids',
-            'empty_table',
-            'purge_data',
-            'purge_visitor_hits',
-            'visitors_page_filters',
-            'update_geoip_database',
-            'admin_meta_box'
-        ));
+        $list = [
+            [
+                'class'  => $this, 
+                'action' => 'close_notice',
+                'public' => false
+            ],
+            [
+                'class'  => $this, 
+                'action' => 'close_overview_ads',
+                'public' => false
+            ],
+            [
+                'class'  => $this, 
+                'action' => 'clear_user_agent_strings',
+                'public' => false
+            ],
+            [
+                'class'  => $this, 
+                'action' => 'query_params_cleanup',
+                'public' => false
+            ],
+            [
+                'class'  => $this, 
+                'action' => 'delete_agents',
+                'public' => false
+            ],
+            [
+                'class'  => $this, 
+                'action' => 'delete_platforms',
+                'public' => false
+            ],
+            [
+                'class'  => $this, 
+                'action' => 'delete_ip',
+                'public' => false
+            ],
+            [
+                'class'  => $this, 
+                'action' => 'delete_user_ids',
+                'public' => false
+            ],
+            [
+                'class'  => $this, 
+                'action' => 'empty_table',
+                'public' => false
+            ],
+            [
+                'class'  => $this, 
+                'action' => 'purge_data',
+                'public' => false
+            ],
+            [
+                'class'  => $this, 
+                'action' => 'purge_visitor_hits',
+                'public' => false
+            ],
+            [
+                'class'  => $this, 
+                'action' => 'visitors_page_filters',
+                'public' => false
+            ],
+            [
+                'class'  => $this, 
+                'action' => 'update_geoip_database',
+                'public' => false
+            ],
+            [
+                'class'  => $this, 
+                'action' => 'admin_meta_box',
+                'public' => false
+            ],
+        ];
 
-        foreach ($list as $method) {
-            add_action('wp_ajax_wp_statistics_' . $method, array($this, $method . '_action_callback'));
+        $list = apply_filters('wp_statistics_ajax_list', $list);
+
+        foreach ($list as $item) {
+            $class    = $item['class'];
+            $action   = $item['action'];
+            $callback = $action . '_action_callback';
+            $isPublic = isset($item['public']) && $item['public'] == true ? true : false;
+
+            // If callback exists in the class, register the action
+            if (method_exists($class, $callback)) {
+                add_action('wp_ajax_wp_statistics_' . $action, [$class, $callback]);
+            
+                // Register the AJAX callback publicly
+                if ($isPublic) {
+                    add_action('wp_ajax_nopriv_wp_statistics_' . $action, [$class, $callback]);
+                }
+            }
         }
     }
 
@@ -287,9 +362,9 @@ class Ajax
                     );
                 }
 
-                esc_html_e('Successfully removed query string parameter data from \'pages\' table. <br>', 'wp-statistics');
+                _e('Successfully removed query string parameter data from \'pages\' table. <br>', 'wp-statistics');
             } else {
-                esc_html_e('Couldn\'t find any user query string parameter data to delete from \'pages\' table. <br>', 'wp-statistics');
+                _e('Couldn\'t find any user query string parameter data to delete from \'pages\' table. <br>', 'wp-statistics');
             }
 
 

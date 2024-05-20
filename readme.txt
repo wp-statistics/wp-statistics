@@ -4,49 +4,64 @@ Donate link: https://wp-statistics.com/donate/
 Tags: analytics, google analytics, insights, stats, site visitors
 Requires at least: 5.0
 Tested up to: 6.5
-Stable tag: 14.6.4
+Stable tag: 14.7
 Requires PHP: 5.6
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-This plugin gives you the complete information on your website's visitors.
+Get complete website traffic insights with privacy-friendly, GDPR/CCPA compliant analytics, including visitor data, stunning graphs, and no third-party data sharing.
 
 == Description ==
-= WP Statistics: THE #1 WORDPRESS STATISTICS PLUGIN =
-Do you need a simple tool to know your website statistics? Do you need to represent these statistics? Are you caring about your users’ privacy while analyzing who are interested in your business or website? With WP Statistics you can know your website statistics without any need to send your users’ data anywhere. You can know how many people visit your personal or business website, where they’re coming from, what browsers and search engines they use, and which of your contents, categories, tags and users get more visits.
+= WP Statistics: THE #1 WORDPRESS ANALYTICS PLUGIN =
+Discover GDPR-compliant analytics with [WP Statistics](https://wp-statistics.com/?utm_source=wporg&utm_medium=link&utm_campaign=website), the top choice for WordPress users seeking an alternative to Google Analytics. No external accounts, unlimited visitor tracking, and full data ownership-all stored directly in your WordPress database.
 
-[Checkout Demo](https://wp-statistics.com/demo)
+[Checkout Demo](https://wp-statistics.com/demo) | [View Screenshots](/#screenshots)
 
-= Data Privacy =
-WP Statistics stores all data, including IP addresses, safely on your server. WP Statistics respects user privacy and is GDPR, CCPA compliant, as detailed on our [GDPR, CCPA and cookie law compliant](https://wp-statistics.com/resources/what-we-collect/) page. It anonymizes IPs, uses IP hashing with random daily Salt Mechanism for extra security, and follows Do Not Track (DNT) requests from browsers. This keeps user information private while giving you insights into your website traffic.
+= GDPR Compliant (Data Privacy) =
+WP Statistics is GDPR, CCPA, PECR, and cookie compliance by default.
 
-= ACT BETTER  BY KNOWING WHAT YOUR USERS ARE LOOKING FOR =
-* Anonymize IP to Better Privacy
+* We do not use cookies
+* We do not store personally identifiable information (PII) by default
+* 100% data ownership. Data is entirely created and stored on your server
 * Enhance IP Hashing with Random Daily Salt Mechanism
-* Respect for User Privacy with [Do Not Track (DNT)](https://en.wikipedia.org/wiki/Do_Not_Track) Compliance
-* Visitor Data Records including IP, Referring Site, Browser, Search Engine, OS, Country and City
-* Stunning Graphs and Visual Statistics
-* Visitor’s Country & City Recognition
-* The number of Visitors coming from each Search Engine
-* The number of Referrals from each Referring Site
-* Top 10 common browsers; Top 10 countries with most visitors; Top 10 most-visited pages; Top 10 referring sites
-* Hits Time-Based Filtering
-* Statistics on Contents based on Categories, Tags, and Writers
-* Widget Support for showing Statistics
-* Data Export in TSV, XML, and CSV formats
-* Statistical Reporting Emails
-* Statistical of pages with query strings and UTM parameters
-* [Premium] [Data Plus](https://wp-statistics.com/product/wp-statistics-data-plus?utm_source=wporg&utm_medium=link&utm_campaign=dp)
- * Link Tracker: Tracks clicks on outgoing links, offering insights into visitor engagement with external content.
- * Download Tracker: Observes which files are downloaded, providing clarity on content effectiveness.
-* [Premium] [More Advanced reporting](http://bit.ly/2MjZE3l)
-* And much more information represented in graphs & charts along with data filtering
+* Features to export and delete data for GDPR
+* Respect for User Privacy with Do Not Track (DNT)
+* Privacy Audit Tool for compliance with privacy laws
 
-= NOTE =
-Some advanced features are Premium, which means you need to buy extra add-ons to unlock those features. You can get [Premium add-ons](http://bit.ly/2x6tGly) here!
+Your site won't need to have a cookie popup since WP Statistics uses [cookie-less tracking](https://wp-statistics.com/resources/counting-unique-visitors-without-cookies/?utm_source=wporg&utm_medium=link&utm_campaign=doc).
 
-= REPORT BUGS =
-If you encounter any bug, please create an issue on [GitHub](https://github.com/wp-statistics/wp-statistics/issues/new) where we can act upon them more efficiently. Since [Github](https://github.com/wp-statistics/wp-statistics) is not a support forum, just bugs are welcomed, and any other request will be closed.
+You can find more information in "[What we collect](https://wp-statistics.com/resources/what-we-collect/?utm_source=wporg&utm_medium=link&utm_campaign=doc)".
+
+= Top Features =
+* Fully integrate with your WordPress and your content structure and you have the all reports all in your WP dashboard
+* Simple analytics dashboard
+* Super easy to install. No coding or technical knowledge needed
+* Advanced data privacy settings that are customizable to fit your needs, in compliance with diverse data protection laws
+* Track URL parameters, including UTMs, for campaign analysis
+* With configurable settings, manage large amounts of data on high-traffic websites
+* Monitor live online user traffic in real-time
+* Fully customized overview dashboard page
+* Shows your most popular posts and pages
+* Lists your top referral sources such as search engines
+* Geolocation report (including Country, Region and City) with interactive world map
+* Device report with device type, browser, and OS information
+* Email reports with customizable content
+* Customize role-based access to view analytics and modify settings.
+* Advanced Filtering & Exceptions: By user roles, IPs, countries, URLs, and more.
+* Premium Add-on: [Data Plus](https://wp-statistics.com/product/wp-statistics-data-plus?utm_source=wporg&utm_medium=link&utm_campaign=dp)
+ * **Custom Post Type Tracking**: DataPlus extends WP Statistics' tracking to include all custom post types in addition to Posts and Pages.
+ * **Custom Taxonomy Analytics**: In addition to monitoring default taxonomies like Categories and Tags, DataPlus also tracks custom taxonomies.
+ * **Link Tracker**: Find out which outbound links your audience clicks on, giving you insights into their preferences and behaviors.
+ * **Download Tracker**: Keep track of what's being downloaded, who's downloading it, and when.
+ * And more!
+
+**Get the most out of your website analytics by using WP Statistics Premium Add-ons**
+Upgrade your analytics toolkit with our range of premium add-ons, including [Data Plus](https://wp-statistics.com/product/wp-statistics-data-plus?utm_source=wporg&utm_medium=link&utm_campaign=dp), [Advanced Reporting](https://wp-statistics.com/product/wp-statistics-advanced-reporting/?utm_source=wporg&utm_medium=link&utm_campaign=adv-report), [Real-Time Stats](https://wp-statistics.com/product/wp-statistics-realtime-stats/?utm_source=wporg&utm_medium=link&utm_campaign=real-time), [Mini Chart](https://wp-statistics.com/product/wp-statistics-mini-chart/?utm_source=wporg&utm_medium=link&utm_campaign=mini-chart), and [more](https://wp-statistics.com/add-ons/?utm_source=wporg&utm_medium=link&utm_campaign=add-ons). Making informed decisions is easier with these powerful tools.
+
+**Special Offer:** Purchase the [bundle pack](https://wp-statistics.com/product/add-ons-bundle/?utm_source=wporg&utm_medium=link&utm_campaign=bundle) and Enjoy Savings of up to 60%!
+
+= Report Bugs =
+Having trouble with a bug? Please [create an issue](https://github.com/wp-statistics/wp-statistics/issues/new) on GitHub. Kindly note that [GitHub](https://github.com/wp-statistics/wp-statistics) is exclusively for bug reports; other inquiries will be closed.
 
 == Installation ==
 1. Upload `wp-statistics` to the `/wp-content/plugins/` directory.
@@ -55,66 +70,38 @@ If you encounter any bug, please create an issue on [GitHub](https://github.com/
 4. Go to the plugin settings page and configure as required (note this will also include downloading the GeoIP database for the first time).
 
 == Frequently Asked Questions ==
-= GDPR Compliant? =
-The greatest advantage of WP Statistics is that all the data is saved locally in WordPress.
-This helps a lot while implementing the new GDPR restrictions; because it’s not necessary to create a data processing contract with an external company! [Read more about WP Statistics compliance with GDPR](https://wp-statistics.com/resources/what-we-collect/).
+= Who should use WP Statistics? =
+WP Statistics is designed for website owners, bloggers, marketers, and analysts who wish to track and understand the traffic on their WordPress site. It's user-friendly and powerful for professionals but also accessible for beginners.
 
-= Does WP Statistics support Multisite? =
-WP Statistics doesn't officially support the multisite feature; however, it does have limited functionally associated with it and should function without any issue. However, no support is provided at this time.
-Version 8.8 is the first release that can be installed, upgraded and removed correctly on multi-site. It also has some basic support for the network admin menu. This should not be taken as an indication that WP Statistics fully supports the multisite, but only should be considered as a very first step.
+= Is technical knowledge required to operate WP Statistics? =
+No, WP Statistics focuses on simplicity. You don't need any coding skills to use it. Right from your WordPress dashboard, you can install and use the plugin.
 
-= Does WP Statistics work with caching plugins? =
-Yes, the cache support added in v12.5.1
+= Will WP Statistics affect my site's performance? =
+Your site's loading times will remain quick with WP Statistics. With our "Optimization" settings page, you can fine-tune how data is handled for high-traffic sites, providing you with the tools to optimize performance.
 
-If you're using a plugin cache:
-* Don't forget to clear your enabled plugin cache.
-* You should enable the plugin cache option in the Settings page.
-* Making sure the below endpoint registered in your WordPress.
-http://yourwebsite.com/wp-json/wpstatistics/v1
+= Is it GDPR compliant? =
+Yes, WP Statistics is GDPR compliant by default. You can find more information in "[What we collect](https://wp-statistics.com/resources/what-we-collect/?utm_source=wporg&utm_medium=link&utm_campaign=doc)".
 
-To register, go to the Permalink page and update the permalink with press Save Changes.
+= Are individual page analytics available? =
+Every post, page, and custom post type is tracked in detail.
 
-= What’s the difference between Visits and Visitors? =
-Visits is the number of page hits your site has received.
-Visitors is the number of unique users which have visited your site.
-Visits should always be greater than Visitors (though, there are a few cases when this won’t be true due to having low visits).
-The average number of pages a visitor views on your site is Visits/Visitors.
+= Is it compatible with caching and CDN? =
+WP Statistics is fully compatible with all caching plugins and CDNs.
 
-= Are All visitors’ locations set to ‘unknown’? =
-Make sure you’ve downloaded the GeoIP database and the GeoIP code is enabled.
-Also, if you are running an internal test site with non-routable IP addresses (like 192.168.x.x or 172.28.x.x or 10.x.x.x), these addresses will be always shown as ‘unknown’. You can define a location IP for these IP addresses in the “Country code for private IP addresses” setting.
+= Are logged-in users tracked? =
+By default, no. However, you can enable tracking logged-in users from the settings page.
 
-= I’m using another statistics plugin/service and get different numbers from them, why? =
-Probably, each plugin/service is going to give you different statistics on visits and visitors; there are several reasons for this:
+= Can I use WP Statistics and Google Analytics at the same time? =
+Yes, you can run them both at the same time without any problems.
 
-* Web crawler detections
-* Detection methods (Javascript vs. Server Side PHP)
-* Centralized exclusions
+= Are bot visits counted? =
+We filter out bot visits using best practice techniques. Compared to Google Analytics, your views and visitors are very similar. The "[Enhancing Data Accuracy](https://wp-statistics.com/resources/enhancing-data-accuracy/?utm_source=wporg&utm_medium=link&utm_campaign=doc)" article can help you eliminate bots even further.
 
-Services that use centralized databases for spam and robot detections , such as Google Analytics, have better detection than WP Statistics.
+= Can I export data? =
+Data can be exported to XML, CSV, or TSV files for backup or reporting purposes.
 
-= Not all referrals are showing up in the search words list, why? =
-Search Engine Referrals and Words are highly dependent on the search engines providing the information to us. Unfortunately, we can’t do anything about it; we report everything we receive.
-
-= Does WP Statistics support the UTM parameters? =
-Yes, It does! WP Statistics logs all query strings in the URL such as UTM parameters.
-
-= PHP v8.0 Support? =
-WP Statistics is PHP 8.0 compliant.
-
-= IPv6 Support? =
-WP Statistics supports IPv6 as of version 11.0; however, PHP must be compiled with IPv6 support enabled; otherwise you may see warnings when a visitor from an IPv6 address hits your site.
-
-You can check if IPv6 support is enabled in PHP by visiting the Optimization > Resources/Information->Version Info > PHP IPv6 Enabled section.
-
-If IPv6 is not enabled, you may see a warning like:
-
-	Warning: inet_pton() [function.inet-pton]: Unrecognized address 2003:0006:1507:5d71:6114:d8bd:80c2:1090
-
-= What 3rd party services does the plugin use? =
-IP location services are provided by data created by [MaxMind](https://www.maxmind.com/), to detect the Visitor's location (Country & City) the plugin downloads the GeoLite2 Database created by [MaxMind](https://www.maxmind.com/) on your server locally and use it.
-
-Referrer spam blacklist is provided by Matomo, available from https://github.com/matomo-org/referrer-spam-blacklist
+= Is there Multi-Site support? =
+WP Statistics supports WordPress Multi-Site/Network installations. In the network admin, you can view combined or separate analytics for each subsite.
 
 == Screenshots ==
 1. Overview
@@ -129,6 +116,7 @@ Referrer spam blacklist is provided by Matomo, available from https://github.com
 10. Author Analytics
 11. Browsers
 12. Link Tracker
+14. Privacy Audit
 
 == Upgrade Notice ==
 = 14.0 =
@@ -139,14 +127,20 @@ Thank you for being part of our community. We’ve been working hard for one yea
 If you encounter any bug, please create an issue on [GitHub](https://github.com/wp-statistics/wp-statistics/issues/new) where we can act upon them more efficiently. Since [GitHub](https://github.com/wp-statistics/wp-statistics) is not a support forum, just bugs are welcomed, and any other request will be closed.
 
 == Changelog ==
-= 14.6.4 - 03.05.2024 =
-* Fixes: Improved data comparison logic.
-* Fixes: Fixed some fields visibility on settings page.
-* Fixes: Fixed filter loading on Visitors page.
-* Fixes: Fixed and improved the Convert IP Addresses to Hash in Optimization.
-* Fixes: Fixed loading Date Picker in Visitors filter.
-* Improvement: Updated plugin header and screenshots.
-* Improvement: Add-ons settings page now located under Settings for simplicity.
-* Improvement: Minor enhancements made.
+https://www.youtube.com/watch?v=6G50BZRWPd4
+
+= 14.7 - 20.05.2024 =
+* Addition: Introduced Privacy Audit Tool to ensure compliance with privacy laws. [More info click here](https://wp-statistics.com/2024/05/12/introducing-privacy-audit-in-wp-statistics-14-7/)
+* Addition: Added two new database columns, region and continent, to the visitor table to enhance geographical data.
+* Fixes: Resolved issues with the Date Picker filter and Visitor Map.
+* Fixes: Fixed bug displaying archive page information on the online and visitors pages.
+* Improvement: Improved tooltip display for browser pie charts.
+* Improvement: Enhanced email report appearance for better readability and aesthetics.
+* Improvement: Updated filters and styles for a better user experience.
+* Improvement: Enhanced event scheduling and email handling for improved performance.
+* Improvement: Refined language strings and an admin interface for easier use.
+* Improvement: Merged REST API and Advanced Widgets settings into the main plugin settings for better management.
+* Improvement: Showing the Hash IP properly in HitsMap modal.
+* Improvement: Various minor enhancements to boost plugin stability and performance.
 
 [See changelog for all versions](https://raw.githubusercontent.com/wp-statistics/wp-statistics/master/CHANGELOG.md).

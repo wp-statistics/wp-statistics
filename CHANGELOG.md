@@ -1,3 +1,17 @@
+= 14.7 - 20.05.2024 =
+* Addition: Introduced Privacy Audit Tool to ensure compliance with privacy laws. [More info click here](https://wp-statistics.com/2024/05/12/introducing-privacy-audit-in-wp-statistics-14-7/)
+* Addition: Added two new database columns, region and continent, to the visitor table to enhance geographical data.
+* Fixes: Resolved issues with the Date Picker filter and Visitor Map.
+* Fixes: Fixed bug displaying archive page information on the online and visitors pages.
+* Improvement: Improved tooltip display for browser pie charts.
+* Improvement: Enhanced email report appearance for better readability and aesthetics.
+* Improvement: Updated filters and styles for a better user experience.
+* Improvement: Enhanced event scheduling and email handling for improved performance.
+* Improvement: Refined language strings and an admin interface for easier use.
+* Improvement: Merged REST API and Advanced Widgets settings into the main plugin settings for better management.
+* Improvement: Showing the Hash IP properly in HitsMap modal.
+* Improvement: Various minor enhancements to boost plugin stability and performance.
+
 = 14.6.4 - 03.05.2024 =
 * Fixes: Improved data comparison logic.
 * Fixes: Fixed some fields visibility on settings page.

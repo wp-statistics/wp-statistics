@@ -1,4 +1,7 @@
 <?php
+
+use WP_STATISTICS\Admin_Template;
+
 $isMiniChartActive         = WP_STATISTICS\Helper::isAddOnActive('mini-chart');
 $miniChartDefaultPostTypes = get_post_types(array(
     'public'   => true,
@@ -16,21 +19,26 @@ foreach ($miniChartPostTypes as $p) {
 }
 ?>
 
+<?php
+if (!$isMiniChartActive) echo Admin_Template::get_template('layout/partials/addon-premium-feature',
+    ['addon_slug'           => esc_url(WP_STATISTICS_SITE_URL . '/product/wp-statistics-mini-chart/?utm_source=wp-statistics&utm_medium=link&utm_campaign=plugin-settings'),
+     'addon_title'          => 'Mini Chart Add-On',
+     'addon_description'    => 'The settings on this page are part of the Mini Chart add-on, which provides tiny charts for all your posts and pages, along with an Admin Bar for quick access to traffic data.',
+     'addon_features'       => [
+         'Tiny charts for posts and pages to measure performance.',
+         'Admin Bar for easy access to traffic data.',
+         'Customizable chart type and color.',
+     ],
+     'addon_info'           => 'Get clear insights into your website\'s traffic and content success with the Mini Chart add-on.',
+    ], true);
+?>
+
 <div class="postbox">
     <table class="form-table <?php echo !$isMiniChartActive ? 'form-table--preview' : '' ?>">
         <tbody>
         <tr>
             <th scope="row" colspan="2"><h3><?php esc_html_e('Chart Preferences', 'wp-statistics'); ?></h3></th>
         </tr>
-
-        <?php if (!$isMiniChartActive) : ?>
-            <tr class="upgrade-notice">
-                <th scope="row" colspan="2">
-                    <p style="font-size: 1em"><?php esc_html_e('This feature is currently restricted in your current version. Unlock premium features to gain a deeper insight into your website.', 'wp-statistics') ?></p>
-                    <a target="_blank" class="button button-primary" href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/product/wp-statistics-mini-chart/?utm_source=wp-statistics&utm_medium=link&utm_campaign=plugin-settings'); ?>"><?php esc_html_e('Upgrade', 'wp-statistics') ?></a>
-                </th>
-            </tr>
-        <?php endif; ?>
 
         <tr>
             <th scope="row">
@@ -58,15 +66,6 @@ foreach ($miniChartPostTypes as $p) {
         <tr>
             <th scope="row" colspan="2"><h3><?php esc_html_e('Chart Appearance', 'wp-statistics'); ?></h3></th>
         </tr>
-
-        <?php if (!$isMiniChartActive) : ?>
-            <tr class="upgrade-notice">
-                <th scope="row" colspan="2">
-                    <p style="font-size: 1em"><?php esc_html_e('This feature is currently restricted in your current version. Unlock premium features to gain a deeper insight into your website.', 'wp-statistics') ?></p>
-                    <a target="_blank" class="button button-primary" href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/product/wp-statistics-mini-chart/?utm_source=wp-statistics&utm_medium=link&utm_campaign=plugin-settings'); ?>"><?php esc_html_e('Upgrade', 'wp-statistics') ?></a>
-                </th>
-            </tr>
-        <?php endif; ?>
 
         <tr>
             <th scope="row">

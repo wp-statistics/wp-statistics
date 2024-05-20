@@ -2,7 +2,9 @@
 
 namespace WP_STATISTICS;
 
-class settings_page
+use WP_Statistics\Components\Singleton;
+
+class settings_page extends Singleton
 {
 
     private static $redirectAfterSave = true;
@@ -165,6 +167,7 @@ class settings_page
         $wps_option_list = array(
             'wps_anonymize_ips',
             'wps_hash_ips',
+            'wps_privacy_audit',
             'wps_store_ua',
             'wps_do_not_track',
         );
@@ -196,8 +199,13 @@ class settings_page
                 if (wp_next_scheduled('wp_statistics_report_hook')) {
                     wp_unschedule_event(wp_next_scheduled('wp_statistics_report_hook'), 'wp_statistics_report_hook');
                 }
-
-                wp_schedule_event(time(), sanitize_text_field($_POST['wps_time_report']), 'wp_statistics_report_hook');
+                $timeReports = sanitize_text_field($_POST['wps_time_report']);
+                $schedulesInterval = wp_get_schedules();
+                $timeReportsInterval = 86400;
+                if (isset($schedulesInterval[$timeReports]['interval'])) {
+                    $timeReportsInterval = $schedulesInterval[$timeReports]['interval'];
+                }
+                wp_schedule_event(time() + $timeReportsInterval, $timeReports, 'wp_statistics_report_hook');
             }
         }
 
@@ -569,4 +577,4 @@ class settings_page
     }
 }
 
-new settings_page;
+settings_page::instance();

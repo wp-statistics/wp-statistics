@@ -1,8 +1,9 @@
 <?php
 
 namespace WP_STATISTICS;
+use WP_Statistics\Components\Singleton;
 
-class visitors_page
+class visitors_page extends Singleton
 {
     public function __construct()
     {
@@ -40,7 +41,6 @@ class visitors_page
 
         // Get Date-Range
         $args['DateRang']    = Admin_Template::DateRange();
-        $args['HasDateRang'] = True;
 
         // Default Parameter Link
         $data_link = array('from' => $args['DateRang']['from'], 'to' => $args['DateRang']['to']);
@@ -223,4 +223,4 @@ class visitors_page
     }
 }
 
-new visitors_page;
+visitors_page::instance();

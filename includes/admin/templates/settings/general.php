@@ -46,7 +46,7 @@
 
         <tr valign="top">
             <th scope="row">
-                <label for="visits"><?php esc_html_e('Track Page Views', 'wp-statistics'); ?></label>
+                <label for="visits"><?php esc_html_e('Track Views', 'wp-statistics'); ?></label>
             </th>
 
             <td>
@@ -69,7 +69,12 @@
 
         <tr valign="top" data-view="visitors_log_tr" <?php echo(WP_STATISTICS\Option::get('visitors') == false ? 'style="display:none;"' : '') ?>>
             <th scope="row">
-                <label for="visitors_log"><?php esc_html_e('Record User Page Views', 'wp-statistics'); ?></label>
+                <label for="visitors_log">
+                    <?php esc_html_e('Record User Page Views', 'wp-statistics'); ?>
+                </label>
+                <?php if (\WP_STATISTICS\Option::get('privacy_audit')): ?>
+                    <a href="#" class="wps-tooltip" title="<?php esc_html_e('Privacy Impact - This setting affects user privacy. Adjust with caution to ensure compliance with privacy standards. For more details, visit the Privacy Audit page.', 'wp-statistics') ?>"><i class="wps-tooltip-icon privacy"></i></a>
+                <?php endif ?>
             </th>
             <td>
                 <input id="visitors_log" type="checkbox" value="1" name="wps_visitors_log" <?php echo WP_STATISTICS\Option::get('visitors_log') == true ? "checked='checked'" : ''; ?>>
@@ -86,7 +91,7 @@
             <td>
                 <input id="enable_user_column" type="checkbox" value="1" name="wpsesc_html_enable_user_column" <?php echo WP_STATISTICS\Option::get('enable_user_column') == true ? "checked='checked'" : ''; ?>>
                 <label for="enable_user_column"><?php esc_html_e('Show View Logs', 'wp-statistics'); ?></label>
-                <p class="description"><?php esc_html_e('Adds a column in the WordPress admin\'s user list to display a log of user visits.', 'wp-statistics'); ?></p>
+                <p class="description"><?php esc_html_e('Adds a column in the WordPress admin\'s user list to display a log of user views.', 'wp-statistics'); ?></p>
             </td>
         </tr>
         </tbody>
@@ -101,7 +106,7 @@
 
         <tr valign="top">
             <th scope="row">
-                <label for="pages"><?php esc_html_e('Views Metabox', 'wp-statistics'); ?></label>
+                <label for="pages"><?php esc_html_e('Track Page Views', 'wp-statistics'); ?></label>
             </th>
             <td>
                 <input id="pages" type="checkbox" value="1" name="wps_pages" <?php echo WP_STATISTICS\Option::get('pages') == true ? "checked='checked'" : ''; ?>>
@@ -136,7 +141,7 @@
             </th>
 
             <td>
-                <input id="disable-editor" type="checkbox" value="1" name="wps_disableesc_html_editor" <?php echo WP_STATISTICS\Option::get('disableesc_html_editor') == '1' ? '' : "checked='checked'"; ?>>
+                <input id="disable-editor" type="checkbox" value="1" name="wps_disable_editor" <?php echo WP_STATISTICS\Option::get('disable_editor') == '1' ? '' : "checked='checked'"; ?>>
                 <label for="disable-editor"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
                 <p class="description"><?php esc_html_e('Shows content view statistics in a graphical format when editing.', 'wp-statistics'); ?></p>
             </td>
@@ -167,7 +172,7 @@
 
         <tr valign="top">
             <th scope="row">
-                <label for="show_hits"><?php esc_html_e('Views in Single Pages', 'wp-statistics'); ?></label>
+                <label for="show_hits"><?php esc_html_e('Views in Single Contents', 'wp-statistics'); ?></label>
             </th>
 
             <td>
