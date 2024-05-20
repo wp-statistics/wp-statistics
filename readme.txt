@@ -9,7 +9,7 @@ Requires PHP: 5.6
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-This plugin gives you the complete information on your website's visitors.
+Get complete website traffic insights with privacy-friendly, GDPR/CCPA compliant analytics, including visitor data, stunning graphs, and no third-party data sharing.
 
 == Description ==
 = WP Statistics: THE #1 WORDPRESS ANALYTICS PLUGIN =
@@ -129,7 +129,7 @@ If you encounter any bug, please create an issue on [GitHub](https://github.com/
 == Changelog ==
 https://www.youtube.com/watch?v=6G50BZRWPd4
 
-= 14.7 - **.05.2024 =
+= 14.7 - 20.05.2024 =
 * Addition: Introduced Privacy Audit Tool to ensure compliance with privacy laws. [More info click here](https://wp-statistics.com/2024/05/12/introducing-privacy-audit-in-wp-statistics-14-7/)
 * Addition: Added two new database columns, region and continent, to the visitor table to enhance geographical data.
 * Fixes: Resolved issues with the Date Picker filter and Visitor Map.

@@ -1,4 +1,4 @@
-= 14.7 - **.05.2024 =
+= 14.7 - 20.05.2024 =
 * Addition: Introduced Privacy Audit Tool to ensure compliance with privacy laws. [More info click here](https://wp-statistics.com/2024/05/12/introducing-privacy-audit-in-wp-statistics-14-7/)
 * Addition: Added two new database columns, region and continent, to the visitor table to enhance geographical data.
 * Fixes: Resolved issues with the Date Picker filter and Visitor Map.
