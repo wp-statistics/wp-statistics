@@ -392,7 +392,7 @@ class Pages
                     $arg['title'] = __('Search Page', 'wp-statistics');
                     break;
                 case "404":
-                    $arg['title'] = __('404 not found', 'wp-statistics');
+                    $arg['title'] = sprintf(__('404 not found (%s)', 'wp-statistics'), esc_html($slug));
                     break;
                 case "archive":
                     if ($slug) {
@@ -498,7 +498,15 @@ class Pages
         }
 
         // Generate SQL
-        $sql = "SELECT `pages`.`date`,`pages`.`uri`,`pages`.`id`,`pages`.`type`, SUM(`pages`.`count`) AS `count_sum` FROM `" . DB::table('pages') . "` `pages` {$DateTimeSql} {$postTypeSql} GROUP BY `pages`.`id` ORDER BY `count_sum` DESC";
+        $selectSql = "SELECT `pages`.`date`,`pages`.`uri`,`pages`.`id`,`pages`.`type`, SUM(`pages`.`count`) AS `count_sum` FROM `" . DB::table('pages') . "` `pages` {$DateTimeSql} {$postTypeSql}";
+
+        // Group pages with ID of 0 by type and URI, and group the rest of pages by ID
+        $sql        = "
+            ($selectSql AND `pages`.`id` != 0 GROUP BY `pages`.`id`)
+            UNION
+            ($selectSql AND `pages`.`id` = 0 GROUP BY `pages`.`uri`, `pages`.`type`)
+            ORDER BY `count_sum` DESC
+        ";
 
         // Get List Of Pages
         $list   = array();
