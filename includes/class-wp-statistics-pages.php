@@ -501,7 +501,7 @@ class Pages
         $selectSql = "SELECT `pages`.`date`,`pages`.`uri`,`pages`.`id`,`pages`.`type`, SUM(`pages`.`count`) AS `count_sum` FROM `" . DB::table('pages') . "` `pages` {$DateTimeSql} {$postTypeSql}";
 
         // Group pages with ID of 0 by type and URI, and group the rest of pages by ID
-        $sql        = "
+        $sql = "
             ($selectSql AND `pages`.`id` != 0 GROUP BY `pages`.`id`)
             UNION
             ($selectSql AND `pages`.`id` = 0 GROUP BY `pages`.`uri`, `pages`.`type`)
