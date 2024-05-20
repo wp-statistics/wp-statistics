@@ -9,7 +9,7 @@ Requires PHP: 5.6
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Get complete website traffic insights with privacy-friendly, GDPR/CCPA compliant analytics, including visitor data, stunning graphs, and no third-party data sharing.
+Get website traffic insights with GDPR/CCPA compliant, privacy-friendly analytics. Includes visitor data, stunning graphs, and no data sharing.
 
 == Description ==
 = WP Statistics: THE #1 WORDPRESS ANALYTICS PLUGIN =
