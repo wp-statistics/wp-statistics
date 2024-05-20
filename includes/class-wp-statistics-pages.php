@@ -215,7 +215,7 @@ class Pages
 
     /**
      * Record Page in Database
-     * @param $visitorProfile VisitorProfile
+     * @param VisitorProfile $visitorProfile
      */
     public static function record($visitorProfile)
     {
