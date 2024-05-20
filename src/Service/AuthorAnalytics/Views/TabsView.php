@@ -4,6 +4,7 @@ namespace WP_Statistics\Service\AuthorAnalytics\Views;
 
 use WP_STATISTICS\Admin_Template;
 use WP_STATISTICS\Menus;
+use WP_Statistics\Service\AuthorAnalytics\Data\AuthorsPerformanceData;
 use InvalidArgumentException;
 
 class TabsView
@@ -28,7 +29,17 @@ class TabsView
      */
     public function performanceTabData()
     {
-        return [];
+        $from       = isset($_GET['from']) ? sanitize_text_field($_GET['from']) : date('Y-m-d', strtotime('-1 month'));
+        $to         = isset($_GET['to']) ? sanitize_text_field($_GET['to']) : date('Y-m-d');
+        $postType   = isset($_GET['pt']) ? sanitize_text_field($_GET['pt']) : '';
+
+        return [
+            'authors' => [
+                'total'     => AuthorsPerformanceData::countAuthors(['post_type' => $postType]),
+                'active'    => AuthorsPerformanceData::countAuthors(['post_type' => $postType, 'from' => $from, 'to' => $to]),
+                'avg'       => AuthorsPerformanceData::averagePostsPerAuthor(['post_type' => $postType]),
+            ]
+        ];
     }
 
     /**
@@ -44,7 +55,8 @@ class TabsView
     public function view()
     {
         $currentTab = isset($_GET['tab']) ? sanitize_text_field($_GET['tab']) : 'performance';
-        $tabData    = [$this, "{$currentTab}TabData"];
+        $tabMethod  = $currentTab . 'TabData';
+        $tabData    = method_exists($this, $tabMethod) ? $this->$tabMethod() : [];
 
         $args = [
             'title'      => esc_html__('Author Analytics', 'wp-statistics'),
