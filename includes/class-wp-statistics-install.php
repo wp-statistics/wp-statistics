@@ -633,6 +633,13 @@ class Install
         }
 
         /**
+         * Update options
+         */
+        if (WP_STATISTICS_VERSION == '14.7') {
+            Option::update('privacy_audit', true);
+        }
+
+        /**
          * Removes duplicate entries from the visitor_relationships table.
          *
          * @version 14.4
