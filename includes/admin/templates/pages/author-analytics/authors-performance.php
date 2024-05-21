@@ -1,7 +1,7 @@
-<?php use WP_STATISTICS\Admin_Template;
+<?php 
+use WP_STATISTICS\Admin_Template;
 use WP_STATISTICS\Helper;
-
- ?>
+?>
 
 <div class="metabox-holder" id="authors-performance">
     <div class="postbox-container" id="wps-postbox-container-1">
@@ -20,8 +20,8 @@ use WP_STATISTICS\Helper;
                     'title'        => esc_html__('Views', 'wp-statistics'),
                     'tooltip'      => esc_html__('Views tooltip', 'wp-statistics'),
                     'icon_class'   => 'views',
-                    'total'        => '35.1M',
-                    'avg'          => '16.2K',
+                    'total'        => Helper::formatNumberWithUnit($data['views']['total']),
+                    'avg'          => Helper::formatNumberWithUnit($data['views']['avg']),
                     'avg_title'    => esc_html__('Avg. Per Post', 'wp-statistics')
                 ],
                 [

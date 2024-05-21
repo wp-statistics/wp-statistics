@@ -2,9 +2,31 @@
 
 namespace WP_Statistics\Service\AuthorAnalytics\Data;
 use WP_STATISTICS\Helper;
+use WP_STATISTICS\Option;
 
 class AuthorsPerformanceData
 {
+
+    public static function get($args)
+    {
+        $args = wp_parse_args($args, [
+            'post_type' => '',
+            'from'      => '',
+            'to'        => ''
+        ]);
+
+        return [
+            'authors'   => [
+                'total'     => self::countAuthors(['post_type' => $args['post_type']]),
+                'active'    => self::countAuthors($args),
+                'avg'       => self::averagePostsPerAuthor(['post_type' => $args['post_type']])
+            ],
+            'views'     => [
+                'total' => self::totalViews(),
+                'avg'   => self::averageViewsPerAuthor(['post_type' => $args['post_type']])
+            ]
+        ];
+    }
 
     /**
      * Generates SQL conditions based on the given arguments.
@@ -70,5 +92,17 @@ class AuthorsPerformanceData
         $totalAuthors   = self::countAuthors($args);
 
         return $totalPosts ? $totalPosts / $totalAuthors : 0;
+    }
+
+    public static function totalViews()
+    {
+        return Option::get('visits') ? wp_statistics_visit('total') : 0;
+    }
+
+    public static function averageViewsPerAuthor($args = [])
+    {
+        $totalAuthors = self::countAuthors($args);
+
+        return Option::get('visits') ? wp_statistics_visit('total') / $totalAuthors : 0;
     }
 }

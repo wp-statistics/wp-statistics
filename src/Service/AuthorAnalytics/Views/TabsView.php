@@ -29,17 +29,13 @@ class TabsView
      */
     public function performanceTabData()
     {
-        $from       = isset($_GET['from']) ? sanitize_text_field($_GET['from']) : date('Y-m-d', strtotime('-1 month'));
-        $to         = isset($_GET['to']) ? sanitize_text_field($_GET['to']) : date('Y-m-d');
-        $postType   = isset($_GET['pt']) ? sanitize_text_field($_GET['pt']) : '';
-
-        return [
-            'authors' => [
-                'total'     => AuthorsPerformanceData::countAuthors(['post_type' => $postType]),
-                'active'    => AuthorsPerformanceData::countAuthors(['post_type' => $postType, 'from' => $from, 'to' => $to]),
-                'avg'       => AuthorsPerformanceData::averagePostsPerAuthor(['post_type' => $postType]),
-            ]
+        $args = [
+            'from'      => isset($_GET['from']) ? sanitize_text_field($_GET['from']) : date('Y-m-d', strtotime('-1 month')),
+            'to'        => isset($_GET['to']) ? sanitize_text_field($_GET['to']) : date('Y-m-d'),
+            'postType'  => isset($_GET['pt']) ? sanitize_text_field($_GET['pt']) : ''
         ];
+
+        return AuthorsPerformanceData::get($args);
     }
 
     /**
