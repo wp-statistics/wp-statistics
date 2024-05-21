@@ -36,6 +36,16 @@ class Pages
             if (is_product()) {
                 return wp_parse_args(array("type" => "product"), $current_page);
             }
+            if (is_shop()) {
+                // Get Shop Page ID
+                $shopPageID = wc_get_page_id('shop');
+
+                // Set current page id
+                $current_page['id'] = $shopPageID;
+
+                // Return Page Type
+                return wp_parse_args(array("type" => "page"), $current_page);
+            }
         }
 
         //Home Page or Front Page
