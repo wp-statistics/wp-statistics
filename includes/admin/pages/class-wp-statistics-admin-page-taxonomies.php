@@ -166,6 +166,8 @@ class taxonomies_page extends Singleton
             $args['top_list'] = $args['top_list'][0];
         }
 
+        $args['DateRang']    = Admin_Template::DateRange();
+        $args['HasDateRang'] = True;
         // Show Template Page
         Admin_Template::get_template(array('layout/header', 'layout/tabbed-page-header', 'pages/taxonomies', 'layout/postbox.hide', 'layout/footer'), $args);
     }
