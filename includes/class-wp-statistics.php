@@ -151,6 +151,8 @@ final class WP_Statistics
         // Ajax area
         require_once WP_STATISTICS_DIR . 'includes/admin/class-wp-statistics-admin-template.php';
 
+        $authorAnalytics = new AuthorAnalyticsManager();
+
         // Admin classes
         if (is_admin()) {
 
@@ -189,9 +191,8 @@ final class WP_Statistics
             require_once WP_STATISTICS_DIR . 'includes/admin/pages/class-wp-statistics-admin-page-exclusions.php';
 
             $privacyAudit    = new PrivacyAuditManager();
-            $authorAnalytics = new AuthorAnalyticsManager();
         }
-
+        
         // WordPress ShortCode and Widget
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-shortcode.php';
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-widget.php';
