@@ -124,6 +124,7 @@ class pages_page extends Singleton
 
             // Get Date-Range
             $args['DateRang'] = Admin_Template::DateRange();
+            $args['HasDateRang'] = True;
 
             // Custom Get List
             $args['custom_get'] = [
