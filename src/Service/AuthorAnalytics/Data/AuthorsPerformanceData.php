@@ -101,8 +101,9 @@ class AuthorsPerformanceData
 
     public static function averageViewsPerAuthor($args = [])
     {
-        $totalAuthors = self::countAuthors($args);
+        $totalAuthors   = self::countAuthors($args);
+        $totalViews     = self::totalViews();
 
-        return Option::get('visits') ? wp_statistics_visit('total') / $totalAuthors : 0;
+        return $totalViews / $totalAuthors;
     }
 }
