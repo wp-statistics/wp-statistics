@@ -10,6 +10,10 @@ use WP_STATISTICS\Helper;
  */
 abstract class DataProvider
 {
+
+    /** @var wpdb $db */
+    protected $db;
+
     public function __construct()
     {
         global $wpdb;
