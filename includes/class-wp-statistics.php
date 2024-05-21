@@ -4,6 +4,7 @@
 use WP_STATISTICS\Helper;
 use WP_Statistics\Service\AuthorAnalytics\AuthorAnalyticsManager;
 use WP_Statistics\Service\PrivacyAudit\PrivacyAuditManager;
+use WP_Statistics\Service\Posts\PostsManager;
 
 defined('ABSPATH') || exit;
 
@@ -151,7 +152,7 @@ final class WP_Statistics
         // Ajax area
         require_once WP_STATISTICS_DIR . 'includes/admin/class-wp-statistics-admin-template.php';
 
-        $authorAnalytics = new AuthorAnalyticsManager();
+        $postsManager = new PostsManager();
 
         // Admin classes
         if (is_admin()) {
@@ -191,6 +192,7 @@ final class WP_Statistics
             require_once WP_STATISTICS_DIR . 'includes/admin/pages/class-wp-statistics-admin-page-exclusions.php';
 
             $privacyAudit    = new PrivacyAuditManager();
+            $authorAnalytics = new AuthorAnalyticsManager();
         }
         
         // WordPress ShortCode and Widget
