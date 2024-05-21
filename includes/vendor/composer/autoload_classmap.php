@@ -88,6 +88,7 @@ return array(
     'WP_Statistics\\Service\\AuthorAnalytics\\Views\\PostsView' => $baseDir . '/src/Service/AuthorAnalytics/Views/PostsView.php',
     'WP_Statistics\\Service\\AuthorAnalytics\\Views\\SingleAuthorView' => $baseDir . '/src/Service/AuthorAnalytics/Views/SingleAuthorView.php',
     'WP_Statistics\\Service\\AuthorAnalytics\\Views\\TabsView' => $baseDir . '/src/Service/AuthorAnalytics/Views/TabsView.php',
+    'WP_Statistics\\Service\\Posts\\PostsManager' => $baseDir . '/src/Service/Posts/PostsManager.php',
     'WP_Statistics\\Service\\PrivacyAudit\\Audits\\Abstracts\\BaseAudit' => $baseDir . '/src/Service/PrivacyAudit/Audits/Abstracts/BaseAudit.php',
     'WP_Statistics\\Service\\PrivacyAudit\\Audits\\Abstracts\\ResolvableAudit' => $baseDir . '/src/Service/PrivacyAudit/Audits/Abstracts/ResolvableAudit.php',
     'WP_Statistics\\Service\\PrivacyAudit\\Audits\\AnonymizeIpAddress' => $baseDir . '/src/Service/PrivacyAudit/Audits/AnonymizeIpAddress.php',

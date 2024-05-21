@@ -167,6 +167,7 @@ class ComposerStaticInit2ac516f03a394ec3d1721352b7f43359
         'WP_Statistics\\Service\\AuthorAnalytics\\Views\\PostsView' => __DIR__ . '/../../..' . '/src/Service/AuthorAnalytics/Views/PostsView.php',
         'WP_Statistics\\Service\\AuthorAnalytics\\Views\\SingleAuthorView' => __DIR__ . '/../../..' . '/src/Service/AuthorAnalytics/Views/SingleAuthorView.php',
         'WP_Statistics\\Service\\AuthorAnalytics\\Views\\TabsView' => __DIR__ . '/../../..' . '/src/Service/AuthorAnalytics/Views/TabsView.php',
+        'WP_Statistics\\Service\\Posts\\PostsManager' => __DIR__ . '/../../..' . '/src/Service/Posts/PostsManager.php',
         'WP_Statistics\\Service\\PrivacyAudit\\Audits\\Abstracts\\BaseAudit' => __DIR__ . '/../../..' . '/src/Service/PrivacyAudit/Audits/Abstracts/BaseAudit.php',
         'WP_Statistics\\Service\\PrivacyAudit\\Audits\\Abstracts\\ResolvableAudit' => __DIR__ . '/../../..' . '/src/Service/PrivacyAudit/Audits/Abstracts/ResolvableAudit.php',
         'WP_Statistics\\Service\\PrivacyAudit\\Audits\\AnonymizeIpAddress' => __DIR__ . '/../../..' . '/src/Service/PrivacyAudit/Audits/AnonymizeIpAddress.php',
