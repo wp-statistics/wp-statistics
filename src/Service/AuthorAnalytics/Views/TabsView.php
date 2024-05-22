@@ -4,6 +4,7 @@ namespace WP_Statistics\Service\AuthorAnalytics\Views;
 
 use WP_STATISTICS\Admin_Template;
 use WP_STATISTICS\Menus;
+use WP_STATISTICS\Helper;
 use WP_Statistics\Models\AuthorModel;
 use InvalidArgumentException;
 
@@ -32,7 +33,7 @@ class TabsView
         $args = [
             'from'      => isset($_GET['from']) ? sanitize_text_field($_GET['from']) : date('Y-m-d', strtotime('-1 month')),
             'to'        => isset($_GET['to']) ? sanitize_text_field($_GET['to']) : date('Y-m-d'),
-            'postType'  => isset($_GET['pt']) ? sanitize_text_field($_GET['pt']) : ''
+            'post_type' => isset($_GET['pt']) ? sanitize_text_field($_GET['pt']) : Helper::get_list_post_type()
         ];
 
         $authorModel = new AuthorModel();
