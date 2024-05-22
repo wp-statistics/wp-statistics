@@ -18,13 +18,12 @@
             <table width="100%" class="o-table wps-content-table">
                 <thead>
                 <tr>
-                    <th></th>
-                    <th>
+                    <th class="wps-pd-l">
                         <?php echo esc_html__('Referrer Name', 'wp-statistics') ?>
                         <span class="wps-tooltip" title="Referrer Name tooltip"><i class="wps-tooltip-icon info"></i></span>
                     </th>
-                    <th>
-                        <?php echo esc_html__('Referring Site', 'wp-statistics') ?>
+                    <th class="wps-pd-l">
+                        <?php echo esc_html__('Domain Address', 'wp-statistics') ?>
                         <span class="wps-tooltip" title="Referring Site tooltip"><i class="wps-tooltip-icon info"></i></span>
                     </th>
                     <th class="wps-pd-l">
@@ -36,13 +35,10 @@
                 <tbody>
                 <?php for ($i = 1; $i < 10; $i++): ?>
                     <tr>
-                        <td>
-                            <?php echo $i  ?>
-                        </td>
-                        <td>
+                        <td class="wps-pd-l">
                             google
                         </td>
-                        <td>
+                        <td class="wps-pd-l">
                             <img src="<?php echo esc_url(WP_STATISTICS_URL . 'assets/images/search-engine/google.png'); ?>" title="google" class="log-tools wps-flag">
                             www.google.com
                         </td>
