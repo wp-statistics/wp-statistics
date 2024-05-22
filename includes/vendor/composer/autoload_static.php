@@ -187,7 +187,7 @@ class ComposerStaticInit2ac516f03a394ec3d1721352b7f43359
         'WP_Statistics\\Service\\PrivacyAudit\\PrivacyAuditManager' => __DIR__ . '/../../..' . '/src/Service/PrivacyAudit/PrivacyAuditManager.php',
         'WP_Statistics\\Service\\PrivacyAudit\\PrivacyAuditPage' => __DIR__ . '/../../..' . '/src/Service/PrivacyAudit/PrivacyAuditPage.php',
         'WP_Statistics\\Service\\PrivacyAudit\\PrivacyStatusOption' => __DIR__ . '/../../..' . '/src/Service/PrivacyAudit/PrivacyStatusOption.php',
-        'WP_Statistics\\Utils\\QueryUtils' => __DIR__ . '/../../..' . '/src/Utils/QueryUtils.php',
+        'WP_Statistics\\Utils\\Query' => __DIR__ . '/../../..' . '/src/Utils/Query.php',
         'WhichBrowser\\Analyser' => __DIR__ . '/..' . '/whichbrowser/parser/src/Analyser.php',
         'WhichBrowser\\Analyser\\Camouflage' => __DIR__ . '/..' . '/whichbrowser/parser/src/Analyser/Camouflage.php',
         'WhichBrowser\\Analyser\\Corrections' => __DIR__ . '/..' . '/whichbrowser/parser/src/Analyser/Corrections.php',

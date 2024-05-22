@@ -108,7 +108,7 @@ return array(
     'WP_Statistics\\Service\\PrivacyAudit\\PrivacyAuditManager' => $baseDir . '/src/Service/PrivacyAudit/PrivacyAuditManager.php',
     'WP_Statistics\\Service\\PrivacyAudit\\PrivacyAuditPage' => $baseDir . '/src/Service/PrivacyAudit/PrivacyAuditPage.php',
     'WP_Statistics\\Service\\PrivacyAudit\\PrivacyStatusOption' => $baseDir . '/src/Service/PrivacyAudit/PrivacyStatusOption.php',
-    'WP_Statistics\\Utils\\QueryUtils' => $baseDir . '/src/Utils/QueryUtils.php',
+    'WP_Statistics\\Utils\\Query' => $baseDir . '/src/Utils/Query.php',
     'WhichBrowser\\Analyser' => $vendorDir . '/whichbrowser/parser/src/Analyser.php',
     'WhichBrowser\\Analyser\\Camouflage' => $vendorDir . '/whichbrowser/parser/src/Analyser/Camouflage.php',
     'WhichBrowser\\Analyser\\Corrections' => $vendorDir . '/whichbrowser/parser/src/Analyser/Corrections.php',

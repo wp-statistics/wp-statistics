@@ -3,7 +3,7 @@
 namespace WP_Statistics\Models;
 
 use WP_STATISTICS\Helper;
-use WP_Statistics\Utils\QueryUtils;
+use WP_Statistics\Utils\Query;
 
 class AuthorModel extends DataProvider
 {
@@ -21,25 +21,14 @@ class AuthorModel extends DataProvider
             'post_type' => '',
         ]);
 
-        $sql = "SELECT COUNT(ID) FROM {$this->db->posts}";
-        $sql .= QueryUtils::whereClause([
-            [
-                'field' => 'post_status',
-                'value' => 'publish'
-            ],
-            [
-                'field'     => 'post_date', 
-                'operator'  => 'BETWEEN',
-                'value'     => [$args['from'], $args['to']]
-            ],
-            [
-                'field'     => 'post_type', 
-                'operator'  => 'IN',
-                'value'     => $args['post_type']
-            ]
-        ]);
+        $query = Query::select('COUNT(ID)')
+                    ->fromTable($this->db->posts)
+                    ->where('post_status', '=', 'publish')
+                    ->where('post_type', 'IN', $args['post_type'])
+                    ->whereDate('post_date', [$args['from'], $args['to']])
+                    ->get();
 
-        $totalPosts   = $this->getVar($sql);
+        $totalPosts   = $this->getVar($query);
         $totalAuthors = $this->count();
 
         return $totalPosts ? $totalPosts / $totalAuthors : 0;
@@ -60,27 +49,14 @@ class AuthorModel extends DataProvider
             'post_type' => Helper::get_list_post_type()
         ]);
 
-        $conditions = [
-            [
-                'field' => 'post_status',
-                'value' => 'publish'
-            ],
-            [
-                'field'     => 'post_type', 
-                'operator'  => 'IN',
-                'value'     => $args['post_type']
-            ],
-            [
-                'field'     => 'post_date', 
-                'operator'  => 'BETWEEN',
-                'value'     => [$args['from'], $args['to']]
-            ]
-        ];
+        $query = Query::select('COUNT(DISTINCT post_author)')
+                    ->fromTable($this->db->posts)
+                    ->where('post_status', '=', 'publish')
+                    ->where('post_type', 'IN', $args['post_type'])
+                    ->whereDate('post_date', [$args['from'], $args['to']])
+                    ->get();
 
-        $sql = "SELECT COUNT(DISTINCT post_author) FROM {$this->db->posts}";
-        $sql .= QueryUtils::whereClause($conditions);
-
-        $result = $this->getVar($sql);
+        $result = $this->getVar($query);
 
         return $result ? $result : 0;
     }
