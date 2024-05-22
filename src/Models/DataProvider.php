@@ -6,7 +6,7 @@ use WP_STATISTICS\DB;
 use WP_STATISTICS\Helper;
 
 /**
- * Todo object cache, hooks, filters, etc
+ * Todo object cache, consider historical, hooks, filters, etc
  */
 abstract class DataProvider
 {
