@@ -13,6 +13,7 @@ class Query
     private $table;
     private $fields = '*';
     private $whereClauses = [];
+    private $whereValues = [];
     private $bypassCache = false;
 
     /** @var wpdb $db */
@@ -45,12 +46,11 @@ class Query
             $to   = isset($date[1]) ? $date[1] : '';
 
             if (!empty($from) && !empty($to)) {
-                $condition = "Date($field) BETWEEN '$from' AND '$to'";
+                $condition            = "DATE($field) BETWEEN %s AND %s";
+                $this->whereClauses[] = $condition;
+                $this->whereValues[]  = $from;
+                $this->whereValues[]  = $to;
             }
-        }
-
-        if (!empty($condition)) {
-            $this->whereClauses[] = $condition;
         }
 
         return $this;
@@ -64,6 +64,7 @@ class Query
 
         if (empty($value)) return $this;
 
+        $condition = '';
         switch ($operator) {
             case '=':
             case '!=':
@@ -73,7 +74,8 @@ class Query
             case '<=':
             case 'LIKE':
             case 'NOT LIKE':
-                $condition = "$field $operator '$value'";
+                $condition           = "$field $operator %s";
+                $this->whereValues[] = $value;
                 break;
 
             case 'IN':
@@ -83,16 +85,17 @@ class Query
                 }
 
                 if (is_array($value)) {
-                    $items     = implode(', ', array_map(function ($item) {
-                        return "'$item'";
-                    }, $value));
-                    $condition = "$field $operator ($items)";
+                    $placeholders      = implode(', ', array_fill(0, count($value), '%s'));
+                    $condition         = "$field $operator ($placeholders)";
+                    $this->whereValues = array_merge($this->whereValues, $value);
                 }
                 break;
 
             case 'BETWEEN':
                 if (is_array($value) && count($value) === 2) {
-                    $condition = "$field BETWEEN '$value[0]' AND '$value[1]'";
+                    $condition           = "$field BETWEEN %s AND %s";
+                    $this->whereValues[] = $value[0];
+                    $this->whereValues[] = $value[1];
                 }
                 break;
 
@@ -125,8 +128,9 @@ class Query
             }
         }
 
-        // Execute the query
-        $result = $this->db->get_var($query);
+        // Prepare and execute the query
+        $preparedQuery = $this->db->prepare($query, $this->whereValues);
+        $result        = $this->db->get_var($preparedQuery);
 
         // Cache the result if not bypassing cache
         if (!$this->bypassCache) {
@@ -148,8 +152,9 @@ class Query
             }
         }
 
-        // Execute the query
-        $result = $this->db->get_results($query);
+        // Prepare and execute the query
+        $preparedQuery = $this->db->prepare($query, ...$this->whereValues);
+        $result        = $this->db->get_results($preparedQuery);
 
         // Cache the result if not bypassing cache
         if (!$this->bypassCache) {
@@ -171,8 +176,9 @@ class Query
             }
         }
 
-        // Execute the query
-        $result = $this->db->get_col($query);
+        // Prepare and execute the query
+        $preparedQuery = $this->db->prepare($query, ...$this->whereValues);
+        $result        = $this->db->get_col($preparedQuery);
 
         // Cache the result if not bypassing cache
         if (!$this->bypassCache) {
@@ -199,8 +205,9 @@ class Query
             }
         }
 
-        // Execute the query
-        $result = $this->db->get_var($query);
+        // Prepare and execute the query
+        $preparedQuery = $this->db->prepare($query, $this->whereValues);
+        $result        = $this->db->get_var($preparedQuery);
 
         // Cache the result if not bypassing cache
         if (!$this->bypassCache) {
