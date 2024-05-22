@@ -5,7 +5,7 @@ namespace WP_Statistics\Models;
 use WP_STATISTICS\DB;
 
 /**
- * Todo object cache, hooks, filters, etc
+ * Todo object cache, consider historical, hooks, filters, etc
  */
 abstract class DataProvider
 {
