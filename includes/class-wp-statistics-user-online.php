@@ -152,6 +152,8 @@ class UserOnline
         $current_page = $visitorProfile->getCurrentPageType();
         $user_agent   = $visitorProfile->getUserAgent();
 
+        $pageId = Pages::getPageId($current_page['type'], $current_page['id']);
+
         //Prepare User online Data
         $user_online = array(
             'ip'        => $visitorProfile->getProcessedIPForStorage(),
@@ -167,7 +169,7 @@ class UserOnline
             'continent' => $visitorProfile->getContinent(),
             'city'      => $visitorProfile->getCity(),
             'user_id'   => $visitorProfile->getUserId(),
-            'page_id'   => $current_page['id'],
+            'page_id'   => $pageId,
             'type'      => $current_page['type']
         );
         $user_online = apply_filters('wp_statistics_user_online_information', wp_parse_args($args, $user_online));
@@ -208,8 +210,6 @@ class UserOnline
             'date'      => TimeZone::getCurrentDate(),
             'referred'  => $visitorProfile->getReferrer(),
             'user_id'   => $user_id,
-            'page_id'   => $current_page['id'],
-            'type'      => $current_page['type']
         );
         $user_online = apply_filters('wp_statistics_update_user_online_data', wp_parse_args($args, $user_online));
 

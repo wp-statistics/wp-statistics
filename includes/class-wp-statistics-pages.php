@@ -606,4 +606,24 @@ class Pages
         }
         return false;
     }
+
+    /**
+     * Get Page ID record in DB Table by Type and ID
+     *
+     * @param $type
+     * @param $id
+     * @return int
+     */
+    public static function getPageId($type, $id)
+    {
+        global $wpdb;
+        $result = $wpdb->get_var(
+            $wpdb->prepare("SELECT page_id FROM `" . DB::table('pages') . "` WHERE `type` = %s and `id` = %d ORDER BY date DESC", $type, $id)
+        );
+        if ($result == 0) {
+            $result = 0;
+        }
+
+        return $result;
+    }
 }
