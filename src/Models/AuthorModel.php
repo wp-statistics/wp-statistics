@@ -59,7 +59,7 @@ class AuthorModel extends DataProvider
             ->where('post_type', 'IN', $args['post_type'])
             ->whereDate('post_date', [$args['from'], $args['to']])
             ->bypassCache($bypassCache)
-            ->get();
+            ->getFirst();
 
         $result = $this->getVar($query);
 

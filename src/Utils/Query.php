@@ -113,14 +113,9 @@ class Query
         return $this;
     }
 
-    public function get()
+    public function getFirst()
     {
-        $query   = "$this->operation $this->fields FROM $this->table";
-        $clauses = array_filter($this->whereClauses);
-
-        if (!empty($clauses)) {
-            $query .= ' WHERE ' . implode(" AND ", $clauses);
-        }
+        $query = $this->buildQuery();
 
         // Check if the result is already cached, unless bypassing cache is enabled
         if (!$this->bypassCache) {
@@ -140,5 +135,64 @@ class Query
 
         // Ensure the result is an integer
         return (int)$result;
+    }
+
+    public function getAll()
+    {
+        $query = $this->buildQuery();
+
+        // Check if the result is already cached, unless bypassing cache is enabled
+        if (!$this->bypassCache) {
+            $cachedResult = $this->getCachedResult($query);
+            if ($cachedResult !== false) {
+                return $cachedResult;
+            }
+        }
+
+        // Execute the query
+        $result = $this->db->get_results($query);
+
+        // Cache the result if not bypassing cache
+        if (!$this->bypassCache) {
+            $this->setCachedResult($query, $result);
+        }
+
+        return $result;
+    }
+
+    public function getCol()
+    {
+        $query = $this->buildQuery();
+
+        // Check if the result is already cached, unless bypassing cache is enabled
+        if (!$this->bypassCache) {
+            $cachedResult = $this->getCachedResult($query);
+            if ($cachedResult !== false) {
+                return $cachedResult;
+            }
+        }
+
+        // Execute the query
+        $result = $this->db->get_col($query);
+
+        // Cache the result if not bypassing cache
+        if (!$this->bypassCache) {
+            $this->setCachedResult($query, $result);
+        }
+
+        return $result;
+    }
+
+    protected function buildQuery()
+    {
+        $query = "$this->operation $this->fields FROM $this->table";
+
+        $clauses = array_filter($this->whereClauses);
+
+        if (!empty($clauses)) {
+            $query .= ' WHERE ' . implode(" AND ", $clauses);
+        }
+
+        return $query;
     }
 }
