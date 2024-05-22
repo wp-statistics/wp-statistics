@@ -227,6 +227,196 @@
       }
     }
   }
+  #search-engines-chart{
+    height: 222px!important;
+    width: 100% !important;
+    margin-top: 20px;
+  }
+  .c-footer {
+    display: flex;
+    justify-content: flex-end;
+    padding: 0;
+
+    &__more__link {
+      font-size: 12px;
+      font-weight: 500;
+      line-height: 14.06px;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+
+      &:after {
+        content: '';
+        width: 16px;
+        height: 16px;
+        display: inline-block;
+        background: url("data:image/svg+xml;base64,Cjxzdmcgd2lkdGg9IjE3IiBoZWlnaHQ9IjE3IiB2aWV3Qm94PSIwIDAgMTcgMTciIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxnIGNsaXAtcGF0aD0idXJsKCNjbGlwMF83ODMwXzM0MzIpIj4KPHBhdGggZD0iTTEwLjExMTggMy43MTI4OUw5LjM5OTEyIDQuNDI1NjFMMTIuNTcwNiA3LjU5NzFMMC41IDcuNjAxMDdWOC42MDUwNUgxMi41NzA2TDkuMzk5MTIgMTEuNzc2NUwxMC4xMTE4IDEyLjQ4OTJMMTQuNSA4LjEwMTA1TDEwLjExMTggMy43MTI4OVoiIGZpbGw9IiM0MDRCRjIiLz4KPC9nPgo8ZGVmcz4KPGNsaXBQYXRoIGlkPSJjbGlwMF83ODMwXzM0MzIiPgo8cmVjdCB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIGZpbGw9IndoaXRlIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgwLjUgMC4xMDE1NjIpIi8+CjwvY2xpcFBhdGg+CjwvZGVmcz4KPC9zdmc+Cg==") center center/contain no-repeat;
+
+        .rtl & {
+          transform: rotate(180deg);
+        }
+      }
+    }
+  }
+
+
+  .wps-flex-container {
+    margin-left: -24px;
+    margin-right: -24px;
+    flex-direction: column;
+    display: flex;
+
+    .wps-flex-half:first-child .wps-content-tabs {
+      border-bottom: 1px solid #DADCE0;
+      margin-bottom: 0;
+      padding-bottom: 20px;
+      @media (min-width: 1192px) {
+        border-right: 1px solid #DADCE0;
+        border-bottom: 0;
+        margin-bottom: 20px;
+        padding-bottom: 0;
+      }
+    }
+
+
+    .wps-content-tabs {
+      margin-top: 20px;
+      margin-bottom: 20px;
+
+      & > label:first-of-type {
+        margin-left: 15px;
+      }
+
+      & > label:last-of-type {
+        margin-right: 15px;
+      }
+    }
+
+    @media (min-width: 1192px) {
+      flex-direction: row;
+      .wps-flex-half {
+        flex: 1;
+      }
+      .wps-content-tabs {
+        & > label:first-of-type {
+          margin-left: 24px;
+        }
+      }
+    }
+  }
+
+  .wps-content-tabs {
+    display: flex;
+    flex-wrap: wrap;
+
+    label {
+      order: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      transition: background ease 0.3s;
+      font-size: 13px;
+      font-weight: 500;
+      line-height: 24px;
+      text-align: left;
+      color: #5F636C !important;
+      padding: 0 6px 6px;
+      @media (min-width: 376px) {
+        padding: 0 12px 6px;
+      }
+    }
+
+    .wps-content-tabs__content {
+      order: 9;
+      flex-grow: 1;
+      width: 100%;
+      height: 100%;
+      display: none;
+      background: #fff;
+      padding-top: 20px;
+    }
+
+    input[type="radio"] {
+      display: none;
+    }
+
+    input[type="radio"]:checked + label {
+      color: #0C0C0D !important;
+      border-bottom: 2px solid #404BF2
+    }
+
+    .wps-content-tabs__item {
+      display: flex;
+      gap: 8px;
+      padding: 5px 24px;
+
+      img {
+        width: 39px;
+        height: 39px;
+        border-radius: 50%;
+      }
+
+      &--image {
+        position: relative;
+
+        span {
+          position: absolute;
+          color: #fff;
+          width: 39px;
+          height: 39px;
+          border-radius: 50%;
+          justify-content: center;
+          align-items: center;
+          font-size: 16px;
+          font-weight: 400;
+          line-height: 18.75px;
+          background: #1f192dcc;
+          display: none;
+        }
+      }
+
+      &--content {
+        display: flex;
+        flex-direction: column;
+        padding: 5px 0;
+        gap: 3px;
+
+        h3 {
+          font-size: 14px;
+          font-weight: 400;
+          line-height: 16.41px;
+          color: #56585A;
+          margin: 0;
+          word-break: break-word;
+        }
+
+        span {
+          display: block;
+          font-size: 12px;
+          font-weight: 400;
+          line-height: 14.06px;
+          color: #56585A;
+        }
+      }
+
+      &:hover {
+        background: #EEEFF1;
+
+        h3 {
+          color: #404BF2;
+        }
+
+        .wps-content-tabs__item--image span {
+          display: flex;
+        }
+      }
+    }
+
+    input[type="radio"]:checked + label + .wps-content-tabs__content {
+      display: block;
+    }
+  }
 
 
 }

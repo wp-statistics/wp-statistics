@@ -142,7 +142,7 @@
         $engines = array(
             'title_text'   => esc_html__('Search Engines', 'wp-statistics'),
             'tooltip_text' => esc_html__('Search Engines tooltip', 'wp-statistics'),
-        );
+         );
         Admin_Template::get_template(array('layout/content-analytics/search-engines'), $engines);
         ?>
 

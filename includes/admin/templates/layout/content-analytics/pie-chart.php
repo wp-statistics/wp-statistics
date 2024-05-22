@@ -16,7 +16,6 @@ $visitors_text = esc_html__('Visitors :', 'wp-statistics');
     <div class="wps-content-analytics-chart">
         <canvas id="<?php echo $unique_id; ?>" height="288"></canvas>
     </div>
-
 </div>
 <script>
 
