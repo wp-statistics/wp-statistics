@@ -26,7 +26,7 @@
                                 <?php endif ?>
                             </div>
                             <div class="wps-content-tabs__item--content">
-                                <h3><?php echo esc_html($title); ?></h3>
+                                <h3 class="wps-ellipsis-parent"><span class="wps-ellipsis-text"><?php echo esc_html($title); ?></span></h3>
                                 <span><?php echo esc_html($views); ?> <?php esc_html_e('views', 'wp-statistics') ?></span>
                             </div>
                         </a>
@@ -49,7 +49,7 @@
                                 <?php endif ?>
                             </div>
                             <div class="wps-content-tabs__item--content">
-                                <h3><?php echo esc_html($title); ?></h3>
+                                <h3 class="wps-ellipsis-parent"><span class="wps-ellipsis-text"><?php echo esc_html($title); ?></span></h3>
                                 <span><?php echo esc_html($views); ?> <?php esc_html_e('views', 'wp-statistics') ?></span>
                             </div>
                         </a>
@@ -76,7 +76,7 @@
                                 <?php endif ?>
                             </div>
                             <div class="wps-content-tabs__item--content">
-                                <h3><?php echo esc_html($title); ?></h3>
+                                <h3 class="wps-ellipsis-parent"><span class="wps-ellipsis-text"><?php echo esc_html($title); ?></span></h3>
                                 <span><?php echo esc_html($views) . ' ' . esc_html__('views', 'wp-statistics'); ?> </span>
                             </div>
                         </a>

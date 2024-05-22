@@ -36,11 +36,19 @@
                 <?php for ($i = 1; $i < 10; $i++): ?>
                     <tr>
                         <td class="wps-pd-l">
-                            google
+                            <div class="wps-ellipsis-parent">
+                                <span class="wps-ellipsis-text">
+                                     google
+                                </span>
+                            </div>
                         </td>
                         <td class="wps-pd-l">
-                            <img src="<?php echo esc_url(WP_STATISTICS_URL . 'assets/images/search-engine/google.png'); ?>" title="google" class="log-tools wps-flag">
-                            www.google.com
+                            <div class="wps-ellipsis-parent">
+                                <span class="wps-ellipsis-text">
+                                    <img src="<?php echo esc_url(WP_STATISTICS_URL . 'assets/images/search-engine/google.png'); ?>" title="google" class="log-tools wps-flag">
+                                    www.google.com
+                                </span>
+                            </div>
                         </td>
                         <td class="wps-pd-l">8,834</td>
                     </tr>
