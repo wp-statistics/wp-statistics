@@ -1,22 +1,34 @@
-<?php 
+<?php
 
 namespace WP_Statistics\Utils;
+
+use WP_Statistics\Traits\Cacheable;
 use Exception;
 
 class Query
 {
+    use Cacheable;
+
     private $operation;
     private $table;
     private $fields = '*';
     private $whereClauses = [];
+    private $bypassCache = false;
+
+    /** @var wpdb $db */
+    protected $db;
+
+    public function __construct()
+    {
+        global $wpdb;
+        $this->db = $wpdb;
+    }
 
     public static function select($fields = '*')
     {
-        $instance = new self();
-
+        $instance            = new self();
         $instance->operation = "SELECT";
         $instance->fields    = $fields;
-
         return $instance;
     }
 
@@ -28,7 +40,6 @@ class Query
 
     public function whereDate($field, $date)
     {
-
         if (is_array($date) && count($date) === 2) {
             $from = isset($date[0]) ? $date[0] : '';
             $to   = isset($date[1]) ? $date[1] : '';
@@ -51,8 +62,8 @@ class Query
             $value = array_filter($value);
         }
 
-        if (empty($value)) $this;
-    
+        if (empty($value)) return $this;
+
         switch ($operator) {
             case '=':
             case '!=':
@@ -72,7 +83,9 @@ class Query
                 }
 
                 if (is_array($value)) {
-                    $items = implode(', ', array_map(function($item) { return "'$item'"; }, $value));
+                    $items     = implode(', ', array_map(function ($item) {
+                        return "'$item'";
+                    }, $value));
                     $condition = "$field $operator ($items)";
                 }
                 break;
@@ -94,16 +107,38 @@ class Query
         return $this;
     }
 
+    public function bypassCache($flag = true)
+    {
+        $this->bypassCache = $flag;
+        return $this;
+    }
+
     public function get()
     {
-        $query = "$this->operation $this->fields FROM $this->table";
-        
+        $query   = "$this->operation $this->fields FROM $this->table";
         $clauses = array_filter($this->whereClauses);
-    
+
         if (!empty($clauses)) {
             $query .= ' WHERE ' . implode(" AND ", $clauses);
         }
 
-        return $query;
+        // Check if the result is already cached, unless bypassing cache is enabled
+        if (!$this->bypassCache) {
+            $cachedResult = $this->getCachedResult($query);
+            if ($cachedResult !== false) {
+                return (int)$cachedResult;
+            }
+        }
+
+        // Execute the query
+        $result = $this->db->get_var($query);
+
+        // Cache the result if not bypassing cache
+        if (!$this->bypassCache) {
+            $this->setCachedResult($query, $result);
+        }
+
+        // Ensure the result is an integer
+        return (int)$result;
     }
 }

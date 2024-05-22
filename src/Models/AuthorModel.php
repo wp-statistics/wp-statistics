@@ -11,9 +11,10 @@ class AuthorModel extends DataProvider
      * Calculates the average number of posts per author based on the given arguments.
      *
      * @param array $args An array of arguments to filter the count.
-     * @return float|int The average number of posts per author. Returns 0 if no authors are found.
+     * @param bool $bypassCache Flag to bypass the cache.
+     * @return int The average number of posts per author. Returns 0 if no authors are found.
      */
-    public function averagePostsPerAuthor($args = [])
+    public function averagePostsPerAuthor(array $args, $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
             'from'      => '',
@@ -22,26 +23,29 @@ class AuthorModel extends DataProvider
         ]);
 
         $query = Query::select('COUNT(ID)')
-                    ->fromTable($this->db->posts)
-                    ->where('post_status', '=', 'publish')
-                    ->where('post_type', 'IN', $args['post_type'])
-                    ->whereDate('post_date', [$args['from'], $args['to']])
-                    ->get();
+            ->fromTable($this->db->posts)
+            ->where('post_status', '=', 'publish')
+            ->where('post_type', 'IN', $args['post_type'])
+            ->whereDate('post_date', [$args['from'], $args['to']])
+            ->bypassCache($bypassCache) // Use this method to control caching
+            ->get();
 
-        $totalPosts   = $this->getVar($query);
-        $totalAuthors = $this->count();
+        $totalPosts   = $query;
+        $totalAuthors = (int)$this->count();
 
-        return $totalPosts ? $totalPosts / $totalAuthors : 0;
+        $averagePosts = $totalAuthors ? intdiv($totalPosts, $totalAuthors) : 0;
+
+        return $averagePosts;
     }
 
     /**
-     * Counts the authors based on the given arguments. 
+     * Counts the authors based on the given arguments.
      * By default, it will return total number of authors.
      *
      * @param array $args An array of arguments to filter the count.
      * @return int The total number of distinct authors. Returns 0 if no authors are found.
      */
-    public function count($args = [])
+    public function count($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
             'from'      => '',
@@ -50,11 +54,12 @@ class AuthorModel extends DataProvider
         ]);
 
         $query = Query::select('COUNT(DISTINCT post_author)')
-                    ->fromTable($this->db->posts)
-                    ->where('post_status', '=', 'publish')
-                    ->where('post_type', 'IN', $args['post_type'])
-                    ->whereDate('post_date', [$args['from'], $args['to']])
-                    ->get();
+            ->fromTable($this->db->posts)
+            ->where('post_status', '=', 'publish')
+            ->where('post_type', 'IN', $args['post_type'])
+            ->whereDate('post_date', [$args['from'], $args['to']])
+            ->bypassCache($bypassCache)
+            ->get();
 
         $result = $this->getVar($query);
 
