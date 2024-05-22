@@ -19,9 +19,9 @@
             <td scope="row" align="center">
                 <?php echo sprintf(
                     __('Developed by %1$s, featuring GeoLite2 data by %2$s. Artwork and design contributions by %3$s.', 'wp-statistics'), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	
-                    '<a href="https://veronalabs.com" target=_blank>VeronaLabs</a>',
+                    '<a href="https://veronalabs.com/?utm_source=wp-statistics&utm_medium=link&utm_campaign=about" target=_blank>VeronaLabs</a>',
                     '<a href="https://www.maxmind.com" target=_blank>MaxMind</a>',
-                    '<a href="https://veronalabs.com" target=_blank>VeronaLabs</a>',
+                    '<a href="https://veronalabs.com/?utm_source=wp-statistics&utm_medium=link&utm_campaign=about" target=_blank>VeronaLabs</a>',
                 ); ?>
             </td>
         </tr>
@@ -39,7 +39,7 @@
         <tr valign="top">
             <td scope="row" colspan="2">
                 <p style="display: inline-block"><?php esc_html_e('Your contributions help us maintain and enhance WP Statistics. Show your support!', 'wp-statistics') ?></p>
-                <a href="https://wp-statistics.com/donate" class="button" target="_blank" style="font-size: 12px; margin: 2px 5px 0; padding: 5px 15px; transform: translateY(-3px);"><?php esc_html_e('Donate', 'wp-statistics'); ?></a>
+                <a href="https://wp-statistics.com/donate/?utm_source=wp-statistics&utm_medium=link&utm_campaign=about" class="button" target="_blank" style="font-size: 12px; margin: 2px 5px 0; padding: 5px 15px; transform: translateY(-3px);"><?php esc_html_e('Donate', 'wp-statistics'); ?></a>
             </td>
         </tr>
 
@@ -144,7 +144,7 @@
         <tr valign="top">
             <td scope="row" colspan="2">
                 <p style="display: inline-block"><?php esc_html_e('Explore other plugins and tools designed to enhance your WordPress experience.', 'wp-statistics') ?></p>
-                <a href="https://veronalabs.com/#product" class="button" target="_blank" style="font-size: 12px; margin: 2px 5px 0; padding: 5px 15px; transform: translateY(-3px);"><?php esc_html_e('VeronaLabs Products/Plugins', 'wp-statistics'); ?></a>
+                <a href="https://veronalabs.com/?utm_source=wp-statistics&utm_medium=link&utm_campaign=about" class="button" target="_blank" style="font-size: 12px; margin: 2px 5px 0; padding: 5px 15px; transform: translateY(-3px);"><?php esc_html_e('VeronaLabs Products/Plugins', 'wp-statistics'); ?></a>
             </td>
         </tr>
         </tbody>

@@ -9,13 +9,13 @@ Requires PHP: 5.6
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-This plugin gives you the complete information on your website's visitors.
+Get website traffic insights with GDPR/CCPA compliant, privacy-friendly analytics. Includes visitor data, stunning graphs, and no data sharing.
 
 == Description ==
 = WP Statistics: THE #1 WORDPRESS ANALYTICS PLUGIN =
 Discover GDPR-compliant analytics with [WP Statistics](https://wp-statistics.com/?utm_source=wporg&utm_medium=link&utm_campaign=website), the top choice for WordPress users seeking an alternative to Google Analytics. No external accounts, unlimited visitor tracking, and full data ownership-all stored directly in your WordPress database.
 
-[Checkout Demo](https://wp-statistics.com/demo) | [View Screenshots](/#screenshots)
+[Checkout Demo](https://wp-statistics.com/demo) | [View Screenshots](#screenshots)
 
 = GDPR Compliant (Data Privacy) =
 WP Statistics is GDPR, CCPA, PECR, and cookie compliance by default.
@@ -26,6 +26,7 @@ WP Statistics is GDPR, CCPA, PECR, and cookie compliance by default.
 * Enhance IP Hashing with Random Daily Salt Mechanism
 * Features to export and delete data for GDPR
 * Respect for User Privacy with Do Not Track (DNT)
+* Privacy Audit Tool for compliance with privacy laws
 
 Your site won't need to have a cookie popup since WP Statistics uses [cookie-less tracking](https://wp-statistics.com/resources/counting-unique-visitors-without-cookies/?utm_source=wporg&utm_medium=link&utm_campaign=doc).
 
@@ -126,14 +127,20 @@ Thank you for being part of our community. We’ve been working hard for one yea
 If you encounter any bug, please create an issue on [GitHub](https://github.com/wp-statistics/wp-statistics/issues/new) where we can act upon them more efficiently. Since [GitHub](https://github.com/wp-statistics/wp-statistics) is not a support forum, just bugs are welcomed, and any other request will be closed.
 
 == Changelog ==
-= 14.7 - **.05.2024 =
-* Addition: Introduced Privacy Audit to ensure compliance with privacy laws. Includes disabling "Record User Page Views," "Anonymize IP Addresses," and "Hash IP Addresses" for GDPR compliance. [More info click here](https://...)
-* Addition: Added two new columns, `region` and `continent`, to the visitor table to enhance geographic data.
-* Improvement: Enhanced the styling of email reports for improved readability and aesthetics.
-* Improvement: Updated filters and styles for better user experience.
+https://www.youtube.com/watch?v=6G50BZRWPd4
+
+= 14.7 - 20.05.2024 =
+* Addition: Introduced Privacy Audit Tool to ensure compliance with privacy laws. [More info click here](https://wp-statistics.com/2024/05/12/introducing-privacy-audit-in-wp-statistics-14-7/)
+* Addition: Added two new database columns, region and continent, to the visitor table to enhance geographical data.
+* Fixes: Resolved issues with the Date Picker filter and Visitor Map.
+* Fixes: Fixed bug displaying archive page information on the online and visitors pages.
+* Improvement: Improved tooltip display for browser pie charts.
+* Improvement: Enhanced email report appearance for better readability and aesthetics.
+* Improvement: Updated filters and styles for a better user experience.
 * Improvement: Enhanced event scheduling and email handling for improved performance.
-* Improvement: Refined language strings and admin interface for easier use.
-* Improvement: Merged REST API and Advanced Widgets settings into main plugin settings for better management.
+* Improvement: Refined language strings and an admin interface for easier use.
+* Improvement: Merged REST API and Advanced Widgets settings into the main plugin settings for better management.
+* Improvement: Showing the Hash IP properly in HitsMap modal.
 * Improvement: Various minor enhancements to boost plugin stability and performance.
 
 [See changelog for all versions](https://raw.githubusercontent.com/wp-statistics/wp-statistics/master/CHANGELOG.md).

@@ -10,16 +10,18 @@
 
     <?php do_action('wp_statistics_after_admin_page_title'); ?>
     <div class="wp-clearfix"></div>
-    <div class="wps-head-filters">
-        <?php include 'date.range.php'; ?>
-        <?php
-        if (!empty($filters)) {
-            foreach ($filters as $filter) {
-                require_once "filters/$filter-filter.php";
+    <?php if (isset($HasDateRang) || isset($filter)): ?>
+        <div class="wps-head-filters">
+            <?php include 'date.range.php'; ?>
+            <?php
+            if (!empty($filters)) {
+                foreach ($filters as $filter) {
+                    require_once "filters/$filter-filter.php";
+                }
             }
-        }
-        ?>
-    </div>
+            ?>
+        </div>
+    <?php endif ?>
     <?php if (!empty($tabs) && is_array($tabs)) { ?>
         <ul class="wps-tabs">
             <?php foreach ($tabs as $tab) { ?>

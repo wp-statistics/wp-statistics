@@ -154,7 +154,7 @@ class hitsmap extends MetaBoxAbstract
 
         // Push IP
         if (IP::IsHashIP($country->ip)) {
-            $visitor['ip'] = IP::$hash_ip_prefix;
+            $visitor['ip'] = substr($country->ip, 6, 10);
         } else {
             $visitor['ip'] = $country->ip;
         }

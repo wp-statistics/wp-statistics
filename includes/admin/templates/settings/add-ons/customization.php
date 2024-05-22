@@ -1,4 +1,7 @@
 <?php
+
+use WP_STATISTICS\Admin_Template;
+
 $isCustomizationActive = WP_STATISTICS\Helper::isAddOnActive('customization');
 global $wp_version;
 
@@ -21,7 +24,17 @@ $disableMenuArray = array(
 $disabledMenuItems = WP_STATISTICS\Option::getByAddon('disable_menus', 'customization', []);
 ?>
 <?php
-if (!$isCustomizationActive) echo \WP_STATISTICS\Admin_Template::get_template('layout/partials/addon-premium-feature', ['addon_slug' => esc_url(WP_STATISTICS_SITE_URL . '/product/wp-statistics-customization/?utm_source=wp-statistics&utm_medium=link&utm_campaign=plugin-settings')], true);
+if (!$isCustomizationActive) echo Admin_Template::get_template('layout/partials/addon-premium-feature',
+    ['addon_slug'           => esc_url(WP_STATISTICS_SITE_URL . '/product/wp-statistics-customization/?utm_source=wp-statistics&utm_medium=link&utm_campaign=plugin-settings'),
+     'addon_title'          => 'Customization Add-On',
+     'addon_description'    => 'The settings on this page are part of the Customization add-on, which allows you to permanently disable ads on the Overview, Welcome, and Settings pages, customize menus, and make your product white-label by changing the plugin header.',
+     'addon_features'       => [
+         'Permanently disable ads on pages.',
+         'Customize menus according to your preferences.',
+         'Make your product white-label by modifying the plugin header.',
+     ],
+     'addon_info'           => 'Enjoy a simplified and ad-free experience with the Customization add-on.',
+    ], true);
 ?>
     <div class="postbox">
         <table class="form-table <?php echo !$isCustomizationActive ? 'form-table--preview' : '' ?>">

@@ -40,9 +40,15 @@ wps_js.browsers_meta_box = {
             data: args['browsers_value'],
             backgroundColor: backgroundColor
         }];
+        const label_callback = function (tooltipItem, data) {
+            return tooltipItem.label;
+        }
+        const title_callback = (ctx) => {
+            return wps_js._('visitors') + ':' + ctx[0].formattedValue
+        }
 
         // Show Chart
-        wps_js.pie_chart(wps_js.chart_id('browsers'), args['browsers_name'], data);
+        wps_js.pie_chart(wps_js.chart_id('browsers'), args['browsers_name'], data, label_callback, title_callback);
 
         // Check Table information
         if (wps_js.exist_tag('#' + wps_js.getMetaBoxKey('browsers-table'))) {
@@ -155,9 +161,14 @@ wps_js.show_custom_agent = function (args) {
             data: args['browsers_value'],
             backgroundColor: backgroundColor
         }];
-
+        const label_callback = function (tooltipItem) {
+            return tooltipItem.label;
+        }
+        const title_callback = (ctx) => {
+            return wps_js._('visitors') + ':' + ctx[0].formattedValue
+        }
         // Show Chart
-        wps_js.pie_chart(wps_js.chart_id('browser-' + BrowserKey), args['browsers_name'], data);
+        wps_js.pie_chart(wps_js.chart_id('browser-' + BrowserKey), args['browsers_name'], data, label_callback, title_callback);
 
         // Reset All Height
         ['browser-' + BrowserKey + '-chart', 'browser-' + BrowserKey + '-table'].forEach((key) => {

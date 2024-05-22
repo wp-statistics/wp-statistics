@@ -104,8 +104,11 @@ class Referred
             return \WP_STATISTICS\Admin_Template::UnknownColumn();
         }
 
+        // Remove Url prefixes
+        $host_name = Helper::get_domain_name($base_url['host']);
+
         // Get Html Link
-        return "<a href='{$html_referrer}' title='{$title}'" . ($is_blank === true ? ' target="_blank"' : '') . ">{$base_url['host']}</a>";
+        return "<a href='{$html_referrer}' title='{$title}'" . ($is_blank === true ? ' target="_blank"' : '') . ">{$host_name}</a>";
     }
 
     /**

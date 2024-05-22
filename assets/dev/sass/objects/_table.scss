@@ -332,6 +332,10 @@
     scrollbar-width: thin;
     scrollbar-color: #DADCE0 $light-tertiary-color;
 
+    table{
+      position: relative;
+    }
+
     /* width */
     &::-webkit-scrollbar {
       width: 4px !important;

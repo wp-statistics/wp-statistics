@@ -1,9 +1,22 @@
 <?php
+
+use WP_STATISTICS\Admin_Template;
+
 $isWidgetsActive = WP_STATISTICS\Helper::isAddOnActive('widgets');
 ?>
 
 <?php
-if (!$isWidgetsActive) echo \WP_STATISTICS\Admin_Template::get_template('layout/partials/addon-premium-feature', ['addon_slug' =>  esc_url(WP_STATISTICS_SITE_URL . '/product/wp-statistics-widgets/?utm_source=wp-statistics&utm_medium=link&utm_campaign=plugin-settings')], true);
+if (!$isWidgetsActive) echo Admin_Template::get_template('layout/partials/addon-premium-feature',
+    ['addon_slug'           => esc_url(WP_STATISTICS_SITE_URL . '/product/wp-statistics-widgets/?utm_source=wp-statistics&utm_medium=link&utm_campaign=plugin-settings'),
+     'addon_title'          => 'Advanced Widgets Add-On',
+     'addon_description'    => 'The settings on this page are part of the Advanced Widgets add-on, allowing you to display a range of data widgets on your website.',
+     'addon_features'       => [
+         'Display data widgets using Gutenberg blocks or theme widgets.',
+         'Easily present vital website statistics.',
+         'Enhance your audience\'s user experience.',
+     ],
+     'addon_info'           => 'With Advanced Widgets, you can easily display your website\'s important statistics',
+    ], true);
 ?>
 
     <div class="postbox">

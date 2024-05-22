@@ -41,7 +41,6 @@ class visitors_page extends Singleton
 
         // Get Date-Range
         $args['DateRang']    = Admin_Template::DateRange();
-        $args['HasDateRang'] = True;
 
         // Default Parameter Link
         $data_link = array('from' => $args['DateRang']['from'], 'to' => $args['DateRang']['to']);

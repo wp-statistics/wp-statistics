@@ -70,8 +70,14 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             jQuery(browsersEl).remove();
             // Check Data
             if (browserNames.length && browserValues.length) {
+                const label_callback = function (tooltipItem){
+                    return tooltipItem.label;
+                }
+                const title_callback= (ctx) => {
+                    return wps_js._('visitors') + ':' + ctx[0].formattedValue
+                }
                 // Show Chart
-                wps_js.pie_chart(wps_js.chart_id('browsers'), browserNames, data);
+                wps_js.pie_chart(wps_js.chart_id('browsers'), browserNames, data , label_callback , title_callback);
             } else {
                 jQuery('#wp-statistics-browsers-widget').empty().html(wps_js.no_meta_box_data());
             }

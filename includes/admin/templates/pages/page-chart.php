@@ -1,7 +1,12 @@
+<?php 
+use WP_STATISTICS\Option;
+use WP_STATISTICS\Meta_Box;
+?>
+
 <div class="postbox-container" id="wps-big-postbox">
     <div class="metabox-holder">
         <div class="meta-box-sortables">
-            <div class="postbox" id="<?php echo esc_html(\WP_STATISTICS\Meta_Box::getMetaBoxKey('pages-chart')); ?>">
+            <div class="postbox" id="<?php echo esc_html(Meta_Box::getMetaBoxKey('pages-chart')); ?>">
                 <div class="inside">
                     <!-- Do Js -->
                 </div>
@@ -68,19 +73,20 @@
 
 <div id="wps-postbox-container-2" style="float: left; margin-left: 0" class="postbox-container">
     <div id="normal-sortables" class="meta-box-sortables ui-sortable">
-        <div class="postbox" id="wp-statistics-pages-widget">
-            <div class="postbox-header postbox-toggle">
-                <h2 class="hndle wps-d-inline-block"><span><?php esc_html_e('Visitors Map', 'wp-statistics'); ?></span></h2>
-                <button class="handlediv" type="button" aria-expanded="true">
-                    <span class="screen-reader-text"><?php esc_html_e('Toggle panel: Visitors Map', 'wp-statistics'); ?></span>
-                    <span class="toggle-indicator" aria-hidden="true"></span>
-                </button>
+        <?php if (!Option::get('disable_map')) : ?>
+            <div class="postbox" id="wp-statistics-pages-widget">
+                <div class="postbox-header postbox-toggle">
+                    <h2 class="hndle wps-d-inline-block"><span><?php esc_html_e('Visitors Map', 'wp-statistics'); ?></span></h2>
+                    <button class="handlediv" type="button" aria-expanded="true">
+                        <span class="screen-reader-text"><?php esc_html_e('Toggle panel: Visitors Map', 'wp-statistics'); ?></span>
+                        <span class="toggle-indicator" aria-hidden="true"></span>
+                    </button>
+                </div>
+                <div class="inside wps-wrap">
+                    <?php echo wp_kses_post($visitors_map); ?>
+                </div>
             </div>
-            <div class="inside wps-wrap">
-                <?php echo wp_kses_post($visitors_map); ?>
-            </div>
-        </div>
-
+        <?php endif; ?>
         <div class="postbox" id="wp-statistics-pages-widget">
             <div class="postbox-header postbox-toggle">
                 <h2 class="hndle wps-d-inline-block"><span><?php esc_html_e('Online Users', 'wp-statistics'); ?></span></h2>
