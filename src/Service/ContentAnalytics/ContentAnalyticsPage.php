@@ -2,11 +2,12 @@
 
 namespace WP_Statistics\Service\ContentAnalytics;
 
+use WP_Statistics\Components\Singleton;
 use WP_STATISTICS\Menus;
 use WP_STATISTICS\Admin_Template;
 use InvalidArgumentException;
 
-class ContentAnalyticsPage
+class ContentAnalyticsPage extends Singleton
 {
 
     public function __construct()
