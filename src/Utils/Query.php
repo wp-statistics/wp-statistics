@@ -121,7 +121,7 @@ class Query
         if (!$this->bypassCache) {
             $cachedResult = $this->getCachedResult($query);
             if ($cachedResult !== false) {
-                return (int)$cachedResult;
+                return $cachedResult;
             }
         }
 
@@ -133,8 +133,7 @@ class Query
             $this->setCachedResult($query, $result);
         }
 
-        // Ensure the result is an integer
-        return (int)$result;
+        return $result;
     }
 
     public function getAll()
@@ -181,6 +180,35 @@ class Query
         }
 
         return $result;
+    }
+
+    public function getCount()
+    {
+        $query   = "SELECT COUNT(*) FROM {$this->table}";
+        $clauses = array_filter($this->whereClauses);
+
+        if (!empty($clauses)) {
+            $query .= ' WHERE ' . implode(" AND ", $clauses);
+        }
+
+        // Check if the result is already cached, unless bypassing cache is enabled
+        if (!$this->bypassCache) {
+            $cachedResult = $this->getCachedResult($query);
+            if ($cachedResult !== false) {
+                return (int)$cachedResult;
+            }
+        }
+
+        // Execute the query
+        $result = $this->db->get_var($query);
+
+        // Cache the result if not bypassing cache
+        if (!$this->bypassCache) {
+            $this->setCachedResult($query, $result);
+        }
+
+        // Ensure the result is an integer
+        return (int)$result;
     }
 
     protected function buildQuery()

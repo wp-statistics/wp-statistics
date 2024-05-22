@@ -28,11 +28,10 @@ class AuthorModel extends DataProvider
             ->where('post_type', 'IN', $args['post_type'])
             ->whereDate('post_date', [$args['from'], $args['to']])
             ->bypassCache($bypassCache) // Use this method to control caching
-            ->get();
+            ->getFirst();
 
         $totalPosts   = $query;
-        $totalAuthors = (int)$this->count();
-
+        $totalAuthors = $this->count();
         $averagePosts = $totalAuthors ? intdiv($totalPosts, $totalAuthors) : 0;
 
         return $averagePosts;
@@ -53,17 +52,13 @@ class AuthorModel extends DataProvider
             'post_type' => Helper::get_list_post_type()
         ]);
 
-        $query = Query::select('COUNT(DISTINCT post_author)')
+        return Query::select('COUNT(DISTINCT post_author)')
             ->fromTable($this->db->posts)
             ->where('post_status', '=', 'publish')
             ->where('post_type', 'IN', $args['post_type'])
             ->whereDate('post_date', [$args['from'], $args['to']])
             ->bypassCache($bypassCache)
-            ->getFirst();
-
-        $result = $this->getVar($query);
-
-        return $result ? $result : 0;
+            ->getCount();
     }
 
 }
