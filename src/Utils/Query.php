@@ -35,7 +35,7 @@ class Query
 
     public function fromTable($table)
     {
-        $this->table = $table;
+        $this->table = $this->db->$table; // Todo need to be compatible with custom tables as well.
         return $this;
     }
 
@@ -153,7 +153,7 @@ class Query
         }
 
         // Prepare and execute the query
-        $preparedQuery = $this->db->prepare($query, ...$this->whereValues);
+        $preparedQuery = $this->db->prepare($query, $this->whereValues);
         $result        = $this->db->get_results($preparedQuery);
 
         // Cache the result if not bypassing cache
@@ -177,7 +177,7 @@ class Query
         }
 
         // Prepare and execute the query
-        $preparedQuery = $this->db->prepare($query, ...$this->whereValues);
+        $preparedQuery = $this->db->prepare($query, $this->whereValues);
         $result        = $this->db->get_col($preparedQuery);
 
         // Cache the result if not bypassing cache

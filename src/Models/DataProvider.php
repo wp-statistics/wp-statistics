@@ -2,18 +2,19 @@
 
 namespace WP_Statistics\Models;
 
+use WP_Statistics\Utils\Query;
+
 /**
  * Todo object cache, consider historical, hooks, filters, etc
  */
 abstract class DataProvider
 {
-    /** @var wpdb $db */
-    protected $db;
+    /** @var Query $query */
+    protected $query;
 
     public function __construct()
     {
-        global $wpdb;
-        $this->db = $wpdb;
+        $this->query = Query::class;
     }
 
     /**
