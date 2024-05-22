@@ -15,7 +15,7 @@ class AuthorModel extends DataProvider
      */
     public function averagePostsPerAuthor($args = [])
     {
-        $args = wp_parse_args($args, [
+        $args = $this->parseArgs($args, [
             'from'      => '',
             'to'        => '',
             'post_type' => '',
@@ -43,7 +43,7 @@ class AuthorModel extends DataProvider
      */
     public function count($args = [])
     {
-        $args = wp_parse_args($args, [
+        $args = $this->parseArgs($args, [
             'from'      => '',
             'to'        => '',
             'post_type' => Helper::get_list_post_type()

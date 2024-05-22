@@ -19,6 +19,18 @@ abstract class DataProvider
         $this->db = $wpdb;
     }
 
+    /**
+     * @param $args
+     * @param $defaults
+     * @return mixed|null
+     */
+    protected function parseArgs($args, $defaults = [])
+    {
+        $args = wp_parse_args($args, $defaults);
+
+        return apply_filters('wp_statistics_data_{child-method-name}_args', $args);
+    }
+
     protected function execute($sql)
     {
         return $this->db->get_results($sql);
