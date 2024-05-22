@@ -29,7 +29,7 @@ abstract class DataProvider
      */
     protected function generateSqlConditions($args)
     {
-        $sql = " WHERE post_status = 'publish'";
+        $sql = '';
 
         // Post type condition
         if (!empty($args['post_type'])) {
@@ -47,7 +47,7 @@ abstract class DataProvider
         return $sql;
     }
 
-    protected function exceute($sql)
+    protected function execute($sql)
     {
         return $this->db->query($sql);
     }

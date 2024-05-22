@@ -4,7 +4,7 @@ namespace WP_Statistics\Service\AuthorAnalytics\Views;
 
 use WP_STATISTICS\Admin_Template;
 use WP_STATISTICS\Menus;
-use WP_Statistics\Service\AuthorAnalytics\Data\AuthorsPerformanceData;
+use WP_Statistics\Models\AuthorModel;
 use InvalidArgumentException;
 
 class TabsView
@@ -35,7 +35,19 @@ class TabsView
             'postType'  => isset($_GET['pt']) ? sanitize_text_field($_GET['pt']) : ''
         ];
 
-        return AuthorsPerformanceData::get($args);
+        $authorModel = new AuthorModel();
+
+        return [
+            'authors'   => [
+                'total'     => $authorModel->count(),
+                'active'    => $authorModel->count($args),
+                'avg'       => $authorModel->averagePostsPerAuthor($args)
+            ],
+            'views'     => [
+                'total' => 0,
+                'avg'   => 0
+            ]
+        ];
     }
 
     /**

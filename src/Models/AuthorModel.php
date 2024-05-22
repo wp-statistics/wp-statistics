@@ -12,24 +12,25 @@ class AuthorModel extends DataProvider
      */
     public function averagePostsPerAuthor($args = [])
     {
-        $sql = "SELECT COUNT(ID) FROM {$this->db->posts}";
+        $sql = "SELECT COUNT(ID) FROM {$this->db->posts} WHERE post_status = 'publish'";
         $sql .= $this->generateSqlConditions($args);
 
         $totalPosts   = $this->getVar($sql);
-        $totalAuthors = self::countAuthors($args);
+        $totalAuthors = $this->count();
 
         return $totalPosts ? $totalPosts / $totalAuthors : 0;
     }
 
     /**
-     * Counts the authors based on the given arguments.
+     * Counts the authors based on the given arguments. 
+     * By default, it will return total number of authors.
      *
      * @param array $args An array of arguments to filter the count.
      * @return int The total number of distinct authors. Returns 0 if no authors are found.
      */
-    public function countAuthors($args = [])
+    public function count($args = [])
     {
-        $sql = "SELECT COUNT(DISTINCT post_author) FROM {$this->db->posts}";
+        $sql = "SELECT COUNT(DISTINCT post_author) FROM {$this->db->posts} WHERE post_status = 'publish'";
         $sql .= $this->generateSqlConditions($args);
 
         $result = $this->getVar($sql);
