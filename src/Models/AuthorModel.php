@@ -22,7 +22,7 @@ class AuthorModel extends DataProvider
             'post_type' => '',
         ]);
 
-        $query = Query::select('count(ID)')
+        $totalPosts = Query::select('count(ID)')
             ->fromTable('posts')
             ->where('post_status', '=', 'publish')
             ->where('post_type', 'IN', $args['post_type'])
@@ -30,7 +30,6 @@ class AuthorModel extends DataProvider
             ->bypassCache($bypassCache) 
             ->getVar();
 
-        $totalPosts   = $query;
         $totalAuthors = $this->count();
         $averagePosts = $totalAuthors ? ($totalPosts / $totalAuthors) : 0;
 
