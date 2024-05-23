@@ -13,6 +13,7 @@ class Query
     private $operation;
     private $table;
     private $fields = '*';
+    private $joinClauses = [];
     private $whereClauses = [];
     private $whereValues = [];
     private $bypassCache = false;
@@ -34,15 +35,20 @@ class Query
         return $instance;
     }
 
+    private function getTable($table)
+    {
+        if (DB::table($table)) {
+            $table = DB::table($table);
+        } else {
+            $table = $this->db->$table; 
+        }
+
+        return $table;
+    }
+
     public function fromTable($table)
     {
-
-        if (DB::table($table)) {
-            $this->table = DB::table($table);
-        } else {
-            $this->table = $this->db->$table; 
-        }
-        
+        $this->table = $this->getTable($table);
         return $this;
     }
 
@@ -215,14 +221,31 @@ class Query
         return (int) $result;
     }
 
+    public function join($table, $condition, $joinType = 'INNER')
+    {
+        $table = $this->getTable($table);
+
+        if (is_array($condition)) {
+            $this->joinClauses[] = "{$joinType} JOIN {$table} ON {$condition[0]} = {$condition[1]}";
+        }
+        
+        return $this;
+    }
+
     protected function buildQuery()
     {
         $query = "$this->operation $this->fields FROM $this->table";
 
-        $clauses = array_filter($this->whereClauses);
+        // Append JOIN clauses
+        $joinClauses = array_filter($this->joinClauses);
+        if (!empty($joinClauses)) {
+            $query .= ' ' . implode(' ', $joinClauses);
+        }
 
-        if (!empty($clauses)) {
-            $query .= ' WHERE ' . implode(" AND ", $clauses);
+        // Append WHERE clauses
+        $whereClauses = array_filter($this->whereClauses);
+        if (!empty($whereClauses)) {
+            $query .= ' WHERE ' . implode(" AND ", $whereClauses);
         }
 
         return $query;
