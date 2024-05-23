@@ -3,6 +3,7 @@
 namespace WP_Statistics\Models;
 
 use WP_STATISTICS\Helper;
+use WP_Statistics\Utils\Query;
 
 class AuthorModel extends DataProvider
 {
@@ -21,7 +22,7 @@ class AuthorModel extends DataProvider
             'post_type' => '',
         ]);
 
-        $query = $this->query::select('count(ID)')
+        $query = Query::select('count(ID)')
             ->fromTable('posts')
             ->where('post_status', '=', 'publish')
             ->where('post_type', 'IN', $args['post_type'])
@@ -52,7 +53,7 @@ class AuthorModel extends DataProvider
             'post_type' => Helper::get_list_post_type()
         ]);
 
-        return $this->query::select('COUNT(DISTINCT post_author)')
+        return Query::select('COUNT(DISTINCT post_author)')
             ->fromTable('posts')
             ->where('post_status', '=', 'publish')
             ->where('post_type', 'IN', $args['post_type'])
