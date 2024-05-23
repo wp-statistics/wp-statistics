@@ -21,13 +21,13 @@ class AuthorModel extends DataProvider
             'post_type' => '',
         ]);
 
-        $query = $this->query::select('ID')
+        $query = $this->query::select('count(ID)')
             ->from('posts')
             ->where('post_status', '=', 'publish')
             ->where('post_type', 'IN', $args['post_type'])
             ->whereDate('post_date', [$args['from'], $args['to']])
             ->bypassCache($bypassCache) 
-            ->getCount();
+            ->getVar();
 
         $totalPosts   = $query;
         $totalAuthors = $this->count();
@@ -52,14 +52,13 @@ class AuthorModel extends DataProvider
             'post_type' => Helper::get_list_post_type()
         ]);
 
-        return $this->query::select('post_author')
-            ->distinct()
+        return $this->query::select('COUNT(DISTINCT post_author)')
             ->from('posts')
             ->where('post_status', '=', 'publish')
             ->where('post_type', 'IN', $args['post_type'])
             ->whereDate('post_date', [$args['from'], $args['to']])
             ->bypassCache($bypassCache)
-            ->getCount();
+            ->getVar();
     }
 
 }

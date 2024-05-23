@@ -75,7 +75,8 @@ class Query
 
         if (is_string($date)) {
             $date = TimeZone::calculateDateFilter($date);
-            list($from, $to) = $date;
+            $from = $date[0];
+            $to   = $date[1];
         }
 
         if (!empty($from) && !empty($to)) {
@@ -142,7 +143,7 @@ class Query
         return $this;
     }
 
-    public function getFirst()
+    public function getVar()
     {
         $query = $this->buildQuery();
 
@@ -205,35 +206,6 @@ class Query
         return $result;
     }
 
-    public function getCount()
-    {
-        $this->fields = "COUNT({$this->fields})";
-        
-        $query = $this->buildQuery();
-
-        if (!$this->bypassCache) {
-            $cachedResult = $this->getCachedResult($query);
-            if ($cachedResult !== false) {
-                return (int) $cachedResult;
-            }
-        }
-
-        $preparedQuery = $this->db->prepare($query, $this->whereValues);
-        $result        = $this->db->get_var($preparedQuery);
-
-        if (!$this->bypassCache) {
-            $this->setCachedResult($query, $result);
-        }
-
-        return (int) $result;
-    }
-
-    public function distinct()
-    {
-        $this->fields = "DISTINCT {$this->fields}";
-        return $this;
-    }
-
     public function join($table, $condition, $joinType = 'INNER')
     {
         $table = $this->getTable($table);
@@ -271,6 +243,10 @@ class Query
         return $this;
     }
 
+    public function getQuery()
+    {
+        return $this->buildQuery();
+    }
 
     protected function buildQuery()
     {
