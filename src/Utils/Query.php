@@ -49,7 +49,7 @@ class Query
         return $table;
     }
 
-    public function fromTable($table)
+    public function from($table)
     {
         $this->table = $this->getTable($table);
         return $this;
