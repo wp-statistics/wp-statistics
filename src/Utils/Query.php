@@ -14,6 +14,7 @@ class Query
     private $operation;
     private $table;
     private $fields = '*';
+    private $subQuery;
     private $orderClause;
     private $groupByClause;
     private $limitClause;
@@ -50,9 +51,15 @@ class Query
         return $table;
     }
 
-    public function from($table)
+    public function fromTable($table)
     {
         $this->table = $this->getTable($table);
+        return $this;
+    }
+
+    public function fromSubQuery($subQuery)
+    {
+        $this->subQuery = "($subQuery) as sub_query";
         return $this;
     }
 
@@ -154,7 +161,7 @@ class Query
             }
         }
 
-        $preparedQuery = $this->db->prepare($query, $this->whereValues);
+        $preparedQuery = $this->prepareQuery($query);
         $result        = $this->db->get_var($preparedQuery);
 
         if (!$this->bypassCache) {
@@ -175,7 +182,7 @@ class Query
             }
         }
 
-        $preparedQuery = $this->db->prepare($query, $this->whereValues);
+        $preparedQuery = $this->prepareQuery($query);
         $result        = $this->db->get_results($preparedQuery);
 
         if (!$this->bypassCache) {
@@ -196,7 +203,7 @@ class Query
             }
         }
 
-        $preparedQuery = $this->db->prepare($query, $this->whereValues);
+        $preparedQuery = $this->prepareQuery($query);
         $result        = $this->db->get_col($preparedQuery);
 
         if (!$this->bypassCache) {
@@ -216,7 +223,6 @@ class Query
         
         return $this;
     }
-
     
     public function orderBy($field, $order = 'DESC')
     {
@@ -243,14 +249,19 @@ class Query
         return $this;
     }
 
-    public function getQuery()
-    {
-        return $this->buildQuery();
-    }
-
     protected function buildQuery()
     {
-        $query = "$this->operation $this->fields FROM $this->table";
+        $query = "$this->operation $this->fields FROM ";
+
+        // Append table
+        if (!empty($this->table)) {
+            $query .= ' ' . $this->table;
+        }
+        
+        // Append sub query
+        if (!empty($this->subQuery)) {
+            $query .= ' ' . $this->subQuery;
+        }
 
         // Append JOIN clauses
         $joinClauses = array_filter($this->joinClauses);
@@ -277,6 +288,26 @@ class Query
         // Append ORDER clauses
         if (!empty($this->orderClause)) {
             $query .= ' ' . $this->orderClause;
+        }
+
+        return $query;
+    }
+
+    public function getQuery()
+    {
+        $query          = $this->buildQuery();
+        $preparedQuery  = $this->prepareQuery($query);
+
+        return $preparedQuery;
+    }
+
+    protected function prepareQuery($query)
+    {
+        $hasPlaceholder = preg_match('/%[i|s|f|d]/', $query);
+
+        // Only if there's placeholder, prepare the query
+        if ($hasPlaceholder) {
+            $query = $this->db->prepare($query, $this->whereValues);
         }
 
         return $query;
