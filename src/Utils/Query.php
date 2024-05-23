@@ -126,18 +126,6 @@ class Query
         return $this;
     }
 
-    public function distinct()
-    {
-        $this->fields = "DISTINCT {$this->fields}";
-        return $this;
-    }
-
-    public function bypassCache($flag = true)
-    {
-        $this->bypassCache = $flag;
-        return $this;
-    }
-
     public function getFirst()
     {
         $query = $this->buildQuery();
@@ -224,6 +212,12 @@ class Query
         return (int) $result;
     }
 
+    public function distinct()
+    {
+        $this->fields = "DISTINCT {$this->fields}";
+        return $this;
+    }
+
     public function join($table, $condition, $joinType = 'INNER')
     {
         $table = $this->getTable($table);
@@ -294,5 +288,11 @@ class Query
         }
 
         return $query;
+    }
+
+    public function bypassCache($flag = true)
+    {
+        $this->bypassCache = $flag;
+        return $this;
     }
 }
