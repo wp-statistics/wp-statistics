@@ -2,41 +2,70 @@
 
 namespace WP_Statistics\Service\Posts;
 
+use WP_Statistics\Async\CalculatePostWordsCount;
+use WP_STATISTICS\Helper;
+use WP_STATISTICS\Option;
+
 class PostsManager
 {
-    const WORDS_COUNT_META_KEY = 'wps_words_count';
-
     public function __construct()
     {
-        add_action('save_post', [$this, 'addWordsCountMeta'], 99, 3);
-        add_action('delete_post', [$this, 'removeWordsCountMeta'], 99, 2);
+        add_action('save_post', [$this, 'addWordsCountCallback'], 99, 3);
+        add_action('delete_post', [$this, 'removeWordsCountCallback'], 99, 2);
     }
-    
+
     /**
      * Count the number of words in a post and store it as a meta value
      *
-     * @param int $post_id
+     * @param $postId
      * @param \WP_Post $post
      * @param bool $update
      */
-    public function addWordsCountMeta($id, $post, $update)
+    public function addWordsCountCallback($postId, $post, $update)
     {
-        $wordsCount = str_word_count(strip_tags($post->post_content));
-
-        if ($wordsCount > 0) {
-            update_post_meta($id, self::WORDS_COUNT_META_KEY, $wordsCount);
-        }
+        $wordsCount = new WordCount();
+        $wordsCount->handleSavePost($postId, $post, $update);
     }
 
-    
+
     /**
      * Remove wps_words_count meta when the post is deleted
      *
-     * @param int $post_id
+     * @param $postId
      * @param \WP_Post $post
      */
-    public function removeWordsCountMeta($id, $post)
+    public function removeWordsCountCallback($postId, $post)
     {
-        delete_post_meta($id, self::WORDS_COUNT_META_KEY);
+        $wordsCount = new WordCount();
+        $wordsCount->removeWordsCountMeta($postId, $post);
+    }
+
+    public function processWordCount()
+    {
+        // Check if already processed
+        if (Option::get('word_count_processed_notice')) { // todo maybe better option name like wp_statistics_notices[word_count_processed]
+            return;
+        }
+
+        // Initialize and dispatch the CalculatePostWordsCount class
+        $calculatePostWordsCount = new CalculatePostWordsCount();
+        $posts                   = get_posts(['post_type' => 'post', 'post_status' => 'publish', 'numberposts' => -1]);
+
+        foreach ($posts as $post) {
+            $calculatePostWordsCount->push_to_queue(['post_id' => $post->ID]);
+        }
+
+        $calculatePostWordsCount->save()->dispatch();
+
+        // Mark as processed
+        Option::update('word_count_processed_notice', true);
+
+        // Display admin notice
+        // Todo -> Replace with Helper::wp_admin_notice() and + i18n
+        add_action('admin_notices', function () {
+            echo '<div class="notice notice-success is-dismissible">
+                    <p>Word count processing started.</p>
+                  </div>';
+        });
     }
 }

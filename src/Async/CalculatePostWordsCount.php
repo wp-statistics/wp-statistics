@@ -2,6 +2,8 @@
 
 namespace WP_Statistics\Async;
 
+use WP_Statistics\Service\Posts\WordCount;
+
 class CalculatePostWordsCount extends \WP_Background_Process
 {
     /**
@@ -28,7 +30,15 @@ class CalculatePostWordsCount extends \WP_Background_Process
      */
     protected function task($item)
     {
-        // todo
+        $postId = $item['post_id'];
+        $post   = get_post($postId);
+
+        if ($post && $post->post_status == 'publish') {
+            $wordCountClass = new WordCount();
+            $wordCount      = $wordCountClass->calculate($post->post_content);
+
+            $wordCountClass->saveWordCount($postId, $wordCount);
+        }
 
         return false;
     }
