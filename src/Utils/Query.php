@@ -194,8 +194,7 @@ class Query
 
     public function getCount()
     {
-        $this->operation = 'SELECT';
-        $this->fields    = "COUNT({$this->fields})";
+        $this->fields = "COUNT({$this->fields})";
         
         $query = $this->buildQuery();
 
