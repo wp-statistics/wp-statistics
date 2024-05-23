@@ -4,6 +4,7 @@ namespace WP_Statistics\Utils;
 
 use WP_Statistics\Traits\Cacheable;
 use WP_STATISTICS\DB;
+use WP_STATISTICS\TimeZone;
 use Exception;
 
 class Query
@@ -55,18 +56,33 @@ class Query
         return $this;
     }
 
+    /**
+     * Filters the records based on the given date range for a specific field.
+     *
+     * @param string $field The name of the field to filter by.
+     * @param mixed $date The date range to filter by. Either an array of date range, or string date.
+     * 
+     * @example [2024-01-01, 2024-01-31]
+     * @example 'today', 'yesterday', 'year', etc...
+     * @see TimeZone::getDateFilters() for a list of all supported string dates
+     */
     public function whereDate($field, $date)
     {
-        if (is_array($date) && count($date) === 2) {
+        if (is_array($date)) {
             $from = isset($date[0]) ? $date[0] : '';
             $to   = isset($date[1]) ? $date[1] : '';
+        }
 
-            if (!empty($from) && !empty($to)) {
-                $condition            = "DATE($field) BETWEEN %s AND %s";
-                $this->whereClauses[] = $condition;
-                $this->whereValues[]  = $from;
-                $this->whereValues[]  = $to;
-            }
+        if (is_string($date)) {
+            $date = TimeZone::calculateDateFilter($date);
+            list($from, $to) = $date;
+        }
+
+        if (!empty($from) && !empty($to)) {
+            $condition            = "DATE($field) BETWEEN %s AND %s";
+            $this->whereClauses[] = $condition;
+            $this->whereValues[]  = $from;
+            $this->whereValues[]  = $to;
         }
 
         return $this;
