@@ -13,6 +13,9 @@ class Query
     private $operation;
     private $table;
     private $fields = '*';
+    private $orderClause;
+    private $groupByClause;
+    private $limitClause;
     private $joinClauses = [];
     private $whereClauses = [];
     private $whereValues = [];
@@ -232,6 +235,33 @@ class Query
         return $this;
     }
 
+    
+    public function orderBy($field, $order = 'DESC')
+    {
+        $this->orderClause = "ORDER BY {$field} {$order}";
+        
+        return $this;
+    }
+    
+    public function limit($limit, $offset = '')
+    {
+        $this->limitClause = "LIMIT {$limit}" . ($offset ? " OFFSET {$offset}" : '');
+        
+        return $this;
+    }
+    
+    public function groupBy($fields)
+    {
+        if (is_array($fields)) {
+            $fields = implode(', ', $fields);
+        }
+
+        $this->groupByClause = "GROUP BY {$fields}";
+        
+        return $this;
+    }
+
+
     protected function buildQuery()
     {
         $query = "$this->operation $this->fields FROM $this->table";
@@ -246,6 +276,21 @@ class Query
         $whereClauses = array_filter($this->whereClauses);
         if (!empty($whereClauses)) {
             $query .= ' WHERE ' . implode(" AND ", $whereClauses);
+        }
+
+        // Append GROUP BY clauses
+        if (!empty($this->groupByClause)) {
+            $query .= ' ' . $this->groupByClause;
+        }
+
+        // Append LIMIT clauses
+        if (!empty($this->limitClause)) {
+            $query .= ' ' . $this->limitClause;
+        }
+
+        // Append ORDER clauses
+        if (!empty($this->orderClause)) {
+            $query .= ' ' . $this->orderClause;
         }
 
         return $query;
