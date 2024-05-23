@@ -3,6 +3,7 @@
 namespace WP_Statistics\Utils;
 
 use WP_Statistics\Traits\Cacheable;
+use WP_STATISTICS\DB;
 use Exception;
 
 class Query
@@ -35,7 +36,13 @@ class Query
 
     public function fromTable($table)
     {
-        $this->table = $this->db->$table; // Todo need to be compatible with custom tables as well.
+
+        if (DB::table($table)) {
+            $this->table = DB::table($table);
+        } else {
+            $this->table = $this->db->$table; 
+        }
+        
         return $this;
     }
 
@@ -110,6 +117,12 @@ class Query
         return $this;
     }
 
+    public function distinct()
+    {
+        $this->fields = "DISTINCT {$this->fields}";
+        return $this;
+    }
+
     public function bypassCache($flag = true)
     {
         $this->bypassCache = $flag;
@@ -120,7 +133,6 @@ class Query
     {
         $query = $this->buildQuery();
 
-        // Check if the result is already cached, unless bypassing cache is enabled
         if (!$this->bypassCache) {
             $cachedResult = $this->getCachedResult($query);
             if ($cachedResult !== false) {
@@ -128,11 +140,9 @@ class Query
             }
         }
 
-        // Prepare and execute the query
         $preparedQuery = $this->db->prepare($query, $this->whereValues);
         $result        = $this->db->get_var($preparedQuery);
 
-        // Cache the result if not bypassing cache
         if (!$this->bypassCache) {
             $this->setCachedResult($query, $result);
         }
@@ -144,7 +154,6 @@ class Query
     {
         $query = $this->buildQuery();
 
-        // Check if the result is already cached, unless bypassing cache is enabled
         if (!$this->bypassCache) {
             $cachedResult = $this->getCachedResult($query);
             if ($cachedResult !== false) {
@@ -152,11 +161,9 @@ class Query
             }
         }
 
-        // Prepare and execute the query
         $preparedQuery = $this->db->prepare($query, $this->whereValues);
         $result        = $this->db->get_results($preparedQuery);
 
-        // Cache the result if not bypassing cache
         if (!$this->bypassCache) {
             $this->setCachedResult($query, $result);
         }
@@ -168,7 +175,6 @@ class Query
     {
         $query = $this->buildQuery();
 
-        // Check if the result is already cached, unless bypassing cache is enabled
         if (!$this->bypassCache) {
             $cachedResult = $this->getCachedResult($query);
             if ($cachedResult !== false) {
@@ -176,11 +182,9 @@ class Query
             }
         }
 
-        // Prepare and execute the query
         $preparedQuery = $this->db->prepare($query, $this->whereValues);
         $result        = $this->db->get_col($preparedQuery);
 
-        // Cache the result if not bypassing cache
         if (!$this->bypassCache) {
             $this->setCachedResult($query, $result);
         }
@@ -190,32 +194,26 @@ class Query
 
     public function getCount()
     {
-        $query   = "SELECT COUNT(*) FROM {$this->table}";
-        $clauses = array_filter($this->whereClauses);
+        $this->operation = 'SELECT';
+        $this->fields    = "COUNT({$this->fields})";
+        
+        $query = $this->buildQuery();
 
-        if (!empty($clauses)) {
-            $query .= ' WHERE ' . implode(" AND ", $clauses);
-        }
-
-        // Check if the result is already cached, unless bypassing cache is enabled
         if (!$this->bypassCache) {
             $cachedResult = $this->getCachedResult($query);
             if ($cachedResult !== false) {
-                return (int)$cachedResult;
+                return (int) $cachedResult;
             }
         }
 
-        // Prepare and execute the query
         $preparedQuery = $this->db->prepare($query, $this->whereValues);
         $result        = $this->db->get_var($preparedQuery);
 
-        // Cache the result if not bypassing cache
         if (!$this->bypassCache) {
             $this->setCachedResult($query, $result);
         }
 
-        // Ensure the result is an integer
-        return (int)$result;
+        return (int) $result;
     }
 
     protected function buildQuery()

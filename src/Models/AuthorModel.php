@@ -3,7 +3,6 @@
 namespace WP_Statistics\Models;
 
 use WP_STATISTICS\Helper;
-use WP_Statistics\Utils\Query;
 
 class AuthorModel extends DataProvider
 {
@@ -22,13 +21,13 @@ class AuthorModel extends DataProvider
             'post_type' => '',
         ]);
 
-        $query = $this->query::select('COUNT(ID)')
+        $query = $this->query::select('ID')
             ->fromTable('posts')
             ->where('post_status', '=', 'publish')
             ->where('post_type', 'IN', $args['post_type'])
             ->whereDate('post_date', [$args['from'], $args['to']])
-            ->bypassCache($bypassCache) // Use this method to control caching
-            ->getFirst();
+            ->bypassCache($bypassCache) 
+            ->getCount();
 
         $totalPosts   = $query;
         $totalAuthors = $this->count();
@@ -42,6 +41,7 @@ class AuthorModel extends DataProvider
      * By default, it will return total number of authors.
      *
      * @param array $args An array of arguments to filter the count.
+     * @param bool $bypassCache Flag to bypass the cache.
      * @return int The total number of distinct authors. Returns 0 if no authors are found.
      */
     public function count($args = [], $bypassCache = false)
@@ -52,8 +52,9 @@ class AuthorModel extends DataProvider
             'post_type' => Helper::get_list_post_type()
         ]);
 
-        return $this->query::select('COUNT(DISTINCT post_author)')
+        return $this->query::select('post_author')
             ->fromTable('posts')
+            ->distinct()
             ->where('post_status', '=', 'publish')
             ->where('post_type', 'IN', $args['post_type'])
             ->whereDate('post_date', [$args['from'], $args['to']])
