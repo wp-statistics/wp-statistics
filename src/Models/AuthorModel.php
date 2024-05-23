@@ -13,7 +13,7 @@ class AuthorModel extends DataProvider
      * @param bool $bypassCache Flag to bypass the cache.
      * @return int The average number of posts per author. Returns 0 if no authors are found.
      */
-    public function averagePostsPerAuthor(array $args, $bypassCache = false)
+    public function averagePostsPerAuthor(array $args, bool $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
             'from'      => '',
@@ -31,7 +31,7 @@ class AuthorModel extends DataProvider
 
         $totalPosts   = $query;
         $totalAuthors = $this->count();
-        $averagePosts = $totalAuthors ? intdiv($totalPosts, $totalAuthors) : 0;
+        $averagePosts = $totalAuthors ? ($totalPosts / $totalAuthors) : 0;
 
         return $averagePosts;
     }
@@ -44,7 +44,7 @@ class AuthorModel extends DataProvider
      * @param bool $bypassCache Flag to bypass the cache.
      * @return int The total number of distinct authors. Returns 0 if no authors are found.
      */
-    public function count($args = [], $bypassCache = false)
+    public function count(array $args = [], bool $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
             'from'      => '',
