@@ -2,12 +2,20 @@
 
 namespace WP_Statistics\Service\Admin;
 
+use WP_Statistics\Service\Admin\NoticeHandler\Notice;
+
 class AdminManager
 {
     public function __construct()
     {
         add_filter('admin_footer_text', array($this, 'modifyAdminFooterText'), 999);
         add_filter('update_footer', array($this, 'modifyAdminUpdateFooter'), 999);
+
+        // Hook to handle AJAX request for dismissing notices
+        add_action('wp_ajax_dismiss_wp_statistics_notice', array(Notice::class, 'dismissNotice'));
+
+        // Hook to display notices
+        add_action('admin_notices', array(Notice::class, 'displayNotices'));
     }
 
     /**

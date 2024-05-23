@@ -5,6 +5,7 @@ namespace WP_Statistics\Service\Posts;
 use WP_Statistics\Async\CalculatePostWordsCount;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Option;
+use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 
 class PostsManager
 {
@@ -43,7 +44,7 @@ class PostsManager
     public function processWordCount()
     {
         // Check if already processed
-        if (Option::get('word_count_processed_notice')) { // todo maybe better option name like wp_statistics_notices[word_count_processed]
+        if (Option::get("wp_statistics_jobs['word_count_processed']")) { // todo
             return;
         }
 
@@ -66,9 +67,9 @@ class PostsManager
         $calculatePostWordsCount->save()->dispatch();
 
         // Mark as processed
-        Option::update('word_count_processed_notice', true);
+        Option::update("wp_statistics_jobs['word_count_processed']", true);
 
         // Display admin notice
-        Helper::addAdminNotice(__('Word count processing started.', 'wp-statistics'));
+        Notice::addNotice(__('Word count processing started.', 'wp-statistics'));
     }
 }
