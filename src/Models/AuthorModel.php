@@ -14,7 +14,7 @@ class AuthorModel extends DataProvider
      * @param bool $bypassCache Flag to bypass the cache.
      * @return int The average number of posts per author. Returns 0 if no authors are found.
      */
-    public function averagePostsPerAuthor(array $args, bool $bypassCache = false)
+    public function averagePostsPerAuthor($args, $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
             'from'      => '',
@@ -27,7 +27,7 @@ class AuthorModel extends DataProvider
             ->where('post_status', '=', 'publish')
             ->where('post_type', 'IN', $args['post_type'])
             ->whereDate('post_date', [$args['from'], $args['to']])
-            ->bypassCache($bypassCache) 
+            ->bypassCache($bypassCache)
             ->getVar();
 
         $totalAuthors = $this->count();
@@ -44,7 +44,7 @@ class AuthorModel extends DataProvider
      * @param bool $bypassCache Flag to bypass the cache.
      * @return int The total number of distinct authors. Returns 0 if no authors are found.
      */
-    public function count(array $args = [], bool $bypassCache = false)
+    public function count($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
             'from'      => '',
