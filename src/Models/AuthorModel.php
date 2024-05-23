@@ -22,7 +22,7 @@ class AuthorModel extends DataProvider
         ]);
 
         $query = $this->query::select('count(ID)')
-            ->from('posts')
+            ->fromTable('posts')
             ->where('post_status', '=', 'publish')
             ->where('post_type', 'IN', $args['post_type'])
             ->whereDate('post_date', [$args['from'], $args['to']])
@@ -53,7 +53,7 @@ class AuthorModel extends DataProvider
         ]);
 
         return $this->query::select('COUNT(DISTINCT post_author)')
-            ->from('posts')
+            ->fromTable('posts')
             ->where('post_status', '=', 'publish')
             ->where('post_type', 'IN', $args['post_type'])
             ->whereDate('post_date', [$args['from'], $args['to']])
