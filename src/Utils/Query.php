@@ -57,7 +57,7 @@ class Query
         return $this;
     }
 
-    public function fromSubQuery($subQuery)
+    public function fromQuery($subQuery)
     {
         $this->subQuery = "($subQuery) as sub_query";
         return $this;
