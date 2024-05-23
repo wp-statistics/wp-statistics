@@ -22,7 +22,7 @@ class AuthorModel extends DataProvider
             'post_type' => '',
         ]);
 
-        $totalPosts = Query::select('count(ID)')
+        $totalPosts = Query::select('COUNT(ID)')
             ->fromTable('posts')
             ->where('post_status', '=', 'publish')
             ->where('post_type', 'IN', $args['post_type'])
