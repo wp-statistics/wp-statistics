@@ -47,8 +47,10 @@ class PagesModel extends DataProvider
 
         // If we have multiple post types, we need to sum the total count of all post types
         if (is_array($args['post_type']) && count($args['post_type']) > 1) {
+            $subQuery = $query->getQuery();
+            
             $query = Query::select('SUM(total_count)')
-                ->fromQuery($query->getQuery());
+                ->fromQuery($subQuery);
         }
 
         return $query->getVar();
