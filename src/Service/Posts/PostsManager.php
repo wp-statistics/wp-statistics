@@ -49,7 +49,15 @@ class PostsManager
 
         // Initialize and dispatch the CalculatePostWordsCount class
         $calculatePostWordsCount = new CalculatePostWordsCount();
-        $posts                   = get_posts(['post_type' => 'post', 'post_status' => 'publish', 'numberposts' => -1]);
+        $posts                   = get_posts([
+            'post_type'   => ['post', 'page'],
+            'post_status' => 'publish',
+            'numberposts' => -1,
+            'meta_query'  => [
+                'key'     => WordCount::WORDS_COUNT_META_KEY,
+                'compare' => 'NOT EXISTS'
+            ]
+        ]);
 
         foreach ($posts as $post) {
             $calculatePostWordsCount->push_to_queue(['post_id' => $post->ID]);
@@ -61,11 +69,6 @@ class PostsManager
         Option::update('word_count_processed_notice', true);
 
         // Display admin notice
-        // Todo -> Replace with Helper::wp_admin_notice() and + i18n
-        add_action('admin_notices', function () {
-            echo '<div class="notice notice-success is-dismissible">
-                    <p>Word count processing started.</p>
-                  </div>';
-        });
+        Helper::addAdminNotice(__('Word count processing started.', 'wp-statistics'));
     }
 }
