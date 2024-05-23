@@ -4,7 +4,7 @@ namespace WP_Statistics\Models;
 use WP_Statistics\Utils\Query;
 
 
-class ViewsModel extends DataProvider
+class PagesModel extends DataProvider
 {
 
     public function averageViewsPerPost($args, $bypassCache = false)

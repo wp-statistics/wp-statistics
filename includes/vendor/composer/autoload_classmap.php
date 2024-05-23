@@ -77,7 +77,7 @@ return array(
     'WP_Statistics\\Components\\Singleton' => $baseDir . '/src/Components/Singleton.php',
     'WP_Statistics\\Models\\AuthorModel' => $baseDir . '/src/Models/AuthorModel.php',
     'WP_Statistics\\Models\\DataProvider' => $baseDir . '/src/Models/DataProvider.php',
-    'WP_Statistics\\Models\\ViewsModel' => $baseDir . '/src/Models/ViewsModel.php',
+    'WP_Statistics\\Models\\PagesModel' => $baseDir . '/src/Models/PagesModel.php',
     'WP_Statistics\\Service\\Admin\\AddOnDecorator' => $baseDir . '/src/Service/Admin/AddOnDecorator.php',
     'WP_Statistics\\Service\\Admin\\AddOnsFactory' => $baseDir . '/src/Service/Admin/AddOnsFactory.php',
     'WP_Statistics\\Service\\Admin\\AdminManager' => $baseDir . '/src/Service/Admin/AdminManager.php',

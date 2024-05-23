@@ -156,7 +156,7 @@ class ComposerStaticInit2ac516f03a394ec3d1721352b7f43359
         'WP_Statistics\\Components\\Singleton' => __DIR__ . '/../../..' . '/src/Components/Singleton.php',
         'WP_Statistics\\Models\\AuthorModel' => __DIR__ . '/../../..' . '/src/Models/AuthorModel.php',
         'WP_Statistics\\Models\\DataProvider' => __DIR__ . '/../../..' . '/src/Models/DataProvider.php',
-        'WP_Statistics\\Models\\ViewsModel' => __DIR__ . '/../../..' . '/src/Models/ViewsModel.php',
+        'WP_Statistics\\Models\\PagesModel' => __DIR__ . '/../../..' . '/src/Models/PagesModel.php',
         'WP_Statistics\\Service\\Admin\\AddOnDecorator' => __DIR__ . '/../../..' . '/src/Service/Admin/AddOnDecorator.php',
         'WP_Statistics\\Service\\Admin\\AddOnsFactory' => __DIR__ . '/../../..' . '/src/Service/Admin/AddOnsFactory.php',
         'WP_Statistics\\Service\\Admin\\AdminManager' => __DIR__ . '/../../..' . '/src/Service/Admin/AdminManager.php',
