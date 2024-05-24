@@ -1,10 +1,10 @@
 <?php
 $aboutWidgetContent = apply_filters('wp_statistics_about_widget_content', false);
 if ($aboutWidgetContent) {
-    echo wp_kses_post($aboutWidgetContent);
+    echo '<div class="o-wrap">' . wp_kses_post($aboutWidgetContent) . '</div>';
     return;
-}
-?>
+} ?>
+
 <div class="o-wrap">
     <div class="c-about">
         <div class="c-about__row c-about__row--logo">
