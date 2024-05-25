@@ -30,7 +30,7 @@
                 <tbody >
                 <?php for ($i = 1; $i < 10; $i++): ?>
                     <tr>
-                        <td>
+                        <td class="wps-pd-l">
                             <div >
                                 <img src="<?php echo WP_STATISTICS_URL?>/assets/images/flags/000.svg" alt="">
                                 <b>France</b>
