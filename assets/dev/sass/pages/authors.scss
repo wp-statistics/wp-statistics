@@ -261,8 +261,13 @@
     overflow-x: auto;
 
     .chart-container {
-      height: 500px;
-      min-width: 1025px;
+      @media(max-width: 700px){
+        min-width: 500px;
+      }
+
+      canvas{
+        height: 500px;
+      }
     }
   }
 }
