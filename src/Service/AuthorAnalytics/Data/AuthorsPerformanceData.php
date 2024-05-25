@@ -2,6 +2,7 @@
 
 namespace WP_Statistics\Service\AuthorAnalytics\Data;
 
+use WP_STATISTICS\Admin_Assets;
 use WP_Statistics\Models\AuthorsModel;
 use WP_Statistics\Models\PagesModel;
 use WP_Statistics\Models\PostsModel;
@@ -21,6 +22,15 @@ class AuthorsPerformanceData
         $this->authorModel  = new AuthorsModel();
         $this->pagesModel   = new PagesModel();
         $this->postsModel   = new PostsModel();
+
+        $this->localizeData();
+    }
+
+    public function localizeData()
+    {
+        wp_localize_script(Admin_Assets::$prefix, 'Wp_Statistics_Author_Analytics_Object', [
+            'publish_overview_chart_data' => $this->generatePublishingChartData()
+        ]);
     }
 
     protected function generatePublishingChartData()
@@ -57,7 +67,6 @@ class AuthorsPerformanceData
         $totalWords      = $this->postsModel->countWords($this->args);
         $totalComments   = $this->postsModel->countComments($this->args);
         $totalViews      = $this->pagesModel->countViews($this->args);
-        $publishOverview = $this->generatePublishingChartData();
 
         return [
             'authors' => [
@@ -77,9 +86,6 @@ class AuthorsPerformanceData
                 'comments'  => [
                     'total' => $totalComments,
                     'avg'   => $totalComments / $totalPosts
-                ],
-                'publish_chart' => [
-                    'data'  => $publishOverview
                 ]
             ]
         ];
