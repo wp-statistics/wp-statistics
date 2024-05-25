@@ -2,6 +2,7 @@
 
 namespace WP_Statistics\Utils;
 
+use ErrorException;
 use WP_Statistics\Traits\Cacheable;
 use WP_STATISTICS\DB;
 use WP_STATISTICS\TimeZone;
@@ -35,7 +36,7 @@ class Query
     public static function select($fields = '*')
     {
         $instance            = new self();
-        $instance->operation = "SELECT";
+        $instance->operation = 'select';
         $instance->fields    = $fields;
         return $instance;
     }
@@ -251,7 +252,40 @@ class Query
 
     protected function buildQuery()
     {
-        $query = "$this->operation $this->fields FROM ";
+        $queryMethod = "{$this->operation}Query";
+
+        if (method_exists($this, $queryMethod)) {
+            $query = $this->$queryMethod();
+        } else {
+            throw new ErrorException(sprintf(esc_html__('%s method is not defined.', 'wp-statistics'), $queryMethod));
+        }
+        
+        return $query;
+    }
+
+    public function getQuery()
+    {
+        $query          = $this->buildQuery();
+        $preparedQuery  = $this->prepareQuery($query);
+
+        return $preparedQuery;
+    }
+
+    protected function prepareQuery($query)
+    {
+        $hasPlaceholder = preg_match('/%[i|s|f|d]/', $query);
+
+        // Only if there's placeholder, prepare the query
+        if ($hasPlaceholder) {
+            $query = $this->db->prepare($query, $this->whereValues);
+        }
+
+        return $query;
+    }
+
+    protected function selectQuery()
+    {
+        $query = "SELECT $this->fields FROM ";
 
         // Append table
         if (!empty($this->table)) {
@@ -288,26 +322,6 @@ class Query
         // Append ORDER clauses
         if (!empty($this->orderClause)) {
             $query .= ' ' . $this->orderClause;
-        }
-
-        return $query;
-    }
-
-    public function getQuery()
-    {
-        $query          = $this->buildQuery();
-        $preparedQuery  = $this->prepareQuery($query);
-
-        return $preparedQuery;
-    }
-
-    protected function prepareQuery($query)
-    {
-        $hasPlaceholder = preg_match('/%[i|s|f|d]/', $query);
-
-        // Only if there's placeholder, prepare the query
-        if ($hasPlaceholder) {
-            $query = $this->db->prepare($query, $this->whereValues);
         }
 
         return $query;
