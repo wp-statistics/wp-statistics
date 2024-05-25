@@ -1372,4 +1372,20 @@ class Helper
     }
 
 
+    /**
+     * Divides two numbers.
+     *
+     * @param int|float $dividend The number to be divided.
+     * @param int|float $divisor The number to divide by.
+     * @param int $precision The number of decimal places to round the result to. Default is 2.
+     * @return float The result of the division, rounded to the specified precision. Returns 0 if the divisor is 0.
+     */
+    public static function divideNumbers($dividend, $divisor, $precision = 2)
+    {
+        if ($divisor == 0) {
+            return 0;
+        }
+        return round($dividend / $divisor, $precision);
+    }
+
 }

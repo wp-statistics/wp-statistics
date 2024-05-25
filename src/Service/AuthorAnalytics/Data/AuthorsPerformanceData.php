@@ -72,28 +72,28 @@ class AuthorsPerformanceData
         $totalPosts           = $this->postsModel->countPosts($this->args);
         $totalWords           = $this->postsModel->countWords($this->args);
         $totalComments        = $this->postsModel->countComments($this->args);
-        
+
         $totalViews           = $this->pagesModel->countViews($this->args);
 
         return [
             'authors' => [
                 'total'          => $totalAuthors,
                 'active'         => $activeAuthors,
-                'avg'            => $totalPosts / $activeAuthors,
+                'avg'            => Helper::divideNumbers($totalPosts, $activeAuthors),
                 'top_publishing' => $topPublishingAuthors
             ],
             'views'   => [
                 'total' => $totalViews,
-                'avg'   => $totalViews / $totalPosts
+                'avg'   => Helper::divideNumbers($totalViews, $totalPosts)
             ],
             'posts'   => [
                 'words'     => [
                     'total' => $totalWords,
-                    'avg'   => $totalWords / $totalPosts
+                    'avg'   => Helper::divideNumbers($totalWords, $totalPosts)
                 ],
                 'comments'  => [
                     'total' => $totalComments,
-                    'avg'   => $totalComments / $totalPosts
+                    'avg'   => Helper::divideNumbers($totalComments, $totalPosts)
                 ]
             ]
         ];
