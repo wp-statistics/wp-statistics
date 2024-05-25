@@ -36,8 +36,8 @@ use WP_STATISTICS\Helper;
                     'title'        => esc_html__('Comments', 'wp-statistics'),
                     'tooltip'      => esc_html__('Comments tooltip', 'wp-statistics'),
                     'icon_class'   => 'comments',
-                    'total'        => '61K',
-                    'avg'          => '300',
+                    'total'        => Helper::formatNumberWithUnit($data['comments']['total']),
+                    'avg'          => Helper::formatNumberWithUnit($data['comments']['avg']),
                     'avg_title'    => esc_html__('Avg. Per Post', 'wp-statistics')
                 ],
             ];

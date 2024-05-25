@@ -50,7 +50,7 @@ class PostsModel extends DataProvider
         return $totalWords ? $totalWords : 0;
     }
 
-    public function averageWordsPerPost($args, $bypassCache = false)
+    public function averageWordsPerPost($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
             'from'      => '',
@@ -62,5 +62,39 @@ class PostsModel extends DataProvider
         $totalPosts = $this->count($args);
 
         return $totalWords ? ($totalWords / $totalPosts) : 0;
+    }
+
+    public function countTotalComments($args = [], $bypassCache = false)
+    {
+        $args = $this->parseArgs($args, [
+            'from'      => '',
+            'to'        => '',
+            'post_type' => ''
+        ]);
+
+        $totalWords = Query::select("COUNT(comment_ID)")
+            ->fromTable('posts')
+            ->join('comments', ['ID', 'comment_post_ID'])
+            ->where('post_status', '=', 'publish')
+            ->where('post_type', 'IN', $args['post_type'])
+            ->whereDate('post_date', [$args['from'], $args['to']])
+            ->bypassCache($bypassCache)
+            ->getVar();
+
+        return $totalWords ? $totalWords : 0;
+    }
+
+    public function averageCommentsPerPost($args = [], $bypassCache = false)
+    {
+        $args = $this->parseArgs($args, [
+            'from'      => '',
+            'to'        => '',
+            'post_type' => ''
+        ]);
+
+        $totalComments  = $this->countTotalComments($args);
+        $totalPosts     = $this->count($args);
+
+        return $totalComments ? ($totalComments / $totalPosts) : 0;
     }
 }

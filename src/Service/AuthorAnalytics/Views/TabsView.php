@@ -38,9 +38,9 @@ class TabsView
             'post_type' => isset($_GET['pt']) ? sanitize_text_field($_GET['pt']) : Helper::get_list_post_type()
         ];
 
-        $authorModel = new AuthorsModel();
-        $pagesModel  = new PagesModel();
-        $postsModel  = new PostsModel();
+        $authorModel    = new AuthorsModel();
+        $pagesModel     = new PagesModel();
+        $postsModel     = new PostsModel();
 
         return [
             'authors'   => [
@@ -55,6 +55,10 @@ class TabsView
             'words'     => [
                 'total' => $postsModel->countTotalWords($args),
                 'avg'   => $postsModel->averageWordsPerPost($args)
+            ],
+            'comments'     => [
+                'total' => $postsModel->countTotalComments($args),
+                'avg'   => $postsModel->averageCommentsPerPost($args)
             ]
         ];
     }
