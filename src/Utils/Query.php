@@ -2,11 +2,10 @@
 
 namespace WP_Statistics\Utils;
 
-use ErrorException;
 use WP_Statistics\Traits\Cacheable;
 use WP_STATISTICS\DB;
 use WP_STATISTICS\TimeZone;
-use Exception;
+use InvalidArgumentException;
 
 class Query
 {
@@ -45,11 +44,11 @@ class Query
     {
         if (DB::table($table)) {
             $table = DB::table($table);
-        } else {
-            $table = $this->db->$table; 
+        } else if (in_array($table, $this->db->tables)) {
+            $table = "{$this->db->prefix}{$table}";
         }
 
-        return $table;
+        return $table ? $table : '';
     }
 
     public function fromTable($table)
@@ -141,7 +140,7 @@ class Query
                 break;
 
             default:
-                throw new Exception(esc_html__(sprintf("Unsupported operator: %s", $operator)));
+                throw new InvalidArgumentException(esc_html__(sprintf("Unsupported operator: %s", $operator)));
         }
 
         if (!empty($condition)) {
@@ -214,12 +213,24 @@ class Query
         return $result;
     }
 
+    /**
+     * Joins the current table with another table based on a given condition.
+     *
+     * @param string $table The name of the table to join with.
+     * @param array $condition An array with first item being the primary key of the first table and second item being the foreign key of the joined table.
+     * @param string $joinType The type of join to perform. Defaults to 'INNER'.
+     */
     public function join($table, $condition, $joinType = 'INNER')
     {
-        $table = $this->getTable($table);
+        $joinTable = $this->getTable($table);
 
-        if (is_array($condition)) {
-            $this->joinClauses[] = "{$joinType} JOIN {$table} ON {$condition[0]} = {$condition[1]}";
+        if (is_array($condition) && count($condition) >= 2) {
+            $primaryKey = "{$this->table}.{$condition[0]}";
+            $foreignKey = "{$joinTable}.{$condition[1]}";
+
+            $this->joinClauses[] = "{$joinType} JOIN {$joinTable} ON {$primaryKey} = {$foreignKey}";
+        } else {
+            throw new InvalidArgumentException(esc_html__('Invalid join clause', 'wp-statistics'));
         }
         
         return $this;
@@ -257,7 +268,7 @@ class Query
         if (method_exists($this, $queryMethod)) {
             $query = $this->$queryMethod();
         } else {
-            throw new ErrorException(sprintf(esc_html__('%s method is not defined.', 'wp-statistics'), $queryMethod));
+            throw new InvalidArgumentException(sprintf(esc_html__('%s method is not defined.', 'wp-statistics'), $queryMethod));
         }
         
         return $query;
