@@ -1,27 +1,20 @@
 <?php
 function generateChartData() {
-    $data = [];
-    $end = new DateTime();
-    $end->setTime(0, 0, 0);
-    $end->modify('today');
-    $start = (new DateTime())->modify('-365 days');
+    $data   = [];
+    $end    = time();
+    $start  = strtotime('-365 days');
 
     while ($start <= $end) {
-        $iso = $start->format('Y-m-d');
         $data[] = [
-            'x' => $iso,
-            'y' => isoDayOfWeek($start),
-            'd' => $iso,
+            'x' => date('Y-m-d', $start),
+            'y' => date('N', $start),
+            'd' => date('Y-m-d', $start),
             'v' => wp_rand(0, 50)
         ];
-        $start->modify('+1 day');
+
+        $start += 86400;
     }
     return $data;
-}
-
-function isoDayOfWeek($dt) {
-    $wd = $dt->format('N'); // 1 (for Monday) through 7 (for Sunday)
-    return $wd;
 }
 
 $data = generateChartData();
