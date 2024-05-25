@@ -36,7 +36,13 @@ class Query
     {
         $instance            = new self();
         $instance->operation = 'select';
-        $instance->fields    = $fields;
+
+        if (is_array($fields)) {
+            $fields = implode(',', $fields);
+        }
+
+        $instance->fields = $fields;
+
         return $instance;
     }
 
