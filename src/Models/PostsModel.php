@@ -9,7 +9,7 @@ use WP_Statistics\Utils\Query;
 class PostsModel extends DataProvider
 {
 
-    public function count($args = [], $bypassCache = false)
+    public function countPosts($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
             'from'      => '',
@@ -28,7 +28,7 @@ class PostsModel extends DataProvider
         return $totalPosts ? $totalPosts : 0;
     }
 
-    public function countTotalWords($args = [], $bypassCache = false)
+    public function countWords($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
             'from'      => '',
@@ -51,21 +51,7 @@ class PostsModel extends DataProvider
         return $totalWords ? $totalWords : 0;
     }
 
-    public function averageWordsPerPost($args = [], $bypassCache = false)
-    {
-        $args = $this->parseArgs($args, [
-            'from'      => '',
-            'to'        => '',
-            'post_type' => ''
-        ]);
-
-        $totalWords = $this->countTotalWords($args);
-        $totalPosts = $this->count($args);
-
-        return $totalWords ? ($totalWords / $totalPosts) : 0;
-    }
-
-    public function countTotalComments($args = [], $bypassCache = false)
+    public function countComments($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
             'from'      => '',
@@ -83,20 +69,6 @@ class PostsModel extends DataProvider
             ->getVar();
 
         return $totalWords ? $totalWords : 0;
-    }
-
-    public function averageCommentsPerPost($args = [], $bypassCache = false)
-    {
-        $args = $this->parseArgs($args, [
-            'from'      => '',
-            'to'        => '',
-            'post_type' => ''
-        ]);
-
-        $totalComments  = $this->countTotalComments($args);
-        $totalPosts     = $this->count($args);
-
-        return $totalComments ? ($totalComments / $totalPosts) : 0;
     }
 
     public function publishOverview($args = [], $bypassCache = false)

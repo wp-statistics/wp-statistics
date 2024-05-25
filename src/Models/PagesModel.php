@@ -7,30 +7,7 @@ use WP_Statistics\Utils\Query;
 class PagesModel extends DataProvider
 {
 
-    public function averageViewsPerPost($args, $bypassCache = false)
-    {
-        $args = $this->parseArgs($args, [
-            'from'      => '',
-            'to'        => '',
-            'post_type' => '',
-        ]);
-
-        $totalPosts = Query::select('COUNT(ID)')
-            ->fromTable('posts')
-            ->where('post_status', '=', 'publish')
-            ->where('post_type', 'IN', $args['post_type'])
-            ->whereDate('post_date', [$args['from'], $args['to']])
-            ->bypassCache($bypassCache) 
-            ->getVar();
-
-        $totalViews     = $this->count($args);
-        $averageViews   = $totalPosts ? ($totalViews / $totalPosts) : 0;
-
-        return $averageViews ? $averageViews : 0;
-    }
-
-
-    public function count($args = [], $bypassCache = false)
+    public function countViews($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
             'from'      => '',
