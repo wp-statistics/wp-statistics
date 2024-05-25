@@ -3,6 +3,7 @@
 namespace WP_Statistics\Service\AuthorAnalytics\Data;
 
 use WP_STATISTICS\Admin_Assets;
+use WP_STATISTICS\Helper;
 use WP_Statistics\Models\AuthorsModel;
 use WP_Statistics\Models\PagesModel;
 use WP_Statistics\Models\PostsModel;
@@ -35,14 +36,17 @@ class AuthorsPerformanceData
 
     protected function generatePublishingChartData()
     {
-        $publishingData = $this->postsModel->publishOverview(array_intersect_key($this->args, ['post_type']));
+        // Just filter by post type
+        $args           = Helper::filterArrayByKeys($this->args, ['post_type']);
+
+        $publishingData = $this->postsModel->publishOverview($args);
         $publishingData = array_combine(array_column($publishingData, 'date'), array_column($publishingData, 'posts'));
 
-        $end    = time();
-        $date  = strtotime('-365 days');
+        $today  = time();
+        $date   = strtotime('-365 days');
 
         // Get number of posts published per day during last 365 days
-        while ($date <= $end) {
+        while ($date <= $today) {
             $currentDate    = date('Y-m-d', $date);
             $numberOfPosts  = isset($publishingData[$currentDate]) ? intval($publishingData[$currentDate]) : 0;
 
