@@ -217,14 +217,14 @@ class Query
      * Joins the current table with another table based on a given condition.
      *
      * @param string $table The name of the table to join with.
-     * @param array $condition An array with first item being the primary key of the first table and second item being the foreign key of the joined table.
+     * @param array $condition An array with first item being the primary key in the first table and second item being the foreign key in the joined table.
      * @param string $joinType The type of join to perform. Defaults to 'INNER'.
      */
     public function join($table, $condition, $joinType = 'INNER')
     {
         $joinTable = $this->getTable($table);
 
-        if (is_array($condition) && count($condition) >= 2) {
+        if (is_array($condition) && count($condition) == 2) {
             $primaryKey = "{$this->table}.{$condition[0]}";
             $foreignKey = "{$joinTable}.{$condition[1]}";
 
@@ -284,10 +284,8 @@ class Query
 
     protected function prepareQuery($query)
     {
-        $hasPlaceholder = preg_match('/%[i|s|f|d]/', $query);
-
-        // Only if there's placeholder, prepare the query
-        if ($hasPlaceholder) {
+        // Only if there's a placeholder, prepare the query
+        if (preg_match('/%[i|s|f|d]/', $query)) {
             $query = $this->db->prepare($query, $this->whereValues);
         }
 
