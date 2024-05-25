@@ -50,19 +50,23 @@ use WP_STATISTICS\Menus;
                         $publishingAuthors  = $data['authors']['top_publishing'];
                         $counter            = 1; 
 
-                        foreach ($publishingAuthors as $author) : ?>
-                            <a class="wps-author-tabs__item" href="<?php echo Menus::admin_url('author-analytics', ['type' => 'single-author', 'author_id' => $author->id]) ?>">
-                                <div class="wps-author-tabs__item--image">
-                                    <span># <?php echo esc_html($counter); ?></span>
-                                    <img src="<?php echo esc_url(get_avatar_url($author->id)); ?>" alt="<?php echo esc_html($author->name); ?>"/>
-                                </div>
-                                <div class="wps-author-tabs__item--content">
-                                    <h3><?php echo esc_html($author->name); ?></h3>
-                                    <span><?php echo esc_html(Helper::formatNumberWithUnit($author->post_count)); ?> <?php esc_html_e('page publish', 'wp-statistics') ?></span>
-                                </div>
-                            </a>
-                            <?php $counter++;
-                        endforeach; 
+                        if ($publishingAuthors) {
+                            foreach ($publishingAuthors as $author) : ?>
+                                <a class="wps-author-tabs__item" href="<?php echo Menus::admin_url('author-analytics', ['type' => 'single-author', 'author_id' => $author->id]) ?>">
+                                    <div class="wps-author-tabs__item--image">
+                                        <span># <?php echo esc_html($counter); ?></span>
+                                        <img src="<?php echo esc_url(get_avatar_url($author->id)); ?>" alt="<?php echo esc_html($author->name); ?>"/>
+                                    </div>
+                                    <div class="wps-author-tabs__item--content">
+                                        <h3><?php echo esc_html($author->name); ?></h3>
+                                        <span><?php echo esc_html(Helper::formatNumberWithUnit($author->post_count)); ?> <?php esc_html_e('page publish', 'wp-statistics') ?></span>
+                                    </div>
+                                </a>
+                                <?php $counter++;
+                            endforeach; 
+                        } else {
+                            echo '<p style="padding: 0 40px">' . esc_html__('No authors found.', 'wp-statistics') . '</p>';
+                        }
                     ?>
                 </div>
             </div>
