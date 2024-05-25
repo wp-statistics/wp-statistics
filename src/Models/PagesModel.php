@@ -26,7 +26,7 @@ class PagesModel extends DataProvider
         $totalViews     = $this->count($args);
         $averageViews   = $totalPosts ? ($totalViews / $totalPosts) : 0;
 
-        return $averageViews;
+        return $averageViews ? $averageViews : 0;
     }
 
 
@@ -53,7 +53,9 @@ class PagesModel extends DataProvider
                 ->fromQuery($subQuery);
         }
 
-        return $query->getVar();
+        $total = $query->getVar();
+
+        return $total ? $total : 0;
     }
 
 }
