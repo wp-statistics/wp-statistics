@@ -50,11 +50,11 @@ class Query
     {
         if (DB::table($table)) {
             $table = DB::table($table);
-        } else if (in_array($table, $this->db->tables)) {
+        } else {
             $table = "{$this->db->prefix}{$table}";
         }
 
-        return $table ? $table : '';
+        return $table;
     }
 
     public function fromTable($table)
@@ -252,10 +252,11 @@ class Query
         $joinTable = $this->getTable($table);
 
         if (is_array($condition) && count($condition) == 2) {
-            $primaryKey = "{$this->table}.{$condition[0]}";
-            $foreignKey = "{$joinTable}.{$condition[1]}";
+            $primaryKey = str_replace($this->db->prefix, '', "{$this->table}.{$condition[0]}");
+            $foreignKey = str_replace($this->db->prefix, '', "{$joinTable}.{$condition[1]}");
+            $joinClause = "{$joinType} JOIN {$joinTable} as $table ON {$primaryKey} = {$foreignKey}";
 
-            $this->joinClauses[] = "{$joinType} JOIN {$joinTable} ON {$primaryKey} = {$foreignKey}";
+            $this->joinClauses[] = $joinClause;
         } else {
             throw new InvalidArgumentException(esc_html__('Invalid join clause', 'wp-statistics'));
         }
@@ -326,6 +327,7 @@ class Query
         // Append table
         if (!empty($this->table)) {
             $query .= ' ' . $this->table;
+            $query .= ' as ' . str_replace($this->db->prefix, '', $this->table);
         }
         
         // Append sub query
