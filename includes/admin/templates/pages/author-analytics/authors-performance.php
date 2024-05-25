@@ -54,16 +54,19 @@ use WP_STATISTICS\Helper;
                 'title'         => esc_html__('Publishing Overview', 'wp-statistics'),
                 'tooltip'       => esc_html__('Publishing Overview tooltip', 'wp-statistics'),
                 'description'   => esc_html__('Last 12 Months', 'wp-statistics'),
+                'data'          => $data
             ]);
             
             Admin_Template::get_template(['layout/author-analytics/top-authors'], [
                 'title'    => esc_html__('Top Authors', 'wp-statistics'),
                 'tooltip'  => esc_html__('Top Authors tooltip', 'wp-statistics'),
+                'data'     => $data
             ]);
             
             Admin_Template::get_template(['layout/author-analytics/published-posts'], [
                 'title'     => esc_html__('Views/Published Posts', 'wp-statistics'),
                 'tooltip'   => esc_html__('Views/Published Posts tooltip', 'wp-statistics'),
+                'data'      => $data
             ]);
         ?>
     </div>

@@ -1,24 +1,3 @@
-<?php
-function generateChartData() {
-    $data   = [];
-    $end    = time();
-    $start  = strtotime('-365 days');
-
-    while ($start <= $end) {
-        $data[] = [
-            'x' => date('Y-m-d', $start),
-            'y' => date('N', $start),
-            'd' => date('Y-m-d', $start),
-            'v' => wp_rand(0, 50)
-        ];
-
-        $start += 86400;
-    }
-    return $data;
-}
-
-$data = generateChartData();
-?>
 <div class="wps-card">
     <div class="wps-card__title">
         <h2>
@@ -56,7 +35,7 @@ $data = generateChartData();
     const data = {
         datasets: [{
             label: 'overview',
-            data: <?php echo json_encode($data); ?>,
+            data: <?php echo json_encode($data['posts']['publish_chart']['data']); ?>,
             backgroundColor(c) {
                 const value = c.dataset.data[c.dataIndex].v;
                 const alpha = (10 + value) / 60;

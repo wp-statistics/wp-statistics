@@ -23,6 +23,32 @@ class AuthorsPerformanceData
         $this->postsModel   = new PostsModel();
     }
 
+    protected function generatePublishingChartData()
+    {
+        $publishingData = $this->postsModel->publishOverview(array_intersect_key($this->args, ['post_type']));
+        $publishingData = array_combine(array_column($publishingData, 'date'), array_column($publishingData, 'posts'));
+
+        $end    = time();
+        $date  = strtotime('-365 days');
+
+        // Get number of posts published per day during last 365 days
+        while ($date <= $end) {
+            $currentDate    = date('Y-m-d', $date);
+            $numberOfPosts  = isset($publishingData[$currentDate]) ? intval($publishingData[$currentDate]) : 0;
+
+            $data[] = [
+                'x' => $currentDate,
+                'y' => date('N', $date),
+                'd' => $currentDate,
+                'v' => $numberOfPosts
+            ];
+    
+            $date += 86400;
+        }
+
+        return $data;
+    }
+
     public function get()
     {
         $totalAuthors    = $this->authorModel->countAuthors();
@@ -31,7 +57,7 @@ class AuthorsPerformanceData
         $totalWords      = $this->postsModel->countWords($this->args);
         $totalComments   = $this->postsModel->countComments($this->args);
         $totalViews      = $this->pagesModel->countViews($this->args);
-        $publishOverview = $this->postsModel->publishOverview(array_intersect_key($this->args, ['post_type']));
+        $publishOverview = $this->generatePublishingChartData();
 
         return [
             'authors' => [
@@ -52,7 +78,9 @@ class AuthorsPerformanceData
                     'total' => $totalComments,
                     'avg'   => $totalComments / $totalPosts
                 ],
-                'publish'   => $publishOverview
+                'publish_chart' => [
+                    'data'  => $publishOverview
+                ]
             ]
         ];
     }
