@@ -2,6 +2,7 @@
 
 namespace WP_Statistics\Models;
 
+use WP_STATISTICS\Helper;
 use WP_Statistics\Service\Posts\WordCount;
 use WP_Statistics\Utils\Query;
 
@@ -72,7 +73,7 @@ class PostsModel extends DataProvider
             'post_type' => ''
         ]);
 
-        $totalWords = Query::select("COUNT(comment_ID)")
+        $totalWords = Query::select('COUNT(comment_ID)')
             ->fromTable('posts')
             ->join('comments', ['ID', 'comment_post_ID'])
             ->where('post_status', '=', 'publish')
@@ -96,5 +97,25 @@ class PostsModel extends DataProvider
         $totalPosts     = $this->count($args);
 
         return $totalComments ? ($totalComments / $totalPosts) : 0;
+    }
+
+    public function publishOverview($args = [], $bypassCache = false)
+    {
+        $args = $this->parseArgs($args, [
+            'from'      => date('Y-m-d', strtotime('-365 days')),
+            'to'        => date('Y-m-d', time()),
+            'post_type' => Helper::get_list_post_type()
+        ]);
+
+        $overview = Query::select(['DATE(post_date) as date', 'COUNT(ID) as posts'])
+            ->fromTable('posts')
+            ->where('post_status', '=', 'publish')
+            ->where('post_type', 'IN', $args['post_type'])
+            ->whereDate('post_date', [$args['from'], $args['to']])
+            ->groupBy('Date(post_date)')
+            ->bypassCache($bypassCache)
+            ->getAll();
+
+        return $overview;
     }
 }
