@@ -32,4 +32,27 @@ class AuthorsModel extends DataProvider
             ->getVar();
     }
 
+    
+    public function topPublishingAuthors($args = [], $bypassCache = false)
+    {
+        $args = $this->parseArgs($args, [
+            'from'      => '',
+            'to'        => '',
+            'post_type' => Helper::get_list_post_type()
+        ]);
+
+        $result = Query::select(['users.ID as id', 'display_name as name', 'COUNT(posts.ID) as post_count'])
+            ->fromTable('posts')
+            ->join('users', ['post_author', 'ID'])
+            ->where('post_status', '=', 'publish')
+            ->where('post_type', 'IN', $args['post_type'])
+            ->whereDate('post_date', [$args['from'], $args['to']])
+            ->groupBy('posts.post_author')
+            ->orderBy('post_count')
+            ->bypassCache($bypassCache)
+            ->getAll();
+
+        return $result ? $result : [];
+    }
+
 }

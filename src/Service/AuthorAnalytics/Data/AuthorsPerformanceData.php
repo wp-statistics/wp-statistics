@@ -65,18 +65,22 @@ class AuthorsPerformanceData
 
     public function get()
     {
-        $totalAuthors    = $this->authorModel->countAuthors();
-        $activeAuthors   = $this->authorModel->countAuthors($this->args);
-        $totalPosts      = $this->postsModel->countPosts($this->args);
-        $totalWords      = $this->postsModel->countWords($this->args);
-        $totalComments   = $this->postsModel->countComments($this->args);
-        $totalViews      = $this->pagesModel->countViews($this->args);
+        $totalAuthors         = $this->authorModel->countAuthors();
+        $activeAuthors        = $this->authorModel->countAuthors($this->args);
+        $topPublishingAuthors = $this->authorModel->topPublishingAuthors($this->args);
+
+        $totalPosts           = $this->postsModel->countPosts($this->args);
+        $totalWords           = $this->postsModel->countWords($this->args);
+        $totalComments        = $this->postsModel->countComments($this->args);
+        
+        $totalViews           = $this->pagesModel->countViews($this->args);
 
         return [
             'authors' => [
-                'total' => $totalAuthors,
-                'active'=> $activeAuthors,
-                'avg'   => $totalPosts / $activeAuthors
+                'total'          => $totalAuthors,
+                'active'         => $activeAuthors,
+                'avg'            => $totalPosts / $activeAuthors,
+                'top_publishing' => $topPublishingAuthors
             ],
             'views'   => [
                 'total' => $totalViews,

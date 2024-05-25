@@ -1,4 +1,6 @@
-<?php 
+<?php
+
+use WP_STATISTICS\Helper;
 use WP_STATISTICS\Menus; 
 ?>
 
@@ -22,7 +24,7 @@ use WP_STATISTICS\Menus;
                         $users = ["Navid" => "15.1K", "Mostafa" => "12.5K", "Byimrez" => "8.3K", "James" => "5.6K", "Emily" => "4.7K"];
                         $counter = 1; 
                         foreach ($users as $name => $views) : ?>
-                            <a class="wps-author-tabs__item" href="<?php echo esc_url(admin_url('admin.php?page=wps_author-analytics_page&author_id=1')); ?>">
+                            <a class="wps-author-tabs__item" href="<?php echo esc_url(Menus::admin_url('author-analytics', ['type' => 'single-author', 'author_id' => 1])); ?>">
                                 <div class="wps-author-tabs__item--image">
                                     <?php $user = wp_get_current_user();
                                         if ($user) : ?>
@@ -43,20 +45,20 @@ use WP_STATISTICS\Menus;
                 <label for="author-publishing"><?php esc_html_e('Publishing', 'wp-statistics') ?></label>
                 <div class="wps-author-tabs__content">
                     <?php
-                        $users = ["Navid" => "15.1K", "Mostafa" => "12.5K", "Byimrez" => "8.3K", "James" => "5.6K"];
-                        $counter = 1; 
-                        foreach ($users as $name => $publishes) : ?>
-                            <a class="wps-author-tabs__item" href="">
+                        
+                        /** @var stdClass[] $publishingAuthors */
+                        $publishingAuthors  = $data['authors']['top_publishing'];
+                        $counter            = 1; 
+
+                        foreach ($publishingAuthors as $author) : ?>
+                            <a class="wps-author-tabs__item" href="<?php echo Menus::admin_url('author-analytics', ['type' => 'single-author', 'author_id' => $author->id]) ?>">
                                 <div class="wps-author-tabs__item--image">
-                                    <?php $user = wp_get_current_user();
-                                        if ($user) : ?>
-                                        <span># <?php echo esc_html($counter); ?></span>
-                                        <img src="<?php echo esc_url(get_avatar_url($user->ID)); ?>" alt="<?php echo esc_html($name); ?>"/>
-                                    <?php endif ?>
+                                    <span># <?php echo esc_html($counter); ?></span>
+                                    <img src="<?php echo esc_url(get_avatar_url($author->id)); ?>" alt="<?php echo esc_html($author->name); ?>"/>
                                 </div>
                                 <div class="wps-author-tabs__item--content">
-                                    <h3><?php echo esc_html($name); ?></h3>
-                                    <span><?php echo esc_html($publishes); ?> <?php esc_html_e('page publish', 'wp-statistics') ?></span>
+                                    <h3><?php echo esc_html($author->name); ?></h3>
+                                    <span><?php echo esc_html(Helper::formatNumberWithUnit($author->post_count)); ?> <?php esc_html_e('page publish', 'wp-statistics') ?></span>
                                 </div>
                             </a>
                             <?php $counter++;
