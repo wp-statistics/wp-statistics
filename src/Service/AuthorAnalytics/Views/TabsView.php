@@ -5,22 +5,20 @@ namespace WP_Statistics\Service\AuthorAnalytics\Views;
 use WP_STATISTICS\Admin_Template;
 use WP_STATISTICS\Menus;
 use WP_STATISTICS\Helper;
-use WP_Statistics\Models\AuthorsModel;
-use WP_Statistics\Models\PagesModel;
-use WP_Statistics\Models\PostsModel;
+use WP_Statistics\Service\AuthorAnalytics\Data\AuthorsPerformanceData;
 use InvalidArgumentException;
 
 class TabsView
 {
-    private static $tabs = [
-        'performance',
+    private $tabs = [
+        'performance' => AuthorsPerformanceData::class,
         'pages'
     ];
 
     public function __construct()
     {
         // Throw error when invalid tab provided
-        if (isset($_GET['tab']) && !in_array($_GET['tab'], self::$tabs)) {
+        if (isset($_GET['tab']) && !array_key_exists($_GET['tab'], $this->tabs)) {
             throw new InvalidArgumentException(esc_html__('Invalid tab provided.', 'wp-statistics'));
         }
     }
@@ -30,7 +28,7 @@ class TabsView
      * 
      * @return array
      */
-    public function performanceTabData()
+    public function getTabData($currentTab)
     {
         $args = [
             'from'      => isset($_GET['from']) ? sanitize_text_field($_GET['from']) : date('Y-m-d', strtotime('-1 month')),
@@ -38,46 +36,20 @@ class TabsView
             'post_type' => isset($_GET['pt']) ? sanitize_text_field($_GET['pt']) : Helper::get_list_post_type()
         ];
 
-        $authorModel    = new AuthorsModel();
-        $pagesModel     = new PagesModel();
-        $postsModel     = new PostsModel();
+        if (!isset($this->tabs[$currentTab])) {
+            throw new InvalidArgumentException('Tab does not have a data provider class.');
+        }
 
-        return [
-            'authors'   => [
-                'total'     => $authorModel->count(),
-                'active'    => $authorModel->count($args),
-                'avg'       => $authorModel->averagePostsPerAuthor($args)
-            ],
-            'views'     => [
-                'total' => $pagesModel->count($args),
-                'avg'   => $pagesModel->averageViewsPerPost($args)
-            ],
-            'words'     => [
-                'total' => $postsModel->countTotalWords($args),
-                'avg'   => $postsModel->averageWordsPerPost($args)
-            ],
-            'comments'     => [
-                'total' => $postsModel->countTotalComments($args),
-                'avg'   => $postsModel->averageCommentsPerPost($args)
-            ]
-        ];
-    }
+        $dataProviderClass  = $this->tabs[$currentTab];
+        $data               = new $dataProviderClass($args);
 
-    /**
-     * Get pages tab data
-     * 
-     * @return array
-     */
-    public function pagesTabData()
-    {
-        return [];
+        return $data->get();
     }
 
     public function view()
     {
         $currentTab = isset($_GET['tab']) ? sanitize_text_field($_GET['tab']) : 'performance';
-        $tabMethod  = $currentTab . 'TabData';
-        $tabData    = method_exists($this, $tabMethod) ? $this->$tabMethod() : [];
+        $tabData    = $this->getTabData($currentTab);
 
         $args = [
             'title'      => esc_html__('Author Analytics', 'wp-statistics'),

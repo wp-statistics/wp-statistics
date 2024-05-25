@@ -28,16 +28,16 @@ use WP_STATISTICS\Helper;
                     'title'        => esc_html__('Words', 'wp-statistics'),
                     'tooltip'      => esc_html__('Words tooltip', 'wp-statistics'),
                     'icon_class'   => 'words',
-                    'total'        => Helper::formatNumberWithUnit($data['words']['total']),
-                    'avg'          => Helper::formatNumberWithUnit($data['words']['avg']),
+                    'total'        => Helper::formatNumberWithUnit($data['posts']['words']['total']),
+                    'avg'          => Helper::formatNumberWithUnit($data['posts']['words']['avg']),
                     'avg_title'    => esc_html__('Avg. Per Post', 'wp-statistics')
                 ],
                 [
                     'title'        => esc_html__('Comments', 'wp-statistics'),
                     'tooltip'      => esc_html__('Comments tooltip', 'wp-statistics'),
                     'icon_class'   => 'comments',
-                    'total'        => Helper::formatNumberWithUnit($data['comments']['total']),
-                    'avg'          => Helper::formatNumberWithUnit($data['comments']['avg']),
+                    'total'        => Helper::formatNumberWithUnit($data['posts']['comments']['total']),
+                    'avg'          => Helper::formatNumberWithUnit($data['posts']['comments']['avg']),
                     'avg_title'    => esc_html__('Avg. Per Post', 'wp-statistics')
                 ],
             ];
