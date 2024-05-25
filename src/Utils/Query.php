@@ -219,6 +219,27 @@ class Query
         return $result;
     }
 
+    public function getRow()
+    {
+        $query = $this->buildQuery();
+
+        if (!$this->bypassCache) {
+            $cachedResult = $this->getCachedResult($query);
+            if ($cachedResult !== false) {
+                return $cachedResult;
+            }
+        }
+
+        $preparedQuery = $this->prepareQuery($query);
+        $result        = $this->db->get_row($preparedQuery);
+
+        if (!$this->bypassCache) {
+            $this->setCachedResult($query, $result);
+        }
+
+        return $result;
+    }
+
     /**
      * Joins the current table with another table based on a given condition.
      *
