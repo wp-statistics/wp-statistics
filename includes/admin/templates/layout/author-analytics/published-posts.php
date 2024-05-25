@@ -103,6 +103,7 @@ $publishedChartData = [
         type: 'scatter',
         data: publishedData,
         options: {
+            responsive: true,
             pointRadius: 16,
             pointHoverRadius: 16,
             tooltipPosition: {
