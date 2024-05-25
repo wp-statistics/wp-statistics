@@ -37,7 +37,7 @@ class CalculatePostWordsCount extends \WP_Background_Process
             $wordCountClass = new WordCount();
             $wordCount      = $wordCountClass->calculate($post->post_content);
 
-            $wordCountClass->saveWordCount($postId, $wordCount);
+            $wordCountClass->saveWordsCount($postId, $wordCount);
         }
 
         return false;

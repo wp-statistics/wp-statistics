@@ -27,13 +27,13 @@ class WordCount
      * @param int $postId
      * @param int $wordCount
      */
-    public function saveWordCount($postId, $wordCount)
+    public function saveWordsCount($postId, $wordCount)
     {
         update_post_meta($postId, self::WORDS_COUNT_META_KEY, $wordCount);
     }
 
     /**
-     * Remove wps_words_count meta when the post is deleted
+     * Remove words count meta when the post is deleted
      *
      * @param int $postId
      * @param \WP_Post $post
@@ -44,17 +44,27 @@ class WordCount
     }
 
     /**
+     * Get the words count meta by ID
+     *
+     * @param int $postId
+     */
+    public static function getWordsCountMeta($postId)
+    {
+        return get_post_meta($postId, self::WORDS_COUNT_META_KEY, true);
+    }
+
+    /**
      * Handle the save post action to calculate and save word count.
      *
      * @param int $postId
-     * @param WP_Post $post
+     * @param \WP_Post $post
      * @param bool $update
      */
     public function handleSavePost($postId, $post, $update)
     {
         if ($post->post_type == 'post' && $post->post_status == 'publish') {
             $wordCount = $this->calculate($post->post_content);
-            $this->saveWordCount($postId, $wordCount);
+            $this->saveWordsCount($postId, $wordCount);
         }
     }
 }

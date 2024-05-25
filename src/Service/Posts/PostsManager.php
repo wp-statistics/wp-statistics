@@ -3,7 +3,6 @@
 namespace WP_Statistics\Service\Posts;
 
 use WP_Statistics\Async\CalculatePostWordsCount;
-use WP_STATISTICS\Helper;
 use WP_STATISTICS\Option;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 

@@ -5,7 +5,7 @@ namespace WP_Statistics\Service\AuthorAnalytics\Views;
 use WP_STATISTICS\Admin_Template;
 use WP_STATISTICS\Menus;
 use WP_STATISTICS\Helper;
-use WP_Statistics\Models\AuthorModel;
+use WP_Statistics\Models\AuthorsModel;
 use WP_Statistics\Models\PagesModel;
 use InvalidArgumentException;
 
@@ -37,7 +37,7 @@ class TabsView
             'post_type' => isset($_GET['pt']) ? sanitize_text_field($_GET['pt']) : Helper::get_list_post_type()
         ];
 
-        $authorModel = new AuthorModel();
+        $authorModel = new AuthorsModel();
         $pagesModel  = new PagesModel();
 
         return [

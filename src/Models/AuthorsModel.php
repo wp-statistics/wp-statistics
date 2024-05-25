@@ -5,7 +5,7 @@ namespace WP_Statistics\Models;
 use WP_STATISTICS\Helper;
 use WP_Statistics\Utils\Query;
 
-class AuthorModel extends DataProvider
+class AuthorsModel extends DataProvider
 {
     /**
      * Calculates the average number of posts per author based on the given arguments.
