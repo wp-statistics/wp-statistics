@@ -11,7 +11,6 @@ class Query
 {
     use Cacheable;
 
-    private $prefixes;
     private $operation;
     private $table;
     private $fields = '*';
@@ -30,8 +29,7 @@ class Query
     public function __construct()
     {
         global $wpdb;
-        $this->db       = $wpdb;
-        $this->prefixes = [$this->db->prefix, 'statistics_'];
+        $this->db = $wpdb;
     }
 
     public static function select($fields = '*')
@@ -353,15 +351,15 @@ class Query
         if (!empty($this->groupByClause)) {
             $query .= ' ' . $this->groupByClause;
         }
+        
+        // Append ORDER clauses
+        if (!empty($this->orderClause)) {
+            $query .= ' ' . $this->orderClause;
+        }
 
         // Append LIMIT clauses
         if (!empty($this->limitClause)) {
             $query .= ' ' . $this->limitClause;
-        }
-
-        // Append ORDER clauses
-        if (!empty($this->orderClause)) {
-            $query .= ' ' . $this->orderClause;
         }
 
         return $query;
@@ -375,6 +373,6 @@ class Query
 
     public function removeTablePrefix($query)
     {
-        return str_replace($this->prefixes, '', $query);
+        return str_replace([$this->db->prefix, 'statistics_'], '', $query);
     }
 }
