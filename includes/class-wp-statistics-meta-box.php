@@ -73,7 +73,8 @@ class Meta_Box
          * hidden_overview   : if set true , Default Hidden Meta Box in OverView Page
          *
          */
-        $list = array(
+        $aboutWidgetContent = apply_filters('wp_statistics_about_widget_content', false);
+         $list = array(
             'quickstats'      => array(
                 'page_url'          => 'overview',
                 'name'              => __('Quick Stats', 'wp-statistics'),
@@ -255,7 +256,7 @@ class Meta_Box
             ),
             'about'           => array(
                 'name'              => apply_filters('wp_statistics_about_widget_title', __('WP Statistics', 'wp-statistics')),
-                'description'       => __('Information about the current version of WP Statistics and related resources.', 'wp-statistics'),
+                'description'       =>  $aboutWidgetContent ? null :  __('Information about the current version of WP Statistics and related resources.', 'wp-statistics'),
                 'show_on_dashboard' => false,
                 'js'                => false,
                 'place'             => 'side',
