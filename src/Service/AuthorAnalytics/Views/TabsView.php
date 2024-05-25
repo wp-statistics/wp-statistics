@@ -7,6 +7,7 @@ use WP_STATISTICS\Menus;
 use WP_STATISTICS\Helper;
 use WP_Statistics\Models\AuthorsModel;
 use WP_Statistics\Models\PagesModel;
+use WP_Statistics\Models\PostsModel;
 use InvalidArgumentException;
 
 class TabsView
@@ -39,6 +40,7 @@ class TabsView
 
         $authorModel = new AuthorsModel();
         $pagesModel  = new PagesModel();
+        $postsModel  = new PostsModel();
 
         return [
             'authors'   => [
@@ -49,6 +51,10 @@ class TabsView
             'views'     => [
                 'total' => $pagesModel->count($args),
                 'avg'   => $pagesModel->averageViewsPerPost($args)
+            ],
+            'words'     => [
+                'total' => $postsModel->countTotalWords($args),
+                'avg'   => $postsModel->averageWordsPerPost($args)
             ]
         ];
     }

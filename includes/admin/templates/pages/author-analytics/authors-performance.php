@@ -28,8 +28,8 @@ use WP_STATISTICS\Helper;
                     'title'        => esc_html__('Words', 'wp-statistics'),
                     'tooltip'      => esc_html__('Words tooltip', 'wp-statistics'),
                     'icon_class'   => 'words',
-                    'total'        => '25.2M',
-                    'avg'          => '8.2K',
+                    'total'        => Helper::formatNumberWithUnit($data['words']['total']),
+                    'avg'          => Helper::formatNumberWithUnit($data['words']['avg']),
                     'avg_title'    => esc_html__('Avg. Per Post', 'wp-statistics')
                 ],
                 [
