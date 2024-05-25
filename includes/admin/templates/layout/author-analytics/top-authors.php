@@ -21,24 +21,27 @@ use WP_STATISTICS\Menus;
                 <label for="author-views"><?php esc_html_e('Views', 'wp-statistics') ?></label>
                 <div class="wps-author-tabs__content">
                     <?php
-                        $users = ["Navid" => "15.1K", "Mostafa" => "12.5K", "Byimrez" => "8.3K", "James" => "5.6K", "Emily" => "4.7K"];
+                        /** @var stdClass[] $viewingAuthors */
+                        $viewingAuthors = $data['authors']['top_viewing'];
                         $counter = 1; 
-                        foreach ($users as $name => $views) : ?>
-                            <a class="wps-author-tabs__item" href="<?php echo esc_url(Menus::admin_url('author-analytics', ['type' => 'single-author', 'author_id' => 1])); ?>">
-                                <div class="wps-author-tabs__item--image">
-                                    <?php $user = wp_get_current_user();
-                                        if ($user) : ?>
+
+                        if ($viewingAuthors) {
+                            foreach ($viewingAuthors as $author) : ?>
+                                <a class="wps-author-tabs__item" href="<?php echo esc_url(Menus::admin_url('author-analytics', ['type' => 'single-author', 'author_id' => $author->id])); ?>">
+                                    <div class="wps-author-tabs__item--image">
                                         <span># <?php echo esc_html($counter); ?></span>
-                                        <img src="<?php echo esc_url(get_avatar_url($user->ID)); ?>" alt="<?php echo esc_html($name); ?>"/>
-                                    <?php endif ?>
-                                </div>
-                                <div class="wps-author-tabs__item--content">
-                                    <h3><?php echo esc_html($name); ?></h3>
-                                    <span><?php echo esc_html($views); ?> <?php esc_html_e('page views', 'wp-statistics') ?></span>
-                                </div>
-                            </a>
-                            <?php $counter++;
-                        endforeach; 
+                                        <img src="<?php echo esc_url(get_avatar_url($author->id)); ?>" alt="<?php echo esc_html($author->name); ?>"/>
+                                    </div>
+                                    <div class="wps-author-tabs__item--content">
+                                        <h3><?php echo esc_html($author->name); ?></h3>
+                                        <span><?php echo esc_html(Helper::formatNumberWithUnit($author->views)); ?> <?php esc_html_e('page views', 'wp-statistics') ?></span>
+                                    </div>
+                                </a>
+                                <?php $counter++;
+                            endforeach; 
+                        } else {
+                            echo '<p style="padding: 0 40px">' . esc_html__('No authors found.', 'wp-statistics') . '</p>';
+                        }
                     ?>
                 </div>
                 <input type="radio" name="tabs" id="author-publishing">

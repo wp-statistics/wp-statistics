@@ -11,6 +11,7 @@ class Query
 {
     use Cacheable;
 
+    private $prefixes;
     private $operation;
     private $table;
     private $fields = '*';
@@ -29,7 +30,8 @@ class Query
     public function __construct()
     {
         global $wpdb;
-        $this->db = $wpdb;
+        $this->db       = $wpdb;
+        $this->prefixes = [$this->db->prefix, 'statistics_'];
     }
 
     public static function select($fields = '*')
@@ -252,8 +254,8 @@ class Query
         $joinTable = $this->getTable($table);
 
         if (is_array($condition) && count($condition) == 2) {
-            $primaryKey = str_replace($this->db->prefix, '', "{$this->table}.{$condition[0]}");
-            $foreignKey = str_replace($this->db->prefix, '', "{$joinTable}.{$condition[1]}");
+            $primaryKey = $this->removeTablePrefix("{$this->table}.{$condition[0]}");
+            $foreignKey = $this->removeTablePrefix("{$joinTable}.{$condition[1]}");
             $joinClause = "{$joinType} JOIN {$joinTable} as $table ON {$primaryKey} = {$foreignKey}";
 
             $this->joinClauses[] = $joinClause;
@@ -327,7 +329,7 @@ class Query
         // Append table
         if (!empty($this->table)) {
             $query .= ' ' . $this->table;
-            $query .= ' as ' . str_replace($this->db->prefix, '', $this->table);
+            $query .= ' as ' . $this->removeTablePrefix($this->table);
         }
         
         // Append sub query
@@ -369,5 +371,10 @@ class Query
     {
         $this->bypassCache = $flag;
         return $this;
+    }
+
+    public function removeTablePrefix($query)
+    {
+        return str_replace($this->prefixes, '', $query);
     }
 }
