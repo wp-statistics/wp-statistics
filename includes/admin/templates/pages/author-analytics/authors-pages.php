@@ -41,7 +41,7 @@ $order = !empty($_GET['order']) ? ($order === 'DESC' ? 'ASC' : 'DESC') : 'DESC';
                                                 </div>
                                             </td>
                                             <td class="wps-pd-l"><?php echo esc_html($author->total_posts) ?></td>
-                                            <td class="wps-pd-l"><?php echo esc_html($author->total_views) ?></td>
+                                            <td class="wps-pd-l"><?php echo $author->total_views ? esc_html($author->total_views) : 0 ?></td>
                                             <td class="view-more">
                                                 <!-- add class disabled-->
                                                 <a class="disabled" href="<?php echo esc_url(Menus::admin_url('author-analytics', ['type' => 'single-author', 'author_id' => $author->id])) ?>" title="<?php esc_html_e('View Details', 'wp-statistics') ?>">
