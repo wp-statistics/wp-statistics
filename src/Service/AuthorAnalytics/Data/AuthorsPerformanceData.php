@@ -42,7 +42,7 @@ class AuthorsPerformanceData
     {
 
         $args               = array_merge($this->args, ['limit' => '']);
-        $topAuthorsByViews  = $this->authorModel->topAuthorsByViewsPerPost($args);
+        $topAuthorsByViews  = $this->authorModel->getAuthorsByViewsPerPost($args);
 
         $data = [];
         
@@ -94,9 +94,9 @@ class AuthorsPerformanceData
         $activeAuthors        = $this->authorModel->countAuthors($this->args);
         $topPublishingAuthors = $this->authorModel->topPublishingAuthors($this->args);
         $topViewingAuthors    = $this->authorModel->topViewingAuthors($this->args);
-        $topAuthorsByComment  = $this->authorModel->topAuthorsByCommentsPerPost($this->args);
-        $topAuthorsByViews    = $this->authorModel->topAuthorsByViewsPerPost($this->args);
-        $topAuthorsByWords    = $this->authorModel->topAuthorsByWordsPerPost($this->args);
+        $topAuthorsByComment  = $this->authorModel->getAuthorsByCommentsPerPost($this->args);
+        $topAuthorsByViews    = $this->authorModel->getAuthorsByViewsPerPost($this->args);
+        $topAuthorsByWords    = $this->authorModel->getAuthorsByWordsPerPost($this->args);
 
         return [
             'total'             => $totalAuthors,

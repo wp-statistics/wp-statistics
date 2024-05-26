@@ -83,7 +83,7 @@ class AuthorsModel extends DataProvider
         return $result ? $result : [];
     }
 
-    public function topAuthorsByCommentsPerPost($args = [], $bypassCache = false)
+    public function getAuthorsByCommentsPerPost($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
             'from'      => '',
@@ -112,7 +112,7 @@ class AuthorsModel extends DataProvider
         return $result ? $result : [];
     }
 
-    public function topAuthorsByViewsPerPost($args = [], $bypassCache = false)
+    public function getAuthorsByViewsPerPost($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
             'from'      => '',
@@ -143,7 +143,7 @@ class AuthorsModel extends DataProvider
         return $result ? $result : [];
     }
 
-    public function topAuthorsByWordsPerPost($args = [], $bypassCache = false)
+    public function getAuthorsByWordsPerPost($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
             'from'      => '',
