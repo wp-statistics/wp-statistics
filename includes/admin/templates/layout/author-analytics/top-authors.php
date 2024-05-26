@@ -21,7 +21,7 @@ use WP_STATISTICS\Menus;
                 <label for="author-views"><?php esc_html_e('Views', 'wp-statistics') ?></label>
                 <div class="wps-author-tabs__content">
                     <?php
-                        /** @var stdClass[] $viewingAuthors */
+                        /** @var stdClass[] */
                         $viewingAuthors = $data['authors']['top_viewing'];
                         $counter        = 1; 
 
@@ -49,7 +49,7 @@ use WP_STATISTICS\Menus;
                 <div class="wps-author-tabs__content">
                     <?php
                         
-                        /** @var stdClass[] $publishingAuthors */
+                        /** @var stdClass[] */
                         $publishingAuthors  = $data['authors']['top_publishing'];
                         $counter            = 1; 
 
@@ -80,7 +80,7 @@ use WP_STATISTICS\Menus;
                 <label for="comments-post"><?php esc_html_e('Comments/Post', 'wp-statistics') ?></label>
                 <div class="wps-author-tabs__content">
                     <?php
-                        /** @var stdClass[] $topByCommentsPerPost */
+                        /** @var stdClass[] */
                         $topByCommentsPerPost   = $data['authors']['top_by_comments'];
                         $counter                = 1;
 
@@ -88,7 +88,7 @@ use WP_STATISTICS\Menus;
                             foreach ($topByCommentsPerPost as $author) : ?>
                                 <a class="wps-author-tabs__item" href="<?php echo Menus::admin_url('author-analytics', ['type' => 'single-author', 'author_id' => $author->id]) ?>">
                                     <div class="wps-author-tabs__item--image">
-                                        <span># <?php echo esc_html($author->name); ?></span>
+                                        <span># <?php echo esc_html($counter); ?></span>
                                         <img src="<?php echo esc_url(get_avatar_url($author->id)); ?>" alt="<?php echo esc_html($author->name); ?>"/>
                                     </div>
                                     <div class="wps-author-tabs__item--content">
@@ -108,7 +108,7 @@ use WP_STATISTICS\Menus;
                 <label for="views-post"><?php esc_html_e('Views/Post', 'wp-statistics') ?></label>
                 <div class="wps-author-tabs__content">
                     <?php
-                        /** @var stdClass[] $topByViewsPerPost */
+                        /** @var stdClass[] */
                         $topByViewsPerPost  = $data['authors']['top_by_views'];
                         $counter            = 1; 
 
@@ -137,7 +137,7 @@ use WP_STATISTICS\Menus;
                 <label for="words-post"><?php esc_html_e('Words/Post', 'wp-statistics') ?></label>
                 <div class="wps-author-tabs__content">
                     <?php
-                        /** @var stdClass[] $topByWordsPerPost */
+                        /** @var stdClass[] */
                         $topByWordsPerPost  = $data['authors']['top_by_words'];
                         $counter            = 1; 
 

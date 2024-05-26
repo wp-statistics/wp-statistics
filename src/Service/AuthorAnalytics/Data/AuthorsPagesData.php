@@ -9,14 +9,11 @@ class AuthorsPagesData
     protected $args;
     protected $authorModel;
 
-
-    
     public function __construct($args)
     {
         $this->args         = $args;
         $this->authorModel  = new AuthorsModel();
     }
-
    
     public function get()
     {
