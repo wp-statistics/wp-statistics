@@ -24,7 +24,7 @@ class PostsManager
     public function addWordsCountCallback($postId, $post, $update)
     {
         $wordsCount = new WordCount();
-        $wordsCount->handleSavePost($postId, $post, $update);
+        $wordsCount->handleSavePost($postId, $post);
     }
 
 
