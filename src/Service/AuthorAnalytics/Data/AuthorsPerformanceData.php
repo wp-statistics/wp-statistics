@@ -40,8 +40,7 @@ class AuthorsPerformanceData
 
     protected function generateViewsPerPostsChartData()
     {
-
-        $args               = array_merge($this->args, ['limit' => '']);
+        $args               = array_merge($this->args, ['per_page' => -1]);
         $topAuthorsByViews  = $this->authorModel->getAuthorsByViewsPerPost($args);
 
         $data = [];

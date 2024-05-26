@@ -40,7 +40,8 @@ class AuthorsModel extends DataProvider
             'from'      => '',
             'to'        => '',
             'post_type' => Helper::get_list_post_type(),
-            'limit'     => 5
+            'page'     => 1,
+            'per_page' => 5
         ]);
 
         $result = Query::select(['DISTINCT post_author as id', 'display_name as name', 'COUNT(posts.ID) as post_count'])
@@ -51,7 +52,7 @@ class AuthorsModel extends DataProvider
             ->whereDate('post_date', [$args['from'], $args['to']])
             ->groupBy('posts.post_author')
             ->orderBy('post_count')
-            ->limit($args['limit'])
+            ->perPage($args['page'], $args['per_page'])
             ->bypassCache($bypassCache)
             ->getAll();
 
@@ -64,7 +65,8 @@ class AuthorsModel extends DataProvider
             'from'      => '',
             'to'        => '',
             'post_type' => Helper::get_list_post_type(),
-            'limit'     => 5
+            'page'     => 1,
+            'per_page' => 5
         ]);
 
         $result = Query::select(['DISTINCT post_author as id', 'display_name as name', 'SUM(pages.count) as views'])
@@ -76,7 +78,7 @@ class AuthorsModel extends DataProvider
             ->whereDate('post_date', [$args['from'], $args['to']])
             ->groupBy('post_author')
             ->orderBy('views')
-            ->limit($args['limit'])
+            ->perPage($args['page'], $args['per_page'])
             ->bypassCache($bypassCache)
             ->getAll();
 
@@ -89,7 +91,8 @@ class AuthorsModel extends DataProvider
             'from'      => '',
             'to'        => '',
             'post_type' => Helper::get_list_post_type(),
-            'limit'     => 5
+            'page'     => 1,
+            'per_page' => 5
         ]);
 
         $result = Query::select([
@@ -105,7 +108,7 @@ class AuthorsModel extends DataProvider
             ->whereDate('post_date', [$args['from'], $args['to']])
             ->groupBy('post_author')
             ->orderBy('average_comments')
-            ->limit($args['limit'])
+            ->perPage($args['page'], $args['per_page'])
             ->bypassCache($bypassCache)
             ->getAll();
 
@@ -120,7 +123,8 @@ class AuthorsModel extends DataProvider
             'post_type' => Helper::get_list_post_type(),
             'order_by'  => 'average_views',
             'order'     => 'DESC',
-            'limit'     => 5
+            'page'     => 1,
+            'per_page' => 5
         ]);
 
         $result = Query::select([
@@ -138,7 +142,7 @@ class AuthorsModel extends DataProvider
             ->whereDate('post_date', [$args['from'], $args['to']])
             ->groupBy('post_author')
             ->orderBy($args['order_by'], $args['order'])
-            ->limit($args['limit'])
+            ->perPage($args['page'], $args['per_page'])
             ->bypassCache($bypassCache)
             ->getAll();
 
@@ -151,7 +155,8 @@ class AuthorsModel extends DataProvider
             'from'      => '',
             'to'        => '',
             'post_type' => Helper::get_list_post_type(),
-            'limit'     => 5
+            'page'     => 1,
+            'per_page' => 5
         ]);
 
         $result = Query::select([
@@ -168,7 +173,7 @@ class AuthorsModel extends DataProvider
             ->whereDate('post_date', [$args['from'], $args['to']])
             ->groupBy('post_author')
             ->orderBy('average_words')
-            ->limit($args['limit'])
+            ->perPage($args['page'], $args['per_page'])
             ->bypassCache($bypassCache)
             ->getAll();
 

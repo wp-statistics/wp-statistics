@@ -271,16 +271,12 @@ class Query
         return $this;
     }
     
-    public function limit($limit, $offset = '')
+    public function perPage($page = 1, $perPage = 10)
     {
-        if (is_numeric($limit) && $limit > 0) {
-            $this->limitClause = "LIMIT {$limit}";
-
-            if (is_numeric($offset)) {
-                $this->limitClause .= " OFFSET {$offset}";
-            }
+        if (is_numeric($page) && is_numeric($perPage) && $page > 0 && $perPage > 0) {
+            $offset = ($page - 1) * $perPage;
+            $this->limitClause = "LIMIT {$perPage} OFFSET {$offset}";
         }
-
         
         return $this;
     }
