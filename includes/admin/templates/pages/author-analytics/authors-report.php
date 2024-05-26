@@ -64,7 +64,7 @@
                             <tbody>
                                 <?php for ($i = 1; $i < 10; $i++): ?>
                                     <tr>
-                                        <td>
+                                        <td class="wps-pd-l">
                                             <div class="wps-author-name">
                                                 <?php $user = wp_get_current_user();
                                                 if ($user) : ?>
