@@ -5,21 +5,20 @@ namespace WP_Statistics\Service\AuthorAnalytics\Views;
 use WP_STATISTICS\Admin_Template;
 use WP_STATISTICS\Menus;
 use WP_STATISTICS\Helper;
-use WP_Statistics\Service\AuthorAnalytics\Data\AuthorsPerformanceData;
-use WP_Statistics\Service\AuthorAnalytics\Data\AuthorsPagesData;
+use WP_Statistics\Service\AuthorAnalytics\AuthorAnalyticsData;
 use InvalidArgumentException;
 
 class TabsView
 {
     private $tabs = [
-        'performance' => AuthorsPerformanceData::class,
-        'pages'       => AuthorsPagesData::class
+        'performance',
+        'pages'
     ];
 
     public function __construct()
     {
         // Throw error when invalid tab provided
-        if (isset($_GET['tab']) && !array_key_exists($_GET['tab'], $this->tabs)) {
+        if (isset($_GET['tab']) && !in_array($_GET['tab'], $this->tabs)) {
             throw new InvalidArgumentException(esc_html__('Invalid tab provided.', 'wp-statistics'));
         }
     }
@@ -29,12 +28,15 @@ class TabsView
      * 
      * @return array
      */
-    public function getTabData($currentTab)
+    public function getData()
     {
+        $currentTab = $this->getCurrentTab();
+
         $args = [
-            'from'      => isset($_GET['from']) ? sanitize_text_field($_GET['from']) : date('Y-m-d', strtotime('-1 month')),
-            'to'        => isset($_GET['to']) ? sanitize_text_field($_GET['to']) : date('Y-m-d'),
-            'post_type' => isset($_GET['pt']) ? sanitize_text_field($_GET['pt']) : Helper::get_list_post_type()
+            'from'          => isset($_GET['from']) ? sanitize_text_field($_GET['from']) : date('Y-m-d', strtotime('-1 month')),
+            'to'            => isset($_GET['to']) ? sanitize_text_field($_GET['to']) : date('Y-m-d'),
+            'post_type'     => isset($_GET['pt']) ? sanitize_text_field($_GET['pt']) : Helper::get_list_post_type(),
+            'tab'           => $currentTab
         ];
 
         if ($currentTab == 'pages') {
@@ -50,22 +52,22 @@ class TabsView
             $args['order'] = sanitize_text_field($_GET['order']);
         }
 
-        if (!isset($this->tabs[$currentTab])) {
-            throw new InvalidArgumentException(esc_html__('Tab does not have a data provider class.', 'wp-statistics'));
-        }
+        $authorAnalyticsData  = new AuthorAnalyticsData($args);
 
-        $dataProviderClass  = $this->tabs[$currentTab];
+        $dataMethod = $currentTab . 'Data';
 
-        /** @var stdClass */
-        $data = new $dataProviderClass($args);
+        return $authorAnalyticsData->$dataMethod();
+    }
 
-        return $data->get();
+    public function getCurrentTab()
+    {
+        return isset($_GET['tab']) ? sanitize_text_field($_GET['tab']) : 'performance';
     }
 
     public function view()
     {
-        $currentTab = isset($_GET['tab']) ? sanitize_text_field($_GET['tab']) : 'performance';
-        $tabData    = $this->getTabData($currentTab);
+        $currentTab = $this->getCurrentTab();
+        $tabData    = $this->getData();
 
         $args = [
             'title'      => esc_html__('Author Analytics', 'wp-statistics'),

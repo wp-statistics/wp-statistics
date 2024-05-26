@@ -1,6 +1,6 @@
 <?php 
 
-namespace WP_Statistics\Service\AuthorAnalytics\Data;
+namespace WP_Statistics\Service\AuthorAnalytics;
 
 use WP_STATISTICS\Admin_Assets;
 use WP_STATISTICS\Helper;
@@ -8,7 +8,7 @@ use WP_Statistics\Models\AuthorsModel;
 use WP_Statistics\Models\PagesModel;
 use WP_Statistics\Models\PostsModel;
 
-class AuthorsPerformanceData
+class AuthorAnalyticsData
 {
     protected $args;
     protected $authorModel;
@@ -25,17 +25,20 @@ class AuthorsPerformanceData
         $this->pagesModel   = new PagesModel();
         $this->postsModel   = new PostsModel();
 
-        $this->totalPosts   = $this->postsModel->countPosts($this->args);
-
         $this->localizeData();
     }
 
     public function localizeData()
     {
-        wp_localize_script(Admin_Assets::$prefix, 'Wp_Statistics_Author_Analytics_Object', [
-            'publish_overview_chart_data'   => $this->generatePublishingChartData(),
-            'views_per_posts_chart_data'    => $this->generateViewsPerPostsChartData()
-        ]);
+        $data = [];
+        if ($this->args['tab'] == 'performance') {
+            $data = [
+                'publish_overview_chart_data'   => $this->generatePublishingChartData(),
+                'views_per_posts_chart_data'    => $this->generateViewsPerPostsChartData()
+            ];
+        }
+
+        wp_localize_script(Admin_Assets::$prefix, 'Wp_Statistics_Author_Analytics_Object', $data);
     }
 
     protected function generateViewsPerPostsChartData()
@@ -87,8 +90,10 @@ class AuthorsPerformanceData
         return $data;
     }
 
-    public function getAuthorsOverviewData()
+
+    public function performanceData()
     {
+        // Authors data
         $totalAuthors         = $this->authorModel->countAuthors();
         $activeAuthors        = $this->authorModel->countAuthors($this->args);
         $topPublishingAuthors = $this->authorModel->topPublishingAuthors($this->args);
@@ -97,51 +102,50 @@ class AuthorsPerformanceData
         $topAuthorsByViews    = $this->authorModel->getAuthorsByViewsPerPost($this->args);
         $topAuthorsByWords    = $this->authorModel->getAuthorsByWordsPerPost($this->args);
 
-        return [
-            'total'             => $totalAuthors,
-            'active'            => $activeAuthors,
-            'avg'               => Helper::divideNumbers($this->totalPosts, $activeAuthors),
-            'top_publishing'    => $topPublishingAuthors,
-            'top_viewing'       => $topViewingAuthors,
-            'top_by_comments'   => $topAuthorsByComment,
-            'top_by_views'      => $topAuthorsByViews,
-            'top_by_words'      => $topAuthorsByWords
-        ];
-    }
+        // Views data
+        $totalViews           = $this->pagesModel->countViews($this->args);
 
-    public function getViewsOverviewData()
-    {
-        $totalViews = $this->pagesModel->countViews($this->args);
+        // Posts data
+        $totalWords           = $this->postsModel->countWords($this->args);
+        $totalComments        = $this->postsModel->countComments($this->args);
+        $totalPosts           = $this->postsModel->countPosts($this->args);
 
         return [
-            'total' => $totalViews,
-            'avg'   => Helper::divideNumbers($totalViews, $this->totalPosts)
-        ];
-    }
-
-    public function getPostsOverviewData()
-    {
-        $totalWords     = $this->postsModel->countWords($this->args);
-        $totalComments  = $this->postsModel->countComments($this->args);
-
-        return [
-            'words'     => [
-                'total' => $totalWords,
-                'avg'   => Helper::divideNumbers($totalWords, $this->totalPosts)
+            'authors' => [
+                'total'             => $totalAuthors,
+                'active'            => $activeAuthors,
+                'avg'               => Helper::divideNumbers($totalPosts, $activeAuthors),
+                'top_publishing'    => $topPublishingAuthors,
+                'top_viewing'       => $topViewingAuthors,
+                'top_by_comments'   => $topAuthorsByComment,
+                'top_by_views'      => $topAuthorsByViews,
+                'top_by_words'      => $topAuthorsByWords
             ],
-            'comments'  => [
-                'total' => $totalComments,
-                'avg'   => Helper::divideNumbers($totalComments, $this->totalPosts)
+            'views'   => [
+                'total' => $totalViews,
+                'avg'   => Helper::divideNumbers($totalViews, $totalPosts)
+            ],
+            'posts'   => [
+                'words'     => [
+                    'total' => $totalWords,
+                    'avg'   => Helper::divideNumbers($totalWords, $totalPosts)
+                ],
+                'comments'  => [
+                    'total' => $totalComments,
+                    'avg'   => Helper::divideNumbers($totalComments, $totalPosts)
+                ]
             ]
         ];
     }
 
-    public function get()
+    public function pagesData()
     {
+        $authors = $this->authorModel->getAuthorsByViewsPerPost($this->args);
+        $total   = $this->authorModel->countAuthors($this->args);
+
         return [
-            'authors' => $this->getAuthorsOverviewData(),
-            'views'   => $this->getViewsOverviewData(),
-            'posts'   => $this->getPostsOverviewData()
+            'authors' => $authors,
+            'total'   => $total
         ];
     }
 
