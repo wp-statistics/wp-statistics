@@ -40,7 +40,7 @@ class AuthorsPerformanceData
         $args           = Helper::filterArrayByKeys($this->args, ['post_type']);
 
         $publishingData = $this->postsModel->publishOverview($args);
-        $publishingData = array_combine(array_column($publishingData, 'date'), array_column($publishingData, 'posts'));
+        $publishingData = wp_list_pluck($publishingData, 'posts', 'date');
 
         $today  = time();
         $date   = strtotime('-365 days');
