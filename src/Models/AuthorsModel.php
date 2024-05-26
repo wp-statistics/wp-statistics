@@ -124,6 +124,8 @@ class AuthorsModel extends DataProvider
         $result = Query::select([
                 'DISTINCT posts.post_author AS id', 
                 'display_name AS name', 
+                'SUM(pages.count) AS total_views',
+                'COUNT(DISTINCT posts.ID) AS total_posts',
                 'SUM(pages.count) / COUNT(DISTINCT posts.ID) AS average_views'
             ])
             ->fromTable('posts')
