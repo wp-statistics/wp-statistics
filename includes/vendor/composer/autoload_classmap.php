@@ -87,6 +87,7 @@ return array(
     'WP_Statistics\\Service\\Analytics\\VisitorProfile' => $baseDir . '/src/Service/Analytics/VisitorProfile.php',
     'WP_Statistics\\Service\\AuthorAnalytics\\AuthorAnalyticsManager' => $baseDir . '/src/Service/AuthorAnalytics/AuthorAnalyticsManager.php',
     'WP_Statistics\\Service\\AuthorAnalytics\\AuthorAnalyticsPage' => $baseDir . '/src/Service/AuthorAnalytics/AuthorAnalyticsPage.php',
+    'WP_Statistics\\Service\\AuthorAnalytics\\Data\\AuthorsPagesData' => $baseDir . '/src/Service/AuthorAnalytics/Data/AuthorsPagesData.php',
     'WP_Statistics\\Service\\AuthorAnalytics\\Data\\AuthorsPerformanceData' => $baseDir . '/src/Service/AuthorAnalytics/Data/AuthorsPerformanceData.php',
     'WP_Statistics\\Service\\AuthorAnalytics\\Views\\AuthorsView' => $baseDir . '/src/Service/AuthorAnalytics/Views/AuthorsView.php',
     'WP_Statistics\\Service\\AuthorAnalytics\\Views\\PostsView' => $baseDir . '/src/Service/AuthorAnalytics/Views/PostsView.php',

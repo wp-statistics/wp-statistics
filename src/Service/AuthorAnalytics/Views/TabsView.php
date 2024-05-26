@@ -6,13 +6,14 @@ use WP_STATISTICS\Admin_Template;
 use WP_STATISTICS\Menus;
 use WP_STATISTICS\Helper;
 use WP_Statistics\Service\AuthorAnalytics\Data\AuthorsPerformanceData;
+use WP_Statistics\Service\AuthorAnalytics\Data\AuthorsPagesData;
 use InvalidArgumentException;
 
 class TabsView
 {
     private $tabs = [
         'performance' => AuthorsPerformanceData::class,
-        'pages'
+        'pages'       => AuthorsPagesData::class
     ];
 
     public function __construct()
@@ -41,7 +42,9 @@ class TabsView
         }
 
         $dataProviderClass  = $this->tabs[$currentTab];
-        $data               = new $dataProviderClass($args);
+
+        /** @var stdClass */
+        $data = new $dataProviderClass($args);
 
         return $data->get();
     }

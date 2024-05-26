@@ -166,6 +166,7 @@ class ComposerStaticInit2ac516f03a394ec3d1721352b7f43359
         'WP_Statistics\\Service\\Analytics\\VisitorProfile' => __DIR__ . '/../../..' . '/src/Service/Analytics/VisitorProfile.php',
         'WP_Statistics\\Service\\AuthorAnalytics\\AuthorAnalyticsManager' => __DIR__ . '/../../..' . '/src/Service/AuthorAnalytics/AuthorAnalyticsManager.php',
         'WP_Statistics\\Service\\AuthorAnalytics\\AuthorAnalyticsPage' => __DIR__ . '/../../..' . '/src/Service/AuthorAnalytics/AuthorAnalyticsPage.php',
+        'WP_Statistics\\Service\\AuthorAnalytics\\Data\\AuthorsPagesData' => __DIR__ . '/../../..' . '/src/Service/AuthorAnalytics/Data/AuthorsPagesData.php',
         'WP_Statistics\\Service\\AuthorAnalytics\\Data\\AuthorsPerformanceData' => __DIR__ . '/../../..' . '/src/Service/AuthorAnalytics/Data/AuthorsPerformanceData.php',
         'WP_Statistics\\Service\\AuthorAnalytics\\Views\\AuthorsView' => __DIR__ . '/../../..' . '/src/Service/AuthorAnalytics/Views/AuthorsView.php',
         'WP_Statistics\\Service\\AuthorAnalytics\\Views\\PostsView' => __DIR__ . '/../../..' . '/src/Service/AuthorAnalytics/Views/PostsView.php',
