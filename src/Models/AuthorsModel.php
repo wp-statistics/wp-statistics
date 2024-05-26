@@ -128,7 +128,7 @@ class AuthorsModel extends DataProvider
             ])
             ->fromTable('posts')
             ->join('users', ['post_author', 'ID'])
-            ->join('pages', ['ID', 'id'], 'LEFT')
+            ->join('pages', ['ID', 'id'])
             ->where('post_status', '=', 'publish')
             ->where('post_type', 'IN', $args['post_type'])
             ->whereDate('post_date', [$args['from'], $args['to']])
