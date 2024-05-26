@@ -37,8 +37,16 @@ class TabsView
             'post_type' => isset($_GET['pt']) ? sanitize_text_field($_GET['pt']) : Helper::get_list_post_type()
         ];
 
+        if (isset($_GET['order_by'])) {
+            $args['order_by'] = sanitize_text_field($_GET['order_by']);
+        } 
+        
+        if (isset($_GET['order'])) {
+            $args['order'] = sanitize_text_field($_GET['order']);
+        }
+
         if (!isset($this->tabs[$currentTab])) {
-            throw new InvalidArgumentException('Tab does not have a data provider class.');
+            throw new InvalidArgumentException(esc_html__('Tab does not have a data provider class.', 'wp-statistics'));
         }
 
         $dataProviderClass  = $this->tabs[$currentTab];
@@ -80,7 +88,7 @@ class TabsView
         ];
 
         if ($currentTab === 'pages') {
-            $args['filters'][] = 'author';
+            unset($args['filters']);
         }
 
         Admin_Template::get_template(['layout/header', 'layout/tabbed-page-header', "pages/author-analytics/authors-$currentTab", 'layout/postbox.hide', 'layout/footer'], $args);
