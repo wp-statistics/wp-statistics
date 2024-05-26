@@ -14,6 +14,7 @@ class AuthorsPerformanceData
     protected $authorModel;
     protected $pagesModel;
     protected $postsModel;
+    protected $totalPosts;
 
     
     public function __construct($args)
@@ -23,6 +24,8 @@ class AuthorsPerformanceData
         $this->authorModel  = new AuthorsModel();
         $this->pagesModel   = new PagesModel();
         $this->postsModel   = new PostsModel();
+
+        $this->totalPosts   = $this->postsModel->countPosts($this->args);
 
         $this->localizeData();
     }
@@ -37,7 +40,7 @@ class AuthorsPerformanceData
     protected function generatePublishingChartData()
     {
         // Just filter by post type
-        $args           = Helper::filterArrayByKeys($this->args, ['post_type']);
+        $args = Helper::filterArrayByKeys($this->args, ['post_type']);
 
         $publishingData = $this->postsModel->publishOverview($args);
         $publishingData = wp_list_pluck($publishingData, 'posts', 'date');
@@ -63,41 +66,55 @@ class AuthorsPerformanceData
         return $data;
     }
 
-    public function get()
+    public function getAuthorsOverviewData()
     {
         $totalAuthors         = $this->authorModel->countAuthors();
         $activeAuthors        = $this->authorModel->countAuthors($this->args);
         $topPublishingAuthors = $this->authorModel->topPublishingAuthors($this->args);
         $topViewingAuthors    = $this->authorModel->topViewingAuthors($this->args);
 
-        $totalPosts           = $this->postsModel->countPosts($this->args);
-        $totalWords           = $this->postsModel->countWords($this->args);
-        $totalComments        = $this->postsModel->countComments($this->args);
+        return [
+            'total'          => $totalAuthors,
+            'active'         => $activeAuthors,
+            'avg'            => Helper::divideNumbers($this->totalPosts, $activeAuthors),
+            'top_publishing' => $topPublishingAuthors,
+            'top_viewing'    => $topViewingAuthors
+        ];
+    }
 
-        $totalViews           = $this->pagesModel->countViews($this->args);
+    public function getViewsOverviewData()
+    {
+        $totalViews = $this->pagesModel->countViews($this->args);
 
         return [
-            'authors' => [
-                'total'          => $totalAuthors,
-                'active'         => $activeAuthors,
-                'avg'            => Helper::divideNumbers($totalPosts, $activeAuthors),
-                'top_publishing' => $topPublishingAuthors,
-                'top_viewing'    => $topViewingAuthors
+            'total' => $totalViews,
+            'avg'   => Helper::divideNumbers($totalViews, $this->totalPosts)
+        ];
+    }
+
+    public function getPostsOverviewData()
+    {
+        $totalWords     = $this->postsModel->countWords($this->args);
+        $totalComments  = $this->postsModel->countComments($this->args);
+
+        return [
+            'words'     => [
+                'total' => $totalWords,
+                'avg'   => Helper::divideNumbers($totalWords, $this->totalPosts)
             ],
-            'views'   => [
-                'total' => $totalViews,
-                'avg'   => Helper::divideNumbers($totalViews, $totalPosts)
-            ],
-            'posts'   => [
-                'words'     => [
-                    'total' => $totalWords,
-                    'avg'   => Helper::divideNumbers($totalWords, $totalPosts)
-                ],
-                'comments'  => [
-                    'total' => $totalComments,
-                    'avg'   => Helper::divideNumbers($totalComments, $totalPosts)
-                ]
+            'comments'  => [
+                'total' => $totalComments,
+                'avg'   => Helper::divideNumbers($totalComments, $this->totalPosts)
             ]
+        ];
+    }
+
+    public function get()
+    {
+        return [
+            'authors' => $this->getAuthorsOverviewData(),
+            'views'   => $this->getViewsOverviewData(),
+            'posts'   => $this->getPostsOverviewData()
         ];
     }
 
