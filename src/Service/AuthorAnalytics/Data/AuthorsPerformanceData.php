@@ -72,13 +72,15 @@ class AuthorsPerformanceData
         $activeAuthors        = $this->authorModel->countAuthors($this->args);
         $topPublishingAuthors = $this->authorModel->topPublishingAuthors($this->args);
         $topViewingAuthors    = $this->authorModel->topViewingAuthors($this->args);
+        $topAuthorsByComment  = $this->authorModel->topAuthorsByComments($this->args);
 
         return [
-            'total'          => $totalAuthors,
-            'active'         => $activeAuthors,
-            'avg'            => Helper::divideNumbers($this->totalPosts, $activeAuthors),
-            'top_publishing' => $topPublishingAuthors,
-            'top_viewing'    => $topViewingAuthors
+            'total'             => $totalAuthors,
+            'active'            => $activeAuthors,
+            'avg'               => Helper::divideNumbers($this->totalPosts, $activeAuthors),
+            'top_publishing'    => $topPublishingAuthors,
+            'top_viewing'       => $topViewingAuthors,
+            'top_with_comments' => $topAuthorsByComment,
         ];
     }
 
