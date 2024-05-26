@@ -82,7 +82,7 @@ class AuthorsModel extends DataProvider
         return $result ? $result : [];
     }
 
-    public function topAuthorsByComments($args = [], $bypassCache = false)
+    public function topAuthorsByCommentsPerPost($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
             'from'      => '',
@@ -94,8 +94,6 @@ class AuthorsModel extends DataProvider
         $result = Query::select([
                 'DISTINCT posts.post_author AS id', 
                 'display_name AS name', 
-                'COUNT(comments.comment_ID) AS comments_count',
-                'COUNT(DISTINCT posts.ID) AS posts_count',
                 'COUNT(comments.comment_ID) / COUNT(DISTINCT posts.ID) AS average_comments'
             ])
             ->fromTable('posts')
@@ -106,6 +104,35 @@ class AuthorsModel extends DataProvider
             ->whereDate('post_date', [$args['from'], $args['to']])
             ->groupBy('post_author')
             ->orderBy('average_comments')
+            ->limit($args['limit'])
+            ->bypassCache($bypassCache)
+            ->getAll();
+
+        return $result ? $result : [];
+    }
+
+    public function topAuthorsByViewsPerPost($args = [], $bypassCache = false)
+    {
+        $args = $this->parseArgs($args, [
+            'from'      => '',
+            'to'        => '',
+            'post_type' => Helper::get_list_post_type(),
+            'limit'     => 5
+        ]);
+
+        $result = Query::select([
+                'DISTINCT posts.post_author AS id', 
+                'display_name AS name', 
+                'SUM(pages.count) / COUNT(DISTINCT posts.ID) AS average_views'
+            ])
+            ->fromTable('posts')
+            ->join('users', ['post_author', 'ID'])
+            ->join('pages', ['ID', 'id'], 'LEFT')
+            ->where('post_status', '=', 'publish')
+            ->where('post_type', 'IN', $args['post_type'])
+            ->whereDate('post_date', [$args['from'], $args['to']])
+            ->groupBy('post_author')
+            ->orderBy('average_views')
             ->limit($args['limit'])
             ->bypassCache($bypassCache)
             ->getAll();

@@ -80,13 +80,13 @@ use WP_STATISTICS\Menus;
                 <label for="comments-post"><?php esc_html_e('Comments/Post', 'wp-statistics') ?></label>
                 <div class="wps-author-tabs__content">
                     <?php
-                        /** @var stdClass[] $topWithComments */
-                        $topWithComments = $data['authors']['top_with_comments'];
-                        $counter         = 1;
+                        /** @var stdClass[] $topByCommentsPerPost */
+                        $topByCommentsPerPost   = $data['authors']['top_by_comments'];
+                        $counter                = 1;
 
-                        if ($topWithComments) {
-                            foreach ($topWithComments as $author) : ?>
-                                <a class="wps-author-tabs__item" href="">
+                        if ($topByCommentsPerPost) {
+                            foreach ($topByCommentsPerPost as $author) : ?>
+                                <a class="wps-author-tabs__item" href="<?php echo Menus::admin_url('author-analytics', ['type' => 'single-author', 'author_id' => $author->id]) ?>">
                                     <div class="wps-author-tabs__item--image">
                                         <span># <?php echo esc_html($author->name); ?></span>
                                         <img src="<?php echo esc_url(get_avatar_url($author->id)); ?>" alt="<?php echo esc_html($author->name); ?>"/>
@@ -108,24 +108,28 @@ use WP_STATISTICS\Menus;
                 <label for="views-post"><?php esc_html_e('Views/Post', 'wp-statistics') ?></label>
                 <div class="wps-author-tabs__content">
                     <?php
-                        $users = ["Navid" => "15.1Avg", "Mostafa" => "12.5Avg", "Byimrez" => "8.3Avg", "James" => "5.6Avg"];
-                        $counter = 1; 
-                        foreach ($users as $name => $avgPosts) : ?>
-                            <a class="wps-author-tabs__item" href="">
-                                <div class="wps-author-tabs__item--image">
-                                    <?php $user = wp_get_current_user();
-                                    if ($user) : ?>
+                        /** @var stdClass[] $topByViewsPerPost */
+                        $topByViewsPerPost  = $data['authors']['top_by_views'];
+                        $counter            = 1; 
+
+                        if ($topByViewsPerPost) {
+                            foreach ($topByViewsPerPost as $author) : ?>
+                                <a class="wps-author-tabs__item" href="<?php echo Menus::admin_url('author-analytics', ['type' => 'single-author', 'author_id' => $author->id]) ?>">
+                                    <div class="wps-author-tabs__item--image">
                                         <span># <?php echo esc_html($counter); ?></span>
-                                        <img src="<?php echo esc_url(get_avatar_url($user->ID)); ?>" alt="<?php echo esc_html($name); ?>"/>
-                                    <?php endif ?>
-                                </div>
-                                <div class="wps-author-tabs__item--content">
-                                    <h3><?php echo esc_html($name); ?></h3>
-                                    <span><?php echo esc_html($avgPosts); ?> <?php esc_html_e('views/post', 'wp-statistics') ?></span>
-                                </div>
-                            </a>
-                            <?php $counter++;
-                        endforeach; 
+                                        <img src="<?php echo esc_url(get_avatar_url($author->id)); ?>" alt="<?php echo esc_html($author->name); ?>"/>
+                                    </div>
+                                    <div class="wps-author-tabs__item--content">
+                                        <h3><?php echo esc_html($author->name); ?></h3>
+                                        <span><?php echo esc_html(Helper::formatNumberWithUnit($author->average_views)); ?> <?php esc_html_e('views/post', 'wp-statistics') ?></span>
+                                    </div>
+                                </a>
+                                <?php $counter++;
+                            endforeach; 
+                        } else {
+                            echo '<p style="padding: 0 40px">' . esc_html__('No authors found.', 'wp-statistics') . '</p>';
+                        }
+
                     ?>
                 </div>
 
