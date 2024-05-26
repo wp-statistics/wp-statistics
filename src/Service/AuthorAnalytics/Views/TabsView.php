@@ -37,6 +37,11 @@ class TabsView
             'post_type' => isset($_GET['pt']) ? sanitize_text_field($_GET['pt']) : Helper::get_list_post_type()
         ];
 
+        if ($currentTab == 'pages') {
+            $args['per_page']   = Admin_Template::$item_per_page;
+            $args['page']       = Admin_Template::getCurrentPaged();
+        }
+
         if (isset($_GET['order_by'])) {
             $args['order_by'] = sanitize_text_field($_GET['order_by']);
         } 
@@ -66,7 +71,7 @@ class TabsView
             'title'      => esc_html__('Author Analytics', 'wp-statistics'),
             'tooltip'    => esc_html__('Page Tooltip', 'wp-statistics'),
             'pageName'   => Menus::get_page_slug('author-analytics'),
-            'pagination' => Admin_Template::getCurrentPaged(),
+            'paged'      => Admin_Template::getCurrentPaged(),
             'custom_get' => ['tab' => $currentTab],
             'DateRang'   => Admin_Template::DateRange(),
             'filters'    => ['post-type'],
@@ -88,7 +93,18 @@ class TabsView
         ];
 
         if ($currentTab === 'pages') {
+            // Remove filters from pages tab
             unset($args['filters']);
+            
+            // Add pagination to the pages tab
+            if ($tabData['total'] > 0) {
+                $args['total'] = $tabData['total'];
+
+                $args['pagination'] = Admin_Template::paginate_links([
+                    'total' => $tabData['total'],
+                    'echo'  => false
+                ]);
+            }
         }
 
         Admin_Template::get_template(['layout/header', 'layout/tabbed-page-header', "pages/author-analytics/authors-$currentTab", 'layout/postbox.hide', 'layout/footer'], $args);

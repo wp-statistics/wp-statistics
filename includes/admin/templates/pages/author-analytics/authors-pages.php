@@ -59,6 +59,7 @@ $order = !empty($_GET['order']) ? ($order === 'DESC' ? 'ASC' : 'DESC') : 'DESC';
                         </div>
                     <?php endif; ?>
                 </div>
+                <?php echo isset($pagination) ? $pagination : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
             </div>
         </div>
     </div>

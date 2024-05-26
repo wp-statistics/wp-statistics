@@ -17,10 +17,13 @@ class AuthorsPagesData
    
     public function get()
     {
-        $args    = array_merge($this->args, ['limit' => '']);
-        $authors = $this->authorModel->getAuthorsByViewsPerPost($args);
+        $authors = $this->authorModel->getAuthorsByViewsPerPost($this->args);
+        $total   = $this->authorModel->countAuthors($this->args);
 
-        return ['authors' => $authors];
+        return [
+            'authors' => $authors,
+            'total'   => $total
+        ];
     }
 
 }
