@@ -1351,6 +1351,8 @@ class Helper
      */
     public static function formatNumberWithUnit($number)
     {
+        if (!is_numeric($number)) return 0;
+
         $units = ['', 'K', 'M', 'B', 'T'];
         for ($i = 0; $number >= 1000 && $i < 4; $i++) {
             $number /= 1000;
