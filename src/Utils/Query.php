@@ -65,7 +65,7 @@ class Query
 
     public function fromQuery($subQuery)
     {
-        $this->subQuery = "($subQuery) as sub_query";
+        $this->subQuery = "($subQuery) AS sub_query";
         return $this;
     }
 
@@ -327,7 +327,7 @@ class Query
         // Append table
         if (!empty($this->table)) {
             $query .= ' ' . $this->table;
-            $query .= ' as ' . $this->removeTablePrefix($this->table);
+            $query .= ' AS ' . $this->removeTablePrefix($this->table);
         }
         
         // Append sub query
