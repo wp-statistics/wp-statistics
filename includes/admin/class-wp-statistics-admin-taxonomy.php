@@ -11,7 +11,7 @@ class Admin_Taxonomy
     {
 
         // Add Hits Column in All Admin Post-Type Wp_List_Table
-        if (User::Access('read')) {
+        if (User::Access('read') and Option::get('pages') and !Option::get('disable_column')) {
             add_action('admin_init', array($this, 'init'));
         }
 
