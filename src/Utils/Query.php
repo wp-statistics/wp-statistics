@@ -273,7 +273,14 @@ class Query
     
     public function limit($limit, $offset = '')
     {
-        $this->limitClause = "LIMIT {$limit}" . ($offset ? " OFFSET {$offset}" : '');
+        if (is_numeric($limit) && $limit > 0) {
+            $this->limitClause = "LIMIT {$limit}";
+
+            if (is_numeric($offset)) {
+                $this->limitClause .= " OFFSET {$offset}";
+            }
+        }
+
         
         return $this;
     }

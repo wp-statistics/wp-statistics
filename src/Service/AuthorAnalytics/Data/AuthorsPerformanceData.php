@@ -33,8 +33,30 @@ class AuthorsPerformanceData
     public function localizeData()
     {
         wp_localize_script(Admin_Assets::$prefix, 'Wp_Statistics_Author_Analytics_Object', [
-            'publish_overview_chart_data' => $this->generatePublishingChartData()
+            'publish_overview_chart_data'   => $this->generatePublishingChartData(),
+            'views_per_posts_chart_data'    => $this->generateViewsPerPostsChartData()
         ]);
+    }
+
+    protected function generateViewsPerPostsChartData()
+    {
+
+        $args               = array_merge($this->args, ['limit' => '']);
+        $topAuthorsByViews  = $this->authorModel->topAuthorsByViewsPerPost($args);
+
+        $data = [];
+        
+        if ($topAuthorsByViews) {
+            foreach ($topAuthorsByViews as $author) {
+                $data[] = [
+                    'x'     => $author->total_views,  
+                    'y'     => $author->total_posts,  
+                    'img'   => esc_url(get_avatar_url($author->id))
+                ];
+            }
+        }
+
+        return $data;
     }
 
     protected function generatePublishingChartData()
