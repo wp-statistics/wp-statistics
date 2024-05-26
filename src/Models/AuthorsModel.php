@@ -75,7 +75,7 @@ class AuthorsModel extends DataProvider
             ->join('pages', ['ID', 'id'])
             ->where('post_status', '=', 'publish')
             ->where('post_type', 'IN', $args['post_type'])
-            ->whereDate('post_date', [$args['from'], $args['to']])
+            ->whereDate('date', [$args['from'], $args['to']])
             ->groupBy('post_author')
             ->orderBy('views')
             ->perPage($args['page'], $args['per_page'])
