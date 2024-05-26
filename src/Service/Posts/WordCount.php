@@ -67,4 +67,15 @@ class WordCount
             $this->saveWordsCount($postId, $wordCount);
         }
     }
+
+    public function getPostsWithoutWordCountMeta()
+    {
+        return get_posts([
+            'post_type'    => ['post', 'page'], // todo
+            'post_status'  => 'publish',
+            'numberposts'  => 1,
+            'meta_key'     => self::WORDS_COUNT_META_KEY,
+            'meta_compare' => 'NOT EXISTS'
+        ]);
+    }
 }

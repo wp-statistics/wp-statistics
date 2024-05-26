@@ -39,36 +39,4 @@ class PostsManager
         $wordsCount = new WordCount();
         $wordsCount->removeWordsCountMeta($postId, $post);
     }
-
-    public function processWordCount()
-    {
-        // Check if already processed
-        if (Option::get("wp_statistics_jobs['word_count_processed']")) { // todo
-            return;
-        }
-
-        // Initialize and dispatch the CalculatePostWordsCount class
-        $calculatePostWordsCount = new CalculatePostWordsCount();
-        $posts                   = get_posts([
-            'post_type'   => ['post', 'page'],
-            'post_status' => 'publish',
-            'numberposts' => -1,
-            'meta_query'  => [
-                'key'     => WordCount::WORDS_COUNT_META_KEY,
-                'compare' => 'NOT EXISTS'
-            ]
-        ]);
-
-        foreach ($posts as $post) {
-            $calculatePostWordsCount->push_to_queue(['post_id' => $post->ID]);
-        }
-
-        $calculatePostWordsCount->save()->dispatch();
-
-        // Mark as processed
-        Option::update("wp_statistics_jobs['word_count_processed']", true);
-
-        // Display admin notice
-        Notice::addNotice(__('Word count processing started.', 'wp-statistics'));
-    }
 }

@@ -1176,6 +1176,7 @@ class Helper
      * @param string $class
      * @param bool $is_dismissible
      * @since 13.2.5
+     * @todo, should switch to Notice::dismissNotice() and then remove this method.
      */
     public static function addAdminNotice($message, $class = 'info', $is_dismissible = true)
     {
@@ -1191,6 +1192,7 @@ class Helper
      *
      * @return void
      * @since 13.2.5
+     * @todo, should switch to Notice::dismissNotice() and then remove this method.
      */
     public static function displayAdminNotices()
     {

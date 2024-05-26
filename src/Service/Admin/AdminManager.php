@@ -8,9 +8,18 @@ class AdminManager
 {
     public function __construct()
     {
+        $this->initFooterModifier();
+        $this->initNoticeHandler();
+    }
+
+    private function initFooterModifier()
+    {
         add_filter('admin_footer_text', array($this, 'modifyAdminFooterText'), 999);
         add_filter('update_footer', array($this, 'modifyAdminUpdateFooter'), 999);
+    }
 
+    private function initNoticeHandler()
+    {
         // Hook to handle AJAX request for dismissing notices
         add_action('wp_ajax_dismiss_wp_statistics_notice', array(Notice::class, 'dismissNotice'));
 

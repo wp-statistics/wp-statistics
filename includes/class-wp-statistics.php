@@ -23,6 +23,11 @@ final class WP_Statistics
     protected static $_instance = null;
 
     /**
+     * @var $backgroundProcess
+     */
+    private $backgroundProcess;
+
+    /**
      * Main WP Statistics Instance.
      * Ensures only one instance of WP Statistics is loaded or can be loaded.
      *
@@ -87,19 +92,25 @@ final class WP_Statistics
     public function plugin_setup()
     {
         /**
-         * Load Text Domain
+         * Load text domain
          */
         add_action('init', array($this, 'load_textdomain'));
 
         try {
 
             /**
-             * Include Require File
+             * Include require file
              */
             $this->includes();
 
             /**
-             * Display Admin Notices
+             * Setup background process
+             */
+            $this->setupBackgroundProcess();
+
+            /**
+             * Display admin notices
+             * @todo, remove later
              */
             add_action('admin_notices', array('\\WP_STATISTICS\\Helper', 'displayAdminNotices'));
 
@@ -230,6 +241,19 @@ final class WP_Statistics
 
         // Template functions.
         include WP_STATISTICS_DIR . 'includes/template-functions.php';
+    }
+
+    private function setupBackgroundProcess()
+    {
+        $this->backgroundProcess['calculate_post_words_count'] = new \WP_Statistics\Async\CalculatePostWordsCount();
+    }
+
+    /**
+     * @return WP_Background_Process
+     */
+    public function getRemoteRequestAsync()
+    {
+        return $this->backgroundProcess;
     }
 
     private function create_upload_directory()
