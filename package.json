@@ -14,5 +14,8 @@
     "gulp-uglify": "^3.0.2",
     "readable-stream": "^4.5.2",
     "sass": "^1.70.0"
+  },
+  "dependencies": {
+    "gulp-shell": "^0.8.0"
   }
 }
