@@ -38,7 +38,7 @@ class Query
         $instance->operation = 'select';
 
         if (is_array($fields)) {
-            $fields = implode(',', $fields);
+            $fields = implode(', ', $fields);
         }
 
         $instance->fields = $fields;
@@ -102,6 +102,7 @@ class Query
         return $this;
     }
 
+
     public function where($field, $operator, $value)
     {
         if (is_array($value)) {
@@ -110,7 +111,21 @@ class Query
 
         if (empty($value)) return $this;
 
+        $condition = $this->generateCondition($field, $operator, $value);
+        
+        if (!empty($condition)) {
+            $this->whereClauses[]   = $condition['condition'];
+            $this->whereValues      = array_merge($this->whereValues, $condition['values']);
+        }
+
+        return $this;
+    }
+
+    protected function generateCondition($field, $operator, $value)
+    {
         $condition = '';
+        $values    = [];
+
         switch ($operator) {
             case '=':
             case '!=':
@@ -120,8 +135,8 @@ class Query
             case '<=':
             case 'LIKE':
             case 'NOT LIKE':
-                $condition           = "$field $operator %s";
-                $this->whereValues[] = $value;
+                $condition  = "$field $operator %s";
+                $values[]   = $value;
                 break;
 
             case 'IN':
@@ -131,17 +146,16 @@ class Query
                 }
 
                 if (is_array($value)) {
-                    $placeholders      = implode(', ', array_fill(0, count($value), '%s'));
-                    $condition         = "$field $operator ($placeholders)";
-                    $this->whereValues = array_merge($this->whereValues, $value);
+                    $placeholders   = implode(', ', array_fill(0, count($value), '%s'));
+                    $condition      = "$field $operator ($placeholders)";
+                    $values         = $value;
                 }
                 break;
 
             case 'BETWEEN':
                 if (is_array($value) && count($value) === 2) {
-                    $condition           = "$field BETWEEN %s AND %s";
-                    $this->whereValues[] = $value[0];
-                    $this->whereValues[] = $value[1];
+                    $condition  = "$field BETWEEN %s AND %s";
+                    $values     = $value;
                 }
                 break;
 
@@ -149,11 +163,10 @@ class Query
                 throw new InvalidArgumentException(esc_html__(sprintf("Unsupported operator: %s", $operator)));
         }
 
-        if (!empty($condition)) {
-            $this->whereClauses[] = $condition;
-        }
-
-        return $this;
+        return [
+            'condition' => $condition, 
+            'values'    => $values
+        ];
     }
 
     public function getVar()
@@ -167,7 +180,7 @@ class Query
             }
         }
 
-        $preparedQuery = $this->prepareQuery($query);
+        $preparedQuery = $this->prepareQuery($query, $this->whereValues);
         $result        = $this->db->get_var($preparedQuery);
 
         if (!$this->bypassCache) {
@@ -188,7 +201,7 @@ class Query
             }
         }
 
-        $preparedQuery = $this->prepareQuery($query);
+        $preparedQuery = $this->prepareQuery($query, $this->whereValues);
         $result        = $this->db->get_results($preparedQuery);
 
         if (!$this->bypassCache) {
@@ -209,7 +222,7 @@ class Query
             }
         }
 
-        $preparedQuery = $this->prepareQuery($query);
+        $preparedQuery = $this->prepareQuery($query, $this->whereValues);
         $result        = $this->db->get_col($preparedQuery);
 
         if (!$this->bypassCache) {
@@ -230,7 +243,7 @@ class Query
             }
         }
 
-        $preparedQuery = $this->prepareQuery($query);
+        $preparedQuery = $this->prepareQuery($query, $this->whereValues);
         $result        = $this->db->get_row($preparedQuery);
 
         if (!$this->bypassCache) {
@@ -256,7 +269,7 @@ class Query
         $joinTable = $this->getTable($table);
 
         if (is_array($on) && count($on) == 2) {
-            $joinClause = "{$joinType} JOIN {$joinTable} as $table ON {$on[0]} = {$on[1]}";
+            $joinClause = "{$joinType} JOIN {$joinTable} AS $table ON {$on[0]} = {$on[1]}";
 
             if (!empty($conditions)) {
                 foreach ($conditions as $condition) {
@@ -264,7 +277,10 @@ class Query
                     $operator   = $condition[1];
                     $value      = $condition[2];
 
-                    $joinClause .= " AND {$field} {$operator} {$value}";
+                    $condition  = $this->generateCondition($field, $operator, $value);
+                    $condition  = $this->prepareQuery($condition['condition'], $condition['values']);
+
+                    $joinClause .= " AND {$condition}";
                 }
             }
 
@@ -276,10 +292,14 @@ class Query
         return $this;
     }
 
-    public function joinQuery($subQuery, $alias, $joinType = 'INNER')
+    public function joinQuery($subQuery, $alias, $on, $joinType = 'INNER')
     {
-        $joinClause          = "{$joinType} JOIN ({$subQuery}) AS {$alias}";
-        $this->joinClauses[] = $joinClause;
+        if (is_array($on) && count($on) == 2) {
+            $joinClause          = "{$joinType} JOIN ({$subQuery}) AS {$alias} ON {$on[0]} = {$on[1]}";
+            $this->joinClauses[] = $joinClause;
+        } else {
+            throw new InvalidArgumentException(esc_html__('Invalid join clause', 'wp-statistics'));
+        }
         
         return $this;
     }
@@ -328,16 +348,16 @@ class Query
     public function getQuery()
     {
         $query          = $this->buildQuery();
-        $preparedQuery  = $this->prepareQuery($query);
+        $preparedQuery  = $this->prepareQuery($query, $this->whereValues);
 
         return $preparedQuery;
     }
 
-    protected function prepareQuery($query)
+    protected function prepareQuery($query, $args = [])
     {
         // Only if there's a placeholder, prepare the query
         if (preg_match('/%[i|s|f|d]/', $query)) {
-            $query = $this->db->prepare($query, $this->whereValues);
+            $query = $this->db->prepare($query, $args);
         }
 
         return $query;
