@@ -199,7 +199,7 @@ class AuthorsModel extends DataProvider
             ->groupBy('id')
             ->getQuery();
 
-        $commentsQuery  = Query::select(['post_author', 'COUNT(comment_ID) AS total_comments'])
+        $commentsQuery  = Query::select(['DISTINCT post_author', 'COUNT(comment_ID) AS total_comments'])
             ->from('posts')
             ->join('comments', ['posts.ID', 'comments.comment_post_ID'])
             ->where('post_status', '=', 'publish')
@@ -208,7 +208,7 @@ class AuthorsModel extends DataProvider
             ->groupBy('post_author')
             ->getQuery();
 
-        $viewsQuery = Query::select(['post_author', 'SUM(count) AS total_views'])
+        $viewsQuery = Query::select(['DISTINCT post_author', 'SUM(count) AS total_views'])
             ->from('posts')
             ->join('pages', ['posts.ID', 'pages.id'])
             ->where('post_status', '=', 'publish')
@@ -217,7 +217,7 @@ class AuthorsModel extends DataProvider
             ->groupBy('post_author')
             ->getQuery();
 
-        $wordsQuery = Query::select(['post_author', 'SUM(meta_value) AS total_words'])
+        $wordsQuery = Query::select(['DISTINCT post_author', 'SUM(meta_value) AS total_words'])
             ->from('posts')
             ->join('postmeta', ['posts.ID', 'postmeta.post_id'])
             ->where('postmeta.meta_key', '=', 'wp_statistics_words_count')
@@ -234,7 +234,10 @@ class AuthorsModel extends DataProvider
                 'comments.total_comments AS total_comments',
                 'views.total_views AS total_views',
                 'words.total_words AS total_words',
-                'authors.total_author_views AS total_author_views'
+                'authors.total_author_views AS total_author_views',
+                'comments.total_comments / COUNT(DISTINCT posts.ID) AS average_comments',
+                'views.total_views / COUNT(DISTINCT posts.ID) AS average_views',
+                'words.total_words / COUNT(DISTINCT posts.ID) AS average_words'
             ])
             ->from('users')
             ->join(
