@@ -480,7 +480,6 @@ class settings_page extends Singleton
             'wps_check_online',
             'wps_menu_bar',
             'wps_coefficient',
-            'wps_chart_totals',
             'wps_hide_notices'
         );
 

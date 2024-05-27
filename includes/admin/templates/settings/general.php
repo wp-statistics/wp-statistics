@@ -298,26 +298,5 @@
         </tbody>
     </table>
 </div>
-<div class="postbox">
-    <table class="form-table">
-        <tbody>
-        <tr valign="top">
-            <th scope="row" colspan="2"><h3><?php esc_html_e('Graphical Data Presentation', 'wp-statistics'); ?></h3></th>
-        </tr>
-
-        <tr valign="top">
-            <th scope="row">
-                <label for="chart-totals"><?php esc_html_e('Include Totals in Charts', 'wp-statistics'); ?></label>
-            </th>
-            <td>
-                <input id="chart-totals" type="checkbox" value="1" name="wps_chart_totals" <?php echo WP_STATISTICS\Option::get('chart_totals') == true ? "checked='checked'" : ''; ?>>
-                <label for="chart-totals"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
-                <p class="description"><?php esc_html_e('For charts that represent multiple values, show the combined amount of all items at the bottom.', 'wp-statistics'); ?></p>
-            </td>
-        </tr>
-
-        </tbody>
-    </table>
-</div>
 
 <?php submit_button(__('Update', 'wp-statistics'), 'primary', 'submit', '', array('OnClick' => "var wpsCurrentTab = getElementById('wps_current_tab'); wpsCurrentTab.value='general-settings'")); ?>
