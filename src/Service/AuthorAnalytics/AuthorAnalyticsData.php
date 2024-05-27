@@ -154,7 +154,12 @@ class AuthorAnalyticsData
 
     public function authorsReportData()
     {
-        $data = $this->authorModel->getAuthorsPerformanceData($this->args);
-        return $data;
+        $authors = $this->authorModel->getAuthorsPerformanceData($this->args);
+        $total   = $this->authorModel->countAuthors($this->args);
+
+        return [
+            'authors'   => $authors,
+            'total'     => $total
+        ];
     }
 }

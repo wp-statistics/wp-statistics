@@ -38,7 +38,8 @@ class AuthorsView
 
     public function view()
     {
-        $postType = isset($_GET['pt']) ? sanitize_text_field($_GET['pt']) : '';
+        $postType   = isset($_GET['pt']) ? sanitize_text_field($_GET['pt']) : '';
+        $data       = $this->getData();
 
         $args = [
             'title'         => esc_html__('Authors', 'wp-statistics'),
@@ -50,8 +51,18 @@ class AuthorsView
             'filters'       => ['post-type'],
             'backUrl'       => Menus::admin_url('author-analytics'),
             'backTitle'     => esc_html__('Authors Performance', 'wp-statistics'),
-            'data'          => $this->getData()
+            'data'          => $data['authors'],
+            'paged'         => Admin_Template::getCurrentPaged(),
         ];
+
+        if ($data['total'] > 0) {
+            $args['total'] = $data['total'];
+
+            $args['pagination'] = Admin_Template::paginate_links([
+                'total' => $data['total'],
+                'echo'  => false
+            ]);
+        }
 
         Admin_Template::get_template(['layout/header', 'layout/title', 'pages/author-analytics/authors-report', 'layout/postbox.toggle', 'layout/footer'], $args);
     }
