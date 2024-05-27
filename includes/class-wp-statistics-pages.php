@@ -13,7 +13,7 @@ class Pages
      */
     public static function active()
     {
-        return (has_filter('wp_statistics_active_pages')) ? apply_filters('wp_statistics_active_pages', true) : Option::get('pages');
+        return (has_filter('wp_statistics_active_pages')) ? apply_filters('wp_statistics_active_pages', true) : 1;
     }
 
     /**
@@ -128,7 +128,7 @@ class Pages
      */
     public static function is_track_all_page()
     {
-        return apply_filters('wp_statistics_track_all_pages', Option::get('track_all_pages') || is_single() || is_page() || is_front_page());
+        return apply_filters('wp_statistics_track_all_pages', 1 || is_single() || is_page() || is_front_page());
     }
 
     /**

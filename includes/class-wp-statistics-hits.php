@@ -176,12 +176,12 @@ class Hits
         }
 
         # Record Pages
-        if (Pages::active() and $exclusion['exclusion_match'] === false and Pages::is_track_all_page() === true) {
+        if (Pages::active() and $exclusion['exclusion_match'] === false) {
             $page_id = Pages::record($visitorProfile);
         }
 
         # Record Visitor Relationship
-        if (isset($visitor_id) and $visitor_id > 0 and isset($page_id) and $page_id > 0 and Option::get('pages')) {
+        if (isset($visitor_id) and $visitor_id > 0 and isset($page_id) and $page_id > 0) {
             Visitor::save_visitors_relationships($page_id, $visitor_id);
         }
 

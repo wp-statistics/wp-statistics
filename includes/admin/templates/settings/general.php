@@ -101,38 +101,6 @@
     <table class="form-table">
         <tbody>
         <tr valign="top">
-            <th scope="row" colspan="2"><h3><?php esc_html_e('Content Engagement Metrics', 'wp-statistics'); ?></h3></th>
-        </tr>
-
-        <tr valign="top">
-            <th scope="row">
-                <label for="pages"><?php esc_html_e('Track Page Views', 'wp-statistics'); ?></label>
-            </th>
-            <td>
-                <input id="pages" type="checkbox" value="1" name="wps_pages" <?php echo WP_STATISTICS\Option::get('pages') == true ? "checked='checked'" : ''; ?>>
-                <label for="pages"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
-                <p class="description"><?php esc_html_e('Tracks how many times each individual page is visited.', 'wp-statistics'); ?></p>
-            </td>
-        </tr>
-
-        <tr valign="top">
-            <th scope="row">
-                <label for="all_pages"><?php esc_html_e('Monitor All Content Types', 'wp-statistics'); ?></label>
-            </th>
-            <td>
-                <input id="all_pages" type="checkbox" value="1" name="wps_track_all_pages" <?php echo WP_STATISTICS\Option::get('track_all_pages') == true ? "checked='checked'" : ''; ?>>
-                <label for="all_pages"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
-                <p class="description"><?php _e('Tracks visitor data for custom post types in addition to standard posts and pages. To access more detailed statistics for custom post types, download the <a href="https://wp-statistics.com/product/wp-statistics-data-plus/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings">DataPlus add-on</a>.', 'wp-statistics'); // phpcs:ignore WordPress.Security.EscapeOutput.UnsafePrintingFunction	 ?></p>
-            </td>
-        </tr>
-
-        </tbody>
-    </table>
-</div>
-<div class="postbox">
-    <table class="form-table">
-        <tbody>
-        <tr valign="top">
             <th scope="row" colspan="2"><h3><?php esc_html_e('User Interface Preferences', 'wp-statistics'); ?></h3></th>
         </tr>
         <tr valign="top">

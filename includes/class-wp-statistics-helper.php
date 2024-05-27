@@ -1221,7 +1221,7 @@ class Helper
         $params = array();
 
         //track all page
-        $params['track_all'] = (Pages::is_track_all_page() === true ? 1 : 0);
+        $params['track_all'] = 1;
 
         //Set Page Type
         $get_page_type               = Pages::get_page_type();

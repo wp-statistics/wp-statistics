@@ -383,7 +383,7 @@ class Visitor
             }
 
             // Get What is Page
-            if (Option::get('visitors_log') && isset($items->page_id)) {
+            if (isset($items->page_id)) {
                 $item['page'] = self::get_page_by_id($items->page_id);
             }
 
@@ -405,11 +405,6 @@ class Visitor
 
         // Default Params
         $params = array('link' => '', 'title' => '');
-
-        // Check Active Visitors Log
-        if (!Option::get('pages')) {
-            return $params;
-        }
 
         $pageTable = DB::table('pages');
 

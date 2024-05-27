@@ -18,7 +18,7 @@ class Admin_Post
     {
 
         // Add Hits Column in All Admin Post-Type Wp_List_Table
-        if (User::Access('read') and Option::get('pages') and !Option::get('disable_column')) {
+        if (User::Access('read') and !Option::get('disable_column')) {
             add_action('admin_init', array($this, 'init'));
         }
 
@@ -28,9 +28,7 @@ class Admin_Post
         }
 
         // Add Post Hit Number in Publish Meta Box in WordPress Edit a post/page
-        if (Option::get('pages')) {
-            add_action('post_submitbox_misc_actions', array($this, 'post_hit_misc'));
-        }
+        add_action('post_submitbox_misc_actions', array($this, 'post_hit_misc'));
 
         // Remove Post Hits when Post Id deleted
         add_action('deleted_post', array($this, 'modify_delete_post'));
