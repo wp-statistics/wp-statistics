@@ -28,7 +28,7 @@ class Admin_Post
         }
 
         // Add Post Hit Number in Publish Meta Box in WordPress Edit a post/page
-        if (Option::get('pages') and Option::get('hit_post_metabox')) {
+        if (Option::get('pages')) {
             add_action('post_submitbox_misc_actions', array($this, 'post_hit_misc'));
         }
 

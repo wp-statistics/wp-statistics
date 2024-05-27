@@ -160,18 +160,6 @@
 
         <tr valign="top">
             <th scope="row">
-                <label for="hit_post_metabox"><?php esc_html_e('Views Metabox', 'wp-statistics'); ?></label>
-            </th>
-
-            <td>
-                <input id="hit_post_metabox" type="checkbox" value="1" name="wps_hit_post_metabox" <?php echo WP_STATISTICS\Option::get('hit_post_metabox') == true ? "checked='checked'" : ''; ?>>
-                <label for="hit_post_metabox"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
-                <p class="description"><?php esc_html_e('Presents a snapshot of content views in the publish box for quick reference.', 'wp-statistics'); ?></p>
-            </td>
-        </tr>
-
-        <tr valign="top">
-            <th scope="row">
                 <label for="show_hits"><?php esc_html_e('Views in Single Contents', 'wp-statistics'); ?></label>
             </th>
 

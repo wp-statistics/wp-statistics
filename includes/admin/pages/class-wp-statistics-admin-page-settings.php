@@ -474,7 +474,6 @@ class settings_page extends Singleton
             'wps_pages',
             'wps_track_all_pages',
             'wps_use_cache_plugin',
-            'wps_hit_post_metabox',
             'wps_show_hits',
             'wps_display_hits_position',
             'wps_check_online',
