@@ -35,9 +35,9 @@ class AuthorAnalyticsPage extends Singleton
             $wordsCount = new WordCount();
 
             // Check for posts without word count meta key
-            if (!empty($wordsCount->getPostsWithoutWordCountMeta())) {
+            if (count($wordsCount->getPostsWithoutWordCountMeta())) {
                 $message = sprintf(
-                    __('Please <a data-id="%s" href="#">click here</a> to process the word count in the background. This is necessary for accurate analytics.', 'text-domain'),
+                    __('Please <a data-id="%s" href="#">click here</a> to process the word count in the background. This is necessary for accurate analytics.', 'wp-statistics'),
                     esc_url(admin_url('admin.php?page=author-analytics&action=process_word_count'))
                 );
 
