@@ -62,6 +62,7 @@ use WP_STATISTICS\Helper;
 
                                 <tbody>
                                     <?php foreach ($data as $author) : ?>
+                                        <?php /** @var stdClass $author */ ?>
                                         <tr>
                                             <td class="wps-pd-l">
                                                 <div class="wps-author-name">
