@@ -1,5 +1,7 @@
-<?php 
+<?php
+use WP_STATISTICS\Helper;
 use WP_STATISTICS\Menus;
+
 $order = !empty($_GET['order']) ? ($_GET['order'] === 'DESC' ? 'ASC' : 'DESC') : 'DESC';
 ?>
 
@@ -43,8 +45,7 @@ $order = !empty($_GET['order']) ? ($_GET['order'] === 'DESC' ? 'ASC' : 'DESC') :
                                             <td class="wps-pd-l"><?php echo esc_html($author->total_posts) ?></td>
                                             <td class="wps-pd-l"><?php echo $author->total_views ? esc_html($author->total_views) : 0 ?></td>
                                             <td class="view-more">
-                                                <!-- add class disabled-->
-                                                <a class="disabled" href="<?php echo esc_url(Menus::admin_url('author-analytics', ['type' => 'single-author', 'author_id' => $author->id])) ?>" title="<?php esc_html_e('View Details', 'wp-statistics') ?>">
+                                                <a class="<?php echo Helper::isAddOnActive('data-plus') ? '' : 'disabled' ?>" href="<?php echo esc_url(Menus::admin_url('author-analytics', ['type' => 'single-author', 'author_id' => $author->id])) ?>" title="<?php esc_html_e('View Details', 'wp-statistics') ?>">
                                                     <?php esc_html_e('View Details', 'wp-statistics') ?>
                                                 </a>
                                             </td>

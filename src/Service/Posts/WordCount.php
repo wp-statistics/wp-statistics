@@ -61,7 +61,7 @@ class WordCount
      */
     public function handleSavePost($postId, $post)
     {
-        if ($post->post_status == 'publish') {
+        if ($post && $post->post_status == 'publish') {
             $wordCount = $this->calculate($post->post_content);
             $this->saveWordsCount($postId, $wordCount);
         }
