@@ -75,24 +75,20 @@ use WP_STATISTICS\Menus;
                                         </td>
                                         <td><?php echo esc_attr($item['platform']); ?></td>
                                         <td><?php echo esc_attr($item['hits']); ?></td>
-                                        <td>
-                                            <?php if (isset($item['user']) and isset($item['user']['ID']) and $item['user']['ID'] > 0) { ?>
-                                                <a href="<?php echo esc_url(Menus::admin_url('visitors', array('user_id' => $item['user']['ID']))); ?>"><?php echo esc_attr($item['user']['user_login']); ?></a>
+                                        <?php if (Option::get('visitors_log')) { ?>
+                                            <td>
+                                                <?php if (isset($item['user']) and isset($item['user']['ID']) and $item['user']['ID'] > 0) { ?>
+                                                    <a href="<?php echo esc_url(Menus::admin_url('visitors', array('user_id' => $item['user']['ID']))); ?>"><?php echo esc_attr($item['user']['user_login']); ?></a>
 
-                                                <?php do_action('wp_statistics_after_user_column', $item); ?>
-                                            <?php } else { ?>
-                                                <?php echo Admin_Template::UnknownColumn(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-                                            <?php } ?>
-                                        </td>
-                                        <?php
-                                        if (Option::get('visitors_log')) {
-                                            ?>
-                                            <td style='text-align: left;' class="tbl-page-column">
-                                                <span class="txt-overflow" title="<?php echo esc_attr($item['page']['title'] != "" ? esc_attr($item['page']['title']) : ''); ?>"><?php echo ($item['page']['link'] != '' ? '<a href="' . esc_url($item['page']['link']) . '" target="_blank" class="wps-text-muted">' : '') . ($item['page']['title'] != "" ? $item['page']['title'] : Admin_Template::UnknownColumn()) . ($item['page']['link'] != '' ? '</a>' : ''); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
+                                                    <?php do_action('wp_statistics_after_user_column', $item); ?>
+                                                <?php } else { ?>
+                                                    <?php echo Admin_Template::UnknownColumn(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+                                                <?php } ?>
                                             </td>
-                                            <?php
-                                        }
-                                        ?>
+                                        <?php } ?>
+                                        <td style='text-align: left;' class="tbl-page-column">
+                                            <span class="txt-overflow" title="<?php echo esc_attr($item['page']['title'] != "" ? esc_attr($item['page']['title']) : ''); ?>"><?php echo ($item['page']['link'] != '' ? '<a href="' . esc_url($item['page']['link']) . '" target="_blank" class="wps-text-muted">' : '') . ($item['page']['title'] != "" ? $item['page']['title'] : Admin_Template::UnknownColumn()) . ($item['page']['link'] != '' ? '</a>' : ''); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
+                                        </td>
                                         <td class="wps-admin-column__referred"><?php echo wp_kses_post($item['referred']); ?></td>
                                     </tr>
                                 <?php } ?>
