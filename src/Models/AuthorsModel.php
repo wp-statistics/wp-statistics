@@ -246,10 +246,10 @@ class AuthorsModel extends DataProvider
                 [['posts.post_status', '=', 'publish'], ['posts.post_type', 'IN', $args['post_type']]],
                 'LEFT'
             )
-            ->joinQuery($commentsQuery, 'comments', ['users.ID', 'comments.post_author'], 'LEFT')
-            ->joinQuery($viewsQuery, 'views', ['users.ID', 'views.post_author'], 'LEFT')
-            ->joinQuery($wordsQuery, 'words', ['users.ID', 'words.post_author'], 'LEFT')
-            ->joinQuery($authorsQuery, 'authors', ['users.ID', 'authors.author_id'], 'LEFT')
+            ->joinQuery($commentsQuery, ['users.ID', 'comments.post_author'], 'comments', 'LEFT')
+            ->joinQuery($viewsQuery, ['users.ID', 'views.post_author'], 'views', 'LEFT')
+            ->joinQuery($wordsQuery, ['users.ID', 'words.post_author'], 'words', 'LEFT')
+            ->joinQuery($authorsQuery, ['users.ID', 'authors.author_id'], 'authors', 'LEFT')
             ->where('post_status', '=', 'publish')
             ->where('post_type', 'IN', $args['post_type'])
             ->whereDate('post_date', [$args['from'], $args['to']])

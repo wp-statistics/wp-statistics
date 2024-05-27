@@ -57,12 +57,24 @@ class Query
         return $table;
     }
 
+    /**
+     * Sets the table for the query.
+     *
+     * @param string $table The name of the table.
+     */
     public function from($table)
     {
         $this->table = $this->getTable($table);
         return $this;
     }
 
+    /**
+     * Sets the sub-query for the query. 
+     * Useful for times we want to get fields from a certain sub-query, not table.
+     *
+     * @param string $subQuery The subquery to be used in the query.
+     * @param string $alias The alias to be assigned to the subquery. Defaults to 'sub_query'.
+     */
     public function fromQuery($subQuery, $alias = 'sub_query')
     {
         $this->subQuery = "($subQuery) AS {$alias}";
@@ -103,6 +115,13 @@ class Query
     }
 
 
+    /**
+     * Filters the records based on the given condition.
+     *
+     * @param string $field The name of the field to filter by.
+     * @param string $operator The operator to use for the condition. Supported operators are: '=', '!=', '>', '>=', '<', '<=', 'LIKE', 'NOT LIKE', 'IN', 'NOT IN', 'BETWEEN'.
+     * @param mixed $value The value to compare against. For operators 'IN' and 'NOT IN', an array of values can be provided. For operator 'BETWEEN', an array of two values representing the range can be provided.
+     */
     public function where($field, $operator, $value)
     {
         if (is_array($value)) {
@@ -292,7 +311,17 @@ class Query
         return $this;
     }
 
-    public function joinQuery($subQuery, $alias, $on, $joinType = 'INNER')
+    /**
+     * Joins the current query with a subquery based on a given condition.
+     *
+     * @param string $subQuery The subquery to join with.
+     * @param array $on Array of table keys to join. The array should contain two elements: the first element is the primary key of the current table, and the second element is the foreign key of the subquery table.
+     * @param string $alias The alias to be assigned to the subquery.
+     * @param string $joinType The type of join to perform. Defaults to 'INNER'.
+     * 
+     * @throws InvalidArgumentException If the join clause is invalid.
+     */
+    public function joinQuery($subQuery, $on, $alias, $joinType = 'INNER')
     {
         if (is_array($on) && count($on) == 2) {
             $joinClause          = "{$joinType} JOIN ({$subQuery}) AS {$alias} ON {$on[0]} = {$on[1]}";
