@@ -31,6 +31,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                 id: 'afterRenderPlugin',  
 
                 afterDraw: function (chart, args, options) {
+
                     const canvas = document.getElementById('publishedChart');
                     const ctx = canvas.getContext('2d');
                     chart.data.datasets.forEach((dataset, datasetIndex) => {
@@ -107,8 +108,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                     scales: {
                         y: {
                             type: 'linear',
-                            min: 2,
-                            max: 20,
+
                             ticks: {
                                 stepSize: 4,
                                 color: '#56585A',
@@ -129,8 +129,6 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                         x: {
                             type: 'linear',
                             position: 'bottom',
-                            min: 20000,
-                            max: 200000,
                             title: {
                                 display: true,
                                 text: 'Post Views',
@@ -171,7 +169,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         },
 
         generatePublishingOverviewChart: function () {
-            const data = {
+            const overviewPublishData = {
                 datasets: [{
                     label: 'overview',
                     data: Wp_Statistics_Author_Analytics_Object.publish_overview_chart_data,
@@ -199,7 +197,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             }
 
             //scales
-            const scales = {
+            const overviewPublishScales = {
                 y: {
                     type: 'time',
                     offset: true,
@@ -273,12 +271,12 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             }
 
 
-            const config = {
+            const overviewPublishConfig = {
                 type: 'matrix',
-                data,
+                data:overviewPublishData,
                 options: {
                     maintainAspectRatio: false,
-                    scales: scales,
+                    scales: overviewPublishScales,
                     aspectRatio: 10,
                     animation: false,
                     plugins: {
@@ -303,7 +301,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                 }
             };
 
-            new Chart(document.getElementById('myChart'), config);
+            new Chart(document.getElementById('overviewPublishChart'), overviewPublishConfig);
         }
     };
 

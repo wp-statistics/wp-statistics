@@ -12,7 +12,7 @@
     </div>
     <div class="wps-card__chart-matrix">
         <div class="chart-container">
-            <canvas id="myChart">
+            <canvas id="overviewPublishChart">
         </div>
         <div class="wps-card__chart-guide">
             <div class="wps-card__chart-guide--items">
