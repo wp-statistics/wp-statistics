@@ -1,5 +1,5 @@
 <?php
-use WP_STATISTICS\Helper;
+$order = !empty($_GET['order']) ? ($_GET['order'] === 'DESC' ? 'ASC' : 'DESC') : 'DESC';
 ?>
 
 <div class="postbox-container wps-postbox-full">
@@ -13,47 +13,47 @@ use WP_STATISTICS\Helper;
                                 <thead>
                                     <tr>
                                         <th class="wps-pd-l">
-                                            <a href="" class="sort"><?php esc_html_e('Author', 'wp-statistics') ?></a>
+                                            <a href="<?php echo add_query_arg(['order_by' => 'name', 'order' => $order]) ?>" class="sort"><?php esc_html_e('Author', 'wp-statistics') ?></a>
                                         </th>
                                         <th class="wps-pd-l">
-                                            <a href="" class="sort des">
+                                            <a href="<?php echo add_query_arg(['order_by' => 'total_views', 'order' => $order]) ?>" class="sort des">
                                                 <?php esc_html_e('Post Views', 'wp-statistics') ?>
                                             </a>
                                         </th>
                                         <th class="wps-pd-l">
-                                            <a href="" class="sort">
+                                            <a href="<?php echo add_query_arg(['order_by' => 'total_posts', 'order' => $order]) ?>" class="sort">
                                                 <?php esc_html_e('Publish', 'wp-statistics') ?>
                                                 <span class="wps-tooltip" title="<?php esc_html_e('Publish tooltip', 'wp-statistics') ?>"><i class="wps-tooltip-icon info"></i></span>
 
                                             </a>
                                         </th>
                                         <th class="wps-pd-l">
-                                            <a href="" class="sort">
+                                            <a href="<?php echo add_query_arg(['order_by' => 'total_author_views', 'order' => $order]) ?>" class="sort">
                                                 <?php esc_html_e('Author Page Views', 'wp-statistics') ?>
                                             </a>
                                         </th>
                                         <th class="wps-pd-l">
-                                            <a href="" class="sort">
+                                            <a href="<?php echo add_query_arg(['order_by' => 'total_comments', 'order' => $order]) ?>" class="sort">
                                                 <?php esc_html_e('Comments', 'wp-statistics') ?>
                                             </a>
                                         </th>
                                         <th class="wps-pd-l">
-                                            <a href="" class="sort">
+                                            <a href="<?php echo add_query_arg(['order_by' => 'average_comments', 'order' => $order]) ?>" class="sort">
                                                 <?php esc_html_e('Comments/Post', 'wp-statistics') ?>
                                             </a>
                                         </th>
                                         <th class="wps-pd-l">
-                                            <a href="" class="sort">
+                                            <a href="<?php echo add_query_arg(['order_by' => 'average_views', 'order' => $order]) ?>" class="sort">
                                                 <?php esc_html_e('Post Views/Post', 'wp-statistics') ?>
                                             </a>
                                         </th>
                                         <th class="wps-pd-l">
-                                            <a href="" class="sort">
+                                            <a href="<?php echo add_query_arg(['order_by' => 'average_words', 'order' => $order]) ?>" class="sort">
                                                 <?php esc_html_e('Words/Post', 'wp-statistics') ?>
                                             </a>
                                         </th>
                                         <th class="wps-pd-l">
-                                            <a href="" class="sort">
+                                            <a href="<?php echo add_query_arg(['order_by' => 'total_words', 'order' => $order]) ?>" class="sort">
                                                 <?php esc_html_e('Word Counts', 'wp-statistics') ?>
                                             </a>
                                         </th>
@@ -83,13 +83,13 @@ use WP_STATISTICS\Helper;
                                                 <?php echo $author->total_comments ? esc_html($author->total_comments) : 0 ?>
                                             </td>
                                             <td class="wps-pd-l">
-                                                <?php echo esc_html(Helper::divideNumbers($author->total_comments, $author->total_posts)) ?>
+                                                <?php echo $author->average_comments ? esc_html(round($author->average_comments, 1)) : 0; ?>
                                             </td>
                                             <td class="wps-pd-l">
-                                                <?php echo esc_html(Helper::divideNumbers($author->total_views, $author->total_posts)) ?>
+                                                <?php echo $author->average_views ? esc_html(round($author->average_views, 1)) : 0; ?>
                                             </td>
                                             <td class="wps-pd-l">
-                                                <?php echo esc_html(Helper::divideNumbers($author->total_words, $author->total_posts)) ?>
+                                                <?php echo $author->average_words ? esc_html(round($author->average_words, 1)) : 0; ?>
                                             </td>
                                             <td class="wps-pd-l">
                                                 <?php echo $author->total_words ? esc_html($author->total_words) : 0 ?>
@@ -104,7 +104,6 @@ use WP_STATISTICS\Helper;
                             <?php esc_html_e('No recent data available.', 'wp-statistics')   ?> 
                         </div>
                     <?php endif; ?>
-                    
                 </div>
             </div>
         </div>

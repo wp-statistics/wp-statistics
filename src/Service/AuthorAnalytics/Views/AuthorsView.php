@@ -38,11 +38,14 @@ class AuthorsView
 
     public function view()
     {
+        $postType = isset($_GET['pt']) ? sanitize_text_field($_GET['pt']) : '';
+
         $args = [
             'title'         => esc_html__('Authors', 'wp-statistics'),
             'pageName'      => Menus::get_page_slug('author-analytics'),
             'pagination'    => Admin_Template::getCurrentPaged(),
             'DateRang'      => Admin_Template::DateRange(),
+            'custom_get'    => ['type' => 'authors', 'pt' => $postType],
             'HasDateRang'   => true,
             'filters'       => ['post-type'],
             'backUrl'       => Menus::admin_url('author-analytics'),
