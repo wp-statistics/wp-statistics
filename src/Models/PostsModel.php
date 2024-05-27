@@ -131,6 +131,7 @@ class PostsModel extends DataProvider
             ->where('post_type', 'IN', $args['post_type'])
             ->where('post_status', '=', 'publish')
             ->where('posts.post_author', '=', $args['author_id'])
+            ->whereDate('posts.post_date', [$args['from'], $args['to']])
             ->groupBy('posts.ID')
             ->orderBy($args['order_by'], $args['order'])
             ->perPage($args['page'], $args['per_page'])

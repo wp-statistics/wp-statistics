@@ -341,7 +341,9 @@ class Query
     
     public function orderBy($field, $order = 'DESC')
     {
-        $this->orderClause = "ORDER BY {$field} {$order}";
+        if (!empty($field) && !empty($order)) {
+            $this->orderClause = "ORDER BY {$field} {$order}";
+        }
         
         return $this;
     }

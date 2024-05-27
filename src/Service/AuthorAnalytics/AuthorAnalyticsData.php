@@ -165,8 +165,8 @@ class AuthorAnalyticsData
 
     public function authorsPostsData()
     {
-        $posts = $this->postsModel->getPostsReportData($this->args);
-        $total   = $this->postsModel->countPosts($this->args);
+        $posts  = $this->postsModel->getPostsReportData($this->args);
+        $total  = $this->postsModel->countPosts($this->args);
 
         return [
             'posts'   => $posts,
