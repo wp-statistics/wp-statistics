@@ -31,7 +31,9 @@ class AuthorAnalyticsData
     public function localizeData()
     {
         $data = [];
-        if ($this->args['tab'] == 'performance') {
+
+        // Data for performance tab
+        if (isset($this->args['tab']) && $this->args['tab'] == 'performance') {
             $data = [
                 'publish_overview_chart_data'   => $this->generatePublishingChartData(),
                 'views_per_posts_chart_data'    => $this->generateViewsPerPostsChartData()
@@ -149,4 +151,10 @@ class AuthorAnalyticsData
         ];
     }
 
+
+    public function authorsReportData()
+    {
+        $data = $this->authorModel->getAuthorsPerformanceData();
+        return $data;
+    }
 }
