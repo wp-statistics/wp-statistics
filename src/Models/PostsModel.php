@@ -120,8 +120,8 @@ class PostsModel extends DataProvider
                 'posts.ID AS post_id',
                 'posts.post_author AS author_id',
                 'posts.post_title AS title',
-                'pages.views AS views',
-                'comments.total_comments AS comments',
+                'COALESCE(pages.views, 0) AS views',
+                'COALESCE(comments.total_comments, 0) AS comments',
                 "MAX(CASE WHEN postmeta.meta_key = 'wp_statistics_words_count' THEN postmeta.meta_value ELSE 0 END) AS words"
             ])
             ->from('posts')
