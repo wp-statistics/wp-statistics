@@ -63,9 +63,9 @@ class Query
         return $this;
     }
 
-    public function fromQuery($subQuery)
+    public function fromQuery($subQuery, $alias = 'sub_query')
     {
-        $this->subQuery = "($subQuery) AS sub_query";
+        $this->subQuery = "($subQuery) AS {$alias}";
         return $this;
     }
 
@@ -263,7 +263,7 @@ class Query
                     $field      = $condition[0];
                     $operator   = $condition[1];
                     $value      = $condition[2];
-                    
+
                     $joinClause .= " AND {$field} {$operator} {$value}";
                 }
             }
