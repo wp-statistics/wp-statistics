@@ -492,12 +492,6 @@ class settings_page extends Singleton
             $wp_statistics_options[self::input_name_to_option($option)] = $wps_disable_column;
         }
 
-        //Add Visitor RelationShip Table
-        $visitorRelationships = DB::table('visitor_relationships');
-        if (isset($_POST['wps_visitors_log']) && $_POST['wps_visitors_log'] == 1 && DB::ExistTable($visitorRelationships) === false) {
-            Install::create_visitor_relationship_table();
-        }
-
         //Flush Rewrite Use Cache Plugin
         if (isset($_POST['wps_use_cache_plugin'])) {
             flush_rewrite_rules();
