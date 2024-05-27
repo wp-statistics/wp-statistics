@@ -240,26 +240,46 @@ class Query
         return $result;
     }
 
+
     /**
      * Joins the current table with another table based on a given condition.
      *
      * @param string $table The name of the table to join with.
-     * @param array $condition An array with first item being the primary key in the first table and second item being the foreign key in the joined table.
+     * @param array $on Table keys to join. ['table1.primary_key', 'table2.foreign_key']
+     * @param array[] $conditions Array of extra join conditions to append. [['field', 'operator', 'value'], ...]
      * @param string $joinType The type of join to perform. Defaults to 'INNER'.
+     * 
+     * @throws InvalidArgumentException If the join clause is invalid.
      */
-    public function join($table, $condition, $joinType = 'INNER')
+    public function join($table, $on, $conditions = [], $joinType = 'INNER')
     {
         $joinTable = $this->getTable($table);
 
-        if (is_array($condition) && count($condition) == 2) {
-            $primaryKey = $this->removeTablePrefix("{$this->table}.{$condition[0]}");
-            $foreignKey = $this->removeTablePrefix("{$joinTable}.{$condition[1]}");
-            $joinClause = "{$joinType} JOIN {$joinTable} as $table ON {$primaryKey} = {$foreignKey}";
+        if (is_array($on) && count($on) == 2) {
+            $joinClause = "{$joinType} JOIN {$joinTable} as $table ON {$on[0]} = {$on[1]}";
+
+            if (!empty($conditions)) {
+                foreach ($conditions as $condition) {
+                    $field      = $condition[0];
+                    $operator   = $condition[1];
+                    $value      = $condition[2];
+                    
+                    $joinClause .= " AND {$field} {$operator} {$value}";
+                }
+            }
 
             $this->joinClauses[] = $joinClause;
         } else {
             throw new InvalidArgumentException(esc_html__('Invalid join clause', 'wp-statistics'));
         }
+        
+        return $this;
+    }
+
+    public function joinQuery($subQuery, $alias, $joinType = 'INNER')
+    {
+        $joinClause          = "{$joinType} JOIN ({$subQuery}) AS {$alias}";
+        $this->joinClauses[] = $joinClause;
         
         return $this;
     }

@@ -46,7 +46,7 @@ class AuthorsModel extends DataProvider
 
         $result = Query::select(['DISTINCT post_author as id', 'display_name as name', 'COUNT(posts.ID) as post_count'])
             ->fromTable('posts')
-            ->join('users', ['post_author', 'ID'])
+            ->join('users', ['posts.post_author', 'users.ID'])
             ->where('post_status', '=', 'publish')
             ->where('post_type', 'IN', $args['post_type'])
             ->whereDate('post_date', [$args['from'], $args['to']])
@@ -71,8 +71,8 @@ class AuthorsModel extends DataProvider
 
         $result = Query::select(['DISTINCT post_author as id', 'display_name as name', 'SUM(pages.count) as views'])
             ->fromTable('posts')
-            ->join('users', ['post_author', 'ID'])
-            ->join('pages', ['ID', 'id'])
+            ->join('users', ['posts.post_author', 'users.ID'])
+            ->join('pages', ['posts.ID', 'pages.id'])
             ->where('post_status', '=', 'publish')
             ->where('post_type', 'IN', $args['post_type'])
             ->whereDate('date', [$args['from'], $args['to']])
@@ -101,8 +101,8 @@ class AuthorsModel extends DataProvider
                 'COUNT(comments.comment_ID) / COUNT(DISTINCT posts.ID) AS average_comments'
             ])
             ->fromTable('posts')
-            ->join('users', ['post_author', 'ID'])
-            ->join('comments', ['ID', 'comment_post_ID'], 'LEFT')
+            ->join('users', ['posts.post_author', 'users.ID'])
+            ->join('comments', ['posts.ID', 'comments.comment_post_ID'], [], 'LEFT')
             ->where('post_status', '=', 'publish')
             ->where('post_type', 'IN', $args['post_type'])
             ->whereDate('post_date', [$args['from'], $args['to']])
@@ -135,8 +135,8 @@ class AuthorsModel extends DataProvider
                 'SUM(pages.count) / COUNT(DISTINCT posts.ID) AS average_views'
             ])
             ->fromTable('posts')
-            ->join('users', ['post_author', 'ID'])
-            ->join('pages', ['ID', 'id'], 'LEFT')
+            ->join('users', ['posts.post_author', 'users.ID'])
+            ->join('pages', ['posts.ID', 'pages.id'], [], 'LEFT')
             ->where('post_status', '=', 'publish')
             ->where('post_type', 'IN', $args['post_type'])
             ->whereDate('post_date', [$args['from'], $args['to']])
@@ -165,8 +165,8 @@ class AuthorsModel extends DataProvider
                 'SUM(postmeta.meta_value) / COUNT(DISTINCT posts.ID) AS average_words'
             ])
             ->fromTable('posts')
-            ->join('users', ['post_author', 'ID'])
-            ->join('postmeta', ['ID', 'post_id'])
+            ->join('users', ['posts.post_author', 'users.ID'])
+            ->join('postmeta', ['posts.ID', 'postmeta.post_id'])
             ->where('meta_key', '=', WordCount::WORDS_COUNT_META_KEY)
             ->where('post_status', '=', 'publish')
             ->where('post_type', 'IN', $args['post_type'])
@@ -180,4 +180,58 @@ class AuthorsModel extends DataProvider
         return $result ? $result : [];
     }
 
+    public function getAuthorsPerformanceReport($args = [], $bypassCache = false)
+    {
+        $args = $this->parseArgs($args, [
+            'from'      => '',
+            'to'        => '',
+            'post_type' => Helper::get_list_post_type(),
+            'order_by'  => 'average_pages',
+            'order'     => 'DESC',
+            'page'     => 1,
+            'per_page' => 5
+        ]);
+
+        $query = "
+            SELECT 
+                users.ID AS author_id,
+                users.display_name AS author_name,
+                COUNT(DISTINCT posts.ID) AS total_posts,
+                IFNULL(comments.total_comments, 0) AS total_comments,
+                IFNULL(visits.total_visits, 0) AS total_visits,
+                IFNULL(words.total_words, 0) AS total_words
+            FROM 
+                wp_users AS users
+            LEFT JOIN 
+                wp_posts AS posts ON users.ID = posts.post_author AND posts.post_status = 'publish' AND posts.post_type IN ('post', 'page', 'product')
+            LEFT JOIN 
+                (SELECT post_author, COUNT(comment_ID) AS total_comments
+                FROM wp_posts
+                JOIN wp_comments ON wp_posts.ID = wp_comments.comment_post_ID
+                WHERE wp_posts.post_status = 'publish' AND wp_posts.post_type IN ('post', 'page', 'product')
+                GROUP BY post_author) AS comments ON users.ID = comments.post_author
+            LEFT JOIN 
+                (SELECT post_author, SUM(count) AS total_visits
+                FROM wp_posts
+                JOIN wp_statistics_pages ON wp_posts.ID = wp_statistics_pages.id
+                WHERE wp_posts.post_status = 'publish' AND wp_posts.post_type IN ('post', 'page', 'product')
+                GROUP BY post_author) AS visits ON users.ID = visits.post_author
+            LEFT JOIN 
+                (SELECT post_author, SUM(meta_value) AS total_words
+                FROM wp_posts
+                JOIN wp_postmeta ON wp_posts.ID = wp_postmeta.post_id
+                WHERE wp_postmeta.meta_key = 'wp_statistics_words_count' AND wp_posts.post_status = 'publish' AND wp_posts.post_type IN ('post', 'page', 'product')
+                GROUP BY post_author) AS words ON users.ID = words.post_author
+            GROUP BY 
+                users.ID, users.display_name
+            ORDER BY 
+                total_posts DESC
+            LIMIT 10
+        ";
+
+        // $result = Query::raw($query, []);
+
+        $result = [];
+        return $result ? $result : [];
+    }
 }

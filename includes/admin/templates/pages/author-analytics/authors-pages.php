@@ -1,6 +1,6 @@
 <?php 
 use WP_STATISTICS\Menus;
-$order = !empty($_GET['order']) ? ($order === 'DESC' ? 'ASC' : 'DESC') : 'DESC';
+$order = !empty($_GET['order']) ? ($_GET['order'] === 'DESC' ? 'ASC' : 'DESC') : 'DESC';
 ?>
 
 <div class="postbox-container wps-postbox-full">
