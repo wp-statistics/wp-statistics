@@ -59,6 +59,6 @@ class AuthorAnalyticsManager
         Option::update("wp_statistics_jobs['word_count_processed']", true);
 
         // Display admin notice
-        Notice::addNotice(__('Word count processing started.', 'wp-statistics'));
+        Notice::addNotice(__('Word count processing started.', 'wp-statistics'), 'word_count_notice', false, false);
     }
 }

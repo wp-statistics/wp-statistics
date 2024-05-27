@@ -37,7 +37,7 @@ class AuthorAnalyticsPage extends Singleton
                     esc_url(admin_url('admin.php?page=author-analytics&action=process_word_count'))
                 );
 
-                Notice::addNotice($message);
+                Notice::addNotice($message, 'word_count_prompt1', 'info', false);
             }
         }
     }

@@ -337,10 +337,11 @@ class Admin_Assets
         );
 
         // Rest-API Meta Box Url
-        $list['admin_url']      = admin_url();
-        $list['assets_url']     = self::$plugin_url . self::$asset_dir;
-        $list['rest_api_nonce'] = wp_create_nonce('wp_rest');
-        $list['meta_box_api']   = admin_url('admin-ajax.php?action=wp_statistics_admin_meta_box');
+        $list['admin_url']            = admin_url();
+        $list['assets_url']           = self::$plugin_url . self::$asset_dir;
+        $list['rest_api_nonce']       = wp_create_nonce('wp_rest');
+        $list['dismiss_notice_nonce'] = wp_create_nonce('wp_statistics_dismiss_notice');
+        $list['meta_box_api']         = admin_url('admin-ajax.php?action=wp_statistics_admin_meta_box');
 
         // Meta Box List
         $meta_boxes_list    = Meta_Box::getList();
