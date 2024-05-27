@@ -16,7 +16,12 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         },
 
         generateViewsPerPostsChart: function () {
+            if (!wps_js.isset(Wp_Statistics_Author_Analytics_Object, 'views_per_posts_chart_data')) {
+                return;
+            }
+
             const publishedChartData = Wp_Statistics_Author_Analytics_Object.views_per_posts_chart_data;
+
             const chartImageUrls     = publishedChartData.map(point => point.img);
 
             const chartImages = chartImageUrls.map(url => {
@@ -24,8 +29,6 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                 img.src = url;
                 return img;
             });
-
-            let chartRendered = 0
 
             const afterRenderPlugin = {
                 id: 'afterRenderPlugin',  
@@ -169,6 +172,10 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         },
 
         generatePublishingOverviewChart: function () {
+            if (!wps_js.isset(Wp_Statistics_Author_Analytics_Object, 'publish_overview_chart_data')) {
+                return;
+            }
+
             const overviewPublishData = {
                 datasets: [{
                     label: 'overview',
