@@ -27,7 +27,7 @@ use WP_STATISTICS\Admin_Template;
                                     <?php } ?>
                                     <td><?php echo esc_html(Option::get('hash_ips') == true ? __('Daily Visitor Hash', 'wp-statistics') : __('IP Address', 'wp-statistics')); ?></td>
                                     <td><?php esc_html_e('Online For', 'wp-statistics'); ?></td>
-                                    <?php if (Option::get('visitors_log')) { ?>
+                                    <?php if (Option::get('pages')) { ?>
                                         <td><?php esc_html_e('Page', 'wp-statistics'); ?></td>
                                     <?php } ?>
                                     <td><?php esc_html_e('Referrer', 'wp-statistics'); ?></td>
@@ -51,7 +51,7 @@ use WP_STATISTICS\Admin_Template;
                                         <?php } ?>
                                         <td style='text-align: left' class="wps-admin-column__ip"><?php echo sprintf('<a href="%s">%s</a>', esc_url($item['ip']['link']), esc_attr($item['ip']['value'])); ?></td>
                                         <td style='text-align: left'><span><?php echo esc_attr($item['online_for']); ?></span></td>
-                                        <?php if (Option::get('visitors_log')) { ?>
+                                        <?php if (Option::get('pages')) { ?>
                                             <td style='text-align: left'><?php echo ($item['page']['link'] != '' ? '<a href="' . esc_url($item['page']['link']) . '" target="_blank" class="wps-text-muted">' : '') . esc_attr($item['page']['title']) . ($item['page']['link'] != '' ? '</a>' : Admin_Template::UnknownColumn()); ?></td>
                                         <?php } ?>
                                         <td style='text-align: left' class="wps-admin-column__referred"><?php echo wp_kses_post($item['referred']); ?></td>

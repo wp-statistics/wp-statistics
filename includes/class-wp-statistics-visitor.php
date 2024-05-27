@@ -407,7 +407,7 @@ class Visitor
         $params = array('link' => '', 'title' => '');
 
         // Check Active Visitors Log
-        if (!Option::get('visitors_log')) {
+        if (!Option::get('pages')) {
             return $params;
         }
 

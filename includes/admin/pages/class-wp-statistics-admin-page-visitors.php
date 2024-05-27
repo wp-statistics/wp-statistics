@@ -171,7 +171,7 @@ class visitors_page extends Singleton
             $visitorTable      = DB::table('visitor');
             $relationshipTable = DB::table('visitor_relationships');
 
-            if (Option::get('visitors_log')) {
+            if (Option::get('pages')) {
                 if (isset($_GET['ip'])) {
                     $sql = "SELECT v.*, r.* FROM `{$visitorTable}` v JOIN `{$relationshipTable}` r ON v.ID = r.visitor_id {$condition} ORDER BY r.date DESC";
                 } else {
