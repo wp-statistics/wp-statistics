@@ -204,12 +204,16 @@ class UserOnline
         $current_page = $visitorProfile->getCurrentPageType();
         $user_id      = $visitorProfile->getUserId();
 
+        $pageId = Pages::getPageId($current_page['type'], $current_page['id']);
+
         //Prepare User online Update data
         $user_online = array(
             'timestamp' => TimeZone::getCurrentTimestamp(),
             'date'      => TimeZone::getCurrentDate(),
             'referred'  => $visitorProfile->getReferrer(),
             'user_id'   => $user_id,
+            'page_id'   => $pageId,
+            'type'      => $current_page['type']
         );
         $user_online = apply_filters('wp_statistics_update_user_online_data', wp_parse_args($args, $user_online));
 
