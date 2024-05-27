@@ -1220,9 +1220,6 @@ class Helper
         // Create Empty Params Object
         $params = array();
 
-        //track all page
-        $params['track_all'] = 1;
-
         //Set Page Type
         $get_page_type               = Pages::get_page_type();
         $params['current_page_type'] = $get_page_type['type'];

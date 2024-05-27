@@ -199,8 +199,8 @@ class settings_page extends Singleton
                 if (wp_next_scheduled('wp_statistics_report_hook')) {
                     wp_unschedule_event(wp_next_scheduled('wp_statistics_report_hook'), 'wp_statistics_report_hook');
                 }
-                $timeReports = sanitize_text_field($_POST['wps_time_report']);
-                $schedulesInterval = wp_get_schedules();
+                $timeReports         = sanitize_text_field($_POST['wps_time_report']);
+                $schedulesInterval   = wp_get_schedules();
                 $timeReportsInterval = 86400;
                 if (isset($schedulesInterval[$timeReports]['interval'])) {
                     $timeReportsInterval = $schedulesInterval[$timeReports]['interval'];
@@ -472,7 +472,6 @@ class settings_page extends Singleton
             'wps_visitors_log',
             'wps_enable_user_column',
             'wps_pages',
-            'wps_track_all_pages',
             'wps_use_cache_plugin',
             'wps_show_hits',
             'wps_display_hits_position',
@@ -494,7 +493,8 @@ class settings_page extends Singleton
         }
 
         //Add Visitor RelationShip Table
-        if (isset($_POST['wps_visitors_log']) and $_POST['wps_visitors_log'] == 1) {
+        $visitorRelationships = DB::table('visitor_relationships');
+        if (isset($_POST['wps_visitors_log']) && $_POST['wps_visitors_log'] == 1 && DB::ExistTable($visitorRelationships) === false) {
             Install::create_visitor_relationship_table();
         }
 

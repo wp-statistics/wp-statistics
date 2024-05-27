@@ -37,7 +37,6 @@ class Hits
             # Filter Data
             add_filter('wp_statistics_current_page', array($this, 'set_current_page'));
             add_filter('wp_statistics_page_uri', array($this, 'set_page_uri'));
-            add_filter('wp_statistics_track_all_pages', array($this, 'set_track_all'));
             add_filter('wp_statistics_user_id', array($this, 'set_current_user'));
         }
 
@@ -48,21 +47,6 @@ class Hits
 
         # Record WordPress Front Page Hits
         add_action('wp', array($this, 'record_wp_hits'));
-    }
-
-    /**
-     * Set is track All Pages
-     *
-     * @param $track_all
-     * @return mixed
-     */
-    public function set_track_all($track_all)
-    {
-        if (isset($this->rest_hits->track_all) and $this->rest_hits->track_all == 1) {
-            $track_all = true;
-        }
-
-        return $track_all;
     }
 
     /**

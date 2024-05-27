@@ -122,16 +122,6 @@ class Pages
     }
 
     /**
-     * Check Track All Page WP Statistics
-     *
-     * @return bool
-     */
-    public static function is_track_all_page()
-    {
-        return apply_filters('wp_statistics_track_all_pages', 1 || is_single() || is_page() || is_front_page());
-    }
-
-    /**
      * Get Page Url
      *
      * @return bool|mixed|string
