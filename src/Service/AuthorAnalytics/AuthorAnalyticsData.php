@@ -162,4 +162,15 @@ class AuthorAnalyticsData
             'total'     => $total
         ];
     }
+
+    public function authorsPostsData()
+    {
+        $posts = $this->postsModel->getPostsReportData($this->args);
+        $total   = $this->postsModel->countPosts($this->args);
+
+        return [
+            'posts'   => $posts,
+            'total'   => $total
+        ];
+    }
 }

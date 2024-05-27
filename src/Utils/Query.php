@@ -154,8 +154,10 @@ class Query
             case '<=':
             case 'LIKE':
             case 'NOT LIKE':
-                $condition  = "$field $operator %s";
-                $values[]   = $value;
+                if (!empty($value)) {
+                    $condition  = "$field $operator %s";
+                    $values[]   = $value;
+                }
                 break;
 
             case 'IN':
@@ -181,6 +183,8 @@ class Query
             default:
                 throw new InvalidArgumentException(esc_html__(sprintf("Unsupported operator: %s", $operator)));
         }
+
+        if (empty($condition)) return;
 
         return [
             'condition' => $condition, 
@@ -297,9 +301,11 @@ class Query
                     $value      = $condition[2];
 
                     $condition  = $this->generateCondition($field, $operator, $value);
-                    $condition  = $this->prepareQuery($condition['condition'], $condition['values']);
 
-                    $joinClause .= " AND {$condition}";
+                    if (!empty($condition)) {
+                        $condition  = $this->prepareQuery($condition['condition'], $condition['values']);
+                        $joinClause .= " AND {$condition}";
+                    }
                 }
             }
 
