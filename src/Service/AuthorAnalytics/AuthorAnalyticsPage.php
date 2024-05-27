@@ -6,8 +6,6 @@ use WP_STATISTICS\Menus;
 use WP_Statistics\Components\Singleton;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Service\AuthorAnalytics\Views\AuthorsView;
-use WP_Statistics\Service\AuthorAnalytics\Views\PostsView;
-use WP_Statistics\Service\AuthorAnalytics\Views\SingleAuthorView;
 use WP_Statistics\Service\AuthorAnalytics\Views\TabsView;
 use Exception;
 use WP_Statistics\Service\Posts\WordCount;
@@ -20,10 +18,8 @@ class AuthorAnalyticsPage extends Singleton
      * @var array
      */
     private $views = [
-        'tabs'          => TabsView::class,
-        'posts'         => PostsView::class,
-        'authors'       => AuthorsView::class,
-        'single-author' => SingleAuthorView::class
+        'tabs'      => TabsView::class,
+        'authors'   => AuthorsView::class
     ];
 
     public function __construct()
@@ -46,6 +42,18 @@ class AuthorAnalyticsPage extends Singleton
         }
     }
 
+    
+    /**
+     * Get all views
+     *
+     * @return array
+     */
+    public function getViews()
+    {
+        return apply_filters('wp_statistics_author_analytics_views', $this->views);
+    }
+
+
     /**
      * Get current view
      *
@@ -53,6 +61,8 @@ class AuthorAnalyticsPage extends Singleton
      */
     public function getCurrentView()
     {
+        $views = $this->getViews();
+
         // Set current view to tabs by default
         $currentView = 'tabs';
 
@@ -60,7 +70,7 @@ class AuthorAnalyticsPage extends Singleton
         $pageType = isset($_GET['type']) ? sanitize_text_field($_GET['type']) : false;
 
         // If page type is set and is a valid view
-        if ($pageType && array_key_exists($pageType, $this->views)) {
+        if ($pageType && array_key_exists($pageType, $views)) {
             $currentView = $pageType;
         }
 
@@ -72,21 +82,25 @@ class AuthorAnalyticsPage extends Singleton
      */
     public function view()
     {
+        
+        // Get all views
+        $views = $this->getViews();
+
         // Get current view
         $currentView = $this->getCurrentView();
 
         // Check if the view does not exist, throw exception
-        if (!isset($this->views[$currentView])) {
+        if (!isset($views[$currentView])) {
             throw new Exception(esc_html__('View is not valid.', 'wp-statistics'));
         }
 
         // Check if the class does not have view method, throw exception
-        if (!method_exists($this->views[$currentView], 'view')) {
+        if (!method_exists($views[$currentView], 'view')) {
             throw new Exception(sprintf(esc_html__('View method is not defined within %s class.', 'wp-statistics'), $currentView));
         }
 
         // Instantiate the view class and render content
-        $class = new $this->views[$currentView];
+        $class = new $views[$currentView];
         $class->view();
     }
 }
