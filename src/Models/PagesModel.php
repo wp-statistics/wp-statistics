@@ -16,7 +16,7 @@ class PagesModel extends DataProvider
         ]);
 
         $query = Query::select('SUM(count) as total_count')
-            ->fromTable('pages')
+            ->from('pages')
             ->where('type', 'IN', $args['post_type'])
             ->whereDate('date', [$args['from'], $args['to']])
             ->groupBy('type')

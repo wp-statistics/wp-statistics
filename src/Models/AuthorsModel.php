@@ -25,7 +25,7 @@ class AuthorsModel extends DataProvider
         ]);
 
         return Query::select('COUNT(DISTINCT post_author)')
-            ->fromTable('posts')
+            ->from('posts')
             ->where('post_status', '=', 'publish')
             ->where('post_type', 'IN', $args['post_type'])
             ->whereDate('post_date', [$args['from'], $args['to']])
@@ -45,7 +45,7 @@ class AuthorsModel extends DataProvider
         ]);
 
         $result = Query::select(['DISTINCT post_author as id', 'display_name as name', 'COUNT(posts.ID) as post_count'])
-            ->fromTable('posts')
+            ->from('posts')
             ->join('users', ['posts.post_author', 'users.ID'])
             ->where('post_status', '=', 'publish')
             ->where('post_type', 'IN', $args['post_type'])
@@ -70,7 +70,7 @@ class AuthorsModel extends DataProvider
         ]);
 
         $result = Query::select(['DISTINCT post_author as id', 'display_name as name', 'SUM(pages.count) as views'])
-            ->fromTable('posts')
+            ->from('posts')
             ->join('users', ['posts.post_author', 'users.ID'])
             ->join('pages', ['posts.ID', 'pages.id'])
             ->where('post_status', '=', 'publish')
@@ -100,7 +100,7 @@ class AuthorsModel extends DataProvider
                 'display_name AS name', 
                 'COUNT(comments.comment_ID) / COUNT(DISTINCT posts.ID) AS average_comments'
             ])
-            ->fromTable('posts')
+            ->from('posts')
             ->join('users', ['posts.post_author', 'users.ID'])
             ->join('comments', ['posts.ID', 'comments.comment_post_ID'], [], 'LEFT')
             ->where('post_status', '=', 'publish')
@@ -134,7 +134,7 @@ class AuthorsModel extends DataProvider
                 'COUNT(DISTINCT posts.ID) AS total_posts',
                 'SUM(pages.count) / COUNT(DISTINCT posts.ID) AS average_views'
             ])
-            ->fromTable('posts')
+            ->from('posts')
             ->join('users', ['posts.post_author', 'users.ID'])
             ->join('pages', ['posts.ID', 'pages.id'], [], 'LEFT')
             ->where('post_status', '=', 'publish')
@@ -164,7 +164,7 @@ class AuthorsModel extends DataProvider
                 'display_name AS name', 
                 'SUM(postmeta.meta_value) / COUNT(DISTINCT posts.ID) AS average_words'
             ])
-            ->fromTable('posts')
+            ->from('posts')
             ->join('users', ['posts.post_author', 'users.ID'])
             ->join('postmeta', ['posts.ID', 'postmeta.post_id'])
             ->where('meta_key', '=', WordCount::WORDS_COUNT_META_KEY)
@@ -193,14 +193,14 @@ class AuthorsModel extends DataProvider
         ]);
 
         $authorsQuery  = Query::select(['id AS author_id', 'SUM(count) AS total_author_views'])
-            ->fromTable('pages')
+            ->from('pages')
             ->where('type', '=', 'author')
             ->whereDate('date', [$args['from'], $args['to']])
             ->groupBy('id')
             ->getQuery();
 
         $commentsQuery  = Query::select(['post_author', 'COUNT(comment_ID) AS total_comments'])
-            ->fromTable('posts')
+            ->from('posts')
             ->join('comments', ['posts.ID', 'comments.comment_post_ID'])
             ->where('post_status', '=', 'publish')
             ->where('post_type', 'IN', $args['post_type'])
@@ -209,7 +209,7 @@ class AuthorsModel extends DataProvider
             ->getQuery();
 
         $viewsQuery = Query::select(['post_author', 'SUM(count) AS total_views'])
-            ->fromTable('posts')
+            ->from('posts')
             ->join('pages', ['posts.ID', 'pages.id'])
             ->where('post_status', '=', 'publish')
             ->where('post_type', 'IN', $args['post_type'])
@@ -218,7 +218,7 @@ class AuthorsModel extends DataProvider
             ->getQuery();
 
         $wordsQuery = Query::select(['post_author', 'SUM(meta_value) AS total_words'])
-            ->fromTable('posts')
+            ->from('posts')
             ->join('postmeta', ['posts.ID', 'postmeta.post_id'])
             ->where('postmeta.meta_key', '=', 'wp_statistics_words_count')
             ->where('post_status', '=', 'publish')
@@ -236,7 +236,7 @@ class AuthorsModel extends DataProvider
                 'words.total_words AS total_words',
                 'authors.total_author_views AS total_author_views'
             ])
-            ->fromTable('users')
+            ->from('users')
             ->join(
                 'posts', 
                 ['users.ID', 'posts.post_author'],

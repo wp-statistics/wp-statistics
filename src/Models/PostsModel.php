@@ -18,7 +18,7 @@ class PostsModel extends DataProvider
         ]);
 
         $totalPosts = Query::select('COUNT(ID)')
-            ->fromTable('posts')
+            ->from('posts')
             ->where('post_status', '=', 'publish')
             ->where('post_type', 'IN', $args['post_type'])
             ->whereDate('post_date', [$args['from'], $args['to']])
@@ -39,7 +39,7 @@ class PostsModel extends DataProvider
         $wordsCountMetaKey = WordCount::WORDS_COUNT_META_KEY;
 
         $totalWords = Query::select("SUM(meta_value)")
-            ->fromTable('posts')
+            ->from('posts')
             ->join('postmeta', ['posts.ID', 'postmeta.post_id'])
             ->where('post_status', '=', 'publish')
             ->where('post_type', 'IN', $args['post_type'])
@@ -60,7 +60,7 @@ class PostsModel extends DataProvider
         ]);
 
         $totalWords = Query::select('COUNT(comment_ID)')
-            ->fromTable('posts')
+            ->from('posts')
             ->join('comments', ['posts.ID', 'comments.comment_post_ID'])
             ->where('post_status', '=', 'publish')
             ->where('post_type', 'IN', $args['post_type'])
@@ -80,7 +80,7 @@ class PostsModel extends DataProvider
         ]);
 
         $overview = Query::select(['DATE(post_date) as date', 'COUNT(ID) as posts'])
-            ->fromTable('posts')
+            ->from('posts')
             ->where('post_status', '=', 'publish')
             ->where('post_type', 'IN', $args['post_type'])
             ->whereDate('post_date', [$args['from'], $args['to']])
