@@ -47,14 +47,10 @@ use WP_STATISTICS\Menus;
                                     <td><?php echo esc_html(Option::get('hash_ips') == true ? __('Daily Visitor Hash', 'wp-statistics') : __('IP Address', 'wp-statistics')); ?></td>
                                     <td><?php esc_html_e('Operating System', 'wp-statistics'); ?></td>
                                     <td><?php esc_html_e('Total Views', 'wp-statistics'); ?></td>
+                                    <?php if (Option::get('visitors_log')) { ?>
                                     <td><?php esc_html_e('User', 'wp-statistics'); ?></td>
-                                    <?php
-                                    if (Option::get('visitors_log')) {
-                                        ?>
-                                        <td class="tbl-page-column"><?php esc_html_e('Latest Page', 'wp-statistics'); ?></td>
-                                        <?php
-                                    }
-                                    ?>
+                                    <?php } ?>
+                                    <td class="tbl-page-column"><?php esc_html_e('Latest Page', 'wp-statistics'); ?></td>
                                     <td><?php esc_html_e('Referrer', 'wp-statistics'); ?></td>
                                 </tr>
 
