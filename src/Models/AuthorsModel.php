@@ -192,6 +192,13 @@ class AuthorsModel extends DataProvider
             'per_page' => 5
         ]);
 
+        $authorsQuery  = Query::select(['id AS author_id', 'SUM(count) AS total_author_views'])
+            ->fromTable('pages')
+            ->where('type', '=', 'author')
+            ->whereDate('date', [$args['from'], $args['to']])
+            ->groupBy('id')
+            ->getQuery();
+
         $commentsQuery  = Query::select(['post_author', 'COUNT(comment_ID) AS total_comments'])
             ->fromTable('posts')
             ->join('comments', ['posts.ID', 'comments.comment_post_ID'])
@@ -226,7 +233,8 @@ class AuthorsModel extends DataProvider
                 'COUNT(DISTINCT posts.ID) AS total_posts',
                 'comments.total_comments AS total_comments',
                 'views.total_views AS total_views',
-                'words.total_words AS total_words'
+                'words.total_words AS total_words',
+                'authors.total_author_views AS total_author_views'
             ])
             ->fromTable('users')
             ->join(
@@ -238,6 +246,7 @@ class AuthorsModel extends DataProvider
             ->joinQuery($commentsQuery, 'comments', ['users.ID', 'comments.post_author'], 'LEFT')
             ->joinQuery($viewsQuery, 'views', ['users.ID', 'views.post_author'], 'LEFT')
             ->joinQuery($wordsQuery, 'words', ['users.ID', 'words.post_author'], 'LEFT')
+            ->joinQuery($authorsQuery, 'authors', ['users.ID', 'authors.author_id'], 'LEFT')
             ->where('post_status', '=', 'publish')
             ->where('post_type', 'IN', $args['post_type'])
             ->whereDate('post_date', [$args['from'], $args['to']])

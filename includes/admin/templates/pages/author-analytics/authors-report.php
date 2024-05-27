@@ -76,7 +76,7 @@ use WP_STATISTICS\Helper;
                                                 <?php echo esc_html($author->total_posts) ?>
                                             </td>
                                             <td class="wps-pd-l">
-                                                NO DATA YET
+                                            <?php echo $author->total_author_views ? esc_html($author->total_author_views) : 0 ?>
                                             </td>
                                             <td class="wps-pd-l">
                                                 <?php echo $author->total_comments ? esc_html($author->total_comments) : 0 ?>

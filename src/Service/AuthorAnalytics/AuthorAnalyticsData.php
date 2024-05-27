@@ -154,7 +154,7 @@ class AuthorAnalyticsData
 
     public function authorsReportData()
     {
-        $data = $this->authorModel->getAuthorsPerformanceData();
+        $data = $this->authorModel->getAuthorsPerformanceData($this->args);
         return $data;
     }
 }
