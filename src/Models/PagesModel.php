@@ -13,14 +13,15 @@ class PagesModel extends DataProvider
             'from'      => '',
             'to'        => '',
             'post_type' => '',
-            'id'        => ''
+            'author_id' => ''
         ]);
 
         $query = Query::select('SUM(count) as total_count')
             ->from('pages')
+            ->join('posts', ['pages.id', 'posts.ID'])
             ->where('type', 'IN', $args['post_type'])
             ->whereDate('date', [$args['from'], $args['to']])
-            ->where('id', '=', $args['id'])
+            ->where('post_author', '=', $args['author_id'])
             ->groupBy('type')
             ->bypassCache($bypassCache);
 
