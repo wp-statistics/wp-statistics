@@ -705,7 +705,7 @@ class Helper
      */
     public static function getUrlDecode($value)
     {
-        return utf8_decode(urldecode($value));
+        return mb_convert_encoding(urldecode($value), 'ISO-8859-1', 'UTF-8');
     }
 
     /**
