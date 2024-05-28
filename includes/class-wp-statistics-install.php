@@ -94,9 +94,6 @@ class Install
 						`user_id` BIGINT(48) NOT NULL,
 						`page_id` BIGINT(48) NOT NULL,
 						`type` VARCHAR(100) NOT NULL,
-						city varchar(100),
-						region varchar(100),
-						continent varchar(50),
 						PRIMARY KEY  (ID)
 					) {$collate}");
         dbDelta($create_user_online_table);
