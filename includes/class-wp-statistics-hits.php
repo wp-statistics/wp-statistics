@@ -2,9 +2,10 @@
 
 namespace WP_STATISTICS;
 
+use WP_Statistics\Components\Singleton;
 use WP_Statistics\Service\Analytics\VisitorProfile;
 
-class Hits
+class Hits extends Singleton
 {
     /**
      * Rest-APi Hit Record Params Key
@@ -205,4 +206,4 @@ class Hits
     }
 }
 
-new Hits;
+Hits::instance();
