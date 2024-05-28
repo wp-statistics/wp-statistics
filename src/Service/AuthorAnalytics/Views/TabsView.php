@@ -5,7 +5,7 @@ namespace WP_Statistics\Service\AuthorAnalytics\Views;
 use WP_STATISTICS\Admin_Template;
 use WP_STATISTICS\Menus;
 use WP_STATISTICS\Helper;
-use WP_Statistics\Service\AuthorAnalytics\AuthorAnalyticsData;
+use WP_Statistics\Service\AuthorAnalytics\AuthorAnalyticsDataProvider;
 use InvalidArgumentException;
 
 class TabsView
@@ -52,7 +52,7 @@ class TabsView
             $args['order'] = sanitize_text_field($_GET['order']);
         }
 
-        $authorAnalyticsData  = new AuthorAnalyticsData($args);
+        $authorAnalyticsData  = new AuthorAnalyticsDataProvider($args);
 
         $dataMethod = 'authors' . ucfirst($currentTab) . 'Data';
 

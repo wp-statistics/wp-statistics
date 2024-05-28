@@ -7,15 +7,17 @@ use WP_STATISTICS\Helper;
 use WP_Statistics\Models\AuthorsModel;
 use WP_Statistics\Models\PagesModel;
 use WP_Statistics\Models\PostsModel;
+use WP_Statistics\Models\TaxonomyModel;
 use WP_Statistics\Models\VisitorsModel;
 
-class AuthorAnalyticsData
+class AuthorAnalyticsDataProvider
 {
     protected $args;
     protected $authorModel;
     protected $pagesModel;
     protected $postsModel;
     protected $visitorsModel;
+    protected $taxonomyModel;
 
     
     public function __construct($args)
@@ -26,6 +28,7 @@ class AuthorAnalyticsData
         $this->pagesModel    = new PagesModel();
         $this->postsModel    = new PostsModel();
         $this->visitorsModel = new VisitorsModel();
+        $this->taxonomyModel = new TaxonomyModel();
 
         $this->localizeData();
     }
@@ -191,6 +194,8 @@ class AuthorAnalyticsData
         $totalComments  = $this->postsModel->countComments($this->args);
         $totalPosts     = $this->postsModel->countPosts($this->args);
         $totalVisitors  = $this->visitorsModel->countVisitors($this->args);
+
+        $taxonomies = $this->taxonomyModel->countTaxonomiesPosts($this->args);
 
         return [
             'overview' => [

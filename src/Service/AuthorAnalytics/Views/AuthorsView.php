@@ -5,7 +5,7 @@ namespace WP_Statistics\Service\AuthorAnalytics\Views;
 use WP_STATISTICS\Menus;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Admin_Template;
-use WP_Statistics\Service\AuthorAnalytics\AuthorAnalyticsData;
+use WP_Statistics\Service\AuthorAnalytics\AuthorAnalyticsDataProvider;
 
 class AuthorsView
 {
@@ -32,7 +32,7 @@ class AuthorsView
             $args['order'] = sanitize_text_field($_GET['order']);
         }
 
-        $authorAnalyticsData  = new AuthorAnalyticsData($args);
+        $authorAnalyticsData  = new AuthorAnalyticsDataProvider($args);
         return $authorAnalyticsData->authorsReportData();
     }
 
