@@ -207,14 +207,14 @@ class Menus
                 'method'   => 'country'
             ),
             'pages'        => array(
-                'require'  => array('pages' => true),
+                'require'  => array('visits' => true),
                 'sub'      => 'overview',
                 'title'    => __('Post Types', 'wp-statistics'),
                 'page_url' => 'pages',
                 'method'   => 'pages',
             ),
             'taxonomies'   => array(
-                'require'  => array('pages' => true),
+                'require'  => array('visits' => true),
                 'sub'      => 'overview',
                 'title'    => __('Taxonomies', 'wp-statistics'),
                 'page_url' => 'taxonomies',
