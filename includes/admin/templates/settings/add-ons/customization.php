@@ -61,6 +61,27 @@ if (!$isCustomizationActive) echo Admin_Template::get_template('layout/partials/
             </tbody>
         </table>
     </div>
+    <div class="postbox">
+        <table class="form-table <?php echo !$isCustomizationActive ? 'form-table--preview' : '' ?>">
+            <tbody>
+            <tr valign="top">
+                <th scope="row" colspan="2"><h3><?php esc_html_e('Change the header banner', 'wp-statistics'); ?></h3></th>
+            </tr>
+
+            <tr valign="top">
+                <th scope="row">
+                    <label for="wps_addon_settings[customization][wps_modify_banner]"><?php esc_html_e('Choose a banner', 'wp-statistics'); ?></label>
+                </th>
+
+                <td>
+                    <input type="text" class="regular-text wps-customization_upload_field" id="wps_addon_settings[customization][wps_modify_banner]" name="wps_addon_settings[customization][wps_modify_banner]" value="<?php echo esc_attr(stripslashes(WP_STATISTICS\Option::getByAddon('wps_modify_banner', 'customization'))) ?>"/>
+                    <span>&nbsp;<input type="button" class="wps_customization_settings_upload_button wps_customization_settings_clear_upload_button button" style="margin: 0; padding-top: 13px; padding-bottom: 13px;" value="<?php echo esc_attr__('Upload File', 'wp-statistics') ?>"/></span>
+                </td>
+            </tr>
+
+            </tbody>
+        </table>
+    </div>
 
     <div class="postbox">
         <table class="form-table <?php echo !$isCustomizationActive ? 'form-table--preview' : '' ?>">
