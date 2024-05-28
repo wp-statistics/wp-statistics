@@ -82,13 +82,15 @@ class PostsModel extends DataProvider
         $args = $this->parseArgs($args, [
             'from'      => date('Y-m-d', strtotime('-365 days')),
             'to'        => date('Y-m-d', time()),
-            'post_type' => Helper::get_list_post_type()
+            'post_type' => Helper::get_list_post_type(),
+            'author_id' => ''
         ]);
 
         $overview = Query::select(['DATE(post_date) as date', 'COUNT(ID) as posts'])
             ->from('posts')
             ->where('post_status', '=', 'publish')
             ->where('post_type', 'IN', $args['post_type'])
+            ->where('post_author', '=', $args['author_id'])
             ->whereDate('post_date', [$args['from'], $args['to']])
             ->groupBy('Date(post_date)')
             ->bypassCache($bypassCache)

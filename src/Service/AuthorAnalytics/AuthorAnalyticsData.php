@@ -42,6 +42,12 @@ class AuthorAnalyticsData
             ];
         }
 
+        if (isset($this->args['author_id'])) {
+            $data = [
+                'publish_overview_chart_data'   => $this->generatePublishingChartData(),
+            ];
+        }
+
         wp_localize_script(Admin_Assets::$prefix, 'Wp_Statistics_Author_Analytics_Object', $data);
     }
 
@@ -68,7 +74,7 @@ class AuthorAnalyticsData
     protected function generatePublishingChartData()
     {
         // Just filter by post type
-        $args = Helper::filterArrayByKeys($this->args, ['post_type']);
+        $args = Helper::filterArrayByKeys($this->args, ['post_type', 'author_id']);
 
         $publishingData = $this->postsModel->publishOverview($args);
         $publishingData = wp_list_pluck($publishingData, 'posts', 'date');
@@ -206,7 +212,7 @@ class AuthorAnalyticsData
                     'total' => $totalComments,
                     'avg'   => Helper::divideNumbers($totalComments, $totalPosts)
                 ]
-            ],
+            ]
         ];
     }
 }
