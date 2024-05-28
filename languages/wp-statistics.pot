@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-05-28T11:49:13+00:00\n"
+"POT-Creation-Date: 2024-05-28T13:35:49+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.9.0\n"
 "X-Domain: wp-statistics\n"
@@ -604,7 +604,7 @@ msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-notices.php:128
 #: includes/admin/templates/settings/general.php:61
-msgid "Monitor Unique Visitors"
+msgid "Track Unique Visitors"
 msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-notices.php:132
@@ -1746,7 +1746,7 @@ msgstr ""
 
 #: includes/admin/templates/optimization/resources.php:84
 #: includes/admin/templates/optimization/resources.php:100
-#: includes/admin/templates/settings/add-ons/customization.php:100
+#: includes/admin/templates/settings/add-ons/customization.php:79
 #: includes/admin/templates/settings/add-ons/realtime-stats.php:57
 #: includes/admin/templates/settings/general.php:203
 msgid "Yes"
@@ -1754,7 +1754,7 @@ msgstr ""
 
 #: includes/admin/templates/optimization/resources.php:86
 #: includes/admin/templates/optimization/resources.php:102
-#: includes/admin/templates/settings/add-ons/customization.php:101
+#: includes/admin/templates/settings/add-ons/customization.php:80
 #: includes/admin/templates/settings/add-ons/realtime-stats.php:56
 #: includes/admin/templates/settings/general.php:204
 msgid "No"
@@ -2427,7 +2427,7 @@ msgstr ""
 
 #: includes/admin/templates/settings/access-level.php:87
 #: includes/admin/templates/settings/add-ons/advanced-reporting.php:452
-#: includes/admin/templates/settings/add-ons/customization.php:139
+#: includes/admin/templates/settings/add-ons/customization.php:118
 #: includes/admin/templates/settings/add-ons/data-plus.php:60
 #: includes/admin/templates/settings/add-ons/mini-chart.php:114
 #: includes/admin/templates/settings/add-ons/realtime-stats.php:71
@@ -2743,43 +2743,31 @@ msgstr ""
 msgid "Choose which menus you want to remove from the WordPress sidebar."
 msgstr ""
 
-#: includes/admin/templates/settings/add-ons/customization.php:68
-msgid "Change the header banner"
-msgstr ""
-
-#: includes/admin/templates/settings/add-ons/customization.php:73
-msgid "Choose a banner"
-msgstr ""
-
-#: includes/admin/templates/settings/add-ons/customization.php:78
-msgid "Upload File"
-msgstr ""
-
-#: includes/admin/templates/settings/add-ons/customization.php:90
+#: includes/admin/templates/settings/add-ons/customization.php:69
 msgid "Overview Widget Customization"
 msgstr ""
 
-#: includes/admin/templates/settings/add-ons/customization.php:95
+#: includes/admin/templates/settings/add-ons/customization.php:74
 msgid "Enable Overview Widget"
 msgstr ""
 
-#: includes/admin/templates/settings/add-ons/customization.php:103
+#: includes/admin/templates/settings/add-ons/customization.php:82
 msgid "Activate a custom widget on the Overview page."
 msgstr ""
 
-#: includes/admin/templates/settings/add-ons/customization.php:109
+#: includes/admin/templates/settings/add-ons/customization.php:88
 msgid "Widget Title"
 msgstr ""
 
-#: includes/admin/templates/settings/add-ons/customization.php:114
+#: includes/admin/templates/settings/add-ons/customization.php:93
 msgid "Enter a title for your custom widget."
 msgstr ""
 
-#: includes/admin/templates/settings/add-ons/customization.php:120
+#: includes/admin/templates/settings/add-ons/customization.php:99
 msgid "Widget Content"
 msgstr ""
 
-#: includes/admin/templates/settings/add-ons/customization.php:129
+#: includes/admin/templates/settings/add-ons/customization.php:108
 msgid "Craft the content for your widget; text, images, and HTML are supported."
 msgstr ""
 
@@ -4682,16 +4670,16 @@ msgstr ""
 
 #: src/Service/PrivacyAudit/Audits/AnonymizeIpAddress.php:14
 msgid ""
-"<p>This setting ensures that the IP addresses of your visitors are anonymized by masking the last segment of their IP addresses before any processing or storage occurs. This significantly reduces the risk of personally identifying your users through their IP addresses.</p><p><b>How It Works?</b></p>\r\n"
-"            <ol>\r\n"
-"                <li><b>IPv4 Anonymization:</b> An IP address like 192.168.1.123 is transformed into 192.168.1.0.</li>\r\n"
-"                <li><b>IPv6 Anonymization:</b> An IPv6 address like 2001:0db8:85a3:0000:0000:8a2e:0370:7334 becomes 2001:0db8:85a3::.</li>\r\n"
-"                <li><b>Enhanced Privacy:</b> After anonymization, a hashing process is applied to the IP address, further securing user data and making re-identification through IP addresses highly unlikely.</li>\r\n"
-"            </ol>\r\n"
-"            <p><b>Best Practices:</b></p>\r\n"
-"            <ol>\r\n"
-"                <li><b>Privacy-First Approach:</b> Keeping this feature enabled is strongly recommended as it aligns with best data protection practices and compliance with various privacy laws and regulations.</li>\r\n"
-"                <li><b>Transparency:</b> Ensure your privacy policy reflects this practice, enhancing trust with your site visitors.</li>\r\n"
+"<p>This setting ensures that the IP addresses of your visitors are anonymized by masking the last segment of their IP addresses before any processing or storage occurs. This significantly reduces the risk of personally identifying your users through their IP addresses.</p><p><b>How It Works?</b></p>\n"
+"            <ol>\n"
+"                <li><b>IPv4 Anonymization:</b> An IP address like 192.168.1.123 is transformed into 192.168.1.0.</li>\n"
+"                <li><b>IPv6 Anonymization:</b> An IPv6 address like 2001:0db8:85a3:0000:0000:8a2e:0370:7334 becomes 2001:0db8:85a3::.</li>\n"
+"                <li><b>Enhanced Privacy:</b> After anonymization, a hashing process is applied to the IP address, further securing user data and making re-identification through IP addresses highly unlikely.</li>\n"
+"            </ol>\n"
+"            <p><b>Best Practices:</b></p>\n"
+"            <ol>\n"
+"                <li><b>Privacy-First Approach:</b> Keeping this feature enabled is strongly recommended as it aligns with best data protection practices and compliance with various privacy laws and regulations.</li>\n"
+"                <li><b>Transparency:</b> Ensure your privacy policy reflects this practice, enhancing trust with your site visitors.</li>\n"
 "            </ol>"
 msgstr ""
 
@@ -4701,19 +4689,19 @@ msgstr ""
 
 #: src/Service/PrivacyAudit/Audits/AnonymizeIpAddress.php:32
 msgid ""
-"<p>This setting means that IP addresses could be stored or processed in their complete form, potentially allowing for the identification of individual users based on their IP addresses.</p>\r\n"
-"            <p><b>Implications:</b></p>\r\n"
-"            <ol>\r\n"
-"                <li><b>Privacy Risks:</b> Without anonymization, IP addresses are considered Personally Identifiable Information (PII) and could pose privacy risks to your users.</li>\r\n"
-"                <li><b>Legal Compliance:</b> Storing complete IP addresses may affect your compliance with privacy laws such as GDPR, requiring careful consideration and potentially additional safeguards.</li>\r\n"
-"            </ol>\r\n"
-"            <p><b>Recommendations:</b></p>\r\n"
-"            <ol>\r\n"
-"                <li><b>Enable Anonymization:</b> We recommend enabling the “Anonymize IP Addresses” feature to enhance user privacy and align with privacy laws and best practices.</li>\r\n"
-"                <li><b>Review Privacy Practices:</b> If you have specific reasons for keeping this feature disabled, ensure you have adequate measures in place to protect user data and comply with applicable laws. This might include obtaining explicit consent from users for processing their complete IP addresses.</li>\r\n"
-"            </ol>\r\n"
-"            <div class=\"wps-privacy-list__content--note\">\r\n"
-"                <b>To enable this feature,</b> navigate to <b>Settings -> User Data Protection -> Anonymize IP Addresses</b> and check <b>\"Enable\"</b>.\r\n"
+"<p>This setting means that IP addresses could be stored or processed in their complete form, potentially allowing for the identification of individual users based on their IP addresses.</p>\n"
+"            <p><b>Implications:</b></p>\n"
+"            <ol>\n"
+"                <li><b>Privacy Risks:</b> Without anonymization, IP addresses are considered Personally Identifiable Information (PII) and could pose privacy risks to your users.</li>\n"
+"                <li><b>Legal Compliance:</b> Storing complete IP addresses may affect your compliance with privacy laws such as GDPR, requiring careful consideration and potentially additional safeguards.</li>\n"
+"            </ol>\n"
+"            <p><b>Recommendations:</b></p>\n"
+"            <ol>\n"
+"                <li><b>Enable Anonymization:</b> We recommend enabling the “Anonymize IP Addresses” feature to enhance user privacy and align with privacy laws and best practices.</li>\n"
+"                <li><b>Review Privacy Practices:</b> If you have specific reasons for keeping this feature disabled, ensure you have adequate measures in place to protect user data and comply with applicable laws. This might include obtaining explicit consent from users for processing their complete IP addresses.</li>\n"
+"            </ol>\n"
+"            <div class=\"wps-privacy-list__content--note\">\n"
+"                <b>To enable this feature,</b> navigate to <b>Settings -> User Data Protection -> Anonymize IP Addresses</b> and check <b>\"Enable\"</b>.\n"
 "            </div>"
 msgstr ""
 
@@ -4723,15 +4711,15 @@ msgstr ""
 
 #: src/Service/PrivacyAudit/Audits/HashIpAddress.php:14
 msgid ""
-"<p>This setting applies a secure, irreversible hashing process to IP addresses, transforming them into unique, non-reversible strings. This method of pseudonymization protects user privacy by preventing the possibility of tracing the hash back to the original IP address.</p><p><b>How It Works?</b></p>\r\n"
-"            <ol>\r\n"
-"                <li><b>Unique Visitor Counting: </b> The system counts unique visitors by hashing a combination of the IP address, User-Agent string, and a daily-changing salt. This ensures each visitor’s identifier is unique and secure for that day.</li>\r\n"
-"                <li><b>Privacy Enhancement: </b> Through this process, WP Statistics supports privacy compliance by anonymizing visitor data, thus aligning with stringent privacy regulations.</li>\r\n"
-"            </ol>\r\n"
-"            <p><b>Recommendations:</b></p>\r\n"
-"            <ol>\r\n"
-"                <li><b>Maintain Enabled Status: </b> Keeping this feature enabled is recommended to uphold the highest standards of user privacy and security. This default setting ensures that all IP addresses are hashed from the start, offering a robust privacy-first approach.</li>\r\n"
-"                <li><b>Retroactive Hashing: </b> For users seeking to enhance privacy for previously stored data, WP Statistics offers guidance on converting existing IP addresses to hashes, further strengthening privacy measures.</li>\r\n"
+"<p>This setting applies a secure, irreversible hashing process to IP addresses, transforming them into unique, non-reversible strings. This method of pseudonymization protects user privacy by preventing the possibility of tracing the hash back to the original IP address.</p><p><b>How It Works?</b></p>\n"
+"            <ol>\n"
+"                <li><b>Unique Visitor Counting: </b> The system counts unique visitors by hashing a combination of the IP address, User-Agent string, and a daily-changing salt. This ensures each visitor’s identifier is unique and secure for that day.</li>\n"
+"                <li><b>Privacy Enhancement: </b> Through this process, WP Statistics supports privacy compliance by anonymizing visitor data, thus aligning with stringent privacy regulations.</li>\n"
+"            </ol>\n"
+"            <p><b>Recommendations:</b></p>\n"
+"            <ol>\n"
+"                <li><b>Maintain Enabled Status: </b> Keeping this feature enabled is recommended to uphold the highest standards of user privacy and security. This default setting ensures that all IP addresses are hashed from the start, offering a robust privacy-first approach.</li>\n"
+"                <li><b>Retroactive Hashing: </b> For users seeking to enhance privacy for previously stored data, WP Statistics offers guidance on converting existing IP addresses to hashes, further strengthening privacy measures.</li>\n"
 "            </ol>"
 msgstr ""
 
@@ -4741,19 +4729,19 @@ msgstr ""
 
 #: src/Service/PrivacyAudit/Audits/HashIpAddress.php:31
 msgid ""
-"<p>With this setting deactivated, IP addresses are not subjected to the secure, irreversible hashing process and may be stored in their original form. This could potentially allow for the identification of individual users, impacting user privacy and your site’s compliance with privacy laws.</p>\r\n"
-"            <p><b>Implications:</b></p>\r\n"
-"            <ol>\r\n"
-"                <li><b>Reduced Privacy:</b> Disabling hashing reduces the level of privacy protection for user data, as IP addresses can be stored in a form that may be traceable to individuals.</li>\r\n"
-"                <li><b>Compliance Risks:</b> Operating without this layer of data protection may affect your website’s alignment with privacy regulations, necessitating additional safeguards or disclosures.</li>\r\n"
-"            </ol>\r\n"
-"            <p><b>Recommendations:</b></p>\r\n"
-"            <ol>\r\n"
-"                <li><b>Consider Re-Enabling:</b> To enhance user privacy and ensure compliance with privacy laws, it is advisable to re-enable the “Hash IP Addresses” feature.</li>\r\n"
-"                <li><b>Disclosure:</b> If there are specific reasons for keeping hashing disabled, ensure transparent communication with your users by clearly disclosing this in your privacy policy, including the implications for their data privacy.</li>\r\n"
-"            </ol>\r\n"
-"            <div class=\"wps-privacy-list__content--note\">\r\n"
-"                <b>To enable this feature,</b> navigate to <b>Settings -> User Data Protection -> Hash IP Addresses</b> and check <b>\"Enable\"</b>.\r\n"
+"<p>With this setting deactivated, IP addresses are not subjected to the secure, irreversible hashing process and may be stored in their original form. This could potentially allow for the identification of individual users, impacting user privacy and your site’s compliance with privacy laws.</p>\n"
+"            <p><b>Implications:</b></p>\n"
+"            <ol>\n"
+"                <li><b>Reduced Privacy:</b> Disabling hashing reduces the level of privacy protection for user data, as IP addresses can be stored in a form that may be traceable to individuals.</li>\n"
+"                <li><b>Compliance Risks:</b> Operating without this layer of data protection may affect your website’s alignment with privacy regulations, necessitating additional safeguards or disclosures.</li>\n"
+"            </ol>\n"
+"            <p><b>Recommendations:</b></p>\n"
+"            <ol>\n"
+"                <li><b>Consider Re-Enabling:</b> To enhance user privacy and ensure compliance with privacy laws, it is advisable to re-enable the “Hash IP Addresses” feature.</li>\n"
+"                <li><b>Disclosure:</b> If there are specific reasons for keeping hashing disabled, ensure transparent communication with your users by clearly disclosing this in your privacy policy, including the implications for their data privacy.</li>\n"
+"            </ol>\n"
+"            <div class=\"wps-privacy-list__content--note\">\n"
+"                <b>To enable this feature,</b> navigate to <b>Settings -> User Data Protection -> Hash IP Addresses</b> and check <b>\"Enable\"</b>.\n"
 "            </div>"
 msgstr ""
 
@@ -4771,15 +4759,15 @@ msgstr ""
 
 #: src/Service/PrivacyAudit/Audits/RecordUserPageVisits.php:29
 msgid ""
-"<p>This status means that individual user page views and WordPress user IDs are being actively tracked. While this functionality provides valuable insights into user behavior, it’s important to handle the collected data responsibly.</p><p><b>Why is this important?</b></p>\r\n"
-"            <p>Enabling this feature necessitates a careful approach to privacy and data protection. To maintain compliance with privacy laws such as GDPR and CCPA, and to uphold user trust, please ensure the following:</p>\r\n"
-"            <ol>\r\n"
-"                <li><b>Transparency:</b> Your website’s privacy policy should clearly describe the data collection practices, including the specific types of data collected and their intended use.</li>\r\n"
-"                <li><b>Informed Consent:</b> Adequate measures are in place to inform users about the data collection and to obtain their consent where necessary. This may include consent banners, notifications, or other user interfaces that clearly communicate this information.</li>\r\n"
-"                <li><b>Review and Action:</b> Regularly review the necessity of keeping this feature enabled. If the feature is no longer needed, or if you wish to enhance user privacy, consider disabling it. Refer to our guide on <a href=\"https://wp-statistics.com/resources/avoiding-pii-data-collection/?utm_source=wp-statistics&utm_medium=link&utm_campaign=privacy\" target=\"_blank\">Adjusting Your Privacy Settings</a> for detailed instructions on managing this feature.</li>\r\n"
-"            </ol>\r\n"
-"            <div class=\"wps-privacy-list__content--note\">\r\n"
-"                <b>To disable this feature,</b> navigate to <b>Settings -> Basic Tracking -> Record User Page Views</b> and uncheck <b>\"Track User Activity\"</b>.\r\n"
+"<p>This status means that individual user page views and WordPress user IDs are being actively tracked. While this functionality provides valuable insights into user behavior, it’s important to handle the collected data responsibly.</p><p><b>Why is this important?</b></p>\n"
+"            <p>Enabling this feature necessitates a careful approach to privacy and data protection. To maintain compliance with privacy laws such as GDPR and CCPA, and to uphold user trust, please ensure the following:</p>\n"
+"            <ol>\n"
+"                <li><b>Transparency:</b> Your website’s privacy policy should clearly describe the data collection practices, including the specific types of data collected and their intended use.</li>\n"
+"                <li><b>Informed Consent:</b> Adequate measures are in place to inform users about the data collection and to obtain their consent where necessary. This may include consent banners, notifications, or other user interfaces that clearly communicate this information.</li>\n"
+"                <li><b>Review and Action:</b> Regularly review the necessity of keeping this feature enabled. If the feature is no longer needed, or if you wish to enhance user privacy, consider disabling it. Refer to our guide on <a href=\"https://wp-statistics.com/resources/avoiding-pii-data-collection/?utm_source=wp-statistics&utm_medium=link&utm_campaign=privacy\" target=\"_blank\">Adjusting Your Privacy Settings</a> for detailed instructions on managing this feature.</li>\n"
+"            </ol>\n"
+"            <div class=\"wps-privacy-list__content--note\">\n"
+"                <b>To disable this feature,</b> navigate to <b>Settings -> Basic Tracking -> Record User Page Views</b> and uncheck <b>\"Track User Activity\"</b>.\n"
 "            </div>"
 msgstr ""
 
@@ -4789,16 +4777,16 @@ msgstr ""
 
 #: src/Service/PrivacyAudit/Audits/StoredUserAgentStringData.php:29
 msgid ""
-"<p>Our system has detected remnants of full user agent strings in your database, indicating that the “Store Entire User Agent String” feature was enabled at some point in the past. To align with best practices for user privacy, we recommend clearing this data if it is no longer necessary for diagnostic purposes.</p>\r\n"
-"                    <p><b>How to Clear User Agent String Data?</b></p>\r\n"
-"                    <ol>\r\n"
-"                        <li>Navigate to the <b>Optimization</b> tab.</li>\r\n"
-"                        <li>Select <b>Data Cleanup</b>.</li>\r\n"
-"                        <li>Click on <b>Clear User Agent Strings</b> to initiate the cleanup process.</li>\r\n"
-"                    </ol>\r\n"
-"                    <p>This action will remove all previously stored full user agent strings from your database, enhancing privacy and data protection on your website.</p>\r\n"
-"                    <p><b>Need More Information?</b></p>\r\n"
-"                    <p>For detailed instructions and further information on the importance of this cleanup process, please visit our dedicated resource: <a target=\"_blank\" href=\"https://wp-statistics.com/resources/how-to-clear-user-agent-strings/?utm_source=wp-statistics&utm_medium=link&utm_campaign=privacy\">How to Clear User Agent Strings</a>.</p>\r\n"
+"<p>Our system has detected remnants of full user agent strings in your database, indicating that the “Store Entire User Agent String” feature was enabled at some point in the past. To align with best practices for user privacy, we recommend clearing this data if it is no longer necessary for diagnostic purposes.</p>\n"
+"                    <p><b>How to Clear User Agent String Data?</b></p>\n"
+"                    <ol>\n"
+"                        <li>Navigate to the <b>Optimization</b> tab.</li>\n"
+"                        <li>Select <b>Data Cleanup</b>.</li>\n"
+"                        <li>Click on <b>Clear User Agent Strings</b> to initiate the cleanup process.</li>\n"
+"                    </ol>\n"
+"                    <p>This action will remove all previously stored full user agent strings from your database, enhancing privacy and data protection on your website.</p>\n"
+"                    <p><b>Need More Information?</b></p>\n"
+"                    <p>For detailed instructions and further information on the importance of this cleanup process, please visit our dedicated resource: <a target=\"_blank\" href=\"https://wp-statistics.com/resources/how-to-clear-user-agent-strings/?utm_source=wp-statistics&utm_medium=link&utm_campaign=privacy\">How to Clear User Agent Strings</a>.</p>\n"
 "                    "
 msgstr ""
 
@@ -4808,16 +4796,16 @@ msgstr ""
 
 #: src/Service/PrivacyAudit/Audits/StoredUserIdData.php:29
 msgid ""
-"<p>Our system has found that User IDs have previously been recorded in your database, which may have occurred while the “Record User Page Visits” feature was active. To ensure the privacy and security of your users, we recommend removing these User IDs from your database.</p>\r\n"
-"                    <p><b>How to Remove User IDs?</b></p>\r\n"
-"                    <ol>\r\n"
-"                        <li>Go to the <b>Optimization</b> tab in the WP Statistics settings.</li>\r\n"
-"                        <li>Click on <b>Data Cleanup</b>.</li>\r\n"
-"                        <li>Select <b>Remove User IDs</b> to start the removal process.</li>\r\n"
-"                    </ol>\r\n"
-"                    <p>Initiating this process will delete all previously stored User IDs, further securing user data and aligning your site with best privacy practices.</p>\r\n"
-"                    <p><b>Need More Information?</b></p>\r\n"
-"                    <p>For step-by-step instructions and additional details on the importance of removing User IDs, please consult our guide: <a target=\"_blank\" href=\"https://wp-statistics.com/resources/removing-user-ids-from-your-database/?utm_source=wp-statistics&utm_medium=link&utm_campaign=privacy\">Removing User IDs from Your Database.</a>.</p>\r\n"
+"<p>Our system has found that User IDs have previously been recorded in your database, which may have occurred while the “Record User Page Visits” feature was active. To ensure the privacy and security of your users, we recommend removing these User IDs from your database.</p>\n"
+"                    <p><b>How to Remove User IDs?</b></p>\n"
+"                    <ol>\n"
+"                        <li>Go to the <b>Optimization</b> tab in the WP Statistics settings.</li>\n"
+"                        <li>Click on <b>Data Cleanup</b>.</li>\n"
+"                        <li>Select <b>Remove User IDs</b> to start the removal process.</li>\n"
+"                    </ol>\n"
+"                    <p>Initiating this process will delete all previously stored User IDs, further securing user data and aligning your site with best privacy practices.</p>\n"
+"                    <p><b>Need More Information?</b></p>\n"
+"                    <p>For step-by-step instructions and additional details on the importance of removing User IDs, please consult our guide: <a target=\"_blank\" href=\"https://wp-statistics.com/resources/removing-user-ids-from-your-database/?utm_source=wp-statistics&utm_medium=link&utm_campaign=privacy\">Removing User IDs from Your Database.</a>.</p>\n"
 "                    "
 msgstr ""
 
@@ -4827,15 +4815,15 @@ msgstr ""
 
 #: src/Service/PrivacyAudit/Audits/StoreUserAgentString.php:20
 msgid ""
-"<p>This default setting ensures that extensive details about your visitors’ browsing environments are not recorded, aligning with best practices for user privacy and data minimization.</p><p><b>Why This Matters?</b></p>\r\n"
-"            <ol>\r\n"
-"                <li><b>Privacy Preservation: </b> Disabling this feature helps prevent the collection of data that could potentially identify individuals, fostering a safer and more private browsing experience.</li>\r\n"
-"                <li><b>Compliance with Privacy Laws: </b> Keeping this setting disabled by default supports compliance with stringent privacy regulations by avoiding the unnecessary collection of detailed user information.</li>\r\n"
-"            </ol>\r\n"
-"            <p><b>Recommendations for Use:</b></p>\r\n"
-"            <ol>\r\n"
-"                <li><b>Considerations for Enabling: </b> Should you need to enable this feature for debugging or optimization purposes, ensure it’s used judiciously and for a limited time only.</li>\r\n"
-"                <li><b>Transparency with Users: </b> If activated, update your privacy policy to reflect the temporary collection of full user agent strings, including the purpose and scope of data collection.</li>\r\n"
+"<p>This default setting ensures that extensive details about your visitors’ browsing environments are not recorded, aligning with best practices for user privacy and data minimization.</p><p><b>Why This Matters?</b></p>\n"
+"            <ol>\n"
+"                <li><b>Privacy Preservation: </b> Disabling this feature helps prevent the collection of data that could potentially identify individuals, fostering a safer and more private browsing experience.</li>\n"
+"                <li><b>Compliance with Privacy Laws: </b> Keeping this setting disabled by default supports compliance with stringent privacy regulations by avoiding the unnecessary collection of detailed user information.</li>\n"
+"            </ol>\n"
+"            <p><b>Recommendations for Use:</b></p>\n"
+"            <ol>\n"
+"                <li><b>Considerations for Enabling: </b> Should you need to enable this feature for debugging or optimization purposes, ensure it’s used judiciously and for a limited time only.</li>\n"
+"                <li><b>Transparency with Users: </b> If activated, update your privacy policy to reflect the temporary collection of full user agent strings, including the purpose and scope of data collection.</li>\n"
 "            </ol>"
 msgstr ""
 
@@ -4845,20 +4833,20 @@ msgstr ""
 
 #: src/Service/PrivacyAudit/Audits/StoreUserAgentString.php:37
 msgid ""
-"<p>This setting allows for the collection of complete user agent strings from your visitors, offering detailed insights into their browsing devices and environments. While invaluable for debugging and optimizing user experience, this feature gathers detailed user information, warranting careful use and consideration for privacy.</p>\r\n"
-"            <p><b>Privacy Considerations:</b></p>\r\n"
-"            <ol>\r\n"
-"                <li><b>Temporary Activation:</b> Intended for short-term diagnostic purposes, it’s recommended to disable this feature once specific issues have been resolved to minimize the collection of extensive user data.</li>\r\n"
-"                <li><b>Privacy Compliance:</b> The activation of this feature necessitates clear disclosure within your privacy policy about the collection of full user agent strings and their purpose.</li>\r\n"
-"            </ol>\r\n"
-"            <p><b>Management Recommendations:</b></p>\r\n"
-"            <ol>\r\n"
-"                <li><b>Selective Use:</b> Enable this feature only as needed for troubleshooting or enhancing website functionality.</li>\r\n"
-"                <li><b>Disabling After Use:</b> Remember to deactivate this setting after debugging processes to ensure unnecessary data is not collected.</li>\r\n"
-"                <li><b>Data Removal:</b> For instructions on deleting previously stored user agent data, refer to our guide <a href=\"https://wp-statistics.com/resources/how-to-clear-user-agent-strings/?utm_source=wp-statistics&utm_medium=link&utm_campaign=privacy\" target=\"_blank\">here</a>.</li>\r\n"
-"            </ol>\r\n"
-"            <div class=\"wps-privacy-list__content--note\">\r\n"
-"                <b>To disable this feature,</b> navigate to <b>Settings -> User Data Protection -> Store Entire User Agent String</b> and uncheck <b>\"Enable\"</b>.\r\n"
+"<p>This setting allows for the collection of complete user agent strings from your visitors, offering detailed insights into their browsing devices and environments. While invaluable for debugging and optimizing user experience, this feature gathers detailed user information, warranting careful use and consideration for privacy.</p>\n"
+"            <p><b>Privacy Considerations:</b></p>\n"
+"            <ol>\n"
+"                <li><b>Temporary Activation:</b> Intended for short-term diagnostic purposes, it’s recommended to disable this feature once specific issues have been resolved to minimize the collection of extensive user data.</li>\n"
+"                <li><b>Privacy Compliance:</b> The activation of this feature necessitates clear disclosure within your privacy policy about the collection of full user agent strings and their purpose.</li>\n"
+"            </ol>\n"
+"            <p><b>Management Recommendations:</b></p>\n"
+"            <ol>\n"
+"                <li><b>Selective Use:</b> Enable this feature only as needed for troubleshooting or enhancing website functionality.</li>\n"
+"                <li><b>Disabling After Use:</b> Remember to deactivate this setting after debugging processes to ensure unnecessary data is not collected.</li>\n"
+"                <li><b>Data Removal:</b> For instructions on deleting previously stored user agent data, refer to our guide <a href=\"https://wp-statistics.com/resources/how-to-clear-user-agent-strings/?utm_source=wp-statistics&utm_medium=link&utm_campaign=privacy\" target=\"_blank\">here</a>.</li>\n"
+"            </ol>\n"
+"            <div class=\"wps-privacy-list__content--note\">\n"
+"                <b>To disable this feature,</b> navigate to <b>Settings -> User Data Protection -> Store Entire User Agent String</b> and uncheck <b>\"Enable\"</b>.\n"
 "            </div>"
 msgstr ""
 
@@ -4868,16 +4856,16 @@ msgstr ""
 
 #: src/Service/PrivacyAudit/Audits/UnhashedIpAddress.php:29
 msgid ""
-"<p>Our system has identified that raw IP addresses are stored in your database, likely due to the “Hash IP Addresses” feature being disabled in the past. To enhance data protection and align with privacy best practices, converting these IP addresses to a hashed format is strongly recommended.</p>\r\n"
-"                    <p><b>How to Convert IP Addresses to Hash?</b></p>\r\n"
-"                    <ol>\r\n"
-"                        <li>Go to the <b>Optimization</b> section.</li>\r\n"
-"                        <li>Select <b>Plugin Maintenance</b>.</li>\r\n"
-"                        <li>Choose <b>Convert IP Addresses to Hash</b> to start the conversion process.</li>\r\n"
-"                    </ol>\r\n"
-"                    <p>This step will transform all existing raw IP addresses in your database into hashed formats, significantly improving user privacy and your website’s compliance with data protection regulations.</p>\r\n"
-"                    <p><b>Need More Information?</b></p>\r\n"
-"                    <p>For a comprehensive guide on this process and to understand the benefits of IP address hashing, please refer to our detailed documentation: <a target=\"_blank\" href=\"https://wp-statistics.com/resources/converting-ip-addresses-to-hash/?utm_source=wp-statistics&utm_medium=link&utm_campaign=privacy\">Converting IP Addresses to Hash</a>.</p>\r\n"
+"<p>Our system has identified that raw IP addresses are stored in your database, likely due to the “Hash IP Addresses” feature being disabled in the past. To enhance data protection and align with privacy best practices, converting these IP addresses to a hashed format is strongly recommended.</p>\n"
+"                    <p><b>How to Convert IP Addresses to Hash?</b></p>\n"
+"                    <ol>\n"
+"                        <li>Go to the <b>Optimization</b> section.</li>\n"
+"                        <li>Select <b>Plugin Maintenance</b>.</li>\n"
+"                        <li>Choose <b>Convert IP Addresses to Hash</b> to start the conversion process.</li>\n"
+"                    </ol>\n"
+"                    <p>This step will transform all existing raw IP addresses in your database into hashed formats, significantly improving user privacy and your website’s compliance with data protection regulations.</p>\n"
+"                    <p><b>Need More Information?</b></p>\n"
+"                    <p>For a comprehensive guide on this process and to understand the benefits of IP address hashing, please refer to our detailed documentation: <a target=\"_blank\" href=\"https://wp-statistics.com/resources/converting-ip-addresses-to-hash/?utm_source=wp-statistics&utm_medium=link&utm_campaign=privacy\">Converting IP Addresses to Hash</a>.</p>\n"
 "                    "
 msgstr ""
 

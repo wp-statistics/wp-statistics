@@ -58,7 +58,7 @@
 
         <tr valign="top" id="visitors_tr">
             <th scope="row">
-                <label for="visitors"><?php esc_html_e('Monitor Unique Visitors', 'wp-statistics'); ?></label>
+                <label for="visitors"><?php esc_html_e('Track Unique Visitors', 'wp-statistics'); ?></label>
             </th>
             <td>
                 <input id="visitors" type="checkbox" value="1" name="wps_visitors" <?php echo WP_STATISTICS\Option::get('visitors') == true ? "checked='checked'" : ''; ?>>

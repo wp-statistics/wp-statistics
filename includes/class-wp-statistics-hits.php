@@ -2,9 +2,10 @@
 
 namespace WP_STATISTICS;
 
+use WP_Statistics\Components\Singleton;
 use WP_Statistics\Service\Analytics\VisitorProfile;
 
-class Hits
+class Hits extends Singleton
 {
     /**
      * Rest-APi Hit Record Params Key
@@ -200,9 +201,9 @@ class Hits
     public static function record_wp_hits()
     {
         if (!Option::get('use_cache_plugin') and !Helper::dntEnabled()) {
-            Hits::record();
+            self::record();
         }
     }
 }
 
-new Hits;
+Hits::instance();
