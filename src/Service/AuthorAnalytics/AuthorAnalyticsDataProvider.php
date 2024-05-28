@@ -195,7 +195,7 @@ class AuthorAnalyticsDataProvider
         $totalPosts     = $this->postsModel->countPosts($this->args);
         $totalVisitors  = $this->visitorsModel->countVisitors($this->args);
 
-        $taxonomies = $this->taxonomyModel->countTaxonomiesPosts($this->args);
+        $taxonomies     = $this->taxonomyModel->countTaxonomiesPosts($this->args);
 
         return [
             'overview' => [
@@ -218,6 +218,9 @@ class AuthorAnalyticsDataProvider
                     'total' => $totalComments,
                     'avg'   => Helper::divideNumbers($totalComments, $totalPosts)
                 ]
+            ], 
+            'taxonomies' => [
+                'data' => $taxonomies
             ]
         ];
     }

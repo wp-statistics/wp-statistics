@@ -38,6 +38,22 @@ class TaxonomyModel extends DataProvider
             ->bypassCache($bypassCache)
             ->getAll();
 
-        return $result;
+        if (!empty($result)) {
+            $taxonomies = [];
+
+            foreach ($result as $item) {
+                $taxonomy = get_taxonomy($item->taxonomy);
+
+                $taxonomies[$taxonomy->label][] = [
+                    'term_id'       => $item->term_id,
+                    'term_name'     => $item->name,
+                    'posts_count'   => $item->post_count,
+                ];
+            }
+
+            $result = $taxonomies;
+        }
+
+        return $result ? $result : [];
     }
 }
