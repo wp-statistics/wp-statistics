@@ -7,6 +7,7 @@ use WP_STATISTICS\Helper;
 use WP_Statistics\Models\AuthorsModel;
 use WP_Statistics\Models\PagesModel;
 use WP_Statistics\Models\PostsModel;
+use WP_Statistics\Models\VisitorsModel;
 
 class AuthorAnalyticsData
 {
@@ -14,16 +15,17 @@ class AuthorAnalyticsData
     protected $authorModel;
     protected $pagesModel;
     protected $postsModel;
-    protected $totalPosts;
+    protected $visitorsModel;
 
     
     public function __construct($args)
     {
         $this->args = $args;
 
-        $this->authorModel  = new AuthorsModel();
-        $this->pagesModel   = new PagesModel();
-        $this->postsModel   = new PostsModel();
+        $this->authorModel   = new AuthorsModel();
+        $this->pagesModel    = new PagesModel();
+        $this->postsModel    = new PostsModel();
+        $this->visitorsModel = new VisitorsModel();
 
         $this->localizeData();
     }
@@ -176,30 +178,26 @@ class AuthorAnalyticsData
 
     public function authorSingleData()
     {
-        // Views data
-        $totalViews           = $this->pagesModel->countViews($this->args);
+        $totalViews     = $this->pagesModel->countViews($this->args);
 
-        // Posts data
-        $totalWords           = $this->postsModel->countWords($this->args);
-        $totalComments        = $this->postsModel->countComments($this->args);
-        $totalPosts           = $this->postsModel->countPosts($this->args);
+        $totalWords     = $this->postsModel->countWords($this->args);
+        $totalComments  = $this->postsModel->countComments($this->args);
+        $totalPosts     = $this->postsModel->countPosts($this->args);
+        $totalVisitors  = $this->visitorsModel->countVisitors($this->args);
 
         return [
-            'authors' => [
-                'total'             => $totalAuthors,
-                'active'            => $activeAuthors,
-                'avg'               => Helper::divideNumbers($totalPosts, $activeAuthors),
-                'top_publishing'    => $topPublishingAuthors,
-                'top_viewing'       => $topViewingAuthors,
-                'top_by_comments'   => $topAuthorsByComment,
-                'top_by_views'      => $topAuthorsByViews,
-                'top_by_words'      => $topAuthorsByWords
-            ],
-            'views'   => [
-                'total' => $totalViews,
-                'avg'   => Helper::divideNumbers($totalViews, $totalPosts)
-            ],
-            'posts'   => [
+            'overview' => [
+                'posts'     => [
+                    'total' => $totalPosts
+                ],
+                'views'     => [
+                    'total' => $totalViews,
+                    'avg'   => Helper::divideNumbers($totalViews, $totalPosts)
+                ],
+                'visitors'  => [
+                    'total' => $totalVisitors,
+                    'avg'   => Helper::divideNumbers($totalVisitors, $totalPosts)
+                ],
                 'words'     => [
                     'total' => $totalWords,
                     'avg'   => Helper::divideNumbers($totalWords, $totalPosts)
@@ -208,7 +206,7 @@ class AuthorAnalyticsData
                     'total' => $totalComments,
                     'avg'   => Helper::divideNumbers($totalComments, $totalPosts)
                 ]
-            ]   
+            ],
         ];
     }
 }
