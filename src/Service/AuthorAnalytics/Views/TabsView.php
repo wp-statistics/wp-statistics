@@ -3,6 +3,7 @@
 namespace WP_Statistics\Service\AuthorAnalytics\Views;
 
 use WP_STATISTICS\Admin_Template;
+use WP_STATISTICS\Admin_Assets;
 use WP_STATISTICS\Menus;
 use WP_STATISTICS\Helper;
 use WP_Statistics\Service\AuthorAnalytics\AuthorAnalyticsDataProvider;
@@ -52,11 +53,21 @@ class TabsView
             $args['order'] = sanitize_text_field($_GET['order']);
         }
 
-        $authorAnalyticsData  = new AuthorAnalyticsDataProvider($args);
+        // Init data provider class
+        $dataProvider = new AuthorAnalyticsDataProvider($args);
 
+        // Localize data
+        if ($currentTab == 'performance') {
+            wp_localize_script(Admin_Assets::$prefix, 'Wp_Statistics_Author_Analytics_Object', [
+                'publishingChartData'   => $dataProvider->getPublishingChartData(),
+                'viewsPerPostChartData' => $dataProvider->getViewsPerPostsChartData()
+            ]);
+        }
+
+        // Get tab data
         $dataMethod = 'authors' . ucfirst($currentTab) . 'Data';
 
-        return $authorAnalyticsData->$dataMethod();
+        return $dataProvider->$dataMethod();
     }
 
     public function getCurrentTab()

@@ -29,33 +29,9 @@ class AuthorAnalyticsDataProvider
         $this->postsModel    = new PostsModel();
         $this->visitorsModel = new VisitorsModel();
         $this->taxonomyModel = new TaxonomyModel();
-
-        $this->localizeData();
     }
 
-    public function localizeData()
-    {
-        $data = [];
-
-        // Data for performance tab
-        if (isset($this->args['tab']) && $this->args['tab'] == 'performance') {
-            $data = [
-                'publish_overview_chart_data'   => $this->generatePublishingChartData(),
-                'views_per_posts_chart_data'    => $this->generateViewsPerPostsChartData()
-            ];
-        }
-
-        // Data for single author
-        if (isset($this->args['author_id'])) {
-            $data = [
-                'publish_overview_chart_data'   => $this->generatePublishingChartData(),
-            ];
-        }
-
-        wp_localize_script(Admin_Assets::$prefix, 'Wp_Statistics_Author_Analytics_Object', $data);
-    }
-
-    protected function generateViewsPerPostsChartData()
+    public function getViewsPerPostsChartData()
     {
         $args               = array_merge($this->args, ['per_page' => -1]);
         $topAuthorsByViews  = $this->authorModel->getAuthorsByViewsPerPost($args);
@@ -75,7 +51,7 @@ class AuthorAnalyticsDataProvider
         return $data;
     }
 
-    protected function generatePublishingChartData()
+    public function getPublishingChartData()
     {
         // Just filter by post type
         $args = Helper::filterArrayByKeys($this->args, ['post_type', 'author_id']);
