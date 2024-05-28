@@ -42,6 +42,7 @@ class AuthorAnalyticsData
             ];
         }
 
+        // Data for single author
         if (isset($this->args['author_id'])) {
             $data = [
                 'publish_overview_chart_data'   => $this->generatePublishingChartData(),
