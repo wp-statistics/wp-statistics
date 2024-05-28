@@ -132,7 +132,7 @@ class Visitor
                     'city'         => $visitorProfile->getCity(),
                     'region'       => $visitorProfile->getRegion(),
                     'continent'    => $visitorProfile->getContinent(),
-                    'user_id'      => $visitorProfile->getUserId(),
+                    'user_id'      => (Option::get('visitors_log') ? $visitorProfile->getUserId() : 0),
                     'UAString'     => (Option::get('store_ua') == true ? $visitorProfile->getHttpUserAgent() : ''),
                     'hits'         => 1,
                     'honeypot'     => ($args['exclusion_reason'] == 'Honeypot' ? 1 : 0),
@@ -161,7 +161,7 @@ class Visitor
                             "UPDATE `" . $visitorTable . "` SET `hits` = `hits` + %d, user_id = %s WHERE `ID` = %d",
                             1,
                             $visitorProfile->getUserId(),
-                            $visitor_id
+                            (Option::get('visitors_log') ? $visitor_id : 0)
                         )
                     );
                 }

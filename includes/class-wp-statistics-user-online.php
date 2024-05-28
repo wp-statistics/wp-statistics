@@ -168,7 +168,7 @@ class UserOnline
             'region'    => $visitorProfile->getRegion(),
             'continent' => $visitorProfile->getContinent(),
             'city'      => $visitorProfile->getCity(),
-            'user_id'   => $visitorProfile->getUserId(),
+            'user_id'   => (Option::get('visitors_log') ? $visitorProfile->getUserId() : 0),
             'page_id'   => $pageId,
             'type'      => $current_page['type']
         );
@@ -211,7 +211,7 @@ class UserOnline
             'timestamp' => TimeZone::getCurrentTimestamp(),
             'date'      => TimeZone::getCurrentDate(),
             'referred'  => $visitorProfile->getReferrer(),
-            'user_id'   => $user_id,
+            'user_id'   => (Option::get('visitors_log') ? $user_id : 0),
             'page_id'   => $pageId,
             'type'      => $current_page['type']
         );
