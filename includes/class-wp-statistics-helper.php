@@ -1392,4 +1392,30 @@ class Helper
         return round($dividend / $divisor, $precision);
     }
 
+    
+    /**
+     * Calculates the difference between two dates.
+     *
+     * @param string $date1 The first date.
+     * @param string $date2 The second date.
+     */
+    public static function calculateDateDifference($date1, $date2 = 'now')
+    {
+        // Convert dates to DateTime objects
+        $datetime1 = new \DateTime($date1);
+        $datetime2 = new \DateTime($date2);
+
+        $interval = $datetime1->diff($datetime2);
+
+        if ($interval->y > 0) {
+            return _n('a year', sprintf('%d years', $interval->y), $interval->y, 'wp-statistics');
+        } elseif ($interval->m > 0) {
+            return _n('a month', sprintf('%d months', $interval->m), $interval->m, 'wp-statistics');
+        } elseif ($interval->d >= 7) {
+            $weeks = floor($interval->d / 7);
+            return _n('a week', sprintf('%d weeks', $weeks), $weeks, 'wp-statistics');
+        } else {
+            return _n('a day', sprintf('%d days', $interval->d), $interval->d, 'wp-statistics');
+        }
+    }
 }
