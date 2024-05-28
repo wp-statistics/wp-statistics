@@ -12,13 +12,15 @@ class PagesModel extends DataProvider
         $args = $this->parseArgs($args, [
             'from'      => '',
             'to'        => '',
-            'post_type' => ''
+            'post_type' => '',
+            'id'        => ''
         ]);
 
         $query = Query::select('SUM(count) as total_count')
             ->from('pages')
             ->where('type', 'IN', $args['post_type'])
             ->whereDate('date', [$args['from'], $args['to']])
+            ->where('id', '=', $args['id'])
             ->groupBy('type')
             ->bypassCache($bypassCache);
 

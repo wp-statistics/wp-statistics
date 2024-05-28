@@ -54,7 +54,7 @@ class TabsView
 
         $authorAnalyticsData  = new AuthorAnalyticsData($args);
 
-        $dataMethod = $currentTab . 'Data';
+        $dataMethod = 'authors' . ucfirst($currentTab) . 'Data';
 
         return $authorAnalyticsData->$dataMethod();
     }

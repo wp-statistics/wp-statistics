@@ -18,7 +18,7 @@ final class WP_Statistics
     /**
      * The single instance of the class.
      *
-     * @var WP Statistics
+     * @var WP_Statistics
      */
     protected static $_instance = null;
 

@@ -93,7 +93,7 @@ class AuthorAnalyticsData
     }
 
 
-    public function performanceData()
+    public function authorsPerformanceData()
     {
         // Authors data
         $totalAuthors         = $this->authorModel->countAuthors();
@@ -140,7 +140,7 @@ class AuthorAnalyticsData
         ];
     }
 
-    public function pagesData()
+    public function authorsPagesData()
     {
         $authors = $this->authorModel->getAuthorsByViewsPerPost($this->args);
         $total   = $this->authorModel->countAuthors($this->args);
@@ -171,6 +171,44 @@ class AuthorAnalyticsData
         return [
             'posts'   => $posts,
             'total'   => $total
+        ];
+    }
+
+    public function authorSingleData()
+    {
+        // Views data
+        $totalViews           = $this->pagesModel->countViews($this->args);
+
+        // Posts data
+        $totalWords           = $this->postsModel->countWords($this->args);
+        $totalComments        = $this->postsModel->countComments($this->args);
+        $totalPosts           = $this->postsModel->countPosts($this->args);
+
+        return [
+            'authors' => [
+                'total'             => $totalAuthors,
+                'active'            => $activeAuthors,
+                'avg'               => Helper::divideNumbers($totalPosts, $activeAuthors),
+                'top_publishing'    => $topPublishingAuthors,
+                'top_viewing'       => $topViewingAuthors,
+                'top_by_comments'   => $topAuthorsByComment,
+                'top_by_views'      => $topAuthorsByViews,
+                'top_by_words'      => $topAuthorsByWords
+            ],
+            'views'   => [
+                'total' => $totalViews,
+                'avg'   => Helper::divideNumbers($totalViews, $totalPosts)
+            ],
+            'posts'   => [
+                'words'     => [
+                    'total' => $totalWords,
+                    'avg'   => Helper::divideNumbers($totalWords, $totalPosts)
+                ],
+                'comments'  => [
+                    'total' => $totalComments,
+                    'avg'   => Helper::divideNumbers($totalComments, $totalPosts)
+                ]
+            ]   
         ];
     }
 }
