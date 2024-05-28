@@ -59,8 +59,8 @@ class TabsView
         // Localize data
         if ($currentTab == 'performance') {
             wp_localize_script(Admin_Assets::$prefix, 'Wp_Statistics_Author_Analytics_Object', [
-                'publishingChartData'   => $dataProvider->getPublishingChartData(),
-                'viewsPerPostChartData' => $dataProvider->getViewsPerPostsChartData()
+                'publish_chart_data'   => $dataProvider->getPublishingChartData(),
+                'views_per_posts_chart_data' => $dataProvider->getViewsPerPostsChartData()
             ]);
         }
 

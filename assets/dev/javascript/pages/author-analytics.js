@@ -172,14 +172,14 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         },
 
         generatePublishingOverviewChart: function () {
-            if (!wps_js.isset(Wp_Statistics_Author_Analytics_Object, 'publish_overview_chart_data')) {
+            if (!wps_js.isset(Wp_Statistics_Author_Analytics_Object, 'publish_chart_data')) {
                 return;
             }
 
             const overviewPublishData = {
                 datasets: [{
                     label: 'overview',
-                    data: Wp_Statistics_Author_Analytics_Object.publish_overview_chart_data,
+                    data: Wp_Statistics_Author_Analytics_Object.publish_chart_data,
                     backgroundColor(c) {
                         const value = c.dataset.data[c.dataIndex].v;
                         const alpha = (10 + value) / 60;
