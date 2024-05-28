@@ -201,7 +201,7 @@ class Hits extends Singleton
     public static function record_wp_hits()
     {
         if (!Option::get('use_cache_plugin') and !Helper::dntEnabled()) {
-            Hits::record();
+            self::record();
         }
     }
 }
