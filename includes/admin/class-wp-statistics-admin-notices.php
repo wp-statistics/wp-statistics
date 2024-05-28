@@ -125,7 +125,7 @@ class Admin_Notices
 
             // Check Active Visitors
             if (!Option::get('visitors')) {
-                $active_collation[] = __('Monitor Unique Visitors', 'wp-statistics');
+                $active_collation[] = __('Track Unique Visitors', 'wp-statistics');
             }
 
             if (count($active_collation) > 0) {
