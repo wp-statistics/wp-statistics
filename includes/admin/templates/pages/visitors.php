@@ -46,11 +46,13 @@ use WP_STATISTICS\Menus;
                                     </td>
                                     <td><?php echo esc_html(Option::get('hash_ips') == true ? __('Daily Visitor Hash', 'wp-statistics') : __('IP Address', 'wp-statistics')); ?></td>
                                     <td><?php esc_html_e('Operating System', 'wp-statistics'); ?></td>
+                                    <?php if (!isset($_GET['ip'])) {?>
                                     <td><?php esc_html_e('Total Views', 'wp-statistics'); ?></td>
+                                    <?php } ?>
                                     <?php if (Option::get('visitors_log')) { ?>
                                     <td><?php esc_html_e('User', 'wp-statistics'); ?></td>
                                     <?php } ?>
-                                    <td class="tbl-page-column"><?php esc_html_e('Latest Page', 'wp-statistics'); ?></td>
+                                    <td class="tbl-page-column"><?php esc_html_e((isset($_GET['ip']) ? 'Page' : 'Latest Page'), 'wp-statistics'); ?></td>
                                     <td><?php esc_html_e('Referrer', 'wp-statistics'); ?></td>
                                 </tr>
 
@@ -74,7 +76,9 @@ use WP_STATISTICS\Menus;
                                             <?php echo sprintf('<a href="%s">%s</a>', esc_url($item['ip']['link']), esc_attr($item['ip']['value'])); ?>
                                         </td>
                                         <td><?php echo esc_attr($item['platform']); ?></td>
+                                        <?php if (!isset($_GET['ip'])) {?>
                                         <td><?php echo esc_attr($item['hits']); ?></td>
+                                        <?php } ?>
                                         <?php if (Option::get('visitors_log')) { ?>
                                             <td>
                                                 <?php if (isset($item['user']) and isset($item['user']['ID']) and $item['user']['ID'] > 0) { ?>
