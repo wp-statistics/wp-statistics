@@ -35,7 +35,8 @@ class PostsModel extends DataProvider
         $args = $this->parseArgs($args, [
             'from'      => '',
             'to'        => '',
-            'post_type' => ''
+            'post_type' => '',
+            'author_id' => ''
         ]);
 
         $wordsCountMetaKey = WordCount::WORDS_COUNT_META_KEY;
@@ -45,6 +46,7 @@ class PostsModel extends DataProvider
             ->join('postmeta', ['posts.ID', 'postmeta.post_id'])
             ->where('post_status', '=', 'publish')
             ->where('post_type', 'IN', $args['post_type'])
+            ->where('post_author', '=', $args['author_id'])
             ->where('meta_key', '=', $wordsCountMetaKey)
             ->whereDate('post_date', [$args['from'], $args['to']])
             ->bypassCache($bypassCache)
@@ -58,7 +60,8 @@ class PostsModel extends DataProvider
         $args = $this->parseArgs($args, [
             'from'      => '',
             'to'        => '',
-            'post_type' => ''
+            'post_type' => '',
+            'author_id' => ''
         ]);
 
         $totalWords = Query::select('COUNT(comment_ID)')
@@ -66,6 +69,7 @@ class PostsModel extends DataProvider
             ->join('comments', ['posts.ID', 'comments.comment_post_ID'])
             ->where('post_status', '=', 'publish')
             ->where('post_type', 'IN', $args['post_type'])
+            ->where('post_author', '=', $args['author_id'])
             ->whereDate('post_date', [$args['from'], $args['to']])
             ->bypassCache($bypassCache)
             ->getVar();
