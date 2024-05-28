@@ -1,4 +1,5 @@
-<?php 
+<?php
+
 use WP_STATISTICS\Admin_Template;
 use WP_STATISTICS\Menus;
 use WP_STATISTICS\UserOnline;
@@ -8,7 +9,7 @@ use WP_Statistics\Service\PrivacyAudit\PrivacyAuditCheck;
 ?>
 
 <div class="wps-adminHeader">
-    <img class="wps-adminHeader__logo" src="<?php echo esc_url(WP_STATISTICS_URL . 'assets/images/white-header-logo.svg'); ?>"/>
+    <img class="wps-adminHeader__logo" src="<?php echo esc_url(apply_filters('wp_statistics_header_url', WP_STATISTICS_URL . 'assets/images/white-header-logo.svg')); ?>"/>
     <div class="wps-adminHeader__menu">
         <?php
         //Get Total User Online
