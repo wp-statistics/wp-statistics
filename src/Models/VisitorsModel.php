@@ -6,7 +6,7 @@ use WP_STATISTICS\Helper;
 use WP_Statistics\Utils\Query;
 
 
-class VisitorsModel extends DataProvider
+class VisitorsModel extends BaseModel
 {
 
     public function countVisitors($args = [], $bypassCache = false)

@@ -6,7 +6,7 @@ namespace WP_Statistics\Models;
 /**
  * Todo object cache, consider historical, hooks, filters, etc
  */
-abstract class DataProvider
+abstract class BaseModel
 {
     /**
      * @param $args

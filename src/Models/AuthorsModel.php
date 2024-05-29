@@ -6,7 +6,7 @@ use WP_STATISTICS\Helper;
 use WP_Statistics\Service\Posts\WordCount;
 use WP_Statistics\Utils\Query;
 
-class AuthorsModel extends DataProvider
+class AuthorsModel extends BaseModel
 {
     /**
      * Counts the authors based on the given arguments.

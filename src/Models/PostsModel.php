@@ -6,7 +6,7 @@ use WP_STATISTICS\Helper;
 use WP_Statistics\Service\Posts\WordCount;
 use WP_Statistics\Utils\Query;
 
-class PostsModel extends DataProvider
+class PostsModel extends BaseModel
 {
 
     public function countPosts($args = [], $bypassCache = false)

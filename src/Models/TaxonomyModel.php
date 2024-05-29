@@ -5,7 +5,7 @@ namespace WP_Statistics\Models;
 use WP_STATISTICS\Helper;
 use WP_Statistics\Utils\Query;
 
-class TaxonomyModel extends DataProvider
+class TaxonomyModel extends BaseModel
 {
     public function countTaxonomiesPosts($args = [], $bypassCache = false)
     {

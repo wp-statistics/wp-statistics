@@ -5,7 +5,7 @@ use WP_Statistics\Utils\Query;
 use WP_Statistics\Helper;
 
 
-class PagesModel extends DataProvider
+class PagesModel extends BaseModel
 {
 
     public function countViews($args = [], $bypassCache = false)
