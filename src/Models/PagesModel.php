@@ -2,6 +2,7 @@
 
 namespace WP_Statistics\Models;
 use WP_Statistics\Utils\Query;
+use WP_Statistics\Helper;
 
 
 class PagesModel extends DataProvider
@@ -12,15 +13,18 @@ class PagesModel extends DataProvider
         $args = $this->parseArgs($args, [
             'from'      => '',
             'to'        => '',
+            'date'      => '',
             'post_type' => '',
             'author_id' => ''
         ]);
+
+        $date = empty($args['date']) ? Helper::filterArrayByKeys($args, ['from', 'to']) : $args['date'];
 
         $query = Query::select('SUM(count) as total_count')
             ->from('pages')
             ->join('posts', ['pages.id', 'posts.ID'])
             ->where('type', 'IN', $args['post_type'])
-            ->whereDate('date', [$args['from'], $args['to']])
+            ->whereDate('date', $date)
             ->where('post_author', '=', $args['author_id'])
             ->groupBy('type')
             ->bypassCache($bypassCache);

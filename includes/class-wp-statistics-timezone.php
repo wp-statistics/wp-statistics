@@ -246,6 +246,14 @@ class TimeZone
                 'from' => self::getTimeAgo(365),
                 'to'   => self::getCurrentDate("Y-m-d")
             ],
+            'this_year'       => [
+                'from' => self::getCurrentDate("Y-01-01"),
+                'to'   => self::getCurrentDate("Y-m-d")
+            ],
+            'last_year'       => [
+                'from' => self::getTimeAgo(365, "Y-01-01"),
+                'to'   => self::getTimeAgo(365, "Y-12-30")
+            ]
         ];
     }
 

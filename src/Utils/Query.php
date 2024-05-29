@@ -100,8 +100,8 @@ class Query
 
         if (is_string($date)) {
             $date = TimeZone::calculateDateFilter($date);
-            $from = $date[0];
-            $to   = $date[1];
+            $from = $date['from'];
+            $to   = $date['to'];
         }
 
         if (!empty($from) && !empty($to)) {
@@ -195,6 +195,7 @@ class Query
     public function getVar()
     {
         $query = $this->buildQuery();
+        $query = $this->prepareQuery($query, $this->whereValues);
 
         if (!$this->bypassCache) {
             $cachedResult = $this->getCachedResult($query);
@@ -203,8 +204,7 @@ class Query
             }
         }
 
-        $preparedQuery = $this->prepareQuery($query, $this->whereValues);
-        $result        = $this->db->get_var($preparedQuery);
+        $result = $this->db->get_var($query);
 
         if (!$this->bypassCache) {
             $this->setCachedResult($query, $result);
@@ -216,6 +216,7 @@ class Query
     public function getAll()
     {
         $query = $this->buildQuery();
+        $query = $this->prepareQuery($query, $this->whereValues);
 
         if (!$this->bypassCache) {
             $cachedResult = $this->getCachedResult($query);
@@ -224,8 +225,7 @@ class Query
             }
         }
 
-        $preparedQuery = $this->prepareQuery($query, $this->whereValues);
-        $result        = $this->db->get_results($preparedQuery);
+        $result = $this->db->get_results($query);
 
         if (!$this->bypassCache) {
             $this->setCachedResult($query, $result);
@@ -237,6 +237,7 @@ class Query
     public function getCol()
     {
         $query = $this->buildQuery();
+        $query = $this->prepareQuery($query, $this->whereValues);
 
         if (!$this->bypassCache) {
             $cachedResult = $this->getCachedResult($query);
@@ -245,8 +246,7 @@ class Query
             }
         }
 
-        $preparedQuery = $this->prepareQuery($query, $this->whereValues);
-        $result        = $this->db->get_col($preparedQuery);
+        $result = $this->db->get_col($query);
 
         if (!$this->bypassCache) {
             $this->setCachedResult($query, $result);
@@ -258,6 +258,7 @@ class Query
     public function getRow()
     {
         $query = $this->buildQuery();
+        $query = $this->prepareQuery($query, $this->whereValues);
 
         if (!$this->bypassCache) {
             $cachedResult = $this->getCachedResult($query);
@@ -266,8 +267,7 @@ class Query
             }
         }
 
-        $preparedQuery = $this->prepareQuery($query, $this->whereValues);
-        $result        = $this->db->get_row($preparedQuery);
+        $result = $this->db->get_row($query);
 
         if (!$this->bypassCache) {
             $this->setCachedResult($query, $result);
