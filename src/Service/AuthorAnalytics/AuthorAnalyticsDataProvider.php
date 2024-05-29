@@ -259,6 +259,7 @@ class AuthorAnalyticsDataProvider
         $totalVisitors  = $this->visitorsModel->countVisitors($this->args);
 
         $taxonomies     = $this->taxonomyModel->countTaxonomiesPosts($this->args);
+        $topPostsByView = $this->postsModel->getTopPostsByViews($this->args);
 
         $data = [
             'overview' => [
@@ -284,7 +285,10 @@ class AuthorAnalyticsDataProvider
             ], 
             'taxonomies'    => $taxonomies,
             'location'      => $this->getLocationData(),
-            'visit_summary' => $this->getVisitSummary()
+            'visit_summary' => $this->getVisitSummary(),
+            'posts'     => [
+                'top_views' => $topPostsByView
+            ]
         ];
 
         return $data;

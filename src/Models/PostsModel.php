@@ -86,7 +86,7 @@ class PostsModel extends DataProvider
             'author_id' => ''
         ]);
 
-        $overview = Query::select(['DATE(post_date) as date', 'COUNT(ID) as posts'])
+        $result = Query::select(['DATE(post_date) as date', 'COUNT(ID) as posts'])
             ->from('posts')
             ->where('post_status', '=', 'publish')
             ->where('post_type', 'IN', $args['post_type'])
@@ -96,7 +96,7 @@ class PostsModel extends DataProvider
             ->bypassCache($bypassCache)
             ->getAll();
 
-        return $overview;
+        return $result;
     }
 
     public function getPostsReportData($args = [], $bypassCache = false)
@@ -134,6 +134,40 @@ class PostsModel extends DataProvider
             ->joinQuery($commentsQuery, ['posts.ID', 'comments.comment_post_ID'], 'comments', 'LEFT')
             ->joinQuery($viewsQuery, ['posts.ID', 'pages.id'], 'pages', 'LEFT')
             ->join('postmeta', ['posts.ID', 'postmeta.post_id'], [], 'LEFT')
+            ->where('post_type', 'IN', $args['post_type'])
+            ->where('post_status', '=', 'publish')
+            ->where('posts.post_author', '=', $args['author_id'])
+            ->whereDate('posts.post_date', [$args['from'], $args['to']])
+            ->groupBy('posts.ID')
+            ->orderBy($args['order_by'], $args['order'])
+            ->perPage($args['page'], $args['per_page'])
+            ->bypassCache($bypassCache)
+            ->getAll();
+
+        return $result;
+    }
+
+    public function getTopPostsByViews($args = [], $bypassCache = false)
+    {
+        $args = $this->parseArgs($args, [
+            'from'      => '',
+            'to'        => '',
+            'post_type' => Helper::get_list_post_type(),
+            'order_by'  => 'views',
+            'order'     => 'DESC',
+            'page'     => 1,
+            'per_page' => 5,
+            'author_id' => ''
+        ]);
+
+        $result = Query::select([
+                'posts.ID',
+                'posts.post_author',
+                'posts.post_title',
+                'COALESCE(SUM(pages.count), 0) AS views',
+            ])
+            ->from('posts')
+            ->join('pages', ['posts.ID', 'pages.id'], [],'LEFT')
             ->where('post_type', 'IN', $args['post_type'])
             ->where('post_status', '=', 'publish')
             ->where('posts.post_author', '=', $args['author_id'])
