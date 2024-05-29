@@ -247,6 +247,11 @@ class Schedule
             $final_report_text = apply_filters('wp_statistics_final_text_report_email', $email_content);
 
             /**
+             * Filter to modify email subject
+             */
+            $email_subject = apply_filters('wp_statistics_report_email_subject', __('Statistical reporting', 'wp-statistics'));
+
+            /**
              * Filter for enable/disable sending email by template.
              */
             $email_template = apply_filters('wp_statistics_report_email_template', true);
@@ -261,7 +266,7 @@ class Schedule
              */
             $result_email = Helper::send_mail(
                 $email_receivers,
-                __('Statistical reporting', 'wp-statistics'),
+                $email_subject,
                 $final_report_text,
                 $email_template
             );

@@ -835,9 +835,10 @@ function wp_statistics_searchengine_query($search_engine = 'all')
  * @param string $search_engine
  * @param string $time
  * @param string $search_by [query / name]
+ * @param array $range
  * @return mixed
  */
-function wp_statistics_get_search_engine_query($search_engine = 'all', $time = 'total', $search_by = 'query')
+function wp_statistics_get_search_engine_query($search_engine = 'all', $time = 'total', $search_by = 'query', $range = [])
 {
     global $wpdb;
 
@@ -857,10 +858,12 @@ function wp_statistics_get_search_engine_query($search_engine = 'all', $time = '
 
     // Check Sanitize Datetime
     if (TimeZone::isValidDate($time)) {
-        $mysql_time_sql = WP_STATISTICS\Helper::mysql_time_conditions($date_column, $time, array('is_day' => true));
+        if (empty($range)) $range = ['is_day' => true];
     } else {
-        $mysql_time_sql = WP_STATISTICS\Helper::mysql_time_conditions($date_column, $time, array('current_date' => true));
+        if (empty($range)) $range = ['current_date' => true];
     }
+    
+    $mysql_time_sql = WP_STATISTICS\Helper::mysql_time_conditions($date_column, $time, $range);
 
     //Generate MySql Time Conditions
     if (!empty($mysql_time_sql)) {
@@ -876,11 +879,12 @@ function wp_statistics_get_search_engine_query($search_engine = 'all', $time = '
  *
  * @param string $search_engine
  * @param string $time
+ * @param array $range
  * @return mixed
  */
-function wp_statistics_searchengine($search_engine = 'all', $time = 'total')
+function wp_statistics_searchengine($search_engine = 'all', $time = 'total', $range = [])
 {
-    return wp_statistics_get_search_engine_query($search_engine, $time, $search_by = 'query');
+    return wp_statistics_get_search_engine_query($search_engine, $time, $search_by = 'query', $range);
 }
 
 /**

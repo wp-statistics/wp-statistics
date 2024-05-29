@@ -1,3 +1,16 @@
+= 14.7.1 - 29.05.2024 =
+* Fixes: Fixed date filter on post type and taxonomies page.
+* Fixes: Fixed modify email subject with filter.
+* Fixes: Fixed user online current page bug.
+* Fixes: Fixed hashed IP bug in the visitor page filter.
+* Fixes: Fixed register user ID bug for recording.
+* Fixes: Fixed customization header banner by adding a new filter `wp_statistics_header_url`.
+* Improvement: Cleaned up some legacy functionality and unusable options.
+* Improvement: Built front-end script for modern browsers.
+* Improvement: Improved the Statistics post's metabox styles and fixed related bugs.
+* Improvement: Added a check for existing events table before upgrade.
+* Improvement: Made minor enhancements.
+
 = 14.7 - 20.05.2024 =
 * Addition: Introduced Privacy Audit Tool to ensure compliance with privacy laws. [More info click here](https://wp-statistics.com/2024/05/12/introducing-privacy-audit-in-wp-statistics-14-7/)
 * Addition: Added two new database columns, region and continent, to the visitor table to enhance geographical data.

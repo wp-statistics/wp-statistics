@@ -705,7 +705,7 @@ class Helper
      */
     public static function getUrlDecode($value)
     {
-        return utf8_decode(urldecode($value));
+        return mb_convert_encoding(urldecode($value), 'ISO-8859-1', 'UTF-8');
     }
 
     /**
@@ -1219,9 +1219,6 @@ class Helper
     {
         // Create Empty Params Object
         $params = array();
-
-        //track all page
-        $params['track_all'] = (Pages::is_track_all_page() === true ? 1 : 0);
 
         //Set Page Type
         $get_page_type               = Pages::get_page_type();

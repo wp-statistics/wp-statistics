@@ -440,7 +440,7 @@ if (!$isAdvancedReportingActive) echo Admin_Template::get_template('layout/parti
 
                 <td>
                     <input id="wps_addon_settings[advanced_reporting][email_preview_content]" name="wps_addon_settings[advanced_reporting][email_preview_content]" type="text" class="regular-text" value="<?php echo esc_attr(WP_STATISTICS\Option::getByAddon('email_preview_content', 'advanced_reporting')) ?>"/> &nbsp; <input type="submit" name="submit-preview" id="submit-preview" class="button" value="Send" style="margin: 0; padding-top: 13px; padding-bottom: 13px;" onclick="var wpsCurrentTab = getElementById('wps_current_tab'); wpsCurrentTab.value='advanced-reporting-settings'"/>
-                    <p class="description"><?php esc_html_e('Enter an email to send a preview, ensuring your report looks just right before it goes out to your audience.', 'wp-statistics'); ?></p>
+                    <p class="description"><?php esc_html_e('Enter an email to send a preview.', 'wp-statistics'); ?></p>
                 </td>
             </tr>
             </tbody>

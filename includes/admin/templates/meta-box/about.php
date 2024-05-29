@@ -1,11 +1,12 @@
 <?php
 $aboutWidgetContent = apply_filters('wp_statistics_about_widget_content', false);
 if ($aboutWidgetContent) {
-    echo wp_kses_post($aboutWidgetContent);
+    echo '<div class="o-wrap">' . apply_filters('the_content', $aboutWidgetContent) . '</div>';
+
     return;
-}
-?>
-<div class="o-wrap">
+} ?>
+
+<div class="o-wrap wps-about-widget">
     <div class="c-about">
         <div class="c-about__row c-about__row--logo">
             <a href="https://wp-statistics.com" target="_blank">

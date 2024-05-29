@@ -199,8 +199,8 @@ class settings_page extends Singleton
                 if (wp_next_scheduled('wp_statistics_report_hook')) {
                     wp_unschedule_event(wp_next_scheduled('wp_statistics_report_hook'), 'wp_statistics_report_hook');
                 }
-                $timeReports = sanitize_text_field($_POST['wps_time_report']);
-                $schedulesInterval = wp_get_schedules();
+                $timeReports         = sanitize_text_field($_POST['wps_time_report']);
+                $schedulesInterval   = wp_get_schedules();
                 $timeReportsInterval = 86400;
                 if (isset($schedulesInterval[$timeReports]['interval'])) {
                     $timeReportsInterval = $schedulesInterval[$timeReports]['interval'];
@@ -472,15 +472,12 @@ class settings_page extends Singleton
             'wps_visitors_log',
             'wps_enable_user_column',
             'wps_pages',
-            'wps_track_all_pages',
             'wps_use_cache_plugin',
-            'wps_hit_post_metabox',
             'wps_show_hits',
             'wps_display_hits_position',
             'wps_check_online',
             'wps_menu_bar',
             'wps_coefficient',
-            'wps_chart_totals',
             'wps_hide_notices'
         );
 
@@ -493,11 +490,6 @@ class settings_page extends Singleton
         foreach (array('wps_disable_column', 'wps_disable_editor') as $option) {
             $wps_disable_column                                         = isset($_POST[$option]) && sanitize_text_field($_POST[$option]) == '1' ? '' : '1';
             $wp_statistics_options[self::input_name_to_option($option)] = $wps_disable_column;
-        }
-
-        //Add Visitor RelationShip Table
-        if (isset($_POST['wps_visitors_log']) and $_POST['wps_visitors_log'] == 1) {
-            Install::create_visitor_relationship_table();
         }
 
         //Flush Rewrite Use Cache Plugin

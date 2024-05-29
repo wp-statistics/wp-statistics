@@ -213,17 +213,10 @@ class Install
      */
     public static function create_visitor_relationship_table()
     {
-        // Get Table name
-        $table_name = DB::table('visitor_relationships');
-
-        // Get charset Collate
-        $collate = DB::charset_collate();
-
-        // if not Found then Create Table
-        if (DB::ExistTable($table_name) === false) {
-
-            $create_visitor_relationships_table =
-                "CREATE TABLE IF NOT EXISTS $table_name (
+        $table_name                         = DB::table('visitor_relationships');
+        $collate                            = DB::charset_collate();
+        $create_visitor_relationships_table =
+            "CREATE TABLE IF NOT EXISTS $table_name (
 				`ID` bigint(20) NOT NULL AUTO_INCREMENT,
 				`visitor_id` bigint(20) NOT NULL,
 				`page_id` bigint(20) NOT NULL,
@@ -233,15 +226,14 @@ class Install
 				KEY page_id (page_id)
 			) {$collate}";
 
-            dbDelta($create_visitor_relationships_table);
-        }
+        dbDelta($create_visitor_relationships_table);
+
     }
 
     public static function create_events_table()
     {
-        $table_name = DB::table('events');
-        $collate    = DB::charset_collate();
-
+        $table_name          = DB::table('events');
+        $collate             = DB::charset_collate();
         $create_events_table =
             "CREATE TABLE IF NOT EXISTS $table_name (
 				`ID` bigint(20) NOT NULL AUTO_INCREMENT,
@@ -385,11 +377,13 @@ class Install
             return;
         }
 
-        $userOnlineTable = DB::table('useronline');
-        $pagesTable      = DB::table('pages');
-        $visitorTable    = DB::table('visitor');
-        $historicalTable = DB::table('historical');
-        $searchTable     = DB::table('search');
+        $userOnlineTable      = DB::table('useronline');
+        $pagesTable           = DB::table('pages');
+        $visitorTable         = DB::table('visitor');
+        $historicalTable      = DB::table('historical');
+        $searchTable          = DB::table('search');
+        $eventTable           = DB::table('events');
+        $visitorRelationships = DB::table('visitor_relationships');
 
         /**
          * Add visitor city
@@ -501,18 +495,22 @@ class Install
         }
 
         /**
-         * Create Visitor and pages Relationship Table
+         * Create Visitor and pages relationship table if is not exist.
          *
          * @version 13.0.0
          */
-        self::create_visitor_relationship_table();
+        if (DB::ExistTable($visitorRelationships) === false) {
+            self::create_visitor_relationship_table();
+        }
 
         /**
-         * Create events table
+         * Create events table if is not exist.
          *
          * @version 14.4
          */
-        self::create_events_table();
+        if (DB::ExistTable($eventTable) === false) {
+            self::create_events_table();
+        }
 
         /**
          * Change Charset All Table To New WordPress Collate

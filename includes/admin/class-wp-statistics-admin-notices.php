@@ -125,7 +125,7 @@ class Admin_Notices
 
             // Check Active Visitors
             if (!Option::get('visitors')) {
-                $active_collation[] = __('Monitor Unique Visitors', 'wp-statistics');
+                $active_collation[] = __('Track Unique Visitors', 'wp-statistics');
             }
 
             if (count($active_collation) > 0) {
@@ -213,7 +213,7 @@ class Admin_Notices
     public function php_version_check()
     {
         if (version_compare(PHP_VERSION, '7.2', '<') && !Option::get('disable_php_version_check_notice')) {
-            Helper::wp_admin_notice(__('<b>WP Statistics Plugin: PHP Version Update Alert</b> Starting with <b>Version 15</b>, WP Statistics will require <b>PHP 7.2 or higher</b>. Please upgrade your PHP version to ensure uninterrupted use of the plugin.'), 'warning', true, 'wp-statistics-disable-php_version_check-notice');
+            Helper::wp_admin_notice(__('<b>WP Statistics Plugin: PHP Version Update Alert</b> Starting with <b>Version 15</b>, WP Statistics will require <b>PHP 7.2 or higher</b>. Please upgrade your PHP version to ensure uninterrupted use of the plugin.'), 'error', true, 'wp-statistics-disable-php_version_check-notice');
             ?>
             <script>
                 jQuery(document).ready(function ($) {
