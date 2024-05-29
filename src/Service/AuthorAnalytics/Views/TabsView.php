@@ -65,7 +65,7 @@ class TabsView
         }
 
         // Get tab data
-        $dataMethod = 'authors' . ucfirst($currentTab) . 'Data';
+        $dataMethod = 'getAuthors' . ucfirst($currentTab) . 'Data';
 
         return $dataProvider->$dataMethod();
     }

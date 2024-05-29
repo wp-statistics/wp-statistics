@@ -117,7 +117,7 @@ class AuthorAnalyticsDataProvider
         return $data;
     }
 
-    public function authorsPerformanceData()
+    public function getAuthorsPerformanceData()
     {
         // Authors data
         $totalAuthors         = $this->authorModel->countAuthors();
@@ -164,7 +164,7 @@ class AuthorAnalyticsDataProvider
         ];
     }
 
-    public function authorsPagesData()
+    public function getAuthorsPagesData()
     {
         $authors = $this->authorModel->getAuthorsByViewsPerPost($this->args);
         $total   = $this->authorModel->countAuthors($this->args);
@@ -176,7 +176,7 @@ class AuthorAnalyticsDataProvider
     }
 
 
-    public function authorsReportData()
+    public function getAuthorsReportData()
     {
         $authors = $this->authorModel->getAuthorsPerformanceData($this->args);
         $total   = $this->authorModel->countAuthors($this->args);
@@ -187,7 +187,7 @@ class AuthorAnalyticsDataProvider
         ];
     }
 
-    public function authorsPostsData()
+    public function getAuthorsPostsData()
     {
         $posts  = $this->postsModel->getPostsReportData($this->args);
         $total  = $this->postsModel->countPosts($this->args);
@@ -249,7 +249,7 @@ class AuthorAnalyticsDataProvider
         ];
     }
 
-    public function authorSingleData()
+    public function getAuthorSingleData()
     {
         $totalViews         = $this->pagesModel->countViews($this->args);
 

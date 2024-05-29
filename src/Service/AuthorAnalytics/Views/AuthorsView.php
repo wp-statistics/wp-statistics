@@ -33,7 +33,7 @@ class AuthorsView
         }
 
         $authorAnalyticsData  = new AuthorAnalyticsDataProvider($args);
-        return $authorAnalyticsData->authorsReportData();
+        return $authorAnalyticsData->getAuthorsReportData();
     }
 
     public function view()
