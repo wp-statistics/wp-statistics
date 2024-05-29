@@ -81,6 +81,21 @@ class AuthorAnalyticsDataProvider
     }
 
 
+    public function getOperatingSystemChartData()
+    {
+        $visitorsOs = $this->visitorsModel->getVisitorsOsData($this->args);
+
+        return [
+            'labels' => wp_list_pluck($visitorsOs, 'platform'),
+            'data'   => wp_list_pluck($visitorsOs, 'total')
+        ];
+    }
+
+    public function getBrowsersChartData()
+    {
+
+    }
+
     public function authorsPerformanceData()
     {
         // Authors data
