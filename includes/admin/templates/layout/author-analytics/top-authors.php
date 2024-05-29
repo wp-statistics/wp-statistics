@@ -27,7 +27,7 @@ use WP_STATISTICS\Menus;
 
                         if ($viewingAuthors) {
                             foreach ($viewingAuthors as $author) : ?>
-                                <a class="<?php echo Helper::isAddOnActive('data-plus') ? '' : 'disabled' ?> wps-author-tabs__item" href="<?php echo esc_url(Menus::admin_url('author-analytics', ['type' => 'single-author', 'author_id' => $author->id])); ?>">
+                                <a class="wps-author-tabs__item" href="<?php echo esc_url(Menus::admin_url('author-analytics', ['type' => 'single-author', 'author_id' => $author->id])); ?>">
                                     <div class="wps-author-tabs__item--image">
                                         <span># <?php echo esc_html($counter); ?></span>
                                         <img src="<?php echo esc_url(get_avatar_url($author->id)); ?>" alt="<?php echo esc_html($author->name); ?>"/>
@@ -59,7 +59,7 @@ use WP_STATISTICS\Menus;
 
                         if ($publishingAuthors) {
                             foreach ($publishingAuthors as $author) : ?>
-                                <a class="<?php echo Helper::isAddOnActive('data-plus') ? '' : 'disabled' ?> wps-author-tabs__item" href="<?php echo Menus::admin_url('author-analytics', ['type' => 'single-author', 'author_id' => $author->id]) ?>">
+                                <a class="wps-author-tabs__item" href="<?php echo Menus::admin_url('author-analytics', ['type' => 'single-author', 'author_id' => $author->id]) ?>">
                                     <div class="wps-author-tabs__item--image">
                                         <span># <?php echo esc_html($counter); ?></span>
                                         <img src="<?php echo esc_url(get_avatar_url($author->id)); ?>" alt="<?php echo esc_html($author->name); ?>"/>
@@ -94,7 +94,7 @@ use WP_STATISTICS\Menus;
 
                         if ($topByCommentsPerPost) {
                             foreach ($topByCommentsPerPost as $author) : ?>
-                                <a class="<?php echo Helper::isAddOnActive('data-plus') ? '' : 'disabled' ?> wps-author-tabs__item" href="<?php echo Menus::admin_url('author-analytics', ['type' => 'single-author', 'author_id' => $author->id]) ?>">
+                                <a class="wps-author-tabs__item" href="<?php echo Menus::admin_url('author-analytics', ['type' => 'single-author', 'author_id' => $author->id]) ?>">
                                     <div class="wps-author-tabs__item--image">
                                         <span># <?php echo esc_html($counter); ?></span>
                                         <img src="<?php echo esc_url(get_avatar_url($author->id)); ?>" alt="<?php echo esc_html($author->name); ?>"/>
@@ -126,7 +126,7 @@ use WP_STATISTICS\Menus;
 
                         if ($topByViewsPerPost) {
                             foreach ($topByViewsPerPost as $author) : ?>
-                                <a class="<?php echo Helper::isAddOnActive('data-plus') ? '' : 'disabled' ?> wps-author-tabs__item" href="<?php echo Menus::admin_url('author-analytics', ['type' => 'single-author', 'author_id' => $author->id]) ?>">
+                                <a class="wps-author-tabs__item" href="<?php echo Menus::admin_url('author-analytics', ['type' => 'single-author', 'author_id' => $author->id]) ?>">
                                     <div class="wps-author-tabs__item--image">
                                         <span># <?php echo esc_html($counter); ?></span>
                                         <img src="<?php echo esc_url(get_avatar_url($author->id)); ?>" alt="<?php echo esc_html($author->name); ?>"/>
@@ -159,7 +159,7 @@ use WP_STATISTICS\Menus;
 
                         if ($topByWordsPerPost) {
                             foreach ($topByWordsPerPost as $author) : ?>
-                                <a class="<?php echo Helper::isAddOnActive('data-plus') ? '' : 'disabled' ?> wps-author-tabs__item" href="<?php echo Menus::admin_url('author-analytics', ['type' => 'single-author', 'author_id' => $author->id]) ?>">
+                                <a class="wps-author-tabs__item" href="<?php echo Menus::admin_url('author-analytics', ['type' => 'single-author', 'author_id' => $author->id]) ?>">
                                     <div class="wps-author-tabs__item--image">
                                         <span># <?php echo esc_html($counter); ?></span>
                                         <img src="<?php echo esc_url(get_avatar_url($author->id)); ?>" alt="<?php echo esc_html($author->name); ?>"/>
