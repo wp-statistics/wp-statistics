@@ -6,28 +6,24 @@ use WP_STATISTICS\Helper;
 use WP_Statistics\Utils\Query;
 
 
-class VisitorsModel extends DataProvider
+class VisitorsModel extends BaseModel
 {
 
     public function countVisitors($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
-            'from'      => '',
-            'to'        => '',
             'date'      => '',
             'post_type' => '',
             'author_id' => '',
             'post_id'   => ''
         ]);
 
-        $date = empty($args['date']) ? Helper::filterArrayByKeys($args, ['from', 'to']) : $args['date'];
-
         $result = Query::select('COUNT(DISTINCT visitor_id) as total_visitors')
             ->from('visitor_relationships')
             ->join('pages', ['visitor_relationships.page_id', 'pages.page_id'], [], 'LEFT')
             ->join('posts', ['posts.ID', 'pages.id'], [], 'LEFT')
             ->where('post_type', 'IN', $args['post_type'])
-            ->whereDate('visitor_relationships.date', $date)
+            ->whereDate('visitor_relationships.date', $args['date'])
             ->where('post_author', '=', $args['author_id'])
             ->where('posts.ID', '=', $args['post_id'])
             ->bypassCache($bypassCache)
@@ -39,8 +35,7 @@ class VisitorsModel extends DataProvider
     public function getVisitorsOsData($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
-            'from'      => '',
-            'to'        => '',
+            'date'      => '',
             'post_type' => '',
             'author_id' => ''
         ]);
@@ -55,7 +50,7 @@ class VisitorsModel extends DataProvider
             ->join('posts', ['posts.ID', 'pages.id'], [], 'LEFT')
             ->where('post_type', 'IN', $args['post_type'])
             ->where('post_author', '=', $args['author_id'])
-            ->whereDate('visitor_relationships.date', [$args['from'], $args['to']])
+            ->whereDate('visitor_relationships.date', $args['date'])
             ->groupBy('visitor.platform')
             ->bypassCache($bypassCache)
             ->getAll();
@@ -66,8 +61,7 @@ class VisitorsModel extends DataProvider
     public function getVisitorsBrowserData($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
-            'from'      => '',
-            'to'        => '',
+            'date'      => '',
             'post_type' => '',
             'author_id' => ''
         ]);
@@ -82,7 +76,7 @@ class VisitorsModel extends DataProvider
             ->join('posts', ['posts.ID', 'pages.id'], [], 'LEFT')
             ->where('post_type', 'IN', $args['post_type'])
             ->where('post_author', '=', $args['author_id'])
-            ->whereDate('visitor_relationships.date', [$args['from'], $args['to']])
+            ->whereDate('visitor_relationships.date', $args['date'])
             ->groupBy('visitor.agent')
             ->bypassCache($bypassCache)
             ->getAll();
@@ -93,8 +87,7 @@ class VisitorsModel extends DataProvider
     public function getVisitorsLocationData($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
-            'from'      => '',
-            'to'        => '',
+            'date'      => '',
             'post_type' => '',
             'author_id' => ''
         ]);
@@ -109,7 +102,7 @@ class VisitorsModel extends DataProvider
             ->join('posts', ['posts.ID', 'pages.id'], [], 'LEFT')
             ->where('post_type', 'IN', $args['post_type'])
             ->where('post_author', '=', $args['author_id'])
-            ->whereDate('visitor_relationships.date', [$args['from'], $args['to']])
+            ->whereDate('visitor_relationships.date', $args['date'])
             ->groupBy('visitor.location')
             ->bypassCache($bypassCache)
             ->getAll();

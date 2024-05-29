@@ -22,10 +22,18 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                 return;
             }
 
+            const chartData = Wp_Statistics_Author_Analytics_Object.browser_chart_data;
+
+            if (chartData.data.length == 0) {
+                jQuery('#wps-browsers').parent().text(wps_js._('no_result'));
+                jQuery('#wps-browsers').remove();
+                return;
+            }
+
             const browsersData = {
-                labels: Wp_Statistics_Author_Analytics_Object.browser_chart_data.labels,
+                labels: chartData.labels,
                 datasets: [{
-                    data: Wp_Statistics_Author_Analytics_Object.browser_chart_data.data,
+                    data: chartData.data,
                     backgroundColor: ['#F7D399', '#99D3FB', '#D7BDE2', '#D7BDE2', '#EBA39B', '#F5CBA7'],
                     borderColor: '#fff',
                     borderWidth: 1,
@@ -61,10 +69,19 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                 return;
             }
 
+            const chartData = Wp_Statistics_Author_Analytics_Object.os_chart_data;
+
+            if (chartData.labels.length == 0 || chartData.data.length ==0) {
+                console.log('no data');
+                jQuery('#wps-operating-systems').parent().text(wps_js._('no_result'));
+                jQuery('#wps-operating-systems').remove();
+                return;
+            }
+
             const operatingSystemsData = {
-                labels: Wp_Statistics_Author_Analytics_Object.os_chart_data.labels,
+                labels: chartData.labels,
                 datasets: [{
-                    data: Wp_Statistics_Author_Analytics_Object.os_chart_data.data,
+                    data: chartData.data,
                     backgroundColor: ['#F7D399', '#99D3FB', '#D7BDE2', '#D7BDE2', '#EBA39B', '#F5CBA7'],
                     borderColor: '#fff',
                     borderWidth: 1,

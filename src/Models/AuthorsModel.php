@@ -6,7 +6,7 @@ use WP_STATISTICS\Helper;
 use WP_Statistics\Service\Posts\WordCount;
 use WP_Statistics\Utils\Query;
 
-class AuthorsModel extends DataProvider
+class AuthorsModel extends BaseModel
 {
     /**
      * Counts the authors based on the given arguments.
@@ -19,8 +19,7 @@ class AuthorsModel extends DataProvider
     public function countAuthors($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
-            'from'      => '',
-            'to'        => '',
+            'date'      => '',
             'post_type' => Helper::get_list_post_type()
         ]);
 
@@ -28,20 +27,19 @@ class AuthorsModel extends DataProvider
             ->from('posts')
             ->where('post_status', '=', 'publish')
             ->where('post_type', 'IN', $args['post_type'])
-            ->whereDate('post_date', [$args['from'], $args['to']])
+            ->whereDate('post_date', $args['date'])
             ->bypassCache($bypassCache)
             ->getVar();
     }
 
     
-    public function topPublishingAuthors($args = [], $bypassCache = false)
+    public function getTopPublishingAuthors($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
-            'from'      => '',
-            'to'        => '',
+            'date'      => '',
             'post_type' => Helper::get_list_post_type(),
-            'page'     => 1,
-            'per_page' => 5
+            'page'      => 1,
+            'per_page'  => 5
         ]);
 
         $result = Query::select(['DISTINCT post_author as id', 'display_name as name', 'COUNT(posts.ID) as post_count'])
@@ -49,7 +47,7 @@ class AuthorsModel extends DataProvider
             ->join('users', ['posts.post_author', 'users.ID'])
             ->where('post_status', '=', 'publish')
             ->where('post_type', 'IN', $args['post_type'])
-            ->whereDate('post_date', [$args['from'], $args['to']])
+            ->whereDate('post_date', $args['date'])
             ->groupBy('posts.post_author')
             ->orderBy('post_count')
             ->perPage($args['page'], $args['per_page'])
@@ -59,11 +57,10 @@ class AuthorsModel extends DataProvider
         return $result ? $result : [];
     }
 
-    public function topViewingAuthors($args = [], $bypassCache = false)
+    public function getTopViewingAuthors($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
-            'from'      => '',
-            'to'        => '',
+            'date'      => '',
             'post_type' => Helper::get_list_post_type(),
             'page'     => 1,
             'per_page' => 5
@@ -75,7 +72,7 @@ class AuthorsModel extends DataProvider
             ->join('pages', ['posts.ID', 'pages.id'])
             ->where('post_status', '=', 'publish')
             ->where('post_type', 'IN', $args['post_type'])
-            ->whereDate('date', [$args['from'], $args['to']])
+            ->whereDate('date', $args['date'])
             ->groupBy('post_author')
             ->orderBy('views')
             ->perPage($args['page'], $args['per_page'])
@@ -88,11 +85,10 @@ class AuthorsModel extends DataProvider
     public function getAuthorsByCommentsPerPost($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
-            'from'      => '',
-            'to'        => '',
+            'date'      => '',
             'post_type' => Helper::get_list_post_type(),
-            'page'     => 1,
-            'per_page' => 5
+            'page'      => 1,
+            'per_page'  => 5
         ]);
 
         $result = Query::select([
@@ -105,7 +101,7 @@ class AuthorsModel extends DataProvider
             ->join('comments', ['posts.ID', 'comments.comment_post_ID'], [], 'LEFT')
             ->where('post_status', '=', 'publish')
             ->where('post_type', 'IN', $args['post_type'])
-            ->whereDate('post_date', [$args['from'], $args['to']])
+            ->whereDate('post_date', $args['date'])
             ->groupBy('post_author')
             ->orderBy('average_comments')
             ->perPage($args['page'], $args['per_page'])
@@ -118,13 +114,12 @@ class AuthorsModel extends DataProvider
     public function getAuthorsByViewsPerPost($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
-            'from'      => '',
-            'to'        => '',
+            'date'      => '',
             'post_type' => Helper::get_list_post_type(),
             'order_by'  => 'average_views',
             'order'     => 'DESC',
-            'page'     => 1,
-            'per_page' => 5
+            'page'      => 1,
+            'per_page'  => 5
         ]);
 
         $result = Query::select([
@@ -139,7 +134,7 @@ class AuthorsModel extends DataProvider
             ->join('pages', ['posts.ID', 'pages.id'], [], 'LEFT')
             ->where('post_status', '=', 'publish')
             ->where('post_type', 'IN', $args['post_type'])
-            ->whereDate('post_date', [$args['from'], $args['to']])
+            ->whereDate('post_date', $args['date'])
             ->groupBy('post_author')
             ->orderBy($args['order_by'], $args['order'])
             ->perPage($args['page'], $args['per_page'])
@@ -152,11 +147,10 @@ class AuthorsModel extends DataProvider
     public function getAuthorsByWordsPerPost($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
-            'from'      => '',
-            'to'        => '',
+            'date'      => '',
             'post_type' => Helper::get_list_post_type(),
-            'page'     => 1,
-            'per_page' => 5
+            'page'      => 1,
+            'per_page'  => 5
         ]);
 
         $result = Query::select([
@@ -170,7 +164,7 @@ class AuthorsModel extends DataProvider
             ->where('meta_key', '=', WordCount::WORDS_COUNT_META_KEY)
             ->where('post_status', '=', 'publish')
             ->where('post_type', 'IN', $args['post_type'])
-            ->whereDate('post_date', [$args['from'], $args['to']])
+            ->whereDate('post_date', $args['date'])
             ->groupBy('post_author')
             ->orderBy('average_words')
             ->perPage($args['page'], $args['per_page'])
@@ -183,19 +177,18 @@ class AuthorsModel extends DataProvider
     public function getAuthorsPerformanceData($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
-            'from'      => '',
-            'to'        => '',
+            'date'      => '',
             'post_type' => Helper::get_list_post_type(),
             'order_by'  => 'total_posts',
             'order'     => 'DESC',
-            'page'     => 1,
-            'per_page' => 5
+            'page'      => 1,
+            'per_page'  => 5
         ]);
 
         $authorsQuery  = Query::select(['id AS author_id', 'SUM(count) AS total_author_views'])
             ->from('pages')
             ->where('type', '=', 'author')
-            ->whereDate('date', [$args['from'], $args['to']])
+            ->whereDate('date', $args['date'])
             ->groupBy('id')
             ->getQuery();
 
@@ -204,7 +197,7 @@ class AuthorsModel extends DataProvider
             ->join('comments', ['posts.ID', 'comments.comment_post_ID'])
             ->where('post_status', '=', 'publish')
             ->where('post_type', 'IN', $args['post_type'])
-            ->whereDate('post_date', [$args['from'], $args['to']])
+            ->whereDate('post_date', $args['date'])
             ->groupBy('post_author')
             ->getQuery();
 
@@ -213,7 +206,7 @@ class AuthorsModel extends DataProvider
             ->join('pages', ['posts.ID', 'pages.id'])
             ->where('post_status', '=', 'publish')
             ->where('post_type', 'IN', $args['post_type'])
-            ->whereDate('post_date', [$args['from'], $args['to']])
+            ->whereDate('post_date', $args['date'])
             ->groupBy('post_author')
             ->getQuery();
 
@@ -223,7 +216,7 @@ class AuthorsModel extends DataProvider
             ->where('postmeta.meta_key', '=', 'wp_statistics_words_count')
             ->where('post_status', '=', 'publish')
             ->where('post_type', 'IN', $args['post_type'])
-            ->whereDate('post_date', [$args['from'], $args['to']])
+            ->whereDate('post_date', $args['date'])
             ->groupBy('post_author')
             ->getQuery();
 
@@ -252,10 +245,11 @@ class AuthorsModel extends DataProvider
             ->joinQuery($authorsQuery, ['users.ID', 'authors.author_id'], 'authors', 'LEFT')
             ->where('post_status', '=', 'publish')
             ->where('post_type', 'IN', $args['post_type'])
-            ->whereDate('post_date', [$args['from'], $args['to']])
+            ->whereDate('post_date', $args['date'])
             ->groupBy(['users.ID', 'users.display_name'])
             ->orderBy($args['order_by'], $args['order'])
             ->perPage($args['page'], $args['per_page'])
+            ->bypassCache($bypassCache)
             ->getAll();
 
         return $result ? $result : [];

@@ -2,29 +2,24 @@
 
 namespace WP_Statistics\Models;
 use WP_Statistics\Utils\Query;
-use WP_Statistics\Helper;
 
 
-class PagesModel extends DataProvider
+class PagesModel extends BaseModel
 {
 
     public function countViews($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
-            'from'      => '',
-            'to'        => '',
             'date'      => '',
             'post_type' => '',
             'author_id' => ''
         ]);
 
-        $date = empty($args['date']) ? Helper::filterArrayByKeys($args, ['from', 'to']) : $args['date'];
-
         $query = Query::select('SUM(count) as total_count')
             ->from('pages')
             ->join('posts', ['pages.id', 'posts.ID'])
             ->where('type', 'IN', $args['post_type'])
-            ->whereDate('date', $date)
+            ->whereDate('date', $args['date'])
             ->where('post_author', '=', $args['author_id'])
             ->groupBy('type')
             ->bypassCache($bypassCache);

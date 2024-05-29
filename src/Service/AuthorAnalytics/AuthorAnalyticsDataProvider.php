@@ -56,7 +56,7 @@ class AuthorAnalyticsDataProvider
         // Just filter by post type
         $args = Helper::filterArrayByKeys($this->args, ['post_type', 'author_id']);
 
-        $publishingData = $this->postsModel->publishOverview($args);
+        $publishingData = $this->postsModel->getPublishOverview($args);
         $publishingData = wp_list_pluck($publishingData, 'posts', 'date');
 
         $today  = time();
@@ -117,13 +117,13 @@ class AuthorAnalyticsDataProvider
         return $data;
     }
 
-    public function authorsPerformanceData()
+    public function getAuthorsPerformanceData()
     {
         // Authors data
         $totalAuthors         = $this->authorModel->countAuthors();
         $activeAuthors        = $this->authorModel->countAuthors($this->args);
-        $topPublishingAuthors = $this->authorModel->topPublishingAuthors($this->args);
-        $topViewingAuthors    = $this->authorModel->topViewingAuthors($this->args);
+        $topPublishingAuthors = $this->authorModel->getTopPublishingAuthors($this->args);
+        $topViewingAuthors    = $this->authorModel->getTopViewingAuthors($this->args);
         $topAuthorsByComment  = $this->authorModel->getAuthorsByCommentsPerPost($this->args);
         $topAuthorsByViews    = $this->authorModel->getAuthorsByViewsPerPost($this->args);
         $topAuthorsByWords    = $this->authorModel->getAuthorsByWordsPerPost($this->args);
@@ -164,7 +164,7 @@ class AuthorAnalyticsDataProvider
         ];
     }
 
-    public function authorsPagesData()
+    public function getAuthorsPagesData()
     {
         $authors = $this->authorModel->getAuthorsByViewsPerPost($this->args);
         $total   = $this->authorModel->countAuthors($this->args);
@@ -176,7 +176,7 @@ class AuthorAnalyticsDataProvider
     }
 
 
-    public function authorsReportData()
+    public function getAuthorsReportData()
     {
         $authors = $this->authorModel->getAuthorsPerformanceData($this->args);
         $total   = $this->authorModel->countAuthors($this->args);
@@ -187,7 +187,7 @@ class AuthorAnalyticsDataProvider
         ];
     }
 
-    public function authorsPostsData()
+    public function getAuthorsPostsData()
     {
         $posts  = $this->postsModel->getPostsReportData($this->args);
         $total  = $this->postsModel->countPosts($this->args);
@@ -249,7 +249,7 @@ class AuthorAnalyticsDataProvider
         ];
     }
 
-    public function authorSingleData()
+    public function getAuthorSingleData()
     {
         $totalViews         = $this->pagesModel->countViews($this->args);
 
