@@ -249,7 +249,7 @@ final class WP_Statistics
     }
 
     /**
-     * @return WP_Background_Process
+     * @return WP_Background_Process[]
      */
     public function getRemoteRequestAsync()
     {

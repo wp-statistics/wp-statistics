@@ -279,4 +279,32 @@ class Option
         $setting_name = "wpstatistics_{$addon_name}_settings";
         update_option($setting_name, $options);
     }
+
+    public static function getOptionGroup($key, $group, $default = null)
+    {
+        $settingName = "wp_statistics_{$group}";
+
+        $options = get_option($settingName);
+        if (!isset($options) || !is_array($options)) {
+            $options = array();
+        }
+
+        if (!array_key_exists($key, $options)) {
+            return !is_null($default) ? $default : false;
+        }
+
+        return apply_filters("wp_statistics_option_{$settingName}", $options[$key]);
+    }
+
+    public static function saveOptionGroup($key, $value, $group)
+    {
+        $settingName = "wp_statistics_{$group}";
+        $options     = get_option($settingName, []);
+
+        // Store the value in the array.
+        $options[$key] = $value;
+
+        // Write the array to the database.
+        update_option($settingName, $options);
+    }
 }

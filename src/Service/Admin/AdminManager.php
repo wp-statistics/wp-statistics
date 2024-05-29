@@ -20,11 +20,8 @@ class AdminManager
 
     private function initNoticeHandler()
     {
-        // Hook to handle AJAX request for dismissing notices
-        add_action('wp_ajax_wp_statistics_dismiss_notice', array(Notice::class, 'dismissNotice'));
-
-        // Hook to display notices
-        add_action('admin_notices', array(Notice::class, 'displayNotices'));
+        add_action('admin_notices', [Notice::class, 'displayNotices']);
+        add_action('admin_init', [Notice::class, 'handleDismissNotice']);
     }
 
     /**

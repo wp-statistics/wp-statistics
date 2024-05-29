@@ -4,6 +4,7 @@ namespace WP_Statistics\Service\AuthorAnalytics;
 
 use WP_STATISTICS\Menus;
 use WP_Statistics\Components\Singleton;
+use WP_STATISTICS\Option;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Service\AuthorAnalytics\Views\AuthorsView;
 use WP_Statistics\Service\AuthorAnalytics\Views\TabsView;
@@ -18,31 +19,85 @@ class AuthorAnalyticsPage extends Singleton
      * @var array
      */
     private $views = [
-        'tabs'      => TabsView::class,
-        'authors'   => AuthorsView::class
+        'tabs'    => TabsView::class,
+        'authors' => AuthorsView::class
     ];
+
+    /**
+     * @var WordCount
+     */
+    private $wordsCount;
 
     public function __construct()
     {
         // Check if in Author Analytics page
         if (Menus::in_page('author-analytics')) {
-            add_filter('screen_options_show_screen', '__return_false');
+            $this->wordsCount = new WordCount();
 
-            $wordsCount = new WordCount();
-
-            // Check for posts without word count meta key
-            if (count($wordsCount->getPostsWithoutWordCountMeta())) {
-                $message = sprintf(
-                    __('Please <a data-id="%s" href="#">click here</a> to process the word count in the background. This is necessary for accurate analytics.', 'wp-statistics'),
-                    esc_url(admin_url('admin.php?page=author-analytics&action=process_word_count'))
-                );
-
-                Notice::addNotice($message, 'word_count_prompt1', 'info', false);
-            }
+            $this->preparePageRequirements();
+            $this->processWordCountMeta();
+            $this->processWordCountInBackground();
         }
     }
 
-    
+    private function preparePageRequirements()
+    {
+        add_filter('screen_options_show_screen', '__return_false');
+    }
+
+    /**
+     * Check for posts without word count meta key
+     *
+     * @return void
+     */
+    private function processWordCountMeta()
+    {
+        if (count($this->wordsCount->getPostsWithoutWordCountMeta())) {
+            $nonce   = wp_create_nonce('process_word_count_nonce');
+            $message = sprintf(
+                __('Please <a href="%s">click here</a> to process the word count in the background. This is necessary for accurate analytics.', 'wp-statistics'),
+                esc_url(admin_url('admin.php?page=wps_author-analytics_page&action=process_word_count&nonce=' . $nonce))
+            );
+
+            Notice::addNotice($message, 'word_count_prompt', 'info', false);
+        }
+    }
+
+    private function processWordCountInBackground()
+    {
+        // Check the action and nonce
+        if (!isset($_GET['action']) || $_GET['action'] !== 'process_word_count') {
+            return;
+        }
+
+        check_admin_referer('process_word_count_nonce', 'nonce');
+
+        // Check if already processed
+        if (Option::getOptionGroup('word_count_processed', 'jobs')) {
+            wp_redirect(Menus::admin_url('author-analytics'));
+            exit;
+        }
+
+        // Initialize and dispatch the CalculatePostWordsCount class
+        $remoteRequestAsync      = WP_Statistics()->getRemoteRequestAsync();
+        $calculatePostWordsCount = $remoteRequestAsync['calculate_post_words_count'];
+
+        foreach ($this->wordsCount->getPostsWithoutWordCountMeta() as $post) {
+            $calculatePostWordsCount->push_to_queue(['post_id' => $post->ID]);
+        }
+
+        $calculatePostWordsCount->save()->dispatch();
+
+        // Mark as processed
+        Option::saveOptionGroup('word_count_processed', true, 'jobs');
+
+        // Show notice
+        Notice::addFlashNotice(__('Word count processing started.', 'wp-statistics'), 'word_count_notice');
+
+        wp_redirect(Menus::admin_url('author-analytics'));
+        exit;
+    }
+
     /**
      * Get all views
      *
@@ -82,7 +137,7 @@ class AuthorAnalyticsPage extends Singleton
      */
     public function view()
     {
-        
+
         // Get all views
         $views = $this->getViews();
 
