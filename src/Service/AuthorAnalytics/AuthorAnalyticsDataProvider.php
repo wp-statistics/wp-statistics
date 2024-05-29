@@ -56,7 +56,7 @@ class AuthorAnalyticsDataProvider
         // Just filter by post type
         $args = Helper::filterArrayByKeys($this->args, ['post_type', 'author_id']);
 
-        $publishingData = $this->postsModel->publishOverview($args);
+        $publishingData = $this->postsModel->getPublishOverview($args);
         $publishingData = wp_list_pluck($publishingData, 'posts', 'date');
 
         $today  = time();
@@ -122,8 +122,8 @@ class AuthorAnalyticsDataProvider
         // Authors data
         $totalAuthors         = $this->authorModel->countAuthors();
         $activeAuthors        = $this->authorModel->countAuthors($this->args);
-        $topPublishingAuthors = $this->authorModel->topPublishingAuthors($this->args);
-        $topViewingAuthors    = $this->authorModel->topViewingAuthors($this->args);
+        $topPublishingAuthors = $this->authorModel->getTopPublishingAuthors($this->args);
+        $topViewingAuthors    = $this->authorModel->getTopViewingAuthors($this->args);
         $topAuthorsByComment  = $this->authorModel->getAuthorsByCommentsPerPost($this->args);
         $topAuthorsByViews    = $this->authorModel->getAuthorsByViewsPerPost($this->args);
         $topAuthorsByWords    = $this->authorModel->getAuthorsByWordsPerPost($this->args);

@@ -74,7 +74,7 @@ class PostsModel extends BaseModel
         return $totalWords ? $totalWords : 0;
     }
 
-    public function publishOverview($args = [], $bypassCache = false)
+    public function getPublishOverview($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
             'date'      => [

@@ -33,7 +33,7 @@ class AuthorsModel extends BaseModel
     }
 
     
-    public function topPublishingAuthors($args = [], $bypassCache = false)
+    public function getTopPublishingAuthors($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
             'date'      => '',
@@ -57,7 +57,7 @@ class AuthorsModel extends BaseModel
         return $result ? $result : [];
     }
 
-    public function topViewingAuthors($args = [], $bypassCache = false)
+    public function getTopViewingAuthors($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
             'date'      => '',
