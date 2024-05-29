@@ -2,7 +2,7 @@
 
 namespace WP_Statistics\Service\AuthorAnalytics;
 
-use WP_STATISTICS\Admin_Assets;
+use WP_STATISTICS\Country;
 use WP_STATISTICS\Helper;
 use WP_Statistics\Models\AuthorsModel;
 use WP_Statistics\Models\PagesModel;
@@ -87,7 +87,7 @@ class AuthorAnalyticsDataProvider
 
         return [
             'labels' => wp_list_pluck($visitorsOs, 'platform'),
-            'data'   => wp_list_pluck($visitorsOs, 'total')
+            'data'   => wp_list_pluck($visitorsOs, 'total_visitors')
         ];
     }
 
@@ -97,8 +97,24 @@ class AuthorAnalyticsDataProvider
 
         return [
             'labels' => wp_list_pluck($visitorsBrowser, 'agent'),
-            'data'   => wp_list_pluck($visitorsBrowser, 'total')
+            'data'   => wp_list_pluck($visitorsBrowser, 'total_visitors')
         ];
+    }
+
+    public function getLocationData()
+    {
+        $data = [];
+        $locationData = $this->visitorsModel->getVisitorsLocationData($this->args);
+
+        foreach ($locationData as $location) {
+            $data[] = [
+                'countryCode'   => $location->location,
+                'country'       => Country::getName($location->location),
+                'visitors'      => $location->total_visitors
+            ];
+        }
+
+        return $data;
     }
 
     public function authorsPerformanceData()
@@ -217,6 +233,9 @@ class AuthorAnalyticsDataProvider
             ], 
             'taxonomies' => [
                 'data' => $taxonomies
+            ],
+            'location'  => [
+                'data' => $this->getLocationData()
             ]
         ];
     }
