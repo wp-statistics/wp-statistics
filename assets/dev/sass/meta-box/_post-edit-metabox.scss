@@ -1,3 +1,19 @@
+
+#wp-statistics-post-widget{
+  .postbox-header {
+    .wps-refresh {
+      filter: opacity(0.5);
+      background-size: 85% auto;
+    }
+  }
+  .inside{
+    .o-wrap--no-data{
+      padding: 15px !important;
+      text-align: center;
+    }
+  }
+}
+
 .edit-post-meta-boxes-area {
   .ui-sortable #wp-statistics-post-widget {
     margin-bottom: 24px;
