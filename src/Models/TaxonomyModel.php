@@ -10,8 +10,7 @@ class TaxonomyModel extends BaseModel
     public function countTaxonomiesPosts($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
-            'from'      => '',
-            'to'        => '',
+            'date'      => '',
             'post_type' => Helper::get_list_post_type(),
             'page'      => 1,
             'per_page'  => 5,
@@ -31,7 +30,7 @@ class TaxonomyModel extends BaseModel
             ->join('posts', ['posts.ID', 'term_relationships.object_id'], [['posts.post_type' , 'IN', $args['post_type']], ['posts.post_status', '=', 'publish']], 'LEFT')
             ->where('posts.post_author', '=', $args['author_id'])
             ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy'])
-            ->whereDate('posts.post_date', [$args['from'], $args['to']])
+            ->whereDate('posts.post_date', $args['date'])
             ->groupBy(['taxonomy', 'terms.term_id','terms.name'])
             ->orderBy(['term_taxonomy.taxonomy', 'post_count'])
             ->perPage($args['page'], $args['per_page'])

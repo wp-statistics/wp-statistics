@@ -12,8 +12,7 @@ class PostsModel extends BaseModel
     public function countPosts($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
-            'from'      => '',
-            'to'        => '',
+            'date'      => '',
             'post_type' => '',
             'author_id' => ''
         ]);
@@ -23,7 +22,7 @@ class PostsModel extends BaseModel
             ->where('post_status', '=', 'publish')
             ->where('post_type', 'IN', $args['post_type'])
             ->where('post_author', '=', $args['author_id'])
-            ->whereDate('post_date', [$args['from'], $args['to']])
+            ->whereDate('post_date', $args['date'])
             ->bypassCache($bypassCache)
             ->getVar();
 
@@ -33,8 +32,7 @@ class PostsModel extends BaseModel
     public function countWords($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
-            'from'      => '',
-            'to'        => '',
+            'date'      => '',
             'post_type' => '',
             'author_id' => ''
         ]);
@@ -48,7 +46,7 @@ class PostsModel extends BaseModel
             ->where('post_type', 'IN', $args['post_type'])
             ->where('post_author', '=', $args['author_id'])
             ->where('meta_key', '=', $wordsCountMetaKey)
-            ->whereDate('post_date', [$args['from'], $args['to']])
+            ->whereDate('post_date', $args['date'])
             ->bypassCache($bypassCache)
             ->getVar();
 
@@ -58,8 +56,7 @@ class PostsModel extends BaseModel
     public function countComments($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
-            'from'      => '',
-            'to'        => '',
+            'date'      => '',
             'post_type' => '',
             'author_id' => ''
         ]);
@@ -70,7 +67,7 @@ class PostsModel extends BaseModel
             ->where('post_status', '=', 'publish')
             ->where('post_type', 'IN', $args['post_type'])
             ->where('post_author', '=', $args['author_id'])
-            ->whereDate('post_date', [$args['from'], $args['to']])
+            ->whereDate('post_date', $args['date'])
             ->bypassCache($bypassCache)
             ->getVar();
 
@@ -80,8 +77,10 @@ class PostsModel extends BaseModel
     public function publishOverview($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
-            'from'      => date('Y-m-d', strtotime('-365 days')),
-            'to'        => date('Y-m-d', time()),
+            'date'      => [
+                'from'  => date('Y-m-d', strtotime('-365 days')),
+                'to'    => date('Y-m-d', time()),
+            ],
             'post_type' => Helper::get_list_post_type(),
             'author_id' => ''
         ]);
@@ -91,7 +90,7 @@ class PostsModel extends BaseModel
             ->where('post_status', '=', 'publish')
             ->where('post_type', 'IN', $args['post_type'])
             ->where('post_author', '=', $args['author_id'])
-            ->whereDate('post_date', [$args['from'], $args['to']])
+            ->whereDate('post_date', $args['date'])
             ->groupBy('Date(post_date)')
             ->bypassCache($bypassCache)
             ->getAll();
@@ -102,8 +101,7 @@ class PostsModel extends BaseModel
     public function getPostsReportData($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
-            'from'      => '',
-            'to'        => '',
+            'date'      => '',
             'post_type' => Helper::get_list_post_type(),
             'order_by'  => 'title',
             'order'     => 'DESC',
@@ -137,7 +135,7 @@ class PostsModel extends BaseModel
             ->where('post_type', 'IN', $args['post_type'])
             ->where('post_status', '=', 'publish')
             ->where('posts.post_author', '=', $args['author_id'])
-            ->whereDate('posts.post_date', [$args['from'], $args['to']])
+            ->whereDate('posts.post_date', $args['date'])
             ->groupBy('posts.ID')
             ->orderBy($args['order_by'], $args['order'])
             ->perPage($args['page'], $args['per_page'])
@@ -150,8 +148,7 @@ class PostsModel extends BaseModel
     public function getTopPostsByViews($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
-            'from'      => '',
-            'to'        => '',
+            'date'      => '',
             'post_type' => Helper::get_list_post_type(),
             'order_by'  => 'views',
             'order'     => 'DESC',
@@ -171,7 +168,7 @@ class PostsModel extends BaseModel
             ->where('post_type', 'IN', $args['post_type'])
             ->where('post_status', '=', 'publish')
             ->where('posts.post_author', '=', $args['author_id'])
-            ->whereDate('posts.post_date', [$args['from'], $args['to']])
+            ->whereDate('posts.post_date', $args['date'])
             ->groupBy('posts.ID')
             ->orderBy($args['order_by'], $args['order'])
             ->perPage($args['page'], $args['per_page'])
@@ -184,13 +181,12 @@ class PostsModel extends BaseModel
     public function getTopPostsByComments($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
-            'from'      => '',
-            'to'        => '',
+            'date'      => '',
             'post_type' => Helper::get_list_post_type(),
             'order_by'  => 'comments',
             'order'     => 'DESC',
-            'page'     => 1,
-            'per_page' => 5,
+            'page'      => 1,
+            'per_page'  => 5,
             'author_id' => ''
         ]);
 
@@ -205,7 +201,7 @@ class PostsModel extends BaseModel
             ->where('post_type', 'IN', $args['post_type'])
             ->where('post_status', '=', 'publish')
             ->where('posts.post_author', '=', $args['author_id'])
-            ->whereDate('posts.post_date', [$args['from'], $args['to']])
+            ->whereDate('posts.post_date', $args['date'])
             ->groupBy('posts.ID')
             ->orderBy($args['order_by'], $args['order'])
             ->perPage($args['page'], $args['per_page'])
@@ -218,13 +214,12 @@ class PostsModel extends BaseModel
     public function getTopPostsByWords($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
-            'from'      => '',
-            'to'        => '',
+            'date'      => '',
             'post_type' => Helper::get_list_post_type(),
             'order_by'  => 'words',
             'order'     => 'DESC',
-            'page'     => 1,
-            'per_page' => 5,
+            'page'      => 1,
+            'per_page'  => 5,
             'author_id' => ''
         ]);
 
@@ -239,7 +234,7 @@ class PostsModel extends BaseModel
             ->where('post_type', 'IN', $args['post_type'])
             ->where('post_status', '=', 'publish')
             ->where('posts.post_author', '=', $args['author_id'])
-            ->whereDate('posts.post_date', [$args['from'], $args['to']])
+            ->whereDate('posts.post_date', $args['date'])
             ->groupBy('posts.ID')
             ->orderBy($args['order_by'], $args['order'])
             ->perPage($args['page'], $args['per_page'])

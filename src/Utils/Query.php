@@ -94,8 +94,8 @@ class Query
     public function whereDate($field, $date)
     {
         if (is_array($date)) {
-            $from = isset($date[0]) ? $date[0] : '';
-            $to   = isset($date[1]) ? $date[1] : '';
+            $from = isset($date['from']) ? $date['from'] : '';
+            $to   = isset($date['to']) ? $date['to'] : '';
         }
 
         if (is_string($date)) {

@@ -17,8 +17,10 @@ class AuthorsView
     public function getData()
     {
         $args = [
-            'from'      => isset($_GET['from']) ? sanitize_text_field($_GET['from']) : date('Y-m-d', strtotime('-1 month')),
-            'to'        => isset($_GET['to']) ? sanitize_text_field($_GET['to']) : date('Y-m-d'),
+            'date'      => [
+                'from'  => isset($_GET['from']) ? sanitize_text_field($_GET['from']) : date('Y-m-d', strtotime('-1 month')),
+                'to'    => isset($_GET['to']) ? sanitize_text_field($_GET['to']) : date('Y-m-d'),
+            ],
             'post_type' => isset($_GET['pt']) ? sanitize_text_field($_GET['pt']) : Helper::get_list_post_type(),
             'per_page'  => Admin_Template::$item_per_page,
             'page'      => Admin_Template::getCurrentPaged()

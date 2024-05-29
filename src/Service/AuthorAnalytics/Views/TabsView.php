@@ -34,10 +34,12 @@ class TabsView
         $currentTab = $this->getCurrentTab();
 
         $args = [
-            'from'          => isset($_GET['from']) ? sanitize_text_field($_GET['from']) : date('Y-m-d', strtotime('-1 month')),
-            'to'            => isset($_GET['to']) ? sanitize_text_field($_GET['to']) : date('Y-m-d'),
-            'post_type'     => isset($_GET['pt']) ? sanitize_text_field($_GET['pt']) : Helper::get_list_post_type(),
-            'tab'           => $currentTab
+            'date'      => [
+                'from'  => isset($_GET['from']) ? sanitize_text_field($_GET['from']) : date('Y-m-d', strtotime('-1 month')),
+                'to'    => isset($_GET['to']) ? sanitize_text_field($_GET['to']) : date('Y-m-d'),
+            ],
+            'post_type' => isset($_GET['pt']) ? sanitize_text_field($_GET['pt']) : Helper::get_list_post_type(),
+            'tab'       => $currentTab
         ];
 
         if ($currentTab == 'pages') {
