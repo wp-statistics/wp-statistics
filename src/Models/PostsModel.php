@@ -214,4 +214,38 @@ class PostsModel extends DataProvider
 
         return $result;
     }
+
+    public function getTopPostsByWords($args = [], $bypassCache = false)
+    {
+        $args = $this->parseArgs($args, [
+            'from'      => '',
+            'to'        => '',
+            'post_type' => Helper::get_list_post_type(),
+            'order_by'  => 'words',
+            'order'     => 'DESC',
+            'page'     => 1,
+            'per_page' => 5,
+            'author_id' => ''
+        ]);
+
+        $result = Query::select([
+                'posts.ID',
+                'posts.post_author',
+                'posts.post_title',
+                "MAX(CASE WHEN postmeta.meta_key = 'wp_statistics_words_count' THEN postmeta.meta_value ELSE 0 END) AS words",
+            ])
+            ->from('posts')
+            ->join('postmeta', ['posts.ID', 'postmeta.post_id'], [], 'LEFT')
+            ->where('post_type', 'IN', $args['post_type'])
+            ->where('post_status', '=', 'publish')
+            ->where('posts.post_author', '=', $args['author_id'])
+            ->whereDate('posts.post_date', [$args['from'], $args['to']])
+            ->groupBy('posts.ID')
+            ->orderBy($args['order_by'], $args['order'])
+            ->perPage($args['page'], $args['per_page'])
+            ->bypassCache($bypassCache)
+            ->getAll();
+
+        return $result;
+    }
 }

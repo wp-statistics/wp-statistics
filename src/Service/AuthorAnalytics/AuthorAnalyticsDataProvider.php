@@ -261,6 +261,7 @@ class AuthorAnalyticsDataProvider
         $taxonomies         = $this->taxonomyModel->countTaxonomiesPosts($this->args);
         $topPostsByView     = $this->postsModel->getTopPostsByViews($this->args);
         $topPostsByComment  = $this->postsModel->getTopPostsByComments($this->args);
+        $topPostsByWords    = $this->postsModel->getTopPostsByWords($this->args);
 
         $data = [
             'overview' => [
@@ -290,6 +291,7 @@ class AuthorAnalyticsDataProvider
             'posts'     => [
                 'top_views'     => $topPostsByView,
                 'top_comments'  => $topPostsByComment,
+                'top_words'     => $topPostsByWords
             ]
         ];
 
