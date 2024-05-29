@@ -251,15 +251,16 @@ class AuthorAnalyticsDataProvider
 
     public function authorSingleData()
     {
-        $totalViews     = $this->pagesModel->countViews($this->args);
+        $totalViews         = $this->pagesModel->countViews($this->args);
 
-        $totalWords     = $this->postsModel->countWords($this->args);
-        $totalComments  = $this->postsModel->countComments($this->args);
-        $totalPosts     = $this->postsModel->countPosts($this->args);
-        $totalVisitors  = $this->visitorsModel->countVisitors($this->args);
+        $totalWords         = $this->postsModel->countWords($this->args);
+        $totalComments      = $this->postsModel->countComments($this->args);
+        $totalPosts         = $this->postsModel->countPosts($this->args);
+        $totalVisitors      = $this->visitorsModel->countVisitors($this->args);
 
-        $taxonomies     = $this->taxonomyModel->countTaxonomiesPosts($this->args);
-        $topPostsByView = $this->postsModel->getTopPostsByViews($this->args);
+        $taxonomies         = $this->taxonomyModel->countTaxonomiesPosts($this->args);
+        $topPostsByView     = $this->postsModel->getTopPostsByViews($this->args);
+        $topPostsByComment  = $this->postsModel->getTopPostsByComments($this->args);
 
         $data = [
             'overview' => [
@@ -287,7 +288,8 @@ class AuthorAnalyticsDataProvider
             'location'      => $this->getLocationData(),
             'visit_summary' => $this->getVisitSummary(),
             'posts'     => [
-                'top_views' => $topPostsByView
+                'top_views'     => $topPostsByView,
+                'top_comments'  => $topPostsByComment,
             ]
         ];
 
