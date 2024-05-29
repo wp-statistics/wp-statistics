@@ -282,15 +282,9 @@ class AuthorAnalyticsDataProvider
                     'avg'   => Helper::divideNumbers($totalComments, $totalPosts)
                 ]
             ], 
-            'taxonomies'    => [
-                'data' => $taxonomies
-            ],
-            'location'      => [
-                'data' => $this->getLocationData()
-            ],
-            'visit_summary' => [
-                'data' => $this->getVisitSummary()
-            ]
+            'taxonomies'    => $taxonomies,
+            'location'      => $this->getLocationData(),
+            'visit_summary' => $this->getVisitSummary()
         ];
 
         return $data;
