@@ -20,11 +20,6 @@ class Ajax
         $list = [
             [
                 'class'  => $this, 
-                'action' => 'close_notice',
-                'public' => false
-            ],
-            [
-                'class'  => $this, 
                 'action' => 'close_overview_ads',
                 'public' => false
             ],
@@ -108,46 +103,6 @@ class Ajax
                 }
             }
         }
-    }
-
-    /**
-     * Setup an AJAX action to close the notice on the overview page.
-     */
-    public function close_notice_action_callback()
-    {
-
-        if (Helper::is_request('ajax') and User::Access('manage') and isset($_REQUEST['notice'])) {
-
-            // Check Refer Ajax
-            check_ajax_referer('wp_rest', 'wps_nonce');
-
-            // Check Type Of Notice
-            switch ($_REQUEST['notice']) {
-                case 'donate':
-                    Option::update('disable_donation_nag', true);
-                    break;
-
-                case 'suggestion':
-                    Option::update('disable_suggestion_nag', true);
-                    break;
-
-                case 'disable_all_addons':
-                    update_option('wp_statistics_disable_addons_notice', 'yes');
-                    break;
-
-                case 'disable_cleanup_db':
-                    Option::update('disable_db_cleanup_notice', true);
-                    break;
-
-                case 'disable_php_version_check':
-                    Option::update('disable_php_version_check_notice', true);
-                    break;
-            }
-
-            Option::update('admin_notices', false);
-        }
-
-        wp_die();
     }
 
     /**

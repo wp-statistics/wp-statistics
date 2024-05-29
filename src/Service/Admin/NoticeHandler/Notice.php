@@ -20,7 +20,13 @@ class Notice
         self::$adminNotices[$id] = $notice;
     }
 
-    public static function addFlashNotice($message, $id, $class = 'info', $isDismissible = true)
+    /**
+     * @param $message
+     * @param $class
+     * @param $isDismissible
+     * @return void
+     */
+    public static function addFlashNotice($message, $class = 'info', $isDismissible = true)
     {
         // Add flash notice using transient
         $flashNotices = get_transient('wp_statistics_flash_notices');
@@ -104,5 +110,11 @@ class Notice
             wp_redirect(remove_query_arg(array('nonce', 'action', 'notice_id')));
             exit;
         }
+    }
+
+    public static function handleGeneralNotices()
+    {
+        $generalNotices = new GeneralNotices();
+        $generalNotices->init();
     }
 }

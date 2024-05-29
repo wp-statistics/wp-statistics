@@ -3,6 +3,7 @@
 namespace WP_STATISTICS;
 
 use WP_Statistics\Components\Singleton;
+use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 
 class settings_page extends Singleton
 {
@@ -26,12 +27,6 @@ class settings_page extends Singleton
      */
     public static function view()
     {
-
-        // Check admin notices.
-        if (Option::get('admin_notices') == true) {
-            Option::update('disable_donation_nag', false);
-            Option::update('disable_suggestion_nag', false);
-        }
 
         // Add Class inf
         $args['class'] = 'wp-statistics-settings';
@@ -114,9 +109,9 @@ class settings_page extends Singleton
                 $status = Referred::download_referrer_spam();
                 if (is_bool($status)) {
                     if ($status === false) {
-                        Helper::addAdminNotice(__("Error Encountered While Updating Spam Referrer Blacklist.", "wp-statistics"), "error");
+                        Notice::addFlashNotice(__("Error Encountered While Updating Spam Referrer Blacklist.", "wp-statistics"), "error");
                     } else {
-                        Helper::addAdminNotice(__("Spam Referrer Blacklist Successfully Updated.", "wp-statistics"), "success");
+                        Notice::addFlashNotice(__("Spam Referrer Blacklist Successfully Updated.", "wp-statistics"), "success");
                     }
                     self::$redirectAfterSave = false;
                 }
@@ -136,12 +131,12 @@ class settings_page extends Singleton
 
         // Save Setting
         if (isset($_GET['save_setting'])) {
-            Helper::addAdminNotice(__("Settings Successfully Saved.", "wp-statistics"), "success");
+            Notice::addFlashNotice(__("Settings Successfully Saved.", "wp-statistics"), "success");
         }
 
         // Reset Setting
         if (isset($_GET['reset_settings'])) {
-            Helper::addAdminNotice(__("All Settings Have Been Reset to Default.", "wp-statistics"), "success");
+            Notice::addFlashNotice(__("All Settings Have Been Reset to Default.", "wp-statistics"), "success");
         }
     }
 
@@ -217,8 +212,7 @@ class settings_page extends Singleton
             "wps_email_list",
             "wps_geoip_report",
             "wps_prune_report",
-            "wps_upgrade_report",
-            "wps_admin_notices",
+            "wps_upgrade_report"
         );
 
         foreach ($wps_option_list as $option) {
@@ -333,7 +327,7 @@ class settings_page extends Singleton
                             $errorMessage
                         );
 
-                        Helper::addAdminNotice($userFriendlyMessage, 'error');
+                        Notice::addFlashNotice($userFriendlyMessage, 'error');
                         self::$redirectAfterSave = false;
                     }
                 }

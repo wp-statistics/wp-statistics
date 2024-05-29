@@ -2,6 +2,7 @@
 
 # Exit if accessed directly
 use WP_STATISTICS\Helper;
+use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Service\AuthorAnalytics\AuthorAnalyticsManager;
 use WP_Statistics\Service\PrivacyAudit\PrivacyAuditManager;
 use WP_Statistics\Service\Posts\PostsManager;
@@ -59,11 +60,6 @@ final class WP_Statistics
         add_action('plugins_loaded', array($this, 'plugin_setup'), 10);
 
         /**
-         * Disable AddOns For Compatible in Wp-Statistics 13.0
-         */
-        add_action('plugins_loaded', array($this, 'disable_addons'), 0);
-
-        /**
          * Install And Upgrade plugin
          */
         register_activation_hook(WP_STATISTICS_MAIN_FILE, array('WP_Statistics', 'install'));
@@ -107,12 +103,6 @@ final class WP_Statistics
              * Setup background process
              */
             $this->setupBackgroundProcess();
-
-            /**
-             * Display admin notices
-             * @todo, remove later
-             */
-            add_action('admin_notices', array('\\WP_STATISTICS\\Helper', 'displayAdminNotices'));
 
         } catch (Exception $e) {
             self::log($e->getMessage());
@@ -185,7 +175,6 @@ final class WP_Statistics
             require_once WP_STATISTICS_DIR . 'includes/admin/class-wp-statistics-admin-export.php';
             require_once WP_STATISTICS_DIR . 'includes/admin/class-wp-statistics-admin-network.php';
             require_once WP_STATISTICS_DIR . 'includes/admin/class-wp-statistics-admin-assets.php';
-            require_once WP_STATISTICS_DIR . 'includes/admin/class-wp-statistics-admin-notices.php';
             require_once WP_STATISTICS_DIR . 'includes/admin/class-wp-statistics-admin-post.php';
             require_once WP_STATISTICS_DIR . 'includes/admin/class-wp-statistics-admin-user.php';
             require_once WP_STATISTICS_DIR . 'includes/admin/class-wp-statistics-admin-taxonomy.php';
@@ -266,7 +255,7 @@ final class WP_Statistics
         // Check if the directory creation failed.
         if (!$result) {
             $errorMessage = sprintf(__('Unable to create the required upload directory at <code>%s</code>. Please check that the web server has write permissions for the parent directory. Alternatively, you can manually create the directory yourself. Please keep in mind that the GeoIP database may not work correctly if the directory structure is not properly set up.', 'wp-statistics'), esc_html($upload_dir_name));
-            Helper::addAdminNotice($errorMessage, 'warning', false);
+            Notice::addNotice($errorMessage, 'create_upload_directory', 'warning', false);
         }
 
         /**
@@ -371,47 +360,5 @@ final class WP_Statistics
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-db.php';
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-uninstall.php';
         new \WP_STATISTICS\Uninstall();
-    }
-
-    /**
-     * Disable AddOns For Compatible in Wp-Statistics 13.0
-     */
-    public function disable_addons()
-    {
-        // Check Before Action
-        $option = get_option('wp_statistics_disable_addons', 'no');
-
-        // Check
-        if ($option == "no" and version_compare(WP_STATISTICS_VERSION, '12.6.13', '<')) {
-            $addOns = array(
-                'wp-statistics-actions/wp-statistics-actions.php',
-                'wp-statistics-advanced-reporting/wp-statistics-advanced-reporting.php',
-                'wp-statistics-customization/wp-statistics-customization.php',
-                'wp-statistics-mini-chart/wp-statistics-mini-chart.php',
-                'wp-statistics-realtime-stats/wp-statistics-realtime-stats.php',
-                'wp-statistics-rest-api/wp-statistics-rest-api.php',
-                'wp-statistics-widgets/wp-statistics-widgets.php'
-            );
-
-            // Check User Has Any AddOns
-            $activate_plugins = get_option('active_plugins');
-            $user_has_addons  = false;
-            foreach ($addOns as $plugin) {
-                if (in_array($plugin, $activate_plugins)) {
-                    $user_has_addons = true;
-                    break;
-                }
-            }
-
-            // Disable AddOns
-            if ($user_has_addons) {
-                foreach ($addOns as $plugin) {
-                    deactivate_plugins($plugin);
-                }
-                update_option('wp_statistics_disable_addons_notice', 'no');
-            }
-
-            update_option('wp_statistics_disable_addons', 'yes');
-        }
     }
 }

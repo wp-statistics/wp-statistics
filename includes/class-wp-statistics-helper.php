@@ -8,8 +8,6 @@ use WP_Statistics_Mail;
 
 class Helper
 {
-    protected static $admin_notices = [];
-
     /**
      * WP Statistics WordPress Log
      *
@@ -116,32 +114,6 @@ class Helper
         }
 
         return false;
-    }
-
-    /**
-     * Show Admin WordPress UI Notice
-     *
-     * @param $text
-     * @param string $model
-     * @param bool $close_button
-     * @param bool $id
-     * @param bool $echo
-     * @param string $style_extra
-     * @return string
-     */
-    public static function wp_admin_notice($text, $model = "info", $close_button = true, $id = false, $echo = true, $style_extra = 'padding:6px 0')
-    {
-        $text = '
-        <div class="notice notice-' . $model . '' . ($close_button === true ? " is-dismissible" : "") . '"' . ($id != false ? ' id="' . $id . '"' : '') . '>
-           <div style="' . $style_extra . '">' . $text . '</div>
-        </div>
-        ';
-
-        if ($echo) {
-            echo wp_kses_post($text);
-        } else {
-            return $text;
-        }
     }
 
     /**
@@ -1170,47 +1142,6 @@ class Helper
     }
 
     /**
-     * Add notice to display in the admin area
-     *
-     * @param $message
-     * @param string $class
-     * @param bool $is_dismissible
-     * @since 13.2.5
-     * @todo, should switch to Notice::dismissNotice() and then remove this method.
-     */
-    public static function addAdminNotice($message, $class = 'info', $is_dismissible = true)
-    {
-        self::$admin_notices[] = array(
-            'message'        => $message,
-            'class'          => $class,
-            'is_dismissible' => (bool)$is_dismissible,
-        );
-    }
-
-    /**
-     * Display all notices in the admin area
-     *
-     * @return void
-     * @since 13.2.5
-     * @todo, should switch to Notice::dismissNotice() and then remove this method.
-     */
-    public static function displayAdminNotices()
-    {
-        foreach ((array)self::$admin_notices as $notice) :
-            $dismissible = $notice['is_dismissible'] ? 'is-dismissible' : '';
-            ?>
-
-            <div class="notice notice-<?php echo esc_attr($notice['class']); ?> <?php echo esc_attr($dismissible); ?>">
-                <p>
-                    <?php echo wp_kses_post($notice['message']); ?>
-                </p>
-            </div>
-
-        <?php
-        endforeach;
-    }
-
-    /**
      * Returns default parameters for hits request
      *
      * @return array
@@ -1344,7 +1275,7 @@ class Helper
         return implode(', ', $fields);
     }
 
-    
+
     /**
      * Formats a number into a string with appropriate units (K, M, B, T).
      *
@@ -1362,7 +1293,7 @@ class Helper
         return round($number, 1) . $units[$i];
     }
 
-    
+
     /**
      * Filters an array by keeping only the keys specified in the second argument.
      *
@@ -1392,7 +1323,7 @@ class Helper
         return round($dividend / $divisor, $precision);
     }
 
-    
+
     /**
      * Calculates the difference between two dates.
      *

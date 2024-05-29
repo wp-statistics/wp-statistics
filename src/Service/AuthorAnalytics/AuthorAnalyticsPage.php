@@ -94,7 +94,7 @@ class AuthorAnalyticsPage extends Singleton
         Option::saveOptionGroup('word_count_processed', true, 'jobs');
 
         // Show notice
-        Notice::addFlashNotice(__('Word count processing started.', 'wp-statistics'), 'word_count_notice');
+        Notice::addFlashNotice(__('Word count processing started.', 'wp-statistics'));
 
         wp_redirect(Menus::admin_url('author-analytics'));
         exit;
