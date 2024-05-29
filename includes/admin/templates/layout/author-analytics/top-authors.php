@@ -40,7 +40,11 @@ use WP_STATISTICS\Menus;
                                 <?php $counter++;
                             endforeach; 
                         } else {
-                            echo '<p style="padding: 0 40px">' . esc_html__('No authors found.', 'wp-statistics') . '</p>';
+                            ?>
+                                <div class="o-wrap o-wrap--no-data">
+                                    <p><?php esc_html_e('No recent data available.', 'wp-statistics') ?></p>
+                                </div>
+                            <?php
                         }
                     ?>
                 </div>
@@ -68,7 +72,11 @@ use WP_STATISTICS\Menus;
                                 <?php $counter++;
                             endforeach; 
                         } else {
-                            echo '<p style="padding: 0 40px">' . esc_html__('No authors found.', 'wp-statistics') . '</p>';
+                            ?>
+                                <div class="o-wrap o-wrap--no-data">
+                                    <p><?php esc_html_e('No recent data available.', 'wp-statistics') ?></p>
+                                </div>
+                            <?php
                         }
                     ?>
                 </div>
@@ -99,7 +107,11 @@ use WP_STATISTICS\Menus;
                                 <?php $counter++;
                             endforeach; 
                         } else {
-                            echo '<p style="padding: 0 40px">' . esc_html__('No authors found.', 'wp-statistics') . '</p>';
+                            ?>
+                                <div class="o-wrap o-wrap--no-data">
+                                    <p><?php esc_html_e('No recent data available.', 'wp-statistics') ?></p>
+                                </div>
+                            <?php
                         }
                     ?>
                 </div>
@@ -127,7 +139,11 @@ use WP_STATISTICS\Menus;
                                 <?php $counter++;
                             endforeach; 
                         } else {
-                            echo '<p style="padding: 0 40px">' . esc_html__('No authors found.', 'wp-statistics') . '</p>';
+                            ?>
+                                <div class="o-wrap o-wrap--no-data">
+                                    <p><?php esc_html_e('No recent data available.', 'wp-statistics') ?></p>
+                                </div>
+                            <?php
                         }
 
                     ?>
@@ -156,7 +172,11 @@ use WP_STATISTICS\Menus;
                                 <?php $counter++;
                             endforeach; 
                         } else {
-                            echo '<p style="padding: 0 40px">' . esc_html__('No authors found.', 'wp-statistics') . '</p>';
+                            ?>
+                                <div class="o-wrap o-wrap--no-data">
+                                    <p><?php esc_html_e('No recent data available.', 'wp-statistics') ?></p>
+                                </div>
+                            <?php
                         }
                     ?>
                 </div>
