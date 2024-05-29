@@ -7,8 +7,9 @@ use WP_Statistics\Components\Singleton;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Service\AuthorAnalytics\Views\AuthorsView;
 use WP_Statistics\Service\AuthorAnalytics\Views\TabsView;
-use Exception;
+use WP_Statistics\Service\AuthorAnalytics\Views\SingleAuthorView;
 use WP_Statistics\Service\Posts\WordCount;
+use Exception;
 
 class AuthorAnalyticsPage extends Singleton
 {
@@ -18,8 +19,9 @@ class AuthorAnalyticsPage extends Singleton
      * @var array
      */
     private $views = [
-        'tabs'      => TabsView::class,
-        'authors'   => AuthorsView::class
+        'tabs'          => TabsView::class,
+        'authors'       => AuthorsView::class,
+        'single-author' => SingleAuthorView::class
     ];
 
     public function __construct()
