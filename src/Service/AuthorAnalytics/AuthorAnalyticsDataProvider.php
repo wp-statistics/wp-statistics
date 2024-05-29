@@ -198,6 +198,57 @@ class AuthorAnalyticsDataProvider
         ];
     }
 
+    public function getVisitSummary()
+    {
+        return [
+            'today'     => [
+                'label'     => esc_html__('Today', 'wp-statistics'),
+                'visitors'  => $this->visitorsModel->countVisitors(array_merge($this->args, ['date' => 'today'])),
+                'views'     => $this->pagesModel->countViews(array_merge($this->args, ['date' => 'today'])),
+            ],
+            'yesterday' => [
+                'label'     => esc_html__('Yesterday', 'wp-statistics'),
+                'visitors'  => $this->visitorsModel->countVisitors(array_merge($this->args, ['date' => 'yesterday'])),
+                'views'     => $this->pagesModel->countViews(array_merge($this->args, ['date' => 'yesterday'])),
+            ],
+            '7days'     => [
+                'label'     => esc_html__('Last 7 days', 'wp-statistics'),
+                'visitors'  => $this->visitorsModel->countVisitors(array_merge($this->args, ['date' => '7days'])),
+                'views'     => $this->pagesModel->countViews(array_merge($this->args, ['date' => '7days'])),
+            ],
+            '30days'    => [
+                'label'     => esc_html__('Last 30 days', 'wp-statistics'),
+                'visitors'  => $this->visitorsModel->countVisitors(array_merge($this->args, ['date' => '30days'])),
+                'views'     => $this->pagesModel->countViews(array_merge($this->args, ['date' => '30days'])),
+            ],
+            '60days'    => [
+                'label'     => esc_html__('Last 60 days', 'wp-statistics'),
+                'visitors'  => $this->visitorsModel->countVisitors(array_merge($this->args, ['date' => '60days'])),
+                'views'     => $this->pagesModel->countViews(array_merge($this->args, ['date' => '60days'])),
+            ],
+            '120days'   => [
+                'label'     => esc_html__('Last 120 days', 'wp-statistics'),
+                'visitors'  => $this->visitorsModel->countVisitors(array_merge($this->args, ['date' => '120days'])),
+                'views'     => $this->pagesModel->countViews(array_merge($this->args, ['date' => '120days'])),
+            ],
+            'year'      => [
+                'label'     => esc_html__('Last 12 months', 'wp-statistics'),
+                'visitors'  => $this->visitorsModel->countVisitors(array_merge($this->args, ['date' => 'year'])),
+                'views'     => $this->pagesModel->countViews(array_merge($this->args, ['date' => 'year'])),
+            ],
+            'this_year' => [
+                'label'     => esc_html__('This year (Jan - Today)', 'wp-statistics'),
+                'visitors'  => $this->visitorsModel->countVisitors(array_merge($this->args, ['date' => 'this_year'])),
+                'views'     => $this->pagesModel->countViews(array_merge($this->args, ['date' => 'this_year'])),
+            ],
+            'last_year' => [
+                'label'     => esc_html__('Last Year', 'wp-statistics'),
+                'visitors'  => $this->visitorsModel->countVisitors(array_merge($this->args, ['date' => 'last_year'])),
+                'views'     => $this->pagesModel->countViews(array_merge($this->args, ['date' => 'last_year'])),
+            ],
+        ];
+    }
+
     public function authorSingleData()
     {
         $totalViews     = $this->pagesModel->countViews($this->args);
@@ -209,7 +260,7 @@ class AuthorAnalyticsDataProvider
 
         $taxonomies     = $this->taxonomyModel->countTaxonomiesPosts($this->args);
 
-        return [
+        $data = [
             'overview' => [
                 'posts'     => [
                     'total' => $totalPosts
@@ -231,12 +282,17 @@ class AuthorAnalyticsDataProvider
                     'avg'   => Helper::divideNumbers($totalComments, $totalPosts)
                 ]
             ], 
-            'taxonomies' => [
+            'taxonomies'    => [
                 'data' => $taxonomies
             ],
-            'location'  => [
+            'location'      => [
                 'data' => $this->getLocationData()
+            ],
+            'visit_summary' => [
+                'data' => $this->getVisitSummary()
             ]
         ];
+
+        return $data;
     }
 }
