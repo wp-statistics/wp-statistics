@@ -4,7 +4,7 @@ Donate link: https://wp-statistics.com/donate/
 Tags: analytics, google analytics, insights, stats, site visitors
 Requires at least: 5.0
 Tested up to: 6.5
-Stable tag: 14.7
+Stable tag: 14.7.1
 Requires PHP: 5.6
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -129,18 +129,17 @@ If you encounter any bug, please create an issue on [GitHub](https://github.com/
 == Changelog ==
 https://www.youtube.com/watch?v=6G50BZRWPd4
 
-= 14.7 - 20.05.2024 =
-* Addition: Introduced Privacy Audit Tool to ensure compliance with privacy laws. [More info click here](https://wp-statistics.com/2024/05/12/introducing-privacy-audit-in-wp-statistics-14-7/)
-* Addition: Added two new database columns, region and continent, to the visitor table to enhance geographical data.
-* Fixes: Resolved issues with the Date Picker filter and Visitor Map.
-* Fixes: Fixed bug displaying archive page information on the online and visitors pages.
-* Improvement: Improved tooltip display for browser pie charts.
-* Improvement: Enhanced email report appearance for better readability and aesthetics.
-* Improvement: Updated filters and styles for a better user experience.
-* Improvement: Enhanced event scheduling and email handling for improved performance.
-* Improvement: Refined language strings and an admin interface for easier use.
-* Improvement: Merged REST API and Advanced Widgets settings into the main plugin settings for better management.
-* Improvement: Showing the Hash IP properly in HitsMap modal.
-* Improvement: Various minor enhancements to boost plugin stability and performance.
+= 14.7.1 - 29.05.2024 =
+* Fixes: Fixed date filter on post type and taxonomies page.
+* Fixes: Fixed modify email subject with filter.
+* Fixes: Fixed user online current page bug.
+* Fixes: Fixed hashed IP bug in the visitor page filter.
+* Fixes: Fixed register user ID bug for recording.
+* Fixes: Fixed customization header banner by adding a new filter `wp_statistics_header_url`.
+* Improvement: Cleaned up some legacy functionality and unusable options.
+* Improvement: Built front-end script for modern browsers.
+* Improvement: Improved the Statistics post's metabox styles and fixed related bugs.
+* Improvement: Added a check for existing events table before upgrade.
+* Improvement: Made minor enhancements.
 
 [See changelog for all versions](https://raw.githubusercontent.com/wp-statistics/wp-statistics/master/CHANGELOG.md).
