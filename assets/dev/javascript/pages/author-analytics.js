@@ -14,6 +14,46 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             this.generatePublishingOverviewChart();
             this.generateViewsPerPostsChart();
             this.generateOperatingSystemChart();
+            this.generateBrowsersChartData();
+        },
+
+        generateBrowsersChartData: function() {
+            if (!wps_js.isset(Wp_Statistics_Author_Analytics_Object, 'browser_chart_data')) {
+                return;
+            }
+
+            const browsersData = {
+                labels: Wp_Statistics_Author_Analytics_Object.browser_chart_data.labels,
+                datasets: [{
+                    data: Wp_Statistics_Author_Analytics_Object.browser_chart_data.data,
+                    backgroundColor: ['#F7D399', '#99D3FB', '#D7BDE2', '#D7BDE2', '#EBA39B', '#F5CBA7'],
+                    borderColor: '#fff',
+                    borderWidth: 1,
+                }]
+            };
+            const browsersOptions = {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        hidden: false,
+                        labels: {
+                            padding: 13,
+                            fontSize: 13,
+                            color: '#56585A',
+                            usePointStyle: true,
+                            pointStyle: 'rect',
+                            pointRadius: 2
+                        }
+                    }
+                }
+            };
+            const browsersCtx = document.getElementById('wps-browsers').getContext('2d');
+            const browsersChart = new Chart(browsersCtx, {
+                type: 'pie',
+                data: browsersData,
+                options: browsersOptions
+            });
         },
 
         generateOperatingSystemChart: function() {

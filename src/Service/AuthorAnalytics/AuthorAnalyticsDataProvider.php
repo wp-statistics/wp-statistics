@@ -93,7 +93,12 @@ class AuthorAnalyticsDataProvider
 
     public function getBrowsersChartData()
     {
+        $visitorsBrowser = $this->visitorsModel->getVisitorsBrowserData($this->args);
 
+        return [
+            'labels' => wp_list_pluck($visitorsBrowser, 'agent'),
+            'data'   => wp_list_pluck($visitorsBrowser, 'total')
+        ];
     }
 
     public function authorsPerformanceData()
