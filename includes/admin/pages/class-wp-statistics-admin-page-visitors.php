@@ -174,7 +174,7 @@ class visitors_page extends Singleton
             if (isset($_GET['ip'])) {
                 $sql = "SELECT v.*, r.* FROM `{$visitorTable}` v JOIN `{$relationshipTable}` r ON v.ID = r.visitor_id {$condition} ORDER BY r.date DESC";
             } else {
-                $sql = "SELECT vsr.*, vs.* FROM ( SELECT visitor_id, page_id, MAX(date) AS latest_visit_date FROM `{$relationshipTable}` GROUP BY visitor_id ) AS latest_visits JOIN `{$visitorTable}` vs ON latest_visits.visitor_id = vs.ID JOIN `{$relationshipTable}` vsr ON vsr.visitor_id = latest_visits.visitor_id AND vsr.date = latest_visits.latest_visit_date {$condition} ORDER BY vsr.date DESC";
+                $sql = "SELECT v.*, r.* FROM `{$visitorTable}` v LEFT JOIN (SELECT visitor_id, page_id, date, ROW_NUMBER() OVER (PARTITION BY visitor_id ORDER BY date DESC) AS rn FROM {$relationshipTable}) r ON v.id = r.visitor_id AND r.rn = 1 {$condition} ORDER BY r.date DESC, v.last_counter DESC";
             }
 
             $args['list'] = Visitor::get(array(

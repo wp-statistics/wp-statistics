@@ -91,7 +91,11 @@ use WP_STATISTICS\Menus;
                                             </td>
                                         <?php } ?>
                                         <td style='text-align: left;' class="tbl-page-column">
+                                            <?php if(!isset($item['page'])){ ?>
+                                            <span class="txt-overflow">—</span>
+                                            <?php } else { ?>
                                             <span class="txt-overflow" title="<?php echo esc_attr($item['page']['title'] != "" ? esc_attr($item['page']['title']) : ''); ?>"><?php echo ($item['page']['link'] != '' ? '<a href="' . esc_url($item['page']['link']) . '" target="_blank" class="wps-text-muted">' : '') . ($item['page']['title'] != "" ? $item['page']['title'] : Admin_Template::UnknownColumn()) . ($item['page']['link'] != '' ? '</a>' : ''); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
+                                            <?php } ?>
                                         </td>
                                         <td class="wps-admin-column__referred"><?php echo wp_kses_post($item['referred']); ?></td>
                                     </tr>
