@@ -74,7 +74,7 @@ class PostsModel extends BaseModel
         return $totalWords ? $totalWords : 0;
     }
 
-    public function getPublishOverview($args = [], $bypassCache = false)
+    public function getPostPublishOverview($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
             'date'      => [
@@ -145,7 +145,7 @@ class PostsModel extends BaseModel
         return $result;
     }
 
-    public function getTopPostsByViews($args = [], $bypassCache = false)
+    public function getPostsViewsData($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
             'date'      => '',
@@ -178,7 +178,7 @@ class PostsModel extends BaseModel
         return $result;
     }
 
-    public function getTopPostsByComments($args = [], $bypassCache = false)
+    public function getPostsCommentsData($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
             'date'      => '',
@@ -211,7 +211,7 @@ class PostsModel extends BaseModel
         return $result;
     }
 
-    public function getTopPostsByWords($args = [], $bypassCache = false)
+    public function getPostsWordsData($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
             'date'      => '',
