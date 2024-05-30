@@ -107,12 +107,12 @@ class AuthorAnalyticsDataProvider
         $data            = [];
 
         foreach ($visitorsBrowser as $item) {
-            if (!isset($data[$item->platform])) {
-                $data[$item->platform] = 1;
+            if (!isset($data[$item->agent])) {
+                $data[$item->agent] = 1;
                 continue;
             }
 
-            $data[$item->platform]++;
+            $data[$item->agent]++;
         }
 
         return [
