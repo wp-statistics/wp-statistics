@@ -80,6 +80,12 @@ class AuthorAnalyticsDataProvider
         return $data;
     }
 
+    /**
+     * Organize and count visitors by platform, agent, and country.
+     *
+     * @param array $args 
+     * @return array $result
+     */
     public function getParsedVisitorsData($args)
     {
         $data   = $this->visitorsModel->getVisitorsData();
