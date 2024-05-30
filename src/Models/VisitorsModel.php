@@ -2,7 +2,6 @@
 
 namespace WP_Statistics\Models;
 
-use WP_STATISTICS\Helper;
 use WP_Statistics\Utils\Query;
 
 
@@ -50,7 +49,7 @@ class VisitorsModel extends BaseModel
             ->join('posts', ['posts.ID', 'pages.id'], [], 'LEFT')
             ->where('post_type', 'IN', $args['post_type'])
             ->where('post_author', '=', $args['author_id'])
-            ->whereDate('visitor_relationships.date', $args['date'])
+            ->whereDate('pages.date', $args['date'])
             ->groupBy('visitor.platform')
             ->bypassCache($bypassCache)
             ->getAll();
@@ -76,7 +75,7 @@ class VisitorsModel extends BaseModel
             ->join('posts', ['posts.ID', 'pages.id'], [], 'LEFT')
             ->where('post_type', 'IN', $args['post_type'])
             ->where('post_author', '=', $args['author_id'])
-            ->whereDate('visitor_relationships.date', $args['date'])
+            ->whereDate('pages.date', $args['date'])
             ->groupBy('visitor.agent')
             ->bypassCache($bypassCache)
             ->getAll();
@@ -102,7 +101,7 @@ class VisitorsModel extends BaseModel
             ->join('posts', ['posts.ID', 'pages.id'], [], 'LEFT')
             ->where('post_type', 'IN', $args['post_type'])
             ->where('post_author', '=', $args['author_id'])
-            ->whereDate('visitor_relationships.date', $args['date'])
+            ->whereDate('pages.date', $args['date'])
             ->groupBy('visitor.location')
             ->bypassCache($bypassCache)
             ->getAll();
