@@ -31,7 +31,7 @@ class VisitorsModel extends BaseModel
         return $result ? $result : 0;
     }
 
-    public function getVisitorsOsData($args = [], $bypassCache = false)
+    public function getVisitorsData($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
             'date'      => '',
@@ -42,6 +42,8 @@ class VisitorsModel extends BaseModel
         $result = Query::select([
                 'visitor.ID',
                 'visitor.platform',
+                'visitor.agent',
+                'visitor.location'
             ])
             ->from('visitor')
             ->join('visitor_relationships', ['visitor_relationships.visitor_id', 'visitor.ID'])
@@ -57,55 +59,4 @@ class VisitorsModel extends BaseModel
         return $result ? $result : [];
     }
 
-    public function getVisitorsBrowserData($args = [], $bypassCache = false)
-    {
-        $args = $this->parseArgs($args, [
-            'date'      => '',
-            'post_type' => '',
-            'author_id' => ''
-        ]);
-
-        $result = Query::select([
-                'visitor.ID',
-                'visitor.agent'
-            ])
-            ->from('visitor')
-            ->join('visitor_relationships', ['visitor_relationships.visitor_id', 'visitor.ID'])
-            ->join('pages', ['visitor_relationships.page_id', 'pages.page_id'], [], 'LEFT')
-            ->join('posts', ['posts.ID', 'pages.id'], [], 'LEFT')
-            ->where('post_type', 'IN', $args['post_type'])
-            ->where('post_author', '=', $args['author_id'])
-            ->whereDate('pages.date', $args['date'])
-            ->groupBy('visitor.ID')
-            ->bypassCache($bypassCache)
-            ->getAll();
-
-        return $result ? $result : [];
-    }
-
-    public function getVisitorsLocationData($args = [], $bypassCache = false)
-    {
-        $args = $this->parseArgs($args, [
-            'date'      => '',
-            'post_type' => '',
-            'author_id' => ''
-        ]);
-
-        $result = Query::select([
-                'visitor.ID',
-                'visitor.location',
-            ])
-            ->from('visitor')
-            ->join('visitor_relationships', ['visitor_relationships.visitor_id', 'visitor.ID'])
-            ->join('pages', ['visitor_relationships.page_id', 'pages.page_id'], [], 'LEFT')
-            ->join('posts', ['posts.ID', 'pages.id'], [], 'LEFT')
-            ->where('post_type', 'IN', $args['post_type'])
-            ->where('post_author', '=', $args['author_id'])
-            ->whereDate('pages.date', $args['date'])
-            ->groupBy('visitor.ID')
-            ->bypassCache($bypassCache)
-            ->getAll();
-
-        return $result ? $result : [];
-    }
 }

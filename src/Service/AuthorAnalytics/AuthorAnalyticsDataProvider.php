@@ -80,66 +80,36 @@ class AuthorAnalyticsDataProvider
         return $data;
     }
 
-
-    public function getOperatingSystemChartData()
+    public function getParsedVisitorsData($args)
     {
-        $visitorsOs = $this->visitorsModel->getVisitorsOsData($this->args);
-        $data       = [];
-
-        foreach ($visitorsOs as $item) {
-            if (!isset($data[$item->platform])) {
-                $data[$item->platform] = 1;
-                continue;
-            }
-
-            $data[$item->platform]++;
-        }
-
-        return [
-            'labels' => array_keys($data),
-            'data'   => array_values($data)
+        $data   = $this->visitorsModel->getVisitorsData();
+        $result = [
+            'platform'  => [],
+            'agent'     => [],
+            'country'   => []
         ];
-    }
 
-    public function getBrowsersChartData()
-    {
-        $visitorsBrowser = $this->visitorsModel->getVisitorsBrowserData($this->args);
-        $data            = [];
-
-        foreach ($visitorsBrowser as $item) {
-            if (!isset($data[$item->agent])) {
-                $data[$item->agent] = 1;
-                continue;
+        foreach ($data as $item) {
+            if (empty($result['platform'][$item->platform])) {
+                $result['platform'][$item->platform] = 1;
+            } else {
+                $result['platform'][$item->platform]++;
             }
 
-            $data[$item->agent]++;
-        }
-
-        return [
-            'labels' => array_keys($data),
-            'data'   => array_values($data)
-        ];
-    }
-
-    public function getLocationData()
-    {
-        $data = [];
-        $locationData = $this->visitorsModel->getVisitorsLocationData($this->args);
-
-        foreach ($locationData as $location) {
-            if (isset($data[$location->location])) {
-                $data[$location->location]['visitors']++;
-                continue;
+            if (empty($result['agent'][$item->agent])) {
+                $result['agent'][$item->agent] = 1;
+            } else {
+                $result['agent'][$item->agent]++;
             }
 
-            $data[$location->location] = [
-                'countryCode'   => $location->location,
-                'country'       => Country::getName($location->location),
-                'visitors'      => 1
-            ];
+            if (empty($result['country'][$item->location])) {
+                $result['country'][$item->location] = 1;
+            } else {
+                $result['location'][$item->location]++;
+            }
         }
 
-        return $data;
+        return $result;
     }
 
     public function getAuthorsPerformanceData()
@@ -288,32 +258,35 @@ class AuthorAnalyticsDataProvider
         $topPostsByComment  = $this->postsModel->getPostsCommentsData($this->args);
         $topPostsByWords    = $this->postsModel->getPostsWordsData($this->args);
 
+        $visitorsData       = $this->getParsedVisitorsData($this->args);
+        $visitsData         = $this->getVisitSummary();
+
         $data = [
-            'overview' => [
-                'posts'     => [
-                    'total' => $totalPosts
+            'visit_summary' => $visitsData,
+            'visitors_data' => $visitorsData,
+            'taxonomies'    => $taxonomies,
+            'overview'      => [
+                'posts'         => [
+                    'total'     => $totalPosts
                 ],
                 'views'     => [
-                    'total' => $totalViews,
-                    'avg'   => Helper::divideNumbers($totalViews, $totalPosts)
+                    'total'     => $totalViews,
+                    'avg'       => Helper::divideNumbers($totalViews, $totalPosts)
                 ],
                 'visitors'  => [
-                    'total' => $totalVisitors,
-                    'avg'   => Helper::divideNumbers($totalVisitors, $totalPosts)
+                    'total'     => $totalVisitors,
+                    'avg'       => Helper::divideNumbers($totalVisitors, $totalPosts)
                 ],
                 'words'     => [
-                    'total' => $totalWords,
-                    'avg'   => Helper::divideNumbers($totalWords, $totalPosts)
+                    'total'     => $totalWords,
+                    'avg'       => Helper::divideNumbers($totalWords, $totalPosts)
                 ],
                 'comments'  => [
-                    'total' => $totalComments,
-                    'avg'   => Helper::divideNumbers($totalComments, $totalPosts)
+                    'total'     => $totalComments,
+                    'avg'       => Helper::divideNumbers($totalComments, $totalPosts)
                 ]
-            ], 
-            'taxonomies'    => $taxonomies,
-            'location'      => $this->getLocationData(),
-            'visit_summary' => $this->getVisitSummary(),
-            'posts'     => [
+            ],
+            'posts'         => [
                 'top_views'     => $topPostsByView,
                 'top_comments'  => $topPostsByComment,
                 'top_words'     => $topPostsByWords
