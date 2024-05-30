@@ -84,20 +84,40 @@ class AuthorAnalyticsDataProvider
     public function getOperatingSystemChartData()
     {
         $visitorsOs = $this->visitorsModel->getVisitorsOsData($this->args);
+        $data       = [];
+
+        foreach ($visitorsOs as $item) {
+            if (!isset($data[$item->platform])) {
+                $data[$item->platform] = 1;
+                continue;
+            }
+
+            $data[$item->platform]++;
+        }
 
         return [
-            'labels' => wp_list_pluck($visitorsOs, 'platform'),
-            'data'   => wp_list_pluck($visitorsOs, 'total_visitors')
+            'labels' => array_keys($data),
+            'data'   => array_values($data)
         ];
     }
 
     public function getBrowsersChartData()
     {
         $visitorsBrowser = $this->visitorsModel->getVisitorsBrowserData($this->args);
+        $data            = [];
+
+        foreach ($visitorsBrowser as $item) {
+            if (!isset($data[$item->platform])) {
+                $data[$item->platform] = 1;
+                continue;
+            }
+
+            $data[$item->platform]++;
+        }
 
         return [
-            'labels' => wp_list_pluck($visitorsBrowser, 'agent'),
-            'data'   => wp_list_pluck($visitorsBrowser, 'total_visitors')
+            'labels' => array_keys($data),
+            'data'   => array_values($data)
         ];
     }
 
@@ -107,10 +127,15 @@ class AuthorAnalyticsDataProvider
         $locationData = $this->visitorsModel->getVisitorsLocationData($this->args);
 
         foreach ($locationData as $location) {
-            $data[] = [
+            if (isset($data[$location->location])) {
+                $data[$location->location]['visitors']++;
+                continue;
+            }
+
+            $data[$location->location] = [
                 'countryCode'   => $location->location,
                 'country'       => Country::getName($location->location),
-                'visitors'      => $location->total_visitors
+                'visitors'      => 1
             ];
         }
 

@@ -40,8 +40,8 @@ class VisitorsModel extends BaseModel
         ]);
 
         $result = Query::select([
-                'DISTINCT visitor.platform',
-                'COUNT(visitor.platform) as total_visitors',
+                'visitor.ID',
+                'visitor.platform',
             ])
             ->from('visitor')
             ->join('visitor_relationships', ['visitor_relationships.visitor_id', 'visitor.ID'])
@@ -50,7 +50,7 @@ class VisitorsModel extends BaseModel
             ->where('post_type', 'IN', $args['post_type'])
             ->where('post_author', '=', $args['author_id'])
             ->whereDate('pages.date', $args['date'])
-            ->groupBy('visitor.platform')
+            ->groupBy('visitor.ID')
             ->bypassCache($bypassCache)
             ->getAll();
 
@@ -66,8 +66,8 @@ class VisitorsModel extends BaseModel
         ]);
 
         $result = Query::select([
-                'DISTINCT visitor.agent',
-                'COUNT(visitor.agent) as total_visitors',
+                'visitor.ID',
+                'visitor.agent'
             ])
             ->from('visitor')
             ->join('visitor_relationships', ['visitor_relationships.visitor_id', 'visitor.ID'])
@@ -76,7 +76,7 @@ class VisitorsModel extends BaseModel
             ->where('post_type', 'IN', $args['post_type'])
             ->where('post_author', '=', $args['author_id'])
             ->whereDate('pages.date', $args['date'])
-            ->groupBy('visitor.agent')
+            ->groupBy('visitor.ID')
             ->bypassCache($bypassCache)
             ->getAll();
 
@@ -92,8 +92,8 @@ class VisitorsModel extends BaseModel
         ]);
 
         $result = Query::select([
-                'DISTINCT visitor.location',
-                'COUNT(visitor.location) as total_visitors',
+                'visitor.ID',
+                'visitor.location',
             ])
             ->from('visitor')
             ->join('visitor_relationships', ['visitor_relationships.visitor_id', 'visitor.ID'])
@@ -102,7 +102,7 @@ class VisitorsModel extends BaseModel
             ->where('post_type', 'IN', $args['post_type'])
             ->where('post_author', '=', $args['author_id'])
             ->whereDate('pages.date', $args['date'])
-            ->groupBy('visitor.location')
+            ->groupBy('visitor.ID')
             ->bypassCache($bypassCache)
             ->getAll();
 
