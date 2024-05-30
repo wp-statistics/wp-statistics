@@ -105,7 +105,7 @@ class AuthorAnalyticsDataProvider
             if (empty($result['country'][$item->location])) {
                 $result['country'][$item->location] = 1;
             } else {
-                $result['location'][$item->location]++;
+                $result['country'][$item->location]++;
             }
         }
 
