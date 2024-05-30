@@ -33,7 +33,7 @@ class AuthorsModel extends BaseModel
     }
 
     
-    public function getTopPublishingAuthors($args = [], $bypassCache = false)
+    public function getAuthorsByPostPublishes($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
             'date'      => '',
@@ -50,31 +50,6 @@ class AuthorsModel extends BaseModel
             ->whereDate('post_date', $args['date'])
             ->groupBy('posts.post_author')
             ->orderBy('post_count')
-            ->perPage($args['page'], $args['per_page'])
-            ->bypassCache($bypassCache)
-            ->getAll();
-
-        return $result ? $result : [];
-    }
-
-    public function getTopViewingAuthors($args = [], $bypassCache = false)
-    {
-        $args = $this->parseArgs($args, [
-            'date'      => '',
-            'post_type' => Helper::get_list_post_type(),
-            'page'     => 1,
-            'per_page' => 5
-        ]);
-
-        $result = Query::select(['DISTINCT post_author as id', 'display_name as name', 'SUM(pages.count) as views'])
-            ->from('posts')
-            ->join('users', ['posts.post_author', 'users.ID'])
-            ->join('pages', ['posts.ID', 'pages.id'])
-            ->where('post_status', '=', 'publish')
-            ->where('post_type', 'IN', $args['post_type'])
-            ->whereDate('date', $args['date'])
-            ->groupBy('post_author')
-            ->orderBy('views')
             ->perPage($args['page'], $args['per_page'])
             ->bypassCache($bypassCache)
             ->getAll();

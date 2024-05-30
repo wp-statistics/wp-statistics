@@ -34,7 +34,7 @@ use WP_STATISTICS\Menus;
                                     </div>
                                     <div class="wps-author-tabs__item--content">
                                         <h3><?php echo esc_html($author->name); ?></h3>
-                                        <span><?php echo esc_html(Helper::formatNumberWithUnit($author->views)); ?> <?php esc_html_e('page views', 'wp-statistics') ?></span>
+                                        <span><?php echo esc_html(Helper::formatNumberWithUnit($author->total_views)); ?> <?php esc_html_e('page views', 'wp-statistics') ?></span>
                                     </div>
                                 </a>
                                 <?php $counter++;
