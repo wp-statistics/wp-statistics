@@ -2,6 +2,8 @@
 
 namespace WP_Statistics\Service\Posts;
 
+use WP_STATISTICS\Helper;
+
 class WordCount
 {
     const WORDS_COUNT_META_KEY = 'wp_statistics_words_count';
@@ -70,11 +72,12 @@ class WordCount
     public function getPostsWithoutWordCountMeta()
     {
         return get_posts([
-            'post_type'    => ['post', 'page'], // todo
+            'post_type'    => Helper::get_list_post_type(),
             'post_status'  => 'publish',
-            'numberposts'  => 1,
+            'numberposts'  => -1,
             'meta_key'     => self::WORDS_COUNT_META_KEY,
-            'meta_compare' => 'NOT EXISTS'
+            'meta_compare' => 'NOT EXISTS',
+            'fields'       => 'ids'
         ]);
     }
 }
