@@ -36,7 +36,6 @@ class Notice
 
         $flashNotices[] = array(
             'message'        => $message,
-            'id'             => $id,
             'class'          => $class,
             'is_dismissible' => (bool)$isDismissible,
         );

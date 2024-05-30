@@ -2,6 +2,7 @@
 
 namespace WP_Statistics\Async;
 
+use WP_STATISTICS\Option;
 use WP_Statistics\Service\Posts\WordCount;
 
 class CalculatePostWordsCount extends \WP_Background_Process
@@ -50,5 +51,7 @@ class CalculatePostWordsCount extends \WP_Background_Process
         parent::complete();
 
         // Show notice to user or perform some other arbitrary task...
+
+        Option::saveOptionGroup('word_count_process_started', false, 'jobs');
     }
 }

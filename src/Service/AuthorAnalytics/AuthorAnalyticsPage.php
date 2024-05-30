@@ -54,7 +54,7 @@ class AuthorAnalyticsPage extends Singleton
      */
     private function processWordCountMeta()
     {
-        if (count($this->wordsCount->getPostsWithoutWordCountMeta()) && !Option::getOptionGroup('word_count_processed', 'jobs')) {
+        if (count($this->wordsCount->getPostsWithoutWordCountMeta()) && !Option::getOptionGroup('word_count_process_started', 'jobs')) {
             $nonce   = wp_create_nonce('process_word_count_nonce');
             $message = sprintf(
                 __('Please <a href="%s">click here</a> to process the word count in the background. This is necessary for accurate analytics.', 'wp-statistics'),
@@ -75,7 +75,9 @@ class AuthorAnalyticsPage extends Singleton
         check_admin_referer('process_word_count_nonce', 'nonce');
 
         // Check if already processed
-        if (Option::getOptionGroup('word_count_processed', 'jobs')) {
+        if (Option::getOptionGroup('word_count_process_started', 'jobs')) {
+            Notice::addFlashNotice(__('Word count processing is already started.', 'wp-statistics'));
+
             wp_redirect(Menus::admin_url('author-analytics'));
             exit;
         }
@@ -84,14 +86,14 @@ class AuthorAnalyticsPage extends Singleton
         $remoteRequestAsync      = WP_Statistics()->getRemoteRequestAsync();
         $calculatePostWordsCount = $remoteRequestAsync['calculate_post_words_count'];
 
-        foreach ($this->wordsCount->getPostsWithoutWordCountMeta() as $post) {
-            $calculatePostWordsCount->push_to_queue(['post_id' => $post->ID]);
+        foreach ($this->wordsCount->getPostsWithoutWordCountMeta() as $postId) {
+            $calculatePostWordsCount->push_to_queue(['post_id' => $postId]);
         }
 
         $calculatePostWordsCount->save()->dispatch();
 
         // Mark as processed
-        Option::saveOptionGroup('word_count_processed', true, 'jobs');
+        Option::saveOptionGroup('word_count_process_started', true, 'jobs');
 
         // Show notice
         Notice::addFlashNotice(__('Word count processing started.', 'wp-statistics'));
