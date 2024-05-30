@@ -1,4 +1,6 @@
 <?php
+use WP_STATISTICS\Menus;
+
 $order = !empty($_GET['order']) ? ($_GET['order'] === 'DESC' ? 'ASC' : 'DESC') : 'DESC';
 ?>
 
@@ -67,7 +69,9 @@ $order = !empty($_GET['order']) ? ($_GET['order'] === 'DESC' ? 'ASC' : 'DESC') :
                                             <td class="wps-pd-l">
                                                 <div class="wps-author-name">
                                                     <img src="<?php echo esc_url(get_avatar_url($author->id)); ?>" alt="<?php echo esc_attr($author->name) ?>"/>
-                                                    <span title="<?php echo esc_attr($author->name) ?>"><?php echo esc_html($author->name) ?></span>
+                                                    <a href="<?php echo esc_url(Menus::admin_url('author-analytics', ['type' => 'single-author', 'author_id' => $author->id])) ?>">
+                                                        <span title="<?php echo esc_attr($author->name) ?>"><?php echo esc_html($author->name) ?></span>
+                                                    </a>
                                                 </div>
                                             </td>
                                             <td class="wps-pd-l">
