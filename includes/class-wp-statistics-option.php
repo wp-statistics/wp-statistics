@@ -283,8 +283,8 @@ class Option
     public static function getOptionGroup($key, $group, $default = null)
     {
         $settingName = "wp_statistics_{$group}";
+        $options     = get_option($settingName);
 
-        $options = get_option($settingName);
         if (!isset($options) || !is_array($options)) {
             $options = array();
         }
@@ -306,5 +306,20 @@ class Option
 
         // Write the array to the database.
         update_option($settingName, $options);
+    }
+
+    public static function deleteOptionGroup($key, $group)
+    {
+        $settingName = "wp_statistics_{$group}";
+        $options     = get_option($settingName, []);
+
+        // Check if the key exists in the array.
+        if (array_key_exists($key, $options)) {
+            // Remove the key from the array.
+            unset($options[$key]);
+
+            // Write the updated array back to the database.
+            update_option($settingName, $options);
+        }
     }
 }

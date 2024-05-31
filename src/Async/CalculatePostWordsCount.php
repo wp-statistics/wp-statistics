@@ -3,6 +3,7 @@
 namespace WP_Statistics\Async;
 
 use WP_STATISTICS\Option;
+use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Service\Posts\WordCount;
 
 class CalculatePostWordsCount extends \WP_Background_Process
@@ -15,7 +16,7 @@ class CalculatePostWordsCount extends \WP_Background_Process
     /**
      * @var string
      */
-    protected $action = 'calculate_post_words_count_background_process';
+    protected $action = 'calculate_post_words_count';
 
     /**
      * Perform task with queued item.
@@ -31,8 +32,8 @@ class CalculatePostWordsCount extends \WP_Background_Process
      */
     protected function task($item)
     {
-        $postId         = $item['post_id'];
-        $post           = get_post($postId);
+        $postId = $item['post_id'];
+        $post = get_post($postId);
         $wordCountClass = new WordCount();
 
         $wordCountClass->handleSavePost($postId, $post);
@@ -50,8 +51,10 @@ class CalculatePostWordsCount extends \WP_Background_Process
     {
         parent::complete();
 
-        // Show notice to user or perform some other arbitrary task...
+        // Delete option
+        Option::deleteOptionGroup('word_count_process_started', 'jobs');
 
-        Option::saveOptionGroup('word_count_process_started', false, 'jobs');
+        // Show notice to user
+        Notice::addFlashNotice(__('Word count processed successfully.', 'wp-statistics'));
     }
 }

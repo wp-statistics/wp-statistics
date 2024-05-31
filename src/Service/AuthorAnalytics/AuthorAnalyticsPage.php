@@ -20,8 +20,8 @@ class AuthorAnalyticsPage extends Singleton
      * @var array
      */
     private $views = [
-        'tabs'          => TabsView::class,
-        'authors'       => AuthorsView::class,
+        'tabs' => TabsView::class,
+        'authors' => AuthorsView::class,
         'single-author' => SingleAuthorView::class
     ];
 
@@ -55,7 +55,7 @@ class AuthorAnalyticsPage extends Singleton
     private function processWordCountMeta()
     {
         if (count($this->wordsCount->getPostsWithoutWordCountMeta()) && !Option::getOptionGroup('word_count_process_started', 'jobs')) {
-            $nonce   = wp_create_nonce('process_word_count_nonce');
+            $nonce = wp_create_nonce('process_word_count_nonce');
             $message = sprintf(
                 __('Please <a href="%s">click here</a> to process the word count in the background. This is necessary for accurate analytics.', 'wp-statistics'),
                 esc_url(admin_url('admin.php?page=wps_author-analytics_page&action=process_word_count&nonce=' . $nonce))
@@ -90,10 +90,10 @@ class AuthorAnalyticsPage extends Singleton
             $calculatePostWordsCount->push_to_queue(['post_id' => $postId]);
         }
 
-        $calculatePostWordsCount->save()->dispatch();
-
         // Mark as processed
         Option::saveOptionGroup('word_count_process_started', true, 'jobs');
+
+        $calculatePostWordsCount->save()->dispatch();
 
         // Show notice
         Notice::addFlashNotice(__('Word count processing started.', 'wp-statistics'));
