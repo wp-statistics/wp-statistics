@@ -96,7 +96,7 @@ class AuthorAnalyticsPage extends Singleton
         $calculatePostWordsCount->save()->dispatch();
 
         // Show notice
-        Notice::addFlashNotice(__('Word count processing started.', 'wp-statistics'));
+        //Notice::addFlashNotice(__('Word count processing started.', 'wp-statistics'));
 
         wp_redirect(Menus::admin_url('author-analytics'));
         exit;
