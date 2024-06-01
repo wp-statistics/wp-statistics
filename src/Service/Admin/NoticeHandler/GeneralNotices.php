@@ -2,6 +2,7 @@
 
 namespace WP_Statistics\Service\Admin\NoticeHandler;
 
+use WP_STATISTICS\Api\v2\Hit;
 use WP_STATISTICS\DB;
 use WP_STATISTICS\GeoIP;
 use WP_STATISTICS\Helper;
@@ -64,7 +65,7 @@ class GeneralNotices
                 Hits::$rest_hits_key => 'yes',
             ), Helper::getHitsDefaultParams());
 
-            $requestUrl = add_query_arg($params, get_rest_url(null, RestAPI::$namespace . '/' . Api\v2\Hit::$endpoint));
+            $requestUrl = add_query_arg($params, get_rest_url(null, RestAPI::$namespace . '/' . Hit::$endpoint));
             $request    = wp_remote_get($requestUrl, array('timeout' => 30, 'sslverify' => false));
 
             if (is_wp_error($request)) {
