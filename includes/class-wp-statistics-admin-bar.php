@@ -106,7 +106,7 @@ class AdminBar
                 'wp-statistics-footer-page'           => array(
                     'parent' => 'wp-statistic-menu',
                     'title'  => sprintf('<img src="%s"/>
-                        <a href="https://wp-statistics.com/product/wp-statistics-mini-chart?utm_source=wp_statistics&utm_medium=display&utm_campaign=wordpress">
+                        <a href="'. esc_url(admin_url('admin.php?page=wps_overview_page')) .'">
                         <span class="wps-admin-bar__chart__unlock-button">%s</span>
                         </a>'
                         ,
