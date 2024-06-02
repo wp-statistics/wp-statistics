@@ -2,6 +2,8 @@
 
 namespace WP_STATISTICS;
 
+use WP_Admin_Bar;
+
 class AdminBar
 {
     /**
@@ -15,21 +17,8 @@ class AdminBar
     }
 
     /**
-     * Check Show WP Statistics Admin Bar
-     */
-    public static function show_admin_bar()
-    {
-        /**
-         * Show/Hide Wp-Statistics Admin Bar
-         *
-         * @example add_filter('wp_statistics_show_admin_bar', function(){ return false; });
-         */
-        return (has_filter('wp_statistics_show_admin_bar')) ? apply_filters('wp_statistics_show_admin_bar', true) : Option::get('menu_bar');
-    }
-
-    /**
      * Show WordPress Admin Bar
-     * @param \WP_Admin_Bar $wp_admin_bar
+     * @param WP_Admin_Bar $wp_admin_bar
      */
     public function admin_bar($wp_admin_bar)
     {
@@ -91,30 +80,40 @@ class AdminBar
                 ),
                 'wp-statistics-menu-todayvisitor'     => array(
                     'parent' => 'wp-statistic-menu',
-                    'title'  => __('Today\'s Visitors', 'wp-statistics') . ": " . wp_statistics_visitor('today'),
-                ),
-                'wp-statistics-menu-todayvisit'       => array(
-                    'parent' => 'wp-statistic-menu',
-                    'title'  => __('Today\'s Views', 'wp-statistics') . ": " . wp_statistics_visit('today')
+                    'title'  => '<div class="wp-statistics-menu-todayvisitor__title">' . __('Today\'s Visitors', 'wp-statistics') . '</div>'
+                        . '<div class="wp-statistics-menu-todayvisitor__count">' . wp_statistics_visitor('today') . '</div>'
+                        . '<div class="wp-statistics-menu-todayvisits"><span>' . wp_statistics_visit('today') . '</span>' . __('Today\'s Views', 'wp-statistics') . '</div>'
                 ),
                 'wp-statistics-menu-yesterdayvisitor' => array(
                     'parent' => 'wp-statistic-menu',
-                    'title'  => __('Yesterday\'s Visitors', 'wp-statistics') . ": " . wp_statistics_visitor('yesterday'),
-                ),
-                'wp-statistics-menu-yesterdayvisit'   => array(
-                    'parent' => 'wp-statistic-menu',
-                    'title'  => __('Yesterday\'s Views', 'wp-statistics') . ": " . wp_statistics_visit('yesterday')
+                    'title'  => '<div class="wp-statistics-menu-yesterdayvisitor__title">' . __('Yesterday\'s Visitors', 'wp-statistics') . '</div>'
+                        . '<div class="wp-statistics-menu-yesterdayvisitor__count">' . wp_statistics_visitor('yesterday') . '</div>'
+                        . '<div class="wp-statistics-menu-yesterdayvisits"><span>' . wp_statistics_visit('yesterday') . '</span>' . __('Yesterday\'s Views', 'wp-statistics') . '</div>'
+
                 ),
                 'wp-statistics-menu-page'             => array(
                     'parent' => 'wp-statistic-menu',
-                    'title'  => sprintf('<img src="%s"/><span class="wps-admin-bar__chart__unlock-button">%s</span>',
-                        WP_STATISTICS_URL . 'assets/images/mini-chart-admin-bar-preview.png',
-                        __('Unlock Mini Chart!', 'wp-statistics')
+                    'title'  => sprintf('<img src="%s"/><div><span class="wps-admin-bar__chart__unlock-button">%s</span><button>%s</button></div>',
+                        WP_STATISTICS_URL . 'assets/images/mini-chart-lock.jpg',
+                        __('Unlock full potential of Mini-chart', 'wp-statistics'),
+                        __('Upgrade Now', 'wp-statistics')
                     ),
                     'href'   => 'https://wp-statistics.com/product/wp-statistics-mini-chart?utm_source=wp_statistics&utm_medium=display&utm_campaign=wordpress',
                     'meta'   => [
                         'target' => '_blank',
                     ],
+                ),
+                'wp-statistics-footer-page'           => array(
+                    'parent' => 'wp-statistic-menu',
+                    'title'  => sprintf('<img src="%s"/>
+                        <a href="https://wp-statistics.com/product/wp-statistics-mini-chart?utm_source=wp_statistics&utm_medium=display&utm_campaign=wordpress">
+                        <span class="wps-admin-bar__chart__unlock-button">%s</span>
+                        </a>'
+                        ,
+                        WP_STATISTICS_URL . 'assets/images/mini-chart-logo.svg',
+                        __('Explore Details', 'wp-statistics')
+                    ),
+
                 )
             );
 
@@ -141,6 +140,19 @@ class AdminBar
                 $wp_admin_bar->add_menu(array_merge(array('id' => $id), $v_admin_bar));
             }
         }
+    }
+
+    /**
+     * Check Show WP Statistics Admin Bar
+     */
+    public static function show_admin_bar()
+    {
+        /**
+         * Show/Hide Wp-Statistics Admin Bar
+         *
+         * @example add_filter('wp_statistics_show_admin_bar', function(){ return false; });
+         */
+        return (has_filter('wp_statistics_show_admin_bar')) ? apply_filters('wp_statistics_show_admin_bar', true) : Option::get('menu_bar');
     }
 }
 
