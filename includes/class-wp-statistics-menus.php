@@ -221,7 +221,7 @@ class Menus
                 'method'   => 'taxonomies',
             ),
             'authors'      => array(
-                'require'  => array('pages' => true),
+                'require'  => array('visits' => true),
                 'sub'      => 'overview',
                 'title'    => __('Authors', 'wp-statistics'),
                 'page_url' => 'authors',

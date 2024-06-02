@@ -4,7 +4,7 @@ Donate link: https://wp-statistics.com/donate/
 Tags: analytics, google analytics, insights, stats, site visitors
 Requires at least: 5.0
 Tested up to: 6.5
-Stable tag: 14.7.1
+Stable tag: 14.7.2
 Requires PHP: 5.6
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -129,17 +129,9 @@ If you encounter any bug, please create an issue on [GitHub](https://github.com/
 == Changelog ==
 https://www.youtube.com/watch?v=6G50BZRWPd4
 
-= 14.7.1 - 29.05.2024 =
-* Fixes: Fixed date filter on post type and taxonomies page.
-* Fixes: Fixed modify email subject with filter.
-* Fixes: Fixed user online current page bug.
-* Fixes: Fixed hashed IP bug in the visitor page filter.
-* Fixes: Fixed register user ID bug for recording.
-* Fixes: Fixed customization header banner by adding a new filter `wp_statistics_header_url`.
-* Improvement: Cleaned up some legacy functionality and unusable options.
-* Improvement: Built front-end script for modern browsers.
-* Improvement: Improved the Statistics post's metabox styles and fixed related bugs.
-* Improvement: Added a check for existing events table before upgrade.
-* Improvement: Made minor enhancements.
+= 14.7.2 - 02.05.2024 =
+- Fixes: The Author menu display issue has been resolved.
+- Fixes: The query issue related to visitor and visit relationships has been corrected.
+- New: Added command `wp statistics reinitialize` to WP-CLI functionality for re-initialize the tables.
 
 [See changelog for all versions](https://raw.githubusercontent.com/wp-statistics/wp-statistics/master/CHANGELOG.md).

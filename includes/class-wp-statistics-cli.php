@@ -206,6 +206,27 @@ class WP_STATISTICS_CLI extends \WP_CLI_Command
         \WP_CLI\Utils\format_items($assoc_args['format'], $items, $column);
     }
 
+    /**
+    * Reinitialize
+    *
+    * ## OPTIONS
+    * ---
+    * ## EXAMPLES
+    *
+    *      # Reinitialize WP Statistics plugin
+    *      $ wp statistics reinitialize
+    *
+    * @throws \Exception
+    */
+
+    public function reinitialize($args, $assoc_args)
+    {
+	    require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-db.php';
+        require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-install.php';
+	    global $wpdb;
+	    Install::create_table(false);
+	    \WP_CLI::Success('Reinitialized WP Statistics Database!');
+    }
 }
 
 /**
