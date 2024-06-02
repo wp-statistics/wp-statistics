@@ -197,7 +197,7 @@ class Meta_Box
                 'page_url'          => 'pages',
                 'name'              => __('Most Visited Pages', 'wp-statistics'),
                 'description'       => __('Pages on your website with the highest number of views in the selected time frame.', 'wp-statistics'),
-                'require'           => array('pages' => true),
+                'require'           => array('visits' => true),
                 'hidden'            => true,
                 'show_on_dashboard' => true,
                 'place'             => 'normal',
