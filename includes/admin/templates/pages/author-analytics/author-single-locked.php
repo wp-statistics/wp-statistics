@@ -28,7 +28,7 @@
     <div class="wps-author-premium__info">
         <?php echo esc_html__('Unlock deeper insights into your website\'s performance with DataPlus.', 'wp-statistics') ?>
     </div>
-    <a target="_blank" class="button button-primary" href="">
+    <a target="_blank" class="button button-primary" href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/product/wp-statistics-data-plus?utm_source=wp-statistics&utm_medium=link&utm_campaign=dp-author'); ?>">
         <?php echo esc_html__('Upgrade Now.', 'wp-statistics') ?>
     </a>
 </div>
