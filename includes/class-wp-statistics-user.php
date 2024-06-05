@@ -110,12 +110,18 @@ class User
     }
 
     /**
-     * Get WordPress Role List
+     * Returns WordPress' roles names + an extra "Anonymous user" index.
+     *
+     * @return  array
      */
     public static function get_role_list()
     {
         global $wp_roles;
-        return $wp_roles->get_names();
+
+        $rolesNames   = $wp_roles->get_names();
+        $rolesNames[] = 'Anonymous user';
+
+        return $rolesNames;
     }
 
     /**
