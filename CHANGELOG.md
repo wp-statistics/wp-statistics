@@ -1,7 +1,7 @@
-= 14.7.2 - 02.05.2024 =
-- Fixes: The Author menu display issue has been resolved.
-- Fixes: The query issue related to visitor and visit relationships has been corrected.
-- New: Added command `wp statistics reinitialize` to WP-CLI functionality for re-initialize the tables.
+= 14.7.2 - 02.06.2024 =
+* Fixes: The Author menu display issue has been resolved.
+* Fixes: The query issue related to visitor and visit relationships has been corrected.
+* New: Added command `wp statistics reinitialize` to WP-CLI functionality for re-initialize the tables.
 
 = 14.7.1 - 29.05.2024 =
 * Fixes: Fixed date filter on post type and taxonomies page.

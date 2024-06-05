@@ -129,9 +129,9 @@ If you encounter any bug, please create an issue on [GitHub](https://github.com/
 == Changelog ==
 https://www.youtube.com/watch?v=6G50BZRWPd4
 
-= 14.7.2 - 02.05.2024 =
-- Fixes: The Author menu display issue has been resolved.
-- Fixes: The query issue related to visitor and visit relationships has been corrected.
-- New: Added command `wp statistics reinitialize` to WP-CLI functionality for re-initialize the tables.
+= 14.7.2 - 02.06.2024 =
+* Fixes: The Author menu display issue has been resolved.
+* Fixes: The query issue related to visitor and visit relationships has been corrected.
+* New: Added command `wp statistics reinitialize` to WP-CLI functionality for re-initialize the tables.
 
 [See changelog for all versions](https://raw.githubusercontent.com/wp-statistics/wp-statistics/master/CHANGELOG.md).
