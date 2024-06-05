@@ -206,8 +206,9 @@ class Exclusion
         } else {
             // Guest visitor
 
-            if (Option::get('exclude_anonymous_user') == true)
+            if (Option::get('exclude_anonymous_user') == true) {
                 return true;
+            }
         }
 
         return false;
