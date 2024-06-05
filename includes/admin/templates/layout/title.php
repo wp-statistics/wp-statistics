@@ -7,6 +7,16 @@
             <span class="wps-tooltip" title="<?php echo esc_attr($tooltip); ?>"><i class="wps-tooltip-icon info"></i></span>
         <?php endif; ?>
     </h2>    <?php do_action('wp_statistics_after_admin_page_title'); ?>
+    <?php if (isset($real_time_button)): ?>
+        <?php
+        $is_realtime_active = \WP_STATISTICS\Helper::isAddOnActive('realtime-stats');
+        $button_class = $is_realtime_active ? 'wps-realtime-btn' : 'wps-realtime-btn disabled';
+        $button_href = $is_realtime_active ? esc_url(admin_url('admin.php?page=wp_statistics_realtime_stats')) : '';
+        ?>
+        <a class="<?php echo $button_class; ?>" href="<?php echo $button_href; ?>">
+            <?php esc_html_e('Realtime', 'wp-statistics'); ?>
+        </a>
+    <?php endif; ?>
     <?php if (isset($Datepicker)): ?>
         <form class="wps-search-date wps-today-datepicker" method="get">
             <div>
