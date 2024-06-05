@@ -12,7 +12,7 @@
             $option_name      = 'wps_' . $store_name;
             $role_option_list .= $option_name . ',';
 
-            $translated_role_name = translate_user_role($role);
+            $translated_role_name = ($role === 'Anonymous user') ? __('Anonymous user', 'wp-statistics') : translate_user_role($role);
             ?>
 
             <tr valign="top">
@@ -20,7 +20,12 @@
                 </th>
                 <td>
                     <input id="<?php echo esc_attr($option_name); ?>" type="checkbox" value="1" name="<?php echo esc_attr($option_name); ?>" <?php echo WP_STATISTICS\Option::get($store_name) == true ? "checked='checked'" : ''; ?>><label for="<?php echo esc_attr($option_name); ?>"><?php esc_html_e('Exclude', 'wp-statistics'); ?></label>
-                    <p class="description"><?php echo sprintf(esc_html__('Exclude data collection for users with the %s role.', 'wp-statistics'), esc_attr($translated_role_name)); ?></p>
+                    <p class="description">
+                        <?php echo $role === 'Anonymous user' ?
+                            esc_html__('Exclude data collection for anonymous users.', 'wp-statistics') :
+                            // translators: %s: User role name
+                            sprintf(esc_html__('Exclude data collection for users with the %s role.', 'wp-statistics'), esc_attr($translated_role_name)); ?>
+                    </p>
                 </td>
             </tr>
         <?php } ?>

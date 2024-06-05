@@ -203,6 +203,11 @@ class Exclusion
                     return true;
                 }
             }
+        } else {
+            // Guest visitor
+
+            if (Option::get('exclude_anonymous_user') == true)
+                return true;
         }
 
         return false;
