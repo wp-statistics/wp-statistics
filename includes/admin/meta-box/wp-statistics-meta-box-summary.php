@@ -85,7 +85,7 @@ class summary
 
                 // Yesterday
                 $data['visitors']['yesterday'] = array(
-                    'link'  => Menus::admin_url('visitors', array('from' => TimeZone::getTimeAgo(1), 'to' => TimeZone::getCurrentDate("Y-m-d"))),
+                    'link'  => Menus::admin_url('visitors', array('from' => TimeZone::getTimeAgo(1), 'to' => TimeZone::getTimeAgo(1))),
                     'value' => number_format_i18n(wp_statistics_visitor('yesterday', null, true))
                 );
 
@@ -159,7 +159,7 @@ class summary
 
                 // Yesterday
                 $data['visits']['yesterday'] = array(
-                    'link'  => Menus::admin_url('hits', array('from' => TimeZone::getTimeAgo(1), 'to' => TimeZone::getCurrentDate("Y-m-d"))),
+                    'link'  => Menus::admin_url('hits', array('from' => TimeZone::getTimeAgo(1), 'to' => TimeZone::getTimeAgo(1))),
                     'value' => number_format_i18n(wp_statistics_visit('yesterday'))
                 );
 
