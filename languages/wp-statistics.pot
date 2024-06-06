@@ -3169,7 +3169,7 @@ msgid "Exclude specific user roles from data collection."
 msgstr ""
 
 #: includes/admin/templates/settings/exclusions.php:15
-msgid "Anonymous user"
+msgid "Anonymous Users"
 msgstr ""
 
 #: includes/admin/templates/settings/exclusions.php:22
@@ -3180,7 +3180,7 @@ msgid "Exclude"
 msgstr ""
 
 #: includes/admin/templates/settings/exclusions.php:25
-msgid "Exclude data collection for anonymous users."
+msgid "Exclude data collection for users who are not logged in."
 msgstr ""
 
 #. translators: %s: User role name

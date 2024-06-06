@@ -110,7 +110,7 @@ class User
     }
 
     /**
-     * Returns WordPress' roles names + an extra "Anonymous user" index.
+     * Returns WordPress' roles names + an extra "Anonymous Users" index.
      *
      * @return  array
      */
@@ -119,7 +119,7 @@ class User
         global $wp_roles;
 
         $rolesNames   = $wp_roles->get_names();
-        $rolesNames[] = 'Anonymous user';
+        $rolesNames[] = 'Anonymous Users';
 
         return $rolesNames;
     }
