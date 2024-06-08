@@ -8,8 +8,15 @@ use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 
 class PostsManager
 {
+    /**
+     * @var WordCount $wordsCount
+     */
+    private $wordsCount;
+
     public function __construct()
     {
+        $this->wordsCount = new WordCount();
+
         add_action('save_post', [$this, 'addWordsCountCallback'], 99, 3);
         add_action('delete_post', [$this, 'removeWordsCountCallback'], 99, 2);
     }
@@ -23,8 +30,7 @@ class PostsManager
      */
     public function addWordsCountCallback($postId, $post, $update)
     {
-        $wordsCount = new WordCount();
-        $wordsCount->handleSavePost($postId, $post);
+        $this->wordsCount->handleSavePost($postId, $post);
     }
 
 
@@ -36,7 +42,6 @@ class PostsManager
      */
     public function removeWordsCountCallback($postId, $post)
     {
-        $wordsCount = new WordCount();
-        $wordsCount->removeWordsCountMeta($postId, $post);
+        $this->wordsCount->removeWordsCountMeta($postId, $post);
     }
 }
