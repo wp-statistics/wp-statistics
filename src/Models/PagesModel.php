@@ -15,10 +15,10 @@ class PagesModel extends BaseModel
             'author_id' => ''
         ]);
 
-        $query = Query::select('SUM(count) as total_count')
+        $query = Query::select('SUM(count) as total_views')
             ->from('pages')
             ->join('posts', ['pages.id', 'posts.ID'])
-            ->where('type', 'IN', $args['post_type'])
+            ->where('post_type', 'IN', $args['post_type'])
             ->whereDate('date', $args['date'])
             ->where('post_author', '=', $args['author_id'])
             ->groupBy('type')
@@ -28,7 +28,7 @@ class PagesModel extends BaseModel
         if (is_array($args['post_type']) && count($args['post_type']) > 1) {
             $subQuery = $query->getQuery();
             
-            $query = Query::select('SUM(total_count)')
+            $query = Query::select('SUM(total_views)')
                 ->fromQuery($subQuery);
         }
 
