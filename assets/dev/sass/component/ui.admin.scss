@@ -100,9 +100,14 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
     &.closed .postbox-header {
       border-bottom: 0 !important;
     }
+    &.closed {
+      .toggle-indicator{
+        transform: rotate(180deg);
+      }
+    }
 
     .postbox-header {
-      padding: 10px 20px 10px 32px;
+      padding: 10px 24px;
 
       h2 {
         padding: 0;
@@ -899,7 +904,7 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
 }
 
 .wps-wrap .postbox-header {
-  border-bottom: 1px solid #e7e7e7;
+  border-bottom: 0;
 }
 
 .wps-wrap .thickbox.button,
@@ -2806,8 +2811,11 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
 
   &.disabled {
     background: #DADCE0 !important;
-    color: #838383!important;
-    pointer-events: none!important;
+    color: #56585a !important;
+
+    &:hover {
+      background: rgb(218 220 224 / 80%)!important;
+    }
 
     &:after {
       width: 10.5px;

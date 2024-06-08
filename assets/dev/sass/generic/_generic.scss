@@ -35,14 +35,46 @@
   }
 
   .postbox-header .handle-actions {
+    display: flex;
+    align-items: center;
     margin-top: 8px;
+
+    .handlediv:not(.wps-refresh){
+      height: unset!important;
+    }
+
     .wps-refresh{
-      .wps-refresh-icon{
-        width: 10px!important;
-        height: 12px!important;
+      width: 21px;
+      height: 21px;
+      top: unset;
+       background: url("data:image/svg+xml;base64,Cjxzdmcgd2lkdGg9IjE0IiBoZWlnaHQ9IjE1IiB2aWV3Qm94PSIwIDAgMTQgMTUiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik03IDEuOUM1LjA3NjAxIDEuOSAzLjM3NzU2IDIuODcwMzggMi4zNjkxIDQuMzVINC4yVjUuNzVIMFYxLjU1SDEuNFYzLjI5OTU1QzIuNjc2NjcgMS42MDAxNiA0LjcwOTM1IDAuNSA3IDAuNUMxMC44NjYgMC41IDE0IDMuNjM0IDE0IDcuNUgxMi42QzEyLjYgNC40MDcyIDEwLjA5MjggMS45IDcgMS45Wk0xLjQgNy41QzEuNCAxMC41OTI4IDMuOTA3MiAxMy4xIDcgMTMuMUM4LjkyNDAyIDEzLjEgMTAuNjIyNCAxMi4xMjk2IDExLjYzMDkgMTAuNjVIOS44VjkuMjVIMTRWMTMuNDVIMTIuNlYxMS43MDA0QzExLjMyMzMgMTMuMzk5OCA5LjI5MDY4IDE0LjUgNyAxNC41QzMuMTM0IDE0LjUgMCAxMS4zNjYgMCA3LjVIMS40WiIgZmlsbD0iIzU2NTg1QSIvPgo8L3N2Zz4K") center center no-repeat!important;
+      &:after {
+        content: attr(data-tooltip);
+        visibility: hidden;
+        width: 37px;
+        background-color: $white-color;
+        box-shadow: 0 0 12px 1px rgba(0, 0, 0, 0.07);
+        border-radius: 4px;
+        color: $dim-black-color;
+        text-align: center;
+        padding: 6px 6px;
+        border-radius: 6px;
+        /* Position the tooltip text - see examples below! */
+        position: absolute;
+        z-index: 1;
+        top: 110%;
+        left: 50%;
+        margin-left: -40px;
+        font-weight: 400;
+        font-size: 10px;
+        line-height: 12px;
       }
-      .screen-reader-text{
-        font-size: 11px;
+
+      &:hover {
+        filter: contrast(10);
+        &::after {
+          visibility: visible;
+        }
       }
     }
   }

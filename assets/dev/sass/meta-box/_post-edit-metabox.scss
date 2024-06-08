@@ -29,7 +29,9 @@
         font-size: 14px;
         line-height: 1.4;
       }
-
+      .postbox .handlediv{
+        height: unset!important;
+      }
       .wps-refresh {
         top: 6px !important;
         right: 4.6% !important;
@@ -87,11 +89,25 @@
   .postbox-header {
     .handlediv {
       margin-right: 8px;
+      &:last-child{
+        margin-right: 0;
+      }
 
       .toggle-indicator {
         display: flex;
         align-items: center;
         justify-content: center;
+        &:hover:before{
+          filter: contrast(10);
+        }
+        &::before {
+          content: ""!important;
+          display: inline-block;
+          width: 21px;
+          height: 21px;
+          background: url("data:image/svg+xml;base64,Cjxzdmcgd2lkdGg9IjEzIiBoZWlnaHQ9IjciIHZpZXdCb3g9IjAgMCAxMyA3IiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cGF0aCBkPSJNNi40OTk4MiA0LjUyNDM2TDEwLjgzMDkgMC4xOTMzNTlMMTIuMDY4MyAxLjQzMDc5TDYuNDk5ODIgNi45OTkzTDAuOTMxMzk2IDEuNDMwNzlMMi4xNjg4MyAwLjE5MzM1OUw2LjQ5OTgyIDQuNTI0MzZaIiBmaWxsPSIjNTY1ODVBIi8+Cjwvc3ZnPgo=") center center no-repeat;
+        }
+
       }
     }
   }
