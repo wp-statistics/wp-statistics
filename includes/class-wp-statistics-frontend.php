@@ -2,7 +2,7 @@
 
 namespace WP_STATISTICS;
 
-use WP_Statistics\Service\Assets\AssetNameObfuscator;
+use WP_Statistics\Components\Assets;
 
 class Frontend
 {
@@ -47,12 +47,7 @@ class Frontend
      */
     public function enqueue_scripts()
     {
-        $tracker = WP_STATISTICS_URL . 'assets/js/tracker.js';
-        if (Option::get('bypass_ad_blockers', false)) {
-            $tracker = new AssetNameObfuscator('assets/js/tracker.js');
-            $tracker = $tracker->getHashedFileUrl();
-        }
-        wp_enqueue_script('wp-statistics-tracker', $tracker, [], WP_STATISTICS_VERSION, ['in_footer' => true]);
+        Assets::script('tracker', 'js/tracker.js', [], [], true, Option::get('bypass_ad_blockers', false));
 
         $params = array(
             Hits::$rest_hits_key => 'yes',
