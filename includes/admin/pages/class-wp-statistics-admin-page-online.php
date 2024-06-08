@@ -24,7 +24,7 @@ class online_page extends Singleton
 
         // Page title
         $args['title'] = __('Live User Activity Tracker', 'wp-statistics');
-        $args['tooltip'] = __('Live User Activity Tracker tooltip', 'wp-statistics');
+        $args['tooltip'] = __('See who’s currently online on your site.', 'wp-statistics');
         $args['real_time_button'] = true;
 
         //Get Total User Online
