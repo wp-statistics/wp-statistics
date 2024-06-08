@@ -81,6 +81,7 @@ class TabsView
     {
         $currentTab = $this->getCurrentTab();
         $tabData    = $this->getData();
+        $postType   = isset($_GET['pt']) ? sanitize_text_field($_GET['pt']) : '';
 
         $args = [
             'title'      => esc_html__('Author Analytics', 'wp-statistics'),
@@ -106,6 +107,10 @@ class TabsView
                 ]
             ],
         ];
+
+        if (!empty($postType) && $currentTab === 'performance') {
+            $args['custom_get']['pt'] = $postType;
+        }
 
         if ($currentTab === 'pages') {
             // Remove filters from pages tab
