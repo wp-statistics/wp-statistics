@@ -54,12 +54,12 @@ class AuthorAnalyticsPage extends Singleton
      */
     private function processWordCountMeta()
     {
-        if (count($this->wordsCount->getPostsWithoutWordCountMeta()) && !Option::getOptionGroup('word_count_process_started', 'jobs')) {
+        if (count($this->wordsCount->getPostsWithoutWordCountMeta()) && !Option::getOptionGroup('jobs', 'word_count_process_started')) {
             $actionUrl  = add_query_arg(
                 [
-                    'action' => 'process_word_count', 
+                    'action' => 'process_word_count',
                     'nonce'  => wp_create_nonce('process_word_count_nonce')
-                ], 
+                ],
                 Menus::admin_url('author-analytics')
             );
 
@@ -82,7 +82,7 @@ class AuthorAnalyticsPage extends Singleton
         check_admin_referer('process_word_count_nonce', 'nonce');
 
         // Check if already processed
-        if (Option::getOptionGroup('word_count_process_started', 'jobs')) {
+        if (Option::getOptionGroup('jobs', 'word_count_process_started')) {
             Notice::addFlashNotice(__('Word count processing is already started.', 'wp-statistics'));
 
             wp_redirect(Menus::admin_url('author-analytics'));

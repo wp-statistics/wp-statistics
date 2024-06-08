@@ -280,7 +280,7 @@ class Option
         update_option($setting_name, $options);
     }
 
-    public static function getOptionGroup($key, $group, $default = null)
+    public static function getOptionGroup($group, $key = null, $default = null)
     {
         $settingName = "wp_statistics_{$group}";
         $options     = get_option($settingName);
@@ -289,11 +289,17 @@ class Option
             $options = array();
         }
 
-        if (!array_key_exists($key, $options)) {
-            return !is_null($default) ? $default : false;
+        if (is_null($key)) {
+            $result = $options;
+        } else {
+            if (!array_key_exists($key, $options)) {
+                $result = !is_null($default) ? $default : false;
+            } else {
+                $result = $options[$key];
+            }
         }
 
-        return apply_filters("wp_statistics_option_{$settingName}", $options[$key]);
+        return apply_filters("wp_statistics_option_{$settingName}", $result);
     }
 
     public static function saveOptionGroup($key, $value, $group)
