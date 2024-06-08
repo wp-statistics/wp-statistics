@@ -48,7 +48,7 @@ class AuthorsView
             'pageName'      => Menus::get_page_slug('author-analytics'),
             'pagination'    => Admin_Template::getCurrentPaged(),
             'DateRang'      => Admin_Template::DateRange(),
-            'custom_get'    => ['type' => 'authors', 'pt' => $postType],
+            'custom_get'    => ['type' => 'authors'],
             'HasDateRang'   => true,
             'filters'       => ['post-type'],
             'backUrl'       => Menus::admin_url('author-analytics'),
@@ -56,6 +56,10 @@ class AuthorsView
             'data'          => $data['authors'],
             'paged'         => Admin_Template::getCurrentPaged(),
         ];
+
+        if (!empty($postType)) {
+            $args['custom_get']['pt'] = $postType;
+        }
 
         if ($data['total'] > 0) {
             $args['total'] = $data['total'];
