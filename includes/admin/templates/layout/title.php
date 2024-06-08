@@ -1,7 +1,6 @@
-<div class="wps-wrap__top">
-    <?php use WP_STATISTICS\Helper;
-
-    if (isset($backUrl, $backTitle)): ?>
+<?php use WP_STATISTICS\Helper; ?>
+ <div class="wps-wrap__top <?php if(isset($real_time_button)){echo 'wps-wrap__top--has__realtime'; }?>">
+    <?php if (isset($backUrl, $backTitle)): ?>
         <a href="<?php echo esc_url($backUrl) ?>" title="<?php echo esc_html($backTitle) ?>" class="wps-previous-url"><?php echo esc_html($backTitle) ?></a>
     <?php endif ?>
     <h2 class="wps_title"><?php echo(isset($title) ? esc_attr($title) : (function_exists('get_admin_page_title') ? get_admin_page_title() : '')); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	 ?>

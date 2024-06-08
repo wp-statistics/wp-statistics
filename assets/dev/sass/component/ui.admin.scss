@@ -61,6 +61,16 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
   flex-direction: column;
   align-items: flex-start;
 
+
+  &--has__realtime {
+    padding-right: 130px;
+
+    .rtl & {
+      padding-right: 23px;
+      padding-left: 130px;
+    }
+  }
+
   &.tabbed_page {
     padding-bottom: 0;
   }
@@ -2805,6 +2815,14 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
     .rtl & {
       right: unset;
       left: 23px;
+
+      &:before {
+        transform: rotate(180deg);
+      }
+
+      &:after {
+        transform: rotate(269deg);
+      }
     }
 
     &:hover {
