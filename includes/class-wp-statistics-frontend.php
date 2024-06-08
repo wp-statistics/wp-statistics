@@ -47,8 +47,12 @@ class Frontend
      */
     public function enqueue_scripts()
     {
-        $randomTracker = new AssetRandomizer(WP_STATISTICS_DIR . 'assets/js/tracker.js');
-        wp_enqueue_script('wp-statistics-tracker', $randomTracker->getHashedFileUrl(), [], WP_STATISTICS_VERSION, ['in_footer' => true]);
+        $tracker = WP_STATISTICS_URL . 'assets/js/tracker.js';
+        if (Option::get('bypass_ad_blockers', false)) {
+            $tracker = new AssetRandomizer(WP_STATISTICS_DIR . 'assets/js/tracker.js');
+            $tracker = $tracker->getHashedFileUrl();
+        }
+        wp_enqueue_script('wp-statistics-tracker', $tracker, [], WP_STATISTICS_VERSION, ['in_footer' => true]);
 
         $params = array(
             Hits::$rest_hits_key => 'yes',
