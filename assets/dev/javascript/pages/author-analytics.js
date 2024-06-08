@@ -72,7 +72,6 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             const chartData = Wp_Statistics_Author_Analytics_Object.os_chart_data;
 
             if (chartData.labels.length == 0 || chartData.data.length ==0) {
-                console.log('no data');
                 jQuery('#wps-operating-systems').parent().text(wps_js._('no_result'));
                 jQuery('#wps-operating-systems').remove();
                 return;
