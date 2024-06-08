@@ -1,13 +1,13 @@
 <?php
 
-namespace WP_Statistics\Service\Assets;
+namespace WP_Statistics\Components;
 
 use WP_STATISTICS\Option;
 
 /**
- * Randomizes/Ofuscates assets file names.
+ * Ofuscates/Randomizes assets file names.
  */
-class AssetRandomizer
+class AssetNameObfuscator
 {
     /**
      * Option that contains information about all hashed files.
@@ -71,7 +71,7 @@ class AssetRandomizer
         if (!is_file($this->inputFileDir)) return;
 
         $this->initializeVariables();
-        $this->obfuscateFile();
+        $this->obfuscateFileName();
     }
 
     /**
@@ -112,11 +112,11 @@ class AssetRandomizer
     }
 
     /**
-     * Obfuscate/Randomize the file dir.
+     * Obfuscate/Randomize file name.
      *
      * @return  void
      */
-    private function obfuscateFile()
+    private function obfuscateFileName()
     {
         // Return if the hashed file for this version exists
         if ($this->isHashedFileExists()) return;

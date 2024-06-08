@@ -2,7 +2,7 @@
 
 namespace WP_STATISTICS;
 
-use WP_Statistics\Service\Assets\AssetRandomizer;
+use WP_Statistics\Service\Assets\AssetNameObfuscator;
 
 class Frontend
 {
@@ -49,7 +49,7 @@ class Frontend
     {
         $tracker = WP_STATISTICS_URL . 'assets/js/tracker.js';
         if (Option::get('bypass_ad_blockers', false)) {
-            $tracker = new AssetRandomizer('assets/js/tracker.js');
+            $tracker = new AssetNameObfuscator('assets/js/tracker.js');
             $tracker = $tracker->getHashedFileUrl();
         }
         wp_enqueue_script('wp-statistics-tracker', $tracker, [], WP_STATISTICS_VERSION, ['in_footer' => true]);
