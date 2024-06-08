@@ -2,7 +2,6 @@
 
 namespace WP_Statistics\Service\AuthorAnalytics;
 
-use WP_STATISTICS\Country;
 use WP_STATISTICS\Helper;
 use WP_Statistics\Models\AuthorsModel;
 use WP_Statistics\Models\PagesModel;
@@ -88,7 +87,7 @@ class AuthorAnalyticsDataProvider
      */
     public function getParsedVisitorsData($args)
     {
-        $data   = $this->visitorsModel->getVisitors();
+        $data   = $this->visitorsModel->getVisitors($this->args);
         $result = [
             'platform'  => [],
             'agent'     => [],

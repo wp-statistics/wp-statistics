@@ -41,9 +41,7 @@ class TaxonomyModel extends BaseModel
             $taxonomies = [];
 
             foreach ($result as $item) {
-                $taxonomy = get_taxonomy($item->taxonomy);
-
-                $taxonomies[$taxonomy->label][] = [
+                $taxonomies[$item->taxonomy][] = [
                     'term_id'       => $item->term_id,
                     'term_name'     => $item->name,
                     'posts_count'   => $item->post_count,

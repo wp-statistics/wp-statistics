@@ -93,6 +93,8 @@ class Query
      */
     public function whereDate($field, $date)
     {
+        if (empty($date)) return $this;
+
         if (is_array($date)) {
             $from = isset($date['from']) ? $date['from'] : '';
             $to   = isset($date['to']) ? $date['to'] : '';
