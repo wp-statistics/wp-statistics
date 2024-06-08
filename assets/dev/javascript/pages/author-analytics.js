@@ -397,7 +397,10 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                                 },
                                 label(context) {
                                     const v = context.dataset.data[context.dataIndex];
-                                    return ['Date: ' + v.d, 'Value: ' + v.v.toFixed(2)];
+                                    return [
+                                        `${wps_js._('date')}: ${v.d}`, 
+                                        `${wps_js._('posts')}: ${v.v}`
+                                    ];
                                 }
                             }
                         }

@@ -405,6 +405,7 @@ class Admin_Assets
             'non_privacy_compliant' => __('Your WP Statistics settings are not privacy-compliant. Please update your settings.', 'wp-statistics'),
             'privacy_resolve_alert' => __('By manually resolving this item, please ensure your website’s privacy policy is updated to accurately reflect this setting. This is essential for maintaining compliance and transparency with your users.', 'wp-statistics'),
             'no_result'             => __('No recent data available.', 'wp-statistics'),
+            'posts'                 => __('Posts', 'wp-statistics'),
         );
 
         // Rest-API Meta Box Url
