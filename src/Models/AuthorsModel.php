@@ -32,6 +32,36 @@ class AuthorsModel extends BaseModel
             ->getVar();
     }
 
+    public function getTopViewingAuthors($args = [], $bypassCache = false)
+    {
+        $args = $this->parseArgs($args, [
+            'date'      => '',
+            'post_type' => Helper::get_list_post_type(),
+            'order_by'  => 'total_views',
+            'order'     => 'DESC',
+            'page'      => 1,
+            'per_page'  => 5
+        ]);
+
+        $result = Query::select([
+                'DISTINCT posts.post_author AS id', 
+                'display_name AS name', 
+                'SUM(pages.count) AS total_views'
+            ])
+            ->from('posts')
+            ->join('users', ['posts.post_author', 'users.ID'])
+            ->join('pages', ['posts.ID', 'pages.id'], [], 'LEFT')
+            ->where('post_status', '=', 'publish')
+            ->where('post_type', 'IN', $args['post_type'])
+            ->whereDate('date', $args['date'])
+            ->groupBy('post_author')
+            ->orderBy($args['order_by'], $args['order'])
+            ->perPage($args['page'], $args['per_page'])
+            ->bypassCache($bypassCache)
+            ->getAll();
+
+        return $result ? $result : [];
+    }
     
     public function getAuthorsByPostPublishes($args = [], $bypassCache = false)
     {
