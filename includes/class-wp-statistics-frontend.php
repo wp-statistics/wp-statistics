@@ -2,6 +2,8 @@
 
 namespace WP_STATISTICS;
 
+use WP_Statistics\Service\Assets\AssetRandomizer;
+
 class Frontend
 {
     public function __construct()
@@ -45,7 +47,8 @@ class Frontend
      */
     public function enqueue_scripts()
     {
-        wp_enqueue_script('wp-statistics-tracker', WP_STATISTICS_URL . 'assets/js/tracker.js', [], WP_STATISTICS_VERSION, ['in_footer' => true]);
+        $randomTracker = new AssetRandomizer(WP_STATISTICS_DIR . 'assets/js/tracker.js');
+        wp_enqueue_script('wp-statistics-tracker', $randomTracker->getHashedFileUrl(), [], WP_STATISTICS_VERSION, ['in_footer' => true]);
 
         $params = array(
             Hits::$rest_hits_key => 'yes',
