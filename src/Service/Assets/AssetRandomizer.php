@@ -2,6 +2,8 @@
 
 namespace WP_Statistics\Service\Assets;
 
+use WP_STATISTICS\Option;
+
 /**
  * Randomizes/Ofuscates assets file names.
  */
@@ -12,7 +14,7 @@ class AssetRandomizer
      *
      * @var string
      */
-    private $optionName = 'wp_statistics_hashed_assets';
+    private $optionName = 'hashed_assets';
 
     /**
      * All hashed files.
@@ -79,7 +81,7 @@ class AssetRandomizer
      */
     private function initializeVariables()
     {
-        $this->hashedAssetsArray = get_option($this->optionName);
+        $this->hashedAssetsArray = Option::getOptionGroup($this->optionName);
         if (empty($this->hashedAssetsArray)) {
             $this->hashedAssetsArray = [];
         }
@@ -135,7 +137,7 @@ class AssetRandomizer
 
         $this->hashedAssetsArray[$this->hashedFileOptionIndex]['version'] = WP_STATISTICS_VERSION;
         $this->hashedAssetsArray[$this->hashedFileOptionIndex]['dir']     = $this->getHashedFileDir();
-        update_option($this->optionName, $this->hashedAssetsArray);
+        Option::saveOptionGroup($this->hashedFileOptionIndex, $this->hashedAssetsArray[$this->hashedFileOptionIndex], $this->optionName);
     }
 
     /**
