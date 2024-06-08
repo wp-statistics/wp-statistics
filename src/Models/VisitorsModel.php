@@ -22,7 +22,7 @@ class VisitorsModel extends BaseModel
             ->join('pages', ['visitor_relationships.page_id', 'pages.page_id'], [], 'LEFT')
             ->join('posts', ['posts.ID', 'pages.id'], [], 'LEFT')
             ->where('post_type', 'IN', $args['post_type'])
-            ->whereDate('pages.date', $args['date'])
+            ->whereDate('visitor_relationships.date', $args['date'])
             ->where('post_author', '=', $args['author_id'])
             ->where('posts.ID', '=', $args['post_id'])
             ->bypassCache($bypassCache)
