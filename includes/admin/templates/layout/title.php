@@ -29,13 +29,14 @@
     <?php endif ?>
     <?php if (isset($HasDateRang)): ?>
         <div class="wps-head-filters">
-            <?php include 'date.range.php'; ?>
-            <?php
-            if (!empty($filters)) {
-                foreach ($filters as $filter) {
-                    require_once "filters/$filter-filter.php";
+            <?php 
+                include 'date.range.php';
+
+                if (!empty($filters)) {
+                    foreach ($filters as $filter) {
+                        require_once "filters/$filter-filter.php";
+                    }
                 }
-            }
             ?>
         </div>
     <?php endif ?>
