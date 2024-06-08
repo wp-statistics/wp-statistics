@@ -88,7 +88,7 @@ class AuthorAnalyticsDataProvider
      */
     public function getParsedVisitorsData($args)
     {
-        $data   = $this->visitorsModel->getVisitorsData();
+        $data   = $this->visitorsModel->getVisitors();
         $result = [
             'platform'  => [],
             'agent'     => [],
@@ -124,7 +124,7 @@ class AuthorAnalyticsDataProvider
         $totalAuthors         = $this->authorModel->countAuthors();
         $activeAuthors        = $this->authorModel->countAuthors($this->args);
         $topPublishingAuthors = $this->authorModel->getAuthorsByPostPublishes($this->args);
-        $topViewingAuthors    = $this->authorModel->getAuthorsByViewsPerPost(array_merge($this->args, ['order_by' => 'total_views']));
+        $topViewingAuthors    = $this->authorModel->getTopViewingAuthors($this->args);
         $topAuthorsByComment  = $this->authorModel->getAuthorsByCommentsPerPost($this->args);
         $topAuthorsByViews    = $this->authorModel->getAuthorsByViewsPerPost($this->args);
         $topAuthorsByWords    = $this->authorModel->getAuthorsByWordsPerPost($this->args);
