@@ -115,6 +115,11 @@ class AuthorAnalyticsDataProvider
             }
         }
 
+        
+        // Sort and limit country
+        arsort($result['country']);
+        $result['country'] = array_slice($result['country'], 0, 10);
+
         return $result;
     }
 
