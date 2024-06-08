@@ -55,10 +55,17 @@ class AuthorAnalyticsPage extends Singleton
     private function processWordCountMeta()
     {
         if (count($this->wordsCount->getPostsWithoutWordCountMeta()) && !Option::getOptionGroup('word_count_process_started', 'jobs')) {
-            $nonce = wp_create_nonce('process_word_count_nonce');
-            $message = sprintf(
+            $actionUrl  = add_query_arg(
+                [
+                    'action' => 'process_word_count', 
+                    'nonce'  => wp_create_nonce('process_word_count_nonce')
+                ], 
+                Menus::admin_url('author-analytics')
+            );
+
+            $message    = sprintf(
                 __('Please <a href="%s">click here</a> to process the word count in the background. This is necessary for accurate analytics.', 'wp-statistics'),
-                esc_url(admin_url('admin.php?page=wps_author-analytics_page&action=process_word_count&nonce=' . $nonce))
+                esc_url($actionUrl)
             );
 
             Notice::addNotice($message, 'word_count_prompt', 'info', false);
