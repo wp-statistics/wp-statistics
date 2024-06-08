@@ -197,7 +197,7 @@ class PostsModel extends BaseModel
                 'COALESCE(COUNT(comment_ID), 0) AS comments',
             ])
             ->from('posts')
-            ->join('comments', ['posts.ID', 'comments.comment_post_ID'], [], 'LEFT')
+            ->join('comments', ['posts.ID', 'comments.comment_post_ID'])
             ->where('post_type', 'IN', $args['post_type'])
             ->where('post_status', '=', 'publish')
             ->where('posts.post_author', '=', $args['author_id'])
