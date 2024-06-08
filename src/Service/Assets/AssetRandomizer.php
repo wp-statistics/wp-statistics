@@ -24,11 +24,11 @@ class AssetRandomizer
     private $hashedAssetsArray = [];
 
     /**
-     * Hashed file's index (which is its path relative to `WP_STATISTICS_DIR`) in options.
+     * Hashed file's key (which is its path relative to `WP_STATISTICS_DIR`) in options.
      *
      * @var string
      */
-    private $hashedFileOptionIndex;
+    private $hashedFileOptionKey;
 
     /**
      * @var string
@@ -86,10 +86,10 @@ class AssetRandomizer
             $this->hashedAssetsArray = [];
         }
 
-        $this->hashedFileOptionIndex = str_replace(WP_STATISTICS_DIR, '', $this->inputFileDir);
-        if (empty($this->hashedAssetsArray[$this->hashedFileOptionIndex])) {
-            $this->hashedAssetsArray[$this->hashedFileOptionIndex] = [];
-            $this->hashedAssetsArray[$this->hashedFileOptionIndex]['version'] = WP_STATISTICS_VERSION;
+        $this->hashedFileOptionKey = str_replace(WP_STATISTICS_DIR, '', $this->inputFileDir);
+        if (empty($this->hashedAssetsArray[$this->hashedFileOptionKey])) {
+            $this->hashedAssetsArray[$this->hashedFileOptionKey] = [];
+            $this->hashedAssetsArray[$this->hashedFileOptionKey]['version'] = WP_STATISTICS_VERSION;
         }
 
         $this->hashedFileName  = md5(WP_STATISTICS_VERSION . basename($this->inputFileDir));
@@ -106,7 +106,7 @@ class AssetRandomizer
         }
 
         $this->hashedFileDir = $this->isHashedFileExists() ?
-            $this->hashedAssetsArray[$this->hashedFileOptionIndex]['dir'] :
+            $this->hashedAssetsArray[$this->hashedFileOptionKey]['dir'] :
             path_join($this->hashedFilesRootDir, $this->hashedFileName);
         $this->hashedFileDir = apply_filters('wp_statistics_hashed_asset_dir', $this->hashedFileDir, $this->hashedFilesRootDir, $this->hashedFileName);
     }
@@ -123,10 +123,10 @@ class AssetRandomizer
 
         // Delete old file
         if (
-            !empty($this->hashedAssetsArray[$this->hashedFileOptionIndex]['dir']) &&
-            file_exists($this->hashedAssetsArray[$this->hashedFileOptionIndex]['dir'])
+            !empty($this->hashedAssetsArray[$this->hashedFileOptionKey]['dir']) &&
+            file_exists($this->hashedAssetsArray[$this->hashedFileOptionKey]['dir'])
         ) {
-            unlink($this->hashedAssetsArray[$this->hashedFileOptionIndex]['dir']);
+            unlink($this->hashedAssetsArray[$this->hashedFileOptionKey]['dir']);
         }
 
         // Copy and randomize the name of the input file
@@ -135,9 +135,9 @@ class AssetRandomizer
             return;
         }
 
-        $this->hashedAssetsArray[$this->hashedFileOptionIndex]['version'] = WP_STATISTICS_VERSION;
-        $this->hashedAssetsArray[$this->hashedFileOptionIndex]['dir']     = $this->getHashedFileDir();
-        Option::saveOptionGroup($this->hashedFileOptionIndex, $this->hashedAssetsArray[$this->hashedFileOptionIndex], $this->optionName);
+        $this->hashedAssetsArray[$this->hashedFileOptionKey]['version'] = WP_STATISTICS_VERSION;
+        $this->hashedAssetsArray[$this->hashedFileOptionKey]['dir']     = $this->getHashedFileDir();
+        Option::saveOptionGroup($this->hashedFileOptionKey, $this->hashedAssetsArray[$this->hashedFileOptionKey], $this->optionName);
     }
 
     /**
@@ -147,8 +147,8 @@ class AssetRandomizer
      */
     private function isHashedFileExists()
     {
-        return $this->hashedAssetsArray[$this->hashedFileOptionIndex]['version'] === WP_STATISTICS_VERSION &&
-            !empty($this->hashedAssetsArray[$this->hashedFileOptionIndex]['dir']);
+        return $this->hashedAssetsArray[$this->hashedFileOptionKey]['version'] === WP_STATISTICS_VERSION &&
+            !empty($this->hashedAssetsArray[$this->hashedFileOptionKey]['dir']);
     }
 
     /**
