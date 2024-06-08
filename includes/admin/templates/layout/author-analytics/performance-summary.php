@@ -4,7 +4,7 @@
             <?php echo esc_html($title); ?>
             <?php if (isset($tooltip)) : ?>
                 <span class="wps-tooltip" title="<?php echo esc_attr($tooltip); ?>"><i class="wps-tooltip-icon info"></i></span>
-            <?php endif?>
+            <?php endif ?>
         </h2>
     </div>
 

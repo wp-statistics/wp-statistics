@@ -9,7 +9,7 @@ use WP_STATISTICS\Helper;
             $items = [
                 [
                     'title'        => esc_html__('Authors', 'wp-statistics'),
-                    'tooltip'      => esc_html__('Authors tooltip', 'wp-statistics'),
+                    'tooltip'      => esc_html__('Total number of authors contributing content. Active authors have published at least one post in the selected period.', 'wp-statistics'),
                     'icon_class'   => 'authors',
                     'total'        => Helper::formatNumberWithUnit($data['authors']['total']),
                     'active'       => Helper::formatNumberWithUnit($data['authors']['active']),
@@ -18,7 +18,7 @@ use WP_STATISTICS\Helper;
                 ],
                 [
                     'title'        => esc_html__('Views', 'wp-statistics'),
-                    'tooltip'      => esc_html__('Views tooltip', 'wp-statistics'),
+                    'tooltip'      => esc_html__('Total number of views across all posts by all authors. Average views per post is calculated by dividing total views by the number of posts.', 'wp-statistics'),
                     'icon_class'   => 'views',
                     'total'        => Helper::formatNumberWithUnit($data['views']['total']),
                     'avg'          => Helper::formatNumberWithUnit($data['views']['avg']),
@@ -26,7 +26,7 @@ use WP_STATISTICS\Helper;
                 ],
                 [
                     'title'        => esc_html__('Words', 'wp-statistics'),
-                    'tooltip'      => esc_html__('Words tooltip', 'wp-statistics'),
+                    'tooltip'      => esc_html__('Total number of words written by all authors. Average words per post is calculated by dividing total words by the number of posts.', 'wp-statistics'),
                     'icon_class'   => 'words',
                     'total'        => Helper::formatNumberWithUnit($data['posts']['words']['total']),
                     'avg'          => Helper::formatNumberWithUnit($data['posts']['words']['avg']),
@@ -34,7 +34,7 @@ use WP_STATISTICS\Helper;
                 ],
                 [
                     'title'        => esc_html__('Comments', 'wp-statistics'),
-                    'tooltip'      => esc_html__('Comments tooltip', 'wp-statistics'),
+                    'tooltip'      => esc_html__('Total number of comments received on posts by all authors. Average comments per post is calculated by dividing total comments by the number of posts.', 'wp-statistics'),
                     'icon_class'   => 'comments',
                     'total'        => Helper::formatNumberWithUnit($data['posts']['comments']['total']),
                     'avg'          => Helper::formatNumberWithUnit($data['posts']['comments']['avg']),
@@ -52,20 +52,20 @@ use WP_STATISTICS\Helper;
         <?php
             Admin_Template::get_template(['layout/author-analytics/publishing-overview'], [
                 'title'         => esc_html__('Publishing Overview', 'wp-statistics'),
-                'tooltip'       => esc_html__('Publishing Overview tooltip', 'wp-statistics'),
+                'tooltip'       => esc_html__('This heatmap displays the publishing activity of authors over the past 12 months. Darker squares represent more published posts.', 'wp-statistics'),
                 'description'   => esc_html__('Last 12 Months', 'wp-statistics'),
                 'data'          => $data
             ]);
             
             Admin_Template::get_template(['layout/author-analytics/top-authors'], [
                 'title'    => esc_html__('Top Authors', 'wp-statistics'),
-                'tooltip'  => esc_html__('Top Authors tooltip', 'wp-statistics'),
+                'tooltip'  => esc_html__('This section ranks authors based on various performance metrics such as views, publishing frequency, comments per post, and average words per post. Use the tabs to switch between different metrics to see how each author is performing.', 'wp-statistics'),
                 'data'     => $data
             ]);
             
             Admin_Template::get_template(['layout/author-analytics/published-posts'], [
                 'title'     => esc_html__('Views/Published Posts', 'wp-statistics'),
-                'tooltip'   => esc_html__('Views/Published Posts tooltip', 'wp-statistics'),
+                'tooltip'   => esc_html__('This scatter plot shows the relationship between the number of posts published by an author and the number of views those posts have received. Each point represents an author.', 'wp-statistics'),
                 'data'      => $data
             ]);
         ?>

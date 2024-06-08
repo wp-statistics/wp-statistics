@@ -95,7 +95,7 @@ class TabsView
                 [
                     'link'    => Menus::admin_url('author-analytics', ['tab' => 'performance']),
                     'title'   => esc_html__('Authors Performance', 'wp-statistics'),
-                    'tooltip' => esc_html__('Tab Tooltip', 'wp-statistics'),
+                    'tooltip' => esc_html__('The Author Performance page provides insights into the contributions and impact of each author. Use this information to evaluate author productivity and engagement.', 'wp-statistics'),
                     'class'   => $currentTab === 'performance' ? 'current' : '',
                 ],
                 [
