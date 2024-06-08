@@ -55,14 +55,18 @@ class AssetRandomizer
     private $hashedFileDir;
 
     /**
-     * @param   string  $file   Full path (DIR) of the input file within the plugin.
+     * @param   string  $file   Path of the input file relative to the plugin.
      *
      * @return  void
      */
     public function __construct($file)
     {
         $this->inputFileDir = $file;
-        if (!is_file($this->inputFileDir) && stripos($this->inputFileDir, WP_STATISTICS_DIR) === false) return;
+        if (stripos($this->inputFileDir, WP_STATISTICS_DIR) === false) {
+            $this->inputFileDir = WP_STATISTICS_DIR . $this->inputFileDir;
+        }
+
+        if (!is_file($this->inputFileDir)) return;
 
         $this->initializeVariables();
         $this->obfuscateFile();
