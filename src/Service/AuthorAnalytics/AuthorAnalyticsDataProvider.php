@@ -88,7 +88,7 @@ class AuthorAnalyticsDataProvider
      */
     public function getParsedVisitorsData($args)
     {
-        $data   = $this->visitorsModel->getVisitorsData();
+        $data   = $this->visitorsModel->getVisitors();
         $result = [
             'platform'  => [],
             'agent'     => [],

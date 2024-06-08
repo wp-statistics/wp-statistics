@@ -31,7 +31,7 @@ class VisitorsModel extends BaseModel
         return $result ? $result : 0;
     }
 
-    public function getVisitorsData($args = [], $bypassCache = false)
+    public function getVisitors($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
             'date'      => '',
