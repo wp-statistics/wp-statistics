@@ -46,7 +46,6 @@ class AuthorsView
         $args = [
             'title'         => esc_html__('Authors', 'wp-statistics'),
             'pageName'      => Menus::get_page_slug('author-analytics'),
-            'pagination'    => Admin_Template::getCurrentPaged(),
             'DateRang'      => Admin_Template::DateRange(),
             'custom_get'    => ['type' => 'authors'],
             'HasDateRang'   => true,
