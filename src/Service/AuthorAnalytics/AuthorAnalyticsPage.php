@@ -20,8 +20,8 @@ class AuthorAnalyticsPage extends Singleton
      * @var array
      */
     private $views = [
-        'tabs' => TabsView::class,
-        'authors' => AuthorsView::class,
+        'tabs'          => TabsView::class,
+        'authors'       => AuthorsView::class,
         'single-author' => SingleAuthorView::class
     ];
 
