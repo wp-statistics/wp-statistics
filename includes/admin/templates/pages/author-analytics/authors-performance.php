@@ -71,7 +71,7 @@ $postTypeLabel  = Helper::getPostTypeName($postType, true);
             ]);
             
             Admin_Template::get_template(['layout/author-analytics/published-posts'], [
-                'title'     => sprintf(esc_html__('Views/Published %s', 'wp-statistics'), $postTypeLabel),
+                'title'     => sprintf(esc_html__('Views/Published %s', 'wp-statistics'), Helper::getPostTypeName($postType)),
                 'tooltip'   => esc_html__('This scatter plot shows the relationship between the number of posts published by an author and the number of views those posts have received. Each point represents an author.', 'wp-statistics'),
                 'data'      => $data
             ]);
