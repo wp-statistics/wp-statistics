@@ -90,7 +90,7 @@ class TabsView
 
     public function getCurrentTab()
     {
-        return isset($_GET['tab']) ? sanitize_text_field($_GET['tab']) : 'performance';
+        return Request::get('tab', 'performance');
     }
 
     public function view()
