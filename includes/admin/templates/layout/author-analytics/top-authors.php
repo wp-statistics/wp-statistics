@@ -4,6 +4,7 @@ use WP_STATISTICS\Menus;
 use WP_Statistics\Utils\Request;
 
 $postType = Request::get('pt', 'post');
+$postTypeLabel  = get_post_type_object($postType)->labels->singular_name;
 ?>
 
 <div class="wps-card">
@@ -36,7 +37,7 @@ $postType = Request::get('pt', 'post');
                                     </div>
                                     <div class="wps-author-tabs__item--content">
                                         <h3><?php echo esc_html($author->name); ?></h3>
-                                        <span><?php echo esc_html(Helper::formatNumberWithUnit($author->total_views)); ?> <?php esc_html_e('page views', 'wp-statistics') ?></span>
+                                        <span><?php echo esc_html(Helper::formatNumberWithUnit($author->total_views)); ?> <?php echo sprintf(esc_html__('%s views', 'wp-statistics'), strtolower($postTypeLabel)) ?></span>
                                     </div>
                                 </a>
                                 <?php $counter++;
@@ -68,7 +69,7 @@ $postType = Request::get('pt', 'post');
                                     </div>
                                     <div class="wps-author-tabs__item--content">
                                         <h3><?php echo esc_html($author->name); ?></h3>
-                                        <span><?php echo esc_html(Helper::formatNumberWithUnit($author->post_count)); ?> <?php esc_html_e('page publish', 'wp-statistics') ?></span>
+                                        <span><?php echo esc_html(Helper::formatNumberWithUnit($author->post_count)); ?> <?php echo sprintf(esc_html__('%s publish', 'wp-statistics'), strtolower($postTypeLabel)) ?></span>
                                     </div>
                                 </a>
                                 <?php $counter++;
@@ -88,7 +89,7 @@ $postType = Request::get('pt', 'post');
             <div class="wps-author-tabs">
             <?php if (post_type_supports($postType, 'comments')) : ?>
                     <input type="radio" name="side-tabs" id="comments-post" checked>
-                    <label for="comments-post"><?php esc_html_e('Comments/Post', 'wp-statistics') ?></label>
+                    <label for="comments-post"><?php echo sprintf(esc_html__('Comments/%s', 'wp-statistics'), $postTypeLabel) ?></label>
                     <div class="wps-author-tabs__content">
                         <?php
                             /** @var stdClass[] */
@@ -104,7 +105,7 @@ $postType = Request::get('pt', 'post');
                                         </div>
                                         <div class="wps-author-tabs__item--content">
                                             <h3><?php echo esc_html($author->name); ?></h3>
-                                            <span><?php echo esc_html(Helper::formatNumberWithUnit($author->average_comments)) . esc_html__(' comments/post', 'wp-statistics'); ?> </span>
+                                            <span><?php echo esc_html(Helper::formatNumberWithUnit($author->average_comments)) . sprintf(esc_html__(' comments/%s', 'wp-statistics'), strtolower($postTypeLabel)); ?> </span>
                                         </div>
                                     </a>
                                     <?php $counter++;
@@ -121,7 +122,7 @@ $postType = Request::get('pt', 'post');
                 <?php endif; ?>
                 
                 <input type="radio" name="side-tabs" id="views-post" <?php checked(!post_type_supports($postType, 'comments')) ?>>
-                <label for="views-post"><?php esc_html_e('Views/Post', 'wp-statistics') ?></label>
+                <label for="views-post"><?php echo sprintf(esc_html__('Views/%s', 'wp-statistics'), $postTypeLabel) ?></label>
                 <div class="wps-author-tabs__content">
                     <?php
                         /** @var stdClass[] */
@@ -137,7 +138,7 @@ $postType = Request::get('pt', 'post');
                                     </div>
                                     <div class="wps-author-tabs__item--content">
                                         <h3><?php echo esc_html($author->name); ?></h3>
-                                        <span><?php echo esc_html(Helper::formatNumberWithUnit($author->average_views)); ?> <?php esc_html_e('views/post', 'wp-statistics') ?></span>
+                                        <span><?php echo esc_html(Helper::formatNumberWithUnit($author->average_views)); ?> <?php echo sprintf(esc_html__('views/%s', 'wp-statistics'), strtolower($postTypeLabel)) ?></span>
                                     </div>
                                 </a>
                                 <?php $counter++;
@@ -154,7 +155,7 @@ $postType = Request::get('pt', 'post');
                 </div>
 
                 <input type="radio" name="side-tabs" id="words-post">
-                <label for="words-post"><?php esc_html_e('Words/Post', 'wp-statistics') ?></label>
+                <label for="words-post"><?php echo sprintf(esc_html__('Words/%s', 'wp-statistics'), $postTypeLabel) ?></label>
                 <div class="wps-author-tabs__content">
                     <?php
                         /** @var stdClass[] */
@@ -170,7 +171,7 @@ $postType = Request::get('pt', 'post');
                                     </div>
                                     <div class="wps-author-tabs__item--content">
                                         <h3><?php echo esc_html($author->name); ?></h3>
-                                        <span><?php echo esc_html(Helper::formatNumberWithUnit($author->average_words)); ?> <?php esc_html_e('words/post', 'wp-statistics') ?></span>
+                                        <span><?php echo esc_html(Helper::formatNumberWithUnit($author->average_words)); ?> <?php echo sprintf(esc_html__('words/%s', 'wp-statistics'), strtolower($postTypeLabel)) ?></span>
                                     </div>
                                 </a>
                                 <?php $counter++;
