@@ -254,7 +254,16 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                             display: false
                         },
                         tooltip: {
-                            position: 'top'
+                            position: 'top',
+                            callbacks: {
+                                label: function(context) {
+                                    const point = context.raw;
+                                    return [
+                                        `Views/Published: (${point.x}, ${point.y})`,
+                                        `Author: ${point.author}`
+                                    ];
+                                }
+                            }
                         }
                     },
                 },
