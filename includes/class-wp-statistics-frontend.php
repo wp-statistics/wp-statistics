@@ -69,7 +69,6 @@ class Frontend
 
         $jsArgs = array(
             'hitRequestUrl'        => $hitRequestUrl,
-            'hitRequestNonce'      => $params['nonce'],
             'keepOnlineRequestUrl' => $keepOnlineRequestUrl,
             'option'               => [
                 'dntEnabled'         => Option::get('do_not_track'),

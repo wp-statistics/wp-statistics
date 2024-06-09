@@ -37,7 +37,6 @@ let wpStatisticsUserOnline = {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json;charset=UTF-8',
-                    'X-WP-Nonce'  : WP_Statistics_Tracker_Object.hitRequestNonce,
                 },
             });
             if (!response.ok) {

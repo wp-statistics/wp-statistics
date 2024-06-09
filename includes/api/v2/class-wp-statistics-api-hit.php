@@ -72,11 +72,6 @@ class Hit extends \WP_STATISTICS\RestAPI
      */
     public function hit_callback(\WP_REST_Request $request)
     {
-        if (!$_SERVER['HTTP_X_WP_NONCE'] || !wp_verify_nonce($_SERVER['HTTP_X_WP_NONCE'], 'wp_rest')) {
-            header('HTTP/1.0 403 Forbidden');
-            exit;
-        }
-
         // Start Record
         $exclusion = Hits::record();
 
