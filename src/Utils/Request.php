@@ -51,7 +51,9 @@ class Request
      */
     public static function compare($param, $value, $strict = false)
     {
-        $paramValue = isset($_REQUEST[$param]) ? $_REQUEST[$param] : null;
+        if (empty($_REQUEST[$param])) return false;
+
+        $paramValue = $_REQUEST[$param];
 
         return $strict
             ? $paramValue === $value 
