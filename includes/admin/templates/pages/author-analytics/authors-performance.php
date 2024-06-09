@@ -1,6 +1,8 @@
 <?php 
 use WP_STATISTICS\Admin_Template;
 use WP_STATISTICS\Helper;
+
+$postType = isset($_GET['pt']) ? sanitize_text_field($_GET['pt']) : 'post';
 ?>
 
 <div class="metabox-holder" id="authors-performance">
@@ -31,16 +33,19 @@ use WP_STATISTICS\Helper;
                     'total'        => Helper::formatNumberWithUnit($data['posts']['words']['total']),
                     'avg'          => Helper::formatNumberWithUnit($data['posts']['words']['avg']),
                     'avg_title'    => esc_html__('Avg. Per Post', 'wp-statistics')
-                ],
-                [
+                ]
+            ];
+
+            if (post_type_supports($postType, 'comments')) {
+                $items[] = [
                     'title'        => esc_html__('Comments', 'wp-statistics'),
                     'tooltip'      => esc_html__('Total number of comments received on posts by all authors. Average comments per post is calculated by dividing total comments by the number of posts.', 'wp-statistics'),
                     'icon_class'   => 'comments',
                     'total'        => Helper::formatNumberWithUnit($data['posts']['comments']['total']),
                     'avg'          => Helper::formatNumberWithUnit($data['posts']['comments']['avg']),
                     'avg_title'    => esc_html__('Avg. Per Post', 'wp-statistics')
-                ],
-            ];
+                ];
+            }
 
             foreach ($items as $args) {
                 Admin_Template::get_template(['layout/author-analytics/performance-summary'], $args);

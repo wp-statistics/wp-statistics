@@ -21,7 +21,7 @@ class AuthorsView
                 'from'  => isset($_GET['from']) ? sanitize_text_field($_GET['from']) : date('Y-m-d', strtotime('-1 month')),
                 'to'    => isset($_GET['to']) ? sanitize_text_field($_GET['to']) : date('Y-m-d'),
             ],
-            'post_type' => isset($_GET['pt']) ? sanitize_text_field($_GET['pt']) : Helper::get_list_post_type(),
+            'post_type' => isset($_GET['pt']) ? sanitize_text_field($_GET['pt']) : 'post',
             'per_page'  => Admin_Template::$item_per_page,
             'page'      => Admin_Template::getCurrentPaged()
         ];
@@ -40,15 +40,14 @@ class AuthorsView
 
     public function view()
     {
-        $postType   = isset($_GET['pt']) ? sanitize_text_field($_GET['pt']) : '';
+        $postType   = isset($_GET['pt']) ? sanitize_text_field($_GET['pt']) : 'post';
         $data       = $this->getData();
 
         $args = [
             'title'         => esc_html__('Authors', 'wp-statistics'),
             'pageName'      => Menus::get_page_slug('author-analytics'),
-            'pagination'    => Admin_Template::getCurrentPaged(),
             'DateRang'      => Admin_Template::DateRange(),
-            'custom_get'    => ['type' => 'authors', 'pt' => $postType],
+            'custom_get'    => ['type' => 'authors'],
             'HasDateRang'   => true,
             'filters'       => ['post-type'],
             'backUrl'       => Menus::admin_url('author-analytics'),
@@ -56,6 +55,10 @@ class AuthorsView
             'data'          => $data['authors'],
             'paged'         => Admin_Template::getCurrentPaged(),
         ];
+
+        if (!empty($postType)) {
+            $args['custom_get']['pt'] = $postType;
+        }
 
         if ($data['total'] > 0) {
             $args['total'] = $data['total'];

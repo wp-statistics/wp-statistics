@@ -15,47 +15,47 @@ $order = !empty($_GET['order']) ? ($_GET['order'] === 'DESC' ? 'ASC' : 'DESC') :
                                 <thead>
                                     <tr>
                                         <th class="wps-pd-l">
-                                            <a href="<?php echo add_query_arg(['order_by' => 'name', 'order' => $order]) ?>" class="sort"><?php esc_html_e('Author', 'wp-statistics') ?></a>
+                                            <a href="<?php echo esc_url(add_query_arg(['order_by' => 'name', 'order' => $order])) ?>" class="sort"><?php esc_html_e('Author', 'wp-statistics') ?></a>
                                         </th>
                                         <th class="wps-pd-l">
-                                            <a href="<?php echo add_query_arg(['order_by' => 'total_views', 'order' => $order]) ?>" class="sort des">
+                                            <a href="<?php echo esc_url(add_query_arg(['order_by' => 'total_views', 'order' => $order])) ?>" class="sort des">
                                                 <?php esc_html_e('Post Views', 'wp-statistics') ?>
                                             </a>
                                         </th>
                                         <th class="wps-pd-l">
-                                            <a href="<?php echo add_query_arg(['order_by' => 'total_posts', 'order' => $order]) ?>" class="sort">
+                                            <a href="<?php echo esc_url(add_query_arg(['order_by' => 'total_posts', 'order' => $order])) ?>" class="sort">
                                                 <?php esc_html_e('Publish', 'wp-statistics') ?>
                                                 <span class="wps-tooltip" title="<?php esc_html_e('Publish tooltip', 'wp-statistics') ?>"><i class="wps-tooltip-icon info"></i></span>
 
                                             </a>
                                         </th>
                                         <th class="wps-pd-l">
-                                            <a href="<?php echo add_query_arg(['order_by' => 'total_author_views', 'order' => $order]) ?>" class="sort">
+                                            <a href="<?php echo esc_url(add_query_arg(['order_by' => 'total_author_views', 'order' => $order])) ?>" class="sort">
                                                 <?php esc_html_e('Author Page Views', 'wp-statistics') ?>
                                             </a>
                                         </th>
                                         <th class="wps-pd-l">
-                                            <a href="<?php echo add_query_arg(['order_by' => 'total_comments', 'order' => $order]) ?>" class="sort">
+                                            <a href="<?php echo esc_url(add_query_arg(['order_by' => 'total_comments', 'order' => $order])) ?>" class="sort">
                                                 <?php esc_html_e('Comments', 'wp-statistics') ?>
                                             </a>
                                         </th>
                                         <th class="wps-pd-l">
-                                            <a href="<?php echo add_query_arg(['order_by' => 'average_comments', 'order' => $order]) ?>" class="sort">
+                                            <a href="<?php echo esc_url(add_query_arg(['order_by' => 'average_comments', 'order' => $order])) ?>" class="sort">
                                                 <?php esc_html_e('Comments/Post', 'wp-statistics') ?>
                                             </a>
                                         </th>
                                         <th class="wps-pd-l">
-                                            <a href="<?php echo add_query_arg(['order_by' => 'average_views', 'order' => $order]) ?>" class="sort">
+                                            <a href="<?php echo esc_url(add_query_arg(['order_by' => 'average_views', 'order' => $order])) ?>" class="sort">
                                                 <?php esc_html_e('Post Views/Post', 'wp-statistics') ?>
                                             </a>
                                         </th>
                                         <th class="wps-pd-l">
-                                            <a href="<?php echo add_query_arg(['order_by' => 'average_words', 'order' => $order]) ?>" class="sort">
+                                            <a href="<?php echo esc_url(add_query_arg(['order_by' => 'average_words', 'order' => $order])) ?>" class="sort">
                                                 <?php esc_html_e('Words/Post', 'wp-statistics') ?>
                                             </a>
                                         </th>
                                         <th class="wps-pd-l">
-                                            <a href="<?php echo add_query_arg(['order_by' => 'total_words', 'order' => $order]) ?>" class="sort">
+                                            <a href="<?php echo esc_url(add_query_arg(['order_by' => 'total_words', 'order' => $order])) ?>" class="sort">
                                                 <?php esc_html_e('Word Counts', 'wp-statistics') ?>
                                             </a>
                                         </th>
