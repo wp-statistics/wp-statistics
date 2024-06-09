@@ -4,7 +4,6 @@ namespace WP_Statistics\Service\Analytics;
 
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Hits;
-use WP_STATISTICS\User;
 
 class AnalyticsController
 {
@@ -15,7 +14,7 @@ class AnalyticsController
      */
     public function hit_record_action_callback()
     {
-        if (Helper::is_request('ajax') && User::Access('read')) {
+        if (Helper::is_request('ajax')) {
             // Check Refer Ajax
             check_ajax_referer('wp_rest', 'nonce');
 
