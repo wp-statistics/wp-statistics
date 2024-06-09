@@ -193,4 +193,9 @@ class AssetNameObfuscator
             wp_normalize_path($this->hashedFileDir)
         ));
     }
+
+    private function deleteHashedFiles()
+    {
+        // todo
+    }
 }
