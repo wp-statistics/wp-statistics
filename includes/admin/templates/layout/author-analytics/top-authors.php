@@ -3,8 +3,8 @@ use WP_STATISTICS\Helper;
 use WP_STATISTICS\Menus; 
 use WP_Statistics\Utils\Request;
 
-$postType = Request::get('pt', 'post');
-$postTypeLabel  = get_post_type_object($postType)->labels->singular_name;
+$postType       = Request::get('pt', 'post');
+$postTypeLabel  = Helper::getPostTypeName($postType, true);
 ?>
 
 <div class="wps-card">

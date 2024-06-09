@@ -1,11 +1,12 @@
 <?php
 use WP_STATISTICS\Menus;
+use WP_STATISTICS\Helper;
 use WP_Statistics\Utils\Request;
 
 $order          = Request::get('order', 'desc');
 $reverseOrder   = $order == 'desc' ? 'asc' : 'desc';
 $postType       = Request::get('pt', 'post');
-$postTypeLabel  = get_post_type_object($postType)->labels->singular_name;
+$postTypeLabel  = Helper::getPostTypeName($postType, true);
 ?>
 
 <div class="postbox-container wps-postbox-full">
