@@ -4,6 +4,8 @@ use WP_Statistics\Utils\Request;
 
 $order          = Request::get('order', 'desc');
 $reverseOrder   = $order == 'desc' ? 'asc' : 'desc';
+$postType       = Request::get('pt', 'post');
+$postTypeLabel  = get_post_type_object($postType)->labels->singular_name;
 ?>
 
 <div class="postbox-container wps-postbox-full">
@@ -21,7 +23,7 @@ $reverseOrder   = $order == 'desc' ? 'asc' : 'desc';
                                         </th>
                                         <th class="wps-pd-l">
                                             <a href="<?php echo esc_url(add_query_arg(['order_by' => 'total_views', 'order' => $reverseOrder])) ?>" class="sort <?php echo Request::compare('order_by', 'total_views') ? esc_attr($order) : ''; ?>">
-                                                <?php esc_html_e('Post Views', 'wp-statistics') ?>
+                                                <?php echo sprintf(esc_html__('%s Views', 'wp-statistics'), $postTypeLabel) ?>
                                             </a>
                                         </th>
                                         <th class="wps-pd-l">
@@ -43,17 +45,17 @@ $reverseOrder   = $order == 'desc' ? 'asc' : 'desc';
                                         </th>
                                         <th class="wps-pd-l">
                                             <a href="<?php echo esc_url(add_query_arg(['order_by' => 'average_comments', 'order' => $reverseOrder])) ?>" class="sort <?php echo Request::compare('order_by', 'average_comments') ? esc_attr($order) : ''; ?>">
-                                                <?php esc_html_e('Comments/Post', 'wp-statistics') ?>
+                                                <?php echo sprintf(esc_html__('Comments/%s', 'wp-statistics'), $postTypeLabel) ?>
                                             </a>
                                         </th>
                                         <th class="wps-pd-l">
                                             <a href="<?php echo esc_url(add_query_arg(['order_by' => 'average_views', 'order' => $reverseOrder])) ?>" class="sort <?php echo Request::compare('order_by', 'average_views') ? esc_attr($order) : ''; ?>">
-                                                <?php esc_html_e('Post Views/Post', 'wp-statistics') ?>
+                                                <?php echo sprintf(esc_html__('Views/%s', 'wp-statistics'), $postTypeLabel) ?>
                                             </a>
                                         </th>
                                         <th class="wps-pd-l">
                                             <a href="<?php echo esc_url(add_query_arg(['order_by' => 'average_words', 'order' => $reverseOrder])) ?>" class="sort <?php echo Request::compare('order_by', 'average_words') ? esc_attr($order) : ''; ?>">
-                                                <?php esc_html_e('Words/Post', 'wp-statistics') ?>
+                                                <?php echo sprintf(esc_html__('Words/%s', 'wp-statistics'), $postTypeLabel) ?>
                                             </a>
                                         </th>
                                         <th class="wps-pd-l">
