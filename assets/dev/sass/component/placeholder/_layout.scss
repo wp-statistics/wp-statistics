@@ -36,6 +36,10 @@
     padding-right: ($ph-gutter / 2);
     padding-left: ($ph-gutter / 2);
   }
+
+  &.wps-text-placeholder{
+    background: transparent;
+  }
 }
 
 .wps-ph-row {
