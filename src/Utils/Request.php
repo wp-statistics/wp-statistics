@@ -34,6 +34,7 @@ class Request
      *
      * @param string $param The name of the parameter to check.
      * @return bool Returns true if the parameter is set, false otherwise.
+     * @todo isset is not supported in PHP v5.6
      */
     public static function isset($param)
     {
@@ -51,7 +52,9 @@ class Request
      */
     public static function compare($param, $value, $strict = false)
     {
-        $paramValue = isset($_REQUEST[$param]) ? $_REQUEST[$param] : null;
+        if (empty($_REQUEST[$param])) return false;
+
+        $paramValue = $_REQUEST[$param];
 
         return $strict
             ? $paramValue === $value 

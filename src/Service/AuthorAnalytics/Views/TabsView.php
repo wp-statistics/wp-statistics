@@ -90,14 +90,13 @@ class TabsView
 
     public function getCurrentTab()
     {
-        return isset($_GET['tab']) ? sanitize_text_field($_GET['tab']) : 'performance';
+        return Request::get('tab', 'performance');
     }
 
     public function view()
     {
         $currentTab = $this->getCurrentTab();
         $tabData    = $this->getData();
-        $postType   = isset($_GET['pt']) ? sanitize_text_field($_GET['pt']) : 'post';
 
         $args = [
             'title'      => esc_html__('Author Analytics', 'wp-statistics'),
@@ -124,8 +123,8 @@ class TabsView
             ],
         ];
 
-        if (!empty($postType) && $currentTab === 'performance') {
-            $args['custom_get']['pt'] = $postType;
+        if ($currentTab === 'performance') {
+            $args['custom_get']['pt'] = Request::get('pt', 'post');
         }
 
         if ($currentTab === 'pages') {

@@ -3,9 +3,9 @@
 namespace WP_Statistics\Service\AuthorAnalytics\Views;
 
 use WP_STATISTICS\Menus;
-use WP_STATISTICS\Helper;
 use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Service\AuthorAnalytics\AuthorAnalyticsDataProvider;
+use WP_Statistics\Utils\Request;
 
 class AuthorsView
 {
@@ -40,14 +40,13 @@ class AuthorsView
 
     public function view()
     {
-        $postType   = isset($_GET['pt']) ? sanitize_text_field($_GET['pt']) : 'post';
-        $data       = $this->getData();
+        $data = $this->getData();
 
         $args = [
             'title'         => esc_html__('Authors', 'wp-statistics'),
             'pageName'      => Menus::get_page_slug('author-analytics'),
             'DateRang'      => Admin_Template::DateRange(),
-            'custom_get'    => ['type' => 'authors'],
+            'custom_get'    => ['type' => 'authors', 'pt' => Request::get('pt', 'post')],
             'HasDateRang'   => true,
             'filters'       => ['post-type'],
             'backUrl'       => Menus::admin_url('author-analytics'),
@@ -55,10 +54,6 @@ class AuthorsView
             'data'          => $data['authors'],
             'paged'         => Admin_Template::getCurrentPaged(),
         ];
-
-        if (!empty($postType)) {
-            $args['custom_get']['pt'] = $postType;
-        }
 
         if ($data['total'] > 0) {
             $args['total'] = $data['total'];
