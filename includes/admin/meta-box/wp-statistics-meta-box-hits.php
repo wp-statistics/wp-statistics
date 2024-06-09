@@ -44,7 +44,7 @@ class hits extends MetaBoxAbstract
         $response = self::HitsChart($params);
 
         // Check For No Data Meta Box
-        if ((isset($response['visits']) and (!isset($args['no-data'])) and isset($response['visitors']) and count(array_filter($response['visits'])) < 1 and count(array_filter($response['visitors'])) < 1) || (isset($response['visits']) and !isset($response['visitors']) and count(array_filter($response['visits'])) < 1) || (!isset($response['visits']) and isset($response['visitors']) and count(array_filter($response['visitors'])) < 1)) {
+        if ((isset($response['visits']) and (!isset($args['no-data'])) and isset($response['visitors']) and count(array_filter($response['visits'])) < 0 and count(array_filter($response['visitors'])) < 0) || (isset($response['visits']) and !isset($response['visitors']) and count(array_filter($response['visits'])) < 0) || (!isset($response['visits']) and isset($response['visitors']) and count(array_filter($response['visitors'])) < 0)) {
             $response['no_data'] = 1;
         }
 
