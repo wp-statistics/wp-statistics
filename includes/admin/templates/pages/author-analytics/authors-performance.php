@@ -1,8 +1,9 @@
 <?php 
-use WP_STATISTICS\Admin_Template;
 use WP_STATISTICS\Helper;
+use WP_Statistics\Utils\Request;
+use WP_STATISTICS\Admin_Template;
 
-$postType = isset($_GET['pt']) ? sanitize_text_field($_GET['pt']) : 'post';
+$postType = Request::get('pt', 'post');
 ?>
 
 <div class="metabox-holder" id="authors-performance">
