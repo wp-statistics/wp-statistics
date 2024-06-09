@@ -4,7 +4,7 @@ use WP_STATISTICS\Menus;
 use WP_Statistics\Utils\Request;
 
 $postType       = Request::get('pt', 'post');
-$postTypeLabel  = Helper::getPostTypeName($postType);
+$postTypeLabel  = Helper::getPostTypeName($postType, true);
 ?>
 
 <div class="wps-card">

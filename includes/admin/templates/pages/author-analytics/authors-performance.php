@@ -4,7 +4,7 @@ use WP_Statistics\Utils\Request;
 use WP_STATISTICS\Admin_Template;
 
 $postType       = Request::get('pt', 'post');
-$postTypeLabel  = Helper::getPostTypeName($postType);
+$postTypeLabel  = Helper::getPostTypeName($postType, true);
 ?>
 
 <div class="metabox-holder" id="authors-performance">

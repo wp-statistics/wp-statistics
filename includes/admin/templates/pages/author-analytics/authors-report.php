@@ -6,7 +6,7 @@ use WP_Statistics\Utils\Request;
 $order          = Request::get('order', 'desc');
 $reverseOrder   = $order == 'desc' ? 'asc' : 'desc';
 $postType       = Request::get('pt', 'post');
-$postTypeLabel  = Helper::getPostTypeName($postType);
+$postTypeLabel  = Helper::getPostTypeName($postType, true);
 ?>
 
 <div class="postbox-container wps-postbox-full">
