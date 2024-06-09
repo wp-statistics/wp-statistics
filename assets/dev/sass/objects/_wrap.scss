@@ -3,11 +3,15 @@
 }
 
 .o-wrap--no-data {
+  padding: 13px 24px 0!important;
+}
+
+#overview-widgets .o-wrap--no-data , #overview-widgets .wps-wrap--no-content{
   padding: 0 24px!important;
 }
 
 .wps-wrap--no-content {
-  padding: 0 24px!important;
+  padding: 13px 24px 0!important;
 }
 
 .rtl {

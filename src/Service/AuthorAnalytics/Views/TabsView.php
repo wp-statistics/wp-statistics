@@ -2,12 +2,13 @@
 
 namespace WP_Statistics\Service\AuthorAnalytics\Views;
 
-use WP_STATISTICS\Admin_Template;
-use WP_STATISTICS\Admin_Assets;
 use WP_STATISTICS\Menus;
 use WP_STATISTICS\Helper;
-use WP_Statistics\Service\AuthorAnalytics\AuthorAnalyticsDataProvider;
 use InvalidArgumentException;
+use WP_STATISTICS\Admin_Assets;
+use WP_Statistics\Utils\Request;
+use WP_STATISTICS\Admin_Template;
+use WP_Statistics\Service\AuthorAnalytics\AuthorAnalyticsDataProvider;
 
 class TabsView
 {
@@ -32,13 +33,14 @@ class TabsView
     public function getData()
     {
         $currentTab = $this->getCurrentTab();
+        $postType   = Request::get('pt', 'post');
 
         $args = [
             'date'      => [
                 'from'  => isset($_GET['from']) ? sanitize_text_field($_GET['from']) : date('Y-m-d', strtotime('-1 month')),
                 'to'    => isset($_GET['to']) ? sanitize_text_field($_GET['to']) : date('Y-m-d'),
             ],
-            'post_type' => isset($_GET['pt']) ? sanitize_text_field($_GET['pt']) : 'post',
+            'post_type' => $postType,
             'tab'       => $currentTab
         ];
 
@@ -61,8 +63,22 @@ class TabsView
         // Localize data
         if ($currentTab == 'performance') {
             wp_localize_script(Admin_Assets::$prefix, 'Wp_Statistics_Author_Analytics_Object', [
-                'publish_chart_data'   => $dataProvider->getPublishingChartData(),
-                'views_per_posts_chart_data' => $dataProvider->getViewsPerPostsChartData()
+                'publish_chart_data'            => $dataProvider->getPublishingChartData(),
+                'views_per_posts_chart_data'    => [
+                    'data'          => $dataProvider->getViewsPerPostsChartData(),
+                    'chartLabel'    => sprintf(
+                        esc_html__('Views/Published %s', 'wp-statistics'), 
+                        Helper::getPostTypeName($postType)
+                    ),
+                    'yAxisLabel'    => sprintf(
+                        esc_html__('Published %s', 'wp-statistics'), 
+                        Helper::getPostTypeName($postType)
+                    ),
+                    'xAxisLabel'    => sprintf(
+                        esc_html__('%s Views', 'wp-statistics'), 
+                        Helper::getPostTypeName($postType, true)
+                    )
+                ]
             ]);
         }
 

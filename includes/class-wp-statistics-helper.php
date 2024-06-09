@@ -1349,4 +1349,23 @@ class Helper
             return _n('a day', sprintf('%d days', $interval->d), $interval->d, 'wp-statistics');
         }
     }
+
+    /**
+     * Retrieves the name of a post type.
+     *
+     * @param string $postType The post type to retrieve the name for.
+     * @param bool $singular Whether to retrieve the singular name or the plural name.
+     *
+     * @return string The name of the post type.
+     */
+    public static function getPostTypeName($postType, $singular = false)
+    {
+        $postTypeObj = get_post_type_object($postType);
+
+        if (empty($postTypeObj)) return '';
+
+        return $singular == true 
+            ? $postTypeObj->labels->singular_name 
+            : $postTypeObj->labels->name;
+    }
 }

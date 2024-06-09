@@ -1,8 +1,10 @@
 <?php 
-use WP_STATISTICS\Admin_Template;
 use WP_STATISTICS\Helper;
+use WP_Statistics\Utils\Request;
+use WP_STATISTICS\Admin_Template;
 
-$postType = isset($_GET['pt']) ? sanitize_text_field($_GET['pt']) : 'post';
+$postType       = Request::get('pt', 'post');
+$postTypeLabel  = Helper::getPostTypeName($postType, true);
 ?>
 
 <div class="metabox-holder" id="authors-performance">
@@ -16,7 +18,7 @@ $postType = isset($_GET['pt']) ? sanitize_text_field($_GET['pt']) : 'post';
                     'total'        => Helper::formatNumberWithUnit($data['authors']['total']),
                     'active'       => Helper::formatNumberWithUnit($data['authors']['active']),
                     'avg'          => Helper::formatNumberWithUnit($data['authors']['avg']),
-                    'avg_title'    => esc_html__('Post/Authors', 'wp-statistics')
+                    'avg_title'    => sprintf(esc_html__('%s/Authors', 'wp-statistics'), $postTypeLabel)
                 ],
                 [
                     'title'        => esc_html__('Views', 'wp-statistics'),
@@ -24,7 +26,7 @@ $postType = isset($_GET['pt']) ? sanitize_text_field($_GET['pt']) : 'post';
                     'icon_class'   => 'views',
                     'total'        => Helper::formatNumberWithUnit($data['views']['total']),
                     'avg'          => Helper::formatNumberWithUnit($data['views']['avg']),
-                    'avg_title'    => esc_html__('Avg. Per Post', 'wp-statistics')
+                    'avg_title'    => sprintf(esc_html__('Avg. Per %s', 'wp-statistics'), $postTypeLabel)
                 ],
                 [
                     'title'        => esc_html__('Words', 'wp-statistics'),
@@ -32,7 +34,7 @@ $postType = isset($_GET['pt']) ? sanitize_text_field($_GET['pt']) : 'post';
                     'icon_class'   => 'words',
                     'total'        => Helper::formatNumberWithUnit($data['posts']['words']['total']),
                     'avg'          => Helper::formatNumberWithUnit($data['posts']['words']['avg']),
-                    'avg_title'    => esc_html__('Avg. Per Post', 'wp-statistics')
+                    'avg_title'    => sprintf(esc_html__('Avg. Per %s', 'wp-statistics'), $postTypeLabel)
                 ]
             ];
 
@@ -43,7 +45,7 @@ $postType = isset($_GET['pt']) ? sanitize_text_field($_GET['pt']) : 'post';
                     'icon_class'   => 'comments',
                     'total'        => Helper::formatNumberWithUnit($data['posts']['comments']['total']),
                     'avg'          => Helper::formatNumberWithUnit($data['posts']['comments']['avg']),
-                    'avg_title'    => esc_html__('Avg. Per Post', 'wp-statistics')
+                    'avg_title'    => sprintf(esc_html__('Avg. Per %s', 'wp-statistics'), $postTypeLabel)
                 ];
             }
 
@@ -69,7 +71,7 @@ $postType = isset($_GET['pt']) ? sanitize_text_field($_GET['pt']) : 'post';
             ]);
             
             Admin_Template::get_template(['layout/author-analytics/published-posts'], [
-                'title'     => esc_html__('Views/Published Posts', 'wp-statistics'),
+                'title'     => sprintf(esc_html__('Views/Published %s', 'wp-statistics'), Helper::getPostTypeName($postType)),
                 'tooltip'   => esc_html__('This scatter plot shows the relationship between the number of posts published by an author and the number of views those posts have received. Each point represents an author.', 'wp-statistics'),
                 'data'      => $data
             ]);

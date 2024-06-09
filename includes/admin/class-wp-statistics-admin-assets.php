@@ -2,6 +2,8 @@
 
 namespace WP_STATISTICS;
 
+use WP_Statistics\Utils\Request;
+
 class Admin_Assets
 {
     /**
@@ -63,7 +65,7 @@ class Admin_Assets
         add_action('admin_enqueue_scripts', function () {
             $screen = get_current_screen();
 
-            if (stristr($screen->id, 'wps_')) {
+            if (apply_filters('wp_statistics_enable_feedbackbird', true) && stristr($screen->id, 'wps_')) {
                 wp_enqueue_script('feedbackbird-widget', 'https://cdn.jsdelivr.net/gh/feedbackbird/assets@master/wp/app.js?uid=01H34YMWXSA9XPS61M4S11RV6Z', [], self::version(), false);
                 wp_add_inline_script('feedbackbird-widget', sprintf('var feedbackBirdObject = %s;', wp_json_encode([
                     'user_email' => function_exists('wp_get_current_user') ? wp_get_current_user()->user_email : '',
@@ -405,7 +407,7 @@ class Admin_Assets
             'non_privacy_compliant' => __('Your WP Statistics settings are not privacy-compliant. Please update your settings.', 'wp-statistics'),
             'privacy_resolve_alert' => __('By manually resolving this item, please ensure your website’s privacy policy is updated to accurately reflect this setting. This is essential for maintaining compliance and transparency with your users.', 'wp-statistics'),
             'no_result'             => __('No recent data available.', 'wp-statistics'),
-            'posts'                 => __('Posts', 'wp-statistics'),
+            'active_post_type'      => Helper::getPostTypeName(Request::get('pt', 'post'))
         );
 
         // Rest-API Meta Box Url
