@@ -49,7 +49,6 @@ class Frontend
     {
         $params = array(
             Hits::$rest_hits_key => 'yes',
-            'nonce'              => wp_create_nonce('wp_rest'),
         );
 
         /**

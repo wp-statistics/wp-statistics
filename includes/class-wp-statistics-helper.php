@@ -1163,6 +1163,9 @@ class Helper
         //page url
         $params['page_uri'] = base64_encode(Pages::get_page_uri());
 
+        // Nonce
+        $params['nonce'] = wp_create_nonce('wp_rest');
+
         //return Json Data
         return $params;
     }
