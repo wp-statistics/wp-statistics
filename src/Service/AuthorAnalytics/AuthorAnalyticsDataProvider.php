@@ -40,9 +40,10 @@ class AuthorAnalyticsDataProvider
         if ($topAuthorsByViews) {
             foreach ($topAuthorsByViews as $author) {
                 $data[] = [
-                    'x'     => $author->total_views,  
-                    'y'     => $author->total_posts,  
-                    'img'   => esc_url(get_avatar_url($author->id))
+                    'x'      => $author->total_views,  
+                    'y'      => $author->total_posts,  
+                    'img'    => esc_url(get_avatar_url($author->id)),
+                    'author' => esc_html($author->name)
                 ];
             }
         }
