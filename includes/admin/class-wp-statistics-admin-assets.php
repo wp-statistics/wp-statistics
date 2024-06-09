@@ -65,7 +65,7 @@ class Admin_Assets
         add_action('admin_enqueue_scripts', function () {
             $screen = get_current_screen();
 
-            if (stristr($screen->id, 'wps_')) {
+            if (apply_filters('wp_statistics_enable_feedbackbird', true) && stristr($screen->id, 'wps_')) {
                 wp_enqueue_script('feedbackbird-widget', 'https://cdn.jsdelivr.net/gh/feedbackbird/assets@master/wp/app.js?uid=01H34YMWXSA9XPS61M4S11RV6Z', [], self::version(), false);
                 wp_add_inline_script('feedbackbird-widget', sprintf('var feedbackBirdObject = %s;', wp_json_encode([
                     'user_email' => function_exists('wp_get_current_user') ? wp_get_current_user()->user_email : '',
