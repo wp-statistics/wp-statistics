@@ -118,7 +118,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
 
             const publishedChartData = Wp_Statistics_Author_Analytics_Object.views_per_posts_chart_data;
 
-            const chartImageUrls     = publishedChartData.map(point => point.img);
+            const chartImageUrls     = publishedChartData.data.map(point => point.img);
 
             const chartImages = chartImageUrls.map(url => {
                 const img = new Image();
@@ -182,8 +182,8 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
 
             const publishedData = {
                 datasets: [{
-                    label: 'Views/Published Posts',
-                    data: publishedChartData,
+                    label: publishedChartData.chartLabel,
+                    data: publishedChartData.data,
                     backgroundColor: '#E8EAEE'
                 }],
             };
@@ -216,7 +216,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                             },
                             title: {
                                 display: true,
-                                text: 'Published Posts',
+                                text: publishedChartData.yAxisLabel,
                                 fontSize: 14,
                                 color: '#000'
                             },
@@ -230,7 +230,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                             position: 'bottom',
                             title: {
                                 display: true,
-                                text: 'Post Views',
+                                text: publishedChartData.xAxisLabel,
                                 fontSize: 14,
                                 color: '#000'
                             },
@@ -398,7 +398,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                                     const v = context.dataset.data[context.dataIndex];
                                     return [
                                         `${wps_js._('date')}: ${v.d}`, 
-                                        `${wps_js._('posts')}: ${v.v}`
+                                        `${wps_js._('active_post_type')}: ${v.v}`
                                     ];
                                 }
                             }
