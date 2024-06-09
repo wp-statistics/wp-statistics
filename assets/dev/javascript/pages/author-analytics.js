@@ -280,6 +280,12 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                         const value = c.dataset.data[c.dataIndex].v;
                         const alpha = (10 + value) / 60;
                         const colors = ['#E8EAEE', '#B28DFF', '#5100FD', '#4915B9', '#250766'];
+                        // Handle specific values of 0 and 1
+                        if (value === 0) {
+                            return colors[0];
+                        } else if (value === 1) {
+                            return colors[1];
+                        }
                         const index = Math.floor(alpha * colors.length);
                         let color = colors[index];
                         return Chart.helpers.color(color).rgbString();
