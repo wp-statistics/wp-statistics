@@ -126,6 +126,17 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
     }
   }
 
+  #overview-widgets{
+    .postbox{
+      .postbox-header{
+        padding: 24px 24px 20px 24px;
+      }
+      .inside{
+        margin-top: 0;
+      }
+    }
+  }
+
   &.postbox {
     padding: 0;
 
