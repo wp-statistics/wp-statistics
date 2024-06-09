@@ -11,6 +11,7 @@ use WP_Statistics\Service\AuthorAnalytics\Views\TabsView;
 use WP_Statistics\Service\AuthorAnalytics\Views\SingleAuthorView;
 use WP_Statistics\Service\Posts\WordCount;
 use Exception;
+use WP_Statistics\Utils\Request;
 
 class AuthorAnalyticsPage extends BasePage
 {
@@ -74,7 +75,7 @@ class AuthorAnalyticsPage extends BasePage
     private function processWordCountInBackground()
     {
         // Check the action and nonce
-        if (!isset($_GET['action']) || $_GET['action'] !== 'process_word_count') {
+        if (!Request::compare('action', 'process_word_count')) {
             return;
         }
 

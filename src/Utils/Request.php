@@ -34,6 +34,7 @@ class Request
      *
      * @param string $param The name of the parameter to check.
      * @return bool Returns true if the parameter is set, false otherwise.
+     * @todo isset is not supported in PHP v5.6
      */
     public static function isset($param)
     {
