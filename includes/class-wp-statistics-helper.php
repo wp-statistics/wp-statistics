@@ -1290,7 +1290,14 @@ class Helper
         for ($i = 0; $number >= 1000 && $i < 4; $i++) {
             $number /= 1000;
         }
-        return round($number, 1) . $units[$i];
+
+        if (empty($units[$i])) {
+            $formattedNumber = round($number, 0);
+        } else {
+            $formattedNumber = round($number, 1) . $units[$i];
+        }
+
+        return $formattedNumber;
     }
 
 
