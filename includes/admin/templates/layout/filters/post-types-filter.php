@@ -17,7 +17,7 @@ $baseUrl          = remove_query_arg([$queryKey, 'pid']); // remove post type an
             <?php foreach ($postTypes as $key => $postType) : ?>
                 <?php 
                     $url    = add_query_arg([$queryKey => $postType], $baseUrl); 
-                    $name   = Helper::getPostTypeName($postType, true);
+                    $name   = Helper::getPostTypeName($postType);
                 ?>
 
                 <a href="<?php echo esc_url($url) ?>" data-index="<?php echo esc_attr($key + 1) ?>" title="<?php echo esc_attr($name) ?>" class="<?php echo $selectedOption == $postType ? 'selected' : '' ?>">
