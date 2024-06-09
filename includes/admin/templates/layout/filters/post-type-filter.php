@@ -10,7 +10,7 @@ $baseUrl          = remove_query_arg([$queryKey, 'pid']); // remove post type an
 <div class="wps-filter-post-type wps-head-filters__item loading">
     <div class="wps-dropdown">
         <label class="selectedItemLabel"><?php esc_html_e('Post Type:', 'wp-statistics'); ?> </label>
-        <button type="button" class="dropbtn"><span><?php echo $selectedOption ? esc_html(Helper::getPostTypeName($postType)) : esc_html__('All', 'wp-statistics'); ?></span></button>
+        <button type="button" class="dropbtn"><span><?php echo $selectedOption ? esc_html(Helper::getPostTypeName($selectedOption)) : esc_html__('All', 'wp-statistics'); ?></span></button>
         <div class="dropdown-content">
             <?php foreach ($postTypes as $key => $postType) : ?>
                 <?php 
