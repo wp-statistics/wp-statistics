@@ -2,19 +2,22 @@
 
 namespace WP_Statistics\Service\PrivacyAudit;
 
-use WP_Statistics\Components\Singleton;
+use WP_Statistics\Components\BasePage;
 use WP_STATISTICS\Menus;
 use WP_STATISTICS\Admin_Template;
 
-class PrivacyAuditPage extends Singleton
+class PrivacyAuditPage extends BasePage
 {
+    protected $pageSlug = 'privacy-audit';
+
     public function __construct()
     {
-        // Check if in Privacy Audit page
-        if (Menus::in_page('privacy-audit')) {
-            // Disable Screen Option
-            add_filter('screen_options_show_screen', '__return_false');
-        }
+        parent::__construct();
+    }
+
+    protected function initializePage()
+    {
+
     }
 
     /**

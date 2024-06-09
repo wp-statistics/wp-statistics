@@ -2,8 +2,8 @@
 
 namespace WP_Statistics\Service\AuthorAnalytics;
 
+use WP_Statistics\Components\BasePage;
 use WP_STATISTICS\Menus;
-use WP_Statistics\Components\Singleton;
 use WP_STATISTICS\Option;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Service\AuthorAnalytics\Views\AuthorsView;
@@ -12,8 +12,10 @@ use WP_Statistics\Service\AuthorAnalytics\Views\SingleAuthorView;
 use WP_Statistics\Service\Posts\WordCount;
 use Exception;
 
-class AuthorAnalyticsPage extends Singleton
+class AuthorAnalyticsPage extends BasePage
 {
+    protected $pageSlug = 'author-analytics';
+
     /**
      * List of all author analytics views
      *
@@ -32,19 +34,16 @@ class AuthorAnalyticsPage extends Singleton
 
     public function __construct()
     {
-        // Check if in Author Analytics page
-        if (Menus::in_page('author-analytics')) {
-            $this->wordsCount = new WordCount();
-
-            $this->preparePageRequirements();
-            $this->processWordCountMeta();
-            $this->processWordCountInBackground();
-        }
+        parent::__construct();
     }
 
-    private function preparePageRequirements()
+    protected function initializePage()
     {
-        add_filter('screen_options_show_screen', '__return_false');
+        $this->wordsCount = new WordCount();
+
+        $this->disableScreenOption();
+        $this->processWordCountMeta();
+        $this->processWordCountInBackground();
     }
 
     /**
@@ -55,7 +54,7 @@ class AuthorAnalyticsPage extends Singleton
     private function processWordCountMeta()
     {
         if (count($this->wordsCount->getPostsWithoutWordCountMeta()) && !Option::getOptionGroup('jobs', 'word_count_process_started')) {
-            $actionUrl  = add_query_arg(
+            $actionUrl = add_query_arg(
                 [
                     'action' => 'process_word_count',
                     'nonce'  => wp_create_nonce('process_word_count_nonce')
@@ -63,7 +62,7 @@ class AuthorAnalyticsPage extends Singleton
                 Menus::admin_url('author-analytics')
             );
 
-            $message    = sprintf(
+            $message = sprintf(
                 __('Please <a href="%s">click here</a> to process the word count in the background. This is necessary for accurate analytics.', 'wp-statistics'),
                 esc_url($actionUrl)
             );
