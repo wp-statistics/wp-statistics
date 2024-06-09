@@ -49,6 +49,7 @@ class Frontend
     {
         $params = array(
             Hits::$rest_hits_key => 'yes',
+            'nonce'              => wp_create_nonce('wp_rest'),
         );
 
         /**
@@ -59,11 +60,14 @@ class Frontend
         /**
          * Build request URL
          */
-        $hitRequestUrl        = add_query_arg($params, get_rest_url(null, RestAPI::$namespace . '/' . Api\v2\Hit::$endpoint));
+        $hitRequestUrl        = Option::get('bypass_ad_blockers', false) ?
+            add_query_arg(array_merge($params, ['action' => 'wp_statistics_hit_record']), admin_url('admin-ajax.php')) :
+            add_query_arg($params, get_rest_url(null, RestAPI::$namespace . '/' . Api\v2\Hit::$endpoint));
         $keepOnlineRequestUrl = add_query_arg($params, get_rest_url(null, RestAPI::$namespace . '/' . Api\v2\CheckUserOnline::$endpoint));
 
         $jsArgs = array(
             'hitRequestUrl'        => $hitRequestUrl,
+            'hitRequestNonce'      => $params['nonce'],
             'keepOnlineRequestUrl' => $keepOnlineRequestUrl,
             'option'               => [
                 'dntEnabled'         => Option::get('do_not_track'),
