@@ -47,8 +47,6 @@ class Frontend
      */
     public function enqueue_scripts()
     {
-        Assets::script('tracker', 'js/tracker.js', [], [], true, Option::get('bypass_ad_blockers', false));
-
         $params = array(
             Hits::$rest_hits_key => 'yes',
         );
@@ -73,7 +71,7 @@ class Frontend
             ],
         );
 
-        wp_localize_script('wp-statistics-tracker', 'WP_Statistics_Tracker_Object', $jsArgs);
+        Assets::script('tracker', 'js/tracker.js', [], $jsArgs, true, Option::get('bypass_ad_blockers', false));
     }
 
     /**
