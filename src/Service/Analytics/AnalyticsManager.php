@@ -29,6 +29,11 @@ class AnalyticsManager
             'action' => 'hit_record',
             'public' => true,
         ];
+        $list[] = [
+            'class'  => $analyticsController,
+            'action' => 'keep_online',
+            'public' => true,
+        ];
 
         return $list;
     }

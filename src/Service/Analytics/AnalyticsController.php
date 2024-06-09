@@ -9,7 +9,7 @@ use WP_STATISTICS\User;
 class AnalyticsController
 {
     /**
-     * Records tracker hit when Cache and "Bypass Ad Blockers" are enable.
+     * Records tracker hit when Cache and "Bypass Ad Blockers" are enabled.
      *
      * @return  void
      */
@@ -29,6 +29,28 @@ class AnalyticsController
                     'exclusion' => $exclusion,
                 ),
                 'message' => __('Visitor Interaction Successfully Logged.', 'wp-statistics')
+            ], 200);
+        }
+
+        exit;
+    }
+
+    /**
+     * Keeps user online when "Bypass Ad Blockers" is enabled.
+     *
+     * @return  void
+     */
+    public function keep_online_action_callback()
+    {
+        if (Helper::is_request('ajax')) {
+            $visitorProfile = new VisitorProfile();
+
+            \WP_STATISTICS\UserOnline::record($visitorProfile);
+
+            // Return response
+            wp_send_json([
+                'status'  => true,
+                'message' => __('User is online, the data is updated successfully.', 'wp-statistics')
             ], 200);
         }
 
