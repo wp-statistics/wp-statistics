@@ -32,7 +32,7 @@ class AuthorAnalyticsDataProvider
 
     public function getViewsPerPostsChartData()
     {
-        $args               = array_merge($this->args, ['per_page' => -1, 'post_type' => Helper::get_list_post_type()]);
+        $args               = array_merge($this->args, ['per_page' => -1]);
         $topAuthorsByViews  = $this->authorModel->getAuthorsByViewsPerPost($args);
 
         $data = [];
