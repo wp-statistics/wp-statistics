@@ -612,7 +612,17 @@
 
         &:last-child {
           padding: 14px 24px 14px 24px;
+          text-align: right!important;
+          .rtl &{
+            text-align: left!important;
+          }
         }
+      }
+      b{
+        font-weight: 500;
+        color: #0C0C0D;
+        line-height: 15.23px;
+        font-size: 13px;
       }
     }
   }
@@ -633,7 +643,7 @@
           padding-left: 16px !important;
 
           @media screen and (min-width: 1450px) {
-            padding-left: 32px !important;
+            padding-left: 24px !important;
           }
         }
 

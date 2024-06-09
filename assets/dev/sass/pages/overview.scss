@@ -7,17 +7,6 @@ body.toplevel_page_wps_overview_page {
   #side-sortables {
     .postbox {
 
-      .postbox-header {
-
-        @media screen and (min-width: 758px) and (max-width: 900px) {
-          padding: 4px 2px 4px 10px !important;
-        }
-
-        @media screen and (min-width: 900px) and (max-width: 1350px) {
-          padding: 4px 12px 4px 16px !important;
-        }
-      }
-
       .c-footer {
         @media screen and (min-width: 758px) and (max-width: 900px) {
           padding: 24px 4px 0 16px !important;
