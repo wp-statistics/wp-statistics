@@ -3,6 +3,7 @@
 # Exit if accessed directly
 use WP_STATISTICS\Helper;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
+use WP_Statistics\Service\Analytics\AnalyticsManager;
 use WP_Statistics\Service\AuthorAnalytics\AuthorAnalyticsManager;
 use WP_Statistics\Service\PrivacyAudit\PrivacyAuditManager;
 use WP_Statistics\Service\Posts\PostsManager;
@@ -200,6 +201,7 @@ final class WP_Statistics
             require_once WP_STATISTICS_DIR . 'includes/admin/pages/class-wp-statistics-admin-page-exclusions.php';
 
             $privacyAudit    = new PrivacyAuditManager();
+            $analytics       = new AnalyticsManager();
             $authorAnalytics = new AuthorAnalyticsManager();
         }
 
