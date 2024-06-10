@@ -82,7 +82,7 @@ class Hit extends \WP_STATISTICS\RestAPI
             $responseData['data'] = $exclusion;
         }
 
-        $response = new \WP_REST_Response($responseData, 200);
+        $response = rest_ensure_response($responseData);
 
         /**
          * Set headers for the response
@@ -97,6 +97,8 @@ class Hit extends \WP_STATISTICS\RestAPI
              */
             'Cache-Control' => 'no-cache',
         ));
+
+        $response->set_status(200);
 
         // Return response
         return $response;
