@@ -73,15 +73,16 @@ class Hit extends \WP_STATISTICS\RestAPI
     public function hit_callback(\WP_REST_Request $request)
     {
         // Start Record
-        $exclusion = Hits::record();
+        $exclusion    = Hits::record();
+        $responseData = [
+            'status' => $exclusion['exclusion_match'] == false,
+        ];
 
-        $response = new \WP_REST_Response(array(
-            'status'  => true,
-            'data'    => array(
-                'exclusion' => $exclusion,
-            ),
-            'message' => __('Visitor Interaction Successfully Logged.', 'wp-statistics'),
-        ), 200);
+        if ($exclusion['exclusion_match']) {
+            $responseData['data'] = $exclusion;
+        }
+
+        $response = new \WP_REST_Response($responseData, 200);
 
         /**
          * Set headers for the response

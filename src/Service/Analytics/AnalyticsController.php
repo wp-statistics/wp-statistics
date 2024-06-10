@@ -19,16 +19,17 @@ class AnalyticsController
             check_ajax_referer('wp_statistics_tracker_nonce', 'nonce');
 
             // Start Record
-            $exclusion = Hits::record();
+            $exclusion    = Hits::record();
+            $responseData = [
+                'status' => $exclusion['exclusion_match'] == false,
+            ];
+
+            if ($exclusion['exclusion_match']) {
+                $responseData['data'] = $exclusion;
+            }
 
             // Return response
-            wp_send_json([
-                'status'  => true,
-                'data'    => array(
-                    'exclusion' => $exclusion,
-                ),
-                'message' => __('Visitor Interaction Successfully Logged.', 'wp-statistics')
-            ], 200);
+            wp_send_json($responseData, 200);
         }
 
         exit;
@@ -51,8 +52,7 @@ class AnalyticsController
 
             // Return response
             wp_send_json([
-                'status'  => true,
-                'message' => __('User is online, the data is updated successfully.', 'wp-statistics')
+                'status' => true
             ], 200);
         }
 
