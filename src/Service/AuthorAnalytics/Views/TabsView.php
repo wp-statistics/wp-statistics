@@ -32,13 +32,14 @@ class TabsView extends BaseTabView
     public function getData()
     {
         $currentTab = $this->getCurrentTab();
+        $from       = Request::get('from', date('Y-m-d', strtotime('-1 month')));
+        $to         = Request::get('to', date('Y-m-d'));
         $postType   = Request::get('pt', 'post');
+        $orderBy    = Request::get('order_by');
+        $order      = Request::get('order', 'DESC');
 
         $args = [
-            'date'      => [
-                'from'  => isset($_GET['from']) ? sanitize_text_field($_GET['from']) : date('Y-m-d', strtotime('-1 month')),
-                'to'    => isset($_GET['to']) ? sanitize_text_field($_GET['to']) : date('Y-m-d'),
-            ],
+            'date'      => ['from' => $from, 'to' => $to],
             'post_type' => $postType,
             'tab'       => $currentTab
         ];
@@ -48,13 +49,10 @@ class TabsView extends BaseTabView
             $args['page']       = Admin_Template::getCurrentPaged();
         }
 
-        if (isset($_GET['order_by'])) {
-            $args['order_by'] = sanitize_text_field($_GET['order_by']);
+        if ($orderBy) {
+            $args['order_by']   = $orderBy;
+            $args['order']      = $order;
         } 
-        
-        if (isset($_GET['order'])) {
-            $args['order'] = sanitize_text_field($_GET['order']);
-        }
 
         // Init data provider class
         $dataProvider = new AuthorAnalyticsDataProvider($args);

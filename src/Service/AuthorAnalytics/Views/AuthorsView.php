@@ -17,25 +17,25 @@ class AuthorsView extends BaseView
      */
     public function getData()
     {
+        $from       = Request::get('from', date('Y-m-d', strtotime('-1 month')));
+        $to         = Request::get('to', date('Y-m-d'));
+        $postType   = Request::get('pt', 'post');
+        $orderBy    = Request::get('order_by');
+        $order      = Request::get('order', 'DESC');
+
         $args = [
-            'date'      => [
-                'from'  => isset($_GET['from']) ? sanitize_text_field($_GET['from']) : date('Y-m-d', strtotime('-1 month')),
-                'to'    => isset($_GET['to']) ? sanitize_text_field($_GET['to']) : date('Y-m-d'),
-            ],
-            'post_type' => isset($_GET['pt']) ? sanitize_text_field($_GET['pt']) : 'post',
+            'date'      => ['from' => $from, 'to' => $to],
+            'post_type' => $postType,
             'per_page'  => Admin_Template::$item_per_page,
             'page'      => Admin_Template::getCurrentPaged()
         ];
 
-        if (isset($_GET['order_by'])) {
-            $args['order_by'] = sanitize_text_field($_GET['order_by']);
-        } 
-        
-        if (isset($_GET['order'])) {
-            $args['order'] = sanitize_text_field($_GET['order']);
+        if ($orderBy) {
+            $args['order_by']   = $orderBy;
+            $args['order']      = $order;
         }
 
-        $authorAnalyticsData  = new AuthorAnalyticsDataProvider($args);
+        $authorAnalyticsData = new AuthorAnalyticsDataProvider($args);
         return $authorAnalyticsData->getAuthorsReportData();
     }
 
