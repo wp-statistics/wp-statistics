@@ -3,6 +3,7 @@
 namespace WP_Statistics\Models;
 
 use WP_Statistics\Utils\Query;
+use WP_Statistics\Components\BaseModel;
 
 
 class VisitorsModel extends BaseModel

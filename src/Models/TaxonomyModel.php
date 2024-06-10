@@ -4,6 +4,7 @@ namespace WP_Statistics\Models;
 
 use WP_STATISTICS\Helper;
 use WP_Statistics\Utils\Query;
+use WP_Statistics\Components\BaseModel;
 
 class TaxonomyModel extends BaseModel
 {

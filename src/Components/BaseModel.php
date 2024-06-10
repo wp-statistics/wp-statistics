@@ -1,6 +1,6 @@
 <?php
 
-namespace WP_Statistics\Models;
+namespace WP_Statistics\Components;
 
 
 /**
