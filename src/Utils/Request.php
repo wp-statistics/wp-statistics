@@ -2,6 +2,8 @@
 
 namespace WP_Statistics\Utils;
 
+use WP_STATISTICS\Helper;
+
 class Request
 {
     /**
@@ -27,6 +29,27 @@ class Request
             default:
                 return sanitize_text_field($value);
         }
+    }
+
+    
+    /**
+     * Retrieves parameters from the $_REQUEST array based on the given keys,
+     * sanitizes the values, and returns the result.
+     *
+     * @param array $params The keys to filter the $_REQUEST array by.
+     * @return array The filtered and sanitized parameters.
+     */
+    public static function getParams($params)
+    {
+        $result = Helper::filterArrayByKeys($_REQUEST, $params);
+
+        foreach ($result as $key => $value) {
+            if (is_string($value)) {
+                $result[$key] = sanitize_text_field($value);
+            }
+        }
+
+        return $result;
     }
 
     /**
