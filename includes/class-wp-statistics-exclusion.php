@@ -322,7 +322,10 @@ class Exclusion
 
             // Remove Query From Url
             $url = Helper::RemoveQueryStringUrl($_SERVER['SERVER_NAME'] . $requestUri);
-            if (stristr($url, "wp-admin") != false) {
+            if (
+                !Request::compare('action', 'wp_statistics_hit_record') &&
+                stristr($url, "wp-admin") != false
+            ) {
                 return true;
             }
         }
@@ -354,7 +357,6 @@ class Exclusion
                 if (IP::CheckIPRange(array($subnet))) {
                     return true;
                 }
-
             }
         }
 
