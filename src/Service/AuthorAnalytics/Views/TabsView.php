@@ -8,21 +8,20 @@ use InvalidArgumentException;
 use WP_STATISTICS\Admin_Assets;
 use WP_Statistics\Utils\Request;
 use WP_STATISTICS\Admin_Template;
+use WP_Statistics\Components\BaseTabView;
 use WP_Statistics\Service\AuthorAnalytics\AuthorAnalyticsDataProvider;
 
-class TabsView
+class TabsView extends BaseTabView
 {
-    private $tabs = [
+    protected $defaultTab = 'performance';
+    protected $tabs = [
         'performance',
         'pages'
     ];
 
     public function __construct()
     {
-        // Throw error when invalid tab provided
-        if (isset($_GET['tab']) && !in_array($_GET['tab'], $this->tabs)) {
-            throw new InvalidArgumentException(esc_html__('Invalid tab provided.', 'wp-statistics'));
-        }
+        parent::__construct();
     }
 
     /**
@@ -86,11 +85,6 @@ class TabsView
         $dataMethod = 'getAuthors' . ucfirst($currentTab) . 'Data';
 
         return $dataProvider->$dataMethod();
-    }
-
-    public function getCurrentTab()
-    {
-        return Request::get('tab', 'performance');
     }
 
     public function render()
