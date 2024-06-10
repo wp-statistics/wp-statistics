@@ -68,10 +68,9 @@ class Request
      * Compares the value of a given parameter with a specified value.
      *
      * @param string $param The name of the parameter to compare.
-     * @param mixed $value The value to compare against.
+     * @param mixed $value The value to compare against. Can be an array to compare against multiple values.
      * @param mixed $strict If true, the comparison will be strict. If not, the comparison will be loose.
      * @return bool Returns true if the parameter value is equal to the specified value, false otherwise.
-     * @todo Would be good to support value[]
      */
     public static function compare($param, $value, $strict = false)
     {
@@ -79,8 +78,11 @@ class Request
 
         $paramValue = $_REQUEST[$param];
 
-        return $strict
-            ? $paramValue === $value 
-            : $paramValue == $value;
+        if (is_array($value)) {
+            return in_array($paramValue, $value);
+        } else {
+            return $strict ? $paramValue === $value : $paramValue == $value;
+        }
+
     }
 }
