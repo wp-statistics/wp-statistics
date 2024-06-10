@@ -1151,22 +1151,21 @@ class Helper
         // Create Empty Params Object
         $params = array();
 
-        //track all page
+        // track all page
         $params['track_all'] = (Pages::is_track_all_page() === true ? 1 : 0);
 
-        //Set Page Type
+        // Set Page Type
         $get_page_type               = Pages::get_page_type();
         $params['current_page_type'] = $get_page_type['type'];
         $params['current_page_id']   = $get_page_type['id'];
         $params['search_query']      = (isset($get_page_type['search_query']) ? base64_encode(esc_html($get_page_type['search_query'])) : '');
 
-        //page url
+        // page url
         $params['page_uri'] = base64_encode(Pages::get_page_uri());
 
         // Nonce
-        $params['nonce'] = wp_create_nonce('wp_rest');
+        $params['nonce'] = wp_create_nonce('wp_statistics_tracker_nonce');
 
-        //return Json Data
         return $params;
     }
 
@@ -1374,8 +1373,8 @@ class Helper
 
         if (empty($postTypeObj)) return '';
 
-        return $singular == true 
-            ? $postTypeObj->labels->singular_name 
+        return $singular == true
+            ? $postTypeObj->labels->singular_name
             : $postTypeObj->labels->name;
     }
 }

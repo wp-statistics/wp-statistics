@@ -4,6 +4,7 @@ namespace WP_STATISTICS;
 
 use Jaybizzle\CrawlerDetect\CrawlerDetect;
 use WP_Statistics\Service\Analytics\VisitorProfile;
+use WP_Statistics\Utils\Request;
 
 class Exclusion
 {
@@ -124,6 +125,11 @@ class Exclusion
      */
     public static function exclusion_ajax()
     {
+        // White list actions
+        if (Request::compare('action', 'wp_statistics_hit_record')) {
+            return false;
+        }
+
         return (defined('DOING_AJAX') and DOING_AJAX);
     }
 

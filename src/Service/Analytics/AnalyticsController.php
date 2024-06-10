@@ -16,7 +16,7 @@ class AnalyticsController
     {
         if (Helper::is_request('ajax')) {
             // Check Refer Ajax
-            check_ajax_referer('wp_rest', 'nonce');
+            check_ajax_referer('wp_statistics_tracker_nonce', 'nonce');
 
             // Start Record
             $exclusion = Hits::record();
@@ -42,6 +42,9 @@ class AnalyticsController
     public function keep_online_action_callback()
     {
         if (Helper::is_request('ajax')) {
+            // Check Refer Ajax
+            check_ajax_referer('wp_statistics_tracker_nonce', 'nonce');
+
             $visitorProfile = new VisitorProfile();
 
             \WP_STATISTICS\UserOnline::record($visitorProfile);
