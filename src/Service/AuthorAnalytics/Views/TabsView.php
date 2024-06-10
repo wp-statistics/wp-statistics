@@ -93,7 +93,7 @@ class TabsView
         return Request::get('tab', 'performance');
     }
 
-    public function view()
+    public function render()
     {
         $currentTab = $this->getCurrentTab();
         $tabData    = $this->getData();

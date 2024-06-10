@@ -3,11 +3,12 @@
 namespace WP_Statistics\Service\AuthorAnalytics\Views;
 
 use WP_STATISTICS\Menus;
-use WP_STATISTICS\Admin_Template;
-use WP_Statistics\Service\AuthorAnalytics\AuthorAnalyticsDataProvider;
 use WP_Statistics\Utils\Request;
+use WP_STATISTICS\Admin_Template;
+use WP_Statistics\Components\BaseView;
+use WP_Statistics\Service\AuthorAnalytics\AuthorAnalyticsDataProvider;
 
-class AuthorsView
+class AuthorsView extends BaseView
 {
     /**
      * Get author report data
@@ -38,7 +39,7 @@ class AuthorsView
         return $authorAnalyticsData->getAuthorsReportData();
     }
 
-    public function view()
+    public function render()
     {
         $data = $this->getData();
 

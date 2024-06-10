@@ -47,7 +47,7 @@ abstract class MultiViewPage extends BasePage
         }
 
         // Check if the class does not have view method, throw exception
-        if (!method_exists($views[$currentView], 'view')) {
+        if (!method_exists($views[$currentView], 'render')) {
             throw new Exception(
                 sprintf(esc_html__('render method is not defined within %s class.', 'wp-statistics'), $currentView)
             );
@@ -55,6 +55,6 @@ abstract class MultiViewPage extends BasePage
 
         // Instantiate the view class and render content
         $view = new $views[$currentView];
-        $view->view();
+        $view->render();
     }
 }

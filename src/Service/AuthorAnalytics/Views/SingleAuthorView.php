@@ -1,12 +1,13 @@
 <?php 
 namespace WP_Statistics\Service\AuthorAnalytics\Views;
 
-use WP_STATISTICS\Admin_Template;
 use WP_STATISTICS\Menus;
+use WP_STATISTICS\Admin_Template;
+use WP_Statistics\Components\BaseView;
 
-class SingleAuthorView
+class SingleAuthorView extends BaseView
 {
-    public function view()
+    public function render()
     {
         $args = [
             'title'     => esc_html__('Detailed Author Stats Locked: DataPlus Add-On Required', 'wp-statistics'),
