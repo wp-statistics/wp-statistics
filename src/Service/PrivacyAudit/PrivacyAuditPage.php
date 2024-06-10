@@ -15,7 +15,7 @@ class PrivacyAuditPage extends BasePage
         parent::__construct();
     }
 
-    protected function initializePage()
+    protected function init()
     {
 
     }

@@ -11,11 +11,11 @@ abstract class BasePage extends Singleton
     public function __construct()
     {
         if (Menus::in_page($this->pageSlug)) {
-            $this->initializePage();
+            $this->init();
         }
     }
 
-    protected function initializePage()
+    protected function init()
     {
     }
 
