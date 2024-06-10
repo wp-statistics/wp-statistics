@@ -71,6 +71,7 @@ class Request
      * @param mixed $value The value to compare against.
      * @param mixed $strict If true, the comparison will be strict. If not, the comparison will be loose.
      * @return bool Returns true if the parameter value is equal to the specified value, false otherwise.
+     * @todo Would be good to support value[]
      */
     public static function compare($param, $value, $strict = false)
     {

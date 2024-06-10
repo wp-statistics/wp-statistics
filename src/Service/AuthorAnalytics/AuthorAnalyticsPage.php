@@ -17,7 +17,7 @@ class AuthorAnalyticsPage extends MultiViewPage
     protected $pageSlug = 'author-analytics';
 
     protected $defaultView = 'tabs';
-    
+
     protected $views = [
         'tabs'          => TabsView::class,
         'authors'       => AuthorsView::class,
@@ -39,9 +39,9 @@ class AuthorAnalyticsPage extends MultiViewPage
         $this->wordsCount = new WordCount();
 
         $this->disableScreenOption();
+        $this->singleAuthorNotices();
         $this->processWordCountMeta();
         $this->processWordCountInBackground();
-        $this->singleAuthorNotices();
     }
 
     private function singleAuthorNotices()
@@ -54,7 +54,7 @@ class AuthorAnalyticsPage extends MultiViewPage
                     __('This post type doesn’t support authors, affecting the accuracy of author performance data. To fix this, please enable author support for this post type. <a href="%s" target="_blank">Learn more</a>.', 'wp-statistics'),
                     'https://wp-statistics.com/resources/enabling-author-support-for-your-post-types/?utm_source=wp-statistics&utm_medium=link&utm_campaign=doc'
                 );
-    
+
                 Notice::addNotice($message, 'unsupported_post_type_author', 'warning', false);
             }
         }
@@ -114,9 +114,6 @@ class AuthorAnalyticsPage extends MultiViewPage
         Option::saveOptionGroup('word_count_process_started', true, 'jobs');
 
         $calculatePostWordsCount->save()->dispatch();
-
-        // Show notice
-        //Notice::addFlashNotice(__('Word count processing started.', 'wp-statistics'));
 
         wp_redirect(Menus::admin_url('author-analytics'));
         exit;

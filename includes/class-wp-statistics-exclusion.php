@@ -322,6 +322,7 @@ class Exclusion
 
             // Remove Query From Url
             $url = Helper::RemoveQueryStringUrl($_SERVER['SERVER_NAME'] . $requestUri);
+
             if (
                 !Request::compare('action', 'wp_statistics_hit_record') &&
                 stripos($url, 'wp-admin') !== false
