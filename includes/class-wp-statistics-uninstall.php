@@ -48,6 +48,7 @@ class Uninstall
         // Delete the transients.
         delete_transient('wps_top_referring');
         delete_transient('wps_excluded_hostname_to_ip_cache');
+        delete_transient('wps_check_rest_api');
 
         // Remove All Scheduled
         if (function_exists('wp_clear_scheduled_hook')) {

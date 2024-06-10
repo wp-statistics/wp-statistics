@@ -21,7 +21,6 @@ class GeneralNotices
      */
     private $core_notices = array(
         'use_cache_plugin',
-        'enable_rest_api',
         'active_geo_ip',
         'donate_plugin',
         'active_collation',
@@ -51,49 +50,7 @@ class GeneralNotices
             Notice::addNotice($text . ", " . sprintf(__('Enable %1$sCache Compatibility%2$s to Correct This or Dismiss if Counts Are Accurate. Check out <a href=\"%3$s\" target=\"_blank\">this article</a> to disable this notice permanently.', 'wp-statistics'), '<a href="' . Menus::admin_url('settings') . '">', '</a>', 'https://wp-statistics.com/resources/how-to-disable-cache-notice-in-admin'), 'use_cache_plugin', 'warning');
         }
     }
-
-    private function enable_rest_api()
-    {
-        if (isset($_GET['page']) and $_GET['page'] === 'wps_overview_page' and Option::get('use_cache_plugin') and false === ($check_rest_api = get_transient('wps_check_rest_api'))) {
-
-            // Check Connect To WordPress Rest API
-            $status  = false;
-            $message = '';
-
-            $params = array_merge(array(
-                '_'                  => time(),
-                Hits::$rest_hits_key => 'yes',
-            ), Helper::getHitsDefaultParams());
-
-            $requestUrl = add_query_arg($params, get_rest_url(null, RestAPI::$namespace . '/' . Hit::$endpoint));
-            $request    = wp_remote_get($requestUrl, array('timeout' => 30, 'sslverify' => false));
-
-            if (is_wp_error($request)) {
-                $status  = false;
-                $message = $request->get_error_message();
-            } else {
-                $body = wp_remote_retrieve_body($request);
-                $data = json_decode($body, true);
-                if (isset($data['status']) && $data['status'] == true) {
-                    $status = true;
-                }
-            }
-
-            if ($status === true) {
-                set_transient('wps_check_rest_api', array("status" => "enable"), 3 * HOUR_IN_SECONDS);
-            } else {
-                $error_msg = __('<b>Warning:</b> WP REST API Connection Error Detected.', 'wp-statistics') . ' ';
-                if (!empty($message)) {
-                    $error_msg .= '<br />' . $message . '<br />';
-                }
-
-                $error_msg .= sprintf(__('Flush Rewrite Rules by Updating Permalink in %1$sSettings → Permalinks%2$s and Verify WP REST API is Enabled.', 'wp-statistics'), '<a href="' . esc_url(admin_url('options-permalink.php')) . '">', '</a>');
-                Notice::addNotice($error_msg, 'enable_rest_api', 'warning');
-            }
-        }
-
-    }
-
+    
     private function active_geo_ip()
     {
         if (Menus::in_plugin_page() and !Option::get('geoip') and GeoIp::IsSupport() and User::Access('manage')) {
