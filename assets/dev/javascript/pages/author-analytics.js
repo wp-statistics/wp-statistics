@@ -259,8 +259,8 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                                 label: function(context) {
                                     const point = context.raw;
                                     return [
-                                        `Views/Published: (${point.x}, ${point.y})`,
-                                        `Author: ${point.author}`
+                                        `${wps_js._('visits')}/${wps_js._('published')}: (${point.x}, ${point.y})`,
+                                        `${wps_js._('author')}: ${point.author}`
                                     ];
                                 }
                             }
@@ -413,7 +413,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                                     const v = context.dataset.data[context.dataIndex];
                                     return [
                                         `${wps_js._('date')}: ${v.d}`, 
-                                        `${wps_js._('active_post_type')}: ${v.v}`
+                                        `${wps_js.global.active_post_type}: ${v.v}`
                                     ];
                                 }
                             }
