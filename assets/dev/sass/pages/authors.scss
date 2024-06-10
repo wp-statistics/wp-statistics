@@ -814,3 +814,11 @@
 
 
 }
+.statistics_page_wps_author-analytics_page{
+  .tooltipster-base{
+    max-width:98%;
+     @media (min-width: 500px) {
+       max-width:450px ;
+     }
+  }
+}
