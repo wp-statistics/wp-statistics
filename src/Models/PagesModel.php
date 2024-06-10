@@ -1,6 +1,7 @@
 <?php
 
 namespace WP_Statistics\Models;
+use WP_STATISTICS\Helper;
 use WP_Statistics\Utils\Query;
 use WP_Statistics\Abstracts\BaseModel;
 
@@ -12,7 +13,7 @@ class PagesModel extends BaseModel
     {
         $args = $this->parseArgs($args, [
             'date'      => '',
-            'post_type' => '',
+            'post_type' => Helper::get_list_post_type(),
             'author_id' => ''
         ]);
 
