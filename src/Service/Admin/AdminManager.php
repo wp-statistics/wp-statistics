@@ -32,7 +32,7 @@ class AdminManager
     {
         $screen = get_current_screen();
 
-        if (stristr($screen->id, 'wps_')) {
+        if (stripos($screen->id, 'wps_') !== false) {
             $text = sprintf(
                 __('Please rate <strong>WP Statistics</strong> <a href="%2$s" title="%3$s" target="_blank">★★★★★</a> on <a href="%2$s" target="_blank">WordPress.org</a> to help us spread the word. Thank you!', 'wp-statistics'),
                 esc_html__('WP Statistics', 'wp-statistics'),
@@ -47,7 +47,7 @@ class AdminManager
     {
         $screen = get_current_screen();
 
-        if (stristr($screen->id, 'wps_')) {
+        if (stripos($screen->id, 'wps_') !== false) {
             global $wp_version;
 
             $content = sprintf('<p id="footer-upgrade" class="alignright">%s | %s %s</p>',
