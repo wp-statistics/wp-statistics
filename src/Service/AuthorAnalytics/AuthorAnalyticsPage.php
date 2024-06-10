@@ -41,6 +41,23 @@ class AuthorAnalyticsPage extends MultiViewPage
         $this->disableScreenOption();
         $this->processWordCountMeta();
         $this->processWordCountInBackground();
+        $this->singleAuthorNotices();
+    }
+
+    private function singleAuthorNotices()
+    {
+        if (Request::compare('type', 'single-author')) {
+            $postType = Request::get('pt', 'post');
+
+            if (!post_type_supports($postType, 'author')) {
+                $message = sprintf(
+                    __('This post type doesn’t support authors, affecting the accuracy of author performance data. To fix this, please enable author support for this post type. <a href="%s">Learn more</a>.', 'wp-statistics'),
+                    'https://wp-statistics.com/resources/enabling-author-support-for-your-post-types/?utm_source=wp-statistics&utm_medium=link&utm_campaign=doc'
+                );
+    
+                Notice::addNotice($message, 'unsupported_post_type_author', 'warning', false);
+            }
+        }
     }
 
     /**
