@@ -5,8 +5,7 @@ namespace WP_Statistics\Components;
 use InvalidArgumentException;
 use WP_Statistics\Utils\Request;
 
-
-abstract class BaseTabView
+abstract class BaseTabView extends BaseView
 {
     protected $defaultTab;
     protected $tabs;
@@ -25,6 +24,4 @@ abstract class BaseTabView
     {
         return Request::get('tab', $this->defaultTab);
     }
-
-    abstract protected function render();
 }
