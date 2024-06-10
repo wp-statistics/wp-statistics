@@ -8,7 +8,7 @@ use InvalidArgumentException;
 use WP_STATISTICS\Admin_Assets;
 use WP_Statistics\Utils\Request;
 use WP_STATISTICS\Admin_Template;
-use WP_Statistics\Components\BaseTabView;
+use WP_Statistics\Abstracts\BaseTabView;
 use WP_Statistics\Service\AuthorAnalytics\AuthorAnalyticsDataProvider;
 
 class TabsView extends BaseTabView

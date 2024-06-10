@@ -2,7 +2,7 @@
 
 namespace WP_Statistics\Models;
 use WP_Statistics\Utils\Query;
-use WP_Statistics\Components\BaseModel;
+use WP_Statistics\Abstracts\BaseModel;
 
 
 class PagesModel extends BaseModel

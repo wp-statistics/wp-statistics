@@ -3,7 +3,7 @@ namespace WP_Statistics\Service\AuthorAnalytics\Views;
 
 use WP_STATISTICS\Menus;
 use WP_STATISTICS\Admin_Template;
-use WP_Statistics\Components\BaseView;
+use WP_Statistics\Abstracts\BaseView;
 
 class SingleAuthorView extends BaseView
 {

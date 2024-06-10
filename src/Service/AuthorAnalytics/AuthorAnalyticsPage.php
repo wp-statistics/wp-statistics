@@ -2,7 +2,7 @@
 
 namespace WP_Statistics\Service\AuthorAnalytics;
 
-use WP_Statistics\Components\MultiViewPage;
+use WP_Statistics\Abstracts\MultiViewPage;
 use WP_STATISTICS\Menus;
 use WP_STATISTICS\Option;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;

@@ -1,6 +1,6 @@
 <?php
 
-namespace WP_Statistics\Components;
+namespace WP_Statistics\Abstracts;
 
 
 /**

@@ -2,7 +2,7 @@
 
 namespace WP_Statistics\Service\PrivacyAudit;
 
-use WP_Statistics\Components\BasePage;
+use WP_Statistics\Abstracts\BasePage;
 use WP_STATISTICS\Menus;
 use WP_STATISTICS\Admin_Template;
 
