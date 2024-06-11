@@ -21,7 +21,7 @@
             }
             ?>
         </div>
-    <?php endif ?>
+    <?php endif; ?>
     <?php if (!empty($tabs) && is_array($tabs)) { ?>
         <ul class="wps-tabs">
             <?php foreach ($tabs as $tab) { ?>

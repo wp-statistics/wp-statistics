@@ -41,48 +41,49 @@ add_thickbox();
         ?>
     </table>
 </div>
-<div class="postbox">
-    <table class="form-table">
-        <tbody>
-        <tr valign="top">
-            <th scope="row" colspan="2"><h3><?php esc_html_e('Your IP Information', 'wp-statistics'); ?></h3></th>
-        </tr>
+<?php if (apply_filters('wp_statistics_settings_ip_method', $ip_method)) : ?>
+    <div class="postbox">
+        <table class="form-table">
+            <tbody>
+            <tr valign="top">
+                <th scope="row" colspan="2"><h3><?php esc_html_e('Your IP Information', 'wp-statistics'); ?></h3></th>
+            </tr>
 
-        <tr valign="top">
-            <th scope="row" colspan="2" style="padding-bottom: 10px; font-weight: normal;line-height: 25px;">
-                <?php esc_html_e('Your IP address as detected by the Ipify.org service:', 'wp-statistics'); ?>
-            </th>
-        </tr>
+            <tr valign="top">
+                <th scope="row" colspan="2" style="padding-bottom: 10px; font-weight: normal;line-height: 25px;">
+                    <?php esc_html_e('Your IP address as detected by the Ipify.org service:', 'wp-statistics'); ?>
+                </th>
+            </tr>
 
-        <tr valign="top">
-            <th scope="row" colspan="2">
-                <code id="user_real_ip" style="display: inline-block; padding: 15px; font-family: 'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',sans-serif;">
-                    <script type="application/javascript">
-                        jQuery(document).ready(function () {
-                            jQuery.ajax({
-                                url: "https://api.ipify.org?format=json",
-                                dataType: 'json',
-                                beforeSend: function () {
-                                    jQuery("code#user_real_ip").html('Loading...');
-                                },
-                                error: function (jqXHR) {
-                                    if (jqXHR.status == 0) {
-                                        jQuery("code#user_real_ip").html("<?php esc_html_e('Unable to retrieve some IP data. Ensure your internet connection is active and retry.', 'wp-statistics'); ?>");
+            <tr valign="top">
+                <th scope="row" colspan="2">
+                    <code id="user_real_ip" style="display: inline-block; padding: 15px; font-family: 'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',sans-serif;">
+                        <script type="application/javascript">
+                            jQuery(document).ready(function () {
+                                jQuery.ajax({
+                                    url: "https://api.ipify.org?format=json",
+                                    dataType: 'json',
+                                    beforeSend: function () {
+                                        jQuery("code#user_real_ip").html('Loading...');
+                                    },
+                                    error: function (jqXHR) {
+                                        if (jqXHR.status == 0) {
+                                            jQuery("code#user_real_ip").html("<?php esc_html_e('Unable to retrieve some IP data. Ensure your internet connection is active and retry.', 'wp-statistics'); ?>");
+                                        }
+                                    },
+                                    success: function (json) {
+                                        jQuery("code#user_real_ip").html(json['ip']);
                                     }
-                                },
-                                success: function (json) {
-                                    jQuery("code#user_real_ip").html(json['ip']);
-                                }
+                                });
                             });
-                        });
-                    </script>
-                </code></th>
-        </tr>
+                        </script>
+                    </code></th>
+            </tr>
 
-        </tbody>
-    </table>
-</div>
-
+            </tbody>
+        </table>
+    </div>
+<?php endif; ?>
 <div class="postbox">
     <table class="form-table">
         <tbody>

@@ -39,11 +39,16 @@ class Uninstall
         delete_option('wp_statistics_users_city');
         delete_option('wp_statistics_disable_addons');
         delete_option('wp_statistics_disable_addons_notice');
+        delete_option('wp_statistics_check_user_online');
         delete_option('wp_statistics_daily_salt');
+        delete_option('wp_statistics_dismissed_notices');
+        delete_option('wp_statistics_jobs');
+        delete_option('wp_statistics_hashed_assets');
 
         // Delete the transients.
         delete_transient('wps_top_referring');
         delete_transient('wps_excluded_hostname_to_ip_cache');
+        delete_transient('wps_check_rest_api');
 
         // Remove All Scheduled
         if (function_exists('wp_clear_scheduled_hook')) {

@@ -14,23 +14,24 @@ class Menus
      * @var array
      */
     public static $pages = array(
-        'overview'     => 'overview',
-        'browser'      => 'browsers',
-        'platform'     => 'platforms',
-        'countries'    => 'countries',
-        'exclusions'   => 'exclusions',
-        'hits'         => 'hits',
-        'online'       => 'online',
-        'pages'        => 'pages',
-        'authors'      => 'authors',
-        'referrers'    => 'referrers',
-        'searches'     => 'searches',
-        'top-visitors' => 'top_visitors',
-        'visitors'     => 'visitors',
-        'optimization' => 'optimization',
-        'settings'     => 'settings',
-        'plugins'      => 'plugins',
-        'taxonomies'   => 'taxonomies',
+        'overview'          => 'overview',
+        'browser'           => 'browsers',
+        'platform'          => 'platforms',
+        'countries'         => 'countries',
+        'exclusions'        => 'exclusions',
+        'hits'              => 'hits',
+        'online'            => 'online',
+        'pages'             => 'pages',
+        'referrers'         => 'referrers',
+        'searches'          => 'searches',
+        'top-visitors'      => 'top_visitors',
+        'visitors'          => 'visitors',
+        'optimization'      => 'optimization',
+        'settings'          => 'settings',
+        'plugins'           => 'plugins',
+        'taxonomies'        => 'taxonomies',
+        'author-analytics'  => 'author-analytics',
+        'privacy-audit'     => 'privacy-audit'
     );
 
     /**
@@ -62,10 +63,13 @@ class Menus
         /**
          * Get List Page
          */
+        $admin_list_page = [];
+
         foreach (self::$pages as $page_key => $page_slug) {
             $admin_list_page[$page_key] = self::get_page_slug($page_slug);
         }
-        return isset($admin_list_page) ? $admin_list_page : array();
+
+        return apply_filters('wp_statistics_admin_page_list', $admin_list_page);
     }
 
     /**
@@ -219,13 +223,6 @@ class Menus
                 'title'    => __('Taxonomies', 'wp-statistics'),
                 'page_url' => 'taxonomies',
                 'method'   => 'taxonomies',
-            ),
-            'authors'      => array(
-                'require'  => array('visits' => true),
-                'sub'      => 'overview',
-                'title'    => __('Authors', 'wp-statistics'),
-                'page_url' => 'authors',
-                'method'   => 'authors'
             ),
             'browsers'     => array(
                 'require'  => array('visitors' => true),

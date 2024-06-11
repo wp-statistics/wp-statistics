@@ -2,6 +2,8 @@
 
 namespace WP_STATISTICS;
 
+use WP_Statistics\Components\Assets;
+
 class Frontend
 {
     public function __construct()
@@ -45,8 +47,6 @@ class Frontend
      */
     public function enqueue_scripts()
     {
-        wp_enqueue_script('wp-statistics-tracker', WP_STATISTICS_URL . 'assets/js/tracker.js', [], WP_STATISTICS_VERSION, ['in_footer' => true]);
-
         $params = array(
             Hits::$rest_hits_key => 'yes',
         );
@@ -62,6 +62,11 @@ class Frontend
         $hitRequestUrl        = add_query_arg($params, get_rest_url(null, RestAPI::$namespace . '/' . Api\v2\Hit::$endpoint));
         $keepOnlineRequestUrl = add_query_arg($params, get_rest_url(null, RestAPI::$namespace . '/' . Api\v2\CheckUserOnline::$endpoint));
 
+        if (Option::get('bypass_ad_blockers', false)) {
+            $hitRequestUrl        = add_query_arg(array_merge($params, ['action' => 'wp_statistics_hit_record']), admin_url('admin-ajax.php'));
+            $keepOnlineRequestUrl = add_query_arg(array_merge($params, ['action' => 'wp_statistics_keep_online']), admin_url('admin-ajax.php'));
+        }
+
         $jsArgs = array(
             'hitRequestUrl'        => $hitRequestUrl,
             'keepOnlineRequestUrl' => $keepOnlineRequestUrl,
@@ -71,7 +76,7 @@ class Frontend
             ],
         );
 
-        wp_localize_script('wp-statistics-tracker', 'WP_Statistics_Tracker_Object', $jsArgs);
+        Assets::script('tracker', 'js/tracker.js', [], $jsArgs, true, Option::get('bypass_ad_blockers', false));
     }
 
     /**

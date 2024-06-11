@@ -2,12 +2,27 @@
 
 namespace WP_Statistics\Service\Admin;
 
+use WP_Statistics\Service\Admin\NoticeHandler\Notice;
+
 class AdminManager
 {
     public function __construct()
     {
+        $this->initFooterModifier();
+        $this->initNoticeHandler();
+    }
+
+    private function initFooterModifier()
+    {
         add_filter('admin_footer_text', array($this, 'modifyAdminFooterText'), 999);
         add_filter('update_footer', array($this, 'modifyAdminUpdateFooter'), 999);
+    }
+
+    private function initNoticeHandler()
+    {
+        add_action('admin_notices', [Notice::class, 'displayNotices']);
+        add_action('admin_init', [Notice::class, 'handleDismissNotice']);
+        add_action('admin_init', [Notice::class, 'handleGeneralNotices']);
     }
 
     /**
@@ -17,7 +32,7 @@ class AdminManager
     {
         $screen = get_current_screen();
 
-        if (stristr($screen->id, 'wps_')) {
+        if (stripos($screen->id, 'wps_') !== false) {
             $text = sprintf(
                 __('Please rate <strong>WP Statistics</strong> <a href="%2$s" title="%3$s" target="_blank">★★★★★</a> on <a href="%2$s" target="_blank">WordPress.org</a> to help us spread the word. Thank you!', 'wp-statistics'),
                 esc_html__('WP Statistics', 'wp-statistics'),
@@ -32,7 +47,7 @@ class AdminManager
     {
         $screen = get_current_screen();
 
-        if (stristr($screen->id, 'wps_')) {
+        if (stripos($screen->id, 'wps_') !== false) {
             global $wp_version;
 
             $content = sprintf('<p id="footer-upgrade" class="alignright">%s | %s %s</p>',

@@ -4,6 +4,7 @@ namespace WP_STATISTICS;
 
 use Jaybizzle\CrawlerDetect\CrawlerDetect;
 use WP_Statistics\Service\Analytics\VisitorProfile;
+use WP_Statistics\Utils\Request;
 
 class Exclusion
 {
@@ -124,6 +125,11 @@ class Exclusion
      */
     public static function exclusion_ajax()
     {
+        // White list actions
+        if (Request::compare('action', 'wp_statistics_hit_record')) {
+            return false;
+        }
+
         return (defined('DOING_AJAX') and DOING_AJAX);
     }
 
@@ -202,6 +208,12 @@ class Exclusion
                 if (Option::get($option_name) == true) {
                     return true;
                 }
+            }
+        } else {
+            // Guest visitor
+
+            if (Option::get('exclude_anonymous_users') == true) {
+                return true;
             }
         }
 
@@ -310,7 +322,11 @@ class Exclusion
 
             // Remove Query From Url
             $url = Helper::RemoveQueryStringUrl($_SERVER['SERVER_NAME'] . $requestUri);
-            if (stristr($url, "wp-admin") != false) {
+
+            if (
+                !Request::compare('action', 'wp_statistics_hit_record') &&
+                stripos($url, 'wp-admin') !== false
+            ) {
                 return true;
             }
         }
@@ -342,7 +358,6 @@ class Exclusion
                 if (IP::CheckIPRange(array($subnet))) {
                     return true;
                 }
-
             }
         }
 

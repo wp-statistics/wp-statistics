@@ -1,4 +1,4 @@
-<?php 
+<?php
 use WP_STATISTICS\Helper;
 
 $queryKey       = 'pid';

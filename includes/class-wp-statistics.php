@@ -1,8 +1,11 @@
 <?php
 
 # Exit if accessed directly
-use WP_STATISTICS\Helper;
-use WP_Statistics\Service\PrivacyAudit\PrivacyAuditManager;
+use WP_Statistics\Service\Admin\AuthorAnalytics\AuthorAnalyticsManager;
+use WP_Statistics\Service\Admin\NoticeHandler\Notice;
+use WP_Statistics\Service\Admin\Posts\PostsManager;
+use WP_Statistics\Service\Admin\PrivacyAudit\PrivacyAuditManager;
+use WP_Statistics\Service\Analytics\AnalyticsManager;
 
 defined('ABSPATH') || exit;
 
@@ -16,9 +19,14 @@ final class WP_Statistics
     /**
      * The single instance of the class.
      *
-     * @var WP Statistics
+     * @var WP_Statistics
      */
     protected static $_instance = null;
+
+    /**
+     * @var $backgroundProcess
+     */
+    private $backgroundProcess;
 
     /**
      * Main WP Statistics Instance.
@@ -52,11 +60,6 @@ final class WP_Statistics
         add_action('plugins_loaded', array($this, 'plugin_setup'), 10);
 
         /**
-         * Disable AddOns For Compatible in Wp-Statistics 13.0
-         */
-        add_action('plugins_loaded', array($this, 'disable_addons'), 0);
-
-        /**
          * Install And Upgrade plugin
          */
         register_activation_hook(WP_STATISTICS_MAIN_FILE, array('WP_Statistics', 'install'));
@@ -85,21 +88,21 @@ final class WP_Statistics
     public function plugin_setup()
     {
         /**
-         * Load Text Domain
+         * Load text domain
          */
         add_action('init', array($this, 'load_textdomain'));
 
         try {
 
             /**
-             * Include Require File
+             * Include require file
              */
             $this->includes();
 
             /**
-             * Display Admin Notices
+             * Setup background process
              */
-            add_action('admin_notices', array('\\WP_STATISTICS\\Helper', 'displayAdminNotices'));
+            $this->setupBackgroundProcess();
 
         } catch (Exception $e) {
             self::log($e->getMessage());
@@ -117,6 +120,14 @@ final class WP_Statistics
 
         // Create the plugin upload directory in advance.
         $this->create_upload_directory();
+
+        if (!class_exists('WP_Async_Request', false)) {
+            require_once WP_STATISTICS_DIR . 'includes/libraries/wp-background-processing/wp-async-request.php';
+        }
+
+        if (!class_exists('WP_Background_Process', false)) {
+            require_once WP_STATISTICS_DIR . 'includes/libraries/wp-background-processing/wp-background-process.php';
+        }
 
         // Utility classes.
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-db.php';
@@ -150,6 +161,8 @@ final class WP_Statistics
         // Ajax area
         require_once WP_STATISTICS_DIR . 'includes/admin/class-wp-statistics-admin-template.php';
 
+        $postsManager = new PostsManager();
+
         // Admin classes
         if (is_admin()) {
 
@@ -162,7 +175,6 @@ final class WP_Statistics
             require_once WP_STATISTICS_DIR . 'includes/admin/class-wp-statistics-admin-export.php';
             require_once WP_STATISTICS_DIR . 'includes/admin/class-wp-statistics-admin-network.php';
             require_once WP_STATISTICS_DIR . 'includes/admin/class-wp-statistics-admin-assets.php';
-            require_once WP_STATISTICS_DIR . 'includes/admin/class-wp-statistics-admin-notices.php';
             require_once WP_STATISTICS_DIR . 'includes/admin/class-wp-statistics-admin-post.php';
             require_once WP_STATISTICS_DIR . 'includes/admin/class-wp-statistics-admin-user.php';
             require_once WP_STATISTICS_DIR . 'includes/admin/class-wp-statistics-admin-taxonomy.php';
@@ -182,13 +194,14 @@ final class WP_Statistics
             require_once WP_STATISTICS_DIR . 'includes/admin/pages/class-wp-statistics-admin-page-visitors.php';
             require_once WP_STATISTICS_DIR . 'includes/admin/pages/class-wp-statistics-admin-page-country.php';
             require_once WP_STATISTICS_DIR . 'includes/admin/pages/class-wp-statistics-admin-page-taxonomies.php';
-            require_once WP_STATISTICS_DIR . 'includes/admin/pages/class-wp-statistics-admin-page-authors.php';
             require_once WP_STATISTICS_DIR . 'includes/admin/pages/class-wp-statistics-admin-page-browsers.php';
             require_once WP_STATISTICS_DIR . 'includes/admin/pages/class-wp-statistics-admin-page-platforms.php';
             require_once WP_STATISTICS_DIR . 'includes/admin/pages/class-wp-statistics-admin-page-top-visitors-today.php';
             require_once WP_STATISTICS_DIR . 'includes/admin/pages/class-wp-statistics-admin-page-exclusions.php';
 
-            $privacyAudit = new PrivacyAuditManager();
+            $privacyAudit    = new PrivacyAuditManager();
+            $analytics       = new AnalyticsManager();
+            $authorAnalytics = new AuthorAnalyticsManager();
         }
 
         // WordPress ShortCode and Widget
@@ -220,6 +233,19 @@ final class WP_Statistics
         include WP_STATISTICS_DIR . 'includes/template-functions.php';
     }
 
+    private function setupBackgroundProcess()
+    {
+        $this->backgroundProcess['calculate_post_words_count'] = new \WP_Statistics\Async\CalculatePostWordsCount();
+    }
+
+    /**
+     * @return WP_Background_Process[]
+     */
+    public function getRemoteRequestAsync()
+    {
+        return $this->backgroundProcess;
+    }
+
     private function create_upload_directory()
     {
         $upload_dir      = wp_upload_dir();
@@ -230,7 +256,7 @@ final class WP_Statistics
         // Check if the directory creation failed.
         if (!$result) {
             $errorMessage = sprintf(__('Unable to create the required upload directory at <code>%s</code>. Please check that the web server has write permissions for the parent directory. Alternatively, you can manually create the directory yourself. Please keep in mind that the GeoIP database may not work correctly if the directory structure is not properly set up.', 'wp-statistics'), esc_html($upload_dir_name));
-            Helper::addAdminNotice($errorMessage, 'warning', false);
+            Notice::addNotice($errorMessage, 'create_upload_directory', 'warning', false);
         }
 
         /**
@@ -335,47 +361,5 @@ final class WP_Statistics
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-db.php';
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-uninstall.php';
         new \WP_STATISTICS\Uninstall();
-    }
-
-    /**
-     * Disable AddOns For Compatible in Wp-Statistics 13.0
-     */
-    public function disable_addons()
-    {
-        // Check Before Action
-        $option = get_option('wp_statistics_disable_addons', 'no');
-
-        // Check
-        if ($option == "no" and version_compare(WP_STATISTICS_VERSION, '12.6.13', '<')) {
-            $addOns = array(
-                'wp-statistics-actions/wp-statistics-actions.php',
-                'wp-statistics-advanced-reporting/wp-statistics-advanced-reporting.php',
-                'wp-statistics-customization/wp-statistics-customization.php',
-                'wp-statistics-mini-chart/wp-statistics-mini-chart.php',
-                'wp-statistics-realtime-stats/wp-statistics-realtime-stats.php',
-                'wp-statistics-rest-api/wp-statistics-rest-api.php',
-                'wp-statistics-widgets/wp-statistics-widgets.php'
-            );
-
-            // Check User Has Any AddOns
-            $activate_plugins = get_option('active_plugins');
-            $user_has_addons  = false;
-            foreach ($addOns as $plugin) {
-                if (in_array($plugin, $activate_plugins)) {
-                    $user_has_addons = true;
-                    break;
-                }
-            }
-
-            // Disable AddOns
-            if ($user_has_addons) {
-                foreach ($addOns as $plugin) {
-                    deactivate_plugins($plugin);
-                }
-                update_option('wp_statistics_disable_addons_notice', 'no');
-            }
-
-            update_option('wp_statistics_disable_addons', 'yes');
-        }
     }
 }
