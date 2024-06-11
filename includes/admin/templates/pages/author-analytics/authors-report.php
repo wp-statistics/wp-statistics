@@ -92,13 +92,13 @@ $postTypeLabel  = Helper::getPostTypeName($postType, true);
                                                 <?php echo $author->total_comments ? esc_html($author->total_comments) : 0 ?>
                                             </td>
                                             <td class="wps-pd-l">
-                                                <?php echo $author->average_comments ? esc_html(round($author->average_comments, 1)) : 0; ?>
+                                                <?php echo $author->average_comments ? esc_html(round($author->average_comments)) : 0; ?>
                                             </td>
                                             <td class="wps-pd-l">
-                                                <?php echo $author->average_views ? esc_html(round($author->average_views, 1)) : 0; ?>
+                                                <?php echo $author->average_views ? esc_html(round($author->average_views)) : 0; ?>
                                             </td>
                                             <td class="wps-pd-l">
-                                                <?php echo $author->average_words ? esc_html(round($author->average_words, 1)) : 0; ?>
+                                                <?php echo $author->average_words ? esc_html(round($author->average_words)) : 0; ?>
                                             </td>
                                             <td class="wps-pd-l">
                                                 <?php echo $author->total_words ? esc_html($author->total_words) : 0 ?>
