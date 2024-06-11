@@ -40,7 +40,7 @@ $reverseOrder   = $order == 'desc' ? 'asc' : 'desc';
                                             <td class="wps-pd-l">
                                                 <div class="wps-author-name">
                                                     <img src="<?php echo esc_url(get_avatar_url($author->id)); ?>" alt="<?php echo esc_attr($author->name) ?>"/>
-                                                    <a href="<?php echo esc_url(get_author_posts_url($author->id)); ?>">
+                                                    <a href="<?php echo esc_url(Menus::admin_url('author-analytics', ['type' => 'single-author', 'author_id' => $author->id])) ?>">
                                                         <span title="<?php echo esc_attr($author->name) ?>"><?php echo esc_html($author->name) ?></span>
                                                     </a>
                                                 </div>
@@ -48,7 +48,7 @@ $reverseOrder   = $order == 'desc' ? 'asc' : 'desc';
                                             <td class="wps-pd-l"><?php echo $author->total_views ? esc_html($author->total_views) : 0 ?></td>
                                             <td class="wps-pd-l"><?php echo esc_html($author->total_posts) ?></td>
                                             <td class="view-more">
-                                                <a href="<?php echo esc_url(Menus::admin_url('author-analytics', ['type' => 'single-author', 'author_id' => $author->id])) ?>" title="<?php esc_html_e('View Details', 'wp-statistics') ?>">
+                                                <a target="_blank" href="<?php echo esc_url(get_author_posts_url($author->id)); ?>" title="<?php esc_html_e('View Details', 'wp-statistics') ?>">
                                                     <?php esc_html_e('View Author Page', 'wp-statistics') ?>
                                                 </a>
                                             </td>
