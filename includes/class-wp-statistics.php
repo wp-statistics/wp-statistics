@@ -5,6 +5,7 @@ use WP_Statistics\Service\Admin\AuthorAnalytics\AuthorAnalyticsManager;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Service\Admin\Posts\PostsManager;
 use WP_Statistics\Service\Admin\PrivacyAudit\PrivacyAuditManager;
+use WP_Statistics\Service\Admin\Geographic\GeographicManager;
 use WP_Statistics\Service\Analytics\AnalyticsManager;
 
 defined('ABSPATH') || exit;
@@ -198,9 +199,10 @@ final class WP_Statistics
             require_once WP_STATISTICS_DIR . 'includes/admin/pages/class-wp-statistics-admin-page-top-visitors-today.php';
             require_once WP_STATISTICS_DIR . 'includes/admin/pages/class-wp-statistics-admin-page-exclusions.php';
 
-            $privacyAudit    = new PrivacyAuditManager();
             $analytics       = new AnalyticsManager();
             $authorAnalytics = new AuthorAnalyticsManager();
+            $privacyAudit    = new PrivacyAuditManager();
+            $geographic      = new GeographicManager();
         }
 
         // WordPress ShortCode and Widget

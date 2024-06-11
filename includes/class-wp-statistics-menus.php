@@ -30,7 +30,8 @@ class Menus
         'plugins'           => 'plugins',
         'taxonomies'        => 'taxonomies',
         'author-analytics'  => 'author-analytics',
-        'privacy-audit'     => 'privacy-audit'
+        'privacy-audit'     => 'privacy-audit',
+        'geographic'        => 'geographic'
     );
 
     /**
