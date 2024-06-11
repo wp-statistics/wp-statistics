@@ -30,8 +30,6 @@ $postTypeLabel  = Helper::getPostTypeName($postType, true);
                                         <th class="wps-pd-l">
                                             <a href="<?php echo esc_url(add_query_arg(['order_by' => 'total_posts', 'order' => $reverseOrder])) ?>" class="sort <?php echo Request::compare('order_by', 'total_posts') ? esc_attr($order) : ''; ?>">
                                                 <?php esc_html_e('Publish', 'wp-statistics') ?>
-                                                <span class="wps-tooltip" title="<?php esc_html_e('Publish tooltip', 'wp-statistics') ?>"><i class="wps-tooltip-icon info"></i></span>
-
                                             </a>
                                         </th>
                                         <th class="wps-pd-l">
