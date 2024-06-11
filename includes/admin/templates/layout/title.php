@@ -31,7 +31,9 @@
     <?php if (isset($HasDateRang) || isset($filters)): ?>
         <div class="wps-head-filters">
             <?php 
-                include 'date.range.php';
+                if (!empty($HasDateRang)) {
+                    include 'date.range.php';
+                }
 
                 if (!empty($filters)) {
                     foreach ($filters as $filter) {
