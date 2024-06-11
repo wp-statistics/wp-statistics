@@ -57,11 +57,12 @@ class AssetNameObfuscator
     private $hashedFileDir;
 
     /**
-     * @param string $file Path of the input file relative to the plugin.
+     * @param   string  $file   Path of the input file relative to the plugin. 
+     * Pass `null` if you only want to use the `deleteAllHashedFiles` method. (e.g. While uninstalling the plugin)
      *
      * @return  void
      */
-    public function __construct($file)
+    public function __construct($file = null)
     {
         $this->inputFileDir = $file;
         if (stripos($this->inputFileDir, WP_STATISTICS_DIR) === false) {
@@ -206,6 +207,21 @@ class AssetNameObfuscator
     {
         if (!empty($assetsArray[$key]) && !empty($assetsArray[$key]['dir']) && file_exists($assetsArray[$key]['dir'])) {
             unlink($assetsArray[$key]['dir']);
+        }
+    }
+
+    /**
+     * Deletes all hashed files.
+     *
+     * @return  void
+     */
+    public function deleteAllHashedFiles()
+    {
+        // Method was called from uninstall probably, initialize the array again
+        $hashedAssetsArray = Option::getOptionGroup($this->optionName, null, []);
+
+        foreach ($hashedAssetsArray as $key => $asset) {
+            $this->deleteHashedFile($hashedAssetsArray, $key);
         }
     }
 }
