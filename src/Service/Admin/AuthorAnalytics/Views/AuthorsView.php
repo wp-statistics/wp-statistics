@@ -48,7 +48,7 @@ class AuthorsView extends BaseView
             'pageName'      => Menus::get_page_slug('author-analytics'),
             'DateRang'      => Admin_Template::DateRange(),
             'custom_get'    => ['type' => 'authors', 'pt' => Request::get('pt', 'post')],
-            'HasDateRang'   => true,
+            'hasDateRang'   => true,
             'filters'       => ['post-type'],
             'backUrl'       => Menus::admin_url('author-analytics'),
             'backTitle'     => esc_html__('Authors Performance', 'wp-statistics'),

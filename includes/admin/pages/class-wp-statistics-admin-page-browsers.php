@@ -42,7 +42,7 @@ class browser_page extends Singleton
 
         // Get Date-Range
         $args['DateRang']    = Admin_Template::DateRange();
-        $args['HasDateRang'] = True;
+        $args['hasDateRang'] = True;
 
 
         // Show Template Page

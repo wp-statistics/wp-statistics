@@ -43,7 +43,7 @@ class country_page extends Singleton
 
         // Get Date-Range
         $args['DateRang']    = Admin_Template::DateRange();
-        $args['HasDateRang'] = True;
+        $args['hasDateRang'] = True;
 
         // From Date and To Date
         $days_list    = array_keys(TimeZone::getListDays(array('from' => TimeZone::getTimeAgo(30))));
