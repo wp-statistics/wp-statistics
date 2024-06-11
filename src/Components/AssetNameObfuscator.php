@@ -58,7 +58,7 @@ class AssetNameObfuscator
 
     /**
      * @param   string  $file   Path of the input file relative to the plugin. 
-     * Pass `null` if you only want to use the `deleteAllHashedFiles` method. (e.g. While uninstalling the plugin)
+     * Pass `null` if you only want to use `deleteAllHashedFiles` and `deleteDatabaseOption` methods. (e.g. When uninstalling the plugin)
      *
      * @return  void
      */
@@ -223,5 +223,15 @@ class AssetNameObfuscator
         foreach ($hashedAssetsArray as $key => $asset) {
             $this->deleteHashedFile($hashedAssetsArray, $key);
         }
+    }
+
+    /**
+     * Deletes `wp_statistics_hashed_assets` option from the database.
+     *
+     * @return  void
+     */
+    public function deleteDatabaseOption()
+    {
+        delete_option('wp_statistics_hashed_assets');
     }
 }
