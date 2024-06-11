@@ -23,7 +23,7 @@ $postTypeLabel  = Helper::getPostTypeName($postType, true);
                                             <a href="<?php echo esc_url(add_query_arg(['order_by' => 'name', 'order' => $reverseOrder])) ?>" class="sort <?php echo Request::compare('order_by', 'name') ? esc_attr($order) : ''; ?>"><?php esc_html_e('Author', 'wp-statistics') ?></a>
                                         </th>
                                         <th class="wps-pd-l">
-                                            <a href="<?php echo esc_url(add_query_arg(['order_by' => 'total_views', 'order' => $reverseOrder])) ?>" class="sort <?php echo Request::compare('order_by', 'total_views') ? esc_attr($order) : ''; ?>">
+                                            <a href="<?php echo esc_url(add_query_arg(['order_by' => 'total_views', 'order' => $reverseOrder])) ?>" class="sort <?php echo !Request::has('order_by') || Request::compare('order_by', 'total_views') ? esc_attr($order) : ''; ?>">
                                                 <?php echo sprintf(esc_html__('%s Views', 'wp-statistics'), $postTypeLabel) ?>
                                             </a>
                                         </th>
