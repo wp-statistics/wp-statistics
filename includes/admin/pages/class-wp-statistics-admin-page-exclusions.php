@@ -41,7 +41,7 @@ class exclusions_page extends Singleton
 
         // Get Date-Range
         $args['DateRang']    = Admin_Template::DateRange();
-        $args['HasDateRang'] = True;
+        $args['hasDateRang'] = True;
 
         // Get Total Exclusions
         $args['total_exclusions'] = $wpdb->get_var("SELECT SUM(count) FROM " . DB::table('exclusions'));

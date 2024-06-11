@@ -1,5 +1,7 @@
 <?php use WP_STATISTICS\Helper; ?>
- <div class="wps-wrap__top <?php if(isset($real_time_button)){echo 'wps-wrap__top--has__realtime'; }?>">
+<div class="wps-wrap__top <?php if (isset($real_time_button)) {
+    echo 'wps-wrap__top--has__realtime';
+} ?>">
     <?php if (isset($backUrl, $backTitle)): ?>
         <a href="<?php echo esc_url($backUrl) ?>" title="<?php echo esc_html($backTitle) ?>" class="wps-previous-url"><?php echo esc_html($backTitle) ?></a>
     <?php endif ?>
@@ -27,19 +29,26 @@
             </div>
         </form>
     <?php endif ?>
-    
-    <?php if (isset($HasDateRang) || isset($filters)): ?>
-        <div class="wps-head-filters">
-            <?php 
-                if (!empty($HasDateRang)) {
-                    include 'date.range.php';
-                }
 
-                if (!empty($filters)) {
-                    foreach ($filters as $filter) {
-                        require_once "filters/$filter-filter.php";
-                    }
+    <?php if (isset($hasDateRang) || isset($filters) || isset($filter)): ?>
+        <div class="wps-head-filters">
+            <?php
+            if (!empty($hasDateRang)) {
+                include 'date.range.php';
+            }
+
+            if (isset($filter) and isset($filter['code'])) {
+                echo $filter['code']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                ?>
+                <div class="wp-clearfix"></div>
+                <?php
+            }
+
+            if (!empty($filters)) {
+                foreach ($filters as $filter) {
+                    require_once "filters/$filter-filter.php";
                 }
+            }
             ?>
         </div>
     <?php endif ?>

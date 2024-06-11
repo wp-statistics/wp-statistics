@@ -10,10 +10,10 @@
 
     <?php do_action('wp_statistics_after_admin_page_title'); ?>
     <div class="wp-clearfix"></div>
-    <?php if (isset($HasDateRang) || isset($filters)): ?>
+    <?php if (isset($hasDateRang) || isset($filters)): ?>
         <div class="wps-head-filters">
             <?php 
-                if (!empty($HasDateRang)) {
+                if (!empty($hasDateRang)) {
                     include 'date.range.php';
                 }
 
