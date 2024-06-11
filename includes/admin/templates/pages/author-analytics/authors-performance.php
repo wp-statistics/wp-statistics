@@ -20,6 +20,7 @@ $postTypePluralLabel = Helper::getPostTypeName($postType);
                     ),
                     'icon_class'   => 'authors',
                     'total'        => Helper::formatNumberWithUnit($data['authors']['total']),
+                    'published'    => Helper::formatNumberWithUnit($data['authors']['published']),
                     'active'       => Helper::formatNumberWithUnit($data['authors']['active']),
                     'avg'          => Helper::formatNumberWithUnit($data['authors']['avg']),
                     'avg_title'    => sprintf(esc_html__('%s/Authors', 'wp-statistics'), $postTypeSingularLabel)

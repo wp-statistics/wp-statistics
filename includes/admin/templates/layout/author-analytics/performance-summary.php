@@ -23,9 +23,9 @@
             </div>
         <?php endif ?>
 
-        <?php if (isset($active)) : ?>
+        <?php if (isset($published)) : ?>
             <div class="wps-card__summary--publish">
-                <span><?php echo esc_html($total) ?></span>
+                <span><?php echo esc_html($published) ?></span>
                 <span><?php esc_html_e('Published Posts', 'wp-statistics') ?></span>
             </div>
         <?php endif ?>

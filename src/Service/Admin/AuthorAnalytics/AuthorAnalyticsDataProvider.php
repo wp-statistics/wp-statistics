@@ -147,6 +147,7 @@ class AuthorAnalyticsDataProvider
             'authors' => [
                 'total'             => $totalAuthors,
                 'active'            => $activeAuthors,
+                'published'         => $totalPosts,
                 'avg'               => Helper::divideNumbers($totalPosts, $activeAuthors),
                 'top_publishing'    => $topPublishingAuthors,
                 'top_viewing'       => $topViewingAuthors,
