@@ -57,7 +57,7 @@ class AssetNameObfuscator
     private $hashedFileDir;
 
     /**
-     * @param   string  $file   Path of the input file relative to the plugin.
+     * @param string $file Path of the input file relative to the plugin.
      *
      * @return  void
      */
@@ -85,13 +85,13 @@ class AssetNameObfuscator
 
         $this->hashedFileOptionKey = str_replace(WP_STATISTICS_DIR, '', $this->inputFileDir);
         if (empty($this->hashedAssetsArray[$this->hashedFileOptionKey])) {
-            $this->hashedAssetsArray[$this->hashedFileOptionKey] = [];
+            $this->hashedAssetsArray[$this->hashedFileOptionKey]            = [];
             $this->hashedAssetsArray[$this->hashedFileOptionKey]['version'] = WP_STATISTICS_VERSION;
         }
 
-        $this->hashedFileName  = md5(WP_STATISTICS_VERSION . basename($this->inputFileDir));
+        $this->hashedFileName = $this->generateShortHash(WP_STATISTICS_VERSION . basename($this->inputFileDir));
         $this->hashedFileName .= '.' . pathinfo($this->inputFileDir, PATHINFO_EXTENSION);
-        $this->hashedFileName  = apply_filters('wp_statistics_hashed_asset_name', $this->hashedFileName, $this->inputFileDir);
+        $this->hashedFileName = apply_filters('wp_statistics_hashed_asset_name', $this->hashedFileName, $this->inputFileDir);
 
         $this->hashedFilesRootDir = apply_filters('wp_statistics_hashed_asset_root', wp_upload_dir()['basedir']);
         if (!is_dir($this->hashedFilesRootDir)) {
@@ -106,6 +106,12 @@ class AssetNameObfuscator
             $this->hashedAssetsArray[$this->hashedFileOptionKey]['dir'] :
             path_join($this->hashedFilesRootDir, $this->hashedFileName);
         $this->hashedFileDir = apply_filters('wp_statistics_hashed_asset_dir', $this->hashedFileDir, $this->hashedFilesRootDir, $this->hashedFileName);
+    }
+
+    private function generateShortHash($input)
+    {
+        $hash = wp_hash($input);
+        return substr($hash, 0, 10);
     }
 
     /**
