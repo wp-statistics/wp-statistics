@@ -81,19 +81,19 @@ class AssetNameObfuscator
      */
     private function initializeVariables()
     {
-        $this->hashedAssetsArray = Option::getOptionGroup($this->optionName, null, []);
-
+        $this->hashedAssetsArray   = Option::getOptionGroup($this->optionName, null, []);
         $this->hashedFileOptionKey = str_replace(WP_STATISTICS_DIR, '', $this->inputFileDir);
+
         if (empty($this->hashedAssetsArray[$this->hashedFileOptionKey])) {
             $this->hashedAssetsArray[$this->hashedFileOptionKey]            = [];
             $this->hashedAssetsArray[$this->hashedFileOptionKey]['version'] = WP_STATISTICS_VERSION;
         }
 
-        $this->hashedFileName = $this->generateShortHash(WP_STATISTICS_VERSION . basename($this->inputFileDir));
-        $this->hashedFileName .= '.' . pathinfo($this->inputFileDir, PATHINFO_EXTENSION);
-        $this->hashedFileName = apply_filters('wp_statistics_hashed_asset_name', $this->hashedFileName, $this->inputFileDir);
-
+        $this->hashedFileName     = $this->generateShortHash(WP_STATISTICS_VERSION . basename($this->inputFileDir));
+        $this->hashedFileName     .= '.' . pathinfo($this->inputFileDir, PATHINFO_EXTENSION);
+        $this->hashedFileName     = apply_filters('wp_statistics_hashed_asset_name', $this->hashedFileName, $this->inputFileDir);
         $this->hashedFilesRootDir = apply_filters('wp_statistics_hashed_asset_root', wp_upload_dir()['basedir']);
+
         if (!is_dir($this->hashedFilesRootDir)) {
             // Try to make the filtered dir if it not exists
             if (!mkdir($this->hashedFilesRootDir, 0700)) {
@@ -102,9 +102,7 @@ class AssetNameObfuscator
             }
         }
 
-        $this->hashedFileDir = $this->isHashedFileExists() ?
-            $this->hashedAssetsArray[$this->hashedFileOptionKey]['dir'] :
-            path_join($this->hashedFilesRootDir, $this->hashedFileName);
+        $this->hashedFileDir = $this->isHashedFileExists() ? $this->hashedAssetsArray[$this->hashedFileOptionKey]['dir'] : path_join($this->hashedFilesRootDir, $this->hashedFileName);
         $this->hashedFileDir = apply_filters('wp_statistics_hashed_asset_dir', $this->hashedFileDir, $this->hashedFilesRootDir, $this->hashedFileName);
     }
 
