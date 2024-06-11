@@ -81,7 +81,7 @@ class AssetNameObfuscator
      */
     private function initializeVariables()
     {
-        $this->hashedAssetsArray = Option::getOptionGroup($this->optionName, '', []);
+        $this->hashedAssetsArray = Option::getOptionGroup($this->optionName, null, []);
 
         $this->hashedFileOptionKey = str_replace(WP_STATISTICS_DIR, '', $this->inputFileDir);
         if (empty($this->hashedAssetsArray[$this->hashedFileOptionKey])) {
