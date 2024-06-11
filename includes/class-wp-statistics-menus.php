@@ -17,7 +17,6 @@ class Menus
         'overview'          => 'overview',
         'browser'           => 'browsers',
         'platform'          => 'platforms',
-        'countries'         => 'countries',
         'exclusions'        => 'exclusions',
         'hits'              => 'hits',
         'online'            => 'online',
@@ -202,13 +201,6 @@ class Menus
                 'title'    => __('Search Engines', 'wp-statistics'),
                 'page_url' => 'searches',
                 'method'   => 'searches',
-            ),
-            'countries'    => array(
-                'require'  => array('geoip' => true, 'visitors' => true),
-                'sub'      => 'overview',
-                'title'    => __('Countries', 'wp-statistics'),
-                'page_url' => 'countries',
-                'method'   => 'country'
             ),
             'pages'        => array(
                 'require'  => array('visits' => true),

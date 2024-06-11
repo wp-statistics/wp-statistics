@@ -192,7 +192,6 @@ final class WP_Statistics
             require_once WP_STATISTICS_DIR . 'includes/admin/pages/class-wp-statistics-admin-page-searches.php';
             require_once WP_STATISTICS_DIR . 'includes/admin/pages/class-wp-statistics-admin-page-pages.php';
             require_once WP_STATISTICS_DIR . 'includes/admin/pages/class-wp-statistics-admin-page-visitors.php';
-            require_once WP_STATISTICS_DIR . 'includes/admin/pages/class-wp-statistics-admin-page-country.php';
             require_once WP_STATISTICS_DIR . 'includes/admin/pages/class-wp-statistics-admin-page-taxonomies.php';
             require_once WP_STATISTICS_DIR . 'includes/admin/pages/class-wp-statistics-admin-page-browsers.php';
             require_once WP_STATISTICS_DIR . 'includes/admin/pages/class-wp-statistics-admin-page-platforms.php';
