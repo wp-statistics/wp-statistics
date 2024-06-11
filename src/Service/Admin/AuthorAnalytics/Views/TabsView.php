@@ -95,6 +95,7 @@ class TabsView extends BaseTabView
             'paged'      => Admin_Template::getCurrentPaged(),
             'custom_get' => ['tab' => $currentTab],
             'DateRang'   => Admin_Template::DateRange(),
+            'HasDateRang'=> true,
             'filters'    => ['post-type'],
             'data'       => $tabData,
             'tabs'       => [
