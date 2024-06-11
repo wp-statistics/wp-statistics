@@ -53,21 +53,9 @@ class Notice
             }
 
             $dismissible = $notice['is_dismissible'] ? ' is-dismissible' : '';
-            $dismissUrl  = '';
+            $dismissUrl  = self::getDismissUrl($id, $notice);
 
-            if ($notice['is_dismissible']) {
-                $dismissUrl = add_query_arg(array(
-                    'action'    => 'wp_statistics_dismiss_notice',
-                    'notice_id' => $id,
-                    'nonce'     => wp_create_nonce('wp_statistics_dismiss_notice'),
-                ), sanitize_url(wp_unslash($_SERVER['REQUEST_URI'])));
-            }
-
-            Admin_Template::get_template('notice', [
-                'notice'      => $notice,
-                'dismissible' => $dismissible,
-                'dismissUrl'  => $dismissUrl
-            ]);
+            self::renderNoticeInternal($notice, $dismissible, $dismissUrl);
         }
 
         // Display flash notices
@@ -75,18 +63,49 @@ class Notice
 
         if ($flashNotices) {
             foreach ($flashNotices as $flashNotice) {
-
                 $dismissible = $flashNotice['is_dismissible'] ? ' is-dismissible' : '';
-
-                Admin_Template::get_template('notice', [
-                    'notice'      => $flashNotice,
-                    'dismissible' => $dismissible,
-                    'dismissUrl'  => ''
-                ]);
+                self::renderNoticeInternal($flashNotice, $dismissible, '');
             }
 
             delete_transient('wp_statistics_flash_notices');
         }
+    }
+
+    private static function getDismissUrl($id, $notice)
+    {
+        if ($notice['is_dismissible']) {
+            return add_query_arg(array(
+                'action'    => 'wp_statistics_dismiss_notice',
+                'notice_id' => $id,
+                'nonce'     => wp_create_nonce('wp_statistics_dismiss_notice'),
+            ), sanitize_url(wp_unslash($_SERVER['REQUEST_URI'])));
+        }
+
+        return '';
+    }
+
+    public static function renderNotice($message, $id, $class = 'info')
+    {
+        $notice = array(
+            'message'        => $message,
+            'id'             => $id,
+            'class'          => $class,
+            'is_dismissible' => false,
+        );
+
+        $dismissible = $notice['is_dismissible'] ? ' is-dismissible' : '';
+        $dismissUrl  = self::getDismissUrl($notice['id'], $notice);
+
+        self::renderNoticeInternal($notice, $dismissible, $dismissUrl);
+    }
+
+    private static function renderNoticeInternal($notice, $dismissible, $dismissUrl)
+    {
+        Admin_Template::get_template('notice', [
+            'notice'      => $notice,
+            'dismissible' => $dismissible,
+            'dismissUrl'  => $dismissUrl
+        ]);
     }
 
     public static function handleDismissNotice()

@@ -3,6 +3,7 @@
 namespace WP_Statistics\Service\Admin\PrivacyAudit;
 
 use InvalidArgumentException;
+use WP_Statistics\Exception\SystemErrorException;
 use WP_STATISTICS\Menus;
 use WP_Statistics\Service\Admin\PrivacyAudit\Audits\Abstracts\BaseAudit;
 use WP_Statistics\Service\Admin\PrivacyAudit\Audits\Abstracts\ResolvableAudit;

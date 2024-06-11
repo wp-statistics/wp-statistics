@@ -3,6 +3,7 @@
 namespace WP_Statistics\Abstracts;
 
 use InvalidArgumentException;
+use WP_Statistics\Exception\SystemErrorException;
 use WP_Statistics\Utils\Request;
 
 abstract class BaseTabView extends BaseView
@@ -14,7 +15,7 @@ abstract class BaseTabView extends BaseView
     {
         // Throw error when invalid tab provided
         if (!in_array($this->getCurrentTab(), $this->tabs)) {
-            throw new InvalidArgumentException(
+            throw new SystemErrorException(
                 esc_html__('Invalid tab provided.', 'wp-statistics')
             );
         }

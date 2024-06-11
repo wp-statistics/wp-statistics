@@ -3,6 +3,7 @@
 namespace WP_Statistics\Service\Admin\PrivacyAudit;
 
 use InvalidArgumentException;
+use WP_Statistics\Exception\SystemErrorException;
 
 class PrivacyAuditController
 {
