@@ -24,7 +24,7 @@ class AssetNameObfuscator
     private $hashedAssetsArray = [];
 
     /**
-     * Hashed file's key (which is its path relative to `WP_STATISTICS_DIR`) in options.
+     * Hashed file's key in options (which is its path relative to `WP_STATISTICS_DIR`).
      *
      * @var string
      */
@@ -123,12 +123,7 @@ class AssetNameObfuscator
         if ($this->isHashedFileExists()) return;
 
         // Delete old file
-        if (
-            !empty($this->hashedAssetsArray[$this->hashedFileOptionKey]['dir']) &&
-            file_exists($this->hashedAssetsArray[$this->hashedFileOptionKey]['dir'])
-        ) {
-            unlink($this->hashedAssetsArray[$this->hashedFileOptionKey]['dir']);
-        }
+        $this->deleteHashedFile($this->hashedAssetsArray, $this->hashedFileOptionKey);
 
         // Copy and randomize the name of the input file
         if (!copy($this->inputFileDir, $this->getHashedFileDir())) {
@@ -199,8 +194,18 @@ class AssetNameObfuscator
         ));
     }
 
-    private function deleteHashedFiles()
+    /**
+     * Deletes a hashed file.
+     *
+     * @param   array   $assetsArray    All hashed files.
+     * @param   string  $key            Hashed file's key (which is its path relative to `WP_STATISTICS_DIR`).
+     *
+     * @return  void
+     */
+    private function deleteHashedFile($assetsArray, $key)
     {
-        // todo
+        if (!empty($assetsArray[$key]) && !empty($assetsArray[$key]['dir']) && file_exists($assetsArray[$key]['dir'])) {
+            unlink($assetsArray[$key]['dir']);
+        }
     }
 }
