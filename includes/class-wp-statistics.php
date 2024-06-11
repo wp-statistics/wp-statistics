@@ -1,12 +1,11 @@
 <?php
 
 # Exit if accessed directly
-use WP_STATISTICS\Helper;
+use WP_Statistics\Service\Admin\AuthorAnalytics\AuthorAnalyticsManager;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
+use WP_Statistics\Service\Admin\Posts\PostsManager;
+use WP_Statistics\Service\Admin\PrivacyAudit\PrivacyAuditManager;
 use WP_Statistics\Service\Analytics\AnalyticsManager;
-use WP_Statistics\Service\AuthorAnalytics\AuthorAnalyticsManager;
-use WP_Statistics\Service\PrivacyAudit\PrivacyAuditManager;
-use WP_Statistics\Service\Posts\PostsManager;
 
 defined('ABSPATH') || exit;
 

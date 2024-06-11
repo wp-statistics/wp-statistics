@@ -1,9 +1,10 @@
-<?php 
+<?php
+
 use WP_STATISTICS\Admin_Template;
 use WP_STATISTICS\Menus;
-use WP_STATISTICS\UserOnline;
 use WP_STATISTICS\Option;
-use WP_Statistics\Service\PrivacyAudit\PrivacyAuditCheck;
+use WP_Statistics\Service\Admin\PrivacyAudit\PrivacyAuditCheck;
+use WP_STATISTICS\UserOnline;
 
 ?>
 

@@ -2,10 +2,10 @@
 
 namespace WP_Statistics\Models;
 
-use WP_STATISTICS\Helper;
-use WP_Statistics\Utils\Query;
 use WP_Statistics\Abstracts\BaseModel;
-use WP_Statistics\Service\Posts\WordCount;
+use WP_STATISTICS\Helper;
+use WP_Statistics\Service\Admin\Posts\WordCount;
+use WP_Statistics\Utils\Query;
 
 class PostsModel extends BaseModel
 {

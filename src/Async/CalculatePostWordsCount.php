@@ -4,7 +4,7 @@ namespace WP_Statistics\Async;
 
 use WP_STATISTICS\Option;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
-use WP_Statistics\Service\Posts\WordCount;
+use WP_Statistics\Service\Admin\Posts\WordCount;
 
 class CalculatePostWordsCount extends \WP_Background_Process
 {
