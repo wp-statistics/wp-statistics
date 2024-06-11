@@ -149,7 +149,8 @@ class AssetNameObfuscator
     private function isHashedFileExists()
     {
         return $this->hashedAssetsArray[$this->hashedFileOptionKey]['version'] === WP_STATISTICS_VERSION &&
-            !empty($this->hashedAssetsArray[$this->hashedFileOptionKey]['dir']);
+            !empty($this->hashedAssetsArray[$this->hashedFileOptionKey]['dir']) &&
+            file_exists($this->hashedAssetsArray[$this->hashedFileOptionKey]['dir']);
     }
 
     /**
