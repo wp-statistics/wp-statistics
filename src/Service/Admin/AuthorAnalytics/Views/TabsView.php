@@ -91,7 +91,6 @@ class TabsView extends BaseTabView
 
         $args = [
             'title'      => esc_html__('Author Analytics', 'wp-statistics'),
-            'tooltip'    => esc_html__('Page Tooltip', 'wp-statistics'),
             'pageName'   => Menus::get_page_slug('author-analytics'),
             'paged'      => Admin_Template::getCurrentPaged(),
             'custom_get' => ['tab' => $currentTab],
@@ -108,7 +107,7 @@ class TabsView extends BaseTabView
                 [
                     'link'    => Menus::admin_url('author-analytics', ['tab' => 'pages']),
                     'title'   => esc_html__('Author Pages', 'wp-statistics'),
-                    'tooltip' => esc_html__('Tab Tooltip', 'wp-statistics'),
+                    'tooltip' => esc_html__('View performance metrics for individual authors\' pages.', 'wp-statistics'),
                     'class'   => $currentTab === 'pages' ? 'current' : '',
                 ]
             ],
