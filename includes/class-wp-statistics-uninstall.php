@@ -2,6 +2,8 @@
 
 namespace WP_STATISTICS;
 
+use WP_Statistics\Components\AssetNameObfuscator;
+
 class Uninstall
 {
 
@@ -61,6 +63,10 @@ class Uninstall
             wp_clear_scheduled_hook('wp_statistics_report_hook');
             wp_clear_scheduled_hook('wp_statistics_optimize_table');
         }
+
+        // Delete all hashed files
+        $assetNameObfuscator = new AssetNameObfuscator();
+        $assetNameObfuscator->deleteAllHashedFiles();
 
         // Delete the user options.
         $wpdb->query("DELETE FROM {$wpdb->usermeta} WHERE `meta_key` LIKE 'wp_statistics%'");
