@@ -39,24 +39,22 @@ class AuthorAnalyticsPage extends MultiViewPage
         $this->wordsCount = new WordCount();
 
         $this->disableScreenOption();
-        $this->singleAuthorNotices();
+        $this->inaccurateDataNotice();
         $this->processWordCountMeta();
         $this->processWordCountInBackground();
     }
 
-    private function singleAuthorNotices()
+    private function inaccurateDataNotice()
     {
-        if (Request::compare('type', 'single-author')) {
-            $postType = Request::get('pt', 'post');
+        $postType = Request::get('pt', 'post');
 
-            if (!post_type_supports($postType, 'author')) {
-                $message = sprintf(
-                    __('This post type doesn’t support authors, affecting the accuracy of author performance data. To fix this, please enable author support for this post type. <a href="%s" target="_blank">Learn more</a>.', 'wp-statistics'),
-                    'https://wp-statistics.com/resources/enabling-author-support-for-your-post-types/?utm_source=wp-statistics&utm_medium=link&utm_campaign=doc'
-                );
+        if (!post_type_supports($postType, 'author')) {
+            $message = sprintf(
+                __('This post type doesn’t support authors, affecting the accuracy of author performance data. To fix this, please enable author support for this post type. <a href="%s" target="_blank">Learn more</a>.', 'wp-statistics'),
+                'https://wp-statistics.com/resources/enabling-author-support-for-your-post-types/?utm_source=wp-statistics&utm_medium=link&utm_campaign=doc'
+            );
 
-                Notice::addNotice($message, 'unsupported_post_type_author', 'warning', false);
-            }
+            Notice::addNotice($message, 'inaccurate_data_notice', 'warning', false);
         }
     }
 
