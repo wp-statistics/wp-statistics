@@ -281,23 +281,31 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                 return;
             }
 
+            function interpolateColor(minColor, maxColor, minValue, maxValue, value) {
+                const ratio = (value - minValue) / (maxValue - minValue);
+                const r = Math.ceil(parseInt(minColor.substring(1, 3), 16) * (1 - ratio) + parseInt(maxColor.substring(1, 3), 16) * ratio);
+                const g = Math.ceil(parseInt(minColor.substring(3, 5), 16) * (1 - ratio) + parseInt(maxColor.substring(3, 5), 16) * ratio);
+                const b = Math.ceil(parseInt(minColor.substring(5, 7), 16) * (1 - ratio) + parseInt(maxColor.substring(5, 7), 16) * ratio);
+                return `rgb(${r}, ${g}, ${b})`;
+            }
+            const colors = ['#E8EAEE', '#B28DFF', '#5100FD', '#4915B9', '#250766'];
+
+
             const overviewPublishData = {
                 datasets: [{
                     label: 'overview',
                     data: Wp_Statistics_Author_Analytics_Object.publish_chart_data,
                     backgroundColor(c) {
                         const value = c.dataset.data[c.dataIndex].v;
-                        const alpha = (10 + value) / 60;
-                        const colors = ['#E8EAEE', '#B28DFF', '#5100FD', '#4915B9', '#250766'];
-                        // Handle specific values of 0 and 1
-                        if (value === 0) {
-                            return colors[0];
-                        } else if (value === 1) {
-                            return colors[1];
+                        const minValue = Math.min(...c.dataset.data.map(data => data.v));
+                        const maxValue = Math.max(...c.dataset.data.map(data => data.v));
+                        const minColor = '#E8EAEE'; // Color for minimum value
+                        const maxColor = '#250766'; // Color for maximum value
+                        if (value >= 0 && value <= colors.length - 1) {
+                            return colors[value];
                         }
-                        const index = Math.floor(alpha * colors.length);
-                        let color = colors[index];
-                        return Chart.helpers.color(color).rgbString();
+                        const color = interpolateColor(minColor, maxColor, minValue, maxValue, value);
+                        return color;
                     },
                     borderColor: 'transparent',
                     borderWidth: 4,
