@@ -115,6 +115,13 @@ use WP_Statistics\Service\Admin\PrivacyAudit\Faqs\RequireConsent;
                             esc_url(admin_url('admin.php?page=wps_privacy-audit_page'))
                         ); ?>
                 </p>
+                <p class="description">
+                    <?php echo sprintf(
+                        // translators: %s: Documentation link.
+                        __('For more details, please refer to our <a href="%s" target="_blank">documentation</a>.', 'wp-statistics'),
+                        'https://wp-statistics.com/resources/wp-consent-level-integration/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings'
+                    ); ?>
+                </p>
             </td>
         </tr>
 
