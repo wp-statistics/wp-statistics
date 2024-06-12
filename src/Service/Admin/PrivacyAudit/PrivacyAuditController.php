@@ -22,9 +22,9 @@ class PrivacyAuditController
         check_ajax_referer('wp_rest', 'wps_nonce');
 
         // Get the compliance, audit and faq list status
-        $response['compliance_status'] = $this->dataProvider->complianceStatus();
-        $response['audit_list']        = $this->dataProvider->auditListStatus();
-        $response['faq_list']          = $this->dataProvider->faqListStatus();
+        $response['compliance_status'] = $this->dataProvider->getComplianceStatus();
+        $response['audit_list']        = $this->dataProvider->getAuditsStatus();
+        $response['faq_list']          = $this->dataProvider->getFaqsStatus();
 
         // Send the response
         wp_send_json_success($response);
@@ -56,8 +56,8 @@ class PrivacyAuditController
             $auditClass::$auditAction();
 
             // Get the updated audit item status
-            $response['compliance_status'] = $this->dataProvider->complianceStatus();
-            $response['faq_list']          = $this->dataProvider->faqListStatus();
+            $response['compliance_status'] = $this->dataProvider->getComplianceStatus();
+            $response['faq_list']          = $this->dataProvider->getFaqsStatus();
             $response['audit_item']        = $auditClass::getState();
 
             // Send the response

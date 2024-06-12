@@ -26,7 +26,7 @@ use WP_Statistics\Service\Admin\PrivacyAudit\PrivacyAuditDataProvider;
         <?php if (Option::get('privacy_audit')) : ?>
             <?php 
                 $privacyAuditData   = new PrivacyAuditDataProvider();
-                $privacyAuditStatus = $privacyAuditData->complianceStatus();
+                $privacyAuditStatus = $privacyAuditData->getComplianceStatus();
             ?>
             <a href="<?php echo esc_url(Menus::admin_url('privacy-audit')); ?>" title="<?php esc_html_e('Privacy Audit', 'wp-statistics'); ?>" class="privacy <?php echo $privacyAuditStatus['percentage_ready'] != 100 ? 'warning' : ''; ?> <?php echo Menus::in_page('privacy-audit') ? 'active' : ''; ?>"></a>
         <?php endif; ?>

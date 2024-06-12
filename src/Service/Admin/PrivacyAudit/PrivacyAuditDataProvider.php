@@ -84,7 +84,7 @@ class PrivacyAuditDataProvider
      * 
      * @return array $audits
      */
-    public function auditListStatus()
+    public function getAuditsStatus()
     {
         $audits = $this->getAudits();
         $list   = [];
@@ -120,7 +120,7 @@ class PrivacyAuditDataProvider
      * 
      * @return array $faqs
      */
-    public function faqListStatus()
+    public function getFaqsStatus()
     {
         $faqs = $this->getFaqs();
         $list = [];
@@ -148,7 +148,7 @@ class PrivacyAuditDataProvider
      * 
      * @return array $complianceStatus
      */
-    public function complianceStatus()
+    public function getComplianceStatus()
     {
         $audits         = $this->getAudits();
         $rulesMapped    = 0;
@@ -180,7 +180,7 @@ class PrivacyAuditDataProvider
      */
     public function privacyComplianceTest()
     {
-        $complianceStatus   = $this->complianceStatus();
+        $complianceStatus   = $this->getComplianceStatus();
         $isPrivacyCompliant = $complianceStatus['percentage_ready'] == 100;
 
 		$result = [
