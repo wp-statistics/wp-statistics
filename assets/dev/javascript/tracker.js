@@ -3,8 +3,16 @@ let WP_Statistics_CheckTime = 60000;
 // Check DoNotTrack Settings on User Browser
 let WP_Statistics_Dnd_Active = parseInt(navigator.msDoNotTrack || window.doNotTrack || navigator.doNotTrack, 10);
 
+// Prevent init() from running more than once
+let hasInitializedOnce = false;
+
 let wpStatisticsUserOnline = {
     init: function () {
+        if (hasInitializedOnce) {
+            return;
+        }
+        hasInitializedOnce = true;
+
         if (typeof WP_Statistics_Tracker_Object == "undefined") {
             console.log('Variable WP_Statistics_Tracker_Object not found on the page source. Please ensure that you have excluded the /wp-content/plugins/wp-statistics/assets/js/tracker.js file from your cache and then clear your cache.');
         } else {
