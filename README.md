@@ -51,17 +51,12 @@ WP Statistics supports shortcodes in WordPress, these can be used in either a po
 
 # Development
 ### Namespaces
-There are two namespaces `WP_STATISTICS` and `WP_Statistics` that the new classes which is in the new structure is in the `/src` folder and support PSR-4, so the new classes should be implemented in the new namespace.
+There are two namespaces, legacy `WP_STATISTICS` which is located in `/includes` and the `WP_Statistics` which is the new structure which located in the `/src` directory.
 
 # Community Links
 * [WordPress plugin page](http://wordpress.org/plugins/wp-statistics/)
 * [Plugin Website](https://wp-statistics.com)
 * [Author Website](http://veronalabs.com)
-
-# Donate
-Would you like to support this project?
-- ![Paypal](https://raw.githubusercontent.com/reek/anti-adblock-killer/gh-pages/images/paypal.png) Paypal: [Donate](https://wp-statistics.com/donate/)
-- ![btc](https://raw.githubusercontent.com/ErikThiart/cryptocurrency-icons/master/16/bitcoin.png) Bitcoin: `bc1qjezs7vusvvmhxrhxan7nkl7kvnpy624wxhse2p`
 
 ### Build the assets
 Requirement: Before any build it`s necessary to fix these below versions then use npm and gulp commands

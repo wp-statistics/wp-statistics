@@ -5,6 +5,7 @@ namespace WP_Statistics\Service\Admin\PrivacyAudit;
 use WP_Statistics\Abstracts\BasePage;
 use WP_STATISTICS\Admin_Template;
 use WP_STATISTICS\Menus;
+use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 
 class PrivacyAuditPage extends BasePage
 {

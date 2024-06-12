@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-06-11T11:05:01+00:00\n"
+"POT-Creation-Date: 2024-06-12T09:42:53+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.10.0\n"
 "X-Domain: wp-statistics\n"
@@ -173,7 +173,7 @@ msgid "Online Users"
 msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-assets.php:340
-#: includes/admin/templates/layout/title.php:19
+#: includes/admin/templates/layout/title.php:21
 msgid "Realtime"
 msgstr ""
 
@@ -198,7 +198,7 @@ msgstr ""
 #: includes/admin/class-wp-statistics-admin-taxonomy.php:56
 #: includes/admin/class-wp-statistics-admin-taxonomy.php:63
 #: includes/admin/class-wp-statistics-admin-user.php:33
-#: includes/admin/templates/layout/author-analytics/top-authors.php:24
+#: includes/admin/templates/layout/author-analytics/top-authors.php:25
 #: includes/admin/templates/optimization/purging.php:328
 #: includes/admin/templates/pages/author-analytics/authors-performance.php:29
 #: includes/admin/templates/pages/hits.php:23
@@ -474,12 +474,12 @@ msgid "Error connecting to WordPress REST API. Disable ad-blocker for this page 
 msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-assets.php:405
-#: src/Service/Admin/PrivacyAudit/PrivacyAuditCheck.php:187
+#: src/Service/Admin/PrivacyAudit/PrivacyAuditCheck.php:188
 msgid "Your WP Statistics settings are privacy-compliant."
 msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-assets.php:406
-#: src/Service/Admin/PrivacyAudit/PrivacyAuditCheck.php:202
+#: src/Service/Admin/PrivacyAudit/PrivacyAuditCheck.php:203
 msgid "Your WP Statistics settings are not privacy-compliant. Please update your settings."
 msgstr ""
 
@@ -488,11 +488,11 @@ msgid "By manually resolving this item, please ensure your website’s privacy p
 msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-assets.php:408
-#: includes/admin/templates/layout/author-analytics/top-authors.php:48
-#: includes/admin/templates/layout/author-analytics/top-authors.php:80
-#: includes/admin/templates/layout/author-analytics/top-authors.php:116
-#: includes/admin/templates/layout/author-analytics/top-authors.php:149
-#: includes/admin/templates/layout/author-analytics/top-authors.php:182
+#: includes/admin/templates/layout/author-analytics/top-authors.php:49
+#: includes/admin/templates/layout/author-analytics/top-authors.php:81
+#: includes/admin/templates/layout/author-analytics/top-authors.php:117
+#: includes/admin/templates/layout/author-analytics/top-authors.php:150
+#: includes/admin/templates/layout/author-analytics/top-authors.php:183
 #: includes/admin/templates/pages/author-analytics/authors-pages.php:61
 #: includes/admin/templates/pages/author-analytics/authors-report.php:111
 #: includes/admin/templates/pages/pages.php:36
@@ -566,7 +566,7 @@ msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-network.php:67
 #: src/Service/Admin/AuthorAnalytics/AuthorAnalyticsManager.php:24
-#: src/Service/Admin/AuthorAnalytics/Views/TabsView.php:93
+#: src/Service/Admin/AuthorAnalytics/Views/TabsView.php:89
 msgid "Author Analytics"
 msgstr ""
 
@@ -876,7 +876,7 @@ msgstr ""
 
 #: includes/admin/meta-box/wp-statistics-meta-box-platforms.php:63
 #: includes/class-wp-statistics-user-agent.php:40
-#: includes/class-wp-statistics-user-agent.php:127
+#: includes/class-wp-statistics-user-agent.php:133
 msgctxt "Operating System"
 msgid "Unknown"
 msgstr ""
@@ -1194,7 +1194,7 @@ msgstr ""
 #: includes/admin/templates/layout/privacy-audit/privacy-audits.php:3
 #: includes/admin/templates/settings/privacy.php:49
 #: src/Service/Admin/PrivacyAudit/PrivacyAuditManager.php:41
-#: src/Service/Admin/PrivacyAudit/PrivacyAuditPage.php:29
+#: src/Service/Admin/PrivacyAudit/PrivacyAuditPage.php:30
 msgid "Privacy Audit"
 msgstr ""
 
@@ -1239,46 +1239,46 @@ msgstr ""
 msgid "More"
 msgstr ""
 
-#: includes/admin/templates/layout/author-analytics/top-authors.php:40
+#: includes/admin/templates/layout/author-analytics/top-authors.php:41
 msgid "%s views"
 msgstr ""
 
-#: includes/admin/templates/layout/author-analytics/top-authors.php:55
+#: includes/admin/templates/layout/author-analytics/top-authors.php:56
 msgid "Publishing"
 msgstr ""
 
-#: includes/admin/templates/layout/author-analytics/top-authors.php:72
-msgid "%s publish"
+#: includes/admin/templates/layout/author-analytics/top-authors.php:73
+msgid "%s published"
 msgstr ""
 
-#: includes/admin/templates/layout/author-analytics/top-authors.php:92
-#: includes/admin/templates/pages/author-analytics/authors-report.php:47
-msgid "Comments/%s"
-msgstr ""
-
-#: includes/admin/templates/layout/author-analytics/top-authors.php:108
-msgid " comments/%s"
-msgstr ""
-
-#: includes/admin/templates/layout/author-analytics/top-authors.php:125
+#: includes/admin/templates/layout/author-analytics/top-authors.php:93
 #: includes/admin/templates/pages/author-analytics/authors-report.php:52
 msgid "Views/%s"
 msgstr ""
 
-#: includes/admin/templates/layout/author-analytics/top-authors.php:141
+#: includes/admin/templates/layout/author-analytics/top-authors.php:109
 msgid "views/%s"
 msgstr ""
 
-#: includes/admin/templates/layout/author-analytics/top-authors.php:158
+#: includes/admin/templates/layout/author-analytics/top-authors.php:126
+#: includes/admin/templates/pages/author-analytics/authors-report.php:47
+msgid "Comments/%s"
+msgstr ""
+
+#: includes/admin/templates/layout/author-analytics/top-authors.php:142
+msgid " comments/%s"
+msgstr ""
+
+#: includes/admin/templates/layout/author-analytics/top-authors.php:159
 #: includes/admin/templates/pages/author-analytics/authors-report.php:57
 msgid "Words/%s"
 msgstr ""
 
-#: includes/admin/templates/layout/author-analytics/top-authors.php:174
+#: includes/admin/templates/layout/author-analytics/top-authors.php:175
 msgid "words/%s"
 msgstr ""
 
-#: includes/admin/templates/layout/author-analytics/top-authors.php:193
+#: includes/admin/templates/layout/author-analytics/top-authors.php:194
 msgid "See all authors"
 msgstr ""
 
@@ -2142,7 +2142,7 @@ msgid "View Author Page"
 msgstr ""
 
 #: includes/admin/templates/pages/author-analytics/authors-performance.php:16
-#: src/Service/Admin/AuthorAnalytics/Views/AuthorsView.php:47
+#: src/Service/Admin/AuthorAnalytics/Views/AuthorsView.php:49
 msgid "Authors"
 msgstr ""
 
@@ -2151,7 +2151,7 @@ msgid "Total number of authors contributing content. Active authors have publish
 msgstr ""
 
 #: includes/admin/templates/pages/author-analytics/authors-performance.php:26
-msgid "%s/Authors"
+msgid "%s per Author"
 msgstr ""
 
 #: includes/admin/templates/pages/author-analytics/authors-performance.php:31
@@ -2161,7 +2161,7 @@ msgstr ""
 #: includes/admin/templates/pages/author-analytics/authors-performance.php:38
 #: includes/admin/templates/pages/author-analytics/authors-performance.php:50
 #: includes/admin/templates/pages/author-analytics/authors-performance.php:65
-msgid "Avg. Per %s"
+msgid "Avg. per %s"
 msgstr ""
 
 #: includes/admin/templates/pages/author-analytics/authors-performance.php:41
@@ -2202,7 +2202,7 @@ msgid "This section ranks authors based on various performance metrics such as v
 msgstr ""
 
 #: includes/admin/templates/pages/author-analytics/authors-performance.php:97
-#: src/Service/Admin/AuthorAnalytics/Views/TabsView.php:66
+#: src/Service/Admin/AuthorAnalytics/Views/TabsView.php:41
 msgid "Views/Published %s"
 msgstr ""
 
@@ -2211,7 +2211,7 @@ msgid "This scatter plot shows the relationship between the number of %1$s publi
 msgstr ""
 
 #: includes/admin/templates/pages/author-analytics/authors-report.php:27
-#: src/Service/Admin/AuthorAnalytics/Views/TabsView.php:74
+#: src/Service/Admin/AuthorAnalytics/Views/TabsView.php:49
 msgid "%s Views"
 msgstr ""
 
@@ -2406,12 +2406,8 @@ msgstr ""
 msgid "Title"
 msgstr ""
 
-#: includes/admin/templates/pages/privacy-audit.php:6
-msgid "Disclaimer"
-msgstr ""
-
 #: includes/admin/templates/pages/privacy-audit.php:7
-msgid "<b>Important: </b> This audit only checks WP Statistics plugin settings and helps improve privacy. It doesn't guarantee compliance with laws like GDPR and doesn't review other plugins or third-party tools. For full compliance, please consult a privacy expert. Remember, you're responsible for your site's privacy."
+msgid "<b>Disclaimer</b><br /><b>Important: </b> This audit only checks WP Statistics plugin settings and helps improve privacy. It doesn't guarantee compliance with laws like GDPR and doesn't review other plugins or third-party tools. For full compliance, please consult a privacy expert. Remember, you're responsible for your site's privacy."
 msgstr ""
 
 #: includes/admin/templates/pages/refer.url.php:35
@@ -4350,19 +4346,19 @@ msgstr ""
 msgid "Tags"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1350
+#: includes/class-wp-statistics-helper.php:1351
 msgid "a year"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1352
+#: includes/class-wp-statistics-helper.php:1353
 msgid "a month"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1355
+#: includes/class-wp-statistics-helper.php:1356
 msgid "a week"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1357
+#: includes/class-wp-statistics-helper.php:1358
 msgid "a day"
 msgstr ""
 
@@ -4729,13 +4725,13 @@ msgid "The post/page ID to get page statistics on."
 msgstr ""
 
 #: includes/class-wp-statistics-user-agent.php:35
-#: includes/class-wp-statistics-user-agent.php:164
+#: includes/class-wp-statistics-user-agent.php:170
 msgctxt "Version"
 msgid "Unknown"
 msgstr ""
 
 #: includes/class-wp-statistics-user-agent.php:39
-#: includes/class-wp-statistics-user-agent.php:158
+#: includes/class-wp-statistics-user-agent.php:164
 msgctxt "Browser"
 msgid "Unknown"
 msgstr ""
@@ -4764,7 +4760,7 @@ msgstr ""
 msgid "Safari"
 msgstr ""
 
-#: includes/class-wp-statistics-user-agent.php:110
+#: includes/class-wp-statistics-user-agent.php:116
 msgctxt "Device Model"
 msgid "Unknown"
 msgstr ""
@@ -4871,6 +4867,14 @@ msgstr ""
 msgid "Word count processed successfully."
 msgstr ""
 
+#: src/Exception/LogException.php:19
+msgid "Exception occurred: [Code %d] %s at %s:%d"
+msgstr ""
+
+#: src/Exception/SystemErrorException.php:11
+msgid "System error: %s"
+msgstr ""
+
 #: src/Service/Admin/AddOnDecorator.php:133
 msgid "Activated"
 msgstr ""
@@ -4915,29 +4919,29 @@ msgstr ""
 msgid "Word count processing is already started."
 msgstr ""
 
-#: src/Service/Admin/AuthorAnalytics/Views/AuthorsView.php:54
-#: src/Service/Admin/AuthorAnalytics/Views/SingleAuthorView.php:15
-#: src/Service/Admin/AuthorAnalytics/Views/TabsView.php:103
+#: src/Service/Admin/AuthorAnalytics/Views/AuthorsView.php:56
+#: src/Service/Admin/AuthorAnalytics/Views/SingleAuthorView.php:18
+#: src/Service/Admin/AuthorAnalytics/Views/TabsView.php:100
 msgid "Authors Performance"
 msgstr ""
 
-#: src/Service/Admin/AuthorAnalytics/Views/SingleAuthorView.php:13
+#: src/Service/Admin/AuthorAnalytics/Views/SingleAuthorView.php:16
 msgid "Detailed Author Stats Locked: DataPlus Add-On Required"
 msgstr ""
 
-#: src/Service/Admin/AuthorAnalytics/Views/TabsView.php:70
+#: src/Service/Admin/AuthorAnalytics/Views/TabsView.php:45
 msgid "Published %s"
 msgstr ""
 
-#: src/Service/Admin/AuthorAnalytics/Views/TabsView.php:104
+#: src/Service/Admin/AuthorAnalytics/Views/TabsView.php:101
 msgid "The Author Performance page provides insights into the contributions and impact of each author. Use this information to evaluate author productivity and engagement."
 msgstr ""
 
-#: src/Service/Admin/AuthorAnalytics/Views/TabsView.php:109
+#: src/Service/Admin/AuthorAnalytics/Views/TabsView.php:106
 msgid "Author Pages"
 msgstr ""
 
-#: src/Service/Admin/AuthorAnalytics/Views/TabsView.php:110
+#: src/Service/Admin/AuthorAnalytics/Views/TabsView.php:107
 msgid "View performance metrics for individual authors' pages."
 msgstr ""
 
@@ -5237,20 +5241,20 @@ msgstr ""
 msgid "<p>This means that the data resides on the same server as your website, following the same data storage practices. Since WP Statistics does not transfer data outside of your database, the location of your data is determined by your web hosting service. If your hosting servers are located within the EU, your data does not leave the EU. It is essential to be aware of your hosting provider’s data center locations to understand where your website’s data, including that collected by WP Statistics, is physically stored.</p>"
 msgstr ""
 
-#: src/Service/Admin/PrivacyAudit/PrivacyAuditCheck.php:190
+#: src/Service/Admin/PrivacyAudit/PrivacyAuditCheck.php:191
 msgid "Privacy"
 msgstr ""
 
-#: src/Service/Admin/PrivacyAudit/PrivacyAuditCheck.php:194
+#: src/Service/Admin/PrivacyAudit/PrivacyAuditCheck.php:195
 msgid "<p>The settings in your WP Statistics account comply with the privacy regulations. Visit the <a target=\"_blank\" href=\"%s\">%s<span aria-hidden=\"true\" class=\"dashicons dashicons-external\"></span></a> to learn more about best practices.</p>"
 msgstr ""
 
-#: src/Service/Admin/PrivacyAudit/PrivacyAuditCheck.php:196
-#: src/Service/Admin/PrivacyAudit/PrivacyAuditCheck.php:206
+#: src/Service/Admin/PrivacyAudit/PrivacyAuditCheck.php:197
+#: src/Service/Admin/PrivacyAudit/PrivacyAuditCheck.php:207
 msgid "Privacy Audit page"
 msgstr ""
 
-#: src/Service/Admin/PrivacyAudit/PrivacyAuditCheck.php:204
+#: src/Service/Admin/PrivacyAudit/PrivacyAuditCheck.php:205
 msgid "<p>Your WP Statistics settings do not meet the necessary privacy standards. Immediate adjustments are required to ensure compliance and protect user data. Please review and update your settings as recommended on the <a target=\"_blank\" href=\"%s\">%s<span aria-hidden=\"true\" class=\"dashicons dashicons-external\"></span></a>.</p>"
 msgstr ""
 
@@ -5258,7 +5262,7 @@ msgstr ""
 msgid "Are your WP Statistics settings privacy-compliant?"
 msgstr ""
 
-#: src/Service/Admin/PrivacyAudit/PrivacyAuditPage.php:30
+#: src/Service/Admin/PrivacyAudit/PrivacyAuditPage.php:31
 msgid "Check your privacy settings here to make sure WP Statistics is set up safely. This page helps you see if any settings might be collecting personal information and guides you on how to adjust them for better privacy. It's an easy way to keep your site's data use clear and safe."
 msgstr ""
 
