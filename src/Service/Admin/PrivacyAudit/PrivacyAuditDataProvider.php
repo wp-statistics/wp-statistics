@@ -172,43 +172,4 @@ class PrivacyAuditDataProvider
             ]
         ];
     }
-
-    /**
-     * Privacy compliance test result for WordPress site health.
-     * 
-     * @return array $result
-     */
-    public function privacyComplianceTest()
-    {
-        $complianceStatus   = $this->getComplianceStatus();
-        $isPrivacyCompliant = $complianceStatus['percentage_ready'] == 100;
-
-		$result = [
-			'label'       => esc_html__( 'Your WP Statistics settings are privacy-compliant.', 'wp-statistics' ),
-			'status'      => 'good',
-			'badge'       => [
-				'label' => esc_html__('Privacy', 'wp-statistics'),
-				'color' => 'blue'
-			],
-			'description' => sprintf(
-                __('<p>The settings in your WP Statistics account comply with the privacy regulations. Visit the <a target="_blank" href="%s">%s<span aria-hidden="true" class="dashicons dashicons-external"></span></a> to learn more about best practices.</p>', 'wp-statistics'),
-                esc_url(Menus::admin_url(Menus::get_page_slug('privacy-audit'))),
-                esc_html__('Privacy Audit page', 'wp-statistics')
-            ),
-            'test'        => 'wp_statistics_privacy_compliance_status'
-		];
-
-		if ($isPrivacyCompliant == false) {
-			$result['label']          = esc_html__('Your WP Statistics settings are not privacy-compliant. Please update your settings.', 'wp-statistics');
-			$result['description']    = sprintf(
-                __('<p>Your WP Statistics settings do not meet the necessary privacy standards. Immediate adjustments are required to ensure compliance and protect user data. Please review and update your settings as recommended on the <a target="_blank" href="%s">%s<span aria-hidden="true" class="dashicons dashicons-external"></span></a>.</p>', 'wp-statistics'),
-                esc_url(Menus::admin_url(Menus::get_page_slug('privacy-audit'))),
-                esc_html__('Privacy Audit page', 'wp-statistics')
-            );
-			$result['status']         = 'recommended';
-			$result['badge']['color'] = 'orange';
-		}
-
-		return $result;
-    }
 }

@@ -98,7 +98,7 @@ class PrivacyAuditManager
     {
         $tests['direct']['wp_statistics_privacy_compliance_status'] = [
 			'label' => esc_html__('Are your WP Statistics settings privacy-compliant?', 'wp-statistics' ),
-			'test'  => [new PrivacyAuditDataProvider, 'privacyComplianceTest'],
+			'test'  => [new PrivacyAuditController, 'privacyComplianceTest'],
 		];
 
         return $tests;
