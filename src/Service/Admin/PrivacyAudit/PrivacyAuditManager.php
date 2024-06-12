@@ -3,6 +3,7 @@
 namespace WP_Statistics\Service\Admin\PrivacyAudit;
 
 use WP_STATISTICS\Option;
+use WP_Statistics\Service\Admin\PrivacyAudit\Audits\Abstracts\ResolvableAudit;
 
 class PrivacyAuditManager
 {
@@ -12,8 +13,8 @@ class PrivacyAuditManager
         if (Option::get('privacy_audit')) {
             add_filter('wp_statistics_admin_menu_list', [$this, 'addMenuItem']);
             add_filter('wp_statistics_ajax_list', [$this, 'registerAjaxCallbacks']);
-            add_filter( 'site_status_tests', [$this, 'registerHealthStatusTests']);
-            add_action('admin_init', [$this, 'initPrivacyStatusOption']);
+            add_filter('site_status_tests', [$this, 'registerHealthStatusTests']);
+            add_action('admin_init', [$this, 'initOptions']);
         }
     }
 
@@ -22,9 +23,24 @@ class PrivacyAuditManager
      *
      * @return void
      */
-    public function initPrivacyStatusOption()
+    public function initOptions()
     {
-        PrivacyStatusOption::init();
+        $dataProvider   = new PrivacyAuditDataProvider();
+        $audits         = $dataProvider->getAudits();
+        $defaultOptions = [];
+
+        /** @var ResolvableAudit $audit */
+        foreach ($audits as $audit) {
+            // Only resolvable audits state needs to be stored in options
+            if (!is_subclass_of($audit, ResolvableAudit::class)) continue;
+
+            // By default, all audits should be action_required
+            $defaultOptions[$audit::$optionKey] = 'action_required';
+        }
+
+        foreach ($defaultOptions as $key => $value) {
+            Option::addOptionGroup($key, $value, 'privacy_status');
+        }
     }
 
     /**
@@ -82,7 +98,7 @@ class PrivacyAuditManager
     {
         $tests['direct']['wp_statistics_privacy_compliance_status'] = [
 			'label' => esc_html__('Are your WP Statistics settings privacy-compliant?', 'wp-statistics' ),
-			'test'  => [new PrivacyAuditDataProvider, 'privacyComplianceTest'],
+			'test'  => [new PrivacyAuditController, 'privacyComplianceTest'],
 		];
 
         return $tests;
