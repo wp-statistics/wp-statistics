@@ -314,6 +314,18 @@ class Option
         update_option($settingName, $options);
     }
 
+    public static function addOptionGroup($key, $value, $group)
+    {
+        $settingName = "wp_statistics_{$group}";
+        $options     = get_option($settingName, []);
+
+        // Store the value in the array.
+        $options[$key] = $value;
+
+        // Write the array to the database.
+        add_option($settingName, $options);
+    }
+
     public static function deleteOptionGroup($key, $group)
     {
         $settingName = "wp_statistics_{$group}";
