@@ -168,7 +168,7 @@ class Query
                     $value = explode(',', $value);
                 }
 
-                if (is_array($value)) {
+                if (!empty($value) && is_array($value)) {
                     $placeholders   = implode(', ', array_fill(0, count($value), '%s'));
                     $condition      = "$field $operator ($placeholders)";
                     $values         = $value;
@@ -370,7 +370,9 @@ class Query
             $fields = implode(', ', $fields);
         }
 
-        $this->groupByClause = "GROUP BY {$fields}";
+        if (!empty($fields)) {
+            $this->groupByClause = "GROUP BY {$fields}";
+        }
         
         return $this;
     }
