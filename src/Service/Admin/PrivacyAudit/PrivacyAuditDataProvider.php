@@ -3,7 +3,6 @@
 namespace WP_Statistics\Service\Admin\PrivacyAudit;
 
 use InvalidArgumentException;
-use WP_Statistics\Exception\SystemErrorException;
 use WP_STATISTICS\Menus;
 use WP_Statistics\Service\Admin\PrivacyAudit\Audits\Abstracts\BaseAudit;
 use WP_Statistics\Service\Admin\PrivacyAudit\Audits\Abstracts\ResolvableAudit;
@@ -20,14 +19,14 @@ use WP_Statistics\Service\Admin\PrivacyAudit\Faqs\RequireCookieBanner;
 use WP_Statistics\Service\Admin\PrivacyAudit\Faqs\RequireMention;
 use WP_Statistics\Service\Admin\PrivacyAudit\Faqs\TransferData;
 
-class PrivacyAuditCheck
+class PrivacyAuditDataProvider
 {
     /**
      * Get list of privacy faq items
      * 
      * @return AbstractFaq[] $faqs
      */
-    public static function getFaqs()
+    public function getFaqs()
     {
         $faqs = [
             RequireConsent::class,
@@ -45,7 +44,7 @@ class PrivacyAuditCheck
      * 
      * @return BaseAudit[] $audits
      */
-    public static function getAudits()
+    public function getAudits()
     {
         $audits = [
             'record_user_page_visits'       => RecordUserPageVisits::class,
@@ -68,9 +67,9 @@ class PrivacyAuditCheck
      * @return BaseAudit $auditClass
      * @throws InvalidArgumentException if audit class is not found.
      */
-    public static function getAudit($auditName)
+    public function getAudit($auditName)
     {
-        $audits = self::getAudits();
+        $audits = $this->getAudits();
         
         if (!isset($audits[$auditName])) {
             throw new InvalidArgumentException(esc_html__(sprintf("%s is not a valid audit item.", $auditName), 'wp-statistics'));
@@ -85,9 +84,9 @@ class PrivacyAuditCheck
      * 
      * @return array $audits
      */
-    public static function auditListStatus()
+    public function getAuditsStatus()
     {
-        $audits = self::getAudits();
+        $audits = $this->getAudits();
         $list   = [];
 
         foreach ($audits as $key => $audit) {
@@ -121,9 +120,9 @@ class PrivacyAuditCheck
      * 
      * @return array $faqs
      */
-    public static function faqListStatus()
+    public function getFaqsStatus()
     {
-        $faqs = self::getFaqs();
+        $faqs = $this->getFaqs();
         $list = [];
 
         foreach ($faqs as $faq) {
@@ -149,9 +148,9 @@ class PrivacyAuditCheck
      * 
      * @return array $complianceStatus
      */
-    public static function complianceStatus()
+    public function getComplianceStatus()
     {
-        $audits         = self::getAudits();
+        $audits         = $this->getAudits();
         $rulesMapped    = 0;
         $actionRequired = 0;
         $passed         = 0;
@@ -179,9 +178,9 @@ class PrivacyAuditCheck
      * 
      * @return array $result
      */
-    public static function privacyComplianceTest()
+    public function privacyComplianceTest()
     {
-        $complianceStatus   = self::complianceStatus();
+        $complianceStatus   = $this->getComplianceStatus();
         $isPrivacyCompliant = $complianceStatus['percentage_ready'] == 100;
 
 		$result = [

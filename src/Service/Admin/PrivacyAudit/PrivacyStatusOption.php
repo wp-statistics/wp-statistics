@@ -10,8 +10,10 @@ class PrivacyStatusOption
 
     private static function defaultOptions()
     {
+        $privacyAuditDataProvider = new PrivacyAuditDataProvider();
+
+        $audits         = $privacyAuditDataProvider->getAudits();
         $defaultOptions = [];
-        $audits         = PrivacyAuditCheck::getAudits();
 
         /** @var ResolvableAudit $audit */
         foreach ($audits as $audit) {
