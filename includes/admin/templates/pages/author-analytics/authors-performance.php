@@ -23,7 +23,7 @@ $postTypeNamePlural     = Helper::getPostTypeName($postType);
                     'published'    => Helper::formatNumberWithUnit($data['authors']['published']),
                     'active'       => Helper::formatNumberWithUnit($data['authors']['active']),
                     'avg'          => Helper::formatNumberWithUnit($data['authors']['avg'], 1),
-                    'avg_title'    => sprintf(esc_html__('%s per Author', 'wp-statistics'), $postTypeNameSingular)
+                    'avg_title'    => sprintf(esc_html__('%s per Author', 'wp-statistics'), $postTypeNamePlural)
                 ],
                 [
                     'title'        => esc_html__('Views', 'wp-statistics'),
