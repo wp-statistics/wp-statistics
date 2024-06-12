@@ -60,4 +60,37 @@ class VisitorsModel extends BaseModel
         return $result ? $result : [];
     }
 
+    public function getVisitorsLocationData($args = [], $bypassCache = false)
+    {
+        $args = $this->parseArgs($args, [
+            'date'      => '',
+            'country'   => '',
+            'city'      => '',
+            'region'    => '',
+            'continent' => '',
+            'group_by'  => 'country',
+        ]);
+
+        $result = Query::select([
+                'visitor.city as city',
+                'visitor.location as country',
+                'visitor.region as region',
+                'visitor.continent as continent',
+                'COUNT(DISTINCT visitor.ID) as visitors',
+                'SUM(pages.count) as views'
+            ])
+            ->from('visitor')
+            ->join('visitor_relationships', ['visitor_relationships.visitor_id', 'visitor.ID'])
+            ->join('pages', ['visitor_relationships.page_id', 'pages.page_id'])
+            ->whereDate('pages.date', $args['date'])
+            ->where('visitor.location', 'IN', $args['country'])
+            ->where('visitor.city', 'IN', $args['city'])
+            ->where('visitor.region', 'IN', $args['region'])
+            ->where('visitor.continent', 'IN', $args['continent'])
+            ->groupBy($args['group_by'])
+            ->bypassCache($bypassCache)
+            ->getAll();
+
+        return $result ? $result : [];
+    }
 }

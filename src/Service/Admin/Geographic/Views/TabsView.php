@@ -5,9 +5,12 @@ namespace WP_Statistics\Service\Admin\Geographic\Views;
 use WP_Statistics\Abstracts\BaseTabView;
 use WP_STATISTICS\Admin_Template;
 use WP_STATISTICS\Menus;
+use WP_Statistics\Service\Admin\Geographic\GeographicDataProvider;
+use WP_Statistics\Utils\Request;
 
 class TabsView extends BaseTabView
 {
+    protected $dataProvider;
     protected $defaultTab = 'countries';
     protected $tabs = [
         'countries',
@@ -21,12 +24,27 @@ class TabsView extends BaseTabView
     public function __construct()
     {
         parent::__construct();
+
+        $this->dataProvider = new GeographicDataProvider([
+            'from'  => Request::get('from', date('Y-m-d', strtotime('-1 month'))),
+            'to'    => Request::get('to', date('Y-m-d')),
+        ]);
     }
 
+    public function getCountriesData()
+    {
+        return $this->dataProvider->getCountriesData();
+    }
+
+    public function getCitiesData()
+    {
+        return $this->dataProvider->getCitiesData();
+    }
 
     public function render()
     {
         $currentTab = $this->getCurrentTab();
+        $data       = $this->getTabData();
 
         $args = [
             'title'      => esc_html__('Geographic', 'wp-statistics'),
@@ -34,7 +52,7 @@ class TabsView extends BaseTabView
             'paged'      => Admin_Template::getCurrentPaged(),
             'custom_get' => ['tab' => $currentTab],
             'DateRang'   => Admin_Template::DateRange(),
-            'HasDateRang'=> true,
+            'hasDateRang'=> true,
             'tabs'       => [
                 [
                     'link'    => Menus::admin_url('geographic', ['tab' => 'countries']),
