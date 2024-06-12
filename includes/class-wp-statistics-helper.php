@@ -1281,9 +1281,10 @@ class Helper
      * Formats a number into a string with appropriate units (K, M, B, T).
      *
      * @param int|float $number The number to be formatted.
+     * @param int $precision The number of decimal places to round the result to for numbers without units. Default is 0.
      * @return string The formatted number with appropriate units.
      */
-    public static function formatNumberWithUnit($number)
+    public static function formatNumberWithUnit($number, $precision = 0)
     {
         if (!is_numeric($number)) return 0;
 
@@ -1293,7 +1294,7 @@ class Helper
         }
 
         if (empty($units[$i])) {
-            $formattedNumber = round($number, 0);
+            $formattedNumber = round($number, $precision);
         } else {
             $formattedNumber = round($number, 1) . $units[$i];
         }
