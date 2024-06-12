@@ -24,14 +24,43 @@ class TabsView extends BaseTabView
         parent::__construct();
     }
 
-    /**
-     * Get performance tab data
-     *
-     * @return array
-     */
-    public function getData()
+    public function getPerformanceData()
     {
-        $currentTab = $this->getCurrentTab();
+        $from       = Request::get('from', date('Y-m-d', strtotime('-1 month')));
+        $to         = Request::get('to', date('Y-m-d'));
+        $postType   = Request::get('pt', 'post');
+
+        $args = [
+            'date'      => ['from' => $from, 'to' => $to],
+            'post_type' => $postType,
+        ];
+
+        $dataProvider = new AuthorAnalyticsDataProvider($args);
+
+        wp_localize_script(Admin_Assets::$prefix, 'Wp_Statistics_Author_Analytics_Object', [
+            'publish_chart_data'         => $dataProvider->getPublishingChartData(),
+            'views_per_posts_chart_data' => [
+                'data'       => $dataProvider->getViewsPerPostsChartData(),
+                'chartLabel' => sprintf(
+                    esc_html__('Views/Published %s', 'wp-statistics'),
+                    Helper::getPostTypeName($postType)
+                ),
+                'yAxisLabel' => sprintf(
+                    esc_html__('Published %s', 'wp-statistics'),
+                    Helper::getPostTypeName($postType)
+                ),
+                'xAxisLabel' => sprintf(
+                    esc_html__('%s Views', 'wp-statistics'),
+                    Helper::getPostTypeName($postType, true)
+                )
+            ]
+        ]);
+
+        return $dataProvider->getAuthorsPerformanceData();
+    }
+
+    public function getPagesData()
+    {
         $from       = Request::get('from', date('Y-m-d', strtotime('-1 month')));
         $to         = Request::get('to', date('Y-m-d'));
         $postType   = Request::get('pt', 'post');
@@ -41,55 +70,24 @@ class TabsView extends BaseTabView
         $args = [
             'date'      => ['from' => $from, 'to' => $to],
             'post_type' => $postType,
-            'tab'       => $currentTab
+            'per_page'  => Admin_Template::$item_per_page,
+            'page'      => Admin_Template::getCurrentPaged()
         ];
-
-        if ($currentTab == 'pages') {
-            $args['per_page'] = Admin_Template::$item_per_page;
-            $args['page']     = Admin_Template::getCurrentPaged();
-        }
 
         if ($orderBy) {
             $args['order_by'] = $orderBy;
             $args['order']    = $order;
         }
 
-        // Init data provider class
         $dataProvider = new AuthorAnalyticsDataProvider($args);
-
-        // Localize data
-        if ($currentTab == 'performance') {
-            wp_localize_script(Admin_Assets::$prefix, 'Wp_Statistics_Author_Analytics_Object', [
-                'publish_chart_data'         => $dataProvider->getPublishingChartData(),
-                'views_per_posts_chart_data' => [
-                    'data'       => $dataProvider->getViewsPerPostsChartData(),
-                    'chartLabel' => sprintf(
-                        esc_html__('Views/Published %s', 'wp-statistics'),
-                        Helper::getPostTypeName($postType)
-                    ),
-                    'yAxisLabel' => sprintf(
-                        esc_html__('Published %s', 'wp-statistics'),
-                        Helper::getPostTypeName($postType)
-                    ),
-                    'xAxisLabel' => sprintf(
-                        esc_html__('%s Views', 'wp-statistics'),
-                        Helper::getPostTypeName($postType, true)
-                    )
-                ]
-            ]);
-        }
-
-        // Get tab data
-        $dataMethod = 'getAuthors' . ucfirst($currentTab) . 'Data';
-
-        return $dataProvider->$dataMethod();
+        return $dataProvider->getAuthorsPagesData();
     }
 
     public function render()
     {
         try {
             $currentTab = $this->getCurrentTab();
-            $tabData    = $this->getData();
+            $tabData    = $this->getTabData();
 
             $args = [
                 'title'       => esc_html__('Author Analytics', 'wp-statistics'),

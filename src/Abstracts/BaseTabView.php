@@ -2,7 +2,6 @@
 
 namespace WP_Statistics\Abstracts;
 
-use InvalidArgumentException;
 use WP_Statistics\Exception\SystemErrorException;
 use WP_Statistics\Utils\Request;
 
@@ -24,5 +23,14 @@ abstract class BaseTabView extends BaseView
     protected function getCurrentTab()
     {
         return Request::get('tab', $this->defaultTab);
+    }
+
+    protected function getTabData()
+    {
+        $tabDataMethod = 'get' . ucfirst($this->getCurrentTab()) . 'Data';
+
+        if (!method_exists($this, $tabDataMethod)) return [];
+
+        return $this->$tabDataMethod();
     }
 }
