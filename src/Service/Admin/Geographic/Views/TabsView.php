@@ -69,26 +69,23 @@ class TabsView extends BaseTabView
                 [
                     'link'    => Menus::admin_url('geographic', ['tab' => 'europe']),
                     'title'   => esc_html__('European Countries', 'wp-statistics'),
-                    'tooltip' => esc_html__('Tooltip', 'wp-statistics'),
                     'class'   => $currentTab === 'europe' ? 'current' : '',
                 ],
                 [
                     'link'    => Menus::admin_url('geographic', ['tab' => 'us-states']),
                     'title'   => esc_html__('US States', 'wp-statistics'),
-                    'tooltip' => esc_html__('Tooltip', 'wp-statistics'),
                     'class'   => $currentTab === 'us-states' ? 'current' : '',
                 ],
                 [
                     'link'    => Menus::admin_url('geographic', ['tab' => 'germany']),
                     'title'   => esc_html__('Regions of Germany', 'wp-statistics'),
-                    'tooltip' => esc_html__('Tooltip', 'wp-statistics'),
                     'class'   => $currentTab === 'germany' ? 'current' : '',
                 ],
                 [
                     'link'    => Menus::admin_url('geographic', ['tab' => 'timezone']),
                     'title'   => esc_html__('Timezone', 'wp-statistics'),
-                    'tooltip' => esc_html__('Tooltip', 'wp-statistics'),
                     'class'   => $currentTab === 'timezone' ? 'current' : '',
+                    'coming_soon'   => true,
                 ],
             ],
         ];
