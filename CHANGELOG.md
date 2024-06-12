@@ -1,10 +1,10 @@
 = 14.8 - 16.06.2024 =
-* Addition: Introduced Author Analytics for detailed author performance insights.
-* Addition: Introduced Geographic Reports for location-based analytics.
+* Addition: Introduced Author Analytics for detailed author performance insights, including publishing overview, top authors, and views per post.
+* Addition: Introduced Geographic Reports for location-based analytics, including countries, cities, European countries, US states, regions of Germany, and time zones.
 * Addition: Added a new option for Bypass Ad Blockers by dynamically loading the tracking script with a unique name and address.
 * Addition: Added Anonymous User to User Role Exclusions.
 * Addition: Added a new option in settings for compatibility with WP Consent Level API.
-* Addition: Added Device Menu for better device-specific analytics.
+* Addition: Added Device Menu for better device-specific analytics, including browsers, operating systems, device models, device categories, screen resolutions, and languages.
 * Improvement: Improved structure and cleanup using new components and models.
 * Improvement: Updated browser icons.
 * Improvement: Made numerous minor and major enhancements.
