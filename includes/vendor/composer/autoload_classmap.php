@@ -82,6 +82,7 @@ return array(
     'WP_Statistics\\Components\\AssetNameObfuscator' => $baseDir . '/src/Components/AssetNameObfuscator.php',
     'WP_Statistics\\Components\\Assets' => $baseDir . '/src/Components/Assets.php',
     'WP_Statistics\\Components\\Singleton' => $baseDir . '/src/Components/Singleton.php',
+    'WP_Statistics\\Exception\\SystemErrorException' => $baseDir . '/src/Exception/SystemErrorException.php',
     'WP_Statistics\\Models\\AuthorsModel' => $baseDir . '/src/Models/AuthorsModel.php',
     'WP_Statistics\\Models\\PagesModel' => $baseDir . '/src/Models/PagesModel.php',
     'WP_Statistics\\Models\\PostsModel' => $baseDir . '/src/Models/PostsModel.php',

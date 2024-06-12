@@ -87,8 +87,41 @@ $postTypeLabel  = Helper::getPostTypeName($postType, true);
         </div>
         <div class="wps-flex-half">
             <div class="wps-author-tabs">
-            <?php if (post_type_supports($postType, 'comments')) : ?>
-                    <input type="radio" name="side-tabs" id="comments-post" checked>
+
+                <input type="radio" name="side-tabs" id="views-post" checked>
+                <label for="views-post"><?php echo sprintf(esc_html__('Views/%s', 'wp-statistics'), $postTypeLabel) ?></label>
+                <div class="wps-author-tabs__content">
+                    <?php
+                        /** @var stdClass[] */
+                        $topByViewsPerPost  = $data['authors']['top_by_views'];
+                        $counter            = 1; 
+
+                        if ($topByViewsPerPost) {
+                            foreach ($topByViewsPerPost as $author) : ?>
+                                <a class="wps-author-tabs__item" href="<?php echo Menus::admin_url('author-analytics', ['type' => 'single-author', 'author_id' => $author->id]) ?>">
+                                    <div class="wps-author-tabs__item--image">
+                                        <span># <?php echo esc_html($counter); ?></span>
+                                        <img src="<?php echo esc_url(get_avatar_url($author->id)); ?>" alt="<?php echo esc_html($author->name); ?>"/>
+                                    </div>
+                                    <div class="wps-author-tabs__item--content">
+                                        <h3><?php echo esc_html($author->name); ?></h3>
+                                        <span><?php echo esc_html(Helper::formatNumberWithUnit($author->average_views)); ?> <?php echo sprintf(esc_html__('views/%s', 'wp-statistics'), strtolower($postTypeLabel)) ?></span>
+                                    </div>
+                                </a>
+                                <?php $counter++;
+                            endforeach; 
+                        } else {
+                            ?>
+                                <div class="o-wrap o-wrap--no-data">
+                                    <p><?php esc_html_e('No recent data available.', 'wp-statistics') ?></p>
+                                </div>
+                            <?php
+                        }
+                    ?>
+                </div>
+
+                <?php if (post_type_supports($postType, 'comments')) : ?>
+                    <input type="radio" name="side-tabs" id="comments-post">
                     <label for="comments-post"><?php echo sprintf(esc_html__('Comments/%s', 'wp-statistics'), $postTypeLabel) ?></label>
                     <div class="wps-author-tabs__content">
                         <?php
@@ -120,39 +153,6 @@ $postTypeLabel  = Helper::getPostTypeName($postType, true);
                         ?>
                     </div>
                 <?php endif; ?>
-                
-                <input type="radio" name="side-tabs" id="views-post" <?php checked(!post_type_supports($postType, 'comments')) ?>>
-                <label for="views-post"><?php echo sprintf(esc_html__('Views/%s', 'wp-statistics'), $postTypeLabel) ?></label>
-                <div class="wps-author-tabs__content">
-                    <?php
-                        /** @var stdClass[] */
-                        $topByViewsPerPost  = $data['authors']['top_by_views'];
-                        $counter            = 1; 
-
-                        if ($topByViewsPerPost) {
-                            foreach ($topByViewsPerPost as $author) : ?>
-                                <a class="wps-author-tabs__item" href="<?php echo Menus::admin_url('author-analytics', ['type' => 'single-author', 'author_id' => $author->id]) ?>">
-                                    <div class="wps-author-tabs__item--image">
-                                        <span># <?php echo esc_html($counter); ?></span>
-                                        <img src="<?php echo esc_url(get_avatar_url($author->id)); ?>" alt="<?php echo esc_html($author->name); ?>"/>
-                                    </div>
-                                    <div class="wps-author-tabs__item--content">
-                                        <h3><?php echo esc_html($author->name); ?></h3>
-                                        <span><?php echo esc_html(Helper::formatNumberWithUnit($author->average_views)); ?> <?php echo sprintf(esc_html__('views/%s', 'wp-statistics'), strtolower($postTypeLabel)) ?></span>
-                                    </div>
-                                </a>
-                                <?php $counter++;
-                            endforeach; 
-                        } else {
-                            ?>
-                                <div class="o-wrap o-wrap--no-data">
-                                    <p><?php esc_html_e('No recent data available.', 'wp-statistics') ?></p>
-                                </div>
-                            <?php
-                        }
-
-                    ?>
-                </div>
 
                 <input type="radio" name="side-tabs" id="words-post">
                 <label for="words-post"><?php echo sprintf(esc_html__('Words/%s', 'wp-statistics'), $postTypeLabel) ?></label>

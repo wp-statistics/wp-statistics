@@ -24,7 +24,7 @@ class AssetNameObfuscator
     private $hashedAssetsArray = [];
 
     /**
-     * Hashed file's key (which is its path relative to `WP_STATISTICS_DIR`) in options.
+     * Hashed file's key in options (which is its path relative to `WP_STATISTICS_DIR`).
      *
      * @var string
      */
@@ -57,11 +57,12 @@ class AssetNameObfuscator
     private $hashedFileDir;
 
     /**
-     * @param string $file Path of the input file relative to the plugin.
+     * @param   string  $file   Path of the input file relative to the plugin. 
+     * Pass `null` if you only want to use `deleteAllHashedFiles` and `deleteDatabaseOption` methods. (e.g. When uninstalling the plugin)
      *
      * @return  void
      */
-    public function __construct($file)
+    public function __construct($file = null)
     {
         $this->inputFileDir = $file;
         if (stripos($this->inputFileDir, WP_STATISTICS_DIR) === false) {
@@ -81,19 +82,19 @@ class AssetNameObfuscator
      */
     private function initializeVariables()
     {
-        $this->hashedAssetsArray = Option::getOptionGroup($this->optionName, '', []);
-
+        $this->hashedAssetsArray   = Option::getOptionGroup($this->optionName, null, []);
         $this->hashedFileOptionKey = str_replace(WP_STATISTICS_DIR, '', $this->inputFileDir);
+
         if (empty($this->hashedAssetsArray[$this->hashedFileOptionKey])) {
             $this->hashedAssetsArray[$this->hashedFileOptionKey]            = [];
             $this->hashedAssetsArray[$this->hashedFileOptionKey]['version'] = WP_STATISTICS_VERSION;
         }
 
-        $this->hashedFileName = $this->generateShortHash(WP_STATISTICS_VERSION . basename($this->inputFileDir));
-        $this->hashedFileName .= '.' . pathinfo($this->inputFileDir, PATHINFO_EXTENSION);
-        $this->hashedFileName = apply_filters('wp_statistics_hashed_asset_name', $this->hashedFileName, $this->inputFileDir);
-
+        $this->hashedFileName     = $this->generateShortHash(WP_STATISTICS_VERSION . basename($this->inputFileDir));
+        $this->hashedFileName     .= '.' . pathinfo($this->inputFileDir, PATHINFO_EXTENSION);
+        $this->hashedFileName     = apply_filters('wp_statistics_hashed_asset_name', $this->hashedFileName, $this->inputFileDir);
         $this->hashedFilesRootDir = apply_filters('wp_statistics_hashed_asset_root', wp_upload_dir()['basedir']);
+
         if (!is_dir($this->hashedFilesRootDir)) {
             // Try to make the filtered dir if it not exists
             if (!mkdir($this->hashedFilesRootDir, 0700)) {
@@ -102,9 +103,7 @@ class AssetNameObfuscator
             }
         }
 
-        $this->hashedFileDir = $this->isHashedFileExists() ?
-            $this->hashedAssetsArray[$this->hashedFileOptionKey]['dir'] :
-            path_join($this->hashedFilesRootDir, $this->hashedFileName);
+        $this->hashedFileDir = $this->isHashedFileExists() ? $this->hashedAssetsArray[$this->hashedFileOptionKey]['dir'] : path_join($this->hashedFilesRootDir, $this->hashedFileName);
         $this->hashedFileDir = apply_filters('wp_statistics_hashed_asset_dir', $this->hashedFileDir, $this->hashedFilesRootDir, $this->hashedFileName);
     }
 
@@ -125,12 +124,7 @@ class AssetNameObfuscator
         if ($this->isHashedFileExists()) return;
 
         // Delete old file
-        if (
-            !empty($this->hashedAssetsArray[$this->hashedFileOptionKey]['dir']) &&
-            file_exists($this->hashedAssetsArray[$this->hashedFileOptionKey]['dir'])
-        ) {
-            unlink($this->hashedAssetsArray[$this->hashedFileOptionKey]['dir']);
-        }
+        $this->deleteHashedFile($this->hashedAssetsArray, $this->hashedFileOptionKey);
 
         // Copy and randomize the name of the input file
         if (!copy($this->inputFileDir, $this->getHashedFileDir())) {
@@ -151,7 +145,8 @@ class AssetNameObfuscator
     private function isHashedFileExists()
     {
         return $this->hashedAssetsArray[$this->hashedFileOptionKey]['version'] === WP_STATISTICS_VERSION &&
-            !empty($this->hashedAssetsArray[$this->hashedFileOptionKey]['dir']);
+            !empty($this->hashedAssetsArray[$this->hashedFileOptionKey]['dir']) &&
+            file_exists($this->hashedAssetsArray[$this->hashedFileOptionKey]['dir']);
     }
 
     /**
@@ -200,8 +195,43 @@ class AssetNameObfuscator
         ));
     }
 
-    private function deleteHashedFiles()
+    /**
+     * Deletes a hashed file.
+     *
+     * @param   array   $assetsArray    All hashed files.
+     * @param   string  $key            Hashed file's key (which is its path relative to `WP_STATISTICS_DIR`).
+     *
+     * @return  void
+     */
+    private function deleteHashedFile($assetsArray, $key)
     {
-        // todo
+        if (!empty($assetsArray[$key]) && !empty($assetsArray[$key]['dir']) && file_exists($assetsArray[$key]['dir'])) {
+            unlink($assetsArray[$key]['dir']);
+        }
+    }
+
+    /**
+     * Deletes all hashed files.
+     *
+     * @return  void
+     */
+    public function deleteAllHashedFiles()
+    {
+        // Method was called from uninstall probably, initialize the array again
+        $hashedAssetsArray = Option::getOptionGroup($this->optionName, null, []);
+
+        foreach ($hashedAssetsArray as $key => $asset) {
+            $this->deleteHashedFile($hashedAssetsArray, $key);
+        }
+    }
+
+    /**
+     * Deletes `wp_statistics_hashed_assets` option from the database.
+     *
+     * @return  void
+     */
+    public function deleteDatabaseOption()
+    {
+        delete_option('wp_statistics_hashed_assets');
     }
 }

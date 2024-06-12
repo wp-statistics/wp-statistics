@@ -161,6 +161,7 @@ class ComposerStaticInit2ac516f03a394ec3d1721352b7f43359
         'WP_Statistics\\Components\\AssetNameObfuscator' => __DIR__ . '/../../..' . '/src/Components/AssetNameObfuscator.php',
         'WP_Statistics\\Components\\Assets' => __DIR__ . '/../../..' . '/src/Components/Assets.php',
         'WP_Statistics\\Components\\Singleton' => __DIR__ . '/../../..' . '/src/Components/Singleton.php',
+        'WP_Statistics\\Exception\\SystemErrorException' => __DIR__ . '/../../..' . '/src/Exception/SystemErrorException.php',
         'WP_Statistics\\Models\\AuthorsModel' => __DIR__ . '/../../..' . '/src/Models/AuthorsModel.php',
         'WP_Statistics\\Models\\PagesModel' => __DIR__ . '/../../..' . '/src/Models/PagesModel.php',
         'WP_Statistics\\Models\\PostsModel' => __DIR__ . '/../../..' . '/src/Models/PostsModel.php',

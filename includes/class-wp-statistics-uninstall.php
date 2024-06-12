@@ -2,6 +2,8 @@
 
 namespace WP_STATISTICS;
 
+use WP_Statistics\Components\AssetNameObfuscator;
+
 class Uninstall
 {
 
@@ -43,7 +45,6 @@ class Uninstall
         delete_option('wp_statistics_daily_salt');
         delete_option('wp_statistics_dismissed_notices');
         delete_option('wp_statistics_jobs');
-        delete_option('wp_statistics_hashed_assets');
 
         // Delete the transients.
         delete_transient('wps_top_referring');
@@ -61,6 +62,11 @@ class Uninstall
             wp_clear_scheduled_hook('wp_statistics_report_hook');
             wp_clear_scheduled_hook('wp_statistics_optimize_table');
         }
+
+        // Delete all hashed files and their options
+        $assetNameObfuscator = new AssetNameObfuscator();
+        $assetNameObfuscator->deleteAllHashedFiles();
+        $assetNameObfuscator->deleteDatabaseOption();
 
         // Delete the user options.
         $wpdb->query("DELETE FROM {$wpdb->usermeta} WHERE `meta_key` LIKE 'wp_statistics%'");
