@@ -199,7 +199,6 @@ class ComposerStaticInit2ac516f03a394ec3d1721352b7f43359
         'WP_Statistics\\Service\\Admin\\PrivacyAudit\\PrivacyAuditDataProvider' => __DIR__ . '/../../..' . '/src/Service/Admin/PrivacyAudit/PrivacyAuditDataProvider.php',
         'WP_Statistics\\Service\\Admin\\PrivacyAudit\\PrivacyAuditManager' => __DIR__ . '/../../..' . '/src/Service/Admin/PrivacyAudit/PrivacyAuditManager.php',
         'WP_Statistics\\Service\\Admin\\PrivacyAudit\\PrivacyAuditPage' => __DIR__ . '/../../..' . '/src/Service/Admin/PrivacyAudit/PrivacyAuditPage.php',
-        'WP_Statistics\\Service\\Admin\\PrivacyAudit\\PrivacyStatusOption' => __DIR__ . '/../../..' . '/src/Service/Admin/PrivacyAudit/PrivacyStatusOption.php',
         'WP_Statistics\\Service\\Analytics\\AnalyticsController' => __DIR__ . '/../../..' . '/src/Service/Analytics/AnalyticsController.php',
         'WP_Statistics\\Service\\Analytics\\AnalyticsManager' => __DIR__ . '/../../..' . '/src/Service/Analytics/AnalyticsManager.php',
         'WP_Statistics\\Service\\Analytics\\VisitorProfile' => __DIR__ . '/../../..' . '/src/Service/Analytics/VisitorProfile.php',

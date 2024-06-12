@@ -120,7 +120,6 @@ return array(
     'WP_Statistics\\Service\\Admin\\PrivacyAudit\\PrivacyAuditDataProvider' => $baseDir . '/src/Service/Admin/PrivacyAudit/PrivacyAuditDataProvider.php',
     'WP_Statistics\\Service\\Admin\\PrivacyAudit\\PrivacyAuditManager' => $baseDir . '/src/Service/Admin/PrivacyAudit/PrivacyAuditManager.php',
     'WP_Statistics\\Service\\Admin\\PrivacyAudit\\PrivacyAuditPage' => $baseDir . '/src/Service/Admin/PrivacyAudit/PrivacyAuditPage.php',
-    'WP_Statistics\\Service\\Admin\\PrivacyAudit\\PrivacyStatusOption' => $baseDir . '/src/Service/Admin/PrivacyAudit/PrivacyStatusOption.php',
     'WP_Statistics\\Service\\Analytics\\AnalyticsController' => $baseDir . '/src/Service/Analytics/AnalyticsController.php',
     'WP_Statistics\\Service\\Analytics\\AnalyticsManager' => $baseDir . '/src/Service/Analytics/AnalyticsManager.php',
     'WP_Statistics\\Service\\Analytics\\VisitorProfile' => $baseDir . '/src/Service/Analytics/VisitorProfile.php',
