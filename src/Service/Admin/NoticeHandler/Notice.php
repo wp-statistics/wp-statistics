@@ -3,6 +3,7 @@
 namespace WP_Statistics\Service\Admin\NoticeHandler;
 
 use WP_STATISTICS\Admin_Template;
+use WP_Statistics\Utils\Request;
 
 class Notice
 {
@@ -111,8 +112,8 @@ class Notice
     public static function handleDismissNotice()
     {
         if (
-            isset($_GET['action']) && $_GET['action'] === 'wp_statistics_dismiss_notice' &&
-            isset($_GET['nonce']) && isset($_GET['notice_id'])
+            Request::compare('action', 'wp_statistics_dismiss_notice') &&
+            Request::has('action') && Request::has('notice_id')
         ) {
             check_admin_referer('wp_statistics_dismiss_notice', 'nonce');
 
