@@ -41,7 +41,7 @@ add_thickbox();
         ?>
     </table>
 </div>
-<?php if (apply_filters('wp_statistics_settings_ip_method', $ip_method)) : ?>
+<?php if (apply_filters('wp_statistics_ip_detection_preview', $ip_method)) : ?>
     <div class="postbox">
         <table class="form-table">
             <tbody>

@@ -498,9 +498,39 @@
       color: #0C0C0D;
       font-size: 13px;
 
+      &.wps-author-posts{
+        max-width:350px!important;
+
+        .wps-author-post--name {
+          max-width:350px!important;
+          display: flex!important;
+          align-items: center;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+
+          span{
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+
+          }
+          svg{
+            flex-shrink: 0;
+            margin-left: 8px; /* Adjust spacing between text and icon */
+            vertical-align: middle;
+
+          }
+        }
+      }
+
+
       &.wps-pd-l {
         padding-left: 24px !important;
+
       }
+
+
 
       &.view-more {
         text-align: right !important;

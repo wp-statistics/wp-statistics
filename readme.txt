@@ -145,6 +145,6 @@ https://www.youtube.com/watch?v=6G50BZRWPd4
 * Improvement: Various style improvements in the Overview page, header, and meta boxes.
 * Fixes: Corrected 'to' parameter in yesterday link generation.
 * Fixes: Resolved freeze issues on certain pages and loading mode in meta box hit.
-* Development: Added filters `wp_statistics_settings_ip_method` and `wp_statistics_enable_feedbackbird`.
+* Development: Added filters `wp_statistics_ip_detection_preview` and `wp_statistics_enable_feedbackbird`.
 
 [See changelog for all versions](https://raw.githubusercontent.com/wp-statistics/wp-statistics/master/CHANGELOG.md).

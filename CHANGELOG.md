@@ -14,7 +14,7 @@
 * Improvement: Various style improvements in the Overview page, header, and meta boxes.
 * Fixes: Corrected 'to' parameter in yesterday link generation.
 * Fixes: Resolved freeze issues on certain pages and loading mode in meta box hit.
-* Development: Added filters `wp_statistics_settings_ip_method` and `wp_statistics_enable_feedbackbird`.
+* Development: Added filters `wp_statistics_ip_detection_preview` and `wp_statistics_enable_feedbackbird`.
 
 = 14.7.2 - 02.06.2024 =
 * Fixes: The Author menu display issue has been resolved.
