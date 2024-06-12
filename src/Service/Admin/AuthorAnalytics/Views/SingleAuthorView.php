@@ -20,7 +20,7 @@ class SingleAuthorView extends BaseView
 
             Admin_Template::get_template(['layout/header', 'layout/title', 'pages/author-analytics/author-single-locked', 'layout/footer'], $args);
         } catch (\Exception $e) {
-            Notice::renderNotice(sprintf('System error: %s', $e->getMessage()), $e->getCode(), 'error');
+            Notice::renderNotice($e->getMessage(), $e->getCode(), 'error');
         }
     }
 }
