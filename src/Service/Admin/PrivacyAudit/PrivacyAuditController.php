@@ -4,6 +4,7 @@ namespace WP_Statistics\Service\Admin\PrivacyAudit;
 
 use InvalidArgumentException;
 use WP_Statistics\Exception\SystemErrorException;
+use WP_Statistics\Utils\Request;
 
 class PrivacyAuditController
 {
@@ -35,8 +36,8 @@ class PrivacyAuditController
             check_ajax_referer('wp_rest', 'wps_nonce');
 
             // Get and sanitize data
-            $auditName   = isset($_POST['audit_name']) ? sanitize_text_field($_POST['audit_name']) : '';
-            $auditAction = isset($_POST['audit_action']) ? sanitize_text_field($_POST['audit_action']) : '';
+            $auditName   = Request::get('audit_name');
+            $auditAction = Request::get('audit_action');
 
             // Find the audit class based on provided audit name
             $auditClass = PrivacyAuditCheck::getAudit($auditName);
