@@ -74,5 +74,18 @@ let wpStatisticsUserOnline = {
 };
 
 document.addEventListener('DOMContentLoaded', function () {
-    wpStatisticsUserOnline.init();
+    if (WP_Statistics_Tracker_Object.option.consentLevel != 'disabled' && wp_has_consent(WP_Statistics_Tracker_Object.option.consentLevel)) {
+        wpStatisticsUserOnline.init();
+    }
+
+    document.addEventListener("wp_listen_for_consent_change", function (e) {
+        const changedConsentCategory = e.detail;
+        for (let key in changedConsentCategory) {
+            if (changedConsentCategory.hasOwnProperty(key)) {
+                if (key === WP_Statistics_Tracker_Object.option.consentLevel && changedConsentCategory[key] === 'allow') {
+                    wpStatisticsUserOnline.init();
+                }
+            }
+        }
+    });
 });
