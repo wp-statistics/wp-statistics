@@ -3,8 +3,9 @@ use WP_STATISTICS\Helper;
 use WP_STATISTICS\Menus; 
 use WP_Statistics\Utils\Request;
 
-$postType       = Request::get('pt', 'post');
-$postTypeLabel  = Helper::getPostTypeName($postType, true);
+$postType               = Request::get('pt', 'post');
+$postTypeNameSingular   = Helper::getPostTypeName($postType, true);
+$postTypeNamePlural     = Helper::getPostTypeName($postType);
 ?>
 
 <div class="wps-card">
@@ -37,7 +38,7 @@ $postTypeLabel  = Helper::getPostTypeName($postType, true);
                                     </div>
                                     <div class="wps-author-tabs__item--content">
                                         <h3><?php echo esc_html($author->name); ?></h3>
-                                        <span><?php echo esc_html(Helper::formatNumberWithUnit($author->total_views)); ?> <?php echo sprintf(esc_html__('%s views', 'wp-statistics'), strtolower($postTypeLabel)) ?></span>
+                                        <span><?php echo esc_html(Helper::formatNumberWithUnit($author->total_views)); ?> <?php echo sprintf(esc_html__('%s views', 'wp-statistics'), strtolower($postTypeNameSingular)) ?></span>
                                     </div>
                                 </a>
                                 <?php $counter++;
@@ -69,7 +70,7 @@ $postTypeLabel  = Helper::getPostTypeName($postType, true);
                                     </div>
                                     <div class="wps-author-tabs__item--content">
                                         <h3><?php echo esc_html($author->name); ?></h3>
-                                        <span><?php echo esc_html(Helper::formatNumberWithUnit($author->post_count)); ?> <?php echo sprintf(esc_html__('%s publish', 'wp-statistics'), strtolower($postTypeLabel)) ?></span>
+                                        <span><?php echo esc_html(Helper::formatNumberWithUnit($author->post_count)); ?> <?php echo sprintf(esc_html__('%s published', 'wp-statistics'), strtolower($postTypeNamePlural)) ?></span>
                                     </div>
                                 </a>
                                 <?php $counter++;
@@ -89,7 +90,7 @@ $postTypeLabel  = Helper::getPostTypeName($postType, true);
             <div class="wps-author-tabs">
 
                 <input type="radio" name="side-tabs" id="views-post" checked>
-                <label for="views-post"><?php echo sprintf(esc_html__('Views/%s', 'wp-statistics'), $postTypeLabel) ?></label>
+                <label for="views-post"><?php echo sprintf(esc_html__('Views/%s', 'wp-statistics'), $postTypeNameSingular) ?></label>
                 <div class="wps-author-tabs__content">
                     <?php
                         /** @var stdClass[] */
@@ -105,7 +106,7 @@ $postTypeLabel  = Helper::getPostTypeName($postType, true);
                                     </div>
                                     <div class="wps-author-tabs__item--content">
                                         <h3><?php echo esc_html($author->name); ?></h3>
-                                        <span><?php echo esc_html(Helper::formatNumberWithUnit($author->average_views)); ?> <?php echo sprintf(esc_html__('views/%s', 'wp-statistics'), strtolower($postTypeLabel)) ?></span>
+                                        <span><?php echo esc_html(Helper::formatNumberWithUnit($author->average_views)); ?> <?php echo sprintf(esc_html__('views/%s', 'wp-statistics'), strtolower($postTypeNameSingular)) ?></span>
                                     </div>
                                 </a>
                                 <?php $counter++;
@@ -122,7 +123,7 @@ $postTypeLabel  = Helper::getPostTypeName($postType, true);
 
                 <?php if (post_type_supports($postType, 'comments')) : ?>
                     <input type="radio" name="side-tabs" id="comments-post">
-                    <label for="comments-post"><?php echo sprintf(esc_html__('Comments/%s', 'wp-statistics'), $postTypeLabel) ?></label>
+                    <label for="comments-post"><?php echo sprintf(esc_html__('Comments/%s', 'wp-statistics'), $postTypeNameSingular) ?></label>
                     <div class="wps-author-tabs__content">
                         <?php
                             /** @var stdClass[] */
@@ -138,7 +139,7 @@ $postTypeLabel  = Helper::getPostTypeName($postType, true);
                                         </div>
                                         <div class="wps-author-tabs__item--content">
                                             <h3><?php echo esc_html($author->name); ?></h3>
-                                            <span><?php echo esc_html(Helper::formatNumberWithUnit($author->average_comments)) . sprintf(esc_html__(' comments/%s', 'wp-statistics'), strtolower($postTypeLabel)); ?> </span>
+                                            <span><?php echo esc_html(Helper::formatNumberWithUnit($author->average_comments)) . sprintf(esc_html__(' comments/%s', 'wp-statistics'), strtolower($postTypeNameSingular)); ?> </span>
                                         </div>
                                     </a>
                                     <?php $counter++;
@@ -155,7 +156,7 @@ $postTypeLabel  = Helper::getPostTypeName($postType, true);
                 <?php endif; ?>
 
                 <input type="radio" name="side-tabs" id="words-post">
-                <label for="words-post"><?php echo sprintf(esc_html__('Words/%s', 'wp-statistics'), $postTypeLabel) ?></label>
+                <label for="words-post"><?php echo sprintf(esc_html__('Words/%s', 'wp-statistics'), $postTypeNameSingular) ?></label>
                 <div class="wps-author-tabs__content">
                     <?php
                         /** @var stdClass[] */
@@ -171,7 +172,7 @@ $postTypeLabel  = Helper::getPostTypeName($postType, true);
                                     </div>
                                     <div class="wps-author-tabs__item--content">
                                         <h3><?php echo esc_html($author->name); ?></h3>
-                                        <span><?php echo esc_html(Helper::formatNumberWithUnit($author->average_words)); ?> <?php echo sprintf(esc_html__('words/%s', 'wp-statistics'), strtolower($postTypeLabel)) ?></span>
+                                        <span><?php echo esc_html(Helper::formatNumberWithUnit($author->average_words)); ?> <?php echo sprintf(esc_html__('words/%s', 'wp-statistics'), strtolower($postTypeNameSingular)) ?></span>
                                     </div>
                                 </a>
                                 <?php $counter++;
