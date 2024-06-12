@@ -13,16 +13,12 @@ use WP_Statistics\Utils\Request;
 
 class TabsView extends BaseTabView
 {
+    protected $dataProvider = AuthorAnalyticsDataProvider::class;
     protected $defaultTab = 'performance';
     protected $tabs = [
         'performance',
         'pages'
     ];
-
-    public function __construct()
-    {
-        parent::__construct();
-    }
 
     public function getPerformanceData()
     {
@@ -35,7 +31,7 @@ class TabsView extends BaseTabView
             'post_type' => $postType,
         ];
 
-        $dataProvider = new AuthorAnalyticsDataProvider($args);
+        $dataProvider = new $this->dataProvider($args);
 
         wp_localize_script(Admin_Assets::$prefix, 'Wp_Statistics_Author_Analytics_Object', [
             'publish_chart_data'         => $dataProvider->getPublishingChartData(),
@@ -79,7 +75,7 @@ class TabsView extends BaseTabView
             $args['order']    = $order;
         }
 
-        $dataProvider = new AuthorAnalyticsDataProvider($args);
+        $dataProvider = new $this->dataProvider($args);
         return $dataProvider->getAuthorsPagesData();
     }
 
