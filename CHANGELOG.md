@@ -1,3 +1,21 @@
+= 14.8 - 16.06.2024 =
+* Addition: Introduced Author Analytics for detailed author performance insights.
+* Addition: Introduced Geographic Reports for location-based analytics.
+* Addition: Added a new option for Bypass Ad Blockers by dynamically loading the tracking script with a unique name and address.
+* Addition: Added Anonymous User to User Role Exclusions.
+* Addition: Added a new option in settings for compatibility with WP Consent Level API.
+* Addition: Added Device Menu for better device-specific analytics.
+* Improvement: Improved structure and cleanup using new components and models.
+* Improvement: Updated browser icons.
+* Improvement: Made numerous minor and major enhancements.
+* Improvement: Added background processing for more efficient data handling.
+* Improvement: Added a real-time button to the Overview page.
+* Improvement: Refactored the notice handler with multiple improvements.
+* Improvement: Various style improvements in the Overview page, header, and meta boxes.
+* Fixes: Corrected 'to' parameter in yesterday link generation.
+* Fixes: Resolved freeze issues on certain pages and loading mode in meta box hit.
+* Development: Added filters `wp_statistics_settings_ip_method` and `wp_statistics_enable_feedbackbird`.
+
 = 14.7.2 - 02.06.2024 =
 * Fixes: The Author menu display issue has been resolved.
 * Fixes: The query issue related to visitor and visit relationships has been corrected.

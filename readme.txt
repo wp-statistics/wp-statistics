@@ -4,7 +4,7 @@ Donate link: https://wp-statistics.com/donate/
 Tags: analytics, google analytics, insights, stats, site visitors
 Requires at least: 5.0
 Tested up to: 6.5
-Stable tag: 14.7.2
+Stable tag: 14.8
 Requires PHP: 5.6
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -129,9 +129,22 @@ If you encounter any bug, please create an issue on [GitHub](https://github.com/
 == Changelog ==
 https://www.youtube.com/watch?v=6G50BZRWPd4
 
-= 14.7.2 - 02.06.2024 =
-* Fixes: The Author menu display issue has been resolved.
-* Fixes: The query issue related to visitor and visit relationships has been corrected.
-* New: Added command `wp statistics reinitialize` to WP-CLI functionality for re-initialize the tables.
+= 14.8 - 16.06.2024 =
+* Addition: Introduced Author Analytics for detailed author performance insights.
+* Addition: Introduced Geographic Reports for location-based analytics.
+* Addition: Added a new option for Bypass Ad Blockers by dynamically loading the tracking script with a unique name and address.
+* Addition: Added Anonymous User to User Role Exclusions.
+* Addition: Added a new option in settings for compatibility with WP Consent Level API.
+* Addition: Added Device Menu for better device-specific analytics.
+* Improvement: Improved structure and cleanup using new components and models.
+* Improvement: Updated browser icons.
+* Improvement: Made numerous minor and major enhancements.
+* Improvement: Added background processing for more efficient data handling.
+* Improvement: Added a real-time button to the Overview page.
+* Improvement: Refactored the notice handler with multiple improvements.
+* Improvement: Various style improvements in the Overview page, header, and meta boxes.
+* Fixes: Corrected 'to' parameter in yesterday link generation.
+* Fixes: Resolved freeze issues on certain pages and loading mode in meta box hit.
+* Development: Added filters `wp_statistics_settings_ip_method` and `wp_statistics_enable_feedbackbird`.
 
 [See changelog for all versions](https://raw.githubusercontent.com/wp-statistics/wp-statistics/master/CHANGELOG.md).
