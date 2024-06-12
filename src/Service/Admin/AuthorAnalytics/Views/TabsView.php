@@ -131,7 +131,7 @@ class TabsView extends BaseTabView
 
             Admin_Template::get_template(['layout/header', 'layout/tabbed-page-header', "pages/author-analytics/authors-$currentTab", 'layout/postbox.hide', 'layout/footer'], $args);
         } catch (\Exception $e) {
-            Notice::renderNotice(sprintf('System error: %s', $e->getMessage()), $e->getCode(), 'error');
+            Notice::renderNotice($e->getMessage(), $e->getCode(), 'error');
         }
     }
 }

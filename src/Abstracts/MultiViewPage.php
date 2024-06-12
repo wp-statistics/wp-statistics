@@ -57,7 +57,7 @@ abstract class MultiViewPage extends BasePage
             $view = new $views[$currentView];
             $view->render();
         } catch (Exception $e) {
-            Notice::renderNotice(sprintf('System error: %s', $e->getMessage()), $e->getCode(), 'error');
+            Notice::renderNotice($e->getMessage(), $e->getCode(), 'error');
         }
     }
 }
