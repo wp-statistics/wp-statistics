@@ -4,7 +4,7 @@ namespace WP_Statistics\Service\Admin\AuthorAnalytics;
 
 use WP_STATISTICS\Helper;
 use WP_Statistics\Models\AuthorsModel;
-use WP_Statistics\Models\PagesModel;
+use WP_Statistics\Models\ViewsModel;
 use WP_Statistics\Models\PostsModel;
 use WP_Statistics\Models\TaxonomyModel;
 use WP_Statistics\Models\VisitorsModel;
@@ -13,7 +13,7 @@ class AuthorAnalyticsDataProvider
 {
     protected $args;
     protected $authorModel;
-    protected $pagesModel;
+    protected $viewsModel;
     protected $postsModel;
     protected $visitorsModel;
     protected $taxonomyModel;
@@ -24,7 +24,7 @@ class AuthorAnalyticsDataProvider
         $this->args = $args;
 
         $this->authorModel   = new AuthorsModel();
-        $this->pagesModel    = new PagesModel();
+        $this->viewsModel    = new ViewsModel();
         $this->postsModel    = new PostsModel();
         $this->visitorsModel = new VisitorsModel();
         $this->taxonomyModel = new TaxonomyModel();
@@ -136,7 +136,7 @@ class AuthorAnalyticsDataProvider
         $topAuthorsByWords    = $this->authorModel->getAuthorsByWordsPerPost($this->args);
 
         // Views data
-        $totalViews           = $this->pagesModel->countViews($this->args);
+        $totalViews           = $this->viewsModel->countViews($this->args);
 
         // Posts data
         $totalWords           = $this->postsModel->countWords($this->args);
@@ -216,54 +216,54 @@ class AuthorAnalyticsDataProvider
             'today'     => [
                 'label'     => esc_html__('Today', 'wp-statistics'),
                 'visitors'  => $this->visitorsModel->countVisitors(array_merge($this->args, ['date' => 'today'])),
-                'views'     => $this->pagesModel->countViews(array_merge($this->args, ['date' => 'today'])),
+                'views'     => $this->viewsModel->countViews(array_merge($this->args, ['date' => 'today'])),
             ],
             'yesterday' => [
                 'label'     => esc_html__('Yesterday', 'wp-statistics'),
                 'visitors'  => $this->visitorsModel->countVisitors(array_merge($this->args, ['date' => 'yesterday'])),
-                'views'     => $this->pagesModel->countViews(array_merge($this->args, ['date' => 'yesterday'])),
+                'views'     => $this->viewsModel->countViews(array_merge($this->args, ['date' => 'yesterday'])),
             ],
             '7days'     => [
                 'label'     => esc_html__('Last 7 days', 'wp-statistics'),
                 'visitors'  => $this->visitorsModel->countVisitors(array_merge($this->args, ['date' => '7days'])),
-                'views'     => $this->pagesModel->countViews(array_merge($this->args, ['date' => '7days'])),
+                'views'     => $this->viewsModel->countViews(array_merge($this->args, ['date' => '7days'])),
             ],
             '30days'    => [
                 'label'     => esc_html__('Last 30 days', 'wp-statistics'),
                 'visitors'  => $this->visitorsModel->countVisitors(array_merge($this->args, ['date' => '30days'])),
-                'views'     => $this->pagesModel->countViews(array_merge($this->args, ['date' => '30days'])),
+                'views'     => $this->viewsModel->countViews(array_merge($this->args, ['date' => '30days'])),
             ],
             '60days'    => [
                 'label'     => esc_html__('Last 60 days', 'wp-statistics'),
                 'visitors'  => $this->visitorsModel->countVisitors(array_merge($this->args, ['date' => '60days'])),
-                'views'     => $this->pagesModel->countViews(array_merge($this->args, ['date' => '60days'])),
+                'views'     => $this->viewsModel->countViews(array_merge($this->args, ['date' => '60days'])),
             ],
             '120days'   => [
                 'label'     => esc_html__('Last 120 days', 'wp-statistics'),
                 'visitors'  => $this->visitorsModel->countVisitors(array_merge($this->args, ['date' => '120days'])),
-                'views'     => $this->pagesModel->countViews(array_merge($this->args, ['date' => '120days'])),
+                'views'     => $this->viewsModel->countViews(array_merge($this->args, ['date' => '120days'])),
             ],
             'year'      => [
                 'label'     => esc_html__('Last 12 months', 'wp-statistics'),
                 'visitors'  => $this->visitorsModel->countVisitors(array_merge($this->args, ['date' => 'year'])),
-                'views'     => $this->pagesModel->countViews(array_merge($this->args, ['date' => 'year'])),
+                'views'     => $this->viewsModel->countViews(array_merge($this->args, ['date' => 'year'])),
             ],
             'this_year' => [
                 'label'     => esc_html__('This year (Jan - Today)', 'wp-statistics'),
                 'visitors'  => $this->visitorsModel->countVisitors(array_merge($this->args, ['date' => 'this_year'])),
-                'views'     => $this->pagesModel->countViews(array_merge($this->args, ['date' => 'this_year'])),
+                'views'     => $this->viewsModel->countViews(array_merge($this->args, ['date' => 'this_year'])),
             ],
             'last_year' => [
                 'label'     => esc_html__('Last Year', 'wp-statistics'),
                 'visitors'  => $this->visitorsModel->countVisitors(array_merge($this->args, ['date' => 'last_year'])),
-                'views'     => $this->pagesModel->countViews(array_merge($this->args, ['date' => 'last_year'])),
+                'views'     => $this->viewsModel->countViews(array_merge($this->args, ['date' => 'last_year'])),
             ],
         ];
     }
 
     public function getAuthorSingleData()
     {
-        $totalViews         = $this->pagesModel->countViews($this->args);
+        $totalViews         = $this->viewsModel->countViews($this->args);
 
         $totalWords         = $this->postsModel->countWords($this->args);
         $totalComments      = $this->postsModel->countComments($this->args);
