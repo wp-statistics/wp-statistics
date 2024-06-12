@@ -25,7 +25,7 @@ $disabledMenuItems = WP_STATISTICS\Option::getByAddon('disable_menus', 'customiz
 if (!$isCustomizationActive) echo Admin_Template::get_template('layout/partials/addon-premium-feature',
     ['addon_slug'           => esc_url(WP_STATISTICS_SITE_URL . '/product/wp-statistics-customization/?utm_source=wp-statistics&utm_medium=link&utm_campaign=plugin-settings'),
      'addon_title'          => 'Customization Add-On',
-     'addon_description'    => 'The settings on this page are part of the Customization add-on, which allows you to permanently disable ads on the Overview, Welcome, and Settings pages, customize menus, and make your product white-label by changing the plugin header.',
+     'addon_description'    => 'The settings on this page are part of the Customization add-on, which allows you to permanently disable ads on the Overview, and Settings pages, customize menus, and make your product white-label by changing the plugin header.',
      'addon_features'       => [
          'Permanently disable ads on pages.',
          'Customize menus according to your preferences.',
