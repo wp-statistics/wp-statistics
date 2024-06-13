@@ -55,11 +55,11 @@ class GeographicDataProvider
     {
         $args = array_merge(
             $this->args, 
-            ['country' => 'US']
+            ['country' => 'US', 'group_by' => ['country', 'region']]
         );
 
         return [
-            'countries' => $this->visitorsModel->getVisitorsGeoData($args),
+            'states'    => $this->visitorsModel->getVisitorsGeoData($args),
             'total'     => $this->visitorsModel->countCountries($args)
         ];
     }

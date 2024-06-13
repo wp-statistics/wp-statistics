@@ -14,7 +14,7 @@ use WP_STATISTICS\Menus;
                                 <thead>
                                     <tr>
                                         <th class="wps-pd-l">
-                                            <?php esc_html_e('Country', 'wp-statistics') ?>
+                                            <?php esc_html_e('State', 'wp-statistics') ?>
                                             <span class="wps-tooltip" title="Country Tooltip"><i class="wps-tooltip-icon info"></i></span>
                                         </th>
                                         <th class="wps-pd-l">
@@ -31,13 +31,10 @@ use WP_STATISTICS\Menus;
     
                                 <tbody>
 
-                                    <?php foreach ($data['countries'] as $item) : ?>
+                                    <?php foreach ($data['states'] as $item) : ?>
                                         <tr>
                                             <td class="wps-pd-l">
-                                                <span title="<?php echo esc_attr(Country::getName($item->country)) ?>" class="wps-country-name">
-                                                    <img alt="<?php echo esc_attr(Country::getName($item->country)) ?>" src="<?php echo esc_url(Country::flag($item->country)) ?>" title="<?php echo esc_attr(Country::getName($item->country)) ?>" class="log-tools wps-flag"/>
-                                                    <?php echo esc_html(Country::getName($item->country)) ?>
-                                                </span>
+                                                <?php echo esc_html($item->region) ?>
                                             </td>
                                             <td class="wps-pd-l">
                                                 <?php echo esc_html($item->visitors) ?>
