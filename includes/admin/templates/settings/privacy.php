@@ -2,7 +2,11 @@
     <table class="form-table">
         <tbody>
         <tr valign="top">
-            <th scope="row" colspan="2"><h3><?php esc_html_e('Data Protection', 'wp-statistics'); ?> <a href="#" class="wps-tooltip" title="<?php esc_html_e('Ensure your website adheres to data protection standards.', 'wp-statistics') ?>"><i class="wps-tooltip-icon"></i></a></h3></th>
+            <th scope="row" colspan="2"><h3><?php
+
+use WP_Statistics\Service\Admin\PrivacyAudit\Faqs\RequireConsent;
+
+ esc_html_e('Data Protection', 'wp-statistics'); ?> <a href="#" class="wps-tooltip" title="<?php esc_html_e('Ensure your website adheres to data protection standards.', 'wp-statistics') ?>"><i class="wps-tooltip-icon"></i></a></h3></th>
         </tr>
 
         <tr valign="top">
@@ -78,7 +82,47 @@
     <table class="form-table">
         <tbody>
         <tr valign="top">
-            <th scope="row" colspan="2"><h3><?php esc_html_e('User Preferences', 'wp-statistics'); ?> <a href="#" class="wps-tooltip" title="<?php esc_html_e('Respect and prioritize your website visitors\' browsing preferences.', 'wp-statistics') ?>"><i class="wps-tooltip-icon"></i></a></h3></th>
+            <th scope="row" colspan="2"><h3><?php esc_html_e('User Preferences', 'wp-statistics'); ?></h3></th>
+        </tr>
+
+        <tr valign="top">
+            <th scope="row">
+                <label for="consent_level_integration"><?php esc_html_e('WP Consent Level Integration', 'wp-statistics'); ?></label>
+            </th>
+
+            <td>
+                <select id="consent_level_integration" name="wps_consent_level_integration">
+                    <option value="disabled" <?php selected(WP_STATISTICS\Option::get('consent_level_integration'), 'disabled'); ?>><?php esc_html_e('Disabled', 'wp-statistics'); ?></option>
+                    <option value="functional" <?php selected(WP_STATISTICS\Option::get('consent_level_integration'), 'functional'); ?>><?php esc_html_e('Functional', 'wp-statistics'); ?></option>
+                    <option value="statistics-anonymous" <?php selected(WP_STATISTICS\Option::get('consent_level_integration'), 'statistics-anonymous'); ?>><?php esc_html_e('Statistics-Anonymous', 'wp-statistics'); ?></option>
+                    <option value="statistics" <?php selected(WP_STATISTICS\Option::get('consent_level_integration'), 'statistics'); ?>><?php esc_html_e('Statistics', 'wp-statistics'); ?></option>
+                    <option value="marketing" <?php selected(WP_STATISTICS\Option::get('consent_level_integration'), 'marketing'); ?>><?php esc_html_e('Marketing', 'wp-statistics'); ?></option>
+                </select>
+                <p class="description"><?php esc_html_e("Enable WP Consent Level API integration to ensure WP Statistics complies with user-selected privacy preferences. When enabled, WP Statistics will only trigger tracking based on the user's chosen consent category.", 'wp-statistics'); ?></p>
+                <p class="description"><?php _e('<b>Note</b>: This integration requires a compatible consent management provider.', 'wp-statistics'); ?></p>
+                <p class="description">
+                    <?php echo sprintf(
+						// translators: %s: Consent option.
+						__('Recommended Category: <b>%s</b>', 'wp-statistics'),
+						RequireConsent::getStatus() === 'success' ? esc_html__('Statistics-Anonymous', 'wp-statistics') : esc_html__('Statistics', 'wp-statistics')
+					); ?>
+                    <br />
+                    <?php echo RequireConsent::getStatus() === 'success' ? 
+                        esc_html__('WP Statistics, based on your settings, does not use cookies or other personally identifiable information (PII). Therefore, you could use it without notifying users. However, informing users about this can improve your transparency and demonstrate respect for their privacy.', 'wp-statistics') :
+                        sprintf(
+                            // translators: %s: Privacy Audit page link.
+                            __('WP Statistics tracks personally identifiable information (PII) such as IP addresses based on your current settings. We recommend selecting the "Statistics" category. For more detailed information, refer to the <a href="%s" target="_blank">Privacy Audit</a>.', 'wp-statistics'),
+                            esc_url(admin_url('admin.php?page=wps_privacy-audit_page'))
+                        ); ?>
+                </p>
+                <p class="description">
+                    <?php echo sprintf(
+                        // translators: %s: Documentation link.
+                        __('For more details, please refer to our <a href="%s" target="_blank">documentation</a>.', 'wp-statistics'),
+                        'https://wp-statistics.com/resources/wp-consent-level-integration/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings'
+                    ); ?>
+                </p>
+            </td>
         </tr>
 
         <tr valign="top">
