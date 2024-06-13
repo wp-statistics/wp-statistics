@@ -59,21 +59,35 @@ if (!$isCustomizationActive) echo Admin_Template::get_template('layout/partials/
             </tbody>
         </table>
     </div>
+
     <div class="postbox">
         <table class="form-table <?php echo !$isCustomizationActive ? 'form-table--preview' : '' ?>">
             <tbody>
             <tr valign="top">
-                <th scope="row" colspan="2"><h3><?php esc_html_e('Change the header banner', 'wp-statistics'); ?></h3></th>
+                <th scope="row" colspan="2"><h3><?php esc_html_e('White label and Header Customization', 'wp-statistics'); ?></h3></th>
             </tr>
 
             <tr valign="top">
                 <th scope="row">
-                    <label for="wps_addon_settings[customization][wps_modify_banner]"><?php esc_html_e('Choose a banner', 'wp-statistics'); ?></label>
+                    <label for="wps_addon_settings[customization][wps_white_label]"><?php esc_html_e('White label', 'wp-statistics'); ?></label>
+                </th>
+
+                <td>
+                    <input id="wps_addon_settings[customization][wps_white_label]" type="checkbox" value="1" name="wps_addon_settings[customization][wps_white_label]" <?php checked(WP_STATISTICS\Option::getByAddon('wps_white_label', 'customization')) ?>>
+                    <label for="wps_addon_settings[customization][wps_white_label]"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
+                    <p class="description"><?php esc_html_e('White label WP Statistics report pages. Remove branding and promotional elements. For a detailed list of changes, refer to the White label Documentation.', 'wp-statistics'); ?></p>
+                </td>
+            </tr>
+
+            <tr valign="top">
+                <th scope="row">
+                    <label for="wps_addon_settings[customization][wps_modify_banner]"><?php esc_html_e('Change the Header Logo', 'wp-statistics'); ?></label>
                 </th>
 
                 <td>
                     <input type="text" class="regular-text wps-customization_upload_field" id="wps_addon_settings[customization][wps_modify_banner]" name="wps_addon_settings[customization][wps_modify_banner]" value="<?php echo esc_attr(stripslashes(WP_STATISTICS\Option::getByAddon('wps_modify_banner', 'customization'))) ?>"/>
                     <span>&nbsp;<input type="button" class="wps_customization_settings_upload_button wps_customization_settings_clear_upload_button button" style="margin: 0; padding-top: 13px; padding-bottom: 13px;" value="<?php echo esc_attr__('Upload File', 'wp-statistics') ?>"/></span>
+                    <p class="description"><?php esc_html_e('Customize the header logo to match your branding by uploading your own logo.', 'wp-statistics'); ?></p>
                 </td>
             </tr>
 
