@@ -36,16 +36,19 @@ class Assets
      * @param   array   $localize   An array of data to be localized.
      * @param   bool    $inFooter   Whether to enqueue the script in the footer.
      * @param   bool    $obfuscate  Ofuscate/Randomize asset's file name.
-     * 
+     * @param   string  $plugin_url The plugin URL.
+     *
+     * @todo Obfuscate is not working if $plugin_url has value
+     *
      * @return  void
-     * @example Assets::script('admin', 'dist/admin.js', ['jquery'], ['foo' => 'bar'], true, false);
+     * @example Assets::script('admin', 'dist/admin.js', ['jquery'], ['foo' => 'bar'], true, false, WP_STATISTICS_URL);
      */
-    public static function script($handle, $src, $deps = [], $localize = [], $inFooter = false, $obfuscate = false)
+    public static function script($handle, $src, $deps = [], $localize = [], $inFooter = false, $obfuscate = false, $plugin_url = null)
     {
         $object = self::getObject($handle);
         $handle = self::getHandle($handle);
 
-        wp_enqueue_script($handle, self::getSrc($src, $obfuscate), $deps, WP_STATISTICS_VERSION, $inFooter);
+        wp_enqueue_script($handle, self::getSrc($src, $obfuscate, $plugin_url), $deps, WP_STATISTICS_VERSION, $inFooter);
 
         if ($localize) {
             $localize = apply_filters("wp_statistics_localize_{$handle}", $localize);
@@ -63,11 +66,12 @@ class Assets
      * @param   string|null $version    Optional. The version of the script. Defaults to plugin version.
      * @param   bool        $inFooter   Whether to enqueue the script in the footer.
      * @param   bool        $obfuscate  Ofuscate/Randomize asset's file name.
-     * 
+     * @param   string      $plugin_url The plugin URL.
+     *
      * @return  void
-     * @example Assets::registerScript('chartjs', 'js/chart.min.js', [], '3.7.1', false, false);
+     * @example Assets::registerScript('chartjs', 'js/chart.min.js', [], '3.7.1', false, false, WP_STATISTICS_URL);
      */
-    public static function registerScript($handle, $src, $deps = [], $version = null, $inFooter = false, $obfuscate = false)
+    public static function registerScript($handle, $src, $deps = [], $version = null, $inFooter = false, $obfuscate = false, $plugin_url = null)
     {
         // Get the handle for the script
         $handle = self::getHandle($handle);
@@ -78,7 +82,7 @@ class Assets
         }
 
         // Register the script with WordPress
-        wp_register_script($handle, self::getSrc($src, $obfuscate), $deps, $version, $inFooter);
+        wp_register_script($handle, self::getSrc($src, $obfuscate, $plugin_url), $deps, $version, $inFooter);
     }
 
     /**
@@ -89,13 +93,14 @@ class Assets
      * @param   array   $deps       An array of style dependencies.
      * @param   string  $media      The context which style needs to be loaded: all, print, or screen
      * @param   bool    $obfuscate  Ofuscate/Randomize asset's file name.
-     * 
+     * @param   string  $plugin_url The plugin URL.
+     *
      * @return  void
-     * @example Assets::style('admin', 'dist/admin.css', ['jquery'], 'all', false);
+     * @example Assets::style('admin', 'dist/admin.css', ['jquery'], 'all', false, WP_STATISTICS_URL);
      */
-    public static function style($handle, $src, $deps = [], $media = 'all', $obfuscate = false)
+    public static function style($handle, $src, $deps = [], $media = 'all', $obfuscate = false, $plugin_url = null)
     {
-        wp_enqueue_style(self::getHandle($handle), self::getSrc($src, $obfuscate), $deps, WP_STATISTICS_VERSION, $media);
+        wp_enqueue_style(self::getHandle($handle), self::getSrc($src, $obfuscate, $plugin_url), $deps, WP_STATISTICS_VERSION, $media);
     }
 
     /**
@@ -114,17 +119,20 @@ class Assets
      *
      * @param   string  $src        The source URL.
      * @param   bool    $obfuscate  Ofuscate/Randomize asset's file name.
+     * @param   string  $plugin_url The plugin URL.
      *
      * @return  string
      */
-    private static function getSrc($src, $obfuscate = false)
+    private static function getSrc($src, $obfuscate = false, $plugin_url = null)
     {
         if ($obfuscate) {
             $file = new AssetNameObfuscator(self::$asset_dir . '/' . $src);
             return $file->getHashedFileUrl();
         }
 
-        return self::$plugin_url . self::$asset_dir . '/' . $src;
+        $url = $plugin_url ? $plugin_url . '/' : self::$plugin_url;
+
+        return $url . self::$asset_dir . '/' . $src;
     }
 
     /**

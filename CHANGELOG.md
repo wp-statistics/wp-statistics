@@ -1,7 +1,7 @@
 = 14.8 - 16.06.2024 =
 * New: Author Analytics: Replaces the old Author report. Measures author performance and individual author statistics.
 * New: Geographic Reports: Location-based analytics, including countries, cities, European countries, US states, regions of your country.
-* New: Bypass Ad Blockers: New option to dynamically load the tracking script with a unique name and address.
+* New: [Bypass Ad Blockers](https://wp-statistics.com/resources/bypass-ad-blockers/): New option to dynamically load the tracking script with a unique name and address.
 * New: User Role Exclusions: Added Anonymous User to exclusions.
 * New: Integrates with [WP Consent API](https://github.com/Really-Simple-Plugins/wp-consent-level-api) for compatibility with consent plugins like Complianz.
 * New: Device Menu: Enhanced device-specific analytics, including browsers, operating systems, and device models. Upcoming versions will include device categories, screen resolutions, and languages.
