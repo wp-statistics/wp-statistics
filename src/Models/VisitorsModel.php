@@ -60,7 +60,7 @@ class VisitorsModel extends BaseModel
         return $result ? $result : [];
     }
 
-    public function getVisitorsLocationData($args = [], $bypassCache = false)
+    public function getVisitorsGeoData($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
             'date'      => '',
