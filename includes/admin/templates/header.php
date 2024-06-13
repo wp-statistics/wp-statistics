@@ -56,14 +56,18 @@ use WP_Statistics\Service\Admin\PrivacyAudit\PrivacyAuditDataProvider;
             </label>
             <div class="wps-mobileMenuContent">
                 <?php
-                echo Admin_Template::get_template('layout/partials/menu-link', ['slug' => 'wps_plugins_page', 'link_text' => __('Add-Ons', 'wp-statistics'), 'icon_class' => 'addons', 'badge_count' => null], true);
+                if (apply_filters('wp_statistics_enable_header_addons_menu', true)) {
+                    echo Admin_Template::get_template('layout/partials/menu-link', ['slug' => 'wps_plugins_page', 'link_text' => __('Add-Ons', 'wp-statistics'), 'icon_class' => 'addons', 'badge_count' => null], true);
+                }
                 echo Admin_Template::get_template('layout/partials/menu-link', ['slug' => 'wps_settings_page', 'link_text' => __('Settings', 'wp-statistics'), 'icon_class' => 'settings', 'badge_count' => null], true);
                 echo Admin_Template::get_template('layout/partials/menu-link', ['slug' => 'wps_optimization_page', 'link_text' => __('Optimization', 'wp-statistics'), 'icon_class' => 'optimization', 'badge_count' => null], true);
                 ?>
-                <a href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/support?utm_source=wp-statistics&utm_medium=link&utm_campaign=header'); ?>" target="_blank" title="<?php esc_html_e('Help Center', 'wp-statistics'); ?>" class="help">
-                    <span class="icon"></span>
-                    <?php esc_html_e('Help Center', 'wp-statistics'); ?>
-                </a>
+                <?php if (apply_filters('wp_statistics_enable_help_icon', true)) { ?>
+                    <a href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/support?utm_source=wp-statistics&utm_medium=link&utm_campaign=header'); ?>" target="_blank" title="<?php esc_html_e('Help Center', 'wp-statistics'); ?>" class="help">
+                        <span class="icon"></span>
+                        <?php esc_html_e('Help Center', 'wp-statistics'); ?>
+                    </a>
+                <?php } ?>
                 <?php if (apply_filters('wp_statistics_enable_upgrade_to_bundle', true)) { ?>
                     <div class="wps-bundle">
                         <a href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/product/add-ons-bundle?utm_source=wp-statistics&utm_medium=link&utm_campaign=header'); ?>" target="_blank" class="wps-adminHeader__bundle">
