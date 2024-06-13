@@ -19,7 +19,10 @@ class GeographicDataProvider
 
     public function getCountriesData()
     {
-        return $this->visitorsModel->getVisitorsGeoData($this->args);
+        return [
+            'countries' => $this->visitorsModel->getVisitorsGeoData($this->args),
+            'total'     => $this->visitorsModel->countCountries($this->args)
+        ];
     }
 
     public function getCitiesData()

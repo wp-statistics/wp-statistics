@@ -2,13 +2,15 @@
 
 namespace WP_Statistics\Service\Admin\Geographic\Views;
 
-use WP_Statistics\Abstracts\BaseTabView;
-use WP_STATISTICS\Admin_Template;
-use WP_STATISTICS\Country;
-use WP_STATISTICS\Helper;
+use Exception;
 use WP_STATISTICS\Menus;
-use WP_Statistics\Service\Admin\Geographic\GeographicDataProvider;
+use WP_STATISTICS\Helper;
+use WP_STATISTICS\Country;
 use WP_Statistics\Utils\Request;
+use WP_STATISTICS\Admin_Template;
+use WP_Statistics\Abstracts\BaseTabView;
+use WP_Statistics\Service\Admin\NoticeHandler\Notice;
+use WP_Statistics\Service\Admin\Geographic\GeographicDataProvider;
 
 class TabsView extends BaseTabView
 {
@@ -28,8 +30,10 @@ class TabsView extends BaseTabView
         parent::__construct();
 
         $this->dataProvider = new GeographicDataProvider([
-            'from'  => Request::get('from', date('Y-m-d', strtotime('-1 month'))),
-            'to'    => Request::get('to', date('Y-m-d')),
+            'from'      => Request::get('from', date('Y-m-d', strtotime('-1 month'))),
+            'to'        => Request::get('to', date('Y-m-d')),
+            'per_page'  => Admin_Template::$item_per_page,
+            'page'      => Admin_Template::getCurrentPaged()
         ]);
     }
 
@@ -45,60 +49,74 @@ class TabsView extends BaseTabView
 
     public function render()
     {
-        $currentTab = $this->getCurrentTab();
-        $data       = $this->getTabData();
-        $country    = Country::getName(Helper::getLocaleCountry());
+        try {
+            $currentTab = $this->getCurrentTab();
+            $data       = $this->getTabData();
+            $country    = Country::getName(Helper::getLocaleCountry());
 
-        $args = [
-            'title'      => esc_html__('Geographic', 'wp-statistics'),
-            'pageName'   => Menus::get_page_slug('geographic'),
-            'paged'      => Admin_Template::getCurrentPaged(),
-            'custom_get' => ['tab' => $currentTab],
-            'DateRang'   => Admin_Template::DateRange(),
-            'hasDateRang'=> true,
-            'tabs'       => [
-                [
-                    'link'    => Menus::admin_url('geographic', ['tab' => 'countries']),
-                    'title'   => esc_html__('Countries', 'wp-statistics'),
-                    'tooltip' => esc_html__('Tooltip', 'wp-statistics'),
-                    'class'   => $currentTab === 'countries' ? 'current' : '',
+            $args = [
+                'title'      => esc_html__('Geographic', 'wp-statistics'),
+                'pageName'   => Menus::get_page_slug('geographic'),
+                'paged'      => Admin_Template::getCurrentPaged(),
+                'custom_get' => ['tab' => $currentTab],
+                'DateRang'   => Admin_Template::DateRange(),
+                'hasDateRang'=> true,
+                'data'       => $data,
+                'tabs'       => [
+                    [
+                        'link'    => Menus::admin_url('geographic', ['tab' => 'countries']),
+                        'title'   => esc_html__('Countries', 'wp-statistics'),
+                        'tooltip' => esc_html__('Tooltip', 'wp-statistics'),
+                        'class'   => $currentTab === 'countries' ? 'current' : '',
+                    ],
+                    [
+                        'link'    => Menus::admin_url('geographic', ['tab' => 'cities']),
+                        'title'   => esc_html__('Cities', 'wp-statistics'),
+                        'tooltip' => esc_html__('Tooltip', 'wp-statistics'),
+                        'class'   => $currentTab === 'cities' ? 'current' : '',
+                    ],
+                    [
+                        'link'    => Menus::admin_url('geographic', ['tab' => 'europe']),
+                        'title'   => esc_html__('European Countries', 'wp-statistics'),
+                        'class'   => $currentTab === 'europe' ? 'current' : '',
+                    ],
+                    [
+                        'link'    => Menus::admin_url('geographic', ['tab' => 'us-states']),
+                        'title'   => esc_html__('US States', 'wp-statistics'),
+                        'class'   => $currentTab === 'us-states' ? 'current' : '',
+                    ],
+                    [
+                        'link'          => Menus::admin_url('geographic', ['tab' => 'timezone']),
+                        'title'         => esc_html__('Timezone', 'wp-statistics'),
+                        'class'         => $currentTab === 'timezone' ? 'current' : '',
+                        'coming_soon'   => true
+                    ],
                 ],
-                [
-                    'link'    => Menus::admin_url('geographic', ['tab' => 'cities']),
-                    'title'   => esc_html__('Cities', 'wp-statistics'),
-                    'tooltip' => esc_html__('Tooltip', 'wp-statistics'),
-                    'class'   => $currentTab === 'cities' ? 'current' : '',
-                ],
-                [
-                    'link'    => Menus::admin_url('geographic', ['tab' => 'europe']),
-                    'title'   => esc_html__('European Countries', 'wp-statistics'),
-                    'class'   => $currentTab === 'europe' ? 'current' : '',
-                ],
-                [
-                    'link'    => Menus::admin_url('geographic', ['tab' => 'us-states']),
-                    'title'   => esc_html__('US States', 'wp-statistics'),
-                    'class'   => $currentTab === 'us-states' ? 'current' : '',
-                ],
-                [
-                    'link'          => Menus::admin_url('geographic', ['tab' => 'timezone']),
-                    'title'         => esc_html__('Timezone', 'wp-statistics'),
-                    'class'         => $currentTab === 'timezone' ? 'current' : '',
-                    'coming_soon'   => true
-                ],
-            ],
-        ];
-
-        // If the country is US, or Unknown, hide region tab
-        // if (!in_array($country, ['United States', 'Unknown'])) {
-            $regionsTab = [
-                'link'    => Menus::admin_url('geographic', ['tab' => 'regions']),
-                'title'   => sprintf(esc_html__('Regions of %s', 'wp-statistics'), $country),
-                'class'   => $currentTab === 'regions' ? 'current' : ''
             ];
 
-            array_splice($args['tabs'], 4, 0, [$regionsTab]);
-        // }
+            // If the country is US, or Unknown, hide region tab
+            // if (!in_array($country, ['United States', 'Unknown'])) {
+                $regionsTab = [
+                    'link'    => Menus::admin_url('geographic', ['tab' => 'regions']),
+                    'title'   => sprintf(esc_html__('Regions of %s', 'wp-statistics'), $country),
+                    'class'   => $currentTab === 'regions' ? 'current' : ''
+                ];
 
-        Admin_Template::get_template(['layout/header', 'layout/tabbed-page-header', "pages/geographic/$currentTab", 'layout/postbox.hide', 'layout/footer'], $args);
+                array_splice($args['tabs'], 4, 0, [$regionsTab]);
+            // }
+
+            if ($data['total'] > 0) {
+                $args['total'] = $data['total'];
+
+                $args['pagination'] = Admin_Template::paginate_links([
+                    'total' => $data['total'],
+                    'echo'  => false
+                ]);
+            }
+
+            Admin_Template::get_template(['layout/header', 'layout/tabbed-page-header', "pages/geographic/$currentTab", 'layout/postbox.hide', 'layout/footer'], $args);
+        } catch (Exception $e) {
+            Notice::renderNotice($e->getMessage(), $e->getCode(), 'error');
+        }
     }
 }

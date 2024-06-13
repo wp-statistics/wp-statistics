@@ -60,6 +60,24 @@ class VisitorsModel extends BaseModel
         return $result ? $result : [];
     }
 
+    public function countCountries($args = [], $bypassCache = false)
+    {
+        $args = $this->parseArgs($args, [
+            'date' => ''
+        ]);
+
+        $result = Query::select([
+                'COUNT(DISTINCT visitor.location) as total',
+            ])
+            ->from('visitor')
+            ->join('visitor_relationships', ['visitor_relationships.visitor_id', 'visitor.ID'])
+            ->whereDate('visitor_relationships.date', $args['date'])
+            ->bypassCache($bypassCache)
+            ->getVar();
+
+        return $result ? $result : 0;
+    }
+
     public function getVisitorsGeoData($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
@@ -69,6 +87,8 @@ class VisitorsModel extends BaseModel
             'region'    => '',
             'continent' => '',
             'group_by'  => 'country',
+            'per_page'  => '',
+            'page'      => 1
         ]);
 
         $result = Query::select([
@@ -82,11 +102,12 @@ class VisitorsModel extends BaseModel
             ->from('visitor')
             ->join('visitor_relationships', ['visitor_relationships.visitor_id', 'visitor.ID'])
             ->join('pages', ['visitor_relationships.page_id', 'pages.page_id'])
-            ->whereDate('pages.date', $args['date'])
+            ->whereDate('visitor_relationships.date', $args['date'])
             ->where('visitor.location', 'IN', $args['country'])
             ->where('visitor.city', 'IN', $args['city'])
             ->where('visitor.region', 'IN', $args['region'])
             ->where('visitor.continent', 'IN', $args['continent'])
+            ->perPage($args['page'], $args['per_page'])
             ->groupBy($args['group_by'])
             ->bypassCache($bypassCache)
             ->getAll();
