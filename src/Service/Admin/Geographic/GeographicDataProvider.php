@@ -31,9 +31,23 @@ class GeographicDataProvider
             $this->args, 
             ['group_by' => ['country', 'city']]
         );
+
         return [
             'cities'    => $this->visitorsModel->getVisitorsGeoData($args),
-            'total'     => $this->visitorsModel->countCities($this->args)
+            'total'     => $this->visitorsModel->countCities($args)
+        ];
+    }
+
+    public function getEuropeData()
+    {
+        $args = array_merge(
+            $this->args, 
+            ['continent' => 'europe']
+        );
+
+        return [
+            'countries' => $this->visitorsModel->getVisitorsGeoData($args),
+            'total'     => $this->visitorsModel->countCountries($args)
         ];
     }
 }

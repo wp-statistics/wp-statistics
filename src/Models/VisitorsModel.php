@@ -63,7 +63,8 @@ class VisitorsModel extends BaseModel
     public function countCountries($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
-            'date' => ''
+            'date'      => '',
+            'continent' => ''
         ]);
 
         $result = Query::select([
@@ -72,6 +73,7 @@ class VisitorsModel extends BaseModel
             ->from('visitor')
             ->join('visitor_relationships', ['visitor_relationships.visitor_id', 'visitor.ID'])
             ->whereDate('visitor_relationships.date', $args['date'])
+            ->where('visitor.continent', '=', $args['continent'])
             ->bypassCache($bypassCache)
             ->getVar();
 

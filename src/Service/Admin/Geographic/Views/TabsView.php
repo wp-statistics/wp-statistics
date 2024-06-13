@@ -47,6 +47,11 @@ class TabsView extends BaseTabView
         return $this->dataProvider->getCitiesData();
     }
 
+    public function getEuropeData()
+    {
+        return $this->dataProvider->getEuropeData();
+    }
+
     public function render()
     {
         try {
