@@ -2,14 +2,14 @@
 # This file is distributed under the GPL-2.0+.
 msgid ""
 msgstr ""
-"Project-Id-Version: WP Statistics 14.7.2\n"
+"Project-Id-Version: WP Statistics 14.8\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wp-statistics\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-06-12T09:42:53+00:00\n"
+"POT-Creation-Date: 2024-06-13T14:54:45+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.10.0\n"
 "X-Domain: wp-statistics\n"
@@ -474,12 +474,12 @@ msgid "Error connecting to WordPress REST API. Disable ad-blocker for this page 
 msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-assets.php:405
-#: src/Service/Admin/PrivacyAudit/PrivacyAuditCheck.php:188
+#: src/Service/Admin/PrivacyAudit/PrivacyAuditController.php:85
 msgid "Your WP Statistics settings are privacy-compliant."
 msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-assets.php:406
-#: src/Service/Admin/PrivacyAudit/PrivacyAuditCheck.php:203
+#: src/Service/Admin/PrivacyAudit/PrivacyAuditController.php:100
 msgid "Your WP Statistics settings are not privacy-compliant. Please update your settings."
 msgstr ""
 
@@ -513,6 +513,8 @@ msgid "Author"
 msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-network.php:26
+#: includes/admin/templates/settings/privacy.php:98
+#: includes/admin/templates/settings/privacy.php:107
 #: includes/admin/TinyMCE/class-wp-statistics-tinymce.php:35
 #: includes/class-wp-statistics-menus.php:161
 #: includes/class-wp-statistics-widget.php:15
@@ -593,95 +595,18 @@ msgid "Exclusions"
 msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-network.php:72
-#: includes/admin/templates/header.php:31
-#: includes/admin/templates/header.php:53
+#: includes/admin/templates/header.php:38
+#: includes/admin/templates/header.php:63
 #: includes/class-wp-statistics-menus.php:258
 msgid "Optimization"
 msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-network.php:73
-#: includes/admin/templates/header.php:34
-#: includes/admin/templates/header.php:52
+#: includes/admin/templates/header.php:41
+#: includes/admin/templates/header.php:62
 #: includes/class-wp-statistics-install.php:339
 #: includes/class-wp-statistics-menus.php:265
 msgid "Settings"
-msgstr ""
-
-#: includes/admin/class-wp-statistics-admin-notices.php:49
-#: src/Service/Admin/NoticeHandler/GeneralNotices.php:49
-msgid "WP Statistics might not count the stats since <code>WP_CACHE</code> is detected in <code>wp-config.php</code>"
-msgstr ""
-
-#: includes/admin/class-wp-statistics-admin-notices.php:49
-#: src/Service/Admin/NoticeHandler/GeneralNotices.php:49
-msgid "Potential Inaccuracy Due to <b>%s</b> Plugin"
-msgstr ""
-
-#: includes/admin/class-wp-statistics-admin-notices.php:50
-msgid "Enable %1$sCache Compatibility%2$s to Correct This or Dismiss if Counts Are Accurate. Check out <a href=\\“%3$s\\” target=\\“_blank\\“>this article</a> to disable this notice permanently."
-msgstr ""
-
-#: includes/admin/class-wp-statistics-admin-notices.php:84
-msgid "<b>Warning:</b> WP REST API Connection Error Detected."
-msgstr ""
-
-#: includes/admin/class-wp-statistics-admin-notices.php:88
-msgid "Flush Rewrite Rules by Updating Permalink in %1$sSettings → Permalinks%2$s and Verify WP REST API is Enabled."
-msgstr ""
-
-#: includes/admin/class-wp-statistics-admin-notices.php:98
-#: src/Service/Admin/NoticeHandler/GeneralNotices.php:57
-msgid "GeoIP collection is not enabled. Please go to <a href=\"%s\">setting page</a> to enable GeoIP for getting more information and location (country) from the visitor."
-msgstr ""
-
-#: includes/admin/class-wp-statistics-admin-notices.php:105
-#: src/Service/Admin/NoticeHandler/GeneralNotices.php:64
-msgid "Have you thought about donating to WP Statistics?"
-msgstr ""
-
-#: includes/admin/class-wp-statistics-admin-notices.php:105
-#: src/Service/Admin/NoticeHandler/GeneralNotices.php:64
-msgid "Donate Now!"
-msgstr ""
-
-#: includes/admin/class-wp-statistics-admin-notices.php:118
-#: includes/admin/templates/settings/general.php:16
-#: src/Service/Admin/NoticeHandler/GeneralNotices.php:77
-msgid "Display Online Users"
-msgstr ""
-
-#: includes/admin/class-wp-statistics-admin-notices.php:123
-#: src/Service/Admin/NoticeHandler/GeneralNotices.php:82
-msgid "Track Page Views"
-msgstr ""
-
-#: includes/admin/class-wp-statistics-admin-notices.php:128
-#: includes/admin/templates/settings/general.php:61
-msgid "Track Unique Visitors"
-msgstr ""
-
-#: includes/admin/class-wp-statistics-admin-notices.php:132
-#: src/Service/Admin/NoticeHandler/GeneralNotices.php:91
-msgid "Certain features are currently turned off. Please visit the %1$ssettings page%2$s to activate them: %3$s"
-msgstr ""
-
-#: includes/admin/class-wp-statistics-admin-notices.php:132
-#: src/Service/Admin/NoticeHandler/GeneralNotices.php:91
-msgid ","
-msgstr ""
-
-#: includes/admin/class-wp-statistics-admin-notices.php:141
-msgid "Your WP Statistics Add-On(s) need WP Statistics version 12.6.13 or higher. Please update your WP Statistics plugin."
-msgstr ""
-
-#: includes/admin/class-wp-statistics-admin-notices.php:175
-#: src/Service/Admin/NoticeHandler/GeneralNotices.php:107
-msgid "Attention: Your database has accumulated a significant number of records, which may impact your site's performance. To address this, consider visiting <a href=\"%1$s\">Settings &gt; Data Management</a> where you can enable the option to prevent recording old data. You can also perform an immediate database clean-up on the <a href=\"%2$s\">Optimization page</a>. For more information, <a href=\"%3$s\" target=\"_blank\">click here</a>."
-msgstr ""
-
-#: includes/admin/class-wp-statistics-admin-notices.php:208
-#: src/Service/Admin/NoticeHandler/GeneralNotices.php:121
-msgid "Your server memory limit is too low. Please contact your hosting provider to increase the memory limit."
 msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-post.php:84
@@ -1054,15 +979,15 @@ msgstr ""
 msgid "All Settings Have Been Reset to Default."
 msgstr ""
 
-#: includes/admin/pages/class-wp-statistics-admin-page-settings.php:326
+#: includes/admin/pages/class-wp-statistics-admin-page-settings.php:327
 msgid "GeoIP functionality could not be activated due to an error: %s."
 msgstr ""
 
-#: includes/admin/pages/class-wp-statistics-admin-page-settings.php:367
+#: includes/admin/pages/class-wp-statistics-admin-page-settings.php:368
 msgid "WP Statistics - Honey Pot Page for Tracking"
 msgstr ""
 
-#: includes/admin/pages/class-wp-statistics-admin-page-settings.php:368
+#: includes/admin/pages/class-wp-statistics-admin-page-settings.php:369
 msgid "Do Not Delete: Honey Pot Page for WP Statistics Tracking."
 msgstr ""
 
@@ -1175,8 +1100,8 @@ msgstr ""
 msgid "Use WP Statistics to identify your most popular pages and posts. Analyze the data to understand what content resonates with your audience, and use these insights to guide your content creation efforts."
 msgstr ""
 
-#: includes/admin/templates/header.php:19
-#: includes/admin/templates/header.php:51
+#: includes/admin/templates/header.php:20
+#: includes/admin/templates/header.php:60
 #: includes/admin/templates/layout/menu-settings.php:95
 #: includes/admin/templates/meta-box/about.php:31
 #: includes/admin/templates/plugins.php:3
@@ -1185,26 +1110,26 @@ msgstr ""
 msgid "Add-Ons"
 msgstr ""
 
-#: includes/admin/templates/header.php:24
-#: includes/admin/templates/header.php:61
+#: includes/admin/templates/header.php:27
+#: includes/admin/templates/header.php:74
 msgid "Upgrade to Bundle"
 msgstr ""
 
-#: includes/admin/templates/header.php:28
+#: includes/admin/templates/header.php:35
 #: includes/admin/templates/layout/privacy-audit/privacy-audits.php:3
-#: includes/admin/templates/settings/privacy.php:49
-#: src/Service/Admin/PrivacyAudit/PrivacyAuditManager.php:41
+#: includes/admin/templates/settings/privacy.php:53
+#: src/Service/Admin/PrivacyAudit/PrivacyAuditManager.php:57
 #: src/Service/Admin/PrivacyAudit/PrivacyAuditPage.php:30
 msgid "Privacy Audit"
 msgstr ""
 
-#: includes/admin/templates/header.php:37
-#: includes/admin/templates/header.php:55
-#: includes/admin/templates/header.php:57
+#: includes/admin/templates/header.php:45
+#: includes/admin/templates/header.php:66
+#: includes/admin/templates/header.php:68
 msgid "Help Center"
 msgstr ""
 
-#: includes/admin/templates/header.php:47
+#: includes/admin/templates/header.php:55
 msgid "Menu"
 msgstr ""
 
@@ -1878,7 +1803,7 @@ msgstr ""
 
 #: includes/admin/templates/optimization/resources.php:84
 #: includes/admin/templates/optimization/resources.php:100
-#: includes/admin/templates/settings/add-ons/customization.php:98
+#: includes/admin/templates/settings/add-ons/customization.php:126
 #: includes/admin/templates/settings/add-ons/realtime-stats.php:57
 #: includes/admin/templates/settings/general.php:215
 msgid "Yes"
@@ -1886,7 +1811,7 @@ msgstr ""
 
 #: includes/admin/templates/optimization/resources.php:86
 #: includes/admin/templates/optimization/resources.php:102
-#: includes/admin/templates/settings/add-ons/customization.php:99
+#: includes/admin/templates/settings/add-ons/customization.php:127
 #: includes/admin/templates/settings/add-ons/realtime-stats.php:56
 #: includes/admin/templates/settings/general.php:216
 msgid "No"
@@ -2653,7 +2578,7 @@ msgstr ""
 
 #: includes/admin/templates/settings/access-level.php:87
 #: includes/admin/templates/settings/add-ons/advanced-reporting.php:452
-#: includes/admin/templates/settings/add-ons/customization.php:137
+#: includes/admin/templates/settings/add-ons/customization.php:165
 #: includes/admin/templates/settings/add-ons/data-plus.php:60
 #: includes/admin/templates/settings/add-ons/mini-chart.php:114
 #: includes/admin/templates/settings/add-ons/realtime-stats.php:71
@@ -2665,7 +2590,7 @@ msgstr ""
 #: includes/admin/templates/settings/maintenance.php:78
 #: includes/admin/templates/settings/notifications.php:177
 #: includes/admin/templates/settings/overview-display.php:42
-#: includes/admin/templates/settings/privacy.php:99
+#: includes/admin/templates/settings/privacy.php:143
 #: includes/admin/templates/settings/visitor-ip.php:203
 msgid "Update"
 msgstr ""
@@ -2944,58 +2869,15 @@ msgstr ""
 msgid "Choose which menus you want to remove from the WordPress sidebar."
 msgstr ""
 
-#: includes/admin/templates/settings/add-ons/customization.php:66
-msgid "Change the header banner"
+#: includes/admin/templates/settings/add-ons/customization.php:67
+msgid "White label and Header Customization"
 msgstr ""
 
-#: includes/admin/templates/settings/add-ons/customization.php:71
-msgid "Choose a banner"
+#: includes/admin/templates/settings/add-ons/customization.php:72
+msgid "White label"
 msgstr ""
 
-#: includes/admin/templates/settings/add-ons/customization.php:76
-msgid "Upload File"
-msgstr ""
-
-#: includes/admin/templates/settings/add-ons/customization.php:88
-msgid "Overview Widget Customization"
-msgstr ""
-
-#: includes/admin/templates/settings/add-ons/customization.php:93
-msgid "Enable Overview Widget"
-msgstr ""
-
-#: includes/admin/templates/settings/add-ons/customization.php:101
-msgid "Activate a custom widget on the Overview page."
-msgstr ""
-
-#: includes/admin/templates/settings/add-ons/customization.php:107
-msgid "Widget Title"
-msgstr ""
-
-#: includes/admin/templates/settings/add-ons/customization.php:112
-msgid "Enter a title for your custom widget."
-msgstr ""
-
-#: includes/admin/templates/settings/add-ons/customization.php:118
-msgid "Widget Content"
-msgstr ""
-
-#: includes/admin/templates/settings/add-ons/customization.php:127
-msgid "Craft the content for your widget; text, images, and HTML are supported."
-msgstr ""
-
-#: includes/admin/templates/settings/add-ons/data-plus.php:27
-msgid "Event Tracking"
-msgstr ""
-
-#: includes/admin/templates/settings/add-ons/data-plus.php:27
-msgid "Enable or disable tracking features for clicks and downloads"
-msgstr ""
-
-#: includes/admin/templates/settings/add-ons/data-plus.php:33
-msgid "Link Tracker"
-msgstr ""
-
+#: includes/admin/templates/settings/add-ons/customization.php:77
 #: includes/admin/templates/settings/add-ons/data-plus.php:38
 #: includes/admin/templates/settings/add-ons/data-plus.php:50
 #: includes/admin/templates/settings/add-ons/widgets.php:63
@@ -3025,12 +2907,64 @@ msgstr ""
 #: includes/admin/templates/settings/notifications.php:67
 #: includes/admin/templates/settings/overview-display.php:19
 #: includes/admin/templates/settings/overview-display.php:31
-#: includes/admin/templates/settings/privacy.php:19
-#: includes/admin/templates/settings/privacy.php:33
-#: includes/admin/templates/settings/privacy.php:54
-#: includes/admin/templates/settings/privacy.php:69
-#: includes/admin/templates/settings/privacy.php:91
+#: includes/admin/templates/settings/privacy.php:23
+#: includes/admin/templates/settings/privacy.php:37
+#: includes/admin/templates/settings/privacy.php:58
+#: includes/admin/templates/settings/privacy.php:73
+#: includes/admin/templates/settings/privacy.php:135
 msgid "Enable"
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/customization.php:78
+msgid "White label WP Statistics report pages. Remove branding and promotional elements. For a detailed list of changes, refer to the White label Documentation."
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/customization.php:84
+msgid " Change the Header Logo"
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/customization.php:105
+msgid "Customize the header logo to match your branding by uploading your own logo."
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/customization.php:116
+msgid "Overview Widget Customization"
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/customization.php:121
+msgid "Enable Overview Widget"
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/customization.php:129
+msgid "Activate a custom widget on the Overview page."
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/customization.php:135
+msgid "Widget Title"
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/customization.php:140
+msgid "Enter a title for your custom widget."
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/customization.php:146
+msgid "Widget Content"
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/customization.php:155
+msgid "Craft the content for your widget; text, images, and HTML are supported."
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/data-plus.php:27
+msgid "Event Tracking"
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/data-plus.php:27
+msgid "Enable or disable tracking features for clicks and downloads"
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/data-plus.php:33
+msgid "Link Tracker"
 msgstr ""
 
 #: includes/admin/templates/settings/add-ons/data-plus.php:39
@@ -3529,6 +3463,11 @@ msgstr ""
 msgid "User Presence Monitoring"
 msgstr ""
 
+#: includes/admin/templates/settings/general.php:16
+#: src/Service/Admin/NoticeHandler/GeneralNotices.php:77
+msgid "Display Online Users"
+msgstr ""
+
 #: includes/admin/templates/settings/general.php:22
 msgid "Shows current online users on the site."
 msgstr ""
@@ -3557,6 +3496,10 @@ msgstr ""
 msgid "Counts the number of times each page is visited."
 msgstr ""
 
+#: includes/admin/templates/settings/general.php:61
+msgid "Track Unique Visitors"
+msgstr ""
+
 #: includes/admin/templates/settings/general.php:66
 msgid "Tracks individual users to determine how many unique visitors you have."
 msgstr ""
@@ -3566,9 +3509,9 @@ msgid "Record User Page Views"
 msgstr ""
 
 #: includes/admin/templates/settings/general.php:76
-#: includes/admin/templates/settings/privacy.php:13
-#: includes/admin/templates/settings/privacy.php:28
-#: includes/admin/templates/settings/privacy.php:63
+#: includes/admin/templates/settings/privacy.php:17
+#: includes/admin/templates/settings/privacy.php:32
+#: includes/admin/templates/settings/privacy.php:67
 msgid "Privacy Impact - This setting affects user privacy. Adjust with caution to ensure compliance with privacy standards. For more details, visit the Privacy Audit page."
 msgstr ""
 
@@ -3887,59 +3830,103 @@ msgstr ""
 msgid "View the 'Global Visitor Distribution' widget in the overviews."
 msgstr ""
 
-#: includes/admin/templates/settings/privacy.php:5
+#: includes/admin/templates/settings/privacy.php:9
 msgid "Data Protection"
 msgstr ""
 
-#: includes/admin/templates/settings/privacy.php:5
+#: includes/admin/templates/settings/privacy.php:9
 msgid "Ensure your website adheres to data protection standards."
 msgstr ""
 
-#: includes/admin/templates/settings/privacy.php:11
+#: includes/admin/templates/settings/privacy.php:15
 msgid "Anonymize IP Addresses"
 msgstr ""
 
-#: includes/admin/templates/settings/privacy.php:20
+#: includes/admin/templates/settings/privacy.php:24
 msgid "Masks the last segment of a user's IP address for privacy, complying with GDPR and preventing the full IP from being stored. More details can be found at <a href=\"https://wp-statistics.com/resources/avoiding-pii-data-collection/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings\" target=\"_blank\">Avoiding PII Data Collection.</a>"
 msgstr ""
 
-#: includes/admin/templates/settings/privacy.php:26
+#: includes/admin/templates/settings/privacy.php:30
 msgid "Hash IP Addresses"
 msgstr ""
 
-#: includes/admin/templates/settings/privacy.php:34
+#: includes/admin/templates/settings/privacy.php:38
 msgid "Transforms IP addresses into a unique, non-reversible string using a secure algorithm, enhancing privacy protection and complying with data privacy regulations. For an in-depth explanation, refer to <a href=\"https://wp-statistics.com/resources/counting-unique-visitors-without-cookies/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings\" target=\"blank\">Counting Unique Visitors Without Cookies</a>."
 msgstr ""
 
-#: includes/admin/templates/settings/privacy.php:44
+#: includes/admin/templates/settings/privacy.php:48
 msgid "Debugging & Advanced Options"
 msgstr ""
 
-#: includes/admin/templates/settings/privacy.php:55
+#: includes/admin/templates/settings/privacy.php:59
 msgid "Checking WP Statistics settings for privacy compliance."
 msgstr ""
 
-#: includes/admin/templates/settings/privacy.php:61
+#: includes/admin/templates/settings/privacy.php:65
 msgid "Store Entire User Agent String"
 msgstr ""
 
-#: includes/admin/templates/settings/privacy.php:70
+#: includes/admin/templates/settings/privacy.php:74
 msgid "Records full details of visitors for diagnostic purposes. When 'Hash IP Addresses' is operational, this feature is bypassed, and data collection is disabled to ensure privacy. Refer to our <a href=\"https://wp-statistics.com/resources/avoiding-pii-data-collection/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings\" target=\"_blank\">avoiding PII data collection guide</a> for more information."
 msgstr ""
 
-#: includes/admin/templates/settings/privacy.php:81
+#: includes/admin/templates/settings/privacy.php:85
 msgid "User Preferences"
 msgstr ""
 
-#: includes/admin/templates/settings/privacy.php:81
-msgid "Respect and prioritize your website visitors' browsing preferences."
+#: includes/admin/templates/settings/privacy.php:90
+msgid "WP Consent Level Integration"
 msgstr ""
 
-#: includes/admin/templates/settings/privacy.php:86
+#: includes/admin/templates/settings/privacy.php:95
+msgid "Disabled"
+msgstr ""
+
+#: includes/admin/templates/settings/privacy.php:96
+msgid "Functional"
+msgstr ""
+
+#: includes/admin/templates/settings/privacy.php:97
+#: includes/admin/templates/settings/privacy.php:107
+msgid "Statistics-Anonymous"
+msgstr ""
+
+#: includes/admin/templates/settings/privacy.php:99
+msgid "Marketing"
+msgstr ""
+
+#: includes/admin/templates/settings/privacy.php:101
+msgid "Enable WP Consent Level API integration to ensure WP Statistics complies with user-selected privacy preferences. When enabled, WP Statistics will only trigger tracking based on the user's chosen consent category."
+msgstr ""
+
+#: includes/admin/templates/settings/privacy.php:102
+msgid "<b>Note</b>: This integration requires a compatible consent management provider."
+msgstr ""
+
+#. translators: %s: Consent option.
+#: includes/admin/templates/settings/privacy.php:106
+msgid "Recommended Category: <b>%s</b>"
+msgstr ""
+
+#: includes/admin/templates/settings/privacy.php:111
+msgid "WP Statistics, based on your settings, does not use cookies or other personally identifiable information (PII). Therefore, you could use it without notifying users. However, informing users about this can improve your transparency and demonstrate respect for their privacy."
+msgstr ""
+
+#. translators: %s: Privacy Audit page link.
+#: includes/admin/templates/settings/privacy.php:114
+msgid "WP Statistics tracks personally identifiable information (PII) such as IP addresses based on your current settings. We recommend selecting the \"Statistics\" category. For more detailed information, refer to the <a href=\"%s\" target=\"_blank\">Privacy Audit</a>."
+msgstr ""
+
+#. translators: %s: Documentation link.
+#: includes/admin/templates/settings/privacy.php:121
+msgid "For more details, please refer to our <a href=\"%s\" target=\"_blank\">documentation</a>."
+msgstr ""
+
+#: includes/admin/templates/settings/privacy.php:130
 msgid "Do Not Track (DNT)"
 msgstr ""
 
-#: includes/admin/templates/settings/privacy.php:92
+#: includes/admin/templates/settings/privacy.php:136
 msgid "Respects the visitor's browser setting to not track their web activity. Privacy laws like GDPR do not mandate this feature, but activating it demonstrates a commitment to privacy. Be aware that with DNT respected, information from visitors preferring not to be tracked will not be collected."
 msgstr ""
 
@@ -4281,7 +4268,7 @@ msgstr ""
 msgid "Pre-flight Request"
 msgstr ""
 
-#: includes/class-wp-statistics-frontend.php:123
+#: includes/class-wp-statistics-frontend.php:126
 msgid "Views: %s"
 msgstr ""
 
@@ -4835,7 +4822,7 @@ msgid "Unable to create the required upload directory at <code>%s</code>. Please
 msgstr ""
 
 #: includes/class-wp-statistics.php:314
-msgid "Your installed PHP Version is: "
+msgid "Your PHP Version is: "
 msgstr ""
 
 #: includes/class-wp-statistics.php:315
@@ -4945,12 +4932,52 @@ msgstr ""
 msgid "View performance metrics for individual authors' pages."
 msgstr ""
 
+#: src/Service/Admin/NoticeHandler/GeneralNotices.php:49
+msgid "WP Statistics might not count the stats since <code>WP_CACHE</code> is detected in <code>wp-config.php</code>"
+msgstr ""
+
+#: src/Service/Admin/NoticeHandler/GeneralNotices.php:49
+msgid "Potential Inaccuracy Due to <b>%s</b> Plugin"
+msgstr ""
+
 #: src/Service/Admin/NoticeHandler/GeneralNotices.php:50
 msgid "Enable %1$sCache Compatibility%2$s to Correct This or Dismiss if Counts Are Accurate. Check out <a href=\\\"%3$s\\\" target=\\\"_blank\\\">this article</a> to disable this notice permanently."
 msgstr ""
 
+#: src/Service/Admin/NoticeHandler/GeneralNotices.php:57
+msgid "GeoIP collection is not enabled. Please go to <a href=\"%s\">setting page</a> to enable GeoIP for getting more information and location (country) from the visitor."
+msgstr ""
+
+#: src/Service/Admin/NoticeHandler/GeneralNotices.php:64
+msgid "Have you thought about donating to WP Statistics?"
+msgstr ""
+
+#: src/Service/Admin/NoticeHandler/GeneralNotices.php:64
+msgid "Donate Now!"
+msgstr ""
+
+#: src/Service/Admin/NoticeHandler/GeneralNotices.php:82
+msgid "Track Page Views"
+msgstr ""
+
 #: src/Service/Admin/NoticeHandler/GeneralNotices.php:87
 msgid "Monitor Unique Visitors"
+msgstr ""
+
+#: src/Service/Admin/NoticeHandler/GeneralNotices.php:91
+msgid "Certain features are currently turned off. Please visit the %1$ssettings page%2$s to activate them: %3$s"
+msgstr ""
+
+#: src/Service/Admin/NoticeHandler/GeneralNotices.php:91
+msgid ","
+msgstr ""
+
+#: src/Service/Admin/NoticeHandler/GeneralNotices.php:107
+msgid "<b>Notice: Database Maintenance Recommended:</b> Your database has accumulated many records, which could slow down your site. To improve performance, go to <a href=\"%1$s\">Settings → Data Management</a> to enable the option that stops recording old visitor data, and visit the <a href=\"%2$s\">Optimization page</a> to clean up your database. This process only removes detailed old visitor logs but retains aggregated data. Your other data and overall statistics will remain unchanged. For more details, <a href=\"%3$s\" target=\"_blank\">click here</a>."
+msgstr ""
+
+#: src/Service/Admin/NoticeHandler/GeneralNotices.php:121
+msgid "Your server memory limit is too low. Please contact your hosting provider to increase the memory limit."
 msgstr ""
 
 #: src/Service/Admin/PrivacyAudit/Audits/Abstracts/ResolvableAudit.php:107
@@ -5194,7 +5221,11 @@ msgid "User Consent Required."
 msgstr ""
 
 #: src/Service/Admin/PrivacyAudit/Faqs/RequireConsent.php:43
-msgid "<p>Your current settings indicate that WP Statistics is configured to collect personal data. In this case, it is essential to obtain user consent to comply with privacy laws and regulations. For detailed information on which settings may necessitate user consent and how to adjust them, please refer to the <b>Privacy Audit</b> section of this page.</p>"
+msgid ""
+"\n"
+"                    <p>Your current settings indicate that WP Statistics is configured to collect personal data. In this case, it is essential to obtain user consent to comply with privacy laws and regulations. For detailed information on which settings may necessitate user consent and how to adjust them, please refer to the <b>Privacy Audit</b> section of this page.</p>\n"
+"                    <p>To have consent for WP Statistics on your site, read <a target=\"_blank\" href=\"https://wp-statistics.com/resources/wp-consent-level-integration/?utm_source=wp-statistics&utm_medium=link&utm_campaign=privacy\">WP Consent Level Integration</a>.</p>\n"
+"                "
 msgstr ""
 
 #: src/Service/Admin/PrivacyAudit/Faqs/RequireCookieBanner.php:16
@@ -5241,24 +5272,24 @@ msgstr ""
 msgid "<p>This means that the data resides on the same server as your website, following the same data storage practices. Since WP Statistics does not transfer data outside of your database, the location of your data is determined by your web hosting service. If your hosting servers are located within the EU, your data does not leave the EU. It is essential to be aware of your hosting provider’s data center locations to understand where your website’s data, including that collected by WP Statistics, is physically stored.</p>"
 msgstr ""
 
-#: src/Service/Admin/PrivacyAudit/PrivacyAuditCheck.php:191
+#: src/Service/Admin/PrivacyAudit/PrivacyAuditController.php:88
 msgid "Privacy"
 msgstr ""
 
-#: src/Service/Admin/PrivacyAudit/PrivacyAuditCheck.php:195
+#: src/Service/Admin/PrivacyAudit/PrivacyAuditController.php:92
 msgid "<p>The settings in your WP Statistics account comply with the privacy regulations. Visit the <a target=\"_blank\" href=\"%s\">%s<span aria-hidden=\"true\" class=\"dashicons dashicons-external\"></span></a> to learn more about best practices.</p>"
 msgstr ""
 
-#: src/Service/Admin/PrivacyAudit/PrivacyAuditCheck.php:197
-#: src/Service/Admin/PrivacyAudit/PrivacyAuditCheck.php:207
+#: src/Service/Admin/PrivacyAudit/PrivacyAuditController.php:94
+#: src/Service/Admin/PrivacyAudit/PrivacyAuditController.php:104
 msgid "Privacy Audit page"
 msgstr ""
 
-#: src/Service/Admin/PrivacyAudit/PrivacyAuditCheck.php:205
+#: src/Service/Admin/PrivacyAudit/PrivacyAuditController.php:102
 msgid "<p>Your WP Statistics settings do not meet the necessary privacy standards. Immediate adjustments are required to ensure compliance and protect user data. Please review and update your settings as recommended on the <a target=\"_blank\" href=\"%s\">%s<span aria-hidden=\"true\" class=\"dashicons dashicons-external\"></span></a>.</p>"
 msgstr ""
 
-#: src/Service/Admin/PrivacyAudit/PrivacyAuditManager.php:84
+#: src/Service/Admin/PrivacyAudit/PrivacyAuditManager.php:100
 msgid "Are your WP Statistics settings privacy-compliant?"
 msgstr ""
 

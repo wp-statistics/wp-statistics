@@ -123,6 +123,7 @@ return array(
     'WP_Statistics\\Service\\Analytics\\AnalyticsController' => $baseDir . '/src/Service/Analytics/AnalyticsController.php',
     'WP_Statistics\\Service\\Analytics\\AnalyticsManager' => $baseDir . '/src/Service/Analytics/AnalyticsManager.php',
     'WP_Statistics\\Service\\Analytics\\VisitorProfile' => $baseDir . '/src/Service/Analytics/VisitorProfile.php',
+    'WP_Statistics\\Service\\Integrations\\WpConsentApi' => $baseDir . '/src/Service/Integrations/WpConsentApi.php',
     'WP_Statistics\\Traits\\Cacheable' => $baseDir . '/src/Traits/Cacheable.php',
     'WP_Statistics\\Utils\\Query' => $baseDir . '/src/Utils/Query.php',
     'WP_Statistics\\Utils\\Request' => $baseDir . '/src/Utils/Request.php',

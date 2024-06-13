@@ -202,6 +202,7 @@ class ComposerStaticInit2ac516f03a394ec3d1721352b7f43359
         'WP_Statistics\\Service\\Analytics\\AnalyticsController' => __DIR__ . '/../../..' . '/src/Service/Analytics/AnalyticsController.php',
         'WP_Statistics\\Service\\Analytics\\AnalyticsManager' => __DIR__ . '/../../..' . '/src/Service/Analytics/AnalyticsManager.php',
         'WP_Statistics\\Service\\Analytics\\VisitorProfile' => __DIR__ . '/../../..' . '/src/Service/Analytics/VisitorProfile.php',
+        'WP_Statistics\\Service\\Integrations\\WpConsentApi' => __DIR__ . '/../../..' . '/src/Service/Integrations/WpConsentApi.php',
         'WP_Statistics\\Traits\\Cacheable' => __DIR__ . '/../../..' . '/src/Traits/Cacheable.php',
         'WP_Statistics\\Utils\\Query' => __DIR__ . '/../../..' . '/src/Utils/Query.php',
         'WP_Statistics\\Utils\\Request' => __DIR__ . '/../../..' . '/src/Utils/Request.php',
