@@ -87,6 +87,8 @@ class VisitorsModel extends BaseModel
             'region'    => '',
             'continent' => '',
             'group_by'  => 'country',
+            'order_by'  => 'visitors',
+            'order'     => 'DESC',
             'per_page'  => '',
             'page'      => 1
         ]);
@@ -109,6 +111,7 @@ class VisitorsModel extends BaseModel
             ->where('visitor.continent', 'IN', $args['continent'])
             ->perPage($args['page'], $args['per_page'])
             ->groupBy($args['group_by'])
+            ->orderBy($args['order_by'], $args['order'])
             ->bypassCache($bypassCache)
             ->getAll();
 
