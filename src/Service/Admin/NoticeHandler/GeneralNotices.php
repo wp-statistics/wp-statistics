@@ -50,7 +50,7 @@ class GeneralNotices
             Notice::addNotice($text . ", " . sprintf(__('Enable %1$sCache Compatibility%2$s to Correct This or Dismiss if Counts Are Accurate. Check out <a href=\"%3$s\" target=\"_blank\">this article</a> to disable this notice permanently.', 'wp-statistics'), '<a href="' . Menus::admin_url('settings') . '">', '</a>', 'https://wp-statistics.com/resources/how-to-disable-cache-notice-in-admin'), 'use_cache_plugin', 'warning');
         }
     }
-    
+
     private function active_geo_ip()
     {
         if (Menus::in_plugin_page() and !Option::get('geoip') and GeoIp::IsSupport() and User::Access('manage')) {
@@ -104,7 +104,7 @@ class GeneralNotices
             $documentationUrl = 'https://wp-statistics.com/resources/optimizing-database-size-for-improved-performance/';
 
             $message = sprintf(
-                __('Attention: Your database has accumulated a significant number of records, which may impact your site\'s performance. To address this, consider visiting <a href="%1$s">Settings &gt; Data Management</a> where you can enable the option to prevent recording old data. You can also perform an immediate database clean-up on the <a href="%2$s">Optimization page</a>. For more information, <a href="%3$s" target="_blank">click here</a>.', 'wp-statistics'),
+                __('<b>Notice: Database Maintenance Recommended:</b> Your database has accumulated many records, which could slow down your site. To improve performance, go to <a href="%1$s">Settings → Data Management</a> to enable the option that stops recording old visitor data, and visit the <a href="%2$s">Optimization page</a> to clean up your database. This process only removes detailed old visitor logs but retains aggregated data. Your other data and overall statistics will remain unchanged. For more details, <a href="%3$s" target="_blank">click here</a>.', 'wp-statistics'),
                 esc_url($settingsUrl),
                 esc_url($optimizationUrl),
                 esc_url($documentationUrl)
