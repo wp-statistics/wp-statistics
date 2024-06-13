@@ -70,7 +70,7 @@ class AuthorAnalyticsDataProvider
             $data[] = [
                 'x' => $currentDate,
                 'y' => date('N', $date),
-                'd' => $currentDate,
+                'd' => date_i18n(get_option('date_format'), strtotime($currentDate)),
                 'v' => $numberOfPosts
             ];
     
