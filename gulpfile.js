@@ -35,6 +35,7 @@ function buildScripts(done) {
         './assets/dev/javascript/meta-box/*.js',
         './assets/dev/javascript/pages/*.js',
         './assets/dev/javascript/run.js',
+        './assets/dev/javascript/image-upload.js',
     ])
         .pipe(uglify())
         .pipe(concat('admin.min.js'))
