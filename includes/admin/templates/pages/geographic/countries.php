@@ -8,7 +8,7 @@ use WP_STATISTICS\Menus;
         <div class="meta-box-sortables">
             <div class="postbox">
                 <div class="inside">
-                    <?php if (!empty($data)) : ?>
+                    <?php if (!empty($data['countries'])) : ?>
                         <div class="o-table-wrapper">
                             <table width="100%" class="o-table wps-new-table">
                                 <thead>
