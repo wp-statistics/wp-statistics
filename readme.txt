@@ -130,21 +130,21 @@ If you encounter any bug, please create an issue on [GitHub](https://github.com/
 https://www.youtube.com/watch?v=6G50BZRWPd4
 
 = 14.8 - 16.06.2024 =
-* Addition: Introduced Author Analytics for detailed author performance insights, including publishing overview, top authors, and views per post.
-* Addition: Introduced Geographic Reports for location-based analytics, including countries, cities, European countries, US states, regions of Germany, and time zones.
-* Addition: Added a new option for Bypass Ad Blockers by dynamically loading the tracking script with a unique name and address.
-* Addition: Added Anonymous User to User Role Exclusions.
-* Addition: Added a new option in settings for compatibility with WP Consent Level API.
-* Addition: Added Device Menu for better device-specific analytics, including browsers, operating systems, device models, device categories, screen resolutions, and languages.
-* Improvement: Improved structure and cleanup using new components and models.
-* Improvement: Updated browser icons.
-* Improvement: Made numerous minor and major enhancements.
-* Improvement: Added background processing for more efficient data handling.
-* Improvement: Added a real-time button to the Overview page.
-* Improvement: Refactored the notice handler with multiple improvements.
-* Improvement: Various style improvements in the Overview page, header, and meta boxes.
-* Fixes: Corrected 'to' parameter in yesterday link generation.
-* Fixes: Resolved freeze issues on certain pages and loading mode in meta box hit.
-* Development: Added filters `wp_statistics_ip_detection_preview` and `wp_statistics_enable_feedbackbird`.
+* New: Author Analytics: Replaces the old Author report. Measures author performance and individual author statistics.
+* New: Geographic Reports: Location-based analytics, including countries, cities, European countries, US states, regions of your country.
+* New: Bypass Ad Blockers: New option to dynamically load the tracking script with a unique name and address.
+* New: User Role Exclusions: Added Anonymous User to exclusions.
+* New: Integrates with [WP Consent API](https://github.com/Really-Simple-Plugins/wp-consent-level-api) for compatibility with consent plugins like Complianz.
+* New: Device Menu: Enhanced device-specific analytics, including browsers, operating systems, and device models. Upcoming versions will include device categories, screen resolutions, and languages.
+* Enhancement: Improved structure and cleanup using new components and models.
+* Enhancement: Updated browser icons.
+* Enhancement: Added background processing for efficient data handling.
+* Enhancement: Added real-time button to the Overview page.
+* Enhancement: Refactored notice handler with improvements.
+* Enhancement: Various style improvements on the Overview page, header, and meta boxes.
+* Enhancement: Numerous minor and major enhancements.
+* Fix: Corrected ‘to’ parameter in yesterday link generation.
+* Fix: Resolved freeze issues on certain pages and loading mode in view meta box.
+* Dev: Added filters `wp_statistics_ip_detection_preview` and `wp_statistics_enable_feedbackbird`.
 
 [See changelog for all versions](https://raw.githubusercontent.com/wp-statistics/wp-statistics/master/CHANGELOG.md).
