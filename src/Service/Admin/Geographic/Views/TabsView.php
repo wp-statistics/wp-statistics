@@ -4,6 +4,8 @@ namespace WP_Statistics\Service\Admin\Geographic\Views;
 
 use WP_Statistics\Abstracts\BaseTabView;
 use WP_STATISTICS\Admin_Template;
+use WP_STATISTICS\Country;
+use WP_STATISTICS\Helper;
 use WP_STATISTICS\Menus;
 use WP_Statistics\Service\Admin\Geographic\GeographicDataProvider;
 use WP_Statistics\Utils\Request;
@@ -17,7 +19,7 @@ class TabsView extends BaseTabView
         'cities',
         'europe',
         'us-states',
-        'germany',
+        'regions',
         'timezone'
     ];
 
@@ -45,6 +47,7 @@ class TabsView extends BaseTabView
     {
         $currentTab = $this->getCurrentTab();
         $data       = $this->getTabData();
+        $country    = Country::getName(Helper::getLocaleCountry());
 
         $args = [
             'title'      => esc_html__('Geographic', 'wp-statistics'),
@@ -77,18 +80,24 @@ class TabsView extends BaseTabView
                     'class'   => $currentTab === 'us-states' ? 'current' : '',
                 ],
                 [
-                    'link'    => Menus::admin_url('geographic', ['tab' => 'germany']),
-                    'title'   => esc_html__('Regions of Germany', 'wp-statistics'),
-                    'class'   => $currentTab === 'germany' ? 'current' : '',
-                ],
-                [
-                    'link'    => Menus::admin_url('geographic', ['tab' => 'timezone']),
-                    'title'   => esc_html__('Timezone', 'wp-statistics'),
-                    'class'   => $currentTab === 'timezone' ? 'current' : '',
-                    'coming_soon'   => true,
+                    'link'          => Menus::admin_url('geographic', ['tab' => 'timezone']),
+                    'title'         => esc_html__('Timezone', 'wp-statistics'),
+                    'class'         => $currentTab === 'timezone' ? 'current' : '',
+                    'coming_soon'   => true
                 ],
             ],
         ];
+
+        // If the country is US, or Unknown, hide region tab
+        // if (!in_array($country, ['United States', 'Unknown'])) {
+            $regionsTab = [
+                'link'    => Menus::admin_url('geographic', ['tab' => 'regions']),
+                'title'   => sprintf(esc_html__('Regions of %s', 'wp-statistics'), $country),
+                'class'   => $currentTab === 'regions' ? 'current' : ''
+            ];
+
+            array_splice($args['tabs'], 4, 0, [$regionsTab]);
+        // }
 
         Admin_Template::get_template(['layout/header', 'layout/tabbed-page-header', "pages/geographic/$currentTab", 'layout/postbox.hide', 'layout/footer'], $args);
     }
