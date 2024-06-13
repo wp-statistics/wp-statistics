@@ -81,16 +81,30 @@ if (!$isCustomizationActive) echo Admin_Template::get_template('layout/partials/
 
             <tr valign="top">
                 <th scope="row">
-                    <label for="wps_addon_settings[customization][wps_modify_banner]"><?php esc_html_e('Change the Header Logo', 'wp-statistics'); ?></label>
+                    <label for="wps_addon_settings[customization][wps_modify_banner]"><?php esc_html_e(' Change the Header Logo', 'wp-statistics'); ?></label>
                 </th>
 
+                <?php
+                $custom_header_logo = esc_attr(stripslashes(WP_STATISTICS\Option::getByAddon('wps_modify_banner', 'customization')));
+                $default_logo_url   = WP_STATISTICS_URL . 'assets/images/logo-statistics-header-blue.png';
+                $header_logo_url    = !empty($custom_header_logo) ? $custom_header_logo : $default_logo_url;
+                $display_clear      = !empty($custom_header_logo) ? "" : "display: none;";
+
+                wp_enqueue_media();
+                ?>
+                <script>
+                    var wps_ar_vars = {
+                        'default_avatar_url': "<?php echo esc_url($default_logo_url); ?>"
+                    }
+                </script>
                 <td>
-                    <input type="text" class="regular-text wps-customization_upload_field" id="wps_addon_settings[customization][wps_modify_banner]" name="wps_addon_settings[customization][wps_modify_banner]" value="<?php echo esc_attr(stripslashes(WP_STATISTICS\Option::getByAddon('wps_modify_banner', 'customization'))) ?>"/>
-                    <span>&nbsp;<input type="button" class="wps_customization_settings_upload_button wps_customization_settings_clear_upload_button button" style="margin: 0; padding-top: 13px; padding-bottom: 13px;" value="<?php echo esc_attr__('Upload File', 'wp-statistics') ?>"/></span>
+                    <div class='wps-ar-preview-wrapper'><img style="max-width: 300px; max-height: 200px;" id='wps-ar-image-preview' src='<?php echo esc_attr($header_logo_url) ?>' alt="Header Logo"></div>
+                    <input id="wps_addon_settings[customization][wps_modify_banner]" name="wps_addon_settings[customization][wps_modify_banner]" type="text" class="regular-text" value="<?php echo $custom_header_logo; ?>"/>
+                    <span>&nbsp;<input type="button" class="wps_ar_settings_upload_button button" value="<?php esc_html_e('Upload File', 'wp-statistics-advanced-reporting') ?>" style="margin: 0; padding-top: 13px; padding-bottom: 13px;"/>&nbsp;<input type="button" class="wps_ar_settings_clear_upload_button button" style="<?php echo esc_attr($display_clear); ?> margin: 0; padding-top: 13px; padding-bottom: 13px;" value="<?php esc_html_e('X', 'wp-statistics-advanced-reporting') ?>"/></span>
+
                     <p class="description"><?php esc_html_e('Customize the header logo to match your branding by uploading your own logo.', 'wp-statistics'); ?></p>
                 </td>
             </tr>
-
             </tbody>
         </table>
     </div>

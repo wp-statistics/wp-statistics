@@ -28,6 +28,7 @@
 #wp-statistics-quickstats-widget,
 #wp-statistics-devices-widget,
 #wp-statistics-useronline-widget,
+#wp-statistics-about-widget,
 .wps-wrap {
   .postbox .inside {
     padding: 0;
@@ -270,3 +271,13 @@
   }
 }
 
+// Customization - Add-on
+#wp-statistics-about-widget {
+  .inside {
+    margin-bottom: 24px !important;
+
+    :first-child {
+      margin-top: 0 !important;
+    }
+  }
+}
