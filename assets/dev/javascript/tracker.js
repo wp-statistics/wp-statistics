@@ -82,7 +82,7 @@ let wpStatisticsUserOnline = {
 };
 
 document.addEventListener('DOMContentLoaded', function () {
-    if (WP_Statistics_Tracker_Object.option.consentLevel == 'disabled' || wp_has_consent(WP_Statistics_Tracker_Object.option.consentLevel)) {
+    if (WP_Statistics_Tracker_Object.option.consentLevel == 'disabled' || !WP_Statistics_Tracker_Object.isWpConsentApiActive || wp_has_consent(WP_Statistics_Tracker_Object.option.consentLevel)) {
         wpStatisticsUserOnline.init();
     }
 

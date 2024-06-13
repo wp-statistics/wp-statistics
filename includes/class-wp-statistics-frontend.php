@@ -3,6 +3,7 @@
 namespace WP_STATISTICS;
 
 use WP_Statistics\Components\Assets;
+use WP_Statistics\Service\Integrations\WpConsentApi;
 
 class Frontend
 {
@@ -70,6 +71,7 @@ class Frontend
         $jsArgs = array(
             'hitRequestUrl'        => $hitRequestUrl,
             'keepOnlineRequestUrl' => $keepOnlineRequestUrl,
+            'isWpConsentApiActive' => WpConsentApi::isWpConsentApiActive(),
             'option'               => [
                 'consentLevel'       => Option::get('consent_level_integration', 'disabled'),
                 'dntEnabled'         => Option::get('do_not_track'),
