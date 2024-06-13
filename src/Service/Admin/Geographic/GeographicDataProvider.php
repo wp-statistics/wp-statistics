@@ -50,4 +50,17 @@ class GeographicDataProvider
             'total'     => $this->visitorsModel->countCountries($args)
         ];
     }
+
+    public function getUsData()
+    {
+        $args = array_merge(
+            $this->args, 
+            ['country' => 'US']
+        );
+
+        return [
+            'countries' => $this->visitorsModel->getVisitorsGeoData($args),
+            'total'     => $this->visitorsModel->countCountries($args)
+        ];
+    }
 }

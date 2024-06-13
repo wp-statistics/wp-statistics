@@ -20,7 +20,7 @@ class TabsView extends BaseTabView
         'countries',
         'cities',
         'europe',
-        'us-states',
+        'us',
         'regions',
         'timezone'
     ];
@@ -50,6 +50,11 @@ class TabsView extends BaseTabView
     public function getEuropeData()
     {
         return $this->dataProvider->getEuropeData();
+    }
+
+    public function getUsData()
+    {
+        return $this->dataProvider->getUsData();
     }
 
     public function render()
@@ -86,9 +91,9 @@ class TabsView extends BaseTabView
                         'class'   => $currentTab === 'europe' ? 'current' : '',
                     ],
                     [
-                        'link'    => Menus::admin_url('geographic', ['tab' => 'us-states']),
+                        'link'    => Menus::admin_url('geographic', ['tab' => 'us']),
                         'title'   => esc_html__('US States', 'wp-statistics'),
-                        'class'   => $currentTab === 'us-states' ? 'current' : '',
+                        'class'   => $currentTab === 'us' ? 'current' : '',
                     ],
                     [
                         'link'          => Menus::admin_url('geographic', ['tab' => 'timezone']),
