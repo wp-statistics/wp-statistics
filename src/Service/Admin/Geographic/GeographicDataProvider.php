@@ -31,6 +31,9 @@ class GeographicDataProvider
             $this->args, 
             ['group_by' => ['country', 'city']]
         );
-        return $this->visitorsModel->getVisitorsGeoData($args);
+        return [
+            'cities'    => $this->visitorsModel->getVisitorsGeoData($args),
+            'total'     => $this->visitorsModel->countCities($this->args)
+        ];
     }
 }

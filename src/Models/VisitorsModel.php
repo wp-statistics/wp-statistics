@@ -78,6 +78,24 @@ class VisitorsModel extends BaseModel
         return $result ? $result : 0;
     }
 
+    public function countCities($args = [], $bypassCache = false)
+    {
+        $args = $this->parseArgs($args, [
+            'date' => ''
+        ]);
+
+        $result = Query::select([
+                'COUNT(DISTINCT visitor.city) as total',
+            ])
+            ->from('visitor')
+            ->join('visitor_relationships', ['visitor_relationships.visitor_id', 'visitor.ID'])
+            ->whereDate('visitor_relationships.date', $args['date'])
+            ->bypassCache($bypassCache)
+            ->getVar();
+
+        return $result ? $result : 0;
+    }
+
     public function getVisitorsGeoData($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [

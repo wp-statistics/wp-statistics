@@ -1,82 +1,71 @@
+<?php 
+use WP_STATISTICS\Country;
+?>
+
 <div class="postbox-container wps-postbox-full">
     <div class="metabox-holder">
         <div class="meta-box-sortables">
             <div class="postbox">
                 <div class="inside">
-                    <div class="o-table-wrapper">
-                        <table width="100%" class="o-table wps-new-table">
-                            <thead>
-                            <tr>
-                                <th class="wps-pd-l">
-                                    <?php esc_html_e('City', 'wp-statistics') ?>
-                                    <span class="wps-tooltip" title="City Tooltip"><i class="wps-tooltip-icon info"></i></span>
-                                </th>
-                                <th class="wps-pd-l">
-                                    <?php esc_html_e('Region', 'wp-statistics') ?>
-                                    <span class="wps-tooltip" title="Region Tooltip"><i class="wps-tooltip-icon info"></i></span>
-                                </th>
-                                <th class="wps-pd-l">
-                                    <?php esc_html_e('Country', 'wp-statistics') ?>
-                                    <span class="wps-tooltip" title="Country Tooltip"><i class="wps-tooltip-icon info"></i></span>
-                                </th>
-                                <th class="wps-pd-l" style="width: 15%">
-                                    <?php esc_html_e('Visitor Count', 'wp-statistics') ?>
-                                    <span class="wps-tooltip" title="Visitor Count Tooltip"><i class="wps-tooltip-icon info"></i></span>
-                                </th>
-                                <th class="wps-pd-l" style="width: 15%">
-                                    <?php esc_html_e('View Count', 'wp-statistics') ?>
-                                    <span class="wps-tooltip" title="View Count Tooltip"><i class="wps-tooltip-icon info"></i></span>
-                                </th>
-                            </tr>
-                            </thead>
+                    <?php if (!empty($data['cities'])) : ?>
+                        <div class="o-table-wrapper">
+                            <table width="100%" class="o-table wps-new-table">
+                                <thead>
+                                    <tr>
+                                        <th class="wps-pd-l">
+                                            <?php esc_html_e('City', 'wp-statistics') ?>
+                                            <span class="wps-tooltip" title="City Tooltip"><i class="wps-tooltip-icon info"></i></span>
+                                        </th>
+                                        <th class="wps-pd-l">
+                                            <?php esc_html_e('Region', 'wp-statistics') ?>
+                                            <span class="wps-tooltip" title="Region Tooltip"><i class="wps-tooltip-icon info"></i></span>
+                                        </th>
+                                        <th class="wps-pd-l">
+                                            <?php esc_html_e('Country', 'wp-statistics') ?>
+                                            <span class="wps-tooltip" title="Country Tooltip"><i class="wps-tooltip-icon info"></i></span>
+                                        </th>
+                                        <th class="wps-pd-l" style="width: 15%">
+                                            <?php esc_html_e('Visitor Count', 'wp-statistics') ?>
+                                            <span class="wps-tooltip" title="Visitor Count Tooltip"><i class="wps-tooltip-icon info"></i></span>
+                                        </th>
+                                        <th class="wps-pd-l" style="width: 15%">
+                                            <?php esc_html_e('View Count', 'wp-statistics') ?>
+                                            <span class="wps-tooltip" title="View Count Tooltip"><i class="wps-tooltip-icon info"></i></span>
+                                        </th>
+                                    </tr>
+                                </thead>
 
-                            <tbody>
-                            <tr>
-                                <td class="wps-pd-l">
-                                    Paris
-                                </td>
-                                <td class="wps-pd-l">
-                                    Île-de-France
-                                </td>
-                                <td class="wps-pd-l">
-                                    <span title="France" class="wps-country-name">
-                                        <img alt="France" src="<?php echo WP_STATISTICS_URL . 'assets/images/flags/000.svg' ?>" title="France" class="log-tools wps-flag"/>
-                                        France
-                                    </span>
-                                </td>
-                                <td class="wps-pd-l">
-                                    <a href="" target="_blank">56,125</a>
-                                </td>
-                                <td class="wps-pd-l">
-                                    <a href="" target="_blank">56,125</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="wps-pd-l">
-                                    Paris
-                                </td>
-                                <td class="wps-pd-l">
-                                    Île-de-France
-                                </td>
-                                <td class="wps-pd-l">
-                                    <span class="wps-country-name" title="France">
-                                        <img alt="France" src="<?php echo WP_STATISTICS_URL . 'assets/images/flags/000.svg' ?>" title="France" class="log-tools wps-flag"/>
-                                        France
-                                    </span>
-                                </td>
-                                <td class="wps-pd-l">
-                                    <a href="" target="_blank">56,125</a>
-                                </td>
-                                <td class="wps-pd-l">
-                                    <a href="" target="_blank">56,125</a>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="o-wrap o-wrap--no-data wps-center">
-                        <?php esc_html_e('No recent data available.', 'wp-statistics') ?>
-                    </div>
+                                <tbody>
+                                    <?php foreach ($data['cities'] as $item) : ?>
+                                        <tr>
+                                            <td class="wps-pd-l">
+                                                <?php echo esc_html($item->city) ?>
+                                            </td>
+                                            <td class="wps-pd-l">
+                                                <?php echo esc_html($item->region) ?>
+                                            </td>
+                                            <td class="wps-pd-l">
+                                                <span title="<?php echo esc_attr(Country::getName($item->country)) ?>" class="wps-country-name">
+                                                    <img alt="<?php echo esc_attr(Country::getName($item->country)) ?>" src="<?php echo esc_url(Country::flag($item->country)) ?>" title="<?php echo esc_attr(Country::getName($item->country)) ?>" class="log-tools wps-flag"/>
+                                                    <?php echo esc_html(Country::getName($item->country)) ?>
+                                                </span>
+                                            </td>
+                                            <td class="wps-pd-l">
+                                                <?php echo esc_html($item->visitors) ?>
+                                            </td>
+                                            <td class="wps-pd-l">
+                                                <?php echo esc_html($item->views) ?>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    <?php else : ?>
+                        <div class="o-wrap o-wrap--no-data wps-center">
+                            <?php esc_html_e('No recent data available.', 'wp-statistics') ?>
+                        </div>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>

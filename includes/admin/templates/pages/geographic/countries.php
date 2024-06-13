@@ -34,8 +34,8 @@ use WP_STATISTICS\Menus;
                                     <?php foreach ($data['countries'] as $item) : ?>
                                         <tr>
                                             <td class="wps-pd-l">
-                                                <span title="France" class="wps-country-name">
-                                                    <img alt="France" src="<?php echo esc_url(Country::flag($item->country)) ?>" title="<?php echo esc_attr(Country::getName($item->country)) ?>" class="log-tools wps-flag"/>
+                                                <span title="<?php echo esc_attr(Country::getName($item->country)) ?>" class="wps-country-name">
+                                                    <img alt="<?php echo esc_attr(Country::getName($item->country)) ?>" src="<?php echo esc_url(Country::flag($item->country)) ?>" title="<?php echo esc_attr(Country::getName($item->country)) ?>" class="log-tools wps-flag"/>
                                                     <?php echo esc_html(Country::getName($item->country)) ?>
                                                 </span>
                                             </td>
