@@ -312,11 +312,11 @@ final class WP_Statistics
      */
     function php_version_notice()
     {
-        $error = __('Your installed PHP Version is: ', 'wp-statistics') . PHP_VERSION . '. ';
+        $error = __('Your PHP Version is: ', 'wp-statistics') . PHP_VERSION . '. ';
         $error .= __('The <strong>WP Statistics</strong> plugin requires PHP version <strong>', 'wp-statistics') . WP_STATISTICS_REQUIRE_PHP_VERSION . __('</strong> or greater.', 'wp-statistics');
         ?>
         <div class="error">
-            <p><?php printf(esc_html($error)); ?></p>
+            <p><?php printf(wp_kses_post($error)); ?></p>
         </div>
         <?php
     }
@@ -343,9 +343,6 @@ final class WP_Statistics
      */
     public static function install($network_wide)
     {
-        add_filter('wp_statistics_show_welcome_page', '__return_false', 99);
-        remove_action('upgrader_process_complete', 'WP_Statistics_Welcome::do_welcome', 99);
-
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-db.php';
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-install.php';
         $installer = new \WP_STATISTICS\Install();
