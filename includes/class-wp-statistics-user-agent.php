@@ -103,10 +103,10 @@ class UserAgent
         $logoPath = "assets/images/browser/$browser.svg";
 
         if (file_exists(WP_STATISTICS_DIR . $logoPath)) {
-            return WP_STATISTICS_URL . $logoPath;
+            return esc_url(WP_STATISTICS_URL . $logoPath);
         }
 
-        return WP_STATISTICS_URL . 'assets/images/browser/unknown.svg';
+        return esc_url(WP_STATISTICS_URL . 'assets/images/browser/unknown.svg');
 
     }
 
@@ -205,9 +205,9 @@ class UserAgent
         $logoPath = "assets/images/operating-system/$platform.svg";
 
         if (file_exists(WP_STATISTICS_DIR . $logoPath)) {
-            return WP_STATISTICS_URL . $logoPath;
+            return esc_url(WP_STATISTICS_URL . $logoPath);
         }
 
-        return WP_STATISTICS_URL . 'assets/images/operating-system/unknown.svg';
+        return esc_url(WP_STATISTICS_URL . 'assets/images/operating-system/unknown.svg');
     }
 }
