@@ -191,4 +191,23 @@ class UserAgent
         );
     }
 
+    /**
+     * Returns platform/OS logo.
+     *
+     * @param   string  $platform    Platform name.
+     *
+     * @return  string              Logo URL, or URL of an unknown browser icon.
+     */
+    public static function getPlatformLogo($platform)
+    {
+        $platform = str_replace(' ', '_', $platform);
+        $platform = sanitize_key($platform);
+        $logoPath = "assets/images/operating-system/$platform.svg";
+
+        if (file_exists(WP_STATISTICS_DIR . $logoPath)) {
+            return WP_STATISTICS_URL . $logoPath;
+        }
+
+        return WP_STATISTICS_URL . 'assets/images/operating-system/unknown.svg';
+    }
 }
