@@ -80,7 +80,7 @@ class VisitorsModel extends BaseModel
             ->whereDate('visitor_relationships.date', $args['date'])
             ->where('visitor.continent', '=', $args['continent'])
             ->where('visitor.location', '=', $args['country'])
-            ->where('visitor.region', '=', $args['continent'])
+            ->where('visitor.region', '=', $args['region'])
             ->where('visitor.city', '=', $args['city'])
             ->whereNotNull("visitor.{$args['count_field']}")
             ->bypassCache($bypassCache)
