@@ -15,23 +15,18 @@ use WP_STATISTICS\Admin_Template;
                                     <tr>
                                         <th class="wps-pd-l">
                                             <?php esc_html_e('City', 'wp-statistics') ?>
-                                            <span class="wps-tooltip" title="City Tooltip"><i class="wps-tooltip-icon info"></i></span>
                                         </th>
                                         <th class="wps-pd-l">
                                             <?php esc_html_e('Region', 'wp-statistics') ?>
-                                            <span class="wps-tooltip" title="Region Tooltip"><i class="wps-tooltip-icon info"></i></span>
                                         </th>
                                         <th class="wps-pd-l">
                                             <?php esc_html_e('Country', 'wp-statistics') ?>
-                                            <span class="wps-tooltip" title="Country Tooltip"><i class="wps-tooltip-icon info"></i></span>
                                         </th>
                                         <th class="wps-pd-l" style="width: 15%">
                                             <?php esc_html_e('Visitor Count', 'wp-statistics') ?>
-                                            <span class="wps-tooltip" title="Visitor Count Tooltip"><i class="wps-tooltip-icon info"></i></span>
                                         </th>
                                         <th class="wps-pd-l" style="width: 15%">
                                             <?php esc_html_e('View Count', 'wp-statistics') ?>
-                                            <span class="wps-tooltip" title="View Count Tooltip"><i class="wps-tooltip-icon info"></i></span>
                                         </th>
                                     </tr>
                                 </thead>
