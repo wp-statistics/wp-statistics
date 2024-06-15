@@ -2972,6 +2972,15 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
   display: flex;
 }
 
+.wps_page{
+  .tooltipster-base{
+    max-width:98%;
+    @media (min-width: 500px) {
+      max-width:450px ;
+    }
+  }
+}
+
 @keyframes skeleton-animate-wave {
   0% {
     transform: translateX(-100%)
