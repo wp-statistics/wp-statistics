@@ -4,8 +4,6 @@
         <tr valign="top">
             <th scope="row" colspan="2"><h3><?php
 
-use WP_Statistics\Service\Admin\PrivacyAudit\Faqs\RequireConsent;
-
  esc_html_e('Data Protection', 'wp-statistics'); ?> <a href="#" class="wps-tooltip" title="<?php esc_html_e('Ensure your website adheres to data protection standards.', 'wp-statistics') ?>"><i class="wps-tooltip-icon"></i></a></h3></th>
         </tr>
 
@@ -91,39 +89,51 @@ use WP_Statistics\Service\Admin\PrivacyAudit\Faqs\RequireConsent;
             </th>
 
             <td>
-                <select id="consent_level_integration" name="wps_consent_level_integration">
+                <select id="consent_level_integration" name="wps_consent_level_integration" <?php echo !\WP_Statistics\Service\Integrations\WpConsentApi::isWpConsentApiActive() ? 'disabled' : ''; ?>>
                     <option value="disabled" <?php selected(WP_STATISTICS\Option::get('consent_level_integration'), 'disabled'); ?>><?php esc_html_e('Disabled', 'wp-statistics'); ?></option>
-                    <option value="functional" <?php selected(WP_STATISTICS\Option::get('consent_level_integration'), 'functional'); ?>><?php esc_html_e('Functional', 'wp-statistics'); ?></option>
-                    <option value="statistics-anonymous" <?php selected(WP_STATISTICS\Option::get('consent_level_integration'), 'statistics-anonymous'); ?>><?php esc_html_e('Statistics-Anonymous', 'wp-statistics'); ?></option>
-                    <option value="statistics" <?php selected(WP_STATISTICS\Option::get('consent_level_integration'), 'statistics'); ?>><?php esc_html_e('Statistics', 'wp-statistics'); ?></option>
-                    <option value="marketing" <?php selected(WP_STATISTICS\Option::get('consent_level_integration'), 'marketing'); ?>><?php esc_html_e('Marketing', 'wp-statistics'); ?></option>
+                    <?php if (\WP_Statistics\Service\Integrations\WpConsentApi::isWpConsentApiActive()) : ?>
+                        <option value="functional" <?php selected(WP_STATISTICS\Option::get('consent_level_integration'), 'functional'); ?>><?php esc_html_e('Functional', 'wp-statistics'); ?></option>
+                        <option value="statistics-anonymous" <?php selected(WP_STATISTICS\Option::get('consent_level_integration'), 'statistics-anonymous'); ?>><?php esc_html_e('Statistics-Anonymous', 'wp-statistics'); ?></option>
+                        <option value="statistics" <?php selected(WP_STATISTICS\Option::get('consent_level_integration'), 'statistics'); ?>><?php esc_html_e('Statistics', 'wp-statistics'); ?></option>
+                        <option value="marketing" <?php selected(WP_STATISTICS\Option::get('consent_level_integration'), 'marketing'); ?>><?php esc_html_e('Marketing', 'wp-statistics'); ?></option>
+                    <?php endif; ?>
                 </select>
                 <p class="description"><?php esc_html_e("Enable WP Consent Level API integration to ensure WP Statistics complies with user-selected privacy preferences. When enabled, WP Statistics will only trigger tracking based on the user's chosen consent category.", 'wp-statistics'); ?></p>
-                <p class="description"><?php _e('<b>Note</b>: This integration requires a compatible consent management provider.', 'wp-statistics'); ?></p>
-                <?php if (\WP_STATISTICS\Option::get('privacy_audit', false)): ?>
+                <?php if (\WP_Statistics\Service\Integrations\WpConsentApi::isWpConsentApiActive()) : ?>
+                    <p class="description"><?php _e('<b>Note</b>: This integration requires a compatible consent management provider.', 'wp-statistics'); ?></p>
+                    <?php if (\WP_STATISTICS\Option::get('privacy_audit', false)) : ?>
+                        <p class="description">
+                            <?php echo sprintf(
+                                // translators: %s: Consent option.
+                                __('Recommended Category: <b>%s</b>', 'wp-statistics'),
+                                \WP_Statistics\Service\Admin\PrivacyAudit\Faqs\RequireConsent::getStatus() === 'success' ? esc_html__('Functional or Statistics-Anonymous', 'wp-statistics') : esc_html__('Statistics', 'wp-statistics')
+                            ); ?>
+                            <br />
+                            <?php echo \WP_Statistics\Service\Admin\PrivacyAudit\Faqs\RequireConsent::getStatus() === 'success' ? 
+                                esc_html__('WP Statistics, based on your settings, does not use cookies or other personally identifiable information (PII). Therefore, you could use it without notifying users. However, informing users about this can improve your transparency and demonstrate respect for their privacy.', 'wp-statistics') :
+                                sprintf(
+                                    // translators: %s: Privacy Audit page link.
+                                    __('WP Statistics, based on your settings, collects data that can be considered as personally identifiable information (PII). For more information, see the <a href="%s" target="_blank">Privacy Audit</a>.', 'wp-statistics'),
+                                    esc_url(admin_url('admin.php?page=wps_privacy-audit_page'))
+                                ); ?>
+                        </p>
+                    <?php endif; ?>
                     <p class="description">
                         <?php echo sprintf(
-                            // translators: %s: Consent option.
-                            __('Recommended Category: <b>%s</b>', 'wp-statistics'),
-                            RequireConsent::getStatus() === 'success' ? esc_html__('Functional or Statistics-Anonymous', 'wp-statistics') : esc_html__('Statistics', 'wp-statistics')
+                            // translators: %s: Documentation link.
+                            __('For more details, please refer to our <a href="%s" target="_blank">documentation</a>.', 'wp-statistics'),
+                            'https://wp-statistics.com/resources/wp-consent-level-integration/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings'
                         ); ?>
-                        <br />
-                        <?php echo RequireConsent::getStatus() === 'success' ? 
-                            esc_html__('WP Statistics, based on your settings, does not use cookies or other personally identifiable information (PII). Therefore, you could use it without notifying users. However, informing users about this can improve your transparency and demonstrate respect for their privacy.', 'wp-statistics') :
-                            sprintf(
-                                // translators: %s: Privacy Audit page link.
-                                __('WP Statistics, based on your settings, collects data that can be considered as personally identifiable information (PII). For more information, see the <a href="%s" target="_blank">Privacy Audit</a>.', 'wp-statistics'),
-                                esc_url(admin_url('admin.php?page=wps_privacy-audit_page'))
-                            ); ?>
+                    </p>
+                <?php else : ?>
+                    <p class="description">
+                        <?php echo sprintf(
+                            // translators: %s: WP Consent API link.
+                            __('<b>Notice: To use this feature, you need to install and activate the <a href="%s" target="_blank">WP Consent API</a> WordPress plugin.</b>', 'wp-statistics'),
+                            'https://wordpress.org/plugins/wp-consent-api/'
+                        ); ?>
                     </p>
                 <?php endif; ?>
-                <p class="description">
-                    <?php echo sprintf(
-                        // translators: %s: Documentation link.
-                        __('For more details, please refer to our <a href="%s" target="_blank">documentation</a>.', 'wp-statistics'),
-                        'https://wp-statistics.com/resources/wp-consent-level-integration/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings'
-                    ); ?>
-                </p>
             </td>
         </tr>
 
