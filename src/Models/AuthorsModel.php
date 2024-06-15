@@ -260,4 +260,46 @@ class AuthorsModel extends BaseModel
 
         return $result ? $result : [];
     }
+
+    public function getAuthorsPagesData($args = [], $bypassCache = false)
+    {
+        $args = $this->parseArgs($args, [
+            'date'      => '',
+            'post_type' => Helper::get_list_post_type(),
+            'order_by'  => 'page_views',
+            'order'     => 'DESC',
+            'page'      => 1,
+            'per_page'  => 5
+        ]);
+
+        $authorsQuery  = Query::select(['id AS author_id', 'SUM(count) AS total_author_views'])
+            ->from('pages')
+            ->where('type', '=', 'author')
+            ->whereDate('date', $args['date'])
+            ->groupBy('id')
+            ->getQuery();
+
+        $result = Query::select([
+                'users.ID AS id',
+                'users.display_name AS name',
+                'COALESCE(COUNT(DISTINCT posts.ID), 0) AS total_posts',
+                'COALESCE(authors.total_author_views, 0) AS page_views'
+            ])
+            ->from('users')
+            ->join(
+                'posts', 
+                ['users.ID', 'posts.post_author'],
+                [['posts.post_status', '=', 'publish'], ['posts.post_type', 'IN', $args['post_type']]],
+                'LEFT'
+            )
+            ->joinQuery($authorsQuery, ['users.ID', 'authors.author_id'], 'authors', 'LEFT')
+            ->whereDate('posts.post_date', $args['date'])
+            ->groupBy(['users.ID', 'users.display_name'])
+            ->orderBy($args['order_by'], $args['order'])
+            ->perPage($args['page'], $args['per_page'])
+            ->bypassCache($bypassCache)
+            ->getAll();
+
+        return $result ? $result : [];
+    }
 }
