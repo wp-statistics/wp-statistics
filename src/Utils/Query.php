@@ -341,14 +341,39 @@ class Query
         return $this;
     }
     
-    public function orderBy($field, $order = 'DESC')
+    public function orderBy($fields, $order = 'DESC')
     {
-        if (!empty($field) && !empty($order)) {
-            if (is_array($field)) {
-                $field = implode(', ', $field);
+        // Validate $order
+        if (!in_array(strtoupper($order), ['ASC', 'DESC'])) {
+            $order = 'DESC';
+        }
+
+        if (!empty($fields)) {
+            if (is_string($fields)) {
+                $fields = explode(',', $fields);
+                $fields = array_map('trim', $fields);
             }
 
-            $this->orderClause = "ORDER BY {$field} {$order}";
+            if (is_array($fields)) {
+                $placeholders = [];
+                $values       = [];
+
+                // For identifiers with a dot (e.g. table.field) we need to split the identifier into two parts
+                foreach ($fields as $field) {
+                    if (strpos($field, '.') !== false) {
+                        $identifier     = explode('.', $field);
+                        $values         = array_merge($values, $identifier);
+                        $placeholders[] = '%i.%i';
+                    } else {
+                        $values[]       = $field;
+                        $placeholders[] = '%i';
+                    }
+                }
+                
+                $placeholders = implode(', ', $placeholders);
+            }
+
+            $this->orderClause = $this->prepareQuery("ORDER BY {$placeholders} {$order}", $values);
         }
         
         return $this;
@@ -356,7 +381,10 @@ class Query
     
     public function perPage($page = 1, $perPage = 10)
     {
-        if (is_numeric($page) && is_numeric($perPage) && $page > 0 && $perPage > 0) {
+        $page    = intval($page);
+        $perPage = intval($perPage);
+
+        if ($page > 0 && $perPage > 0) {
             $offset = ($page - 1) * $perPage;
             $this->limitClause = "LIMIT {$perPage} OFFSET {$offset}";
         }
