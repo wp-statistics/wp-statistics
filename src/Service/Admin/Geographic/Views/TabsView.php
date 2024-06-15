@@ -21,8 +21,7 @@ class TabsView extends BaseTabView
         'cities',
         'europe',
         'us',
-        'regions',
-        'timezone'
+        'regions'
     ];
 
     public function __construct()
@@ -94,13 +93,7 @@ class TabsView extends BaseTabView
                         'link'    => Menus::admin_url('geographic', ['tab' => 'us']),
                         'title'   => esc_html__('US States', 'wp-statistics'),
                         'class'   => $currentTab === 'us' ? 'current' : '',
-                    ],
-                    [
-                        'link'          => Menus::admin_url('geographic', ['tab' => 'timezone']),
-                        'title'         => esc_html__('Timezone', 'wp-statistics'),
-                        'class'         => $currentTab === 'timezone' ? 'current' : '',
-                        'coming_soon'   => true
-                    ],
+                    ]
                 ],
             ];
 
