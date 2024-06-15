@@ -47,7 +47,7 @@ class GeographicDataProvider
     {
         $args = array_merge(
             $this->args, 
-            ['continent' => 'europe']
+            ['continent' => 'Europe']
         );
 
         return [
