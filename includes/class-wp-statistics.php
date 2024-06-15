@@ -7,6 +7,7 @@ use WP_Statistics\Service\Admin\Posts\PostsManager;
 use WP_Statistics\Service\Admin\PrivacyAudit\PrivacyAuditManager;
 use WP_Statistics\Service\Admin\Geographic\GeographicManager;
 use WP_Statistics\Service\Analytics\AnalyticsManager;
+use WP_Statistics\Service\Integrations\WpConsentApi;
 
 defined('ABSPATH') || exit;
 
@@ -203,6 +204,8 @@ final class WP_Statistics
             $authorAnalytics = new AuthorAnalyticsManager();
             $privacyAudit    = new PrivacyAuditManager();
             $geographic      = new GeographicManager();
+
+            $wpConsentApi    = new WpConsentApi();
         }
 
         // WordPress ShortCode and Widget
