@@ -1,4 +1,4 @@
-= 14.8 - 16.06.2024 =
+= 14.8 - 17.06.2024 =
 * New: Author Analytics: Replaces the old Author report. Measures author performance and individual author statistics.
 * New: Geographic Reports: Location-based analytics, including countries, cities, European countries, US states, regions of your country.
 * New: [Bypass Ad Blockers](https://wp-statistics.com/resources/bypass-ad-blockers/): New option to dynamically load the tracking script with a unique name and address.

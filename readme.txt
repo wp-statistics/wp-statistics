@@ -112,11 +112,11 @@ WP Statistics supports WordPress Multi-Site/Network installations. In the networ
 6. Real-Time Stats
 7. Download Tracker
 8. Referrals
-9. Countries
+9. Geographic
 10. Author Analytics
-11. Browsers
+11. Devices
 12. Link Tracker
-14. Privacy Audit
+13. Privacy Audit
 
 == Upgrade Notice ==
 = 14.0 =
@@ -129,7 +129,7 @@ If you encounter any bug, please create an issue on [GitHub](https://github.com/
 == Changelog ==
 https://www.youtube.com/watch?v=6G50BZRWPd4
 
-= 14.8 - 16.06.2024 =
+= 14.8 - 17.06.2024 =
 * New: Author Analytics: Replaces the old Author report. Measures author performance and individual author statistics.
 * New: Geographic Reports: Location-based analytics, including countries, cities, European countries, US states, regions of your country.
 * New: [Bypass Ad Blockers](https://wp-statistics.com/resources/bypass-ad-blockers/): New option to dynamically load the tracking script with a unique name and address.
