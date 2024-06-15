@@ -62,7 +62,7 @@ class GeographicDataProvider
             $this->args, 
             [
                 'country'       => 'US', 
-                'group_by'      => ['country', 'region'],
+                'group_by'      => ['region'],
                 'count_field'   => 'region',
                 'not_null'      => 'visitor.region'
             ]
@@ -82,7 +82,7 @@ class GeographicDataProvider
             $this->args, 
             [
                 'country'       => $countryCode, 
-                'group_by'      => ['region'],
+                'group_by'      => ['country', 'region'],
                 'count_field'   => 'region',
                 'not_null'      => 'visitor.region'
             ]
