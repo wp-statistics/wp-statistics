@@ -40,13 +40,13 @@ use WP_STATISTICS\Menus;
                                                 </span>
                                             </td>
                                             <td class="wps-pd-l">
-                                                <?php echo esc_html($item->visitors) ?>
+                                                <?php echo esc_html(number_format($item->visitors)) ?>
                                             </td>
                                             <td class="wps-pd-l">
-                                                <?php echo esc_html($item->views) ?>
+                                                <?php echo esc_html(number_format($item->views)) ?>
                                             </td>
                                             <td class="view-more">
-                                                <a target="_blank" href="<?php echo esc_url(Menus::admin_url('geographic', ['type' => 'single'])) ?>" title="<?php esc_html_e('View Details', 'wp-statistics') ?>">
+                                                <a href="<?php echo esc_url(Menus::admin_url('geographic', ['type' => 'single'])) ?>" title="<?php esc_html_e('View Details', 'wp-statistics') ?>">
                                                     <?php esc_html_e('View Details', 'wp-statistics') ?>
                                                 </a>
                                             </td>

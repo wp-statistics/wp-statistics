@@ -52,10 +52,10 @@ use WP_STATISTICS\Admin_Template;
                                                 </span>
                                             </td>
                                             <td class="wps-pd-l">
-                                                <?php echo esc_html($item->visitors) ?>
+                                                <?php echo esc_html(number_format($item->visitors)) ?>
                                             </td>
                                             <td class="wps-pd-l">
-                                                <?php echo esc_html($item->views) ?>
+                                                <?php echo esc_html(number_format($item->views)) ?>
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>
