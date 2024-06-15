@@ -1,6 +1,7 @@
 <?php
 
 namespace WP_STATISTICS;
+use IntlTimeZone;
 
 class TimeZone
 {
@@ -266,6 +267,21 @@ class TimeZone
         }
 
         return $dateFilters['30days'];
+    }
+
+    /**
+     * Retrieve the country of a given timezone
+     * @param $timezone like: 'Europe/London'
+     * @return string
+     */
+    public static function getCountry($timezone)
+    {
+        if (!extension_loaded('intl') || !class_exists('IntlTimeZone')) {
+            return false;
+        }
+
+        $intlTimeZone = IntlTimeZone::getRegion($timezone);
+        return $intlTimeZone;
     }
 
 }

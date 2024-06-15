@@ -5,10 +5,10 @@ namespace WP_Statistics\Service\Admin\Geographic\Views;
 use Exception;
 use WP_STATISTICS\Menus;
 use WP_STATISTICS\Helper;
-use WP_STATISTICS\Country;
 use WP_Statistics\Utils\Request;
 use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Abstracts\BaseTabView;
+use WP_STATISTICS\Country;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Service\Admin\Geographic\GeographicDataProvider;
 
@@ -56,12 +56,17 @@ class TabsView extends BaseTabView
         return $this->dataProvider->getUsData();
     }
 
+    public function getRegionsData()
+    {
+        return $this->dataProvider->getRegionsData();
+    }
+
     public function render()
     {
         try {
-            $currentTab = $this->getCurrentTab();
-            $data       = $this->getTabData();
-            $country    = Country::getName(Helper::getLocaleCountry());
+            $currentTab     = $this->getCurrentTab();
+            $data           = $this->getTabData();
+            $countryCode    = Helper::getTimezoneCountry();
 
             $args = [
                 'title'      => esc_html__('Geographic', 'wp-statistics'),
@@ -98,15 +103,15 @@ class TabsView extends BaseTabView
             ];
 
             // If the country is US, or Unknown, hide region tab
-            // if (!in_array($country, ['United States', 'Unknown'])) {
+            if ($countryCode && $countryCode != 'US') {
                 $regionsTab = [
                     'link'    => Menus::admin_url('geographic', ['tab' => 'regions']),
-                    'title'   => sprintf(esc_html__('Regions of %s', 'wp-statistics'), $country),
+                    'title'   => sprintf(esc_html__('Regions of %s', 'wp-statistics'), Country::getName($countryCode)),
                     'class'   => $currentTab === 'regions' ? 'current' : ''
                 ];
 
                 array_splice($args['tabs'], 4, 0, [$regionsTab]);
-            // }
+            }
 
             if ($data['total'] > 0) {
                 $args['total'] = $data['total'];

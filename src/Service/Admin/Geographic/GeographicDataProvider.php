@@ -2,6 +2,7 @@
 
 namespace WP_Statistics\Service\Admin\Geographic;
 
+use WP_STATISTICS\Helper;
 use WP_Statistics\Models\VisitorsModel;
 
 class GeographicDataProvider
@@ -60,6 +61,21 @@ class GeographicDataProvider
 
         return [
             'states'    => $this->visitorsModel->getVisitorsGeoData($args),
+            'total'     => $this->visitorsModel->countCountries($args)
+        ];
+    }
+
+    public function getRegionsData()
+    {
+        $countryCode = Helper::getTimezoneCountry();
+        
+        $args = array_merge(
+            $this->args, 
+            ['country' => $countryCode, 'group_by' => ['country', 'region']]
+        );
+
+        return [
+            'regions'   => $this->visitorsModel->getVisitorsGeoData($args),
             'total'     => $this->visitorsModel->countCountries($args)
         ];
     }
