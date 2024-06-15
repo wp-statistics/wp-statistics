@@ -278,6 +278,10 @@
       .wps-author-tabs {
         & > label:first-of-type {
           margin-left: 24px;
+          .rtl &{
+            margin-left: 0;
+            margin-right: 24px;
+          }
         }
       }
     }
