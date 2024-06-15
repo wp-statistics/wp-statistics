@@ -79,7 +79,7 @@ class VisitorsModel extends BaseModel
             ->join('visitor_relationships', ['visitor_relationships.visitor_id', 'visitor.ID'])
             ->whereDate('visitor_relationships.date', $args['date'])
             ->where('visitor.continent', '=', $args['continent'])
-            ->where('visitor.country', '=', $args['country'])
+            ->where('visitor.location', '=', $args['country'])
             ->where('visitor.region', '=', $args['continent'])
             ->where('visitor.city', '=', $args['city'])
             ->whereNotNull("visitor.{$args['count_field']}")
