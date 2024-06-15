@@ -10,7 +10,7 @@ class SingleView extends BaseView
     public function render()
     {
         $args = [
-            'title'     => esc_html__('Germany Traffic Report', 'wp-statistics'),
+            'title'     => esc_html__('Country Traffic Report', 'wp-statistics'),
             'backUrl'   => Menus::admin_url('geographic'),
             'tooltip'   => esc_html__('Tooltip', 'wp-statistics'),
             'backTitle' => esc_html__('Geographic', 'wp-statistics'),
