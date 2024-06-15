@@ -100,21 +100,23 @@ use WP_Statistics\Service\Admin\PrivacyAudit\Faqs\RequireConsent;
                 </select>
                 <p class="description"><?php esc_html_e("Enable WP Consent Level API integration to ensure WP Statistics complies with user-selected privacy preferences. When enabled, WP Statistics will only trigger tracking based on the user's chosen consent category.", 'wp-statistics'); ?></p>
                 <p class="description"><?php _e('<b>Note</b>: This integration requires a compatible consent management provider.', 'wp-statistics'); ?></p>
-                <p class="description">
-                    <?php echo sprintf(
-						// translators: %s: Consent option.
-						__('Recommended Category: <b>%s</b>', 'wp-statistics'),
-						RequireConsent::getStatus() === 'success' ? esc_html__('Statistics-Anonymous', 'wp-statistics') : esc_html__('Statistics', 'wp-statistics')
-					); ?>
-                    <br />
-                    <?php echo RequireConsent::getStatus() === 'success' ? 
-                        esc_html__('WP Statistics, based on your settings, does not use cookies or other personally identifiable information (PII). Therefore, you could use it without notifying users. However, informing users about this can improve your transparency and demonstrate respect for their privacy.', 'wp-statistics') :
-                        sprintf(
-                            // translators: %s: Privacy Audit page link.
-                            __('WP Statistics tracks personally identifiable information (PII) such as IP addresses based on your current settings. We recommend selecting the "Statistics" category. For more detailed information, refer to the <a href="%s" target="_blank">Privacy Audit</a>.', 'wp-statistics'),
-                            esc_url(admin_url('admin.php?page=wps_privacy-audit_page'))
+                <?php if (\WP_STATISTICS\Option::get('privacy_audit', false)): ?>
+                    <p class="description">
+                        <?php echo sprintf(
+                            // translators: %s: Consent option.
+                            __('Recommended Category: <b>%s</b>', 'wp-statistics'),
+                            RequireConsent::getStatus() === 'success' ? esc_html__('Functional or Statistics-Anonymous', 'wp-statistics') : esc_html__('Statistics', 'wp-statistics')
                         ); ?>
-                </p>
+                        <br />
+                        <?php echo RequireConsent::getStatus() === 'success' ? 
+                            esc_html__('WP Statistics, based on your settings, does not use cookies or other personally identifiable information (PII). Therefore, you could use it without notifying users. However, informing users about this can improve your transparency and demonstrate respect for their privacy.', 'wp-statistics') :
+                            sprintf(
+                                // translators: %s: Privacy Audit page link.
+                                __('WP Statistics, based on your settings, collects data that can be considered as personally identifiable information (PII). For more information, see the <a href="%s" target="_blank">Privacy Audit</a>.', 'wp-statistics'),
+                                esc_url(admin_url('admin.php?page=wps_privacy-audit_page'))
+                            ); ?>
+                    </p>
+                <?php endif; ?>
                 <p class="description">
                     <?php echo sprintf(
                         // translators: %s: Documentation link.
