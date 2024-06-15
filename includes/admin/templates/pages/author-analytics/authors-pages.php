@@ -20,7 +20,7 @@ $reverseOrder   = $order == 'desc' ? 'asc' : 'desc';
                                             <a href="<?php echo esc_url(add_query_arg(['order_by' => 'name', 'order' => $reverseOrder])) ?>" class="sort <?php echo Request::compare('order_by', 'name') ? esc_attr($order) : '' ?>"><?php esc_html_e('Author', 'wp-statistics') ?></a>
                                         </th>
                                         <th class="wps-pd-l">
-                                            <a href="<?php echo esc_url(add_query_arg(['order_by' => 'total_views', 'order' => $reverseOrder])) ?>" class="sort <?php echo !Request::has('order_by') || Request::compare('order_by', 'total_views') ? esc_attr($order) : '' ?>">
+                                            <a href="<?php echo esc_url(add_query_arg(['order_by' => 'page_views', 'order' => $reverseOrder])) ?>" class="sort <?php echo !Request::has('order_by') || Request::compare('order_by', 'total_views') ? esc_attr($order) : '' ?>">
                                                 <?php esc_html_e('Author\'s Page Views', 'wp-statistics') ?>
                                             </a>
                                         </th>
@@ -44,7 +44,7 @@ $reverseOrder   = $order == 'desc' ? 'asc' : 'desc';
                                                     </a>
                                                 </div>
                                             </td>
-                                            <td class="wps-pd-l"><?php echo $author->total_views ? esc_html($author->total_views) : 0 ?></td>
+                                            <td class="wps-pd-l"><?php echo esc_html($author->page_views) ?></td>
                                             <td class="wps-pd-l"><?php echo esc_html($author->total_posts) ?></td>
                                             <td class="view-more">
                                                 <a target="_blank" href="<?php echo esc_url(get_author_posts_url($author->id)); ?>" title="<?php esc_html_e('View Details', 'wp-statistics') ?>">

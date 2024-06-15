@@ -178,7 +178,7 @@ class AuthorAnalyticsDataProvider
             $this->args, 
             ['post_type' => Helper::get_list_post_type()]
         );
-        $authors = $this->authorModel->getAuthorsByViewsPerPost($args);
+        $authors = $this->authorModel->getAuthorsPagesData($args);
         $total   = $this->authorModel->countAuthors($this->args);
 
         return [
