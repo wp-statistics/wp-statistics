@@ -24,7 +24,6 @@ use WP_STATISTICS\Menus;
                                             <?php esc_html_e('View Count', 'wp-statistics') ?>
                                             <span class="wps-tooltip" title="View Count Tooltip"><i class="wps-tooltip-icon info"></i></span>
                                         </th>
-                                        <th></th>
                                     </tr>
                                 </thead>
     
@@ -40,11 +39,6 @@ use WP_STATISTICS\Menus;
                                             </td>
                                             <td class="wps-pd-l">
                                                 <?php echo esc_html($item->views) ?>
-                                            </td>
-                                            <td class="view-more">
-                                                <a target="_blank" href="<?php echo esc_url(Menus::admin_url('geographic', ['type' => 'single'])) ?>" title="<?php esc_html_e('View Details', 'wp-statistics') ?>">
-                                                    <?php esc_html_e('View Details', 'wp-statistics') ?>
-                                                </a>
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>
