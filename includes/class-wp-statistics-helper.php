@@ -1377,4 +1377,17 @@ class Helper
             ? $postTypeObj->labels->singular_name
             : $postTypeObj->labels->name;
     }
+
+    
+    /**
+     * Retrieves the second part (country) of currently selected locale.
+     *
+     * @return string
+     */
+    public static function getLocaleCountry()
+    {
+        $locale = strtolower(get_user_locale());
+        $parts  = explode('_', $locale);
+        return strtoupper($parts[1]);
+    }
 }

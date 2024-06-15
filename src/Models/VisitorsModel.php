@@ -60,4 +60,81 @@ class VisitorsModel extends BaseModel
         return $result ? $result : [];
     }
 
+    public function countCountries($args = [], $bypassCache = false)
+    {
+        $args = $this->parseArgs($args, [
+            'date'      => '',
+            'continent' => ''
+        ]);
+
+        $result = Query::select([
+                'COUNT(DISTINCT visitor.location) as total',
+            ])
+            ->from('visitor')
+            ->join('visitor_relationships', ['visitor_relationships.visitor_id', 'visitor.ID'])
+            ->whereDate('visitor_relationships.date', $args['date'])
+            ->where('visitor.continent', '=', $args['continent'])
+            ->bypassCache($bypassCache)
+            ->getVar();
+
+        return $result ? $result : 0;
+    }
+
+    public function countCities($args = [], $bypassCache = false)
+    {
+        $args = $this->parseArgs($args, [
+            'date' => ''
+        ]);
+
+        $result = Query::select([
+                'COUNT(DISTINCT visitor.city) as total',
+            ])
+            ->from('visitor')
+            ->join('visitor_relationships', ['visitor_relationships.visitor_id', 'visitor.ID'])
+            ->whereDate('visitor_relationships.date', $args['date'])
+            ->bypassCache($bypassCache)
+            ->getVar();
+
+        return $result ? $result : 0;
+    }
+
+    public function getVisitorsGeoData($args = [], $bypassCache = false)
+    {
+        $args = $this->parseArgs($args, [
+            'date'      => '',
+            'country'   => '',
+            'city'      => '',
+            'region'    => '',
+            'continent' => '',
+            'group_by'  => 'country',
+            'order_by'  => 'visitors',
+            'order'     => 'DESC',
+            'per_page'  => '',
+            'page'      => 1
+        ]);
+
+        $result = Query::select([
+                'visitor.city as city',
+                'visitor.location as country',
+                'visitor.region as region',
+                'visitor.continent as continent',
+                'COUNT(DISTINCT visitor.ID) as visitors',
+                'SUM(pages.count) as views'
+            ])
+            ->from('visitor')
+            ->join('visitor_relationships', ['visitor_relationships.visitor_id', 'visitor.ID'])
+            ->join('pages', ['visitor_relationships.page_id', 'pages.page_id'])
+            ->whereDate('visitor_relationships.date', $args['date'])
+            ->where('visitor.location', 'IN', $args['country'])
+            ->where('visitor.city', 'IN', $args['city'])
+            ->where('visitor.region', 'IN', $args['region'])
+            ->where('visitor.continent', 'IN', $args['continent'])
+            ->perPage($args['page'], $args['per_page'])
+            ->groupBy($args['group_by'])
+            ->orderBy($args['order_by'], $args['order'])
+            ->bypassCache($bypassCache)
+            ->getAll();
+
+        return $result ? $result : [];
+    }
 }
