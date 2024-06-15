@@ -139,20 +139,6 @@
 
             <tr valign="top">
                 <th scope="row">
-                    <?php esc_html_e('Intl Extension Status', 'wp-statistics'); ?>
-                </th>
-
-                <td>
-                    <strong>
-                        <?php extension_loaded('intl') ? esc_html_e('Installed', 'wp-statistics') : esc_html_e('Not installed', 'wp-statistics');?>
-                    </strong>
-
-                    <p class="description"><?php esc_html_e('', 'wp-statistics'); ?></p>
-                </td>
-            </tr>
-
-            <tr valign="top">
-                <th scope="row">
                     <?php esc_html_e('zlib Compression Status', 'wp-statistics'); ?>
                 </th>
 

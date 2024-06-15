@@ -1,7 +1,8 @@
 <?php
 
 namespace WP_STATISTICS;
-use IntlTimeZone;
+
+use DateTimeZone;
 
 class TimeZone
 {
@@ -276,12 +277,15 @@ class TimeZone
      */
     public static function getCountry($timezone)
     {
-        if (!extension_loaded('intl') || !class_exists('IntlTimeZone')) {
-            return false;
+        $countryCode = false;
+        $timezones   = timezone_identifiers_list();
+
+        if (in_array($timezone, $timezones)) {
+            $location    = timezone_location_get(new DateTimeZone($timezone));
+            $countryCode = $location['country_code'];
         }
 
-        $intlTimeZone = IntlTimeZone::getRegion($timezone);
-        return $intlTimeZone;
+        return $countryCode;
     }
 
 }
