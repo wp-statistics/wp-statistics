@@ -177,6 +177,7 @@ class ComposerStaticInit2ac516f03a394ec3d1721352b7f43359
         'WP_Statistics\\Service\\Admin\\AuthorAnalytics\\Views\\AuthorsView' => __DIR__ . '/../../..' . '/src/Service/Admin/AuthorAnalytics/Views/AuthorsView.php',
         'WP_Statistics\\Service\\Admin\\AuthorAnalytics\\Views\\SingleAuthorView' => __DIR__ . '/../../..' . '/src/Service/Admin/AuthorAnalytics/Views/SingleAuthorView.php',
         'WP_Statistics\\Service\\Admin\\AuthorAnalytics\\Views\\TabsView' => __DIR__ . '/../../..' . '/src/Service/Admin/AuthorAnalytics/Views/TabsView.php',
+        'WP_Statistics\\Service\\Admin\\Geographic\\GeographicDataProvider' => __DIR__ . '/../../..' . '/src/Service/Admin/Geographic/GeographicDataProvider.php',
         'WP_Statistics\\Service\\Admin\\Geographic\\GeographicManager' => __DIR__ . '/../../..' . '/src/Service/Admin/Geographic/GeographicManager.php',
         'WP_Statistics\\Service\\Admin\\Geographic\\GeographicPage' => __DIR__ . '/../../..' . '/src/Service/Admin/Geographic/GeographicPage.php',
         'WP_Statistics\\Service\\Admin\\Geographic\\Views\\SingleView' => __DIR__ . '/../../..' . '/src/Service/Admin/Geographic/Views/SingleView.php',
