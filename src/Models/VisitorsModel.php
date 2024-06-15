@@ -102,7 +102,8 @@ class VisitorsModel extends BaseModel
     public function countRegions($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
-            'date' => ''
+            'date' => '',
+            'country' => ''
         ]);
 
         $result = Query::select([
@@ -110,6 +111,7 @@ class VisitorsModel extends BaseModel
             ])
             ->from('visitor')
             ->join('visitor_relationships', ['visitor_relationships.visitor_id', 'visitor.ID'])
+            ->where('visitor.location', 'IN' ,$args['country'])
             ->whereDate('visitor_relationships.date', $args['date'])
             ->whereNotNull('visitor.region')
             ->bypassCache($bypassCache)
