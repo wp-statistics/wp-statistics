@@ -2,6 +2,8 @@
 
 namespace WP_STATISTICS;
 
+use DateTimeZone;
+
 class TimeZone
 {
     /**
@@ -266,6 +268,24 @@ class TimeZone
         }
 
         return $dateFilters['30days'];
+    }
+
+    /**
+     * Retrieve the country of a given timezone
+     * @param $timezone like: 'Europe/London'
+     * @return string
+     */
+    public static function getCountry($timezone)
+    {
+        $countryCode = false;
+        $timezones   = timezone_identifiers_list();
+
+        if (in_array($timezone, $timezones)) {
+            $location    = timezone_location_get(new DateTimeZone($timezone));
+            $countryCode = $location['country_code'];
+        }
+
+        return $countryCode;
     }
 
 }

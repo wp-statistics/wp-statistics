@@ -1,6 +1,5 @@
 <?php 
-use WP_STATISTICS\Country;
-use WP_STATISTICS\Menus;
+use WP_STATISTICS\Admin_Template;
 ?>
 
 <div class="postbox-container wps-postbox-full">
@@ -25,7 +24,6 @@ use WP_STATISTICS\Menus;
                                             <?php esc_html_e('View Count', 'wp-statistics') ?>
                                             <span class="wps-tooltip" title="View Count Tooltip"><i class="wps-tooltip-icon info"></i></span>
                                         </th>
-                                        <th></th>
                                     </tr>
                                 </thead>
     
@@ -34,18 +32,13 @@ use WP_STATISTICS\Menus;
                                     <?php foreach ($data['states'] as $item) : ?>
                                         <tr>
                                             <td class="wps-pd-l">
-                                                <?php echo esc_html($item->region) ?>
+                                                <?php echo $item->region ? esc_html($item->region) : Admin_Template::UnknownColumn() ?>
                                             </td>
                                             <td class="wps-pd-l">
                                                 <?php echo esc_html($item->visitors) ?>
                                             </td>
                                             <td class="wps-pd-l">
                                                 <?php echo esc_html($item->views) ?>
-                                            </td>
-                                            <td class="view-more">
-                                                <a target="_blank" href="<?php echo esc_url(Menus::admin_url('geographic', ['type' => 'single'])) ?>" title="<?php esc_html_e('View Details', 'wp-statistics') ?>">
-                                                    <?php esc_html_e('View Details', 'wp-statistics') ?>
-                                                </a>
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>

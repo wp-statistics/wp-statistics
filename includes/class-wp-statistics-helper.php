@@ -1380,14 +1380,14 @@ class Helper
 
     
     /**
-     * Retrieves the second part (country) of currently selected locale.
+     * Retrieves the country code based on the timezone string.
      *
-     * @return string
+     * @return string The country code corresponding to the timezone.
      */
-    public static function getLocaleCountry()
+    public static function getTimezoneCountry()
     {
-        $locale = strtolower(get_user_locale());
-        $parts  = explode('_', $locale);
-        return strtoupper($parts[1]);
+        $timezone    = get_option('timezone_string');
+        $countryCode = TimeZone::getCountry($timezone);
+        return $countryCode;
     }
 }

@@ -1,5 +1,6 @@
 <?php 
 use WP_STATISTICS\Country;
+use WP_STATISTICS\Admin_Template;
 ?>
 
 <div class="postbox-container wps-postbox-full">
@@ -39,10 +40,10 @@ use WP_STATISTICS\Country;
                                     <?php foreach ($data['cities'] as $item) : ?>
                                         <tr>
                                             <td class="wps-pd-l">
-                                                <?php echo esc_html($item->city) ?>
+                                                <?php echo $item->city ? esc_html($item->city) : Admin_Template::UnknownColumn() ?>
                                             </td>
                                             <td class="wps-pd-l">
-                                                <?php echo esc_html($item->region) ?>
+                                                <?php echo $item->region ? esc_html($item->region) : Admin_Template::UnknownColumn() ?>
                                             </td>
                                             <td class="wps-pd-l">
                                                 <span title="<?php echo esc_attr(Country::getName($item->country)) ?>" class="wps-country-name">
