@@ -40,7 +40,7 @@ use WP_STATISTICS\Admin_Template;
                                     <?php foreach ($data['cities'] as $item) : ?>
                                         <tr>
                                             <td class="wps-pd-l">
-                                                <?php echo $item->city ? esc_html($item->city) : Admin_Template::UnknownColumn() ?>
+                                                <?php echo esc_html($item->city) ?>
                                             </td>
                                             <td class="wps-pd-l">
                                                 <?php echo $item->region ? esc_html($item->region) : Admin_Template::UnknownColumn() ?>

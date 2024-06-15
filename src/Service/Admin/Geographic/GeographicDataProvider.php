@@ -21,21 +21,16 @@ class GeographicDataProvider
     public function getCountriesData()
     {
         return [
-            'countries' => $this->visitorsModel->getVisitorsGeoData($this->args),
+            'countries' => $this->visitorsModel->getVisitorsCountryData($this->args),
             'total'     => $this->visitorsModel->countCountries($this->args)
         ];
     }
 
     public function getCitiesData()
     {
-        $args = array_merge(
-            $this->args, 
-            ['group_by' => ['country', 'city']]
-        );
-
         return [
-            'cities'    => $this->visitorsModel->getVisitorsGeoData($args),
-            'total'     => $this->visitorsModel->countCities($args)
+            'cities'    => $this->visitorsModel->getVisitorsCityData($this->args),
+            'total'     => $this->visitorsModel->countCities($this->args)
         ];
     }
 
@@ -47,7 +42,7 @@ class GeographicDataProvider
         );
 
         return [
-            'countries' => $this->visitorsModel->getVisitorsGeoData($args),
+            'countries' => $this->visitorsModel->getVisitorsCountryData($args),
             'total'     => $this->visitorsModel->countCountries($args)
         ];
     }
@@ -56,12 +51,12 @@ class GeographicDataProvider
     {
         $args = array_merge(
             $this->args, 
-            ['country' => 'US', 'group_by' => ['country', 'region']]
+            ['country' => 'US']
         );
 
         return [
-            'states'    => $this->visitorsModel->getVisitorsGeoData($args),
-            'total'     => $this->visitorsModel->countCountries($args)
+            'states'    => $this->visitorsModel->getVisitorsRegionData($args),
+            'total'     => $this->visitorsModel->countRegions($args)
         ];
     }
 
@@ -71,12 +66,12 @@ class GeographicDataProvider
         
         $args = array_merge(
             $this->args, 
-            ['country' => $countryCode, 'group_by' => ['country', 'region']]
+            ['country' => $countryCode]
         );
 
         return [
-            'regions'   => $this->visitorsModel->getVisitorsGeoData($args),
-            'total'     => $this->visitorsModel->countCountries($args)
+            'regions'   => $this->visitorsModel->getVisitorsRegionData($args),
+            'total'     => $this->visitorsModel->countRegions($args)
         ];
     }
 }

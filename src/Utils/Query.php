@@ -142,6 +142,42 @@ class Query
         return $this;
     }
 
+    public function whereNotNull($fields)
+    {
+        if (empty($fields)) return $this;
+
+        if (is_string($fields)) {
+            $fields = explode(',', $fields);
+            $fields = array_map('trim', $fields);
+        }
+
+        if (is_array($fields)) {
+            foreach ($fields as $field) {
+                $this->whereClauses[] = "{$field} IS NOT NULL";
+            }
+        }
+
+        return $this;
+    }
+
+    public function whereNull($fields)
+    {
+        if (!empty($fields)) return $this;
+
+        if (is_string($fields)) {
+            $fields = explode(',', $fields);
+            $fields = array_map('trim', $fields);
+        }
+
+        if (is_array($fields)) {
+            foreach ($fields as $field) {
+                $this->whereClauses[] = "{$field} IS NULL";
+            }
+        }
+
+        return $this;
+    }
+
     protected function generateCondition($field, $operator, $value)
     {
         $condition = '';
