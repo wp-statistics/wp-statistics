@@ -22,6 +22,6 @@ class GeographicPage extends MultiViewPage
 
     protected function init()
     {
-
+        $this->disableScreenOption();
     }
 }
