@@ -29,8 +29,10 @@ class TabsView extends BaseTabView
         parent::__construct();
 
         $this->dataProvider = new GeographicDataProvider([
-            'from'      => Request::get('from', date('Y-m-d', strtotime('-1 month'))),
-            'to'        => Request::get('to', date('Y-m-d')),
+            'date' =>[
+                'from'  => Request::get('from', date('Y-m-d', strtotime('-1 month'))),
+                'to'    => Request::get('to', date('Y-m-d')),
+            ],
             'per_page'  => Admin_Template::$item_per_page,
             'page'      => Admin_Template::getCurrentPaged()
         ]);
