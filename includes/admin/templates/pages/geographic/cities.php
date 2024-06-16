@@ -41,10 +41,17 @@ use WP_STATISTICS\Admin_Template;
                                                 <?php echo $item->region ? esc_html($item->region) : Admin_Template::UnknownColumn() ?>
                                             </td>
                                             <td class="wps-pd-l">
-                                                <span title="<?php echo esc_attr(Country::getName($item->country)) ?>" class="wps-country-name">
-                                                    <img alt="<?php echo esc_attr(Country::getName($item->country)) ?>" src="<?php echo esc_url(Country::flag($item->country)) ?>" title="<?php echo esc_attr(Country::getName($item->country)) ?>" class="log-tools wps-flag"/>
-                                                    <?php echo esc_html(Country::getName($item->country)) ?>
-                                                </span>
+                                                <?php if (empty($item->city) || $item->city == 'Unknown') : ?>
+                                                    <span title="<?php esc_attr_e('Unknown', 'wp-statistics') ?>" class="wps-country-name">
+                                                        <img alt="<?php esc_attr_e('Unknown', 'wp-statistics') ?>" src="<?php echo esc_url(Country::flag(Country::$unknown_location)) ?>" title="<?php esc_attr_e('Unknown', 'wp-statistics') ?>" class="log-tools wps-flag"/>
+                                                        <?php esc_html_e('Unknown', 'wp-statistics') ?>
+                                                    </span>
+                                                <?php else : ?>
+                                                    <span title="<?php echo esc_attr(Country::getName($item->country)) ?>" class="wps-country-name">
+                                                        <img alt="<?php echo esc_attr(Country::getName($item->country)) ?>" src="<?php echo esc_url(Country::flag($item->country)) ?>" title="<?php echo esc_attr(Country::getName($item->country)) ?>" class="log-tools wps-flag"/>
+                                                        <?php echo esc_html(Country::getName($item->country)) ?>
+                                                    </span>
+                                                <?php endif; ?>
                                             </td>
                                             <td class="wps-pd-l">
                                                 <?php echo esc_html(number_format($item->visitors)) ?>

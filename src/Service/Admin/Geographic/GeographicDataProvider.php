@@ -31,7 +31,7 @@ class GeographicDataProvider
         $args = array_merge(
             $this->args, 
             [
-                'group_by'      => ['country', 'region', 'city'],
+                'group_by'      => ['city'],
                 'not_null'      => 'visitor.city',
                 'count_field'   => 'city'
             ]
