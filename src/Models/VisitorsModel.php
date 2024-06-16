@@ -98,6 +98,8 @@ class VisitorsModel extends BaseModel
             'where_col' => 'ID',
             'where_val' => '',
             'group_by'  => [],
+            'order_by'  => 'views',
+            'order'     => 'DESC',
         ]);
 
         $result = Query::select([
@@ -112,6 +114,7 @@ class VisitorsModel extends BaseModel
             ->where($args['where_col'], '=', $args['where_val'])
             ->whereDate('last_counter', $args['date'])
             ->groupBy($args['group_by'])
+            ->orderBy($args['order_by'], $args['order'])
             ->bypassCache($bypassCache)
             ->getAll();
 
