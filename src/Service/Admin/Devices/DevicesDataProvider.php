@@ -27,7 +27,7 @@ class DevicesDataProvider
 
         return [
             'visitors' => $this->visitorsModel->getVisitorsDevices($args),
-            'total'    => $this->visitorsModel->countAllVisitors($args),
+            'total'    => $this->visitorsModel->countDevicesData($args),
         ];
     }
 
@@ -42,7 +42,7 @@ class DevicesDataProvider
 
         return [
             'visitors' => $this->visitorsModel->getVisitorsDevices($args),
-            'total'    => $this->visitorsModel->countAllVisitors($args),
+            'total'    => $this->visitorsModel->countDevicesData($args),
         ];
     }
 
@@ -57,7 +57,7 @@ class DevicesDataProvider
 
         return [
             'visitors' => $this->visitorsModel->getVisitorsDevices($args),
-            'total'    => $this->visitorsModel->countAllVisitors($args),
+            'total'    => $this->visitorsModel->countDevicesData($args),
         ];
     }
 
@@ -78,7 +78,7 @@ class DevicesDataProvider
 
         return [
             'visitors' => $this->visitorsModel->getVisitorsDevices($args),
-            'total'    => $this->visitorsModel->countAllVisitors($args),
+            'total'    => $this->visitorsModel->countDevicesData($args),
         ];
     }
 
@@ -99,7 +99,7 @@ class DevicesDataProvider
 
         return [
             'visitors' => $this->visitorsModel->getVisitorsDevices($args),
-            'total'    => $this->visitorsModel->countAllVisitors($args),
+            'total'    => $this->visitorsModel->countDevicesData($args),
         ];
     }
 
@@ -120,7 +120,7 @@ class DevicesDataProvider
 
         return [
             'visitors' => $this->visitorsModel->getVisitorsDevices($args),
-            'total'    => $this->visitorsModel->countAllVisitors($args),
+            'total'    => $this->visitorsModel->countDevicesData($args),
         ];
     }
 }

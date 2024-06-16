@@ -9,14 +9,14 @@ use WP_Statistics\Abstracts\BaseModel;
 class VisitorsModel extends BaseModel
 {
     /**
-     * Returns all visitors count.
+     * Returns visitors to use in the devices menu.
      *
      * @param   array       $args           Arguments to include in query (e.g. `date`).
      * @param   bool        $bypassCache    Send the cached result.
      *
      * @return  \stdClass                   Attributes: `visitors`, `views_sum`.
      */
-    public function countAllVisitors($args = [], $bypassCache = false)
+    public function countDevicesData($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
             'date'      => '',
