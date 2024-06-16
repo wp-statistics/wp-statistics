@@ -4,6 +4,7 @@ namespace WP_STATISTICS;
 
 use Exception;
 use WP_STATISTICS;
+use WP_Statistics\Utils\Request;
 use WP_Statistics_Mail;
 
 class Helper
@@ -75,6 +76,11 @@ class Helper
     {
         if (empty($_SERVER['REQUEST_URI'])) {
             return false;
+        }
+
+        // Backward-Compatibility with option Bypass Ad Blockers
+        if (Request::compare('action', 'wp_statistics_hit_record')) {
+            return true;
         }
 
         $rest_prefix = trailingslashit(rest_get_url_prefix());
