@@ -23,6 +23,7 @@ class WpConsentApi
 
     /**
      * Registers our plugin in "WP Consent API'.
+     * @todo, This should move to IntegrationsManager.php
      *
      * @return  void
      */
