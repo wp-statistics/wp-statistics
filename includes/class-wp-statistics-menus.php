@@ -15,8 +15,6 @@ class Menus
      */
     public static $pages = array(
         'overview'          => 'overview',
-        'browser'           => 'browsers',
-        'platform'          => 'platforms',
         'exclusions'        => 'exclusions',
         'hits'              => 'hits',
         'online'            => 'online',
