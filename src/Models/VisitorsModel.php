@@ -9,14 +9,14 @@ use WP_Statistics\Abstracts\BaseModel;
 class VisitorsModel extends BaseModel
 {
     /**
-     * Returns visitors to use in the devices menu.
+     * Returns total number of views from all visitors.
      *
      * @param   array       $args           Arguments to include in query (e.g. `date`).
      * @param   bool        $bypassCache    Send the cached result.
      *
-     * @return  \stdClass                   Attributes: `visitors`, `views_sum`.
+     * @return  int
      */
-    public function countDevicesData($args = [], $bypassCache = false)
+    public function countTotalViews($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
             'date'      => '',
@@ -24,18 +24,15 @@ class VisitorsModel extends BaseModel
             'where_val' => '',
         ]);
 
-        $result = Query::select([
-                'COUNT(DISTINCT `ID`) as `visitors`',
-                'SUM(`hits`) as `views_sum`',
-            ])
+        $result = Query::select('SUM(`hits`) as `views_sum`')
             ->from('visitor')
             ->where($args['where_col'], '=', $args['where_val'])
             ->whereDate('last_counter', $args['date'])
             ->perPage(1, 1)
             ->bypassCache($bypassCache)
-            ->getRow();
+            ->getVar();
 
-        return $result ? $result : 0;
+        return $result ? intval($result) : 0;
     }
 
     public function countVisitors($args = [], $bypassCache = false)
@@ -59,6 +56,31 @@ class VisitorsModel extends BaseModel
             ->getVar();
 
         return $result ? $result : 0;
+    }
+
+    /**
+     * Returns `COUNT DISTINCT` of a column from visitors table.
+     *
+     * @param   array       $args           Arguments to include in query (e.g. `count_field`, `date`, etc.).
+     * @param   bool        $bypassCache    Send the cached result.
+     *
+     * @return  int
+     */
+    public function countColumnDistinct($args = [], $bypassCache = false)
+    {
+        $args = $this->parseArgs($args, [
+            'count_field' => 'ID',
+            'date'        => '',
+        ]);
+
+        $result = Query::select("COUNT(DISTINCT `{$args['count_field']}`) as `total`")
+            ->from('visitor')
+            ->whereDate('last_counter', $args['date'])
+            ->perPage(1, 1)
+            ->bypassCache($bypassCache)
+            ->getVar();
+
+        return $result ? intval($result) : 0;
     }
 
     /**
