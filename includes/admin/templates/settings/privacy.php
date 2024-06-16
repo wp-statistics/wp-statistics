@@ -118,13 +118,6 @@
                                 ); ?>
                         </p>
                     <?php endif; ?>
-                    <p class="description">
-                        <?php echo sprintf(
-                            // translators: %s: Documentation link.
-                            __('For more details, please refer to our <a href="%s" target="_blank">documentation</a>.', 'wp-statistics'),
-                            'https://wp-statistics.com/resources/wp-consent-level-integration/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings'
-                        ); ?>
-                    </p>
                 <?php else : ?>
                     <p class="description">
                         <?php echo sprintf(
@@ -134,6 +127,13 @@
                         ); ?>
                     </p>
                 <?php endif; ?>
+                <p class="description">
+                    <?php echo sprintf(
+                        // translators: %s: Documentation link.
+                        __('For more details, please refer to our <a href="%s" target="_blank">documentation</a>.', 'wp-statistics'),
+                        'https://wp-statistics.com/resources/wp-consent-level-integration/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings'
+                    ); ?>
+                </p>
             </td>
         </tr>
 
