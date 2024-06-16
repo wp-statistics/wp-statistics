@@ -1,4 +1,4 @@
-<?php 
+<?php
 $queryKey       = 'author_id';
 $authorId       = isset($_GET[$queryKey]) ? intval($_GET[$queryKey]) : false;
 $authors        = get_users(['has_published_posts' => true]);

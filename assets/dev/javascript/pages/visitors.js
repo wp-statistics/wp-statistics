@@ -66,7 +66,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
 
         // Check IS IP
         var Input_IP = jQuery(FORM_ID + " input[name=ip]").val();
-        if (Input_IP.length > 0 && wps_js.isIP(Input_IP) === false) {
+        if (Input_IP.length > 0 && (Input_IP.includes('#hash#') === false && wps_js.isIP(Input_IP) === false)) {
             alert(wps_js._('er_valid_ip'));
             return false;
         }
@@ -138,7 +138,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
 
         // Add IP
         html += `<tr><td>${wps_js._('ip')}</td></tr>`;
-        html += `<tr><td><input name="ip" value="${(wps_js.getLinkParams('ip') != null ? wps_js.getLinkParams('ip') : ``)}" class="wps-width-100" placeholder='xxx.xxx.xxx.xxx' autocomplete="off"></td></tr>`;
+        html += `<tr><td><input name="ip" value="${(wps_js.getLinkParams('ip') != null ? decodeURIComponent(wps_js.getLinkParams('ip')) : ``)}" class="wps-width-100" placeholder='xxx.xxx.xxx.xxx' autocomplete="off"></td></tr>`;
 
         // Add Date
         html += `<tr><td>${wps_js._('date')}</td></tr>`;

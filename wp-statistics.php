@@ -4,7 +4,7 @@
  * Plugin URI: https://wp-statistics.com/
  * GitHub Plugin URI: https://github.com/wp-statistics/wp-statistics
  * Description: Get website traffic insights with GDPR/CCPA compliant, privacy-friendly analytics. Includes visitor data, stunning graphs, and no data sharing.
- * Version: 14.7
+ * Version: 14.8
  * Author: VeronaLabs
  * Author URI: https://veronalabs.com/
  * Text Domain: wp-statistics
@@ -21,7 +21,6 @@ require_once __DIR__ . '/includes/defines.php';
 
 # Include some empty class to make sure they are existed while upgrading plugin.
 require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-updates.php';
-require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-welcome.php';
 
 # Load Plugin
 if (!class_exists('WP_Statistics')) {

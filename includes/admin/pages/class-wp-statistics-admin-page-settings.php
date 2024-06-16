@@ -3,6 +3,7 @@
 namespace WP_STATISTICS;
 
 use WP_Statistics\Components\Singleton;
+use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 
 class settings_page extends Singleton
 {
@@ -26,12 +27,6 @@ class settings_page extends Singleton
      */
     public static function view()
     {
-
-        // Check admin notices.
-        if (Option::get('admin_notices') == true) {
-            Option::update('disable_donation_nag', false);
-            Option::update('disable_suggestion_nag', false);
-        }
 
         // Add Class inf
         $args['class'] = 'wp-statistics-settings';
@@ -114,9 +109,9 @@ class settings_page extends Singleton
                 $status = Referred::download_referrer_spam();
                 if (is_bool($status)) {
                     if ($status === false) {
-                        Helper::addAdminNotice(__("Error Encountered While Updating Spam Referrer Blacklist.", "wp-statistics"), "error");
+                        Notice::addFlashNotice(__("Error Encountered While Updating Spam Referrer Blacklist.", "wp-statistics"), "error");
                     } else {
-                        Helper::addAdminNotice(__("Spam Referrer Blacklist Successfully Updated.", "wp-statistics"), "success");
+                        Notice::addFlashNotice(__("Spam Referrer Blacklist Successfully Updated.", "wp-statistics"), "success");
                     }
                     self::$redirectAfterSave = false;
                 }
@@ -136,12 +131,12 @@ class settings_page extends Singleton
 
         // Save Setting
         if (isset($_GET['save_setting'])) {
-            Helper::addAdminNotice(__("Settings Successfully Saved.", "wp-statistics"), "success");
+            Notice::addFlashNotice(__("Settings Successfully Saved.", "wp-statistics"), "success");
         }
 
         // Reset Setting
         if (isset($_GET['reset_settings'])) {
-            Helper::addAdminNotice(__("All Settings Have Been Reset to Default.", "wp-statistics"), "success");
+            Notice::addFlashNotice(__("All Settings Have Been Reset to Default.", "wp-statistics"), "success");
         }
     }
 
@@ -169,6 +164,7 @@ class settings_page extends Singleton
             'wps_hash_ips',
             'wps_privacy_audit',
             'wps_store_ua',
+            'wps_consent_level_integration',
             'wps_do_not_track',
         );
 
@@ -199,8 +195,8 @@ class settings_page extends Singleton
                 if (wp_next_scheduled('wp_statistics_report_hook')) {
                     wp_unschedule_event(wp_next_scheduled('wp_statistics_report_hook'), 'wp_statistics_report_hook');
                 }
-                $timeReports = sanitize_text_field($_POST['wps_time_report']);
-                $schedulesInterval = wp_get_schedules();
+                $timeReports         = sanitize_text_field($_POST['wps_time_report']);
+                $schedulesInterval   = wp_get_schedules();
                 $timeReportsInterval = 86400;
                 if (isset($schedulesInterval[$timeReports]['interval'])) {
                     $timeReportsInterval = $schedulesInterval[$timeReports]['interval'];
@@ -217,8 +213,7 @@ class settings_page extends Singleton
             "wps_email_list",
             "wps_geoip_report",
             "wps_prune_report",
-            "wps_upgrade_report",
-            "wps_admin_notices",
+            "wps_upgrade_report"
         );
 
         foreach ($wps_option_list as $option) {
@@ -333,7 +328,7 @@ class settings_page extends Singleton
                             $errorMessage
                         );
 
-                        Helper::addAdminNotice($userFriendlyMessage, 'error');
+                        Notice::addFlashNotice($userFriendlyMessage, 'error');
                         self::$redirectAfterSave = false;
                     }
                 }
@@ -471,16 +466,14 @@ class settings_page extends Singleton
             'wps_visitors',
             'wps_visitors_log',
             'wps_enable_user_column',
+            'wps_bypass_ad_blockers',
             'wps_pages',
-            'wps_track_all_pages',
             'wps_use_cache_plugin',
-            'wps_hit_post_metabox',
             'wps_show_hits',
             'wps_display_hits_position',
             'wps_check_online',
             'wps_menu_bar',
             'wps_coefficient',
-            'wps_chart_totals',
             'wps_hide_notices'
         );
 
@@ -493,11 +486,6 @@ class settings_page extends Singleton
         foreach (array('wps_disable_column', 'wps_disable_editor') as $option) {
             $wps_disable_column                                         = isset($_POST[$option]) && sanitize_text_field($_POST[$option]) == '1' ? '' : '1';
             $wp_statistics_options[self::input_name_to_option($option)] = $wps_disable_column;
-        }
-
-        //Add Visitor RelationShip Table
-        if (isset($_POST['wps_visitors_log']) and $_POST['wps_visitors_log'] == 1) {
-            Install::create_visitor_relationship_table();
         }
 
         //Flush Rewrite Use Cache Plugin

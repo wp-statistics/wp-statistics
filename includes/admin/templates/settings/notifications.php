@@ -71,27 +71,6 @@
         </tbody>
     </table>
 </div>
-<div class="postbox">
-    <table class="form-table">
-        <tbody>
-        <tr valign="top">
-            <th scope="row" colspan="2"><h3><?php esc_html_e('Admin Dashboard Settings', 'wp-statistics'); ?></h3></th>
-        </tr>
-
-        <tr valign="top">
-            <th scope="row">
-                <label for="admin-notices"><?php esc_html_e('Display All WP Statistics Notices', 'wp-statistics'); ?></label>
-            </th>
-
-            <td>
-                <input id="admin-notices" type="checkbox" value="1" name="wps_admin_notices" <?php echo WP_STATISTICS\Option::get('admin_notices') == true ? "checked='checked'" : ''; ?>>
-                <label for="admin-notices"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
-                <p class="description"><?php esc_html_e('All notifications, alerts, and suggestions from WP Statistics appear in the admin dashboard. Without selection, only critical warnings or errors are shown for a streamlined dashboard view.', 'wp-statistics'); ?></p>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-</div>
 <?php if (WP_STATISTICS\Option::get('stats_report')) {
     $style = "";
 } else {

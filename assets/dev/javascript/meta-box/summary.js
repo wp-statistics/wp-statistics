@@ -20,7 +20,7 @@ wps_js.summary_meta_box = {
                 // Show Statistics in Days
                 let summary_item = ["today", "yesterday", "last-week", "week", "month", "60days", "90days", "year", "this-year", "last-year", "total"];
                 for (let i = 0; i < summary_item.length; i++) {
-                    t += `<tr><td>${wps_js._(summary_item[i])}</td>`;
+                    t += `<tr><td><b>${wps_js._(summary_item[i])}</b></td>`;
                     ["visitors", "visits"].forEach(function (key) {
                         if (typeof args[key] === 'undefined') {
                             t += `<td></td>`;
@@ -39,10 +39,22 @@ wps_js.summary_meta_box = {
 
     user_online: function (args = []) {
         let t = '';
-        if (args['user_online']) {
+         if (args['user_online']) {
             t = `<div class="c-live">
-                    <span class="c-live__status"></span><span class="c-live__title">${wps_js._('online_users')}:</span> <span><a class="c-live__value" href="${args['user_online']['link']}">${args['user_online']['value']}</a></span>
+                <div>                    
+                    <span class="c-live__status"></span> 
+                    <span class="c-live__title">${wps_js._('online_users')}:</span>
+                    <span><a class="c-live__value" href="${args['user_online']['link']}">${args['user_online']['value']}</a></span>
                 </div>`;
+
+            if (args['real_time_button']) {
+                t += `
+                <a target="_blank" class="${args['real_time_button']['class']}" href="${args['real_time_button']['link']}" title="${args['real_time_button']['title']}">
+                    ${wps_js._('Realtime')} 
+                </a>`;
+            }
+
+            t += `</div>`;
         }
         return t;
     },

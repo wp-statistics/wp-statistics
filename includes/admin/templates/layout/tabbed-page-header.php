@@ -10,10 +10,13 @@
 
     <?php do_action('wp_statistics_after_admin_page_title'); ?>
     <div class="wp-clearfix"></div>
-    <?php if (isset($HasDateRang) || isset($filter)): ?>
+    <?php if (isset($hasDateRang) || isset($filters)): ?>
         <div class="wps-head-filters">
-            <?php include 'date.range.php'; ?>
             <?php
+            if (!empty($hasDateRang)) {
+                include 'date.range.php';
+            }
+
             if (!empty($filters)) {
                 foreach ($filters as $filter) {
                     require_once "filters/$filter-filter.php";
@@ -21,17 +24,21 @@
             }
             ?>
         </div>
-    <?php endif ?>
+    <?php endif; ?>
     <?php if (!empty($tabs) && is_array($tabs)) { ?>
         <ul class="wps-tabs">
             <?php foreach ($tabs as $tab) { ?>
                 <li class="wps-tab-link <?php echo esc_attr($tab['class']); ?>">
-                    <a href="<?php echo esc_attr($tab['link']); ?>">
-                        <?php echo esc_html($tab['title']); ?>
-                        <?php if (!empty($tab['tooltip'])) : ?>
-                            <span class="wps-tooltip" title="<?php echo esc_attr($tab['tooltip']); ?>"><i class="wps-tooltip-icon info"></i></span>
-                        <?php endif; ?>
-                    </a>
+                    <?php if (isset($tab['coming_soon'])): ?>
+                        <span class="wps-tooltip wps-tooltip--coming_soon" title="<?php echo esc_html__('Coming soon', 'wp-statistics') ?>"><?php echo esc_html($tab['title']); ?> <i class="wps-tooltip-icon coming-soon"></i></span>
+                     <?php else: ?>
+                        <a href="<?php echo esc_attr($tab['link']); ?>">
+                            <?php echo esc_html($tab['title']); ?>
+                            <?php if (!empty($tab['tooltip'])) : ?>
+                                <span class="wps-tooltip" title="<?php echo esc_attr($tab['tooltip']); ?>"><i class="wps-tooltip-icon info"></i></span>
+                            <?php endif; ?>
+                        </a>
+                    <?php endif; ?>
                 </li>
             <?php } ?>
         </ul>

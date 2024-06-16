@@ -55,9 +55,6 @@ class search extends MetaBoxAbstract
             $title = sprintf(__('Search Engine Referrals Between %1$s and %2$s', 'wp-statistics'), $args['from'], $args['to']);
         }
 
-        //Check Chart total is activate
-        $total_stats = Option::get('chart_totals');
-
         // Get List Of Search Engine
         $search_engines = SearchEngine::getList();
 
@@ -82,7 +79,7 @@ class search extends MetaBoxAbstract
             'stat'          => $stats,
             'search-engine' => $search_engine_list,
             'total'         => array(
-                'active' => ($total_stats == 1 ? 1 : 0),
+                'active' => 1,
                 'color'  => '180, 180, 180',
                 'stat'   => array_values($total_daily)
             )

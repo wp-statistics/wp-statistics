@@ -77,15 +77,18 @@
 
 #wp-statistics-about-widget {
   .inside {
-    padding-bottom: 11px;
-    padding-top: 11px;
     margin: 0;
-    background: url("../images/wp-stats-bg.svg") right center/auto 100% no-repeat;
+
+    .wps-about-widget {
+      padding-bottom: 11px;
+      padding-top: 11px;
+      margin: 0;
+      background: url("../images/wp-stats-bg.svg") right center/auto 100% no-repeat;
+    }
   }
 
 
   .postbox-header {
-    height: 36px;
 
     .handle-actions {
       display: none;

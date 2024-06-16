@@ -25,11 +25,6 @@ class Ajax
             ],
             [
                 'class'  => $this, 
-                'action' => 'close_overview_ads',
-                'public' => false
-            ],
-            [
-                'class'  => $this, 
                 'action' => 'clear_user_agent_strings',
                 'public' => false
             ],
@@ -148,25 +143,6 @@ class Ajax
         }
 
         wp_die();
-    }
-
-    /**
-     * Close Overview Ads
-     */
-    public function close_overview_ads_action_callback()
-    {
-
-        if (Helper::is_request('ajax') and isset($_REQUEST['ads_id'])) {
-
-            // Check Security Nonce
-            check_ajax_referer('wp_rest', 'wps_nonce');
-
-            // Update Option
-            $get_opt         = get_option('wp_statistics_overview_page_ads');
-            $get_opt['view'] = sanitize_text_field($_REQUEST['ads_id']);
-            update_option('wp_statistics_overview_page_ads', $get_opt, 'no');
-        }
-        exit;
     }
 
     /**

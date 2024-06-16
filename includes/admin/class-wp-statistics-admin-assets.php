@@ -2,6 +2,8 @@
 
 namespace WP_STATISTICS;
 
+use WP_Statistics\Utils\Request;
+
 class Admin_Assets
 {
     /**
@@ -52,6 +54,51 @@ class Admin_Assets
     }
 
     /**
+     * Init FeedbackBird widget a third-party service to get feedbacks from users
+     *
+     * @url https://feedbackbird.io
+     *
+     * @return void
+     */
+    private function initFeedback()
+    {
+        add_action('admin_enqueue_scripts', function () {
+            $screen = get_current_screen();
+
+            if (apply_filters('wp_statistics_enable_feedbackbird', true) && stripos($screen->id, 'wps_') !== false) {
+                wp_enqueue_script('feedbackbird-widget', 'https://cdn.jsdelivr.net/gh/feedbackbird/assets@master/wp/app.js?uid=01H34YMWXSA9XPS61M4S11RV6Z', [], self::version(), false);
+                wp_add_inline_script('feedbackbird-widget', sprintf('var feedbackBirdObject = %s;', wp_json_encode([
+                    'user_email' => function_exists('wp_get_current_user') ? wp_get_current_user()->user_email : '',
+                    'platform'   => 'wordpress-admin',
+                    'config'     => [
+                        'color'         => '#2831bc',
+                        'button'        => __('Feedback', 'wp-sms'),
+                        'subtitle'      => __('Feel free to share your thoughts!', 'wp-sms'),
+                        'opening_style' => 'modal',
+                    ],
+                    'meta'       => [
+                        'php_version'    => PHP_VERSION,
+                        'active_plugins' => array_map(function ($plugin, $pluginPath) {
+                            return [
+                                'name'    => $plugin['Name'],
+                                'version' => $plugin['Version'],
+                                'status'  => is_plugin_active($pluginPath) ? 'active' : 'deactivate',
+                            ];
+                        }, get_plugins(), array_keys(get_plugins())),
+                    ]
+                ])));
+
+                add_filter('script_loader_tag', function ($tag, $handle, $src) {
+                    if ('feedbackbird-widget' === $handle) {
+                        return preg_replace('/^<script /i', '<script type="module" crossorigin="crossorigin" ', $tag);
+                    }
+                    return $tag;
+                }, 10, 3);
+            }
+        });
+    }
+
+    /**
      * Get Version of File
      *
      * @param $ver
@@ -68,6 +115,40 @@ class Admin_Assets
                 return self::$asset_version;
             }
         }
+    }
+
+    /**
+     * Localize jquery datepicker
+     *
+     * @see https://gist.github.com/mehrshaddarzi/7f661baeb5d801961deb8b821157e820
+     */
+    public static function localize_jquery_datepicker()
+    {
+        global $wp_locale;
+
+        return array(
+            'closeText'       => __('Action Completed', 'wp-statistics'),
+            'currentText'     => __('Today', 'wp-statistics'),
+            'monthNames'      => Helper::strip_array_indices($wp_locale->month),
+            'monthNamesShort' => Helper::strip_array_indices($wp_locale->month_abbrev),
+            'monthStatus'     => __('Display Other Month', 'wp-statistics'),
+            'dayNames'        => Helper::strip_array_indices($wp_locale->weekday),
+            'dayNamesShort'   => Helper::strip_array_indices($wp_locale->weekday_abbrev),
+            'dayNamesMin'     => Helper::strip_array_indices($wp_locale->weekday_initial),
+            'dateFormat'      => 'yy-mm-dd', // Format time for Jquery UI
+            'firstDay'        => get_option('start_of_week'),
+            'isRTL'           => $wp_locale->is_rtl(),
+        );
+    }
+
+    /**
+     * Enqueue dashboard page styles.
+     */
+
+    public function dashboard_styles()
+    {
+        // Load Dashboard Css
+        wp_enqueue_style(self::$prefix . '-dashboard', self::url('dashboard.min.css'), array(), self::version());
     }
 
     /**
@@ -93,16 +174,6 @@ class Admin_Assets
 
         // Return Url
         return $url . $file_name;
-    }
-
-    /**
-     * Enqueue dashboard page styles.
-     */
-
-    public function dashboard_styles()
-    {
-        // Load Dashboard Css
-        wp_enqueue_style(self::$prefix . '-dashboard', self::url('dashboard.min.css'), array(), self::version());
     }
 
     /**
@@ -159,6 +230,7 @@ class Admin_Assets
         if (Menus::in_plugin_page() || (in_array($screen_id, array('dashboard')) and !Option::get('disable_dashboard')) || (in_array($hook, array('post.php', 'edit.php', 'post-new.php')) and !Option::get('disable_editor'))) {
             wp_enqueue_script(self::$prefix . '-chart.js', self::url('chartjs/chart.umd.min.js'), [], '4.4.2', false);
             wp_enqueue_script(self::$prefix . '-hammer.js', self::url('chartjs/hammer.min.js'), [], '2.0.8', false);
+            wp_enqueue_script(self::$prefix . '-chart-matrix.js', self::url('chartjs/chart-matrix.min.js'), [], '2.0.8', false);
             wp_enqueue_script(self::$prefix . '-chartjs-plugin-zoom.js', self::url('chartjs/chartjs-plugin-zoom.min.js'), [self::$prefix . '-hammer.js'], '2.0.1', false);
         }
 
@@ -240,8 +312,7 @@ class Admin_Assets
             'geo_city'      => (GeoIP::active('city') ? 1 : 0),
             'overview_page' => (Menus::in_page('overview') ? 1 : 0),
             'gutenberg'     => (Helper::is_gutenberg() ? 1 : 0),
-            'more_btn'      => (apply_filters('wp_statistics_meta_box_more_button', true) ? 1 : 0),
-            'overview_ads'  => (apply_filters('wp_statistics_ads_overview_page_show', true) ? 1 : 0)
+            'more_btn'      => (apply_filters('wp_statistics_meta_box_more_button', true) ? 1 : 0)
         );
 
         // WordPress Current Page
@@ -266,6 +337,7 @@ class Admin_Assets
             'more_detail'           => __('View Details', 'wp-statistics'),
             'reload'                => __('Reload', 'wp-statistics'),
             'online_users'          => __('Online Users', 'wp-statistics'),
+            'Realtime'              => __('Realtime', 'wp-statistics'),
             'visitors'              => __('Visitors', 'wp-statistics'),
             'visits'                => __('Views', 'wp-statistics'),
             'today'                 => __('Today', 'wp-statistics'),
@@ -333,7 +405,12 @@ class Admin_Assets
             'privacy_compliant'     => __('Your WP Statistics settings are privacy-compliant.', 'wp-statistics'),
             'non_privacy_compliant' => __('Your WP Statistics settings are not privacy-compliant. Please update your settings.', 'wp-statistics'),
             'privacy_resolve_alert' => __('By manually resolving this item, please ensure your website’s privacy policy is updated to accurately reflect this setting. This is essential for maintaining compliance and transparency with your users.', 'wp-statistics'),
+            'no_result'             => __('No recent data available.', 'wp-statistics'),
+            'published'             => __('Published', 'wp-statistics'),
+            'author'                => __('Author', 'wp-statistics'),
         );
+
+        $list['active_post_type'] = Helper::getPostTypeName(Request::get('pt', 'post'));
 
         // Rest-API Meta Box Url
         $list['admin_url']      = admin_url();
@@ -383,95 +460,8 @@ class Admin_Assets
             $list['meta_boxes'][$meta_box] = $value;
         }
 
-        // Ads For Overview Pages
-        if (Menus::in_page('overview')) {
-            $overview_ads = get_option('wp_statistics_overview_page_ads', false);
-            if ($overview_ads != false and is_array($overview_ads) and $overview_ads['ads']['ID'] != $overview_ads['view'] and $overview_ads['ads']['status'] == "yes") {
-
-                if ($overview_ads['ads']['link']) {
-                    $overview_ads['ads']['link'] = add_query_arg(array(
-                        'utm_source'   => 'wp-statistics',
-                        'utm_medium'   => 'plugin',
-                        'utm_campaign' => 'overview-page',
-                        'referrer'     => get_bloginfo('url'),
-                    ), $overview_ads['ads']['link']);
-                }
-
-                $list['overview']['ads'] = $overview_ads['ads'];
-            }
-        }
-
         // Return Data JSON
         return $list;
-    }
-
-    /**
-     * Localize jquery datepicker
-     *
-     * @see https://gist.github.com/mehrshaddarzi/7f661baeb5d801961deb8b821157e820
-     */
-    public static function localize_jquery_datepicker()
-    {
-        global $wp_locale;
-
-        return array(
-            'closeText'       => __('Action Completed', 'wp-statistics'),
-            'currentText'     => __('Today', 'wp-statistics'),
-            'monthNames'      => Helper::strip_array_indices($wp_locale->month),
-            'monthNamesShort' => Helper::strip_array_indices($wp_locale->month_abbrev),
-            'monthStatus'     => __('Display Other Month', 'wp-statistics'),
-            'dayNames'        => Helper::strip_array_indices($wp_locale->weekday),
-            'dayNamesShort'   => Helper::strip_array_indices($wp_locale->weekday_abbrev),
-            'dayNamesMin'     => Helper::strip_array_indices($wp_locale->weekday_initial),
-            'dateFormat'      => 'yy-mm-dd', // Format time for Jquery UI
-            'firstDay'        => get_option('start_of_week'),
-            'isRTL'           => $wp_locale->is_rtl(),
-        );
-    }
-
-    /**
-     * Init FeedbackBird widget a third-party service to get feedbacks from users
-     *
-     * @url https://feedbackbird.io
-     *
-     * @return void
-     */
-    private function initFeedback()
-    {
-        add_action('admin_enqueue_scripts', function () {
-            $screen = get_current_screen();
-
-            if (stristr($screen->id, 'wps_')) {
-                wp_enqueue_script('feedbackbird-widget', 'https://cdn.jsdelivr.net/gh/feedbackbird/assets@master/wp/app.js?uid=01H34YMWXSA9XPS61M4S11RV6Z', [], self::version(), false);
-                wp_add_inline_script('feedbackbird-widget', sprintf('var feedbackBirdObject = %s;', wp_json_encode([
-                    'user_email' => function_exists('wp_get_current_user') ? wp_get_current_user()->user_email : '',
-                    'platform'   => 'wordpress-admin',
-                    'config'     => [
-                        'color'         => '#2831bc',
-                        'button'        => __('Feedback', 'wp-sms'),
-                        'subtitle'      => __('Feel free to share your thoughts!', 'wp-sms'),
-                        'opening_style' => 'modal',
-                    ],
-                    'meta'       => [
-                        'php_version'    => PHP_VERSION,
-                        'active_plugins' => array_map(function ($plugin, $pluginPath) {
-                            return [
-                                'name'    => $plugin['Name'],
-                                'version' => $plugin['Version'],
-                                'status'  => is_plugin_active($pluginPath) ? 'active' : 'deactivate',
-                            ];
-                        }, get_plugins(), array_keys(get_plugins())),
-                    ]
-                ])));
-
-                add_filter('script_loader_tag', function ($tag, $handle, $src) {
-                    if ('feedbackbird-widget' === $handle) {
-                        return preg_replace('/^<script /i', '<script type="module" crossorigin="crossorigin" ', $tag);
-                    }
-                    return $tag;
-                }, 10, 3);
-            }
-        });
     }
 }
 
