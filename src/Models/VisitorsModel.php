@@ -8,6 +8,30 @@ use WP_Statistics\Abstracts\BaseModel;
 
 class VisitorsModel extends BaseModel
 {
+    /**
+     * Returns all visitors count.
+     *
+     * @param   array       $args           Arguments to include in query (e.g. `date`).
+     * @param   bool        $bypassCache    Send the cached result.
+     *
+     * @return  \stdClass                   Attributes: `visitors`, `views_sum`.
+     */
+    public function countAllVisitors($args = [], $bypassCache = false)
+    {
+        $args = $this->parseArgs($args, ['date' => '']);
+
+        $result = Query::select([
+                'COUNT(DISTINCT `ID`) as `visitors`',
+                'SUM(`hits`) as `views_sum`',
+            ])
+            ->from('visitor')
+            ->whereDate('last_counter', $args['date'])
+            ->perPage(1, 1)
+            ->bypassCache($bypassCache)
+            ->getRow();
+
+        return $result ? $result : 0;
+    }
 
     public function countVisitors($args = [], $bypassCache = false)
     {
@@ -30,6 +54,37 @@ class VisitorsModel extends BaseModel
             ->getVar();
 
         return $result ? $result : 0;
+    }
+
+    /**
+     * Returns visitors' device information.
+     *
+     * @param   array   $args           Arguments to include in query (e.g. `date`, `group_by`, etc.).
+     * @param   bool    $bypassCache    Send the cached result.
+     *
+     * @return  array
+     */
+    public function getVisitorsDevices($args = [], $bypassCache = false)
+    {
+        $args = $this->parseArgs($args, [
+            'date'     => '',
+            'group_by' => [],
+        ]);
+
+        $result = Query::select([
+                'agent',
+                'platform',
+                'device',
+                'model',
+                'SUM(`hits`) as `views`',
+            ])
+            ->from('visitor')
+            ->whereDate('last_counter', $args['date'])
+            ->groupBy($args['group_by'])
+            ->bypassCache($bypassCache)
+            ->getAll();
+
+        return $result ? $result : [];
     }
 
     public function getVisitors($args = [], $bypassCache = false)
