@@ -110,11 +110,10 @@ class VisitorsModel extends BaseModel
                 'visitor.region as region',
                 'visitor.continent as continent',
                 'COUNT(DISTINCT visitor.ID) as visitors',
-                'SUM(pages.count) as views'
+                'COUNT(visitor_relationships.page_id) as views'
             ])
             ->from('visitor')
             ->join('visitor_relationships', ['visitor_relationships.visitor_id', 'visitor.ID'])
-            ->join('pages', ['visitor_relationships.page_id', 'pages.page_id'])
             ->whereDate('visitor.last_counter', $args['date'])
             ->where('visitor.location', 'IN', $args['country'])
             ->where('visitor.city', 'IN', $args['city'])
