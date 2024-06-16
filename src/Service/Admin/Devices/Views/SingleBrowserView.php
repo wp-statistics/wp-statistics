@@ -25,7 +25,7 @@ class SingleBrowserView extends BaseView
             'title'     => sprintf(esc_html__('%s Report', 'wp-statistics'), Request::get('browser')),
             'backUrl'   => Menus::admin_url('devices', ['tab' => 'browsers']),
             'tooltip'   => esc_html__('Tooltip', 'wp-statistics'),
-            'backTitle' => esc_html__('Devices', 'wp-statistics'),
+            'backTitle' => esc_html__('Browsers', 'wp-statistics'),
         ];
 
         Admin_Template::get_template(['layout/header', 'layout/title', 'pages/devices/single-locked', 'layout/footer'], $args);
