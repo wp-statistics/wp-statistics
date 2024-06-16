@@ -60,4 +60,25 @@ class DevicesDataProvider
             'total'    => $this->visitorsModel->countAllVisitors($args),
         ];
     }
+
+    /**
+     * Returns data for model's single page.
+     *
+     * @param   string  $selectedModel
+     *
+     * @return  array
+     */
+    public function getSingleModelsData($selectedModel)
+    {
+        $args = array_merge($this->args, [
+            'where_col' => 'model',
+            'where_val' => esc_sql($selectedModel),
+            'group_by'  => ['version'],
+        ]);
+
+        return [
+            'visitors' => $this->visitorsModel->getVisitorsDevices($args),
+            'total'    => $this->visitorsModel->countAllVisitors($args),
+        ];
+    }
 }
