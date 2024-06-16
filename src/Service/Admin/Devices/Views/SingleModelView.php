@@ -34,10 +34,10 @@ class SingleModelView extends BaseView
     public function render()
     {
         $args = [
-            'title'     => sprintf(esc_html__('%s Report', 'wp-statistics'), Request::get('model')),
-            'backUrl'   => Menus::admin_url('devices', ['tab' => 'models']),
-            'tooltip'   => esc_html__('Tooltip', 'wp-statistics'),
-            'backTitle' => esc_html__('Devices', 'wp-statistics'),
+            'title'           => sprintf(esc_html__('%s Report', 'wp-statistics'), Request::get('model')),
+            'backUrl'         => Menus::admin_url('devices', ['tab' => 'models']),
+            'tooltip'         => esc_html__('Tooltip', 'wp-statistics'),
+            'backTitle'       => esc_html__('Devices', 'wp-statistics'),
             'firstColTitle'   => esc_html__('Version', 'wp-statistics'),
             'firstColTooltip' => esc_html__('Version Tooltip', 'wp-statistics'),
             'data'            => $this->dataProvider->getSingleModelsData(Request::get('model')),
