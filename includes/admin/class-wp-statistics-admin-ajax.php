@@ -676,7 +676,7 @@ class Ajax
             wp_send_json([
                 'results'       => $posts,
                 'pagination'    => [
-                    'more' => $query->max_num_pages > 1 ? true : false
+                    'more' => $query->max_num_pages > $paged ? true : false
                 ]
             ]);
         }
