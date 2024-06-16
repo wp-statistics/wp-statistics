@@ -36,11 +36,11 @@ wps_js.select2 = function () {
 }
 
 const wpsSelect2 = jQuery('.wps-select2');
-const wpsFilterPage = jQuery('.wps-filter-page');
 const wpsBody = jQuery('body');
 const wpsDropdown = jQuery('.wps-dropdown');
 
-if (wpsSelect2.length && wpsFilterPage.length) {
+if (wpsSelect2.length) {
+    const wpsFilterPage = jQuery('.wps-filter-page');
     var dirValue = wpsBody.hasClass('rtl') ? 'rtl' : 'ltr';
 
     wpsSelect2.select2({
@@ -48,10 +48,6 @@ if (wpsSelect2.length && wpsFilterPage.length) {
         dir: dirValue,
         dropdownAutoWidth: true,
         dropdownCssClass: 'wps-select2-filter-dropdown'
-    });
-
-    wpsFilterPage.on('click', function () {
-        wpsSelect2.select2('open');
     });
 
     wpsSelect2.on('select2:open', function () {
@@ -70,6 +66,50 @@ if (wpsSelect2.length && wpsFilterPage.length) {
             window.location.href = url;
         }
     });
+
+    if (wpsFilterPage.length) {
+        wpsSelect2.select2({
+            dropdownParent: $('.wps-filter-page'),
+            dir: dirValue,
+            dropdownAutoWidth: true,
+            dropdownCssClass: 'wps-select2-filter-dropdown',
+            ajax: {
+                delay: 500,
+                url: wps_js.global.ajax_url,
+                dataType: 'json',
+                data: function (params) {
+                  const query = {
+                    wps_nonce: wps_js.global.rest_api_nonce,
+                    search: params.term,
+                    action: 'wp_statistics_get_page_filter_items',
+                    paged: params.page || 1
+                  }
+
+                  if (wps_js.isset(wps_js.global, 'request_params', 'author_id')) {
+                    query.author_id = wps_js.global.request_params.author_id;
+                  }
+
+                  if (wps_js.isset(wps_js.global, 'request_params', 'page')) {
+                    query.page = wps_js.global.request_params.page;
+                  }
+
+                  if (wps_js.isset(wps_js.global, 'request_params', 'pt')) {
+                    query.post_type = wps_js.global.request_params.pt;
+                  }
+
+                  if (wps_js.isset(wps_js.global, 'request_params', 'pid')) {
+                    query.post_id = wps_js.global.request_params.pid;
+                  }
+            
+                  return query;
+                }
+            }
+        });
+
+        wpsFilterPage.on('click', function () {
+            wpsSelect2.select2('open');
+        });
+    }
 }
 
 

@@ -2,6 +2,8 @@
 
 namespace WP_STATISTICS;
 
+use WP_Statistics\Utils\Request;
+
 class Ajax
 {
     public function __construct()
@@ -83,6 +85,11 @@ class Ajax
                 'action' => 'admin_meta_box',
                 'public' => false
             ],
+            [
+                'class'  => $this, 
+                'action' => 'get_page_filter_items',
+                'public' => false
+            ]
         ];
 
         $list = apply_filters('wp_statistics_ajax_list', $list);
@@ -598,6 +605,80 @@ class Ajax
             } else {
                 wp_send_json(array('code' => 'not_found_meta_box', 'message' => __('Invalid MetaBox Name in Request.', 'wp-statistics')), 400);
             }
+        }
+
+        exit;
+    }
+
+    /**
+     * Get page filter items
+     */
+    public function get_page_filter_items_action_callback()
+    {
+        if (Helper::is_request('ajax') and User::Access('read')) {
+
+            check_ajax_referer('wp_rest', 'wps_nonce');
+
+            $paged          = Request::get('paged', 1, 'number');
+            $postType       = Request::get('post_type', array_values(Helper::get_list_post_type()));
+            $authorId       = Request::get('author_id', '', 'number');
+            $search         = Request::get('search', '');
+            $page           = Request::get('page');
+            $selectedPost   = Request::get('post_id', false, 'number');
+
+            if (!$page) {
+                wp_send_json([
+                    'code'      => 'not_found_page', 
+                    'message'   => esc_html__('Invalid Page in Request.', 'wp-statistics')
+                ], 400);
+            }
+
+            $query = new \WP_Query([
+                'post_status'    => 'publish', 
+                'posts_per_page' => 10,
+                'paged'          => $paged,
+                'post_type'      => $postType,
+                'author'         => $authorId,
+                's'              => $search
+            ]);
+
+            $posts = [];
+            if ($query->have_posts()) {
+                if ($paged == 1 && empty($search)) {
+                    $allOption = [
+                        'id'    => Menus::admin_url($page),
+                        'text'  => esc_html__('All', 'wp-statistics')
+                    ];
+
+                    if (!$selectedPost) {
+                        $allOption['selected'] = true;
+                    }
+
+                    $posts[] = $allOption;
+                }
+
+                while ($query->have_posts()) {
+                    $query->the_post();
+
+                    $option = [
+                        'id'   => add_query_arg(['pid' => get_the_ID()], Menus::admin_url($page)),
+                        'text' => get_the_title()
+                    ];
+
+                    if ($selectedPost == get_the_ID()) {
+                        $option['selected'] = true;
+                    }
+
+                    $posts[] = $option;
+                }
+            }
+
+            wp_send_json([
+                'results'       => $posts,
+                'pagination'    => [
+                    'more' => $query->max_num_pages > 1 ? true : false
+                ]
+            ]);
         }
 
         exit;
