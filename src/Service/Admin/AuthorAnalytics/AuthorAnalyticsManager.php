@@ -27,7 +27,7 @@ class AuthorAnalyticsManager
             ]
         ];
 
-        array_splice($items, 13, 0, $newItem);
+        array_splice($items, 8, 0, $newItem);
 
         return $items;
     }

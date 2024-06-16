@@ -27,7 +27,7 @@ class DevicesManager
             ]
         ];
 
-        array_splice($items, 9, 0, $newItem);
+        array_splice($items, 11, 0, $newItem);
 
         return $items;
     }

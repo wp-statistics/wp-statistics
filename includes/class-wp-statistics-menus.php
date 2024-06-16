@@ -169,19 +169,19 @@ class Menus
                 'title'    => __('Overview', 'wp-statistics'),
                 'page_url' => 'overview',
             ),
-            'hits'         => array(
-                'require'  => array('visits' => true),
-                'sub'      => 'overview',
-                'title'    => __('Views', 'wp-statistics'),
-                'page_url' => 'hits',
-                'method'   => 'hits',
-            ),
             'online'       => array(
                 'require'  => array('useronline' => true),
                 'sub'      => 'overview',
                 'title'    => __('Online', 'wp-statistics'),
                 'method'   => 'online',
                 'page_url' => 'online',
+            ),
+            'hits'         => array(
+                'require'  => array('visits' => true),
+                'sub'      => 'overview',
+                'title'    => __('Views', 'wp-statistics'),
+                'page_url' => 'hits',
+                'method'   => 'hits',
             ),
             'visitors'     => array(
                 'require'  => array('visitors' => true),
@@ -218,24 +218,10 @@ class Menus
                 'page_url' => 'taxonomies',
                 'method'   => 'taxonomies',
             ),
-            'browsers'     => array(
-                'require'  => array('visitors' => true),
-                'sub'      => 'overview',
-                'title'    => __('Browsers', 'wp-statistics'),
-                'page_url' => 'browser',
-                'method'   => 'browser'
-            ),
-            'platforms'    => array(
-                'require'  => array('visitors' => true),
-                'sub'      => 'overview',
-                'title'    => __('Operating Systems', 'wp-statistics'),
-                'page_url' => 'platform',
-                'method'   => 'platform'
-            ),
             'top.visitors' => array(
                 'require'  => array('visitors' => true),
                 'sub'      => 'overview',
-                'title'    => __('Top Visitors Today', 'wp-statistics'),
+                'title'    => __('Top Visitors', 'wp-statistics'),
                 'page_url' => 'top-visitors',
                 'method'   => 'top_visitors'
             ),
