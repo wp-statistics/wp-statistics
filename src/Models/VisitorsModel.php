@@ -76,7 +76,6 @@ class VisitorsModel extends BaseModel
                 "COUNT(DISTINCT {$args['count_field']}) as total"
             ])
             ->from('visitor')
-            ->join('visitor_relationships', ['visitor_relationships.visitor_id', 'visitor.ID'])
             ->whereDate('visitor.last_counter', $args['date'])
             ->where('visitor.continent', '=', $args['continent'])
             ->where('visitor.location', '=', $args['country'])
