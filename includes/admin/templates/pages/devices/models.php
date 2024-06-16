@@ -22,7 +22,6 @@ use WP_STATISTICS\Menus;
                                         <th class="wps-pd-l">
                                             <?php esc_html_e('Percent Share', 'wp-statistics'); ?>
                                         </th>
-                                        <th></th>
                                     </tr>
                                 </thead>
 
@@ -39,11 +38,6 @@ use WP_STATISTICS\Menus;
                                             </td>
                                             <td class="wps-pd-l">
                                                 <?php echo number_format((intval($item->views) / intval($data['views'])) * 100, 2); ?>%
-                                            </td>
-                                            <td class="view-more">
-                                                <a href="<?php echo esc_url(Menus::admin_url('devices', ['type' => 'single-model', 'model' => $item->model])); ?>" title="<?php esc_html_e('View Details', 'wp-statistics'); ?>">
-                                                    <?php esc_html_e('View Details', 'wp-statistics'); ?>
-                                                </a>
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>
