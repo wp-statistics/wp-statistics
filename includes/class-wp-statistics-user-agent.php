@@ -99,7 +99,7 @@ class UserAgent
     {
         $browser  = str_replace(' ', '_', $browser);
         $browser  = sanitize_key($browser);
-        $browser  = str_replace('internet_explorer', 'msie', $browser);
+        $browser  = str_replace('msie', 'internet_explorer', $browser);
         $logoPath = "assets/images/browser/$browser.svg";
 
         if (file_exists(WP_STATISTICS_DIR . $logoPath)) {
