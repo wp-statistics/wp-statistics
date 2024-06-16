@@ -136,7 +136,7 @@ class Meta_Box
                 'place'             => 'side'
             ),
             'countries'       => array(
-                'page_url'          => 'countries',
+                'page_url'          => 'geographic',
                 'name'              => __('Top Countries', 'wp-statistics'),
                 'require'           => array('geoip' => true, 'visitors' => true),
                 'hidden'            => true,
