@@ -76,7 +76,6 @@ class VisitorsModel extends BaseModel
                 "COUNT(DISTINCT {$args['count_field']}) as total"
             ])
             ->from('visitor')
-            ->join('visitor_relationships', ['visitor_relationships.visitor_id', 'visitor.ID'])
             ->whereDate('visitor.last_counter', $args['date'])
             ->where('visitor.continent', '=', $args['continent'])
             ->where('visitor.location', '=', $args['country'])
@@ -111,15 +110,14 @@ class VisitorsModel extends BaseModel
                 'visitor.region as region',
                 'visitor.continent as continent',
                 'COUNT(DISTINCT visitor.ID) as visitors',
-                'COUNT(visitor_relationships.page_id) as views'
+                'SUM(visitor.hits) as views'
             ])
             ->from('visitor')
-            ->join('visitor_relationships', ['visitor_relationships.visitor_id', 'visitor.ID'])
-            ->whereDate('visitor.last_counter', $args['date'])
             ->where('visitor.location', 'IN', $args['country'])
             ->where('visitor.city', 'IN', $args['city'])
             ->where('visitor.region', 'IN', $args['region'])
             ->where('visitor.continent', 'IN', $args['continent'])
+            ->whereDate('visitor.last_counter', $args['date'])
             ->whereNotNull($args['not_null'])
             ->perPage($args['page'], $args['per_page'])
             ->groupBy($args['group_by'])
