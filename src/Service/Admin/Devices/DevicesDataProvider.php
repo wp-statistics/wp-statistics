@@ -62,13 +62,55 @@ class DevicesDataProvider
     }
 
     /**
+     * Returns data for browser's single page.
+     *
+     * @param   string  $selectedBrowser
+     *
+     * @return  array
+     */
+    public function getSingleBrowserData($selectedBrowser)
+    {
+        $args = array_merge($this->args, [
+            'where_col' => 'agent',
+            'where_val' => esc_sql($selectedBrowser),
+            'group_by'  => ['version'],
+        ]);
+
+        return [
+            'visitors' => $this->visitorsModel->getVisitorsDevices($args),
+            'total'    => $this->visitorsModel->countAllVisitors($args),
+        ];
+    }
+
+    /**
+     * Returns data for platform's single page.
+     *
+     * @param   string  $selectedPlatform
+     *
+     * @return  array
+     */
+    public function getSinglePlatformData($selectedPlatform)
+    {
+        $args = array_merge($this->args, [
+            'where_col' => 'platform',
+            'where_val' => esc_sql($selectedPlatform),
+            'group_by'  => ['version'],
+        ]);
+
+        return [
+            'visitors' => $this->visitorsModel->getVisitorsDevices($args),
+            'total'    => $this->visitorsModel->countAllVisitors($args),
+        ];
+    }
+
+    /**
      * Returns data for model's single page.
      *
      * @param   string  $selectedModel
      *
      * @return  array
      */
-    public function getSingleModelsData($selectedModel)
+    public function getSingleModelData($selectedModel)
     {
         $args = array_merge($this->args, [
             'where_col' => 'model',
