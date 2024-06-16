@@ -44,7 +44,7 @@ use WP_STATISTICS\Menus;
                                                 <?php echo number_format((intval($item->views) / intval($data['total']->views_sum)) * 100, 2); ?>%
                                             </td>
                                             <td class="view-more">
-                                                <a target="_blank" href="<?php echo esc_url(Menus::admin_url('devices', ['type' => 'single-model', 'model' => $item->model])); ?>" title="<?php esc_html_e('View Details', 'wp-statistics'); ?>">
+                                                <a href="<?php echo esc_url(Menus::admin_url('devices', ['type' => 'single-model', 'model' => $item->model])); ?>" title="<?php esc_html_e('View Details', 'wp-statistics'); ?>">
                                                     <?php esc_html_e('View Details', 'wp-statistics'); ?>
                                                 </a>
                                             </td>
