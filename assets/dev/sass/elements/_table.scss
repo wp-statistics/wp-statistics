@@ -327,6 +327,7 @@
 
           &.disabled {
             cursor: default;
+            pointer-events: none;
             border-color: #DADCE0 !important;
             background: #F0F0F1 !important;
             opacity: 20%;
