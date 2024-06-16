@@ -204,6 +204,7 @@ final class WP_Statistics
             $authorAnalytics = new AuthorAnalyticsManager();
             $privacyAudit    = new PrivacyAuditManager();
             $geographic      = new GeographicManager();
+            $devices         = new \WP_Statistics\Service\Admin\Devices\DevicesManager();
 
             $wpConsentApi    = new WpConsentApi();
         }

@@ -31,7 +31,8 @@ class Menus
         'taxonomies'        => 'taxonomies',
         'author-analytics'  => 'author-analytics',
         'privacy-audit'     => 'privacy-audit',
-        'geographic'        => 'geographic'
+        'geographic'        => 'geographic',
+        'devices'           => 'devices',
     );
 
     /**
