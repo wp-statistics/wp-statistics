@@ -118,6 +118,16 @@
                                 ); ?>
                         </p>
                     <?php endif; ?>
+                    <?php $cachePlugin = \WP_STATISTICS\Helper::is_active_cache_plugin();
+                    if ($cachePlugin['status'] === true) : ?>
+                        <p class="description">
+                            <span class="wps-note"><?php esc_html_e('Warning:', 'wp-statistics'); ?></span>
+                            <?php echo $cachePlugin['plugin'] == "core" ?
+                                __('<b><code>WP_CACHE</code> is enabled in <code>wp-config.php</code> which might cause issues with this option. Make sure to clear your WordPress cache after changing the value.</b>', 'wp-statistics') :
+                                // translators: %s: Name of the cache plugin.
+                                sprintf(__('<b>Make sure to purge <b>%s</b> plugin\'s cache after changing this value.', 'wp-statistics'), $cachePlugin['plugin']);?>
+                        </p>
+                    <?php endif; ?>
                 <?php else : ?>
                     <p class="description">
                         <?php echo sprintf(
