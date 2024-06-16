@@ -18,13 +18,18 @@ class VisitorsModel extends BaseModel
      */
     public function countAllVisitors($args = [], $bypassCache = false)
     {
-        $args = $this->parseArgs($args, ['date' => '']);
+        $args = $this->parseArgs($args, [
+            'date'      => '',
+            'where_col' => 'ID',
+            'where_val' => '',
+        ]);
 
         $result = Query::select([
                 'COUNT(DISTINCT `ID`) as `visitors`',
                 'SUM(`hits`) as `views_sum`',
             ])
             ->from('visitor')
+            ->where($args['where_col'], '=', $args['where_val'])
             ->whereDate('last_counter', $args['date'])
             ->perPage(1, 1)
             ->bypassCache($bypassCache)
@@ -67,18 +72,22 @@ class VisitorsModel extends BaseModel
     public function getVisitorsDevices($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
-            'date'     => '',
-            'group_by' => [],
+            'date'      => '',
+            'where_col' => 'ID',
+            'where_val' => '',
+            'group_by'  => [],
         ]);
 
         $result = Query::select([
                 'agent',
                 'platform',
+                'version',
                 'device',
                 'model',
                 'SUM(`hits`) as `views`',
             ])
             ->from('visitor')
+            ->where($args['where_col'], '=', $args['where_val'])
             ->whereDate('last_counter', $args['date'])
             ->groupBy($args['group_by'])
             ->bypassCache($bypassCache)
