@@ -101,7 +101,7 @@ return array(
     'WP_Statistics\\Service\\Admin\\Geographic\\GeographicDataProvider' => $baseDir . '/src/Service/Admin/Geographic/GeographicDataProvider.php',
     'WP_Statistics\\Service\\Admin\\Geographic\\GeographicManager' => $baseDir . '/src/Service/Admin/Geographic/GeographicManager.php',
     'WP_Statistics\\Service\\Admin\\Geographic\\GeographicPage' => $baseDir . '/src/Service/Admin/Geographic/GeographicPage.php',
-    'WP_Statistics\\Service\\Admin\\Geographic\\Views\\SingleView' => $baseDir . '/src/Service/Admin/Geographic/Views/SingleView.php',
+    'WP_Statistics\\Service\\Admin\\Geographic\\Views\\SingleCountryView' => $baseDir . '/src/Service/Admin/Geographic/Views/SingleCountryView.php',
     'WP_Statistics\\Service\\Admin\\Geographic\\Views\\TabsView' => $baseDir . '/src/Service/Admin/Geographic/Views/TabsView.php',
     'WP_Statistics\\Service\\Admin\\NoticeHandler\\GeneralNotices' => $baseDir . '/src/Service/Admin/NoticeHandler/GeneralNotices.php',
     'WP_Statistics\\Service\\Admin\\NoticeHandler\\Notice' => $baseDir . '/src/Service/Admin/NoticeHandler/Notice.php',

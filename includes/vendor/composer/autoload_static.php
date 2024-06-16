@@ -180,7 +180,7 @@ class ComposerStaticInit2ac516f03a394ec3d1721352b7f43359
         'WP_Statistics\\Service\\Admin\\Geographic\\GeographicDataProvider' => __DIR__ . '/../../..' . '/src/Service/Admin/Geographic/GeographicDataProvider.php',
         'WP_Statistics\\Service\\Admin\\Geographic\\GeographicManager' => __DIR__ . '/../../..' . '/src/Service/Admin/Geographic/GeographicManager.php',
         'WP_Statistics\\Service\\Admin\\Geographic\\GeographicPage' => __DIR__ . '/../../..' . '/src/Service/Admin/Geographic/GeographicPage.php',
-        'WP_Statistics\\Service\\Admin\\Geographic\\Views\\SingleView' => __DIR__ . '/../../..' . '/src/Service/Admin/Geographic/Views/SingleView.php',
+        'WP_Statistics\\Service\\Admin\\Geographic\\Views\\SingleCountryView' => __DIR__ . '/../../..' . '/src/Service/Admin/Geographic/Views/SingleCountryView.php',
         'WP_Statistics\\Service\\Admin\\Geographic\\Views\\TabsView' => __DIR__ . '/../../..' . '/src/Service/Admin/Geographic/Views/TabsView.php',
         'WP_Statistics\\Service\\Admin\\NoticeHandler\\GeneralNotices' => __DIR__ . '/../../..' . '/src/Service/Admin/NoticeHandler/GeneralNotices.php',
         'WP_Statistics\\Service\\Admin\\NoticeHandler\\Notice' => __DIR__ . '/../../..' . '/src/Service/Admin/NoticeHandler/Notice.php',
