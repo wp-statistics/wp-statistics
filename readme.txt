@@ -153,4 +153,6 @@ https://www.youtube.com/watch?v=6G50BZRWPd4
 * Fix: Resolved freeze issues on certain pages and loading mode in view meta box.
 * Dev: Added filters `wp_statistics_ip_detection_preview` and `wp_statistics_enable_feedbackbird`.
 
+For more information about this update, please [visit our blog post](https://wp-statistics.com/2024/06/15/wp-statistics-version-14-8-whats-new).
+
 [See changelog for all versions](https://raw.githubusercontent.com/wp-statistics/wp-statistics/master/CHANGELOG.md).
