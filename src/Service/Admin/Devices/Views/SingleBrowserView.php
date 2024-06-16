@@ -35,9 +35,7 @@ class SingleBrowserView extends BaseView
             'title'           => sprintf(esc_html__('%s Report', 'wp-statistics'), Request::get('browser')),
             'backTitle'       => esc_html__('Browsers', 'wp-statistics'),
             'backUrl'         => Menus::admin_url('devices', ['tab' => 'browsers']),
-            'tooltip'         => esc_html__('Tooltip', 'wp-statistics'),
             'firstColTitle'   => esc_html__('Version', 'wp-statistics'),
-            'firstColTooltip' => esc_html__('Version Tooltip', 'wp-statistics'),
             'data'            => $this->dataProvider->getSingleBrowserData(Request::get('browser')),
         ];
 

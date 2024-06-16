@@ -1,7 +1,5 @@
 <?php
 
-use WP_STATISTICS\Menus;
-
 ?>
 <div class="postbox-container wps-postbox-full">
     <div class="metabox-holder">
@@ -15,15 +13,12 @@ use WP_STATISTICS\Menus;
                                     <tr>
                                         <th class="wps-pd-l">
                                             <?php echo esc_html($firstColTitle); ?>
-                                            <span class="wps-tooltip" title="<?php echo esc_html($firstColTooltip); ?>"><i class="wps-tooltip-icon info"></i></span>
                                         </th>
                                         <th class="wps-pd-l">
                                             <?php esc_html_e('Visitor Count', 'wp-statistics'); ?>
-                                            <span class="wps-tooltip" title="<?php echo esc_html_e('Visitor Count Tooltip', 'wp-statistics'); ?>"><i class="wps-tooltip-icon info"></i></span>
                                         </th>
                                         <th class="wps-pd-l">
                                             <?php esc_html_e('Percent Share', 'wp-statistics'); ?>
-                                            <span class="wps-tooltip" title="<?php echo esc_html_e('Percent Share Tooltip', 'wp-statistics'); ?>"><i class="wps-tooltip-icon info"></i></span>
                                         </th>
                                     </tr>
                                 </thead>

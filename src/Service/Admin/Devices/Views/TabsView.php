@@ -90,19 +90,19 @@ class TabsView extends BaseTabView
                     [
                         'link'        => Menus::admin_url('devices', ['tab' => 'browsers']),
                         'title'       => esc_html__('Browsers', 'wp-statistics'),
-                        'tooltip'     => esc_html__('Tooltip', 'wp-statistics'),
+                        'tooltip'     => esc_html__('Displays the different web browsers used by your visitors.', 'wp-statistics'),
                         'class'       => $currentTab === 'browsers' ? 'current' : '',
                     ],
                     [
                         'link'        => Menus::admin_url('devices', ['tab' => 'platforms']),
                         'title'       => esc_html__('Operating Systems', 'wp-statistics'),
-                        'tooltip'     => esc_html__('Tooltip', 'wp-statistics'),
+                        'tooltip'     => esc_html__('Shows the operating systems your visitors are using.', 'wp-statistics'),
                         'class'       => $currentTab === 'platforms' ? 'current' : '',
                     ],
                     [
                         'link'        => Menus::admin_url('devices', ['tab' => 'models']),
                         'title'       => esc_html__('Device Models', 'wp-statistics'),
-                        'tooltip'     => esc_html__('Tooltip', 'wp-statistics'),
+                        'tooltip'     => esc_html__('Provides data on the specific models of devices used by your visitors.', 'wp-statistics'),
                         'class'       => $currentTab === 'models' ? 'current' : '',
                     ],
                     [

@@ -35,9 +35,7 @@ class SinglePlatformView extends BaseView
             'title'           => sprintf(esc_html__('%s Report', 'wp-statistics'), Request::get('platform')),
             'backTitle'       => esc_html__('Devices', 'wp-statistics'),
             'backUrl'         => Menus::admin_url('devices', ['tab' => 'platforms']),
-            'tooltip'         => esc_html__('Tooltip', 'wp-statistics'),
             'firstColTitle'   => esc_html__('Version', 'wp-statistics'),
-            'firstColTooltip' => esc_html__('Version Tooltip', 'wp-statistics'),
             'data'            => $this->dataProvider->getSinglePlatformData(Request::get('platform')),
         ];
 
