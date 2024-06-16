@@ -189,6 +189,11 @@ class Helper
             $use = array('status' => true, 'plugin' => 'W3 Total Cache');
         }
 
+        /* WP-Optimize */
+        if (class_exists('WP_Optimize')) {
+            $use = array('status' => true, 'plugin' => 'WP-Optimize');
+        }
+
         return apply_filters('wp_statistics_cache_status', $use);
     }
 
