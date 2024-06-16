@@ -96,7 +96,7 @@ class VisitorsModel extends BaseModel
             'city'      => '',
             'region'    => '',
             'continent' => '',
-            'group_by'  => 'country',
+            'group_by'  => 'visitor.location',
             'not_null'  => '',
             'order_by'  => 'visitors',
             'order'     => 'DESC',
