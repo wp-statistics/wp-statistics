@@ -16,15 +16,15 @@ use WP_STATISTICS\UserAgent;
                                     <tr>
                                         <th class="wps-pd-l">
                                             <?php esc_html_e('OS', 'wp-statistics'); ?>
-                                            <span class="wps-tooltip" title="OS Tooltip"><i class="wps-tooltip-icon info"></i></span>
+                                            <span class="wps-tooltip" title="<?php esc_html_e('OS Tooltip', 'wp-statistics'); ?>"><i class="wps-tooltip-icon info"></i></span>
                                         </th>
                                         <th class="wps-pd-l">
                                             <?php esc_html_e('Visitor Count', 'wp-statistics'); ?>
-                                            <span class="wps-tooltip" title="Visitor Count Tooltip"><i class="wps-tooltip-icon info"></i></span>
+                                            <span class="wps-tooltip" title="<?php esc_html_e('Visitor Count Tooltip', 'wp-statistics'); ?>"><i class="wps-tooltip-icon info"></i></span>
                                         </th>
                                         <th class="wps-pd-l">
                                             <?php esc_html_e('Percent Share', 'wp-statistics'); ?>
-                                            <span class="wps-tooltip" title="Percent Share Tooltip"><i class="wps-tooltip-icon info"></i></span>
+                                            <span class="wps-tooltip" title="<?php esc_html_e('Percent Share Tooltip', 'wp-statistics'); ?>"><i class="wps-tooltip-icon info"></i></span>
                                         </th>
                                         <th></th>
                                     </tr>
