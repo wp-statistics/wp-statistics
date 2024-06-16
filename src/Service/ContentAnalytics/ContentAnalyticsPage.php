@@ -110,11 +110,12 @@ class ContentAnalyticsPage extends Singleton
 
         $args = [
             'title'      => esc_html__('Content Analytics', 'wp-statistics'),
-            'tooltip'    => esc_html__('Page Tooltip', 'wp-statistics'),
+            'tooltip'    => esc_html__('Content Analytics Tooltip', 'wp-statistics'),
             'pageName'   => Menus::get_page_slug('content-analytics'),
             'pagination' => Admin_Template::getCurrentPaged(),
             'custom_get' => ['tab' => $currentTab],
             'DateRang'   => Admin_Template::DateRange(),
+            'hasDateRang' => true,
             'tabs'       => $tabs,
             'data'       => $this->getTabData($currentTab)
         ];

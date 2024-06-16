@@ -108,6 +108,7 @@
         $performance = array(
             'title_text'   => esc_html__('Performance', 'wp-statistics'),
             'tooltip_text' => esc_html__('Performance tooltip', 'wp-statistics'),
+            'description_text' => esc_html__('Last 15 Days', 'wp-statistics'),
         );
         Admin_Template::get_template(array('layout/content-analytics/performance-chart'), $performance);
         ?>
