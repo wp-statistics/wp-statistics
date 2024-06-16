@@ -43,8 +43,12 @@ You can find more information in "[What we collect](https://wp-statistics.com/re
 * Fully customized overview dashboard page
 * Shows your most popular posts and pages
 * Lists your top referral sources such as search engines
-* Geolocation report (including Country, Region and City) with interactive world map
-* Device report with device type, browser, and OS information
+* Author Analytics: Measures author performance.
+* Geographic Reports: Location-based analytics, including countries, cities, European countries, US states, and regions within your country.
+* Devices Report: Detailed device-specific analytics covering browsers, operating systems, and device models.
+* Bypass Ad Blockers: Dynamically load the tracking script with a unique name and address to bypass ad blockers.
+* Integrate with WP Consent API: Ensures compatibility with consent plugins like Complianz and Cookiebot.
+* Coming Soon: Content and Category Analytics: Track performance based on your site’s content and categories.
 * Email reports with customizable content
 * Customize role-based access to view analytics and modify settings.
 * Advanced Filtering & Exceptions: By user roles, IPs, countries, URLs, and more.
@@ -53,6 +57,8 @@ You can find more information in "[What we collect](https://wp-statistics.com/re
  * **Custom Taxonomy Analytics**: In addition to monitoring default taxonomies like Categories and Tags, DataPlus also tracks custom taxonomies.
  * **Link Tracker**: Find out which outbound links your audience clicks on, giving you insights into their preferences and behaviors.
  * **Download Tracker**: Keep track of what's being downloaded, who's downloading it, and when.
+ * **Individual Author Performance**: Detailed metrics on the performance of individual authors.
+ * **Soon**: Detailed Analytics for Each Country: In-depth analytics for each country to enhance geographical reporting.
  * And more!
 
 **Get the most out of your website analytics by using WP Statistics Premium Add-ons**
