@@ -37,7 +37,9 @@ use WP_STATISTICS\Menus;
                                                 <?php echo intval($item->views); ?>
                                             </td>
                                             <td class="wps-pd-l">
-                                                <?php echo number_format((intval($item->views) / intval($data['views'])) * 100, 2); ?>%
+                                                <?php echo (intval($data['views'])) ?
+                                                    number_format((intval($item->views) / intval($data['views'])) * 100, 2) :
+                                                    '0'; ?>%
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>
