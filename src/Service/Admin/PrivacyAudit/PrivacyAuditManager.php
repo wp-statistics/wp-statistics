@@ -60,7 +60,7 @@ class PrivacyAuditManager
             ]
         ];
 
-        array_splice($items, 17, 0, $newItem);
+        array_splice($items, 13, 0, $newItem);
 
         return $items;
     }

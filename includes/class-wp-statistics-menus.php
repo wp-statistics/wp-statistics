@@ -231,12 +231,12 @@ class Menus
                 'method'   => 'exclusions',
                 'break'    => true,
             ),
-            'optimize'     => array(
+            'plugins'      => array(
                 'sub'      => 'overview',
-                'title'    => __('Optimization', 'wp-statistics'),
-                'cap'      => $manage_cap,
-                'page_url' => 'optimization',
-                'method'   => 'optimization'
+                'title'    => __('Add-Ons', 'wp-statistics'),
+                'name'     => '<span class="wps-text-warning">' . __('Add-Ons', 'wp-statistics') . '</span>',
+                'page_url' => 'plugins',
+                'method'   => 'plugins'
             ),
             'settings'     => array(
                 'sub'      => 'overview',
@@ -245,12 +245,12 @@ class Menus
                 'page_url' => 'settings',
                 'method'   => 'settings'
             ),
-            'plugins'      => array(
+            'optimize'     => array(
                 'sub'      => 'overview',
-                'title'    => __('Add-Ons', 'wp-statistics'),
-                'name'     => '<span class="wps-text-warning">' . __('Add-Ons', 'wp-statistics') . '</span>',
-                'page_url' => 'plugins',
-                'method'   => 'plugins'
+                'title'    => __('Optimization', 'wp-statistics'),
+                'cap'      => $manage_cap,
+                'page_url' => 'optimization',
+                'method'   => 'optimization'
             ),
         );
 
