@@ -190,7 +190,7 @@ class VisitorsModel extends BaseModel
             'continent' => '',
             'group_by'  => 'visitor.location',
             'not_null'  => '',
-            'order_by'  => 'visitors',
+            'order_by'  => ['visitors', 'views'],
             'order'     => 'DESC',
             'per_page'  => '',
             'page'      => 1
