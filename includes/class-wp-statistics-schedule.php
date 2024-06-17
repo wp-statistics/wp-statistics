@@ -125,7 +125,7 @@ class Schedule
      */
     public static function getSchedules()
     {
-        return [
+        $schedules = [
             'weekly'   => array(
                 'interval' => 604800,
                 'display'  => __('Once Weekly'),
@@ -145,6 +145,8 @@ class Schedule
                 'end'      => date('Y-m-d')
             )
         ];
+
+        return apply_filters('wp_statistics_cron_schedules', $schedules);
     }
 
     /**
@@ -157,9 +159,9 @@ class Schedule
     {
 
         // Adds once weekly to the existing schedules.
-        $wpStatisticsSchedules = self::getSchedules();
+        $wpsSchedules = self::getSchedules();
 
-        foreach ($wpStatisticsSchedules as $key => $val) {
+        foreach ($wpsSchedules as $key => $val) {
             if (!array_key_exists($key, $schedules)) {
                 $schedules[$key] = [
                     'interval'  => $val['interval'],
@@ -245,6 +247,19 @@ class Schedule
         Purge::purge_visitor_hits($purge_hits);
     }
 
+    public function getEmailSubject()
+    {
+        $schedule = Option::get('time_report', false);
+        $subject  = __('Your WP Statistics Report', 'wp-statistics');
+        
+        if ($schedule && array_key_exists($schedule, self::getSchedules())) {
+            $schedule = self::getSchedules()[$schedule];
+            $subject .= sprintf(__(' for %s to %s', 'wp-statistics'), $schedule['start'], $schedule['end']);
+        }
+
+        return $subject;
+    }
+
     /**
      * Send Wp-Statistics Report
      */
@@ -269,10 +284,7 @@ class Schedule
             /**
              * Filter to modify email subject
              */
-            $email_subject = apply_filters(
-                'wp_statistics_report_email_subject', 
-                sprintf(__('Your WP Statistics Report for %s', 'wp-statistics'), Helper::getReportDateRange())
-            );
+            $email_subject = apply_filters('wp_statistics_report_email_subject', self::getEmailSubject());
 
             /**
              * Filter for enable/disable sending email by template.
