@@ -205,6 +205,16 @@ table.wps-table-auto {
   direction: ltr;
 }
 
+.wps-wrap .o-table td a.button.disabled{
+  span,span:hover{
+    color:#56585a !important
+  }
+  &:hover{
+    span,span:hover{
+      color:#56585a !important
+    }
+  }
+}
 
 td .wps-tooltip-icon.info {
   width: 12px;

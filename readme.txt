@@ -4,7 +4,7 @@ Donate link: https://wp-statistics.com/donate/
 Tags: analytics, google analytics, insights, stats, site visitors
 Requires at least: 5.0
 Tested up to: 6.5
-Stable tag: 14.7.2
+Stable tag: 14.8
 Requires PHP: 5.6
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -43,8 +43,12 @@ You can find more information in "[What we collect](https://wp-statistics.com/re
 * Fully customized overview dashboard page
 * Shows your most popular posts and pages
 * Lists your top referral sources such as search engines
-* Geolocation report (including Country, Region and City) with interactive world map
-* Device report with device type, browser, and OS information
+* Author Analytics: Measures author performance.
+* Geographic Reports: Location-based analytics, including countries, cities, European countries, US states, and regions within your country.
+* Devices Report: Detailed device-specific analytics covering browsers, operating systems, and device models.
+* Bypass Ad Blockers: Dynamically load the tracking script with a unique name and address to bypass ad blockers.
+* Integrate with WP Consent API: Ensures compatibility with consent plugins like Complianz and Cookiebot.
+* Coming Soon: Content and Category Analytics: Track performance based on your site’s content and categories.
 * Email reports with customizable content
 * Customize role-based access to view analytics and modify settings.
 * Advanced Filtering & Exceptions: By user roles, IPs, countries, URLs, and more.
@@ -53,6 +57,8 @@ You can find more information in "[What we collect](https://wp-statistics.com/re
  * **Custom Taxonomy Analytics**: In addition to monitoring default taxonomies like Categories and Tags, DataPlus also tracks custom taxonomies.
  * **Link Tracker**: Find out which outbound links your audience clicks on, giving you insights into their preferences and behaviors.
  * **Download Tracker**: Keep track of what's being downloaded, who's downloading it, and when.
+ * **Individual Author Performance**: Detailed metrics on the performance of individual authors.
+ * **Soon**: Detailed Analytics for Each Country: In-depth analytics for each country to enhance geographical reporting.
  * And more!
 
 **Get the most out of your website analytics by using WP Statistics Premium Add-ons**
@@ -112,11 +118,11 @@ WP Statistics supports WordPress Multi-Site/Network installations. In the networ
 6. Real-Time Stats
 7. Download Tracker
 8. Referrals
-9. Countries
+9. Geographic
 10. Author Analytics
-11. Browsers
+11. Devices
 12. Link Tracker
-14. Privacy Audit
+13. Privacy Audit
 
 == Upgrade Notice ==
 = 14.0 =
@@ -127,11 +133,24 @@ Thank you for being part of our community. We’ve been working hard for one yea
 If you encounter any bug, please create an issue on [GitHub](https://github.com/wp-statistics/wp-statistics/issues/new) where we can act upon them more efficiently. Since [GitHub](https://github.com/wp-statistics/wp-statistics) is not a support forum, just bugs are welcomed, and any other request will be closed.
 
 == Changelog ==
-https://www.youtube.com/watch?v=6G50BZRWPd4
+= 14.8 - 17.06.2024 =
+* New: Author Analytics: Replaces the old Author report. Measures author performance and individual author statistics.
+* New: Geographic Reports: Location-based analytics, including countries, cities, European countries, US states, regions of your country.
+* New: [Bypass Ad Blockers](https://wp-statistics.com/resources/bypass-ad-blockers/): New option to dynamically load the tracking script with a unique name and address.
+* New: User Role Exclusions: Added Anonymous User to exclusions.
+* New: Integrates with [WP Consent API](https://github.com/Really-Simple-Plugins/wp-consent-level-api) for compatibility with consent plugins like Complianz.
+* New: Device Menu: Enhanced device-specific analytics, including browsers, operating systems, and device models. Upcoming versions will include device categories, screen resolutions, and languages.
+* Enhancement: Improved structure and cleanup using new components and models.
+* Enhancement: Updated browser icons.
+* Enhancement: Added background processing for efficient data handling.
+* Enhancement: Added real-time button to the Overview page.
+* Enhancement: Refactored notice handler with improvements.
+* Enhancement: Various style improvements on the Overview page, header, and meta boxes.
+* Enhancement: Numerous minor and major enhancements.
+* Fix: Corrected ‘to’ parameter in yesterday link generation.
+* Fix: Resolved freeze issues on certain pages and loading mode in view meta box.
+* Dev: Added filters `wp_statistics_ip_detection_preview` and `wp_statistics_enable_feedbackbird`.
 
-= 14.7.2 - 02.05.2024 =
-- Fixes: The Author menu display issue has been resolved.
-- Fixes: The query issue related to visitor and visit relationships has been corrected.
-- New: Added command `wp statistics reinitialize` to WP-CLI functionality for re-initialize the tables.
+For more information about this update, please [visit our blog post](https://wp-statistics.com/2024/06/15/wp-statistics-version-14-8-whats-new).
 
 [See changelog for all versions](https://raw.githubusercontent.com/wp-statistics/wp-statistics/master/CHANGELOG.md).

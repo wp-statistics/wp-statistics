@@ -4,12 +4,11 @@ namespace WP_STATISTICS;
 
 use Exception;
 use WP_STATISTICS;
+use WP_Statistics\Utils\Request;
 use WP_Statistics_Mail;
 
 class Helper
 {
-    protected static $admin_notices = [];
-
     /**
      * WP Statistics WordPress Log
      *
@@ -79,6 +78,11 @@ class Helper
             return false;
         }
 
+        // Backward-Compatibility with option Bypass Ad Blockers
+        if (Request::compare('action', 'wp_statistics_hit_record')) {
+            return true;
+        }
+
         $rest_prefix = trailingslashit(rest_get_url_prefix());
         return (false !== strpos($_SERVER['REQUEST_URI'], $rest_prefix)) or isset($_REQUEST['rest_route']);
     }
@@ -116,32 +120,6 @@ class Helper
         }
 
         return false;
-    }
-
-    /**
-     * Show Admin WordPress UI Notice
-     *
-     * @param $text
-     * @param string $model
-     * @param bool $close_button
-     * @param bool $id
-     * @param bool $echo
-     * @param string $style_extra
-     * @return string
-     */
-    public static function wp_admin_notice($text, $model = "info", $close_button = true, $id = false, $echo = true, $style_extra = 'padding:6px 0')
-    {
-        $text = '
-        <div class="notice notice-' . $model . '' . ($close_button === true ? " is-dismissible" : "") . '"' . ($id != false ? ' id="' . $id . '"' : '') . '>
-           <div style="' . $style_extra . '">' . $text . '</div>
-        </div>
-        ';
-
-        if ($echo) {
-            echo wp_kses_post($text);
-        } else {
-            return $text;
-        }
     }
 
     /**
@@ -209,6 +187,11 @@ class Helper
         /* W3 Total Cache */
         if (defined('W3TC')) {
             $use = array('status' => true, 'plugin' => 'W3 Total Cache');
+        }
+
+        /* WP-Optimize */
+        if (class_exists('WP_Optimize')) {
+            $use = array('status' => true, 'plugin' => 'WP-Optimize');
         }
 
         return apply_filters('wp_statistics_cache_status', $use);
@@ -782,10 +765,13 @@ class Helper
             $email_template = wp_normalize_path($email_template);
         }
 
-        // Sent from
-//        $from_name  = get_bloginfo('name');
-//        $from_email = get_bloginfo('admin_email');
-//        $from       = sprintf('%s <%s>', $from_name, $from_email);
+        $schedule   = Option::get('time_report', false);
+        $emailTitle = sprintf(__('Sent from %s', 'wp-statistics'), wp_parse_url(get_site_url())['host']);
+        
+        if ($schedule && array_key_exists($schedule, Schedule::getSchedules())) {
+            $schedule   = Schedule::getSchedules()[$schedule];
+            $emailTitle .= sprintf(__('<br><small>Report Date Range: %s to %s</small>', 'wp-statistics'), $schedule['start'], $schedule['end']);
+        }
 
         //Template Arg
         $template_arg = array(
@@ -795,7 +781,7 @@ class Helper
             'site_url'     => home_url(),
             'site_title'   => get_bloginfo('name'),
             'footer_text'  => '',
-            'email_title'  => apply_filters('wp_statistics_email_title', __('Sent from', 'wp-statistics') . ' ' . wp_parse_url(get_site_url())['host']),
+            'email_title'  => apply_filters('wp_statistics_email_title', $emailTitle),
             'logo_image'   => apply_filters('wp_statistics_email_logo', WP_STATISTICS_URL . 'assets/images/logo-statistics-header-blue.png'),
             'logo_url'     => apply_filters('wp_statistics_email_logo_url', get_bloginfo('url')),
             'copyright'    => apply_filters('wp_statistics_email_footer_copyright', Admin_Template::get_template('emails/copyright', array(), true)),
@@ -1172,45 +1158,6 @@ class Helper
     }
 
     /**
-     * Add notice to display in the admin area
-     *
-     * @param $message
-     * @param string $class
-     * @param bool $is_dismissible
-     * @since 13.2.5
-     */
-    public static function addAdminNotice($message, $class = 'info', $is_dismissible = true)
-    {
-        self::$admin_notices[] = array(
-            'message'        => $message,
-            'class'          => $class,
-            'is_dismissible' => (bool)$is_dismissible,
-        );
-    }
-
-    /**
-     * Display all notices in the admin area
-     *
-     * @return void
-     * @since 13.2.5
-     */
-    public static function displayAdminNotices()
-    {
-        foreach ((array)self::$admin_notices as $notice) :
-            $dismissible = $notice['is_dismissible'] ? 'is-dismissible' : '';
-            ?>
-
-            <div class="notice notice-<?php echo esc_attr($notice['class']); ?> <?php echo esc_attr($dismissible); ?>">
-                <p>
-                    <?php echo wp_kses_post($notice['message']); ?>
-                </p>
-            </div>
-
-        <?php
-        endforeach;
-    }
-
-    /**
      * Returns default parameters for hits request
      *
      * @return array
@@ -1226,10 +1173,12 @@ class Helper
         $params['current_page_id']   = $get_page_type['id'];
         $params['search_query']      = (isset($get_page_type['search_query']) ? base64_encode(esc_html($get_page_type['search_query'])) : '');
 
-        //page url
+        // page url
         $params['page_uri'] = base64_encode(Pages::get_page_uri());
 
-        //return Json Data
+        // Nonce
+        $params['nonce'] = wp_create_nonce('wp_statistics_tracker_nonce');
+
         return $params;
     }
 
@@ -1341,4 +1290,118 @@ class Helper
         return implode(', ', $fields);
     }
 
+
+    /**
+     * Formats a number into a string with appropriate units (K, M, B, T).
+     *
+     * @param int|float $number The number to be formatted.
+     * @param int $precision The number of decimal places to round the result to for numbers without units. Default is 0.
+     * @return string The formatted number with appropriate units.
+     */
+    public static function formatNumberWithUnit($number, $precision = 0)
+    {
+        if (!is_numeric($number)) return 0;
+
+        $units = ['', 'K', 'M', 'B', 'T'];
+        for ($i = 0; $number >= 1000 && $i < 4; $i++) {
+            $number /= 1000;
+        }
+
+        if (empty($units[$i])) {
+            $formattedNumber = round($number, $precision);
+        } else {
+            $formattedNumber = round($number, 1) . $units[$i];
+        }
+
+        return $formattedNumber;
+    }
+
+
+    /**
+     * Filters an array by keeping only the keys specified in the second argument.
+     *
+     * @param array $arr The array to be filtered.
+     * @param array $keys The keys to keep in the array.
+     * @return array The filtered array.
+     */
+    public static function filterArrayByKeys($array, $keys)
+    {
+        return array_intersect_key($array, array_flip($keys));
+    }
+
+
+    /**
+     * Divides two numbers.
+     *
+     * @param int|float $dividend The number to be divided.
+     * @param int|float $divisor The number to divide by.
+     * @param int $precision The number of decimal places to round the result to. Default is 2.
+     * @return float The result of the division, rounded to the specified precision. Returns 0 if the divisor is 0.
+     */
+    public static function divideNumbers($dividend, $divisor, $precision = 2)
+    {
+        if ($divisor == 0) {
+            return 0;
+        }
+        return round($dividend / $divisor, $precision);
+    }
+
+
+    /**
+     * Calculates the difference between two dates.
+     *
+     * @param string $date1 The first date.
+     * @param string $date2 The second date.
+     */
+    public static function calculateDateDifference($date1, $date2 = 'now')
+    {
+        // Convert dates to DateTime objects
+        $datetime1 = new \DateTime($date1);
+        $datetime2 = new \DateTime($date2);
+
+        $interval = $datetime1->diff($datetime2);
+
+        if ($interval->y > 0) {
+            return _n('a year', sprintf('%d years', $interval->y), $interval->y, 'wp-statistics');
+        } elseif ($interval->m > 0) {
+            return _n('a month', sprintf('%d months', $interval->m), $interval->m, 'wp-statistics');
+        } elseif ($interval->d >= 7) {
+            $weeks = floor($interval->d / 7);
+            return _n('a week', sprintf('%d weeks', $weeks), $weeks, 'wp-statistics');
+        } else {
+            return _n('a day', sprintf('%d days', $interval->d), $interval->d, 'wp-statistics');
+        }
+    }
+
+    /**
+     * Retrieves the name of a post type.
+     *
+     * @param string $postType The post type to retrieve the name for.
+     * @param bool $singular Whether to retrieve the singular name or the plural name.
+     *
+     * @return string The name of the post type.
+     */
+    public static function getPostTypeName($postType, $singular = false)
+    {
+        $postTypeObj = get_post_type_object($postType);
+
+        if (empty($postTypeObj)) return '';
+
+        return $singular == true
+            ? $postTypeObj->labels->singular_name
+            : $postTypeObj->labels->name;
+    }
+
+    
+    /**
+     * Retrieves the country code based on the timezone string.
+     *
+     * @return string The country code corresponding to the timezone.
+     */
+    public static function getTimezoneCountry()
+    {
+        $timezone    = get_option('timezone_string');
+        $countryCode = TimeZone::getCountry($timezone);
+        return $countryCode;
+    }
 }

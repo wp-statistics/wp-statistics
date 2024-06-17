@@ -119,6 +119,37 @@ class Schedule
     }
 
     /**
+     * Retrieves an array of schedules with their intervals and display names.
+     *
+     * @return array 
+     */
+    public static function getSchedules()
+    {
+        $schedules = [
+            'weekly'   => array(
+                'interval' => 604800,
+                'display'  => __('Once Weekly'),
+                'start'    => date('Y-m-d', strtotime("-1 week")),
+                'end'      => date('Y-m-d')
+            ),
+            'biweekly' => array(
+                'interval' => 1209600,
+                'display'  => __('Once Every 2 Weeks'),
+                'start'    => date('Y-m-d', strtotime("-2 week")),
+                'end'      => date('Y-m-d')
+            ),
+            '4weeks'   => array(
+                'interval' => 2419200,
+                'display'  => __('Once Every 4 Weeks'),
+                'start'    => date('Y-m-d', strtotime("-4 week")),
+                'end'      => date('Y-m-d')
+            )
+        ];
+
+        return apply_filters('wp_statistics_cron_schedules', $schedules);
+    }
+
+    /**
      * Define New Cron Schedules Time in WordPress
      *
      * @param array $schedules
@@ -128,23 +159,14 @@ class Schedule
     {
 
         // Adds once weekly to the existing schedules.
-        $WP_Statistics_schedules = array(
-            'weekly'   => array(
-                'interval' => 604800,
-                'display'  => __('Once Weekly'),
-            ),
-            'biweekly' => array(
-                'interval' => 1209600,
-                'display'  => __('Once Every 2 Weeks'),
-            ),
-            '4weeks'   => array(
-                'interval' => 2419200,
-                'display'  => __('Once Every 4 Weeks'),
-            )
-        );
-        foreach ($WP_Statistics_schedules as $key => $val) {
+        $wpsSchedules = self::getSchedules();
+
+        foreach ($wpsSchedules as $key => $val) {
             if (!array_key_exists($key, $schedules)) {
-                $schedules[$key] = $val;
+                $schedules[$key] = [
+                    'interval'  => $val['interval'],
+                    'display'   => $val['display']
+                ];
             }
         }
 
@@ -225,6 +247,19 @@ class Schedule
         Purge::purge_visitor_hits($purge_hits);
     }
 
+    public function getEmailSubject()
+    {
+        $schedule = Option::get('time_report', false);
+        $subject  = __('Your WP Statistics Report', 'wp-statistics');
+        
+        if ($schedule && array_key_exists($schedule, self::getSchedules())) {
+            $schedule = self::getSchedules()[$schedule];
+            $subject .= sprintf(__(' for %s to %s', 'wp-statistics'), $schedule['start'], $schedule['end']);
+        }
+
+        return $subject;
+    }
+
     /**
      * Send Wp-Statistics Report
      */
@@ -249,7 +284,7 @@ class Schedule
             /**
              * Filter to modify email subject
              */
-            $email_subject = apply_filters('wp_statistics_report_email_subject', __('Statistical reporting', 'wp-statistics'));
+            $email_subject = apply_filters('wp_statistics_report_email_subject', self::getEmailSubject());
 
             /**
              * Filter for enable/disable sending email by template.

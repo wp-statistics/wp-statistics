@@ -101,7 +101,7 @@ wps_js.meta_box_button = function (key) {
     jQuery("#" + wps_js.getMetaBoxKey(key) + " button[class*=wps-refresh]").remove();
 
     // Add Refresh Button
-    jQuery(`<button class="handlediv wps-refresh"` + (wps_js.is_active('gutenberg') ? ` style="${gutenberg_style}${position_gutenberg}: 3%;" ` : 'style="line-height: 28px;"') + ` type="button" data-tooltip="` + wps_js._('reload') + `"><span class="wps-refresh-icon"></span> <span class="screen-reader-text">` + wps_js._('reload') + `</span></button>`).insertBefore(selector);
+    jQuery(`<button class="handlediv wps-refresh"` + (wps_js.is_active('gutenberg') ? ` style="${gutenberg_style}${position_gutenberg}: 3%;" ` : 'style="line-height: 28px;"') + ` type="button" data-tooltip="` + wps_js._('reload') + `"></button>`).insertBefore(selector);
 };
 
 wps_js.meta_box_tooltip = function (key) {

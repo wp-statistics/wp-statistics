@@ -4,13 +4,13 @@
   align-items: center;
   flex-wrap: wrap;
   gap: 16px;
-  padding: 32px 21px 0;
+  padding: 20px 24px 0;
 
   @media screen and (min-width: 450px) {
     flex-wrap: nowrap;
-    padding: 32px 32px 0;
-  }
+   }
 }
+
 .c-footer__filter {
   position: relative;
   z-index: 1;
@@ -334,6 +334,8 @@
     right: 160px;
   }
 }
-.wps_page #wpfooter{
+
+.wps_page #wpfooter {
   margin-left: 0;
+  position: absolute !important;
 }

@@ -658,6 +658,7 @@ class Install
      * get_require_number_update     -> Get number of rows that require update page type
      * is_require_update_page        -> Check Wp-statistics require update page table
      * get_page_type_by_obj          -> Get Page Type by information
+     * @todo, this legacy functionality should move to Background Processing
      */
     public static function init_page_type_updater()
     {
@@ -929,7 +930,7 @@ class Install
                     //Check Url is contain
                     $term_link = get_term_link($term);
                     $term_link = ltrim(str_ireplace(get_bloginfo('url'), "", $term_link), "/");
-                    if (stristr($page_url, $term_link) === false) {
+                    if (stripos($page_url, $term_link) === false) {
                         //Return Unknown
                     } else {
                         //Check Type of taxonomy

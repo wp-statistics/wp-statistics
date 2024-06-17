@@ -1,7 +1,7 @@
 <?php
 $aboutWidgetContent = apply_filters('wp_statistics_about_widget_content', false);
 if ($aboutWidgetContent) {
-    echo '<div class="o-wrap">' . apply_filters('the_content', $aboutWidgetContent) . '</div>';
+    echo '<div class="o-wrap o-wrap--no-data">' . apply_filters('the_content', $aboutWidgetContent) . '</div>';
 
     return;
 } ?>
