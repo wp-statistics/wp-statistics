@@ -399,17 +399,17 @@ class Query
                     if (strpos($field, '.') !== false) {
                         $identifier     = explode('.', $field);
                         $values         = array_merge($values, $identifier);
-                        $placeholders[] = '%i.%i';
+                        $placeholders[] = "%i.%i {$order}";
                     } else {
                         $values[]       = $field;
-                        $placeholders[] = '%i';
+                        $placeholders[] = "%i {$order}";
                     }
                 }
                 
                 $placeholders = implode(', ', $placeholders);
             }
 
-            $this->orderClause = $this->prepareQuery("ORDER BY {$placeholders} {$order}", $values);
+            $this->orderClause = $this->prepareQuery("ORDER BY {$placeholders}", $values);
         }
         
         return $this;
