@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-06-17T15:33:52+02:00\n"
+"POT-Creation-Date: 2024-06-17T13:44:08+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.10.0\n"
 "X-Domain: wp-statistics\n"
@@ -178,8 +178,7 @@ msgstr ""
 #: includes/admin/templates/pages/devices/browsers.php:40
 #: includes/admin/templates/pages/devices/browsers.php:41
 #: includes/admin/templates/pages/geographic/countries.php:48
-#: includes/admin/templates/pages/geographic/europe.php:46
-#: includes/admin/templates/pages/geographic/europe.php:47
+#: includes/admin/templates/pages/geographic/europe.php:49
 msgid "View Details"
 msgstr ""
 
@@ -327,7 +326,7 @@ msgstr ""
 #: includes/admin/templates/pages/country.php:10
 #: includes/admin/templates/pages/geographic/cities.php:23
 #: includes/admin/templates/pages/geographic/countries.php:17
-#: includes/admin/templates/pages/geographic/europe.php:17
+#: includes/admin/templates/pages/geographic/europe.php:16
 #: includes/admin/templates/pages/online.php:22
 #: includes/admin/templates/pages/refer.url.php:39
 #: includes/admin/templates/pages/top-visitors.php:15
@@ -537,7 +536,7 @@ msgstr ""
 #: includes/admin/templates/pages/devices/single-locked.php:44
 #: includes/admin/templates/pages/geographic/cities.php:69
 #: includes/admin/templates/pages/geographic/countries.php:59
-#: includes/admin/templates/pages/geographic/europe.php:57
+#: includes/admin/templates/pages/geographic/europe.php:60
 #: includes/admin/templates/pages/geographic/regions.php:47
 #: includes/admin/templates/pages/geographic/us.php:47
 #: includes/admin/templates/pages/pages.php:36
@@ -2239,7 +2238,7 @@ msgstr ""
 #: includes/admin/templates/pages/devices/single-locked.php:15
 #: includes/admin/templates/pages/geographic/cities.php:26
 #: includes/admin/templates/pages/geographic/countries.php:20
-#: includes/admin/templates/pages/geographic/europe.php:20
+#: includes/admin/templates/pages/geographic/europe.php:19
 #: includes/admin/templates/pages/geographic/regions.php:19
 #: includes/admin/templates/pages/geographic/us.php:19
 msgid "Visitor Count"
@@ -2279,13 +2278,14 @@ msgstr ""
 
 #: includes/admin/templates/pages/geographic/cities.php:29
 #: includes/admin/templates/pages/geographic/countries.php:23
-#: includes/admin/templates/pages/geographic/europe.php:23
+#: includes/admin/templates/pages/geographic/europe.php:22
 #: includes/admin/templates/pages/geographic/regions.php:22
 #: includes/admin/templates/pages/geographic/us.php:22
 msgid "View Count"
 msgstr ""
 
 #: includes/admin/templates/pages/geographic/countries.php:49
+#: includes/admin/templates/pages/geographic/europe.php:50
 #: src/Service/Admin/Devices/Views/TabsView.php:111
 #: src/Service/Admin/Devices/Views/TabsView.php:118
 #: src/Service/Admin/Devices/Views/TabsView.php:125
