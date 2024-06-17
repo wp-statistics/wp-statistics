@@ -24,7 +24,7 @@ class SingleBrowserView extends BaseView
                 'from' => Request::get('from', date('Y-m-d', strtotime('-1 month'))),
                 'to'   => Request::get('to', date('Y-m-d')),
             ],
-            'per_page' => Admin_Template::$item_per_page,
+            'per_page' => 10,
             'page'     => Admin_Template::getCurrentPaged()
         ]);
     }
