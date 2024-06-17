@@ -399,11 +399,13 @@ class Query
                     if (strpos($field, '.') !== false) {
                         $identifier     = explode('.', $field);
                         $values         = array_merge($values, $identifier);
-                        $placeholders[] = "%i.%i {$order}";
+                        $placeholder    = '%i.%i';
                     } else {
                         $values[]       = $field;
-                        $placeholders[] = "%i {$order}";
+                        $placeholder    = '%i';
                     }
+
+                    $placeholders[] = "$placeholder $order";
                 }
                 
                 $placeholders = implode(', ', $placeholders);
