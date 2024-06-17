@@ -1,6 +1,6 @@
 <?php
 
-namespace WP_Statistics\Service\ContentAnalytics;
+namespace WP_Statistics\Service\Admin\ContentAnalytics;
 
 class ContentAnalyticsManager
 {

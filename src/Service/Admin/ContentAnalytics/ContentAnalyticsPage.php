@@ -1,11 +1,11 @@
 <?php
 
-namespace WP_Statistics\Service\ContentAnalytics;
+namespace WP_Statistics\Service\Admin\ContentAnalytics;
 
+use InvalidArgumentException;
+use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Components\Singleton;
 use WP_STATISTICS\Menus;
-use WP_STATISTICS\Admin_Template;
-use InvalidArgumentException;
 
 class ContentAnalyticsPage extends Singleton
 {
