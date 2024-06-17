@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-06-17T13:44:08+00:00\n"
+"POT-Creation-Date: 2024-06-17T14:29:01+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.10.0\n"
 "X-Domain: wp-statistics\n"
@@ -1169,7 +1169,6 @@ msgstr ""
 #: includes/admin/templates/settings/add-ons/advanced-reporting.php:288
 #: includes/admin/templates/settings/add-ons/advanced-reporting.php:399
 #: includes/admin/templates/settings/add-ons/advanced-reporting.php:421
-#: includes/admin/templates/settings/add-ons/rest-api.php:44
 msgid "Active"
 msgstr ""
 
@@ -2962,6 +2961,7 @@ msgstr ""
 #: includes/admin/templates/settings/add-ons/customization.php:77
 #: includes/admin/templates/settings/add-ons/data-plus.php:38
 #: includes/admin/templates/settings/add-ons/data-plus.php:50
+#: includes/admin/templates/settings/add-ons/rest-api.php:44
 #: includes/admin/templates/settings/add-ons/widgets.php:63
 #: includes/admin/templates/settings/exclusions.php:100
 #: includes/admin/templates/settings/exclusions.php:108
@@ -3141,16 +3141,12 @@ msgstr ""
 msgid "API Service Status"
 msgstr ""
 
-#: includes/admin/templates/settings/add-ons/rest-api.php:45
-msgid "Toggle to activate or deactivate WP-Statistics data endpoints within the WordPress REST API."
-msgstr ""
-
 #: includes/admin/templates/settings/add-ons/rest-api.php:51
 msgid "Authentication Token"
 msgstr ""
 
 #: includes/admin/templates/settings/add-ons/rest-api.php:56
-msgid "Secure your API with a unique token. Enter your personal token here to authorize REST API requests."
+msgid "Enter your unique token here to secure and authorize API requests."
 msgstr ""
 
 #: includes/admin/templates/settings/add-ons/widgets.php:26
@@ -5090,7 +5086,7 @@ msgid "Timezones"
 msgstr ""
 
 #: src/Service/Admin/Geographic/GeographicManager.php:25
-#: src/Service/Admin/Geographic/Views/SingleCountryView.php:29
+#: src/Service/Admin/Geographic/Views/SingleCountryView.php:28
 #: src/Service/Admin/Geographic/Views/TabsView.php:74
 msgid "Geographic"
 msgstr ""
@@ -5103,7 +5099,7 @@ msgstr ""
 msgid "%s Traffic Report"
 msgstr ""
 
-#: src/Service/Admin/Geographic/Views/SingleCountryView.php:28
+#: src/Service/Admin/Geographic/Views/SingleCountryView.php:27
 msgid "Tooltip"
 msgstr ""
 
