@@ -192,9 +192,10 @@ class Exclusion
     {
         $current_user = false;
 
-        if (Helper::is_rest_request()) {
-            $user_id = isset($GLOBALS['wp_statistics_user_id']) ? intval($GLOBALS['wp_statistics_user_id']) : 0;
-            if (!empty($user_id)) {
+        if (Helper::is_rest_request() && isset($GLOBALS['wp_statistics_user_id'])) {
+            $user_id = $GLOBALS['wp_statistics_user_id'];
+
+            if ($user_id) {
                 $current_user = get_user_by('id', $user_id);
             }
         } elseif (is_user_logged_in()) {
