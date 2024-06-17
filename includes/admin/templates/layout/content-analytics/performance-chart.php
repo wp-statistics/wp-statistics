@@ -6,7 +6,10 @@
                 <span class="wps-tooltip" title="<?php echo esc_attr($tooltip_text); ?>"><i class="wps-tooltip-icon info"></i></span>
             <?php endif ?>
         </h2>
-        <p><?php echo $description_text ?></p>
+
+        <?php if (!empty($description_text)) : ?>
+            <p><?php echo $description_text ?></p>
+        <?php endif; ?>
     </div>
     <div class="wps-content-analytics-chart-items">
         <div class="wps-content-analytics-chart--item wps-content-analytics-chart--item--published">
