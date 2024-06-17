@@ -41,6 +41,15 @@ class SingleModelView extends BaseView
             'data'            => $this->dataProvider->getSingleModelData(Request::get('model')),
         ];
 
+        if ($args['data']['total'] > 0) {
+            $args['total'] = $args['data']['total'];
+
+            $args['pagination'] = Admin_Template::paginate_links([
+                'total' => $args['data']['total'],
+                'echo'  => false
+            ]);
+        }
+
         Admin_Template::get_template(['layout/header', 'layout/title', 'pages/devices/single-locked', 'layout/footer'], $args);
     }
 }
