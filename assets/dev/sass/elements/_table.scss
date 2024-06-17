@@ -123,6 +123,18 @@
             color: $primary-color;
           }
         }
+
+        a.button.disabled {
+          margin: 0!important;
+
+          &:hover {
+            color: #A7AAAD !important;
+          }
+
+          span:hover {
+            color: #A7AAAD !important;
+          }
+        }
       }
 
       tr:nth-child(even) {
