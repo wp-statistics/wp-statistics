@@ -39,9 +39,7 @@ use WP_STATISTICS\UserAgent;
                                                 <?php echo intval($item->views); ?>
                                             </td>
                                             <td class="wps-pd-l">
-                                                <?php echo (intval($data['views'])) ?
-                                                    number_format((intval($item->views) / intval($data['views'])) * 100, 2) :
-                                                    '0'; ?>%
+                                                <?php echo number_format(\WP_STATISTICS\Helper::divideNumbers($item->views, $data['views'], 4) * 100, 2); ?>%
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>
