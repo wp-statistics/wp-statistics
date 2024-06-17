@@ -41,8 +41,8 @@ if (!$isRestApiActive) echo Admin_Template::get_template('layout/partials/addon-
 
                 <td>
                     <input id="wps_addon_settings[rest_api][status]" name="wps_addon_settings[rest_api][status]" type="checkbox" value="1" <?php checked(WP_STATISTICS\Option::getByAddon('status', 'rest_api')) ?>>
-                    <label for="wps_addon_settings[rest_api][status]"><?php esc_html_e('Active', 'wp-statistics'); ?></label>
-                    <p class="description"><?php esc_html_e('Toggle to activate or deactivate WP-Statistics data endpoints within the WordPress REST API.', 'wp-statistics'); ?></p>
+                    <label for="wps_addon_settings[rest_api][status]"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
+                    <p class="description"><?php _e(sprintf('Enable or disable WP-Statistics API endpoints. For more information, visit the %1$s.', '<a href="https://documenter.getpostman.com/view/3239688/2s8Z6vZER4" target="_blank">API documentation</a>'), 'wp-statistics'); ?></p>
                 </td>
             </tr>
 
@@ -53,7 +53,7 @@ if (!$isRestApiActive) echo Admin_Template::get_template('layout/partials/addon-
 
                 <td>
                     <input type="text" name="wps_addon_settings[rest_api][token_auth]" id="wps_addon_settings[rest_api][token_auth]" class="regular-text" value="<?php echo esc_attr(WP_STATISTICS\Option::getByAddon('token_auth', 'rest_api')) ?>"/>
-                    <p class="description"><?php esc_html_e('Secure your API with a unique token. Enter your personal token here to authorize REST API requests.', 'wp-statistics'); ?></p>
+                    <p class="description"><?php esc_html_e('Enter your unique token here to secure and authorize API requests.', 'wp-statistics'); ?></p>
                 </td>
             </tr>
 
