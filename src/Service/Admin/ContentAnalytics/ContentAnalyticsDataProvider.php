@@ -3,7 +3,7 @@
 namespace WP_Statistics\Service\Admin\ContentAnalytics;
 
 
-class GeographicDataProvider
+class ContentAnalyticsDataProvider
 {
     protected $args;
     
