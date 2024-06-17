@@ -1,0 +1,1 @@
+<?php echo 'SINGLE POST LOCKED'; ?>
