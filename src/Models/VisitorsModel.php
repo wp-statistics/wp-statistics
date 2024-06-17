@@ -100,6 +100,8 @@ class VisitorsModel extends BaseModel
             'group_by'  => [],
             'order_by'  => 'views',
             'order'     => 'DESC',
+            'per_page'  => '',
+            'page'      => 1
         ]);
 
         $result = Query::select([
@@ -115,6 +117,7 @@ class VisitorsModel extends BaseModel
             ->whereDate('last_counter', $args['date'])
             ->groupBy($args['group_by'])
             ->orderBy($args['order_by'], $args['order'])
+            ->perPage($args['page'], $args['per_page'])
             ->bypassCache($bypassCache)
             ->getAll();
 
