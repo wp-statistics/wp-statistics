@@ -1,9 +1,3 @@
-<?php
-
-use WP_STATISTICS\Menus;
-use WP_STATISTICS\UserAgent;
-
-?>
 <div class="postbox-container wps-postbox-full">
     <div class="metabox-holder">
         <div class="meta-box-sortables">
@@ -32,7 +26,7 @@ use WP_STATISTICS\UserAgent;
                                         <tr>
                                             <td class="wps-pd-l">
                                                 <span title="<?php echo esc_attr($item->agent); ?>" class="wps-browser-name">
-                                                    <img alt="<?php echo esc_attr($item->agent); ?>" src="<?php echo esc_url(UserAgent::getBrowserLogo($item->agent)); ?>" title="<?php echo esc_attr($item->agent); ?>" class="log-tools wps-flag" />
+                                                    <img alt="<?php echo esc_attr($item->agent); ?>" src="<?php echo esc_url(\WP_STATISTICS\UserAgent::getBrowserLogo($item->agent)); ?>" title="<?php echo esc_attr($item->agent); ?>" class="log-tools wps-flag" />
                                                     <?php echo esc_html($item->agent); ?>
                                                 </span>
                                             </td>
@@ -43,7 +37,7 @@ use WP_STATISTICS\UserAgent;
                                                 <?php echo number_format(\WP_STATISTICS\Helper::divideNumbers($item->views, $data['views'], 4) * 100, 2); ?>%
                                             </td>
                                             <td class="view-more">
-                                                <a href="<?php echo esc_url(Menus::admin_url('devices', ['type' => 'single-browser', 'browser' => $item->agent])); ?>" title="<?php esc_html_e('View Details', 'wp-statistics'); ?>">
+                                                <a href="<?php echo esc_url(\WP_STATISTICS\Menus::admin_url('devices', ['type' => 'single-browser', 'browser' => $item->agent])); ?>" title="<?php esc_html_e('View Details', 'wp-statistics'); ?>">
                                                     <?php esc_html_e('View Details', 'wp-statistics'); ?>
                                                 </a>
                                             </td>

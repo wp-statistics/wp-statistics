@@ -1,9 +1,3 @@
-<?php
-
-use WP_STATISTICS\Menus;
-use WP_STATISTICS\UserAgent;
-
-?>
 <div class="postbox-container wps-postbox-full">
     <div class="metabox-holder">
         <div class="meta-box-sortables">
@@ -31,7 +25,7 @@ use WP_STATISTICS\UserAgent;
                                         <tr>
                                             <td class="wps-pd-l">
                                                 <span title="<?php echo esc_attr($item->platform); ?>" class="wps-platform-name">
-                                                    <img alt="<?php echo esc_attr($item->platform); ?>" src="<?php echo esc_url(UserAgent::getPlatformLogo($item->platform)); ?>" title="<?php echo esc_attr($item->platform); ?>" class="log-tools wps-flag" />
+                                                    <img alt="<?php echo esc_attr($item->platform); ?>" src="<?php echo esc_url(\WP_STATISTICS\UserAgent::getPlatformLogo($item->platform)); ?>" title="<?php echo esc_attr($item->platform); ?>" class="log-tools wps-flag" />
                                                     <?php echo esc_html($item->platform); ?>
                                                 </span>
                                             </td>
