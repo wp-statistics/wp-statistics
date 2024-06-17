@@ -1,3 +1,8 @@
+<?php 
+use WP_STATISTICS\Option;
+use WP_STATISTICS\Schedule;
+?>
+
 <script type="text/javascript">
     function ToggleStatOptions() {
         jQuery('[id^="wps_stats_report_option"]').fadeToggle();
@@ -16,10 +21,10 @@
             </th>
 
             <td>
-                <input dir="ltr" type="text" id="email_list" name="wps_email_list" size="30" value="<?php if (WP_STATISTICS\Option::get('email_list') == '') {
+                <input dir="ltr" type="text" id="email_list" name="wps_email_list" size="30" value="<?php if (Option::get('email_list') == '') {
                     $wp_statistics_options['email_list'] = get_bloginfo('admin_email');
                 }
-                echo esc_textarea(WP_STATISTICS\Option::get('email_list')); ?>"/>
+                echo esc_textarea(Option::get('email_list')); ?>"/>
                 <p class="description"><?php esc_html_e('Enter email addresses to receive reports. Use a comma to separate multiple addresses.', 'wp-statistics'); ?></p>
             </td>
         </tr>
@@ -30,7 +35,7 @@
             </th>
 
             <td>
-                <input id="stats-report" type="checkbox" value="1" name="wps_stats_report" <?php echo WP_STATISTICS\Option::get('stats_report') == true ? "checked='checked'" : ''; ?> onClick='ToggleStatOptions();'>
+                <input id="stats-report" type="checkbox" value="1" name="wps_stats_report" <?php checked(Option::get('stats_report')) ?> onClick='ToggleStatOptions();'>
                 <label for="stats-report"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
                 <p class="description"><?php esc_html_e('Set preferences for receiving automated, detailed statistical reports by email.', 'wp-statistics'); ?></p>
             </td>
@@ -51,7 +56,7 @@
             </th>
 
             <td>
-                <input id="geoip-report" type="checkbox" value="1" name="wps_geoip_report" <?php echo WP_STATISTICS\Option::get('geoip_report') == true ? "checked='checked'" : ''; ?>>
+                <input id="geoip-report" type="checkbox" value="1" name="wps_geoip_report" <?php echo checked(Option::get('geoip_report')); ?>>
                 <label for="geoip-report"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
                 <p class="description"><?php esc_html_e('Receive notifications when the GeoIP database updates.', 'wp-statistics'); ?></p>
             </td>
@@ -63,7 +68,7 @@
             </th>
 
             <td>
-                <input id="prune-report" type="checkbox" value="1" name="wps_prune_report" <?php echo WP_STATISTICS\Option::get('prune_report') == true ? "checked='checked'" : ''; ?>>
+                <input id="prune-report" type="checkbox" value="1" name="wps_prune_report" <?php echo checked(Option::get('prune_report')); ?>>
                 <label for="prune-report"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
                 <p class="description"><?php esc_html_e('Get notified when the database pruning occurs.', 'wp-statistics'); ?></p>
             </td>
@@ -71,7 +76,7 @@
         </tbody>
     </table>
 </div>
-<?php if (WP_STATISTICS\Option::get('stats_report')) {
+<?php if (Option::get('stats_report')) {
     $style = "";
 } else {
     $style = "display: none;";
@@ -89,27 +94,11 @@
 
             <td>
                 <select name="wps_time_report" id="time-report">
-                    <option value="0" <?php selected(WP_STATISTICS\Option::get('time_report'), '0'); ?>><?php esc_html_e('Please select', 'wp-statistics'); ?></option>
+                    <option value="0" <?php selected(Option::get('time_report'), '0'); ?>><?php esc_html_e('Please select', 'wp-statistics'); ?></option>
                     <?php
-                    function wp_statistics_schedule_sort($a, $b)
-                    {
-                        if ($a['interval'] == $b['interval']) {
-                            return 0;
+                        foreach (Schedule::getSchedules() as $key => $value) {
+                            echo '<option value="' . esc_attr($key) . '" ' . selected(Option::get('time_report'), $key) . '>' . esc_attr($value['display']) . '</option>';
                         }
-                        return ($a['interval'] < $b['interval']) ? -1 : 1;
-                    }
-
-                    //Get List Of Schedules Wordpress
-                    $schedules = wp_get_schedules();
-                    uasort($schedules, 'wp_statistics_schedule_sort');
-                    $schedules_item = array();
-
-                    foreach ($schedules as $key => $value) {
-                        if (!in_array($value, $schedules_item)) {
-                            echo '<option value="' . esc_attr($key) . '" ' . selected(WP_STATISTICS\Option::get('time_report'), $key) . '>' . esc_attr($value['display']) . '</option>';
-                            $schedules_item[] = $value;
-                        }
-                    }
                     ?>
                 </select>
                 <p class="description"><?php _e('Select the frequency of report deliveries. For custom schedules, more information can be found in our <a href="https://wp-statistics.com/resources/schedule-statistical-reports/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" target="_blank">documentation</a>.', 'wp-statistics'); // phpcs:ignore WordPress.Security.EscapeOutput.UnsafePrintingFunction	?></p>
@@ -123,10 +112,10 @@
 
             <td>
                 <select name="wps_send_report" id="send-report">
-                    <option value="0" <?php selected(WP_STATISTICS\Option::get('send_report'), '0'); ?>><?php esc_html_e('Please select', 'wp-statistics'); ?></option>
-                    <option value="mail" <?php selected(WP_STATISTICS\Option::get('send_report'), 'mail'); ?>><?php esc_html_e('Email', 'wp-statistics'); ?></option>
+                    <option value="0" <?php selected(Option::get('send_report'), '0'); ?>><?php esc_html_e('Please select', 'wp-statistics'); ?></option>
+                    <option value="mail" <?php selected(Option::get('send_report'), 'mail'); ?>><?php esc_html_e('Email', 'wp-statistics'); ?></option>
                     <?php if (is_plugin_active('wp-sms/wp-sms.php') || is_plugin_active('wp-sms-pro/wp-sms.php')) { ?>
-                        <option value="sms" <?php selected(WP_STATISTICS\Option::get('send_report'), 'sms'); ?>><?php esc_html_e('SMS', 'wp-statistics'); ?></option>
+                        <option value="sms" <?php selected(Option::get('send_report'), 'sms'); ?>><?php esc_html_e('SMS', 'wp-statistics'); ?></option>
                     <?php } ?>
                 </select>
 
@@ -140,7 +129,7 @@
             </th>
 
             <td>
-                <?php wp_editor(WP_STATISTICS\Option::get('content_report'), 'content-report', array('media_buttons' => false, 'textarea_name' => 'wps_content_report', 'textarea_rows' => 5)); ?>
+                <?php wp_editor(Option::get('content_report'), 'content-report', array('media_buttons' => false, 'textarea_name' => 'wps_content_report', 'textarea_rows' => 5)); ?>
                 <p class="description"><?php esc_html_e('Using WP Statistics shortcodes to display specific statistics.', 'wp-statistics'); ?></p>
 
                 <p class="description data">
