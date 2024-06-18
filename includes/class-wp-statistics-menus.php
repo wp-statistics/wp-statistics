@@ -26,7 +26,6 @@ class Menus
         'optimization'      => 'optimization',
         'settings'          => 'settings',
         'plugins'           => 'plugins',
-        'taxonomies'        => 'taxonomies',
         'author-analytics'  => 'author-analytics',
         'privacy-audit'     => 'privacy-audit',
         'geographic'        => 'geographic',
@@ -208,13 +207,6 @@ class Menus
                 'title'    => __('Post Types', 'wp-statistics'),
                 'page_url' => 'pages',
                 'method'   => 'pages',
-            ),
-            'taxonomies'   => array(
-                'require'  => array('visits' => true),
-                'sub'      => 'overview',
-                'title'    => __('Taxonomies', 'wp-statistics'),
-                'page_url' => 'taxonomies',
-                'method'   => 'taxonomies',
             ),
             'top.visitors' => array(
                 'require'  => array('visitors' => true),
