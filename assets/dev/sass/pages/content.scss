@@ -18,7 +18,6 @@
     }
   }
 
-
   .wps-card {
     padding: 24px;
     gap: 24px;
@@ -237,6 +236,58 @@
   &-chart-items{
     display: flex;
     gap: 48px;
+
+    .wps-content-analytics-chart--item{
+      &--published{
+        p{
+          color: #404BF2;
+          &:before{
+            background:#404BF2 ;
+            opacity: 50%;
+          }
+        }
+      }
+      &--views{
+        p{
+          color: #0E9444;
+          &:before{
+            background:#0E9444 ;
+          }
+        }
+      }
+      &--visitors{
+        p{
+          color: #4915B9;
+          &:before{
+            background:#4915B9 ;
+          }
+        }
+      }
+      p{
+        margin-top: 0;
+        margin-bottom: 6px;
+        align-items: center;
+        gap:6px;
+        display: flex;
+        font-size: 13px;
+        font-weight: 500;
+        line-height: 15.23px;
+        letter-spacing: 0.01em;
+
+        &:before{
+          content:'';
+          width: 10px;
+          height: 10px;
+          border-radius: 50%;
+        }
+      }
+      span{
+        font-size: 22px;
+        font-weight: 600;
+        line-height: 25.78px;
+        color: #0C0C0D;
+      }
+    }
   }
 
   .c-footer {
