@@ -67,14 +67,9 @@ let wpStatisticsUserOnline = {
     keepUserOnline: function () {
         setInterval(
             function () {
-                if (!document.hidden) {
-                    if (WP_Statistics_Tracker_Object.option.dntEnabled) {
-                        if (WP_Statistics_Dnd_Active !== 1) {
-                            this.sendOnlineUserRequest();
-                        }
-                    } else {
-                        this.sendOnlineUserRequest();
-                    }
+                if (!WP_Statistics_Tracker_Object.option.dntEnabled ||
+                    (WP_Statistics_Tracker_Object.option.dntEnabled && WP_Statistics_Dnd_Active !== 1)) {
+                    this.sendOnlineUserRequest();
                 }
             }.bind(this), WP_Statistics_CheckTime
         );
