@@ -121,7 +121,7 @@ class VisitorsModel extends BaseModel
     /**
      * Returns visitors' device versions for single view pages.
      *
-     * @param   array   $args           Arguments to include in query (e.g. `date`, `group_by`, etc.).
+     * @param   array   $args           Arguments to include in query (e.g. `date`, etc.).
      * @param   bool    $bypassCache    Send the cached result.
      *
      * @return  array
@@ -132,7 +132,6 @@ class VisitorsModel extends BaseModel
             'date'      => '',
             'where_col' => 'agent',
             'where_val' => '',
-            'group_by'  => [],
             'order_by'  => 'views',
             'order'     => 'DESC',
             'per_page'  => '',
@@ -140,13 +139,13 @@ class VisitorsModel extends BaseModel
         ]);
 
         $result = Query::select([
-                'CAST(`version` AS SIGNED) AS `version`',
+                'CAST(`version` AS SIGNED) AS `casted_version`',
                 'SUM(`hits`) as `views`',
             ])
             ->from('visitor')
             ->where($args['where_col'], '=', $args['where_val'])
             ->whereDate('last_counter', $args['date'])
-            ->groupBy($args['group_by'])
+            ->groupBy('casted_version')
             ->orderBy($args['order_by'], $args['order'])
             ->perPage($args['page'], $args['per_page'])
             ->bypassCache($bypassCache)

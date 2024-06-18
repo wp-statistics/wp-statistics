@@ -86,7 +86,6 @@ class DevicesDataProvider
             'field'     => 'agent',
             'where_col' => 'agent',
             'where_val' => esc_sql($selectedBrowser),
-            'group_by'  => ['version'],
         ]);
 
         return [
@@ -109,7 +108,6 @@ class DevicesDataProvider
             'field'     => 'platform',
             'where_col' => 'platform',
             'where_val' => esc_sql($selectedPlatform),
-            'group_by'  => ['version'],
         ]);
 
         return [
@@ -132,7 +130,6 @@ class DevicesDataProvider
             'field'     => 'model',
             'where_col' => 'model',
             'where_val' => esc_sql($selectedModel),
-            'group_by'  => ['version'],
         ]);
 
         return [
