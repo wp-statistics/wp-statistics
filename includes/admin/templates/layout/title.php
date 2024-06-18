@@ -5,11 +5,24 @@
     <?php if (isset($backUrl, $backTitle)): ?>
         <a href="<?php echo esc_url($backUrl) ?>" title="<?php echo esc_html($backTitle) ?>" class="wps-previous-url"><?php echo esc_html($backTitle) ?></a>
     <?php endif ?>
-    <h2 class="wps_title"><?php echo(isset($title) ? esc_attr($title) : (function_exists('get_admin_page_title') ? get_admin_page_title() : '')); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	 ?>
-        <?php if (!empty($tooltip)) : ?>
-            <span class="wps-tooltip" title="<?php echo esc_attr($tooltip); ?>"><i class="wps-tooltip-icon info"></i></span>
-        <?php endif; ?>
-    </h2> <?php do_action('wp_statistics_after_admin_page_title'); ?>
+    <?php if (isset($title)): ?>
+        <h2 class="wps_title"><?php echo(isset($title) ? esc_attr($title) : (function_exists('get_admin_page_title') ? get_admin_page_title() : '')); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	 ?>
+            <?php if (!empty($tooltip)) : ?>
+                <span class="wps-tooltip" title="<?php echo esc_attr($tooltip); ?>"><i class="wps-tooltip-icon info"></i></span>
+            <?php endif; ?>
+        </h2>
+    <?php endif ?>
+    <?php if (isset($contentAnalyticsHeader)): ?>
+        <div class="wps-content-analytics-header">
+            <div>
+                <img src="<?php echo esc_url(WP_STATISTICS_URL . 'assets/images/pages-browsers-preview.png'); ?>" alt="">
+            </div>
+            <div>
+                <h2 class="wps_title">The Role of Artificial Intelligence in SEO and Analytics</h2>
+            </div>
+        </div>
+    <?php endif ?>
+    <?php do_action('wp_statistics_after_admin_page_title'); ?>
     <?php if (isset($real_time_button)): ?>
         <?php
         $is_realtime_active = Helper::isAddOnActive('realtime-stats');

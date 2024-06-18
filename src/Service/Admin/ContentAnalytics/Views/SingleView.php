@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace WP_Statistics\Service\Admin\ContentAnalytics\Views;
 
@@ -11,7 +11,7 @@ use WP_Statistics\Abstracts\BaseView;
 use WP_Statistics\Exception\SystemErrorException;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 
-class SingleView extends BaseView 
+class SingleView extends BaseView
 {
     private $postId;
 
@@ -27,29 +27,31 @@ class SingleView extends BaseView
         }
     }
 
-    public function isLocked()
-    {
-        return !Helper::isAddOnActive('data-plus') && in_array(get_post_type($this->postId), Helper::getCustomPostTypes());
-    }
-
     public function render()
     {
         try {
             $args = [
-                'title'     => esc_html__('Title', 'wp-statistics'),
-                'backUrl'   => Menus::admin_url('content-analytics'),
-                'backTitle' => esc_html__('Content Analytics', 'wp-statistics'),
+                'backUrl'       => Menus::admin_url('content-analytics'),
+                'backTitle'     => esc_html__('Content Analytics', 'wp-statistics'),
+                'DateRang'      => Admin_Template::DateRange(),
+                'hasDateRang'   => true,
+                'contentAnalyticsHeader'   => true,
             ];
-            
-            $template   = 'single';
-    
+
+            $template = 'single';
+
             if ($this->isLocked()) {
                 $template = 'single-locked';
             }
-    
+
             Admin_Template::get_template(['layout/header', 'layout/title', "pages/content-analytics/$template", 'layout/footer'], $args);
         } catch (Exception $e) {
             Notice::renderNotice($e->getMessage(), $e->getCode(), 'error');
         }
+    }
+
+    public function isLocked()
+    {
+        return !Helper::isAddOnActive('data-plus') && in_array(get_post_type($this->postId), Helper::getCustomPostTypes());
     }
 }
