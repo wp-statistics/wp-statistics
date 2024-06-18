@@ -8,7 +8,7 @@
 
   @media screen and (min-width: 450px) {
     flex-wrap: nowrap;
-   }
+  }
 }
 
 .c-footer__filter {
@@ -321,6 +321,10 @@
       border: 1px solid #aaa;
       border-radius: 3px 0 0 3px;
     }
+  }
+
+  .c-footer__filter.js-pages-date-range-picker {
+    overflow: hidden;
   }
 
   .c-footer__filter__btn-group {
