@@ -30,6 +30,7 @@ class Menus
         'privacy-audit'     => 'privacy-audit',
         'geographic'        => 'geographic',
         'devices'           => 'devices',
+        'category-analytics'=> 'category-analytics'
     );
 
     /**
