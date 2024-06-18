@@ -336,67 +336,51 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                 datasets: [
                     {
                         label: 'Bing',
-                        data: [5, 10, 2, 7, 6, 5, 3, 8, 4, 7, 6, 5, 6, 9, 4, 7, 6, 5, 6, 7, 8, 9, 6, 4, 5, 6, 8, 9, 7, 6, 5]
+                        data: [5, 10, 2, 7, 6, 5, 3, 8, 4, 7, 6, 5, 6, 9, 4, 7, 6, 5, 6, 7, 8, 9, 6, 4, 5, 6, 8, 9, 7, 6, 5],
                     },
                     {
                         label: 'DuckDuckGo',
-                        data: [3, 8, 5, 7, 6, 5, 4, 7, 6, 5, 6, 7, 5, 8, 6, 7, 6, 5, 7, 8, 6, 5, 4, 6, 7, 8, 9, 6, 5, 4, 6]
+                        data: [3, 8, 5, 7, 6, 5, 4, 7, 6, 5, 6, 7, 5, 8, 6, 7, 6, 5, 7, 8, 6, 5, 4, 6, 7, 8, 9, 6, 5, 4, 6],
                     },
                     {
                         label: 'Google',
-                        data: [36, 45, 38, 35, 30, 25, 24, 37, 32, 28, 27, 30, 29, 38, 32, 35, 29, 28, 30, 35, 36, 37, 30, 28, 29, 33, 40, 37, 36, 32, 31]
+                        data: [36, 45, 38, 35, 30, 25, 24, 37, 32, 28, 27, 30, 29, 38, 32, 35, 29, 28, 30, 35, 36, 37, 30, 28, 29, 33, 40, 37, 36, 32, 31],
                     },
                     {
                         label: 'Yahoo',
-                        data: [4, 6, 3, 7, 6, 5, 4, 6, 7, 8, 5, 4, 6, 7, 8, 9, 6, 5, 4, 6, 7, 8, 9, 5, 4, 6, 7, 8, 9, 6, 5]
+                        data: [4, 6, 3, 7, 6, 5, 4, 6, 7, 8, 5, 4, 6, 7, 8, 9, 6, 5, 4, 6, 7, 8, 9, 5, 4, 6, 7, 8, 9, 6, 5],
                     },
                     {
                         label: 'Yandex',
-                        data: [6, 9, 6, 7, 6, 5, 7, 8, 6, 5, 4, 6, 7, 8, 9, 6, 5, 7, 8, 9, 6, 5, 4, 6, 7, 8, 9, 6, 5, 4, 6]
+                        data: [6, 9, 6, 7, 6, 5, 7, 8, 6, 5, 4, 6, 7, 8, 9, 6, 5, 7, 8, 9, 6, 5, 4, 6, 7, 8, 9, 6, 5, 4, 6],
                     },
                     {
                         label: 'Total',
-                        data: [26, 45, 28, 35, 30, 25, 24, 37, 32, 28, 27, 30, 29, 38, 32, 35, 29, 28, 30, 35, 36, 37, 30, 38, 30, 33, 40, 37, 36, 32, 31]
+                        data: [26, 45, 28, 35, 30, 25, 24, 37, 32, 28, 27, 30, 29, 38, 32, 35, 29, 28, 30, 35, 36, 37, 30, 38, 30, 33, 40, 37, 36, 32, 31],
                     }
                 ]
             };
+
             const searchEngineColors = [
-                {
-                    backgroundColor: 'rgba(244, 161, 31, 0.3)',
-                    borderColor: 'rgba(244, 161, 31, 1)'
-                },
-                {
-                    backgroundColor: 'rgba(63, 158, 221, 0.3)',
-                    borderColor: 'rgba(63, 158, 221, 1)'
-                },
-                {
-                    backgroundColor: 'rgba(195, 68, 55, 0.3)',
-                    borderColor: 'rgba(195, 68, 55, 1)'
-                },
-                {
-                    backgroundColor: 'rgba(160, 98, 186, 0.3)',
-                    borderColor: 'rgba(160, 98, 186, 1)'
-                },
-                {
-                    backgroundColor: 'rgba(51, 178, 105, 0.3)',
-                    borderColor: 'rgba(51, 178, 105, 1)'
-                },
-                {
-                    backgroundColor: 'rgba(185, 185, 185, 0.3)',
-                    borderColor: 'rgba(185, 185, 185, 1)'
-                }
+                'rgba(244, 161, 31, 0.3)',
+                'rgba(63, 158, 221, 0.3)',
+                'rgba(195, 68, 55, 0.3)',
+                'rgba(160, 98, 186, 0.3)',
+                'rgba(51, 178, 105, 0.3)',
+                'rgba(185, 185, 185, 0.3)'
             ];
+
             searchData.datasets.forEach((dataset, index) => {
                 const color = searchEngineColors[index % searchEngineColors.length];
-                Object.assign(dataset, color, {
-                    borderWidth: 2,
-                    cubicInterpolationMode: 'monotone',
-                    pointRadius: 2,
-                    pointHoverRadius: 5,
-                    pointHoverBackgroundColor: '#fff',
-                    pointHoverBorderWidth: 4,
-                    fill: true
-                });
+                dataset.backgroundColor = color;
+                dataset.borderColor = color.replace('0.3', '1'); // Adjust alpha for borderColor
+                dataset.borderWidth = 2;
+                dataset.cubicInterpolationMode = 'monotone';
+                dataset.pointRadius = 2;
+                dataset.pointHoverRadius = 5;
+                dataset.pointHoverBackgroundColor = '#fff';
+                dataset.pointHoverBorderWidth = 4;
+                dataset.fill = true;
             });
             const searchEngineChart = document.getElementById("search-engines-chart").getContext('2d');
             new Chart(searchEngineChart, {
