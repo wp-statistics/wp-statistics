@@ -364,7 +364,6 @@ class GeoIP
                         // Update the options to reflect the new download.
                         if ($type == "update") {
                             Option::update('last_geoip_dl', time());
-                            Option::update('update_geoip', false);
                         }
 
                         // Populate any missing GeoIP information if the user has selected the option.
