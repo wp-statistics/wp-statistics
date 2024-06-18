@@ -26,12 +26,22 @@ class SingleView extends BaseView
         }
     }
 
+    public function isLocked()
+    {
+        return !Helper::isAddOnActive('data-plus');
+    }
+
     public function render()
     {
         try {
             $args = [];
+            $template = 'category-single';
 
-            Admin_Template::get_template(['layout/header', 'layout/title', "pages/category-analytics/category-single-locked", 'layout/footer'], $args);
+            if ($this->isLocked()) {
+                $template = 'category-single-locked';
+            }
+
+            Admin_Template::get_template(['layout/header', 'layout/title', "pages/category-analytics/$template", 'layout/footer'], $args);
         } catch (Exception $e) {
             Notice::renderNotice($e->getMessage(), $e->getCode(), 'error');
         }
