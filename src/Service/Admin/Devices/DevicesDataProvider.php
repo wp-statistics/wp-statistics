@@ -24,8 +24,8 @@ class DevicesDataProvider
     public function getBrowsersData()
     {
         $args = array_merge($this->args, [
-            'count_field' => 'agent',
-            'group_by'    => ['agent'],
+            'field'    => 'agent',
+            'group_by' => ['agent'],
         ]);
 
         return [
@@ -43,8 +43,8 @@ class DevicesDataProvider
     public function getPlatformsData()
     {
         $args = array_merge($this->args, [
-            'count_field' => 'platform',
-            'group_by'    => ['platform'],
+            'field'    => 'platform',
+            'group_by' => ['platform'],
         ]);
 
         return [
@@ -62,8 +62,8 @@ class DevicesDataProvider
     public function getModelsData()
     {
         $args = array_merge($this->args, [
-            'count_field' => 'model',
-            'group_by'    => ['model']
+            'field'    => 'model',
+            'group_by' => ['model']
         ]);
 
         return [
@@ -83,14 +83,13 @@ class DevicesDataProvider
     public function getSingleBrowserData($selectedBrowser)
     {
         $args = array_merge($this->args, [
-            'count_field' => 'agent',
-            'where_col'   => 'agent',
-            'where_val'   => esc_sql($selectedBrowser),
-            'group_by'    => ['version'],
+            'field'     => 'agent',
+            'where_col' => 'agent',
+            'where_val' => esc_sql($selectedBrowser),
         ]);
 
         return [
-            'visitors' => $this->visitorsModel->getVisitorsDevices($args),
+            'visitors' => $this->visitorsModel->getVisitorsDevicesVersions($args),
             'total'    => $this->visitorsModel->countColumnDistinct($args),
             'views'    => $this->visitorsModel->countTotalViews($args),
         ];
@@ -106,14 +105,13 @@ class DevicesDataProvider
     public function getSinglePlatformData($selectedPlatform)
     {
         $args = array_merge($this->args, [
-            'count_field' => 'platform',
-            'where_col'   => 'platform',
-            'where_val'   => esc_sql($selectedPlatform),
-            'group_by'    => ['version'],
+            'field'     => 'platform',
+            'where_col' => 'platform',
+            'where_val' => esc_sql($selectedPlatform),
         ]);
 
         return [
-            'visitors' => $this->visitorsModel->getVisitorsDevices($args),
+            'visitors' => $this->visitorsModel->getVisitorsDevicesVersions($args),
             'total'    => $this->visitorsModel->countColumnDistinct($args),
             'views'    => $this->visitorsModel->countTotalViews($args),
         ];
@@ -129,14 +127,13 @@ class DevicesDataProvider
     public function getSingleModelData($selectedModel)
     {
         $args = array_merge($this->args, [
-            'count_field' => 'model',
-            'where_col'   => 'model',
-            'where_val'   => esc_sql($selectedModel),
-            'group_by'    => ['version'],
+            'field'     => 'model',
+            'where_col' => 'model',
+            'where_val' => esc_sql($selectedModel),
         ]);
 
         return [
-            'visitors' => $this->visitorsModel->getVisitorsDevices($args),
+            'visitors' => $this->visitorsModel->getVisitorsDevicesVersions($args),
             'total'    => $this->visitorsModel->countColumnDistinct($args),
             'views'    => $this->visitorsModel->countTotalViews($args),
         ];

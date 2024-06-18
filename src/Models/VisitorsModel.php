@@ -61,7 +61,7 @@ class VisitorsModel extends BaseModel
     /**
      * Returns `COUNT DISTINCT` of a column from visitors table.
      *
-     * @param   array       $args           Arguments to include in query (e.g. `count_field`, `date`, etc.).
+     * @param   array       $args           Arguments to include in query (e.g. `field`, `date`, etc.).
      * @param   bool        $bypassCache    Send the cached result.
      *
      * @return  int
@@ -69,11 +69,11 @@ class VisitorsModel extends BaseModel
     public function countColumnDistinct($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
-            'count_field' => 'ID',
-            'date'        => '',
+            'field' => 'ID',
+            'date'  => '',
         ]);
 
-        $result = Query::select("COUNT(DISTINCT `{$args['count_field']}`) as `total`")
+        $result = Query::select("COUNT(DISTINCT `{$args['field']}`) as `total`")
             ->from('visitor')
             ->whereDate('last_counter', $args['date'])
             ->perPage(1, 1)
@@ -86,7 +86,7 @@ class VisitorsModel extends BaseModel
     /**
      * Returns visitors' device information.
      *
-     * @param   array   $args           Arguments to include in query (e.g. `date`, `group_by`, etc.).
+     * @param   array   $args           Arguments to include in query (e.g. `field`, `date`, `group_by`, etc.).
      * @param   bool    $bypassCache    Send the cached result.
      *
      * @return  array
@@ -94,10 +94,44 @@ class VisitorsModel extends BaseModel
     public function getVisitorsDevices($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
+            'field'    => 'agent',
+            'date'     => '',
+            'group_by' => [],
+            'order_by' => 'views',
+            'order'    => 'DESC',
+            'per_page' => '',
+            'page'     => 1
+        ]);
+
+        $result = Query::select([
+                $args['field'],
+                'SUM(`hits`) as `views`',
+            ])
+            ->from('visitor')
+            ->whereDate('last_counter', $args['date'])
+            ->groupBy($args['group_by'])
+            ->orderBy($args['order_by'], $args['order'])
+            ->perPage($args['page'], $args['per_page'])
+            ->bypassCache($bypassCache)
+            ->getAll();
+
+        return $result ? $result : [];
+    }
+
+    /**
+     * Returns visitors' device versions for single view pages.
+     *
+     * @param   array   $args           Arguments to include in query (e.g. `date`, etc.).
+     * @param   bool    $bypassCache    Send the cached result.
+     *
+     * @return  array
+     */
+    public function getVisitorsDevicesVersions($args = [], $bypassCache = false)
+    {
+        $args = $this->parseArgs($args, [
             'date'      => '',
-            'where_col' => 'ID',
+            'where_col' => 'agent',
             'where_val' => '',
-            'group_by'  => [],
             'order_by'  => 'views',
             'order'     => 'DESC',
             'per_page'  => '',
@@ -105,17 +139,13 @@ class VisitorsModel extends BaseModel
         ]);
 
         $result = Query::select([
-                'agent',
-                'platform',
-                'CAST(`version` AS INTEGER) AS `version`',
-                'device',
-                'model',
+                'CAST(`version` AS SIGNED) AS `casted_version`',
                 'SUM(`hits`) as `views`',
             ])
             ->from('visitor')
             ->where($args['where_col'], '=', $args['where_val'])
             ->whereDate('last_counter', $args['date'])
-            ->groupBy($args['group_by'])
+            ->groupBy('casted_version')
             ->orderBy($args['order_by'], $args['order'])
             ->perPage($args['page'], $args['per_page'])
             ->bypassCache($bypassCache)
