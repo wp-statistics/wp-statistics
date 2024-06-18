@@ -91,7 +91,7 @@ class Meta_Box
                 'place'             => 'side'
             ),
             'browsers'        => array(
-                'page_url'          => 'browser',
+                'page_url'          => 'devices',
                 'name'              => __('Browser Usage', 'wp-statistics'),
                 'description'       => __('Distribution of visitors based on the browsers they use.', 'wp-statistics'),
                 'require'           => array('visitors' => true),
@@ -106,7 +106,7 @@ class Meta_Box
                 ]
             ),
             'platforms'       => array(
-                'page_url'          => 'platform',
+                'page_url'          => 'devices',
                 'name'              => __('Most Used Operating Systems', 'wp-statistics'),
                 'description'       => __('Identify the operating systems most commonly used by your website visitors.', 'wp-statistics'),
                 'require'           => array('visitors' => true),
