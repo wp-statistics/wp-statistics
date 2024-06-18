@@ -60,44 +60,36 @@
 
         <?php
         $operating_systems = array(
-            'title_text'       => esc_html__('Operating Systems', 'wp-statistics'),
-            'tooltip_text'     => esc_html__('Operating Systems tooltip', 'wp-statistics'),
-            'labels'           => ['Windows', 'macOs', 'iOS', 'Android', 'Linux', 'Other'],
-            'background_color' => ['#F7D399', '#99D3FB', '#D7BDE2', '#D7BDE2', '#EBA39B', '#F5CBA7'],
-            'data'             => [30, 20, 10, 5, 7, 5]
+            'title_text'   => esc_html__('Operating Systems', 'wp-statistics'),
+            'tooltip_text' => esc_html__('Operating Systems tooltip', 'wp-statistics'),
+            'unique_id'    => 'content_operating_systems'
         );
         Admin_Template::get_template(array('layout/content-analytics/pie-chart'), $operating_systems);
         ?>
 
         <?php
         $browsers = array(
-            'title_text'       => esc_html__('Browsers', 'wp-statistics'),
-            'tooltip_text'     => esc_html__('Browsers tooltip', 'wp-statistics'),
-            'labels'           => ['Chrome', 'Firefox', 'Safari', 'Opera', 'edge', 'Other'],
-            'background_color' => ['#F7D399', '#99D3FB', '#D7BDE2', '#D7BDE2', '#EBA39B', '#F5CBA7'],
-            'data'             => [30, 20, 10, 7, 6, 5]
+            'title_text'   => esc_html__('Browsers', 'wp-statistics'),
+            'tooltip_text' => esc_html__('Browsers tooltip', 'wp-statistics'),
+            'unique_id'    => 'content_browsers'
         );
         Admin_Template::get_template(array('layout/content-analytics/pie-chart'), $browsers);
         ?>
 
         <?php
         $device_models = array(
-            'title_text'       => esc_html__('Device Models', 'wp-statistics'),
-            'tooltip_text'     => esc_html__('Device Models tooltip', 'wp-statistics'),
-            'labels'           => ['Macintosh', 'iPhone', 'G6', 'A3', 'Galaxy A52', 'Other'],
-            'background_color' => ['#F7D399', '#99D3FB', '#D7BDE2', '#D7BDE2', '#EBA39B', '#F5CBA7'],
-            'data'             => [30, 20, 10, 7, 6, 5]
+            'title_text'   => esc_html__('Device Models', 'wp-statistics'),
+            'tooltip_text' => esc_html__('Device Models tooltip', 'wp-statistics'),
+            'unique_id'    => 'content_device_models'
         );
         Admin_Template::get_template(array('layout/content-analytics/pie-chart'), $device_models);
         ?>
 
         <?php
         $device_usage = array(
-            'title_text'       => esc_html__('Device Usage', 'wp-statistics'),
-            'tooltip_text'     => esc_html__('Device Usage tooltip', 'wp-statistics'),
-            'labels'           => ['Desktop', 'Mobile:smart', 'Tablet', 'Signage', 'Television', 'Other'],
-            'background_color' => ['#F7D399', '#99D3FB', '#D7BDE2', '#D7BDE2', '#EBA39B', '#F5CBA7'],
-            'data'             => [30, 20, 10, 7, 6, 5]
+            'title_text'   => esc_html__('Device Usage', 'wp-statistics'),
+            'tooltip_text' => esc_html__('Device Usage tooltip', 'wp-statistics'),
+            'unique_id'    => 'content_device_usage'
         );
         Admin_Template::get_template(array('layout/content-analytics/pie-chart'), $device_usage);
         ?>
@@ -106,8 +98,9 @@
     <div class="postbox-container" id="wps-postbox-container-2">
         <?php
         $performance = array(
-            'title_text'   => esc_html__('Performance', 'wp-statistics'),
-            'tooltip_text' => esc_html__('Performance tooltip', 'wp-statistics'),
+            'title_text'       => esc_html__('Performance', 'wp-statistics'),
+            'tooltip_text'     => esc_html__('Performance tooltip', 'wp-statistics'),
+            'type'             => 'post-type',
             'description_text' => esc_html__('Last 15 Days', 'wp-statistics'),
         );
         Admin_Template::get_template(array('layout/content-analytics/performance-chart'), $performance);

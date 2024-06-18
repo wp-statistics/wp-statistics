@@ -227,7 +227,7 @@
     margin-top: 20px;
   }
 
-  #performance-chart{
+  #performance-chart , #performance-chart-single{
     height: 299px !important;
     width: 100% !important;
     margin-top: 20px;
@@ -412,6 +412,8 @@
         width: 39px;
         height: 39px;
         border-radius: 50%;
+        display: inline-block;
+        overflow: hidden;
       }
 
       &--image {
