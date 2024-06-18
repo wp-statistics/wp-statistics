@@ -107,7 +107,7 @@ class VisitorsModel extends BaseModel
         $result = Query::select([
                 'agent',
                 'platform',
-                'CAST(`version` AS INTEGER) AS `version`',
+                'CAST(`version` AS SIGNED) AS `version`',
                 'device',
                 'model',
                 'SUM(`hits`) as `views`',
