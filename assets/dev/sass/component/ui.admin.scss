@@ -2996,6 +2996,23 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
   display: flex;
 }
 
+.wps-locked{
+   font-size: 13px;
+  font-weight: 500;
+  line-height: 24px;
+  gap: 2px;
+  display: inline-flex;
+  align-items:center;
+  color: #93979F;
+
+  &:after{
+    content: '';
+    width: 10.5px;
+    height: 11.67px;
+    display: inline-block;
+    background: url("data:image/svg+xml;base64,Cjxzdmcgd2lkdGg9IjExIiBoZWlnaHQ9IjEyIiB2aWV3Qm94PSIwIDAgMTEgMTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik05LjMzMzMzIDQuNjY2NjdIOS45MTY2N0MxMC4yMzg4IDQuNjY2NjcgMTAuNSA0LjkyNzgzIDEwLjUgNS4yNVYxMS4wODMzQzEwLjUgMTEuNDA1NSAxMC4yMzg4IDExLjY2NjcgOS45MTY2NyAxMS42NjY3SDAuNTgzMzMzQzAuMjYxMTcgMTEuNjY2NyAwIDExLjQwNTUgMCAxMS4wODMzVjUuMjVDMCA0LjkyNzgzIDAuMjYxMTcgNC42NjY2NyAwLjU4MzMzMyA0LjY2NjY3SDEuMTY2NjdWNC4wODMzM0MxLjE2NjY3IDEuODI4MTcgMi45OTQ4NCAwIDUuMjUgMEM3LjUwNTE3IDAgOS4zMzMzMyAxLjgyODE3IDkuMzMzMzMgNC4wODMzM1Y0LjY2NjY3Wk04LjE2NjY3IDQuNjY2NjdWNC4wODMzM0M4LjE2NjY3IDIuNDcyNTEgNi44NjA4MiAxLjE2NjY3IDUuMjUgMS4xNjY2N0MzLjYzOTE3IDEuMTY2NjcgMi4zMzMzMyAyLjQ3MjUxIDIuMzMzMzMgNC4wODMzM1Y0LjY2NjY3SDguMTY2NjdaTTQuNjY2NjcgN1Y5LjMzMzMzSDUuODMzMzNWN0g0LjY2NjY3WiIgZmlsbD0iIzkzOTc5RiIvPgo8L3N2Zz4K") center center/contain no-repeat;
+  }
+}
 .wps_page{
   .tooltipster-base{
     max-width:98%;

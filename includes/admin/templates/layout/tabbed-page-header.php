@@ -32,7 +32,9 @@
                     <?php if (isset($tab['coming_soon'])): ?>
                         <span class="wps-tooltip wps-tooltip--coming_soon" title="<?php echo esc_html__('Coming soon', 'wp-statistics') ?>"><?php echo esc_html($tab['title']); ?> <i class="wps-tooltip-icon coming-soon"></i></span>
                     <?php elseif (isset($tab['locked'])) : ?>
-                        <!-- TODO: SHOW LOCKED ICON FOR TABS -->
+                        <span class="wps-locked">
+                             <?php echo esc_html($tab['title']); ?>
+                        </span>
                     <?php else: ?>
                         <a href="<?php echo esc_attr($tab['link']); ?>">
                             <?php echo esc_html($tab['title']); ?>

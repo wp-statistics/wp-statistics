@@ -46,7 +46,7 @@
                             <div class="wps-ellipsis-parent">
                                 <span class="wps-ellipsis-text">
                                     <img src="<?php echo esc_url(WP_STATISTICS_URL . 'assets/images/search-engine/google.png'); ?>" title="google" class="log-tools wps-flag">
-                                    www.google.com
+                                     google.com
                                 </span>
                             </div>
                         </td>
