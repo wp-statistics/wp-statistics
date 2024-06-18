@@ -2,11 +2,13 @@
 
 namespace WP_Statistics\Service\Admin\ContentAnalytics\Views;
 
+use Exception;
 use WP_STATISTICS\Helper;
 use WP_Statistics\Utils\Request;
 use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Abstracts\BaseView;
 use WP_Statistics\Exception\SystemErrorException;
+use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 
 class SingleView extends BaseView 
 {
@@ -31,13 +33,17 @@ class SingleView extends BaseView
 
     public function render()
     {
-        $args       = [];
-        $template   = 'single';
-
-        if ($this->isLocked()) {
-            $template = 'single-locked';
+        try {
+            $args       = [];
+            $template   = 'single';
+    
+            if ($this->isLocked()) {
+                $template = 'single-locked';
+            }
+    
+            Admin_Template::get_template(['layout/header', 'layout/title', "pages/content-analytics/$template", 'layout/footer'], $args);
+        } catch (Exception $e) {
+            Notice::renderNotice($e->getMessage(), $e->getCode(), 'error');
         }
-
-        Admin_Template::get_template(['layout/header', 'layout/title', "pages/content-analytics/$template", 'layout/footer'], $args);
     }
 }
