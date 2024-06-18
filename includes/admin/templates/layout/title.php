@@ -12,17 +12,11 @@
             <?php endif; ?>
         </h2>
     <?php endif ?>
-    <?php if (isset($contentAnalyticsHeader)): ?>
-        <div class="wps-content-analytics-header">
-            <div>
-                <img src="<?php echo esc_url(WP_STATISTICS_URL . 'assets/images/pages-browsers-preview.png'); ?>" alt="">
-            </div>
-            <div>
-                <h2 class="wps_title">The Role of Artificial Intelligence in SEO and Analytics</h2>
-            </div>
-        </div>
-    <?php endif ?>
-    <?php do_action('wp_statistics_after_admin_page_title'); ?>
+    <?php if (isset($contentAnalyticsHeader)) {
+        \WP_STATISTICS\Admin_Template::get_template(['layout/content-analytics/post-type-header']);
+    }
+    ?>
+     <?php do_action('wp_statistics_after_admin_page_title'); ?>
     <?php if (isset($real_time_button)): ?>
         <?php
         $is_realtime_active = Helper::isAddOnActive('realtime-stats');
