@@ -498,6 +498,8 @@
     }
   }
   &-header{
+    display: flex;
+     gap: 16px;
     img{
       width: 77px;
       height: 80px;

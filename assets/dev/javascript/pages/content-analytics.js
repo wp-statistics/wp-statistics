@@ -17,22 +17,22 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             this.generateSearchEngineChart();
         },
         generatePerformanceChart: function () {
-            const performanceData={
+            const performanceData = {
                 labels: ['1 Apr', '2 Apr', '3 Apr', '4 Apr', '5 Apr', '6 Apr', '7 Apr', '8 Apr', '9 Apr', '10 Apr', '11 Apr', '12 Apr', '13 Apr', '14 Apr', '15 Apr'],
-                views:[10, 15, 30, 25, 30, 35, 30, 45, 20, 15, 45, 15, 20, 25, 30],
-                visitors:[5, 10, 15, 20, 25, 30, 25, 20, 15, 10, 5, 10, 15, 20, 25]
+                views: [10, 15, 30, 25, 30, 35, 30, 45, 20, 15, 45, 15, 20, 25, 30],
+                visitors: [5, 10, 15, 20, 25, 30, 25, 20, 15, 10, 5, 10, 15, 20, 25]
             };
             const performance = document.getElementById('performance-chart').getContext('2d');
             const performanceChart = new Chart(performance, {
                 type: 'bar',
                 data: {
-                    labels:performanceData.labels,
+                    labels: performanceData.labels,
                     datasets: [
                         {
                             type: 'line',
                             label: 'Views',
                             cubicInterpolationMode: 'monotone',
-                            data:performanceData.views ,
+                            data: performanceData.views,
                             borderColor: '#0e9444',
                             backgroundColor: '#0e9444',
                             pointRadius: 5,
@@ -117,10 +117,9 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             });
         },
         generateOperatingSystemChart: function () {
-            const OperatingSystemData={
+            const OperatingSystemData = {
                 labels: ['Windows', 'macOs', 'iOS', 'Android', 'Linux', 'Other'],
-                data:[30, 20, 10, 5, 7, 5],
-                bg:['#F7D399', '#99D3FB', '#D7BDE2', '#D7BDE2', '#EBA39B', '#F5CBA7']
+                data: [30, 20, 10, 5, 7, 5],
             };
             const label_callback_content_operating_systems = function (tooltipItem) {
                 return tooltipItem.label;
@@ -131,8 +130,8 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             const data_content_operating_systems = {
                 labels: OperatingSystemData.labels,
                 datasets: [{
-                    data:OperatingSystemData.data ,
-                    backgroundColor: OperatingSystemData.bg,
+                    data: OperatingSystemData.data,
+                    backgroundColor: ['#F7D399', '#99D3FB', '#D7BDE2', '#D7BDE2', '#EBA39B', '#F5CBA7'],
                     borderColor: '#fff',
                     borderWidth: 1,
                 }]
@@ -170,10 +169,9 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             });
         },
         generateBrowsersChartData: function () {
-            const browsersData={
+            const browsersData = {
                 labels: ['Chrome', 'Firefox', 'Safari', 'Opera', 'edge', 'Other'],
-                data:[30, 20, 10, 5, 7, 5],
-                bg:['#F7D399', '#99D3FB', '#D7BDE2', '#D7BDE2', '#EBA39B', '#F5CBA7']
+                data: [30, 20, 10, 5, 7, 5],
             };
             const label_callback_content_browsers = function (tooltipItem) {
                 return tooltipItem.label;
@@ -182,10 +180,10 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                 return 'Visitors :' + ctx[0].formattedValue
             }
             const data_content_browsers = {
-                labels:browsersData.labels ,
+                labels: browsersData.labels,
                 datasets: [{
                     data: browsersData.data,
-                    backgroundColor: browsersData.bg,
+                    backgroundColor: ['#F7D399', '#99D3FB', '#D7BDE2', '#D7BDE2', '#EBA39B', '#F5CBA7'],
                     borderColor: '#fff',
                     borderWidth: 1,
                 }]
@@ -223,10 +221,10 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             });
         },
         generateDeviceModelsChart: function () {
-            const deviceModelData={
+            const deviceModelData = {
                 labels: ['Macintosh', 'iPhone', 'G6', 'A3', 'Galaxy A52', 'Other'],
-                data:[30, 20, 10, 5, 7, 5],
-                bg:['#F7D399', '#99D3FB', '#D7BDE2', '#D7BDE2', '#EBA39B', '#F5CBA7']
+                data: [30, 20, 10, 5, 7, 5],
+                bg: ['#F7D399', '#99D3FB', '#D7BDE2', '#D7BDE2', '#EBA39B', '#F5CBA7']
             };
             const label_callback_content_device_model = function (tooltipItem) {
                 return tooltipItem.label;
@@ -235,7 +233,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                 return 'Visitors :' + ctx[0].formattedValue
             }
             const data_content_device_model = {
-                labels:deviceModelData.labels ,
+                labels: deviceModelData.labels,
                 datasets: [{
                     data: deviceModelData.data,
                     backgroundColor: deviceModelData.bg,
@@ -276,10 +274,9 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             });
         },
         generateDeviceUsageChart: function () {
-            const deviceUsageData={
+            const deviceUsageData = {
                 labels: ['Desktop', 'Mobile:smart', 'Tablet', 'Signage', 'Television', 'Other'],
-                data:[30, 20, 10, 5, 7, 5],
-                bg:['#F7D399', '#99D3FB', '#D7BDE2', '#D7BDE2', '#EBA39B', '#F5CBA7']
+                data: [30, 20, 10, 5, 7, 5],
             };
             const label_callback_content_device_usage = function (tooltipItem) {
                 return tooltipItem.label;
@@ -291,7 +288,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                 labels: deviceUsageData.labels,
                 datasets: [{
                     data: deviceUsageData.data,
-                    backgroundColor: deviceUsageData.bg,
+                    backgroundColor: ['#F7D399', '#99D3FB', '#D7BDE2', '#D7BDE2', '#EBA39B', '#F5CBA7'],
                     borderColor: '#fff',
                     borderWidth: 1,
                 }]
@@ -329,75 +326,82 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             });
         },
         generateSearchEngineChart: function () {
-            const searchData={
-                labels:[
+            const searchData = {
+                labels: [
                     "17 Mar", "18 Mar", "19 Mar", "20 Mar", "21 Mar", "22 Mar", "23 Mar",
                     "24 Mar", "25 Mar", "26 Mar", "27 Mar", "28 Mar", "29 Mar", "30 Mar", "31 Mar",
                     "1 Apr", "2 Apr", "3 Apr", "4 Apr", "5 Apr", "6 Apr", "7 Apr", "8 Apr", "9 Apr",
                     "10 Apr", "11 Apr", "12 Apr", "13 Apr", "14 Apr", "15 Apr", "16 Apr"
                 ],
-                data: [
+                datasets: [
                     {
                         label: 'Bing',
-                        data: [5, 10, 2, 7, 6, 5, 3, 8, 4, 7, 6, 5, 6, 9, 4, 7, 6, 5, 6, 7, 8, 9, 6, 4, 5, 6, 8, 9, 7, 6, 5],
-                        backgroundColor: 'rgba(244, 161, 31, 0.3)',
-                        borderColor: 'rgba(244, 161, 31, 1)',
-                        ...searchEnginesOptions
+                        data: [5, 10, 2, 7, 6, 5, 3, 8, 4, 7, 6, 5, 6, 9, 4, 7, 6, 5, 6, 7, 8, 9, 6, 4, 5, 6, 8, 9, 7, 6, 5]
                     },
                     {
                         label: 'DuckDuckGo',
-                        data: [3, 8, 5, 7, 6, 5, 4, 7, 6, 5, 6, 7, 5, 8, 6, 7, 6, 5, 7, 8, 6, 5, 4, 6, 7, 8, 9, 6, 5, 4, 6],
-                        backgroundColor: 'rgba(63, 158, 221, 0.3)',
-                        borderColor: 'rgba(63, 158, 221, 1)',
-                        ...searchEnginesOptions
+                        data: [3, 8, 5, 7, 6, 5, 4, 7, 6, 5, 6, 7, 5, 8, 6, 7, 6, 5, 7, 8, 6, 5, 4, 6, 7, 8, 9, 6, 5, 4, 6]
                     },
                     {
                         label: 'Google',
-                        data: [36, 45, 38, 35, 30, 25, 24, 37, 32, 28, 27, 30, 29, 38, 32, 35, 29, 28, 30, 35, 36, 37, 30, 28, 29, 33, 40, 37, 36, 32, 31],
-                        backgroundColor: 'rgba(195, 68, 55, 0.3)',
-                        borderColor: 'rgba(195, 68, 55, 1)',
-                        ...searchEnginesOptions
+                        data: [36, 45, 38, 35, 30, 25, 24, 37, 32, 28, 27, 30, 29, 38, 32, 35, 29, 28, 30, 35, 36, 37, 30, 28, 29, 33, 40, 37, 36, 32, 31]
                     },
                     {
                         label: 'Yahoo',
-                        data: [4, 6, 3, 7, 6, 5, 4, 6, 7, 8, 5, 4, 6, 7, 8, 9, 6, 5, 4, 6, 7, 8, 9, 5, 4, 6, 7, 8, 9, 6, 5],
-                        backgroundColor: 'rgba(160, 98, 186, 0.3)',
-                        borderColor: 'rgba(160, 98, 186, 1)',
-                        ...searchEnginesOptions
+                        data: [4, 6, 3, 7, 6, 5, 4, 6, 7, 8, 5, 4, 6, 7, 8, 9, 6, 5, 4, 6, 7, 8, 9, 5, 4, 6, 7, 8, 9, 6, 5]
                     },
                     {
                         label: 'Yandex',
-                        data: [6, 9, 6, 7, 6, 5, 7, 8, 6, 5, 4, 6, 7, 8, 9, 6, 5, 7, 8, 9, 6, 5, 4, 6, 7, 8, 9, 6, 5, 4, 6],
-                        backgroundColor: 'rgba(51, 178, 105, 0.3)',
-                        borderColor: 'rgba(51, 178, 105, 1)',
-                        ...searchEnginesOptions
+                        data: [6, 9, 6, 7, 6, 5, 7, 8, 6, 5, 4, 6, 7, 8, 9, 6, 5, 7, 8, 9, 6, 5, 4, 6, 7, 8, 9, 6, 5, 4, 6]
                     },
                     {
                         label: 'Total',
-                        data: [26, 45, 28, 35, 30, 25, 24, 37, 32, 28, 27, 30, 29, 38, 32, 35, 29, 28, 30, 35, 36, 37, 30, 38, 30, 33, 40, 37, 36, 32, 31],
-                        backgroundColor: 'rgba(185, 185, 185, 0.3)',
-                        borderColor: 'rgba(185, 185, 185, 1)',
-                        ...searchEnginesOptions
+                        data: [26, 45, 28, 35, 30, 25, 24, 37, 32, 28, 27, 30, 29, 38, 32, 35, 29, 28, 30, 35, 36, 37, 30, 38, 30, 33, 40, 37, 36, 32, 31]
                     }
                 ]
             };
-            const searchEngineChart = document.getElementById("search-engines-chart").getContext('2d');
-            const searchEnginesOptions = {
-                borderWidth: 2,
-                cubicInterpolationMode: 'monotone',
-                pointRadius: 2,
-                pointHoverRadius: 5,
-                pointHoverBackgroundColor: '#fff',
-                pointHoverBorderWidth: 4,
-                fill: true,
-                responsive: true
-            };
-             new Chart(searchEngineChart, {
-                type: 'line',
-                data: {
-                    labels: searchData.labels,
-                    datasets: searchData.data
+            const searchEngineColors = [
+                {
+                    backgroundColor: 'rgba(244, 161, 31, 0.3)',
+                    borderColor: 'rgba(244, 161, 31, 1)'
                 },
+                {
+                    backgroundColor: 'rgba(63, 158, 221, 0.3)',
+                    borderColor: 'rgba(63, 158, 221, 1)'
+                },
+                {
+                    backgroundColor: 'rgba(195, 68, 55, 0.3)',
+                    borderColor: 'rgba(195, 68, 55, 1)'
+                },
+                {
+                    backgroundColor: 'rgba(160, 98, 186, 0.3)',
+                    borderColor: 'rgba(160, 98, 186, 1)'
+                },
+                {
+                    backgroundColor: 'rgba(51, 178, 105, 0.3)',
+                    borderColor: 'rgba(51, 178, 105, 1)'
+                },
+                {
+                    backgroundColor: 'rgba(185, 185, 185, 0.3)',
+                    borderColor: 'rgba(185, 185, 185, 1)'
+                }
+            ];
+            searchData.datasets.forEach((dataset, index) => {
+                const color = searchEngineColors[index % searchEngineColors.length];
+                Object.assign(dataset, color, {
+                    borderWidth: 2,
+                    cubicInterpolationMode: 'monotone',
+                    pointRadius: 2,
+                    pointHoverRadius: 5,
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderWidth: 4,
+                    fill: true
+                });
+            });
+            const searchEngineChart = document.getElementById("search-engines-chart").getContext('2d');
+            new Chart(searchEngineChart, {
+                type: 'line',
+                data: searchData,
                 options: {
                     plugins: {
                         tooltip: {
@@ -409,17 +413,17 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                     },
                     scales: {
                         y: {
-                            beginAtZero: true,
+                            beginAtZero: true
                         }
                     }
                 }
             });
         },
         generatePerformanceChartSingle: function () {
-            const performanceSingleData={
+            const performanceSingleData = {
                 labels: ['1 Apr', '2 Apr', '3 Apr', '4 Apr', '5 Apr', '6 Apr', '7 Apr', '8 Apr', '9 Apr', '10 Apr', '11 Apr', '12 Apr', '13 Apr', '14 Apr', '15 Apr'],
-                views:[10, 15, 20, 25, 30, 35, 30, 45, 20, 15, 45, 15, 20, 25, 30],
-                visitors:[5, 10, 15, 20, 25, 30, 25, 20, 15, 10, 5, 10, 15, 20, 25]
+                views: [10, 15, 20, 25, 30, 35, 30, 45, 20, 15, 45, 15, 20, 25, 30],
+                visitors: [5, 10, 15, 20, 25, 30, 25, 20, 15, 10, 5, 10, 15, 20, 25]
             };
             const performanceSingle = document.getElementById('performance-chart-single').getContext('2d');
             const performanceChartSingle = new Chart(performanceSingle, {
