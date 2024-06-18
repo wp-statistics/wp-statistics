@@ -61,7 +61,7 @@ class VisitorsModel extends BaseModel
     /**
      * Returns `COUNT DISTINCT` of a column from visitors table.
      *
-     * @param   array       $args           Arguments to include in query (e.g. `count_field`, `date`, etc.).
+     * @param   array       $args           Arguments to include in query (e.g. `field`, `date`, etc.).
      * @param   bool        $bypassCache    Send the cached result.
      *
      * @return  int
@@ -69,11 +69,11 @@ class VisitorsModel extends BaseModel
     public function countColumnDistinct($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
-            'count_field' => 'ID',
-            'date'        => '',
+            'field' => 'ID',
+            'date'  => '',
         ]);
 
-        $result = Query::select("COUNT(DISTINCT `{$args['count_field']}`) as `total`")
+        $result = Query::select("COUNT(DISTINCT `{$args['field']}`) as `total`")
             ->from('visitor')
             ->whereDate('last_counter', $args['date'])
             ->perPage(1, 1)
@@ -86,7 +86,7 @@ class VisitorsModel extends BaseModel
     /**
      * Returns visitors' device information.
      *
-     * @param   array   $args           Arguments to include in query (e.g. `date`, `group_by`, etc.).
+     * @param   array   $args           Arguments to include in query (e.g. `field`, `date`, `group_by`, etc.).
      * @param   bool    $bypassCache    Send the cached result.
      *
      * @return  array
@@ -94,19 +94,17 @@ class VisitorsModel extends BaseModel
     public function getVisitorsDevices($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
-            'date'      => '',
-            'group_by'  => [],
-            'order_by'  => 'views',
-            'order'     => 'DESC',
-            'per_page'  => '',
-            'page'      => 1
+            'field'    => 'agent',
+            'date'     => '',
+            'group_by' => [],
+            'order_by' => 'views',
+            'order'    => 'DESC',
+            'per_page' => '',
+            'page'     => 1
         ]);
 
         $result = Query::select([
-                'agent',
-                'platform',
-                'device',
-                'model',
+                $args['field'],
                 'SUM(`hits`) as `views`',
             ])
             ->from('visitor')
