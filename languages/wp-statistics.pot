@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-06-17T14:29:01+00:00\n"
+"POT-Creation-Date: 2024-06-18T10:16:36+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.10.0\n"
 "X-Domain: wp-statistics\n"
@@ -752,9 +752,9 @@ msgstr ""
 #: includes/admin/templates/pages/geographic/cities.php:45
 #: includes/admin/templates/pages/geographic/cities.php:46
 #: includes/admin/templates/pages/geographic/cities.php:47
+#: includes/class-wp-statistics-geoip.php:489
 #: includes/class-wp-statistics-geoip.php:490
 #: includes/class-wp-statistics-geoip.php:491
-#: includes/class-wp-statistics-geoip.php:492
 #: includes/class-wp-statistics-user-agent.php:86
 msgid "Unknown"
 msgstr ""
@@ -3436,7 +3436,7 @@ msgstr ""
 
 #: includes/admin/templates/settings/externals.php:46
 #: includes/admin/templates/settings/externals.php:68
-msgid "Update Database"
+msgid "Update Database Manually"
 msgstr ""
 
 #: includes/admin/templates/settings/externals.php:51
@@ -3458,15 +3458,6 @@ msgstr ""
 #: includes/admin/templates/settings/externals.php:86
 #: includes/admin/templates/settings/externals.php:263
 msgid "Next update will be"
-msgstr ""
-
-#: includes/admin/templates/settings/externals.php:88
-#: includes/class-wp-statistics-schedule.php:214
-msgid "First Tuesday of this month"
-msgstr ""
-
-#: includes/admin/templates/settings/externals.php:91
-msgid "First Tuesday of next month"
 msgstr ""
 
 #: includes/admin/templates/settings/externals.php:110
@@ -4403,20 +4394,20 @@ msgstr ""
 msgid "GeoIP Database Successfully Updated!"
 msgstr ""
 
-#: includes/class-wp-statistics-geoip.php:385
-#: includes/class-wp-statistics-geoip.php:388
+#: includes/class-wp-statistics-geoip.php:384
+#: includes/class-wp-statistics-geoip.php:387
 msgid "GeoIP update on"
 msgstr ""
 
-#: includes/class-wp-statistics-geoip.php:393
+#: includes/class-wp-statistics-geoip.php:392
 msgid "Error: %1$s"
 msgstr ""
 
-#: includes/class-wp-statistics-geoip.php:420
+#: includes/class-wp-statistics-geoip.php:419
 msgid "Cannot Load GeoIP Database. Ensure It's Downloaded via Settings Page."
 msgstr ""
 
-#: includes/class-wp-statistics-geoip.php:451
+#: includes/class-wp-statistics-geoip.php:450
 msgid "Updated %s GeoIP Records in Visitor Database."
 msgstr ""
 
@@ -4669,11 +4660,11 @@ msgstr ""
 msgid "Number of views must be greater than or equal to 10!"
 msgstr ""
 
-#: includes/class-wp-statistics-schedule.php:253
+#: includes/class-wp-statistics-schedule.php:251
 msgid "Your WP Statistics Report"
 msgstr ""
 
-#: includes/class-wp-statistics-schedule.php:257
+#: includes/class-wp-statistics-schedule.php:255
 msgid " for %s to %s"
 msgstr ""
 
@@ -5513,6 +5504,6 @@ msgstr ""
 msgid "Invalid join clause"
 msgstr ""
 
-#: src/Utils/Query.php:451
+#: src/Utils/Query.php:453
 msgid "%s method is not defined."
 msgstr ""

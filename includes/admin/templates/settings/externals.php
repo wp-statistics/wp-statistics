@@ -43,7 +43,7 @@
 
                         <?php
                         if (WP_STATISTICS\Option::get('geoip')) {
-                            submit_button(esc_html__("Update Database", 'wp-statistics'), "secondary", "update_geoip", false);
+                            submit_button(esc_html__("Update Database Manually", 'wp-statistics'), "secondary", "update_geoip", false);
                         }
                         ?>
                     </label>
@@ -65,7 +65,7 @@
 
                         <?php
                         if (WP_STATISTICS\Option::get('geoip_city')) {
-                            submit_button(esc_html__("Update Database", 'wp-statistics'), "secondary", "update_geoip", false);
+                            submit_button(esc_html__("Update Database Manually", 'wp-statistics'), "secondary", "update_geoip", false);
                         }
                         ?>
                     </label>
