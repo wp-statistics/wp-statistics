@@ -43,8 +43,9 @@ class SingleBrowserView extends BaseView
             $args['total'] = $args['data']['total'];
 
             $args['pagination'] = Admin_Template::paginate_links([
-                'total' => $args['data']['total'],
-                'echo'  => false
+                'item_per_page' => 10,
+                'total'         => $args['total'],
+                'echo'          => false
             ]);
         }
 

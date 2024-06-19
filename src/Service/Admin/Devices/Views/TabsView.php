@@ -140,8 +140,9 @@ class TabsView extends BaseTabView
                 $args['total'] = $data['total'];
 
                 $args['pagination'] = Admin_Template::paginate_links([
-                    'total' => $data['total'],
-                    'echo'  => false
+                    'item_per_page' => 10,
+                    'total'         => $data['total'],
+                    'echo'          => false
                 ]);
             }
 
