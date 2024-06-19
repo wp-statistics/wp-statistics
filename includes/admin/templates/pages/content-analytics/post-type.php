@@ -113,7 +113,6 @@ $postTypePlural     = Helper::getPostTypeName($postType);
             $topPages = [
                 'title'     => sprintf(esc_html__('Top %s', 'wp-statistics'), $postTypePlural),
                 'tooltip'   => esc_html__('Top Pages tooltip', 'wp-statistics'),
-                'type'      => esc_html__('page', 'wp-statistics'),
                 'data'      => $data['posts']
             ];
             Admin_Template::get_template(['layout/content-analytics/top-picks'], $topPages);

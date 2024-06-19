@@ -1,5 +1,6 @@
 <?php 
 use WP_STATISTICS\Helper;
+use WP_Statistics\Utils\Request;
 ?>
 
 <div class="wps-card">
@@ -104,7 +105,7 @@ use WP_STATISTICS\Helper;
     </div>
     <div class="c-footer">
         <div class="c-footer__more">
-            <a href="" class="c-footer__more__link" title="<?php esc_html_e('See all', 'wp-statistics'); echo $type ?>s"><?php esc_html_e('See all ', 'wp-statistics') ; echo $type ?>s</a>
+            <a href="" class="c-footer__more__link"><?php echo sprintf(esc_html__('See all %s', 'wp-statistics'), strtolower(Helper::getPostTypeName(Request::get('tab', 'post')))) ;?></a>
         </div>
     </div>
 </div>
