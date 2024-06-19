@@ -60,6 +60,44 @@ class VisitorsModel extends BaseModel
         return $result ? $result : [];
     }
 
+    public function getParsedVisitorsData($args, $bypassCache = false)
+    {
+        $data   = $this->getVisitors($args, $bypassCache);
+        $result = [
+            'platform'  => [],
+            'agent'     => [],
+            'country'   => []
+        ];
+
+        if (!empty($data)) {
+            foreach ($data as $item) {
+                if (empty($result['platform'][$item->platform])) {
+                    $result['platform'][$item->platform] = 1;
+                } else {
+                    $result['platform'][$item->platform]++;
+                }
+    
+                if (empty($result['agent'][$item->agent])) {
+                    $result['agent'][$item->agent] = 1;
+                } else {
+                    $result['agent'][$item->agent]++;
+                }
+    
+                if (empty($result['country'][$item->location])) {
+                    $result['country'][$item->location] = 1;
+                } else {
+                    $result['country'][$item->location]++;
+                }
+            }
+    
+            // Sort and limit country
+            arsort($result['country']);
+            $result['country'] = array_slice($result['country'], 0, 10);
+        }
+
+        return $result;
+    }
+
     public function countGeoData($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [

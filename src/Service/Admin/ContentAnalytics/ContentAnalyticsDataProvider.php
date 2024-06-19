@@ -55,31 +55,10 @@ class ContentAnalyticsDataProvider
         return $data;
     }
 
-    public function getVisitorsData()
-    {
-        $data   = $this->visitorsModel->getVisitors($this->args);
-
-        $result = [
-            'platform' => [],
-        ];
-
-        if (!empty($data)) {
-            foreach ($data as $item) {
-                if (empty($result['platform'][$item->platform])) {
-                    $result['platform'][$item->platform] = 1;
-                } else {
-                    $result['platform'][$item->platform]++;
-                }
-            }
-        }
-
-        return $result;
-    }
-
     public function getPostTypeData()
     {
         $overviewData = $this->getOverviewData();
-        $visitorsData = $this->getVisitorsData();
+        $visitorsData = $this->visitorsModel->getParsedVisitorsData($this->args);
 
         return [
             'overview'      => $overviewData,
