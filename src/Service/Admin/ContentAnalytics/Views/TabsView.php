@@ -7,7 +7,9 @@ use WP_STATISTICS\Menus;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Abstracts\BaseTabView;
+use WP_Statistics\Service\Admin\ContentAnalytics\ContentAnalyticsDataProvider;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
+use WP_Statistics\Utils\Request;
 
 class TabsView extends BaseTabView 
 {
@@ -17,6 +19,14 @@ class TabsView extends BaseTabView
 
     public function __construct()
     {
+        $this->dataProvider = new ContentAnalyticsDataProvider([
+            'date' => [
+                'from'      => date('Y-m-d', strtotime('-1 month')),
+                'to'        => date('Y-m-d'),
+            ],
+            'post_type' => Request::get('tab', 'post')
+        ]);
+
         $this->tabs = Helper::getPostTypes();
     }
 
@@ -26,6 +36,11 @@ class TabsView extends BaseTabView
     public function isLockedTab($tab)
     {
         return !Helper::isAddOnActive('data-plus') && in_array($tab, Helper::getCustomPostTypes());
+    }
+
+    public function getTabData()
+    {
+        return $this->dataProvider->getPostTypeData();
     }
 
     public function getTabs()
@@ -69,7 +84,8 @@ class TabsView extends BaseTabView
                 'custom_get'    => ['tab' => $postType],
                 'DateRang'      => Admin_Template::DateRange(),
                 'hasDateRang'   => true,
-                'tabs'          => $this->getTabs()
+                'tabs'          => $this->getTabs(),
+                'data'          => $this->getTabData()
             ];
     
             Admin_Template::get_template(['layout/header', 'layout/tabbed-page-header', "pages/content-analytics/$template", 'layout/postbox.hide', 'layout/footer'], $args);
