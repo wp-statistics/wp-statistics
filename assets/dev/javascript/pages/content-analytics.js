@@ -1,7 +1,15 @@
 if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.request_params.page === "content-analytics") {
 
     const wpStatisticsContentAnalytics = {
+        data: [],
+
         init: function () {
+            if (typeof Wp_Statistics_Content_Analytics_Object == "undefined") {
+                console.log('Variable Wp_Statistics_Author_Analytics_Object not found.');
+                return;
+            } 
+
+            this.data = Wp_Statistics_Content_Analytics_Object;
             this.generateCharts()
         },
         generateCharts: function () {
@@ -118,9 +126,10 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         },
         generateOperatingSystemChart: function () {
             const OperatingSystemData = {
-                labels: ['Windows', 'macOs', 'iOS', 'Android', 'Linux', 'Other'],
-                data: [30, 20, 10, 5, 7, 5],
+                labels: this.data.os_chart_data.labels,
+                data: this.data.os_chart_data.data,
             };
+            
             const label_callback_content_operating_systems = function (tooltipItem) {
                 return tooltipItem.label;
             }

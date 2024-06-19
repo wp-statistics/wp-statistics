@@ -4,6 +4,7 @@ namespace WP_Statistics\Service\Admin\ContentAnalytics\Views;
 
 use Exception;
 use WP_STATISTICS\Menus;
+use WP_STATISTICS\Admin_Assets;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Abstracts\BaseTabView;
@@ -40,7 +41,16 @@ class TabsView extends BaseTabView
 
     public function getTabData()
     {
-        return $this->dataProvider->getPostTypeData();
+        $data = $this->dataProvider->getPostTypeData();
+
+        wp_localize_script(Admin_Assets::$prefix, 'Wp_Statistics_Content_Analytics_Object', [
+            'os_chart_data' => [
+                'labels'    => array_keys($data['visitors_data']['platform']), 
+                'data'      => array_values($data['visitors_data']['platform'])
+            ]
+        ]);
+
+        return $data;
     }
 
     public function getTabs()
