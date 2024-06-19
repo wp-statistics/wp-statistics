@@ -25,11 +25,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             this.generateSearchEngineChart();
         },
         generatePerformanceChart: function () {
-            const performanceData = {
-                labels: ['1 Apr', '2 Apr', '3 Apr', '4 Apr', '5 Apr', '6 Apr', '7 Apr', '8 Apr', '9 Apr', '10 Apr', '11 Apr', '12 Apr', '13 Apr', '14 Apr', '15 Apr'],
-                views: [10, 15, 30, 25, 30, 35, 30, 45, 20, 15, 45, 15, 20, 25, 30],
-                visitors: [5, 10, 15, 20, 25, 30, 25, 20, 15, 10, 5, 10, 15, 20, 25]
-            };
+            const performanceData = this.data.performance_chart_data;
             const performance = document.getElementById('performance-chart').getContext('2d');
             const performanceChart = new Chart(performance, {
                 type: 'bar',
@@ -74,7 +70,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                         {
                             type: 'bar',
                             label: 'Published Posts',
-                            data: [5, 7, 6, 5, 9, 8, 7, 6, 5, 8, 7, 6, 5, 8, 7],
+                            data: performanceData.posts,
                             backgroundColor: 'rgba(159,165,248,0.7)',
                             yAxisID: 'y1',
                             borderRadius: {topLeft: 10, topRight: 10},

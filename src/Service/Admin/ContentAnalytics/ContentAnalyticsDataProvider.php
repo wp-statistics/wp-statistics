@@ -22,6 +22,27 @@ class ContentAnalyticsDataProvider
         $this->visitorsModel    = new VisitorsModel();
     }
 
+    public function getPerformanceChartData()
+    {
+        $result = [
+            'labels'    => [],
+            'views'     => [],
+            'visitors'  => []
+        ];
+
+        for ($i = 14; $i >= 0; $i--) {
+            $date       = date('Y-m-d', strtotime("-$i days"));
+            $dateFilter = ['date' => ['from' => $date, 'to' => $date]];
+
+            $result['labels'][]     = date_i18n('j M', strtotime($date));
+            $result['visitors'][]   = $this->visitorsModel->countVisitors(array_merge($this->args, $dateFilter));
+            $result['views'][]      = $this->viewsModel->countViews(array_merge($this->args, $dateFilter));
+            $result['posts'][]      = $this->postsModel->countPosts(array_merge($this->args, $dateFilter));
+        }
+
+        return $result;
+    }
+
     public function getOverviewData()
     {
         $totalPosts     = $this->postsModel->countPosts($this->args);
@@ -55,10 +76,16 @@ class ContentAnalyticsDataProvider
         return $data;
     }
 
+    public function getVisitorsData()
+    {
+        return $this->visitorsModel->getParsedVisitorsData($this->args);
+    }
+
     public function getPostTypeData()
     {
         $overviewData       = $this->getOverviewData();
-        $visitorsData       = $this->visitorsModel->getParsedVisitorsData($this->args);
+        $visitorsData       = $this->getVisitorsData();
+        
         $visitorsSummary    = $this->visitorsModel->getVisitorsSummary($this->args);
         $viewsSummary       = $this->viewsModel->getViewsSummary($this->args);
 
