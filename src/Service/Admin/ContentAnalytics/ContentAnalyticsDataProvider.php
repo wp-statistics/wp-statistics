@@ -95,11 +95,20 @@ class ContentAnalyticsDataProvider
             'views'     => $this->viewsModel->countViews(array_merge($this->args, ['date' => ['from' => date('Y-m-d', strtotime('-15 days')), 'to' => date('Y-m-d')]]))
         ];
 
+        $topPostsByView     = $this->postsModel->getPostsViewsData($this->args);
+        $topPostsByComment  = $this->postsModel->getPostsCommentsData($this->args);
+        $recentPosts        = $this->postsModel->getPostsViewsData(array_merge($this->args, ['date' => '', 'date_field' => 'post_date', 'order_by' => 'post_date']));
+
         return [
-            'visits_summary'=> array_replace_recursive($visitorsSummary, $viewsSummary),
-            'overview'      => $overviewData,
-            'visitors_data' => $visitorsData,
-            'performance'   => $performanceData
+            'visits_summary'    => array_replace_recursive($visitorsSummary, $viewsSummary),
+            'overview'          => $overviewData,
+            'visitors_data'     => $visitorsData,
+            'performance'       => $performanceData,
+            'posts'             => [
+                'top_viewing'   => $topPostsByView,
+                'top_commented' => $topPostsByComment,
+                'recent'        => $recentPosts
+            ],
         ];
     }
 }

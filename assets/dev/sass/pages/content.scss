@@ -426,6 +426,12 @@
       &--image {
         position: relative;
 
+        svg {
+          width: 39px;
+          height: 39px;
+          border-radius: 50%;
+        }
+
         span {
           position: absolute;
           color: #fff;

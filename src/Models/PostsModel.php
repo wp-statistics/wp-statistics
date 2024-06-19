@@ -149,19 +149,21 @@ class PostsModel extends BaseModel
     public function getPostsViewsData($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
-            'date'      => '',
-            'post_type' => Helper::get_list_post_type(),
-            'order_by'  => 'views',
-            'order'     => 'DESC',
-            'page'     => 1,
-            'per_page' => 5,
-            'author_id' => ''
+            'date'          => '',
+            'date_field'    => 'pages.date',
+            'post_type'     => Helper::get_list_post_type(),
+            'order_by'      => 'views',
+            'order'         => 'DESC',
+            'page'          => 1,
+            'per_page'      => 5,
+            'author_id'     => ''
         ]);
 
         $result = Query::select([
                 'posts.ID',
                 'posts.post_author',
                 'posts.post_title',
+                'posts.post_date',
                 'COALESCE(SUM(pages.count), 0) AS views',
             ])
             ->from('posts')
@@ -169,7 +171,7 @@ class PostsModel extends BaseModel
             ->where('post_type', 'IN', $args['post_type'])
             ->where('post_status', '=', 'publish')
             ->where('posts.post_author', '=', $args['author_id'])
-            ->whereDate('pages.date', $args['date'])
+            ->whereDate($args['date_field'], $args['date'])
             ->groupBy('posts.ID')
             ->orderBy($args['order_by'], $args['order'])
             ->perPage($args['page'], $args['per_page'])
