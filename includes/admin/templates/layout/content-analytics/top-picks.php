@@ -19,7 +19,7 @@ use WP_Statistics\Utils\Request;
                 <label for="content-most-popular"><?php esc_html_e('Most Popular', 'wp-statistics') ?></label>
                 <div class="wps-content-tabs__content">
                     <?php
-                        if (!empty($data)) {
+                        if (!empty($data['top_viewing'])) {
                             $counter = 1;
                             
                             foreach ($data['top_viewing'] as $post) : ?>
@@ -48,7 +48,7 @@ use WP_Statistics\Utils\Request;
                 <label for="content-most-commented"><?php esc_html_e('Most Commented', 'wp-statistics') ?></label>
                 <div class="wps-content-tabs__content">
                     <?php 
-                        if (!empty($data)) {
+                        if (!empty($data['top_commented'])) {
                             $counter = 1;
                             
                             foreach ($data['top_commented'] as $post) : ?>
@@ -81,7 +81,7 @@ use WP_Statistics\Utils\Request;
                 <label for="content-recent"><?php esc_html_e('Recent', 'wp-statistics') ?></label>
                 <div class="wps-content-tabs__content">
                     <?php 
-                        if (!empty($data)) {
+                        if (!empty($data['recent'])) {
                             $counter = 1;
                             
                             foreach ($data['recent'] as $post) : ?>
