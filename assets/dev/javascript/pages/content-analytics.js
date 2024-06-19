@@ -125,11 +125,8 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             });
         },
         generateOperatingSystemChart: function () {
-            const OperatingSystemData = {
-                labels: this.data.os_chart_data.labels,
-                data: this.data.os_chart_data.data,
-            };
-            
+            const OperatingSystemData = this.data.os_chart_data;
+
             const label_callback_content_operating_systems = function (tooltipItem) {
                 return tooltipItem.label;
             }
@@ -178,10 +175,8 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             });
         },
         generateBrowsersChartData: function () {
-            const browsersData = {
-                labels: ['Chrome', 'Firefox', 'Safari', 'Opera', 'edge', 'Other'],
-                data: [30, 20, 10, 5, 7, 5],
-            };
+            const browsersData = this.data.browser_chart_data;
+
             const label_callback_content_browsers = function (tooltipItem) {
                 return tooltipItem.label;
             }
