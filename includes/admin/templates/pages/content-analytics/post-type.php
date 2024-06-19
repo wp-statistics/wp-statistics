@@ -1,12 +1,18 @@
 <?php 
 use WP_STATISTICS\Admin_Template;
+use WP_STATISTICS\Helper;
+use WP_Statistics\Utils\Request;
+
+$postType           = Request::get('tab', 'post');
+$postTypeSingular   = Helper::getPostTypeName($postType, true);
+$postTypePlural     = Helper::getPostTypeName($postType);
 ?>
 
 <div class="metabox-holder wps-content-analytics">
     <div class="postbox-container" id="wps-postbox-container-1">
         <?php
             $args1 = [
-                'title_text'   => esc_html__('Published Pages', 'wp-statistics'),
+                'title_text'   => sprintf(esc_html__('Published %s', 'wp-statistics'), $postTypePlural),
                 'tooltip_text' => esc_html__('Published Pages tooltip', 'wp-statistics'),
                 'icon_class'   => 'posts',
                 'total'        => '2.5K',
@@ -19,7 +25,7 @@ use WP_STATISTICS\Admin_Template;
                 'icon_class'   => 'views',
                 'total'        => '35.1M',
                 'avg'          => '16.2K',
-                'avg_title'    => esc_html__('Avg. Per Page', 'wp-statistics'),
+                'avg_title'    => sprintf(esc_html__('Avg. per %s', 'wp-statistics'), $postTypeSingular),
             ];
             Admin_Template::get_template(['layout/content-analytics/overview-card'], $args2);
 
@@ -29,7 +35,7 @@ use WP_STATISTICS\Admin_Template;
                 'icon_class'   => 'visitors',
                 'total'        => '35.1M',
                 'avg'          => '10.2K',
-                'avg_title'    => esc_html__('Avg. Per Page', 'wp-statistics'),
+                'avg_title'    => sprintf(esc_html__('Avg. per %s', 'wp-statistics'), $postTypeSingular),
             ];
             Admin_Template::get_template(['layout/content-analytics/overview-card'], $args3);
 
@@ -39,7 +45,7 @@ use WP_STATISTICS\Admin_Template;
                 'icon_class'   => 'words',
                 'total'        => '35.1M',
                 'avg'          => '10.2K',
-                'avg_title'    => esc_html__('Avg. Per Page', 'wp-statistics'),
+                'avg_title'    => sprintf(esc_html__('Avg. per %s', 'wp-statistics'), $postTypeSingular),
             ];
             Admin_Template::get_template(['layout/content-analytics/overview-card'], $args4);
 
@@ -49,7 +55,7 @@ use WP_STATISTICS\Admin_Template;
                 'icon_class'   => 'comments',
                 'total'        => '35.1M',
                 'avg'          => '300',
-                'avg_title'    => esc_html__('Avg. Per Page', 'wp-statistics'),
+                'avg_title'    => sprintf(esc_html__('Avg. per %s', 'wp-statistics'), $postTypeSingular),
             ];
             Admin_Template::get_template(['layout/content-analytics/overview-card'], $args5);
         ?>
