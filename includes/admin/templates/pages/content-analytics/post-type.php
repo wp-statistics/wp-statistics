@@ -69,27 +69,21 @@ $postTypePlural     = Helper::getPostTypeName($postType);
                 'unique_id' => 'content_operating_systems'
             ];
             Admin_Template::get_template(['layout/content-analytics/pie-chart'], $operatingSystems);
-        ?>
-
-        <?php
+        
             $browsers = [
                 'title'     => esc_html__('Browsers', 'wp-statistics'),
                 'tooltip'   => esc_html__('Browsers tooltip', 'wp-statistics'),
                 'unique_id' => 'content_browsers'
             ];
             Admin_Template::get_template(['layout/content-analytics/pie-chart'], $browsers);
-        ?>
-
-        <?php
+        
             $deviceModels = [
                 'title'     => esc_html__('Device Models', 'wp-statistics'),
                 'tooltip'   => esc_html__('Device Models tooltip', 'wp-statistics'),
                 'unique_id' => 'content_device_models'
             ];
             Admin_Template::get_template(['layout/content-analytics/pie-chart'], $deviceModels);
-        ?>
-
-        <?php
+        
             $deviceUsage = [
                 'title'     => esc_html__('Device Usage', 'wp-statistics'),
                 'tooltip'   => esc_html__('Device Usage tooltip', 'wp-statistics'),
