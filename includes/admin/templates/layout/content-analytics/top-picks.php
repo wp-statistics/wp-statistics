@@ -23,7 +23,7 @@ use WP_Statistics\Utils\Request;
                             $counter = 1;
                             
                             foreach ($data['top_viewing'] as $post) : ?>
-                                <a class="wps-content-tabs__item" href="">
+                                <a class="wps-content-tabs__item" href="<?php echo esc_url(add_query_arg(['type' => 'single', 'post_id' => $post->ID])) ?>">
                                     <div class="wps-content-tabs__item--image">
                                         <span># <?php echo esc_html($counter); ?></span>
                                         <?php if (has_post_thumbnail($post->ID)) : ?>
@@ -39,7 +39,9 @@ use WP_Statistics\Utils\Request;
                                 </a>
                                 <?php $counter++;
                             endforeach;
-                        }
+                        } else {
+                            ?><div class="o-wrap o-wrap--no-data"><p><?php esc_html_e('No recent data available.', 'wp-statistics') ?></p></div><?php
+                        } 
                     ?>
                 </div>
                 <input type="radio" name="tabs" id="content-most-commented">
@@ -50,7 +52,7 @@ use WP_Statistics\Utils\Request;
                             $counter = 1;
                             
                             foreach ($data['top_commented'] as $post) : ?>
-                                <a class="wps-content-tabs__item" href="">
+                                <a class="wps-content-tabs__item" href="<?php echo esc_url(add_query_arg(['type' => 'single', 'post_id' => $post->ID])) ?>">
                                     <div class="wps-content-tabs__item--image">
                                         <span># <?php echo esc_html($counter); ?></span>
                                         <?php if (has_post_thumbnail($post->ID)) : ?>
@@ -66,7 +68,9 @@ use WP_Statistics\Utils\Request;
                                 </a>
                                 <?php $counter++;
                             endforeach;
-                        }
+                        } else {
+                            ?><div class="o-wrap o-wrap--no-data"><p><?php esc_html_e('No recent data available.', 'wp-statistics') ?></p></div><?php
+                        } 
                     ?>
                 </div>
             </div>
@@ -81,7 +85,7 @@ use WP_Statistics\Utils\Request;
                             $counter = 1;
                             
                             foreach ($data['recent'] as $post) : ?>
-                                <a class="wps-content-tabs__item" href="">
+                                <a class="wps-content-tabs__item" href="<?php echo esc_url(add_query_arg(['type' => 'single', 'post_id' => $post->ID])) ?>">
                                     <div class="wps-content-tabs__item--image">
                                         <span># <?php echo esc_html($counter); ?></span>
                                         <?php if (has_post_thumbnail($post->ID)) : ?>
@@ -97,7 +101,9 @@ use WP_Statistics\Utils\Request;
                                 </a>
                                 <?php $counter++;
                             endforeach;
-                        }
+                        } else {
+                            ?><div class="o-wrap o-wrap--no-data"><p><?php esc_html_e('No recent data available.', 'wp-statistics') ?></p></div><?php
+                        } 
                     ?>
                 </div>
             </div>
