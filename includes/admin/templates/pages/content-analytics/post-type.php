@@ -122,11 +122,12 @@ $postTypePlural     = Helper::getPostTypeName($postType);
             ];
             Admin_Template::get_template(['layout/content-analytics/summary'], $summary);
 
-            $top_countries = [
-                'title_text'   => esc_html__('Top Countries', 'wp-statistics'),
-                'tooltip_text' => esc_html__('Top Countries tooltip', 'wp-statistics'),
+            $topCountries = [
+                'title'   => esc_html__('Top Countries', 'wp-statistics'),
+                'tooltip' => esc_html__('Top Countries tooltip', 'wp-statistics'),
+                'data'    => $data['visitors_data']['country']
             ];
-            Admin_Template::get_template(['layout/content-analytics/top-countries'], $top_countries);
+            Admin_Template::get_template(['layout/content-analytics/top-countries'], $topCountries);
         
             $engines = [
                 'title_text'   => esc_html__('Search Engines', 'wp-statistics'),
