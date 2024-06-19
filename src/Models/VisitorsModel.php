@@ -32,7 +32,7 @@ class VisitorsModel extends BaseModel
         return $result ? $result : 0;
     }
 
-    public function getVisitors($args = [], $bypassCache = false)
+    public function getVisitorsData($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
             'date'      => '',
@@ -62,7 +62,7 @@ class VisitorsModel extends BaseModel
 
     public function getParsedVisitorsData($args, $bypassCache = false)
     {
-        $data   = $this->getVisitors($args, $bypassCache);
+        $data   = $this->getVisitorsData($args, $bypassCache);
         $result = [
             'platform'  => [],
             'agent'     => [],
