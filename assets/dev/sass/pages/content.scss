@@ -286,10 +286,13 @@
         align-items: center;
         gap: 6px;
         display: flex;
-        font-size: 13px;
+        font-size: 12px;
         font-weight: 500;
         line-height: 15.23px;
         letter-spacing: 0.01em;
+        @media(min-width: 500px){
+          font-size: 13px;
+        }
 
         &:before {
           content: '';
@@ -300,10 +303,13 @@
       }
 
       span {
-        font-size: 22px;
+        font-size: 16px;
         font-weight: 600;
         line-height: 25.78px;
         color: #0C0C0D;
+        @media(min-width: 500px){
+          font-size: 22px;
+        }
       }
     }
   }
