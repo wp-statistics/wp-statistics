@@ -45,6 +45,7 @@ class TabsView extends BaseTabView
 
         wp_localize_script(Admin_Assets::$prefix, 'Wp_Statistics_Content_Analytics_Object', [
             'performance_chart_data'    => $this->dataProvider->getPerformanceChartData(),
+            'post_type'                 => Helper::getPostTypeName($this->getCurrentTab()),
             'os_chart_data'             => [
                 'labels'    => array_keys($data['visitors_data']['platform']), 
                 'data'      => array_values($data['visitors_data']['platform'])

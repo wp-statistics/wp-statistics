@@ -34,7 +34,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                     datasets: [
                         {
                             type: 'line',
-                            label: 'Views',
+                            label: wps_js._('visits'),
                             cubicInterpolationMode: 'monotone',
                             data: performanceData.views,
                             borderColor: '#0e9444',
@@ -52,7 +52,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                         },
                         {
                             type: 'line',
-                            label: 'Visitors',
+                            label: wps_js._('visitors'),
                             cubicInterpolationMode: 'monotone',
                             data: performanceData.visitors,
                             borderColor: '#4915b9',
@@ -69,7 +69,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                         },
                         {
                             type: 'bar',
-                            label: 'Published Posts',
+                            label: `${wps_js._('published')} ${this.data.post_type}`,
                             data: performanceData.posts,
                             backgroundColor: 'rgba(159,165,248,0.7)',
                             yAxisID: 'y1',
@@ -98,7 +98,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                             },
                             title: {
                                 display: true,
-                                text: 'Views',
+                                text: wps_js._('visits'),
                                 color: '#0e9444'
                             }
                         },
@@ -112,7 +112,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                             },
                             title: {
                                 display: true,
-                                text: 'Published Posts',
+                                text: `${wps_js._('published')} ${this.data.post_type}`,
                                 color: '#9fa5f8',
                             }
                         }
@@ -127,7 +127,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                 return tooltipItem.label;
             }
             const tooltip_callback_content_operating_systems = (ctx) => {
-                return 'Visitors :' + ctx[0].formattedValue
+                return `${wps_js._('visitors')} :` + ctx[0].formattedValue
             }
             const data_content_operating_systems = {
                 labels: OperatingSystemData.labels,
@@ -177,7 +177,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                 return tooltipItem.label;
             }
             const tooltip_callback_content_browsers = (ctx) => {
-                return 'Visitors :' + ctx[0].formattedValue
+                return `${wps_js._('visitors')}: ` + ctx[0].formattedValue
             }
             const data_content_browsers = {
                 labels: browsersData.labels,
@@ -227,7 +227,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                 return tooltipItem.label;
             }
             const tooltip_callback_content_device_model = (ctx) => {
-                return 'Visitors :' + ctx[0].formattedValue
+                return `${wps_js._('visitors')}: ` + ctx[0].formattedValue
             }
             const data_content_device_model = {
                 labels: deviceModelData.labels,
@@ -276,7 +276,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                 return tooltipItem.label;
             }
             const tooltip_callback_content_device_usage = (ctx) => {
-                return 'Visitors :' + ctx[0].formattedValue
+                return `${wps_js._('visitors')}: ` + ctx[0].formattedValue
             }
             const data_content_device_usage = {
                 labels: deviceUsageData.labels,

@@ -1,4 +1,9 @@
-<?php use WP_STATISTICS\Helper; ?>
+<?php 
+use WP_STATISTICS\Helper;
+use WP_Statistics\Utils\Request;
+
+$postType = Request::get('tab', 'post');
+?>
 
 <div class="wps-card">
     <div class="wps-card__title">
@@ -15,7 +20,7 @@
     <div class="wps-content-analytics-chart-items">
         <?php if ($type === 'post-type'): ?>
             <div class="wps-content-analytics-chart--item wps-content-analytics-chart--item--published">
-                <p><?php echo esc_html__('Published Posts', 'wp-statistics') ?></p>
+                <p><?php echo sprintf(esc_html__('Published %s', 'wp-statistics'), Helper::getPostTypeName($postType)) ?></p>
                 <span><?php echo esc_html(Helper::formatNumberWithUnit($data['posts'])) ?></span>
             </div>
         <?php endif ?>
