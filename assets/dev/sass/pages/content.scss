@@ -1,20 +1,28 @@
 .wps-content-analytics {
+  display: flex;
+  gap: 8px;
+  flex-direction: column;
+  @media (min-width: 759px) {
+    flex-direction: row;
+  }
+
   #wps-postbox-container-1 {
-    display: flex;
+    display: inline-flex;
     flex-direction: column;
     gap: 8px;
-    margin-bottom: 8px;
     @media(min-width: 759px) {
-      width: 304px;
+      width: 304px
     }
   }
 
   #wps-postbox-container-2 {
-    display: flex;
+    display: inline-flex;
     flex-direction: column;
     gap: 8px;
+    margin: 0;
     @media(min-width: 759px) {
-      width: calc(99% - 318px);
+      width: calc(100% - 308px);
+      float: none;
     }
   }
 
@@ -235,7 +243,10 @@
 
   &-chart-items {
     display: flex;
-    gap: 48px;
+    gap: 15px;
+    @media (min-width: 500px) {
+      gap: 48px;
+    }
 
     .wps-content-analytics-chart--item {
       &--published {
