@@ -44,20 +44,20 @@ class TabsView extends BaseTabView
         $data = $this->dataProvider->getPostTypeData();
 
         wp_localize_script(Admin_Assets::$prefix, 'Wp_Statistics_Content_Analytics_Object', [
-            'performance_chart_data' => $this->dataProvider->getPerformanceChartData(),
-            'os_chart_data' => [
+            'performance_chart_data'    => $this->dataProvider->getPerformanceChartData(),
+            'os_chart_data'             => [
                 'labels'    => array_keys($data['visitors_data']['platform']), 
                 'data'      => array_values($data['visitors_data']['platform'])
             ],
-            'browser_chart_data'    => [
+            'browser_chart_data'        => [
                 'labels'    => array_keys($data['visitors_data']['agent']), 
                 'data'      => array_values($data['visitors_data']['agent'])
             ],
-            'device_chart_data'    => [
+            'device_chart_data'         => [
                 'labels'    => array_keys($data['visitors_data']['device']), 
                 'data'      => array_values($data['visitors_data']['device'])
             ],
-            'model_chart_data'    => [
+            'model_chart_data'          => [
                 'labels'    => array_keys($data['visitors_data']['model']), 
                 'data'      => array_values($data['visitors_data']['model'])
             ],
