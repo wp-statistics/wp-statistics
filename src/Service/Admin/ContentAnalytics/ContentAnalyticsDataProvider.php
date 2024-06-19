@@ -89,10 +89,17 @@ class ContentAnalyticsDataProvider
         $visitorsSummary    = $this->visitorsModel->getVisitorsSummary($this->args);
         $viewsSummary       = $this->viewsModel->getViewsSummary($this->args);
 
+        $performanceData    = [
+            'posts'     => $this->postsModel->countPosts(array_merge($this->args, ['date' => ['from' => date('Y-m-d', strtotime('-15 days')), 'to' => date('Y-m-d')]])),
+            'visitors'  => $this->visitorsModel->countVisitors(array_merge($this->args, ['date' => ['from' => date('Y-m-d', strtotime('-15 days')), 'to' => date('Y-m-d')]])),
+            'views'     => $this->viewsModel->countViews(array_merge($this->args, ['date' => ['from' => date('Y-m-d', strtotime('-15 days')), 'to' => date('Y-m-d')]]))
+        ];
+
         return [
-            'overview'      => $overviewData,
             'visits_summary'=> array_replace_recursive($visitorsSummary, $viewsSummary),
-            'visitors_data' => $visitorsData
+            'overview'      => $overviewData,
+            'visitors_data' => $visitorsData,
+            'performance'   => $performanceData
         ];
     }
 }

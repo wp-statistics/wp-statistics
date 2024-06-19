@@ -106,6 +106,7 @@ $postTypePlural     = Helper::getPostTypeName($postType);
                 'tooltip'     => esc_html__('Performance tooltip', 'wp-statistics'),
                 'type'        => 'post-type',
                 'description' => esc_html__('Last 15 Days', 'wp-statistics'),
+                'data'        => $data['performance']
             ];
             Admin_Template::get_template(['layout/content-analytics/performance-chart'], $performance);
 

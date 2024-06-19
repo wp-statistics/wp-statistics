@@ -1,3 +1,5 @@
+<?php use WP_STATISTICS\Helper; ?>
+
 <div class="wps-card">
     <div class="wps-card__title">
         <h2>
@@ -14,16 +16,16 @@
         <?php if ($type === 'post-type'): ?>
             <div class="wps-content-analytics-chart--item wps-content-analytics-chart--item--published">
                 <p><?php echo esc_html__('Published Posts', 'wp-statistics') ?></p>
-                <span>126</span>
+                <span><?php echo esc_html(Helper::formatNumberWithUnit($data['posts'])) ?></span>
             </div>
         <?php endif ?>
         <div class="wps-content-analytics-chart--item wps-content-analytics-chart--item--views">
             <p><?php echo esc_html__('Views', 'wp-statistics') ?></p>
-            <span>352.3K</span>
+            <span><?php echo esc_html(Helper::formatNumberWithUnit($data['views'])) ?></span>
         </div>
         <div class="wps-content-analytics-chart--item wps-content-analytics-chart--item--visitors">
             <p><?php echo esc_html__('Visitors', 'wp-statistics') ?></p>
-            <span>105.4K</span>
+            <span><?php echo esc_html(Helper::formatNumberWithUnit($data['visitors'])) ?></span>
         </div>
     </div>
     <div class="wps-content-analytics-chart">
