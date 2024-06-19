@@ -611,19 +611,24 @@ class Helper
 
         // Check if the URL has query strings
         if ($urlQuery !== false) {
+            // Extract the URL path and query string
+            $urlPath     = substr($url, 0, $urlQuery);
+            $queryString = substr($url, $urlQuery + 1);
 
-            // Parse query strings passed via the URL
-            parse_str(substr($url, $urlQuery + 1), $parsedQuery);
+            // Parse the query string into an array
+            parse_str($queryString, $parsedQuery);
 
-            // Loop through query params and unset ones not allowed  
+            // Get the first query param key
+            $firstKey = array_key_first($parsedQuery);
+
+            // Loop through query params and unset ones not allowed, except the first one
             foreach ($parsedQuery as $key => $value) {
-                if (!in_array($key, $allowedParams)) {
+                if ($key !== $firstKey && !in_array($key, $allowedParams)) {
                     unset($parsedQuery[$key]);
                 }
             }
 
-            // Rebuild URL with allowed params
-            $urlPath = substr($url, 0, $urlQuery);
+            // Rebuild URL with allowed params, keeping the first query param
             if (!empty($parsedQuery)) {
                 $filteredQuery = http_build_query($parsedQuery);
                 $url           = $urlPath . '?' . $filteredQuery;
@@ -767,7 +772,7 @@ class Helper
 
         $schedule   = Option::get('time_report', false);
         $emailTitle = sprintf(__('Sent from %s', 'wp-statistics'), wp_parse_url(get_site_url())['host']);
-        
+
         if ($schedule && array_key_exists($schedule, Schedule::getSchedules())) {
             $schedule   = Schedule::getSchedules()[$schedule];
             $emailTitle .= sprintf(__('<br><small>Report Date Range: %s to %s</small>', 'wp-statistics'), $schedule['start'], $schedule['end']);
@@ -1392,7 +1397,7 @@ class Helper
             : $postTypeObj->labels->name;
     }
 
-    
+
     /**
      * Retrieves the country code based on the timezone string.
      *
@@ -1408,7 +1413,7 @@ class Helper
     /**
      * Returns full URL of a DIR.
      *
-     * @param   string  $dir
+     * @param string $dir
      *
      * @return  string          URL. Empty on error.
      * @source  https://wordpress.stackexchange.com/a/264870/
@@ -1429,7 +1434,7 @@ class Helper
     /**
      * Returns full DIR of a local URL.
      *
-     * @param   string  $url
+     * @param string $url
      *
      * @return  string          DIR. Empty on error.
      */
