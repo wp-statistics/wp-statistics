@@ -207,7 +207,7 @@ class Helper
     public static function get_uploads_dir($path = '')
     {
         $upload_dir = wp_upload_dir();
-        return path_join($upload_dir['basedir'], $path);
+        return wp_normalize_path(path_join($upload_dir['basedir'], $path));
     }
 
     /**
