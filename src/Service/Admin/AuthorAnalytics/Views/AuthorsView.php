@@ -18,7 +18,7 @@ class AuthorsView extends BaseView
      */
     public function getData()
     {
-        $from     = Request::get('from', date('Y-m-d', strtotime('-1 month')));
+        $from     = Request::get('from', date('Y-m-d', strtotime('-30 days')));
         $to       = Request::get('to', date('Y-m-d'));
         $postType = Request::get('pt', 'post');
         $orderBy  = Request::get('order_by');
