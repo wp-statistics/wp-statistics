@@ -44,7 +44,7 @@ class ContentAnalyticsPage extends MultiViewPage
                     'action' => 'process_word_count',
                     'nonce'  => wp_create_nonce('process_word_count_nonce')
                 ],
-                Menus::admin_url('content-analytics')
+                Menus::admin_url($this->pageSlug)
             );
 
             $message = sprintf(
@@ -69,7 +69,7 @@ class ContentAnalyticsPage extends MultiViewPage
         if (Option::getOptionGroup('jobs', 'word_count_process_started')) {
             Notice::addFlashNotice(__('Word count processing is already started.', 'wp-statistics'));
 
-            wp_redirect(Menus::admin_url('content-analytics'));
+            wp_redirect(Menus::admin_url($this->pageSlug));
             exit;
         }
 
@@ -85,7 +85,7 @@ class ContentAnalyticsPage extends MultiViewPage
 
         $calculatePostWordsCount->save()->dispatch();
 
-        wp_redirect(Menus::admin_url('content-analytics'));
+        wp_redirect(Menus::admin_url($this->pageSlug));
         exit;
     }
 }
