@@ -86,26 +86,26 @@ use WP_STATISTICS\Admin_Template;
             Admin_Template::get_template(['layout/content-analytics/performance-chart'], $performance);
 
             $summary = [
-                'title_text'   => esc_html__('Summary', 'wp-statistics'),
-                'tooltip_text' => esc_html__('Summary tooltip', 'wp-statistics'),
+                'title'   => esc_html__('Summary', 'wp-statistics'),
+                'tooltip' => esc_html__('Summary tooltip', 'wp-statistics'),
             ];
             Admin_Template::get_template(['layout/content-analytics/summary'], $summary);
 
             $topCountries = [
-                'title_text'   => esc_html__('Top Countries', 'wp-statistics'),
-                'tooltip_text' => esc_html__('Top Countries tooltip', 'wp-statistics'),
+                'title'   => esc_html__('Top Countries', 'wp-statistics'),
+                'tooltip' => esc_html__('Top Countries tooltip', 'wp-statistics'),
             ];
             Admin_Template::get_template(['layout/content-analytics/top-countries'], $topCountries);
 
             $engines = [
-                'title_text'   => esc_html__('Search Engines', 'wp-statistics'),
-                'tooltip_text' => esc_html__('Search Engines tooltip', 'wp-statistics'),
+                'title'   => esc_html__('Search Engines', 'wp-statistics'),
+                'tooltip' => esc_html__('Search Engines tooltip', 'wp-statistics'),
             ];
             Admin_Template::get_template(['layout/content-analytics/search-engines'], $engines);
 
             $topReferring = [
-                'title_text'   => esc_html__('Top Referring', 'wp-statistics'),
-                'tooltip_text' => esc_html__('Top Referring tooltip', 'wp-statistics'),
+                'title'   => esc_html__('Top Referring', 'wp-statistics'),
+                'tooltip' => esc_html__('Top Referring tooltip', 'wp-statistics'),
             ];
             Admin_Template::get_template(['layout/content-analytics/top-referring'], $topReferring);
         ?>
