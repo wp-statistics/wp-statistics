@@ -91,7 +91,6 @@ class DevicesDataProvider
         return [
             'visitors' => $this->visitorsModel->getVisitorsDevicesVersions($args),
             'total'    => $this->visitorsModel->countColumnDistinct($args),
-            'views'    => $this->visitorsModel->countTotalViews($args),
         ];
     }
 
@@ -113,7 +112,6 @@ class DevicesDataProvider
         return [
             'visitors' => $this->visitorsModel->getVisitorsDevicesVersions($args),
             'total'    => $this->visitorsModel->countColumnDistinct($args),
-            'views'    => $this->visitorsModel->countTotalViews($args),
         ];
     }
 
@@ -135,7 +133,6 @@ class DevicesDataProvider
         return [
             'visitors' => $this->visitorsModel->getVisitorsDevicesVersions($args),
             'total'    => $this->visitorsModel->countColumnDistinct($args),
-            'views'    => $this->visitorsModel->countTotalViews($args),
         ];
     }
 }
