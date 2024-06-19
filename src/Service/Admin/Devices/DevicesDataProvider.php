@@ -31,7 +31,7 @@ class DevicesDataProvider
         return [
             'visitors' => $this->visitorsModel->getVisitorsDevices($args),
             'total'    => $this->visitorsModel->countColumnDistinct($args),
-            'views'    => $this->visitorsModel->countTotalViews($args),
+            'visits'   => $this->visitorsModel->countColumnDistinct(array_merge($args, ['field' => 'ID'])),
         ];
     }
 
@@ -50,7 +50,7 @@ class DevicesDataProvider
         return [
             'visitors' => $this->visitorsModel->getVisitorsDevices($args),
             'total'    => $this->visitorsModel->countColumnDistinct($args),
-            'views'    => $this->visitorsModel->countTotalViews($args),
+            'visits'   => $this->visitorsModel->countColumnDistinct(array_merge($args, ['field' => 'ID'])),
         ];
     }
 
@@ -69,7 +69,7 @@ class DevicesDataProvider
         return [
             'visitors' => $this->visitorsModel->getVisitorsDevices($args),
             'total'    => $this->visitorsModel->countColumnDistinct($args),
-            'views'    => $this->visitorsModel->countTotalViews($args),
+            'visits'   => $this->visitorsModel->countColumnDistinct(array_merge($args, ['field' => 'ID'])),
         ];
     }
 
@@ -82,7 +82,7 @@ class DevicesDataProvider
      */
     public function getSingleBrowserData($selectedBrowser)
     {
-        $args = array_merge($this->args, [
+        $args       = array_merge($this->args, [
             'field'     => 'agent',
             'where_col' => 'agent',
             'where_val' => esc_sql($selectedBrowser),
@@ -90,8 +90,8 @@ class DevicesDataProvider
 
         return [
             'visitors' => $this->visitorsModel->getVisitorsDevicesVersions($args),
-            'total'    => $this->visitorsModel->countColumnDistinct($args),
-            'views'    => $this->visitorsModel->countTotalViews($args),
+            'total'    => $this->visitorsModel->countColumnDistinct(array_merge($this->args, ['field' => 'agent'])),
+            'visits'   => $this->visitorsModel->countColumnDistinct(array_merge($args, ['field' => 'ID'])),
         ];
     }
 
@@ -104,7 +104,7 @@ class DevicesDataProvider
      */
     public function getSinglePlatformData($selectedPlatform)
     {
-        $args = array_merge($this->args, [
+        $args       = array_merge($this->args, [
             'field'     => 'platform',
             'where_col' => 'platform',
             'where_val' => esc_sql($selectedPlatform),
@@ -112,8 +112,8 @@ class DevicesDataProvider
 
         return [
             'visitors' => $this->visitorsModel->getVisitorsDevicesVersions($args),
-            'total'    => $this->visitorsModel->countColumnDistinct($args),
-            'views'    => $this->visitorsModel->countTotalViews($args),
+            'total'    => $this->visitorsModel->countColumnDistinct(array_merge($this->args, ['field' => 'platform'])),
+            'visits'   => $this->visitorsModel->countColumnDistinct(array_merge($args, ['field' => 'ID'])),
         ];
     }
 
@@ -126,7 +126,7 @@ class DevicesDataProvider
      */
     public function getSingleModelData($selectedModel)
     {
-        $args = array_merge($this->args, [
+        $args       = array_merge($this->args, [
             'field'     => 'model',
             'where_col' => 'model',
             'where_val' => esc_sql($selectedModel),
@@ -134,8 +134,8 @@ class DevicesDataProvider
 
         return [
             'visitors' => $this->visitorsModel->getVisitorsDevicesVersions($args),
-            'total'    => $this->visitorsModel->countColumnDistinct($args),
-            'views'    => $this->visitorsModel->countTotalViews($args),
+            'total'    => $this->visitorsModel->countColumnDistinct(array_merge($this->args, ['field' => 'model'])),
+            'visits'   => $this->visitorsModel->countColumnDistinct(array_merge($args, ['field' => 'ID'])),
         ];
     }
 }

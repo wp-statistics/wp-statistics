@@ -8,33 +8,6 @@ use WP_Statistics\Abstracts\BaseModel;
 
 class VisitorsModel extends BaseModel
 {
-    /**
-     * Returns total number of views from all visitors.
-     *
-     * @param   array       $args           Arguments to include in query (e.g. `date`).
-     * @param   bool        $bypassCache    Send the cached result.
-     *
-     * @return  int
-     */
-    public function countTotalViews($args = [], $bypassCache = false)
-    {
-        $args = $this->parseArgs($args, [
-            'date'      => '',
-            'where_col' => 'ID',
-            'where_val' => '',
-        ]);
-
-        $result = Query::select('SUM(`hits`) as `views_sum`')
-            ->from('visitor')
-            ->where($args['where_col'], '=', $args['where_val'])
-            ->whereDate('last_counter', $args['date'])
-            ->perPage(1, 1)
-            ->bypassCache($bypassCache)
-            ->getVar();
-
-        return $result ? intval($result) : 0;
-    }
-
     public function countVisitors($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
@@ -61,7 +34,7 @@ class VisitorsModel extends BaseModel
     /**
      * Returns `COUNT DISTINCT` of a column from visitors table.
      *
-     * @param   array       $args           Arguments to include in query (e.g. `field`, `date`, etc.).
+     * @param   array       $args           Arguments to include in query (e.g. `field`, `date`, `where_col`, `where_val`, etc.).
      * @param   bool        $bypassCache    Send the cached result.
      *
      * @return  int
@@ -71,10 +44,13 @@ class VisitorsModel extends BaseModel
         $args = $this->parseArgs($args, [
             'field' => 'ID',
             'date'  => '',
+            'where_col' => 'ID',
+            'where_val' => '',
         ]);
 
         $result = Query::select("COUNT(DISTINCT `{$args['field']}`) as `total`")
             ->from('visitor')
+            ->where($args['where_col'], '=', $args['where_val'])
             ->whereDate('last_counter', $args['date'])
             ->perPage(1, 1)
             ->bypassCache($bypassCache)
@@ -97,7 +73,7 @@ class VisitorsModel extends BaseModel
             'field'    => 'agent',
             'date'     => '',
             'group_by' => [],
-            'order_by' => 'views',
+            'order_by' => 'visitors',
             'order'    => 'DESC',
             'per_page' => '',
             'page'     => 1
@@ -105,7 +81,7 @@ class VisitorsModel extends BaseModel
 
         $result = Query::select([
                 $args['field'],
-                'SUM(`hits`) as `views`',
+                'COUNT(DISTINCT `ID`) AS `visitors`',
             ])
             ->from('visitor')
             ->whereDate('last_counter', $args['date'])
@@ -132,7 +108,7 @@ class VisitorsModel extends BaseModel
             'date'      => '',
             'where_col' => 'agent',
             'where_val' => '',
-            'order_by'  => 'views',
+            'order_by'  => 'visitors',
             'order'     => 'DESC',
             'per_page'  => '',
             'page'      => 1
@@ -140,7 +116,7 @@ class VisitorsModel extends BaseModel
 
         $result = Query::select([
                 'CAST(`version` AS SIGNED) AS `casted_version`',
-                'SUM(`hits`) as `views`',
+                'COUNT(DISTINCT `ID`) AS `visitors`',
             ])
             ->from('visitor')
             ->where($args['where_col'], '=', $args['where_val'])
