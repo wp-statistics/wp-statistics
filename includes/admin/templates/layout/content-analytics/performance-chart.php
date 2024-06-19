@@ -1,13 +1,13 @@
 <div class="wps-card">
     <div class="wps-card__title">
         <h2>
-            <?php echo $title_text ?>
-            <?php if ($tooltip_text): ?>
-                <span class="wps-tooltip" title="<?php echo esc_attr($tooltip_text); ?>"><i class="wps-tooltip-icon info"></i></span>
+            <?php echo esc_html($title) ?>
+            <?php if ($tooltip): ?>
+                <span class="wps-tooltip" title="<?php echo esc_attr($tooltip); ?>"><i class="wps-tooltip-icon info"></i></span>
             <?php endif ?>
         </h2>
-        <?php if (!empty($description_text)) : ?>
-            <p><?php echo $description_text ?></p>
+        <?php if (!empty($description)) : ?>
+            <p><?php echo esc_html($description) ?></p>
         <?php endif; ?>
     </div>
     <div class="wps-content-analytics-chart-items">
