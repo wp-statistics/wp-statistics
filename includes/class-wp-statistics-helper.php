@@ -1404,4 +1404,45 @@ class Helper
         $countryCode = TimeZone::getCountry($timezone);
         return $countryCode;
     }
+
+    /**
+     * Returns full URL of a DIR.
+     *
+     * @param   string  $dir
+     *
+     * @return  string          URL. Empty on error.
+     * @source  https://wordpress.stackexchange.com/a/264870/
+     */
+    public static function dirToUrl($dir)
+    {
+        if (!is_file($dir)) {
+            return '';
+        }
+
+        return esc_url_raw(str_replace(
+            wp_normalize_path(untrailingslashit(ABSPATH)),
+            site_url(),
+            wp_normalize_path($dir)
+        ));
+    }
+
+    /**
+     * Returns full DIR of a local URL.
+     *
+     * @param   string  $url
+     *
+     * @return  string          DIR. Empty on error.
+     */
+    public static function urlToDir($url)
+    {
+        if (stripos($url, site_url()) === false) {
+            return '';
+        }
+
+        return (str_replace(
+            site_url(),
+            wp_normalize_path(untrailingslashit(ABSPATH)),
+            $url
+        ));
+    }
 }
