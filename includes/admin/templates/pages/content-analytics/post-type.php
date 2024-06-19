@@ -117,8 +117,9 @@ $postTypePlural     = Helper::getPostTypeName($postType);
             Admin_Template::get_template(['layout/content-analytics/top-picks'], $topPages);
 
             $summary = [
-                'title_text'   => esc_html__('Summary', 'wp-statistics'),
-                'tooltip_text' => esc_html__('Summary tooltip', 'wp-statistics'),
+                'title'   => esc_html__('Summary', 'wp-statistics'),
+                'tooltip' => esc_html__('Summary tooltip', 'wp-statistics'),
+                'data'    => $data['visits_summary']
             ];
             Admin_Template::get_template(['layout/content-analytics/summary'], $summary);
 
