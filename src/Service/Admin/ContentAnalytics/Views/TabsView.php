@@ -52,6 +52,14 @@ class TabsView extends BaseTabView
                 'labels'    => array_keys($data['visitors_data']['agent']), 
                 'data'      => array_values($data['visitors_data']['agent'])
             ],
+            'device_chart_data'    => [
+                'labels'    => array_keys($data['visitors_data']['device']), 
+                'data'      => array_values($data['visitors_data']['device'])
+            ],
+            'model_chart_data'    => [
+                'labels'    => array_keys($data['visitors_data']['model']), 
+                'data'      => array_values($data['visitors_data']['model'])
+            ],
         ]);
 
         return $data;

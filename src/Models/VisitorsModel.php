@@ -44,6 +44,8 @@ class VisitorsModel extends BaseModel
                 'visitor.ID',
                 'visitor.platform',
                 'visitor.agent',
+                'visitor.model',
+                'visitor.device',
                 'visitor.location'
             ])
             ->from('visitor')
@@ -63,9 +65,12 @@ class VisitorsModel extends BaseModel
     public function getParsedVisitorsData($args, $bypassCache = false)
     {
         $data   = $this->getVisitorsData($args, $bypassCache);
+
         $result = [
             'platform'  => [],
             'agent'     => [],
+            'device'    => [],
+            'model'     => [],
             'country'   => []
         ];
 
@@ -87,6 +92,18 @@ class VisitorsModel extends BaseModel
                     $result['country'][$item->location] = 1;
                 } else {
                     $result['country'][$item->location]++;
+                }
+
+                if (empty($result['device'][$item->device])) {
+                    $result['device'][$item->device] = 1;
+                } else {
+                    $result['device'][$item->device]++;
+                }
+
+                if (empty($result['model'][$item->model])) {
+                    $result['model'][$item->model] = 1;
+                } else {
+                    $result['model'][$item->model]++;
                 }
             }
     

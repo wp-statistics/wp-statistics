@@ -225,11 +225,8 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             });
         },
         generateDeviceModelsChart: function () {
-            const deviceModelData = {
-                labels: ['Macintosh', 'iPhone', 'G6', 'A3', 'Galaxy A52', 'Other'],
-                data: [30, 20, 10, 5, 7, 5],
-                bg: ['#F7D399', '#99D3FB', '#D7BDE2', '#D7BDE2', '#EBA39B', '#F5CBA7']
-            };
+            const deviceModelData = this.data.model_chart_data;
+
             const label_callback_content_device_model = function (tooltipItem) {
                 return tooltipItem.label;
             }
@@ -240,7 +237,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                 labels: deviceModelData.labels,
                 datasets: [{
                     data: deviceModelData.data,
-                    backgroundColor: deviceModelData.bg,
+                    backgroundColor: ['#F7D399', '#99D3FB', '#D7BDE2', '#D7BDE2', '#EBA39B', '#F5CBA7'],
                     borderColor: '#fff',
                     borderWidth: 1,
                 }]
@@ -278,10 +275,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             });
         },
         generateDeviceUsageChart: function () {
-            const deviceUsageData = {
-                labels: ['Desktop', 'Mobile:smart', 'Tablet', 'Signage', 'Television', 'Other'],
-                data: [30, 20, 10, 5, 7, 5],
-            };
+            const deviceUsageData = this.data.device_chart_data;
             const label_callback_content_device_usage = function (tooltipItem) {
                 return tooltipItem.label;
             }
