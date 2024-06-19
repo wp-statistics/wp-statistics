@@ -30,19 +30,19 @@ class SingleView extends BaseView
     public function render()
     {
         try {
-            $args = [
-                'backUrl'       => Menus::admin_url('content-analytics'),
-                'backTitle'     => esc_html__('Content Analytics', 'wp-statistics'),
-                'DateRang'      => Admin_Template::DateRange(),
-                'hasDateRang'   => true,
-                'contentAnalyticsHeader'   => true,
-            ];
-
             $template = 'single';
 
             if ($this->isLocked()) {
                 $template = 'single-locked';
             }
+
+            $args = [
+                'backUrl'       => Menus::admin_url('content-analytics'),
+                'backTitle'     => esc_html__('Content Analytics', 'wp-statistics'),
+                'pageName'      => Menus::get_page_slug('content-analytics'),
+                'DateRang'      => Admin_Template::DateRange(),
+                'hasDateRang'   => true
+            ];
 
             Admin_Template::get_template(['layout/header', 'layout/title', "pages/content-analytics/$template", 'layout/footer'], $args);
         } catch (Exception $e) {

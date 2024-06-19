@@ -1,10 +1,15 @@
-<?php use WP_STATISTICS\Helper; ?>
-<div class="wps-wrap__top <?php if (isset($real_time_button)) {
-    echo 'wps-wrap__top--has__realtime';
-} ?>">
+<?php 
+use WP_STATISTICS\Helper; 
+use WP_STATISTICS\Menus;
+use WP_STATISTICS\Admin_Template;
+use WP_Statistics\Utils\Request;
+
+?>
+<div class="wps-wrap__top <?php echo isset($real_time_button) ? 'wps-wrap__top--has__realtime' : ''; ?>">
     <?php if (isset($backUrl, $backTitle)): ?>
         <a href="<?php echo esc_url($backUrl) ?>" title="<?php echo esc_html($backTitle) ?>" class="wps-previous-url"><?php echo esc_html($backTitle) ?></a>
     <?php endif ?>
+    
     <?php if (isset($title)): ?>
         <h2 class="wps_title"><?php echo(isset($title) ? esc_attr($title) : (function_exists('get_admin_page_title') ? get_admin_page_title() : '')); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	 ?>
             <?php if (!empty($tooltip)) : ?>
@@ -12,11 +17,15 @@
             <?php endif; ?>
         </h2>
     <?php endif ?>
-    <?php if (isset($contentAnalyticsHeader)) {
-        \WP_STATISTICS\Admin_Template::get_template(['layout/content-analytics/post-type-header']);
-    }
+
+    <?php 
+        if (Menus::in_page('content-analytics') && Request::get('type', 'single')) {
+            Admin_Template::get_template(['layout/content-analytics/post-type-header']);
+        }
     ?>
-     <?php do_action('wp_statistics_after_admin_page_title'); ?>
+
+    <?php do_action('wp_statistics_after_admin_page_title'); ?>
+
     <?php if (isset($real_time_button)): ?>
         <?php
         $is_realtime_active = Helper::isAddOnActive('realtime-stats');
