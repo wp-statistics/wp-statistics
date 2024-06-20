@@ -1,5 +1,5 @@
-[![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/wp-statistics/wp-statistics.svg)](http://isitmaintained.com/project/wp-statistics/wp-statistics "Average time to resolve an issue")
-[![Percentage of issues still open](http://isitmaintained.com/badge/open/wp-statistics/wp-statistics.svg)](http://isitmaintained.com/project/wp-statistics/wp-statistics "Percentage of issues still open")
+[![Average time to resolve an issue](https://isitmaintained.com/badge/resolution/wp-statistics/wp-statistics.svg)](http://isitmaintained.com/project/wp-statistics/wp-statistics "Average time to resolve an issue")
+[![Percentage of issues still open](https://isitmaintained.com/badge/open/wp-statistics/wp-statistics.svg)](http://isitmaintained.com/project/wp-statistics/wp-statistics "Percentage of issues still open")
 [![WP compatibility](https://plugintests.com/plugins/wporg/wp-statistics/wp-badge.svg)](https://plugintests.com/plugins/wporg/wp-statistics/latest)
 [![PHP compatibility](https://plugintests.com/plugins/wporg/wp-statistics/php-badge.svg)](https://plugintests.com/plugins/wporg/wp-statistics/latest)
 

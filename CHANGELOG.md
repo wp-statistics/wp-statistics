@@ -1,3 +1,11 @@
+= 14.8.1 - **.06.2024 =
+* Fix: Compatibility of tracking with the default permalink structure.
+* Fix: Meta-box view URL for browsers and platforms.
+* Fix: Devices pagination.
+* Fix: SQL syntax issues and optimize queries for better performance.
+* Enhancement: GeoIP database update scheduling logic.
+* Enhancement: Made minor enhancements.
+
 = 14.8 - 17.06.2024 =
 * New: Author Analytics: Replaces the old Author report. Measures author performance and individual author statistics.
 * New: Geographic Reports: Location-based analytics, including countries, cities, European countries, US states, regions of your country.
