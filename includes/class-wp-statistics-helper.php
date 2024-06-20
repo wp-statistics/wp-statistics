@@ -619,7 +619,8 @@ class Helper
             parse_str($queryString, $parsedQuery);
 
             // Get the first query param key
-            $firstKey = array_key_first($parsedQuery);
+            reset($parsedQuery);
+            $firstKey = key($parsedQuery);
 
             // Loop through query params and unset ones not allowed, except the first one
             foreach ($parsedQuery as $key => $value) {
