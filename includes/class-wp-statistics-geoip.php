@@ -131,19 +131,6 @@ class GeoIP
     public static function getCountry($ip = false, $return = 'isoCode')
     {
 
-        // Check in WordPress Cache
-        $user_country = wp_cache_get('country-' . $ip, 'wp-statistics');
-        if ($user_country != false) {
-            return $user_country;
-        }
-
-        // Check in WordPress Database
-        $user_country = self::getUserCountryFromDB($ip);
-        if ($user_country != false) {
-            wp_cache_set('country-' . $ip, $user_country, 'wp-statistics', DAY_IN_SECONDS);
-            return $user_country;
-        }
-
         // Default Country Name
         $default_country = self::getDefaultCountryCode();
 
@@ -184,13 +171,7 @@ class GeoIP
             }
         }
 
-        # Check Has Location
-        if (isset($location) and !empty($location)) {
-            wp_cache_set('country-' . $ip, $location, 'wp-statistics', DAY_IN_SECONDS);
-            return $location;
-        }
-
-        return $default_country;
+        return !empty($location) ? $location : $default_country;
     }
 
     /**
