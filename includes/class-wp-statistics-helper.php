@@ -611,6 +611,10 @@ class Helper
 
         // Check if the URL has query strings
         if ($urlQuery !== false) {
+            global $wp;
+            $internalQueryParams  =  $wp->public_query_vars;
+            $permalinkStructure = get_option('permalink_structure');
+
             // Extract the URL path and query string
             $urlPath     = substr($url, 0, $urlQuery);
             $queryString = substr($url, $urlQuery + 1);
@@ -624,7 +628,14 @@ class Helper
 
             // Loop through query params and unset ones not allowed, except the first one
             foreach ($parsedQuery as $key => $value) {
-                if ($key !== $firstKey && !in_array($key, $allowedParams)) {
+                $allowedQueryVars = $allowedParams;
+
+                // If ugly permalink is enabled, ignore the first key if it's internal
+                if (empty($permalinkStructure) && $key === $firstKey) {
+                    $allowedQueryVars = array_merge($internalQueryParams, $allowedParams);
+                }
+
+                if (!in_array($key, $allowedQueryVars)) {
                     unset($parsedQuery[$key]);
                 }
             }
