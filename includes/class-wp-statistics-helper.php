@@ -612,8 +612,8 @@ class Helper
         // Check if the URL has query strings
         if ($urlQuery !== false) {
             global $wp;
-            $internalQueryParams  =  $wp->public_query_vars;
-            $permalinkStructure = get_option('permalink_structure');
+            $internalQueryParams    = $wp->public_query_vars;
+            $permalinkStructure     = get_option('permalink_structure');
 
             // Extract the URL path and query string
             $urlPath     = substr($url, 0, $urlQuery);
