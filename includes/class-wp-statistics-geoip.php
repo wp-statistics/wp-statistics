@@ -369,7 +369,7 @@ class GeoIP
                         // Populate any missing GeoIP information if the user has selected the option.
                         if ($pack == "country") {
                             if (Option::get('geoip') && GeoIP::IsSupport() && Option::get('auto_pop')) {
-                                self::Update_GeoIP_Visitor();
+                                self::updateVisitorGeoIpInfo();
                             }
                         }
                     }
@@ -396,17 +396,17 @@ class GeoIP
     }
 
     /**
-     * Update All GEO-IP Visitors
+     * Update All Geo IP Visitors
      *
      * @return array
      */
-    public static function Update_GeoIP_Visitor()
+    public static function updateVisitorGeoIpInfo()
     {
         global $wpdb;
 
         // Find all rows in the table that currently don't have GeoIP info or have an unknown ('000') location.
         $result = $wpdb->get_results(
-            $wpdb->prepare("SELECT id,ip FROM `" . DB::table('visitor') . "` WHERE location = '' or location = %s or location IS NULL", GeoIP::$private_country)
+            $wpdb->prepare("SELECT id, ip FROM `" . DB::table('visitor') . "` WHERE location = '' or location = %s or location IS NULL", GeoIP::$private_country)
         );
 
         // Try create a new reader instance.

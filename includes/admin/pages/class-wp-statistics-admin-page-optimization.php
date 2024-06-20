@@ -46,7 +46,7 @@ class optimization_page extends Singleton
 
         // Update All GEO IP Country
         if (isset($_POST['submit'], $_POST['populate-submit']) && intval($_POST['populate-submit']) == 1) {
-            $result = GeoIP::Update_GeoIP_Visitor();
+            $result = GeoIP::updateVisitorGeoIpInfo();
 
             // Show Notice
             Notice::addFlashNotice($result['data'], ($result['status'] === false ? "error" : "success"));
