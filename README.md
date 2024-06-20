@@ -14,7 +14,7 @@
 ### WP Statistics: THE #1 WORDPRESS ANALYTICS PLUGIN
 Discover GDPR-compliant analytics with [WP Statistics](https://wp-statistics.com/?utm_source=wporg&utm_medium=link&utm_campaign=website), the top choice for WordPress users seeking an alternative to Google Analytics. No external accounts, unlimited visitor tracking, and full data ownership—all stored directly in your WordPress database.
 
-[Checkout Demo](https://wp-statistics.com/demo) | [View Screenshots](#screenshots)
+[Checkout Demo](https://wp-statistics.com/demo) | [View Screenshots](https://wordpress.org/plugins/wp-statistics#screenshots)
 
 ### GDPR Compliant (Data Privacy)
 WP Statistics is GDPR, CCPA, PECR, and cookie compliance by default.
