@@ -62,6 +62,7 @@ class GeographicDataProvider
             $this->args, 
             [
                 'country'       => 'US', 
+                'continent'     => 'North America',
                 'group_by'      => ['region'],
                 'count_field'   => 'region',
                 'not_null'      => 'visitor.region'
