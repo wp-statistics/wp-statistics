@@ -1,9 +1,10 @@
 = 14.8.1 - **.06.2024 =
-* Fix: Compatibility of tracking with the default permalink structure.
+* Fix: Compatibility of tracking page with the default permalink structure.
 * Fix: Meta-box view URL for browsers and platforms.
 * Fix: Devices pagination.
-* Fix: SQL syntax issues and optimize queries for better performance.
+* Fix: SQL query issues in Devices and optimize queries.
 * Enhancement: GeoIP database update scheduling logic.
+* Enhancement: Refactor getCountry method by removing the legacy-cache.
 * Enhancement: Made minor enhancements.
 
 = 14.8 - 17.06.2024 =

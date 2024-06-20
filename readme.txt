@@ -137,8 +137,9 @@ If you encounter any bug, please create an issue on [GitHub](https://github.com/
 * Fix: Compatibility of tracking page with the default permalink structure.
 * Fix: Meta-box view URL for browsers and platforms.
 * Fix: Devices pagination.
-* Fix: SQL query issues in Geographic and optimize queries.
+* Fix: SQL query issues in Devices and optimize queries.
 * Enhancement: GeoIP database update scheduling logic.
+* Enhancement: Refactor getCountry method by removing the legacy-cache.
 * Enhancement: Made minor enhancements.
 
 For more information about the major update, please [visit our blog post](https://wp-statistics.com/2024/06/15/wp-statistics-version-14-8-whats-new).
