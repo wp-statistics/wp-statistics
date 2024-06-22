@@ -162,7 +162,7 @@ class Query
 
     public function whereNull($fields)
     {
-        if (!empty($fields)) return $this;
+        if (empty($fields)) return $this;
 
         if (is_string($fields)) {
             $fields = explode(',', $fields);

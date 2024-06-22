@@ -126,7 +126,7 @@ class Exclusion
     public static function exclusion_ajax()
     {
         // White list actions
-        if (Request::compare('action', 'wp_statistics_hit_record')) {
+        if (Helper::isBypassAdBlockersRequest()) {
             return false;
         }
 
@@ -324,10 +324,7 @@ class Exclusion
             // Remove Query From Url
             $url = Helper::RemoveQueryStringUrl($_SERVER['SERVER_NAME'] . $requestUri);
 
-            if (
-                !Request::compare('action', 'wp_statistics_hit_record') &&
-                stripos($url, 'wp-admin') !== false
-            ) {
+            if (!Helper::isBypassAdBlockersRequest() && stripos($url, 'wp-admin') !== false) {
                 return true;
             }
         }
