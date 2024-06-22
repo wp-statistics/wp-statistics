@@ -114,6 +114,7 @@ class PostsModel extends BaseModel
 
         $commentsQuery = Query::select(['comment_post_ID', 'COUNT(comment_ID) AS total_comments'])
             ->from('comments')
+            ->where('comment_type', '=', 'comment')
             ->groupBy('comment_post_ID')
             ->getQuery();
 
