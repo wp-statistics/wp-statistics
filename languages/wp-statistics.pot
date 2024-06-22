@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-06-18T10:16:36+00:00\n"
+"POT-Creation-Date: 2024-06-22T11:10:52+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.10.0\n"
 "X-Domain: wp-statistics\n"
@@ -309,8 +309,8 @@ msgstr ""
 #: includes/admin/class-wp-statistics-admin-assets.php:357
 #: includes/admin/class-wp-statistics-admin-network.php:68
 #: includes/admin/templates/settings/add-ons/customization.php:17
-#: src/Service/Admin/Devices/Views/SingleBrowserView.php:36
-#: src/Service/Admin/Devices/Views/TabsView.php:92
+#: src/Service/Admin/Devices/Views/SingleBrowserView.php:13
+#: src/Service/Admin/Devices/Views/TabsView.php:93
 msgid "Browsers"
 msgstr ""
 
@@ -474,9 +474,9 @@ msgid "Percent Share"
 msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-assets.php:397
-#: src/Service/Admin/Devices/Views/SingleBrowserView.php:38
-#: src/Service/Admin/Devices/Views/SingleModelView.php:40
-#: src/Service/Admin/Devices/Views/SinglePlatformView.php:38
+#: src/Service/Admin/Devices/Views/SingleBrowserView.php:15
+#: src/Service/Admin/Devices/Views/SingleModelView.php:15
+#: src/Service/Admin/Devices/Views/SinglePlatformView.php:15
 msgid "Version"
 msgstr ""
 
@@ -620,7 +620,7 @@ msgstr ""
 #: includes/admin/meta-box/wp-statistics-meta-box-platforms.php:91
 #: includes/admin/meta-box/wp-statistics-meta-box-platforms.php:93
 #: includes/admin/templates/settings/add-ons/customization.php:18
-#: src/Service/Admin/Devices/Views/TabsView.php:98
+#: src/Service/Admin/Devices/Views/TabsView.php:99
 msgid "Operating Systems"
 msgstr ""
 
@@ -647,7 +647,7 @@ msgstr ""
 #: includes/admin/class-wp-statistics-admin-network.php:73
 #: includes/admin/templates/header.php:41
 #: includes/admin/templates/header.php:62
-#: includes/class-wp-statistics-install.php:339
+#: includes/class-wp-statistics-install.php:341
 #: includes/class-wp-statistics-menus.php:243
 msgid "Settings"
 msgstr ""
@@ -752,9 +752,9 @@ msgstr ""
 #: includes/admin/templates/pages/geographic/cities.php:45
 #: includes/admin/templates/pages/geographic/cities.php:46
 #: includes/admin/templates/pages/geographic/cities.php:47
-#: includes/class-wp-statistics-geoip.php:489
-#: includes/class-wp-statistics-geoip.php:490
-#: includes/class-wp-statistics-geoip.php:491
+#: includes/class-wp-statistics-geoip.php:470
+#: includes/class-wp-statistics-geoip.php:471
+#: includes/class-wp-statistics-geoip.php:472
 #: includes/class-wp-statistics-user-agent.php:86
 msgid "Unknown"
 msgstr ""
@@ -795,8 +795,6 @@ msgstr ""
 #: includes/admin/meta-box/wp-statistics-meta-box-devices.php:94
 #: includes/admin/meta-box/wp-statistics-meta-box-devices.php:96
 #: src/Service/Admin/Devices/DevicesManager.php:24
-#: src/Service/Admin/Devices/Views/SingleModelView.php:38
-#: src/Service/Admin/Devices/Views/SinglePlatformView.php:36
 #: src/Service/Admin/Devices/Views/TabsView.php:82
 msgid "Devices"
 msgstr ""
@@ -2285,10 +2283,10 @@ msgstr ""
 
 #: includes/admin/templates/pages/geographic/countries.php:49
 #: includes/admin/templates/pages/geographic/europe.php:50
-#: src/Service/Admin/Devices/Views/TabsView.php:111
-#: src/Service/Admin/Devices/Views/TabsView.php:118
-#: src/Service/Admin/Devices/Views/TabsView.php:125
-#: src/Service/Admin/Devices/Views/TabsView.php:132
+#: src/Service/Admin/Devices/Views/TabsView.php:112
+#: src/Service/Admin/Devices/Views/TabsView.php:119
+#: src/Service/Admin/Devices/Views/TabsView.php:126
+#: src/Service/Admin/Devices/Views/TabsView.php:133
 msgid "Coming Soon"
 msgstr ""
 
@@ -4362,120 +4360,120 @@ msgstr ""
 msgid "Views: %s"
 msgstr ""
 
-#: includes/class-wp-statistics-geoip.php:260
+#: includes/class-wp-statistics-geoip.php:241
 msgid "Error: <code>gzopen()</code> Function Not Found!"
 msgstr ""
 
-#: includes/class-wp-statistics-geoip.php:289
+#: includes/class-wp-statistics-geoip.php:270
 msgid "Error: %1$s, Request URL: %2$s"
 msgstr ""
 
-#: includes/class-wp-statistics-geoip.php:302
+#: includes/class-wp-statistics-geoip.php:283
 msgid "Error Creating GeoIP Database Directory. Ensure Web Server Has Directory Creation Permissions in: %s"
 msgstr ""
 
-#: includes/class-wp-statistics-geoip.php:311
+#: includes/class-wp-statistics-geoip.php:292
 msgid "Error Setting Permissions for GeoIP Database Directory. Check Write Permissions for Directories in: %s"
 msgstr ""
 
-#: includes/class-wp-statistics-geoip.php:323
+#: includes/class-wp-statistics-geoip.php:304
 msgid "Error Downloading GeoIP Database from: %1$s - %2$s"
 msgstr ""
 
-#: includes/class-wp-statistics-geoip.php:338
+#: includes/class-wp-statistics-geoip.php:319
 msgid "Error Opening Downloaded GeoIP Database for Reading: %s"
 msgstr ""
 
-#: includes/class-wp-statistics-geoip.php:347
+#: includes/class-wp-statistics-geoip.php:328
 msgid "Error Opening Destination GeoIP Database for Writing: %s"
 msgstr ""
 
-#: includes/class-wp-statistics-geoip.php:362
+#: includes/class-wp-statistics-geoip.php:343
 msgid "GeoIP Database Successfully Updated!"
 msgstr ""
 
-#: includes/class-wp-statistics-geoip.php:384
-#: includes/class-wp-statistics-geoip.php:387
+#: includes/class-wp-statistics-geoip.php:365
+#: includes/class-wp-statistics-geoip.php:368
 msgid "GeoIP update on"
 msgstr ""
 
-#: includes/class-wp-statistics-geoip.php:392
+#: includes/class-wp-statistics-geoip.php:373
 msgid "Error: %1$s"
 msgstr ""
 
-#: includes/class-wp-statistics-geoip.php:419
+#: includes/class-wp-statistics-geoip.php:400
 msgid "Cannot Load GeoIP Database. Ensure It's Downloaded via Settings Page."
 msgstr ""
 
-#: includes/class-wp-statistics-geoip.php:450
+#: includes/class-wp-statistics-geoip.php:431
 msgid "Updated %s GeoIP Records in Visitor Database."
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:769
+#: includes/class-wp-statistics-helper.php:796
 msgid "Sent from %s"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:773
+#: includes/class-wp-statistics-helper.php:800
 msgid "<br><small>Report Date Range: %s to %s</small>"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:840
+#: includes/class-wp-statistics-helper.php:867
 msgid "Category"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:840
+#: includes/class-wp-statistics-helper.php:867
 msgid "Tags"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1365
+#: includes/class-wp-statistics-helper.php:1392
 msgid "a year"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1367
+#: includes/class-wp-statistics-helper.php:1394
 msgid "a month"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1370
+#: includes/class-wp-statistics-helper.php:1397
 msgid "a week"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1372
+#: includes/class-wp-statistics-helper.php:1399
 msgid "a day"
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:356
+#: includes/class-wp-statistics-install.php:358
 msgid "Click here to visit the plugin on WordPress.org"
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:356
+#: includes/class-wp-statistics-install.php:358
 msgid "Visit WordPress.org page"
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:358
+#: includes/class-wp-statistics-install.php:360
 msgid "Click here to rate and review this plugin on WordPress.org"
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:358
+#: includes/class-wp-statistics-install.php:360
 msgid "Rate this plugin"
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:673
+#: includes/class-wp-statistics-install.php:686
 msgid "WP Statistics database requires upgrade."
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:676
+#: includes/class-wp-statistics-install.php:689
 msgid "Upgrade Database"
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:700
+#: includes/class-wp-statistics-install.php:713
 msgid "Database Upgrade Completed Successfully!"
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:738
+#: includes/class-wp-statistics-install.php:751
 msgid "Error During Operation. Please Refresh the Page."
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:751
+#: includes/class-wp-statistics-install.php:764
 msgid "Item processed"
 msgstr ""
 
@@ -5026,53 +5024,56 @@ msgstr ""
 msgid "View performance metrics for individual authors' pages."
 msgstr ""
 
-#: src/Service/Admin/Devices/Views/SingleBrowserView.php:18
-msgid "Invalid browser provided!"
+#: src/Service/Admin/Devices/Views/SingleModelView.php:13
+msgid "Models"
 msgstr ""
 
-#: src/Service/Admin/Devices/Views/SingleBrowserView.php:35
-#: src/Service/Admin/Devices/Views/SingleModelView.php:37
-#: src/Service/Admin/Devices/Views/SinglePlatformView.php:35
+#: src/Service/Admin/Devices/Views/SinglePlatformView.php:13
+msgid "Platforms"
+msgstr ""
+
+#: src/Service/Admin/Devices/Views/SingleView.php:25
+msgid "Invalid single view arguments provided!"
+msgstr ""
+
+#: src/Service/Admin/Devices/Views/SingleView.php:32
+msgid "Invalid single view key provided!"
+msgstr ""
+
+#. translators: %s: Browser/OS/Model/etc. name.
+#: src/Service/Admin/Devices/Views/SingleView.php:50
 msgid "%s Report"
 msgstr ""
 
-#: src/Service/Admin/Devices/Views/SingleModelView.php:20
-msgid "Invalid model provided!"
-msgstr ""
-
-#: src/Service/Admin/Devices/Views/SinglePlatformView.php:18
-msgid "Invalid platform provided!"
-msgstr ""
-
-#: src/Service/Admin/Devices/Views/TabsView.php:93
+#: src/Service/Admin/Devices/Views/TabsView.php:94
 msgid "Displays the different web browsers used by your visitors."
 msgstr ""
 
-#: src/Service/Admin/Devices/Views/TabsView.php:99
+#: src/Service/Admin/Devices/Views/TabsView.php:100
 msgid "Shows the operating systems your visitors are using."
 msgstr ""
 
-#: src/Service/Admin/Devices/Views/TabsView.php:104
+#: src/Service/Admin/Devices/Views/TabsView.php:105
 msgid "Device Models"
 msgstr ""
 
-#: src/Service/Admin/Devices/Views/TabsView.php:105
+#: src/Service/Admin/Devices/Views/TabsView.php:106
 msgid "Provides data on the specific models of devices used by your visitors."
 msgstr ""
 
-#: src/Service/Admin/Devices/Views/TabsView.php:110
+#: src/Service/Admin/Devices/Views/TabsView.php:111
 msgid "Device Categories"
 msgstr ""
 
-#: src/Service/Admin/Devices/Views/TabsView.php:117
+#: src/Service/Admin/Devices/Views/TabsView.php:118
 msgid "Screen Resolutions"
 msgstr ""
 
-#: src/Service/Admin/Devices/Views/TabsView.php:124
+#: src/Service/Admin/Devices/Views/TabsView.php:125
 msgid "Languages"
 msgstr ""
 
-#: src/Service/Admin/Devices/Views/TabsView.php:131
+#: src/Service/Admin/Devices/Views/TabsView.php:132
 msgid "Timezones"
 msgstr ""
 
