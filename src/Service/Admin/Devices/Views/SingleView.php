@@ -5,6 +5,7 @@ namespace WP_Statistics\Service\Admin\Devices\Views;
 use WP_Statistics\Abstracts\BaseView;
 use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Exception\SystemErrorException;
+use WP_STATISTICS\Menus;
 use WP_Statistics\Service\Admin\Devices\DevicesDataProvider;
 use WP_Statistics\Utils\Request;
 
@@ -50,6 +51,10 @@ class SingleView extends BaseView
             'backTitle'       => $this->viewArgs['back_title'],
             'backUrl'         => $this->viewArgs['back_url'],
             'firstColTitle'   => $this->viewArgs['first_col_title'],
+            'pageName'        => Menus::get_page_slug('devices'),
+            'paged'           => Admin_Template::getCurrentPaged(),
+            'DateRang'        => Admin_Template::DateRange(),
+            'hasDateRang'     => true,
             'data'            => $this->dataProvider->{'getSingle' . ucfirst(strtolower($this->viewArgs['key'])) . 'Data'}(Request::get($this->viewArgs['key'])),
         ];
 
