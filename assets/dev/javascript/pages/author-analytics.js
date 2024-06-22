@@ -165,7 +165,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                 }
             };
 
-            Chart.plugins.register(afterRenderPlugin);
+            Chart.register(afterRenderPlugin);
 
             Chart.Tooltip.positioners.top = function (element, eventPosition) {
                 const tooltip = this;
