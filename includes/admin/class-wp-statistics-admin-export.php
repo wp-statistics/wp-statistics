@@ -42,7 +42,7 @@ class Export
                 $type  = sanitize_text_field($_POST['export-file-type']);
 
                 // Validate the table name the user passed to us.
-                $allow_tbl = array("useronline", "visit", "visitor", "exclusions", "pages", "search");
+                $allow_tbl = array("useronline", "visit", "visitor", "exclusions", "pages", "search", "events");
                 if (!in_array($table, $allow_tbl)) {
                     $table = false;
                 }
