@@ -88,11 +88,14 @@ class ContentAnalyticsDataProvider
         
         $visitorsSummary    = $this->visitorsModel->getVisitorsSummary($this->args);
         $viewsSummary       = $this->viewsModel->getViewsSummary($this->args);
-
+        
+        $referrersData      = $this->visitorsModel->getReferrers($this->args);
+        
+        $performanceArgs    = ['date' => ['from' => date('Y-m-d', strtotime('-15 days')), 'to' => date('Y-m-d')]];
         $performanceData    = [
-            'posts'     => $this->postsModel->countPosts(array_merge($this->args, ['date' => ['from' => date('Y-m-d', strtotime('-15 days')), 'to' => date('Y-m-d')]])),
-            'visitors'  => $this->visitorsModel->countVisitors(array_merge($this->args, ['date' => ['from' => date('Y-m-d', strtotime('-15 days')), 'to' => date('Y-m-d')]])),
-            'views'     => $this->viewsModel->countViews(array_merge($this->args, ['date' => ['from' => date('Y-m-d', strtotime('-15 days')), 'to' => date('Y-m-d')]]))
+            'posts'     => $this->postsModel->countPosts(array_merge($this->args, $performanceArgs)),
+            'visitors'  => $this->visitorsModel->countVisitors(array_merge($this->args, $performanceArgs)),
+            'views'     => $this->viewsModel->countViews(array_merge($this->args, $performanceArgs)),
         ];
 
         $topPostsByView     = $this->postsModel->getPostsViewsData($this->args);
@@ -104,6 +107,7 @@ class ContentAnalyticsDataProvider
             'overview'          => $overviewData,
             'visitors_data'     => $visitorsData,
             'performance'       => $performanceData,
+            'referrers'         => $referrersData,
             'posts'             => [
                 'top_viewing'   => $topPostsByView,
                 'top_commented' => $topPostsByComment,

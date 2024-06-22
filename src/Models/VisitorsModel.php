@@ -224,4 +224,33 @@ class VisitorsModel extends BaseModel
 
         return $result ? $result : [];
     }
+
+    public function getReferrers($args = [], $bypassCache = false)
+    {
+        $args = $this->parseArgs($args, [
+            'date'      => '',
+            'post_type' => '',
+            'page'      => 1,
+            'per_page'  => 10
+        ]);
+
+        $result = Query::select([
+                'COUNT(DISTINCT visitor.ID) AS visitors',
+                'visitor.referred as referrer'
+            ])
+            ->from('visitor')
+            ->join('visitor_relationships', ['visitor_relationships.visitor_id', 'visitor.ID'], [], 'LEFT')
+            ->join('pages', ['visitor_relationships.page_id', 'pages.page_id'], [], 'LEFT')
+            ->join('posts', ['posts.ID', 'pages.id'], [], 'LEFT')
+            ->where('post_type', 'IN', $args['post_type'])
+            ->whereNotNull('visitor.referred')
+            ->whereDate('pages.date', $args['date'])
+            ->groupBy('visitor.referred')
+            ->perPage(1, 10)
+            ->bypassCache($bypassCache)
+            ->getAll();
+
+        return $result ? $result : [];
+    }
+
 }

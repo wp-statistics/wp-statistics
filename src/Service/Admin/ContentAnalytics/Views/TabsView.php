@@ -22,8 +22,8 @@ class TabsView extends BaseTabView
     {
         $this->dataProvider = new ContentAnalyticsDataProvider([
             'date' => [
-                'from'      => date('Y-m-d', strtotime('-1 month')),
-                'to'        => date('Y-m-d'),
+                'from'  => date('Y-m-d', strtotime('-30 days')),
+                'to'    => date('Y-m-d'),
             ],
             'post_type' => Request::get('tab', 'post')
         ]);
