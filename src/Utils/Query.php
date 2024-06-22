@@ -148,12 +148,12 @@ class Query
 
         if (is_string($fields)) {
             $fields = explode(',', $fields);
-            $fields = array_map('trim', $fields);
         }
 
         if (is_array($fields)) {
             foreach ($fields as $field) {
                 $this->whereClauses[] = "{$field} IS NOT NULL";
+                $this->whereClauses[] = "{$field} != ''";
             }
         }
 
@@ -166,12 +166,12 @@ class Query
 
         if (is_string($fields)) {
             $fields = explode(',', $fields);
-            $fields = array_map('trim', $fields);
         }
 
         if (is_array($fields)) {
             foreach ($fields as $field) {
                 $this->whereClauses[] = "{$field} IS NULL";
+                $this->whereClauses[] = "{$field} = ''";
             }
         }
 
