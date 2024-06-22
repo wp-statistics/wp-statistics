@@ -79,7 +79,10 @@ class Helper
         }
 
         // Backward-Compatibility with option Bypass Ad Blockers
-        if (Request::compare('action', 'wp_statistics_hit_record')) {
+        if (
+            Request::compare('action', 'wp_statistics_hit_record') ||
+            Request::compare('action', 'wp_statistics_keep_online')
+        ) {
             return true;
         }
 
@@ -153,7 +156,7 @@ class Helper
     public static function is_active_cache_plugin()
     {
         $use = array('status' => false, 'plugin' => '');
-
+// TODO: Optimize this function
         /* WordPress core */
         if (defined('WP_CACHE') && WP_CACHE) {
             $use = array('status' => true, 'plugin' => 'core');
