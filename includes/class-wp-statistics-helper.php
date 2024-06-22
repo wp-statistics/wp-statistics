@@ -78,16 +78,23 @@ class Helper
             return false;
         }
 
-        // Backward-Compatibility with option Bypass Ad Blockers
-        if (
-            Request::compare('action', 'wp_statistics_hit_record') ||
-            Request::compare('action', 'wp_statistics_keep_online')
-        ) {
+        // Backward-Compatibility with Bypass Ad Blockers option
+        if (self::isBypassAdBlockersRequest()) {
             return true;
         }
 
         $rest_prefix = trailingslashit(rest_get_url_prefix());
         return (false !== strpos($_SERVER['REQUEST_URI'], $rest_prefix)) or isset($_REQUEST['rest_route']);
+    }
+
+    /**
+     * Returns true if the request belongs to "Bypass Ad Blockers" feature.
+     *
+     * @return  bool
+     */
+    public static function isBypassAdBlockersRequest()
+    {
+        return (Request::compare('action', 'wp_statistics_hit_record') || Request::compare('action', 'wp_statistics_keep_online'));
     }
 
     /**
