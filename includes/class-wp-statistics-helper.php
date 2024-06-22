@@ -472,7 +472,9 @@ class Helper
         //Get Page Title
         if (class_exists('DOMDocument')) {
             $dom = new \DOMDocument;
-            @$dom->loadHTML(htmlspecialchars($html));
+            $internalErrors = libxml_use_internal_errors(true);
+            @$dom->loadHTML($html);
+            libxml_use_internal_errors($internalErrors);
             $title = '';
             if (isset($dom) and $dom->getElementsByTagName('title')->length > 0) {
                 $title = $dom->getElementsByTagName('title')->item('0')->nodeValue;
