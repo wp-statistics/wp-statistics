@@ -27,7 +27,7 @@
                             </div>
                             <div class="wps-category-tabs__item--content">
                                 <h3 class="wps-ellipsis-parent"><span class="wps-ellipsis-text"><?php echo esc_html($title); ?></span></h3>
-                                <span><?php echo esc_html($views); ?> <?php esc_html_e('views', 'wp-statistics') ?></span>
+                                <span><?php echo esc_html($views); ?> <?php esc_html_e('pageviews', 'wp-statistics') ?></span>
                             </div>
                         </a>
                         <?php $views_counter++;?>
@@ -54,7 +54,7 @@
                             </div>
                             <div class="wps-category-tabs__item--content">
                                 <h3 class="wps-ellipsis-parent"><span class="wps-ellipsis-text"><?php echo esc_html($title); ?></span></h3>
-                                <span><?php echo esc_html($views) . ' ' . esc_html__('views', 'wp-statistics'); ?> </span>
+                                <span><?php echo esc_html($views) . ' ' . esc_html__('publish', 'wp-statistics'); ?> </span>
                             </div>
                         </a>
                         <?php $publishing_counter++;?>
