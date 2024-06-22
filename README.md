@@ -86,5 +86,5 @@ Having trouble with a bug? Please [create an issue](https://github.com/wp-statis
 You can use a bash script to insert multiple records with random data. Place the script in the `tools` directory:
 
 ```sh
-bash tools/dummy.sh {quantity}
+bash bin/dummy.sh {quantity}
 ```
