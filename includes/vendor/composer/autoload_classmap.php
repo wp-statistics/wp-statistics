@@ -104,6 +104,7 @@ return array(
     'WP_Statistics\\Service\\Admin\\Devices\\Views\\SingleBrowserView' => $baseDir . '/src/Service/Admin/Devices/Views/SingleBrowserView.php',
     'WP_Statistics\\Service\\Admin\\Devices\\Views\\SingleModelView' => $baseDir . '/src/Service/Admin/Devices/Views/SingleModelView.php',
     'WP_Statistics\\Service\\Admin\\Devices\\Views\\SinglePlatformView' => $baseDir . '/src/Service/Admin/Devices/Views/SinglePlatformView.php',
+    'WP_Statistics\\Service\\Admin\\Devices\\Views\\SingleView' => $baseDir . '/src/Service/Admin/Devices/Views/SingleView.php',
     'WP_Statistics\\Service\\Admin\\Devices\\Views\\TabsView' => $baseDir . '/src/Service/Admin/Devices/Views/TabsView.php',
     'WP_Statistics\\Service\\Admin\\Geographic\\GeographicDataProvider' => $baseDir . '/src/Service/Admin/Geographic/GeographicDataProvider.php',
     'WP_Statistics\\Service\\Admin\\Geographic\\GeographicManager' => $baseDir . '/src/Service/Admin/Geographic/GeographicManager.php',

@@ -183,6 +183,7 @@ class ComposerStaticInit2ac516f03a394ec3d1721352b7f43359
         'WP_Statistics\\Service\\Admin\\Devices\\Views\\SingleBrowserView' => __DIR__ . '/../../..' . '/src/Service/Admin/Devices/Views/SingleBrowserView.php',
         'WP_Statistics\\Service\\Admin\\Devices\\Views\\SingleModelView' => __DIR__ . '/../../..' . '/src/Service/Admin/Devices/Views/SingleModelView.php',
         'WP_Statistics\\Service\\Admin\\Devices\\Views\\SinglePlatformView' => __DIR__ . '/../../..' . '/src/Service/Admin/Devices/Views/SinglePlatformView.php',
+        'WP_Statistics\\Service\\Admin\\Devices\\Views\\SingleView' => __DIR__ . '/../../..' . '/src/Service/Admin/Devices/Views/SingleView.php',
         'WP_Statistics\\Service\\Admin\\Devices\\Views\\TabsView' => __DIR__ . '/../../..' . '/src/Service/Admin/Devices/Views/TabsView.php',
         'WP_Statistics\\Service\\Admin\\Geographic\\GeographicDataProvider' => __DIR__ . '/../../..' . '/src/Service/Admin/Geographic/GeographicDataProvider.php',
         'WP_Statistics\\Service\\Admin\\Geographic\\GeographicManager' => __DIR__ . '/../../..' . '/src/Service/Admin/Geographic/GeographicManager.php',
