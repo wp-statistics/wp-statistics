@@ -1,11 +1,16 @@
 = 14.8.1 - **.06.2024 =
 * Fix: Compatibility of tracking page with the default permalink structure.
-* Fix: Meta-box view URL for browsers and platforms.
+* Fix: Meta-box view URL for various browsers and platforms.
 * Fix: Devices pagination.
 * Fix: SQL query issues in Devices and optimize queries.
+* Fix: Prepare the column name for finding the visitor.
 * Enhancement: GeoIP database update scheduling logic.
-* Enhancement: Refactor getCountry method by removing the legacy-cache.
-* Enhancement: Made minor enhancements.
+* Enhancement: Add events table for exporting the table.
+* Enhancement: Improved comments query results by excluding ping-backs in Author Analytics.
+* Enhancement: Fix referrer issue in online request tracking.
+* Enhancement: Refactor the `getCountry` method by removing the legacy cache.
+* Enhancement: Minor enhancements.
+* Development: Added WP CLI command `wp statistics record`.
 
 = 14.8 - 17.06.2024 =
 * New: Author Analytics: Replaces the old Author report. Measures author performance and individual author statistics.
