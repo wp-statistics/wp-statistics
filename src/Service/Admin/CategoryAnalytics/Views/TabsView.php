@@ -24,8 +24,8 @@ class TabsView extends BaseTabView
             $currentTab = $this->getCurrentTab();
     
             $args = [
-                'title'         => esc_html__('Content Analytics', 'wp-statistics'),
-                'tooltip'       => esc_html__('Content Analytics Tooltip', 'wp-statistics'),
+                'title'         => esc_html__('Category Analytics', 'wp-statistics'),
+                'tooltip'       => esc_html__('Category Analytics Tooltip', 'wp-statistics'),
                 'pageName'      => Menus::get_page_slug('content-analytics'),
                 'pagination'    => Admin_Template::getCurrentPaged(),
                 'DateRang'      => Admin_Template::DateRange(),
