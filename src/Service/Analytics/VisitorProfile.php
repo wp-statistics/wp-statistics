@@ -30,6 +30,19 @@ class VisitorProfile
     {
     }
 
+    /**
+     * Magic method to set properties dynamically.
+     *
+     * @param string $name The name of the property.
+     * @param mixed $value The value to set.
+     */
+    public function __set($name, $value)
+    {
+        if (property_exists($this, $name)) {
+            $this->$name = $value;
+        }
+    }
+
     public function getIp()
     {
         if (!$this->ip) {
