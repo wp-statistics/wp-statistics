@@ -37,7 +37,7 @@
                                                 <?php echo number_format(\WP_STATISTICS\Helper::divideNumbers($item->visitors, $data['visits'], 4) * 100, 2); ?>%
                                             </td>
                                             <td class="view-more">
-                                                <a href="<?php echo esc_url(\WP_STATISTICS\Menus::admin_url('devices', ['type' => 'single-browser', 'browser' => $item->agent])); ?>" title="<?php esc_html_e('View Details', 'wp-statistics'); ?>">
+                                                <a href="<?php echo esc_url(\WP_STATISTICS\Menus::admin_url('devices', array_merge($viewMoreUrlArgs, ['browser' => $item->agent]))); ?>" title="<?php esc_html_e('View Details', 'wp-statistics'); ?>">
                                                     <?php esc_html_e('View Details', 'wp-statistics'); ?>
                                                 </a>
                                             </td>

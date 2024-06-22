@@ -79,14 +79,15 @@ class TabsView extends BaseTabView
             $data        = $this->getTabData();
 
             $args = [
-                'title'      => esc_html__('Devices', 'wp-statistics'),
-                'pageName'   => Menus::get_page_slug('devices'),
-                'paged'      => Admin_Template::getCurrentPaged(),
-                'custom_get' => ['tab' => $currentTab],
-                'DateRang'   => Admin_Template::DateRange(),
-                'hasDateRang' => true,
-                'data'       => $data,
-                'tabs'       => [
+                'title'           => esc_html__('Devices', 'wp-statistics'),
+                'pageName'        => Menus::get_page_slug('devices'),
+                'paged'           => Admin_Template::getCurrentPaged(),
+                'custom_get'      => ['tab' => $currentTab],
+                'DateRang'        => Admin_Template::DateRange(),
+                'hasDateRang'     => true,
+                'data'            => $data,
+                'viewMoreUrlArgs' => ['type' => 'single-' . rtrim($currentTab, 's'), 'from' => Request::get('from'), 'to' => Request::get('to')],
+                'tabs'            => [
                     [
                         'link'        => Menus::admin_url('devices', ['tab' => 'browsers']),
                         'title'       => esc_html__('Browsers', 'wp-statistics'),
