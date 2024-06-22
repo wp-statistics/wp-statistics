@@ -142,6 +142,6 @@ If you encounter any bug, please create an issue on [GitHub](https://github.com/
 * Enhancement: Refactor getCountry method by removing the legacy-cache.
 * Enhancement: Made minor enhancements.
 
-For more information about the major update, please [visit our blog post](https://wp-statistics.com/2024/06/15/wp-statistics-version-14-8-whats-new).
+For more information about the major update, please [visit our blog post](https://wp-statistics.com/2024/06/15/wp-statistics-version-14-8-whats-new) or follow [@wp_statistics](https://twitter.com/wp_statistics) on Twitter
 
 [See changelog for all versions](https://raw.githubusercontent.com/wp-statistics/wp-statistics/master/CHANGELOG.md).
