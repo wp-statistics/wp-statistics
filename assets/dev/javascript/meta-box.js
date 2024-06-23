@@ -329,12 +329,17 @@ wps_js.meta_box_footer = function (key, data) {
 /**
  * Set As Selected Date Filter
  */
-wps_js.set_date_filter_as_selected = function (key, selectedDateFilter, selectedStartDate, selectedEndDate, fromDate, toDate) {
+wps_js.set_date_filter_as_selected = function (key, selectedDateFilter = "30days", selectedStartDate, selectedEndDate, fromDate, toDate) {
     const metaBoxInner = jQuery(wps_js.meta_box_inner(key));
     const filterBtn = jQuery(metaBoxInner).find('.c-footer__filter__btn');
     const filterList = jQuery(metaBoxInner).find('.c-footer__filters__list');
     const currentFilterTitle = jQuery(metaBoxInner).find('.c-footer__current-filter__title');
     const currentFilterRange = jQuery(metaBoxInner).find('.c-footer__current-filter__date-range');
+
+    if (!selectedDateFilter) {
+        selectedDateFilter = "30days"
+    }
+
     if (selectedDateFilter.length) {
         filterList.find('button[data-filter]').removeClass('is-selected');
         filterList.find('button[data-filter="' + selectedDateFilter + '"').addClass('is-selected');
