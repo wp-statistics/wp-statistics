@@ -29,6 +29,7 @@ class TabsView extends BaseTabView
                 'pageName'      => Menus::get_page_slug('content-analytics'),
                 'pagination'    => Admin_Template::getCurrentPaged(),
                 'DateRang'      => Admin_Template::DateRange(),
+                'filters'     => ['taxonomy'],
                 'hasDateRang'   => true,
                 'tabs'          => [
                     [
