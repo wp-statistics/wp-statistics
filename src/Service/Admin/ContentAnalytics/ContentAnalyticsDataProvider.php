@@ -70,25 +70,32 @@ class ContentAnalyticsDataProvider
 
         $data       = $this->visitorsModel->getSearchEngineReferrals($args);
         $parsedData = [];
+        $totalData  = array_fill_keys($datesList, 0);
 
         // Format and parse data
         foreach ($data as $item) {
             $parsedData[$item->engine][$item->date] = $item->visitors;
+            $totalData[$item->date] += $item->visitors;
         }
     
-        // Fill out missing visitors with 0
-        foreach ($parsedData as $searchEngine => $data) {
-            $parsedData[$searchEngine] = array_merge(array_fill_keys($datesList, 0), $parsedData[$searchEngine]);
+        foreach ($parsedData as $searchEngine => &$data) {
+            // Fill out missing visitors with 0
+            $data = array_merge(array_fill_keys($datesList, 0), $data);
+
+            // Sort data by date
             ksort($data);
-        }
-    
-        // Generate dataset with proper data
-        foreach ($parsedData as $searchEngine => $data) {
+
+            // Generate dataset
             $result['datasets'][] = [
                 'label' => ucfirst($searchEngine),
                 'data'  => array_values($data)
             ];
         }
+
+        $result['datasets'][] = [
+            'label' => esc_html__('Total', 'wp-statistics'),
+            'data'  => array_values($totalData)
+        ];
         
         return $result;
     }
