@@ -172,4 +172,29 @@ class ContentAnalyticsDataProvider
             ],
         ];
     }
+
+    public function getSinglePostData()
+    {
+        $overviewData       = $this->getOverviewData();
+        $visitorsData       = $this->getVisitorsData();
+        
+        $visitorsSummary    = $this->visitorsModel->getVisitorsSummary($this->args);
+        $viewsSummary       = $this->viewsModel->getViewsSummary($this->args);
+        
+        $referrersData      = $this->visitorsModel->getReferrers($this->args);
+        
+        $performanceArgs    = ['date' => ['from' => date('Y-m-d', strtotime('-15 days')), 'to' => date('Y-m-d')]];
+        $performanceData    = [
+            'visitors'  => $this->visitorsModel->countVisitors(array_merge($this->args, $performanceArgs)),
+            'views'     => $this->viewsModel->countViews(array_merge($this->args, $performanceArgs)),
+        ];
+        
+        return [
+            'overview'          => $overviewData,
+            'visitors_data'     => $visitorsData,
+            'visits_summary'    => array_replace_recursive($visitorsSummary, $viewsSummary),
+            'performance'       => $performanceData,
+            'referrers'         => $referrersData
+        ];
+    }
 }
