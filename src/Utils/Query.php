@@ -230,14 +230,6 @@ class Query
         ];
     }
 
-    public function toSql()
-    {
-        return $this->prepareQuery(
-            $this->buildQuery(),
-            $this->whereValues
-        );
-    }
-
     public function getVar()
     {
         $query = $this->buildQuery();
