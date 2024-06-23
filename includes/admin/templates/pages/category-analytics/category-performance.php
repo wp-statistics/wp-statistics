@@ -1,7 +1,5 @@
 <?php
 use WP_STATISTICS\Admin_Template;
-use WP_STATISTICS\Helper;
-
 ?>
 
 <div class="metabox-holder wps-category-analytics">
