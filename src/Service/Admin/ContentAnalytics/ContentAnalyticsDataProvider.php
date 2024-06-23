@@ -2,9 +2,10 @@
 namespace WP_Statistics\Service\Admin\ContentAnalytics;
 
 use WP_STATISTICS\Helper;
-use WP_Statistics\Models\ViewsModel;
 use WP_Statistics\Models\PostsModel;
+use WP_Statistics\Models\ViewsModel;
 use WP_Statistics\Models\VisitorsModel;
+use WP_STATISTICS\TimeZone;
 
 class ContentAnalyticsDataProvider
 {
@@ -40,6 +41,55 @@ class ContentAnalyticsDataProvider
             $result['posts'][]      = $this->postsModel->countPosts(array_merge($this->args, $dateFilter));
         }
 
+        return $result;
+    }
+
+    public function getSearchEnginesChartData()
+    {
+        // Get results up to 30 days
+        $args = [];
+        $days = TimeZone::getNumberDayBetween($this->args['date']['from'], $this->args['date']['to']);
+        if ($days > 30) {
+            $args = [
+                'date' => [
+                    'from' => date('Y-m-d', strtotime("-30 days", strtotime($this->args['date']['to']))),
+                    'to'   => $this->args['date']['to']
+                ]
+            ];
+        }
+
+        $args = array_merge($this->args, $args);
+
+        $datesList = TimeZone::getListDays($args['date']);
+        $datesList = array_keys($datesList);
+
+        $result = [
+            'labels'    => array_map(function($date) { return date_i18n('j M', strtotime($date)); }, $datesList),
+            'datasets'  => []
+        ];
+
+        $data       = $this->visitorsModel->getSearchEngineReferrals($args);
+        $parsedData = [];
+
+        // Format and parse data
+        foreach ($data as $item) {
+            $parsedData[$item->engine][$item->date] = $item->visitors;
+        }
+    
+        // Fill out missing visitors with 0
+        foreach ($parsedData as $searchEngine => $data) {
+            $parsedData[$searchEngine] = array_merge(array_fill_keys($datesList, 0), $parsedData[$searchEngine]);
+            ksort($data);
+        }
+    
+        // Generate dataset with proper data
+        foreach ($parsedData as $searchEngine => $data) {
+            $result['datasets'][] = [
+                'label' => ucfirst($searchEngine),
+                'data'  => array_values($data)
+            ];
+        }
+        
         return $result;
     }
 

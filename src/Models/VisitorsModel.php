@@ -246,11 +246,37 @@ class VisitorsModel extends BaseModel
             ->whereNotNull('visitor.referred')
             ->whereDate('pages.date', $args['date'])
             ->groupBy('visitor.referred')
-            ->perPage(1, 10)
+            ->perPage($args['page'], $args['per_page'])
             ->bypassCache($bypassCache)
             ->getAll();
 
         return $result ? $result : [];
     }
 
+    public function getSearchEngineReferrals($args = [], $bypassCache = false)
+    {
+        $args = $this->parseArgs($args, [
+            'date'      => '',
+            'post_type' => '',
+            'group_by'  => ['search.last_counter', 'search.engine']
+        ]);
+
+        $result = Query::select([
+                'search.last_counter AS date',
+                'COUNT(DISTINCT search.visitor) AS visitors',
+                'search.engine',
+            ])
+            ->from('search')
+            ->join('visitor_relationships', ['visitor_relationships.visitor_id', 'search.visitor'])
+            ->join('pages', ['visitor_relationships.page_id', 'pages.page_id'])
+            ->join('posts', ['posts.ID', 'pages.id'])
+            ->where('post_type', 'IN', $args['post_type'])
+            ->whereDate('search.last_counter', $args['date'])
+            ->groupBy($args['group_by'])
+            ->orderBy('date', 'DESC')
+            ->bypassCache($bypassCache)
+            ->getAll();
+
+        return $result ? $result : [];
+    }
 }
