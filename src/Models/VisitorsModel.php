@@ -79,7 +79,8 @@ class VisitorsModel extends BaseModel
         $args = $this->parseArgs($args, [
             'date'      => '',
             'post_type' => '',
-            'author_id' => ''
+            'author_id' => '',
+            'post_id'   => ''
         ]);
 
         $result = Query::select([
@@ -96,6 +97,7 @@ class VisitorsModel extends BaseModel
             ->join('posts', ['posts.ID', 'pages.id'], [], 'LEFT')
             ->where('post_type', 'IN', $args['post_type'])
             ->where('post_author', '=', $args['author_id'])
+            ->where('posts.ID', '=', $args['post_id'])
             ->whereDate('pages.date', $args['date'])
             ->groupBy('visitor.ID')
             ->bypassCache($bypassCache)
