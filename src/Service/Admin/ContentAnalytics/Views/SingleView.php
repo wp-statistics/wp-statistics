@@ -43,6 +43,7 @@ class SingleView extends BaseView
         $data = $this->dataProvider->getSinglePostData();
 
         wp_localize_script(Admin_Assets::$prefix, 'Wp_Statistics_Content_Analytics_Object', [
+            'performance_chart_data'    => $this->dataProvider->getPerformanceChartData(),
             'search_engine_chart_data'  => $this->dataProvider->getSearchEnginesChartData(),
             'os_chart_data'             => [
                 'labels'    => array_keys($data['visitors_data']['platform']), 

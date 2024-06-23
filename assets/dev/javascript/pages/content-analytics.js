@@ -365,11 +365,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             });
         },
         generatePerformanceChartSingle: function () {
-            const performanceSingleData = {
-                labels: ['1 Apr', '2 Apr', '3 Apr', '4 Apr', '5 Apr', '6 Apr', '7 Apr', '8 Apr', '9 Apr', '10 Apr', '11 Apr', '12 Apr', '13 Apr', '14 Apr', '15 Apr'],
-                views: [10, 15, 20, 25, 30, 35, 30, 45, 20, 15, 45, 15, 20, 25, 30],
-                visitors: [5, 10, 15, 20, 25, 30, 25, 20, 15, 10, 5, 10, 15, 20, 25]
-            };
+            const performanceSingleData = this.data.performance_chart_data;
             const performanceSingle = document.getElementById('performance-chart-single').getContext('2d');
             const performanceChartSingle = new Chart(performanceSingle, {
                 type: 'line',
