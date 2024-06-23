@@ -42,9 +42,9 @@ class IncompleteGeoIpUpdater extends \WP_Background_Process
 
             $visitorModel->updateVisitor($visitor->ID, [
                 'location'  => $country,
-                'city'      => $city,
-                'region'    => $city['region'],
-                'continent' => $city['continent'],
+                'city'      => $city['city'] == 'Unknown' ? null : $city['city'],
+                'region'    => $city['region'] == 'Unknown' ? null : $city['region'],
+                'continent' => $city['continent'] == 'Unknown' ? null : $city['continent'],
             ]);
         }
 

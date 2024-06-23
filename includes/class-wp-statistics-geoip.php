@@ -256,10 +256,10 @@ class GeoIP
             // Apply filter to allow third-party plugins to modify the download url
             $download_url = apply_filters('wp_statistics_geo_ip_download_url', $download_url, GeoIP::$library[$pack]['source'], $pack);
 
-            ini_set('max_execution_time', '60');
+            ini_set('max_execution_time', '120');
 
             $response = wp_remote_get($download_url, array(
-                'timeout'   => 60,
+                'timeout'   => 120,
                 'sslverify' => false
             ));
 

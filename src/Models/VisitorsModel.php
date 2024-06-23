@@ -244,13 +244,9 @@ class VisitorsModel extends BaseModel
                 "(location = '' 
             OR location = %s
             OR location IS NULL 
-            OR city = '' 
-            OR city IS NULL 
             OR continent = '' 
             OR continent IS NULL 
-            OR region = '' 
-            OR region IS NULL 
-            OR (city = location AND continent = location AND region = location))
+            OR (continent = location))
             AND ip NOT LIKE '#hash#%'",
                 [$privateCountry]
             )->bypassCache();
