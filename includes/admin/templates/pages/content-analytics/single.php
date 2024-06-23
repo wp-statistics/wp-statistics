@@ -6,8 +6,8 @@ use WP_STATISTICS\Admin_Template;
     <div class="postbox-container" id="wps-postbox-container-1">
         <?php
             $args1 = [
-                'title_text'   => esc_html__('Views', 'wp-statistics'),
-                'tooltip_text' => esc_html__('Views tooltip', 'wp-statistics'),
+                'title'   => esc_html__('Views', 'wp-statistics'),
+                'tooltip' => esc_html__('Views tooltip', 'wp-statistics'),
                 'icon_class'   => 'views',
                 'total'        => '35.1M',
                 'avg'          => '16.2K',
@@ -16,8 +16,8 @@ use WP_STATISTICS\Admin_Template;
             Admin_Template::get_template(['layout/content-analytics/overview-card'], $args1);
 
             $args2 = [
-                'title_text'   => esc_html__('Visitors', 'wp-statistics'),
-                'tooltip_text' => esc_html__('Visitors tooltip', 'wp-statistics'),
+                'title'   => esc_html__('Visitors', 'wp-statistics'),
+                'tooltip' => esc_html__('Visitors tooltip', 'wp-statistics'),
                 'icon_class'   => 'visitors',
                 'total'        => '35.1M',
                 'avg'          => '10.2K',
@@ -26,8 +26,8 @@ use WP_STATISTICS\Admin_Template;
             Admin_Template::get_template(['layout/content-analytics/overview-card'], $args2);
 
             $args3 = [
-                'title_text'   => esc_html__('Words', 'wp-statistics'),
-                'tooltip_text' => esc_html__('Words tooltip', 'wp-statistics'),
+                'title'   => esc_html__('Words', 'wp-statistics'),
+                'tooltip' => esc_html__('Words tooltip', 'wp-statistics'),
                 'icon_class'   => 'words',
                 'total'        => '35.1M',
                 'avg'          => '10.2K',
@@ -36,8 +36,8 @@ use WP_STATISTICS\Admin_Template;
             Admin_Template::get_template(['layout/content-analytics/overview-card'], $args3);
 
             $args4 = [
-                'title_text'   => esc_html__('Comments', 'wp-statistics'),
-                'tooltip_text' => esc_html__('Comments tooltip', 'wp-statistics'),
+                'title'   => esc_html__('Comments', 'wp-statistics'),
+                'tooltip' => esc_html__('Comments tooltip', 'wp-statistics'),
                 'icon_class'   => 'comments',
                 'total'        => '35.1M',
                 'avg'          => '300',
@@ -46,29 +46,29 @@ use WP_STATISTICS\Admin_Template;
             Admin_Template::get_template(['layout/content-analytics/overview-card'], $args4);
 
             $operatingSystems = [
-                'title_text'   => esc_html__('Operating Systems', 'wp-statistics'),
-                'tooltip_text' => esc_html__('Operating Systems tooltip', 'wp-statistics'),
+                'title'   => esc_html__('Operating Systems', 'wp-statistics'),
+                'tooltip' => esc_html__('Operating Systems tooltip', 'wp-statistics'),
                 'unique_id'    => 'content_operating_systems'
             ];
             Admin_Template::get_template(['layout/content-analytics/pie-chart'], $operatingSystems);
 
             $browsers = [
-                'title_text'   => esc_html__('Browsers', 'wp-statistics'),
-                'tooltip_text' => esc_html__('Browsers tooltip', 'wp-statistics'),
+                'title'   => esc_html__('Browsers', 'wp-statistics'),
+                'tooltip' => esc_html__('Browsers tooltip', 'wp-statistics'),
                 'unique_id'    => 'content_browsers'
             ];
             Admin_Template::get_template(['layout/content-analytics/pie-chart'], $browsers);
 
             $deviceModels = [
-                'title_text'   => esc_html__('Device Models', 'wp-statistics'),
-                'tooltip_text' => esc_html__('Device Models tooltip', 'wp-statistics'),
+                'title'   => esc_html__('Device Models', 'wp-statistics'),
+                'tooltip' => esc_html__('Device Models tooltip', 'wp-statistics'),
                 'unique_id'    => 'content_device_models'
             ];
             Admin_Template::get_template(['layout/content-analytics/pie-chart'], $deviceModels);
 
             $deviceUsage = [
-                'title_text'   => esc_html__('Device Usage', 'wp-statistics'),
-                'tooltip_text' => esc_html__('Device Usage tooltip', 'wp-statistics'),
+                'title'   => esc_html__('Device Usage', 'wp-statistics'),
+                'tooltip' => esc_html__('Device Usage tooltip', 'wp-statistics'),
                 'unique_id'    => 'content_device_usage'
             ];
             Admin_Template::get_template(['layout/content-analytics/pie-chart'], $deviceUsage);
@@ -78,10 +78,11 @@ use WP_STATISTICS\Admin_Template;
     <div class="postbox-container" id="wps-postbox-container-2">
         <?php
             $performance = [
-                'title_text'       => esc_html__('Performance', 'wp-statistics'),
-                'tooltip_text'     => esc_html__('Performance tooltip', 'wp-statistics'),
-                'type'             => 'single',
-                'description_text' => esc_html__('Last 15 Days', 'wp-statistics'),
+                'title'       => esc_html__('Performance', 'wp-statistics'),
+                'tooltip'     => esc_html__('Performance tooltip', 'wp-statistics'),
+                'type'        => 'single',
+                'description' => esc_html__('Last 15 Days', 'wp-statistics'),
+                'data'        => ['views' => 0, 'visitors' => 0]
             ];
             Admin_Template::get_template(['layout/content-analytics/performance-chart'], $performance);
 
