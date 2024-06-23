@@ -92,10 +92,12 @@ class ContentAnalyticsDataProvider
             ];
         }
 
-        $result['datasets'][] = [
-            'label' => esc_html__('Total', 'wp-statistics'),
-            'data'  => array_values($totalData)
-        ];
+        if (!empty($result['datasets'])) {
+            $result['datasets'][] = [
+                'label' => esc_html__('Total', 'wp-statistics'),
+                'data'  => array_values($totalData)
+            ];
+        }
         
         return $result;
     }
