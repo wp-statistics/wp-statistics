@@ -117,7 +117,7 @@ class Meta_Box
                     'filter_by_date'      => true,
                     'default_date_filter' => User::getDefaultDateFilter('platforms', 'filter|30days'),
                     'display_more_link'   => true,
-                    'more_link_title'     => __('View Most Used Operating Systems'),
+                    'more_link_title'     => __('View Most Used OS'),
                 ]
             ),
             'devices'         => array(
