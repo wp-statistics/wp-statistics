@@ -232,6 +232,7 @@ class VisitorsModel extends BaseModel
         $args = $this->parseArgs($args, [
             'date'      => '',
             'post_type' => '',
+            'post_id'   => '',
             'page'      => 1,
             'per_page'  => 10
         ]);
@@ -245,6 +246,7 @@ class VisitorsModel extends BaseModel
             ->join('pages', ['visitor_relationships.page_id', 'pages.page_id'], [], 'LEFT')
             ->join('posts', ['posts.ID', 'pages.id'], [], 'LEFT')
             ->where('post_type', 'IN', $args['post_type'])
+            ->where('posts.ID', '=', $args['post_id'])
             ->whereNotNull('visitor.referred')
             ->whereDate('pages.date', $args['date'])
             ->groupBy('visitor.referred')

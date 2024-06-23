@@ -107,6 +107,7 @@ $postType = get_post_type(Request::get('post_id'));
             $topReferring = [
                 'title'   => esc_html__('Top Referring', 'wp-statistics'),
                 'tooltip' => esc_html__('Top Referring tooltip', 'wp-statistics'),
+                'data'    => $data['referrers']
             ];
             Admin_Template::get_template(['layout/content-analytics/top-referring'], $topReferring);
         ?>
