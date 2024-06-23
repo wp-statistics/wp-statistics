@@ -9,7 +9,7 @@ use WP_Statistics\Service\Admin\AuthorAnalytics\Views\AuthorsView;
 use WP_Statistics\Service\Admin\AuthorAnalytics\Views\SingleAuthorView;
 use WP_Statistics\Service\Admin\AuthorAnalytics\Views\TabsView;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
-use WP_Statistics\Service\Admin\Posts\WordCount;
+use WP_Statistics\Service\Admin\Posts\WordCountService;
 use WP_Statistics\Utils\Request;
 
 class AuthorAnalyticsPage extends MultiViewPage
@@ -25,7 +25,7 @@ class AuthorAnalyticsPage extends MultiViewPage
     ];
 
     /**
-     * @var WordCount
+     * @var WordCountService
      */
     private $wordsCount;
 
@@ -36,7 +36,7 @@ class AuthorAnalyticsPage extends MultiViewPage
 
     protected function init()
     {
-        $this->wordsCount = new WordCount();
+        $this->wordsCount = new WordCountService();
 
         $this->disableScreenOption();
         $this->inaccurateDataNotice();
@@ -101,17 +101,7 @@ class AuthorAnalyticsPage extends MultiViewPage
         }
 
         // Initialize and dispatch the CalculatePostWordsCount class
-        $remoteRequestAsync      = WP_Statistics()->getBackgroundProcess();
-        $calculatePostWordsCount = $remoteRequestAsync['calculate_post_words_count'];
-
-        foreach ($this->wordsCount->getPostsWithoutWordCountMeta() as $postId) {
-            $calculatePostWordsCount->push_to_queue(['post_id' => $postId]);
-        }
-
-        // Mark as processed
-        Option::saveOptionGroup('word_count_process_started', true, 'jobs');
-
-        $calculatePostWordsCount->save()->dispatch();
+        $this->wordsCount->processWordCountForPosts();
 
         wp_redirect(Menus::admin_url('author-analytics'));
         exit;

@@ -3,6 +3,7 @@
 namespace WP_Statistics\Service\Analytics;
 
 use WP_Statistics\Models\VisitorsModel;
+use WP_STATISTICS\Option;
 
 class GeoIpService
 {
@@ -28,6 +29,9 @@ class GeoIpService
         foreach ($batches as $batch) {
             $updateIncompleteVisitorsLocations->push_to_queue(['visitors' => $batch]);
         }
+
+        // Mark the process as completed
+        Option::saveOptionGroup('update_unknown_visitor_geoip_started', true, 'jobs');
 
         // Save the queue and dispatch it
         $updateIncompleteVisitorsLocations->save()->dispatch();

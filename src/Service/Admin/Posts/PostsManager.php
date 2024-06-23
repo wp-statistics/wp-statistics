@@ -5,13 +5,13 @@ namespace WP_Statistics\Service\Admin\Posts;
 class PostsManager
 {
     /**
-     * @var WordCount $wordsCount
+     * @var WordCountService $wordsCount
      */
     private $wordsCount;
 
     public function __construct()
     {
-        $this->wordsCount = new WordCount();
+        $this->wordsCount = new WordCountService();
 
         add_action('save_post', [$this, 'addWordsCountCallback'], 99, 3);
         add_action('delete_post', [$this, 'removeWordsCountCallback'], 99, 2);

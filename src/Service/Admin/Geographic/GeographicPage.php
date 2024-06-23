@@ -27,6 +27,11 @@ class GeographicPage extends MultiViewPage
      */
     private $visitorModel;
 
+    /**
+     * @var GeoIpService
+     */
+    private $geoIpService;
+
     public function __construct()
     {
         parent::__construct();
@@ -35,6 +40,7 @@ class GeographicPage extends MultiViewPage
     protected function init()
     {
         $this->visitorModel = new VisitorsModel();
+        $this->geoIpService = new GeoIpService();
 
         $this->disableScreenOption();
 
@@ -68,7 +74,7 @@ class GeographicPage extends MultiViewPage
                 esc_url($actionUrl)
             );
 
-            Notice::addNotice($message, 'update_unknown_visitor_geoip', 'info', false);
+            Notice::addNotice($message, 'update_unknown_visitor_geoip');
         }
     }
 
@@ -89,9 +95,6 @@ class GeographicPage extends MultiViewPage
             exit;
         }
 
-        // Mark the process as completed
-        Option::saveOptionGroup('jobs', 'update_unknown_visitor_geoip_started', false);
-
         // Before the process, let's make sure the Maxmind Databases are up to date
         $result = GeoIP::download('country', 'update');
         GeoIP::download('city', 'update');
@@ -106,8 +109,7 @@ class GeographicPage extends MultiViewPage
             Notice::addFlashNotice($userFriendlyMessage, 'error');
 
         } else {
-            $geoIpService = new GeoIpService();
-            $geoIpService->batchUpdateIncompleteGeoIpForVisitors();
+            $this->geoIpService->batchUpdateIncompleteGeoIpForVisitors();
         }
 
         wp_redirect(Menus::admin_url('geographic'));

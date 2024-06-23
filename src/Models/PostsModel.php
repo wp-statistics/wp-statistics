@@ -4,7 +4,7 @@ namespace WP_Statistics\Models;
 
 use WP_Statistics\Abstracts\BaseModel;
 use WP_STATISTICS\Helper;
-use WP_Statistics\Service\Admin\Posts\WordCount;
+use WP_Statistics\Service\Admin\Posts\WordCountService;
 use WP_Statistics\Utils\Query;
 
 class PostsModel extends BaseModel
@@ -38,7 +38,7 @@ class PostsModel extends BaseModel
             'author_id' => ''
         ]);
 
-        $wordsCountMetaKey = WordCount::WORDS_COUNT_META_KEY;
+        $wordsCountMetaKey = WordCountService::WORDS_COUNT_META_KEY;
 
         $totalWords = Query::select("SUM(meta_value)")
             ->from('posts')

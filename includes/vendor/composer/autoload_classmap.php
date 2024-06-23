@@ -115,7 +115,7 @@ return array(
     'WP_Statistics\\Service\\Admin\\NoticeHandler\\GeneralNotices' => $baseDir . '/src/Service/Admin/NoticeHandler/GeneralNotices.php',
     'WP_Statistics\\Service\\Admin\\NoticeHandler\\Notice' => $baseDir . '/src/Service/Admin/NoticeHandler/Notice.php',
     'WP_Statistics\\Service\\Admin\\Posts\\PostsManager' => $baseDir . '/src/Service/Admin/Posts/PostsManager.php',
-    'WP_Statistics\\Service\\Admin\\Posts\\WordCount' => $baseDir . '/src/Service/Admin/Posts/WordCount.php',
+    'WP_Statistics\\Service\\Admin\\Posts\\WordCountService' => $baseDir . '/src/Service/Admin/Posts/WordCountService.php',
     'WP_Statistics\\Service\\Admin\\PrivacyAudit\\Audits\\Abstracts\\BaseAudit' => $baseDir . '/src/Service/Admin/PrivacyAudit/Audits/Abstracts/BaseAudit.php',
     'WP_Statistics\\Service\\Admin\\PrivacyAudit\\Audits\\Abstracts\\ResolvableAudit' => $baseDir . '/src/Service/Admin/PrivacyAudit/Audits/Abstracts/ResolvableAudit.php',
     'WP_Statistics\\Service\\Admin\\PrivacyAudit\\Audits\\AnonymizeIpAddress' => $baseDir . '/src/Service/Admin/PrivacyAudit/Audits/AnonymizeIpAddress.php',
