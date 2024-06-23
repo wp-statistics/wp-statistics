@@ -195,7 +195,7 @@ class Query
     public function whereRelation($relation) 
     {
         if (in_array($relation, ['AND', 'OR'])) {
-            $this->whereRelation = 'AND';
+            $this->whereRelation = $relation;
         }
 
         return $this;
