@@ -1,49 +1,47 @@
 <?php 
 use WP_STATISTICS\Admin_Template;
+use WP_STATISTICS\Helper;
+use WP_Statistics\Utils\Request;
+
+$postType = get_post_type(Request::get('post_id'));
 ?>
 
 <div class="metabox-holder wps-content-analytics">
     <div class="postbox-container" id="wps-postbox-container-1">
         <?php
             $args1 = [
-                'title'   => esc_html__('Views', 'wp-statistics'),
-                'tooltip' => esc_html__('Views tooltip', 'wp-statistics'),
-                'icon_class'   => 'views',
-                'total'        => '35.1M',
-                'avg'          => '16.2K',
-                'avg_title'    => esc_html__('Avg. Per Page', 'wp-statistics'),
+                'title'         => esc_html__('Views', 'wp-statistics'),
+                'tooltip'       => esc_html__('Views tooltip', 'wp-statistics'),
+                'icon_class'    => 'views',
+                'total'         => Helper::formatNumberWithUnit($data['overview']['views']['total'])
             ];
             Admin_Template::get_template(['layout/content-analytics/overview-card'], $args1);
 
             $args2 = [
-                'title'   => esc_html__('Visitors', 'wp-statistics'),
-                'tooltip' => esc_html__('Visitors tooltip', 'wp-statistics'),
-                'icon_class'   => 'visitors',
-                'total'        => '35.1M',
-                'avg'          => '10.2K',
-                'avg_title'    => esc_html__('Avg. Per Page', 'wp-statistics'),
+                'title'         => esc_html__('Visitors', 'wp-statistics'),
+                'tooltip'       => esc_html__('Visitors tooltip', 'wp-statistics'),
+                'icon_class'    => 'visitors',
+                'total'         => Helper::formatNumberWithUnit($data['overview']['visitors']['total']),
             ];
             Admin_Template::get_template(['layout/content-analytics/overview-card'], $args2);
 
             $args3 = [
-                'title'   => esc_html__('Words', 'wp-statistics'),
-                'tooltip' => esc_html__('Words tooltip', 'wp-statistics'),
-                'icon_class'   => 'words',
-                'total'        => '35.1M',
-                'avg'          => '10.2K',
-                'avg_title'    => esc_html__('Avg. Per Page', 'wp-statistics'),
+                'title'         => esc_html__('Words', 'wp-statistics'),
+                'tooltip'       => esc_html__('Words tooltip', 'wp-statistics'),
+                'icon_class'    => 'words',
+                'total'         => Helper::formatNumberWithUnit($data['overview']['words']['total']),
             ];
             Admin_Template::get_template(['layout/content-analytics/overview-card'], $args3);
 
-            $args4 = [
-                'title'   => esc_html__('Comments', 'wp-statistics'),
-                'tooltip' => esc_html__('Comments tooltip', 'wp-statistics'),
-                'icon_class'   => 'comments',
-                'total'        => '35.1M',
-                'avg'          => '300',
-                'avg_title'    => esc_html__('Avg. Per Page', 'wp-statistics'),
-            ];
-            Admin_Template::get_template(['layout/content-analytics/overview-card'], $args4);
+            if (post_type_supports($postType, 'comments')) {
+                $args4 = [
+                    'title'   => esc_html__('Comments', 'wp-statistics'),
+                    'tooltip' => esc_html__('Comments tooltip', 'wp-statistics'),
+                    'icon_class'   => 'comments',
+                    'total'        => Helper::formatNumberWithUnit($data['overview']['comments']['total']),
+                ];
+                Admin_Template::get_template(['layout/content-analytics/overview-card'], $args4);
+            }
 
             $operatingSystems = [
                 'title'   => esc_html__('Operating Systems', 'wp-statistics'),

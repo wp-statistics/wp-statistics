@@ -3,16 +3,19 @@
 namespace WP_Statistics\Service\Admin\ContentAnalytics\Views;
 
 use Exception;
-use WP_STATISTICS\Helper;
 use WP_STATISTICS\Menus;
+use WP_STATISTICS\Helper;
 use WP_Statistics\Utils\Request;
 use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Abstracts\BaseView;
 use WP_Statistics\Exception\SystemErrorException;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
+use WP_Statistics\Service\Admin\ContentAnalytics\ContentAnalyticsDataProvider;
+use WP_STATISTICS\Admin_Assets;
 
 class SingleView extends BaseView
 {
+    protected $dataProvider;
     private $postId;
 
     public function __construct()
@@ -25,6 +28,23 @@ class SingleView extends BaseView
                 esc_html__('Invalid post id provided.', 'wp-statistics')
             );
         }
+
+        $this->dataProvider = new ContentAnalyticsDataProvider([
+            'date' => [
+                'from'  => Request::get('from', date('Y-m-d', strtotime('-30 days'))),
+                'to'    => Request::get('to', date('Y-m-d'))
+            ],
+            'post_id' => $this->postId
+        ]);
+    }
+
+    public function getData()
+    {
+        wp_localize_script(Admin_Assets::$prefix, 'Wp_Statistics_Content_Analytics_Object', [
+
+        ]);
+
+        return $this->dataProvider->getSinglePostData();
     }
 
     public function render()
@@ -41,7 +61,8 @@ class SingleView extends BaseView
                 'backTitle'     => esc_html__('Content Analytics', 'wp-statistics'),
                 'pageName'      => Menus::get_page_slug('content-analytics'),
                 'DateRang'      => Admin_Template::DateRange(),
-                'hasDateRang'   => true
+                'hasDateRang'   => true,
+                'data'          => $this->getData()
             ];
 
             Admin_Template::get_template(['layout/header', 'layout/title', "pages/content-analytics/$template", 'layout/footer'], $args);
