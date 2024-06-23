@@ -40,30 +40,9 @@ class SingleView extends BaseView
 
     public function getData()
     {
-        $data = $this->dataProvider->getSinglePostData();
+        wp_localize_script(Admin_Assets::$prefix, 'Wp_Statistics_Content_Analytics_Object', $this->dataProvider->getChartsData());
 
-        wp_localize_script(Admin_Assets::$prefix, 'Wp_Statistics_Content_Analytics_Object', [
-            'performance_chart_data'    => $this->dataProvider->getPerformanceChartData(),
-            'search_engine_chart_data'  => $this->dataProvider->getSearchEnginesChartData(),
-            'os_chart_data'             => [
-                'labels'    => array_keys($data['visitors_data']['platform']), 
-                'data'      => array_values($data['visitors_data']['platform'])
-            ],
-            'browser_chart_data'        => [
-                'labels'    => array_keys($data['visitors_data']['agent']), 
-                'data'      => array_values($data['visitors_data']['agent'])
-            ],
-            'device_chart_data'         => [
-                'labels'    => array_keys($data['visitors_data']['device']), 
-                'data'      => array_values($data['visitors_data']['device'])
-            ],
-            'model_chart_data'          => [
-                'labels'    => array_keys($data['visitors_data']['model']), 
-                'data'      => array_values($data['visitors_data']['model'])
-            ],
-        ]);
-
-        return $data;
+        return $this->dataProvider->getSinglePostData();
     }
 
     public function render()

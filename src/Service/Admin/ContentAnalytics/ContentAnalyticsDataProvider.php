@@ -138,6 +138,32 @@ class ContentAnalyticsDataProvider
         return $this->visitorsModel->getParsedVisitorsData($this->args);
     }
 
+    public function getChartsData()
+    {
+        $visitorsData = $this->getVisitorsData();
+
+        return [
+            'performance_chart_data'    => $this->getPerformanceChartData(),
+            'search_engine_chart_data'  => $this->getSearchEnginesChartData(),
+            'os_chart_data'             => [
+                'labels'    => array_keys($visitorsData['platform']), 
+                'data'      => array_values($visitorsData['platform'])
+            ],
+            'browser_chart_data'        => [
+                'labels'    => array_keys($visitorsData['agent']), 
+                'data'      => array_values($visitorsData['agent'])
+            ],
+            'device_chart_data'         => [
+                'labels'    => array_keys($visitorsData['device']), 
+                'data'      => array_values($visitorsData['device'])
+            ],
+            'model_chart_data'          => [
+                'labels'    => array_keys($visitorsData['model']), 
+                'data'      => array_values($visitorsData['model'])
+            ],
+        ];
+    }
+
     public function getPostTypeData()
     {
         $overviewData       = $this->getOverviewData();
@@ -169,7 +195,7 @@ class ContentAnalyticsDataProvider
                 'top_viewing'   => $topPostsByView,
                 'top_commented' => $topPostsByComment,
                 'recent'        => $recentPosts
-            ],
+            ]
         ];
     }
 
