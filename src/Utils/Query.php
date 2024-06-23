@@ -18,6 +18,7 @@ class Query
     private $orderClause;
     private $groupByClause;
     private $limitClause;
+    private $rawWhereClause;
     private $joinClauses = [];
     private $whereClauses = [];
     private $whereValues = [];
@@ -116,6 +117,16 @@ class Query
         return $this;
     }
 
+    public function whereRaw($condition, $values = []) 
+    {
+        $this->rawWhereClause = $condition;
+
+        if (!empty($values)) {
+            $this->rawWhereClause = $this->prepareQuery($this->rawWhereClause, $values);
+        }
+
+        return $this;
+    }
 
     /**
      * Filters the records based on the given condition.
@@ -499,6 +510,11 @@ class Query
         $whereClauses = array_filter($this->whereClauses);
         if (!empty($whereClauses)) {
             $query .= ' WHERE ' . implode(" AND ", $whereClauses);
+        }
+
+        if (!empty($this->rawWhereClause)) {
+            $query .= empty($this->whereClauses) ? ' WHERE ' : ' ';
+            $query .= $this->rawWhereClause;
         }
 
         // Append GROUP BY clauses
