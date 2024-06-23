@@ -80,7 +80,7 @@ $postType = get_post_type(Request::get('post_id'));
                 'tooltip'     => esc_html__('Performance tooltip', 'wp-statistics'),
                 'type'        => 'single',
                 'description' => esc_html__('Last 15 Days', 'wp-statistics'),
-                'data'        => ['views' => 0, 'visitors' => 0]
+                'data'        => $data['performance']
             ];
             Admin_Template::get_template(['layout/content-analytics/performance-chart'], $performance);
 
