@@ -19,9 +19,9 @@ class Query
     private $groupByClause;
     private $limitClause;
     private $whereRelation = 'AND';
-    private $rawWhereClause;
     private $joinClauses = [];
     private $whereClauses = [];
+    private $rawWhereClause = [];
     private $whereValues = [];
     private $bypassCache = false;
 
@@ -118,12 +118,13 @@ class Query
         return $this;
     }
 
-    public function whereRaw($conditions, $values = []) 
+    public function whereRaw($condition, $values = []) 
     {
-        $this->rawWhereClause = $conditions;
-
+        
         if (!empty($values)) {
-            $this->rawWhereClause = $this->prepareQuery($this->rawWhereClause, $values);
+            $this->rawWhereClause[] = $this->prepareQuery($condition, $values);
+        } else {
+            $this->rawWhereClause[] = $condition;
         }
 
         return $this;
@@ -525,7 +526,7 @@ class Query
 
         if (!empty($this->rawWhereClause)) {
             $query .= empty($this->whereClauses) ? ' WHERE ' : ' ';
-            $query .= $this->rawWhereClause;
+            $query .= implode(' ', $this->rawWhereClause);
         }
 
         // Append GROUP BY clauses
