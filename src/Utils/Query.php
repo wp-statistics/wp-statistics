@@ -117,9 +117,9 @@ class Query
         return $this;
     }
 
-    public function whereRaw($condition, $values = []) 
+    public function whereRaw($conditions, $values = []) 
     {
-        $this->rawWhereClause = $condition;
+        $this->rawWhereClause = $conditions;
 
         if (!empty($values)) {
             $this->rawWhereClause = $this->prepareQuery($this->rawWhereClause, $values);
