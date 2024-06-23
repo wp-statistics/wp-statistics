@@ -260,7 +260,8 @@ class VisitorsModel extends BaseModel
         $args = $this->parseArgs($args, [
             'date'      => '',
             'post_type' => '',
-            'group_by'  => ['search.last_counter', 'search.engine']
+            'post_id'   => '',
+            'group_by'  => ['search.last_counter', 'search.engine'],
         ]);
 
         $result = Query::select([
@@ -273,6 +274,7 @@ class VisitorsModel extends BaseModel
             ->join('pages', ['visitor_relationships.page_id', 'pages.page_id'])
             ->join('posts', ['posts.ID', 'pages.id'])
             ->where('post_type', 'IN', $args['post_type'])
+            ->where('posts.ID', '=', $args['post_id'])
             ->whereDate('search.last_counter', $args['date'])
             ->groupBy($args['group_by'])
             ->orderBy('date', 'DESC')
