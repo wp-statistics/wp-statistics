@@ -129,11 +129,18 @@ class Meta_Box
                 'place'             => 'side'
             ),
             'models'          => array(
+                'page_url'          => 'devices',
                 'name'              => __('Top Device Models', 'wp-statistics'),
                 'require'           => array('visitors' => true),
                 'hidden'            => true,
                 'show_on_dashboard' => true,
-                'place'             => 'side'
+                'place'             => 'side',
+                'footer_options'    => [
+                    'filter_by_date'      => true,
+                    'default_date_filter' => User::getDefaultDateFilter('models', 'filter|30days'),
+                    'display_more_link'   => true,
+                    'more_link_title'     => __('View Top Models'),
+                ]
             ),
             'countries'       => array(
                 'page_url'          => 'geographic',
