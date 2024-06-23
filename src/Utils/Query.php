@@ -14,6 +14,7 @@ class Query
     private $operation;
     private $table;
     private $fields = '*';
+    private $setClauses = [];
     private $subQuery;
     private $orderClause;
     private $groupByClause;
@@ -47,6 +48,27 @@ class Query
 
         return $instance;
     }
+    public static function update($table)
+    {
+        $instance            = new self();
+        $instance->operation = 'update';
+        $instance->table     = $instance->getTable($table);
+
+        return $instance;
+    }
+
+
+    public function set($values)
+    {
+        if (empty($values)) return $this;
+
+        foreach ($values as $column => $value) {
+            $this->setClauses[] = "$column=$value";
+        }
+
+        return $this;
+    }
+
 
     private function getTable($table)
     {
@@ -337,6 +359,15 @@ class Query
         return $result;
     }
 
+    public function execute()
+    {
+        $query  = $this->buildQuery();
+        $query  = $this->prepareQuery($query, $this->whereValues);
+        $result = $this->db->query($query);
+
+        return $result;
+    }
+
 
     /**
      * Joins the current table with another table based on a given condition.
@@ -542,6 +573,28 @@ class Query
         // Append LIMIT clauses
         if (!empty($this->limitClause)) {
             $query .= ' ' . $this->limitClause;
+        }
+
+        return $query;
+    }
+
+    protected function updateQuery()
+    {
+        $query = "UPDATE $this->table";
+
+        if (!empty($this->setClauses)) {
+            $query .= ' SET ' . implode(', ', $this->setClauses);
+        }
+
+        // Append WHERE clauses
+        $whereClauses = array_filter($this->whereClauses);
+        if (!empty($whereClauses)) {
+            $query .= ' WHERE ' . implode(" $this->whereRelation ", $whereClauses);
+        }
+
+        if (!empty($this->rawWhereClause)) {
+            $query .= empty($this->whereClauses) ? ' WHERE ' : ' ';
+            $query .= implode(' ', $this->rawWhereClause);
         }
 
         return $query;
