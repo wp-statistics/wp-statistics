@@ -6,8 +6,12 @@
              this.generateCharts()
         },
         generateCharts: function () {
-            this.generatePerformanceChart();
-            this.generateOperatingSystemChart();
+            if (document.getElementById('performance-chart')) {
+                this.generatePerformanceChart();
+            } else {
+                this.generatePerformanceChartSingle();
+            }
+             this.generateOperatingSystemChart();
             this.generateBrowsersChartData();
             this.generateDeviceModelsChart();
             this.generateDeviceUsageChart();
@@ -107,6 +111,65 @@
                                 display: true,
                                 text: 'Published Posts',
                                 color: '#9fa5f8',
+                            }
+                        }
+                    }
+                }
+            });
+        },
+        generatePerformanceChartSingle: function () {
+            const performanceSingleData = {
+                labels: ['1 Apr', '2 Apr', '3 Apr', '4 Apr', '5 Apr', '6 Apr', '7 Apr', '8 Apr', '9 Apr', '10 Apr', '11 Apr', '12 Apr', '13 Apr', '14 Apr', '15 Apr'],
+                views: [10, 15, 30, 25, 30, 35, 30, 45, 20, 15, 45, 15, 20, 25, 30]};
+            const performanceSingle = document.getElementById('performance-chart-single').getContext('2d');
+            const performanceSingleChart = new Chart(performanceSingle, {
+                type: 'bar',
+                data: {
+                    labels: performanceSingleData.labels,
+                    datasets: [
+                        {
+                            type: 'line',
+                            label: 'Views',
+                            cubicInterpolationMode: 'monotone',
+                            data: performanceSingleData.views,
+                            borderColor: '#0e9444',
+                            backgroundColor: '#0e9444',
+                            pointRadius: 5,
+                            pointStyle: 'circle',
+                            fill: false,
+                            yAxisID: 'y',
+                            pointBorder: 5,
+                            pointBorderColor: '#fff',
+                            pointWidth: 5.5,
+                            pointHeight: 5.5,
+                            pointBackgroundColor: '#0e9444',
+                            lineTension: 0.5
+                        }
+                    ]
+                },
+                options: {
+                    plugins: {
+                        legend: false
+                    },
+                    scales: {
+                        x: {
+                            grid: {
+                                display: true,
+                                borderDash: [5, 5]
+                            }
+                        },
+                        y: {
+                            type: 'linear',
+                            position: 'left',
+                            ticks: {
+                                callback: function (value, index, values) {
+                                    return value + 'K';
+                                }
+                            },
+                            title: {
+                                display: true,
+                                text: 'Views',
+                                color: '#0e9444'
                             }
                         }
                     }

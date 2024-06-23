@@ -1,4 +1,5 @@
 <?php
+
 use WP_STATISTICS\Helper;
 use WP_Statistics\Utils\Request;
 
@@ -18,20 +19,29 @@ $postType = Request::get('tab', 'post');
         <?php endif; ?>
     </div>
     <div class="wps-category-analytics-chart-items">
-             <div class="wps-category-analytics-chart--item wps-category-analytics-chart--item--published">
+
+        <?php if ($type === 'category'): ?>
+            <div class="wps-category-analytics-chart--item wps-category-analytics-chart--item--published">
                 <p><?php echo sprintf(esc_html__('Published %s', 'wp-statistics'), Helper::getPostTypeName($postType)) ?></p>
                 <span><?php echo esc_html(Helper::formatNumberWithUnit($data['posts'])) ?></span>
             </div>
-         <div class="wps-category-analytics-chart--item wps-category-analytics-chart--item--views">
+        <?php endif; ?>
+        <div class="wps-category-analytics-chart--item wps-category-analytics-chart--item--views">
             <p><?php echo esc_html__('Views', 'wp-statistics') ?></p>
             <span><?php echo esc_html(Helper::formatNumberWithUnit($data['views'])) ?></span>
         </div>
-        <div class="wps-category-analytics-chart--item wps-category-analytics-chart--item--visitors">
-            <p><?php echo esc_html__('Visitors', 'wp-statistics') ?></p>
-            <span><?php echo esc_html(Helper::formatNumberWithUnit($data['visitors'])) ?></span>
-        </div>
+        <?php if ($type === 'category'): ?>
+            <div class="wps-category-analytics-chart--item wps-category-analytics-chart--item--visitors">
+                <p><?php echo esc_html__('Visitors', 'wp-statistics') ?></p>
+                <span><?php echo esc_html(Helper::formatNumberWithUnit($data['visitors'])) ?></span>
+            </div>
+        <?php endif; ?>
     </div>
     <div class="wps-category-analytics-chart">
-        <canvas id="performance-chart" height="299"></canvas>
+        <?php if ($type === 'category'): ?>
+            <canvas id="performance-chart" height="299"></canvas>
+        <?php else: ?>
+            <canvas id="performance-chart-single" height="299"></canvas>
+        <?php endif; ?>
     </div>
 </div>

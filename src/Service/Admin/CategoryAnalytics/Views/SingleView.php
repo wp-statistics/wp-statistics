@@ -4,6 +4,7 @@ namespace WP_Statistics\Service\Admin\CategoryAnalytics\Views;
 
 use Exception;
 use WP_STATISTICS\Helper;
+use WP_STATISTICS\Menus;
 use WP_Statistics\Utils\Request;
 use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Abstracts\BaseView;
@@ -34,7 +35,13 @@ class SingleView extends BaseView
     public function render()
     {
         try {
-            $args = [];
+            $args = [
+                'backUrl'   => Menus::admin_url('category-analytics'),
+                'title'   => esc_html__('Category Analytics', 'wp-statistics'),
+                'backTitle' => esc_html__('Category Analytics', 'wp-statistics'),
+                'DateRang'    => Admin_Template::DateRange(),
+                'hasDateRang' => true,
+            ];
             $template = 'category-single';
 
             if ($this->isLocked()) {
