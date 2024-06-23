@@ -18,6 +18,7 @@ class Query
     private $orderClause;
     private $groupByClause;
     private $limitClause;
+    private $whereRelation = 'AND';
     private $rawWhereClause;
     private $joinClauses = [];
     private $whereClauses = [];
@@ -184,6 +185,16 @@ class Query
             foreach ($fields as $field) {
                 $this->whereClauses[] = "{$field} IS NULL";
             }
+        }
+
+        return $this;
+    }
+
+
+    public function whereRelation($relation) 
+    {
+        if (in_array($relation, ['AND', 'OR'])) {
+            $this->whereRelation = 'AND';
         }
 
         return $this;
@@ -509,7 +520,7 @@ class Query
         // Append WHERE clauses
         $whereClauses = array_filter($this->whereClauses);
         if (!empty($whereClauses)) {
-            $query .= ' WHERE ' . implode(" AND ", $whereClauses);
+            $query .= ' WHERE ' . implode(" $this->whereRelation ", $whereClauses);
         }
 
         if (!empty($this->rawWhereClause)) {
