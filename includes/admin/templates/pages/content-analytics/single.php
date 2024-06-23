@@ -87,6 +87,7 @@ $postType = get_post_type(Request::get('post_id'));
             $summary = [
                 'title'   => esc_html__('Summary', 'wp-statistics'),
                 'tooltip' => esc_html__('Summary tooltip', 'wp-statistics'),
+                'data'    => $data['visits_summary']
             ];
             Admin_Template::get_template(['layout/content-analytics/summary'], $summary);
 
