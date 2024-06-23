@@ -165,7 +165,11 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                 }
             };
 
-            Chart.register(afterRenderPlugin);
+            if (e.Chart.version.replace(/\./g, "") > 400) {
+                Chart.register(afterRenderPlugin);
+            } else {
+                Chart.plugins.register(afterRenderPlugin);
+            }
 
             Chart.Tooltip.positioners.top = function (element, eventPosition) {
                 const tooltip = this;
