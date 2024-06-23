@@ -2,12 +2,16 @@
 
 namespace WP_Statistics\Models;
 
+use WP_STATISTICS\DB;
+use WP_STATISTICS\GeoIP;
 use WP_Statistics\Utils\Query;
 use WP_Statistics\Abstracts\BaseModel;
 
 
 class VisitorsModel extends BaseModel
 {
+    protected $table = 'visitors';
+
     public function countVisitors($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
@@ -34,16 +38,16 @@ class VisitorsModel extends BaseModel
     /**
      * Returns `COUNT DISTINCT` of a column from visitors table.
      *
-     * @param   array       $args           Arguments to include in query (e.g. `field`, `date`, `where_col`, `where_val`, etc.).
-     * @param   bool        $bypassCache    Send the cached result.
+     * @param array $args Arguments to include in query (e.g. `field`, `date`, `where_col`, `where_val`, etc.).
+     * @param bool $bypassCache Send the cached result.
      *
      * @return  int
      */
     public function countColumnDistinct($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
-            'field' => 'ID',
-            'date'  => '',
+            'field'     => 'ID',
+            'date'      => '',
             'where_col' => 'ID',
             'where_val' => '',
         ]);
@@ -62,8 +66,8 @@ class VisitorsModel extends BaseModel
     /**
      * Returns visitors' device information.
      *
-     * @param   array   $args           Arguments to include in query (e.g. `field`, `date`, `group_by`, etc.).
-     * @param   bool    $bypassCache    Send the cached result.
+     * @param array $args Arguments to include in query (e.g. `field`, `date`, `group_by`, etc.).
+     * @param bool $bypassCache Send the cached result.
      *
      * @return  array
      */
@@ -80,9 +84,9 @@ class VisitorsModel extends BaseModel
         ]);
 
         $result = Query::select([
-                $args['field'],
-                'COUNT(DISTINCT `ID`) AS `visitors`',
-            ])
+            $args['field'],
+            'COUNT(DISTINCT `ID`) AS `visitors`',
+        ])
             ->from('visitor')
             ->whereDate('last_counter', $args['date'])
             ->groupBy($args['group_by'])
@@ -97,8 +101,8 @@ class VisitorsModel extends BaseModel
     /**
      * Returns visitors' device versions for single view pages.
      *
-     * @param   array   $args           Arguments to include in query (e.g. `date`, etc.).
-     * @param   bool    $bypassCache    Send the cached result.
+     * @param array $args Arguments to include in query (e.g. `date`, etc.).
+     * @param bool $bypassCache Send the cached result.
      *
      * @return  array
      */
@@ -115,9 +119,9 @@ class VisitorsModel extends BaseModel
         ]);
 
         $result = Query::select([
-                'CAST(`version` AS SIGNED) AS `casted_version`',
-                'COUNT(DISTINCT `ID`) AS `visitors`',
-            ])
+            'CAST(`version` AS SIGNED) AS `casted_version`',
+            'COUNT(DISTINCT `ID`) AS `visitors`',
+        ])
             ->from('visitor')
             ->where($args['where_col'], '=', $args['where_val'])
             ->whereDate('last_counter', $args['date'])
@@ -139,11 +143,11 @@ class VisitorsModel extends BaseModel
         ]);
 
         $result = Query::select([
-                'visitor.ID',
-                'visitor.platform',
-                'visitor.agent',
-                'visitor.location'
-            ])
+            'visitor.ID',
+            'visitor.platform',
+            'visitor.agent',
+            'visitor.location'
+        ])
             ->from('visitor')
             ->join('visitor_relationships', ['visitor_relationships.visitor_id', 'visitor.ID'])
             ->join('pages', ['visitor_relationships.page_id', 'pages.page_id'], [], 'LEFT')
@@ -161,18 +165,18 @@ class VisitorsModel extends BaseModel
     public function countGeoData($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
-            'date'          => '',
-            'count_field'   => 'location',
-            'continent'     => '',
-            'country'       => '',
-            'region'        => '',
-            'city'          => '',
-            'not_null'      => ''
+            'date'        => '',
+            'count_field' => 'location',
+            'continent'   => '',
+            'country'     => '',
+            'region'      => '',
+            'city'        => '',
+            'not_null'    => ''
         ]);
 
         $result = Query::select([
-                "COUNT(DISTINCT {$args['count_field']}) as total"
-            ])
+            "COUNT(DISTINCT {$args['count_field']}) as total"
+        ])
             ->from('visitor')
             ->whereDate('visitor.last_counter', $args['date'])
             ->where('visitor.continent', '=', $args['continent'])
@@ -203,13 +207,13 @@ class VisitorsModel extends BaseModel
         ]);
 
         $result = Query::select([
-                'visitor.city as city',
-                'visitor.location as country',
-                'visitor.region as region',
-                'visitor.continent as continent',
-                'COUNT(DISTINCT visitor.ID) as visitors',
-                'SUM(visitor.hits) as views'
-            ])
+            'visitor.city as city',
+            'visitor.location as country',
+            'visitor.region as region',
+            'visitor.continent as continent',
+            'COUNT(DISTINCT visitor.ID) as visitors',
+            'SUM(visitor.hits) as views'
+        ])
             ->from('visitor')
             ->where('visitor.location', 'IN', $args['country'])
             ->where('visitor.city', 'IN', $args['city'])
@@ -224,5 +228,48 @@ class VisitorsModel extends BaseModel
             ->getAll();
 
         return $result ? $result : [];
+    }
+
+    public function getVisitorsWithIncompleteLocation($returnCount = false)
+    {
+        $privateCountry = GeoIP::$private_country;
+
+        // Determine the select fields based on the returnCount parameter
+        $selectFields = $returnCount ? 'COUNT(*)' : ['ID', 'ip', 'location', 'city', 'region', 'continent'];
+
+        // Build the query
+        $query = Query::select($selectFields)
+            ->from('visitor')
+            ->whereRaw(
+                "(location = '' 
+            OR location = %s
+            OR location IS NULL 
+            OR city = '' 
+            OR city IS NULL 
+            OR continent = '' 
+            OR continent IS NULL 
+            OR region = '' 
+            OR region IS NULL 
+            OR (city = location AND continent = location AND region = location))
+            AND ip NOT LIKE '#hash#%'",
+                [$privateCountry]
+            )->bypassCache();
+
+        // Execute the query and return the result based on the returnCount parameter
+        if ($returnCount) {
+            return $query->getVar();
+        } else {
+            return $query->getAll();
+        }
+    }
+
+    public function updateVisitor($id, $data)
+    {
+        // @todo
+        global $wpdb;
+
+        $wpdb->update(DB::table('visitor'), $data, [
+            'ID' => $id
+        ]);
     }
 }

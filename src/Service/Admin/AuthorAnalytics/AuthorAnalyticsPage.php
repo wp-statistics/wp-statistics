@@ -40,7 +40,7 @@ class AuthorAnalyticsPage extends MultiViewPage
 
         $this->disableScreenOption();
         $this->inaccurateDataNotice();
-        $this->processWordCountMeta();
+        $this->checkWordCountMetaNotice();
         $this->processWordCountInBackground();
     }
 
@@ -63,7 +63,7 @@ class AuthorAnalyticsPage extends MultiViewPage
      *
      * @return void
      */
-    private function processWordCountMeta()
+    private function checkWordCountMetaNotice()
     {
         if (count($this->wordsCount->getPostsWithoutWordCountMeta()) && !Option::getOptionGroup('jobs', 'word_count_process_started')) {
             $actionUrl = add_query_arg(
@@ -101,7 +101,7 @@ class AuthorAnalyticsPage extends MultiViewPage
         }
 
         // Initialize and dispatch the CalculatePostWordsCount class
-        $remoteRequestAsync      = WP_Statistics()->getRemoteRequestAsync();
+        $remoteRequestAsync      = WP_Statistics()->getBackgroundProcess();
         $calculatePostWordsCount = $remoteRequestAsync['calculate_post_words_count'];
 
         foreach ($this->wordsCount->getPostsWithoutWordCountMeta() as $postId) {

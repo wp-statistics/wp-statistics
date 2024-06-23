@@ -2,6 +2,9 @@
 
 namespace WP_STATISTICS;
 
+use WP_Statistics\Models\VisitorsModel;
+use WP_Statistics\Service\Analytics\GeoIpService;
+
 class GeoIP
 {
     /**
@@ -348,10 +351,9 @@ class GeoIP
                         }
 
                         // Populate any missing GeoIP information if the user has selected the option.
-                        if ($pack == "country") {
-                            if (Option::get('geoip') && GeoIP::IsSupport() && Option::get('auto_pop')) {
-                                self::updateVisitorGeoIpInfo();
-                            }
+                        if (Option::get('geoip') && GeoIP::IsSupport() && Option::get('auto_pop')) {
+                            $geoIpService = new GeoIpService();
+                            $geoIpService->updateVisitorGeoIpInfo();
                         }
                     }
                 }
@@ -374,61 +376,6 @@ class GeoIP
         }
 
         return $result;
-    }
-
-    /**
-     * Update All Geo IP Visitors
-     *
-     * @return array
-     */
-    public static function updateVisitorGeoIpInfo()
-    {
-        global $wpdb;
-
-        // Find all rows in the table that currently don't have GeoIP info or have an unknown ('000') location.
-        $result = $wpdb->get_results(
-            $wpdb->prepare("SELECT id, ip FROM `" . DB::table('visitor') . "` WHERE location = '' or location = %s or location IS NULL", GeoIP::$private_country)
-        );
-
-        // Try create a new reader instance.
-        $reader = false;
-        if (Option::get('geoip')) {
-            $reader = GeoIP::Loader('country');
-        }
-
-        if ($reader === false) {
-            return array('status' => false, 'data' => __('Cannot Load GeoIP Database. Ensure It\'s Downloaded via Settings Page.', 'wp-statistics'));
-        }
-
-        $count = 0;
-
-        // Loop through all the missing rows and update them if we find a location for them.
-        foreach ($result as $item) {
-            $count++;
-
-            // If the IP address is only a hash, don't bother updating the record.
-            if (IP::IsHashIP($item->ip) === false and $reader != false) {
-                try {
-                    $record   = $reader->country($item->ip);
-                    $location = $record->country->isoCode;
-                    if ($location == "") {
-                        $location = GeoIP::$private_country;
-                    }
-                } catch (\Exception $e) {
-                    \WP_Statistics::log($e->getMessage());
-                    $location = GeoIP::$private_country;
-                }
-
-                // Update the row in the database.
-                $wpdb->update(
-                    DB::table('visitor'),
-                    array('location' => $location),
-                    array('id' => $item->id)
-                );
-            }
-        }
-
-        return array('status' => true, 'data' => sprintf(__('Updated %s GeoIP Records in Visitor Database.', 'wp-statistics'), $count));
     }
 
     /**
