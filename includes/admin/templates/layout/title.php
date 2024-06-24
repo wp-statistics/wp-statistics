@@ -19,7 +19,7 @@ use WP_Statistics\Utils\Request;
     <?php endif ?>
 
     <?php 
-        if (Menus::in_page('content-analytics') && Request::get('type', 'single')) {
+        if (Menus::in_page('content-analytics') && Request::compare('type', 'single')) {
             Admin_Template::get_template(['layout/content-analytics/post-type-header']);
         }
     ?>

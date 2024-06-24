@@ -6,6 +6,7 @@ use WP_STATISTICS\Menus;
 use WP_STATISTICS\Option;
 use WP_Statistics\Utils\Request;
 use WP_Statistics\Abstracts\MultiViewPage;
+use WP_Statistics\Service\Admin\Posts\Views\PostsReportView;
 use WP_Statistics\Service\Admin\Posts\WordCount;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Service\Admin\ContentAnalytics\Views\TabsView;
@@ -18,12 +19,14 @@ class ContentAnalyticsPage extends MultiViewPage
     protected $defaultView = 'tabs';
     protected $views = [
         'tabs'      => TabsView::class,
-        'single'    => SingleView::class
+        'single'    => SingleView::class,
+        'posts'     => PostsReportView::class
     ];
     private $wordsCount;
 
     public function __construct()
     {
+
         parent::__construct();
     }
 

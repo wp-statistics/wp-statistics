@@ -9,7 +9,6 @@ $postAuthor = get_post_field('post_author', $postId);
     <div>
         <?php if (has_post_thumbnail($postId)) : ?>
             <img src="<?php echo get_the_post_thumbnail_url($postId) ?>">
-        <?php else : ?>
         <?php endif; ?>
     </div>
     <div>

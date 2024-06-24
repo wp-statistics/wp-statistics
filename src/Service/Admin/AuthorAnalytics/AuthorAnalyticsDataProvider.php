@@ -155,17 +155,6 @@ class AuthorAnalyticsDataProvider
         ];
     }
 
-    public function getAuthorsPostsData()
-    {
-        $posts  = $this->postsModel->getPostsReportData($this->args);
-        $total  = $this->postsModel->countPosts($this->args);
-
-        return [
-            'posts'   => $posts,
-            'total'   => $total
-        ];
-    }
-
     public function getAuthorSingleData()
     {
         $totalViews         = $this->viewsModel->countViews($this->args);

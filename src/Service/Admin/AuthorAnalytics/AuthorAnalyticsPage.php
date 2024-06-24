@@ -2,9 +2,10 @@
 
 namespace WP_Statistics\Service\Admin\AuthorAnalytics;
 
-use WP_Statistics\Abstracts\MultiViewPage;
 use WP_STATISTICS\Menus;
 use WP_STATISTICS\Option;
+use WP_Statistics\Abstracts\MultiViewPage;
+use WP_Statistics\Service\Admin\Posts\Views\PostsReportView;
 use WP_Statistics\Service\Admin\AuthorAnalytics\Views\AuthorsView;
 use WP_Statistics\Service\Admin\AuthorAnalytics\Views\SingleAuthorView;
 use WP_Statistics\Service\Admin\AuthorAnalytics\Views\TabsView;
@@ -21,6 +22,7 @@ class AuthorAnalyticsPage extends MultiViewPage
     protected $views = [
         'tabs'          => TabsView::class,
         'authors'       => AuthorsView::class,
+        'posts'         => PostsReportView::class,
         'single-author' => SingleAuthorView::class
     ];
 
