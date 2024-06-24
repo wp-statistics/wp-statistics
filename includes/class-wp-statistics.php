@@ -4,10 +4,11 @@
 use WP_Statistics\Async\CalculatePostWordsCount;
 use WP_Statistics\Async\IncompleteGeoIpUpdater;
 use WP_Statistics\Service\Admin\AuthorAnalytics\AuthorAnalyticsManager;
+use WP_Statistics\Service\Admin\ContentAnalytics\ContentAnalyticsManager;
+use WP_Statistics\Service\Admin\Geographic\GeographicManager;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Service\Admin\Posts\PostsManager;
 use WP_Statistics\Service\Admin\PrivacyAudit\PrivacyAuditManager;
-use WP_Statistics\Service\Admin\Geographic\GeographicManager;
 use WP_Statistics\Service\Analytics\AnalyticsManager;
 use WP_Statistics\Service\Integrations\WpConsentApi;
 
@@ -170,8 +171,9 @@ final class WP_Statistics
         // Admin classes
         if (is_admin()) {
 
-            $userOnline   = new \WP_STATISTICS\UserOnline();
-            $adminManager = new \WP_Statistics\Service\Admin\AdminManager();
+            $userOnline       = new \WP_STATISTICS\UserOnline();
+            $adminManager     = new \WP_Statistics\Service\Admin\AdminManager();
+            $contentAnalytics = new ContentAnalyticsManager();
 
             require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-install.php';
             require_once WP_STATISTICS_DIR . 'includes/admin/class-wp-statistics-admin-ajax.php';

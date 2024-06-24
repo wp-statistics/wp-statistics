@@ -338,6 +338,35 @@ class Helper
         return $post_types;
     }
 
+    /**
+     * Get Built-in Post Types List
+     */
+    public static function getDefaultPostTypes()
+    {
+        $postTypes = get_post_types(array('public' => true, '_builtin' => true), 'names', 'and');
+        $postTypes = array_diff($postTypes, ['attachment']);;
+
+        return array_values($postTypes);
+    }
+
+    /**
+     * Get Custom Post Types List
+     */
+    public static function getCustomPostTypes()
+    {
+        return array_values(get_post_types(array('public' => true, '_builtin' => false), 'names', 'and'));
+    }
+
+    /**
+     * Get all Post Types (built-in and custom)
+     *
+     * @return array
+     */
+    public static function getPostTypes()
+    {
+        return array_merge(self::getDefaultPostTypes(), self::getCustomPostTypes());
+    }
+
     public static function get_updated_list_post_type()
     {
         return array_map(function ($postType) {
@@ -464,7 +493,9 @@ class Helper
         //Get Page Title
         if (class_exists('DOMDocument')) {
             $dom = new \DOMDocument;
+            $internalErrors = libxml_use_internal_errors(true);
             @$dom->loadHTML($html);
+            libxml_use_internal_errors($internalErrors);
             $title = '';
             if (isset($dom) and $dom->getElementsByTagName('title')->length > 0) {
                 $title = $dom->getElementsByTagName('title')->item('0')->nodeValue;

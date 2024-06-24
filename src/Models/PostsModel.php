@@ -35,7 +35,8 @@ class PostsModel extends BaseModel
         $args = $this->parseArgs($args, [
             'date'      => '',
             'post_type' => '',
-            'author_id' => ''
+            'author_id' => '',
+            'post_id'   => ''
         ]);
 
         $wordsCountMetaKey = WordCountService::WORDS_COUNT_META_KEY;
@@ -45,6 +46,7 @@ class PostsModel extends BaseModel
             ->join('postmeta', ['posts.ID', 'postmeta.post_id'])
             ->where('post_status', '=', 'publish')
             ->where('post_type', 'IN', $args['post_type'])
+            ->where('posts.ID', '=', $args['post_id'])
             ->where('post_author', '=', $args['author_id'])
             ->where('meta_key', '=', $wordsCountMetaKey)
             ->whereDate('post_date', $args['date'])
@@ -59,7 +61,8 @@ class PostsModel extends BaseModel
         $args = $this->parseArgs($args, [
             'date'      => '',
             'post_type' => '',
-            'author_id' => ''
+            'author_id' => '',
+            'post_id'   => ''
         ]);
 
         $totalWords = Query::select('COUNT(comment_ID)')
@@ -69,6 +72,7 @@ class PostsModel extends BaseModel
             ->where('post_type', 'IN', $args['post_type'])
             ->where('post_author', '=', $args['author_id'])
             ->where('comments.comment_type', '=', 'comment')
+            ->where('posts.ID', '=', $args['post_id'])
             ->whereDate('post_date', $args['date'])
             ->bypassCache($bypassCache)
             ->getVar();
@@ -151,19 +155,21 @@ class PostsModel extends BaseModel
     public function getPostsViewsData($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
-            'date'      => '',
-            'post_type' => Helper::get_list_post_type(),
-            'order_by'  => 'views',
-            'order'     => 'DESC',
-            'page'     => 1,
-            'per_page' => 5,
-            'author_id' => ''
+            'date'          => '',
+            'date_field'    => 'pages.date',
+            'post_type'     => Helper::get_list_post_type(),
+            'order_by'      => 'views',
+            'order'         => 'DESC',
+            'page'          => 1,
+            'per_page'      => 5,
+            'author_id'     => ''
         ]);
 
         $result = Query::select([
                 'posts.ID',
                 'posts.post_author',
                 'posts.post_title',
+                'posts.post_date',
                 'COALESCE(SUM(pages.count), 0) AS views',
             ])
             ->from('posts')
@@ -171,7 +177,7 @@ class PostsModel extends BaseModel
             ->where('post_type', 'IN', $args['post_type'])
             ->where('post_status', '=', 'publish')
             ->where('posts.post_author', '=', $args['author_id'])
-            ->whereDate('pages.date', $args['date'])
+            ->whereDate($args['date_field'], $args['date'])
             ->groupBy('posts.ID')
             ->orderBy($args['order_by'], $args['order'])
             ->perPage($args['page'], $args['per_page'])

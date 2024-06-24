@@ -2,6 +2,8 @@
 
 namespace WP_STATISTICS;
 
+use WP_Statistics\Utils\Request;
+
 class Menus
 {
     /**
@@ -30,6 +32,7 @@ class Menus
         'author-analytics'  => 'author-analytics',
         'privacy-audit'     => 'privacy-audit',
         'geographic'        => 'geographic',
+        'content-analytics' => 'content-analytics',
         'devices'           => 'devices',
     );
 
@@ -352,6 +355,23 @@ class Menus
             }
         }
 
+    }
+
+    public static function getCurrentPage()
+    {
+        $currentPage = Request::get('page');
+        $pagesList   = self::get_menu_list();
+        
+        if (!$currentPage) return false;
+        
+        $currentPage = self::getPageKeyFromSlug($currentPage);
+        $currentPage = reset($currentPage);
+
+        $currentPage = array_filter($pagesList, function($page) use ($currentPage) {
+            return $page['page_url'] === $currentPage;
+        });
+
+        return reset($currentPage);
     }
 
 }

@@ -80,50 +80,6 @@ class AuthorAnalyticsDataProvider
         return $data;
     }
 
-    /**
-     * Organize and count visitors by platform, agent, and country.
-     *
-     * @param array $args 
-     * @return array $result
-     */
-    public function getParsedVisitorsData($args)
-    {
-        $data   = $this->visitorsModel->getVisitors($this->args);
-        $result = [
-            'platform'  => [],
-            'agent'     => [],
-            'country'   => []
-        ];
-
-        if (!empty($data)) {
-            foreach ($data as $item) {
-                if (empty($result['platform'][$item->platform])) {
-                    $result['platform'][$item->platform] = 1;
-                } else {
-                    $result['platform'][$item->platform]++;
-                }
-    
-                if (empty($result['agent'][$item->agent])) {
-                    $result['agent'][$item->agent] = 1;
-                } else {
-                    $result['agent'][$item->agent]++;
-                }
-    
-                if (empty($result['country'][$item->location])) {
-                    $result['country'][$item->location] = 1;
-                } else {
-                    $result['country'][$item->location]++;
-                }
-            }
-    
-            // Sort and limit country
-            arsort($result['country']);
-            $result['country'] = array_slice($result['country'], 0, 10);
-        }
-
-        return $result;
-    }
-
     public function getAuthorsPerformanceData()
     {
         // Authors data
@@ -199,68 +155,6 @@ class AuthorAnalyticsDataProvider
         ];
     }
 
-    public function getAuthorsPostsData()
-    {
-        $posts  = $this->postsModel->getPostsReportData($this->args);
-        $total  = $this->postsModel->countPosts($this->args);
-
-        return [
-            'posts'   => $posts,
-            'total'   => $total
-        ];
-    }
-
-    public function getVisitSummary()
-    {
-        return [
-            'today'     => [
-                'label'     => esc_html__('Today', 'wp-statistics'),
-                'visitors'  => $this->visitorsModel->countVisitors(array_merge($this->args, ['date' => 'today'])),
-                'views'     => $this->viewsModel->countViews(array_merge($this->args, ['date' => 'today'])),
-            ],
-            'yesterday' => [
-                'label'     => esc_html__('Yesterday', 'wp-statistics'),
-                'visitors'  => $this->visitorsModel->countVisitors(array_merge($this->args, ['date' => 'yesterday'])),
-                'views'     => $this->viewsModel->countViews(array_merge($this->args, ['date' => 'yesterday'])),
-            ],
-            '7days'     => [
-                'label'     => esc_html__('Last 7 days', 'wp-statistics'),
-                'visitors'  => $this->visitorsModel->countVisitors(array_merge($this->args, ['date' => '7days'])),
-                'views'     => $this->viewsModel->countViews(array_merge($this->args, ['date' => '7days'])),
-            ],
-            '30days'    => [
-                'label'     => esc_html__('Last 30 days', 'wp-statistics'),
-                'visitors'  => $this->visitorsModel->countVisitors(array_merge($this->args, ['date' => '30days'])),
-                'views'     => $this->viewsModel->countViews(array_merge($this->args, ['date' => '30days'])),
-            ],
-            '60days'    => [
-                'label'     => esc_html__('Last 60 days', 'wp-statistics'),
-                'visitors'  => $this->visitorsModel->countVisitors(array_merge($this->args, ['date' => '60days'])),
-                'views'     => $this->viewsModel->countViews(array_merge($this->args, ['date' => '60days'])),
-            ],
-            '120days'   => [
-                'label'     => esc_html__('Last 120 days', 'wp-statistics'),
-                'visitors'  => $this->visitorsModel->countVisitors(array_merge($this->args, ['date' => '120days'])),
-                'views'     => $this->viewsModel->countViews(array_merge($this->args, ['date' => '120days'])),
-            ],
-            'year'      => [
-                'label'     => esc_html__('Last 12 months', 'wp-statistics'),
-                'visitors'  => $this->visitorsModel->countVisitors(array_merge($this->args, ['date' => 'year'])),
-                'views'     => $this->viewsModel->countViews(array_merge($this->args, ['date' => 'year'])),
-            ],
-            'this_year' => [
-                'label'     => esc_html__('This year (Jan - Today)', 'wp-statistics'),
-                'visitors'  => $this->visitorsModel->countVisitors(array_merge($this->args, ['date' => 'this_year'])),
-                'views'     => $this->viewsModel->countViews(array_merge($this->args, ['date' => 'this_year'])),
-            ],
-            'last_year' => [
-                'label'     => esc_html__('Last Year', 'wp-statistics'),
-                'visitors'  => $this->visitorsModel->countVisitors(array_merge($this->args, ['date' => 'last_year'])),
-                'views'     => $this->viewsModel->countViews(array_merge($this->args, ['date' => 'last_year'])),
-            ],
-        ];
-    }
-
     public function getAuthorSingleData()
     {
         $totalViews         = $this->viewsModel->countViews($this->args);
@@ -275,11 +169,12 @@ class AuthorAnalyticsDataProvider
         $topPostsByComment  = $this->postsModel->getPostsCommentsData($this->args);
         $topPostsByWords    = $this->postsModel->getPostsWordsData($this->args);
 
-        $visitorsData       = $this->getParsedVisitorsData($this->args);
-        $visitsData         = $this->getVisitSummary();
+        $visitorsData       = $this->visitorsModel->getParsedVisitorsData($this->args);
+        $visitorsSummary    = $this->visitorsModel->getVisitorsSummary($this->args);
+        $viewsSummary       = $this->viewsModel->getViewsSummary($this->args);
 
         $data = [
-            'visit_summary' => $visitsData,
+            'visit_summary' => array_replace_recursive($visitorsSummary, $viewsSummary),
             'visitors_data' => $visitorsData,
             'taxonomies'    => $taxonomies,
             'overview'      => [

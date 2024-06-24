@@ -14,7 +14,8 @@ class ViewsModel extends BaseModel
         $args = $this->parseArgs($args, [
             'date'      => '',
             'post_type' => Helper::get_list_post_type(),
-            'author_id' => ''
+            'author_id' => '',
+            'post_id'   => ''
         ]);
 
         $subQuery = Query::select('SUM(count) as total_views')
@@ -23,6 +24,7 @@ class ViewsModel extends BaseModel
             ->where('post_type', 'IN', $args['post_type'])
             ->whereDate('date', $args['date'])
             ->where('post_author', '=', $args['author_id'])
+            ->where('posts.ID', '=', $args['post_id'])
             ->groupBy('type')
             ->bypassCache($bypassCache)
             ->getQuery();
@@ -33,6 +35,48 @@ class ViewsModel extends BaseModel
         $total = $query->getVar();
 
         return $total ? $total : 0;
+    }
+
+    public function getViewsSummary($args = [], $bypassCache = false)
+    {
+        return [
+            'today'     => [
+                'label' => esc_html__('Today', 'wp-statistics'),
+                'views' => $this->countViews(array_merge($args, ['date' => 'today'])),
+            ],
+            'yesterday' => [
+                'label' => esc_html__('Yesterday', 'wp-statistics'),
+                'views' => $this->countViews(array_merge($args, ['date' => 'yesterday'])),
+            ],
+            '7days'     => [
+                'label' => esc_html__('Last 7 days', 'wp-statistics'),
+                'views' => $this->countViews(array_merge($args, ['date' => '7days'])),
+            ],
+            '30days'    => [
+                'label' => esc_html__('Last 30 days', 'wp-statistics'),
+                'views' => $this->countViews(array_merge($args, ['date' => '30days'])),
+            ],
+            '60days'    => [
+                'label' => esc_html__('Last 60 days', 'wp-statistics'),
+                'views' => $this->countViews(array_merge($args, ['date' => '60days'])),
+            ],
+            '120days'   => [
+                'label' => esc_html__('Last 120 days', 'wp-statistics'),
+                'views' => $this->countViews(array_merge($args, ['date' => '120days'])),
+            ],
+            'year'      => [
+                'label' => esc_html__('Last 12 months', 'wp-statistics'),
+                'views' => $this->countViews(array_merge($args, ['date' => 'year'])),
+            ],
+            'this_year' => [
+                'label' => esc_html__('This year (Jan - Today)', 'wp-statistics'),
+                'views' => $this->countViews(array_merge($args, ['date' => 'this_year'])),
+            ],
+            'last_year' => [
+                'label' => esc_html__('Last Year', 'wp-statistics'),
+                'views' => $this->countViews(array_merge($args, ['date' => 'last_year'])),
+            ]
+        ];
     }
 
 }
