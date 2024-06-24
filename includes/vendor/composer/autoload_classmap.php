@@ -99,7 +99,11 @@ return array(
     'WP_Statistics\\Service\\Admin\\AuthorAnalytics\\Views\\AuthorsView' => $baseDir . '/src/Service/Admin/AuthorAnalytics/Views/AuthorsView.php',
     'WP_Statistics\\Service\\Admin\\AuthorAnalytics\\Views\\SingleAuthorView' => $baseDir . '/src/Service/Admin/AuthorAnalytics/Views/SingleAuthorView.php',
     'WP_Statistics\\Service\\Admin\\AuthorAnalytics\\Views\\TabsView' => $baseDir . '/src/Service/Admin/AuthorAnalytics/Views/TabsView.php',
-<<<<<<< HEAD
+    'WP_Statistics\\Service\\Admin\\ContentAnalytics\\ContentAnalyticsDataProvider' => $baseDir . '/src/Service/Admin/ContentAnalytics/ContentAnalyticsDataProvider.php',
+    'WP_Statistics\\Service\\Admin\\ContentAnalytics\\ContentAnalyticsManager' => $baseDir . '/src/Service/Admin/ContentAnalytics/ContentAnalyticsManager.php',
+    'WP_Statistics\\Service\\Admin\\ContentAnalytics\\ContentAnalyticsPage' => $baseDir . '/src/Service/Admin/ContentAnalytics/ContentAnalyticsPage.php',
+    'WP_Statistics\\Service\\Admin\\ContentAnalytics\\Views\\SingleView' => $baseDir . '/src/Service/Admin/ContentAnalytics/Views/SingleView.php',
+    'WP_Statistics\\Service\\Admin\\ContentAnalytics\\Views\\TabsView' => $baseDir . '/src/Service/Admin/ContentAnalytics/Views/TabsView.php',
     'WP_Statistics\\Service\\Admin\\Devices\\DevicesDataProvider' => $baseDir . '/src/Service/Admin/Devices/DevicesDataProvider.php',
     'WP_Statistics\\Service\\Admin\\Devices\\DevicesManager' => $baseDir . '/src/Service/Admin/Devices/DevicesManager.php',
     'WP_Statistics\\Service\\Admin\\Devices\\DevicesPage' => $baseDir . '/src/Service/Admin/Devices/DevicesPage.php',
@@ -108,13 +112,6 @@ return array(
     'WP_Statistics\\Service\\Admin\\Devices\\Views\\SinglePlatformView' => $baseDir . '/src/Service/Admin/Devices/Views/SinglePlatformView.php',
     'WP_Statistics\\Service\\Admin\\Devices\\Views\\SingleView' => $baseDir . '/src/Service/Admin/Devices/Views/SingleView.php',
     'WP_Statistics\\Service\\Admin\\Devices\\Views\\TabsView' => $baseDir . '/src/Service/Admin/Devices/Views/TabsView.php',
-=======
-    'WP_Statistics\\Service\\Admin\\ContentAnalytics\\ContentAnalyticsDataProvider' => $baseDir . '/src/Service/Admin/ContentAnalytics/ContentAnalyticsDataProvider.php',
-    'WP_Statistics\\Service\\Admin\\ContentAnalytics\\ContentAnalyticsManager' => $baseDir . '/src/Service/Admin/ContentAnalytics/ContentAnalyticsManager.php',
-    'WP_Statistics\\Service\\Admin\\ContentAnalytics\\ContentAnalyticsPage' => $baseDir . '/src/Service/Admin/ContentAnalytics/ContentAnalyticsPage.php',
-    'WP_Statistics\\Service\\Admin\\ContentAnalytics\\Views\\SingleView' => $baseDir . '/src/Service/Admin/ContentAnalytics/Views/SingleView.php',
-    'WP_Statistics\\Service\\Admin\\ContentAnalytics\\Views\\TabsView' => $baseDir . '/src/Service/Admin/ContentAnalytics/Views/TabsView.php',
->>>>>>> implement-content-analytics
     'WP_Statistics\\Service\\Admin\\Geographic\\GeographicDataProvider' => $baseDir . '/src/Service/Admin/Geographic/GeographicDataProvider.php',
     'WP_Statistics\\Service\\Admin\\Geographic\\GeographicManager' => $baseDir . '/src/Service/Admin/Geographic/GeographicManager.php',
     'WP_Statistics\\Service\\Admin\\Geographic\\GeographicPage' => $baseDir . '/src/Service/Admin/Geographic/GeographicPage.php',
@@ -124,12 +121,8 @@ return array(
     'WP_Statistics\\Service\\Admin\\NoticeHandler\\Notice' => $baseDir . '/src/Service/Admin/NoticeHandler/Notice.php',
     'WP_Statistics\\Service\\Admin\\Posts\\PostsDataProvider' => $baseDir . '/src/Service/Admin/Posts/PostsDataProvider.php',
     'WP_Statistics\\Service\\Admin\\Posts\\PostsManager' => $baseDir . '/src/Service/Admin/Posts/PostsManager.php',
-<<<<<<< HEAD
-    'WP_Statistics\\Service\\Admin\\Posts\\WordCountService' => $baseDir . '/src/Service/Admin/Posts/WordCountService.php',
-=======
     'WP_Statistics\\Service\\Admin\\Posts\\Views\\PostsReportView' => $baseDir . '/src/Service/Admin/Posts/Views/PostsReportView.php',
-    'WP_Statistics\\Service\\Admin\\Posts\\WordCount' => $baseDir . '/src/Service/Admin/Posts/WordCount.php',
->>>>>>> implement-content-analytics
+    'WP_Statistics\\Service\\Admin\\Posts\\WordCountService' => $baseDir . '/src/Service/Admin/Posts/WordCountService.php',
     'WP_Statistics\\Service\\Admin\\PrivacyAudit\\Audits\\Abstracts\\BaseAudit' => $baseDir . '/src/Service/Admin/PrivacyAudit/Audits/Abstracts/BaseAudit.php',
     'WP_Statistics\\Service\\Admin\\PrivacyAudit\\Audits\\Abstracts\\ResolvableAudit' => $baseDir . '/src/Service/Admin/PrivacyAudit/Audits/Abstracts/ResolvableAudit.php',
     'WP_Statistics\\Service\\Admin\\PrivacyAudit\\Audits\\AnonymizeIpAddress' => $baseDir . '/src/Service/Admin/PrivacyAudit/Audits/AnonymizeIpAddress.php',

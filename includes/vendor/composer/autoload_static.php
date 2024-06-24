@@ -178,7 +178,11 @@ class ComposerStaticInit2ac516f03a394ec3d1721352b7f43359
         'WP_Statistics\\Service\\Admin\\AuthorAnalytics\\Views\\AuthorsView' => __DIR__ . '/../../..' . '/src/Service/Admin/AuthorAnalytics/Views/AuthorsView.php',
         'WP_Statistics\\Service\\Admin\\AuthorAnalytics\\Views\\SingleAuthorView' => __DIR__ . '/../../..' . '/src/Service/Admin/AuthorAnalytics/Views/SingleAuthorView.php',
         'WP_Statistics\\Service\\Admin\\AuthorAnalytics\\Views\\TabsView' => __DIR__ . '/../../..' . '/src/Service/Admin/AuthorAnalytics/Views/TabsView.php',
-<<<<<<< HEAD
+        'WP_Statistics\\Service\\Admin\\ContentAnalytics\\ContentAnalyticsDataProvider' => __DIR__ . '/../../..' . '/src/Service/Admin/ContentAnalytics/ContentAnalyticsDataProvider.php',
+        'WP_Statistics\\Service\\Admin\\ContentAnalytics\\ContentAnalyticsManager' => __DIR__ . '/../../..' . '/src/Service/Admin/ContentAnalytics/ContentAnalyticsManager.php',
+        'WP_Statistics\\Service\\Admin\\ContentAnalytics\\ContentAnalyticsPage' => __DIR__ . '/../../..' . '/src/Service/Admin/ContentAnalytics/ContentAnalyticsPage.php',
+        'WP_Statistics\\Service\\Admin\\ContentAnalytics\\Views\\SingleView' => __DIR__ . '/../../..' . '/src/Service/Admin/ContentAnalytics/Views/SingleView.php',
+        'WP_Statistics\\Service\\Admin\\ContentAnalytics\\Views\\TabsView' => __DIR__ . '/../../..' . '/src/Service/Admin/ContentAnalytics/Views/TabsView.php',
         'WP_Statistics\\Service\\Admin\\Devices\\DevicesDataProvider' => __DIR__ . '/../../..' . '/src/Service/Admin/Devices/DevicesDataProvider.php',
         'WP_Statistics\\Service\\Admin\\Devices\\DevicesManager' => __DIR__ . '/../../..' . '/src/Service/Admin/Devices/DevicesManager.php',
         'WP_Statistics\\Service\\Admin\\Devices\\DevicesPage' => __DIR__ . '/../../..' . '/src/Service/Admin/Devices/DevicesPage.php',
@@ -187,13 +191,6 @@ class ComposerStaticInit2ac516f03a394ec3d1721352b7f43359
         'WP_Statistics\\Service\\Admin\\Devices\\Views\\SinglePlatformView' => __DIR__ . '/../../..' . '/src/Service/Admin/Devices/Views/SinglePlatformView.php',
         'WP_Statistics\\Service\\Admin\\Devices\\Views\\SingleView' => __DIR__ . '/../../..' . '/src/Service/Admin/Devices/Views/SingleView.php',
         'WP_Statistics\\Service\\Admin\\Devices\\Views\\TabsView' => __DIR__ . '/../../..' . '/src/Service/Admin/Devices/Views/TabsView.php',
-=======
-        'WP_Statistics\\Service\\Admin\\ContentAnalytics\\ContentAnalyticsDataProvider' => __DIR__ . '/../../..' . '/src/Service/Admin/ContentAnalytics/ContentAnalyticsDataProvider.php',
-        'WP_Statistics\\Service\\Admin\\ContentAnalytics\\ContentAnalyticsManager' => __DIR__ . '/../../..' . '/src/Service/Admin/ContentAnalytics/ContentAnalyticsManager.php',
-        'WP_Statistics\\Service\\Admin\\ContentAnalytics\\ContentAnalyticsPage' => __DIR__ . '/../../..' . '/src/Service/Admin/ContentAnalytics/ContentAnalyticsPage.php',
-        'WP_Statistics\\Service\\Admin\\ContentAnalytics\\Views\\SingleView' => __DIR__ . '/../../..' . '/src/Service/Admin/ContentAnalytics/Views/SingleView.php',
-        'WP_Statistics\\Service\\Admin\\ContentAnalytics\\Views\\TabsView' => __DIR__ . '/../../..' . '/src/Service/Admin/ContentAnalytics/Views/TabsView.php',
->>>>>>> implement-content-analytics
         'WP_Statistics\\Service\\Admin\\Geographic\\GeographicDataProvider' => __DIR__ . '/../../..' . '/src/Service/Admin/Geographic/GeographicDataProvider.php',
         'WP_Statistics\\Service\\Admin\\Geographic\\GeographicManager' => __DIR__ . '/../../..' . '/src/Service/Admin/Geographic/GeographicManager.php',
         'WP_Statistics\\Service\\Admin\\Geographic\\GeographicPage' => __DIR__ . '/../../..' . '/src/Service/Admin/Geographic/GeographicPage.php',
@@ -203,12 +200,8 @@ class ComposerStaticInit2ac516f03a394ec3d1721352b7f43359
         'WP_Statistics\\Service\\Admin\\NoticeHandler\\Notice' => __DIR__ . '/../../..' . '/src/Service/Admin/NoticeHandler/Notice.php',
         'WP_Statistics\\Service\\Admin\\Posts\\PostsDataProvider' => __DIR__ . '/../../..' . '/src/Service/Admin/Posts/PostsDataProvider.php',
         'WP_Statistics\\Service\\Admin\\Posts\\PostsManager' => __DIR__ . '/../../..' . '/src/Service/Admin/Posts/PostsManager.php',
-<<<<<<< HEAD
-        'WP_Statistics\\Service\\Admin\\Posts\\WordCountService' => __DIR__ . '/../../..' . '/src/Service/Admin/Posts/WordCountService.php',
-=======
         'WP_Statistics\\Service\\Admin\\Posts\\Views\\PostsReportView' => __DIR__ . '/../../..' . '/src/Service/Admin/Posts/Views/PostsReportView.php',
-        'WP_Statistics\\Service\\Admin\\Posts\\WordCount' => __DIR__ . '/../../..' . '/src/Service/Admin/Posts/WordCount.php',
->>>>>>> implement-content-analytics
+        'WP_Statistics\\Service\\Admin\\Posts\\WordCountService' => __DIR__ . '/../../..' . '/src/Service/Admin/Posts/WordCountService.php',
         'WP_Statistics\\Service\\Admin\\PrivacyAudit\\Audits\\Abstracts\\BaseAudit' => __DIR__ . '/../../..' . '/src/Service/Admin/PrivacyAudit/Audits/Abstracts/BaseAudit.php',
         'WP_Statistics\\Service\\Admin\\PrivacyAudit\\Audits\\Abstracts\\ResolvableAudit' => __DIR__ . '/../../..' . '/src/Service/Admin/PrivacyAudit/Audits/Abstracts/ResolvableAudit.php',
         'WP_Statistics\\Service\\Admin\\PrivacyAudit\\Audits\\AnonymizeIpAddress' => __DIR__ . '/../../..' . '/src/Service/Admin/PrivacyAudit/Audits/AnonymizeIpAddress.php',
