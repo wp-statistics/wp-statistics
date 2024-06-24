@@ -50,8 +50,9 @@ class PostsReportView extends BaseView
 
     public function render()
     {
-        $postType   = Request::get('pt', 'post');
-        $data       = $this->getData();
+        $postType       = Request::get('pt', 'post');
+        $data           = $this->getData();
+        $currentPage    = Menus::getCurrentPage();
 
         $args = [
             'title'         => Helper::getPostTypeName($postType),
@@ -59,8 +60,8 @@ class PostsReportView extends BaseView
             'custom_get'    => ['type' => 'posts', 'pt' => $postType],
             'DateRang'      => Admin_Template::DateRange(),
             'hasDateRang'   => true,
-            'backUrl'       => Menus::admin_url('author-analytics'),
-            'backTitle'     => esc_html__('Authors Performance', 'wp-statistics'),
+            'backUrl'       => wp_get_referer(),
+            'backTitle'     => $currentPage['title'],
             'filters'       => ['post-type','author'],
             'data'          => $data,
             'paged'         => Admin_Template::getCurrentPaged()
