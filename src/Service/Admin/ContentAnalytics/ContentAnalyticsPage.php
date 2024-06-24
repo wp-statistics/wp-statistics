@@ -7,7 +7,7 @@ use WP_STATISTICS\Option;
 use WP_Statistics\Utils\Request;
 use WP_Statistics\Abstracts\MultiViewPage;
 use WP_Statistics\Service\Admin\Posts\Views\PostsReportView;
-use WP_Statistics\Service\Admin\Posts\WordCount;
+use WP_Statistics\Service\Admin\Posts\WordCountService;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Service\Admin\ContentAnalytics\Views\TabsView;
 use WP_Statistics\Service\Admin\ContentAnalytics\Views\SingleView;
@@ -32,7 +32,7 @@ class ContentAnalyticsPage extends MultiViewPage
 
     protected function init()
     {
-        $this->wordsCount = new WordCount();
+        $this->wordsCount = new WordCountService();
 
         $this->disableScreenOption();
         $this->processWordCountMeta();
@@ -77,16 +77,7 @@ class ContentAnalyticsPage extends MultiViewPage
         }
 
         // Initialize and dispatch the CalculatePostWordsCount class
-        $remoteRequestAsync      = WP_Statistics()->getRemoteRequestAsync();
-        $calculatePostWordsCount = $remoteRequestAsync['calculate_post_words_count'];
-
-        foreach ($this->wordsCount->getPostsWithoutWordCountMeta() as $postId) {
-            $calculatePostWordsCount->push_to_queue(['post_id' => $postId]);
-        }
-
-        Option::saveOptionGroup('word_count_process_started', true, 'jobs');
-
-        $calculatePostWordsCount->save()->dispatch();
+        $this->wordsCount->processWordCountForPosts();
 
         wp_redirect(Menus::admin_url($this->pageSlug));
         exit;
