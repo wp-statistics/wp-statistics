@@ -95,22 +95,8 @@ class GeographicPage extends MultiViewPage
             exit;
         }
 
-        // Before the process, let's make sure the Maxmind Databases are up to date
-        $result = GeoIP::download('country', 'update');
-        GeoIP::download('city', 'update');
-
-        if (isset($result['status']) and $result['status'] === false) {
-            $errorMessage        = isset($result['notice']) ? $result['notice'] : 'an unknown error occurred';
-            $userFriendlyMessage = sprintf(
-                __('GeoIP functionality could not be activated due to an error: %s.', 'wp-statistics'),
-                $errorMessage
-            );
-
-            Notice::addFlashNotice($userFriendlyMessage, 'error');
-
-        } else {
-            $this->geoIpService->batchUpdateIncompleteGeoIpForVisitors();
-        }
+        // Update GeoIP data for visitors with incomplete information
+        $this->geoIpService->batchUpdateIncompleteGeoIpForVisitors();
 
         wp_redirect(Menus::admin_url('geographic'));
         exit;

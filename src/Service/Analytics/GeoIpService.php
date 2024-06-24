@@ -8,7 +8,7 @@ use WP_STATISTICS\Option;
 class GeoIpService
 {
     /**
-     * Update Incomplete Geo IP Info for Visitors
+     * Update Incomplete GeoIP Info for Visitors
      *
      * @return void
      */
