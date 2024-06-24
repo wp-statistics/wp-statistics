@@ -1,4 +1,6 @@
-<?php 
+<?php
+
+use WP_STATISTICS\Admin_Template;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Referred;
 ?>
@@ -35,7 +37,7 @@ use WP_STATISTICS\Referred;
                             <tr>
                                 <td class="wps-pd-l">
                                     <div class="wps-ellipsis-parent">
-                                        <span class="wps-ellipsis-text"><?php echo esc_html(Helper::get_site_title_by_url($item->referrer)) ?></span>
+                                        <span class="wps-ellipsis-text"><?php echo !empty(Helper::get_site_title_by_url($item->referrer)) ? esc_html(Helper::get_site_title_by_url($item->referrer)) : Admin_Template::UnknownColumn() ?></span>
                                     </div>
                                 </td>
                                 <td class="wps-pd-l">
