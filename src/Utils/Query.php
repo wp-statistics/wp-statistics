@@ -14,16 +14,16 @@ class Query
     private $operation;
     private $table;
     private $fields = '*';
-    private $setClauses = [];
     private $subQuery;
     private $orderClause;
     private $groupByClause;
     private $limitClause;
     private $whereRelation = 'AND';
+    private $setClauses = [];
     private $joinClauses = [];
     private $whereClauses = [];
     private $rawWhereClause = [];
-    private $whereValues = [];
+    private $valuesToPrepare = [];
     private $bypassCache = false;
 
     /** @var wpdb $db */
@@ -62,8 +62,19 @@ class Query
     {
         if (empty($values)) return $this;
 
-        foreach ($values as $column => $value) {
-            $this->setClauses[] = "$column=$value";
+        foreach ($values as $field => $value) {
+            if (is_string($value)) {
+                $this->setClauses[]         = '%i = %s';
+                $this->valuesToPrepare[]    = $field;
+                $this->valuesToPrepare[]    = $value;
+            } else if (is_numeric($value)) {
+                $this->setClauses[]         = '%i = %d';
+                $this->valuesToPrepare[]    = $field;
+                $this->valuesToPrepare[]    = $value;
+            } else if (is_null($value)) {
+                $this->setClauses[]         = '%i = NULL';
+                $this->valuesToPrepare[]    = $field;
+            }
         }
 
         return $this;
@@ -131,10 +142,10 @@ class Query
         }
 
         if (!empty($from) && !empty($to)) {
-            $condition            = "DATE($field) BETWEEN %s AND %s";
-            $this->whereClauses[] = $condition;
-            $this->whereValues[]  = $from;
-            $this->whereValues[]  = $to;
+            $condition                  = "DATE($field) BETWEEN %s AND %s";
+            $this->whereClauses[]       = $condition;
+            $this->valuesToPrepare[]    = $from;
+            $this->valuesToPrepare[]    = $to;
         }
 
         return $this;
@@ -170,8 +181,8 @@ class Query
         $condition = $this->generateCondition($field, $operator, $value);
 
         if (!empty($condition)) {
-            $this->whereClauses[] = $condition['condition'];
-            $this->whereValues    = array_merge($this->whereValues, $condition['values']);
+            $this->whereClauses[]   = $condition['condition'];
+            $this->valuesToPrepare  = array_merge($this->valuesToPrepare, $condition['values']);
         }
 
         return $this;
@@ -278,7 +289,7 @@ class Query
     public function getVar()
     {
         $query = $this->buildQuery();
-        $query = $this->prepareQuery($query, $this->whereValues);
+        $query = $this->prepareQuery($query, $this->valuesToPrepare);
 
         if (!$this->bypassCache) {
             $cachedResult = $this->getCachedResult($query);
@@ -299,7 +310,7 @@ class Query
     public function getAll()
     {
         $query = $this->buildQuery();
-        $query = $this->prepareQuery($query, $this->whereValues);
+        $query = $this->prepareQuery($query, $this->valuesToPrepare);
 
         if (!$this->bypassCache) {
             $cachedResult = $this->getCachedResult($query);
@@ -320,7 +331,7 @@ class Query
     public function getCol()
     {
         $query = $this->buildQuery();
-        $query = $this->prepareQuery($query, $this->whereValues);
+        $query = $this->prepareQuery($query, $this->valuesToPrepare);
 
         if (!$this->bypassCache) {
             $cachedResult = $this->getCachedResult($query);
@@ -341,7 +352,7 @@ class Query
     public function getRow()
     {
         $query = $this->buildQuery();
-        $query = $this->prepareQuery($query, $this->whereValues);
+        $query = $this->prepareQuery($query, $this->valuesToPrepare);
 
         if (!$this->bypassCache) {
             $cachedResult = $this->getCachedResult($query);
@@ -362,7 +373,7 @@ class Query
     public function execute()
     {
         $query  = $this->buildQuery();
-        $query  = $this->prepareQuery($query, $this->whereValues);
+        $query  = $this->prepareQuery($query, $this->valuesToPrepare);
         $result = $this->db->query($query);
 
         return $result;
@@ -513,7 +524,7 @@ class Query
     public function getQuery()
     {
         $query         = $this->buildQuery();
-        $preparedQuery = $this->prepareQuery($query, $this->whereValues);
+        $preparedQuery = $this->prepareQuery($query, $this->valuesToPrepare);
 
         return $preparedQuery;
     }

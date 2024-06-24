@@ -261,11 +261,9 @@ class VisitorsModel extends BaseModel
 
     public function updateVisitor($id, $data)
     {
-        // @todo
-        global $wpdb;
-
-        $wpdb->update(DB::table('visitor'), $data, [
-            'ID' => $id
-        ]);
+        Query::update('visitor')
+            ->set($data)
+            ->where('ID', '=', $id)
+            ->execute();
     }
 }
