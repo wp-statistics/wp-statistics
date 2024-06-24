@@ -13,7 +13,10 @@ $postType = get_post_type(Request::get('post_id'));
                 'title'         => esc_html__('Views', 'wp-statistics'),
                 'tooltip'       => esc_html__('Views tooltip', 'wp-statistics'),
                 'icon_class'    => 'views',
-                'total'         => Helper::formatNumberWithUnit($data['overview']['views']['total'])
+                'total'         => Helper::formatNumberWithUnit($data['overview']['views']['total']),
+                'total_title'   => esc_html__('Selected Period', 'wp-statistics'),
+                'avg'           => Helper::formatNumberWithUnit($data['overview']['views']['recent']),
+                'avg_title'     => esc_html__('Total', 'wp-statistics'),
             ];
             Admin_Template::get_template(['layout/content-analytics/overview-card'], $args1);
 
@@ -22,6 +25,9 @@ $postType = get_post_type(Request::get('post_id'));
                 'tooltip'       => esc_html__('Visitors tooltip', 'wp-statistics'),
                 'icon_class'    => 'visitors',
                 'total'         => Helper::formatNumberWithUnit($data['overview']['visitors']['total']),
+                'total_title'   => esc_html__('Selected Period', 'wp-statistics'),
+                'avg'           => Helper::formatNumberWithUnit($data['overview']['visitors']['recent']),
+                'avg_title'     => esc_html__('Total', 'wp-statistics')
             ];
             Admin_Template::get_template(['layout/content-analytics/overview-card'], $args2);
 

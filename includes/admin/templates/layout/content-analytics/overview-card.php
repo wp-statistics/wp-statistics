@@ -10,12 +10,13 @@
     <div class="wps-card__summary">
         <div class="wps-card__summary--title">
             <span><?php echo $total ?></span>
-            <span><?php echo esc_html__('Total', 'wp-statistics') ?></span>
+            <span><?php echo isset($total_title) ? esc_html($total_title) : esc_html__('Total', 'wp-statistics') ?></span>
         </div>
         <div class="wps-card__summary--avg">
             <?php if(isset($avg)):  ?>
                 <span><?php echo $avg ?></span>
             <?php endif?>
+
             <?php if(isset($avg_title)): ?>
                 <span><?php echo $avg_title ?></span>
             <?php endif?>
