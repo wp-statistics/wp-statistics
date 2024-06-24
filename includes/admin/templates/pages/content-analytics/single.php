@@ -14,9 +14,8 @@ $postType = get_post_type(Request::get('post_id'));
                 'tooltip'       => esc_html__('Views tooltip', 'wp-statistics'),
                 'icon_class'    => 'views',
                 'total'         => Helper::formatNumberWithUnit($data['overview']['views']['total']),
-                'total_title'   => esc_html__('Selected Period', 'wp-statistics'),
                 'avg'           => Helper::formatNumberWithUnit($data['overview']['views']['recent']),
-                'avg_title'     => esc_html__('Total', 'wp-statistics'),
+                'avg_title'     => esc_html__('Selected Period', 'wp-statistics'),
             ];
             Admin_Template::get_template(['layout/content-analytics/overview-card'], $args1);
 
@@ -25,9 +24,8 @@ $postType = get_post_type(Request::get('post_id'));
                 'tooltip'       => esc_html__('Visitors tooltip', 'wp-statistics'),
                 'icon_class'    => 'visitors',
                 'total'         => Helper::formatNumberWithUnit($data['overview']['visitors']['total']),
-                'total_title'   => esc_html__('Selected Period', 'wp-statistics'),
                 'avg'           => Helper::formatNumberWithUnit($data['overview']['visitors']['recent']),
-                'avg_title'     => esc_html__('Total', 'wp-statistics')
+                'avg_title'     => esc_html__('Selected Period', 'wp-statistics'),
             ];
             Admin_Template::get_template(['layout/content-analytics/overview-card'], $args2);
 
@@ -41,39 +39,39 @@ $postType = get_post_type(Request::get('post_id'));
 
             if (post_type_supports($postType, 'comments')) {
                 $args4 = [
-                    'title'   => esc_html__('Comments', 'wp-statistics'),
-                    'tooltip' => esc_html__('Comments tooltip', 'wp-statistics'),
-                    'icon_class'   => 'comments',
-                    'total'        => Helper::formatNumberWithUnit($data['overview']['comments']['total']),
+                    'title'         => esc_html__('Comments', 'wp-statistics'),
+                    'tooltip'       => esc_html__('Comments tooltip', 'wp-statistics'),
+                    'icon_class'    => 'comments',
+                    'total'         => Helper::formatNumberWithUnit($data['overview']['comments']['total']),
                 ];
                 Admin_Template::get_template(['layout/content-analytics/overview-card'], $args4);
             }
 
             $operatingSystems = [
-                'title'   => esc_html__('Operating Systems', 'wp-statistics'),
-                'tooltip' => esc_html__('Operating Systems tooltip', 'wp-statistics'),
-                'unique_id'    => 'content_operating_systems'
+                'title'         => esc_html__('Operating Systems', 'wp-statistics'),
+                'tooltip'       => esc_html__('Operating Systems tooltip', 'wp-statistics'),
+                'unique_id'     => 'content_operating_systems'
             ];
             Admin_Template::get_template(['layout/content-analytics/pie-chart'], $operatingSystems);
 
             $browsers = [
-                'title'   => esc_html__('Browsers', 'wp-statistics'),
-                'tooltip' => esc_html__('Browsers tooltip', 'wp-statistics'),
-                'unique_id'    => 'content_browsers'
+                'title'         => esc_html__('Browsers', 'wp-statistics'),
+                'tooltip'       => esc_html__('Browsers tooltip', 'wp-statistics'),
+                'unique_id'     => 'content_browsers'
             ];
             Admin_Template::get_template(['layout/content-analytics/pie-chart'], $browsers);
 
             $deviceModels = [
-                'title'   => esc_html__('Device Models', 'wp-statistics'),
-                'tooltip' => esc_html__('Device Models tooltip', 'wp-statistics'),
-                'unique_id'    => 'content_device_models'
+                'title'         => esc_html__('Device Models', 'wp-statistics'),
+                'tooltip'       => esc_html__('Device Models tooltip', 'wp-statistics'),
+                'unique_id'     => 'content_device_models'
             ];
             Admin_Template::get_template(['layout/content-analytics/pie-chart'], $deviceModels);
 
             $deviceUsage = [
-                'title'   => esc_html__('Device Usage', 'wp-statistics'),
-                'tooltip' => esc_html__('Device Usage tooltip', 'wp-statistics'),
-                'unique_id'    => 'content_device_usage'
+                'title'         => esc_html__('Device Usage', 'wp-statistics'),
+                'tooltip'       => esc_html__('Device Usage tooltip', 'wp-statistics'),
+                'unique_id'     => 'content_device_usage'
             ];
             Admin_Template::get_template(['layout/content-analytics/pie-chart'], $deviceUsage);
         ?>
