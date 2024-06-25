@@ -657,15 +657,6 @@ class Install
             $assetNameObfuscator->deleteDatabaseOption();
         }
 
-        /**
-         * Remove 'www.' from referrers' domains.
-         *
-         * @version 14.8.1
-         */
-        if (version_compare($installed_version, '14.8', '<=')) {
-            self::updateReferrerDomains();
-        }
-
         // Store the new version information.
         update_option('wp_statistics_plugin_version', WP_STATISTICS_VERSION);
     }
@@ -970,30 +961,6 @@ class Install
         }
 
         return $page_type;
-    }
-
-    /**
-     * Removes 'www.' from domains in `wp_statistics_referrals_detail` option.
-     *
-     * @return  void
-     */
-    public static function updateReferrerDomains()
-    {
-        delete_transient('wps_top_referring');
-
-        $newReferralsDetail = [];
-        if (!empty($referralsDetail = get_option('wp_statistics_referrals_detail'))) {
-            foreach ($referralsDetail as $index => $item) {
-                if (empty($index)) {
-                    continue;
-                }
-
-                $newIndex                      = str_replace('www.', '', strtolower($index));
-                $newReferralsDetail[$newIndex] = $referralsDetail[$index];
-            }
-
-            update_option('wp_statistics_referrals_detail', $newReferralsDetail);
-        }
     }
 }
 
