@@ -364,7 +364,7 @@ class Referred
         }
 
         // Return SQL
-        return "SELECT SUBSTRING_INDEX(REPLACE( REPLACE( referred, 'http://', '') , 'https://' , '') , '/', 1 ) as `domain`, count(referred) as `number` FROM " . DB::table('visitor') . " WHERE `referred` REGEXP \"^(https?://|www\\.)[\.A-Za-z0-9\-]+\\.[a-zA-Z]{2,4}\" AND referred <> '' AND LENGTH(referred) >=12 " . $where . " GROUP BY domain " . $extra;
+        return "SELECT SUBSTRING_INDEX( REPLACE( REPLACE( REPLACE( referred, 'www.', '' ), 'http://', '' ), 'https://', '' ), '/', 1 ) as `domain`, count(referred) as `number` FROM " . DB::table('visitor') . " WHERE `referred` REGEXP \"^(https?://|www\\.)[\.A-Za-z0-9\-]+\\.[a-zA-Z]{2,4}\" AND referred <> '' AND LENGTH(referred) >=12 " . $where . " GROUP BY domain " . $extra;
     }
 
     /**
