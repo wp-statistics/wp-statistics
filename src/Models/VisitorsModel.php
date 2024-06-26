@@ -419,7 +419,7 @@ class VisitorsModel extends BaseModel
             ->where('posts.ID', '=', $args['post_id'])
             ->whereDate('search.last_counter', $args['date'])
             ->groupBy($args['group_by'])
-            ->orderBy('date', 'DESC')
+            ->orderBy('visitors', 'DESC')
             ->bypassCache($bypassCache);
 
         if (!empty($args['country'])) {
