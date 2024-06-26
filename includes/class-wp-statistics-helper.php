@@ -492,7 +492,7 @@ class Helper
 
         //Get Page Title
         if (class_exists('DOMDocument')) {
-            $dom = new \DOMDocument;
+            $dom            = new \DOMDocument;
             $internalErrors = libxml_use_internal_errors(true);
             @$dom->loadHTML($html);
             libxml_use_internal_errors($internalErrors);
@@ -653,8 +653,8 @@ class Helper
         // Check if the URL has query strings
         if ($urlQuery !== false) {
             global $wp;
-            $internalQueryParams    = $wp->public_query_vars;
-            $permalinkStructure     = get_option('permalink_structure');
+            $internalQueryParams = $wp->public_query_vars;
+            $permalinkStructure  = get_option('permalink_structure');
 
             // Extract the URL path and query string
             $urlPath     = substr($url, 0, $urlQuery);
@@ -1513,59 +1513,74 @@ class Helper
                 'content' => __('Use WP Statistics to identify your most popular pages and posts. Analyze the data to understand what content resonates with your audience, and use these insights to guide your content creation efforts.', 'wp-statistics'),
             ],
             [
-                'title' => __('Optimize Your Data Accuracy', 'wp-statistics'),
+                'title'   => __('Optimize Your Data Accuracy', 'wp-statistics'),
                 'content' => __(sprintf('For maximum accuracy, enable the cache compatibility mode on your website and check your filtering settings. By following these steps, traffic data becomes more accurate. For more details, read %1$s.', '<a href="https://wp-statistics.com/resources/enhancing-data-accuracy/?utm_source=wp-statistics&utm_medium=email&utm_campaign=tips" target="_blank">Enhancing Data Accuracy</a>'), 'wp-statistics'),
             ],
             [
-                'title' => __('Keep the plugin up-to-date', 'wp-statistics'),
+                'title'   => __('Keep the plugin up-to-date', 'wp-statistics'),
                 'content' => __('Ensure that your WP Statistics plugin is up-to-date in order to get the latest features and security improvements.', 'wp-statistics'),
             ],
             [
-                'title' => __('Maintain Privacy Compliance', 'wp-statistics'),
+                'title'   => __('Maintain Privacy Compliance', 'wp-statistics'),
                 'content' => __(sprintf('To ensure that your website complies with the latest privacy standards, use the Privacy Audit feature in WP Statistics. It provides actionable recommendations for improving your privacy compliance by assessing your WP Statistics\' current settings. For more information, refer to our %1$s.', '<a href="https://wp-statistics.com/resources/privacy-audit/?utm_source=wp-statistics&utm_medium=email&utm_campaign=privacy" target="_blank">Privacy Audit Guide</a>'), 'wp-statistics'),
             ],
             [
-                'title' => __('WordPress Export and Erasure', 'wp-statistics'),
+                'title'   => __('WordPress Export and Erasure', 'wp-statistics'),
                 'content' => __(sprintf('If you record PII data with WP Statistics, use WordPress data export and erasure features to manage this information. This ensures compliance with privacy regulations like GDPR. For more details, see our %1$s.', '<a href="https://wp-statistics.com/resources/compliant-with-wordpress-data-export-and-erasure/?utm_source=wp-statistics&utm_medium=email&utm_campaign=tips" target="_blank">Data Export and Erasure Guide</a>'), 'wp-statistics'),
             ],
             [
-                'title' => __('Track Links and Downloads', 'wp-statistics'),
+                'title'   => __('Track Links and Downloads', 'wp-statistics'),
                 'content' => __(sprintf('Track how users interact with your site\'s links and downloads using the Link and Download Tracker feature. You can use this information to improve content engagement and understand user behavior. %1$s.', '<a href="https://wp-statistics.com/product/wp-statistics-data-plus/?utm_source=wp-statistics&utm_medium=email&utm_campaign=dp" target="_blank">Read more</a>'), 'wp-statistics'),
             ],
             [
-                'title' => __('Advanced Filtering', 'wp-statistics'),
+                'title'   => __('Advanced Filtering', 'wp-statistics'),
                 'content' => __(sprintf('Analyze specific query parameters, including UTM tags, for each piece of content. Tracking marketing campaigns and engagement allows you to refine your strategies and maximize their impact. %1$s.', '<a href="https://wp-statistics.com/product/wp-statistics-data-plus/?utm_source=wp-statistics&utm_medium=email&utm_campaign=dp" target="_blank">Read more</a>'), 'wp-statistics'),
             ],
             [
-                'title' => __('Weekly Traffic Comparison Widget', 'wp-statistics'),
+                'title'   => __('Weekly Traffic Comparison Widget', 'wp-statistics'),
                 'content' => __(sprintf('On the Overview page, the Weekly Traffic Comparison widget provides a quick snapshot of your main metrics. You can analyze traffic changes, identify trends, and make data-driven decisions to improve your site\'s performance with this feature. %1$s.', '<a href="https://wp-statistics.com/product/wp-statistics-data-plus/?utm_source=wp-statistics&utm_medium=email&utm_campaign=dp" target="_blank">Read more</a>'), 'wp-statistics'),
             ],
             [
-                'title' => __('Traffic by Hour Widget', 'wp-statistics'),
+                'title'   => __('Traffic by Hour Widget', 'wp-statistics'),
                 'content' => __(sprintf('On the Overview page, the Traffic by Hour widget displays visitor patterns by hour. Ensure maximum engagement and efficiency by optimizing server resources and scheduling content releases for peak visitor times. %1$s.', '<a href="https://wp-statistics.com/product/wp-statistics-data-plus/?utm_source=wp-statistics&utm_medium=email&utm_campaign=dp" target="_blank">Read more</a>'), 'wp-statistics'),
             ],
             [
-                'title' => __('Content-Specific Analytics', 'wp-statistics'),
+                'title'   => __('Content-Specific Analytics', 'wp-statistics'),
                 'content' => __(sprintf('Analyze each piece of content in detail, including views, visitor locations, and online users. Based on user data, these insights can help you optimize content. %1$s.', '<a href="https://wp-statistics.com/product/wp-statistics-data-plus/?utm_source=wp-statistics&utm_medium=email&utm_campaign=dp" target="_blank">Read more</a>'), 'wp-statistics'),
             ],
             [
-                'title' => __('Custom Post Type Tracking', 'wp-statistics'),
+                'title'   => __('Custom Post Type Tracking', 'wp-statistics'),
                 'content' => __(sprintf('Track all custom post types as well as posts and pages. This ensures complete analytics across all content types on your site. %1$s.', '<a href="https://wp-statistics.com/product/wp-statistics-data-plus/?utm_source=wp-statistics&utm_medium=email&utm_campaign=dp" target="_blank">Read more</a>'), 'wp-statistics'),
             ],
             [
-                'title' => __('Custom Taxonomy Analytics', 'wp-statistics'),
+                'title'   => __('Custom Taxonomy Analytics', 'wp-statistics'),
                 'content' => __(sprintf('Track custom taxonomies along with default taxonomies like Categories and Tags to gain deeper insights into all taxonomies used on your site. %1$s.', '<a href="https://wp-statistics.com/product/wp-statistics-data-plus/?utm_source=wp-statistics&utm_medium=email&utm_campaign=dp" target="_blank">Read more</a>'), 'wp-statistics'),
             ],
             [
-                'title' => __('Real-Time Stats', 'wp-statistics'),
+                'title'   => __('Real-Time Stats', 'wp-statistics'),
                 'content' => __(sprintf('Monitor your website\'s traffic and activity in real time. Your WordPress statistics are displayed instantly, so you don\'t need to refresh your page every time someone visits your blog. Watch your website\'s performance live. %1$s.', '<a href="https://wp-statistics.com/product/wp-statistics-realtime-stats/?utm_source=wp-statistics&utm_medium=email&utm_campaign=real-time" target="_blank">Read more</a>'), 'wp-statistics'),
             ],
             [
-                'title' => __('Mini Chart', 'wp-statistics'),
+                'title'   => __('Mini Chart', 'wp-statistics'),
                 'content' => __(sprintf('Track your content\'s performance with mini charts. Quick access to traffic data is provided by an admin bar. The chart type and color can be customized according to your preferences. Analyze your content\'s performance and make informed decisions to enhance its success.  %1$s.', '<a href="https://wp-statistics.com/product/wp-statistics-mini-chart/?utm_source=wp-statistics&utm_medium=email&utm_campaign=mini-chart" target="_blank">Read more</a>'), 'wp-statistics'),
             ],
         ];
 
         return $tips[array_rand($tips)];
+    }
+    /**
+     * Get the device category name
+     * Remove device subtype, for example: mobile:smart -> mobile
+     *
+     * @param string $device
+     *
+     * @return string
+     */
+    public static function getDeviceCategoryName($device)
+    {
+        if (strpos($device, ':') !== false) {
+            $device = explode(':', $device)[0];
+        }
+        return $device;
     }
 }

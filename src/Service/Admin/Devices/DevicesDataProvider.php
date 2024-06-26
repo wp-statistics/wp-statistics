@@ -74,15 +74,34 @@ class DevicesDataProvider
     }
 
     /**
+     * Returns data for "Device Models" tab.
+     *
+     * @return  array
+     */
+    public function getCategoriesData()
+    {
+        $args = array_merge($this->args, [
+            'field'    => 'device',
+            'group_by' => ['device']
+        ]);
+
+        return [
+            'visitors' => $this->visitorsModel->getVisitorsDevices($args),
+            'total'    => $this->visitorsModel->countColumnDistinct($args),
+            'visits'   => $this->visitorsModel->countColumnDistinct(array_merge($args, ['field' => 'ID'])),
+        ];
+    }
+
+    /**
      * Returns data for browser's single page.
      *
-     * @param   string  $selectedBrowser
+     * @param string $selectedBrowser
      *
      * @return  array
      */
     public function getSingleBrowserData($selectedBrowser)
     {
-        $args       = array_merge($this->args, [
+        $args = array_merge($this->args, [
             'field'     => 'agent',
             'where_col' => 'agent',
             'where_val' => esc_sql($selectedBrowser),
@@ -98,13 +117,13 @@ class DevicesDataProvider
     /**
      * Returns data for platform's single page.
      *
-     * @param   string  $selectedPlatform
+     * @param string $selectedPlatform
      *
      * @return  array
      */
     public function getSinglePlatformData($selectedPlatform)
     {
-        $args       = array_merge($this->args, [
+        $args = array_merge($this->args, [
             'field'     => 'platform',
             'where_col' => 'platform',
             'where_val' => esc_sql($selectedPlatform),
@@ -120,13 +139,13 @@ class DevicesDataProvider
     /**
      * Returns data for model's single page.
      *
-     * @param   string  $selectedModel
+     * @param string $selectedModel
      *
      * @return  array
      */
     public function getSingleModelData($selectedModel)
     {
-        $args       = array_merge($this->args, [
+        $args = array_merge($this->args, [
             'field'     => 'model',
             'where_col' => 'model',
             'where_val' => esc_sql($selectedModel),

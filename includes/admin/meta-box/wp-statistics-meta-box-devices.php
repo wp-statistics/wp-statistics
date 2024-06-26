@@ -78,8 +78,8 @@ class devices extends MetaBoxAbstract
 
             if (trim($l['device']) != "") {
 
-                // Sanitize Version name
-                $lists_name[] = sanitize_text_field($l['device']);
+                // Remove device subtype, for example: mobile:smart -> mobile
+                $lists_name[] = \WP_STATISTICS\Helper::getDeviceCategoryName($l['device']);
 
                 // Get List Count
                 $lists_value[] = (int)$l['count'];
