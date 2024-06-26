@@ -114,6 +114,7 @@ class ContentAnalyticsDataProvider
         return [
             'performance_chart_data'    => $this->getPerformanceChartData(),
             'search_engine_chart_data'  => $this->getSearchEnginesChartData(),
+            'post_type'                 => Helper::getPostTypeName($this->args['post_type']),
             'os_chart_data'             => [
                 'labels'    => array_keys($visitorsData['platform']), 
                 'data'      => array_values($visitorsData['platform'])
