@@ -37,17 +37,17 @@ use WP_STATISTICS\Referred;
                             <tr>
                                 <td class="wps-pd-l">
                                     <div class="wps-ellipsis-parent">
-                                        <span class="wps-ellipsis-text"><?php echo !empty(Helper::get_site_title_by_url($item->referrer)) ? esc_html(Helper::get_site_title_by_url($item->referrer)) : Admin_Template::UnknownColumn() ?></span>
+                                        <span class="wps-ellipsis-text"><?php echo !empty($item['title']) ? esc_html($item['title']) : Admin_Template::UnknownColumn() ?></span>
                                     </div>
                                 </td>
                                 <td class="wps-pd-l">
                                     <div class="wps-ellipsis-parent">
                                         <span class="wps-ellipsis-text">
-                                            <?php echo Helper::show_site_icon($item->referrer) . ' ' . Referred::get_referrer_link($item->referrer, Helper::get_site_title_by_url($item->referrer), true) ?>
+                                            <?php echo Helper::show_site_icon($item['domain']) . ' ' . Referred::get_referrer_link($item['domain'], $item['title'], true) ?>
                                         </span>
                                     </div>
                                 </td>
-                                <td class="wps-pd-l"><?php echo esc_html(number_format($item->visitors)) ?></td>
+                                <td class="wps-pd-l"><?php echo esc_html(number_format($item['number'])) ?></td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>

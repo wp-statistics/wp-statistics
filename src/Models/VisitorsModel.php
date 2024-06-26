@@ -2,7 +2,7 @@
 
 namespace WP_Statistics\Models;
 
-use WP_STATISTICS\DB;
+use WP_STATISTICS\Referred;
 use WP_STATISTICS\GeoIP;
 use WP_Statistics\Utils\Query;
 use WP_Statistics\Abstracts\BaseModel;
@@ -392,6 +392,9 @@ class VisitorsModel extends BaseModel
             ->perPage($args['page'], $args['per_page'])
             ->bypassCache($bypassCache)
             ->getAll();
+
+        $result = wp_list_pluck($result, 'visitors', 'referrer');
+        $result = Referred::PrepareReferData($result);
 
         return $result ? $result : [];
     }
