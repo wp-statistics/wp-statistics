@@ -6,6 +6,7 @@ use WP_Statistics\Models\PostsModel;
 use WP_Statistics\Models\ViewsModel;
 use WP_Statistics\Models\VisitorsModel;
 use WP_STATISTICS\TimeZone;
+use WP_Statistics\Utils\Request;
 
 class ContentAnalyticsDataProvider
 {
@@ -114,7 +115,7 @@ class ContentAnalyticsDataProvider
         return [
             'performance_chart_data'    => $this->getPerformanceChartData(),
             'search_engine_chart_data'  => $this->getSearchEnginesChartData(),
-            'post_type'                 => Helper::getPostTypeName($this->args['post_type']),
+            'post_type'                 => Helper::getPostTypeName(Request::get('tab', 'post')),
             'os_chart_data'             => [
                 'labels'    => array_keys($visitorsData['platform']), 
                 'data'      => array_values($visitorsData['platform'])

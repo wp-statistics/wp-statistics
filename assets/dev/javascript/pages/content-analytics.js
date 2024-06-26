@@ -91,11 +91,6 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                         y: {
                             type: 'linear',
                             position: 'right',
-                            ticks: {
-                                callback: function (value, index, values) {
-                                    return value + 'K';
-                                }
-                            },
                             title: {
                                 display: true,
                                 text: wps_js._('visits'),
