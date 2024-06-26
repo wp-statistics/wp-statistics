@@ -402,7 +402,7 @@ class VisitorsModel extends BaseModel
             'date'      => '',
             'post_type' => '',
             'post_id'   => '',
-            'location'  => '',
+            'country'   => '',
             'group_by'  => ['search.last_counter', 'search.engine'],
         ]);
 
@@ -422,10 +422,10 @@ class VisitorsModel extends BaseModel
             ->orderBy('date', 'DESC')
             ->bypassCache($bypassCache);
 
-        if (!empty($args['location'])) {
+        if (!empty($args['country'])) {
             $query
                 ->join('visitor', ['search.visitor', 'visitor.ID'])
-                ->where('visitor.location', '=', $args['location']);
+                ->where('visitor.location', '=', $args['country']);
         }
 
         $result = $query->getAll();
