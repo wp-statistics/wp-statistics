@@ -389,12 +389,15 @@ class VisitorsModel extends BaseModel
             ->whereNotNull('visitor.referred')
             ->whereDate('pages.date', $args['date'])
             ->groupBy('visitor.referred')
+            ->orderBy('visitors')
             ->perPage($args['page'], $args['per_page'])
             ->bypassCache($bypassCache)
             ->getAll();
 
-        $result = wp_list_pluck($result, 'visitors', 'referrer');
-        $result = Referred::PrepareReferData($result);
+        if (!empty($result)) {
+            $result = wp_list_pluck($result, 'visitors', 'referrer');
+            $result = Referred::PrepareReferData($result);
+        }
 
         return $result ? $result : [];
     }
