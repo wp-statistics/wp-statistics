@@ -138,40 +138,40 @@ class VisitorsModel extends BaseModel
     {
         return [
             'today'     => [
-                'label'     => esc_html__('Today', 'wp-statistics'),
-                'visitors'  => $this->countVisitors(array_merge($args, ['date' => 'today'])),
+                'label'    => esc_html__('Today', 'wp-statistics'),
+                'visitors' => $this->countVisitors(array_merge($args, ['date' => 'today'])),
             ],
             'yesterday' => [
-                'label'     => esc_html__('Yesterday', 'wp-statistics'),
-                'visitors'  => $this->countVisitors(array_merge($args, ['date' => 'yesterday'])),
+                'label'    => esc_html__('Yesterday', 'wp-statistics'),
+                'visitors' => $this->countVisitors(array_merge($args, ['date' => 'yesterday'])),
             ],
             '7days'     => [
-                'label'     => esc_html__('Last 7 days', 'wp-statistics'),
-                'visitors'  => $this->countVisitors(array_merge($args, ['date' => '7days'])),
+                'label'    => esc_html__('Last 7 days', 'wp-statistics'),
+                'visitors' => $this->countVisitors(array_merge($args, ['date' => '7days'])),
             ],
             '30days'    => [
-                'label'     => esc_html__('Last 30 days', 'wp-statistics'),
-                'visitors'  => $this->countVisitors(array_merge($args, ['date' => '30days'])),
+                'label'    => esc_html__('Last 30 days', 'wp-statistics'),
+                'visitors' => $this->countVisitors(array_merge($args, ['date' => '30days'])),
             ],
             '60days'    => [
-                'label'     => esc_html__('Last 60 days', 'wp-statistics'),
-                'visitors'  => $this->countVisitors(array_merge($args, ['date' => '60days'])),
+                'label'    => esc_html__('Last 60 days', 'wp-statistics'),
+                'visitors' => $this->countVisitors(array_merge($args, ['date' => '60days'])),
             ],
             '120days'   => [
-                'label'     => esc_html__('Last 120 days', 'wp-statistics'),
-                'visitors'  => $this->countVisitors(array_merge($args, ['date' => '120days'])),
+                'label'    => esc_html__('Last 120 days', 'wp-statistics'),
+                'visitors' => $this->countVisitors(array_merge($args, ['date' => '120days'])),
             ],
             'year'      => [
-                'label'     => esc_html__('Last 12 months', 'wp-statistics'),
-                'visitors'  => $this->countVisitors(array_merge($args, ['date' => 'year'])),
+                'label'    => esc_html__('Last 12 months', 'wp-statistics'),
+                'visitors' => $this->countVisitors(array_merge($args, ['date' => 'year'])),
             ],
             'this_year' => [
-                'label'     => esc_html__('This year (Jan - Today)', 'wp-statistics'),
-                'visitors'  => $this->countVisitors(array_merge($args, ['date' => 'this_year'])),
+                'label'    => esc_html__('This year (Jan - Today)', 'wp-statistics'),
+                'visitors' => $this->countVisitors(array_merge($args, ['date' => 'this_year'])),
             ],
             'last_year' => [
-                'label'     => esc_html__('Last Year', 'wp-statistics'),
-                'visitors'  => $this->countVisitors(array_merge($args, ['date' => 'last_year'])),
+                'label'    => esc_html__('Last Year', 'wp-statistics'),
+                'visitors' => $this->countVisitors(array_merge($args, ['date' => 'last_year'])),
             ]
         ];
     }
@@ -186,13 +186,13 @@ class VisitorsModel extends BaseModel
         ]);
 
         $result = Query::select([
-                'visitor.ID',
-                'visitor.platform',
-                'visitor.agent',
-                'visitor.model',
-                'visitor.device',
-                'visitor.location'
-            ])
+            'visitor.ID',
+            'visitor.platform',
+            'visitor.agent',
+            'visitor.model',
+            'visitor.device',
+            'visitor.location'
+        ])
             ->from('visitor')
             ->join('visitor_relationships', ['visitor_relationships.visitor_id', 'visitor.ID'])
             ->join('pages', ['visitor_relationships.page_id', 'pages.page_id'], [], 'LEFT')
@@ -210,14 +210,14 @@ class VisitorsModel extends BaseModel
 
     public function getParsedVisitorsData($args, $bypassCache = false)
     {
-        $data   = $this->getVisitorsData($args, $bypassCache);
+        $data = $this->getVisitorsData($args, $bypassCache);
 
         $result = [
-            'platform'  => [],
-            'agent'     => [],
-            'device'    => [],
-            'model'     => [],
-            'country'   => []
+            'platform' => [],
+            'agent'    => [],
+            'device'   => [],
+            'model'    => [],
+            'country'  => []
         ];
 
         if (!empty($data)) {
@@ -227,13 +227,13 @@ class VisitorsModel extends BaseModel
                 } else {
                     $result['platform'][$item->platform]++;
                 }
-    
+
                 if (empty($result['agent'][$item->agent])) {
                     $result['agent'][$item->agent] = 1;
                 } else {
                     $result['agent'][$item->agent]++;
                 }
-    
+
                 if (empty($result['country'][$item->location])) {
                     $result['country'][$item->location] = 1;
                 } else {
@@ -252,7 +252,7 @@ class VisitorsModel extends BaseModel
                     $result['model'][$item->model]++;
                 }
             }
-    
+
             // Sort and limit country
             arsort($result['country']);
             $result['country'] = array_slice($result['country'], 0, 10);
@@ -377,9 +377,9 @@ class VisitorsModel extends BaseModel
         ]);
 
         $result = Query::select([
-                'COUNT(DISTINCT visitor.ID) AS visitors',
-                'visitor.referred as referrer'
-            ])
+            'COUNT(DISTINCT visitor.ID) AS visitors',
+            'visitor.referred as referrer'
+        ])
             ->from('visitor')
             ->join('visitor_relationships', ['visitor_relationships.visitor_id', 'visitor.ID'], [], 'LEFT')
             ->join('pages', ['visitor_relationships.page_id', 'pages.page_id'], [], 'LEFT')
@@ -407,20 +407,24 @@ class VisitorsModel extends BaseModel
         ]);
 
         $query = Query::select([
-                'search.last_counter AS date',
-                'COUNT(DISTINCT search.visitor) AS visitors',
-                'search.engine',
-            ])
+            'search.last_counter AS date',
+            'COUNT(DISTINCT search.visitor) AS visitors',
+            'search.engine',
+        ])
             ->from('search')
-            ->join('visitor_relationships', ['visitor_relationships.visitor_id', 'search.visitor'])
-            ->join('pages', ['visitor_relationships.page_id', 'pages.page_id'])
-            ->join('posts', ['posts.ID', 'pages.id'])
-            ->where('post_type', 'IN', $args['post_type'])
-            ->where('posts.ID', '=', $args['post_id'])
             ->whereDate('search.last_counter', $args['date'])
             ->groupBy($args['group_by'])
-            ->orderBy('visitors', 'DESC')
+            ->orderBy('date', 'DESC')
             ->bypassCache($bypassCache);
+
+        if (!empty($args['post_type']) || !empty($args['post_id'])) {
+            $query
+                ->join('visitor_relationships', ['visitor_relationships.visitor_id', 'search.visitor'])
+                ->join('pages', ['visitor_relationships.page_id', 'pages.page_id'])
+                ->join('posts', ['posts.ID', 'pages.id'])
+                ->where('post_type', 'IN', $args['post_type'])
+                ->where('posts.ID', '=', $args['post_id']);
+        }
 
         if (!empty($args['country'])) {
             $query
