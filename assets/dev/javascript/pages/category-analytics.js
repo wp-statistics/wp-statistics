@@ -6,16 +6,23 @@
              this.generateCharts()
         },
         generateCharts: function () {
-            if (document.getElementById('performance-chart')) {
-                this.generatePerformanceChart();
-            } else {
-                this.generatePerformanceChartSingle();
-            }
-             this.generateOperatingSystemChart();
-            this.generateBrowsersChartData();
-            this.generateDeviceModelsChart();
-            this.generateDeviceUsageChart();
-            this.generateSearchEngineChart();
+            if (document.getElementById('performance-category-chart'))  this.generatePerformanceChart();
+            if (document.getElementById('performance-category-chart-single'))  this.generatePerformanceChartSingle();
+            if (document.getElementById('category_operating_systems')) this.generateOperatingSystemChart();
+            if (document.getElementById('category_browsers')) this.generateBrowsersChartData();
+            if (document.getElementById('category_device_models')) this.generateDeviceModelsChart();
+            if (document.getElementById('category_device_usage')) this.generateDeviceUsageChart();
+            if (document.getElementById('category-search-engines-chart')) this.generateSearchEngineChart();
+        },
+        legendHandel:function (chart){
+            document.querySelectorAll('.wps-category-analytics-chart--item').forEach((legendItem, index) => {
+                legendItem.addEventListener('click', () => {
+                    const dataset = chart.data.datasets[index];
+                    dataset.hidden = !dataset.hidden;
+                    chart.update();
+                    legendItem.classList.toggle('hidden', dataset.hidden);
+                });
+            });
         },
         generatePerformanceChart: function () {
             const performanceData = {
@@ -23,7 +30,7 @@
                 views: [10, 15, 30, 25, 30, 35, 30, 45, 20, 15, 45, 15, 20, 25, 30],
                 visitors: [5, 10, 15, 20, 25, 30, 25, 20, 15, 10, 5, 10, 15, 20, 25]
             };
-            const performance = document.getElementById('performance-chart').getContext('2d');
+            const performance = document.getElementById('performance-category-chart').getContext('2d');
             const performanceChart = new Chart(performance, {
                 type: 'bar',
                 data: {
@@ -31,7 +38,7 @@
                     datasets: [
                         {
                             type: 'line',
-                            label: 'Views',
+                            label: wps_js._('visits'),
                             cubicInterpolationMode: 'monotone',
                             data: performanceData.views,
                             borderColor: '#0e9444',
@@ -49,7 +56,7 @@
                         },
                         {
                             type: 'line',
-                            label: 'Visitors',
+                            label: wps_js._('visitors'),
                             cubicInterpolationMode: 'monotone',
                             data: performanceData.visitors,
                             borderColor: '#4915b9',
@@ -66,7 +73,7 @@
                         },
                         {
                             type: 'bar',
-                            label: 'Published Posts',
+                            label: wps_js._('Published Posts'),
                             data: [5, 7, 6, 5, 9, 8, 7, 6, 5, 8, 7, 6, 5, 8, 7],
                             backgroundColor: 'rgba(159,165,248,0.7)',
                             yAxisID: 'y1',
@@ -81,31 +88,31 @@
                     scales: {
                         x: {
                             grid: {
-                                display: true,
-                                borderDash: [5, 5] // This creates dashed lines for the x-axis grid
+                                display: false,
+                                drawBorder: false,
+                                tickLength: 0,
                             }
                         },
                         y: {
                             type: 'linear',
                             position: 'right',
-                            ticks: {
-                                callback: function (value, index, values) {
-                                    return value + 'K';
-                                }
+                            grid: {
+                                display: true,
+                                borderDash: [5, 5]
                             },
                             title: {
                                 display: true,
-                                text: 'Views',
+                                text: wps_js._('Views'),
                                 color: '#0e9444'
                             }
                         },
                         y1: {
                             type: 'linear',
                             position: 'left',
-                            ticks: {
-                                callback: function (value, index, values) {
-                                    return value;
-                                }
+                            grid: {
+                                display: false,
+                                drawBorder: false,
+                                tickLength: 0,
                             },
                             title: {
                                 display: true,
@@ -116,12 +123,13 @@
                     }
                 }
             });
+            this.legendHandel(performanceChart);
         },
         generatePerformanceChartSingle: function () {
             const performanceSingleData = {
                 labels: ['1 Apr', '2 Apr', '3 Apr', '4 Apr', '5 Apr', '6 Apr', '7 Apr', '8 Apr', '9 Apr', '10 Apr', '11 Apr', '12 Apr', '13 Apr', '14 Apr', '15 Apr'],
                 views: [10, 15, 30, 25, 30, 35, 30, 45, 20, 15, 45, 15, 20, 25, 30]};
-            const performanceSingle = document.getElementById('performance-chart-single').getContext('2d');
+            const performanceSingle = document.getElementById('performance-category-chart-single').getContext('2d');
             const performanceSingleChart = new Chart(performanceSingle, {
                 type: 'bar',
                 data: {
@@ -175,6 +183,7 @@
                     }
                 }
             });
+            this.legendHandel(performanceSingleChart);
         },
         generateOperatingSystemChart: function () {
             const OperatingSystemData = {
@@ -445,7 +454,7 @@
                 dataset.pointHoverBorderWidth = 4;
                 dataset.fill = true;
             });
-            const searchEngineChart = document.getElementById("search-engines-chart").getContext('2d');
+            const searchEngineChart = document.getElementById("category-search-engines-chart").getContext('2d');
             new Chart(searchEngineChart, {
                 type: 'line',
                 data: searchData,

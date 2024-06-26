@@ -31,7 +31,7 @@ use WP_STATISTICS\Country;
                                 <td class="wps-pd-l">
                                     <div >
                                         <img class="wps-flag" src="<?php echo esc_url(Country::flag($country)) ?>" alt="<?php echo esc_attr(Country::getName($country)) ?>">
-                                        <b><?php echo esc_html(Country::getName($country)); ?></b>
+                                        <?php echo esc_html(Country::getName($country)); ?>
                                     </div>
                                 </td>
                                 <td class="wps-pd-l">

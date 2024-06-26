@@ -235,7 +235,7 @@
     margin-top: 20px;
   }
 
-  #performance-chart, #performance-chart-single {
+  #performance-category-chart, #performance-category-chart-single {
     height: 299px !important;
     width: 100% !important;
     margin-top: 20px;
@@ -249,6 +249,7 @@
     }
 
     .wps-category-analytics-chart--item {
+      cursor: pointer;
       &--published {
         p {
           color: #404BF2;
@@ -277,6 +278,13 @@
           &:before {
             background: #4915B9;
           }
+        }
+      }
+
+      &.hidden{
+        display: block;
+        p{
+          text-decoration: line-through;
         }
       }
 

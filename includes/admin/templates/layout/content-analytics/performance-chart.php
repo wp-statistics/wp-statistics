@@ -18,12 +18,6 @@ $postType = Request::get('tab', 'post');
         <?php endif; ?>
     </div>
     <div class="wps-content-analytics-chart-items">
-        <?php if ($type === 'post-type'): ?>
-            <div class="wps-content-analytics-chart--item wps-content-analytics-chart--item--published">
-                <p><?php echo sprintf(esc_html__('Published %s', 'wp-statistics'), Helper::getPostTypeName($postType)) ?></p>
-                <span><?php echo esc_html(Helper::formatNumberWithUnit($data['posts'])) ?></span>
-            </div>
-        <?php endif ?>
         <div class="wps-content-analytics-chart--item wps-content-analytics-chart--item--views">
             <p><?php echo esc_html__('Views', 'wp-statistics') ?></p>
             <span><?php echo esc_html(Helper::formatNumberWithUnit($data['views'])) ?></span>
@@ -32,6 +26,12 @@ $postType = Request::get('tab', 'post');
             <p><?php echo esc_html__('Visitors', 'wp-statistics') ?></p>
             <span><?php echo esc_html(Helper::formatNumberWithUnit($data['visitors'])) ?></span>
         </div>
+        <?php if ($type === 'post-type'): ?>
+            <div class="wps-content-analytics-chart--item wps-content-analytics-chart--item--published">
+                <p><?php echo sprintf(esc_html__('Published %s', 'wp-statistics'), Helper::getPostTypeName($postType)) ?></p>
+                <span><?php echo esc_html(Helper::formatNumberWithUnit($data['posts'])) ?></span>
+            </div>
+        <?php endif ?>
     </div>
     <div class="wps-content-analytics-chart">
         <?php if ($type === 'post-type'): ?>

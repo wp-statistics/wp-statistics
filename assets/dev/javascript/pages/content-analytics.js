@@ -7,22 +7,29 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             if (typeof Wp_Statistics_Content_Analytics_Object == "undefined") {
                 console.log('Variable Wp_Statistics_Author_Analytics_Object not found.');
                 return;
-            } 
+            }
 
             this.data = Wp_Statistics_Content_Analytics_Object;
             this.generateCharts()
         },
         generateCharts: function () {
-            if (document.getElementById('performance-chart')) {
-                this.generatePerformanceChart();
-            } else {
-                this.generatePerformanceChartSingle();
-            }
-            this.generateOperatingSystemChart();
-            this.generateBrowsersChartData();
-            this.generateDeviceModelsChart();
-            this.generateDeviceUsageChart();
-            this.generateSearchEngineChart();
+            if (document.getElementById('performance-chart')) this.generatePerformanceChart();
+            if (document.getElementById('performance-chart-single')) this.generatePerformanceChartSingle();
+            if (document.getElementById('content_operating_systems')) this.generateOperatingSystemChart();
+            if (document.getElementById('content_browsers')) this.generateBrowsersChartData();
+            if (document.getElementById('content_device_models')) this.generateDeviceModelsChart();
+            if (document.getElementById('content_device_usage')) this.generateDeviceUsageChart();
+            if (document.getElementById('search-engines-chart')) this.generateSearchEngineChart();
+        },
+        legendHandel:function (chart){
+            document.querySelectorAll('.wps-content-analytics-chart--item').forEach((legendItem, index) => {
+                legendItem.addEventListener('click', () => {
+                    const dataset = chart.data.datasets[index];
+                    dataset.hidden = !dataset.hidden;
+                    chart.update();
+                    legendItem.classList.toggle('hidden', dataset.hidden);
+                });
+            });
         },
         generatePerformanceChart: function () {
             const performanceData = this.data.performance_chart_data;
@@ -84,13 +91,18 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                     scales: {
                         x: {
                             grid: {
-                                display: true,
-                                borderDash: [5, 5] // This creates dashed lines for the x-axis grid
+                                display: false,
+                                drawBorder: false,
+                                tickLength: 0,
                             }
                         },
                         y: {
                             type: 'linear',
                             position: 'right',
+                            grid: {
+                                display: true,
+                                borderDash: [5, 5]
+                            },
                             title: {
                                 display: true,
                                 text: wps_js._('visits'),
@@ -100,10 +112,10 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                         y1: {
                             type: 'linear',
                             position: 'left',
-                            ticks: {
-                                callback: function (value, index, values) {
-                                    return value;
-                                }
+                            grid: {
+                                display: false,
+                                drawBorder: false,
+                                tickLength: 0,
                             },
                             title: {
                                 display: true,
@@ -112,9 +124,11 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                             }
                         }
                     }
-                }
+                },
             });
+            this.legendHandel(performanceChart);
         },
+
         generateOperatingSystemChart: function () {
             const OperatingSystemData = this.data.os_chart_data;
 
@@ -411,14 +425,19 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                     scales: {
                         x: {
                             grid: {
-                                display: true,
-                                borderDash: [5, 5]
+                                display: false,
+                                drawBorder: false,
+                                tickLength: 0,
                             }
                         },
 
                         y: {
                             type: 'linear',
                             position: 'left',
+                            grid: {
+                                display: true,
+                                borderDash: [5, 5]
+                            },
                             ticks: {
                                 callback: function (value, index, values) {
                                     return value;
@@ -433,7 +452,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                     }
                 }
             });
-
+            this.legendHandel(performanceChartSingle);
         }
     }
 

@@ -249,6 +249,8 @@
     }
 
     .wps-content-analytics-chart--item {
+      cursor: pointer;
+
       &--published {
         p {
           color: #404BF2;
@@ -277,6 +279,13 @@
           &:before {
             background: #4915B9;
           }
+        }
+      }
+
+      &.hidden{
+        display: block;
+        p{
+          text-decoration: line-through;
         }
       }
 

@@ -19,13 +19,6 @@ $postType = Request::get('tab', 'post');
         <?php endif; ?>
     </div>
     <div class="wps-category-analytics-chart-items">
-
-        <?php if ($type === 'category'): ?>
-            <div class="wps-category-analytics-chart--item wps-category-analytics-chart--item--published">
-                <p><?php echo sprintf(esc_html__('Published %s', 'wp-statistics'), Helper::getPostTypeName($postType)) ?></p>
-                <span><?php echo esc_html(Helper::formatNumberWithUnit($data['posts'])) ?></span>
-            </div>
-        <?php endif; ?>
         <div class="wps-category-analytics-chart--item wps-category-analytics-chart--item--views">
             <p><?php echo esc_html__('Views', 'wp-statistics') ?></p>
             <span><?php echo esc_html(Helper::formatNumberWithUnit($data['views'])) ?></span>
@@ -36,12 +29,18 @@ $postType = Request::get('tab', 'post');
                 <span><?php echo esc_html(Helper::formatNumberWithUnit($data['visitors'])) ?></span>
             </div>
         <?php endif; ?>
+        <?php if ($type === 'category'): ?>
+            <div class="wps-category-analytics-chart--item wps-category-analytics-chart--item--published">
+                <p><?php echo sprintf(esc_html__('Published %s', 'wp-statistics'), Helper::getPostTypeName($postType)) ?></p>
+                <span><?php echo esc_html(Helper::formatNumberWithUnit($data['posts'])) ?></span>
+            </div>
+        <?php endif; ?>
     </div>
     <div class="wps-category-analytics-chart">
         <?php if ($type === 'category'): ?>
-            <canvas id="performance-chart" height="299"></canvas>
+            <canvas id="performance-category-chart" height="299"></canvas>
         <?php else: ?>
-            <canvas id="performance-chart-single" height="299"></canvas>
+            <canvas id="performance-category-chart-single" height="299"></canvas>
         <?php endif; ?>
     </div>
 </div>

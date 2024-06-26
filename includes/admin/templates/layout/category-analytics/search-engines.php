@@ -8,6 +8,6 @@
         </h2>
     </div>
     <div class="wps-content-analytics-chart">
-        <canvas id="search-engines-chart" height="222"></canvas>
+        <canvas id="category-search-engines-chart" height="222"></canvas>
     </div>
 </div>
