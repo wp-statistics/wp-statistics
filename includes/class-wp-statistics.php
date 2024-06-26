@@ -9,7 +9,6 @@ use WP_Statistics\Service\Admin\Geographic\GeographicManager;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Service\Admin\Posts\PostsManager;
 use WP_Statistics\Service\Admin\PrivacyAudit\PrivacyAuditManager;
-use WP_Statistics\Service\Admin\Geographic\GeographicManager;
 use WP_Statistics\Service\Admin\CategoryAnalytics\CategoryAnalyticsManager;
 use WP_Statistics\Service\Analytics\AnalyticsManager;
 use WP_Statistics\Service\Integrations\WpConsentApi;
