@@ -178,11 +178,19 @@ class ComposerStaticInit2ac516f03a394ec3d1721352b7f43359
         'WP_Statistics\\Service\\Admin\\AuthorAnalytics\\Views\\AuthorsView' => __DIR__ . '/../../..' . '/src/Service/Admin/AuthorAnalytics/Views/AuthorsView.php',
         'WP_Statistics\\Service\\Admin\\AuthorAnalytics\\Views\\SingleAuthorView' => __DIR__ . '/../../..' . '/src/Service/Admin/AuthorAnalytics/Views/SingleAuthorView.php',
         'WP_Statistics\\Service\\Admin\\AuthorAnalytics\\Views\\TabsView' => __DIR__ . '/../../..' . '/src/Service/Admin/AuthorAnalytics/Views/TabsView.php',
+<<<<<<< HEAD
         'WP_Statistics\\Service\\Admin\\ContentAnalytics\\ContentAnalyticsDataProvider' => __DIR__ . '/../../..' . '/src/Service/Admin/ContentAnalytics/ContentAnalyticsDataProvider.php',
         'WP_Statistics\\Service\\Admin\\ContentAnalytics\\ContentAnalyticsManager' => __DIR__ . '/../../..' . '/src/Service/Admin/ContentAnalytics/ContentAnalyticsManager.php',
         'WP_Statistics\\Service\\Admin\\ContentAnalytics\\ContentAnalyticsPage' => __DIR__ . '/../../..' . '/src/Service/Admin/ContentAnalytics/ContentAnalyticsPage.php',
         'WP_Statistics\\Service\\Admin\\ContentAnalytics\\Views\\SingleView' => __DIR__ . '/../../..' . '/src/Service/Admin/ContentAnalytics/Views/SingleView.php',
         'WP_Statistics\\Service\\Admin\\ContentAnalytics\\Views\\TabsView' => __DIR__ . '/../../..' . '/src/Service/Admin/ContentAnalytics/Views/TabsView.php',
+=======
+        'WP_Statistics\\Service\\Admin\\CategoryAnalytics\\CategoryAnalyticsDataProvider' => __DIR__ . '/../../..' . '/src/Service/Admin/CategoryAnalytics/CategoryAnalyticsDataProvider.php',
+        'WP_Statistics\\Service\\Admin\\CategoryAnalytics\\CategoryAnalyticsManager' => __DIR__ . '/../../..' . '/src/Service/Admin/CategoryAnalytics/CategoryAnalyticsManager.php',
+        'WP_Statistics\\Service\\Admin\\CategoryAnalytics\\CategoryAnalyticsPage' => __DIR__ . '/../../..' . '/src/Service/Admin/CategoryAnalytics/CategoryAnalyticsPage.php',
+        'WP_Statistics\\Service\\Admin\\CategoryAnalytics\\Views\\SingleView' => __DIR__ . '/../../..' . '/src/Service/Admin/CategoryAnalytics/Views/SingleView.php',
+        'WP_Statistics\\Service\\Admin\\CategoryAnalytics\\Views\\TabsView' => __DIR__ . '/../../..' . '/src/Service/Admin/CategoryAnalytics/Views/TabsView.php',
+>>>>>>> implement-category-analytics
         'WP_Statistics\\Service\\Admin\\Devices\\DevicesDataProvider' => __DIR__ . '/../../..' . '/src/Service/Admin/Devices/DevicesDataProvider.php',
         'WP_Statistics\\Service\\Admin\\Devices\\DevicesManager' => __DIR__ . '/../../..' . '/src/Service/Admin/Devices/DevicesManager.php',
         'WP_Statistics\\Service\\Admin\\Devices\\DevicesPage' => __DIR__ . '/../../..' . '/src/Service/Admin/Devices/DevicesPage.php',

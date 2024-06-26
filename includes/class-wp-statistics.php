@@ -9,8 +9,11 @@ use WP_Statistics\Service\Admin\Geographic\GeographicManager;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Service\Admin\Posts\PostsManager;
 use WP_Statistics\Service\Admin\PrivacyAudit\PrivacyAuditManager;
+use WP_Statistics\Service\Admin\Geographic\GeographicManager;
+use WP_Statistics\Service\Admin\CategoryAnalytics\CategoryAnalyticsManager;
 use WP_Statistics\Service\Analytics\AnalyticsManager;
 use WP_Statistics\Service\Integrations\WpConsentApi;
+use WP_Statistics\Service\Admin\Devices\DevicesManager;
 
 defined('ABSPATH') || exit;
 
@@ -198,15 +201,15 @@ final class WP_Statistics
             require_once WP_STATISTICS_DIR . 'includes/admin/pages/class-wp-statistics-admin-page-searches.php';
             require_once WP_STATISTICS_DIR . 'includes/admin/pages/class-wp-statistics-admin-page-pages.php';
             require_once WP_STATISTICS_DIR . 'includes/admin/pages/class-wp-statistics-admin-page-visitors.php';
-            require_once WP_STATISTICS_DIR . 'includes/admin/pages/class-wp-statistics-admin-page-taxonomies.php';
             require_once WP_STATISTICS_DIR . 'includes/admin/pages/class-wp-statistics-admin-page-top-visitors-today.php';
             require_once WP_STATISTICS_DIR . 'includes/admin/pages/class-wp-statistics-admin-page-exclusions.php';
 
-            $analytics       = new AnalyticsManager();
-            $authorAnalytics = new AuthorAnalyticsManager();
-            $privacyAudit    = new PrivacyAuditManager();
-            $geographic      = new GeographicManager();
-            $devices         = new \WP_Statistics\Service\Admin\Devices\DevicesManager();
+            $analytics          = new AnalyticsManager();
+            $authorAnalytics    = new AuthorAnalyticsManager();
+            $privacyAudit       = new PrivacyAuditManager();
+            $geographic         = new GeographicManager();
+            $devices            = new DevicesManager();
+            $categoryAnalytics  = new CategoryAnalyticsManager();
 
             $wpConsentApi = new WpConsentApi();
         }
