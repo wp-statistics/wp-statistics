@@ -651,7 +651,7 @@ class Install
          *
          * @version 14.8.1
          */
-        if (Option::get('bypass_ad_blockers', false) && $installed_version == '14.8') {
+        if (Option::get('bypass_ad_blockers', false) && $installed_version == '14.8' && class_exists('WP_Statistics\Components\AssetNameObfuscator')) {
             $assetNameObfuscator = new AssetNameObfuscator();
             $assetNameObfuscator->deleteAllHashedFiles();
             $assetNameObfuscator->deleteDatabaseOption();
