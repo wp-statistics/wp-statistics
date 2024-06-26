@@ -402,10 +402,11 @@ class VisitorsModel extends BaseModel
             'date'      => '',
             'post_type' => '',
             'post_id'   => '',
+            'location'  => '',
             'group_by'  => ['search.last_counter', 'search.engine'],
         ]);
 
-        $result = Query::select([
+        $query = Query::select([
                 'search.last_counter AS date',
                 'COUNT(DISTINCT search.visitor) AS visitors',
                 'search.engine',
@@ -419,8 +420,15 @@ class VisitorsModel extends BaseModel
             ->whereDate('search.last_counter', $args['date'])
             ->groupBy($args['group_by'])
             ->orderBy('date', 'DESC')
-            ->bypassCache($bypassCache)
-            ->getAll();
+            ->bypassCache($bypassCache);
+
+        if (!empty($args['location'])) {
+            $query
+                ->join('visitor', ['search.visitor', 'visitor.ID'])
+                ->where('visitor.location', '=', $args['location']);
+        }
+
+        $result = $query->getAll();
 
         return $result ? $result : [];
     }
