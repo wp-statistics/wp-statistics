@@ -2,6 +2,8 @@
 
 namespace WP_STATISTICS;
 
+use WP_Statistics\Components\AssetNameObfuscator;
+
 class Install
 {
 
@@ -643,6 +645,17 @@ class Install
          * @version 14.4
          */
         //self::delete_duplicate_data(); // todo to move in background cronjob
+
+        /**
+         * Delete all hashed files with old hash format.
+         *
+         * @version 14.8.1
+         */
+        if (Option::get('bypass_ad_blockers', false) && $installed_version == '14.8' && class_exists('WP_Statistics\Components\AssetNameObfuscator')) {
+            $assetNameObfuscator = new AssetNameObfuscator();
+            $assetNameObfuscator->deleteAllHashedFiles();
+            $assetNameObfuscator->deleteDatabaseOption();
+        }
 
         // Store the new version information.
         update_option('wp_statistics_plugin_version', WP_STATISTICS_VERSION);

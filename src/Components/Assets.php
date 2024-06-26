@@ -2,6 +2,8 @@
 
 namespace WP_Statistics\Components;
 
+use WP_STATISTICS\Helper;
+
 class Assets
 {
     /**
@@ -126,7 +128,8 @@ class Assets
     private static function getSrc($src, $obfuscate = false, $plugin_url = null)
     {
         if ($obfuscate) {
-            $file = new AssetNameObfuscator(self::$asset_dir . '/' . $src);
+            $file = $plugin_url ? Helper::urlToDir($plugin_url) : self::$plugin_dir;
+            $file = new AssetNameObfuscator(path_join($file, self::$asset_dir . '/' . $src));
             return $file->getHashedFileUrl();
         }
 

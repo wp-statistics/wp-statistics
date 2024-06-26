@@ -18,9 +18,12 @@ class Query
     private $orderClause;
     private $groupByClause;
     private $limitClause;
+    private $whereRelation = 'AND';
+    private $setClauses = [];
     private $joinClauses = [];
     private $whereClauses = [];
-    private $whereValues = [];
+    private $rawWhereClause = [];
+    private $valuesToPrepare = [];
     private $bypassCache = false;
 
     /** @var wpdb $db */
@@ -45,6 +48,38 @@ class Query
 
         return $instance;
     }
+    public static function update($table)
+    {
+        $instance            = new self();
+        $instance->operation = 'update';
+        $instance->table     = $instance->getTable($table);
+
+        return $instance;
+    }
+
+
+    public function set($values)
+    {
+        if (empty($values)) return $this;
+
+        foreach ($values as $field => $value) {
+            if (is_string($value)) {
+                $this->setClauses[]         = '%i = %s';
+                $this->valuesToPrepare[]    = $field;
+                $this->valuesToPrepare[]    = $value;
+            } else if (is_numeric($value)) {
+                $this->setClauses[]         = '%i = %d';
+                $this->valuesToPrepare[]    = $field;
+                $this->valuesToPrepare[]    = $value;
+            } else if (is_null($value)) {
+                $this->setClauses[]         = '%i = NULL';
+                $this->valuesToPrepare[]    = $field;
+            }
+        }
+
+        return $this;
+    }
+
 
     private function getTable($table)
     {
@@ -69,7 +104,7 @@ class Query
     }
 
     /**
-     * Sets the sub-query for the query. 
+     * Sets the sub-query for the query.
      * Useful for times we want to get fields from a certain sub-query, not table.
      *
      * @param string $subQuery The subquery to be used in the query.
@@ -86,7 +121,7 @@ class Query
      *
      * @param string $field The name of the field to filter by.
      * @param mixed $date The date range to filter by. Either an array of date range, or string date.
-     * 
+     *
      * @example [2024-01-01, 2024-01-31]
      * @example 'today', 'yesterday', 'year', etc...
      * @see TimeZone::getDateFilters() for a list of all supported string dates
@@ -107,15 +142,26 @@ class Query
         }
 
         if (!empty($from) && !empty($to)) {
-            $condition            = "DATE($field) BETWEEN %s AND %s";
-            $this->whereClauses[] = $condition;
-            $this->whereValues[]  = $from;
-            $this->whereValues[]  = $to;
+            $condition                  = "DATE($field) BETWEEN %s AND %s";
+            $this->whereClauses[]       = $condition;
+            $this->valuesToPrepare[]    = $from;
+            $this->valuesToPrepare[]    = $to;
         }
 
         return $this;
     }
 
+    public function whereRaw($condition, $values = []) 
+    {
+        
+        if (!empty($values)) {
+            $this->rawWhereClause[] = $this->prepareQuery($condition, $values);
+        } else {
+            $this->rawWhereClause[] = $condition;
+        }
+
+        return $this;
+    }
 
     /**
      * Filters the records based on the given condition.
@@ -133,10 +179,10 @@ class Query
         if (empty($value)) return $this;
 
         $condition = $this->generateCondition($field, $operator, $value);
-        
+
         if (!empty($condition)) {
             $this->whereClauses[]   = $condition['condition'];
-            $this->whereValues      = array_merge($this->whereValues, $condition['values']);
+            $this->valuesToPrepare  = array_merge($this->valuesToPrepare, $condition['values']);
         }
 
         return $this;
@@ -162,7 +208,7 @@ class Query
 
     public function whereNull($fields)
     {
-        if (!empty($fields)) return $this;
+        if (empty($fields)) return $this;
 
         if (is_string($fields)) {
             $fields = explode(',', $fields);
@@ -173,6 +219,16 @@ class Query
             foreach ($fields as $field) {
                 $this->whereClauses[] = "{$field} IS NULL";
             }
+        }
+
+        return $this;
+    }
+
+
+    public function whereRelation($relation) 
+    {
+        if (in_array($relation, ['AND', 'OR'])) {
+            $this->whereRelation = $relation;
         }
 
         return $this;
@@ -193,8 +249,8 @@ class Query
             case 'LIKE':
             case 'NOT LIKE':
                 if (!empty($value)) {
-                    $condition  = "$field $operator %s";
-                    $values[]   = $value;
+                    $condition = "$field $operator %s";
+                    $values[]  = $value;
                 }
                 break;
 
@@ -205,16 +261,16 @@ class Query
                 }
 
                 if (!empty($value) && is_array($value)) {
-                    $placeholders   = implode(', ', array_fill(0, count($value), '%s'));
-                    $condition      = "$field $operator ($placeholders)";
-                    $values         = $value;
+                    $placeholders = implode(', ', array_fill(0, count($value), '%s'));
+                    $condition    = "$field $operator ($placeholders)";
+                    $values       = $value;
                 }
                 break;
 
             case 'BETWEEN':
                 if (is_array($value) && count($value) === 2) {
-                    $condition  = "$field BETWEEN %s AND %s";
-                    $values     = $value;
+                    $condition = "$field BETWEEN %s AND %s";
+                    $values    = $value;
                 }
                 break;
 
@@ -225,7 +281,7 @@ class Query
         if (empty($condition)) return;
 
         return [
-            'condition' => $condition, 
+            'condition' => $condition,
             'values'    => $values
         ];
     }
@@ -233,7 +289,7 @@ class Query
     public function getVar()
     {
         $query = $this->buildQuery();
-        $query = $this->prepareQuery($query, $this->whereValues);
+        $query = $this->prepareQuery($query, $this->valuesToPrepare);
 
         if (!$this->bypassCache) {
             $cachedResult = $this->getCachedResult($query);
@@ -254,7 +310,7 @@ class Query
     public function getAll()
     {
         $query = $this->buildQuery();
-        $query = $this->prepareQuery($query, $this->whereValues);
+        $query = $this->prepareQuery($query, $this->valuesToPrepare);
 
         if (!$this->bypassCache) {
             $cachedResult = $this->getCachedResult($query);
@@ -275,7 +331,7 @@ class Query
     public function getCol()
     {
         $query = $this->buildQuery();
-        $query = $this->prepareQuery($query, $this->whereValues);
+        $query = $this->prepareQuery($query, $this->valuesToPrepare);
 
         if (!$this->bypassCache) {
             $cachedResult = $this->getCachedResult($query);
@@ -296,7 +352,7 @@ class Query
     public function getRow()
     {
         $query = $this->buildQuery();
-        $query = $this->prepareQuery($query, $this->whereValues);
+        $query = $this->prepareQuery($query, $this->valuesToPrepare);
 
         if (!$this->bypassCache) {
             $cachedResult = $this->getCachedResult($query);
@@ -314,6 +370,15 @@ class Query
         return $result;
     }
 
+    public function execute()
+    {
+        $query  = $this->buildQuery();
+        $query  = $this->prepareQuery($query, $this->valuesToPrepare);
+        $result = $this->db->query($query);
+
+        return $result;
+    }
+
 
     /**
      * Joins the current table with another table based on a given condition.
@@ -322,7 +387,7 @@ class Query
      * @param array $on Table keys to join. ['table1.primary_key', 'table2.foreign_key']
      * @param array[] $conditions Array of extra join conditions to append. [['field', 'operator', 'value'], ...]
      * @param string $joinType The type of join to perform. Defaults to 'INNER'.
-     * 
+     *
      * @throws InvalidArgumentException If the join clause is invalid.
      */
     public function join($table, $on, $conditions = [], $joinType = 'INNER')
@@ -334,11 +399,11 @@ class Query
 
             if (!empty($conditions)) {
                 foreach ($conditions as $condition) {
-                    $field      = $condition[0];
-                    $operator   = $condition[1];
-                    $value      = $condition[2];
+                    $field    = $condition[0];
+                    $operator = $condition[1];
+                    $value    = $condition[2];
 
-                    $condition  = $this->generateCondition($field, $operator, $value);
+                    $condition = $this->generateCondition($field, $operator, $value);
 
                     if (!empty($condition)) {
                         $condition  = $this->prepareQuery($condition['condition'], $condition['values']);
@@ -351,7 +416,7 @@ class Query
         } else {
             throw new InvalidArgumentException(esc_html__('Invalid join clause', 'wp-statistics'));
         }
-        
+
         return $this;
     }
 
@@ -362,7 +427,7 @@ class Query
      * @param array $on Array of table keys to join. The array should contain two elements: the first element is the primary key of the current table, and the second element is the foreign key of the subquery table.
      * @param string $alias The alias to be assigned to the subquery.
      * @param string $joinType The type of join to perform. Defaults to 'INNER'.
-     * 
+     *
      * @throws InvalidArgumentException If the join clause is invalid.
      */
     public function joinQuery($subQuery, $on, $alias, $joinType = 'INNER')
@@ -373,10 +438,10 @@ class Query
         } else {
             throw new InvalidArgumentException(esc_html__('Invalid join clause', 'wp-statistics'));
         }
-        
+
         return $this;
     }
-    
+
     public function orderBy($fields, $order = 'DESC')
     {
         // Validate $order
@@ -397,39 +462,39 @@ class Query
                 // For identifiers with a dot (e.g. table.field) we need to split the identifier into two parts
                 foreach ($fields as $field) {
                     if (strpos($field, '.') !== false) {
-                        $identifier     = explode('.', $field);
-                        $values         = array_merge($values, $identifier);
-                        $placeholder    = '%i.%i';
+                        $identifier  = explode('.', $field);
+                        $values      = array_merge($values, $identifier);
+                        $placeholder = '%i.%i';
                     } else {
-                        $values[]       = $field;
-                        $placeholder    = '%i';
+                        $values[]    = $field;
+                        $placeholder = '%i';
                     }
 
                     $placeholders[] = "$placeholder $order";
                 }
-                
+
                 $placeholders = implode(', ', $placeholders);
             }
 
             $this->orderClause = $this->prepareQuery("ORDER BY {$placeholders}", $values);
         }
-        
+
         return $this;
     }
-    
+
     public function perPage($page = 1, $perPage = 10)
     {
         $page    = intval($page);
         $perPage = intval($perPage);
 
         if ($page > 0 && $perPage > 0) {
-            $offset = ($page - 1) * $perPage;
+            $offset            = ($page - 1) * $perPage;
             $this->limitClause = "LIMIT {$perPage} OFFSET {$offset}";
         }
-        
+
         return $this;
     }
-    
+
     public function groupBy($fields)
     {
         if (is_array($fields)) {
@@ -439,7 +504,7 @@ class Query
         if (!empty($fields)) {
             $this->groupByClause = "GROUP BY {$fields}";
         }
-        
+
         return $this;
     }
 
@@ -452,14 +517,14 @@ class Query
         } else {
             throw new InvalidArgumentException(sprintf(esc_html__('%s method is not defined.', 'wp-statistics'), $queryMethod));
         }
-        
+
         return $query;
     }
 
     public function getQuery()
     {
-        $query          = $this->buildQuery();
-        $preparedQuery  = $this->prepareQuery($query, $this->whereValues);
+        $query         = $this->buildQuery();
+        $preparedQuery = $this->prepareQuery($query, $this->valuesToPrepare);
 
         return $preparedQuery;
     }
@@ -483,7 +548,7 @@ class Query
             $query .= ' ' . $this->table;
             $query .= ' AS ' . $this->removeTablePrefix($this->table);
         }
-        
+
         // Append sub query
         if (!empty($this->subQuery)) {
             $query .= ' ' . $this->subQuery;
@@ -498,14 +563,19 @@ class Query
         // Append WHERE clauses
         $whereClauses = array_filter($this->whereClauses);
         if (!empty($whereClauses)) {
-            $query .= ' WHERE ' . implode(" AND ", $whereClauses);
+            $query .= ' WHERE ' . implode(" $this->whereRelation ", $whereClauses);
+        }
+
+        if (!empty($this->rawWhereClause)) {
+            $query .= empty($this->whereClauses) ? ' WHERE ' : ' ';
+            $query .= implode(' ', $this->rawWhereClause);
         }
 
         // Append GROUP BY clauses
         if (!empty($this->groupByClause)) {
             $query .= ' ' . $this->groupByClause;
         }
-        
+
         // Append ORDER clauses
         if (!empty($this->orderClause)) {
             $query .= ' ' . $this->orderClause;
@@ -514,6 +584,28 @@ class Query
         // Append LIMIT clauses
         if (!empty($this->limitClause)) {
             $query .= ' ' . $this->limitClause;
+        }
+
+        return $query;
+    }
+
+    protected function updateQuery()
+    {
+        $query = "UPDATE $this->table";
+
+        if (!empty($this->setClauses)) {
+            $query .= ' SET ' . implode(', ', $this->setClauses);
+        }
+
+        // Append WHERE clauses
+        $whereClauses = array_filter($this->whereClauses);
+        if (!empty($whereClauses)) {
+            $query .= ' WHERE ' . implode(" $this->whereRelation ", $whereClauses);
+        }
+
+        if (!empty($this->rawWhereClause)) {
+            $query .= empty($this->whereClauses) ? ' WHERE ' : ' ';
+            $query .= implode(' ', $this->rawWhereClause);
         }
 
         return $query;

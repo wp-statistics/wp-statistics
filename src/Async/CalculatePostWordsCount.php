@@ -4,7 +4,7 @@ namespace WP_Statistics\Async;
 
 use WP_STATISTICS\Option;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
-use WP_Statistics\Service\Admin\Posts\WordCount;
+use WP_Statistics\Service\Admin\Posts\WordCountService;
 
 class CalculatePostWordsCount extends \WP_Background_Process
 {
@@ -34,7 +34,7 @@ class CalculatePostWordsCount extends \WP_Background_Process
     {
         $postId = $item['post_id'];
         $post = get_post($postId);
-        $wordCountClass = new WordCount();
+        $wordCountClass = new WordCountService();
 
         $wordCountClass->handleSavePost($postId, $post);
 

@@ -91,7 +91,7 @@ class Meta_Box
                 'place'             => 'side'
             ),
             'browsers'        => array(
-                'page_url'          => 'browser',
+                'page_url'          => 'devices',
                 'name'              => __('Browser Usage', 'wp-statistics'),
                 'description'       => __('Distribution of visitors based on the browsers they use.', 'wp-statistics'),
                 'require'           => array('visitors' => true),
@@ -106,7 +106,7 @@ class Meta_Box
                 ]
             ),
             'platforms'       => array(
-                'page_url'          => 'platform',
+                'page_url'          => 'devices',
                 'name'              => __('Most Used Operating Systems', 'wp-statistics'),
                 'description'       => __('Identify the operating systems most commonly used by your website visitors.', 'wp-statistics'),
                 'require'           => array('visitors' => true),
@@ -117,7 +117,7 @@ class Meta_Box
                     'filter_by_date'      => true,
                     'default_date_filter' => User::getDefaultDateFilter('platforms', 'filter|30days'),
                     'display_more_link'   => true,
-                    'more_link_title'     => __('View Most Used Operating Systems'),
+                    'more_link_title'     => __('View Most Used OS'),
                 ]
             ),
             'devices'         => array(
@@ -129,11 +129,18 @@ class Meta_Box
                 'place'             => 'side'
             ),
             'models'          => array(
+                'page_url'          => 'devices',
                 'name'              => __('Top Device Models', 'wp-statistics'),
                 'require'           => array('visitors' => true),
                 'hidden'            => true,
                 'show_on_dashboard' => true,
-                'place'             => 'side'
+                'place'             => 'side',
+                'footer_options'    => [
+                    'filter_by_date'      => true,
+                    'default_date_filter' => User::getDefaultDateFilter('models', 'filter|30days'),
+                    'display_more_link'   => true,
+                    'more_link_title'     => __('View Top Models'),
+                ]
             ),
             'countries'       => array(
                 'page_url'          => 'geographic',

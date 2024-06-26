@@ -4,7 +4,7 @@ Donate link: https://wp-statistics.com/donate/
 Tags: analytics, google analytics, insights, stats, site visitors
 Requires at least: 5.0
 Tested up to: 6.5
-Stable tag: 14.8
+Stable tag: 14.8.1
 Requires PHP: 5.6
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -133,24 +133,23 @@ Thank you for being part of our community. We’ve been working hard for one yea
 If you encounter any bug, please create an issue on [GitHub](https://github.com/wp-statistics/wp-statistics/issues/new) where we can act upon them more efficiently. Since [GitHub](https://github.com/wp-statistics/wp-statistics) is not a support forum, just bugs are welcomed, and any other request will be closed.
 
 == Changelog ==
-= 14.8 - 17.06.2024 =
-* New: Author Analytics: Replaces the old Author report. Measures author performance and individual author statistics.
-* New: Geographic Reports: Location-based analytics, including countries, cities, European countries, US states, regions of your country.
-* New: [Bypass Ad Blockers](https://wp-statistics.com/resources/bypass-ad-blockers/): New option to dynamically load the tracking script with a unique name and address.
-* New: User Role Exclusions: Added Anonymous User to exclusions.
-* New: Integrates with [WP Consent API](https://github.com/Really-Simple-Plugins/wp-consent-level-api) for compatibility with consent plugins like Complianz.
-* New: Device Menu: Enhanced device-specific analytics, including browsers, operating systems, and device models. Upcoming versions will include device categories, screen resolutions, and languages.
-* Enhancement: Improved structure and cleanup using new components and models.
-* Enhancement: Updated browser icons.
-* Enhancement: Added background processing for efficient data handling.
-* Enhancement: Added real-time button to the Overview page.
-* Enhancement: Refactored notice handler with improvements.
-* Enhancement: Various style improvements on the Overview page, header, and meta boxes.
-* Enhancement: Numerous minor and major enhancements.
-* Fix: Corrected ‘to’ parameter in yesterday link generation.
-* Fix: Resolved freeze issues on certain pages and loading mode in view meta box.
-* Dev: Added filters `wp_statistics_ip_detection_preview` and `wp_statistics_enable_feedbackbird`.
+= 14.8.1 - 26.06.2024 =
+* Fix: Compatibility issue with tracking page and default permalink structure.
+* Fix: Charts not displaying due to conflicts with old ChartJs versions from other plugins.
+* Fix: Metabox refresh issue in WordPress dashboard when enabling/disabling widgets via Screen Options.
+* Fix: Meta-box view URL compatibility across browsers and platforms.
+* Fix: Devices pagination.
+* Fix: SQL query issues and optimized queries in Devices.
+* Fix: Column name preparation for finding visitors.
+* Enhancement: Improved GeoIP database update scheduling.
+* Enhancement: Updated incomplete GeoIP info for visitors in the background, with notice in Geographic.
+* Enhancement: Added events table for data export.
+* Enhancement: Improved comments query by excluding ping-backs in Author Analytics.
+* Enhancement: Fixed referrer issue in online request tracking.
+* Enhancement: Refactored `getCountry` method, removing legacy cache.
+* Enhancement: Minor improvements.
+* Development: Added WP CLI command `wp statistics record`.
 
-For more information about this update, please [visit our blog post](https://wp-statistics.com/2024/06/15/wp-statistics-version-14-8-whats-new).
+For more information about the major update, please [visit our blog post](https://wp-statistics.com/2024/06/15/wp-statistics-version-14-8-whats-new) or follow [@wp_statistics](https://twitter.com/wp_statistics) on Twitter
 
 [See changelog for all versions](https://raw.githubusercontent.com/wp-statistics/wp-statistics/master/CHANGELOG.md).

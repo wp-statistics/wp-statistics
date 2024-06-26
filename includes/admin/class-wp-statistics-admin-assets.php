@@ -47,8 +47,8 @@ class Admin_Assets
      */
     public function __construct()
     {
-        add_action('admin_enqueue_scripts', array($this, 'admin_styles'));
-        add_action('admin_enqueue_scripts', array($this, 'admin_scripts'));
+        add_action('admin_enqueue_scripts', array($this, 'admin_styles'), 999);
+        add_action('admin_enqueue_scripts', array($this, 'admin_scripts'), 999);
 
         $this->initFeedback();
     }
@@ -228,10 +228,13 @@ class Admin_Assets
 
         // Load Chart Js Library [ Load in <head> Tag ]
         if (Menus::in_plugin_page() || (in_array($screen_id, array('dashboard')) and !Option::get('disable_dashboard')) || (in_array($hook, array('post.php', 'edit.php', 'post-new.php')) and !Option::get('disable_editor'))) {
-            wp_enqueue_script(self::$prefix . '-chart.js', self::url('chartjs/chart.umd.min.js'), [], '4.4.2', false);
-            wp_enqueue_script(self::$prefix . '-hammer.js', self::url('chartjs/hammer.min.js'), [], '2.0.8', false);
-            wp_enqueue_script(self::$prefix . '-chart-matrix.js', self::url('chartjs/chart-matrix.min.js'), [], '2.0.8', false);
-            wp_enqueue_script(self::$prefix . '-chartjs-plugin-zoom.js', self::url('chartjs/chartjs-plugin-zoom.min.js'), [self::$prefix . '-hammer.js'], '2.0.1', false);
+            wp_enqueue_script(self::$prefix . '-chart.js', self::url('chartjs/chart.umd.min.js'), [], '4.4.2', true);
+            wp_enqueue_script(self::$prefix . '-hammer.js', self::url('chartjs/hammer.min.js'), [], '2.0.8', true);
+             wp_enqueue_script(self::$prefix . '-chartjs-plugin-zoom.js', self::url('chartjs/chartjs-plugin-zoom.min.js'), [self::$prefix . '-hammer.js'], '2.0.1', true);
+        }
+
+        if (Menus::in_page('author-analytics')) {
+            wp_enqueue_script(self::$prefix . '-chart-matrix.js', self::url('chartjs/chart-matrix.min.js'), [], '2.0.8', true);
         }
 
         // Load Jquery VMap Js Library

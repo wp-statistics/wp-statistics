@@ -89,8 +89,8 @@ class Schedule
 
         // Add the report schedule if it doesn't exist and is enabled.
         if (!wp_next_scheduled('wp_statistics_report_hook') && Option::get('stats_report')) {
-            $timeReports = Option::get('time_report');
-            $schedulesInterval = wp_get_schedules();
+            $timeReports         = Option::get('time_report');
+            $schedulesInterval   = wp_get_schedules();
             $timeReportsInterval = 86400;
             if (isset($schedulesInterval[$timeReports]['interval'])) {
                 $timeReportsInterval = $schedulesInterval[$timeReports]['interval'];
@@ -121,7 +121,7 @@ class Schedule
     /**
      * Retrieves an array of schedules with their intervals and display names.
      *
-     * @return array 
+     * @return array
      */
     public static function getSchedules()
     {
@@ -164,8 +164,8 @@ class Schedule
         foreach ($wpsSchedules as $key => $val) {
             if (!array_key_exists($key, $schedules)) {
                 $schedules[$key] = [
-                    'interval'  => $val['interval'],
-                    'display'   => $val['display']
+                    'interval' => $val['interval'],
+                    'display'  => $val['display']
                 ];
             }
         }
@@ -209,24 +209,22 @@ class Schedule
      */
     public function geoip_event()
     {
-
         // Max-mind updates the geo-ip database on the first Tuesday of the month, to make sure we don't update before they post
-        $this_update = strtotime(__('First Tuesday of this month', 'wp-statistics')) + (86400 * 2);
+        $this_update = strtotime('first Tuesday of this month') + (86400 * 2);
         $last_update = Option::get('last_geoip_dl');
 
-        $is_require_update = false;
         foreach (GeoIP::$library as $geo_ip => $value) {
             $file_path = GeoIP::get_geo_ip_path($geo_ip);
+
             if (file_exists($file_path)) {
                 if ($last_update < $this_update) {
-                    $is_require_update = true;
+                    GeoIP::download($geo_ip, "update");
                 }
             }
         }
 
-        if ($is_require_update === true) {
-            Option::update('update_geoip', true);
-        }
+        // Update the last update time
+        Option::update('last_geoip_dl', time());
     }
 
     /**
@@ -251,10 +249,10 @@ class Schedule
     {
         $schedule = Option::get('time_report', false);
         $subject  = __('Your WP Statistics Report', 'wp-statistics');
-        
+
         if ($schedule && array_key_exists($schedule, self::getSchedules())) {
             $schedule = self::getSchedules()[$schedule];
-            $subject .= sprintf(__(' for %s to %s', 'wp-statistics'), $schedule['start'], $schedule['end']);
+            $subject  .= sprintf(__(' for %s to %s', 'wp-statistics'), $schedule['start'], $schedule['end']);
         }
 
         return $subject;

@@ -24,15 +24,15 @@
                                     <?php foreach ($data['visitors'] as $item) : ?>
                                         <tr>
                                             <td class="wps-pd-l">
-                                                <span title="<?php echo esc_attr($item->version); ?>" class="wps-single-name">
-                                                    <?php echo esc_html($item->version); ?>
+                                                <span title="<?php echo esc_attr($item->casted_version); ?>" class="wps-single-name">
+                                                    <?php echo esc_html($item->casted_version); ?>
                                                 </span>
                                             </td>
                                             <td class="wps-pd-l">
-                                                <?php echo intval($item->views); ?>
+                                                <?php echo intval($item->visitors); ?>
                                             </td>
                                             <td class="wps-pd-l">
-                                                <?php echo number_format(\WP_STATISTICS\Helper::divideNumbers($item->views, $data['views'], 4) * 100, 2); ?>%
+                                                <?php echo number_format(\WP_STATISTICS\Helper::divideNumbers($item->visitors, $data['visits'], 4) * 100, 2); ?>%
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>

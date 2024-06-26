@@ -135,7 +135,10 @@ add_thickbox();
 
                                 <?php
                                 if (!empty($_SERVER[$method]) && GeoIP::active()) {
-                                    $countryCode = GeoIP::getCountry(wp_unslash($_SERVER[$method]));
+                                    // Handle multiple comma-separated IPs
+                                    $ips = array_map('trim', explode(',', $_SERVER[$method])); 
+
+                                    $countryCode = GeoIP::getCountry(wp_unslash($ips[0]));
                                     $countryFlag = Country::flag($countryCode);
                                     $countryName = Country::getName($countryCode);
 

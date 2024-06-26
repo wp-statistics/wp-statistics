@@ -1,6 +1,8 @@
 <?php
 
 # Exit if accessed directly
+use WP_Statistics\Async\CalculatePostWordsCount;
+use WP_Statistics\Async\IncompleteGeoIpUpdater;
 use WP_Statistics\Service\Admin\AuthorAnalytics\AuthorAnalyticsManager;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Service\Admin\Posts\PostsManager;
@@ -104,7 +106,7 @@ final class WP_Statistics
             /**
              * Setup background process
              */
-            $this->setupBackgroundProcess();
+            $this->initializeBackgroundProcess();
 
         } catch (Exception $e) {
             self::log($e->getMessage());
@@ -204,7 +206,7 @@ final class WP_Statistics
             $geographic      = new GeographicManager();
             $devices         = new \WP_Statistics\Service\Admin\Devices\DevicesManager();
 
-            $wpConsentApi    = new WpConsentApi();
+            $wpConsentApi = new WpConsentApi();
         }
 
         // WordPress ShortCode and Widget
@@ -236,15 +238,34 @@ final class WP_Statistics
         include WP_STATISTICS_DIR . 'includes/template-functions.php';
     }
 
-    private function setupBackgroundProcess()
+    /**
+     * Set up background processes.
+     */
+    private function initializeBackgroundProcess()
     {
-        $this->backgroundProcess['calculate_post_words_count'] = new \WP_Statistics\Async\CalculatePostWordsCount();
+        $this->registerBackgroundProcess(CalculatePostWordsCount::class, 'calculate_post_words_count');
+        $this->registerBackgroundProcess(IncompleteGeoIpUpdater::class, 'update_unknown_visitor_geoip');
     }
 
     /**
+     * Initialize a background process if the class exists.
+     *
+     * @param string $className The name of the background process class.
+     * @param string $processKey The key to store the background process in the array.
+     */
+    private function registerBackgroundProcess($className, $processKey)
+    {
+        if (class_exists($className)) {
+            $this->backgroundProcess[$processKey] = new $className();
+        }
+    }
+
+    /**
+     * Get the registered background processes.
+     *
      * @return WP_Background_Process[]
      */
-    public function getRemoteRequestAsync()
+    public function getBackgroundProcess()
     {
         return $this->backgroundProcess;
     }

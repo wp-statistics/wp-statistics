@@ -3,8 +3,9 @@
 namespace WP_Statistics\Service\Admin\Posts;
 
 use WP_STATISTICS\Helper;
+use WP_STATISTICS\Option;
 
-class WordCount
+class WordCountService
 {
     const WORDS_COUNT_META_KEY = 'wp_statistics_words_count';
 
@@ -79,5 +80,26 @@ class WordCount
             'meta_compare' => 'NOT EXISTS',
             'fields'       => 'ids'
         ]);
+    }
+
+    /**
+     * Processes posts to calculate and update word count metadata.
+     *
+     * @return void
+     */
+    public function processWordCountForPosts()
+    {
+        // Initialize and dispatch the CalculatePostWordsCount class
+        $remoteRequestAsync      = WP_Statistics()->getBackgroundProcess();
+        $calculatePostWordsCount = $remoteRequestAsync['calculate_post_words_count'];
+
+        foreach ($this->getPostsWithoutWordCountMeta() as $postId) {
+            $calculatePostWordsCount->push_to_queue(['post_id' => $postId]);
+        }
+
+        // Mark as processed
+        Option::saveOptionGroup('word_count_process_started', true, 'jobs');
+
+        $calculatePostWordsCount->save()->dispatch();
     }
 }

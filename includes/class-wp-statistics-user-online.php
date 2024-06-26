@@ -210,7 +210,6 @@ class UserOnline
         $user_online = array(
             'timestamp' => TimeZone::getCurrentTimestamp(),
             'date'      => TimeZone::getCurrentDate(),
-            'referred'  => $visitorProfile->getReferrer(),
             'user_id'   => $user_id,
             'page_id'   => $pageId,
             'type'      => $current_page['type']

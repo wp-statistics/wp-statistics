@@ -191,7 +191,7 @@ $postTypeNamePlural     = Helper::getPostTypeName($postType);
     </div>
     <div class="c-footer">
         <div class="c-footer__more">
-            <a href="<?php echo esc_url(Menus::admin_url('author-analytics', ['type' => 'authors', 'pt' => $postType, 'from' => Request::get('from', date('Y-m-d', strtotime('-1 month'))), 'to' => Request::get('to', date('Y-m-d'))])); ?>" class="c-footer__more__link" title="<?php esc_html_e('See all authors', 'wp-statistics') ?>"><?php esc_html_e('See all authors', 'wp-statistics') ?></a>
+            <a href="<?php echo esc_url(Menus::admin_url('author-analytics', ['type' => 'authors', 'pt' => $postType, 'from' => Request::get('from', date('Y-m-d', strtotime('-30 days'))), 'to' => Request::get('to', date('Y-m-d'))])); ?>" class="c-footer__more__link" title="<?php esc_html_e('See all authors', 'wp-statistics') ?>"><?php esc_html_e('See all authors', 'wp-statistics') ?></a>
         </div>
     </div>
 </div>

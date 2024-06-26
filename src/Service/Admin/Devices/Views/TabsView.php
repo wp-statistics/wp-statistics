@@ -29,7 +29,7 @@ class TabsView extends BaseTabView
 
         $this->dataProvider = new DevicesDataProvider([
             'date'     => [
-                'from' => Request::get('from', date('Y-m-d', strtotime('-1 month'))),
+                'from' => Request::get('from', date('Y-m-d', strtotime('-30 days'))),
                 'to'   => Request::get('to', date('Y-m-d')),
             ],
             'per_page' => 10,
@@ -79,14 +79,15 @@ class TabsView extends BaseTabView
             $data        = $this->getTabData();
 
             $args = [
-                'title'      => esc_html__('Devices', 'wp-statistics'),
-                'pageName'   => Menus::get_page_slug('devices'),
-                'paged'      => Admin_Template::getCurrentPaged(),
-                'custom_get' => ['tab' => $currentTab],
-                'DateRang'   => Admin_Template::DateRange(),
-                'hasDateRang' => true,
-                'data'       => $data,
-                'tabs'       => [
+                'title'           => esc_html__('Devices', 'wp-statistics'),
+                'pageName'        => Menus::get_page_slug('devices'),
+                'paged'           => Admin_Template::getCurrentPaged(),
+                'custom_get'      => ['tab' => $currentTab],
+                'DateRang'        => Admin_Template::DateRange(),
+                'hasDateRang'     => true,
+                'data'            => $data,
+                'viewMoreUrlArgs' => ['type' => 'single-' . rtrim($currentTab, 's'), 'from' => Request::get('from'), 'to' => Request::get('to')],
+                'tabs'            => [
                     [
                         'link'        => Menus::admin_url('devices', ['tab' => 'browsers']),
                         'title'       => esc_html__('Browsers', 'wp-statistics'),
@@ -140,8 +141,9 @@ class TabsView extends BaseTabView
                 $args['total'] = $data['total'];
 
                 $args['pagination'] = Admin_Template::paginate_links([
-                    'total' => $data['total'],
-                    'echo'  => false
+                    'item_per_page' => 10,
+                    'total'         => $data['total'],
+                    'echo'          => false
                 ]);
             }
 

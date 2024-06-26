@@ -4,7 +4,7 @@ namespace WP_Statistics\Models;
 
 use WP_Statistics\Abstracts\BaseModel;
 use WP_STATISTICS\Helper;
-use WP_Statistics\Service\Admin\Posts\WordCount;
+use WP_Statistics\Service\Admin\Posts\WordCountService;
 use WP_Statistics\Utils\Query;
 
 class AuthorsModel extends BaseModel
@@ -167,7 +167,7 @@ class AuthorsModel extends BaseModel
             ->from('posts')
             ->join('users', ['posts.post_author', 'users.ID'])
             ->join('postmeta', ['posts.ID', 'postmeta.post_id'])
-            ->where('meta_key', '=', WordCount::WORDS_COUNT_META_KEY)
+            ->where('meta_key', '=', WordCountService::WORDS_COUNT_META_KEY)
             ->where('post_status', '=', 'publish')
             ->where('post_type', 'IN', $args['post_type'])
             ->whereDate('post_date', $args['date'])

@@ -127,7 +127,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             });
 
             const afterRenderPlugin = {
-                id: 'afterRenderPlugin',  
+                id: 'afterRenderPlugin',
 
                 afterDraw: function (chart, args, options) {
 
@@ -165,7 +165,11 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                 }
             };
 
-            Chart.register(afterRenderPlugin);
+            if (Chart.version.replace(/\./g, "") > 400) {
+                Chart.register(afterRenderPlugin);
+            } else {
+                Chart.plugins.register(afterRenderPlugin);
+            }
 
             Chart.Tooltip.positioners.top = function (element, eventPosition) {
                 const tooltip = this;
@@ -418,7 +422,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                                 label(context) {
                                     const v = context.dataset.data[context.dataIndex];
                                     return [
-                                        `${wps_js._('date')}: ${v.d}`, 
+                                        `${wps_js._('date')}: ${v.d}`,
                                         `${wps_js.global.active_post_type}: ${v.v}`
                                     ];
                                 }

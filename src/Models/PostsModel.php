@@ -4,7 +4,7 @@ namespace WP_Statistics\Models;
 
 use WP_Statistics\Abstracts\BaseModel;
 use WP_STATISTICS\Helper;
-use WP_Statistics\Service\Admin\Posts\WordCount;
+use WP_Statistics\Service\Admin\Posts\WordCountService;
 use WP_Statistics\Utils\Query;
 
 class PostsModel extends BaseModel
@@ -38,7 +38,7 @@ class PostsModel extends BaseModel
             'author_id' => ''
         ]);
 
-        $wordsCountMetaKey = WordCount::WORDS_COUNT_META_KEY;
+        $wordsCountMetaKey = WordCountService::WORDS_COUNT_META_KEY;
 
         $totalWords = Query::select("SUM(meta_value)")
             ->from('posts')
@@ -68,6 +68,7 @@ class PostsModel extends BaseModel
             ->where('post_status', '=', 'publish')
             ->where('post_type', 'IN', $args['post_type'])
             ->where('post_author', '=', $args['author_id'])
+            ->where('comments.comment_type', '=', 'comment')
             ->whereDate('post_date', $args['date'])
             ->bypassCache($bypassCache)
             ->getVar();
@@ -113,6 +114,7 @@ class PostsModel extends BaseModel
 
         $commentsQuery = Query::select(['comment_post_ID', 'COUNT(comment_ID) AS total_comments'])
             ->from('comments')
+            ->where('comment_type', '=', 'comment')
             ->groupBy('comment_post_ID')
             ->getQuery();
 
@@ -202,6 +204,7 @@ class PostsModel extends BaseModel
             ->where('post_type', 'IN', $args['post_type'])
             ->where('post_status', '=', 'publish')
             ->where('posts.post_author', '=', $args['author_id'])
+            ->where('comments.comment_type', '=', 'comment')
             ->whereDate('posts.post_date', $args['date'])
             ->groupBy('posts.ID')
             ->orderBy($args['order_by'], $args['order'])

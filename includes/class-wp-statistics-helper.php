@@ -78,13 +78,23 @@ class Helper
             return false;
         }
 
-        // Backward-Compatibility with option Bypass Ad Blockers
-        if (Request::compare('action', 'wp_statistics_hit_record')) {
+        // Backward-Compatibility with Bypass Ad Blockers option
+        if (self::isBypassAdBlockersRequest()) {
             return true;
         }
 
         $rest_prefix = trailingslashit(rest_get_url_prefix());
         return (false !== strpos($_SERVER['REQUEST_URI'], $rest_prefix)) or isset($_REQUEST['rest_route']);
+    }
+
+    /**
+     * Returns true if the request belongs to "Bypass Ad Blockers" feature.
+     *
+     * @return  bool
+     */
+    public static function isBypassAdBlockersRequest()
+    {
+        return (Request::compare('action', 'wp_statistics_hit_record') || Request::compare('action', 'wp_statistics_keep_online'));
     }
 
     /**
@@ -153,7 +163,7 @@ class Helper
     public static function is_active_cache_plugin()
     {
         $use = array('status' => false, 'plugin' => '');
-
+// TODO: Optimize this function
         /* WordPress core */
         if (defined('WP_CACHE') && WP_CACHE) {
             $use = array('status' => true, 'plugin' => 'core');
@@ -207,7 +217,7 @@ class Helper
     public static function get_uploads_dir($path = '')
     {
         $upload_dir = wp_upload_dir();
-        return path_join($upload_dir['basedir'], $path);
+        return wp_normalize_path(path_join($upload_dir['basedir'], $path));
     }
 
     /**
@@ -611,19 +621,36 @@ class Helper
 
         // Check if the URL has query strings
         if ($urlQuery !== false) {
+            global $wp;
+            $internalQueryParams    = $wp->public_query_vars;
+            $permalinkStructure     = get_option('permalink_structure');
 
-            // Parse query strings passed via the URL
-            parse_str(substr($url, $urlQuery + 1), $parsedQuery);
+            // Extract the URL path and query string
+            $urlPath     = substr($url, 0, $urlQuery);
+            $queryString = substr($url, $urlQuery + 1);
 
-            // Loop through query params and unset ones not allowed  
+            // Parse the query string into an array
+            parse_str($queryString, $parsedQuery);
+
+            // Get the first query param key
+            reset($parsedQuery);
+            $firstKey = key($parsedQuery);
+
+            // Loop through query params and unset ones not allowed, except the first one
             foreach ($parsedQuery as $key => $value) {
-                if (!in_array($key, $allowedParams)) {
+                $allowedQueryVars = $allowedParams;
+
+                // If ugly permalink is enabled, ignore the first key if it's internal
+                if (empty($permalinkStructure) && $key === $firstKey) {
+                    $allowedQueryVars = array_merge($internalQueryParams, $allowedParams);
+                }
+
+                if (!in_array($key, $allowedQueryVars)) {
                     unset($parsedQuery[$key]);
                 }
             }
 
-            // Rebuild URL with allowed params
-            $urlPath = substr($url, 0, $urlQuery);
+            // Rebuild URL with allowed params, keeping the first query param
             if (!empty($parsedQuery)) {
                 $filteredQuery = http_build_query($parsedQuery);
                 $url           = $urlPath . '?' . $filteredQuery;
@@ -767,7 +794,7 @@ class Helper
 
         $schedule   = Option::get('time_report', false);
         $emailTitle = sprintf(__('Sent from %s', 'wp-statistics'), wp_parse_url(get_site_url())['host']);
-        
+
         if ($schedule && array_key_exists($schedule, Schedule::getSchedules())) {
             $schedule   = Schedule::getSchedules()[$schedule];
             $emailTitle .= sprintf(__('<br><small>Report Date Range: %s to %s</small>', 'wp-statistics'), $schedule['start'], $schedule['end']);
@@ -1392,7 +1419,7 @@ class Helper
             : $postTypeObj->labels->name;
     }
 
-    
+
     /**
      * Retrieves the country code based on the timezone string.
      *
@@ -1403,5 +1430,46 @@ class Helper
         $timezone    = get_option('timezone_string');
         $countryCode = TimeZone::getCountry($timezone);
         return $countryCode;
+    }
+
+    /**
+     * Returns full URL of a DIR.
+     *
+     * @param string $dir
+     *
+     * @return  string          URL. Empty on error.
+     * @source  https://wordpress.stackexchange.com/a/264870/
+     */
+    public static function dirToUrl($dir)
+    {
+        if (!is_file($dir)) {
+            return '';
+        }
+
+        return esc_url_raw(str_replace(
+            wp_normalize_path(untrailingslashit(ABSPATH)),
+            site_url(),
+            wp_normalize_path($dir)
+        ));
+    }
+
+    /**
+     * Returns full DIR of a local URL.
+     *
+     * @param string $url
+     *
+     * @return  string          DIR. Empty on error.
+     */
+    public static function urlToDir($url)
+    {
+        if (stripos($url, site_url()) === false) {
+            return '';
+        }
+
+        return (str_replace(
+            site_url(),
+            wp_normalize_path(untrailingslashit(ABSPATH)),
+            $url
+        ));
     }
 }
