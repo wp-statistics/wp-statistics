@@ -182,10 +182,11 @@ class VisitorsModel extends BaseModel
             'date'      => '',
             'post_type' => '',
             'author_id' => '',
-            'post_id'   => ''
+            'post_id'   => '',
+            'country'   => ''
         ]);
 
-        $result = Query::select([
+        $query = Query::select([
             'visitor.ID',
             'visitor.platform',
             'visitor.agent',
@@ -194,16 +195,27 @@ class VisitorsModel extends BaseModel
             'visitor.location'
         ])
             ->from('visitor')
-            ->join('visitor_relationships', ['visitor_relationships.visitor_id', 'visitor.ID'])
-            ->join('pages', ['visitor_relationships.page_id', 'pages.page_id'], [], 'LEFT')
-            ->join('posts', ['posts.ID', 'pages.id'], [], 'LEFT')
-            ->where('post_type', 'IN', $args['post_type'])
-            ->where('post_author', '=', $args['author_id'])
-            ->where('posts.ID', '=', $args['post_id'])
-            ->whereDate('pages.date', $args['date'])
             ->groupBy('visitor.ID')
-            ->bypassCache($bypassCache)
-            ->getAll();
+            ->bypassCache($bypassCache);
+
+        if (!empty($args['post_type']) || !empty($args['author_id']) || !empty($args['post_id'])) {
+            $query
+                ->join('visitor_relationships', ['visitor_relationships.visitor_id', 'visitor.ID'])
+                ->join('pages', ['visitor_relationships.page_id', 'pages.page_id'], [], 'LEFT')
+                ->join('posts', ['posts.ID', 'pages.id'], [], 'LEFT')
+                ->where('post_type', 'IN', $args['post_type'])
+                ->where('post_author', '=', $args['author_id'])
+                ->where('posts.ID', '=', $args['post_id'])
+                ->whereDate('pages.date', $args['date']);
+        }
+
+        if (!empty($args['country'])) {
+            $query
+                ->where('visitor.location', '=', $args['country'])
+                ->whereDate('visitor.last_counter', $args['date']);
+        }
+
+        $result = $query->getAll();
 
         return $result ? $result : [];
     }
@@ -372,27 +384,39 @@ class VisitorsModel extends BaseModel
             'date'      => '',
             'post_type' => '',
             'post_id'   => '',
+            'country'   => '',
             'page'      => 1,
             'per_page'  => 10
         ]);
 
-        $result = Query::select([
+        $query = Query::select([
             'COUNT(DISTINCT visitor.ID) AS visitors',
             'visitor.referred as referrer'
         ])
             ->from('visitor')
-            ->join('visitor_relationships', ['visitor_relationships.visitor_id', 'visitor.ID'], [], 'LEFT')
-            ->join('pages', ['visitor_relationships.page_id', 'pages.page_id'], [], 'LEFT')
-            ->join('posts', ['posts.ID', 'pages.id'], [], 'LEFT')
-            ->where('post_type', 'IN', $args['post_type'])
-            ->where('posts.ID', '=', $args['post_id'])
             ->whereNotNull('visitor.referred')
-            ->whereDate('pages.date', $args['date'])
             ->groupBy('visitor.referred')
             ->orderBy('visitors')
             ->perPage($args['page'], $args['per_page'])
-            ->bypassCache($bypassCache)
-            ->getAll();
+            ->bypassCache($bypassCache);
+
+        if (!empty($args['post_type']) || !empty($args['post_id'])) {
+            $query
+                ->join('visitor_relationships', ['visitor_relationships.visitor_id', 'visitor.ID'], [], 'LEFT')
+                ->join('pages', ['visitor_relationships.page_id', 'pages.page_id'], [], 'LEFT')
+                ->join('posts', ['posts.ID', 'pages.id'], [], 'LEFT')
+                ->where('post_type', 'IN', $args['post_type'])
+                ->where('posts.ID', '=', $args['post_id'])
+                ->whereDate('pages.date', $args['date']);
+        }
+
+        if (!empty($args['country'])) {
+            $query
+                ->where('visitor.location', '=', $args['country'])
+                ->whereDate('visitor.last_counter', $args['date']);
+        }
+
+        $result = $query->getAll();
 
         if (!empty($result)) {
             $result = wp_list_pluck($result, 'visitors', 'referrer');
