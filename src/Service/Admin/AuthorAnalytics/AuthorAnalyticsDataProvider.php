@@ -157,7 +157,7 @@ class AuthorAnalyticsDataProvider
 
     public function getAuthorSingleChartData()
     {
-        $platformData = $this->visitorsModel->getParsedPlatformData($this->args);
+        $platformData = $this->visitorsModel->getVisitorsPlatformData($this->args);
 
         $data = [
             'os_chart_data'         => [

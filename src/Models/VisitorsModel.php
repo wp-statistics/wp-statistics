@@ -220,7 +220,7 @@ class VisitorsModel extends BaseModel
         return $result ? $result : [];
     }
 
-    public function getParsedPlatformData($args, $bypassCache = false)
+    public function getVisitorsPlatformData($args, $bypassCache = false)
     {
         $data = $this->getVisitorsData($args, $bypassCache);
 

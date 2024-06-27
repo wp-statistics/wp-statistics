@@ -133,7 +133,7 @@ class GeographicDataProvider
 
     public function getSingleCountryChartsData()
     {
-        $platformData = $this->visitorsModel->getParsedPlatformData($this->args);
+        $platformData = $this->visitorsModel->getVisitorsPlatformData($this->args);
 
         return [
             'search_engine_chart_data' => $this->getSearchEnginesChartData(),

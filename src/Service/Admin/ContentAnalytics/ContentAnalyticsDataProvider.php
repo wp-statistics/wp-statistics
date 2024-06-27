@@ -105,7 +105,7 @@ class ContentAnalyticsDataProvider
 
     public function getChartsData()
     {
-        $visitorsData = $this->visitorsModel->getParsedPlatformData($this->args);
+        $visitorsData = $this->visitorsModel->getVisitorsPlatformData($this->args);
 
         return [
             'performance_chart_data'    => $this->getPerformanceChartData(),
