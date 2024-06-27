@@ -65,7 +65,7 @@ class ContentAnalyticsDataProvider
         $datesList = array_keys($datesList);
 
         $result = [
-            'labels'    => array_map(function($date) { return date_i18n('j M', strtotime($date)); }, $datesList),
+            'labels'    => array_map(function($date) { return date_i18n(get_option('date_format'), strtotime($date)); }, $datesList),
             'datasets'  => []
         ];
 
