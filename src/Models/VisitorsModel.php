@@ -304,12 +304,15 @@ class VisitorsModel extends BaseModel
             'group_by'  => 'visitor.location',
             'not_null'  => '',
             'order_by'  => ['visitors', 'views'],
+            'post_type' => '',
+            'author_id' => '',
+            'post_id'   => '',
             'order'     => 'DESC',
             'per_page'  => '',
             'page'      => 1
         ]);
 
-        $result = Query::select([
+        $query = Query::select([
             'visitor.city as city',
             'visitor.location as country',
             'visitor.region as region',
@@ -327,8 +330,19 @@ class VisitorsModel extends BaseModel
             ->perPage($args['page'], $args['per_page'])
             ->groupBy($args['group_by'])
             ->orderBy($args['order_by'], $args['order'])
-            ->bypassCache($bypassCache)
-            ->getAll();
+            ->bypassCache($bypassCache);
+
+        if (!empty($args['post_type']) || !empty($args['author_id']) || !empty($args['post_id'])) {
+            $query
+                ->join('visitor_relationships', ['visitor_relationships.visitor_id', 'visitor.ID'])
+                ->join('pages', ['visitor_relationships.page_id', 'pages.page_id'], [], 'LEFT')
+                ->join('posts', ['posts.ID', 'pages.id'], [], 'LEFT')
+                ->where('post_type', 'IN', $args['post_type'])
+                ->where('post_author', '=', $args['author_id'])
+                ->where('posts.ID', '=', $args['post_id']);
+        }
+
+        $result = $query->getAll();
 
         return $result ? $result : [];
     }
