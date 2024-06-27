@@ -331,13 +331,18 @@ class UserOnline
                 $item['city']   = !empty($items->city) ? $items->city : GeoIP::getCity($ip);
                 $item['region'] = $items->region;
             }
-
+            
             // Online For Time
-            $current_time = TimeZone::getCurrentTimestamp();
-            $time_diff    = ($items->timestamp - $items->created);
+            $current_time = current_time('timestamp'); // Fetch current server time in WordPress format
+            $time_diff    = $items->timestamp - $items->created;
 
-            if ($time_diff == 0) {
-                $time_diff = ($current_time - $items->created);
+            if ($items->timestamp == $items->created) {
+                $time_diff = $current_time - $items->created;
+            }
+
+            // Ensure time_diff is positive and log the real time difference
+            if ($time_diff < 0) {
+                $time_diff = abs($time_diff);
             }
 
             if ($time_diff < 1) {
