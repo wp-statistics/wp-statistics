@@ -333,7 +333,7 @@ class UserOnline
             }
 
             // Online For Time
-            $current_time = time();
+            $current_time = TimeZone::getCurrentTimestamp();
             $time_diff    = ($items->timestamp - $items->created);
 
             if ($time_diff == 0) {
