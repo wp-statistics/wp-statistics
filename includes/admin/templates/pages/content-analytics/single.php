@@ -98,7 +98,7 @@ $postType = get_post_type(Request::get('post_id'));
             $topCountries = [
                 'title'   => esc_html__('Top Countries', 'wp-statistics'),
                 'tooltip' => esc_html__('Top Countries tooltip', 'wp-statistics'),
-                'data'    => $data['visitors_data']['country']
+                'data'    => $data['visitors_country']
             ];
             Admin_Template::get_template(['layout/content-analytics/top-countries'], $topCountries);
 

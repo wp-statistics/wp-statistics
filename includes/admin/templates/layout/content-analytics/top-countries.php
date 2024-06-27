@@ -23,19 +23,25 @@ use WP_STATISTICS\Country;
                             <th class="wps-pd-l">
                                 <?php esc_html_e('Visitors', 'wp-statistics') ?>
                             </th>
+                            <th class="wps-pd-l">
+                                <?php esc_html_e('Views', 'wp-statistics') ?>
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach ($data as $country => $visitors) : ?>
+                        <?php foreach ($data as $item) : ?>
                             <tr>
                                 <td class="wps-pd-l">
                                     <div >
-                                        <img class="wps-flag" src="<?php echo esc_url(Country::flag($country)) ?>" alt="<?php echo esc_attr(Country::getName($country)) ?>">
-                                        <?php echo esc_html(Country::getName($country)); ?>
+                                        <img class="wps-flag" src="<?php echo esc_url(Country::flag($item->country)) ?>" alt="<?php echo esc_attr(Country::getName($item->country)) ?>">
+                                        <?php echo esc_html(Country::getName($item->country)); ?>
                                     </div>
                                 </td>
                                 <td class="wps-pd-l">
-                                    <span><?php echo esc_html(number_format($visitors)); ?></span>
+                                    <span><?php echo esc_html(number_format($item->visitors)); ?></span>
+                                </td>
+                                <td class="wps-pd-l">
+                                    <span><?php echo esc_html(number_format($item->views)); ?></span>
                                 </td>
                             </tr>
                         <?php endforeach; ?>

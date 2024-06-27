@@ -103,14 +103,9 @@ class ContentAnalyticsDataProvider
         return $result;
     }
 
-    public function getVisitorsData()
-    {
-        return $this->visitorsModel->getParsedPlatformData($this->args);
-    }
-
     public function getChartsData()
     {
-        $visitorsData = $this->getVisitorsData();
+        $visitorsData = $this->visitorsModel->getParsedPlatformData($this->args);
 
         return [
             'performance_chart_data'    => $this->getPerformanceChartData(),
@@ -143,7 +138,7 @@ class ContentAnalyticsDataProvider
         $totalWords     = $this->postsModel->countWords($this->args);
         $totalComments  = $this->postsModel->countComments($this->args);
 
-        $visitorsData   = $this->getVisitorsData();
+        $visitorsCountry    = $this->visitorsModel->getVisitorsGeoData(array_merge($this->args, ['per_page' => 10]));
         
         $visitorsSummary    = $this->visitorsModel->getVisitorsSummary($this->args);
         $viewsSummary       = $this->viewsModel->getViewsSummary($this->args);
@@ -184,7 +179,7 @@ class ContentAnalyticsDataProvider
                     'avg'   => Helper::divideNumbers($totalComments, $totalPosts)
                 ]
             ],
-            'visitors_data'     => $visitorsData,
+            'visitors_country'  => $visitorsCountry,
             'performance'       => $performanceData,
             'referrers'         => $referrersData,
             'posts'             => [
@@ -204,7 +199,7 @@ class ContentAnalyticsDataProvider
         $totalWords     = $this->postsModel->countWords($this->args);
         $totalComments  = $this->postsModel->countComments($this->args);
 
-        $visitorsData       = $this->getVisitorsData();
+        $visitorsCountry    = $this->visitorsModel->getVisitorsGeoData(array_merge($this->args, ['per_page' => 10]));
         
         $visitorsSummary    = $this->visitorsModel->getVisitorsSummary($this->args);
         $viewsSummary       = $this->viewsModel->getViewsSummary($this->args);
@@ -234,7 +229,7 @@ class ContentAnalyticsDataProvider
                     'total' => $totalComments,
                 ]
             ],
-            'visitors_data'     => $visitorsData,
+            'visitors_country'  => $visitorsCountry,
             'visits_summary'    => array_replace_recursive($visitorsSummary, $viewsSummary),
             'performance'       => $performanceData,
             'referrers'         => $referrersData

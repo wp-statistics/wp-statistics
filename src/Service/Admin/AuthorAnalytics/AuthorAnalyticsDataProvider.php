@@ -191,11 +191,14 @@ class AuthorAnalyticsDataProvider
         $visitorsSummary    = $this->visitorsModel->getVisitorsSummary($this->args);
         $viewsSummary       = $this->viewsModel->getViewsSummary($this->args);
 
+        $visitorsCountry    = $this->visitorsModel->getVisitorsGeoData(array_merge($this->args, ['per_page' => 10]));
+
         $data = [
-            'visit_summary' => array_replace_recursive($visitorsSummary, $viewsSummary),
-            'taxonomies'    => $taxonomies,
-            'overview'      => [
-                'posts'         => [
+            'visit_summary'     => array_replace_recursive($visitorsSummary, $viewsSummary),
+            'visitors_country'  => $visitorsCountry,
+            'taxonomies'        => $taxonomies,
+            'overview'          => [
+                'posts'     => [
                     'total'     => $totalPosts
                 ],
                 'views'     => [
