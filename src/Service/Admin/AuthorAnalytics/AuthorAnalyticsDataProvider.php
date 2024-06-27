@@ -169,7 +169,7 @@ class AuthorAnalyticsDataProvider
         $topPostsByComment  = $this->postsModel->getPostsCommentsData($this->args);
         $topPostsByWords    = $this->postsModel->getPostsWordsData($this->args);
 
-        $visitorsData       = $this->visitorsModel->getParsedVisitorsData($this->args);
+        $visitorsData       = $this->visitorsModel->getParsedPlatformData($this->args);
         $visitorsSummary    = $this->visitorsModel->getVisitorsSummary($this->args);
         $viewsSummary       = $this->viewsModel->getViewsSummary($this->args);
 

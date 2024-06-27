@@ -133,7 +133,7 @@ class GeographicDataProvider
 
     public function getChartsData()
     {
-        $chartData = $this->visitorsModel->getParsedVisitorsData($this->args);
+        $chartData = $this->visitorsModel->getParsedPlatformData($this->args);
 
         return [
             'search_engine_chart_data' => $this->getSearchEnginesChartData(),

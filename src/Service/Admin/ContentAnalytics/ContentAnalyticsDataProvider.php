@@ -105,7 +105,7 @@ class ContentAnalyticsDataProvider
 
     public function getVisitorsData()
     {
-        return $this->visitorsModel->getParsedVisitorsData($this->args);
+        return $this->visitorsModel->getParsedPlatformData($this->args);
     }
 
     public function getChartsData()

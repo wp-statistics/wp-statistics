@@ -220,7 +220,7 @@ class VisitorsModel extends BaseModel
         return $result ? $result : [];
     }
 
-    public function getParsedVisitorsData($args, $bypassCache = false)
+    public function getParsedPlatformData($args, $bypassCache = false)
     {
         $data = $this->getVisitorsData($args, $bypassCache);
 
@@ -228,8 +228,7 @@ class VisitorsModel extends BaseModel
             'platform' => [],
             'agent'    => [],
             'device'   => [],
-            'model'    => [],
-            'country'  => []
+            'model'    => []
         ];
 
         if (!empty($data)) {
@@ -249,12 +248,6 @@ class VisitorsModel extends BaseModel
                     $result['agent'][$item->agent]++;
                 }
 
-                if (empty($result['country'][$item->location])) {
-                    $result['country'][$item->location] = 1;
-                } else {
-                    $result['country'][$item->location]++;
-                }
-
                 if (empty($result['device'][$item->device])) {
                     $result['device'][$item->device] = 1;
                 } else {
@@ -267,10 +260,6 @@ class VisitorsModel extends BaseModel
                     $result['model'][$item->model]++;
                 }
             }
-
-            // Sort and limit country
-            arsort($result['country']);
-            $result['country'] = array_slice($result['country'], 0, 10);
         }
 
         return $result;
