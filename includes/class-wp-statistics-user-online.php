@@ -333,13 +333,21 @@ class UserOnline
             }
 
             // Online For Time
-            $time_diff = ($items->timestamp - $items->created);
-            if ($time_diff > 3600) {
-                $item['online_for'] = date("H:i:s", ($items->timestamp - $items->created)); // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date	
-            } else if ($time_diff > 60) {
-                $item['online_for'] = "00:" . date("i:s", ($items->timestamp - $items->created)); // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
+            $current_time = time();
+            $time_diff    = ($items->timestamp - $items->created);
+
+            if ($time_diff == 0) {
+                $time_diff = ($current_time - $items->created);
+            }
+
+            if ($time_diff < 1) {
+                $item['online_for'] = "00:00:00";
+            } else if ($time_diff >= 3600) {
+                $item['online_for'] = gmdate("H:i:s", $time_diff); // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
+            } else if ($time_diff >= 60) {
+                $item['online_for'] = "00:" . gmdate("i:s", $time_diff); // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
             } else {
-                $item['online_for'] = "00:00:" . date("s", ($items->timestamp - $items->created)); // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
+                $item['online_for'] = "00:00:" . str_pad($time_diff, 2, "0", STR_PAD_LEFT); // Display seconds correctly
             }
 
             $list[] = $item;
