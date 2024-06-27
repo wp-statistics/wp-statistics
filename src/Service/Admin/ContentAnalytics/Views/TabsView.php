@@ -60,7 +60,8 @@ class TabsView extends BaseTabView
             ];
 
             if ($this->isLockedTab($postType)) {
-                $tab['locked'] = true;
+                $tab['locked']  = true;
+                $tab['tooltip'] = esc_html__('To view reports for all your custom post types, you need to have the Data Plus add-on.', 'wp-statistics');
             }
 
             $tabs[] = $tab;
