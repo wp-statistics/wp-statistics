@@ -36,7 +36,7 @@ class ContentAnalyticsDataProvider
             $date       = date('Y-m-d', strtotime("-$i days"));
             $dateFilter = ['date' => ['from' => $date, 'to' => $date]];
 
-            $result['labels'][]     = date_i18n('j M', strtotime($date));
+            $result['labels'][]     = date_i18n(get_option('date_format'), strtotime($date));
             $result['visitors'][]   = $this->visitorsModel->countVisitors(array_merge($this->args, $dateFilter));
             $result['views'][]      = $this->viewsModel->countViews(array_merge($this->args, $dateFilter));
             $result['posts'][]      = $this->postsModel->countPosts(array_merge($this->args, $dateFilter));
@@ -65,7 +65,7 @@ class ContentAnalyticsDataProvider
         $datesList = array_keys($datesList);
 
         $result = [
-            'labels'    => array_map(function($date) { return date_i18n('j M', strtotime($date)); }, $datesList),
+            'labels'    => array_map(function($date) { return date_i18n(get_option('date_format'), strtotime($date)); }, $datesList),
             'datasets'  => []
         ];
 
