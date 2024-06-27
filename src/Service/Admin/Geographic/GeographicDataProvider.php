@@ -131,27 +131,27 @@ class GeographicDataProvider
         ];
     }
 
-    public function getChartsData()
+    public function getSingleCountryChartsData()
     {
-        $chartData = $this->visitorsModel->getParsedPlatformData($this->args);
+        $platformData = $this->visitorsModel->getParsedPlatformData($this->args);
 
         return [
             'search_engine_chart_data' => $this->getSearchEnginesChartData(),
             'os_chart_data'            => [
-                'labels' => array_keys($chartData['platform']),
-                'data'   => array_values($chartData['platform'])
+                'labels' => array_keys($platformData['platform']),
+                'data'   => array_values($platformData['platform'])
             ],
             'browser_chart_data'       => [
-                'labels' => array_keys($chartData['agent']),
-                'data'   => array_values($chartData['agent'])
+                'labels' => array_keys($platformData['agent']),
+                'data'   => array_values($platformData['agent'])
             ],
             'device_chart_data'        => [
-                'labels' => array_keys($chartData['device']),
-                'data'   => array_values($chartData['device'])
+                'labels' => array_keys($platformData['device']),
+                'data'   => array_values($platformData['device'])
             ],
             'model_chart_data'         => [
-                'labels' => array_keys($chartData['model']),
-                'data'   => array_values($chartData['model'])
+                'labels' => array_keys($platformData['model']),
+                'data'   => array_values($platformData['model'])
             ],
         ];
     }
