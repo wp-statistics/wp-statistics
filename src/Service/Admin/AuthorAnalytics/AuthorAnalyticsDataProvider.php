@@ -174,6 +174,24 @@ class AuthorAnalyticsDataProvider
         return $data;
     }
 
+    
+    public function getAuthorsChartData()
+    {
+        $data = [
+            'publish_chart_data'         => $this->getPublishingChartData(),
+            'views_per_posts_chart_data' => [
+                'data'          => $this->getViewsPerPostsChartData(),
+                'chartLabel'    => sprintf(esc_html__('Views/Published %s', 'wp-statistics'),Helper::getPostTypeName($this->args['post_type'])),
+                'yAxisLabel'    => sprintf(esc_html__('Published %s', 'wp-statistics'), Helper::getPostTypeName($this->args['post_type'])),
+                'xAxisLabel'    => sprintf(esc_html__('%s Views', 'wp-statistics'), Helper::getPostTypeName($this->args['post_type'], true))
+            ]
+        ];
+
+        return $data;
+    }
+
+
+
     public function getAuthorSingleData()
     {
         $totalViews         = $this->viewsModel->countViews($this->args);

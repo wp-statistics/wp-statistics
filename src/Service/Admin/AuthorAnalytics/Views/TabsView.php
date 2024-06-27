@@ -33,24 +33,7 @@ class TabsView extends BaseTabView
 
         $dataProvider = new $this->dataProvider($args);
 
-        wp_localize_script(Admin_Assets::$prefix, 'Wp_Statistics_Author_Analytics_Object', [
-            'publish_chart_data'         => $dataProvider->getPublishingChartData(),
-            'views_per_posts_chart_data' => [
-                'data'       => $dataProvider->getViewsPerPostsChartData(),
-                'chartLabel' => sprintf(
-                    esc_html__('Views/Published %s', 'wp-statistics'),
-                    Helper::getPostTypeName($postType)
-                ),
-                'yAxisLabel' => sprintf(
-                    esc_html__('Published %s', 'wp-statistics'),
-                    Helper::getPostTypeName($postType)
-                ),
-                'xAxisLabel' => sprintf(
-                    esc_html__('%s Views', 'wp-statistics'),
-                    Helper::getPostTypeName($postType, true)
-                )
-            ]
-        ]);
+        wp_localize_script(Admin_Assets::$prefix, 'Wp_Statistics_Author_Analytics_Object', $dataProvider->getAuthorsChartData());
 
         return $dataProvider->getAuthorsPerformanceData();
     }
