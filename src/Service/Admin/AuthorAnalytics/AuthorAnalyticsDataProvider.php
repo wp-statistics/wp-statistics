@@ -155,6 +155,25 @@ class AuthorAnalyticsDataProvider
         ];
     }
 
+    public function getAuthorSingleChartData()
+    {
+        $platformData = $this->visitorsModel->getParsedPlatformData($this->args);
+
+        $data = [
+            'os_chart_data'         => [
+                'labels'    => array_keys($platformData['platform']), 
+                'data'      => array_values($platformData['platform'])
+            ],
+            'browser_chart_data'    => [
+                'labels'    => array_keys($platformData['agent']), 
+                'data'      => array_values($platformData['agent'])
+            ],
+            'publish_chart_data'    => $this->getPublishingChartData()
+        ];
+
+        return $data;
+    }
+
     public function getAuthorSingleData()
     {
         $totalViews         = $this->viewsModel->countViews($this->args);
@@ -169,13 +188,11 @@ class AuthorAnalyticsDataProvider
         $topPostsByComment  = $this->postsModel->getPostsCommentsData($this->args);
         $topPostsByWords    = $this->postsModel->getPostsWordsData($this->args);
 
-        $visitorsData       = $this->visitorsModel->getParsedPlatformData($this->args);
         $visitorsSummary    = $this->visitorsModel->getVisitorsSummary($this->args);
         $viewsSummary       = $this->viewsModel->getViewsSummary($this->args);
 
         $data = [
             'visit_summary' => array_replace_recursive($visitorsSummary, $viewsSummary),
-            'visitors_data' => $visitorsData,
             'taxonomies'    => $taxonomies,
             'overview'      => [
                 'posts'         => [
