@@ -24,7 +24,6 @@ class SingleCountryView extends BaseView
         $args = [
             'title'     => sprintf(esc_html__('%s Traffic Report', 'wp-statistics'), Country::getName(Request::get('country'))),
             'backUrl'   => Menus::admin_url('geographic'),
-            'tooltip'   => esc_html__('Tooltip', 'wp-statistics'),
             'backTitle' => esc_html__('Geographic', 'wp-statistics'),
         ];
 
