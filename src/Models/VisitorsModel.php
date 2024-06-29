@@ -236,28 +236,36 @@ class VisitorsModel extends BaseModel
                 // Remove device subtype, for example: mobile:smart -> mobile
                 $item->device = !empty($item->device) ? Helper::getDeviceCategoryName($item->device) : esc_html__('Unknown', 'wp-statistics');
 
-                if (empty($result['platform'][$item->platform])) {
-                    $result['platform'][$item->platform] = 1;
-                } else {
-                    $result['platform'][$item->platform]++;
+                if (!empty($item->platform) && $item->platform !== 'Unknown') {
+                    if (empty($result['platform'][$item->platform])) {
+                        $result['platform'][$item->platform] = 1;
+                    } else {
+                        $result['platform'][$item->platform]++;
+                    }
                 }
 
-                if (empty($result['agent'][$item->agent])) {
-                    $result['agent'][$item->agent] = 1;
-                } else {
-                    $result['agent'][$item->agent]++;
+                if (!empty($item->agent) && $item->agent !== 'Unknown') {
+                    if (empty($result['agent'][$item->agent])) {
+                        $result['agent'][$item->agent] = 1;
+                    } else {
+                        $result['agent'][$item->agent]++;
+                    }
                 }
 
-                if (empty($result['device'][$item->device])) {
-                    $result['device'][$item->device] = 1;
-                } else {
-                    $result['device'][$item->device]++;
+                if (!empty($item->device) && $item->device !== 'Unknown') {
+                    if (empty($result['device'][$item->device])) {
+                        $result['device'][$item->device] = 1;
+                    } else {
+                        $result['device'][$item->device]++;
+                    }
                 }
 
-                if (empty($result['model'][$item->model])) {
-                    $result['model'][$item->model] = 1;
-                } else {
-                    $result['model'][$item->model]++;
+                if (!empty($item->model) && $item->model !== 'Unknown') {
+                    if (empty($result['model'][$item->model])) {
+                        $result['model'][$item->model] = 1;
+                    } else {
+                        $result['model'][$item->model]++;
+                    }
                 }
             }
 
