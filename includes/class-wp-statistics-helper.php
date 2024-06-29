@@ -824,12 +824,14 @@ class Helper
         }
 
         $schedule   = Option::get('time_report', false);
-        $emailTitle = sprintf(__('Sent from %s', 'wp-statistics'), wp_parse_url(get_site_url())['host']);
-
+        $emailTitle = sprintf(
+            __('<span style="font-family: \'Roboto\', Arial, Helvetica, sans-serif; font-size: 16px; font-style: italic; font-weight: 400; line-height: 18.75px; text-align: center; color: #5E5E64;">Sent from </span><a style="color: #175DA4;text-decoration: underline" href="https://%1$s" target="_blank">%1$s</a>', 'wp-statistics'),
+            wp_parse_url(get_site_url(), PHP_URL_HOST)
+        );
 
         if ($schedule && array_key_exists($schedule, Schedule::getSchedules())) {
             $schedule   = Schedule::getSchedules()[$schedule];
-            $emailTitle .= sprintf(__('<br><small>Report Date Range: %s to %s</small>', 'wp-statistics'), $schedule['start'], $schedule['end']);
+            $emailTitle .= sprintf(__('<p style="margin-bottom:16px;margin-top:8px;padding:0;font-family: \'Roboto\',Arial, Helvetica, sans-serif; font-size: 16px; font-style: italic; font-weight: 500; line-height: 18.75px; text-align: center;"><small style="color:#5E5E64;font-family: \'Roboto\',Arial, Helvetica, sans-serif; font-size: 16px; font-style: italic; font-weight: 500; line-height: 18.75px; text-align: center">Report Date Range:</small> %s to %s</p>', 'wp-statistics'), $schedule['start'], $schedule['end']);
         }
 
         //Template Arg
