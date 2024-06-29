@@ -2,7 +2,7 @@
 
 namespace WP_Statistics\Models;
 
-use WP_STATISTICS\Referred;
+use WP_STATISTICS\Helper;
 use WP_STATISTICS\GeoIP;
 use WP_Statistics\Utils\Query;
 use WP_Statistics\Abstracts\BaseModel;
@@ -234,7 +234,7 @@ class VisitorsModel extends BaseModel
         if (!empty($data)) {
             foreach ($data as $item) {
                 // Remove device subtype, for example: mobile:smart -> mobile
-                $item->device = \WP_STATISTICS\Helper::getDeviceCategoryName($item->device);
+                $item->device = Helper::getDeviceCategoryName($item->device);
 
                 if (empty($result['platform'][$item->platform])) {
                     $result['platform'][$item->platform] = 1;
@@ -400,6 +400,7 @@ class VisitorsModel extends BaseModel
             'visitor.referred as referrer'
         ])
             ->from('visitor')
+            ->where('visitor.referred', 'NOT LIKE', '%' . Helper::get_domain_name(home_url()) . '%')
             ->whereNotNull('visitor.referred')
             ->groupBy('visitor.referred')
             ->orderBy('visitors')
