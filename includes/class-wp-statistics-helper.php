@@ -1591,20 +1591,26 @@ class Helper
      * @param bool $withTime
      * @return string
      */
-    public static function getDefaultDateFormat($withTime = false)
+    public static function getDefaultDateFormat($withTime = false, $excludeYear = false)
     {
         $dateFormat = get_option('date_format');
         $timeFormat = get_option('time_format');
 
         if (empty($dateFormat)) {
-            $dateFormat = 'g:i a';
+            $dateFormat = 'Y-m-d';
         }
 
         if (empty($timeFormat)) {
-            $timeFormat = 'H:i:s';
+            $timeFormat = 'g:i a';
         }
 
         $dateTimeFormat = $withTime ? $dateFormat . ' ' . $timeFormat : $dateFormat;
+
+        if ($excludeYear) {
+            $dateTimeFormat = str_replace(
+                [', Y', 'Y ,', 'Y', ',Y', 'Y,', 'y', ', y', 'y ,', ',y', 'y,'], '', $dateTimeFormat
+            );
+        }
         
         return $dateTimeFormat;
     }
