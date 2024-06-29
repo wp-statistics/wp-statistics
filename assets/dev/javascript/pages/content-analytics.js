@@ -123,7 +123,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                                 tickLength: 0,
                             },
                             ticks:{
-                                stepSize:5
+                                stepSize:1
                             },
                             title: {
                                 display: true,
