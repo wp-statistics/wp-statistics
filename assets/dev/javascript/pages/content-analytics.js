@@ -451,6 +451,9 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                         },
                     ]
                 },
+                interaction: {
+                    intersect: false,
+                },
                 options: {
                     plugins: {
                         legend: false
