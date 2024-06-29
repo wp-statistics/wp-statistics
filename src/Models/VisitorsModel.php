@@ -236,6 +236,23 @@ class VisitorsModel extends BaseModel
                 // Remove device subtype, for example: mobile:smart -> mobile
                 $item->device = !empty($item->device) ? Helper::getDeviceCategoryName($item->device) : esc_html__('Unknown', 'wp-statistics');
 
+                // Just show top 5 names, and show the rest of results as others
+                if (count($result['platform']) > 5) {
+                    $item->platform = esc_html__('Other', 'wp-statistics');
+                }
+
+                if (count($result['agent']) > 5) {
+                    $item->agent = esc_html__('Other', 'wp-statistics');
+                }
+
+                if (count($result['device']) > 5) {
+                    $item->device = esc_html__('Other', 'wp-statistics');
+                }
+
+                if (count($result['model']) > 5) {
+                    $item->model = esc_html__('Other', 'wp-statistics');
+                }
+
                 if (empty($result['platform'][$item->platform])) {
                     $result['platform'][$item->platform] = 1;
                 } else {
