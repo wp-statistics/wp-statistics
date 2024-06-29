@@ -1,6 +1,7 @@
 <?php
 
 use WP_STATISTICS\Helper;
+use WP_STATISTICS\Menus;
 use WP_Statistics\Utils\Request;
 
 $postId     = Request::get('post_id');
@@ -29,7 +30,7 @@ $postAuthor = get_post_field('post_author', $postId);
             <span class="wps-content-analytics-header__date_published"><?php echo get_the_date(Helper::getDefaultDateFormat(true), $postId) ?></span>
             <span class="wps-content-analytics-header__date_updated"><?php echo esc_html__('Updated on: ', 'wp-statistics') . get_the_modified_date(Helper::getDefaultDateFormat(true), $postId) ?></span>
             <span class="wps-content-analytics-header__author">
-                <a href="<?php echo get_author_posts_url($postAuthor) ?>"><?php echo get_the_author_meta('display_name', $postAuthor) ?></a>
+                <a href="<?php echo Menus::admin_url('author-analytics', ['type' => 'single-author', 'author_id' => $postAuthor]) ?>"><?php echo get_the_author_meta('display_name', $postAuthor) ?></a>
             </span>
         </div>
         <div class="wps-content-analytics-header__tags">
@@ -40,7 +41,7 @@ $postAuthor = get_post_field('post_author', $postId);
                     $terms = get_the_terms($postId, $taxonomy);
                     if ($terms) {
                         foreach ($terms as $term) {
-                            echo '<a href="' . get_term_link($term) . '">' . $term->name . '</a>';
+                            echo '<a href="' . add_query_arg(['type' => 'single', 'tax_id' => $term->term_id], Menus::admin_url('category-analytics')) . '">' . $term->name . '</a>';
                         }
                     }
                 }

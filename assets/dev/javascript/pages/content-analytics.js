@@ -55,12 +55,11 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                             pointWidth: 5.5,
                             pointHeight: 5.5,
                             pointBackgroundColor: '#0e9444',
-                            lineTension: 0.5
+                            tension: 0.4,
                         },
                         {
                             type: 'line',
                             label: wps_js._('visitors'),
-                            cubicInterpolationMode: 'monotone',
                             data: performanceData.visitors,
                             borderColor: '#4915b9',
                             backgroundColor: '#4915b9',
@@ -72,7 +71,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                             pointWidth: 5.5,
                             pointHeight: 5.5,
                             pointBackgroundColor: '#4915b9',
-                            lineTension: 0.5
+                            tension: 0.4
                         },
                         {
                             type: 'bar',
@@ -83,6 +82,9 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                             borderRadius: {topLeft: 10, topRight: 10},
                         },
                     ]
+                },
+                interaction: {
+                    intersect: false,
                 },
                 options: {
                     plugins: {
@@ -97,6 +99,9 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                             }
                         },
                         y: {
+                            ticks: {
+                                stepSize: 1,
+                            },
                             type: 'linear',
                             position: 'right',
                             grid: {
@@ -117,6 +122,9 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                                 drawBorder: false,
                                 tickLength: 0,
                             },
+                            ticks:{
+                                stepSize:1
+                            },
                             title: {
                                 display: true,
                                 text: `${wps_js._('published')} ${this.data.post_type}`,
@@ -131,6 +139,11 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
 
         generateOperatingSystemChart: function () {
             const OperatingSystemData = this.data.os_chart_data;
+
+            if (OperatingSystemData.data.length == 0) {
+                jQuery('#content_operating_systems').parent().html(wps_js.no_results());
+                return;
+            }
 
             const label_callback_content_operating_systems = function (tooltipItem) {
                 return tooltipItem.label;
@@ -182,6 +195,11 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         generateBrowsersChartData: function () {
             const browsersData = this.data.browser_chart_data;
 
+            if (browsersData.data.length == 0) {
+                jQuery('#content_browsers').parent().html(wps_js.no_results());
+                return;
+            }
+
             const label_callback_content_browsers = function (tooltipItem) {
                 return tooltipItem.label;
             }
@@ -232,6 +250,11 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         generateDeviceModelsChart: function () {
             const deviceModelData = this.data.model_chart_data;
 
+            if (deviceModelData.data.length == 0) {
+                jQuery('#content_device_models').parent().html(wps_js.no_results());
+                return;
+            }
+
             const label_callback_content_device_model = function (tooltipItem) {
                 return tooltipItem.label;
             }
@@ -281,6 +304,12 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         },
         generateDeviceUsageChart: function () {
             const deviceUsageData = this.data.device_chart_data;
+
+            if (deviceUsageData.data.length == 0) {
+                jQuery('#content_device_usage').parent().html(wps_js.no_results());
+                return;
+            }
+
             const label_callback_content_device_usage = function (tooltipItem) {
                 return tooltipItem.label;
             }
@@ -331,6 +360,11 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         generateSearchEngineChart: function () {
             const searchData = this.data.search_engine_chart_data;
 
+            if (searchData.datasets.length == 0) {
+                jQuery('#search-engines-chart').parent().html(wps_js.no_results());
+                return;
+            }
+
             const searchEngineColors = [
                 'rgba(244, 161, 31, 0.3)',
                 'rgba(63, 158, 221, 0.3)',
@@ -367,7 +401,10 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                     },
                     scales: {
                         y: {
-                            beginAtZero: true
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 1,
+                            }
                         }
                     }
                 }
@@ -397,12 +434,11 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                             pointWidth: 5.5,
                             pointHeight: 5.5,
                             pointBackgroundColor: '#0e9444',
-                            lineTension: 0.5
+                            tension: 0.4,
                         },
                         {
                             type: 'line',
                             label: 'Visitors',
-                            cubicInterpolationMode: 'monotone',
                             data: performanceSingleData.visitors,
                             borderColor: '#4915b9',
                             backgroundColor: '#4915b9',
@@ -414,9 +450,12 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                             pointWidth: 5.5,
                             pointHeight: 5.5,
                             pointBackgroundColor: '#4915b9',
-                            lineTension: 0.5
+                            tension: 0.4,
                         },
                     ]
+                },
+                interaction: {
+                    intersect: false,
                 },
                 options: {
                     plugins: {
@@ -439,6 +478,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                                 borderDash: [5, 5]
                             },
                             ticks: {
+                                stepSize: 1,
                                 callback: function (value, index, values) {
                                     return value;
                                 }

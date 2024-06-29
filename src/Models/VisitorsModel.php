@@ -2,7 +2,7 @@
 
 namespace WP_Statistics\Models;
 
-use WP_STATISTICS\Referred;
+use WP_STATISTICS\Helper;
 use WP_STATISTICS\GeoIP;
 use WP_Statistics\Utils\Query;
 use WP_Statistics\Abstracts\BaseModel;
@@ -234,30 +234,52 @@ class VisitorsModel extends BaseModel
         if (!empty($data)) {
             foreach ($data as $item) {
                 // Remove device subtype, for example: mobile:smart -> mobile
-                $item->device = \WP_STATISTICS\Helper::getDeviceCategoryName($item->device);
+                $item->device = !empty($item->device) ? Helper::getDeviceCategoryName($item->device) : esc_html__('Unknown', 'wp-statistics');
 
-                if (empty($result['platform'][$item->platform])) {
-                    $result['platform'][$item->platform] = 1;
-                } else {
-                    $result['platform'][$item->platform]++;
+                if (!empty($item->platform) && $item->platform !== 'Unknown') {
+                    if (empty($result['platform'][$item->platform])) {
+                        $result['platform'][$item->platform] = 1;
+                    } else {
+                        $result['platform'][$item->platform]++;
+                    }
                 }
 
-                if (empty($result['agent'][$item->agent])) {
-                    $result['agent'][$item->agent] = 1;
-                } else {
-                    $result['agent'][$item->agent]++;
+                if (!empty($item->agent) && $item->agent !== 'Unknown') {
+                    if (empty($result['agent'][$item->agent])) {
+                        $result['agent'][$item->agent] = 1;
+                    } else {
+                        $result['agent'][$item->agent]++;
+                    }
                 }
 
-                if (empty($result['device'][$item->device])) {
-                    $result['device'][$item->device] = 1;
-                } else {
-                    $result['device'][$item->device]++;
+                if (!empty($item->device) && $item->device !== 'Unknown') {
+                    if (empty($result['device'][$item->device])) {
+                        $result['device'][$item->device] = 1;
+                    } else {
+                        $result['device'][$item->device]++;
+                    }
                 }
 
-                if (empty($result['model'][$item->model])) {
-                    $result['model'][$item->model] = 1;
-                } else {
-                    $result['model'][$item->model]++;
+                if (!empty($item->model) && $item->model !== 'Unknown') {
+                    if (empty($result['model'][$item->model])) {
+                        $result['model'][$item->model] = 1;
+                    } else {
+                        $result['model'][$item->model]++;
+                    }
+                }
+            }
+
+            foreach ($result as $key => $data) {
+                arsort($data);
+
+                if (count($data) > 4) {
+                    // Get top 5 results
+                    $topData = array_slice($data, 0, 4, true);
+                    
+                    // Show the rest of the results as others
+                    $otherLabel     = esc_html__('Other', 'wp-statistics');
+                    $otherData      = [$otherLabel => array_sum(array_diff_key($data, $topData))];
+                    $result[$key]   = array_merge($topData, $otherData);
                 }
             }
         }
@@ -400,6 +422,7 @@ class VisitorsModel extends BaseModel
             'visitor.referred as referrer'
         ])
             ->from('visitor')
+            ->where('visitor.referred', 'NOT LIKE', '%' . Helper::get_domain_name(home_url()) . '%')
             ->whereNotNull('visitor.referred')
             ->groupBy('visitor.referred')
             ->orderBy('visitors')

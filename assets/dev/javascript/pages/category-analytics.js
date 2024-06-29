@@ -52,12 +52,11 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                             pointWidth: 5.5,
                             pointHeight: 5.5,
                             pointBackgroundColor: '#0e9444',
-                            lineTension: 0.5
+                            tension: 0.4,
                         },
                         {
                             type: 'line',
                             label: wps_js._('visitors'),
-                            cubicInterpolationMode: 'monotone',
                             data: performanceData.visitors,
                             borderColor: '#4915b9',
                             backgroundColor: '#4915b9',
@@ -69,7 +68,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                             pointWidth: 5.5,
                             pointHeight: 5.5,
                             pointBackgroundColor: '#4915b9',
-                            lineTension: 0.5
+                            tension: 0.4
                         },
                         {
                             type: 'bar',
@@ -80,6 +79,9 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                             borderRadius: {topLeft: 10, topRight: 10},
                         },
                     ]
+                },
+                interaction: {
+                    intersect: false,
                 },
                 options: {
                     plugins: {
@@ -94,6 +96,9 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                             }
                         },
                         y: {
+                            ticks: {
+                                stepSize: 1,
+                            },
                             type: 'linear',
                             position: 'right',
                             grid: {
@@ -113,6 +118,9 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                                 display: false,
                                 drawBorder: false,
                                 tickLength: 0,
+                            },
+                            ticks:{
+                                stepSize:1
                             },
                             title: {
                                 display: true,
@@ -155,6 +163,9 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                         }
                     ]
                 },
+                interaction: {
+                    intersect: false,
+                },
                 options: {
                     plugins: {
                         legend: false
@@ -170,6 +181,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                             type: 'linear',
                             position: 'left',
                             ticks: {
+                                stepSize: 1,
                                 callback: function (value, index, values) {
                                     return value + 'K';
                                 }
@@ -469,7 +481,10 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                     },
                     scales: {
                         y: {
-                            beginAtZero: true
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 1,
+                            }
                         }
                     }
                 }

@@ -28,7 +28,7 @@
                     <tbody>
                         <?php foreach ($data as $item) : ?>
                             <tr>
-                                <td class="wps-pd-l"><b><?php echo esc_html($item['label']) ?></b></td>
+                                <td class="wps-pd-l"><?php echo esc_html($item['label']) ?></td>
                                 <td class="wps-pd-l"><?php echo esc_html($item['visitors']) ?></td>
                                 <td class="wps-pd-l"><?php echo esc_html($item['views']) ?></td>
                             </tr>
