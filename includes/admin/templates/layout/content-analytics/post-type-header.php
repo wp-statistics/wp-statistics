@@ -41,7 +41,7 @@ $postAuthor = get_post_field('post_author', $postId);
                     $terms = get_the_terms($postId, $taxonomy);
                     if ($terms) {
                         foreach ($terms as $term) {
-                            echo '<a href="' . get_term_link($term) . '">' . $term->name . '</a>';
+                            echo '<a href="' . add_query_arg(['type' => 'single', 'tax_id' => $term->term_id], Menus::admin_url('category-analytics')) . '">' . $term->name . '</a>';
                         }
                     }
                 }
