@@ -33,8 +33,10 @@
                         <span class="wps-tooltip wps-tooltip--coming_soon" title="<?php echo esc_html__('Coming soon', 'wp-statistics') ?>"><?php echo esc_html($tab['title']); ?> <i class="wps-tooltip-icon coming-soon"></i></span>
                     <?php elseif (isset($tab['locked'])) : ?>
                         <a href="<?php echo esc_attr($tab['link']); ?>" class="wps-locked">
-                                 <?php echo esc_html($tab['title']); ?>
-                                <span class="wps-tooltip" title="<?php echo esc_html__('To view reports for all your custom post types, you need to have the Data Plus add-on.', 'wp-statistics') ?>"><i class="wps-tooltip-icon info"></i></span>
+                            <?php echo esc_html($tab['title']); ?>
+                            <?php if (!empty($tab['tooltip'])) : ?>
+                                <span class="wps-tooltip" title="<?php echo esc_attr($tab['tooltip']) ?>"><i class="wps-tooltip-icon info"></i></span>
+                            <?php endif; ?>
                         </a>
                     <?php else: ?>
                         <a href="<?php echo esc_attr($tab['link']); ?>">
