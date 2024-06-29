@@ -2,6 +2,8 @@
 
 namespace WP_STATISTICS;
 
+use WP_Statistics\Components\AssetNameObfuscator;
+
 class Install
 {
 
@@ -644,6 +646,17 @@ class Install
          */
         //self::delete_duplicate_data(); // todo to move in background cronjob
 
+        /**
+         * Delete all hashed files with old hash format.
+         *
+         * @version 14.8.1
+         */
+        if (Option::get('bypass_ad_blockers', false) && $installed_version == '14.8') {
+            $assetNameObfuscator = new AssetNameObfuscator();
+            $assetNameObfuscator->deleteAllHashedFiles();
+            $assetNameObfuscator->deleteDatabaseOption();
+        }
+
         // Store the new version information.
         update_option('wp_statistics_plugin_version', WP_STATISTICS_VERSION);
     }
@@ -658,6 +671,7 @@ class Install
      * get_require_number_update     -> Get number of rows that require update page type
      * is_require_update_page        -> Check Wp-statistics require update page table
      * get_page_type_by_obj          -> Get Page Type by information
+     * @todo, this legacy functionality should move to Background Processing
      */
     public static function init_page_type_updater()
     {
@@ -929,7 +943,7 @@ class Install
                     //Check Url is contain
                     $term_link = get_term_link($term);
                     $term_link = ltrim(str_ireplace(get_bloginfo('url'), "", $term_link), "/");
-                    if (stristr($page_url, $term_link) === false) {
+                    if (stripos($page_url, $term_link) === false) {
                         //Return Unknown
                     } else {
                         //Check Type of taxonomy

@@ -81,9 +81,10 @@ class Visitor
         global $wpdb;
 
         $columns      = (empty($fields) ? '*' : Helper::prepareArrayToStringForQuery($fields));
+        $columns      = str_replace("'", '', $columns);
         $last_counter = ($date === false ? TimeZone::getCurrentDate('Y-m-d') : $date);
         $visitor      = $wpdb->get_row(
-            $wpdb->prepare("SELECT $columns FROM `" . DB::table('visitor') . "` WHERE `last_counter` = %s AND `ip` = %s", $last_counter, $ip)
+            $wpdb->prepare("SELECT {$columns} FROM `" . DB::table('visitor') . "` WHERE `last_counter` = %s AND `ip` = %s", $last_counter, $ip)
         );
 
         return (!$visitor ? false : $visitor);
@@ -268,7 +269,7 @@ class Visitor
         }
 
         // Prepare Query
-        $args['sql'] = $wpdb->prepare("SELECT * FROM `" . DB::table('visitor') . "` WHERE last_counter = %s ORDER BY hits DESC", $sql_time);
+        $args['sql'] = $wpdb->prepare("SELECT *, CAST(`version` AS SIGNED) AS `casted_version` FROM `" . DB::table('visitor') . "` WHERE last_counter = %s ORDER BY hits DESC", $sql_time);
 
         // Get Visitors Data
         return self::get($args);
@@ -299,7 +300,7 @@ class Visitor
 
         // Prepare the Query & Set Pagination
         if (empty($args['sql'])) {
-            $args['sql'] = "SELECT * FROM `" . DB::table('visitor') . "` ORDER BY ID DESC";
+            $args['sql'] = "SELECT *, CAST(`version` AS SIGNED) AS `casted_version` FROM `" . DB::table('visitor') . "` ORDER BY ID DESC";
         }
 
         $args['sql'] = $args['sql'] . $wpdb->prepare(" LIMIT %d, %d", $limit, $args['per_page']);
@@ -329,7 +330,7 @@ class Visitor
 
             $ip       = esc_html($items->ip);
             $agent    = esc_html($items->agent);
-            $version  = esc_html($items->version);
+            $version  = esc_html(isset($items->casted_version) ? $items->casted_version : $items->version);
             $platform = esc_html($items->platform);
 
             $item = array(
@@ -339,7 +340,7 @@ class Visitor
                 'date'     => date_i18n(get_option('date_format'), strtotime($items->last_counter)),
                 'agent'    => $agent,
                 'platform' => $platform,
-                'version'  => esc_html($items->version)
+                'version'  => esc_html($version)
             );
 
             if (isset($items->date)) {

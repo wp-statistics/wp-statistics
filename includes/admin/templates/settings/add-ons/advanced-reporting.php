@@ -7,15 +7,15 @@ global $wp_version;
 ?>
 <?php
 if (!$isAdvancedReportingActive) echo Admin_Template::get_template('layout/partials/addon-premium-feature',
-    ['addon_slug'           => esc_url(WP_STATISTICS_SITE_URL . '/product/wp-statistics-advanced-reporting/?utm_source=wp-statistics&utm_medium=link&utm_campaign=plugin-settings'),
-     'addon_title'          => 'Advanced Reporting Add-On',
-     'addon_description'    => 'The settings on this page are part of the Advanced Reporting add-on, which allows you to stay up-to-date on your website\'s performance by receiving graphical representations of your website\'s statistics directly in your inbox.',
-     'addon_features'       => [
+    ['addon_slug'        => esc_url(WP_STATISTICS_SITE_URL . '/product/wp-statistics-advanced-reporting/?utm_source=wp-statistics&utm_medium=link&utm_campaign=plugin-settings'),
+     'addon_title'       => 'Advanced Reporting Add-On',
+     'addon_description' => 'The settings on this page are part of the Advanced Reporting add-on, which allows you to stay up-to-date on your website\'s performance by receiving graphical representations of your website\'s statistics directly in your inbox.',
+     'addon_features'    => [
          'Receive graphical statistics charts via email.',
          'Schedule reports to be sent to any inbox of your choice.',
          'Monitor your website\'s traffic and activity with no hassle.',
      ],
-     'addon_info'           => 'Keep a close eye on your website\'s performance with the Advanced Reporting add-on.',
+     'addon_info'        => 'Keep a close eye on your website\'s performance with the Advanced Reporting add-on.',
     ], true);
 ?>
 
@@ -226,7 +226,7 @@ if (!$isAdvancedReportingActive) echo Admin_Template::get_template('layout/parti
                     <select name="wps_addon_settings[advanced_reporting][excluded_top_pages][]" id="wps_addon_settings[advanced_reporting][excluded_top_pages]" multiple>
                         <?php foreach (get_pages(['hierarchical' => true]) as $page) { ?>
                             <?php $selected = in_array($page->ID, WP_STATISTICS\Option::getByAddon('excluded_top_pages', 'advanced_reporting', [])) ? ' selected="selected" ' : ''; ?>
-                            <option value="<?php echo esc_attr($page->ID) ?>>" <?php echo $selected ?>><?php echo $page->post_title ?></option>
+                            <option value="<?php echo esc_attr($page->ID) ?>>" <?php echo esc_attr($selected) ?>><?php echo esc_attr($page->post_title); ?></option>
                         <?php } ?>
                     </select>
                 </td>
@@ -326,13 +326,13 @@ if (!$isAdvancedReportingActive) echo Admin_Template::get_template('layout/parti
                 ?>
                 <script>
                     var wps_ar_vars = {
-                        'default_avatar_url': "<?php echo $default_logo_url ?>"
+                        'default_avatar_url': "<?php echo esc_url($default_logo_url); ?>"
                     }
                 </script>
                 <td>
-                    <div class='wps-ar-preview-wrapper'><img id='wps-ar-image-preview' src='<?php echo esc_attr($header_logo_url) ?>' alt="Header Logo"></div>
+                    <div class='wps-img-preview-wrapper'><img style="max-width: 300px; max-height: 200px;" id='wps-upload-image-preview' src='<?php echo esc_attr($header_logo_url) ?>' alt="Header Logo"></div>
                     <input id="wps_addon_settings[advanced_reporting][custom_header_logo]" name="wps_addon_settings[advanced_reporting][custom_header_logo]" type="text" class="regular-text" value="<?php echo esc_attr(WP_STATISTICS\Option::getByAddon('custom_header_logo', 'advanced_reporting')) ?>"/>
-                    <span>&nbsp;<input type="button" class="wps_ar_settings_upload_button button" value="<?php esc_html_e('Upload File', 'wp-statistics-advanced-reporting') ?>" style="margin: 0; padding-top: 13px; padding-bottom: 13px;"/>&nbsp;<input type="button" class="wps_ar_settings_clear_upload_button button" style="<?php echo $display_clear ?> margin: 0; padding-top: 13px; padding-bottom: 13px;" value="<?php esc_html_e('X', 'wp-statistics-advanced-reporting') ?>"/></span>
+                    <span>&nbsp;<input type="button" class="wps_img_settings_upload_button button" value="<?php esc_html_e('Upload File', 'wp-statistics-advanced-reporting') ?>" style="margin: 0; padding-top: 13px; padding-bottom: 13px;"/>&nbsp;<input type="button" class="wps_img_settings_clear_upload_button button" style="<?php echo esc_attr($display_clear); ?> margin: 0; padding-top: 13px; padding-bottom: 13px;" value="<?php esc_html_e('X', 'wp-statistics-advanced-reporting') ?>"/></span>
 
                     <p class="description"><?php esc_html_e('Upload your own logo to replace the default in report headers, establishing your brand\'s presence in all reports.', 'wp-statistics'); ?></p>
                 </td>

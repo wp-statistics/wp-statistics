@@ -2,6 +2,9 @@
 
 namespace WP_STATISTICS;
 
+use WP_Statistics\Models\VisitorsModel;
+use WP_Statistics\Service\Analytics\GeoIpService;
+
 class GeoIP
 {
     /**
@@ -131,19 +134,6 @@ class GeoIP
     public static function getCountry($ip = false, $return = 'isoCode')
     {
 
-        // Check in WordPress Cache
-        $user_country = wp_cache_get('country-' . $ip, 'wp-statistics');
-        if ($user_country != false) {
-            return $user_country;
-        }
-
-        // Check in WordPress Database
-        $user_country = self::getUserCountryFromDB($ip);
-        if ($user_country != false) {
-            wp_cache_set('country-' . $ip, $user_country, 'wp-statistics', DAY_IN_SECONDS);
-            return $user_country;
-        }
-
         // Default Country Name
         $default_country = self::getDefaultCountryCode();
 
@@ -184,13 +174,7 @@ class GeoIP
             }
         }
 
-        # Check Has Location
-        if (isset($location) and !empty($location)) {
-            wp_cache_set('country-' . $ip, $location, 'wp-statistics', DAY_IN_SECONDS);
-            return $location;
-        }
-
-        return $default_country;
+        return !empty($location) ? $location : $default_country;
     }
 
     /**
@@ -272,10 +256,10 @@ class GeoIP
             // Apply filter to allow third-party plugins to modify the download url
             $download_url = apply_filters('wp_statistics_geo_ip_download_url', $download_url, GeoIP::$library[$pack]['source'], $pack);
 
-            ini_set('max_execution_time', '60');
+            ini_set('max_execution_time', '120');
 
             $response = wp_remote_get($download_url, array(
-                'timeout'   => 60,
+                'timeout'   => 120,
                 'sslverify' => false
             ));
 
@@ -364,14 +348,13 @@ class GeoIP
                         // Update the options to reflect the new download.
                         if ($type == "update") {
                             Option::update('last_geoip_dl', time());
-                            Option::update('update_geoip', false);
                         }
 
                         // Populate any missing GeoIP information if the user has selected the option.
-                        if ($pack == "country") {
-                            if (Option::get('geoip') && GeoIP::IsSupport() && Option::get('auto_pop')) {
-                                self::Update_GeoIP_Visitor();
-                            }
+                        if (Option::get('geoip') && GeoIP::IsSupport() && Option::get('auto_pop')) {
+                            // Update GeoIP data for visitors with incomplete information
+                            $geoIpService = new GeoIpService();
+                            $geoIpService->batchUpdateIncompleteGeoIpForVisitors();
                         }
                     }
                 }
@@ -394,61 +377,6 @@ class GeoIP
         }
 
         return $result;
-    }
-
-    /**
-     * Update All GEO-IP Visitors
-     *
-     * @return array
-     */
-    public static function Update_GeoIP_Visitor()
-    {
-        global $wpdb;
-
-        // Find all rows in the table that currently don't have GeoIP info or have an unknown ('000') location.
-        $result = $wpdb->get_results(
-            $wpdb->prepare("SELECT id,ip FROM `" . DB::table('visitor') . "` WHERE location = '' or location = %s or location IS NULL", GeoIP::$private_country)
-        );
-
-        // Try create a new reader instance.
-        $reader = false;
-        if (Option::get('geoip')) {
-            $reader = GeoIP::Loader('country');
-        }
-
-        if ($reader === false) {
-            return array('status' => false, 'data' => __('Cannot Load GeoIP Database. Ensure It\'s Downloaded via Settings Page.', 'wp-statistics'));
-        }
-
-        $count = 0;
-
-        // Loop through all the missing rows and update them if we find a location for them.
-        foreach ($result as $item) {
-            $count++;
-
-            // If the IP address is only a hash, don't bother updating the record.
-            if (IP::IsHashIP($item->ip) === false and $reader != false) {
-                try {
-                    $record   = $reader->country($item->ip);
-                    $location = $record->country->isoCode;
-                    if ($location == "") {
-                        $location = GeoIP::$private_country;
-                    }
-                } catch (\Exception $e) {
-                    \WP_Statistics::log($e->getMessage());
-                    $location = GeoIP::$private_country;
-                }
-
-                // Update the row in the database.
-                $wpdb->update(
-                    DB::table('visitor'),
-                    array('location' => $location),
-                    array('id' => $item->id)
-                );
-            }
-        }
-
-        return array('status' => true, 'data' => sprintf(__('Updated %s GeoIP Records in Visitor Database.', 'wp-statistics'), $count));
     }
 
     /**

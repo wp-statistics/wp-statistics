@@ -1,7 +1,10 @@
 <?php
 
 namespace WP_STATISTICS;
+
 use WP_Statistics\Components\Singleton;
+use WP_Statistics\Service\Admin\NoticeHandler\Notice;
+use WP_Statistics\Service\Analytics\GeoIpService;
 
 class optimization_page extends Singleton
 {
@@ -44,10 +47,12 @@ class optimization_page extends Singleton
 
         // Update All GEO IP Country
         if (isset($_POST['submit'], $_POST['populate-submit']) && intval($_POST['populate-submit']) == 1) {
-            $result = GeoIP::Update_GeoIP_Visitor();
+            // Update GeoIP data for visitors with incomplete information
+            $geoIpService = new GeoIpService();
+            $geoIpService->batchUpdateIncompleteGeoIpForVisitors();
 
             // Show Notice
-            Helper::addAdminNotice($result['data'], ($result['status'] === false ? "error" : "success"));
+            Notice::addFlashNotice(__('GeoIP update for incomplete visitors initiated successfully.', 'wp-statistics'), 'success');
         }
 
         // Check Hash IP Update
@@ -55,7 +60,7 @@ class optimization_page extends Singleton
             $result = IP::Update_HashIP_Visitor();
 
             // Show Notice
-            Helper::addAdminNotice(sprintf(__('Successfully anonymized <b>%d</b> IP addresses using hash values.', 'wp-statistics'), $result), 'success');
+            Notice::addFlashNotice(sprintf(__('Successfully anonymized <b>%d</b> IP addresses using hash values.', 'wp-statistics'), $result), 'success');
         }
 
         // Re-install All DB Table
@@ -63,7 +68,7 @@ class optimization_page extends Singleton
             Install::create_table(false);
 
             // Show Notice
-            Helper::addAdminNotice(__('Installation Process Completed.', "wp-statistics"), "success");
+            Notice::addFlashNotice(__('Installation Process Completed.', "wp-statistics"), 'success');
         }
 
         // Optimize Tables
@@ -120,7 +125,7 @@ class optimization_page extends Singleton
                 }
 
                 // Show Notice
-                Helper::addAdminNotice($notice, "info");
+                Notice::addFlashNotice($notice);
             }
         }
 
@@ -149,7 +154,7 @@ class optimization_page extends Singleton
             }
 
             // Show Notice
-            Helper::addAdminNotice(__('Historical Data Successfully Updated.', "wp-statistics"), "success");
+            Notice::addFlashNotice(__('Historical Data Successfully Updated.', "wp-statistics"), "success");
         }
     }
 }

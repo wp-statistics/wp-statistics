@@ -1,3 +1,5 @@
+@use 'sass:math';
+
 .wps-ph-item {
   &, *,
   ::after, ::before {
@@ -33,19 +35,23 @@
     flex: 1 1 auto;
     display: flex;
     flex-flow: column;
-    padding-right: ($ph-gutter / 2);
-    padding-left: ($ph-gutter / 2);
+    padding-right: math.div($ph-gutter, 2);
+    padding-left: math.div($ph-gutter, 2);
+  }
+
+  &.wps-text-placeholder{
+    background: transparent;
   }
 }
 
 .wps-ph-row {
   display: flex;
   flex-wrap: wrap;
-  margin-bottom: ($ph-spacer / 2);
+  margin-bottom: math.div($ph-spacer, 2);
 
   div {
     height: 15px;
-    margin-bottom: ($ph-spacer / 2);
+    margin-bottom: math.div($ph-spacer, 2);
     background-color: $ph-color;
   }
   .big,
@@ -58,23 +64,32 @@
   }
 }
 
+@mixin wps-ph-col($num) {
+  flex: 0 0 math.div($num, 12);
+}
+
 .wps-ph-col-2 {
-  flex: 0 0 percentage(2 / 12);
+  @include wps-ph-col(2);
 }
+
 .wps-ph-col-4 {
-  flex: 0 0 percentage(4 / 12);
+  @include wps-ph-col(4);
 }
+
 .wps-ph-col-6 {
-  flex: 0 0 percentage(6 / 12);
+  @include wps-ph-col(6);
 }
+
 .wps-ph-col-8 {
-  flex: 0 0 percentage(8 / 12);
+  @include wps-ph-col(8);
 }
+
 .wps-ph-col-10 {
-  flex: 0 0 percentage(10 / 12);
+  @include wps-ph-col(10);
 }
+
 .wps-ph-col-12 {
-  flex: 0 0 percentage(12 / 12);
+  @include wps-ph-col(12);
 }
 
 .wps-ph-avatar {

@@ -89,8 +89,8 @@ class Schedule
 
         // Add the report schedule if it doesn't exist and is enabled.
         if (!wp_next_scheduled('wp_statistics_report_hook') && Option::get('stats_report')) {
-            $timeReports = Option::get('time_report');
-            $schedulesInterval = wp_get_schedules();
+            $timeReports         = Option::get('time_report');
+            $schedulesInterval   = wp_get_schedules();
             $timeReportsInterval = 86400;
             if (isset($schedulesInterval[$timeReports]['interval'])) {
                 $timeReportsInterval = $schedulesInterval[$timeReports]['interval'];
@@ -119,6 +119,37 @@ class Schedule
     }
 
     /**
+     * Retrieves an array of schedules with their intervals and display names.
+     *
+     * @return array
+     */
+    public static function getSchedules()
+    {
+        $schedules = [
+            'weekly'   => array(
+                'interval' => 604800,
+                'display'  => __('Once Weekly'),
+                'start'    => date('Y-m-d', strtotime("-1 week")),
+                'end'      => date('Y-m-d')
+            ),
+            'biweekly' => array(
+                'interval' => 1209600,
+                'display'  => __('Once Every 2 Weeks'),
+                'start'    => date('Y-m-d', strtotime("-2 week")),
+                'end'      => date('Y-m-d')
+            ),
+            '4weeks'   => array(
+                'interval' => 2419200,
+                'display'  => __('Once Every 4 Weeks'),
+                'start'    => date('Y-m-d', strtotime("-4 week")),
+                'end'      => date('Y-m-d')
+            )
+        ];
+
+        return apply_filters('wp_statistics_cron_schedules', $schedules);
+    }
+
+    /**
      * Define New Cron Schedules Time in WordPress
      *
      * @param array $schedules
@@ -128,23 +159,14 @@ class Schedule
     {
 
         // Adds once weekly to the existing schedules.
-        $WP_Statistics_schedules = array(
-            'weekly'   => array(
-                'interval' => 604800,
-                'display'  => __('Once Weekly'),
-            ),
-            'biweekly' => array(
-                'interval' => 1209600,
-                'display'  => __('Once Every 2 Weeks'),
-            ),
-            '4weeks'   => array(
-                'interval' => 2419200,
-                'display'  => __('Once Every 4 Weeks'),
-            )
-        );
-        foreach ($WP_Statistics_schedules as $key => $val) {
+        $wpsSchedules = self::getSchedules();
+
+        foreach ($wpsSchedules as $key => $val) {
             if (!array_key_exists($key, $schedules)) {
-                $schedules[$key] = $val;
+                $schedules[$key] = [
+                    'interval' => $val['interval'],
+                    'display'  => $val['display']
+                ];
             }
         }
 
@@ -187,24 +209,22 @@ class Schedule
      */
     public function geoip_event()
     {
-
         // Max-mind updates the geo-ip database on the first Tuesday of the month, to make sure we don't update before they post
-        $this_update = strtotime(__('First Tuesday of this month', 'wp-statistics')) + (86400 * 2);
+        $this_update = strtotime('first Tuesday of this month') + (86400 * 2);
         $last_update = Option::get('last_geoip_dl');
 
-        $is_require_update = false;
         foreach (GeoIP::$library as $geo_ip => $value) {
             $file_path = GeoIP::get_geo_ip_path($geo_ip);
+
             if (file_exists($file_path)) {
                 if ($last_update < $this_update) {
-                    $is_require_update = true;
+                    GeoIP::download($geo_ip, "update");
                 }
             }
         }
 
-        if ($is_require_update === true) {
-            Option::update('update_geoip', true);
-        }
+        // Update the last update time
+        Option::update('last_geoip_dl', time());
     }
 
     /**
@@ -223,6 +243,19 @@ class Schedule
     {
         $purge_hits = intval(Option::get('schedule_dbmaint_visitor_hits', false));
         Purge::purge_visitor_hits($purge_hits);
+    }
+
+    public function getEmailSubject()
+    {
+        $schedule = Option::get('time_report', false);
+        $subject  = __('Your WP Statistics Report', 'wp-statistics');
+
+        if ($schedule && array_key_exists($schedule, self::getSchedules())) {
+            $schedule = self::getSchedules()[$schedule];
+            $subject  .= sprintf(__(' for %s to %s', 'wp-statistics'), $schedule['start'], $schedule['end']);
+        }
+
+        return $subject;
     }
 
     /**
@@ -249,7 +282,7 @@ class Schedule
             /**
              * Filter to modify email subject
              */
-            $email_subject = apply_filters('wp_statistics_report_email_subject', __('Statistical reporting', 'wp-statistics'));
+            $email_subject = apply_filters('wp_statistics_report_email_subject', self::getEmailSubject());
 
             /**
              * Filter for enable/disable sending email by template.

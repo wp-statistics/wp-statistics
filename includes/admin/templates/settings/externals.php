@@ -43,7 +43,7 @@
 
                         <?php
                         if (WP_STATISTICS\Option::get('geoip')) {
-                            submit_button(esc_html__("Update Database", 'wp-statistics'), "secondary", "update_geoip", false);
+                            submit_button(esc_html__("Update Database Manually", 'wp-statistics'), "secondary", "update_geoip", false);
                         }
                         ?>
                     </label>
@@ -65,7 +65,7 @@
 
                         <?php
                         if (WP_STATISTICS\Option::get('geoip_city')) {
-                            submit_button(esc_html__("Update Database", 'wp-statistics'), "secondary", "update_geoip", false);
+                            submit_button(esc_html__("Update Database Manually", 'wp-statistics'), "secondary", "update_geoip", false);
                         }
                         ?>
                     </label>
@@ -85,23 +85,23 @@
                     if (WP_STATISTICS\Option::get('schedule_geoip')) {
                         echo '<p class="description">' . esc_html__('Next update will be', 'wp-statistics') . ': <code>';
                         $last_update = WP_STATISTICS\Option::get('last_geoip_dl');
-                        $this_month  = strtotime(esc_html__('First Tuesday of this month', 'wp-statistics'));
+                        $this_month  = strtotime('first Tuesday of this month');
 
                         if ($last_update > $this_month) {
-                            $next_update = strtotime(esc_html__('First Tuesday of next month', 'wp-statistics')) + (86400 * 2);
+                            $next_update = strtotime('first Tuesday of next month') + (86400 * 2);
                         } else {
                             $next_update = $this_month + (86400 * 2);
                         }
 
                         $next_schedule = wp_next_scheduled('wp_statistics_geoip_hook');
                         if ($next_schedule) {
-                            echo \WP_STATISTICS\TimeZone::getLocalDate(get_option('date_format'), $next_update) . // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	
+                            echo \WP_STATISTICS\TimeZone::getLocalDate(get_option('date_format'), $next_update) . // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                                 ' @ ' .
-                                \WP_STATISTICS\TimeZone::getLocalDate(get_option('time_format'), $next_schedule); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	
+                                \WP_STATISTICS\TimeZone::getLocalDate(get_option('time_format'), $next_schedule); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                         } else {
-                            echo \WP_STATISTICS\TimeZone::getLocalDate(get_option('date_format'), $next_update) . // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	
+                            echo \WP_STATISTICS\TimeZone::getLocalDate(get_option('date_format'), $next_update) . // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                                 ' @ ' .
-                                \WP_STATISTICS\TimeZone::getLocalDate(get_option('time_format'), time()); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	
+                                \WP_STATISTICS\TimeZone::getLocalDate(get_option('time_format'), time()); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                         }
 
                         echo '</code></p>';

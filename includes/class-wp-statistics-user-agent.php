@@ -89,19 +89,25 @@ class UserAgent
     }
 
     /**
-     * Get Browser Logo
+     * Returns browser logo.
      *
-     * @param $browser
-     * @return string
+     * @param   string  $browser    Browser name.
+     *
+     * @return  string              Logo URL, or URL of an unknown browser icon.
      */
     public static function getBrowserLogo($browser)
     {
-        $name = 'unknown';
-        if (array_search(strtolower($browser), self::BrowserList('key')) !== false) {
-            $name = $browser;
+        $browser  = str_replace(' ', '_', $browser);
+        $browser  = sanitize_key($browser);
+        $browser  = str_replace('msie', 'internet_explorer', $browser);
+        $logoPath = "assets/images/browser/$browser.svg";
+
+        if (file_exists(WP_STATISTICS_DIR . $logoPath)) {
+            return esc_url(WP_STATISTICS_URL . $logoPath);
         }
 
-        return WP_STATISTICS_URL . 'assets/images/browser/' . $name . '.svg';
+        return esc_url(WP_STATISTICS_URL . 'assets/images/browser/unknown.svg');
+
     }
 
     public static function getBrowserInfo($userAgent = null)
@@ -185,4 +191,23 @@ class UserAgent
         );
     }
 
+    /**
+     * Returns platform/OS logo.
+     *
+     * @param   string  $platform    Platform name.
+     *
+     * @return  string              Logo URL, or URL of an unknown browser icon.
+     */
+    public static function getPlatformLogo($platform)
+    {
+        $platform = str_replace(' ', '_', $platform);
+        $platform = sanitize_key($platform);
+        $logoPath = "assets/images/operating-system/$platform.svg";
+
+        if (file_exists(WP_STATISTICS_DIR . $logoPath)) {
+            return esc_url(WP_STATISTICS_URL . $logoPath);
+        }
+
+        return esc_url(WP_STATISTICS_URL . 'assets/images/operating-system/unknown.svg');
+    }
 }

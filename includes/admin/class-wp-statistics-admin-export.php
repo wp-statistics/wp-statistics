@@ -42,8 +42,7 @@ class Export
                 $type  = sanitize_text_field($_POST['export-file-type']);
 
                 // Validate the table name the user passed to us.
-                $allow_tbl = array("useronline", "visit", "visitor", "exclusions", "pages", "search");
-                if (!in_array($table, $allow_tbl)) {
+                if (!in_array($table, DB::$db_table)) {
                     $table = false;
                 }
 

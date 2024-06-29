@@ -43,7 +43,7 @@ class refer_page extends Singleton
 
         // Get Date-Range
         $args['DateRang']    = Admin_Template::DateRange();
-        $args['HasDateRang'] = True;
+        $args['hasDateRang'] = True;
 
         // Get Total List
         if (!isset($_GET['referrer'])) {

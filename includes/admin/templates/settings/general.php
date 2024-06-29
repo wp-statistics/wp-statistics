@@ -94,6 +94,18 @@
                 <p class="description"><?php esc_html_e('Adds a column in the WordPress admin\'s user list to display a log of user views.', 'wp-statistics'); ?></p>
             </td>
         </tr>
+
+        <tr valign="top">
+            <th scope="row">
+                <label for="bypass_ad_blockers"><?php esc_html_e('Bypass Ad Blockers', 'wp-statistics'); ?></label>
+            </th>
+
+            <td>
+                <input id="bypass_ad_blockers" type="checkbox" value="1" name="wps_bypass_ad_blockers" <?php echo WP_STATISTICS\Option::get('bypass_ad_blockers') == true ? "checked='checked'" : ''; ?>>
+                <label for="bypass_ad_blockers"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
+                <p class="description"><?php esc_html_e('Dynamically load the tracking script with a unique name and address to bypass ad blockers.', 'wp-statistics'); ?></p>
+            </td>
+        </tr>
         </tbody>
     </table>
 </div>

@@ -101,7 +101,7 @@ wps_js.meta_box_button = function (key) {
     jQuery("#" + wps_js.getMetaBoxKey(key) + " button[class*=wps-refresh]").remove();
 
     // Add Refresh Button
-    jQuery(`<button class="handlediv wps-refresh"` + (wps_js.is_active('gutenberg') ? ` style="${gutenberg_style}${position_gutenberg}: 3%;" ` : 'style="line-height: 28px;"') + ` type="button" data-tooltip="` + wps_js._('reload') + `"><span class="wps-refresh-icon"></span> <span class="screen-reader-text">` + wps_js._('reload') + `</span></button>`).insertBefore(selector);
+    jQuery(`<button class="handlediv wps-refresh"` + (wps_js.is_active('gutenberg') ? ` style="${gutenberg_style}${position_gutenberg}: 3%;" ` : 'style="line-height: 28px;"') + ` type="button" data-tooltip="` + wps_js._('reload') + `"></button>`).insertBefore(selector);
 };
 
 wps_js.meta_box_tooltip = function (key) {
@@ -329,12 +329,17 @@ wps_js.meta_box_footer = function (key, data) {
 /**
  * Set As Selected Date Filter
  */
-wps_js.set_date_filter_as_selected = function (key, selectedDateFilter, selectedStartDate, selectedEndDate, fromDate, toDate) {
+wps_js.set_date_filter_as_selected = function (key, selectedDateFilter = "30days", selectedStartDate, selectedEndDate, fromDate, toDate) {
     const metaBoxInner = jQuery(wps_js.meta_box_inner(key));
     const filterBtn = jQuery(metaBoxInner).find('.c-footer__filter__btn');
     const filterList = jQuery(metaBoxInner).find('.c-footer__filters__list');
     const currentFilterTitle = jQuery(metaBoxInner).find('.c-footer__current-filter__title');
     const currentFilterRange = jQuery(metaBoxInner).find('.c-footer__current-filter__date-range');
+
+    if (!selectedDateFilter) {
+        selectedDateFilter = "30days"
+    }
+
     if (selectedDateFilter.length) {
         filterList.find('button[data-filter]').removeClass('is-selected');
         filterList.find('button[data-filter="' + selectedDateFilter + '"').addClass('is-selected');

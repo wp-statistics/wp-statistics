@@ -1,3 +1,43 @@
+= 14.8.1 - **.06.2024 =
+* Fix: Compatibility issue with tracking page and default permalink structure.
+* Fix: Charts not displaying due to conflicts with old ChartJs versions from other plugins.
+* Fix: Metabox refresh issue in WordPress dashboard when enabling/disabling widgets via Screen Options.
+* Fix: Meta-box view URL compatibility across browsers and platforms.
+* Fix: Devices pagination.
+* Fix: SQL query issues and optimized queries in Devices.
+* Fix: Column name preparation for finding visitors.
+* Enhancement: Improved GeoIP database update scheduling.
+* Enhancement: Updated incomplete GeoIP info for visitors in the background, with notice in Geographic.
+* Enhancement: Added events table for data export.
+* Enhancement: Improved comments query by excluding ping-backs in Author Analytics.
+* Enhancement: Fixed referrer issue in online request tracking.
+* Enhancement: Refactored `getCountry` method, removing legacy cache.
+* Enhancement: Minor improvements.
+* Development: Added WP CLI command `wp statistics record`.
+
+= 14.8 - 17.06.2024 =
+* New: Author Analytics: Replaces the old Author report. Measures author performance and individual author statistics.
+* New: Geographic Reports: Location-based analytics, including countries, cities, European countries, US states, regions of your country.
+* New: [Bypass Ad Blockers](https://wp-statistics.com/resources/bypass-ad-blockers/): New option to dynamically load the tracking script with a unique name and address.
+* New: User Role Exclusions: Added Anonymous User to exclusions.
+* New: Integrates with [WP Consent API](https://github.com/Really-Simple-Plugins/wp-consent-level-api) for compatibility with consent plugins like Complianz.
+* New: Device Menu: Enhanced device-specific analytics, including browsers, operating systems, and device models. Upcoming versions will include device categories, screen resolutions, and languages.
+* Enhancement: Improved structure and cleanup using new components and models.
+* Enhancement: Updated browser icons.
+* Enhancement: Added background processing for efficient data handling.
+* Enhancement: Added real-time button to the Overview page.
+* Enhancement: Refactored notice handler with improvements.
+* Enhancement: Various style improvements on the Overview page, header, and meta boxes.
+* Enhancement: Numerous minor and major enhancements.
+* Fix: Corrected ‘to’ parameter in yesterday link generation.
+* Fix: Resolved freeze issues on certain pages and loading mode in view meta box.
+* Dev: Added filters `wp_statistics_ip_detection_preview` and `wp_statistics_enable_feedbackbird`.
+
+= 14.7.2 - 02.06.2024 =
+* Fixes: The Author menu display issue has been resolved.
+* Fixes: The query issue related to visitor and visit relationships has been corrected.
+* New: Added command `wp statistics reinitialize` to WP-CLI functionality for re-initialize the tables.
+
 = 14.7.1 - 29.05.2024 =
 * Fixes: Fixed date filter on post type and taxonomies page.
 * Fixes: Fixed modify email subject with filter.

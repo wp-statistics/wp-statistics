@@ -919,7 +919,7 @@ function wp_statistics_referrer($time = null)
     $urls = array();
     foreach ($result as $item) {
         $url = wp_parse_url($item->referred);
-        if (empty($url['host']) || stristr(get_bloginfo('url'), $url['host'])) {
+        if (empty($url['host']) || stripos(get_bloginfo('url'), $url['host']) !== false) {
             continue;
         }
         $urls[] = $url['scheme'] . '://' . $url['host'];

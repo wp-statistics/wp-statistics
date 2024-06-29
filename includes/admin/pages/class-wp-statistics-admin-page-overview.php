@@ -38,6 +38,9 @@ class log_page extends Singleton
     public static function view()
     {
         $args['overview_page_slug'] = Menus::get_action_menu_slug('overview');
+        $args['tooltip'] = __('Quickly view your website’s traffic and visitor analytics.', 'wp-statistics');
+        $args['real_time_button'] = true;
+        $args['title'] =  __('Overview', 'wp-statistics');;
         Admin_Template::get_template(array('layout/header', 'layout/title', 'pages/overview', 'layout/footer'), $args);
     }
 

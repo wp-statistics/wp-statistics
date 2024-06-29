@@ -42,9 +42,9 @@ class CheckUserOnline extends \WP_STATISTICS\RestAPI
         \WP_STATISTICS\UserOnline::record($visitorProfile);
 
         $response = [
-            'status'  => true,
-            'message' => 'User is online, the data is updated successfully.',
+            'status' => true
         ];
+
         return rest_ensure_response($response);
     }
 }

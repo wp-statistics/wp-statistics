@@ -7,7 +7,7 @@
             if (action == 0)
                 return false;
 
-            var agree = confirm('<?php esc_html_e('Are you sure?', 'wp-statistics'); ?>');
+            var agree = confirm('<?php esc_html_e('Are you sure you want to permanently delete this data? This action cannot be undone.', 'wp-statistics'); ?>');
 
             if (!agree)
                 return false;
@@ -39,7 +39,7 @@
             if (action == 0)
                 return false;
 
-            var agree = confirm('<?php esc_html_e('Are you sure?', 'wp-statistics'); ?>');
+            var agree = confirm('<?php esc_html_e('Are you sure you want to permanently delete this data? This action cannot be undone.', 'wp-statistics'); ?>');
 
             if (!agree)
                 return false;
@@ -70,7 +70,7 @@
             if (action == 0)
                 return false;
 
-            var agree = confirm('<?php esc_html_e('Are you sure?', 'wp-statistics'); ?>');
+            var agree = confirm('<?php esc_html_e('Are you sure you want to permanently delete this data? This action cannot be undone.', 'wp-statistics'); ?>');
 
             if (!agree)
                 return false;
@@ -101,7 +101,7 @@
             if (action == 0)
                 return false;
 
-            var agree = confirm('<?php esc_html_e('Are you sure?', 'wp-statistics'); ?>');
+            var agree = confirm('<?php esc_html_e('Are you sure you want to permanently delete this data? This action cannot be undone.', 'wp-statistics'); ?>');
 
             if (!agree)
                 return false;
@@ -134,7 +134,7 @@
             if (action == 0)
                 return false;
 
-            var agree = confirm('<?php esc_html_e('Are you sure?', 'wp-statistics'); ?>');
+            var agree = confirm('<?php esc_html_e('Are you sure you want to permanently delete this data? This action cannot be undone.', 'wp-statistics'); ?>');
 
             if (!agree)
                 return false;
@@ -167,7 +167,7 @@
             if (value == 0)
                 return false;
 
-            var agree = confirm('<?php esc_html_e('Are you sure?', 'wp-statistics'); ?>');
+            var agree = confirm('<?php esc_html_e('Are you sure you want to permanently delete this data? This action cannot be undone.', 'wp-statistics'); ?>');
 
             if (!agree)
                 return false;
@@ -194,7 +194,7 @@
 
         jQuery("#delete-user-ids-submit").click(function () {
 
-            var agree = confirm('<?php esc_html_e('Are you sure?', 'wp-statistics'); ?>');
+            var agree = confirm('<?php esc_html_e('Are you sure you want to permanently delete this data? This action cannot be undone.', 'wp-statistics'); ?>');
 
             if (!agree)
                 return false;
@@ -219,7 +219,7 @@
 
         jQuery("#clear-user-agent-strings-submit").click(function () {
 
-            var agree = confirm('<?php esc_html_e('Are you sure?', 'wp-statistics'); ?>');
+            var agree = confirm('<?php esc_html_e('Are you sure you want to permanently delete this data? This action cannot be undone.', 'wp-statistics'); ?>');
 
             if (!agree)
                 return false;
@@ -244,7 +244,7 @@
 
         jQuery("#query-params-cleanup-submit").click(function () {
 
-            var agree = confirm('<?php esc_html_e('Are you sure?', 'wp-statistics'); ?>');
+            var agree = confirm('<?php esc_html_e('Are you sure you want to permanently delete this data? This action cannot be undone.', 'wp-statistics'); ?>');
 
             if (!agree)
                 return false;

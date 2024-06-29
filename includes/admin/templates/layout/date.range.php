@@ -51,7 +51,7 @@
                 </svg>
             </button> -->
 
-            <?php if (isset($HasDateRang)): ?>
+            <?php if (isset($hasDateRang)): ?>
                 <button class="c-footer__filter__btn js-date-range-picker-btn">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none">
                     <g clip-path="url(#A)" stroke="#666" stroke-linejoin="round">
@@ -101,11 +101,3 @@
     </form>
 </div>
 
-<?php
-if (isset($filter) and isset($filter['code'])) {
-    echo $filter['code']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-    ?>
-    <div class="wp-clearfix"></div>
-    <?php
-}
-?>

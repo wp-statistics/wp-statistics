@@ -40,7 +40,7 @@ class searches_page extends Singleton
 
         // Get Date-Range
         $args['DateRang']    = Admin_Template::DateRange();
-        $args['HasDateRang'] = True;
+        $args['hasDateRang'] = True;
 
         // Show Template Page
         Admin_Template::get_template(array('layout/header', 'layout/title', 'pages/search', 'layout/footer'), $args);

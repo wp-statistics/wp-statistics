@@ -11,11 +11,9 @@ $disableMenuArray = array(
     'online'       => __('Online', 'wp-statistics'),
     'visitors'     => __('Visitors', 'wp-statistics'),
     'referrers'    => __('Referrers', 'wp-statistics'),
-    'words'        => __('Search Words', 'wp-statistics'),
     'searches'     => __('Search Engines', 'wp-statistics'),
     'pages'        => __('Pages', 'wp-statistics'),
     'taxonomies'   => __('Taxonomies', 'wp-statistics'),
-    'authors'      => __('Author', 'wp-statistics'),
     'browsers'     => __('Browsers', 'wp-statistics'),
     'platforms'    => __('Operating Systems', 'wp-statistics'),
     'top.visitors' => __('Top Visitors Today', 'wp-statistics')
@@ -27,7 +25,7 @@ $disabledMenuItems = WP_STATISTICS\Option::getByAddon('disable_menus', 'customiz
 if (!$isCustomizationActive) echo Admin_Template::get_template('layout/partials/addon-premium-feature',
     ['addon_slug'           => esc_url(WP_STATISTICS_SITE_URL . '/product/wp-statistics-customization/?utm_source=wp-statistics&utm_medium=link&utm_campaign=plugin-settings'),
      'addon_title'          => 'Customization Add-On',
-     'addon_description'    => 'The settings on this page are part of the Customization add-on, which allows you to permanently disable ads on the Overview, Welcome, and Settings pages, customize menus, and make your product white-label by changing the plugin header.',
+     'addon_description'    => 'The settings on this page are part of the Customization add-on, which allows you to permanently disable ads on the Overview, and Settings pages, customize menus, and make your product white-label by changing the plugin header.',
      'addon_features'       => [
          'Permanently disable ads on pages.',
          'Customize menus according to your preferences.',
@@ -61,24 +59,52 @@ if (!$isCustomizationActive) echo Admin_Template::get_template('layout/partials/
             </tbody>
         </table>
     </div>
+
     <div class="postbox">
         <table class="form-table <?php echo !$isCustomizationActive ? 'form-table--preview' : '' ?>">
             <tbody>
             <tr valign="top">
-                <th scope="row" colspan="2"><h3><?php esc_html_e('Change the header banner', 'wp-statistics'); ?></h3></th>
+                <th scope="row" colspan="2"><h3><?php esc_html_e('White label and Header Customization', 'wp-statistics'); ?></h3></th>
             </tr>
 
             <tr valign="top">
                 <th scope="row">
-                    <label for="wps_addon_settings[customization][wps_modify_banner]"><?php esc_html_e('Choose a banner', 'wp-statistics'); ?></label>
+                    <label for="wps_addon_settings[customization][wps_white_label]"><?php esc_html_e('White label', 'wp-statistics'); ?></label>
                 </th>
 
                 <td>
-                    <input type="text" class="regular-text wps-customization_upload_field" id="wps_addon_settings[customization][wps_modify_banner]" name="wps_addon_settings[customization][wps_modify_banner]" value="<?php echo esc_attr(stripslashes(WP_STATISTICS\Option::getByAddon('wps_modify_banner', 'customization'))) ?>"/>
-                    <span>&nbsp;<input type="button" class="wps_customization_settings_upload_button wps_customization_settings_clear_upload_button button" style="margin: 0; padding-top: 13px; padding-bottom: 13px;" value="<?php echo esc_attr__('Upload File', 'wp-statistics') ?>"/></span>
+                    <input id="wps_addon_settings[customization][wps_white_label]" type="checkbox" value="1" name="wps_addon_settings[customization][wps_white_label]" <?php checked(WP_STATISTICS\Option::getByAddon('wps_white_label', 'customization')) ?>>
+                    <label for="wps_addon_settings[customization][wps_white_label]"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
+                    <p class="description"><?php esc_html_e('White label WP Statistics report pages. Remove branding and promotional elements. For a detailed list of changes, refer to the White label Documentation.', 'wp-statistics'); ?></p>
                 </td>
             </tr>
 
+            <tr valign="top">
+                <th scope="row">
+                    <label for="wps_addon_settings[customization][wps_modify_banner]"><?php esc_html_e(' Change the Header Logo', 'wp-statistics'); ?></label>
+                </th>
+
+                <?php
+                $custom_header_logo = esc_attr(stripslashes(WP_STATISTICS\Option::getByAddon('wps_modify_banner', 'customization')));
+                $default_logo_url   = WP_STATISTICS_URL . 'assets/images/logo-statistics-header-blue.png';
+                $header_logo_url    = !empty($custom_header_logo) ? $custom_header_logo : $default_logo_url;
+                $display_clear      = !empty($custom_header_logo) ? "" : "display: none;";
+
+                wp_enqueue_media();
+                ?>
+                <script>
+                    var wps_ar_vars = {
+                        'default_avatar_url': "<?php echo esc_url($default_logo_url); ?>"
+                    }
+                </script>
+                <td>
+                    <div class='wps-img-preview-wrapper'><img style="max-width: 300px; max-height: 200px;" id='wps-upload-image-preview' src='<?php echo esc_attr($header_logo_url) ?>' alt="Header Logo"></div>
+                    <input id="wps_addon_settings[customization][wps_modify_banner]" name="wps_addon_settings[customization][wps_modify_banner]" type="text" class="regular-text" value="<?php echo $custom_header_logo; ?>"/>
+                    <span>&nbsp;<input type="button" class="wps_img_settings_upload_button button" value="<?php esc_html_e('Upload File', 'wp-statistics-advanced-reporting') ?>" style="margin: 0; padding-top: 13px; padding-bottom: 13px;"/>&nbsp;<input type="button" class="wps_img_settings_clear_upload_button button" style="<?php echo esc_attr($display_clear); ?> margin: 0; padding-top: 13px; padding-bottom: 13px;" value="<?php esc_html_e('X', 'wp-statistics-advanced-reporting') ?>"/></span>
+
+                    <p class="description"><?php esc_html_e('Customize the header logo to match your branding by uploading your own logo.', 'wp-statistics'); ?></p>
+                </td>
+            </tr>
             </tbody>
         </table>
     </div>

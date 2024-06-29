@@ -133,9 +133,11 @@ class Hits extends Singleton
      *
      * @throws \Exception
      */
-    public static function record()
+    public static function record($visitorProfile = null)
     {
-        $visitorProfile = new VisitorProfile();
+        if (!$visitorProfile) {
+            $visitorProfile = new VisitorProfile();
+        }
 
         # Check Exclusion This Hits
         $exclusion = Exclusion::check($visitorProfile);
