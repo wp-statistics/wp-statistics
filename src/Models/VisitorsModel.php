@@ -424,11 +424,6 @@ class VisitorsModel extends BaseModel
 
         $result = $query->getAll();
 
-        if (!empty($result)) {
-            $result = wp_list_pluck($result, 'visitors', 'referrer');
-            $result = Referred::PrepareReferData($result);
-        }
-
         return $result ? $result : [];
     }
 

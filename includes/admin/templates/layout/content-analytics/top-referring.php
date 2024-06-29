@@ -1,6 +1,4 @@
 <?php
-
-use WP_STATISTICS\Admin_Template;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Referred;
 ?>
@@ -21,9 +19,6 @@ use WP_STATISTICS\Referred;
                     <thead>
                         <tr>
                             <th class="wps-pd-l">
-                                <?php echo esc_html__('Referrer Name', 'wp-statistics') ?>
-                            </th>
-                            <th class="wps-pd-l">
                                 <?php echo esc_html__('Domain Address', 'wp-statistics') ?>
                             </th>
                             <th class="wps-pd-l">
@@ -37,17 +32,12 @@ use WP_STATISTICS\Referred;
                             <tr>
                                 <td class="wps-pd-l">
                                     <div class="wps-ellipsis-parent">
-                                        <span class="wps-ellipsis-text"><?php echo !empty($item['title']) ? esc_html($item['title']) : Admin_Template::UnknownColumn() ?></span>
-                                    </div>
-                                </td>
-                                <td class="wps-pd-l">
-                                    <div class="wps-ellipsis-parent">
                                         <span class="wps-ellipsis-text">
-                                            <?php echo Helper::show_site_icon($item['domain']) . ' ' . Referred::get_referrer_link($item['domain'], $item['title'], true) ?>
+                                            <?php echo Helper::show_site_icon($item->referrer) . ' ' . Referred::get_referrer_link($item->referrer, '', true) ?>
                                         </span>
                                     </div>
                                 </td>
-                                <td class="wps-pd-l"><?php echo esc_html(number_format($item['number'])) ?></td>
+                                <td class="wps-pd-l"><?php echo esc_html(number_format($item->visitors)) ?></td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
