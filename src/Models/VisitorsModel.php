@@ -236,23 +236,6 @@ class VisitorsModel extends BaseModel
                 // Remove device subtype, for example: mobile:smart -> mobile
                 $item->device = Helper::getDeviceCategoryName($item->device);
 
-                // Just show top 5 names, and show the rest of results as others
-                if (count($result['platform']) > 5) {
-                    $item->platform = esc_html__('Other', 'wp-statistics');
-                }
-
-                if (count($result['agent']) > 5) {
-                    $item->agent = esc_html__('Other', 'wp-statistics');
-                }
-
-                if (count($result['device']) > 5) {
-                    $item->device = esc_html__('Other', 'wp-statistics');
-                }
-
-                if (count($result['model']) > 5) {
-                    $item->model = esc_html__('Other', 'wp-statistics');
-                }
-
                 if (empty($result['platform'][$item->platform])) {
                     $result['platform'][$item->platform] = 1;
                 } else {
@@ -275,6 +258,20 @@ class VisitorsModel extends BaseModel
                     $result['model'][$item->model] = 1;
                 } else {
                     $result['model'][$item->model]++;
+                }
+            }
+
+            foreach ($result as $key => $data) {
+                arsort($data);
+
+                if (count($data) > 4) {
+                    // Get top 5 results
+                    $topData = array_slice($data, 0, 4, true);
+                    
+                    // Show the rest of the results as others
+                    $otherLabel     = esc_html__('Other', 'wp-statistics');
+                    $otherData      = [$otherLabel => array_sum(array_diff_key($data, $topData))];
+                    $result[$key]   = array_merge($topData, $otherData);
                 }
             }
         }
