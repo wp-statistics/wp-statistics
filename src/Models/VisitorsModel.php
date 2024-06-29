@@ -234,7 +234,7 @@ class VisitorsModel extends BaseModel
         if (!empty($data)) {
             foreach ($data as $item) {
                 // Remove device subtype, for example: mobile:smart -> mobile
-                $item->device = !empty($item->device) ? Helper::getDeviceCategoryName($item->device) : esc_html__('Unknown', 'wp-statistics');
+                $item->device = Helper::getDeviceCategoryName($item->device);
 
                 // Just show top 5 names, and show the rest of results as others
                 if (count($result['platform']) > 5) {
