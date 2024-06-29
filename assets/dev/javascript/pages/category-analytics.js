@@ -119,6 +119,9 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                                 drawBorder: false,
                                 tickLength: 0,
                             },
+                            ticks:{
+                                stepSize:5
+                            },
                             title: {
                                 display: true,
                                 text: 'Published Posts',
