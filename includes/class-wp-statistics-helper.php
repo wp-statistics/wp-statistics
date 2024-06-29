@@ -1585,4 +1585,27 @@ class Helper
         }
         return $device;
     }
+
+    /**
+     * Get default date format
+     * @param bool $withTime
+     * @return string
+     */
+    public static function getDefaultDateFormat($withTime = false)
+    {
+        $dateFormat = get_option('date_format');
+        $timeFormat = get_option('time_format');
+
+        if (empty($dateFormat)) {
+            $dateFormat = 'g:i a';
+        }
+
+        if (empty($timeFormat)) {
+            $timeFormat = 'H:i:s';
+        }
+
+        $dateTimeFormat = $withTime ? $dateFormat . ' ' . $timeFormat : $dateFormat;
+        
+        return $dateTimeFormat;
+    }
 }

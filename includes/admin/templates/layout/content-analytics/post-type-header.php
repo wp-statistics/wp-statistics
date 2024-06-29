@@ -1,4 +1,6 @@
 <?php
+
+use WP_STATISTICS\Helper;
 use WP_Statistics\Utils\Request;
 
 $postId     = Request::get('post_id');
@@ -22,7 +24,8 @@ $postAuthor = get_post_field('post_author', $postId);
         </div>
         <div class="wps-content-analytics-header__info">
             <span class="wps-content-analytics-header__type"><?php echo ucfirst(get_post_type($postId)) ?></span>
-            <span class="wps-content-analytics-header__date"><?php echo get_the_date('F j, Y g:i a', $postId) ?></span>
+            <span class="wps-content-analytics-header__date_published"><?php echo get_the_date(Helper::getDefaultDateFormat(true), $postId) ?></span>
+            <span class="wps-content-analytics-header__date_updated"><?php echo esc_html__('Updated on: ', 'wp-statistics') . get_the_modified_date(Helper::getDefaultDateFormat(true), $postId) ?></span>
             <span class="wps-content-analytics-header__author">
                 <a href="<?php echo get_author_posts_url($postAuthor) ?>"><?php echo get_the_author_meta('display_name', $postAuthor) ?></a>
             </span>
