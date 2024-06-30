@@ -194,12 +194,12 @@ class ContentAnalyticsDataProvider
 
     public function getSinglePostData()
     {
-        $totalViews         = $this->viewsModel->countViews(Helper::filterArrayByKeys($this->args, ['post_id', 'query_param']));
-        $totalVisitors      = $this->visitorsModel->countVisitors(Helper::filterArrayByKeys($this->args, ['post_id', 'query_param']));
-        $recentViews        = $this->viewsModel->countViews($this->args);
-        $recentVisitors     = $this->visitorsModel->countVisitors($this->args);
-        $totalWords         = $this->postsModel->countWords($this->args);
-        $totalComments      = $this->postsModel->countComments($this->args);
+        $totalViews     = $this->viewsModel->countViews(Helper::filterArrayByKeys($this->args, ['post_id']));
+        $totalVisitors  = $this->visitorsModel->countVisitors(Helper::filterArrayByKeys($this->args, ['post_id']));
+        $recentViews    = $this->viewsModel->countViews($this->args);
+        $recentVisitors = $this->visitorsModel->countVisitors($this->args);
+        $totalWords     = $this->postsModel->countWords($this->args);
+        $totalComments  = $this->postsModel->countComments($this->args);
 
         $visitorsCountry    = $this->visitorsModel->getVisitorsGeoData(array_merge($this->args, ['per_page' => 10]));
         
@@ -215,18 +215,14 @@ class ContentAnalyticsDataProvider
         ];
         
         return [
-            'visitors_country'  => $visitorsCountry,
-            'visits_summary'    => array_replace_recursive($visitorsSummary, $viewsSummary),
-            'performance'       => $performanceData,
-            'referrers'         => $referrersData,
             'overview'          => [
                 'views'     => [
-                    'total' => $totalViews,
-                    'recent'=> $recentViews,
+                    'total'     => $totalViews,
+                    'recent'    => $recentViews,
                 ],
                 'visitors'  => [
-                    'total' => $totalVisitors,
-                    'recent'=> $recentVisitors,
+                    'total'     => $totalVisitors,
+                    'recent'    => $recentVisitors,
                 ],
                 'words'     => [
                     'total' => $totalWords,
@@ -234,7 +230,11 @@ class ContentAnalyticsDataProvider
                 'comments'  => [
                     'total' => $totalComments,
                 ]
-            ]
+            ],
+            'visitors_country'  => $visitorsCountry,
+            'visits_summary'    => array_replace_recursive($visitorsSummary, $viewsSummary),
+            'performance'       => $performanceData,
+            'referrers'         => $referrersData
         ];
     }
 }
