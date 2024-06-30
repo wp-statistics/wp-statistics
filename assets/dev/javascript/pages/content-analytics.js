@@ -55,7 +55,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                             pointWidth: 5.5,
                             pointHeight: 5.5,
                             pointBackgroundColor: '#0e9444',
-                            tension: 0.4,
+                             tension: 0.4,
                         },
                         {
                             type: 'line',
@@ -87,16 +87,27 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                     intersect: false,
                 },
                 options: {
+                    responsive: true,
+                    layout: {
+                        padding: {
+                            left: 0,
+                            right: 0,
+                            top: 0,
+                            bottom: 0
+                        }
+                    },
                     plugins: {
                         legend: false
                     },
                     scales: {
                         x: {
+                            offset:false,
                             grid: {
                                 display: false,
                                 drawBorder: false,
                                 tickLength: 0,
-                            }
+                                drawTicks:false
+                             }
                         },
                         y: {
                             ticks: {
@@ -106,7 +117,10 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                             position: 'right',
                             grid: {
                                 display: true,
-                                borderDash: [5, 5]
+                                tickMarkLength: 0,
+                            },
+                            gridLines:{
+                                drawTicks:false
                             },
                             title: {
                                 display: true,
@@ -117,10 +131,14 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                         y1: {
                             type: 'linear',
                             position: 'left',
+                            gridLines:{
+                                drawTicks:false
+                            },
                             grid: {
                                 display: false,
                                 drawBorder: false,
                                 tickLength: 0,
+                                tickMarkLength: 0,
                             },
                             ticks:{
                                 stepSize:1

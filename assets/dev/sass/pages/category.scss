@@ -336,6 +336,9 @@
       display: flex;
       gap: 8px;
       align-items: center;
+      &:hover:after{
+        filter: grayscale(1);
+      }
 
       &:after {
         content: '';
