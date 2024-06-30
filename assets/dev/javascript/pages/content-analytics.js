@@ -479,9 +479,6 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                             },
                             ticks: {
                                 stepSize: 1,
-                                callback: function (value, index, values) {
-                                    return value;
-                                }
                             },
                             title: {
                                 display: true,

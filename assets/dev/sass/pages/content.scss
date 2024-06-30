@@ -62,18 +62,13 @@
         gap: 4px;
         padding: 0;
       }
-      a{
-        margin-left: 8px;
-        .rtl &{
-          margin-left: unset;
-          margin-right: 8px;
-        }
-      }
       p {
         font-size: 12px;
         font-weight: 400;
         line-height: 14.06px;
         color: #56585A;
+        margin-top: 0;
+        margin-bottom: 20px;
       }
 
       .wps-tooltip {
@@ -255,7 +250,7 @@
   #performance-chart, #performance-chart-single {
     height: 299px !important;
     width: 100% !important;
-    margin-top: 20px;
+    margin-top: 24px;
   }
 
   &-chart-items {
@@ -308,7 +303,7 @@
 
       p {
         margin-top: 0;
-        margin-bottom: 6px;
+        margin-bottom: 3px;
         align-items: center;
         gap: 6px;
         display: flex;
@@ -556,8 +551,25 @@
 
   &-header {
     display: flex;
-    gap: 16px;
+    gap: 12px;
     margin-top: -10px;
+    &__title{
+      h2{
+        font-size: 15px;
+        font-weight: 500;
+        line-height: 22px;
+        color: #0C0C0D;
+
+      }
+      a{
+        margin-left: 8px;
+        .rtl &{
+          margin-left: unset;
+          margin-right: 8px;
+        }
+      }
+    }
+
 
     @media(max-width: 500px){
       flex-direction: column;

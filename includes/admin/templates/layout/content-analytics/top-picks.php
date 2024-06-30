@@ -25,7 +25,7 @@ use WP_Statistics\Utils\Request;
                             foreach ($data['top_viewing'] as $post) : ?>
                                 <a class="wps-content-tabs__item" href="<?php echo esc_url(add_query_arg(['type' => 'single', 'post_id' => $post->ID])) ?>">
                                     <div class="wps-content-tabs__item--image">
-                                        <span># <?php echo esc_html($counter); ?></span>
+                                        <span>#<?php echo esc_html($counter); ?></span>
                                         <?php if (has_post_thumbnail($post->ID)) : ?>
                                             <img src="<?php echo esc_url(get_the_post_thumbnail_url($post->ID)) ?>" alt="<?php echo esc_attr($post->post_title) ?>">
                                         <?php else : ?>
@@ -54,7 +54,7 @@ use WP_Statistics\Utils\Request;
                             foreach ($data['top_commented'] as $post) : ?>
                                 <a class="wps-content-tabs__item" href="<?php echo esc_url(add_query_arg(['type' => 'single', 'post_id' => $post->ID])) ?>">
                                     <div class="wps-content-tabs__item--image">
-                                        <span># <?php echo esc_html($counter); ?></span>
+                                        <span>#<?php echo esc_html($counter); ?></span>
                                         <?php if (has_post_thumbnail($post->ID)) : ?>
                                             <img src="<?php echo esc_url(get_the_post_thumbnail_url($post->ID)) ?>" alt="<?php echo esc_attr($post->post_title) ?>">
                                         <?php else : ?>
@@ -87,7 +87,7 @@ use WP_Statistics\Utils\Request;
                             foreach ($data['recent'] as $post) : ?>
                                 <a class="wps-content-tabs__item" href="<?php echo esc_url(add_query_arg(['type' => 'single', 'post_id' => $post->ID])) ?>">
                                     <div class="wps-content-tabs__item--image">
-                                        <span># <?php echo esc_html($counter); ?></span>
+                                        <span>#<?php echo esc_html($counter); ?></span>
                                         <?php if (has_post_thumbnail($post->ID)) : ?>
                                             <img src="<?php echo esc_url(get_the_post_thumbnail_url($post->ID)) ?>" alt="<?php echo esc_attr($post->post_title) ?>">
                                         <?php else : ?>
