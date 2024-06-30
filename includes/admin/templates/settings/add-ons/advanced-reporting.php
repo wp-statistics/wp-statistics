@@ -253,21 +253,7 @@ if (!$isAdvancedReportingActive) echo Admin_Template::get_template('layout/parti
                     <p class="description"><?php esc_html_e('Select the preferred chart type to visualize browser statistics in your reports.', 'wp-statistics'); ?></p>
                 </td>
             </tr>
-
-            <tr valign="top">
-                <th scope="row">
-                    <label for="wps_addon_settings[advanced_reporting][chart_style]"><?php esc_html_e('Chart Style', 'wp-statistics'); ?></label>
-                </th>
-
-                <td>
-                    <select name="wps_addon_settings[advanced_reporting][chart_style]" id="wps_addon_settings[advanced_reporting][chart_style]">
-                        <option value="2d" <?php selected(WP_STATISTICS\Option::getByAddon('chart_style', 'advanced_reporting'), '2d'); ?>><?php esc_html_e('2D', 'wp-statistics'); ?></option>
-                        <option value="3d" <?php selected(WP_STATISTICS\Option::getByAddon('chart_style', 'advanced_reporting'), '3d'); ?>><?php esc_html_e('3D', 'wp-statistics'); ?></option>
-                    </select>
-                    <p class="description"><?php esc_html_e('Customize the visual styling of your charts.', 'wp-statistics'); ?></p>
-                </td>
-            </tr>
-            </tbody>
+             </tbody>
         </table>
     </div>
 
