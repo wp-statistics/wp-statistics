@@ -11,7 +11,7 @@ $postType = get_post_type(Request::get('post_id'));
         <?php
         $args1 = [
             'title'      => esc_html__('Views', 'wp-statistics'),
-            'tooltip'    => sprintf(esc_html__('Total views of your %ss in the selected period. Avg per  %s is the total views divided by the number of published %ss in that period.', 'wp-statistics'), strtolower($postType), strtolower($postType), strtolower($postType)),
+            'tooltip'    => sprintf(esc_html__('Total views of this %s and views during the selected period.', 'wp-statistics'), strtolower($postType)),
             'icon_class' => 'views',
             'total'      => Helper::formatNumberWithUnit($data['overview']['views']['total']),
             'avg'        => Helper::formatNumberWithUnit($data['overview']['views']['recent']),
@@ -21,7 +21,7 @@ $postType = get_post_type(Request::get('post_id'));
 
         $args2 = [
             'title'      => esc_html__('Visitors', 'wp-statistics'),
-            'tooltip'    => sprintf(esc_html__('Total unique visitors in the selected period. Avg per %s is the total visitors divided by the number of published %ss in that period.', 'wp-statistics'), strtolower($postType), strtolower($postType)),
+            'tooltip'    => sprintf(esc_html__('Total unique visitors to this %s and visitors during the selected period.', 'wp-statistics'), strtolower($postType)),
             'icon_class' => 'visitors',
             'total'      => Helper::formatNumberWithUnit($data['overview']['visitors']['total']),
             'avg'        => Helper::formatNumberWithUnit($data['overview']['visitors']['recent']),
@@ -31,7 +31,7 @@ $postType = get_post_type(Request::get('post_id'));
 
         $args3 = [
             'title'      => esc_html__('Words', 'wp-statistics'),
-            'tooltip'    => sprintf(esc_html__('Total words across all %ss in the selected period. Avg per %s is the total words divided by the number of published %ss in that period.', 'wp-statistics'), strtolower($postType), strtolower($postType), strtolower($postType)),
+            'tooltip'    => sprintf(esc_html__('Total number of words in this %s.', 'wp-statistics'), strtolower($postType)),
             'icon_class' => 'words',
             'total'      => Helper::formatNumberWithUnit($data['overview']['words']['total']),
         ];
@@ -40,7 +40,7 @@ $postType = get_post_type(Request::get('post_id'));
         if (post_type_supports($postType, 'comments')) {
             $args4 = [
                 'title'      => esc_html__('Comments', 'wp-statistics'),
-                'tooltip'    => sprintf(esc_html__('Total comments on all %ss  in the selected period. Avg per %s is the total comments divided by the number of published %ss in that period.', 'wp-statistics'), strtolower($postType), strtolower($postType), strtolower($postType)),
+                'tooltip'    => sprintf(esc_html__('Total comments on this %s.', 'wp-statistics'), strtolower($postType)),
                 'icon_class' => 'comments',
                 'total'      => Helper::formatNumberWithUnit($data['overview']['comments']['total']),
             ];
