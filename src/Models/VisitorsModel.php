@@ -15,10 +15,11 @@ class VisitorsModel extends BaseModel
     public function countVisitors($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
-            'date'      => '',
-            'post_type' => '',
-            'author_id' => '',
-            'post_id'   => ''
+            'date'          => '',
+            'post_type'     => '',
+            'author_id'     => '',
+            'post_id'       => '',
+            'query_param'   => ''
         ]);
 
         $result = Query::select('COUNT(DISTINCT visitor_id) as total_visitors')
@@ -26,9 +27,10 @@ class VisitorsModel extends BaseModel
             ->join('pages', ['visitor_relationships.page_id', 'pages.page_id'], [], 'LEFT')
             ->join('posts', ['posts.ID', 'pages.id'], [], 'LEFT')
             ->where('post_type', 'IN', $args['post_type'])
-            ->whereDate('visitor_relationships.date', $args['date'])
             ->where('post_author', '=', $args['author_id'])
             ->where('posts.ID', '=', $args['post_id'])
+            ->where('pages.id', '=', $args['query_param'])
+            ->whereDate('visitor_relationships.date', $args['date'])
             ->bypassCache($bypassCache)
             ->getVar();
 
@@ -179,11 +181,12 @@ class VisitorsModel extends BaseModel
     public function getVisitorsData($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
-            'date'      => '',
-            'post_type' => '',
-            'author_id' => '',
-            'post_id'   => '',
-            'country'   => ''
+            'date'          => '',
+            'post_type'     => '',
+            'author_id'     => '',
+            'post_id'       => '',
+            'country'       => '',
+            'query_param'   => ''
         ]);
 
         $query = Query::select([
@@ -198,7 +201,7 @@ class VisitorsModel extends BaseModel
             ->groupBy('visitor.ID')
             ->bypassCache($bypassCache);
 
-        if (!empty($args['post_type']) || !empty($args['author_id']) || !empty($args['post_id'])) {
+        if (!empty($args['post_type']) || !empty($args['author_id']) || !empty($args['post_id']) || !empty($args['query_param'])) {
             $query
                 ->join('visitor_relationships', ['visitor_relationships.visitor_id', 'visitor.ID'])
                 ->join('pages', ['visitor_relationships.page_id', 'pages.page_id'], [], 'LEFT')
@@ -206,6 +209,7 @@ class VisitorsModel extends BaseModel
                 ->where('post_type', 'IN', $args['post_type'])
                 ->where('post_author', '=', $args['author_id'])
                 ->where('posts.ID', '=', $args['post_id'])
+                ->where('pages.id', '=', $args['query_param'])
                 ->whereDate('pages.date', $args['date']);
         }
 
@@ -318,20 +322,21 @@ class VisitorsModel extends BaseModel
     public function getVisitorsGeoData($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
-            'date'      => '',
-            'country'   => '',
-            'city'      => '',
-            'region'    => '',
-            'continent' => '',
-            'group_by'  => 'visitor.location',
-            'not_null'  => '',
-            'order_by'  => ['visitors', 'views'],
-            'post_type' => '',
-            'author_id' => '',
-            'post_id'   => '',
-            'order'     => 'DESC',
-            'per_page'  => '',
-            'page'      => 1
+            'date'          => '',
+            'country'       => '',
+            'city'          => '',
+            'region'        => '',
+            'continent'     => '',
+            'not_null'      => '',
+            'post_type'     => '',
+            'author_id'     => '',
+            'post_id'       => '',
+            'per_page'      => '',
+            'query_param'   => '',
+            'page'          => 1,
+            'group_by'      => 'visitor.location',
+            'order_by'      => ['visitors', 'views'],
+            'order'         => 'DESC'
         ]);
 
         $query = Query::select([
@@ -354,14 +359,15 @@ class VisitorsModel extends BaseModel
             ->orderBy($args['order_by'], $args['order'])
             ->bypassCache($bypassCache);
 
-        if (!empty($args['post_type']) || !empty($args['author_id']) || !empty($args['post_id'])) {
+        if (!empty($args['post_type']) || !empty($args['author_id']) || !empty($args['post_id']) || !empty($args['query_param'])) {
             $query
                 ->join('visitor_relationships', ['visitor_relationships.visitor_id', 'visitor.ID'])
                 ->join('pages', ['visitor_relationships.page_id', 'pages.page_id'], [], 'LEFT')
                 ->join('posts', ['posts.ID', 'pages.id'], [], 'LEFT')
                 ->where('post_type', 'IN', $args['post_type'])
                 ->where('post_author', '=', $args['author_id'])
-                ->where('posts.ID', '=', $args['post_id']);
+                ->where('posts.ID', '=', $args['post_id'])
+                ->where('pages.id', '=', $args['query_param']);
         }
 
         $result = $query->getAll();
@@ -409,12 +415,13 @@ class VisitorsModel extends BaseModel
     public function getReferrers($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
-            'date'      => '',
-            'post_type' => '',
-            'post_id'   => '',
-            'country'   => '',
-            'page'      => 1,
-            'per_page'  => 10
+            'date'          => '',
+            'post_type'     => '',
+            'post_id'       => '',
+            'country'       => '',
+            'query_param'   => '',
+            'page'          => 1,
+            'per_page'      => 10
         ]);
 
         $query = Query::select([
@@ -429,13 +436,14 @@ class VisitorsModel extends BaseModel
             ->perPage($args['page'], $args['per_page'])
             ->bypassCache($bypassCache);
 
-        if (!empty($args['post_type']) || !empty($args['post_id'])) {
+        if (!empty($args['post_type']) || !empty($args['post_id']) || !empty($args['query_param'])) {
             $query
                 ->join('visitor_relationships', ['visitor_relationships.visitor_id', 'visitor.ID'], [], 'LEFT')
                 ->join('pages', ['visitor_relationships.page_id', 'pages.page_id'], [], 'LEFT')
                 ->join('posts', ['posts.ID', 'pages.id'], [], 'LEFT')
                 ->where('post_type', 'IN', $args['post_type'])
                 ->where('posts.ID', '=', $args['post_id'])
+                ->where('pages.id', '=', $args['query_param'])
                 ->whereDate('pages.date', $args['date']);
         }
 
@@ -453,11 +461,12 @@ class VisitorsModel extends BaseModel
     public function getSearchEngineReferrals($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
-            'date'      => '',
-            'post_type' => '',
-            'post_id'   => '',
-            'country'   => '',
-            'group_by'  => ['search.last_counter', 'search.engine'],
+            'date'          => '',
+            'post_type'     => '',
+            'post_id'       => '',
+            'country'       => '',
+            'query_param'   => '',
+            'group_by'      => ['search.last_counter', 'search.engine'],
         ]);
 
         $query = Query::select([
@@ -471,13 +480,14 @@ class VisitorsModel extends BaseModel
             ->orderBy('date', 'DESC')
             ->bypassCache($bypassCache);
 
-        if (!empty($args['post_type']) || !empty($args['post_id'])) {
+        if (!empty($args['post_type']) || !empty($args['post_id']) || !empty($args['query_param'])) {
             $query
                 ->join('visitor_relationships', ['visitor_relationships.visitor_id', 'search.visitor'])
                 ->join('pages', ['visitor_relationships.page_id', 'pages.page_id'])
                 ->join('posts', ['posts.ID', 'pages.id'])
                 ->where('post_type', 'IN', $args['post_type'])
-                ->where('posts.ID', '=', $args['post_id']);
+                ->where('posts.ID', '=', $args['post_id'])
+                ->where('pages.id', '=', $args['query_param']);
         }
 
         if (!empty($args['country'])) {

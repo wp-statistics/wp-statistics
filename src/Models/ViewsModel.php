@@ -12,10 +12,11 @@ class ViewsModel extends BaseModel
     public function countViews($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
-            'date'      => '',
-            'post_type' => Helper::get_list_post_type(),
-            'author_id' => '',
-            'post_id'   => ''
+            'post_type'     => Helper::get_list_post_type(),
+            'date'          => '',
+            'author_id'     => '',
+            'post_id'       => '',
+            'query_param'   => ''
         ]);
 
         $subQuery = Query::select('SUM(count) as total_views')
@@ -25,6 +26,7 @@ class ViewsModel extends BaseModel
             ->whereDate('date', $args['date'])
             ->where('post_author', '=', $args['author_id'])
             ->where('posts.ID', '=', $args['post_id'])
+            ->where('pages.id', '=', $args['query_param'])
             ->groupBy('type')
             ->bypassCache($bypassCache)
             ->getQuery();
