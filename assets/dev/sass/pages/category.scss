@@ -1,3 +1,16 @@
+.statistics_page_wps_category-analytics_page{
+  .wps-wrap__top .wps-previous-url{
+    margin-top: -12px;
+    margin-bottom: 10px;
+  }
+  .wps-head-filters{
+    top:20px;
+    @media((max-width: 1122px)){
+      top:unset;
+    }
+  }
+}
+
 .wps-category-analytics {
   display: flex;
   gap: 8px;
@@ -175,6 +188,12 @@
           padding-left: 0 !important;
           color: #0C0C0D;
           font-size: 13px;
+
+          .wps-site-icon img{
+            margin-right: 4px;
+            margin-bottom: 2px;
+            vertical-align: middle;
+          }
 
           b {
             font-weight: 500;
@@ -437,7 +456,7 @@
 
     input[type="radio"]:checked + label {
       color: #0C0C0D !important;
-      border-bottom: 2px solid #404BF2
+      border-bottom: 1px solid #404BF2
     }
 
     .wps-category-tabs__item {
