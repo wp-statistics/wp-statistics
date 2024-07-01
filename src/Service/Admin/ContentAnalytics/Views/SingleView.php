@@ -57,6 +57,7 @@ class SingleView extends BaseView
 
             $args = [
                 'backUrl'       => Menus::admin_url('content-analytics'),
+                'custom_get'    => ['type' => 'single', 'post_id' => Request::get('post_id', '', 'number'), 'qp' => Request::get('qp', '', 'number')],
                 'backTitle'     => esc_html__('Content Analytics', 'wp-statistics'),
                 'pageName'      => Menus::get_page_slug('content-analytics'),
                 'DateRang'      => Admin_Template::DateRange(),
