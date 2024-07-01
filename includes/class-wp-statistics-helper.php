@@ -1625,4 +1625,41 @@ class Helper
     {
         return (AdminBar::show_admin_bar() && is_admin_bar_showing() && User::Access());
     }
+
+    /**
+     * Calculates percentage difference between two numbers.
+     *
+     * @param   int|float     $firstNumber
+     * @param   int|float     $secondNumber
+     *
+     * @return  float
+     */
+    public static function calculatePercentageChange($firstNumber, $secondNumber)
+    {
+        if (!is_numeric($firstNumber)) {
+            $firstNumber = 0;
+        }
+        if (!is_numeric($secondNumber)) {
+            $secondNumber = 0;
+        }
+        if ($firstNumber == $secondNumber) {
+            return 0;
+        }
+
+        // Multiply the final result by -1 if the second number is smaller (decreasing change)
+        $multiply = 1;
+        if ($firstNumber > $secondNumber) {
+            $multiply = -1;
+        }
+
+        // The first part of the formula depends on whether it's an increasing change or decreasing
+        $change = $firstNumber > $secondNumber ? $firstNumber - $secondNumber : $secondNumber - $firstNumber;
+
+        // Final part of the formula: ($change / $firstNumber) * 100
+        $result  = $firstNumber == 0 ? $change : ($change / $firstNumber);
+        $result *= 100;
+        $result *= $multiply;
+
+        return $result;
+    }
 }
