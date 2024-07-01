@@ -39,18 +39,20 @@ class Assets
      * @param   bool    $inFooter   Whether to enqueue the script in the footer.
      * @param   bool    $obfuscate  Ofuscate/Randomize asset's file name.
      * @param   string  $plugin_url The plugin URL.
+     * @param   string  $version    Script version number.
      *
      * @todo Obfuscate is not working if $plugin_url has value
      *
      * @return  void
-     * @example Assets::script('admin', 'dist/admin.js', ['jquery'], ['foo' => 'bar'], true, false, WP_STATISTICS_URL);
+     * @example Assets::script('admin', 'dist/admin.js', ['jquery'], ['foo' => 'bar'], true, false, WP_STATISTICS_URL, '1.0.0');
      */
-    public static function script($handle, $src, $deps = [], $localize = [], $inFooter = false, $obfuscate = false, $plugin_url = null)
+    public static function script($handle, $src, $deps = [], $localize = [], $inFooter = false, $obfuscate = false, $plugin_url = null, $version = '')
     {
-        $object = self::getObject($handle);
-        $handle = self::getHandle($handle);
+        $object  = self::getObject($handle);
+        $handle  = self::getHandle($handle);
+        $version = empty($version) ? WP_STATISTICS_VERSION : trim($version);
 
-        wp_enqueue_script($handle, self::getSrc($src, $obfuscate, $plugin_url), $deps, WP_STATISTICS_VERSION, $inFooter);
+        wp_enqueue_script($handle, self::getSrc($src, $obfuscate, $plugin_url), $deps, $version, $inFooter);
 
         if ($localize) {
             $localize = apply_filters("wp_statistics_localize_{$handle}", $localize);
