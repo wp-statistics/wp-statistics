@@ -186,6 +186,12 @@
           color: #0C0C0D;
           font-size: 13px;
 
+          .wps-site-icon img{
+            margin-right: 4px;
+            margin-bottom: 2px;
+            vertical-align: middle;
+          }
+
           b {
             font-weight: 500;
             color: #0C0C0D;
@@ -447,7 +453,7 @@
 
     input[type="radio"]:checked + label {
       color: #0C0C0D !important;
-      border-bottom: 2px solid #404BF2
+      border-bottom: 1px solid #404BF2
     }
 
     .wps-content-tabs__item {
@@ -614,7 +620,7 @@
           font-size: 14px;
           font-weight: 400;
           line-height: 16.41px;
-          color: #56585A;
+          color: #363739;
           padding-right: 12px;
           padding-left: 12px;
           border-right: 1px solid #EEEFF1;
@@ -628,6 +634,9 @@
         &_updated{
           border-left: 0;
           padding-left: 0;
+          span{
+            color:#56585A
+          }
         }
 
       }

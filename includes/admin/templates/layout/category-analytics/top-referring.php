@@ -44,7 +44,7 @@
                         </td>
                         <td class="wps-pd-l">
                             <div class="wps-ellipsis-parent">
-                                <span class="wps-ellipsis-text">
+                                <span class="wps-ellipsis-text wps-site-icon">
                                     <img src="<?php echo esc_url(WP_STATISTICS_URL . 'assets/images/search-engine/google.png'); ?>" title="google" class="log-tools wps-flag">
                                      google.com
                                 </span>

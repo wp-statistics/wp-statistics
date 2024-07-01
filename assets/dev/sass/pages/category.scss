@@ -176,6 +176,12 @@
           color: #0C0C0D;
           font-size: 13px;
 
+          .wps-site-icon img{
+            margin-right: 4px;
+            margin-bottom: 2px;
+            vertical-align: middle;
+          }
+
           b {
             font-weight: 500;
             color: #0C0C0D;
@@ -437,7 +443,7 @@
 
     input[type="radio"]:checked + label {
       color: #0C0C0D !important;
-      border-bottom: 2px solid #404BF2
+      border-bottom: 1px solid #404BF2
     }
 
     .wps-category-tabs__item {
