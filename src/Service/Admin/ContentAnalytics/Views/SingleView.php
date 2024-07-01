@@ -31,7 +31,7 @@ class SingleView extends BaseView
 
         $this->dataProvider = new ContentAnalyticsDataProvider([
             'post_id'       => $this->postId,
-            'query_param'   => Request::get('qp', '', 'number'),
+            'query_param'   => Helper::isAddOnActive('data-plus') ? Request::get('qp', '', 'number') : '',
             'date'          => [
                 'from'  => Request::get('from', date('Y-m-d', strtotime('-30 days'))),
                 'to'    => Request::get('to', date('Y-m-d'))
@@ -57,6 +57,7 @@ class SingleView extends BaseView
 
             $args = [
                 'backUrl'       => Menus::admin_url('content-analytics'),
+                'custom_get'    => ['type' => 'single', 'post_id' => Request::get('post_id', '', 'number'), 'qp' => Request::get('qp', '', 'number')],
                 'backTitle'     => esc_html__('Content Analytics', 'wp-statistics'),
                 'pageName'      => Menus::get_page_slug('content-analytics'),
                 'DateRang'      => Admin_Template::DateRange(),
