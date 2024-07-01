@@ -30,11 +30,12 @@ class SingleView extends BaseView
         }
 
         $this->dataProvider = new ContentAnalyticsDataProvider([
-            'date' => [
+            'post_id'       => $this->postId,
+            'query_param'   => Request::get('qp', '', 'number'),
+            'date'          => [
                 'from'  => Request::get('from', date('Y-m-d', strtotime('-30 days'))),
                 'to'    => Request::get('to', date('Y-m-d'))
-            ],
-            'post_id' => $this->postId
+            ]
         ]);
     }
 
@@ -59,6 +60,7 @@ class SingleView extends BaseView
                 'backTitle'     => esc_html__('Content Analytics', 'wp-statistics'),
                 'pageName'      => Menus::get_page_slug('content-analytics'),
                 'DateRang'      => Admin_Template::DateRange(),
+                'filters'       => ['query-params'],
                 'hasDateRang'   => true,
                 'data'          => $this->getData()
             ];
