@@ -517,7 +517,7 @@ class VisitorsModel extends BaseModel
         ]);
 
         $result = Query::select([
-            "CONCAT('\"', `visitor`.`last_counter`, '\"') AS `date`",
+            '`visitor`.`last_counter` AS `date`',
             "COUNT(`visitor`.`last_counter`) AS `visitors`",
             "`visit`.`visit` AS `visits`"
         ])
