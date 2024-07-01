@@ -34,7 +34,7 @@ class AdminBar
     public function admin_bar($wp_admin_bar)
     {
         // Check Show WordPress Admin Bar
-        if (self::show_admin_bar() and is_admin_bar_showing() and User::Access()) {
+        if (Helper::isAdminBarShowing()) {
 
             $menu_title = '<span class="ab-icon"></span>';
             $object_id  = get_queried_object_ID();

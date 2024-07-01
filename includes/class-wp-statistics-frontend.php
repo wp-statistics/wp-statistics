@@ -89,7 +89,7 @@ class Frontend
     {
 
         // Load Admin Bar Css
-        if (AdminBar::show_admin_bar() and is_admin_bar_showing()) {
+        if (Helper::isAdminBarShowing()) {
             wp_enqueue_style('wp-statistics', WP_STATISTICS_URL . 'assets/css/frontend.min.css', true, WP_STATISTICS_VERSION);
         }
     }

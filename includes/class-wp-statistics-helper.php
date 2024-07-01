@@ -1615,4 +1615,14 @@ class Helper
         
         return $dateTimeFormat;
     }
+
+    /**
+     * Checks if the WordPress admin bar is showing and can current user see it?
+     *
+     * @return  boolean
+     */
+    public static function isAdminBarShowing()
+    {
+        return (AdminBar::show_admin_bar() && is_admin_bar_showing() && User::Access());
+    }
 }
