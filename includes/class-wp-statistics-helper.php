@@ -1636,8 +1636,13 @@ class Helper
      */
     public static function calculatePercentageChange($firstNumber, $secondNumber)
     {
-        if (!is_numeric($firstNumber) || !is_numeric($secondNumber) ||
-            $firstNumber == $secondNumber) {
+        if (!is_numeric($firstNumber)) {
+            $firstNumber = 0;
+        }
+        if (!is_numeric($secondNumber)) {
+            $secondNumber = 0;
+        }
+        if ($firstNumber == $secondNumber) {
             return 0;
         }
 
