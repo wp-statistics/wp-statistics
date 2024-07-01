@@ -213,13 +213,6 @@ class Admin_Assets
             wp_enqueue_style(self::$prefix . '-daterangepicker', self::url('datepicker/daterangepicker.css'), array(), '1.0.0');
             wp_enqueue_style(self::$prefix . '-customize', self::url('datepicker/customize.css'), array(), '1.0.0');
         }
-
-        // Load Chart.js library (in <head> tag)
-        if (Helper::isAdminBarShowing()) {
-            wp_enqueue_script(self::$prefix . '-chart.js', self::url('chartjs/chart.umd.min.js'), [], '4.4.2', true);
-            wp_enqueue_script(self::$prefix . '-hammer.js', self::url('chartjs/hammer.min.js'), [], '2.0.8', true);
-            wp_enqueue_script(self::$prefix . '-chartjs-plugin-zoom.js', self::url('chartjs/chartjs-plugin-zoom.min.js'), [self::$prefix . '-hammer.js'], '2.0.1', true);
-        }
     }
 
     /**
