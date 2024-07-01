@@ -20,7 +20,6 @@ class Menus
         'exclusions'        => 'exclusions',
         'hits'              => 'hits',
         'online'            => 'online',
-        'pages'             => 'pages',
         'referrers'         => 'referrers',
         'searches'          => 'searches',
         'top-visitors'      => 'top_visitors',
@@ -204,13 +203,6 @@ class Menus
                 'title'    => __('Search Engines', 'wp-statistics'),
                 'page_url' => 'searches',
                 'method'   => 'searches',
-            ),
-            'pages'        => array(
-                'require'  => array('visits' => true),
-                'sub'      => 'overview',
-                'title'    => __('Post Types', 'wp-statistics'),
-                'page_url' => 'pages',
-                'method'   => 'pages',
             ),
             'top.visitors' => array(
                 'require'  => array('visitors' => true),
