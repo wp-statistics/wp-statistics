@@ -94,7 +94,7 @@ class AdminBar
                 'wp-statistics-menu-page'             => array(
                     'parent' => 'wp-statistic-menu',
                     'title'  => sprintf('<img src="%s"/><div><span class="wps-admin-bar__chart__unlock-button">%s</span><button>%s</button></div>',
-                        WP_STATISTICS_URL . 'assets/images/mini-chart-lock.jpg',
+                        esc_url(WP_STATISTICS_URL . 'assets/images/mini-chart-lock.jpg'),
                         __('Unlock full potential of Mini-chart', 'wp-statistics'),
                         __('Upgrade Now', 'wp-statistics')
                     ),
