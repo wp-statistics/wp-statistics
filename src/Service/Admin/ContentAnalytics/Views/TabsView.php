@@ -82,7 +82,6 @@ class TabsView extends BaseTabView
     
             $args = [
                 'title'         => esc_html__('Content Analytics', 'wp-statistics'),
-                'tooltip'       => $this->isLockedTab($postType) ? esc_html__('To view reports for all your custom post types, you need to have the Data Plus add-on', 'wp-statistics') :  esc_html__('', 'wp-statistics'),
                 'pageName'      => Menus::get_page_slug('content-analytics'),
                 'pagination'    => Admin_Template::getCurrentPaged(),
                 'custom_get'    => ['tab' => $postType],
