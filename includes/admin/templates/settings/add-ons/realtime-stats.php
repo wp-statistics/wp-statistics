@@ -39,33 +39,6 @@ if (!$isRealTimeStatsActive) echo Admin_Template::get_template('layout/partials/
         </table>
     </div>
 
-    <div class="postbox">
-        <table class="form-table <?php echo !$isRealTimeStatsActive ? 'form-table--preview' : '' ?>">
-            <tbody>
-            <tr valign="top">
-                <th scope="row" colspan="2"><h3><?php esc_html_e('Content Filtering', 'wp-statistics'); ?></h3></th>
-            </tr>
-
-            <tr valign="top">
-                <th scope="row">
-                    <label for="realtime-stats-exclude-pages"><?php esc_html_e('Exclude Posts in Statistics', 'wp-statistics'); ?></label>
-                </th>
-
-                <td>
-                    <select name="wps_addon_settings[realtime_stats][exclude_pages]" id="realtime-stats-exclude-pages">
-                        <option value="0" <?php selected(WP_STATISTICS\Option::getByAddon('exclude_pages', 'realtime_stats'), '0'); ?>><?php esc_html_e('No', 'wp-statistics'); ?></option>
-                        <option value="1" <?php selected(WP_STATISTICS\Option::getByAddon('exclude_pages', 'realtime_stats'), '1'); ?>><?php esc_html_e('Yes', 'wp-statistics'); ?></option>
-                    </select>
-                    <p class="description">
-                        <?php _e(sprintf(__('Select \'Yes\' to exclude all posts from the real-time statistics. For detailed logs, ensure "Record User Page Views" are activated in <a href="%s">WP Statistics Settings</a>.', 'wp-statistics'), admin_url('admin.php?page=wps_settings_page&tab=general-settings'))); ?>
-                    </p>
-                </td>
-            </tr>
-
-            </tbody>
-        </table>
-    </div>
-
 <?php
 if ($isRealTimeStatsActive) {
     submit_button(__('Update', 'wp-statistics'), 'primary', 'submit', '', array('OnClick' => "var wpsCurrentTab = getElementById('wps_current_tab'); wpsCurrentTab.value='realtime-stats-settings'"));
