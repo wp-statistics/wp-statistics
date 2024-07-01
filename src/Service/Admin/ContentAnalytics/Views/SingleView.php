@@ -31,7 +31,7 @@ class SingleView extends BaseView
 
         $this->dataProvider = new ContentAnalyticsDataProvider([
             'post_id'       => $this->postId,
-            'query_param'   => Request::get('qp', '', 'number'),
+            'query_param'   => Helper::isAddOnActive('data-plus') ? Request::get('qp', '', 'number') : '',
             'date'          => [
                 'from'  => Request::get('from', date('Y-m-d', strtotime('-30 days'))),
                 'to'    => Request::get('to', date('Y-m-d'))
