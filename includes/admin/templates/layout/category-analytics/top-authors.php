@@ -2,8 +2,8 @@
     <div class="wps-card__title">
         <h2>
             <?php echo $title ?>
-            <?php if ($tooltip_text): ?>
-                <span class="wps-tooltip" title="<?php echo esc_attr($tooltip_text); ?>"><i class="wps-tooltip-icon info"></i></span>
+            <?php if ($tooltip): ?>
+                <span class="wps-tooltip" title="<?php echo esc_attr($tooltip); ?>"><i class="wps-tooltip-icon info"></i></span>
             <?php endif ?>
         </h2>
     </div>
