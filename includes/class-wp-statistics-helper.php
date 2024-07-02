@@ -954,7 +954,7 @@ class Helper
      *
      * @return string|bool
      *
-     * @todo Make the return values for "month" and "last-month" more dynamic (29, 30 or 31 depending on the current month).
+     * @todo Make the return values for "month", "last-month" and "2-months-ago" more dynamic (29, 30 or 31 depending on the current month).
      */
     public static function mysql_time_conditions($field = 'date', $time = 'total', $range = array())
     {
@@ -973,9 +973,19 @@ class Helper
             case 'today':
                 $where = "`$field` = '{$current_date}'";
                 break;
+            case 'day-before-yesterday':
+                $fromDate = TimeZone::getTimeAgo(2, 'Y-m-d');
+                $toDate   = TimeZone::getTimeAgo(1, 'Y-m-d');
+                $where    = "`$field` BETWEEN '{$fromDate}' AND '{$toDate}'";
+                break;
             case 'yesterday':
                 $getCurrentDate = TimeZone::getTimeAgo(1, 'Y-m-d');
                 $where          = "`$field` = '{$getCurrentDate}'";
+                break;
+            case '2-weeks-ago':
+                $fromDate = TimeZone::getTimeAgo(21, 'Y-m-d');
+                $toDate   = TimeZone::getTimeAgo(14, 'Y-m-d');
+                $where    = "`$field` BETWEEN '{$fromDate}' AND '{$toDate}'";
                 break;
             case 'last-week':
                 $fromDate = TimeZone::getTimeAgo(14, 'Y-m-d');
@@ -984,6 +994,11 @@ class Helper
                 break;
             case 'week':
                 $where = $field_sql(-7);
+                break;
+            case '2-months-ago':
+                $fromDate = TimeZone::getTimeAgo(90, 'Y-m-d');
+                $toDate   = TimeZone::getTimeAgo(60, 'Y-m-d');
+                $where    = "`$field` BETWEEN '{$fromDate}' AND '{$toDate}'";
                 break;
             case 'last-month':
                 $fromDate = TimeZone::getTimeAgo(60, 'Y-m-d');
