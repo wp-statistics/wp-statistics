@@ -13,16 +13,16 @@ use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 
 class SingleView extends BaseView 
 {
-    private $taxId;
+    private $termId;
 
     public function __construct()
     {
-        $this->taxId = Request::get('tax_id', false, 'number');
+        $this->termId = Request::get('term_id', false, 'number');
 
-        // If taxonomy does not exist, show error
-        if (!$this->taxId) {
+        // If term does not exist, show error
+        if (!$this->termId) {
             throw new SystemErrorException(
-                esc_html__('Invalid taxonomy id provided.', 'wp-statistics')
+                esc_html__('Invalid term id provided.', 'wp-statistics')
             );
         }
     }
