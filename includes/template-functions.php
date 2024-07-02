@@ -905,29 +905,29 @@ function wp_statistics_searchengine($search_engine = 'all', $time = 'total', $ra
  * Return Refer List
  *
  * @param null $time
+ * @param array $range
  * @return int
  */
-function wp_statistics_referrer($time = null)
+function wp_statistics_referrer($time = null, $range = [])
 {
     global $wpdb;
 
-    $timezone = array(
-        'today'     => 0,
-        'yesterday' => -1,
-        'week'      => -7,
-        'month'     => -30,
-        'year'      => -365,
-        'total'     => 'ALL',
-    );
-    $sql      = "SELECT `referred` FROM `" . \WP_STATISTICS\DB::table('visitor') . "` WHERE referred <> ''";
-    if (array_key_exists($time, $timezone)) {
-        if ($time != "total") {
-            $sql .= " AND (`last_counter` = '" . TimeZone::getCurrentDate('Y-m-d', $timezone[$time]) . "')";
-        }
+    $sql = "SELECT `referred` FROM `" . \WP_STATISTICS\DB::table('visitor') . "` WHERE referred <> ''";
+
+    // Check Sanitize Datetime
+    if (TimeZone::isValidDate($time)) {
+        if (empty($range)) $range = ['is_day' => true];
     } else {
-        //Set Default
-        $sql .= " AND (`last_counter` = '" . TimeZone::getCurrentDate('Y-m-d', $time) . "')";
+        if (empty($range)) $range = ['current_date' => true];
     }
+
+    $mysql_time_sql = WP_STATISTICS\Helper::mysql_time_conditions('last_counter', $time, $range);
+
+    //Generate MySql Time Conditions
+    if (!empty($mysql_time_sql)) {
+        $sql = $sql . ' AND (' . $mysql_time_sql . ')';
+    }
+
     $result = $wpdb->get_results($sql); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared	
 
     $urls = array();
