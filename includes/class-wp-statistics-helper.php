@@ -936,6 +936,8 @@ class Helper
      * ----------------------
      *
      * @return string|bool
+     *
+     * @todo Make the return values for "month" and "last-month" more dynamic (29, 30 or 31 depending on the current month).
      */
     public static function mysql_time_conditions($field = 'date', $time = 'total', $range = array())
     {
@@ -965,6 +967,11 @@ class Helper
                 break;
             case 'week':
                 $where = $field_sql(-7);
+                break;
+            case 'last-month':
+                $fromDate = TimeZone::getTimeAgo(60, 'Y-m-d');
+                $toDate   = TimeZone::getTimeAgo(30, 'Y-m-d');
+                $where    = "`$field` BETWEEN '{$fromDate}' AND '{$toDate}'";
                 break;
             case 'month':
                 $where = $field_sql(-30);
