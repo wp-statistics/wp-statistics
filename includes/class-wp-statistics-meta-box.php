@@ -76,7 +76,7 @@ class Meta_Box
          $list = array(
             'quickstats'      => array(
                 'page_url'          => 'overview',
-                'name'              => __('Quick Stats', 'wp-statistics'),
+                'name'              => __('Traffic Overview', 'wp-statistics'),
                 'show_on_dashboard' => true,
                 'hidden'            => false,
                 'place'             => 'side',
