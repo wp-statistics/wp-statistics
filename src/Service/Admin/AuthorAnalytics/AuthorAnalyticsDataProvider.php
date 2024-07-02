@@ -201,7 +201,7 @@ class AuthorAnalyticsDataProvider
         $totalPosts         = $this->postsModel->countPosts($this->args);
         $totalVisitors      = $this->visitorsModel->countVisitors($this->args);
 
-        $taxonomies         = $this->taxonomyModel->countTaxonomiesPosts($this->args);
+        $taxonomies         = $this->taxonomyModel->getTaxonomiesData($this->args);
         $topPostsByView     = $this->postsModel->getPostsViewsData($this->args);
         $topPostsByComment  = $this->postsModel->getPostsCommentsData($this->args);
         $topPostsByWords    = $this->postsModel->getPostsWordsData($this->args);

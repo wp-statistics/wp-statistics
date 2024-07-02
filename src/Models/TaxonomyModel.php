@@ -8,7 +8,7 @@ use WP_Statistics\Abstracts\BaseModel;
 
 class TaxonomyModel extends BaseModel
 {
-    public function countTaxonomiesPosts($args = [], $bypassCache = false)
+    public function getTaxonomiesData($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
             'date'      => '',
