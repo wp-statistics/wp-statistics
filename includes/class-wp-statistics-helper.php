@@ -919,6 +919,23 @@ class Helper
     }
 
     /**
+     * Checks if the given taxonomy is a custom taxonomy.
+     *
+     * @param string $taxonomy The taxonomy name to check.
+     * @return bool True if the taxonomy is custom, false otherwise.
+     */
+    public static function isCustomTaxonomy($taxonomy)
+    {
+        $taxonomy = get_taxonomy($taxonomy);
+
+        if (!empty($taxonomy)) {
+            return !$taxonomy->_builtin;
+        }
+
+        return false;
+    }
+
+    /**
      * Create Condition Where Time in MySql
      *
      * @param string $field : date column name in database table

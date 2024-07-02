@@ -29,24 +29,28 @@ class SingleView extends BaseView
 
     public function isLocked()
     {
-        return !Helper::isAddOnActive('data-plus');
+        $term = get_term($this->termId);
+
+        return !Helper::isAddOnActive('data-plus') && Helper::isCustomTaxonomy($term->taxonomy);
     }
 
     public function render()
     {
         try {
-            $args = [
-                'backUrl'   => Menus::admin_url('category-analytics'),
-                'title'   => esc_html__('Category Analytics', 'wp-statistics'),
-                'backTitle' => esc_html__('Category Analytics', 'wp-statistics'),
-                'DateRang'    => Admin_Template::DateRange(),
-                'hasDateRang' => true,
-            ];
             $template = 'category-single';
 
             if ($this->isLocked()) {
                 $template = 'category-single-locked';
             }
+
+            $args = [
+                'backUrl'       => Menus::admin_url('category-analytics'),
+                'pageName'      => Menus::get_page_slug('category-analytics'),
+                'title'         => esc_html__('Category Analytics', 'wp-statistics'),
+                'backTitle'     => esc_html__('Category Analytics', 'wp-statistics'),
+                'DateRang'      => Admin_Template::DateRange(),
+                'hasDateRang'   => true,
+            ];
 
             Admin_Template::get_template(['layout/header', 'layout/title', "pages/category-analytics/$template", 'layout/footer'], $args);
         } catch (Exception $e) {
