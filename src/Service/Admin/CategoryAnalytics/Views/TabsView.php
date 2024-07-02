@@ -46,7 +46,7 @@ class TabsView extends BaseTabView
                 'title'         => esc_html__('Category Analytics', 'wp-statistics'),
                 'tooltip'       => esc_html__('Category Analytics Tooltip', 'wp-statistics'),
                 'pageName'      => Menus::get_page_slug('category-analytics'),
-                'custom_get'    => ['tab' => $currentTab],
+                'custom_get'    => ['tab' => $currentTab, 'tx' => Request::get('tx', 'category')],
                 'DateRang'      => Admin_Template::DateRange(),
                 'filters'       => ['taxonomy'],
                 'hasDateRang'   => true,
