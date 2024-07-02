@@ -26,7 +26,7 @@ class TaxonomyModel extends BaseModel
                 'terms.term_id',
                 'terms.name',
                 'COUNT(posts.ID) as post_count',
-                'pages.count as views'
+                'COALESCE(pages.count, 0) as views'
             ])
             ->from('term_taxonomy')
             ->join('terms', ['term_taxonomy.term_id', 'terms.term_id'])
@@ -36,6 +36,7 @@ class TaxonomyModel extends BaseModel
             ->where('posts.post_author', '=', $args['author_id'])
             ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy'])
             ->whereDate('posts.post_date', $args['date'])
+            ->whereDate('pages.date', $args['date'])
             ->groupBy(['taxonomy', 'terms.term_id','terms.name'])
             ->orderBy($args['order_by'], $args['order'])
             ->perPage($args['page'], $args['per_page'])

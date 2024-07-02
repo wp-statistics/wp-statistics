@@ -31,7 +31,7 @@ class CategoryAnalyticsDataProvider
 
         return [
             'categories'  => $data,
-            'total'       => wp_count_terms($this->args['taxonomy'])
+            'total'       => count($data)
         ];
     }
 }
