@@ -1,6 +1,10 @@
 <?php
 use WP_STATISTICS\Menus;
 use WP_Statistics\Utils\Request;
+
+$taxonomy       = Request::get('tx', 'category');
+$order          = Request::get('order', 'desc');
+$reverseOrder   = $order == 'desc' ? 'asc' : 'desc';
 ?>
 
 <div class="postbox-container wps-postbox-full">
@@ -8,55 +12,58 @@ use WP_Statistics\Utils\Request;
         <div class="meta-box-sortables">
             <div class="postbox">
                 <div class="inside">
-                         <div class="o-table-wrapper">
+                    <?php if (!empty($data['categories'][$taxonomy])) : ?>
+                        <div class="o-table-wrapper">
                             <table width="100%" class="o-table wps-authors-table">
                                 <thead>
-                                <tr>
-                                    <th class="wps-pd-l">
-                                        <a href="" class="sort">
-                                            <?php esc_html_e('Author', 'wp-statistics') ?>
-                                        </a>
-                                    </th>
-                                    <th class="wps-pd-l">
-                                        <a href="" class="sort">
-                                            <?php esc_html_e('Author\'s Page Views', 'wp-statistics') ?>
-                                        </a>
-                                    </th>
-                                    <th class="wps-pd-l">
-                                        <a href="" class="sort">
-                                            <?php esc_html_e('Published Contents', 'wp-statistics') ?>
-                                        </a>
-                                    </th>
-                                    <th></th>
-                                </tr>
+                                    <tr>
+                                        <th class="wps-pd-l">
+                                            <a href="<?php echo esc_url(add_query_arg(['order_by' => 'name', 'order' => $reverseOrder])) ?>" class="sort <?php echo Request::compare('order_by', 'name') ? esc_attr($order) : '' ?>"><?php esc_html_e('Category', 'wp-statistics') ?></a>
+                                        </th>
+                                        <th class="wps-pd-l">
+                                            <a href="<?php echo esc_url(add_query_arg(['order_by' => 'views', 'order' => $reverseOrder])) ?>" class="sort <?php echo !Request::has('order_by') || Request::compare('order_by', 'views') ? esc_attr($order) : '' ?>">
+                                                <?php esc_html_e('Category Page Views', 'wp-statistics') ?>
+                                            </a>
+                                        </th>
+                                        <th class="wps-pd-l">
+                                            <a href="<?php echo esc_url(add_query_arg(['order_by' => 'post_count', 'order' => $reverseOrder])) ?>" class="sort <?php echo Request::compare('order_by', 'post_count') ? esc_attr($order) : '' ?>">
+                                                <?php esc_html_e('Published Posts', 'wp-statistics') ?>
+                                            </a>
+                                        </th>
+                                        <th></th>
+                                    </tr>
                                 </thead>
 
                                 <tbody>
-                                     <tr>
-                                        <td class="wps-pd-l">
-                                            <div class="wps-author-name">
-                                                <img src="" alt=""/>
-                                                <a href="">
-                                                    <span title="author name">author name</span>
+                                    <?php foreach ($data['categories'][$taxonomy] as $category) : ?>
+                                        <tr>
+                                            <td class="wps-pd-l">
+                                                <div class="wps-author-name">
+                                                    <a href="<?php echo esc_url(Menus::admin_url('category-analytics', ['type' => 'single', 'term_id' => $category['term_id']])) ?>">
+                                                        <span title="<?php echo esc_attr($category['term_name']) ?>"><?php echo esc_html($category['term_name']) ?></span>
+                                                    </a>
+                                                </div>
+                                            </td>
+                                            <td class="wps-pd-l"><?php echo esc_html($category['views']) ?></td>
+                                            <td class="wps-pd-l"><?php echo esc_html($category['posts_count']) ?></td>
+                                            <td class="view-more">
+                                                <a target="_blank" href="<?php echo esc_url(get_term_link(intval($category['term_id']))); ?>" title="<?php esc_html_e('View Category Page', 'wp-statistics') ?>">
+                                                    <?php esc_html_e('View Category Page', 'wp-statistics') ?>
                                                 </a>
-                                            </div>
-                                        </td>
-                                        <td class="wps-pd-l">12</td>
-                                        <td class="wps-pd-l">13</td>
-                                        <td class="view-more">
-                                            <a target="_blank" href="" title="<?php esc_html_e('View Author Page', 'wp-statistics') ?>">
-                                                <?php esc_html_e('View Author Page', 'wp-statistics') ?>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                 </tbody>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                </tbody>
                             </table>
                         </div>
-                         <div class="o-wrap o-wrap--no-data wps-center">
+                    <?php else : ?>
+                        <div class="o-wrap o-wrap--no-data wps-center">
                             <?php esc_html_e('No recent data available.', 'wp-statistics')   ?>
                         </div>
-                 </div>
-             </div>
+                    <?php endif; ?>
+                </div>
+                <?php echo isset($pagination) ? $pagination : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+            </div>
         </div>
     </div>
 </div>

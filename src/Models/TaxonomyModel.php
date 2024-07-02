@@ -11,29 +11,33 @@ class TaxonomyModel extends BaseModel
     public function getTaxonomiesData($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
-            'date'      => '',
             'post_type' => Helper::get_list_post_type(),
+            'order_by'  => ['term_taxonomy.taxonomy', 'post_count'],
+            'taxonomy'  => array_keys(Helper::get_list_taxonomy(true)),
             'page'      => 1,
             'per_page'  => 5,
+            'date'      => '',
             'author_id' => '',
-            'taxonomy'  => array_keys(Helper::get_list_taxonomy(true))
+            'order'     => ''
         ]);
 
         $result = Query::select([
                 'taxonomy', 
                 'terms.term_id',
                 'terms.name',
-                'COUNT(posts.ID) as post_count'
+                'COUNT(posts.ID) as post_count',
+                'pages.count as views'
             ])
             ->from('term_taxonomy')
             ->join('terms', ['term_taxonomy.term_id', 'terms.term_id'])
             ->join('term_relationships', ['term_relationships.term_taxonomy_id', 'term_taxonomy.term_taxonomy_id'], [], 'LEFT')
             ->join('posts', ['posts.ID', 'term_relationships.object_id'], [['posts.post_type' , 'IN', $args['post_type']], ['posts.post_status', '=', 'publish']], 'LEFT')
+            ->join('pages', ['pages.id', 'term_taxonomy.term_taxonomy_id'], [], 'LEFT')
             ->where('posts.post_author', '=', $args['author_id'])
             ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy'])
             ->whereDate('posts.post_date', $args['date'])
             ->groupBy(['taxonomy', 'terms.term_id','terms.name'])
-            ->orderBy(['term_taxonomy.taxonomy', 'post_count'])
+            ->orderBy($args['order_by'], $args['order'])
             ->perPage($args['page'], $args['per_page'])
             ->bypassCache($bypassCache)
             ->getAll();
@@ -46,6 +50,7 @@ class TaxonomyModel extends BaseModel
                     'term_id'       => $item->term_id,
                     'term_name'     => $item->name,
                     'posts_count'   => $item->post_count,
+                    'views'         => $item->views
                 ];
             }
 
