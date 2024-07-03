@@ -15,19 +15,35 @@ class PostsModel extends BaseModel
         $args = $this->parseArgs($args, [
             'date'      => '',
             'post_type' => '',
-            'author_id' => ''
+            'author_id' => '',
+            'taxonomy'  => '',
+            'term'      => ''
         ]);
 
-        $totalPosts = Query::select('COUNT(ID)')
+        $query = Query::select('COUNT(ID)')
             ->from('posts')
             ->where('post_status', '=', 'publish')
             ->where('post_type', 'IN', $args['post_type'])
             ->where('post_author', '=', $args['author_id'])
             ->whereDate('post_date', $args['date'])
-            ->bypassCache($bypassCache)
-            ->getVar();
+            ->bypassCache($bypassCache);
 
-        return $totalPosts ? $totalPosts : 0;
+        if (!empty($args['taxonomy']) || !empty($args['term'])) {
+            $query
+                ->join('term_relationships', ['posts.ID', 'term_relationships.object_id'])
+                ->join('term_taxonomy', ['term_relationships.term_taxonomy_id', 'term_taxonomy.term_taxonomy_id'])
+                ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy']);
+
+            if (!empty($args['term'])) {
+                $query
+                    ->join('terms', ['term_taxonomy.term_id', 'terms.term_id'])
+                    ->where('terms.term_id', '=', $args['term']);
+            }
+        }
+
+        $result = $query->getVar();
+
+        return $result ? $result : 0;
     }
 
     public function countWords($args = [], $bypassCache = false)

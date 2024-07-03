@@ -1,5 +1,7 @@
 <?php
 use WP_STATISTICS\Admin_Template;
+use WP_STATISTICS\Helper;
+
 ?>
 
 <div class="metabox-holder wps-category-analytics">
@@ -9,7 +11,7 @@ use WP_STATISTICS\Admin_Template;
             'title'         => esc_html__('Published Contents', 'wp-statistics'),
             'tooltip'       => esc_html__('Published Contents tooltip', 'wp-statistics'),
             'icon_class'    => 'posts',
-            'total'         => '1,256',
+            'total'         => Helper::formatNumberWithUnit($data['overview']['published']['total']),
         ];
         Admin_Template::get_template(['layout/category-analytics/overview-card'], $args1);
 

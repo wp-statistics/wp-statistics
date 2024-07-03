@@ -31,6 +31,11 @@ class TabsView extends BaseTabView
 
     }
 
+    protected function getPerformanceData()
+    {
+        return $this->dataProvider->getPerformanceData();
+    }
+
     protected function getPagesData()
     {
         return $this->dataProvider->getPagesData();
