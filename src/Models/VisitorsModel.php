@@ -19,10 +19,12 @@ class VisitorsModel extends BaseModel
             'post_type'     => '',
             'author_id'     => '',
             'post_id'       => '',
-            'query_param'   => ''
+            'query_param'   => '',
+            'taxonomy'      => '',
+            'term'          => '',
         ]);
 
-        $result = Query::select('COUNT(DISTINCT visitor_id) as total_visitors')
+        $query = Query::select('COUNT(DISTINCT visitor_id) as total_visitors')
             ->from('visitor_relationships')
             ->join('pages', ['visitor_relationships.page_id', 'pages.page_id'], [], 'LEFT')
             ->join('posts', ['posts.ID', 'pages.id'], [], 'LEFT')
@@ -31,8 +33,22 @@ class VisitorsModel extends BaseModel
             ->where('posts.ID', '=', $args['post_id'])
             ->where('pages.uri', '=', $args['query_param'])
             ->whereDate('visitor_relationships.date', $args['date'])
-            ->bypassCache($bypassCache)
-            ->getVar();
+            ->bypassCache($bypassCache);
+
+        if (!empty($args['taxonomy']) || !empty($args['term'])) {
+            $query
+                ->join('term_relationships', ['posts.ID', 'term_relationships.object_id'])
+                ->join('term_taxonomy', ['term_relationships.term_taxonomy_id', 'term_taxonomy.term_taxonomy_id'])
+                ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy']);
+
+            if (!empty($args['term'])) {
+                $query
+                    ->join('terms', ['term_taxonomy.term_id', 'terms.term_id'])
+                    ->where('terms.term_id', '=', $args['term']);
+            }
+        }
+
+        $result = $query->getVar();
 
         return $result ? $result : 0;
     }
