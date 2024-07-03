@@ -38,8 +38,8 @@ use WP_STATISTICS\Helper;
         $args4 = [
             'title'         => esc_html__('Words', 'wp-statistics'),
             'tooltip'       => esc_html__('Words tooltip', 'wp-statistics'),
-            'total'         => '21.2M',
-            'avg'           => '183K',
+            'total'         => Helper::formatNumberWithUnit($data['overview']['words']['total']),
+            'avg'           => Helper::formatNumberWithUnit($data['overview']['words']['avg']),
             'icon_class'    => 'words',
             'avg_title'     => esc_html__('Avg. per Content', 'wp-statistics')
         ];
@@ -48,8 +48,8 @@ use WP_STATISTICS\Helper;
         $args5 = [
             'title'         => esc_html__('Comments', 'wp-statistics'),
             'tooltip'       => esc_html__('Comments tooltip', 'wp-statistics'),
-            'total'         => '13',
-            'avg'           => '12',
+            'total'         => Helper::formatNumberWithUnit($data['overview']['comments']['total']),
+            'avg'           => Helper::formatNumberWithUnit($data['overview']['comments']['avg']),
             'icon_class'    => 'comments',
             'avg_title'     => esc_html__('Avg. per Content', 'wp-statistics')
         ];

@@ -2,20 +2,63 @@
 
 namespace WP_Statistics\Service\Admin\CategoryAnalytics;
 
-use WP_Statistics\Utils\Request;
+use WP_STATISTICS\Helper;
 use WP_STATISTICS\Admin_Template;
+use WP_Statistics\Models\PostsModel;
+use WP_Statistics\Utils\Request;
 use WP_Statistics\Models\TaxonomyModel;
+use WP_Statistics\Models\ViewsModel;
+use WP_Statistics\Models\VisitorsModel;
 
 class CategoryAnalyticsDataProvider
 {
-    protected $taxonomyModel;
     protected $args;
+    protected $taxonomyModel;
+    protected $postsModel;
+    protected $visitorsModel;
+    protected $viewsModel;
     
     public function __construct($args)
     {
         $this->args = $args;
 
         $this->taxonomyModel = new TaxonomyModel();
+        $this->visitorsModel = new VisitorsModel();
+        $this->viewsModel    = new ViewsModel();
+        $this->postsModel    = new PostsModel();
+    }
+
+    public function getPerformanceData()
+    {
+        $totalPosts         = $this->postsModel->countPosts($this->args);
+        $totalViews         = $this->viewsModel->countViews($this->args);
+        $totalVisitors      = $this->visitorsModel->countVisitors($this->args);
+        $totalWords         = $this->postsModel->countWords($this->args);
+        $totalComments      = $this->postsModel->countComments($this->args);
+
+        return [
+            'overview'          => [
+                'published' => [
+                    'total' => $totalPosts
+                ],
+                'views'     => [
+                    'total' => $totalViews,
+                    'avg'   => Helper::divideNumbers($totalViews, $totalPosts)
+                ],
+                'visitors'  => [
+                    'total' => $totalVisitors,
+                    'avg'   => Helper::divideNumbers($totalVisitors, $totalPosts)
+                ],
+                'words'     => [
+                    'total' => $totalWords,
+                    'avg'   => Helper::divideNumbers($totalWords, $totalPosts)
+                ],
+                'comments'  => [
+                    'total' => $totalComments,
+                    'avg'   => Helper::divideNumbers($totalComments, $totalPosts)
+                ]
+            ]
+        ];
     }
 
     public function getPagesData()

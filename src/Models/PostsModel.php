@@ -52,12 +52,14 @@ class PostsModel extends BaseModel
             'date'      => '',
             'post_type' => '',
             'author_id' => '',
-            'post_id'   => ''
+            'post_id'   => '',
+            'taxonomy'  => '',
+            'term'      => ''
         ]);
 
         $wordsCountMetaKey = WordCountService::WORDS_COUNT_META_KEY;
 
-        $totalWords = Query::select("SUM(meta_value)")
+        $query = Query::select('SUM(meta_value)')
             ->from('posts')
             ->join('postmeta', ['posts.ID', 'postmeta.post_id'])
             ->where('post_status', '=', 'publish')
@@ -66,10 +68,24 @@ class PostsModel extends BaseModel
             ->where('post_author', '=', $args['author_id'])
             ->where('meta_key', '=', $wordsCountMetaKey)
             ->whereDate('post_date', $args['date'])
-            ->bypassCache($bypassCache)
-            ->getVar();
+            ->bypassCache($bypassCache);
 
-        return $totalWords ? $totalWords : 0;
+        if (!empty($args['taxonomy']) || !empty($args['term'])) {
+            $query
+                ->join('term_relationships', ['posts.ID', 'term_relationships.object_id'])
+                ->join('term_taxonomy', ['term_relationships.term_taxonomy_id', 'term_taxonomy.term_taxonomy_id'])
+                ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy']);
+
+            if (!empty($args['term'])) {
+                $query
+                    ->join('terms', ['term_taxonomy.term_id', 'terms.term_id'])
+                    ->where('terms.term_id', '=', $args['term']);
+            }
+        }
+
+        $result = $query->getVar();
+
+        return $result ? $result : 0;
     }
 
     public function countComments($args = [], $bypassCache = false)
@@ -78,10 +94,12 @@ class PostsModel extends BaseModel
             'date'      => '',
             'post_type' => '',
             'author_id' => '',
-            'post_id'   => ''
+            'post_id'   => '',
+            'taxonomy'  => '',
+            'term'      => ''
         ]);
 
-        $totalWords = Query::select('COUNT(comment_ID)')
+        $query = Query::select('COUNT(comment_ID)')
             ->from('posts')
             ->join('comments', ['posts.ID', 'comments.comment_post_ID'])
             ->where('post_status', '=', 'publish')
@@ -90,10 +108,24 @@ class PostsModel extends BaseModel
             ->where('comments.comment_type', '=', 'comment')
             ->where('posts.ID', '=', $args['post_id'])
             ->whereDate('post_date', $args['date'])
-            ->bypassCache($bypassCache)
-            ->getVar();
+            ->bypassCache($bypassCache);
 
-        return $totalWords ? $totalWords : 0;
+        if (!empty($args['taxonomy']) || !empty($args['term'])) {
+            $query
+                ->join('term_relationships', ['posts.ID', 'term_relationships.object_id'])
+                ->join('term_taxonomy', ['term_relationships.term_taxonomy_id', 'term_taxonomy.term_taxonomy_id'])
+                ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy']);
+
+            if (!empty($args['term'])) {
+                $query
+                    ->join('terms', ['term_taxonomy.term_id', 'terms.term_id'])
+                    ->where('terms.term_id', '=', $args['term']);
+            }
+        }
+
+        $result = $query->getVar();
+
+        return $result ? $result : 0;
     }
 
     public function getPostPublishOverview($args = [], $bypassCache = false)
