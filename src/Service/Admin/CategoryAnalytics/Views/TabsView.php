@@ -4,6 +4,7 @@ namespace WP_Statistics\Service\Admin\CategoryAnalytics\Views;
 
 use Exception;
 use WP_STATISTICS\Menus;
+use WP_STATISTICS\Admin_Assets;
 use WP_Statistics\Utils\Request;
 use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Abstracts\BaseTabView;
@@ -33,6 +34,8 @@ class TabsView extends BaseTabView
 
     protected function getPerformanceData()
     {
+        wp_localize_script(Admin_Assets::$prefix, 'Wp_Statistics_Category_Analytics_Object', $this->dataProvider->getChartsData());
+
         return $this->dataProvider->getPerformanceData();
     }
 

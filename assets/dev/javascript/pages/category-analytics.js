@@ -1,20 +1,26 @@
 if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.request_params.page === "category-analytics") {
-    const wpStatisticscategoryAnalytics = {
+    const wpStatisticsCategoryAnalytics = {
         data: [],
 
         init: function () {
-             this.generateCharts()
+            if (typeof Wp_Statistics_Category_Analytics_Object == "undefined") {
+                console.log('Variable Wp_Statistics_Category_Analytics_Object not found.');
+                return;
+            }
+
+            this.data = Wp_Statistics_Category_Analytics_Object;
+            this.generateCharts()
         },
         generateCharts: function () {
-            if (document.getElementById('performance-category-chart'))  this.generatePerformanceChart();
-            if (document.getElementById('performance-category-chart-single'))  this.generatePerformanceChartSingle();
+            if (document.getElementById('performance-category-chart')) this.generatePerformanceChart();
+            if (document.getElementById('performance-category-chart-single')) this.generatePerformanceChartSingle();
             if (document.getElementById('category_operating_systems')) this.generateOperatingSystemChart();
             if (document.getElementById('category_browsers')) this.generateBrowsersChartData();
             if (document.getElementById('category_device_models')) this.generateDeviceModelsChart();
             if (document.getElementById('category_device_usage')) this.generateDeviceUsageChart();
             if (document.getElementById('category-search-engines-chart')) this.generateSearchEngineChart();
         },
-        legendHandel:function (chart){
+        legendHandel: function (chart) {
             document.querySelectorAll('.wps-category-analytics-chart--item').forEach((legendItem, index) => {
                 legendItem.addEventListener('click', () => {
                     const dataset = chart.data.datasets[index];
@@ -25,11 +31,8 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             });
         },
         generatePerformanceChart: function () {
-            const performanceData = {
-                labels: ['1 Apr', '2 Apr', '3 Apr', '4 Apr', '5 Apr', '6 Apr', '7 Apr', '8 Apr', '9 Apr', '10 Apr', '11 Apr', '12 Apr', '13 Apr', '14 Apr', '15 Apr'],
-                views: [10, 15, 30, 25, 30, 35, 30, 45, 20, 15, 45, 15, 20, 25, 30],
-                visitors: [5, 10, 15, 20, 25, 30, 25, 20, 15, 10, 5, 10, 15, 20, 25]
-            };
+            const performanceData = this.data.performance_chart_data;
+            
             const performance = document.getElementById('performance-category-chart').getContext('2d');
             const performanceChart = new Chart(performance, {
                 type: 'bar',
@@ -72,11 +75,11 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                         },
                         {
                             type: 'bar',
-                            label: wps_js._('Published Posts'),
-                            data: [5, 7, 6, 5, 9, 8, 7, 6, 5, 8, 7, 6, 5, 8, 7],
+                            label: `${wps_js._('published')} Contents`,
+                            data: performanceData.posts,
                             backgroundColor: 'rgba(159,165,248,0.7)',
                             yAxisID: 'y1',
-                            borderRadius: {topLeft: 10, topRight: 10},
+                            borderRadius: { topLeft: 10, topRight: 10 },
                         },
                     ]
                 },
@@ -89,7 +92,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                     },
                     scales: {
                         x: {
-                            offset:false,
+                            offset: false,
                             grid: {
                                 display: false,
                                 drawBorder: false,
@@ -120,12 +123,12 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                                 drawBorder: false,
                                 tickLength: 0,
                             },
-                            ticks:{
-                                stepSize:1
+                            ticks: {
+                                stepSize: 1
                             },
                             title: {
                                 display: true,
-                                text: 'Published Posts',
+                                text: `${wps_js._('published')} Contents`,
                                 color: '#9fa5f8',
                             }
                         }
@@ -137,7 +140,8 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         generatePerformanceChartSingle: function () {
             const performanceSingleData = {
                 labels: ['1 Apr', '2 Apr', '3 Apr', '4 Apr', '5 Apr', '6 Apr', '7 Apr', '8 Apr', '9 Apr', '10 Apr', '11 Apr', '12 Apr', '13 Apr', '14 Apr', '15 Apr'],
-                views: [10, 15, 30, 25, 30, 35, 30, 45, 20, 15, 45, 15, 20, 25, 30]};
+                views: [10, 15, 30, 25, 30, 35, 30, 45, 20, 15, 45, 15, 20, 25, 30]
+            };
             const performanceSingle = document.getElementById('performance-category-chart-single').getContext('2d');
             const performanceSingleChart = new Chart(performanceSingle, {
                 type: 'bar',
@@ -494,7 +498,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
     }
 
     jQuery(document).ready(function () {
-        wpStatisticscategoryAnalytics.init();
+        wpStatisticsCategoryAnalytics.init();
     });
 
 }

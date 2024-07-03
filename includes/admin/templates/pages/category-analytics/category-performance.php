@@ -94,7 +94,7 @@ use WP_STATISTICS\Helper;
             'tooltip'     => esc_html__('Performance tooltip', 'wp-statistics'),
             'type'        => 'category',
             'description' => esc_html__('Last 15 Days', 'wp-statistics'),
-            'data'        => ['views' => 0, 'visitors' => 0, 'posts' => 0]
+            'data'        => $data['performance']
         ];
         Admin_Template::get_template(['layout/category-analytics/performance-chart'], $performance);
 

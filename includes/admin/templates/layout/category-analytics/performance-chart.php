@@ -1,9 +1,5 @@
 <?php
-
 use WP_STATISTICS\Helper;
-use WP_Statistics\Utils\Request;
-
-$postType = Request::get('tab', 'post');
 ?>
 
 <div class="wps-card">
@@ -20,18 +16,18 @@ $postType = Request::get('tab', 'post');
     </div>
     <div class="wps-category-analytics-chart-items">
         <div class="wps-category-analytics-chart--item wps-category-analytics-chart--item--views">
-            <p><?php echo esc_html__('Views', 'wp-statistics') ?></p>
+            <p><?php esc_html_e('Views', 'wp-statistics') ?></p>
             <span><?php echo esc_html(Helper::formatNumberWithUnit($data['views'])) ?></span>
         </div>
         <?php if ($type === 'category'): ?>
             <div class="wps-category-analytics-chart--item wps-category-analytics-chart--item--visitors">
-                <p><?php echo esc_html__('Visitors', 'wp-statistics') ?></p>
+                <p><?php esc_html_e('Visitors', 'wp-statistics') ?></p>
                 <span><?php echo esc_html(Helper::formatNumberWithUnit($data['visitors'])) ?></span>
             </div>
         <?php endif; ?>
         <?php if ($type === 'category'): ?>
             <div class="wps-category-analytics-chart--item wps-category-analytics-chart--item--published">
-                <p><?php echo sprintf(esc_html__('Published %s', 'wp-statistics'), Helper::getPostTypeName($postType)) ?></p>
+                <p><?php esc_html_e('Published Contents', 'wp-statistics') ?></p>
                 <span><?php echo esc_html(Helper::formatNumberWithUnit($data['posts'])) ?></span>
             </div>
         <?php endif; ?>
