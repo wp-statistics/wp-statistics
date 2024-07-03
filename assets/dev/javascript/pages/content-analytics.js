@@ -5,7 +5,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
 
         init: function () {
             if (typeof Wp_Statistics_Content_Analytics_Object == "undefined") {
-                console.log('Variable Wp_Statistics_Author_Analytics_Object not found.');
+                console.log('Variable Wp_Statistics_Content_Analytics_Object not found.');
                 return;
             }
 
