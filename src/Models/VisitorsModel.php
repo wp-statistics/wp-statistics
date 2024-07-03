@@ -504,7 +504,7 @@ class VisitorsModel extends BaseModel
     /**
      * Returns visitors and visits for the past given days, separated daily.
      *
-     * @param   array   $args           Arguments to include in query (e.g. `start_date`, `end_date`, etc.).
+     * @param   array   $args           Arguments to include in query (e.g. `date`, etc.).
      * @param   bool    $bypassCache    Send the cached result.
      *
      * @return  array   Format: `[{'date' => "STRING", 'visitors' => INT, 'visits' => INT}, ...]`.
@@ -512,8 +512,10 @@ class VisitorsModel extends BaseModel
     public function getDailyVisitorsAndVisits($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
-            'start_date' => date('Y-m-d', strtotime('-30 days')),
-            'end_date'   => date('Y-m-d'),
+            'date' => [
+                'from' => date('Y-m-d', strtotime('-30 days')),
+                'to'   => date('Y-m-d'),
+            ],
         ]);
 
         $result = Query::select([
@@ -523,7 +525,7 @@ class VisitorsModel extends BaseModel
         ])
             ->from('visitor')
             ->join('visit', ['`visitor`.`last_counter`', '`visit`.`last_counter`'])
-            ->where('`visitor`.`last_counter`', 'BETWEEN', [$args['start_date'], $args['end_date']])
+            ->whereDate('`visitor`.`last_counter`', $args['date'])
             ->groupBy('`visitor`.`last_counter`')
             ->bypassCache($bypassCache)
             ->getAll();
