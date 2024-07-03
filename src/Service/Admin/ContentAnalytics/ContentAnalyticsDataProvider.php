@@ -147,7 +147,7 @@ class ContentAnalyticsDataProvider
         
         $referrersData = $this->visitorsModel->getReferrers($this->args);
         
-        $performanceArgs = ['date' => ['from' => date('Y-m-d', strtotime('-15 days')), 'to' => date('Y-m-d')]];
+        $performanceArgs = ['date' => ['from' => date('Y-m-d', strtotime('-14 days')), 'to' => date('Y-m-d')]];
         $performanceData = [
             'posts'     => $this->postsModel->countPosts(array_merge($this->args, $performanceArgs)),
             'visitors'  => $this->visitorsModel->countVisitors(array_merge($this->args, $performanceArgs)),
@@ -208,7 +208,7 @@ class ContentAnalyticsDataProvider
         
         $referrersData      = $this->visitorsModel->getReferrers($this->args);
         
-        $performanceArgs    = ['date' => ['from' => date('Y-m-d', strtotime('-15 days')), 'to' => date('Y-m-d')]];
+        $performanceArgs    = ['date' => ['from' => date('Y-m-d', strtotime('-14 days')), 'to' => date('Y-m-d')]];
         $performanceData    = [
             'visitors'  => $this->visitorsModel->countVisitors(array_merge($this->args, $performanceArgs)),
             'views'     => $this->viewsModel->countViews(array_merge($this->args, $performanceArgs)),
