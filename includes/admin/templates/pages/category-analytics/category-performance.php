@@ -18,8 +18,8 @@ use WP_STATISTICS\Helper;
         $args2 = [
             'title'         => esc_html__('Views', 'wp-statistics'),
             'tooltip'       => esc_html__('Views tooltip', 'wp-statistics'),
-            'total'         => '21.2M',
-            'avg'           => '183K',
+            'total'         => Helper::formatNumberWithUnit($data['overview']['views']['total']),
+            'avg'           => Helper::formatNumberWithUnit($data['overview']['views']['avg']),
             'icon_class'    => 'views',
             'avg_title'     => esc_html__('Avg. per Content', 'wp-statistics')
         ];
