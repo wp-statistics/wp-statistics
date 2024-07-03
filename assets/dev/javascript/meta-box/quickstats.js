@@ -26,8 +26,9 @@ wps_js.quickstats_meta_box = {
                     </div>
                     <div class="wp-quickstats-widget__enable-email__close"><span class="wp-close" title="${wps_js._('close')}" onclick="this.parentElement.parentElement.remove()"></span></div>
                     </div>`;
-            // link to the Overview page
         }
+        
+        // link to the Overview page
         t +=`<a href="${wps_js.global.admin_url}/admin.php?page=wps_overview_page#wpbody-content" title="${wps_js._('view_detailed_analytics')}" class="wp-quickstats-widget__link">${wps_js._('view_detailed_analytics')}</a>`;
         return t;
     },
