@@ -203,10 +203,12 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             this.legendHandel(performanceSingleChart);
         },
         generateOperatingSystemChart: function () {
-            const OperatingSystemData = {
-                labels: ['Windows', 'macOs', 'iOS', 'Android', 'Linux', 'Other'],
-                data: [30, 20, 10, 5, 7, 5],
-            };
+            const OperatingSystemData = this.data.os_chart_data;
+
+            if (OperatingSystemData.data.length == 0) {
+                jQuery('#category_operating_systems').parent().html(wps_js.no_results());
+                return;
+            }
 
             const label_callback_category_operating_systems = function (tooltipItem) {
                 return tooltipItem.label;
@@ -256,10 +258,12 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             });
         },
         generateBrowsersChartData: function () {
-            const browsersData = {
-                labels: ['Chrome', 'Firefox', 'Safari', 'Opera', 'edge', 'Other'],
-                data: [30, 20, 10, 5, 7, 5],
-            };
+            const browsersData = this.data.browser_chart_data;
+
+            if (browsersData.data.length == 0) {
+                jQuery('#category_browsers').parent().html(wps_js.no_results());
+                return;
+            }
 
             const label_callback_category_browsers = function (tooltipItem) {
                 return tooltipItem.label;
@@ -309,11 +313,12 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             });
         },
         generateDeviceModelsChart: function () {
-            const deviceModelData = {
-                labels: ['Macintosh', 'iPhone', 'G6', 'A3', 'Galaxy A52', 'Other'],
-                data: [30, 20, 10, 5, 7, 5],
-                bg: ['#F7D399', '#99D3FB', '#D7BDE2', '#D7BDE2', '#EBA39B', '#F5CBA7']
-            };
+            const deviceModelData = this.data.model_chart_data;
+
+            if (deviceModelData.data.length == 0) {
+                jQuery('#category_device_models').parent().html(wps_js.no_results());
+                return;
+            }
 
             const label_callback_category_device_model = function (tooltipItem) {
                 return tooltipItem.label;
@@ -363,10 +368,13 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             });
         },
         generateDeviceUsageChart: function () {
-            const deviceUsageData = {
-                labels: ['Desktop', 'Mobile:smart', 'Tablet', 'Signage', 'Television', 'Other'],
-                data: [30, 20, 10, 5, 7, 5],
-            };
+            const deviceUsageData = this.data.device_chart_data;
+
+            if (deviceUsageData.data.length == 0) {
+                jQuery('#category_device_usage').parent().html(wps_js.no_results());
+                return;
+            }
+
             const label_callback_category_device_usage = function (tooltipItem) {
                 return tooltipItem.label;
             }
