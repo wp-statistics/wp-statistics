@@ -36,7 +36,8 @@ class CategoryAnalyticsDataProvider
         $visitorsData = $this->visitorsModel->getVisitorsPlatformData($this->args);
 
         return [
-            'performance_chart_data' => $this->getPerformanceChartData(),
+            'performance_chart_data'    => $this->getPerformanceChartData(),
+            'search_engine_chart_data'  => $this->visitorsModel->getSearchEnginesChartData($this->args),
             'os_chart_data'             => [
                 'labels'    => array_keys($visitorsData['platform']), 
                 'data'      => array_values($visitorsData['platform'])

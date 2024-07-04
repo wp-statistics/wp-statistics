@@ -3,6 +3,7 @@
 namespace WP_Statistics\Models;
 
 use WP_STATISTICS\Helper;
+use WP_STATISTICS\TimeZone;
 use WP_STATISTICS\GeoIP;
 use WP_Statistics\Utils\Query;
 use WP_Statistics\Abstracts\BaseModel;
@@ -516,6 +517,8 @@ class VisitorsModel extends BaseModel
             'post_id'       => '',
             'country'       => '',
             'query_param'   => '',
+            'taxonomy'      => '',
+            'term'          => '',
             'group_by'      => ['search.last_counter', 'search.engine'],
         ]);
 
@@ -530,7 +533,8 @@ class VisitorsModel extends BaseModel
             ->orderBy('date', 'DESC')
             ->bypassCache($bypassCache);
 
-        if (!empty($args['post_type']) || !empty($args['post_id']) || !empty($args['query_param'])) {
+        $filteredArgs = array_filter($args);
+        if (array_intersect(['post_type', 'post_id', 'query_param', 'taxonomy', 'term'], array_keys($filteredArgs))) {
             $query
                 ->join('visitor_relationships', ['visitor_relationships.visitor_id', 'search.visitor'])
                 ->join('pages', ['visitor_relationships.page_id', 'pages.page_id'])
@@ -538,6 +542,19 @@ class VisitorsModel extends BaseModel
                 ->where('post_type', 'IN', $args['post_type'])
                 ->where('posts.ID', '=', $args['post_id'])
                 ->where('pages.uri', '=', $args['query_param']);
+
+            if (array_intersect(['taxonomy', 'term'], array_keys($filteredArgs))) {
+                $query
+                    ->join('term_relationships', ['posts.ID', 'term_relationships.object_id'])
+                    ->join('term_taxonomy', ['term_relationships.term_taxonomy_id', 'term_taxonomy.term_taxonomy_id'])
+                    ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy']);
+    
+                if (!empty($args['term'])) {
+                    $query
+                        ->join('terms', ['term_taxonomy.term_id', 'terms.term_id'])
+                        ->where('terms.term_id', '=', $args['term']);
+                }
+            }
         }
 
         if (!empty($args['country'])) {
@@ -549,6 +566,66 @@ class VisitorsModel extends BaseModel
         $result = $query->getAll();
 
         return $result ? $result : [];
+    }
+
+    public function getSearchEnginesChartData($args)
+    {
+        // Get results up to 30 days
+        $newArgs = [];
+        $days = TimeZone::getNumberDayBetween($args['date']['from'], $args['date']['to']);
+        if ($days > 30) {
+            $newArgs = [
+                'date' => [
+                    'from' => date('Y-m-d', strtotime("-30 days", strtotime($args['date']['to']))),
+                    'to'   => $args['date']['to']
+                ]
+            ];
+        }
+
+        $args = array_merge($args, $newArgs);
+
+        $datesList = TimeZone::getListDays($args['date']);
+        $datesList = array_keys($datesList);
+
+        $result = [
+            'labels'    => array_map(function($date) { 
+                return date_i18n(Helper::getDefaultDateFormat(false, true), strtotime($date)); }, $datesList
+            ),
+            'datasets'  => []
+        ];
+
+        $data       = $this->getSearchEngineReferrals($args);
+        $parsedData = [];
+        $totalData  = array_fill_keys($datesList, 0);
+
+        // Format and parse data
+        foreach ($data as $item) {
+            $parsedData[$item->engine][$item->date] = $item->visitors;
+            $totalData[$item->date] += $item->visitors;
+        }
+    
+        foreach ($parsedData as $searchEngine => &$data) {
+            // Fill out missing visitors with 0
+            $data = array_merge(array_fill_keys($datesList, 0), $data);
+
+            // Sort data by date
+            ksort($data);
+
+            // Generate dataset
+            $result['datasets'][] = [
+                'label' => ucfirst($searchEngine),
+                'data'  => array_values($data)
+            ];
+        }
+
+        if (!empty($result['datasets'])) {
+            $result['datasets'][] = [
+                'label' => esc_html__('Total', 'wp-statistics'),
+                'data'  => array_values($totalData)
+            ];
+        }
+        
+        return $result;
     }
 
     /**
