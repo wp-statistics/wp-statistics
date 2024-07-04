@@ -14,7 +14,6 @@ $postTypePlural   = Helper::getPostTypeName($postType);
         $args1 = [
             'title'      => sprintf(esc_html__('Published %s', 'wp-statistics'), $postTypePlural),
             'tooltip'    => sprintf(esc_html__('The total number of %s published in the selected period.', 'wp-statistics'), strtolower($postTypePlural)),
-            'icon_class' => 'posts',
             'total'      => Helper::formatNumberWithUnit($data['overview']['published']['total']),
         ];
         Admin_Template::get_template(['layout/content-analytics/overview-card'], $args1);
@@ -22,7 +21,6 @@ $postTypePlural   = Helper::getPostTypeName($postType);
         $args2 = [
             'title'      => esc_html__('Views', 'wp-statistics'),
             'tooltip'    => sprintf(esc_html__('Total views of your %s in the selected period. Avg per  %s is the total views divided by the number of published %s in that period.', 'wp-statistics'), strtolower($postTypePlural), strtolower($postTypeSingular), strtolower($postTypePlural)),
-            'icon_class' => 'views',
             'total'      => Helper::formatNumberWithUnit($data['overview']['views']['total']),
             'avg'        => Helper::formatNumberWithUnit($data['overview']['views']['avg']),
             'avg_title'  => sprintf(esc_html__('Avg. per %s', 'wp-statistics'), $postTypeSingular),
@@ -32,7 +30,6 @@ $postTypePlural   = Helper::getPostTypeName($postType);
         $args3 = [
             'title'      => esc_html__('Visitors', 'wp-statistics'),
             'tooltip'    => sprintf(esc_html__('Total unique visitors in the selected period. Avg per %s is the total visitors divided by the number of published %s in that period.', 'wp-statistics'), strtolower($postTypeSingular), strtolower($postTypePlural)),
-            'icon_class' => 'visitors',
             'total'      => Helper::formatNumberWithUnit($data['overview']['visitors']['total']),
             'avg'        => Helper::formatNumberWithUnit($data['overview']['visitors']['avg']),
             'avg_title'  => sprintf(esc_html__('Avg. per %s', 'wp-statistics'), $postTypeSingular),
@@ -42,7 +39,6 @@ $postTypePlural   = Helper::getPostTypeName($postType);
         $args4 = [
             'title'      => esc_html__('Words', 'wp-statistics'),
             'tooltip'    => sprintf(esc_html__('Total words across all %s in the selected period. Avg per %s is the total words divided by the number of published %s in that period.', 'wp-statistics'), strtolower($postTypePlural), strtolower($postTypeSingular), strtolower($postTypePlural)),
-            'icon_class' => 'words',
             'total'      => Helper::formatNumberWithUnit($data['overview']['words']['total']),
             'avg'        => Helper::formatNumberWithUnit($data['overview']['words']['avg']),
             'avg_title'  => sprintf(esc_html__('Avg. per %s', 'wp-statistics'), $postTypeSingular),
@@ -53,7 +49,6 @@ $postTypePlural   = Helper::getPostTypeName($postType);
             $args5 = [
                 'title'      => esc_html__('Comments', 'wp-statistics'),
                 'tooltip'    => sprintf(esc_html__('Total comments on all %s  in the selected period. Avg per %s is the total comments divided by the number of published %s in that period.', 'wp-statistics'), strtolower($postTypePlural), strtolower($postTypeSingular), strtolower($postTypePlural)),
-                'icon_class' => 'comments',
                 'total'      => Helper::formatNumberWithUnit($data['overview']['comments']['total']),
                 'avg'        => Helper::formatNumberWithUnit($data['overview']['comments']['avg']),
                 'avg_title'  => sprintf(esc_html__('Avg. per %s', 'wp-statistics'), $postTypeSingular),
@@ -63,6 +58,13 @@ $postTypePlural   = Helper::getPostTypeName($postType);
         ?>
 
         <?php
+
+        $categories = [
+            'title'      => esc_html__('Top Categories', 'wp-statistics'),
+            'tooltip'    => sprintf(esc_html__('The most popular categories by number of published posts %s.', 'wp-statistics'), strtolower($postTypePlural)),
+        ];
+        Admin_Template::get_template(['layout/content-analytics/top-categories'], $categories);
+
         $operatingSystems = [
             'title'     => esc_html__('Operating Systems', 'wp-statistics'),
             'tooltip'   => esc_html__('Distribution of visitors by their operating systems.', 'wp-statistics'),

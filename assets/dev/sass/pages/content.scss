@@ -81,6 +81,24 @@
 
     }
 
+    .wps-content-category {
+      margin-bottom: 0!important;
+
+      .wps-content-tabs__content{
+        height: unset!important;
+
+        .wps-count{
+          margin-right: 3px;
+          display: inline-block;
+
+          .rtl &{
+            margin-left: 3px;
+            margin-right: unset;
+          }
+        }
+      }
+    }
+
     .wps-card__summary {
       display: flex;
       justify-content: space-between;

@@ -1,15 +1,31 @@
+document.addEventListener('DOMContentLoaded', function () {
+    var globalDataItems = document.querySelectorAll('.wp-statistics-global-data:not(.disabled), .wp-statistics-current-page-data:not(.disabled)');
 
-jQuery(document).ready(function () {
-    jQuery('.wp-statistics-global-data:not(.disabled), .wp-statistics-current-page-data:not(.disabled)').on('click', function (e) {
-        if (jQuery(this).hasClass('disabled')) {
-            return;
-        }
-        e.preventDefault();
-        jQuery('.wp-statistics-global-data, .wp-statistics-current-page-data').find('.ab-sub-wrapper').hide();
-        jQuery(this).find('.ab-sub-wrapper').show();
-        jQuery('.wp-statistics-global-data, .wp-statistics-current-page-data').removeClass('active');
-        jQuery(this).toggleClass('active');
+    globalDataItems.forEach(function(item) {
+        item.addEventListener('click', function (e) {
+            if (item.classList.contains('disabled')) {
+                return;
+            }
+            e.preventDefault();
+
+            // Hide all ab-sub-wrapper elements
+            document.querySelectorAll('.wp-statistics-global-data .ab-sub-wrapper, .wp-statistics-current-page-data .ab-sub-wrapper').forEach(function(wrapper) {
+                wrapper.style.display = 'none';
+            });
+
+            // Show ab-sub-wrapper of the clicked element
+            item.querySelector('.ab-sub-wrapper').style.display = 'block';
+
+            // Remove active class from all elements
+            document.querySelectorAll('.wp-statistics-global-data, .wp-statistics-current-page-data').forEach(function(el) {
+                el.classList.remove('active');
+            });
+
+            // Toggle active class on the clicked element
+            item.classList.toggle('active');
+        });
     });
-    jQuery('.wp-statistics-global-data').trigger('click');
 
+    // Trigger click on the first global data item
+    document.querySelector('.wp-statistics-global-data').click();
 });
