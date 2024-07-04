@@ -122,6 +122,7 @@ use WP_STATISTICS\Helper;
         $topCountries = [
             'title'   => esc_html__('Top Countries', 'wp-statistics'),
             'tooltip' => esc_html__('Top Countries tooltip', 'wp-statistics'),
+            'data'    => $data['visitor_country']
         ];
         Admin_Template::get_template(['layout/category-analytics/top-countries'], $topCountries);
 
