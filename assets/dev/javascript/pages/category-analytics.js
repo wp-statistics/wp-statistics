@@ -203,10 +203,12 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             this.legendHandel(performanceSingleChart);
         },
         generateOperatingSystemChart: function () {
-            const OperatingSystemData = {
-                labels: ['Windows', 'macOs', 'iOS', 'Android', 'Linux', 'Other'],
-                data: [30, 20, 10, 5, 7, 5],
-            };
+            const OperatingSystemData = this.data.os_chart_data;
+
+            if (OperatingSystemData.data.length == 0) {
+                jQuery('#category_operating_systems').parent().html(wps_js.no_results());
+                return;
+            }
 
             const label_callback_category_operating_systems = function (tooltipItem) {
                 return tooltipItem.label;
@@ -256,10 +258,12 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             });
         },
         generateBrowsersChartData: function () {
-            const browsersData = {
-                labels: ['Chrome', 'Firefox', 'Safari', 'Opera', 'edge', 'Other'],
-                data: [30, 20, 10, 5, 7, 5],
-            };
+            const browsersData = this.data.browser_chart_data;
+
+            if (browsersData.data.length == 0) {
+                jQuery('#category_browsers').parent().html(wps_js.no_results());
+                return;
+            }
 
             const label_callback_category_browsers = function (tooltipItem) {
                 return tooltipItem.label;
@@ -309,11 +313,12 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             });
         },
         generateDeviceModelsChart: function () {
-            const deviceModelData = {
-                labels: ['Macintosh', 'iPhone', 'G6', 'A3', 'Galaxy A52', 'Other'],
-                data: [30, 20, 10, 5, 7, 5],
-                bg: ['#F7D399', '#99D3FB', '#D7BDE2', '#D7BDE2', '#EBA39B', '#F5CBA7']
-            };
+            const deviceModelData = this.data.model_chart_data;
+
+            if (deviceModelData.data.length == 0) {
+                jQuery('#category_device_models').parent().html(wps_js.no_results());
+                return;
+            }
 
             const label_callback_category_device_model = function (tooltipItem) {
                 return tooltipItem.label;
@@ -363,10 +368,13 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             });
         },
         generateDeviceUsageChart: function () {
-            const deviceUsageData = {
-                labels: ['Desktop', 'Mobile:smart', 'Tablet', 'Signage', 'Television', 'Other'],
-                data: [30, 20, 10, 5, 7, 5],
-            };
+            const deviceUsageData = this.data.device_chart_data;
+
+            if (deviceUsageData.data.length == 0) {
+                jQuery('#category_device_usage').parent().html(wps_js.no_results());
+                return;
+            }
+
             const label_callback_category_device_usage = function (tooltipItem) {
                 return tooltipItem.label;
             }
@@ -415,40 +423,12 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             });
         },
         generateSearchEngineChart: function () {
-            const searchData = {
-                labels: [
-                    "17 Mar", "18 Mar", "19 Mar", "20 Mar", "21 Mar", "22 Mar", "23 Mar",
-                    "24 Mar", "25 Mar", "26 Mar", "27 Mar", "28 Mar", "29 Mar", "30 Mar", "31 Mar",
-                    "1 Apr", "2 Apr", "3 Apr", "4 Apr", "5 Apr", "6 Apr", "7 Apr", "8 Apr", "9 Apr",
-                    "10 Apr", "11 Apr", "12 Apr", "13 Apr", "14 Apr", "15 Apr", "16 Apr"
-                ],
-                datasets: [
-                    {
-                        label: 'Bing',
-                        data: [5, 10, 2, 7, 6, 5, 3, 8, 4, 7, 6, 5, 6, 9, 4, 7, 6, 5, 6, 7, 8, 9, 6, 4, 5, 6, 8, 9, 7, 6, 5],
-                    },
-                    {
-                        label: 'DuckDuckGo',
-                        data: [3, 8, 5, 7, 6, 5, 4, 7, 6, 5, 6, 7, 5, 8, 6, 7, 6, 5, 7, 8, 6, 5, 4, 6, 7, 8, 9, 6, 5, 4, 6],
-                    },
-                    {
-                        label: 'Google',
-                        data: [36, 45, 38, 35, 30, 25, 24, 37, 32, 28, 27, 30, 29, 38, 32, 35, 29, 28, 30, 35, 36, 37, 30, 28, 29, 33, 40, 37, 36, 32, 31],
-                    },
-                    {
-                        label: 'Yahoo',
-                        data: [4, 6, 3, 7, 6, 5, 4, 6, 7, 8, 5, 4, 6, 7, 8, 9, 6, 5, 4, 6, 7, 8, 9, 5, 4, 6, 7, 8, 9, 6, 5],
-                    },
-                    {
-                        label: 'Yandex',
-                        data: [6, 9, 6, 7, 6, 5, 7, 8, 6, 5, 4, 6, 7, 8, 9, 6, 5, 7, 8, 9, 6, 5, 4, 6, 7, 8, 9, 6, 5, 4, 6],
-                    },
-                    {
-                        label: 'Total',
-                        data: [26, 45, 28, 35, 30, 25, 24, 37, 32, 28, 27, 30, 29, 38, 32, 35, 29, 28, 30, 35, 36, 37, 30, 38, 30, 33, 40, 37, 36, 32, 31],
-                    }
-                ]
-            };
+            const searchData = this.data.search_engine_chart_data;
+
+            if (searchData.datasets.length == 0) {
+                jQuery('#category-search-engines-chart').parent().html(wps_js.no_results());
+                return;
+            }
 
             const searchEngineColors = [
                 'rgba(244, 161, 31, 0.3)',

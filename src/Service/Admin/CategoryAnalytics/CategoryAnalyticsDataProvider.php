@@ -4,6 +4,7 @@ namespace WP_Statistics\Service\Admin\CategoryAnalytics;
 
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Admin_Template;
+use WP_Statistics\Models\AuthorsModel;
 use WP_Statistics\Models\PostsModel;
 use WP_Statistics\Utils\Request;
 use WP_Statistics\Models\TaxonomyModel;
@@ -17,6 +18,7 @@ class CategoryAnalyticsDataProvider
     protected $postsModel;
     protected $visitorsModel;
     protected $viewsModel;
+    protected $authorModel;
     
     public function __construct($args)
     {
@@ -26,12 +28,32 @@ class CategoryAnalyticsDataProvider
         $this->visitorsModel = new VisitorsModel();
         $this->viewsModel    = new ViewsModel();
         $this->postsModel    = new PostsModel();
+        $this->authorModel   = new AuthorsModel();
     }
 
     public function getChartsData()
     {
+        $visitorsData = $this->visitorsModel->getVisitorsPlatformData($this->args);
+
         return [
-            'performance_chart_data' => $this->getPerformanceChartData(),
+            'performance_chart_data'    => $this->getPerformanceChartData(),
+            'search_engine_chart_data'  => $this->visitorsModel->getSearchEnginesChartData($this->args),
+            'os_chart_data'             => [
+                'labels'    => array_keys($visitorsData['platform']), 
+                'data'      => array_values($visitorsData['platform'])
+            ],
+            'browser_chart_data'        => [
+                'labels'    => array_keys($visitorsData['agent']), 
+                'data'      => array_values($visitorsData['agent'])
+            ],
+            'device_chart_data'         => [
+                'labels'    => array_keys($visitorsData['device']), 
+                'data'      => array_values($visitorsData['device'])
+            ],
+            'model_chart_data'          => [
+                'labels'    => array_keys($visitorsData['model']), 
+                'data'      => array_values($visitorsData['model'])
+            ],
         ];
     }
 
@@ -64,6 +86,15 @@ class CategoryAnalyticsDataProvider
         $totalWords         = $this->postsModel->countWords($this->args);
         $totalComments      = $this->postsModel->countComments($this->args);
 
+        $visitorsSummary    = $this->visitorsModel->getVisitorsSummary($this->args);
+        $viewsSummary       = $this->viewsModel->getViewsSummary($this->args);
+
+        $topPublishingAuthors = $this->authorModel->getAuthorsByPostPublishes($this->args);
+        $topViewingAuthors    = $this->authorModel->getTopViewingAuthors($this->args);
+
+        $visitorsCountry    = $this->visitorsModel->getVisitorsGeoData(array_merge($this->args, ['per_page' => 10]));
+        $referrersData      = $this->visitorsModel->getReferrers($this->args);
+        
         $performanceArgs = ['date' => ['from' => date('Y-m-d', strtotime('-14 days')), 'to' => date('Y-m-d')]];
         $performanceData = [
             'posts'     => $this->postsModel->countPosts(array_merge($this->args, $performanceArgs)),
@@ -71,7 +102,17 @@ class CategoryAnalyticsDataProvider
             'views'     => $this->viewsModel->countViews(array_merge($this->args, $performanceArgs)),
         ];
 
+        $topPostsByView     = $this->postsModel->getPostsViewsData($this->args);
+        $topPostsByComment  = $this->postsModel->getPostsCommentsData($this->args);
+        $recentPosts        = $this->postsModel->getPostsViewsData(array_merge($this->args, ['date' => '', 'date_field' => 'post_date', 'order_by' => 'post_date']));
+
         return [
+            'visitors_country'  => $visitorsCountry,
+            'referrers'         => $referrersData,
+            'authors'           => [
+                'publishing' => $topPublishingAuthors,
+                'viewing'    => $topViewingAuthors
+            ],
             'overview'          => [
                 'published' => [
                     'total' => $totalPosts
@@ -93,7 +134,13 @@ class CategoryAnalyticsDataProvider
                     'avg'   => Helper::divideNumbers($totalComments, $totalPosts)
                 ]
             ],
-            'performance'       => $performanceData
+            'performance'       => $performanceData,
+            'visits_summary'    => array_replace_recursive($visitorsSummary, $viewsSummary),
+            'posts'             => [
+                'top_viewing'   => $topPostsByView,
+                'top_commented' => $topPostsByComment,
+                'recent'        => $recentPosts
+            ]
         ];
     }
 

@@ -99,26 +99,30 @@ use WP_STATISTICS\Helper;
         Admin_Template::get_template(['layout/category-analytics/performance-chart'], $performance);
 
         $topPick = [
-            'title'   => esc_html__('Top Contents', 'wp-statistics'),
-            'tooltip' => esc_html__('Top Contents tooltip', 'wp-statistics')
+            'title'     => esc_html__('Top Contents', 'wp-statistics'),
+            'tooltip'   => esc_html__('Top Contents tooltip', 'wp-statistics'),
+            'data'      => $data['posts']
         ];
         Admin_Template::get_template(['layout/category-analytics/top-picks'], $topPick);
 
         $topAuthors = [
             'title'   => esc_html__('Top Authors', 'wp-statistics'),
-            'tooltip' => esc_html__('Top Authors tooltip', 'wp-statistics')
+            'tooltip' => esc_html__('Top Authors tooltip', 'wp-statistics'),
+            'data'    => $data['authors']
         ];
         Admin_Template::get_template(['layout/category-analytics/top-authors'], $topAuthors);
 
         $summary = [
             'title'   => esc_html__('Summary', 'wp-statistics'),
             'tooltip' => esc_html__('Summary tooltip', 'wp-statistics'),
+            'data'    => $data['visits_summary']
         ];
         Admin_Template::get_template(['layout/category-analytics/summary'], $summary);
 
         $topCountries = [
             'title'   => esc_html__('Top Countries', 'wp-statistics'),
             'tooltip' => esc_html__('Top Countries tooltip', 'wp-statistics'),
+            'data'    => $data['visitor_country']
         ];
         Admin_Template::get_template(['layout/category-analytics/top-countries'], $topCountries);
 
@@ -131,6 +135,7 @@ use WP_STATISTICS\Helper;
         $topReferring = [
             'title'   => esc_html__('Top Referring', 'wp-statistics'),
             'tooltip' => esc_html__('Top Referring tooltip', 'wp-statistics'),
+            'data'    => $data['referrers']
         ];
         Admin_Template::get_template(['layout/category-analytics/top-referring'], $topReferring);
         ?>
