@@ -92,7 +92,7 @@ class CategoryAnalyticsDataProvider
         $topViewingAuthors    = $this->authorModel->getTopViewingAuthors($this->args);
 
         // $visitorsCountry    = $this->visitorsModel->getVisitorsGeoData(array_merge($this->args, ['per_page' => 10]));
-        // $referrersData      = $this->visitorsModel->getReferrers($this->args);
+        $referrersData      = $this->visitorsModel->getReferrers($this->args);
         
         $performanceArgs = ['date' => ['from' => date('Y-m-d', strtotime('-14 days')), 'to' => date('Y-m-d')]];
         $performanceData = [
@@ -107,7 +107,7 @@ class CategoryAnalyticsDataProvider
 
         return [
             // 'visitors_country'  => $visitorsCountry,
-            // 'referrers'         => $referrersData,
+            'referrers'         => $referrersData,
             'authors'           => [
                 'publishing' => $topPublishingAuthors,
                 'viewing'    => $topViewingAuthors

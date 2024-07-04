@@ -134,6 +134,7 @@ use WP_STATISTICS\Helper;
         $topReferring = [
             'title'   => esc_html__('Top Referring', 'wp-statistics'),
             'tooltip' => esc_html__('Top Referring tooltip', 'wp-statistics'),
+            'data'    => $data['referrers']
         ];
         Admin_Template::get_template(['layout/category-analytics/top-referring'], $topReferring);
         ?>

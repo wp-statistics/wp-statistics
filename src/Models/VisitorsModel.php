@@ -453,6 +453,8 @@ class VisitorsModel extends BaseModel
             'post_id'       => '',
             'country'       => '',
             'query_param'   => '',
+            'taxonomy'      => '',
+            'term'          => '',
             'page'          => 1,
             'per_page'      => 10
         ]);
@@ -469,7 +471,9 @@ class VisitorsModel extends BaseModel
             ->perPage($args['page'], $args['per_page'])
             ->bypassCache($bypassCache);
 
-        if (!empty($args['post_type']) || !empty($args['post_id']) || !empty($args['query_param'])) {
+        $filteredArgs = array_filter($args);
+
+        if (array_intersect(['post_type', 'post_id', 'query_param', 'taxonomy', 'term'], array_keys($filteredArgs))) {
             $query
                 ->join('visitor_relationships', ['visitor_relationships.visitor_id', 'visitor.ID'], [], 'LEFT')
                 ->join('pages', ['visitor_relationships.page_id', 'pages.page_id'], [], 'LEFT')
@@ -478,6 +482,19 @@ class VisitorsModel extends BaseModel
                 ->where('posts.ID', '=', $args['post_id'])
                 ->where('pages.uri', '=', $args['query_param'])
                 ->whereDate('pages.date', $args['date']);
+
+            if (array_intersect(['taxonomy', 'term'], array_keys($filteredArgs))) {
+                $query
+                    ->join('term_relationships', ['posts.ID', 'term_relationships.object_id'])
+                    ->join('term_taxonomy', ['term_relationships.term_taxonomy_id', 'term_taxonomy.term_taxonomy_id'])
+                    ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy']);
+    
+                if (!empty($args['term'])) {
+                    $query
+                        ->join('terms', ['term_taxonomy.term_id', 'terms.term_id'])
+                        ->where('terms.term_id', '=', $args['term']);
+                }
+            }
         }
 
         if (!empty($args['country'])) {
