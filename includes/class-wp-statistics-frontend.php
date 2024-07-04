@@ -80,6 +80,7 @@ class Frontend
         );
 
         Assets::script('tracker', 'js/tracker.js', [], $jsArgs, true, Option::get('bypass_ad_blockers', false));
+        Assets::script('mini-chart', 'js/mini-chart.js', true, Option::get('bypass_ad_blockers', false));
 
         // Load Chart.js library
         if (Helper::isAdminBarShowing()) {

@@ -14,7 +14,34 @@ class AdminBar
 
         # Show WordPress Admin Bar
         add_action('admin_bar_menu', array($this, 'admin_bar'), 69);
+        // Enqueue JavaScript
+        add_action('admin_enqueue_scripts', array($this, 'enqueue_scripts'),99);
     }
+
+    /**
+     * Enqueue JavaScript for Admin Bar
+     */
+    public function enqueue_scripts()
+    {
+        // Only enqueue script if the admin bar is showing
+        if (is_admin_bar_showing()) {
+            wp_enqueue_script('wp-statistics-admin-bar', WP_STATISTICS_URL . '/assets/js/mini-chart.js', array('jquery'), '1.0', true);
+         }
+    }
+
+    /**
+     * Check Show WP Statistics Admin Bar
+     */
+    public static function show_admin_bar()
+    {
+        /**
+         * Show/Hide Wp-Statistics Admin Bar
+         *
+         * @example add_filter('wp_statistics_show_admin_bar', function(){ return false; });
+         */
+        return (has_filter('wp_statistics_show_admin_bar')) ? apply_filters('wp_statistics_show_admin_bar', true) : Option::get('menu_bar');
+    }
+
 
     /**
      * Show WordPress Admin Bar
@@ -74,27 +101,23 @@ class AdminBar
              * Key : ID of Admin bar
              */
             $admin_bar_list = array(
-                'wp-statistic-menu'                   => array(
-                    'title' => $menu_title,
-                    'href'  => Menus::admin_url('overview')
-                ),
-                'wp-statistics-menu-todayvisitor'     => array(
+                'wp-statistics-menu-visitors-today' => array(
                     'parent' => 'wp-statistic-menu',
-                    'title'  => '<div class="wp-statistics-menu-todayvisitor__title">' . __('Today\'s Visitors', 'wp-statistics') . '</div>'
-                        . '<div class="wp-statistics-menu-todayvisitor__count">' . wp_statistics_visitor('today') . '</div>'
-                        . '<div class="wp-statistics-menu-todayvisits"><span>' . wp_statistics_visit('today') . '</span>' . __('Today\'s Views', 'wp-statistics') . '</div>'
+                    'title'  => '<div class="wp-statistics-menu-visitors-today__title">' . __('Visitors Today', 'wp-statistics') . '</div>'
+                        . '<div class="wp-statistics-menu-visitors-today__count">' . wp_statistics_visitor('today') . '</div>'
+                        . '<div class="wp-statistics-menu-todayvisits">' . sprintf(__('was %s last day', 'wp-statistics'), wp_statistics_visit('today')) . '</div>'
                 ),
-                'wp-statistics-menu-yesterdayvisitor' => array(
+                'wp-statistics-menu-views-today'    => array(
                     'parent' => 'wp-statistic-menu',
-                    'title'  => '<div class="wp-statistics-menu-yesterdayvisitor__title">' . __('Yesterday\'s Visitors', 'wp-statistics') . '</div>'
-                        . '<div class="wp-statistics-menu-yesterdayvisitor__count">' . wp_statistics_visitor('yesterday') . '</div>'
-                        . '<div class="wp-statistics-menu-yesterdayvisits"><span>' . wp_statistics_visit('yesterday') . '</span>' . __('Yesterday\'s Views', 'wp-statistics') . '</div>'
+                    'title'  => '<div class="wp-statistics-menu-views-today__title">' . __('Views Today', 'wp-statistics') . '</div>'
+                        . '<div class="wp-statistics-menu-views-today__count">' . wp_statistics_visitor('yesterday') . '</div>'
+                        . '<div class="wp-statistics-menu-yesterdayvisits">' . sprintf(__('was %s last day', 'wp-statistics'), wp_statistics_visit('yesterday')) . '</div>'
 
                 ),
-                'wp-statistics-menu-page'             => array(
+                'wp-statistics-menu-page'           => array(
                     'parent' => 'wp-statistic-menu',
                     'title'  => sprintf('<img src="%s"/><div><span class="wps-admin-bar__chart__unlock-button">%s</span><button>%s</button></div>',
-                        esc_url(WP_STATISTICS_URL . 'assets/images/mini-chart-lock.jpg'),
+                        esc_url(WP_STATISTICS_URL . 'assets/images/mini-chart-lock.png'),
                         __('Unlock full potential of Mini-chart', 'wp-statistics'),
                         __('Upgrade Now', 'wp-statistics')
                     ),
@@ -103,10 +126,10 @@ class AdminBar
                         'target' => '_blank',
                     ],
                 ),
-                'wp-statistics-footer-page'           => array(
+                'wp-statistics-footer-page'         => array(
                     'parent' => 'wp-statistic-menu',
                     'title'  => sprintf('<img src="%s"/>
-                        <a href="'. esc_url(admin_url('admin.php?page=wps_overview_page')) .'">
+                        <a href="' . esc_url(admin_url('admin.php?page=wps_overview_page')) . '">
                         <span class="wps-admin-bar__chart__unlock-button">%s</span>
                         </a>'
                         ,
@@ -135,24 +158,44 @@ class AdminBar
              */
             $admin_bar_list = apply_filters('wp_statistics_admin_bar', $admin_bar_list, $data, '');
 
-            # Show Admin Bar
+            // Create the main menu
+            $wp_admin_bar->add_menu(array(
+                'id'    => 'wp-statistic-menu',
+                'title' => $menu_title,
+                'href'  => Menus::admin_url('overview')
+            ));
+            // Add Global Data tab
+            $wp_admin_bar->add_menu(array(
+                'parent' => 'wp-statistic-menu',
+                'id'     => 'wp-statistic-menu-global-data',
+                'title'  => __('Global Data', 'wp-statistics'),
+                'meta'   => array('class' => 'wp-statistics-global-data')
+            ));
+
+            // Add items to the Global Data tab
             foreach ($admin_bar_list as $id => $v_admin_bar) {
+                $v_admin_bar['parent'] = 'wp-statistic-menu-global-data';
                 $wp_admin_bar->add_menu(array_merge(array('id' => $id), $v_admin_bar));
             }
-        }
-    }
 
-    /**
-     * Check Show WP Statistics Admin Bar
-     */
-    public static function show_admin_bar()
-    {
-        /**
-         * Show/Hide Wp-Statistics Admin Bar
-         *
-         * @example add_filter('wp_statistics_show_admin_bar', function(){ return false; });
-         */
-        return (has_filter('wp_statistics_show_admin_bar')) ? apply_filters('wp_statistics_show_admin_bar', true) : Option::get('menu_bar');
+            // Add Current Page Data tab
+            $wp_admin_bar->add_menu(array(
+                'parent' => 'wp-statistic-menu',
+                'id'     => 'wp-statistic-menu-current-page-data',
+                'title'  => __('Current Page Data', 'wp-statistics'),
+                'meta'   => array('class' => 'wp-statistics-current-page-data ')
+                // Add Disable class
+                //'meta'   => array('class' => 'wp-statistics-current-page-data disabled')
+            ));
+
+
+            // Add a dummy item to the Current Page Data tab
+            $wp_admin_bar->add_menu(array(
+                'parent' => 'wp-statistic-menu-current-page-data',
+                'id'     => 'wp-statistics-menu-current-page-data-item',
+                'title'  => __('Test data', 'wp-statistics')
+            ));
+        }
     }
 }
 
