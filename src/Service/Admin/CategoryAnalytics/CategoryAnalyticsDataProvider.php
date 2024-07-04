@@ -71,6 +71,10 @@ class CategoryAnalyticsDataProvider
             'views'     => $this->viewsModel->countViews(array_merge($this->args, $performanceArgs)),
         ];
 
+        $topPostsByView     = $this->postsModel->getPostsViewsData($this->args);
+        $topPostsByComment  = $this->postsModel->getPostsCommentsData($this->args);
+        $recentPosts        = $this->postsModel->getPostsViewsData(array_merge($this->args, ['date' => '', 'date_field' => 'post_date', 'order_by' => 'post_date']));
+
         return [
             'overview'          => [
                 'published' => [
@@ -93,7 +97,12 @@ class CategoryAnalyticsDataProvider
                     'avg'   => Helper::divideNumbers($totalComments, $totalPosts)
                 ]
             ],
-            'performance'       => $performanceData
+            'performance'       => $performanceData,
+            'posts'             => [
+                'top_viewing'   => $topPostsByView,
+                'top_commented' => $topPostsByComment,
+                'recent'        => $recentPosts
+            ]
         ];
     }
 

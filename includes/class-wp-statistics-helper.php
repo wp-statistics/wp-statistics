@@ -936,6 +936,27 @@ class Helper
     }
 
     /**
+     * Retrieves an array of post types associated with a given taxonomy.
+     *
+     * @param string $taxonomy The taxonomy to search for.
+     * @return array An array of post types associated with the given taxonomy.
+     */
+    public static function getPostTypesByTaxonomy($taxonomy) {
+        $taxonomyPostTypes  = [];
+        $postTypes          = self::getPostTypes();
+        
+        foreach ($postTypes as $postType) {
+            $taxonomies = get_object_taxonomies($postType);
+            
+            if (in_array($taxonomy, $taxonomies)) {
+                $taxonomyPostTypes[] = $postType;
+            }
+        }
+        
+        return $taxonomyPostTypes;
+    }
+
+    /**
      * Create Condition Where Time in MySql
      *
      * @param string $field : date column name in database table
