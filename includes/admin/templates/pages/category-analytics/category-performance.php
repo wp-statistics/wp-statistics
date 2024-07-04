@@ -107,7 +107,8 @@ use WP_STATISTICS\Helper;
 
         $topAuthors = [
             'title'   => esc_html__('Top Authors', 'wp-statistics'),
-            'tooltip' => esc_html__('Top Authors tooltip', 'wp-statistics')
+            'tooltip' => esc_html__('Top Authors tooltip', 'wp-statistics'),
+            'data'    => $data['authors']
         ];
         Admin_Template::get_template(['layout/category-analytics/top-authors'], $topAuthors);
 

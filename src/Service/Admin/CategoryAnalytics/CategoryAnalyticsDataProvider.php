@@ -4,6 +4,7 @@ namespace WP_Statistics\Service\Admin\CategoryAnalytics;
 
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Admin_Template;
+use WP_Statistics\Models\AuthorsModel;
 use WP_Statistics\Models\PostsModel;
 use WP_Statistics\Utils\Request;
 use WP_Statistics\Models\TaxonomyModel;
@@ -17,6 +18,7 @@ class CategoryAnalyticsDataProvider
     protected $postsModel;
     protected $visitorsModel;
     protected $viewsModel;
+    protected $authorModel;
     
     public function __construct($args)
     {
@@ -26,6 +28,7 @@ class CategoryAnalyticsDataProvider
         $this->visitorsModel = new VisitorsModel();
         $this->viewsModel    = new ViewsModel();
         $this->postsModel    = new PostsModel();
+        $this->authorModel   = new AuthorsModel();
     }
 
     public function getChartsData()
@@ -85,6 +88,9 @@ class CategoryAnalyticsDataProvider
         $visitorsSummary    = $this->visitorsModel->getVisitorsSummary($this->args);
         $viewsSummary       = $this->viewsModel->getViewsSummary($this->args);
 
+        $topPublishingAuthors = $this->authorModel->getAuthorsByPostPublishes($this->args);
+        $topViewingAuthors    = $this->authorModel->getTopViewingAuthors($this->args);
+
         // $visitorsCountry    = $this->visitorsModel->getVisitorsGeoData(array_merge($this->args, ['per_page' => 10]));
         // $referrersData      = $this->visitorsModel->getReferrers($this->args);
         
@@ -102,6 +108,10 @@ class CategoryAnalyticsDataProvider
         return [
             // 'visitors_country'  => $visitorsCountry,
             // 'referrers'         => $referrersData,
+            'authors'           => [
+                'publishing' => $topPublishingAuthors,
+                'viewing'    => $topViewingAuthors
+            ],
             'overview'          => [
                 'published' => [
                     'total' => $totalPosts

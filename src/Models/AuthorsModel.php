@@ -41,10 +41,12 @@ class AuthorsModel extends BaseModel
             'order_by'  => 'total_views',
             'order'     => 'DESC',
             'page'      => 1,
-            'per_page'  => 5
+            'per_page'  => 5,
+            'taxonomy'  => '',
+            'term'      => ''
         ]);
 
-        $result = Query::select([
+        $query = Query::select([
                 'DISTINCT posts.post_author AS id', 
                 'display_name AS name', 
                 'SUM(pages.count) AS total_views'
@@ -58,8 +60,22 @@ class AuthorsModel extends BaseModel
             ->groupBy('post_author')
             ->orderBy($args['order_by'], $args['order'])
             ->perPage($args['page'], $args['per_page'])
-            ->bypassCache($bypassCache)
-            ->getAll();
+            ->bypassCache($bypassCache);
+
+        if (!empty($args['taxonomy']) || !empty($args['term'])) {
+            $query
+                ->join('term_relationships', ['posts.ID', 'term_relationships.object_id'])
+                ->join('term_taxonomy', ['term_relationships.term_taxonomy_id', 'term_taxonomy.term_taxonomy_id'])
+                ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy']);
+
+            if (!empty($args['term'])) {
+                $query
+                    ->join('terms', ['term_taxonomy.term_id', 'terms.term_id'])
+                    ->where('terms.term_id', '=', $args['term']);
+            }
+        }
+
+        $result = $query->getAll();
 
         return $result ? $result : [];
     }
@@ -70,10 +86,12 @@ class AuthorsModel extends BaseModel
             'date'      => '',
             'post_type' => Helper::get_list_post_type(),
             'page'      => 1,
-            'per_page'  => 5
+            'per_page'  => 5,
+            'taxonomy'  => '',
+            'term'      => ''
         ]);
 
-        $result = Query::select(['DISTINCT post_author as id', 'display_name as name', 'COUNT(posts.ID) as post_count'])
+        $query = Query::select(['DISTINCT post_author as id', 'display_name as name', 'COUNT(posts.ID) as post_count'])
             ->from('posts')
             ->join('users', ['posts.post_author', 'users.ID'])
             ->where('post_status', '=', 'publish')
@@ -82,8 +100,22 @@ class AuthorsModel extends BaseModel
             ->groupBy('posts.post_author')
             ->orderBy('post_count')
             ->perPage($args['page'], $args['per_page'])
-            ->bypassCache($bypassCache)
-            ->getAll();
+            ->bypassCache($bypassCache);
+
+        if (!empty($args['taxonomy']) || !empty($args['term'])) {
+            $query
+                ->join('term_relationships', ['posts.ID', 'term_relationships.object_id'])
+                ->join('term_taxonomy', ['term_relationships.term_taxonomy_id', 'term_taxonomy.term_taxonomy_id'])
+                ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy']);
+
+            if (!empty($args['term'])) {
+                $query
+                    ->join('terms', ['term_taxonomy.term_id', 'terms.term_id'])
+                    ->where('terms.term_id', '=', $args['term']);
+            }
+        }
+
+        $result = $query->getAll();
 
         return $result ? $result : [];
     }
