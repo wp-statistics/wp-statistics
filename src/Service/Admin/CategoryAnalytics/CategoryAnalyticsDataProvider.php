@@ -30,8 +30,26 @@ class CategoryAnalyticsDataProvider
 
     public function getChartsData()
     {
+        $visitorsData = $this->visitorsModel->getVisitorsPlatformData($this->args);
+
         return [
             'performance_chart_data' => $this->getPerformanceChartData(),
+            'os_chart_data'             => [
+                'labels'    => array_keys($visitorsData['platform']), 
+                'data'      => array_values($visitorsData['platform'])
+            ],
+            'browser_chart_data'        => [
+                'labels'    => array_keys($visitorsData['agent']), 
+                'data'      => array_values($visitorsData['agent'])
+            ],
+            'device_chart_data'         => [
+                'labels'    => array_keys($visitorsData['device']), 
+                'data'      => array_values($visitorsData['device'])
+            ],
+            'model_chart_data'          => [
+                'labels'    => array_keys($visitorsData['model']), 
+                'data'      => array_values($visitorsData['model'])
+            ],
         ];
     }
 
