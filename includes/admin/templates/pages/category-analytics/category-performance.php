@@ -114,6 +114,7 @@ use WP_STATISTICS\Helper;
         $summary = [
             'title'   => esc_html__('Summary', 'wp-statistics'),
             'tooltip' => esc_html__('Summary tooltip', 'wp-statistics'),
+            'data'    => $data['visits_summary']
         ];
         Admin_Template::get_template(['layout/category-analytics/summary'], $summary);
 

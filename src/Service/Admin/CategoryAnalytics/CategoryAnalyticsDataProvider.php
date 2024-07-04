@@ -30,26 +30,8 @@ class CategoryAnalyticsDataProvider
 
     public function getChartsData()
     {
-        $visitorsData = $this->visitorsModel->getVisitorsPlatformData($this->args);
-
         return [
             'performance_chart_data' => $this->getPerformanceChartData(),
-            'os_chart_data'             => [
-                'labels'    => array_keys($visitorsData['platform']), 
-                'data'      => array_values($visitorsData['platform'])
-            ],
-            'browser_chart_data'        => [
-                'labels'    => array_keys($visitorsData['agent']), 
-                'data'      => array_values($visitorsData['agent'])
-            ],
-            'device_chart_data'         => [
-                'labels'    => array_keys($visitorsData['device']), 
-                'data'      => array_values($visitorsData['device'])
-            ],
-            'model_chart_data'          => [
-                'labels'    => array_keys($visitorsData['model']), 
-                'data'      => array_values($visitorsData['model'])
-            ],
         ];
     }
 
@@ -82,6 +64,12 @@ class CategoryAnalyticsDataProvider
         $totalWords         = $this->postsModel->countWords($this->args);
         $totalComments      = $this->postsModel->countComments($this->args);
 
+        $visitorsSummary    = $this->visitorsModel->getVisitorsSummary($this->args);
+        $viewsSummary       = $this->viewsModel->getViewsSummary($this->args);
+
+        // $visitorsCountry    = $this->visitorsModel->getVisitorsGeoData(array_merge($this->args, ['per_page' => 10]));
+        // $referrersData      = $this->visitorsModel->getReferrers($this->args);
+        
         $performanceArgs = ['date' => ['from' => date('Y-m-d', strtotime('-14 days')), 'to' => date('Y-m-d')]];
         $performanceData = [
             'posts'     => $this->postsModel->countPosts(array_merge($this->args, $performanceArgs)),
@@ -94,6 +82,8 @@ class CategoryAnalyticsDataProvider
         $recentPosts        = $this->postsModel->getPostsViewsData(array_merge($this->args, ['date' => '', 'date_field' => 'post_date', 'order_by' => 'post_date']));
 
         return [
+            // 'visitors_country'  => $visitorsCountry,
+            // 'referrers'         => $referrersData,
             'overview'          => [
                 'published' => [
                     'total' => $totalPosts
@@ -116,6 +106,7 @@ class CategoryAnalyticsDataProvider
                 ]
             ],
             'performance'       => $performanceData,
+            'visits_summary'    => array_replace_recursive($visitorsSummary, $viewsSummary),
             'posts'             => [
                 'top_viewing'   => $topPostsByView,
                 'top_commented' => $topPostsByComment,
