@@ -122,7 +122,7 @@ class GeographicDataProvider
             ]
         ));
 
-        $cities_total = $this->visitorsModel->countGeoData(array_merge(
+        $citiesTotal = $this->visitorsModel->countGeoData(array_merge(
             $this->args,
             [
                 'group_by'    => ['city'],
@@ -138,7 +138,7 @@ class GeographicDataProvider
             'regions'   => $regions,
             'cities'    => [
                 'data'  => $cities,
-                'total' => $cities_total
+                'total' => $citiesTotal
             ],
             'referrers' => $referrers,
         ];
