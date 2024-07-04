@@ -107,7 +107,7 @@ class GeographicDataProvider
                 'group_by'    => ['region'],
                 'count_field' => 'region',
                 'not_null'    => 'visitor.region',
-                'per_page'    => 10
+                'per_page'    => -1
             ]
         ));
 
@@ -117,7 +117,17 @@ class GeographicDataProvider
                 'group_by'    => ['city'],
                 'count_field' => 'city',
                 'not_null'    => 'visitor.city',
-                'per_page'    => 10
+                'per_page'    => 10,
+                'page'        => !empty($this->args['cities_page']) ? $this->args['cities_page'] : 1
+            ]
+        ));
+
+        $cities_total = $this->visitorsModel->countGeoData(array_merge(
+            $this->args,
+            [
+                'group_by'    => ['city'],
+                'count_field' => 'city',
+                'not_null'    => 'visitor.city',
             ]
         ));
 
@@ -126,7 +136,10 @@ class GeographicDataProvider
         return [
             'stats'     => $stats,
             'regions'   => $regions,
-            'cities'    => $cities,
+            'cities'    => [
+                'data'  => $cities,
+                'total' => $cities_total
+            ],
             'referrers' => $referrers,
         ];
     }
