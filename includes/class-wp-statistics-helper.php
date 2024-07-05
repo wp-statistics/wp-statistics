@@ -1722,4 +1722,20 @@ class Helper
 
         return $result;
     }
+
+    /**
+     * Checks if "Anonymous Tracking" option is enabled and user hasn't given consent yet.
+     *
+     * In this case, we have to track user's information anonymously.
+     *
+     * @return  bool
+     */
+    public static function shouldTrackAnonymously()
+    {
+        $selectedConsentLevel = Option::get('consent_level_integration', 'disabled');
+
+        return $selectedConsentLevel !== 'disabled' &&
+            Option::get('anonymous_tracking', false) == true &&
+            !(function_exists('wp_has_consent') && wp_has_consent($selectedConsentLevel));
+    }
 }

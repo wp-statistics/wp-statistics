@@ -145,7 +145,7 @@ class VisitorProfile
     public function getUserId()
     {
         if (!$this->userId) {
-            if (!Option::get('visitors_log')) {
+            if (!Option::get('visitors_log') || Helper::shouldTrackAnonymously()) {
                 $this->userId = 0;
             } else {
                 $this->userId = User::get_user_id();

@@ -72,6 +72,7 @@ class Frontend
             'hitRequestUrl'        => $hitRequestUrl,
             'keepOnlineRequestUrl' => $keepOnlineRequestUrl,
             'isWpConsentApiActive' => WpConsentApi::isWpConsentApiActive(),
+            'trackAnonymously'     => Helper::shouldTrackAnonymously(),
             'option'               => [
                 'consentLevel'       => Option::get('consent_level_integration', 'disabled'),
                 'dntEnabled'         => Option::get('do_not_track'),
