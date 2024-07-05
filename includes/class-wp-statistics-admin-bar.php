@@ -14,19 +14,6 @@ class AdminBar
 
         # Show WordPress Admin Bar
         add_action('admin_bar_menu', array($this, 'admin_bar'), 69);
-        // Enqueue JavaScript
-        add_action('admin_enqueue_scripts', array($this, 'enqueue_scripts'),99);
-    }
-
-    /**
-     * Enqueue JavaScript for Admin Bar
-     */
-    public function enqueue_scripts()
-    {
-        // Only enqueue script if the admin bar is showing
-        if (is_admin_bar_showing()) {
-            wp_enqueue_script('wp-statistics-admin-bar', WP_STATISTICS_URL . '/assets/js/mini-chart.js', array('jquery'), '1.0', true);
-         }
     }
 
     /**
