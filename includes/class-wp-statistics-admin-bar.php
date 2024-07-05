@@ -88,21 +88,36 @@ class AdminBar
              * Key : ID of Admin bar
              */
             $admin_bar_list = array(
-                'wp-statistics-menu-visitors-today' => array(
+                'wp-statistic-menu'                   => [
+                    'title' => $menu_title,
+                    'href'  => Menus::admin_url('overview'),
+                ],
+                'wp-statistic-menu-global-data'       => [
                     'parent' => 'wp-statistic-menu',
+                    'title'  => __('Global Data', 'wp-statistics'),
+                    'meta'   => array('class' => 'wp-statistics-global-data'),
+                ],
+                'wp-statistic-menu-current-page-data' => [
+                    'parent' => 'wp-statistic-menu',
+                    'title'  => __('Current Page Data', 'wp-statistics'),
+                    'meta'   => array('class' => 'wp-statistics-current-page-data '),
+                    //'meta'   => array('class' => 'wp-statistics-current-page-data disabled'),
+                ],
+                'wp-statistics-menu-visitors-today' => array(
+                    'parent' => 'wp-statistic-menu-global-data',
                     'title'  => '<div class="wp-statistics-menu-visitors-today__title">' . __('Visitors Today', 'wp-statistics') . '</div>'
                         . '<div class="wp-statistics-menu-visitors-today__count">' . wp_statistics_visitor('today') . '</div>'
                         . '<div class="wp-statistics-menu-todayvisits">' . sprintf(__('was %s last day', 'wp-statistics'), wp_statistics_visit('today')) . '</div>'
                 ),
                 'wp-statistics-menu-views-today'    => array(
-                    'parent' => 'wp-statistic-menu',
+                    'parent' => 'wp-statistic-menu-global-data',
                     'title'  => '<div class="wp-statistics-menu-views-today__title">' . __('Views Today', 'wp-statistics') . '</div>'
                         . '<div class="wp-statistics-menu-views-today__count">' . wp_statistics_visitor('yesterday') . '</div>'
                         . '<div class="wp-statistics-menu-yesterdayvisits">' . sprintf(__('was %s last day', 'wp-statistics'), wp_statistics_visit('yesterday')) . '</div>'
 
                 ),
                 'wp-statistics-menu-page'           => array(
-                    'parent' => 'wp-statistic-menu',
+                    'parent' => 'wp-statistic-menu-global-data',
                     'title'  => sprintf('<img src="%s"/><div><span class="wps-admin-bar__chart__unlock-button">%s</span><button>%s</button></div>',
                         esc_url(WP_STATISTICS_URL . 'assets/images/mini-chart-lock.png'),
                         __('Unlock full potential of Mini-chart', 'wp-statistics'),
@@ -114,7 +129,7 @@ class AdminBar
                     ],
                 ),
                 'wp-statistics-footer-page'         => array(
-                    'parent' => 'wp-statistic-menu',
+                    'parent' => 'wp-statistic-menu-global-data',
                     'title'  => sprintf('<img src="%s"/>
                         <a href="' . esc_url(admin_url('admin.php?page=wps_overview_page')) . '">
                         <span class="wps-admin-bar__chart__unlock-button">%s</span>
@@ -126,6 +141,12 @@ class AdminBar
 
                 )
             );
+
+            // Add a dummy item to the Current Page Data tab
+            $admin_bar_list['wp-statistics-menu-current-page-data-item'] = [
+                'parent' => 'wp-statistic-menu-current-page-data',
+                'title'  => __('Test data', 'wp-statistics')
+            ];
 
             $data = [
                 'object_id'          => $object_id,
@@ -145,43 +166,9 @@ class AdminBar
              */
             $admin_bar_list = apply_filters('wp_statistics_admin_bar', $admin_bar_list, $data, '');
 
-            // Create the main menu
-            $wp_admin_bar->add_menu(array(
-                'id'    => 'wp-statistic-menu',
-                'title' => $menu_title,
-                'href'  => Menus::admin_url('overview')
-            ));
-            // Add Global Data tab
-            $wp_admin_bar->add_menu(array(
-                'parent' => 'wp-statistic-menu',
-                'id'     => 'wp-statistic-menu-global-data',
-                'title'  => __('Global Data', 'wp-statistics'),
-                'meta'   => array('class' => 'wp-statistics-global-data')
-            ));
-
-            // Add items to the Global Data tab
             foreach ($admin_bar_list as $id => $v_admin_bar) {
-                $v_admin_bar['parent'] = 'wp-statistic-menu-global-data';
                 $wp_admin_bar->add_menu(array_merge(array('id' => $id), $v_admin_bar));
             }
-
-            // Add Current Page Data tab
-            $wp_admin_bar->add_menu(array(
-                'parent' => 'wp-statistic-menu',
-                'id'     => 'wp-statistic-menu-current-page-data',
-                'title'  => __('Current Page Data', 'wp-statistics'),
-                'meta'   => array('class' => 'wp-statistics-current-page-data ')
-                // Add Disable class
-                //'meta'   => array('class' => 'wp-statistics-current-page-data disabled')
-            ));
-
-
-            // Add a dummy item to the Current Page Data tab
-            $wp_admin_bar->add_menu(array(
-                'parent' => 'wp-statistic-menu-current-page-data',
-                'id'     => 'wp-statistics-menu-current-page-data-item',
-                'title'  => __('Test data', 'wp-statistics')
-            ));
         }
     }
 }
