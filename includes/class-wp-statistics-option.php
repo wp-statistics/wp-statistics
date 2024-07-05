@@ -61,6 +61,7 @@ class Option
             'privacy_audit'             => true,
             'store_ua'                  => false,
             'consent_level_integration' => 'disabled',
+            'anonymous_tracking'        => false,
             'do_not_track'              => true,
             'exclude_administrator'     => true,
             'referrerspam'              => true,
