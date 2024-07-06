@@ -14,7 +14,6 @@ use WP_STATISTICS\Helper;
             'tooltip'       => esc_html__('Views tooltip', 'wp-statistics'),
             'total'         => Helper::formatNumberWithUnit($data['overview']['views']['total']),
             'avg'           => Helper::formatNumberWithUnit($data['overview']['views']['avg']),
-            'icon_class'    => 'views',
             'avg_title'     => esc_html__('Avg. per Content', 'wp-statistics')
         ];
         Admin_Template::get_template(['layout/category-analytics/overview-card'], $args1);
@@ -24,7 +23,6 @@ use WP_STATISTICS\Helper;
             'tooltip'       => esc_html__('Visitors tooltip', 'wp-statistics'),
             'total'         => Helper::formatNumberWithUnit($data['overview']['visitors']['total']),
             'avg'           => Helper::formatNumberWithUnit($data['overview']['visitors']['avg']),
-            'icon_class'    => 'visitors',
             'avg_title'     => esc_html__('Avg. per Content', 'wp-statistics')
         ];
         Admin_Template::get_template(['layout/category-analytics/overview-card'], $args2);
@@ -34,7 +32,6 @@ use WP_STATISTICS\Helper;
             'tooltip'       => esc_html__('Words tooltip', 'wp-statistics'),
             'total'         => Helper::formatNumberWithUnit($data['overview']['words']['total']),
             'avg'           => Helper::formatNumberWithUnit($data['overview']['words']['avg']),
-            'icon_class'    => 'words',
             'avg_title'     => esc_html__('Avg. per Content', 'wp-statistics')
         ];
         Admin_Template::get_template(['layout/category-analytics/overview-card'], $args3);
@@ -44,7 +41,6 @@ use WP_STATISTICS\Helper;
             'tooltip'       => esc_html__('Comments tooltip', 'wp-statistics'),
             'total'         => Helper::formatNumberWithUnit($data['overview']['comments']['total']),
             'avg'           => Helper::formatNumberWithUnit($data['overview']['comments']['avg']),
-            'icon_class'    => 'comments',
             'avg_title'     => esc_html__('Avg. per Content', 'wp-statistics')
         ];
         Admin_Template::get_template(['layout/category-analytics/overview-card'], $args4);
