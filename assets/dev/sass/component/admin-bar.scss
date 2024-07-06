@@ -92,6 +92,7 @@
 
   .ab-sub-wrapper {
     min-width: 447px;
+    background-color: transparent;
 
     ul {
       padding: 16px 24px;
@@ -99,6 +100,7 @@
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
+      align-items: flex-start;
 
       li {
         &#wp-admin-bar-wp-statistics-menu-visitors-today, &#wp-admin-bar-wp-statistics-menu-views-today {
