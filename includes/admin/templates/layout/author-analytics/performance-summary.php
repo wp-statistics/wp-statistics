@@ -1,4 +1,4 @@
-<div class="wps-card wps-card__icon wps-card__icon--<?php echo esc_attr($icon_class) ?>">
+<div class="wps-card">
     <div class="wps-card__title">
         <h2>
             <?php echo esc_html($title); ?>
