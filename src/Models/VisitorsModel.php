@@ -379,7 +379,7 @@ class VisitorsModel extends BaseModel
             'visitor.region as region',
             'visitor.continent as continent',
             'COUNT(DISTINCT visitor.ID) as visitors',
-            'SUM(visitor.hits) as views'
+            'SUM(visitor.hits) as views' // All views are counted and results can't be filtered by author, post type, etc...
         ])
             ->from('visitor')
             ->where('visitor.location', 'IN', $args['country'])

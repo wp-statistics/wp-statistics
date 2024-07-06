@@ -23,9 +23,6 @@ use WP_STATISTICS\Country;
                             <th class="wps-pd-l">
                                 <?php esc_html_e('Visitors', 'wp-statistics') ?>
                             </th>
-                            <th class="wps-pd-l">
-                                <?php esc_html_e('Views', 'wp-statistics') ?>
-                            </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -39,9 +36,6 @@ use WP_STATISTICS\Country;
                                 </td>
                                 <td class="wps-pd-l">
                                     <span><?php echo esc_html(number_format($item->visitors)); ?></span>
-                                </td>
-                                <td class="wps-pd-l">
-                                    <span><?php echo esc_html(number_format($item->views)); ?></span>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
