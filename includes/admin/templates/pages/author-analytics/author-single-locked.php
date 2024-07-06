@@ -2,8 +2,7 @@
 
 use WP_STATISTICS\Admin_Template;
 
-$geographic = [
+Admin_Template::get_template(['layout/partials/data-plus-locked-page'], [
     'campaign' => 'author',
     'src'      => 'assets/images/locked/author.jpg',
-];
-Admin_Template::get_template(['layout/partials/data-plus-locked-page'], $geographic);
+]);
