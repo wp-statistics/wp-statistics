@@ -72,6 +72,7 @@ class Frontend
             'hitRequestUrl'        => $hitRequestUrl,
             'keepOnlineRequestUrl' => $keepOnlineRequestUrl,
             'isWpConsentApiActive' => WpConsentApi::isWpConsentApiActive(),
+            'trackAnonymously'     => Helper::shouldTrackAnonymously(),
             'option'               => [
                 'consentLevel'       => Option::get('consent_level_integration', 'disabled'),
                 'dntEnabled'         => Option::get('do_not_track'),
@@ -80,13 +81,14 @@ class Frontend
         );
 
         Assets::script('tracker', 'js/tracker.js', [], $jsArgs, true, Option::get('bypass_ad_blockers', false));
-        Assets::script('mini-chart', 'js/mini-chart.js', true, Option::get('bypass_ad_blockers', false));
 
         // Load Chart.js library
         if (Helper::isAdminBarShowing()) {
             Assets::script('chart.js', 'js/chartjs/chart.umd.min.js', [], [], true, false, null, '4.4.2');
             Assets::script('hammer.js', 'js/chartjs/hammer.min.js', [], [], true, false, null, '2.0.8');
             Assets::script('chartjs-plugin-zoom.js', 'js/chartjs/chartjs-plugin-zoom.min.js', ['wp-statistics-hammer.js'], [], true, false, null, '2.0.1');
+
+            Assets::script('mini-chart', 'js/mini-chart.js', [], [], true);
         }
     }
 

@@ -147,6 +147,20 @@
             </td>
         </tr>
 
+        <?php if (WP_STATISTICS\Option::get('consent_level_integration', 'disabled') !== 'disabled') : ?>
+            <tr valign="top">
+                <th scope="row">
+                    <label for="anonymous_tracking"><?php _e('Anonymous Tracking', 'wp-statistics'); ?></label>
+                </th>
+
+                <td>
+                    <input id="anonymous_tracking" type="checkbox" value="1" name="wps_anonymous_tracking" <?php echo WP_STATISTICS\Option::get('anonymous_tracking', false) == true ? 'checked="checked"' : ''; ?> />
+                    <label for="anonymous_tracking"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
+                    <p class="description"><?php _e('When this option is enabled, WP Statistics will track all users anonymously by default, regardless of whether they have accepted consent. No Personally Identifiable Information (PII) will be recorded in this mode. All anonymous tracking data will be classified as "Functional," ensuring compliance with privacy laws. PII data will only be tracked when explicit consent is granted by the website visitor. This allows for comprehensive user tracking while respecting privacy regulations.', 'wp-statistics'); ?></p>
+                </td>
+            </tr>
+        <?php endif; ?>
+
         <tr valign="top">
             <th scope="row">
                 <label for="do_not_track"><?php esc_html_e('Do Not Track (DNT)', 'wp-statistics'); ?></label>
