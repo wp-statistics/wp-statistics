@@ -100,8 +100,7 @@ class AdminBar
                 'wp-statistic-menu-current-page-data' => [
                     'parent' => 'wp-statistic-menu',
                     'title'  => __('Current Page Data', 'wp-statistics'),
-                    'meta'   => array('class' => 'wp-statistics-current-page-data '),
-                    //'meta'   => array('class' => 'wp-statistics-current-page-data disabled'),
+                    'meta'   => array('class' => 'wp-statistics-current-page-data disabled'),
                 ],
                 'wp-statistics-menu-visitors-today' => array(
                     'parent' => 'wp-statistic-menu-global-data',
@@ -141,12 +140,6 @@ class AdminBar
 
                 )
             );
-
-            // Add a dummy item to the Current Page Data tab
-            $admin_bar_list['wp-statistics-menu-current-page-data-item'] = [
-                'parent' => 'wp-statistic-menu-current-page-data',
-                'title'  => __('Test data', 'wp-statistics')
-            ];
 
             $data = [
                 'object_id'          => $object_id,
