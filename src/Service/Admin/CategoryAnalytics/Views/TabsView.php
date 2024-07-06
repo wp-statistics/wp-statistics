@@ -13,7 +13,6 @@ use WP_Statistics\Service\Admin\CategoryAnalytics\CategoryAnalyticsDataProvider;
 
 class TabsView extends BaseTabView 
 {
-    protected $dataProvider;
     protected $defaultTab = 'performance';
     protected $tabs = [
         'performance',
@@ -29,7 +28,6 @@ class TabsView extends BaseTabView
                 'to'    => Request::get('to', date('Y-m-d'))
             ],
         ]);
-
     }
 
     protected function getPerformanceData()

@@ -138,10 +138,8 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             this.legendHandel(performanceChart);
         },
         generatePerformanceChartSingle: function () {
-            const performanceSingleData = {
-                labels: ['1 Apr', '2 Apr', '3 Apr', '4 Apr', '5 Apr', '6 Apr', '7 Apr', '8 Apr', '9 Apr', '10 Apr', '11 Apr', '12 Apr', '13 Apr', '14 Apr', '15 Apr'],
-                views: [10, 15, 30, 25, 30, 35, 30, 45, 20, 15, 45, 15, 20, 25, 30]
-            };
+            const performanceSingleData = this.data.performance_chart_data;
+
             const performanceSingle = document.getElementById('performance-category-chart-single').getContext('2d');
             const performanceSingleChart = new Chart(performanceSingle, {
                 type: 'bar',
@@ -188,7 +186,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                             ticks: {
                                 stepSize: 1,
                                 callback: function (value, index, values) {
-                                    return value + 'K';
+                                    return value;
                                 }
                             },
                             title: {

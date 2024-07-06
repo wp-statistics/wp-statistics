@@ -1,7 +1,6 @@
 <?php
 use WP_STATISTICS\Admin_Template;
 use WP_STATISTICS\Helper;
-
 ?>
 
 <div class="metabox-holder wps-category-analytics">
@@ -122,7 +121,7 @@ use WP_STATISTICS\Helper;
         $topCountries = [
             'title'   => esc_html__('Top Countries', 'wp-statistics'),
             'tooltip' => esc_html__('Top Countries tooltip', 'wp-statistics'),
-            'data'    => $data['visitor_country']
+            'data'    => $data['visitors_country']
         ];
         Admin_Template::get_template(['layout/category-analytics/top-countries'], $topCountries);
 

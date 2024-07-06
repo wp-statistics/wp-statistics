@@ -1,6 +1,7 @@
 <?php
 
 use WP_STATISTICS\Admin_Template;
+use WP_STATISTICS\Helper;
 
 ?>
 
@@ -11,8 +12,8 @@ use WP_STATISTICS\Admin_Template;
         $args1 = [
             'title'         => esc_html__('Views', 'wp-statistics'),
             'tooltip'       => esc_html__('Views tooltip', 'wp-statistics'),
-            'total'         => '21.2M',
-            'avg'           => '183K',
+            'total'         => Helper::formatNumberWithUnit($data['overview']['views']['total']),
+            'avg'           => Helper::formatNumberWithUnit($data['overview']['views']['avg']),
             'icon_class'    => 'views',
             'avg_title'     => esc_html__('Avg. per Content', 'wp-statistics')
         ];
@@ -21,8 +22,8 @@ use WP_STATISTICS\Admin_Template;
         $args2 = [
             'title'         => esc_html__('Visitors', 'wp-statistics'),
             'tooltip'       => esc_html__('Visitors tooltip', 'wp-statistics'),
-            'total'         => '21.2M',
-            'avg'           => '183K',
+            'total'         => Helper::formatNumberWithUnit($data['overview']['visitors']['total']),
+            'avg'           => Helper::formatNumberWithUnit($data['overview']['visitors']['avg']),
             'icon_class'    => 'visitors',
             'avg_title'     => esc_html__('Avg. per Content', 'wp-statistics')
         ];
@@ -31,8 +32,8 @@ use WP_STATISTICS\Admin_Template;
         $args3 = [
             'title'         => esc_html__('Words', 'wp-statistics'),
             'tooltip'       => esc_html__('Words tooltip', 'wp-statistics'),
-            'total'         => '21.2M',
-            'avg'           => '183K',
+            'total'         => Helper::formatNumberWithUnit($data['overview']['words']['total']),
+            'avg'           => Helper::formatNumberWithUnit($data['overview']['words']['avg']),
             'icon_class'    => 'words',
             'avg_title'     => esc_html__('Avg. per Content', 'wp-statistics')
         ];
@@ -41,8 +42,8 @@ use WP_STATISTICS\Admin_Template;
         $args4 = [
             'title'         => esc_html__('Comments', 'wp-statistics'),
             'tooltip'       => esc_html__('Comments tooltip', 'wp-statistics'),
-            'total'         => '13',
-            'avg'           => '12',
+            'total'         => Helper::formatNumberWithUnit($data['overview']['comments']['total']),
+            'avg'           => Helper::formatNumberWithUnit($data['overview']['comments']['avg']),
             'icon_class'    => 'comments',
             'avg_title'     => esc_html__('Avg. per Content', 'wp-statistics')
         ];
@@ -87,20 +88,21 @@ use WP_STATISTICS\Admin_Template;
             'tooltip'     => esc_html__('Performance tooltip', 'wp-statistics'),
             'type'        => 'categorySingle',
             'description' => esc_html__('Last 15 Days', 'wp-statistics'),
-            'data'        => ['views' => 0, 'visitors' => 0, 'posts' => 0]
+            'data'        => $data['performance']
         ];
         Admin_Template::get_template(['layout/category-analytics/performance-chart'], $performance);
-
 
         $summary = [
             'title'   => esc_html__('Summary', 'wp-statistics'),
             'tooltip' => esc_html__('Summary tooltip', 'wp-statistics'),
+            'data'    => $data['visits_summary']
         ];
         Admin_Template::get_template(['layout/category-analytics/summary'], $summary);
 
         $topCountries = [
             'title'   => esc_html__('Top Countries', 'wp-statistics'),
             'tooltip' => esc_html__('Top Countries tooltip', 'wp-statistics'),
+            'data'    => $data['visitors_country']
         ];
         Admin_Template::get_template(['layout/category-analytics/top-countries'], $topCountries);
 
@@ -113,6 +115,7 @@ use WP_STATISTICS\Admin_Template;
         $topReferring = [
             'title'   => esc_html__('Top Referring', 'wp-statistics'),
             'tooltip' => esc_html__('Top Referring tooltip', 'wp-statistics'),
+            'data'    => $data['referrers']
         ];
         Admin_Template::get_template(['layout/category-analytics/top-referring'], $topReferring);
         ?>

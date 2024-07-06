@@ -68,14 +68,65 @@ class CategoryAnalyticsDataProvider
         for ($i = 14; $i >= 0; $i--) {
             $date       = date('Y-m-d', strtotime("-$i days"));
             $dateFilter = ['date' => ['from' => $date, 'to' => $date]];
-
+            
             $result['labels'][]     = date_i18n(Helper::getDefaultDateFormat(false, true), strtotime($date));
-            $result['visitors'][]   = $this->visitorsModel->countVisitors(array_merge($this->args, $dateFilter));
             $result['views'][]      = $this->viewsModel->countViews(array_merge($this->args, $dateFilter));
-            $result['posts'][]      = $this->postsModel->countPosts(array_merge($this->args, $dateFilter));
+
+            if (!Request::compare('type', 'single')) {
+                $result['visitors'][]   = $this->visitorsModel->countVisitors(array_merge($this->args, $dateFilter));
+                $result['posts'][]      = $this->postsModel->countPosts(array_merge($this->args, $dateFilter));
+            }
         }
 
         return $result;
+    }
+
+    public function getSingleTermData()
+    {
+        $totalPosts         = $this->postsModel->countPosts($this->args);
+        $totalViews         = $this->viewsModel->countViews($this->args);
+        $totalVisitors      = $this->visitorsModel->countVisitors($this->args);
+        $totalWords         = $this->postsModel->countWords($this->args);
+        $totalComments      = $this->postsModel->countComments($this->args);
+
+        $visitorsSummary    = $this->visitorsModel->getVisitorsSummary($this->args);
+        $viewsSummary       = $this->viewsModel->getViewsSummary($this->args);
+
+        $visitorsCountry    = $this->visitorsModel->getVisitorsGeoData(array_merge($this->args, ['per_page' => 10]));
+        $referrersData      = $this->visitorsModel->getReferrers($this->args);
+        
+        $performanceArgs    = ['date' => ['from' => date('Y-m-d', strtotime('-14 days')), 'to' => date('Y-m-d')]];
+        $performanceData    = [
+            'views' => $this->viewsModel->countViews(array_merge($this->args, $performanceArgs)),
+        ];
+
+        return [
+            'overview'          => [
+                'published' => [
+                    'total' => $totalPosts
+                ],
+                'views'     => [
+                    'total' => $totalViews,
+                    'avg'   => Helper::divideNumbers($totalViews, $totalPosts)
+                ],
+                'visitors'  => [
+                    'total' => $totalVisitors,
+                    'avg'   => Helper::divideNumbers($totalVisitors, $totalPosts)
+                ],
+                'words'     => [
+                    'total' => $totalWords,
+                    'avg'   => Helper::divideNumbers($totalWords, $totalPosts)
+                ],
+                'comments'  => [
+                    'total' => $totalComments,
+                    'avg'   => Helper::divideNumbers($totalComments, $totalPosts)
+                ]
+            ],
+            'performance'       => $performanceData,
+            'referrers'         => $referrersData,
+            'visitors_country'  => $visitorsCountry,
+            'visits_summary'    => array_replace_recursive($visitorsSummary, $viewsSummary)
+        ];
     }
 
     public function getPerformanceData()
