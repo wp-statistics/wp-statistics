@@ -1,3 +1,11 @@
+<?php
+
+use WP_STATISTICS\Helper;
+use WP_Statistics\Utils\Request;
+
+$postType = Helper::getPostTypeName(Request::get('tab', 'post'));
+?>
+
 <div class="wps-card">
     <div class="wps-card__title">
         <h2>
@@ -26,7 +34,7 @@
                                 <a class="wps-content-tabs__item" href="<?php echo get_term_link(intval($term['term_id'])) ?>">
                                     <div class="wps-content-tabs__item--content">
                                         <h3 class="wps-ellipsis-parent"><span class="wps-ellipsis-text"><?php echo esc_html($term['term_name']); ?></span></h3>
-                                        <span><span class="wps-count"><?php echo esc_html($term['posts_count']); ?></span> <?php esc_html_e('published contents', 'wp-statistics') ?></span>
+                                        <span><span class="wps-count"><?php echo esc_html($term['posts_count']); ?></span> <?php echo sprintf(esc_html__('published %s', 'wp-statistics'), strtolower($postType)) ?></span>
                                     </div>
                                 </a>
                             <?php endforeach; ?>
