@@ -125,7 +125,7 @@ class GeneralNotices
 
     public function php_version_check()
     {
-        if (version_compare(PHP_VERSION, '7.2', '<') && !Option::get('disable_php_version_check_notice')) {
+        if (version_compare(PHP_VERSION, '7.2', '<')) {
             Notice::addNotice(__('<b>WP Statistics Plugin: PHP Version Update Alert</b> Starting with <b>Version 15</b>, WP Statistics will require <b>PHP 7.2 or higher</b>. Please upgrade your PHP version to ensure uninterrupted use of the plugin.'), 'php_version_check', 'warning');
         }
     }
