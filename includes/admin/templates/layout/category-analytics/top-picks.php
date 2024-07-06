@@ -1,5 +1,6 @@
 <?php 
 use WP_STATISTICS\Helper;
+use WP_STATISTICS\Menus;
 use WP_Statistics\Utils\Request;
 
 $taxonomy   = Request::get('tx', 'category');
@@ -27,7 +28,7 @@ $postTypes  = get_post_types_by_support('comments');
                             $counter = 1;
                             
                             foreach ($data['top_viewing'] as $post) : ?>
-                                <a class="wps-category-tabs__item" href="<?php echo esc_url(add_query_arg(['type' => 'single', 'post_id' => $post->ID])) ?>">
+                                <a class="wps-category-tabs__item" href="<?php echo esc_url(Menus::admin_url('content-analytics', ['type' => 'single', 'post_id' => $post->ID])) ?>">
                                     <div class="wps-category-tabs__item--image">
                                         <span>#<?php echo esc_html($counter); ?></span>
                                         <?php if (has_post_thumbnail($post->ID)) : ?>
@@ -59,7 +60,7 @@ $postTypes  = get_post_types_by_support('comments');
                                 $counter = 1;
                                 
                                 foreach ($data['top_commented'] as $post) : ?>
-                                    <a class="wps-category-tabs__item" href="<?php echo esc_url(add_query_arg(['type' => 'single', 'post_id' => $post->ID])) ?>">
+                                    <a class="wps-category-tabs__item" href="<?php echo esc_url(Menus::admin_url('content-analytics', ['type' => 'single', 'post_id' => $post->ID])) ?>">
                                         <div class="wps-category-tabs__item--image">
                                             <span>#<?php echo esc_html($counter); ?></span>
                                             <?php if (has_post_thumbnail($post->ID)) : ?>
