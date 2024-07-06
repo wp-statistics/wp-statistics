@@ -107,12 +107,12 @@ class AdminBar
                     'parent' => 'wp-statistic-menu-global-data',
                     'title'  => '<div class="wp-statistics-menu-visitors-today__title">' . __('Visitors Today', 'wp-statistics') . '</div>'
                         . '<div class="wp-statistics-menu-visitors-today__count">' . wp_statistics_visitor('today') . '</div>'
-                        . '<div class="wp-statistics-menu-todayvisits">' . sprintf(__('was %s last day', 'wp-statistics'), wp_statistics_visit('today')) . '</div>'
+                        . '<div class="wp-statistics-menu-todayvisits">' . sprintf(__('was %s last day', 'wp-statistics'), wp_statistics_visitor('yesterday')) . '</div>'
                 ),
                 'wp-statistics-menu-views-today'    => array(
                     'parent' => 'wp-statistic-menu-global-data',
                     'title'  => '<div class="wp-statistics-menu-views-today__title">' . __('Views Today', 'wp-statistics') . '</div>'
-                        . '<div class="wp-statistics-menu-views-today__count">' . wp_statistics_visitor('yesterday') . '</div>'
+                        . '<div class="wp-statistics-menu-views-today__count">' . wp_statistics_visit('today') . '</div>'
                         . '<div class="wp-statistics-menu-yesterdayvisits">' . sprintf(__('was %s last day', 'wp-statistics'), wp_statistics_visit('yesterday')) . '</div>'
 
                 ),
