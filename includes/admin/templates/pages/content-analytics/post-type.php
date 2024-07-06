@@ -62,6 +62,7 @@ $postTypePlural   = Helper::getPostTypeName($postType);
         $categories = [
             'title'      => esc_html__('Top Categories', 'wp-statistics'),
             'tooltip'    => sprintf(esc_html__('The most popular categories by number of published posts %s.', 'wp-statistics'), strtolower($postTypePlural)),
+            'taxonomies' => $data['taxonomies']
         ];
         Admin_Template::get_template(['layout/content-analytics/top-categories'], $categories);
 

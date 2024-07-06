@@ -3,6 +3,7 @@ namespace WP_Statistics\Service\Admin\ContentAnalytics;
 
 use WP_STATISTICS\Helper;
 use WP_Statistics\Models\PostsModel;
+use WP_Statistics\Models\TaxonomyModel;
 use WP_Statistics\Models\ViewsModel;
 use WP_Statistics\Models\VisitorsModel;
 use WP_STATISTICS\TimeZone;
@@ -14,6 +15,7 @@ class ContentAnalyticsDataProvider
     private $postsModel;
     private $viewsModel;
     private $visitorsModel;
+    private $taxonomyModel;
     
     public function __construct($args)
     {
@@ -22,6 +24,7 @@ class ContentAnalyticsDataProvider
         $this->postsModel       = new PostsModel();
         $this->viewsModel       = new ViewsModel();
         $this->visitorsModel    = new VisitorsModel();
+        $this->taxonomyModel    = new TaxonomyModel();
     }
 
     public function getPerformanceChartData()
@@ -98,7 +101,10 @@ class ContentAnalyticsDataProvider
         $topPostsByComment  = $this->postsModel->getPostsCommentsData($this->args);
         $recentPosts        = $this->postsModel->getPostsViewsData(array_merge($this->args, ['date' => '', 'date_field' => 'post_date', 'order_by' => 'post_date']));
 
+        $taxonomies         = $this->taxonomyModel->getTaxonomiesData($this->args);
+
         return [
+            'taxonomies'        => $taxonomies,
             'visits_summary'    => array_replace_recursive($visitorsSummary, $viewsSummary),
             'overview'          => [
                 'published' => [
