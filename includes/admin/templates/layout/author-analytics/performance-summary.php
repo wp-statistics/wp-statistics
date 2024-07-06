@@ -1,4 +1,4 @@
-<div class="wps-card">
+<div class="wps-card wps-card__sums <?php echo isset($active) ? 'wps-card__sums--authors' : ''; ?>">
     <div class="wps-card__title">
         <h2>
             <?php echo esc_html($title); ?>
@@ -9,7 +9,6 @@
     </div>
 
     <div class="wps-card__summary">
-
 
         <div class="wps-card__summary--title">
             <span><?php echo esc_html($total) ?></span>
