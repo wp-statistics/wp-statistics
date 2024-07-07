@@ -29,7 +29,7 @@ class Admin_Assets
     public static $asset_dir = 'assets';
 
     /**
-     * Basic Of Plugin Url in Wordpress
+     * Basic Of Plugin Url in WordPress
      *
      * @var string
      * @example http://site.com/wp-content/plugins/my-plugin/

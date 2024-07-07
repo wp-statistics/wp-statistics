@@ -188,7 +188,7 @@ class Pages
         // Get the current page URI.
         $page_uri = Pages::get_page_uri();
 
-        // Get String Search Wordpress
+        // Get String Search WordPress
         if (array_key_exists("search_query", $current_page) and !empty($current_page["search_query"])) {
             $page_uri = "?s=" . $current_page['search_query'];
         }

@@ -149,7 +149,7 @@ class Menus
          * name       : Menu name
          * title      : Page title / if not exist [title == name]
          * cap        : min require capability @default $read_cap
-         * icon       : Wordpress DashIcon name
+         * icon       : WordPress DashIcon name
          * method     : method that call in page @default log
          * sub        : if sub menu , add main menu slug
          * page_url   : link of Slug Url Page @see WP_Statistics::$page

@@ -65,7 +65,7 @@ class Meta_Box
          * name              : Name Of Widget Box
          * require           : the Condition From Wp-statistics Option if == true
          * show_on_dashboard : Show Meta Box in WordPress Dashboard
-         * hidden            : if set true , Default Hidden Dashboard in Wordpress Admin
+         * hidden            : if set true , Default Hidden Dashboard in WordPress Admin
          * js                : if set false, Load without RestAPI Request.
          * place             : Meta Box Place in Overview Page [ normal | side ]
          * disable_overview  : Disable MetaBox From Overview Page [ default : false ]
