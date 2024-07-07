@@ -156,7 +156,7 @@ function wp_statistics_useronline($options = array())
     $arg = wp_parse_args($options, $defaults);
 
     //Basic SQL
-    $type_request = ($arg['return'] == "all" ? '*' : 'COUNT(*)');
+    $type_request = ($arg['return'] == "all" ? 'DISTINCT ip' : 'COUNT(DISTINCT ip)');
     $sql          = "SELECT {$type_request} FROM " . WP_STATISTICS\DB::table('useronline');
 
     //Check Where Condition
@@ -876,7 +876,7 @@ function wp_statistics_get_search_engine_query($search_engine = 'all', $time = '
     } else {
         if (empty($range)) $range = ['current_date' => true];
     }
-    
+
     $mysql_time_sql = WP_STATISTICS\Helper::mysql_time_conditions($date_column, $time, $range);
 
     //Generate MySql Time Conditions
