@@ -156,7 +156,7 @@ function wp_statistics_useronline($options = array())
     $arg = wp_parse_args($options, $defaults);
 
     //Basic SQL
-    $type_request = ($arg['return'] == "all" ? 'DISTINCT ip' : 'COUNT(DISTINCT ip)');
+    $type_request = ($arg['return'] == "all" ? '*' : 'COUNT(*)');
     $sql          = "SELECT {$type_request} FROM " . WP_STATISTICS\DB::table('useronline');
 
     //Check Where Condition
