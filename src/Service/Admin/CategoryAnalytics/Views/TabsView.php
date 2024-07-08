@@ -4,6 +4,7 @@ namespace WP_Statistics\Service\Admin\CategoryAnalytics\Views;
 
 use Exception;
 use WP_STATISTICS\Menus;
+use WP_STATISTICS\Helper;
 use WP_STATISTICS\Admin_Assets;
 use WP_Statistics\Utils\Request;
 use WP_STATISTICS\Admin_Template;
@@ -30,6 +31,11 @@ class TabsView extends BaseTabView
         ]);
     }
 
+    public function isLocked()
+    {
+        return !Helper::isAddOnActive('data-plus') && Helper::isCustomTaxonomy(Request::get('tx', 'category'));
+    }
+
     protected function getPerformanceData()
     {
         wp_localize_script(Admin_Assets::$prefix, 'Wp_Statistics_Category_Analytics_Object', $this->dataProvider->getChartsData());
@@ -47,6 +53,11 @@ class TabsView extends BaseTabView
         try {
             $currentTab = $this->getCurrentTab();
             $data       = $this->getTabData();
+            $template   = "category-$currentTab";
+
+            if ($this->isLocked()) {
+                $template = "category-$currentTab-locked";
+            }
     
             $args = [
                 'title'         => esc_html__('Category Analytics', 'wp-statistics'),
@@ -84,7 +95,7 @@ class TabsView extends BaseTabView
                 }
             }
     
-            Admin_Template::get_template(['layout/header', 'layout/tabbed-page-header', "pages/category-analytics/category-$currentTab", 'layout/postbox.hide', 'layout/footer'], $args);
+            Admin_Template::get_template(['layout/header', 'layout/tabbed-page-header', "pages/category-analytics/$template", 'layout/postbox.hide', 'layout/footer'], $args);
         } catch (Exception $e) {
             Notice::renderNotice($e->getMessage(), $e->getCode(), 'error');
         }
