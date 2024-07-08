@@ -214,7 +214,7 @@ class TimeZone
             ],
             'yesterday'  => [
                 'from' => self::getTimeAgo(1),
-                'to'   => self::getCurrentDate("Y-m-d")
+                'to'   => self::getTimeAgo(1)
             ],
             '7days'      => [
                 'from' => self::getTimeAgo(7),
