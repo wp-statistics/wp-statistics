@@ -31,13 +31,17 @@ $postTypes = get_post_types_by_support('comments');
                             <a class="wps-category-tabs__item" href="<?php echo esc_url(Menus::admin_url('category-analytics', ['type' => 'single', 'term_id' => $term->term_id])) ?>">
                                 <div class="wps-category-tabs__item--content">
                                     <h3 class="wps-ellipsis-parent"><span class="wps-ellipsis-text"><?php echo esc_html($term->term_name); ?></span></h3>
-                                    <span><?php echo esc_html(Helper::formatNumberWithUnit($term->views)); ?><?php esc_html_e(' content views', 'wp-statistics') ?></span>
+                                    <span>
+                                        <?php echo esc_html(Helper::formatNumberWithUnit($term->views)); ?>&nbsp;
+                                        <?php esc_html_e('content views', 'wp-statistics') ?>
+                                    </span>
                                 </div>
                             </a>
                             <?php $counter++;
                         endforeach;
                     } else {
-                        ?><div class="o-wrap o-wrap--no-data"><p><?php esc_html_e('No recent data available.', 'wp-statistics') ?></p></div><?php
+                        ?>
+                        <div class="o-wrap o-wrap--no-data"><p><?php esc_html_e('No recent data available.', 'wp-statistics') ?></p></div><?php
                     }
                     ?>
                 </div>
@@ -55,13 +59,17 @@ $postTypes = get_post_types_by_support('comments');
                             <a class="wps-category-tabs__item" href="<?php echo esc_url(Menus::admin_url('category-analytics', ['type' => 'single', 'term_id' => $term->term_id])) ?>">
                                 <div class="wps-category-tabs__item--content">
                                     <h3 class="wps-ellipsis-parent"><span class="wps-ellipsis-text"><?php echo esc_html($term->term_name); ?></span></h3>
-                                    <span><?php echo esc_html(number_format_i18n($term->posts)); ?><?php esc_html_e(' contents published', 'wp-statistics') ?></span>
+                                    <span>
+                                        <?php echo esc_html(number_format_i18n($term->posts)); ?>&nbsp;
+                                        <?php esc_html_e('contents published', 'wp-statistics') ?>
+                                    </span>
                                 </div>
                             </a>
                             <?php $counter++;
                         endforeach;
                     } else {
-                        ?><div class="o-wrap o-wrap--no-data"><p><?php esc_html_e('No recent data available.', 'wp-statistics') ?></p></div><?php
+                        ?>
+                        <div class="o-wrap o-wrap--no-data"><p><?php esc_html_e('No recent data available.', 'wp-statistics') ?></p></div><?php
                     }
                     ?>
                 </div>
