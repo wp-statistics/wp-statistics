@@ -173,6 +173,11 @@ class Schedule
         return $schedules;
     }
 
+    public static function getNextScheduledTime($event)
+    {
+        return wp_next_scheduled($event);
+    }
+
     /**
      * adds a record for tomorrow to the visit table to avoid a race condition.
      */

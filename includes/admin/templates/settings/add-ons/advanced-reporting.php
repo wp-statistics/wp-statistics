@@ -75,18 +75,42 @@ if (!$isAdvancedReportingActive) echo Admin_Template::get_template('layout/parti
         <table class="form-table <?php echo !$isAdvancedReportingActive ? 'form-table--preview' : '' ?>">
             <tbody>
             <tr valign="top">
-                <th scope="row" colspan="2"><h3><?php esc_html_e('Email Notifications', 'wp-statistics'); ?></h3></th>
+                <th scope="row" colspan="2"><h3><?php esc_html_e('Report Components', 'wp-statistics'); ?></h3></th>
             </tr>
 
             <tr valign="top">
                 <th scope="row">
-                    <label for="wps_addon_settings[advanced_reporting][email_summary_stats]"><?php esc_html_e('Summary Statistics', 'wp-statistics'); ?></label>
+                    <label for="wps_addon_settings[advanced_reporting][email_top_metrics]"><?php esc_html_e('Top Metrics', 'wp-statistics'); ?></label>
+                </th>
+
+                <td>
+                    <input id="wps_addon_settings[advanced_reporting][email_top_metrics]" name="wps_addon_settings[advanced_reporting][email_top_metrics]" type="checkbox" value="1" <?php checked(WP_STATISTICS\Option::getByAddon('email_top_metrics', 'advanced_reporting')) ?>>
+                    <label for="wps_addon_settings[advanced_reporting][email_top_metrics]"><?php esc_html_e('Active', 'wp-statistics'); ?></label>
+                    <p class="description"><?php esc_html_e('Receive a detailed breakdown of your website’s top metrics, including views, visitors, and more.', 'wp-statistics'); ?></p>
+                </td>
+            </tr>
+
+            <tr valign="top">
+                <th scope="row">
+                    <label for="wps_addon_settings[advanced_reporting][email_summary_stats]"><?php esc_html_e('Visitors Summary', 'wp-statistics'); ?></label>
                 </th>
 
                 <td>
                     <input id="wps_addon_settings[advanced_reporting][email_summary_stats]" name="wps_addon_settings[advanced_reporting][email_summary_stats]" type="checkbox" value="1" <?php checked(WP_STATISTICS\Option::getByAddon('email_summary_stats', 'advanced_reporting')) ?>>
                     <label for="wps_addon_settings[advanced_reporting][email_summary_stats]"><?php esc_html_e('Active', 'wp-statistics'); ?></label>
                     <p class="description"><?php esc_html_e('Activate to receive a neatly summarized report of your website\'s key performance indicators.', 'wp-statistics'); ?></p>
+                </td>
+            </tr>
+
+            <tr valign="top">
+                <th scope="row">
+                    <label for="wps_addon_settings[advanced_reporting][email_top_hits_visits]"><?php esc_html_e('Views Chart', 'wp-statistics'); ?></label>
+                </th>
+
+                <td>
+                    <input id="wps_addon_settings[advanced_reporting][email_top_hits_visits]" name="wps_addon_settings[advanced_reporting][email_top_hits_visits]" type="checkbox" value="1" <?php checked(WP_STATISTICS\Option::getByAddon('email_top_hits_visits', 'advanced_reporting')) ?>>
+                    <label for="wps_addon_settings[advanced_reporting][email_top_hits_visits]"><?php esc_html_e('Active', 'wp-statistics'); ?></label>
+                    <p class="description"><?php esc_html_e('Choose to receive detailed charts on views counts and behavior patterns.', 'wp-statistics'); ?></p>
                 </td>
             </tr>
 
@@ -104,52 +128,6 @@ if (!$isAdvancedReportingActive) echo Admin_Template::get_template('layout/parti
 
             <tr valign="top">
                 <th scope="row">
-                    <label for="wps_addon_settings[advanced_reporting][email_top_hits_visitors]"><?php esc_html_e('Visitor Insights', 'wp-statistics'); ?></label>
-                </th>
-
-                <td>
-                    <input id="wps_addon_settings[advanced_reporting][email_top_hits_visitors]" name="wps_addon_settings[advanced_reporting][email_top_hits_visitors]" type="checkbox" value="1" <?php checked(WP_STATISTICS\Option::getByAddon('email_top_hits_visitors', 'advanced_reporting')) ?>>
-                    <label for="wps_addon_settings[advanced_reporting][email_top_hits_visitors]"><?php esc_html_e('Active', 'wp-statistics'); ?></label>
-                    <p class="description"><?php esc_html_e('Choose to receive detailed charts on visitor counts and behavior patterns.', 'wp-statistics'); ?></p>
-                </td>
-            </tr>
-
-            <tr valign="top">
-                <th scope="row">
-                    <label for="wps_addon_settings[advanced_reporting][email_top_hits_visits]"><?php esc_html_e('Views Insights', 'wp-statistics'); ?></label>
-                </th>
-
-                <td>
-                    <input id="wps_addon_settings[advanced_reporting][email_top_hits_visits]" name="wps_addon_settings[advanced_reporting][email_top_hits_visits]" type="checkbox" value="1" <?php checked(WP_STATISTICS\Option::getByAddon('email_top_hits_visits', 'advanced_reporting')) ?>>
-                    <label for="wps_addon_settings[advanced_reporting][email_top_hits_visits]"><?php esc_html_e('Active', 'wp-statistics'); ?></label>
-                    <p class="description"><?php esc_html_e('Choose to receive detailed charts on views counts and behavior patterns.', 'wp-statistics'); ?></p>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-
-    <div class="postbox">
-        <table class="form-table <?php echo !$isAdvancedReportingActive ? 'form-table--preview' : '' ?>">
-            <tbody>
-            <tr valign="top">
-                <th scope="row" colspan="2"><h3><?php esc_html_e('Report Components', 'wp-statistics'); ?></h3></th>
-            </tr>
-
-            <tr valign="top">
-                <th scope="row">
-                    <label for="wps_addon_settings[advanced_reporting][email_top_referring]"><?php esc_html_e('Top Referring Websites', 'wp-statistics'); ?></label>
-                </th>
-
-                <td>
-                    <input id="wps_addon_settings[advanced_reporting][email_top_referring]" name="wps_addon_settings[advanced_reporting][email_top_referring]" type="checkbox" value="1" <?php checked(WP_STATISTICS\Option::getByAddon('email_top_referring', 'advanced_reporting')) ?>>
-                    <label for="wps_addon_settings[advanced_reporting][email_top_referring]"><?php esc_html_e('Active', 'wp-statistics'); ?></label>
-                    <p class="description"><?php esc_html_e('Stay informed on which external sites are most frequently linking to your content.', 'wp-statistics'); ?></p>
-                </td>
-            </tr>
-
-            <tr valign="top">
-                <th scope="row">
                     <label for="wps_addon_settings[advanced_reporting][email_top_search_engines]"><?php esc_html_e('Search Engine Chart', 'wp-statistics'); ?></label>
                 </th>
 
@@ -157,6 +135,18 @@ if (!$isAdvancedReportingActive) echo Admin_Template::get_template('layout/parti
                     <input id="wps_addon_settings[advanced_reporting][email_top_search_engines]" name="wps_addon_settings[advanced_reporting][email_top_search_engines]" type="checkbox" value="1" <?php checked(WP_STATISTICS\Option::getByAddon('email_top_search_engines', 'advanced_reporting')) ?>>
                     <label for="wps_addon_settings[advanced_reporting][email_top_search_engines]"><?php esc_html_e('Active', 'wp-statistics'); ?></label>
                     <p class="description"><?php esc_html_e('Get visual analytics on search engine referrals for a comprehensive view of traffic sources.', 'wp-statistics'); ?></p>
+                </td>
+            </tr>
+
+            <tr valign="top">
+                <th scope="row">
+                    <label for="wps_addon_settings[advanced_reporting][email_top_referring]"><?php esc_html_e('Top Referring Domains', 'wp-statistics'); ?></label>
+                </th>
+
+                <td>
+                    <input id="wps_addon_settings[advanced_reporting][email_top_referring]" name="wps_addon_settings[advanced_reporting][email_top_referring]" type="checkbox" value="1" <?php checked(WP_STATISTICS\Option::getByAddon('email_top_referring', 'advanced_reporting')) ?>>
+                    <label for="wps_addon_settings[advanced_reporting][email_top_referring]"><?php esc_html_e('Active', 'wp-statistics'); ?></label>
+                    <p class="description"><?php esc_html_e('Stay informed on which external sites are most frequently linking to your content.', 'wp-statistics'); ?></p>
                 </td>
             </tr>
 
@@ -183,77 +173,20 @@ if (!$isAdvancedReportingActive) echo Admin_Template::get_template('layout/parti
                     <p class="description"><?php esc_html_e('Discover the geographical distribution of your audience.', 'wp-statistics'); ?></p>
                 </td>
             </tr>
-            </tbody>
-        </table>
-    </div>
-
-    <div class="postbox">
-        <table class="form-table <?php echo !$isAdvancedReportingActive ? 'form-table--preview' : '' ?>">
-            <tbody>
-            <tr valign="top">
-                <th scope="row" colspan="2"><h3><?php esc_html_e('Customization Options', 'wp-statistics'); ?></h3></th>
-            </tr>
 
             <tr valign="top">
                 <th scope="row">
-                    <label for="wps_addon_settings[advanced_reporting][email_top_ten_number]"><?php esc_html_e('Number of Top Pages', 'wp-statistics'); ?></label>
-                </th>
-
-                <td>
-                    <input type="number" id="wps_addon_settings[advanced_reporting][email_top_ten_number]" name="wps_addon_settings[advanced_reporting][email_top_ten_number]" class="regular-text" value="<?php echo esc_attr(WP_STATISTICS\Option::getByAddon('email_top_ten_number', 'advanced_reporting', 10)) ?>"/>
-                    <p class="description"><?php esc_html_e('Decide how many of your top pages to feature in your reports.', 'wp-statistics'); ?></p>
-                </td>
-            </tr>
-
-            <tr valign="top">
-                <th scope="row">
-                    <label for="wps_addon_settings[advanced_reporting][email_top_pages_exclusion]"><?php esc_html_e('Page Exclusion', 'wp-statistics'); ?></label>
-                </th>
-
-                <td>
-                    <input id="wps_addon_settings[advanced_reporting][email_top_pages_exclusion]" name="wps_addon_settings[advanced_reporting][email_top_pages_exclusion]" type="checkbox" value="1" <?php checked(WP_STATISTICS\Option::getByAddon('email_top_pages_exclusion', 'advanced_reporting')) ?>>
-                    <label for="wps_addon_settings[advanced_reporting][email_top_pages_exclusion]"><?php esc_html_e('Active', 'wp-statistics'); ?></label>
-                    <p class="description"><?php esc_html_e('Select specific pages to exclude from reporting for a more focused analysis.', 'wp-statistics'); ?></p>
-                </td>
-            </tr>
-
-            <tr valign="top">
-                <th scope="row">
-                    <label for="wps_addon_settings[advanced_reporting][excluded_top_pages]"><?php esc_html_e('Excluded Pages', 'wp-statistics'); ?></label>
-                </th>
-
-                <td>
-                    <select name="wps_addon_settings[advanced_reporting][excluded_top_pages][]" id="wps_addon_settings[advanced_reporting][excluded_top_pages]" multiple>
-                        <?php foreach (get_pages(['hierarchical' => true]) as $page) { ?>
-                            <?php $selected = in_array($page->ID, WP_STATISTICS\Option::getByAddon('excluded_top_pages', 'advanced_reporting', [])) ? ' selected="selected" ' : ''; ?>
-                            <option value="<?php echo esc_attr($page->ID) ?>>" <?php echo esc_attr($selected) ?>><?php echo esc_attr($page->post_title); ?></option>
-                        <?php } ?>
-                    </select>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-
-    <div class="postbox">
-        <table class="form-table <?php echo !$isAdvancedReportingActive ? 'form-table--preview' : '' ?>">
-            <tbody>
-            <tr valign="top">
-                <th scope="row" colspan="2"><h3><?php esc_html_e('Visual Enhancements', 'wp-statistics'); ?></h3></th>
-            </tr>
-
-            <tr valign="top">
-                <th scope="row">
-                    <label for="wps_addon_settings[advanced_reporting][email_chart_top_browsers]"><?php esc_html_e('Browser Chart', 'wp-statistics'); ?></label>
+                    <label for="wps_addon_settings[advanced_reporting][email_chart_top_browsers]"><?php esc_html_e('Top Browsers', 'wp-statistics'); ?></label>
                 </th>
 
                 <td>
                     <input id="wps_addon_settings[advanced_reporting][email_chart_top_browsers]" name="wps_addon_settings[advanced_reporting][email_chart_top_browsers]" type="checkbox" value="1" <?php checked(WP_STATISTICS\Option::getByAddon('email_chart_top_browsers', 'advanced_reporting')) ?>>
                     <label for="wps_addon_settings[advanced_reporting][email_chart_top_browsers]"><?php esc_html_e('Active', 'wp-statistics'); ?></label>
-                    <p class="description"><?php esc_html_e('Select the preferred chart type to visualize browser statistics in your reports.', 'wp-statistics'); ?></p>
+                    <p class="description"><?php esc_html_e('Get a visual representation of the most popular browsers used by your visitors.', 'wp-statistics'); ?></p>
                 </td>
             </tr>
-             </tbody>
+
+            </tbody>
         </table>
     </div>
 
@@ -262,6 +195,18 @@ if (!$isAdvancedReportingActive) echo Admin_Template::get_template('layout/parti
             <tbody>
             <tr valign="top">
                 <th scope="row" colspan="2"><h3><?php esc_html_e('Additional Features', 'wp-statistics'); ?></h3></th>
+            </tr>
+
+            <tr valign="top">
+                <th scope="row">
+                    <label for="wps_addon_settings[advanced_reporting][record_email_logs]"><?php esc_html_e('Record Email logs', 'wp-statistics'); ?></label>
+                </th>
+
+                <td>
+                    <input id="wps_addon_settings[advanced_reporting][record_email_logs]" name="wps_addon_settings[advanced_reporting][record_email_logs]" type="checkbox" value="1" <?php checked(WP_STATISTICS\Option::getByAddon('record_email_logs', 'advanced_reporting')) ?>>
+                    <label for="wps_addon_settings[advanced_reporting][record_email_logs]"><?php esc_html_e('Active', 'wp-statistics'); ?></label>
+                    <p class="description"><?php esc_html_e('Keep a record of all reports sent via email for future reference.', 'wp-statistics'); ?></p>
+                </td>
             </tr>
 
             <tr valign="top">
@@ -342,7 +287,7 @@ if (!$isAdvancedReportingActive) echo Admin_Template::get_template('layout/parti
 
                 <td>
                     <?php if ($wp_version >= 3.3 && function_exists('wp_editor')) { ?>
-                        <?php wp_editor(stripslashes(WP_STATISTICS\Option::getByAddon('email_content_header', 'advanced_reporting')), 'email_content_header', array('textarea_name' => 'wps_addon_settings[advanced_reporting][email_content_header]', 'editor_height' => 400)); ?>
+                        <?php wp_editor(stripslashes(WP_STATISTICS\Option::getByAddon('email_content_header', 'advanced_reporting')), 'email_content_header', array('textarea_name' => 'wps_addon_settings[advanced_reporting][email_content_header]', 'editor_height' => 400, 'media_buttons' => false, 'teeny' => true)); ?>
                     <?php } else { ?>
                         <textarea class="large-text" rows="10" id="wps_addon_settings[advanced_reporting][email_content_header]" name="wps_addon_settings[advanced_reporting][email_content_header]"><?php echo esc_textarea(stripslashes(WP_STATISTICS\Option::getByAddon('email_content_header', 'advanced_reporting'))) ?></textarea>
                     <?php } ?>
@@ -357,7 +302,7 @@ if (!$isAdvancedReportingActive) echo Admin_Template::get_template('layout/parti
 
                 <td>
                     <?php if ($wp_version >= 3.3 && function_exists('wp_editor')) { ?>
-                        <?php wp_editor(stripslashes(WP_STATISTICS\Option::getByAddon('email_content_footer', 'advanced_reporting')), 'email_content_footer', array('textarea_name' => 'wps_addon_settings[advanced_reporting][email_content_footer]', 'editor_height' => 400)); ?>
+                        <?php wp_editor(stripslashes(WP_STATISTICS\Option::getByAddon('email_content_footer', 'advanced_reporting')), 'email_content_footer', array('textarea_name' => 'wps_addon_settings[advanced_reporting][email_content_footer]', 'editor_height' => 400, 'media_buttons' => false, 'teeny' => true)); ?>
                     <?php } else { ?>
                         <textarea class="large-text" rows="10" id="wps_addon_settings[advanced_reporting][email_content_footer]" name="wps_addon_settings[advanced_reporting][email_content_footer]"><?php echo esc_textarea(stripslashes(WP_STATISTICS\Option::getByAddon('email_content_footer', 'advanced_reporting'))) ?></textarea>
                     <?php } ?>
