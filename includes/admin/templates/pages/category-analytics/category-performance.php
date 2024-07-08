@@ -97,6 +97,14 @@ use WP_STATISTICS\Helper;
         ];
         Admin_Template::get_template(['layout/category-analytics/performance-chart'], $performance);
 
+        $topCategories = [
+            'title'     => esc_html__('Top Categories', 'wp-statistics'),
+            'tooltip'   => esc_html__('Top Categories Tooltip', 'wp-statistics'),
+            'data'      => $data['posts']
+        ];
+        Admin_Template::get_template(['layout/category-analytics/top-category'], $topCategories);
+
+
         $topPick = [
             'title'     => esc_html__('Top Contents', 'wp-statistics'),
             'tooltip'   => esc_html__('Top Contents tooltip', 'wp-statistics'),
