@@ -21,7 +21,7 @@ class TaxonomyModel extends BaseModel
             'order'     => ''
         ]);
 
-        $result = Query::select([
+        $query = Query::select([
                 'taxonomy', 
                 'terms.term_id',
                 'terms.name',
@@ -33,15 +33,25 @@ class TaxonomyModel extends BaseModel
             ->join('term_relationships', ['term_relationships.term_taxonomy_id', 'term_taxonomy.term_taxonomy_id'], [], 'LEFT')
             ->join('posts', ['posts.ID', 'term_relationships.object_id'], [['posts.post_type' , 'IN', $args['post_type']], ['posts.post_status', '=', 'publish']], 'LEFT')
             ->join('pages', ['pages.id', 'term_taxonomy.term_taxonomy_id'], [], 'LEFT')
-            ->where('posts.post_author', '=', $args['author_id'])
             ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy'])
-            ->whereDate('posts.post_date', $args['date'])
-            ->whereDate('pages.date', $args['date'])
+            ->where('posts.post_author', '=', $args['author_id'])
             ->groupBy(['taxonomy', 'terms.term_id','terms.name'])
             ->orderBy($args['order_by'], $args['order'])
             ->perPage($args['page'], $args['per_page'])
-            ->bypassCache($bypassCache)
-            ->getAll();
+            ->bypassCache($bypassCache);
+
+        // If author_id is empty get data by published date, otherwise get data by published or viewed date
+        if (!empty($args['author_id']) || !empty($args['post_type'])) {
+            $query
+                ->whereDate('posts.post_date', $args['date']);
+        } else {
+            $query->whereRaw(
+                "AND (DATE(posts.post_date) BETWEEN %s AND %s OR DATE(pages.date) BETWEEN %s AND %s)",
+                [$args['date']['from'], $args['date']['to'], $args['date']['from'], $args['date']['to']]
+            );
+        }
+
+        $result = $query->getAll();
 
         if (!empty($result)) {
             $taxonomies = [];

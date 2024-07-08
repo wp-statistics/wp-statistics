@@ -64,7 +64,7 @@ class SingleView extends BaseView
             $args = [
                 'backUrl'       => Menus::admin_url('category-analytics'),
                 'pageName'      => Menus::get_page_slug('category-analytics'),
-                'title'         => esc_html__('Category Analytics', 'wp-statistics'),
+                'title'         => sprintf(esc_html__('Category: "%s"', 'wp-statistics'), get_term($this->termId)->name),
                 'backTitle'     => esc_html__('Category Analytics', 'wp-statistics'),
                 'DateRang'      => Admin_Template::DateRange(),
                 'hasDateRang'   => true,

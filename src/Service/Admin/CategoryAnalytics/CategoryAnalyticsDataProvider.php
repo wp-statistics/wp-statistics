@@ -71,11 +71,8 @@ class CategoryAnalyticsDataProvider
             
             $result['labels'][]     = date_i18n(Helper::getDefaultDateFormat(false, true), strtotime($date));
             $result['views'][]      = $this->viewsModel->countViews(array_merge($this->args, $dateFilter));
-
-            if (!Request::compare('type', 'single')) {
-                $result['visitors'][]   = $this->visitorsModel->countVisitors(array_merge($this->args, $dateFilter));
-                $result['posts'][]      = $this->postsModel->countPosts(array_merge($this->args, $dateFilter));
-            }
+            $result['visitors'][]   = $this->visitorsModel->countVisitors(array_merge($this->args, $dateFilter));
+            $result['posts'][]      = $this->postsModel->countPosts(array_merge($this->args, $dateFilter));
         }
 
         return $result;
@@ -97,7 +94,9 @@ class CategoryAnalyticsDataProvider
         
         $performanceArgs    = ['date' => ['from' => date('Y-m-d', strtotime('-14 days')), 'to' => date('Y-m-d')]];
         $performanceData    = [
-            'views' => $this->viewsModel->countViews(array_merge($this->args, $performanceArgs)),
+            'posts'     => $this->postsModel->countPosts(array_merge($this->args, $performanceArgs)),
+            'visitors'  => $this->visitorsModel->countVisitors(array_merge($this->args, $performanceArgs)),
+            'views'     => $this->viewsModel->countViews(array_merge($this->args, $performanceArgs)),
         ];
 
         return [
