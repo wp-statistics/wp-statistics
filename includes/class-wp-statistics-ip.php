@@ -2,7 +2,9 @@
 
 namespace WP_STATISTICS;
 
-use IPTools\Range;
+use Exception;
+use WP_Statistics;
+use WP_Statistics\Dependencies\IPTools\Range;
 
 class IP
 {
@@ -200,7 +202,7 @@ class IP
      * @param $ip
      * @param array $range
      * @return bool
-     * @throws \Exception
+     * @throws Exception
      */
     public static function CheckIPRange($range = array(), $ip = false)
     {
@@ -210,18 +212,18 @@ class IP
 
         // Get Range OF This IP
         try {
-            $ip = new \IPTools\IP($ip);
-        } catch (\Exception $e) {
-            \WP_Statistics::log($e->getMessage());
-            $ip = new \IPTools\IP(self::$default_ip);
+            $ip = new WP_Statistics\Dependencies\IPTools\IP($ip);
+        } catch (Exception $e) {
+            WP_Statistics::log($e->getMessage());
+            $ip = new WP_Statistics\Dependencies\IPTools\IP(self::$default_ip);
         }
 
         // Check List
         foreach ($range as $list) {
             try {
-                $contains_ip = Range::parse($list)->contains($ip);
-            } catch (\Exception $e) {
-                \WP_Statistics::log($e->getMessage());
+                $contains_ip = Range::parse($ip);
+            } catch (Exception $e) {
+                WP_Statistics::log($e->getMessage());
                 $contains_ip = false;
             }
 

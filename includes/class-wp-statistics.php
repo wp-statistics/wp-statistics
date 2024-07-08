@@ -122,7 +122,7 @@ final class WP_Statistics
     public function includes()
     {
         // third-party Libraries
-        require_once WP_STATISTICS_DIR . 'includes/vendor/autoload.php';
+        require_once WP_STATISTICS_DIR . 'vendor/autoload.php';
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-helper.php';
 
         // Create the plugin upload directory in advance.

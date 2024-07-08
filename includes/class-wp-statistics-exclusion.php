@@ -2,7 +2,7 @@
 
 namespace WP_STATISTICS;
 
-use Jaybizzle\CrawlerDetect\CrawlerDetect;
+use WP_Statistics\Dependencies\Jaybizzle\CrawlerDetect\CrawlerDetect;
 use WP_Statistics\Service\Analytics\VisitorProfile;
 use WP_Statistics\Utils\Request;
 
@@ -285,7 +285,7 @@ class Exclusion
      */
     public static function exclusion_crawlerdetect()
     {
-        $CrawlerDetect = new CrawlerDetect;
+        $CrawlerDetect = new CrawlerDetect();
         if ($CrawlerDetect->isCrawler()) {
             return true;
         }

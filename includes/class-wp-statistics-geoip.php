@@ -2,6 +2,7 @@
 
 namespace WP_STATISTICS;
 
+use WP_Statistics\Dependencies\GeoIp2\Database\Reader;
 use WP_Statistics\Models\VisitorsModel;
 use WP_Statistics\Service\Analytics\GeoIpService;
 
@@ -86,7 +87,7 @@ class GeoIP
      * geo ip Loader
      *
      * @param $pack
-     * @return bool|\GeoIp2\Database\Reader
+     * @return bool|WP_Statistics\Dependencies\GeoIp2\Database\Reader
      */
     public static function Loader($pack)
     {
@@ -97,7 +98,7 @@ class GeoIP
             try {
 
                 //Load GeoIP Reader
-                return new \GeoIp2\Database\Reader($file);
+                return new Reader($file);
             } catch (\Exception $e) {
                 return false;
             }
