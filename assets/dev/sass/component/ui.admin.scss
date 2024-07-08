@@ -2272,12 +2272,7 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
     }
   }
 }
-.statistics_page_wps_geographic_page .wps-wrap__top{
-  .wps-previous-url{
-    margin-bottom: 10px;
-    margin-top: -12px;
-  }
-}
+
 .statistics_page_wps_geographic_page .wps-tabs{
   @media (max-width: 669px) {
     width: 100%;
@@ -2831,6 +2826,7 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
   line-height: 14.06px;
   letter-spacing: -0.02em;
   margin-bottom: 20px;
+  margin-top: -12px;
   display: flex;
   align-items: center;
   gap: 4px;
