@@ -1,18 +1,41 @@
 <?php
 
-namespace WP_Statistics\Service\Analytics;
+namespace WP_Statistics\Async;
 
 use WP_Statistics\Models\VisitorsModel;
 use WP_STATISTICS\Option;
+use WP_Statistics\Service\Admin\Posts\WordCountService;
 
-class GeoIpService
+class BackgroundProcessFactory
 {
     /**
-     * Update Incomplete GeoIP Info for Visitors
+     * Process word count for posts.
      *
      * @return void
      */
-    public function batchUpdateIncompleteGeoIpForVisitors()
+    public static function processWordCountForPosts()
+    {
+        // Initialize and dispatch the CalculatePostWordsCount class
+        $remoteRequestAsync      = WP_Statistics()->getBackgroundProcess();
+        $calculatePostWordsCount = $remoteRequestAsync['calculate_post_words_count'];
+        $wordCount               = new WordCountService();
+
+        foreach ($wordCount->getPostsWithoutWordCountMeta() as $postId) {
+            $calculatePostWordsCount->push_to_queue(['post_id' => $postId]);
+        }
+
+        // Mark as processed
+        Option::saveOptionGroup('word_count_process_started', true, 'jobs');
+
+        $calculatePostWordsCount->save()->dispatch();
+    }
+
+    /**
+     * Batch update incomplete GeoIP info for visitors.
+     *
+     * @return void
+     */
+    public static function batchUpdateIncompleteGeoIpForVisitors()
     {
         $visitorModel                   = new VisitorsModel();
         $visitorsWithIncompleteLocation = $visitorModel->getVisitorsWithIncompleteLocation();
@@ -36,4 +59,6 @@ class GeoIpService
         // Save the queue and dispatch it
         $updateIncompleteVisitorsLocations->save()->dispatch();
     }
+
+    // Add other static methods for different background processes as needed
 }

@@ -2,9 +2,9 @@
 
 namespace WP_STATISTICS;
 
+use WP_Statistics\Async\BackgroundProcessFactory;
 use WP_Statistics\Dependencies\GeoIp2\Database\Reader;
 use WP_Statistics\Models\VisitorsModel;
-use WP_Statistics\Service\Analytics\GeoIpService;
 
 class GeoIP
 {
@@ -354,8 +354,7 @@ class GeoIP
                         // Populate any missing GeoIP information if the user has selected the option.
                         if (Option::get('geoip') && GeoIP::IsSupport() && Option::get('auto_pop')) {
                             // Update GeoIP data for visitors with incomplete information
-                            $geoIpService = new GeoIpService();
-                            $geoIpService->batchUpdateIncompleteGeoIpForVisitors();
+                            BackgroundProcessFactory::batchUpdateIncompleteGeoIpForVisitors();
                         }
                     }
                 }

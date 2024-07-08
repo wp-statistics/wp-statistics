@@ -2,6 +2,7 @@
 
 namespace WP_Statistics\Service\Admin\ContentAnalytics;
 
+use WP_Statistics\Async\BackgroundProcessFactory;
 use WP_STATISTICS\Menus;
 use WP_STATISTICS\Option;
 use WP_Statistics\Utils\Request;
@@ -77,7 +78,7 @@ class ContentAnalyticsPage extends MultiViewPage
         }
 
         // Initialize and dispatch the CalculatePostWordsCount class
-        $this->wordsCount->processWordCountForPosts();
+        BackgroundProcessFactory::processWordCountForPosts();
 
         wp_redirect(Menus::admin_url($this->pageSlug));
         exit;
