@@ -13,21 +13,23 @@ $taxonomies       = Helper::get_list_taxonomy(true);
         <button type="button" class="dropbtn"><span><?php echo isset($taxonomies[$selectedOption]) ? esc_html(ucwords($taxonomies[$selectedOption])) : '—'; ?></span></button>
 
         <div class="dropdown-content">
-            <?php $index = 0; ?>
-            <?php foreach ($taxonomies as $key => $name) : ?>
-                <?php $url = add_query_arg([$queryKey => $key]); ?>
+            <?php 
+                $index = 0;
+                foreach ($taxonomies as $key => $name) : 
+                    $url     = add_query_arg([$queryKey => $key]); 
 
-                <?php
-                $common_class = $selectedOption == $key ? 'selected' : '';
-                $disabled_class = Helper::isAddOnActive('data-plus') || Helper::isCustomTaxonomy($key) ? 'disabled' : '';
-                ?>
+                    $class   = [];
+                    $class[] = $selectedOption == $key ? 'selected' : '';
+                    $class[] = Helper::isCustomTaxonomy($key) && !Helper::isAddOnActive('data-plus') ? 'disabled' : '';
+                    ?>
+                        <a href="<?php echo esc_url($url) ?>" data-index="<?php echo esc_attr($index) ?>" title="<?php echo esc_attr($name) ?>" class="<?php echo esc_attr(implode(' ', $class)) ?>">
+                            <?php echo esc_html(ucwords($name)) ?>
+                        </a>
+                    <?php 
 
-                <a href="<?php echo esc_url($url) ?>" data-index="<?php echo esc_attr($index) ?>" title="<?php echo esc_attr($name) ?>" class="<?php echo esc_attr(trim("$common_class $disabled_class")) ?>">
-                    <?php echo esc_html(ucwords($name)) ?>
-                </a>
-
-                <?php $index++; ?>
-            <?php endforeach; ?>
+                    $index++; 
+                endforeach; 
+            ?>
         </div>
     </div>
 </div>
