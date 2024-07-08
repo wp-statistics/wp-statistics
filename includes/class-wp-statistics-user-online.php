@@ -18,7 +18,7 @@ class UserOnline
      *
      * @var int
      */
-    public static $reset_user_time = 30; # Second
+    public static $reset_user_time = 65; # Second
 
     /**
      * UserOnline constructor.
