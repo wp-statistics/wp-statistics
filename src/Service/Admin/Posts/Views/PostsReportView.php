@@ -52,16 +52,16 @@ class PostsReportView extends BaseView
     {
         $postType       = Request::get('pt', 'post');
         $data           = $this->getData();
-        $currentPage    = Menus::getCurrentPage();
+        $parentPage    = Menus::getCurrentPage();
 
         $args = [
             'title'         => Helper::getPostTypeName($postType),
-            'pageName'      => Menus::get_page_slug('author-analytics'),
+            'pageName'      => Menus::get_page_slug($parentPage['page_url']),
             'custom_get'    => ['type' => 'posts', 'pt' => $postType],
             'DateRang'      => Admin_Template::DateRange(),
             'hasDateRang'   => true,
-            'backUrl'       => wp_get_referer(),
-            'backTitle'     => $currentPage['title'],
+            'backUrl'       => Menus::admin_url($parentPage['page_url']),
+            'backTitle'     => $parentPage['title'],
             'filters'       => ['post-type','author'],
             'data'          => $data,
             'paged'         => Admin_Template::getCurrentPaged()
