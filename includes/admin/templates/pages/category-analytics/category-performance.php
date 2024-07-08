@@ -100,7 +100,7 @@ use WP_STATISTICS\Helper;
         $topCategories = [
             'title'     => esc_html__('Top Categories', 'wp-statistics'),
             'tooltip'   => esc_html__('Top Categories Tooltip', 'wp-statistics'),
-            'data'      => $data['posts']
+            'data'      => $data['categories']
         ];
         Admin_Template::get_template(['layout/category-analytics/top-category'], $topCategories);
 
