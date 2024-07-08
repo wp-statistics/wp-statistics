@@ -15,9 +15,7 @@ class BackgroundProcessFactory
      */
     public static function processWordCountForPosts()
     {
-        // Initialize and dispatch the CalculatePostWordsCount class
-        $remoteRequestAsync      = WP_Statistics()->getBackgroundProcess();
-        $calculatePostWordsCount = $remoteRequestAsync['calculate_post_words_count'];
+        $calculatePostWordsCount = WP_Statistics()->getBackgroundProcess('calculate_post_words_count');
         $wordCount               = new WordCountService();
 
         foreach ($wordCount->getPostsWithoutWordCountMeta() as $postId) {
@@ -37,12 +35,9 @@ class BackgroundProcessFactory
      */
     public static function batchUpdateIncompleteGeoIpForVisitors()
     {
-        $visitorModel                   = new VisitorsModel();
-        $visitorsWithIncompleteLocation = $visitorModel->getVisitorsWithIncompleteLocation();
-
-        // Initialize and dispatch the UpdateIncompleteVisitorsLocations class
-        $remoteRequestAsync                = WP_Statistics()->getBackgroundProcess();
-        $updateIncompleteVisitorsLocations = $remoteRequestAsync['update_unknown_visitor_geoip'];
+        $visitorModel                      = new VisitorsModel();
+        $visitorsWithIncompleteLocation    = $visitorModel->getVisitorsWithIncompleteLocation();
+        $updateIncompleteVisitorsLocations = WP_Statistics()->getBackgroundProcess('update_unknown_visitor_geoip');
 
         // Define the batch size
         $batchSize = 100;

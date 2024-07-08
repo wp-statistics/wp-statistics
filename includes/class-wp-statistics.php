@@ -268,9 +268,9 @@ final class WP_Statistics
      *
      * @return WP_Background_Process[]
      */
-    public function getBackgroundProcess()
+    public function getBackgroundProcess($processKey)
     {
-        return $this->backgroundProcess;
+        return $this->backgroundProcess[$processKey];
     }
 
     private function create_upload_directory()
