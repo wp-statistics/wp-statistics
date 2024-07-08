@@ -414,19 +414,6 @@ function wp_statistics_visitor($time, $daily = null, $count_only = false, $optio
 }
 
 /**
- * Returns past 30 days visits and visitors.
- *
- * This function is currently being used in mini-chart.
- *
- * @return  array   Format: `[{'date' => "STRING", 'visitors' => INT, 'visits' => INT}, ...]`.
- */
-function wp_statistics_monthly_visits_and_visitors()
-{
-    $visitorModel = new VisitorsModel();
-    return $visitorModel->getDailyVisitorsAndVisits();
-}
-
-/**
  * This function returns the statistics for a given page.
  *
  * @param $time
