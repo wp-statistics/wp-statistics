@@ -158,7 +158,7 @@ class CategoryAnalyticsDataProvider
         $recentPosts        = $this->postsModel->getPostsViewsData(array_merge($this->args, ['date' => '', 'date_field' => 'post_date', 'order_by' => 'post_date']));
 
         $topViewingCategories    = $this->taxonomyModel->getTaxonomiesData(array_merge($this->args, ['order_by' => 'views']));
-        $topPublishingCategories = $this->taxonomyModel->getTaxonomiesData($this->args);
+        $topPublishingCategories = $this->taxonomyModel->getTopPublishingTerms($this->args);
 
         return [
             'visitors_country'  => $visitorsCountry,
@@ -168,8 +168,8 @@ class CategoryAnalyticsDataProvider
                 'viewing'    => $topViewingAuthors
             ],
             'categories'        => [
-                'publishing' => $topViewingCategories,
-                'viewing'    => $topPublishingCategories
+                'publishing' => $topPublishingCategories,
+                'viewing'    => $topViewingCategories
             ],
             'overview'          => [
                 'published' => [

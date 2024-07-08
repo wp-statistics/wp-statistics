@@ -60,4 +60,36 @@ class TaxonomyModel extends BaseModel
 
         return $result ? $result : [];
     }
+
+    public function getTopPublishingTerms($args = [], $bypassCache = false)
+    {
+        $args = $this->parseArgs($args, [
+            'order_by'  => 'posts_count',
+            'order'     => '',
+            'page'      => 1,
+            'per_page'  => 5,
+            'date'      => '',
+            'taxonomy'  => ''
+        ]);
+
+        $query = Query::select([
+                'terms.term_id',
+                'terms.name as term_name',
+                'COUNT(posts.ID) AS posts_count'
+            ])
+            ->from('posts')
+            ->join('term_relationships', ['posts.ID', 'term_relationships.object_id'])
+            ->join('term_taxonomy', ['term_relationships.term_taxonomy_id', 'term_taxonomy.term_taxonomy_id'])
+            ->join('terms', ['term_taxonomy.term_id', 'terms.term_id'])
+            ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy'])
+            ->whereDate('posts.post_date', $args['date'])
+            ->groupBy(['term_id'])
+            ->orderBy($args['order_by'], $args['order'])
+            ->perPage($args['page'], $args['per_page'])
+            ->bypassCache($bypassCache);
+
+        $result = $query->getAll();
+
+        return $result;
+    }
 }

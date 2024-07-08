@@ -49,13 +49,13 @@ $postTypes = get_post_types_by_support('comments');
                 <label for="category-publishing"><?php esc_html_e('Publishing', 'wp-statistics') ?></label>
                 <div class="wps-category-tabs__content">
                     <?php
-                    if (!empty($data['publishing'][$taxonomy])) {
+                    if (!empty($data['publishing'])) {
                         $counter = 1;
-                        foreach ($data['publishing'][$taxonomy] as $category) : ?>
-                            <a class="wps-category-tabs__item" href="<?php echo esc_url(Menus::admin_url('category-analytics', ['type' => 'single', 'term_id' => $category['term_id']])) ?>">
+                        foreach ($data['publishing'] as $term) : ?>
+                            <a class="wps-category-tabs__item" href="<?php echo esc_url(Menus::admin_url('category-analytics', ['type' => 'single', 'term_id' => $term->term_id])) ?>">
                                 <div class="wps-category-tabs__item--content">
-                                    <h3 class="wps-ellipsis-parent"><span class="wps-ellipsis-text"><?php echo esc_html($category['term_name']); ?></span></h3>
-                                    <span><?php echo esc_html(Helper::formatNumberWithUnit($category['posts_count'])); ?><?php esc_html_e(' contents published', 'wp-statistics') ?></span>
+                                    <h3 class="wps-ellipsis-parent"><span class="wps-ellipsis-text"><?php echo esc_html($term->term_name); ?></span></h3>
+                                    <span><?php echo esc_html(Helper::formatNumberWithUnit($term->posts_count)); ?><?php esc_html_e(' contents published', 'wp-statistics') ?></span>
                                 </div>
                             </a>
                             <?php $counter++;
