@@ -157,8 +157,8 @@ class CategoryAnalyticsDataProvider
         $topPostsByComment  = $this->postsModel->getPostsCommentsData($this->args);
         $recentPosts        = $this->postsModel->getPostsViewsData(array_merge($this->args, ['date' => '', 'date_field' => 'post_date', 'order_by' => 'post_date']));
 
-        $topViewingCategories    = $this->taxonomyModel->getTaxonomiesData(array_merge($this->args, ['order_by' => 'views']));
-        $topPublishingCategories = $this->taxonomyModel->getTopPublishingTerms($this->args);
+        $topViewingCategories    = $this->taxonomyModel->getTermsData($this->args);
+        $topPublishingCategories = $this->taxonomyModel->getTermsData(array_merge($this->args, ['order_by' => 'posts', 'date_field' => 'posts.post_date']));
 
         return [
             'visitors_country'  => $visitorsCountry,
