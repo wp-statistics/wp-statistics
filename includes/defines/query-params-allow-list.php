@@ -1,6 +1,6 @@
 <?php
 /**
- * List of Default Allowed URL Query Params in Wp-Statistics
+ * List of Default Allowed URL Query Params in WP Statistics
  */
 $wps_query_params_allow_list_array = array(
     'ref',
