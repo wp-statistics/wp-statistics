@@ -27,13 +27,14 @@ abstract class BaseModel
 
     /**
      * Parses the query_param argument.
-     * 
+     *
      * @return array The parsed arguments.
      */
     private function parseQueryParamArg($args)
     {
         if (!empty($args['query_param'])) {
-            $uri = $this->query::select('uri')
+            $select = $this->query;
+            $uri    = $select::select('uri')
                 ->from('pages')
                 ->where('page_id', '=', $args['query_param'])
                 ->getVar();
