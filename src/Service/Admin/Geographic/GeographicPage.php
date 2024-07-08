@@ -40,7 +40,7 @@ class GeographicPage extends MultiViewPage
 
         if (Option::get('geoip') && GeoIP::IsSupport()) {
             $this->checkIncompleteGeoIpUpdaterNotice();
-            $this->processIncompleteGeoIpUpdaterBackground();
+            $this->processIncompleteGeoIpUpdaterBackgroundAction();
         }
     }
 
@@ -72,7 +72,7 @@ class GeographicPage extends MultiViewPage
         }
     }
 
-    private function processIncompleteGeoIpUpdaterBackground()
+    private function processIncompleteGeoIpUpdaterBackgroundAction()
     {
         // Check the action and nonce
         if (!Request::compare('action', 'update_unknown_visitor_geoip')) {

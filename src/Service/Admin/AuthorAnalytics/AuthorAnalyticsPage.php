@@ -44,7 +44,7 @@ class AuthorAnalyticsPage extends MultiViewPage
         $this->disableScreenOption();
         $this->inaccurateDataNotice();
         $this->checkWordCountMetaNotice();
-        $this->processWordCountInBackground();
+        $this->processWordCountInBackgroundAction();
     }
 
     private function inaccurateDataNotice()
@@ -86,7 +86,7 @@ class AuthorAnalyticsPage extends MultiViewPage
         }
     }
 
-    private function processWordCountInBackground()
+    private function processWordCountInBackgroundAction()
     {
         // Check the action and nonce
         if (!Request::compare('action', 'process_word_count')) {
