@@ -1,4 +1,4 @@
-<div class="wps-card">
+<div class="wps-card wps-card__sums">
     <div class="wps-card__title">
         <h2>
             <?php echo esc_html($title) ?>
