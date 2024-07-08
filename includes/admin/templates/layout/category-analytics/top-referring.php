@@ -37,7 +37,7 @@ use WP_STATISTICS\Referred;
                                         </span>
                                     </div>
                                 </td>
-                                <td class="wps-pd-l"><?php echo esc_html(number_format($item->visitors)) ?></td>
+                                <td class="wps-pd-l"><?php echo esc_html(number_format_i18n($item->visitors)) ?></td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>

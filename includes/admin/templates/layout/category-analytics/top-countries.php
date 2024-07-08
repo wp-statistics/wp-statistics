@@ -35,7 +35,7 @@ use WP_STATISTICS\Country;
                                     </div>
                                 </td>
                                 <td class="wps-pd-l">
-                                    <span><?php echo esc_html(number_format($item->visitors)); ?></span>
+                                    <span><?php echo esc_html(number_format_i18n($item->visitors)); ?></span>
                                 </td>
                             </tr>
                         <?php endforeach; ?>

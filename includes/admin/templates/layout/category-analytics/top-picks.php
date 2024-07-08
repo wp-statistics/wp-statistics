@@ -71,7 +71,7 @@ $postTypes  = get_post_types_by_support('comments');
                                         </div>
                                         <div class="wps-category-tabs__item--content">
                                             <h3 class="wps-ellipsis-parent"><span class="wps-ellipsis-text"><?php echo esc_html($post->post_title); ?></span></h3>
-                                            <span><?php echo esc_html(Helper::formatNumberWithUnit($post->comments)); ?> <?php esc_html_e('comments', 'wp-statistics') ?></span>
+                                            <span><?php echo esc_html(number_format_i18n($post->comments)); ?> <?php esc_html_e('comments', 'wp-statistics') ?></span>
                                         </div>
                                     </a>
                                     <?php $counter++;
