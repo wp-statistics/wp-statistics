@@ -19,19 +19,15 @@ use WP_STATISTICS\Helper;
             <p><?php esc_html_e('Views', 'wp-statistics') ?></p>
             <span><?php echo esc_html(Helper::formatNumberWithUnit($data['views'])) ?></span>
         </div>
-        <?php if ($type === 'category'): ?>
-            <div class="wps-category-analytics-chart--item wps-category-analytics-chart--item--visitors">
-                <p><?php esc_html_e('Visitors', 'wp-statistics') ?></p>
-                <span><?php echo esc_html(Helper::formatNumberWithUnit($data['visitors'])) ?></span>
-            </div>
-        <?php endif; ?>
-        <?php if ($type === 'category'): ?>
-            <div class="wps-category-analytics-chart--item wps-category-analytics-chart--item--published">
-                <p><?php esc_html_e('Published Contents', 'wp-statistics') ?></p>
-                <span><?php echo esc_html(Helper::formatNumberWithUnit($data['posts'])) ?></span>
-            </div>
-        <?php endif; ?>
-    </div>
+         <div class="wps-category-analytics-chart--item wps-category-analytics-chart--item--visitors">
+            <p><?php esc_html_e('Visitors', 'wp-statistics') ?></p>
+            <span><?php echo esc_html(Helper::formatNumberWithUnit($data['visitors'])) ?></span>
+        </div>
+         <div class="wps-category-analytics-chart--item wps-category-analytics-chart--item--published">
+            <p><?php esc_html_e('Published Contents', 'wp-statistics') ?></p>
+            <span><?php echo esc_html(Helper::formatNumberWithUnit($data['posts'])) ?></span>
+        </div>
+     </div>
     <div class="wps-category-analytics-chart">
         <?php if ($type === 'category'): ?>
             <canvas id="performance-category-chart" height="299"></canvas>
