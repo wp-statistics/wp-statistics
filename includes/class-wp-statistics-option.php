@@ -47,7 +47,6 @@ class Option
             'visits'                    => true,
             'visitors'                  => true,
             'pages'                     => true,
-            'check_online'              => UserOnline::$reset_user_time,
             'menu_bar'                  => false,
             'coefficient'               => Visitor::getCoefficient(),
             'stats_report'              => true,

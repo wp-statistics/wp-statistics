@@ -61,7 +61,7 @@ class TimeZone
      */
     public static function getLocalDate($format, $timestamp)
     {
-        return date($format, $timestamp + self::set_timezone()); // phpcs:ignore Wordpress.DateTime.RestrictedFuncitons.date_date
+        return date($format, $timestamp + self::set_timezone()); // phpcs:ignore WordPress.DateTime.RestrictedFuncitons.date_date
     }
 
     /**
@@ -75,12 +75,12 @@ class TimeZone
     {
         if ($strtotime) {
             if ($relative) {
-                return date($format, strtotime("{$strtotime} day", $relative) + self::set_timezone());  // phpcs:ignore Wordpress.DateTime.RestrictedFuncitons.date_date
+                return date($format, strtotime("{$strtotime} day", $relative) + self::set_timezone());  // phpcs:ignore WordPress.DateTime.RestrictedFuncitons.date_date
             } else {
-                return date($format, strtotime("{$strtotime} day") + self::set_timezone());  // phpcs:ignore Wordpress.DateTime.RestrictedFuncitons.date_date
+                return date($format, strtotime("{$strtotime} day") + self::set_timezone());  // phpcs:ignore WordPress.DateTime.RestrictedFuncitons.date_date
             }
         } else {
-            return date($format, time() + self::set_timezone());  // phpcs:ignore Wordpress.DateTime.RestrictedFuncitons.date_date
+            return date($format, time() + self::set_timezone());  // phpcs:ignore WordPress.DateTime.RestrictedFuncitons.date_date
         }
     }
 
@@ -97,12 +97,12 @@ class TimeZone
     {
         if ($strtotime) {
             if ($relative) {
-                return date($format, strtotime("{$strtotime} day", $relative));  // phpcs:ignore Wordpress.DateTime.RestrictedFuncitons.date_date
+                return date($format, strtotime("{$strtotime} day", $relative));  // phpcs:ignore WordPress.DateTime.RestrictedFuncitons.date_date
             } else {
-                return date($format, strtotime("{$strtotime} day"));  // phpcs:ignore Wordpress.DateTime.RestrictedFuncitons.date_date
+                return date($format, strtotime("{$strtotime} day"));  // phpcs:ignore WordPress.DateTime.RestrictedFuncitons.date_date
             }
         } else {
-            return date($format, time());  // phpcs:ignore Wordpress.DateTime.RestrictedFuncitons.date_date
+            return date($format, time());  // phpcs:ignore WordPress.DateTime.RestrictedFuncitons.date_date
         }
     }
 

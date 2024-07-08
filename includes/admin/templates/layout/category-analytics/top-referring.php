@@ -15,7 +15,7 @@ use WP_STATISTICS\Referred;
     <div class="inside">
         <?php if (!empty($data)) : ?>
             <div class="o-table-wrapper">
-                <table width="100%" class="o-table wps-content-table">
+                <table width="100%" class="o-table wps-category-table">
                     <thead>
                         <tr>
                             <th class="wps-pd-l">

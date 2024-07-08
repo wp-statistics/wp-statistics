@@ -1,5 +1,5 @@
 <?php
-//Get List Roles Wordpress
+//Get List Roles WordPress
 global $wp_roles;
 ?>
     <div class="postbox">

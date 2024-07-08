@@ -472,7 +472,6 @@ class settings_page extends Singleton
             'wps_use_cache_plugin',
             'wps_show_hits',
             'wps_display_hits_position',
-            'wps_check_online',
             'wps_menu_bar',
             'wps_coefficient',
             'wps_hide_notices'

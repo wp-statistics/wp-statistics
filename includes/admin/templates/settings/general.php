@@ -22,18 +22,6 @@
                 <p class="description"><?php esc_html_e('Shows current online users on the site.', 'wp-statistics'); ?></p>
             </td>
         </tr>
-
-        <tr valign="top">
-            <th scope="row">
-                <label for="check_online"><?php esc_html_e('Frequency of Online User Checks', 'wp-statistics'); ?></label>
-            </th>
-
-            <td>
-                <input type="number" class="code" id="check_online" name="wps_check_online" value="<?php echo esc_attr(WP_STATISTICS\Option::get('check_online')); ?>" style="width: 100px"/>
-                <?php esc_html_e('Seconds', 'wp-statistics'); ?>
-                <p class="description"><?php esc_html_e('Defines how often the plugin checks for online users. \'120 seconds\' means updates every 2 minutes.', 'wp-statistics') ?></p>
-            </td>
-        </tr>
         </tbody>
     </table>
 </div>
