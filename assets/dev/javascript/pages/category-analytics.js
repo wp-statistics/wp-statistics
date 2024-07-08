@@ -148,7 +148,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                     datasets: [
                         {
                             type: 'line',
-                            label: 'Views',
+                            label: wps_js._('visits'),
                             cubicInterpolationMode: 'monotone',
                             data: performanceSingleData.views,
                             borderColor: '#0e9444',
@@ -162,8 +162,32 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                             pointWidth: 5.5,
                             pointHeight: 5.5,
                             pointBackgroundColor: '#0e9444',
-                            lineTension: 0.5
-                        }
+                            tension: 0.4,
+                        },
+                        {
+                            type: 'line',
+                            label: wps_js._('visitors'),
+                            data: performanceSingleData.visitors,
+                            borderColor: '#4915b9',
+                            backgroundColor: '#4915b9',
+                            pointRadius: 5,
+                            fill: false,
+                            yAxisID: 'y',
+                            pointBorder: 5,
+                            pointBorderColor: '#fff',
+                            pointWidth: 5.5,
+                            pointHeight: 5.5,
+                            pointBackgroundColor: '#4915b9',
+                            tension: 0.4
+                        },
+                        {
+                            type: 'bar',
+                            label: `${wps_js._('published')} Contents`,
+                            data: performanceSingleData.posts,
+                            backgroundColor: 'rgba(159,165,248,0.7)',
+                            yAxisID: 'y1',
+                            borderRadius: { topLeft: 10, topRight: 10 },
+                        },
                     ]
                 },
                 interaction: {
@@ -177,23 +201,42 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                         x: {
                             offset:false,
                             grid: {
-                                display: true,
-                                borderDash: [5, 5]
+                                display: false,
+                                drawBorder: false,
+                                tickLength: 0,
                             }
                         },
                         y: {
-                            type: 'linear',
-                            position: 'left',
                             ticks: {
                                 stepSize: 1,
-                                callback: function (value, index, values) {
-                                    return value;
-                                }
+                            },
+                            type: 'linear',
+                            position: 'right',
+                            grid: {
+                                display: true,
+                                borderDash: [5, 5]
                             },
                             title: {
                                 display: true,
-                                text: 'Views',
+                                text: wps_js._('Views'),
                                 color: '#0e9444'
+                            }
+                        },
+                        y1: {
+                            type: 'linear',
+                            position: 'left',
+                            grid: {
+                                display: false,
+                                drawBorder: false,
+                                tickLength: 0,
+                            },
+                            ticks: {
+                                stepSize: 1
+                            },
+                            title: {
+                                display: true,
+                                text: `${wps_js._('published')} Contents`,
+                                color: '#9fa5f8',
                             }
                         }
                     }
