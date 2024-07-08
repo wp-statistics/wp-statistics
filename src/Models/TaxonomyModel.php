@@ -34,15 +34,15 @@ class TaxonomyModel extends BaseModel
             ->join('posts', ['posts.ID', 'term_relationships.object_id'], [['posts.post_type' , 'IN', $args['post_type']], ['posts.post_status', '=', 'publish']], 'LEFT')
             ->join('pages', ['pages.id', 'term_taxonomy.term_taxonomy_id'], [], 'LEFT')
             ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy'])
+            ->where('posts.post_author', '=', $args['author_id'])
             ->groupBy(['taxonomy', 'terms.term_id','terms.name'])
             ->orderBy($args['order_by'], $args['order'])
             ->perPage($args['page'], $args['per_page'])
             ->bypassCache($bypassCache);
 
         // If author_id is empty get data by published date, otherwise get data by published or viewed date
-        if (empty($args['author_id'])) {
+        if (!empty($args['author_id']) || !empty($args['post_type'])) {
             $query
-                ->where('posts.post_author', '=', $args['author_id'])
                 ->whereDate('posts.post_date', $args['date']);
         } else {
             $query->whereRaw(
