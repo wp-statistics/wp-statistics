@@ -559,13 +559,15 @@ class VisitorsModel extends BaseModel
     public function getDailyVisitorsAndVisits($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
-            'date' => [
+            'date'      => [
                 'from' => date('Y-m-d', strtotime('-30 days')),
                 'to'   => date('Y-m-d'),
             ],
+            'post_type' => '',
+            'post_id'   => '',
         ]);
 
-        $result = Query::select([
+        $query = Query::select([
             '`visitor`.`last_counter` AS `date`',
             "COUNT(`visitor`.`last_counter`) AS `visitors`",
             "`visit`.`visit` AS `visits`"
@@ -574,8 +576,11 @@ class VisitorsModel extends BaseModel
             ->join('visit', ['`visitor`.`last_counter`', '`visit`.`last_counter`'])
             ->whereDate('`visitor`.`last_counter`', $args['date'])
             ->groupBy('`visitor`.`last_counter`')
-            ->bypassCache($bypassCache)
-            ->getAll();
+            ->bypassCache($bypassCache);
+
+        $query = $this->generateVisitorRelationshipsJoins($query, $args, 'visitor.ID');
+
+        $result = $query->getAll();
 
         return $result ? $result : [];
     }
