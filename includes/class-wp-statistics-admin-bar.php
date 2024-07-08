@@ -22,7 +22,7 @@ class AdminBar
     public static function show_admin_bar()
     {
         /**
-         * Show/Hide Wp-Statistics Admin Bar
+         * Show/Hide WP Statistics Admin Bar
          *
          * @example add_filter('wp_statistics_show_admin_bar', function(){ return false; });
          */

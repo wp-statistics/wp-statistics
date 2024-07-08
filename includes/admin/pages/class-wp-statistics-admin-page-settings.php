@@ -62,7 +62,7 @@ class settings_page extends Singleton
         // Check Form Nonce
         if (isset($_POST['wp-statistics-nonce']) and wp_verify_nonce($_POST['wp-statistics-nonce'], 'update-options')) {
 
-            // Check Reset Option Wp-Statistics
+            // Check Reset Option WP Statistics
             self::reset_wp_statistics_options();
 
             // Get All List Options
@@ -521,7 +521,7 @@ class settings_page extends Singleton
     }
 
     /**
-     * Reset Wp-Statistics Option
+     * Reset WP Statistics Option
      */
     public static function reset_wp_statistics_options()
     {

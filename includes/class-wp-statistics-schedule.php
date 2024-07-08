@@ -259,7 +259,7 @@ class Schedule
     }
 
     /**
-     * Send Wp-Statistics Report
+     * Send WP Statistics Report
      */
     public function send_report()
     {

@@ -140,7 +140,7 @@ class Option
     }
 
     /**
-     * Update Wp-Statistics Option
+     * Update WP Statistics Option
      *
      * @param $option
      * @param $value
