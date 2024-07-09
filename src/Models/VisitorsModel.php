@@ -549,7 +549,7 @@ class VisitorsModel extends BaseModel
     }
 
     /**
-     * Returns visitors and visits for the past given days, separated daily.
+     * Returns visitors, visits and referrers for the past given days, separated daily.
      *
      * @param   array   $args           Arguments to include in query (e.g. `date`, etc.).
      * @param   bool    $bypassCache    Send the cached result.
@@ -571,11 +571,13 @@ class VisitorsModel extends BaseModel
             '`visitor`.`last_counter` AS `date`',
             'COUNT(`visitor`.`last_counter`) AS `visitors`',
             '`visit`.`visit` AS `visits`',
+            'COUNT(IF(`visitor`.`referred` NOT LIKE "%' . Helper::get_domain_name(home_url()) . '%" AND `visitor`.`referred` <> "", 1, 0)) AS `referrers`',
         ])
             ->from('visitor')
             ->join('visit', ['`visitor`.`last_counter`', '`visit`.`last_counter`'])
             ->whereDate('`visitor`.`last_counter`', $args['date'])
             ->groupBy('`visitor`.`last_counter`')
+            ->orderBy('visitor.last_counter', 'ASC')
             ->bypassCache($bypassCache);
 
         $query = $this->generateVisitorRelationshipsJoins($query, $args, 'visitor.ID');
