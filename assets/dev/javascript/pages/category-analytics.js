@@ -83,10 +83,12 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                         },
                     ]
                 },
-                interaction: {
-                    intersect: false,
-                },
+
                 options: {
+                    interaction: {
+                        intersect: false,
+                        mode:'index'
+                    },
                     plugins: {
                         legend: false
                     },
@@ -190,10 +192,11 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                         },
                     ]
                 },
-                interaction: {
-                    intersect: false,
-                },
                 options: {
+                    interaction: {
+                        intersect: false,
+                        mode:'index'
+                    },
                     plugins: {
                         legend: false
                     },
@@ -498,6 +501,10 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                 type: 'line',
                 data: searchData,
                 options: {
+                    interaction: {
+                        intersect: false,
+                        mode:'index'
+                    },
                     plugins: {
                         tooltip: {
                             caretPadding: 5,

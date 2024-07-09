@@ -556,7 +556,7 @@ class VisitorsModel extends BaseModel
      *
      * @return  array   Format: `[{'date' => "STRING", 'visitors' => INT, 'visits' => INT}, ...]`.
      */
-    public function getDailyVisitorsAndVisits($args = [], $bypassCache = false)
+    public function getDailyStats($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
             'date'      => [
@@ -569,8 +569,8 @@ class VisitorsModel extends BaseModel
 
         $query = Query::select([
             '`visitor`.`last_counter` AS `date`',
-            "COUNT(`visitor`.`last_counter`) AS `visitors`",
-            "`visit`.`visit` AS `visits`"
+            'COUNT(`visitor`.`last_counter`) AS `visitors`',
+            '`visit`.`visit` AS `visits`',
         ])
             ->from('visitor')
             ->join('visit', ['`visitor`.`last_counter`', '`visit`.`last_counter`'])
