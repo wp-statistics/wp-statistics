@@ -1,4 +1,4 @@
-= 14.8.1 - **.06.2024 =
+= 14.8.1 - 26.06.2024 =
 * Fix: Compatibility issue with tracking page and default permalink structure.
 * Fix: Charts not displaying due to conflicts with old ChartJs versions from other plugins.
 * Fix: Metabox refresh issue in WordPress dashboard when enabling/disabling widgets via Screen Options.

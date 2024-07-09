@@ -200,7 +200,6 @@ class UserOnline
         $user_online = array(
             'timestamp' => TimeZone::getCurrentTimestamp(),
             'date'      => TimeZone::getCurrentDate(),
-            'referred'  => $visitorProfile->getReferrer(),
             'user_id'   => $user_id,
             'page_id'   => $pageId,
             'type'      => $current_page['type']
@@ -322,15 +321,28 @@ class UserOnline
                 $item['city']   = !empty($items->city) ? $items->city : GeoIP::getCity($ip);
                 $item['region'] = $items->region;
             }
-
+            
             // Online For Time
-            $time_diff = ($items->timestamp - $items->created);
-            if ($time_diff > 3600) {
-                $item['online_for'] = date("H:i:s", ($items->timestamp - $items->created)); // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date	
-            } else if ($time_diff > 60) {
-                $item['online_for'] = "00:" . date("i:s", ($items->timestamp - $items->created)); // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
+            $current_time = current_time('timestamp'); // Fetch current server time in WordPress format
+            $time_diff    = $items->timestamp - $items->created;
+
+            if ($items->timestamp == $items->created) {
+                $time_diff = $current_time - $items->created;
+            }
+
+            // Ensure time_diff is positive and log the real time difference
+            if ($time_diff < 0) {
+                $time_diff = abs($time_diff);
+            }
+
+            if ($time_diff < 1) {
+                $item['online_for'] = "00:00:00";
+            } else if ($time_diff >= 3600) {
+                $item['online_for'] = gmdate("H:i:s", $time_diff); // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
+            } else if ($time_diff >= 60) {
+                $item['online_for'] = "00:" . gmdate("i:s", $time_diff); // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
             } else {
-                $item['online_for'] = "00:00:" . date("s", ($items->timestamp - $items->created)); // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
+                $item['online_for'] = "00:00:" . str_pad($time_diff, 2, "0", STR_PAD_LEFT); // Display seconds correctly
             }
 
             $list[] = $item;
