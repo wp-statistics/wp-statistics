@@ -199,10 +199,8 @@
             </th>
 
             <td>
-                <select name="wps_menu_bar" id="menu-bar">
-                    <option value="1" <?php selected(WP_STATISTICS\Option::get('menu_bar'), '1'); ?>><?php esc_html_e('Yes', 'wp-statistics'); ?></option>
-                    <option value="0" <?php selected(WP_STATISTICS\Option::get('menu_bar'), '0'); ?>><?php esc_html_e('No', 'wp-statistics'); ?></option>
-                </select>
+                <input id="menu-bar" type="checkbox" value="1" name="wps_menu_bar" <?php echo WP_STATISTICS\Option::get('menu_bar') == true ? "checked='checked'" : ''; ?>>
+                <label for="menu-bar"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
                 <p class="description"><?php esc_html_e('View your site\'s statistics directly from the WordPress admin menu bar.', 'wp-statistics'); ?></p>
             </td>
         </tr>
