@@ -146,7 +146,7 @@ class AuthorAnalyticsDataProvider
 
     public function getAuthorsReportData()
     {
-        $authors = $this->authorModel->getAuthorsPerformanceData($this->args);
+        $authors = $this->authorModel->getAuthorsReportData($this->args);
         $total   = $this->authorModel->countAuthors($this->args);
 
         return [
