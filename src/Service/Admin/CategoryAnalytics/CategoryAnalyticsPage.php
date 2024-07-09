@@ -17,7 +17,7 @@ class CategoryAnalyticsPage extends MultiViewPage
         'tabs'      => TabsView::class,
         'single'    => SingleView::class,
         'posts'     => PostsReportView::class,
-        'categories'=> CategoryReportView::class
+        'report'    => CategoryReportView::class
     ];
 
     public function __construct()
