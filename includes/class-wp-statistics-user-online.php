@@ -26,7 +26,7 @@ class UserOnline
     public function __construct()
     {
         # Reset User Online Count
-        add_action('admin_init', array($this, 'reset_user_online'));
+        add_action('init', array($this, 'reset_user_online'));
     }
 
     /**

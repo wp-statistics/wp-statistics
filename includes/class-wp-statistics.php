@@ -169,11 +169,11 @@ final class WP_Statistics
         require_once WP_STATISTICS_DIR . 'includes/admin/class-wp-statistics-admin-template.php';
 
         $postsManager = new PostsManager();
+        $userOnline   = new \WP_STATISTICS\UserOnline();
 
         // Admin classes
         if (is_admin()) {
 
-            $userOnline       = new \WP_STATISTICS\UserOnline();
             $adminManager     = new \WP_Statistics\Service\Admin\AdminManager();
             $contentAnalytics = new ContentAnalyticsManager();
 
@@ -202,12 +202,12 @@ final class WP_Statistics
             require_once WP_STATISTICS_DIR . 'includes/admin/pages/class-wp-statistics-admin-page-top-visitors-today.php';
             require_once WP_STATISTICS_DIR . 'includes/admin/pages/class-wp-statistics-admin-page-exclusions.php';
 
-            $analytics          = new AnalyticsManager();
-            $authorAnalytics    = new AuthorAnalyticsManager();
-            $privacyAudit       = new PrivacyAuditManager();
-            $geographic         = new GeographicManager();
-            $devices            = new DevicesManager();
-            $categoryAnalytics  = new CategoryAnalyticsManager();
+            $analytics         = new AnalyticsManager();
+            $authorAnalytics   = new AuthorAnalyticsManager();
+            $privacyAudit      = new PrivacyAuditManager();
+            $geographic        = new GeographicManager();
+            $devices           = new DevicesManager();
+            $categoryAnalytics = new CategoryAnalyticsManager();
 
             $wpConsentApi = new WpConsentApi();
         }
