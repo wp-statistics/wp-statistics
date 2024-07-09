@@ -297,7 +297,19 @@
 
       }
 
+      .wps-ellipsis-parent {
+        display: table;
+        table-layout: fixed;
+        width: 100%;
+        max-width: 200px;
 
+        .wps-ellipsis-text {
+          display: table-cell;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          overflow: hidden;
+        }
+      }
 
       &.view-more {
         text-align: right !important;
