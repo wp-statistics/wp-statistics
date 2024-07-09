@@ -90,7 +90,9 @@ class TaxonomyModel extends BaseModel
                 'terms.name as term_name',
                 'SUM(pages.count) AS views',
                 'COUNT(DISTINCT posts.ID) AS posts',
-                'SUM(CASE WHEN postmeta.meta_key = "wp_statistics_words_count" THEN postmeta.meta_value ELSE 0 END) AS words'
+                'SUM(CASE WHEN postmeta.meta_key = "wp_statistics_words_count" THEN postmeta.meta_value ELSE 0 END) AS words',
+                'SUM(pages.count) / COUNT(DISTINCT posts.ID) AS avg_views',
+                'SUM(CASE WHEN postmeta.meta_key = "wp_statistics_words_count" THEN postmeta.meta_value ELSE 0 END) / COUNT(DISTINCT posts.ID) AS avg_words'
             ])
             ->from('posts')
             ->join('term_relationships', ['posts.ID', 'term_relationships.object_id'])

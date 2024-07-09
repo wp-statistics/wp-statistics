@@ -20,7 +20,9 @@ class CategoryReportView extends BaseView
             'date'      => [
                 'from' => Request::get('from', date('Y-m-d', strtotime('-30 days'))),
                 'to'   => Request::get('to', date('Y-m-d'))
-            ]
+            ],
+            'order_by'  => Request::get('order_by', 'views'),
+            'order'     => Request::get('order', 'DESC'),
         ]);
     }
 
