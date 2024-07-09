@@ -47,7 +47,7 @@ class Option
             'visits'                    => true,
             'visitors'                  => true,
             'pages'                     => true,
-            'menu_bar'                  => false,
+            'menu_bar'                  => true,
             'coefficient'               => Visitor::getCoefficient(),
             'stats_report'              => true,
             'cache_plugin'              => true,
