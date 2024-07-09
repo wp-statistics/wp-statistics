@@ -6,7 +6,7 @@ if (!defined('ABSPATH')) {
 
 
 // Setting up the logo.
-$final_logo = ' <a href="' . $logo_url . '"  class="wp-statistics-logo" style=" font-family: "Roboto" ,Arial,Helvetica,sans-serif; margin: 0; padding: 0; text-decoration: none;"><img src="' . $logo_image . '" width="197" height="46" title="WP Statistics" alt="WP Statistics" style=" font-family: "Roboto",Arial,Helvetica,sans-serif; margin: 0; margin-bottom: 24px; padding: 0; text-decoration: none;"></a>';
+$final_logo = ' <a href="' . esc_url($logo_url) . '"  class="wp-statistics-logo" style=" font-family: "Roboto" ,Arial,Helvetica,sans-serif; margin: 0; padding: 0; text-decoration: none;"><img src="' . esc_url($logo_image) . '" width="197" height="46" title="WP Statistics" alt="WP Statistics" style=" font-family: "Roboto",Arial,Helvetica,sans-serif; margin: 0; margin-bottom: 24px; padding: 0; text-decoration: none;"></a>';
 
 // Advertisement For WP Statistics Advanced Report Plugin
 $advanced_reporting_ad = is_plugin_active('wp-statistics-advanced-reporting/wp-statistics-advanced-reporting.php') ? '' :
@@ -28,7 +28,7 @@ $email_body = '
                 <table class="header" style=" font-family: \'Roboto\', Arial, Helvetica, sans-serif; margin: 0; padding: 0; text-align: center; text-decoration: none; width: 100%;">
                     <tr style=" font-family: \'Roboto\', Arial, Helvetica, sans-serif; margin: 0; padding: 0; text-decoration: none;">
                         <td style=" font-family: \'Roboto\', Arial, Helvetica, sans-serif; margin: 0; padding: 0; text-decoration: none;">
-                             ' . $final_logo . '
+                             ' . esc_html($final_logo) . '
                         </td>
                     </tr>
                     <tr style=" font-family: \'Roboto\', Arial, Helvetica, sans-serif; margin: 0; padding: 0; text-decoration: none;">
