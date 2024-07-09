@@ -89,17 +89,19 @@ use WP_STATISTICS\Schedule;
         <tr valign="top">
             <th scope="row" colspan="2"><h3><?php esc_html_e('Advanced Reporting Options', 'wp-statistics'); ?></h3></th>
         </tr>
+        <?php $next_scheduled_time = Schedule::getNextScheduledTime('wp_statistics_report_hook') ?>
+        <?php if ($next_scheduled_time) { ?>
+            <tr valign="top">
+                <td colspan="2" scope="row" class="wps-alert-container">
+                    <div class="alert alert-success"><span><?php echo sprintf(__('Your next report is scheduled to be sent on <b>%s at 8 AM</b>', 'wp-statistics'), date_i18n(get_option('date_format'), $next_scheduled_time)) ?></span></div>
+                </td>
+            </tr>
+        <?php } ?>
         <tr valign="top">
             <th scope="row" style="vertical-align: top;">
                 <label for="time-report"><?php esc_html_e('Report Frequency', 'wp-statistics'); ?></label>
             </th>
-
             <td>
-                <?php $next_scheduled_time = Schedule::getNextScheduledTime('wp_statistics_report_hook') ?>
-                <?php if ($next_scheduled_time) { ?>
-                    <div class="alert alert-success"><?php echo sprintf(__('Your next report is scheduled to be sent on <b>%s at 8 AM</b>', 'wp-statistics'), date_i18n(get_option('date_format'), $next_scheduled_time)) ?></div>
-                <?php } ?>
-
                 <select name="wps_time_report" id="time-report">
                     <option value="0" <?php selected(Option::get('time_report'), '0'); ?>><?php esc_html_e('Please select', 'wp-statistics'); ?></option>
                     <?php
