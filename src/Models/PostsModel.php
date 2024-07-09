@@ -215,15 +215,20 @@ class PostsModel extends BaseModel
             'term'          => ''
         ]);
 
+        $viewsQuery = Query::select(['id', 'date', 'SUM(count) AS views'])
+            ->from('pages')
+            ->groupBy('id')
+            ->getQuery();
+
         $query = Query::select([
                 'posts.ID',
                 'posts.post_author',
                 'posts.post_title',
                 'posts.post_date',
-                'COALESCE(SUM(pages.count), 0) AS views',
+                'COALESCE(pages.views, 0) AS views',
             ])
             ->from('posts')
-            ->join('pages', ['posts.ID', 'pages.id'], [],'LEFT')
+            ->joinQuery($viewsQuery, ['posts.ID', 'pages.id'], 'pages', 'LEFT')
             ->where('post_type', 'IN', $args['post_type'])
             ->where('post_status', '=', 'publish')
             ->where('posts.post_author', '=', $args['author_id'])
