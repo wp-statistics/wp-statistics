@@ -27,5 +27,8 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // Trigger click on the first global data item
-    document.querySelector('.wp-statistics-global-data').click();
+    var globalData = document.querySelector('.wp-statistics-global-data');
+    if (globalData != null) {
+        globalData.click();
+    }
 });
