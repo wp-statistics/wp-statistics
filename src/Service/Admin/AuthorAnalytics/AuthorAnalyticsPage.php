@@ -2,9 +2,11 @@
 
 namespace WP_Statistics\Service\Admin\AuthorAnalytics;
 
-use WP_Statistics\Abstracts\MultiViewPage;
+use WP_Statistics\Async\BackgroundProcessFactory;
 use WP_STATISTICS\Menus;
 use WP_STATISTICS\Option;
+use WP_Statistics\Abstracts\MultiViewPage;
+use WP_Statistics\Service\Admin\Posts\Views\PostsReportView;
 use WP_Statistics\Service\Admin\AuthorAnalytics\Views\AuthorsView;
 use WP_Statistics\Service\Admin\AuthorAnalytics\Views\SingleAuthorView;
 use WP_Statistics\Service\Admin\AuthorAnalytics\Views\TabsView;
@@ -21,6 +23,7 @@ class AuthorAnalyticsPage extends MultiViewPage
     protected $views = [
         'tabs'          => TabsView::class,
         'authors'       => AuthorsView::class,
+        'posts'         => PostsReportView::class,
         'single-author' => SingleAuthorView::class
     ];
 
@@ -41,7 +44,7 @@ class AuthorAnalyticsPage extends MultiViewPage
         $this->disableScreenOption();
         $this->inaccurateDataNotice();
         $this->checkWordCountMetaNotice();
-        $this->processWordCountInBackground();
+        $this->processWordCountInBackgroundAction();
     }
 
     private function inaccurateDataNotice()
@@ -83,7 +86,7 @@ class AuthorAnalyticsPage extends MultiViewPage
         }
     }
 
-    private function processWordCountInBackground()
+    private function processWordCountInBackgroundAction()
     {
         // Check the action and nonce
         if (!Request::compare('action', 'process_word_count')) {
@@ -101,7 +104,7 @@ class AuthorAnalyticsPage extends MultiViewPage
         }
 
         // Initialize and dispatch the CalculatePostWordsCount class
-        $this->wordsCount->processWordCountForPosts();
+        BackgroundProcessFactory::processWordCountForPosts();
 
         wp_redirect(Menus::admin_url('author-analytics'));
         exit;

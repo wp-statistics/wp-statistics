@@ -46,7 +46,6 @@ class Meta_Box
         require_once WP_STATISTICS_DIR . 'includes/admin/meta-box/wp-statistics-meta-box-about.php';
         require_once WP_STATISTICS_DIR . 'includes/admin/meta-box/wp-statistics-meta-box-post.php';
         require_once WP_STATISTICS_DIR . 'includes/admin/meta-box/wp-statistics-meta-box-top-pages-chart.php';
-        require_once WP_STATISTICS_DIR . 'includes/admin/meta-box/wp-statistics-meta-box-pages-chart.php';
         require_once WP_STATISTICS_DIR . 'includes/admin/meta-box/wp-statistics-meta-box-exclusions.php';
     }
 
@@ -66,7 +65,7 @@ class Meta_Box
          * name              : Name Of Widget Box
          * require           : the Condition From Wp-statistics Option if == true
          * show_on_dashboard : Show Meta Box in WordPress Dashboard
-         * hidden            : if set true , Default Hidden Dashboard in Wordpress Admin
+         * hidden            : if set true , Default Hidden Dashboard in WordPress Admin
          * js                : if set false, Load without RestAPI Request.
          * place             : Meta Box Place in Overview Page [ normal | side ]
          * disable_overview  : Disable MetaBox From Overview Page [ default : false ]
@@ -77,7 +76,7 @@ class Meta_Box
          $list = array(
             'quickstats'      => array(
                 'page_url'          => 'overview',
-                'name'              => __('Quick Stats', 'wp-statistics'),
+                'name'              => __('Traffic Overview', 'wp-statistics'),
                 'show_on_dashboard' => true,
                 'hidden'            => false,
                 'place'             => 'side',
@@ -201,7 +200,7 @@ class Meta_Box
                 ]
             ),
             'pages'           => array(
-                'page_url'          => 'pages',
+                'page_url'          => 'content-analytics',
                 'name'              => __('Most Visited Pages', 'wp-statistics'),
                 'description'       => __('Pages on your website with the highest number of views in the selected time frame.', 'wp-statistics'),
                 'require'           => array('visits' => true),

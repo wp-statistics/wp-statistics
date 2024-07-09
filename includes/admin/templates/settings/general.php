@@ -22,18 +22,6 @@
                 <p class="description"><?php esc_html_e('Shows current online users on the site.', 'wp-statistics'); ?></p>
             </td>
         </tr>
-
-        <tr valign="top">
-            <th scope="row">
-                <label for="check_online"><?php esc_html_e('Frequency of Online User Checks', 'wp-statistics'); ?></label>
-            </th>
-
-            <td>
-                <input type="number" class="code" id="check_online" name="wps_check_online" value="<?php echo esc_attr(WP_STATISTICS\Option::get('check_online')); ?>" style="width: 100px"/>
-                <?php esc_html_e('Seconds', 'wp-statistics'); ?>
-                <p class="description"><?php esc_html_e('Defines how often the plugin checks for online users. \'120 seconds\' means updates every 2 minutes.', 'wp-statistics') ?></p>
-            </td>
-        </tr>
         </tbody>
     </table>
 </div>
@@ -89,7 +77,7 @@
                 <label for="enable_user_column"><?php esc_html_e('Display User View Logs', 'wp-statistics'); ?></label>
             </th>
             <td>
-                <input id="enable_user_column" type="checkbox" value="1" name="wpsesc_html_enable_user_column" <?php echo WP_STATISTICS\Option::get('enable_user_column') == true ? "checked='checked'" : ''; ?>>
+                <input id="enable_user_column" type="checkbox" value="1" name="wps_enable_user_column" <?php echo WP_STATISTICS\Option::get('enable_user_column') == true ? "checked='checked'" : ''; ?>>
                 <label for="enable_user_column"><?php esc_html_e('Show View Logs', 'wp-statistics'); ?></label>
                 <p class="description"><?php esc_html_e('Adds a column in the WordPress admin\'s user list to display a log of user views.', 'wp-statistics'); ?></p>
             </td>
@@ -211,10 +199,8 @@
             </th>
 
             <td>
-                <select name="wps_menu_bar" id="menu-bar">
-                    <option value="1" <?php selected(WP_STATISTICS\Option::get('menu_bar'), '1'); ?>><?php esc_html_e('Yes', 'wp-statistics'); ?></option>
-                    <option value="0" <?php selected(WP_STATISTICS\Option::get('menu_bar'), '0'); ?>><?php esc_html_e('No', 'wp-statistics'); ?></option>
-                </select>
+                <input id="menu-bar" type="checkbox" value="1" name="wps_menu_bar" <?php echo WP_STATISTICS\Option::get('menu_bar') == true ? "checked='checked'" : ''; ?>>
+                <label for="menu-bar"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
                 <p class="description"><?php esc_html_e('View your site\'s statistics directly from the WordPress admin menu bar.', 'wp-statistics'); ?></p>
             </td>
         </tr>

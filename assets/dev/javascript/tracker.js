@@ -83,7 +83,8 @@ let wpStatisticsUserOnline = {
 };
 
 document.addEventListener('DOMContentLoaded', function () {
-    if (WP_Statistics_Tracker_Object.option.consentLevel == 'disabled' || !WP_Statistics_Tracker_Object.isWpConsentApiActive || wp_has_consent(WP_Statistics_Tracker_Object.option.consentLevel)) {
+    if (WP_Statistics_Tracker_Object.option.consentLevel == 'disabled' || WP_Statistics_Tracker_Object.trackAnonymously ||
+        !WP_Statistics_Tracker_Object.isWpConsentApiActive || wp_has_consent(WP_Statistics_Tracker_Object.option.consentLevel)) {
         wpStatisticsUserOnline.init();
     }
 
@@ -93,6 +94,13 @@ document.addEventListener('DOMContentLoaded', function () {
             if (changedConsentCategory.hasOwnProperty(key)) {
                 if (key === WP_Statistics_Tracker_Object.option.consentLevel && changedConsentCategory[key] === 'allow') {
                     wpStatisticsUserOnline.init();
+
+                    // When trackAnonymously is enabled, the init() call above will get ignored (since it's already initialized before)
+                    // So, in this specific case, we can call checkHitRequestConditions() manually
+                    // This will insert a new record for the user (who just gave consent to us) and prevent other scripts (e.g. event.js) from malfunctioning
+                    if (WP_Statistics_Tracker_Object.trackAnonymously) {
+                        wpStatisticsUserOnline.checkHitRequestConditions();
+                    }
                 }
             }
         }

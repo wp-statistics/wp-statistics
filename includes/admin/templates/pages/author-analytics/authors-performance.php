@@ -18,7 +18,6 @@ $postTypeNamePlural     = Helper::getPostTypeName($postType);
                         esc_html__('Total number of authors contributing content. Active authors have published at least one %s in the selected period.', 'wp-statistics'), 
                         strtolower($postTypeNamePlural)
                     ),
-                    'icon_class'   => 'authors',
                     'total'        => Helper::formatNumberWithUnit($data['authors']['total']),
                     'published'    => Helper::formatNumberWithUnit($data['authors']['published']),
                     'active'       => Helper::formatNumberWithUnit($data['authors']['active']),
@@ -32,7 +31,6 @@ $postTypeNamePlural     = Helper::getPostTypeName($postType);
                         strtolower($postTypeNamePlural), 
                         strtolower($postTypeNameSingular)
                     ),
-                    'icon_class'   => 'views',
                     'total'        => Helper::formatNumberWithUnit($data['views']['total']),
                     'avg'          => Helper::formatNumberWithUnit($data['views']['avg']),
                     'avg_title'    => sprintf(esc_html__('Avg. per %s', 'wp-statistics'), $postTypeNameSingular)
@@ -44,7 +42,6 @@ $postTypeNamePlural     = Helper::getPostTypeName($postType);
                         strtolower($postTypeNameSingular), 
                         strtolower($postTypeNamePlural)
                     ),
-                    'icon_class'   => 'words',
                     'total'        => Helper::formatNumberWithUnit($data['posts']['words']['total']),
                     'avg'          => Helper::formatNumberWithUnit($data['posts']['words']['avg']),
                     'avg_title'    => sprintf(esc_html__('Avg. per %s', 'wp-statistics'), $postTypeNameSingular)
@@ -59,7 +56,6 @@ $postTypeNamePlural     = Helper::getPostTypeName($postType);
                         strtolower($postTypeNamePlural), 
                         strtolower($postTypeNameSingular)
                     ),
-                    'icon_class'   => 'comments',
                     'total'        => Helper::formatNumberWithUnit($data['posts']['comments']['total']),
                     'avg'          => Helper::formatNumberWithUnit($data['posts']['comments']['avg']),
                     'avg_title'    => sprintf(esc_html__('Avg. per %s', 'wp-statistics'), $postTypeNameSingular)

@@ -2,6 +2,8 @@
 
 namespace WP_STATISTICS;
 
+use WP_Admin_Bar;
+
 class AdminBar
 {
     /**
@@ -16,25 +18,28 @@ class AdminBar
 
     /**
      * Check Show WP Statistics Admin Bar
+     *
+     * @deprecated  14.9    Use `\WP_STATISTICS\Helper::isAdminBarShowing()` instead.
      */
     public static function show_admin_bar()
     {
         /**
-         * Show/Hide Wp-Statistics Admin Bar
+         * Show/Hide WP Statistics Admin Bar
          *
          * @example add_filter('wp_statistics_show_admin_bar', function(){ return false; });
          */
         return (has_filter('wp_statistics_show_admin_bar')) ? apply_filters('wp_statistics_show_admin_bar', true) : Option::get('menu_bar');
     }
 
+
     /**
      * Show WordPress Admin Bar
-     * @param \WP_Admin_Bar $wp_admin_bar
+     * @param WP_Admin_Bar $wp_admin_bar
      */
     public function admin_bar($wp_admin_bar)
     {
         // Check Show WordPress Admin Bar
-        if (self::show_admin_bar() and is_admin_bar_showing() and User::Access()) {
+        if (Helper::isAdminBarShowing()) {
 
             $menu_title = '<span class="ab-icon"></span>';
             $object_id  = get_queried_object_ID();
@@ -85,36 +90,56 @@ class AdminBar
              * Key : ID of Admin bar
              */
             $admin_bar_list = array(
-                'wp-statistic-menu'                   => array(
+                'wp-statistic-menu'                   => [
                     'title' => $menu_title,
-                    'href'  => Menus::admin_url('overview')
-                ),
-                'wp-statistics-menu-todayvisitor'     => array(
+                    'href'  => Menus::admin_url('overview'),
+                ],
+                'wp-statistic-menu-global-data'       => [
                     'parent' => 'wp-statistic-menu',
-                    'title'  => __('Today\'s Visitors', 'wp-statistics') . ": " . wp_statistics_visitor('today'),
-                ),
-                'wp-statistics-menu-todayvisit'       => array(
+                    'title'  => __('Global Data', 'wp-statistics'),
+                    'meta'   => array('class' => 'wp-statistics-global-data'),
+                ],
+                'wp-statistic-menu-current-page-data' => [
                     'parent' => 'wp-statistic-menu',
-                    'title'  => __('Today\'s Views', 'wp-statistics') . ": " . wp_statistics_visit('today')
+                    'title'  => __('Current Page Data', 'wp-statistics'),
+                    'meta'   => array('class' => 'wp-statistics-current-page-data disabled'),
+                ],
+                'wp-statistics-menu-visitors-today' => array(
+                    'parent' => 'wp-statistic-menu-global-data',
+                    'title'  => '<div class="wp-statistics-menu-visitors-today__title">' . __('Visitors Today', 'wp-statistics') . '</div>'
+                        . '<div class="wp-statistics-menu-visitors-today__count">' . wp_statistics_visitor('today') . '</div>'
+                        . '<div class="wp-statistics-menu-todayvisits">' . sprintf(__('was %s last day', 'wp-statistics'), wp_statistics_visitor('yesterday')) . '</div>'
                 ),
-                'wp-statistics-menu-yesterdayvisitor' => array(
-                    'parent' => 'wp-statistic-menu',
-                    'title'  => __('Yesterday\'s Visitors', 'wp-statistics') . ": " . wp_statistics_visitor('yesterday'),
+                'wp-statistics-menu-views-today'    => array(
+                    'parent' => 'wp-statistic-menu-global-data',
+                    'title'  => '<div class="wp-statistics-menu-views-today__title">' . __('Views Today', 'wp-statistics') . '</div>'
+                        . '<div class="wp-statistics-menu-views-today__count">' . wp_statistics_visit('today') . '</div>'
+                        . '<div class="wp-statistics-menu-yesterdayvisits">' . sprintf(__('was %s last day', 'wp-statistics'), wp_statistics_visit('yesterday')) . '</div>'
+
                 ),
-                'wp-statistics-menu-yesterdayvisit'   => array(
-                    'parent' => 'wp-statistic-menu',
-                    'title'  => __('Yesterday\'s Views', 'wp-statistics') . ": " . wp_statistics_visit('yesterday')
-                ),
-                'wp-statistics-menu-page'             => array(
-                    'parent' => 'wp-statistic-menu',
-                    'title'  => sprintf('<img src="%s"/><span class="wps-admin-bar__chart__unlock-button">%s</span>',
-                        WP_STATISTICS_URL . 'assets/images/mini-chart-admin-bar-preview.png',
-                        __('Unlock Mini Chart!', 'wp-statistics')
+                'wp-statistics-menu-page'           => array(
+                    'parent' => 'wp-statistic-menu-global-data',
+                    'title'  => sprintf('<img src="%s"/><div><span class="wps-admin-bar__chart__unlock-button">%s</span><button>%s</button></div>',
+                        esc_url(WP_STATISTICS_URL . 'assets/images/mini-chart-lock.png'),
+                        __('Unlock full potential of Mini-chart', 'wp-statistics'),
+                        __('Upgrade Now', 'wp-statistics')
                     ),
                     'href'   => 'https://wp-statistics.com/product/wp-statistics-mini-chart?utm_source=wp_statistics&utm_medium=display&utm_campaign=wordpress',
                     'meta'   => [
                         'target' => '_blank',
                     ],
+                ),
+                'wp-statistics-footer-page'         => array(
+                    'parent' => 'wp-statistic-menu',
+                    'title'  => sprintf('<img src="%s"/>
+                        <a href="' . esc_url(admin_url('admin.php?page=wps_overview_page')) . '">
+                        <span class="wps-admin-bar__chart__unlock-button">%s</span>
+                        </a>'
+                        ,
+                        WP_STATISTICS_URL . 'assets/images/mini-chart-logo.svg',
+                        __('Explore Details', 'wp-statistics')
+                    ),
+
                 )
             );
 
@@ -136,7 +161,6 @@ class AdminBar
              */
             $admin_bar_list = apply_filters('wp_statistics_admin_bar', $admin_bar_list, $data, '');
 
-            # Show Admin Bar
             foreach ($admin_bar_list as $id => $v_admin_bar) {
                 $wp_admin_bar->add_menu(array_merge(array('id' => $id), $v_admin_bar));
             }

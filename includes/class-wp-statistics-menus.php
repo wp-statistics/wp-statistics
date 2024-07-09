@@ -2,6 +2,8 @@
 
 namespace WP_STATISTICS;
 
+use WP_Statistics\Utils\Request;
+
 class Menus
 {
     /**
@@ -18,7 +20,6 @@ class Menus
         'exclusions'        => 'exclusions',
         'hits'              => 'hits',
         'online'            => 'online',
-        'pages'             => 'pages',
         'referrers'         => 'referrers',
         'searches'          => 'searches',
         'top-visitors'      => 'top_visitors',
@@ -26,11 +27,12 @@ class Menus
         'optimization'      => 'optimization',
         'settings'          => 'settings',
         'plugins'           => 'plugins',
-        'taxonomies'        => 'taxonomies',
         'author-analytics'  => 'author-analytics',
         'privacy-audit'     => 'privacy-audit',
         'geographic'        => 'geographic',
+        'content-analytics' => 'content-analytics',
         'devices'           => 'devices',
+        'category-analytics'=> 'category-analytics'
     );
 
     /**
@@ -147,7 +149,7 @@ class Menus
          * name       : Menu name
          * title      : Page title / if not exist [title == name]
          * cap        : min require capability @default $read_cap
-         * icon       : Wordpress DashIcon name
+         * icon       : WordPress DashIcon name
          * method     : method that call in page @default log
          * sub        : if sub menu , add main menu slug
          * page_url   : link of Slug Url Page @see WP_Statistics::$page
@@ -201,20 +203,6 @@ class Menus
                 'title'    => __('Search Engines', 'wp-statistics'),
                 'page_url' => 'searches',
                 'method'   => 'searches',
-            ),
-            'pages'        => array(
-                'require'  => array('visits' => true),
-                'sub'      => 'overview',
-                'title'    => __('Post Types', 'wp-statistics'),
-                'page_url' => 'pages',
-                'method'   => 'pages',
-            ),
-            'taxonomies'   => array(
-                'require'  => array('visits' => true),
-                'sub'      => 'overview',
-                'title'    => __('Taxonomies', 'wp-statistics'),
-                'page_url' => 'taxonomies',
-                'method'   => 'taxonomies',
             ),
             'top.visitors' => array(
                 'require'  => array('visitors' => true),
@@ -352,6 +340,23 @@ class Menus
             }
         }
 
+    }
+
+    public static function getCurrentPage()
+    {
+        $currentPage = Request::get('page');
+        $pagesList   = self::get_menu_list();
+        
+        if (!$currentPage) return false;
+        
+        $currentPage = self::getPageKeyFromSlug($currentPage);
+        $currentPage = reset($currentPage);
+
+        $currentPage = array_filter($pagesList, function($page) use ($currentPage) {
+            return $page['page_url'] === $currentPage;
+        });
+
+        return reset($currentPage);
     }
 
 }

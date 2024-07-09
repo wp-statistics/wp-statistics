@@ -20,7 +20,7 @@ class AuthorAnalyticsManager
         $newItem = [
             'author_analytics' => [
                 'sub'      => 'overview',
-                'pages'    => array('pages' => true),
+                'pages'    => ['pages' => true],
                 'title'    => esc_html__('Author Analytics', 'wp-statistics'),
                 'page_url' => 'author-analytics',
                 'callback' => AuthorAnalyticsPage::class

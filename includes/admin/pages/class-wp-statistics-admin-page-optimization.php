@@ -2,9 +2,9 @@
 
 namespace WP_STATISTICS;
 
+use WP_Statistics\Async\BackgroundProcessFactory;
 use WP_Statistics\Components\Singleton;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
-use WP_Statistics\Service\Analytics\GeoIpService;
 
 class optimization_page extends Singleton
 {
@@ -48,8 +48,7 @@ class optimization_page extends Singleton
         // Update All GEO IP Country
         if (isset($_POST['submit'], $_POST['populate-submit']) && intval($_POST['populate-submit']) == 1) {
             // Update GeoIP data for visitors with incomplete information
-            $geoIpService = new GeoIpService();
-            $geoIpService->batchUpdateIncompleteGeoIpForVisitors();
+            BackgroundProcessFactory::batchUpdateIncompleteGeoIpForVisitors();
 
             // Show Notice
             Notice::addFlashNotice(__('GeoIP update for incomplete visitors initiated successfully.', 'wp-statistics'), 'success');

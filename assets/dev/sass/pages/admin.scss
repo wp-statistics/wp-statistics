@@ -2,6 +2,23 @@
 #wps-postbox-container-1 {
   width: 30%;
   float: left;
+
+  #wp-statistics-browsers-widget, #wp-statistics-platforms-widget, #wp-statistics-devices-widget, #wp-statistics-models-widget {
+    .wps-ph-item {
+      .wps-ph-col-2 {
+        display: none;
+      }
+
+      .wps-ph-col-8 {
+        margin: 0;
+
+        .wps-ph-avatar {
+          max-width: 150px;
+          margin: 0 auto;
+        }
+      }
+    }
+  }
 }
 
 #wps-postbox-container-2 {

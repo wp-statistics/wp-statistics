@@ -25,8 +25,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             const chartData = Wp_Statistics_Author_Analytics_Object.browser_chart_data;
 
             if (chartData.data.length == 0) {
-                jQuery('#wps-browsers').parent().text(wps_js._('no_result'));
-                jQuery('#wps-browsers').remove();
+                jQuery('#wps-browsers').parent().html(wps_js.no_results());
                 return;
             }
 
@@ -72,8 +71,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             const chartData = Wp_Statistics_Author_Analytics_Object.os_chart_data;
 
             if (chartData.labels.length == 0 || chartData.data.length ==0) {
-                jQuery('#wps-operating-systems').parent().text(wps_js._('no_result'));
-                jQuery('#wps-operating-systems').remove();
+                jQuery('#wps-operating-systems').parent().html(wps_js.no_results());
                 return;
             }
 

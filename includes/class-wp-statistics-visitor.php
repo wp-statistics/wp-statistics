@@ -134,7 +134,7 @@ class Visitor
                     'region'       => $visitorProfile->getRegion(),
                     'continent'    => $visitorProfile->getContinent(),
                     'user_id'      => $visitorProfile->getUserId(),
-                    'UAString'     => (Option::get('store_ua') == true ? $visitorProfile->getHttpUserAgent() : ''),
+                    'UAString'     => ((Option::get('store_ua') == true && !Helper::shouldTrackAnonymously()) ? $visitorProfile->getHttpUserAgent() : ''),
                     'hits'         => 1,
                     'honeypot'     => ($args['exclusion_reason'] == 'Honeypot' ? 1 : 0),
                 );

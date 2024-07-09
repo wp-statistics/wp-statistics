@@ -68,6 +68,16 @@ class TabsView extends BaseTabView
     }
 
     /**
+     * Returns data for "Device Categories" tab.
+     *
+     * @return  array
+     */
+    public function getCategoriesData()
+    {
+        return $this->dataProvider->getCategoriesData();
+    }
+
+    /**
      * Returns the current tab's template.
      *
      * @return  string
@@ -107,11 +117,10 @@ class TabsView extends BaseTabView
                         'class'       => $currentTab === 'models' ? 'current' : '',
                     ],
                     [
-                        'link'        => '#',
+                        'link'        => Menus::admin_url('devices', ['tab' => 'categories']),
                         'title'       => esc_html__('Device Categories', 'wp-statistics'),
                         'tooltip'     => esc_html__('Coming Soon', 'wp-statistics'),
                         'class'       => $currentTab === 'categories' ? 'current' : '',
-                        'coming_soon' => true,
                     ],
                     [
                         'link'        => '#',

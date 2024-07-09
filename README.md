@@ -79,6 +79,27 @@ Having trouble with a bug? Please [create an issue](https://github.com/wp-statis
 3. Make sure the Date and Time are set correctly in WordPress.
 4. Go to the plugin settings page and configure as required (note this will also include downloading the GeoIP database for the first time).
 
+## Composer and NPM Commands
+For development purposes, include the following commands to require Mozart globally, install dependencies with Composer and NPM, and run Gulp tasks:
+
+### Composer
+```bash
+composer global require coenjacobs/mozart
+composer install
+```
+
+### NPM
+```bash
+npm install
+```
+
+### Gulp
+```bash
+gulp
+```
+
+By adding these commands to your development setup, you ensure that Mozart is available globally, all necessary dependencies are installed, and Gulp tasks are executed to manage assets efficiently.
+
 ## WP-CLI Commands
 
 ### Batch Insert Using Bash Script
@@ -87,4 +108,3 @@ You can use a bash script to insert multiple records with random data. Place the
 
 ```sh
 bash bin/dummy.sh {quantity}
-```

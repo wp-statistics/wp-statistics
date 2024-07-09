@@ -8,21 +8,27 @@ jQuery(document).ready(function () {
             datePickerElement.trigger('click');
         });
 
+        let ranges = {
+            'Today': [moment(), moment()],
+            'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+            'Last 7 Days': [moment().subtract(7, 'days'), moment()],
+            'Last 14 Days': [moment().subtract(14, 'days'), moment()],
+            'Last 30 Days': [moment().subtract(30, 'days'), moment()],
+            'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
+            'Last 60 Days': [moment().subtract(60, 'days'), moment()],
+            'Last 90 Days': [moment().subtract(90, 'days'), moment()],
+            'Last 120 Days': [moment().subtract(120, 'days'), moment()],
+            'Last 6 Months': [moment().subtract(180, 'days'), moment()],
+            'This Year': [moment().startOf('year'), moment().endOf('year')]
+        };
+
+        if (datePickerBtn.hasClass('js-date-range-picker-all-time')) {
+             ranges['All Time'] = [moment(0), moment()];
+        }
+
         datePickerElement.daterangepicker({
             "autoApply": true,
-            "ranges": {
-                'Today': [moment(), moment()],
-                'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-                'Last 7 Days': [moment().subtract(7, 'days'), moment()],
-                'Last 14 Days': [moment().subtract(14, 'days'), moment()],
-                'Last 30 Days': [moment().subtract(30, 'days'), moment()],
-                'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
-                'Last 60 Days': [moment().subtract(60, 'days'), moment()],
-                'Last 90 Days': [moment().subtract(90, 'days'), moment()],
-                'Last 120 Days': [moment().subtract(120, 'days'), moment()],
-                'Last 6 Months': [moment().subtract(180, 'days'), moment()],
-                'This Year': [moment().startOf('year'), moment().endOf('year')],
-            },
+            "ranges": ranges,
         });
 
         if (wps_js.isset(wps_js.global, 'request_params', 'from') && wps_js.isset(wps_js.global, 'request_params', 'to')) {

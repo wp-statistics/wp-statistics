@@ -94,7 +94,7 @@ class Admin_Post
                 echo apply_filters("wp_statistics_before_hit_column_{$actual_post_type}", $preview_chart_unlock_html, $post_id, $post_type); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
                 echo sprintf('<a href="%s" class="wps-admin-column__link">%s</a>',  // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-                    Menus::admin_url('pages', array('ID' => $post_id, 'type' => $post_type)), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                    Menus::admin_url('content-analytics', ['post_id' => $post_id, 'type' => 'single']), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                     esc_html(number_format($hit_number)) // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                 );
             }

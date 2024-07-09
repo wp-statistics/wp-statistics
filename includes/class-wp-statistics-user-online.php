@@ -18,7 +18,7 @@ class UserOnline
      *
      * @var int
      */
-    public static $reset_user_time = 120; # Second
+    public static $reset_user_time = 65; # Second
 
     /**
      * UserOnline constructor.
@@ -26,7 +26,7 @@ class UserOnline
     public function __construct()
     {
         # Reset User Online Count
-        add_action('admin_init', array($this, 'reset_user_online'));
+        add_action('init', array($this, 'reset_user_online'));
     }
 
     /**
@@ -61,16 +61,6 @@ class UserOnline
 
             // Set the default seconds a user needs to visit the site before they are considered offline.
             $reset_time = self::$reset_user_time;
-
-            // Get the user set value for seconds to check for users online.
-            if (Option::get('check_online')) {
-                $reset_time = Option::get('check_online');
-            }
-
-            // Failsafe
-            if (!is_numeric($reset_time)) {
-                $reset_time = 120;
-            }
 
             // We want to delete users that are over the number of seconds set by the admin.
             $time_diff = (int)$now - (int)$reset_time;

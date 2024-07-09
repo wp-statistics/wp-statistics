@@ -3,6 +3,7 @@
 use WP_STATISTICS\Country;
 use WP_STATISTICS\GeoIP;
 use WP_STATISTICS\IP;
+use WP_Statistics\Models\VisitorsModel;
 use WP_STATISTICS\Pages;
 use WP_STATISTICS\TimeZone;
 use WP_STATISTICS\User;
@@ -33,7 +34,7 @@ function wp_statistics_get_current_user_data()
     // Get User Agent contain Browser and Platform
     $data['agent'] = UserAgent::getUserAgent();
 
-    // Get User info if Registered in Wordpress
+    // Get User info if Registered in WordPress
     if (User::is_login()) {
         $data['user'] = User::get();
     }
@@ -88,27 +89,27 @@ function wp_statistics_useronline($options = array())
     //Check Parameter
     $defaults = array(
         /**
-         * Type Of Page in Wordpress
+         * Type Of Page in WordPress
          * @See Frontend\get_page_type
          *
          * -- Acceptable values --
          *
          * post     -> WordPress Post single page From All of public post Type
-         * page     -> Wordpress page single page
+         * page     -> WordPress page single page
          * product  -> WooCommerce product single page
          * home     -> Home Page website
-         * category -> Wordpress Category Page
-         * post_tag -> Wordpress Post Tags Page
-         * tax      -> Wordpress Term Page for all Taxonomies
-         * author   -> Wordpress Users page
+         * category -> WordPress Category Page
+         * post_tag -> WordPress Post Tags Page
+         * tax      -> WordPress Term Page for all Taxonomies
+         * author   -> WordPress Users page
          * 404      -> 404 Not Found Page
-         * archive  -> Wordpress Archive Page
+         * archive  -> WordPress Archive Page
          * all      -> All Site Page
          *
          */
         'type'         => 'all',
         /**
-         * Wordpress Query object ID
+         * WordPress Query object ID
          * @example array('type' => 'product', 'ID' => 5)
          */
         'ID'           => 0,
@@ -277,27 +278,27 @@ function wp_statistics_visitor($time, $daily = null, $count_only = false, $optio
     //Check Parameter
     $defaults = array(
         /**
-         * Type Of Page in Wordpress
+         * Type Of Page in WordPress
          * @See Frontend\get_page_type
          *
          * -- Acceptable values --
          *
          * post     -> WordPress Post single page From All of public post Type
-         * page     -> Wordpress page single page
+         * page     -> WordPress page single page
          * product  -> WooCommerce product single page
          * home     -> Home Page website
-         * category -> Wordpress Category Page
-         * post_tag -> Wordpress Post Tags Page
-         * tax      -> Wordpress Term Page for all Taxonomies
-         * author   -> Wordpress Users page
+         * category -> WordPress Category Page
+         * post_tag -> WordPress Post Tags Page
+         * tax      -> WordPress Term Page for all Taxonomies
+         * author   -> WordPress Users page
          * 404      -> 404 Not Found Page
-         * archive  -> Wordpress Archive Page
+         * archive  -> WordPress Archive Page
          * all      -> All Site Page
          *
          */
         'type'     => 'all',
         /**
-         * Wordpress Query object ID
+         * WordPress Query object ID
          * @example array('type' => 'product', 'ID' => 5)
          */
         'ID'       => 0,
@@ -862,7 +863,7 @@ function wp_statistics_get_search_engine_query($search_engine = 'all', $time = '
     } else {
         if (empty($range)) $range = ['current_date' => true];
     }
-    
+
     $mysql_time_sql = WP_STATISTICS\Helper::mysql_time_conditions($date_column, $time, $range);
 
     //Generate MySql Time Conditions
@@ -891,29 +892,29 @@ function wp_statistics_searchengine($search_engine = 'all', $time = 'total', $ra
  * Return Refer List
  *
  * @param null $time
+ * @param array $range
  * @return int
  */
-function wp_statistics_referrer($time = null)
+function wp_statistics_referrer($time = null, $range = [])
 {
     global $wpdb;
 
-    $timezone = array(
-        'today'     => 0,
-        'yesterday' => -1,
-        'week'      => -7,
-        'month'     => -30,
-        'year'      => -365,
-        'total'     => 'ALL',
-    );
-    $sql      = "SELECT `referred` FROM `" . \WP_STATISTICS\DB::table('visitor') . "` WHERE referred <> ''";
-    if (array_key_exists($time, $timezone)) {
-        if ($time != "total") {
-            $sql .= " AND (`last_counter` = '" . TimeZone::getCurrentDate('Y-m-d', $timezone[$time]) . "')";
-        }
+    $sql = "SELECT `referred` FROM `" . \WP_STATISTICS\DB::table('visitor') . "` WHERE referred <> ''";
+
+    // Check Sanitize Datetime
+    if (TimeZone::isValidDate($time)) {
+        if (empty($range)) $range = ['is_day' => true];
     } else {
-        //Set Default
-        $sql .= " AND (`last_counter` = '" . TimeZone::getCurrentDate('Y-m-d', $time) . "')";
+        if (empty($range)) $range = ['current_date' => true];
     }
+
+    $mysql_time_sql = WP_STATISTICS\Helper::mysql_time_conditions('last_counter', $time, $range);
+
+    //Generate MySql Time Conditions
+    if (!empty($mysql_time_sql)) {
+        $sql = $sql . ' AND (' . $mysql_time_sql . ')';
+    }
+
     $result = $wpdb->get_results($sql); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared	
 
     $urls = array();

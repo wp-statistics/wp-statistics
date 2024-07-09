@@ -89,7 +89,7 @@ class Admin_Dashboard
             $hidden_widgets = array();
         }
 
-        //Set Default Hidden Dashboard in Admin Wordpress
+        //Set Default Hidden Dashboard in Admin WordPress
         foreach ($dashboard_list as $widget => $dashboard) {
             if (isset($dashboard['hidden']) and $dashboard['hidden'] === true) {
                 $hidden_widgets[] = Meta_Box::getMetaBoxKey($widget);

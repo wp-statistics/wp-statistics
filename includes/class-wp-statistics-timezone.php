@@ -61,7 +61,7 @@ class TimeZone
      */
     public static function getLocalDate($format, $timestamp)
     {
-        return date($format, $timestamp + self::set_timezone()); // phpcs:ignore Wordpress.DateTime.RestrictedFuncitons.date_date
+        return date($format, $timestamp + self::set_timezone()); // phpcs:ignore WordPress.DateTime.RestrictedFuncitons.date_date
     }
 
     /**
@@ -75,12 +75,12 @@ class TimeZone
     {
         if ($strtotime) {
             if ($relative) {
-                return date($format, strtotime("{$strtotime} day", $relative) + self::set_timezone());  // phpcs:ignore Wordpress.DateTime.RestrictedFuncitons.date_date
+                return date($format, strtotime("{$strtotime} day", $relative) + self::set_timezone());  // phpcs:ignore WordPress.DateTime.RestrictedFuncitons.date_date
             } else {
-                return date($format, strtotime("{$strtotime} day") + self::set_timezone());  // phpcs:ignore Wordpress.DateTime.RestrictedFuncitons.date_date
+                return date($format, strtotime("{$strtotime} day") + self::set_timezone());  // phpcs:ignore WordPress.DateTime.RestrictedFuncitons.date_date
             }
         } else {
-            return date($format, time() + self::set_timezone());  // phpcs:ignore Wordpress.DateTime.RestrictedFuncitons.date_date
+            return date($format, time() + self::set_timezone());  // phpcs:ignore WordPress.DateTime.RestrictedFuncitons.date_date
         }
     }
 
@@ -97,12 +97,12 @@ class TimeZone
     {
         if ($strtotime) {
             if ($relative) {
-                return date($format, strtotime("{$strtotime} day", $relative));  // phpcs:ignore Wordpress.DateTime.RestrictedFuncitons.date_date
+                return date($format, strtotime("{$strtotime} day", $relative));  // phpcs:ignore WordPress.DateTime.RestrictedFuncitons.date_date
             } else {
-                return date($format, strtotime("{$strtotime} day"));  // phpcs:ignore Wordpress.DateTime.RestrictedFuncitons.date_date
+                return date($format, strtotime("{$strtotime} day"));  // phpcs:ignore WordPress.DateTime.RestrictedFuncitons.date_date
             }
         } else {
-            return date($format, time());  // phpcs:ignore Wordpress.DateTime.RestrictedFuncitons.date_date
+            return date($format, time());  // phpcs:ignore WordPress.DateTime.RestrictedFuncitons.date_date
         }
     }
 
@@ -132,7 +132,11 @@ class TimeZone
      */
     public static function isValidDate($date)
     {
-        if (preg_match("/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/", $date) and strtotime($date) != false) {
+        if (empty($date)) {
+            return false;
+        }
+
+        if (preg_match("/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/", $date) && strtotime($date) !== false) {
             return true;
         }
         return false;
@@ -210,7 +214,7 @@ class TimeZone
             ],
             'yesterday'  => [
                 'from' => self::getTimeAgo(1),
-                'to'   => self::getCurrentDate("Y-m-d")
+                'to'   => self::getTimeAgo(1)
             ],
             '7days'      => [
                 'from' => self::getTimeAgo(7),

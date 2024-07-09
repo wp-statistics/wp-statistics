@@ -98,7 +98,7 @@ class GeneralNotices
         $totalDbRows = DB::getTableRows();
         $totalRows   = array_sum(array_column($totalDbRows, 'rows'));
 
-        if ($totalRows > apply_filters('wp_statistics_notice_db_row_threshold', 300000)) {
+        if ($totalRows > apply_filters('wp_statistics_notice_db_row_threshold', 300000) && current_user_can('manage_options')) {
             $settingsUrl      = admin_url('admin.php?page=wps_settings_page&tab=maintenance-settings');
             $optimizationUrl  = admin_url('admin.php?page=wps_optimization_page');
             $documentationUrl = 'https://wp-statistics.com/resources/optimizing-database-size-for-improved-performance/';
@@ -125,7 +125,7 @@ class GeneralNotices
 
     public function php_version_check()
     {
-        if (version_compare(PHP_VERSION, '7.2', '<') && !Option::get('disable_php_version_check_notice')) {
+        if (version_compare(PHP_VERSION, '7.2', '<')) {
             Notice::addNotice(__('<b>WP Statistics Plugin: PHP Version Update Alert</b> Starting with <b>Version 15</b>, WP Statistics will require <b>PHP 7.2 or higher</b>. Please upgrade your PHP version to ensure uninterrupted use of the plugin.'), 'php_version_check', 'warning');
         }
     }

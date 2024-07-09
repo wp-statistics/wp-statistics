@@ -47,8 +47,7 @@ class Option
             'visits'                    => true,
             'visitors'                  => true,
             'pages'                     => true,
-            'check_online'              => UserOnline::$reset_user_time,
-            'menu_bar'                  => false,
+            'menu_bar'                  => true,
             'coefficient'               => Visitor::getCoefficient(),
             'stats_report'              => true,
             'cache_plugin'              => true,
@@ -61,6 +60,7 @@ class Option
             'privacy_audit'             => true,
             'store_ua'                  => false,
             'consent_level_integration' => 'disabled',
+            'anonymous_tracking'        => false,
             'do_not_track'              => true,
             'exclude_administrator'     => true,
             'referrerspam'              => true,
@@ -140,7 +140,7 @@ class Option
     }
 
     /**
-     * Update Wp-Statistics Option
+     * Update WP Statistics Option
      *
      * @param $option
      * @param $value
