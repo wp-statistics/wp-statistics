@@ -19,7 +19,6 @@
                                 <tr>
                                     <td></td>
                                     <td><?php esc_html_e('Domain Address', 'wp-statistics'); ?></td>
-                                    <td><?php esc_html_e('Site Title', 'wp-statistics'); ?></td>
                                     <td><?php esc_html_e('Server IP', 'wp-statistics'); ?></td>
                                     <?php if (\WP_STATISTICS\GeoIP::active()) { ?>
                                         <td><?php esc_html_e('Country', 'wp-statistics'); ?></td>
@@ -30,10 +29,7 @@
 
                                     <tr>
                                         <td><?php echo esc_html(number_format_i18n($item['rate'])); ?></td>
-                                        <td><?php echo WP_STATISTICS\Helper::show_site_icon($item['domain']) . " " . \WP_STATISTICS\Referred::get_referrer_link($item['domain'], $item['title']); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped  ?>
-                                        </td>
-                                        <td><?php echo trim($item['title']) == "" ? \WP_STATISTICS\Admin_Template::UnknownColumn() : esc_attr($item['title']); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	?>
-                                        </td>
+                                        <td><?php echo WP_STATISTICS\Helper::show_site_icon($item['domain']) . " " . \WP_STATISTICS\Referred::get_referrer_link($item['domain']); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped  ?></td>
                                         <td><?php echo trim($item['ip']) == "" ? \WP_STATISTICS\Admin_Template::UnknownColumn() : esc_attr($item['ip']); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></td>
                                         <?php if (\WP_STATISTICS\GeoIP::active()) { ?>
                                             <td><?php echo trim($item['country']) == "" ? \WP_STATISTICS\Admin_Template::UnknownColumn() : "<img src='" . esc_url($item['flag']) . "' title='" . esc_attr($item['country']) . "' alt='" . esc_attr($item['country']) . "' class='log-tools wps-flag'/>"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	 ?></td>

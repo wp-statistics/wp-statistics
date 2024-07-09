@@ -260,54 +260,29 @@ class Referred
      * @return array
      * @throws \Exception
      */
-    public static function PrepareReferData($get_urls)
+    public static function PrepareReferData($referrals)
     {
 
-        //Prepare List
-        $list = array();
+        if (empty($referrals)) return [];
 
-        //Load country Code
+        $list = [];
+
         $ISOCountryCode = Country::getList();
 
-        //Get Refer Site Detail
-        $refer_opt     = get_option(self::$referral_detail_opt);
-        $referrer_list = (empty($refer_opt) ? array() : $refer_opt);
+        foreach ($referrals as $domain => $number) {
 
-        if (!$get_urls) {
-            return array();
-        }
+            $referrerUrl    = Referred::html_sanitize_referrer($domain);
+            $domainInfo     = Referred::get_domain_server($domain);
 
-        // Check List
-        foreach ($get_urls as $domain => $number) {
-
-            //Get Site Link
-            $referrer_html = Referred::html_sanitize_referrer($domain);
-
-            //Get Site information if Not Exist
-            if (!array_key_exists($domain, $referrer_list)) {
-                $get_site_inf           = Referred::get_domain_server($domain);
-                $get_site_title         = Helper::get_site_title_by_url($domain);
-                $referrer_list[$domain] = array(
-                    'ip'      => $get_site_inf['ip'],
-                    'country' => $get_site_inf['country'],
-                    'title'   => ($get_site_title === false ? '' : $get_site_title),
-                );
-            }
-
-            // Push to list
-            $list[] = array(
+            $list[] = [
                 'domain'    => $domain,
-                'title'     => $referrer_list[$domain]['title'],
-                'ip'        => ($referrer_list[$domain]['ip'] != "" ? $referrer_list[$domain]['ip'] : '-'),
-                'country'   => ($referrer_list[$domain]['country'] != "" ? $ISOCountryCode[$referrer_list[$domain]['country']] : ''),
-                'flag'      => ($referrer_list[$domain]['country'] != "" ? Country::flag($referrer_list[$domain]['country']) : ''),
-                'page_link' => Menus::admin_url('referrers', array('referrer' => $referrer_html)),
+                'ip'        => $domainInfo['ip'] != "" ? $domainInfo['ip'] : '-',
+                'country'   => $domainInfo['country'] != "" ? $ISOCountryCode[$domainInfo['country']] : '',
+                'flag'      => $domainInfo['country'] != "" ? Country::flag($domainInfo['country']) : '',
+                'page_link' => Menus::admin_url('referrers', ['referrer' => $referrerUrl]),
                 'number'    => number_format_i18n($number)
-            );
+            ];
         }
-
-        //Save Referrer List Update
-        update_option(self::$referral_detail_opt, $referrer_list, 'no');
 
         // Return Data
         return $list;
