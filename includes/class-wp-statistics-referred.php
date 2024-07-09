@@ -12,13 +12,6 @@ class Referred
     public static $top_referring_transient = 'wps_top_referring';
 
     /**
-     * Referral Url Details Option name
-     *
-     * @var string
-     */
-    public static $referral_detail_opt = 'wp_statistics_referrals_detail';
-
-    /**
      * Referrer Spam List
      *
      * @var string
@@ -345,13 +338,11 @@ class Referred
     /**
      * Remove Complete Cache Data
      * @param $table_name
-     * @todo: needs to be removed since we don't use options and transient to store referral data
      */
     public function deleteCacheData($table_name)
     {
         if ($table_name == "visitor") {
             delete_transient(self::$top_referring_transient);
-            delete_option(self::$referral_detail_opt);
         }
     }
 }
