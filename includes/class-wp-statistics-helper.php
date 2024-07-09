@@ -1683,7 +1683,14 @@ class Helper
      */
     public static function isAdminBarShowing()
     {
-        return (AdminBar::show_admin_bar() && is_admin_bar_showing() && User::Access());
+        /**
+        * Show/Hide WP Statistics Admin Bar
+        *
+        * @example add_filter('wp_statistics_show_admin_bar', function(){ return false; });
+        */
+        $showAdminBar = has_filter('wp_statistics_show_admin_bar') ? apply_filters('wp_statistics_show_admin_bar', true) : Option::get('menu_bar');
+
+        return ($showAdminBar && is_admin_bar_showing() && User::Access());
     }
 
     /**

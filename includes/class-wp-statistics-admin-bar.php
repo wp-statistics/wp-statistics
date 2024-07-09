@@ -18,6 +18,8 @@ class AdminBar
 
     /**
      * Check Show WP Statistics Admin Bar
+     *
+     * @deprecated  14.9    Use `\WP_STATISTICS\Helper::isAdminBarShowing()` instead.
      */
     public static function show_admin_bar()
     {
