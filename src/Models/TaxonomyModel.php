@@ -80,6 +80,8 @@ class TaxonomyModel extends BaseModel
             'per_page'  => 5,
             'date'      => '',
             'taxonomy'  => '',
+            'author_id' => '',
+            'post_type' => Helper::getPostTypes(),
             'date_field'=> 'pages.date'
         ]);
 
@@ -87,14 +89,18 @@ class TaxonomyModel extends BaseModel
                 'terms.term_id',
                 'terms.name as term_name',
                 'SUM(pages.count) AS views',
-                'COUNT(DISTINCT posts.ID) AS posts'
+                'COUNT(DISTINCT posts.ID) AS posts',
+                'SUM(CASE WHEN postmeta.meta_key = "wp_statistics_words_count" THEN postmeta.meta_value ELSE 0 END) AS words'
             ])
             ->from('posts')
             ->join('term_relationships', ['posts.ID', 'term_relationships.object_id'])
             ->join('term_taxonomy', ['term_relationships.term_taxonomy_id', 'term_taxonomy.term_taxonomy_id'])
             ->join('terms', ['term_taxonomy.term_id', 'terms.term_id'])
             ->join('pages', ['pages.id', 'posts.ID'])
+            ->join('postmeta', ['postmeta.post_id', 'posts.ID'], [['postmeta.meta_key', '=', 'wp_statistics_words_count']], 'LEFT')
             ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy'])
+            ->where('posts.post_type', 'IN', $args['post_type'])
+            ->where('posts.post_author', '=', $args['author_id'])
             ->whereDate($args['date_field'], $args['date'])
             ->groupBy(['term_id'])
             ->orderBy($args['order_by'], $args['order'])
