@@ -63,7 +63,8 @@ class SingleView extends BaseView
                 'DateRang'      => Admin_Template::DateRange(),
                 'filters'       => ['query-params'],
                 'hasDateRang'   => true,
-                'data'          => $this->getData()
+                'data'          => $this->getData(),
+                'allTimeOption' => true
             ];
 
             Admin_Template::get_template(['layout/header', 'layout/title', "pages/content-analytics/$template", 'layout/footer'], $args);
