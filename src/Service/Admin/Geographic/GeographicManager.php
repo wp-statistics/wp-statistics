@@ -28,7 +28,7 @@ class GeographicManager
             ]
         ];
 
-        array_splice($items, 10, 0, $newItem);
+        array_splice($items, 9, 0, $newItem);
 
         return $items;
     }

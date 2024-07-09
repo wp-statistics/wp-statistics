@@ -28,7 +28,7 @@ class ContentAnalyticsManager
             ]
         ];
 
-        array_splice($items, 13, 0, $newItem);
+        array_splice($items, 7, 0, $newItem);
 
         return $items;
     }
