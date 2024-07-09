@@ -21,32 +21,33 @@ class ViewsModel extends BaseModel
             'term'          => ''
         ]);
 
-        $subQuery = Query::select('SUM(pages.count) as total_views')
+        $viewsQuery = Query::select(['id', 'date', 'SUM(count) AS count'])
             ->from('pages')
+            ->whereDate('date', $args['date'])
+            ->groupBy('id')
+            ->getQuery();
+
+        $query = Query::select('SUM(pages.count) as total_views')
+            ->fromQuery($viewsQuery, 'pages')
             ->join('posts', ['pages.id', 'posts.ID'])
             ->where('post_type', 'IN', $args['post_type'])
-            ->whereDate('date', $args['date'])
             ->where('post_author', '=', $args['author_id'])
             ->where('posts.ID', '=', $args['post_id'])
             ->where('pages.uri', '=', $args['query_param'])
-            ->groupBy('type')
             ->bypassCache($bypassCache);
 
         if (!empty($args['taxonomy']) || !empty($args['term'])) {
-            $subQuery
+            $query
                 ->join('term_relationships', ['posts.ID', 'term_relationships.object_id'])
                 ->join('term_taxonomy', ['term_relationships.term_taxonomy_id', 'term_taxonomy.term_taxonomy_id'])
                 ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy']);
 
             if (!empty($args['term'])) {
-                $subQuery
+                $query
                     ->join('terms', ['term_taxonomy.term_id', 'terms.term_id'])
                     ->where('terms.term_id', '=', $args['term']);
             }
         }
-
-        $query = Query::select('SUM(total_views)')
-            ->fromQuery($subQuery->getQuery());
 
         $total = $query->getVar();
 
