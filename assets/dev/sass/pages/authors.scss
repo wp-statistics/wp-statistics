@@ -503,6 +503,14 @@
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
+          gap:8px;
+
+          svg,img{
+            width: 27px;
+            height: 27px;
+            border-radius: 50%;
+            object-fit: contain;
+          }
 
           span{
             overflow: hidden;
