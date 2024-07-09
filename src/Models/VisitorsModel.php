@@ -571,7 +571,7 @@ class VisitorsModel extends BaseModel
             '`visitor`.`last_counter` AS `date`',
             'COUNT(`visitor`.`last_counter`) AS `visitors`',
             '`visit`.`visit` AS `visits`',
-            'COUNT(IF(`visitor`.`referred` NOT LIKE "%%' . Helper::get_domain_name(home_url()) . '%%" AND `visitor`.`referred` <> "", 1, 0)) AS `referrers`',
+            'COUNT(IF(`visitor`.`referred` NOT LIKE "%%' . Helper::get_domain_name(home_url()) . '%%" AND `visitor`.`referred` <> "", 1, NULL)) AS `referrers`',
         ])
             ->from('visitor')
             ->join('visit', ['`visitor`.`last_counter`', '`visit`.`last_counter`'])
