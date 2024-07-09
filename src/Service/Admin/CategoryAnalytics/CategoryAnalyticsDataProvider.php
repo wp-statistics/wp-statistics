@@ -217,4 +217,11 @@ class CategoryAnalyticsDataProvider
             'total'       => count($data)
         ];
     }
+
+    public function getCategoryReportData()
+    {
+        return [
+            'terms' => $this->taxonomyModel->getTermsData($this->args)
+        ];
+    }
 }

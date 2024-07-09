@@ -1,13 +1,10 @@
 <?php 
 namespace WP_Statistics\Service\Admin\CategoryAnalytics\Views;
 
-use InvalidArgumentException;
 use WP_Statistics\Abstracts\BaseView;
 use WP_STATISTICS\Admin_Template;
-use WP_STATISTICS\Helper;
 use WP_STATISTICS\Menus;
-use WP_Statistics\Service\Admin\Posts\PostsDataProvider;
-use WP_STATISTICS\User;
+use WP_Statistics\Service\Admin\CategoryAnalytics\CategoryAnalyticsDataProvider;
 use WP_Statistics\Utils\Request;
 
 class CategoryReportView extends BaseView
@@ -15,7 +12,20 @@ class CategoryReportView extends BaseView
 
     public function __construct() 
     {
+        $this->dataProvider = new CategoryAnalyticsDataProvider([
+            'author_id' => Request::get('author_id', '', 'number'),
+            'post_type' => Request::get('pt', ''),
+            'taxonomy'  => Request::get('tx', 'category'),
+            'date'      => [
+                'from' => Request::get('from', date('Y-m-d', strtotime('-30 days'))),
+                'to'   => Request::get('to', date('Y-m-d'))
+            ]
+        ]);
+    }
 
+    public function getData()
+    {
+        return $this->dataProvider->getCategoryReportData();
     }
 
     public function render()
@@ -33,7 +43,8 @@ class CategoryReportView extends BaseView
             'backUrl'       => Menus::admin_url($parentPage['page_url']),
             'backTitle'     => $parentPage['title'],
             'filters'       => ['post-type','author', 'taxonomy'],
-            'paged'         => Admin_Template::getCurrentPaged()
+            'paged'         => Admin_Template::getCurrentPaged(),
+            'data'          => $this->getData()
         ];
 
         Admin_Template::get_template(['layout/header', 'layout/title', 'pages/category-analytics/category-report', 'layout/postbox.toggle', 'layout/footer'], $args);

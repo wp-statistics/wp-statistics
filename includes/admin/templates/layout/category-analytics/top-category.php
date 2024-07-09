@@ -5,8 +5,6 @@ use WP_STATISTICS\Menus;
 use WP_Statistics\Utils\Request;
 
 $taxonomy  = Request::get('tx', 'category');
-$postType  = Helper::getPostTypesByTaxonomy($taxonomy);
-$postTypes = get_post_types_by_support('comments');
 ?>
 
 <div class="wps-card">
@@ -78,7 +76,7 @@ $postTypes = get_post_types_by_support('comments');
     </div>
     <div class="c-footer">
         <div class="c-footer__more">
-            <a href="" class="c-footer__more__link">
+            <a href="<?php echo esc_url(Menus::admin_url('category-analytics', ['type' => 'report', 'tx' => $taxonomy, 'from' => Request::get('from', date('Y-m-d', strtotime('-30 days'))), 'to' => Request::get('to', date('Y-m-d'))])); ?>" class="c-footer__more__link">
                 <?php echo esc_html__('See all categories', 'wp-statistics'); ?>
             </a>
         </div>
