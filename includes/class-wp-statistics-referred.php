@@ -345,6 +345,7 @@ class Referred
     /**
      * Remove Complete Cache Data
      * @param $table_name
+     * @todo: needs to be removed since we don't use options and transient to store referral data
      */
     public function deleteCacheData($table_name)
     {
