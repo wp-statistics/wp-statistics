@@ -55,7 +55,7 @@ class CategoryReportView extends BaseView
             'hasDateRang'   => true,
             'backUrl'       => Menus::admin_url($parentPage['page_url']),
             'backTitle'     => $parentPage['title'],
-            'filters'       => ['post-type','author', 'taxonomy'],
+            'filters'       => ['post-types','author', 'taxonomy'],
             'paged'         => Admin_Template::getCurrentPaged(),
             'data'          => $this->getData()
         ];
