@@ -20,7 +20,7 @@ class GeographicManager
     {
         $newItem = [
             'geographic' => [
-                'require'  => ['geoip' => true, 'visitors' => true],
+                'require'  => ['geoip' => true],
                 'sub'      => 'overview',
                 'title'    => esc_html__('Geographic', 'wp-statistics'),
                 'page_url' => 'geographic',
