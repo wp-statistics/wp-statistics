@@ -43,8 +43,8 @@ class hits_page extends Singleton
         $args['hasDateRang'] = True;
 
         // Get Total Views and Visitors
-        $args['total_visits']   = (Option::get('visits') ? wp_statistics_visit('total') : 0);
-        $args['total_visitors'] = (Option::get('visitors') ? wp_statistics_visitor('total', null, true) : 0);
+        $args['total_visits']   = wp_statistics_visit('total');
+        $args['total_visitors'] = wp_statistics_visitor('total', null, true);
 
         // Show Template Page
         Admin_Template::get_template(array('layout/header', 'layout/title', 'pages/hits', 'layout/footer'), $args);

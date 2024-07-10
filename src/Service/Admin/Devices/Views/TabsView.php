@@ -119,7 +119,7 @@ class TabsView extends BaseTabView
                     [
                         'link'        => Menus::admin_url('devices', ['tab' => 'categories']),
                         'title'       => esc_html__('Device Categories', 'wp-statistics'),
-                        'tooltip'     => esc_html__('Coming Soon', 'wp-statistics'),
+                        'tooltip'     => esc_html__('Displays visitor distribution across various device categories.', 'wp-statistics'),
                         'class'       => $currentTab === 'categories' ? 'current' : '',
                     ],
                     [

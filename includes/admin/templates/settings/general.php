@@ -32,30 +32,7 @@
             <th scope="row" colspan="2"><h3><?php esc_html_e('Visitor Analytics', 'wp-statistics'); ?></h3></th>
         </tr>
 
-        <tr valign="top">
-            <th scope="row">
-                <label for="visits"><?php esc_html_e('Track Views', 'wp-statistics'); ?></label>
-            </th>
-
-            <td>
-                <input id="visits" type="checkbox" value="1" name="wps_visits" <?php echo WP_STATISTICS\Option::get('visits') == true ? "checked='checked'" : ''; ?>>
-                <label for="visits"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
-                <p class="description"><?php esc_html_e('Counts the number of times each page is visited.', 'wp-statistics'); ?></p>
-            </td>
-        </tr>
-
-        <tr valign="top" id="visitors_tr">
-            <th scope="row">
-                <label for="visitors"><?php esc_html_e('Track Unique Visitors', 'wp-statistics'); ?></label>
-            </th>
-            <td>
-                <input id="visitors" type="checkbox" value="1" name="wps_visitors" <?php echo WP_STATISTICS\Option::get('visitors') == true ? "checked='checked'" : ''; ?>>
-                <label for="visitors"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
-                <p class="description"><?php esc_html_e('Tracks individual users to determine how many unique visitors you have.', 'wp-statistics'); ?></p>
-            </td>
-        </tr>
-
-        <tr valign="top" data-view="visitors_log_tr" <?php echo(WP_STATISTICS\Option::get('visitors') == false ? 'style="display:none;"' : '') ?>>
+        <tr valign="top" data-view="visitors_log_tr">
             <th scope="row">
                 <label for="visitors_log">
                     <?php esc_html_e('Record User Page Views', 'wp-statistics'); ?>
@@ -72,7 +49,7 @@
             </td>
         </tr>
 
-        <tr valign="top" data-view="visitors_log_tr" <?php echo(WP_STATISTICS\Option::get('visitors') == false ? 'style="display:none;"' : '') ?>>
+        <tr valign="top" data-view="visitors_log_tr">
             <th scope="row">
                 <label for="enable_user_column"><?php esc_html_e('Display User View Logs', 'wp-statistics'); ?></label>
             </th>

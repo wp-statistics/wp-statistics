@@ -19,26 +19,21 @@
                         <tbody>
                         <tr>
                             <th></th>
-                            <?php if (\WP_STATISTICS\Option::get('visits')) { ?>
-                                <th class="th-center"><?php esc_html_e('Views', 'wp-statistics'); ?></th> <?php } ?>
-                            <?php if (\WP_STATISTICS\Option::get('visitors')) { ?>
-                                <th class="th-center"><?php esc_html_e('Visitors', 'wp-statistics'); ?></th> <?php } ?>
+                            <th class="th-center"><?php esc_html_e('Views', 'wp-statistics'); ?></th>
+                            <th class="th-center"><?php esc_html_e('Visitors', 'wp-statistics'); ?></th>
                         </tr>
 
                         <tr>
                             <th><?php esc_html_e('Chart Total:', 'wp-statistics'); ?></th>
-                            <?php if (\WP_STATISTICS\Option::get('visits')) { ?>
-                                <th class="th-center"><span id="number-total-chart-visits"></span></th> <?php } ?>
-                            <?php if (\WP_STATISTICS\Option::get('visitors')) { ?>
-                                <th class="th-center"><span id="number-total-chart-visitors"></span></th> <?php } ?>
+                            <th class="th-center"><span id="number-total-chart-visits"></span></th>
+
+                            <th class="th-center"><span id="number-total-chart-visitors"></span></th>
                         </tr>
 
                         <tr>
                             <th><?php esc_html_e('All Time Total:', 'wp-statistics'); ?></th>
-                            <?php if (\WP_STATISTICS\Option::get('visits')) { ?>
-                                <th class="th-center"><span><?php echo esc_html(number_format_i18n($total_visits)); ?></span></th> <?php } ?>
-                            <?php if (\WP_STATISTICS\Option::get('visitors')) { ?>
-                                <th class="th-center"><span><?php echo esc_html(number_format_i18n($total_visitors)); ?></span></th> <?php } ?>
+                            <th class="th-center"><span><?php echo esc_html(number_format_i18n($total_visits)); ?></span></th>
+                            <th class="th-center"><span><?php echo esc_html(number_format_i18n($total_visitors)); ?></span></th>
                         </tr>
                         </tbody>
                     </table>

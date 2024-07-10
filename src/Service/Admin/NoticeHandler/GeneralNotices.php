@@ -77,16 +77,6 @@ class GeneralNotices
                 $active_collation[] = __('Display Online Users', 'wp-statistics');
             }
 
-            // Check Active visits
-            if (!Option::get('visits')) {
-                $active_collation[] = __('Track Page Views', 'wp-statistics');
-            }
-
-            // Check Active Visitors
-            if (!Option::get('visitors')) {
-                $active_collation[] = __('Monitor Unique Visitors', 'wp-statistics');
-            }
-
             if (count($active_collation) > 0) {
                 Notice::addNotice(sprintf(__('Certain features are currently turned off. Please visit the %1$ssettings page%2$s to activate them: %3$s', 'wp-statistics'), '<a href="' . Menus::admin_url('settings') . '">', '</a>', implode(__(',', 'wp-statistics'), $active_collation)), 'active_collation');
             }
