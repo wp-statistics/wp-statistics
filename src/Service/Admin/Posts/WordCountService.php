@@ -21,7 +21,9 @@ class WordCountService
         $text = wp_strip_all_tags($text);
 
         // Split the text into words and count them
-        return str_word_count($text);
+        $words = explode(' ', $text);
+        $words = array_filter($words);
+        return count($words);
     }
 
     /**
