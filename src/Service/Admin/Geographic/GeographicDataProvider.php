@@ -107,7 +107,7 @@ class GeographicDataProvider
                 'group_by'    => ['region'],
                 'count_field' => 'region',
                 'not_null'    => 'visitor.region',
-                'per_page'    => -1
+                'per_page'    => 20
             ]
         ));
 
