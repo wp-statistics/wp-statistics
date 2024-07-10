@@ -60,7 +60,7 @@ class PrivacyAuditManager
             ]
         ];
 
-        array_splice($items, 14, 0, $newItem);
+        array_splice($items, 11, 0, $newItem);
 
         return $items;
     }
@@ -76,13 +76,13 @@ class PrivacyAuditManager
         $privacyAuditController = new PrivacyAuditController();
 
         $list[] = [
-            'class'   => $privacyAuditController,
-            'action'  => 'getPrivacyStatus'
+            'class'  => $privacyAuditController,
+            'action' => 'getPrivacyStatus'
         ];
 
         $list[] = [
-            'class'   => $privacyAuditController,
-            'action'  => 'updatePrivacyStatus'
+            'class'  => $privacyAuditController,
+            'action' => 'updatePrivacyStatus'
         ];
 
         return $list;
@@ -91,15 +91,15 @@ class PrivacyAuditManager
 
     /**
      * Register privacy compliance test for WordPress site health.
-     * 
+     *
      * @return array $tests
      */
-    public function registerHealthStatusTests($tests) 
+    public function registerHealthStatusTests($tests)
     {
         $tests['direct']['wp_statistics_privacy_compliance_status'] = [
-			'label' => esc_html__('Are your WP Statistics settings privacy-compliant?', 'wp-statistics' ),
-			'test'  => [new PrivacyAuditController, 'privacyComplianceTest'],
-		];
+            'label' => esc_html__('Are your WP Statistics settings privacy-compliant?', 'wp-statistics'),
+            'test'  => [new PrivacyAuditController, 'privacyComplianceTest'],
+        ];
 
         return $tests;
     }
