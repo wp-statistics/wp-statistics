@@ -604,12 +604,18 @@ class VisitorsModel extends BaseModel
             'post_id'   => '',
         ]);
 
-        $query = Query::select([
+        $fields = [
             '`visitor`.`last_counter` AS `date`',
             'COUNT(`visitor`.`last_counter`) AS `visitors`',
             '`visit`.`visit` AS `visits`',
             'COUNT(IF(`visitor`.`referred` NOT LIKE "%%' . Helper::get_domain_name(home_url()) . '%%" AND `visitor`.`referred` <> "", 1, NULL)) AS `referrers`',
-        ])
+        ];
+        if (!empty($args['post_id'])) {
+            // For single pages/posts
+            $fields[2] = 'SUM(`pages`.`count`) AS `visits`';
+        }
+
+        $query = Query::select($fields)
             ->from('visitor')
             ->join('visit', ['`visitor`.`last_counter`', '`visit`.`last_counter`'])
             ->whereDate('`visitor`.`last_counter`', $args['date'])
@@ -617,7 +623,14 @@ class VisitorsModel extends BaseModel
             ->orderBy('visitor.last_counter', 'ASC')
             ->bypassCache($bypassCache);
 
-        $query = $this->generateVisitorRelationshipsJoins($query, $args, ['visitor_relationships.visitor_id', 'visitor.ID']);
+        $query = $this->generateVisitorRelationshipsJoins(
+            $query,
+            $args,
+            ['visitor_relationships.visitor_id', 'visitor.ID'],
+            [],
+            'INNER',
+            !empty($args['post_id']) ? [['visitor_relationships.page_id', 'pages.page_id'], ['`visit`.`last_counter`', 'pages.date']] : ['visitor_relationships.page_id', 'pages.page_id']
+        );
 
         $result = $query->getAll();
 
