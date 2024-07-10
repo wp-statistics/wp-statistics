@@ -21,7 +21,6 @@ class CategoryAnalyticsManager
         $newItem = [
             'category_analytics' => [
                 'sub'       => 'overview',
-                'pages'     => ['visits' => true],
                 'title'     => esc_html__('Category Analytics', 'wp-statistics'),
                 'page_url'  => 'category-analytics',
                 'callback'  => CategoryAnalyticsPage::class,
