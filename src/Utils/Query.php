@@ -384,7 +384,7 @@ class Query
      * Joins the current table with another table based on a given condition.
      *
      * @param string $table The name of the table to join with.
-     * @param array $on Table keys to join. ['table1.primary_key', 'table2.foreign_key'] (Alternate format for having `AND` in join clause: `[['table1.primary_key', 'table2.foreign_key'], ['table3.primary_key', 'table4.foreign_key']]`)
+     * @param array $on Table keys to join. ['table1.primary_key', 'table2.foreign_key']
      * @param array[] $conditions Array of extra join conditions to append. [['field', 'operator', 'value'], ...]
      * @param string $joinType The type of join to perform. Defaults to 'INNER'.
      *
@@ -395,16 +395,7 @@ class Query
         $joinTable = $this->getTable($table);
 
         if (is_array($on) && count($on) == 2) {
-            $joinClause = "{$joinType} JOIN {$joinTable} AS $table ON ";
-            if (!is_array($on[0]) && !is_array($on[1])) {
-                // Simple join
-                $joinClause .= "{$on[0]} = {$on[1]}";
-            } else if (is_array($on[0]) && is_array($on[1])) {
-                // ON `table1`.`primary_key` = `table2`.`foreign_key` AND `table3`.`primary_key` = `table4`.`foreign_key`
-                $joinClause .= "{$on[0][0]} = {$on[0][1]} AND {$on[1][0]} = {$on[1][1]}";
-            } else {
-                throw new InvalidArgumentException(esc_html__('Invalid join clause', 'wp-statistics'));
-            }
+            $joinClause = "{$joinType} JOIN {$joinTable} AS $table ON {$on[0]} = {$on[1]}";
 
             if (!empty($conditions)) {
                 foreach ($conditions as $condition) {
