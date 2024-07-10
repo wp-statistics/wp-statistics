@@ -220,7 +220,20 @@ class VisitorsModel extends BaseModel
             ->groupBy('visitor.ID')
             ->bypassCache($bypassCache);
 
-        $query = $this->generateVisitorRelationshipsJoins($query, $args, 'visitor.ID', [], '', [], 'LEFT', [], 'LEFT', $args['date']);
+        $query = $this->generateVisitorRelationshipsJoins(
+            $query,
+            $args,
+            ['visitor_relationships.visitor_id', 'visitor.ID'],
+            [],
+            '',
+            ['visitor_relationships.page_id', 'pages.page_id'],
+            [],
+            'LEFT',
+            [],
+            ['posts.ID', 'pages.id'],
+            'LEFT',
+            $args['date']
+        );
 
         if (!empty($args['country'])) {
             $query
@@ -368,7 +381,18 @@ class VisitorsModel extends BaseModel
             ->orderBy($args['order_by'], $args['order'])
             ->bypassCache($bypassCache);
 
-        $query = $this->generateVisitorRelationshipsJoins($query, $args, 'visitor.ID', [], '', [], 'LEFT', [], 'LEFT');
+        $query = $this->generateVisitorRelationshipsJoins(
+            $query,
+            $args,
+            ['visitor_relationships.visitor_id', 'visitor.ID'],
+            [],
+            '',
+            ['visitor_relationships.page_id', 'pages.page_id'],
+            [],
+            'LEFT',
+            ['posts.ID', 'pages.id'],
+            'LEFT'
+        );
 
         $result = $query->getAll();
 
@@ -438,7 +462,20 @@ class VisitorsModel extends BaseModel
             ->perPage($args['page'], $args['per_page'])
             ->bypassCache($bypassCache);
 
-        $query = $this->generateVisitorRelationshipsJoins($query, $args, 'visitor.ID', [], 'LEFT', [], 'LEFT', [], 'LEFT', $args['date']);
+        $query = $this->generateVisitorRelationshipsJoins(
+            $query,
+            $args,
+            ['visitor_relationships.visitor_id', 'visitor.ID'],
+            [],
+            'LEFT',
+            ['visitor_relationships.page_id', 'pages.page_id'],
+            [],
+            'LEFT',
+            ['posts.ID', 'pages.id'],
+            [],
+            'LEFT',
+            $args['date']
+        );
 
         if (!empty($args['country'])) {
             $query
@@ -475,7 +512,7 @@ class VisitorsModel extends BaseModel
             ->orderBy('date', 'DESC')
             ->bypassCache($bypassCache);
 
-        $query = $this->generateVisitorRelationshipsJoins($query, $args, 'search.visitor');
+        $query = $this->generateVisitorRelationshipsJoins($query, $args, ['visitor_relationships.visitor_id', 'search.visitor']);
 
         if (!empty($args['country'])) {
             $query
@@ -580,7 +617,7 @@ class VisitorsModel extends BaseModel
             ->orderBy('visitor.last_counter', 'ASC')
             ->bypassCache($bypassCache);
 
-        $query = $this->generateVisitorRelationshipsJoins($query, $args, 'visitor.ID');
+        $query = $this->generateVisitorRelationshipsJoins($query, $args, ['visitor_relationships.visitor_id', 'visitor.ID']);
 
         $result = $query->getAll();
 
@@ -593,10 +630,13 @@ class VisitorsModel extends BaseModel
      * @param   Query   $query
      * @param   array   $args
      * @param   string  $joinOn             Column to join with `visitor_relationships.visitor_id`.
+     * @param   array[] $vrJoinOn           Array of array of table keys to use on `visitor_relationships` table join. Format: `[['table1.primary_key', 'table2.foreign_key'], ['table3.primary_key', 'table4.foreign_key']]`.
      * @param   array[] $vrConditions       Array of array of extra join conditions to append to `visitor_relationships` table join. Format: `[['field', 'operator', 'value'], ...]`.
      * @param   string  $vrJoinType         The type of join to perform on `visitor_relationships` table. Defaults to 'INNER'.
+     * @param   array[] $pagesJoinOn        Array of array of table keys to use on `pages` table join. Format: `[['table1.primary_key', 'table2.foreign_key'], ['table3.primary_key', 'table4.foreign_key']]`.
      * @param   array[] $pagesConditions    Array of array of extra join conditions to append to `pages` table join. Format: `[['field', 'operator', 'value'], ...]`.
      * @param   string  $pagesJoinType      The type of join to perform on `pages` table. Defaults to 'INNER'.
+     * @param   array[] $postsJoinOn        Array of array of table keys to use on `posts` table join. Format: `[['table1.primary_key', 'table2.foreign_key'], ['table3.primary_key', 'table4.foreign_key']]`.
      * @param   array[] $postsConditions    Array of array of extra join conditions to append to `posts` table join. Format: `[['field', 'operator', 'value'], ...]`.
      * @param   string  $postsJoinType      The type of join to perform on `posts` table. Defaults to 'INNER'.
      * @param   string  $pagesDate          Date to compare with `pages.date`.
@@ -604,19 +644,19 @@ class VisitorsModel extends BaseModel
      * @return  Query
      */
     private function generateVisitorRelationshipsJoins(
-        $query, $args, $joinOn,
-        $vrConditions = [], $vrJoinType = 'INNER',
-        $pagesConditions = [], $pagesJoinType = 'INNER',
-        $postsConditions = [], $postsJoinType = 'INNER',
+        $query, $args,
+        $vrJoinOn, $vrConditions = [], $vrJoinType = 'INNER',
+        $pagesJoinOn = ['visitor_relationships.page_id', 'pages.page_id'], $pagesConditions = [], $pagesJoinType = 'INNER',
+        $postsJoinOn = ['posts.ID', 'pages.id'], $postsConditions = [], $postsJoinType = 'INNER',
         $pagesDate = ''
     ) {
         $filteredArgs = array_filter($args);
 
         if (array_intersect(['post_type', 'post_id', 'query_param', 'author_id', 'taxonomy', 'term'], array_keys($filteredArgs))) {
             $query
-                ->join('visitor_relationships', ['visitor_relationships.visitor_id', $joinOn], $vrConditions, $vrJoinType)
-                ->join('pages', ['visitor_relationships.page_id', 'pages.page_id'], $pagesConditions, $pagesJoinType)
-                ->join('posts', ['posts.ID', 'pages.id'], $postsConditions, $postsJoinType);
+                ->join('visitor_relationships', $vrJoinOn, $vrConditions, $vrJoinType)
+                ->join('pages', $pagesJoinOn, $pagesConditions, $pagesJoinType)
+                ->join('posts', $postsJoinOn, $postsConditions, $postsJoinType);
 
             if (!empty($args['post_type'])) {
                 $query->where('post_type', 'IN', $args['post_type']);
