@@ -96,7 +96,7 @@ class DevicesDataProvider
                     $visitors[$device]->visitors += $visitor->visitors;
                 } else {
                     $visitors[$device] = json_decode(json_encode(array(
-                        'device'   => $device,
+                        'device'   => ucfirst($device),
                         'visitors' => $visitor->visitors,
                     )));
                 }
