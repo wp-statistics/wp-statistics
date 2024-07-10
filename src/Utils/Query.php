@@ -384,7 +384,7 @@ class Query
      * Joins the current table with another table based on a given condition.
      *
      * @param string $table The name of the table to join with.
-     * @param array $on Table keys to join. ['table1.primary_key', 'table2.foreign_key']
+     * @param array|string $on Table keys to join. Acceptable formats: `['table1.primary_key', 'table2.foreign_key']` OR `'table1.primary_key = table2.foreign_key'`.
      * @param array[] $conditions Array of extra join conditions to append. [['field', 'operator', 'value'], ...]
      * @param string $joinType The type of join to perform. Defaults to 'INNER'.
      *
@@ -394,8 +394,9 @@ class Query
     {
         $joinTable = $this->getTable($table);
 
-        if (is_array($on) && count($on) == 2) {
-            $joinClause = "{$joinType} JOIN {$joinTable} AS $table ON {$on[0]} = {$on[1]}";
+        if ((is_array($on) && count($on) == 2) || is_string($on)) {
+            $joinClause  = "{$joinType} JOIN {$joinTable} AS $table ON ";
+            $joinClause .= is_array($on) ? "{$on[0]} = {$on[1]}" : "{$on}";
 
             if (!empty($conditions)) {
                 foreach ($conditions as $condition) {
