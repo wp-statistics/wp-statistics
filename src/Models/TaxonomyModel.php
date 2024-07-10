@@ -85,21 +85,17 @@ class TaxonomyModel extends BaseModel
             'date_field'=> 'pages.date'
         ]);
 
-        $query = Query::select([
+        $result = Query::select([
                 'terms.term_id',
                 'terms.name as term_name',
                 'SUM(pages.count) AS views',
-                'COUNT(DISTINCT posts.ID) AS posts',
-                'SUM(CASE WHEN postmeta.meta_key = "wp_statistics_words_count" THEN postmeta.meta_value ELSE 0 END) AS words',
-                'SUM(pages.count) / COUNT(DISTINCT posts.ID) AS avg_views',
-                'SUM(CASE WHEN postmeta.meta_key = "wp_statistics_words_count" THEN postmeta.meta_value ELSE 0 END) / COUNT(DISTINCT posts.ID) AS avg_words'
+                'COUNT(DISTINCT posts.ID) AS posts'
             ])
             ->from('posts')
             ->join('term_relationships', ['posts.ID', 'term_relationships.object_id'])
             ->join('term_taxonomy', ['term_relationships.term_taxonomy_id', 'term_taxonomy.term_taxonomy_id'])
             ->join('terms', ['term_taxonomy.term_id', 'terms.term_id'])
             ->join('pages', ['pages.id', 'posts.ID'])
-            ->join('postmeta', ['postmeta.post_id', 'posts.ID'], [['postmeta.meta_key', '=', 'wp_statistics_words_count']], 'LEFT')
             ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy'])
             ->where('posts.post_type', 'IN', $args['post_type'])
             ->where('posts.post_author', '=', $args['author_id'])
@@ -107,9 +103,69 @@ class TaxonomyModel extends BaseModel
             ->groupBy(['term_id'])
             ->orderBy($args['order_by'], $args['order'])
             ->perPage($args['page'], $args['per_page'])
-            ->bypassCache($bypassCache);
+            ->bypassCache($bypassCache)
+            ->getAll();
 
-        $result = $query->getAll();
+        return $result;
+    }
+
+    public function getTermsReportData($args = [], $bypassCache = false)
+    {
+        $args = $this->parseArgs($args, [
+            'order_by'  => 'views',
+            'order'     => '',
+            'page'      => 1,
+            'per_page'  => 5,
+            'date'      => '',
+            'taxonomy'  => '',
+            'author_id' => '',
+            'post_type' => Helper::getPostTypes(),
+            'date_field'=> 'pages.date'
+        ]);
+
+        $wordsQuery = Query::select([
+                'terms.term_id',
+                'terms.name as term_name',
+                'SUM(postmeta.meta_value) AS words',
+            ])
+            ->from('postmeta')
+            ->join('posts', ['postmeta.post_id', 'posts.ID'])
+            ->join('term_relationships', ['posts.ID', 'term_relationships.object_id'])
+            ->join('term_taxonomy', ['term_relationships.term_taxonomy_id', 'term_taxonomy.term_taxonomy_id'])
+            ->join('terms', ['term_taxonomy.term_id', 'terms.term_id'])
+            ->where('postmeta.meta_key', '=', 'wp_statistics_words_count')
+            ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy'])
+            ->where('posts.post_type', 'IN', $args['post_type'])
+            ->where('posts.post_author', '=', $args['author_id'])
+            ->whereDate('posts.post_date', $args['date'])
+            ->groupBy(['terms.term_id'])
+            ->bypassCache($bypassCache)
+            ->getQuery();
+
+        $result = Query::select([
+                'terms.term_id',
+                'terms.name as term_name',
+                'SUM(pages.count) AS views',
+                'COUNT(DISTINCT posts.ID) AS posts',
+                'postmeta.words AS words',
+                'SUM(pages.count) / COUNT(DISTINCT posts.ID) AS avg_views',
+                'postmeta.words / COUNT(DISTINCT posts.ID) AS avg_words'
+            ])
+            ->from('posts')
+            ->join('term_relationships', ['posts.ID', 'term_relationships.object_id'])
+            ->join('term_taxonomy', ['term_relationships.term_taxonomy_id', 'term_taxonomy.term_taxonomy_id'])
+            ->join('terms', ['term_taxonomy.term_id', 'terms.term_id'])
+            ->join('pages', ['pages.id', 'posts.ID'])
+            ->joinQuery($wordsQuery, ['postmeta.term_id', 'terms.term_id'], 'postmeta')
+            ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy'])
+            ->where('posts.post_type', 'IN', $args['post_type'])
+            ->where('posts.post_author', '=', $args['author_id'])
+            ->whereDate($args['date_field'], $args['date'])
+            ->groupBy(['term_id'])
+            ->orderBy($args['order_by'], $args['order'])
+            ->perPage($args['page'], $args['per_page'])
+            ->bypassCache($bypassCache)
+            ->getAll();
 
         return $result;
     }

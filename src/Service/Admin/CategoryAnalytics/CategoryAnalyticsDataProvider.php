@@ -221,7 +221,7 @@ class CategoryAnalyticsDataProvider
     public function getCategoryReportData()
     {
         return [
-            'terms' => $this->taxonomyModel->getTermsData($this->args)
+            'terms' => $this->taxonomyModel->getTermsReportData($this->args)
         ];
     }
 }
