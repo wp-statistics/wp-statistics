@@ -16,13 +16,13 @@ class VisitorsModel extends BaseModel
     public function countVisitors($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
-            'date'          => '',
-            'post_type'     => '',
-            'author_id'     => '',
-            'post_id'       => '',
-            'query_param'   => '',
-            'taxonomy'      => '',
-            'term'          => '',
+            'date'        => '',
+            'post_type'   => '',
+            'author_id'   => '',
+            'post_id'     => '',
+            'query_param' => '',
+            'taxonomy'    => '',
+            'term'        => '',
         ]);
 
         $query = Query::select('COUNT(DISTINCT visitor_id) as total_visitors')
@@ -65,16 +65,17 @@ class VisitorsModel extends BaseModel
     public function countColumnDistinct($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
-            'field'     => 'ID',
-            'date'      => '',
-            'where_col' => 'ID',
-            'where_val' => '',
+            'field'          => 'ID',
+            'date'           => '',
+            'where_col'      => 'ID',
+            'where_val'      => '',
+            'where_not_null' => '',
         ]);
 
         $result = Query::select("COUNT(DISTINCT `{$args['field']}`) as `total`")
             ->from('visitor')
             ->where($args['where_col'], '=', $args['where_val'])
-            ->where($args['field'], '!=', '')
+            ->whereNotNull($args['where_not_null'])
             ->whereDate('last_counter', $args['date'])
             ->perPage(1, 1)
             ->bypassCache($bypassCache)
@@ -109,7 +110,6 @@ class VisitorsModel extends BaseModel
         ])
             ->from('visitor')
             ->whereDate('last_counter', $args['date'])
-            ->where($args['field'], '!=', '')
             ->groupBy($args['group_by'])
             ->orderBy($args['order_by'], $args['order'])
             ->perPage($args['page'], $args['per_page'])
@@ -200,14 +200,14 @@ class VisitorsModel extends BaseModel
     public function getVisitorsData($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
-            'date'          => '',
-            'post_type'     => '',
-            'author_id'     => '',
-            'post_id'       => '',
-            'country'       => '',
-            'query_param'   => '',
-            'taxonomy'      => '',
-            'term'          => ''
+            'date'        => '',
+            'post_type'   => '',
+            'author_id'   => '',
+            'post_id'     => '',
+            'country'     => '',
+            'query_param' => '',
+            'taxonomy'    => '',
+            'term'        => ''
         ]);
 
         $query = Query::select([
@@ -240,7 +240,7 @@ class VisitorsModel extends BaseModel
                     ->join('term_relationships', ['posts.ID', 'term_relationships.object_id'])
                     ->join('term_taxonomy', ['term_relationships.term_taxonomy_id', 'term_taxonomy.term_taxonomy_id'])
                     ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy']);
-    
+
                 if (!empty($args['term'])) {
                     $query
                         ->join('terms', ['term_taxonomy.term_id', 'terms.term_id'])
@@ -315,11 +315,11 @@ class VisitorsModel extends BaseModel
                 if (count($data) > 4) {
                     // Get top 5 results
                     $topData = array_slice($data, 0, 4, true);
-                    
+
                     // Show the rest of the results as others
-                    $otherLabel     = esc_html__('Other', 'wp-statistics');
-                    $otherData      = [$otherLabel => array_sum(array_diff_key($data, $topData))];
-                    $result[$key]   = array_merge($topData, $otherData);
+                    $otherLabel   = esc_html__('Other', 'wp-statistics');
+                    $otherData    = [$otherLabel => array_sum(array_diff_key($data, $topData))];
+                    $result[$key] = array_merge($topData, $otherData);
                 }
             }
         }
@@ -358,21 +358,21 @@ class VisitorsModel extends BaseModel
     public function getVisitorsGeoData($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
-            'date'          => '',
-            'country'       => '',
-            'city'          => '',
-            'region'        => '',
-            'continent'     => '',
-            'not_null'      => '',
-            'post_type'     => '',
-            'author_id'     => '',
-            'post_id'       => '',
-            'per_page'      => '',
-            'query_param'   => '',
-            'page'          => 1,
-            'group_by'      => 'visitor.location',
-            'order_by'      => ['visitors', 'views'],
-            'order'         => 'DESC'
+            'date'        => '',
+            'country'     => '',
+            'city'        => '',
+            'region'      => '',
+            'continent'   => '',
+            'not_null'    => '',
+            'post_type'   => '',
+            'author_id'   => '',
+            'post_id'     => '',
+            'per_page'    => '',
+            'query_param' => '',
+            'page'        => 1,
+            'group_by'    => 'visitor.location',
+            'order_by'    => ['visitors', 'views'],
+            'order'       => 'DESC'
         ]);
 
         $query = Query::select([
@@ -412,7 +412,7 @@ class VisitorsModel extends BaseModel
                     ->join('term_relationships', ['posts.ID', 'term_relationships.object_id'])
                     ->join('term_taxonomy', ['term_relationships.term_taxonomy_id', 'term_taxonomy.term_taxonomy_id'])
                     ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy']);
-    
+
                 if (!empty($args['term'])) {
                     $query
                         ->join('terms', ['term_taxonomy.term_id', 'terms.term_id'])
@@ -466,15 +466,15 @@ class VisitorsModel extends BaseModel
     public function getReferrers($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
-            'date'          => '',
-            'post_type'     => '',
-            'post_id'       => '',
-            'country'       => '',
-            'query_param'   => '',
-            'taxonomy'      => '',
-            'term'          => '',
-            'page'          => 1,
-            'per_page'      => 10
+            'date'        => '',
+            'post_type'   => '',
+            'post_id'     => '',
+            'country'     => '',
+            'query_param' => '',
+            'taxonomy'    => '',
+            'term'        => '',
+            'page'        => 1,
+            'per_page'    => 10
         ]);
 
         $query = Query::select([
@@ -506,7 +506,7 @@ class VisitorsModel extends BaseModel
                     ->join('term_relationships', ['posts.ID', 'term_relationships.object_id'])
                     ->join('term_taxonomy', ['term_relationships.term_taxonomy_id', 'term_taxonomy.term_taxonomy_id'])
                     ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy']);
-    
+
                 if (!empty($args['term'])) {
                     $query
                         ->join('terms', ['term_taxonomy.term_id', 'terms.term_id'])
@@ -529,14 +529,14 @@ class VisitorsModel extends BaseModel
     public function getSearchEngineReferrals($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
-            'date'          => '',
-            'post_type'     => '',
-            'post_id'       => '',
-            'country'       => '',
-            'query_param'   => '',
-            'taxonomy'      => '',
-            'term'          => '',
-            'group_by'      => ['search.last_counter', 'search.engine'],
+            'date'        => '',
+            'post_type'   => '',
+            'post_id'     => '',
+            'country'     => '',
+            'query_param' => '',
+            'taxonomy'    => '',
+            'term'        => '',
+            'group_by'    => ['search.last_counter', 'search.engine'],
         ]);
 
         $query = Query::select([
@@ -565,7 +565,7 @@ class VisitorsModel extends BaseModel
                     ->join('term_relationships', ['posts.ID', 'term_relationships.object_id'])
                     ->join('term_taxonomy', ['term_relationships.term_taxonomy_id', 'term_taxonomy.term_taxonomy_id'])
                     ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy']);
-    
+
                 if (!empty($args['term'])) {
                     $query
                         ->join('terms', ['term_taxonomy.term_id', 'terms.term_id'])
@@ -589,7 +589,7 @@ class VisitorsModel extends BaseModel
     {
         // Get results up to 30 days
         $newArgs = [];
-        $days = TimeZone::getNumberDayBetween($args['date']['from'], $args['date']['to']);
+        $days    = TimeZone::getNumberDayBetween($args['date']['from'], $args['date']['to']);
         if ($days > 30) {
             $newArgs = [
                 'date' => [
@@ -605,10 +605,11 @@ class VisitorsModel extends BaseModel
         $datesList = array_keys($datesList);
 
         $result = [
-            'labels'    => array_map(function($date) { 
-                return date_i18n(Helper::getDefaultDateFormat(false, true), strtotime($date)); }, $datesList
+            'labels'   => array_map(function ($date) {
+                return date_i18n(Helper::getDefaultDateFormat(false, true), strtotime($date));
+            }, $datesList
             ),
-            'datasets'  => []
+            'datasets' => []
         ];
 
         $data       = $this->getSearchEngineReferrals($args);
@@ -618,9 +619,9 @@ class VisitorsModel extends BaseModel
         // Format and parse data
         foreach ($data as $item) {
             $parsedData[$item->engine][$item->date] = $item->visitors;
-            $totalData[$item->date] += $item->visitors;
+            $totalData[$item->date]                 += $item->visitors;
         }
-    
+
         foreach ($parsedData as $searchEngine => &$data) {
             // Fill out missing visitors with 0
             $data = array_merge(array_fill_keys($datesList, 0), $data);
@@ -641,15 +642,15 @@ class VisitorsModel extends BaseModel
                 'data'  => array_values($totalData)
             ];
         }
-        
+
         return $result;
     }
 
     /**
      * Returns visitors, visits and referrers for the past given days, separated daily.
      *
-     * @param   array   $args           Arguments to include in query (e.g. `date`, etc.).
-     * @param   bool    $bypassCache    Send the cached result.
+     * @param array $args Arguments to include in query (e.g. `date`, etc.).
+     * @param bool $bypassCache Send the cached result.
      *
      * @return  array   Format: `[{'date' => "STRING", 'visitors' => INT, 'visits' => INT}, ...]`.
      */

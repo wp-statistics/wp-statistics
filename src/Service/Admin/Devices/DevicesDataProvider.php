@@ -106,7 +106,7 @@ class DevicesDataProvider
         return [
             'visitors' => array_filter($visitors),
             'total'    => $this->visitorsModel->countColumnDistinct($args),
-            'visits'   => $this->visitorsModel->countColumnDistinct(array_merge($args, ['field' => 'ID'])),
+            'visits'   => $this->visitorsModel->countColumnDistinct(array_merge($args, ['field' => 'ID', 'where_not_null' => 'device'])),
         ];
     }
 
