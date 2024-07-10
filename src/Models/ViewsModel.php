@@ -37,19 +37,19 @@ class ViewsModel extends BaseModel
             ->bypassCache($bypassCache);
 
         if (!empty($args['taxonomy']) || !empty($args['term'])) {
-            $query
-                ->join('term_relationships', ['posts.ID', 'term_relationships.object_id'])
+            $taxQuery = Query::select(['DISTINCT object_id'])
+                ->from('term_relationships')
                 ->join('term_taxonomy', ['term_relationships.term_taxonomy_id', 'term_taxonomy.term_taxonomy_id'])
-                ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy']);
+                ->join('terms', ['term_taxonomy.term_id', 'terms.term_id'])
+                ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy'])
+                ->where('terms.term_id', '=', $args['term'])
+                ->getQuery();
 
-            if (!empty($args['term'])) {
-                $query
-                    ->join('terms', ['term_taxonomy.term_id', 'terms.term_id'])
-                    ->where('terms.term_id', '=', $args['term']);
-            }
+            $query
+                ->joinQuery($taxQuery, ['posts.id', 'tax.object_id'], 'tax');
         }
 
-        $total = $query->getVar();
+        $total = $query->getQuery();
 
         return $total ? $total : 0;
     }
