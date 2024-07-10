@@ -71,13 +71,8 @@ class Schedule
                 wp_unschedule_event(wp_next_scheduled('wp_statistics_dbmaint_visitor_hook'), 'wp_statistics_dbmaint_visitor_hook');
             }
 
-            // Remove the add visit row schedule if it does exist and it shouldn't.
-            if (wp_next_scheduled('wp_statistics_add_visit_hook') && (!Option::get('visits'))) {
-                wp_unschedule_event(wp_next_scheduled('wp_statistics_add_visit_hook'), 'wp_statistics_add_visit_hook');
-            }
-
             // Add the add visit table row schedule if it does exist and it should.
-            if (!wp_next_scheduled('wp_statistics_add_visit_hook') && Option::get('visits')) {
+            if (!wp_next_scheduled('wp_statistics_add_visit_hook')) {
                 wp_schedule_event(time(), 'daily', 'wp_statistics_add_visit_hook');
             }
 

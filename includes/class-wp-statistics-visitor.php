@@ -28,7 +28,7 @@ class Visitor
      */
     public static function active()
     {
-        return (has_filter('wp_statistics_active_visitors')) ? apply_filters('wp_statistics_active_visitors', true) : Option::get('visitors');
+        return (has_filter('wp_statistics_active_visitors')) ? apply_filters('wp_statistics_active_visitors', true) : true;
     }
 
     /**

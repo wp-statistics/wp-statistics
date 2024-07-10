@@ -54,28 +54,24 @@ wps_js.hits_meta_box = {
 
         // Prepare Chart Data
         let datasets = [];
-        if (wps_js.is_active('visitors')) {
-            datasets.push({
-                label: wps_js._('visitors'),
-                data: params['visitors'],
-                backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                borderColor: 'rgba(255, 99, 132, 1)',
-                borderWidth: 1,
-                fill: true,
-                tension: 0.4
-            });
-        }
-        if (wps_js.is_active('visits')) {
-            datasets.push({
-                label: wps_js._('visits'),
-                data: params['visits'],
-                backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                borderColor: 'rgba(54, 162, 235, 1)',
-                borderWidth: 1,
-                fill: true,
-                tension: 0.4
-            });
-        }
+        datasets.push({
+            label: wps_js._('visitors'),
+            data: params['visitors'],
+            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+            borderColor: 'rgba(255, 99, 132, 1)',
+            borderWidth: 1,
+            fill: true,
+            tension: 0.4
+        });
+        datasets.push({
+            label: wps_js._('visits'),
+            data: params['visits'],
+            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+            borderColor: 'rgba(54, 162, 235, 1)',
+            borderWidth: 1,
+            fill: true,
+            tension: 0.4
+        });
 
         // Set Options for Chart only for overview page
         let options = {};

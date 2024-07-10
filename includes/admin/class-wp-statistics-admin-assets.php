@@ -316,8 +316,8 @@ class Admin_Assets
         $list['options'] = array(
             'rtl'           => (is_rtl() ? 1 : 0),
             'user_online'   => (Option::get('useronline') ? 1 : 0),
-            'visitors'      => (Option::get('visitors') ? 1 : 0),
-            'visits'        => (Option::get('visits') ? 1 : 0),
+            'visitors'      => 1,
+            'visits'        => 1,
             'geo_ip'        => (GeoIP::active() ? 1 : 0),
             'geo_city'      => (GeoIP::active('city') ? 1 : 0),
             'overview_page' => (Menus::in_page('overview') ? 1 : 0),

@@ -58,8 +58,5 @@ function wp_statistics_check_condition_view_option(selector, field) {
     });
 }
 
-// Check the visitor log is checked
-wp_statistics_check_condition_view_option("input[name=wps_visitors]", "tr[data-view=visitors_log_tr]");
-
 // Check the Spam List
 wp_statistics_check_condition_view_option("input[name=wps_referrerspam]", "tr.referrerspam_field");
