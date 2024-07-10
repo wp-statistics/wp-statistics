@@ -16,23 +16,23 @@ class Menus
      * @var array
      */
     public static $pages = array(
-        'overview'          => 'overview',
-        'exclusions'        => 'exclusions',
-        'hits'              => 'hits',
-        'online'            => 'online',
-        'referrers'         => 'referrers',
-        'searches'          => 'searches',
-        'top-visitors'      => 'top_visitors',
-        'visitors'          => 'visitors',
-        'optimization'      => 'optimization',
-        'settings'          => 'settings',
-        'plugins'           => 'plugins',
-        'author-analytics'  => 'author-analytics',
-        'privacy-audit'     => 'privacy-audit',
-        'geographic'        => 'geographic',
-        'content-analytics' => 'content-analytics',
-        'devices'           => 'devices',
-        'category-analytics'=> 'category-analytics'
+        'overview'           => 'overview',
+        'exclusions'         => 'exclusions',
+        'hits'               => 'hits',
+        'online'             => 'online',
+        'referrers'          => 'referrers',
+        'searches'           => 'searches',
+        'top-visitors'       => 'top_visitors',
+        'visitors'           => 'visitors',
+        'optimization'       => 'optimization',
+        'settings'           => 'settings',
+        'plugins'            => 'plugins',
+        'author-analytics'   => 'author-analytics',
+        'privacy-audit'      => 'privacy-audit',
+        'geographic'         => 'geographic',
+        'content-analytics'  => 'content-analytics',
+        'devices'            => 'devices',
+        'category-analytics' => 'category-analytics'
     );
 
     /**
@@ -211,13 +211,6 @@ class Menus
                 'page_url' => 'top-visitors',
                 'method'   => 'top_visitors'
             ),
-            'exclusions'   => array(
-                'require'  => array('record_exclusions' => true),
-                'sub'      => 'overview',
-                'title'    => __('Exclusions', 'wp-statistics'),
-                'page_url' => 'exclusions',
-                'method'   => 'exclusions',
-            ),
             'plugins'      => array(
                 'sub'      => 'overview',
                 'title'    => __('Add-Ons', 'wp-statistics'),
@@ -239,6 +232,13 @@ class Menus
                 'cap'      => $manage_cap,
                 'page_url' => 'optimization',
                 'method'   => 'optimization'
+            ),
+            'exclusions'   => array(
+                'require'  => array('record_exclusions' => true),
+                'sub'      => 'overview',
+                'title'    => __('Exclusions', 'wp-statistics'),
+                'page_url' => 'exclusions',
+                'method'   => 'exclusions',
             ),
         );
 
@@ -346,13 +346,13 @@ class Menus
     {
         $currentPage = Request::get('page');
         $pagesList   = self::get_menu_list();
-        
+
         if (!$currentPage) return false;
-        
+
         $currentPage = self::getPageKeyFromSlug($currentPage);
         $currentPage = reset($currentPage);
 
-        $currentPage = array_filter($pagesList, function($page) use ($currentPage) {
+        $currentPage = array_filter($pagesList, function ($page) use ($currentPage) {
             return $page['page_url'] === $currentPage;
         });
 
