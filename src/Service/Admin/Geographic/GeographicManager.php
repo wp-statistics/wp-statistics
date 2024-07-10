@@ -2,6 +2,8 @@
 
 namespace WP_Statistics\Service\Admin\Geographic;
 
+use WP_STATISTICS\Helper;
+
 class GeographicManager
 {
 
@@ -28,9 +30,7 @@ class GeographicManager
             ]
         ];
 
-        array_splice($items, 9, 0, $newItem);
-
-        return $items;
+        return Helper::arraySpliceAssociative($items, 9, 0, $newItem);
     }
 
 }

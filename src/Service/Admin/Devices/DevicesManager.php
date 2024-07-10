@@ -2,6 +2,8 @@
 
 namespace WP_Statistics\Service\Admin\Devices;
 
+use WP_STATISTICS\Helper;
+
 class DevicesManager
 {
     public function __construct()
@@ -27,8 +29,6 @@ class DevicesManager
             ]
         ];
 
-        array_splice($items, 10, 0, $newItem);
-
-        return $items;
+        return Helper::arraySpliceAssociative($items, 10, 0, $newItem);
     }
 }

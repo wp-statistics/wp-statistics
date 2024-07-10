@@ -2,6 +2,7 @@
 
 namespace WP_Statistics\Service\Admin\PrivacyAudit;
 
+use WP_STATISTICS\Helper;
 use WP_STATISTICS\Option;
 use WP_Statistics\Service\Admin\PrivacyAudit\Audits\Abstracts\ResolvableAudit;
 
@@ -60,9 +61,7 @@ class PrivacyAuditManager
             ]
         ];
 
-        array_splice($items, 11, 0, $newItem);
-
-        return $items;
+        return Helper::arraySpliceAssociative($items, 11, 0, $newItem);
     }
 
     /**

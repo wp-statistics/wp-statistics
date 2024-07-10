@@ -2,6 +2,8 @@
 
 namespace WP_Statistics\Service\Admin\CategoryAnalytics;
 
+use WP_STATISTICS\Helper;
+
 class CategoryAnalyticsManager
 {
 
@@ -27,8 +29,6 @@ class CategoryAnalyticsManager
             ]
         ];
 
-        array_splice($items, 9, 0, $newItem);
-
-        return $items;
+        return Helper::arraySpliceAssociative($items, 9, 0, $newItem);
     }
 }

@@ -2,6 +2,8 @@
 
 namespace WP_Statistics\Service\Admin\ContentAnalytics;
 
+use WP_STATISTICS\Helper;
+
 class ContentAnalyticsManager
 {
 
@@ -27,8 +29,6 @@ class ContentAnalyticsManager
             ]
         ];
 
-        array_splice($items, 7, 0, $newItem);
-
-        return $items;
+        return Helper::arraySpliceAssociative($items, 7, 0, $newItem);
     }
 }

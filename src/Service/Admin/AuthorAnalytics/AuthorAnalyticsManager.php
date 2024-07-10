@@ -2,6 +2,8 @@
 
 namespace WP_Statistics\Service\Admin\AuthorAnalytics;
 
+use WP_STATISTICS\Helper;
+
 class AuthorAnalyticsManager
 {
     public function __construct()
@@ -27,8 +29,6 @@ class AuthorAnalyticsManager
             ]
         ];
 
-        array_splice($items, 8, 0, $newItem);
-
-        return $items;
+        return Helper::arraySpliceAssociative($items, 8, 0, $newItem);
     }
 }
