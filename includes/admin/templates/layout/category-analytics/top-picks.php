@@ -89,7 +89,7 @@ $taxonomy   = Request::get('tx', 'category');
                             $counter = 1;
                             
                             foreach ($data['recent'] as $post) : ?>
-                                <a class="wps-category-tabs__item" href="<?php echo esc_url(add_query_arg(['type' => 'single', 'post_id' => $post->ID])) ?>">
+                                <a class="wps-category-tabs__item" href="<?php echo esc_url(Menus::admin_url('content-analytics', ['type' => 'single', 'post_id' => $post->ID])) ?>">
                                     <div class="wps-category-tabs__item--image">
                                         <span>#<?php echo esc_html($counter); ?></span>
                                         <?php if (has_post_thumbnail($post->ID)) : ?>
