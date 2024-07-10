@@ -138,20 +138,20 @@ If you encounter any bug, please create an issue on [GitHub](https://github.com/
 * New: Category Analytics: Replaces the old Categories report. Insights into author performance and statistics.
 * New: Single Country Report.
 * New: Device Categories tab for device-specific analytics.
-* New: 'Anonymous Tracking' option: Tracks users anonymously by default. PII data is only recorded with explicit consent.
+* New: Anonymous Tracking option: Tracks users anonymously by default. PII data is only recorded with explicit consent.
 * Enhancement: Improved admin bar stats display, showing current and global statistics.
 * Enhancement: Redesigned email reporting template.
-* Enhancement: Fixed filter and performance chart issues, added "all time" option for DatePicker.
 * Enhancement: Enhanced admin styles and dashboard quick stats.
 * Enhancement: Corrected online time calculation for seconds-only durations.
 * Enhancement: Database row threshold notice shown only to admins.
 * Enhancement: Improved background process functionality.
 * Enhancement: Removed frequent online user checks, set check value to 65, fixed issues, allowed backend/frontend to reset user online status.
 * Enhancement: Numerous minor and major enhancements and clean-up tasks.
-* Enhancement: Implemented Mozart to avoid plugin conflicts.
+* Enhancement: Implemented Mozart to avoid plugin namespace conflicts.
 * Enhancement: Improved referral tracking performance.
-* Enhancement: Ensured word count compatibility for UTF-8 entries.
-* Fix: 'Display User View Logs' option fixed.
+* Enhancement: Ensured word count functionality is compatibility for UTF-8 post/page contents.
+* Enhancement: Fixed filter issues and improvement the DatePicker.
+* Fix: Display User View Logs option fixed.
 * Fix: Device categories percent share fixed and improved.
 * Fix: Top viewing authors inaccuracies fixed.
 * Fix: Yesterday date filter fixed.
