@@ -1,9 +1,12 @@
-<?php 
+<?php
+
+use WP_STATISTICS\Helper;
 use WP_STATISTICS\Menus;
 use WP_Statistics\Utils\Request;
 
 $order          = Request::get('order', 'desc');
 $reverseOrder   = $order == 'desc' ? 'asc' : 'desc';
+$taxName        = Helper::getTaxonomyName(Request::get('tx', 'category'), true);
 ?>
 
 <div class="postbox-container wps-postbox-full">
@@ -18,7 +21,7 @@ $reverseOrder   = $order == 'desc' ? 'asc' : 'desc';
                                     <tr>
                                         <th class="wps-pd-l">
                                             <a href="<?php echo esc_url(add_query_arg(['order_by' => 'term_name', 'order' => $reverseOrder])) ?>" class="sort <?php echo Request::compare('order_by', 'term_name') ? esc_attr($order) : ''; ?>">
-                                                <?php esc_html_e('Term', 'wp-statistics'); ?>
+                                                <?php echo esc_html($taxName); ?>
                                             </a>
                                         </th>
                                         <th class="wps-pd-l">

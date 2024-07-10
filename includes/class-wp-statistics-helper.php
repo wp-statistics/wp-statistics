@@ -1514,6 +1514,25 @@ class Helper
             : $postTypeObj->labels->name;
     }
 
+    /**
+     * Retrieves the name of a taxonomy.
+     *
+     * @param string $taxonomy The taxonomy to retrieve the name for.
+     * @param bool $singular Whether to retrieve the singular name or the plural name.
+     *
+     * @return string The name of the taxonomy.
+     */
+    public static function getTaxonomyName($taxonomy, $singular = false)
+    {
+        $taxonomy = get_taxonomy($taxonomy);
+
+        if (empty($taxonomy)) return '';
+
+        return $singular == true
+            ? $taxonomy->labels->singular_name
+            : $taxonomy->labels->name;
+    }
+
 
     /**
      * Retrieves the country code based on the timezone string.

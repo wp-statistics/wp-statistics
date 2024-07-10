@@ -1,10 +1,12 @@
 <?php
 use WP_STATISTICS\Menus;
+use WP_STATISTICS\Helper;
 use WP_Statistics\Utils\Request;
 
 $taxonomy       = Request::get('tx', 'category');
 $order          = Request::get('order', 'desc');
 $reverseOrder   = $order == 'desc' ? 'asc' : 'desc';
+$taxName        = Helper::getTaxonomyName(Request::get('tx', 'category'), true);
 ?>
 
 <div class="postbox-container wps-postbox-full">
@@ -18,11 +20,11 @@ $reverseOrder   = $order == 'desc' ? 'asc' : 'desc';
                                 <thead>
                                     <tr>
                                         <th class="wps-pd-l">
-                                            <a href="<?php echo esc_url(add_query_arg(['order_by' => 'name', 'order' => $reverseOrder])) ?>" class="sort <?php echo Request::compare('order_by', 'name') ? esc_attr($order) : '' ?>"><?php esc_html_e('Category', 'wp-statistics') ?></a>
+                                            <a href="<?php echo esc_url(add_query_arg(['order_by' => 'name', 'order' => $reverseOrder])) ?>" class="sort <?php echo Request::compare('order_by', 'name') ? esc_attr($order) : '' ?>"><?php echo esc_html($taxName) ?></a>
                                         </th>
                                         <th class="wps-pd-l">
                                             <a href="<?php echo esc_url(add_query_arg(['order_by' => 'views', 'order' => $reverseOrder])) ?>" class="sort <?php echo !Request::has('order_by') || Request::compare('order_by', 'views') ? esc_attr($order) : '' ?>">
-                                                <?php esc_html_e('Category Page Views', 'wp-statistics') ?>
+                                                <?php echo sprintf(esc_html__('%s Page Views', 'wp-statistics'), $taxName) ?>
                                             </a>
                                         </th>
                                         <th class="wps-pd-l">
