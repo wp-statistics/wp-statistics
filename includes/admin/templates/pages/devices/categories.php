@@ -24,8 +24,8 @@
                                 <?php foreach ($data['visitors'] as $item) : ?>
                                     <tr>
                                         <td class="wps-pd-l">
-                                                <span title="<?php echo esc_attr(\WP_STATISTICS\Helper::getDeviceCategoryName($item->device)); ?>" class="wps-model-name">
-                                                    <?php echo esc_html(\WP_STATISTICS\Helper::getDeviceCategoryName($item->device)); ?>
+                                                <span title="<?php echo esc_attr($item->device); ?>" class="wps-model-name">
+                                                    <?php echo esc_html($item->device); ?>
                                                 </span>
                                         </td>
                                         <td class="wps-pd-l">

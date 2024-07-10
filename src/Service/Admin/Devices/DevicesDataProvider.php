@@ -90,15 +90,16 @@ class DevicesDataProvider
 
         $data = $this->visitorsModel->getVisitorsDevices($args);
         foreach ($data as $visitor) {
-            $device = Helper::getDeviceCategoryName($visitor->device);
-
-            if (isset($visitors[$device])) {
-                $visitors[$device]->visitors += $visitor->visitors;
-            } else {
-                $visitors[$device] = json_decode(json_encode(array(
-                    'device'   => $device,
-                    'visitors' => $visitor->visitors,
-                )));
+            if (trim($visitor->device) != "") {
+                $device = Helper::getDeviceCategoryName($visitor->device);
+                if (isset($visitors[$device])) {
+                    $visitors[$device]->visitors += $visitor->visitors;
+                } else {
+                    $visitors[$device] = json_decode(json_encode(array(
+                        'device'   => $device,
+                        'visitors' => $visitor->visitors,
+                    )));
+                }
             }
         }
 
