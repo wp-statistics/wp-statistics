@@ -50,7 +50,7 @@ $taxName        = Helper::getTaxonomyName(Request::get('tx', 'category'), true);
                                             <td class="wps-pd-l"><?php echo esc_html($category['posts_count']) ?></td>
                                             <td class="view-more">
                                                 <a target="_blank" href="<?php echo esc_url(get_term_link(intval($category['term_id']))); ?>" title="<?php esc_html_e('View Category Page', 'wp-statistics') ?>">
-                                                    <?php esc_html_e('View Category Page', 'wp-statistics') ?>
+                                                    <?php echo sprintf(esc_html__('View %s Page', 'wp-statistics'), $taxName) ?>
                                                 </a>
                                             </td>
                                         </tr>
