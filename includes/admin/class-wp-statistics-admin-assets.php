@@ -441,11 +441,6 @@ class Admin_Assets
 
         foreach ($meta_boxes_list as $meta_box => $value) {
 
-            // Convert Page Url
-            if (isset($value['page_url'])) {
-                $value['page_url'] = Menus::get_page_slug($value['page_url']);
-            }
-
             // Add Post ID Params To Post Widget Link
             if ($meta_box == "post" and isset($post) and isset($post->ID) and in_array($post->post_status, array("publish", "private"))) {
 

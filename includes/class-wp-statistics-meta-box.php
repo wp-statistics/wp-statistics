@@ -73,9 +73,9 @@ class Meta_Box
          *
          */
         $aboutWidgetContent = apply_filters('wp_statistics_about_widget_content', false);
-         $list = array(
+        $list               = array(
             'quickstats'      => array(
-                'page_url'          => 'overview',
+                'page_url'          => Menus::admin_url('overview'),
                 'name'              => __('Traffic Overview', 'wp-statistics'),
                 'show_on_dashboard' => true,
                 'hidden'            => false,
@@ -90,7 +90,7 @@ class Meta_Box
                 'place'             => 'side'
             ),
             'browsers'        => array(
-                'page_url'          => 'devices',
+                'page_url'          => Menus::admin_url('devices', ['tab' => 'browsers']),
                 'name'              => __('Browser Usage', 'wp-statistics'),
                 'description'       => __('Distribution of visitors based on the browsers they use.', 'wp-statistics'),
                 'require'           => array('visitors' => true),
@@ -105,7 +105,7 @@ class Meta_Box
                 ]
             ),
             'platforms'       => array(
-                'page_url'          => 'devices',
+                'page_url'          => Menus::admin_url('devices', ['tab' => 'platforms']),
                 'name'              => __('Most Used Operating Systems', 'wp-statistics'),
                 'description'       => __('Identify the operating systems most commonly used by your website visitors.', 'wp-statistics'),
                 'require'           => array('visitors' => true),
@@ -120,15 +120,22 @@ class Meta_Box
                 ]
             ),
             'devices'         => array(
+                'page_url'          => Menus::admin_url('devices', ['tab' => 'categories']),
                 'name'              => __('Device Usage Breakdown', 'wp-statistics'),
                 'description'       => __('Distribution of visitors based on the devices they use to access your site.', 'wp-statistics'),
                 'require'           => array('visitors' => true),
                 'hidden'            => true,
                 'show_on_dashboard' => true,
-                'place'             => 'side'
+                'place'             => 'side',
+                'footer_options'    => [
+                    'filter_by_date'      => true,
+                    'default_date_filter' => User::getDefaultDateFilter('devices', 'filter|30days'),
+                    'display_more_link'   => true,
+                    'more_link_title'     => __('View Most Device Categories'),
+                ]
             ),
             'models'          => array(
-                'page_url'          => 'devices',
+                'page_url'          => Menus::admin_url('devices', ['tab' => 'models']),
                 'name'              => __('Top Device Models', 'wp-statistics'),
                 'require'           => array('visitors' => true),
                 'hidden'            => true,
@@ -142,7 +149,7 @@ class Meta_Box
                 ]
             ),
             'countries'       => array(
-                'page_url'          => 'geographic',
+                'page_url'          => Menus::admin_url('geographic'),
                 'name'              => __('Top Countries', 'wp-statistics'),
                 'require'           => array('geoip' => true, 'visitors' => true),
                 'hidden'            => true,
@@ -156,7 +163,7 @@ class Meta_Box
                 ]
             ),
             'referring'       => array(
-                'page_url'          => 'referrers',
+                'page_url'          => Menus::admin_url('referrers'),
                 'name'              => __('Top Referring', 'wp-statistics'),
                 'require'           => array('visitors' => true),
                 'hidden'            => true,
@@ -170,7 +177,7 @@ class Meta_Box
                 ]
             ),
             'hits'            => array(
-                'page_url'          => 'hits',
+                'page_url'          => Menus::admin_url('hits'),
                 'name'              => __('Daily Traffic Trend', 'wp-statistics'),
                 'description'       => __('Day-by-day breakdown of views and page views over the selected period.', 'wp-statistics'),
                 'require'           => array('visits' => true),
@@ -185,7 +192,7 @@ class Meta_Box
                 ]
             ),
             'search'          => array(
-                'page_url'          => 'searches',
+                'page_url'          => Menus::admin_url('searches'),
                 'name'              => __('Referrals from Search Engines', 'wp-statistics'),
                 'description'       => __('A breakdown of views from different search engines over time.', 'wp-statistics'),
                 'require'           => array('visitors' => true),
@@ -200,7 +207,7 @@ class Meta_Box
                 ]
             ),
             'pages'           => array(
-                'page_url'          => 'content-analytics',
+                'page_url'          => Menus::admin_url('content-analytics'),
                 'name'              => __('Most Visited Pages', 'wp-statistics'),
                 'description'       => __('Pages on your website with the highest number of views in the selected time frame.', 'wp-statistics'),
                 'require'           => array('visits' => true),
@@ -215,7 +222,7 @@ class Meta_Box
                 ]
             ),
             'top-visitors'    => array(
-                'page_url'          => 'top-visitors',
+                'page_url'          => Menus::admin_url('top-visitors'),
                 'name'              => __('Most Active Visitors', 'wp-statistics'),
                 'description'       => __('Visitors with the highest number of views, including their country, city, IP address, and browser.', 'wp-statistics'),
                 'require'           => array('visitors' => true),
@@ -230,7 +237,7 @@ class Meta_Box
                 ]
             ),
             'recent'          => array(
-                'page_url'          => 'visitors',
+                'page_url'          => Menus::admin_url('visitors'),
                 'name'              => __('Latest Visitor Breakdown', 'wp-statistics'),
                 'description'       => __('Details of the most recent visitors to your site.', 'wp-statistics'),
                 'require'           => array('visitors' => true),
@@ -254,7 +261,7 @@ class Meta_Box
             ),
             'useronline'      => array(
                 'name'              => __('Currently Online', 'wp-statistics'),
-                'page_url'          => 'online',
+                'page_url'          => Menus::admin_url('online'),
                 'require'           => array('useronline' => true),
                 'hidden'            => true,
                 'show_on_dashboard' => true,
@@ -262,7 +269,7 @@ class Meta_Box
             ),
             'about'           => array(
                 'name'              => apply_filters('wp_statistics_about_widget_title', __('WP Statistics', 'wp-statistics')),
-                'description'       =>  $aboutWidgetContent ? null :  __('Information about the current version of WP Statistics and related resources.', 'wp-statistics'),
+                'description'       => $aboutWidgetContent ? null : __('Information about the current version of WP Statistics and related resources.', 'wp-statistics'),
                 'show_on_dashboard' => false,
                 'js'                => false,
                 'place'             => 'side',
@@ -270,7 +277,7 @@ class Meta_Box
             ),
             'post'            => array(
                 'name'              => __('Daily Traffic Trend', 'wp-statistics'),
-                'page_url'          => 'pages',
+                'page_url'          => Menus::admin_url('pages'),
                 'show_on_dashboard' => false,
                 'disable_overview'  => true
             ),

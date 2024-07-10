@@ -2,6 +2,7 @@
 
 namespace WP_Statistics\Service\Admin\Devices;
 
+use WP_STATISTICS\Helper;
 use WP_Statistics\Models\VisitorsModel;
 
 class DevicesDataProvider
@@ -85,8 +86,24 @@ class DevicesDataProvider
             'group_by' => ['device']
         ]);
 
+        $visitors = [];
+
+        $data = $this->visitorsModel->getVisitorsDevices($args);
+        foreach ($data as $visitor) {
+            $device = Helper::getDeviceCategoryName($visitor->device);
+
+            if (isset($visitors[$device])) {
+                $visitors[$device]->visitors += $visitor->visitors;
+            } else {
+                $visitors[$device] = json_decode(json_encode(array(
+                    'device'   => $device,
+                    'visitors' => $visitor->visitors,
+                )));
+            }
+        }
+
         return [
-            'visitors' => $this->visitorsModel->getVisitorsDevices($args),
+            'visitors' => array_filter($visitors),
             'total'    => $this->visitorsModel->countColumnDistinct($args),
             'visits'   => $this->visitorsModel->countColumnDistinct(array_merge($args, ['field' => 'ID'])),
         ];
