@@ -421,6 +421,46 @@ class Query
     }
 
     /**
+     * Joins the current table with another table based on a given condition with raw value for `$on` parameter.
+     *
+     * @param string $table The name of the table to join with.
+     * @param string $on Table keys to join.
+     * @param array[] $conditions Array of extra join conditions to append. [['field', 'operator', 'value'], ...]
+     * @param string $joinType The type of join to perform. Defaults to 'INNER'.
+     *
+     * @throws InvalidArgumentException If the join clause is invalid.
+     */
+    public function joinRawOn($table, $on, $conditions = [], $joinType = 'INNER')
+    {
+        $joinTable = $this->getTable($table);
+
+        if (!empty($on)) {
+            $joinClause = "{$joinType} JOIN {$joinTable} AS $table ON {$on}";
+
+            if (!empty($conditions)) {
+                foreach ($conditions as $condition) {
+                    $field    = $condition[0];
+                    $operator = $condition[1];
+                    $value    = $condition[2];
+
+                    $condition = $this->generateCondition($field, $operator, $value);
+
+                    if (!empty($condition)) {
+                        $condition  = $this->prepareQuery($condition['condition'], $condition['values']);
+                        $joinClause .= " AND {$condition}";
+                    }
+                }
+            }
+
+            $this->joinClauses[] = $joinClause;
+        } else {
+            throw new InvalidArgumentException(esc_html__('Invalid join clause', 'wp-statistics'));
+        }
+
+        return $this;
+    }
+
+    /**
      * Joins the current query with a subquery based on a given condition.
      *
      * @param string $subQuery The subquery to join with.
