@@ -11,7 +11,7 @@ $reverseOrder   = $order == 'desc' ? 'asc' : 'desc';
         <div class="meta-box-sortables">
             <div class="postbox">
                 <div class="inside">
-                    <?php if (!empty($data)) : ?>
+                    <?php if (!empty($data['terms'])) : ?>
                         <div class="o-table-wrapper">
                             <table width="100%" class="o-table wps-new-table">
                                 <thead>
