@@ -37,7 +37,7 @@ class Range implements \Iterator, \Countable
 	 * @param string $data
 	 * @return Range
 	 */
-    #[ReturnTypeWillChange]
+    #[\ReturnTypeWillChange]
 	public static function parse($data)
 	{
 		if (strpos($data,'/') || strpos($data,' ')) {
@@ -64,7 +64,7 @@ class Range implements \Iterator, \Countable
 	 * @return bool
 	 * @throws \Exception
 	 */
-    #[ReturnTypeWillChange]
+    #[\ReturnTypeWillChange]
 	public function contains($find)
 	{
 		if ($find instanceof IP) {
@@ -87,7 +87,7 @@ class Range implements \Iterator, \Countable
 	 * @param IP $ip
 	 * @throws \Exception
 	 */
-    #[ReturnTypeWillChange]
+    #[\ReturnTypeWillChange]
 	public function setFirstIP(IP $ip)
 	{
 		if ($this->lastIP && strcmp($ip->inAddr(), $this->lastIP->inAddr()) > 0) {
@@ -101,7 +101,7 @@ class Range implements \Iterator, \Countable
 	 * @param IP $ip
 	 * @throws \Exception
 	 */
-    #[ReturnTypeWillChange]
+    #[\ReturnTypeWillChange]
 	public function setLastIP(IP $ip)
 	{
 		if ($this->firstIP && strcmp($ip->inAddr(), $this->firstIP->inAddr()) < 0) {
@@ -114,7 +114,7 @@ class Range implements \Iterator, \Countable
 	/**
 	 * @return IP
 	 */
-    #[ReturnTypeWillChange]
+    #[\ReturnTypeWillChange]
 	public function getFirstIP()
 	{
 		return $this->firstIP;
@@ -123,7 +123,7 @@ class Range implements \Iterator, \Countable
 	/**
 	 * @return IP
 	 */
-    #[ReturnTypeWillChange]
+    #[\ReturnTypeWillChange]
 	public function getLastIP()
 	{
 		return $this->lastIP;
@@ -132,7 +132,7 @@ class Range implements \Iterator, \Countable
 	/**
 	 * @return Network[]
 	 */
-    #[ReturnTypeWillChange]
+    #[\ReturnTypeWillChange]
 	public function getNetworks()
 	{
 		$span = $this->getSpanNetwork();
@@ -177,7 +177,7 @@ class Range implements \Iterator, \Countable
 	/**
 	 * @return Network
 	 */
-    #[ReturnTypeWillChange]
+    #[\ReturnTypeWillChange]
 	public function getSpanNetwork()
 	{
 		$xorIP = IP::parseInAddr($this->getFirstIP()->inAddr() ^ $this->getLastIP()->inAddr());
@@ -194,7 +194,7 @@ class Range implements \Iterator, \Countable
 	/**
 	 * @return IP
 	 */
-    #[ReturnTypeWillChange]
+    #[\ReturnTypeWillChange]
 	public function current()
 	{
 		return $this->firstIP->next($this->position);
@@ -203,19 +203,19 @@ class Range implements \Iterator, \Countable
 	/**
 	 * @return int
 	 */
-    #[ReturnTypeWillChange]
+    #[\ReturnTypeWillChange]
 	public function key()
 	{
 		return $this->position;
 	}
 
-    #[ReturnTypeWillChange]
+    #[\ReturnTypeWillChange]
 	public function next()
 	{
 		++$this->position;
 	}
 
-    #[ReturnTypeWillChange]
+    #[\ReturnTypeWillChange]
 	public function rewind()
 	{
 		$this->position = 0;
@@ -224,7 +224,7 @@ class Range implements \Iterator, \Countable
 	/**
 	 * @return bool
 	 */
-    #[ReturnTypeWillChange]
+    #[\ReturnTypeWillChange]
 	public function valid()
 	{
 		return strcmp($this->firstIP->next($this->position)->inAddr(), $this->lastIP->inAddr()) <= 0;
@@ -233,7 +233,7 @@ class Range implements \Iterator, \Countable
 	/**
 	 * @return int
 	 */
-    #[ReturnTypeWillChange]
+    #[\ReturnTypeWillChange]
 	public function count()
 	{
 		return (integer)bcadd(bcsub($this->lastIP->toLong(), $this->firstIP->toLong()), 1);
