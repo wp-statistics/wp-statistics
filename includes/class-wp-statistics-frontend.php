@@ -9,7 +9,6 @@ class Frontend
 {
     public function __construct()
     {
-
         # Enable ShortCode in Widget
         add_filter('widget_text', 'do_shortcode');
 
@@ -66,12 +65,12 @@ class Frontend
         $jsArgs = array(
             'hitRequestUrl'        => $hitRequestUrl,
             'keepOnlineRequestUrl' => $keepOnlineRequestUrl,
-            'isWpConsentApiActive' => WpConsentApi::isWpConsentApiActive(),
-            'trackAnonymously'     => Helper::shouldTrackAnonymously(),
             'option'               => [
-                'consentLevel'       => Option::get('consent_level_integration', 'disabled'),
-                'dntEnabled'         => Option::get('do_not_track'),
-                'cacheCompatibility' => Option::get('use_cache_plugin')
+                'consentLevel'         => Option::get('consent_level_integration', 'disabled'),
+                'dntEnabled'           => Option::get('do_not_track'),
+                'cacheCompatibility'   => Option::get('use_cache_plugin'),
+                'isWpConsentApiActive' => WpConsentApi::isWpConsentApiActive(),
+                'trackAnonymously'     => Helper::shouldTrackAnonymously()
             ],
         );
 

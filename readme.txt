@@ -4,7 +4,7 @@ Donate link: https://wp-statistics.com/donate/
 Tags: analytics, google analytics, insights, stats, site visitors
 Requires at least: 5.0
 Tested up to: 6.5
-Stable tag: 14.8.1
+Stable tag: 14.9
 Requires PHP: 5.6
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -133,23 +133,9 @@ Thank you for being part of our community. We’ve been working hard for one yea
 If you encounter any bug, please create an issue on [GitHub](https://github.com/wp-statistics/wp-statistics/issues/new) where we can act upon them more efficiently. Since [GitHub](https://github.com/wp-statistics/wp-statistics) is not a support forum, just bugs are welcomed, and any other request will be closed.
 
 == Changelog ==
-= 14.8.1 - 26.06.2024 =
-* Fix: Compatibility issue with tracking page and default permalink structure.
-* Fix: Charts not displaying due to conflicts with old ChartJs versions from other plugins.
-* Fix: Metabox refresh issue in WordPress dashboard when enabling/disabling widgets via Screen Options.
-* Fix: Meta-box view URL compatibility across browsers and platforms.
-* Fix: Devices pagination.
-* Fix: SQL query issues and optimized queries in Devices.
-* Fix: Column name preparation for finding visitors.
-* Enhancement: Improved GeoIP database update scheduling.
-* Enhancement: Updated incomplete GeoIP info for visitors in the background, with notice in Geographic.
-* Enhancement: Added events table for data export.
-* Enhancement: Improved comments query by excluding ping-backs in Author Analytics.
-* Enhancement: Fixed referrer issue in online request tracking.
-* Enhancement: Refactored `getCountry` method, removing legacy cache.
-* Enhancement: Minor improvements.
-* Development: Added WP CLI command `wp statistics record`.
+= 14.9 - **.07.2024 =
+*
 
-For more information about the major update, please [visit our blog post](https://wp-statistics.com/2024/06/15/wp-statistics-version-14-8-whats-new) or follow [@wp_statistics](https://twitter.com/wp_statistics) on Twitter
+For more information about the major update, please [visit our blog post](...) or follow [@wp_statistics](https://twitter.com/wp_statistics) on Twitter
 
 [See changelog for all versions](https://raw.githubusercontent.com/wp-statistics/wp-statistics/master/CHANGELOG.md).
