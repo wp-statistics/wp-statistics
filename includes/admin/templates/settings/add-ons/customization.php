@@ -1,23 +1,32 @@
 <?php
 
 use WP_STATISTICS\Admin_Template;
+use WP_STATISTICS\Option;
 
 $isCustomizationActive = WP_STATISTICS\Helper::isAddOnActive('customization');
 global $wp_version;
 
-$disableMenuArray = array(
-    'overview'     => __('Overview', 'wp-statistics'),
-    'hits'         => __('Views', 'wp-statistics'),
-    'online'       => __('Online', 'wp-statistics'),
-    'visitors'     => __('Visitors', 'wp-statistics'),
-    'referrers'    => __('Referrers', 'wp-statistics'),
-    'searches'     => __('Search Engines', 'wp-statistics'),
-    'pages'        => __('Pages', 'wp-statistics'),
-    'taxonomies'   => __('Taxonomies', 'wp-statistics'),
-    'browsers'     => __('Browsers', 'wp-statistics'),
-    'platforms'    => __('Operating Systems', 'wp-statistics'),
-    'top.visitors' => __('Top Visitors Today', 'wp-statistics')
-);
+$disableMenuArray = [
+    'overview'           => __('Overview', 'wp-statistics'),
+    'online'             => __('Online', 'wp-statistics'),
+    'hits'               => __('Views', 'wp-statistics'),
+    'visitors'           => __('Visitors', 'wp-statistics'),
+    'referrers'          => __('Referrers', 'wp-statistics'),
+    'searches'           => __('Search Engines', 'wp-statistics'),
+    'content_analytics'  => __('Content Analytics', 'wp-statistics'),
+    'author_analytics'   => __('Author Analytics', 'wp-statistics'),
+    'category_analytics' => __('Category Analytics', 'wp-statistics'),
+    'geographic'         => __('Geographic', 'wp-statistics'),
+    'devices'            => __('Devices', 'wp-statistics'),
+    'top.visitors'       => __('Top Visitors', 'wp-statistics'),
+];
+if (!empty(Option::get('link_tracker'))) {
+    $disableMenuArray['link_tracker'] = __('Link Tracker', 'wp-statistics');
+}
+if (!empty(Option::get('download_tracker'))) {
+    $disableMenuArray['download_tracker'] = __('Download Tracker', 'wp-statistics');
+}
+$disableMenuArray['privacy_audit'] = __('Privacy Audit', 'wp-statistics');
 
 $disabledMenuItems = WP_STATISTICS\Option::getByAddon('disable_menus', 'customization', []);
 ?>
