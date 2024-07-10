@@ -4,6 +4,7 @@ namespace WP_STATISTICS;
 
 use Exception;
 use WP_STATISTICS;
+use WP_Statistics\Service\Integrations\WpConsentApi;
 use WP_Statistics\Utils\Request;
 use WP_Statistics_Mail;
 
@@ -1760,7 +1761,8 @@ class Helper
     {
         $selectedConsentLevel = Option::get('consent_level_integration', 'disabled');
 
-        return $selectedConsentLevel !== 'disabled' &&
+        return WpConsentApi::isWpConsentApiActive() &&
+            $selectedConsentLevel !== 'disabled' &&
             Option::get('anonymous_tracking', false) == true &&
             !(function_exists('wp_has_consent') && wp_has_consent($selectedConsentLevel));
     }

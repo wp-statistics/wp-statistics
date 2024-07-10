@@ -89,9 +89,10 @@
             </th>
 
             <td>
-                <select id="consent_level_integration" name="wps_consent_level_integration" <?php echo !\WP_Statistics\Service\Integrations\WpConsentApi::isWpConsentApiActive() ? 'disabled' : ''; ?>>
+                <?php $isWpConsentApiActive = \WP_Statistics\Service\Integrations\WpConsentApi::isWpConsentApiActive(); ?>
+                <select id="consent_level_integration" name="wps_consent_level_integration" <?php echo !$isWpConsentApiActive ? 'disabled' : ''; ?>>
                     <option value="disabled" <?php selected(WP_STATISTICS\Option::get('consent_level_integration'), 'disabled'); ?>><?php esc_html_e('Disabled', 'wp-statistics'); ?></option>
-                    <?php if (\WP_Statistics\Service\Integrations\WpConsentApi::isWpConsentApiActive()) : ?>
+                    <?php if ($isWpConsentApiActive) : ?>
                         <option value="functional" <?php selected(WP_STATISTICS\Option::get('consent_level_integration'), 'functional'); ?>><?php esc_html_e('Functional', 'wp-statistics'); ?></option>
                         <option value="statistics-anonymous" <?php selected(WP_STATISTICS\Option::get('consent_level_integration'), 'statistics-anonymous'); ?>><?php esc_html_e('Statistics-Anonymous', 'wp-statistics'); ?></option>
                         <option value="statistics" <?php selected(WP_STATISTICS\Option::get('consent_level_integration'), 'statistics'); ?>><?php esc_html_e('Statistics', 'wp-statistics'); ?></option>
@@ -99,7 +100,7 @@
                     <?php endif; ?>
                 </select>
                 <p class="description"><?php esc_html_e("Enable WP Consent Level API integration to ensure WP Statistics complies with user-selected privacy preferences. When enabled, WP Statistics will only trigger tracking based on the user's chosen consent category.", 'wp-statistics'); ?></p>
-                <?php if (\WP_Statistics\Service\Integrations\WpConsentApi::isWpConsentApiActive()) : ?>
+                <?php if ($isWpConsentApiActive) : ?>
                     <p class="description"><?php _e('<b>Note</b>: This integration requires a compatible consent management provider.', 'wp-statistics'); ?></p>
                     <?php if (\WP_STATISTICS\Option::get('privacy_audit', false)) : ?>
                         <p class="description">
@@ -147,7 +148,7 @@
             </td>
         </tr>
 
-        <?php if (WP_STATISTICS\Option::get('consent_level_integration', 'disabled') !== 'disabled') : ?>
+        <?php if ($isWpConsentApiActive && WP_STATISTICS\Option::get('consent_level_integration', 'disabled') !== 'disabled') : ?>
             <tr valign="top">
                 <th scope="row">
                     <label for="anonymous_tracking"><?php _e('Anonymous Tracking', 'wp-statistics'); ?></label>
