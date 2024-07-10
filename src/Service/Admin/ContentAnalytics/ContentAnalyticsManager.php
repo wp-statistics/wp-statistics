@@ -21,7 +21,6 @@ class ContentAnalyticsManager
         $newItem = [
             'content_analytics' => [
                 'sub'       => 'overview',
-                'require'   => ['visits' => true],
                 'title'     => esc_html__('Content Analytics', 'wp-statistics'),
                 'page_url'  => 'content-analytics',
                 'callback'  => ContentAnalyticsPage::class,

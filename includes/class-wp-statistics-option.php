@@ -44,8 +44,6 @@ class Option
             'hash_ips'                  => true,
             'geoip'                     => false,
             'useronline'                => true,
-            'visits'                    => true,
-            'visitors'                  => true,
             'pages'                     => true,
             'menu_bar'                  => true,
             'coefficient'               => Visitor::getCoefficient(),
