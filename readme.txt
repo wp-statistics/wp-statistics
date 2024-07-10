@@ -134,7 +134,27 @@ If you encounter any bug, please create an issue on [GitHub](https://github.com/
 
 == Changelog ==
 = 14.9 - **.07.2024 =
-*
+* New: Content Analytics: Replaces the old Post Type report. Insights into author performance and statistics.
+* New: Category Analytics: Replaces the old Categories report. Insights into author performance and statistics.
+* New: Single Country Report.
+* New: Device Categories tab for device-specific analytics.
+* New: 'Anonymous Tracking' option: Tracks users anonymously by default. PII data is only recorded with explicit consent.
+* Enhancement: Improved admin bar stats display, showing current and global statistics.
+* Enhancement: Redesigned email reporting template.
+* Enhancement: Fixed filter and performance chart issues, added "all time" option for DatePicker.
+* Enhancement: Enhanced admin styles and dashboard quick stats.
+* Enhancement: Corrected online time calculation for seconds-only durations.
+* Enhancement: Database row threshold notice shown only to admins.
+* Enhancement: Improved background process functionality.
+* Enhancement: Removed frequent online user checks, set check value to 65, fixed issues, allowed backend/frontend to reset user online status.
+* Enhancement: Numerous minor and major enhancements and clean-up tasks.
+* Enhancement: Implemented Mozart to avoid plugin conflicts.
+* Enhancement: Improved referral tracking performance.
+* Enhancement: Ensured word count compatibility for UTF-8 entries.
+* Fix: 'Display User View Logs' option fixed.
+* Fix: Device categories percent share fixed and improved.
+* Fix: Top viewing authors inaccuracies fixed.
+* Fix: Yesterday date filter fixed.
 
 For more information about the major update, please [visit our blog post](...) or follow [@wp_statistics](https://twitter.com/wp_statistics) on Twitter
 
