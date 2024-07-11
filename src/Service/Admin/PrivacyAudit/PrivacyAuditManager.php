@@ -52,16 +52,15 @@ class PrivacyAuditManager
      */
     public function addMenuItem($items)
     {
-        $newItem = [
-            'privacy_audit' => [
-                'sub'      => 'overview',
-                'title'    => esc_html__('Privacy Audit', 'wp-statistics'),
-                'page_url' => 'privacy-audit',
-                'callback' => PrivacyAuditPage::class,
-            ]
+        $items['privacy_audit'] = [
+            'sub'      => 'overview',
+            'title'    => esc_html__('Privacy Audit', 'wp-statistics'),
+            'page_url' => 'privacy-audit',
+            'callback' => PrivacyAuditPage::class,
+            'priority'  => 91,
         ];
 
-        return Helper::arraySpliceAssociative($items, 11, 0, $newItem);
+        return $items;
     }
 
     /**

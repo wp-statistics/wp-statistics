@@ -20,15 +20,14 @@ class CategoryAnalyticsManager
      */
     public function addMenuItem($items)
     {
-        $newItem = [
-            'category_analytics' => [
-                'sub'       => 'overview',
-                'title'     => esc_html__('Category Analytics', 'wp-statistics'),
-                'page_url'  => 'category-analytics',
-                'callback'  => CategoryAnalyticsPage::class,
-            ]
+        $items['category_analytics'] = [
+            'sub'       => 'overview',
+            'title'     => esc_html__('Category Analytics', 'wp-statistics'),
+            'page_url'  => 'category-analytics',
+            'callback'  => CategoryAnalyticsPage::class,
+            'priority'  => 73,
         ];
 
-        return Helper::arraySpliceAssociative($items, 9, 0, $newItem);
+        return $items;
     }
 }

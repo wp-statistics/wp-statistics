@@ -20,15 +20,14 @@ class ContentAnalyticsManager
      */
     public function addMenuItem($items)
     {
-        $newItem = [
-            'content_analytics' => [
-                'sub'       => 'overview',
-                'title'     => esc_html__('Content Analytics', 'wp-statistics'),
-                'page_url'  => 'content-analytics',
-                'callback'  => ContentAnalyticsPage::class,
-            ]
+        $items['content_analytics'] = [
+            'sub'       => 'overview',
+            'title'     => esc_html__('Content Analytics', 'wp-statistics'),
+            'page_url'  => 'content-analytics',
+            'callback'  => ContentAnalyticsPage::class,
+            'priority'  => 71,
         ];
 
-        return Helper::arraySpliceAssociative($items, 7, 0, $newItem);
+        return $items;
     }
 }

@@ -163,11 +163,13 @@ class Menus
                 'page_url' => 'overview',
                 'method'   => 'log',
                 'icon'     => 'dashicons-chart-pie',
+                'priority' => 10,
             ),
             'overview'     => array(
                 'sub'      => 'overview',
                 'title'    => __('Overview', 'wp-statistics'),
                 'page_url' => 'overview',
+                'priority' => 20,
             ),
             'online'       => array(
                 'require'  => array('useronline' => true),
@@ -175,36 +177,42 @@ class Menus
                 'title'    => __('Online', 'wp-statistics'),
                 'method'   => 'online',
                 'page_url' => 'online',
+                'priority' => 30,
             ),
             'hits'         => array(
                 'sub'      => 'overview',
                 'title'    => __('Views', 'wp-statistics'),
                 'page_url' => 'hits',
                 'method'   => 'hits',
+                'priority' => 40,
             ),
             'visitors'     => array(
                 'sub'      => 'overview',
                 'title'    => __('Visitors', 'wp-statistics'),
                 'page_url' => 'visitors',
                 'method'   => 'visitors',
+                'priority' => 50,
             ),
             'referrers'    => array(
                 'sub'      => 'overview',
                 'title'    => __('Referrers', 'wp-statistics'),
                 'page_url' => 'referrers',
                 'method'   => 'refer',
+                'priority' => 60,
             ),
             'searches'     => array(
                 'sub'      => 'overview',
                 'title'    => __('Search Engines', 'wp-statistics'),
                 'page_url' => 'searches',
                 'method'   => 'searches',
+                'priority' => 70,
             ),
             'top.visitors' => array(
                 'sub'      => 'overview',
                 'title'    => __('Top Visitors', 'wp-statistics'),
                 'page_url' => 'top-visitors',
-                'method'   => 'top_visitors'
+                'method'   => 'top_visitors',
+                'priority' => 80,
             ),
             'plugins'      => array(
                 'sub'      => 'overview',
@@ -212,6 +220,7 @@ class Menus
                 'name'     => '<span class="wps-text-warning">' . __('Add-Ons', 'wp-statistics') . '</span>',
                 'page_url' => 'plugins',
                 'method'   => 'plugins',
+                'priority' => 90,
                 'break'    => true,
             ),
             'settings'     => array(
@@ -219,14 +228,16 @@ class Menus
                 'title'    => __('Settings', 'wp-statistics'),
                 'cap'      => $manage_cap,
                 'page_url' => 'settings',
-                'method'   => 'settings'
+                'method'   => 'settings',
+                'priority' => 100,
             ),
             'optimize'     => array(
                 'sub'      => 'overview',
                 'title'    => __('Optimization', 'wp-statistics'),
                 'cap'      => $manage_cap,
                 'page_url' => 'optimization',
-                'method'   => 'optimization'
+                'method'   => 'optimization',
+                'priority' => 110,
             ),
             'exclusions'   => array(
                 'require'  => array('record_exclusions' => true),
@@ -234,6 +245,7 @@ class Menus
                 'title'    => __('Exclusions', 'wp-statistics'),
                 'page_url' => 'exclusions',
                 'method'   => 'exclusions',
+                'priority' => 120,
             ),
         );
 
@@ -242,7 +254,21 @@ class Menus
          *
          * @example add_filter('wp_statistics_admin_menu_list', function( $list ){ unset( $list['plugins'] ); return $list; });
          */
-        return apply_filters('wp_statistics_admin_menu_list', $list);
+        $list = apply_filters('wp_statistics_admin_menu_list', $list);
+
+        // Sort submenus by priority
+        uasort($list, function ($a, $b) {
+            if (empty($a['priority'])) {
+                $a['priority'] = 999;
+            }
+            if (empty($b['priority'])) {
+                $b['priority'] = 999;
+            }
+
+            return $a['priority'] <=> $b['priority'];
+        });
+
+        return $list;
     }
 
     /**

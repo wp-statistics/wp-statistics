@@ -20,15 +20,14 @@ class DevicesManager
      */
     public function addMenuItem($items)
     {
-        $newItem = [
-            'devices' => [
-                'sub'      => 'overview',
-                'title'    => esc_html__('Devices', 'wp-statistics'),
-                'page_url' => 'devices',
-                'callback' => DevicesPage::class,
-            ]
+        $items['devices'] = [
+            'sub'      => 'overview',
+            'title'    => esc_html__('Devices', 'wp-statistics'),
+            'page_url' => 'devices',
+            'callback' => DevicesPage::class,
+            'priority'  => 75,
         ];
 
-        return Helper::arraySpliceAssociative($items, 10, 0, $newItem);
+        return $items;
     }
 }

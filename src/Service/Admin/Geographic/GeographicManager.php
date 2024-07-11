@@ -20,17 +20,16 @@ class GeographicManager
      */
     public function addMenuItem($items)
     {
-        $newItem = [
-            'geographic' => [
-                'require'  => ['geoip' => true],
-                'sub'      => 'overview',
-                'title'    => esc_html__('Geographic', 'wp-statistics'),
-                'page_url' => 'geographic',
-                'callback' => GeographicPage::class,
-            ]
+        $items['geographic'] = [
+            'require'  => ['geoip' => true],
+            'sub'      => 'overview',
+            'title'    => esc_html__('Geographic', 'wp-statistics'),
+            'page_url' => 'geographic',
+            'callback' => GeographicPage::class,
+            'priority'  => 74,
         ];
 
-        return Helper::arraySpliceAssociative($items, 9, 0, $newItem);
+        return $items;
     }
 
 }

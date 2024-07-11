@@ -19,16 +19,15 @@ class AuthorAnalyticsManager
      */
     public function addMenuItem($items)
     {
-        $newItem = [
-            'author_analytics' => [
-                'sub'      => 'overview',
-                'pages'    => ['pages' => true],
-                'title'    => esc_html__('Author Analytics', 'wp-statistics'),
-                'page_url' => 'author-analytics',
-                'callback' => AuthorAnalyticsPage::class
-            ]
+        $items['author_analytics'] = [
+            'sub'      => 'overview',
+            'pages'    => ['pages' => true],
+            'title'    => esc_html__('Author Analytics', 'wp-statistics'),
+            'page_url' => 'author-analytics',
+            'callback' => AuthorAnalyticsPage::class,
+            'priority'  => 72,
         ];
 
-        return Helper::arraySpliceAssociative($items, 8, 0, $newItem);
+        return $items;
     }
 }
