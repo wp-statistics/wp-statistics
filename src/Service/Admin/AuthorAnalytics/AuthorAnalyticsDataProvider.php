@@ -56,7 +56,7 @@ class AuthorAnalyticsDataProvider
         // Just filter by post type
         $args = Helper::filterArrayByKeys($this->args, ['post_type', 'author_id']);
 
-        $publishingData = $this->postsModel->getPostPublishOverview($args);
+        $publishingData = $this->postsModel->countDailyPosts(array_merge($args, ['date' => ['from' => date('Y-m-d', strtotime('-365 days')), 'to' => date('Y-m-d')]]));
         $publishingData = wp_list_pluck($publishingData, 'posts', 'date');
 
         $today  = time();

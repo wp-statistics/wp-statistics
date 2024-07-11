@@ -46,6 +46,43 @@ class PostsModel extends BaseModel
         return $result ? $result : 0;
     }
 
+    public function countDailyPosts($args = [], $bypassCache = false)
+    {
+        $args = $this->parseArgs($args, [
+            'date'      => '',
+            'post_type' => '',
+            'author_id' => '',
+            'taxonomy'  => '',
+            'term'      => ''
+        ]);
+
+        $query = Query::select('COUNT(ID) as posts, Date(post_date) as date')
+            ->from('posts')
+            ->where('post_status', '=', 'publish')
+            ->where('post_type', 'IN', $args['post_type'])
+            ->where('post_author', '=', $args['author_id'])
+            ->whereDate('post_date', $args['date'])
+            ->groupBy('Date(post_date)')
+            ->bypassCache($bypassCache);
+
+        if (!empty($args['taxonomy']) || !empty($args['term'])) {
+            $taxQuery = Query::select(['DISTINCT object_id'])
+                ->from('term_relationships')
+                ->join('term_taxonomy', ['term_relationships.term_taxonomy_id', 'term_taxonomy.term_taxonomy_id'])
+                ->join('terms', ['term_taxonomy.term_id', 'terms.term_id'])
+                ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy'])
+                ->where('terms.term_id', '=', $args['term'])
+                ->getQuery();
+
+            $query
+                ->joinQuery($taxQuery, ['posts.id', 'tax.object_id'], 'tax');
+        }
+
+        $result = $query->getAll();
+
+        return $result;
+    }
+
     public function countWords($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
@@ -126,30 +163,6 @@ class PostsModel extends BaseModel
         $result = $query->getVar();
 
         return $result ? $result : 0;
-    }
-
-    public function getPostPublishOverview($args = [], $bypassCache = false)
-    {
-        $args = $this->parseArgs($args, [
-            'date'      => [
-                'from'  => date('Y-m-d', strtotime('-365 days')),
-                'to'    => date('Y-m-d', time()),
-            ],
-            'post_type' => Helper::get_list_post_type(),
-            'author_id' => ''
-        ]);
-
-        $result = Query::select(['DATE(post_date) as date', 'COUNT(ID) as posts'])
-            ->from('posts')
-            ->where('post_status', '=', 'publish')
-            ->where('post_type', 'IN', $args['post_type'])
-            ->where('post_author', '=', $args['author_id'])
-            ->whereDate('post_date', $args['date'])
-            ->groupBy('Date(post_date)')
-            ->bypassCache($bypassCache)
-            ->getAll();
-
-        return $result;
     }
 
     public function getPostsReportData($args = [], $bypassCache = false)
