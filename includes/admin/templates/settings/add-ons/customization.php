@@ -8,7 +8,6 @@ $isCustomizationActive = WP_STATISTICS\Helper::isAddOnActive('customization');
 global $wp_version;
 
 $disableMenuArray = [
-    'overview'           => __('Overview', 'wp-statistics'),
     'online'             => __('Online', 'wp-statistics'),
     'hits'               => __('Views', 'wp-statistics'),
     'visitors'           => __('Visitors', 'wp-statistics'),
