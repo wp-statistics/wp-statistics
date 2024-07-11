@@ -54,6 +54,50 @@ class VisitorsModel extends BaseModel
         return $result ? $result : 0;
     }
 
+    public function countDailyVisitors($args = [], $bypassCache = false)
+    {
+        $args = $this->parseArgs($args, [
+            'post_type'   => '',
+            'author_id'   => '',
+            'post_id'     => '',
+            'query_param' => '',
+            'taxonomy'    => '',
+            'term'        => '',
+        ]);
+
+        $query = Query::select([
+                'DATE(visitor_relationships.date) as date',
+                'COUNT(DISTINCT visitor_id) as visitors'
+            ])
+            ->from('visitor_relationships')
+            ->join('pages', ['visitor_relationships.page_id', 'pages.page_id'], [], 'LEFT')
+            ->join('posts', ['posts.ID', 'pages.id'], [], 'LEFT')
+            ->where('post_type', 'IN', $args['post_type'])
+            ->where('post_author', '=', $args['author_id'])
+            ->where('posts.ID', '=', $args['post_id'])
+            ->where('pages.uri', '=', $args['query_param'])
+            ->whereDate('visitor_relationships.date', ['date' => ['from' => (date('Y') - 1) . '-01-01', 'to' => date('Y-m-d')]])
+            ->groupBy('DATE(visitor_relationships.date)')
+            ->bypassCache($bypassCache);
+
+        if (!empty($args['taxonomy']) || !empty($args['term'])) {
+            $taxQuery = Query::select(['DISTINCT object_id'])
+                ->from('term_relationships')
+                ->join('term_taxonomy', ['term_relationships.term_taxonomy_id', 'term_taxonomy.term_taxonomy_id'])
+                ->join('terms', ['term_taxonomy.term_id', 'terms.term_id'])
+                ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy'])
+                ->where('terms.term_id', '=', $args['term'])
+                ->getQuery();
+
+            $query
+                ->joinQuery($taxQuery, ['posts.ID', 'tax.object_id'], 'tax');
+        }
+
+        $result = $query->getAll();
+
+        return $result;
+    }
+
     /**
      * Returns `COUNT DISTINCT` of a column from visitors table.
      *
@@ -157,44 +201,79 @@ class VisitorsModel extends BaseModel
 
     public function getVisitorsSummary($args = [], $bypassCache = false)
     {
-        return [
-            'today'     => [
-                'label'    => esc_html__('Today', 'wp-statistics'),
-                'visitors' => $this->countVisitors(array_merge($args, ['date' => 'today'])),
-            ],
-            'yesterday' => [
-                'label'    => esc_html__('Yesterday', 'wp-statistics'),
-                'visitors' => $this->countVisitors(array_merge($args, ['date' => 'yesterday'])),
-            ],
-            '7days'     => [
-                'label'    => esc_html__('Last 7 days', 'wp-statistics'),
-                'visitors' => $this->countVisitors(array_merge($args, ['date' => '7days'])),
-            ],
-            '30days'    => [
-                'label'    => esc_html__('Last 30 days', 'wp-statistics'),
-                'visitors' => $this->countVisitors(array_merge($args, ['date' => '30days'])),
-            ],
-            '60days'    => [
-                'label'    => esc_html__('Last 60 days', 'wp-statistics'),
-                'visitors' => $this->countVisitors(array_merge($args, ['date' => '60days'])),
-            ],
-            '120days'   => [
-                'label'    => esc_html__('Last 120 days', 'wp-statistics'),
-                'visitors' => $this->countVisitors(array_merge($args, ['date' => '120days'])),
-            ],
-            'year'      => [
-                'label'    => esc_html__('Last 12 months', 'wp-statistics'),
-                'visitors' => $this->countVisitors(array_merge($args, ['date' => 'year'])),
-            ],
-            'this_year' => [
-                'label'    => esc_html__('This year (Jan - Today)', 'wp-statistics'),
-                'visitors' => $this->countVisitors(array_merge($args, ['date' => 'this_year'])),
-            ],
-            'last_year' => [
-                'label'    => esc_html__('Last Year', 'wp-statistics'),
-                'visitors' => $this->countVisitors(array_merge($args, ['date' => 'last_year'])),
+        $result = $this->countDailyVisitors(array_merge($args, [
+            'date' => [
+                'from' => (date('Y') - 1) . '-01-01', 
+                'to' => date('Y-m-d')]
             ]
+        ), $bypassCache);
+
+        $summary = [
+            'today'     => ['label' => esc_html__('Today', 'wp-statistics'), 'visitors' => 0],
+            'yesterday' => ['label' => esc_html__('Yesterday', 'wp-statistics'), 'visitors' => 0],
+            '7days'     => ['label' => esc_html__('Last 7 days', 'wp-statistics'), 'visitors' => 0],
+            '30days'    => ['label' => esc_html__('Last 30 days', 'wp-statistics'), 'visitors' => 0],
+            '60days'    => ['label' => esc_html__('Last 60 days', 'wp-statistics'), 'visitors' => 0],
+            '120days'   => ['label' => esc_html__('Last 120 days', 'wp-statistics'), 'visitors' => 0],
+            'year'      => ['label' => esc_html__('Last 12 months', 'wp-statistics'), 'visitors' => 0],
+            'this_year' => ['label' => esc_html__('This year (Jan - Today)', 'wp-statistics'), 'visitors' => 0],
+            'last_year' => ['label' => esc_html__('Last Year', 'wp-statistics'), 'visitors' => 0]
         ];
+
+        // Init date ranges
+        $todayDate      = date('Y-m-d');
+        $yesterdayDate  = date('Y-m-d', strtotime('-1 day'));
+        $start7Days     = date('Y-m-d', strtotime('-6 days'));
+        $start30Days    = date('Y-m-d', strtotime('-29 days'));
+        $start60Days    = date('Y-m-d', strtotime('-59 days'));
+        $start120Days   = date('Y-m-d', strtotime('-119 days'));
+        $start12Months  = date('Y-m-d', strtotime('-11 months'));
+        $thisYearStart  = date('Y') . '-01-01';
+        $lastYearStart  = (date('Y') - 1) . '-01-01';
+        $lastYearEnd    = (date('Y') - 1) . '-12-31';
+
+        foreach ($result as $record) {
+            $date       = $record->date;
+            $visitors   = $record->visitors;
+            
+            if ($date === $todayDate) {
+                $summary['today']['visitors'] += $visitors;
+            }
+            
+            if ($date === $yesterdayDate) {
+                $summary['yesterday']['visitors'] += $visitors;
+            }
+            
+            if ($date >= $start7Days && $date <= $todayDate) {
+                $summary['7days']['visitors'] += $visitors;
+            }
+            
+            if ($date >= $start30Days && $date <= $todayDate) {
+                $summary['30days']['visitors'] += $visitors;
+            }
+            
+            if ($date >= $start60Days && $date <= $todayDate) {
+                $summary['60days']['visitors'] += $visitors;
+            }
+            
+            if ($date >= $start120Days && $date <= $todayDate) {
+                $summary['120days']['visitors'] += $visitors;
+            }
+            
+            if ($date >= $start12Months && $date <= $todayDate) {
+                $summary['year']['visitors'] += $visitors;
+            }
+            
+            if ($date >= $thisYearStart && $date <= $todayDate) {
+                $summary['this_year']['visitors'] += $visitors;
+            }
+            
+            if ($date >= $lastYearStart && $date <= $lastYearEnd) {
+                $summary['last_year']['visitors'] += $visitors;
+            }
+        }
+
+        return $summary;
     }
 
     public function getVisitorsData($args = [], $bypassCache = false)
