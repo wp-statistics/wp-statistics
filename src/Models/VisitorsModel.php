@@ -752,7 +752,7 @@ class VisitorsModel extends BaseModel
         ]);
 
         $domain     = 'SUBSTRING_INDEX(REPLACE(REPLACE(`visitor`.`referred`, "http://", ""), "https://", ""), "/", 1)';
-        $caseResult = !empty($args['post_id']) ? `visitor`.`ID` : $domain;
+        $caseResult = !empty($args['post_id']) ? '`visitor`.`ID`' : $domain;
         $fields     = [
             '`visitor`.`last_counter` AS `date`',
             'COUNT(DISTINCT `visitor`.`ID`) AS `visitors`',
