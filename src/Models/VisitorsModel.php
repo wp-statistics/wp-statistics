@@ -751,13 +751,13 @@ class VisitorsModel extends BaseModel
 
         $fields = [
             '`visitor`.`last_counter` AS `date`',
-            'COUNT(`visitor`.`last_counter`) AS `visitors`',
+            'COUNT(DISTINCT `visitor`.`ID`) AS `visitors`',
             '`visit`.`visit` AS `visits`',
             'COUNT(IF(`visitor`.`referred` NOT LIKE "%%' . Helper::get_domain_name(home_url()) . '%%" AND `visitor`.`referred` <> "", 1, NULL)) AS `referrers`',
         ];
         if (!empty($args['post_id'])) {
             // For single pages/posts
-            $fields[2] = 'SUM(`pages`.`count`) AS `visits`';
+            $fields[2] = 'SUM(DISTINCT `pages`.`count`) AS `visits`';
         }
 
         $query = Query::select($fields)
