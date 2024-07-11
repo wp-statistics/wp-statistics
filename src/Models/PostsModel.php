@@ -216,7 +216,6 @@ class PostsModel extends BaseModel
     public function getPostsViewsData($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
-            'publish_date'  => '',
             'date'          => '',
             'post_type'     => Helper::get_list_post_type(),
             'order_by'      => 'views',
@@ -246,7 +245,6 @@ class PostsModel extends BaseModel
             ->where('post_type', 'IN', $args['post_type'])
             ->where('post_status', '=', 'publish')
             ->where('posts.post_author', '=', $args['author_id'])
-            ->whereDate('posts.post_date', $args['publish_date'])
             ->groupBy('posts.ID')
             ->orderBy($args['order_by'], $args['order'])
             ->perPage($args['page'], $args['per_page'])
