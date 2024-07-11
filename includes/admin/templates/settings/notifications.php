@@ -93,7 +93,7 @@ use WP_STATISTICS\Schedule;
         <?php if ($next_scheduled_time) { ?>
             <tr valign="top">
                 <td colspan="2" scope="row" class="wps-alert-container">
-                    <div class="alert alert-success"><span><?php echo sprintf(__('Your next report is scheduled to be sent on <b>%s at 8 AM</b>', 'wp-statistics'), date_i18n(get_option('date_format'), $next_scheduled_time)) ?></span></div>
+                    <div class="alert alert-success"><span><?php echo sprintf(__('Your next report is scheduled to be sent on <b>%s at 8 AM</b>', 'wp-statistics'), wp_date(get_option('date_format'), $next_scheduled_time)) ?></span></div>
                 </td>
             </tr>
         <?php } ?>
@@ -103,7 +103,7 @@ use WP_STATISTICS\Schedule;
             </th>
             <td>
                 <select name="wps_time_report" id="time-report">
-                    <option value="0" <?php selected(Option::get('time_report'), '0'); ?>><?php esc_html_e('Please select', 'wp-statistics'); ?></option>
+                    <option value="0" <?php selected(Option::get('time_report'), '0'); ?>><?php esc_html_e('Disable', 'wp-statistics'); ?></option>
                     <?php
                     foreach (Schedule::getSchedules() as $key => $value) {
                         echo '<option value="' . esc_attr($key) . '" ' . selected(Option::get('time_report'), $key) . '>' . esc_attr($value['display']) . '</option>';

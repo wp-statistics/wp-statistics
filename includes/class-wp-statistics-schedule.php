@@ -83,18 +83,18 @@ class Schedule
         }
 
         // Add the report schedule if it doesn't exist and is enabled.
-        if (!wp_next_scheduled('wp_statistics_report_hook') && Option::get('stats_report')) {
-            $timeReports         = Option::get('time_report');
-            $schedulesInterval   = wp_get_schedules();
-            $timeReportsInterval = 86400;
-            if (isset($schedulesInterval[$timeReports]['interval'])) {
-                $timeReportsInterval = $schedulesInterval[$timeReports]['interval'];
+        if (!wp_next_scheduled('wp_statistics_report_hook') && Option::get('stats_report') && Option::get('time_report') != '0') {
+            $timeReports       = Option::get('stats_report');
+            $schedulesInterval = self::getSchedules();
+
+            if (isset($schedulesInterval[$timeReports]['next_schedule'])) {
+                $scheduleTime = $schedulesInterval[$timeReports]['next_schedule'];
+                wp_schedule_event($scheduleTime, $timeReports, 'wp_statistics_report_hook');
             }
-            wp_schedule_event(time() + $timeReportsInterval, $timeReports, 'wp_statistics_report_hook');
         }
 
         // Remove the report schedule if it does exist and is disabled.
-        if (wp_next_scheduled('wp_statistics_report_hook') && !Option::get('stats_report')) {
+        if (wp_next_scheduled('wp_statistics_report_hook') && (!Option::get('stats_report') or Option::get('time_report') == '0')) {
             wp_unschedule_event(wp_next_scheduled('wp_statistics_report_hook'), 'wp_statistics_report_hook');
         }
 
@@ -120,25 +120,61 @@ class Schedule
      */
     public static function getSchedules()
     {
+        $timestamp = time();
+        $timezone  = wp_timezone();
+        $datetime  = new \DateTime('@' . $timestamp);
+        $datetime->setTimezone($timezone);
+
+        // Determine the day name based on the start of the week setting
+        $start_of_week  = get_option('start_of_week', 1);
+        $days_of_week   = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        $start_day_name = $days_of_week[$start_of_week];
+
+        // Daily schedule
+        $daily = clone $datetime;
+        $daily->modify('tomorrow')->setTime(8, 0);
+
+        // Weekly schedule
+        $weekly = clone $datetime;
+        $weekly->modify("next {$start_day_name}")->setTime(8, 0);
+
+        // BiWeekly schedule
+        $biweekly = clone $datetime;
+        $biweekly->modify("next {$start_day_name} +1 week")->setTime(8, 0);
+
+        // Monthly schedule
+        $monthly = clone $datetime;
+        $monthly->modify('first day of next month')->setTime(8, 0);
+
         $schedules = [
-            'weekly'   => array(
-                'interval' => 604800,
-                'display'  => __('Once Weekly'),
-                'start'    => date('Y-m-d', strtotime("-1 week")),
-                'end'      => date('Y-m-d')
-            ),
-            'biweekly' => array(
-                'interval' => 1209600,
-                'display'  => __('Once Every 2 Weeks'),
-                'start'    => date('Y-m-d', strtotime("-2 week")),
-                'end'      => date('Y-m-d')
-            ),
-            '4weeks'   => array(
-                'interval' => 2419200,
-                'display'  => __('Once Every 4 Weeks'),
-                'start'    => date('Y-m-d', strtotime("-4 week")),
-                'end'      => date('Y-m-d')
-            )
+            'daily'    => [
+                'interval'      => DAY_IN_SECONDS,
+                'display'       => __('Daily', 'wp-statistics'),
+                'start'         => wp_date('Y-m-d', strtotime("-1 day")),
+                'end'           => wp_date('Y-m-d'),
+                'next_schedule' => $daily->getTimestamp()
+            ],
+            'weekly'   => [
+                'interval'      => WEEK_IN_SECONDS,
+                'display'       => __('Weekly', 'wp-statistics'),
+                'start'         => wp_date('Y-m-d', strtotime("-1 week")),
+                'end'           => wp_date('Y-m-d'),
+                'next_schedule' => $weekly->getTimestamp()
+            ],
+            'biweekly' => [
+                'interval'      => 2 * WEEK_IN_SECONDS,
+                'display'       => __('Bi-Weekly', 'wp-statistics'),
+                'start'         => wp_date('Y-m-d', strtotime("-2 weeks")),
+                'end'           => wp_date('Y-m-d'),
+                'next_schedule' => $biweekly->getTimestamp()
+            ],
+            'monthly'  => [
+                'interval'      => MONTH_IN_SECONDS,
+                'display'       => __('Monthly', 'wp-statistics'),
+                'start'         => wp_date('Y-m-d', strtotime("-1 month")),
+                'end'           => wp_date('Y-m-d'),
+                'next_schedule' => $monthly->getTimestamp()
+            ]
         ];
 
         return apply_filters('wp_statistics_cron_schedules', $schedules);

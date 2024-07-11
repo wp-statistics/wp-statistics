@@ -287,7 +287,7 @@ if (!$isAdvancedReportingActive) echo Admin_Template::get_template('layout/parti
 
                 <td>
                     <?php if ($wp_version >= 3.3 && function_exists('wp_editor')) { ?>
-                        <?php wp_editor(stripslashes(WP_STATISTICS\Option::getByAddon('email_content_header', 'advanced_reporting')), 'email_content_header', array('textarea_name' => 'wps_addon_settings[advanced_reporting][email_content_header]', 'editor_height' => 400, 'media_buttons' => false, 'teeny' => true)); ?>
+                        <?php wp_editor(stripslashes(WP_STATISTICS\Option::getByAddon('email_content_header', 'advanced_reporting')), 'email_content_header', array('textarea_name' => 'wps_addon_settings[advanced_reporting][email_content_header]', 'editor_height' => 150, 'media_buttons' => false, 'teeny' => true)); ?>
                     <?php } else { ?>
                         <textarea class="large-text" rows="10" id="wps_addon_settings[advanced_reporting][email_content_header]" name="wps_addon_settings[advanced_reporting][email_content_header]"><?php echo esc_textarea(stripslashes(WP_STATISTICS\Option::getByAddon('email_content_header', 'advanced_reporting'))) ?></textarea>
                     <?php } ?>
@@ -302,7 +302,7 @@ if (!$isAdvancedReportingActive) echo Admin_Template::get_template('layout/parti
 
                 <td>
                     <?php if ($wp_version >= 3.3 && function_exists('wp_editor')) { ?>
-                        <?php wp_editor(stripslashes(WP_STATISTICS\Option::getByAddon('email_content_footer', 'advanced_reporting')), 'email_content_footer', array('textarea_name' => 'wps_addon_settings[advanced_reporting][email_content_footer]', 'editor_height' => 400, 'media_buttons' => false, 'teeny' => true)); ?>
+                        <?php wp_editor(stripslashes(WP_STATISTICS\Option::getByAddon('email_content_footer', 'advanced_reporting')), 'email_content_footer', array('textarea_name' => 'wps_addon_settings[advanced_reporting][email_content_footer]', 'editor_height' => 150, 'media_buttons' => false, 'teeny' => true)); ?>
                     <?php } else { ?>
                         <textarea class="large-text" rows="10" id="wps_addon_settings[advanced_reporting][email_content_footer]" name="wps_addon_settings[advanced_reporting][email_content_footer]"><?php echo esc_textarea(stripslashes(WP_STATISTICS\Option::getByAddon('email_content_footer', 'advanced_reporting'))) ?></textarea>
                     <?php } ?>
