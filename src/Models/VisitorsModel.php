@@ -733,10 +733,10 @@ class VisitorsModel extends BaseModel
     /**
      * Returns visitors, visits and referrers for the past given days, separated daily.
      *
-     * @param array $args Arguments to include in query (e.g. `date`, etc.).
+     * @param array $args Arguments to include in query (e.g. `date`, `post_type`, `post_id`, etc.).
      * @param bool $bypassCache Send the cached result.
      *
-     * @return  array   Format: `[{'date' => "STRING", 'visitors' => INT, 'visits' => INT}, ...]`.
+     * @return  array   Format: `[{'date' => "STRING", 'visitors' => INT, 'visits' => INT, 'referrers' => INT}, ...]`.
      *
      * @todo    Make the query faster for date ranges greater than one month.
      */
