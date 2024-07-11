@@ -62,17 +62,28 @@ class CategoryAnalyticsDataProvider
         $result = [
             'labels'    => [],
             'views'     => [],
-            'visitors'  => []
+            'visitors'  => [],
+            'posts'     => []
         ];
 
+        $args = array_merge($this->args, ['date' => ['from' => date('Y-m-d', strtotime('-14 days')), 'to' => date('Y-m-d')]]);
+
+        $visitorsData   = $this->visitorsModel->countDailyVisitors($args);
+        $visitorsData   = wp_list_pluck($visitorsData, 'visitors', 'date');
+        
+        $viewsData  = $this->viewsModel->countDailyViews($args);
+        $viewsData  = wp_list_pluck($viewsData, 'views', 'date');
+
+        $postsData  = $this->postsModel->countDailyPosts($args);
+        $postsData  = wp_list_pluck($postsData, 'posts', 'date');
+
         for ($i = 14; $i >= 0; $i--) {
-            $date       = date('Y-m-d', strtotime("-$i days"));
-            $dateFilter = ['date' => ['from' => $date, 'to' => $date]];
-            
+            $date = date('Y-m-d', strtotime("-$i days"));
+
             $result['labels'][]     = date_i18n(Helper::getDefaultDateFormat(false, true), strtotime($date));
-            $result['views'][]      = $this->viewsModel->countViews(array_merge($this->args, $dateFilter));
-            $result['visitors'][]   = $this->visitorsModel->countVisitors(array_merge($this->args, $dateFilter));
-            $result['posts'][]      = $this->postsModel->countPosts(array_merge($this->args, $dateFilter));
+            $result['views'][]      = isset($viewsData[$date]) ? intval($viewsData[$date]) : 0;
+            $result['visitors'][]   = isset($visitorsData[$date]) ? intval($visitorsData[$date]) : 0;
+            $result['posts'][]      = isset($postsData[$date]) ? intval($postsData[$date]) : 0;
         }
 
         return $result;
