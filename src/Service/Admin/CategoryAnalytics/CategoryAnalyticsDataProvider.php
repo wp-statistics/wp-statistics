@@ -111,7 +111,7 @@ class CategoryAnalyticsDataProvider
         ];
 
         $topViewingPosts    = $this->postsModel->getPostsViewsData($this->args);
-        $recentPosts        = $this->postsModel->getPostsViewsData(array_merge($this->args, ['date' => '', 'date_field' => 'post_date', 'order_by' => 'post_date']));
+        $recentPosts        = $this->postsModel->getPostsViewsData(array_merge($this->args, ['order_by' => 'post_date']));
         $topCommentedPosts  = $this->postsModel->getPostsCommentsData($this->args);
 
         return [
@@ -174,7 +174,7 @@ class CategoryAnalyticsDataProvider
 
         $topPostsByView     = $this->postsModel->getPostsViewsData($this->args);
         $topPostsByComment  = $this->postsModel->getPostsCommentsData($this->args);
-        $recentPosts        = $this->postsModel->getPostsViewsData(array_merge($this->args, ['date' => '', 'date_field' => 'post_date', 'order_by' => 'post_date']));
+        $recentPosts        = $this->postsModel->getPostsViewsData(array_merge($this->args, ['order_by' => 'post_date']));
 
         $topViewingCategories    = $this->taxonomyModel->getTermsData($this->args);
         $topPublishingCategories = $this->taxonomyModel->getTermsData(array_merge($this->args, ['order_by' => 'posts', 'date_field' => 'posts.post_date']));
