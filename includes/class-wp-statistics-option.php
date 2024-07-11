@@ -257,6 +257,18 @@ class Option
         return Option::get('email_list');
     }
 
+    public static function getAddonOptions($addon_name = '')
+    {
+        $setting_name = "wpstatistics_{$addon_name}_settings";
+
+        $options = get_option($setting_name);
+        if (!isset($options) || !is_array($options)) {
+            return false;
+        }
+
+        return $options;
+    }
+
     public static function getByAddon($option_name, $addon_name = '', $default = null)
     {
         $setting_name = "wpstatistics_{$addon_name}_settings";

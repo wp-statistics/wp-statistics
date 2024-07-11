@@ -657,6 +657,12 @@ class Install
             $assetNameObfuscator->deleteDatabaseOption();
         }
 
+        // Enable Top Metrics in Advanced Reporting Add-on By Default
+        $advancedReportingOptions = Option::getAddonOptions('advanced_reporting');
+        if ($advancedReportingOptions !== false && Option::getByAddon('email_top_metrics', 'advanced_reporting') === false) {
+            Option::saveByAddon(array_merge(['email_top_metrics' => 1], $advancedReportingOptions), 'advanced_reporting');
+        }
+
         // Store the new version information.
         update_option('wp_statistics_plugin_version', WP_STATISTICS_VERSION);
     }
