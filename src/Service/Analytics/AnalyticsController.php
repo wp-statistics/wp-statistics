@@ -4,6 +4,7 @@ namespace WP_Statistics\Service\Analytics;
 
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Hits;
+use WP_STATISTICS\UserOnline;
 
 class AnalyticsController
 {
@@ -46,9 +47,7 @@ class AnalyticsController
             // Check Refer Ajax
             check_ajax_referer('wp_statistics_tracker_nonce', 'nonce');
 
-            $visitorProfile = new VisitorProfile();
-
-            \WP_STATISTICS\UserOnline::record($visitorProfile);
+            UserOnline::record();
 
             // Return response
             wp_send_json([

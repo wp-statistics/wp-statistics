@@ -91,8 +91,12 @@ class UserOnline
      * @param $visitorProfile VisitorProfile
      * @throws \Exception
      */
-    public static function record($visitorProfile, $args = array())
+    public static function record($visitorProfile = null, $args = array())
     {
+        if (!$visitorProfile) {
+            $visitorProfile = new VisitorProfile();
+        }
+
         # Get User IP
         $user_ip = $visitorProfile->getProcessedIPForStorage();
 

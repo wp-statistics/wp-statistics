@@ -3,6 +3,7 @@
 namespace WP_STATISTICS\Api\v2;
 
 use WP_Statistics\Service\Analytics\VisitorProfile;
+use WP_STATISTICS\UserOnline;
 
 class CheckUserOnline extends \WP_STATISTICS\RestAPI
 {
@@ -37,15 +38,27 @@ class CheckUserOnline extends \WP_STATISTICS\RestAPI
 
     public function onlineUserUpdateCallback()
     {
-        $visitorProfile = new VisitorProfile();
+        UserOnline::record();
 
-        \WP_STATISTICS\UserOnline::record($visitorProfile);
-
-        $response = [
+        $response = rest_ensure_response([
             'status' => true
-        ];
+        ]);
 
-        return rest_ensure_response($response);
+        /**
+         * Set headers for the response
+         *
+         * @since 14.9
+         */
+        $response->set_headers(array(
+            /**
+             * Cache-Control for Cloudflare caching compatibility
+             *
+             * @link https://wordpress.org/support/topic/request-for-cloudflare-html-caching-compatibility/
+             */
+            'Cache-Control' => 'no-cache',
+        ));
+
+        return $response;
     }
 }
 

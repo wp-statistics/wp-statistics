@@ -36,7 +36,7 @@ class Hit extends \WP_STATISTICS\RestAPI
     public static function require_params_hit()
     {
         return array(
-            'page_uri'  => array('required' => true, 'type' => 'string')
+            'page_uri' => array('required' => true, 'type' => 'string')
         );
     }
 
@@ -65,11 +65,10 @@ class Hit extends \WP_STATISTICS\RestAPI
     /**
      * Record WP Statistics when Cache is enable
      *
-     * @param \WP_REST_Request $request
      * @return \WP_REST_Response
      * @throws \Exception
      */
-    public function hit_callback(\WP_REST_Request $request)
+    public function hit_callback()
     {
         // Start Record
         $exclusion    = Hits::record();
@@ -97,9 +96,6 @@ class Hit extends \WP_STATISTICS\RestAPI
             'Cache-Control' => 'no-cache',
         ));
 
-        $response->set_status(200);
-
-        // Return response
         return $response;
     }
 }
