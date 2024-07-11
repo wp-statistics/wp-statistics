@@ -635,7 +635,7 @@ class Install
         /**
          * Update options
          */
-        if (Option::get('privacy_audit') === false && version_compare($installed_version, '14.7', '>')) {
+        if (Option::get('privacy_audit') === false && version_compare($installed_version, '14.7', '>=')) {
             Option::update('privacy_audit', true);
         }
 
