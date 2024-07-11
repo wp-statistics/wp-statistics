@@ -37,16 +37,16 @@ class VisitorsModel extends BaseModel
             ->bypassCache($bypassCache);
 
         if (!empty($args['taxonomy']) || !empty($args['term'])) {
-            $query
-                ->join('term_relationships', ['posts.ID', 'term_relationships.object_id'])
+            $taxQuery = Query::select(['DISTINCT object_id'])
+                ->from('term_relationships')
                 ->join('term_taxonomy', ['term_relationships.term_taxonomy_id', 'term_taxonomy.term_taxonomy_id'])
-                ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy']);
+                ->join('terms', ['term_taxonomy.term_id', 'terms.term_id'])
+                ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy'])
+                ->where('terms.term_id', '=', $args['term'])
+                ->getQuery();
 
-            if (!empty($args['term'])) {
-                $query
-                    ->join('terms', ['term_taxonomy.term_id', 'terms.term_id'])
-                    ->where('terms.term_id', '=', $args['term']);
-            }
+            $query
+                ->joinQuery($taxQuery, ['posts.ID', 'tax.object_id'], 'tax');
         }
 
         $result = $query->getVar();
@@ -236,16 +236,16 @@ class VisitorsModel extends BaseModel
                 ->whereDate('pages.date', $args['date']);
 
             if (array_intersect(['taxonomy', 'term'], array_keys($filteredArgs))) {
-                $query
-                    ->join('term_relationships', ['posts.ID', 'term_relationships.object_id'])
+                $taxQuery = Query::select(['DISTINCT object_id'])
+                    ->from('term_relationships')
                     ->join('term_taxonomy', ['term_relationships.term_taxonomy_id', 'term_taxonomy.term_taxonomy_id'])
-                    ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy']);
-
-                if (!empty($args['term'])) {
-                    $query
-                        ->join('terms', ['term_taxonomy.term_id', 'terms.term_id'])
-                        ->where('terms.term_id', '=', $args['term']);
-                }
+                    ->join('terms', ['term_taxonomy.term_id', 'terms.term_id'])
+                    ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy'])
+                    ->where('terms.term_id', '=', $args['term'])
+                    ->getQuery();
+    
+                $query
+                    ->joinQuery($taxQuery, ['posts.ID', 'tax.object_id'], 'tax');
             }
         }
 
@@ -408,16 +408,16 @@ class VisitorsModel extends BaseModel
                 ->where('pages.uri', '=', $args['query_param']);
 
             if (array_intersect(['taxonomy', 'term'], array_keys($filteredArgs))) {
-                $query
-                    ->join('term_relationships', ['posts.ID', 'term_relationships.object_id'])
+                $taxQuery = Query::select(['DISTINCT object_id'])
+                    ->from('term_relationships')
                     ->join('term_taxonomy', ['term_relationships.term_taxonomy_id', 'term_taxonomy.term_taxonomy_id'])
-                    ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy']);
-
-                if (!empty($args['term'])) {
-                    $query
-                        ->join('terms', ['term_taxonomy.term_id', 'terms.term_id'])
-                        ->where('terms.term_id', '=', $args['term']);
-                }
+                    ->join('terms', ['term_taxonomy.term_id', 'terms.term_id'])
+                    ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy'])
+                    ->where('terms.term_id', '=', $args['term'])
+                    ->getQuery();
+    
+                $query
+                    ->joinQuery($taxQuery, ['posts.ID', 'tax.object_id'], 'tax');
             }
         }
 
@@ -502,16 +502,16 @@ class VisitorsModel extends BaseModel
                 ->whereDate('pages.date', $args['date']);
 
             if (array_intersect(['taxonomy', 'term'], array_keys($filteredArgs))) {
-                $query
-                    ->join('term_relationships', ['posts.ID', 'term_relationships.object_id'])
+                $taxQuery = Query::select(['DISTINCT object_id'])
+                    ->from('term_relationships')
                     ->join('term_taxonomy', ['term_relationships.term_taxonomy_id', 'term_taxonomy.term_taxonomy_id'])
-                    ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy']);
-
-                if (!empty($args['term'])) {
-                    $query
-                        ->join('terms', ['term_taxonomy.term_id', 'terms.term_id'])
-                        ->where('terms.term_id', '=', $args['term']);
-                }
+                    ->join('terms', ['term_taxonomy.term_id', 'terms.term_id'])
+                    ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy'])
+                    ->where('terms.term_id', '=', $args['term'])
+                    ->getQuery();
+    
+                $query
+                    ->joinQuery($taxQuery, ['posts.ID', 'tax.object_id'], 'tax');
             }
         }
 
@@ -561,16 +561,16 @@ class VisitorsModel extends BaseModel
                 ->where('pages.uri', '=', $args['query_param']);
 
             if (array_intersect(['taxonomy', 'term'], array_keys($filteredArgs))) {
-                $query
-                    ->join('term_relationships', ['posts.ID', 'term_relationships.object_id'])
+                $taxQuery = Query::select(['DISTINCT object_id'])
+                    ->from('term_relationships')
                     ->join('term_taxonomy', ['term_relationships.term_taxonomy_id', 'term_taxonomy.term_taxonomy_id'])
-                    ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy']);
-
-                if (!empty($args['term'])) {
-                    $query
-                        ->join('terms', ['term_taxonomy.term_id', 'terms.term_id'])
-                        ->where('terms.term_id', '=', $args['term']);
-                }
+                    ->join('terms', ['term_taxonomy.term_id', 'terms.term_id'])
+                    ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy'])
+                    ->where('terms.term_id', '=', $args['term'])
+                    ->getQuery();
+    
+                $query
+                    ->joinQuery($taxQuery, ['posts.ID', 'tax.object_id'], 'tax');
             }
         }
 
