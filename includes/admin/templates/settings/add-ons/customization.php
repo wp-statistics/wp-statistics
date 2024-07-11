@@ -1,6 +1,7 @@
 <?php
 
 use WP_STATISTICS\Admin_Template;
+use WP_STATISTICS\Helper;
 use WP_STATISTICS\Option;
 
 $isCustomizationActive = WP_STATISTICS\Helper::isAddOnActive('customization');
@@ -20,13 +21,15 @@ $disableMenuArray = [
     'devices'            => __('Devices', 'wp-statistics'),
     'top.visitors'       => __('Top Visitors', 'wp-statistics'),
 ];
-if (!empty(Option::get('link_tracker'))) {
+if (Helper::isAddOnActive('data-plus') && !empty(Option::get('link_tracker'))) {
     $disableMenuArray['link_tracker'] = __('Link Tracker', 'wp-statistics');
 }
-if (!empty(Option::get('download_tracker'))) {
+if (Helper::isAddOnActive('data-plus') && !empty(Option::get('download_tracker'))) {
     $disableMenuArray['download_tracker'] = __('Download Tracker', 'wp-statistics');
 }
-$disableMenuArray['privacy_audit'] = __('Privacy Audit', 'wp-statistics');
+if (!empty(Option::get('privacy_audit'))) {
+    $disableMenuArray['privacy_audit'] = __('Privacy Audit', 'wp-statistics');
+}
 
 $disabledMenuItems = WP_STATISTICS\Option::getByAddon('disable_menus', 'customization', []);
 ?>
