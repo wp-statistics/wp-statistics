@@ -20,6 +20,7 @@ $disableMenuArray = [
     'geographic'         => __('Geographic', 'wp-statistics'),
     'devices'            => __('Devices', 'wp-statistics'),
     'top.visitors'       => __('Top Visitors', 'wp-statistics'),
+    'plugins'            => __('Add-Ons', 'wp-statistics'),
 ];
 if (Helper::isAddOnActive('data-plus') && !empty(Option::get('link_tracker'))) {
     $disableMenuArray['link_tracker'] = __('Link Tracker', 'wp-statistics');
@@ -29,6 +30,10 @@ if (Helper::isAddOnActive('data-plus') && !empty(Option::get('download_tracker')
 }
 if (!empty(Option::get('privacy_audit'))) {
     $disableMenuArray['privacy_audit'] = __('Privacy Audit', 'wp-statistics');
+}
+$disableMenuArray['optimize']   = __('Optimization', 'wp-statistics');
+if (!empty(Option::get('record_exclusions'))) {
+    $disableMenuArray['exclusions'] = __('Exclusions', 'wp-statistics');
 }
 
 $disabledMenuItems = WP_STATISTICS\Option::getByAddon('disable_menus', 'customization', []);
