@@ -68,7 +68,7 @@ class DevicesDataProvider
         ]);
 
         return [
-            'visitors' => $this->visitorsModel->getVisitorsDevices($args),
+            'visitors' => $this->visitorsModel->getVisitorsDevices(array_merge($args, ['where_not_null' => 'model'])),
             'total'    => $this->visitorsModel->countColumnDistinct($args),
             'visits'   => $this->visitorsModel->countColumnDistinct(array_merge($args, ['field' => 'ID'])),
         ];
@@ -88,9 +88,9 @@ class DevicesDataProvider
 
         $visitors = [];
 
-        $data = $this->visitorsModel->getVisitorsDevices($args);
+        $data = $this->visitorsModel->getVisitorsDevices(array_merge($args, ['where_not_null' => 'device']));
         foreach ($data as $visitor) {
-            if (trim($visitor->device) != "") {
+            if (!empty(trim($visitor->device)) && strtolower($visitor->device) != "bot") {
                 $device = Helper::getDeviceCategoryName($visitor->device);
                 if (isset($visitors[$device])) {
                     $visitors[$device]->visitors += $visitor->visitors;

@@ -67,9 +67,9 @@ class VisitorsModel extends BaseModel
         ]);
 
         $query = Query::select([
-                'DATE(visitor_relationships.date) as date',
-                'COUNT(DISTINCT visitor_id) as visitors'
-            ])
+            'DATE(visitor_relationships.date) as date',
+            'COUNT(DISTINCT visitor_id) as visitors'
+        ])
             ->from('visitor_relationships')
             ->join('pages', ['visitor_relationships.page_id', 'pages.page_id'], [], 'LEFT')
             ->join('posts', ['posts.ID', 'pages.id'], [], 'LEFT')
@@ -140,13 +140,14 @@ class VisitorsModel extends BaseModel
     public function getVisitorsDevices($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
-            'field'    => 'agent',
-            'date'     => '',
-            'group_by' => [],
-            'order_by' => 'visitors',
-            'order'    => 'DESC',
-            'per_page' => '',
-            'page'     => 1
+            'field'          => 'agent',
+            'date'           => '',
+            'where_not_null' => '',
+            'group_by'       => [],
+            'order_by'       => 'visitors',
+            'order'          => 'DESC',
+            'per_page'       => '',
+            'page'           => 1
         ]);
 
         $result = Query::select([
@@ -155,6 +156,7 @@ class VisitorsModel extends BaseModel
         ])
             ->from('visitor')
             ->whereDate('last_counter', $args['date'])
+            ->whereNotNull($args['where_not_null'])
             ->groupBy($args['group_by'])
             ->orderBy($args['order_by'], $args['order'])
             ->perPage($args['page'], $args['per_page'])
@@ -203,9 +205,9 @@ class VisitorsModel extends BaseModel
     public function getVisitorsSummary($args = [], $bypassCache = false)
     {
         $result = $this->countDailyVisitors(array_merge($args, [
-            'date' => [
-                'from' => (date('Y') - 1) . '-01-01', 
-                'to' => date('Y-m-d')]
+                'date' => [
+                    'from' => (date('Y') - 1) . '-01-01',
+                    'to'   => date('Y-m-d')]
             ]
         ), $bypassCache);
 
@@ -222,53 +224,53 @@ class VisitorsModel extends BaseModel
         ];
 
         // Init date ranges
-        $todayDate      = date('Y-m-d');
-        $yesterdayDate  = date('Y-m-d', strtotime('-1 day'));
-        $start7Days     = date('Y-m-d', strtotime('-7 days'));
-        $start30Days    = date('Y-m-d', strtotime('-30 days'));
-        $start60Days    = date('Y-m-d', strtotime('-60 days'));
-        $start120Days   = date('Y-m-d', strtotime('-120 days'));
-        $start12Months  = date('Y-m-d', strtotime('-12 months'));
-        $thisYearStart  = date('Y') . '-01-01';
-        $lastYearStart  = (date('Y') - 1) . '-01-01';
-        $lastYearEnd    = (date('Y') - 1) . '-12-31';
+        $todayDate     = date('Y-m-d');
+        $yesterdayDate = date('Y-m-d', strtotime('-1 day'));
+        $start7Days    = date('Y-m-d', strtotime('-7 days'));
+        $start30Days   = date('Y-m-d', strtotime('-30 days'));
+        $start60Days   = date('Y-m-d', strtotime('-60 days'));
+        $start120Days  = date('Y-m-d', strtotime('-120 days'));
+        $start12Months = date('Y-m-d', strtotime('-12 months'));
+        $thisYearStart = date('Y') . '-01-01';
+        $lastYearStart = (date('Y') - 1) . '-01-01';
+        $lastYearEnd   = (date('Y') - 1) . '-12-31';
 
         foreach ($result as $record) {
-            $date       = $record->date;
-            $visitors   = $record->visitors;
-            
+            $date     = $record->date;
+            $visitors = $record->visitors;
+
             if ($date === $todayDate) {
                 $summary['today']['visitors'] += $visitors;
             }
-            
+
             if ($date === $yesterdayDate) {
                 $summary['yesterday']['visitors'] += $visitors;
             }
-            
+
             if ($date >= $start7Days && $date <= $todayDate) {
                 $summary['7days']['visitors'] += $visitors;
             }
-            
+
             if ($date >= $start30Days && $date <= $todayDate) {
                 $summary['30days']['visitors'] += $visitors;
             }
-            
+
             if ($date >= $start60Days && $date <= $todayDate) {
                 $summary['60days']['visitors'] += $visitors;
             }
-            
+
             if ($date >= $start120Days && $date <= $todayDate) {
                 $summary['120days']['visitors'] += $visitors;
             }
-            
+
             if ($date >= $start12Months && $date <= $todayDate) {
                 $summary['year']['visitors'] += $visitors;
             }
-            
+
             if ($date >= $thisYearStart && $date <= $todayDate) {
                 $summary['this_year']['visitors'] += $visitors;
             }
-            
+
             if ($date >= $lastYearStart && $date <= $lastYearEnd) {
                 $summary['last_year']['visitors'] += $visitors;
             }
@@ -323,7 +325,7 @@ class VisitorsModel extends BaseModel
                     ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy'])
                     ->where('terms.term_id', '=', $args['term'])
                     ->getQuery();
-    
+
                 $query
                     ->joinQuery($taxQuery, ['posts.ID', 'tax.object_id'], 'tax');
             }
@@ -497,7 +499,7 @@ class VisitorsModel extends BaseModel
                     ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy'])
                     ->where('terms.term_id', '=', $args['term'])
                     ->getQuery();
-    
+
                 $query
                     ->joinQuery($taxQuery, ['posts.ID', 'tax.object_id'], 'tax');
             }
@@ -591,7 +593,7 @@ class VisitorsModel extends BaseModel
                     ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy'])
                     ->where('terms.term_id', '=', $args['term'])
                     ->getQuery();
-    
+
                 $query
                     ->joinQuery($taxQuery, ['posts.ID', 'tax.object_id'], 'tax');
             }
@@ -650,7 +652,7 @@ class VisitorsModel extends BaseModel
                     ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy'])
                     ->where('terms.term_id', '=', $args['term'])
                     ->getQuery();
-    
+
                 $query
                     ->joinQuery($taxQuery, ['posts.ID', 'tax.object_id'], 'tax');
             }

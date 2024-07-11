@@ -76,7 +76,7 @@ class devices extends MetaBoxAbstract
         // Prepare Data
         $data = array();
         foreach ($devices as $device) {
-            if (trim($device['device']) != "") {
+            if (!empty(trim($device['device'])) && strtolower($device['device']) != "bot") {
                 $device_name = \WP_STATISTICS\Helper::getDeviceCategoryName($device['device']);
                 if (isset($data[$device_name])) {
                     $data[$device_name]['count'] += $device['count'];
