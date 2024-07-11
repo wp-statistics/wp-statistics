@@ -369,6 +369,8 @@ class VisitorsModel extends BaseModel
             'post_id'     => '',
             'per_page'    => '',
             'query_param' => '',
+            'taxonomy'    => '',
+            'term'        => '',
             'page'        => 1,
             'group_by'    => 'visitor.location',
             'order_by'    => ['visitors', 'views'],
