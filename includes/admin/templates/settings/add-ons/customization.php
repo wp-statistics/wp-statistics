@@ -20,20 +20,27 @@ $disableMenuArray = [
     'geographic'         => __('Geographic', 'wp-statistics'),
     'devices'            => __('Devices', 'wp-statistics'),
     'top.visitors'       => __('Top Visitors', 'wp-statistics'),
+    'link_tracker'       => __('Link Tracker', 'wp-statistics'),
+    'download_tracker'   => __('Download Tracker', 'wp-statistics'),
     'plugins'            => __('Add-Ons', 'wp-statistics'),
+    'privacy_audit'      => __('Privacy Audit', 'wp-statistics'),
+    'optimize'           => __('Optimization', 'wp-statistics'),
+    'exclusions'         => __('Exclusions', 'wp-statistics'),
 ];
-if (Helper::isAddOnActive('data-plus') && !empty(Option::get('link_tracker'))) {
-    $disableMenuArray['link_tracker'] = __('Link Tracker', 'wp-statistics');
+if (empty(Option::get('useronline'))) {
+    unset($disableMenuArray['online']);
 }
-if (Helper::isAddOnActive('data-plus') && !empty(Option::get('download_tracker'))) {
-    $disableMenuArray['download_tracker'] = __('Download Tracker', 'wp-statistics');
+if (!Helper::isAddOnActive('data-plus') || empty(Option::get('link_tracker'))) {
+    unset($disableMenuArray['link_tracker']);
 }
-if (!empty(Option::get('privacy_audit'))) {
-    $disableMenuArray['privacy_audit'] = __('Privacy Audit', 'wp-statistics');
+if (!Helper::isAddOnActive('data-plus') || empty(Option::get('download_tracker'))) {
+    unset($disableMenuArray['download_tracker']);
 }
-$disableMenuArray['optimize']   = __('Optimization', 'wp-statistics');
-if (!empty(Option::get('record_exclusions'))) {
-    $disableMenuArray['exclusions'] = __('Exclusions', 'wp-statistics');
+if (empty(Option::get('privacy_audit'))) {
+    unset($disableMenuArray['privacy_audit']);
+}
+if (empty(Option::get('record_exclusions'))) {
+    unset($disableMenuArray['exclusions']);
 }
 
 $disabledMenuItems = WP_STATISTICS\Option::getByAddon('disable_menus', 'customization', []);
