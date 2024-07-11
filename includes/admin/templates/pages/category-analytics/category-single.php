@@ -88,6 +88,13 @@ use WP_STATISTICS\Helper;
         ];
         Admin_Template::get_template(['layout/category-analytics/performance-chart'], $performance);
 
+        $topPick = [
+            'title'     => esc_html__('Top Contents', 'wp-statistics'),
+            'tooltip'   => esc_html__('Top Contents tooltip', 'wp-statistics'),
+            'data'      => $data['posts']
+        ];
+        Admin_Template::get_template(['layout/category-analytics/top-picks'], $topPick);
+
         $summary = [
             'title'   => esc_html__('Summary', 'wp-statistics'),
             'tooltip' => esc_html__('Summary tooltip', 'wp-statistics'),
