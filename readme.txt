@@ -134,27 +134,23 @@ If you encounter any bug, please create an issue on [GitHub](https://github.com/
 
 == Changelog ==
 = 14.9 - **.07.2024 =
-* New: Content Analytics: Replaces the old Post Type report. Insights into author performance and statistics.
-* New: Category Analytics: Replaces the old Categories report. Insights into author performance and statistics.
-* New: Single Country Report.
-* New: Device Categories tab for device-specific analytics.
-* New: Anonymous Tracking option: Tracks users anonymously by default. PII data is only recorded with explicit consent.
-* Enhancement: Improved admin bar stats display, showing current and global statistics.
-* Enhancement: Redesigned email reporting template.
-* Enhancement: Enhanced admin styles and dashboard quick stats.
-* Enhancement: Corrected online time calculation for seconds-only durations.
-* Enhancement: Database row threshold notice shown only to admins.
-* Enhancement: Improved background process functionality.
-* Enhancement: Removed frequent online user checks, set check value to 65, fixed issues, allowed backend/frontend to reset user online status.
-* Enhancement: Numerous minor and major enhancements and clean-up tasks.
-* Enhancement: Implemented Mozart to avoid plugin namespace conflicts.
-* Enhancement: Improved referral tracking performance.
-* Enhancement: Ensured word count functionality is compatibility for UTF-8 post/page contents.
-* Enhancement: Fixed filter issues and improvement the DatePicker.
-* Fix: Display User View Logs option fixed.
-* Fix: Device categories percent share fixed and improved.
-* Fix: Top viewing authors inaccuracies fixed.
-* Fix: Yesterday date filter fixed.
+* New: Content Analytics: Replaces Post Type report with content insights.
+* New: Category Analytics: Replaces Taxonomies report with category insights.
+* New: Device Categories report: Added under Devices menu.
+* New: Anonymous Tracking: Tracks users anonymously when consent is activated and user declines data recording.
+* Enhancement: Admin bar stats: New design.
+* Enhancement: Email reporting: Redesigned template and refactored scheduling.
+* Enhancement: Admin styles: Enhanced styles and dashboard quick stats.
+* Enhancement: Database row threshold notice: Shown only to admins.
+* Enhancement: Background process functionality: Improved.
+* Enhancement: Referral tracking: Enhanced performance.
+* Enhancement: Word count: Ensured compatibility with UTF-8 content.
+* Enhancement: DatePicker: Fixed filter issues and improved functionality.
+* Enhancement: Mozart: Implemented to avoid plugin namespace conflicts.
+* Fix: Online time calculation: Corrected for seconds-only durations.
+* Fix: Online user checks: Removed frequent checks, set check value to 65, fixed issues, and allowed status reset.
+* Fix: User View Logs: Display option fixed.
+* Fix: Top viewing authors: Inaccuracies fixed
 
 For more information about the major update, please [visit our blog post](...) or follow [@wp_statistics](https://twitter.com/wp_statistics) on Twitter
 

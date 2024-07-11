@@ -157,7 +157,8 @@
                 <td>
                     <input id="anonymous_tracking" type="checkbox" value="1" name="wps_anonymous_tracking" <?php echo WP_STATISTICS\Option::get('anonymous_tracking', false) == true ? 'checked="checked"' : ''; ?> />
                     <label for="anonymous_tracking"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
-                    <p class="description"><?php _e('When this option is enabled, WP Statistics will track all users anonymously by default, regardless of whether they have accepted consent. No Personally Identifiable Information (PII) will be recorded in this mode. All anonymous tracking data will be classified as "Functional," ensuring compliance with privacy laws. PII data will only be tracked when explicit consent is granted by the website visitor. This allows for comprehensive user tracking while respecting privacy regulations.', 'wp-statistics'); ?></p>
+                    <p class="description"><?php _e('When this option is enabled, all users will be tracked anonymously by default, without recording any Personally Identifiable Information (PII), regardless of consent. This anonymous tracking data is classified as "Functional" to align with privacy regulations. PII data will only be collected when explicit consent is provided by the website visitor.', 'wp-statistics'); ?></p>
+                    <p class="description"><?php _e('<b>Note</b>: This feature is currently in beta and enables user tracking while adhering to privacy laws. Users are advised to review and ensure compliance with applicable legal requirements in their jurisdiction.', 'wp-statistics'); ?></p>
                 </td>
             </tr>
         <?php endif; ?>
