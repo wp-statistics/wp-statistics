@@ -1766,37 +1766,4 @@ class Helper
             Option::get('anonymous_tracking', false) == true &&
             !(function_exists('wp_has_consent') && wp_has_consent($selectedConsentLevel));
     }
-
-    /**
-     * Splices an associative array and adds the new element while preserving its key.
-     *
-     * Using a normal `array_splice` will add the new element without a string key.
-     * For example, `array_splice(['a' => 'a', 'b' => 'b'], 1, 0, ['new' => 'new'])` will be `['a' => 'a', 0 => 'new', 'b' => 'b']`.
-     *
-     * @param   array   $array
-     * @param   int     $offset
-     * @param   int     $length
-     * @param   array   $replacement
-     *
-     * @return  $array
-     *
-     * @source  https://nimblewebdeveloper.com/blog/php-splice-associative-keyed-array
-     */
-    public static function arraySpliceAssociative($array, $offset, $length = 0, $replacement = [])
-    {
-        if ($offset < 0) {
-            $offset = 0;
-        } else if ($offset > count($array)) {
-            $offset = count($array);
-        }
-
-        if ($offset + $length > count($array)) {
-            $length = 0;
-        }
-
-        $beforeSlice = array_slice($array, 0, $offset);
-        $afterSlice  = array_slice($array, $offset + $length);
-
-        return array_merge($beforeSlice, $replacement, $afterSlice);
-    }
 }
