@@ -46,7 +46,7 @@ class ViewsModel extends BaseModel
                 ->getQuery();
 
             $query
-                ->joinQuery($taxQuery, ['posts.id', 'tax.object_id'], 'tax');
+                ->joinQuery($taxQuery, ['posts.ID', 'tax.object_id'], 'tax');
         }
 
         $total = $query->getVar();
@@ -90,7 +90,7 @@ class ViewsModel extends BaseModel
                 ->getQuery();
 
             $query
-                ->joinQuery($taxQuery, ['posts.id', 'tax.object_id'], 'tax');
+                ->joinQuery($taxQuery, ['posts.ID', 'tax.object_id'], 'tax');
         }
 
         $result = $query->getAll();

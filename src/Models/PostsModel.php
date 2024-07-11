@@ -38,7 +38,7 @@ class PostsModel extends BaseModel
                 ->getQuery();
 
             $query
-                ->joinQuery($taxQuery, ['posts.id', 'tax.object_id'], 'tax');
+                ->joinQuery($taxQuery, ['posts.ID', 'tax.object_id'], 'tax');
         }
 
         $result = $query->getVar();
@@ -75,7 +75,7 @@ class PostsModel extends BaseModel
                 ->getQuery();
 
             $query
-                ->joinQuery($taxQuery, ['posts.id', 'tax.object_id'], 'tax');
+                ->joinQuery($taxQuery, ['posts.ID', 'tax.object_id'], 'tax');
         }
 
         $result = $query->getAll();
@@ -117,7 +117,7 @@ class PostsModel extends BaseModel
                 ->getQuery();
 
             $query
-                ->joinQuery($taxQuery, ['posts.id', 'tax.object_id'], 'tax');
+                ->joinQuery($taxQuery, ['posts.ID', 'tax.object_id'], 'tax');
         }
 
         $result = $query->getVar();
@@ -157,7 +157,7 @@ class PostsModel extends BaseModel
                 ->getQuery();
 
             $query
-                ->joinQuery($taxQuery, ['posts.id', 'tax.object_id'], 'tax');
+                ->joinQuery($taxQuery, ['posts.ID', 'tax.object_id'], 'tax');
         }
 
         $result = $query->getVar();
