@@ -737,6 +737,8 @@ class VisitorsModel extends BaseModel
      * @param bool $bypassCache Send the cached result.
      *
      * @return  array   Format: `[{'date' => "STRING", 'visitors' => INT, 'visits' => INT}, ...]`.
+     *
+     * @todo    Make the query faster for date ranges greater than one month.
      */
     public function getDailyStats($args = [], $bypassCache = false)
     {
@@ -749,11 +751,13 @@ class VisitorsModel extends BaseModel
             'post_id'   => '',
         ]);
 
-        $fields = [
+        $domain     = 'SUBSTRING_INDEX(REPLACE(REPLACE(`visitor`.`referred`, "http://", ""), "https://", ""), "/", 1)';
+        $caseResult = !empty($args['post_id']) ? `visitor`.`ID` : $domain;
+        $fields     = [
             '`visitor`.`last_counter` AS `date`',
             'COUNT(DISTINCT `visitor`.`ID`) AS `visitors`',
             '`visit`.`visit` AS `visits`',
-            'COUNT(IF(`visitor`.`referred` NOT LIKE "%%' . Helper::get_domain_name(home_url()) . '%%" AND `visitor`.`referred` <> "", 1, NULL)) AS `referrers`',
+            'COUNT(DISTINCT CASE WHEN(' . $domain . ' NOT LIKE "%%' . Helper::get_domain_name(home_url()) . '%%" AND `visitor`.`referred` <> "" AND `visitor`.`referred` REGEXP "^(https?://|www\.)[\.A-Za-z0-9\-]+\.[a-zA-Z]{2,4}" AND LENGTH(`visitor`.`referred`) >= 12) THEN ' . $caseResult . ' END) AS `referrers`',
         ];
         if (!empty($args['post_id'])) {
             // For single pages/posts
@@ -765,7 +769,6 @@ class VisitorsModel extends BaseModel
             ->join('visit', ['`visitor`.`last_counter`', '`visit`.`last_counter`'])
             ->whereDate('`visitor`.`last_counter`', $args['date'])
             ->groupBy('`visitor`.`last_counter`')
-            ->orderBy('visitor.last_counter', 'ASC')
             ->bypassCache($bypassCache);
 
         $filteredArgs = array_filter($args);
