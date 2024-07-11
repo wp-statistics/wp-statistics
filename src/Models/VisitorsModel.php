@@ -57,6 +57,7 @@ class VisitorsModel extends BaseModel
     public function countDailyVisitors($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
+            'date'        => '',
             'post_type'   => '',
             'author_id'   => '',
             'post_id'     => '',
@@ -76,7 +77,7 @@ class VisitorsModel extends BaseModel
             ->where('post_author', '=', $args['author_id'])
             ->where('posts.ID', '=', $args['post_id'])
             ->where('pages.uri', '=', $args['query_param'])
-            ->whereDate('visitor_relationships.date', ['date' => ['from' => (date('Y') - 1) . '-01-01', 'to' => date('Y-m-d')]])
+            ->whereDate('visitor_relationships.date', $args['date'])
             ->groupBy('DATE(visitor_relationships.date)')
             ->bypassCache($bypassCache);
 
