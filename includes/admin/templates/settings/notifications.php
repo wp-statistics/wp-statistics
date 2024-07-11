@@ -93,7 +93,7 @@ use WP_STATISTICS\Schedule;
         <?php if ($next_scheduled_time) { ?>
             <tr valign="top">
                 <td colspan="2" scope="row" class="wps-alert-container">
-                    <div class="alert alert-success"><span><?php echo sprintf(__('Your next report is scheduled to be sent on <b>%s at 8 AM</b>', 'wp-statistics'), wp_date(get_option('date_format'), $next_scheduled_time)) ?></span></div>
+                    <div class="alert alert-success"><span><?php echo sprintf(__('Your next report is scheduled to be sent on <b>%s at %s</b>', 'wp-statistics'), wp_date(get_option('date_format'), $next_scheduled_time), wp_date(get_option('time_format'), $next_scheduled_time)) ?></span></div>
                 </td>
             </tr>
         <?php } ?>
@@ -138,7 +138,7 @@ use WP_STATISTICS\Schedule;
             </th>
 
             <td>
-                <?php wp_editor(Option::get('content_report'), 'content-report', array('media_buttons' => false, 'textarea_name' => 'wps_content_report', 'textarea_rows' => 5)); ?>
+                <?php wp_editor(Option::get('content_report'), 'content-report', array('media_buttons' => false, 'textarea_name' => 'wps_content_report', 'textarea_rows' => 5, 'editor_height' => 400)); ?>
                 <p class="description"><?php esc_html_e('Using WP Statistics shortcodes to display specific statistics.', 'wp-statistics'); ?></p>
 
                 <p class="description data">

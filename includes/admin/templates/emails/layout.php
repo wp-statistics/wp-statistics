@@ -28,7 +28,7 @@ $email_body = '
                 <table class="header" style=" font-family: \'Roboto\', Arial, Helvetica, sans-serif; margin: 0; padding: 0; text-align: center; text-decoration: none; width: 100%;">
                     <tr style=" font-family: \'Roboto\', Arial, Helvetica, sans-serif; margin: 0; padding: 0; text-decoration: none;">
                         <td style=" font-family: \'Roboto\', Arial, Helvetica, sans-serif; margin: 0; padding: 0; text-decoration: none;">
-                             ' . esc_html($final_logo) . '
+                             ' . $final_logo . '
                         </td>
                     </tr>
                     <tr style=" font-family: \'Roboto\', Arial, Helvetica, sans-serif; margin: 0; padding: 0; text-decoration: none;">
