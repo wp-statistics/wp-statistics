@@ -4,8 +4,9 @@ use WP_STATISTICS\Helper;
 use WP_STATISTICS\Menus;
 use WP_Statistics\Utils\Request;
 
-$postId     = Request::get('post_id');
-$postAuthor = get_post_field('post_author', $postId);
+$postId             = Request::get('post_id');
+$postAuthor         = get_post_field('post_author', $postId);
+$postTypeSingular   = Helper::getPostTypeName(get_post_type($postId), true);
 ?>
 
 <div class="wps-content-analytics-header">
@@ -26,7 +27,7 @@ $postAuthor = get_post_field('post_author', $postId);
             </a>
         </div>
         <div class="wps-content-analytics-header__info">
-            <span class="wps-content-analytics-header__type"><?php echo ucfirst(get_post_type($postId)) ?></span>
+            <span class="wps-content-analytics-header__type"><?php echo esc_html($postTypeSingular) ?></span>
             <span class="wps-content-analytics-header__date_published"><?php echo get_the_date(Helper::getDefaultDateFormat(true), $postId) ?></span>
             <span class="wps-content-analytics-header__date_updated"><span><?php  echo esc_html__('Updated on: ', 'wp-statistics') ?></span><?php echo get_the_modified_date(Helper::getDefaultDateFormat(true), $postId) ?></span>
             <span class="wps-content-analytics-header__author">
