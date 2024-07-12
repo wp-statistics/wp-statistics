@@ -749,6 +749,9 @@ class VisitorsModel extends BaseModel
             ],
             'post_type' => '',
             'post_id'   => '',
+            'author_id' => '',
+            'taxonomy'  => '',
+            'term_id'   => '',
         ]);
 
         $domain     = 'SUBSTRING_INDEX(REPLACE(REPLACE(`visitor`.`referred`, "http://", ""), "https://", ""), "/", 1)';
@@ -759,8 +762,8 @@ class VisitorsModel extends BaseModel
             '`visit`.`visit` AS `visits`',
             'COUNT(DISTINCT CASE WHEN(' . $domain . ' NOT LIKE "%%' . Helper::get_domain_name(home_url()) . '%%" AND `visitor`.`referred` <> "" AND `visitor`.`referred` REGEXP "^(https?://|www\.)[\.A-Za-z0-9\-]+\.[a-zA-Z]{2,4}" AND LENGTH(`visitor`.`referred`) >= 12) THEN ' . $caseResult . ' END) AS `referrers`',
         ];
-        if (!empty($args['post_id'])) {
-            // For single pages/posts
+        if (!empty($args['post_id']) || !empty($args['author_id']) || !empty($args['term_id'])) {
+            // For single pages/posts/authors/terms
             $fields[2] = 'SUM(DISTINCT `pages`.`count`) AS `visits`';
         }
 
@@ -772,13 +775,34 @@ class VisitorsModel extends BaseModel
             ->bypassCache($bypassCache);
 
         $filteredArgs = array_filter($args);
-        if (array_intersect(['post_type', 'post_id'], array_keys($filteredArgs))) {
+        if (array_intersect(['post_type', 'post_id', 'author_id', 'taxonomy', 'term_id'], array_keys($filteredArgs))) {
             $query
                 ->join('visitor_relationships', ['`visitor_relationships`.`visitor_id`', '`visitor`.`ID`'])
                 ->join('pages', '`visitor_relationships`.`page_id` = `pages`.`page_id` AND `visit`.`last_counter` = `pages`.`date`')
-                ->join('posts', ['`posts`.`ID`', '`pages`.`id`'])
-                ->where('posts.post_type', 'IN', $args['post_type'])
-                ->where('posts.ID', '=', $args['post_id']);
+                ->join('posts', ['`posts`.`ID`', '`pages`.`id`']);
+
+            if (!empty($args['post_type'])) {
+                $query->where('posts.post_type', 'IN', $args['post_type']);
+            }
+            if (!empty($args['post_id'])) {
+                $query->where('posts.ID', '=', $args['post_id']);
+            }
+            if (!empty($args['author_id'])) {
+                $query->where('posts.post_author', '=', $args['author_id']);
+            }
+
+            if (!empty($args['taxonomy']) && !empty($args['term_id'])) {
+                $taxQuery = Query::select(['DISTINCT object_id'])
+                    ->from('term_relationships')
+                    ->join('term_taxonomy', ['term_relationships.term_taxonomy_id', 'term_taxonomy.term_taxonomy_id'])
+                    ->join('terms', ['term_taxonomy.term_id', 'terms.term_id'])
+                    ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy'])
+                    ->where('terms.term_id', '=', $args['term_id'])
+                    ->getQuery();
+    
+                $query
+                    ->joinQuery($taxQuery, ['posts.ID', 'tax.object_id'], 'tax');
+            }
         }
 
         $result = $query->getAll();
