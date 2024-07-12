@@ -755,14 +755,14 @@ class VisitorsModel extends BaseModel
         ]);
 
         $domain     = 'SUBSTRING_INDEX(REPLACE(REPLACE(`visitor`.`referred`, "http://", ""), "https://", ""), "/", 1)';
-        $caseResult = !empty($args['post_id']) ? '`visitor`.`ID`' : $domain;
+        $caseResult = is_numeric($args['post_id']) ? '`visitor`.`ID`' : $domain;
         $fields     = [
             '`visitor`.`last_counter` AS `date`',
             'COUNT(DISTINCT `visitor`.`ID`) AS `visitors`',
             '`visit`.`visit` AS `visits`',
             'COUNT(DISTINCT CASE WHEN(' . $domain . ' NOT LIKE "%%' . Helper::get_domain_name(home_url()) . '%%" AND `visitor`.`referred` <> "" AND `visitor`.`referred` REGEXP "^(https?://|www\.)[\.A-Za-z0-9\-]+\.[a-zA-Z]{2,4}" AND LENGTH(`visitor`.`referred`) >= 12) THEN ' . $caseResult . ' END) AS `referrers`',
         ];
-        if (!empty($args['post_id']) || !empty($args['author_id']) || !empty($args['term_id'])) {
+        if (is_numeric($args['post_id']) || !empty($args['author_id']) || !empty($args['term_id'])) {
             // For single pages/posts/authors/terms
             $fields[2] = 'SUM(DISTINCT `pages`.`count`) AS `visits`';
         }
@@ -784,8 +784,8 @@ class VisitorsModel extends BaseModel
             if (!empty($args['post_type'])) {
                 $query->where('posts.post_type', 'IN', $args['post_type']);
             }
-            if (!empty($args['post_id'])) {
-                $query->where('posts.ID', '=', $args['post_id']);
+            if (is_numeric($args['post_id'])) {
+                $query->where('posts.ID', '=', intval($args['post_id']));
             }
             if (!empty($args['author_id'])) {
                 $query->where('posts.post_author', '=', $args['author_id']);

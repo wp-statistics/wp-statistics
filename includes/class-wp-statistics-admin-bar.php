@@ -49,7 +49,7 @@ class AdminBar
             $footerText = __('Explore Details', 'wp-statistics');
             $footerLink = esc_url(admin_url('admin.php?page=wps_overview_page'));
 
-            if ((is_single() or is_page()) and !is_front_page()) {
+            if ((is_single() || is_page()) || is_front_page()) {
 
                 $view_type  = Pages::get_post_type($object_id);
                 $view_title = __('Page Views', 'wp-statistics');
