@@ -825,11 +825,15 @@ class Helper
         }
 
         $schedule   = Option::get('time_report', false);
-        $title_style= is_plugin_active('wp-statistics-advanced-reporting/wp-statistics-advanced-reporting.php')  ? 'text-align: left;font-size: 21px; font-weight: 500; line-height: 24.61px; color: #0C0C0D;' : 'text-align: center;font-size: 16px; font-style: italic; font-weight: 400; line-height: 18.75px; color: #5E5E64;';
-        $emailTitle = sprintf(
-            __('<span style="font-family: \'Roboto\', Arial, Helvetica, sans-serif;'.$title_style.'">Sent from </span><a style="color: #175DA4;text-decoration: underline" href="https://%1$s">%1$s</a>', 'wp-statistics'),
-            wp_parse_url(get_site_url(), PHP_URL_HOST)
-        );
+        if (is_plugin_active('wp-statistics-advanced-reporting/wp-statistics-advanced-reporting.php')) {
+            $emailTitle = __('<span style="font-family: \'Roboto\', Arial, Helvetica, sans-serif; text-align: left;font-size: 21px; font-weight: 500; line-height: 24.61px; color: #0C0C0D;">Your Website Performance Overview</span>', 'wp-statistics');
+        } else {
+            $emailTitle = sprintf(
+                // translators: %1$s: Website URL.
+                __('<span style="font-family: \'Roboto\', Arial, Helvetica, sans-serif; text-align: center;font-size: 16px; font-style: italic; font-weight: 400; line-height: 18.75px; color: #5E5E64;">Sent from </span><a style="color: #175DA4;text-decoration: underline" href="https://%1$s">%1$s</a>', 'wp-statistics'),
+                wp_parse_url(get_site_url(), PHP_URL_HOST)
+            );
+        }
 
         if ($schedule && array_key_exists($schedule, Schedule::getSchedules())) {
             $schedule   = Schedule::getSchedules()[$schedule];
