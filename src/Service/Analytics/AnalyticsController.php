@@ -16,9 +16,6 @@ class AnalyticsController
     public function hit_record_action_callback()
     {
         if (Helper::is_request('ajax')) {
-            // Check Refer Ajax
-            check_ajax_referer('wp_statistics_tracker_nonce', 'nonce');
-
             // Start Record
             $exclusion    = Hits::record();
             $responseData = [
@@ -44,9 +41,6 @@ class AnalyticsController
     public function keep_online_action_callback()
     {
         if (Helper::is_request('ajax')) {
-            // Check Refer Ajax
-            check_ajax_referer('wp_statistics_tracker_nonce', 'nonce');
-
             UserOnline::record();
 
             // Return response
