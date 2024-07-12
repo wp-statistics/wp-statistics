@@ -6,7 +6,10 @@ document.addEventListener('DOMContentLoaded', function () {
             if (item.classList.contains('disabled')) {
                 return;
             }
-            e.preventDefault();
+            if (e.target.tagName.toLowerCase() != 'a' && e.target.tagName.toLowerCase() != 'button' && !e.target.classList.contains('wps-admin-bar__chart__unlock-button')) {
+                // Disable all click events unless it's an actual link/button or the "Explore Details" link in footer
+                e.preventDefault();
+            }
 
             // Hide all ab-sub-wrapper elements
             document.querySelectorAll('.wp-statistics-global-data .ab-sub-wrapper, .wp-statistics-current-page-data .ab-sub-wrapper').forEach(function(wrapper) {
