@@ -114,20 +114,20 @@ class AdminBar
                     'title'  => __('Current Page Data', 'wp-statistics'),
                     'meta'   => array('class' => 'wp-statistics-current-page-data disabled'),
                 ],
-                'wp-statistics-menu-visitors-today' => array(
+                'wp-statistics-menu-visitors-today'   => array(
                     'parent' => 'wp-statistic-menu-global-data',
                     'title'  => '<div class="wp-statistics-menu-visitors-today__title">' . __('Visitors Today', 'wp-statistics') . '</div>'
                         . '<div class="wp-statistics-menu-visitors-today__count">' . wp_statistics_visitor('today') . '</div>'
                         . '<div class="wp-statistics-menu-todayvisits">' . sprintf(__('was %s last day', 'wp-statistics'), wp_statistics_visitor('yesterday')) . '</div>'
                 ),
-                'wp-statistics-menu-views-today'    => array(
+                'wp-statistics-menu-views-today'      => array(
                     'parent' => 'wp-statistic-menu-global-data',
                     'title'  => '<div class="wp-statistics-menu-views-today__title">' . __('Views Today', 'wp-statistics') . '</div>'
                         . '<div class="wp-statistics-menu-views-today__count">' . wp_statistics_visit('today') . '</div>'
                         . '<div class="wp-statistics-menu-yesterdayvisits">' . sprintf(__('was %s last day', 'wp-statistics'), wp_statistics_visit('yesterday')) . '</div>'
 
                 ),
-                'wp-statistics-menu-page'           => array(
+                'wp-statistics-menu-page'             => array(
                     'parent' => 'wp-statistic-menu-global-data',
                     'title'  => sprintf('<img src="%s"/><div><span class="wps-admin-bar__chart__unlock-button">%s</span><button>%s</button></div>',
                         esc_url(WP_STATISTICS_URL . 'assets/images/mini-chart-lock.png'),
@@ -139,14 +139,15 @@ class AdminBar
                         'target' => '_blank',
                     ],
                 ),
-                'wp-statistics-footer-page'         => array(
+                'wp-statistics-footer-page'           => array(
                     'parent' => 'wp-statistic-menu-global-data',
                     'title'  => sprintf('<img src="%s"/>
-                        <a href="' . $footerLink . '" target="_blank">
+                        <a href="%s" target="_blank">
                         <span class="wps-admin-bar__chart__unlock-button">%s</span>
                         </a>'
                         ,
-                        WP_STATISTICS_URL . 'assets/images/mini-chart-logo.svg',
+                        esc_url($footerLink),
+                        esc_url(WP_STATISTICS_URL . 'assets/images/mini-chart-logo.svg'),
                         __('Explore Details', 'wp-statistics')
                     ),
 
