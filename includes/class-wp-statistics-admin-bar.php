@@ -142,7 +142,7 @@ class AdminBar
                 'wp-statistics-footer-page'         => array(
                     'parent' => 'wp-statistic-menu-global-data',
                     'title'  => sprintf('<img src="%s"/>
-                        <a href="' . $footerLink . '">
+                        <a href="' . $footerLink . '" target="_blank">
                         <span class="wps-admin-bar__chart__unlock-button">%s</span>
                         </a>'
                         ,
