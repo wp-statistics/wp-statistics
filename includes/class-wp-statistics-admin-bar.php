@@ -54,21 +54,21 @@ class AdminBar
                 $view_type  = Pages::get_post_type($object_id);
                 $view_title = __('Page Views', 'wp-statistics');
                 $footerText = __('View Page Performance', 'wp-statistics');
-                $footerLink = Menus::admin_url('content-analytics', ['type' => 'single', 'post_id' => $object_id]);
+                $footerLink = esc_url(Menus::admin_url('content-analytics', ['type' => 'single', 'post_id' => $object_id]));
 
             } elseif (is_category()) {
 
                 $view_type  = 'category';
                 $view_title = __('Category Views', 'wp-statistics');
                 $footerText = __('View Category Performance', 'wp-statistics');
-                $footerLink = Menus::admin_url('category-analytics', ['type' => 'single', 'term_id' => $object_id]);
+                $footerLink = esc_url(Menus::admin_url('category-analytics', ['type' => 'single', 'term_id' => $object_id]));
 
             } elseif (is_tag()) {
 
                 $view_type  = 'post_tag';
                 $view_title = __('Tag Views', 'wp-statistics');
                 $footerText = __('View Tag Performance', 'wp-statistics');
-                $footerLink = esc_url(admin_url('admin.php?page=wps_overview_page'));
+                $footerLink = esc_url(Menus::admin_url('category-analytics', ['type' => 'single', 'term_id' => $object_id]));
 
             } elseif (is_author()) {
 
