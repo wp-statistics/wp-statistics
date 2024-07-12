@@ -754,13 +754,12 @@ class VisitorsModel extends BaseModel
             'term_id'   => '',
         ]);
 
-        $domain     = 'SUBSTRING_INDEX(REPLACE(REPLACE(`visitor`.`referred`, "http://", ""), "https://", ""), "/", 1)';
-        $caseResult = is_numeric($args['post_id']) ? '`visitor`.`ID`' : $domain;
+        $caseResult = is_numeric($args['post_id']) ? '`visitor`.`ID`' : 'SUBSTRING_INDEX(REPLACE(REPLACE(`visitor`.`referred`, "http://", ""), "https://", ""), "/", 1)';
         $fields     = [
             '`visitor`.`last_counter` AS `date`',
             'COUNT(DISTINCT `visitor`.`ID`) AS `visitors`',
             '`visit`.`visit` AS `visits`',
-            'COUNT(DISTINCT CASE WHEN(' . $domain . ' NOT LIKE "%%' . Helper::get_domain_name(home_url()) . '%%" AND `visitor`.`referred` <> "" AND `visitor`.`referred` REGEXP "^(https?://|www\.)[\.A-Za-z0-9\-]+\.[a-zA-Z]{2,4}" AND LENGTH(`visitor`.`referred`) >= 12) THEN ' . $caseResult . ' END) AS `referrers`',
+            'COUNT(DISTINCT CASE WHEN(`visitor`.`referred` NOT LIKE "%%' . Helper::get_domain_name(home_url()) . '%%" AND `visitor`.`referred` <> "" AND `visitor`.`referred` REGEXP "^(https?://|www\.)[\.A-Za-z0-9\-]+\.[a-zA-Z]{2,4}" AND LENGTH(`visitor`.`referred`) >= 12) THEN ' . $caseResult . ' END) AS `referrers`',
         ];
         if (is_numeric($args['post_id']) || !empty($args['author_id']) || !empty($args['term_id'])) {
             // For single pages/posts/authors/terms
