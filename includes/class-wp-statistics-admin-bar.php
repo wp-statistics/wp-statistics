@@ -46,26 +46,36 @@ class AdminBar
 
             $view_type  = false;
             $view_title = false;
+            $footerText = __('Explore Details', 'wp-statistics');
+            $footerLink = esc_url(admin_url('admin.php?page=wps_overview_page'));
 
             if ((is_single() or is_page()) and !is_front_page()) {
 
                 $view_type  = Pages::get_post_type($object_id);
                 $view_title = __('Page Views', 'wp-statistics');
+                $footerText = __('View Page Performance', 'wp-statistics');
+                $footerLink = Menus::admin_url('content-analytics', ['type' => 'single', 'post_id' => $object_id]);
 
             } elseif (is_category()) {
 
                 $view_type  = 'category';
                 $view_title = __('Category Views', 'wp-statistics');
+                $footerText = __('View Category Performance', 'wp-statistics');
+                $footerLink = Menus::admin_url('category-analytics', ['type' => 'single', 'term_id' => $object_id]);
 
             } elseif (is_tag()) {
 
                 $view_type  = 'post_tag';
                 $view_title = __('Tag Views', 'wp-statistics');
+                $footerText = __('View Tag Performance', 'wp-statistics');
+                $footerLink = esc_url(admin_url('admin.php?page=wps_overview_page'));
 
             } elseif (is_author()) {
 
                 $view_type  = 'author';
                 $view_title = __('Author Views', 'wp-statistics');
+                $footerText = __('View Author Performance', 'wp-statistics');
+                $footerLink = esc_url(Menus::admin_url('author-analytics', ['type' => 'single-author', 'author_id' => $object_id]));
 
             } else {
 
@@ -130,9 +140,9 @@ class AdminBar
                     ],
                 ),
                 'wp-statistics-footer-page'         => array(
-                    'parent' => 'wp-statistic-menu',
+                    'parent' => 'wp-statistic-menu-global-data',
                     'title'  => sprintf('<img src="%s"/>
-                        <a href="' . esc_url(admin_url('admin.php?page=wps_overview_page')) . '">
+                        <a href="' . $footerLink . '">
                         <span class="wps-admin-bar__chart__unlock-button">%s</span>
                         </a>'
                         ,
@@ -148,6 +158,8 @@ class AdminBar
                 'view_type'          => $view_type,
                 'view_title'         => $view_title,
                 'hit_number'         => $hit_number,
+                'footer_text'        => $footerText,
+                'footer_link'        => $footerLink,
                 'menu_href'          => Menus::admin_url('overview'),
                 'today_visits'       => number_format(wp_statistics_visit('today')),
                 'today_visitors'     => number_format(wp_statistics_visitor('today')),
