@@ -47,7 +47,7 @@ class Frontend
         /**
          * Merge & build the URLs
          */
-        $params               = array_merge([Hits::$rest_hits_key => 'yes'], Helper::getHitsDefaultParams());
+        $params               = array_merge([Hits::$rest_hits_key => 1], Helper::getHitsDefaultParams());
         $hitRequestUrl        = add_query_arg($params, get_rest_url(null, RestAPI::$namespace . '/' . Api\v2\Hit::$endpoint));
         $keepOnlineRequestUrl = add_query_arg($params, get_rest_url(null, RestAPI::$namespace . '/' . Api\v2\CheckUserOnline::$endpoint));
 

@@ -13,7 +13,7 @@ class Hits extends Singleton
      *
      * @var string
      */
-    public static $rest_hits_key = 'wp_statistics_hit_rest';
+    public static $rest_hits_key = 'wp_statistics_hit';
 
     /**
      * Rest-Api Hit Data
