@@ -125,8 +125,10 @@ WP Statistics supports WordPress Multi-Site/Network installations. In the networ
 13. Privacy Audit
 
 == Upgrade Notice ==
+= 14.9 =
+Please clear your cache to ensure proper functionality, as some request payloads have been updated. Additionally, please review your settings, especially if you use DataPlus, Advanced Reporting, and Customization, as some options have been changed.
+
 = 14.0 =
-**IMPORTANT NOTE**
 Welcome to WP Statistics v14.0, our biggest update!
 Thank you for being part of our community. We’ve been working hard for one year to develop this version and make WP Statistics better for you. after updating, please update all Add-Ons to tha latest version as well.
 
