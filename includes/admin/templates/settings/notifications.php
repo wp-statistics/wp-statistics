@@ -93,7 +93,7 @@ use WP_STATISTICS\Schedule;
         <?php if ($next_scheduled_time) { ?>
             <tr valign="top">
                 <td colspan="2" scope="row" class="wps-alert-container">
-                    <div class="alert alert-success"><span><?php echo sprintf(__('Your next report is scheduled to be sent on <b>%s at %s</b>', 'wp-statistics'), wp_date(get_option('date_format'), $next_scheduled_time), wp_date(get_option('time_format'), $next_scheduled_time)) ?></span></div>
+                    <div class="alert alert-success"><span><?php echo sprintf(__('Your next report is scheduled to be sent on <b>%s at %s</b>.', 'wp-statistics'), wp_date(get_option('date_format'), $next_scheduled_time), wp_date(get_option('time_format'), $next_scheduled_time)) ?></span></div>
                 </td>
             </tr>
         <?php } ?>
@@ -110,7 +110,7 @@ use WP_STATISTICS\Schedule;
                     }
                     ?>
                 </select>
-                <p class="description"><?php _e('Select the frequency of report deliveries. For custom schedules, more information can be found in our <a href="https://wp-statistics.com/resources/schedule-statistical-reports/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" target="_blank">documentation</a>.', 'wp-statistics'); // phpcs:ignore WordPress.Security.EscapeOutput.UnsafePrintingFunction	?></p>
+                <p class="description"><?php _e('Select the frequency of report deliveries.', 'wp-statistics'); // phpcs:ignore WordPress.Security.EscapeOutput.UnsafePrintingFunction	?></p>
             </td>
         </tr>
 
