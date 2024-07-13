@@ -274,4 +274,12 @@ class Admin_Template
         return '<span aria-hidden="true">—</span><span class="screen-reader-text">' . __("Unknown", 'wp-statistics') . '</span>';
     }
 
+    public static function unknownToNotSet($value)
+    {
+        if (empty($value) or $value == 'Unknown') {
+            return __('(not set)', 'wp-statistics');
+        }
+        return $value;
+    }
+
 }

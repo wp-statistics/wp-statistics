@@ -1,4 +1,4 @@
-<?php 
+<?php
 use WP_STATISTICS\Country;
 use WP_STATISTICS\Admin_Template;
 ?>
@@ -35,16 +35,16 @@ use WP_STATISTICS\Admin_Template;
                                     <?php foreach ($data['cities'] as $item) : ?>
                                         <tr>
                                             <td class="wps-pd-l">
-                                                <?php echo esc_html($item->city) ?>
+                                                <?php echo esc_html(\WP_STATISTICS\Admin_Template::unknownToNotSet($item->city)) ?>
                                             </td>
                                             <td class="wps-pd-l">
-                                                <?php echo $item->region ? esc_html($item->region) : Admin_Template::UnknownColumn() ?>
+                                                <?php echo $item->region ? esc_html(\WP_STATISTICS\Admin_Template::unknownToNotSet($item->region)) : Admin_Template::UnknownColumn() ?>
                                             </td>
                                             <td class="wps-pd-l">
                                                 <?php if (empty($item->city) || $item->city == 'Unknown') : ?>
-                                                    <span title="<?php esc_attr_e('Unknown', 'wp-statistics') ?>" class="wps-country-name">
-                                                        <img alt="<?php esc_attr_e('Unknown', 'wp-statistics') ?>" src="<?php echo esc_url(Country::flag(Country::$unknown_location)) ?>" title="<?php esc_attr_e('Unknown', 'wp-statistics') ?>" class="log-tools wps-flag"/>
-                                                        <?php esc_html_e('Unknown', 'wp-statistics') ?>
+                                                    <span title="<?php esc_attr_e('(not set)', 'wp-statistics') ?>" class="wps-country-name">
+                                                        <img alt="<?php esc_attr_e('(not set)', 'wp-statistics') ?>" src="<?php echo esc_url(Country::flag(Country::$unknown_location)) ?>" title="<?php esc_attr_e('Unknown', 'wp-statistics') ?>" class="log-tools wps-flag"/>
+                                                        <?php esc_html_e('(not set)', 'wp-statistics') ?>
                                                     </span>
                                                 <?php else : ?>
                                                     <span title="<?php echo esc_attr(Country::getName($item->country)) ?>" class="wps-country-name">
