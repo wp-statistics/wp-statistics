@@ -13,9 +13,10 @@ $postType = get_post_type(Request::get('post_id'));
             'title'      => esc_html__('Views', 'wp-statistics'),
             'tooltip'    => sprintf(esc_html__('Total views of this %s and views during the selected period.', 'wp-statistics'), strtolower($postType)),
             'icon_class' => 'views',
-            'total'      => Helper::formatNumberWithUnit($data['overview']['views']['total']),
-            'avg'        => Helper::formatNumberWithUnit($data['overview']['views']['recent']),
-            'avg_title'  => esc_html__('Selected Period', 'wp-statistics'),
+            'avg'        => Helper::formatNumberWithUnit($data['overview']['views']['total']),
+            'avg_title'  => esc_html__('Total', 'wp-statistics'),
+            'total'      => Helper::formatNumberWithUnit($data['overview']['views']['recent']),
+            'total_title'=> esc_html__('Selected Period', 'wp-statistics')
         ];
         Admin_Template::get_template(['layout/content-analytics/overview-card'], $args1);
 
@@ -23,9 +24,10 @@ $postType = get_post_type(Request::get('post_id'));
             'title'      => esc_html__('Visitors', 'wp-statistics'),
             'tooltip'    => sprintf(esc_html__('Total unique visitors to this %s and visitors during the selected period.', 'wp-statistics'), strtolower($postType)),
             'icon_class' => 'visitors',
-            'total'      => Helper::formatNumberWithUnit($data['overview']['visitors']['total']),
-            'avg'        => Helper::formatNumberWithUnit($data['overview']['visitors']['recent']),
-            'avg_title'  => esc_html__('Selected Period', 'wp-statistics'),
+            'avg'        => Helper::formatNumberWithUnit($data['overview']['visitors']['total']),
+            'avg_title'  => esc_html__('Total', 'wp-statistics'),
+            'total'      => Helper::formatNumberWithUnit($data['overview']['visitors']['recent']),
+            'total_title'=> esc_html__('Selected Period', 'wp-statistics'),
         ];
         Admin_Template::get_template(['layout/content-analytics/overview-card'], $args2);
 

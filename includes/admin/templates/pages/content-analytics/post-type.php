@@ -15,6 +15,7 @@ $postTypePlural   = Helper::getPostTypeName($postType);
             'title'      => sprintf(esc_html__('Published %s', 'wp-statistics'), $postTypePlural),
             'tooltip'    => sprintf(esc_html__('The total number of %s published in the selected period.', 'wp-statistics'), strtolower($postTypePlural)),
             'total'      => Helper::formatNumberWithUnit($data['overview']['published']['total']),
+            'total_title'=> esc_html__('Selected Period', 'wp-statistics'),
         ];
         Admin_Template::get_template(['layout/content-analytics/overview-card'], $args1);
 
@@ -22,6 +23,7 @@ $postTypePlural   = Helper::getPostTypeName($postType);
             'title'      => esc_html__('Views', 'wp-statistics'),
             'tooltip'    => sprintf(esc_html__('Total views of your %s in the selected period. Avg per  %s is the total views divided by the number of published %s in that period.', 'wp-statistics'), strtolower($postTypePlural), strtolower($postTypeSingular), strtolower($postTypePlural)),
             'total'      => Helper::formatNumberWithUnit($data['overview']['views']['total']),
+            'total_title'=> esc_html__('Selected Period', 'wp-statistics'),
             'avg'        => Helper::formatNumberWithUnit($data['overview']['views']['avg']),
             'avg_title'  => sprintf(esc_html__('Avg. per %s', 'wp-statistics'), $postTypeSingular),
         ];
@@ -31,6 +33,7 @@ $postTypePlural   = Helper::getPostTypeName($postType);
             'title'      => esc_html__('Visitors', 'wp-statistics'),
             'tooltip'    => sprintf(esc_html__('Total unique visitors in the selected period. Avg per %s is the total visitors divided by the number of published %s in that period.', 'wp-statistics'), strtolower($postTypeSingular), strtolower($postTypePlural)),
             'total'      => Helper::formatNumberWithUnit($data['overview']['visitors']['total']),
+            'total_title'=> esc_html__('Selected Period', 'wp-statistics'),
             'avg'        => Helper::formatNumberWithUnit($data['overview']['visitors']['avg']),
             'avg_title'  => sprintf(esc_html__('Avg. per %s', 'wp-statistics'), $postTypeSingular),
         ];
@@ -40,6 +43,7 @@ $postTypePlural   = Helper::getPostTypeName($postType);
             'title'      => esc_html__('Words', 'wp-statistics'),
             'tooltip'    => sprintf(esc_html__('Total words across all %s in the selected period. Avg per %s is the total words divided by the number of published %s in that period.', 'wp-statistics'), strtolower($postTypePlural), strtolower($postTypeSingular), strtolower($postTypePlural)),
             'total'      => Helper::formatNumberWithUnit($data['overview']['words']['total']),
+            'total_title'=> esc_html__('Selected Period', 'wp-statistics'),
             'avg'        => Helper::formatNumberWithUnit($data['overview']['words']['avg']),
             'avg_title'  => sprintf(esc_html__('Avg. per %s', 'wp-statistics'), $postTypeSingular),
         ];
@@ -50,6 +54,7 @@ $postTypePlural   = Helper::getPostTypeName($postType);
                 'title'      => esc_html__('Comments', 'wp-statistics'),
                 'tooltip'    => sprintf(esc_html__('Total comments on all %s  in the selected period. Avg per %s is the total comments divided by the number of published %s in that period.', 'wp-statistics'), strtolower($postTypePlural), strtolower($postTypeSingular), strtolower($postTypePlural)),
                 'total'      => Helper::formatNumberWithUnit($data['overview']['comments']['total']),
+                'total_title'=> esc_html__('Selected Period', 'wp-statistics'),
                 'avg'        => Helper::formatNumberWithUnit($data['overview']['comments']['avg']),
                 'avg_title'  => sprintf(esc_html__('Avg. per %s', 'wp-statistics'), $postTypeSingular),
             ];
