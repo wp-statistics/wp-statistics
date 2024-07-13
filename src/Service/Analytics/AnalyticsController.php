@@ -14,7 +14,7 @@ class AnalyticsController
      *
      * @return  void
      */
-    public function hit_record_action_callback()
+    public function hit_action_callback()
     {
         $this->checkSignature();
 
@@ -41,7 +41,7 @@ class AnalyticsController
      *
      * @return  void
      */
-    public function keep_online_action_callback()
+    public function online_action_callback()
     {
         $this->checkSignature();
 

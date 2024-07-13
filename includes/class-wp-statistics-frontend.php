@@ -55,8 +55,8 @@ class Frontend
          * Handle the bypass ad blockers
          */
         if (Option::get('bypass_ad_blockers', false)) {
-            $hitRequestUrl        = add_query_arg(array_merge($params, ['action' => 'wp_statistics_hit_record']), admin_url('admin-ajax.php'));
-            $keepOnlineRequestUrl = add_query_arg(array_merge($params, ['action' => 'wp_statistics_keep_online']), admin_url('admin-ajax.php'));
+            $hitRequestUrl        = add_query_arg(array_merge($params, ['action' => 'wp_statistics_hit']), admin_url('admin-ajax.php'));
+            $keepOnlineRequestUrl = add_query_arg(array_merge($params, ['action' => 'wp_statistics_online']), admin_url('admin-ajax.php'));
         }
 
         /**
