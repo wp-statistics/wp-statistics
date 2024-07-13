@@ -147,10 +147,11 @@ If you encounter any bug, please create an issue on [GitHub](https://github.com/
 * Enhancement: Word count: Ensured compatibility with UTF-8 content.
 * Enhancement: DatePicker: Fixed filter issues and improved functionality.
 * Enhancement: Mozart: Implemented to avoid plugin namespace conflicts.
+* Enhancement: Requests: Replaced signature validation with nonce for better cache compatibility.
 * Fix: Online time calculation: Corrected for seconds-only durations.
 * Fix: Online user checks: Removed frequent checks, set check value to 65, fixed issues, and allowed status reset.
 * Fix: User View Logs: Display option fixed.
-* Fix: Top viewing authors: Inaccuracies fixed
+* Fix: Top viewing authors: Inaccuracies fixed.
 
 For more information about the major update, please [visit our blog post](...) or follow [@wp_statistics](https://twitter.com/wp_statistics) on Twitter
 
