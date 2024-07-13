@@ -92,11 +92,16 @@ class CategoryAnalyticsDataProvider
     public function getSingleTermData()
     {
         $totalPosts         = $this->postsModel->countPosts(array_merge($this->args, ['date' => '']));
-        $recentPostsCount   = $this->postsModel->countPosts($this->args);
-        $totalViews         = $this->viewsModel->countViews($this->args);
-        $totalVisitors      = $this->visitorsModel->countVisitors($this->args);
-        $totalWords         = $this->postsModel->countWords($this->args);
-        $totalComments      = $this->postsModel->countComments($this->args);
+        $recentPosts        = $this->postsModel->countPosts($this->args);
+        
+        $recentViews         = $this->viewsModel->countViews($this->args);
+        $recentVisitors      = $this->visitorsModel->countVisitors($this->args);
+
+        $totalWords         = $this->postsModel->countWords(array_merge($this->args, ['date' => '']));
+        $recentWords        = $this->postsModel->countWords($this->args);
+
+        $totalComments      = $this->postsModel->countComments(array_merge($this->args, ['date' => '']));
+        $recentComments     = $this->postsModel->countComments($this->args);
 
         $visitorsSummary    = $this->visitorsModel->getVisitorsSummary($this->args);
         $viewsSummary       = $this->viewsModel->getViewsSummary($this->args);
@@ -112,35 +117,39 @@ class CategoryAnalyticsDataProvider
         ];
 
         $topViewingPosts    = $this->postsModel->getPostsViewsData($this->args);
-        $recentPosts        = $this->postsModel->getPostsViewsData(array_merge($this->args, ['order_by' => 'post_date']));
+        $recentPostsData    = $this->postsModel->getPostsViewsData(array_merge($this->args, ['order_by' => 'post_date']));
         $topCommentedPosts  = $this->postsModel->getPostsCommentsData($this->args);
 
         return [
             'overview'          => [
                 'published' => [
-                    'total' => $totalPosts,
-                    'recent'=> $recentPostsCount
+                    'total'     => $totalPosts,
+                    'recent'    => $recentPosts
                 ],
                 'views'     => [
-                    'total' => $totalViews,
-                    'avg'   => Helper::divideNumbers($totalViews, $totalPosts)
+                    'recent'    => $recentViews,
+                    'avg'       => Helper::divideNumbers($recentViews, $recentPosts)
                 ],
                 'visitors'  => [
-                    'total' => $totalVisitors,
-                    'avg'   => Helper::divideNumbers($totalVisitors, $totalPosts)
+                    'recent'    => $recentVisitors,
+                    'avg'       => Helper::divideNumbers($recentVisitors, $recentPosts)
                 ],
                 'words'     => [
-                    'total' => $totalWords,
-                    'avg'   => Helper::divideNumbers($totalWords, $totalPosts)
+                    'recent'    => $recentWords,
+                    'avg'       => Helper::divideNumbers($recentWords, $recentPosts),
+                    'total'     => $totalWords,
+                    'total_avg' => Helper::divideNumbers($totalWords, $totalPosts)
                 ],
                 'comments'  => [
-                    'total' => $totalComments,
-                    'avg'   => Helper::divideNumbers($totalComments, $totalPosts)
+                    'recent'    => $recentComments,
+                    'avg'       => Helper::divideNumbers($recentComments, $recentPosts),
+                    'total'     => $totalComments,
+                    'total_avg' => Helper::divideNumbers($totalComments, $totalPosts)
                 ]
             ],
             'posts'             => [
                 'top_viewing'   => $topViewingPosts,
-                'recent'        => $recentPosts,
+                'recent'        => $recentPostsData,
                 'top_commented' => $topCommentedPosts
             ],
             'performance'       => $performanceData,
@@ -153,11 +162,11 @@ class CategoryAnalyticsDataProvider
     public function getPerformanceData()
     {
         $totalPosts         = $this->postsModel->countPosts(array_merge($this->args, ['date' => '']));
-        $recentPostsCount   = $this->postsModel->countPosts($this->args);
-        $totalViews         = $this->viewsModel->countViews($this->args);
-        $totalVisitors      = $this->visitorsModel->countVisitors($this->args);
-        $totalWords         = $this->postsModel->countWords($this->args);
-        $totalComments      = $this->postsModel->countComments($this->args);
+        $recentPosts        = $this->postsModel->countPosts($this->args);
+        $recentViews        = $this->viewsModel->countViews($this->args);
+        $recentVisitors     = $this->visitorsModel->countVisitors($this->args);
+        $recentWords        = $this->postsModel->countWords($this->args);
+        $recentComments     = $this->postsModel->countComments($this->args);
 
         $visitorsSummary    = $this->visitorsModel->getVisitorsSummary($this->args);
         $viewsSummary       = $this->viewsModel->getViewsSummary($this->args);
@@ -177,7 +186,7 @@ class CategoryAnalyticsDataProvider
 
         $topPostsByView     = $this->postsModel->getPostsViewsData($this->args);
         $topPostsByComment  = $this->postsModel->getPostsCommentsData($this->args);
-        $recentPosts        = $this->postsModel->getPostsViewsData(array_merge($this->args, ['order_by' => 'post_date']));
+        $recentPostsData    = $this->postsModel->getPostsViewsData(array_merge($this->args, ['order_by' => 'post_date']));
 
         $topViewingCategories    = $this->taxonomyModel->getTermsData($this->args);
         $topPublishingCategories = $this->taxonomyModel->getTermsData(array_merge($this->args, ['order_by' => 'posts', 'date_field' => 'posts.post_date']));
@@ -196,23 +205,23 @@ class CategoryAnalyticsDataProvider
             'overview'          => [
                 'published' => [
                     'total' => $totalPosts,
-                    'recent'=> $recentPostsCount
+                    'recent'=> $recentPosts
                 ],
                 'views'     => [
-                    'total' => $totalViews,
-                    'avg'   => Helper::divideNumbers($totalViews, $totalPosts)
+                    'recent'    => $recentViews,
+                    'avg'       => Helper::divideNumbers($recentViews, $recentPosts)
                 ],
                 'visitors'  => [
-                    'total' => $totalVisitors,
-                    'avg'   => Helper::divideNumbers($totalVisitors, $totalPosts)
+                    'recent'    => $recentVisitors,
+                    'avg'       => Helper::divideNumbers($recentVisitors, $recentPosts)
                 ],
                 'words'     => [
-                    'total' => $totalWords,
-                    'avg'   => Helper::divideNumbers($totalWords, $totalPosts)
+                    'recent'    => $recentWords,
+                    'avg'       => Helper::divideNumbers($recentWords, $totalPosts)
                 ],
                 'comments'  => [
-                    'total' => $totalComments,
-                    'avg'   => Helper::divideNumbers($totalComments, $totalPosts)
+                    'recent'    => $recentComments,
+                    'avg'       => Helper::divideNumbers($recentComments, $recentPosts),
                 ]
             ],
             'performance'       => $performanceData,
@@ -220,7 +229,7 @@ class CategoryAnalyticsDataProvider
             'posts'             => [
                 'top_viewing'   => $topPostsByView,
                 'top_commented' => $topPostsByComment,
-                'recent'        => $recentPosts
+                'recent'        => $recentPostsData
             ]
         ];
     }

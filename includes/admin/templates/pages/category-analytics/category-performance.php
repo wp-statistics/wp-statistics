@@ -11,16 +11,16 @@ use WP_STATISTICS\Helper;
             'tooltip'       => esc_html__('Published Contents tooltip', 'wp-statistics'),
             'avg'           => Helper::formatNumberWithUnit($data['overview']['published']['total']),
             'avg_title'     => esc_html__('Total', 'wp-statistics'),
-            'total'         => Helper::formatNumberWithUnit($data['overview']['published']['recent']),
-            'total_title'   => esc_html__('Selected Period', 'wp-statistics')
+            'selected'         => Helper::formatNumberWithUnit($data['overview']['published']['recent']),
+            'selected_title'   => esc_html__('Selected Period', 'wp-statistics')
         ];
         Admin_Template::get_template(['layout/category-analytics/overview-card'], $args1);
 
         $args2 = [
             'title'         => esc_html__('Views', 'wp-statistics'),
             'tooltip'       => esc_html__('Views tooltip', 'wp-statistics'),
-            'total'         => Helper::formatNumberWithUnit($data['overview']['views']['total']),
-            'total_title'   => esc_html__('Selected Period', 'wp-statistics'),
+            'selected'         => Helper::formatNumberWithUnit($data['overview']['views']['recent']),
+            'selected_title'   => esc_html__('Selected Period', 'wp-statistics'),
             'avg'           => Helper::formatNumberWithUnit($data['overview']['views']['avg']),
             'avg_title'     => esc_html__('Avg. per Content', 'wp-statistics')
         ];
@@ -29,8 +29,8 @@ use WP_STATISTICS\Helper;
         $args3 = [
             'title'         => esc_html__('Visitors', 'wp-statistics'),
             'tooltip'       => esc_html__('Visitors tooltip', 'wp-statistics'),
-            'total'         => Helper::formatNumberWithUnit($data['overview']['visitors']['total']),
-            'total_title'   => esc_html__('Selected Period', 'wp-statistics'),
+            'selected'         => Helper::formatNumberWithUnit($data['overview']['visitors']['recent']),
+            'selected_title'   => esc_html__('Selected Period', 'wp-statistics'),
             'avg'           => Helper::formatNumberWithUnit($data['overview']['visitors']['avg']),
             'avg_title'     => esc_html__('Avg. per Content', 'wp-statistics')
         ];
@@ -39,8 +39,8 @@ use WP_STATISTICS\Helper;
         $args4 = [
             'title'         => esc_html__('Words', 'wp-statistics'),
             'tooltip'       => esc_html__('Words tooltip', 'wp-statistics'),
-            'total'         => Helper::formatNumberWithUnit($data['overview']['words']['total']),
-            'total_title'   => esc_html__('Selected Period', 'wp-statistics'),
+            'selected'         => Helper::formatNumberWithUnit($data['overview']['words']['recent']),
+            'selected_title'   => esc_html__('Selected Period', 'wp-statistics'),
             'avg'           => Helper::formatNumberWithUnit($data['overview']['words']['avg']),
             'avg_title'     => esc_html__('Avg. per Content', 'wp-statistics')
         ];
@@ -49,8 +49,8 @@ use WP_STATISTICS\Helper;
         $args5 = [
             'title'         => esc_html__('Comments', 'wp-statistics'),
             'tooltip'       => esc_html__('Comments tooltip', 'wp-statistics'),
-            'total'         => Helper::formatNumberWithUnit($data['overview']['comments']['total']),
-            'total_title'   => esc_html__('Selected Period', 'wp-statistics'),
+            'selected'         => Helper::formatNumberWithUnit($data['overview']['comments']['recent']),
+            'selected_title'   => esc_html__('Selected Period', 'wp-statistics'),
             'avg'           => Helper::formatNumberWithUnit($data['overview']['comments']['avg']),
             'avg_title'     => esc_html__('Avg. per Content', 'wp-statistics')
         ];
