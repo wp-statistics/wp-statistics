@@ -56,7 +56,7 @@ $taxName        = Helper::getTaxonomyName(Request::get('tx', 'category'), true);
                                         <tr>
                                             <td class="wps-pd-l">
                                                 <span class="wps-ellipsis-parent" title="<?php echo esc_attr($term->term_name) ?>">
-                                                    <a href="<?php echo esc_url(Menus::admin_url('category-analytics', ['type' => 'single', 'term_id' => $term->term_id])) ?>"><span class="wps-ellipsis-text"><?php echo esc_html($term->term_name) ?></span></a>
+                                                    <a href="<?php echo esc_url(Menus::admin_url('category-analytics', ['type' => 'single', 'term_id' => $term->term_id, 'from' => Request::get('from', date('Y-m-d', strtotime('-30 days'))), 'to' => Request::get('to', date('Y-m-d'))])) ?>"><span class="wps-ellipsis-text"><?php echo esc_html($term->term_name) ?></span></a>
                                                 </span>
                                             </td>
                                             <td class="wps-pd-l"><?php echo esc_html(number_format_i18n($term->views)) ?></td>
