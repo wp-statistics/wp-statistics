@@ -25,6 +25,7 @@ class ViewsModel extends BaseModel
             ->from('pages')
             ->whereDate('date', $args['date'])
             ->groupBy('id')
+            ->where('pages.uri', '=', $args['query_param'])
             ->getQuery();
 
         $query = Query::select('SUM(pages.count) as total_views')
@@ -33,7 +34,6 @@ class ViewsModel extends BaseModel
             ->where('post_type', 'IN', $args['post_type'])
             ->where('post_author', '=', $args['author_id'])
             ->where('posts.ID', '=', $args['post_id'])
-            ->where('pages.uri', '=', $args['query_param'])
             ->bypassCache($bypassCache);
 
         if (!empty($args['taxonomy']) || !empty($args['term'])) {
