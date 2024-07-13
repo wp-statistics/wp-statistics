@@ -146,8 +146,8 @@ class AdminBar
                         <span class="wps-admin-bar__chart__unlock-button">%s</span>
                         </a>'
                         ,
-                        esc_url($footerLink),
                         esc_url(WP_STATISTICS_URL . 'assets/images/mini-chart-logo.svg'),
+                        esc_url($footerLink),
                         __('Explore Details', 'wp-statistics')
                     ),
 
