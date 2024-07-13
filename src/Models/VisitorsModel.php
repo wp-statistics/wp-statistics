@@ -11,7 +11,6 @@ use WP_Statistics\Abstracts\BaseModel;
 
 class VisitorsModel extends BaseModel
 {
-    protected $table = 'visitors';
 
     public function countVisitors($args = [], $bypassCache = false)
     {
