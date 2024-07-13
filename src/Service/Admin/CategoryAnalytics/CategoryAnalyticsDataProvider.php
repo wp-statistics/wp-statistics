@@ -92,7 +92,7 @@ class CategoryAnalyticsDataProvider
     public function getSingleTermData()
     {
         $totalPosts         = $this->postsModel->countPosts(array_merge($this->args, ['date' => '']));
-        $recentPosts        = $this->postsModel->countPosts($this->args);
+        $recentPostsCount   = $this->postsModel->countPosts($this->args);
         $totalViews         = $this->viewsModel->countViews($this->args);
         $totalVisitors      = $this->visitorsModel->countVisitors($this->args);
         $totalWords         = $this->postsModel->countWords($this->args);
@@ -119,7 +119,7 @@ class CategoryAnalyticsDataProvider
             'overview'          => [
                 'published' => [
                     'total' => $totalPosts,
-                    'recent'=> $recentPosts
+                    'recent'=> $recentPostsCount
                 ],
                 'views'     => [
                     'total' => $totalViews,

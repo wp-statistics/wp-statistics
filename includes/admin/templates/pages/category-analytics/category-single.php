@@ -9,6 +9,16 @@ use WP_STATISTICS\Helper;
     <div class="postbox-container" id="wps-postbox-container-1">
         <?php
 
+        $args = [
+            'title'         => esc_html__('Published Contents', 'wp-statistics'),
+            'tooltip'       => esc_html__('Published Contents tooltip', 'wp-statistics'),
+            'avg'           => Helper::formatNumberWithUnit($data['overview']['published']['total']),
+            'avg_title'     => esc_html__('Total', 'wp-statistics'),
+            'total'         => Helper::formatNumberWithUnit($data['overview']['published']['recent']),
+            'total_title'   => esc_html__('Selected Period', 'wp-statistics')
+        ];
+        Admin_Template::get_template(['layout/category-analytics/overview-card'], $args);
+
         $args1 = [
             'title'         => esc_html__('Views', 'wp-statistics'),
             'tooltip'       => esc_html__('Views tooltip', 'wp-statistics'),
