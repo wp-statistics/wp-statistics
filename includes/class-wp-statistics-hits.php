@@ -4,6 +4,7 @@ namespace WP_STATISTICS;
 
 use WP_Statistics\Components\Singleton;
 use WP_Statistics\Service\Analytics\VisitorProfile;
+use WP_Statistics\Service\Integrations\WpConsentApi;
 
 class Hits extends Singleton
 {
@@ -203,7 +204,13 @@ class Hits extends Singleton
     public static function record_wp_hits()
     {
         if (!Option::get('use_cache_plugin') and !Helper::dntEnabled()) {
-            self::record();
+            $consentLevel = Option::get('consent_level_integration', 'disabled');
+            if (
+                $consentLevel == 'disabled' || Helper::shouldTrackAnonymously() ||
+                !WpConsentApi::isWpConsentApiActive() || !function_exists('wp_has_consent') || wp_has_consent($consentLevel)
+            ) {
+                self::record();
+            }
         }
     }
 }
