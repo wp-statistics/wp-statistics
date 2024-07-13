@@ -98,7 +98,7 @@ class RestAPI
      */
     protected function checkSignature($request)
     {
-        if (apply_filters('wp_statistics_request_signature_enabled', true)) {
+        if (Helper::isRequestSignatureEnabled()) {
             $signature = $request->get_param('signature');
             $payload   = [
                 $request->get_param('current_page_type'),

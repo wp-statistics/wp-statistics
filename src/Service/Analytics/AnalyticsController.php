@@ -63,7 +63,7 @@ class AnalyticsController
      */
     private function checkSignature()
     {
-        if (apply_filters('wp_statistics_request_signature_enabled', true)) {
+        if (Helper::isRequestSignatureEnabled()) {
             $signature = sanitize_text_field($_REQUEST['signature']);
             $payload   = [
                 sanitize_text_field($_REQUEST['current_page_type']),
