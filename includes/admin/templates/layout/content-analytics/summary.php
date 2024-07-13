@@ -29,8 +29,8 @@
                         <?php foreach ($data as $item) : ?>
                             <tr>
                                 <td class="wps-pd-l"><?php echo esc_html($item['label']) ?></td>
-                                <td class="wps-pd-l"><?php echo esc_html($item['visitors']) ?></td>
-                                <td class="wps-pd-l"><?php echo esc_html($item['views']) ?></td>
+                                <td class="wps-pd-l"><?php echo esc_html(number_format_i18n($item['visitors'])) ?></td>
+                                <td class="wps-pd-l"><?php echo esc_html(number_format_i18n($item['views'])) ?></td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
