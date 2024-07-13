@@ -249,7 +249,7 @@ class Query
             case '<=':
             case 'LIKE':
             case 'NOT LIKE':
-                if (!empty($value)) {
+                if (is_numeric($value) || !empty($value)) {
                     $condition = "$field $operator %s";
                     $values[]  = $value;
                 }
