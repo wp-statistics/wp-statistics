@@ -91,7 +91,8 @@ class CategoryAnalyticsDataProvider
 
     public function getSingleTermData()
     {
-        $totalPosts         = $this->postsModel->countPosts($this->args);
+        $totalPosts         = $this->postsModel->countPosts(array_merge($this->args, ['date' => '']));
+        $recentPosts        = $this->postsModel->countPosts($this->args);
         $totalViews         = $this->viewsModel->countViews($this->args);
         $totalVisitors      = $this->visitorsModel->countVisitors($this->args);
         $totalWords         = $this->postsModel->countWords($this->args);
@@ -117,7 +118,8 @@ class CategoryAnalyticsDataProvider
         return [
             'overview'          => [
                 'published' => [
-                    'total' => $totalPosts
+                    'total' => $totalPosts,
+                    'recent'=> $recentPosts
                 ],
                 'views'     => [
                     'total' => $totalViews,
@@ -150,7 +152,8 @@ class CategoryAnalyticsDataProvider
 
     public function getPerformanceData()
     {
-        $totalPosts         = $this->postsModel->countPosts($this->args);
+        $totalPosts         = $this->postsModel->countPosts(array_merge($this->args, ['date' => '']));
+        $recentPostsCount   = $this->postsModel->countPosts($this->args);
         $totalViews         = $this->viewsModel->countViews($this->args);
         $totalVisitors      = $this->visitorsModel->countVisitors($this->args);
         $totalWords         = $this->postsModel->countWords($this->args);
@@ -192,7 +195,8 @@ class CategoryAnalyticsDataProvider
             ],
             'overview'          => [
                 'published' => [
-                    'total' => $totalPosts
+                    'total' => $totalPosts,
+                    'recent'=> $recentPostsCount
                 ],
                 'views'     => [
                     'total' => $totalViews,

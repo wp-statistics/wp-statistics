@@ -9,8 +9,10 @@ use WP_STATISTICS\Helper;
         $args1 = [
             'title'         => esc_html__('Published Contents', 'wp-statistics'),
             'tooltip'       => esc_html__('Published Contents tooltip', 'wp-statistics'),
-            'icon_class'    => 'posts',
-            'total'         => Helper::formatNumberWithUnit($data['overview']['published']['total']),
+            'avg'           => Helper::formatNumberWithUnit($data['overview']['published']['total']),
+            'avg_title'     => esc_html__('Total', 'wp-statistics'),
+            'total'         => Helper::formatNumberWithUnit($data['overview']['published']['recent']),
+            'total_title'   => esc_html__('Selected Period', 'wp-statistics')
         ];
         Admin_Template::get_template(['layout/category-analytics/overview-card'], $args1);
 
@@ -18,8 +20,8 @@ use WP_STATISTICS\Helper;
             'title'         => esc_html__('Views', 'wp-statistics'),
             'tooltip'       => esc_html__('Views tooltip', 'wp-statistics'),
             'total'         => Helper::formatNumberWithUnit($data['overview']['views']['total']),
+            'total_title'   => esc_html__('Selected Period', 'wp-statistics'),
             'avg'           => Helper::formatNumberWithUnit($data['overview']['views']['avg']),
-            'icon_class'    => 'views',
             'avg_title'     => esc_html__('Avg. per Content', 'wp-statistics')
         ];
         Admin_Template::get_template(['layout/category-analytics/overview-card'], $args2);
@@ -28,8 +30,8 @@ use WP_STATISTICS\Helper;
             'title'         => esc_html__('Visitors', 'wp-statistics'),
             'tooltip'       => esc_html__('Visitors tooltip', 'wp-statistics'),
             'total'         => Helper::formatNumberWithUnit($data['overview']['visitors']['total']),
+            'total_title'   => esc_html__('Selected Period', 'wp-statistics'),
             'avg'           => Helper::formatNumberWithUnit($data['overview']['visitors']['avg']),
-            'icon_class'    => 'visitors',
             'avg_title'     => esc_html__('Avg. per Content', 'wp-statistics')
         ];
         Admin_Template::get_template(['layout/category-analytics/overview-card'], $args3);
@@ -38,8 +40,8 @@ use WP_STATISTICS\Helper;
             'title'         => esc_html__('Words', 'wp-statistics'),
             'tooltip'       => esc_html__('Words tooltip', 'wp-statistics'),
             'total'         => Helper::formatNumberWithUnit($data['overview']['words']['total']),
+            'total_title'   => esc_html__('Selected Period', 'wp-statistics'),
             'avg'           => Helper::formatNumberWithUnit($data['overview']['words']['avg']),
-            'icon_class'    => 'words',
             'avg_title'     => esc_html__('Avg. per Content', 'wp-statistics')
         ];
         Admin_Template::get_template(['layout/category-analytics/overview-card'], $args4);
@@ -48,8 +50,8 @@ use WP_STATISTICS\Helper;
             'title'         => esc_html__('Comments', 'wp-statistics'),
             'tooltip'       => esc_html__('Comments tooltip', 'wp-statistics'),
             'total'         => Helper::formatNumberWithUnit($data['overview']['comments']['total']),
+            'total_title'   => esc_html__('Selected Period', 'wp-statistics'),
             'avg'           => Helper::formatNumberWithUnit($data['overview']['comments']['avg']),
-            'icon_class'    => 'comments',
             'avg_title'     => esc_html__('Avg. per Content', 'wp-statistics')
         ];
         Admin_Template::get_template(['layout/category-analytics/overview-card'], $args5);
