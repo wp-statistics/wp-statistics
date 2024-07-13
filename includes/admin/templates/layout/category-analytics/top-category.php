@@ -26,7 +26,7 @@ $taxonomy  = Request::get('tx', 'category');
                     if (!empty($data['viewing'])) {
                         $counter = 1;
                         foreach ($data['viewing'] as $term) : ?>
-                            <a class="wps-category-tabs__item" href="<?php echo esc_url(Menus::admin_url('category-analytics', ['type' => 'single', 'term_id' => $term->term_id])) ?>">
+                            <a class="wps-category-tabs__item" href="<?php echo esc_url(Menus::admin_url('category-analytics', ['type' => 'single', 'term_id' => $term->term_id, 'from' => Request::get('from', date('Y-m-d', strtotime('-30 days'))), 'to' => Request::get('to', date('Y-m-d'))])) ?>">
                                 <div class="wps-category-tabs__item--content">
                                     <h3 class="wps-ellipsis-parent"><span class="wps-ellipsis-text"><?php echo esc_html($term->term_name); ?></span></h3>
                                     <span>
@@ -54,7 +54,7 @@ $taxonomy  = Request::get('tx', 'category');
                     if (!empty($data['publishing'])) {
                         $counter = 1;
                         foreach ($data['publishing'] as $term) : ?>
-                            <a class="wps-category-tabs__item" href="<?php echo esc_url(Menus::admin_url('category-analytics', ['type' => 'single', 'term_id' => $term->term_id])) ?>">
+                            <a class="wps-category-tabs__item" href="<?php echo esc_url(Menus::admin_url('category-analytics', ['type' => 'single', 'term_id' => $term->term_id, 'from' => Request::get('from', date('Y-m-d', strtotime('-30 days'))), 'to' => Request::get('to', date('Y-m-d'))])) ?>">
                                 <div class="wps-category-tabs__item--content">
                                     <h3 class="wps-ellipsis-parent"><span class="wps-ellipsis-text"><?php echo esc_html($term->term_name); ?></span></h3>
                                     <span>
