@@ -101,8 +101,8 @@ class RestAPI
         if (Helper::isRequestSignatureEnabled()) {
             $signature = $request->get_param('signature');
             $payload   = [
-                $request->get_param('current_page_type'),
-                (int)$request->get_param('current_page_id'),
+                $request->get_param('source_type'),
+                (int)$request->get_param('source_id'),
             ];
 
             if (!Signature::check($payload, $signature)) {

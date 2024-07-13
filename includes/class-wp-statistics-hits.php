@@ -60,10 +60,10 @@ class Hits extends Singleton
     public function set_current_page($current_page)
     {
 
-        if (isset($this->rest_hits->current_page_type) and isset($this->rest_hits->current_page_id)) {
+        if (isset($this->rest_hits->source_type) and isset($this->rest_hits->source_id)) {
             return array(
-                'type'         => esc_sql($this->rest_hits->current_page_type),
-                'id'           => esc_sql($this->rest_hits->current_page_id),
+                'type'         => esc_sql($this->rest_hits->source_type),
+                'id'           => esc_sql($this->rest_hits->source_id),
                 'search_query' => isset($this->rest_hits->search_query) ? base64_decode($this->rest_hits->search_query) : ''
             );
         }

@@ -126,7 +126,7 @@ WP Statistics supports WordPress Multi-Site/Network installations. In the networ
 
 == Upgrade Notice ==
 = 14.9 =
-Please clear your cache to ensure proper functionality, as some request payloads have been updated. Additionally, please review your settings, especially if you use DataPlus, Advanced Reporting, and Customization, as some options have been changed.
+To ensure the plugin works correctly, please clear your cache because some request payloads have been updated. Also, review your settings, especially if you use DataPlus, Advanced Reporting, or Customization, as some options have changed.
 
 = 14.0 =
 Welcome to WP Statistics v14.0, our biggest update!

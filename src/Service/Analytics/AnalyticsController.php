@@ -66,8 +66,8 @@ class AnalyticsController
         if (Helper::isRequestSignatureEnabled()) {
             $signature = sanitize_text_field($_REQUEST['signature']);
             $payload   = [
-                sanitize_text_field($_REQUEST['current_page_type']),
-                (int)sanitize_text_field($_REQUEST['current_page_id']),
+                sanitize_text_field($_REQUEST['source_type']),
+                (int)sanitize_text_field($_REQUEST['source_id']),
             ];
 
             if (!Signature::check($payload, $signature)) {

@@ -1305,10 +1305,10 @@ class Helper
         $params = array();
 
         //Set Page Type
-        $get_page_type               = Pages::get_page_type();
-        $params['current_page_type'] = $get_page_type['type'];
-        $params['current_page_id']   = $get_page_type['id'];
-        $params['search_query']      = (isset($get_page_type['search_query']) ? base64_encode(esc_html($get_page_type['search_query'])) : '');
+        $get_page_type          = Pages::get_page_type();
+        $params['source_type']  = $get_page_type['type'];
+        $params['source_id']    = $get_page_type['id'];
+        $params['search_query'] = (isset($get_page_type['search_query']) ? base64_encode(esc_html($get_page_type['search_query'])) : '');
 
         // page url
         $params['page_uri'] = base64_encode(Pages::get_page_uri());
