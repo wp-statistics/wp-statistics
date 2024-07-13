@@ -12,7 +12,7 @@
 
         <div class="wps-card__summary--title">
             <span><?php echo esc_html($total) ?></span>
-            <span><?php esc_html_e('Total', 'wp-statistics') ?></span>
+            <span><?php echo isset($total_title) ? esc_html($total_title) : esc_html_e('Total', 'wp-statistics'); ?></span>
         </div>
 
         <?php if (isset($active)) : ?>
