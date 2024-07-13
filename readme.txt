@@ -128,12 +128,6 @@ WP Statistics supports WordPress Multi-Site/Network installations. In the networ
 = 14.9 =
 To ensure the plugin works correctly, please clear your cache because some request payloads have been updated. Also, review your settings, especially if you use DataPlus, Advanced Reporting, or Customization, as some options have changed.
 
-= 14.0 =
-Welcome to WP Statistics v14.0, our biggest update!
-Thank you for being part of our community. We’ve been working hard for one year to develop this version and make WP Statistics better for you. after updating, please update all Add-Ons to tha latest version as well.
-
-If you encounter any bug, please create an issue on [GitHub](https://github.com/wp-statistics/wp-statistics/issues/new) where we can act upon them more efficiently. Since [GitHub](https://github.com/wp-statistics/wp-statistics) is not a support forum, just bugs are welcomed, and any other request will be closed.
-
 == Changelog ==
 = 14.9 - **.07.2024 =
 * New: Content Analytics: Replaces Post Type report with content insights.
