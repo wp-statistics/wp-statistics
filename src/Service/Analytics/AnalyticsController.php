@@ -5,6 +5,7 @@ namespace WP_Statistics\Service\Analytics;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Hits;
 use WP_STATISTICS\UserOnline;
+use WP_Statistics\Utils\Signature;
 
 class AnalyticsController
 {
@@ -15,6 +16,8 @@ class AnalyticsController
      */
     public function hit_record_action_callback()
     {
+        $this->checkSignature();
+
         if (Helper::is_request('ajax')) {
             // Start Record
             $exclusion    = Hits::record();
@@ -40,6 +43,8 @@ class AnalyticsController
      */
     public function keep_online_action_callback()
     {
+        $this->checkSignature();
+
         if (Helper::is_request('ajax')) {
             UserOnline::record();
 
@@ -50,5 +55,24 @@ class AnalyticsController
         }
 
         exit;
+    }
+
+    /**
+     * @return void
+     * @doc https://wp-statistics.com/resources/managing-request-signatures/
+     */
+    private function checkSignature()
+    {
+        if (apply_filters('wp_statistics_request_signature_enabled', true)) {
+            $signature = sanitize_text_field($_REQUEST['signature']);
+            $payload   = [
+                sanitize_text_field($_REQUEST['current_page_type']),
+                (int)sanitize_text_field($_REQUEST['current_page_id']),
+            ];
+
+            if (!Signature::check($payload, $signature)) {
+                wp_send_json_error(__('Invalid signature', 'wp-statistics'), 403);
+            }
+        }
     }
 }
