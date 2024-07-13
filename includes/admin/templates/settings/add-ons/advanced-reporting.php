@@ -58,11 +58,13 @@ if (!$isAdvancedReportingActive) echo Admin_Template::get_template('layout/parti
                 </th>
 
                 <td>
-                    <select name="wps_addon_settings[advanced_reporting][email_stats_time_range]" id="wps_addon_settings[advanced_reporting][email_stats_time_range]">
-                        <option value="none" <?php selected(WP_STATISTICS\Option::getByAddon('email_stats_time_range', 'advanced_reporting'), 'none'); ?>><?php esc_html_e('None', 'wp-statistics'); ?></option>
-                        <option value="last_day" <?php selected(WP_STATISTICS\Option::getByAddon('email_stats_time_range', 'advanced_reporting'), 'last_day'); ?>><?php esc_html_e('Last Day', 'wp-statistics'); ?></option>
-                        <option value="last_week" <?php selected(WP_STATISTICS\Option::getByAddon('email_stats_time_range', 'advanced_reporting'), 'last_week'); ?>><?php esc_html_e('Last Week', 'wp-statistics'); ?></option>
-                        <option value="last_month" <?php selected(WP_STATISTICS\Option::getByAddon('email_stats_time_range', 'advanced_reporting'), 'last_month'); ?>><?php esc_html_e('Last Month', 'wp-statistics'); ?></option>
+                    <select id="wps_addon_settings[advanced_reporting][email_stats_time_range]">
+                        <option value="0" <?php selected(\WP_STATISTICS\Option::get('time_report'), '0'); ?>><?php esc_html_e('Disable', 'wp-statistics'); ?></option>
+                        <?php
+                        foreach (\WP_STATISTICS\Schedule::getSchedules() as $key => $value) {
+                            echo '<option value="' . esc_attr($key) . '" ' . selected(\WP_STATISTICS\Option::get('time_report'), $key) . '>' . esc_attr($value['display']) . '</option>';
+                        }
+                        ?>
                     </select>
                     <p class="description"><?php esc_html_e('Enter a date to begin the data collection for your reports. This helps in focusing on a specific timeframe or event.', 'wp-statistics'); ?></p>
                 </td>

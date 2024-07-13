@@ -84,7 +84,7 @@ class Schedule
 
         // Add the report schedule if it doesn't exist and is enabled.
         if (!wp_next_scheduled('wp_statistics_report_hook') && Option::get('stats_report') && Option::get('time_report') != '0') {
-            $timeReports       = Option::get('stats_report');
+            $timeReports       = Option::get('time_report');
             $schedulesInterval = self::getSchedules();
 
             if (isset($schedulesInterval[$timeReports]['next_schedule'])) {

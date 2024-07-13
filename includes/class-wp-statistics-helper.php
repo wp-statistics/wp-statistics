@@ -1021,6 +1021,14 @@ class Helper
             case 'week':
                 $where = $field_sql(-7);
                 break;
+            case 'two-weeks':
+                $where = $field_sql(-14);
+                break;
+            case 'last-two-weeks':
+                $fromDate = TimeZone::getTimeAgo(28, 'Y-m-d');
+                $toDate   = TimeZone::getTimeAgo(14, 'Y-m-d');
+                $where    = "`$field` BETWEEN '{$fromDate}' AND '{$toDate}'";
+                break;
             case '2-months-ago':
                 $fromDate = TimeZone::getTimeAgo(90, 'Y-m-d');
                 $toDate   = TimeZone::getTimeAgo(60, 'Y-m-d');
