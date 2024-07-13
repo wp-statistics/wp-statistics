@@ -176,7 +176,8 @@ class Query
             $value = array_filter($value);
         }
 
-        if (empty($value)) return $this;
+        // If the value is empty, we don't need to add it to the query (except for numbers)
+        if (!is_numeric($value) && empty($value)) return $this;
 
         $condition = $this->generateCondition($field, $operator, $value);
 
