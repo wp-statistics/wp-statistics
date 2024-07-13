@@ -43,7 +43,7 @@ use WP_STATISTICS\Menus;
                                                 <?php echo esc_html(number_format($item->views)) ?>
                                             </td>
                                             <td class="-table__cell o-table__cell--right view-more">
-                                                <a href="<?php echo esc_url(add_query_arg(['type' => 'single-country', 'country' => $item->country])) ?>" title="<?php esc_html_e('View Details', 'wp-statistics'); ?>">
+                                                <a href="<?php echo esc_url(add_query_arg(['type' => 'single-country', 'country' => $item->country], Menus::admin_url('geographic'))) ?>" title="<?php esc_html_e('View Details', 'wp-statistics'); ?>">
                                                     <?php esc_html_e('View Details', 'wp-statistics'); ?>
                                                 </a>
                                             </td>
