@@ -66,6 +66,9 @@
             &.wps-card__summary--total-avg {
               align-items: flex-end;
             }
+            &.wps-card__summary--total span:first-child{
+              color: #5100fd !important;
+            }
           }
         }
       }
