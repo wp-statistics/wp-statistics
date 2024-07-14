@@ -748,6 +748,7 @@ class VisitorsModel extends BaseModel
             ],
             'post_type' => '',
             'post_id'   => '',
+            'page_type' => '',
             'author_id' => '',
             'taxonomy'  => '',
             'term_id'   => '',
@@ -775,23 +776,35 @@ class VisitorsModel extends BaseModel
             ->bypassCache($bypassCache);
 
         $filteredArgs = array_filter($args);
-        if (array_intersect(['post_type', 'post_id', 'author_id', 'taxonomy', 'term_id'], array_keys($filteredArgs))) {
+        if (array_intersect(['post_type', 'post_id', 'page_type', 'author_id', 'taxonomy', 'term_id'], array_keys($filteredArgs))) {
             $query
                 ->join('visitor_relationships', ['`visitor_relationships`.`visitor_id`', '`visitor`.`ID`'])
-                ->join('pages', '`visitor_relationships`.`page_id` = `pages`.`page_id` AND `visitor`.`last_counter` = `pages`.`date`')
-                ->join('posts', ['`posts`.`ID`', '`pages`.`id`']);
+                ->join('pages', '`visitor_relationships`.`page_id` = `pages`.`page_id` AND `visitor`.`last_counter` = `pages`.`date`');
 
-            if (!empty($args['post_type'])) {
-                $query->where('posts.post_type', 'IN', $args['post_type']);
-            }
-            if (is_numeric($args['post_id'])) {
-                $query->where('posts.ID', '=', intval($args['post_id']));
-            }
-            if (!empty($args['author_id'])) {
-                $query->where('posts.post_author', '=', $args['author_id']);
+            if (!empty($args['page_type'])) {
+                $query
+                    ->where('pages.type', '=', $args['page_type']);
+
+                if (is_numeric($args['post_id'])) {
+                    $query->where('pages.ID', '=', intval($args['post_id']));
+                }
+            } else {
+                $query->join('posts', ['`posts`.`ID`', '`pages`.`id`']);
+
+                if (!empty($args['post_type'])) {
+                    $query->where('posts.post_type', 'IN', $args['post_type']);
+                }
+
+                if (is_numeric($args['post_id'])) {
+                    $query->where('posts.ID', '=', intval($args['post_id']));
+                }
+
+                if (!empty($args['author_id'])) {
+                    $query->where('posts.post_author', '=', $args['author_id']);
+                }
             }
 
-            if (!empty($args['taxonomy']) && !empty($args['term_id'])) {
+            if (!empty($args['taxonomy']) && !empty($args['term_id']) && empty($args['page_type'])) {
                 $taxQuery = Query::select(['DISTINCT object_id'])
                     ->from('term_relationships')
                     ->join('term_taxonomy', ['term_relationships.term_taxonomy_id', 'term_taxonomy.term_taxonomy_id'])
