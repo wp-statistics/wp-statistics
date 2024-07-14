@@ -145,8 +145,8 @@ class TaxonomyModel extends BaseModel
                 'SUM(pages.count) AS views',
                 'COALESCE(postmeta.posts, 0) AS posts',
                 'COALESCE(postmeta.words, 0) AS words',
-                'COALESCE(SUM(pages.count) / COUNT(postmeta.posts), 0) AS avg_views',
-                'COALESCE(postmeta.words / COUNT(postmeta.posts), 0) AS avg_words'
+                'COALESCE(SUM(pages.count) / postmeta.posts, 0) AS avg_views',
+                'COALESCE(postmeta.words / postmeta.posts, 0) AS avg_words'
             ])
             ->from('posts')
             ->join('term_relationships', ['posts.ID', 'term_relationships.object_id'])
