@@ -185,6 +185,7 @@ class PostsModel extends BaseModel
 
         $viewsQuery = Query::select(['id', 'SUM(count) AS views'])
             ->from('pages')
+            ->whereDate('pages.date', $args['date'])
             ->groupBy('id')
             ->getQuery();
 
@@ -198,12 +199,11 @@ class PostsModel extends BaseModel
             ])
             ->from('posts')
             ->joinQuery($commentsQuery, ['posts.ID', 'comments.comment_post_ID'], 'comments', 'LEFT')
-            ->joinQuery($viewsQuery, ['posts.ID', 'pages.id'], 'pages', 'LEFT')
+            ->joinQuery($viewsQuery, ['posts.ID', 'pages.id'], 'pages')
             ->join('postmeta', ['posts.ID', 'postmeta.post_id'], [], 'LEFT')
             ->where('post_type', 'IN', $args['post_type'])
             ->where('post_status', '=', 'publish')
             ->where('posts.post_author', '=', $args['author_id'])
-            ->whereDate('pages.date', $args['date'])
             ->groupBy('posts.ID')
             ->orderBy($args['order_by'], $args['order'])
             ->perPage($args['page'], $args['per_page'])
@@ -231,7 +231,7 @@ class PostsModel extends BaseModel
         // Get posts with zero views or not
         $joinType = $args['show_no_views'] ? 'LEFT' : 'INNER';
 
-        
+
         $viewsQuery = Query::select(['id', 'SUM(count) AS views'])
             ->from('pages')
             ->whereDate('date', $args['date'])
