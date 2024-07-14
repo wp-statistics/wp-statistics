@@ -61,7 +61,6 @@ class TabsView extends BaseTabView
     
             $args = [
                 'title'         => esc_html__('Category Analytics', 'wp-statistics'),
-                'tooltip'       => esc_html__('Category Analytics Tooltip', 'wp-statistics'),
                 'pageName'      => Menus::get_page_slug('category-analytics'),
                 'custom_get'    => ['tab' => $currentTab, 'tx' => Request::get('tx', 'category')],
                 'DateRang'      => Admin_Template::DateRange(),
@@ -72,13 +71,13 @@ class TabsView extends BaseTabView
                     [
                         'link'    => Menus::admin_url('category-analytics', ['tab' => 'performance']),
                         'title'   => esc_html__('Category Performance', 'wp-statistics'),
-                        'tooltip' => esc_html__('Performance Tooltip.', 'wp-statistics'),
+                        'tooltip' => esc_html__('Displays detailed performance metrics of content with the selected taxonomy.', 'wp-statistics'),
                         'class'   => $currentTab === 'performance' ? 'current' : '',
                     ],
                     [
                         'link'    => Menus::admin_url('category-analytics', ['tab' => 'pages']),
                         'title'   => esc_html__('Category Pages', 'wp-statistics'),
-                        'tooltip' => esc_html__('Pages Tooltip.', 'wp-statistics'),
+                        'tooltip' => esc_html__('Shows the page views for category pages related to the selected taxonomy. Remove the tooltip for Category Analytics page', 'wp-statistics'),
                         'class'   => $currentTab === 'pages' ? 'current' : '',
                     ]
                 ]
