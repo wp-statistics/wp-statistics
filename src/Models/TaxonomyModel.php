@@ -127,6 +127,7 @@ class TaxonomyModel extends BaseModel
                 'terms.term_id',
                 'terms.name as term_name',
                 'SUM(postmeta.meta_value) AS words',
+                'COUNT(DISTINCT posts.ID) AS posts'
             ])
             ->from('postmeta')
             ->join('posts', ['postmeta.post_id', 'posts.ID'])
@@ -146,17 +147,17 @@ class TaxonomyModel extends BaseModel
                 'terms.term_id',
                 'terms.name as term_name',
                 'SUM(pages.count) AS views',
-                'COUNT(DISTINCT posts.ID) AS posts',
-                'postmeta.words AS words',
-                'SUM(pages.count) / COUNT(DISTINCT posts.ID) AS avg_views',
-                'postmeta.words / COUNT(DISTINCT posts.ID) AS avg_words'
+                'COALESCE(postmeta.posts, 0) AS posts',
+                'COALESCE(postmeta.words, 0) AS words',
+                'COALESCE(SUM(pages.count) / COUNT(postmeta.posts), 0) AS avg_views',
+                'COALESCE(postmeta.words / COUNT(postmeta.posts), 0) AS avg_words'
             ])
             ->from('posts')
             ->join('term_relationships', ['posts.ID', 'term_relationships.object_id'])
             ->join('term_taxonomy', ['term_relationships.term_taxonomy_id', 'term_taxonomy.term_taxonomy_id'])
             ->join('terms', ['term_taxonomy.term_id', 'terms.term_id'])
             ->join('pages', ['pages.id', 'posts.ID'])
-            ->joinQuery($wordsQuery, ['postmeta.term_id', 'terms.term_id'], 'postmeta')
+            ->joinQuery($wordsQuery, ['postmeta.term_id', 'terms.term_id'], 'postmeta', 'LEFT')
             ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy'])
             ->where('posts.post_type', 'IN', $args['post_type'])
             ->where('posts.post_author', '=', $args['author_id'])
