@@ -42,13 +42,9 @@ class TaxonomyModel extends BaseModel
 
         // If author_id is empty get data by published date, otherwise get data by published or viewed date
         if (!empty($args['author_id']) || !empty($args['post_type'])) {
-            $query
-                ->whereDate('posts.post_date', $args['date']);
+            $query->whereDate('posts.post_date', $args['date']);
         } else {
-            $query->whereRaw(
-                "AND (DATE(posts.post_date) BETWEEN %s AND %s OR DATE(pages.date) BETWEEN %s AND %s)",
-                [$args['date']['from'], $args['date']['to'], $args['date']['from'], $args['date']['to']]
-            );
+            $query->whereDate('pages.date', $args['date']);
         }
 
         $result = $query->getAll();

@@ -29,7 +29,7 @@ $taxName        = Helper::getTaxonomyName(Request::get('tx', 'category'), true);
                                         </th>
                                         <th class="wps-pd-l">
                                             <a href="<?php echo esc_url(add_query_arg(['order_by' => 'post_count', 'order' => $reverseOrder])) ?>" class="sort <?php echo Request::compare('order_by', 'post_count') ? esc_attr($order) : '' ?>">
-                                                <?php esc_html_e('Published Posts', 'wp-statistics') ?>
+                                                <?php esc_html_e('Total Published Posts', 'wp-statistics') ?>
                                             </a>
                                         </th>
                                         <th></th>
