@@ -104,8 +104,13 @@ class PostsModel extends BaseModel
             ->where('posts.ID', '=', $args['post_id'])
             ->where('post_author', '=', $args['author_id'])
             ->where('meta_key', '=', $wordsCountMetaKey)
-            ->whereDate('post_date', $args['date'])
             ->bypassCache($bypassCache);
+
+        // Filter by date when no particular post ID has been set  
+        if (empty($args['post_id'])) {
+            $query
+                ->whereDate('post_date', $args['date']);
+        }
 
         if (!empty($args['taxonomy']) || !empty($args['term'])) {
             $taxQuery = Query::select(['DISTINCT object_id'])
