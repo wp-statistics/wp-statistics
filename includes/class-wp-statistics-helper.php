@@ -941,6 +941,19 @@ class Helper
         return false;
     }
 
+
+    /**
+     * Checks if the given taxonomy is a custom taxonomy.
+     *
+     * @param string $taxonomy The taxonomy name to check.
+     * @return bool True if the taxonomy is custom, false otherwise.
+     */
+    public static function isCustomPostType($postType)
+    {
+        $customPostTypes = self::getCustomPostTypes();
+        return in_array($postType, $customPostTypes) ? true : false;
+    }
+
     /**
      * Retrieves an array of post types associated with a given taxonomy.
      *

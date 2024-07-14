@@ -19,9 +19,13 @@ $baseUrl          = remove_query_arg([$queryKey, 'pid']); // remove post type an
                 <?php 
                     $url    = add_query_arg([$queryKey => $postType], $baseUrl); 
                     $name   = Helper::getPostTypeName($postType);
+
+                    $class   = [];
+                    $class[] = $selectedOption == $postType ? 'selected' : '';
+                    $class[] = Helper::isCustomPostType($postType) && !Helper::isAddOnActive('data-plus') ? 'disabled' : '';
                 ?>
 
-                <a href="<?php echo esc_url($url) ?>" data-index="<?php echo esc_attr($key + 1) ?>" title="<?php echo esc_attr($name) ?>" class="<?php echo $selectedOption == $postType ? 'selected' : '' ?>">
+                <a href="<?php echo esc_url($url) ?>" data-index="<?php echo esc_attr($key) ?>" title="<?php echo esc_attr($name) ?>" class="<??> <?php echo esc_attr(implode(' ', $class)) ?>">
                     <?php echo esc_html($name) ?>
                 </a>
             <?php endforeach; ?>
