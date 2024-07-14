@@ -65,6 +65,9 @@
 
             &.wps-card__summary--total-avg {
               align-items: flex-end;
+              span:last-child{
+                text-wrap: nowrap;
+              }
             }
             &.wps-card__summary--total span:first-child{
               color: #5100fd !important;
@@ -139,6 +142,7 @@
           line-height: 12.89px;
           letter-spacing: 0.01em;
           color: #56585A;
+          text-wrap: nowrap;
         }
       }
     }

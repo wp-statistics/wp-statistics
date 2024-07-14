@@ -203,6 +203,10 @@ class Hits extends Singleton
      */
     public static function record_wp_hits()
     {
+        if (is_admin() or is_preview()) {
+            return;
+        }
+
         if (!Option::get('use_cache_plugin') and !Helper::dntEnabled()) {
             $consentLevel = Option::get('consent_level_integration', 'disabled');
             if (

@@ -54,6 +54,7 @@
               align-items: flex-end;
               span:first-child ,span:last-child{
                 justify-content: flex-end;
+                text-wrap: nowrap;
               }
             }
             &.wps-card__summary--total span:first-child{
@@ -176,6 +177,7 @@
           line-height: 12.89px;
           letter-spacing: 0.01em;
           color: #56585A;
+          text-wrap: nowrap;
         }
       }
     }
