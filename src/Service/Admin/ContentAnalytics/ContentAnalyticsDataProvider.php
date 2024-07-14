@@ -88,18 +88,24 @@ class ContentAnalyticsDataProvider
 
     public function getPostTypeData()
     {
-        $totalPosts     = $this->postsModel->countPosts($this->args);
-        $totalViews     = $this->viewsModel->countViews($this->args);
-        $totalVisitors  = $this->visitorsModel->countVisitors($this->args);
-        $totalWords     = $this->postsModel->countWords($this->args);
-        $totalComments  = $this->postsModel->countComments($this->args);
+        $totalPosts     = $this->postsModel->countPosts(array_merge($this->args, ['date' => '']));
+        $recentPosts    = $this->postsModel->countPosts($this->args);
 
-        $visitorsCountry    = $this->visitorsModel->getVisitorsGeoData(array_merge($this->args, ['per_page' => 10]));
+        $recentViews    = $this->viewsModel->countViews($this->args);
+        $recentVisitors = $this->visitorsModel->countVisitors($this->args);
         
-        $visitorsSummary    = $this->visitorsModel->getVisitorsSummary($this->args);
-        $viewsSummary       = $this->viewsModel->getViewsSummary($this->args);
+        $totalWords     = $this->postsModel->countWords(array_merge($this->args, ['date' => '']));
+        $recentWords    = $this->postsModel->countWords($this->args);
+
+        $totalComments  = $this->postsModel->countComments(array_merge($this->args, ['date' => '']));
+        $recentComments = $this->postsModel->countComments($this->args);
+
+        $visitorsCountry = $this->visitorsModel->getVisitorsGeoData(array_merge($this->args, ['per_page' => 10]));
         
-        $referrersData = $this->visitorsModel->getReferrers($this->args);
+        $visitorsSummary = $this->visitorsModel->getVisitorsSummary($this->args);
+        $viewsSummary    = $this->viewsModel->getViewsSummary($this->args);
+        
+        $referrersData   = $this->visitorsModel->getReferrers($this->args);
         
         $performanceArgs = ['date' => ['from' => date('Y-m-d', strtotime('-14 days')), 'to' => date('Y-m-d')]];
         $performanceData = [
@@ -110,7 +116,7 @@ class ContentAnalyticsDataProvider
 
         $topPostsByView     = $this->postsModel->getPostsViewsData($this->args);
         $topPostsByComment  = $this->postsModel->getPostsCommentsData($this->args);
-        $recentPosts        = $this->postsModel->getPostsViewsData(array_merge($this->args, ['order_by' => 'post_date']));
+        $recentPostsData    = $this->postsModel->getPostsViewsData(array_merge($this->args, ['order_by' => 'post_date']));
 
         $taxonomies         = $this->taxonomyModel->getTaxonomiesData($this->args);
 
@@ -119,23 +125,28 @@ class ContentAnalyticsDataProvider
             'visits_summary'    => array_replace_recursive($visitorsSummary, $viewsSummary),
             'overview'          => [
                 'published' => [
-                    'total' => $totalPosts
+                    'total'     => $totalPosts,
+                    'recent'    => $recentPosts
                 ],
                 'views'     => [
-                    'total' => $totalViews,
-                    'avg'   => Helper::divideNumbers($totalViews, $totalPosts)
+                    'recent'    => $recentViews,
+                    'avg'       => Helper::divideNumbers($recentViews, $recentPosts)
                 ],
                 'visitors'  => [
-                    'total' => $totalVisitors,
-                    'avg'   => Helper::divideNumbers($totalVisitors, $totalPosts)
+                    'recent'    => $recentVisitors,
+                    'avg'       => Helper::divideNumbers($recentVisitors, $recentPosts)
                 ],
                 'words'     => [
-                    'total' => $totalWords,
-                    'avg'   => Helper::divideNumbers($totalWords, $totalPosts)
+                    'total'     => $totalWords,
+                    'recent'    => $recentWords,
+                    'avg'       => Helper::divideNumbers($recentWords, $recentPosts),
+                    'total_avg' => Helper::divideNumbers($totalWords, $totalPosts)
                 ],
                 'comments'  => [
-                    'total' => $totalComments,
-                    'avg'   => Helper::divideNumbers($totalComments, $totalPosts)
+                    'total'     => $totalComments,
+                    'recent'    => $recentComments,
+                    'avg'       => Helper::divideNumbers($recentComments, $recentPosts),
+                    'total_avg' => Helper::divideNumbers($totalComments, $totalPosts)
                 ]
             ],
             'visitors_country'  => $visitorsCountry,
@@ -144,7 +155,7 @@ class ContentAnalyticsDataProvider
             'posts'             => [
                 'top_viewing'   => $topPostsByView,
                 'top_commented' => $topPostsByComment,
-                'recent'        => $recentPosts
+                'recent'        => $recentPostsData
             ]
         ];
     }
