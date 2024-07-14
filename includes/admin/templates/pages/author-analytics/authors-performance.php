@@ -58,9 +58,9 @@ $postTypeNamePlural     = Helper::getPostTypeName($postType);
                         strtolower($postTypeNamePlural), 
                         strtolower($postTypeNameSingular)
                     ),
-                    'total'        => Helper::formatNumberWithUnit($data['posts']['comments']['total']),
+                    'total'        => Helper::formatNumberWithUnit($data['posts']['comments']['total'], 1),
                     'total_title'  => esc_html__('Selected Period', 'wp-statistics'),
-                    'avg'          => Helper::formatNumberWithUnit($data['posts']['comments']['avg']),
+                    'avg'          => Helper::formatNumberWithUnit($data['posts']['comments']['avg'], 1),
                     'avg_title'    => sprintf(esc_html__('Avg. per %s', 'wp-statistics'), $postTypeNameSingular)
                 ];
             }
