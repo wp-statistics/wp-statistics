@@ -43,10 +43,10 @@ $postTypeNamePlural     = Helper::getPostTypeName($postType);
                         strtolower($postTypeNameSingular), 
                         strtolower($postTypeNamePlural)
                     ),
-                    'total'        => Helper::formatNumberWithUnit($data['posts']['words']['total']),
+                    'total'        => Helper::formatNumberWithUnit($data['posts']['words']['recent']),
                     'total_title'  => esc_html__('Selected Period', 'wp-statistics'),
-                    'total_type'          => '30',
-                    'total_avg'          => '3',
+                    'total_type'   => Helper::formatNumberWithUnit($data['posts']['words']['total']),
+                    'total_avg'    => Helper::formatNumberWithUnit($data['posts']['words']['total_avg']),
                     'avg'          => Helper::formatNumberWithUnit($data['posts']['words']['avg']),
                     'avg_title'    => sprintf(esc_html__('Avg. per %s', 'wp-statistics'), $postTypeNameSingular)
                 ]
@@ -60,10 +60,10 @@ $postTypeNamePlural     = Helper::getPostTypeName($postType);
                         strtolower($postTypeNamePlural), 
                         strtolower($postTypeNameSingular)
                     ),
-                    'total'        => Helper::formatNumberWithUnit($data['posts']['comments']['total'], 1),
+                    'total'        => Helper::formatNumberWithUnit($data['posts']['comments']['recent'], 1),
                     'total_title'  => esc_html__('Selected Period', 'wp-statistics'),
-                    'total_type'          => '30',
-                    'total_avg'          => '3',
+                    'total_type'   => Helper::formatNumberWithUnit($data['posts']['comments']['total']),
+                    'total_avg'    => Helper::formatNumberWithUnit($data['posts']['comments']['total_avg']),
                     'avg'          => Helper::formatNumberWithUnit($data['posts']['comments']['avg'], 1),
                     'avg_title'    => sprintf(esc_html__('Avg. per %s', 'wp-statistics'), $postTypeNameSingular)
                 ];

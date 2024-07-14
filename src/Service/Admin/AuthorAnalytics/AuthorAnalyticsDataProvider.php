@@ -95,16 +95,21 @@ class AuthorAnalyticsDataProvider
         $totalViews           = $this->viewsModel->countViews($this->args);
 
         // Posts data
-        $totalWords           = $this->postsModel->countWords($this->args);
-        $totalComments        = $this->postsModel->countComments($this->args);
-        $totalPosts           = $this->postsModel->countPosts($this->args);
+        $recentWords    = $this->postsModel->countWords($this->args);
+        $totalWords     = $this->postsModel->countWords(array_merge($this->args, ['date' => '']));
+
+        $recentComments = $this->postsModel->countComments($this->args);
+        $totalComments  = $this->postsModel->countComments(array_merge($this->args, ['date' => '']));
+
+        $recentPosts    = $this->postsModel->countPosts($this->args);
+        $totalPosts     = $this->postsModel->countPosts(array_merge($this->args, ['date' => '']));
 
         return [
             'authors' => [
                 'total'             => $totalAuthors,
                 'active'            => $activeAuthors,
-                'published'         => $totalPosts,
-                'avg'               => Helper::divideNumbers($totalPosts, $activeAuthors),
+                'published'         => $recentPosts,
+                'avg'               => Helper::divideNumbers($recentPosts, $activeAuthors),
                 'top_publishing'    => $topPublishingAuthors,
                 'top_viewing'       => $topViewingAuthors,
                 'top_by_comments'   => $topAuthorsByComment,
@@ -113,16 +118,20 @@ class AuthorAnalyticsDataProvider
             ],
             'views'   => [
                 'total' => $totalViews,
-                'avg'   => Helper::divideNumbers($totalViews, $totalPosts)
+                'avg'   => Helper::divideNumbers($totalViews, $recentPosts)
             ],
             'posts'   => [
                 'words'     => [
-                    'total' => $totalWords,
-                    'avg'   => Helper::divideNumbers($totalWords, $totalPosts)
+                    'total'     => $totalWords,
+                    'recent'    => $recentWords,
+                    'avg'       => Helper::divideNumbers($recentWords, $recentPosts),
+                    'total_avg' => Helper::divideNumbers($totalWords, $totalPosts)
                 ],
                 'comments'  => [
-                    'total' => $totalComments,
-                    'avg'   => Helper::divideNumbers($totalComments, $totalPosts)
+                    'total'     => $totalComments,
+                    'recent'    => $recentComments,
+                    'avg'       => Helper::divideNumbers($recentComments, $recentPosts),
+                    'total_avg' => Helper::divideNumbers($totalComments, $totalPosts),
                 ]
             ]
         ];
@@ -194,15 +203,18 @@ class AuthorAnalyticsDataProvider
 
     public function getAuthorSingleData()
     {
-        $totalViews         = $this->viewsModel->countViews($this->args);
+        $recentViews         = $this->viewsModel->countViews($this->args);
 
-        $totalWords         = $this->postsModel->countWords($this->args);
-        $totalComments      = $this->postsModel->countComments($this->args);
+        $recentWords        = $this->postsModel->countWords($this->args);
+        $totalWords         = $this->postsModel->countWords(array_merge($this->args, ['date' => '']));
+
+        $recentComments     = $this->postsModel->countComments($this->args);
+        $totalComments      = $this->postsModel->countComments(array_merge($this->args, ['date' => '']));
 
         $recentPosts        = $this->postsModel->countPosts($this->args);
         $totalPosts         = $this->postsModel->countPosts(array_merge($this->args, ['date' => '']));
 
-        $totalVisitors      = $this->visitorsModel->countVisitors($this->args);
+        $recentVisitors      = $this->visitorsModel->countVisitors($this->args);
 
         $taxonomies         = $this->taxonomyModel->getTaxonomiesData($this->args);
         $topPostsByView     = $this->postsModel->getPostsViewsData($this->args);
@@ -224,20 +236,24 @@ class AuthorAnalyticsDataProvider
                     'recent'    => $recentPosts
                 ],
                 'views'     => [
-                    'total'     => $totalViews,
-                    'avg'       => Helper::divideNumbers($totalViews, $totalPosts)
+                    'recent'    => $recentViews,
+                    'avg'       => Helper::divideNumbers($recentViews, $recentPosts)
                 ],
                 'visitors'  => [
-                    'total'     => $totalVisitors,
-                    'avg'       => Helper::divideNumbers($totalVisitors, $totalPosts)
+                    'recent'    => $recentVisitors,
+                    'avg'       => Helper::divideNumbers($recentVisitors, $recentPosts)
                 ],
                 'words'     => [
                     'total'     => $totalWords,
-                    'avg'       => Helper::divideNumbers($totalWords, $totalPosts)
+                    'recent'    => $recentWords,
+                    'avg'       => Helper::divideNumbers($recentWords, $recentPosts),
+                    'total_avg' => Helper::divideNumbers($totalWords, $totalPosts)
                 ],
                 'comments'  => [
                     'total'     => $totalComments,
-                    'avg'       => Helper::divideNumbers($totalComments, $totalPosts)
+                    'recent'    => $recentComments,
+                    'avg'       => Helper::divideNumbers($recentComments, $recentPosts),
+                    'total_avg' => Helper::divideNumbers($totalComments, $totalPosts),
                 ]
             ],
             'posts'         => [

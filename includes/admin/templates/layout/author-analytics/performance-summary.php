@@ -1,3 +1,12 @@
+<?php
+
+use WP_STATISTICS\Helper;
+use WP_Statistics\Utils\Request;
+
+$postTypeLabelSingular  = Helper::getPostTypeName(Request::get('pt', 'post'), true);
+$postTypeLabelPlural    = Helper::getPostTypeName(Request::get('pt', 'post'));
+?>
+
 <div class="wps-card wps-card__sums <?php echo isset($active) ? 'wps-card__sums--authors' : ''; ?>  <?php echo isset($total_type) ? 'wps-card__sums--two-row' : ''; ?>">
     <div class="wps-card__title">
         <h2>
@@ -25,7 +34,7 @@
         <?php if (isset($published)) : ?>
             <div class="wps-card__summary--publish">
                 <span><?php echo esc_html($published) ?></span>
-                <span><?php esc_html_e('Published Posts', 'wp-statistics') ?></span>
+                <span><?php echo sprintf(esc_html__('Published %s', 'wp-statistics'), $postTypeLabelPlural) ?></span>
             </div>
         <?php endif ?>
             <div class="wps-card__summary--avg">
@@ -48,7 +57,7 @@
         <?php if (isset($total_avg)) : ?>
             <div class="wps-card__summary--total-avg">
                 <span><?php echo esc_html($total_avg) ?></span>
-                <span><?php esc_html_e('Total Avg. per Content', 'wp-statistics') ?></span>
+                <span><?php echo sprintf(esc_html__('Total Avg. per %s', 'wp-statistics'), $postTypeLabelSingular) ?></span>
             </div>
         <?php endif ?>
 
