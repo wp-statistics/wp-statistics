@@ -34,7 +34,7 @@ $postTypeLabelPlural    = Helper::getPostTypeName(Request::get('pt', 'post'));
         <?php if (isset($published)) : ?>
             <div class="wps-card__summary--publish">
                 <span><?php echo esc_html($published) ?></span>
-                <span><?php echo sprintf(esc_html__('Published %s', 'wp-statistics'), $postTypeLabelPlural) ?></span>
+                <span title="<?php echo sprintf(esc_attr__('Published %s', 'wp-statistics'), $postTypeLabelPlural) ?>"><?php echo sprintf(esc_html__('Published %s', 'wp-statistics'), $postTypeLabelPlural) ?></span>
             </div>
         <?php endif ?>
             <div class="wps-card__summary--avg">
@@ -43,7 +43,7 @@ $postTypeLabelPlural    = Helper::getPostTypeName(Request::get('pt', 'post'));
                 <?php endif ?>
 
                 <?php if (isset($avg_title)) : ?>
-                    <span><?php echo esc_html($avg_title) ?></span>
+                    <span title="<?php echo esc_attr($avg_title) ?>"><?php echo esc_html($avg_title) ?></span>
                 <?php endif ?>
             </div>
 
