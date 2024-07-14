@@ -123,6 +123,10 @@ WP Statistics supports WordPress Multi-Site/Network installations. In the networ
 11. Devices
 12. Link Tracker
 13. Privacy Audit
+14. Content Analytics Dashboard
+15. Category Analytics
+16. Website Performance Report
+17. Mini Chart Quick View
 
 == Upgrade Notice ==
 = 14.9 =
