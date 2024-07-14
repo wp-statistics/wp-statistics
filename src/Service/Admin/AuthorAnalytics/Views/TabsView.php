@@ -65,8 +65,15 @@ class TabsView extends BaseTabView
     public function render()
     {
         try {
+            $postType   = Request::get('pt', 'post');
             $currentTab = $this->getCurrentTab();
             $tabData    = $this->getTabData();
+
+            $template = "authors-$currentTab";
+
+            if (Helper::isCustomPostType($postType)) {
+                $template = 'authors-performance-locked';
+            }
 
             $args = [
                 'title'       => esc_html__('Author Analytics', 'wp-statistics'),
@@ -94,7 +101,7 @@ class TabsView extends BaseTabView
             ];
 
             if ($currentTab === 'performance') {
-                $args['custom_get']['pt'] = Request::get('pt', 'post');
+                $args['custom_get']['pt'] = $postType;
             }
 
             if ($currentTab === 'pages') {
@@ -112,7 +119,7 @@ class TabsView extends BaseTabView
                 }
             }
 
-            Admin_Template::get_template(['layout/header', 'layout/tabbed-page-header', "pages/author-analytics/authors-$currentTab", 'layout/postbox.hide', 'layout/footer'], $args);
+            Admin_Template::get_template(['layout/header', 'layout/tabbed-page-header', "pages/author-analytics/$template", 'layout/postbox.hide', 'layout/footer'], $args);
         } catch (\Exception $e) {
             Notice::renderNotice($e->getMessage(), $e->getCode(), 'error');
         }
