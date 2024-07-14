@@ -125,12 +125,8 @@ WP Statistics supports WordPress Multi-Site/Network installations. In the networ
 13. Privacy Audit
 
 == Upgrade Notice ==
-= 14.0 =
-**IMPORTANT NOTE**
-Welcome to WP Statistics v14.0, our biggest update!
-Thank you for being part of our community. We’ve been working hard for one year to develop this version and make WP Statistics better for you. after updating, please update all Add-Ons to tha latest version as well.
-
-If you encounter any bug, please create an issue on [GitHub](https://github.com/wp-statistics/wp-statistics/issues/new) where we can act upon them more efficiently. Since [GitHub](https://github.com/wp-statistics/wp-statistics) is not a support forum, just bugs are welcomed, and any other request will be closed.
+= 14.9 =
+To ensure the plugin works correctly, please clear your cache because some request payloads have been updated. Also, review your settings, especially if you use DataPlus, Advanced Reporting, or Customization, as some options have changed.
 
 == Changelog ==
 = 14.9 - **.07.2024 =
@@ -147,10 +143,11 @@ If you encounter any bug, please create an issue on [GitHub](https://github.com/
 * Enhancement: Word count: Ensured compatibility with UTF-8 content.
 * Enhancement: DatePicker: Fixed filter issues and improved functionality.
 * Enhancement: Mozart: Implemented to avoid plugin namespace conflicts.
+* Enhancement: Requests: Replaced signature validation with nonce for better cache compatibility.
 * Fix: Online time calculation: Corrected for seconds-only durations.
 * Fix: Online user checks: Removed frequent checks, set check value to 65, fixed issues, and allowed status reset.
 * Fix: User View Logs: Display option fixed.
-* Fix: Top viewing authors: Inaccuracies fixed
+* Fix: Top viewing authors: Inaccuracies fixed.
 
 For more information about the major update, please [visit our blog post](...) or follow [@wp_statistics](https://twitter.com/wp_statistics) on Twitter
 

@@ -243,9 +243,16 @@ function wp_statistics_visit($time, $daily = null)
     } else {
 
         //Generate MySql Time Conditions
-        $mysql_time_sql = WP_STATISTICS\Helper::mysql_time_conditions($date_column, $time);
-        if (!empty($mysql_time_sql)) {
-            $sql = $sql . ' WHERE ' . $mysql_time_sql;
+        if (is_array($time) && array_key_exists('start', $time) && array_key_exists('end', $time)) {
+            $mysql_time_sql = WP_STATISTICS\Helper::mysql_time_conditions($date_column, '', $time);
+            if (!empty($mysql_time_sql)) {
+                $sql = $sql . ' WHERE ' . $mysql_time_sql;
+            }
+        } else {
+            $mysql_time_sql = WP_STATISTICS\Helper::mysql_time_conditions($date_column, $time);
+            if (!empty($mysql_time_sql)) {
+                $sql = $sql . ' WHERE ' . $mysql_time_sql;
+            }
         }
 
         //Request To database
@@ -386,9 +393,16 @@ function wp_statistics_visitor($time, $daily = null, $count_only = false, $optio
     } else {
 
         //Generate MySql Time Conditions
-        $mysql_time_sql = WP_STATISTICS\Helper::mysql_time_conditions($date_column, $time);
-        if (!empty($mysql_time_sql)) {
-            $where[] = $mysql_time_sql;
+        if (is_array($time) && array_key_exists('start', $time) && array_key_exists('end', $time)) {
+            $mysql_time_sql = WP_STATISTICS\Helper::mysql_time_conditions($date_column, '', $time);
+            if (!empty($mysql_time_sql)) {
+                $sql = $sql . ' WHERE ' . $mysql_time_sql;
+            }
+        } else {
+            $mysql_time_sql = WP_STATISTICS\Helper::mysql_time_conditions($date_column, $time);
+            if (!empty($mysql_time_sql)) {
+                $where[] = $mysql_time_sql;
+            }
         }
     }
 

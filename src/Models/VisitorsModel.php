@@ -765,9 +765,12 @@ class VisitorsModel extends BaseModel
             $fields[2] = 'SUM(DISTINCT `pages`.`count`) AS `visits`';
         }
 
-        $query = Query::select($fields)
-            ->from('visitor')
-            ->join('visit', ['`visitor`.`last_counter`', '`visit`.`last_counter`'])
+        $query = Query::select($fields)->from('visitor');
+        if (!is_numeric($args['post_id']) && empty($args['author_id']) && empty($args['term_id'])) {
+            // For single pages/posts/authors/terms
+            $query->join('visit', ['`visitor`.`last_counter`', '`visit`.`last_counter`']);
+        }
+        $query
             ->whereDate('`visitor`.`last_counter`', $args['date'])
             ->groupBy('`visitor`.`last_counter`')
             ->bypassCache($bypassCache);
@@ -776,7 +779,7 @@ class VisitorsModel extends BaseModel
         if (array_intersect(['post_type', 'post_id', 'author_id', 'taxonomy', 'term_id'], array_keys($filteredArgs))) {
             $query
                 ->join('visitor_relationships', ['`visitor_relationships`.`visitor_id`', '`visitor`.`ID`'])
-                ->join('pages', '`visitor_relationships`.`page_id` = `pages`.`page_id` AND `visit`.`last_counter` = `pages`.`date`')
+                ->join('pages', '`visitor_relationships`.`page_id` = `pages`.`page_id` AND `visitor`.`last_counter` = `pages`.`date`')
                 ->join('posts', ['`posts`.`ID`', '`pages`.`id`']);
 
             if (!empty($args['post_type'])) {

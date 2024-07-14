@@ -6,6 +6,7 @@ use Exception;
 use WP_STATISTICS;
 use WP_Statistics\Service\Integrations\WpConsentApi;
 use WP_Statistics\Utils\Request;
+use WP_Statistics\Utils\Signature;
 use WP_Statistics_Mail;
 
 class Helper
@@ -95,7 +96,7 @@ class Helper
      */
     public static function isBypassAdBlockersRequest()
     {
-        return (Request::compare('action', 'wp_statistics_hit_record') || Request::compare('action', 'wp_statistics_keep_online'));
+        return (Request::compare('action', 'wp_statistics_hit') || Request::compare('action', 'wp_statistics_online'));
     }
 
     /**
@@ -824,12 +825,12 @@ class Helper
             $email_template = wp_normalize_path($email_template);
         }
 
-        $schedule   = Option::get('time_report', false);
+        $schedule = Option::get('time_report', false);
         if (is_plugin_active('wp-statistics-advanced-reporting/wp-statistics-advanced-reporting.php')) {
             $emailTitle = __('<span style="font-family: \'Roboto\', Arial, Helvetica, sans-serif; text-align: left;font-size: 21px; font-weight: 500; line-height: 24.61px; color: #0C0C0D;">Your Website Performance Overview</span>', 'wp-statistics');
         } else {
             $emailTitle = sprintf(
-                // translators: %1$s: Website URL.
+            // translators: %1$s: Website URL.
                 __('<span style="font-family: \'Roboto\', Arial, Helvetica, sans-serif; text-align: center;font-size: 16px; font-style: italic; font-weight: 400; line-height: 18.75px; color: #5E5E64;">Sent from </span><a style="color: #175DA4;text-decoration: underline" href="https://%1$s">%1$s</a>', 'wp-statistics'),
                 wp_parse_url(get_site_url(), PHP_URL_HOST)
             );
@@ -837,7 +838,7 @@ class Helper
 
         if ($schedule && array_key_exists($schedule, Schedule::getSchedules())) {
             $schedule   = Schedule::getSchedules()[$schedule];
-            $emailTitle .= is_plugin_active('wp-statistics-advanced-reporting/wp-statistics-advanced-reporting.php')  ? '' : sprintf(__('<p style="margin-bottom:16px;margin-top:8px;padding:0;font-family: \'Roboto\',Arial, Helvetica, sans-serif; font-size: 16px; font-style: italic; font-weight: 500; line-height: 18.75px; text-align: center;"><small style="color:#5E5E64;font-family: \'Roboto\',Arial, Helvetica, sans-serif; font-size: 16px; font-style: italic; font-weight: 500; line-height: 18.75px; text-align: center">Report Date Range:</small> %s to %s</p>', 'wp-statistics'), $schedule['start'], $schedule['end']);
+            $emailTitle .= is_plugin_active('wp-statistics-advanced-reporting/wp-statistics-advanced-reporting.php') ? '' : sprintf(__('<p style="margin-bottom:16px;margin-top:8px;padding:0;font-family: \'Roboto\',Arial, Helvetica, sans-serif; font-size: 16px; font-style: italic; font-weight: 500; line-height: 18.75px; text-align: center;"><small style="color:#5E5E64;font-family: \'Roboto\',Arial, Helvetica, sans-serif; font-size: 16px; font-style: italic; font-weight: 500; line-height: 18.75px; text-align: center">Report Date Range:</small> %s to %s</p>', 'wp-statistics'), $schedule['start'], $schedule['end']);
         }
 
         //Template Arg
@@ -946,18 +947,19 @@ class Helper
      * @param string $taxonomy The taxonomy to search for.
      * @return array An array of post types associated with the given taxonomy.
      */
-    public static function getPostTypesByTaxonomy($taxonomy) {
-        $taxonomyPostTypes  = [];
-        $postTypes          = self::getPostTypes();
-        
+    public static function getPostTypesByTaxonomy($taxonomy)
+    {
+        $taxonomyPostTypes = [];
+        $postTypes         = self::getPostTypes();
+
         foreach ($postTypes as $postType) {
             $taxonomies = get_object_taxonomies($postType);
-            
+
             if (in_array($taxonomy, $taxonomies)) {
                 $taxonomyPostTypes[] = $postType;
             }
         }
-        
+
         return $taxonomyPostTypes;
     }
 
@@ -1303,13 +1305,24 @@ class Helper
         $params = array();
 
         //Set Page Type
-        $get_page_type               = Pages::get_page_type();
-        $params['current_page_type'] = $get_page_type['type'];
-        $params['current_page_id']   = $get_page_type['id'];
-        $params['search_query']      = (isset($get_page_type['search_query']) ? base64_encode(esc_html($get_page_type['search_query'])) : '');
+        $get_page_type          = Pages::get_page_type();
+        $params['source_type']  = $get_page_type['type'];
+        $params['source_id']    = $get_page_type['id'];
+        $params['search_query'] = (isset($get_page_type['search_query']) ? base64_encode(esc_html($get_page_type['search_query'])) : '');
 
         // page url
         $params['page_uri'] = base64_encode(Pages::get_page_uri());
+
+        /**
+         * Signature
+         * @version 14.9
+         */
+        if (self::isRequestSignatureEnabled()) {
+            $params['signature'] = Signature::generate([
+                $get_page_type['type'],
+                (int)$get_page_type['id']
+            ]);
+        }
 
         return $params;
     }
@@ -1660,6 +1673,7 @@ class Helper
 
         return $tips[array_rand($tips)];
     }
+
     /**
      * Get the device category name
      * Remove device subtype, for example: mobile:smart -> mobile
@@ -1701,7 +1715,7 @@ class Helper
                 [', Y', 'Y ,', 'Y', ',Y', 'Y,', 'y', ', y', 'y ,', ',y', 'y,'], '', $dateTimeFormat
             );
         }
-        
+
         return $dateTimeFormat;
     }
 
@@ -1713,10 +1727,10 @@ class Helper
     public static function isAdminBarShowing()
     {
         /**
-        * Show/Hide WP Statistics Admin Bar
-        *
-        * @example add_filter('wp_statistics_show_admin_bar', function(){ return false; });
-        */
+         * Show/Hide WP Statistics Admin Bar
+         *
+         * @example add_filter('wp_statistics_show_admin_bar', function(){ return false; });
+         */
         $showAdminBar = has_filter('wp_statistics_show_admin_bar') ? apply_filters('wp_statistics_show_admin_bar', true) : Option::get('menu_bar');
 
         return ($showAdminBar && is_admin_bar_showing() && User::Access());
@@ -1725,8 +1739,8 @@ class Helper
     /**
      * Calculates percentage difference between two numbers.
      *
-     * @param   int|float     $firstNumber
-     * @param   int|float     $secondNumber
+     * @param int|float $firstNumber
+     * @param int|float $secondNumber
      *
      * @return  float
      */
@@ -1752,7 +1766,7 @@ class Helper
         $change = $firstNumber > $secondNumber ? $firstNumber - $secondNumber : $secondNumber - $firstNumber;
 
         // Final part of the formula: ($change / $firstNumber) * 100
-        $result  = $firstNumber == 0 ? $change : ($change / $firstNumber);
+        $result = $firstNumber == 0 ? $change : ($change / $firstNumber);
         $result *= 100;
         $result *= $multiply;
 
@@ -1774,5 +1788,19 @@ class Helper
             $selectedConsentLevel !== 'disabled' &&
             Option::get('anonymous_tracking', false) == true &&
             !(function_exists('wp_has_consent') && wp_has_consent($selectedConsentLevel));
+    }
+
+    /**
+     * Checks if the WP Statistics request signature is enabled.
+     *
+     * This function uses the 'wp_statistics_request_signature_enabled' filter to determine if the request
+     * signature feature in WP Statistics is enabled. By default, it returns true, but this can be modified
+     * by using the filter in other parts of your theme or plugin.
+     *
+     * @return bool True if the request signature feature is enabled, otherwise false.
+     */
+    public static function isRequestSignatureEnabled()
+    {
+        return apply_filters('wp_statistics_request_signature_enabled', true);
     }
 }

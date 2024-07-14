@@ -25,7 +25,7 @@ $postType = Request::get('tab', 'post');
                             $counter = 1;
                             
                             foreach ($data['top_viewing'] as $post) : ?>
-                                <a class="wps-content-tabs__item" href="<?php echo esc_url(add_query_arg(['type' => 'single', 'post_id' => $post->ID])) ?>">
+                                <a class="wps-content-tabs__item" href="<?php echo esc_url(add_query_arg(['type' => 'single', 'post_id' => $post->ID, 'from' => Request::get('from', date('Y-m-d', strtotime('-30 days'))), 'to' => Request::get('to', date('Y-m-d'))])) ?>">
                                     <div class="wps-content-tabs__item--image">
                                         <span>#<?php echo esc_html($counter); ?></span>
                                         <?php if (has_post_thumbnail($post->ID)) : ?>
@@ -57,7 +57,7 @@ $postType = Request::get('tab', 'post');
                                 $counter = 1;
                                 
                                 foreach ($data['top_commented'] as $post) : ?>
-                                    <a class="wps-content-tabs__item" href="<?php echo esc_url(add_query_arg(['type' => 'single', 'post_id' => $post->ID])) ?>">
+                                    <a class="wps-content-tabs__item" href="<?php echo esc_url(add_query_arg(['type' => 'single', 'post_id' => $post->ID, 'from' => Request::get('from', date('Y-m-d', strtotime('-30 days'))), 'to' => Request::get('to', date('Y-m-d'))])) ?>">
                                         <div class="wps-content-tabs__item--image">
                                             <span>#<?php echo esc_html($counter); ?></span>
                                             <?php if (has_post_thumbnail($post->ID)) : ?>
@@ -91,7 +91,7 @@ $postType = Request::get('tab', 'post');
                             $counter = 1;
                             
                             foreach ($data['recent'] as $post) : ?>
-                                <a class="wps-content-tabs__item" href="<?php echo esc_url(add_query_arg(['type' => 'single', 'post_id' => $post->ID])) ?>">
+                                <a class="wps-content-tabs__item" href="<?php echo esc_url(add_query_arg(['type' => 'single', 'post_id' => $post->ID, 'from' => Request::get('from', date('Y-m-d', strtotime('-30 days'))), 'to' => Request::get('to', date('Y-m-d'))])) ?>">
                                     <div class="wps-content-tabs__item--image">
                                         <span>#<?php echo esc_html($counter); ?></span>
                                         <?php if (has_post_thumbnail($post->ID)) : ?>

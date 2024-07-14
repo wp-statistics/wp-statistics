@@ -156,7 +156,7 @@ class Exclusion
     {
         if (Option::get('exclude_404s')) {
 
-            if (Helper::is_rest_request() && isset($_REQUEST['current_page_type']) && $_REQUEST['current_page_type'] == '404') {
+            if (Helper::is_rest_request() && isset($_REQUEST['source_type']) && $_REQUEST['source_type'] == '404') {
                 return true;
             }
 

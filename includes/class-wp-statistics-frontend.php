@@ -47,7 +47,7 @@ class Frontend
         /**
          * Merge & build the URLs
          */
-        $params               = array_merge([Hits::$rest_hits_key => 'yes'], Helper::getHitsDefaultParams());
+        $params               = array_merge([Hits::$rest_hits_key => 1], Helper::getHitsDefaultParams());
         $hitRequestUrl        = add_query_arg($params, get_rest_url(null, RestAPI::$namespace . '/' . Api\v2\Hit::$endpoint));
         $keepOnlineRequestUrl = add_query_arg($params, get_rest_url(null, RestAPI::$namespace . '/' . Api\v2\CheckUserOnline::$endpoint));
 
@@ -55,8 +55,8 @@ class Frontend
          * Handle the bypass ad blockers
          */
         if (Option::get('bypass_ad_blockers', false)) {
-            $hitRequestUrl        = add_query_arg(array_merge($params, ['action' => 'wp_statistics_hit_record']), admin_url('admin-ajax.php'));
-            $keepOnlineRequestUrl = add_query_arg(array_merge($params, ['action' => 'wp_statistics_keep_online']), admin_url('admin-ajax.php'));
+            $hitRequestUrl        = add_query_arg(array_merge($params, ['action' => 'wp_statistics_hit']), admin_url('admin-ajax.php'));
+            $keepOnlineRequestUrl = add_query_arg(array_merge($params, ['action' => 'wp_statistics_online']), admin_url('admin-ajax.php'));
         }
 
         /**

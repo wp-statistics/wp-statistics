@@ -2,7 +2,6 @@
 
 namespace WP_STATISTICS\Api\v2;
 
-use WP_Statistics\Service\Analytics\VisitorProfile;
 use WP_STATISTICS\UserOnline;
 
 class CheckUserOnline extends \WP_STATISTICS\RestAPI
@@ -28,10 +27,10 @@ class CheckUserOnline extends \WP_STATISTICS\RestAPI
     public function register_online_user_rest_api()
     {
         register_rest_route(self::$namespace, '/' . self::$endpoint, array(
-            'methods'             => 'GET',
+            'methods'             => \WP_REST_Server::READABLE,
             'callback'            => [$this, 'onlineUserUpdateCallback'],
             'permission_callback' => function (\WP_REST_Request $request) {
-                return true;
+                return $this->checkSignature($request);
             }
         ));
     }
