@@ -39,20 +39,24 @@ use WP_STATISTICS\Helper;
         $args4 = [
             'title'         => esc_html__('Words', 'wp-statistics'),
             'tooltip'       => esc_html__('Words tooltip', 'wp-statistics'),
-            'selected'         => Helper::formatNumberWithUnit($data['overview']['words']['recent']),
-            'selected_title'   => esc_html__('Selected Period', 'wp-statistics'),
+            'selected'      => Helper::formatNumberWithUnit($data['overview']['words']['recent']),
+            'selected_title'=> esc_html__('Selected Period', 'wp-statistics'),
             'avg'           => Helper::formatNumberWithUnit($data['overview']['words']['avg']),
-            'avg_title'     => esc_html__('Avg. per Content', 'wp-statistics')
+            'avg_title'     => esc_html__('Avg. per Content', 'wp-statistics'),
+            'total'         => Helper::formatNumberWithUnit($data['overview']['words']['total']),
+            'total_avg'     => Helper::formatNumberWithUnit($data['overview']['words']['total_avg'])
         ];
         Admin_Template::get_template(['layout/category-analytics/overview-card'], $args4);
 
         $args5 = [
-            'title'         => esc_html__('Comments', 'wp-statistics'),
-            'tooltip'       => esc_html__('Comments tooltip', 'wp-statistics'),
-            'selected'         => Helper::formatNumberWithUnit($data['overview']['comments']['recent']),
-            'selected_title'   => esc_html__('Selected Period', 'wp-statistics'),
-            'avg'           => Helper::formatNumberWithUnit($data['overview']['comments']['avg']),
-            'avg_title'     => esc_html__('Avg. per Content', 'wp-statistics')
+            'title'             => esc_html__('Comments', 'wp-statistics'),
+            'tooltip'           => esc_html__('Comments tooltip', 'wp-statistics'),
+            'selected'          => Helper::formatNumberWithUnit($data['overview']['comments']['recent']),
+            'selected_title'    => esc_html__('Selected Period', 'wp-statistics'),
+            'avg'               => Helper::formatNumberWithUnit($data['overview']['comments']['avg']),
+            'avg_title'         => esc_html__('Avg. per Content', 'wp-statistics'),
+            'total'             => Helper::formatNumberWithUnit($data['overview']['comments']['total']),
+            'total_avg'         => Helper::formatNumberWithUnit($data['overview']['comments']['total_avg'])
         ];
         Admin_Template::get_template(['layout/category-analytics/overview-card'], $args5);
         ?>
