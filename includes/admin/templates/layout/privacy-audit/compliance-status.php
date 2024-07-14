@@ -72,7 +72,7 @@
                         <span class="dot"></span> <span class="wps-privacy-status__passed-value"></span> <?php esc_html_e('Passed', 'wp-statistics'); ?>
                     </div>
                     <div class="wps-privacy-status__bar wps-privacy-status__bar-need-work">
-                        <span class="dot"></span> <span class="wps-privacy-status__need-work-value"></span> <?php esc_html_e('Need Work', 'wp-statistics'); ?>
+                        <span class="dot"></span> <span class="wps-privacy-status__need-work-value"></span> <?php esc_html_e('Needs Work', 'wp-statistics'); ?>
                     </div>
                 </div>
             </div>
