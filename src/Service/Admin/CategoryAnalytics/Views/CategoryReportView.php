@@ -44,7 +44,7 @@ class CategoryReportView extends BaseView
         $template   = 'category-report';
 
         if ($this->isLocked()) {
-            $template = 'category-pages-locked';
+            $template = 'category-report-locked';
         }
 
         $args = [
