@@ -28,7 +28,7 @@ class CategoryReportView extends BaseView
 
     public function isLocked()
     {
-        return !Helper::isAddOnActive('data-plus') && Helper::isCustomTaxonomy(Request::get('tx', 'category'));
+        return !Helper::isAddOnActive('data-plus') && (Helper::isCustomTaxonomy(Request::get('tx', 'category')) || Helper::isCustomPostType(Request::get('pt', 'post')));
     }
 
     public function getData()

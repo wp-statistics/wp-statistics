@@ -71,7 +71,7 @@ class TabsView extends BaseTabView
 
             $template = "authors-$currentTab";
 
-            if (Helper::isCustomPostType($postType)) {
+            if (!Helper::isAddOnActive('data-plus') && Helper::isCustomPostType($postType)) {
                 $template = 'authors-performance-locked';
             }
 

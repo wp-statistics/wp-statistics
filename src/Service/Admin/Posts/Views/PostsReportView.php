@@ -53,6 +53,11 @@ class PostsReportView extends BaseView
         $postType   = Request::get('pt', 'post');
         $data       = $this->getData();
         $parentPage = Menus::getCurrentPage();
+        $template   = 'posts-report';
+
+        if (!Helper::isAddOnActive('data-plus') && Helper::isCustomPostType($postType)) {
+            $template   = 'posts-report-locked';
+        }
 
         $args = [
             'title'         => Helper::getPostTypeName($postType),
@@ -80,6 +85,6 @@ class PostsReportView extends BaseView
             ]);
         }
 
-        Admin_Template::get_template(['layout/header', 'layout/title', 'pages/posts/posts-report', 'layout/postbox.toggle', 'layout/footer'], $args);
+        Admin_Template::get_template(['layout/header', 'layout/title', "pages/posts/$template", 'layout/postbox.toggle', 'layout/footer'], $args);
     }
 }

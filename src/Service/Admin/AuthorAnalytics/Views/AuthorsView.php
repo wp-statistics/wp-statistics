@@ -4,6 +4,7 @@ namespace WP_Statistics\Service\Admin\AuthorAnalytics\Views;
 
 use WP_Statistics\Abstracts\BaseView;
 use WP_STATISTICS\Admin_Template;
+use WP_STATISTICS\Helper;
 use WP_STATISTICS\Menus;
 use WP_Statistics\Service\Admin\AuthorAnalytics\AuthorAnalyticsDataProvider;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
@@ -43,7 +44,13 @@ class AuthorsView extends BaseView
     public function render()
     {
         try {
-            $data = $this->getData();
+            $postType   = Request::get('pt', 'post');
+            $data       = $this->getData();
+            $template   = 'authors-report';
+
+            if (!Helper::isAddOnActive('data-plus') && Helper::isCustomPostType($postType)) {
+                $template = 'authors-report-locked';
+            }
 
             $args = [
                 'title'       => esc_html__('Authors', 'wp-statistics'),
@@ -67,7 +74,7 @@ class AuthorsView extends BaseView
                 ]);
             }
 
-            Admin_Template::get_template(['layout/header', 'layout/title', 'pages/author-analytics/authors-report', 'layout/postbox.toggle', 'layout/footer'], $args);
+            Admin_Template::get_template(['layout/header', 'layout/title', "pages/author-analytics/$template", 'layout/postbox.toggle', 'layout/footer'], $args);
         } catch (\Exception $e) {
             Notice::renderNotice($e->getMessage(), $e->getCode(), 'error');
         }
