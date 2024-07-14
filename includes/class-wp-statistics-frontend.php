@@ -34,7 +34,7 @@ class Frontend
     {
         if (Option::get('use_honeypot') && Option::get('honeypot_postid') > 0) {
             $post_url = get_permalink(Option::get('honeypot_postid'));
-            echo sprintf('<a href="%s" style="display: none;" rel="nofollow noreferrer noindex">&nbsp;</a>', esc_html($post_url));
+            echo sprintf('<a href="%s" style="display: none;" rel="noindex">&nbsp;</a>', esc_html($post_url));
         }
     }
 
