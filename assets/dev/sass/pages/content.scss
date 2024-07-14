@@ -48,6 +48,26 @@
       gap: 24px;
       display: flex;
       flex-direction: column;
+
+      &.wps-card__sums--two-row {
+        .wps-card__summary {
+          flex-wrap: wrap;
+          gap: 24px;
+
+          & > div {
+            flex: 1 1 calc(50% - 24px);
+            min-width: calc(50% - 24px);
+            width: calc(50% - 24px);
+
+            &.wps-card__summary--total-avg {
+              align-items: flex-end;
+            }
+            &.wps-card__summary--total span:first-child{
+              color: #5100fd !important;
+            }
+          }
+        }
+      }
     }
 
     &__title {
@@ -112,6 +132,10 @@
         display: flex;
         flex-direction: column;
         gap: 2px;
+
+        &.wps-card__summary--avg{
+          align-items: flex-end;
+        }
 
         span:first-child {
           font-size: 25px;
