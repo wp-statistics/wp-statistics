@@ -624,15 +624,6 @@ class Install
         }
 
         /**
-         * Force Update robots List after Update Plugin
-         *
-         * @version 9.6.2
-         */
-        if (Option::get('force_robot_update')) {
-            Referred::download_referrer_spam();
-        }
-
-        /**
          * Update options
          */
         if (Option::get('privacy_audit') === false && version_compare($installed_version, '14.7', '>=')) {

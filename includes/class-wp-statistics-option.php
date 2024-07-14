@@ -69,7 +69,6 @@ class Option
             'disable_se_baidu'          => true,
             'disable_se_ask'            => true,
             'map_type'                  => 'jqvmap',
-            'force_robot_update'        => true,
             'ip_method'                 => 'sequential',
             'exclude_loginpage'         => true,
             'exclude_404s'              => false,

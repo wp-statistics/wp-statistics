@@ -381,7 +381,6 @@ class settings_page extends Singleton
             'wps_query_params_allow_list',
             'wps_exclude_ip',
             'wps_exclude_loginpage',
-            'wps_force_robot_update',
             'wps_excluded_countries',
             'wps_included_countries',
             'wps_excluded_hosts',
