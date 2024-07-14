@@ -2,6 +2,8 @@
 
 namespace WP_STATISTICS;
 
+use WP_Statistics\MiniChart\WP_Statistics_Mini_Chart_Settings;
+
 class Admin_Taxonomy
 {
     /**
@@ -85,7 +87,11 @@ class Admin_Taxonomy
                     WP_STATISTICS_URL . 'assets/images/mini-chart-posts-preview.png'
                 );
 
-                $value = apply_filters("wp_statistics_before_hit_column", $preview_chart_unlock_html, $term_id, $term->taxonomy);
+                $setting = class_exists(WP_Statistics_Mini_Chart_Settings::class) ? get_option(WP_Statistics_Mini_Chart_Settings::get_instance()->setting_name) : '';
+                $value   = '';
+                if (!empty($setting) && Helper::isAddOnActive('mini-chart') && !empty($setting['active_mini_chart_' . $term->taxonomy])) {
+                    $value = apply_filters("wp_statistics_before_hit_column", $preview_chart_unlock_html, $term_id, $term->taxonomy);
+                }
 
                 $value .= sprintf('<a href="%s">%s</a>',
                     Menus::admin_url('category-analytics', ['type' => 'single', 'term_id' => $term_id]),
