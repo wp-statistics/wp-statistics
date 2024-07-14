@@ -50,7 +50,7 @@ class CategoryReportView extends BaseView
         $args = [
             'title'         => esc_html__('Category Report', 'wp-statistics'),
             'pageName'      => Menus::get_page_slug($parentPage['page_url']),
-            'custom_get'    => ['type' => 'posts', 'pt' => $postType, 'author_id' => $authorId],
+            'custom_get'    => ['type' => 'report', 'pt' => $postType, 'author_id' => $authorId, 'tx' => Request::get('tx', 'category')],
             'DateRang'      => Admin_Template::DateRange(),
             'hasDateRang'   => true,
             'backUrl'       => Menus::admin_url($parentPage['page_url']),
