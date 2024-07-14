@@ -50,9 +50,9 @@
             min-width: calc(50% - 24px);
             width: calc(50% - 24px);
 
-            &.wps-card__summary--total-avg {
+            &.wps-card__summary--total-avg , &.wps-card__summary--avg {
               align-items: flex-end;
-              span:first-child{
+              span:first-child ,span:last-child{
                 justify-content: flex-end;
               }
             }
