@@ -34,6 +34,7 @@ You can find more information in "[What we collect](https://wp-statistics.com/re
 
 = Top Features =
 * Fully integrate with your WordPress and your content structure and you have the all reports all in your WP dashboard
+* Content and Category Analytics: Track performance based on your site’s content and categories.
 * Simple analytics dashboard
 * Super easy to install. No coding or technical knowledge needed
 * Advanced data privacy settings that are customizable to fit your needs, in compliance with diverse data protection laws
@@ -45,10 +46,9 @@ You can find more information in "[What we collect](https://wp-statistics.com/re
 * Lists your top referral sources such as search engines
 * Author Analytics: Measures author performance.
 * Geographic Reports: Location-based analytics, including countries, cities, European countries, US states, and regions within your country.
-* Devices Report: Detailed device-specific analytics covering browsers, operating systems, and device models.
+* Devices Report: Detailed device-specific analytics covering browsers, operating systems, device categories and device models.
 * Bypass Ad Blockers: Dynamically load the tracking script with a unique name and address to bypass ad blockers.
 * Integrate with WP Consent API: Ensures compatibility with consent plugins like Complianz and Cookiebot.
-* Coming Soon: Content and Category Analytics: Track performance based on your site’s content and categories.
 * Email reports with customizable content
 * Customize role-based access to view analytics and modify settings.
 * Advanced Filtering & Exceptions: By user roles, IPs, countries, URLs, and more.
@@ -58,7 +58,7 @@ You can find more information in "[What we collect](https://wp-statistics.com/re
  * **Link Tracker**: Find out which outbound links your audience clicks on, giving you insights into their preferences and behaviors.
  * **Download Tracker**: Keep track of what's being downloaded, who's downloading it, and when.
  * **Individual Author Performance**: Detailed metrics on the performance of individual authors.
- * **Soon**: Detailed Analytics for Each Country: In-depth analytics for each country to enhance geographical reporting.
+ * **Detailed Analytics for Each Country**: In-depth analytics for each country to enhance geographical reporting.
  * And more!
 
 **Get the most out of your website analytics by using WP Statistics Premium Add-ons**
@@ -127,6 +127,7 @@ WP Statistics supports WordPress Multi-Site/Network installations. In the networ
 == Upgrade Notice ==
 = 14.9 =
 To ensure the plugin works correctly, please clear your cache because some request payloads have been updated. Also, review your settings, especially if you use DataPlus, Advanced Reporting, or Customization, as some options have changed.
+Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest version.
 
 == Changelog ==
 = 14.9 - **.07.2024 =
@@ -149,6 +150,6 @@ To ensure the plugin works correctly, please clear your cache because some reque
 * Fix: User View Logs: Display option fixed.
 * Fix: Top viewing authors: Inaccuracies fixed.
 
-For more information about the major update, please [visit our blog post](...) or follow [@wp_statistics](https://twitter.com/wp_statistics) on Twitter
+For more information about the major update, please [visit our blog post](https://wp-statistics.com/?p=15915) or follow [@wp_statistics](https://twitter.com/wp_statistics) on Twitter
 
 [See changelog for all versions](https://raw.githubusercontent.com/wp-statistics/wp-statistics/master/CHANGELOG.md).
