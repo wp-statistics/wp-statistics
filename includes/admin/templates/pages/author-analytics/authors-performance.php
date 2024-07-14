@@ -45,6 +45,8 @@ $postTypeNamePlural     = Helper::getPostTypeName($postType);
                     ),
                     'total'        => Helper::formatNumberWithUnit($data['posts']['words']['total']),
                     'total_title'  => esc_html__('Selected Period', 'wp-statistics'),
+                    'total_type'          => '30',
+                    'total_avg'          => '3',
                     'avg'          => Helper::formatNumberWithUnit($data['posts']['words']['avg']),
                     'avg_title'    => sprintf(esc_html__('Avg. per %s', 'wp-statistics'), $postTypeNameSingular)
                 ]
@@ -60,6 +62,8 @@ $postTypeNamePlural     = Helper::getPostTypeName($postType);
                     ),
                     'total'        => Helper::formatNumberWithUnit($data['posts']['comments']['total']),
                     'total_title'  => esc_html__('Selected Period', 'wp-statistics'),
+                    'total_type'          => '30',
+                    'total_avg'          => '3',
                     'avg'          => Helper::formatNumberWithUnit($data['posts']['comments']['avg']),
                     'avg_title'    => sprintf(esc_html__('Avg. per %s', 'wp-statistics'), $postTypeNameSingular)
                 ];

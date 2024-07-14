@@ -1,4 +1,4 @@
-<div class="wps-card wps-card__sums <?php echo isset($active) ? 'wps-card__sums--authors' : ''; ?>">
+<div class="wps-card wps-card__sums <?php echo isset($active) ? 'wps-card__sums--authors' : ''; ?>  <?php echo isset($total_type) ? 'wps-card__sums--two-row' : ''; ?>">
     <div class="wps-card__title">
         <h2>
             <?php echo esc_html($title); ?>
@@ -37,5 +37,20 @@
                     <span><?php echo esc_html($avg_title) ?></span>
                 <?php endif ?>
             </div>
+
+        <?php if (isset($total_type)) : ?>
+            <div class="wps-card__summary--total">
+                <span><?php echo esc_html($total_type) ?></span>
+                <span><?php esc_html_e('Total', 'wp-statistics') ?></span>
+            </div>
+        <?php endif ?>
+
+        <?php if (isset($total_avg)) : ?>
+            <div class="wps-card__summary--total-avg">
+                <span><?php echo esc_html($total_avg) ?></span>
+                <span><?php esc_html_e('Total Avg. per Content', 'wp-statistics') ?></span>
+            </div>
+        <?php endif ?>
+
      </div>
 </div>

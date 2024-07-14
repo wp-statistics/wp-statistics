@@ -39,6 +39,30 @@
       display: flex;
       flex-direction: column;
 
+
+      &.wps-card__sums--two-row {
+        .wps-card__summary {
+          flex-wrap: wrap;
+          gap: 24px;
+
+          & > div {
+            flex: 1 1 calc(50% - 24px);
+            min-width: calc(50% - 24px);
+            width: calc(50% - 24px);
+
+            &.wps-card__summary--total-avg {
+              align-items: flex-end;
+              span:first-child{
+                justify-content: flex-end;
+              }
+            }
+            &.wps-card__summary--total span:first-child{
+              color: #5100fd !important;
+            }
+          }
+        }
+      }
+
       &--authors{
         .wps-card__summary{
           flex-wrap: wrap;
@@ -131,14 +155,19 @@
         flex-direction: column;
         gap: 2px;
 
+        &.wps-card__summary--avg{
+          justify-content: flex-end;
+          span:first-child{
+            justify-content: flex-end;
+          }
+        }
+
         span:first-child {
           font-size: 25px;
           font-weight: 600;
           line-height: 29.3px;
           display: flex;
-          justify-content: flex-end;
-          align-items: flex-end;
-          color: #0C0C0D;
+           color: #0C0C0D;
         }
 
         span:last-child {
