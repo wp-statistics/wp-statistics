@@ -198,7 +198,10 @@ class AuthorAnalyticsDataProvider
 
         $totalWords         = $this->postsModel->countWords($this->args);
         $totalComments      = $this->postsModel->countComments($this->args);
-        $totalPosts         = $this->postsModel->countPosts($this->args);
+
+        $recentPosts         = $this->postsModel->countPosts($this->args);
+        $totalPosts        = $this->postsModel->countPosts(array_merge($this->args, ['date' => '']));
+
         $totalVisitors      = $this->visitorsModel->countVisitors($this->args);
 
         $taxonomies         = $this->taxonomyModel->getTaxonomiesData($this->args);
@@ -217,7 +220,8 @@ class AuthorAnalyticsDataProvider
             'taxonomies'        => $taxonomies,
             'overview'          => [
                 'posts'     => [
-                    'total'     => $totalPosts
+                    'total'     => $totalPosts,
+                    'recent'    => $recentPosts
                 ],
                 'views'     => [
                     'total'     => $totalViews,

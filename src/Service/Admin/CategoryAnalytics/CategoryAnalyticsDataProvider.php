@@ -163,10 +163,15 @@ class CategoryAnalyticsDataProvider
     {
         $totalPosts         = $this->postsModel->countPosts(array_merge($this->args, ['date' => '']));
         $recentPosts        = $this->postsModel->countPosts($this->args);
+
         $recentViews        = $this->viewsModel->countViews($this->args);
         $recentVisitors     = $this->visitorsModel->countVisitors($this->args);
+
         $recentWords        = $this->postsModel->countWords($this->args);
+        $totalWords         = $this->postsModel->countWords(array_merge($this->args, ['date' => '']));
+
         $recentComments     = $this->postsModel->countComments($this->args);
+        $totalComments      = $this->postsModel->countComments(array_merge($this->args, ['date' => '']));
 
         $visitorsSummary    = $this->visitorsModel->getVisitorsSummary($this->args);
         $viewsSummary       = $this->viewsModel->getViewsSummary($this->args);
@@ -217,11 +222,15 @@ class CategoryAnalyticsDataProvider
                 ],
                 'words'     => [
                     'recent'    => $recentWords,
-                    'avg'       => Helper::divideNumbers($recentWords, $totalPosts)
+                    'avg'       => Helper::divideNumbers($recentWords, $recentPosts),
+                    'total'     => $totalWords,
+                    'total_avg' => Helper::divideNumbers($totalWords, $totalPosts)
                 ],
                 'comments'  => [
                     'recent'    => $recentComments,
                     'avg'       => Helper::divideNumbers($recentComments, $recentPosts),
+                    'total'     => $totalComments,
+                    'total_avg' => Helper::divideNumbers($totalComments, $totalPosts)
                 ]
             ],
             'performance'       => $performanceData,

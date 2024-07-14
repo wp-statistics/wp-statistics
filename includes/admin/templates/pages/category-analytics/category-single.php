@@ -54,12 +54,12 @@ use WP_STATISTICS\Helper;
         $args4 = [
             'title'             => esc_html__('Comments', 'wp-statistics'),
             'tooltip'           => esc_html__('Comments tooltip', 'wp-statistics'),
-            'selected'          => Helper::formatNumberWithUnit($data['overview']['comments']['recent']),
+            'selected'          => Helper::formatNumberWithUnit($data['overview']['comments']['recent'], 1),
             'selected_title'    => esc_html__('Selected Period', 'wp-statistics'),
-            'avg'               => Helper::formatNumberWithUnit($data['overview']['comments']['avg']),
+            'avg'               => Helper::formatNumberWithUnit($data['overview']['comments']['avg'], 1),
             'avg_title'         => esc_html__('Avg. per Content', 'wp-statistics'),
-            'total'             => Helper::formatNumberWithUnit($data['overview']['comments']['total']),
-            'total_avg'         => Helper::formatNumberWithUnit($data['overview']['comments']['total_avg'])
+            'total'             => Helper::formatNumberWithUnit($data['overview']['comments']['total'], 1),
+            'total_avg'         => Helper::formatNumberWithUnit($data['overview']['comments']['total_avg'], 1)
         ];
         Admin_Template::get_template(['layout/category-analytics/overview-card'], $args4);
         ?>
