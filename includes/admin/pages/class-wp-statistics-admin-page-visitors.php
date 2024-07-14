@@ -141,7 +141,7 @@ class visitors_page extends Singleton
 
             // Set New Sub List
             if ($args['filter']['number'] == 1) {
-                $browserTitle = isset($browsers[strtolower($agent)]) ? isset($browsers[strtolower($agent)]) : $agent;
+                $browserTitle = isset($browsers[strtolower($agent)]) ? $browsers[strtolower($agent)] : $agent;
                 $args['sub'][$agent] = array('title' => $browserTitle, 'count' => Visitor::Count(array_merge($sql, array('key' => 'agent', 'compare' => 'LIKE', 'value' => $agent))), 'active' => (isset($_GET['agent']) ? true : false), 'link' => add_query_arg(array_merge($data_link, array('agent' => $agent)), Menus::admin_url('visitors')));
             }
         }
