@@ -116,7 +116,7 @@ class ContentAnalyticsDataProvider
 
         $topPostsByView     = $this->postsModel->getPostsViewsData($this->args);
         $topPostsByComment  = $this->postsModel->getPostsCommentsData($this->args);
-        $recentPostsData    = $this->postsModel->getPostsViewsData(array_merge($this->args, ['order_by' => 'post_date']));
+        $recentPostsData    = $this->postsModel->getPostsViewsData(array_merge($this->args, ['order_by' => 'post_date', 'show_no_views' => true]));
 
         $taxonomies         = $this->taxonomyModel->getTaxonomiesData($this->args);
 

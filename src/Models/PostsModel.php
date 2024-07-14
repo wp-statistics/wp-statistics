@@ -224,9 +224,14 @@ class PostsModel extends BaseModel
             'per_page'      => 5,
             'author_id'     => '',
             'taxonomy'      => '',
-            'term'          => ''
+            'term'          => '',
+            'show_no_views' => false
         ]);
 
+        // Get posts with zero views or not
+        $joinType = $args['show_no_views'] ? 'LEFT' : 'INNER';
+
+        
         $viewsQuery = Query::select(['id', 'SUM(count) AS views'])
             ->from('pages')
             ->whereDate('date', $args['date'])
@@ -241,7 +246,7 @@ class PostsModel extends BaseModel
                 'COALESCE(pages.views, 0) AS views',
             ])
             ->from('posts')
-            ->joinQuery($viewsQuery, ['posts.ID', 'pages.id'], 'pages', 'LEFT')
+            ->joinQuery($viewsQuery, ['posts.ID', 'pages.id'], 'pages', $joinType)
             ->where('post_type', 'IN', $args['post_type'])
             ->where('post_status', '=', 'publish')
             ->where('posts.post_author', '=', $args['author_id'])
