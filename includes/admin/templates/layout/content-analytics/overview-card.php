@@ -31,7 +31,7 @@
         <?php if (isset($total_avg)) : ?>
             <div class="wps-card__summary--total-avg">
                 <span><?php echo esc_html($total_avg) ?></span>
-                <span><?php esc_html_e('Total Avg. per Content', 'wp-statistics') ?></span>
+                <span><?php echo isset($total_avg_title) ? esc_html($total_avg_title) : esc_html_e('Total Avg. per Content', 'wp-statistics') ?></span>
             </div>
         <?php endif ?>
 

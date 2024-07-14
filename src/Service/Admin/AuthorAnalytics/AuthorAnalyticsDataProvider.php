@@ -199,8 +199,8 @@ class AuthorAnalyticsDataProvider
         $totalWords         = $this->postsModel->countWords($this->args);
         $totalComments      = $this->postsModel->countComments($this->args);
 
-        $recentPosts         = $this->postsModel->countPosts($this->args);
-        $totalPosts        = $this->postsModel->countPosts(array_merge($this->args, ['date' => '']));
+        $recentPosts        = $this->postsModel->countPosts($this->args);
+        $totalPosts         = $this->postsModel->countPosts(array_merge($this->args, ['date' => '']));
 
         $totalVisitors      = $this->visitorsModel->countVisitors($this->args);
 
