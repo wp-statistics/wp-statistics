@@ -203,18 +203,14 @@ class Hits extends Singleton
      */
     public static function record_wp_hits()
     {
-        if (is_admin() or is_preview()) {
+        if (is_admin() or is_preview() or Option::get('use_cache_plugin') or Helper::dntEnabled()) {
             return;
         }
 
-        if (!Option::get('use_cache_plugin') and !Helper::dntEnabled()) {
-            $consentLevel = Option::get('consent_level_integration', 'disabled');
-            if (
-                $consentLevel == 'disabled' || Helper::shouldTrackAnonymously() ||
-                !WpConsentApi::isWpConsentApiActive() || !function_exists('wp_has_consent') || wp_has_consent($consentLevel)
-            ) {
-                self::record();
-            }
+        $consentLevel = Option::get('consent_level_integration', 'disabled');
+
+        if ($consentLevel == 'disabled' || Helper::shouldTrackAnonymously() || !WpConsentApi::isWpConsentApiActive() || !function_exists('wp_has_consent') || wp_has_consent($consentLevel)) {
+            self::record();
         }
     }
 }
