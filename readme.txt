@@ -134,7 +134,7 @@ To ensure the plugin works correctly, please clear your cache because some reque
 Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest version.
 
 == Changelog ==
-= 14.9 - **.07.2024 =
+= 14.9 - 15.07.2024 =
 * New: Content Analytics: Replaces Post Type report with content insights.
 * New: Category Analytics: Replaces Taxonomies report with category insights.
 * New: Device Categories report: Added under Devices menu.
