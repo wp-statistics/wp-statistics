@@ -115,7 +115,7 @@ class TaxonomyModel extends BaseModel
             'date'      => '',
             'taxonomy'  => '',
             'author_id' => '',
-            'post_type' => Helper::getPostTypes(),
+            'post_type' => Helper::getDefaultPostTypes(),
             'date_field'=> 'pages.date'
         ]);
 

@@ -13,7 +13,7 @@ class CategoryReportView extends BaseView
 
     public function __construct() 
     {
-        $this->dataProvider = new CategoryAnalyticsDataProvider([
+        $args = [
             'author_id' => Request::get('author_id', '', 'number'),
             'post_type' => Request::get('pt', ''),
             'taxonomy'  => Request::get('tx', 'category'),
@@ -23,7 +23,16 @@ class CategoryReportView extends BaseView
             ],
             'order_by'  => Request::get('order_by', 'views'),
             'order'     => Request::get('order', 'DESC'),
-        ]);
+        ];
+
+        // If data plus is active, show all post-types, otherwise, just built-in post-types
+        if (Helper::isAddOnActive('data-plus') && !Request::has('pt')) {
+            $args['post_type'] = Helper::getPostTypes();
+        } else if (!Helper::isAddOnActive('data-plus') && !Request::has('pt')) {
+            $args['post_type'] = Helper::getDefaultPostTypes();
+        }
+
+        $this->dataProvider = new CategoryAnalyticsDataProvider($args);
     }
 
     public function isLocked()
