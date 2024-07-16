@@ -3,7 +3,7 @@ Contributors: mostafa.s1990, kashani, veronalabs, GregRoss
 Donate link: https://wp-statistics.com/donate/
 Tags: analytics, google analytics, insights, stats, site visitors
 Requires at least: 5.0
-Tested up to: 6.5
+Tested up to: 6.6
 Stable tag: 14.9
 Requires PHP: 5.6
 License: GPL-2.0+
@@ -134,7 +134,7 @@ To ensure the plugin works correctly, please clear your cache because some reque
 Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest version.
 
 == Changelog ==
-= 14.9 - 15.07.2024 =
+= 14.9 - 16.07.2024 =
 * New: Content Analytics: Replaces Post Type report with content insights.
 * New: Category Analytics: Replaces Taxonomies report with category insights.
 * New: Device Categories report: Added under Devices menu.
@@ -149,6 +149,7 @@ Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest versio
 * Enhancement: DatePicker: Fixed filter issues and improved functionality.
 * Enhancement: Mozart: Implemented to avoid plugin namespace conflicts.
 * Enhancement: Requests: Replaced signature validation with nonce for better cache compatibility.
+* Enhancement: Added noindex attributes to honeypot link.
 * Fix: Online time calculation: Corrected for seconds-only durations.
 * Fix: Online user checks: Removed frequent checks, set check value to 65, fixed issues, and allowed status reset.
 * Fix: User View Logs: Display option fixed.
