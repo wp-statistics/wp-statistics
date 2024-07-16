@@ -33,24 +33,7 @@ class TabsView extends BaseTabView
 
         $dataProvider = new $this->dataProvider($args);
 
-        wp_localize_script(Admin_Assets::$prefix, 'Wp_Statistics_Author_Analytics_Object', [
-            'publish_chart_data'         => $dataProvider->getPublishingChartData(),
-            'views_per_posts_chart_data' => [
-                'data'       => $dataProvider->getViewsPerPostsChartData(),
-                'chartLabel' => sprintf(
-                    esc_html__('Views/Published %s', 'wp-statistics'),
-                    Helper::getPostTypeName($postType)
-                ),
-                'yAxisLabel' => sprintf(
-                    esc_html__('Published %s', 'wp-statistics'),
-                    Helper::getPostTypeName($postType)
-                ),
-                'xAxisLabel' => sprintf(
-                    esc_html__('%s Views', 'wp-statistics'),
-                    Helper::getPostTypeName($postType, true)
-                )
-            ]
-        ]);
+        wp_localize_script(Admin_Assets::$prefix, 'Wp_Statistics_Author_Analytics_Object', $dataProvider->getAuthorsChartData());
 
         return $dataProvider->getAuthorsPerformanceData();
     }
@@ -82,8 +65,15 @@ class TabsView extends BaseTabView
     public function render()
     {
         try {
+            $postType   = Request::get('pt', 'post');
             $currentTab = $this->getCurrentTab();
             $tabData    = $this->getTabData();
+
+            $template = "authors-$currentTab";
+
+            if (!Helper::isAddOnActive('data-plus') && Helper::isCustomPostType($postType)) {
+                $template = 'authors-performance-locked';
+            }
 
             $args = [
                 'title'       => esc_html__('Author Analytics', 'wp-statistics'),
@@ -111,7 +101,7 @@ class TabsView extends BaseTabView
             ];
 
             if ($currentTab === 'performance') {
-                $args['custom_get']['pt'] = Request::get('pt', 'post');
+                $args['custom_get']['pt'] = $postType;
             }
 
             if ($currentTab === 'pages') {
@@ -129,7 +119,7 @@ class TabsView extends BaseTabView
                 }
             }
 
-            Admin_Template::get_template(['layout/header', 'layout/tabbed-page-header', "pages/author-analytics/authors-$currentTab", 'layout/postbox.hide', 'layout/footer'], $args);
+            Admin_Template::get_template(['layout/header', 'layout/tabbed-page-header', "pages/author-analytics/$template", 'layout/postbox.hide', 'layout/footer'], $args);
         } catch (\Exception $e) {
             Notice::renderNotice($e->getMessage(), $e->getCode(), 'error');
         }

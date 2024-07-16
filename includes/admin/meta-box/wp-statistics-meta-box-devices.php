@@ -73,13 +73,29 @@ class devices extends MetaBoxAbstract
         // Get Last 10 Version that Max number
         $devices = array_slice($list, 0, $args['number']);
 
+        // Prepare Data
+        $data = array();
+        foreach ($devices as $device) {
+            if (!empty(trim($device['device'])) && strtolower($device['device']) != "bot") {
+                $device_name = \WP_STATISTICS\Helper::getDeviceCategoryName($device['device']);
+                if (isset($data[$device_name])) {
+                    $data[$device_name]['count'] += $device['count'];
+                } else {
+                    $data[$device_name] = array(
+                        'device' => $device_name,
+                        'count'  => intval($device['count'])
+                    );
+                }
+            }
+        }
+
         // Push to array
-        foreach ($devices as $l) {
+        foreach ($data as $l) {
 
             if (trim($l['device']) != "") {
 
-                // Sanitize Version name
-                $lists_name[] = sanitize_text_field($l['device']);
+                // Remove device subtype, for example: mobile:smart -> mobile
+                $lists_name[] = \WP_STATISTICS\Helper::getDeviceCategoryName($l['device']);
 
                 // Get List Count
                 $lists_value[] = (int)$l['count'];

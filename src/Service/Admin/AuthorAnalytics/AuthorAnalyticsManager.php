@@ -2,6 +2,8 @@
 
 namespace WP_Statistics\Service\Admin\AuthorAnalytics;
 
+use WP_STATISTICS\Helper;
+
 class AuthorAnalyticsManager
 {
     public function __construct()
@@ -17,17 +19,14 @@ class AuthorAnalyticsManager
      */
     public function addMenuItem($items)
     {
-        $newItem = [
-            'author_analytics' => [
-                'sub'      => 'overview',
-                'pages'    => array('pages' => true),
-                'title'    => esc_html__('Author Analytics', 'wp-statistics'),
-                'page_url' => 'author-analytics',
-                'callback' => AuthorAnalyticsPage::class
-            ]
+        $items['author_analytics'] = [
+            'sub'      => 'overview',
+            'pages'    => ['pages' => true],
+            'title'    => esc_html__('Author Analytics', 'wp-statistics'),
+            'page_url' => 'author-analytics',
+            'callback' => AuthorAnalyticsPage::class,
+            'priority'  => 72,
         ];
-
-        array_splice($items, 8, 0, $newItem);
 
         return $items;
     }

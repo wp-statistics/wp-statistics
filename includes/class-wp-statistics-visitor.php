@@ -28,7 +28,7 @@ class Visitor
      */
     public static function active()
     {
-        return (has_filter('wp_statistics_active_visitors')) ? apply_filters('wp_statistics_active_visitors', true) : Option::get('visitors');
+        return (has_filter('wp_statistics_active_visitors')) ? apply_filters('wp_statistics_active_visitors', true) : true;
     }
 
     /**
@@ -134,7 +134,7 @@ class Visitor
                     'region'       => $visitorProfile->getRegion(),
                     'continent'    => $visitorProfile->getContinent(),
                     'user_id'      => $visitorProfile->getUserId(),
-                    'UAString'     => (Option::get('store_ua') == true ? $visitorProfile->getHttpUserAgent() : ''),
+                    'UAString'     => ((Option::get('store_ua') == true && !Helper::shouldTrackAnonymously()) ? $visitorProfile->getHttpUserAgent() : ''),
                     'hits'         => 1,
                     'honeypot'     => ($args['exclusion_reason'] == 'Honeypot' ? 1 : 0),
                 );

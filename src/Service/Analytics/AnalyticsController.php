@@ -4,6 +4,8 @@ namespace WP_Statistics\Service\Analytics;
 
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Hits;
+use WP_STATISTICS\UserOnline;
+use WP_Statistics\Utils\Signature;
 
 class AnalyticsController
 {
@@ -12,12 +14,11 @@ class AnalyticsController
      *
      * @return  void
      */
-    public function hit_record_action_callback()
+    public function hit_action_callback()
     {
-        if (Helper::is_request('ajax')) {
-            // Check Refer Ajax
-            check_ajax_referer('wp_statistics_tracker_nonce', 'nonce');
+        $this->checkSignature();
 
+        if (Helper::is_request('ajax')) {
             // Start Record
             $exclusion    = Hits::record();
             $responseData = [
@@ -40,15 +41,12 @@ class AnalyticsController
      *
      * @return  void
      */
-    public function keep_online_action_callback()
+    public function online_action_callback()
     {
+        $this->checkSignature();
+
         if (Helper::is_request('ajax')) {
-            // Check Refer Ajax
-            check_ajax_referer('wp_statistics_tracker_nonce', 'nonce');
-
-            $visitorProfile = new VisitorProfile();
-
-            \WP_STATISTICS\UserOnline::record($visitorProfile);
+            UserOnline::record();
 
             // Return response
             wp_send_json([
@@ -57,5 +55,24 @@ class AnalyticsController
         }
 
         exit;
+    }
+
+    /**
+     * @return void
+     * @doc https://wp-statistics.com/resources/managing-request-signatures/
+     */
+    private function checkSignature()
+    {
+        if (Helper::isRequestSignatureEnabled()) {
+            $signature = sanitize_text_field($_REQUEST['signature']);
+            $payload   = [
+                sanitize_text_field($_REQUEST['source_type']),
+                (int)sanitize_text_field($_REQUEST['source_id']),
+            ];
+
+            if (!Signature::check($payload, $signature)) {
+                wp_send_json_error(__('Invalid signature', 'wp-statistics'), 403);
+            }
+        }
     }
 }

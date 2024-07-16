@@ -112,7 +112,7 @@ wps_js.meta_box_tooltip = function (key) {
         const title = jQuery(selector).text();
         const tooltip = meta_box_info.description;
         const newTitle = '<a href="#" class="wps-tooltip" title="' + tooltip + '"><i class="wps-tooltip-icon"></i></a>';
-        if(tooltip) jQuery(selector).append(newTitle);
+        if (tooltip) jQuery(selector).append(newTitle);
     }
 }
 
@@ -286,7 +286,7 @@ wps_js.meta_box_footer = function (key, data) {
     }
     html += `</div><div class="c-footer__more">`;
     if (params.footer_options.display_more_link) {
-        html += `<a class="c-footer__more__link" href="` + wps_js.global.admin_url + 'admin.php?page=' + args.page_url + `">${params.footer_options.more_link_title}<svg width="14" height="10" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="m9.61181.611328-.71269.712722 3.17148 3.17149L0 4.49951v1.00398h12.0706L8.89912 8.67495l.71269.71272L14 4.99948 9.61181.611328Z" fill="#404BF2"/></svg></a>`;
+        html += `<a class="c-footer__more__link" href="` + args.page_url + `">${params.footer_options.more_link_title}<svg width="14" height="10" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="m9.61181.611328-.71269.712722 3.17148 3.17149L0 4.49951v1.00398h12.0706L8.89912 8.67495l.71269.71272L14 4.99948 9.61181.611328Z" fill="#404BF2"/></svg></a>`;
     }
     html += `</div></div>`;
 

@@ -9,7 +9,6 @@ class Frontend
 {
     public function __construct()
     {
-
         # Enable ShortCode in Widget
         add_filter('widget_text', 'do_shortcode');
 
@@ -18,9 +17,6 @@ class Frontend
 
         # Enqueue scripts & styles
         add_action('wp_enqueue_scripts', array($this, 'enqueue_scripts'));
-
-        # Register and enqueue check online users scripts
-        add_action('wp_enqueue_scripts', array($this, 'enqueue_styles'));
 
         # Print out the WP Statistics HTML comment
         add_action('wp_head', array($this, 'print_out_plugin_html'));
@@ -38,59 +34,55 @@ class Frontend
     {
         if (Option::get('use_honeypot') && Option::get('honeypot_postid') > 0) {
             $post_url = get_permalink(Option::get('honeypot_postid'));
-            echo '<a href="' . esc_html($post_url) . '" style="display: none;">&nbsp;</a>';
+            echo sprintf('<a href="%s" style="display: none;" rel="noindex">&nbsp;</a>', esc_html($post_url));
         }
     }
-
 
     /**
      * Enqueue Scripts
      */
     public function enqueue_scripts()
     {
-        $params = array(
-            Hits::$rest_hits_key => 'yes',
-        );
-
         /**
-         * Merge parameters
+         * Merge & build the URLs
          */
-        $params = array_merge($params, Helper::getHitsDefaultParams());
-
-        /**
-         * Build request URL
-         */
+        $params               = array_merge([Hits::$rest_hits_key => 1], Helper::getHitsDefaultParams());
         $hitRequestUrl        = add_query_arg($params, get_rest_url(null, RestAPI::$namespace . '/' . Api\v2\Hit::$endpoint));
         $keepOnlineRequestUrl = add_query_arg($params, get_rest_url(null, RestAPI::$namespace . '/' . Api\v2\CheckUserOnline::$endpoint));
 
+        /**
+         * Handle the bypass ad blockers
+         */
         if (Option::get('bypass_ad_blockers', false)) {
-            $hitRequestUrl        = add_query_arg(array_merge($params, ['action' => 'wp_statistics_hit_record']), admin_url('admin-ajax.php'));
-            $keepOnlineRequestUrl = add_query_arg(array_merge($params, ['action' => 'wp_statistics_keep_online']), admin_url('admin-ajax.php'));
+            $hitRequestUrl        = add_query_arg(array_merge($params, ['action' => 'wp_statistics_hit']), admin_url('admin-ajax.php'));
+            $keepOnlineRequestUrl = add_query_arg(array_merge($params, ['action' => 'wp_statistics_online']), admin_url('admin-ajax.php'));
         }
 
+        /**
+         * Build the parameters
+         */
         $jsArgs = array(
             'hitRequestUrl'        => $hitRequestUrl,
             'keepOnlineRequestUrl' => $keepOnlineRequestUrl,
-            'isWpConsentApiActive' => WpConsentApi::isWpConsentApiActive(),
             'option'               => [
-                'consentLevel'       => Option::get('consent_level_integration', 'disabled'),
-                'dntEnabled'         => Option::get('do_not_track'),
-                'cacheCompatibility' => Option::get('use_cache_plugin')
+                'consentLevel'         => Option::get('consent_level_integration', 'disabled'),
+                'dntEnabled'           => Option::get('do_not_track'),
+                'cacheCompatibility'   => Option::get('use_cache_plugin'),
+                'isWpConsentApiActive' => WpConsentApi::isWpConsentApiActive(),
+                'trackAnonymously'     => Helper::shouldTrackAnonymously()
             ],
         );
 
         Assets::script('tracker', 'js/tracker.js', [], $jsArgs, true, Option::get('bypass_ad_blockers', false));
-    }
 
-    /**
-     * Enqueue Styles
-     */
-    public function enqueue_styles()
-    {
+        // Load Chart.js library
+        if (Helper::isAdminBarShowing()) {
+            Assets::script('chart.js', 'js/chartjs/chart.umd.min.js', [], [], true, false, null, '4.4.2');
+            Assets::script('hammer.js', 'js/chartjs/hammer.min.js', [], [], true, false, null, '2.0.8');
+            Assets::script('chartjs-plugin-zoom.js', 'js/chartjs/chartjs-plugin-zoom.min.js', ['wp-statistics-hammer.js'], [], true, false, null, '2.0.1');
+            Assets::script('mini-chart', 'js/mini-chart.js', [], [], true);
 
-        // Load Admin Bar Css
-        if (AdminBar::show_admin_bar() and is_admin_bar_showing()) {
-            wp_enqueue_style('wp-statistics', WP_STATISTICS_URL . 'assets/css/frontend.min.css', true, WP_STATISTICS_VERSION);
+            Assets::style('front', 'css/frontend.min.css');
         }
     }
 

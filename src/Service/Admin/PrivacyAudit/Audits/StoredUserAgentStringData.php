@@ -15,7 +15,7 @@ class StoredUserAgentStringData extends BaseAudit
         $isOptionEnabled = StoreUserAgentString::isOptionEnabled();
 
         // Count previously stored user agent string data
-        $userAgentData = $wpdb->get_var('SELECT COUNT(`' . self::$columnName . '`) FROM ' . DB::table('visitor') . ' WHERE `' . self::$columnName . '` IS NOT NULL');
+        $userAgentData = $wpdb->get_var('SELECT COUNT(`' . self::$columnName . '`) FROM ' . DB::table('visitor') . ' WHERE `' . self::$columnName . '` IS NOT NULL AND `' . self::$columnName . '` != ""');
 
         return !$isOptionEnabled && $userAgentData > 0 ? 'action_required' : 'passed';
     }

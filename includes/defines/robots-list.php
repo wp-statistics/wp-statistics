@@ -1,6 +1,6 @@
 <?php
 /**
- * List Of Default robots in Wp-Statistics
+ * List Of Default robots in WP Statistics
  */
 $wps_robots_list_array = array(
     '007ac9',

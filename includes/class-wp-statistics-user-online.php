@@ -18,7 +18,7 @@ class UserOnline
      *
      * @var int
      */
-    public static $reset_user_time = 120; # Second
+    public static $reset_user_time = 65; # Second
 
     /**
      * UserOnline constructor.
@@ -26,7 +26,7 @@ class UserOnline
     public function __construct()
     {
         # Reset User Online Count
-        add_action('admin_init', array($this, 'reset_user_online'));
+        add_action('init', array($this, 'reset_user_online'));
     }
 
     /**
@@ -62,16 +62,6 @@ class UserOnline
             // Set the default seconds a user needs to visit the site before they are considered offline.
             $reset_time = self::$reset_user_time;
 
-            // Get the user set value for seconds to check for users online.
-            if (Option::get('check_online')) {
-                $reset_time = Option::get('check_online');
-            }
-
-            // Failsafe
-            if (!is_numeric($reset_time)) {
-                $reset_time = 120;
-            }
-
             // We want to delete users that are over the number of seconds set by the admin.
             $time_diff = (int)$now - (int)$reset_time;
 
@@ -101,8 +91,12 @@ class UserOnline
      * @param $visitorProfile VisitorProfile
      * @throws \Exception
      */
-    public static function record($visitorProfile, $args = array())
+    public static function record($visitorProfile = null, $args = array())
     {
+        if (!$visitorProfile) {
+            $visitorProfile = new VisitorProfile();
+        }
+
         # Get User IP
         $user_ip = $visitorProfile->getProcessedIPForStorage();
 
@@ -331,15 +325,28 @@ class UserOnline
                 $item['city']   = !empty($items->city) ? $items->city : GeoIP::getCity($ip);
                 $item['region'] = $items->region;
             }
-
+            
             // Online For Time
-            $time_diff = ($items->timestamp - $items->created);
-            if ($time_diff > 3600) {
-                $item['online_for'] = date("H:i:s", ($items->timestamp - $items->created)); // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date	
-            } else if ($time_diff > 60) {
-                $item['online_for'] = "00:" . date("i:s", ($items->timestamp - $items->created)); // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
+            $current_time = current_time('timestamp'); // Fetch current server time in WordPress format
+            $time_diff    = $items->timestamp - $items->created;
+
+            if ($items->timestamp == $items->created) {
+                $time_diff = $current_time - $items->created;
+            }
+
+            // Ensure time_diff is positive and log the real time difference
+            if ($time_diff < 0) {
+                $time_diff = abs($time_diff);
+            }
+
+            if ($time_diff < 1) {
+                $item['online_for'] = "00:00:00";
+            } else if ($time_diff >= 3600) {
+                $item['online_for'] = gmdate("H:i:s", $time_diff); // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
+            } else if ($time_diff >= 60) {
+                $item['online_for'] = "00:" . gmdate("i:s", $time_diff); // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
             } else {
-                $item['online_for'] = "00:00:" . date("s", ($items->timestamp - $items->created)); // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
+                $item['online_for'] = "00:00:" . str_pad($time_diff, 2, "0", STR_PAD_LEFT); // Display seconds correctly
             }
 
             $list[] = $item;

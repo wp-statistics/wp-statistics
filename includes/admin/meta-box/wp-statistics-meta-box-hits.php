@@ -97,20 +97,16 @@ class hits extends MetaBoxAbstract
         );
 
         // Get Views Chart
-        if (Option::get('visits')) {
-            foreach ($days_time_list as $d) {
-                $total_visits += $visits[] = (int)wp_statistics_visit($d, true);
-            }
-            $data['visits'] = $visits;
+        foreach ($days_time_list as $d) {
+            $total_visits += $visits[] = (int)wp_statistics_visit($d, true);
         }
+        $data['visits'] = $visits;
 
         // Get Visitors Chart
-        if (Option::get('visitors')) {
-            foreach ($days_time_list as $d) {
-                $total_visitors += $visitors[] = (int)wp_statistics_visitor($d, true);
-            }
-            $data['visitors'] = $visitors;
+        foreach ($days_time_list as $d) {
+            $total_visitors += $visitors[] = (int)wp_statistics_visitor($d, true);
         }
+        $data['visitors'] = $visitors;
 
         // Set Total
         $data['total'] = array(

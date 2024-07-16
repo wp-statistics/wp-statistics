@@ -31,7 +31,14 @@
                 <li class="wps-tab-link <?php echo esc_attr($tab['class']); ?>">
                     <?php if (isset($tab['coming_soon'])): ?>
                         <span class="wps-tooltip wps-tooltip--coming_soon" title="<?php echo esc_html__('Coming soon', 'wp-statistics') ?>"><?php echo esc_html($tab['title']); ?> <i class="wps-tooltip-icon coming-soon"></i></span>
-                     <?php else: ?>
+                    <?php elseif (isset($tab['locked'])) : ?>
+                        <a href="<?php echo esc_attr($tab['link']); ?>" class="wps-locked">
+                            <?php echo esc_html($tab['title']); ?>
+                            <?php if (!empty($tab['tooltip'])) : ?>
+                                <span class="wps-tooltip" title="<?php echo esc_attr($tab['tooltip']) ?>"><i class="wps-tooltip-icon info"></i></span>
+                            <?php endif; ?>
+                        </a>
+                    <?php else: ?>
                         <a href="<?php echo esc_attr($tab['link']); ?>">
                             <?php echo esc_html($tab['title']); ?>
                             <?php if (!empty($tab['tooltip'])) : ?>

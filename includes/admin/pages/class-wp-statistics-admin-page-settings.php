@@ -62,7 +62,7 @@ class settings_page extends Singleton
         // Check Form Nonce
         if (isset($_POST['wp-statistics-nonce']) and wp_verify_nonce($_POST['wp-statistics-nonce'], 'update-options')) {
 
-            // Check Reset Option Wp-Statistics
+            // Check Reset Option WP Statistics
             self::reset_wp_statistics_options();
 
             // Get All List Options
@@ -165,6 +165,7 @@ class settings_page extends Singleton
             'wps_privacy_audit',
             'wps_store_ua',
             'wps_consent_level_integration',
+            'wps_anonymous_tracking',
             'wps_do_not_track',
         );
 
@@ -195,13 +196,13 @@ class settings_page extends Singleton
                 if (wp_next_scheduled('wp_statistics_report_hook')) {
                     wp_unschedule_event(wp_next_scheduled('wp_statistics_report_hook'), 'wp_statistics_report_hook');
                 }
-                $timeReports         = sanitize_text_field($_POST['wps_time_report']);
-                $schedulesInterval   = wp_get_schedules();
-                $timeReportsInterval = 86400;
-                if (isset($schedulesInterval[$timeReports]['interval'])) {
-                    $timeReportsInterval = $schedulesInterval[$timeReports]['interval'];
+                $timeReports       = sanitize_text_field($_POST['wps_time_report']);
+                $schedulesInterval = Schedule::getSchedules();
+
+                if (isset($schedulesInterval[$timeReports]['next_schedule'])) {
+                    $scheduleTime = $schedulesInterval[$timeReports]['next_schedule'];
+                    wp_schedule_event($scheduleTime, $timeReports, 'wp_statistics_report_hook');
                 }
-                wp_schedule_event(time() + $timeReportsInterval, $timeReports, 'wp_statistics_report_hook');
             }
         }
 
@@ -380,7 +381,6 @@ class settings_page extends Singleton
             'wps_query_params_allow_list',
             'wps_exclude_ip',
             'wps_exclude_loginpage',
-            'wps_force_robot_update',
             'wps_excluded_countries',
             'wps_included_countries',
             'wps_excluded_hosts',
@@ -471,7 +471,6 @@ class settings_page extends Singleton
             'wps_use_cache_plugin',
             'wps_show_hits',
             'wps_display_hits_position',
-            'wps_check_online',
             'wps_menu_bar',
             'wps_coefficient',
             'wps_hide_notices'
@@ -521,7 +520,7 @@ class settings_page extends Singleton
     }
 
     /**
-     * Reset Wp-Statistics Option
+     * Reset WP Statistics Option
      */
     public static function reset_wp_statistics_options()
     {

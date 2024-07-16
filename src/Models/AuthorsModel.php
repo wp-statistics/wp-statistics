@@ -41,10 +41,12 @@ class AuthorsModel extends BaseModel
             'order_by'  => 'total_views',
             'order'     => 'DESC',
             'page'      => 1,
-            'per_page'  => 5
+            'per_page'  => 5,
+            'taxonomy'  => '',
+            'term'      => ''
         ]);
 
-        $result = Query::select([
+        $query = Query::select([
                 'DISTINCT posts.post_author AS id', 
                 'display_name AS name', 
                 'SUM(pages.count) AS total_views'
@@ -58,8 +60,22 @@ class AuthorsModel extends BaseModel
             ->groupBy('post_author')
             ->orderBy($args['order_by'], $args['order'])
             ->perPage($args['page'], $args['per_page'])
-            ->bypassCache($bypassCache)
-            ->getAll();
+            ->bypassCache($bypassCache);
+
+        if (!empty($args['taxonomy']) || !empty($args['term'])) {
+            $taxQuery = Query::select(['DISTINCT object_id'])
+                ->from('term_relationships')
+                ->join('term_taxonomy', ['term_relationships.term_taxonomy_id', 'term_taxonomy.term_taxonomy_id'])
+                ->join('terms', ['term_taxonomy.term_id', 'terms.term_id'])
+                ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy'])
+                ->where('terms.term_id', '=', $args['term'])
+                ->getQuery();
+
+            $query
+                ->joinQuery($taxQuery, ['posts.ID', 'tax.object_id'], 'tax');
+        }
+
+        $result = $query->getAll();
 
         return $result ? $result : [];
     }
@@ -70,10 +86,12 @@ class AuthorsModel extends BaseModel
             'date'      => '',
             'post_type' => Helper::get_list_post_type(),
             'page'      => 1,
-            'per_page'  => 5
+            'per_page'  => 5,
+            'taxonomy'  => '',
+            'term'      => ''
         ]);
 
-        $result = Query::select(['DISTINCT post_author as id', 'display_name as name', 'COUNT(posts.ID) as post_count'])
+        $query = Query::select(['DISTINCT post_author as id', 'display_name as name', 'COUNT(posts.ID) as post_count'])
             ->from('posts')
             ->join('users', ['posts.post_author', 'users.ID'])
             ->where('post_status', '=', 'publish')
@@ -82,8 +100,22 @@ class AuthorsModel extends BaseModel
             ->groupBy('posts.post_author')
             ->orderBy('post_count')
             ->perPage($args['page'], $args['per_page'])
-            ->bypassCache($bypassCache)
-            ->getAll();
+            ->bypassCache($bypassCache);
+
+        if (!empty($args['taxonomy']) || !empty($args['term'])) {
+            $query
+                ->join('term_relationships', ['posts.ID', 'term_relationships.object_id'])
+                ->join('term_taxonomy', ['term_relationships.term_taxonomy_id', 'term_taxonomy.term_taxonomy_id'])
+                ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy']);
+
+            if (!empty($args['term'])) {
+                $query
+                    ->join('terms', ['term_taxonomy.term_id', 'terms.term_id'])
+                    ->where('terms.term_id', '=', $args['term']);
+            }
+        }
+
+        $result = $query->getAll();
 
         return $result ? $result : [];
     }
@@ -180,7 +212,7 @@ class AuthorsModel extends BaseModel
         return $result ? $result : [];
     }
 
-    public function getAuthorsPerformanceData($args = [], $bypassCache = false)
+    public function getAuthorsReportData($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
             'date'      => '',
@@ -190,13 +222,6 @@ class AuthorsModel extends BaseModel
             'page'      => 1,
             'per_page'  => 5
         ]);
-
-        $authorsQuery  = Query::select(['id AS author_id', 'SUM(count) AS total_author_views'])
-            ->from('pages')
-            ->where('type', '=', 'author')
-            ->whereDate('date', $args['date'])
-            ->groupBy('id')
-            ->getQuery();
 
         $commentsQuery  = Query::select(['DISTINCT post_author', 'COUNT(comment_ID) AS total_comments'])
             ->from('posts')
@@ -233,7 +258,6 @@ class AuthorsModel extends BaseModel
                 'comments.total_comments AS total_comments',
                 'views.total_views AS total_views',
                 'words.total_words AS total_words',
-                'authors.total_author_views AS total_author_views',
                 'comments.total_comments / COUNT(DISTINCT posts.ID) AS average_comments',
                 'views.total_views / COUNT(DISTINCT posts.ID) AS average_views',
                 'words.total_words / COUNT(DISTINCT posts.ID) AS average_words'
@@ -248,7 +272,6 @@ class AuthorsModel extends BaseModel
             ->joinQuery($commentsQuery, ['users.ID', 'comments.post_author'], 'comments', 'LEFT')
             ->joinQuery($viewsQuery, ['users.ID', 'views.post_author'], 'views', 'LEFT')
             ->joinQuery($wordsQuery, ['users.ID', 'words.post_author'], 'words', 'LEFT')
-            ->joinQuery($authorsQuery, ['users.ID', 'authors.author_id'], 'authors', 'LEFT')
             ->where('post_status', '=', 'publish')
             ->where('post_type', 'IN', $args['post_type'])
             ->whereDate('post_date', $args['date'])

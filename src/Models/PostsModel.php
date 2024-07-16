@@ -15,19 +15,72 @@ class PostsModel extends BaseModel
         $args = $this->parseArgs($args, [
             'date'      => '',
             'post_type' => '',
-            'author_id' => ''
+            'author_id' => '',
+            'taxonomy'  => '',
+            'term'      => ''
         ]);
 
-        $totalPosts = Query::select('COUNT(ID)')
+        $query = Query::select('COUNT(ID)')
             ->from('posts')
             ->where('post_status', '=', 'publish')
             ->where('post_type', 'IN', $args['post_type'])
             ->where('post_author', '=', $args['author_id'])
             ->whereDate('post_date', $args['date'])
-            ->bypassCache($bypassCache)
-            ->getVar();
+            ->bypassCache($bypassCache);
 
-        return $totalPosts ? $totalPosts : 0;
+        if (!empty($args['taxonomy']) || !empty($args['term'])) {
+            $taxQuery = Query::select(['DISTINCT object_id'])
+                ->from('term_relationships')
+                ->join('term_taxonomy', ['term_relationships.term_taxonomy_id', 'term_taxonomy.term_taxonomy_id'])
+                ->join('terms', ['term_taxonomy.term_id', 'terms.term_id'])
+                ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy'])
+                ->where('terms.term_id', '=', $args['term'])
+                ->getQuery();
+
+            $query
+                ->joinQuery($taxQuery, ['posts.ID', 'tax.object_id'], 'tax');
+        }
+
+        $result = $query->getVar();
+
+        return $result ? $result : 0;
+    }
+
+    public function countDailyPosts($args = [], $bypassCache = false)
+    {
+        $args = $this->parseArgs($args, [
+            'date'      => '',
+            'post_type' => '',
+            'author_id' => '',
+            'taxonomy'  => '',
+            'term'      => ''
+        ]);
+
+        $query = Query::select('COUNT(ID) as posts, Date(post_date) as date')
+            ->from('posts')
+            ->where('post_status', '=', 'publish')
+            ->where('post_type', 'IN', $args['post_type'])
+            ->where('post_author', '=', $args['author_id'])
+            ->whereDate('post_date', $args['date'])
+            ->groupBy('Date(post_date)')
+            ->bypassCache($bypassCache);
+
+        if (!empty($args['taxonomy']) || !empty($args['term'])) {
+            $taxQuery = Query::select(['DISTINCT object_id'])
+                ->from('term_relationships')
+                ->join('term_taxonomy', ['term_relationships.term_taxonomy_id', 'term_taxonomy.term_taxonomy_id'])
+                ->join('terms', ['term_taxonomy.term_id', 'terms.term_id'])
+                ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy'])
+                ->where('terms.term_id', '=', $args['term'])
+                ->getQuery();
+
+            $query
+                ->joinQuery($taxQuery, ['posts.ID', 'tax.object_id'], 'tax');
+        }
+
+        $result = $query->getAll();
+
+        return $result;
     }
 
     public function countWords($args = [], $bypassCache = false)
@@ -35,23 +88,46 @@ class PostsModel extends BaseModel
         $args = $this->parseArgs($args, [
             'date'      => '',
             'post_type' => '',
-            'author_id' => ''
+            'author_id' => '',
+            'post_id'   => '',
+            'taxonomy'  => '',
+            'term'      => ''
         ]);
 
         $wordsCountMetaKey = WordCountService::WORDS_COUNT_META_KEY;
 
-        $totalWords = Query::select("SUM(meta_value)")
+        $query = Query::select('SUM(meta_value)')
             ->from('posts')
             ->join('postmeta', ['posts.ID', 'postmeta.post_id'])
             ->where('post_status', '=', 'publish')
             ->where('post_type', 'IN', $args['post_type'])
+            ->where('posts.ID', '=', $args['post_id'])
             ->where('post_author', '=', $args['author_id'])
             ->where('meta_key', '=', $wordsCountMetaKey)
-            ->whereDate('post_date', $args['date'])
-            ->bypassCache($bypassCache)
-            ->getVar();
+            ->bypassCache($bypassCache);
 
-        return $totalWords ? $totalWords : 0;
+        // Filter by date when no particular post ID has been set  
+        if (empty($args['post_id'])) {
+            $query
+                ->whereDate('post_date', $args['date']);
+        }
+
+        if (!empty($args['taxonomy']) || !empty($args['term'])) {
+            $taxQuery = Query::select(['DISTINCT object_id'])
+                ->from('term_relationships')
+                ->join('term_taxonomy', ['term_relationships.term_taxonomy_id', 'term_taxonomy.term_taxonomy_id'])
+                ->join('terms', ['term_taxonomy.term_id', 'terms.term_id'])
+                ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy'])
+                ->where('terms.term_id', '=', $args['term'])
+                ->getQuery();
+
+            $query
+                ->joinQuery($taxQuery, ['posts.ID', 'tax.object_id'], 'tax');
+        }
+
+        $result = $query->getVar();
+
+        return $result ? $result : 0;
     }
 
     public function countComments($args = [], $bypassCache = false)
@@ -59,45 +135,39 @@ class PostsModel extends BaseModel
         $args = $this->parseArgs($args, [
             'date'      => '',
             'post_type' => '',
-            'author_id' => ''
+            'author_id' => '',
+            'post_id'   => '',
+            'taxonomy'  => '',
+            'term'      => ''
         ]);
 
-        $totalWords = Query::select('COUNT(comment_ID)')
+        $query = Query::select('COUNT(comment_ID)')
             ->from('posts')
             ->join('comments', ['posts.ID', 'comments.comment_post_ID'])
             ->where('post_status', '=', 'publish')
             ->where('post_type', 'IN', $args['post_type'])
             ->where('post_author', '=', $args['author_id'])
             ->where('comments.comment_type', '=', 'comment')
+            ->where('posts.ID', '=', $args['post_id'])
             ->whereDate('post_date', $args['date'])
-            ->bypassCache($bypassCache)
-            ->getVar();
+            ->bypassCache($bypassCache);
 
-        return $totalWords ? $totalWords : 0;
-    }
+        if (!empty($args['taxonomy']) || !empty($args['term'])) {
+            $taxQuery = Query::select(['DISTINCT object_id'])
+                ->from('term_relationships')
+                ->join('term_taxonomy', ['term_relationships.term_taxonomy_id', 'term_taxonomy.term_taxonomy_id'])
+                ->join('terms', ['term_taxonomy.term_id', 'terms.term_id'])
+                ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy'])
+                ->where('terms.term_id', '=', $args['term'])
+                ->getQuery();
 
-    public function getPostPublishOverview($args = [], $bypassCache = false)
-    {
-        $args = $this->parseArgs($args, [
-            'date'      => [
-                'from'  => date('Y-m-d', strtotime('-365 days')),
-                'to'    => date('Y-m-d', time()),
-            ],
-            'post_type' => Helper::get_list_post_type(),
-            'author_id' => ''
-        ]);
+            $query
+                ->joinQuery($taxQuery, ['posts.ID', 'tax.object_id'], 'tax');
+        }
 
-        $result = Query::select(['DATE(post_date) as date', 'COUNT(ID) as posts'])
-            ->from('posts')
-            ->where('post_status', '=', 'publish')
-            ->where('post_type', 'IN', $args['post_type'])
-            ->where('post_author', '=', $args['author_id'])
-            ->whereDate('post_date', $args['date'])
-            ->groupBy('Date(post_date)')
-            ->bypassCache($bypassCache)
-            ->getAll();
+        $result = $query->getVar();
 
-        return $result;
+        return $result ? $result : 0;
     }
 
     public function getPostsReportData($args = [], $bypassCache = false)
@@ -120,6 +190,7 @@ class PostsModel extends BaseModel
 
         $viewsQuery = Query::select(['id', 'SUM(count) AS views'])
             ->from('pages')
+            ->whereDate('pages.date', $args['date'])
             ->groupBy('id')
             ->getQuery();
 
@@ -133,12 +204,11 @@ class PostsModel extends BaseModel
             ])
             ->from('posts')
             ->joinQuery($commentsQuery, ['posts.ID', 'comments.comment_post_ID'], 'comments', 'LEFT')
-            ->joinQuery($viewsQuery, ['posts.ID', 'pages.id'], 'pages', 'LEFT')
+            ->joinQuery($viewsQuery, ['posts.ID', 'pages.id'], 'pages')
             ->join('postmeta', ['posts.ID', 'postmeta.post_id'], [], 'LEFT')
             ->where('post_type', 'IN', $args['post_type'])
             ->where('post_status', '=', 'publish')
             ->where('posts.post_author', '=', $args['author_id'])
-            ->whereDate('posts.post_date', $args['date'])
             ->groupBy('posts.ID')
             ->orderBy($args['order_by'], $args['order'])
             ->perPage($args['page'], $args['per_page'])
@@ -151,32 +221,59 @@ class PostsModel extends BaseModel
     public function getPostsViewsData($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
-            'date'      => '',
-            'post_type' => Helper::get_list_post_type(),
-            'order_by'  => 'views',
-            'order'     => 'DESC',
-            'page'     => 1,
-            'per_page' => 5,
-            'author_id' => ''
+            'date'          => '',
+            'post_type'     => Helper::get_list_post_type(),
+            'order_by'      => 'views',
+            'order'         => 'DESC',
+            'page'          => 1,
+            'per_page'      => 5,
+            'author_id'     => '',
+            'taxonomy'      => '',
+            'term'          => '',
+            'show_no_views' => false
         ]);
 
-        $result = Query::select([
+        // Get posts with zero views or not
+        $joinType = $args['show_no_views'] ? 'LEFT' : 'INNER';
+
+
+        $viewsQuery = Query::select(['id', 'SUM(count) AS views'])
+            ->from('pages')
+            ->whereDate('date', $args['date'])
+            ->groupBy('id')
+            ->getQuery();
+
+        $query = Query::select([
                 'posts.ID',
                 'posts.post_author',
                 'posts.post_title',
-                'COALESCE(SUM(pages.count), 0) AS views',
+                'posts.post_date',
+                'COALESCE(pages.views, 0) AS views',
             ])
             ->from('posts')
-            ->join('pages', ['posts.ID', 'pages.id'], [],'LEFT')
+            ->joinQuery($viewsQuery, ['posts.ID', 'pages.id'], 'pages', $joinType)
             ->where('post_type', 'IN', $args['post_type'])
             ->where('post_status', '=', 'publish')
             ->where('posts.post_author', '=', $args['author_id'])
-            ->whereDate('pages.date', $args['date'])
             ->groupBy('posts.ID')
             ->orderBy($args['order_by'], $args['order'])
             ->perPage($args['page'], $args['per_page'])
-            ->bypassCache($bypassCache)
-            ->getAll();
+            ->bypassCache($bypassCache);
+
+        if (!empty($args['taxonomy']) || !empty($args['term'])) {
+            $taxQuery = Query::select(['DISTINCT object_id'])
+                ->from('term_relationships')
+                ->join('term_taxonomy', ['term_relationships.term_taxonomy_id', 'term_taxonomy.term_taxonomy_id'])
+                ->join('terms', ['term_taxonomy.term_id', 'terms.term_id'])
+                ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy'])
+                ->where('terms.term_id', '=', $args['term'])
+                ->getQuery();
+
+            $query
+                ->joinQuery($taxQuery, ['posts.ID', 'tax.object_id'], 'tax');
+        }
+
+        $result = $query->getAll();
 
         return $result;
     }
@@ -190,10 +287,12 @@ class PostsModel extends BaseModel
             'order'     => 'DESC',
             'page'      => 1,
             'per_page'  => 5,
-            'author_id' => ''
+            'author_id' => '',
+            'taxonomy'  => '',
+            'term'      => '',
         ]);
 
-        $result = Query::select([
+        $query = Query::select([
                 'posts.ID',
                 'posts.post_author',
                 'posts.post_title',
@@ -209,8 +308,22 @@ class PostsModel extends BaseModel
             ->groupBy('posts.ID')
             ->orderBy($args['order_by'], $args['order'])
             ->perPage($args['page'], $args['per_page'])
-            ->bypassCache($bypassCache)
-            ->getAll();
+            ->bypassCache($bypassCache);
+        
+        if (!empty($args['taxonomy']) || !empty($args['term'])) {
+            $taxQuery = Query::select(['DISTINCT object_id'])
+                ->from('term_relationships')
+                ->join('term_taxonomy', ['term_relationships.term_taxonomy_id', 'term_taxonomy.term_taxonomy_id'])
+                ->join('terms', ['term_taxonomy.term_id', 'terms.term_id'])
+                ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy'])
+                ->where('terms.term_id', '=', $args['term'])
+                ->getQuery();
+
+            $query
+                ->joinQuery($taxQuery, ['posts.ID', 'tax.object_id'], 'tax');
+        }
+
+        $result = $query->getAll();
 
         return $result;
     }

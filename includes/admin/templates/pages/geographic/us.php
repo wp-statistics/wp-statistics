@@ -29,7 +29,7 @@ use WP_STATISTICS\Admin_Template;
                                     <?php foreach ($data['states'] as $item) : ?>
                                         <tr>
                                             <td class="wps-pd-l">
-                                                <?php echo esc_html($item->region) ?>
+                                                <?php echo esc_html(\WP_STATISTICS\Admin_Template::unknownToNotSet($item->region)) ?>
                                             </td>
                                             <td class="wps-pd-l">
                                                 <?php echo esc_html(number_format($item->visitors)) ?>

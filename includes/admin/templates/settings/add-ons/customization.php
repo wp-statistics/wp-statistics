@@ -1,23 +1,46 @@
 <?php
 
 use WP_STATISTICS\Admin_Template;
+use WP_STATISTICS\Helper;
+use WP_STATISTICS\Option;
 
 $isCustomizationActive = WP_STATISTICS\Helper::isAddOnActive('customization');
 global $wp_version;
 
-$disableMenuArray = array(
-    'overview'     => __('Overview', 'wp-statistics'),
-    'hits'         => __('Views', 'wp-statistics'),
-    'online'       => __('Online', 'wp-statistics'),
-    'visitors'     => __('Visitors', 'wp-statistics'),
-    'referrers'    => __('Referrers', 'wp-statistics'),
-    'searches'     => __('Search Engines', 'wp-statistics'),
-    'pages'        => __('Pages', 'wp-statistics'),
-    'taxonomies'   => __('Taxonomies', 'wp-statistics'),
-    'browsers'     => __('Browsers', 'wp-statistics'),
-    'platforms'    => __('Operating Systems', 'wp-statistics'),
-    'top.visitors' => __('Top Visitors Today', 'wp-statistics')
-);
+$disableMenuArray = [
+    'online'             => __('Online', 'wp-statistics'),
+    'hits'               => __('Views', 'wp-statistics'),
+    'visitors'           => __('Visitors', 'wp-statistics'),
+    'referrers'          => __('Referrers', 'wp-statistics'),
+    'searches'           => __('Search Engines', 'wp-statistics'),
+    'content_analytics'  => __('Content Analytics', 'wp-statistics'),
+    'author_analytics'   => __('Author Analytics', 'wp-statistics'),
+    'category_analytics' => __('Category Analytics', 'wp-statistics'),
+    'geographic'         => __('Geographic', 'wp-statistics'),
+    'devices'            => __('Devices', 'wp-statistics'),
+    'top.visitors'       => __('Top Visitors', 'wp-statistics'),
+    'link_tracker'       => __('Link Tracker', 'wp-statistics'),
+    'download_tracker'   => __('Download Tracker', 'wp-statistics'),
+    'plugins'            => __('Add-Ons', 'wp-statistics'),
+    'privacy_audit'      => __('Privacy Audit', 'wp-statistics'),
+    'optimize'           => __('Optimization', 'wp-statistics'),
+    'exclusions'         => __('Exclusions', 'wp-statistics'),
+];
+if (empty(Option::get('useronline'))) {
+    unset($disableMenuArray['online']);
+}
+if (!Helper::isAddOnActive('data-plus') || empty(Option::get('link_tracker'))) {
+    unset($disableMenuArray['link_tracker']);
+}
+if (!Helper::isAddOnActive('data-plus') || empty(Option::get('download_tracker'))) {
+    unset($disableMenuArray['download_tracker']);
+}
+if (empty(Option::get('privacy_audit'))) {
+    unset($disableMenuArray['privacy_audit']);
+}
+if (empty(Option::get('record_exclusions'))) {
+    unset($disableMenuArray['exclusions']);
+}
 
 $disabledMenuItems = WP_STATISTICS\Option::getByAddon('disable_menus', 'customization', []);
 ?>
@@ -25,13 +48,12 @@ $disabledMenuItems = WP_STATISTICS\Option::getByAddon('disable_menus', 'customiz
 if (!$isCustomizationActive) echo Admin_Template::get_template('layout/partials/addon-premium-feature',
     ['addon_slug'           => esc_url(WP_STATISTICS_SITE_URL . '/product/wp-statistics-customization/?utm_source=wp-statistics&utm_medium=link&utm_campaign=plugin-settings'),
      'addon_title'          => 'Customization Add-On',
-     'addon_description'    => 'The settings on this page are part of the Customization add-on, which allows you to permanently disable ads on the Overview, and Settings pages, customize menus, and make your product white-label by changing the plugin header.',
+     'addon_description'    => 'The settings on this page are part of the Customization add-on, which allows you to customize menus and make WP Statistics white-label.',
      'addon_features'       => [
-         'Permanently disable ads on pages.',
          'Customize menus according to your preferences.',
-         'Make your product white-label by modifying the plugin header.',
+         ' Make WP Statistics white-label.',
      ],
-     'addon_info'           => 'Enjoy a simplified and ad-free experience with the Customization add-on.',
+     'addon_info'           => 'Enjoy a simplified, customized experience with the Customization add-on.',
     ], true);
 ?>
     <div class="postbox">

@@ -44,15 +44,13 @@ class Option
             'hash_ips'                  => true,
             'geoip'                     => false,
             'useronline'                => true,
-            'visits'                    => true,
-            'visitors'                  => true,
             'pages'                     => true,
-            'check_online'              => UserOnline::$reset_user_time,
-            'menu_bar'                  => false,
+            'menu_bar'                  => true,
             'coefficient'               => Visitor::getCoefficient(),
-            'stats_report'              => true,
+            'email_list'                => get_bloginfo('admin_email'),
+            'stats_report'              => false,
             'cache_plugin'              => true,
-            'time_report'               => 'weekly',
+            'time_report'               => '0',
             'send_report'               => 'mail',
             'geoip_license_type'        => 'js-deliver',
             'geoip_license_key'         => '',
@@ -61,6 +59,7 @@ class Option
             'privacy_audit'             => true,
             'store_ua'                  => false,
             'consent_level_integration' => 'disabled',
+            'anonymous_tracking'        => false,
             'do_not_track'              => true,
             'exclude_administrator'     => true,
             'referrerspam'              => true,
@@ -70,7 +69,6 @@ class Option
             'disable_se_baidu'          => true,
             'disable_se_ask'            => true,
             'map_type'                  => 'jqvmap',
-            'force_robot_update'        => true,
             'ip_method'                 => 'sequential',
             'exclude_loginpage'         => true,
             'exclude_404s'              => false,
@@ -140,7 +138,7 @@ class Option
     }
 
     /**
-     * Update Wp-Statistics Option
+     * Update WP Statistics Option
      *
      * @param $option
      * @param $value
@@ -257,6 +255,18 @@ class Option
         }
 
         return Option::get('email_list');
+    }
+
+    public static function getAddonOptions($addon_name = '')
+    {
+        $setting_name = "wpstatistics_{$addon_name}_settings";
+
+        $options = get_option($setting_name);
+        if (!isset($options) || !is_array($options)) {
+            return false;
+        }
+
+        return $options;
     }
 
     public static function getByAddon($option_name, $addon_name = '', $default = null)

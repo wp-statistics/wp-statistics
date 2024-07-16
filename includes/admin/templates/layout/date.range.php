@@ -52,7 +52,7 @@
             </button> -->
 
             <?php if (isset($hasDateRang)): ?>
-                <button class="c-footer__filter__btn js-date-range-picker-btn">
+                <button class="c-footer__filter__btn js-date-range-picker-btn <?php echo isset($allTimeOption) && $allTimeOption === true ? 'js-date-range-picker-all-time' : ''; ?>">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none">
                     <g clip-path="url(#A)" stroke="#666" stroke-linejoin="round">
                         <path d="M13 2.5H3a.5.5 0 0 0-.5.5v10a.5.5 0 0 0 .5.5h10a.5.5 0 0 0 .5-.5V3a.5.5 0 0 0-.5-.5z"/>

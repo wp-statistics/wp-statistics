@@ -4,6 +4,7 @@ namespace WP_STATISTICS;
 
 use WP_Statistics\Components\Singleton;
 use WP_Statistics\Service\Analytics\VisitorProfile;
+use WP_Statistics\Service\Integrations\WpConsentApi;
 
 class Hits extends Singleton
 {
@@ -12,7 +13,7 @@ class Hits extends Singleton
      *
      * @var string
      */
-    public static $rest_hits_key = 'wp_statistics_hit_rest';
+    public static $rest_hits_key = 'wp_statistics_hit';
 
     /**
      * Rest-Api Hit Data
@@ -59,10 +60,10 @@ class Hits extends Singleton
     public function set_current_page($current_page)
     {
 
-        if (isset($this->rest_hits->current_page_type) and isset($this->rest_hits->current_page_id)) {
+        if (isset($this->rest_hits->source_type) and isset($this->rest_hits->source_id)) {
             return array(
-                'type'         => esc_sql($this->rest_hits->current_page_type),
-                'id'           => esc_sql($this->rest_hits->current_page_id),
+                'type'         => esc_sql($this->rest_hits->source_type),
+                'id'           => esc_sql($this->rest_hits->source_id),
                 'search_query' => isset($this->rest_hits->search_query) ? base64_decode($this->rest_hits->search_query) : ''
             );
         }
@@ -202,7 +203,13 @@ class Hits extends Singleton
      */
     public static function record_wp_hits()
     {
-        if (!Option::get('use_cache_plugin') and !Helper::dntEnabled()) {
+        if (is_admin() or is_preview() or Option::get('use_cache_plugin') or Helper::dntEnabled()) {
+            return;
+        }
+
+        $consentLevel = Option::get('consent_level_integration', 'disabled');
+
+        if ($consentLevel == 'disabled' || Helper::shouldTrackAnonymously() || !WpConsentApi::isWpConsentApiActive() || !function_exists('wp_has_consent') || wp_has_consent($consentLevel)) {
             self::record();
         }
     }

@@ -4,7 +4,9 @@ namespace WP_STATISTICS;
 
 use Exception;
 use WP_STATISTICS;
+use WP_Statistics\Service\Integrations\WpConsentApi;
 use WP_Statistics\Utils\Request;
+use WP_Statistics\Utils\Signature;
 use WP_Statistics_Mail;
 
 class Helper
@@ -94,7 +96,7 @@ class Helper
      */
     public static function isBypassAdBlockersRequest()
     {
-        return (Request::compare('action', 'wp_statistics_hit_record') || Request::compare('action', 'wp_statistics_keep_online'));
+        return (Request::compare('action', 'wp_statistics_hit') || Request::compare('action', 'wp_statistics_online'));
     }
 
     /**
@@ -338,6 +340,35 @@ class Helper
         return $post_types;
     }
 
+    /**
+     * Get Built-in Post Types List
+     */
+    public static function getDefaultPostTypes()
+    {
+        $postTypes = get_post_types(array('public' => true, '_builtin' => true), 'names', 'and');
+        $postTypes = array_diff($postTypes, ['attachment']);;
+
+        return array_values($postTypes);
+    }
+
+    /**
+     * Get Custom Post Types List
+     */
+    public static function getCustomPostTypes()
+    {
+        return array_values(get_post_types(array('public' => true, '_builtin' => false), 'names', 'and'));
+    }
+
+    /**
+     * Get all Post Types (built-in and custom)
+     *
+     * @return array
+     */
+    public static function getPostTypes()
+    {
+        return array_merge(self::getDefaultPostTypes(), self::getCustomPostTypes());
+    }
+
     public static function get_updated_list_post_type()
     {
         return array_map(function ($postType) {
@@ -463,8 +494,10 @@ class Helper
 
         //Get Page Title
         if (class_exists('DOMDocument')) {
-            $dom = new \DOMDocument;
+            $dom            = new \DOMDocument;
+            $internalErrors = libxml_use_internal_errors(true);
             @$dom->loadHTML($html);
+            libxml_use_internal_errors($internalErrors);
             $title = '';
             if (isset($dom) and $dom->getElementsByTagName('title')->length > 0) {
                 $title = $dom->getElementsByTagName('title')->item('0')->nodeValue;
@@ -622,8 +655,8 @@ class Helper
         // Check if the URL has query strings
         if ($urlQuery !== false) {
             global $wp;
-            $internalQueryParams    = $wp->public_query_vars;
-            $permalinkStructure     = get_option('permalink_structure');
+            $internalQueryParams = $wp->public_query_vars;
+            $permalinkStructure  = get_option('permalink_structure');
 
             // Extract the URL path and query string
             $urlPath     = substr($url, 0, $urlQuery);
@@ -792,12 +825,20 @@ class Helper
             $email_template = wp_normalize_path($email_template);
         }
 
-        $schedule   = Option::get('time_report', false);
-        $emailTitle = sprintf(__('Sent from %s', 'wp-statistics'), wp_parse_url(get_site_url())['host']);
+        $schedule = Option::get('time_report', false);
+        if (is_plugin_active('wp-statistics-advanced-reporting/wp-statistics-advanced-reporting.php')) {
+            $emailTitle = __('<span style="font-family: \'Roboto\', Arial, Helvetica, sans-serif; text-align: left;font-size: 21px; font-weight: 500; line-height: 24.61px; color: #0C0C0D;">Your Website Performance Overview</span>', 'wp-statistics');
+        } else {
+            $emailTitle = sprintf(
+            // translators: %1$s: Website URL.
+                __('<span style="font-family: \'Roboto\', Arial, Helvetica, sans-serif; text-align: center;font-size: 16px; font-style: italic; font-weight: 400; line-height: 18.75px; color: #5E5E64;">Sent from </span><a style="color: #175DA4;text-decoration: underline" href="https://%1$s">%1$s</a>', 'wp-statistics'),
+                wp_parse_url(get_site_url(), PHP_URL_HOST)
+            );
+        }
 
         if ($schedule && array_key_exists($schedule, Schedule::getSchedules())) {
             $schedule   = Schedule::getSchedules()[$schedule];
-            $emailTitle .= sprintf(__('<br><small>Report Date Range: %s to %s</small>', 'wp-statistics'), $schedule['start'], $schedule['end']);
+            $emailTitle .= is_plugin_active('wp-statistics-advanced-reporting/wp-statistics-advanced-reporting.php') ? '' : sprintf(__('<p style="margin-bottom:16px;margin-top:8px;padding:0;font-family: \'Roboto\',Arial, Helvetica, sans-serif; font-size: 16px; font-style: italic; font-weight: 500; line-height: 18.75px; text-align: center;"><small style="color:#5E5E64;font-family: \'Roboto\',Arial, Helvetica, sans-serif; font-size: 16px; font-style: italic; font-weight: 500; line-height: 18.75px; text-align: center">Report Date Range:</small> %s to %s</p>', 'wp-statistics'), $schedule['start'], $schedule['end']);
         }
 
         //Template Arg
@@ -884,6 +925,58 @@ class Helper
     }
 
     /**
+     * Checks if the given taxonomy is a custom taxonomy.
+     *
+     * @param string $taxonomy The taxonomy name to check.
+     * @return bool True if the taxonomy is custom, false otherwise.
+     */
+    public static function isCustomTaxonomy($taxonomy)
+    {
+        $taxonomy = get_taxonomy($taxonomy);
+
+        if (!empty($taxonomy)) {
+            return !$taxonomy->_builtin;
+        }
+
+        return false;
+    }
+
+
+    /**
+     * Checks if the given taxonomy is a custom taxonomy.
+     *
+     * @param string $taxonomy The taxonomy name to check.
+     * @return bool True if the taxonomy is custom, false otherwise.
+     */
+    public static function isCustomPostType($postType)
+    {
+        $customPostTypes = self::getCustomPostTypes();
+        return in_array($postType, $customPostTypes) ? true : false;
+    }
+
+    /**
+     * Retrieves an array of post types associated with a given taxonomy.
+     *
+     * @param string $taxonomy The taxonomy to search for.
+     * @return array An array of post types associated with the given taxonomy.
+     */
+    public static function getPostTypesByTaxonomy($taxonomy)
+    {
+        $taxonomyPostTypes = [];
+        $postTypes         = self::getPostTypes();
+
+        foreach ($postTypes as $postType) {
+            $taxonomies = get_object_taxonomies($postType);
+
+            if (in_array($taxonomy, $taxonomies)) {
+                $taxonomyPostTypes[] = $postType;
+            }
+        }
+
+        return $taxonomyPostTypes;
+    }
+
+    /**
      * Create Condition Where Time in MySql
      *
      * @param string $field : date column name in database table
@@ -901,6 +994,8 @@ class Helper
      * ----------------------
      *
      * @return string|bool
+     *
+     * @todo Make the return values for "month", "last-month" and "2-months-ago" more dynamic (29, 30 or 31 depending on the current month).
      */
     public static function mysql_time_conditions($field = 'date', $time = 'total', $range = array())
     {
@@ -919,9 +1014,19 @@ class Helper
             case 'today':
                 $where = "`$field` = '{$current_date}'";
                 break;
+            case 'day-before-yesterday':
+                $fromDate = TimeZone::getTimeAgo(2, 'Y-m-d');
+                $toDate   = TimeZone::getTimeAgo(1, 'Y-m-d');
+                $where    = "`$field` BETWEEN '{$fromDate}' AND '{$toDate}'";
+                break;
             case 'yesterday':
                 $getCurrentDate = TimeZone::getTimeAgo(1, 'Y-m-d');
                 $where          = "`$field` = '{$getCurrentDate}'";
+                break;
+            case '2-weeks-ago':
+                $fromDate = TimeZone::getTimeAgo(21, 'Y-m-d');
+                $toDate   = TimeZone::getTimeAgo(14, 'Y-m-d');
+                $where    = "`$field` BETWEEN '{$fromDate}' AND '{$toDate}'";
                 break;
             case 'last-week':
                 $fromDate = TimeZone::getTimeAgo(14, 'Y-m-d');
@@ -930,6 +1035,24 @@ class Helper
                 break;
             case 'week':
                 $where = $field_sql(-7);
+                break;
+            case 'two-weeks':
+                $where = $field_sql(-14);
+                break;
+            case 'last-two-weeks':
+                $fromDate = TimeZone::getTimeAgo(28, 'Y-m-d');
+                $toDate   = TimeZone::getTimeAgo(14, 'Y-m-d');
+                $where    = "`$field` BETWEEN '{$fromDate}' AND '{$toDate}'";
+                break;
+            case '2-months-ago':
+                $fromDate = TimeZone::getTimeAgo(90, 'Y-m-d');
+                $toDate   = TimeZone::getTimeAgo(60, 'Y-m-d');
+                $where    = "`$field` BETWEEN '{$fromDate}' AND '{$toDate}'";
+                break;
+            case 'last-month':
+                $fromDate = TimeZone::getTimeAgo(60, 'Y-m-d');
+                $toDate   = TimeZone::getTimeAgo(30, 'Y-m-d');
+                $where    = "`$field` BETWEEN '{$fromDate}' AND '{$toDate}'";
                 break;
             case 'month':
                 $where = $field_sql(-30);
@@ -1195,16 +1318,24 @@ class Helper
         $params = array();
 
         //Set Page Type
-        $get_page_type               = Pages::get_page_type();
-        $params['current_page_type'] = $get_page_type['type'];
-        $params['current_page_id']   = $get_page_type['id'];
-        $params['search_query']      = (isset($get_page_type['search_query']) ? base64_encode(esc_html($get_page_type['search_query'])) : '');
+        $get_page_type          = Pages::get_page_type();
+        $params['source_type']  = $get_page_type['type'];
+        $params['source_id']    = $get_page_type['id'];
+        $params['search_query'] = (isset($get_page_type['search_query']) ? base64_encode(esc_html($get_page_type['search_query'])) : '');
 
         // page url
         $params['page_uri'] = base64_encode(Pages::get_page_uri());
 
-        // Nonce
-        $params['nonce'] = wp_create_nonce('wp_statistics_tracker_nonce');
+        /**
+         * Signature
+         * @version 14.9
+         */
+        if (self::isRequestSignatureEnabled()) {
+            $params['signature'] = Signature::generate([
+                $get_page_type['type'],
+                (int)$get_page_type['id']
+            ]);
+        }
 
         return $params;
     }
@@ -1419,6 +1550,25 @@ class Helper
             : $postTypeObj->labels->name;
     }
 
+    /**
+     * Retrieves the name of a taxonomy.
+     *
+     * @param string $taxonomy The taxonomy to retrieve the name for.
+     * @param bool $singular Whether to retrieve the singular name or the plural name.
+     *
+     * @return string The name of the taxonomy.
+     */
+    public static function getTaxonomyName($taxonomy, $singular = false)
+    {
+        $taxonomy = get_taxonomy($taxonomy);
+
+        if (empty($taxonomy)) return '';
+
+        return $singular == true
+            ? $taxonomy->labels->singular_name
+            : $taxonomy->labels->name;
+    }
+
 
     /**
      * Retrieves the country code based on the timezone string.
@@ -1471,5 +1621,199 @@ class Helper
             wp_normalize_path(untrailingslashit(ABSPATH)),
             $url
         ));
+    }
+
+    public static function getReportEmailTip()
+    {
+        $tips = [
+            [
+                'title'   => __('Optimize Your Content Strategy', 'wp-statistics'),
+                'content' => __('Use WP Statistics to identify your most popular pages and posts. Analyze the data to understand what content resonates with your audience, and use these insights to guide your content creation efforts.', 'wp-statistics'),
+            ],
+            [
+                'title'   => __('Optimize Your Data Accuracy', 'wp-statistics'),
+                'content' => __(sprintf('For maximum accuracy, enable the cache compatibility mode on your website and check your filtering settings. By following these steps, traffic data becomes more accurate. For more details, read %1$s.', '<a href="https://wp-statistics.com/resources/enhancing-data-accuracy/?utm_source=wp-statistics&utm_medium=email&utm_campaign=tips" target="_blank">Enhancing Data Accuracy</a>'), 'wp-statistics'),
+            ],
+            [
+                'title'   => __('Keep the plugin up-to-date', 'wp-statistics'),
+                'content' => __('Ensure that your WP Statistics plugin is up-to-date in order to get the latest features and security improvements.', 'wp-statistics'),
+            ],
+            [
+                'title'   => __('Maintain Privacy Compliance', 'wp-statistics'),
+                'content' => __(sprintf('To ensure that your website complies with the latest privacy standards, use the Privacy Audit feature in WP Statistics. It provides actionable recommendations for improving your privacy compliance by assessing your WP Statistics\' current settings. For more information, refer to our %1$s.', '<a href="https://wp-statistics.com/resources/privacy-audit/?utm_source=wp-statistics&utm_medium=email&utm_campaign=privacy" target="_blank">Privacy Audit Guide</a>'), 'wp-statistics'),
+            ],
+            [
+                'title'   => __('WordPress Export and Erasure', 'wp-statistics'),
+                'content' => __(sprintf('If you record PII data with WP Statistics, use WordPress data export and erasure features to manage this information. This ensures compliance with privacy regulations like GDPR. For more details, see our %1$s.', '<a href="https://wp-statistics.com/resources/compliant-with-wordpress-data-export-and-erasure/?utm_source=wp-statistics&utm_medium=email&utm_campaign=tips" target="_blank">Data Export and Erasure Guide</a>'), 'wp-statistics'),
+            ],
+            [
+                'title'   => __('Track Links and Downloads', 'wp-statistics'),
+                'content' => __(sprintf('Track how users interact with your site\'s links and downloads using the Link and Download Tracker feature. You can use this information to improve content engagement and understand user behavior. %1$s.', '<a href="https://wp-statistics.com/product/wp-statistics-data-plus/?utm_source=wp-statistics&utm_medium=email&utm_campaign=dp" target="_blank">Read more</a>'), 'wp-statistics'),
+            ],
+            [
+                'title'   => __('Advanced Filtering', 'wp-statistics'),
+                'content' => __(sprintf('Analyze specific query parameters, including UTM tags, for each piece of content. Tracking marketing campaigns and engagement allows you to refine your strategies and maximize their impact. %1$s.', '<a href="https://wp-statistics.com/product/wp-statistics-data-plus/?utm_source=wp-statistics&utm_medium=email&utm_campaign=dp" target="_blank">Read more</a>'), 'wp-statistics'),
+            ],
+            [
+                'title'   => __('Weekly Traffic Comparison Widget', 'wp-statistics'),
+                'content' => __(sprintf('On the Overview page, the Weekly Traffic Comparison widget provides a quick snapshot of your main metrics. You can analyze traffic changes, identify trends, and make data-driven decisions to improve your site\'s performance with this feature. %1$s.', '<a href="https://wp-statistics.com/product/wp-statistics-data-plus/?utm_source=wp-statistics&utm_medium=email&utm_campaign=dp" target="_blank">Read more</a>'), 'wp-statistics'),
+            ],
+            [
+                'title'   => __('Traffic by Hour Widget', 'wp-statistics'),
+                'content' => __(sprintf('On the Overview page, the Traffic by Hour widget displays visitor patterns by hour. Ensure maximum engagement and efficiency by optimizing server resources and scheduling content releases for peak visitor times. %1$s.', '<a href="https://wp-statistics.com/product/wp-statistics-data-plus/?utm_source=wp-statistics&utm_medium=email&utm_campaign=dp" target="_blank">Read more</a>'), 'wp-statistics'),
+            ],
+            [
+                'title'   => __('Content-Specific Analytics', 'wp-statistics'),
+                'content' => __(sprintf('Analyze each piece of content in detail, including views, visitor locations, and online users. Based on user data, these insights can help you optimize content. %1$s.', '<a href="https://wp-statistics.com/product/wp-statistics-data-plus/?utm_source=wp-statistics&utm_medium=email&utm_campaign=dp" target="_blank">Read more</a>'), 'wp-statistics'),
+            ],
+            [
+                'title'   => __('Custom Post Type Tracking', 'wp-statistics'),
+                'content' => __(sprintf('Track all custom post types as well as posts and pages. This ensures complete analytics across all content types on your site. %1$s.', '<a href="https://wp-statistics.com/product/wp-statistics-data-plus/?utm_source=wp-statistics&utm_medium=email&utm_campaign=dp" target="_blank">Read more</a>'), 'wp-statistics'),
+            ],
+            [
+                'title'   => __('Custom Taxonomy Analytics', 'wp-statistics'),
+                'content' => __(sprintf('Track custom taxonomies along with default taxonomies like Categories and Tags to gain deeper insights into all taxonomies used on your site. %1$s.', '<a href="https://wp-statistics.com/product/wp-statistics-data-plus/?utm_source=wp-statistics&utm_medium=email&utm_campaign=dp" target="_blank">Read more</a>'), 'wp-statistics'),
+            ],
+            [
+                'title'   => __('Real-Time Stats', 'wp-statistics'),
+                'content' => __(sprintf('Monitor your website\'s traffic and activity in real time. Your WordPress statistics are displayed instantly, so you don\'t need to refresh your page every time someone visits your blog. Watch your website\'s performance live. %1$s.', '<a href="https://wp-statistics.com/product/wp-statistics-realtime-stats/?utm_source=wp-statistics&utm_medium=email&utm_campaign=real-time" target="_blank">Read more</a>'), 'wp-statistics'),
+            ],
+            [
+                'title'   => __('Mini Chart', 'wp-statistics'),
+                'content' => __(sprintf('Track your content\'s performance with mini charts. Quick access to traffic data is provided by an admin bar. The chart type and color can be customized according to your preferences. Analyze your content\'s performance and make informed decisions to enhance its success.  %1$s.', '<a href="https://wp-statistics.com/product/wp-statistics-mini-chart/?utm_source=wp-statistics&utm_medium=email&utm_campaign=mini-chart" target="_blank">Read more</a>'), 'wp-statistics'),
+            ],
+        ];
+
+        return $tips[array_rand($tips)];
+    }
+
+    /**
+     * Get the device category name
+     * Remove device subtype, for example: mobile:smart -> mobile
+     *
+     * @param string $device
+     *
+     * @return string
+     */
+    public static function getDeviceCategoryName($device)
+    {
+        if (strpos($device, ':') !== false) {
+            $device = explode(':', $device)[0];
+        }
+        return $device;
+    }
+
+    /**
+     * Get default date format
+     * @param bool $withTime
+     * @return string
+     */
+    public static function getDefaultDateFormat($withTime = false, $excludeYear = false)
+    {
+        $dateFormat = get_option('date_format');
+        $timeFormat = get_option('time_format');
+
+        if (empty($dateFormat)) {
+            $dateFormat = 'Y-m-d';
+        }
+
+        if (empty($timeFormat)) {
+            $timeFormat = 'g:i a';
+        }
+
+        $dateTimeFormat = $withTime ? $dateFormat . ' ' . $timeFormat : $dateFormat;
+
+        if ($excludeYear) {
+            $dateTimeFormat = str_replace(
+                [', Y', 'Y ,', 'Y', ',Y', 'Y,', 'y', ', y', 'y ,', ',y', 'y,'], '', $dateTimeFormat
+            );
+        }
+
+        return $dateTimeFormat;
+    }
+
+    /**
+     * Checks if the WordPress admin bar is showing and can current user see it?
+     *
+     * @return  boolean
+     */
+    public static function isAdminBarShowing()
+    {
+        /**
+         * Show/Hide WP Statistics Admin Bar
+         *
+         * @example add_filter('wp_statistics_show_admin_bar', function(){ return false; });
+         */
+        $showAdminBar = has_filter('wp_statistics_show_admin_bar') ? apply_filters('wp_statistics_show_admin_bar', true) : Option::get('menu_bar');
+
+        return ($showAdminBar && is_admin_bar_showing() && User::Access());
+    }
+
+    /**
+     * Calculates percentage difference between two numbers.
+     *
+     * @param int|float $firstNumber
+     * @param int|float $secondNumber
+     *
+     * @return  float
+     */
+    public static function calculatePercentageChange($firstNumber, $secondNumber)
+    {
+        if (!is_numeric($firstNumber)) {
+            $firstNumber = 0;
+        }
+        if (!is_numeric($secondNumber)) {
+            $secondNumber = 0;
+        }
+        if ($firstNumber == $secondNumber) {
+            return 0;
+        }
+
+        // Multiply the final result by -1 if the second number is smaller (decreasing change)
+        $multiply = 1;
+        if ($firstNumber > $secondNumber) {
+            $multiply = -1;
+        }
+
+        // The first part of the formula depends on whether it's an increasing change or decreasing
+        $change = $firstNumber > $secondNumber ? $firstNumber - $secondNumber : $secondNumber - $firstNumber;
+
+        // Final part of the formula: ($change / $firstNumber) * 100
+        $result = $firstNumber == 0 ? $change : ($change / $firstNumber);
+        $result *= 100;
+        $result *= $multiply;
+
+        return $result;
+    }
+
+    /**
+     * Checks if "Anonymous Tracking" option is enabled and user hasn't given consent yet.
+     *
+     * In this case, we have to track user's information anonymously.
+     *
+     * @return  bool
+     */
+    public static function shouldTrackAnonymously()
+    {
+        $selectedConsentLevel = Option::get('consent_level_integration', 'disabled');
+
+        return WpConsentApi::isWpConsentApiActive() &&
+            $selectedConsentLevel !== 'disabled' &&
+            Option::get('anonymous_tracking', false) == true &&
+            !(function_exists('wp_has_consent') && wp_has_consent($selectedConsentLevel));
+    }
+
+    /**
+     * Checks if the WP Statistics request signature is enabled.
+     *
+     * This function uses the 'wp_statistics_request_signature_enabled' filter to determine if the request
+     * signature feature in WP Statistics is enabled. By default, it returns true, but this can be modified
+     * by using the filter in other parts of your theme or plugin.
+     *
+     * @return bool True if the request signature feature is enabled, otherwise false.
+     */
+    public static function isRequestSignatureEnabled()
+    {
+        return apply_filters('wp_statistics_request_signature_enabled', true);
     }
 }

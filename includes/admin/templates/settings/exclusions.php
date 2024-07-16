@@ -93,16 +93,6 @@
         </tr>
 
         <tr valign="top">
-            <th scope="row">
-                <label for="force_robot_update"><?php esc_html_e('Force Robot List Update After Upgrades', 'wp-statistics'); ?></label>
-            </th>
-            <td>
-                <input id="force_robot_update" type="checkbox" value="1" name="wps_force_robot_update" <?php echo WP_STATISTICS\Option::get('force_robot_update') == true ? "checked='checked'" : ''; ?>><label for="force_robot_update"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
-                <p class="description"><?php echo sprintf(esc_html__('Reset the robot list to default after WP Statistics updates. Custom entries will be lost if enabled.', 'wp-statistics'), esc_html($role)); // phpcs:ignore WordPress.Security.EscapeOutput.UnsafePrintingFunction	 ?></p>
-            </td>
-        </tr>
-
-        <tr valign="top">
             <th scope="row"><label for="use_honeypot"><?php esc_html_e('Activate Honey Pot Protection', 'wp-statistics'); ?></label></th>
             <td>
                 <input id="use_honeypot" type="checkbox" value="1" name="wps_use_honeypot" <?php echo WP_STATISTICS\Option::get('use_honeypot') == true ? "checked='checked'" : ''; ?>><label for="wps_use_honeypot"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>

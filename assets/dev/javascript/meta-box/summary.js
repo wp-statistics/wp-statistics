@@ -7,31 +7,29 @@ wps_js.summary_meta_box = {
         // -- Moved to bottom
 
         // Show Visitors and Visits
-        if (wps_js.is_active('visitors') || wps_js.is_active('visits')) {
-            t += `<tr><th width="50%">` + wps_js._('time') + `</th>`;
-            ["visitors", "visits"].forEach(function (key) {
-                t += `<th>` + (wps_js.is_active(key) ? wps_js._(key) : ``) + `</th>`;
-            });
-            t += `</tr>`;
-            t += '</thead>';
-            t += '<tbody>';
+        t += `<tr><th width="50%">` + wps_js._('time') + `</th>`;
+        ["visitors", "visits"].forEach(function (key) {
+            t += `<th>` + (wps_js.is_active(key) ? wps_js._(key) : ``) + `</th>`;
+        });
+        t += `</tr>`;
+        t += '</thead>';
+        t += '<tbody>';
 
-            if (Object.keys(args).length) {
-                // Show Statistics in Days
-                let summary_item = ["today", "yesterday", "last-week", "week", "month", "60days", "90days", "year", "this-year", "last-year", "total"];
-                for (let i = 0; i < summary_item.length; i++) {
-                    t += `<tr><td><b>${wps_js._(summary_item[i])}</b></td>`;
-                    ["visitors", "visits"].forEach(function (key) {
-                        if (typeof args[key] === 'undefined') {
-                            t += `<td></td>`;
-                        } else {
-                            t += `<td>` + (wps_js.is_active(key) ? `<a href="${args[key][summary_item[i]]['link']}"><span class="quickstats-values">${args[key][summary_item[i]]['value']}</span></a>` : ``) + `</td>`;
-                        }
-                    });
-                    t += `</tr>`;
-                }
-                t += '</tbody>';
+        if (Object.keys(args).length) {
+            // Show Statistics in Days
+            let summary_item = ["today", "yesterday", "last-week", "week", "month", "60days", "90days", "year", "this-year", "last-year", "total"];
+            for (let i = 0; i < summary_item.length; i++) {
+                t += `<tr><td><b>${wps_js._(summary_item[i])}</b></td>`;
+                ["visitors", "visits"].forEach(function (key) {
+                    if (typeof args[key] === 'undefined') {
+                        t += `<td></td>`;
+                    } else {
+                        t += `<td>` + (wps_js.is_active(key) ? `<a href="${args[key][summary_item[i]]['link']}"><span class="quickstats-values">${args[key][summary_item[i]]['value']}</span></a>` : ``) + `</td>`;
+                    }
+                });
+                t += `</tr>`;
             }
+            t += '</tbody>';
         }
 
         return t;
@@ -39,7 +37,7 @@ wps_js.summary_meta_box = {
 
     user_online: function (args = []) {
         let t = '';
-         if (args['user_online']) {
+        if (args['user_online']) {
             t = `<div class="c-live">
                 <div>                    
                     <span class="c-live__status"></span> 

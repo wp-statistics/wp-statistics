@@ -188,7 +188,7 @@ class Pages
         // Get the current page URI.
         $page_uri = Pages::get_page_uri();
 
-        // Get String Search Wordpress
+        // Get String Search WordPress
         if (array_key_exists("search_query", $current_page) and !empty($current_page["search_query"])) {
             $page_uri = "?s=" . $current_page['search_query'];
         }
@@ -521,7 +521,7 @@ class Pages
                 'title'     => esc_html($page_info['title']),
                 'link'      => $page_info['link'],
                 'str_url'   => esc_url(urldecode($item->uri)),
-                'hits_page' => Menus::admin_url('pages', array('ID' => $item->id, 'type' => $item->type)),
+                'hits_page' => Menus::admin_url('content-analytics', ['type' => 'posts']),
                 'number'    => number_format_i18n($item->count_sum)
             );
         }

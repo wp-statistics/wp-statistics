@@ -2,6 +2,7 @@
 
 namespace WP_Statistics\Service\Admin\Geographic;
 
+use WP_Statistics\Async\BackgroundProcessFactory;
 use WP_STATISTICS\GeoIP;
 use WP_STATISTICS\Menus;
 use WP_STATISTICS\Option;
@@ -10,7 +11,6 @@ use WP_Statistics\Models\VisitorsModel;
 use WP_Statistics\Service\Admin\Geographic\Views\SingleCountryView;
 use WP_Statistics\Service\Admin\Geographic\Views\TabsView;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
-use WP_Statistics\Service\Analytics\GeoIpService;
 use WP_Statistics\Utils\Request;
 
 class GeographicPage extends MultiViewPage
@@ -27,11 +27,6 @@ class GeographicPage extends MultiViewPage
      */
     private $visitorModel;
 
-    /**
-     * @var GeoIpService
-     */
-    private $geoIpService;
-
     public function __construct()
     {
         parent::__construct();
@@ -40,13 +35,12 @@ class GeographicPage extends MultiViewPage
     protected function init()
     {
         $this->visitorModel = new VisitorsModel();
-        $this->geoIpService = new GeoIpService();
 
         $this->disableScreenOption();
 
         if (Option::get('geoip') && GeoIP::IsSupport()) {
             $this->checkIncompleteGeoIpUpdaterNotice();
-            $this->processIncompleteGeoIpUpdaterBackground();
+            $this->processIncompleteGeoIpUpdaterBackgroundAction();
         }
     }
 
@@ -78,7 +72,7 @@ class GeographicPage extends MultiViewPage
         }
     }
 
-    private function processIncompleteGeoIpUpdaterBackground()
+    private function processIncompleteGeoIpUpdaterBackgroundAction()
     {
         // Check the action and nonce
         if (!Request::compare('action', 'update_unknown_visitor_geoip')) {
@@ -96,7 +90,7 @@ class GeographicPage extends MultiViewPage
         }
 
         // Update GeoIP data for visitors with incomplete information
-        $this->geoIpService->batchUpdateIncompleteGeoIpForVisitors();
+        BackgroundProcessFactory::batchUpdateIncompleteGeoIpForVisitors();
 
         wp_redirect(Menus::admin_url('geographic'));
         exit;

@@ -29,12 +29,12 @@ $postTypeNameSingular  = Helper::getPostTypeName($postType, true);
                                         </th>
                                         <th class="wps-pd-l">
                                             <a href="<?php echo esc_url(add_query_arg(['order_by' => 'total_posts', 'order' => $reverseOrder])) ?>" class="sort <?php echo Request::compare('order_by', 'total_posts') ? esc_attr($order) : ''; ?>">
-                                                <?php esc_html_e('Publish', 'wp-statistics') ?>
+                                                <?php esc_html_e('Published', 'wp-statistics') ?>
                                             </a>
                                         </th>
                                         <th class="wps-pd-l">
-                                            <a href="<?php echo esc_url(add_query_arg(['order_by' => 'total_author_views', 'order' => $reverseOrder])) ?>" class="sort <?php echo Request::compare('order_by', 'total_author_views') ? esc_attr($order) : ''; ?>">
-                                                <?php esc_html_e('Author Page Views', 'wp-statistics') ?>
+                                            <a href="<?php echo esc_url(add_query_arg(['order_by' => 'total_words', 'order' => $reverseOrder])) ?>" class="sort <?php echo Request::compare('order_by', 'total_words') ? esc_attr($order) : ''; ?>">
+                                                <?php esc_html_e('Words', 'wp-statistics') ?>
                                             </a>
                                         </th>
                                         <th class="wps-pd-l">
@@ -57,11 +57,6 @@ $postTypeNameSingular  = Helper::getPostTypeName($postType, true);
                                                 <?php echo sprintf(esc_html__('Words/%s', 'wp-statistics'), $postTypeNameSingular) ?>
                                             </a>
                                         </th>
-                                        <th class="wps-pd-l">
-                                            <a href="<?php echo esc_url(add_query_arg(['order_by' => 'total_words', 'order' => $reverseOrder])) ?>" class="sort <?php echo Request::compare('order_by', 'total_words') ? esc_attr($order) : ''; ?>">
-                                                <?php esc_html_e('Word Counts', 'wp-statistics') ?>
-                                            </a>
-                                        </th>
                                     </tr>
                                 </thead>
 
@@ -78,28 +73,25 @@ $postTypeNameSingular  = Helper::getPostTypeName($postType, true);
                                                 </div>
                                             </td>
                                             <td class="wps-pd-l">
-                                                <?php echo $author->total_views ? esc_html($author->total_views) : 0 ?>
+                                                <?php echo esc_html(number_format_i18n(intval($author->total_views))); ?>
                                             </td>
                                             <td class="wps-pd-l">
-                                                <?php echo esc_html($author->total_posts) ?>
+                                                <?php echo esc_html(number_format_i18n(intval($author->total_posts))) ?>
                                             </td>
                                             <td class="wps-pd-l">
-                                            <?php echo $author->total_author_views ? esc_html($author->total_author_views) : 0 ?>
+                                                <?php echo esc_html(number_format_i18n(intval($author->total_words))) ?>
                                             </td>
                                             <td class="wps-pd-l">
-                                                <?php echo $author->total_comments ? esc_html($author->total_comments) : 0 ?>
+                                                <?php echo esc_html(number_format_i18n(intval($author->total_comments)))?>
                                             </td>
                                             <td class="wps-pd-l">
-                                                <?php echo $author->average_comments ? esc_html(round($author->average_comments)) : 0; ?>
+                                                <?php echo esc_html(number_format_i18n(intval($author->average_comments))) ?>
                                             </td>
                                             <td class="wps-pd-l">
-                                                <?php echo $author->average_views ? esc_html(round($author->average_views)) : 0; ?>
+                                                <?php echo esc_html(number_format_i18n(intval($author->average_views))) ?>
                                             </td>
                                             <td class="wps-pd-l">
-                                                <?php echo $author->average_words ? esc_html(round($author->average_words)) : 0; ?>
-                                            </td>
-                                            <td class="wps-pd-l">
-                                                <?php echo $author->total_words ? esc_html($author->total_words) : 0 ?>
+                                                <?php echo esc_html(number_format_i18n(intval($author->average_words))) ?>
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>

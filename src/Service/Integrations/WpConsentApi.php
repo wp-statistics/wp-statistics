@@ -15,6 +15,7 @@ class WpConsentApi
      * Checks if "WP Consent API" plugin is activated.
      *
      * @return  bool
+     * @todo This should move to Helper.php
      */
     public static function isWpConsentApiActive()
     {
@@ -23,9 +24,8 @@ class WpConsentApi
 
     /**
      * Registers our plugin in "WP Consent API'.
-     * @todo, This should move to IntegrationsManager.php
-     *
      * @return  void
+     * @todo This should move to IntegrationsManager.php
      */
     public function registerPluginInWpConsentApi()
     {

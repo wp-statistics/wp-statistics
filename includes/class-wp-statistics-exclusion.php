@@ -2,7 +2,7 @@
 
 namespace WP_STATISTICS;
 
-use Jaybizzle\CrawlerDetect\CrawlerDetect;
+use WP_Statistics\Dependencies\Jaybizzle\CrawlerDetect\CrawlerDetect;
 use WP_Statistics\Service\Analytics\VisitorProfile;
 use WP_Statistics\Utils\Request;
 
@@ -156,7 +156,7 @@ class Exclusion
     {
         if (Option::get('exclude_404s')) {
 
-            if (Helper::is_rest_request() && isset($_REQUEST['current_page_type']) && $_REQUEST['current_page_type'] == '404') {
+            if (Helper::is_rest_request() && isset($_REQUEST['source_type']) && $_REQUEST['source_type'] == '404') {
                 return true;
             }
 
@@ -285,7 +285,7 @@ class Exclusion
      */
     public static function exclusion_crawlerdetect()
     {
-        $CrawlerDetect = new CrawlerDetect;
+        $CrawlerDetect = new CrawlerDetect();
         if ($CrawlerDetect->isCrawler()) {
             return true;
         }

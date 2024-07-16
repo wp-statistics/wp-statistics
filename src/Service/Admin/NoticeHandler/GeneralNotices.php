@@ -10,6 +10,7 @@ use WP_STATISTICS\Hits;
 use WP_STATISTICS\Menus;
 use WP_STATISTICS\Option;
 use WP_STATISTICS\RestAPI;
+use WP_STATISTICS\Schedule;
 use WP_STATISTICS\User;
 
 class GeneralNotices
@@ -27,6 +28,7 @@ class GeneralNotices
         'performance_and_clean_up',
         'memory_limit_check',
         'php_version_check',
+        'email_report_schedule',
     );
 
     public function init()
@@ -77,16 +79,6 @@ class GeneralNotices
                 $active_collation[] = __('Display Online Users', 'wp-statistics');
             }
 
-            // Check Active visits
-            if (!Option::get('visits')) {
-                $active_collation[] = __('Track Page Views', 'wp-statistics');
-            }
-
-            // Check Active Visitors
-            if (!Option::get('visitors')) {
-                $active_collation[] = __('Monitor Unique Visitors', 'wp-statistics');
-            }
-
             if (count($active_collation) > 0) {
                 Notice::addNotice(sprintf(__('Certain features are currently turned off. Please visit the %1$ssettings page%2$s to activate them: %3$s', 'wp-statistics'), '<a href="' . Menus::admin_url('settings') . '">', '</a>', implode(__(',', 'wp-statistics'), $active_collation)), 'active_collation');
             }
@@ -98,7 +90,7 @@ class GeneralNotices
         $totalDbRows = DB::getTableRows();
         $totalRows   = array_sum(array_column($totalDbRows, 'rows'));
 
-        if ($totalRows > apply_filters('wp_statistics_notice_db_row_threshold', 300000)) {
+        if ($totalRows > apply_filters('wp_statistics_notice_db_row_threshold', 300000) && current_user_can('manage_options')) {
             $settingsUrl      = admin_url('admin.php?page=wps_settings_page&tab=maintenance-settings');
             $optimizationUrl  = admin_url('admin.php?page=wps_optimization_page');
             $documentationUrl = 'https://wp-statistics.com/resources/optimizing-database-size-for-improved-performance/';
@@ -125,8 +117,22 @@ class GeneralNotices
 
     public function php_version_check()
     {
-        if (version_compare(PHP_VERSION, '7.2', '<') && !Option::get('disable_php_version_check_notice')) {
+        if (version_compare(PHP_VERSION, '7.2', '<')) {
             Notice::addNotice(__('<b>WP Statistics Plugin: PHP Version Update Alert</b> Starting with <b>Version 15</b>, WP Statistics will require <b>PHP 7.2 or higher</b>. Please upgrade your PHP version to ensure uninterrupted use of the plugin.'), 'php_version_check', 'warning');
+        }
+    }
+
+    public function email_report_schedule()
+    {
+        if (wp_next_scheduled('wp_statistics_report_hook') && Option::get('stats_report') && Option::get('time_report') != '0') {
+            $timeReports       = Option::get('time_report');
+            $schedulesInterval = Schedule::getSchedules();
+            if (!isset($schedulesInterval[$timeReports])) {
+                Notice::addNotice(sprintf(
+                    __('Please update your email report schedule due to new changes in our latest release: <a href="%1$s">Update Settings</a>.', 'wp-statistics'),
+                    Menus::admin_url('settings', array('tab' => 'notifications-settings'))
+                ), 'email_report_schedule', 'warning');
+            }
         }
     }
 }

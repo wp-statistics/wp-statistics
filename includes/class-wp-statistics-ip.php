@@ -2,7 +2,9 @@
 
 namespace WP_STATISTICS;
 
-use IPTools\Range;
+use Exception;
+use WP_Statistics;
+use WP_Statistics\Dependencies\IPTools\Range;
 
 class IP
 {
@@ -180,14 +182,14 @@ class IP
          * @example 192.168.1.1 -> 192.168.1.0
          * @example 0897:D836:7A7C:803F:344B:5348:71EE:1130 -> 897:d836:7a7c:803f::
          */
-        if (Option::get('anonymize_ips') == true) {
+        if (Option::get('anonymize_ips') == true || Helper::shouldTrackAnonymously()) {
             $user_ip = wp_privacy_anonymize_ip($user_ip);
         }
 
         /**
          * Check if the option to hash IP addresses is enabled in the settings.
          */
-        if (Option::get('hash_ips') == true) {
+        if (Option::get('hash_ips') == true || Helper::shouldTrackAnonymously()) {
             $user_ip = self::hashUserIp($user_ip);
         }
 
@@ -200,7 +202,7 @@ class IP
      * @param $ip
      * @param array $range
      * @return bool
-     * @throws \Exception
+     * @throws Exception
      */
     public static function CheckIPRange($range = array(), $ip = false)
     {
@@ -210,18 +212,18 @@ class IP
 
         // Get Range OF This IP
         try {
-            $ip = new \IPTools\IP($ip);
-        } catch (\Exception $e) {
-            \WP_Statistics::log($e->getMessage());
-            $ip = new \IPTools\IP(self::$default_ip);
+            $ip = new WP_Statistics\Dependencies\IPTools\IP($ip);
+        } catch (Exception $e) {
+            WP_Statistics::log($e->getMessage());
+            $ip = new WP_Statistics\Dependencies\IPTools\IP(self::$default_ip);
         }
 
         // Check List
         foreach ($range as $list) {
             try {
-                $contains_ip = Range::parse($list)->contains($ip);
-            } catch (\Exception $e) {
-                \WP_Statistics::log($e->getMessage());
+                $contains_ip = Range::parse($ip);
+            } catch (Exception $e) {
+                WP_Statistics::log($e->getMessage());
                 $contains_ip = false;
             }
 

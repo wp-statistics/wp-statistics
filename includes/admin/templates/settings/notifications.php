@@ -1,6 +1,8 @@
-<?php 
+<?php
+
 use WP_STATISTICS\Option;
 use WP_STATISTICS\Schedule;
+
 ?>
 
 <script type="text/javascript">
@@ -87,21 +89,28 @@ use WP_STATISTICS\Schedule;
         <tr valign="top">
             <th scope="row" colspan="2"><h3><?php esc_html_e('Advanced Reporting Options', 'wp-statistics'); ?></h3></th>
         </tr>
+        <?php $next_scheduled_time = Schedule::getNextScheduledTime('wp_statistics_report_hook') ?>
+        <?php if ($next_scheduled_time) { ?>
+            <tr valign="top">
+                <td colspan="2" scope="row" class="wps-alert-container">
+                    <div class="alert alert-success"><span><?php echo sprintf(__('Your next report is scheduled to be sent on <b>%s at %s</b>.', 'wp-statistics'), wp_date(get_option('date_format'), $next_scheduled_time), wp_date(get_option('time_format'), $next_scheduled_time)) ?></span></div>
+                </td>
+            </tr>
+        <?php } ?>
         <tr valign="top">
             <th scope="row" style="vertical-align: top;">
                 <label for="time-report"><?php esc_html_e('Report Frequency', 'wp-statistics'); ?></label>
             </th>
-
             <td>
                 <select name="wps_time_report" id="time-report">
-                    <option value="0" <?php selected(Option::get('time_report'), '0'); ?>><?php esc_html_e('Please select', 'wp-statistics'); ?></option>
+                    <option value="0" <?php selected(Option::get('time_report'), '0'); ?>><?php esc_html_e('Disable', 'wp-statistics'); ?></option>
                     <?php
-                        foreach (Schedule::getSchedules() as $key => $value) {
-                            echo '<option value="' . esc_attr($key) . '" ' . selected(Option::get('time_report'), $key) . '>' . esc_attr($value['display']) . '</option>';
-                        }
+                    foreach (Schedule::getSchedules() as $key => $value) {
+                        echo '<option value="' . esc_attr($key) . '" ' . selected(Option::get('time_report'), $key) . '>' . esc_attr($value['display']) . '</option>';
+                    }
                     ?>
                 </select>
-                <p class="description"><?php _e('Select the frequency of report deliveries. For custom schedules, more information can be found in our <a href="https://wp-statistics.com/resources/schedule-statistical-reports/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" target="_blank">documentation</a>.', 'wp-statistics'); // phpcs:ignore WordPress.Security.EscapeOutput.UnsafePrintingFunction	?></p>
+                <p class="description"><?php _e('Select the frequency of report deliveries.', 'wp-statistics'); // phpcs:ignore WordPress.Security.EscapeOutput.UnsafePrintingFunction	?></p>
             </td>
         </tr>
 
@@ -129,7 +138,7 @@ use WP_STATISTICS\Schedule;
             </th>
 
             <td>
-                <?php wp_editor(Option::get('content_report'), 'content-report', array('media_buttons' => false, 'textarea_name' => 'wps_content_report', 'textarea_rows' => 5)); ?>
+                <?php wp_editor(Option::get('content_report'), 'content-report', array('media_buttons' => false, 'textarea_name' => 'wps_content_report', 'textarea_rows' => 5, 'editor_height' => 400)); ?>
                 <p class="description"><?php esc_html_e('Using WP Statistics shortcodes to display specific statistics.', 'wp-statistics'); ?></p>
 
                 <p class="description data">

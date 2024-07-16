@@ -317,7 +317,7 @@ class Install
     }
 
     /**
-     * Remove Table On Delete Blog Wordpress
+     * Remove Table On Delete Blog WordPress
      *
      * @param $tables
      * @return array
@@ -624,18 +624,9 @@ class Install
         }
 
         /**
-         * Force Update robots List after Update Plugin
-         *
-         * @version 9.6.2
-         */
-        if (Option::get('force_robot_update')) {
-            Referred::download_referrer_spam();
-        }
-
-        /**
          * Update options
          */
-        if (WP_STATISTICS_VERSION == '14.7') {
+        if (Option::get('privacy_audit') === false && version_compare($installed_version, '14.7', '>=')) {
             Option::update('privacy_audit', true);
         }
 
@@ -655,6 +646,12 @@ class Install
             $assetNameObfuscator = new AssetNameObfuscator();
             $assetNameObfuscator->deleteAllHashedFiles();
             $assetNameObfuscator->deleteDatabaseOption();
+        }
+
+        // Enable Top Metrics in Advanced Reporting Add-on By Default
+        $advancedReportingOptions = Option::getAddonOptions('advanced_reporting');
+        if ($advancedReportingOptions !== false && Option::getByAddon('email_top_metrics', 'advanced_reporting') === false) {
+            Option::saveByAddon(array_merge(['email_top_metrics' => 1], $advancedReportingOptions), 'advanced_reporting');
         }
 
         // Store the new version information.

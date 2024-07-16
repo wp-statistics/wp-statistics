@@ -58,6 +58,12 @@ class Country
         return $list_country[self::$unknown_location];
     }
 
+    public static function isValid($code)
+    {
+        $list_country = self::getList();
+        return array_key_exists(strtoupper($code), $list_country);
+    }
+
     /**
      * get Top Country List
      *

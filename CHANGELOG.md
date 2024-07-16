@@ -1,3 +1,23 @@
+= 14.9 - **.07.2024 =
+* New: Content Analytics: Replaces Post Type report with content insights.
+* New: Category Analytics: Replaces Taxonomies report with category insights.
+* New: Device Categories report: Added under Devices menu.
+* New: Anonymous Tracking: Tracks users anonymously when consent is activated and user declines data recording.
+* Enhancement: Admin bar stats: New design.
+* Enhancement: Email reporting: Redesigned template and refactored scheduling.
+* Enhancement: Admin styles: Enhanced styles and dashboard quick stats.
+* Enhancement: Database row threshold notice: Shown only to admins.
+* Enhancement: Background process functionality: Improved.
+* Enhancement: Referral tracking: Enhanced performance.
+* Enhancement: Word count: Ensured compatibility with UTF-8 content.
+* Enhancement: DatePicker: Fixed filter issues and improved functionality.
+* Enhancement: Mozart: Implemented to avoid plugin namespace conflicts.
+* Enhancement: Requests: Replaced signature validation with nonce for better cache compatibility.
+* Fix: Online time calculation: Corrected for seconds-only durations.
+* Fix: Online user checks: Removed frequent checks, set check value to 65, fixed issues, and allowed status reset.
+* Fix: User View Logs: Display option fixed.
+* Fix: Top viewing authors: Inaccuracies fixed.
+
 = 14.8.1 - 26.06.2024 =
 * Fix: Compatibility issue with tracking page and default permalink structure.
 * Fix: Charts not displaying due to conflicts with old ChartJs versions from other plugins.

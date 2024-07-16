@@ -473,6 +473,13 @@ wps_js.sum = function (array) {
     }, 0);
 };
 
+/**
+ * Show empty data
+ */
+wps_js.no_results = function () {
+    return '<div class="o-wrap o-wrap--no-data wps-center">' + wps_js._('no_result') + '</div>';
+};
+
 
 // Head filters drop down
 jQuery(document).ready(function () {

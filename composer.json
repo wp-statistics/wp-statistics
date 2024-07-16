@@ -7,7 +7,6 @@
     "jaybizzle/crawler-detect": "~1.2.102"
   },
   "config": {
-    "vendor-dir": "includes/vendor",
     "platform-check": false,
     "platform": {
       "php": "5.6"
@@ -17,5 +16,30 @@
     "psr-4": {
       "WP_Statistics\\": "src/"
     }
+  },
+  "extra": {
+    "mozart": {
+      "dep_namespace": "WP_Statistics\\Dependencies\\",
+      "dep_directory": "/src/Dependencies/",
+      "classmap_directory": "/src/",
+      "classmap_prefix": "WP_Statistics_",
+      "packages": [
+        "geoip2/geoip2",
+        "s1lentium/iptools",
+        "jaybizzle/crawler-detect",
+        "psr/cache"
+      ],
+      "delete_vendor_directories": true
+    }
+  },
+  "scripts": {
+    "post-install-cmd": [
+      "~/.composer/vendor/bin/mozart compose",
+      "composer dump-autoload"
+    ],
+    "post-update-cmd": [
+      "~/.composer/vendor/bin/mozart compose",
+      "composer dump-autoload"
+    ]
   }
 }

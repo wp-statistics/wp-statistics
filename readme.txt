@@ -3,8 +3,8 @@ Contributors: mostafa.s1990, kashani, veronalabs, GregRoss
 Donate link: https://wp-statistics.com/donate/
 Tags: analytics, google analytics, insights, stats, site visitors
 Requires at least: 5.0
-Tested up to: 6.5
-Stable tag: 14.8.1
+Tested up to: 6.6
+Stable tag: 14.9
 Requires PHP: 5.6
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -34,6 +34,7 @@ You can find more information in "[What we collect](https://wp-statistics.com/re
 
 = Top Features =
 * Fully integrate with your WordPress and your content structure and you have the all reports all in your WP dashboard
+* Content and Category Analytics: Track performance based on your site’s content and categories.
 * Simple analytics dashboard
 * Super easy to install. No coding or technical knowledge needed
 * Advanced data privacy settings that are customizable to fit your needs, in compliance with diverse data protection laws
@@ -45,10 +46,9 @@ You can find more information in "[What we collect](https://wp-statistics.com/re
 * Lists your top referral sources such as search engines
 * Author Analytics: Measures author performance.
 * Geographic Reports: Location-based analytics, including countries, cities, European countries, US states, and regions within your country.
-* Devices Report: Detailed device-specific analytics covering browsers, operating systems, and device models.
+* Devices Report: Detailed device-specific analytics covering browsers, operating systems, device categories and device models.
 * Bypass Ad Blockers: Dynamically load the tracking script with a unique name and address to bypass ad blockers.
 * Integrate with WP Consent API: Ensures compatibility with consent plugins like Complianz and Cookiebot.
-* Coming Soon: Content and Category Analytics: Track performance based on your site’s content and categories.
 * Email reports with customizable content
 * Customize role-based access to view analytics and modify settings.
 * Advanced Filtering & Exceptions: By user roles, IPs, countries, URLs, and more.
@@ -58,7 +58,7 @@ You can find more information in "[What we collect](https://wp-statistics.com/re
  * **Link Tracker**: Find out which outbound links your audience clicks on, giving you insights into their preferences and behaviors.
  * **Download Tracker**: Keep track of what's being downloaded, who's downloading it, and when.
  * **Individual Author Performance**: Detailed metrics on the performance of individual authors.
- * **Soon**: Detailed Analytics for Each Country: In-depth analytics for each country to enhance geographical reporting.
+ * **Detailed Analytics for Each Country**: In-depth analytics for each country to enhance geographical reporting.
  * And more!
 
 **Get the most out of your website analytics by using WP Statistics Premium Add-ons**
@@ -123,33 +123,38 @@ WP Statistics supports WordPress Multi-Site/Network installations. In the networ
 11. Devices
 12. Link Tracker
 13. Privacy Audit
+14. Content Analytics Dashboard
+15. Category Analytics
+16. Website Performance Report
+17. Mini Chart Quick View
 
 == Upgrade Notice ==
-= 14.0 =
-**IMPORTANT NOTE**
-Welcome to WP Statistics v14.0, our biggest update!
-Thank you for being part of our community. We’ve been working hard for one year to develop this version and make WP Statistics better for you. after updating, please update all Add-Ons to tha latest version as well.
-
-If you encounter any bug, please create an issue on [GitHub](https://github.com/wp-statistics/wp-statistics/issues/new) where we can act upon them more efficiently. Since [GitHub](https://github.com/wp-statistics/wp-statistics) is not a support forum, just bugs are welcomed, and any other request will be closed.
+= 14.9 =
+To ensure the plugin works correctly, please clear your cache because some request payloads have been updated. Also, review your settings, especially if you use DataPlus, Advanced Reporting, or Customization, as some options have changed.
+Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest version.
 
 == Changelog ==
-= 14.8.1 - 26.06.2024 =
-* Fix: Compatibility issue with tracking page and default permalink structure.
-* Fix: Charts not displaying due to conflicts with old ChartJs versions from other plugins.
-* Fix: Metabox refresh issue in WordPress dashboard when enabling/disabling widgets via Screen Options.
-* Fix: Meta-box view URL compatibility across browsers and platforms.
-* Fix: Devices pagination.
-* Fix: SQL query issues and optimized queries in Devices.
-* Fix: Column name preparation for finding visitors.
-* Enhancement: Improved GeoIP database update scheduling.
-* Enhancement: Updated incomplete GeoIP info for visitors in the background, with notice in Geographic.
-* Enhancement: Added events table for data export.
-* Enhancement: Improved comments query by excluding ping-backs in Author Analytics.
-* Enhancement: Fixed referrer issue in online request tracking.
-* Enhancement: Refactored `getCountry` method, removing legacy cache.
-* Enhancement: Minor improvements.
-* Development: Added WP CLI command `wp statistics record`.
+= 14.9 - 16.07.2024 =
+* New: Content Analytics: Replaces Post Type report with content insights.
+* New: Category Analytics: Replaces Taxonomies report with category insights.
+* New: Device Categories report: Added under Devices menu.
+* New: Anonymous Tracking: Tracks users anonymously when consent is activated and user declines data recording.
+* Enhancement: Admin bar stats: New design.
+* Enhancement: Email reporting: Redesigned template and refactored scheduling.
+* Enhancement: Admin styles: Enhanced styles and dashboard quick stats.
+* Enhancement: Database row threshold notice: Shown only to admins.
+* Enhancement: Background process functionality: Improved.
+* Enhancement: Referral tracking: Enhanced performance.
+* Enhancement: Word count: Ensured compatibility with UTF-8 content.
+* Enhancement: DatePicker: Fixed filter issues and improved functionality.
+* Enhancement: Mozart: Implemented to avoid plugin namespace conflicts.
+* Enhancement: Requests: Replaced signature validation with nonce for better cache compatibility.
+* Enhancement: Added noindex attributes to honeypot link.
+* Fix: Online time calculation: Corrected for seconds-only durations.
+* Fix: Online user checks: Removed frequent checks, set check value to 65, fixed issues, and allowed status reset.
+* Fix: User View Logs: Display option fixed.
+* Fix: Top viewing authors: Inaccuracies fixed.
 
-For more information about the major update, please [visit our blog post](https://wp-statistics.com/2024/06/15/wp-statistics-version-14-8-whats-new) or follow [@wp_statistics](https://twitter.com/wp_statistics) on Twitter
+For more information about the major update, please [visit our blog post](https://wp-statistics.com/?p=15915) or follow [@wp_statistics](https://twitter.com/wp_statistics) on Twitter
 
 [See changelog for all versions](https://raw.githubusercontent.com/wp-statistics/wp-statistics/master/CHANGELOG.md).

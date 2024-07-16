@@ -2,6 +2,7 @@
 
 namespace WP_Statistics\Service\Admin\PrivacyAudit;
 
+use WP_STATISTICS\Helper;
 use WP_STATISTICS\Option;
 use WP_Statistics\Service\Admin\PrivacyAudit\Audits\Abstracts\ResolvableAudit;
 
@@ -51,16 +52,13 @@ class PrivacyAuditManager
      */
     public function addMenuItem($items)
     {
-        $newItem = [
-            'privacy_audit' => [
-                'sub'      => 'overview',
-                'title'    => esc_html__('Privacy Audit', 'wp-statistics'),
-                'page_url' => 'privacy-audit',
-                'callback' => PrivacyAuditPage::class,
-            ]
+        $items['privacy_audit'] = [
+            'sub'      => 'overview',
+            'title'    => esc_html__('Privacy Audit', 'wp-statistics'),
+            'page_url' => 'privacy-audit',
+            'callback' => PrivacyAuditPage::class,
+            'priority'  => 91,
         ];
-
-        array_splice($items, 13, 0, $newItem);
 
         return $items;
     }
@@ -76,13 +74,13 @@ class PrivacyAuditManager
         $privacyAuditController = new PrivacyAuditController();
 
         $list[] = [
-            'class'   => $privacyAuditController,
-            'action'  => 'getPrivacyStatus'
+            'class'  => $privacyAuditController,
+            'action' => 'getPrivacyStatus'
         ];
 
         $list[] = [
-            'class'   => $privacyAuditController,
-            'action'  => 'updatePrivacyStatus'
+            'class'  => $privacyAuditController,
+            'action' => 'updatePrivacyStatus'
         ];
 
         return $list;
@@ -91,15 +89,15 @@ class PrivacyAuditManager
 
     /**
      * Register privacy compliance test for WordPress site health.
-     * 
+     *
      * @return array $tests
      */
-    public function registerHealthStatusTests($tests) 
+    public function registerHealthStatusTests($tests)
     {
         $tests['direct']['wp_statistics_privacy_compliance_status'] = [
-			'label' => esc_html__('Are your WP Statistics settings privacy-compliant?', 'wp-statistics' ),
-			'test'  => [new PrivacyAuditController, 'privacyComplianceTest'],
-		];
+            'label' => esc_html__('Are your WP Statistics settings privacy-compliant?', 'wp-statistics'),
+            'test'  => [new PrivacyAuditController, 'privacyComplianceTest'],
+        ];
 
         return $tests;
     }
