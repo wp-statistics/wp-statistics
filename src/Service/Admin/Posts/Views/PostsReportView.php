@@ -52,15 +52,20 @@ class PostsReportView extends BaseView
 
     public function render()
     {
-        $postType   = Request::get('pt', 'post');
         $data       = $this->getData();
         $parentPage = Menus::getCurrentPage();
         $template   = 'posts-report';
 
+        $queryParams = ['type' => 'posts'];
+
+        if (Request::has('pt')) {
+            $queryParams['pt'] = Request::get('pt');
+        }
+
         $args = [
-            'title'         => Helper::getPostTypeName($postType),
+            'title'         => Helper::getPostTypeName(Request::get('pt', 'post')),
             'pageName'      => Menus::get_page_slug($parentPage['page_url']),
-            'custom_get'    => ['type' => 'posts', 'pt' => $postType],
+            'custom_get'    => $queryParams,
             'DateRang'      => Admin_Template::DateRange(),
             'hasDateRang'   => true,
             'backUrl'       => Menus::admin_url($parentPage['page_url']),
