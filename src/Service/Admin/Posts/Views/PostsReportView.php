@@ -55,10 +55,6 @@ class PostsReportView extends BaseView
         $parentPage = Menus::getCurrentPage();
         $template   = 'posts-report';
 
-        if (!Helper::isAddOnActive('data-plus') && Helper::isCustomPostType($postType)) {
-            $template   = 'posts-report-locked';
-        }
-
         $args = [
             'title'         => Helper::getPostTypeName($postType),
             'pageName'      => Menus::get_page_slug($parentPage['page_url']),
@@ -67,7 +63,7 @@ class PostsReportView extends BaseView
             'hasDateRang'   => true,
             'backUrl'       => Menus::admin_url($parentPage['page_url']),
             'backTitle'     => $parentPage['title'],
-            'filters'       => ['post-type','author'],
+            'filters'       => ['post-types','author'],
             'data'          => $data,
             'paged'         => Admin_Template::getCurrentPaged()
         ];
