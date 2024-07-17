@@ -390,7 +390,6 @@ class settings_page extends Singleton
             'wps_exclude_feeds',
             'wps_excluded_urls',
             'wps_exclude_404s',
-            'wps_corrupt_browser_info',
         );
 
         foreach ($wps_option_list as $option) {

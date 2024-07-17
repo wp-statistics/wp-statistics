@@ -1,4 +1,4 @@
-= 14.9 - **.07.2024 =
+= 14.9 - 16.07.2024 =
 * New: Content Analytics: Replaces Post Type report with content insights.
 * New: Category Analytics: Replaces Taxonomies report with category insights.
 * New: Device Categories report: Added under Devices menu.

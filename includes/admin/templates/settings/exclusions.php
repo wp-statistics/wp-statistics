@@ -108,16 +108,6 @@
                 <p><input id="wps_create_honeypot" type="checkbox" value="1" name="wps_create_honeypot"> <label for="wps_create_honeypot"><?php esc_html_e('Create a new Honey Pot page', 'wp-statistics'); ?></label></p>
             </td>
         </tr>
-
-        <tr valign="top">
-            <th scope="row">
-                <label for="corrupt_browser_info"><?php esc_html_e('Identify Incomplete Browser Data as Bot Activity', 'wp-statistics'); ?></label>
-            </th>
-            <td>
-                <input id="corrupt_browser_info" type="checkbox" value="1" name="wps_corrupt_browser_info" <?php echo WP_STATISTICS\Option::get('corrupt_browser_info') == true ? "checked='checked'" : ''; ?>><label for="corrupt_browser_info"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
-                <p class="description"><?php echo esc_html__('Visitors with missing browser details such as IP address or user agent are marked as bots.', 'wp-statistics'); ?></p>
-            </td>
-        </tr>
         </tbody>
     </table>
 </div>
