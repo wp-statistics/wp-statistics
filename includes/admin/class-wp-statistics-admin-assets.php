@@ -427,7 +427,7 @@ class Admin_Assets
         $list['active_post_type'] = Helper::getPostTypeName(Request::get('pt', 'post'));
 
         // Rest-API Meta Box Url
-        $list['stats_report_option']    = Option::get('stats_report') ? true : false;
+        $list['stats_report_option']    = Option::get('time_report') == '0' ? false : true;
         $list['setting_url']            = Menus::admin_url('settings');
         $list['admin_url']              = admin_url();
         $list['ajax_url']               = admin_url('admin-ajax.php');

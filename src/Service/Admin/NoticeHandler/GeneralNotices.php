@@ -133,7 +133,7 @@ class GeneralNotices
 
     public function email_report_schedule()
     {
-        if (wp_next_scheduled('wp_statistics_report_hook') && Option::get('stats_report') && Option::get('time_report') != '0') {
+        if (wp_next_scheduled('wp_statistics_report_hook') && Option::get('time_report') != '0') {
             $timeReports       = Option::get('time_report');
             $schedulesInterval = Schedule::getSchedules();
             if (!isset($schedulesInterval[$timeReports])) {
