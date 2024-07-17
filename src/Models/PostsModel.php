@@ -190,7 +190,7 @@ class PostsModel extends BaseModel
 
         $viewsQuery = Query::select(['pages.id', 'SUM(pages.count) AS views', 'COUNT(DISTINCT visitor_relationships.visitor_id) AS visitors'])
             ->from('pages')
-            ->join('visitor_relationships', ['pages.page_id', 'visitor_relationships.ID'])
+            ->join('visitor_relationships', ['pages.page_id', 'visitor_relationships.page_id'])
             ->whereDate('pages.date', $args['date'])
             ->groupBy('pages.id')
             ->getQuery();
