@@ -2895,12 +2895,15 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
       left: 23px;
 
       &:before {
-        transform: rotate(180deg);
+        width: 10.5px;
+        height: 11.7px;
+        background: url(data:image/svg+xml;base64,Cjxzdmcgd2lkdGg9IjExIiBoZWlnaHQ9IjEzIiB2aWV3Qm94PSIwIDAgMTEgMTMiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik05LjQwNDg3IDUuMTY2NjdIOS45ODgyQzEwLjMxMDQgNS4xNjY2NyAxMC41NzE1IDUuNDI3ODMgMTAuNTcxNSA1Ljc1VjExLjU4MzNDMTAuNTcxNSAxMS45MDU1IDEwLjMxMDQgMTIuMTY2NyA5Ljk4ODIgMTIuMTY2N0gwLjY1NDg2N0MwLjMzMjcwMyAxMi4xNjY3IDAuMDcxNTMzMiAxMS45MDU1IDAuMDcxNTMzMiAxMS41ODMzVjUuNzVDMC4wNzE1MzMyIDUuNDI3ODMgMC4zMzI3MDMgNS4xNjY2NyAwLjY1NDg2NyA1LjE2NjY3SDEuMjM4MlY0LjU4MzMzQzEuMjM4MiAyLjMyODE3IDMuMDY2MzcgMC41IDUuMzIxNTMgMC41QzcuNTc2NyAwLjUgOS40MDQ4NyAyLjMyODE3IDkuNDA0ODcgNC41ODMzM1Y1LjE2NjY3Wk04LjIzODIgNS4xNjY2N1Y0LjU4MzMzQzguMjM4MiAyLjk3MjUxIDYuOTMyMzUgMS42NjY2NyA1LjMyMTUzIDEuNjY2NjdDMy43MTA3IDEuNjY2NjcgMi40MDQ4NyAyLjk3MjUxIDIuNDA0ODcgNC41ODMzM1Y1LjE2NjY3SDguMjM4MlpNNC43MzgyIDcuNVY5LjgzMzMzSDUuOTA0ODdWNy41SDQuNzM4MloiIGZpbGw9IiM1NjU4NUEiLz4KPC9zdmc+Cg==) center center no-repeat!important;
       }
 
       &:after {
-        transform: rotate(269deg);
-      }
+        background: url(data:image/svg+xml;base64,Cjxzdmcgd2lkdGg9IjgiIGhlaWdodD0iMTAiIHZpZXdCb3g9IjAgMCA4IDEwIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cGF0aCBkPSJNMC44MjE1MzMgOC43NTY5OVYxLjI0NDIyQzAuODIxNTMzIDAuODg0MjM0IDEuMjE3NTEgMC42NjQ3NjEgMS41MjI3OCAwLjg1NTU1Nkw3LjUzMyA0LjYxMTk2QzcuODIwMjQgNC43OTE0NCA3LjgyMDI0IDUuMjA5NzYgNy41MzMgNS4zODkyOUwxLjUyMjc4IDkuMTQ1NjVDMS4yMTc1MSA5LjMzNjQ2IDAuODIxNTMzIDkuMTE3MDEgMC44MjE1MzMgOC43NTY5OVoiIGZpbGw9IiM1NjU4NUEiLz4KPC9zdmc+Cg==) center center no-repeat!important;
+        transform: rotate(180deg);
+       }
     }
 
     &:hover {
