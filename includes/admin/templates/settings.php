@@ -20,9 +20,6 @@
                         <div id="notifications-settings" class="tab-content">
                             <?php include WP_STATISTICS_DIR . 'includes/admin/templates/settings/notifications.php'; ?>
                         </div>
-                        <div id="overview-display-settings" class="tab-content">
-                            <?php include WP_STATISTICS_DIR . 'includes/admin/templates/settings/overview-display.php'; ?>
-                        </div>
                         <div id="access-settings" class="tab-content">
                             <?php include WP_STATISTICS_DIR . 'includes/admin/templates/settings/access-level.php'; ?>
                         </div>

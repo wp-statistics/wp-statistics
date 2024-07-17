@@ -115,6 +115,18 @@
             </td>
         </tr>
 
+        <tr valign="top">
+            <th scope="row">
+                <label for="disable-map"><?php esc_html_e('WP Statistics Widgets in the WordPress dashboard', 'wp-statistics'); ?></label>
+            </th>
+
+            <td>
+                <input id="disable-dashboard" type="checkbox" value="1" name="wps_disable_dashboard" <?php echo WP_STATISTICS\Option::get('disable_dashboard') == '1' ? "" : "checked='checked'"; ?>>
+                <label for="disable-dashboard"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
+                <p class="description"><?php esc_html_e('View WP Statistics widgets in the WordPress dashboard.', 'wp-statistics'); ?></p>
+            </td>
+        </tr>
+
         <tr valign="top" <?php echo WP_STATISTICS\Option::get('show_hits') ? 'style="display: table-row"' : 'style="display: none"' ?> id='wps_show_hits_option'>
             <th scope="row" style="vertical-align: top;">
                 <label for="display_hits_position"><?php esc_html_e('Display position', 'wp-statistics'); ?></label>
