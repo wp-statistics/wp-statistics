@@ -21,7 +21,6 @@ class GeneralNotices
      * @var array
      */
     private $core_notices = array(
-        'use_cache_plugin',
         'active_geo_ip',
         'donate_plugin',
         'active_collation',
@@ -41,15 +40,6 @@ class GeneralNotices
                     call_user_func([$this, $notice]);
                 }
             }
-        }
-    }
-
-    private function use_cache_plugin()
-    {
-        $plugin = Helper::is_active_cache_plugin();
-        if (!Option::get('use_cache_plugin') and $plugin['status'] === true) {
-            $text = ($plugin['plugin'] == "core" ? __('WP Statistics might not count the stats since <code>WP_CACHE</code> is detected in <code>wp-config.php</code>', 'wp-statistics') : sprintf(__('Potential Inaccuracy Due to <b>%s</b> Plugin', 'wp-statistics'), $plugin['plugin']));
-            Notice::addNotice($text . ", " . sprintf(__('Enable %1$sCache Compatibility%2$s to Correct This or Dismiss if Counts Are Accurate. Check out <a href=\"%3$s\" target=\"_blank\">this article</a> to disable this notice permanently.', 'wp-statistics'), '<a href="' . Menus::admin_url('settings') . '">', '</a>', 'https://wp-statistics.com/resources/how-to-disable-cache-notice-in-admin'), 'use_cache_plugin', 'warning');
         }
     }
 

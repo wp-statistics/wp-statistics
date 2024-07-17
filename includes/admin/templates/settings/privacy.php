@@ -119,7 +119,7 @@
                                 ); ?>
                         </p>
                     <?php endif; ?>
-                    <?php $cachePlugin = \WP_STATISTICS\Helper::is_active_cache_plugin();
+                    <?php $cachePlugin = \WP_STATISTICS\Helper::is_active_cache_plugin(); // todo deleted
                     if ($cachePlugin['status'] === true) : ?>
                         <p class="description">
                             <span class="wps-note"><?php esc_html_e('Warning:', 'wp-statistics'); ?></span>

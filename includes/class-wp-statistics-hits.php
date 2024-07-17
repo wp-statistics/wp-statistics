@@ -4,7 +4,6 @@ namespace WP_STATISTICS;
 
 use WP_Statistics\Components\Singleton;
 use WP_Statistics\Service\Analytics\VisitorProfile;
-use WP_Statistics\Service\Integrations\WpConsentApi;
 
 class Hits extends Singleton
 {
@@ -46,9 +45,6 @@ class Hits extends Singleton
         if (!Option::get('exclude_loginpage')) {
             add_action('init', array($this, 'record_login_page_hits'));
         }
-
-        # Record WordPress Front Page Hits
-        add_action('wp', array($this, 'record_wp_hits'));
     }
 
     /**
@@ -192,24 +188,6 @@ class Hits extends Singleton
     public static function record_login_page_hits()
     {
         if (Helper::is_login_page()) {
-            self::record();
-        }
-    }
-
-    /**
-     * Record WordPress Frontend Hits
-     *
-     * @throws \Exception
-     */
-    public static function record_wp_hits()
-    {
-        if (is_admin() or is_preview() or Option::get('use_cache_plugin') or Helper::dntEnabled()) {
-            return;
-        }
-
-        $consentLevel = Option::get('consent_level_integration', 'disabled');
-
-        if ($consentLevel == 'disabled' || Helper::shouldTrackAnonymously() || !WpConsentApi::isWpConsentApiActive() || !function_exists('wp_has_consent') || wp_has_consent($consentLevel)) {
             self::record();
         }
     }

@@ -136,37 +136,6 @@
     <table class="form-table">
         <tbody>
         <tr valign="top">
-            <th scope="row" colspan="2"><h3><?php esc_html_e('Cache Integration', 'wp-statistics'); ?></h3></th>
-        </tr>
-
-        <tr valign="top">
-            <th scope="row">
-                <label for="use_cache_plugin"><?php esc_html_e('Cache Compatibility Mode', 'wp-statistics'); ?></label>
-            </th>
-
-            <td>
-                <input id="use_cache_plugin" type="checkbox" value="1" name="wps_use_cache_plugin" <?php echo WP_STATISTICS\Option::get('use_cache_plugin') == true ? "checked='checked'" : ''; ?>>
-                <label for="use_cache_plugin"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
-                <p class="description"><?php esc_html_e('Ensures accurate statistics recording with caching plugins or services.', 'wp-statistics'); ?></p>
-                <p class="description">
-                <ul>
-                    <li><?php echo esc_html(sprintf(__('Remember to update permalinks in the WP Statistics REST API settings and clear the cache for full integration.', 'wp-statistics'), WP_STATISTICS\RestAPI::$namespace, admin_url('options-permalink.php'))); ?></li>
-                    <li>
-                        <?php echo __('To keep Google from indexing REST API endpoints, add the specified code to your <strong>robots.txt</strong> file:', 'wp-statistics');  // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	 ?><br/>
-                        <br/><code>User-Agent: * <?php echo PHP_EOL; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	 ?></code>
-                        <br/><code>Disallow: /wp-json</code>
-                    </li>
-                </ul>
-                </p>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-</div>
-<div class="postbox">
-    <table class="form-table">
-        <tbody>
-        <tr valign="top">
             <th scope="row" colspan="2"><h3><?php esc_html_e('Admin Interface Settings', 'wp-statistics'); ?></h3></th>
         </tr>
 

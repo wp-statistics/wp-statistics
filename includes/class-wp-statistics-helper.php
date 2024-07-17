@@ -158,58 +158,6 @@ class Helper
     }
 
     /**
-     * Check User is Used Cache Plugin
-     *
-     * @return array
-     */
-    public static function is_active_cache_plugin()
-    {
-        $use = array('status' => false, 'plugin' => '');
-// TODO: Optimize this function
-        /* WordPress core */
-        if (defined('WP_CACHE') && WP_CACHE) {
-            $use = array('status' => true, 'plugin' => 'core');
-        }
-
-        /* WP Rocket */
-        if (function_exists('get_rocket_cdn_url')) {
-            $use = array('status' => true, 'plugin' => 'WP Rocket');
-        }
-
-        /* WP Super Cache */
-        if (function_exists('wpsc_init')) {
-            $use = array('status' => true, 'plugin' => 'WP Super Cache');
-        }
-
-        /* Comet Cache */
-        if (function_exists('___wp_php_rv_initialize')) {
-            $use = array('status' => true, 'plugin' => 'Comet Cache');
-        }
-
-        /* WP Fastest Cache */
-        if (class_exists('WpFastestCache')) {
-            $use = array('status' => true, 'plugin' => 'WP Fastest Cache');
-        }
-
-        /* Cache Enabler */
-        if (defined('CE_MIN_WP')) {
-            $use = array('status' => true, 'plugin' => 'Cache Enabler');
-        }
-
-        /* W3 Total Cache */
-        if (defined('W3TC')) {
-            $use = array('status' => true, 'plugin' => 'W3 Total Cache');
-        }
-
-        /* WP-Optimize */
-        if (class_exists('WP_Optimize')) {
-            $use = array('status' => true, 'plugin' => 'WP-Optimize');
-        }
-
-        return apply_filters('wp_statistics_cache_status', $use);
-    }
-
-    /**
      * Get WordPress Uploads DIR
      *
      * @param string $path

@@ -25,14 +25,12 @@ let wpStatisticsUserOnline = {
 
     // Check Conditions for Sending Hit Request
     checkHitRequestConditions: function () {
-        if (WP_Statistics_Tracker_Object.option.cacheCompatibility) {
-            if (WP_Statistics_Tracker_Object.option.dntEnabled) {
-                if (WP_Statistics_Dnd_Active !== 1) {
-                    this.sendHitRequest();
-                }
-            } else {
+        if (WP_Statistics_Tracker_Object.option.dntEnabled) {
+            if (WP_Statistics_Dnd_Active !== 1) {
                 this.sendHitRequest();
             }
+        } else {
+            this.sendHitRequest();
         }
     },
 
@@ -66,7 +64,8 @@ let wpStatisticsUserOnline = {
             WP_Statistics_http.open("GET", requestUrl);
             WP_Statistics_http.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
             WP_Statistics_http.send(null);
-        } catch (error) { }
+        } catch (error) {
+        }
     },
 
     // Execute Send Online User Request Function Every n Sec
