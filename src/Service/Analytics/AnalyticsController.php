@@ -2,9 +2,9 @@
 
 namespace WP_Statistics\Service\Analytics;
 
+use Exception;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Hits;
-use WP_STATISTICS\UserOnline;
 use WP_Statistics\Utils\Signature;
 
 class AnalyticsController
@@ -16,24 +16,19 @@ class AnalyticsController
      */
     public function hit_action_callback()
     {
-        $this->checkSignature();
-
-        if (Helper::is_request('ajax')) {
-            // Start Record
-            $exclusion    = Hits::record();
-            $responseData = [
-                'status' => $exclusion['exclusion_match'] == false,
-            ];
-
-            if ($exclusion['exclusion_match']) {
-                $responseData['data'] = $exclusion;
-            }
-
-            // Return response
-            wp_send_json($responseData, 200);
+        if (!Helper::is_request('ajax')) {
+            return;
         }
 
-        exit;
+        try {
+            $this->checkSignature();
+
+            Hits::record();
+            wp_send_json(['status' => true]);
+
+        } catch (Exception $e) {
+            wp_send_json_error($e->getMessage(), $e->getCode());
+        }
     }
 
     /**
@@ -43,23 +38,25 @@ class AnalyticsController
      */
     public function online_action_callback()
     {
-        $this->checkSignature();
-
-        if (Helper::is_request('ajax')) {
-            UserOnline::record();
-
-            // Return response
-            wp_send_json([
-                'status' => true
-            ], 200);
+        if (!Helper::is_request('ajax')) {
+            return;
         }
 
-        exit;
+        try {
+            $this->checkSignature();
+
+            Hits::recordOnline();
+            wp_send_json(['status' => true]);
+
+        } catch (Exception $e) {
+            wp_send_json_error($e->getMessage(), $e->getCode());
+        }
     }
 
     /**
      * @return void
      * @doc https://wp-statistics.com/resources/managing-request-signatures/
+     * @throws Exception
      */
     private function checkSignature()
     {
@@ -71,7 +68,7 @@ class AnalyticsController
             ];
 
             if (!Signature::check($payload, $signature)) {
-                wp_send_json_error(__('Invalid signature', 'wp-statistics'), 403);
+                throw new Exception(__('Invalid signature', 'wp-statistics'), 403);
             }
         }
     }

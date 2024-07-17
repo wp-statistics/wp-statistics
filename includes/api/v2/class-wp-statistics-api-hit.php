@@ -2,6 +2,7 @@
 
 namespace WP_STATISTICS\Api\v2;
 
+use Exception;
 use WP_STATISTICS\Hits;
 
 class Hit extends \WP_STATISTICS\RestAPI
@@ -65,18 +66,17 @@ class Hit extends \WP_STATISTICS\RestAPI
      * Record WP Statistics when Cache is enable
      *
      * @return \WP_REST_Response
-     * @throws \Exception
+     * @throws Exception
      */
     public function hit_callback()
     {
-        // Start Record
-        $exclusion    = Hits::record();
-        $responseData = [
-            'status' => $exclusion['exclusion_match'] == false,
-        ];
+        try {
+            Hits::record();
+            $responseData['status'] = true;
 
-        if ($exclusion['exclusion_match']) {
-            $responseData['data'] = $exclusion;
+        } catch (Exception $e) {
+            $responseData['status'] = false;
+            $responseData['data']   = $e->getMessage();
         }
 
         $response = rest_ensure_response($responseData);
