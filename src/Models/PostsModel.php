@@ -188,10 +188,11 @@ class PostsModel extends BaseModel
             ->groupBy('comment_post_ID')
             ->getQuery();
 
-        $viewsQuery = Query::select(['id', 'SUM(count) AS views'])
+        $viewsQuery = Query::select(['pages.id', 'SUM(pages.count) AS views', 'COUNT(DISTINCT visitor_relationships.visitor_id) AS visitors'])
             ->from('pages')
+            ->join('visitor_relationships', ['pages.page_id', 'visitor_relationships.ID'])
             ->whereDate('pages.date', $args['date'])
-            ->groupBy('id')
+            ->groupBy('pages.id')
             ->getQuery();
 
         $result = Query::select([
@@ -199,6 +200,7 @@ class PostsModel extends BaseModel
                 'posts.post_author AS author_id',
                 'posts.post_title AS title',
                 'COALESCE(pages.views, 0) AS views',
+                'COALESCE(pages.visitors, 0) AS visitors',
                 'COALESCE(comments.total_comments, 0) AS comments',
                 "MAX(CASE WHEN postmeta.meta_key = 'wp_statistics_words_count' THEN postmeta.meta_value ELSE 0 END) AS words"
             ])
