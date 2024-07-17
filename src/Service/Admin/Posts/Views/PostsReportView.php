@@ -30,7 +30,7 @@ class PostsReportView extends BaseView
     {
         $from       = Request::get('from', date('Y-m-d', strtotime('-1 month')));
         $to         = Request::get('to', date('Y-m-d'));
-        $orderBy    = Request::get('order_by', 'views');
+        $orderBy    = Request::get('order_by', 'visitors');
         $order      = Request::get('order', 'DESC');
 
         $args = [
@@ -63,7 +63,7 @@ class PostsReportView extends BaseView
         }
 
         $args = [
-            'title'         => Helper::getPostTypeName(Request::get('pt', 'post')),
+            'title'         => Request::has('pt') ? Helper::getPostTypeName(Request::get('pt')) : esc_html__('Contents', 'wp-statistics'),
             'pageName'      => Menus::get_page_slug($parentPage['page_url']),
             'custom_get'    => $queryParams,
             'DateRang'      => Admin_Template::DateRange(),
