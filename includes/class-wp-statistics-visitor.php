@@ -108,64 +108,60 @@ class Visitor
             'exclusion_match'  => false,
             'exclusion_reason' => '',
         );
-        $args     = wp_parse_args($arg, $defaults);
 
-        // Check User Exclusion
-        if ($args['exclusion_match'] === false || $args['exclusion_reason'] == 'Honeypot') {
+        $args         = wp_parse_args($arg, $defaults);
+        $user_agent   = $visitorProfile->getUserAgent();
+        $same_visitor = $visitorProfile->isIpActiveToday();
 
-            $user_agent   = $visitorProfile->getUserAgent();
-            $same_visitor = $visitorProfile->isIpActiveToday();
+        // If we have a new Visitor in Day
+        if (!$same_visitor) {
 
-            // If we have a new Visitor in Day
-            if (!$same_visitor) {
+            // Prepare Visitor information
+            $visitor = array(
+                'last_counter' => TimeZone::getCurrentDate('Y-m-d'),
+                'referred'     => $visitorProfile->getReferrer(),
+                'agent'        => $user_agent['browser'],
+                'platform'     => $user_agent['platform'],
+                'version'      => $user_agent['version'],
+                'device'       => $user_agent['device'],
+                'model'        => $user_agent['model'],
+                'ip'           => $visitorProfile->getProcessedIPForStorage(),
+                'location'     => $visitorProfile->getCountry(),
+                'city'         => $visitorProfile->getCity(),
+                'region'       => $visitorProfile->getRegion(),
+                'continent'    => $visitorProfile->getContinent(),
+                'user_id'      => $visitorProfile->getUserId(),
+                'UAString'     => ((Option::get('store_ua') == true && !Helper::shouldTrackAnonymously()) ? $visitorProfile->getHttpUserAgent() : ''),
+                'hits'         => 1,
+                'honeypot'     => ($args['exclusion_reason'] == 'Honeypot' ? 1 : 0),
+            );
+            $visitor = apply_filters('wp_statistics_visitor_information', $visitor);
 
-                // Prepare Visitor information
-                $visitor = array(
-                    'last_counter' => TimeZone::getCurrentDate('Y-m-d'),
-                    'referred'     => $visitorProfile->getReferrer(),
-                    'agent'        => $user_agent['browser'],
-                    'platform'     => $user_agent['platform'],
-                    'version'      => $user_agent['version'],
-                    'device'       => $user_agent['device'],
-                    'model'        => $user_agent['model'],
-                    'ip'           => $visitorProfile->getProcessedIPForStorage(),
-                    'location'     => $visitorProfile->getCountry(),
-                    'city'         => $visitorProfile->getCity(),
-                    'region'       => $visitorProfile->getRegion(),
-                    'continent'    => $visitorProfile->getContinent(),
-                    'user_id'      => $visitorProfile->getUserId(),
-                    'UAString'     => ((Option::get('store_ua') == true && !Helper::shouldTrackAnonymously()) ? $visitorProfile->getHttpUserAgent() : ''),
-                    'hits'         => 1,
-                    'honeypot'     => ($args['exclusion_reason'] == 'Honeypot' ? 1 : 0),
+            //Save Visitor TO DB
+            $visitor_id = self::save_visitor($visitor, $visitorProfile);
+
+        } else {
+
+            //Get Current Visitor ID
+            $visitor_id = $same_visitor->ID;
+
+            // Update Same Visitor Hits
+            if ($args['exclusion_reason'] != 'Honeypot' and $args['exclusion_reason'] != 'Robot threshold') {
+
+                // Action Before Visitor Update
+                do_action('wp_statistics_update_visitor_hits', $visitor_id, $same_visitor);
+
+                $visitorTable = DB::table('visitor');
+
+                // Update Visitor Count in DB
+                $wpdb->query(
+                    $wpdb->prepare(
+                        "UPDATE `" . $visitorTable . "` SET `hits` = `hits` + %d, user_id = %s WHERE `ID` = %d",
+                        1,
+                        $visitorProfile->getUserId(),
+                        $visitor_id
+                    )
                 );
-                $visitor = apply_filters('wp_statistics_visitor_information', $visitor);
-
-                //Save Visitor TO DB
-                $visitor_id = self::save_visitor($visitor, $visitorProfile);
-
-            } else {
-
-                //Get Current Visitor ID
-                $visitor_id = $same_visitor->ID;
-
-                // Update Same Visitor Hits
-                if ($args['exclusion_reason'] != 'Honeypot' and $args['exclusion_reason'] != 'Robot threshold') {
-
-                    // Action Before Visitor Update
-                    do_action('wp_statistics_update_visitor_hits', $visitor_id, $same_visitor);
-
-                    $visitorTable = DB::table('visitor');
-
-                    // Update Visitor Count in DB
-                    $wpdb->query(
-                        $wpdb->prepare(
-                            "UPDATE `" . $visitorTable . "` SET `hits` = `hits` + %d, user_id = %s WHERE `ID` = %d",
-                            1,
-                            $visitorProfile->getUserId(),
-                            $visitor_id
-                        )
-                    );
-                }
             }
         }
 

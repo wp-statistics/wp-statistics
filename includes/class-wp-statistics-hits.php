@@ -163,7 +163,7 @@ class Hits extends Singleton
          */
         $visitorId = false;
         if (Visitor::active()) {
-            $visitorId = Visitor::record($visitorProfile, $exclusion);
+            $visitorId = Visitor::record($visitorProfile);
         }
 
         /**
