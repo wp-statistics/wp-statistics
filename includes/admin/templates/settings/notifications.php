@@ -27,7 +27,7 @@ use WP_STATISTICS\Schedule;
                     $wp_statistics_options['email_list'] = get_bloginfo('admin_email');
                 }
                 echo esc_textarea(Option::get('email_list')); ?>"/>
-                <p class="description"><?php esc_html_e('Enter email addresses to receive reports. Use a comma to separate multiple addresses.', 'wp-statistics'); ?></p>
+                <p class="description"><?php esc_html_e('Enter email addresses to receive reports. Use a comma to separate multiple addresses. If this field is left empty, the "Administration Email Address" from the "General Settings" of WordPress will be used.', 'wp-statistics'); ?></p>
             </td>
         </tr>
 
