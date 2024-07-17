@@ -2,6 +2,7 @@
 
 namespace WP_STATISTICS;
 
+use Exception;
 use WP_Statistics\Service\Analytics\VisitorProfile;
 
 /**
@@ -46,7 +47,7 @@ class WP_STATISTICS_CLI extends \WP_CLI_Command
      *      $ wp statistics summary
      *
      * @alias overview
-     * @throws \Exception
+     * @throws Exception
      */
     function summary($args, $assoc_args)
     {
@@ -97,7 +98,7 @@ class WP_STATISTICS_CLI extends \WP_CLI_Command
      *      # show list of five users online
      *      $ wp statistics online --number=5
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function online($args, $assoc_args)
     {
@@ -167,7 +168,7 @@ class WP_STATISTICS_CLI extends \WP_CLI_Command
      *      $ wp statistics online --number=10
      *
      * @alias visitor
-     * @throws \Exception
+     * @throws Exception
      */
     public function visitors($args, $assoc_args)
     {
@@ -218,7 +219,7 @@ class WP_STATISTICS_CLI extends \WP_CLI_Command
      *      # Reinitialize WP Statistics plugin
      *      $ wp statistics reinitialize
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function reinitialize($args, $assoc_args)
     {
@@ -275,7 +276,7 @@ class WP_STATISTICS_CLI extends \WP_CLI_Command
      *         wp statistics record --url="https://example.com" --ip="192.168.1.$i" --user_agent="Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_0_9; en-US) AppleWebKit/602.29 (KHTML, like Gecko) Chrome/49.0.1185.311 Safari/533" --referrer="https://referrer.com"
      *      done
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function record($args, $assoc_args)
     {
@@ -317,12 +318,12 @@ class WP_STATISTICS_CLI extends \WP_CLI_Command
         }
 
         // Record the hit
-        $exclusion = Hits::record($visitorProfile);
+        try {
+            Hits::record($visitorProfile);
 
-        if ($exclusion['exclusion_match']) {
-            \WP_CLI::error(sprintf('Exclusion matched: %s', $exclusion['exclusion_reason']));
-        } else {
             \WP_CLI::success('Hit recorded successfully.');
+        } catch (Exception $e) {
+            \WP_CLI::error(sprintf('Exclusion matched: %s', $e->getMessage()));
         }
     }
 }
