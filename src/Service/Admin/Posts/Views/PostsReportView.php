@@ -30,19 +30,21 @@ class PostsReportView extends BaseView
     {
         $from       = Request::get('from', date('Y-m-d', strtotime('-1 month')));
         $to         = Request::get('to', date('Y-m-d'));
-        $postType   = Request::get('pt', 'post');
         $orderBy    = Request::get('order_by', 'views');
         $order      = Request::get('order', 'DESC');
 
         $args = [
             'date'      => ['from' => $from, 'to' => $to],
-            'post_type' => $postType,
             'order_by'  => $orderBy,
             'order'     => $order,
             'author_id' => $this->authorID,
             'per_page'  => Admin_Template::$item_per_page,
             'page'      => Admin_Template::getCurrentPaged(),
         ];
+
+        if (Request::has('pt')) {
+            $args['post_type'] = Request::get('pt', 'post');;
+        }
 
         $dataProviderClass = new PostsDataProvider($args);
         return $dataProviderClass->getPostsReportData();
