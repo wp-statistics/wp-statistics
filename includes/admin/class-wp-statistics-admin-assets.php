@@ -195,7 +195,7 @@ class Admin_Assets
         }
 
         //Load Jquery VMap Css
-        if (!Option::get('disable_map') and (Menus::in_page('overview') || Menus::in_page('pages') || (in_array($screen_id, array('dashboard')) and !Option::get('disable_dashboard')))) {
+        if (Menus::in_page('overview') || Menus::in_page('pages') || (in_array($screen_id, array('dashboard')) and !Option::get('disable_dashboard'))) {
             wp_enqueue_style(self::$prefix . '-jqvmap', self::url('jqvmap/jqvmap.min.css'), array(), '1.5.1');
         }
 
@@ -245,7 +245,7 @@ class Admin_Assets
         }
 
         // Load Jquery VMap Js Library
-        if (!Option::get('disable_map') and (Menus::in_page('overview') || Menus::in_page('pages') || (in_array($screen_id, array('dashboard')) and !Option::get('disable_dashboard')))) {
+        if (Menus::in_page('overview') || Menus::in_page('pages') || (in_array($screen_id, array('dashboard')) and !Option::get('disable_dashboard'))) {
             wp_enqueue_script(self::$prefix . '-jqvmap', self::url('jqvmap/jquery.vmap.min.js'), array('jquery'), "1.5.1", ['in_footer' => true]);
             wp_enqueue_script(self::$prefix . '-jqvmap-world', self::url('jqvmap/jquery.vmap.world.min.js'), array('jquery'), "1.5.1", ['in_footer' => true]);
         }
