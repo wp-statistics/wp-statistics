@@ -43,16 +43,7 @@
             <th scope="row"><label for="wps_exclude_ip"><?php esc_html_e('Excluded IP Address List', 'wp-statistics'); ?></label></th>
             <td>
                 <textarea id="wps_exclude_ip" name="wps_exclude_ip" rows="5" cols="60" class="code" dir="ltr"><?php echo esc_textarea(WP_STATISTICS\Option::get('exclude_ip')); ?></textarea>
-                <p class="description"><?php echo esc_html__('Specify the IP addresses you want to exclude. Enter one IP address or range per line.', 'wp-statistics'); ?></p>
-                <p class="description"><?php echo esc_html__('For IPv4 addresses, both 192.168.0.0/24 and 192.168.0.0/255.255.255.0 formats are acceptable. To specify an IP address, use a subnet value of 32 or 255.255.255.255.', 'wp-statistics'); ?></p>
-                <p class="description"><?php echo esc_html__('For IPv6 addresses, use the fc00::/7 format.', 'wp-statistics'); ?></p>
-                <?php
-                foreach (\WP_STATISTICS\IP::$private_SubNets as $ip) {
-                    ?>
-                    <a onclick="var wps_exclude_ip = getElementById('wps_exclude_ip'); if( wps_exclude_ip != null ) { wps_exclude_ip.value = jQuery.trim( wps_exclude_ip.value + '\n<?php echo esc_attr($ip); ?>' ); }" class="button"><?php esc_html_e('Add', 'wp-statistics'); ?><?php echo esc_attr($ip); ?></a>
-                    <?php
-                }
-                ?>
+                <p class="description"><?php echo sprintf(__('Specify the IP addresses you want to exclude. Enter one IP address or range per line. For IPv4 addresses, both <code>192.168.0.0/24</code> and <code>192.168.0.0/255.255.255.0</code> formats are acceptable. To specify an IP address, use a subnet value of 32 or <code>255.255.255.255</code>. For IPv6 addresses, use the <code>fc00::/7</code> format. For detailed instructions, see our <a href="%1$s" target="_blank">IP Exclusions Documentation</a>.', 'wp-statistics'), 'https://wp-statistics.com/resources/exclude-ip-addresses/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings'); ?></p>
             </td>
         </tr>
         </tbody>
