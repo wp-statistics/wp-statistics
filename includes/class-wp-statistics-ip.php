@@ -221,7 +221,12 @@ class IP
         // Check List
         foreach ($range as $list) {
             try {
-                $contains_ip = Range::parse($ip);
+                $parsedRange = Range::parse($list);
+                $contains_ip = false;
+                
+                if ($parsedRange->contains($ip)) {
+                    $contains_ip = true;
+                }
             } catch (Exception $e) {
                 WP_Statistics::log($e->getMessage());
                 $contains_ip = false;
