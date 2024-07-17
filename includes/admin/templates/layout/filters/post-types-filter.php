@@ -22,7 +22,7 @@ $baseUrl          = remove_query_arg([$queryKey, 'pid']); // remove post type an
 
                     $class   = [];
                     $class[] = $selectedOption == $postType ? 'selected' : '';
-                    $class[] = Helper::isCustomPostType($postType) && !empty($lockCustomPostTypes) ? 'disabled' : '';
+                    $class[] = !empty($lockCustomPostTypes) && !Helper::isAddOnActive('data-plus') && Helper::isCustomPostType($postType) ? 'disabled' : '';
                 ?>
 
                 <a href="<?php echo esc_url($url) ?>" data-index="<?php echo esc_attr($key) ?>" title="<?php echo esc_attr($name) ?>" class="<??> <?php echo esc_attr(implode(' ', $class)) ?>">

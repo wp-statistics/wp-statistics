@@ -66,7 +66,7 @@ class CategoryReportView extends BaseView
             'backUrl'               => Menus::admin_url($parentPage['page_url']),
             'backTitle'             => $parentPage['title'],
             'filters'               => ['post-types','author', 'taxonomy'],
-            'lockCustomPostTypes'   => !Helper::isAddOnActive('data-plus'),
+            'lockCustomPostTypes'   => true,
             'paged'                 => Admin_Template::getCurrentPaged(),
             'data'                  => $this->getData()
         ];
