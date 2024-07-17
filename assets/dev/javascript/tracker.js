@@ -9,6 +9,8 @@ let hasTrackerInitializedOnce = false;
 const referred = encodeURIComponent(document.referrer);
 
 let wpStatisticsUserOnline = {
+    hitRequestSuccessful: true, // Flag to track hit request status
+
     init: function () {
         if (hasTrackerInitializedOnce) {
             return;
@@ -25,16 +27,18 @@ let wpStatisticsUserOnline = {
 
     // Check Conditions for Sending Hit Request
     checkHitRequestConditions: function () {
-        if (WP_Statistics_Tracker_Object.option.dntEnabled) {
-            if (WP_Statistics_Dnd_Active !== 1) {
+        if (WP_Statistics_Tracker_Object.option.isClientSideTracking) {
+            if (WP_Statistics_Tracker_Object.option.dntEnabled) {
+                if (WP_Statistics_Dnd_Active !== 1) {
+                    this.sendHitRequest();
+                }
+            } else {
                 this.sendHitRequest();
             }
-        } else {
-            this.sendHitRequest();
         }
     },
 
-    //Sending Hit Request
+    // Sending Hit Request
     sendHitRequest: async function () {
         try {
             const timestamp = Date.now();
@@ -46,16 +50,25 @@ let wpStatisticsUserOnline = {
                     'Content-Type': 'application/json;charset=UTF-8',
                 },
             });
+
             if (!response.ok) {
-                console.error('Hit request failed!');
+                if (response.status === 403) {
+                    this.hitRequestSuccessful = false; // Set flag to false if status is 403
+                }
+            } else {
+                this.hitRequestSuccessful = true; // Set flag to true if request is successful
             }
         } catch (error) {
-            console.error('An error occurred on sending hit request:', error);
+            this.hitRequestSuccessful = false;
         }
     },
 
     // Send Request to REST API to Show User Is Online
     sendOnlineUserRequest: function () {
+        if (!this.hitRequestSuccessful) {
+            return; // Stop if hit request was not successful
+        }
+
         try {
             const timestamp = Date.now();
             const requestUrl = `${WP_Statistics_Tracker_Object.keepOnlineRequestUrl}&referred=${referred}&_=${timestamp}`;
@@ -65,6 +78,7 @@ let wpStatisticsUserOnline = {
             WP_Statistics_http.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
             WP_Statistics_http.send(null);
         } catch (error) {
+
         }
     },
 

@@ -70,6 +70,8 @@ class Hit extends \WP_STATISTICS\RestAPI
      */
     public function hit_callback()
     {
+        $statusCode = false;
+
         try {
             Hits::record();
             $responseData['status'] = true;
@@ -77,9 +79,17 @@ class Hit extends \WP_STATISTICS\RestAPI
         } catch (Exception $e) {
             $responseData['status'] = false;
             $responseData['data']   = $e->getMessage();
+            $statusCode             = $e->getCode();
         }
 
         $response = rest_ensure_response($responseData);
+
+        /**
+         * Set the status code
+         */
+        if ($statusCode) {
+            $response->set_status($statusCode);
+        }
 
         /**
          * Set headers for the response
