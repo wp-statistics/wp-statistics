@@ -2,7 +2,7 @@
     <table class="form-table">
         <tbody>
         <tr valign="top">
-            <th scope="row" colspan="2"><h3><?php esc_html_e('User Role Exclusions', 'wp-statistics'); ?> <a href="#" class="wps-tooltip" title="<?php esc_html_e('Exclude specific user roles from data collection.', 'wp-statistics') ?>"><i class="wps-tooltip-icon"></i></a></h3></th>
+            <th scope="row" colspan="2"><h3><?php esc_html_e('User Role Exclusions', 'wp-statistics'); ?></h3></th>
         </tr>
 
         <?php
@@ -36,7 +36,7 @@
     <table class="form-table">
         <tbody>
         <tr valign="top">
-            <th scope="row" colspan="2"><h3><?php esc_html_e('IP Exclusions', 'wp-statistics'); ?> <a href="#" class="wps-tooltip" title="<?php esc_html_e('Specify which IP addresses or ranges should be excluded from statistics.', 'wp-statistics') ?>"><i class="wps-tooltip-icon"></i></a></h3></th>
+            <th scope="row" colspan="2"><h3><?php esc_html_e('IP Exclusions', 'wp-statistics'); ?></h3></th>
         </tr>
 
         <tr valign="top">
@@ -53,7 +53,7 @@
     <table class="form-table">
         <tbody>
         <tr valign="top">
-            <th scope="row" colspan="2"><h3><?php esc_html_e('Robot Exclusions', 'wp-statistics'); ?> <a href="#" class="wps-tooltip" title="<?php esc_html_e('Define bots and spiders to exclude from your website\'s statistics.', 'wp-statistics') ?>"><i class="wps-tooltip-icon"></i></a></h3></th>
+            <th scope="row" colspan="2"><h3><?php esc_html_e('Robot Exclusions', 'wp-statistics'); ?></h3></th>
         </tr>
 
         <tr valign="top">
@@ -106,7 +106,7 @@
     <table class="form-table">
         <tbody>
         <tr valign="top">
-            <th scope="row" colspan="2"><h3><?php esc_html_e('GeoIP Exclusions', 'wp-statistics'); ?> <a href="#" class="wps-tooltip" title="<?php esc_html_e('Filter out or specifically include visits from certain countries.', 'wp-statistics') ?>"><i class="wps-tooltip-icon"></i></a></h3></th>
+            <th scope="row" colspan="2"><h3><?php esc_html_e('GeoIP Exclusions', 'wp-statistics'); ?></h3></th>
         </tr>
 
         <tr valign="top">
@@ -131,7 +131,7 @@
     <table class="form-table">
         <tbody>
         <tr valign="top">
-            <th scope="row" colspan="2"><h3><?php esc_html_e('URL Exclusions', 'wp-statistics'); ?> <a href="#" class="wps-tooltip" title="<?php esc_html_e('Choose specific site URLs to keep out of the statistics.', 'wp-statistics') ?>"><i class="wps-tooltip-icon"></i></a></h3></th>
+            <th scope="row" colspan="2"><h3><?php esc_html_e('URL Exclusions', 'wp-statistics'); ?></h3></th>
         </tr>
 
         <tr valign="top">
@@ -187,7 +187,7 @@
     <table class="form-table">
         <tbody>
         <tr valign="top">
-            <th scope="row" colspan="2"><h3><?php esc_html_e('Host Exclusions', 'wp-statistics'); ?> <a href="#" class="wps-tooltip" title="<?php esc_html_e('Filter out visits from specific hosts.', 'wp-statistics') ?>"><i class="wps-tooltip-icon"></i></a></h3></th>
+            <th scope="row" colspan="2"><h3><?php esc_html_e('Host Exclusions', 'wp-statistics'); ?></h3></th>
         </tr>
 
         <tr valign="top">
