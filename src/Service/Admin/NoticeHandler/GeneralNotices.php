@@ -21,6 +21,7 @@ class GeneralNotices
      * @var array
      */
     private $core_notices = array(
+        'check_tracking_mode',
         'active_geo_ip',
         'donate_plugin',
         'active_collation',
@@ -40,6 +41,24 @@ class GeneralNotices
                     call_user_func([$this, $notice]);
                 }
             }
+        }
+    }
+
+    private function check_tracking_mode()
+    {
+        $cachePluginInfo = Helper::checkActiveCachePlugin();
+        $trackingMode    = Option::get('use_cache_plugin');
+
+        if (!$trackingMode && $cachePluginInfo['status'] === true) {
+            $noticeText = ($cachePluginInfo['plugin'] === "core")
+                ? __('WP Statistics might not count the stats since <code>WP_CACHE</code> is detected in <code>wp-config.php</code>', 'wp-statistics')
+                : sprintf(__('<b>WP Statistics</b> accuracy may be affected by the <b>%s</b> plugin. Please go to <a href="%s">Settings → General → Tracking Mode</a> and set the tracking mode to <b>Client-Side</b>.', 'wp-statistics'), $cachePluginInfo['plugin'], Menus::admin_url('settings'));
+
+            Notice::addNotice($noticeText, 'cache_plugin_usage_warning', 'warning');
+
+        } elseif (!$trackingMode) {
+            $settingsUrl = Menus::admin_url('settings');
+            Notice::addNotice(sprintf('<b>Server-Side Tracking</b> in <b>WP Statistics</b> will be deprecated in <b>v15</b>. Please go to <a href="%s">Settings → General → Tracking Mode</a> and set the tracking mode to <b>Client-Side</b>.', $settingsUrl), 'deprecate_server_side_tracking', 'info');
         }
     }
 

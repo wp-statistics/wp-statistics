@@ -40,6 +40,10 @@ let wpStatisticsUserOnline = {
 
     // Sending Hit Request
     sendHitRequest: async function () {
+        if (!WP_Statistics_Tracker_Object.option.isClientSideTracking) {
+            return;
+        }
+
         try {
             const timestamp = Date.now();
             const requestUrl = `${WP_Statistics_Tracker_Object.hitRequestUrl}&referred=${referred}&_=${timestamp}`;
@@ -65,8 +69,8 @@ let wpStatisticsUserOnline = {
 
     // Send Request to REST API to Show User Is Online
     sendOnlineUserRequest: function () {
-        if (!this.hitRequestSuccessful) {
-            return; // Stop if hit request was not successful
+        if (!this.hitRequestSuccessful || !WP_Statistics_Tracker_Object.option.isClientSideTracking) {
+            return; // Stop if hit request was not successful or isClientSideTracking is false
         }
 
         try {
@@ -86,8 +90,9 @@ let wpStatisticsUserOnline = {
     keepUserOnline: function () {
         setInterval(
             function () {
-                if (!WP_Statistics_Tracker_Object.option.dntEnabled ||
-                    (WP_Statistics_Tracker_Object.option.dntEnabled && WP_Statistics_Dnd_Active !== 1)) {
+                if ((!WP_Statistics_Tracker_Object.option.dntEnabled ||
+                    (WP_Statistics_Tracker_Object.option.dntEnabled && WP_Statistics_Dnd_Active !== 1)) &&
+                    this.hitRequestSuccessful && WP_Statistics_Tracker_Object.option.isClientSideTracking) {
                     this.sendOnlineUserRequest();
                 }
             }.bind(this), WP_Statistics_CheckTime

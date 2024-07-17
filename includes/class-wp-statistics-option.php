@@ -49,6 +49,7 @@ class Option
             'coefficient'               => Visitor::getCoefficient(),
             'email_list'                => get_bloginfo('admin_email'),
             'stats_report'              => false,
+            'cache_plugin'              => true,
             'time_report'               => '0',
             'send_report'               => 'mail',
             'geoip_license_type'        => 'js-deliver',

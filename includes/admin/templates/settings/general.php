@@ -115,7 +115,7 @@
             </td>
         </tr>
 
-        <tr valign="top" <?php echo  WP_STATISTICS\Option::get('show_hits') ?   'style="display: table-row"' :   'style="display: none"' ?> id='wps_show_hits_option'>
+        <tr valign="top" <?php echo WP_STATISTICS\Option::get('show_hits') ? 'style="display: table-row"' : 'style="display: none"' ?> id='wps_show_hits_option'>
             <th scope="row" style="vertical-align: top;">
                 <label for="display_hits_position"><?php esc_html_e('Display position', 'wp-statistics'); ?></label>
             </th>
@@ -127,6 +127,33 @@
                     <option value="after_content" <?php selected(WP_STATISTICS\Option::get('display_hits_position'), 'after_content'); ?>><?php esc_html_e('After Content', 'wp-statistics'); ?></option>
                 </select>
                 <p class="description"><?php esc_html_e('Choose the position to show views.', 'wp-statistics'); ?></p>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div class="postbox">
+    <table class="form-table">
+        <tbody>
+        <tr>
+            <th scope="row" colspan="2"><h3><?php esc_html_e('Tracking Settings', 'wp-statistics'); ?></h3></th>
+        </tr>
+
+        <tr>
+            <th scope="row">
+                <label for="use_cache_plugin"><?php esc_html_e('Tracking Mode', 'wp-statistics'); ?></label>
+            </th>
+
+            <td>
+                <select id="use_cache_plugin" name="wps_use_cache_plugin">
+                    <option value="client_side" <?php echo WP_STATISTICS\Option::get('use_cache_plugin') ? "selected='selected'" : ''; ?>>
+                        <?php esc_html_e('Client-Side Tracking', 'wp-statistics'); ?>
+                    </option>
+                    <option value="server_side" <?php echo !WP_STATISTICS\Option::get('use_cache_plugin') ? "selected='selected'" : ''; ?>>
+                        <?php esc_html_e('Server-Side Tracking', 'wp-statistics'); ?>
+                    </option>
+                </select>
+                <p class="description"><?php esc_html_e('Select the tracking mode you want to use. Client-Side Tracking is recommended for better accuracy and future compatibility.', 'wp-statistics'); ?></p>
             </td>
         </tr>
         </tbody>
