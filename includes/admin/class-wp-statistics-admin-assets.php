@@ -411,7 +411,7 @@ class Admin_Assets
             'er_valid_ip'                  => __('Enter a Valid IP Address', 'wp-statistics'),
             'please_wait'                  => __('Loading, Please Wait...', 'wp-statistics'),
             'user'                         => __('User Information', 'wp-statistics'),
-            'rest_connect'                 => __('Error connecting to WordPress REST API. Disable ad-blocker for this page or unblock /wp-json/wp-statistics/v2/metabox in the ad-blocker configuration.', 'wp-statistics'),
+            'rest_connect'                 => __('Failed to retrieve data. Please check the browser console and the XHR request under Network → XHR for details.', 'wp-statistics'),
             'privacy_compliant'            => __('Your WP Statistics settings are privacy-compliant.', 'wp-statistics'),
             'non_privacy_compliant'        => __('Your WP Statistics settings are not privacy-compliant. Please update your settings.', 'wp-statistics'),
             'privacy_resolve_alert'        => __('By manually resolving this item, please ensure your website’s privacy policy is updated to accurately reflect this setting. This is essential for maintaining compliance and transparency with your users.', 'wp-statistics'),
