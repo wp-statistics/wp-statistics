@@ -71,6 +71,7 @@ class Frontend
                 'isWpConsentApiActive' => WpConsentApi::isWpConsentApiActive(),
                 'trackAnonymously'     => Helper::shouldTrackAnonymously()
             ],
+            'jsCheckTime'          => apply_filters('wp_statistics_js_check_time_interval', 60000)
         );
 
         Assets::script('tracker', 'js/tracker.js', [], $jsArgs, true, Option::get('bypass_ad_blockers', false));

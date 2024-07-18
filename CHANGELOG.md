@@ -9,7 +9,7 @@
 * Enhancement: Implement minor improvements.
 * Enhancement: Improve RTL (right-to-left) styles.
 * Fix: Improve bot exclusion functionality and IP exclusion.
-* Development: Add filter `wp_statistics_reset_user_online_time`.
+* Development: Add filter `wp_statistics_reset_user_online_time` and `wp_statistics_js_check_time_interval`.
 
 = 14.9 - 16.07.2024 =
 * New: Content Analytics: Replaces Post Type report with content insights.

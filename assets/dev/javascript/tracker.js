@@ -1,4 +1,4 @@
-let WP_Statistics_CheckTime = 60000;
+let WP_Statistics_CheckTime = WP_Statistics_Tracker_Object.jsCheckTime;
 
 // Check DoNotTrack Settings on User Browser
 let WP_Statistics_Dnd_Active = parseInt(navigator.msDoNotTrack || window.doNotTrack || navigator.doNotTrack, 10);

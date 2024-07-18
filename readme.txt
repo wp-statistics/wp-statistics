@@ -145,7 +145,7 @@ Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest versio
 * Enhancement: Implement minor improvements.
 * Enhancement: Improve RTL (right-to-left) styles.
 * Fix: Improve bot exclusion functionality and IP exclusion.
-* Development: Add filter `wp_statistics_reset_user_online_time`.
+* Development: Add filter `wp_statistics_reset_user_online_time` and `wp_statistics_js_check_time_interval`.
 
 For more information about the major update, please [visit our blog post](https://wp-statistics.com/?p=15915) or follow [@wp_statistics](https://twitter.com/wp_statistics) on Twitter
 
