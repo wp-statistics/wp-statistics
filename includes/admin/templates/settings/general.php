@@ -49,6 +49,24 @@
             </td>
         </tr>
 
+        <tr>
+            <th scope="row">
+                <label for="use_cache_plugin"><?php esc_html_e('Tracking Method', 'wp-statistics'); ?></label>
+            </th>
+
+            <td>
+                <select id="use_cache_plugin" name="wps_use_cache_plugin">
+                    <option value="1" <?php echo WP_STATISTICS\Option::get('use_cache_plugin') ? "selected='selected'" : ''; ?>>
+                        <?php esc_html_e('Client Side Tracking (Recommended)', 'wp-statistics'); ?>
+                    </option>
+                    <option value="0" <?php echo !WP_STATISTICS\Option::get('use_cache_plugin') ? "selected='selected'" : ''; ?>>
+                        <?php esc_html_e('Server Side Tracking (Deprecated)', 'wp-statistics'); ?>
+                    </option>
+                </select>
+                <p class="description"><?php esc_html_e('Client Side Tracking uses the visitor’s browser for better accuracy and compatibility with caching methods and plugins. Server Side Tracking is less accurate and will be deprecated. Client Side Tracking is strongly recommended.', 'wp-statistics'); ?></p>
+            </td>
+        </tr>
+
         <tr valign="top">
             <th scope="row">
                 <label for="bypass_ad_blockers"><?php esc_html_e('Bypass Ad Blockers', 'wp-statistics'); ?></label>
@@ -115,7 +133,19 @@
             </td>
         </tr>
 
-        <tr valign="top" <?php echo  WP_STATISTICS\Option::get('show_hits') ?   'style="display: table-row"' :   'style="display: none"' ?> id='wps_show_hits_option'>
+        <tr valign="top">
+            <th scope="row">
+                <label for="disable-map"><?php esc_html_e('WP Statistics Widgets in the WordPress dashboard', 'wp-statistics'); ?></label>
+            </th>
+
+            <td>
+                <input id="disable-dashboard" type="checkbox" value="1" name="wps_disable_dashboard" <?php echo WP_STATISTICS\Option::get('disable_dashboard') == '1' ? "" : "checked='checked'"; ?>>
+                <label for="disable-dashboard"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
+                <p class="description"><?php esc_html_e('View WP Statistics widgets in the WordPress dashboard.', 'wp-statistics'); ?></p>
+            </td>
+        </tr>
+
+        <tr valign="top" <?php echo WP_STATISTICS\Option::get('show_hits') ? 'style="display: table-row"' : 'style="display: none"' ?> id='wps_show_hits_option'>
             <th scope="row" style="vertical-align: top;">
                 <label for="display_hits_position"><?php esc_html_e('Display position', 'wp-statistics'); ?></label>
             </th>
@@ -127,37 +157,6 @@
                     <option value="after_content" <?php selected(WP_STATISTICS\Option::get('display_hits_position'), 'after_content'); ?>><?php esc_html_e('After Content', 'wp-statistics'); ?></option>
                 </select>
                 <p class="description"><?php esc_html_e('Choose the position to show views.', 'wp-statistics'); ?></p>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-</div>
-<div class="postbox">
-    <table class="form-table">
-        <tbody>
-        <tr valign="top">
-            <th scope="row" colspan="2"><h3><?php esc_html_e('Cache Integration', 'wp-statistics'); ?></h3></th>
-        </tr>
-
-        <tr valign="top">
-            <th scope="row">
-                <label for="use_cache_plugin"><?php esc_html_e('Cache Compatibility Mode', 'wp-statistics'); ?></label>
-            </th>
-
-            <td>
-                <input id="use_cache_plugin" type="checkbox" value="1" name="wps_use_cache_plugin" <?php echo WP_STATISTICS\Option::get('use_cache_plugin') == true ? "checked='checked'" : ''; ?>>
-                <label for="use_cache_plugin"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
-                <p class="description"><?php esc_html_e('Ensures accurate statistics recording with caching plugins or services.', 'wp-statistics'); ?></p>
-                <p class="description">
-                <ul>
-                    <li><?php echo esc_html(sprintf(__('Remember to update permalinks in the WP Statistics REST API settings and clear the cache for full integration.', 'wp-statistics'), WP_STATISTICS\RestAPI::$namespace, admin_url('options-permalink.php'))); ?></li>
-                    <li>
-                        <?php echo __('To keep Google from indexing REST API endpoints, add the specified code to your <strong>robots.txt</strong> file:', 'wp-statistics');  // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	 ?><br/>
-                        <br/><code>User-Agent: * <?php echo PHP_EOL; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	 ?></code>
-                        <br/><code>Disallow: /wp-json</code>
-                    </li>
-                </ul>
-                </p>
             </td>
         </tr>
         </tbody>

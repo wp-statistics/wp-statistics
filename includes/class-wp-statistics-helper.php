@@ -158,14 +158,15 @@ class Helper
     }
 
     /**
-     * Check User is Used Cache Plugin
+     * Determine if a Cache Plugin is Active
      *
      * @return array
      */
-    public static function is_active_cache_plugin()
+    public static function checkActiveCachePlugin()
     {
         $use = array('status' => false, 'plugin' => '');
-// TODO: Optimize this function
+
+        // TODO: Optimize this function
         /* WordPress core */
         if (defined('WP_CACHE') && WP_CACHE) {
             $use = array('status' => true, 'plugin' => 'core');

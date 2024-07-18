@@ -4,7 +4,7 @@ Donate link: https://wp-statistics.com/donate/
 Tags: analytics, google analytics, insights, stats, site visitors
 Requires at least: 5.0
 Tested up to: 6.6
-Stable tag: 14.9
+Stable tag: 14.9.1
 Requires PHP: 5.6
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -134,26 +134,18 @@ To ensure the plugin works correctly, please clear your cache because some reque
 Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest version.
 
 == Changelog ==
-= 14.9 - 16.07.2024 =
-* New: Content Analytics: Replaces Post Type report with content insights.
-* New: Category Analytics: Replaces Taxonomies report with category insights.
-* New: Device Categories report: Added under Devices menu.
-* New: Anonymous Tracking: Tracks users anonymously when consent is activated and user declines data recording.
-* Enhancement: Admin bar stats: New design.
-* Enhancement: Email reporting: Redesigned template and refactored scheduling.
-* Enhancement: Admin styles: Enhanced styles and dashboard quick stats.
-* Enhancement: Database row threshold notice: Shown only to admins.
-* Enhancement: Background process functionality: Improved.
-* Enhancement: Referral tracking: Enhanced performance.
-* Enhancement: Word count: Ensured compatibility with UTF-8 content.
-* Enhancement: DatePicker: Fixed filter issues and improved functionality.
-* Enhancement: Mozart: Implemented to avoid plugin namespace conflicts.
-* Enhancement: Requests: Replaced signature validation with nonce for better cache compatibility.
-* Enhancement: Added noindex attributes to honeypot link.
-* Fix: Online time calculation: Corrected for seconds-only durations.
-* Fix: Online user checks: Removed frequent checks, set check value to 65, fixed issues, and allowed status reset.
-* Fix: User View Logs: Display option fixed.
-* Fix: Top viewing authors: Inaccuracies fixed.
+= 14.9.1 - 18.07.2024 =
+* Enhancement: Rename cache compatibility option to Tracking Method.
+* Enhancement: Show all post types on the posts report page.
+* Enhancement: Add visitor information to the posts report page.
+* Enhancement: Refactor Hits functionality and add exclusion for user online status, considering user online request exclusions.
+* Enhancement: Performance improvement by avoiding online requests when the hit is excluded.
+* Enhancement: Remove “Identify incomplete browser data as bot activity” and enable it by default for all users.
+* Enhancement: Update some admin descriptions and clean up some fields in settings.
+* Enhancement: Implement minor improvements.
+* Enhancement: Improve RTL (right-to-left) styles.
+* Fix: Improve bot exclusion functionality and IP exclusion.
+* Development: Add filter `wp_statistics_reset_user_online_time` and `wp_statistics_js_check_time_interval`.
 
 For more information about the major update, please [visit our blog post](https://wp-statistics.com/?p=15915) or follow [@wp_statistics](https://twitter.com/wp_statistics) on Twitter
 

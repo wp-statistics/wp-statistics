@@ -160,7 +160,7 @@
 
     a.button-primary {
       margin: 0 auto;
-      padding: 8px 16px 8px 41px;
+      padding: 8px 16px 8px 41px!important;
       border-radius: 4px !important;
       font-size: 14px;
       font-weight: 700 !important;
@@ -170,6 +170,11 @@
       background-color: #404bf2;
       background-position: center left 16px;
       background-image: url(data:image/svg+xml;base64,Cjxzdmcgd2lkdGg9IjE1IiBoZWlnaHQ9IjE2IiB2aWV3Qm94PSIwIDAgMTUgMTYiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik04Ljc1IDMuMjczNDRDOS41OTEzOCAzLjI3MzQ0IDEwLjI3MzQgMi41OTEzNyAxMC4yNzM0IDEuNzVIMTAuOTc2NkMxMC45NzY2IDIuNTkxMzcgMTEuNjU4NiAzLjI3MzQ0IDEyLjUgMy4yNzM0NFYzLjk3NjU2QzExLjY1ODYgMy45NzY1NiAxMC45NzY2IDQuNjU4NjMgMTAuOTc2NiA1LjVIMTAuMjczNEMxMC4yNzM0IDQuNjU4NjMgOS41OTEzOCAzLjk3NjU2IDguNzUgMy45NzY1NlYzLjI3MzQ0Wk0wLjYyNSA3LjM3NUMyLjY5NjA3IDcuMzc1IDQuMzc1IDUuNjk2MDcgNC4zNzUgMy42MjVINS42MjVDNS42MjUgNS42OTYwNyA3LjMwMzk0IDcuMzc1IDkuMzc1IDcuMzc1VjguNjI1QzcuMzAzOTQgOC42MjUgNS42MjUgMTAuMzAzOSA1LjYyNSAxMi4zNzVINC4zNzVDNC4zNzUgMTAuMzAzOSAyLjY5NjA3IDguNjI1IDAuNjI1IDguNjI1VjcuMzc1Wk0xMC43ODEyIDkuMjVDMTAuNzgxMiAxMC4zNzE4IDkuODcxODEgMTEuMjgxMiA4Ljc1IDExLjI4MTJWMTIuMjE4N0M5Ljg3MTgxIDEyLjIxODcgMTAuNzgxMiAxMy4xMjgyIDEwLjc4MTIgMTQuMjVIMTEuNzE4OEMxMS43MTg4IDEzLjEyODIgMTIuNjI4MiAxMi4yMTg3IDEzLjc1IDEyLjIxODdWMTEuMjgxMkMxMi42MjgyIDExLjI4MTIgMTEuNzE4OCAxMC4zNzE4IDExLjcxODggOS4yNUgxMC43ODEyWiIgZmlsbD0id2hpdGUiLz4KPC9zdmc+Cg==);
+
+      .rtl &{
+        padding: 8px 41px 8px 16px!important;
+        background-position: center right 16px;
+      }
 
       &:hover, &:focus, &:active {
         background-size: 15px;
@@ -200,6 +205,10 @@
     padding-left: 28px;
     position: relative;
     box-sizing: border-box;
+    .rtl &{
+      padding-left: 0;
+      padding-right: 28px;
+    }
 
     @media(min-width: 1270px) {
       min-width: 398px;
@@ -214,6 +223,11 @@
       left: 0px;
       top: 0px;
       background: url(data:image/svg+xml;base64,Cjxzdmcgd2lkdGg9IjE4IiBoZWlnaHQ9IjEzIiB2aWV3Qm94PSIwIDAgMTggMTMiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik02Ljk5OTcgMTAuMTcyOEwxNi4xOTIxIDAuOTgwNDY5TDE3LjYwNjMgMi4zOTQ2OEw2Ljk5OTcgMTMuMDAxMkwwLjYzNTc0MiA2LjYzNzM1TDIuMDQ5OTYgNS4yMjMxNUw2Ljk5OTcgMTAuMTcyOFoiIGZpbGw9IiMxOTYxNDAiLz4KPC9zdmc+Cg==) center center / 16.97px 12.02px no-repeat;
+
+      .rtl &{
+        left: unset;
+        right: 0px;
+      }
     }
   }
 

@@ -22,11 +22,18 @@ $reverseOrder         = $order == 'desc' ? 'asc' : 'desc';
                                 <tr>
                                     <th class="wps-pd-l">
                                         <a href="<?php echo esc_url(add_query_arg(['order_by' => 'title', 'order' => $reverseOrder])) ?>" class="sort <?php echo Request::compare('order_by', 'title') ? esc_attr($order) : ''; ?>">
-                                            <?php echo esc_html($postTypeNameSingular); ?>
+                                            <?php echo Request::has('pt') ? esc_html($postTypeNameSingular) : esc_html__('Content', 'wp-statistics'); ?>
                                         </a>
                                     </th>
+
                                     <th class="wps-pd-l">
-                                        <a href="<?php echo esc_url(add_query_arg(['order_by' => 'views', 'order' => $reverseOrder])) ?>" class="sort <?php echo !Request::has('order_by') || Request::compare('order_by', 'views') ? esc_attr($order) : ''; ?>">
+                                        <a href="<?php echo esc_url(add_query_arg(['order_by' => 'visitors', 'order' => $reverseOrder])) ?>" class="sort <?php echo !Request::has('order_by') || Request::compare('order_by', 'visitors') ? esc_attr($order) : ''; ?>">
+                                            <?php esc_html_e('Visitors', 'wp-statistics'); ?>
+                                        </a>
+                                    </th>
+
+                                    <th class="wps-pd-l">
+                                        <a href="<?php echo esc_url(add_query_arg(['order_by' => 'views', 'order' => $reverseOrder])) ?>" class="sort <?php echo  Request::compare('order_by', 'views') ? esc_attr($order) : ''; ?>">
                                             <?php esc_html_e('Views', 'wp-statistics'); ?>
                                         </a>
                                     </th>
@@ -63,6 +70,11 @@ $reverseOrder         = $order == 'desc' ? 'asc' : 'desc';
                                                 </span>
                                             </a>
                                         </td>
+
+                                        <td class="wps-pd-l">
+                                            <?php echo esc_html(number_format_i18n($post->visitors)) ?>
+                                        </td>
+
                                         <td class="wps-pd-l">
                                             <?php echo esc_html(number_format_i18n($post->views)) ?>
                                         </td>

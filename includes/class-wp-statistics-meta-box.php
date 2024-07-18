@@ -200,7 +200,7 @@ class Meta_Box
                 ]
             ),
             'pages'           => array(
-                'page_url'          => Menus::admin_url('content-analytics'),
+                'page_url'          => Menus::admin_url('content-analytics', ['type' => 'posts']),
                 'name'              => __('Most Visited Pages', 'wp-statistics'),
                 'description'       => __('Pages on your website with the highest number of views in the selected time frame.', 'wp-statistics'),
                 'hidden'            => true,
@@ -238,7 +238,7 @@ class Meta_Box
             'hitsmap'         => array(
                 'name'              => __('Global Visitor Distribution', 'wp-statistics'),
                 'description'       => __('Geographical representation of where your site\'s visitors come from.', 'wp-statistics'),
-                'require'           => array('geoip' => true, 'disable_map' => false),
+                'require'           => array('geoip' => true),
                 'hidden'            => true,
                 'show_on_dashboard' => true,
                 'place'             => 'normal',

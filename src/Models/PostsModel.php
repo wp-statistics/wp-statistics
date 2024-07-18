@@ -188,10 +188,17 @@ class PostsModel extends BaseModel
             ->groupBy('comment_post_ID')
             ->getQuery();
 
-        $viewsQuery = Query::select(['id', 'SUM(count) AS views'])
+        $visitorsQuery = Query::select(['pages.id as post_id', 'COUNT(DISTINCT visitor_relationships.visitor_id) AS visitors'])
+            ->from('visitor_relationships')
+            ->join('pages', ['pages.page_id', 'visitor_relationships.page_id'])
+            ->whereDate('visitor_relationships.date', $args['date'])
+            ->groupBy('pages.id')
+            ->getQuery();
+
+        $viewsQuery = Query::select(['pages.id', 'SUM(pages.count) AS views'])
             ->from('pages')
             ->whereDate('pages.date', $args['date'])
-            ->groupBy('id')
+            ->groupBy('pages.id')
             ->getQuery();
 
         $result = Query::select([
@@ -199,12 +206,14 @@ class PostsModel extends BaseModel
                 'posts.post_author AS author_id',
                 'posts.post_title AS title',
                 'COALESCE(pages.views, 0) AS views',
+                'COALESCE(visitors.visitors, 0) AS visitors',
                 'COALESCE(comments.total_comments, 0) AS comments',
                 "MAX(CASE WHEN postmeta.meta_key = 'wp_statistics_words_count' THEN postmeta.meta_value ELSE 0 END) AS words"
             ])
             ->from('posts')
             ->joinQuery($commentsQuery, ['posts.ID', 'comments.comment_post_ID'], 'comments', 'LEFT')
             ->joinQuery($viewsQuery, ['posts.ID', 'pages.id'], 'pages')
+            ->joinQuery($visitorsQuery, ['posts.ID', 'visitors.post_id'], 'visitors')
             ->join('postmeta', ['posts.ID', 'postmeta.post_id'], [], 'LEFT')
             ->where('post_type', 'IN', $args['post_type'])
             ->where('post_status', '=', 'publish')

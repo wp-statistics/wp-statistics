@@ -43,7 +43,7 @@ $postTypePlural   = Helper::getPostTypeName($postType);
 
         $args = [
             'title'             => esc_html__('Words', 'wp-statistics'),
-            'tooltip'           => esc_html__('Words tooltip', 'wp-statistics'),
+            'tooltip'           => sprintf(esc_html__('Total words across all %1$s in the selected period. Avg per %2$s is the total words divided by the number of published %1$s in that period.', 'wp-statistics'), strtolower($postTypePlural), strtolower($postTypeSingular)),
             'selected'          => Helper::formatNumberWithUnit($data['overview']['words']['recent']),
             'selected_title'    => esc_html__('Selected Period', 'wp-statistics'),
             'avg'               => Helper::formatNumberWithUnit($data['overview']['words']['avg']),
@@ -57,7 +57,7 @@ $postTypePlural   = Helper::getPostTypeName($postType);
         if (post_type_supports($postType, 'comments')) {
             $args = [
                 'title'             => esc_html__('Comments', 'wp-statistics'),
-                'tooltip'           => esc_html__('Comments tooltip', 'wp-statistics'),
+                'tooltip'           => sprintf(esc_html__('Total comments on all %1$s in the selected period. Avg per %2$s is the total comments divided by the number of published %1$s in that period.', 'wp-statistics'), strtolower($postTypePlural), strtolower($postTypeSingular)),
                 'selected'          => Helper::formatNumberWithUnit($data['overview']['comments']['recent'], 1),
                 'selected_title'    => esc_html__('Selected Period', 'wp-statistics'),
                 'avg'               => Helper::formatNumberWithUnit($data['overview']['comments']['avg'], 1),
@@ -74,7 +74,7 @@ $postTypePlural   = Helper::getPostTypeName($postType);
 
         $categories = [
             'title'      => esc_html__('Top Categories', 'wp-statistics'),
-            'tooltip'    => sprintf(esc_html__('The most popular categories by number of published posts %s.', 'wp-statistics'), strtolower($postTypePlural)),
+            'tooltip'    => sprintf(esc_html__('The most popular categories by number of published %s.', 'wp-statistics'), strtolower($postTypePlural)),
             'taxonomies' => $data['taxonomies']
         ];
         Admin_Template::get_template(['layout/content-analytics/top-categories'], $categories);

@@ -24,7 +24,7 @@ if (!$isDataPlusActive) echo Admin_Template::get_template('layout/partials/addon
         <table class="form-table <?php echo !$isDataPlusActive ? 'form-table--preview' : '' ?>">
             <tbody>
             <tr valign="top">
-                <th scope="row" colspan="2"><h3><?php esc_html_e('Event Tracking', 'wp-statistics'); ?> <a href="#" class="wps-tooltip" title="<?php esc_html_e('Enable or disable tracking features for clicks and downloads', 'wp-statistics') ?>"><i class="wps-tooltip-icon"></i></a></h3></th>
+                <th scope="row" colspan="2"><h3><?php esc_html_e('Event Tracking', 'wp-statistics'); ?></h3></th>
             </tr>
 
 

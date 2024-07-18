@@ -30,13 +30,11 @@ class PostsReportView extends BaseView
     {
         $from       = Request::get('from', date('Y-m-d', strtotime('-1 month')));
         $to         = Request::get('to', date('Y-m-d'));
-        $postType   = Request::get('pt', 'post');
-        $orderBy    = Request::get('order_by', 'views');
+        $orderBy    = Request::get('order_by', 'visitors');
         $order      = Request::get('order', 'DESC');
 
         $args = [
             'date'      => ['from' => $from, 'to' => $to],
-            'post_type' => $postType,
             'order_by'  => $orderBy,
             'order'     => $order,
             'author_id' => $this->authorID,
@@ -44,30 +42,35 @@ class PostsReportView extends BaseView
             'page'      => Admin_Template::getCurrentPaged(),
         ];
 
+        if (Request::has('pt')) {
+            $args['post_type'] = Request::get('pt', 'post');;
+        }
+
         $dataProviderClass = new PostsDataProvider($args);
         return $dataProviderClass->getPostsReportData();
     }
 
     public function render()
     {
-        $postType   = Request::get('pt', 'post');
         $data       = $this->getData();
         $parentPage = Menus::getCurrentPage();
         $template   = 'posts-report';
 
-        if (!Helper::isAddOnActive('data-plus') && Helper::isCustomPostType($postType)) {
-            $template   = 'posts-report-locked';
+        $queryParams = ['type' => 'posts'];
+
+        if (Request::has('pt')) {
+            $queryParams['pt'] = Request::get('pt');
         }
 
         $args = [
-            'title'         => Helper::getPostTypeName($postType),
+            'title'         => Request::has('pt') ? Helper::getPostTypeName(Request::get('pt')) : esc_html__('Contents', 'wp-statistics'),
             'pageName'      => Menus::get_page_slug($parentPage['page_url']),
-            'custom_get'    => ['type' => 'posts', 'pt' => $postType],
+            'custom_get'    => $queryParams,
             'DateRang'      => Admin_Template::DateRange(),
             'hasDateRang'   => true,
             'backUrl'       => Menus::admin_url($parentPage['page_url']),
             'backTitle'     => $parentPage['title'],
-            'filters'       => ['post-type','author'],
+            'filters'       => ['post-types','author'],
             'data'          => $data,
             'paged'         => Admin_Template::getCurrentPaged()
         ];

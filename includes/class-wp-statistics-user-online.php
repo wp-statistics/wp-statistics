@@ -60,7 +60,7 @@ class UserOnline
             $now = TimeZone::getCurrentTimestamp();
 
             // Set the default seconds a user needs to visit the site before they are considered offline.
-            $reset_time = self::$reset_user_time;
+            $reset_time = apply_filters('wp_statistics_reset_user_online_time', self::$reset_user_time);
 
             // We want to delete users that are over the number of seconds set by the admin.
             $time_diff = (int)$now - (int)$reset_time;

@@ -99,8 +99,8 @@
                             '</a>'
                         ); ?></li>
                     <li><?php echo sprintf(
-                            esc_html__('%1$sTroubleshoot with Cache Plugins%2$s', 'wp-statistics'),
-                            '<a href="https://wp-statistics.com/resources/troubleshoot-with-cache-plugins/?utm_source=wp-statistics&utm_medium=link&utm_campaign=about" target="_blank">',
+                            esc_html__('%1$sTroubleshoot the Tracker%2$s', 'wp-statistics'),
+                            '<a href="https://wp-statistics.com/resources/troubleshoot-the-tracker/?utm_source=wp-statistics&utm_medium=link&utm_campaign=about" target="_blank">',
                             '</a>'
                         ); ?></li>
                     <li><?php echo sprintf(

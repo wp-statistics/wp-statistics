@@ -2,6 +2,8 @@
 
 namespace WP_STATISTICS\Api\v2;
 
+use Exception;
+use WP_STATISTICS\Hits;
 use WP_STATISTICS\UserOnline;
 
 class CheckUserOnline extends \WP_STATISTICS\RestAPI
@@ -37,16 +39,31 @@ class CheckUserOnline extends \WP_STATISTICS\RestAPI
 
     public function onlineUserUpdateCallback()
     {
-        UserOnline::record();
+        $statusCode = false;
 
-        $response = rest_ensure_response([
-            'status' => true
-        ]);
+        try {
+            Hits::recordOnline();
+            $responseData['status'] = true;
+
+        } catch (Exception $e) {
+            $responseData['status'] = false;
+            $responseData['data']   = $e->getMessage();
+            $statusCode             = $e->getCode();
+        }
+
+        $response = rest_ensure_response($responseData);
+
+        /**
+         * Set the status code
+         */
+        if ($statusCode) {
+            $response->set_status($statusCode);
+        }
 
         /**
          * Set headers for the response
          *
-         * @since 14.9
+         * @since 13.0.8
          */
         $response->set_headers(array(
             /**

@@ -2,9 +2,7 @@
     <table class="form-table">
         <tbody>
         <tr valign="top">
-            <th scope="row" colspan="2"><h3><?php
-
- esc_html_e('Data Protection', 'wp-statistics'); ?> <a href="#" class="wps-tooltip" title="<?php esc_html_e('Ensure your website adheres to data protection standards.', 'wp-statistics') ?>"><i class="wps-tooltip-icon"></i></a></h3></th>
+            <th scope="row" colspan="2"><h3><?php esc_html_e('Data Protection', 'wp-statistics'); ?></h3></th>
         </tr>
 
         <tr valign="top">
@@ -14,7 +12,7 @@
                     <?php if (\WP_STATISTICS\Option::get('privacy_audit')): ?>
                         <a href="#" class="wps-tooltip" title="<?php esc_html_e('Privacy Impact - This setting affects user privacy. Adjust with caution to ensure compliance with privacy standards. For more details, visit the Privacy Audit page.', 'wp-statistics') ?>"><i class="wps-tooltip-icon privacy"></i></a>
                     <?php endif ?>
-                 </label>
+                </label>
             </th>
             <td>
                 <input id="anonymize_ips" type="checkbox" value="1" name="wps_anonymize_ips" <?php echo WP_STATISTICS\Option::get('anonymize_ips') == true ? "checked='checked'" : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
@@ -50,7 +48,7 @@
             <th scope="row">
                 <label for="privacy_audit"><?php esc_html_e('Privacy Audit', 'wp-statistics'); ?></label>
             </th>
-            
+
             <td>
                 <input id="privacy_audit" type="checkbox" value="1" name="wps_privacy_audit" <?php checked(WP_STATISTICS\Option::get('privacy_audit')) ?>>
                 <label for="privacy_audit"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
@@ -105,34 +103,24 @@
                     <?php if (\WP_STATISTICS\Option::get('privacy_audit', false)) : ?>
                         <p class="description">
                             <?php echo sprintf(
-                                // translators: %s: Consent option.
+                            // translators: %s: Consent option.
                                 __('Recommended Category: <b>%s</b>', 'wp-statistics'),
                                 \WP_Statistics\Service\Admin\PrivacyAudit\Faqs\RequireConsent::getStatus() === 'success' ? esc_html__('Functional or Statistics-Anonymous', 'wp-statistics') : esc_html__('Statistics', 'wp-statistics')
                             ); ?>
-                            <br />
-                            <?php echo \WP_Statistics\Service\Admin\PrivacyAudit\Faqs\RequireConsent::getStatus() === 'success' ? 
+                            <br/>
+                            <?php echo \WP_Statistics\Service\Admin\PrivacyAudit\Faqs\RequireConsent::getStatus() === 'success' ?
                                 esc_html__('WP Statistics, based on your settings, does not use cookies or other personally identifiable information (PII). Therefore, you could use it without notifying users. However, informing users about this can improve your transparency and demonstrate respect for their privacy.', 'wp-statistics') :
                                 sprintf(
-                                    // translators: %s: Privacy Audit page link.
+                                // translators: %s: Privacy Audit page link.
                                     __('WP Statistics, based on your settings, collects data that can be considered as personally identifiable information (PII). For more information, see the <a href="%s" target="_blank">Privacy Audit</a>.', 'wp-statistics'),
                                     esc_url(admin_url('admin.php?page=wps_privacy-audit_page'))
                                 ); ?>
                         </p>
                     <?php endif; ?>
-                    <?php $cachePlugin = \WP_STATISTICS\Helper::is_active_cache_plugin();
-                    if ($cachePlugin['status'] === true) : ?>
-                        <p class="description">
-                            <span class="wps-note"><?php esc_html_e('Warning:', 'wp-statistics'); ?></span>
-                            <?php echo $cachePlugin['plugin'] == "core" ?
-                                __('<b><code>WP_CACHE</code> is enabled in <code>wp-config.php</code> which might cause issues with this option. Make sure to clear your WordPress cache after changing the value.</b>', 'wp-statistics') :
-                                // translators: %s: Name of the cache plugin.
-                                sprintf(__('<b>Make sure to purge <b>%s</b> plugin\'s cache after changing this value.', 'wp-statistics'), $cachePlugin['plugin']);?>
-                        </p>
-                    <?php endif; ?>
                 <?php else : ?>
                     <p class="description">
                         <?php echo sprintf(
-                            // translators: %s: WP Consent API link.
+                        // translators: %s: WP Consent API link.
                             __('<b>Notice: To use this feature, you need to install and activate the <a href="%s" target="_blank">WP Consent API</a> WordPress plugin.</b>', 'wp-statistics'),
                             'https://wordpress.org/plugins/wp-consent-api/'
                         ); ?>
@@ -140,7 +128,7 @@
                 <?php endif; ?>
                 <p class="description">
                     <?php echo sprintf(
-                        // translators: %s: Documentation link.
+                    // translators: %s: Documentation link.
                         __('For more details, please refer to our <a href="%s" target="_blank">documentation</a>.', 'wp-statistics'),
                         'https://wp-statistics.com/resources/wp-consent-level-integration/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings'
                     ); ?>

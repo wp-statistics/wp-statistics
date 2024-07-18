@@ -77,7 +77,6 @@ class settings_page extends Singleton
                 'external',
                 'maintenance',
                 'notification',
-                'dashboard',
                 'privacy'
             );
             foreach ($method_list as $method) {
@@ -236,22 +235,6 @@ class settings_page extends Singleton
     }
 
     /**
-     * Save Dashboard Option
-     *
-     * @param $wp_statistics_options
-     * @return mixed
-     */
-    public static function save_dashboard_option($wp_statistics_options)
-    {
-        $wps_option_list = array('wps_disable_map', 'wps_disable_dashboard');
-        foreach ($wps_option_list as $option) {
-            $wp_statistics_options[self::input_name_to_option($option)] = (isset($_POST[$option]) && sanitize_text_field($_POST[$option]) == '1' ? '' : '1');
-        }
-
-        return $wp_statistics_options;
-    }
-
-    /**
      * Save maintenance Option
      *
      * @param $wp_statistics_options
@@ -390,7 +373,6 @@ class settings_page extends Singleton
             'wps_exclude_feeds',
             'wps_excluded_urls',
             'wps_exclude_404s',
-            'wps_corrupt_browser_info',
         );
 
         foreach ($wps_option_list as $option) {
@@ -482,7 +464,7 @@ class settings_page extends Singleton
         }
 
         // Save Views Column & View Chart Metabox
-        foreach (array('wps_disable_column', 'wps_disable_editor') as $option) {
+        foreach (array('wps_disable_column', 'wps_disable_editor', 'wps_disable_dashboard') as $option) {
             $wps_disable_column                                         = isset($_POST[$option]) && sanitize_text_field($_POST[$option]) == '1' ? '' : '1';
             $wp_statistics_options[self::input_name_to_option($option)] = $wps_disable_column;
         }

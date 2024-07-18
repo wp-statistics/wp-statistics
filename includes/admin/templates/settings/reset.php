@@ -2,7 +2,7 @@
     <table class="form-table">
         <tbody>
         <tr valign="top">
-            <th scope="row" colspan="2"><h3><?php esc_html_e('Restore Default Settings', 'wp-statistics'); ?> <a href="#" class="wps-tooltip" title="<?php esc_html_e('Here you can revert WP Statistics to its original configuration. Please proceed with caution as changes made here are irreversible.', 'wp-statistics') ?>"><i class="wps-tooltip-icon"></i></a></h3></th>
+            <th scope="row" colspan="2"><h3><?php esc_html_e('Restore Default Settings', 'wp-statistics'); ?></h3></th>
         </tr>
 
         <tr valign="top">

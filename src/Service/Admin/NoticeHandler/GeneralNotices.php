@@ -21,7 +21,7 @@ class GeneralNotices
      * @var array
      */
     private $core_notices = array(
-        'use_cache_plugin',
+        'check_tracking_mode',
         'active_geo_ip',
         'donate_plugin',
         'active_collation',
@@ -44,12 +44,21 @@ class GeneralNotices
         }
     }
 
-    private function use_cache_plugin()
+    private function check_tracking_mode()
     {
-        $plugin = Helper::is_active_cache_plugin();
-        if (!Option::get('use_cache_plugin') and $plugin['status'] === true) {
-            $text = ($plugin['plugin'] == "core" ? __('WP Statistics might not count the stats since <code>WP_CACHE</code> is detected in <code>wp-config.php</code>', 'wp-statistics') : sprintf(__('Potential Inaccuracy Due to <b>%s</b> Plugin', 'wp-statistics'), $plugin['plugin']));
-            Notice::addNotice($text . ", " . sprintf(__('Enable %1$sCache Compatibility%2$s to Correct This or Dismiss if Counts Are Accurate. Check out <a href=\"%3$s\" target=\"_blank\">this article</a> to disable this notice permanently.', 'wp-statistics'), '<a href="' . Menus::admin_url('settings') . '">', '</a>', 'https://wp-statistics.com/resources/how-to-disable-cache-notice-in-admin'), 'use_cache_plugin', 'warning');
+        $cachePluginInfo = Helper::checkActiveCachePlugin();
+        $trackingMode    = Option::get('use_cache_plugin');
+
+        if (!$trackingMode && $cachePluginInfo['status'] === true) {
+            $noticeText = ($cachePluginInfo['plugin'] === "core")
+                ? __('WP Statistics might not count the stats since <code>WP_CACHE</code> is detected in <code>wp-config.php</code>', 'wp-statistics')
+                : sprintf(__('<b>WP Statistics</b> accuracy may be affected by the <b>%s</b> plugin. Please go to <a href="%s">Settings → General → Tracking Mode</a> and set the tracking mode to <b>Client-Side</b>.', 'wp-statistics'), $cachePluginInfo['plugin'], Menus::admin_url('settings'));
+
+            Notice::addNotice($noticeText, 'cache_plugin_usage_warning', 'warning');
+
+        } elseif (!$trackingMode) {
+            $settingsUrl = Menus::admin_url('settings');
+            Notice::addNotice(sprintf('<b>WP Statistics Notice:</b> Server Side Tracking is less accurate and will be deprecated in <b>version 15</b>. Please switch to Client Side Tracking for better accuracy. <a href="%s">Update Tracking Settings</a>.', $settingsUrl), 'deprecate_server_side_tracking', 'warning');
         }
     }
 
@@ -124,7 +133,7 @@ class GeneralNotices
 
     public function email_report_schedule()
     {
-        if (wp_next_scheduled('wp_statistics_report_hook') && Option::get('stats_report') && Option::get('time_report') != '0') {
+        if (wp_next_scheduled('wp_statistics_report_hook') && Option::get('time_report') != '0') {
             $timeReports       = Option::get('time_report');
             $schedulesInterval = Schedule::getSchedules();
             if (!isset($schedulesInterval[$timeReports])) {

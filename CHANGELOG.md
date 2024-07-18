@@ -1,4 +1,17 @@
-= 14.9 - **.07.2024 =
+= 14.9.1 - 18.07.2024 =
+* Enhancement: Rename cache compatibility option to Tracking Method.
+* Enhancement: Show all post types on the posts report page.
+* Enhancement: Add visitor information to the posts report page.
+* Enhancement: Refactor Hits functionality and add exclusion for user online status, considering user online request exclusions.
+* Enhancement: Performance improvement by avoiding online requests when the hit is excluded.
+* Enhancement: Remove “Identify incomplete browser data as bot activity” and enable it by default for all users.
+* Enhancement: Update some admin descriptions and clean up some fields in settings.
+* Enhancement: Implement minor improvements.
+* Enhancement: Improve RTL (right-to-left) styles.
+* Fix: Improve bot exclusion functionality and IP exclusion.
+* Development: Add filter `wp_statistics_reset_user_online_time` and `wp_statistics_js_check_time_interval`.
+
+= 14.9 - 16.07.2024 =
 * New: Content Analytics: Replaces Post Type report with content insights.
 * New: Category Analytics: Replaces Taxonomies report with category insights.
 * New: Device Categories report: Added under Devices menu.

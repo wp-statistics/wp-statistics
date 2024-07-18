@@ -42,7 +42,8 @@ class UserAgent
                 'device'             => isset($result->device->type) ? $result->getType() : _x('Unknown', 'Device', 'wp-statistics'),
                 'model'              => isset($result->device->manufacturer) ? $result->device->getModel() : _x('Unknown', 'Model', 'wp-statistics'),
                 'isBrowserDetected'  => isset($result->browser->name) ? true : false,
-                'isPlatformDetected' => isset($result->os->name) ? true : false
+                'isPlatformDetected' => isset($result->os->name) ? true : false,
+                'isBot'              => $result->isType('bot')
             );
         } else {
             $agent = self::getBrowserInfo($user_agent);
