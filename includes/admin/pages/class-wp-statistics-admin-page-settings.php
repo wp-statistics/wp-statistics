@@ -77,7 +77,6 @@ class settings_page extends Singleton
                 'external',
                 'maintenance',
                 'notification',
-                'dashboard',
                 'privacy'
             );
             foreach ($method_list as $method) {
@@ -230,22 +229,6 @@ class settings_page extends Singleton
             }
 
             $wp_statistics_options[self::input_name_to_option($option)] = $value;
-        }
-
-        return $wp_statistics_options;
-    }
-
-    /**
-     * Save Dashboard Option
-     *
-     * @param $wp_statistics_options
-     * @return mixed
-     */
-    public static function save_dashboard_option($wp_statistics_options)
-    {
-        $wps_option_list = array('wps_disable_map', 'wps_disable_dashboard');
-        foreach ($wps_option_list as $option) {
-            $wp_statistics_options[self::input_name_to_option($option)] = (isset($_POST[$option]) && sanitize_text_field($_POST[$option]) == '1' ? '' : '1');
         }
 
         return $wp_statistics_options;
@@ -467,6 +450,7 @@ class settings_page extends Singleton
             'wps_enable_user_column',
             'wps_bypass_ad_blockers',
             'wps_pages',
+            'wps_use_cache_plugin',
             'wps_show_hits',
             'wps_display_hits_position',
             'wps_menu_bar',
@@ -480,9 +464,14 @@ class settings_page extends Singleton
         }
 
         // Save Views Column & View Chart Metabox
-        foreach (array('wps_disable_column', 'wps_disable_editor') as $option) {
+        foreach (array('wps_disable_column', 'wps_disable_editor', 'wps_disable_dashboard') as $option) {
             $wps_disable_column                                         = isset($_POST[$option]) && sanitize_text_field($_POST[$option]) == '1' ? '' : '1';
             $wp_statistics_options[self::input_name_to_option($option)] = $wps_disable_column;
+        }
+
+        //Flush Rewrite Use Cache Plugin
+        if (isset($_POST['wps_use_cache_plugin'])) {
+            flush_rewrite_rules();
         }
 
         return $wp_statistics_options;

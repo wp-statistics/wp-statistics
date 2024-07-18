@@ -67,6 +67,7 @@ class Frontend
             'option'               => [
                 'consentLevel'         => Option::get('consent_level_integration', 'disabled'),
                 'dntEnabled'           => Option::get('do_not_track'),
+                'isClientSideTracking' => Option::get('use_cache_plugin'),
                 'isWpConsentApiActive' => WpConsentApi::isWpConsentApiActive(),
                 'trackAnonymously'     => Helper::shouldTrackAnonymously()
             ],

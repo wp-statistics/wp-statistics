@@ -5,6 +5,7 @@ namespace WP_STATISTICS;
 use Exception;
 use WP_Statistics\Components\Singleton;
 use WP_Statistics\Service\Analytics\VisitorProfile;
+use WP_Statistics\Service\Integrations\WpConsentApi;
 
 class Hits extends Singleton
 {
@@ -44,8 +45,11 @@ class Hits extends Singleton
 
         // Record Login Page Hits
         if (!Option::get('exclude_loginpage')) {
-            add_action('init', array($this, 'record_login_page_hits'));
+            add_action('init', array($this, 'trackLoginPageCallback'));
         }
+
+        // Server Side Tracking
+        add_action('wp', array($this, 'trackServerSideCallback'));
     }
 
     /**
@@ -148,7 +152,7 @@ class Hits extends Singleton
         if ($exclusion['exclusion_match'] === true) {
             Exclusion::record($exclusion);
 
-            throw new Exception($exclusion['exclusion_reason']);
+            throw new Exception($exclusion['exclusion_reason'], 403);
         }
 
         /**
@@ -224,7 +228,7 @@ class Hits extends Singleton
         if ($exclusion['exclusion_match'] === true) {
             Exclusion::record($exclusion);
 
-            throw new Exception($exclusion['exclusion_reason']);
+            throw new Exception($exclusion['exclusion_reason'], 403);
         }
 
         $args = null;
@@ -242,7 +246,7 @@ class Hits extends Singleton
      *
      * @throws Exception
      */
-    public static function record_login_page_hits()
+    public static function trackLoginPageCallback()
     {
         if (Helper::is_login_page()) {
             try {
@@ -250,6 +254,29 @@ class Hits extends Singleton
             } catch (Exception $e) {
 
             }
+        }
+    }
+
+    /**
+     * Server-Side Tracking Callback
+     *
+     * @throws Exception
+     */
+    public static function trackServerSideCallback()
+    {
+        try {
+            if (is_admin() or is_preview() or Option::get('use_cache_plugin') or Helper::dntEnabled()) {
+                return;
+            }
+
+            $consentLevel = Option::get('consent_level_integration', 'disabled');
+
+            if ($consentLevel == 'disabled' || Helper::shouldTrackAnonymously() || !WpConsentApi::isWpConsentApiActive() || !function_exists('wp_has_consent') || wp_has_consent($consentLevel)) {
+                self::record();
+            }
+
+        } catch (Exception $e) {
+
         }
     }
 }

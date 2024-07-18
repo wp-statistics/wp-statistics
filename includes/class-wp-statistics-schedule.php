@@ -83,7 +83,7 @@ class Schedule
         }
 
         // Add the report schedule if it doesn't exist and is enabled.
-        if (!wp_next_scheduled('wp_statistics_report_hook') && Option::get('stats_report') && Option::get('time_report') != '0') {
+        if (!wp_next_scheduled('wp_statistics_report_hook') && Option::get('time_report') != '0') {
             $timeReports       = Option::get('time_report');
             $schedulesInterval = self::getSchedules();
 
@@ -94,7 +94,7 @@ class Schedule
         }
 
         // Remove the report schedule if it does exist and is disabled.
-        if (wp_next_scheduled('wp_statistics_report_hook') && (!Option::get('stats_report') or Option::get('time_report') == '0')) {
+        if (wp_next_scheduled('wp_statistics_report_hook') && Option::get('time_report') == '0') {
             wp_unschedule_event(wp_next_scheduled('wp_statistics_report_hook'), 'wp_statistics_report_hook');
         }
 

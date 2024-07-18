@@ -5,11 +5,6 @@ use WP_STATISTICS\Schedule;
 
 ?>
 
-<script type="text/javascript">
-    function ToggleStatOptions() {
-        jQuery('[id^="wps_stats_report_option"]').fadeToggle();
-    }
-</script>
 <div class="postbox">
     <table class="form-table">
         <tbody>
@@ -27,19 +22,7 @@ use WP_STATISTICS\Schedule;
                     $wp_statistics_options['email_list'] = get_bloginfo('admin_email');
                 }
                 echo esc_textarea(Option::get('email_list')); ?>"/>
-                <p class="description"><?php esc_html_e('Enter email addresses to receive reports. Use a comma to separate multiple addresses.', 'wp-statistics'); ?></p>
-            </td>
-        </tr>
-
-        <tr valign="top">
-            <th scope="row">
-                <label for="stats-report"><?php esc_html_e('Automated Report Delivery', 'wp-statistics'); ?></label>
-            </th>
-
-            <td>
-                <input id="stats-report" type="checkbox" value="1" name="wps_stats_report" <?php checked(Option::get('stats_report')) ?> onClick='ToggleStatOptions();'>
-                <label for="stats-report"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
-                <p class="description"><?php esc_html_e('Set preferences for receiving automated, detailed statistical reports by email.', 'wp-statistics'); ?></p>
+                <p class="description"><?php esc_html_e('Enter email addresses to receive reports. Use a comma to separate multiple addresses. If this field is left empty, the "Administration Email Address" from the "General Settings" of WordPress will be used.', 'wp-statistics'); ?></p>
             </td>
         </tr>
         </tbody>
@@ -78,16 +61,12 @@ use WP_STATISTICS\Schedule;
         </tbody>
     </table>
 </div>
-<?php if (Option::get('stats_report')) {
-    $style = "";
-} else {
-    $style = "display: none;";
-} ?>
-<div class="postbox" style="<?php echo esc_attr($style); ?>" id='wps_stats_report_option'>
+
+<div class="postbox" id='wps_stats_report_option'>
     <table class="form-table">
         <tbody>
         <tr valign="top">
-            <th scope="row" colspan="2"><h3><?php esc_html_e('Advanced Reporting Options', 'wp-statistics'); ?></h3></th>
+            <th scope="row" colspan="2"><h3><?php esc_html_e('Automated Report Delivery', 'wp-statistics'); ?></h3></th>
         </tr>
         <?php $next_scheduled_time = Schedule::getNextScheduledTime('wp_statistics_report_hook') ?>
         <?php if ($next_scheduled_time) { ?>

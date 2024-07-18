@@ -39,6 +39,8 @@ class CheckUserOnline extends \WP_STATISTICS\RestAPI
 
     public function onlineUserUpdateCallback()
     {
+        $statusCode = false;
+
         try {
             Hits::recordOnline();
             $responseData['status'] = true;
@@ -46,9 +48,17 @@ class CheckUserOnline extends \WP_STATISTICS\RestAPI
         } catch (Exception $e) {
             $responseData['status'] = false;
             $responseData['data']   = $e->getMessage();
+            $statusCode             = $e->getCode();
         }
 
         $response = rest_ensure_response($responseData);
+
+        /**
+         * Set the status code
+         */
+        if ($statusCode) {
+            $response->set_status($statusCode);
+        }
 
         /**
          * Set headers for the response
