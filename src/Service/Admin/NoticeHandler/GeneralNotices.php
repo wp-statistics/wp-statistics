@@ -58,7 +58,7 @@ class GeneralNotices
 
         } elseif (!$trackingMode) {
             $settingsUrl = Menus::admin_url('settings');
-            Notice::addNotice(sprintf('<b>Server-Side Tracking</b> in <b>WP Statistics</b> will be deprecated in <b>v15</b>. Please go to <a href="%s">Settings → General → Tracking Mode</a> and set the tracking mode to <b>Client-Side</b>.', $settingsUrl), 'deprecate_server_side_tracking', 'info');
+            Notice::addNotice(sprintf('<b>WP Statistics Notice:</b> Server Side Tracking is less accurate and will be deprecated in <b>version 15</b>. Please switch to Client Side Tracking for better accuracy. <a href="%s">Update Tracking Settings</a>.', $settingsUrl), 'deprecate_server_side_tracking');
         }
     }
 
