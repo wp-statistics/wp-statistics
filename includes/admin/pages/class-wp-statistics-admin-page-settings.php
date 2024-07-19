@@ -2,6 +2,7 @@
 
 namespace WP_STATISTICS;
 
+use WP_Statistics\Components\AssetNameObfuscator;
 use WP_Statistics\Components\Singleton;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 
@@ -472,6 +473,17 @@ class settings_page extends Singleton
         //Flush Rewrite Use Cache Plugin
         if (isset($_POST['wps_use_cache_plugin'])) {
             flush_rewrite_rules();
+        }
+
+        /**
+         * Remove old hash format assets if bypassed ad-blocker is disabled.
+         *
+         * @version 14.9.2
+         */
+        if (empty($_REQUEST['wps_bypass_ad_blockers']) && Option::get('bypass_ad_blockers')) {
+            $assetNameObfuscator = new AssetNameObfuscator();
+            $assetNameObfuscator->deleteAllHashedFiles();
+            $assetNameObfuscator->deleteDatabaseOption();
         }
 
         return $wp_statistics_options;

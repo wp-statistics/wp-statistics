@@ -638,7 +638,7 @@ class Install
         //self::delete_duplicate_data(); // todo to move in background cronjob
 
         /**
-         * Delete all hashed files with old hash format.
+         * Remove old hash format assets
          *
          * @version 14.8.1
          */
