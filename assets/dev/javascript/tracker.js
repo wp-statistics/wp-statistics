@@ -60,7 +60,12 @@ let wpStatisticsUserOnline = {
                     this.hitRequestSuccessful = false; // Set flag to false if status is 403
                 }
             } else {
-                this.hitRequestSuccessful = true; // Set flag to true if request is successful
+                const responseData = await response.json();
+                if (responseData.status === false) {
+                    this.hitRequestSuccessful = false; // Set flag to false if status in response is false
+                } else {
+                    this.hitRequestSuccessful = true; // Set flag to true if request is successful
+                }
             }
         } catch (error) {
             this.hitRequestSuccessful = false;
