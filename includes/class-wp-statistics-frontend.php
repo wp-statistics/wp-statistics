@@ -65,6 +65,7 @@ class Frontend
             'hitRequestUrl'        => $hitRequestUrl,
             'keepOnlineRequestUrl' => $keepOnlineRequestUrl,
             'option'               => [
+                'userOnline'           => Option::get('useronline'),
                 'consentLevel'         => Option::get('consent_level_integration', 'disabled'),
                 'dntEnabled'           => Option::get('do_not_track'),
                 'isClientSideTracking' => Option::get('use_cache_plugin'),

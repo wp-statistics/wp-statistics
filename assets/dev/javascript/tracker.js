@@ -21,7 +21,10 @@ let wpStatisticsUserOnline = {
             console.log('Variable WP_Statistics_Tracker_Object not found on the page source. Please ensure that you have excluded the /wp-content/plugins/wp-statistics/assets/js/tracker.js file from your cache and then clear your cache.');
         } else {
             this.checkHitRequestConditions();
-            this.keepUserOnline();
+            
+            if (WP_Statistics_Tracker_Object.option.userOnline) {
+                this.keepUserOnline();
+            }
         }
     },
 
@@ -93,6 +96,10 @@ let wpStatisticsUserOnline = {
 
     // Execute Send Online User Request Function Every n Sec
     keepUserOnline: function () {
+        if (!WP_Statistics_Tracker_Object.option.userOnline) {
+            return; // Stop if userOnline option is false
+        }
+
         setInterval(
             function () {
                 if ((!WP_Statistics_Tracker_Object.option.dntEnabled ||
