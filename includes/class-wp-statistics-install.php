@@ -654,6 +654,12 @@ class Install
             Option::saveByAddon(array_merge(['email_top_metrics' => 1], $advancedReportingOptions), 'advanced_reporting');
         }
 
+        // Disable Stats Report by default
+        if (!Option::get('stats_report') && Option::get('time_report') != '0') {
+            Option::update('time_report', '0');
+            Option::update('stats_report', true);
+        }
+
         // Store the new version information.
         update_option('wp_statistics_plugin_version', WP_STATISTICS_VERSION);
     }
