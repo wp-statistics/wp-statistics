@@ -96,11 +96,13 @@ let wpStatisticsUserOnline = {
 
     // Execute Send Online User Request Function Every n Sec
     keepUserOnline: function () {
+        let userActivityTimeout;
+
         if (!WP_Statistics_Tracker_Object.option.userOnline) {
             return; // Stop if userOnline option is false
         }
 
-        setInterval(
+        const userOnlineInterval = setInterval(
             function () {
                 if ((!WP_Statistics_Tracker_Object.option.dntEnabled ||
                     (WP_Statistics_Tracker_Object.option.dntEnabled && WP_Statistics_Dnd_Active !== 1)) &&
@@ -109,6 +111,17 @@ let wpStatisticsUserOnline = {
                 }
             }.bind(this), WP_Statistics_CheckTime
         );
+
+        // After 30 mins of inactivity, stop keeping user online
+        ['click', 'keypress', 'scroll', 'DOMContentLoaded'].forEach(event => {
+            window.addEventListener(event, () => {
+                clearTimeout(userActivityTimeout);
+
+                userActivityTimeout = setTimeout(() => {
+                    clearInterval(userOnlineInterval);
+                }, 30 * 60 * 1000);
+            });
+        });
     },
 };
 
