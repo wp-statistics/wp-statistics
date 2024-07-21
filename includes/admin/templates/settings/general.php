@@ -1,7 +1,23 @@
 <script type="text/javascript">
     function ToggleShowHitsOptions() {
-        jQuery('[id^="wps_show_hits_option"]').fadeToggle();
+        jQuery('[id^="wps_show_hits_option"]').toggle();
     }
+
+    function ToggleBypassAdBlockers() {
+        var trackingMethod = jQuery('#use_cache_plugin').val();
+        var bypassAdBlockersRow = jQuery('#bypass_ad_blockers_row');
+
+        if (trackingMethod === '0') {
+            bypassAdBlockersRow.hide();
+        } else {
+            bypassAdBlockersRow.show();
+        }
+    }
+
+    jQuery(document).ready(function() {
+        jQuery('#use_cache_plugin').on('change', ToggleBypassAdBlockers);
+        ToggleBypassAdBlockers(); // Initial check
+    });
 </script>
 
 <div class="postbox">
@@ -55,7 +71,7 @@
             </th>
 
             <td>
-                <select id="use_cache_plugin" name="wps_use_cache_plugin">
+                <select id="use_cache_plugin" name="wps_use_cache_plugin" onClick="ToggleBypassAdBlockers()">
                     <option value="1" <?php echo WP_STATISTICS\Option::get('use_cache_plugin') ? "selected='selected'" : ''; ?>>
                         <?php esc_html_e('Client Side Tracking (Recommended)', 'wp-statistics'); ?>
                     </option>
@@ -67,7 +83,7 @@
             </td>
         </tr>
 
-        <tr valign="top">
+        <tr valign="top" id="bypass_ad_blockers_row">
             <th scope="row">
                 <label for="bypass_ad_blockers"><?php esc_html_e('Bypass Ad Blockers', 'wp-statistics'); ?></label>
             </th>
