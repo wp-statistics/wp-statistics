@@ -12,6 +12,7 @@ use WP_STATISTICS\Option;
 use WP_STATISTICS\RestAPI;
 use WP_STATISTICS\Schedule;
 use WP_STATISTICS\User;
+use WP_Statistics\Utils\Request;
 
 class GeneralNotices
 {
@@ -61,10 +62,10 @@ class GeneralNotices
             Notice::addNotice(sprintf('<b>WP Statistics Notice:</b> Server Side Tracking is less accurate and will be deprecated in <b>version 15</b>. Please switch to Client Side Tracking for better accuracy. <a href="%s">Update Tracking Settings</a>.', $settingsUrl), 'deprecate_server_side_tracking', 'warning');
         }
 
-        if ($trackingMode && $cachePluginInfo['status'] === true) {
-            // Notify user to clear the cache for better tracking
+        // Notify user to clear the cache for better tracking
+        if ($trackingMode && $cachePluginInfo['status'] === true && Request::compare('page', 'wps_overview_page')) {
             $noticeText = sprintf(__('<b>WP Statistics Notice:</b> Caching is enabled through the <b>%s</b> plugin. Please clear your cache to ensure accurate user tracking.', 'wp-statistics'), $cachePluginInfo['plugin']);
-            Notice::addNotice($noticeText, 'cache_clear_notice', 'warning');
+            Notice::addNotice($noticeText, 'cache_clear_notice');
         }
     }
 
