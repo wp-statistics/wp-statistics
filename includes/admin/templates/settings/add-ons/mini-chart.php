@@ -121,22 +121,6 @@ if (!$isMiniChartActive) echo Admin_Template::get_template('layout/partials/addo
 
         <tr>
             <th scope="row">
-                <label for="mini-chart-chart_type"><?php esc_html_e('Type', 'wp-statistics'); ?></label>
-            </th>
-
-            <td>
-                <select name="wps_addon_settings[mini_chart][chart_type]" id="mini-chart-chart_type">
-                    <option value="bar" <?php selected(WP_STATISTICS\Option::getByAddon('chart_type', 'mini_chart'), 'bar'); ?>><?php esc_html_e('Bar', 'wp-statistics'); ?></option>
-                    <option value="line" <?php selected(WP_STATISTICS\Option::getByAddon('chart_type', 'mini_chart'), 'line'); ?>><?php esc_html_e('Line', 'wp-statistics'); ?></option>
-                </select>
-                <p class="description">
-                    <?php _e('Choose a chart type that best represents your data.', 'wp-statistics'); ?>
-                </p>
-            </td>
-        </tr>
-
-        <tr>
-            <th scope="row">
                 <label for="mini-chart-chart_color"><?php esc_html_e('Primary Color', 'wp-statistics'); ?></label>
             </th>
 
