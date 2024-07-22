@@ -76,7 +76,7 @@ let wpStatisticsUserOnline = {
     },
 
     // Send Request to REST API to Show User Is Online
-    sendOnlineUserRequest: function () {
+    sendOnlineUserRequest: async function () {
         if (!this.hitRequestSuccessful || !WP_Statistics_Tracker_Object.option.isClientSideTracking) {
             return; // Stop if hit request was not successful or isClientSideTracking is false
         }
@@ -85,10 +85,12 @@ let wpStatisticsUserOnline = {
             const timestamp = Date.now();
             const requestUrl = `${WP_Statistics_Tracker_Object.keepOnlineRequestUrl}&referred=${referred}&_=${timestamp}`;
 
-            var WP_Statistics_http = new XMLHttpRequest();
-            WP_Statistics_http.open("GET", requestUrl);
-            WP_Statistics_http.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-            WP_Statistics_http.send(null);
+            const response = await fetch(requestUrl, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json;charset=UTF-8'
+                }
+            });
         } catch (error) {
 
         }
