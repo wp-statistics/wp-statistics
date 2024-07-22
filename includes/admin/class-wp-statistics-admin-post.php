@@ -94,7 +94,12 @@ class Admin_Post
                 }
 
                 $setting = class_exists(WP_Statistics_Mini_Chart_Settings::class) ? get_option(WP_Statistics_Mini_Chart_Settings::get_instance()->setting_name) : '';
-                if (!empty($setting) && Helper::isAddOnActive('mini-chart') && !empty($setting['active_mini_chart_' . $post_type])) {
+                if (
+                    !Helper::isAddOnActive('mini-chart') ||
+                    (!empty($setting) && !empty($setting['active_mini_chart_' . $post_type]))
+                ) {
+                    // If add-on is not active, this line will display the "Unlock This Feature!" button
+                    // If add-on is active but current post type is not selected in the settings, nothing will be displayed
                     echo apply_filters("wp_statistics_before_hit_column_{$actual_post_type}", $preview_chart_unlock_html, $post_id, $post_type); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                 }
 

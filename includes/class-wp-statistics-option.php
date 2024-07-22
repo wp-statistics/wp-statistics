@@ -48,7 +48,6 @@ class Option
             'menu_bar'                  => true,
             'coefficient'               => Visitor::getCoefficient(),
             'email_list'                => get_bloginfo('admin_email'),
-            'stats_report'              => false,
             'use_cache_plugin'          => true,
             'time_report'               => '0',
             'send_report'               => 'mail',

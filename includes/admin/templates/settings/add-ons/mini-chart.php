@@ -52,7 +52,7 @@ if (!$isMiniChartActive) echo Admin_Template::get_template('layout/partials/addo
                         <label for="wps_addon_settings[mini_chart][active_mini_chart_<?php echo esc_attr($key); ?>]"><?php echo esc_html($title); ?></label>
                     </p>
                 <?php } ?>
-                <p class="description"><?php esc_html_e('Customize the appearance of mini charts on your posts and pages for a quick glance at their performance.', 'wp-statistics'); ?></p>
+                <p class="description"><?php esc_html_e('Select which post types to show mini charts for.', 'wp-statistics'); ?></p>
             </td>
         </tr>
 

@@ -152,7 +152,7 @@ class Hits extends Singleton
         if ($exclusion['exclusion_match'] === true) {
             Exclusion::record($exclusion);
 
-            throw new Exception($exclusion['exclusion_reason'], 403);
+            throw new Exception($exclusion['exclusion_reason'], 200);
         }
 
         /**
@@ -228,7 +228,7 @@ class Hits extends Singleton
         if ($exclusion['exclusion_match'] === true) {
             Exclusion::record($exclusion);
 
-            throw new Exception($exclusion['exclusion_reason'], 403);
+            throw new Exception($exclusion['exclusion_reason'], 200);
         }
 
         $args = null;

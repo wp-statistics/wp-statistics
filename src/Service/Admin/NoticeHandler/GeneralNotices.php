@@ -60,6 +60,12 @@ class GeneralNotices
             $settingsUrl = Menus::admin_url('settings');
             Notice::addNotice(sprintf('<b>WP Statistics Notice:</b> Server Side Tracking is less accurate and will be deprecated in <b>version 15</b>. Please switch to Client Side Tracking for better accuracy. <a href="%s">Update Tracking Settings</a>.', $settingsUrl), 'deprecate_server_side_tracking', 'warning');
         }
+
+        if ($trackingMode && $cachePluginInfo['status'] === true) {
+            // Notify user to clear the cache for better tracking
+            $noticeText = sprintf(__('<b>WP Statistics Notice:</b> Caching is enabled through the <b>%s</b> plugin. Please clear your cache to ensure accurate user tracking.', 'wp-statistics'), $cachePluginInfo['plugin']);
+            Notice::addNotice($noticeText, 'cache_clear_notice', 'warning');
+        }
     }
 
     private function active_geo_ip()

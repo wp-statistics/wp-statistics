@@ -638,7 +638,7 @@ class Install
         //self::delete_duplicate_data(); // todo to move in background cronjob
 
         /**
-         * Delete all hashed files with old hash format.
+         * Remove old hash format assets
          *
          * @version 14.8.1
          */
@@ -652,6 +652,12 @@ class Install
         $advancedReportingOptions = Option::getAddonOptions('advanced_reporting');
         if ($advancedReportingOptions !== false && Option::getByAddon('email_top_metrics', 'advanced_reporting') === false) {
             Option::saveByAddon(array_merge(['email_top_metrics' => 1], $advancedReportingOptions), 'advanced_reporting');
+        }
+
+        // Disable Stats Report by default
+        if (!Option::get('stats_report') && Option::get('time_report') != '0') {
+            Option::update('time_report', '0');
+            Option::update('stats_report', true);
         }
 
         // Store the new version information.

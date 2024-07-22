@@ -21,29 +21,26 @@ let wpStatisticsUserOnline = {
             console.log('Variable WP_Statistics_Tracker_Object not found on the page source. Please ensure that you have excluded the /wp-content/plugins/wp-statistics/assets/js/tracker.js file from your cache and then clear your cache.');
         } else {
             this.checkHitRequestConditions();
-            this.keepUserOnline();
+
+            if (WP_Statistics_Tracker_Object.option.userOnline) {
+                this.keepUserOnline();
+            }
         }
     },
 
     // Check Conditions for Sending Hit Request
     checkHitRequestConditions: function () {
-        if (WP_Statistics_Tracker_Object.option.isClientSideTracking) {
-            if (WP_Statistics_Tracker_Object.option.dntEnabled) {
-                if (WP_Statistics_Dnd_Active !== 1) {
-                    this.sendHitRequest();
-                }
-            } else {
+        if (WP_Statistics_Tracker_Object.option.dntEnabled) {
+            if (WP_Statistics_Dnd_Active !== 1) {
                 this.sendHitRequest();
             }
+        } else {
+            this.sendHitRequest();
         }
     },
 
     // Sending Hit Request
     sendHitRequest: async function () {
-        if (!WP_Statistics_Tracker_Object.option.isClientSideTracking) {
-            return;
-        }
-
         try {
             const timestamp = Date.now();
             const requestUrl = `${WP_Statistics_Tracker_Object.hitRequestUrl}&referred=${referred}&_=${timestamp}`;
@@ -60,7 +57,12 @@ let wpStatisticsUserOnline = {
                     this.hitRequestSuccessful = false; // Set flag to false if status is 403
                 }
             } else {
-                this.hitRequestSuccessful = true; // Set flag to true if request is successful
+                const responseData = await response.json();
+                if (responseData.status === false) {
+                    this.hitRequestSuccessful = false; // Set flag to false if status in response is false
+                } else {
+                    this.hitRequestSuccessful = true; // Set flag to true if request is successful
+                }
             }
         } catch (error) {
             this.hitRequestSuccessful = false;
@@ -68,19 +70,21 @@ let wpStatisticsUserOnline = {
     },
 
     // Send Request to REST API to Show User Is Online
-    sendOnlineUserRequest: function () {
-        if (!this.hitRequestSuccessful || !WP_Statistics_Tracker_Object.option.isClientSideTracking) {
-            return; // Stop if hit request was not successful or isClientSideTracking is false
+    sendOnlineUserRequest: async function () {
+        if (!this.hitRequestSuccessful) {
+            return; // Stop if hit request was not successful
         }
 
         try {
             const timestamp = Date.now();
             const requestUrl = `${WP_Statistics_Tracker_Object.keepOnlineRequestUrl}&referred=${referred}&_=${timestamp}`;
 
-            var WP_Statistics_http = new XMLHttpRequest();
-            WP_Statistics_http.open("GET", requestUrl);
-            WP_Statistics_http.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-            WP_Statistics_http.send(null);
+            const response = await fetch(requestUrl, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json;charset=UTF-8'
+                }
+            });
         } catch (error) {
 
         }
@@ -88,15 +92,30 @@ let wpStatisticsUserOnline = {
 
     // Execute Send Online User Request Function Every n Sec
     keepUserOnline: function () {
-        setInterval(
+        let userActivityTimeout;
+
+        if (!WP_Statistics_Tracker_Object.option.userOnline) {
+            return; // Stop if userOnline option is false
+        }
+
+        const userOnlineInterval = setInterval(
             function () {
-                if ((!WP_Statistics_Tracker_Object.option.dntEnabled ||
-                    (WP_Statistics_Tracker_Object.option.dntEnabled && WP_Statistics_Dnd_Active !== 1)) &&
-                    this.hitRequestSuccessful && WP_Statistics_Tracker_Object.option.isClientSideTracking) {
+                if ((!WP_Statistics_Tracker_Object.option.dntEnabled || (WP_Statistics_Tracker_Object.option.dntEnabled && WP_Statistics_Dnd_Active !== 1)) && this.hitRequestSuccessful) {
                     this.sendOnlineUserRequest();
                 }
             }.bind(this), WP_Statistics_CheckTime
         );
+
+        // After 30 mins of inactivity, stop keeping user online
+        ['click', 'keypress', 'scroll', 'DOMContentLoaded'].forEach(event => {
+            window.addEventListener(event, () => {
+                clearTimeout(userActivityTimeout);
+
+                userActivityTimeout = setTimeout(() => {
+                    clearInterval(userOnlineInterval);
+                }, 30 * 60 * 1000);
+            });
+        });
     },
 };
 
