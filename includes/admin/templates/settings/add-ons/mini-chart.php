@@ -56,6 +56,58 @@ if (!$isMiniChartActive) echo Admin_Template::get_template('layout/partials/addo
             </td>
         </tr>
 
+        <tr>
+            <th scope="row">
+                <label for="mini-chart-metric"><?php esc_html_e('Chart Metric', 'wp-statistics'); ?></label>
+            </th>
+
+            <td>
+                <select name="wps_addon_settings[mini_chart][metric]" id="mini-chart-metric">
+                    <option value="visitors" <?php selected(WP_STATISTICS\Option::getByAddon('metric', 'mini_chart', 'visitors'), 'visitors'); ?>><?php esc_html_e('Visitors', 'wp-statistics'); ?></option>
+                    <option value="views" <?php selected(WP_STATISTICS\Option::getByAddon('metric', 'mini_chart', 'visitors'), 'views'); ?>><?php esc_html_e('Views', 'wp-statistics'); ?></option>
+                </select>
+                <p class="description">
+                    <?php _e('Choose the metric to display on the chart.', 'wp-statistics'); ?>
+                </p>
+            </td>
+        </tr>
+
+        <tr>
+            <th scope="row">
+                <label for="mini-chart-date_range"><?php esc_html_e('Chart Date Range', 'wp-statistics'); ?></label>
+            </th>
+
+            <td>
+                <select name="wps_addon_settings[mini_chart][date_range]" id="mini-chart-date_range">
+                    <option value="7" <?php selected(WP_STATISTICS\Option::getByAddon('date_range', 'mini_chart', '14'), '7'); ?>><?php esc_html_e('7 days', 'wp-statistics'); ?></option>
+                    <option value="14" <?php selected(WP_STATISTICS\Option::getByAddon('date_range', 'mini_chart', '14'), '14'); ?>><?php esc_html_e('14 days', 'wp-statistics'); ?></option>
+                    <option value="30" <?php selected(WP_STATISTICS\Option::getByAddon('date_range', 'mini_chart', '14'), '30'); ?>><?php esc_html_e('30 days', 'wp-statistics'); ?></option>
+                    <option value="90" <?php selected(WP_STATISTICS\Option::getByAddon('date_range', 'mini_chart', '14'), '90'); ?>><?php esc_html_e('90 days', 'wp-statistics'); ?></option>
+                    <option value="180" <?php selected(WP_STATISTICS\Option::getByAddon('date_range', 'mini_chart', '14'), '180'); ?>><?php esc_html_e('180 days', 'wp-statistics'); ?></option>
+                </select>
+                <p class="description">
+                    <?php _e('Select the date range for displaying the chart data.', 'wp-statistics'); ?>
+                </p>
+            </td>
+        </tr>
+
+        <tr>
+            <th scope="row">
+                <label for="mini-chart-count_display"><?php esc_html_e('Count Display', 'wp-statistics'); ?></label>
+            </th>
+
+            <td>
+                <select name="wps_addon_settings[mini_chart][count_display]" id="mini-chart-count_display">
+                    <option value="disabled" <?php selected(WP_STATISTICS\Option::getByAddon('count_display', 'mini_chart', 'total'), 'disabled'); ?>><?php esc_html_e('Do Not Show Count', 'wp-statistics'); ?></option>
+                    <option value="date_range" <?php selected(WP_STATISTICS\Option::getByAddon('count_display', 'mini_chart', 'total'), 'date_range'); ?>><?php esc_html_e('Show Count for Selected Date Range', 'wp-statistics'); ?></option>
+                    <option value="total" <?php selected(WP_STATISTICS\Option::getByAddon('count_display', 'mini_chart', 'total'), 'total'); ?>><?php esc_html_e('Show Total Count', 'wp-statistics'); ?></option>
+                </select>
+                <p class="description">
+                    <?php _e('Choose how to display the count under the chart.', 'wp-statistics'); ?>
+                </p>
+            </td>
+        </tr>
+
         </tbody>
     </table>
 </div>
