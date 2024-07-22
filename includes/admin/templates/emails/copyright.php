@@ -1,3 +1,8 @@
+<?php
+$is_rtl = is_rtl();
+$text_align = $is_rtl ? 'right' : 'left';
+$dir = $is_rtl ? 'rtl' : 'ltr';
+?>
 <div class="footer" style="font-family: 'Roboto',Arial,Helvetica,sans-serif; margin: 0; margin-top: 39px; padding: 0; text-align: center; text-decoration: none;">
     <span style="color: #56585a; font-family: 'Roboto',Arial,Helvetica,sans-serif; font-size: 14px; font-style: italic; font-weight: 500; line-height: 16.41px; margin: 0; padding: 0; text-decoration: none;">
         <?php esc_html_e('This email was auto-generated and sent from', 'wp-statistics'); ?>
