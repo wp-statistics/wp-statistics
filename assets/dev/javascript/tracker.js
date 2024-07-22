@@ -21,7 +21,7 @@ let wpStatisticsUserOnline = {
             console.log('Variable WP_Statistics_Tracker_Object not found on the page source. Please ensure that you have excluded the /wp-content/plugins/wp-statistics/assets/js/tracker.js file from your cache and then clear your cache.');
         } else {
             this.checkHitRequestConditions();
-            
+
             if (WP_Statistics_Tracker_Object.option.userOnline) {
                 this.keepUserOnline();
             }
@@ -30,23 +30,17 @@ let wpStatisticsUserOnline = {
 
     // Check Conditions for Sending Hit Request
     checkHitRequestConditions: function () {
-        if (WP_Statistics_Tracker_Object.option.isClientSideTracking) {
-            if (WP_Statistics_Tracker_Object.option.dntEnabled) {
-                if (WP_Statistics_Dnd_Active !== 1) {
-                    this.sendHitRequest();
-                }
-            } else {
+        if (WP_Statistics_Tracker_Object.option.dntEnabled) {
+            if (WP_Statistics_Dnd_Active !== 1) {
                 this.sendHitRequest();
             }
+        } else {
+            this.sendHitRequest();
         }
     },
 
     // Sending Hit Request
     sendHitRequest: async function () {
-        if (!WP_Statistics_Tracker_Object.option.isClientSideTracking) {
-            return;
-        }
-
         try {
             const timestamp = Date.now();
             const requestUrl = `${WP_Statistics_Tracker_Object.hitRequestUrl}&referred=${referred}&_=${timestamp}`;
@@ -77,8 +71,8 @@ let wpStatisticsUserOnline = {
 
     // Send Request to REST API to Show User Is Online
     sendOnlineUserRequest: async function () {
-        if (!this.hitRequestSuccessful || !WP_Statistics_Tracker_Object.option.isClientSideTracking) {
-            return; // Stop if hit request was not successful or isClientSideTracking is false
+        if (!this.hitRequestSuccessful) {
+            return; // Stop if hit request was not successful
         }
 
         try {
@@ -106,9 +100,7 @@ let wpStatisticsUserOnline = {
 
         const userOnlineInterval = setInterval(
             function () {
-                if ((!WP_Statistics_Tracker_Object.option.dntEnabled ||
-                    (WP_Statistics_Tracker_Object.option.dntEnabled && WP_Statistics_Dnd_Active !== 1)) &&
-                    this.hitRequestSuccessful && WP_Statistics_Tracker_Object.option.isClientSideTracking) {
+                if ((!WP_Statistics_Tracker_Object.option.dntEnabled || (WP_Statistics_Tracker_Object.option.dntEnabled && WP_Statistics_Dnd_Active !== 1)) && this.hitRequestSuccessful) {
                     this.sendOnlineUserRequest();
                 }
             }.bind(this), WP_Statistics_CheckTime
