@@ -81,10 +81,11 @@ class Admin_Post
             $hit_number = wp_statistics_pages('total', "", $post_id, null, null, $hitPostType);
 
             if ($hit_number) {
-                $preview_chart_unlock_html = sprintf('<div class="wps-admin-column__unlock"><a href="%s" target="_blank"><span>%s</span><img src="%s"/></a></div>',
+                $preview_chart_unlock_html = sprintf('<div class="wps-admin-column__unlock"><a href="%s" target="_blank"><span class="wps-admin-column__unlock__text">%s</span><img class="wps-admin-column__unlock__lock" src="%s"/><img class="wps-admin-column__unlock__img" src="%s"/></a></div>',
                     'https://wp-statistics.com/product/wp-statistics-mini-chart?utm_source=wp_statistics&utm_medium=display&utm_campaign=wordpress',
                     __('Unlock This Feature!', 'wp-statistics'),
-                    WP_STATISTICS_URL . 'assets/images/mini-chart-posts-preview.png'
+                    WP_STATISTICS_URL . 'assets/images/mini-chart-posts-lock.svg',
+                    WP_STATISTICS_URL . 'assets/images/mini-chart-posts-preview.svg'
                 );
 
                 // Remove post_type_ from prefix of custom post type because of incompatibility with WP Statistics MiniChart
@@ -103,7 +104,11 @@ class Admin_Post
                     echo apply_filters("wp_statistics_before_hit_column_{$actual_post_type}", $preview_chart_unlock_html, $post_id, $post_type); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                 }
 
-                echo sprintf('<a href="%s" class="wps-admin-column__link">%s</a>',  // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                $is_addon_active = Helper::isAddOnActive('mini-chart');
+                $views_text = esc_html__('Views:', 'wp-statistics');
+                echo sprintf('<span class="%s">%s</span><a href="%s" class="wps-admin-column__link">%s</a>',  // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                    $is_addon_active ? '' : 'wps-hide',
+                    $views_text,
                     Menus::admin_url('content-analytics', ['post_id' => $post_id, 'type' => 'single']), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                     esc_html(number_format($hit_number)) // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                 );

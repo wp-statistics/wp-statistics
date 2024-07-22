@@ -81,10 +81,11 @@ class Admin_Taxonomy
             $hit_number = wp_statistics_pages('total', "", $term_id, null, null, $term->taxonomy);
 
             if ($hit_number) {
-                $preview_chart_unlock_html = sprintf('<div class="wps-admin-column__unlock"><a href="%s" target="_blank"><span>%s</span><img src="%s"/></a></div>',
+                $preview_chart_unlock_html = sprintf('<div class="wps-admin-column__unlock"><a href="%s" target="_blank"><span class="wps-admin-column__unlock__text">%s</span><img class="wps-admin-column__unlock__lock" src="%s"/><img class="wps-admin-column__unlock__img" src="%s"/></a></div>',
                     'https://wp-statistics.com/product/wp-statistics-mini-chart?utm_source=wp_statistics&utm_medium=display&utm_campaign=wordpress',
                     __('Unlock This Feature!', 'wp-statistics'),
-                    WP_STATISTICS_URL . 'assets/images/mini-chart-posts-preview.png'
+                    WP_STATISTICS_URL . 'assets/images/mini-chart-posts-lock.svg',
+                    WP_STATISTICS_URL . 'assets/images/mini-chart-posts-preview.svg'
                 );
 
                 $setting = class_exists(WP_Statistics_Mini_Chart_Settings::class) ? get_option(WP_Statistics_Mini_Chart_Settings::get_instance()->setting_name) : '';
@@ -93,7 +94,13 @@ class Admin_Taxonomy
                     $value = apply_filters("wp_statistics_before_hit_column", $preview_chart_unlock_html, $term_id, $term->taxonomy);
                 }
 
-                $value .= sprintf('<a href="%s">%s</a>',
+
+                $is_addon_active = Helper::isAddOnActive('mini-chart');
+                $views_text = esc_html__('Views:', 'wp-statistics');
+
+                    $value .= sprintf('<span class="%s">%s</span><a href="%s" class="wps-admin-column__link">%s</a>',
+                    $is_addon_active ? '' : 'wps-hide',
+                    $views_text,
                     Menus::admin_url('category-analytics', ['type' => 'single', 'term_id' => $term_id]),
                     number_format($hit_number)
                 );
