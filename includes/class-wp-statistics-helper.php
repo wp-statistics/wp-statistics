@@ -1327,8 +1327,6 @@ class Helper
         // page url
         $params['page_uri'] = base64_encode(Pages::get_page_uri());
 
-        $params['_wpnonce'] = wp_create_nonce('wps_hits_nonce');
-
         /**
          * Signature
          * @version 14.9

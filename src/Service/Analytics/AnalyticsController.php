@@ -20,8 +20,6 @@ class AnalyticsController
             return;
         }
 
-        check_ajax_referer('wps_hits_nonce');
-
         try {
             $this->checkSignature();
 
@@ -43,8 +41,6 @@ class AnalyticsController
         if (!Helper::is_request('ajax')) {
             return;
         }
-
-        check_ajax_referer('wps_hits_nonce');
 
         try {
             $this->checkSignature();
