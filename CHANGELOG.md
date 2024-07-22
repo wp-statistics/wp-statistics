@@ -1,3 +1,11 @@
+= 14.9.2 - 22.07.2024 =
+* Enhancement: Remove visitors from the user online section if inactive for more than 30 minutes, improving performance.
+* Enhancement: Avoid user online check requests when this feature is disabled.
+* Enhancement: Improve response codes for failed views and exclusions.
+* Enhancement: Remove old hash assets if the Bypass Ad Blockers option is disabled.
+* Fix: Corrected the Daily Traffic Trend widget issue.
+* Fix: Corrected the issue where reporting emails were sent; the current status is now disabled by default.
+
 = 14.9.1 - 18.07.2024 =
 * Enhancement: Rename cache compatibility option to Tracking Method.
 * Enhancement: Show all post types on the posts report page.
