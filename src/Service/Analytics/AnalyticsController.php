@@ -27,7 +27,7 @@ class AnalyticsController
             wp_send_json(['status' => true]);
 
         } catch (Exception $e) {
-            wp_send_json_error($e->getMessage(), $e->getCode());
+            wp_send_json(['status' => false, 'data' => $e->getMessage()], $e->getCode());
         }
     }
 
@@ -49,7 +49,7 @@ class AnalyticsController
             wp_send_json(['status' => true]);
 
         } catch (Exception $e) {
-            wp_send_json_error($e->getMessage(), $e->getCode());
+            wp_send_json(['status' => false, 'data' => $e->getMessage()], $e->getCode());
         }
     }
 
