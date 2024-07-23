@@ -68,11 +68,16 @@
 .column-wp-statistics-tax-hits {
   width: 15%;
   text-align: center;
+
+  .wps-hide{
+    display: none!important;
+  }
 }
 
 .column-wp-statistics-post-hits {
   width: 10%;
   text-align: center;
+
   .wps-column__chart{
     span{
       display: none!important;
