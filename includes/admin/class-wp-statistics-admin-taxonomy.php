@@ -94,13 +94,9 @@ class Admin_Taxonomy
                     $value = apply_filters("wp_statistics_before_hit_column", $preview_chart_unlock_html, $term_id, $term->taxonomy);
                 }
 
-
-                $is_addon_active = Helper::isAddOnActive('mini-chart');
-                $views_text = esc_html__('Views:', 'wp-statistics');
-
-                    $value .= sprintf('<span class="%s">%s</span><a href="%s" class="wps-admin-column__link">%s</a>',
-                    $is_addon_active ? '' : 'wps-hide',
-                    $views_text,
+                $value .= sprintf('<span class="%s">%s</span> <a href="%s" class="wps-admin-column__link">%s</a>',
+                    Helper::isAddOnActive('mini-chart') ? '' : 'wps-hide',
+                    Helper::isMiniChartMetricSetToVisitors() ? esc_html__('Visitors:', 'wp-statistics') : esc_html__('Views:', 'wp-statistics'),
                     Menus::admin_url('category-analytics', ['type' => 'single', 'term_id' => $term_id]),
                     number_format($hit_number)
                 );
