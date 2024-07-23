@@ -34,7 +34,7 @@ class IP
      *
      * @var string
      */
-    public static $default_ip_method = 'REMOTE_ADDR';
+    public static $default_ip_method = 'sequential';
 
     /**
      * Hash IP Prefix
@@ -50,7 +50,7 @@ class IP
      */
     public static function getIpOptions()
     {
-        return array_merge(self::$ip_methods_server, ['sequential']);
+        return self::$ip_methods_server;
     }
 
     /**
@@ -65,7 +65,7 @@ class IP
         $ip = false;
 
         // Get User IP Methods
-        $ip_method = self::getIPMethod();
+        $ip_method = self::getIpMethod();
 
         // Check IP detection method
         if ($ip_method === 'sequential') {
@@ -223,7 +223,7 @@ class IP
             try {
                 $parsedRange = Range::parse($list);
                 $contains_ip = false;
-                
+
                 if ($parsedRange->contains($ip)) {
                     $contains_ip = true;
                 }
@@ -252,12 +252,34 @@ class IP
     }
 
     /**
-     * what is Method $_SERVER for get User Real IP
+     * Retrieves the method used to obtain the user's real IP address.
+     *
+     * This method checks the configured IP method from the options and ensures
+     * backward compatibility by setting the option to a default value if an invalid
+     * method is found.
+     *
+     * @return string The method used to get the user's real IP address.
      */
-    public static function getIPMethod()
+    public static function getIpMethod()
     {
-        $ip_method = Option::get('ip_method');
-        return ($ip_method != false ? $ip_method : self::$default_ip_method);
+        // Retrieve the IP method from options
+        $ipMethod = Option::get('ip_method');
+
+        // If no method is set, return the default IP method
+        if (empty($ipMethod)) {
+            return self::$default_ip_method;
+        }
+
+        // Check for backward compatibility
+        if (!in_array($ipMethod, self::$ip_methods_server)) {
+            // Set the option to the default method for backward compatibility
+            Option::update('ip_method', 'sequential');
+
+            return self::$default_ip_method;
+        }
+
+        // Return the valid IP method
+        return $ipMethod;
     }
 
     /**
