@@ -180,8 +180,22 @@ class Admin_Post
     public function post_hit_misc()
     {
         global $post;
+
+        $hitCount = 0;
+        if (Helper::isMiniChartMetricSetToVisitors()) {
+            $visitorsModel = new VisitorsModel();
+            $hitCount      = $visitorsModel->countVisitors(['post_id' => $post->ID]);
+        } else {
+            $viewsModel = new ViewsModel();
+            $hitCount   = $viewsModel->countViews(['post_id' => $post->ID]);
+        }
+
         if ($post->post_status == 'publish') {
-            echo "<div class='misc-pub-section misc-pub-hits'>" . __('Views', 'wp-statistics') . ": <a href='" . Menus::admin_url('pages', array('ID' => $post->ID, 'type' => Pages::get_post_type($post->ID))) . "'>" . esc_html(number_format(wp_statistics_pages('total', "", $post->ID))) . "</a></div>"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+            echo sprintf('<div class="misc-pub-section misc-pub-hits">%s <a href="%s">%s</a></div>',
+                Helper::isMiniChartMetricSetToVisitors() ? esc_html__('Visitors:', 'wp-statistics') : esc_html__('Views:', 'wp-statistics'),
+                Menus::admin_url('content-analytics', ['post_id' => $post->ID, 'type' => 'single']),
+                esc_html(number_format($hitCount))
+            );
         }
     }
 
