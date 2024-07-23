@@ -60,7 +60,6 @@ class IP
      */
     public static function getIP()
     {
-
         // Set Default
         $ip = false;
 
@@ -77,6 +76,12 @@ class IP
             }
         } else {
             $ip = isset($_SERVER[$ip_method]) ? $_SERVER[$ip_method] : false;
+
+            // Ensure backward compatibility for IP handling.
+            if ($ip == '') {
+                // If the IP address is not available, set the IP method to the default value for the next visitor to ensure consistent behavior.
+                Option::update('ip_method', self::$default_ip_method);
+            }
         }
 
         /**
@@ -273,7 +278,7 @@ class IP
         // Check for backward compatibility
         if (!in_array($ipMethod, self::$ip_methods_server)) {
             // Set the option to the default method for backward compatibility
-            Option::update('ip_method', 'sequential');
+            Option::update('ip_method', self::$default_ip_method);
 
             return self::$default_ip_method;
         }
