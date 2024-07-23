@@ -3,6 +3,8 @@
 namespace WP_STATISTICS;
 
 use WP_Statistics\MiniChart\WP_Statistics_Mini_Chart_Settings;
+use WP_Statistics\Models\ViewsModel;
+use WP_Statistics\Models\VisitorsModel;
 
 class Admin_Post
 {
@@ -70,17 +72,19 @@ class Admin_Post
     public function render_hit_column($column_name, $post_id)
     {
         if ($column_name == 'wp-statistics-post-hits') {
+            $post_type   = Pages::get_post_type($post_id);
+            $hitPostType = Pages::checkIfPageIsHome($post_id) ? 'home' : $post_type;
+            $args        = ['post_id' => $post_id, 'resource_type' => $hitPostType];
 
-            $post_type = Pages::get_post_type($post_id);
-
-            $hitPostType = $post_type;
-            if (Pages::checkIfPageIsHome($post_id)) {
-                $hitPostType = 'home';
+            if (Helper::isMiniChartMetricSetToVisitors()) {
+                $visitorsModel = new VisitorsModel();
+                $hitCount      = $visitorsModel->countVisitors($args);
+            } else {
+                $viewsModel = new ViewsModel();
+                $hitCount   = $viewsModel->countViews($args);
             }
 
-            $hit_number = wp_statistics_pages('total', "", $post_id, null, null, $hitPostType);
-
-            if ($hit_number) {
+            if ($hitCount) {
                 $preview_chart_unlock_html = sprintf('<div class="wps-admin-column__unlock"><a href="%s" target="_blank"><span class="wps-admin-column__unlock__text">%s</span><img class="wps-admin-column__unlock__lock" src="%s"/><img class="wps-admin-column__unlock__img" src="%s"/></a></div>',
                     'https://wp-statistics.com/product/wp-statistics-mini-chart?utm_source=wp_statistics&utm_medium=display&utm_campaign=wordpress',
                     __('Unlock This Feature!', 'wp-statistics'),
@@ -108,7 +112,7 @@ class Admin_Post
                     Helper::isAddOnActive('mini-chart') ? '' : 'wps-hide',
                     Helper::isMiniChartMetricSetToVisitors() ? esc_html__('Visitors:', 'wp-statistics') : esc_html__('Views:', 'wp-statistics'),
                     Menus::admin_url('content-analytics', ['post_id' => $post_id, 'type' => 'single']), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-                    esc_html(number_format($hit_number)) // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                    esc_html(number_format($hitCount)) // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                 );
             }
 
