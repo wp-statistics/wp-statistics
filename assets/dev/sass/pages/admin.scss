@@ -64,18 +64,9 @@
   text-decoration: none;
 }
 
-/* WP Admin List Table */
-.column-wp-statistics-tax-hits {
-  width: 15%;
-  text-align: center;
 
-  .wps-hide{
-    display: none!important;
-  }
-}
-
-.column-wp-statistics-post-hits {
-  width: 10%;
+.column-wp-statistics-post-hits ,.column-wp-statistics-tax-hits{
+  width: 12%;
   text-align: center;
 
   .wps-column__chart{
