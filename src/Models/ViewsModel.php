@@ -13,6 +13,7 @@ class ViewsModel extends BaseModel
     {
         $args = $this->parseArgs($args, [
             'post_type'     => Helper::get_list_post_type(),
+            'resource_type' => '',
             'date'          => '',
             'author_id'     => '',
             'post_id'       => '',
@@ -23,6 +24,7 @@ class ViewsModel extends BaseModel
 
         $viewsQuery = Query::select(['id', 'date', 'SUM(count) AS count'])
             ->from('pages')
+            ->where('pages.type', 'IN', $args['resource_type'])
             ->whereDate('date', $args['date'])
             ->groupBy('id')
             ->where('pages.uri', '=', $args['query_param'])
@@ -58,6 +60,7 @@ class ViewsModel extends BaseModel
     {
         $args = $this->parseArgs($args, [
             'post_type'     => Helper::get_list_post_type(),
+            'resource_type' => '',
             'date'          => '',
             'author_id'     => '',
             'post_id'       => '',
@@ -73,6 +76,7 @@ class ViewsModel extends BaseModel
             ->from('pages')
             ->join('posts', ['pages.id', 'posts.ID'])
             ->where('post_type', 'IN', $args['post_type'])
+            ->where('pages.type', 'IN', $args['resource_type'])
             ->where('post_author', '=', $args['author_id'])
             ->where('posts.ID', '=', $args['post_id'])
             ->where('pages.uri', '=', $args['query_param'])
