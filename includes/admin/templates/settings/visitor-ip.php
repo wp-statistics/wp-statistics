@@ -134,10 +134,7 @@ add_thickbox();
                                     echo '</code>';
                                 } ?>
                             </div>
-
-                            <?php if (in_array($ip_method, IP::getIpOptions()) && isset($_SERVER[$ip_method]) && !empty($_SERVER[$ip_method]) && IP::check_sanitize_ip($_SERVER[$ip_method]) === false) {
-                                echo ' &nbsp;&nbsp;<a href="https://wp-statistics.com/sanitize-user-ip/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" style="color: #d04f4f;" target="_blank" title="' . esc_html__('Your value required to sanitize user IP', 'wp-statistics') . '"><span class="dashicons dashicons-warning"></span></a>';
-                            } ?>
+                            
                             <p class="description">
                                 <?php _e('If your server uses a custom key in <code>$_SERVER</code> for IP detection (e.g., <code>HTTP_CF_CONNECTING_IP</code> for CloudFlare), specify it here.', 'wp-statistics');  // phpcs:ignore WordPress.Security.EscapeOutput.UnsafePrintingFunction  ?>
                                 <a href="#TB_inline?&width=950&height=600&inlineId=list-of-php-server" class="thickbox"><?php _e('View <code>$_SERVER</code> in your server.', 'wp-statistics');   // phpcs:ignore WordPress.Security.EscapeOutput.UnsafePrintingFunction  ?></a>
