@@ -104,11 +104,9 @@ class Admin_Post
                     echo apply_filters("wp_statistics_before_hit_column_{$actual_post_type}", $preview_chart_unlock_html, $post_id, $post_type); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                 }
 
-                $is_addon_active = Helper::isAddOnActive('mini-chart');
-                $views_text = esc_html__('Views:', 'wp-statistics');
-                echo sprintf('<span class="%s">%s</span><a href="%s" class="wps-admin-column__link">%s</a>',  // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-                    $is_addon_active ? '' : 'wps-hide',
-                    $views_text,
+                echo sprintf('<span class="%s">%s</span> <a href="%s" class="wps-admin-column__link">%s</a>',  // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                    Helper::isAddOnActive('mini-chart') ? '' : 'wps-hide',
+                    Helper::isMiniChartMetricSetToVisitors() ? esc_html__('Visitors:', 'wp-statistics') : esc_html__('Views:', 'wp-statistics'),
                     Menus::admin_url('content-analytics', ['post_id' => $post_id, 'type' => 'single']), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                     esc_html(number_format($hit_number)) // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                 );

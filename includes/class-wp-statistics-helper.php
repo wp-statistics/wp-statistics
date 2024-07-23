@@ -1817,4 +1817,14 @@ class Helper
     {
         return apply_filters('wp_statistics_request_signature_enabled', true);
     }
+
+    /**
+     * Checks if the "Chart Metric" option is set to 'visitors'.
+     *
+     * @return  bool    True if mini-chart add-on is enabled and `metric` option is set to 'visitors'.
+     */
+    public static function isMiniChartMetricSetToVisitors()
+    {
+        return Helper::isAddOnActive('mini-chart') && Option::getByAddon('metric', 'mini_chart', 'visitors') === 'visitors';
+    }
 }

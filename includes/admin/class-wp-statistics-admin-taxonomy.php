@@ -90,17 +90,18 @@ class Admin_Taxonomy
 
                 $setting = class_exists(WP_Statistics_Mini_Chart_Settings::class) ? get_option(WP_Statistics_Mini_Chart_Settings::get_instance()->setting_name) : '';
                 $value   = '';
-                if (!empty($setting) && Helper::isAddOnActive('mini-chart') && !empty($setting['active_mini_chart_' . $term->taxonomy])) {
+                if (
+                    !Helper::isAddOnActive('mini-chart') ||
+                    (!empty($setting) && !empty($setting['active_mini_chart_' . $term->taxonomy]))
+                ) {
+                    // If add-on is not active, this line will display the "Unlock This Feature!" button
+                    // If add-on is active but current taxonomy is not selected in the settings, nothing will be displayed
                     $value = apply_filters("wp_statistics_before_hit_column", $preview_chart_unlock_html, $term_id, $term->taxonomy);
                 }
 
-
-                $is_addon_active = Helper::isAddOnActive('mini-chart');
-                $views_text = esc_html__('Views:', 'wp-statistics');
-
-                    $value .= sprintf('<span class="%s">%s</span><a href="%s" class="wps-admin-column__link">%s</a>',
-                    $is_addon_active ? '' : 'wps-hide',
-                    $views_text,
+                $value .= sprintf('<span class="%s">%s</span> <a href="%s" class="wps-admin-column__link">%s</a>',
+                    Helper::isAddOnActive('mini-chart') ? '' : 'wps-hide',
+                    Helper::isMiniChartMetricSetToVisitors() ? esc_html__('Visitors:', 'wp-statistics') : esc_html__('Views:', 'wp-statistics'),
                     Menus::admin_url('category-analytics', ['type' => 'single', 'term_id' => $term_id]),
                     number_format($hit_number)
                 );
