@@ -73,34 +73,43 @@
     span{
       display: none!important;
     }
+    &.wps-hide{
+      display: none;
+    }
   }
   canvas{
     //height: 35px!important;
     margin: 0 auto 3px;
   }
-  &>span{
-    font-size: 12px;
-    font-style: italic;
-    font-weight: 400;
-    line-height: 14.06px;
-    margin-right: 1px;
-    color: #838494;
-    display: inline-block;
 
+  div:not(.wps-column__chart){
+    &>span{
+      font-size: 12px;
+      font-style: italic;
+      font-weight: 400;
+      line-height: 14.06px;
+      margin-right: 1px;
+      color: #838494;
+      display: inline-block;
+
+      &.wps-hide{
+        display: none;
+      }
+
+      .rtl &{
+        margin-right: 0px;
+        margin-left: 1px;
+      }
+    }
+    &>a{
+      color: #2C36D7;
+      font-size: 12px;
+      font-weight: 500;
+      line-height: 14.06px;
+    }
     &.wps-hide{
       display: none;
     }
-
-    .rtl &{
-      margin-right: 0px;
-      margin-left: 1px;
-    }
-  }
-  &>a{
-    color: #2C36D7;
-    font-size: 12px;
-    font-weight: 500;
-    line-height: 14.06px;
   }
 }
 
