@@ -59,7 +59,7 @@ class Admin_Post
      */
     public function add_hit_column($columns)
     {
-        $columns['wp-statistics-post-hits'] = __('Views', 'wp-statistics');
+        $columns['wp-statistics-post-hits'] = Helper::checkMiniChartOption('metric', 'visitors', 'visitors') ? __('Visitors', 'wp-statistics') : __('Views', 'wp-statistics');
         return $columns;
     }
 
