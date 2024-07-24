@@ -160,12 +160,15 @@ class AddOnDecorator
 
         // Get any existing copy of our transient data
         if (false === ($response = get_transient($transientKey))) {
-
-            $response = wp_remote_get(add_query_arg(array(
+            $args = add_query_arg([
                 'plugin-name' => $this->getSlug(),
                 'license_key' => $this->getLicense(),
                 'website'     => get_bloginfo('url'),
-            ), WP_STATISTICS_SITE . '/wp-json/plugins/v1/validate'));
+            ], WP_STATISTICS_SITE . '/wp-json/plugins/v1/validate');
+
+            $response = wp_remote_get($args, [
+                'timeout' => 30,
+            ]);
 
             if (is_wp_error($response)) {
                 return $response;
