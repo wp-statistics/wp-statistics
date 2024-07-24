@@ -1,12 +1,11 @@
 <?php
 
 use WP_STATISTICS\IP;
-use WP_STATISTICS\Country;
-use WP_STATISTICS\GeoIP;
 
 // Get IP Method
 $ip_method  = IP::getIpMethod();
 $ip_address = IP::getIP();
+$ip_version = IP::getIpVersion();
 
 // Add TickBox
 add_thickbox();
@@ -58,10 +57,14 @@ add_thickbox();
             <script type="application/javascript">
                 jQuery(document).ready(function () {
                     jQuery.ajax({
+                        <?php if($ip_version == 'IPv4') : ?>
                         url: "https://api.ipify.org?format=json",
+                        <?php else : ?>
+                        url: "https://api64.ipify.org/?format=json",
+                        <?php endif; ?>
                         dataType: 'json',
                         beforeSend: function () {
-                            jQuery("#js-ipService").html('Loading...');
+                            jQuery("#js-ipService").html('<?php _e('Loading...', 'wp-statistics'); ?>');
                         },
                         error: function (jqXHR) {
                             if (jqXHR.status == 0) {
@@ -112,7 +115,7 @@ add_thickbox();
             </th>
         </tr>
 
-        <!-- Custom Header -->
+        <!-- Custom IP Detection -->
         <tr valign="top">
             <th scope="row" colspan="2" style="padding-top: 0px;padding-bottom: 0px;">
                 <table>

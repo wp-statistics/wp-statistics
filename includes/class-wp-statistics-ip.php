@@ -106,6 +106,12 @@ class IP
         return apply_filters('wp_statistics_user_ip', sanitize_text_field($ip));
     }
 
+    public static function getIpVersion()
+    {
+        $ipTools = new \WP_Statistics\Dependencies\IPTools\IP(self::getIP());
+        return $ipTools->getVersion();
+    }
+
     /**
      * Generates a hashed version of an IP address using a daily salt, provided the hashing option is enabled.
      *
