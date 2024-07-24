@@ -76,6 +76,10 @@ class Admin_Post
             $hitPostType = Pages::checkIfPageIsHome($post_id) ? 'home' : $post_type;
             $args        = ['post_id' => $post_id, 'resource_type' => $hitPostType];
 
+            if (Helper::checkMiniChartOption('count_display', 'date_range', 'total')) {
+                $args['date'] = ['from' => TimeZone::getTimeAgo(intval(Option::getByAddon('date_range', 'mini_chart', '14'))), 'to' => date('Y-m-d')];
+            }
+
             if (Helper::checkMiniChartOption('metric', 'visitors', 'visitors')) {
                 $visitorsModel = new VisitorsModel();
                 $hitCount      = $visitorsModel->countVisitors($args);
