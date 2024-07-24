@@ -34,7 +34,7 @@ let wpStatisticsUserOnline = {
             if (WP_Statistics_Dnd_Active !== 1) {
                 this.sendHitRequest();
             } else {
-                console.log('DNT is active.');
+                console.log('WP Statistics: DNT is active.');
             }
         } else {
             this.sendHitRequest();
