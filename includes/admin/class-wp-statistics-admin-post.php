@@ -76,7 +76,7 @@ class Admin_Post
             $hitPostType = Pages::checkIfPageIsHome($post_id) ? 'home' : $post_type;
             $args        = ['post_id' => $post_id, 'resource_type' => $hitPostType];
 
-            if (Helper::isMiniChartMetricSetToVisitors()) {
+            if (Helper::checkMiniChartOption('metric', 'visitors', 'visitors')) {
                 $visitorsModel = new VisitorsModel();
                 $hitCount      = $visitorsModel->countVisitors($args);
             } else {
@@ -111,7 +111,7 @@ class Admin_Post
                 echo sprintf('<div class="%s"><span class="%s">%s</span> <a href="%s" class="wps-admin-column__link">%s</a></div>',  // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                     Helper::isAddOnActive('mini-chart') && Option::getByAddon('count_display', 'mini_chart', 'total') === 'disabled' ? 'wps-hide' : '',
                     Helper::isAddOnActive('mini-chart') ? '' : 'wps-hide',
-                    Helper::isMiniChartMetricSetToVisitors() ? esc_html__('Visitors:', 'wp-statistics') : esc_html__('Views:', 'wp-statistics'),
+                    Helper::checkMiniChartOption('metric', 'visitors', 'visitors') ? esc_html__('Visitors:', 'wp-statistics') : esc_html__('Views:', 'wp-statistics'),
                     Menus::admin_url('content-analytics', ['post_id' => $post_id, 'type' => 'single']), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                     esc_html(number_format($hitCount)) // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                 );
@@ -153,7 +153,7 @@ class Admin_Post
             $order = $query->query_vars['order'];
 
             // Select Field
-            if (Helper::isMiniChartMetricSetToVisitors()) {
+            if (Helper::checkMiniChartOption('metric', 'visitors', 'visitors')) {
                 $clauses['fields'] .= ', (SELECT COUNT(DISTINCT `visitor_id`) FROM ' . DB::table('visitor_relationships') . ' AS `visitor_relationships` LEFT JOIN ' . DB::table('pages') . ' AS `pages` ON `visitor_relationships`.`page_id` = `pages`.`page_id` WHERE `pages`.`type` IN ("page", "post", "product") AND ' . $wpdb->posts . '.`ID` = `pages`.`id`) AS `post_hits_sortable` ';
             } else {
                 $clauses['fields'] .= ', (SELECT SUM(`pages`.`count`) FROM ' . DB::table('pages') . ' AS `pages` WHERE `pages`.`type` IN ("page", "post", "product") AND ' . $wpdb->posts . '.`ID` = `pages`.`id`) AS `post_hits_sortable` ';
@@ -187,7 +187,7 @@ class Admin_Post
         global $post;
 
         $hitCount = 0;
-        if (Helper::isMiniChartMetricSetToVisitors()) {
+        if (Helper::checkMiniChartOption('metric', 'visitors', 'visitors')) {
             $visitorsModel = new VisitorsModel();
             $hitCount      = $visitorsModel->countVisitors(['post_id' => $post->ID]);
         } else {
@@ -197,7 +197,7 @@ class Admin_Post
 
         if ($post->post_status == 'publish') {
             echo sprintf('<div class="misc-pub-section misc-pub-hits">%s <a href="%s">%s</a></div>',
-                Helper::isMiniChartMetricSetToVisitors() ? esc_html__('Visitors:', 'wp-statistics') : esc_html__('Views:', 'wp-statistics'),
+                Helper::checkMiniChartOption('metric', 'visitors', 'visitors') ? esc_html__('Visitors:', 'wp-statistics') : esc_html__('Views:', 'wp-statistics'),
                 Menus::admin_url('content-analytics', ['post_id' => $post->ID, 'type' => 'single']),
                 esc_html(number_format($hitCount))
             );

@@ -1819,12 +1819,16 @@ class Helper
     }
 
     /**
-     * Checks if the "Chart Metric" option is set to 'visitors'.
+     * Checks if the given mini-chart option is set to the given value.
      *
-     * @return  bool    True if mini-chart add-on is enabled and `metric` option is set to 'visitors'.
+     * @param   string  $optionName
+     * @param   string  $value
+     * @param   string  $default
+     *
+     * @return  bool    True if mini-chart add-on is enabled and `$optionName` is set to `$value`.
      */
-    public static function isMiniChartMetricSetToVisitors()
+    public static function checkMiniChartOption($optionName, $value, $default = null)
     {
-        return Helper::isAddOnActive('mini-chart') && Option::getByAddon('metric', 'mini_chart', 'visitors') === 'visitors';
+        return Helper::isAddOnActive('mini-chart') && Option::getByAddon($optionName, 'mini_chart', $default) === $value;
     }
 }
