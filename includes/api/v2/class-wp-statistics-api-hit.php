@@ -52,7 +52,7 @@ class Hit extends \WP_STATISTICS\RestAPI
         // Record WP Statistics when Cache is enable
         register_rest_route(self::$namespace, '/' . self::$endpoint, array(
             array(
-                'methods'             => \WP_REST_Server::READABLE,
+                'methods'             => \WP_REST_Server::CREATABLE,
                 'callback'            => array($this, 'hit_callback'),
                 'args'                => self::require_params_hit(),
                 'permission_callback' => function (\WP_REST_Request $request) {

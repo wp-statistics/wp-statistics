@@ -42,26 +42,29 @@ let wpStatisticsUserOnline = {
     // Sending Hit Request
     sendHitRequest: async function () {
         try {
-            const timestamp = Date.now();
-            const requestUrl = `${WP_Statistics_Tracker_Object.hitRequestUrl}&referred=${referred}&_=${timestamp}`;
+            let requestUrl = this.getRequestUrl('hit');
+            const params   = new URLSearchParams({
+                ...WP_Statistics_Tracker_Object.hitParams,
+                referred
+            }).toString();
+            
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', requestUrl, true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhr.send(params);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    try {
+                        const responseData = JSON.parse(xhr.responseText);
 
-            const response = await fetch(requestUrl, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json;charset=UTF-8',
-                },
-            });
-
-            if (!response.ok) {
-                if (response.status === 403) {
-                    this.hitRequestSuccessful = false; // Set flag to false if status is 403
-                }
-            } else {
-                const responseData = await response.json();
-                if (responseData.status === false) {
-                    this.hitRequestSuccessful = false; // Set flag to false if status in response is false
+                        if (responseData.status === false) {
+                            this.hitRequestSuccessful = false; // Set flag to false if status in response is false
+                        }
+                    } catch (e) {
+                        this.hitRequestSuccessful = false; // Handle JSON parsing error
+                    }
                 } else {
-                    this.hitRequestSuccessful = true; // Set flag to true if request is successful
+                    this.hitRequestSuccessful = false; // Set flag to false if status is 403
                 }
             }
         } catch (error) {
@@ -76,15 +79,16 @@ let wpStatisticsUserOnline = {
         }
 
         try {
-            const timestamp = Date.now();
-            const requestUrl = `${WP_Statistics_Tracker_Object.keepOnlineRequestUrl}&referred=${referred}&_=${timestamp}`;
-
-            const response = await fetch(requestUrl, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json;charset=UTF-8'
-                }
-            });
+            let requestUrl = this.getRequestUrl('online');
+            const params   = new URLSearchParams({
+                ...WP_Statistics_Tracker_Object.onlineParams,
+                referred
+            }).toString();
+            
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', requestUrl, true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhr.send(params);
         } catch (error) {
 
         }
@@ -116,6 +120,22 @@ let wpStatisticsUserOnline = {
                 }, 30 * 60 * 1000);
             });
         });
+    },
+
+    getRequestUrl: function(type) {
+        let requestUrl = `${WP_Statistics_Tracker_Object.requestUrl}/`;
+
+        if (WP_Statistics_Tracker_Object.option.bypassAdBlockers) {
+            requestUrl += 'wp-admin/admin-ajax.php';
+        } else {
+            if (type === 'hit') {
+                requestUrl += WP_Statistics_Tracker_Object.hitParams.endpoint;
+            } else if (type === 'online') {
+                requestUrl += WP_Statistics_Tracker_Object.onlineParams.endpoint;
+            }
+        }
+
+        return requestUrl;
     },
 };
 
