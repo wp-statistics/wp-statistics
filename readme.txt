@@ -4,7 +4,7 @@ Donate link: https://wp-statistics.com/donate/
 Tags: analytics, google analytics, insights, stats, site visitors
 Requires at least: 5.0
 Tested up to: 6.6
-Stable tag: 14.9.2
+Stable tag: 14.9.3
 Requires PHP: 5.6
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -134,13 +134,10 @@ To ensure the plugin works correctly, please clear your cache because some reque
 Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest version.
 
 == Changelog ==
-= 14.9.2 - 22.07.2024 =
-* Enhancement: Remove visitors from the user online section if inactive for more than 30 minutes, improving performance.
-* Enhancement: Avoid user online check requests when this feature is disabled.
-* Enhancement: Improve response codes for failed views and exclusions.
-* Enhancement: Remove old hash assets if the Bypass Ad Blockers option is disabled.
-* Fix: Corrected the Daily Traffic Trend widget issue.
-* Fix: Corrected the issue where reporting emails were sent; the current status is now disabled by default.
+= 14.9.3 - **.07.2024 =
+* Enhancement: Improved the IP Method detection mechanism and updated its settings page for better management.
+* Enhancement: Displayed the clearing the cache notice only on the overview page.
+* Enhancement: Implement minor improvements.
 
 For more information about the major update, please [visit our blog post](https://wp-statistics.com/?p=15915) or follow [@wp_statistics](https://twitter.com/wp_statistics) on Twitter
 

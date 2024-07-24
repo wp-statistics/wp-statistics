@@ -407,21 +407,21 @@ class settings_page extends Singleton
      */
     public static function save_visitor_ip_option($wp_statistics_options)
     {
+        $ipMethod = IP::$default_ip_method;
 
-        $value = IP::$default_ip_method;
         if (isset($_POST['ip_method']) and !empty($_POST['ip_method'])) {
 
             // Check Custom Header
-            if ($_POST['ip_method'] == "CUSTOM_HEADER") {
+            if ($_POST['ip_method'] == 'CUSTOM_HEADER') {
                 if (trim($_POST['user_custom_header_ip_method']) != "") {
-                    $value = sanitize_text_field($_POST['user_custom_header_ip_method']);
+                    $ipMethod = sanitize_text_field($_POST['user_custom_header_ip_method']);
                 }
             } else {
-                $value = sanitize_text_field($_POST['ip_method']);
+                $ipMethod = sanitize_text_field($_POST['ip_method']);
             }
         }
 
-        $wp_statistics_options['ip_method'] = $value;
+        $wp_statistics_options['ip_method'] = $ipMethod;
         return $wp_statistics_options;
     }
 
