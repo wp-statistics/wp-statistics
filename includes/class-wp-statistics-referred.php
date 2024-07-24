@@ -35,7 +35,7 @@ class Referred
     public static function getRefererURL()
     {
         if (Helper::is_rest_request() && isset($_REQUEST['referred'])) {
-            return sanitize_url(wp_unslash($_REQUEST['referred']));
+            return sanitize_url(wp_unslash(urldecode($_REQUEST['referred'])));
         }
 
         return (isset($_SERVER['HTTP_REFERER']) ? sanitize_url(wp_unslash($_SERVER['HTTP_REFERER'])) : '');
