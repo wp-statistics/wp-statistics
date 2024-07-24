@@ -82,7 +82,7 @@
                         <?php esc_html_e('Server Side Tracking (Deprecated)', 'wp-statistics'); ?>
                     </option>
                 </select>
-                <p class="description"><?php esc_html_e('Client Side Tracking uses the visitor’s browser for better accuracy and compatibility with caching methods and plugins. Server Side Tracking is less accurate and will be deprecated. Client Side Tracking is strongly recommended.', 'wp-statistics'); ?></p>
+                <p class="description"><?php _e('Client Side Tracking uses the visitor’s browser for better accuracy and <b>caching compatibility</b>. Server Side Tracking is less accurate and will be deprecated. Client Side Tracking is strongly recommended. <a href="https://wp-statistics.com/2024/07/24/deprecating-server-side-tracking-in-wp-statistics-15/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" target="_blank">Learn more</a>', 'wp-statistics'); ?></p>
             </td>
         </tr>
 
