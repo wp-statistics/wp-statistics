@@ -136,7 +136,7 @@ Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest versio
 == Changelog ==
 = 14.9.3 - **.07.2024 =
 * Enhancement: Improved the IP Method detection mechanism and updated its settings page for better management.
-* Enhancement: Displayed the clearing the cache notice only on the overview page.
+* Enhancement: Reconsidered the notices: All notices are only shown to users with the `manage_options` capability, and some notices are displaying only in the plugin pages.
 * Enhancement: Implement minor improvements.
 
 For more information about the major update, please [visit our blog post](https://wp-statistics.com/?p=15915) or follow [@wp_statistics](https://twitter.com/wp_statistics) on Twitter
