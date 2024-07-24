@@ -156,11 +156,11 @@ class Admin_Post
             if (Helper::isMiniChartMetricSetToVisitors()) {
                 $clauses['fields'] .= ', (SELECT COUNT(DISTINCT `visitor_id`) FROM ' . DB::table('visitor_relationships') . ' AS `visitor_relationships` LEFT JOIN ' . DB::table('pages') . ' AS `pages` ON `visitor_relationships`.`page_id` = `pages`.`page_id` WHERE `pages`.`type` IN ("page", "post", "product") AND ' . $wpdb->posts . '.`ID` = `pages`.`id`) AS `post_hits_sortable` ';
             } else {
-                $clauses['fields'] .= ", (select SUM(" . DB::table("pages") . ".count) from " . DB::table("pages") . " where (" . DB::table("pages") . ".type = 'page' OR " . DB::table("pages") . ".type = 'post' OR " . DB::table("pages") . ".type = 'product') AND {$wpdb->posts}.ID = " . DB::table("pages") . ".id) as post_hits_sortable ";
+                $clauses['fields'] .= ', (SELECT SUM(`pages`.`count`) FROM ' . DB::table('pages') . ' AS `pages` WHERE `pages`.`type` IN ("page", "post", "product") AND ' . $wpdb->posts . '.`ID` = `pages`.`id`) AS `post_hits_sortable` ';
             }
 
             // And order by it.
-            $clauses['orderby'] = " coalesce(post_hits_sortable, 0) $order";
+            $clauses['orderby'] = " COALESCE(`post_hits_sortable`, 0) $order";
         }
 
         return $clauses;
