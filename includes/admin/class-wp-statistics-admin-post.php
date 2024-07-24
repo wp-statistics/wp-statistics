@@ -158,9 +158,9 @@ class Admin_Post
 
             // Select Field
             if (Helper::checkMiniChartOption('metric', 'visitors', 'visitors')) {
-                $clauses['fields'] .= ', (SELECT COUNT(DISTINCT `visitor_id`) FROM ' . DB::table('visitor_relationships') . ' AS `visitor_relationships` LEFT JOIN ' . DB::table('pages') . ' AS `pages` ON `visitor_relationships`.`page_id` = `pages`.`page_id` WHERE `pages`.`type` IN ("page", "post", "product") AND ' . $wpdb->posts . '.`ID` = `pages`.`id`) AS `post_hits_sortable` ';
+                $clauses['fields'] .= ', (SELECT COUNT(DISTINCT `visitor_id`) FROM ' . DB::table('visitor_relationships') . ' AS `visitor_relationships` LEFT JOIN ' . DB::table('pages') . ' AS `pages` ON `visitor_relationships`.`page_id` = `pages`.`page_id` WHERE (`pages`.`type` IN ("page", "post", "product") OR `pages`.`type` LIKE "post_type_%") AND ' . $wpdb->posts . '.`ID` = `pages`.`id`) AS `post_hits_sortable` ';
             } else {
-                $clauses['fields'] .= ', (SELECT SUM(`pages`.`count`) FROM ' . DB::table('pages') . ' AS `pages` WHERE `pages`.`type` IN ("page", "post", "product") AND ' . $wpdb->posts . '.`ID` = `pages`.`id`) AS `post_hits_sortable` ';
+                $clauses['fields'] .= ', (SELECT SUM(`pages`.`count`) FROM ' . DB::table('pages') . ' AS `pages` WHERE (`pages`.`type` IN ("page", "post", "product") OR `pages`.`type` LIKE "post_type_%") AND ' . $wpdb->posts . '.`ID` = `pages`.`id`) AS `post_hits_sortable` ';
             }
 
             // And order by it.
