@@ -56,14 +56,12 @@ let wpStatisticsUserOnline = {
             xhr.send(params);
             xhr.onreadystatechange = function() {
                 if (xhr.readyState === 4 && xhr.status === 200) {
-                    try {
-                        const responseData = JSON.parse(xhr.responseText);
+                    const responseData = JSON.parse(xhr.responseText);
 
-                        if (responseData.status === false) {
-                            this.hitRequestSuccessful = false; // Set flag to false if status in response is false
-                        }
-                    } catch (e) {
-                        this.hitRequestSuccessful = false; // Handle JSON parsing error
+                    if (responseData.status === false) {
+                        this.hitRequestSuccessful = false; 
+                    } else {
+                        this.hitRequestSuccessful = true;
                     }
                 } else {
                     this.hitRequestSuccessful = false; // Set flag to false if status is 403
