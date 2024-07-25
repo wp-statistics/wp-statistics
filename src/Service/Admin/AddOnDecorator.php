@@ -156,7 +156,8 @@ class AddOnDecorator
             return $this->status;
         }
 
-        $transientKey = AddOnsFactory::getLicenseTransientKey($this->getSlug());
+        $transientKey         = AddOnsFactory::getLicenseTransientKey($this->getSlug());
+        $downloadTransientKey = AddOnsFactory::getDownloadTransientKey($this->getSlug());
 
         // Get any existing copy of our transient data
         if (false === ($response = get_transient($transientKey))) {
@@ -186,6 +187,10 @@ class AddOnDecorator
 
         if (isset($response->status) and $response->status == 200) {
             $this->isActivated = true;
+
+            // To clear the download transient and sync with download status
+            delete_transient($downloadTransientKey);
+
             return true;
         }
     }

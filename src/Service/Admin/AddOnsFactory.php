@@ -84,4 +84,9 @@ class AddOnsFactory
     {
         return $key . '_license_response';
     }
+
+    public static function getDownloadTransientKey($key)
+    {
+        return $key . '_download_info';
+    }
 }
