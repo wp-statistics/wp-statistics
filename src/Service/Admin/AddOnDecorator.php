@@ -167,7 +167,7 @@ class AddOnDecorator
             ], WP_STATISTICS_SITE . '/wp-json/plugins/v1/validate');
 
             $response = wp_remote_get($args, [
-                'timeout' => 30,
+                'timeout' => 35,
             ]);
 
             if (is_wp_error($response)) {
