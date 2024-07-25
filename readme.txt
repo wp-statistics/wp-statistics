@@ -134,12 +134,12 @@ To ensure the plugin works correctly, please clear your cache because some reque
 Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest version.
 
 == Changelog ==
-= 14.9.3 - **.07.2024 =
-* Enhancement: Improved the IP Method Detection mechanism and updated its settings page for better management.
-* Enhancement: Improved `tracker.js` by switching to xhr/POST requests and adding useful console logs.
-* Enhancement: Reconsidered the notices: All notices are only shown to users with the `manage_options` capability, and some notices are displaying only in the plugin pages.
-* Enhancement: Improved the Add-Ons page and license activation status.
-* Enhancement: Implement minor improvements.
+= 14.9.3 - 27.07.2024 =
+* Enhancement: Enhanced IP Method Detection mechanism and updated the settings page for better user experience and simplicity.
+* Enhancement: Improved `tracker.js` by switching to xhr/POST requests and adding helpful console logs.
+* Enhancement: Enhanced the Add-Ons page and license activation status display.
+* Enhancement: Adjusted the notices so that all are only shown to users with the `manage_options` capability, with some notices appearing only on the plugin pages.
+* Enhancement: Implemented minor improvements.
 
 For more information about the major update, please [visit our blog post](https://wp-statistics.com/?p=15915) or follow [@wp_statistics](https://twitter.com/wp_statistics) on Twitter
 
