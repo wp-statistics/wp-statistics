@@ -1,11 +1,11 @@
 <?php
 
 use WP_STATISTICS\IP;
-use WP_STATISTICS\Country;
-use WP_STATISTICS\GeoIP;
 
 // Get IP Method
-$ip_method = IP::getIpMethod();
+$ip_method  = IP::getIpMethod();
+$ip_address = IP::getIP();
+$ip_version = IP::getIpVersion();
 
 // Add TickBox
 add_thickbox();
@@ -41,49 +41,54 @@ add_thickbox();
         ?>
     </table>
 </div>
-<?php if (apply_filters('wp_statistics_ip_detection_preview', $ip_method)) : ?>
-    <div class="postbox">
-        <table class="form-table">
-            <tbody>
-            <tr valign="top">
-                <th scope="row" colspan="2"><h3><?php esc_html_e('Your IP Information', 'wp-statistics'); ?></h3></th>
-            </tr>
+<div class="postbox">
+    <table class="form-table">
+        <tbody>
+        <tr valign="top">
+            <th scope="row" colspan="2"><h3><?php esc_html_e('Your IP Information', 'wp-statistics'); ?></h3></th>
+        </tr>
 
+        <?php if (apply_filters('wp_statistics_ip_detection_preview', $ip_method)) : ?>
             <tr valign="top">
                 <th scope="row" colspan="2" style="padding-bottom: 10px; font-weight: normal;line-height: 25px;">
-                    <?php esc_html_e('Your IP address as detected by the Ipify.org service:', 'wp-statistics'); ?>
+                    <?php printf(esc_html__('Your IP address as detected by the Ipify.org service: %s', 'wp-statistics'), '<b id="js-ipService" style="display: inline-block;"></b>'); ?>
                 </th>
             </tr>
+            <script type="application/javascript">
+                jQuery(document).ready(function () {
+                    jQuery.ajax({
+                        <?php if($ip_version == 'IPv4') : ?>
+                        url: "https://api.ipify.org?format=json",
+                        <?php else : ?>
+                        url: "https://api64.ipify.org/?format=json",
+                        <?php endif; ?>
+                        dataType: 'json',
+                        beforeSend: function () {
+                            jQuery("#js-ipService").html('<?php _e('Loading...', 'wp-statistics'); ?>');
+                        },
+                        error: function (jqXHR) {
+                            if (jqXHR.status == 0) {
+                                jQuery("#js-ipService").html("<?php esc_html_e('Unable to retrieve some IP data. Ensure your internet connection is active and retry.', 'wp-statistics'); ?>");
+                            }
+                        },
+                        success: function (json) {
+                            jQuery("#js-ipService").html(json['ip']);
+                        }
+                    });
+                });
+            </script>
+        <?php endif; ?>
 
-            <tr valign="top">
-                <th scope="row" colspan="2">
-                    <code id="user_real_ip" style="display: inline-block; padding: 15px; font-family: 'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',sans-serif;">
-                        <script type="application/javascript">
-                            jQuery(document).ready(function () {
-                                jQuery.ajax({
-                                    url: "https://api.ipify.org?format=json",
-                                    dataType: 'json',
-                                    beforeSend: function () {
-                                        jQuery("code#user_real_ip").html('Loading...');
-                                    },
-                                    error: function (jqXHR) {
-                                        if (jqXHR.status == 0) {
-                                            jQuery("code#user_real_ip").html("<?php esc_html_e('Unable to retrieve some IP data. Ensure your internet connection is active and retry.', 'wp-statistics'); ?>");
-                                        }
-                                    },
-                                    success: function (json) {
-                                        jQuery("code#user_real_ip").html(json['ip']);
-                                    }
-                                });
-                            });
-                        </script>
-                    </code></th>
-            </tr>
+        <tr valign="top">
+            <th scope="row" colspan="2" style="padding-bottom: 10px; font-weight: normal;line-height: 25px;">
+                <?php printf(esc_html__('Your IP address as detected by the current WP Statistics settings is: %s', 'wp-statistics'), '<b style="display: inline-block;">' . esc_html($ip_address) . '</b>'); ?>
+            </th>
+        </tr>
 
-            </tbody>
-        </table>
-    </div>
-<?php endif; ?>
+        </tbody>
+    </table>
+</div>
+
 <div class="postbox">
     <table class="form-table">
         <tbody>
@@ -110,7 +115,7 @@ add_thickbox();
             </th>
         </tr>
 
-        <!-- Custom Header -->
+        <!-- Custom IP Detection -->
         <tr valign="top">
             <th scope="row" colspan="2" style="padding-top: 0px;padding-bottom: 0px;">
                 <table>
@@ -124,17 +129,11 @@ add_thickbox();
                         <td style="padding-left: 0px;">
                             <div style="display: flex; align-items: center; gap: 10px;">
                                 <input type="text" name="user_custom_header_ip_method" autocomplete="off" style="padding: 5px; width: 250px;height: 35px;" value="<?php echo in_array($ip_method, IP::getIpOptions()) ? esc_attr($ip_method) : '' ?>">
-                                <?php if (in_array($ip_method, IP::getIpOptions())) {
-                                    echo '<code>';
-                                    if (isset($_SERVER[$ip_method]) and !empty($_SERVER[$ip_method])) {
-                                        printf('Result: %s', esc_html(sanitize_text_field(wp_unslash($_SERVER[$ip_method]))));
-                                    } else {
-                                        esc_html_e('Result: IP address not detected.', 'wp-statistics');
-                                    }
-                                    echo '</code>';
+                                <?php if (in_array($ip_method, IP::getIpOptions()) && empty($_SERVER[$ip_method])) {
+                                    _e('<code>Result: No IP detected</code>', 'wp-statistics');
                                 } ?>
                             </div>
-                            
+
                             <p class="description">
                                 <?php _e('If your server uses a custom key in <code>$_SERVER</code> for IP detection (e.g., <code>HTTP_CF_CONNECTING_IP</code> for CloudFlare), specify it here.', 'wp-statistics');  // phpcs:ignore WordPress.Security.EscapeOutput.UnsafePrintingFunction  ?>
                                 <a href="#TB_inline?&width=950&height=600&inlineId=list-of-php-server" class="thickbox"><?php _e('View <code>$_SERVER</code> in your server.', 'wp-statistics');   // phpcs:ignore WordPress.Security.EscapeOutput.UnsafePrintingFunction  ?></a>

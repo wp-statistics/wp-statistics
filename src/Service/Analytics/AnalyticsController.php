@@ -14,7 +14,7 @@ class AnalyticsController
      *
      * @return  void
      */
-    public function hit_action_callback()
+    public function hit_record_action_callback()
     {
         if (!Helper::is_request('ajax')) {
             return;
@@ -36,7 +36,7 @@ class AnalyticsController
      *
      * @return  void
      */
-    public function online_action_callback()
+    public function online_check_action_callback()
     {
         if (!Helper::is_request('ajax')) {
             return;

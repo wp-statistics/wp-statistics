@@ -29,7 +29,7 @@ class CheckUserOnline extends \WP_STATISTICS\RestAPI
     public function register_online_user_rest_api()
     {
         register_rest_route(self::$namespace, '/' . self::$endpoint, array(
-            'methods'             => \WP_REST_Server::READABLE,
+            'methods'             => \WP_REST_Server::CREATABLE,
             'callback'            => [$this, 'onlineUserUpdateCallback'],
             'permission_callback' => function (\WP_REST_Request $request) {
                 return $this->checkSignature($request);

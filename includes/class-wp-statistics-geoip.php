@@ -245,11 +245,14 @@ class GeoIP
                 return array_merge($result, array("notice" => __('Error: <code>gzopen()</code> Function Not Found!', 'wp-statistics')));
             }
 
+            $isMaxmind = false;
+
             // This is the location of the file to download.
             if (Option::get('geoip_license_type') == "user-license" && Option::get('geoip_license_key')) {
                 $download_url = add_query_arg(array(
                     'license_key' => Option::get('geoip_license_key')
                 ), GeoIP::$library[$pack]['userSource']);
+                $isMaxmind    = true;
             } else {
                 $download_url = GeoIP::$library[$pack]['source'];
             }
@@ -307,56 +310,73 @@ class GeoIP
 
                 return array_merge($result, array("notice" => sprintf(__('Error Downloading GeoIP Database from: %1$s - %2$s', 'wp-statistics'), $download_url, $TempFile->get_error_message())));
             } else {
-                // Open the downloaded file to unzip it.
-                $ZipHandle = gzopen($TempFile, 'rb');
+                if ($isMaxmind) {
+                    $phar          = new \PharData($TempFile);
+                    $database      = self::$library[$pack]['file'] . '.' . self::$file_extension;
+                    $fileInArchive = trailingslashit($phar->current()->getFileName()) . $database;
+                    $phar->extractTo(Helper::get_uploads_dir(WP_STATISTICS_UPLOADS_DIR), $fileInArchive, true);
 
-                // Create th new file to unzip to.
-                $DBfh = fopen($DBFile, 'wb'); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fopen
+                    @rename(trailingslashit(Helper::get_uploads_dir(WP_STATISTICS_UPLOADS_DIR)) . $fileInArchive, $DBFile);
+                    @rmdir(trailingslashit(Helper::get_uploads_dir(WP_STATISTICS_UPLOADS_DIR)) . $phar->current()->getFileName());
 
-                // If we failed to open the downloaded file, through an error and remove the temporary file.  Otherwise do the actual unzip.
-                if (!$ZipHandle) {
-                    if ($type == "enable") {
-                        Option::update(GeoIP::$library[$pack]['opt'], '');
+                    if (!is_file($DBFile)) {
+                        // Something went wrong, maybe a folder was created instead of a regular file
+                        @rmdir($DBFile);
+                        wp_delete_file($TempFile);
+                        return array_merge($result, array("notice" => __('There was an error creating the GeoIP database file.', 'wp-statistics')));
                     }
-
-                    wp_delete_file($TempFile);
-                    return array_merge($result, array("notice" => sprintf(__('Error Opening Downloaded GeoIP Database for Reading: %s', 'wp-statistics'), $TempFile)));
                 } else {
-                    // If we failed to open the new file, throw and error and remove the temporary file.  Otherwise actually do the unzip.
-                    if (!$DBfh) {
+                    // Open the downloaded file to unzip it.
+                    $ZipHandle = gzopen($TempFile, 'rb');
+
+                    // Create th new file to unzip to.
+                    $DBfh = fopen($DBFile, 'wb'); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fopen
+
+                    // If we failed to open the downloaded file, through an error and remove the temporary file.  Otherwise do the actual unzip.
+                    if (!$ZipHandle) {
                         if ($type == "enable") {
                             Option::update(GeoIP::$library[$pack]['opt'], '');
                         }
 
                         wp_delete_file($TempFile);
-                        return array_merge($result, array("notice" => sprintf(__('Error Opening Destination GeoIP Database for Writing: %s', 'wp-statistics'), $DBFile)));
+                        return array_merge($result, array("notice" => sprintf(__('Error Opening Downloaded GeoIP Database for Reading: %s', 'wp-statistics'), $TempFile)));
                     } else {
-                        while (($data = gzread($ZipHandle, 4096)) != false) {
-                            fwrite($DBfh, $data); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fwrite
-                        }
+                        // If we failed to open the new file, throw and error and remove the temporary file.  Otherwise actually do the unzip.
+                        if (!$DBfh) {
+                            if ($type == "enable") {
+                                Option::update(GeoIP::$library[$pack]['opt'], '');
+                            }
 
-                        // Close the files.
-                        gzclose($ZipHandle);
-                        fclose($DBfh); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fclose
+                            wp_delete_file($TempFile);
+                            return array_merge($result, array("notice" => sprintf(__('Error Opening Destination GeoIP Database for Writing: %s', 'wp-statistics'), $DBFile)));
+                        } else {
+                            while (($data = gzread($ZipHandle, 4096)) != false) {
+                                fwrite($DBfh, $data); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fwrite
+                            }
 
-                        // Delete the temporary file.
-                        wp_delete_file($TempFile);
+                            // Close the files.
+                            gzclose($ZipHandle);
+                            fclose($DBfh); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fclose
 
-                        // Display the success message.
-                        $result["status"] = true;
-                        $result["notice"] = __('GeoIP Database Successfully Updated!', 'wp-statistics');
-
-                        // Update the options to reflect the new download.
-                        if ($type == "update") {
-                            Option::update('last_geoip_dl', time());
-                        }
-
-                        // Populate any missing GeoIP information if the user has selected the option.
-                        if (Option::get('geoip') && GeoIP::IsSupport() && Option::get('auto_pop')) {
-                            // Update GeoIP data for visitors with incomplete information
-                            BackgroundProcessFactory::batchUpdateIncompleteGeoIpForVisitors();
+                            // Delete the temporary file.
+                            wp_delete_file($TempFile);
                         }
                     }
+                }
+
+                // Display the success message.
+                $result["status"] = true;
+                $result["notice"] = __('GeoIP Database Successfully Updated!', 'wp-statistics');
+
+                // Update the options to reflect the new download.
+                if ($type == "update") {
+                    Option::update('last_geoip_dl', time());
+                }
+
+                // Populate any missing GeoIP information if the user has selected the option.
+                if (Option::get('geoip') && GeoIP::IsSupport() && Option::get('auto_pop')) {
+                    // Update GeoIP data for visitors with incomplete information
+                    BackgroundProcessFactory::batchUpdateIncompleteGeoIpForVisitors();
                 }
             }
 
