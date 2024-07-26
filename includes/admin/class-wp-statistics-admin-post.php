@@ -88,7 +88,7 @@ class Admin_Post
                 $hitCount   = $viewsModel->countViews($args);
             }
 
-            if ($hitCount) {
+            if (is_numeric($hitCount)) {
                 $preview_chart_unlock_html = sprintf('<div class="wps-admin-column__unlock"><a href="%s" target="_blank"><span class="wps-admin-column__unlock__text">%s</span><img class="wps-admin-column__unlock__lock" src="%s"/><img class="wps-admin-column__unlock__img" src="%s"/></a></div>',
                     'https://wp-statistics.com/product/wp-statistics-mini-chart?utm_source=wp_statistics&utm_medium=display&utm_campaign=wordpress',
                     __('Unlock This Feature!', 'wp-statistics'),
