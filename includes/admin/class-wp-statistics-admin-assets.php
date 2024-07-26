@@ -229,9 +229,9 @@ class Admin_Assets
 
         // Load Chart.js library and mini chart
         if (
-            Helper::isAdminBarShowing() || Menus::in_plugin_page() ||
-            (in_array($screen_id, array('dashboard')) && !Option::get('disable_dashboard')) ||
-            (in_array($hook, array('post.php', 'edit.php', 'post-new.php')) && !Option::get('disable_editor'))
+            (Helper::isAddOnActive('mini-chart') && Helper::isAdminBarShowing()) || Menus::in_plugin_page() ||
+            (in_array($screen_id, ['dashboard']) && !Option::get('disable_dashboard')) ||
+            (in_array($hook, ['post.php', 'edit.php', 'post-new.php']) && !Option::get('disable_editor'))
         ) {
             Assets::script('chart.js', 'js/chartjs/chart.umd.min.js', [], [], true, false, null, '4.4.2');
             Assets::script('hammer.js', 'js/chartjs/hammer.min.js', [], [], true, false, null, '2.0.8');
