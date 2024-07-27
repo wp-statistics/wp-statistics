@@ -78,30 +78,30 @@ if (wpsSelect2.length) {
                 url: wps_js.global.ajax_url,
                 dataType: 'json',
                 data: function (params) {
-                  const query = {
-                    wps_nonce: wps_js.global.rest_api_nonce,
-                    search: params.term,
-                    action: 'wp_statistics_get_page_filter_items',
-                    paged: params.page || 1
-                  }
+                    const query = {
+                        wps_nonce: wps_js.global.rest_api_nonce,
+                        search: params.term,
+                        action: 'wp_statistics_get_page_filter_items',
+                        paged: params.page || 1
+                    }
 
-                  if (wps_js.isset(wps_js.global, 'request_params', 'author_id')) {
-                    query.author_id = wps_js.global.request_params.author_id;
-                  }
+                    if (wps_js.isset(wps_js.global, 'request_params', 'author_id')) {
+                        query.author_id = wps_js.global.request_params.author_id;
+                    }
 
-                  if (wps_js.isset(wps_js.global, 'request_params', 'page')) {
-                    query.page = wps_js.global.request_params.page;
-                  }
+                    if (wps_js.isset(wps_js.global, 'request_params', 'page')) {
+                        query.page = wps_js.global.request_params.page;
+                    }
 
-                  if (wps_js.isset(wps_js.global, 'request_params', 'pt')) {
-                    query.post_type = wps_js.global.request_params.pt;
-                  }
+                    if (wps_js.isset(wps_js.global, 'request_params', 'pt')) {
+                        query.post_type = wps_js.global.request_params.pt;
+                    }
 
-                  if (wps_js.isset(wps_js.global, 'request_params', 'pid')) {
-                    query.post_id = wps_js.global.request_params.pid;
-                  }
-            
-                  return query;
+                    if (wps_js.isset(wps_js.global, 'request_params', 'pid')) {
+                        query.post_id = wps_js.global.request_params.pid;
+                    }
+
+                    return query;
                 }
             }
         });
@@ -233,14 +233,14 @@ wps_js.pie_chart = function (tag_id, label, data, label_callback = false, toolti
     }
     // Set Default Label Callback
     if (label_callback === false) {
-         label_callback = function (tooltipItem) {
+        label_callback = function (tooltipItem) {
             return tooltipItem.formattedValue
         };
     }
 
     // Set Default tooltip title Callback
-    if( tooltip_callback === false){
-        tooltip_callback = function (tooltipItem ) {
+    if (tooltip_callback === false) {
+        tooltip_callback = function (tooltipItem) {
             return tooltipItem.label;
         }
     }
@@ -495,9 +495,29 @@ jQuery(document).ready(function () {
         });
     });
 
+    var searchInputs = jQuery(".wps-search-dropdown");
+
+
+    searchInputs.on("click", function (event) {
+        event.stopPropagation();
+    });
+
+    searchInputs.on("input", function () {
+        let filter = jQuery(this).val().toLowerCase();
+        let items = jQuery(this).parent().find(".dropdown-item");
+        items.each(function () {
+            let text = jQuery(this).text() || jQuery(this).innerText;
+            if (text.toLowerCase().indexOf(filter) > -1) {
+                jQuery(this).show();
+            } else {
+                jQuery(this).hide();
+            }
+        });
+    });
+
     window.addEventListener("click", function (event) {
         dropdowns.forEach(function (dropdown) {
-            var dropdownContent = dropdown.querySelector(".dropdown-content");
+            let dropdownContent = dropdown.querySelector(".dropdown-content")
             if (dropdownContent && !dropdown.contains(event.target)) {
                 dropdownContent.classList.remove("show");
             }
