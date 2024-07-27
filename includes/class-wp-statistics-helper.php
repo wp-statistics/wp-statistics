@@ -96,7 +96,7 @@ class Helper
      */
     public static function isBypassAdBlockersRequest()
     {
-        return (Request::compare('action', 'wp_statistics_hit') || Request::compare('action', 'wp_statistics_online'));
+        return (Request::compare('action', 'wp_statistics_hit_record') || Request::compare('action', 'wp_statistics_online_check'));
     }
 
     /**

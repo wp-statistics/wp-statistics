@@ -80,6 +80,10 @@ class plugins_page extends Singleton
             check_admin_referer('wps_optimization_nonce');
 
             foreach ($_POST['licences'] as $key => $licence) {
+                if (!$licence) {
+                    continue;
+                }
+
                 $optionName            = AddOnsFactory::getSettingNameByKey($key);
                 $option                = get_option($optionName);
                 $option['license_key'] = sanitize_text_field($licence);

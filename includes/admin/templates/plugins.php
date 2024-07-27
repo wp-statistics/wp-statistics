@@ -7,5 +7,3 @@
     <div class="wp-header-end"></div>
     <div class="wrap wps-wrap">
         <?php include(WP_STATISTICS_DIR . "includes/admin/templates/add-ons.php"); ?>
-    </div>
-</div>

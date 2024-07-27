@@ -1,3 +1,24 @@
+.statistics_page_wps_settings_page.wps_page  #TB_window {
+  top: 50%!important;
+  table{
+    width: 100%;
+    tr{
+      &:first-child{
+        td{
+          white-space: nowrap;
+        }
+      }
+      td{
+        word-break: break-word;
+        @media screen and (max-width: 650px) {
+          white-space: nowrap;
+          width: auto;
+        }
+      }
+    }
+  }
+}
+
 .wps_page #TB_window {
   max-height: 90vh;
   max-width: 98%;

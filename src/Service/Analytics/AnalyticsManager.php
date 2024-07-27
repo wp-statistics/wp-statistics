@@ -26,12 +26,12 @@ class AnalyticsManager
 
         $list[] = [
             'class'  => $analyticsController,
-            'action' => 'hit',
+            'action' => 'hit_record',
             'public' => true,
         ];
         $list[] = [
             'class'  => $analyticsController,
-            'action' => 'online',
+            'action' => 'online_check',
             'public' => true,
         ];
 
