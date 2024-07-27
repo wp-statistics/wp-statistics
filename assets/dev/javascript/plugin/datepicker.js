@@ -3,6 +3,35 @@ jQuery(document).ready(function () {
     const datePickerElement = jQuery('.js-date-range-picker-input');
     const datePickerForm = jQuery('.js-date-range-picker-form');
 
+    function phpToMomentFormat(phpFormat) {
+        // Map PHP format specifiers to Moment.js format specifiers
+        const formatMap = {
+            'Y': 'YYYY',      // 4-digit year
+            'y': 'YY',        // 2-digit year
+            'm': 'MM',        // 2-digit month
+            'd': 'DD',        // 2-digit day
+            'H': 'HH',        // 24-hour format
+            'i': 'mm',        // Minutes
+            's': 'ss',        // Seconds
+            'F': 'MMMM',      // Full month name
+            'j': 'D',         // Day of the month
+            'g': 'h',         // 12-hour format
+            'a': 'a',         // AM/PM
+            'A': 'A'          // AM/PM
+        };
+
+        // Replace PHP format with Moment.js format
+        return phpFormat.replace(/([a-zA-Z])/g, (match) => formatMap[match] || match);
+    }
+
+     const phpFormats = [
+        'F j, Y',       // Full month name, day, year
+        'Y-m-d',        // Year-month-day
+        'm/d/Y',        // Month/day/year
+        'd/m/Y'         // Day/month/year
+    ];
+
+
     if (datePickerBtn.length && datePickerElement.length && datePickerForm.length) {
         datePickerBtn.on('click', function () {
             datePickerElement.trigger('click');
@@ -34,10 +63,15 @@ jQuery(document).ready(function () {
         if (wps_js.isset(wps_js.global, 'request_params', 'from') && wps_js.isset(wps_js.global, 'request_params', 'to')) {
             const requestFromDate = wps_js.global.request_params.from;
             const requestToDate = wps_js.global.request_params.to;
+             const dateFormat = 'MM/DD/YYYY' ;
+             const phpDateFormat  = datePickerBtn.attr('data-date-format') ? datePickerBtn.attr('data-date-format') :  'MM/DD/YYYY';
+            const momentDateFormat = phpToMomentFormat(phpDateFormat);
+
             datePickerElement.data('daterangepicker').setStartDate(moment(requestFromDate).format('MM/DD/YYYY'));
             datePickerElement.data('daterangepicker').setEndDate(moment(requestToDate).format('MM/DD/YYYY'));
             datePickerElement.data('daterangepicker').updateCalendars();
-            const activeRangeText = datePickerElement.data('daterangepicker').container.find('.ranges li.active').text();
+            const activeText = datePickerElement.data('daterangepicker').container.find('.ranges li.active').text();
+            const activeRangeText = activeText !== 'Custom Range' ?  activeText : moment(requestToDate).format(momentDateFormat) + ' - '+ moment(requestFromDate).format(momentDateFormat);
             datePickerBtn.find('span').html(activeRangeText);
         } else {
             let defaultRange = datePickerBtn.find('span').text();

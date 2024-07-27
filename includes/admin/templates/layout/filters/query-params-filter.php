@@ -30,6 +30,7 @@ if ($selected) {
 
         <?php if ($isDataPlusActive) : ?>
             <div class="dropdown-content">
+                <input type="text" class="wps-search-dropdown">
                 <a href="<?php echo esc_url($baseUrl) ?>" data-index="0" class="<?php echo !$selected ? 'selected' : '' ?>"><?php esc_html_e('All', 'wp-statistics'); ?></a>
     
                 <?php foreach ($filterOptions as $key => $item) : ?>
@@ -38,7 +39,7 @@ if ($selected) {
                         $url    = add_query_arg([$queryKey => $item->page_id], $baseUrl);
                     ?>
     
-                    <a href="<?php echo esc_url($url) ?>" data-index="<?php echo esc_attr($key + 1) ?>" title="<?php echo esc_attr($item->uri) ?>" class="<?php echo $selected == $item->page_id ? 'selected' : '' ?>">
+                    <a href="<?php echo esc_url($url) ?>" data-index="<?php echo esc_attr($key + 1) ?>" title="<?php echo esc_attr($item->uri) ?>" class="dropdown-item <?php echo $selected == $item->page_id ? 'selected' : '' ?>">
                         <?php echo !empty($title) ? esc_html($title) : esc_html($item->uri) ?>
                     </a>
                 <?php endforeach; ?>
