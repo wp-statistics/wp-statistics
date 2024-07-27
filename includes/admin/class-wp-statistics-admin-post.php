@@ -5,6 +5,7 @@ namespace WP_STATISTICS;
 use WP_Statistics\MiniChart\WP_Statistics_Mini_Chart_Settings;
 use WP_Statistics\Models\ViewsModel;
 use WP_Statistics\Models\VisitorsModel;
+use WP_Statistics\Utils\Request;
 
 class Admin_Post
 {
@@ -75,9 +76,12 @@ class Admin_Post
             $post_type   = Pages::get_post_type($post_id);
             $hitPostType = Pages::checkIfPageIsHome($post_id) ? 'home' : $post_type;
             $args        = ['post_id' => $post_id, 'resource_type' => $hitPostType];
+            $from        = date('Y-m-d', 0);
+            $to          = date('Y-m-d');
 
             if (Helper::checkMiniChartOption('count_display', 'date_range', 'total')) {
-                $args['date'] = ['from' => TimeZone::getTimeAgo(intval(Option::getByAddon('date_range', 'mini_chart', '14'))), 'to' => date('Y-m-d')];
+                $from         = TimeZone::getTimeAgo(intval(Option::getByAddon('date_range', 'mini_chart', '14')));
+                $args['date'] = ['from' => $from, 'to' => date('Y-m-d')];
             }
 
             if (Helper::checkMiniChartOption('metric', 'visitors', 'visitors')) {
@@ -116,7 +120,7 @@ class Admin_Post
                     Helper::isAddOnActive('mini-chart') && Option::getByAddon('count_display', 'mini_chart', 'total') === 'disabled' ? 'wps-hide' : '',
                     Helper::isAddOnActive('mini-chart') ? '' : 'wps-hide',
                     Helper::checkMiniChartOption('metric', 'visitors', 'visitors') ? esc_html__('Visitors:', 'wp-statistics') : esc_html__('Views:', 'wp-statistics'),
-                    Menus::admin_url('content-analytics', ['post_id' => $post_id, 'type' => 'single']), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                    esc_url(Menus::admin_url('content-analytics', ['post_id' => $post_id, 'type' => 'single', 'from' => Request::get('from', $from), 'to' => Request::get('to', $to)])),
                     esc_html(number_format($hitCount)) // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                 );
             }
@@ -202,7 +206,7 @@ class Admin_Post
         if ($post->post_status == 'publish') {
             echo sprintf('<div class="misc-pub-section misc-pub-hits">%s <a href="%s">%s</a></div>',
                 Helper::checkMiniChartOption('metric', 'visitors', 'visitors') ? esc_html__('Visitors:', 'wp-statistics') : esc_html__('Views:', 'wp-statistics'),
-                Menus::admin_url('content-analytics', ['post_id' => $post->ID, 'type' => 'single']),
+                esc_url(Menus::admin_url('content-analytics', ['post_id' => $post->ID, 'type' => 'single', 'from' => Request::get('from', date('Y-m-d', 0)), 'to' => Request::get('to', date('Y-m-d'))])),
                 esc_html(number_format($hitCount))
             );
         }
