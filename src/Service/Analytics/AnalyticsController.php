@@ -14,7 +14,7 @@ class AnalyticsController
      *
      * @return  void
      */
-    public function hit_action_callback()
+    public function hit_record_action_callback()
     {
         if (!Helper::is_request('ajax')) {
             return;
@@ -27,7 +27,7 @@ class AnalyticsController
             wp_send_json(['status' => true]);
 
         } catch (Exception $e) {
-            wp_send_json_error($e->getMessage(), $e->getCode());
+            wp_send_json(['status' => false, 'data' => $e->getMessage()], $e->getCode());
         }
     }
 
@@ -36,7 +36,7 @@ class AnalyticsController
      *
      * @return  void
      */
-    public function online_action_callback()
+    public function online_check_action_callback()
     {
         if (!Helper::is_request('ajax')) {
             return;
@@ -49,7 +49,7 @@ class AnalyticsController
             wp_send_json(['status' => true]);
 
         } catch (Exception $e) {
-            wp_send_json_error($e->getMessage(), $e->getCode());
+            wp_send_json(['status' => false, 'data' => $e->getMessage()], $e->getCode());
         }
     }
 

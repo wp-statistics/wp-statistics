@@ -1,3 +1,14 @@
+= 14.9.3 - 28.07.2024 =
+* Enhancement: Enhanced IP Method Detection mechanism and updated the settings page for better user experience and simplicity.
+* Enhancement: Improved `tracker.js` by switching to xhr/POST requests and adding helpful console logs.
+* Enhancement: Enhanced the Add-Ons page and license activation status display.
+* Enhancement: Adjusted the notices so that all are only shown to users with the `manage_options` capability, with some notices appearing only on the plugin pages.
+* Enhancement: Improved the posts report view with a customized date format and enhanced datepicker functionality.
+* Enhancement: Adjusted custom date range format to align with WordPress date settings.
+* Enhancement: Enhanced table sorting functionality.
+* Enhancement: Implemented minor improvements.
+* Fix: Prevented Chart.js from loading in the admin bar when the mini-chart add-on is disabled.
+
 = 14.9.2 - 22.07.2024 =
 * Enhancement: Remove visitors from the user online section if inactive for more than 30 minutes, improving performance.
 * Enhancement: Avoid user online check requests when this feature is disabled.

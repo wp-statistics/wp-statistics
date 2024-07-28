@@ -3,6 +3,22 @@ jQuery(document).ready(function () {
     const datePickerElement = jQuery('.js-date-range-picker-input');
     const datePickerForm = jQuery('.js-date-range-picker-form');
 
+    function phpToMomentFormat(phpFormat) {
+        const formatMap = {
+            'd': 'DD',
+            'j': 'D',
+            'S': 'Do',
+            'n': 'M',
+            'm': 'MM',
+            'F': 'MMMM',
+            'M': 'MMM',
+            'y': 'YY',
+            'Y': 'YYYY'
+        };
+
+        return phpFormat.replace(/([a-zA-Z])/g, (match) => formatMap[match] || match);
+    }
+
     if (datePickerBtn.length && datePickerElement.length && datePickerForm.length) {
         datePickerBtn.on('click', function () {
             datePickerElement.trigger('click');
@@ -23,7 +39,7 @@ jQuery(document).ready(function () {
         };
 
         if (datePickerBtn.hasClass('js-date-range-picker-all-time')) {
-             ranges['All Time'] = [moment(0), moment()];
+            ranges['All Time'] = [moment(0), moment()];
         }
 
         datePickerElement.daterangepicker({
@@ -31,13 +47,36 @@ jQuery(document).ready(function () {
             "ranges": ranges,
         });
 
+
         if (wps_js.isset(wps_js.global, 'request_params', 'from') && wps_js.isset(wps_js.global, 'request_params', 'to')) {
             const requestFromDate = wps_js.global.request_params.from;
             const requestToDate = wps_js.global.request_params.to;
+            const phpDateFormat = datePickerBtn.attr('data-date-format') ? datePickerBtn.attr('data-date-format') : 'MM/DD/YYYY';
+            let momentDateFormat = phpToMomentFormat(phpDateFormat);
             datePickerElement.data('daterangepicker').setStartDate(moment(requestFromDate).format('MM/DD/YYYY'));
             datePickerElement.data('daterangepicker').setEndDate(moment(requestToDate).format('MM/DD/YYYY'));
             datePickerElement.data('daterangepicker').updateCalendars();
-            const activeRangeText = datePickerElement.data('daterangepicker').container.find('.ranges li.active').text();
+            const activeText = datePickerElement.data('daterangepicker').container.find('.ranges li.active').text();
+
+            const startMoment = moment(requestFromDate);
+            const endMoment = moment(requestToDate);
+            let activeRangeText;
+            if (startMoment.year() === endMoment.year() ) {
+                const startDateFormat = momentDateFormat.replace(/,?\s?(YYYY|YY)[-/\s]?,?|[-/\s]?(YYYY|YY)[-/\s]?,?/g, "");
+                activeRangeText = `${startMoment.format(startDateFormat)} - ${endMoment.format(momentDateFormat)}`;
+            } else {
+                activeRangeText = `${startMoment.format(momentDateFormat)} - ${endMoment.format(momentDateFormat)}`;
+            }
+
+            if (activeText !== 'Custom Range') {
+                if (activeText !== 'Today' && activeText !== 'Yesterday' && activeText !== 'All Time') {
+                    activeRangeText = `<span class="wps-date-range">${activeText}</span>${activeRangeText}`;
+                    document.querySelector('.js-date-range-picker-btn').classList.add('custom-range')
+                } else {
+                    activeRangeText = activeText
+                }
+
+            }
             datePickerBtn.find('span').html(activeRangeText);
         } else {
             let defaultRange = datePickerBtn.find('span').text();
@@ -79,8 +118,8 @@ jQuery(document).ready(function () {
             const correspondingPicker = picker.container;
             jQuery(correspondingPicker).addClass(ev.target.className);
         });
-        datePickerField.on('apply.daterangepicker', function(ev, picker) {
-             jQuery('.wps-today-datepicker').submit();
+        datePickerField.on('apply.daterangepicker', function (ev, picker) {
+            jQuery('.wps-today-datepicker').submit();
         });
     }
 });

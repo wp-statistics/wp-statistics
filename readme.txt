@@ -4,7 +4,7 @@ Donate link: https://wp-statistics.com/donate/
 Tags: analytics, google analytics, insights, stats, site visitors
 Requires at least: 5.0
 Tested up to: 6.6
-Stable tag: 14.9.2
+Stable tag: 14.9.3
 Requires PHP: 5.6
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -62,7 +62,7 @@ You can find more information in "[What we collect](https://wp-statistics.com/re
  * And more!
 
 **Get the most out of your website analytics by using WP Statistics Premium Add-ons**
-Upgrade your analytics toolkit with our range of premium add-ons, including [Data Plus](https://wp-statistics.com/product/wp-statistics-data-plus?utm_source=wporg&utm_medium=link&utm_campaign=dp), [Advanced Reporting](https://wp-statistics.com/product/wp-statistics-advanced-reporting/?utm_source=wporg&utm_medium=link&utm_campaign=adv-report), [Real-Time Stats](https://wp-statistics.com/product/wp-statistics-realtime-stats/?utm_source=wporg&utm_medium=link&utm_campaign=real-time), [Mini Chart](https://wp-statistics.com/product/wp-statistics-mini-chart/?utm_source=wporg&utm_medium=link&utm_campaign=mini-chart), and [more](https://wp-statistics.com/add-ons/?utm_source=wporg&utm_medium=link&utm_campaign=add-ons). Making informed decisions is easier with these powerful tools.
+Upgrade your analytics toolkit with our range of premium add-ons, including [Data Plus](https://wp-statistics.com/product/wp-statistics-data-plus?utm_source=wporg&utm_medium=link&utm_campaign=dp), [Advanced Reporting](https://wp-statistics.com/product/wp-statistics-advanced-reporting/?utm_source=wporg&utm_medium=link&utm_campaign=adv-report), [Real-Time Stats](https://wp-statistics.com/product/wp-statistics-realtime-stats/?utm_source=wporg&utm_medium=link&utm_campaign=realtime), [Mini Chart](https://wp-statistics.com/product/wp-statistics-mini-chart/?utm_source=wporg&utm_medium=link&utm_campaign=mini-chart), and [more](https://wp-statistics.com/add-ons/?utm_source=wporg&utm_medium=link&utm_campaign=add-ons). Making informed decisions is easier with these powerful tools.
 
 **Special Offer:** Purchase the [bundle pack](https://wp-statistics.com/product/add-ons-bundle/?utm_source=wporg&utm_medium=link&utm_campaign=bundle) and Enjoy Savings of up to 60%!
 
@@ -134,13 +134,16 @@ To ensure the plugin works correctly, please clear your cache because some reque
 Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest version.
 
 == Changelog ==
-= 14.9.2 - 22.07.2024 =
-* Enhancement: Remove visitors from the user online section if inactive for more than 30 minutes, improving performance.
-* Enhancement: Avoid user online check requests when this feature is disabled.
-* Enhancement: Improve response codes for failed views and exclusions.
-* Enhancement: Remove old hash assets if the Bypass Ad Blockers option is disabled.
-* Fix: Corrected the Daily Traffic Trend widget issue.
-* Fix: Corrected the issue where reporting emails were sent; the current status is now disabled by default.
+= 14.9.3 - 28.07.2024 =
+* Enhancement: Enhanced IP Method Detection mechanism and updated the settings page for better user experience and simplicity.
+* Enhancement: Improved `tracker.js` by switching to xhr/POST requests and adding helpful console logs.
+* Enhancement: Enhanced the Add-Ons page and license activation status display.
+* Enhancement: Adjusted the notices so that all are only shown to users with the `manage_options` capability, with some notices appearing only on the plugin pages.
+* Enhancement: Improved the posts report view with a customized date format and enhanced datepicker functionality.
+* Enhancement: Adjusted custom date range format to align with WordPress date settings.
+* Enhancement: Enhanced table sorting functionality.
+* Enhancement: Implemented minor improvements.
+* Fix: Prevented Chart.js from loading in the admin bar when the mini-chart add-on is disabled.
 
 For more information about the major update, please [visit our blog post](https://wp-statistics.com/?p=15915) or follow [@wp_statistics](https://twitter.com/wp_statistics) on Twitter
 

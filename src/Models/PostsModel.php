@@ -14,7 +14,7 @@ class PostsModel extends BaseModel
     {
         $args = $this->parseArgs($args, [
             'date'      => '',
-            'post_type' => '',
+            'post_type' => Helper::getPostTypes(),
             'author_id' => '',
             'taxonomy'  => '',
             'term'      => ''
@@ -177,8 +177,8 @@ class PostsModel extends BaseModel
             'post_type' => Helper::get_list_post_type(),
             'order_by'  => 'title',
             'order'     => 'DESC',
-            'page'     => 1,
-            'per_page' => 5,
+            'page'      => 1,
+            'per_page'  => 5,
             'author_id' => ''
         ]);
 
@@ -208,16 +208,17 @@ class PostsModel extends BaseModel
                 'COALESCE(pages.views, 0) AS views',
                 'COALESCE(visitors.visitors, 0) AS visitors',
                 'COALESCE(comments.total_comments, 0) AS comments',
-                "MAX(CASE WHEN postmeta.meta_key = 'wp_statistics_words_count' THEN postmeta.meta_value ELSE 0 END) AS words"
+                "CAST(MAX(CASE WHEN postmeta.meta_key = 'wp_statistics_words_count' THEN postmeta.meta_value ELSE 0 END) AS UNSIGNED) AS words"
             ])
             ->from('posts')
             ->joinQuery($commentsQuery, ['posts.ID', 'comments.comment_post_ID'], 'comments', 'LEFT')
-            ->joinQuery($viewsQuery, ['posts.ID', 'pages.id'], 'pages')
-            ->joinQuery($visitorsQuery, ['posts.ID', 'visitors.post_id'], 'visitors')
+            ->joinQuery($viewsQuery, ['posts.ID', 'pages.id'], 'pages', 'LEFT')
+            ->joinQuery($visitorsQuery, ['posts.ID', 'visitors.post_id'], 'visitors', 'LEFT')
             ->join('postmeta', ['posts.ID', 'postmeta.post_id'], [], 'LEFT')
             ->where('post_type', 'IN', $args['post_type'])
             ->where('post_status', '=', 'publish')
             ->where('posts.post_author', '=', $args['author_id'])
+            ->whereDate('posts.post_date', $args['date'])
             ->groupBy('posts.ID')
             ->orderBy($args['order_by'], $args['order'])
             ->perPage($args['page'], $args['per_page'])
