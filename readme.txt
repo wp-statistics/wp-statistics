@@ -134,7 +134,7 @@ To ensure the plugin works correctly, please clear your cache because some reque
 Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest version.
 
 == Changelog ==
-= 14.9.3 - 27.07.2024 =
+= 14.9.3 - 28.07.2024 =
 * Enhancement: Enhanced IP Method Detection mechanism and updated the settings page for better user experience and simplicity.
 * Enhancement: Improved `tracker.js` by switching to xhr/POST requests and adding helpful console logs.
 * Enhancement: Enhanced the Add-Ons page and license activation status display.
