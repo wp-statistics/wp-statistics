@@ -52,7 +52,7 @@ jQuery(document).ready(function () {
             const requestFromDate = wps_js.global.request_params.from;
             const requestToDate = wps_js.global.request_params.to;
             const phpDateFormat = datePickerBtn.attr('data-date-format') ? datePickerBtn.attr('data-date-format') : 'MM/DD/YYYY';
-            const momentDateFormat = phpToMomentFormat(phpDateFormat);
+            let momentDateFormat = phpToMomentFormat(phpDateFormat);
             datePickerElement.data('daterangepicker').setStartDate(moment(requestFromDate).format('MM/DD/YYYY'));
             datePickerElement.data('daterangepicker').setEndDate(moment(requestToDate).format('MM/DD/YYYY'));
             datePickerElement.data('daterangepicker').updateCalendars();
@@ -62,7 +62,7 @@ jQuery(document).ready(function () {
             const endMoment = moment(requestToDate);
             let activeRangeText;
             if (startMoment.year() === endMoment.year() ) {
-                const startDateFormat = momentDateFormat.replace(/,? ?YYYY|,? ?YY/g, "");
+                const startDateFormat = momentDateFormat.replace(/,?\s?YYYY[-\s]?,?|,?\s?YY[-\s]?,?/g, "");
                 activeRangeText = `${startMoment.format(startDateFormat)} - ${endMoment.format(momentDateFormat)}`;
             } else {
                 activeRangeText = `${startMoment.format(momentDateFormat)} - ${endMoment.format(momentDateFormat)}`;
