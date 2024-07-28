@@ -82,7 +82,7 @@ class Admin_Post
 
             if ($hit_number) {
                 $preview_chart_unlock_html = sprintf('<div class="wps-admin-column__unlock"><a href="%s" target="_blank"><span>%s</span><img src="%s"/></a></div>',
-                    'https://wp-statistics.com/product/wp-statistics-mini-chart?utm_source=wp_statistics&utm_medium=display&utm_campaign=wordpress',
+                    'https://wp-statistics.com/product/wp-statistics-mini-chart?utm_source=wp-statistics&utm_medium=link&utm_campaign=mini-chart',
                     __('Unlock This Feature!', 'wp-statistics'),
                     WP_STATISTICS_URL . 'assets/images/mini-chart-posts-preview.png'
                 );
