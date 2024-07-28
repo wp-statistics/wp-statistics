@@ -66,7 +66,7 @@ jQuery(document).ready(function () {
             if (startMoment.year() === endMoment.year() ) {
                 switch (phpDateFormat) {
                     case 'M j, Y':
-                        activeRangeText = `${startMoment.format('D MMM')} - ${endMoment.format('D MMM, YYYY')}`;
+                        activeRangeText = `${startMoment.format('MMM D')} - ${endMoment.format('MMM D, YYYY')}`;
                         break;
                     case 'Y-m-d':
                         activeRangeText = `${startMoment.format('MM-DD')} - ${endMoment.format('MM-DD, Y')}`;
