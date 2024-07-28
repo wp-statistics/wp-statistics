@@ -18,10 +18,10 @@ let wpStatisticsUserOnline = {
         hasTrackerInitializedOnce = true;
 
         if (typeof WP_Statistics_Tracker_Object == "undefined") {
-            console.log('Variable WP_Statistics_Tracker_Object not found on the page source. Please ensure that you have excluded the /wp-content/plugins/wp-statistics/assets/js/tracker.js file from your cache and then clear your cache.');
+            console.error('WP Statistics: Variable WP_Statistics_Tracker_Object not found. Ensure /wp-content/plugins/wp-statistics/assets/js/tracker.js is either excluded from cache settings or not dequeued by any plugin. Clear your cache if necessary.');
         } else {
             this.checkHitRequestConditions();
-            
+
             if (WP_Statistics_Tracker_Object.option.userOnline) {
                 this.keepUserOnline();
             }
@@ -30,65 +30,64 @@ let wpStatisticsUserOnline = {
 
     // Check Conditions for Sending Hit Request
     checkHitRequestConditions: function () {
-        if (WP_Statistics_Tracker_Object.option.isClientSideTracking) {
-            if (WP_Statistics_Tracker_Object.option.dntEnabled) {
-                if (WP_Statistics_Dnd_Active !== 1) {
-                    this.sendHitRequest();
-                }
-            } else {
+        if (WP_Statistics_Tracker_Object.option.dntEnabled) {
+            if (WP_Statistics_Dnd_Active !== 1) {
                 this.sendHitRequest();
+            } else {
+                console.log('WP Statistics: Do Not Track (DNT) is enabled. Hit request not sent.');
             }
+        } else {
+            this.sendHitRequest();
         }
     },
 
     // Sending Hit Request
     sendHitRequest: async function () {
-        if (!WP_Statistics_Tracker_Object.option.isClientSideTracking) {
-            return;
-        }
-
         try {
-            const timestamp = Date.now();
-            const requestUrl = `${WP_Statistics_Tracker_Object.hitRequestUrl}&referred=${referred}&_=${timestamp}`;
-
-            const response = await fetch(requestUrl, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json;charset=UTF-8',
-                },
-            });
-
-            if (!response.ok) {
-                if (response.status === 403) {
-                    this.hitRequestSuccessful = false; // Set flag to false if status is 403
+            let requestUrl = this.getRequestUrl('hit');
+            const params   = new URLSearchParams({
+                ...WP_Statistics_Tracker_Object.hitParams,
+                referred
+            }).toString();
+            
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', requestUrl, true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhr.send(params);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        const responseData = JSON.parse(xhr.responseText);
+                        this.hitRequestSuccessful = responseData.status !== false;
+                    } else {
+                        this.hitRequestSuccessful = false;
+                        console.warn('WP Statistics: Hit request failed with status ' + xhr.status);
+                    }
                 }
-            } else {
-                const responseData = await response.json();
-                if (responseData.status === false) {
-                    this.hitRequestSuccessful = false; // Set flag to false if status in response is false
-                } else {
-                    this.hitRequestSuccessful = true; // Set flag to true if request is successful
-                }
-            }
+            }.bind(this);
         } catch (error) {
             this.hitRequestSuccessful = false;
+            console.error('WP Statistics: Error sending hit request:', error);
         }
     },
 
     // Send Request to REST API to Show User Is Online
-    sendOnlineUserRequest: function () {
-        if (!this.hitRequestSuccessful || !WP_Statistics_Tracker_Object.option.isClientSideTracking) {
-            return; // Stop if hit request was not successful or isClientSideTracking is false
+    sendOnlineUserRequest: async function () {
+        if (!this.hitRequestSuccessful) {
+            return; // Stop if hit request was not successful
         }
 
         try {
-            const timestamp = Date.now();
-            const requestUrl = `${WP_Statistics_Tracker_Object.keepOnlineRequestUrl}&referred=${referred}&_=${timestamp}`;
-
-            var WP_Statistics_http = new XMLHttpRequest();
-            WP_Statistics_http.open("GET", requestUrl);
-            WP_Statistics_http.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-            WP_Statistics_http.send(null);
+            let requestUrl = this.getRequestUrl('online');
+            const params   = new URLSearchParams({
+                ...WP_Statistics_Tracker_Object.onlineParams,
+                referred
+            }).toString();
+            
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', requestUrl, true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhr.send(params);
         } catch (error) {
 
         }
@@ -104,9 +103,7 @@ let wpStatisticsUserOnline = {
 
         const userOnlineInterval = setInterval(
             function () {
-                if ((!WP_Statistics_Tracker_Object.option.dntEnabled ||
-                    (WP_Statistics_Tracker_Object.option.dntEnabled && WP_Statistics_Dnd_Active !== 1)) &&
-                    this.hitRequestSuccessful && WP_Statistics_Tracker_Object.option.isClientSideTracking) {
+                if ((!WP_Statistics_Tracker_Object.option.dntEnabled || (WP_Statistics_Tracker_Object.option.dntEnabled && WP_Statistics_Dnd_Active !== 1)) && this.hitRequestSuccessful) {
                     this.sendOnlineUserRequest();
                 }
             }.bind(this), WP_Statistics_CheckTime
@@ -122,6 +119,22 @@ let wpStatisticsUserOnline = {
                 }, 30 * 60 * 1000);
             });
         });
+    },
+
+    getRequestUrl: function(type) {
+        let requestUrl = `${WP_Statistics_Tracker_Object.requestUrl}/`;
+
+        if (WP_Statistics_Tracker_Object.option.bypassAdBlockers) {
+            requestUrl += 'wp-admin/admin-ajax.php';
+        } else {
+            if (type === 'hit') {
+                requestUrl += WP_Statistics_Tracker_Object.hitParams.endpoint;
+            } else if (type === 'online') {
+                requestUrl += WP_Statistics_Tracker_Object.onlineParams.endpoint;
+            }
+        }
+
+        return requestUrl;
     },
 };
 

@@ -12,6 +12,7 @@ use WP_STATISTICS\Option;
 use WP_STATISTICS\RestAPI;
 use WP_STATISTICS\Schedule;
 use WP_STATISTICS\User;
+use WP_Statistics\Utils\Request;
 
 class GeneralNotices
 {
@@ -35,7 +36,7 @@ class GeneralNotices
     {
         $this->core_notices = apply_filters('wp_statistics_admin_notices', $this->core_notices);
 
-        if (is_admin() && !Helper::is_request('ajax') && !Option::get('hide_notices')) {
+        if (is_admin() && !Helper::is_request('ajax') && !Option::get('hide_notices') && User::Access('manage')) {
             foreach ($this->core_notices as $notice) {
                 if (method_exists($this, $notice)) {
                     call_user_func([$this, $notice]);
@@ -46,25 +47,26 @@ class GeneralNotices
 
     private function check_tracking_mode()
     {
-        $cachePluginInfo = Helper::checkActiveCachePlugin();
-        $trackingMode    = Option::get('use_cache_plugin');
+        if (Menus::in_plugin_page()) {
+            $cachePluginInfo = Helper::checkActiveCachePlugin();
+            $trackingMode    = Option::get('use_cache_plugin');
 
-        if (!$trackingMode && $cachePluginInfo['status'] === true) {
-            $noticeText = ($cachePluginInfo['plugin'] === "core")
-                ? __('WP Statistics might not count the stats since <code>WP_CACHE</code> is detected in <code>wp-config.php</code>', 'wp-statistics')
-                : sprintf(__('<b>WP Statistics</b> accuracy may be affected by the <b>%s</b> plugin. Please go to <a href="%s">Settings → General → Tracking Mode</a> and set the tracking mode to <b>Client-Side</b>.', 'wp-statistics'), $cachePluginInfo['plugin'], Menus::admin_url('settings'));
+            if (!$trackingMode && $cachePluginInfo['status'] === true) {
+                $settingsUrl = Menus::admin_url('settings');
+                $noticeText  = sprintf(__('<b>WP Statistics</b> accuracy may be affected by your current settings. Please switch to Client Side Tracking for better accuracy and caching compatibility. <a href="%s">Update Tracking Settings</a>.', 'wp-statistics'), $settingsUrl);
+                Notice::addNotice($noticeText, 'cache_plugin_usage_warning', 'warning');
 
-            Notice::addNotice($noticeText, 'cache_plugin_usage_warning', 'warning');
-
-        } elseif (!$trackingMode) {
-            $settingsUrl = Menus::admin_url('settings');
-            Notice::addNotice(sprintf('<b>WP Statistics Notice:</b> Server Side Tracking is less accurate and will be deprecated in <b>version 15</b>. Please switch to Client Side Tracking for better accuracy. <a href="%s">Update Tracking Settings</a>.', $settingsUrl), 'deprecate_server_side_tracking', 'warning');
+            } elseif (!$trackingMode) {
+                $settingsUrl = Menus::admin_url('settings');
+                $noticeText  = sprintf('<b>WP Statistics Notice:</b> Server Side Tracking is less accurate and will be deprecated in <b>version 15</b>. Please switch to Client Side Tracking for better accuracy. <a href="%s">Update Tracking Settings</a>.', $settingsUrl);
+                Notice::addNotice($noticeText, 'deprecate_server_side_tracking', 'warning');
+            }
         }
     }
 
     private function active_geo_ip()
     {
-        if (Menus::in_plugin_page() and !Option::get('geoip') and GeoIp::IsSupport() and User::Access('manage')) {
+        if (Menus::in_plugin_page() and !Option::get('geoip') and GeoIp::IsSupport()) {
             Notice::addNotice(sprintf(__('GeoIP collection is not enabled. Please go to <a href="%s">setting page</a> to enable GeoIP for getting more information and location (country) from the visitor.', 'wp-statistics'), Menus::admin_url('settings', array('tab' => 'externals-settings'))), 'active_geo_ip', 'warning');
         }
     }
@@ -78,7 +80,7 @@ class GeneralNotices
 
     private function active_collation()
     {
-        if (Menus::in_plugin_page() and User::Access('manage')) {
+        if (Menus::in_plugin_page()) {
 
             // Create Default Active List item
             $active_collation = array();
@@ -96,28 +98,30 @@ class GeneralNotices
 
     private function performance_and_clean_up()
     {
-        $totalDbRows = DB::getTableRows();
-        $totalRows   = array_sum(array_column($totalDbRows, 'rows'));
+        if (Menus::in_plugin_page()) {
+            $totalDbRows = DB::getTableRows();
+            $totalRows   = array_sum(array_column($totalDbRows, 'rows'));
 
-        if ($totalRows > apply_filters('wp_statistics_notice_db_row_threshold', 300000) && current_user_can('manage_options')) {
-            $settingsUrl      = admin_url('admin.php?page=wps_settings_page&tab=maintenance-settings');
-            $optimizationUrl  = admin_url('admin.php?page=wps_optimization_page');
-            $documentationUrl = 'https://wp-statistics.com/resources/optimizing-database-size-for-improved-performance/';
+            if ($totalRows > apply_filters('wp_statistics_notice_db_row_threshold', 300000)) {
+                $settingsUrl      = admin_url('admin.php?page=wps_settings_page&tab=maintenance-settings');
+                $optimizationUrl  = admin_url('admin.php?page=wps_optimization_page');
+                $documentationUrl = 'https://wp-statistics.com/resources/optimizing-database-size-for-improved-performance/';
 
-            $message = sprintf(
-                __('<b>Notice: Database Maintenance Recommended:</b> Your database has accumulated many records, which could slow down your site. To improve performance, go to <a href="%1$s">Settings → Data Management</a> to enable the option that stops recording old visitor data, and visit the <a href="%2$s">Optimization page</a> to clean up your database. This process only removes detailed old visitor logs but retains aggregated data. Your other data and overall statistics will remain unchanged. For more details, <a href="%3$s" target="_blank">click here</a>.', 'wp-statistics'),
-                esc_url($settingsUrl),
-                esc_url($optimizationUrl),
-                esc_url($documentationUrl)
-            );
+                $message = sprintf(
+                    __('<b>WP Statistics Notice (Database Maintenance Recommended):</b> Your database has accumulated many records, which could slow down your site. To improve performance, go to <a href="%1$s">Settings → Data Management</a> to enable the option that stops recording old visitor data, and visit the <a href="%2$s">Optimization page</a> to clean up your database. This process only removes detailed old visitor logs but retains aggregated data. Your other data and overall statistics will remain unchanged. For more details, <a href="%3$s" target="_blank">click here</a>.', 'wp-statistics'),
+                    esc_url($settingsUrl),
+                    esc_url($optimizationUrl),
+                    esc_url($documentationUrl)
+                );
 
-            Notice::addNotice($message, 'performance_and_clean_up', 'warning');
+                Notice::addNotice($message, 'performance_and_clean_up', 'warning');
+            }
         }
     }
 
     public function memory_limit_check()
     {
-        if (Menus::in_page('optimization') and User::Access('manage')) {
+        if (Menus::in_plugin_page()) {
             if (Helper::checkMemoryLimit()) {
                 Notice::addNotice(__('Your server memory limit is too low. Please contact your hosting provider to increase the memory limit.', 'wp-statistics'), 'memory_limit_check', 'warning');
             }
@@ -127,7 +131,7 @@ class GeneralNotices
     public function php_version_check()
     {
         if (version_compare(PHP_VERSION, '7.2', '<')) {
-            Notice::addNotice(__('<b>WP Statistics Plugin: PHP Version Update Alert</b> Starting with <b>Version 15</b>, WP Statistics will require <b>PHP 7.2 or higher</b>. Please upgrade your PHP version to ensure uninterrupted use of the plugin.'), 'php_version_check', 'warning');
+            Notice::addNotice(__('<b>WP Statistics Notice: PHP Version Update Alert</b> Starting with <b>Version 15</b>, WP Statistics will require <b>PHP 7.2 or higher</b>. Please upgrade your PHP version to ensure uninterrupted use of the plugin.'), 'php_version_check', 'warning');
         }
     }
 

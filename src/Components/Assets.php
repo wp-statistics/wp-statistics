@@ -133,7 +133,7 @@ class Assets
             return $file->getHashedFileUrl();
         }
 
-        $url = $plugin_url ? $plugin_url . '/' : self::$plugin_url;
+        $url = $plugin_url ? untrailingslashit($plugin_url) . '/' : self::$plugin_url;
 
         return $url . self::$asset_dir . '/' . $src;
     }

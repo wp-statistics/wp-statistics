@@ -8,7 +8,7 @@ class AnalyticsManager
 {
     public function __construct()
     {
-        if (Option::get('bypass_ad_blockers', false)) {
+        if (Option::get('use_cache_plugin') && Option::get('bypass_ad_blockers', false)) {
             add_filter('wp_statistics_ajax_list', [$this, 'registerAjaxCallbacks']);
         }
     }
@@ -16,7 +16,7 @@ class AnalyticsManager
     /**
      * Registers AJAX actions.
      *
-     * @param   array   $list
+     * @param array $list
      *
      * @return  array
      */
@@ -26,12 +26,12 @@ class AnalyticsManager
 
         $list[] = [
             'class'  => $analyticsController,
-            'action' => 'hit',
+            'action' => 'hit_record',
             'public' => true,
         ];
         $list[] = [
             'class'  => $analyticsController,
-            'action' => 'online',
+            'action' => 'online_check',
             'public' => true,
         ];
 

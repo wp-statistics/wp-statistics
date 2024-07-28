@@ -2065,6 +2065,21 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
       white-space: nowrap;
     }
 
+    .wps-search-dropdown{
+      border: 1px solid #dadce0 !important;
+      width: calc(100% - 8px);
+      box-sizing: border-box;
+      padding: 0 12px !important;
+      line-height: 36px !important;
+      min-height: 32px;
+      border-radius: 2px;
+      box-shadow: none!important;
+      outline: none!important;
+      background-color: #fff;
+      color: #2c3338;
+      margin: 4px;
+     }
+
     .dropbtn {
       font-size: 13px;
       color: #0C0C0D;
@@ -2234,6 +2249,13 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
       font-weight: 400;
       line-height: 24px;
       white-space: nowrap;
+    }
+
+    &.custom-range{
+      padding: 4px 8px!important;
+      svg{
+        display: none!important;
+      }
     }
   }
 

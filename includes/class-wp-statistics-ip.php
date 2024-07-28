@@ -34,7 +34,7 @@ class IP
      *
      * @var string
      */
-    public static $default_ip_method = 'REMOTE_ADDR';
+    public static $default_ip_method = 'sequential';
 
     /**
      * Hash IP Prefix
@@ -44,13 +44,19 @@ class IP
     public static $hash_ip_prefix = '#hash#';
 
     /**
-     * Returns available IP configuration options.
+     * Returns all IP method options
      *
      * @return array
      */
     public static function getIpOptions()
     {
-        return array_merge(self::$ip_methods_server, ['sequential']);
+        $ipOptions = self::$ip_methods_server;
+
+        if (isset($_SERVER[Option::get('ip_method')])) {
+            $ipOptions[] = Option::get('ip_method');
+        }
+
+        return array_unique($ipOptions);
     }
 
     /**
@@ -60,12 +66,11 @@ class IP
      */
     public static function getIP()
     {
-
         // Set Default
         $ip = false;
 
         // Get User IP Methods
-        $ip_method = self::getIPMethod();
+        $ip_method = self::getIpMethod();
 
         // Check IP detection method
         if ($ip_method === 'sequential') {
@@ -77,6 +82,12 @@ class IP
             }
         } else {
             $ip = isset($_SERVER[$ip_method]) ? $_SERVER[$ip_method] : false;
+
+            // Ensure backward compatibility for IP handling.
+            if ($ip == '') {
+                // If the IP address is not available, set the IP method to the default value for the next visitor to ensure consistent behavior.
+                Option::update('ip_method', self::$default_ip_method);
+            }
         }
 
         /**
@@ -99,6 +110,16 @@ class IP
         }
 
         return apply_filters('wp_statistics_user_ip', sanitize_text_field($ip));
+    }
+
+    public static function getIpVersion()
+    {
+        try {
+            $ipTools = new \WP_Statistics\Dependencies\IPTools\IP(self::getIP());
+            return $ipTools->getVersion();
+        } catch (Exception $e) {
+            return '';
+        }
     }
 
     /**
@@ -223,7 +244,7 @@ class IP
             try {
                 $parsedRange = Range::parse($list);
                 $contains_ip = false;
-                
+
                 if ($parsedRange->contains($ip)) {
                     $contains_ip = true;
                 }
@@ -252,12 +273,34 @@ class IP
     }
 
     /**
-     * what is Method $_SERVER for get User Real IP
+     * Retrieves the method used to obtain the user's real IP address.
+     *
+     * This method checks the configured IP method from the options and ensures
+     * backward compatibility by setting the option to a default value if an invalid
+     * method is found.
+     *
+     * @return string The method used to get the user's real IP address.
      */
-    public static function getIPMethod()
+    public static function getIpMethod()
     {
-        $ip_method = Option::get('ip_method');
-        return ($ip_method != false ? $ip_method : self::$default_ip_method);
+        // Retrieve the IP method from options
+        $ipMethod = Option::get('ip_method');
+
+        // If no method is set, return the default IP method
+        if (empty($ipMethod)) {
+            return self::$default_ip_method;
+        }
+
+        // Check for backward compatibility
+        if (!in_array($ipMethod, self::getIpOptions())) {
+            // Set the option to the default method for backward compatibility
+            Option::update('ip_method', self::$default_ip_method);
+
+            return self::$default_ip_method;
+        }
+
+        // Return the valid IP method
+        return $ipMethod;
     }
 
     /**

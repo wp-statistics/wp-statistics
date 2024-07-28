@@ -43,39 +43,48 @@ class Frontend
      */
     public function enqueue_scripts()
     {
-        /**
-         * Merge & build the URLs
-         */
-        $params               = array_merge([Hits::$rest_hits_key => 1], Helper::getHitsDefaultParams());
-        $hitRequestUrl        = add_query_arg($params, get_rest_url(null, RestAPI::$namespace . '/' . Api\v2\Hit::$endpoint));
-        $keepOnlineRequestUrl = add_query_arg($params, get_rest_url(null, RestAPI::$namespace . '/' . Api\v2\CheckUserOnline::$endpoint));
+        if (Option::get('use_cache_plugin')) {
 
-        /**
-         * Handle the bypass ad blockers
-         */
-        if (Option::get('bypass_ad_blockers', false)) {
-            $hitRequestUrl        = add_query_arg(array_merge($params, ['action' => 'wp_statistics_hit']), admin_url('admin-ajax.php'));
-            $keepOnlineRequestUrl = add_query_arg(array_merge($params, ['action' => 'wp_statistics_online']), admin_url('admin-ajax.php'));
+            /**
+             * Get default params
+             */
+            $params = array_merge([Hits::$rest_hits_key => 1], Helper::getHitsDefaultParams());
+            
+            /**
+             * Handle the bypass ad blockers
+             */
+            if (Option::get('bypass_ad_blockers', false)) {
+                // AJAX params
+                $requestUrl     = get_site_url();
+                $hitParams      = array_merge($params, ['action' => 'wp_statistics_hit_record']);
+                $onlineParams   = array_merge($params, ['action' => 'wp_statistics_online_check']);
+            } else {
+                // REST params
+                $requestUrl     = get_rest_url(null, RestAPI::$namespace);
+                $hitParams      = array_merge($params, ['endpoint' => Api\v2\Hit::$endpoint]);
+                $onlineParams   = array_merge($params, ['endpoint' => Api\v2\CheckUserOnline::$endpoint]);
+            }
+
+            /**
+             * Build the parameters
+             */
+            $jsArgs = array(
+                'requestUrl'        => $requestUrl,
+                'hitParams'         => $hitParams,
+                'onlineParams'      => $onlineParams,
+                'option'            => [
+                    'userOnline'            => Option::get('useronline'),
+                    'consentLevel'          => Option::get('consent_level_integration', 'disabled'),
+                    'dntEnabled'            => Option::get('do_not_track'),
+                    'bypassAdBlockers'      => Option::get('bypass_ad_blockers', false),
+                    'isWpConsentApiActive'  => WpConsentApi::isWpConsentApiActive(),
+                    'trackAnonymously'      => Helper::shouldTrackAnonymously()
+                ],
+                'jsCheckTime'       => apply_filters('wp_statistics_js_check_time_interval', 60000),
+            );
+
+            Assets::script('tracker', 'js/tracker.js', [], $jsArgs, true, Option::get('bypass_ad_blockers', false));
         }
-
-        /**
-         * Build the parameters
-         */
-        $jsArgs = array(
-            'hitRequestUrl'        => $hitRequestUrl,
-            'keepOnlineRequestUrl' => $keepOnlineRequestUrl,
-            'option'               => [
-                'userOnline'           => Option::get('useronline'),
-                'consentLevel'         => Option::get('consent_level_integration', 'disabled'),
-                'dntEnabled'           => Option::get('do_not_track'),
-                'isClientSideTracking' => Option::get('use_cache_plugin'),
-                'isWpConsentApiActive' => WpConsentApi::isWpConsentApiActive(),
-                'trackAnonymously'     => Helper::shouldTrackAnonymously()
-            ],
-            'jsCheckTime'          => apply_filters('wp_statistics_js_check_time_interval', 60000)
-        );
-
-        Assets::script('tracker', 'js/tracker.js', [], $jsArgs, true, Option::get('bypass_ad_blockers', false));
 
         // Load Chart.js library
         if (Helper::isAdminBarShowing()) {

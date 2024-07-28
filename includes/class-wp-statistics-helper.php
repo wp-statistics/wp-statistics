@@ -96,7 +96,7 @@ class Helper
      */
     public static function isBypassAdBlockersRequest()
     {
-        return (Request::compare('action', 'wp_statistics_hit') || Request::compare('action', 'wp_statistics_online'));
+        return (Request::compare('action', 'wp_statistics_hit_record') || Request::compare('action', 'wp_statistics_online_check'));
     }
 
     /**
@@ -1677,7 +1677,7 @@ class Helper
             ],
             [
                 'title'   => __('Real-Time Stats', 'wp-statistics'),
-                'content' => __(sprintf('Monitor your website\'s traffic and activity in real time. Your WordPress statistics are displayed instantly, so you don\'t need to refresh your page every time someone visits your blog. Watch your website\'s performance live. %1$s.', '<a href="https://wp-statistics.com/product/wp-statistics-realtime-stats/?utm_source=wp-statistics&utm_medium=email&utm_campaign=real-time" target="_blank">Read more</a>'), 'wp-statistics'),
+                'content' => __(sprintf('Monitor your website\'s traffic and activity in real time. Your WordPress statistics are displayed instantly, so you don\'t need to refresh your page every time someone visits your blog. Watch your website\'s performance live. %1$s.', '<a href="https://wp-statistics.com/product/wp-statistics-realtime-stats/?utm_source=wp-statistics&utm_medium=email&utm_campaign=realtime" target="_blank">Read more</a>'), 'wp-statistics'),
             ],
             [
                 'title'   => __('Mini Chart', 'wp-statistics'),
@@ -1725,9 +1725,7 @@ class Helper
         $dateTimeFormat = $withTime ? $dateFormat . ' ' . $timeFormat : $dateFormat;
 
         if ($excludeYear) {
-            $dateTimeFormat = str_replace(
-                [', Y', 'Y ,', 'Y', ',Y', 'Y,', 'y', ', y', 'y ,', ',y', 'y,'], '', $dateTimeFormat
-            );
+            $dateTimeFormat = preg_replace('/(,\s?Y|Y\s?,|Y[, \/-]?|[, \/-]?Y)/i', '', $dateTimeFormat);
         }
 
         return $dateTimeFormat;
@@ -1816,5 +1814,22 @@ class Helper
     public static function isRequestSignatureEnabled()
     {
         return apply_filters('wp_statistics_request_signature_enabled', true);
+    }
+
+
+    /**
+     * Generates a URL with the specified column as the `order_by` parameter and the current order as the `order` parameter.
+     * @param string $orderBy The column name to sort by
+     * @return string The generated URL.
+     */
+    public static function getTableColumnSortUrl($orderBy)
+    {
+        $order          = Request::get('order', 'desc');
+        $reverseOrder   = $order == 'desc' ? 'asc' : 'desc';
+
+        return add_query_arg([
+            'order_by'  => $orderBy,
+            'order'     => Request::compare('order_by', $orderBy) ? $reverseOrder : 'desc']
+        );
     }
 }

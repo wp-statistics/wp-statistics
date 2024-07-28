@@ -156,16 +156,20 @@ class AddOnDecorator
             return $this->status;
         }
 
-        $transientKey = AddOnsFactory::getLicenseTransientKey($this->getSlug());
+        $transientKey         = AddOnsFactory::getLicenseTransientKey($this->getSlug());
+        $downloadTransientKey = AddOnsFactory::getDownloadTransientKey($this->getSlug());
 
         // Get any existing copy of our transient data
         if (false === ($response = get_transient($transientKey))) {
-
-            $response = wp_remote_get(add_query_arg(array(
+            $args = add_query_arg([
                 'plugin-name' => $this->getSlug(),
                 'license_key' => $this->getLicense(),
                 'website'     => get_bloginfo('url'),
-            ), WP_STATISTICS_SITE . '/wp-json/plugins/v1/validate'));
+            ], WP_STATISTICS_SITE . '/wp-json/plugins/v1/validate');
+
+            $response = wp_remote_get($args, [
+                'timeout' => 35,
+            ]);
 
             if (is_wp_error($response)) {
                 return $response;
@@ -183,6 +187,10 @@ class AddOnDecorator
 
         if (isset($response->status) and $response->status == 200) {
             $this->isActivated = true;
+
+            // To clear the download transient and sync with download status
+            delete_transient($downloadTransientKey);
+
             return true;
         }
     }
