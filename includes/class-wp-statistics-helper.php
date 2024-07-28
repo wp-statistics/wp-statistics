@@ -1726,7 +1726,7 @@ class Helper
 
         if ($excludeYear) {
             $dateTimeFormat = str_replace(
-                [', Y', 'Y ,', 'Y', ',Y', 'Y,', 'y', ', y', 'y ,', ',y', 'y,', '-y', '-Y', 'y-', 'Y-'], '', $dateTimeFormat
+                [', Y', 'Y ,', 'Y', ',Y', 'Y,', 'y', ', y', 'y ,', ',y', 'y,', '-y', '-Y', 'y-', 'Y-', 'y/', 'Y/', '/y', '/Y'], '', $dateTimeFormat
             );
         }
 

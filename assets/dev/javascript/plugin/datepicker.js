@@ -62,7 +62,7 @@ jQuery(document).ready(function () {
             const endMoment = moment(requestToDate);
             let activeRangeText;
             if (startMoment.year() === endMoment.year() ) {
-                const startDateFormat = momentDateFormat.replace(/,?\s?YYYY[-\s]?,?|,?\s?YY[-\s]?,?/g, "");
+                const startDateFormat = momentDateFormat.replace(/,?\s?(YYYY|YY)[-/\s]?,?|[-/\s]?(YYYY|YY)[-/\s]?,?/g, "");
                 activeRangeText = `${startMoment.format(startDateFormat)} - ${endMoment.format(momentDateFormat)}`;
             } else {
                 activeRangeText = `${startMoment.format(momentDateFormat)} - ${endMoment.format(momentDateFormat)}`;
