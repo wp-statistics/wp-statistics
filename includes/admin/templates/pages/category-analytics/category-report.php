@@ -5,7 +5,6 @@ use WP_STATISTICS\Menus;
 use WP_Statistics\Utils\Request;
 
 $order          = Request::get('order', 'desc');
-$reverseOrder   = $order == 'desc' ? 'asc' : 'desc';
 $taxName        = Helper::getTaxonomyName(Request::get('tx', 'category'), true);
 ?>
 
@@ -20,32 +19,32 @@ $taxName        = Helper::getTaxonomyName(Request::get('tx', 'category'), true);
                                 <thead>
                                     <tr>
                                         <th class="wps-pd-l">
-                                            <a href="<?php echo esc_url(add_query_arg(['order_by' => 'term_name', 'order' => $reverseOrder])) ?>" class="sort <?php echo Request::compare('order_by', 'term_name') ? esc_attr($order) : ''; ?>">
+                                            <a href="<?php echo esc_url(Helper::getTableColumnSortUrl('term_name')) ?>" class="sort <?php echo Request::compare('order_by', 'term_name') ? esc_attr($order) : ''; ?>">
                                                 <?php echo esc_html($taxName); ?>
                                             </a>
                                         </th>
                                         <th class="wps-pd-l">
-                                            <a href="<?php echo esc_url(add_query_arg(['order_by' => 'views', 'order' => $reverseOrder])) ?>" class="sort <?php echo !Request::has('order_by') || Request::compare('order_by', 'views') ? esc_attr($order) : ''; ?>">
+                                            <a href="<?php echo esc_url(Helper::getTableColumnSortUrl('views')) ?>" class="sort <?php echo !Request::has('order_by') || Request::compare('order_by', 'views') ? esc_attr($order) : ''; ?>">
                                                 <?php esc_html_e('Views', 'wp-statistics'); ?>
                                             </a>
                                         </th>
                                         <th class="wps-pd-l">
-                                            <a href="<?php echo esc_url(add_query_arg(['order_by' => 'posts', 'order' => $reverseOrder])) ?>" class="sort <?php echo Request::compare('order_by', 'posts') ? esc_attr($order) : ''; ?>">
+                                            <a href="<?php echo esc_url(Helper::getTableColumnSortUrl('posts')) ?>" class="sort <?php echo Request::compare('order_by', 'posts') ? esc_attr($order) : ''; ?>">
                                                 <?php esc_html_e('Published ', 'wp-statistics'); ?>
                                             </a>
                                         </th>
                                         <th class="wps-pd-l">
-                                            <a href="<?php echo esc_url(add_query_arg(['order_by' => 'words', 'order' => $reverseOrder])) ?>" class="sort <?php echo Request::compare('order_by', 'words') ? esc_attr($order) : ''; ?>">
+                                            <a href="<?php echo esc_url(Helper::getTableColumnSortUrl('words')) ?>" class="sort <?php echo Request::compare('order_by', 'words') ? esc_attr($order) : ''; ?>">
                                                 <?php esc_html_e('Words ', 'wp-statistics'); ?>
                                             </a>
                                         </th>
                                         <th class="wps-pd-l">
-                                            <a href="<?php echo esc_url(add_query_arg(['order_by' => 'avg_views', 'order' => $reverseOrder])) ?>" class="sort <?php echo Request::compare('order_by', 'avg_views') ? esc_attr($order) : ''; ?>">
+                                            <a href="<?php echo esc_url(Helper::getTableColumnSortUrl('avg_views')) ?>" class="sort <?php echo Request::compare('order_by', 'avg_views') ? esc_attr($order) : ''; ?>">
                                                 <?php esc_html_e('Views/Content ', 'wp-statistics'); ?>
                                             </a>
                                         </th>
                                         <th class="wps-pd-l">
-                                            <a href="<?php echo esc_url(add_query_arg(['order_by' => 'avg_words', 'order' => $reverseOrder])) ?>" class="sort <?php echo Request::compare('order_by', 'avg_words') ? esc_attr($order) : ''; ?>">
+                                            <a href="<?php echo esc_url(Helper::getTableColumnSortUrl('avg_words')) ?>" class="sort <?php echo Request::compare('order_by', 'avg_words') ? esc_attr($order) : ''; ?>">
                                                 <?php esc_html_e('Words/Content ', 'wp-statistics'); ?>
                                             </a>
                                         </th>
