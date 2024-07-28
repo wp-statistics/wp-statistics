@@ -6,16 +6,20 @@ $isMiniChartActive         = WP_STATISTICS\Helper::isAddOnActive('mini-chart');
 $miniChartDefaultPostTypes = get_post_types(array(
     'public'   => true,
     '_builtin' => false
-));
+), 'objects');
 
-$miniChartPostTypes = array('post', 'page');
-foreach ($miniChartDefaultPostTypes as $name) {
-    $miniChartPostTypes[] = $name;
+$miniChartPostTypes = [
+    'post' => __('Posts', 'wp-statistics-mini-chart'),
+    'page' => __('Pages', 'wp-statistics-mini-chart'),
+];
+foreach ($miniChartDefaultPostTypes as $postType) {
+    $miniChartPostTypes[$postType->name] = $postType->label;
 }
 
 $miniChartPostTypesOptions = array();
-foreach ($miniChartPostTypes as $p) {
-    $miniChartPostTypesOptions[$p] = sprintf(__('Enable Mini Chart for %s', 'wp-statistics-mini-chart'), ucwords($p));
+foreach ($miniChartPostTypes as $name => $label) {
+    // translators: %s: Post type label.
+    $miniChartPostTypesOptions[$name] = sprintf(__('Enable Mini Chart for %s', 'wp-statistics-mini-chart'), $label);
 }
 ?>
 
