@@ -70,6 +70,7 @@ class PostsReportView extends BaseView
             'hasDateRang'   => true,
             'backUrl'       => Menus::admin_url($parentPage['page_url']),
             'backTitle'     => $parentPage['title'],
+            'allTimeOption' => true,
             'filters'       => ['post-types','author'],
             'data'          => $data,
             'paged'         => Admin_Template::getCurrentPaged()
