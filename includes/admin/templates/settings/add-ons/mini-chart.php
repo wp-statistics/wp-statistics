@@ -125,7 +125,7 @@ if (!$isMiniChartActive) echo Admin_Template::get_template('layout/partials/addo
             </th>
 
             <td>
-                <input type="text" class="regular-text code js-color-picker" id="mini-chart-chart_color" name="wps_addon_settings[mini_chart][chart_color]" value="<?php echo esc_attr(WP_STATISTICS\Option::getByAddon('chart_color', 'mini_chart')); ?>" style="min-width: 50px"/>
+                <input type="text" class="regular-text code js-color-picker" id="mini-chart-chart_color" name="wps_addon_settings[mini_chart][chart_color]" value="<?php echo esc_attr(WP_STATISTICS\Option::getByAddon('chart_color', 'mini_chart', '#7362BF')); ?>" style="min-width: 50px"/>
                 <p class="description"><?php esc_html_e('Select a color for your chart’s main elements to match your website’s theme.', 'wp-statistics'); ?></p>
             </td>
         </tr>
@@ -136,7 +136,7 @@ if (!$isMiniChartActive) echo Admin_Template::get_template('layout/partials/addo
             </th>
 
             <td>
-                <input type="text" class="regular-text code js-color-picker" id="mini-chart-chart_border_color" name="wps_addon_settings[mini_chart][chart_border_color]" value="<?php echo esc_attr(WP_STATISTICS\Option::getByAddon('chart_border_color', 'mini_chart')); ?>" style="min-width: 50px"/>
+                <input type="text" class="regular-text code js-color-picker" id="mini-chart-chart_border_color" name="wps_addon_settings[mini_chart][chart_border_color]" value="<?php echo esc_attr(WP_STATISTICS\Option::getByAddon('chart_border_color', 'mini_chart', '#0D0725')); ?>" style="min-width: 50px"/>
                 <p class="description"><?php esc_html_e('Pick a border color to enhance the visibility of your chart on the dashboard.', 'wp-statistics'); ?></p>
             </td>
         </tr>
