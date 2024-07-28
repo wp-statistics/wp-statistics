@@ -62,23 +62,8 @@ jQuery(document).ready(function () {
             const endMoment = moment(requestToDate);
             let activeRangeText;
             if (startMoment.year() === endMoment.year() ) {
-                switch (phpDateFormat) {
-                    case 'M j, Y':
-                        activeRangeText = `${startMoment.format('MMM D')} - ${endMoment.format('MMM D, YYYY')}`;
-                        break;
-                    case 'Y-m-d':
-                        activeRangeText = `${startMoment.format('MM-DD')} - ${endMoment.format('MM-DD, Y')}`;
-                        break;
-                    case 'm/d/Y':
-                        activeRangeText = `${startMoment.format('MM/DD')} - ${endMoment.format('MM/DD, Y')}`;
-                        break;
-                    case 'd/m/Y':
-                        activeRangeText = `${startMoment.format('DD/MM')} - ${endMoment.format('DD/MM, Y')}`;
-                        break;
-                    default:
-                        activeRangeText = `${startMoment.format(momentDateFormat)} - ${endMoment.format(momentDateFormat)}`;
-                        break;
-                }
+                const startDateFormat = momentDateFormat.replace(/,? ?YYYY|,? ?YY/g, "");
+                activeRangeText = `${startMoment.format(startDateFormat)} - ${endMoment.format(momentDateFormat)}`;
             } else {
                 activeRangeText = `${startMoment.format(momentDateFormat)} - ${endMoment.format(momentDateFormat)}`;
             }
