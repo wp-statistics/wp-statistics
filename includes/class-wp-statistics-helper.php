@@ -1819,6 +1819,22 @@ class Helper
     }
 
     /**
+     * Generates a URL with the specified column as the `order_by` parameter and the current order as the `order` parameter.
+     * @param string $orderBy The column name to sort by
+     * @return string The generated URL.
+     */
+    public static function getTableColumnSortUrl($orderBy)
+    {
+        $order          = Request::get('order', 'desc');
+        $reverseOrder   = $order == 'desc' ? 'asc' : 'desc';
+
+        return add_query_arg([
+            'order_by'  => $orderBy,
+            'order'     => Request::compare('order_by', $orderBy) ? $reverseOrder : 'desc']
+        );
+    }
+
+    /**
      * Checks if the given mini-chart option is set to the given value.
      *
      * @param   string  $optionName

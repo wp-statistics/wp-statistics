@@ -7,7 +7,6 @@ use WP_Statistics\Utils\Request;
 $postType             = Request::get('pt', 'post');
 $postTypeNameSingular = Helper::getPostTypeName($postType, true);
 $order                = Request::get('order', 'desc');
-$reverseOrder         = $order == 'desc' ? 'asc' : 'desc';
 ?>
 
 <div class="postbox-container wps-postbox-full">
@@ -19,39 +18,39 @@ $reverseOrder         = $order == 'desc' ? 'asc' : 'desc';
                         <div class="o-table-wrapper">
                             <table width="100%" class="o-table wps-authors-table">
                                 <thead>
-                                <tr>
-                                    <th class="wps-pd-l">
-                                        <a href="<?php echo esc_url(add_query_arg(['order_by' => 'title', 'order' => $reverseOrder])) ?>" class="sort <?php echo Request::compare('order_by', 'title') ? esc_attr($order) : ''; ?>">
-                                            <?php echo Request::has('pt') ? esc_html($postTypeNameSingular) : esc_html__('Content', 'wp-statistics'); ?>
-                                        </a>
-                                    </th>
-
-                                    <th class="wps-pd-l">
-                                        <a href="<?php echo esc_url(add_query_arg(['order_by' => 'visitors', 'order' => $reverseOrder])) ?>" class="sort <?php echo !Request::has('order_by') || Request::compare('order_by', 'visitors') ? esc_attr($order) : ''; ?>">
-                                            <?php esc_html_e('Visitors', 'wp-statistics'); ?>
-                                        </a>
-                                    </th>
-
-                                    <th class="wps-pd-l">
-                                        <a href="<?php echo esc_url(add_query_arg(['order_by' => 'views', 'order' => $reverseOrder])) ?>" class="sort <?php echo  Request::compare('order_by', 'views') ? esc_attr($order) : ''; ?>">
-                                            <?php esc_html_e('Views', 'wp-statistics'); ?>
-                                        </a>
-                                    </th>
-                                    
-                                    <?php if (post_type_supports($postType, 'comments')) : ?>
+                                    <tr>
                                         <th class="wps-pd-l">
-                                            <a href="<?php echo esc_url(add_query_arg(['order_by' => 'comments', 'order' => $reverseOrder])) ?>" class="sort <?php echo Request::compare('order_by', 'comments') ? esc_attr($order) : ''; ?>">
-                                                <?php esc_html_e('Comments', 'wp-statistics'); ?>
+                                            <a href="<?php echo esc_url(Helper::getTableColumnSortUrl('title')) ?>" class="sort <?php echo Request::compare('order_by', 'title') ? esc_attr($order) : ''; ?>">
+                                                <?php echo Request::has('pt') ? esc_html($postTypeNameSingular) : esc_html__('Content', 'wp-statistics'); ?>
                                             </a>
                                         </th>
-                                    <?php endif; ?>
 
-                                    <th class="wps-pd-l">
-                                        <a href="<?php echo esc_url(add_query_arg(['order_by' => 'words', 'order' => $reverseOrder])) ?>" class="sort <?php echo Request::compare('order_by', 'words') ? esc_attr($order) : ''; ?>">
-                                            <?php esc_html_e('Words', 'wp-statistics') ?>
-                                        </a>
-                                    </th>
-                                </tr>
+                                        <th class="wps-pd-l">
+                                            <a href="<?php echo esc_url(Helper::getTableColumnSortUrl('visitors')) ?>" class="sort <?php echo !Request::has('order_by') || Request::compare('order_by', 'visitors') ? esc_attr($order) : ''; ?>">
+                                                <?php esc_html_e('Visitors', 'wp-statistics'); ?>
+                                            </a>
+                                        </th>
+
+                                        <th class="wps-pd-l">
+                                            <a href="<?php echo esc_url(Helper::getTableColumnSortUrl('views')) ?>" class="sort <?php echo  Request::compare('order_by', 'views') ? esc_attr($order) : ''; ?>">
+                                                <?php esc_html_e('Views', 'wp-statistics'); ?>
+                                            </a>
+                                        </th>
+                                        
+                                        <?php if (post_type_supports($postType, 'comments')) : ?>
+                                            <th class="wps-pd-l">
+                                                <a href="<?php echo esc_url(Helper::getTableColumnSortUrl('comments')) ?>" class="sort <?php echo Request::compare('order_by', 'comments') ? esc_attr($order) : ''; ?>">
+                                                    <?php esc_html_e('Comments', 'wp-statistics'); ?>
+                                                </a>
+                                            </th>
+                                        <?php endif; ?>
+
+                                        <th class="wps-pd-l">
+                                            <a href="<?php echo esc_url(Helper::getTableColumnSortUrl('words')) ?>" class="sort <?php echo Request::compare('order_by', 'words') ? esc_attr($order) : ''; ?>">
+                                                <?php esc_html_e('Words', 'wp-statistics') ?>
+                                            </a>
+                                        </th>
+                                    </tr>
                                 </thead>
 
                                 <tbody>
