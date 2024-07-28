@@ -1725,9 +1725,7 @@ class Helper
         $dateTimeFormat = $withTime ? $dateFormat . ' ' . $timeFormat : $dateFormat;
 
         if ($excludeYear) {
-            $dateTimeFormat = str_replace(
-                [', Y', 'Y ,', 'Y', ',Y', 'Y,', 'y', ', y', 'y ,', ',y', 'y,'], '', $dateTimeFormat
-            );
+            $dateTimeFormat = preg_replace('/(,\s?Y|Y\s?,|Y[, \/-]?|[, \/-]?Y)/i', '', $dateTimeFormat);
         }
 
         return $dateTimeFormat;

@@ -39,7 +39,7 @@ jQuery(document).ready(function () {
         };
 
         if (datePickerBtn.hasClass('js-date-range-picker-all-time')) {
-             ranges['All Time'] = [moment(0), moment()];
+            ranges['All Time'] = [moment(0), moment()];
         }
 
         datePickerElement.daterangepicker({
@@ -47,30 +47,12 @@ jQuery(document).ready(function () {
             "ranges": ranges,
         });
 
-        function getRangeLabel(start, end) {
-            const startOfWeek = moment().startOf('isoWeek');
-            const endOfWeek = moment().endOf('isoWeek');
-
-            const startOfLastWeek = moment().subtract(1, 'weeks').startOf('isoWeek');
-            const endOfLastWeek = moment().subtract(1, 'weeks').endOf('isoWeek');
-
-            if (start.isSameOrAfter(startOfWeek, 'day') && end.isSameOrBefore(endOfWeek, 'day')) {
-                return 'This Week';
-            }
-
-            if (start.isSameOrAfter(startOfLastWeek, 'day') && end.isSameOrBefore(endOfLastWeek, 'day')) {
-                return 'Last Week';
-            }
-
-            return null;
-        }
 
         if (wps_js.isset(wps_js.global, 'request_params', 'from') && wps_js.isset(wps_js.global, 'request_params', 'to')) {
             const requestFromDate = wps_js.global.request_params.from;
             const requestToDate = wps_js.global.request_params.to;
-            const phpDateFormat  = datePickerBtn.attr('data-date-format') ? datePickerBtn.attr('data-date-format') :  'MM/DD/YYYY';
-            const momentDateFormat = phpToMomentFormat(phpDateFormat);
-
+            const phpDateFormat = datePickerBtn.attr('data-date-format') ? datePickerBtn.attr('data-date-format') : 'MM/DD/YYYY';
+            let momentDateFormat = phpToMomentFormat(phpDateFormat);
             datePickerElement.data('daterangepicker').setStartDate(moment(requestFromDate).format('MM/DD/YYYY'));
             datePickerElement.data('daterangepicker').setEndDate(moment(requestToDate).format('MM/DD/YYYY'));
             datePickerElement.data('daterangepicker').updateCalendars();
@@ -78,23 +60,23 @@ jQuery(document).ready(function () {
 
             const startMoment = moment(requestFromDate);
             const endMoment = moment(requestToDate);
-            const rangeLabel = getRangeLabel(startMoment, endMoment);
-             let activeRangeText;
-            if (startMoment.year() === endMoment.year() && phpDateFormat==='M j, Y') {
-                activeRangeText = `${startMoment.format('MMM D')} - ${endMoment.format('MMM D, YYYY')}`;
-            }
-            else {
+            let activeRangeText;
+            if (startMoment.year() === endMoment.year() ) {
+                const startDateFormat = momentDateFormat.replace(/,?\s?(YYYY|YY)[-/\s]?,?|[-/\s]?(YYYY|YY)[-/\s]?,?/g, "");
+                activeRangeText = `${startMoment.format(startDateFormat)} - ${endMoment.format(momentDateFormat)}`;
+            } else {
                 activeRangeText = `${startMoment.format(momentDateFormat)} - ${endMoment.format(momentDateFormat)}`;
             }
 
             if (activeText !== 'Custom Range') {
-                activeRangeText = activeText;
-            }else if (rangeLabel) {
-                activeRangeText  = `<span class="wps-date-range">${rangeLabel}</span>${activeRangeText}`;
-                document.querySelector('.js-date-range-picker-btn').classList.add('custom-range')
+                if (activeText !== 'Today' && activeText !== 'Yesterday' && activeText !== 'All Time') {
+                    activeRangeText = `<span class="wps-date-range">${activeText}</span>${activeRangeText}`;
+                    document.querySelector('.js-date-range-picker-btn').classList.add('custom-range')
+                } else {
+                    activeRangeText = activeText
+                }
 
             }
-
             datePickerBtn.find('span').html(activeRangeText);
         } else {
             let defaultRange = datePickerBtn.find('span').text();
@@ -136,8 +118,8 @@ jQuery(document).ready(function () {
             const correspondingPicker = picker.container;
             jQuery(correspondingPicker).addClass(ev.target.className);
         });
-        datePickerField.on('apply.daterangepicker', function(ev, picker) {
-             jQuery('.wps-today-datepicker').submit();
+        datePickerField.on('apply.daterangepicker', function (ev, picker) {
+            jQuery('.wps-today-datepicker').submit();
         });
     }
 });
