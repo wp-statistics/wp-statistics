@@ -177,8 +177,8 @@ class PostsModel extends BaseModel
             'post_type' => Helper::get_list_post_type(),
             'order_by'  => 'title',
             'order'     => 'DESC',
-            'page'     => 1,
-            'per_page' => 5,
+            'page'      => 1,
+            'per_page'  => 5,
             'author_id' => ''
         ]);
 
