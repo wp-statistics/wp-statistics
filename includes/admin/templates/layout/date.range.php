@@ -52,7 +52,7 @@
             </button> -->
 
             <?php if (isset($hasDateRang)): ?>
-                <button  data-date-format="<?php echo get_option('date_format') ?>"
+                <button  data-date-format="<?php echo str_replace('F', 'M', get_option('date_format')) ?>"
                     class="c-footer__filter__btn js-date-range-picker-btn
                     <?php echo isset($allTimeOption) && $allTimeOption === true ? 'js-date-range-picker-all-time' : ''; ?>">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none">
