@@ -57,7 +57,7 @@ jQuery(document).ready(function () {
             datePickerElement.data('daterangepicker').setEndDate(moment(requestToDate).format('MM/DD/YYYY'));
             datePickerElement.data('daterangepicker').updateCalendars();
             const activeText = datePickerElement.data('daterangepicker').container.find('.ranges li.active').text();
-            const activeRangeText = activeText !== 'Custom Range' ?  activeText : moment(requestToDate).format(momentDateFormat) + ' - '+ moment(requestFromDate).format(momentDateFormat);
+            const activeRangeText = activeText !== 'Custom Range' ?  activeText : moment(requestFromDate).format(momentDateFormat) + ' - ' + moment(requestToDate).format(momentDateFormat);
             datePickerBtn.find('span').html(activeRangeText);
         } else {
             let defaultRange = datePickerBtn.find('span').text();
