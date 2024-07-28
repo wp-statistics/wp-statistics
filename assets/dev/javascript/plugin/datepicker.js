@@ -47,6 +47,24 @@ jQuery(document).ready(function () {
             "ranges": ranges,
         });
 
+        function getRangeLabel(start, end) {
+            const startOfWeek = moment().startOf('isoWeek');
+            const endOfWeek = moment().endOf('isoWeek');
+
+            const startOfLastWeek = moment().subtract(1, 'weeks').startOf('isoWeek');
+            const endOfLastWeek = moment().subtract(1, 'weeks').endOf('isoWeek');
+
+            if (start.isSameOrAfter(startOfWeek, 'day') && end.isSameOrBefore(endOfWeek, 'day')) {
+                return 'This Week';
+            }
+
+            if (start.isSameOrAfter(startOfLastWeek, 'day') && end.isSameOrBefore(endOfLastWeek, 'day')) {
+                return 'Last Week';
+            }
+
+            return null;
+        }
+
         if (wps_js.isset(wps_js.global, 'request_params', 'from') && wps_js.isset(wps_js.global, 'request_params', 'to')) {
             const requestFromDate = wps_js.global.request_params.from;
             const requestToDate = wps_js.global.request_params.to;
@@ -57,7 +75,26 @@ jQuery(document).ready(function () {
             datePickerElement.data('daterangepicker').setEndDate(moment(requestToDate).format('MM/DD/YYYY'));
             datePickerElement.data('daterangepicker').updateCalendars();
             const activeText = datePickerElement.data('daterangepicker').container.find('.ranges li.active').text();
-            const activeRangeText = activeText !== 'Custom Range' ?  activeText : moment(requestFromDate).format(momentDateFormat) + ' - ' + moment(requestToDate).format(momentDateFormat);
+
+            const startMoment = moment(requestFromDate);
+            const endMoment = moment(requestToDate);
+            const rangeLabel = getRangeLabel(startMoment, endMoment);
+             let activeRangeText;
+            if (startMoment.year() === endMoment.year() && phpDateFormat==='M j, Y') {
+                activeRangeText = `${startMoment.format('MMM D')} - ${endMoment.format('MMM D, YYYY')}`;
+            }
+            else {
+                activeRangeText = `${startMoment.format(momentDateFormat)} - ${endMoment.format(momentDateFormat)}`;
+            }
+
+            if (activeText !== 'Custom Range') {
+                activeRangeText = activeText;
+            }else if (rangeLabel) {
+                activeRangeText  = `<span class="wps-date-range">${rangeLabel}</span>${activeRangeText}`;
+                document.querySelector('.js-date-range-picker-btn').classList.add('custom-range')
+
+            }
+
             datePickerBtn.find('span').html(activeRangeText);
         } else {
             let defaultRange = datePickerBtn.find('span').text();
