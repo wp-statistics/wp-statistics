@@ -19,7 +19,7 @@ class AddOnsFactory
         'wp-statistics-advanced-reporting' => 'utm_source=wp-statistics&utm_medium=link&utm_campaign=adv-report',
         'wp-statistics-customization'      => 'utm_source=wp-statistics&utm_medium=link&utm_campaign=customization',
         'wp-statistics-widgets'            => 'utm_source=wp-statistics&utm_medium=link&utm_campaign=adv-widgets',
-        'wp-statistics-realtime-stats'     => 'utm_source=wp-statistics&utm_medium=link&utm_campaign=real-time',
+        'wp-statistics-realtime-stats'     => 'utm_source=wp-statistics&utm_medium=link&utm_campaign=realtime',
         'wp-statistics-mini-chart'         => 'utm_source=wp-statistics&utm_medium=link&utm_campaign=mini-chart',
         'wp-statistics-rest-api'           => 'utm_source=wp-statistics&utm_medium=link&utm_campaign=rest-api',
         'wp-statistics-data-plus'          => 'utm_source=wp-statistics&utm_medium=link&utm_campaign=dp',
