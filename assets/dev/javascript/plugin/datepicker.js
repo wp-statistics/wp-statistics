@@ -42,22 +42,26 @@ jQuery(document).ready(function () {
             ranges['All Time'] = [moment(0), moment()];
         }
 
+        const phpDateFormat = datePickerBtn.attr('data-date-format') ? datePickerBtn.attr('data-date-format') : 'MM/DD/YYYY';
+        let momentDateFormat = phpToMomentFormat(phpDateFormat);
+        // Default dates for the date picker
+        let defaultStartDate = moment().subtract(30, 'days');  // Example: last 7 days
+        let defaultEndDate = moment();
+
         datePickerElement.daterangepicker({
             "autoApply": true,
             "ranges": ranges,
+            startDate: defaultStartDate,
+            endDate: defaultEndDate
         });
-
 
         if (wps_js.isset(wps_js.global, 'request_params', 'from') && wps_js.isset(wps_js.global, 'request_params', 'to')) {
             const requestFromDate = wps_js.global.request_params.from;
             const requestToDate = wps_js.global.request_params.to;
-            const phpDateFormat = datePickerBtn.attr('data-date-format') ? datePickerBtn.attr('data-date-format') : 'MM/DD/YYYY';
-            let momentDateFormat = phpToMomentFormat(phpDateFormat);
             datePickerElement.data('daterangepicker').setStartDate(moment(requestFromDate).format('MM/DD/YYYY'));
             datePickerElement.data('daterangepicker').setEndDate(moment(requestToDate).format('MM/DD/YYYY'));
             datePickerElement.data('daterangepicker').updateCalendars();
             const activeText = datePickerElement.data('daterangepicker').container.find('.ranges li.active').text();
-
             const startMoment = moment(requestFromDate);
             const endMoment = moment(requestToDate);
             let activeRangeText;
@@ -67,21 +71,37 @@ jQuery(document).ready(function () {
             } else {
                 activeRangeText = `${startMoment.format(momentDateFormat)} - ${endMoment.format(momentDateFormat)}`;
             }
-
             if (activeText !== 'Custom Range') {
-                if (activeText !== 'Today' && activeText !== 'Yesterday' && activeText !== 'All Time') {
+                if ( activeText !== 'All Time') {
                     activeRangeText = `<span class="wps-date-range">${activeText}</span>${activeRangeText}`;
                     document.querySelector('.js-date-range-picker-btn').classList.add('custom-range')
                 } else {
                     activeRangeText = activeText
                 }
-
             }
             datePickerBtn.find('span').html(activeRangeText);
         } else {
             let defaultRange = datePickerBtn.find('span').text();
             datePickerElement.data('daterangepicker').container.find('.ranges li.active').removeClass('active');
             datePickerElement.data('daterangepicker').container.find('.ranges li[data-range-key="' + defaultRange + '"]').addClass('active');
+            const defaultStartMoment = moment(defaultStartDate);
+            const defaultEndMoment = moment(defaultEndDate);
+            let defaultActiveRangeText;
+            if (defaultStartMoment.year() === defaultEndMoment.year() ) {
+                const startDateFormat = momentDateFormat.replace(/,?\s?(YYYY|YY)[-/\s]?,?|[-/\s]?(YYYY|YY)[-/\s]?,?/g, "");
+                defaultActiveRangeText = `${defaultStartMoment.format(startDateFormat)} - ${defaultEndMoment.format(momentDateFormat)}`;
+            } else {
+                defaultActiveRangeText = `${defaultStartMoment.format(momentDateFormat)} - ${defaultEndMoment.format(momentDateFormat)}`;
+            }
+            if (defaultRange !== 'Custom Range') {
+                if ( defaultRange !== 'All Time') {
+                    defaultActiveRangeText = `<span class="wps-date-range">${defaultRange}</span>${defaultActiveRangeText}`;
+                    document.querySelector('.js-date-range-picker-btn').classList.add('custom-range')
+                } else {
+                    defaultActiveRangeText = defaultActiveRangeText
+                }
+            }
+            datePickerBtn.find('span').html(defaultActiveRangeText);
             datePickerElement.on('show.daterangepicker', function (ev, picker) {
                 datePickerElement.data('daterangepicker').container.find('.ranges li.active').removeClass('active');
                 datePickerElement.data('daterangepicker').container.find('.ranges li[data-range-key="' + defaultRange + '"]').addClass('active');
