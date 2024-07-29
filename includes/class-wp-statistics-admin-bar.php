@@ -134,7 +134,7 @@ class AdminBar
                         __('Unlock full potential of Mini-chart', 'wp-statistics'),
                         __('Upgrade Now', 'wp-statistics')
                     ),
-                    'href'   => 'https://wp-statistics.com/product/wp-statistics-mini-chart?utm_source=wp_statistics&utm_medium=display&utm_campaign=wordpress',
+                    'href'   => 'https://wp-statistics.com/product/wp-statistics-mini-chart?utm_source=wp-statistics&utm_medium=link&utm_campaign=mini-chart',
                     'meta'   => [
                         'target' => '_blank',
                     ],

@@ -6,6 +6,7 @@ use WP_STATISTICS\IP;
 $ip_method  = IP::getIpMethod();
 $ip_address = IP::getIP();
 $ip_version = IP::getIpVersion();
+$ip_options = IP::getIpOptions();
 
 // Add TickBox
 add_thickbox();
@@ -121,17 +122,14 @@ add_thickbox();
                 <table>
                     <tr>
                         <td style="width: 10px; padding: 0px;">
-                            <input id="custom-header" type="radio" name="ip_method" style="vertical-align: -3px;" value="CUSTOM_HEADER" <?php echo in_array($ip_method, IP::getIpOptions()) ? checked(true) : '' ?>>
+                            <input id="custom-header" type="radio" name="ip_method" style="vertical-align: -3px;" value="CUSTOM_HEADER" <?php echo in_array($ip_method, $ip_options) ? checked(true) : '' ?>>
                         </td>
                         <td style="width: 250px;">
                             <label for="custom-header"><?php esc_html_e('Specify a Custom Header for IP Detection', 'wp-statistics'); ?></label>
                         </td>
                         <td style="padding-left: 0px;">
                             <div style="display: flex; align-items: center; gap: 10px;">
-                                <input type="text" name="user_custom_header_ip_method" autocomplete="off" style="padding: 5px; width: 250px;height: 35px;" value="<?php echo in_array($ip_method, IP::getIpOptions()) ? esc_attr($ip_method) : '' ?>">
-                                <?php if (in_array($ip_method, IP::getIpOptions()) && empty($_SERVER[$ip_method])) {
-                                    _e('<code>Result: No IP detected</code>', 'wp-statistics');
-                                } ?>
+                                <input type="text" name="user_custom_header_ip_method" autocomplete="off" style="padding: 5px; width: 250px;height: 35px;" value="<?php echo in_array($ip_method, $ip_options) ? esc_attr($ip_method) : '' ?>">
                             </div>
 
                             <p class="description">

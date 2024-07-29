@@ -416,14 +416,11 @@ class settings_page extends Singleton
                 if (trim($_POST['user_custom_header_ip_method']) != "") {
                     $ipMethod = sanitize_text_field($_POST['user_custom_header_ip_method']);
 
-                    if (empty($_SERVER[$ipMethod])) {
-                        Notice::addFlashNotice(sprintf(
-                            'Custom header IP detection failed. Switched to default detection method (Sequential IP Detection). <a href="%s" class="thickbox">Click here to see all available server variables</a>.',
-                            '#TB_inline?&width=950&height=600&inlineId=list-of-php-server'
-                        ));
+                    if (!isset($_SERVER[$ipMethod]) || empty($_SERVER[$ipMethod])) {
+                        Notice::addFlashNotice(__('Custom header IP detection failed or the specified custom header is empty. Will switch to default detection method (Sequential IP Detection).', 'wp-statistics'), 'error');
+                        $ipMethod = IP::$default_ip_method; // Switch to default method if custom header fails
                     }
                 }
-
             } else {
                 $ipMethod = sanitize_text_field($_POST['ip_method']);
             }

@@ -44,13 +44,19 @@ class IP
     public static $hash_ip_prefix = '#hash#';
 
     /**
-     * Returns available IP configuration options.
+     * Returns all IP method options
      *
      * @return array
      */
     public static function getIpOptions()
     {
-        return self::$ip_methods_server;
+        $ipOptions = self::$ip_methods_server;
+
+        if (isset($_SERVER[Option::get('ip_method')])) {
+            $ipOptions[] = Option::get('ip_method');
+        }
+
+        return array_unique($ipOptions);
     }
 
     /**
@@ -108,8 +114,12 @@ class IP
 
     public static function getIpVersion()
     {
-        $ipTools = new \WP_Statistics\Dependencies\IPTools\IP(self::getIP());
-        return $ipTools->getVersion();
+        try {
+            $ipTools = new \WP_Statistics\Dependencies\IPTools\IP(self::getIP());
+            return $ipTools->getVersion();
+        } catch (Exception $e) {
+            return '';
+        }
     }
 
     /**
@@ -282,7 +292,7 @@ class IP
         }
 
         // Check for backward compatibility
-        if (!in_array($ipMethod, self::$ip_methods_server)) {
+        if (!in_array($ipMethod, self::getIpOptions())) {
             // Set the option to the default method for backward compatibility
             Option::update('ip_method', self::$default_ip_method);
 

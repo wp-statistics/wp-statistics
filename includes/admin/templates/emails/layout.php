@@ -4,6 +4,10 @@ if (!defined('ABSPATH')) {
     exit;
 } // Exit if accessed directly
 
+$is_rtl = is_rtl();
+$text_align = $is_rtl ? 'right' : 'left';
+$text_align_reverse = $is_rtl ? 'left' : 'right';
+$dir = $is_rtl ? 'rtl' : 'ltr';
 
 // Setting up the logo.
 $final_logo = ' <a href="' . esc_url($logo_url) . '"  class="wp-statistics-logo" style=" font-family: "Roboto" ,Arial,Helvetica,sans-serif; margin: 0; padding: 0; text-decoration: none;"><img src="' . esc_url($logo_image) . '" width="197" height="46" title="WP Statistics" alt="WP Statistics" style=" font-family: "Roboto",Arial,Helvetica,sans-serif; margin: 0; margin-bottom: 24px; padding: 0; text-decoration: none;"></a>';
@@ -23,7 +27,7 @@ $tipOfEmail = \WP_STATISTICS\Helper::getReportEmailTip();
 
 
 $email_body = '
-        <div class="mail-body" style="background: #e1ebfd;  font-family: \'Roboto\', Arial, Helvetica, sans-serif; margin: 0; padding: 43px 0; text-decoration: none;">
+        <div class="mail-body" style="direction: '. $dir .';background: #e1ebfd;  font-family: \'Roboto\', Arial, Helvetica, sans-serif; margin: 0; padding: 43px 0; text-decoration: none;">
             <div class="main-section" style=" font-family: \'Roboto\', Arial, Helvetica, sans-serif; margin:0 auto; max-width: 100%; padding: 0 5px; text-decoration: none; width: 628px; ">
                 <table class="header" style=" font-family: \'Roboto\', Arial, Helvetica, sans-serif; margin: 0; padding: 0; text-align: center; text-decoration: none; width: 100%;">
                     <tr style=" font-family: \'Roboto\', Arial, Helvetica, sans-serif; margin: 0; padding: 0; text-decoration: none;">
@@ -45,7 +49,7 @@ $email_body = '
                      <div class="content__tip" style="background: #f0f5ff; border: 1px solid #9da3f7; border-radius: 8px;  font-family: \'Roboto\',Arial,Helvetica,sans-serif; margin: 0; padding: 18px; text-decoration: none;">
                         <div class="content__tip--title" style=" font-family: \'Roboto\',Arial,Helvetica,sans-serif; margin: 0; margin-bottom: 22px; padding: 0; position: relative; text-decoration: none;">
                             <h2 style=" font-family: \'Roboto\',Arial,Helvetica,sans-serif; font-size: 16px; font-weight: 500; line-height: 25px; margin: 0; text-decoration: none;">
-                                <span style="background-color: #404bf2; background-position: center left 4px; background-repeat: no-repeat; background-size: 13px; border-radius: 4px;  color: #fff; font-family: \'Roboto\',Arial,Helvetica,sans-serif; font-size: 15px; font-weight: 500; line-height: 17.58px; margin: 0; padding: 4px 8px 4px 20px;  text-decoration: none; float:right;background-image: url(' . esc_url(WP_STATISTICS_URL . '/assets/images/tip.png') . ');">
+                                <span style="background-color: #404bf2; background-position: center left 4px; background-repeat: no-repeat; background-size: 13px; border-radius: 4px;  color: #fff; font-family: \'Roboto\',Arial,Helvetica,sans-serif; font-size: 15px; font-weight: 500; line-height: 17.58px; margin: 0; padding: 4px 8px 4px 20px;  text-decoration: none; float:'.$text_align_reverse.';background-image: url(' . esc_url(WP_STATISTICS_URL . '/assets/images/tip.png') . ');">
                                      ' . __('Tip', 'wp-statistics') . '
                                 </span>
                                 ' . $tipOfEmail['title'] . '

@@ -1677,7 +1677,7 @@ class Helper
             ],
             [
                 'title'   => __('Real-Time Stats', 'wp-statistics'),
-                'content' => __(sprintf('Monitor your website\'s traffic and activity in real time. Your WordPress statistics are displayed instantly, so you don\'t need to refresh your page every time someone visits your blog. Watch your website\'s performance live. %1$s.', '<a href="https://wp-statistics.com/product/wp-statistics-realtime-stats/?utm_source=wp-statistics&utm_medium=email&utm_campaign=real-time" target="_blank">Read more</a>'), 'wp-statistics'),
+                'content' => __(sprintf('Monitor your website\'s traffic and activity in real time. Your WordPress statistics are displayed instantly, so you don\'t need to refresh your page every time someone visits your blog. Watch your website\'s performance live. %1$s.', '<a href="https://wp-statistics.com/product/wp-statistics-realtime-stats/?utm_source=wp-statistics&utm_medium=email&utm_campaign=realtime" target="_blank">Read more</a>'), 'wp-statistics'),
             ],
             [
                 'title'   => __('Mini Chart', 'wp-statistics'),
@@ -1725,9 +1725,7 @@ class Helper
         $dateTimeFormat = $withTime ? $dateFormat . ' ' . $timeFormat : $dateFormat;
 
         if ($excludeYear) {
-            $dateTimeFormat = str_replace(
-                [', Y', 'Y ,', 'Y', ',Y', 'Y,', 'y', ', y', 'y ,', ',y', 'y,'], '', $dateTimeFormat
-            );
+            $dateTimeFormat = preg_replace('/(,\s?Y|Y\s?,|Y[, \/-]?|[, \/-]?Y)/i', '', $dateTimeFormat);
         }
 
         return $dateTimeFormat;
