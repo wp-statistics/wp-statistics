@@ -78,7 +78,7 @@ class Exclusion
             }
         }
 
-        return apply_filters('wp_statistics_exclusion', $exclude);
+        return apply_filters('wp_statistics_exclusion', $exclude, $visitorProfile);
     }
 
     /**
