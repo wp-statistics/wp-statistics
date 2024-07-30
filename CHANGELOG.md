@@ -1,5 +1,6 @@
 = 14.9.4 - **.**.2024 =
 * Enhancement: Redesigned mini-charts in posts lists.
+* Enhancement: Improved the Request URI functionality.
 * Fix: Fixed incorrect order in custom post types lists when sorted by views.
 
 = 14.9.3 - 28.07.2024 =
