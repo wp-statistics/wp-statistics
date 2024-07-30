@@ -70,6 +70,13 @@ class AdminBar
                 $footerText = __('View Tag Performance', 'wp-statistics');
                 $footerLink = esc_url(Menus::admin_url('category-analytics', ['type' => 'single', 'term_id' => $object_id]));
 
+            } elseif (is_tax()) {
+
+                $view_type  = 'tax';
+                $view_title = __('Taxonomy Views', 'wp-statistics');
+                $footerText = __('View Taxonomy Performance', 'wp-statistics');
+                $footerLink = esc_url(Menus::admin_url('category-analytics', ['type' => 'single', 'term_id' => $object_id]));
+
             } elseif (is_author()) {
 
                 $view_type  = 'author';
