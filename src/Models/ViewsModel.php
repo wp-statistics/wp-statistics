@@ -56,6 +56,39 @@ class ViewsModel extends BaseModel
         return $total ? $total : 0;
     }
 
+    /**
+     * Returns views from `pages` table without joining with other tables.
+     *
+     * Used for calculating taxonomies views (Unlike `countViews()` which is suited for calculating posts/pages/cpt views).
+     *
+     * @param   array   $args           Arguments to include in query (e.g. `post_id`, `resource_type`, `query_param`, `date`, etc.).
+     * @param   bool    $bypassCache    Send the cached result.
+     *
+     * @return  int
+     */
+    public function countViewsFromPagesOnly($args = [], $bypassCache = false)
+    {
+        $args = $this->parseArgs($args, [
+            'post_id'       => '',
+            'resource_type' => '',
+            'query_param'   => '',
+            'date'          => '',
+        ]);
+
+        $query = Query::select(['SUM(`count`) AS `count`'])
+            ->from('pages')
+            ->where('pages.id', '=', $args['post_id'])
+            ->where('pages.type', 'IN', $args['resource_type'])
+            ->where('pages.uri', '=', $args['query_param'])
+            ->whereDate('date', $args['date'])
+            ->groupBy('id')
+            ->bypassCache($bypassCache);
+
+        $total = $query->getVar();
+
+        return $total ? $total : 0;
+    }
+
     public function countDailyViews($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [

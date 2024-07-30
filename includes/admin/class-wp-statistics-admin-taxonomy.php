@@ -3,6 +3,7 @@
 namespace WP_STATISTICS;
 
 use WP_Statistics\MiniChart\WP_Statistics_Mini_Chart_Settings;
+use WP_Statistics\Models\ViewsModel;
 
 class Admin_Taxonomy
 {
@@ -78,7 +79,11 @@ class Admin_Taxonomy
     {
         if ($column_name == 'wp-statistics-tax-hits') {
             $term       = get_term($term_id);
-            $hit_number = wp_statistics_pages('total', "", $term_id, null, null, $term->taxonomy);
+            $termType   = ($term->taxonomy === 'category' || $term->taxonomy === 'post_tag') ? $term->taxonomy : 'tax';
+            $args       = ['post_id' => $term_id, 'resource_type' => $termType];
+
+            $viewsModel = new ViewsModel();
+            $hit_number = $viewsModel->countViewsFromPagesOnly($args);
 
             if (is_numeric($hit_number)) {
                 $preview_chart_unlock_html = sprintf('<div class="wps-admin-column__unlock"><a href="%s" target="_blank"><span class="wps-admin-column__unlock__text">%s</span><img class="wps-admin-column__unlock__lock" src="%s"/><img class="wps-admin-column__unlock__img" src="%s"/></a></div>',
