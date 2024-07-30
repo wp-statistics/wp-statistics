@@ -1,5 +1,6 @@
 = 14.9.4 - **.**.2024 =
 * Enhancement: Redesigned mini-charts in posts lists.
+* Enhancement: Show URI alongside page name inside single visitor page.
 * Fix: Fixed incorrect order in custom post types lists when sorted by views.
 
 = 14.9.3 - 28.07.2024 =
