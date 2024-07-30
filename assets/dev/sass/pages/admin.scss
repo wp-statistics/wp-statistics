@@ -113,6 +113,14 @@
 }
 
 .wps-admin-column__unlock {
+
+    &-count{
+      width: 52px;
+      display: block;
+      text-align: center;
+      margin-top: 3px;
+    }
+
   a {
     color: #ffffff;
     font-size: 12px;
@@ -120,6 +128,8 @@
     justify-content: center;
     position: relative;
     box-shadow:none!important;
+    align-items: center;
+    width: 52px;
 
     span {
       position: absolute;
