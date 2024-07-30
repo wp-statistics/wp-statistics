@@ -348,7 +348,7 @@ class Pages
 
                     // If URL has slug, add it to the title
                     if ($link !== $linkWithParams) {
-                        $title .= ' (' . trim(substr($slug, 0, 20)) . ')';
+                        $title .= ' (' . trim($slug) . ')';
                     }
 
                     $arg = array(
