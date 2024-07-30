@@ -1816,7 +1816,6 @@ class Helper
         return apply_filters('wp_statistics_request_signature_enabled', true);
     }
 
-
     /**
      * Generates a URL with the specified column as the `order_by` parameter and the current order as the `order` parameter.
      * @param string $orderBy The column name to sort by
@@ -1831,5 +1830,19 @@ class Helper
             'order_by'  => $orderBy,
             'order'     => Request::compare('order_by', $orderBy) ? $reverseOrder : 'desc']
         );
+    }
+
+    /**
+     * Checks if the given mini-chart option is set to the given value.
+     *
+     * @param   string  $optionName
+     * @param   string  $value
+     * @param   string  $default
+     *
+     * @return  bool    True if mini-chart add-on is enabled and `$optionName` is set to `$value`.
+     */
+    public static function checkMiniChartOption($optionName, $value, $default = null)
+    {
+        return Helper::isAddOnActive('mini-chart') && Option::getByAddon($optionName, 'mini_chart', $default) === $value;
     }
 }
