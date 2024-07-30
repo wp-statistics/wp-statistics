@@ -15,13 +15,14 @@ class VisitorsModel extends BaseModel
     public function countVisitors($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
-            'date'        => '',
-            'post_type'   => '',
-            'author_id'   => '',
-            'post_id'     => '',
-            'query_param' => '',
-            'taxonomy'    => '',
-            'term'        => '',
+            'date'          => '',
+            'post_type'     => '',
+            'resource_type' => '',
+            'author_id'     => '',
+            'post_id'       => '',
+            'query_param'   => '',
+            'taxonomy'      => '',
+            'term'          => '',
         ]);
 
         $query = Query::select('COUNT(DISTINCT visitor_id) as total_visitors')
@@ -29,6 +30,7 @@ class VisitorsModel extends BaseModel
             ->join('pages', ['visitor_relationships.page_id', 'pages.page_id'], [], 'LEFT')
             ->join('posts', ['posts.ID', 'pages.id'], [], 'LEFT')
             ->where('post_type', 'IN', $args['post_type'])
+            ->where('pages.type', 'IN', $args['resource_type'])
             ->where('post_author', '=', $args['author_id'])
             ->where('posts.ID', '=', $args['post_id'])
             ->where('pages.uri', '=', $args['query_param'])
@@ -56,13 +58,14 @@ class VisitorsModel extends BaseModel
     public function countDailyVisitors($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
-            'date'        => '',
-            'post_type'   => '',
-            'author_id'   => '',
-            'post_id'     => '',
-            'query_param' => '',
-            'taxonomy'    => '',
-            'term'        => '',
+            'date'          => '',
+            'post_type'     => '',
+            'resource_type' => '',
+            'author_id'     => '',
+            'post_id'       => '',
+            'query_param'   => '',
+            'taxonomy'      => '',
+            'term'          => '',
         ]);
 
         $query = Query::select([
@@ -73,6 +76,7 @@ class VisitorsModel extends BaseModel
             ->join('pages', ['visitor_relationships.page_id', 'pages.page_id'], [], 'LEFT')
             ->join('posts', ['posts.ID', 'pages.id'], [], 'LEFT')
             ->where('post_type', 'IN', $args['post_type'])
+            ->where('pages.type', 'IN', $args['resource_type'])
             ->where('post_author', '=', $args['author_id'])
             ->where('posts.ID', '=', $args['post_id'])
             ->where('pages.uri', '=', $args['query_param'])

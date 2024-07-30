@@ -1,3 +1,7 @@
+= 14.9.4 - **.**.2024 =
+* Enhancement: Redesigned mini-charts in posts lists.
+* Fix: Fixed incorrect order in custom post types lists when sorted by views.
+
 = 14.9.3 - 28.07.2024 =
 * Enhancement: Enhanced IP Method Detection mechanism and updated the settings page for better user experience and simplicity.
 * Enhancement: Improved `tracker.js` by switching to xhr/POST requests and adding helpful console logs.
