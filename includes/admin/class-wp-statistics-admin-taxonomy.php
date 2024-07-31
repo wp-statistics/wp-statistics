@@ -3,6 +3,7 @@
 namespace WP_STATISTICS;
 
 use WP_Statistics\MiniChart\WP_Statistics_Mini_Chart_Settings;
+use WP_Statistics\Models\HistoricalModel;
 use WP_Statistics\Models\ViewsModel;
 
 class Admin_Taxonomy
@@ -80,12 +81,17 @@ class Admin_Taxonomy
         if ($column_name == 'wp-statistics-tax-hits') {
             $term       = get_term($term_id);
             $termType   = ($term->taxonomy === 'category' || $term->taxonomy === 'post_tag') ? $term->taxonomy : 'tax';
+            $termLink   = get_term_link(intval($term->term_id), $term->taxonomy);
+            $termLink   = !is_wp_error($termLink) ? wp_make_link_relative($termLink) : '';
             $args       = ['post_id' => $term_id, 'resource_type' => $termType];
 
             $viewsModel = new ViewsModel();
-            $hit_number = $viewsModel->countViewsFromPagesOnly($args);
+            $hitCount   = $viewsModel->countViewsFromPagesOnly($args);
 
-            if (is_numeric($hit_number)) {
+            $historicalModel = new HistoricalModel();
+            $hitCount       += $historicalModel->countUris(['page_id' => $term_id, 'uri' => $termLink]);
+
+            if (is_numeric($hitCount)) {
                 $preview_chart_unlock_html = sprintf('<div class="wps-admin-column__unlock"><a href="%s" target="_blank"><span class="wps-admin-column__unlock__text">%s</span><img class="wps-admin-column__unlock__lock" src="%s"/><img class="wps-admin-column__unlock__img" src="%s"/></a></div>',
                     'https://wp-statistics.com/product/wp-statistics-mini-chart?utm_source=wp-statistics&utm_medium=link&utm_campaign=mini-chart',
                     __('Unlock This Feature!', 'wp-statistics'),
@@ -110,7 +116,7 @@ class Admin_Taxonomy
                     esc_html__('Views:', 'wp-statistics'),
                     Menus::admin_url('category-analytics', ['type' => 'single', 'term_id' => $term_id]),
                     Helper::isAddOnActive('mini-chart') ? '' : 'wps-admin-column__unlock-count',
-                    number_format($hit_number)
+                    number_format($hitCount)
                 );
             }
 
