@@ -85,4 +85,103 @@ class Request
         }
 
     }
+
+    /**
+     * Validates query params value
+     *
+     * @param array $params array of params to validate, each param can be an array with type, minlength and regex
+     * @return bool Returns true if the all params are valid, false otherwise.
+     */
+    public static function validate($params)
+    {
+        foreach ($params as $param => $validation) {
+            if (!isset($_REQUEST[$param]) && !empty($validation['required'])) {
+                return false;
+            }
+
+            $paramValue = $_REQUEST[$param];
+
+            // Decode if it's base64 encoded
+            if (!empty($validation['encoding'])) {
+                if ($validation['encoding'] === 'base64') {
+                    $paramValue = base64_decode($paramValue);
+                } else if ($validation['encoding'] === 'url')  {
+                    $paramValue = urldecode($paramValue);
+                }
+            }
+
+            // Return false if type is not specified
+            if (!isset($validation['type'])) {
+                return false;
+            }
+
+            // Return true if value is empty and param is nullable
+            if (!empty($validation['nullable']) && !is_numeric($paramValue) && empty($paramValue)) {
+                return true;
+            }
+
+            switch ($validation['type']) {
+                case 'string':
+                    // Validate type
+                    if (!is_string($paramValue)) {
+                        return false;
+                    }
+                    
+                    // Validate minlength
+                    if (isset($validation['minlength']) && strlen($paramValue) < $validation['minlength']) {
+                        return false;
+                    }
+                    
+                    // Validate maxlength
+                    if (isset($validation['maxlength']) && strlen($paramValue) > $validation['maxlength']) {
+                        return false;
+                    }
+                    break;
+                case 'number':
+                    // Validate type
+                    if (!is_numeric($paramValue)) {
+                        return false;
+                    }
+                    
+                    // Validate min
+                    if (isset($validation['min']) && $paramValue < $validation['min']) {
+                        return false;
+                    }
+                    
+                    // Validate max
+                    if (isset($validation['max']) && $paramValue > $validation['max']) {
+                        return false;
+                    }
+                    break;
+                case 'url':
+                    // Validate url
+                    if (!filter_var($paramValue, FILTER_VALIDATE_URL)) {
+                        return false;
+                    }
+                    break;
+                default:
+                    return false;
+            }
+
+            // Filter  pattern
+            if (isset($validation['invalid_pattern'])) {
+                if (is_string($validation['invalid_pattern'])) {
+                    if (!preg_match($validation['invalid_pattern'], $paramValue)) {
+                        return false;
+                    }
+                }
+                
+                if (is_array($validation['invalid_pattern'])) {
+                    foreach ($validation['invalid_pattern'] as $pattern) {
+                        if (!preg_match($pattern, $paramValue)) {
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+
+        return true;
+    }
+    
 }

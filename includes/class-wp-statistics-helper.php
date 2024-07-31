@@ -2,6 +2,7 @@
 
 namespace WP_STATISTICS;
 
+use ErrorException;
 use Exception;
 use WP_STATISTICS;
 use WP_Statistics\Service\Integrations\WpConsentApi;
@@ -1844,5 +1845,103 @@ class Helper
     public static function checkMiniChartOption($optionName, $value, $default = null)
     {
         return Helper::isAddOnActive('mini-chart') && Option::getByAddon($optionName, 'mini_chart', $default) === $value;
+    }
+
+    public static function injectionPatterns()
+    {
+        $patterns = [
+            // SQL injection patterns
+            '/\'\s*UNION\s*SELECT\b/i',      // ' UNION SELECT
+            '/"\s*UNION\s*SELECT\b/i',       // " UNION SELECT
+            '/\(\s*UNION\s*SELECT\b/i',      // ( UNION SELECT
+            '/\'\s*INSERT\s*INTO\b/i',       // ' INSERT INTO
+            '/"\s*INSERT\s*INTO\b/i',        // " INSERT INTO
+            '/\(\s*INSERT\s*INTO\b/i',       // ( INSERT INTO
+            '/\'\s*UPDATE\b/i',              // ' UPDATE
+            '/"\s*UPDATE\b/i',               // " UPDATE
+            '/\(\s*UPDATE\b/i',              // ( UPDATE
+            '/\'\s*DELETE\b/i',              // ' DELETE
+            '/"\s*DELETE\b/i',               // " DELETE
+            '/\(\s*DELETE\b/i',              // ( DELETE
+            '/\(\s*SELECT\b/i',              // ( SELECT
+            '/"\s*SELECT\b/i',               // " SELECT
+            '/\'\s*DROP\b/i',                // ' DROP
+            '/"\s*DROP\b/i',                 // " DROP
+            '/\(\s*DROP\b/i',                // ( DROP
+            '/\'\s*ALTER\b/i',               // ' ALTER
+            '/"\s*ALTER\b/i',                // " ALTER
+            '/\(\s*ALTER\b/i',               // ( ALTER
+
+            // SQL comment injection
+            '/\'\s*--\s*/i',                 // ' --
+            '/"\s*--\s*/i',                  // " --
+            '/\(\s*--\s*/i',                 // ( --
+            '/\'\s*#\s*/i',                  // ' #
+            '/"\s*#\s*/i',                   // " #
+            '/\(\s*#\s*/i',                  // ( #
+
+            // Logical operator based SQL injection with flexible spacing
+            '/\'\s*OR\s*\d+\s*=\s*\d+/i',    // ' OR 1 = 1
+            '/"\s*OR\s*\d+\s*=\s*\d+/i',     // " OR 1 = 1
+            '/\(\s*OR\s*\d+\s*=\s*\d+/i',    // ( OR 1 = 1
+            '/\'\s*XOR\s*/i',                // ' XOR
+            '/"\s*XOR\s*/i',                 // " XOR
+            '/\(\s*XOR\s*/i',                // ( XOR
+            '/\bXOR\b/i',                    // XOR (no space, standalone keyword)
+
+            // Function-based SQL injection with flexible spacing
+            '/\'\s*sleep\s*\(\d+\)/i',       // ' sleep(10)
+            '/"\s*sleep\s*\(\d+\)/i',        // " sleep(10)
+            '/\(\s*sleep\s*\(\d+\)/i',       // ( sleep(10)
+            '/\'\s*benchmark\s*\(\d+,\s*/i', // ' benchmark(10,
+            '/"\s*benchmark\s*\(\d+,\s*/i',  // " benchmark(10,
+            '/\(\s*benchmark\s*\(\d+,\s*/i', // ( benchmark(10,
+
+            // XSS patterns
+            '/<script\b[^>]*>(.*?)<\/script>/is',  // <script>...</script>
+            '/<[^>]+on[a-z]+\s*=\s*"[^"]*"/i',     // <tag onEvent="...">
+            '/<[^>]+on[a-z]+\s*=\s*\'[^\']*\'/i',  // <tag onEvent='...'>
+        ];
+
+        return $patterns;
+    }
+
+    public static function validateHitRequest()
+    {
+        $isValid = Request::validate([
+            'page_uri'      => [
+                'required'          => true,
+                'nullable'          => true,
+                'type'              => 'string',
+                'encoding'          => 'base64',
+                'invalid_pattern'   => self::injectionPatterns()
+            ],
+            'search_query'  => [
+                'required'          => true,
+                'nullable'          => true,
+                'type'              => 'string',
+                'encoding'          => 'base64',
+                'invalid_pattern'   => self::injectionPatterns()
+            ],
+            'source_id'     => [
+                'type'              => 'number',
+                'required'          => true,
+                'nullable'          => false
+            ],
+            'referred'      => [
+                'required'          => true,
+                'nullable'          => true,
+                'type'              => 'url',
+                'encoding'          => 'url'
+            ],
+        ]);
+
+        do_action('wp_statistics_after_hit_request_validation', $isValid, IP::getIP(), $_REQUEST);
+
+        if (!$isValid) {
+            throw new ErrorException(esc_html__('Invalid hit request params.', 'wp-statistics'));
+        }
+
+        return true;
     }
 }
