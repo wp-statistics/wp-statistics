@@ -3,7 +3,6 @@
 namespace WP_STATISTICS;
 
 use WP_Statistics\Service\Analytics\VisitorProfile;
-use WP_Statistics\Utils\Request;
 
 class Pages
 {
@@ -188,9 +187,6 @@ class Pages
 
         // Get the current page URI.
         $page_uri = Pages::get_page_uri();
-
-        // Clean the URI.
-        $page_uri = Request::cleanUri($page_uri);
 
         // Get String Search WordPress
         if (array_key_exists("search_query", $current_page) and !empty($current_page["search_query"])) {
