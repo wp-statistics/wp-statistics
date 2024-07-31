@@ -75,8 +75,8 @@ class Hit extends \WP_STATISTICS\RestAPI
 
         try {
             Helper::validateHitRequest();
-
             Hits::record();
+
             $responseData['status'] = true;
 
         } catch (Exception $e) {

@@ -43,8 +43,8 @@ class CheckUserOnline extends \WP_STATISTICS\RestAPI
 
         try {
             Helper::validateHitRequest();
-            
             Hits::recordOnline();
+
             $responseData['status'] = true;
 
         } catch (Exception $e) {

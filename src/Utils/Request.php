@@ -31,7 +31,7 @@ class Request
         }
     }
 
-    
+
     /**
      * Retrieves parameters from the $_REQUEST array based on the given keys,
      * sanitizes the values, and returns the result.
@@ -87,10 +87,30 @@ class Request
     }
 
     /**
-     * Validates query params value
+     * Validates query params value.
      *
-     * @param array $params array of params to validate, each param can be an array with type, minlength and regex
-     * @return bool Returns true if the all params are valid, false otherwise.
+     * @param array $params Array of params to validate, each param can be an array with type, minlength and regex.
+     * @return bool Returns true if all params are valid, false otherwise.
+     *
+     * Example usage:
+     * $params = [
+     *     'username' => [
+     *         'type' => 'string',
+     *         'minlength' => 5,
+     *         'regex' => '/^[a-zA-Z0-9_]+$/'
+     *     ],
+     *     'age' => [
+     *         'type' => 'integer',
+     *         'minlength' => 1,
+     *         'regex' => '/^\d+$/'
+     *     ]
+     * ];
+     *
+     * if (validate($params)) {
+     *     // All parameters are valid
+     * } else {
+     *     // One or more parameters are invalid
+     * }
      */
     public static function validate($params)
     {
@@ -105,7 +125,7 @@ class Request
             if (!empty($validation['encoding'])) {
                 if ($validation['encoding'] === 'base64') {
                     $paramValue = base64_decode($paramValue);
-                } else if ($validation['encoding'] === 'url')  {
+                } else if ($validation['encoding'] === 'url') {
                     $paramValue = urldecode($paramValue);
                 }
             }
@@ -126,12 +146,12 @@ class Request
                     if (!is_string($paramValue)) {
                         return false;
                     }
-                    
+
                     // Validate minlength
                     if (isset($validation['minlength']) && strlen($paramValue) < $validation['minlength']) {
                         return false;
                     }
-                    
+
                     // Validate maxlength
                     if (isset($validation['maxlength']) && strlen($paramValue) > $validation['maxlength']) {
                         return false;
@@ -142,12 +162,12 @@ class Request
                     if (!is_numeric($paramValue)) {
                         return false;
                     }
-                    
+
                     // Validate min
                     if (isset($validation['min']) && $paramValue < $validation['min']) {
                         return false;
                     }
-                    
+
                     // Validate max
                     if (isset($validation['max']) && $paramValue > $validation['max']) {
                         return false;
@@ -170,7 +190,7 @@ class Request
                         return false;
                     }
                 }
-                
+
                 if (is_array($validation['invalid_pattern'])) {
                     foreach ($validation['invalid_pattern'] as $pattern) {
                         if (preg_match($pattern, $paramValue)) {
@@ -187,7 +207,7 @@ class Request
                         return false;
                     }
                 }
-                
+
                 if (is_array($validation['valid_pattern'])) {
                     foreach ($validation['valid_pattern'] as $pattern) {
                         if (!preg_match($pattern, $paramValue)) {
@@ -200,5 +220,5 @@ class Request
 
         return true;
     }
-    
+
 }

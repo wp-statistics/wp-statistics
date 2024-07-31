@@ -1824,21 +1824,21 @@ class Helper
      */
     public static function getTableColumnSortUrl($orderBy)
     {
-        $order          = Request::get('order', 'desc');
-        $reverseOrder   = $order == 'desc' ? 'asc' : 'desc';
+        $order        = Request::get('order', 'desc');
+        $reverseOrder = $order == 'desc' ? 'asc' : 'desc';
 
         return add_query_arg([
-            'order_by'  => $orderBy,
-            'order'     => Request::compare('order_by', $orderBy) ? $reverseOrder : 'desc']
+                'order_by' => $orderBy,
+                'order'    => Request::compare('order_by', $orderBy) ? $reverseOrder : 'desc']
         );
     }
 
     /**
      * Checks if the given mini-chart option is set to the given value.
      *
-     * @param   string  $optionName
-     * @param   string  $value
-     * @param   string  $default
+     * @param string $optionName
+     * @param string $value
+     * @param string $default
      *
      * @return  bool    True if mini-chart add-on is enabled and `$optionName` is set to `$value`.
      */
@@ -1847,6 +1847,11 @@ class Helper
         return Helper::isAddOnActive('mini-chart') && Option::getByAddon($optionName, 'mini_chart', $default) === $value;
     }
 
+    /**
+     * Provides a list of regular expression patterns for detecting SQL injection and XSS attacks.
+     *
+     * @return array The array of regular expression patterns.
+     */
     public static function injectionPatterns()
     {
         $patterns = [
@@ -1906,39 +1911,52 @@ class Helper
         return $patterns;
     }
 
+    /**
+     * Validates the hit request parameters to prevent invalid requests from stats.
+     *
+     * @return bool True if the request is valid, throws an error otherwise.
+     * @throws ErrorException If the request parameters are invalid.
+     */
     public static function validateHitRequest()
     {
         $isValid = Request::validate([
-            'page_uri'      => [
-                'required'          => true,
-                'nullable'          => true,
-                'type'              => 'string',
-                'encoding'          => 'base64',
-                'invalid_pattern'   => self::injectionPatterns()
+            'page_uri'     => [
+                'required'        => true,
+                'nullable'        => true,
+                'type'            => 'string',
+                'encoding'        => 'base64',
+                'invalid_pattern' => self::injectionPatterns()
             ],
-            'search_query'  => [
-                'required'          => true,
-                'nullable'          => true,
-                'type'              => 'string',
-                'encoding'          => 'base64',
-                'invalid_pattern'   => self::injectionPatterns()
+            'search_query' => [
+                'required'        => true,
+                'nullable'        => true,
+                'type'            => 'string',
+                'encoding'        => 'base64',
+                'invalid_pattern' => self::injectionPatterns()
             ],
-            'source_id'     => [
-                'type'              => 'number',
-                'required'          => true,
-                'nullable'          => false
+            'source_id'    => [
+                'type'     => 'number',
+                'required' => true,
+                'nullable' => false
             ],
-            'referred'      => [
-                'required'          => true,
-                'nullable'          => true,
-                'type'              => 'url',
-                'encoding'          => 'url'
+            'referred'     => [
+                'required' => true,
+                'nullable' => true,
+                'type'     => 'url',
+                'encoding' => 'url'
             ],
         ]);
 
-        do_action('wp_statistics_after_hit_request_validation', $isValid, IP::getIP(), $_REQUEST);
-
         if (!$isValid) {
+            /**
+             * Trigger action after validating the hit request parameters.
+             *
+             * @param bool $isValid Indicates if the request parameters are valid.
+             * @param string $ipAddress The IP address of the requester.
+             * @param array $request The original request parameters.
+             */
+            do_action('wp_statistics_invalid_hit_request', $isValid, IP::getIP());
+
             throw new ErrorException(esc_html__('Invalid hit request params.', 'wp-statistics'));
         }
 
