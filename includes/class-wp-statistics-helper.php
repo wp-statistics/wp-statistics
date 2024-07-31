@@ -1953,7 +1953,6 @@ class Helper
              *
              * @param bool $isValid Indicates if the request parameters are valid.
              * @param string $ipAddress The IP address of the requester.
-             * @param array $request The original request parameters.
              */
             do_action('wp_statistics_invalid_hit_request', $isValid, IP::getIP());
 
