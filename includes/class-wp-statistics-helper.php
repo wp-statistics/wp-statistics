@@ -827,20 +827,23 @@ class Helper
         }
 
         $schedule = Option::get('time_report', false);
-        if (is_plugin_active('wp-statistics-advanced-reporting/wp-statistics-advanced-reporting.php')) {
-            $emailTitle = __('<span style="font-family: \'Roboto\', Arial, Helvetica, sans-serif; text-align: left;font-size: 21px; font-weight: 500; line-height: 24.61px; color: #0C0C0D;">Your Website Performance Overview</span>', 'wp-statistics');
-        } else {
-            $emailTitle = sprintf(
-            // translators: %1$s: Website URL.
-                __('<span style="font-family: \'Roboto\', Arial, Helvetica, sans-serif; text-align: center;font-size: 16px; font-style: italic; font-weight: 400; line-height: 18.75px; color: #5E5E64;">Sent from </span><a style="color: #175DA4;text-decoration: underline" href="https://%1$s">%1$s</a>', 'wp-statistics'),
-                wp_parse_url(get_site_url(), PHP_URL_HOST)
-            );
-        }
+        $is_rtl = is_rtl();
+        $text_align = $is_rtl ? 'right' : 'left';
+        $emailTitle = __('<span style="font-family: \'Roboto\', Arial, Helvetica, sans-serif; text-align: '.$text_align.';font-size: 21px; font-weight: 500; line-height: 24.61px; color: #0C0C0D;">Your Website Performance Overview</span>', 'wp-statistics');
+
 
         if ($schedule && array_key_exists($schedule, Schedule::getSchedules())) {
             $schedule   = Schedule::getSchedules()[$schedule];
-            $emailTitle .= is_plugin_active('wp-statistics-advanced-reporting/wp-statistics-advanced-reporting.php') ? '' : sprintf(__('<p style="margin-bottom:16px;margin-top:8px;padding:0;font-family: \'Roboto\',Arial, Helvetica, sans-serif; font-size: 16px; font-style: italic; font-weight: 500; line-height: 18.75px; text-align: center;"><small style="color:#5E5E64;font-family: \'Roboto\',Arial, Helvetica, sans-serif; font-size: 16px; font-style: italic; font-weight: 500; line-height: 18.75px; text-align: center">Report Date Range:</small> %s to %s</p>', 'wp-statistics'), $schedule['start'], $schedule['end']);
-        }
+            $report_date = sprintf(__('%s - %s', 'wp-statistics-advanced-reporting'),$schedule['start'], $schedule['end']);
+            $emailTitle .= sprintf(
+            // translators: %1$s: Reoprt date - %2$s: Website URL - %3$s: Website name.
+                __('<p style="margin-bottom: 12px;margin-top:4px;font-size: 14px; font-weight: 400; line-height: 16.41px; color: #56585A;">%1$s</p><p style="margin: 0"><a href="%2$s" title="%3$s" style="color: #56585A;font-size: 16px; font-weight: 500; line-height: 18.75px; text-decoration:none">%3$s</a></p>', 'wp-statistics'),
+                $report_date,
+                esc_url(get_site_url()),
+                get_bloginfo('name')
+            );
+
+         }
 
         //Template Arg
         $template_arg = array(
@@ -1626,14 +1629,22 @@ class Helper
 
     public static function getReportEmailTip()
     {
+        $is_rtl = is_rtl();
+        $text_align = $is_rtl ? 'right' : 'left';
+        $text_align_reverse = $is_rtl ? 'left' : 'right';
         $tips = [
             [
                 'title'   => __('Optimize Your Content Strategy', 'wp-statistics'),
-                'content' => __('Use WP Statistics to identify your most popular pages and posts. Analyze the data to understand what content resonates with your audience, and use these insights to guide your content creation efforts.', 'wp-statistics'),
+                'content' =>  sprintf(
+                    __('For maximum accuracy, enable the cache compatibility mode on your website and check your filtering settings. By following these steps, traffic data becomes more accurate. <div style="margin-top: 16px">For more details, read <a href="%1$s" style="color:#5100FD;font-size:14px;line-height:16.41px;font-weight:500;border-bottom: 1px solid #5100FD;text-decoration: none" target="_blank">%2$s <img  style="width:6.67px;height:10.91px;margin-'.$text_align.':6px" src="%3$s" alt=""></a></div>', 'wp-statistics'),
+                    'https://wp-statistics.com/resources/enhancing-data-accuracy/?utm_source=wp-statistics&utm_medium=email&utm_campaign=tips',
+                    'Enhancing Data Accuracy',
+                    esc_url(WP_STATISTICS_URL . '/assets/images/mail/arrow-blue-right.png')
+                ),
             ],
             [
                 'title'   => __('Optimize Your Data Accuracy', 'wp-statistics'),
-                'content' => __(sprintf('For maximum accuracy, enable the cache compatibility mode on your website and check your filtering settings. By following these steps, traffic data becomes more accurate. For more details, read %1$s.', '<a href="https://wp-statistics.com/resources/enhancing-data-accuracy/?utm_source=wp-statistics&utm_medium=email&utm_campaign=tips" target="_blank">Enhancing Data Accuracy</a>'), 'wp-statistics'),
+                'content' => __(sprintf('For maximum accuracy, enable the cache compatibility mode on your website and check your filtering settings. By following these steps, traffic data becomes more accurate. <div style="margin-top: 16px">For more details, read  <a href="https://wp-statistics.com/resources/enhancing-data-accuracy/?utm_source=wp-statistics&utm_medium=email&utm_campaign=tips" style="color:#5100FD;font-size:14px;line-height:16.41px;font-weight:500;border-bottom: 1px solid #5100FD;text-decoration: none" target="_blank"> %1$s. <img src="'. esc_url(WP_STATISTICS_URL . '/assets/images/mail/arrow-blue-right.png') .'" style="width:6.67px;height:10.91px;margin-'.$text_align.':6px" alt=""></a></div>', 'Enhancing Data Accuracy '), 'wp-statistics'),
             ],
             [
                 'title'   => __('Keep the plugin up-to-date', 'wp-statistics'),
@@ -1641,47 +1652,47 @@ class Helper
             ],
             [
                 'title'   => __('Maintain Privacy Compliance', 'wp-statistics'),
-                'content' => __(sprintf('To ensure that your website complies with the latest privacy standards, use the Privacy Audit feature in WP Statistics. It provides actionable recommendations for improving your privacy compliance by assessing your WP Statistics\' current settings. For more information, refer to our %1$s.', '<a href="https://wp-statistics.com/resources/privacy-audit/?utm_source=wp-statistics&utm_medium=email&utm_campaign=privacy" target="_blank">Privacy Audit Guide</a>'), 'wp-statistics'),
+                'content' => __(sprintf('To ensure that your website complies with the latest privacy standards, use the Privacy Audit feature in WP Statistics. It provides actionable recommendations for improving your privacy compliance by assessing your WP Statistics\' current settings.<div style="margin-top: 16px"> For more information, refer to our <a href="https://wp-statistics.com/resources/privacy-audit/?utm_source=wp-statistics&utm_medium=email&utm_campaign=privacy" target="_blank" style="color:#5100FD;font-size:14px;line-height:16.41px;font-weight:500;border-bottom: 1px solid #5100FD;text-decoration: none">Privacy Audit Guide <img src="'. esc_url(WP_STATISTICS_URL . '/assets/images/mail/arrow-blue-right.png') .'" style="width:6.67px;height:10.91px;margin-'.$text_align.':6px" alt=""></a></div>'), 'wp-statistics'),
             ],
             [
                 'title'   => __('WordPress Export and Erasure', 'wp-statistics'),
-                'content' => __(sprintf('If you record PII data with WP Statistics, use WordPress data export and erasure features to manage this information. This ensures compliance with privacy regulations like GDPR. For more details, see our %1$s.', '<a href="https://wp-statistics.com/resources/compliant-with-wordpress-data-export-and-erasure/?utm_source=wp-statistics&utm_medium=email&utm_campaign=tips" target="_blank">Data Export and Erasure Guide</a>'), 'wp-statistics'),
+                'content' => __(sprintf('If you record PII data with WP Statistics, use WordPress data export and erasure features to manage this information. This ensures compliance with privacy regulations like GDPR.<div style="margin-top: 16px"> For more details, see our <a href="https://wp-statistics.com/resources/compliant-with-wordpress-data-export-and-erasure/?utm_source=wp-statistics&utm_medium=email&utm_campaign=tips" target="_blank" style="color:#5100FD;font-size:14px;line-height:16.41px;font-weight:500;border-bottom: 1px solid #5100FD;text-decoration: none">Data Export and Erasure Guide <img src="'. esc_url(WP_STATISTICS_URL . '/assets/images/mail/arrow-blue-right.png') .'" style="width:6.67px;height:10.91px;margin-'.$text_align.':6px" alt=""></a></div>'), 'wp-statistics'),
             ],
             [
                 'title'   => __('Track Links and Downloads', 'wp-statistics'),
-                'content' => __(sprintf('Track how users interact with your site\'s links and downloads using the Link and Download Tracker feature. You can use this information to improve content engagement and understand user behavior. %1$s.', '<a href="https://wp-statistics.com/product/wp-statistics-data-plus/?utm_source=wp-statistics&utm_medium=email&utm_campaign=dp" target="_blank">Read more</a>'), 'wp-statistics'),
+                'content' => __(sprintf('Track how users interact with your site\'s links and downloads using the Link and Download Tracker feature. You can use this information to improve content engagement and understand user behavior. <div style="margin-top: 16px"><a href="https://wp-statistics.com/product/wp-statistics-data-plus/?utm_source=wp-statistics&utm_medium=email&utm_campaign=dp" target="_blank" style="color:#5100FD;font-size:14px;line-height:16.41px;font-weight:500;border-bottom: 1px solid #5100FD;text-decoration: none">Read more <img src="'. esc_url(WP_STATISTICS_URL . '/assets/images/mail/arrow-blue-right.png') .'" style="width:6.67px;height:10.91px;margin-'.$text_align.':6px" alt=""></a></div>'), 'wp-statistics'),
             ],
             [
                 'title'   => __('Advanced Filtering', 'wp-statistics'),
-                'content' => __(sprintf('Analyze specific query parameters, including UTM tags, for each piece of content. Tracking marketing campaigns and engagement allows you to refine your strategies and maximize their impact. %1$s.', '<a href="https://wp-statistics.com/product/wp-statistics-data-plus/?utm_source=wp-statistics&utm_medium=email&utm_campaign=dp" target="_blank">Read more</a>'), 'wp-statistics'),
+                'content' => __(sprintf('Analyze specific query parameters, including UTM tags, for each piece of content. Tracking marketing campaigns and engagement allows you to refine your strategies and maximize their impact. <div style="margin-top: 16px"><a href="https://wp-statistics.com/product/wp-statistics-data-plus/?utm_source=wp-statistics&utm_medium=email&utm_campaign=dp" target="_blank" style="color:#5100FD;font-size:14px;line-height:16.41px;font-weight:500;border-bottom: 1px solid #5100FD;text-decoration: none">Read more <img src="'. esc_url(WP_STATISTICS_URL . '/assets/images/mail/arrow-blue-right.png') .'" style="width:6.67px;height:10.91px;margin-'.$text_align.':6px" alt=""></a></div>'), 'wp-statistics'),
             ],
             [
                 'title'   => __('Weekly Traffic Comparison Widget', 'wp-statistics'),
-                'content' => __(sprintf('On the Overview page, the Weekly Traffic Comparison widget provides a quick snapshot of your main metrics. You can analyze traffic changes, identify trends, and make data-driven decisions to improve your site\'s performance with this feature. %1$s.', '<a href="https://wp-statistics.com/product/wp-statistics-data-plus/?utm_source=wp-statistics&utm_medium=email&utm_campaign=dp" target="_blank">Read more</a>'), 'wp-statistics'),
+                'content' => __(sprintf('On the Overview page, the Weekly Traffic Comparison widget provides a quick snapshot of your main metrics. You can analyze traffic changes, identify trends, and make data-driven decisions to improve your site\'s performance with this feature. <div style="margin-top: 16px"><a href="https://wp-statistics.com/product/wp-statistics-data-plus/?utm_source=wp-statistics&utm_medium=email&utm_campaign=dp" target="_blank" style="color:#5100FD;font-size:14px;line-height:16.41px;font-weight:500;border-bottom: 1px solid #5100FD;text-decoration: none">Read more <img src="'. esc_url(WP_STATISTICS_URL . '/assets/images/mail/arrow-blue-right.png') .'" style="width:6.67px;height:10.91px;margin-'.$text_align.':6px" alt=""></a></div>'), 'wp-statistics'),
             ],
             [
                 'title'   => __('Traffic by Hour Widget', 'wp-statistics'),
-                'content' => __(sprintf('On the Overview page, the Traffic by Hour widget displays visitor patterns by hour. Ensure maximum engagement and efficiency by optimizing server resources and scheduling content releases for peak visitor times. %1$s.', '<a href="https://wp-statistics.com/product/wp-statistics-data-plus/?utm_source=wp-statistics&utm_medium=email&utm_campaign=dp" target="_blank">Read more</a>'), 'wp-statistics'),
+                'content' => __(sprintf('On the Overview page, the Traffic by Hour widget displays visitor patterns by hour. Ensure maximum engagement and efficiency by optimizing server resources and scheduling content releases for peak visitor times. <div style="margin-top: 16px"><a href="https://wp-statistics.com/product/wp-statistics-data-plus/?utm_source=wp-statistics&utm_medium=email&utm_campaign=dp" target="_blank" style="color:#5100FD;font-size:14px;line-height:16.41px;font-weight:500;border-bottom: 1px solid #5100FD;text-decoration: none">Read more <img src="'. esc_url(WP_STATISTICS_URL . '/assets/images/mail/arrow-blue-right.png') .'" style="width:6.67px;height:10.91px;margin-'.$text_align.':6px" alt=""></a></div>'), 'wp-statistics'),
             ],
             [
                 'title'   => __('Content-Specific Analytics', 'wp-statistics'),
-                'content' => __(sprintf('Analyze each piece of content in detail, including views, visitor locations, and online users. Based on user data, these insights can help you optimize content. %1$s.', '<a href="https://wp-statistics.com/product/wp-statistics-data-plus/?utm_source=wp-statistics&utm_medium=email&utm_campaign=dp" target="_blank">Read more</a>'), 'wp-statistics'),
+                'content' => __(sprintf('Analyze each piece of content in detail, including views, visitor locations, and online users. Based on user data, these insights can help you optimize content. <div style="margin-top: 16px"><a href="https://wp-statistics.com/product/wp-statistics-data-plus/?utm_source=wp-statistics&utm_medium=email&utm_campaign=dp" target="_blank" style="color:#5100FD;font-size:14px;line-height:16.41px;font-weight:500;border-bottom: 1px solid #5100FD;text-decoration: none">Read more <img src="'. esc_url(WP_STATISTICS_URL . '/assets/images/mail/arrow-blue-right.png') .'" style="width:6.67px;height:10.91px;margin-'.$text_align.':6px" alt=""></a></div>'), 'wp-statistics'),
             ],
             [
                 'title'   => __('Custom Post Type Tracking', 'wp-statistics'),
-                'content' => __(sprintf('Track all custom post types as well as posts and pages. This ensures complete analytics across all content types on your site. %1$s.', '<a href="https://wp-statistics.com/product/wp-statistics-data-plus/?utm_source=wp-statistics&utm_medium=email&utm_campaign=dp" target="_blank">Read more</a>'), 'wp-statistics'),
+                'content' => __(sprintf('Track all custom post types as well as posts and pages. This ensures complete analytics across all content types on your site. <div style="margin-top: 16px"><a href="https://wp-statistics.com/product/wp-statistics-data-plus/?utm_source=wp-statistics&utm_medium=email&utm_campaign=dp" target="_blank" style="color:#5100FD;font-size:14px;line-height:16.41px;font-weight:500;border-bottom: 1px solid #5100FD;text-decoration: none">Read more <img src="'. esc_url(WP_STATISTICS_URL . '/assets/images/mail/arrow-blue-right.png') .'" style="width:6.67px;height:10.91px;margin-'.$text_align.':6px" alt=""></a></div>'), 'wp-statistics'),
             ],
             [
                 'title'   => __('Custom Taxonomy Analytics', 'wp-statistics'),
-                'content' => __(sprintf('Track custom taxonomies along with default taxonomies like Categories and Tags to gain deeper insights into all taxonomies used on your site. %1$s.', '<a href="https://wp-statistics.com/product/wp-statistics-data-plus/?utm_source=wp-statistics&utm_medium=email&utm_campaign=dp" target="_blank">Read more</a>'), 'wp-statistics'),
+                'content' => __(sprintf('Track custom taxonomies along with default taxonomies like Categories and Tags to gain deeper insights into all taxonomies used on your site. <div style="margin-top: 16px"><a href="https://wp-statistics.com/product/wp-statistics-data-plus/?utm_source=wp-statistics&utm_medium=email&utm_campaign=dp" target="_blank" style="color:#5100FD;font-size:14px;line-height:16.41px;font-weight:500;border-bottom: 1px solid #5100FD;text-decoration: none">Read more <img src="'. esc_url(WP_STATISTICS_URL . '/assets/images/mail/arrow-blue-right.png') .'" style="width:6.67px;height:10.91px;margin-'.$text_align.':6px" alt=""></a></div>'), 'wp-statistics'),
             ],
             [
                 'title'   => __('Real-Time Stats', 'wp-statistics'),
-                'content' => __(sprintf('Monitor your website\'s traffic and activity in real time. Your WordPress statistics are displayed instantly, so you don\'t need to refresh your page every time someone visits your blog. Watch your website\'s performance live. %1$s.', '<a href="https://wp-statistics.com/product/wp-statistics-realtime-stats/?utm_source=wp-statistics&utm_medium=email&utm_campaign=realtime" target="_blank">Read more</a>'), 'wp-statistics'),
+                'content' => __(sprintf('Monitor your website\'s traffic and activity in real time. Your WordPress statistics are displayed instantly, so you don\'t need to refresh your page every time someone visits your blog. Watch your website\'s performance live. <div style="margin-top: 16px"><a href="https://wp-statistics.com/product/wp-statistics-realtime-stats/?utm_source=wp-statistics&utm_medium=email&utm_campaign=realtime" target="_blank" style="color:#5100FD;font-size:14px;line-height:16.41px;font-weight:500;border-bottom: 1px solid #5100FD;text-decoration: none">Read more <img src="'. esc_url(WP_STATISTICS_URL . '/assets/images/mail/arrow-blue-right.png') .'" style="width:6.67px;height:10.91px;margin-'.$text_align.':6px" alt=""></a></div>'), 'wp-statistics'),
             ],
             [
                 'title'   => __('Mini Chart', 'wp-statistics'),
-                'content' => __(sprintf('Track your content\'s performance with mini charts. Quick access to traffic data is provided by an admin bar. The chart type and color can be customized according to your preferences. Analyze your content\'s performance and make informed decisions to enhance its success.  %1$s.', '<a href="https://wp-statistics.com/product/wp-statistics-mini-chart/?utm_source=wp-statistics&utm_medium=email&utm_campaign=mini-chart" target="_blank">Read more</a>'), 'wp-statistics'),
+                'content' => __(sprintf('Track your content\'s performance with mini charts. Quick access to traffic data is provided by an admin bar. The chart type and color can be customized according to your preferences. Analyze your content\'s performance and make informed decisions to enhance its success. <div style="margin-top: 16px"><a href="https://wp-statistics.com/product/wp-statistics-mini-chart/?utm_source=wp-statistics&utm_medium=email&utm_campaign=mini-chart" target="_blank" style="color:#5100FD;font-size:14px;line-height:16.41px;font-weight:500;border-bottom: 1px solid #5100FD;text-decoration: none">Read more <img src="'. esc_url(WP_STATISTICS_URL . '/assets/images/mail/arrow-blue-right.png') .'" style="width:6.67px;height:10.91px;margin-'.$text_align.':6px" alt=""></a></div>'), 'wp-statistics'),
             ],
         ];
 
