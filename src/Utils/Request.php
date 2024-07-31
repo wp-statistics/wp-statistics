@@ -163,16 +163,33 @@ class Request
                     return false;
             }
 
-            // Filter  pattern
+            // Invalid pattern
             if (isset($validation['invalid_pattern'])) {
                 if (is_string($validation['invalid_pattern'])) {
-                    if (!preg_match($validation['invalid_pattern'], $paramValue)) {
+                    if (preg_match($validation['invalid_pattern'], $paramValue)) {
                         return false;
                     }
                 }
                 
                 if (is_array($validation['invalid_pattern'])) {
                     foreach ($validation['invalid_pattern'] as $pattern) {
+                        if (preg_match($pattern, $paramValue)) {
+                            return false;
+                        }
+                    }
+                }
+            }
+
+            // Valid pattern
+            if (isset($validation['valid_pattern'])) {
+                if (is_string($validation['valid_pattern'])) {
+                    if (!preg_match($validation['valid_pattern'], $paramValue)) {
+                        return false;
+                    }
+                }
+                
+                if (is_array($validation['valid_pattern'])) {
+                    foreach ($validation['valid_pattern'] as $pattern) {
                         if (!preg_match($pattern, $paramValue)) {
                             return false;
                         }
