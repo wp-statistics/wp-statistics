@@ -95,13 +95,16 @@ class Request
      * Example usage:
      * $params = [
      *     'username' => [
-     *         'type' => 'string',
-     *         'minlength' => 5,
-     *         'valid_pattern' => '/^[a-zA-Z0-9_]+$/'
+     *         'type'           => 'string',
+     *         'required'       => true,
+     *         'nullable'       => false,
+     *         'minlength'      => 5,
+     *         'valid_pattern'  => '/^[a-zA-Z0-9_]+$/'
      *     ],
      *     'age' => [
-     *         'type' => 'integer',
-     *         'minlength' => 1,
+     *         'type'            => 'integer',
+     *         'required'        => false,
+     *         'minlength'       => 1,
      *         'invalid_pattern' => '/^\d+$/'
      *     ]
      * ];
@@ -115,11 +118,26 @@ class Request
     public static function validate($params)
     {
         foreach ($params as $param => $validation) {
-            if (!isset($_REQUEST[$param]) && !empty($validation['required'])) {
-                return false;
+            // Skip if value is not required and param is not set
+            if (!isset($_REQUEST[$param])) {
+                if (empty($validation['required'])) {
+                    continue;
+                } else {
+                    return false;
+                }
             }
 
             $paramValue = $_REQUEST[$param];
+
+            // Skip if value is empty and param is nullable
+            if (!empty($validation['nullable']) && !is_numeric($paramValue) && empty($paramValue)) {
+                continue;
+            }
+
+            // Return false if type is not specified
+            if (!isset($validation['type'])) {
+                return false;
+            }
 
             // Decode if it's base64 encoded
             if (!empty($validation['encoding'])) {
@@ -128,16 +146,6 @@ class Request
                 } else if ($validation['encoding'] === 'url') {
                     $paramValue = urldecode($paramValue);
                 }
-            }
-
-            // Return false if type is not specified
-            if (!isset($validation['type'])) {
-                return false;
-            }
-
-            // Return true if value is empty and param is nullable
-            if (!empty($validation['nullable']) && !is_numeric($paramValue) && empty($paramValue)) {
-                return true;
             }
 
             switch ($validation['type']) {
