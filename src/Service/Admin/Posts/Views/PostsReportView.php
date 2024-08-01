@@ -28,7 +28,7 @@ class PostsReportView extends BaseView
 
     public function getData()
     {
-        $from       = Request::get('from', date('Y-m-d', strtotime('-1 month')));
+        $from       = Request::get('from', date('Y-m-d', strtotime('-30 day')));
         $to         = Request::get('to', date('Y-m-d'));
         $orderBy    = Request::get('order_by', 'visitors');
         $order      = Request::get('order', 'DESC');
