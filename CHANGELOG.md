@@ -2,6 +2,7 @@
 * Enhancement: Redesigned mini-charts in posts lists.
 * Enhancement: Show query params alongside page name inside single visitor page.
 * Fix: Fixed incorrect order in custom post types lists when sorted by views.
+* Fix: Fixed incorrect views count in admin bar.
 * Fix: Fixed incorrect views in posts and taxonomy lists.
 
 = 14.9.3 - 28.07.2024 =
