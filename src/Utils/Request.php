@@ -97,12 +97,12 @@ class Request
      *     'username' => [
      *         'type' => 'string',
      *         'minlength' => 5,
-     *         'regex' => '/^[a-zA-Z0-9_]+$/'
+     *         'valid_pattern' => '/^[a-zA-Z0-9_]+$/'
      *     ],
      *     'age' => [
      *         'type' => 'integer',
      *         'minlength' => 1,
-     *         'regex' => '/^\d+$/'
+     *         'invalid_pattern' => '/^\d+$/'
      *     ]
      * ];
      *
