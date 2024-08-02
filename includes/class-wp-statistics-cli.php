@@ -112,10 +112,7 @@ class WP_STATISTICS_CLI extends \WP_CLI_Command
         }
 
         // Set Column
-        $column = array('IP', 'Browser', 'Online For', 'Referrer', 'Page', 'User ID');
-        if (GeoIP::active() === true) {
-            $column[] = 'Country';
-        }
+        $column = array('IP', 'Browser', 'Online For', 'Referrer', 'Page', 'User ID', 'Country');
 
         // Show List
         $items = array();
@@ -129,9 +126,7 @@ class WP_STATISTICS_CLI extends \WP_CLI_Command
                 'User ID'    => ((isset($row['user']) and isset($row['user']['ID']) and $row['user']['ID'] > 0) ? $row['user']['ID'] : '-')
             );
 
-            if (GeoIP::active() === true) {
-                $item['Country'] = $row['country']['name'];
-            }
+            $item['Country'] = $row['country']['name'];
 
             $items[] = $item;
         }
@@ -182,10 +177,7 @@ class WP_STATISTICS_CLI extends \WP_CLI_Command
         }
 
         // Set Column
-        $column = array('IP', 'Date', 'Browser', 'Referrer', 'Operating System', 'User ID');
-        if (GeoIP::active() === true) {
-            $column[] = 'Country';
-        }
+        $column = array('IP', 'Date', 'Browser', 'Referrer', 'Operating System', 'User ID', 'Country');
 
         // Show List
         $items = array();
@@ -199,9 +191,7 @@ class WP_STATISTICS_CLI extends \WP_CLI_Command
                 'User ID'          => ((isset($row['user']) and isset($row['user']['ID']) and $row['user']['ID'] > 0) ? $row['user']['ID'] : '-')
             );
 
-            if (GeoIP::active() === true) {
-                $item['Country'] = $row['country']['name'];
-            }
+            $item['Country'] = $row['country']['name'];
 
             $items[] = $item;
         }

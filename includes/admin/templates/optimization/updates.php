@@ -1,33 +1,31 @@
-<?php if (\WP_STATISTICS\GeoIP::active()) { ?>
-    <div class="wrap wps-wrap">
-        <div class="postbox">
-            <form action="<?php echo esc_url(admin_url('admin.php?page=wps_optimization_page&tab=updates')) ?>" method="post">
-                <?php wp_nonce_field('wps_optimization_nonce'); ?>
-                <table class="form-table">
-                    <tbody>
-                    <tr valign="top">
-                        <th scope="row" colspan="2">
-                            <h3><?php esc_html_e('GeoLocation Settings', 'wp-statistics'); ?></h3>
-                        </th>
-                    </tr>
+<div class="wrap wps-wrap">
+    <div class="postbox">
+        <form action="<?php echo esc_url(admin_url('admin.php?page=wps_optimization_page&tab=updates')) ?>" method="post">
+            <?php wp_nonce_field('wps_optimization_nonce'); ?>
+            <table class="form-table">
+                <tbody>
+                <tr valign="top">
+                    <th scope="row" colspan="2">
+                        <h3><?php esc_html_e('GeoLocation Settings', 'wp-statistics'); ?></h3>
+                    </th>
+                </tr>
 
-                    <tr valign="top">
-                        <th scope="row">
-                            <label for="populate-submit"><?php esc_html_e('Update Country Data', 'wp-statistics'); ?></label>
-                        </th>
+                <tr valign="top">
+                    <th scope="row">
+                        <label for="populate-submit"><?php esc_html_e('Update Country Data', 'wp-statistics'); ?></label>
+                    </th>
 
-                        <td>
-                            <input type="hidden" name="submit" value="1"/>
-                            <button id="populate-submit" class="button button-primary" type="submit" value="1" name="populate-submit"><?php esc_html_e('Refresh Country Data', 'wp-statistics'); ?></button>
-                            <p class="description"><?php esc_html_e('This action updates and corrects any unidentified or missing country data in the database. Please be patient, as the process might take some time, depending on the amount of data.', 'wp-statistics'); ?></p>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </form>
-        </div>
+                    <td>
+                        <input type="hidden" name="submit" value="1"/>
+                        <button id="populate-submit" class="button button-primary" type="submit" value="1" name="populate-submit"><?php esc_html_e('Refresh Country Data', 'wp-statistics'); ?></button>
+                        <p class="description"><?php esc_html_e('This action updates and corrects any unidentified or missing country data in the database. Please be patient, as the process might take some time, depending on the amount of data.', 'wp-statistics'); ?></p>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </form>
     </div>
-<?php } ?>
+</div>
 
 <div class="wrap wps-wrap">
     <div class="postbox">

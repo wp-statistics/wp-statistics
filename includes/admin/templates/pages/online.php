@@ -18,13 +18,9 @@ use WP_STATISTICS\Admin_Template;
                             <table width="100%" class="o-table">
                                 <tr>
                                     <td><?php esc_html_e('Browser', 'wp-statistics'); ?></td>
-                                    <?php if (GeoIP::active()) { ?>
-                                        <td><?php esc_html_e('Country', 'wp-statistics'); ?></td>
-                                    <?php } ?>
-                                    <?php if (GeoIP::active('city')) { ?>
-                                        <td><?php esc_html_e('City', 'wp-statistics'); ?></td>
-                                        <td><?php esc_html_e('Region', 'wp-statistics'); ?></td>
-                                    <?php } ?>
+                                    <td><?php esc_html_e('Country', 'wp-statistics'); ?></td>
+                                    <td><?php esc_html_e('City', 'wp-statistics'); ?></td>
+                                    <td><?php esc_html_e('Region', 'wp-statistics'); ?></td>
                                     <td><?php echo esc_html(Option::get('hash_ips') == true ? __('Daily Visitor Hash', 'wp-statistics') : __('IP Address', 'wp-statistics')); ?></td>
                                     <td><?php esc_html_e('Online For', 'wp-statistics'); ?></td>
                                     <td><?php esc_html_e('Page', 'wp-statistics'); ?></td>
@@ -40,15 +36,11 @@ use WP_STATISTICS\Admin_Template;
                                         <td style="text-align: left">
                                             <a href="<?php echo esc_url($item['browser']['link']); ?>" title="<?php echo esc_attr($item['browser']['name']); ?>"><img src="<?php echo esc_url($item['browser']['logo']); ?>" alt="<?php echo esc_attr($item['browser']['name']); ?>" class="wps-flag log-tools" title="<?php echo esc_attr($item['browser']['name']); ?>"/></a>
                                         </td>
-                                        <?php if (GeoIP::active()) { ?>
-                                            <td style="text-align: left">
-                                                <img src="<?php echo esc_url($item['country']['flag']); ?>" alt="<?php echo esc_attr($item['country']['name']); ?>" title="<?php echo esc_attr($item['country']['name']); ?>" class="log-tools wps-flag"/>
-                                            </td>
-                                        <?php } ?>
-                                        <?php if (GeoIP::active('city')) { ?>
-                                            <td><?php echo esc_html($item['city']); ?></td>
-                                            <td><?php echo !empty($item['region']) ? esc_html($item['region']) : Admin_Template::UnknownColumn() ?></td>
-                                        <?php } ?>
+                                        <td style="text-align: left">
+                                            <img src="<?php echo esc_url($item['country']['flag']); ?>" alt="<?php echo esc_attr($item['country']['name']); ?>" title="<?php echo esc_attr($item['country']['name']); ?>" class="log-tools wps-flag"/>
+                                        </td>
+                                        <td><?php echo esc_html($item['city']); ?></td>
+                                        <td><?php echo !empty($item['region']) ? esc_html($item['region']) : Admin_Template::UnknownColumn() ?></td>
                                         <td style='text-align: left' class="wps-admin-column__ip"><?php echo sprintf('<a href="%s">%s</a>', esc_url($item['ip']['link']), esc_attr($item['ip']['value'])); ?></td>
                                         <td style='text-align: left'><span><?php echo esc_attr($item['online_for']); ?></span></td>
                                         <td style='text-align: left'><?php echo ($item['page']['link'] != '' ? '<a href="' . esc_url($item['page']['link']) . '" target="_blank" class="wps-text-muted">' : '') . esc_attr($item['page']['title']) . ($item['page']['link'] != '' ? '</a>' : Admin_Template::UnknownColumn()); ?></td>

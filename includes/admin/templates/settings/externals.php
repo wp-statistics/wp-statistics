@@ -36,40 +36,11 @@
                 </th>
 
                 <td>
-                    <input id="geoip-enable" type="checkbox" name="wps_geoip" <?php echo(WP_STATISTICS\Option::get('geoip') === 'on' ? "checked='checked'" : ''); ?>>
                     <label for="geoip-enable">
-                        <?php esc_html_e('Enable', 'wp-statistics'); ?>
-                        <input type="hidden" name="geoip_name" value="country">
-
-                        <?php
-                        if (WP_STATISTICS\Option::get('geoip')) {
-                            submit_button(esc_html__("Update Database Manually", 'wp-statistics'), "secondary", "update_geoip", false);
-                        }
-                        ?>
+                        <?php submit_button(esc_html__("Update Database Manually", 'wp-statistics'), "secondary", "update_geoip", false); ?>
                     </label>
 
                     <p class="description"><?php esc_html_e('Gather and display geographic information (country) related to your visitors.', 'wp-statistics'); ?></p>
-                </td>
-            </tr>
-
-            <tr valign="top">
-                <th scope="row">
-                    <label for="geoip-city"><?php esc_html_e('GeoIP City', 'wp-statistics'); ?></label>
-                </th>
-
-                <td>
-                    <input id="geoip-city" type="checkbox" name="wps_geoip_city" <?php echo(WP_STATISTICS\Option::get('geoip_city') == 'on' ? "checked='checked'" : ''); ?>>
-                    <label for="geoip-city">
-                        <?php esc_html_e('Enable', 'wp-statistics'); ?>
-                        <input type="hidden" name="geoip_name" value="city">
-
-                        <?php
-                        if (WP_STATISTICS\Option::get('geoip_city')) {
-                            submit_button(esc_html__("Update Database Manually", 'wp-statistics'), "secondary", "update_geoip", false);
-                        }
-                        ?>
-                    </label>
-                    <p class="description"><?php esc_html_e('Provides city-level geographic details for website visitor analysis.', 'wp-statistics'); ?></p>
                 </td>
             </tr>
 
@@ -182,7 +153,6 @@
                     event.preventDefault();
                     var geoip_clicked_button = this;
 
-                    var geoip_action = jQuery(this).prev().val();
                     jQuery(".geoip-update-loading").remove();
                     jQuery(".update_geoip_result").remove();
 
@@ -193,7 +163,6 @@
                         type: 'post',
                         data: {
                             'action': 'wp_statistics_update_geoip_database',
-                            'update_action': geoip_action,
                             'wps_nonce': '<?php echo wp_create_nonce('wp_rest'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	 ?>'
                         },
                         datatype: 'json',

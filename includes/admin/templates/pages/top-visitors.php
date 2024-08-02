@@ -11,12 +11,8 @@
                             <table width="100%" class="o-table">
                                 <tr>
                                     <td><?php esc_html_e('Browser', 'wp-statistics'); ?></td>
-                                    <?php if (WP_STATISTICS\GeoIP::active()) { ?>
-                                        <td><?php esc_html_e('Country', 'wp-statistics'); ?></td>
-                                    <?php } ?>
-                                    <?php if (WP_STATISTICS\GeoIP::active('city')) { ?>
-                                        <td><?php esc_html_e('City', 'wp-statistics'); ?></td>
-                                    <?php } ?>
+                                    <td><?php esc_html_e('Country', 'wp-statistics'); ?></td>
+                                    <td><?php esc_html_e('City', 'wp-statistics'); ?></td>
                                     <td><?php esc_html_e('Date', 'wp-statistics'); ?></td>
                                     <td><?php echo esc_html(\WP_STATISTICS\Option::get('hash_ips')) == true ? esc_html__('Daily Visitor Hash', 'wp-statistics') : esc_html__('IP Address', 'wp-statistics'); ?></td>
                                     <td><?php esc_html_e('Operating System', 'wp-statistics'); ?></td>
@@ -31,14 +27,10 @@
                                         <td>
                                             <a href="<?php echo esc_url($item['browser']['link']); ?>" title="<?php echo esc_attr($item['browser']['name']); ?>"><img src="<?php echo esc_url($item['browser']['logo']); ?>" alt="<?php echo esc_attr($item['browser']['name']); ?>" class="wps-flag log-tools" title="<?php echo esc_attr($item['browser']['name']); ?>"/></a>
                                         </td>
-                                        <?php if (WP_STATISTICS\GeoIP::active()) { ?>
-                                            <td>
-                                                <img src="<?php echo esc_url($item['country']['flag']); ?>" alt="<?php echo esc_attr($item['country']['name']); ?>" title="<?php echo esc_attr($item['country']['name']); ?>" class="log-tools wps-flag"/>
-                                            </td>
-                                        <?php } ?>
-                                        <?php if (WP_STATISTICS\GeoIP::active('city')) { ?>
-                                            <td><?php echo esc_attr($item['city']); ?></td>
-                                        <?php } ?>
+                                        <td>
+                                            <img src="<?php echo esc_url($item['country']['flag']); ?>" alt="<?php echo esc_attr($item['country']['name']); ?>" title="<?php echo esc_attr($item['country']['name']); ?>" class="log-tools wps-flag"/>
+                                        </td>
+                                        <td><?php echo esc_attr($item['city']); ?></td>
                                         <td><span><?php echo esc_attr($item['date']); ?></span></td>
                                         <td class="wps-admin-column__ip">
                                             <?php echo sprintf('<a href="%s">%s</a>', esc_url($item['ip']['link']), esc_attr($item['ip']['value'])); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	 

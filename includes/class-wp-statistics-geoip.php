@@ -4,8 +4,11 @@ namespace WP_STATISTICS;
 
 use WP_Statistics\Async\BackgroundProcessFactory;
 use WP_Statistics\Dependencies\GeoIp2\Database\Reader;
-use WP_Statistics\Models\VisitorsModel;
 
+/**
+ * @deprecated This temporary GeoIP implementation will be replaced by a more efficient Geolocation structure in version 14.10
+ * As a lesson learned: never let someone without an understanding of software architecture design the code.
+ */
 class GeoIP
 {
     /**
@@ -59,28 +62,20 @@ class GeoIP
      * Check Is Active Geo-ip
      *
      * @param mixed $which
-     * @param bool $CheckDBFile
+     * @param bool $checkDbFile
      * @return boolean
      */
-    public static function active($which = false, $CheckDBFile = true)
+    public static function active($which = false, $checkDbFile = true)
     {
+        // Check Exist GEO-IP file
+        $file = self::get_geo_ip_path('city');
 
-        //Default Geo-Ip Option name
-        $which = ($which === false ? 'country' : $which);
-        $opt   = ($which == "city" ? 'geoip_city' : 'geoip');
-        $value = Option::get($opt);
-
-        //Check Exist GEO-IP file
-        $file = self::get_geo_ip_path($which);
-        if ($CheckDBFile and !file_exists($file)) {
-            if ($value) {
-                Option::update($opt, false);
-            }
+        if ($checkDbFile and !file_exists($file)) {
             return false;
         }
 
         // Return
-        return $value;
+        return true;
     }
 
     /**
@@ -153,26 +148,24 @@ class GeoIP
             return $default_country;
         }
 
-        if (Option::get('geoip')) {
-            try {
-                // Load GEO-IP
-                $reader = self::Loader('country');
+        try {
+            // Load GEO-IP
+            $reader = self::Loader('country');
 
-                if ($reader != false) {
-                    //Search in Geo-IP
-                    $record = $reader->country($ip);
+            if ($reader != false) {
+                //Search in Geo-IP
+                $record = $reader->country($ip);
 
-                    //Get Country
-                    if ($return == "all") {
-                        $location = $record->country;
-                    } else {
-                        $location = $record->country->{$return};
-                    }
+                //Get Country
+                if ($return == "all") {
+                    $location = $record->country;
+                } else {
+                    $location = $record->country->{$return};
                 }
-
-            } catch (\Exception $e) {
-                \WP_Statistics::log($e->getMessage());
             }
+
+        } catch (\Exception $e) {
+            \WP_Statistics::log($e->getMessage());
         }
 
         return !empty($location) ? $location : $default_country;
@@ -374,7 +367,7 @@ class GeoIP
                 }
 
                 // Populate any missing GeoIP information if the user has selected the option.
-                if (Option::get('geoip') && GeoIP::IsSupport() && Option::get('auto_pop')) {
+                if (GeoIP::IsSupport() && Option::get('auto_pop')) {
                     // Update GeoIP data for visitors with incomplete information
                     BackgroundProcessFactory::batchUpdateIncompleteGeoIpForVisitors();
                 }

@@ -26,7 +26,7 @@ class Schedule
             if (!Helper::is_request('ajax')) {
 
                 // Add the GeoIP update schedule if it doesn't exist and it should be.
-                if (!wp_next_scheduled('wp_statistics_geoip_hook') && Option::get('schedule_geoip') && Option::get('geoip')) {
+                if (!wp_next_scheduled('wp_statistics_geoip_hook') && Option::get('schedule_geoip')) {
                     wp_schedule_event(time(), 'daily', 'wp_statistics_geoip_hook');
                 }
 
