@@ -5,6 +5,7 @@ namespace WP_Statistics\Async;
 use WP_Statistics\Models\VisitorsModel;
 use WP_STATISTICS\Option;
 use WP_Statistics\Service\Admin\Posts\WordCountService;
+use WP_Statistics\Service\Geolocation\GeolocationFactory;
 
 class BackgroundProcessFactory
 {
@@ -53,6 +54,24 @@ class BackgroundProcessFactory
 
         // Save the queue and dispatch it
         $updateIncompleteVisitorsLocations->save()->dispatch();
+    }
+
+    /**
+     * Download/Update geolocation database using.
+     *
+     * @return void
+     */
+    public static function downloadGeolocationDatabase()
+    {
+        $provider        = GeolocationFactory::getProviderInstance();
+        $downloadProcess = WP_Statistics()->getBackgroundProcess('geolocation_database_download');
+
+        $url         = $provider->getDownloadUrl();
+        $destination = $provider->getDatabasePath() . '.tar.gz';
+
+        // Queue download process
+        $downloadProcess->push_to_queue(['url' => $url, 'destination' => $destination]);
+        $downloadProcess->save()->dispatch();
     }
 
     // Add other static methods for different background processes as needed

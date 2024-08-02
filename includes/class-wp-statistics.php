@@ -2,6 +2,7 @@
 
 # Exit if accessed directly
 use WP_Statistics\Async\CalculatePostWordsCount;
+use WP_Statistics\Async\GeolocationDatabaseDownloadProcess;
 use WP_Statistics\Async\IncompleteGeoIpUpdater;
 use WP_Statistics\Service\Admin\AuthorAnalytics\AuthorAnalyticsManager;
 use WP_Statistics\Service\Admin\ContentAnalytics\ContentAnalyticsManager;
@@ -248,6 +249,7 @@ final class WP_Statistics
     {
         $this->registerBackgroundProcess(CalculatePostWordsCount::class, 'calculate_post_words_count');
         $this->registerBackgroundProcess(IncompleteGeoIpUpdater::class, 'update_unknown_visitor_geoip');
+        $this->registerBackgroundProcess(GeolocationDatabaseDownloadProcess::class, 'geolocation_database_download');
     }
 
     /**
@@ -266,7 +268,7 @@ final class WP_Statistics
     /**
      * Get the registered background processes.
      *
-     * @return WP_Background_Process[]
+     * @return WP_Background_Process
      */
     public function getBackgroundProcess($processKey)
     {
