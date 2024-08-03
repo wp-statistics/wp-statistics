@@ -1855,52 +1855,36 @@ class Helper
     public static function injectionPatterns()
     {
         $patterns = [
-            // SQL injection patterns
-            '/\'\s*UNION\s*SELECT\b/i',      // ' UNION SELECT
-            '/"\s*UNION\s*SELECT\b/i',       // " UNION SELECT
-            '/\(\s*UNION\s*SELECT\b/i',      // ( UNION SELECT
-            '/\'\s*INSERT\s*INTO\b/i',       // ' INSERT INTO
-            '/"\s*INSERT\s*INTO\b/i',        // " INSERT INTO
-            '/\(\s*INSERT\s*INTO\b/i',       // ( INSERT INTO
-            '/\'\s*UPDATE\b/i',              // ' UPDATE
-            '/"\s*UPDATE\b/i',               // " UPDATE
-            '/\(\s*UPDATE\b/i',              // ( UPDATE
-            '/\'\s*DELETE\b/i',              // ' DELETE
-            '/"\s*DELETE\b/i',               // " DELETE
-            '/\(\s*DELETE\b/i',              // ( DELETE
-            '/\(\s*SELECT\b/i',              // ( SELECT
-            '/"\s*SELECT\b/i',               // " SELECT
-            '/\'\s*DROP\b/i',                // ' DROP
-            '/"\s*DROP\b/i',                 // " DROP
-            '/\(\s*DROP\b/i',                // ( DROP
-            '/\'\s*ALTER\b/i',               // ' ALTER
-            '/"\s*ALTER\b/i',                // " ALTER
-            '/\(\s*ALTER\b/i',               // ( ALTER
+            '/[\'"\(](?:\s|%20)*UNION(?:\s|%20)*SELECT\b/i',    // ' " ( UNION SELECT
+            '/[\'"\(](?:\s|%20)*INSERT(?:\s|%20)*INTO\b/i',     // ' " ( INSERT INTO
+            '/[\'"\(](?:\s|%20)*UPDATE\b/i',                    // ' " ( UPDATE
+            '/[\'"\(](?:\s|%20)*DELETE\b/i',                    // ' " ( DELETE
+            '/[\'"\(](?:\s|%20)*SELECT\b/i',                    // ' " ( SELECT
+            '/[\'"\(](?:\s|%20)*DROP\b/i',                      // ' " ( DROP
+            '/[\'"\(](?:\s|%20)*ALTER\b/i',                     // ' " ( ALTER
 
             // SQL comment injection
-            '/\'\s*--\s*/i',                 // ' --
-            '/"\s*--\s*/i',                  // " --
-            '/\(\s*--\s*/i',                 // ( --
-            '/\'\s*#\s*/i',                  // ' #
-            '/"\s*#\s*/i',                   // " #
-            '/\(\s*#\s*/i',                  // ( #
+            '/[\'"\(](?:\s|%20)*--(?:\s|%20)*/i',               // ' " ( --
+            '/[\'"\(](?:\s|%20)*#(?:\s|%20)*/i',                // ' " ( #
 
-            // Logical operator based SQL injection with flexible spacing
-            '/\'\s*OR\s*\d+\s*=\s*\d+/i',    // ' OR 1 = 1
-            '/"\s*OR\s*\d+\s*=\s*\d+/i',     // " OR 1 = 1
-            '/\(\s*OR\s*\d+\s*=\s*\d+/i',    // ( OR 1 = 1
-            '/\'\s*XOR\s*/i',                // ' XOR
-            '/"\s*XOR\s*/i',                 // " XOR
-            '/\(\s*XOR\s*/i',                // ( XOR
-            '/\bXOR\b/i',                    // XOR (no space, standalone keyword)
+            // Logical operator based SQL injection
+            '/[\'"\(](?:\s|%20)*OR(?:\s|%20)*\d+(?:\s|%20)*=(?:\s|%20)*\d+/i',  // ' " ( OR 1 = 1
+            '/[\'"\(](?:\s|%20)*XOR(?:\s|%20)*/i',              // ' " ( XOR
 
-            // Function-based SQL injection with flexible spacing
-            '/\'\s*sleep\s*\(\d+\)/i',       // ' sleep(10)
-            '/"\s*sleep\s*\(\d+\)/i',        // " sleep(10)
-            '/\(\s*sleep\s*\(\d+\)/i',       // ( sleep(10)
-            '/\'\s*benchmark\s*\(\d+,\s*/i', // ' benchmark(10,
-            '/"\s*benchmark\s*\(\d+,\s*/i',  // " benchmark(10,
-            '/\(\s*benchmark\s*\(\d+,\s*/i', // ( benchmark(10,
+            // Function-based SQL injection 
+            '/[\'"\(\,](?:\s|%20)*sleep(?:\s|%20)*\(\d+\)/i',     // ' " ( sleep(10)
+            '/[\'"\(](?:\s|%20)*benchmark(?:\s|%20)*\(\d+,(?:\s|%20)*/i', // ' " ( benchmark(10,
+
+            // XSS patterns 
+            '/<script\b[^>]*>(.*?)<\/script>/is',               // <script>...</script>
+            '/<[^>]+on[a-z]+\s*=\s*"[^"]*"/i',                  // <tag onEvent="...">
+            '/<[^>]+on[a-z]+\s*=\s*\'[^\']*\'/i',               // <tag onEvent='...'>
+
+            // URL-encoded attacks
+            '/(?:%27|%22|%28)(?:\s|%20)*UNION(?:\s|%20)*SELECT/i',     // %27 %22 %28 UNION SELECT
+            '/(?:%27|%22|%28)(?:\s|%20)*OR(?:\s|%20)*1(?:\s|%20)*=(?:\s|%20)*1/i',  // %27 %22 %28 OR 1 = 1
+            '/(?:%27|%22|%28)(?:\s|%20)*XOR(?:\s|%20)*/i',             // %27 %22 %28 XOR
+            '/(?:%27|%22|%28)(?:\s|%20)*SLEEP(?:\s|%20)*\(/i',         // %27 %22 %28 SLEEP(
 
             // XSS patterns
             '/<script\b[^>]*>(.*?)<\/script>/is',  // <script>...</script>
