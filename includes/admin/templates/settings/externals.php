@@ -95,7 +95,7 @@
 
         <tr valign="top">
             <th scope="row">
-                <label for="geoip-schedule"><?php esc_html_e('Country Code for Private IP Addresses', 'wp-statistics'); ?></label>
+                <label for="geoip-schedule"><?php esc_html_e('Country Code for Unlocatable IPs', 'wp-statistics'); ?></label>
             </th>
 
             <td>

@@ -2,6 +2,7 @@
 
 namespace WP_STATISTICS;
 
+use ErrorException;
 use Exception;
 use WP_STATISTICS;
 use WP_Statistics\Service\Integrations\WpConsentApi;
@@ -1823,26 +1824,125 @@ class Helper
      */
     public static function getTableColumnSortUrl($orderBy)
     {
-        $order          = Request::get('order', 'desc');
-        $reverseOrder   = $order == 'desc' ? 'asc' : 'desc';
+        $order        = Request::get('order', 'desc');
+        $reverseOrder = $order == 'desc' ? 'asc' : 'desc';
 
         return add_query_arg([
-            'order_by'  => $orderBy,
-            'order'     => Request::compare('order_by', $orderBy) ? $reverseOrder : 'desc']
+                'order_by' => $orderBy,
+                'order'    => Request::compare('order_by', $orderBy) ? $reverseOrder : 'desc']
         );
     }
 
     /**
      * Checks if the given mini-chart option is set to the given value.
      *
-     * @param   string  $optionName
-     * @param   string  $value
-     * @param   string  $default
+     * @param string $optionName
+     * @param string $value
+     * @param string $default
      *
      * @return  bool    True if mini-chart add-on is enabled and `$optionName` is set to `$value`.
      */
     public static function checkMiniChartOption($optionName, $value, $default = null)
     {
         return Helper::isAddOnActive('mini-chart') && Option::getByAddon($optionName, 'mini_chart', $default) === $value;
+    }
+
+    /**
+     * Provides a list of regular expression patterns for detecting SQL injection and XSS attacks.
+     *
+     * @return array The array of regular expression patterns.
+     */
+    public static function injectionPatterns()
+    {
+        $patterns = [
+            '/[\'"\(](?:\s|%20)*UNION(?:\s|%20)*SELECT\b/i',    // ' " ( UNION SELECT
+            '/[\'"\(](?:\s|%20)*INSERT(?:\s|%20)*INTO\b/i',     // ' " ( INSERT INTO
+            '/[\'"\(](?:\s|%20)*UPDATE\b/i',                    // ' " ( UPDATE
+            '/[\'"\(](?:\s|%20)*DELETE\b/i',                    // ' " ( DELETE
+            '/[\'"\(](?:\s|%20)*SELECT\b/i',                    // ' " ( SELECT
+            '/[\'"\(](?:\s|%20)*DROP\b/i',                      // ' " ( DROP
+            '/[\'"\(](?:\s|%20)*ALTER\b/i',                     // ' " ( ALTER
+
+            // SQL comment injection
+            '/[\'"\(](?:\s|%20)*--(?:\s|%20)*/i',               // ' " ( --
+            '/[\'"\(](?:\s|%20)*#(?:\s|%20)*/i',                // ' " ( #
+
+            // Logical operator based SQL injection
+            '/[\'"\(](?:\s|%20)*OR(?:\s|%20)*\d+(?:\s|%20)*=(?:\s|%20)*\d+/i',  // ' " ( OR 1 = 1
+            '/[\'"\(](?:\s|%20)*XOR(?:\s|%20)*/i',              // ' " ( XOR
+
+            // Function-based SQL injection 
+            '/[\'"\(\,](?:\s|%20)*sleep(?:\s|%20)*\(\d+\)/i',     // ' " ( sleep(10)
+            '/[\'"\(](?:\s|%20)*benchmark(?:\s|%20)*\(\d+,(?:\s|%20)*/i', // ' " ( benchmark(10,
+
+            // XSS patterns 
+            '/<script\b[^>]*>(.*?)<\/script>/is',               // <script>...</script>
+            '/<[^>]+on[a-z]+\s*=\s*"[^"]*"/i',                  // <tag onEvent="...">
+            '/<[^>]+on[a-z]+\s*=\s*\'[^\']*\'/i',               // <tag onEvent='...'>
+
+            // URL-encoded attacks
+            '/(?:%27|%22|%28)(?:\s|%20)*UNION(?:\s|%20)*SELECT/i',     // %27 %22 %28 UNION SELECT
+            '/(?:%27|%22|%28)(?:\s|%20)*OR(?:\s|%20)*1(?:\s|%20)*=(?:\s|%20)*1/i',  // %27 %22 %28 OR 1 = 1
+            '/(?:%27|%22|%28)(?:\s|%20)*XOR(?:\s|%20)*/i',             // %27 %22 %28 XOR
+            '/(?:%27|%22|%28)(?:\s|%20)*SLEEP(?:\s|%20)*\(/i',         // %27 %22 %28 SLEEP(
+
+            // XSS patterns
+            '/<script\b[^>]*>(.*?)<\/script>/is',  // <script>...</script>
+            '/<[^>]+on[a-z]+\s*=\s*"[^"]*"/i',     // <tag onEvent="...">
+            '/<[^>]+on[a-z]+\s*=\s*\'[^\']*\'/i',  // <tag onEvent='...'>
+        ];
+
+        return $patterns;
+    }
+
+    /**
+     * Validates the hit request parameters to prevent invalid requests from stats.
+     *
+     * @return bool True if the request is valid, throws an error otherwise.
+     * @throws ErrorException If the request parameters are invalid.
+     */
+    public static function validateHitRequest()
+    {
+        $isValid = Request::validate([
+            'page_uri'     => [
+                'required'        => true,
+                'nullable'        => true,
+                'type'            => 'string',
+                'encoding'        => 'base64',
+                'invalid_pattern' => self::injectionPatterns()
+            ],
+            'search_query' => [
+                'required'        => true,
+                'nullable'        => true,
+                'type'            => 'string',
+                'encoding'        => 'base64',
+                'invalid_pattern' => self::injectionPatterns()
+            ],
+            'source_id'    => [
+                'type'     => 'number',
+                'required' => true,
+                'nullable' => false
+            ],
+            'referred'     => [
+                'required' => true,
+                'nullable' => true,
+                'type'     => 'url',
+                'encoding' => 'url'
+            ],
+        ]);
+
+        if (!$isValid) {
+            /**
+             * Trigger action after validating the hit request parameters.
+             *
+             * @param bool $isValid Indicates if the request parameters are valid.
+             * @param string $ipAddress The IP address of the requester.
+             */
+            do_action('wp_statistics_invalid_hit_request', $isValid, IP::getIP());
+
+            throw new ErrorException(esc_html__('Invalid hit request params.', 'wp-statistics'));
+        }
+
+        return true;
     }
 }
