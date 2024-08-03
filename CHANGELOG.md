@@ -1,6 +1,7 @@
 = 14.9.4 - **.**.2024 =
 * Enhancement: Redesigned mini-charts in posts lists.
 * Enhancement: Show query params alongside page name inside single visitor page.
+* Enhancement: Validate hit/online request params before storing them into the database.
 * Fix: Fixed incorrect order in custom post types lists when sorted by views.
 * Fix: Fixed author and category page URLs in the Top Pages widget.
 
