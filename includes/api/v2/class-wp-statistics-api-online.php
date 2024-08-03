@@ -3,8 +3,8 @@
 namespace WP_STATISTICS\Api\v2;
 
 use Exception;
+use WP_STATISTICS\Helper;
 use WP_STATISTICS\Hits;
-use WP_STATISTICS\UserOnline;
 
 class CheckUserOnline extends \WP_STATISTICS\RestAPI
 {
@@ -42,7 +42,9 @@ class CheckUserOnline extends \WP_STATISTICS\RestAPI
         $statusCode = false;
 
         try {
+            Helper::validateHitRequest();
             Hits::recordOnline();
+
             $responseData['status'] = true;
 
         } catch (Exception $e) {

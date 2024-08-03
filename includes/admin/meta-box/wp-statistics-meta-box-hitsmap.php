@@ -160,12 +160,10 @@ class hitsmap extends MetaBoxAbstract
         }
 
         // Push City
-        if (GeoIP::active('city')) {
-            try {
-                $visitor['city'] = GeoIP::getCity($country->ip);
-            } catch (\Exception $e) {
-                $visitor['city'] = '';
-            }
+        try {
+            $visitor['city'] = GeoIP::getCity($country->ip);
+        } catch (\Exception $e) {
+            $visitor['city'] = '';
         }
 
         return $visitor;

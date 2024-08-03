@@ -1,9 +1,13 @@
 = 14.9.4 - **.**.2024 =
 * Enhancement: Redesigned mini-charts in posts lists.
 * Enhancement: Show query params alongside page name inside single visitor page.
+* Enhancement: Improved GeoIP functionality by using object caching to optimize performance and reduce redundant operations.
+* Enhancement: Enabled Geolocation functionality by default for more seamless user experience.
+* Enhancement: Enhancement: Validate hit/online request params before storing them into the database.
 * Fix: Fixed incorrect order in custom post types lists when sorted by views.
 * Fix: Fixed incorrect views count in admin bar.
 * Fix: Fixed incorrect views in posts and taxonomy lists.
+* Fix: Fixed author and category page URLs in the Top Pages widget.
 
 = 14.9.3 - 28.07.2024 =
 * Enhancement: Enhanced IP Method Detection mechanism and updated the settings page for better user experience and simplicity.

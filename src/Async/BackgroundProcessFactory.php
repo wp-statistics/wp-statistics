@@ -55,5 +55,19 @@ class BackgroundProcessFactory
         $updateIncompleteVisitorsLocations->save()->dispatch();
     }
 
+    /**
+     * Download/Update geoip database using.
+     *
+     * @return void
+     */
+    public static function downloadGeoIPDatabase()
+    {
+        $downloadProcess = WP_Statistics()->getBackgroundProcess('geoip_database_download');
+
+        // Queue download process
+        $downloadProcess->push_to_queue([]);
+        $downloadProcess->save()->dispatch();
+    }
+
     // Add other static methods for different background processes as needed
 }

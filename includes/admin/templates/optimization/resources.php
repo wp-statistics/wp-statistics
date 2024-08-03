@@ -201,7 +201,7 @@
 
                 <td>
                     <strong><?php
-                        $GeoIP_filename = \WP_STATISTICS\GeoIP::get_geo_ip_path('country');
+                        $GeoIP_filename = \WP_STATISTICS\GeoIP::get_geo_ip_path();
                         $GeoIP_filedate = @filemtime($GeoIP_filename);
 
                         if ($GeoIP_filedate === false) {

@@ -369,15 +369,11 @@ class Visitor
             }
 
             // Push Country
-            if (GeoIP::active()) {
-                $item['country'] = array('location' => $items->location, 'flag' => Country::flag($items->location), 'name' => Country::getName($items->location));
-            }
+            $item['country'] = array('location' => $items->location, 'flag' => Country::flag($items->location), 'name' => Country::getName($items->location));
 
             // Push City
-            if (GeoIP::active('city')) {
-                $item['city']   = !empty($items->city) ? $items->city : GeoIP::getCity($ip);
-                $item['region'] = $items->region;
-            }
+            $item['city']   = !empty($items->city) ? $items->city : GeoIP::getCity($ip);
+            $item['region'] = $items->region;
 
             // Get What is Page
             if (isset($items->page_id)) {

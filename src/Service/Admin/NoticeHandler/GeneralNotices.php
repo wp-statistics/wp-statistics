@@ -2,17 +2,12 @@
 
 namespace WP_Statistics\Service\Admin\NoticeHandler;
 
-use WP_STATISTICS\Api\v2\Hit;
 use WP_STATISTICS\DB;
-use WP_STATISTICS\GeoIP;
 use WP_STATISTICS\Helper;
-use WP_STATISTICS\Hits;
 use WP_STATISTICS\Menus;
 use WP_STATISTICS\Option;
-use WP_STATISTICS\RestAPI;
 use WP_STATISTICS\Schedule;
 use WP_STATISTICS\User;
-use WP_Statistics\Utils\Request;
 
 class GeneralNotices
 {
@@ -23,7 +18,6 @@ class GeneralNotices
      */
     private $core_notices = array(
         'check_tracking_mode',
-        'active_geo_ip',
         'donate_plugin',
         'active_collation',
         'performance_and_clean_up',
@@ -61,13 +55,6 @@ class GeneralNotices
                 $noticeText  = sprintf('<b>WP Statistics Notice:</b> Server Side Tracking is less accurate and will be deprecated in <b>version 15</b>. Please switch to Client Side Tracking for better accuracy. <a href="%s">Update Tracking Settings</a>.', $settingsUrl);
                 Notice::addNotice($noticeText, 'deprecate_server_side_tracking', 'warning');
             }
-        }
-    }
-
-    private function active_geo_ip()
-    {
-        if (Menus::in_plugin_page() and !Option::get('geoip') and GeoIp::IsSupport()) {
-            Notice::addNotice(sprintf(__('GeoIP collection is not enabled. Please go to <a href="%s">setting page</a> to enable GeoIP for getting more information and location (country) from the visitor.', 'wp-statistics'), Menus::admin_url('settings', array('tab' => 'externals-settings'))), 'active_geo_ip', 'warning');
         }
     }
 
