@@ -3,6 +3,7 @@
 namespace WP_STATISTICS;
 
 use WP_Statistics\MiniChart\WP_Statistics_Mini_Chart_Settings;
+use WP_Statistics\Models\HistoricalModel;
 use WP_Statistics\Models\ViewsModel;
 use WP_Statistics\Models\VisitorsModel;
 use WP_Statistics\Utils\Request;
@@ -90,6 +91,9 @@ class Admin_Post
             } else {
                 $viewsModel = new ViewsModel();
                 $hitCount   = $viewsModel->countViews($args);
+
+                $historicalModel = new HistoricalModel();
+                $hitCount       += $historicalModel->countUris(['page_id' => $post_id, 'uri' => wp_make_link_relative(get_permalink($post_id))]);
             }
 
             if (is_numeric($hitCount)) {
