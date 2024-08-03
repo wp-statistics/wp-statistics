@@ -229,13 +229,15 @@ class Admin_Assets
 
         // Load Chart.js library and mini chart
         if (
-            (Helper::isAddOnActive('mini-chart') && Helper::isAdminBarShowing()) || Menus::in_plugin_page() ||
+            Helper::isAdminBarShowing() || Menus::in_plugin_page() ||
             (in_array($screen_id, ['dashboard']) && !Option::get('disable_dashboard')) ||
             (in_array($hook, ['post.php', 'edit.php', 'post-new.php']) && !Option::get('disable_editor'))
         ) {
-            Assets::script('chart.js', 'js/chartjs/chart.umd.min.js', [], [], true, false, null, '4.4.2');
-            Assets::script('hammer.js', 'js/chartjs/hammer.min.js', [], [], true, false, null, '2.0.8');
-            Assets::script('chartjs-plugin-zoom.js', 'js/chartjs/chartjs-plugin-zoom.min.js', ['wp-statistics-hammer.js'], [], true, false, null, '2.0.1');
+            if (Helper::isAddOnActive('mini-chart')) {
+                Assets::script('chart.js', 'js/chartjs/chart.umd.min.js', [], [], true, false, null, '4.4.2');
+                Assets::script('hammer.js', 'js/chartjs/hammer.min.js', [], [], true, false, null, '2.0.8');
+                Assets::script('chartjs-plugin-zoom.js', 'js/chartjs/chartjs-plugin-zoom.min.js', ['wp-statistics-hammer.js'], [], true, false, null, '2.0.1');
+            }
 
             Assets::script('mini-chart', 'js/mini-chart.js', [], [], true);
         }
