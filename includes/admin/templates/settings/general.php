@@ -108,13 +108,13 @@
         </tr>
         <tr valign="top">
             <th scope="row">
-                <label for="disable-editor"><?php esc_html_e('Chart Metabox Views', 'wp-statistics'); ?></label>
+                <label for="disable-editor"><?php esc_html_e('View Stats in Editor', 'wp-statistics'); ?></label>
             </th>
 
             <td>
                 <input id="disable-editor" type="checkbox" value="1" name="wps_disable_editor" <?php echo WP_STATISTICS\Option::get('disable_editor') == '1' ? '' : "checked='checked'"; ?>>
                 <label for="disable-editor"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
-                <p class="description"><?php esc_html_e('Shows content view statistics in a graphical format when editing.', 'wp-statistics'); ?></p>
+                <p class="description"><?php esc_html_e('Show a summary of content view statistics in the post editor.', 'wp-statistics'); ?></p>
             </td>
         </tr>
 

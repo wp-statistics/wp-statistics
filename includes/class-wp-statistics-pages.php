@@ -342,9 +342,18 @@ class Pages
                 case "attachment":
                 case "post":
                 case "page":
+                    $title          = get_the_title($page_id);
+                    $link           = get_the_permalink($page_id);
+                    $linkWithParams = !empty($slug) ? home_url() . $slug : false;
+
+                    // If URL has slug, add it to the title
+                    if ($link !== $linkWithParams) {
+                        $title .= ' (' . trim($slug) . ')';
+                    }
+
                     $arg = array(
-                        'title'     => esc_html(get_the_title($page_id)),
-                        'link'      => get_the_permalink($page_id),
+                        'title'     => esc_html($title),
+                        'link'      => $link,
                         'edit_link' => get_edit_post_link($page_id),
                         'meta'      => array(
                             'post_type' => get_post_type($page_id)
@@ -380,6 +389,9 @@ class Pages
                         'title'     => ($user_info->display_name != "" ? esc_html($user_info->display_name) : esc_html($user_info->first_name . ' ' . $user_info->last_name)),
                         'link'      => get_author_posts_url($page_id),
                         'edit_link' => get_edit_user_link($page_id),
+                        'meta'      => [
+                            'author_id' => $user_info->ID
+                        ]
                     );
                     break;
                 case "feed":
@@ -516,12 +528,20 @@ class Pages
             // Lookup the post title.
             $page_info = Pages::get_page_info($item->id, $item->type, $item->uri);
 
+            if (isset($page_info['meta']['term_taxonomy_id'])) {
+                $reportUrl = Menus::admin_url('category-analytics', ['type' => 'single', 'term_id' => $page_info['meta']['term_taxonomy_id']]);
+            } else if (isset($page_info['meta']['author_id'])) {
+                $reportUrl = Menus::admin_url('author-analytics', ['type' => 'single-author', 'author_id' => $page_info['meta']['author_id']]);
+            } else {
+                $reportUrl = Menus::admin_url('content-analytics', ['type' => 'single', 'post_id' => $item->id]);
+            }
+
             // Push to list
             $list[] = array(
                 'title'     => esc_html($page_info['title']),
                 'link'      => $page_info['link'],
                 'str_url'   => esc_url(urldecode($item->uri)),
-                'hits_page' => Menus::admin_url('content-analytics', ['type' => 'single', 'post_id' => $item->id]),
+                'hits_page' => $reportUrl,
                 'number'    => number_format_i18n($item->count_sum)
             );
         }
