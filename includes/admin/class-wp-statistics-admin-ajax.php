@@ -508,7 +508,7 @@ class Ajax
             // Check Refer Ajax
             check_ajax_referer('wp_rest', 'wps_nonce');
 
-            $result = GeoIP::download('city', 'update');
+            $result = GeoIP::download('update');
 
             if ($result) {
                 esc_html_e($result['notice']);

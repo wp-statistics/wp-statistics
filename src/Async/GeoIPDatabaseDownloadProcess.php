@@ -33,7 +33,7 @@ class GeoIPDatabaseDownloadProcess extends \WP_Background_Process
      */
     protected function task($item)
     {
-        GeoIP::download('city');
+        GeoIP::download();
 
         return false;
     }
