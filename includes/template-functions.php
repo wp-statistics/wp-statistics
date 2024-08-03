@@ -59,19 +59,15 @@ function wp_statistics_get_user_location($ip = false)
     );
 
     // Get user Country
-    if (GeoIP::active()) {
-        $country         = GeoIP::getCountry($ip);
-        $data['country'] = array(
-            'code' => $country,
-            'name' => Country::getName($country),
-            'flag' => Country::flag($country)
-        );
-    }
+    $country         = GeoIP::getCountry($ip);
+    $data['country'] = array(
+        'code' => $country,
+        'name' => Country::getName($country),
+        'flag' => Country::flag($country)
+    );
 
     // Get User City
-    if (GeoIP::active('city')) {
-        $data['city'] = GeoIP::getCity($ip);
-    }
+    $data['city'] = GeoIP::getCity($ip);
 
     return $data;
 }

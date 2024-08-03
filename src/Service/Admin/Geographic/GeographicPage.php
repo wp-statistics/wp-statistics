@@ -37,11 +37,8 @@ class GeographicPage extends MultiViewPage
         $this->visitorModel = new VisitorsModel();
 
         $this->disableScreenOption();
-
-        if (Option::get('geoip') && GeoIP::IsSupport()) {
-            $this->checkIncompleteGeoIpUpdaterNotice();
-            $this->processIncompleteGeoIpUpdaterBackgroundAction();
-        }
+        $this->checkIncompleteGeoIpUpdaterNotice();
+        $this->processIncompleteGeoIpUpdaterBackgroundAction();
     }
 
     /**

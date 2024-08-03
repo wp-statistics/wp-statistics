@@ -42,7 +42,7 @@ class Option
             'query_params_allow_list'   => Helper::get_default_query_params_allow_list('string'),
             'anonymize_ips'             => true,
             'hash_ips'                  => true,
-            'geoip'                     => false,
+            'geoip'                     => true,
             'useronline'                => true,
             'pages'                     => true,
             'menu_bar'                  => true,
