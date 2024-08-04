@@ -231,17 +231,23 @@ class GeoIP
      */
     public static function download($type = 'enable')
     {
-        $result = ['status' => false];
+        $result     = ['status' => false];
+        $gzFilePath = self::getGzPath();
 
         try {
             $download_url = self::getDownloadUrl();
-            $gzFilePath   = self::getGzPath();
 
             $response = wp_remote_get($download_url, [
                 'stream'   => true,
                 'filename' => $gzFilePath,
                 'timeout'  => 600,
             ]);
+
+            // Check the HTTP status code
+            $status_code = wp_remote_retrieve_response_code($response);
+            if ($status_code !== 200) {
+                throw new Exception(sprintf(__('Unexpected HTTP status code %1$d while downloading GeoIP database from: %2$s', 'wp-statistics'), $status_code, $download_url));
+            }
 
             if (is_wp_error($response)) {
                 throw new Exception(sprintf(__('Error downloading GeoIP database from: %1$s - %2$s', 'wp-statistics'), $download_url, $response->get_error_message()));
@@ -276,6 +282,8 @@ class GeoIP
             }
 
         } catch (Exception $e) {
+            wp_delete_file($gzFilePath); // Ensure temporary file is deleted in case of an error
+
             $result['notice'] = sprintf(__('Error: %1$s', 'wp-statistics'), $e->getMessage());
             \WP_Statistics::log($result['notice']); // Log the error for debugging
         }
