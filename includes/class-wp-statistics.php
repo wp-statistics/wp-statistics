@@ -361,7 +361,7 @@ final class WP_Statistics
             $message = wp_json_encode($message);
         }
 
-        error_log(sprintf('WP Statistics Error: %s', $message));
+        error_log(sprintf('[WP STATISTICS]: %s', $message));
     }
 
     /**
