@@ -66,11 +66,8 @@ class BackgroundProcessFactory
         $provider        = GeolocationFactory::getProviderInstance();
         $downloadProcess = WP_Statistics()->getBackgroundProcess('geolocation_database_download');
 
-        $url         = $provider->getDownloadUrl();
-        $destination = $provider->getDatabasePath() . '.tar.gz';
-
         // Queue download process
-        $downloadProcess->push_to_queue(['url' => $url, 'destination' => $destination]);
+        $downloadProcess->push_to_queue(['provider' => $provider]);
         $downloadProcess->save()->dispatch();
     }
 

@@ -2,21 +2,37 @@
 
 namespace WP_Statistics\Service\Geolocation\Provider;
 
+use WP_STATISTICS\Option;
+use WP_Statistics\Async\BackgroundProcessFactory;
+use WP_Statistics\Helper;
+
 abstract class AbstractGeoIPProvider implements GeoServiceProviderInterface
 {
     /**
      * @var string
      */
-    protected $databasePath;
+    protected $databaseFileName = '';
 
     /**
-     * Get the path to the GeoIP database.
+     * Construct the full path for a given file name in the uploads directory.
+     *
+     * @param string $fileName
+     * @return string
+     */
+    protected function getFilePath(string $fileName): string
+    {
+        $uploadDir = wp_upload_dir();
+        return $uploadDir['basedir'] . '/' . WP_STATISTICS_UPLOADS_DIR . '/' . $fileName;
+    }
+
+    /**
+     * Get the path to the GeoIP database file.
      *
      * @return string
      */
-    public function getDatabasePath(): string
+    protected function getDatabasePath(): string
     {
-        return $this->databasePath;
+        return $this->getFilePath($this->databaseFileName);
     }
 
     /**
@@ -26,14 +42,10 @@ abstract class AbstractGeoIPProvider implements GeoServiceProviderInterface
      */
     public function deleteDatabase(): bool
     {
-        if (file_exists($this->databasePath)) {
-            if (unlink($this->databasePath)) {
-                return true;
-            }
-
-            return false;
+        $databasePath = $this->getDatabasePath();
+        if (file_exists($databasePath)) {
+            return unlink($databasePath);
         }
-
         return true; // If the file does not exist, treat it as already deleted
     }
 
@@ -44,51 +56,57 @@ abstract class AbstractGeoIPProvider implements GeoServiceProviderInterface
      */
     public function getDatabaseFileInfo(): ?array
     {
-        if (file_exists($this->databasePath)) {
-            $sizeInBytes     = filesize($this->databasePath);
+        $databasePath = $this->getDatabasePath();
+        if (file_exists($databasePath)) {
+            $sizeInBytes     = filesize($databasePath);
             $sizeInMegabytes = $sizeInBytes / (1024 * 1024); // Convert bytes to megabytes
 
             return [
                 'size'          => round($sizeInMegabytes, 2) . ' MB', // File size in megabytes
-                'last_modified' => date('Y-m-d H:i:s', filemtime($this->databasePath)), // Last modified timestamp formatted
+                'last_modified' => date('Y-m-d H:i:s', filemtime($databasePath)), // Last modified timestamp formatted
             ];
         }
-
         return null; // Return null if the file does not exist
     }
 
     /**
-     * Check if the GeoIP database exists.
-     *
-     * @return bool
+     * Update the last download timestamp.
      */
-    public function databaseExists(): bool
+    protected function updateLastDownloadTimestamp()
     {
-        return file_exists($this->databasePath);
+        Option::update('last_geoip_dl', time());
+
+        // Update last download timestamp after successful completion
+        //update_option('wp_statistics_geo_db_last_download', time()); @todo
     }
 
     /**
-     * Backup the existing GeoIP database.
-     *
-     * @return bool
+     * Batch update incomplete GeoIP info for visitors.
      */
-    public function backupDatabase(): bool
+    protected function batchUpdateIncompleteGeoIp()
     {
-        if ($this->databaseExists()) {
-            $backupPath = $this->databasePath . '.bak';
-            return copy($this->databasePath, $backupPath);
+        if (Option::get('auto_pop')) {
+            BackgroundProcessFactory::batchUpdateIncompleteGeoIpForVisitors();
         }
-
-        return false;
     }
 
     /**
-     * Validate the GeoIP database integrity.
+     * Send email notification about the GeoIP update.
      *
-     * @return bool
+     * @param string $notice
      */
-    public function validateDatabase(): bool
+    protected function sendGeoIpUpdateEmail(string $notice)
     {
-        return $this->databaseExists() && is_readable($this->databasePath);
+        if (Option::get('geoip_report')) {
+            Helper::send_mail(
+                Option::getEmailNotification(),
+                __('GeoIP update on', 'wp-statistics') . ' ' . get_bloginfo('name'),
+                $notice,
+                true,
+                [
+                    "email_title" => __('GeoIP update on', 'wp-statistics') . ' <a href="' . get_bloginfo('url') . '" target="_blank" style="text-decoration: none; color: #303032; font-family: Roboto,Arial,Helvetica,sans-serif; font-size: 16px; font-weight: 600; line-height: 18.75px;font-style: italic">' . get_bloginfo('name') . '</a>'
+                ]
+            );
+        }
     }
 }

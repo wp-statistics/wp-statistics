@@ -3,27 +3,21 @@
 namespace WP_Statistics\Service\Geolocation\Provider;
 
 use Exception;
+use WP_STATISTICS\Option;
 
 class DbIpProvider extends AbstractGeoIPProvider
 {
     /**
      * @var string
      */
-    protected $databasePath;
-
-    /**
-     * @var string|null
-     */
-    protected $apiKey;
+    protected $databaseFileName = 'dbip-city-lite.mmdb';
 
     /**
      * DbIpProvider constructor.
      */
     public function __construct()
     {
-        $this->apiKey       = get_option('dbip_api_key'); // todo
-        $uploadDir          = wp_upload_dir();
-        $this->databasePath = $uploadDir['basedir'] . '/' . WP_STATISTICS_UPLOADS_DIR . '/dbip-country-lite.mmdb';
+
     }
 
     /**
@@ -67,8 +61,18 @@ class DbIpProvider extends AbstractGeoIPProvider
      */
     public function getDownloadUrl(): string
     {
-        return $this->apiKey
-            ? "https://download.db-ip.com/free/dbip-country-lite.mmdb.gz?api_key={$this->apiKey}"
+        $licenseKey = Option::get('geoip_license_key') && Option::get('geoip_license_type') == 'user-license'
+            ? Option::get('geoip_license_key')
+            : null;
+
+        return $licenseKey
+            ? "https://download.db-ip.com/free/dbip-country-lite.mmdb.gz?api_key={$licenseKey}"
             : 'https://download.db-ip.com/free/dbip-country-lite.mmdb.gz';
+    }
+
+    public function downloadDatabase(): array
+    {
+        // TODO: Implement downloadDatabase() method.
+        return [];
     }
 }

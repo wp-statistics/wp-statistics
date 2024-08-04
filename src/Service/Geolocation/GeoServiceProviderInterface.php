@@ -18,4 +18,11 @@ interface GeoServiceProviderInterface
      * @return string
      */
     public function getDownloadUrl(): string;
+
+    /**
+     * Download the GeoIP database, extract it, and handle updates.
+     *
+     * @return array
+     */
+    public function downloadDatabase(): array;
 }
