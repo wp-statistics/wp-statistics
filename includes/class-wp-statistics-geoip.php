@@ -6,7 +6,7 @@ use WP_Statistics\Async\BackgroundProcessFactory;
 use WP_Statistics\Dependencies\GeoIp2\Database\Reader;
 
 /**
- * @deprecated This temporary GeoIP implementation will be replaced by a more efficient Geolocation structure in version 14.10
+ * @note This temporary GeoIP implementation will be replaced by a more efficient Geolocation structure in version 14.10
  * As a lesson learned: never let someone without an understanding of software architecture design the code.
  */
 class GeoIP
