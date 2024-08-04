@@ -11,14 +11,15 @@ class TaxonomyModel extends BaseModel
     public function getTaxonomiesData($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
-            'post_type' => Helper::get_list_post_type(),
-            'order_by'  => ['term_taxonomy.taxonomy', 'post_count'],
-            'taxonomy'  => array_keys(Helper::get_list_taxonomy(true)),
-            'page'      => 1,
-            'per_page'  => 5,
-            'date'      => '',
-            'author_id' => '',
-            'order'     => ''
+            'post_type'         => Helper::get_list_post_type(),
+            'order_by'          => ['term_taxonomy.taxonomy', 'post_count'],
+            'taxonomy'          => array_keys(Helper::get_list_taxonomy(true)),
+            'page'              => 1,
+            'per_page'          => 5,
+            'date'              => '',
+            'author_id'         => '',
+            'order'             => '',
+            'count_total_posts' => false
         ]);
 
         $categoryViewsQuery = Query::select(['id', 'date', 'SUM(count) AS views'])
@@ -47,11 +48,9 @@ class TaxonomyModel extends BaseModel
             ->perPage($args['page'], $args['per_page'])
             ->bypassCache($bypassCache);
 
-        // If author_id is empty get data by published date, otherwise get data by published or viewed date
-        if (!empty($args['author_id']) || !empty($args['post_type'])) {
+        // If total posts is not requested, filter by date
+        if ($args['count_total_posts'] == false) {
             $query->whereDate('posts.post_date', $args['date']);
-        } else {
-            $query->whereDate('pages.date', $args['date']);
         }
 
         $result = $query->getAll();
