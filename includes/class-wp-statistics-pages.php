@@ -346,8 +346,8 @@ class Pages
                     $link           = get_the_permalink($page_id);
                     $linkWithParams = !empty($slug) ? home_url() . $slug : false;
 
-                    // If URL has slug, add it to the title
-                    if ($link !== $linkWithParams) {
+                    // If URL has params, add it to the title (except for allowed params like UTM params, etc...)
+                    if ($link !== $linkWithParams && !Helper::checkUrlForParams($linkWithParams, Helper::get_query_params_allow_list())) {
                         $title .= ' (' . trim($slug) . ')';
                     }
 

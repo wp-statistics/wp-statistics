@@ -1945,4 +1945,28 @@ class Helper
 
         return true;
     }
+
+    public static function checkUrlForParams($url, $params) 
+    {
+        // Parse the URL and extract the query string
+        $queryString = parse_url($url, PHP_URL_QUERY);
+        
+        // If there's no query string, return false
+        if (!$queryString) {
+            return false;
+        }
+        
+        // Parse the query string into an array
+        parse_str($queryString, $queryParams);
+        
+        foreach ($params as $param) {
+            // If param is found, return true
+            if (array_key_exists($param, $queryParams)) {
+                return true;
+            }
+        }
+        
+        // If param is not found, return false
+        return false;
+    }
 }
