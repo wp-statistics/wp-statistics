@@ -2,6 +2,7 @@
 
 namespace WP_STATISTICS;
 
+use Exception;
 use WP_Statistics\Async\BackgroundProcessFactory;
 use WP_Statistics\Dependencies\GeoIp2\Database\Reader;
 
@@ -100,14 +101,14 @@ class GeoIP
                 // Download it again if the GeoIP database is removed manually and not exist.
                 BackgroundProcessFactory::downloadGeoIPDatabase();
 
-                throw new \Exception("GeoIP database library not found in {$file}");
+                throw new Exception("GeoIP database library not found in {$file}, trying to download it.");
             }
 
             // Load the GeoIP Reader and cache it.
             self::$readerCache = new Reader($file);
             return self::$readerCache;
 
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             // Log the exception message.
             \WP_Statistics::log($e->getMessage());
 
@@ -178,7 +179,7 @@ class GeoIP
 
             return $location;
 
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             // Log the exception message.
             \WP_Statistics::log($e->getMessage());
         }
@@ -193,7 +194,7 @@ class GeoIP
      *
      * @param bool|string $ip The IP address to lookup. Defaults to the user's IP.
      * @return string|null The country code or detail requested, or null on failure.
-     * @throws \Exception If there is an issue during GeoIP lookup.
+     * @throws Exception If there is an issue during GeoIP lookup.
      */
     public static function getCountry($ip = false)
     {
@@ -226,173 +227,124 @@ class GeoIP
      * @param string $type The type of download operation ('enable' or 'update').
      *
      * @return mixed Array containing status and notice messages.
+     * @throws array if an error occurs during the download or extraction process.
      */
     public static function download($type = 'enable')
     {
+        $result = ['status' => false];
+
         try {
-            if (!function_exists('WP_Filesystem')) {
-                include_once ABSPATH . 'wp-admin/includes/file.php';
-            }
+            $download_url = self::getDownloadUrl();
+            $gzFilePath   = self::getGzPath();
 
-            WP_Filesystem();
-            global $wp_filesystem;
-
-            // Initialize result array with a failure status.
-            $result['status'] = false;
-
-            // Load required functions if not already available.
-            if (!function_exists('download_url')) {
-                include(ABSPATH . 'wp-admin/includes/file.php');
-            }
-            if (!function_exists('wp_generate_password')) {
-                include(ABSPATH . 'wp-includes/pluggable.php');
-            }
-
-            // Retrieve the WordPress upload directory path.
-            $upload_dir = wp_upload_dir();
-
-            // Check for the existence of gzopen function.
-            if (false === function_exists('gzopen')) {
-                return array_merge($result, array("notice" => __('Error: <code>gzopen()</code> Function Not Found!', 'wp-statistics')));
-            }
-
-            $isMaxmind = false;
-
-            // Determine the download URL for the GeoIP database.
-            if (Option::get('geoip_license_type') == "user-license" && Option::get('geoip_license_key')) {
-                $download_url = add_query_arg(array(
-                    'license_key' => Option::get('geoip_license_key')
-                ), GeoIP::$library['userSource']);
-                $isMaxmind    = true;
-            } else {
-                $download_url = GeoIP::$library['source'];
-            }
-
-            // Allow third-party plugins to modify the download URL.
-            $download_url = apply_filters('wp_statistics_geo_ip_download_url', $download_url, GeoIP::$library['source']);
-
-            ini_set('max_execution_time', '300');
-
-            // Attempt to download the GeoIP database file.
-            $response = wp_remote_get($download_url, array(
-                'timeout'   => 300,
-                'sslverify' => false
-            ));
+            $response = wp_remote_get($download_url, [
+                'stream'   => true,
+                'filename' => $gzFilePath,
+                'timeout'  => 600,
+            ]);
 
             if (is_wp_error($response)) {
-                \WP_Statistics::log(array('code' => 'download_geoip', 'message' => $response->get_error_message()));
-                return array_merge($result, array("notice" => $response->get_error_message()));
+                throw new Exception(sprintf(__('Error downloading GeoIP database from: %1$s - %2$s', 'wp-statistics'), $download_url, $response->get_error_message()));
             }
 
-            // Check the response code from the download request.
-            if (wp_remote_retrieve_response_code($response) != '200') {
-                return array_merge($result, array("notice" => sprintf(__('Error: %1$s, Request URL: %2$s', 'wp-statistics'), wp_remote_retrieve_body($response), $download_url)));
-            }
-
-            // Define the path for the GeoIP database file.
             $DBFile = self::get_geo_ip_path();
+            self::extractGzFile($gzFilePath, $DBFile);
 
-            // Check if the upload subdirectory exists, and create it if not.
-            if (!file_exists($upload_dir['basedir'] . '/' . WP_STATISTICS_UPLOADS_DIR)) {
-                if (!$wp_filesystem->mkdir($upload_dir['basedir'] . '/' . WP_STATISTICS_UPLOADS_DIR, 0755)) {
-                    return array_merge($result, array("notice" => sprintf(__('Error Creating GeoIP Database Directory. Ensure Web Server Has Directory Creation Permissions in: %s', 'wp-statistics'), $upload_dir['basedir'])));
-                }
+            wp_delete_file($gzFilePath); // Clean up the temporary file
+
+            $result['status'] = true;
+            $result['notice'] = __('GeoIP Database successfully updated!', 'wp-statistics');
+
+            if ($type === 'update') {
+                Option::update('last_geoip_dl', time());
             }
 
-            // Check write permissions for the upload directory.
-            if (!$wp_filesystem->is_writable($upload_dir['basedir'] . '/' . WP_STATISTICS_UPLOADS_DIR)) {
-                return array_merge($result, array("notice" => sprintf(__('Error Setting Permissions for GeoIP Database Directory. Check Write Permissions for Directories in: %s', 'wp-statistics'), $upload_dir['basedir'])));
+            if (Option::get('auto_pop')) {
+                BackgroundProcessFactory::batchUpdateIncompleteGeoIpForVisitors();
             }
 
-            // Download the GeoIP database file to a temporary location.
-            $TempFile = download_url($download_url);
-
-            // Check for download errors and handle accordingly.
-            if (is_wp_error($TempFile)) {
-                return array_merge($result, array("notice" => sprintf(__('Error Downloading GeoIP Database from: %1$s - %2$s', 'wp-statistics'), $download_url, $TempFile->get_error_message())));
-            } else {
-                if ($isMaxmind) {
-                    // Handle MaxMind-specific database extraction.
-                    $phar          = new \PharData($TempFile);
-                    $database      = self::$library['file'] . '.' . self::$file_extension;
-                    $fileInArchive = trailingslashit($phar->current()->getFileName()) . $database;
-                    $phar->extractTo(Helper::get_uploads_dir(WP_STATISTICS_UPLOADS_DIR), $fileInArchive, true);
-
-                    @rename(trailingslashit(Helper::get_uploads_dir(WP_STATISTICS_UPLOADS_DIR)) . $fileInArchive, $DBFile);
-                    @rmdir(trailingslashit(Helper::get_uploads_dir(WP_STATISTICS_UPLOADS_DIR)) . $phar->current()->getFileName());
-
-                    if (!is_file($DBFile)) {
-                        // Handle extraction errors.
-                        @rmdir($DBFile);
-                        wp_delete_file($TempFile);
-                        return array_merge($result, array("notice" => __('There was an error creating the GeoIP database file.', 'wp-statistics')));
-                    }
-                } else {
-                    // Handle extraction from gzipped file.
-                    $ZipHandle = gzopen($TempFile, 'rb');
-
-                    // Create the new file to unzip to.
-                    $DBfh = fopen($DBFile, 'wb'); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fopen
-
-                    // Check for errors during file opening.
-                    if (!$ZipHandle) {
-                        wp_delete_file($TempFile);
-
-                        return array_merge($result, array("notice" => sprintf(__('Error Opening Downloaded GeoIP Database for Reading: %s', 'wp-statistics'), $TempFile)));
-                    } else {
-                        if (!$DBfh) {
-                            wp_delete_file($TempFile);
-
-                            return array_merge($result, array("notice" => sprintf(__('Error Opening Destination GeoIP Database for Writing: %s', 'wp-statistics'), $DBFile)));
-                        } else {
-                            // Write the extracted data to the database file.
-                            while (($data = gzread($ZipHandle, 4096)) !== false) {
-                                fwrite($DBfh, $data); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fwrite
-                            }
-
-                            // Close the files.
-                            gzclose($ZipHandle);
-                            fclose($DBfh); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fclose
-
-                            // Delete the temporary file.
-                            wp_delete_file($TempFile);
-                        }
-                    }
-                }
-
-                // Update the result array with success status and message.
-                $result['status'] = true;
-                $result['notice'] = __('GeoIP Database Successfully Updated!', 'wp-statistics');
-
-                // Update the option with the timestamp of the last download.
-                if ($type == "update") {
-                    Option::update('last_geoip_dl', time());
-                }
-
-                // Update incomplete GeoIP information if the option is enabled.
-                if (Option::get('auto_pop')) {
-                    BackgroundProcessFactory::batchUpdateIncompleteGeoIpForVisitors();
-                }
-            }
-
-            // Send notification email if the option is enabled.
-            if (Option::get('geoip_report') == true) {
-
+            if (Option::get('geoip_report')) {
                 Helper::send_mail(
                     Option::getEmailNotification(),
                     __('GeoIP update on', 'wp-statistics') . ' ' . get_bloginfo('name'),
                     $result['notice'],
                     true,
-                    array("email_title" => __('GeoIP update on', 'wp-statistics') . ' <a href="' . get_bloginfo('url') . '" target="_blank" style="text-decoration: none; color: #303032; font-family: Roboto,Arial,Helvetica,sans-serif; font-size: 16px; font-weight: 600; line-height: 18.75px;font-style: italic">' . get_bloginfo('name') . '</a>')
+                    [
+                        "email_title" => __('GeoIP update on', 'wp-statistics') . ' <a href="' . get_bloginfo('url') . '" target="_blank" style="text-decoration: none; color: #303032; font-family: Roboto,Arial,Helvetica,sans-serif; font-size: 16px; font-weight: 600; line-height: 18.75px;font-style: italic">' . get_bloginfo('name') . '</a>'
+                    ]
                 );
             }
 
-        } catch (\Exception $e) {
-            // Log any exceptions that occur during the download process.
+        } catch (Exception $e) {
             $result['notice'] = sprintf(__('Error: %1$s', 'wp-statistics'), $e->getMessage());
+            \WP_Statistics::log($result['notice']); // Log the error for debugging
         }
 
         return $result;
+    }
+
+    /**
+     * Gets the download URL for the GeoIP database.
+     *
+     * @return string
+     */
+    private static function getDownloadUrl()
+    {
+        if (Option::get('geoip_license_type') === "user-license" && Option::get('geoip_license_key')) {
+            return add_query_arg(['license_key' => Option::get('geoip_license_key')], GeoIP::$library['userSource']);
+        }
+        return GeoIP::$library['source'];
+    }
+
+    /**
+     * Retrieves the path for the temporary GZ file.
+     *
+     * @return string The full path to the GZ file.
+     */
+    private static function getGzPath()
+    {
+        $upload_dir = wp_upload_dir();
+        return trailingslashit($upload_dir['basedir']) . self::$library['file'] . '.mmdb.gz';
+    }
+
+    /**
+     * Extracts the database file from the downloaded GZ archive.
+     *
+     * @param string $gzFilePath The path to the downloaded GZ file.
+     * @param string $destination The destination path for the extracted database file.
+     * @throws Exception if extraction fails.
+     */
+    private static function extractGzFile($gzFilePath, $destination)
+    {
+        $uploadPath = Helper::get_uploads_dir(WP_STATISTICS_UPLOADS_DIR);
+
+        if (!file_exists($uploadPath)) {
+            if (!mkdir($uploadPath, 0755, true) && !is_dir($uploadPath)) {
+                throw new Exception(sprintf(__('Error creating directory: %s', 'wp-statistics'), $uploadPath));
+            }
+        }
+
+        $gzHandle = gzopen($gzFilePath, 'rb');
+        if (!$gzHandle) {
+            throw new Exception(__('Failed to open GZ archive.', 'wp-statistics'));
+        }
+
+        $dbFileHandle = fopen($destination, 'wb'); // Open the destination file for writing
+        if (!$dbFileHandle) {
+            gzclose($gzHandle);
+            throw new Exception(__('Failed to open destination file for writing.', 'wp-statistics'));
+        }
+
+        while (!gzeof($gzHandle)) {
+            fwrite($dbFileHandle, gzread($gzHandle, 4096)); // Read from GZ and write to the destination file
+        }
+
+        gzclose($gzHandle);
+        fclose($dbFileHandle);
+
+        if (!file_exists($destination)) {
+            throw new Exception(__('Error extracting GeoIP database file.', 'wp-statistics'));
+        }
     }
 
     /**
