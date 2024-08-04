@@ -26,7 +26,7 @@ class TaxonomyModel extends BaseModel
                 'terms.term_id',
                 'terms.name',
                 'COUNT(DISTINCT posts.ID) as post_count',
-                'COALESCE(pages.count, 0) as views'
+                'COALESCE(SUM(pages.count), 0) as views'
             ])
             ->from('term_taxonomy')
             ->join('terms', ['term_taxonomy.term_id', 'terms.term_id'])
