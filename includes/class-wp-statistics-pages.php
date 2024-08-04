@@ -329,7 +329,7 @@ class Pages
         //Create Empty Object
         $arg      = array();
         $defaults = array(
-            'link'      => '',
+            'link'      => $slug,
             'edit_link' => '',
             'object_id' => $page_id,
             'title'     => '-',
@@ -371,7 +371,10 @@ class Pages
                 case "home":
                     $arg = array(
                         'title' => $page_id ? sprintf(__('Home Page: %s', 'wp-statistics'), get_the_title($page_id)) : __('Home Page', 'wp-statistics'),
-                        'link'  => get_site_url()
+                        'link'  => get_site_url(),
+                        'meta'  => array(
+                            'post_type' => get_post_type($page_id)
+                        )
                     );
                     break;
                 case "author":
@@ -519,11 +522,12 @@ class Pages
             // Lookup the post title.
             $page_info = Pages::get_page_info($item->id, $item->type, $item->uri);
 
+            $reportUrl = '';
             if (isset($page_info['meta']['term_taxonomy_id'])) {
                 $reportUrl = Menus::admin_url('category-analytics', ['type' => 'single', 'term_id' => $page_info['meta']['term_taxonomy_id']]);
             } else if (isset($page_info['meta']['author_id'])) {
                 $reportUrl = Menus::admin_url('author-analytics', ['type' => 'single-author', 'author_id' => $page_info['meta']['author_id']]);
-            } else {
+            } else if (isset($page_info['meta']['post_type'])) {
                 $reportUrl = Menus::admin_url('content-analytics', ['type' => 'single', 'post_id' => $item->id]);
             }
 
