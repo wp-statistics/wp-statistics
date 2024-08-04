@@ -342,18 +342,9 @@ class Pages
                 case "attachment":
                 case "post":
                 case "page":
-                    $title          = get_the_title($page_id);
-                    $link           = get_the_permalink($page_id);
-                    $linkWithParams = !empty($slug) ? home_url() . $slug : false;
-
-                    // If URL has params, add it to the title (except for allowed params like UTM params, etc...)
-                    if ($link !== $linkWithParams && !Helper::checkUrlForParams($linkWithParams, Helper::get_query_params_allow_list())) {
-                        $title .= ' (' . trim($slug) . ')';
-                    }
-
                     $arg = array(
-                        'title'     => esc_html($title),
-                        'link'      => $link,
+                        'title'     => get_the_title($page_id),
+                        'link'      => get_the_permalink($page_id),
                         'edit_link' => get_edit_post_link($page_id),
                         'meta'      => array(
                             'post_type' => get_post_type($page_id)
