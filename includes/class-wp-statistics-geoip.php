@@ -61,6 +61,26 @@ class GeoIP
     }
 
     /**
+     * Determine if the Geo-IP is active.
+     *
+     * This method checks if the Geo-IP functionality is active by verifying
+     * the existence of the required Geo-IP file. Although deprecated and
+     * removed from all add-ons, it remains for backward compatibility.
+     *
+     * @return bool  Returns true if the Geo-IP file exists, indicating that the Geo-IP is active; otherwise, false.
+     *
+     * @deprecated  This method is deprecated and should not be used in new development. It remains for backward compatibility.
+     */
+    public static function active()
+    {
+        if (file_exists(self::get_geo_ip_path())) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * Loads the GeoIP database reader and caches it.
      *
      * @return bool|Reader Instance of GeoIP Reader if successful, false on failure.
