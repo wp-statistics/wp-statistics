@@ -407,7 +407,13 @@ class Visitor
             ARRAY_A);
 
         if ($item !== null) {
-            $params = Pages::get_page_info($item['id'], $item['type'], $item['uri']);
+            $params         = Pages::get_page_info($item['id'], $item['type'], $item['uri']);
+            $linkWithParams = !empty($item['uri']) ? home_url() . $item['uri'] : false;
+
+            // If URL has params, add it to the title (except for allowed params like UTM params, etc...)
+            if (trim($params['link'], '/') !== trim($linkWithParams, '/') && !Helper::checkUrlForParams($linkWithParams, Helper::get_query_params_allow_list())) {
+                $params['title'] .= ' (' . trim($item['uri']) . ')';
+            }
         }
 
         return $params;
