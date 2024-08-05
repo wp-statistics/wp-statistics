@@ -93,7 +93,9 @@ class Admin_Taxonomy
             $hitCount       += $historicalModel->countUris(['page_id' => $term_id, 'uri' => $termLink]);
 
             if (is_numeric($hitCount)) {
-                $preview_chart_unlock_html = sprintf('<div class="wps-admin-column__unlock"><a href="%s" target="_blank"><span class="wps-admin-column__unlock__text">%s</span><img class="wps-admin-column__unlock__lock" src="%s"/><img class="wps-admin-column__unlock__img" src="%s"/></a></div>',
+                $preview_chart_unlock_html = sprintf(
+                    // translators: 1: Mini-chart product link - 2: "Unlock This Feature!" text - 3: Lock image - 4: Chart preview image.
+                    '<div class="wps-admin-column__unlock"><a href="%s" target="_blank"><span class="wps-admin-column__unlock__text">%s</span><img class="wps-admin-column__unlock__lock" src="%s"/><img class="wps-admin-column__unlock__img" src="%s"/></a></div>',
                     'https://wp-statistics.com/product/wp-statistics-mini-chart?utm_source=wp-statistics&utm_medium=link&utm_campaign=mini-chart',
                     __('Unlock This Feature!', 'wp-statistics'),
                     WP_STATISTICS_URL . 'assets/images/mini-chart-posts-lock.svg',
@@ -111,16 +113,17 @@ class Admin_Taxonomy
                     $value = apply_filters("wp_statistics_before_hit_column", $preview_chart_unlock_html, $term_id, $term->taxonomy);
                 }
 
-                $value .= sprintf('<div class="%s"><span class="%s">%s</span> <a href="%s" class="wps-admin-column__link %s">%s</a></div>',
+                $value .= sprintf(
+                    // translators: 1 & 2: CSS class - 3: "Views" text - 4: Link to category analytics page - 5: CSS class - 6: Hits count.
+                    '<div class="%s"><span class="%s">%s</span> <a href="%s" class="wps-admin-column__link %s">%s</a></div>',
                     $isMiniChartActive && Option::getByAddon('count_display', 'mini_chart', 'total') === 'disabled' ? 'wps-hide' : '',
                     $isMiniChartActive ? '' : 'wps-hide',
                     esc_html__('Views:', 'wp-statistics'),
                     Menus::admin_url('category-analytics', ['type' => 'single', 'term_id' => $term_id]),
                     $isMiniChartActive ? '' : 'wps-admin-column__unlock-count',
-                    number_format($hitCount)
+                    esc_html(number_format($hitCount))
                 );
             }
-
         }
 
         return $value;
