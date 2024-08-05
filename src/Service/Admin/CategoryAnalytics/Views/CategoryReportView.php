@@ -60,7 +60,14 @@ class CategoryReportView extends BaseView
             'title'                 => esc_html__('Category Report', 'wp-statistics'),
             'tooltip'               => esc_html__('List of terms in the selected taxonomy with metrics for content associated with each term.', 'wp-statistics'),
             'pageName'              => Menus::get_page_slug($parentPage['page_url']),
-            'custom_get'            => ['type' => 'report', 'pt' => $postType, 'author_id' => $authorId, 'tx' => Request::get('tx', 'category')],
+            'custom_get'            => [
+                'type'      => 'report', 
+                'pt'        => $postType, 
+                'author_id' => $authorId, 
+                'tx'        => Request::get('tx', 'category'),
+                'order_by'  => Request::get('order_by', 'views'),
+                'order'     => Request::get('order', 'desc')
+            ],
             'DateRang'              => Admin_Template::DateRange(),
             'hasDateRang'           => true,
             'backUrl'               => Menus::admin_url($parentPage['page_url']),
