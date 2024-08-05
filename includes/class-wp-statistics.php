@@ -352,16 +352,18 @@ final class WP_Statistics
     /**
      * The main logging function
      *
-     * @param $message
+     * @param string $message The message to be logged.
+     * @param string $level The log level (e.g., 'info', 'warning', 'error'). Default is 'info'.
      * @uses error_log
      */
-    public static function log($message)
+    public static function log($message, $level = 'info')
     {
         if (is_array($message)) {
             $message = wp_json_encode($message);
         }
 
-        error_log(sprintf('[WP STATISTICS]: %s', $message));
+        $log_level = strtoupper($level);
+        error_log(sprintf('[WP STATISTICS] [%s]: %s', $log_level, $message));
     }
 
     /**
