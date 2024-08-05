@@ -1872,8 +1872,10 @@ class Helper
             '/[\'"\(](?:\s|%20)*XOR(?:\s|%20)*/i',              // ' " ( XOR
 
             // Function-based SQL injection 
-            '/[\'"\(\,](?:\s|%20)*sleep(?:\s|%20)*\(\d+\)/i',     // ' " ( sleep(10)
-            '/[\'"\(](?:\s|%20)*benchmark(?:\s|%20)*\(\d+,(?:\s|%20)*/i', // ' " ( benchmark(10,
+            '/(?:\s|%20)*now\(/i',                                           // now(
+            '/(?:\s|%20)*sysdate\(/i',                                       // sysdate(
+            '/(?:\s|%20)*sleep\(/i',                                         // sleep(
+            '/[\'"\(](?:\s|%20)*benchmark(?:\s|%20)*\(\d+,(?:\s|%20)*/i',   // ' " ( benchmark(10,
 
             // XSS patterns 
             '/<script\b[^>]*>(.*?)<\/script>/is',               // <script>...</script>
