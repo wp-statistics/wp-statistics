@@ -1,6 +1,5 @@
 <?php
 
-# Exit if accessed directly
 use WP_Statistics\Async\CalculatePostWordsCount;
 use WP_Statistics\Async\GeoIPDatabaseDownloadProcess;
 use WP_Statistics\Async\IncompleteGeoIpUpdater;
