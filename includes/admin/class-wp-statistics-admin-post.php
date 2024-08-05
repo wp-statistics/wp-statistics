@@ -92,8 +92,11 @@ class Admin_Post
                 $viewsModel = new ViewsModel();
                 $hitCount   = $viewsModel->countViews($args);
 
-                $historicalModel = new HistoricalModel();
-                $hitCount       += $historicalModel->countUris(['page_id' => $post_id, 'uri' => wp_make_link_relative(get_permalink($post_id))]);
+                // Consider historical if `count_display` is equal to 'total'
+                if (!Helper::isAddOnActive('mini-chart') || Helper::checkMiniChartOption('count_display', 'total', 'total')) {
+                    $historicalModel = new HistoricalModel();
+                    $hitCount       += $historicalModel->countUris(['page_id' => $post_id, 'uri' => wp_make_link_relative(get_permalink($post_id))]);
+                }
             }
 
             if (is_numeric($hitCount)) {
