@@ -680,7 +680,7 @@ class VisitorsModel extends BaseModel
         if ($days > 30) {
             $newArgs = [
                 'date' => [
-                    'from' => date('Y-m-d', strtotime("-30 days", strtotime($args['date']['to']))),
+                    'from' => date('Y-m-d', strtotime("-29 days", strtotime($args['date']['to']))),
                     'to'   => $args['date']['to']
                 ]
             ];

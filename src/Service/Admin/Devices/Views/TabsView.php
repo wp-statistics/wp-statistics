@@ -29,7 +29,7 @@ class TabsView extends BaseTabView
 
         $this->dataProvider = new DevicesDataProvider([
             'date'     => [
-                'from' => Request::get('from', date('Y-m-d', strtotime('-30 days'))),
+                'from' => Request::get('from', date('Y-m-d', strtotime('-29 days'))),
                 'to'   => Request::get('to', date('Y-m-d')),
             ],
             'per_page' => 10,

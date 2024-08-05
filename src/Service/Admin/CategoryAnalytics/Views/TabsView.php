@@ -25,7 +25,7 @@ class TabsView extends BaseTabView
         $this->dataProvider = new CategoryAnalyticsDataProvider([
             'taxonomy'  => Request::get('tx', 'category'),
             'date'      => [
-                'from'  => Request::get('from', date('Y-m-d', strtotime('-30 days'))),
+                'from'  => Request::get('from', date('Y-m-d', strtotime('-29 days'))),
                 'to'    => Request::get('to', date('Y-m-d'))
             ],
         ]);

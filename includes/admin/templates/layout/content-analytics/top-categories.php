@@ -32,7 +32,7 @@ $postType = Helper::getPostTypeName(Request::get('tab', 'post'));
     
                         <div class="wps-content-tabs__content">
                             <?php foreach ($terms as $term) : ?>
-                                <a class="wps-content-tabs__item" href="<?php echo esc_url(Menus::admin_url('category-analytics', ['type' => 'single', 'term_id' => $term['term_id'], 'from' => Request::get('from', date('Y-m-d', strtotime('-30 days'))), 'to' => Request::get('to', date('Y-m-d'))])) ?>">
+                                <a class="wps-content-tabs__item" href="<?php echo esc_url(Menus::admin_url('category-analytics', ['type' => 'single', 'term_id' => $term['term_id'], 'from' => Request::get('from', date('Y-m-d', strtotime('-29 days'))), 'to' => Request::get('to', date('Y-m-d'))])) ?>">
                                     <div class="wps-content-tabs__item--content">
                                         <h3 class="wps-ellipsis-parent"><span class="wps-ellipsis-text"><?php echo esc_html($term['term_name']); ?></span></h3>
                                         <span><span class="wps-count"><?php echo esc_html($term['posts_count']); ?></span> <?php echo sprintf(esc_html__('published %s', 'wp-statistics'), strtolower($postType)) ?></span>
