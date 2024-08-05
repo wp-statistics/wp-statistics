@@ -89,17 +89,22 @@ class Admin_Post
             $args['date'] = ['from' => $from, 'to' => date('Y-m-d')];
         }
 
-        if (Helper::checkMiniChartOption('metric', 'visitors', 'visitors')) {
-            $visitorsModel = new VisitorsModel();
-            $hitCount      = $visitorsModel->countVisitors($args);
+        if (Helper::checkMiniChartOption('count_display', 'disabled', 'total')) {
+            // Don't execute queries if `count_display` is disabled
+            $hitCount = 0;
         } else {
-            $viewsModel = new ViewsModel();
-            $hitCount   = $viewsModel->countViews($args);
-
-            // Consider historical if `count_display` is equal to 'total'
-            if (!$isMiniChartActive || Helper::checkMiniChartOption('count_display', 'total', 'total')) {
-                $historicalModel = new HistoricalModel();
-                $hitCount       += $historicalModel->countUris(['page_id' => $post_id, 'uri' => wp_make_link_relative(get_permalink($post_id))]);
+            if (Helper::checkMiniChartOption('metric', 'visitors', 'visitors')) {
+                $visitorsModel = new VisitorsModel();
+                $hitCount      = $visitorsModel->countVisitors($args);
+            } else {
+                $viewsModel = new ViewsModel();
+                $hitCount   = $viewsModel->countViews($args);
+    
+                // Consider historical if `count_display` is equal to 'total'
+                if (!$isMiniChartActive || Helper::checkMiniChartOption('count_display', 'total', 'total')) {
+                    $historicalModel = new HistoricalModel();
+                    $hitCount       += $historicalModel->countUris(['page_id' => $post_id, 'uri' => wp_make_link_relative(get_permalink($post_id))]);
+                }
             }
         }
 
@@ -132,7 +137,7 @@ class Admin_Post
             echo sprintf(
                 // translators: 1 & 2: CSS class - 3: Either "Visitors" or "Views" - 4: Link to content analytics page - 5: CSS class - 6: Hits count.
                 '<div class="%s"><span class="%s">%s</span> <a href="%s" class="wps-admin-column__link %s">%s</a></div>',
-                $isMiniChartActive && Option::getByAddon('count_display', 'mini_chart', 'total') === 'disabled' ? 'wps-hide' : '',
+                Helper::checkMiniChartOption('count_display', 'disabled', 'total') ? 'wps-hide' : '',
                 $isMiniChartActive ? '' : 'wps-hide',
                 Helper::checkMiniChartOption('metric', 'visitors', 'visitors') ? esc_html__('Visitors:', 'wp-statistics') : esc_html__('Views:', 'wp-statistics'),
                 esc_url(Menus::admin_url('content-analytics', ['post_id' => $post_id, 'type' => 'single', 'from' => Request::get('from', $from), 'to' => Request::get('to', $to)])),

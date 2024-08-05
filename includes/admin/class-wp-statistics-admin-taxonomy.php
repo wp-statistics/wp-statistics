@@ -89,11 +89,16 @@ class Admin_Taxonomy
         $args              = ['post_id' => $term_id, 'resource_type' => $termType];
         $isMiniChartActive = Helper::isAddOnActive('mini-chart');
 
-        $viewsModel = new ViewsModel();
-        $hitCount   = $viewsModel->countViewsFromPagesOnly($args);
+        if (Helper::checkMiniChartOption('count_display', 'disabled', 'total')) {
+            // Don't execute queries if `count_display` is disabled
+            $hitCount = 0;
+        } else {
+            $viewsModel = new ViewsModel();
+            $hitCount   = $viewsModel->countViewsFromPagesOnly($args);
 
-        $historicalModel = new HistoricalModel();
-        $hitCount       += $historicalModel->countUris(['page_id' => $term_id, 'uri' => $termLink]);
+            $historicalModel = new HistoricalModel();
+            $hitCount       += $historicalModel->countUris(['page_id' => $term_id, 'uri' => $termLink]);
+        }
 
         if (is_numeric($hitCount)) {
             $preview_chart_unlock_html = sprintf(
@@ -119,7 +124,7 @@ class Admin_Taxonomy
             $value .= sprintf(
                 // translators: 1 & 2: CSS class - 3: "Views" text - 4: Link to category analytics page - 5: CSS class - 6: Hits count.
                 '<div class="%s"><span class="%s">%s</span> <a href="%s" class="wps-admin-column__link %s">%s</a></div>',
-                $isMiniChartActive && Option::getByAddon('count_display', 'mini_chart', 'total') === 'disabled' ? 'wps-hide' : '',
+                Helper::checkMiniChartOption('count_display', 'disabled', 'total') ? 'wps-hide' : '',
                 $isMiniChartActive ? '' : 'wps-hide',
                 esc_html__('Views:', 'wp-statistics'),
                 Menus::admin_url('category-analytics', ['type' => 'single', 'term_id' => $term_id]),
