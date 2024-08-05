@@ -55,14 +55,6 @@ final class WP_Statistics
     public function __construct()
     {
         /**
-         * Check PHP Support
-         */
-        if (!$this->require_php_version()) {
-            add_action('admin_notices', array($this, 'php_version_notice'));
-            return;
-        }
-
-        /**
          * Plugin Loaded Action
          */
         add_action('plugins_loaded', array($this, 'plugin_setup'), 10);
@@ -309,34 +301,6 @@ final class WP_Statistics
         }
 
         load_plugin_textdomain('wp-statistics', false, basename(WP_STATISTICS_DIR) . '/languages');
-    }
-
-    /**
-     * Check PHP Version
-     */
-    public function require_php_version()
-    {
-        if (!version_compare(phpversion(), WP_STATISTICS_REQUIRE_PHP_VERSION, ">=")) {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * Show notice about PHP version
-     *
-     * @return void
-     */
-    function php_version_notice()
-    {
-        $error = __('Your PHP Version is: ', 'wp-statistics') . PHP_VERSION . '. ';
-        $error .= __('The <strong>WP Statistics</strong> plugin requires PHP version <strong>', 'wp-statistics') . WP_STATISTICS_REQUIRE_PHP_VERSION . __('</strong> or greater.', 'wp-statistics');
-        ?>
-        <div class="error">
-            <p><?php printf(wp_kses_post($error)); ?></p>
-        </div>
-        <?php
     }
 
     /**
