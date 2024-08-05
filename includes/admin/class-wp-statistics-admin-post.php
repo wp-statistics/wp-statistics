@@ -74,11 +74,12 @@ class Admin_Post
     public function render_hit_column($column_name, $post_id)
     {
         if ($column_name == 'wp-statistics-post-hits') {
-            $post_type   = Pages::get_post_type($post_id);
-            $hitPostType = Pages::checkIfPageIsHome($post_id) ? 'home' : $post_type;
-            $args        = ['post_id' => $post_id, 'resource_type' => $hitPostType];
-            $from        = date('Y-m-d', 0);
-            $to          = date('Y-m-d');
+            $post_type         = Pages::get_post_type($post_id);
+            $hitPostType       = Pages::checkIfPageIsHome($post_id) ? 'home' : $post_type;
+            $args              = ['post_id' => $post_id, 'resource_type' => $hitPostType];
+            $from              = date('Y-m-d', 0);
+            $to                = date('Y-m-d');
+            $isMiniChartActive = Helper::isAddOnActive('mini-chart');
 
             if (Helper::checkMiniChartOption('count_display', 'date_range', 'total')) {
                 $from         = TimeZone::getTimeAgo(intval(Option::getByAddon('date_range', 'mini_chart', '14')));
@@ -93,7 +94,7 @@ class Admin_Post
                 $hitCount   = $viewsModel->countViews($args);
 
                 // Consider historical if `count_display` is equal to 'total'
-                if (!Helper::isAddOnActive('mini-chart') || Helper::checkMiniChartOption('count_display', 'total', 'total')) {
+                if (!$isMiniChartActive || Helper::checkMiniChartOption('count_display', 'total', 'total')) {
                     $historicalModel = new HistoricalModel();
                     $hitCount       += $historicalModel->countUris(['page_id' => $post_id, 'uri' => wp_make_link_relative(get_permalink($post_id))]);
                 }
@@ -115,7 +116,7 @@ class Admin_Post
 
                 $setting = class_exists(WP_Statistics_Mini_Chart_Settings::class) ? get_option(WP_Statistics_Mini_Chart_Settings::get_instance()->setting_name) : '';
                 if (
-                    !Helper::isAddOnActive('mini-chart') ||
+                    !$isMiniChartActive ||
                     (!empty($setting) && !empty($setting['active_mini_chart_' . $actual_post_type]))
                 ) {
                     // If add-on is not active, this line will display the "Unlock This Feature!" button
@@ -124,11 +125,11 @@ class Admin_Post
                 }
 
                 echo sprintf('<div class="%s"><span class="%s">%s</span> <a href="%s" class="wps-admin-column__link %s">%s</a></div>',  // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-                    Helper::isAddOnActive('mini-chart') && Option::getByAddon('count_display', 'mini_chart', 'total') === 'disabled' ? 'wps-hide' : '',
-                    Helper::isAddOnActive('mini-chart') ? '' : 'wps-hide',
+                    $isMiniChartActive && Option::getByAddon('count_display', 'mini_chart', 'total') === 'disabled' ? 'wps-hide' : '',
+                    $isMiniChartActive ? '' : 'wps-hide',
                     Helper::checkMiniChartOption('metric', 'visitors', 'visitors') ? esc_html__('Visitors:', 'wp-statistics') : esc_html__('Views:', 'wp-statistics'),
                     esc_url(Menus::admin_url('content-analytics', ['post_id' => $post_id, 'type' => 'single', 'from' => Request::get('from', $from), 'to' => Request::get('to', $to)])),
-                    Helper::isAddOnActive('mini-chart') ? '' : 'wps-admin-column__unlock-count',
+                    $isMiniChartActive ? '' : 'wps-admin-column__unlock-count',
                     esc_html(number_format($hitCount)) // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                 );
             }

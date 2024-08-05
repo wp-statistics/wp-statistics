@@ -79,11 +79,12 @@ class Admin_Taxonomy
     public function render_column($value, $column_name, $term_id)
     {
         if ($column_name == 'wp-statistics-tax-hits') {
-            $term       = get_term($term_id);
-            $termType   = ($term->taxonomy === 'category' || $term->taxonomy === 'post_tag') ? $term->taxonomy : 'tax';
-            $termLink   = get_term_link(intval($term->term_id), $term->taxonomy);
-            $termLink   = !is_wp_error($termLink) ? wp_make_link_relative($termLink) : '';
-            $args       = ['post_id' => $term_id, 'resource_type' => $termType];
+            $term              = get_term($term_id);
+            $termType          = ($term->taxonomy === 'category' || $term->taxonomy === 'post_tag') ? $term->taxonomy : 'tax';
+            $termLink          = get_term_link(intval($term->term_id), $term->taxonomy);
+            $termLink          = !is_wp_error($termLink) ? wp_make_link_relative($termLink) : '';
+            $args              = ['post_id' => $term_id, 'resource_type' => $termType];
+            $isMiniChartActive = Helper::isAddOnActive('mini-chart');
 
             $viewsModel = new ViewsModel();
             $hitCount   = $viewsModel->countViewsFromPagesOnly($args);
@@ -102,7 +103,7 @@ class Admin_Taxonomy
                 $setting = class_exists(WP_Statistics_Mini_Chart_Settings::class) ? get_option(WP_Statistics_Mini_Chart_Settings::get_instance()->setting_name) : '';
                 $value   = '';
                 if (
-                    !Helper::isAddOnActive('mini-chart') ||
+                    !$isMiniChartActive ||
                     (!empty($setting) && !empty($setting['active_mini_chart_' . $term->taxonomy]))
                 ) {
                     // If add-on is not active, this line will display the "Unlock This Feature!" button
@@ -111,11 +112,11 @@ class Admin_Taxonomy
                 }
 
                 $value .= sprintf('<div class="%s"><span class="%s">%s</span> <a href="%s" class="wps-admin-column__link %s">%s</a></div>',
-                    Helper::isAddOnActive('mini-chart') && Option::getByAddon('count_display', 'mini_chart', 'total') === 'disabled' ? 'wps-hide' : '',
-                    Helper::isAddOnActive('mini-chart') ? '' : 'wps-hide',
+                    $isMiniChartActive && Option::getByAddon('count_display', 'mini_chart', 'total') === 'disabled' ? 'wps-hide' : '',
+                    $isMiniChartActive ? '' : 'wps-hide',
                     esc_html__('Views:', 'wp-statistics'),
                     Menus::admin_url('category-analytics', ['type' => 'single', 'term_id' => $term_id]),
-                    Helper::isAddOnActive('mini-chart') ? '' : 'wps-admin-column__unlock-count',
+                    $isMiniChartActive ? '' : 'wps-admin-column__unlock-count',
                     number_format($hitCount)
                 );
             }
