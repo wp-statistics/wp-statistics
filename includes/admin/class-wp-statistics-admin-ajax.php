@@ -508,20 +508,10 @@ class Ajax
             // Check Refer Ajax
             check_ajax_referer('wp_rest', 'wps_nonce');
 
-            // Sanitize GeoIP Name
-            $geoip_name = sanitize_text_field($_POST['update_action']);
-
-            // When GeoIP is enabled, then user can update the GeoIP database
-            if ($geoip_name == "country" && Option::get("geoip") !== 'on') {
-                esc_html_e('Please first enable GeoIP Collection and save settings!', 'wp-statistics');
-            } elseif ($geoip_name == "city" && Option::get("geoip_city") !== 'on') {
-                esc_html_e('Please first enable GeoIP City and save settings!', 'wp-statistics');
-            }
-
-            $result = GeoIP::download($geoip_name, "update");
+            $result = GeoIP::download('update');
 
             if ($result) {
-                esc_html_e($result["notice"]);
+                esc_html_e($result['notice']);
             }
 
         } else {

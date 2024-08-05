@@ -266,8 +266,6 @@ class settings_page extends Singleton
     {
 
         $wps_option_list = array(
-            'wps_geoip',
-            'wps_geoip_city',
             'wps_geoip_license_type',
             'wps_geoip_license_key',
             'wps_update_geoip',
@@ -291,33 +289,6 @@ class settings_page extends Singleton
 
         foreach ($wps_option_list as $option) {
             $wp_statistics_options[self::input_name_to_option($option)] = (isset($_POST[$option]) ? $_POST[$option] : '');
-        }
-
-        // Check Is Checked GEO-IP and Download
-        foreach (array("geoip" => "country", "geoip_city" => "city") as $geo_opt => $geo_name) {
-            if (!isset($_POST['update_geoip']) and isset($_POST['wps_' . $geo_opt])) {
-
-                //Check File Not Exist
-                $file = GeoIP::get_geo_ip_path($geo_name);
-
-                if (!file_exists($file)) {
-                    $result = GeoIP::download($geo_name);
-
-                    if (isset($result['status']) and $result['status'] === false) {
-                        $wp_statistics_options[$geo_opt] = '';
-
-                        // Improved error message for clarity and actionability
-                        $errorMessage        = isset($result['notice']) ? $result['notice'] : 'an unknown error occurred';
-                        $userFriendlyMessage = sprintf(
-                            __('GeoIP functionality could not be activated due to an error: %s.', 'wp-statistics'),
-                            $errorMessage
-                        );
-
-                        Notice::addFlashNotice($userFriendlyMessage, 'error');
-                        self::$redirectAfterSave = false;
-                    }
-                }
-            }
         }
 
         // Check Update Referrer Spam List

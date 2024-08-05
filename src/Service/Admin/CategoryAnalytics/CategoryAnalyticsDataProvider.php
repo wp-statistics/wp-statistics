@@ -246,10 +246,11 @@ class CategoryAnalyticsDataProvider
     public function getPagesData()
     {
         $args = array_merge($this->args, [
-            'order'     => Request::get('order', 'DESC'),
-            'order_by'  => Request::get('order_by', 'views'),
-            'per_page'  => Admin_Template::$item_per_page,
-            'page'      => Admin_Template::getCurrentPaged(),
+            'order'             => Request::get('order', 'DESC'),
+            'order_by'          => Request::get('order_by', 'views'),
+            'per_page'          => Admin_Template::$item_per_page,
+            'page'              => Admin_Template::getCurrentPaged(),
+            'count_total_posts' => true
         ]);
 
         $data = $this->taxonomyModel->getTaxonomiesData($args);

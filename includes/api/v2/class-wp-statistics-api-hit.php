@@ -3,6 +3,7 @@
 namespace WP_STATISTICS\Api\v2;
 
 use Exception;
+use WP_STATISTICS\Helper;
 use WP_STATISTICS\Hits;
 
 class Hit extends \WP_STATISTICS\RestAPI
@@ -73,7 +74,9 @@ class Hit extends \WP_STATISTICS\RestAPI
         $statusCode = false;
 
         try {
+            Helper::validateHitRequest();
             Hits::record();
+
             $responseData['status'] = true;
 
         } catch (Exception $e) {

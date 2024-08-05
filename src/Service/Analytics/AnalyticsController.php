@@ -5,6 +5,7 @@ namespace WP_Statistics\Service\Analytics;
 use Exception;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Hits;
+use WP_Statistics\Utils\Request;
 use WP_Statistics\Utils\Signature;
 
 class AnalyticsController
@@ -22,6 +23,7 @@ class AnalyticsController
 
         try {
             $this->checkSignature();
+            Helper::validateHitRequest();
 
             Hits::record();
             wp_send_json(['status' => true]);
@@ -44,6 +46,7 @@ class AnalyticsController
 
         try {
             $this->checkSignature();
+            Helper::validateHitRequest();
 
             Hits::recordOnline();
             wp_send_json(['status' => true]);

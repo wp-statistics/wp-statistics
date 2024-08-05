@@ -3,6 +3,8 @@
 namespace WP_STATISTICS;
 
 use WP_Admin_Bar;
+use WP_Statistics\Models\HistoricalModel;
+use WP_Statistics\Models\ViewsModel;
 
 class AdminBar
 {
@@ -70,6 +72,13 @@ class AdminBar
                 $footerText = __('View Tag Performance', 'wp-statistics');
                 $footerLink = esc_url(Menus::admin_url('category-analytics', ['type' => 'single', 'term_id' => $object_id]));
 
+            } elseif (is_tax()) {
+
+                $view_type  = 'tax';
+                $view_title = __('Taxonomy Views', 'wp-statistics');
+                $footerText = __('View Taxonomy Performance', 'wp-statistics');
+                $footerLink = esc_url(Menus::admin_url('category-analytics', ['type' => 'single', 'term_id' => $object_id]));
+
             } elseif (is_author()) {
 
                 $view_type  = 'author';
@@ -85,7 +94,21 @@ class AdminBar
             }
 
             if ($view_type && $view_title) {
-                $hit_number = wp_statistics_pages('total', '', $object_id, null, null, $view_type);
+                $viewsModel = new ViewsModel();
+                $hit_number = $viewsModel->countViewsFromPagesOnly(['post_id' => $object_id, 'resource_type' => $view_type]);
+
+                $pageLink = '';
+                if (in_array($view_type, ['category', 'post_tag', 'tax'])) {
+                    $term     = get_term($object_id);
+                    $pageLink = get_term_link(intval($term->term_id), $term->taxonomy);
+                    $pageLink = !is_wp_error($pageLink) ? $pageLink : '';
+                } else {
+                    $pageLink = get_permalink($object_id);
+                }
+                $pageLink = wp_make_link_relative($pageLink);
+
+                $historicalModel = new HistoricalModel();
+                $hit_number     += $historicalModel->countUris(['page_id' => $object_id, 'uri' => $pageLink]);
 
                 $menu_title .= sprintf('%s: %s', $view_title, number_format($hit_number));
                 $menu_title .= ' - ';

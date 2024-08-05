@@ -2,6 +2,7 @@
 
 # Exit if accessed directly
 use WP_Statistics\Async\CalculatePostWordsCount;
+use WP_Statistics\Async\GeoIPDatabaseDownloadProcess;
 use WP_Statistics\Async\IncompleteGeoIpUpdater;
 use WP_Statistics\Service\Admin\AuthorAnalytics\AuthorAnalyticsManager;
 use WP_Statistics\Service\Admin\ContentAnalytics\ContentAnalyticsManager;
@@ -248,6 +249,7 @@ final class WP_Statistics
     {
         $this->registerBackgroundProcess(CalculatePostWordsCount::class, 'calculate_post_words_count');
         $this->registerBackgroundProcess(IncompleteGeoIpUpdater::class, 'update_unknown_visitor_geoip');
+        $this->registerBackgroundProcess(GeoIPDatabaseDownloadProcess::class, 'geoip_database_download');
     }
 
     /**
@@ -266,7 +268,7 @@ final class WP_Statistics
     /**
      * Get the registered background processes.
      *
-     * @return WP_Background_Process[]
+     * @return WP_Background_Process
      */
     public function getBackgroundProcess($processKey)
     {
@@ -359,7 +361,7 @@ final class WP_Statistics
             $message = wp_json_encode($message);
         }
 
-        error_log(sprintf('WP Statistics Error: %s', $message));
+        error_log(sprintf('[WP STATISTICS]: %s', $message));
     }
 
     /**

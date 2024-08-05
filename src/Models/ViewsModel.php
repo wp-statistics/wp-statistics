@@ -13,6 +13,7 @@ class ViewsModel extends BaseModel
     {
         $args = $this->parseArgs($args, [
             'post_type'     => Helper::get_list_post_type(),
+            'resource_type' => '',
             'date'          => '',
             'author_id'     => '',
             'post_id'       => '',
@@ -23,6 +24,7 @@ class ViewsModel extends BaseModel
 
         $viewsQuery = Query::select(['id', 'date', 'SUM(count) AS count'])
             ->from('pages')
+            ->where('pages.type', 'IN', $args['resource_type'])
             ->whereDate('date', $args['date'])
             ->groupBy('id')
             ->where('pages.uri', '=', $args['query_param'])
@@ -54,10 +56,44 @@ class ViewsModel extends BaseModel
         return $total ? $total : 0;
     }
 
+    /**
+     * Returns views from `pages` table without joining with other tables.
+     *
+     * Used for calculating taxonomies views (Unlike `countViews()` which is suited for calculating posts/pages/cpt views).
+     *
+     * @param   array   $args           Arguments to include in query (e.g. `post_id`, `resource_type`, `query_param`, `date`, etc.).
+     * @param   bool    $bypassCache    Send the cached result.
+     *
+     * @return  int
+     */
+    public function countViewsFromPagesOnly($args = [], $bypassCache = false)
+    {
+        $args = $this->parseArgs($args, [
+            'post_id'       => '',
+            'resource_type' => '',
+            'query_param'   => '',
+            'date'          => '',
+        ]);
+
+        $query = Query::select(['SUM(`count`) AS `count`'])
+            ->from('pages')
+            ->where('pages.id', '=', $args['post_id'])
+            ->where('pages.type', 'IN', $args['resource_type'])
+            ->where('pages.uri', '=', $args['query_param'])
+            ->whereDate('date', $args['date'])
+            ->groupBy('id')
+            ->bypassCache($bypassCache);
+
+        $total = $query->getVar();
+
+        return $total ? $total : 0;
+    }
+
     public function countDailyViews($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
             'post_type'     => Helper::get_list_post_type(),
+            'resource_type' => '',
             'date'          => '',
             'author_id'     => '',
             'post_id'       => '',
@@ -73,6 +109,7 @@ class ViewsModel extends BaseModel
             ->from('pages')
             ->join('posts', ['pages.id', 'posts.ID'])
             ->where('post_type', 'IN', $args['post_type'])
+            ->where('pages.type', 'IN', $args['resource_type'])
             ->where('post_author', '=', $args['author_id'])
             ->where('posts.ID', '=', $args['post_id'])
             ->where('pages.uri', '=', $args['query_param'])

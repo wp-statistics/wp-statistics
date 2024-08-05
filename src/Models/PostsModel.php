@@ -185,6 +185,7 @@ class PostsModel extends BaseModel
         $commentsQuery = Query::select(['comment_post_ID', 'COUNT(comment_ID) AS total_comments'])
             ->from('comments')
             ->where('comment_type', '=', 'comment')
+            ->whereDate('comment_date', $args['date'])
             ->groupBy('comment_post_ID')
             ->getQuery();
 
@@ -212,13 +213,12 @@ class PostsModel extends BaseModel
             ])
             ->from('posts')
             ->joinQuery($commentsQuery, ['posts.ID', 'comments.comment_post_ID'], 'comments', 'LEFT')
-            ->joinQuery($viewsQuery, ['posts.ID', 'pages.id'], 'pages', 'LEFT')
+            ->joinQuery($viewsQuery, ['posts.ID', 'pages.id'], 'pages')
             ->joinQuery($visitorsQuery, ['posts.ID', 'visitors.post_id'], 'visitors', 'LEFT')
             ->join('postmeta', ['posts.ID', 'postmeta.post_id'], [], 'LEFT')
             ->where('post_type', 'IN', $args['post_type'])
             ->where('post_status', '=', 'publish')
             ->where('posts.post_author', '=', $args['author_id'])
-            ->whereDate('posts.post_date', $args['date'])
             ->groupBy('posts.ID')
             ->orderBy($args['order_by'], $args['order'])
             ->perPage($args['page'], $args['per_page'])

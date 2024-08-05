@@ -236,7 +236,8 @@ class Admin_Assets
             Assets::script('chart.js', 'js/chartjs/chart.umd.min.js', [], [], true, false, null, '4.4.2');
             Assets::script('hammer.js', 'js/chartjs/hammer.min.js', [], [], true, false, null, '2.0.8');
             Assets::script('chartjs-plugin-zoom.js', 'js/chartjs/chartjs-plugin-zoom.min.js', ['wp-statistics-hammer.js'], [], true, false, null, '2.0.1');
-
+        }
+        if (Helper::isAdminBarShowing()) {
             Assets::script('mini-chart', 'js/mini-chart.js', [], [], true);
         }
 
@@ -318,8 +319,8 @@ class Admin_Assets
             'user_online'   => (Option::get('useronline') ? 1 : 0),
             'visitors'      => 1,
             'visits'        => 1,
-            'geo_ip'        => (GeoIP::active() ? 1 : 0),
-            'geo_city'      => (GeoIP::active('city') ? 1 : 0),
+            'geo_ip'        => 1,
+            'geo_city'      => 1,
             'overview_page' => (Menus::in_page('overview') ? 1 : 0),
             'gutenberg'     => (Helper::is_gutenberg() ? 1 : 0),
             'more_btn'      => (apply_filters('wp_statistics_meta_box_more_button', true) ? 1 : 0)

@@ -64,44 +64,104 @@
   text-decoration: none;
 }
 
-/* WP Admin List Table */
-.column-wp-statistics-tax-hits {
-  width: 15%;
-  text-align: center;
-}
 
-.column-wp-statistics-post-hits {
-  width: 10%;
-  text-align: center;
+.column-wp-statistics-post-hits ,.column-wp-statistics-tax-hits{
+  width: 12%;
+
+  .wps-column__chart{
+    span{
+      display: none!important;
+    }
+    &.wps-hide{
+      display: none;
+    }
+  }
+  canvas{
+    //height: 35px!important;
+    margin: 0 auto 3px;
+  }
+
+  div:not(.wps-column__chart){
+    &>span{
+      font-size: 12px;
+      font-style: italic;
+      font-weight: 400;
+      line-height: 14.06px;
+      margin-right: 1px;
+      color: #838494;
+      display: inline-block;
+
+      &.wps-hide{
+        display: none;
+      }
+
+      .rtl &{
+        margin-right: 0px;
+        margin-left: 1px;
+      }
+    }
+    &>a{
+      color: #2C36D7;
+      font-size: 12px;
+      font-weight: 500;
+      line-height: 14.06px;
+    }
+    &.wps-hide{
+      display: none;
+    }
+  }
 }
 
 .wps-admin-column__unlock {
+
+    &-count{
+      width: 52px;
+      display: block;
+      text-align: center;
+      margin-top: 3px;
+    }
+
   a {
     color: #ffffff;
     font-size: 12px;
     display: flex;
     justify-content: center;
+    position: relative;
+    box-shadow:none!important;
+    align-items: center;
+    width: 52px;
 
     span {
-      background: #347ab6;
-      padding: 1px 3px;
-      border-radius: 2px;
       position: absolute;
       visibility: hidden;
-      font-size: 9px;
-      line-height: 14px;
       z-index: 1;
-      margin-top: 7px;
+      font-size: 10px;
+      font-weight: 500;
+      line-height: 9px;
+      letter-spacing: -0.04em;
+      text-align: center;
+      color:#404BF2;
+      width: 52px;
     }
-
-    img {
-      width: 100%;
-      opacity: 0.5;
+    .wps-admin-column__unlock__img{
+      width:43.5px;
+      height: 20px;
+      }
+    .wps-admin-column__unlock__lock{
+      width: 9.63px;
+      height: 10.69px;
+      visibility: visible;
+      position: absolute;
     }
   }
 
-  a:hover span {
-    visibility: visible;
+  a:hover{
+    span {
+      visibility: visible;
+    }
+    .wps-admin-column__unlock__lock{
+      visibility: hidden;
+    }
   }
 }
 

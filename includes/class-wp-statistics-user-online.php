@@ -316,16 +316,12 @@ class UserOnline
             }
 
             // Push Country
-            if (GeoIP::active()) {
-                $item['country'] = array('location' => $items->location, 'flag' => Country::flag($items->location), 'name' => Country::getName($items->location));
-            }
+            $item['country'] = array('location' => $items->location, 'flag' => Country::flag($items->location), 'name' => Country::getName($items->location));
 
             // Push City
-            if (GeoIP::active('city')) {
-                $item['city']   = !empty($items->city) ? $items->city : GeoIP::getCity($ip);
-                $item['region'] = $items->region;
-            }
-            
+            $item['city']   = !empty($items->city) ? $items->city : GeoIP::getCity($ip);
+            $item['region'] = $items->region;
+
             // Online For Time
             $current_time = current_time('timestamp'); // Fetch current server time in WordPress format
             $time_diff    = $items->timestamp - $items->created;

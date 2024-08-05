@@ -11,28 +11,36 @@ class TaxonomyModel extends BaseModel
     public function getTaxonomiesData($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
-            'post_type' => Helper::get_list_post_type(),
-            'order_by'  => ['term_taxonomy.taxonomy', 'post_count'],
-            'taxonomy'  => array_keys(Helper::get_list_taxonomy(true)),
-            'page'      => 1,
-            'per_page'  => 5,
-            'date'      => '',
-            'author_id' => '',
-            'order'     => ''
+            'post_type'         => Helper::get_list_post_type(),
+            'order_by'          => ['term_taxonomy.taxonomy', 'post_count'],
+            'taxonomy'          => array_keys(Helper::get_list_taxonomy(true)),
+            'page'              => 1,
+            'per_page'          => 5,
+            'date'              => '',
+            'author_id'         => '',
+            'order'             => '',
+            'count_total_posts' => false
         ]);
+
+        $categoryViewsQuery = Query::select(['id', 'date', 'SUM(count) AS views'])
+            ->from('pages')
+            ->where('pages.type', '=', 'category')
+            ->whereDate('date', $args['date'])
+            ->groupBy('id')
+            ->getQuery();
 
         $query = Query::select([
                 'taxonomy', 
                 'terms.term_id',
                 'terms.name',
                 'COUNT(DISTINCT posts.ID) as post_count',
-                'COALESCE(pages.count, 0) as views'
+                'COALESCE(category.views, 0) as term_views'
             ])
             ->from('term_taxonomy')
             ->join('terms', ['term_taxonomy.term_id', 'terms.term_id'])
             ->join('term_relationships', ['term_relationships.term_taxonomy_id', 'term_taxonomy.term_taxonomy_id'], [], 'LEFT')
             ->join('posts', ['posts.ID', 'term_relationships.object_id'], [['posts.post_type' , 'IN', $args['post_type']], ['posts.post_status', '=', 'publish']], 'LEFT')
-            ->join('pages', ['pages.id', 'term_taxonomy.term_taxonomy_id'], [], 'LEFT')
+            ->joinQuery($categoryViewsQuery, ['category.id', 'term_taxonomy.term_taxonomy_id'], 'category', 'LEFT')
             ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy'])
             ->where('posts.post_author', '=', $args['author_id'])
             ->groupBy(['taxonomy', 'terms.term_id','terms.name'])
@@ -40,11 +48,9 @@ class TaxonomyModel extends BaseModel
             ->perPage($args['page'], $args['per_page'])
             ->bypassCache($bypassCache);
 
-        // If author_id is empty get data by published date, otherwise get data by published or viewed date
-        if (!empty($args['author_id']) || !empty($args['post_type'])) {
+        // If total posts is not requested, filter by date
+        if ($args['count_total_posts'] == false) {
             $query->whereDate('posts.post_date', $args['date']);
-        } else {
-            $query->whereDate('pages.date', $args['date']);
         }
 
         $result = $query->getAll();
@@ -57,7 +63,7 @@ class TaxonomyModel extends BaseModel
                     'term_id'       => $item->term_id,
                     'term_name'     => $item->name,
                     'posts_count'   => $item->post_count,
-                    'views'         => $item->views
+                    'views'         => $item->term_views
                 ];
             }
 
