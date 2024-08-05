@@ -240,7 +240,7 @@ class GeoIP
             $response = wp_remote_get($download_url, [
                 'stream'   => true,
                 'filename' => $gzFilePath,
-                'timeout'  => 600,
+                'timeout'  => 120,
             ]);
 
             // Check the HTTP status code
