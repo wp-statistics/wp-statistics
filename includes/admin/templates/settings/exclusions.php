@@ -113,7 +113,7 @@
             <th scope="row"><label for="wps_excluded_countries"><?php esc_html_e('Excluded Countries', 'wp-statistics'); ?></label></th>
             <td>
                 <textarea id="wps_excluded_countries" name="wps_excluded_countries" rows="5" cols="50" class="code" dir="ltr"><?php echo esc_textarea(WP_STATISTICS\Option::get('excluded_countries')); ?></textarea>
-                <p class="description"><?php echo esc_html__('Enter country codes to exclude from stats. Use \'000\' for unknown countries.', 'wp-statistics') ?></p>
+                <p class="description"><?php _e('Enter country codes to exclude from stats. Use <code>000</code> for unknown countries. For a complete list of valid country codes, please refer to the <a href="https://wp-statistics.com/resources/list-of-country-codes/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" target="_blank">Country Codes Document</a>.', 'wp-statistics') ?></p>
             </td>
         </tr>
 
@@ -138,7 +138,7 @@
             <th scope="row"><label for="wps-exclude-loginpage"><?php esc_html_e('Excluded Login Page', 'wp-statistics'); ?></label></th>
             <td>
                 <input id="wps-exclude-loginpage" type="checkbox" value="1" name="wps_exclude_loginpage" <?php echo WP_STATISTICS\Option::get('exclude_loginpage') == true ? "checked='checked'" : ''; ?>><label for="wps-exclude-loginpage"><?php esc_html_e('Exclude', 'wp-statistics'); ?></label>
-                <p class="description"><?php esc_html_e('Login page visits will not be included in site visit counts.', 'wp-statistics'); ?></p>
+                <p class="description"><?php esc_html_e('Login and Register page visits will not be included in site visit counts.', 'wp-statistics'); ?></p>
             </td>
         </tr>
         <tr valign="top">
