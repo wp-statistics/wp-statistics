@@ -79,16 +79,6 @@ final class WP_Statistics
     }
 
     /**
-     * Cloning is forbidden.
-     *
-     * @since 13.0
-     */
-    public function __clone()
-    {
-        \WP_STATISTICS\Helper::doing_it_wrong(__CLASS__, esc_html__('Cloning is forbidden.', 'wp-statistics'));
-    }
-
-    /**
      * Constructors plugin Setup
      *
      * @throws Exception
