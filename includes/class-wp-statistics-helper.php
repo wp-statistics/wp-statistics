@@ -834,6 +834,16 @@ class Helper
             $schedule = null;
         }
 
+        // E-mail header and footer
+        $emailHeader = '';
+        $emailFooter = '';
+        if (!empty(wp_strip_all_tags(Option::get('email_content_header', '')))) {
+            $emailHeader = '<div style="background: #D0DEF5; padding: 16px 32px; color: #0C0C0D; font-size: 16px; font-weight: 500; line-height: 18.75px; text-align: left; white-space: pre-wrap;">' . wp_strip_all_tags(Option::get('email_content_header', '')) . '</div>';
+        }
+        if (!empty(wp_strip_all_tags(Option::get('email_content_footer', '')))) {
+            $emailFooter = '<div style="background: #D0DEF5; padding: 16px 32px; color: #0C0C0D; font-size: 16px; font-weight: 500; line-height: 18.75px; text-align: left; white-space: pre-wrap; border-radius: 0 0 18px 18px;">' . wp_strip_all_tags(Option::get('email_content_footer', '')) . '</div>';
+        }
+
         //Template Arg
         $template_arg = array(
             'title'        => $subject,
@@ -846,8 +856,8 @@ class Helper
             'logo_image'   => apply_filters('wp_statistics_email_logo', WP_STATISTICS_URL . 'assets/images/logo-statistics-header-blue.png'),
             'logo_url'     => apply_filters('wp_statistics_email_logo_url', get_bloginfo('url')),
             'copyright'    => apply_filters('wp_statistics_email_footer_copyright', Admin_Template::get_template('emails/copyright', array(), true)),
-            'email_header' => apply_filters('wp_statistics_email_header', ""),
-            'email_footer' => apply_filters('wp_statistics_email_footer', ""),
+            'email_header' => apply_filters('wp_statistics_email_header', $emailHeader),
+            'email_footer' => apply_filters('wp_statistics_email_footer', $emailFooter),
             'is_rtl'       => (is_rtl() ? true : false),
             'schedule'     => $schedule,
         );

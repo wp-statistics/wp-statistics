@@ -106,6 +106,29 @@ use WP_STATISTICS\Schedule;
                 <p class="description"><?php _e('Refer to our complete <a href="https://wp-statistics.com/resources/shortcodes/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" target="_blank">shortcode guide</a> for more options.', 'wp-statistics'); // phpcs:ignore WordPress.Security.EscapeOutput.UnsafePrintingFunction	?></p>
             </td>
         </tr>
+
+        <tr valign="top">
+            <th scope="row">
+                <label for="email_content_header"><?php esc_html_e('Email Header Customization', 'wp-statistics'); ?></label>
+            </th>
+
+            <td>
+                <?php wp_editor(stripslashes(Option::get('email_content_header')), 'email_content_header', array('textarea_name' => 'wps_email_content_header', 'editor_height' => 150, 'media_buttons' => false, 'teeny' => true)); ?>
+                <p class="description"><?php esc_html_e('Add a custom header to your email reports to introduce your brand or report summary.', 'wp-statistics'); ?></p>
+            </td>
+        </tr>
+
+        <tr valign="top">
+            <th scope="row">
+                <label for="email_content_footer"><?php esc_html_e('Email Footer Customization', 'wp-statistics'); ?></label>
+            </th>
+
+            <td>
+                <?php wp_editor(stripslashes(Option::get('email_content_footer')), 'email_content_footer', array('textarea_name' => 'wps_email_content_footer', 'editor_height' => 150, 'media_buttons' => false, 'teeny' => true)); ?>
+                <p class="description"><?php esc_html_e('Insert a custom footer in your email reports for additional notes, disclaimers, or contact information.', 'wp-statistics'); ?></p>
+            </td>
+        </tr>
+
         <tr valign="top">
             <th scope="row" style="vertical-align: top;">
                 <label for="content-report"><?php esc_html_e('Enhanced Visual Report', 'wp-statistics'); ?></label>
