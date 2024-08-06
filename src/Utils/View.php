@@ -3,7 +3,6 @@
 namespace WP_Statistics\Utils;
 
 use WP_Statistics\Exception\SystemErrorException;
-use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 
 class View
 {
@@ -40,7 +39,7 @@ class View
                 include $viewPath;
             }
         } catch (\Exception $e) {
-            Notice::renderNotice($e->getMessage(), $e->getCode(), 'warning');
+            \WP_Statistics::log($e->getMessage(), 'error');
         }
     }
 
