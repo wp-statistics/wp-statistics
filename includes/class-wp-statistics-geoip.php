@@ -269,18 +269,6 @@ class GeoIP
                 BackgroundProcessFactory::batchUpdateIncompleteGeoIpForVisitors();
             }
 
-            if (Option::get('geoip_report')) {
-                Helper::send_mail(
-                    Option::getEmailNotification(),
-                    __('GeoIP update on', 'wp-statistics') . ' ' . get_bloginfo('name'),
-                    $result['notice'],
-                    true,
-                    [
-                        "email_title" => __('GeoIP update on', 'wp-statistics') . ' <a href="' . get_bloginfo('url') . '" target="_blank" style="text-decoration: none; color: #303032; font-family: Roboto,Arial,Helvetica,sans-serif; font-size: 16px; font-weight: 600; line-height: 18.75px;font-style: italic">' . get_bloginfo('name') . '</a>'
-                    ]
-                );
-            }
-
         } catch (Exception $e) {
             wp_delete_file($gzFilePath); // Ensure temporary file is deleted in case of an error
 

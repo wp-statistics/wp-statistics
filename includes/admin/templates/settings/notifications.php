@@ -37,18 +37,6 @@ use WP_STATISTICS\Schedule;
 
         <tr valign="top">
             <th scope="row">
-                <label for="geoip-report"><?php esc_html_e('GeoIP Update', 'wp-statistics'); ?></label>
-            </th>
-
-            <td>
-                <input id="geoip-report" type="checkbox" value="1" name="wps_geoip_report" <?php echo checked(Option::get('geoip_report')); ?>>
-                <label for="geoip-report"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
-                <p class="description"><?php esc_html_e('Receive notifications when the GeoIP database updates.', 'wp-statistics'); ?></p>
-            </td>
-        </tr>
-
-        <tr valign="top">
-            <th scope="row">
                 <label for="prune-report"><?php esc_html_e('Database Pruning Alert', 'wp-statistics'); ?></label>
             </th>
 
