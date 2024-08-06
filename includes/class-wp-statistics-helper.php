@@ -5,6 +5,8 @@ namespace WP_STATISTICS;
 use ErrorException;
 use Exception;
 use WP_STATISTICS;
+use WP_Statistics\Models\ViewsModel;
+use WP_Statistics\Models\VisitorsModel;
 use WP_Statistics\Service\Integrations\WpConsentApi;
 use WP_Statistics\Utils\Request;
 use WP_Statistics\Utils\Signature;
@@ -1963,10 +1965,33 @@ class Helper
      */
     public static function getPostStatisticsSummary($post)
     {
+        $visitorsModel = new VisitorsModel();
+        $viewsModel    = new ViewsModel();
+        $args          = ['post_id' => $post->ID];
+
+        $totalVisitors    = $visitorsModel->countVisitors($args);
+        $totalViews       = $viewsModel->countViews($args);
+        $topReferrer      = '';
+        $topReferrerCount = 0;
+
+        $args['date']             = ['from' => TimeZone::getTimeAgo(7), 'to' => TimeZone::getTimeAgo()];
+        $thisWeekVisitors         = $visitorsModel->countVisitors($args);
+        $thisWeekViews            = $viewsModel->countViews($args);
+        $thisWeekTopReferrer      = '';
+        $thisWeekTopReferrerCount = 0;
+
         return [
-            'postId'     => $post->ID,
-            'fromString' => TimeZone::getTimeAgo(7, 'F d'),
-            'toString'   => TimeZone::getTimeAgo(1, 'F d'),
+            'postId'                   => $post->ID,
+            'fromString'               => TimeZone::getTimeAgo(7, 'F d'),
+            'toString'                 => TimeZone::getTimeAgo(1, 'F d'),
+            'totalVisitors'            => intval($totalVisitors),
+            'totalViews'               => intval($totalViews),
+            'topReferrer'              => trim($topReferrer),
+            'topReferrerCount'         => intval($topReferrerCount),
+            'thisWeekVisitors'         => intval($thisWeekVisitors),
+            'thisWeekViews'            => intval($thisWeekViews),
+            'thisWeekTopReferrer'      => trim($thisWeekTopReferrer),
+            'thisWeekTopReferrerCount' => intval($thisWeekTopReferrerCount),
         ];
     }
 }

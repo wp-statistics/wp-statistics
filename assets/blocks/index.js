@@ -2,6 +2,28 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./assets/dev/blocks/wp-statistics/content.js":
+/*!****************************************************!*\
+  !*** ./assets/dev/blocks/wp-statistics/content.js ***!
+  \****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+const ContentElement = ({
+  data
+}) => {
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, "Over the past week (", data.fromString, " - ", data.toString, "), this post has been viewed ", data.thisWeekViews, " times by ", data.thisWeekVisitors, " visitors. The top referrer domain is '", data.thisWeekTopReferrer, "' with ", data.thisWeekTopReferrerCount, " visits.", (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("br", null), "In total, it has been viewed ", data.totalViews, " times by ", data.totalVisitors, " visitors, with '", data.topReferrer, "' leading with ", data.topReferrerCount, " referrals. For more detailed insights, visit the analytics section."));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ContentElement);
+
+/***/ }),
+
 /***/ "./assets/dev/blocks/wp-statistics/index.js":
 /*!**************************************************!*\
   !*** ./assets/dev/blocks/wp-statistics/index.js ***!
@@ -38,6 +60,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_editor__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/editor */ "@wordpress/editor");
 /* harmony import */ var _wordpress_editor__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_editor__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _style_scss__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./style.scss */ "./assets/dev/blocks/wp-statistics/style.scss");
+/* harmony import */ var _content__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./content */ "./assets/dev/blocks/wp-statistics/content.js");
+
 
 
 
@@ -65,7 +89,9 @@ function sidebar() {
     className: "wp-statistics-block-editor-panel",
     title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Statistics - Summary', 'wp-statistics'),
     icon: wpsIcon
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, "Over the past week (", WP_Statistics_Editor_Sidebar_Object.fromString, " - ", WP_Statistics_Editor_Sidebar_Object.toString, "), this post has been viewed 200 times by 150 visitors. The top referrer domain is 'example.com' with 50 visits. In total, it has been viewed 1,000 times by 700 visitors, with 'example.com' leading with 300 referrals. For more detailed insights, visit the analytics section."));
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_content__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    data: WP_Statistics_Editor_Sidebar_Object
+  }));
 }
 
 /***/ }),
