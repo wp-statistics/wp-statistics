@@ -10,7 +10,7 @@ class View
     /**
      * Load a view file and pass data to it.
      *
-     * @param string $view The view path inside views directory
+     * @param string|array $view The view path inside views directory
      * @param array $args An associative array of data to pass to the view.
      * @throws Exception if the view file cannot be found.
      */
@@ -36,11 +36,11 @@ class View
                     include $viewPath;
                     return ob_get_clean();
                 }
-                
+
                 include $viewPath;
             }
         } catch (\Exception $e) {
-            Notice::renderNotice($e->getMessage(), $e->getCode());
+            Notice::renderNotice($e->getMessage(), $e->getCode(), 'warning');
         }
     }
 
