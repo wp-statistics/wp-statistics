@@ -1992,6 +1992,7 @@ class Helper
             'thisWeekViews'            => intval($thisWeekViews),
             'thisWeekTopReferrer'      => trim($thisWeekTopReferrer),
             'thisWeekTopReferrerCount' => intval($thisWeekTopReferrerCount),
+            'contentAnalyticsUrl'      => esc_url(Menus::admin_url('content-analytics', ['type' => 'single', 'post_id' => $post->ID])),
         ];
     }
 }

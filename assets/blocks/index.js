@@ -18,7 +18,10 @@ __webpack_require__.r(__webpack_exports__);
 const ContentElement = ({
   data
 }) => {
-  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, "Over the past week (", data.fromString, " - ", data.toString, "), this post has been viewed ", data.thisWeekViews, " times by ", data.thisWeekVisitors, " visitors. The top referrer domain is '", data.thisWeekTopReferrer, "' with ", data.thisWeekTopReferrerCount, " visits.", (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("br", null), "In total, it has been viewed ", data.totalViews, " times by ", data.totalVisitors, " visitors, with '", data.topReferrer, "' leading with ", data.topReferrerCount, " referrals. For more detailed insights, visit the analytics section."));
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, "Over the past week (", data.fromString, " - ", data.toString, "), this post has been viewed ", data.thisWeekViews, " times by ", data.thisWeekVisitors, " visitors. The top referrer domain is '", data.thisWeekTopReferrer, "' with ", data.thisWeekTopReferrerCount, " visits.", (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("br", null), "In total, it has been viewed ", data.totalViews, " times by ", data.totalVisitors, " visitors, with '", data.topReferrer, "' leading with ", data.topReferrerCount, " referrals. For more detailed insights, visit the ", (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
+    href: data.contentAnalyticsUrl,
+    target: "_blank"
+  }, "analytics section"), "."));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ContentElement);
 
