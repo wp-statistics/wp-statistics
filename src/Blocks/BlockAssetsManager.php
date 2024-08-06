@@ -2,6 +2,7 @@
 
 namespace WP_Statistics\Blocks;
 
+use WP_Statistics\Components\Assets;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 
 class BlockAssetsManager
@@ -21,6 +22,7 @@ class BlockAssetsManager
     {
         add_action('init', [$this, 'registerBlocks']);
         add_filter('block_categories_all', [$this, 'registerPluginBlockCategory'], 10, 2);
+        add_action('enqueue_block_editor_assets', [$this, 'addEditorSidebar']);
     }
 
     /**
@@ -71,5 +73,19 @@ class BlockAssetsManager
             'slug'  => 'wp-statistics-blocks',
             'title' => __('WP Statistics', 'wp-statistics'),
         ]]);
+    }
+
+    /**
+     * Adds post statistics to the editor sidebar.
+     *
+     * @return	void
+     *
+     * @hooked	action: `enqueue_block_editor_assets` - 10
+     */
+    public function addEditorSidebar()
+    {
+        $args = [];
+
+        Assets::script('editor-sidebar', 'blocks/index.js', ['wp-plugins', 'wp-editor'], $args);
     }
 }

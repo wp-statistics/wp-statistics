@@ -1,0 +1,1 @@
+{"version":3,"file":"./style-index.css","mappings":";;;AAAA;EACE;AACF,C","sources":["webpack://wp-statistics/./assets/dev/blocks/wp-statistics/style.scss"],"sourcesContent":["* {\n  color: red;\n}"],"names":[],"sourceRoot":""}
