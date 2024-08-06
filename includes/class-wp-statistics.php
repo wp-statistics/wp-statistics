@@ -3,6 +3,7 @@
 use WP_Statistics\Async\CalculatePostWordsCount;
 use WP_Statistics\Async\GeoIPDatabaseDownloadProcess;
 use WP_Statistics\Async\IncompleteGeoIpUpdater;
+use WP_Statistics\Blocks\BlockAssetsManager;
 use WP_Statistics\Service\Admin\AuthorAnalytics\AuthorAnalyticsManager;
 use WP_Statistics\Service\Admin\ContentAnalytics\ContentAnalyticsManager;
 use WP_Statistics\Service\Admin\Geographic\GeographicManager;
@@ -221,6 +222,9 @@ final class WP_Statistics
 
         // Template functions.
         include WP_STATISTICS_DIR . 'includes/template-functions.php';
+
+        // Blocks
+        $blockManager = new BlockAssetsManager();
     }
 
     /**

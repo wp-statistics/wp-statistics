@@ -1,4 +1,12 @@
 {
+  "name": "wp-statistics",
+  "version": "1.0.0",
+  "description": "The Most Popular Privacy-Friendly Analytics Plugin",
+  "main": "",
+	"scripts": {
+		"build": "wp-scripts build --webpack-copy-php --webpack-src-dir=assets/dev/blocks --output-path=assets/blocks",
+		"start": "wp-scripts start --webpack-copy-php --webpack-src-dir=assets/dev/blocks --output-path=assets/blocks"
+	},
   "devDependencies": {
     "@babel/preset-env": "^7.24.4",
     "gulp": "^4.0.2",
@@ -13,7 +21,8 @@
     "gulp-sourcemaps": "^2.6.5",
     "gulp-uglify": "^3.0.2",
     "readable-stream": "^4.5.2",
-    "sass": "^1.70.0"
+    "sass": "^1.70.0",
+		"@wordpress/scripts": "^27.9.0"
   },
   "dependencies": {
     "@babel/core": "^7.24.7",
