@@ -248,7 +248,7 @@ $email_performance_html .= '</tr></table></div></div>';
 $email_body = '
         <div class="mail-body" style="direction: ' . $dir . ';background-color: #F7F9FA;  font-family: \'Roboto\', Arial, Helvetica, sans-serif; margin: 0; padding: 39px 0; text-decoration: none;">
             <div class="main-section" style=" font-family: \'Roboto\', Arial, Helvetica, sans-serif; margin:0 auto;  padding: 0 5px; text-decoration: none; width: 618px; ">
-                <div style="border-radius: 12px;margin-bottom: 24px">
+                <div style="border-radius: 12px;margin-bottom: 24px;background: #fff;">
                     <table class="header" style="background-color: #E1EBFE;padding: 32px 34px; font-family: \'Roboto\', Arial, Helvetica, sans-serif; margin: 0; text-align: ' . $text_align . ';text-decoration: none; width: 100%; ' . ($content ? 'border-radius: 12px 12px 0 0;' : 'border-radius: 12px;') . ' ">
                         <tr style=" font-family: \'Roboto\', Arial, Helvetica, sans-serif; margin: 0; padding: 0; text-decoration: none;">
                             <td style=" font-family: \'Roboto\', Arial, Helvetica, sans-serif; margin: 0; padding: 0; text-decoration: none;">
@@ -262,7 +262,7 @@ $email_body = '
                         </tr>
                     </table>
                     ' . $email_header . '
-                    <div>
+                    <div style="padding: 32px 32px 1px 32px;">
                     ' . wp_kses_post($content) . '
                     </div>
                 </div>
