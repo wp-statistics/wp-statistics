@@ -18,7 +18,7 @@ $final_logo = ' <a href="' . esc_url($logo_url) . '"  class="wp-statistics-logo"
 
 // Advertisement For WP Statistics Advanced Report Plugin
 $advanced_reporting_ad = is_plugin_active('wp-statistics-advanced-reporting/wp-statistics-advanced-reporting.php') ? '' :
-    '<div class="better-reports" style="background: #404bf2; border: 1px solid #404bf2; border-radius: 12px;  font-family: \'Roboto\', Arial, Helvetica, sans-serif; margin: 0; margin-top: 39px; padding: 32px 18px; text-align: center; text-decoration: none;">
+    '<div class="better-reports" style="background: #404bf2; border: 1px solid #404bf2;  ' . ($email_footer ? 'border-radius: 12px 12px 0 0;' : 'border-radius: 12px;') . '  font-family: \'Roboto\', Arial, Helvetica, sans-serif; margin: 0; margin-top: 39px; padding: 32px 18px; text-align: center; text-decoration: none;">
         <h2 class="better-reports__title" style=" color: #fff; font-family: \'Roboto\', Arial, Helvetica, sans-serif; font-size: 18px; font-weight: 600; line-height: 21.09px; margin: 0 0 24px; padding: 0; text-decoration: none;">' . __('Get Better Reports', 'wp-statistics') . '</h2>
         <p style=" color: #fff; font-family: \'Roboto\', Arial, Helvetica, sans-serif; font-size: 15px; font-weight: 400; line-height: 25px; margin: 0 0 32px; padding: 0; text-decoration: none;">
            ' . __('Detailed and customizable email reports are available with the Advanced Reporting add-on. Make sure you always have the insights you need to make informed decisions by digging deeper into your website analytics.', 'wp-statistics') . '
