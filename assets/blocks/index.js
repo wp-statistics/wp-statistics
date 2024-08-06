@@ -17,6 +17,7 @@ __webpack_require__.r(__webpack_exports__);
 (0,_wordpress_plugins__WEBPACK_IMPORTED_MODULE_0__.registerPlugin)('wp-statistics', {
   render: _sidebar__WEBPACK_IMPORTED_MODULE_1__["default"]
 });
+toggleEditorPanelOpened('wp-statistics-block-editor-panel');
 
 /***/ }),
 
