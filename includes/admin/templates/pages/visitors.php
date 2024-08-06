@@ -60,8 +60,8 @@ use WP_STATISTICS\Menus;
                                         <td>
                                             <img src="<?php echo esc_attr($item['country']['flag']); ?>" alt="<?php echo esc_attr($item['country']['name']); ?>" title="<?php echo esc_attr($item['country']['name']); ?>" class="log-tools wps-flag"/>
                                         </td>
-                                        <td><?php echo esc_html($item['city']); ?></td>
-                                        <td><?php echo !empty($item['region']) ? esc_html($item['region']) : Admin_Template::UnknownColumn() ?></td>
+                                        <td><?php echo !empty($item['city']) ? esc_html($item['city']) : Admin_Template::UnknownColumn(); ?></td>
+                                        <td><?php echo !empty($item['region']) ? esc_html($item['region']) : Admin_Template::UnknownColumn(); ?></td>
                                         <td><span><?php echo esc_attr($item['date']); ?></span></td>
                                         <td class="wps-admin-column__ip">
                                             <?php echo(isset($item['map']) ? "<a class='show-map' href='" . esc_url($item['map']) . "' target='_blank' title='" . __('Map', 'wp-statistics') . "'>" . Admin_Template::icons('dashicons-location-alt') . "</a>" : ""); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	 ?>
