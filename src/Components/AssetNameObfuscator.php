@@ -139,7 +139,7 @@ class AssetNameObfuscator
 
         // Copy and randomize the name of the input file
         if (!copy($this->inputFileDir, $this->getHashedFileDir())) {
-            \WP_Statistics::log("Unable to copy hashed file to {$this->getHashedFileDir()}!");
+            \WP_Statistics::log("Unable to copy hashed file to {$this->getHashedFileDir()}!", 'warning');
             return;
         }
 

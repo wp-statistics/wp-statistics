@@ -1,6 +1,5 @@
 <?php
 
-# Exit if accessed directly
 use WP_Statistics\Async\CalculatePostWordsCount;
 use WP_Statistics\Async\GeoIPDatabaseDownloadProcess;
 use WP_Statistics\Async\IncompleteGeoIpUpdater;
@@ -55,14 +54,6 @@ final class WP_Statistics
     public function __construct()
     {
         /**
-         * Check PHP Support
-         */
-        if (!$this->require_php_version()) {
-            add_action('admin_notices', array($this, 'php_version_notice'));
-            return;
-        }
-
-        /**
          * Plugin Loaded Action
          */
         add_action('plugins_loaded', array($this, 'plugin_setup'), 10);
@@ -76,16 +67,6 @@ final class WP_Statistics
          * wp-statistics loaded
          */
         do_action('wp_statistics_loaded');
-    }
-
-    /**
-     * Cloning is forbidden.
-     *
-     * @since 13.0
-     */
-    public function __clone()
-    {
-        \WP_STATISTICS\Helper::doing_it_wrong(__CLASS__, esc_html__('Cloning is forbidden.', 'wp-statistics'));
     }
 
     /**
@@ -322,46 +303,20 @@ final class WP_Statistics
     }
 
     /**
-     * Check PHP Version
-     */
-    public function require_php_version()
-    {
-        if (!version_compare(phpversion(), WP_STATISTICS_REQUIRE_PHP_VERSION, ">=")) {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * Show notice about PHP version
-     *
-     * @return void
-     */
-    function php_version_notice()
-    {
-        $error = __('Your PHP Version is: ', 'wp-statistics') . PHP_VERSION . '. ';
-        $error .= __('The <strong>WP Statistics</strong> plugin requires PHP version <strong>', 'wp-statistics') . WP_STATISTICS_REQUIRE_PHP_VERSION . __('</strong> or greater.', 'wp-statistics');
-        ?>
-        <div class="error">
-            <p><?php printf(wp_kses_post($error)); ?></p>
-        </div>
-        <?php
-    }
-
-    /**
      * The main logging function
      *
-     * @param $message
+     * @param string $message The message to be logged.
+     * @param string $level The log level (e.g., 'info', 'warning', 'error'). Default is 'info'.
      * @uses error_log
      */
-    public static function log($message)
+    public static function log($message, $level = 'info')
     {
         if (is_array($message)) {
             $message = wp_json_encode($message);
         }
 
-        error_log(sprintf('[WP STATISTICS]: %s', $message));
+        $log_level = strtoupper($level);
+        error_log(sprintf('[WP STATISTICS] [%s]: %s', $log_level, $message));
     }
 
     /**
