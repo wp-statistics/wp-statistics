@@ -9,13 +9,12 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-08-05T08:23:55+00:00\n"
+"POT-Creation-Date: 2024-08-06T14:32:23+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.10.0\n"
+"X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: wp-statistics\n"
 
 #. Plugin Name of the plugin
-#: wp-statistics.php
 #: includes/admin/class-wp-statistics-admin-privacy.php:25
 #: includes/class-wp-statistics-meta-box.php:261
 #: src/Service/Admin/AdminManager.php:38
@@ -23,22 +22,18 @@ msgid "WP Statistics"
 msgstr ""
 
 #. Plugin URI of the plugin
-#: wp-statistics.php
 msgid "https://wp-statistics.com/"
 msgstr ""
 
 #. Description of the plugin
-#: wp-statistics.php
 msgid "Get website traffic insights with GDPR/CCPA compliant, privacy-friendly analytics. Includes visitor data, stunning graphs, and no data sharing."
 msgstr ""
 
 #. Author of the plugin
-#: wp-statistics.php
 msgid "VeronaLabs"
 msgstr ""
 
 #. Author URI of the plugin
-#: wp-statistics.php
 msgid "https://veronalabs.com/"
 msgstr ""
 
@@ -133,7 +128,7 @@ msgid "Invalid Page in Request."
 msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-ajax.php:595
-#: includes/admin/class-wp-statistics-admin-template.php:237
+#: includes/admin/class-wp-statistics-admin-template.php:236
 #: includes/admin/pages/class-wp-statistics-admin-page-visitors.php:55
 #: includes/admin/templates/layout/filters/author-filter.php:6
 #: includes/admin/templates/layout/filters/author-filter.php:15
@@ -726,18 +721,18 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-post.php:120
+#: includes/admin/class-wp-statistics-admin-post.php:116
 #: includes/admin/class-wp-statistics-admin-taxonomy.php:108
 msgid "Unlock This Feature!"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-post.php:146
-#: includes/admin/class-wp-statistics-admin-post.php:251
+#: includes/admin/class-wp-statistics-admin-post.php:142
+#: includes/admin/class-wp-statistics-admin-post.php:247
 msgid "Visitors:"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-post.php:146
-#: includes/admin/class-wp-statistics-admin-post.php:251
+#: includes/admin/class-wp-statistics-admin-post.php:142
+#: includes/admin/class-wp-statistics-admin-post.php:247
 #: includes/admin/class-wp-statistics-admin-taxonomy.php:129
 msgid "Views:"
 msgstr ""
@@ -783,66 +778,62 @@ msgstr ""
 msgid "Visitor Data - WP Statistics"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-template.php:70
-msgid "Unable to locate the template."
-msgstr ""
-
-#: includes/admin/class-wp-statistics-admin-template.php:104
+#: includes/admin/class-wp-statistics-admin-template.php:103
 msgid "The request is invalid."
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-template.php:109
+#: includes/admin/class-wp-statistics-admin-template.php:108
 #: includes/admin/pages/class-wp-statistics-admin-page-top-visitors-today.php:19
 msgid "The time request is invalid."
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-template.php:188
+#: includes/admin/class-wp-statistics-admin-template.php:187
 msgid "Page %1$s of %2$s"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-template.php:224
+#: includes/admin/class-wp-statistics-admin-template.php:223
 msgid "10 Days"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-template.php:225
+#: includes/admin/class-wp-statistics-admin-template.php:224
 msgid "20 Days"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-template.php:226
+#: includes/admin/class-wp-statistics-admin-template.php:225
 msgid "30 Days"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-template.php:227
+#: includes/admin/class-wp-statistics-admin-template.php:226
 msgid "2 Months"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-template.php:228
+#: includes/admin/class-wp-statistics-admin-template.php:227
 msgid "3 Months"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-template.php:229
+#: includes/admin/class-wp-statistics-admin-template.php:228
 msgid "6 Months"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-template.php:230
+#: includes/admin/class-wp-statistics-admin-template.php:229
 msgid "9 Months"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-template.php:231
+#: includes/admin/class-wp-statistics-admin-template.php:230
 msgid "1 Year"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-template.php:274
+#: includes/admin/class-wp-statistics-admin-template.php:273
 #: includes/admin/templates/pages/geographic/cities.php:46
-#: includes/class-wp-statistics-geoip.php:153
 #: includes/class-wp-statistics-geoip.php:154
 #: includes/class-wp-statistics-geoip.php:155
+#: includes/class-wp-statistics-geoip.php:156
 #: includes/class-wp-statistics-user-agent.php:87
 #: src/Models/VisitorsModel.php:362
 msgid "Unknown"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-template.php:280
+#: includes/admin/class-wp-statistics-admin-template.php:279
 #: includes/admin/templates/pages/geographic/cities.php:45
 #: includes/admin/templates/pages/geographic/cities.php:46
 #: includes/admin/templates/pages/geographic/cities.php:47
@@ -1074,15 +1065,15 @@ msgstr ""
 msgid "All Settings Have Been Reset to Default."
 msgstr ""
 
-#: includes/admin/pages/class-wp-statistics-admin-page-settings.php:324
+#: includes/admin/pages/class-wp-statistics-admin-page-settings.php:322
 msgid "WP Statistics - Honey Pot Page for Tracking"
 msgstr ""
 
-#: includes/admin/pages/class-wp-statistics-admin-page-settings.php:325
+#: includes/admin/pages/class-wp-statistics-admin-page-settings.php:323
 msgid "Do Not Delete: Honey Pot Page for WP Statistics Tracking."
 msgstr ""
 
-#: includes/admin/pages/class-wp-statistics-admin-page-settings.php:391
+#: includes/admin/pages/class-wp-statistics-admin-page-settings.php:389
 msgid "Custom header IP detection failed or the specified custom header is empty. Will switch to default detection method (Sequential IP Detection)."
 msgstr ""
 
@@ -1485,7 +1476,7 @@ msgid "Advanced Reporting"
 msgstr ""
 
 #: includes/admin/templates/layout/menu-settings.php:108
-#: includes/class-wp-statistics-helper.php:1684
+#: includes/class-wp-statistics-helper.php:1663
 msgid "Mini Chart"
 msgstr ""
 
@@ -1503,7 +1494,7 @@ msgid "This Feature is Part of the"
 msgstr ""
 
 #: includes/admin/templates/layout/partials/addon-premium-feature.php:26
-#: includes/class-wp-statistics-admin-bar.php:159
+#: includes/class-wp-statistics-admin-bar.php:158
 msgid "Upgrade Now"
 msgstr ""
 
@@ -1719,7 +1710,7 @@ msgstr ""
 #: includes/admin/templates/optimization/export.php:38
 #: includes/admin/templates/settings/exclusions.php:97
 #: includes/admin/templates/settings/general.php:162
-#: includes/admin/templates/settings/notifications.php:103
+#: includes/admin/templates/settings/notifications.php:70
 msgid "Please select"
 msgstr ""
 
@@ -2653,7 +2644,7 @@ msgid "Visitor Count"
 msgstr ""
 
 #: includes/admin/templates/pages/devices/categories.php:12
-#: includes/class-wp-statistics-helper.php:910
+#: includes/class-wp-statistics-helper.php:889
 msgid "Category"
 msgstr ""
 
@@ -2724,7 +2715,7 @@ msgid "User"
 msgstr ""
 
 #: includes/admin/templates/pages/online.php:51
-#: includes/admin/templates/settings/notifications.php:104
+#: includes/admin/templates/settings/notifications.php:71
 msgid "Email"
 msgstr ""
 
@@ -2774,7 +2765,7 @@ msgid "Last View"
 msgstr ""
 
 #: includes/admin/templates/pages/visitors.php:46
-#: includes/admin/templates/settings/notifications.php:136
+#: includes/admin/templates/settings/notifications.php:103
 #: includes/class-wp-statistics-widget.php:97
 #: includes/class-wp-statistics-widget.php:296
 msgid "Total Views"
@@ -2960,7 +2951,7 @@ msgstr ""
 #: includes/admin/templates/settings/externals.php:224
 #: includes/admin/templates/settings/general.php:247
 #: includes/admin/templates/settings/maintenance.php:78
-#: includes/admin/templates/settings/notifications.php:154
+#: includes/admin/templates/settings/notifications.php:121
 #: includes/admin/templates/settings/privacy.php:169
 #: includes/admin/templates/settings/visitor-ip.php:150
 msgid "Update"
@@ -3000,7 +2991,7 @@ msgid "Select Reporting Period"
 msgstr ""
 
 #: includes/admin/templates/settings/add-ons/advanced-reporting.php:62
-#: includes/admin/templates/settings/notifications.php:85
+#: includes/admin/templates/settings/notifications.php:52
 msgid "Disable"
 msgstr ""
 
@@ -3046,8 +3037,6 @@ msgstr ""
 #: includes/admin/templates/settings/general.php:238
 #: includes/admin/templates/settings/maintenance.php:24
 #: includes/admin/templates/settings/maintenance.php:58
-#: includes/admin/templates/settings/notifications.php:45
-#: includes/admin/templates/settings/notifications.php:57
 #: includes/admin/templates/settings/privacy.php:19
 #: includes/admin/templates/settings/privacy.php:33
 #: includes/admin/templates/settings/privacy.php:54
@@ -3270,7 +3259,7 @@ msgid "White label"
 msgstr ""
 
 #: includes/admin/templates/settings/add-ons/customization.php:100
-msgid "White label WP Statistics report pages. Remove branding and promotional elements. For a detailed list of changes, refer to the White label Documentation."
+msgid "White label WP Statistics report pages. Remove branding and promotional elements. For a detailed list of changes, refer to the <a href=\"https://wp-statistics.com/resources/whitelabeling-wp-statistics/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings\" target=\"_blank\">White label Documentation</a>."
 msgstr ""
 
 #: includes/admin/templates/settings/add-ons/customization.php:106
@@ -3555,7 +3544,7 @@ msgid "Excluded Countries"
 msgstr ""
 
 #: includes/admin/templates/settings/exclusions.php:116
-msgid "Enter country codes to exclude from stats. Use '000' for unknown countries."
+msgid "Enter country codes to exclude from stats. Use <code>000</code> for unknown countries. For a complete list of valid country codes, please refer to the <a href=\"https://wp-statistics.com/resources/list-of-country-codes/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings\" target=\"_blank\">Country Codes Document</a>."
 msgstr ""
 
 #: includes/admin/templates/settings/exclusions.php:121
@@ -3575,7 +3564,7 @@ msgid "Excluded Login Page"
 msgstr ""
 
 #: includes/admin/templates/settings/exclusions.php:141
-msgid "Login page visits will not be included in site visit counts."
+msgid "Login and Register page visits will not be included in site visit counts."
 msgstr ""
 
 #: includes/admin/templates/settings/exclusions.php:145
@@ -3948,109 +3937,89 @@ msgstr ""
 msgid "Enter email addresses to receive reports. Use a comma to separate multiple addresses. If this field is left empty, the \"Administration Email Address\" from the \"General Settings\" of WordPress will be used."
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:35
-msgid "Database Notifications"
-msgstr ""
-
-#: includes/admin/templates/settings/notifications.php:40
-msgid "GeoIP Update"
-msgstr ""
-
-#: includes/admin/templates/settings/notifications.php:46
-msgid "Receive notifications when the GeoIP database updates."
-msgstr ""
-
-#: includes/admin/templates/settings/notifications.php:52
-msgid "Database Pruning Alert"
-msgstr ""
-
-#: includes/admin/templates/settings/notifications.php:58
-msgid "Get notified when the database pruning occurs."
-msgstr ""
-
-#: includes/admin/templates/settings/notifications.php:69
+#: includes/admin/templates/settings/notifications.php:36
 msgid "Automated Report Delivery"
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:75
+#: includes/admin/templates/settings/notifications.php:42
 msgid "Your next report is scheduled to be sent on <b>%s at %s</b>."
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:81
+#: includes/admin/templates/settings/notifications.php:48
 msgid "Report Frequency"
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:92
+#: includes/admin/templates/settings/notifications.php:59
 msgid "Select the frequency of report deliveries."
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:98
+#: includes/admin/templates/settings/notifications.php:65
 msgid "Delivery Method"
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:106
+#: includes/admin/templates/settings/notifications.php:73
 msgid "SMS"
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:110
+#: includes/admin/templates/settings/notifications.php:77
 msgid "Select your preferred method for receiving reports: via email or SMS (SMS notifications are sent using the %s Plugin to the Admin Mobile Number)."
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:110
+#: includes/admin/templates/settings/notifications.php:77
 msgid "WP SMS"
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:116
+#: includes/admin/templates/settings/notifications.php:83
 msgid "Custom Report Builder"
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:121
+#: includes/admin/templates/settings/notifications.php:88
 msgid "Using WP Statistics shortcodes to display specific statistics."
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:124
+#: includes/admin/templates/settings/notifications.php:91
 msgid "Insert any of the following shortcode examples to show corresponding data:"
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:126
+#: includes/admin/templates/settings/notifications.php:93
 #: includes/class-wp-statistics-widget.php:55
 #: includes/class-wp-statistics-widget.php:272
 msgid "Today's Visitors"
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:128
+#: includes/admin/templates/settings/notifications.php:95
 #: includes/class-wp-statistics-widget.php:48
 #: includes/class-wp-statistics-widget.php:268
 msgid "Today's Views"
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:130
+#: includes/admin/templates/settings/notifications.php:97
 #: includes/class-wp-statistics-widget.php:69
 #: includes/class-wp-statistics-widget.php:280
 msgid "Yesterday's Visitors"
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:132
+#: includes/admin/templates/settings/notifications.php:99
 #: includes/class-wp-statistics-widget.php:62
 #: includes/class-wp-statistics-widget.php:276
 msgid "Yesterday's Views"
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:134
+#: includes/admin/templates/settings/notifications.php:101
 #: includes/class-wp-statistics-widget.php:104
 #: includes/class-wp-statistics-widget.php:300
 msgid "Total Visitors"
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:139
+#: includes/admin/templates/settings/notifications.php:106
 msgid "Refer to our complete <a href=\"https://wp-statistics.com/resources/shortcodes/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings\" target=\"_blank\">shortcode guide</a> for more options."
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:144
+#: includes/admin/templates/settings/notifications.php:111
 msgid "Enhanced Visual Report"
 msgstr ""
 
-#: includes/admin/templates/settings/notifications.php:147
+#: includes/admin/templates/settings/notifications.php:114
 msgid "For graphical representations of your data, explore our <a href=\"https://wp-statistics.com/product/wp-statistics-advanced-reporting/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings\" target=\"_blank\">Advanced Reporting Add-on</a> for additional chart and graph options."
 msgstr ""
 
@@ -4348,7 +4317,7 @@ msgid "Specify Post/Page ID for Detailed Page Statistics."
 msgstr ""
 
 #: includes/class-wp-statistics-admin-bar.php:51
-#: includes/class-wp-statistics-admin-bar.php:175
+#: includes/class-wp-statistics-admin-bar.php:174
 msgid "Explore Details"
 msgstr ""
 
@@ -4397,28 +4366,28 @@ msgstr ""
 msgid "Total Website Views"
 msgstr ""
 
-#: includes/class-wp-statistics-admin-bar.php:133
+#: includes/class-wp-statistics-admin-bar.php:132
 msgid "Global Data"
 msgstr ""
 
-#: includes/class-wp-statistics-admin-bar.php:138
+#: includes/class-wp-statistics-admin-bar.php:137
 msgid "Current Page Data"
 msgstr ""
 
-#: includes/class-wp-statistics-admin-bar.php:143
+#: includes/class-wp-statistics-admin-bar.php:142
 msgid "Visitors Today"
 msgstr ""
 
-#: includes/class-wp-statistics-admin-bar.php:145
-#: includes/class-wp-statistics-admin-bar.php:151
+#: includes/class-wp-statistics-admin-bar.php:144
+#: includes/class-wp-statistics-admin-bar.php:150
 msgid "was %s last day"
 msgstr ""
 
-#: includes/class-wp-statistics-admin-bar.php:149
+#: includes/class-wp-statistics-admin-bar.php:148
 msgid "Views Today"
 msgstr ""
 
-#: includes/class-wp-statistics-admin-bar.php:158
+#: includes/class-wp-statistics-admin-bar.php:157
 msgid "Unlock full potential of Mini-chart"
 msgstr ""
 
@@ -4552,137 +4521,132 @@ msgstr ""
 msgid "Views: %s"
 msgstr ""
 
-#: includes/class-wp-statistics-geoip.php:249
+#: includes/class-wp-statistics-geoip.php:250
 msgid "Unexpected HTTP status code %1$d while downloading GeoIP database from: %2$s"
 msgstr ""
 
-#: includes/class-wp-statistics-geoip.php:253
+#: includes/class-wp-statistics-geoip.php:254
 msgid "Error downloading GeoIP database from: %1$s - %2$s"
 msgstr ""
 
-#: includes/class-wp-statistics-geoip.php:262
+#: includes/class-wp-statistics-geoip.php:263
 msgid "GeoIP Database successfully updated!"
 msgstr ""
 
-#: includes/class-wp-statistics-geoip.php:275
-#: includes/class-wp-statistics-geoip.php:279
-msgid "GeoIP update on"
-msgstr ""
-
-#: includes/class-wp-statistics-geoip.php:287
+#: includes/class-wp-statistics-geoip.php:276
 msgid "Error: %1$s"
 msgstr ""
 
-#: includes/class-wp-statistics-geoip.php:331
+#: includes/class-wp-statistics-geoip.php:320
 msgid "Error creating directory: %s"
 msgstr ""
 
-#: includes/class-wp-statistics-geoip.php:337
+#: includes/class-wp-statistics-geoip.php:326
 msgid "Failed to open GZ archive."
 msgstr ""
 
-#: includes/class-wp-statistics-geoip.php:343
+#: includes/class-wp-statistics-geoip.php:332
 msgid "Failed to open destination file for writing."
 msgstr ""
 
-#: includes/class-wp-statistics-geoip.php:354
+#: includes/class-wp-statistics-geoip.php:343
 msgid "Error extracting GeoIP database file."
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:832
+#: includes/class-wp-statistics-helper.php:811
 msgid "<span style=\"font-family: 'Roboto', Arial, Helvetica, sans-serif; text-align: left;font-size: 21px; font-weight: 500; line-height: 24.61px; color: #0C0C0D;\">Your Website Performance Overview</span>"
 msgstr ""
 
 #. translators: %1$s: Website URL.
-#: includes/class-wp-statistics-helper.php:836
+#: includes/class-wp-statistics-helper.php:815
 msgid "<span style=\"font-family: 'Roboto', Arial, Helvetica, sans-serif; text-align: center;font-size: 16px; font-style: italic; font-weight: 400; line-height: 18.75px; color: #5E5E64;\">Sent from </span><a style=\"color: #175DA4;text-decoration: underline\" href=\"https://%1$s\">%1$s</a>"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:843
+#: includes/class-wp-statistics-helper.php:822
 msgid "<p style=\"margin-bottom:16px;margin-top:8px;padding:0;font-family: 'Roboto',Arial, Helvetica, sans-serif; font-size: 16px; font-style: italic; font-weight: 500; line-height: 18.75px; text-align: center;\"><small style=\"color:#5E5E64;font-family: 'Roboto',Arial, Helvetica, sans-serif; font-size: 16px; font-style: italic; font-weight: 500; line-height: 18.75px; text-align: center\">Report Date Range:</small> %s to %s</p>"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:910
+#: includes/class-wp-statistics-helper.php:889
 msgid "Tags"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1525
+#: includes/class-wp-statistics-helper.php:1504
 msgid "a year"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1527
+#: includes/class-wp-statistics-helper.php:1506
 msgid "a month"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1530
+#: includes/class-wp-statistics-helper.php:1509
 msgid "a week"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1532
+#: includes/class-wp-statistics-helper.php:1511
 msgid "a day"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1632
+#: includes/class-wp-statistics-helper.php:1611
 msgid "Optimize Your Content Strategy"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1633
+#: includes/class-wp-statistics-helper.php:1612
 msgid "Use WP Statistics to identify your most popular pages and posts. Analyze the data to understand what content resonates with your audience, and use these insights to guide your content creation efforts."
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1636
+#: includes/class-wp-statistics-helper.php:1615
 msgid "Optimize Your Data Accuracy"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1640
+#: includes/class-wp-statistics-helper.php:1619
 msgid "Keep the plugin up-to-date"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1641
+#: includes/class-wp-statistics-helper.php:1620
 msgid "Ensure that your WP Statistics plugin is up-to-date in order to get the latest features and security improvements."
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1644
+#: includes/class-wp-statistics-helper.php:1623
 msgid "Maintain Privacy Compliance"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1648
+#: includes/class-wp-statistics-helper.php:1627
 msgid "WordPress Export and Erasure"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1652
+#: includes/class-wp-statistics-helper.php:1631
 msgid "Track Links and Downloads"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1656
+#: includes/class-wp-statistics-helper.php:1635
 msgid "Advanced Filtering"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1660
+#: includes/class-wp-statistics-helper.php:1639
 msgid "Weekly Traffic Comparison Widget"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1664
+#: includes/class-wp-statistics-helper.php:1643
 msgid "Traffic by Hour Widget"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1668
+#: includes/class-wp-statistics-helper.php:1647
 msgid "Content-Specific Analytics"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1672
+#: includes/class-wp-statistics-helper.php:1651
 msgid "Custom Post Type Tracking"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1676
+#: includes/class-wp-statistics-helper.php:1655
 msgid "Custom Taxonomy Analytics"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1680
+#: includes/class-wp-statistics-helper.php:1659
 msgid "Real-Time Stats"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1943
+#: includes/class-wp-statistics-helper.php:1924
 msgid "Invalid hit request params."
 msgstr ""
 
@@ -4885,25 +4849,18 @@ msgid "No Records to Purge from %s!"
 msgstr ""
 
 #: includes/class-wp-statistics-purge.php:183
-#: includes/class-wp-statistics-purge.php:184
-#: includes/class-wp-statistics-purge.php:247
-#: includes/class-wp-statistics-purge.php:248
-msgid "WP Statistics - Database Clean-Up Report for"
-msgstr ""
-
-#: includes/class-wp-statistics-purge.php:190
 msgid "Please select a value over 30 days."
 msgstr ""
 
-#: includes/class-wp-statistics-purge.php:234
+#: includes/class-wp-statistics-purge.php:227
 msgid "%s Records Successfully Purged."
 msgstr ""
 
-#: includes/class-wp-statistics-purge.php:238
+#: includes/class-wp-statistics-purge.php:231
 msgid "No Visitor Records Found for Purging."
 msgstr ""
 
-#: includes/class-wp-statistics-purge.php:241
+#: includes/class-wp-statistics-purge.php:234
 msgid "Number of views must be greater than or equal to 10!"
 msgstr ""
 
@@ -5179,24 +5136,8 @@ msgstr ""
 msgid "Choose a Specific Search Engine Type"
 msgstr ""
 
-#: includes/class-wp-statistics.php:88
-msgid "Cloning is forbidden."
-msgstr ""
-
-#: includes/class-wp-statistics.php:287
+#: includes/class-wp-statistics.php:268
 msgid "Unable to create the required upload directory at <code>%s</code>. Please check that the web server has write permissions for the parent directory. Alternatively, you can manually create the directory yourself. Please keep in mind that the GeoIP database may not work correctly if the directory structure is not properly set up."
-msgstr ""
-
-#: includes/class-wp-statistics.php:343
-msgid "Your PHP Version is: "
-msgstr ""
-
-#: includes/class-wp-statistics.php:344
-msgid "The <strong>WP Statistics</strong> plugin requires PHP version <strong>"
-msgstr ""
-
-#: includes/class-wp-statistics.php:344
-msgid "</strong> or greater."
 msgstr ""
 
 #: includes/defines/country-codes.php:6
@@ -5280,7 +5221,7 @@ msgstr ""
 msgid "Word count processing is already started."
 msgstr ""
 
-#: src/Service/Admin/AuthorAnalytics/Views/AuthorsView.php:63
+#: src/Service/Admin/AuthorAnalytics/Views/AuthorsView.php:68
 #: src/Service/Admin/AuthorAnalytics/Views/SingleAuthorView.php:18
 #: src/Service/Admin/AuthorAnalytics/Views/TabsView.php:90
 msgid "Authors Performance"
@@ -5497,7 +5438,7 @@ msgstr ""
 msgid "Invalid author ID provided."
 msgstr ""
 
-#: src/Service/Admin/Posts/Views/PostsReportView.php:66
+#: src/Service/Admin/Posts/Views/PostsReportView.php:70
 msgid "Contents"
 msgstr ""
 
