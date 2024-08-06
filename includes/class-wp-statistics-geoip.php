@@ -3,6 +3,7 @@
 namespace WP_STATISTICS;
 
 use Exception;
+use WP_Statistics;
 use WP_Statistics\Async\BackgroundProcessFactory;
 use WP_Statistics\Dependencies\GeoIp2\Database\Reader;
 
@@ -110,7 +111,7 @@ class GeoIP
 
         } catch (Exception $e) {
             // Log the exception message.
-            \WP_Statistics::log($e->getMessage());
+            WP_Statistics::log($e->getMessage(), 'error');
 
             // Return false if there is an error loading the reader.
             return false;
@@ -181,7 +182,7 @@ class GeoIP
 
         } catch (Exception $e) {
             // Log the exception message.
-            \WP_Statistics::log($e->getMessage());
+            WP_Statistics::log($e->getMessage(), 'error');
         }
 
         // Cache and return the default location if an error occurs.
@@ -273,7 +274,7 @@ class GeoIP
             wp_delete_file($gzFilePath); // Ensure temporary file is deleted in case of an error
 
             $result['notice'] = sprintf(__('Error: %1$s', 'wp-statistics'), $e->getMessage());
-            \WP_Statistics::log($result['notice']); // Log the error for debugging
+            WP_Statistics::log($result['notice'], 'error'); // Log the error for debugging
         }
 
         return $result;

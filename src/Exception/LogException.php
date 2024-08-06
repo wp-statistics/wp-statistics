@@ -10,7 +10,7 @@ class LogException extends Exception
     {
         parent::__construct($message, $code, $previous);
 
-        \WP_Statistics::log($this->generateLogMessage($message, $code));
+        \WP_Statistics::log($this->generateLogMessage($message, $code), 'error');
     }
 
     private function generateLogMessage($message, $code)
