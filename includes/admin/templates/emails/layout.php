@@ -1,6 +1,8 @@
 <?php
 
 use WP_STATISTICS\Helper;
+use WP_STATISTICS\Menus;
+use WP_Statistics\Service\Admin\PrivacyAudit\PrivacyAuditDataProvider;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -25,18 +27,28 @@ $advanced_reporting_ad = is_plugin_active('wp-statistics-advanced-reporting/wp-s
             ' . __('See the Full Picture — Try Advanced Reporting Today', 'wp-statistics') . '
         </a></div>';
 
-$privacy_box = '<div style="background: #B266200D;padding: 20px;border-radius: 12px;margin-bottom: 24px;">
+$privacyBox      = '';
+$privacyAuditData = new PrivacyAuditDataProvider();
+$complianceStatus = $privacyAuditData->getComplianceStatus();
+if (intval($complianceStatus['percentage_ready']) !== 100 && !empty($complianceStatus['summary']) && intval($complianceStatus['summary']['action_required'])) {
+    $privacyBox = '<div style="background: #B266200D;padding: 20px;border-radius: 12px;margin-bottom: 24px;">
             <table>
                 <tr>
                     <td style="vertical-align: top;padding-'.$text_align_reverse.': 16px"> <img src="' . esc_url(WP_STATISTICS_URL . '/assets/images/mail/alert-line.png') . '" style="width: 24px; height: 24px; "></td>
                     <td>
                         <p style="color:#B26620;padding:0;margin:0;margin-bottom: 6px;font-size: 17px;font-weight: 500;line-height: 19.92px">' . __('Attention required!', 'wp-statistics') . '</p>
-                        <p style="color:#B26620;padding:0;margin:0;margin-bottom: 12px;font-size: 14px;font-weight: 400;line-height: 16.41px">' . __('There are 2 items that need to be addressed to ensure compliance with privacy laws.', 'wp-statistics') . '</p>
-                        <a href="" style="border-bottom: 1px solid #B26620;text-decoration: none;color:#B26620;font-size: 14px;font-weight: 500;line-height: 16.41px">' . __('Review Audit Details', 'wp-statistics') . '<img src="' . esc_url(WP_STATISTICS_URL . '/assets/images/mail/arrow-brown-right.png') . '" style="width: 6.67px; height: 10.91px;margin-' . $text_align . ':6px" alt=""></a>
+                        <p style="color:#B26620;padding:0;margin:0;margin-bottom: 12px;font-size: 14px;font-weight: 400;line-height: 16.41px">' .
+                        sprintf(
+                            // translators: %s: Count of non-compliance items.
+                            __('There are %d items that need to be addressed to ensure compliance with privacy laws.', 'wp-statistics'),
+                            intval($complianceStatus['summary']['action_required'])
+                        ) . '</p>
+                        <a href="' . esc_url(Menus::admin_url('privacy-audit')) . '" style="border-bottom: 1px solid #B26620;text-decoration: none;color:#B26620;font-size: 14px;font-weight: 500;line-height: 16.41px">' . __('Review Audit Details', 'wp-statistics') . '<img src="' . esc_url(WP_STATISTICS_URL . '/assets/images/mail/arrow-brown-right.png') . '" style="width: 6.67px; height: 10.91px;margin-' . $text_align . ':6px" alt=""></a>
                     </td>
                </tr>
             </table>
         </div>';
+}
 
 $tipOfEmail = Helper::getReportEmailTip();
 
@@ -254,7 +266,7 @@ $email_body = '
                     ' . wp_kses_post($content) . '
                     </div>
                 </div>
-                ' .$email_performance_html . $privacy_box .'
+                ' .$email_performance_html . $privacyBox .'
                 <div class="content" style="overflow: hidden;background-color: #fff; ' . ($email_footer ? 'border-radius: 0;' : 'border-radius: 0 0 18px 18px;') . '  font-family:  \'Roboto\',Arial,Helvetica,sans-serif; margin: 0;">
                      <div class="content__tip" style="background: #E1EBFE; border-radius: 12px;  font-family: \'Roboto\',Arial,Helvetica,sans-serif; margin: 0; padding: 20px; text-decoration: none;">
                         <div class="content__tip--title" style=" font-family: \'Roboto\',Arial,Helvetica,sans-serif; margin: 0; margin-bottom: 16px; padding: 0; position: relative; text-decoration: none;">
