@@ -5,6 +5,9 @@ namespace WP_STATISTICS;
 use ErrorException;
 use Exception;
 use WP_STATISTICS;
+use WP_Statistics\Models\AuthorsModel;
+use WP_Statistics\Models\PostsModel;
+use WP_Statistics\Models\TaxonomyModel;
 use WP_Statistics\Service\Integrations\WpConsentApi;
 use WP_Statistics\Utils\Request;
 use WP_Statistics\Utils\Signature;
@@ -1960,5 +1963,175 @@ class Helper
         
         // If param is not found, return false
         return false;
+    }
+
+    /**
+     * Returns the data needed for "Your performance at a glance" section (mostly used in e-mail reports).
+     *
+     * @param   string  $startDate  Start date of the report in `Y-m-d` format.
+     * @param   string  $endDate    End date of the report in `Y-m-d` format. Default: today.
+     *
+     * @return  array               Keys: 
+     *  - `thisPeriodFromDaysAgo`
+     *  - `thisPeriodToDaysAgo`
+     *  - `lastPeriodFromDaysAgo`
+     *  - `lastPeriodToDaysAgo`
+     *  - `thisPeriodVisitors`
+     *  - `lastPeriodVisitors`
+     *  - `thisPeriodVisits`
+     *  - `lastPeriodVisits`
+     *  - `thisPeriodReferrals`
+     *  - `lastPeriodReferrals`
+     *  - `thisPeriodContents`
+     *  - `lastPeriodContents`
+     *  - `percentageChangeVisitors`
+     *  - `percentageChangeVisits`
+     *  - `percentageChangeReferrals`
+     *  - `percentageChangeContents`
+     *  - `topAuthor`
+     *  - `topPost`
+     *  - `topReferral`
+     *  - `topCategory`
+     */
+    public static function getWebsitePerformanceSummary($startDate, $endDate = '')
+    {
+        if (empty($endDate)) {
+            $endDate = date('Y-m-d');
+        }
+
+        $thisPeriodFromDaysAgo = 0;
+        $thisPeriodToDaysAgo   = 0;
+        $lastPeriodFromDaysAgo = 0;
+        $lastPeriodToDaysAgo   = 0;
+        $thisPeriodVisitors    = wp_statistics_visitor('total', null, true);
+        $lastPeriodVisitors    = 0;
+        $thisPeriodVisits      = wp_statistics_visit('total');
+        $lastPeriodVisits      = 0;
+        $thisPeriodReferrals   = 0;
+        $lastPeriodReferrals   = 0;
+        $thisPeriodContents    = 0;
+        $lastPeriodContents    = 0;
+
+        $skipPercentageChanges = false;
+        $postsModel            = new PostsModel();
+
+        if ($startDate == date('Y-m-d', strtotime('-1 day'))) {
+            $thisPeriodFromDaysAgo = 1;
+            $lastPeriodFromDaysAgo = 2;
+            $lastPeriodToDaysAgo   = 1;
+            $thisPeriodVisitors    = wp_statistics_visitor('yesterday', null, true);
+            $lastPeriodVisitors    = wp_statistics_visitor('day-before-yesterday', null, true);
+            $thisPeriodVisits      = wp_statistics_visit('yesterday');
+            $lastPeriodVisits      = wp_statistics_visit('day-before-yesterday');
+            $thisPeriodReferrals   = wp_statistics_referrer('yesterday');
+            $lastPeriodReferrals   = wp_statistics_referrer('day-before-yesterday');
+            $thisPeriodContents    = $postsModel->countPosts(['date' => ['from' => TimeZone::getTimeAgo($thisPeriodFromDaysAgo, 'Y-m-d'), 'to' => $endDate]]);
+            $lastPeriodContents    = $postsModel->countPosts(['date' => ['from' => TimeZone::getTimeAgo($lastPeriodFromDaysAgo, 'Y-m-d'), 'to' => TimeZone::getTimeAgo($lastPeriodToDaysAgo, 'Y-m-d')]]);
+        } else if ($startDate == date('Y-m-d', strtotime('-1 week'))) {
+            $thisPeriodFromDaysAgo = 7;
+            $lastPeriodFromDaysAgo = 14;
+            $lastPeriodToDaysAgo   = 7;
+            $thisPeriodVisitors    = wp_statistics_visitor('week', null, true);
+            $lastPeriodVisitors    = wp_statistics_visitor('last-week', null, true);
+            $thisPeriodVisits      = wp_statistics_visit('week');
+            $lastPeriodVisits      = wp_statistics_visit('last-week');
+            $thisPeriodReferrals   = wp_statistics_referrer('week');
+            $lastPeriodReferrals   = wp_statistics_referrer('last-week');
+            $thisPeriodContents    = $postsModel->countPosts(['date' => ['from' => TimeZone::getTimeAgo($thisPeriodFromDaysAgo, 'Y-m-d'), 'to' => $endDate]]);
+            $lastPeriodContents    = $postsModel->countPosts(['date' => ['from' => TimeZone::getTimeAgo($lastPeriodFromDaysAgo, 'Y-m-d'), 'to' => TimeZone::getTimeAgo($lastPeriodToDaysAgo, 'Y-m-d')]]);
+        } else if ($startDate == date('Y-m-d', strtotime('-2 weeks'))) {
+            $thisPeriodFromDaysAgo = 14;
+            $lastPeriodFromDaysAgo = 28;
+            $lastPeriodToDaysAgo   = 14;
+            $thisPeriodVisitors    = wp_statistics_visitor('two-weeks', null, true);
+            $lastPeriodVisitors    = wp_statistics_visitor('last-two-weeks', null, true);
+            $thisPeriodVisits      = wp_statistics_visit('two-weeks');
+            $lastPeriodVisits      = wp_statistics_visit('last-two-weeks');
+            $thisPeriodReferrals   = wp_statistics_referrer('two-weeks');
+            $lastPeriodReferrals   = wp_statistics_referrer('last-two-weeks');
+            $thisPeriodContents    = $postsModel->countPosts(['date' => ['from' => TimeZone::getTimeAgo($thisPeriodFromDaysAgo, 'Y-m-d'), 'to' => $endDate]]);
+            $lastPeriodContents    = $postsModel->countPosts(['date' => ['from' => TimeZone::getTimeAgo($lastPeriodFromDaysAgo, 'Y-m-d'), 'to' => TimeZone::getTimeAgo($lastPeriodToDaysAgo, 'Y-m-d')]]);
+        } else if ($startDate == date('Y-m-d', strtotime('-30 days'))) {
+            $thisPeriodFromDaysAgo = 30;
+            $lastPeriodFromDaysAgo = 60;
+            $lastPeriodToDaysAgo   = 30;
+            $thisPeriodVisitors    = wp_statistics_visitor('month', null, true);
+            $lastPeriodVisitors    = wp_statistics_visitor('last-month', null, true);
+            $thisPeriodVisits      = wp_statistics_visit('month');
+            $lastPeriodVisits      = wp_statistics_visit('last-month');
+            $thisPeriodReferrals   = wp_statistics_referrer('month');
+            $lastPeriodReferrals   = wp_statistics_referrer('last-month');
+            $thisPeriodContents    = $postsModel->countPosts(['date' => ['from' => TimeZone::getTimeAgo($thisPeriodFromDaysAgo, 'Y-m-d'), 'to' => $endDate]]);
+            $lastPeriodContents    = $postsModel->countPosts(['date' => ['from' => TimeZone::getTimeAgo($lastPeriodFromDaysAgo, 'Y-m-d'), 'to' => TimeZone::getTimeAgo($lastPeriodToDaysAgo, 'Y-m-d')]]);
+        } else if (!empty($startDate)) {
+            $thisPeriodFromDaysAgo = TimeZone::getNumberDayBetween($startDate) - 1;
+            $lastPeriodFromDaysAgo = $thisPeriodFromDaysAgo * 2;
+            $lastPeriodToDaysAgo   = $thisPeriodFromDaysAgo + 1;
+            $thisPeriodVisitors    = wp_statistics_visitor(['start' => TimeZone::getTimeAgo($thisPeriodFromDaysAgo), 'end' => TimeZone::getTimeAgo($thisPeriodToDaysAgo)], null, true);
+            $thisPeriodVisits      = wp_statistics_visit(['start' => TimeZone::getTimeAgo($thisPeriodFromDaysAgo), 'end' => TimeZone::getTimeAgo($thisPeriodToDaysAgo)]);
+            $lastPeriodVisitors    = wp_statistics_visitor(['start' => TimeZone::getTimeAgo($lastPeriodFromDaysAgo), 'end' => TimeZone::getTimeAgo($lastPeriodToDaysAgo)], null, true);
+            $lastPeriodVisits      = wp_statistics_visit(['start' => TimeZone::getTimeAgo($lastPeriodFromDaysAgo), 'end' => TimeZone::getTimeAgo($lastPeriodToDaysAgo)]);
+            $thisPeriodReferrals   = wp_statistics_referrer($startDate, ['start' => $startDate, 'end' => $endDate]);
+            $thisPeriodContents    = $postsModel->countPosts(['date' => ['from' => $startDate, 'to' => $endDate]]);
+            $skipPercentageChanges = true;
+        } else {
+            $thisPeriodReferrals   = wp_statistics_referrer('total');
+            $thisPeriodContents    = $postsModel->countPosts();
+            $skipPercentageChanges = true;
+        }
+
+        $percentageChangeVisitors  = 0;
+        $percentageChangeVisits    = 0;
+        $percentageChangeReferrals = 0;
+        $percentageChangeContents  = 0;
+        if (!$skipPercentageChanges) {
+            $percentageChangeVisitors  = intval(self::calculatePercentageChange($lastPeriodVisitors, $thisPeriodVisitors));
+            $percentageChangeVisits    = intval(self::calculatePercentageChange($lastPeriodVisits, $thisPeriodVisits));
+            $percentageChangeReferrals = intval(self::calculatePercentageChange($lastPeriodReferrals, $thisPeriodReferrals));
+            $percentageChangeContents  = intval(self::calculatePercentageChange($lastPeriodContents, $thisPeriodContents));
+        }
+
+        $authorModel = new AuthorsModel();
+        $topAuthor   = $authorModel->getAuthorsByPostPublishes();
+        $topAuthor   = !empty($topAuthor) ? $topAuthor[0]->name : '';
+
+        $topPost = $postsModel->getPostsViewsData();
+        $topPost = !empty($topPost) ? $topPost[0]->post_title : '';
+
+        $topReferral = '';
+        if (!empty($top_referring)) {
+            $topReferral = str_replace('www.', '', $top_referring[0]->domain);
+            $topReferral = ucfirst($topReferral);
+        }
+
+        $taxonomyModel = new TaxonomyModel();
+        $topCategory   = $taxonomyModel->getTaxonomiesData([
+            'order_by' => 'views',
+            'order'    => 'DESC',
+        ]);
+        $topCategory   = (!empty($topCategory['category']) && !empty($topCategory['category'][0]['term_name'])) ? $topCategory['category'][0]['term_name'] : '';
+
+        return [
+            'thisPeriodFromDaysAgo'     => $thisPeriodFromDaysAgo,
+            'thisPeriodToDaysAgo'       => $thisPeriodToDaysAgo,
+            'lastPeriodFromDaysAgo'     => $lastPeriodFromDaysAgo,
+            'lastPeriodToDaysAgo'       => $lastPeriodToDaysAgo,
+            'thisPeriodVisitors'        => $thisPeriodVisitors,
+            'lastPeriodVisitors'        => $lastPeriodVisitors,
+            'thisPeriodVisits'          => $thisPeriodVisits,
+            'lastPeriodVisits'          => $lastPeriodVisits,
+            'thisPeriodReferrals'       => $thisPeriodReferrals,
+            'lastPeriodReferrals'       => $lastPeriodReferrals,
+            'thisPeriodContents'        => $thisPeriodContents,
+            'lastPeriodContents'        => $lastPeriodContents,
+            'percentageChangeVisitors'  => $percentageChangeVisitors,
+            'percentageChangeVisits'    => $percentageChangeVisits,
+            'percentageChangeReferrals' => $percentageChangeReferrals,
+            'percentageChangeContents'  => $percentageChangeContents,
+            'topAuthor'                 => $topAuthor,
+            'topPost'                   => $topPost,
+            'topReferral'               => $topReferral,
+            'topCategory'               => $topCategory,
+        ];
     }
 }
