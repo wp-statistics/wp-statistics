@@ -235,7 +235,7 @@ class IP
         try {
             $ip = new WP_Statistics\Dependencies\IPTools\IP($ip);
         } catch (Exception $e) {
-            WP_Statistics::log($e->getMessage());
+            WP_Statistics::log($e->getMessage(), 'warning');
             $ip = new WP_Statistics\Dependencies\IPTools\IP(self::$default_ip);
         }
 
@@ -249,7 +249,7 @@ class IP
                     $contains_ip = true;
                 }
             } catch (Exception $e) {
-                WP_Statistics::log($e->getMessage());
+                WP_Statistics::log($e->getMessage(), 'warning');
                 $contains_ip = false;
             }
 

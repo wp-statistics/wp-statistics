@@ -28,39 +28,6 @@ use WP_STATISTICS\Schedule;
         </tbody>
     </table>
 </div>
-<div class="postbox">
-    <table class="form-table">
-        <tbody>
-        <tr valign="top">
-            <th scope="row" colspan="2"><h3><?php esc_html_e('Database Notifications', 'wp-statistics'); ?></h3></th>
-        </tr>
-
-        <tr valign="top">
-            <th scope="row">
-                <label for="geoip-report"><?php esc_html_e('GeoIP Update', 'wp-statistics'); ?></label>
-            </th>
-
-            <td>
-                <input id="geoip-report" type="checkbox" value="1" name="wps_geoip_report" <?php echo checked(Option::get('geoip_report')); ?>>
-                <label for="geoip-report"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
-                <p class="description"><?php esc_html_e('Receive notifications when the GeoIP database updates.', 'wp-statistics'); ?></p>
-            </td>
-        </tr>
-
-        <tr valign="top">
-            <th scope="row">
-                <label for="prune-report"><?php esc_html_e('Database Pruning Alert', 'wp-statistics'); ?></label>
-            </th>
-
-            <td>
-                <input id="prune-report" type="checkbox" value="1" name="wps_prune_report" <?php echo checked(Option::get('prune_report')); ?>>
-                <label for="prune-report"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
-                <p class="description"><?php esc_html_e('Get notified when the database pruning occurs.', 'wp-statistics'); ?></p>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-</div>
 
 <div class="postbox" id='wps_stats_report_option'>
     <table class="form-table">

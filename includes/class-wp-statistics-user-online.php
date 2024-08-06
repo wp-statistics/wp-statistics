@@ -176,7 +176,7 @@ class UserOnline
 
         if (!$insert) {
             if (!empty($wpdb->last_error)) {
-                \WP_Statistics::log($wpdb->last_error);
+                \WP_Statistics::log($wpdb->last_error, 'warning');
             }
         }
 

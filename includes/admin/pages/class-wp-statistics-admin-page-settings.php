@@ -212,8 +212,6 @@ class settings_page extends Singleton
             "wps_send_report",
             "wps_content_report",
             "wps_email_list",
-            "wps_geoip_report",
-            "wps_prune_report",
             "wps_upgrade_report"
         );
 

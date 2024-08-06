@@ -3,6 +3,7 @@
 namespace WP_STATISTICS;
 
 use Exception;
+use WP_Statistics;
 use WP_Statistics\Async\BackgroundProcessFactory;
 use WP_Statistics\Dependencies\GeoIp2\Database\Reader;
 
@@ -110,7 +111,7 @@ class GeoIP
 
         } catch (Exception $e) {
             // Log the exception message.
-            \WP_Statistics::log($e->getMessage());
+            WP_Statistics::log($e->getMessage(), 'error');
 
             // Return false if there is an error loading the reader.
             return false;
@@ -181,7 +182,7 @@ class GeoIP
 
         } catch (Exception $e) {
             // Log the exception message.
-            \WP_Statistics::log($e->getMessage());
+            WP_Statistics::log($e->getMessage(), 'error');
         }
 
         // Cache and return the default location if an error occurs.
@@ -269,23 +270,11 @@ class GeoIP
                 BackgroundProcessFactory::batchUpdateIncompleteGeoIpForVisitors();
             }
 
-            if (Option::get('geoip_report')) {
-                Helper::send_mail(
-                    Option::getEmailNotification(),
-                    __('GeoIP update on', 'wp-statistics') . ' ' . get_bloginfo('name'),
-                    $result['notice'],
-                    true,
-                    [
-                        "email_title" => __('GeoIP update on', 'wp-statistics') . ' <a href="' . get_bloginfo('url') . '" target="_blank" style="text-decoration: none; color: #303032; font-family: Roboto,Arial,Helvetica,sans-serif; font-size: 16px; font-weight: 600; line-height: 18.75px;font-style: italic">' . get_bloginfo('name') . '</a>'
-                    ]
-                );
-            }
-
         } catch (Exception $e) {
             wp_delete_file($gzFilePath); // Ensure temporary file is deleted in case of an error
 
             $result['notice'] = sprintf(__('Error: %1$s', 'wp-statistics'), $e->getMessage());
-            \WP_Statistics::log($result['notice']); // Log the error for debugging
+            WP_Statistics::log($result['notice'], 'error'); // Log the error for debugging
         }
 
         return $result;

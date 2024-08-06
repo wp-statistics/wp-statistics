@@ -13,27 +13,6 @@ use WP_Statistics_Mail;
 class Helper
 {
     /**
-     * WP Statistics WordPress Log
-     *
-     * @param $function
-     * @param $message
-     * @param $version
-     */
-    public static function doing_it_wrong($function, $message, $version = '')
-    {
-        if (empty($version)) {
-            $version = WP_STATISTICS_VERSION;
-        }
-        $message .= ' Backtrace: ' . wp_debug_backtrace_summary();
-        if (is_ajax()) {
-            do_action('doing_it_wrong_run', $function, $message, $version);
-            error_log("{$function} was called incorrectly. {$message}. This message was added in version {$version}.");
-        } else {
-            _doing_it_wrong($function, $message, $version); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-        }
-    }
-
-    /**
      * Returns an array of site id's
      *
      * @return array
@@ -879,7 +858,7 @@ class Helper
             return true;
 
         } catch (Exception $e) {
-            \WP_Statistics::log($e->getMessage());
+            \WP_Statistics::log($e->getMessage(), 'error');
 
             return false;
         }
@@ -1883,8 +1862,10 @@ class Helper
             '/[\'"\(](?:\s|%20)*XOR(?:\s|%20)*/i',              // ' " ( XOR
 
             // Function-based SQL injection 
-            '/[\'"\(\,](?:\s|%20)*sleep(?:\s|%20)*\(\d+\)/i',     // ' " ( sleep(10)
-            '/[\'"\(](?:\s|%20)*benchmark(?:\s|%20)*\(\d+,(?:\s|%20)*/i', // ' " ( benchmark(10,
+            '/(?:\s|%20)*now\(/i',                                           // now(
+            '/(?:\s|%20)*sysdate\(/i',                                       // sysdate(
+            '/(?:\s|%20)*sleep\(/i',                                         // sleep(
+            '/[\'"\(](?:\s|%20)*benchmark(?:\s|%20)*\(\d+,(?:\s|%20)*/i',   // ' " ( benchmark(10,
 
             // XSS patterns 
             '/<script\b[^>]*>(.*?)<\/script>/is',               // <script>...</script>
