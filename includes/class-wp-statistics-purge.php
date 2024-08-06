@@ -177,13 +177,6 @@ class Purge
                 $result_string .= '<br>' . sprintf(__('No Records to Purge from %s!', 'wp-statistics'), '<code>' . $table_name . '</code>');
             }
 
-            // Send Email
-            if (Option::get('prune_report') == true) {
-
-                Helper::send_mail(Option::getEmailNotification(), __('WP Statistics - Database Clean-Up Report for', 'wp-statistics') . ' ' . get_bloginfo('name'), $result_string, true,
-                    array("email_title" => __('WP Statistics - Database Clean-Up Report for', 'wp-statistics') . ' <a href="' . get_bloginfo('url') . '" target="_blank" style="text-decoration: none; color: #303032; font-family: Roboto,Arial,Helvetica,sans-serif; font-size: 16px; font-weight: 600; line-height: 18.75px;font-style: italic">' . get_bloginfo('name') . '</a>'));
-            }
-
             return $result_string;
 
         } else {
@@ -239,13 +232,6 @@ class Purge
             }
         } else {
             $result_string = __('Number of views must be greater than or equal to 10!', 'wp-statistics');
-        }
-
-        // Send Email
-        if (Option::get('prune_report') == true) {
-
-            Helper::send_mail(Option::getEmailNotification(), __('WP Statistics - Database Clean-Up Report for', 'wp-statistics') . ' ' . get_bloginfo('name'), $result_string, true,
-                array("email_title" => __('WP Statistics - Database Clean-Up Report for', 'wp-statistics') . ' <a href="' . get_bloginfo('url') . '" target="_blank" style="text-decoration: none; color: #303032; font-family: Roboto,Arial,Helvetica,sans-serif; font-size: 16px; font-weight: 600; line-height: 18.75px;font-style: italic;">' . get_bloginfo('name') . '</a>'));
         }
 
         return $result_string;
