@@ -1,6 +1,6 @@
 <?php
 
-namespace WP_Statistics\Utils;
+namespace WP_Statistics\Components;
 
 use WP_Statistics\Exception\SystemErrorException;
 
