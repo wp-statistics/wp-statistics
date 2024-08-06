@@ -42,7 +42,7 @@ use WP_STATISTICS\Country;
                                                 <?php echo esc_html(number_format($item->views)) ?>
                                             </td>
                                             <td class="-table__cell o-table__cell--right view-more">
-                                                <a href="<?php echo esc_url(\WP_STATISTICS\Menus::admin_url('geographic', ['type' => 'single-country', 'country' => $item->country, 'from' => \WP_Statistics\Utils\Request::get('from', date('Y-m-d', strtotime('-30 days'))), 'to' => \WP_Statistics\Utils\Request::get('to', date('Y-m-d'))])) ?>" title="<?php esc_html_e('View Details', 'wp-statistics'); ?>">
+                                                <a href="<?php echo esc_url(\WP_STATISTICS\Menus::admin_url('geographic', ['type' => 'single-country', 'country' => $item->country, 'from' => \WP_Statistics\Utils\Request::get('from', date('Y-m-d', strtotime('-29 days'))), 'to' => \WP_Statistics\Utils\Request::get('to', date('Y-m-d'))])) ?>" title="<?php esc_html_e('View Details', 'wp-statistics'); ?>">
                                                     <?php esc_html_e('View Details', 'wp-statistics'); ?>
                                                 </a>
                                             </td>

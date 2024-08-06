@@ -1,4 +1,12 @@
 jQuery(document).ready(function () {
+
+    // Update the week start day based on WordPress setting
+    moment.locale('en', {
+        week: {
+            dow: parseInt(wps_js._('start_of_week'))
+        }
+    });
+
     const datePickerBtn = jQuery('.js-date-range-picker-btn');
     const datePickerElement = jQuery('.js-date-range-picker-input');
     const datePickerForm = jQuery('.js-date-range-picker-form');
@@ -27,14 +35,14 @@ jQuery(document).ready(function () {
         let ranges = {
             'Today': [moment(), moment()],
             'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-            'Last 7 Days': [moment().subtract(7, 'days'), moment()],
-            'Last 14 Days': [moment().subtract(14, 'days'), moment()],
-            'Last 30 Days': [moment().subtract(30, 'days'), moment()],
+            'This Week': [moment().startOf('week'), moment().endOf('week')],
+            'Last Week': [moment().subtract(1, 'week').startOf('week'), moment().subtract(1, 'week').endOf('week')],
+            'This Month': [moment().startOf('month'), moment().endOf('month')],
             'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
-            'Last 60 Days': [moment().subtract(60, 'days'), moment()],
-            'Last 90 Days': [moment().subtract(90, 'days'), moment()],
-            'Last 120 Days': [moment().subtract(120, 'days'), moment()],
-            'Last 6 Months': [moment().subtract(180, 'days'), moment()],
+            'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+            'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+            'Last 90 Days': [moment().subtract(89, 'days'), moment()],
+            'Last 6 Months': [moment().subtract(6, 'month'), moment()],
             'This Year': [moment().startOf('year'), moment().endOf('year')]
         };
 
@@ -45,7 +53,7 @@ jQuery(document).ready(function () {
         const phpDateFormat = datePickerBtn.attr('data-date-format') ? datePickerBtn.attr('data-date-format') : 'MM/DD/YYYY';
         let momentDateFormat = phpToMomentFormat(phpDateFormat);
         // Default dates for the date picker
-        let defaultStartDate = moment().subtract(30, 'days');  // Example: last 7 days
+        let defaultStartDate = moment().subtract(29, 'days');
         let defaultEndDate = moment();
 
         datePickerElement.daterangepicker({

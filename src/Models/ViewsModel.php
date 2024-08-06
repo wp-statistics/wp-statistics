@@ -158,10 +158,10 @@ class ViewsModel extends BaseModel
 
         $todayDate      = date('Y-m-d');
         $yesterdayDate  = date('Y-m-d', strtotime('-1 day'));
-        $start7Days     = date('Y-m-d', strtotime('-7 days'));
-        $start30Days    = date('Y-m-d', strtotime('-30 days'));
-        $start60Days    = date('Y-m-d', strtotime('-60 days'));
-        $start120Days   = date('Y-m-d', strtotime('-120 days'));
+        $start7Days     = date('Y-m-d', strtotime('-6 days'));
+        $start30Days    = date('Y-m-d', strtotime('-29 days'));
+        $start60Days    = date('Y-m-d', strtotime('-59 days'));
+        $start120Days   = date('Y-m-d', strtotime('-119 days'));
         $start12Months  = date('Y-m-d', strtotime('-12 months'));
         $thisYearStart  = date('Y') . '-01-01';
         $lastYearStart  = (date('Y') - 1) . '-01-01';

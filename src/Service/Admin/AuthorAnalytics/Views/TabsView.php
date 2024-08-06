@@ -22,7 +22,7 @@ class TabsView extends BaseTabView
 
     public function getPerformanceData()
     {
-        $from       = Request::get('from', date('Y-m-d', strtotime('-30 days')));
+        $from       = Request::get('from', date('Y-m-d', strtotime('-29 days')));
         $to         = Request::get('to', date('Y-m-d'));
         $postType   = Request::get('pt', 'post');
 
@@ -40,7 +40,7 @@ class TabsView extends BaseTabView
 
     public function getPagesData()
     {
-        $from       = Request::get('from', date('Y-m-d', strtotime('-30 days')));
+        $from       = Request::get('from', date('Y-m-d', strtotime('-29 days')));
         $to         = Request::get('to', date('Y-m-d'));
         $postType   = Request::get('pt', 'post');
         $orderBy    = Request::get('order_by');
