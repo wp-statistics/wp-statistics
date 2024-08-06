@@ -84,6 +84,11 @@ class BlockAssetsManager
      */
     public function addEditorSidebar()
     {
+        global $pagenow;
+        if ($pagenow === 'post-new.php') {
+            return;
+        }
+
         $args = [];
 
         Assets::script('editor-sidebar', 'blocks/index.js', ['wp-plugins', 'wp-editor'], $args);
