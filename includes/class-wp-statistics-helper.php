@@ -1950,4 +1950,23 @@ class Helper
         // If param is not found, return false
         return false;
     }
+
+    /**
+     * Returns the data needed for "Statistics - Summary" widget/panel in edit posts.
+     *
+     * @param   \WP_Post  $post
+     *
+     * @return  array           Keys: 
+     *  - `postId`
+     *  - `fromString`
+     *  - `toString`
+     */
+    public static function getPostStatisticsSummary($post)
+    {
+        return [
+            'postId'     => $post->ID,
+            'fromString' => TimeZone::getTimeAgo(7, 'F d'),
+            'toString'   => TimeZone::getTimeAgo(1, 'F d'),
+        ];
+    }
 }

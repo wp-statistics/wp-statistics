@@ -3,6 +3,7 @@
 namespace WP_Statistics\Blocks;
 
 use WP_Statistics\Components\Assets;
+use WP_STATISTICS\Helper;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 
 class BlockAssetsManager
@@ -89,8 +90,11 @@ class BlockAssetsManager
             return;
         }
 
-        $args = [];
+        global $post;
+        if (empty($post)) {
+            return;
+        }
 
-        Assets::script('editor-sidebar', 'blocks/index.js', ['wp-plugins', 'wp-editor'], $args);
+        Assets::script('editor-sidebar', 'blocks/index.js', ['wp-plugins', 'wp-editor'], Helper::getPostStatisticsSummary($post));
     }
 }
