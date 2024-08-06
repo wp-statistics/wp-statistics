@@ -825,8 +825,9 @@ class Helper
                 esc_url(get_site_url()),
                 get_bloginfo('name')
             );
-
-         }
+        } else {
+            $schedule = null;
+        }
 
         //Template Arg
         $template_arg = array(
@@ -842,7 +843,8 @@ class Helper
             'copyright'    => apply_filters('wp_statistics_email_footer_copyright', Admin_Template::get_template('emails/copyright', array(), true)),
             'email_header' => apply_filters('wp_statistics_email_header', ""),
             'email_footer' => apply_filters('wp_statistics_email_footer', ""),
-            'is_rtl'       => (is_rtl() ? true : false)
+            'is_rtl'       => (is_rtl() ? true : false),
+            'schedule'     => $schedule,
         );
         $arg          = wp_parse_args($args, $template_arg);
 

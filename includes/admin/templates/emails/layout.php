@@ -40,21 +40,14 @@ $privacy_box = '<div style="background: #B266200D;padding: 20px;border-radius: 1
 
 $tipOfEmail = Helper::getReportEmailTip();
 
-
-//sample data
-$percentageChangeVisitors = 5;
-$thisPeriodVisitors=5;
-$thisPeriodReferrals=5;
-$thisPeriodVisits=5;
-$thisPeriodContents=5;
-$percentageChangeReferrals=5;
-$percentageChangeVisits=5;
-$percentageChangeContents=5;
-$topAuthor='name';
-$topCategory='sample';
-$topPost='sample';
-$topReferral='sample';
-
+// "Your performance at a glance" section variables
+$startDate = date('Y-m-d', strtotime('-30 days'));
+$endDate   = '';
+if (!empty($schedule)) {
+    $startDate = $schedule['start'];
+    $endDate   = $schedule['end'];
+}
+extract(Helper::getWebsitePerformanceSummary($startDate, $endDate));
 
 $email_performance_html = '
     <div class="card performance_glance" style="background: #fff;border-radius: 12px;margin-bottom: 39px"> 
