@@ -27,7 +27,8 @@ abstract class BaseTabView extends BaseView
 
     protected function getTabData()
     {
-        $tabDataMethod = 'get' . ucfirst($this->getCurrentTab()) . 'Data';
+        $currentTab     = ucwords($this->getCurrentTab(), '-');
+        $tabDataMethod  = 'get' . str_replace('-', '', $currentTab) . 'Data';
 
         if (!method_exists($this, $tabDataMethod)) return [];
 
