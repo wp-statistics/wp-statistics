@@ -56,7 +56,11 @@ class PostsReportView extends BaseView
         $parentPage = Menus::getCurrentPage();
         $template   = 'posts-report';
 
-        $queryParams = ['type' => 'posts'];
+        $queryParams = [
+            'type'      => 'posts',
+            'order_by'  => Request::get('order_by', 'visitors'),
+            'order'     => Request::get('order', 'desc'),
+        ];
 
         if (Request::has('pt')) {
             $queryParams['pt'] = Request::get('pt');

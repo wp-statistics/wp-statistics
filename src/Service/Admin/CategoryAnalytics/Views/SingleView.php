@@ -35,7 +35,7 @@ class SingleView extends BaseView
             'term'      => $this->termId,
             'taxonomy'  => $this->term->taxonomy,
             'date'      => [
-                'from'  => Request::get('from', date('Y-m-d', strtotime('-30 days'))),
+                'from'  => Request::get('from', date('Y-m-d', strtotime('-29 days'))),
                 'to'    => Request::get('to', date('Y-m-d'))
             ],
         ]);

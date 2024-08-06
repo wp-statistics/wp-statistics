@@ -30,7 +30,7 @@ class TabsView extends BaseTabView
 
         $this->dataProvider = new GeographicDataProvider([
             'date' =>[
-                'from'  => Request::get('from', date('Y-m-d', strtotime('-30 days'))),
+                'from'  => Request::get('from', date('Y-m-d', strtotime('-29 days'))),
                 'to'    => Request::get('to', date('Y-m-d')),
             ],
             'per_page'  => Admin_Template::$item_per_page,
@@ -81,9 +81,9 @@ class TabsView extends BaseTabView
                 'tabs'       => [
                     [
                         'link'    => Menus::admin_url('geographic', [
-                            'tab' => 'countries',
-                            'from' => Request::get('from', date('Y-m-d', strtotime('-30 days'))),
-                            'to' => Request::get('to', date('Y-m-d'))
+                            'tab'   => 'countries',
+                            'from'  => Request::get('from', date('Y-m-d', strtotime('-29 days'))),
+                            'to'    => Request::get('to', date('Y-m-d'))
                         ]),
                         'title'   => esc_html__('Countries', 'wp-statistics'),
                         'tooltip' => esc_html__('Displays visitor counts from different countries.', 'wp-statistics'),
@@ -91,9 +91,9 @@ class TabsView extends BaseTabView
                     ],
                     [
                         'link'    => Menus::admin_url('geographic', [
-                            'tab' => 'cities',
-                            'from' => Request::get('from', date('Y-m-d', strtotime('-30 days'))),
-                            'to' => Request::get('to', date('Y-m-d'))
+                            'tab'   => 'cities',
+                            'from'  => Request::get('from', date('Y-m-d', strtotime('-29 days'))),
+                            'to'    => Request::get('to', date('Y-m-d'))
                         ]),
                         'title'   => esc_html__('Cities', 'wp-statistics'),
                         'tooltip' => esc_html__('Displays visitor data based on their cities of origin.', 'wp-statistics'),
@@ -101,9 +101,9 @@ class TabsView extends BaseTabView
                     ],
                     [
                         'link'    => Menus::admin_url('geographic', [
-                            'tab' => 'europe',
-                            'from' => Request::get('from', date('Y-m-d', strtotime('-30 days'))),
-                            'to' => Request::get('to', date('Y-m-d'))
+                            'tab'   => 'europe',
+                            'from'  => Request::get('from', date('Y-m-d', strtotime('-29 days'))),
+                            'to'    => Request::get('to', date('Y-m-d'))
                         ]),
                         'title'   => esc_html__('European Countries', 'wp-statistics'),
                         'tooltip' => esc_html__('Displays visitor counts from European countries.', 'wp-statistics'),
@@ -111,9 +111,9 @@ class TabsView extends BaseTabView
                     ],
                     [
                         'link'    => Menus::admin_url('geographic', [
-                            'tab' => 'us',
-                            'from' => Request::get('from', date('Y-m-d', strtotime('-30 days'))),
-                            'to' => Request::get('to', date('Y-m-d'))
+                            'tab'   => 'us',
+                            'from'  => Request::get('from', date('Y-m-d', strtotime('-29 days'))),
+                            'to'    => Request::get('to', date('Y-m-d'))
                         ]),
                         'title'   => esc_html__('US States', 'wp-statistics'),
                         'tooltip' => esc_html__('Displays visitor counts categorized by states within the USA.', 'wp-statistics'),
@@ -126,9 +126,9 @@ class TabsView extends BaseTabView
             if ($countryCode && $countryCode != 'US') {
                 $regionsTab = [
                     'link'    => Menus::admin_url('geographic', [
-                        'tab' => 'regions',
-                        'from' => Request::get('from', date('Y-m-d', strtotime('-30 days'))),
-                        'to' => Request::get('to', date('Y-m-d'))
+                        'tab'   => 'regions',
+                        'from'  => Request::get('from', date('Y-m-d', strtotime('-29 days'))),
+                        'to'    => Request::get('to', date('Y-m-d'))
                     ]),
                     'title'   => sprintf(esc_html__('Regions of %s', 'wp-statistics'), Country::getName($countryCode)),
                     'tooltip' => esc_html__('Displays visitor statistics for regions within your website’s country, based on your website’s timezone setting.', 'wp-statistics'),

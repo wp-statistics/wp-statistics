@@ -423,6 +423,7 @@ class Admin_Assets
             'enable_now'                   => __('Enable Now', 'wp-statistics'),
             'receive_weekly_email_reports' => __('Receive Weekly Email Reports'),
             'close'                        => __('Close'),
+            'start_of_week'                => get_option('start_of_week', 0)
         );
 
         $list['active_post_type'] = Helper::getPostTypeName(Request::get('pt', 'post'));

@@ -3,6 +3,8 @@
 * Enhancement: Show query params alongside page name inside single visitor page.
 * Enhancement: Improved GeoIP functionality by using object caching to optimize performance and reduce redundant operations.
 * Enhancement: Enabled Geolocation functionality by default for more seamless user experience.
+* Enhancement: Enhancement: Validate hit/online request params before storing them into the database.
+* Enhancement: Updated DatePicker options and improved reports accuracy within specific time-frame. 
 * Enhancement: Validate hit/online request params before storing them into the database.
 * Enhancement: Improve post hits queries when sorted by views.
 * Fix: Fixed incorrect order in custom post types lists when sorted by views.
