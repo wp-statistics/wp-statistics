@@ -63,7 +63,7 @@ function sidebar() {
   }
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_editor__WEBPACK_IMPORTED_MODULE_2__.PluginDocumentSettingPanel, {
     className: "wp-statistics-block-editor-panel",
-    title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('WP Statistics', 'wp-statistics'),
+    title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Statistics - Summary', 'wp-statistics'),
     icon: wpsIcon
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, "Over the past week (", WP_Statistics_Editor_Sidebar_Object.fromString, " - ", WP_Statistics_Editor_Sidebar_Object.toString, "), this post has been viewed 200 times by 150 visitors. The top referrer domain is 'example.com' with 50 visits. In total, it has been viewed 1,000 times by 700 visitors, with 'example.com' leading with 300 referrals. For more detailed insights, visit the analytics section."));
 }
