@@ -73,7 +73,14 @@ class TabsView extends BaseTabView
             $args = [
                 'title'         => esc_html__('Pages', 'wp-statistics'),
                 'pageName'      => Menus::get_page_slug('pages'),
-                'custom_get'    => ['tab' => $currentTab],
+                'custom_get'    => [
+                    'tab'       => $currentTab, 
+                    'pt'        => Request::get('pt', ''),
+                    'tx'        => Request::get('tx', 'category'),
+                    'author_id' => Request::get('author_id', '', 'number'),
+                    'order_by'  => Request::get('order_by'),
+                    'order'     => Request::get('order'),
+                ],
                 'DateRang'      => Admin_Template::DateRange(),
                 'hasDateRang'   => true,
                 'data'          => $data,
