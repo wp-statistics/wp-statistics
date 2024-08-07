@@ -109,13 +109,13 @@ class TabsView extends BaseTabView
                     [
                         'link'    => Menus::admin_url('pages', ['tab' => 'category']),
                         'title'   => esc_html__('Category Pages', 'wp-statistics'),
-                        'tooltip' => esc_html__('Category Pages tooltip', 'wp-statistics'),
+                        'tooltip' => esc_html__('Shows the page views for category pages related to the selected taxonomy.', 'wp-statistics'),
                         'class'   => $this->isTab('category') ? 'current' : '',
                     ],
                     [
                         'link'    => Menus::admin_url('pages', ['tab' => 'author']),
                         'title'   => esc_html__('Author Pages', 'wp-statistics'),
-                        'tooltip' => esc_html__('Author Pages tooltip', 'wp-statistics'),
+                        'tooltip' => esc_html__('View performance metrics for individual authors\' pages.', 'wp-statistics'),
                         'class'   => $this->isTab('author') ? 'current' : '',
                     ],
                     [
