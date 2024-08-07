@@ -79,8 +79,6 @@ class TabsView extends BaseTabView
 
     /**
      * Returns the current tab's template.
-     *
-     * @return  string
      */
     public function render()
     {
@@ -102,45 +100,45 @@ class TabsView extends BaseTabView
                         'link'        => Menus::admin_url('devices', ['tab' => 'browsers']),
                         'title'       => esc_html__('Browsers', 'wp-statistics'),
                         'tooltip'     => esc_html__('Displays the different web browsers used by your visitors.', 'wp-statistics'),
-                        'class'       => $currentTab === 'browsers' ? 'current' : '',
+                        'class'       => $this->isTab('browsers') ? 'current' : '',
                     ],
                     [
                         'link'        => Menus::admin_url('devices', ['tab' => 'platforms']),
                         'title'       => esc_html__('Operating Systems', 'wp-statistics'),
                         'tooltip'     => esc_html__('Shows the operating systems your visitors are using.', 'wp-statistics'),
-                        'class'       => $currentTab === 'platforms' ? 'current' : '',
+                        'class'       => $this->isTab('platforms') ? 'current' : '',
                     ],
                     [
                         'link'        => Menus::admin_url('devices', ['tab' => 'models']),
                         'title'       => esc_html__('Device Models', 'wp-statistics'),
                         'tooltip'     => esc_html__('Provides data on the specific models of devices used by your visitors.', 'wp-statistics'),
-                        'class'       => $currentTab === 'models' ? 'current' : '',
+                        'class'       => $this->isTab('models') ? 'current' : '',
                     ],
                     [
                         'link'        => Menus::admin_url('devices', ['tab' => 'categories']),
                         'title'       => esc_html__('Device Categories', 'wp-statistics'),
                         'tooltip'     => esc_html__('Displays visitor distribution across various device categories.', 'wp-statistics'),
-                        'class'       => $currentTab === 'categories' ? 'current' : '',
+                        'class'       => $this->isTab('categories') ? 'current' : '',
                     ],
                     [
                         'link'        => '#',
                         'title'       => esc_html__('Screen Resolutions', 'wp-statistics'),
                         'tooltip'     => esc_html__('Coming Soon', 'wp-statistics'),
-                        'class'       => $currentTab === 'resolutions' ? 'current' : '',
+                        'class'       => $this->isTab('resolutions') ? 'current' : '',
                         'coming_soon' => true,
                     ],
                     [
                         'link'        => '#',
                         'title'       => esc_html__('Languages', 'wp-statistics'),
                         'tooltip'     => esc_html__('Coming Soon', 'wp-statistics'),
-                        'class'       => $currentTab === 'languages' ? 'current' : '',
+                        'class'       => $this->isTab('languages') ? 'current' : '',
                         'coming_soon' => true,
                     ],
                     [
                         'link'        => '#',
                         'title'       => esc_html__('Timezones', 'wp-statistics'),
                         'tooltip'     => esc_html__('Coming Soon', 'wp-statistics'),
-                        'class'       => $currentTab === 'timezones' ? 'current' : '',
+                        'class'       => $this->isTab('timezones') ? 'current' : '',
                         'coming_soon' => true,
                     ],
                 ],
