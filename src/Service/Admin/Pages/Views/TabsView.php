@@ -54,7 +54,7 @@ class TabsView extends BaseTabView
 
     public function getAuthorData()
     {
-
+        return $this->dataProvider->getAuthorsData();
     }
 
     public function render()

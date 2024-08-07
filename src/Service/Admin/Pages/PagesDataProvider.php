@@ -2,8 +2,10 @@
 
 namespace WP_Statistics\Service\Admin\Pages;
 
+use WP_STATISTICS\Helper;
 use WP_Statistics\Models\PostsModel;
 use WP_Statistics\Models\TaxonomyModel;
+use WP_Statistics\Models\AuthorsModel;
 use WP_Statistics\Utils\Request;
 
 class PagesDataProvider
@@ -11,12 +13,14 @@ class PagesDataProvider
     protected $args;
     protected $postsModel;
     protected $taxonomyModel;
+    protected $authorsModel;
     
     public function __construct($args)
     {
         $this->args = $args;
 
         $this->postsModel       = new PostsModel();
+        $this->authorsModel     = new AuthorsModel();
         $this->taxonomyModel    = new TaxonomyModel();
     }
 
@@ -45,6 +49,21 @@ class PagesDataProvider
         return [
             'categories'  => $data,
             'total'       => count($data)
+        ];
+    }
+
+    public function getAuthorsData()
+    {
+        $args = array_merge($this->args, [
+            'post_type' => Helper::getPostTypes(),
+            'order_by'  => 'page_views'
+        ]);
+        $authors = $this->authorsModel->getAuthorsPagesData($args);
+        $total   = $this->authorsModel->countAuthors($this->args);
+
+        return [
+            'authors' => $authors,
+            'total'   => $total
         ];
     }
 }
