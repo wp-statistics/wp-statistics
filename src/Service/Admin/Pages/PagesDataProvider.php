@@ -27,7 +27,8 @@ class PagesDataProvider
     public function getContentsData()
     {
         $args = array_merge($this->args, [
-            'order_by' => Request::get('order_by', 'visitors'),
+            'order_by'          => Request::get('order_by', 'visitors'),
+            'count_no_views'    => false
         ]);
 
         unset($args['taxonomy']);

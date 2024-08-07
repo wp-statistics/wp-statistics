@@ -13,20 +13,32 @@ class PostsModel extends BaseModel
     public function countPosts($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
-            'date'      => '',
-            'post_type' => Helper::getPostTypes(),
-            'author_id' => '',
-            'taxonomy'  => '',
-            'term'      => ''
+            'date'          => '',
+            'post_type'     => Helper::getPostTypes(),
+            'author_id'     => '',
+            'taxonomy'      => '',
+            'term'          => '',
+            'show_no_views' => true
         ]);
 
-        $query = Query::select('COUNT(ID)')
+        $query = Query::select('COUNT(posts.ID)')
             ->from('posts')
             ->where('post_status', '=', 'publish')
             ->where('post_type', 'IN', $args['post_type'])
             ->where('post_author', '=', $args['author_id'])
             ->whereDate('post_date', $args['date'])
             ->bypassCache($bypassCache);
+
+        // Get posts with more than 0 views
+        if ($args['show_no_views'] != true) {
+            $viewsQuery = Query::select(['pages.id', 'SUM(pages.count) AS views'])
+                ->from('pages')
+                ->whereDate('pages.date', $args['date'])
+                ->groupBy('pages.id')
+                ->getQuery();
+
+            $query->joinQuery($viewsQuery, ['posts.ID', 'views.id'], 'views');
+        }
 
         if (!empty($args['taxonomy']) || !empty($args['term'])) {
             $taxQuery = Query::select(['DISTINCT object_id'])
@@ -213,7 +225,7 @@ class PostsModel extends BaseModel
             ])
             ->from('posts')
             ->joinQuery($commentsQuery, ['posts.ID', 'comments.comment_post_ID'], 'comments', 'LEFT')
-            ->joinQuery($viewsQuery, ['posts.ID', 'pages.id'], 'pages', 'LEFT')
+            ->joinQuery($viewsQuery, ['posts.ID', 'pages.id'], 'pages')
             ->joinQuery($visitorsQuery, ['posts.ID', 'visitors.post_id'], 'visitors', 'LEFT')
             ->join('postmeta', ['posts.ID', 'postmeta.post_id'], [], 'LEFT')
             ->where('post_type', 'IN', $args['post_type'])
