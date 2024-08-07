@@ -18,7 +18,7 @@ class PostsModel extends BaseModel
             'author_id'     => '',
             'taxonomy'      => '',
             'term'          => '',
-            'show_no_views' => true
+            'count_no_views' => true
         ]);
 
         $query = Query::select('COUNT(posts.ID)')
@@ -30,7 +30,7 @@ class PostsModel extends BaseModel
             ->bypassCache($bypassCache);
 
         // Get posts with more than 0 views
-        if ($args['show_no_views'] != true) {
+        if ($args['count_no_views'] != true) {
             $viewsQuery = Query::select(['pages.id', 'SUM(pages.count) AS views'])
                 ->from('pages')
                 ->whereDate('pages.date', $args['date'])
