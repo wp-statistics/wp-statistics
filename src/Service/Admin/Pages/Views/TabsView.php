@@ -28,12 +28,15 @@ class TabsView extends BaseTabView
                 'from'  => Request::get('from', date('Y-m-d', strtotime('-29 day'))), 
                 'to'    => Request::get('to', date('Y-m-d'))
             ],
-            'order_by'  => Request::get('order_by', 'visitors'),
             'order'     => Request::get('order', 'DESC'),
             'author_id' => Request::get('author_id', '', 'number'),
             'per_page'  => Admin_Template::$item_per_page,
             'page'      => Admin_Template::getCurrentPaged(),
         ];
+
+        if ($this->isTab('contents')) {
+            $args['order_by'] = Request::get('order_by', 'visitors');
+        }
 
         if (Request::has('pt')) {
             $args['post_type'] = Request::get('pt', 'post');
@@ -81,24 +84,24 @@ class TabsView extends BaseTabView
                         'link'    => Menus::admin_url('pages', ['tab' => 'contents']),
                         'title'   => esc_html__('Contents', 'wp-statistics'),
                         'tooltip' => esc_html__('Contents tooltip', 'wp-statistics'),
-                        'class'   => $currentTab === 'contents' ? 'current' : '',
+                        'class'   => $this->isTab('contents') ? 'current' : '',
                     ],
                     [
                         'link'    => Menus::admin_url('pages', ['tab' => 'category']),
                         'title'   => esc_html__('Category Pages', 'wp-statistics'),
                         'tooltip' => esc_html__('Category Pages tooltip', 'wp-statistics'),
-                        'class'   => $currentTab === 'category' ? 'current' : '',
+                        'class'   => $this->isTab('category') ? 'current' : '',
                     ],
                     [
                         'link'    => Menus::admin_url('pages', ['tab' => 'author']),
                         'title'   => esc_html__('Author Pages', 'wp-statistics'),
                         'tooltip' => esc_html__('Author Pages tooltip', 'wp-statistics'),
-                        'class'   => $currentTab === 'author' ? 'current' : '',
+                        'class'   => $this->isTab('author') ? 'current' : '',
                     ],
                     [
                         'link'          => Menus::admin_url('pages', ['tab' => '404']),
                         'title'         => esc_html__('404 Pages', 'wp-statistics'),
-                        'class'         => $currentTab === '404' ? 'current' : '',
+                        'class'         => $this->isTab('404') ? 'current' : '',
                         'coming_soon'   => true
                     ]
                 ]
