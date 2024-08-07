@@ -102,7 +102,7 @@ class GeoIP
                 // Download it again if the GeoIP database is removed manually and not exist.
                 BackgroundProcessFactory::downloadGeoIPDatabase();
 
-                throw new Exception("GeoIP database library not found in {$file}, trying to download it.");
+                throw new WP_Statistics\Exception\LogException("GeoIP database library not found in {$file}, trying to download it.");
             }
 
             // Load the GeoIP Reader and cache it.
@@ -110,9 +110,6 @@ class GeoIP
             return self::$readerCache;
 
         } catch (Exception $e) {
-            // Log the exception message.
-            WP_Statistics::log($e->getMessage(), 'error');
-
             // Return false if there is an error loading the reader.
             return false;
         }
