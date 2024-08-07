@@ -1971,14 +1971,26 @@ class Helper
 
         $totalVisitors    = $visitorsModel->countVisitors($args);
         $totalViews       = $viewsModel->countViews($args);
-        $topReferrer      = '';
+        $topReferrer      = $visitorsModel->getReferrers($args);
         $topReferrerCount = 0;
+        if (!empty($topReferrer) && !empty($topReferrer[0]->referrer)) {
+            $topReferrerCount = $topReferrer[0]->visitors;
+            $topReferrer      = $topReferrer[0]->referrer;
+        } else {
+            $topReferrer = '';
+        }
 
         $args['date']             = ['from' => TimeZone::getTimeAgo(7), 'to' => TimeZone::getTimeAgo()];
         $thisWeekVisitors         = $visitorsModel->countVisitors($args);
         $thisWeekViews            = $viewsModel->countViews($args);
-        $thisWeekTopReferrer      = '';
+        $thisWeekTopReferrer      = $visitorsModel->getReferrers($args);
         $thisWeekTopReferrerCount = 0;
+        if (!empty($thisWeekTopReferrer) && !empty($thisWeekTopReferrer[0]->referrer)) {
+            $thisWeekTopReferrerCount = $thisWeekTopReferrer[0]->visitors;
+            $thisWeekTopReferrer      = $thisWeekTopReferrer[0]->referrer;
+        } else {
+            $thisWeekTopReferrer = '';
+        }
 
         return [
             'postId'                   => $post->ID,
@@ -1986,11 +1998,11 @@ class Helper
             'toString'                 => TimeZone::getTimeAgo(1, 'F d'),
             'totalVisitors'            => intval($totalVisitors),
             'totalViews'               => intval($totalViews),
-            'topReferrer'              => trim($topReferrer),
+            'topReferrer'              => esc_url($topReferrer),
             'topReferrerCount'         => intval($topReferrerCount),
             'thisWeekVisitors'         => intval($thisWeekVisitors),
             'thisWeekViews'            => intval($thisWeekViews),
-            'thisWeekTopReferrer'      => trim($thisWeekTopReferrer),
+            'thisWeekTopReferrer'      => esc_url($thisWeekTopReferrer),
             'thisWeekTopReferrerCount' => intval($thisWeekTopReferrerCount),
             'contentAnalyticsUrl'      => esc_url(Menus::admin_url('content-analytics', ['type' => 'single', 'post_id' => $post->ID])),
         ];

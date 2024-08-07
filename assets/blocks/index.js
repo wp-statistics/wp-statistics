@@ -14,11 +14,30 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
+
 
 const ContentElement = ({
   data
 }) => {
-  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, "Over the past week (", data.fromString, " - ", data.toString, "), this post has been viewed ", data.thisWeekViews, " times by ", data.thisWeekVisitors, " visitors. The top referrer domain is '", data.thisWeekTopReferrer, "' with ", data.thisWeekTopReferrerCount, " visits.", (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("br", null), "In total, it has been viewed ", data.totalViews, " times by ", data.totalVisitors, " visitors, with '", data.topReferrer, "' leading with ", data.topReferrerCount, " referrals. For more detailed insights, visit the ", (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
+  const topReferrer = data.topReferrer.toString().replace('www.', '').trim();
+  let topReferrerLabel = topReferrer != '' && topReferrer.includes('//') ? topReferrer.substring(topReferrer.indexOf('//') + 2).trim() : topReferrer;
+  topReferrerLabel = topReferrerLabel != '' && topReferrerLabel.includes('/') ? topReferrerLabel.substring(0, topReferrerLabel.indexOf('/')).trim() : topReferrerLabel;
+  const thisWeekTopReferrer = data.thisWeekTopReferrer.toString().replace('www.', '').trim();
+  let thisWeekTopReferrerLabel = thisWeekTopReferrer != '' && thisWeekTopReferrer.includes('//') ? thisWeekTopReferrer.substring(thisWeekTopReferrer.indexOf('//') + 2).trim() : thisWeekTopReferrer;
+  thisWeekTopReferrerLabel = thisWeekTopReferrerLabel != '' && thisWeekTopReferrerLabel.includes('/') ? thisWeekTopReferrerLabel.substring(0, thisWeekTopReferrerLabel.indexOf('/')).trim() : thisWeekTopReferrerLabel;
+  const topReferrerText = data.topReferrerCount > 0 && topReferrerLabel != '' ? (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.Fragment, null, ", with '", (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
+    href: topReferrer,
+    target: "_blank",
+    rel: "noreferrer nofollow"
+  }, topReferrerLabel), "' leading with ", data.topReferrerCount, " referrals") : '';
+  const thisWeekTopReferrerText = data.thisWeekTopReferrerCount > 0 && thisWeekTopReferrerLabel != '' ? (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.Fragment, null, " The top referrer domain is '", (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
+    href: thisWeekTopReferrer,
+    target: "_blank",
+    rel: "noreferrer nofollow"
+  }, thisWeekTopReferrerLabel), "' with ", data.thisWeekTopReferrerCount, " visits.") : '';
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, "Over the past week (", data.fromString, " - ", data.toString, "), this post has been viewed ", data.thisWeekViews, " times by ", data.thisWeekVisitors, " visitors.", thisWeekTopReferrerText, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("br", null), "In total, it has been viewed ", data.totalViews, " times by ", data.totalVisitors, " visitors", topReferrerText, ". For more detailed insights, visit the ", (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
     href: data.contentAnalyticsUrl,
     target: "_blank"
   }, "analytics section"), "."));
@@ -128,6 +147,16 @@ module.exports = window["React"];
 /***/ ((module) => {
 
 module.exports = window["wp"]["editor"];
+
+/***/ }),
+
+/***/ "@wordpress/element":
+/*!*********************************!*\
+  !*** external ["wp","element"] ***!
+  \*********************************/
+/***/ ((module) => {
+
+module.exports = window["wp"]["element"];
 
 /***/ }),
 
