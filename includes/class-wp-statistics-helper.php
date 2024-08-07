@@ -823,13 +823,15 @@ class Helper
                 esc_html(date_i18n('j F Y', strtotime($schedule['start']))),
                 esc_html(date_i18n('j F Y', strtotime($schedule['end'])))
             );
-            $emailTitle .= sprintf(
-            // translators: %1$s: Reoprt date - %2$s: Website URL - %3$s: Website name.
-                __('<p style="margin-bottom: 12px;margin-top:4px;font-size: 14px; font-weight: 400; line-height: 16.41px; color: #56585A;">%1$s</p><p style="margin: 0"><a href="%2$s" title="%3$s" style="color: #56585A;font-size: 16px; font-weight: 500; line-height: 18.75px; text-decoration:none">%3$s</a></p>', 'wp-statistics'),
-                $report_date,
-                esc_url(get_site_url()),
-                get_bloginfo('name')
-            );
+            if (!Helper::isAddOnActive('advanced-reporting')) {
+                $emailTitle .= sprintf(
+                    // translators: %1$s: Reoprt date - %2$s: Website URL - %3$s: Website name.
+                    __('<p style="margin-bottom: 12px;margin-top:4px;font-size: 14px; font-weight: 400; line-height: 16.41px; color: #56585A;">%1$s</p><p style="margin: 0"><a href="%2$s" title="%3$s" style="color: #56585A;font-size: 16px; font-weight: 500; line-height: 18.75px; text-decoration:none">%3$s</a></p>', 'wp-statistics'),
+                    $report_date,
+                    esc_url(get_site_url()),
+                    get_bloginfo('name')
+                );
+            }
         } else {
             $schedule = null;
         }
