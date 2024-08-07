@@ -74,36 +74,18 @@ use WP_STATISTICS\Schedule;
                     <?php } ?>
                 </select>
 
-                <p class="description"><?php echo sprintf(__('Select your preferred method for receiving reports: via email or SMS (SMS notifications are sent using the %s Plugin to the Admin Mobile Number).', 'wp-statistics'), '<a href="https://wordpress.org/extend/plugins/wp-sms/" target="_blank">' . __('WP SMS', 'wp-statistics') . '</a>'); ?></p>
+                <p class="description"><?php echo sprintf(__('Select your preferred method for receiving reports: via email or SMS. (Note: SMS notifications only include the Custom Report. For full reports, please choose email. SMS notifications are sent using the %s Plugin to the Admin Mobile Number).', 'wp-statistics'), '<a href="https://wordpress.org/extend/plugins/wp-sms/" target="_blank">' . __('WP SMS', 'wp-statistics') . '</a>'); ?></p>
             </td>
         </tr>
 
         <tr valign="top">
             <th scope="row" style="vertical-align: top;">
-                <label for="content-report"><?php esc_html_e('Custom Report Builder', 'wp-statistics'); ?></label>
+                <label for="content-report"><?php esc_html_e('Custom Report', 'wp-statistics'); ?></label>
             </th>
 
             <td>
-                <?php wp_editor(Option::get('content_report'), 'content-report', array('media_buttons' => false, 'textarea_name' => 'wps_content_report', 'textarea_rows' => 5, 'editor_height' => 400)); ?>
-                <p class="description"><?php esc_html_e('Using WP Statistics shortcodes to display specific statistics.', 'wp-statistics'); ?></p>
-
-                <p class="description data">
-                    <?php esc_html_e('Insert any of the following shortcode examples to show corresponding data:', 'wp-statistics'); ?>
-                    <br><br>
-                    <?php esc_html_e('Today\'s Visitors', 'wp-statistics'); ?>:
-                    <code>[wpstatistics stat=visitors time=today]</code><br>
-                    <?php esc_html_e('Today\'s Views', 'wp-statistics'); ?>:
-                    <code>[wpstatistics stat=visits time=today]</code><br>
-                    <?php esc_html_e('Yesterday\'s Visitors', 'wp-statistics'); ?>:
-                    <code>[wpstatistics stat=visitors time=yesterday]</code><br>
-                    <?php esc_html_e('Yesterday\'s Views', 'wp-statistics'); ?>:
-                    <code>[wpstatistics stat=visits time=yesterday]</code><br>
-                    <?php esc_html_e('Total Visitors', 'wp-statistics'); ?>:
-                    <code>[wpstatistics stat=visitors time=total]</code><br>
-                    <?php esc_html_e('Total Views', 'wp-statistics'); ?>:
-                    <code>[wpstatistics stat=visits time=total]</code><br>
-                </p>
-                <p class="description"><?php _e('Refer to our complete <a href="https://wp-statistics.com/resources/shortcodes/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" target="_blank">shortcode guide</a> for more options.', 'wp-statistics'); // phpcs:ignore WordPress.Security.EscapeOutput.UnsafePrintingFunction	?></p>
+                <?php wp_editor(Option::get('content_report'), 'content-report', array('media_buttons' => false, 'textarea_name' => 'wps_content_report', 'editor_height' => 400, 'teeny' => true)); ?>
+                <p class="description"><?php echo sprintf(__('The email report includes a predefined template containing the main metrics. If you want to add custom areas to the report, you can use shortcodes. Refer to our %s for more details.', 'wp-statistics'), '<a href="https://wp-statistics.com/resources/shortcodes/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" target="_blank">shortcode guide</a>') ?></p>
             </td>
         </tr>
         <tr valign="top">
