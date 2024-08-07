@@ -2,20 +2,28 @@
 
 namespace WP_Statistics\Service\Admin\Pages;
 
-use WP_Statistics\Models\ViewsModel;
-use WP_Statistics\Models\VisitorsModel;
+use WP_Statistics\Models\PostsModel;
 
 class PagesDataProvider
 {
     protected $args;
-    protected $visitorsModel;
-    protected $viewsModel;
+    protected $postsModel;
     
     public function __construct($args)
     {
         $this->args = $args;
 
-        $this->visitorsModel = new VisitorsModel();
-        $this->viewsModel    = new ViewsModel();
+        $this->postsModel = new PostsModel();
+    }
+
+    public function getContentsData()
+    {
+        $posts  = $this->postsModel->getPostsReportData($this->args);
+        $total  = $this->postsModel->countPosts($this->args);
+
+        return [
+            'posts'   => $posts,
+            'total'   => $total
+        ];
     }
 }

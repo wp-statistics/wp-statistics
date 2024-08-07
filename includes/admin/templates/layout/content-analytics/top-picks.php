@@ -1,5 +1,6 @@
 <?php 
 use WP_STATISTICS\Helper;
+use WP_STATISTICS\Menus;
 use WP_Statistics\Utils\Request;
 
 $postType = Request::get('tab', 'post');
@@ -117,7 +118,7 @@ $postType = Request::get('tab', 'post');
     </div>
     <div class="c-footer">
         <div class="c-footer__more">
-            <a href="<?php echo esc_url(add_query_arg(['type' => 'posts', 'pt' => $postType, 'from' => Request::get('from', date('Y-m-d', strtotime('-30 days'))), 'to' => Request::get('to', date('Y-m-d'))])); ?>" class="c-footer__more__link">
+            <a href="<?php echo esc_url(add_query_arg(['tab' => 'contents', 'pt' => $postType, 'from' => Request::get('from', date('Y-m-d', strtotime('-29 days'))), 'to' => Request::get('to', date('Y-m-d'))], Menus::admin_url('pages'))); ?>" class="c-footer__more__link">
                 <?php echo sprintf(esc_html__('See all %s', 'wp-statistics'), strtolower(Helper::getPostTypeName($postType))) ?>
             </a>
         </div>

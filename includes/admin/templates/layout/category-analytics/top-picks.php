@@ -117,7 +117,7 @@ $taxonomy   = Request::get('tx', 'category');
     <?php if (Menus::in_page('category-analytics') && !Request::compare('type', 'single')) : ?>
         <div class="c-footer">
             <div class="c-footer__more">
-                <a href="<?php echo esc_url(add_query_arg(['type' => 'posts', 'from' => Request::get('from', date('Y-m-d', strtotime('-30 days'))), 'to' => Request::get('to', date('Y-m-d'))])); ?>" class="c-footer__more__link">
+                <a href="<?php echo esc_url(add_query_arg(['tab' => 'contents', 'from' => Request::get('from', date('Y-m-d', strtotime('-29 days'))), 'to' => Request::get('to', date('Y-m-d'))], Menus::admin_url('pages'))); ?>" class="c-footer__more__link">
                     <?php echo esc_html__('See all contents', 'wp-statistics'); ?>
                 </a>
             </div>

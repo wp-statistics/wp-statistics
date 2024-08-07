@@ -23,12 +23,38 @@ class TabsView extends BaseTabView
 
     public function __construct()
     {
-        $this->dataProvider = new PagesDataProvider([
-            'date' => [
-                'from'  => Request::get('from', date('Y-m-d', strtotime('-29 days'))),
+        $args = [
+            'date'      => [
+                'from'  => Request::get('from', date('Y-m-d', strtotime('-29 day'))), 
                 'to'    => Request::get('to', date('Y-m-d'))
-            ]
-        ]);
+            ],
+            'order_by'  => Request::get('order_by', 'visitors'),
+            'order'     => Request::get('order', 'DESC'),
+            'author_id' => Request::get('author_id', '', 'number'),
+            'per_page'  => Admin_Template::$item_per_page,
+            'page'      => Admin_Template::getCurrentPaged(),
+        ];
+
+        if (Request::has('pt')) {
+            $args['post_type'] = Request::get('pt', 'post');
+        }
+
+        $this->dataProvider = new PagesDataProvider($args);
+    }
+
+    public function getContentsData()
+    {
+        return $this->dataProvider->getContentsData();
+    }
+
+    public function getCategoryData()
+    {
+
+    }
+
+    public function getAuthorData()
+    {
+
     }
 
     public function render()
@@ -44,6 +70,8 @@ class TabsView extends BaseTabView
                 'DateRang'      => Admin_Template::DateRange(),
                 'hasDateRang'   => true,
                 'data'          => $data,
+                'allTimeOption' => true,
+                'filters'       => ['post-types','author'],
                 'pagination'    => Admin_Template::paginate_links([
                     'total' => isset($data['total']) ? $data['total'] : 0,
                     'echo'  => false
