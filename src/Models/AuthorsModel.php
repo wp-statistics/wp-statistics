@@ -295,7 +295,7 @@ class AuthorsModel extends BaseModel
             'per_page'  => 5
         ]);
 
-        $authorsQuery  = Query::select(['id AS author_id', 'SUM(count) AS total_author_views'])
+        $viewsQuery  = Query::select(['id AS author_id', 'SUM(count) AS total_author_views'])
             ->from('pages')
             ->where('type', '=', 'author')
             ->whereDate('date', $args['date'])
@@ -306,17 +306,20 @@ class AuthorsModel extends BaseModel
                 'users.ID AS id',
                 'users.display_name AS name',
                 'COALESCE(COUNT(DISTINCT posts.ID), 0) AS total_posts',
-                'COALESCE(authors.total_author_views, 0) AS page_views'
+                'COALESCE(views.total_author_views, 0) AS page_views'
             ])
             ->from('users')
             ->join(
                 'posts', 
                 ['users.ID', 'posts.post_author'],
-                [['posts.post_status', '=', 'publish'], ['posts.post_type', 'IN', $args['post_type']]],
+                [
+                    ['posts.post_status', '=', 'publish'], 
+                    ['posts.post_type', 'IN', $args['post_type']], 
+                    ['DATE(posts.post_date)', 'BETWEEN', $args['date']]
+                ],
                 'LEFT'
             )
-            ->joinQuery($authorsQuery, ['users.ID', 'authors.author_id'], 'authors', 'LEFT')
-            ->whereDate('posts.post_date', $args['date'])
+            ->joinQuery($viewsQuery, ['users.ID', 'views.author_id'], 'views')
             ->groupBy(['users.ID', 'users.display_name'])
             ->orderBy($args['order_by'], $args['order'])
             ->perPage($args['page'], $args['per_page'])
