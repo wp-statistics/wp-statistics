@@ -30,13 +30,10 @@ class TabsView extends BaseTabView
             ],
             'order'     => Request::get('order', 'DESC'),
             'author_id' => Request::get('author_id', '', 'number'),
+            'taxonomy'  => Request::get('tx', 'category'),
             'per_page'  => Admin_Template::$item_per_page,
             'page'      => Admin_Template::getCurrentPaged(),
         ];
-
-        if ($this->isTab('contents')) {
-            $args['order_by'] = Request::get('order_by', 'visitors');
-        }
 
         if (Request::has('pt')) {
             $args['post_type'] = Request::get('pt', 'post');
@@ -52,7 +49,7 @@ class TabsView extends BaseTabView
 
     public function getCategoryData()
     {
-
+        return $this->dataProvider->getCategoryData();
     }
 
     public function getAuthorData()
@@ -65,6 +62,13 @@ class TabsView extends BaseTabView
         try {
             $currentTab = $this->getCurrentTab();
             $data       = $this->getTabData();
+
+            $filters = [];
+            if ($this->isTab('contents')) {
+                $filters = ['post-types','author'];
+            } elseif ($this->isTab('category')) {
+                $filters = ['taxonomy'];
+            }
     
             $args = [
                 'title'         => esc_html__('Pages', 'wp-statistics'),
@@ -74,7 +78,7 @@ class TabsView extends BaseTabView
                 'hasDateRang'   => true,
                 'data'          => $data,
                 'allTimeOption' => true,
-                'filters'       => ['post-types','author'],
+                'filters'       => $filters,
                 'pagination'    => Admin_Template::paginate_links([
                     'total' => isset($data['total']) ? $data['total'] : 0,
                     'echo'  => false

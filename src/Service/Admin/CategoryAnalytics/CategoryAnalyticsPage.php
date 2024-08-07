@@ -6,7 +6,7 @@ use WP_Statistics\Utils\Request;
 use WP_Statistics\Abstracts\MultiViewPage;
 use WP_STATISTICS\Helper;
 use WP_Statistics\Service\Admin\CategoryAnalytics\Views\CategoryReportView;
-use WP_Statistics\Service\Admin\CategoryAnalytics\Views\TabsView;
+use WP_Statistics\Service\Admin\CategoryAnalytics\Views\PerformanceView;
 use WP_Statistics\Service\Admin\CategoryAnalytics\Views\SingleView;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 
@@ -14,11 +14,11 @@ class CategoryAnalyticsPage extends MultiViewPage
 {
 
     protected $pageSlug = 'category-analytics';
-    protected $defaultView = 'tabs';
+    protected $defaultView = 'performance';
     protected $views = [
-        'tabs'      => TabsView::class,
-        'single'    => SingleView::class,
-        'report'    => CategoryReportView::class
+        'performance'   => PerformanceView::class,
+        'single'        => SingleView::class,
+        'report'        => CategoryReportView::class
     ];
 
     public function __construct()
