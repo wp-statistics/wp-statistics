@@ -74,25 +74,17 @@ use WP_STATISTICS\Schedule;
                     <?php } ?>
                 </select>
 
-                <p class="description"><?php echo sprintf(__('Select your preferred method for receiving reports: via email or SMS (SMS notifications are sent using the %s Plugin to the Admin Mobile Number).', 'wp-statistics'), '<a href="https://wordpress.org/extend/plugins/wp-sms/" target="_blank">' . __('WP SMS', 'wp-statistics') . '</a>'); ?></p>
+                <p class="description"><?php echo sprintf(__('Select your preferred method for receiving reports: via email or SMS. (Note: SMS notifications only include the Custom Report. For full reports, please choose email. SMS notifications are sent using the %s Plugin to the Admin Mobile Number).', 'wp-statistics'), '<a href="https://wordpress.org/extend/plugins/wp-sms/" target="_blank">' . __('WP SMS', 'wp-statistics') . '</a>'); ?></p>
             </td>
         </tr>
 
         <tr valign="top">
             <th scope="row" style="vertical-align: top;">
-                <label for="content-report"><?php esc_html_e('Custom Report Builder', 'wp-statistics'); ?></label>
+                <label for="content-report"><?php esc_html_e('Custom Report', 'wp-statistics'); ?></label>
             </th>
 
             <td>
-                <?php
-                $emailContent = Option::get('content_report');
-
-                // Set default content only if it's not set in option
-                if ($emailContent === false) {
-                    $emailContent = \WP_STATISTICS\Admin_Template::get_template('emails/default', [], true);
-                }
-
-                wp_editor($emailContent, 'content-report', array('media_buttons' => false, 'textarea_name' => 'wps_content_report', 'textarea_rows' => 5, 'editor_height' => 400)); ?>
+                <?php wp_editor(Option::get('content_report'), 'content-report', array('media_buttons' => false, 'textarea_name' => 'wps_content_report', 'textarea_rows' => 5, 'editor_height' => 400)); ?>
                 <p class="description"><?php esc_html_e('Using WP Statistics shortcodes to display specific statistics.', 'wp-statistics'); ?></p>
 
                 <p class="description data">

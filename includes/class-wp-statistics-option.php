@@ -53,7 +53,7 @@ class Option
             'send_report'               => 'mail',
             'geoip_license_type'        => 'js-deliver',
             'geoip_license_key'         => '',
-            'content_report'            => Admin_Template::get_template('emails/default', array(), true),
+            'content_report'            => '',
             'email_content_header'      => '',
             'email_content_footer'      => '',
             'update_geoip'              => true,

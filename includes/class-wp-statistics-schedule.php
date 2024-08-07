@@ -299,11 +299,7 @@ class Schedule
         // apply Filter ShortCode for email content
         $email_content = Option::get('content_report');
 
-        // Set default content only if it's not set in option
-        if ($email_content === false) {
-            $email_content = Admin_Template::get_template('emails/default', [], true);
-        }
-
+        // Support ShortCode
         $email_content = do_shortcode($email_content);
 
         // Type Send Report
@@ -351,7 +347,7 @@ class Schedule
         }
 
         // If SMS
-        if ($type == 'sms' and function_exists('wp_sms_send') and class_exists('\WP_SMS\Option')) {
+        if ($type == 'sms' and !empty($email_content) and function_exists('wp_sms_send') and class_exists('\WP_SMS\Option')) {
             $adminMobileNumber = \WP_SMS\Option::getOption('admin_mobile_number');
             wp_sms_send($adminMobileNumber, $email_content);
         }
