@@ -21,6 +21,12 @@ __webpack_require__.r(__webpack_exports__);
 const ContentElement = ({
   data
 }) => {
+  const totalViews = data.totalViews.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+  const totalVisitors = data.totalVisitors.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+  const topReferrerCount = data.topReferrerCount.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+  const thisWeekViews = data.thisWeekViews.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+  const thisWeekVisitors = data.thisWeekVisitors.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+  const thisWeekTopReferrerCount = data.thisWeekTopReferrerCount.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
   const topReferrer = data.topReferrer.toString().replace('www.', '').trim();
   let topReferrerLabel = topReferrer != '' && topReferrer.includes('//') ? topReferrer.substring(topReferrer.indexOf('//') + 2).trim() : topReferrer;
   topReferrerLabel = topReferrerLabel != '' && topReferrerLabel.includes('/') ? topReferrerLabel.substring(0, topReferrerLabel.indexOf('/')).trim() : topReferrerLabel;
@@ -31,16 +37,16 @@ const ContentElement = ({
     href: topReferrer,
     target: "_blank",
     rel: "noreferrer nofollow"
-  }, topReferrerLabel), "' leading with ", data.topReferrerCount, " referrals") : '';
+  }, topReferrerLabel), "' leading with ", (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("b", null, topReferrerCount, " referrals")) : '';
   const thisWeekTopReferrerText = data.thisWeekTopReferrerCount > 0 && thisWeekTopReferrerLabel != '' ? (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.Fragment, null, " The top referrer domain is '", (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
     href: thisWeekTopReferrer,
     target: "_blank",
     rel: "noreferrer nofollow"
-  }, thisWeekTopReferrerLabel), "' with ", data.thisWeekTopReferrerCount, " visits.") : '';
-  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, "Over the past week (", data.fromString, " - ", data.toString, "), this post has been viewed ", data.thisWeekViews, " times by ", data.thisWeekVisitors, " visitors.", thisWeekTopReferrerText, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("br", null), "In total, it has been viewed ", data.totalViews, " times by ", data.totalVisitors, " visitors", topReferrerText, ". For more detailed insights, visit the ", (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
+  }, thisWeekTopReferrerLabel), "' with ", (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("b", null, thisWeekTopReferrerCount, " visits"), ".") : '';
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, "Over the past week (", (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("b", null, data.fromString, " - ", data.toString), "), this post has been ", (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("b", null, "viewed ", thisWeekViews, " times by ", thisWeekVisitors, " visitors"), ".", thisWeekTopReferrerText, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("br", null), "In total, it has been ", (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("b", null, "viewed ", totalViews, " times by ", totalVisitors, " visitors"), topReferrerText, ". For more detailed insights, visit the ", (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("b", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
     href: data.contentAnalyticsUrl,
     target: "_blank"
-  }, "analytics section"), "."));
+  }, "analytics section")), "."));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ContentElement);
 
