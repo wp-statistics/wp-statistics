@@ -213,7 +213,7 @@ class PostsModel extends BaseModel
             ])
             ->from('posts')
             ->joinQuery($commentsQuery, ['posts.ID', 'comments.comment_post_ID'], 'comments', 'LEFT')
-            ->joinQuery($viewsQuery, ['posts.ID', 'pages.id'], 'pages')
+            ->joinQuery($viewsQuery, ['posts.ID', 'pages.id'], 'pages', 'LEFT')
             ->joinQuery($visitorsQuery, ['posts.ID', 'visitors.post_id'], 'visitors', 'LEFT')
             ->join('postmeta', ['posts.ID', 'postmeta.post_id'], [], 'LEFT')
             ->where('post_type', 'IN', $args['post_type'])

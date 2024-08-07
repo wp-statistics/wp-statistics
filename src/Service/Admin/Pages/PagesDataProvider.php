@@ -26,7 +26,11 @@ class PagesDataProvider
 
     public function getContentsData()
     {
-        $args = array_merge($this->args, ['order_by' => Request::get('order_by', 'visitors')]);
+        $args = array_merge($this->args, [
+            'order_by' => Request::get('order_by', 'visitors'),
+        ]);
+
+        unset($args['taxonomy']);
 
         $posts  = $this->postsModel->getPostsReportData($args);
         $total  = $this->postsModel->countPosts($args);
