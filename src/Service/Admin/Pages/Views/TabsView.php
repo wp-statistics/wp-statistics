@@ -5,6 +5,7 @@ namespace WP_Statistics\Service\Admin\Pages\Views;
 use Exception;
 use WP_Statistics\Components\View;
 use WP_STATISTICS\Menus;
+use WP_STATISTICS\Helper;
 use WP_Statistics\Utils\Request;
 use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Abstracts\BaseTabView;
@@ -57,10 +58,15 @@ class TabsView extends BaseTabView
         return $this->dataProvider->getAuthorsData();
     }
 
+    public function isTaxonomyLocked()
+    {
+        return !Helper::isAddOnActive('data-plus') && Helper::isCustomTaxonomy(Request::get('tx', 'category'));
+    }
+
     public function render()
     {
         try {
-            $currentTab = $this->getCurrentTab();
+            $template   = $this->getCurrentTab();
             $data       = $this->getTabData();
 
             $filters = [];
@@ -68,13 +74,16 @@ class TabsView extends BaseTabView
                 $filters = ['post-types','author'];
             } elseif ($this->isTab('category')) {
                 $filters = ['taxonomy'];
+
+                //@todo handle locked pages inside one template, instead of making one template for locked, one for unlocked. 
+                $template = $this->isTaxonomyLocked() ? "$template-locked" : $template;
             }
     
             $args = [
                 'title'         => esc_html__('Pages', 'wp-statistics'),
                 'pageName'      => Menus::get_page_slug('pages'),
                 'custom_get'    => [
-                    'tab'       => $currentTab, 
+                    'tab'       => $this->getCurrentTab(), 
                     'pt'        => Request::get('pt', ''),
                     'tx'        => Request::get('tx', 'category'),
                     'author_id' => Request::get('author_id', '', 'number'),
@@ -119,7 +128,7 @@ class TabsView extends BaseTabView
             ];
 
             Admin_Template::get_template(['layout/header', 'layout/tabbed-page-header'], $args);
-            View::load("pages/pages/$currentTab", $args);
+            View::load("pages/pages/$template", $args);
             Admin_Template::get_template(['layout/postbox.hide', 'layout/footer'], $args);
         } catch (Exception $e) {
             Notice::renderNotice($e->getMessage(), $e->getCode(), 'error');
