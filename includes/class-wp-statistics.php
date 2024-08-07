@@ -13,6 +13,7 @@ use WP_Statistics\Service\Admin\CategoryAnalytics\CategoryAnalyticsManager;
 use WP_Statistics\Service\Analytics\AnalyticsManager;
 use WP_Statistics\Service\Integrations\WpConsentApi;
 use WP_Statistics\Service\Admin\Devices\DevicesManager;
+use WP_Statistics\Service\Admin\Pages\PagesManager;
 
 defined('ABSPATH') || exit;
 
@@ -190,6 +191,7 @@ final class WP_Statistics
             $geographic        = new GeographicManager();
             $devices           = new DevicesManager();
             $categoryAnalytics = new CategoryAnalyticsManager();
+            $pagesManager      = new PagesManager();
 
             $wpConsentApi = new WpConsentApi();
         }
