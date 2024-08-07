@@ -838,7 +838,7 @@ class Helper
         $emailHeader = '';
         $emailFooter = '';
         if (!empty(wp_strip_all_tags(Option::get('email_content_header', '')))) {
-            $emailHeader = '<div style="background: #D0DEF5; padding: 16px 32px; color: #0C0C0D; font-size: 16px; font-weight: 500; line-height: 18.75px; text-align: left; white-space: pre-wrap;">' . wp_strip_all_tags(Option::get('email_content_header', '')) . '</div>';
+            $emailHeader = '<div style="background: #D0DEF5; padding: 16px 32px; color: #0C0C0D; font-size: 16px; font-weight: 500; line-height: 18.75px; text-align: left; white-space: pre-wrap; ' . (!empty($content) ? 'border-radius: 0;' : 'border-radius: 0 0 12px 12px;') . '">' . wp_strip_all_tags(Option::get('email_content_header', '')) . '</div>';
         }
         if (!empty(wp_strip_all_tags(Option::get('email_content_footer', '')))) {
             $emailFooter = '<div style="background: #D0DEF5; padding: 16px 32px; color: #0C0C0D; font-size: 16px; font-weight: 500; line-height: 18.75px; text-align: left; white-space: pre-wrap; border-radius: 0 0 18px 18px;">' . wp_strip_all_tags(Option::get('email_content_footer', '')) . '</div>';

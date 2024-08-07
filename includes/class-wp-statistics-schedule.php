@@ -299,8 +299,8 @@ class Schedule
         // apply Filter ShortCode for email content
         $email_content = Option::get('content_report');
 
-        // set default email content if empty or not set in option
-        if (empty($email_content)) {
+        // Set default content only if it's not set in option
+        if ($email_content === false) {
             $email_content = Admin_Template::get_template('emails/default', [], true);
         }
 

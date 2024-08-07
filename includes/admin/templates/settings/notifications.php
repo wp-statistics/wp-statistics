@@ -84,7 +84,15 @@ use WP_STATISTICS\Schedule;
             </th>
 
             <td>
-                <?php wp_editor(Option::get('content_report'), 'content-report', array('media_buttons' => false, 'textarea_name' => 'wps_content_report', 'textarea_rows' => 5, 'editor_height' => 400)); ?>
+                <?php
+                $emailContent = Option::get('content_report');
+
+                // Set default content only if it's not set in option
+                if ($emailContent === false) {
+                    $emailContent = \WP_STATISTICS\Admin_Template::get_template('emails/default', [], true);
+                }
+
+                wp_editor($emailContent, 'content-report', array('media_buttons' => false, 'textarea_name' => 'wps_content_report', 'textarea_rows' => 5, 'editor_height' => 400)); ?>
                 <p class="description"><?php esc_html_e('Using WP Statistics shortcodes to display specific statistics.', 'wp-statistics'); ?></p>
 
                 <p class="description data">
