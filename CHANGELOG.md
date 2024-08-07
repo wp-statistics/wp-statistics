@@ -7,6 +7,7 @@
 * Enhancement: Updated DatePicker options and improved reports accuracy within specific time-frame. 
 * Enhancement: Validate hit/online request params before storing them into the database.
 * Enhancement: Improve post hits queries when sorted by views.
+* Enhancement: Improve Author Pages query to show result based on views rather than published posts.
 * Fix: Fixed incorrect order in custom post types lists when sorted by views.
 * Fix: Fixed incorrect views count in admin bar.
 * Fix: Fixed incorrect views in posts and taxonomy lists.
