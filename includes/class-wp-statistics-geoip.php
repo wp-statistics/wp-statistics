@@ -102,7 +102,7 @@ class GeoIP
                 // Download it again if the GeoIP database is removed manually and not exist.
                 BackgroundProcessFactory::downloadGeoIPDatabase();
 
-                throw new WP_Statistics\Exception\LogException("GeoIP database library not found in {$file}, trying to download it.");
+                throw new Exception("GeoIP database library not found in {$file}, trying to download it.");
             }
 
             // Load the GeoIP Reader and cache it.
@@ -110,6 +110,9 @@ class GeoIP
             return self::$readerCache;
 
         } catch (Exception $e) {
+            // Log the exception message.
+            WP_Statistics::log($e->getMessage(), 'error');
+
             // Return false if there is an error loading the reader.
             return false;
         }
@@ -153,6 +156,11 @@ class GeoIP
             'region'    => __('Unknown', 'wp-statistics'),
         ];
 
+        // Add compatibility for hash IP addresses.
+        if (strpos($ip, IP::$hash_ip_prefix) !== false) {
+            return $defaultLocation;
+        }
+
         try {
             // Load the GeoIP reader.
             $reader = self::Loader();
@@ -178,8 +186,9 @@ class GeoIP
             return $location;
 
         } catch (Exception $e) {
+            // No need to log since the error is already logged in Loader method.
             // Log the exception message.
-            WP_Statistics::log($e->getMessage(), 'error');
+            //WP_Statistics::log($e->getMessage(), 'error');
         }
 
         // Cache and return the default location if an error occurs.
