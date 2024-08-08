@@ -218,6 +218,7 @@ class PostsModel extends BaseModel
                 'posts.ID AS post_id',
                 'posts.post_author AS author_id',
                 'posts.post_title AS title',
+                'posts.post_date AS date',
                 'COALESCE(pages.views, 0) AS views',
                 'COALESCE(visitors.visitors, 0) AS visitors',
                 'COALESCE(comments.total_comments, 0) AS comments',

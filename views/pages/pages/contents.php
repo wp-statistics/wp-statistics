@@ -37,19 +37,19 @@ $order                = Request::get('order', 'desc');
                                             </a>
                                         </th>
                                         
-                                        <?php if (post_type_supports($postType, 'comments')) : ?>
-                                            <th class="wps-pd-l">
-                                                <a href="<?php echo esc_url(Helper::getTableColumnSortUrl('comments')) ?>" class="sort <?php echo Request::compare('order_by', 'comments') ? esc_attr($order) : ''; ?>">
-                                                    <?php esc_html_e('Comments', 'wp-statistics'); ?>
-                                                </a>
-                                            </th>
-                                        <?php endif; ?>
-
                                         <th class="wps-pd-l">
                                             <a href="<?php echo esc_url(Helper::getTableColumnSortUrl('words')) ?>" class="sort <?php echo Request::compare('order_by', 'words') ? esc_attr($order) : ''; ?>">
                                                 <?php esc_html_e('Words', 'wp-statistics') ?>
                                             </a>
                                         </th>
+                                        
+                                        <th class="wps-pd-l">
+                                            <a href="<?php echo esc_url(Helper::getTableColumnSortUrl('date')) ?>" class="sort <?php echo Request::compare('order_by', 'date') ? esc_attr($order) : ''; ?>">
+                                                <?php esc_html_e('Published Date', 'wp-statistics'); ?>
+                                            </a>
+                                        </th>
+
+                                        <th></th>
                                     </tr>
                                 </thead>
 
@@ -78,14 +78,16 @@ $order                = Request::get('order', 'desc');
                                             <?php echo esc_html(number_format_i18n($post->views)) ?>
                                         </td>
 
-                                        <?php if (post_type_supports($postType, 'comments')) : ?>
-                                            <td class="wps-pd-l">
-                                                <?php echo esc_html(number_format_i18n($post->comments)) ?>
-                                            </td>
-                                        <?php endif; ?>
-
                                         <td class="wps-pd-l">
                                             <?php echo esc_html(number_format_i18n($post->words)) ?>
+                                        </td>
+
+                                        <td class="wps-pd-l">
+                                            <?php echo esc_html(date(Helper::getDefaultDateFormat(), strtotime($post->date))) . ' ' . esc_html__('at', 'wp-statistics') . ' ' . esc_html(date('H:i', strtotime($post->date))); ?>
+                                        </td>
+
+                                        <td class="view-more">
+                                            <a target="_blank" href="<?php echo get_the_permalink($post->post_id) ?>"><?php esc_html_e('View Content', 'wp-statistics') ?></a>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>
