@@ -18,7 +18,7 @@
                         <select dir="<?php echo esc_attr((is_rtl() ? 'rtl' : 'ltr')); ?>" id="table-to-export" name="table-to-export" required>
                             <option value=""><?php esc_html_e('Please select', 'wp-statistics'); ?></option>
                             <?php
-                            foreach (WP_STATISTICS\DB::table('all', array('historical', 'visitor_relationships')) as $tbl_key => $tbl_name) {
+                            foreach (WP_STATISTICS\DB::table() as $tbl_key => $tbl_name) {
                                 echo '<option value="' . esc_attr($tbl_key) . '">' . esc_attr($tbl_name) . '</option>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	
                             }
                             ?>
