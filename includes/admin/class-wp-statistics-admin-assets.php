@@ -477,7 +477,7 @@ class Admin_Assets
         /**
          * Filter: wp_statistics_admin_assets
          *
-         * @since 14.0.4
+         * @since 14.9.4
          */
         return apply_filters('wp_statistics_admin_assets', $list);
     }
