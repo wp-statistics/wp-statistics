@@ -43,7 +43,7 @@ if (intval($complianceStatus['percentage_ready']) !== 100 && !empty($complianceS
                             __('There are %d items that need to be addressed to ensure compliance with privacy laws.', 'wp-statistics'),
                             intval($complianceStatus['summary']['action_required'])
                         ) . '</p>
-                        <a href="' . esc_url(Menus::admin_url('privacy-audit')) . '" style="border-bottom: 1px solid #B26620;text-decoration: none;color:#B26620;font-size: 14px;font-weight: 500;line-height: 16.41px">' . __('Review Audit Details', 'wp-statistics') . '<img src="' . esc_url(WP_STATISTICS_URL . '/assets/images/mail/arrow-brown-right.png') . '" style="width: 6.67px; height: 10.91px;margin-' . $text_align . ':6px" alt=""></a>
+                        <a href="' . esc_url(Menus::admin_url('privacy-audit')) . '" style="border-bottom: 1px solid #B26620;text-decoration: none;color:#B26620;font-size: 14px;font-weight: 500;line-height: 16.41px">' . __('Review Audit Details', 'wp-statistics') . '<img src="' . esc_url(WP_STATISTICS_URL . '/assets/images/mail/arrow-brown-'.$text_align_reverse.'.png') . '" style="width: 6.67px; height: 10.91px;margin-'.$text_align.':6px" alt=""></a>
                     </td>
                </tr>
             </table>
@@ -263,8 +263,9 @@ $email_body = '
                     </table>
                     ' . $email_header;
 if (!empty($content)) {
-    $email_body .= '<div style="padding: 32px 32px 1px 32px;">
-                    ' . wp_kses_post($content) . '
+
+    $email_body .= '<div style="padding: 32px;">
+                    ' .nl2br(wp_kses_post($content)) . '
                     </div>';
 }
 $email_body .= '</div>
