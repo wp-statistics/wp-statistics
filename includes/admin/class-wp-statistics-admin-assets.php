@@ -429,13 +429,13 @@ class Admin_Assets
         $list['active_post_type'] = Helper::getPostTypeName(Request::get('pt', 'post'));
 
         // Rest-API Meta Box Url
-        $list['stats_report_option']    = Option::get('time_report') == '0' ? false : true;
-        $list['setting_url']            = Menus::admin_url('settings');
-        $list['admin_url']              = admin_url();
-        $list['ajax_url']               = admin_url('admin-ajax.php');
-        $list['assets_url']             = self::$plugin_url . self::$asset_dir;
-        $list['rest_api_nonce']         = wp_create_nonce('wp_rest');
-        $list['meta_box_api']           = admin_url('admin-ajax.php?action=wp_statistics_admin_meta_box');
+        $list['stats_report_option'] = Option::get('time_report') == '0' ? false : true;
+        $list['setting_url']         = Menus::admin_url('settings');
+        $list['admin_url']           = admin_url();
+        $list['ajax_url']            = admin_url('admin-ajax.php');
+        $list['assets_url']          = self::$plugin_url . self::$asset_dir;
+        $list['rest_api_nonce']      = wp_create_nonce('wp_rest');
+        $list['meta_box_api']        = admin_url('admin-ajax.php?action=wp_statistics_admin_meta_box');
 
         // Meta Box List
         $meta_boxes_list    = Meta_Box::getList();
@@ -474,8 +474,12 @@ class Admin_Assets
             $list['meta_boxes'][$meta_box] = $value;
         }
 
-        // Return Data JSON
-        return $list;
+        /**
+         * Filter: wp_statistics_admin_assets
+         *
+         * @since 14.0.4
+         */
+        return apply_filters('wp_statistics_admin_assets', $list);
     }
 }
 
