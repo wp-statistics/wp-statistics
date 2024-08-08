@@ -1,15 +1,18 @@
 jQuery(document).ready(function () {
-
-    // Update the week start day based on WordPress setting
-    moment.locale('en', {
-        week: {
-            dow: parseInt(wps_js._('start_of_week'))
-        }
-    });
-
     const datePickerBtn = jQuery('.js-date-range-picker-btn');
     const datePickerElement = jQuery('.js-date-range-picker-input');
     const datePickerForm = jQuery('.js-date-range-picker-form');
+
+    // Update the week start day based on WordPress setting
+    if (datePickerBtn.length) {
+        moment.locale('en', {
+            week: {
+                dow: parseInt(wps_js._('start_of_week'))
+            }
+        });
+    }
+
+
 
     function phpToMomentFormat(phpFormat) {
         const formatMap = {
