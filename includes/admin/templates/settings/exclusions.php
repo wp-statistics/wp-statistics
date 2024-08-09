@@ -32,6 +32,7 @@
         </tbody>
     </table>
 </div>
+
 <div class="postbox">
     <table class="form-table">
         <tbody>
@@ -49,6 +50,7 @@
         </tbody>
     </table>
 </div>
+
 <div class="postbox">
     <table class="form-table">
         <tbody>
@@ -102,6 +104,7 @@
         </tbody>
     </table>
 </div>
+
 <div class="postbox">
     <table class="form-table">
         <tbody>
@@ -127,6 +130,7 @@
         </tbody>
     </table>
 </div>
+
 <div class="postbox">
     <table class="form-table">
         <tbody>
@@ -165,6 +169,7 @@
         </tbody>
     </table>
 </div>
+
 <div class="postbox">
     <table class="form-table">
         <tbody>
@@ -178,23 +183,6 @@
                 <textarea name="wps_query_params_allow_list" class="code textarea-input-reset" dir="ltr" rows="10" cols="60" id="wps_query_params_allow_list"><?php echo esc_textarea(WP_STATISTICS\Helper::get_query_params_allow_list('string')); ?></textarea>
                 <p class="description"><?php echo __('Control which URL query parameters are retained in your statistics. The default parameters allowed are: <code>ref</code>, <code>source</code>, <code>utm_source</code>, <code>utm_medium</code>, <code>utm_campaign</code>, <code>utm_content</code>, <code>utm_term</code>, <code>utm_id</code>, <code>s</code>, <code>p</code>. You can add or remove parameters from this list to suit your tracking needs. Enter one parameter per line. For a detailed explanation of each default parameter and guidance on customizing this list, visit our documentation <a href="https://wp-statistics.com/resources/managing-url-query-parameters/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" target="_blank">here</a>.', 'wp-statistics'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	?></p>
                 <a onclick="var wps_query_params_allow_list = getElementById('wps_query_params_allow_list'); wps_query_params_allow_list.value = '<?php echo esc_attr(str_replace(array("\r\n", "\n", "\r"), '\n', esc_html(WP_STATISTICS\Helper::get_default_query_params_allow_list('string')))); ?>';" class="button"><?php esc_html_e('Reset to Default', 'wp-statistics'); ?></a>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-</div>
-<div class="postbox">
-    <table class="form-table">
-        <tbody>
-        <tr valign="top">
-            <th scope="row" colspan="2"><h3><?php esc_html_e('Host Exclusions', 'wp-statistics'); ?></h3></th>
-        </tr>
-
-        <tr valign="top">
-            <th scope="row"><label for="wps_excluded_hosts"><?php esc_html_e('Excluded Hosts', 'wp-statistics'); ?></label></th>
-            <td>
-                <textarea id="wps_excluded_hosts" name="wps_excluded_hosts" rows="5" cols="80" class="code" dir="ltr"><?php echo esc_textarea(WP_STATISTICS\Option::get('excluded_hosts')); ?></textarea>
-                <p class="description"><?php echo esc_html__('Provide host names to exclude. Relies on cached IP, not live DNS lookup.', 'wp-statistics'); ?></p><br>
             </td>
         </tr>
         </tbody>
@@ -264,6 +252,24 @@
                 }
                 ?>
                 <p class="description"><?php esc_html_e('Check this to automatically download updates to the Matomo Referrer Spam Blacklist every week, ensuring continuous protection.'); ?></p>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="postbox">
+    <table class="form-table">
+        <tbody>
+        <tr valign="top">
+            <th scope="row" colspan="2"><h3><?php esc_html_e('Host Exclusions', 'wp-statistics'); ?></h3></th>
+        </tr>
+
+        <tr valign="top">
+            <th scope="row"><label for="wps_excluded_hosts"><?php esc_html_e('Excluded Hosts', 'wp-statistics'); ?></label></th>
+            <td>
+                <textarea id="wps_excluded_hosts" name="wps_excluded_hosts" rows="5" cols="80" class="code" dir="ltr"><?php echo esc_textarea(WP_STATISTICS\Option::get('excluded_hosts')); ?></textarea>
+                <p class="description"><?php echo esc_html__('Provide host names to exclude. Relies on cached IP, not live DNS lookup.', 'wp-statistics'); ?></p><br>
             </td>
         </tr>
         </tbody>
