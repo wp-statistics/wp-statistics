@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-08-09T22:40:27+00:00\n"
+"POT-Creation-Date: 2024-08-09T22:47:07+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: wp-statistics\n"
@@ -1434,7 +1434,7 @@ msgid "Filtering & Exceptions"
 msgstr ""
 
 #: includes/admin/templates/layout/menu-settings.php:60
-msgid "Data Sources"
+msgid "Geolocation Data"
 msgstr ""
 
 #: includes/admin/templates/layout/menu-settings.php:67
@@ -1709,7 +1709,7 @@ msgstr ""
 
 #: includes/admin/templates/optimization/export.php:19
 #: includes/admin/templates/optimization/export.php:38
-#: includes/admin/templates/settings/exclusions.php:97
+#: includes/admin/templates/settings/exclusions.php:99
 #: includes/admin/templates/settings/general.php:162
 #: includes/admin/templates/settings/notifications.php:70
 msgid "Please select"
@@ -2947,7 +2947,7 @@ msgstr ""
 #: includes/admin/templates/settings/add-ons/realtime-stats.php:44
 #: includes/admin/templates/settings/add-ons/rest-api.php:66
 #: includes/admin/templates/settings/add-ons/widgets.php:74
-#: includes/admin/templates/settings/exclusions.php:291
+#: includes/admin/templates/settings/exclusions.php:297
 #: includes/admin/templates/settings/externals.php:155
 #: includes/admin/templates/settings/general.php:247
 #: includes/admin/templates/settings/maintenance.php:78
@@ -3021,9 +3021,9 @@ msgstr ""
 #: includes/admin/templates/settings/add-ons/data-plus.php:50
 #: includes/admin/templates/settings/add-ons/rest-api.php:44
 #: includes/admin/templates/settings/add-ons/widgets.php:63
-#: includes/admin/templates/settings/exclusions.php:89
-#: includes/admin/templates/settings/exclusions.php:220
-#: includes/admin/templates/settings/exclusions.php:283
+#: includes/admin/templates/settings/exclusions.php:91
+#: includes/admin/templates/settings/exclusions.php:208
+#: includes/admin/templates/settings/exclusions.php:289
 #: includes/admin/templates/settings/externals.php:53
 #: includes/admin/templates/settings/externals.php:91
 #: includes/admin/templates/settings/general.php:40
@@ -3463,9 +3463,9 @@ msgid "Anonymous Users"
 msgstr ""
 
 #: includes/admin/templates/settings/exclusions.php:22
-#: includes/admin/templates/settings/exclusions.php:140
-#: includes/admin/templates/settings/exclusions.php:147
-#: includes/admin/templates/settings/exclusions.php:154
+#: includes/admin/templates/settings/exclusions.php:144
+#: includes/admin/templates/settings/exclusions.php:151
+#: includes/admin/templates/settings/exclusions.php:158
 msgid "Exclude"
 msgstr ""
 
@@ -3478,185 +3478,185 @@ msgstr ""
 msgid "Exclude data collection for users with the %s role."
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:39
+#: includes/admin/templates/settings/exclusions.php:40
 msgid "IP Exclusions"
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:43
+#: includes/admin/templates/settings/exclusions.php:44
 msgid "Excluded IP Address List"
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:46
+#: includes/admin/templates/settings/exclusions.php:47
 msgid "Specify the IP addresses you want to exclude. Enter one IP address or range per line. For IPv4 addresses, both <code>192.168.0.0/24</code> and <code>192.168.0.0/255.255.255.0</code> formats are acceptable. To specify an IP address, use a subnet value of 32 or <code>255.255.255.255</code>. For IPv6 addresses, use the <code>fc00::/7</code> format. For detailed instructions, see our <a href=\"%1$s\" target=\"_blank\">IP Exclusions Documentation</a>."
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:56
+#: includes/admin/templates/settings/exclusions.php:58
 msgid "Robot Exclusions"
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:60
+#: includes/admin/templates/settings/exclusions.php:62
 msgid "Robot List"
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:71
+#: includes/admin/templates/settings/exclusions.php:73
 msgid "Enter robot agents to exclude. One agent name per line, minimum four characters."
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:72
-#: includes/admin/templates/settings/exclusions.php:180
+#: includes/admin/templates/settings/exclusions.php:74
+#: includes/admin/templates/settings/exclusions.php:185
 msgid "Reset to Default"
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:78
+#: includes/admin/templates/settings/exclusions.php:80
 msgid "Robot View Threshold"
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:82
+#: includes/admin/templates/settings/exclusions.php:84
 msgid "Set a threshold for daily robot visits. Robots exceeding this number daily will be identified as bots."
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:87
+#: includes/admin/templates/settings/exclusions.php:89
 msgid "Activate Honey Pot Protection"
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:90
+#: includes/admin/templates/settings/exclusions.php:92
 msgid "Turn on Honey Pot to detect and filter out bots. This adds a hidden trap for malicious automated scripts."
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:95
+#: includes/admin/templates/settings/exclusions.php:97
 msgid "Honey Pot Trap Page"
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:98
+#: includes/admin/templates/settings/exclusions.php:100
 msgid "Choose an existing Honey Pot trap page from the list or set up a new one to catch bots."
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:99
+#: includes/admin/templates/settings/exclusions.php:101
 msgid "Create a new Honey Pot page"
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:109
+#: includes/admin/templates/settings/exclusions.php:112
 msgid "GeoIP Exclusions"
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:113
+#: includes/admin/templates/settings/exclusions.php:116
 msgid "Excluded Countries"
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:116
+#: includes/admin/templates/settings/exclusions.php:119
 msgid "Enter country codes to exclude from stats. Use <code>000</code> for unknown countries. For a complete list of valid country codes, please refer to the <a href=\"https://wp-statistics.com/resources/list-of-country-codes/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings\" target=\"_blank\">Country Codes Document</a>."
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:121
+#: includes/admin/templates/settings/exclusions.php:124
 msgid "Included Countries"
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:124
+#: includes/admin/templates/settings/exclusions.php:127
 msgid "Specify country codes to include in stats. '000' means unknown countries."
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:134
+#: includes/admin/templates/settings/exclusions.php:138
 msgid "URL Exclusions"
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:138
+#: includes/admin/templates/settings/exclusions.php:142
 msgid "Excluded Login Page"
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:141
+#: includes/admin/templates/settings/exclusions.php:145
 msgid "Login and Register page visits will not be included in site visit counts."
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:145
+#: includes/admin/templates/settings/exclusions.php:149
 msgid "Excluded RSS Feeds"
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:148
+#: includes/admin/templates/settings/exclusions.php:152
 msgid "RSS feeds visits will not be included in site visit counts."
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:152
+#: includes/admin/templates/settings/exclusions.php:156
 msgid "Excluded 404 Pages"
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:155
+#: includes/admin/templates/settings/exclusions.php:159
 msgid "404 Page visits will not be included in site visit counts."
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:159
+#: includes/admin/templates/settings/exclusions.php:163
 msgid "Excluded URLs"
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:162
+#: includes/admin/templates/settings/exclusions.php:166
 msgid "List specific URLs here that you wish to exclude from tracking. URL parameters aren't considered."
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:172
+#: includes/admin/templates/settings/exclusions.php:177
 msgid "URL Query Parameters"
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:176
+#: includes/admin/templates/settings/exclusions.php:181
 msgid "Allowed Query Parameters"
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:179
+#: includes/admin/templates/settings/exclusions.php:184
 msgid "Control which URL query parameters are retained in your statistics. The default parameters allowed are: <code>ref</code>, <code>source</code>, <code>utm_source</code>, <code>utm_medium</code>, <code>utm_campaign</code>, <code>utm_content</code>, <code>utm_term</code>, <code>utm_id</code>, <code>s</code>, <code>p</code>. You can add or remove parameters from this list to suit your tracking needs. Enter one parameter per line. For a detailed explanation of each default parameter and guidance on customizing this list, visit our documentation <a href=\"https://wp-statistics.com/resources/managing-url-query-parameters/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings\" target=\"_blank\">here</a>."
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:190
-msgid "Host Exclusions"
-msgstr ""
-
-#: includes/admin/templates/settings/exclusions.php:194
-msgid "Excluded Hosts"
-msgstr ""
-
 #: includes/admin/templates/settings/exclusions.php:197
-msgid "Provide host names to exclude. Relies on cached IP, not live DNS lookup."
-msgstr ""
-
-#: includes/admin/templates/settings/exclusions.php:209
 msgid "Matomo Referrer Spam Blacklist"
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:215
+#: includes/admin/templates/settings/exclusions.php:203
 msgid "Referrer Spam Blacklist"
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:221
+#: includes/admin/templates/settings/exclusions.php:209
 msgid "Integrates with Matomo’s Referrer Spam Blacklist to exclude known spam referrers from site statistics. For more details on the blacklist source, visit <a href=\"https://github.com/matomo-org/referrer-spam-blacklist\" target=\"_blank\">Matomo's Referrer Spam Blacklist</a>."
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:229
+#: includes/admin/templates/settings/exclusions.php:217
 msgid "Refresh Blacklist Data"
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:237
+#: includes/admin/templates/settings/exclusions.php:225
 msgid "Click here to manually download the latest set of referrer spam filters from Matomo."
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:245
+#: includes/admin/templates/settings/exclusions.php:233
 msgid "Automate Blacklist Updates"
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:250
+#: includes/admin/templates/settings/exclusions.php:238
 msgid "Weekly Auto-Update"
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:253
+#: includes/admin/templates/settings/exclusions.php:241
 #: includes/admin/templates/settings/externals.php:56
 msgid "Next update will be"
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:277
+#: includes/admin/templates/settings/exclusions.php:265
+msgid "Host Exclusions"
+msgstr ""
+
+#: includes/admin/templates/settings/exclusions.php:269
+msgid "Excluded Hosts"
+msgstr ""
+
+#: includes/admin/templates/settings/exclusions.php:272
+msgid "Provide host names to exclude. Relies on cached IP, not live DNS lookup."
+msgstr ""
+
+#: includes/admin/templates/settings/exclusions.php:283
 msgid "General Exclusions"
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:281
+#: includes/admin/templates/settings/exclusions.php:287
 msgid "Log Record Exclusions"
 msgstr ""
 
-#: includes/admin/templates/settings/exclusions.php:284
+#: includes/admin/templates/settings/exclusions.php:290
 msgid "Maintain a log of all excluded visits for insight into exclusions."
 msgstr ""
 
