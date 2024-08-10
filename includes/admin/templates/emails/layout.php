@@ -265,7 +265,7 @@ $email_body = '
 if (!empty($content)) {
 
     $email_body .= '<div style="padding: 32px;">
-                    ' .nl2br(wp_kses_post($content)) . '
+                    ' .wp_kses_post($content) . '
                     </div>';
 }
 $email_body .= '</div>
