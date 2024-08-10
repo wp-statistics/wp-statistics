@@ -211,6 +211,8 @@ class settings_page extends Singleton
             "wps_time_report",
             "wps_send_report",
             "wps_content_report",
+            "wps_email_content_header",
+            "wps_email_content_footer",
             "wps_email_list",
             "wps_upgrade_report"
         );
@@ -220,7 +222,7 @@ class settings_page extends Singleton
             $value = '';
 
             if (isset($_POST[$option])) {
-                if ($option == 'wps_content_report') {
+                if (in_array($option, ['wps_content_report', 'wps_email_content_header', 'wps_email_content_footer'])) {
                     $value = stripslashes(wp_kses_post($_POST[$option]));
                 } else {
                     $value = stripslashes(sanitize_textarea_field($_POST[$option]));

@@ -1,5 +1,6 @@
 = 14.9.4 - **.**.2024 =
 * Enhancement: Redesigned mini-charts in posts lists.
+* Enhancement: Redesigned automated report e-mail template.
 * Enhancement: Show query params alongside page name inside single visitor page.
 * Enhancement: Improved GeoIP functionality by using object caching to optimize performance and reduce redundant operations.
 * Enhancement: Enabled Geolocation functionality by default for more seamless user experience.
