@@ -134,20 +134,17 @@ To ensure the plugin works correctly, please clear your cache because some reque
 Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest version.
 
 == Changelog ==
-= 14.9.4 - **.**.2024 =
-* Enhancement: Redesigned mini-charts in posts lists.
-* Enhancement: Show query params alongside page name inside single visitor page.
-* Enhancement: Improved GeoIP functionality by using object caching to optimize performance and reduce redundant operations.
-* Enhancement: Enabled Geolocation functionality by default for more seamless user experience.
-* Enhancement: Enhancement: Validate hit/online request params before storing them into the database.
-* Enhancement: Updated DatePicker options and improved reports accuracy within specific time-frame.
-* Enhancement: Validate hit/online request params before storing them into the database.
-* Enhancement: Improve post hits queries when sorted by views.
-* Fix: Fixed incorrect order in custom post types lists when sorted by views.
-* Fix: Fixed incorrect views count in admin bar.
-* Fix: Fixed incorrect views in posts and taxonomy lists.
-* Fix: Fixed incorrect Category Page Views in Category Analytics.
-* Fix: Fixed author and category page URLs in the Top Pages widget.
+= 14.9.4 - 10.08.2024 =
+* Enhancement: Redesigned Mini Charts in content lists for better clarity.
+* Enhancement: Updated the automated report email template for improved readability.
+* Enhancement: Display query parameters alongside page names on the single visitor page.
+* Enhancement: Optimized GeoIP functionality for better performance.
+* Enhancement: Added validation for Visit/Online request parameters before saving to the database.
+* Enhancement: Updated DatePicker options to improve report accuracy within specific time frames.
+* Fix: Corrected the sorting order in custom post type lists when sorted by views.
+* Fix: Resolved inaccurate view counts displayed in the admin bar.
+* Fix: Corrected incorrect Category Page Views in Category Analytics.
+* Fix: Fixed broken author and category page URLs in the Top Pages widget.
 
 For more information about the major update, please [visit our blog post](https://wp-statistics.com/?p=15915) or follow [@wp_statistics](https://twitter.com/wp_statistics) on Twitter
 

@@ -848,11 +848,11 @@ class Helper
         $text_align         = $is_rtl ? 'right' : 'left';
         $dir                = $is_rtl ? 'rtl' : 'ltr';
 
-        if (!empty(wp_strip_all_tags(Option::get('email_content_header', '')))) {
-            $emailHeader = '<div style="direction:'.$dir.';background: #D0DEF5; padding: 16px 32px; color: #0C0C0D; font-size: 16px; font-weight: 500; line-height: 18.75px; text-align: '.$text_align.'; white-space: pre-wrap; ' . (!empty($content) ? 'border-radius: 0;' : 'border-radius: 0 0 12px 12px;') . '">' . wp_strip_all_tags(Option::get('email_content_header', '')) . '</div>';
+        if (!empty(wp_strip_all_tags(Option::get('email_free_content_header', '')))) {
+            $emailHeader = '<div style="direction:'.$dir.';background: #D0DEF5; padding: 16px 32px; color: #0C0C0D; font-size: 16px; font-weight: 500; line-height: 18.75px; text-align: '.$text_align.'; white-space: pre-wrap; ' . (!empty($content) ? 'border-radius: 0;' : 'border-radius: 0 0 12px 12px;') . '">' . wp_strip_all_tags(Option::get('email_free_content_header', '')) . '</div>';
         }
-        if (!empty(wp_strip_all_tags(Option::get('email_content_footer', '')))) {
-            $emailFooter = '<div style="direction:'.$dir.';background: #D0DEF5; padding: 16px 32px; color: #0C0C0D; font-size: 16px; font-weight: 500; line-height: 18.75px; text-align:  '.$text_align.'; white-space: pre-wrap; border-radius: 0 0 18px 18px;">' . wp_strip_all_tags(Option::get('email_content_footer', '')) . '</div>';
+        if (!empty(wp_strip_all_tags(Option::get('email_free_content_footer', '')))) {
+            $emailFooter = '<div style="direction:'.$dir.';background: #D0DEF5; padding: 16px 32px; color: #0C0C0D; font-size: 16px; font-weight: 500; line-height: 18.75px; text-align:  '.$text_align.'; white-space: pre-wrap; border-radius: 0 0 18px 18px;">' . wp_strip_all_tags(Option::get('email_free_content_footer', '')) . '</div>';
         }
 
         //Template Arg

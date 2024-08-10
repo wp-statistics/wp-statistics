@@ -327,6 +327,24 @@ class GeoIP
             }
         }
 
+        /**
+         * Check if the server is using MaxMind's GeoIP database.
+         * If so, extract the database file from the archive.
+         */
+        if (Option::get('geoip_license_type') === "user-license" && Option::get('geoip_license_key')) {
+            $tarGz         = new \PharData($gzFilePath);
+            $fileInArchive = trailingslashit($tarGz->current()->getFileName()) . self::$library['file'] . '.' . self::$file_extension;
+
+            // Extract the database file from the archive.
+            $tarGz->extractTo($uploadPath, $fileInArchive, true); // Extract all files
+
+            // Rename and remove the extracted directory.
+            rename($uploadPath . '/' . $fileInArchive, $destination);
+            rmdir($uploadPath . '/' . trailingslashit($tarGz->current()->getFileName()));
+
+            return;
+        }
+
         $gzHandle = gzopen($gzFilePath, 'rb');
         if (!$gzHandle) {
             throw new Exception(__('Failed to open GZ archive.', 'wp-statistics'));
