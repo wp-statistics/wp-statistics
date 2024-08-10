@@ -815,13 +815,19 @@ class Helper
         $emailTitle = __('<table style="font-family: \'Roboto\', Arial, Helvetica, sans-serif; width: 100%; text-align: '.$text_align.';font-size: 21px; font-weight: 500; line-height: 24.61px; color: #0C0C0D; padding: 0;"><tbody><tr><td>Your Website Performance Overview</td></tr></tbody></table>', 'wp-statistics');
 
         if ($schedule && array_key_exists($schedule, Schedule::getSchedules())) {
-            $schedule    = Schedule::getSchedules()[$schedule];
-            $report_date = sprintf(
-                // translators: 1: Report start date in "j F Y" format - 2: Report end date in "j F Y" format.
-                __('%s - %s', 'wp-statistics'),
-                esc_html(date_i18n('j F Y', strtotime($schedule['start']))),
-                esc_html(date_i18n('j F Y', strtotime($schedule['end'])))
-            );
+            $schedule = Schedule::getSchedules()[$schedule];
+
+            if ($schedule['interval'] === DAY_IN_SECONDS) {
+                $report_date = esc_html(date_i18n(get_option('date_format', 'j F Y'), strtotime($schedule['start'])));
+            } else {
+                $report_date = sprintf(
+                    // translators: 1: Report start date - 2: Report end date.
+                    __('%s - %s', 'wp-statistics'),
+                    esc_html(date_i18n(get_option('date_format', 'j F Y'), strtotime($schedule['start']))),
+                    esc_html(date_i18n(get_option('date_format', 'j F Y'), strtotime($schedule['end'])))
+                );
+            }
+
             if (!Helper::isAddOnActive('advanced-reporting')) {
                 $emailTitle .= sprintf(
                     // translators: %1$s: Reoprt date - %2$s: Website URL - %3$s: Website name.
