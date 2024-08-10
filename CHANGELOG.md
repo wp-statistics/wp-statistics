@@ -1,19 +1,14 @@
-= 14.9.4 - **.**.2024 =
-* Enhancement: Redesigned mini-charts in posts lists.
-* Enhancement: Redesigned automated report e-mail template.
-* Enhancement: Show query params alongside page name inside single visitor page.
-* Enhancement: Improved GeoIP functionality by using object caching to optimize performance and reduce redundant operations.
-* Enhancement: Enabled Geolocation functionality by default for more seamless user experience.
-* Enhancement: Enhancement: Validate hit/online request params before storing them into the database.
-* Enhancement: Updated DatePicker options and improved reports accuracy within specific time-frame. 
-* Enhancement: Validate hit/online request params before storing them into the database.
-* Enhancement: Improve post hits queries when sorted by views.
-* Enhancement: Improve Author Pages query to show result based on views rather than published posts.
-* Fix: Fixed incorrect order in custom post types lists when sorted by views.
-* Fix: Fixed incorrect views count in admin bar.
-* Fix: Fixed incorrect views in posts and taxonomy lists.
-* Fix: Fixed incorrect Category Page Views in Category Analytics.
-* Fix: Fixed author and category page URLs in the Top Pages widget.
+= 14.9.4 - 10.08.2024 =
+* Enhancement: Redesigned Mini Charts in content lists for better clarity.
+* Enhancement: Updated the automated report email template for improved readability.
+* Enhancement: Display query parameters alongside page names on the single visitor page.
+* Enhancement: Optimized GeoIP functionality for better performance.
+* Enhancement: Added validation for Visit/Online request parameters before saving to the database.
+* Enhancement: Updated DatePicker options to improve report accuracy within specific time frames.
+* Fix: Corrected the sorting order in custom post type lists when sorted by views.
+* Fix: Resolved inaccurate view counts displayed in the admin bar.
+* Fix: Corrected incorrect Category Page Views in Category Analytics.
+* Fix: Fixed broken author and category page URLs in the Top Pages widget.
 
 = 14.9.3 - 28.07.2024 =
 * Enhancement: Enhanced IP Method Detection mechanism and updated the settings page for better user experience and simplicity.
