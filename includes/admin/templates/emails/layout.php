@@ -264,9 +264,13 @@ $email_body = '
                     ' . $email_header;
 if (!empty($content)) {
 
-    $email_body .= '<div style="padding: 32px;">
-                    ' .wp_kses_post($content) . '
-                    </div>';
+    $email_body .= '<table>
+                        <tbody>
+                            <tr>
+                               <td style="padding: 32px;white-space: pre-wrap">' .wp_kses_post($content) . '</td>                   
+                            </tr>
+                        </tbody>   
+                    </table>';
 }
 $email_body .= '</div>
                 ' .$email_performance_html . $privacyBox .'
