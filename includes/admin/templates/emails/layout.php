@@ -18,7 +18,7 @@ $final_logo = ' <a href="' . esc_url($logo_url) . '"  class="wp-statistics-logo"
 
 // Advertisement For WP Statistics Advanced Report Plugin
 $advanced_reporting_ad = is_plugin_active('wp-statistics-advanced-reporting/wp-statistics-advanced-reporting.php') ? '' :
-    '<div class="better-reports" style="background: #404bf2; border: 1px solid #404bf2;  ' . ($email_footer ? 'border-radius: 12px 12px 0 0;' : 'border-radius: 12px;') . '  font-family: \'Roboto\', Arial, Helvetica, sans-serif; margin: 0; margin-top: 39px; padding: 32px 18px; text-align: center; text-decoration: none;">
+    '<div class="better-reports" style="background-color: #404bf2; border: 1px solid #404bf2;  ' . ($email_footer ? 'border-radius: 12px 12px 0 0;' : 'border-radius: 12px;') . '  font-family: \'Roboto\', Arial, Helvetica, sans-serif; margin: 0; margin-top: 39px; padding: 32px 18px; text-align: center; text-decoration: none;">
         <h2 class="better-reports__title" style=" color: #fff; font-family: \'Roboto\', Arial, Helvetica, sans-serif; font-size: 18px; font-weight: 600; line-height: 21.09px; margin: 0 0 24px; padding: 0; text-decoration: none;">' . __('Get Better Reports', 'wp-statistics') . '</h2>
         <p style=" color: #fff; font-family: \'Roboto\', Arial, Helvetica, sans-serif; font-size: 15px; font-weight: 400; line-height: 25px; margin: 0 0 32px; padding: 0; text-decoration: none;">
            ' . __('Detailed and customizable email reports are available with the Advanced Reporting add-on. Make sure you always have the insights you need to make informed decisions by digging deeper into your website analytics.', 'wp-statistics') . '
@@ -31,7 +31,7 @@ $privacyBox      = '';
 $privacyAuditData = new PrivacyAuditDataProvider();
 $complianceStatus = $privacyAuditData->getComplianceStatus();
 if (intval($complianceStatus['percentage_ready']) !== 100 && !empty($complianceStatus['summary']) && intval($complianceStatus['summary']['action_required'])) {
-    $privacyBox = '<div style="background: #B266200D;padding: 20px;border-radius: 12px;margin-bottom: 24px;">
+    $privacyBox = '<div style="background-color: #B266200D;padding: 20px;border-radius: 12px;margin-bottom: 24px;">
             <table>
                 <tr>
                     <td style="vertical-align: top;padding-'.$text_align_reverse.': 16px"> <img src="' . esc_url(WP_STATISTICS_URL . '/assets/images/mail/alert-line.png') . '" width="24" height="24" style="vertical-align: middle"></td>
@@ -62,7 +62,7 @@ if (!empty($schedule)) {
 extract(Helper::getWebsitePerformanceSummary($startDate, $endDate));
 
 $email_performance_html = '
-    <div class="card performance_glance" style="background: #fff;border-radius: 12px;margin-bottom: 39px"> 
+    <div class="card performance_glance" style="background-color: #fff;border-radius: 12px;margin-bottom: 39px"> 
         <div class="card__header" style="background-color: #E1EBFE;border-radius: 12px 12px 0 0">
             <table style="border-collapse: separate; mso-table-lspace: 0; mso-table-rspace: 0; width: 100%;" cellpadding="15" bgcolor="#F7F7F7" align="center">
                 <tbody>
@@ -248,7 +248,7 @@ $email_performance_html .= '</tr></table></div></div>';
 $email_body = '
         <div class="mail-body" style="direction: ' . $dir . ';background-color: #F7F9FA;  font-family: \'Roboto\', Arial, Helvetica, sans-serif; margin: 0; padding: 39px 0; text-decoration: none;">
             <div class="main-section" style=" font-family: \'Roboto\', Arial, Helvetica, sans-serif; margin:0 auto;  padding: 0 5px; text-decoration: none; width: 618px; ">
-                <div style="border-radius: 12px;margin-bottom: 24px;background: #fff;">
+                <div style="border-radius: 12px;margin-bottom: 24px;background-color: #fff;">
                     <table class="header" style="background-color: #E1EBFE;padding: 32px 34px; font-family: \'Roboto\', Arial, Helvetica, sans-serif; margin: 0; text-align: ' . $text_align . ';text-decoration: none; width: 100%; ' . (!empty($content) || !empty($email_header) ? 'border-radius: 12px 12px 0 0;' : 'border-radius: 12px;') . ' ">
                         <tr style=" font-family: \'Roboto\', Arial, Helvetica, sans-serif; margin: 0; padding: 0; text-decoration: none;">
                             <td style=" font-family: \'Roboto\', Arial, Helvetica, sans-serif; margin: 0; padding: 0; text-decoration: none;">
@@ -275,7 +275,7 @@ if (!empty($content)) {
 $email_body .= '</div>
                 ' .$email_performance_html . $privacyBox .'
                 <div class="content" style="' . ($email_footer ? 'border-radius: 0;' : 'border-radius: 0 0 18px 18px;') . '  font-family:  \'Roboto\',Arial,Helvetica,sans-serif; margin: 0;">
-                     <div class="content__tip" style="background: #E1EBFE; border-radius: 12px;  font-family: \'Roboto\',Arial,Helvetica,sans-serif; margin: 0; padding: 20px; text-decoration: none;">
+                     <div class="content__tip" style="background-color: #E1EBFE; border-radius: 12px;  font-family: \'Roboto\',Arial,Helvetica,sans-serif; margin: 0; padding: 20px; text-decoration: none;">
                         <div class="content__tip--title" style=" font-family: \'Roboto\',Arial,Helvetica,sans-serif; margin: 0; margin-bottom: 16px; padding: 0; text-decoration: none;">
                             <h2 style=" font-family: \'Roboto\',Arial,Helvetica,sans-serif; font-size: 17px; font-weight: 500; line-height: 19.92px; margin: 0; text-decoration: none;color: #303032">
                                <img src="' . esc_url(WP_STATISTICS_URL . '/assets/images/mail/tip.png') . '" width="16" height="16" style="float:' . $text_align . ';margin-top: 2px;margin-' . $text_align_reverse . ':6px">' . $tipOfEmail['title'] . '
