@@ -564,6 +564,8 @@ class VisitorsModel extends BaseModel
             'per_page'    => 10
         ]);
 
+        $filteredArgs = array_filter($args);
+
         $query = Query::select([
             'COUNT(DISTINCT visitor.ID) AS visitors',
             'visitor.referred as referrer'
@@ -576,7 +578,10 @@ class VisitorsModel extends BaseModel
             ->perPage($args['page'], $args['per_page'])
             ->bypassCache($bypassCache);
 
-        $filteredArgs = array_filter($args);
+        // When date is passed, but all other parameters below are empty, compare the given date with `visitor.last_counter`
+        if (!empty($args['date']) && !array_intersect(['post_type', 'post_id', 'query_param', 'taxonomy', 'term'], array_keys($filteredArgs))) {
+            $query->whereDate('visitor.last_counter', $args['date']);
+        }
 
         if (array_intersect(['post_type', 'post_id', 'query_param', 'taxonomy', 'term'], array_keys($filteredArgs))) {
             $query
