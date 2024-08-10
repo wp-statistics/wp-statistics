@@ -23,7 +23,7 @@ $advanced_reporting_ad = is_plugin_active('wp-statistics-advanced-reporting/wp-s
         <p style=" color: #fff; font-family: \'Roboto\', Arial, Helvetica, sans-serif; font-size: 15px; font-weight: 400; line-height: 25px; margin: 0 0 32px; padding: 0; text-decoration: none;">
            ' . __('Detailed and customizable email reports are available with the Advanced Reporting add-on. Make sure you always have the insights you need to make informed decisions by digging deeper into your website analytics.', 'wp-statistics') . '
         </p>
-        <a href="https://wp-statistics.com/product/wp-statistics-advanced-reporting/?utm_source=wp_statistics&utm_medium=display&utm_campaign=email_report"  title="' . __('See the Full Picture — Try Advanced Reporting Today', 'wp-statistics') . '" style="background-color: #fff; background-image: url(\'' . esc_url(WP_STATISTICS_URL . 'assets/mail/images/arrow-right.png') . '\'); background-position: center right 24px; background-repeat: no-repeat; background-size: 16px; border-radius: 4px;  color: #404bf2; display: inline-block; font-family: \'Roboto\', Arial, Helvetica, sans-serif; font-size: 15px; font-weight: 600; line-height: 17.58px; margin: 0; padding: 12px 50px 12px 16px; position: relative; text-decoration: none; word-break: break-word;">
+        <a href="https://wp-statistics.com/product/wp-statistics-advanced-reporting/?utm_source=wp_statistics&utm_medium=display&utm_campaign=email_report"  title="' . __('See the Full Picture — Try Advanced Reporting Today', 'wp-statistics') . '" style="background-color: #fff; background-image: url(\'' . esc_url(WP_STATISTICS_URL . 'assets/mail/images/arrow-right.png') . '\'); background-position: center right 24px; background-repeat: no-repeat; background-size: 16px; border-radius: 4px;  color: #404bf2; display: inline-block; font-family: \'Roboto\', Arial, Helvetica, sans-serif; font-size: 15px; font-weight: 600; line-height: 17.58px; margin: 0; padding: 12px 50px 12px 16px;  text-decoration: none; word-break: break-word;">
             ' . __('See the Full Picture — Try Advanced Reporting Today', 'wp-statistics') . '
         </a></div>';
 
@@ -34,7 +34,7 @@ if (intval($complianceStatus['percentage_ready']) !== 100 && !empty($complianceS
     $privacyBox = '<div style="background: #B266200D;padding: 20px;border-radius: 12px;margin-bottom: 24px;">
             <table>
                 <tr>
-                    <td style="vertical-align: top;padding-'.$text_align_reverse.': 16px"> <img src="' . esc_url(WP_STATISTICS_URL . '/assets/images/mail/alert-line.png') . '" style="width: 24px; height: 24px; "></td>
+                    <td style="vertical-align: top;padding-'.$text_align_reverse.': 16px"> <img src="' . esc_url(WP_STATISTICS_URL . '/assets/images/mail/alert-line.png') . '" width="24px" height="24px" style="vertical-align: middle"></td>
                     <td>
                         <p style="color:#B26620;padding:0;margin:0;margin-bottom: 6px;font-size: 17px;font-weight: 500;line-height: 19.92px">' . __('Attention required!', 'wp-statistics') . '</p>
                         <p style="color:#B26620;padding:0;margin:0;margin-bottom: 12px;font-size: 14px;font-weight: 400;line-height: 16.41px">' .
@@ -43,7 +43,7 @@ if (intval($complianceStatus['percentage_ready']) !== 100 && !empty($complianceS
                             __('There are %d items that need to be addressed to ensure compliance with privacy laws.', 'wp-statistics'),
                             intval($complianceStatus['summary']['action_required'])
                         ) . '</p>
-                        <a href="' . esc_url(Menus::admin_url('privacy-audit')) . '" style="border-bottom: 1px solid #B26620;text-decoration: none;color:#B26620;font-size: 14px;font-weight: 500;line-height: 16.41px">' . __('Review Audit Details', 'wp-statistics') . '<img src="' . esc_url(WP_STATISTICS_URL . '/assets/images/mail/arrow-brown-'.$text_align_reverse.'.png') . '" style="width: 6.67px; height: 10.91px;margin-'.$text_align.':6px" alt=""></a>
+                        <a href="' . esc_url(Menus::admin_url('privacy-audit')) . '" style="border-bottom: 1px solid #B26620;text-decoration: none;color:#B26620;font-size: 14px;font-weight: 500;line-height: 16.41px">' . __('Review Audit Details', 'wp-statistics') . '<img src="' . esc_url(WP_STATISTICS_URL . '/assets/images/mail/arrow-brown-'.$text_align_reverse.'.png') . '" width="6.67px" height="10.91px" style="vertical-align: middle;margin-'.$text_align.':6px" alt=""></a>
                     </td>
                </tr>
             </table>
@@ -270,9 +270,9 @@ if (!empty($content)) {
 }
 $email_body .= '</div>
                 ' .$email_performance_html . $privacyBox .'
-                <div class="content" style="overflow: hidden;' . ($email_footer ? 'border-radius: 0;' : 'border-radius: 0 0 18px 18px;') . '  font-family:  \'Roboto\',Arial,Helvetica,sans-serif; margin: 0;">
+                <div class="content" style="' . ($email_footer ? 'border-radius: 0;' : 'border-radius: 0 0 18px 18px;') . '  font-family:  \'Roboto\',Arial,Helvetica,sans-serif; margin: 0;">
                      <div class="content__tip" style="background: #E1EBFE; border-radius: 12px;  font-family: \'Roboto\',Arial,Helvetica,sans-serif; margin: 0; padding: 20px; text-decoration: none;">
-                        <div class="content__tip--title" style=" font-family: \'Roboto\',Arial,Helvetica,sans-serif; margin: 0; margin-bottom: 16px; padding: 0; position: relative; text-decoration: none;">
+                        <div class="content__tip--title" style=" font-family: \'Roboto\',Arial,Helvetica,sans-serif; margin: 0; margin-bottom: 16px; padding: 0; text-decoration: none;">
                             <h2 style=" font-family: \'Roboto\',Arial,Helvetica,sans-serif; font-size: 17px; font-weight: 500; line-height: 19.92px; margin: 0; text-decoration: none;color: #303032">
                                <img src="' . esc_url(WP_STATISTICS_URL . '/assets/images/mail/tip.png') . '" style="float:' . $text_align . ';margin-top: 2px;width:16px;height:16px;margin-' . $text_align_reverse . ':6px">' . $tipOfEmail['title'] . '
                             </h2>
