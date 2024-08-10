@@ -1013,10 +1013,10 @@ class Helper
                 break;
             case 'week':
             case '7days':
-                $where = $field_sql(-7);
+                $where = $field_sql(-6);
                 break;
             case 'two-weeks':
-                $where = $field_sql(-14);
+                $where = $field_sql(-13);
                 break;
             case 'last-two-weeks':
                 $fromDate = TimeZone::getTimeAgo(28, 'Y-m-d');
@@ -1033,19 +1033,18 @@ class Helper
                 $where  = "`$field` BETWEEN '{$date["from"]}' AND '{$date["to"]}'";
                 break;
             case 'last-month':
-                $fromDate = TimeZone::getTimeAgo(60, 'Y-m-d');
-                $toDate   = TimeZone::getTimeAgo(30, 'Y-m-d');
-                $where    = "`$field` BETWEEN '{$fromDate}' AND '{$toDate}'";
+                $date   = TimeZone::calculateDateFilter('last_month');
+                $where  = "`$field` BETWEEN '{$date["from"]}' AND '{$date["to"]}'";
                 break;
             case 'month':
             case '30days':
-                $where = $field_sql(-30);
+                $where = $field_sql(-29);
                 break;
             case '60days':
-                $where = $field_sql(-60);
+                $where = $field_sql(-59);
                 break;
             case '90days':
-                $where = $field_sql(-90);
+                $where = $field_sql(-89);
                 break;
             case '6months':
                 $date   = TimeZone::calculateDateFilter('6months');
@@ -1060,7 +1059,9 @@ class Helper
                 $where  = "`$field` BETWEEN '{$date["from"]}' AND '{$date["to"]}'";
                 break;
             case 'year':
-                $where = $field_sql(-365);
+            case '12months':
+                $date   = TimeZone::calculateDateFilter('year');
+                $where  = "`$field` BETWEEN '{$date["from"]}' AND '{$date["to"]}'";
                 break;
             case 'total':
                 $where = "";
