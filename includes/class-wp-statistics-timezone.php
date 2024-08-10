@@ -269,12 +269,12 @@ class TimeZone
                 'to'   => self::getCurrentDate("Y-m-d")
             ],
             'this_year'       => [
-                'from' => date('Y-m-d', strtotime('first day of this year')),
-                'to'   => date('Y-m-d', strtotime('last day of this year'))
+                'from' => self::getCurrentDate("Y-01-01"),
+                'to'   => self::getCurrentDate("Y-m-d")
             ],
             'last_year'       => [
-                'from' => date('Y-m-d', strtotime('first day of last year')),
-                'to'   => date('Y-m-d', strtotime('last day of last year'))
+                'from' => self::getTimeAgo(365, "Y-01-01"),
+                'to'   => self::getTimeAgo(365, "Y-12-30")
             ]
         ];
     }
