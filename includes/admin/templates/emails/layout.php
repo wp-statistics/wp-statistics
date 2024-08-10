@@ -34,7 +34,7 @@ if (intval($complianceStatus['percentage_ready']) !== 100 && !empty($complianceS
     $privacyBox = '<div style="background: #B266200D;padding: 20px;border-radius: 12px;margin-bottom: 24px;">
             <table>
                 <tr>
-                    <td style="vertical-align: top;padding-'.$text_align_reverse.': 16px"> <img src="' . esc_url(WP_STATISTICS_URL . '/assets/images/mail/alert-line.png') . '" width="24px" height="24px" style="vertical-align: middle"></td>
+                    <td style="vertical-align: top;padding-'.$text_align_reverse.': 16px"> <img src="' . esc_url(WP_STATISTICS_URL . '/assets/images/mail/alert-line.png') . '" width="24" height="24" style="vertical-align: middle"></td>
                     <td>
                         <p style="color:#B26620;padding:0;margin:0;margin-bottom: 6px;font-size: 17px;font-weight: 500;line-height: 19.92px">' . __('Attention required!', 'wp-statistics') . '</p>
                         <p style="color:#B26620;padding:0;margin:0;margin-bottom: 12px;font-size: 14px;font-weight: 400;line-height: 16.41px">' .
@@ -43,7 +43,7 @@ if (intval($complianceStatus['percentage_ready']) !== 100 && !empty($complianceS
                             __('There are %d items that need to be addressed to ensure compliance with privacy laws.', 'wp-statistics'),
                             intval($complianceStatus['summary']['action_required'])
                         ) . '</p>
-                        <a href="' . esc_url(Menus::admin_url('privacy-audit')) . '" style="border-bottom: 1px solid #B26620;text-decoration: none;color:#B26620;font-size: 14px;font-weight: 500;line-height: 16.41px">' . __('Review Audit Details', 'wp-statistics') . '<img src="' . esc_url(WP_STATISTICS_URL . '/assets/images/mail/arrow-brown-'.$text_align_reverse.'.png') . '" width="6.67px" height="10.91px" style="vertical-align: middle;margin-'.$text_align.':6px" alt=""></a>
+                        <a href="' . esc_url(Menus::admin_url('privacy-audit')) . '" style="border-bottom: 1px solid #B26620;text-decoration: none;color:#B26620;font-size: 14px;font-weight: 500;line-height: 16.41px">' . __('Review Audit Details', 'wp-statistics') . '<img src="' . esc_url(WP_STATISTICS_URL . '/assets/images/mail/arrow-brown-'.$text_align_reverse.'.png') . '" width="6.67" height="10.91" style="vertical-align: middle;margin-'.$text_align.':6px" alt=""></a>
                     </td>
                </tr>
             </table>
@@ -79,12 +79,12 @@ $email_performance_html = '
                         <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom: 20px;">
                             <tr>
                                 <td width="24" style="vertical-align: top">
-                                    <img src="' . esc_url(WP_STATISTICS_URL . 'assets/images/mail/visitor.png') .'" style="width: 24px; height: 24px;">
+                                    <img src="' . esc_url(WP_STATISTICS_URL . 'assets/images/mail/visitor.png') .'" width="24" height="24">
                                 </td>
                                 <td style="padding-'.$text_align.': 6px;">
                                     <div style="margin-bottom: 6px;font-size: 19px;font-weight: 500;line-height: 23.44px;text-align: '.$text_align.';color:#3D3D44"><span style="float: '.$text_align.';margin-'.$text_align_reverse.': 10px;margin-top: -3px;" >' . Helper::formatNumberWithUnit($thisPeriodVisitors, 1) . '</span>
                                         <span style="padding: 2px 4px;gap: 2px;border-radius: 4px;background-color: ' . ($percentageChangeVisitors >= 0 ? '#1961401A' : '#FCECEB') . ';font-size: 12px; font-weight: 600; line-height: 14.06px;color:' . ($percentageChangeVisitors >= 0 ? '#196140' : '#D54037') . ';display: inline-block">
-                                            <img style="margin-'.$text_align_reverse.': 2px;width: 7px;height: 7px" src="' . esc_url(WP_STATISTICS_URL . 'assets/images/mail/' . ($percentageChangeVisitors >= 0 ? 'up' : 'down') . '.png') .'" style="width: 24px; height: 24px;">' . $percentageChangeVisitors . '%
+                                            <img width="7" height="7" style="margin-'.$text_align_reverse.': 2px;" src="' . esc_url(WP_STATISTICS_URL . 'assets/images/mail/' . ($percentageChangeVisitors >= 0 ? 'up' : 'down') . '.png') .'"  >' . $percentageChangeVisitors . '%
                                         </span>
                                     </div>
                                      <span style="font-size: 14px;color:#3D3D44;line-height:16.41px">' . __('Visitors', 'wp-statistics') . '</span> 
@@ -94,12 +94,12 @@ $email_performance_html = '
                         <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom: 20px;">
                             <tr>
                                 <td width="24" style="vertical-align: top">
-                                    <img src="' . esc_url(WP_STATISTICS_URL . 'assets/images/mail/referrals.png') .'" style="width: 24px; height: 24px;">
+                                    <img src="' . esc_url(WP_STATISTICS_URL . 'assets/images/mail/referrals.png') .'" width="24" height="24" >
                                 </td>
                                 <td style="padding-'.$text_align.': 6px;">
                                     <div style="margin-bottom: 6px;font-size: 19px;font-weight: 500;line-height: 23.44px;text-align: '.$text_align.';color:#3D3D44"><span  style="float: '.$text_align.';margin-'.$text_align_reverse.': 10px;margin-top: -3px;">' . Helper::formatNumberWithUnit($thisPeriodReferrals, 1) . '</span>
                                         <span style="padding: 2px 4px;gap: 2px;border-radius: 4px;background-color: ' . ($percentageChangeReferrals >= 0 ? '#1961401A' : '#FCECEB') . ';font-size: 12px; font-weight: 600; line-height: 14.06px;color:' . ($percentageChangeReferrals >= 0 ? '#196140' : '#D54037') . ';display: inline-block">
-                                            <img style="width: 7px;height: 7px;margin-'.$text_align_reverse.': 2px" src="' . esc_url(WP_STATISTICS_URL . 'assets/images/mail/' . ($percentageChangeReferrals >= 0 ? 'up' : 'down') . '.png') .'" style="width: 24px; height: 24px;">' . $percentageChangeReferrals . '%
+                                            <img width="7" height="7" style="margin-'.$text_align_reverse.': 2px" src="' . esc_url(WP_STATISTICS_URL . 'assets/images/mail/' . ($percentageChangeReferrals >= 0 ? 'up' : 'down') . '.png') .'"  >' . $percentageChangeReferrals . '%
                                         </span>
                                     </div>
                                      <span  style="font-size: 14px;color:#3D3D44;line-height:16.41px">' . __('Referrals', 'wp-statistics') . '</span> 
@@ -111,12 +111,12 @@ $email_performance_html = '
                         <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom: 20px;">
                             <tr>
                                 <td width="24" style="vertical-align: top">
-                                    <img src="' . esc_url(WP_STATISTICS_URL . 'assets/images/mail/views.png') .'" style="width:24px; height: 24px;">
+                                    <img src="' . esc_url(WP_STATISTICS_URL . 'assets/images/mail/views.png') .'" width="24" height="24" >
                                 </td>
                                 <td style="padding-'.$text_align.': 6px;">
                                     <div style="margin-bottom: 6px;font-size: 19px;font-weight: 500;line-height: 23.44px;text-align: '.$text_align.';color:#3D3D44"><span  style="float: '.$text_align.';margin-'.$text_align_reverse.': 10px;margin-top: -3px;" >' . Helper::formatNumberWithUnit($thisPeriodVisits, 1) . '</span> 
                                         <span style="padding: 2px 4px;gap: 2px;border-radius: 4px;background-color: ' . ($percentageChangeVisits >= 0 ? '#1961401A' : '#FCECEB') . ';font-size: 12px; font-weight: 600; line-height: 14.06px;color:' . ($percentageChangeVisits >= 0 ? '#196140' : '#D54037') . ';display: inline-block">
-                                            <img style="width: 7px;height: 7px;margin-'.$text_align_reverse.': 4px" src="' . esc_url(WP_STATISTICS_URL . 'assets/images/mail/' . ($percentageChangeVisits >= 0 ? 'up' : 'down') . '.png') .'" style="width: 24px; height: 24px;">' . $percentageChangeVisits . '%
+                                            <img width="7" height="7" style="width: 7px;height: 7px;margin-'.$text_align_reverse.': 4px" src="' . esc_url(WP_STATISTICS_URL . 'assets/images/mail/' . ($percentageChangeVisits >= 0 ? 'up' : 'down') . '.png') .'"  >' . $percentageChangeVisits . '%
                                         </span>
                                     </div>
                                     <span  style="font-size: 14px;color:#3D3D44;line-height:16.41px">' . __('Views', 'wp-statistics') . '</span> 
@@ -126,12 +126,12 @@ $email_performance_html = '
                         <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom: 20px;">
                             <tr>
                                 <td width="24" style="vertical-align: top">
-                                    <img src="' . esc_url(WP_STATISTICS_URL . 'assets/images/mail/contents.png') .'" style="width: 24px; height: 24px;">
+                                    <img src="' . esc_url(WP_STATISTICS_URL . 'assets/images/mail/contents.png') .'"  width="24" height="24">
                                 </td>
                                 <td style="padding-'.$text_align.': 6px;">
                                     <div style="margin-bottom: 6px;font-size: 19px;font-weight: 500;line-height: 23.44px;text-align: '.$text_align.';color:#3D3D44"><span  style="float: '.$text_align.';margin-'.$text_align_reverse.': 10px;margin-top: -3px;" >' . $thisPeriodContents . '</span> 
                                         <span style="padding: 2px 4px;gap: 2px;border-radius: 4px;background-color: ' . ($percentageChangeContents >= 0 ? '#1961401A' : '#FCECEB') . ';color:' . ($percentageChangeContents >= 0 ? '#196140' : '#D54037') . ';font-size: 12px; font-weight: 600; line-height: 14.06px;display: inline-block">
-                                            <img style="width: 7px;height: 7px;margin-'.$text_align_reverse.': 2px" src="' . esc_url(WP_STATISTICS_URL . 'assets/images/mail/' . ($percentageChangeContents >= 0 ? 'up' : 'down') . '.png') .'" style="width: 24px; height: 24px;">' . $percentageChangeContents . '%
+                                            <img  width="7" height="7" style="margin-'.$text_align_reverse.': 2px" src="' . esc_url(WP_STATISTICS_URL . 'assets/images/mail/' . ($percentageChangeContents >= 0 ? 'up' : 'down') . '.png') .'"  >' . $percentageChangeContents . '%
                                         </span>
                                     </div>
                                      <span  style="font-size: 14px;color:#3D3D44;line-height:16.41px">' . __('Published Contents', 'wp-statistics') . '</span> 
@@ -154,7 +154,7 @@ if (!empty($topAuthor)) {
     $firstColumnContent['top_author'] = '<table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom: 20px;">
             <tr>
                 <td width="24" style="vertical-align: top">
-                    <img src="' . esc_url(WP_STATISTICS_URL . 'assets/images/mail/top-author.png') .'" style="width: 24px; height: 24px;">
+                    <img src="' . esc_url(WP_STATISTICS_URL . 'assets/images/mail/top-author.png') .'"  width="24" height="24">
                 </td>
                 <td style="padding-'.$text_align.': 6px;">
                     <div style="margin-bottom: 6px;font-size: 17px;font-weight: 500;line-height: 21.09px;text-align:  ' . $text_align . ';color:#3D3D44">' . esc_html($topAuthor) . '</div>
@@ -168,7 +168,7 @@ if (!empty($topCategory)) {
     $topCategoryHtml = '<table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom: 20px;">
             <tr>
                 <td width="24" style="vertical-align: top">
-                    <img src="' . esc_url(WP_STATISTICS_URL . 'assets/images/mail/top-category.png') .'" style="width: 24px; height: 24px;">
+                    <img src="' . esc_url(WP_STATISTICS_URL . 'assets/images/mail/top-category.png') .'"  width="24" height="24">
                 </td>
                 <td style="padding-'.$text_align.': 6px;">
                     <div style="margin-bottom: 6px;font-size: 17px;font-weight: 500;line-height: 21.09px;text-align:  ' . $text_align . ';color:#3D3D44">' . esc_html($topCategory) . '</div>
@@ -190,7 +190,7 @@ if (!empty($topPost)) {
     $topPostHtml = '<table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom: 20px;">
             <tr>
                 <td width="24" style="vertical-align: top">
-                    <img src="' . WP_STATISTICS_URL . 'assets/images/mail/top-content.png" style="width: 24px; height: 24px;">
+                    <img src="' . WP_STATISTICS_URL . 'assets/images/mail/top-content.png"  width="24" height="24">
                 </td>
                 <td style="padding-'.$text_align.': 6px;">
                     <div style="margin-bottom: 6px;font-size: 17px;font-weight: 500;line-height: 21.09px;text-align:  ' . $text_align . ';color:#3D3D44">' . esc_html($topPost) . '</div>
@@ -215,7 +215,7 @@ if (!empty($topReferral)) {
     $topReferralHtml = '<table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom: 20px;">
             <tr>
                 <td width="24" style="vertical-align: top">
-                    <img src="' . WP_STATISTICS_URL . 'assets/images/mail/top-referral.png" style="width: 24px; height: 24px;">
+                    <img src="' . WP_STATISTICS_URL . 'assets/images/mail/top-referral.png"  width="24" height="24">
                 </td>
                 <td style="padding-'.$text_align.': 6px;">
                     <div style="margin-bottom: 6px;font-size: 17px;font-weight: 500;line-height: 21.09px;text-align:  ' . $text_align . ';color:#3D3D44">' . esc_html($topReferral) . '</div>
@@ -278,7 +278,7 @@ $email_body .= '</div>
                      <div class="content__tip" style="background: #E1EBFE; border-radius: 12px;  font-family: \'Roboto\',Arial,Helvetica,sans-serif; margin: 0; padding: 20px; text-decoration: none;">
                         <div class="content__tip--title" style=" font-family: \'Roboto\',Arial,Helvetica,sans-serif; margin: 0; margin-bottom: 16px; padding: 0; text-decoration: none;">
                             <h2 style=" font-family: \'Roboto\',Arial,Helvetica,sans-serif; font-size: 17px; font-weight: 500; line-height: 19.92px; margin: 0; text-decoration: none;color: #303032">
-                               <img src="' . esc_url(WP_STATISTICS_URL . '/assets/images/mail/tip.png') . '" style="float:' . $text_align . ';margin-top: 2px;width:16px;height:16px;margin-' . $text_align_reverse . ':6px">' . $tipOfEmail['title'] . '
+                               <img src="' . esc_url(WP_STATISTICS_URL . '/assets/images/mail/tip.png') . '" width="16" height="16" style="float:' . $text_align . ';margin-top: 2px;margin-' . $text_align_reverse . ':6px">' . $tipOfEmail['title'] . '
                             </h2>
                         </div>
                         <div class="content__tip--description" style=" color: #303032; font-family: \'Roboto\',Arial,Helvetica,sans-serif; font-size: 16px; font-weight: 400; line-height: 22px; margin: 0; padding: 0; text-decoration: none;">
