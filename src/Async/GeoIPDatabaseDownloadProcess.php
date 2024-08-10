@@ -3,8 +3,9 @@
 namespace WP_Statistics\Async;
 
 use WP_STATISTICS\GeoIP;
+use WP_STATISTICS\WP_Async_Request;
 
-class GeoIPDatabaseDownloadProcess extends \WP_Async_Request
+class GeoIPDatabaseDownloadProcess extends WP_Async_Request
 {
     /**
      * @var string

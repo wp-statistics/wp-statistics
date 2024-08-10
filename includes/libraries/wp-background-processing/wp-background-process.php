@@ -1,4 +1,6 @@
 <?php
+namespace WP_STATISTICS;
+
 /**
  * WP Background Process
  *
@@ -469,7 +471,7 @@ abstract class WP_Background_Process extends WP_Async_Request {
 		if ( ! empty( $items ) ) {
 			$batches = array_map(
 				function ( $item ) use ( $column, $value_column ) {
-					$batch       = new stdClass();
+					$batch       = new \stdClass();
 					$batch->key  = $item->{$column};
 					$batch->data = maybe_unserialize( $item->{$value_column} );
 
