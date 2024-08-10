@@ -111,13 +111,8 @@ final class WP_Statistics
         // Create the plugin upload directory in advance.
         $this->create_upload_directory();
 
-        if (!class_exists('WP_Async_Request', false)) {
-            require_once WP_STATISTICS_DIR . 'includes/libraries/wp-background-processing/wp-async-request.php';
-        }
-
-        if (!class_exists('WP_Background_Process', false)) {
-            require_once WP_STATISTICS_DIR . 'includes/libraries/wp-background-processing/wp-background-process.php';
-        }
+        require_once WP_STATISTICS_DIR . 'includes/libraries/wp-background-processing/wp-async-request.php';
+        require_once WP_STATISTICS_DIR . 'includes/libraries/wp-background-processing/wp-background-process.php';
 
         // Utility classes.
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-db.php';

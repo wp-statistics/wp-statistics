@@ -156,6 +156,11 @@ class GeoIP
             'region'    => __('Unknown', 'wp-statistics'),
         ];
 
+        // Add compatibility for hash IP addresses.
+        if (strpos($ip, IP::$hash_ip_prefix) !== false) {
+            return $defaultLocation;
+        }
+
         try {
             // Load the GeoIP reader.
             $reader = self::Loader();
@@ -181,8 +186,9 @@ class GeoIP
             return $location;
 
         } catch (Exception $e) {
+            // No need to log since the error is already logged in Loader method.
             // Log the exception message.
-            WP_Statistics::log($e->getMessage(), 'error');
+            //WP_Statistics::log($e->getMessage(), 'error');
         }
 
         // Cache and return the default location if an error occurs.

@@ -18,7 +18,6 @@ class GeneralNotices
      */
     private $core_notices = array(
         'check_tracking_mode',
-        'donate_plugin',
         'active_collation',
         'performance_and_clean_up',
         'memory_limit_check',
@@ -55,13 +54,6 @@ class GeneralNotices
                 $noticeText  = sprintf('<b>WP Statistics Notice:</b> Server Side Tracking is less accurate and will be deprecated in <b>version 15</b>. Please switch to Client Side Tracking for better accuracy. <a href="%s">Update Tracking Settings</a>.', $settingsUrl);
                 Notice::addNotice($noticeText, 'deprecate_server_side_tracking', 'warning');
             }
-        }
-    }
-
-    private function donate_plugin()
-    {
-        if (Menus::in_page('overview')) {
-            Notice::addNotice(__('Have you thought about donating to WP Statistics?', 'wp-statistics') . ' <a href="https://wp-statistics.com/donate/" target="_blank">' . __('Donate Now!', 'wp-statistics') . '</a>', 'donate_plugin');
         }
     }
 

@@ -3,6 +3,7 @@
 namespace WP_Statistics\Exception;
 
 use Exception;
+use WP_Statistics;
 
 class LogException extends Exception
 {
@@ -10,7 +11,7 @@ class LogException extends Exception
     {
         parent::__construct($message, $code, $previous);
 
-        \WP_Statistics::log($this->generateLogMessage($message, $code), 'error');
+        WP_Statistics::log($this->generateLogMessage($message, $code), 'error');
     }
 
     private function generateLogMessage($message, $code)

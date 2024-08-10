@@ -368,12 +368,37 @@ class Visitor
                 $item['map'] = GeoIP::geoIPTools($ip);
             }
 
-            // Push Country
-            $item['country'] = array('location' => $items->location, 'flag' => Country::flag($items->location), 'name' => Country::getName($items->location));
+            /**
+             * Backward compatibility for the location field
+             *
+             * Set location from $items if it's not empty and not 'Unknown', otherwise use GeoIP to get the location
+             */
+            if (!empty($items->location) && $items->location !== 'Unknown') {
+                $location = $items->location;
+            } else {
+                $location = GeoIP::getCountry($ip);
+            }
 
-            // Push City
-            $item['city']   = !empty($items->city) ? $items->city : GeoIP::getCity($ip);
-            $item['region'] = $items->region;
+            // Push Country
+            $item['country'] = array(
+                'location' => $location,
+                'flag'     => Country::flag($location),
+                'name'     => Country::getName($location)
+            );
+
+            /**
+             * Backward compatibility for the region field
+             *
+             * Set city from $items if it's not empty and not 'Unknown', otherwise use GeoIP to get the city
+             */
+            if (!empty($items->city) && $items->city !== __('Unknown', 'wp-statistics')) {
+                $item['city']   = $items->city;
+                $item['region'] = $items->region;
+            } else {
+                $city           = GeoIP::getCity($ip, true);
+                $item['city']   = $city['city'];
+                $item['region'] = $city['region'];
+            }
 
             // Get What is Page
             if (isset($items->page_id)) {
