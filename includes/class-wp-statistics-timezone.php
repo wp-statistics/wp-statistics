@@ -232,6 +232,10 @@ class TimeZone
                 'from' => date('Y-m-d', strtotime('first day of previous month')),  // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date	
                 'to'   => date('Y-m-d', strtotime('last day of previous month')),  // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date	
             ],
+            '2months_ago' => [
+                'from' => date('Y-m-d', strtotime('first day of -2 months')),  // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date	
+                'to'   => date('Y-m-d', strtotime('last day of -2 months')),  // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date	
+            ],
             '7days'      => [
                 'from' => self::getTimeAgo(6),
                 'to'   => self::getCurrentDate("Y-m-d")
