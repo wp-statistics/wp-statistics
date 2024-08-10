@@ -45,16 +45,16 @@ let wpStatisticsUserOnline = {
     sendHitRequest: async function () {
         try {
             let requestUrl = this.getRequestUrl('hit');
-            const params   = new URLSearchParams({
+            const params = new URLSearchParams({
                 ...WP_Statistics_Tracker_Object.hitParams,
                 referred
             }).toString();
-            
+
             const xhr = new XMLHttpRequest();
             xhr.open('POST', requestUrl, true);
             xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
             xhr.send(params);
-            xhr.onreadystatechange = function() {
+            xhr.onreadystatechange = function () {
                 if (xhr.readyState === 4) {
                     if (xhr.status === 200) {
                         const responseData = JSON.parse(xhr.responseText);
@@ -79,11 +79,11 @@ let wpStatisticsUserOnline = {
 
         try {
             let requestUrl = this.getRequestUrl('online');
-            const params   = new URLSearchParams({
+            const params = new URLSearchParams({
                 ...WP_Statistics_Tracker_Object.onlineParams,
                 referred
             }).toString();
-            
+
             const xhr = new XMLHttpRequest();
             xhr.open('POST', requestUrl, true);
             xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -121,11 +121,11 @@ let wpStatisticsUserOnline = {
         });
     },
 
-    getRequestUrl: function(type) {
+    getRequestUrl: function (type) {
         let requestUrl = `${WP_Statistics_Tracker_Object.requestUrl}/`;
 
         if (WP_Statistics_Tracker_Object.option.bypassAdBlockers) {
-            requestUrl += 'wp-admin/admin-ajax.php';
+            requestUrl = WP_Statistics_Tracker_Object.ajaxUrl;
         } else {
             if (type === 'hit') {
                 requestUrl += WP_Statistics_Tracker_Object.hitParams.endpoint;

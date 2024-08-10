@@ -47,6 +47,9 @@ class optimization_page extends Singleton
 
         // Update All GEO IP Country
         if (isset($_POST['submit'], $_POST['populate-submit']) && intval($_POST['populate-submit']) == 1) {
+            // First download/update the GeoIP database
+            GeoIP::download('update');
+
             // Update GeoIP data for visitors with incomplete information
             BackgroundProcessFactory::batchUpdateIncompleteGeoIpForVisitors();
 

@@ -64,9 +64,8 @@ class BackgroundProcessFactory
     {
         $downloadProcess = WP_Statistics()->getBackgroundProcess('geoip_database_download');
 
-        // Queue download process
-        $downloadProcess->push_to_queue([]);
-        $downloadProcess->save()->dispatch();
+        // Async download process
+        $downloadProcess->dispatch();
     }
 
     // Add other static methods for different background processes as needed
