@@ -216,40 +216,52 @@ class TimeZone
                 'from' => self::getTimeAgo(1),
                 'to'   => self::getTimeAgo(1)
             ],
-            '7days'      => [
-                'from' => self::getTimeAgo(7),
-                'to'   => self::getCurrentDate("Y-m-d")
+            'this_week' => [
+                'from' => date('Y-m-d', strtotime(Helper::getStartOfWeek() . ' this week')),  // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date	
+                'to'   => date('Y-m-d', strtotime('next ' . Helper::getStartOfWeek()) - 1),  // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date	
             ],
-            '14days'     => [
-                'from' => self::getTimeAgo(14),
-                'to'   => self::getCurrentDate("Y-m-d")
+            'last_week' => [
+                'from' => date('Y-m-d', strtotime(Helper::getStartOfWeek() . ' last week')),  // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date	
+                'to'   => date('Y-m-d', strtotime(Helper::getStartOfWeek() . ' this week') - 1),  // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date	
             ],
-            '30days'     => [
-                'from' => self::getTimeAgo(30),
-                'to'   => self::getCurrentDate("Y-m-d")
+            'this_month' => [
+                'from' => date('Y-m-d', strtotime('first day of this month')),  // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date	
+                'to'   => date('Y-m-d', strtotime('last day of this month')),  // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date	
             ],
             'last_month' => [
                 'from' => date('Y-m-d', strtotime('first day of previous month')),  // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date	
                 'to'   => date('Y-m-d', strtotime('last day of previous month')),  // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date	
             ],
+            '7days'      => [
+                'from' => self::getTimeAgo(6),
+                'to'   => self::getCurrentDate("Y-m-d")
+            ],
+            '14days'     => [
+                'from' => self::getTimeAgo(13),
+                'to'   => self::getCurrentDate("Y-m-d")
+            ],
+            '30days'     => [
+                'from' => self::getTimeAgo(29),
+                'to'   => self::getCurrentDate("Y-m-d")
+            ],
             '60days'     => [
-                'from' => self::getTimeAgo(60),
+                'from' => self::getTimeAgo(59),
                 'to'   => self::getCurrentDate("Y-m-d")
             ],
             '90days'     => [
-                'from' => self::getTimeAgo(90),
+                'from' => self::getTimeAgo(89),
                 'to'   => self::getCurrentDate("Y-m-d")
             ],
             '120days'    => [
-                'from' => self::getTimeAgo(120),
+                'from' => self::getTimeAgo(119),
                 'to'   => self::getCurrentDate("Y-m-d")
             ],
             '6months'    => [
-                'from' => self::getTimeAgo(180),
+                'from' => date('Y-m-d', strtotime('-6 months')), // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
                 'to'   => self::getCurrentDate("Y-m-d")
             ],
             'year'       => [
-                'from' => self::getTimeAgo(365),
+                'from' => date('Y-m-d', strtotime('-12 months')), // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
                 'to'   => self::getCurrentDate("Y-m-d")
             ],
             'this_year'       => [

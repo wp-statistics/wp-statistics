@@ -1950,4 +1950,28 @@ class Helper
         // If param is not found, return false
         return false;
     }
+
+    public static function getStartOfWeek()
+    {
+        $startDay = intval(get_option('start_of_week', 0));
+
+        switch ($startDay) {
+            case 0:
+                return 'sunday';
+            case 1:
+                return 'monday';
+            case 2:
+                return 'tuesday';
+            case 3:
+                return 'wednesday';
+            case 4:
+                return 'thursday';
+            case 5:
+                return 'friday';
+            case 6:
+                return 'saturday';
+            default:
+                return 'monday';
+        }
+    }
 }
