@@ -67,7 +67,11 @@ __webpack_require__.r(__webpack_exports__);
 (0,_wordpress_plugins__WEBPACK_IMPORTED_MODULE_0__.registerPlugin)('wp-statistics', {
   render: _sidebar__WEBPACK_IMPORTED_MODULE_1__["default"]
 });
-toggleEditorPanelOpened('wp-statistics-block-editor-panel');
+window.onload = function () {
+  if (!wp.data.select('core/edit-post').isEditorPanelOpened('wp-statistics/wp-statistics-block-editor-panel')) {
+    wp.data.dispatch('core/edit-post').toggleEditorPanelOpened('wp-statistics/wp-statistics-block-editor-panel');
+  }
+};
 
 /***/ }),
 
@@ -114,6 +118,7 @@ function sidebar() {
     return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null);
   }
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_editor__WEBPACK_IMPORTED_MODULE_2__.PluginDocumentSettingPanel, {
+    name: "wp-statistics-block-editor-panel",
     className: "wp-statistics-block-editor-panel",
     title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Statistics - Summary', 'wp-statistics'),
     icon: wpsIcon

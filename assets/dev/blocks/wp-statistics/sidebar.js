@@ -16,6 +16,7 @@ export default function sidebar() {
 
     return (
         <PluginDocumentSettingPanel
+            name="wp-statistics-block-editor-panel"
             className="wp-statistics-block-editor-panel"
             title={__('Statistics - Summary', 'wp-statistics')}
             icon={wpsIcon} >
