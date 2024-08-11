@@ -54,15 +54,15 @@ if (!$isAdvancedReportingActive) echo Admin_Template::get_template('layout/parti
 
             <tr valign="top">
                 <th scope="row">
-                    <label for="wps_addon_settings[advanced_reporting][time_report]"><?php esc_html_e('Select Reporting Period', 'wp-statistics'); ?></label>
+                    <label for="wps_addon_settings[advanced_reporting][email_stats_time_range]"><?php esc_html_e('Select Reporting Period', 'wp-statistics'); ?></label>
                 </th>
 
                 <td>
-                    <select id="wps_addon_settings[advanced_reporting][time_report]" name="wps_addon_settings[advanced_reporting][time_report]">
-                        <option value="0" <?php selected(\WP_STATISTICS\Option::getByAddon('time_report', 'advanced_reporting'), '0'); ?>><?php esc_html_e('Disable', 'wp-statistics'); ?></option>
+                    <select id="wps_addon_settings[advanced_reporting][email_stats_time_range]">
+                        <option value="0" <?php selected(\WP_STATISTICS\Option::get('time_report'), '0'); ?>><?php esc_html_e('Disable', 'wp-statistics'); ?></option>
                         <?php
                         foreach (\WP_STATISTICS\Schedule::getSchedules() as $key => $value) {
-                            echo '<option value="' . esc_attr($key) . '" ' . selected(\WP_STATISTICS\Option::getByAddon('time_report', 'advanced_reporting'), $key) . '>' . esc_attr($value['display']) . '</option>';
+                            echo '<option value="' . esc_attr($key) . '" ' . selected(\WP_STATISTICS\Option::get('time_report'), $key) . '>' . esc_attr($value['display']) . '</option>';
                         }
                         ?>
                     </select>
