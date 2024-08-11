@@ -217,65 +217,66 @@ class VisitorsModel extends BaseModel
         $summary = [
             'today'     => ['label' => esc_html__('Today', 'wp-statistics'), 'visitors' => 0],
             'yesterday' => ['label' => esc_html__('Yesterday', 'wp-statistics'), 'visitors' => 0],
+            'this_week' => ['label' => esc_html__('This Week', 'wp-statistics'), 'visitors' => 0],
+            'last_week' => ['label' => esc_html__('Last Week', 'wp-statistics'), 'visitors' => 0],
+            'this_month'=> ['label' => esc_html__('This Month', 'wp-statistics'), 'visitors' => 0],
+            'last_month'=> ['label' => esc_html__('Last Month', 'wp-statistics'), 'visitors' => 0],
             '7days'     => ['label' => esc_html__('Last 7 days', 'wp-statistics'), 'visitors' => 0],
             '30days'    => ['label' => esc_html__('Last 30 days', 'wp-statistics'), 'visitors' => 0],
-            '60days'    => ['label' => esc_html__('Last 60 days', 'wp-statistics'), 'visitors' => 0],
-            '120days'   => ['label' => esc_html__('Last 120 days', 'wp-statistics'), 'visitors' => 0],
-            'year'      => ['label' => esc_html__('Last 12 months', 'wp-statistics'), 'visitors' => 0],
+            '90days'    => ['label' => esc_html__('Last 90 days', 'wp-statistics'), 'visitors' => 0],
+            '6months'   => ['label' => esc_html__('Last 6 Months', 'wp-statistics'), 'visitors' => 0],
             'this_year' => ['label' => esc_html__('This year (Jan - Today)', 'wp-statistics'), 'visitors' => 0],
-            'last_year' => ['label' => esc_html__('Last Year', 'wp-statistics'), 'visitors' => 0]
         ];
 
         // Init date ranges
-        $todayDate     = date('Y-m-d');
-        $yesterdayDate = date('Y-m-d', strtotime('-1 day'));
-        $start7Days    = date('Y-m-d', strtotime('-6 days'));
-        $start30Days   = date('Y-m-d', strtotime('-29 days'));
-        $start60Days   = date('Y-m-d', strtotime('-59 days'));
-        $start120Days  = date('Y-m-d', strtotime('-119 days'));
-        $start12Months = date('Y-m-d', strtotime('-12 months'));
-        $thisYearStart = date('Y') . '-01-01';
-        $lastYearStart = (date('Y') - 1) . '-01-01';
-        $lastYearEnd   = (date('Y') - 1) . '-12-31';
-
+        
+        $dateRanges = TimeZone::getDateFilters();
         foreach ($result as $record) {
             $date     = $record->date;
             $visitors = $record->visitors;
 
-            if ($date === $todayDate) {
+            if ($date === $dateRanges['today']['from']) {
                 $summary['today']['visitors'] += $visitors;
             }
 
-            if ($date === $yesterdayDate) {
+            if ($date === $dateRanges['yesterday']['from']) {
                 $summary['yesterday']['visitors'] += $visitors;
             }
 
-            if ($date >= $start7Days && $date <= $todayDate) {
+            if ($date >= $dateRanges['this_week']['from'] && $date <= $dateRanges['this_week']['to']) {
+                $summary['this_week']['visitors'] += $visitors;
+            }
+
+            if ($date >= $dateRanges['last_week']['from'] && $date <= $dateRanges['last_week']['to']) {
+                $summary['last_week']['visitors'] += $visitors;
+            }
+
+            if ($date >= $dateRanges['this_month']['from'] && $date <= $dateRanges['this_month']['to']) {
+                $summary['this_month']['visitors'] += $visitors;
+            }
+
+            if ($date >= $dateRanges['last_month']['from'] && $date <= $dateRanges['last_month']['to']) {
+                $summary['last_month']['visitors'] += $visitors;
+            }
+
+            if ($date >= $dateRanges['7days']['from'] && $date <= $dateRanges['7days']['to']) {
                 $summary['7days']['visitors'] += $visitors;
             }
 
-            if ($date >= $start30Days && $date <= $todayDate) {
+            if ($date >= $dateRanges['30days']['from'] && $date <= $dateRanges['30days']['to']) {
                 $summary['30days']['visitors'] += $visitors;
             }
 
-            if ($date >= $start60Days && $date <= $todayDate) {
-                $summary['60days']['visitors'] += $visitors;
+            if ($date >= $dateRanges['90days']['from'] && $date <= $dateRanges['90days']['to']) {
+                $summary['90days']['visitors'] += $visitors;
             }
 
-            if ($date >= $start120Days && $date <= $todayDate) {
-                $summary['120days']['visitors'] += $visitors;
+            if ($date >= $dateRanges['6months']['from'] && $date <= $dateRanges['6months']['to']) {
+                $summary['6months']['visitors'] += $visitors;
             }
 
-            if ($date >= $start12Months && $date <= $todayDate) {
-                $summary['year']['visitors'] += $visitors;
-            }
-
-            if ($date >= $thisYearStart && $date <= $todayDate) {
+            if ($date >= $dateRanges['this_year']['from'] && $date <= $dateRanges['this_year']['to']) {
                 $summary['this_year']['visitors'] += $visitors;
-            }
-
-            if ($date >= $lastYearStart && $date <= $lastYearEnd) {
-                $summary['last_year']['visitors'] += $visitors;
             }
         }
 

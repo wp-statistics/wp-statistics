@@ -1010,8 +1010,6 @@ class Helper
      * ----------------------
      *
      * @return string|bool
-     *
-     * @todo Make the return values for "month", "last-month" and "2-months-ago" more dynamic (29, 30 or 31 depending on the current month).
      */
     public static function mysql_time_conditions($field = 'date', $time = 'total', $range = array())
     {
@@ -1031,29 +1029,28 @@ class Helper
                 $where = "`$field` = '{$current_date}'";
                 break;
             case 'day-before-yesterday':
-                $fromDate = TimeZone::getTimeAgo(2, 'Y-m-d');
-                $toDate   = TimeZone::getTimeAgo(1, 'Y-m-d');
-                $where    = "`$field` BETWEEN '{$fromDate}' AND '{$toDate}'";
+                $date   = TimeZone::getTimeAgo(2, 'Y-m-d');
+                $where  = "`$field` = '{$date}'"; 
                 break;
             case 'yesterday':
-                $getCurrentDate = TimeZone::getTimeAgo(1, 'Y-m-d');
-                $where          = "`$field` = '{$getCurrentDate}'";
+                $date   = TimeZone::getTimeAgo(1, 'Y-m-d');
+                $where  = "`$field` = '{$date}'";
                 break;
-            case '2-weeks-ago':
-                $fromDate = TimeZone::getTimeAgo(21, 'Y-m-d');
-                $toDate   = TimeZone::getTimeAgo(14, 'Y-m-d');
-                $where    = "`$field` BETWEEN '{$fromDate}' AND '{$toDate}'";
+            case 'this-week':
+                $date   = TimeZone::calculateDateFilter('this_week');
+                $where  = "`$field` BETWEEN '{$date["from"]}' AND '{$date["to"]}'";
                 break;
             case 'last-week':
-                $fromDate = TimeZone::getTimeAgo(14, 'Y-m-d');
-                $toDate   = TimeZone::getTimeAgo(7, 'Y-m-d');
-                $where    = "`$field` BETWEEN '{$fromDate}' AND '{$toDate}'";
+                $date   = TimeZone::calculateDateFilter('last_week');
+                $where  = "`$field` BETWEEN '{$date["from"]}' AND '{$date["to"]}'";
                 break;
             case 'week':
-                $where = $field_sql(-7);
+            case '7days':
+                $where = $field_sql(-6);
                 break;
             case 'two-weeks':
-                $where = $field_sql(-14);
+            case '14days':
+                $where = $field_sql(-13);
                 break;
             case 'last-two-weeks':
                 $fromDate = TimeZone::getTimeAgo(28, 'Y-m-d');
@@ -1061,36 +1058,43 @@ class Helper
                 $where    = "`$field` BETWEEN '{$fromDate}' AND '{$toDate}'";
                 break;
             case '2-months-ago':
-                $fromDate = TimeZone::getTimeAgo(90, 'Y-m-d');
-                $toDate   = TimeZone::getTimeAgo(60, 'Y-m-d');
-                $where    = "`$field` BETWEEN '{$fromDate}' AND '{$toDate}'";
+                $date   = TimeZone::calculateDateFilter('2months_ago');
+                $where  = "`$field` BETWEEN '{$date["from"]}' AND '{$date["to"]}'";
+                break;
+            case 'this-month':
+                $date   = TimeZone::calculateDateFilter('this_month');
+                $where  = "`$field` BETWEEN '{$date["from"]}' AND '{$date["to"]}'";
                 break;
             case 'last-month':
-                $fromDate = TimeZone::getTimeAgo(60, 'Y-m-d');
-                $toDate   = TimeZone::getTimeAgo(30, 'Y-m-d');
-                $where    = "`$field` BETWEEN '{$fromDate}' AND '{$toDate}'";
+                $date   = TimeZone::calculateDateFilter('last_month');
+                $where  = "`$field` BETWEEN '{$date["from"]}' AND '{$date["to"]}'";
                 break;
             case 'month':
-                $where = $field_sql(-30);
+            case '30days':
+                $where = $field_sql(-29);
                 break;
             case '60days':
-                $where = $field_sql(-60);
+                $where = $field_sql(-59);
                 break;
             case '90days':
-                $where = $field_sql(-90);
+                $where = $field_sql(-89);
                 break;
-            case 'year':
-                $where = $field_sql(-365);
+            case '6months':
+                $date   = TimeZone::calculateDateFilter('6months');
+                $where  = "`$field` BETWEEN '{$date["from"]}' AND '{$date["to"]}'";
                 break;
             case 'this-year':
-                $fromDate = TimeZone::getLocalDate('Y-m-d', strtotime(gmdate('Y-01-01')));
-                $toDate   = TimeZone::getCurrentDate('Y-m-d');
-                $where    = "`$field` BETWEEN '{$fromDate}' AND '{$toDate}'";
+                $date   = TimeZone::calculateDateFilter('this_year');
+                $where  = "`$field` BETWEEN '{$date["from"]}' AND '{$date["to"]}'";
                 break;
             case 'last-year':
-                $fromDate = TimeZone::getTimeAgo(365, 'Y-01-01');
-                $toDate   = TimeZone::getTimeAgo(365, 'Y-12-31');
-                $where    = "`$field` BETWEEN '{$fromDate}' AND '{$toDate}'";
+                $date   = TimeZone::calculateDateFilter('last_year');
+                $where  = "`$field` BETWEEN '{$date["from"]}' AND '{$date["to"]}'";
+                break;
+            case 'year':
+            case '12months':
+                $date   = TimeZone::calculateDateFilter('year');
+                $where  = "`$field` BETWEEN '{$date["from"]}' AND '{$date["to"]}'";
                 break;
             case 'total':
                 $where = "";
@@ -1992,6 +1996,29 @@ class Helper
         
         // If param is not found, return false
         return false;
+    }
+  
+    public static function getStartOfWeek()
+    {
+        $startDay = intval(get_option('start_of_week', 0));
+
+        switch ($startDay) {
+            case 0:
+                return 'sunday';
+            case 1:
+                return 'monday';
+            case 2:
+                return 'tuesday';
+            case 3:
+                return 'wednesday';
+            case 4:
+                return 'thursday';
+            case 5:
+                return 'friday';
+            case 6:
+                return 'saturday';
+            default:
+                return 'monday';
     }
 
     /**
