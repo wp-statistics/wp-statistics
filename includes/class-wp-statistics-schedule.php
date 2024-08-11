@@ -148,29 +148,29 @@ class Schedule
             'daily'    => [
                 'interval'      => DAY_IN_SECONDS,
                 'display'       => __('Daily', 'wp-statistics'),
-                'start'         => wp_date('Y-m-d'),
-                'end'           => wp_date('Y-m-d'),
+                'start'         => wp_date('Y-m-d', strtotime("-1 day")),
+                'end'           => wp_date('Y-m-d', strtotime("-1 day")),
                 'next_schedule' => $daily->getTimestamp()
             ],
             'weekly'   => [
                 'interval'      => WEEK_IN_SECONDS,
                 'display'       => __('Weekly', 'wp-statistics'),
-                'start'         => wp_date('Y-m-d', strtotime("-6 days")),
-                'end'           => wp_date('Y-m-d'),
+                'start'         => wp_date('Y-m-d', strtotime("-7 days")),
+                'end'           => wp_date('Y-m-d', strtotime("-1 day")),
                 'next_schedule' => $weekly->getTimestamp()
             ],
             'biweekly' => [
                 'interval'      => 2 * WEEK_IN_SECONDS,
                 'display'       => __('Bi-Weekly', 'wp-statistics'),
-                'start'         => wp_date('Y-m-d', strtotime("-13 days")),
-                'end'           => wp_date('Y-m-d'),
+                'start'         => wp_date('Y-m-d', strtotime("-14 days")),
+                'end'           => wp_date('Y-m-d', strtotime("-1 day")),
                 'next_schedule' => $biweekly->getTimestamp()
             ],
             'monthly'  => [
                 'interval'      => MONTH_IN_SECONDS,
                 'display'       => __('Monthly', 'wp-statistics'),
                 'start'         => wp_date('Y-m-d', strtotime("-1 month")),
-                'end'           => wp_date('Y-m-d'),
+                'end'           => wp_date('Y-m-d', strtotime("-1 day")),
                 'next_schedule' => $monthly->getTimestamp()
             ]
         ];
