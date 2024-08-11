@@ -58,11 +58,11 @@ if (!$isAdvancedReportingActive) echo Admin_Template::get_template('layout/parti
                 </th>
 
                 <td>
-                    <select id="wps_addon_settings[advanced_reporting][email_stats_time_range]">
+                    <select id="wps_addon_settings[advanced_reporting][email_stats_time_range]" name="wps_addon_settings[advanced_reporting][email_stats_time_range]">
                         <option value="0" <?php selected(\WP_STATISTICS\Option::get('time_report'), '0'); ?>><?php esc_html_e('Disable', 'wp-statistics'); ?></option>
                         <?php
                         foreach (\WP_STATISTICS\Schedule::getSchedules() as $key => $value) {
-                            echo '<option value="' . esc_attr($key) . '" ' . selected(\WP_STATISTICS\Option::get('time_report'), $key) . '>' . esc_attr($value['display']) . '</option>';
+                            echo '<option value="' . esc_attr($key) . '" ' . selected(\WP_STATISTICS\Option::get('time_report'), $key, false) . '>' . esc_attr($value['display']) . '</option>';
                         }
                         ?>
                     </select>
