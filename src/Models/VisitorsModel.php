@@ -263,7 +263,7 @@ class VisitorsModel extends BaseModel
                 $summary['7days']['visitors'] += $visitors;
             }
 
-            if ($date >= $dateRanges['30days']['from'] && $date <= $dateRanges['30days']['from']) {
+            if ($date >= $dateRanges['30days']['from'] && $date <= $dateRanges['30days']['to']) {
                 $summary['30days']['visitors'] += $visitors;
             }
 

@@ -193,7 +193,7 @@ class ViewsModel extends BaseModel
                 $summary['7days']['views'] += $views;
             }
 
-            if ($date >= $dateRanges['30days']['from'] && $date <= $dateRanges['30days']['from']) {
+            if ($date >= $dateRanges['30days']['from'] && $date <= $dateRanges['30days']['to']) {
                 $summary['30days']['views'] += $views;
             }
 
