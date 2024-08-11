@@ -1014,6 +1014,7 @@ class Helper
                 $where = $field_sql(-6);
                 break;
             case 'two-weeks':
+            case '14days':
                 $where = $field_sql(-13);
                 break;
             case 'last-two-weeks':
