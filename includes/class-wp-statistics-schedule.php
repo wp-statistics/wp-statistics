@@ -150,21 +150,21 @@ class Schedule
             'daily'    => [
                 'interval'      => DAY_IN_SECONDS,
                 'display'       => __('Daily', 'wp-statistics'),
-                'start'         => wp_date('Y-m-d', strtotime("-1 day")),
+                'start'         => wp_date('Y-m-d'),
                 'end'           => wp_date('Y-m-d'),
                 'next_schedule' => $daily->getTimestamp()
             ],
             'weekly'   => [
                 'interval'      => WEEK_IN_SECONDS,
                 'display'       => __('Weekly', 'wp-statistics'),
-                'start'         => wp_date('Y-m-d', strtotime("-1 week")),
+                'start'         => wp_date('Y-m-d', strtotime("-6 days")),
                 'end'           => wp_date('Y-m-d'),
                 'next_schedule' => $weekly->getTimestamp()
             ],
             'biweekly' => [
                 'interval'      => 2 * WEEK_IN_SECONDS,
                 'display'       => __('Bi-Weekly', 'wp-statistics'),
-                'start'         => wp_date('Y-m-d', strtotime("-2 weeks")),
+                'start'         => wp_date('Y-m-d', strtotime("-13 days")),
                 'end'           => wp_date('Y-m-d'),
                 'next_schedule' => $biweekly->getTimestamp()
             ],
@@ -285,7 +285,12 @@ class Schedule
 
         if ($schedule && array_key_exists($schedule, self::getSchedules())) {
             $schedule = self::getSchedules()[$schedule];
-            $subject  .= sprintf(__(' for %s to %s', 'wp-statistics'), $schedule['start'], $schedule['end']);
+
+            if ($schedule['start'] === $schedule['end']) {
+                $subject .= sprintf(__(' for %s', 'wp-statistics'), $schedule['start']);
+            } else {
+                $subject .= sprintf(__(' for %s to %s', 'wp-statistics'), $schedule['start'], $schedule['end']);
+            }
         }
 
         return $subject;

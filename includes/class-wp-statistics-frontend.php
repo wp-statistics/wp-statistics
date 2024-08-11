@@ -49,38 +49,39 @@ class Frontend
              * Get default params
              */
             $params = array_merge([Hits::$rest_hits_key => 1], Helper::getHitsDefaultParams());
-            
+
             /**
              * Handle the bypass ad blockers
              */
             if (Option::get('bypass_ad_blockers', false)) {
                 // AJAX params
-                $requestUrl     = get_site_url();
-                $hitParams      = array_merge($params, ['action' => 'wp_statistics_hit_record']);
-                $onlineParams   = array_merge($params, ['action' => 'wp_statistics_online_check']);
+                $requestUrl   = get_site_url();
+                $hitParams    = array_merge($params, ['action' => 'wp_statistics_hit_record']);
+                $onlineParams = array_merge($params, ['action' => 'wp_statistics_online_check']);
             } else {
                 // REST params
-                $requestUrl     = get_rest_url(null, RestAPI::$namespace);
-                $hitParams      = array_merge($params, ['endpoint' => Api\v2\Hit::$endpoint]);
-                $onlineParams   = array_merge($params, ['endpoint' => Api\v2\CheckUserOnline::$endpoint]);
+                $requestUrl   = get_rest_url(null, RestAPI::$namespace);
+                $hitParams    = array_merge($params, ['endpoint' => Api\v2\Hit::$endpoint]);
+                $onlineParams = array_merge($params, ['endpoint' => Api\v2\CheckUserOnline::$endpoint]);
             }
 
             /**
              * Build the parameters
              */
             $jsArgs = array(
-                'requestUrl'        => $requestUrl,
-                'hitParams'         => $hitParams,
-                'onlineParams'      => $onlineParams,
-                'option'            => [
-                    'userOnline'            => Option::get('useronline'),
-                    'consentLevel'          => Option::get('consent_level_integration', 'disabled'),
-                    'dntEnabled'            => Option::get('do_not_track'),
-                    'bypassAdBlockers'      => Option::get('bypass_ad_blockers', false),
-                    'isWpConsentApiActive'  => WpConsentApi::isWpConsentApiActive(),
-                    'trackAnonymously'      => Helper::shouldTrackAnonymously()
+                'requestUrl'   => $requestUrl,
+                'ajaxUrl'      => admin_url('admin-ajax.php'),
+                'hitParams'    => $hitParams,
+                'onlineParams' => $onlineParams,
+                'option'       => [
+                    'userOnline'           => Option::get('useronline'),
+                    'consentLevel'         => Option::get('consent_level_integration', 'disabled'),
+                    'dntEnabled'           => Option::get('do_not_track'),
+                    'bypassAdBlockers'     => Option::get('bypass_ad_blockers', false),
+                    'isWpConsentApiActive' => WpConsentApi::isWpConsentApiActive(),
+                    'trackAnonymously'     => Helper::shouldTrackAnonymously()
                 ],
-                'jsCheckTime'       => apply_filters('wp_statistics_js_check_time_interval', 60000),
+                'jsCheckTime'  => apply_filters('wp_statistics_js_check_time_interval', 60000),
             );
 
             Assets::script('tracker', 'js/tracker.js', [], $jsArgs, true, Option::get('bypass_ad_blockers', false));

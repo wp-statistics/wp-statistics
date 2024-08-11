@@ -1,4 +1,6 @@
 <?php
+namespace WP_STATISTICS;
+
 /**
  * WP Async Request
  *
