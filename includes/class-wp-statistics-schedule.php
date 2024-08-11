@@ -126,9 +126,7 @@ class Schedule
         $datetime->setTimezone($timezone);
 
         // Determine the day name based on the start of the week setting
-        $start_of_week  = get_option('start_of_week', 1);
-        $days_of_week   = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-        $start_day_name = $days_of_week[$start_of_week];
+        $start_day_name = Helper::getStartOfWeek();;
 
         // Daily schedule
         $daily = clone $datetime;
