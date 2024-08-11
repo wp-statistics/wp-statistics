@@ -2061,6 +2061,8 @@ class Helper
      *  - `topPost`
      *  - `topReferral`
      *  - `topCategory`
+     * 
+     * @todo This function is a mess! We should make it more readable and break it down into several functions.
      */
     public static function getWebsitePerformanceSummary($startDate, $endDate = '')
     {
