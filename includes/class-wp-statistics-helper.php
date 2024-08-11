@@ -1058,6 +1058,11 @@ class Helper
             case '14days':
                 $where = $field_sql(-13);
                 break;
+            case 'two-weeks-ex-today':
+                $fromDate = date('Y-m-d', strtotime('-2 week'));
+                $toDate   = TimeZone::getTimeAgo(1, 'Y-m-d');
+                $where    = "`$field` BETWEEN '{$fromDate}' AND '{$toDate}'";
+                break;
             case 'last-two-weeks':
                 $fromDate = TimeZone::getTimeAgo(28, 'Y-m-d');
                 $toDate   = TimeZone::getTimeAgo(14, 'Y-m-d');
@@ -2116,9 +2121,9 @@ class Helper
             $thisPeriodFromDaysAgo = 14;
             $lastPeriodFromDaysAgo = 28;
             $lastPeriodToDaysAgo   = 15;
-            $thisPeriodVisitors    = wp_statistics_visitor('two-weeks', null, true);
+            $thisPeriodVisitors    = wp_statistics_visitor('two-weeks-ex-today', null, true);
             $lastPeriodVisitors    = wp_statistics_visitor('last-two-weeks', null, true);
-            $thisPeriodVisits      = wp_statistics_visit('two-weeks');
+            $thisPeriodVisits      = wp_statistics_visit('two-weeks-ex-today');
             $lastPeriodVisits      = wp_statistics_visit('last-two-weeks');
             $thisPeriodReferrals   = $visitorsModel->getReferrers(['date' => ['from' => TimeZone::getTimeAgo($thisPeriodFromDaysAgo), 'to' => $endDate]]);
             $lastPeriodReferrals   = $visitorsModel->getReferrers(['date' => ['from' => TimeZone::getTimeAgo($lastPeriodFromDaysAgo), 'to' => TimeZone::getTimeAgo($lastPeriodToDaysAgo)]]);
