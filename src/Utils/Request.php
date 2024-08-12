@@ -25,6 +25,8 @@ class Request
                 return intval($value);
             case 'text':
                 return sanitize_textarea_field($value);
+            case 'array':
+                return array_map('sanitize_text_field', $value);
             case 'string':
             default:
                 return sanitize_text_field($value);
