@@ -46,27 +46,19 @@ class DateRange
         return !empty($storedRange) ? $storedRange : self::getDefault();
     }
 
-    // public function get($item = false)
-    // {
-    //     $items = [
-    //         'today' => [
-    //             'from'  => '',
-    //             'to'    => '',
-    //         ],
-    //         'yesterday' => [
-    //             'from'  => '',
-    //             'to'    => '',
-    //         ],
-    //         '30days' => [
-    //             'from'  => '',
-    //             'to'    => '',
-    //         ]
-    //     ];
+    /**
+     * @todo Add complete list of needed string dates such as today, yesterday, month, last-month, etc 
+     */
+    public function get($item = false)
+    {
+        $items = [
+            
+        ];
 
-    //     if (!isset($items[$item])) {
-    //         throw new \ErrorException(esc_html__('Invalid date range.'));
-    //     }
+        if (!isset($items[$item])) {
+            throw new \ErrorException(esc_html__('Invalid date range.'));
+        }
 
-    //     return !empty($item) ? $items[$item] : $items;
-    // }
+        return !empty($item) ? $items[$item] : $items;
+    }
 }
