@@ -1086,7 +1086,7 @@ class Helper
                 break;
             case 'month-ex-today':
                 // Month, excluding today
-                $fromDate = date('Y-m-d', strtotime('-1 month'));
+                $fromDate = date('Y-m-d', strtotime('-30 days'));
                 $toDate   = TimeZone::getTimeAgo(1, 'Y-m-d');
                 $where    = "`$field` BETWEEN '{$fromDate}' AND '{$toDate}'";
                 break;
