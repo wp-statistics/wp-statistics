@@ -169,7 +169,7 @@ class Schedule
             'monthly'  => [
                 'interval'      => MONTH_IN_SECONDS,
                 'display'       => __('Monthly', 'wp-statistics'),
-                'start'         => wp_date('Y-m-d', strtotime("-1 month")),
+                'start'         => wp_date('Y-m-d', strtotime("-30 days")),
                 'end'           => wp_date('Y-m-d', strtotime("-1 day")),
                 'next_schedule' => $monthly->getTimestamp()
             ]

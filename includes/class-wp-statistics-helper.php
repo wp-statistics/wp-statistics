@@ -2138,7 +2138,7 @@ class Helper
             $lastPeriodReferrals   = $visitorsModel->getReferrers(['date' => ['from' => TimeZone::getTimeAgo($lastPeriodFromDaysAgo), 'to' => TimeZone::getTimeAgo($lastPeriodToDaysAgo)]]);
             $thisPeriodContents    = $postsModel->countPosts(['date' => ['from' => TimeZone::getTimeAgo($thisPeriodFromDaysAgo), 'to' => $endDate]]);
             $lastPeriodContents    = $postsModel->countPosts(['date' => ['from' => TimeZone::getTimeAgo($lastPeriodFromDaysAgo), 'to' => TimeZone::getTimeAgo($lastPeriodToDaysAgo)]]);
-        } else if ($startDate == date('Y-m-d', strtotime('-1 month'))) {
+        } else if ($startDate == date('Y-m-d', strtotime('-30 days'))) {
             $thisPeriodFromDaysAgo = 30;
             $thisPeriodToDaysAgo   = 1;
             $lastPeriodFromDaysAgo = 60;
