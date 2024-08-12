@@ -17,10 +17,6 @@ class CategoryReportView extends BaseView
             'author_id' => Request::get('author_id', '', 'number'),
             'post_type' => Request::get('pt', ''),
             'taxonomy'  => Request::get('tx', 'category'),
-            'date'      => [
-                'from' => Request::get('from', date('Y-m-d', strtotime('-29 days'))),
-                'to'   => Request::get('to', date('Y-m-d'))
-            ],
             'order_by'  => Request::get('order_by', 'views'),
             'order'     => Request::get('order', 'DESC'),
         ];

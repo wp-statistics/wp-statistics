@@ -28,10 +28,6 @@ class TabsView extends BaseTabView
         parent::__construct();
 
         $this->dataProvider = new DevicesDataProvider([
-            'date'     => [
-                'from' => Request::get('from', date('Y-m-d', strtotime('-29 days'))),
-                'to'   => Request::get('to', date('Y-m-d')),
-            ],
             'per_page' => 10,
             'page'     => Admin_Template::getCurrentPaged()
         ]);

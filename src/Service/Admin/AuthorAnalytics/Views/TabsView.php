@@ -22,13 +22,8 @@ class TabsView extends BaseTabView
 
     public function getPerformanceData()
     {
-        $from       = Request::get('from', date('Y-m-d', strtotime('-29 days')));
-        $to         = Request::get('to', date('Y-m-d'));
-        $postType   = Request::get('pt', 'post');
-
         $args = [
-            'date'      => ['from' => $from, 'to' => $to],
-            'post_type' => $postType,
+            'post_type' => Request::get('pt', 'post')
         ];
 
         $dataProvider = new $this->dataProvider($args);

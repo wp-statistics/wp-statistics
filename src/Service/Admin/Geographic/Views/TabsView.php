@@ -29,10 +29,6 @@ class TabsView extends BaseTabView
         parent::__construct();
 
         $this->dataProvider = new GeographicDataProvider([
-            'date' =>[
-                'from'  => Request::get('from', date('Y-m-d', strtotime('-29 days'))),
-                'to'    => Request::get('to', date('Y-m-d')),
-            ],
             'per_page'  => Admin_Template::$item_per_page,
             'page'      => Admin_Template::getCurrentPaged()
         ]);
@@ -80,41 +76,25 @@ class TabsView extends BaseTabView
                 'data'       => $data,
                 'tabs'       => [
                     [
-                        'link'    => Menus::admin_url('geographic', [
-                            'tab'   => 'countries',
-                            'from'  => Request::get('from', date('Y-m-d', strtotime('-29 days'))),
-                            'to'    => Request::get('to', date('Y-m-d'))
-                        ]),
+                        'link'    => Menus::admin_url('geographic', ['tab'   => 'countries']),
                         'title'   => esc_html__('Countries', 'wp-statistics'),
                         'tooltip' => esc_html__('Displays visitor counts from different countries.', 'wp-statistics'),
                         'class'   => $currentTab === 'countries' ? 'current' : '',
                     ],
                     [
-                        'link'    => Menus::admin_url('geographic', [
-                            'tab'   => 'cities',
-                            'from'  => Request::get('from', date('Y-m-d', strtotime('-29 days'))),
-                            'to'    => Request::get('to', date('Y-m-d'))
-                        ]),
+                        'link'    => Menus::admin_url('geographic', ['tab' => 'cities']),
                         'title'   => esc_html__('Cities', 'wp-statistics'),
                         'tooltip' => esc_html__('Displays visitor data based on their cities of origin.', 'wp-statistics'),
                         'class'   => $currentTab === 'cities' ? 'current' : '',
                     ],
                     [
-                        'link'    => Menus::admin_url('geographic', [
-                            'tab'   => 'europe',
-                            'from'  => Request::get('from', date('Y-m-d', strtotime('-29 days'))),
-                            'to'    => Request::get('to', date('Y-m-d'))
-                        ]),
+                        'link'    => Menus::admin_url('geographic', ['tab'   => 'europe']),
                         'title'   => esc_html__('European Countries', 'wp-statistics'),
                         'tooltip' => esc_html__('Displays visitor counts from European countries.', 'wp-statistics'),
                         'class'   => $currentTab === 'europe' ? 'current' : '',
                     ],
                     [
-                        'link'    => Menus::admin_url('geographic', [
-                            'tab'   => 'us',
-                            'from'  => Request::get('from', date('Y-m-d', strtotime('-29 days'))),
-                            'to'    => Request::get('to', date('Y-m-d'))
-                        ]),
+                        'link'    => Menus::admin_url('geographic', ['tab'   => 'us']),
                         'title'   => esc_html__('US States', 'wp-statistics'),
                         'tooltip' => esc_html__('Displays visitor counts categorized by states within the USA.', 'wp-statistics'),
                         'class'   => $currentTab === 'us' ? 'current' : '',
