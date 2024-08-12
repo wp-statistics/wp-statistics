@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace WP_Statistics\Service\Admin\Pages\Views;
 
@@ -12,7 +12,7 @@ use WP_Statistics\Abstracts\BaseTabView;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Service\Admin\Pages\PagesDataProvider;
 
-class TabsView extends BaseTabView 
+class TabsView extends BaseTabView
 {
     protected $defaultTab = 'contents';
     protected $tabs = [
@@ -26,8 +26,8 @@ class TabsView extends BaseTabView
     {
         $args = [
             'date'      => [
-                'from'  => Request::get('from', date('Y-m-d', strtotime('-29 day'))), 
-                'to'    => Request::get('to', date('Y-m-d'))
+                'from' => Request::get('from', date('Y-m-d', strtotime('-29 day'))),
+                'to'   => Request::get('to', date('Y-m-d'))
             ],
             'order'     => Request::get('order', 'DESC'),
             'author_id' => Request::get('author_id', '', 'number'),
@@ -58,32 +58,27 @@ class TabsView extends BaseTabView
         return $this->dataProvider->getAuthorsData();
     }
 
-    public function isTaxonomyLocked()
-    {
-        return !Helper::isAddOnActive('data-plus') && Helper::isCustomTaxonomy(Request::get('tx', 'category'));
-    }
-
     public function render()
     {
         try {
-            $template   = $this->getCurrentTab();
-            $data       = $this->getTabData();
+            $template = $this->getCurrentTab();
+            $data     = $this->getTabData();
 
             $filters = [];
             if ($this->isTab('contents')) {
-                $filters = ['post-types','author'];
+                $filters = ['post-types', 'author'];
             } elseif ($this->isTab('category')) {
                 $filters = ['taxonomy'];
 
-                //@todo handle locked pages inside one template, instead of making one template for locked, one for unlocked. 
-                $template = $this->isTaxonomyLocked() ? "$template-locked" : $template;
+//                //@todo handle locked pages inside one template, instead of making one template for locked, one for unlocked.
+//                $template = $this->isTaxonomyLocked() ? "$template-locked" : $template;
             }
-    
+
             $args = [
                 'title'         => esc_html__('Pages', 'wp-statistics'),
                 'pageName'      => Menus::get_page_slug('pages'),
                 'custom_get'    => [
-                    'tab'       => $this->getCurrentTab(), 
+                    'tab'       => $this->getCurrentTab(),
                     'pt'        => Request::get('pt', ''),
                     'tx'        => Request::get('tx', 'category'),
                     'author_id' => Request::get('author_id', '', 'number'),
@@ -92,6 +87,7 @@ class TabsView extends BaseTabView
                 ],
                 'DateRang'      => Admin_Template::DateRange(),
                 'hasDateRang'   => true,
+                'showLockedPage'        => $this->isTaxonomyLocked(),
                 'data'          => $data,
                 'allTimeOption' => true,
                 'filters'       => $filters,
@@ -119,10 +115,10 @@ class TabsView extends BaseTabView
                         'class'   => $this->isTab('author') ? 'current' : '',
                     ],
                     [
-                        'link'          => Menus::admin_url('pages', ['tab' => '404']),
-                        'title'         => esc_html__('404 Pages', 'wp-statistics'),
-                        'class'         => $this->isTab('404') ? 'current' : '',
-                        'coming_soon'   => true
+                        'link'        => Menus::admin_url('pages', ['tab' => '404']),
+                        'title'       => esc_html__('404 Pages', 'wp-statistics'),
+                        'class'       => $this->isTab('404') ? 'current' : '',
+                        'coming_soon' => true
                     ]
                 ]
             ];
@@ -133,5 +129,10 @@ class TabsView extends BaseTabView
         } catch (Exception $e) {
             Notice::renderNotice($e->getMessage(), $e->getCode(), 'error');
         }
+    }
+
+    public function isTaxonomyLocked()
+    {
+        return !Helper::isAddOnActive('data-plus') && Helper::isCustomTaxonomy(Request::get('tx', 'category'));
     }
 }

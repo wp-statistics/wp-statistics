@@ -161,7 +161,7 @@ class Admin_Template
             'query_var'     => self::$paginate_link_name,
             'total'         => 0,
             'current'       => 0,
-            'show_now_page' => true,
+            'show_now_page' => false,
             'echo'          => false
         );
         $args            = wp_parse_args($args, $defaults);
