@@ -2118,9 +2118,9 @@ class Helper
             $lastPeriodFromDaysAgo = 14;
             $lastPeriodToDaysAgo   = 8;
             $thisPeriodVisitors    = wp_statistics_visitor('week-ex-today', null, true);
-            $lastPeriodVisitors    = wp_statistics_visitor('last-week', null, true);
+            $lastPeriodVisitors    = wp_statistics_visitor(['start' => TimeZone::getTimeAgo($lastPeriodFromDaysAgo), 'end' => TimeZone::getTimeAgo($lastPeriodToDaysAgo)], null, true);
             $thisPeriodVisits      = wp_statistics_visit('week-ex-today');
-            $lastPeriodVisits      = wp_statistics_visit('last-week');
+            $lastPeriodVisits      = wp_statistics_visit(['start' => TimeZone::getTimeAgo($lastPeriodFromDaysAgo), 'end' => TimeZone::getTimeAgo($lastPeriodToDaysAgo)]);
             $thisPeriodReferrals   = $visitorsModel->getReferrers(['date' => ['from' => TimeZone::getTimeAgo($thisPeriodFromDaysAgo), 'to' => $endDate]]);
             $lastPeriodReferrals   = $visitorsModel->getReferrers(['date' => ['from' => TimeZone::getTimeAgo($lastPeriodFromDaysAgo), 'to' => TimeZone::getTimeAgo($lastPeriodToDaysAgo)]]);
             $thisPeriodContents    = $postsModel->countPosts(['date' => ['from' => TimeZone::getTimeAgo($thisPeriodFromDaysAgo), 'to' => $endDate]]);
@@ -2131,9 +2131,9 @@ class Helper
             $lastPeriodFromDaysAgo = 28;
             $lastPeriodToDaysAgo   = 15;
             $thisPeriodVisitors    = wp_statistics_visitor('two-weeks-ex-today', null, true);
-            $lastPeriodVisitors    = wp_statistics_visitor('last-two-weeks', null, true);
+            $lastPeriodVisitors    = wp_statistics_visitor(['start' => TimeZone::getTimeAgo($lastPeriodFromDaysAgo), 'end' => TimeZone::getTimeAgo($lastPeriodToDaysAgo)], null, true);
             $thisPeriodVisits      = wp_statistics_visit('two-weeks-ex-today');
-            $lastPeriodVisits      = wp_statistics_visit('last-two-weeks');
+            $lastPeriodVisits      = wp_statistics_visit(['start' => TimeZone::getTimeAgo($lastPeriodFromDaysAgo), 'end' => TimeZone::getTimeAgo($lastPeriodToDaysAgo)]);
             $thisPeriodReferrals   = $visitorsModel->getReferrers(['date' => ['from' => TimeZone::getTimeAgo($thisPeriodFromDaysAgo), 'to' => $endDate]]);
             $lastPeriodReferrals   = $visitorsModel->getReferrers(['date' => ['from' => TimeZone::getTimeAgo($lastPeriodFromDaysAgo), 'to' => TimeZone::getTimeAgo($lastPeriodToDaysAgo)]]);
             $thisPeriodContents    = $postsModel->countPosts(['date' => ['from' => TimeZone::getTimeAgo($thisPeriodFromDaysAgo), 'to' => $endDate]]);
@@ -2144,9 +2144,9 @@ class Helper
             $lastPeriodFromDaysAgo = 60;
             $lastPeriodToDaysAgo   = 30;
             $thisPeriodVisitors    = wp_statistics_visitor('month-ex-today', null, true);
-            $lastPeriodVisitors    = wp_statistics_visitor('last-month', null, true);
+            $lastPeriodVisitors    = wp_statistics_visitor(['start' => TimeZone::getTimeAgo($lastPeriodFromDaysAgo), 'end' => TimeZone::getTimeAgo($lastPeriodToDaysAgo)], null, true);
             $thisPeriodVisits      = wp_statistics_visit('month-ex-today');
-            $lastPeriodVisits      = wp_statistics_visit('last-month');
+            $lastPeriodVisits      = wp_statistics_visit(['start' => TimeZone::getTimeAgo($lastPeriodFromDaysAgo), 'end' => TimeZone::getTimeAgo($lastPeriodToDaysAgo)]);
             $thisPeriodReferrals   = $visitorsModel->getReferrers(['date' => ['from' => TimeZone::getTimeAgo(30), 'to' => $endDate]]);
             $lastPeriodReferrals   = $visitorsModel->getReferrers(['date' => ['from' => TimeZone::getTimeAgo($lastPeriodFromDaysAgo), 'to' => TimeZone::getTimeAgo($lastPeriodToDaysAgo)]]);
             $thisPeriodContents    = $postsModel->countPosts(['date' => ['from' => TimeZone::getTimeAgo($thisPeriodFromDaysAgo), 'to' => $endDate]]);
