@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-08-11T13:26:43+00:00\n"
+"POT-Creation-Date: 2024-08-12T09:09:12+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: wp-statistics\n"
@@ -1540,7 +1540,7 @@ msgid "Advanced Reporting"
 msgstr ""
 
 #: includes/admin/templates/layout/menu-settings.php:108
-#: includes/class-wp-statistics-helper.php:1710
+#: includes/class-wp-statistics-helper.php:1733
 msgid "Mini Chart"
 msgstr ""
 
@@ -3801,12 +3801,11 @@ msgid "User Presence Monitoring"
 msgstr ""
 
 #: includes/admin/templates/settings/general.php:35
-#: src/Service/Admin/NoticeHandler/GeneralNotices.php:69
-msgid "Display Online Users"
+msgid "Monitor Online Visitors"
 msgstr ""
 
 #: includes/admin/templates/settings/general.php:41
-msgid "Shows current online users on the site."
+msgid "Tracks and displays visitors currently online, including their activity duration. Disabling this option stops the online monitoring feature, but visitor tracking remains active."
 msgstr ""
 
 #: includes/admin/templates/settings/general.php:51
@@ -3873,11 +3872,11 @@ msgid "Show a summary of content view statistics in the post editor."
 msgstr ""
 
 #: includes/admin/templates/settings/general.php:123
-msgid "Views Column"
+msgid "Views Column in Content List"
 msgstr ""
 
 #: includes/admin/templates/settings/general.php:128
-msgid "Displays the number of views for each content item in your content list."
+msgid "Display the \"Views\" column in the content list menus, showing the view counts for content across all post types."
 msgstr ""
 
 #: includes/admin/templates/settings/general.php:134
@@ -4639,83 +4638,83 @@ msgstr ""
 msgid "Tags"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1543
+#: includes/class-wp-statistics-helper.php:1566
 msgid "a year"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1545
+#: includes/class-wp-statistics-helper.php:1568
 msgid "a month"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1548
+#: includes/class-wp-statistics-helper.php:1571
 msgid "a week"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1550
+#: includes/class-wp-statistics-helper.php:1573
 msgid "a day"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1653
+#: includes/class-wp-statistics-helper.php:1676
 msgid "Optimize Your Content Strategy"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1655
+#: includes/class-wp-statistics-helper.php:1678
 msgid "For maximum accuracy, enable the cache compatibility mode on your website and check your filtering settings. By following these steps, traffic data becomes more accurate. <div style=\"margin-top: 16px\">For more details, read <a href=\"%1$s\" style=\"color:#5100FD;font-size:14px;line-height:16.41px;font-weight:500;border-bottom: 1px solid #5100FD;text-decoration: none\" target=\"_blank\">%2$s <img width=\"6.67\" height=\"10.91\" style=\"margin-"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1662
+#: includes/class-wp-statistics-helper.php:1685
 msgid "Optimize Your Data Accuracy"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1666
+#: includes/class-wp-statistics-helper.php:1689
 msgid "Keep the plugin up-to-date"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1667
+#: includes/class-wp-statistics-helper.php:1690
 msgid "Ensure that your WP Statistics plugin is up-to-date in order to get the latest features and security improvements."
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1670
+#: includes/class-wp-statistics-helper.php:1693
 msgid "Maintain Privacy Compliance"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1674
+#: includes/class-wp-statistics-helper.php:1697
 msgid "WordPress Export and Erasure"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1678
+#: includes/class-wp-statistics-helper.php:1701
 msgid "Track Links and Downloads"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1682
+#: includes/class-wp-statistics-helper.php:1705
 msgid "Advanced Filtering"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1686
+#: includes/class-wp-statistics-helper.php:1709
 msgid "Weekly Traffic Comparison Widget"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1690
+#: includes/class-wp-statistics-helper.php:1713
 msgid "Traffic by Hour Widget"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1694
+#: includes/class-wp-statistics-helper.php:1717
 msgid "Content-Specific Analytics"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1698
+#: includes/class-wp-statistics-helper.php:1721
 msgid "Custom Post Type Tracking"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1702
+#: includes/class-wp-statistics-helper.php:1725
 msgid "Custom Taxonomy Analytics"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1706
+#: includes/class-wp-statistics-helper.php:1729
 msgid "Real-Time Stats"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1971
+#: includes/class-wp-statistics-helper.php:1994
 msgid "Invalid hit request params."
 msgstr ""
 
@@ -5472,6 +5471,10 @@ msgstr ""
 
 #: src/Service/Admin/NoticeHandler/GeneralNotices.php:49
 msgid "<b>WP Statistics</b> accuracy may be affected by your current settings. Please switch to Client Side Tracking for better accuracy and caching compatibility. <a href=\"%s\">Update Tracking Settings</a>."
+msgstr ""
+
+#: src/Service/Admin/NoticeHandler/GeneralNotices.php:69
+msgid "Display Online Users"
 msgstr ""
 
 #: src/Service/Admin/NoticeHandler/GeneralNotices.php:73

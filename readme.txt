@@ -134,7 +134,7 @@ To ensure the plugin works correctly, please clear your cache because some reque
 Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest version.
 
 == Changelog ==
-= 14.9.4 - 10.08.2024 =
+= 14.9.4 - 12.08.2024 =
 * Enhancement: Redesigned Mini Charts in content lists for better clarity.
 * Enhancement: Updated the automated report email template for improved readability.
 * Enhancement: Display query parameters alongside page names on the single visitor page.
