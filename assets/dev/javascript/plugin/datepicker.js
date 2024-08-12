@@ -129,7 +129,26 @@ jQuery(document).ready(function () {
             inputFrom.val(picker.startDate.format('YYYY-MM-DD'));
             inputTo.val(picker.endDate.format('YYYY-MM-DD'));
             datePickerBtn.find('span').html(datePickerElement.data('daterangepicker').chosenLabel);
-            datePickerForm.submit();
+            // datePickerForm.submit();
+
+            jQuery.ajax({
+                url: wps_js.global.ajax_url,
+                method: 'POST',
+                data: {
+                    wps_nonce: wps_js.global.rest_api_nonce,
+                    action: 'wp_statistics_store_date_range',
+                    date: {
+                        from: inputFrom.val(),
+                        to: inputTo.val()
+                    }
+                },
+                beforeSend: function() {
+                    // Add loading class to datepicker
+                },
+                complete: function(data) {
+                    datePickerForm.submit();
+                }
+            });
         });
     }
 
