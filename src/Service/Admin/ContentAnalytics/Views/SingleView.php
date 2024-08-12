@@ -33,7 +33,7 @@ class SingleView extends BaseView
             'post_id'       => $this->postId,
             'query_param'   => Helper::isAddOnActive('data-plus') ? Request::get('qp', '', 'number') : '',
             'date'          => [
-                'from'  => Request::get('from', date('Y-m-d', strtotime('-30 days'))),
+                'from'  => Request::get('from', date('Y-m-d', strtotime('-29 days'))),
                 'to'    => Request::get('to', date('Y-m-d'))
             ]
         ]);

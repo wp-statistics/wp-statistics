@@ -36,10 +36,15 @@ body[class*="wps_visitors_page"] {
     width: 220px;
 
     span.txt-overflow {
-      white-space: nowrap;
-      overflow: hidden;
-      width: 210px !important;
-      display: block;
+      display: table;
+      table-layout: fixed;
+      width: 150px;
+      a{
+        display: table-cell !important;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+      }
     }
   }
 }

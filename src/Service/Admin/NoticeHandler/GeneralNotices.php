@@ -2,17 +2,12 @@
 
 namespace WP_Statistics\Service\Admin\NoticeHandler;
 
-use WP_STATISTICS\Api\v2\Hit;
 use WP_STATISTICS\DB;
-use WP_STATISTICS\GeoIP;
 use WP_STATISTICS\Helper;
-use WP_STATISTICS\Hits;
 use WP_STATISTICS\Menus;
 use WP_STATISTICS\Option;
-use WP_STATISTICS\RestAPI;
 use WP_STATISTICS\Schedule;
 use WP_STATISTICS\User;
-use WP_Statistics\Utils\Request;
 
 class GeneralNotices
 {
@@ -23,8 +18,6 @@ class GeneralNotices
      */
     private $core_notices = array(
         'check_tracking_mode',
-        'active_geo_ip',
-        'donate_plugin',
         'active_collation',
         'performance_and_clean_up',
         'memory_limit_check',
@@ -61,20 +54,6 @@ class GeneralNotices
                 $noticeText  = sprintf('<b>WP Statistics Notice:</b> Server Side Tracking is less accurate and will be deprecated in <b>version 15</b>. Please switch to Client Side Tracking for better accuracy. <a href="%s">Update Tracking Settings</a>.', $settingsUrl);
                 Notice::addNotice($noticeText, 'deprecate_server_side_tracking', 'warning');
             }
-        }
-    }
-
-    private function active_geo_ip()
-    {
-        if (Menus::in_plugin_page() and !Option::get('geoip') and GeoIp::IsSupport()) {
-            Notice::addNotice(sprintf(__('GeoIP collection is not enabled. Please go to <a href="%s">setting page</a> to enable GeoIP for getting more information and location (country) from the visitor.', 'wp-statistics'), Menus::admin_url('settings', array('tab' => 'externals-settings'))), 'active_geo_ip', 'warning');
-        }
-    }
-
-    private function donate_plugin()
-    {
-        if (Menus::in_page('overview')) {
-            Notice::addNotice(__('Have you thought about donating to WP Statistics?', 'wp-statistics') . ' <a href="https://wp-statistics.com/donate/" target="_blank">' . __('Donate Now!', 'wp-statistics') . '</a>', 'donate_plugin');
         }
     }
 
@@ -131,7 +110,7 @@ class GeneralNotices
     public function php_version_check()
     {
         if (version_compare(PHP_VERSION, '7.2', '<')) {
-            Notice::addNotice(__('<b>WP Statistics Notice: PHP Version Update Alert</b> Starting with <b>Version 15</b>, WP Statistics will require <b>PHP 7.2 or higher</b>. Please upgrade your PHP version to ensure uninterrupted use of the plugin.'), 'php_version_check', 'warning');
+            Notice::addNotice(__('<b>WP Statistics Notice: PHP Version Update Alert</b> Starting with <b>Version 14.11</b>, WP Statistics will require <b>PHP 7.2 or higher</b>. Please upgrade your PHP version to ensure uninterrupted use of the plugin.'), 'php_version_check', 'warning');
         }
     }
 

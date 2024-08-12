@@ -52,7 +52,7 @@ class Visitor
         );
         if (!$insert) {
             if (!empty($wpdb->last_error)) {
-                \WP_Statistics::log($wpdb->last_error);
+                \WP_Statistics::log($wpdb->last_error, 'warning');
             }
         }
 
@@ -368,15 +368,36 @@ class Visitor
                 $item['map'] = GeoIP::geoIPTools($ip);
             }
 
-            // Push Country
-            if (GeoIP::active()) {
-                $item['country'] = array('location' => $items->location, 'flag' => Country::flag($items->location), 'name' => Country::getName($items->location));
+            /**
+             * Backward compatibility for the location field
+             *
+             * Set location from $items if it's not empty and not 'Unknown', otherwise use GeoIP to get the location
+             */
+            if (!empty($items->location) && $items->location !== 'Unknown') {
+                $location = $items->location;
+            } else {
+                $location = GeoIP::getCountry($ip);
             }
 
-            // Push City
-            if (GeoIP::active('city')) {
-                $item['city']   = !empty($items->city) ? $items->city : GeoIP::getCity($ip);
+            // Push Country
+            $item['country'] = array(
+                'location' => $location,
+                'flag'     => Country::flag($location),
+                'name'     => Country::getName($location)
+            );
+
+            /**
+             * Backward compatibility for the region field
+             *
+             * Set city from $items if it's not empty and not 'Unknown', otherwise use GeoIP to get the city
+             */
+            if (!empty($items->city) && $items->city !== __('Unknown', 'wp-statistics')) {
+                $item['city']   = $items->city;
                 $item['region'] = $items->region;
+            } else {
+                $city           = GeoIP::getCity($ip, true);
+                $item['city']   = $city['city'];
+                $item['region'] = $city['region'];
             }
 
             // Get What is Page
@@ -411,7 +432,13 @@ class Visitor
             ARRAY_A);
 
         if ($item !== null) {
-            $params = Pages::get_page_info($item['id'], $item['type'], $item['uri']);
+            $params         = Pages::get_page_info($item['id'], $item['type'], $item['uri']);
+            $linkWithParams = !empty($item['uri']) ? home_url() . $item['uri'] : false;
+
+            // If URL has params, add it to the title (except for allowed params like UTM params, etc...)
+            if (trim($params['link'], '/') !== trim($linkWithParams, '/') && !Helper::checkUrlForParams($linkWithParams, Helper::get_query_params_allow_list())) {
+                $params['title'] .= ' (' . trim($item['uri']) . ')';
+            }
         }
 
         return $params;

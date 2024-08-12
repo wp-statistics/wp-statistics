@@ -32,6 +32,7 @@
         </tbody>
     </table>
 </div>
+
 <div class="postbox">
     <table class="form-table">
         <tbody>
@@ -49,6 +50,7 @@
         </tbody>
     </table>
 </div>
+
 <div class="postbox">
     <table class="form-table">
         <tbody>
@@ -102,6 +104,7 @@
         </tbody>
     </table>
 </div>
+
 <div class="postbox">
     <table class="form-table">
         <tbody>
@@ -113,7 +116,7 @@
             <th scope="row"><label for="wps_excluded_countries"><?php esc_html_e('Excluded Countries', 'wp-statistics'); ?></label></th>
             <td>
                 <textarea id="wps_excluded_countries" name="wps_excluded_countries" rows="5" cols="50" class="code" dir="ltr"><?php echo esc_textarea(WP_STATISTICS\Option::get('excluded_countries')); ?></textarea>
-                <p class="description"><?php echo esc_html__('Enter country codes to exclude from stats. Use \'000\' for unknown countries.', 'wp-statistics') ?></p>
+                <p class="description"><?php _e('Enter country codes to exclude from stats. Use <code>000</code> for unknown countries. For a complete list of valid country codes, please refer to the <a href="https://wp-statistics.com/resources/list-of-country-codes/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" target="_blank">Country Codes Document</a>.', 'wp-statistics') ?></p>
             </td>
         </tr>
 
@@ -127,6 +130,7 @@
         </tbody>
     </table>
 </div>
+
 <div class="postbox">
     <table class="form-table">
         <tbody>
@@ -138,7 +142,7 @@
             <th scope="row"><label for="wps-exclude-loginpage"><?php esc_html_e('Excluded Login Page', 'wp-statistics'); ?></label></th>
             <td>
                 <input id="wps-exclude-loginpage" type="checkbox" value="1" name="wps_exclude_loginpage" <?php echo WP_STATISTICS\Option::get('exclude_loginpage') == true ? "checked='checked'" : ''; ?>><label for="wps-exclude-loginpage"><?php esc_html_e('Exclude', 'wp-statistics'); ?></label>
-                <p class="description"><?php esc_html_e('Login page visits will not be included in site visit counts.', 'wp-statistics'); ?></p>
+                <p class="description"><?php esc_html_e('Login and Register page visits will not be included in site visit counts.', 'wp-statistics'); ?></p>
             </td>
         </tr>
         <tr valign="top">
@@ -165,6 +169,7 @@
         </tbody>
     </table>
 </div>
+
 <div class="postbox">
     <table class="form-table">
         <tbody>
@@ -183,6 +188,76 @@
         </tbody>
     </table>
 </div>
+
+<div class="postbox">
+    <table class="form-table">
+        <tbody>
+        <tr valign="top">
+            <th scope="row" colspan="2">
+                <h3><?php esc_html_e('Matomo Referrer Spam Blacklist', 'wp-statistics'); ?></h3>
+            </th>
+        </tr>
+
+        <tr valign="top">
+            <th scope="row">
+                <label for="referrerspam-enable"><?php esc_html_e('Referrer Spam Blacklist', 'wp-statistics'); ?></label>
+            </th>
+
+            <td>
+                <input id="referrerspam-enable" type="checkbox" name="wps_referrerspam" <?php echo WP_STATISTICS\Option::get('referrerspam') == true ? "checked='checked'" : ''; ?>>
+                <label for="referrerspam-enable"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
+                <p class="description"><?php _e('Integrates with Matomo’s Referrer Spam Blacklist to exclude known spam referrers from site statistics. For more details on the blacklist source, visit <a href="https://github.com/matomo-org/referrer-spam-blacklist" target="_blank">Matomo\'s Referrer Spam Blacklist</a>.', 'wp-statistics'); // phpcs:ignore WordPress.Security.EscapeOutput.UnsafePrintingFunction		 ?></p>
+            </td>
+        </tr>
+
+        <tr valign="top" class="referrerspam_field" <?php if (!WP_STATISTICS\Option::get('referrerspam')) {
+            echo ' style="display:none;"';
+        } ?>>
+            <th scope="row">
+                <label for="geoip-update"><?php esc_html_e('Refresh Blacklist Data', 'wp-statistics'); ?></label>
+            </th>
+
+            <td>
+                <button type="submit" name="update-referrer-spam" value="1" class="button"><?php esc_html_e('Update', 'wp-staitsitcs'); ?></button>
+                <!--                <a href="--><?php //echo WP_STATISTICS\Menus::admin_url('settings', array('tab' => 'externals-settings', 'update-referrer-spam' => 'yes'))
+                ?><!--" class="button">--><?php //_e('Update', 'wp-staitsitcs');
+                ?><!--</a>-->
+                <p class="description"><?php esc_html_e('Click here to manually download the latest set of referrer spam filters from Matomo.', 'wp-statistics'); ?></p>
+            </td>
+        </tr>
+
+        <tr valign="top" class="referrerspam_field" <?php if (!WP_STATISTICS\Option::get('referrerspam')) {
+            echo ' style="display:none;"';
+        } ?>>
+            <th scope="row">
+                <label for="referrerspam-schedule"><?php esc_html_e('Automate Blacklist Updates', 'wp-statistics'); ?></label>
+            </th>
+
+            <td>
+                <input id="referrerspam-schedule" type="checkbox" name="wps_schedule_referrerspam" <?php echo WP_STATISTICS\Option::get('schedule_referrerspam') == true ? "checked='checked'" : ''; ?>>
+                <label for="referrerspam-schedule"><?php esc_html_e('Weekly Auto-Update', 'wp-statistics'); ?></label>
+                <?php
+                if (WP_STATISTICS\Option::get('schedule_referrerspam')) {
+                    echo '<p class="description">' . esc_html__('Next update will be', 'wp-statistics') . ': <code>';
+                    $next_schedule = wp_next_scheduled('wp_statistics_referrerspam_hook');
+
+                    if ($next_schedule) {
+                        echo esc_attr(date(get_option('date_format'), $next_schedule) . ' @ ' . date(get_option('time_format'), $next_schedule));  // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
+                    } else {
+                        $next_update = time() + (86400 * 7);
+                        echo esc_attr(date(get_option('date_format'), $next_update) . ' @ ' . date(get_option('time_format'), time()));  // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
+                    }
+
+                    echo '</code></p>';
+                }
+                ?>
+                <p class="description"><?php esc_html_e('Check this to automatically download updates to the Matomo Referrer Spam Blacklist every week, ensuring continuous protection.'); ?></p>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
 <div class="postbox">
     <table class="form-table">
         <tbody>
@@ -200,6 +275,7 @@
         </tbody>
     </table>
 </div>
+
 <div class="postbox">
     <table class="form-table">
         <tbody>

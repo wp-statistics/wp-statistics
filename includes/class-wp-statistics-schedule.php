@@ -26,12 +26,12 @@ class Schedule
             if (!Helper::is_request('ajax')) {
 
                 // Add the GeoIP update schedule if it doesn't exist and it should be.
-                if (!wp_next_scheduled('wp_statistics_geoip_hook') && Option::get('schedule_geoip') && Option::get('geoip')) {
+                if (!wp_next_scheduled('wp_statistics_geoip_hook') && Option::get('schedule_geoip')) {
                     wp_schedule_event(time(), 'daily', 'wp_statistics_geoip_hook');
                 }
 
                 // Remove the GeoIP update schedule if it does exist and it should shouldn't.
-                if (wp_next_scheduled('wp_statistics_geoip_hook') && (!Option::get('schedule_geoip') || !Option::get('geoip'))) {
+                if (wp_next_scheduled('wp_statistics_geoip_hook') && (!Option::get('schedule_geoip'))) {
                     wp_unschedule_event(wp_next_scheduled('wp_statistics_geoip_hook'), 'wp_statistics_geoip_hook');
                 }
 
@@ -126,9 +126,7 @@ class Schedule
         $datetime->setTimezone($timezone);
 
         // Determine the day name based on the start of the week setting
-        $start_of_week  = get_option('start_of_week', 1);
-        $days_of_week   = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-        $start_day_name = $days_of_week[$start_of_week];
+        $start_day_name = Helper::getStartOfWeek();;
 
         // Daily schedule
         $daily = clone $datetime;
@@ -151,28 +149,28 @@ class Schedule
                 'interval'      => DAY_IN_SECONDS,
                 'display'       => __('Daily', 'wp-statistics'),
                 'start'         => wp_date('Y-m-d', strtotime("-1 day")),
-                'end'           => wp_date('Y-m-d'),
+                'end'           => wp_date('Y-m-d', strtotime("-1 day")),
                 'next_schedule' => $daily->getTimestamp()
             ],
             'weekly'   => [
                 'interval'      => WEEK_IN_SECONDS,
                 'display'       => __('Weekly', 'wp-statistics'),
-                'start'         => wp_date('Y-m-d', strtotime("-1 week")),
-                'end'           => wp_date('Y-m-d'),
+                'start'         => wp_date('Y-m-d', strtotime("-7 days")),
+                'end'           => wp_date('Y-m-d', strtotime("-1 day")),
                 'next_schedule' => $weekly->getTimestamp()
             ],
             'biweekly' => [
                 'interval'      => 2 * WEEK_IN_SECONDS,
                 'display'       => __('Bi-Weekly', 'wp-statistics'),
-                'start'         => wp_date('Y-m-d', strtotime("-2 weeks")),
-                'end'           => wp_date('Y-m-d'),
+                'start'         => wp_date('Y-m-d', strtotime("-14 days")),
+                'end'           => wp_date('Y-m-d', strtotime("-1 day")),
                 'next_schedule' => $biweekly->getTimestamp()
             ],
             'monthly'  => [
                 'interval'      => MONTH_IN_SECONDS,
                 'display'       => __('Monthly', 'wp-statistics'),
                 'start'         => wp_date('Y-m-d', strtotime("-1 month")),
-                'end'           => wp_date('Y-m-d'),
+                'end'           => wp_date('Y-m-d', strtotime("-1 day")),
                 'next_schedule' => $monthly->getTimestamp()
             ]
         ];
@@ -235,7 +233,7 @@ class Schedule
         );
         if (!$insert) {
             if (!empty($wpdb->last_error)) {
-                \WP_Statistics::log($wpdb->last_error);
+                \WP_Statistics::log($wpdb->last_error, 'warning');
             }
         }
     }
@@ -248,14 +246,11 @@ class Schedule
         // Max-mind updates the geo-ip database on the first Tuesday of the month, to make sure we don't update before they post
         $this_update = strtotime('first Tuesday of this month') + (86400 * 2);
         $last_update = Option::get('last_geoip_dl');
+        $file_path   = GeoIP::get_geo_ip_path();
 
-        foreach (GeoIP::$library as $geo_ip => $value) {
-            $file_path = GeoIP::get_geo_ip_path($geo_ip);
-
-            if (file_exists($file_path)) {
-                if ($last_update < $this_update) {
-                    GeoIP::download($geo_ip, "update");
-                }
+        if (file_exists($file_path)) {
+            if ($last_update < $this_update) {
+                GeoIP::download('update');
             }
         }
 
@@ -288,7 +283,12 @@ class Schedule
 
         if ($schedule && array_key_exists($schedule, self::getSchedules())) {
             $schedule = self::getSchedules()[$schedule];
-            $subject  .= sprintf(__(' for %s to %s', 'wp-statistics'), $schedule['start'], $schedule['end']);
+
+            if ($schedule['start'] === $schedule['end']) {
+                $subject .= sprintf(__(' for %s', 'wp-statistics'), $schedule['start']);
+            } else {
+                $subject .= sprintf(__(' for %s to %s', 'wp-statistics'), $schedule['start'], $schedule['end']);
+            }
         }
 
         return $subject;
@@ -302,11 +302,7 @@ class Schedule
         // apply Filter ShortCode for email content
         $email_content = Option::get('content_report');
 
-        // set default email content if empty or not set in option
-        if (empty($email_content)) {
-            $email_content = Admin_Template::get_template('emails/default', [], true);
-        }
-
+        // Support ShortCode
         $email_content = do_shortcode($email_content);
 
         // Type Send Report
@@ -354,12 +350,28 @@ class Schedule
         }
 
         // If SMS
-        if ($type == 'sms' and function_exists('wp_sms_send') and class_exists('\WP_SMS\Option')) {
+        if ($type == 'sms' and !empty($email_content) and function_exists('wp_sms_send') and class_exists('\WP_SMS\Option')) {
             $adminMobileNumber = \WP_SMS\Option::getOption('admin_mobile_number');
             wp_sms_send($adminMobileNumber, $email_content);
         }
     }
 
+    public static function rescheduleEvent($event, $newTime, $prevTime)
+    {
+        if ($newTime === $prevTime) return;
+
+        if (wp_next_scheduled($event)) {
+            wp_unschedule_event(wp_next_scheduled($event), $event);
+        }
+
+        $time               = sanitize_text_field($newTime);
+        $schedulesInterval  = self::getSchedules();
+
+        if (isset($schedulesInterval[$time]['next_schedule'])) {
+            $scheduleTime = $schedulesInterval[$time]['next_schedule'];
+            wp_schedule_event($scheduleTime, $time, $event);
+        }
+    }
 }
 
 new Schedule;

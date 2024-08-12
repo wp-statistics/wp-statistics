@@ -3,6 +3,8 @@
 namespace WP_STATISTICS;
 
 use WP_Statistics\MiniChart\WP_Statistics_Mini_Chart_Settings;
+use WP_Statistics\Models\HistoricalModel;
+use WP_Statistics\Models\ViewsModel;
 
 class Admin_Taxonomy
 {
@@ -76,29 +78,59 @@ class Admin_Taxonomy
      */
     public function render_column($value, $column_name, $term_id)
     {
-        if ($column_name == 'wp-statistics-tax-hits') {
-            $term       = get_term($term_id);
-            $hit_number = wp_statistics_pages('total', "", $term_id, null, null, $term->taxonomy);
+        if ($column_name !== 'wp-statistics-tax-hits') {
+            return $value;
+        }
 
-            if ($hit_number) {
-                $preview_chart_unlock_html = sprintf('<div class="wps-admin-column__unlock"><a href="%s" target="_blank"><span>%s</span><img src="%s"/></a></div>',
-                    'https://wp-statistics.com/product/wp-statistics-mini-chart?utm_source=wp-statistics&utm_medium=link&utm_campaign=mini-chart',
-                    __('Unlock This Feature!', 'wp-statistics'),
-                    WP_STATISTICS_URL . 'assets/images/mini-chart-posts-preview.png'
-                );
+        $term              = get_term($term_id);
+        $termType          = ($term->taxonomy === 'category' || $term->taxonomy === 'post_tag') ? $term->taxonomy : 'tax';
+        $termLink          = get_term_link(intval($term->term_id), $term->taxonomy);
+        $termLink          = !is_wp_error($termLink) ? wp_make_link_relative($termLink) : '';
+        $args              = ['post_id' => $term_id, 'resource_type' => $termType];
+        $isMiniChartActive = Helper::isAddOnActive('mini-chart');
 
-                $setting = class_exists(WP_Statistics_Mini_Chart_Settings::class) ? get_option(WP_Statistics_Mini_Chart_Settings::get_instance()->setting_name) : '';
-                $value   = '';
-                if (!empty($setting) && Helper::isAddOnActive('mini-chart') && !empty($setting['active_mini_chart_' . $term->taxonomy])) {
-                    $value = apply_filters("wp_statistics_before_hit_column", $preview_chart_unlock_html, $term_id, $term->taxonomy);
-                }
+        if (Helper::checkMiniChartOption('count_display', 'disabled', 'total')) {
+            // Don't execute queries if `count_display` is disabled
+            $hitCount = 0;
+        } else {
+            $viewsModel = new ViewsModel();
+            $hitCount   = $viewsModel->countViewsFromPagesOnly($args);
 
-                $value .= sprintf('<a href="%s">%s</a>',
-                    Menus::admin_url('category-analytics', ['type' => 'single', 'term_id' => $term_id]),
-                    number_format($hit_number)
-                );
+            $historicalModel = new HistoricalModel();
+            $hitCount       += $historicalModel->countUris(['page_id' => $term_id, 'uri' => $termLink]);
+        }
+
+        if (is_numeric($hitCount)) {
+            $preview_chart_unlock_html = sprintf(
+                // translators: 1: Mini-chart product link - 2: "Unlock This Feature!" text - 3: Lock image - 4: Chart preview image.
+                '<div class="wps-admin-column__unlock"><a href="%s" target="_blank"><span class="wps-admin-column__unlock__text">%s</span><img class="wps-admin-column__unlock__lock" src="%s"/><img class="wps-admin-column__unlock__img" src="%s"/></a></div>',
+                'https://wp-statistics.com/product/wp-statistics-mini-chart?utm_source=wp-statistics&utm_medium=link&utm_campaign=mini-chart',
+                __('Unlock This Feature!', 'wp-statistics'),
+                WP_STATISTICS_URL . 'assets/images/mini-chart-posts-lock.svg',
+                WP_STATISTICS_URL . 'assets/images/mini-chart-posts-preview.svg'
+            );
+
+            $setting = class_exists(WP_Statistics_Mini_Chart_Settings::class) ? get_option(WP_Statistics_Mini_Chart_Settings::get_instance()->setting_name) : '';
+            $value   = '';
+            if (
+                !$isMiniChartActive ||
+                (!empty($setting) && !empty($setting['active_mini_chart_' . $term->taxonomy]))
+            ) {
+                // If add-on is not active, this line will display the "Unlock This Feature!" button
+                // If add-on is active but current taxonomy is not selected in the settings, nothing will be displayed
+                $value = apply_filters("wp_statistics_before_hit_column", $preview_chart_unlock_html, $term_id, $term->taxonomy);
             }
 
+            $value .= sprintf(
+                // translators: 1 & 2: CSS class - 3: "Views" text - 4: Link to category analytics page - 5: CSS class - 6: Hits count.
+                '<div class="%s"><span class="%s">%s</span> <a href="%s" class="wps-admin-column__link %s">%s</a></div>',
+                Helper::checkMiniChartOption('count_display', 'disabled', 'total') ? 'wps-hide' : '',
+                $isMiniChartActive ? '' : 'wps-hide',
+                esc_html__('Views:', 'wp-statistics'),
+                Menus::admin_url('category-analytics', ['type' => 'single', 'term_id' => $term_id]),
+                $isMiniChartActive ? '' : 'wps-admin-column__unlock-count',
+                esc_html(number_format($hitCount))
+            );
         }
 
         return $value;

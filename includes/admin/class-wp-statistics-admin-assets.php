@@ -236,7 +236,8 @@ class Admin_Assets
             Assets::script('chart.js', 'js/chartjs/chart.umd.min.js', [], [], true, false, null, '4.4.2');
             Assets::script('hammer.js', 'js/chartjs/hammer.min.js', [], [], true, false, null, '2.0.8');
             Assets::script('chartjs-plugin-zoom.js', 'js/chartjs/chartjs-plugin-zoom.min.js', ['wp-statistics-hammer.js'], [], true, false, null, '2.0.1');
-
+        }
+        if (Helper::isAdminBarShowing()) {
             Assets::script('mini-chart', 'js/mini-chart.js', [], [], true);
         }
 
@@ -318,8 +319,8 @@ class Admin_Assets
             'user_online'   => (Option::get('useronline') ? 1 : 0),
             'visitors'      => 1,
             'visits'        => 1,
-            'geo_ip'        => (GeoIP::active() ? 1 : 0),
-            'geo_city'      => (GeoIP::active('city') ? 1 : 0),
+            'geo_ip'        => 1,
+            'geo_city'      => 1,
             'overview_page' => (Menus::in_page('overview') ? 1 : 0),
             'gutenberg'     => (Helper::is_gutenberg() ? 1 : 0),
             'more_btn'      => (apply_filters('wp_statistics_meta_box_more_button', true) ? 1 : 0)
@@ -352,11 +353,17 @@ class Admin_Assets
             'visits'                       => __('Views', 'wp-statistics'),
             'today'                        => __('Today', 'wp-statistics'),
             'yesterday'                    => __('Yesterday', 'wp-statistics'),
-            'last-week'                    => __('Last week', 'wp-statistics'),
             'week'                         => __('Last 7 days', 'wp-statistics'),
+            'this-week'                    => __('This week', 'wp-statistics'),
+            'last-week'                    => __('Last week', 'wp-statistics'),
             'month'                        => __('Last 30 days', 'wp-statistics'),
+            'this-month'                   => __('This Month', 'wp-statistics'),
+            'last-month'                   => __('Last Month', 'wp-statistics'),
+            '7days'                        => __('Last 7 days', 'wp-statistics'),
+            '30days'                       => __('Last 30 days', 'wp-statistics'),
             '60days'                       => __('Last 60 days', 'wp-statistics'),
             '90days'                       => __('Last 90 days', 'wp-statistics'),
+            '6months'                      => __('Last 6 Months', 'wp-statistics'),
             'year'                         => __('Last 12 months', 'wp-statistics'),
             'this-year'                    => __('This year (Jan-Today)', 'wp-statistics'),
             'last-year'                    => __('Last year', 'wp-statistics'),
@@ -385,15 +392,16 @@ class Admin_Assets
             'page'                         => __('Visited Page', 'wp-statistics'),
             'str_today'                    => __('Today', 'wp-statistics'),
             'str_yesterday'                => __('Yesterday', 'wp-statistics'),
-            'str_7days'                    => __('Last 7 days', 'wp-statistics'),
-            'str_14days'                   => __('Last 14 days', 'wp-statistics'),
-            'str_30days'                   => __('Last 30 days', 'wp-statistics'),
+            'str_this_week'                => __('This Week', 'wp-statistics'),
+            'str_last_week'                => __('Last Week', 'wp-statistics'),
+            'str_this_month'               => __('This Month', 'wp-statistics'),
             'str_last_month'               => __('Last Month', 'wp-statistics'),
-            'str_60days'                   => __('Last 60 days', 'wp-statistics'),
+            'str_7days'                    => __('Last 7 days', 'wp-statistics'),
+            'str_30days'                   => __('Last 30 days', 'wp-statistics'),
             'str_90days'                   => __('Last 90 days', 'wp-statistics'),
-            'str_120days'                  => __('Last 120 days', 'wp-statistics'),
             'str_6months'                  => __('Last 6 months', 'wp-statistics'),
             'str_year'                     => __('This year', 'wp-statistics'),
+            'str_this_year'                => __('This year', 'wp-statistics'),
             'str_back'                     => __('Go Back', 'wp-statistics'),
             'str_custom'                   => __('Select Custom Range...', 'wp-statistics'),
             'str_more'                     => __('Additional Date Ranges', 'wp-statistics'),
@@ -422,18 +430,19 @@ class Admin_Assets
             'enable_now'                   => __('Enable Now', 'wp-statistics'),
             'receive_weekly_email_reports' => __('Receive Weekly Email Reports'),
             'close'                        => __('Close'),
+            'start_of_week'                => get_option('start_of_week', 0)
         );
 
         $list['active_post_type'] = Helper::getPostTypeName(Request::get('pt', 'post'));
 
         // Rest-API Meta Box Url
-        $list['stats_report_option']    = Option::get('time_report') == '0' ? false : true;
-        $list['setting_url']            = Menus::admin_url('settings');
-        $list['admin_url']              = admin_url();
-        $list['ajax_url']               = admin_url('admin-ajax.php');
-        $list['assets_url']             = self::$plugin_url . self::$asset_dir;
-        $list['rest_api_nonce']         = wp_create_nonce('wp_rest');
-        $list['meta_box_api']           = admin_url('admin-ajax.php?action=wp_statistics_admin_meta_box');
+        $list['stats_report_option'] = Option::get('time_report') == '0' ? false : true;
+        $list['setting_url']         = Menus::admin_url('settings');
+        $list['admin_url']           = admin_url();
+        $list['ajax_url']            = admin_url('admin-ajax.php');
+        $list['assets_url']          = self::$plugin_url . self::$asset_dir;
+        $list['rest_api_nonce']      = wp_create_nonce('wp_rest');
+        $list['meta_box_api']        = admin_url('admin-ajax.php?action=wp_statistics_admin_meta_box');
 
         // Meta Box List
         $meta_boxes_list    = Meta_Box::getList();
@@ -472,8 +481,12 @@ class Admin_Assets
             $list['meta_boxes'][$meta_box] = $value;
         }
 
-        // Return Data JSON
-        return $list;
+        /**
+         * Filter: wp_statistics_admin_assets
+         *
+         * @since 14.9.4
+         */
+        return apply_filters('wp_statistics_admin_assets', $list);
     }
 }
 

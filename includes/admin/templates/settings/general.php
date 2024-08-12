@@ -32,13 +32,13 @@
 
         <tr valign="top">
             <th scope="row">
-                <label for="useronline"><?php esc_html_e('Display Online Users', 'wp-statistics'); ?></label>
+                <label for="useronline"><?php esc_html_e('Monitor Online Visitors', 'wp-statistics'); ?></label>
             </th>
 
             <td>
                 <input id="useronline" type="checkbox" value="1" name="wps_useronline" <?php echo WP_STATISTICS\Option::get('useronline') == true ? "checked='checked'" : ''; ?>>
                 <label for="useronline"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
-                <p class="description"><?php esc_html_e('Shows current online users on the site.', 'wp-statistics'); ?></p>
+                <p class="description"><?php esc_html_e('Tracks and displays visitors currently online, including their activity duration. Disabling this option stops the online monitoring feature, but visitor tracking remains active.', 'wp-statistics'); ?></p>
             </td>
         </tr>
         </tbody>
@@ -108,24 +108,24 @@
         </tr>
         <tr valign="top">
             <th scope="row">
-                <label for="disable-editor"><?php esc_html_e('Chart Metabox Views', 'wp-statistics'); ?></label>
+                <label for="disable-editor"><?php esc_html_e('View Stats in Editor', 'wp-statistics'); ?></label>
             </th>
 
             <td>
                 <input id="disable-editor" type="checkbox" value="1" name="wps_disable_editor" <?php echo WP_STATISTICS\Option::get('disable_editor') == '1' ? '' : "checked='checked'"; ?>>
                 <label for="disable-editor"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
-                <p class="description"><?php esc_html_e('Shows content view statistics in a graphical format when editing.', 'wp-statistics'); ?></p>
+                <p class="description"><?php esc_html_e('Show a summary of content view statistics in the post editor.', 'wp-statistics'); ?></p>
             </td>
         </tr>
 
         <tr valign="top">
             <th scope="row">
-                <label for="disable_column"><?php esc_html_e('Views Column', 'wp-statistics'); ?></label>
+                <label for="disable_column"><?php esc_html_e('Views Column in Content List', 'wp-statistics'); ?></label>
             </th>
             <td>
                 <input id="disable_column" type="checkbox" value="1" name="wps_disable_column" <?php echo WP_STATISTICS\Option::get('disable_column') == '1' ? '' : "checked='checked'"; ?>>
                 <label for="disable_column"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
-                <p class="description"><?php esc_html_e('Displays the number of views for each content item in your content list.', 'wp-statistics'); ?></p>
+                <p class="description"><?php esc_html_e('Display the "Views" column in the content list menus, showing the view counts for content across all post types.', 'wp-statistics'); ?></p>
             </td>
         </tr>
 

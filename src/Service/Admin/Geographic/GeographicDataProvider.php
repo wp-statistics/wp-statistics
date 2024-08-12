@@ -178,7 +178,7 @@ class GeographicDataProvider
         if ($days > 30) {
             $args = [
                 'date' => [
-                    'from' => date('Y-m-d', strtotime("-30 days", strtotime($this->args['date']['to']))),
+                    'from' => date('Y-m-d', strtotime("-29 days", strtotime($this->args['date']['to']))),
                     'to'   => $this->args['date']['to']
                 ]
             ];

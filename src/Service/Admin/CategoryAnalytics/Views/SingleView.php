@@ -15,6 +15,7 @@ use WP_Statistics\Service\Admin\CategoryAnalytics\CategoryAnalyticsDataProvider;
 
 class SingleView extends BaseView 
 {
+    private $term;
     private $termId;
 
     public function __construct()
@@ -28,11 +29,13 @@ class SingleView extends BaseView
             );
         }
 
+        $this->term = get_term($this->termId);
+
         $this->dataProvider = new CategoryAnalyticsDataProvider([
             'term'      => $this->termId,
-            'taxonomy'  => get_term($this->termId)->taxonomy,
+            'taxonomy'  => $this->term->taxonomy,
             'date'      => [
-                'from'  => Request::get('from', date('Y-m-d', strtotime('-30 days'))),
+                'from'  => Request::get('from', date('Y-m-d', strtotime('-29 days'))),
                 'to'    => Request::get('to', date('Y-m-d'))
             ],
         ]);
@@ -40,9 +43,7 @@ class SingleView extends BaseView
 
     public function isLocked()
     {
-        $term = get_term($this->termId);
-
-        return !Helper::isAddOnActive('data-plus') && Helper::isCustomTaxonomy($term->taxonomy);
+        return !Helper::isAddOnActive('data-plus') && Helper::isCustomTaxonomy($this->term->taxonomy);
     }
 
     public function getData()
@@ -65,7 +66,7 @@ class SingleView extends BaseView
                 'backUrl'       => Menus::admin_url('category-analytics'),
                 'pageName'      => Menus::get_page_slug('category-analytics'),
                 'custom_get'    => ['type' => 'single', 'term_id' => Request::get('term_id', '', 'number')],
-                'title'         => sprintf(esc_html__('Category: "%s"', 'wp-statistics'), get_term($this->termId)->name),
+                'title'         => sprintf(esc_html__('%s: "%s"', 'wp-statistics'), Helper::getTaxonomyName($this->term->taxonomy, true), $this->term->name),
                 'backTitle'     => esc_html__('Category Analytics', 'wp-statistics'),
                 'DateRang'      => Admin_Template::DateRange(),
                 'hasDateRang'   => true,

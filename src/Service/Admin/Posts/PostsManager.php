@@ -22,9 +22,8 @@ class PostsManager
      *
      * @param $postId
      * @param \WP_Post $post
-     * @param bool $update
      */
-    public function addWordsCountCallback($postId, $post, $update)
+    public function addWordsCountCallback($postId, $post)
     {
         $this->wordsCount->handleSavePost($postId, $post);
     }

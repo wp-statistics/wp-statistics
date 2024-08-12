@@ -6,16 +6,20 @@ $isMiniChartActive         = WP_STATISTICS\Helper::isAddOnActive('mini-chart');
 $miniChartDefaultPostTypes = get_post_types(array(
     'public'   => true,
     '_builtin' => false
-));
+), 'objects');
 
-$miniChartPostTypes = array('post', 'page');
-foreach ($miniChartDefaultPostTypes as $name) {
-    $miniChartPostTypes[] = $name;
+$miniChartPostTypes = [
+    'post' => __('Posts', 'wp-statistics-mini-chart'),
+    'page' => __('Pages', 'wp-statistics-mini-chart'),
+];
+foreach ($miniChartDefaultPostTypes as $postType) {
+    $miniChartPostTypes[$postType->name] = $postType->label;
 }
 
 $miniChartPostTypesOptions = array();
-foreach ($miniChartPostTypes as $p) {
-    $miniChartPostTypesOptions[$p] = sprintf(__('Enable Mini Chart for %s', 'wp-statistics-mini-chart'), ucwords($p));
+foreach ($miniChartPostTypes as $name => $label) {
+    // translators: %s: Post type label.
+    $miniChartPostTypesOptions[$name] = sprintf(__('Enable Mini Chart for %s', 'wp-statistics-mini-chart'), $label);
 }
 ?>
 
@@ -56,6 +60,58 @@ if (!$isMiniChartActive) echo Admin_Template::get_template('layout/partials/addo
             </td>
         </tr>
 
+        <tr>
+            <th scope="row">
+                <label for="mini-chart-metric"><?php esc_html_e('Chart Metric', 'wp-statistics'); ?></label>
+            </th>
+
+            <td>
+                <select name="wps_addon_settings[mini_chart][metric]" id="mini-chart-metric">
+                    <option value="visitors" <?php selected(WP_STATISTICS\Option::getByAddon('metric', 'mini_chart', 'visitors'), 'visitors'); ?>><?php esc_html_e('Visitors', 'wp-statistics'); ?></option>
+                    <option value="views" <?php selected(WP_STATISTICS\Option::getByAddon('metric', 'mini_chart', 'visitors'), 'views'); ?>><?php esc_html_e('Views', 'wp-statistics'); ?></option>
+                </select>
+                <p class="description">
+                    <?php _e('Choose the metric to display on the chart.', 'wp-statistics'); ?>
+                </p>
+            </td>
+        </tr>
+
+        <tr>
+            <th scope="row">
+                <label for="mini-chart-date_range"><?php esc_html_e('Chart Date Range', 'wp-statistics'); ?></label>
+            </th>
+
+            <td>
+                <select name="wps_addon_settings[mini_chart][date_range]" id="mini-chart-date_range">
+                    <option value="7" <?php selected(WP_STATISTICS\Option::getByAddon('date_range', 'mini_chart', '14'), '7'); ?>><?php esc_html_e('7 days', 'wp-statistics'); ?></option>
+                    <option value="14" <?php selected(WP_STATISTICS\Option::getByAddon('date_range', 'mini_chart', '14'), '14'); ?>><?php esc_html_e('14 days', 'wp-statistics'); ?></option>
+                    <option value="30" <?php selected(WP_STATISTICS\Option::getByAddon('date_range', 'mini_chart', '14'), '30'); ?>><?php esc_html_e('30 days', 'wp-statistics'); ?></option>
+                    <option value="90" <?php selected(WP_STATISTICS\Option::getByAddon('date_range', 'mini_chart', '14'), '90'); ?>><?php esc_html_e('90 days', 'wp-statistics'); ?></option>
+                    <option value="180" <?php selected(WP_STATISTICS\Option::getByAddon('date_range', 'mini_chart', '14'), '180'); ?>><?php esc_html_e('180 days', 'wp-statistics'); ?></option>
+                </select>
+                <p class="description">
+                    <?php _e('Select the date range for displaying the chart data.', 'wp-statistics'); ?>
+                </p>
+            </td>
+        </tr>
+
+        <tr>
+            <th scope="row">
+                <label for="mini-chart-count_display"><?php esc_html_e('Count Display', 'wp-statistics'); ?></label>
+            </th>
+
+            <td>
+                <select name="wps_addon_settings[mini_chart][count_display]" id="mini-chart-count_display">
+                    <option value="disabled" <?php selected(WP_STATISTICS\Option::getByAddon('count_display', 'mini_chart', 'total'), 'disabled'); ?>><?php esc_html_e('Do Not Show Count', 'wp-statistics'); ?></option>
+                    <option value="date_range" <?php selected(WP_STATISTICS\Option::getByAddon('count_display', 'mini_chart', 'total'), 'date_range'); ?>><?php esc_html_e('Show Count for Selected Date Range', 'wp-statistics'); ?></option>
+                    <option value="total" <?php selected(WP_STATISTICS\Option::getByAddon('count_display', 'mini_chart', 'total'), 'total'); ?>><?php esc_html_e('Show Total Count', 'wp-statistics'); ?></option>
+                </select>
+                <p class="description">
+                    <?php _e('Choose how to display the count under the chart.', 'wp-statistics'); ?>
+                </p>
+            </td>
+        </tr>
+
         </tbody>
     </table>
 </div>
@@ -69,27 +125,11 @@ if (!$isMiniChartActive) echo Admin_Template::get_template('layout/partials/addo
 
         <tr>
             <th scope="row">
-                <label for="mini-chart-chart_type"><?php esc_html_e('Type', 'wp-statistics'); ?></label>
-            </th>
-
-            <td>
-                <select name="wps_addon_settings[mini_chart][chart_type]" id="mini-chart-chart_type">
-                    <option value="bar" <?php selected(WP_STATISTICS\Option::getByAddon('chart_type', 'mini_chart'), 'bar'); ?>><?php esc_html_e('Bar', 'wp-statistics'); ?></option>
-                    <option value="line" <?php selected(WP_STATISTICS\Option::getByAddon('chart_type', 'mini_chart'), 'line'); ?>><?php esc_html_e('Line', 'wp-statistics'); ?></option>
-                </select>
-                <p class="description">
-                    <?php _e('Choose a chart type that best represents your data.', 'wp-statistics'); ?>
-                </p>
-            </td>
-        </tr>
-
-        <tr>
-            <th scope="row">
                 <label for="mini-chart-chart_color"><?php esc_html_e('Primary Color', 'wp-statistics'); ?></label>
             </th>
 
             <td>
-                <input type="text" class="regular-text code js-color-picker" id="mini-chart-chart_color" name="wps_addon_settings[mini_chart][chart_color]" value="<?php echo esc_attr(WP_STATISTICS\Option::getByAddon('chart_color', 'mini_chart')); ?>" style="min-width: 50px"/>
+                <input type="text" class="regular-text code js-color-picker" id="mini-chart-chart_color" name="wps_addon_settings[mini_chart][chart_color]" value="<?php echo esc_attr(WP_STATISTICS\Option::getByAddon('chart_color', 'mini_chart', '#7362BF')); ?>" style="min-width: 50px"/>
                 <p class="description"><?php esc_html_e('Select a color for your chart’s main elements to match your website’s theme.', 'wp-statistics'); ?></p>
             </td>
         </tr>
@@ -100,7 +140,7 @@ if (!$isMiniChartActive) echo Admin_Template::get_template('layout/partials/addo
             </th>
 
             <td>
-                <input type="text" class="regular-text code js-color-picker" id="mini-chart-chart_border_color" name="wps_addon_settings[mini_chart][chart_border_color]" value="<?php echo esc_attr(WP_STATISTICS\Option::getByAddon('chart_border_color', 'mini_chart')); ?>" style="min-width: 50px"/>
+                <input type="text" class="regular-text code js-color-picker" id="mini-chart-chart_border_color" name="wps_addon_settings[mini_chart][chart_border_color]" value="<?php echo esc_attr(WP_STATISTICS\Option::getByAddon('chart_border_color', 'mini_chart', '#0D0725')); ?>" style="min-width: 50px"/>
                 <p class="description"><?php esc_html_e('Pick a border color to enhance the visibility of your chart on the dashboard.', 'wp-statistics'); ?></p>
             </td>
         </tr>

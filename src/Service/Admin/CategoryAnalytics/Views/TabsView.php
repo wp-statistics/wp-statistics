@@ -25,7 +25,7 @@ class TabsView extends BaseTabView
         $this->dataProvider = new CategoryAnalyticsDataProvider([
             'taxonomy'  => Request::get('tx', 'category'),
             'date'      => [
-                'from'  => Request::get('from', date('Y-m-d', strtotime('-30 days'))),
+                'from'  => Request::get('from', date('Y-m-d', strtotime('-29 days'))),
                 'to'    => Request::get('to', date('Y-m-d'))
             ],
         ]);
@@ -77,7 +77,7 @@ class TabsView extends BaseTabView
                     [
                         'link'    => Menus::admin_url('category-analytics', ['tab' => 'pages']),
                         'title'   => esc_html__('Category Pages', 'wp-statistics'),
-                        'tooltip' => esc_html__('Shows the page views for category pages related to the selected taxonomy. Remove the tooltip for Category Analytics page', 'wp-statistics'),
+                        'tooltip' => esc_html__('Shows the page views for category pages related to the selected taxonomy.', 'wp-statistics'),
                         'class'   => $currentTab === 'pages' ? 'current' : '',
                     ]
                 ]

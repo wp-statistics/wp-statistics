@@ -1,3 +1,15 @@
+= 14.9.4 - 12.08.2024 =
+* Enhancement: Redesigned Mini Charts in content lists for better clarity.
+* Enhancement: Updated the automated report email template for improved readability.
+* Enhancement: Display query parameters alongside page names on the single visitor page.
+* Enhancement: Optimized GeoIP functionality for better performance.
+* Enhancement: Added validation for Visit/Online request parameters before saving to the database.
+* Enhancement: Updated DatePicker options to improve report accuracy within specific time frames.
+* Fix: Corrected the sorting order in custom post type lists when sorted by views.
+* Fix: Resolved inaccurate view counts displayed in the admin bar.
+* Fix: Corrected incorrect Category Page Views in Category Analytics.
+* Fix: Fixed broken author and category page URLs in the Top Pages widget.
+
 = 14.9.3 - 28.07.2024 =
 * Enhancement: Enhanced IP Method Detection mechanism and updated the settings page for better user experience and simplicity.
 * Enhancement: Improved `tracker.js` by switching to xhr/POST requests and adding helpful console logs.
