@@ -1113,6 +1113,12 @@ class Helper
                 $date  = TimeZone::calculateDateFilter('year');
                 $where = "`$field` BETWEEN '{$date["from"]}' AND '{$date["to"]}'";
                 break;
+            case 'year-ex-today':
+                // Year, excluding today
+                $fromDate = date('Y-m-d', strtotime('-1 year'));
+                $toDate   = TimeZone::getTimeAgo(1, 'Y-m-d');
+                $where    = "`$field` BETWEEN '{$fromDate}' AND '{$toDate}'";
+                break;
             case 'total':
                 $where = "";
                 break;
@@ -2095,6 +2101,7 @@ class Helper
 
         if ($startDate == date('Y-m-d', strtotime('-1 day'))) {
             $thisPeriodFromDaysAgo = 1;
+            $thisPeriodToDaysAgo   = 1;
             $lastPeriodFromDaysAgo = 2;
             $lastPeriodToDaysAgo   = 2;
             $thisPeriodVisitors    = wp_statistics_visitor('yesterday', null, true);
@@ -2107,6 +2114,7 @@ class Helper
             $lastPeriodContents    = $postsModel->countPosts(['date' => ['from' => TimeZone::getTimeAgo($lastPeriodFromDaysAgo), 'to' => TimeZone::getTimeAgo($lastPeriodToDaysAgo)]]);
         } else if ($startDate == date('Y-m-d', strtotime('-1 week'))) {
             $thisPeriodFromDaysAgo = 7;
+            $thisPeriodToDaysAgo   = 1;
             $lastPeriodFromDaysAgo = 14;
             $lastPeriodToDaysAgo   = 8;
             $thisPeriodVisitors    = wp_statistics_visitor('week-ex-today', null, true);
@@ -2119,6 +2127,7 @@ class Helper
             $lastPeriodContents    = $postsModel->countPosts(['date' => ['from' => TimeZone::getTimeAgo($lastPeriodFromDaysAgo), 'to' => TimeZone::getTimeAgo($lastPeriodToDaysAgo)]]);
         } else if ($startDate == date('Y-m-d', strtotime('-2 weeks'))) {
             $thisPeriodFromDaysAgo = 14;
+            $thisPeriodToDaysAgo   = 1;
             $lastPeriodFromDaysAgo = 28;
             $lastPeriodToDaysAgo   = 15;
             $thisPeriodVisitors    = wp_statistics_visitor('two-weeks-ex-today', null, true);
@@ -2131,6 +2140,7 @@ class Helper
             $lastPeriodContents    = $postsModel->countPosts(['date' => ['from' => TimeZone::getTimeAgo($lastPeriodFromDaysAgo), 'to' => TimeZone::getTimeAgo($lastPeriodToDaysAgo)]]);
         } else if ($startDate == date('Y-m-d', strtotime('-1 month'))) {
             $thisPeriodFromDaysAgo = 30;
+            $thisPeriodToDaysAgo   = 1;
             $lastPeriodFromDaysAgo = 60;
             $lastPeriodToDaysAgo   = 30;
             $thisPeriodVisitors    = wp_statistics_visitor('month-ex-today', null, true);
@@ -2143,6 +2153,7 @@ class Helper
             $lastPeriodContents    = $postsModel->countPosts(['date' => ['from' => TimeZone::getTimeAgo($lastPeriodFromDaysAgo), 'to' => TimeZone::getTimeAgo($lastPeriodToDaysAgo)]]);
         } else if (!empty($startDate)) {
             $thisPeriodFromDaysAgo = TimeZone::getNumberDayBetween($startDate) - 1;
+            $thisPeriodToDaysAgo   = 1;
             $lastPeriodFromDaysAgo = $thisPeriodFromDaysAgo * 2;
             $lastPeriodToDaysAgo   = $thisPeriodFromDaysAgo + 1;
             $thisPeriodVisitors    = wp_statistics_visitor(['start' => TimeZone::getTimeAgo($thisPeriodFromDaysAgo), 'end' => TimeZone::getTimeAgo($thisPeriodToDaysAgo)], null, true);
