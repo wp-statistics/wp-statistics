@@ -47,7 +47,7 @@ class StoreUserAgentString extends ResolvableAudit
                 <li><b>Data Removal:</b> For instructions on deleting previously stored user agent data, refer to our guide <a href="https://wp-statistics.com/resources/how-to-clear-user-agent-strings/?utm_source=wp-statistics&utm_medium=link&utm_campaign=privacy" target="_blank">here</a>.</li>
             </ol>
             <div class="wps-privacy-list__content--note">
-                <b>To disable this feature,</b> navigate to <b>Settings -> User Data Protection -> Store Entire User Agent String</b> and uncheck <b>"Enable"</b>.
+                <b>To disable this feature,</b> navigate to <b>Settings -> Privacy & Data Protection -> Store Entire User Agent String</b> and uncheck <b>"Enable"</b>.
             </div>', 'wp-statistics')
         ];
     }
