@@ -35,9 +35,9 @@ class DateRange
     }
 
     /**
-     * Retrieves the date range stored in the user's meta data.
+     * Retrieves the date range stored in the user's meta data. Returns default date range if not set.
      *
-     * @return array|null The date range stored in the user's meta data, or null if not set.
+     * @return array
      */
     public static function retrieve()
     {
