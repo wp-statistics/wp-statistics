@@ -68,7 +68,7 @@ class DateRange
 
         if ($excludeToday) {
             if ($name !== 'today' && $range['to'] === date('Y-m-d')) {
-                $range['to'] = date('Y-m-d', '-1 day');
+                $range['to'] = date('Y-m-d', strtotime('-1 day'));
             }
         }
 
