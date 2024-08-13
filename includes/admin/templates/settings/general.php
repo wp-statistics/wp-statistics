@@ -54,7 +54,7 @@
         <tr valign="top" data-view="visitors_log_tr">
             <th scope="row">
                 <label for="visitors_log">
-                    <?php esc_html_e('Record User Page Views', 'wp-statistics'); ?>
+                    <?php esc_html_e('Track Logged-In User Activity', 'wp-statistics'); ?>
                 </label>
                 <?php if (\WP_STATISTICS\Option::get('privacy_audit')): ?>
                     <a href="#" class="wps-tooltip" title="<?php esc_html_e('Privacy Impact - This setting affects user privacy. Adjust with caution to ensure compliance with privacy standards. For more details, visit the Privacy Audit page.', 'wp-statistics') ?>"><i class="wps-tooltip-icon privacy"></i></a>
@@ -62,8 +62,8 @@
             </th>
             <td>
                 <input id="visitors_log" type="checkbox" value="1" name="wps_visitors_log" <?php echo WP_STATISTICS\Option::get('visitors_log') == true ? "checked='checked'" : ''; ?>>
-                <label for="visitors_log"><?php esc_html_e('Track User Activity', 'wp-statistics'); ?></label>
-                <p class="description"><?php esc_html_e('Logs each visit made by signed-in users, along with their user IDs, to provide a detailed view of page traffic and user engagement.', 'wp-statistics'); ?></p>
+                <label for="visitors_log"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
+                <p class="description"><?php esc_html_e('Tracks the activities of logged-in users, including page views, and records them with their WordPress User IDs for detailed insights into user behavior. If disabled, logged-in users are tracked anonymously, similar to other visitors.', 'wp-statistics'); ?></p>
                 <p class="description"><?php __('Note: Compliance with GDPR and other privacy regulations is essential. Inform users about data collection and usage through your privacy policy. For details on data handling and privacy, visit <a href="https://wp-statistics.com/resources/avoiding-pii-data-collection/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" target="_blank">Avoiding PII Data Collection</a>.', 'wp-statistics'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></p>
             </td>
         </tr>
