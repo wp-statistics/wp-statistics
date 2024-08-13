@@ -75,13 +75,6 @@
         <span><?php esc_html_e('Restore Default Settings', 'wp-statistics'); ?></span>
     </a>
 
-    <a data-tab="about" class="wps-optionsMenuItem">
-        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path fill-rule="evenodd" clip-rule="evenodd" d="M16.5 9C16.5 13.1421 13.1421 16.5 9 16.5C4.85786 16.5 1.5 13.1421 1.5 9C1.5 4.85786 4.85786 1.5 9 1.5C13.1421 1.5 16.5 4.85786 16.5 9ZM9 13.3125C9.31065 13.3125 9.5625 13.0607 9.5625 12.75V8.25C9.5625 7.93935 9.31065 7.6875 9 7.6875C8.68935 7.6875 8.4375 7.93935 8.4375 8.25V12.75C8.4375 13.0607 8.68935 13.3125 9 13.3125ZM9 5.25C9.41422 5.25 9.75 5.58579 9.75 6C9.75 6.41421 9.41422 6.75 9 6.75C8.58578 6.75 8.25 6.41421 8.25 6C8.25 5.58579 8.58578 5.25 9 5.25Z"/>
-        </svg>
-        <span><?php esc_html_e('WP Statistics - Overview', 'wp-statistics'); ?></span>
-    </a>
-
     <div class="wps-optionsMenuItem__title"><?php esc_html_e('Add-Ons', 'wp-statistics'); ?></div>
 
     <a data-tab="data-plus-settings" class="wps-optionsMenuItem wps-optionsMenuItem--extension <?php echo (\WP_STATISTICS\Helper::isAddOnActive('data-plus')) ? 'active' : ''; ?>">

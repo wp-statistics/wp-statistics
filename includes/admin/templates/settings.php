@@ -57,9 +57,6 @@
                             <?php include WP_STATISTICS_DIR . 'includes/admin/templates/settings/add-ons/widgets.php'; ?>
                         </div>
                     <?php } ?>
-                    <div id="about" class="tab-content">
-                        <?php include WP_STATISTICS_DIR . 'includes/admin/templates/settings/about.php'; ?>
-                    </div>
                 </div><!-- container -->
 
                 <input type="hidden" name="tab" id="wps_current_tab" value=""/>
