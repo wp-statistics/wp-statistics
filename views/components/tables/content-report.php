@@ -8,46 +8,44 @@ $postType             = Request::get('pt', 'post');
 $postTypeNameSingular = Helper::getPostTypeName($postType, true);
 $order                = Request::get('order', 'desc');
 ?>
-
-
 <div class="inside">
     <?php if (!empty($data)) : ?>
         <div class="o-table-wrapper">
             <table width="100%" class="o-table wps-new-table wps-table-inspect">
                 <thead>
-                <tr>
-                    <th class="wps-pd-l">
-                        <a href="<?php echo esc_url(Helper::getTableColumnSortUrl('title')) ?>" class="sort <?php echo Request::compare('order_by', 'title') ? esc_attr($order) : ''; ?>">
-                            <?php echo Request::has('pt') ? esc_html($postTypeNameSingular) : esc_html__('Content', 'wp-statistics'); ?>
-                        </a>
-                    </th>
+                    <tr>
+                        <th class="wps-pd-l">
+                            <a href="<?php echo esc_url(Helper::getTableColumnSortUrl('title')) ?>" class="sort <?php echo Request::compare('order_by', 'title') ? esc_attr($order) : ''; ?>">
+                                <?php echo Request::has('pt') ? esc_html($postTypeNameSingular) : esc_html__('Content', 'wp-statistics'); ?>
+                            </a>
+                        </th>
 
-                    <th class="wps-pd-l">
-                        <a href="<?php echo esc_url(Helper::getTableColumnSortUrl('visitors')) ?>" class="sort <?php echo !Request::has('order_by') || Request::compare('order_by', 'visitors') ? esc_attr($order) : ''; ?>">
-                            <?php esc_html_e('Visitors', 'wp-statistics'); ?>
-                        </a>
-                    </th>
+                        <th class="wps-pd-l">
+                            <a href="<?php echo esc_url(Helper::getTableColumnSortUrl('visitors')) ?>" class="sort <?php echo !Request::has('order_by') || Request::compare('order_by', 'visitors') ? esc_attr($order) : ''; ?>">
+                                <?php esc_html_e('Visitors', 'wp-statistics'); ?>
+                            </a>
+                        </th>
 
-                    <th class="wps-pd-l">
-                        <a href="<?php echo esc_url(Helper::getTableColumnSortUrl('views')) ?>" class="sort <?php echo Request::compare('order_by', 'views') ? esc_attr($order) : ''; ?>">
-                            <?php esc_html_e('Views', 'wp-statistics'); ?>
-                        </a>
-                    </th>
+                        <th class="wps-pd-l">
+                            <a href="<?php echo esc_url(Helper::getTableColumnSortUrl('views')) ?>" class="sort <?php echo Request::compare('order_by', 'views') ? esc_attr($order) : ''; ?>">
+                                <?php esc_html_e('Views', 'wp-statistics'); ?>
+                            </a>
+                        </th>
 
-                    <th class="wps-pd-l">
-                        <a href="<?php echo esc_url(Helper::getTableColumnSortUrl('words')) ?>" class="sort <?php echo Request::compare('order_by', 'words') ? esc_attr($order) : ''; ?>">
-                            <?php esc_html_e('Words', 'wp-statistics') ?>
-                        </a>
-                    </th>
+                        <th class="wps-pd-l">
+                            <a href="<?php echo esc_url(Helper::getTableColumnSortUrl('words')) ?>" class="sort <?php echo Request::compare('order_by', 'words') ? esc_attr($order) : ''; ?>">
+                                <?php esc_html_e('Words', 'wp-statistics') ?>
+                            </a>
+                        </th>
 
-                    <th class="wps-pd-l">
-                        <a href="<?php echo esc_url(Helper::getTableColumnSortUrl('date')) ?>" class="sort <?php echo Request::compare('order_by', 'date') ? esc_attr($order) : ''; ?>">
-                            <?php esc_html_e('Published Date', 'wp-statistics'); ?>
-                        </a>
-                    </th>
+                        <th class="wps-pd-l">
+                            <a href="<?php echo esc_url(Helper::getTableColumnSortUrl('date')) ?>" class="sort <?php echo Request::compare('order_by', 'date') ? esc_attr($order) : ''; ?>">
+                                <?php esc_html_e('Published Date', 'wp-statistics'); ?>
+                            </a>
+                        </th>
 
-                    <th></th>
-                </tr>
+                        <th></th>
+                    </tr>
                 </thead>
 
                 <tbody>
@@ -71,9 +69,7 @@ $order                = Request::get('order', 'desc');
                                     </svg>
                                 <?php endif; ?>
 
-                                <span title="<?php echo esc_attr($post->title) ?>">
-                                                    <?php echo esc_html($post->title) ?>
-                                                </span>
+                                <span title="<?php echo esc_attr($post->title) ?>"><?php echo esc_html($post->title) ?></span>
                             </a>
                         </td>
 

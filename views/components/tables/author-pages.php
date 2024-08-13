@@ -11,22 +11,22 @@ $order = Request::get('order', 'desc');
             <div class="o-table-wrapper">
                 <table width="100%" class="o-table wps-new-table wps-table-inspect">
                     <thead>
-                    <tr>
-                        <th class="wps-pd-l">
-                            <a href="<?php echo esc_url(Helper::getTableColumnSortUrl('name')) ?>" class="sort <?php echo Request::compare('order_by', 'name') ? esc_attr($order) : '' ?>"><?php esc_html_e('Author', 'wp-statistics') ?></a>
-                        </th>
-                        <th class="wps-pd-l">
-                            <a href="<?php echo esc_url(Helper::getTableColumnSortUrl('page_views')) ?>" class="sort <?php echo !Request::has('order_by') || Request::compare('order_by', 'page_views') ? esc_attr($order) : '' ?>">
-                                <?php esc_html_e('Author\'s Page Views', 'wp-statistics') ?>
-                            </a>
-                        </th>
-                        <th class="wps-pd-l">
-                            <a href="<?php echo esc_url(Helper::getTableColumnSortUrl('total_posts')) ?>" class="sort <?php echo Request::compare('order_by', 'total_posts') ? esc_attr($order) : '' ?>">
-                                <?php esc_html_e('Published Posts', 'wp-statistics') ?>
-                            </a>
-                        </th>
-                        <th></th>
-                    </tr>
+                        <tr>
+                            <th class="wps-pd-l">
+                                <a href="<?php echo esc_url(Helper::getTableColumnSortUrl('name')) ?>" class="sort <?php echo Request::compare('order_by', 'name') ? esc_attr($order) : '' ?>"><?php esc_html_e('Author', 'wp-statistics') ?></a>
+                            </th>
+                            <th class="wps-pd-l">
+                                <a href="<?php echo esc_url(Helper::getTableColumnSortUrl('page_views')) ?>" class="sort <?php echo !Request::has('order_by') || Request::compare('order_by', 'page_views') ? esc_attr($order) : '' ?>">
+                                    <?php esc_html_e('Author\'s Page Views', 'wp-statistics') ?>
+                                </a>
+                            </th>
+                            <th class="wps-pd-l">
+                                <a href="<?php echo esc_url(Helper::getTableColumnSortUrl('total_posts')) ?>" class="sort <?php echo Request::compare('order_by', 'total_posts') ? esc_attr($order) : '' ?>">
+                                    <?php esc_html_e('Published Posts', 'wp-statistics') ?>
+                                </a>
+                            </th>
+                            <th></th>
+                        </tr>
                     </thead>
 
                     <tbody>
