@@ -200,7 +200,7 @@ class Meta_Box
                 ]
             ),
             'pages'           => array(
-                'page_url'          => Menus::admin_url('content-analytics', ['type' => 'posts']),
+                'page_url'          => Menus::admin_url('pages'),
                 'name'              => __('Most Visited Pages', 'wp-statistics'),
                 'description'       => __('Pages on your website with the highest number of views in the selected time frame.', 'wp-statistics'),
                 'hidden'            => true,
