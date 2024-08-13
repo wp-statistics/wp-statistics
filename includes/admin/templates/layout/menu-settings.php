@@ -44,7 +44,7 @@
         <span><?php esc_html_e('Data Management', 'wp-statistics'); ?></span>
     </a>
 
-    <a data-tab="advance-settings" class="wps-optionsMenuItem">
+    <a data-tab="advanced-settings" class="wps-optionsMenuItem">
         <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
             <g clip-path="url(#clip0_4595_4462)">
                 <path

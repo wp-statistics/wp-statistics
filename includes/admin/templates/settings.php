@@ -11,8 +11,8 @@
                         <div id="general-settings" class="tab-content current">
                             <?php include WP_STATISTICS_DIR . 'includes/admin/templates/settings/general.php'; ?>
                         </div>
-                        <div id="advance-settings" class="tab-content">
-                            <?php include WP_STATISTICS_DIR . 'includes/admin/templates/settings/advance.php'; ?>
+                        <div id="advanced-settings" class="tab-content">
+                            <?php include WP_STATISTICS_DIR . 'includes/admin/templates/settings/advanced.php'; ?>
                         </div>
                         <div id="privacy-settings" class="tab-content">
                             <?php include WP_STATISTICS_DIR . 'includes/admin/templates/settings/privacy.php'; ?>
