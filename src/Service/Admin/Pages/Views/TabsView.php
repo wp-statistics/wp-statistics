@@ -43,6 +43,17 @@ class TabsView extends BaseTabView
         $this->dataProvider = new PagesDataProvider($args);
     }
 
+    public function isLocked()
+    {
+        $isLocked = false;
+
+        if ($this->isTab('category')) {
+            $isLocked = !Helper::isAddOnActive('data-plus') && Helper::isCustomTaxonomy(Request::get('tx', 'category'));
+        }
+
+        return $isLocked;
+    }
+
     public function getContentsData()
     {
         return $this->dataProvider->getContentsData();
@@ -69,9 +80,6 @@ class TabsView extends BaseTabView
                 $filters = ['post-types', 'author'];
             } elseif ($this->isTab('category')) {
                 $filters = ['taxonomy'];
-
-//                //@todo handle locked pages inside one template, instead of making one template for locked, one for unlocked.
-//                $template = $this->isTaxonomyLocked() ? "$template-locked" : $template;
             }
 
             $args = [
@@ -87,7 +95,7 @@ class TabsView extends BaseTabView
                 ],
                 'DateRang'      => Admin_Template::DateRange(),
                 'hasDateRang'   => true,
-                'showLockedPage'        => $this->isTaxonomyLocked(),
+                'showLockedPage'=> $this->isLocked(),
                 'data'          => $data,
                 'allTimeOption' => true,
                 'filters'       => $filters,
@@ -129,10 +137,5 @@ class TabsView extends BaseTabView
         } catch (Exception $e) {
             Notice::renderNotice($e->getMessage(), $e->getCode(), 'error');
         }
-    }
-
-    public function isTaxonomyLocked()
-    {
-        return !Helper::isAddOnActive('data-plus') && Helper::isCustomTaxonomy(Request::get('tx', 'category'));
     }
 }
