@@ -56,8 +56,8 @@ jQuery(document).ready(function () {
         const phpDateFormat = datePickerBtn.attr('data-date-format') ? datePickerBtn.attr('data-date-format') : 'MM/DD/YYYY';
         let momentDateFormat = phpToMomentFormat(phpDateFormat);
         // Default dates for the date picker
-        let defaultStartDate = moment().subtract(29, 'days');
-        let defaultEndDate = moment();
+        let defaultStartDate = wps_js.global.user_date_range.from;
+        let defaultEndDate   = wps_js.global.user_date_range.to;
 
         datePickerElement.daterangepicker({
             "autoApply": true,
