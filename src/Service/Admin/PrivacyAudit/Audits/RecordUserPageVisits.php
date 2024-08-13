@@ -34,7 +34,7 @@ class RecordUserPageVisits extends ResolvableAudit
                 <li><b>Review and Action:</b> Regularly review the necessity of keeping this feature enabled. If the feature is no longer needed, or if you wish to enhance user privacy, consider disabling it. Refer to our guide on <a href="https://wp-statistics.com/resources/avoiding-pii-data-collection/?utm_source=wp-statistics&utm_medium=link&utm_campaign=privacy" target="_blank">Adjusting Your Privacy Settings</a> for detailed instructions on managing this feature.</li>
             </ol>
             <div class="wps-privacy-list__content--note">
-                <b>To disable this feature,</b> navigate to <b>Settings -> Basic Tracking -> Record User Page Views</b> and uncheck <b>"Track User Activity"</b>.
+                <b>To disable this feature,</b> navigate to <b>Settings -> General -> Record User Page Views</b> and uncheck <b>"Track User Activity"</b>.
             </div>', 'wp-statistics')
         ];
     }
