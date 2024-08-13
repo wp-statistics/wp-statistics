@@ -129,7 +129,6 @@ jQuery(document).ready(function () {
             inputFrom.val(picker.startDate.format('YYYY-MM-DD'));
             inputTo.val(picker.endDate.format('YYYY-MM-DD'));
             datePickerBtn.find('span').html(datePickerElement.data('daterangepicker').chosenLabel);
-            // datePickerForm.submit();
 
             jQuery.ajax({
                 url: wps_js.global.ajax_url,
