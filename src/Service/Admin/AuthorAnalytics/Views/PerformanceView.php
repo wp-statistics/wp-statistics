@@ -16,10 +16,6 @@ class PerformanceView extends BaseView
     public function __construct()
     {
         $args = [
-            'date'      => [
-                'from'  => Request::get('from', date('Y-m-d', strtotime('-29 days'))), 
-                'to'    => Request::get('to', date('Y-m-d'))
-            ],
             'post_type' => Request::get('pt', 'post')
         ];
 
