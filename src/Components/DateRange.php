@@ -219,10 +219,10 @@ class DateRange
      * DateRange::compare($date, '=', 'today') 
      * DateRange::compare($date, 'in', 'this_month') 
      * DateRange::compare($date1, '!=', $date2) 
+     * DateRange::compare($date, 'in', ['from' => '2024-01-01', 'to' => '2024-01-31']) 
      */
     public static function compare($date1, $operator, $date2)
     {
-
         $range1 = self::resolveDate($date1);
         $range2 = self::resolveDate($date2);
 
