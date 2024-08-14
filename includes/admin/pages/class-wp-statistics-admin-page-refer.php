@@ -1,6 +1,8 @@
 <?php
 
 namespace WP_STATISTICS;
+
+use WP_Statistics\Components\DateRange;
 use WP_Statistics\Components\Singleton;
 
 class refer_page extends Singleton
@@ -42,8 +44,8 @@ class refer_page extends Singleton
         $args['paged']    = Admin_Template::getCurrentPaged();
 
         // Get Date-Range
-        $args['DateRang']    = Admin_Template::DateRange();
-        $args['hasDateRang'] = True;
+        $args['DateRang']    = DateRange::retrieve();
+        $args['hasDateRang'] = true;
 
         // Get Total List
         if (!isset($_GET['referrer'])) {
