@@ -29,9 +29,6 @@
                         <div id="exclusions-settings" class="tab-content">
                             <?php include WP_STATISTICS_DIR . 'includes/admin/templates/settings/exclusions.php'; ?>
                         </div>
-                        <div id="maintenance-settings" class="tab-content">
-                            <?php include WP_STATISTICS_DIR . 'includes/admin/templates/settings/maintenance.php'; ?>
-                        </div>
                         <div id="data-plus-settings" class="tab-content">
                             <?php include WP_STATISTICS_DIR . 'includes/admin/templates/settings/add-ons/data-plus.php'; ?>
                         </div>

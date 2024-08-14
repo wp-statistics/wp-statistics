@@ -44,13 +44,6 @@
         <span><?php esc_html_e('Filtering & Exceptions', 'wp-statistics'); ?></span>
     </a>
 
-    <a data-tab="maintenance-settings" class="wps-optionsMenuItem">
-        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path fill-rule="evenodd" clip-rule="evenodd" d="M6.28001 1.5C8.91993 1.5 11.06 3.64008 11.06 6.28001C11.06 6.76291 10.9884 7.22908 10.8552 7.66849L15.84 12.6533C16.72 13.5333 16.72 14.96 15.84 15.84C14.96 16.72 13.5333 16.72 12.6533 15.84L7.66849 10.8552C7.22908 10.9884 6.76291 11.06 6.28001 11.06C3.64008 11.06 1.5 8.91993 1.5 6.28001C1.5 5.77056 1.5797 5.27973 1.72731 4.81929L3.9884 7.07667L6.22955 6.33027L6.32964 6.23019L7.07667 3.99113L4.81294 1.72935C5.27521 1.58043 5.76821 1.5 6.28001 1.5Z"/>
-        </svg>
-        <span><?php esc_html_e('Data Management', 'wp-statistics'); ?></span>
-    </a>
-
     <a data-tab="advanced-settings" class="wps-optionsMenuItem">
         <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
             <g clip-path="url(#clip0_4595_4462)">
