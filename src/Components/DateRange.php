@@ -12,7 +12,7 @@ class DateRange
 
     public static function getDefault()
     {
-        return apply_filters('wp_statistics_default_date_range', self::get('30days'));
+        return apply_filters('wp_statistics_default_user_date_range', self::get('30days'));
     }
 
     /**
