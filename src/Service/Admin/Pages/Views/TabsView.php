@@ -25,10 +25,6 @@ class TabsView extends BaseTabView
     public function __construct()
     {
         $args = [
-            'date'      => [
-                'from' => Request::get('from', date('Y-m-d', strtotime('-29 day'))),
-                'to'   => Request::get('to', date('Y-m-d'))
-            ],
             'order'     => Request::get('order', 'DESC'),
             'author_id' => Request::get('author_id', '', 'number'),
             'taxonomy'  => Request::get('tx', 'category'),
