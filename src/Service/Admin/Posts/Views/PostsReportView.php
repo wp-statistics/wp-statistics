@@ -28,13 +28,10 @@ class PostsReportView extends BaseView
 
     public function getData()
     {
-        $orderBy    = Request::get('order_by', 'visitors');
-        $order      = Request::get('order', 'DESC');
-
         $args = [
-            'order_by'  => $orderBy,
-            'order'     => $order,
             'author_id' => $this->authorID,
+            'order_by'  => Request::get('order_by', 'visitors'),
+            'order'     => Request::get('order', 'DESC'),
             'per_page'  => Admin_Template::$item_per_page,
             'page'      => Admin_Template::getCurrentPaged(),
         ];
