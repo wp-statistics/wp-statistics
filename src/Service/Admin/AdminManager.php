@@ -10,6 +10,7 @@ class AdminManager
     {
         $this->initFooterModifier();
         $this->initNoticeHandler();
+        $this->initSiteHealthInfo();
     }
 
     private function initFooterModifier()
@@ -23,6 +24,13 @@ class AdminManager
         add_action('admin_notices', [Notice::class, 'displayNotices']);
         add_action('admin_init', [Notice::class, 'handleDismissNotice']);
         add_action('admin_init', [Notice::class, 'handleGeneralNotices']);
+    }
+
+    private function initSiteHealthInfo()
+    {
+        // Initialize Site Health Info and register its hooks
+        $siteHealthInfo = new SiteHealthInfo();
+        $siteHealthInfo->register();
     }
 
     /**
