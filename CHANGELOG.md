@@ -1,4 +1,7 @@
-= 14.9.4 - 10.08.2024 =
+= 14.10 - xx.xx.2024 =
+* Enhancement: Merged Contents, Category Pages, and Author Pages reports into one single Pages page.
+
+= 14.9.4 - 12.08.2024 =
 * Enhancement: Redesigned Mini Charts in content lists for better clarity.
 * Enhancement: Updated the automated report email template for improved readability.
 * Enhancement: Display query parameters alongside page names on the single visitor page.

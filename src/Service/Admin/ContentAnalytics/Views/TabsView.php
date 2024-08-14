@@ -44,15 +44,13 @@ class TabsView extends BaseTabView
 
     public function getTabs()
     {
-        $currentTab = $this->getCurrentTab();
-
         $tabs = [];
 
         foreach (Helper::getPostTypes() as $postType) {
             $tab = [
                 'link'    => Menus::admin_url('content-analytics', ['tab' => $postType]),
                 'title'   => Helper::getPostTypeName($postType),
-                'class'   => $currentTab === $postType ? 'current' : ''
+                'class'   => $this->isTab($postType) ? 'current' : ''
             ];
 
             if ($this->isLockedTab($postType)) {

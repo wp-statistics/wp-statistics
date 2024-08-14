@@ -5,6 +5,7 @@ namespace WP_STATISTICS;
 use WP_Statistics\Components\AssetNameObfuscator;
 use WP_Statistics\Components\Singleton;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
+use WP_Statistics\Utils\Request;
 
 class settings_page extends Singleton
 {
@@ -191,19 +192,7 @@ class settings_page extends Singleton
     {
 
         if (isset($_POST['wps_time_report'])) {
-            if (Option::get('time_report') != $_POST['wps_time_report']) {
-
-                if (wp_next_scheduled('wp_statistics_report_hook')) {
-                    wp_unschedule_event(wp_next_scheduled('wp_statistics_report_hook'), 'wp_statistics_report_hook');
-                }
-                $timeReports       = sanitize_text_field($_POST['wps_time_report']);
-                $schedulesInterval = Schedule::getSchedules();
-
-                if (isset($schedulesInterval[$timeReports]['next_schedule'])) {
-                    $scheduleTime = $schedulesInterval[$timeReports]['next_schedule'];
-                    wp_schedule_event($scheduleTime, $timeReports, 'wp_statistics_report_hook');
-                }
-            }
+            Schedule::rescheduleEvent('wp_statistics_report_hook', $_POST['wps_time_report'], Option::get('time_report'));
         }
 
         $wps_option_list = array(
@@ -483,6 +472,12 @@ class settings_page extends Singleton
                 } else {
                     $options[$option_name] = sanitize_text_field($option_value);
                 }
+            }
+
+            // Update time_report option based on the value of email_stats_time_range option in Advanced Reporting
+            if ($option_name === 'email_stats_time_range' && Request::compare('tab', 'advanced-reporting-settings')) {
+                Schedule::rescheduleEvent('wp_statistics_report_hook', $options[$option_name], Option::get('time_report'));
+                Option::update('time_report', $options[$option_name]);
             }
         }
 

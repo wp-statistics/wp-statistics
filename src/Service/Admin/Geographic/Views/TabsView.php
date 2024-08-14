@@ -79,25 +79,25 @@ class TabsView extends BaseTabView
                         'link'    => Menus::admin_url('geographic', ['tab'   => 'countries']),
                         'title'   => esc_html__('Countries', 'wp-statistics'),
                         'tooltip' => esc_html__('Displays visitor counts from different countries.', 'wp-statistics'),
-                        'class'   => $currentTab === 'countries' ? 'current' : '',
+                        'class'   => $this->isTab('countries') ? 'current' : '',
                     ],
                     [
                         'link'    => Menus::admin_url('geographic', ['tab' => 'cities']),
                         'title'   => esc_html__('Cities', 'wp-statistics'),
                         'tooltip' => esc_html__('Displays visitor data based on their cities of origin.', 'wp-statistics'),
-                        'class'   => $currentTab === 'cities' ? 'current' : '',
+                        'class'   => $this->isTab('cities') ? 'current' : '',
                     ],
                     [
                         'link'    => Menus::admin_url('geographic', ['tab'   => 'europe']),
                         'title'   => esc_html__('European Countries', 'wp-statistics'),
                         'tooltip' => esc_html__('Displays visitor counts from European countries.', 'wp-statistics'),
-                        'class'   => $currentTab === 'europe' ? 'current' : '',
+                        'class'   => $this->isTab('europe') ? 'current' : '',
                     ],
                     [
                         'link'    => Menus::admin_url('geographic', ['tab'   => 'us']),
                         'title'   => esc_html__('US States', 'wp-statistics'),
                         'tooltip' => esc_html__('Displays visitor counts categorized by states within the USA.', 'wp-statistics'),
-                        'class'   => $currentTab === 'us' ? 'current' : '',
+                        'class'   => $this->isTab('us') ? 'current' : '',
                     ]
                 ],
             ];
@@ -108,7 +108,7 @@ class TabsView extends BaseTabView
                     'link'    => Menus::admin_url('geographic', ['tab'   => 'regions']),
                     'title'   => sprintf(esc_html__('Regions of %s', 'wp-statistics'), Country::getName($countryCode)),
                     'tooltip' => esc_html__('Displays visitor statistics for regions within your website’s country, based on your website’s timezone setting.', 'wp-statistics'),
-                    'class'   => $currentTab === 'regions' ? 'current' : ''
+                    'class'   => $this->isTab('regions') ? 'current' : ''
                 ];
 
                 array_splice($args['tabs'], 4, 0, [$regionsTab]);

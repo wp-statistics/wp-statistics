@@ -126,9 +126,7 @@ class Schedule
         $datetime->setTimezone($timezone);
 
         // Determine the day name based on the start of the week setting
-        $start_of_week  = get_option('start_of_week', 1);
-        $days_of_week   = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-        $start_day_name = $days_of_week[$start_of_week];
+        $start_day_name = Helper::getStartOfWeek();;
 
         // Daily schedule
         $daily = clone $datetime;
@@ -151,28 +149,28 @@ class Schedule
                 'interval'      => DAY_IN_SECONDS,
                 'display'       => __('Daily', 'wp-statistics'),
                 'start'         => wp_date('Y-m-d', strtotime("-1 day")),
-                'end'           => wp_date('Y-m-d'),
+                'end'           => wp_date('Y-m-d', strtotime("-1 day")),
                 'next_schedule' => $daily->getTimestamp()
             ],
             'weekly'   => [
                 'interval'      => WEEK_IN_SECONDS,
                 'display'       => __('Weekly', 'wp-statistics'),
-                'start'         => wp_date('Y-m-d', strtotime("-1 week")),
-                'end'           => wp_date('Y-m-d'),
+                'start'         => wp_date('Y-m-d', strtotime("-7 days")),
+                'end'           => wp_date('Y-m-d', strtotime("-1 day")),
                 'next_schedule' => $weekly->getTimestamp()
             ],
             'biweekly' => [
                 'interval'      => 2 * WEEK_IN_SECONDS,
                 'display'       => __('Bi-Weekly', 'wp-statistics'),
-                'start'         => wp_date('Y-m-d', strtotime("-2 weeks")),
-                'end'           => wp_date('Y-m-d'),
+                'start'         => wp_date('Y-m-d', strtotime("-14 days")),
+                'end'           => wp_date('Y-m-d', strtotime("-1 day")),
                 'next_schedule' => $biweekly->getTimestamp()
             ],
             'monthly'  => [
                 'interval'      => MONTH_IN_SECONDS,
                 'display'       => __('Monthly', 'wp-statistics'),
-                'start'         => wp_date('Y-m-d', strtotime("-1 month")),
-                'end'           => wp_date('Y-m-d'),
+                'start'         => wp_date('Y-m-d', strtotime("-30 days")),
+                'end'           => wp_date('Y-m-d', strtotime("-1 day")),
                 'next_schedule' => $monthly->getTimestamp()
             ]
         ];
@@ -285,7 +283,12 @@ class Schedule
 
         if ($schedule && array_key_exists($schedule, self::getSchedules())) {
             $schedule = self::getSchedules()[$schedule];
-            $subject  .= sprintf(__(' for %s to %s', 'wp-statistics'), $schedule['start'], $schedule['end']);
+
+            if ($schedule['start'] === $schedule['end']) {
+                $subject .= sprintf(__(' for %s', 'wp-statistics'), $schedule['start']);
+            } else {
+                $subject .= sprintf(__(' for %s to %s', 'wp-statistics'), $schedule['start'], $schedule['end']);
+            }
         }
 
         return $subject;
@@ -353,6 +356,22 @@ class Schedule
         }
     }
 
+    public static function rescheduleEvent($event, $newTime, $prevTime)
+    {
+        if ($newTime === $prevTime) return;
+
+        if (wp_next_scheduled($event)) {
+            wp_unschedule_event(wp_next_scheduled($event), $event);
+        }
+
+        $time               = sanitize_text_field($newTime);
+        $schedulesInterval  = self::getSchedules();
+
+        if (isset($schedulesInterval[$time]['next_schedule'])) {
+            $scheduleTime = $schedulesInterval[$time]['next_schedule'];
+            wp_schedule_event($scheduleTime, $time, $event);
+        }
+    }
 }
 
 new Schedule;

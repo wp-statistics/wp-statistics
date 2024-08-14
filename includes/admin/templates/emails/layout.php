@@ -63,7 +63,7 @@ if (intval($complianceStatus['percentage_ready']) !== 100 && !empty($complianceS
 $tipOfEmail = Helper::getReportEmailTip();
 
 // "Your performance at a glance" section variables
-$startDate = date('Y-m-d', strtotime('-30 days'));
+$startDate = date('Y-m-d', strtotime('-1 month'));
 $endDate   = '';
 if (!empty($schedule)) {
     $startDate = $schedule['start'];
