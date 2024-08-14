@@ -17,6 +17,9 @@
                         <div id="privacy-settings" class="tab-content">
                             <?php include WP_STATISTICS_DIR . 'includes/admin/templates/settings/privacy.php'; ?>
                         </div>
+                        <div id="display-settings" class="tab-content">
+                            <?php include WP_STATISTICS_DIR . 'includes/admin/templates/settings/display.php'; ?>
+                        </div>
                         <div id="notifications-settings" class="tab-content">
                             <?php include WP_STATISTICS_DIR . 'includes/admin/templates/settings/notifications.php'; ?>
                         </div>
