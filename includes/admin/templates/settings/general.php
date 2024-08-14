@@ -135,7 +135,7 @@
             </th>
             <td>
                 <input id="enable_user_column" type="checkbox" value="1" name="wps_enable_user_column" <?php echo WP_STATISTICS\Option::get('enable_user_column') == true ? "checked='checked'" : ''; ?>>
-                <label for="enable_user_column"><?php esc_html_e('Show View Logs', 'wp-statistics'); ?></label>
+                <label for="enable_user_column"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
                 <p class="description"><?php _e('Display the "Views" column in the admin user list, showing the page view counts associated with each WordPress user. Requires "<b>Track Logged-In User Activity</b>" to be enabled.', 'wp-statistics'); ?></p>
             </td>
         </tr>
