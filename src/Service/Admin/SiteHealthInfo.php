@@ -2,6 +2,7 @@
 
 namespace WP_Statistics\Service\Admin;
 
+use WP_STATISTICS\GeoIP;
 use WP_STATISTICS\Option;
 
 /**
@@ -34,6 +35,29 @@ class SiteHealthInfo
             'label'       => esc_html__('WP Statistics', 'wp-statistics'),
             'description' => esc_html__('This section contains debug information about your WP Statistics settings to help you troubleshoot issues.', 'wp-statistics'),
             'fields'      => [
+                /**
+                 * General settings.
+                 */
+                'version'                       => [
+                    'label' => esc_html__('Version', 'wp-statistics'),
+                    'value' => WP_STATISTICS_VERSION,
+                ],
+
+                /**
+                 * Geolocation database settings.
+                 */
+                'geoIpDatabaseLastUpdated'      => [
+                    'label' => esc_html__('GeoIP Database Last Updated', 'wp-statistics'),
+                    'value' => GeoIP::getLastUpdate(),
+                ],
+                'geoIpDatabaseSize'             => [
+                    'label' => esc_html__('GeoIP Database Size', 'wp-statistics'),
+                    'value' => GeoIP::getDatabaseSize(),
+                ],
+
+                /**
+                 * Plugin configuration settings.
+                 */
                 'monitorOnlineVisitors'         => [
                     'label' => esc_html__('Monitor Online Visitors', 'wp-statistics'),
                     'value' => Option::get('key') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
@@ -126,6 +150,16 @@ class SiteHealthInfo
                     'label' => esc_html__('Purge Data Older Than', 'wp-statistics'),
                     'value' => Option::get('key') ? Option::get('key') . ' days' : __('Not Set', 'wp-statistics'),
                 ],
+
+                /**
+                 * Add-ons configuration settings.
+                 */
+                // todo
+
+                /**
+                 * Active cron jobs.
+                 */
+                // todo
             ],
         ];
 
