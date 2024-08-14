@@ -172,6 +172,17 @@ class DateRange
                 ]
             ],
 
+            '6months'  => [
+                'period' => [
+                    'from'  => date('Y-m-d', strtotime('-6 months')),
+                    'to'    => date('Y-m-d'),
+                ],
+                'prev_period' => [
+                    'from'  => date('Y-m-d', strtotime('-12 months')),
+                    'to'    => date('Y-m-d', strtotime('-6 months')),
+                ]
+            ],
+
             '12months'  => [
                 'period' => [
                     'from'  => date('Y-m-d', strtotime('-12 months')),
@@ -226,7 +237,7 @@ class DateRange
         $range1 = self::resolveDate($date1);
         $range2 = self::resolveDate($date2);
 
-        if (empty($range1) || $range2) return false;
+        if (empty($range1) || empty($range2)) return false;
 
         $from1  = strtotime($range1['from']);
         $to1    = strtotime($range1['to']);
@@ -266,39 +277,31 @@ class DateRange
      * Resolves the given date input to a 'from' and 'to' date array.
      *
      * @param mixed $date A date string, array, or period name.
-     * @return array An array containing 'from' and 'to' date strings.
+     * @return array|bool An array containing 'from' and 'to' date strings. False if the date is invalid.
      */
     private static function resolveDate($date)
     {
-        $range = [];
-
         // If date is an array
         if (is_array($date)) {
-            if (isset($date['from']) && isset($date['to'])) {
-                $range = $date;
+            if (isset($date['from'], $date['to'])) {
+                return $date;
             }
 
             if (count($date) == 2) {
-                $range = [
-                    'from'  => $date[0],
-                    'to'    => $date[1]
-                ];
+                return ['from' => $date[0], 'to' => $date[1]];
             }
         }
 
         // If date is a simple date string
         if (TimeZone::isValidDate($date)) {
-            $range = [
-                'from'  => $date,
-                'to'    => $date
-            ];
+            return ['from' => $date, 'to' => $date];
         }
 
         // If date is a period name (string), get the range from the periods
         if (is_string($date)) {
-            $range = self::get($date);
+            return self::get($date);
         }
 
-        return $range;
+        return false;
     }
 }

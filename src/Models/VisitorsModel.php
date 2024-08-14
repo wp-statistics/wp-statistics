@@ -7,7 +7,7 @@ use WP_STATISTICS\TimeZone;
 use WP_STATISTICS\GeoIP;
 use WP_Statistics\Utils\Query;
 use WP_Statistics\Abstracts\BaseModel;
-
+use WP_Statistics\Components\DateRange;
 
 class VisitorsModel extends BaseModel
 {
@@ -228,54 +228,51 @@ class VisitorsModel extends BaseModel
             'this_year' => ['label' => esc_html__('This year (Jan - Today)', 'wp-statistics'), 'visitors' => 0],
         ];
 
-        // Init date ranges
-        
-        $dateRanges = TimeZone::getDateFilters();
         foreach ($result as $record) {
             $date     = $record->date;
             $visitors = $record->visitors;
 
-            if ($date === $dateRanges['today']['from']) {
+            if (DateRange::compare($date, '=', 'today')) {
                 $summary['today']['visitors'] += $visitors;
             }
 
-            if ($date === $dateRanges['yesterday']['from']) {
+            if (DateRange::compare($date, '=', 'yesterday')) {
                 $summary['yesterday']['visitors'] += $visitors;
             }
 
-            if ($date >= $dateRanges['this_week']['from'] && $date <= $dateRanges['this_week']['to']) {
+            if (DateRange::compare($date, 'in', 'this_week')) {
                 $summary['this_week']['visitors'] += $visitors;
             }
 
-            if ($date >= $dateRanges['last_week']['from'] && $date <= $dateRanges['last_week']['to']) {
+            if (DateRange::compare($date, 'in', 'last_week')) {
                 $summary['last_week']['visitors'] += $visitors;
             }
 
-            if ($date >= $dateRanges['this_month']['from'] && $date <= $dateRanges['this_month']['to']) {
+            if (DateRange::compare($date, 'in', 'this_month')) {
                 $summary['this_month']['visitors'] += $visitors;
             }
 
-            if ($date >= $dateRanges['last_month']['from'] && $date <= $dateRanges['last_month']['to']) {
+            if (DateRange::compare($date, 'in', 'last_month')) {
                 $summary['last_month']['visitors'] += $visitors;
             }
 
-            if ($date >= $dateRanges['7days']['from'] && $date <= $dateRanges['7days']['to']) {
+            if (DateRange::compare($date, 'in', '7days')) {
                 $summary['7days']['visitors'] += $visitors;
             }
 
-            if ($date >= $dateRanges['30days']['from'] && $date <= $dateRanges['30days']['to']) {
+            if (DateRange::compare($date, 'in', '30days')) {
                 $summary['30days']['visitors'] += $visitors;
             }
 
-            if ($date >= $dateRanges['90days']['from'] && $date <= $dateRanges['90days']['to']) {
+            if (DateRange::compare($date, 'in', '90days')) {
                 $summary['90days']['visitors'] += $visitors;
             }
 
-            if ($date >= $dateRanges['6months']['from'] && $date <= $dateRanges['6months']['to']) {
+            if (DateRange::compare($date, 'in', '6months')) {
                 $summary['6months']['visitors'] += $visitors;
             }
 
-            if ($date >= $dateRanges['this_year']['from'] && $date <= $dateRanges['this_year']['to']) {
+            if (DateRange::compare($date, 'in', 'this_year')) {
                 $summary['this_year']['visitors'] += $visitors;
             }
         }
