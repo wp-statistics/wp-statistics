@@ -2,8 +2,9 @@
 
 namespace WP_STATISTICS;
 
-use WP_Statistics\Components\Assets;
 use WP_Statistics\Utils\Request;
+use WP_Statistics\Components\Assets;
+use WP_Statistics\Components\DateRange;
 
 class Admin_Assets
 {
@@ -434,6 +435,7 @@ class Admin_Assets
         );
 
         $list['active_post_type'] = Helper::getPostTypeName(Request::get('pt', 'post'));
+        $list['user_date_range']  = DateRange::retrieve();
 
         // Rest-API Meta Box Url
         $list['stats_report_option'] = Option::get('time_report') == '0' ? false : true;

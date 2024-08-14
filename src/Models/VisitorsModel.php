@@ -680,6 +680,8 @@ class VisitorsModel extends BaseModel
 
     public function getSearchEnginesChartData($args)
     {
+        $args = $this->parseArgs($args, []);
+        
         // Get results up to 30 days
         $newArgs = [];
         $days    = TimeZone::getNumberDayBetween($args['date']['from'], $args['date']['to']);

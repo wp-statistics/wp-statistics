@@ -31,7 +31,7 @@ $postTypeSingular   = Helper::getPostTypeName(get_post_type($postId), true);
             <span class="wps-content-analytics-header__date_published"><?php echo get_the_date(Helper::getDefaultDateFormat(true), $postId) ?></span>
             <span class="wps-content-analytics-header__date_updated"><span><?php  echo esc_html__('Updated on: ', 'wp-statistics') ?></span><?php echo get_the_modified_date(Helper::getDefaultDateFormat(true), $postId) ?></span>
             <span class="wps-content-analytics-header__author">
-                <a href="<?php echo Menus::admin_url('author-analytics', ['type' => 'single-author', 'author_id' => $postAuthor, 'from' => Request::get('from', date('Y-m-d', strtotime('-29 days'))), 'to' => Request::get('to', date('Y-m-d'))]) ?>"><?php echo get_the_author_meta('display_name', $postAuthor) ?></a>
+                <a href="<?php echo Menus::admin_url('author-analytics', ['type' => 'single-author', 'author_id' => $postAuthor]) ?>"><?php echo get_the_author_meta('display_name', $postAuthor) ?></a>
             </span>
         </div>
         <div class="wps-content-analytics-header__tags">
@@ -42,7 +42,7 @@ $postTypeSingular   = Helper::getPostTypeName(get_post_type($postId), true);
                     $terms = get_the_terms($postId, $taxonomy);
                     if ($terms) {
                         foreach ($terms as $term) {
-                            echo '<a href="' . add_query_arg(['type' => 'single', 'term_id' => $term->term_id, 'from' => Request::get('from', date('Y-m-d', strtotime('-29 days'))), 'to' => Request::get('to', date('Y-m-d'))], Menus::admin_url('category-analytics')) . '">' . $term->name . '</a>';
+                            echo '<a href="' . Menus::admin_url('category-analytics', ['type' => 'single', 'term_id' => $term->term_id]) . '">' . $term->name . '</a>';
                         }
                     }
                 }

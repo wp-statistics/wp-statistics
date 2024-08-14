@@ -21,10 +21,6 @@ class TabsView extends BaseTabView
     public function __construct()
     {
         $this->dataProvider = new ContentAnalyticsDataProvider([
-            'date' => [
-                'from'  => Request::get('from', date('Y-m-d', strtotime('-29 days'))),
-                'to'    => Request::get('to', date('Y-m-d'))
-            ],
             'post_type' => Request::get('tab', 'post')
         ]);
 

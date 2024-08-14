@@ -29,10 +29,6 @@ class TabsView extends BaseTabView
         parent::__construct();
 
         $this->dataProvider = new GeographicDataProvider([
-            'date' =>[
-                'from'  => Request::get('from', date('Y-m-d', strtotime('-29 days'))),
-                'to'    => Request::get('to', date('Y-m-d')),
-            ],
             'per_page'  => Admin_Template::$item_per_page,
             'page'      => Admin_Template::getCurrentPaged()
         ]);
@@ -80,41 +76,25 @@ class TabsView extends BaseTabView
                 'data'       => $data,
                 'tabs'       => [
                     [
-                        'link'    => Menus::admin_url('geographic', [
-                            'tab'   => 'countries',
-                            'from'  => Request::get('from', date('Y-m-d', strtotime('-29 days'))),
-                            'to'    => Request::get('to', date('Y-m-d'))
-                        ]),
+                        'link'    => Menus::admin_url('geographic', ['tab'   => 'countries']),
                         'title'   => esc_html__('Countries', 'wp-statistics'),
                         'tooltip' => esc_html__('Displays visitor counts from different countries.', 'wp-statistics'),
                         'class'   => $this->isTab('countries') ? 'current' : '',
                     ],
                     [
-                        'link'    => Menus::admin_url('geographic', [
-                            'tab'   => 'cities',
-                            'from'  => Request::get('from', date('Y-m-d', strtotime('-29 days'))),
-                            'to'    => Request::get('to', date('Y-m-d'))
-                        ]),
+                        'link'    => Menus::admin_url('geographic', ['tab' => 'cities']),
                         'title'   => esc_html__('Cities', 'wp-statistics'),
                         'tooltip' => esc_html__('Displays visitor data based on their cities of origin.', 'wp-statistics'),
                         'class'   => $this->isTab('cities') ? 'current' : '',
                     ],
                     [
-                        'link'    => Menus::admin_url('geographic', [
-                            'tab'   => 'europe',
-                            'from'  => Request::get('from', date('Y-m-d', strtotime('-29 days'))),
-                            'to'    => Request::get('to', date('Y-m-d'))
-                        ]),
+                        'link'    => Menus::admin_url('geographic', ['tab'   => 'europe']),
                         'title'   => esc_html__('European Countries', 'wp-statistics'),
                         'tooltip' => esc_html__('Displays visitor counts from European countries.', 'wp-statistics'),
                         'class'   => $this->isTab('europe') ? 'current' : '',
                     ],
                     [
-                        'link'    => Menus::admin_url('geographic', [
-                            'tab'   => 'us',
-                            'from'  => Request::get('from', date('Y-m-d', strtotime('-29 days'))),
-                            'to'    => Request::get('to', date('Y-m-d'))
-                        ]),
+                        'link'    => Menus::admin_url('geographic', ['tab'   => 'us']),
                         'title'   => esc_html__('US States', 'wp-statistics'),
                         'tooltip' => esc_html__('Displays visitor counts categorized by states within the USA.', 'wp-statistics'),
                         'class'   => $this->isTab('us') ? 'current' : '',
@@ -125,11 +105,7 @@ class TabsView extends BaseTabView
             // If the country is US, or Unknown, hide region tab
             if ($countryCode && $countryCode != 'US') {
                 $regionsTab = [
-                    'link'    => Menus::admin_url('geographic', [
-                        'tab'   => 'regions',
-                        'from'  => Request::get('from', date('Y-m-d', strtotime('-29 days'))),
-                        'to'    => Request::get('to', date('Y-m-d'))
-                    ]),
+                    'link'    => Menus::admin_url('geographic', ['tab'   => 'regions']),
                     'title'   => sprintf(esc_html__('Regions of %s', 'wp-statistics'), Country::getName($countryCode)),
                     'tooltip' => esc_html__('Displays visitor statistics for regions within your website’s country, based on your website’s timezone setting.', 'wp-statistics'),
                     'class'   => $this->isTab('regions') ? 'current' : ''
