@@ -29,19 +29,19 @@
         <span><?php esc_html_e('Email Reports', 'wp-statistics'); ?></span>
     </a>
 
-    <a data-tab="access-settings" class="wps-optionsMenuItem">
-        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path fill-rule="evenodd" clip-rule="evenodd" d="M12.3752 5.29725C12.3752 7.6935 10.9277 9.75 9.00016 9.75C7.07116 9.75 5.62516 7.6935 5.62516 5.2965C5.62516 2.901 6.87016 1.5 9.00016 1.5C11.1302 1.5 12.3752 2.90025 12.3752 5.29725ZM3.07666 15.1065C3.36541 15.45 4.60891 16.5 9.00016 16.5C13.3914 16.5 14.6342 15.45 14.9237 15.1072C14.9505 15.0743 14.9704 15.0362 14.982 14.9953C14.9936 14.9545 14.9967 14.9116 14.9912 14.8695C14.9252 14.208 14.3297 11.25 9.00016 11.25C3.67066 11.25 3.07516 14.208 3.00841 14.8695C3.00298 14.9117 3.00623 14.9545 3.01797 14.9954C3.02971 15.0363 3.04968 15.0736 3.07666 15.1065Z"/>
-        </svg>
-        <span><?php esc_html_e('Roles & Permissions', 'wp-statistics'); ?></span>
-    </a>
-
     <a data-tab="exclusions-settings" class="wps-optionsMenuItem">
         <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M9.5 2C5.35786 2 2 5.35786 2 9.5C2 13.6421 5.35786 17 9.5 17C13.6421 17 17 13.6421 17 9.5C17 5.35786 13.6421 2 9.5 2Z"/>
             <path d="M14 9.82057C14 9.91967 13.8009 10 13.5552 10H9.49999H5.44476C5.19912 10 5 9.91967 5 9.82057V9.17943C5 9.08033 5.19912 9 5.44476 9H13.5552C13.8009 9 14 9.08033 14 9.17943L14 9.82057Z" fill="white"/>
         </svg>
         <span><?php esc_html_e('Filtering & Exceptions', 'wp-statistics'); ?></span>
+    </a>
+
+    <a data-tab="access-settings" class="wps-optionsMenuItem">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M12.3752 5.29725C12.3752 7.6935 10.9277 9.75 9.00016 9.75C7.07116 9.75 5.62516 7.6935 5.62516 5.2965C5.62516 2.901 6.87016 1.5 9.00016 1.5C11.1302 1.5 12.3752 2.90025 12.3752 5.29725ZM3.07666 15.1065C3.36541 15.45 4.60891 16.5 9.00016 16.5C13.3914 16.5 14.6342 15.45 14.9237 15.1072C14.9505 15.0743 14.9704 15.0362 14.982 14.9953C14.9936 14.9545 14.9967 14.9116 14.9912 14.8695C14.9252 14.208 14.3297 11.25 9.00016 11.25C3.67066 11.25 3.07516 14.208 3.00841 14.8695C3.00298 14.9117 3.00623 14.9545 3.01797 14.9954C3.02971 15.0363 3.04968 15.0736 3.07666 15.1065Z"/>
+        </svg>
+        <span><?php esc_html_e('Roles & Permissions', 'wp-statistics'); ?></span>
     </a>
 
     <a data-tab="advanced-settings" class="wps-optionsMenuItem">
