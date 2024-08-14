@@ -210,7 +210,8 @@ class VisitorsModel extends BaseModel
         $result = $this->countDailyVisitors(array_merge($args, [
                 'date' => [
                     'from' => (date('Y') - 1) . '-01-01',
-                    'to'   => date('Y-m-d')]
+                    'to'   => date('Y-m-d')
+                ]
             ]
         ), $bypassCache);
 
