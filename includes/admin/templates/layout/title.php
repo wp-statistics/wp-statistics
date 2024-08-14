@@ -46,6 +46,15 @@ use WP_Statistics\Utils\Request;
         </form>
     <?php endif ?>
 
+    <?php if (isset($SearchBoxTitle)): ?>
+        <div class="wps-head-filters">
+            <div class="wps-head-filters--search-box">
+                <input type="text" class="wps-head-filters--search-input" placeholder="<?php echo esc_attr($SearchBoxTitle); ?>">
+            </div>
+
+        </div>
+    <?php endif ?>
+
     <?php if (isset($hasDateRang) || isset($filters) || isset($filter)): ?>
         <div class="wps-head-filters">
             <?php

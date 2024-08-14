@@ -21,8 +21,8 @@
                          <?php esc_html_e('Total Views', 'wp-statistics') ?>
                     </th>
                     <th class="wps-pd-l">
-                         <?php esc_html_e('Latest Page', 'wp-statistics') ?>
-                    </th>
+                        <?php esc_html_e((isset($page_col_text) ? 'Page' : 'Latest Page'), 'wp-statistics'); ?>
+                     </th>
                  </tr>
                 </thead>
 
