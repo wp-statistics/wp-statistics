@@ -139,11 +139,8 @@ class ViewsModel extends BaseModel
     public function getViewsSummary($args = [], $bypassCache = false)
     {
         $result = $this->countDailyViews(array_merge($args, [
-            'date' => [
-                'from'  => (date('Y') - 1) . '-01-01', 
-                'to'    => date('Y-m-d')]
-            ]
-        ), $bypassCache);
+            'date' => DateRange::get('this_year')
+        ]), $bypassCache);
 
         $summary = [
             'today'     => ['label' => esc_html__('Today', 'wp-statistics'), 'views' => 0],
