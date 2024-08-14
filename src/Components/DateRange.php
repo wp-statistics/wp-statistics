@@ -49,16 +49,13 @@ class DateRange
      * @param string $name The name of the date range.
      * @param bool $prevPeriod Whether to retrieve the previous period. Defaults to false.
      * @param bool $excludeToday Whether to exclude today from the date range. Defaults to false.
-     * @throws InvalidArgumentException If the specified date range is invalid.
      * @return array The date range.
      */
     public static function get($name, $prevPeriod = false, $excludeToday = false)
     {
         $periods = self::getPeriods();
 
-        if (!isset($periods[$name])) {
-            throw new InvalidArgumentException(esc_html__('Invalid date range.', 'wp-statistics'));
-        }
+        if (!isset($periods[$name])) return [];
 
         $range = $periods[$name]['period'];
 
@@ -208,5 +205,87 @@ class DateRange
                 ]
             ]
         ];
+    }
+
+    public static function compare($date1, $operator, $date2)
+    {
+
+        $range1 = self::resolveDate($date1);
+        $range2 = self::resolveDate($date2);
+
+        if (empty($range1) || $range2) return false;
+
+        $from1  = strtotime($range1['from']);
+        $to1    = strtotime($range1['to']);
+
+        $from2  = strtotime($range2['from']);
+        $to2    = strtotime($range2['to']);
+
+        switch ($operator) {
+            case 'in':
+            case 'between':
+                return $from1 >= $from2 && $to1 <= $to2;
+
+            case '<':
+                return $to1 < $from2;
+
+            case '<=':
+                return $to1 <= $from2;
+
+            case '>':
+                return $from1 > $to2;
+
+            case '>=':
+                return $from1 >= $to2;
+
+            case '!=':
+            case 'not':
+                return $from1 != $from2 || $to1 != $to2;
+
+            case '=':
+            case 'is':
+            default:
+                return $from1 == $from2 && $to1 == $to2;
+        }
+    }
+
+    /**
+     * Resolves the given date input to a 'from' and 'to' date array.
+     *
+     * @param mixed $date A date string, array, or period name.
+     * @return array An array containing 'from' and 'to' date strings.
+     */
+    private static function resolveDate($date)
+    {
+        $range = [];
+
+        // If date is an array
+        if (is_array($date)) {
+            if (isset($date['from']) && isset($date['to'])) {
+                $range = $date;
+            }
+
+            if (count($date) == 2) {
+                $range = [
+                    'from'  => $date[0],
+                    'to'    => $date[1]
+                ];
+            }
+        }
+
+        // If date is a simple date string
+        if (TimeZone::isValidDate($date)) {
+            $range = [
+                'from'  => $date,
+                'to'    => $date
+            ];
+        }
+
+        // If date is a period name (string), get the range from the periods
+        if (is_string($date)) {
+            $range = self::get($date);
+        }
+
+        return $range;
     }
 }
