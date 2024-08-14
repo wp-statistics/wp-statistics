@@ -105,11 +105,7 @@ class TabsView extends BaseTabView
             // If the country is US, or Unknown, hide region tab
             if ($countryCode && $countryCode != 'US') {
                 $regionsTab = [
-                    'link'    => Menus::admin_url('geographic', [
-                        'tab'   => 'regions',
-                        'from'  => Request::get('from', date('Y-m-d', strtotime('-29 days'))),
-                        'to'    => Request::get('to', date('Y-m-d'))
-                    ]),
+                    'link'    => Menus::admin_url('geographic', ['tab'   => 'regions']),
                     'title'   => sprintf(esc_html__('Regions of %s', 'wp-statistics'), Country::getName($countryCode)),
                     'tooltip' => esc_html__('Displays visitor statistics for regions within your website’s country, based on your website’s timezone setting.', 'wp-statistics'),
                     'class'   => $currentTab === 'regions' ? 'current' : ''
