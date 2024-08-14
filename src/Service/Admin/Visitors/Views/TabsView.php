@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace WP_Statistics\Service\Admin\Visitors\Views;
 
@@ -11,7 +11,7 @@ use WP_Statistics\Abstracts\BaseTabView;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Service\Admin\Visitors\VisitorsDataProvider;
 
-class TabsView extends BaseTabView 
+class TabsView extends BaseTabView
 {
     protected $defaultTab = 'visitors';
     protected $tabs = [
@@ -25,8 +25,8 @@ class TabsView extends BaseTabView
     {
         $this->dataProvider = new VisitorsDataProvider([
             'date' => [
-                'from'  => Request::get('from', date('Y-m-d', strtotime('-29 days'))),
-                'to'    => Request::get('to', date('Y-m-d'))
+                'from' => Request::get('from', date('Y-m-d', strtotime('-29 days'))),
+                'to'   => Request::get('to', date('Y-m-d'))
             ]
         ]);
     }
@@ -36,19 +36,18 @@ class TabsView extends BaseTabView
         try {
             $currentTab = $this->getCurrentTab();
             $data       = $this->getTabData();
-    
+
             $args = [
-                'title'         => esc_html__('Visitors', 'wp-statistics'),
-                'pageName'      => Menus::get_page_slug('visitors'),
-                'custom_get'    => ['tab' => $currentTab],
-                'DateRang'      => Admin_Template::DateRange(),
-                'hasDateRang'   => true,
-                'data'          => $data,
-                'pagination'    => Admin_Template::paginate_links([
+                'title'      => esc_html__('Visitors', 'wp-statistics'),
+                'pageName'   => Menus::get_page_slug('visitors'),
+                'custom_get' => ['tab' => $currentTab],
+                'DateRang'   => Admin_Template::DateRange(),
+                'data'       => $data,
+                'pagination' => Admin_Template::paginate_links([
                     'total' => isset($data['total']) ? $data['total'] : 0,
                     'echo'  => false
                 ]),
-                'tabs'          => [
+                'tabs'       => [
                     [
                         'link'    => Menus::admin_url('visitors-report', ['tab' => 'visitors']),
                         'title'   => esc_html__('Visitors', 'wp-statistics'),
@@ -62,10 +61,9 @@ class TabsView extends BaseTabView
                         'class'   => $currentTab === 'views' ? 'current' : '',
                     ],
                     [
-                        'link'    => Menus::admin_url('visitors-report', ['tab' => 'online']),
-                        'title'   => esc_html__('Online', 'wp-statistics'),
-                        'tooltip' => esc_html__('Online tooltip', 'wp-statistics'),
-                        'class'   => $currentTab === 'online' ? 'current' : '',
+                        'link'  => Menus::admin_url('visitors-report', ['tab' => 'online']),
+                        'title' => esc_html__('Online Visitors', 'wp-statistics'),
+                        'class' => $currentTab === 'online' ? 'current wps-tab-link__online-visitors' : 'wps-tab-link__online-visitors',
                     ],
                     [
                         'link'    => Menus::admin_url('visitors-report', ['tab' => 'top-visitors']),
@@ -76,11 +74,52 @@ class TabsView extends BaseTabView
                 ]
             ];
 
+            if ($currentTab === 'visitors') {
+                $args['filter'] = self::Filter();
+            }
+            if ($currentTab === 'online') {
+                $args['real_time_button'] = true;
+            }
+            if ($currentTab !== 'visitors' && $currentTab !== 'online') {
+                $args['hasDateRang'] = true;
+            }
+
             Admin_Template::get_template(['layout/header', 'layout/tabbed-page-header'], $args);
             View::load("pages/visitors/$currentTab");
-            Admin_Template::get_template(['layout/postbox.hide', 'layout/footer'], $args);
+            Admin_Template::get_template(['layout/postbox.hide', 'layout/visitors.filter', 'layout/footer'], $args);
         } catch (Exception $e) {
             Notice::renderNotice($e->getMessage(), $e->getCode(), 'error');
         }
+    }
+
+    public static function Filter()
+    {
+        $params = 0;
+        foreach ($_GET as $params_key => $params_item) {
+            if (!in_array($params_key, array('page', 'from', 'to', 'order', 'orderby'))) {
+                $params++;
+            }
+        }
+        $filter['number'] = $params;
+        // Determine classes based on conditions
+        $activeClass = $filter['number'] > 0 ? 'wp-visitors-filter--active' : '';
+        $floatClass  = is_rtl() ? 'wps-pull-left' : 'wps-pull-right';
+        $badgeHTML   = '';
+        if ($filter['number'] > 0) {
+            $badgeHTML = '<span class="wps-badge">' . number_format_i18n($filter['number']) . '</span>';
+        }
+
+        // Code Button
+        $filter['code'] = '
+            <div class="' . $activeClass . ' ' . $floatClass . '" id="visitors-filter">
+                <span class="dashicons dashicons-filter"></span>
+                <span class="wps-visitor-filter__text">
+                    <span class="filter-text">' . __("Filters", "wp-statistics") . '</span> 
+                    ' . $badgeHTML . '
+                </span>
+                
+            </div>
+        ';
+        return $filter;
     }
 }

@@ -287,7 +287,7 @@ class Admin_Assets
         }
 
         // Add Thick box
-        if (Menus::in_page('visitors')) {
+        if (Menus::in_page('visitors') || Menus::in_page('visitors-report')) {
             wp_enqueue_script('thickbox');
             wp_enqueue_style('thickbox');
         }

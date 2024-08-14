@@ -118,8 +118,10 @@ if (wpsSelect2.length) {
  */
 wps_js.tooltip = function () {
     jQuery('.wps-tooltip').tooltipster({
-        theme: 'tooltipster-flat'
+        theme: 'tooltipster-flat',
+        contentCloning: true
     });
+
     jQuery('body').on('mouseenter touchstart', '.wps-tooltip:not(.tooltipstered)', function () {
         $(this).tooltipster({
             theme: 'tooltipster-flat'

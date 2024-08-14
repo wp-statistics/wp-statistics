@@ -211,9 +211,24 @@ class visitors_page extends Singleton
             }
         }
         $filter['number'] = $params;
+        $activeClass = $filter['number'] > 0 ? 'wp-visitors-filter--active' : '';
+        $floatClass  = is_rtl() ? 'wps-pull-left' : 'wps-pull-right';
+        $badgeHTML   = '';
+        if ($filter['number'] > 0) {
+            $badgeHTML = '<span class="wps-badge">' . number_format_i18n($filter['number']) . '</span>';
+        }
 
         // Code Button
-        $filter['code'] = '<div class="wps-pull-' . (is_rtl() ? 'left' : 'right') . '" id="visitors-filter"><span class="dashicons dashicons-filter"></span><span class="filter-text">' . __("Filters", "wp-statistics") . '</span> ' . ($filter['number'] > 0 ? '<span class="wps-badge">' . number_format_i18n($filter['number']) . '</span>' : '') . '</div>';
+        $filter['code'] = '
+            <div class="' . $activeClass . ' ' . $floatClass . '" id="visitors-filter">
+                <span class="dashicons dashicons-filter"></span>
+                <span class="wps-visitor-filter__text">
+                    <span class="filter-text">' . __("Filters", "wp-statistics") . '</span> 
+                    ' . $badgeHTML . '
+                </span>
+                
+            </div>
+        ';
 
         // Return Data
         return $filter;
