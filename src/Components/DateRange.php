@@ -207,6 +207,19 @@ class DateRange
         ];
     }
 
+    /**
+     * Compare two dates.
+     *
+     * @param mixed $date1 A date string, array, or period name.
+     * @param string $operator The operator to use for comparison.
+     * @param mixed $date2 A date string, array, or period name.
+     *
+     * @return bool Whether the date ranges match the comparison operator.
+     * @example 
+     * DateRange::compare($date, '=', 'today') 
+     * DateRange::compare($date, 'in', 'this_month') 
+     * DateRange::compare($date1, '!=', $date2) 
+     */
     public static function compare($date1, $operator, $date2)
     {
 
