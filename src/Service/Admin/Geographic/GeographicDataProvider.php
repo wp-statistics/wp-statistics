@@ -149,7 +149,7 @@ class GeographicDataProvider
         $platformData = $this->visitorsModel->getVisitorsPlatformData($this->args);
 
         return [
-            'search_engine_chart_data' => $this->getSearchEnginesChartData(),
+            'search_engine_chart_data' => $this->visitorsModel->getSearchEnginesChartData($this->args),
             'os_chart_data'            => [
                 'labels' => array_keys($platformData['platform']),
                 'data'   => array_values($platformData['platform'])
@@ -167,66 +167,5 @@ class GeographicDataProvider
                 'data'   => array_values($platformData['model'])
             ],
         ];
-    }
-
-    public function getSearchEnginesChartData()
-    {
-
-        // Get results up to 30 days
-        $args = [];
-        $days = TimeZone::getNumberDayBetween($this->args['date']['from'], $this->args['date']['to']);
-        if ($days > 30) {
-            $args = [
-                'date' => [
-                    'from' => date('Y-m-d', strtotime("-29 days", strtotime($this->args['date']['to']))),
-                    'to'   => $this->args['date']['to']
-                ]
-            ];
-        }
-
-        $args = array_merge($this->args, $args);
-
-        $datesList = TimeZone::getListDays($args['date']);
-        $datesList = array_keys($datesList);
-
-        $result = [
-            'labels'   => array_map(function ($date) {
-                return date_i18n('j M', strtotime($date));
-            }, $datesList),
-            'datasets' => []
-        ];
-
-        $data       = $this->visitorsModel->getSearchEngineReferrals($args);
-        $parsedData = [];
-        $totalData  = array_fill_keys($datesList, 0);
-
-        // Format and parse data
-        foreach ($data as $item) {
-            $parsedData[$item->engine][$item->date] = $item->visitors;
-            $totalData[$item->date]                 += $item->visitors;
-        }
-
-        foreach ($parsedData as $searchEngine => &$data) {
-            // Fill out missing visitors with 0
-            $data = array_merge(array_fill_keys($datesList, 0), $data);
-
-            // Sort data by date
-            ksort($data);
-
-            // Generate dataset
-            $result['datasets'][] = [
-                'label' => ucfirst($searchEngine),
-                'data'  => array_values($data)
-            ];
-        }
-
-        if (!empty($result['datasets'])) {
-            $result['datasets'][] = [
-                'label' => esc_html__('Total', 'wp-statistics'),
-                'data'  => array_values($totalData)
-            ];
-        }
-
-        return $result;
     }
 }

@@ -2,7 +2,6 @@
 
 namespace WP_Statistics\Components;
 
-use InvalidArgumentException;
 use WP_STATISTICS\TimeZone;
 use WP_STATISTICS\User;
 

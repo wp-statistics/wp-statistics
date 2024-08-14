@@ -681,12 +681,7 @@ class VisitorsModel extends BaseModel
         $newArgs = [];
         $days    = TimeZone::getNumberDayBetween($args['date']['from'], $args['date']['to']);
         if ($days > 30) {
-            $newArgs = [
-                'date' => [
-                    'from' => date('Y-m-d', strtotime("-29 days", strtotime($args['date']['to']))),
-                    'to'   => $args['date']['to']
-                ]
-            ];
+            $newArgs = ['date' => DateRange::get('30days')];
         }
 
         $args = array_merge($args, $newArgs);
