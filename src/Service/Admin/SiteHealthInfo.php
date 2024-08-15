@@ -46,6 +46,10 @@ class SiteHealthInfo
                 /**
                  * Geolocation database settings.
                  */
+                'geoIpDatabaseExists'           => [
+                    'label' => esc_html__('GeoIP Database Exists', 'wp-statistics'),
+                    'value' => GeoIP::isExist() ? __('Yes', 'wp-statistics') : __('No', 'wp-statistics'),
+                ],
                 'geoIpDatabaseLastUpdated'      => [
                     'label' => esc_html__('GeoIP Database Last Updated', 'wp-statistics'),
                     'value' => GeoIP::getLastUpdate(),
@@ -53,6 +57,10 @@ class SiteHealthInfo
                 'geoIpDatabaseSize'             => [
                     'label' => esc_html__('GeoIP Database Size', 'wp-statistics'),
                     'value' => GeoIP::getDatabaseSize(),
+                ],
+                'geoIpDatabaseType'             => [
+                    'label' => esc_html__('GeoIP Database Type', 'wp-statistics'),
+                    'value' => GeoIP::getDatabaseType(),
                 ],
 
                 /**

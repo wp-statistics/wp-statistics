@@ -121,6 +121,22 @@ class GeoIP
     }
 
     /**
+     * Retrieves the database type for the GeoIP database.
+     *
+     * @return string|bool The database type or false on failure.
+     */
+    public static function getDatabaseType()
+    {
+        $reader = self::Loader();
+
+        if ($reader === false) {
+            return false;
+        }
+
+        return $reader->metadata()->databaseType;
+    }
+
+    /**
      * Loads the GeoIP database reader and caches it.
      *
      * @return bool|Reader Instance of GeoIP Reader if successful, false on failure.
