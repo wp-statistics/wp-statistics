@@ -1,7 +1,5 @@
 <?php
-
 use WP_Statistics\Components\View;
-
 ?>
 <div class="postbox-container wps-postbox-full">
     <div class="meta-box-sortables">
@@ -35,9 +33,9 @@ use WP_Statistics\Components\View;
             </div>
             <?php
             $args = [
-                'data'          => ['test', 'test'],
-                'pagination'    => isset($pagination) ? $pagination : null,
-                'page_col_text' => 'Page'
+                'page_column_title' => esc_html__('Page', 'wp-statistics'),
+                'data'              => ['test', 'test'],
+                'pagination'        => isset($pagination) ? $pagination : null,
             ];
             View::load("components/tables/visitors", $args);
             ?>

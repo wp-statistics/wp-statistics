@@ -1,7 +1,5 @@
 <?php
-
 use WP_Statistics\Components\View;
-
 ?>
 
 <div class="postbox-container wps-postbox-full">
