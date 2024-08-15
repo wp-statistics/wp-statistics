@@ -3,7 +3,9 @@
         <table class="form-table">
             <tbody>
             <tr valign="top">
-                <th scope="row" colspan="2"><h3><?php esc_html_e('Resources/Information', 'wp-statistics'); ?></h3></th>
+                <th scope="row" colspan="2"><h3><?php use WP_STATISTICS\GeoIP;
+
+                        esc_html_e('Resources/Information', 'wp-statistics'); ?></h3></th>
             </tr>
 
             <tr valign="top">
@@ -200,18 +202,7 @@
                 </th>
 
                 <td>
-                    <strong><?php
-                        $GeoIP_filename = \WP_STATISTICS\GeoIP::get_geo_ip_path();
-                        $GeoIP_filedate = @filemtime($GeoIP_filename);
-
-                        if ($GeoIP_filedate === false) {
-                            esc_html_e('Database file does not exist.', 'wp-statistics');
-                        } else {
-                            echo esc_html(size_format(@filesize($GeoIP_filename), 2)) . esc_html__(', created on ',
-                                    'wp-statistics') . esc_html(date_i18n(get_option('date_format')) . ' @ ' . esc_html(get_option('time_format')),
-                                    esc_html($GeoIP_filedate));
-                        } ?></strong>
-
+                    <strong><?php echo sprintf('%s / %s', GeoIP::getDatabaseSize(), GeoIP::getLastUpdate()); ?></strong>
                     <p class="description"><?php esc_html_e('Displays the size and last updated date of the GeoIP database used for location-based statistics.', 'wp-statistics'); ?></p>
                 </td>
             </tr>
