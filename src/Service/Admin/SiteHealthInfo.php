@@ -3,6 +3,7 @@
 namespace WP_Statistics\Service\Admin;
 
 use WP_STATISTICS\GeoIP;
+use WP_STATISTICS\Helper;
 use WP_STATISTICS\Option;
 
 /**
@@ -41,6 +42,18 @@ class SiteHealthInfo
                 'version'                       => [
                     'label' => esc_html__('Version', 'wp-statistics'),
                     'value' => WP_STATISTICS_VERSION,
+                ],
+                'detectActiveCachePlugin'       => [
+                    'label' => esc_html__('Detect Active Cache Plugin', 'wp-statistics'),
+                    'value' => Helper::checkActiveCachePlugin()['status'] === true ? sprintf(__('Enabled (%s)', 'wp-statistics'), Helper::checkActiveCachePlugin()['plugin']) : __('Disabled', 'wp-statistics'),
+                ],
+                'activePostTypes'               => [
+                    'label' => esc_html__('Active Post Types', 'wp-statistics'),
+                    'value' => implode(', ', Helper::getPostTypes()),
+                ],
+                'dailySaltDate'                 => [
+                    'label' => esc_html__('Daily Salt Date', 'wp-statistics'),
+                    'value' => get_option('wp_statistics_daily_salt')['date'],
                 ],
 
                 /**
