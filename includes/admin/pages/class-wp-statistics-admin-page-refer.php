@@ -35,7 +35,7 @@ class refer_page extends Singleton
         global $wpdb;
 
         // Page title
-        $args['title'] = __('Leading Referral Websites', 'wp-statistics');
+        $args['title'] = __('Top Referrers', 'wp-statistics');
 
         // Get Current Page Url
         $args['pageName'] = Menus::get_page_slug('referrers');
@@ -70,7 +70,7 @@ class refer_page extends Singleton
                 // Push Domain Rate in List
                 $i = 1;
                 foreach ($list as $domain_list) {
-                    $args['list'][] = array_merge($domain_list, array('rate' => $i + (($args['paged'] - 1) * Admin_Template::$item_per_page)));
+                    $args['list'][] = $domain_list;
                     $i++;
                 }
             }
