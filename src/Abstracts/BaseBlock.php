@@ -1,8 +1,8 @@
 <?php
 
-namespace WP_Statistics\Blocks;
+namespace WP_Statistics\Abstracts;
 
-abstract class BlockAbstract
+abstract class BaseBlock
 {
     /**
      * The block name.
