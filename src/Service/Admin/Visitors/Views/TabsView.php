@@ -36,6 +36,11 @@ class TabsView extends BaseTabView
         return $this->dataProvider->getVisitorsData();
     }
 
+    public function getViewsData()
+    {
+        return $this->dataProvider->getVisitorsData();
+    }
+
     public function render()
     {
         try {

@@ -34,8 +34,8 @@ use WP_Statistics\Components\View;
             <?php
             $args = [
                 'page_column_title' => esc_html__('Page', 'wp-statistics'),
-                'data'              => ['test', 'test'],
-                'pagination'        => isset($pagination) ? $pagination : null,
+                'data'              => $data['data'],
+                'pagination'        => isset($pagination) ? $pagination : null
             ];
             View::load("components/tables/visitors", $args);
             ?>
