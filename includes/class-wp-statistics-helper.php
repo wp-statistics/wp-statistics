@@ -8,7 +8,6 @@ use WP_STATISTICS;
 use WP_Statistics\Models\AuthorsModel;
 use WP_Statistics\Models\PostsModel;
 use WP_Statistics\Models\TaxonomyModel;
-use WP_Statistics\Models\ViewsModel;
 use WP_Statistics\Models\VisitorsModel;
 use WP_Statistics\Service\Integrations\WpConsentApi;
 use WP_Statistics\Utils\Request;
@@ -2242,61 +2241,6 @@ class Helper
             'topPost'                   => $topPost,
             'topReferral'               => $topReferral,
             'topCategory'               => $topCategory,
-        ];
-    }
-
-    /**
-     * Returns the data needed for "Statistics - Summary" widget/panel in edit posts.
-     *
-     * @param   \WP_Post  $post
-     *
-     * @return  array           Keys: 
-     *  - `postId`
-     *  - `fromString`
-     *  - `toString`
-     */
-    public static function getPostStatisticsSummary($post)
-    {
-        $visitorsModel = new VisitorsModel();
-        $viewsModel    = new ViewsModel();
-        $args          = ['post_id' => $post->ID];
-
-        $totalVisitors    = $visitorsModel->countVisitors($args);
-        $totalViews       = $viewsModel->countViews($args);
-        $topReferrer      = $visitorsModel->getReferrers($args);
-        $topReferrerCount = 0;
-        if (!empty($topReferrer) && !empty($topReferrer[0]->referrer)) {
-            $topReferrerCount = $topReferrer[0]->visitors;
-            $topReferrer      = $topReferrer[0]->referrer;
-        } else {
-            $topReferrer = '';
-        }
-
-        $args['date']             = ['from' => TimeZone::getTimeAgo(7), 'to' => TimeZone::getTimeAgo()];
-        $thisWeekVisitors         = $visitorsModel->countVisitors($args);
-        $thisWeekViews            = $viewsModel->countViews($args);
-        $thisWeekTopReferrer      = $visitorsModel->getReferrers($args);
-        $thisWeekTopReferrerCount = 0;
-        if (!empty($thisWeekTopReferrer) && !empty($thisWeekTopReferrer[0]->referrer)) {
-            $thisWeekTopReferrerCount = $thisWeekTopReferrer[0]->visitors;
-            $thisWeekTopReferrer      = $thisWeekTopReferrer[0]->referrer;
-        } else {
-            $thisWeekTopReferrer = '';
-        }
-
-        return [
-            'postId'                   => $post->ID,
-            'fromString'               => TimeZone::getTimeAgo(7, 'F d'),
-            'toString'                 => TimeZone::getTimeAgo(1, 'F d'),
-            'totalVisitors'            => intval($totalVisitors),
-            'totalViews'               => intval($totalViews),
-            'topReferrer'              => esc_url($topReferrer),
-            'topReferrerCount'         => intval($topReferrerCount),
-            'thisWeekVisitors'         => intval($thisWeekVisitors),
-            'thisWeekViews'            => intval($thisWeekViews),
-            'thisWeekTopReferrer'      => esc_url($thisWeekTopReferrer),
-            'thisWeekTopReferrerCount' => intval($thisWeekTopReferrerCount),
-            'contentAnalyticsUrl'      => esc_url(Menus::admin_url('content-analytics', ['type' => 'single', 'post_id' => $post->ID])),
         ];
     }
 }

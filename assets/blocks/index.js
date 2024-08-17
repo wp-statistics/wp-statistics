@@ -105,28 +105,28 @@ const ContentElement = ({
   const totalViews = data.totalViews.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
   const totalVisitors = data.totalVisitors.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
   const topReferrerCount = data.topReferrerCount.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
-  const thisWeekViews = data.thisWeekViews.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
-  const thisWeekVisitors = data.thisWeekVisitors.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
-  const thisWeekTopReferrerCount = data.thisWeekTopReferrerCount.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+  const thisPeriodViews = data.thisPeriodViews.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+  const thisPeriodVisitors = data.thisPeriodVisitors.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+  const thisPeriodTopReferrerCount = data.thisPeriodTopReferrerCount.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
   const topReferrer = data.topReferrer.toString().replace('www.', '').trim();
   let topReferrerLabel = topReferrer != '' && topReferrer.includes('//') ? topReferrer.substring(topReferrer.indexOf('//') + 2).trim() : topReferrer;
   topReferrerLabel = topReferrerLabel != '' && topReferrerLabel.includes('/') ? topReferrerLabel.substring(0, topReferrerLabel.indexOf('/')).trim() : topReferrerLabel;
-  const thisWeekTopReferrer = data.thisWeekTopReferrer.toString().replace('www.', '').trim();
-  let thisWeekTopReferrerLabel = thisWeekTopReferrer != '' && thisWeekTopReferrer.includes('//') ? thisWeekTopReferrer.substring(thisWeekTopReferrer.indexOf('//') + 2).trim() : thisWeekTopReferrer;
-  thisWeekTopReferrerLabel = thisWeekTopReferrerLabel != '' && thisWeekTopReferrerLabel.includes('/') ? thisWeekTopReferrerLabel.substring(0, thisWeekTopReferrerLabel.indexOf('/')).trim() : thisWeekTopReferrerLabel;
+  const thisPeriodTopReferrer = data.thisPeriodTopReferrer.toString().replace('www.', '').trim();
+  let thisPeriodTopReferrerLabel = thisPeriodTopReferrer != '' && thisPeriodTopReferrer.includes('//') ? thisPeriodTopReferrer.substring(thisPeriodTopReferrer.indexOf('//') + 2).trim() : thisPeriodTopReferrer;
+  thisPeriodTopReferrerLabel = thisPeriodTopReferrerLabel != '' && thisPeriodTopReferrerLabel.includes('/') ? thisPeriodTopReferrerLabel.substring(0, thisPeriodTopReferrerLabel.indexOf('/')).trim() : thisPeriodTopReferrerLabel;
   const topReferrerText = data.topReferrerCount > 0 && topReferrerLabel != '' ? (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.Fragment, null, ", with '", (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
     href: topReferrer,
     target: "_blank",
     rel: "noreferrer nofollow"
   }, topReferrerLabel), "' leading with ", (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("b", null, topReferrerCount, " referrals")) : '';
-  const thisWeekTopReferrerText = data.thisWeekTopReferrerCount > 0 && thisWeekTopReferrerLabel != '' ? (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.Fragment, null, " The top referrer domain is '", (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
-    href: thisWeekTopReferrer,
+  const thisPeriodTopReferrerText = data.thisPeriodTopReferrerCount > 0 && thisPeriodTopReferrerLabel != '' ? (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.Fragment, null, " The top referrer domain is '", (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
+    href: thisPeriodTopReferrer,
     target: "_blank",
     rel: "noreferrer nofollow"
-  }, thisWeekTopReferrerLabel), "' with ", (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("b", null, thisWeekTopReferrerCount, " visits"), ".") : '';
+  }, thisPeriodTopReferrerLabel), "' with ", (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("b", null, thisPeriodTopReferrerCount, " visits"), ".") : '';
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "wp-statistics-block-editor-panel-content"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, "Over the past week (", (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("b", null, data.fromString, " - ", data.toString), "), this post has been ", (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("b", null, "viewed ", thisWeekViews, " times by ", thisWeekVisitors, " visitors"), ".", thisWeekTopReferrerText, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("br", null), "In total, it has been ", (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("b", null, "viewed ", totalViews, " times by ", totalVisitors, " visitors"), topReferrerText, ". For more detailed insights, visit the ", (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("b", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, "Over the past week (", (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("b", null, data.fromString, " - ", data.toString), "), this post has been ", (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("b", null, "viewed ", thisPeriodViews, " times by ", thisPeriodVisitors, " visitors"), ".", thisPeriodTopReferrerText, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("br", null), "In total, it has been ", (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("b", null, "viewed ", totalViews, " times by ", totalVisitors, " visitors"), topReferrerText, ". For more detailed insights, visit the ", (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("b", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
     href: data.contentAnalyticsUrl,
     target: "_blank"
   }, "analytics section")), "."));

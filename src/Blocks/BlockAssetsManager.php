@@ -3,8 +3,8 @@
 namespace WP_Statistics\Blocks;
 
 use WP_Statistics\Components\Assets;
-use WP_STATISTICS\Helper;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
+use WP_Statistics\Service\Admin\Posts\PostSummary;
 
 class BlockAssetsManager
 {
@@ -95,6 +95,14 @@ class BlockAssetsManager
             return;
         }
 
-        Assets::script('editor-sidebar', 'blocks/index.js', ['wp-plugins', 'wp-editor'], Helper::getPostStatisticsSummary($post));
+        $postSummary = [];
+        try {
+            $postSummary = new PostSummary($post);
+            $postSummary = $postSummary->getSummaryWidgetStats();
+        } catch (\Exception $e) {
+            return;
+        }
+
+        Assets::script('editor-sidebar', 'blocks/index.js', ['wp-plugins', 'wp-editor'], $postSummary);
     }
 }
