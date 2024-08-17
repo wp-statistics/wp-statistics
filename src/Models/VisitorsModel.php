@@ -297,13 +297,14 @@ class VisitorsModel extends BaseModel
             'order'       => '',
             'page'        => '',
             'per_page'    => '',
-            'last_page'   => false
+            'page_info'   => false,
+            'user_info'   => false
         ]);
 
         $additionalFields = [];
 
-        // If last page is true, get last page the visitor has visited
-        if ($args['last_page'] === true) {
+        // If page info is true, get last page the visitor has visited
+        if ($args['page_info'] === true) {
 
             $lastHit = Query::select([
                 'visitor_id',
@@ -327,6 +328,11 @@ class VisitorsModel extends BaseModel
             $additionalFields[] = 'last_hit.date';
         }
 
+        if ($args['user_info'] === true) {
+            $additionalFields[] = 'users.display_name';
+            $additionalFields[] = 'users.user_email';
+        }
+
         $query = Query::select(array_merge([
             'visitor.ID',
             'visitor.platform',
@@ -347,10 +353,14 @@ class VisitorsModel extends BaseModel
             ->bypassCache($bypassCache);
 
         // If last page is true, get last page the visitor has visited
-        if ($args['last_page'] === true) {
+        if ($args['page_info'] === true) {
             $query
                 ->joinQuery($subQuery, ['visitor.ID', 'last_hit.visitor_id'], 'last_hit')
                 ->whereDate('last_hit.date', $args['date']);
+        }
+
+        if ($args['user_info']) {
+            $query->join('users', ['visitor.user_id', 'users.ID'], [], 'LEFT');
         }
 
         $filteredArgs = array_filter($args);

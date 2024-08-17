@@ -24,7 +24,8 @@ class VisitorsDataProvider
     {
         return [
             'data'  => $this->visitorsModel->getVisitorsData(array_merge($this->args, [
-                'last_page' => true,
+                'page_info' => true,
+                'user_info' => true,
                 'order_by'  => 'date',
                 'order'     => 'DESC',
                 'page'      => Admin_Template::getCurrentPaged(),

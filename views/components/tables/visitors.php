@@ -2,6 +2,7 @@
 use WP_STATISTICS\Admin_Template;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Country;
+use WP_STATISTICS\Menus;
 use WP_STATISTICS\UserAgent;
 use WP_STATISTICS\Visitor;
 ?>
@@ -49,23 +50,29 @@ use WP_STATISTICS\Visitor;
                                             </div>
                                             <div class="wps-tooltip_templates">
                                                 <div id="tooltip_user_id">
-                                                    <div><?php esc_html_e('ID', 'wp-statistics') ?>: #2777</div>
-                                                    <div><?php esc_html_e('Email', 'wp-statistics') ?>: hello@amzconsult.ca</div>
-                                                    <div><?php esc_html_e('Role', 'wp-statistics') ?>: subscriber</div>
+                                                    <div><?php esc_html_e('ID: ', 'wp-statistics') ?> <?php echo esc_html($visitor->user_id) ?></div>
+                                                    <div><?php esc_html_e('Name: ', 'wp-statistics') ?> <?php echo esc_html($visitor->display_name) ?></div>
+                                                    <div><?php esc_html_e('Email: ', 'wp-statistics') ?> <?php echo esc_html($visitor->user_email) ?></div>
                                                 </div>
                                             </div>
                                         </li>
                                     <?php else : ?>
                                         <li class="wps-browsers__flag">
-                                            <div class="wps-tooltip" title="Incognito">
-                                                <a href=""><img src="<?php echo esc_url(WP_STATISTICS_URL . 'assets/images/incognito-user.svg') ?>" alt="Incognito" width="15" height="15"></a>
+                                            <div class="wps-tooltip" title="<?php esc_attr_e('Incognito', 'wp-statistics') ?>">
+                                                <a href=""><img src="<?php echo esc_url(WP_STATISTICS_URL . 'assets/images/incognito-user.svg') ?>" alt="<?php esc_attr_e('Incognito', 'wp-statistics') ?>" width="15" height="15"></a>
                                             </div>
                                         </li>
                                     <?php endif; ?>
 
                                     <li class="wps-browsers__flag">
                                         <div class="wps-tooltip" title="<?php echo esc_attr($visitor->agent) ?>">
-                                            <a href=""><img src="<?php echo esc_url(UserAgent::getBrowserLogo($visitor->agent)) ?>" alt="Chrome" width="15" height="15"></a>
+                                            <a href=""><img src="<?php echo esc_url(UserAgent::getBrowserLogo($visitor->agent)) ?>" alt="<?php echo esc_attr($visitor->agent) ?>" width="15" height="15"></a>
+                                        </div>
+                                    </li>
+
+                                    <li class="wps-browsers__flag">
+                                        <div class="wps-tooltip" title="<?php echo esc_attr($visitor->platform) ?>">
+                                            <a href=""><img src="<?php echo esc_url(UserAgent::getPlatformLogo($visitor->platform)) ?>" alt="<?php echo esc_attr($visitor->platform) ?>" width="15" height="15"></a>
                                         </div>
                                     </li>
                                 </ul>
@@ -73,14 +80,16 @@ use WP_STATISTICS\Visitor;
 
                             <td class="wps-pd-l">
                                 <div class="wps-country-flag wps-ellipsis-parent">
-                                    <img src="<?php echo esc_url(Country::flag($visitor->location)) ?>" alt="<?php echo esc_html("{$visitor->region}, {$visitor->city}") ?>" width="15" height="15">
+                                    <div class="wps-tooltip" title="<?php echo esc_attr(Country::getName($visitor->location)) ?>">
+                                        <img src="<?php echo esc_url(Country::flag($visitor->location)) ?>" alt="<?php echo esc_attr("{$visitor->region}, {$visitor->city}") ?>" width="15" height="15">
+                                    </div>
                                     <span class="wps-ellipsis-text"><?php echo esc_html("{$visitor->region}, {$visitor->city}") ?></span>
                                 </div>
                             </td>
 
                             <td class="wps-pd-l">
                                 <?php if (!empty($visitor->referred)) : ?>
-                                    <a target="_blank" href="" title="google.com" class="wps-link-arrow">
+                                    <a target="_blank" href="" title="<?php echo esc_attr($visitor->referred) ?>" class="wps-link-arrow">
                                         <span><?php echo esc_html($visitor->referred) ?></span>
                                     </a>
                                 <?php else : ?>
@@ -89,12 +98,12 @@ use WP_STATISTICS\Visitor;
                             </td>
 
                             <td class="wps-pd-l">
-                                <a href=""><?php echo esc_html(number_format_i18n($visitor->hits)) ?></a>
+                                <a href="<?php echo esc_url(Menus::admin_url('visitors', ['type' => 'single-visitor', 'visitor_id' => $visitor->ID])) ?>"><?php echo esc_html(number_format_i18n($visitor->hits)) ?></a>
                             </td>
 
                             <td class="wps-pd-l">
                                 <?php if (!empty($page)) : ?>
-                                    <a target="_blank" href="<?php echo esc_html($page['link']) ?>" title="<?php echo esc_html($page['title']) ?>" class="wps-link-arrow">
+                                    <a target="_blank" href="<?php echo esc_url($page['link']) ?>" title="<?php echo esc_attr($page['title']) ?>" class="wps-link-arrow">
                                         <span><?php echo esc_html($page['title']) ?></span>
                                     </a>
                                 <?php else : ?>
