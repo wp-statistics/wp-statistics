@@ -1,3 +1,11 @@
+<?php 
+use WP_STATISTICS\Admin_Template;
+use WP_STATISTICS\Helper;
+use WP_STATISTICS\Country;
+use WP_STATISTICS\UserAgent;
+use WP_STATISTICS\Visitor;
+?>
+
 <div class="inside">
     <?php if (!empty($data)) : ?>
         <div class="o-table-wrapper">
@@ -26,59 +34,72 @@
                 </thead>
 
                 <tbody>
-                    <?php foreach ($data as $author) : ?>
+                    <?php foreach ($data as $visitor) :  
+                        $page = Visitor::get_page_by_id($visitor->page_id);
+                    ?>
                         <tr>
-                            <td class="wps-pd-l">10 Mar, 4:15 pm</td>
+                            <td class="wps-pd-l"><?php echo esc_html(date(Helper::getDefaultDateFormat(true), strtotime($visitor->date))) ?></td>
+
                             <td class="wps-pd-l">
                                 <ul class="wps-browsers__flags">
-                                    <li class="wps-browsers__flag">
-
-                                        <div class="wps-tooltip" data-tooltip-content="#tooltip_user_id">
-                                            <a href=""><img src="<?php echo esc_url(WP_STATISTICS_URL . 'assets/images/user-icon.svg') ?>" alt="user" width="15" height="15"></a>
-                                        </div>
-                                        <div class="wps-tooltip_templates">
-                                            <div id="tooltip_user_id">
-                                                <div><?php esc_html_e('ID', 'wp-statistics') ?>: #2777</div>
-                                                <div><?php esc_html_e('Email', 'wp-statistics') ?>: hello@amzconsult.ca</div>
-                                                <div><?php esc_html_e('Role', 'wp-statistics') ?>: subscriber</div>
+                                    <?php if (!empty($visitor->user_id)) : ?>
+                                        <li class="wps-browsers__flag">
+                                            <div class="wps-tooltip" data-tooltip-content="#tooltip_user_id">
+                                                <a href=""><img src="<?php echo esc_url(WP_STATISTICS_URL . 'assets/images/user-icon.svg') ?>" alt="user" width="15" height="15"></a>
                                             </div>
-                                        </div>
-                                    </li>
+                                            <div class="wps-tooltip_templates">
+                                                <div id="tooltip_user_id">
+                                                    <div><?php esc_html_e('ID', 'wp-statistics') ?>: #2777</div>
+                                                    <div><?php esc_html_e('Email', 'wp-statistics') ?>: hello@amzconsult.ca</div>
+                                                    <div><?php esc_html_e('Role', 'wp-statistics') ?>: subscriber</div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    <?php else : ?>
+                                        <li class="wps-browsers__flag">
+                                            <div class="wps-tooltip" title="Incognito">
+                                                <a href=""><img src="<?php echo esc_url(WP_STATISTICS_URL . 'assets/images/incognito-user.svg') ?>" alt="Incognito" width="15" height="15"></a>
+                                            </div>
+                                        </li>
+                                    <?php endif; ?>
+
                                     <li class="wps-browsers__flag">
-                                        <div class="wps-tooltip" title="Incognito">
-                                            <a href=""><img src="<?php echo esc_url(WP_STATISTICS_URL . 'assets/images/incognito-user.svg') ?>" alt="Incognito" width="15" height="15"></a>
-                                        </div>
-                                    </li>
-                                    <li class="wps-browsers__flag">
-                                        <div class="wps-tooltip" title="Chrome">
-                                            <a href=""><img src="<?php echo esc_url(WP_STATISTICS_URL . 'assets/images/browser/chrome.svg') ?>" alt="Chrome" width="15" height="15"></a>
-                                        </div>
-                                    </li>
-                                    <li class="wps-browsers__flag">
-                                        <div class="wps-tooltip" title="Firefox">
-                                            <a href=""><img src="<?php echo esc_url(WP_STATISTICS_URL . 'assets/images/browser/firefox.svg') ?>" alt="Firefox" width="15" height="15"></a>
+                                        <div class="wps-tooltip" title="<?php echo esc_attr($visitor->agent) ?>">
+                                            <a href=""><img src="<?php echo esc_url(UserAgent::getBrowserLogo($visitor->agent)) ?>" alt="Chrome" width="15" height="15"></a>
                                         </div>
                                     </li>
                                 </ul>
                             </td>
+
                             <td class="wps-pd-l">
                                 <div class="wps-country-flag wps-ellipsis-parent">
-                                    <img src="<?php echo esc_url(WP_STATISTICS_URL . 'assets/images/flags/ac.svg') ?>" alt="California, Los Angeles" width="15" height="15">
-                                    <span class="wps-ellipsis-text">California, Los Angeles</span>
+                                    <img src="<?php echo esc_url(Country::flag($visitor->location)) ?>" alt="<?php echo esc_html("{$visitor->region}, {$visitor->city}") ?>" width="15" height="15">
+                                    <span class="wps-ellipsis-text"><?php echo esc_html("{$visitor->region}, {$visitor->city}") ?></span>
                                 </div>
                             </td>
+
                             <td class="wps-pd-l">
-                                <a target="_blank" href="" title="google.com" class="wps-link-arrow">
-                                    <span>google.com</span>
-                                </a>
+                                <?php if (!empty($visitor->referred)) : ?>
+                                    <a target="_blank" href="" title="google.com" class="wps-link-arrow">
+                                        <span><?php echo esc_html($visitor->referred) ?></span>
+                                    </a>
+                                <?php else : ?>
+                                    <?php echo Admin_Template::UnknownColumn() ?>
+                                <?php endif; ?>
                             </td>
+
                             <td class="wps-pd-l">
-                                <a href="" title="">1325</a>
+                                <a href=""><?php echo esc_html(number_format_i18n($visitor->hits)) ?></a>
                             </td>
+
                             <td class="wps-pd-l">
-                                <a target="_blank" href="" title="Home Page" class="wps-link-arrow">
-                                    <span>Home Page</span>
-                                </a>
+                                <?php if (!empty($page)) : ?>
+                                    <a target="_blank" href="<?php echo esc_html($page['link']) ?>" title="<?php echo esc_html($page['title']) ?>" class="wps-link-arrow">
+                                        <span><?php echo esc_html($page['title']) ?></span>
+                                    </a>
+                                <?php else : ?>
+                                    <?php echo Admin_Template::UnknownColumn() ?>
+                                <?php endif; ?>
                             </td>
                         </tr>
                     <?php endforeach; ?>

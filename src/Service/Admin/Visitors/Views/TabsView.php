@@ -31,6 +31,11 @@ class TabsView extends BaseTabView
         ]);
     }
 
+    public function getVisitorsData()
+    {
+        return $this->dataProvider->getVisitorsData();
+    }
+
     public function render()
     {
         try {
@@ -75,7 +80,7 @@ class TabsView extends BaseTabView
             ];
 
             if ($currentTab === 'visitors') {
-                $args['filter'] = self::Filter();
+                $args['filter'] = self::filter();
             }
             if ($currentTab === 'online') {
                 $args['real_time_button'] = true;
@@ -85,18 +90,18 @@ class TabsView extends BaseTabView
             }
 
             Admin_Template::get_template(['layout/header', 'layout/tabbed-page-header'], $args);
-            View::load("pages/visitors/$currentTab");
+            View::load("pages/visitors/$currentTab", $args);
             Admin_Template::get_template(['layout/postbox.hide', 'layout/visitors.filter', 'layout/footer'], $args);
         } catch (Exception $e) {
             Notice::renderNotice($e->getMessage(), $e->getCode(), 'error');
         }
     }
 
-    public static function Filter()
+    public static function filter()
     {
         $params = 0;
         foreach ($_GET as $params_key => $params_item) {
-            if (!in_array($params_key, array('page', 'from', 'to', 'order', 'orderby'))) {
+            if (!in_array($params_key, ['page', 'from', 'to', 'order', 'orderby'])) {
                 $params++;
             }
         }
