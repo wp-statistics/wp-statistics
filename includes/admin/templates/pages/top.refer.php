@@ -1,11 +1,3 @@
-<ul class="subsubsub">
-    <li class="all">
-        <a class="current" href="<?php echo esc_url(\WP_STATISTICS\Menus::admin_url('referrers')); ?>">
-            <?php esc_html_e('All', 'wp-statistics'); ?>
-            <span class="count">(<?php echo esc_html(number_format_i18n($total)); ?>)</span>
-        </a>
-    </li>
-</ul>
 <div class="postbox-container" id="wps-big-postbox">
     <div class="metabox-holder">
         <div class="meta-box-sortables">
