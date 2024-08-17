@@ -1,8 +1,7 @@
-import { Chart as ChartJS } from 'chart.js/auto';
-import { CategoryScale } from 'chart.js';
+import { Chart as ChartJS, CategoryScale, LinearScale, BarController, BarElement } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 
-ChartJS.register(CategoryScale);
+ChartJS.register(CategoryScale, LinearScale, BarController, BarElement);
 
 const ChartElement = ({ data }) => {
     data.postChartData = [
@@ -57,7 +56,17 @@ const ChartElement = ({ data }) => {
         datasets: [{
             data: postChartData.map(stat => stat.views),
             backgroundColor: 'rgba(115, 98, 191, 0.5)',
+            borderColor: '#0D0725',
+            backgroundColor: 'rgba(115, 98, 191, 0.5)',
+            pointBackgroundColor: '#0D0725',
+            fill: true,
+            barPercentage: 0.9,
+            categoryPercentage: 1.0,
+            tension: 0.5,
+            minBarLength: 1,
             borderWidth: 1,
+            pointRadius: 0,
+            pointHoverRadius: 5,
         }],
     };
 
