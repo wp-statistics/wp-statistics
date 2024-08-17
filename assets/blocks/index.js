@@ -2,10 +2,10 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./assets/dev/blocks/wp-statistics/chart.js":
-/*!**************************************************!*\
-  !*** ./assets/dev/blocks/wp-statistics/chart.js ***!
-  \**************************************************/
+/***/ "./assets/dev/blocks/post-summary/chart.js":
+/*!*************************************************!*\
+  !*** ./assets/dev/blocks/post-summary/chart.js ***!
+  \*************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -83,10 +83,10 @@ const ChartElement = ({
 
 /***/ }),
 
-/***/ "./assets/dev/blocks/wp-statistics/content.js":
-/*!****************************************************!*\
-  !*** ./assets/dev/blocks/wp-statistics/content.js ***!
-  \****************************************************/
+/***/ "./assets/dev/blocks/post-summary/content.js":
+/*!***************************************************!*\
+  !*** ./assets/dev/blocks/post-summary/content.js ***!
+  \***************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -135,16 +135,16 @@ const ContentElement = ({
 
 /***/ }),
 
-/***/ "./assets/dev/blocks/wp-statistics/index.js":
-/*!**************************************************!*\
-  !*** ./assets/dev/blocks/wp-statistics/index.js ***!
-  \**************************************************/
+/***/ "./assets/dev/blocks/post-summary/index.js":
+/*!*************************************************!*\
+  !*** ./assets/dev/blocks/post-summary/index.js ***!
+  \*************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_plugins__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/plugins */ "@wordpress/plugins");
 /* harmony import */ var _wordpress_plugins__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_plugins__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _sidebar__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./sidebar */ "./assets/dev/blocks/wp-statistics/sidebar.js");
+/* harmony import */ var _sidebar__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./sidebar */ "./assets/dev/blocks/post-summary/sidebar.js");
 
 
 (0,_wordpress_plugins__WEBPACK_IMPORTED_MODULE_0__.registerPlugin)('wp-statistics', {
@@ -158,10 +158,10 @@ window.onload = function () {
 
 /***/ }),
 
-/***/ "./assets/dev/blocks/wp-statistics/sidebar.js":
-/*!****************************************************!*\
-  !*** ./assets/dev/blocks/wp-statistics/sidebar.js ***!
-  \****************************************************/
+/***/ "./assets/dev/blocks/post-summary/sidebar.js":
+/*!***************************************************!*\
+  !*** ./assets/dev/blocks/post-summary/sidebar.js ***!
+  \***************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -174,9 +174,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _wordpress_editor__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/editor */ "@wordpress/editor");
 /* harmony import */ var _wordpress_editor__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_editor__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _style_scss__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./style.scss */ "./assets/dev/blocks/wp-statistics/style.scss");
-/* harmony import */ var _content__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./content */ "./assets/dev/blocks/wp-statistics/content.js");
-/* harmony import */ var _chart__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./chart */ "./assets/dev/blocks/wp-statistics/chart.js");
+/* harmony import */ var _style_scss__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./style.scss */ "./assets/dev/blocks/post-summary/style.scss");
+/* harmony import */ var _content__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./content */ "./assets/dev/blocks/post-summary/content.js");
+/* harmony import */ var _chart__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./chart */ "./assets/dev/blocks/post-summary/chart.js");
 
 
 
@@ -216,10 +216,10 @@ function sidebar() {
 
 /***/ }),
 
-/***/ "./assets/dev/blocks/wp-statistics/style.scss":
-/*!****************************************************!*\
-  !*** ./assets/dev/blocks/wp-statistics/style.scss ***!
-  \****************************************************/
+/***/ "./assets/dev/blocks/post-summary/style.scss":
+/*!***************************************************!*\
+  !*** ./assets/dev/blocks/post-summary/style.scss ***!
+  \***************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -15754,7 +15754,7 @@ const Scatter = /* #__PURE__ */ createTypedChart("scatter", chart_js__WEBPACK_IM
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
-/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["./style-index"], () => (__webpack_require__("./assets/dev/blocks/wp-statistics/index.js")))
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["./style-index"], () => (__webpack_require__("./assets/dev/blocks/post-summary/index.js")))
 /******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
 /******/ 	
 /******/ })()
