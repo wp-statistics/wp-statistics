@@ -478,11 +478,17 @@
           width: 13px;
           height: 13px;
           display: inline-flex;
+          .rtl &{
+            transform: rotateY(180deg);
+          }
         }
 
         &:hover {
           span {
             color: #3c4043 !important
+          }
+          &:after{
+            filter: grayscale(1);
           }
         }
       }

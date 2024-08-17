@@ -5,5 +5,7 @@
             <?php esc_html_e('Previous period', 'wp-statistics') ?>
         </div>
     </div>
-    <canvas id="trafficTrendsChart">
+    <div class="wps-postbox-chart--container">
+        <canvas id="trafficTrendsChart">
+    </div>
 </div>

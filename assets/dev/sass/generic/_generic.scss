@@ -405,12 +405,81 @@
   padding-right: 24px;
   padding-left: 24px;
 
+  &--container{
+    position: relative;
+
+    .wps-chart-tooltip{
+      background: #fff;
+      padding: 12px;
+      box-shadow: 1px 1px 2px 0px #00000005;
+      border: 0.5px solid #EEEFF1;
+      border-radius: 2px;
+      width: 199px;
+
+
+      &>div{
+        display: flex;
+        gap: 8px;
+        flex-direction: column;
+      }
+      .current-data , .previous-data{
+        font-size: 13px;
+        font-style: italic;
+        font-weight: 400;
+        line-height: 15.23px;
+        color: #56585A;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+
+        &__value {
+          font-weight: 500;
+          color: #0C0C0D;
+        }
+
+        &>div{
+          display: flex;
+          align-items: center;
+          gap: 7px;
+          text-transform: capitalize ;
+          .previous-data__colors{
+            display: flex;
+            align-items: center;
+            gap: 1px;
+            .previous-data__color{
+              width: 5px;
+              height: 3px;
+              display: inline-block;
+              border-radius: 3px;
+            }
+          }
+          .current-data__color {
+            width: 12px;
+            height: 3px;
+            display: inline-block;
+            border-radius: 3px;
+          }
+        }
+      }
+
+      .chart-title{
+        color: #0C0C0D;
+        font-size: 13px;
+        font-style: italic;
+        font-weight: 400;
+        line-height: 15.23px;
+      }
+    }
+  }
+
   &--data {
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
     margin-top: 20px;
-    
+    margin-bottom: 24px;
+
     @media (max-width: 550px) {
       flex-direction: column;
       justify-content: flex-start;

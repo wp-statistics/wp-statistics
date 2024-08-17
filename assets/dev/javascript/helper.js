@@ -484,13 +484,12 @@ wps_js.no_results = function () {
 };
 
 
-
 /**
  * Show Line chart
  */
 wps_js.line_chart = function (data, tag_id, newOptions) {
     // Define the colors
-    const colors = ['#3288D7','#7362BF', '#27A765' , '#8AC3D0'];
+    const colors = ['#3288D7', '#7362BF', '#27A765', '#8AC3D0'];
     // Get Element By ID
     let ctx_line = document.getElementById(tag_id).getContext('2d');
 
@@ -503,8 +502,8 @@ wps_js.line_chart = function (data, tag_id, newOptions) {
                 type: 'line',
                 label: key,
                 data: data[key],
-                borderColor: colors[index-1],
-                backgroundColor: colors[index-1],
+                borderColor: colors[index - 1],
+                backgroundColor: colors[index - 1],
                 fill: false,
                 yAxisID: 'y',
                 pointRadius: 0
@@ -516,8 +515,8 @@ wps_js.line_chart = function (data, tag_id, newOptions) {
                     type: 'line',
                     label: `${key} (Previous)`,
                     data: data.previousData[key],
-                    borderColor: colors[index-1],
-                    backgroundColor: colors[index-1],
+                    borderColor: colors[index - 1],
+                    backgroundColor: colors[index - 1],
                     fill: false,
                     yAxisID: 'y',
                     pointRadius: 0,
@@ -527,21 +526,108 @@ wps_js.line_chart = function (data, tag_id, newOptions) {
         }
     });
 
-    const getOrCreateLegendList = (chart, id) => {
-        const legendContainer = document.getElementById(id);
-        let listContainer = legendContainer.querySelector('ul');
+    const getOrCreateTooltip = (chart) => {
+        let tooltipEl = chart.canvas.parentNode.querySelector('div');
 
-        if (!listContainer) {
-            listContainer = document.createElement('ul');
-            listContainer.style.display = 'flex';
-            listContainer.style.flexDirection = 'row';
-            listContainer.style.margin = 0;
-            listContainer.style.padding = 0;
+        if (!tooltipEl) {
+            tooltipEl = document.createElement('div');
+            tooltipEl.classList.add('wps-chart-tooltip');
+            tooltipEl.style.opacity = 1;
+            tooltipEl.style.pointerEvents = 'none';
+            tooltipEl.style.position = 'absolute';
+             tooltipEl.style.transition = 'all .1s ease';
+            const table = document.createElement('table');
+            table.style.margin = '0px';
+            tooltipEl.appendChild(table);
+            chart.canvas.parentNode.appendChild(tooltipEl);
+        }
+        return tooltipEl;
+    };
 
-            legendContainer.appendChild(listContainer);
+    const externalTooltipHandler = (context) => {
+        const {chart, tooltip} = context;
+        const tooltipEl = getOrCreateTooltip(chart);
+
+        if (tooltip.opacity === 0) {
+            tooltipEl.style.opacity = 0;
+            return;
         }
 
-        return listContainer;
+        if (tooltip.body) {
+            const titleLines = tooltip.title || [];
+            const bodyLines = tooltip.body.map(b => b.lines);
+            const dataIndex = tooltip.dataPoints[0].dataIndex;
+            const datasetIndex = tooltip.dataPoints[0].datasetIndex;
+            const label = tooltip.dataPoints[0].label;
+            const datasets = chart.data.datasets;
+
+            let innerHtml = `<div>`;
+            // Title
+            titleLines.forEach(title => {
+                innerHtml += `<div class="chart-title">${title}</div>`;
+            });
+
+            // Iterate over each dataset to create the tooltip content
+            datasets.forEach((dataset, index) => {
+                const value = dataset.data[dataIndex];
+                const isPrevious = dataset.label.includes('(Previous)');
+                const previousDataset = datasets.find(ds => ds.label === `${dataset.label} (Previous)`);
+                const previousValue = previousDataset ? previousDataset.data[dataIndex] : '';
+                if (!isPrevious && dataset.label !== 'previousLabels') {
+                    innerHtml += `
+                <div class="current-data">
+                    <div>
+                        <span class="current-data__color" style="background-color: ${dataset.borderColor};"></span>
+                        ${dataset.label}
+                    </div>
+                    <span class="current-data__value">${value}</span>
+                </div>`;
+                }
+
+                if (previousValue !== undefined && previousValue !== '') {
+                    const resultData = chart.data.datasets.find(dataset => dataset.label === 'previousLabels')?.data || null;
+                    const previousLabel = resultData[dataIndex];
+                    innerHtml += `
+                <div class="previous-data">
+                    <div>
+                        <span class="previous-data__colors">
+                            <span class="previous-data__color" style="background-color: ${dataset.borderColor};"></span>
+                            <span class="previous-data__color" style="background-color: ${dataset.borderColor};"></span>
+                        </span>
+                        ${previousLabel}
+                    </div>  
+                    <span class="previous-data__value"> ${previousValue}</span>   
+                </div>`;
+                }
+            });
+
+            innerHtml += `</div>`;
+
+            tooltipEl.innerHTML = innerHtml;
+            const { offsetLeft: chartLeft, offsetTop: chartTop, clientWidth: chartWidth, clientHeight: chartHeight } = chart.canvas;
+            const { caretX, caretY } = tooltip;
+
+            // Calculate tooltip position
+            const tooltipWidth = tooltipEl.offsetWidth;
+            const tooltipHeight = tooltipEl.offsetHeight;
+            let tooltipX = chartLeft + caretX;
+            let tooltipY = chartTop + caretY - tooltipHeight;
+            if (tooltipX + tooltipWidth > chartLeft + chartWidth) {
+                tooltipX = chartLeft + chartWidth - tooltipWidth;
+            }
+            if (tooltipX < chartLeft) {
+                tooltipX = chartLeft;
+            }
+            if (tooltipY < chartTop) {
+                tooltipY = chartTop;
+            }
+            if (tooltipY + tooltipHeight > chartTop + chartHeight) {
+                tooltipY = chartTop + chartHeight - tooltipHeight;
+            }
+            tooltipEl.style.opacity = 1;
+            tooltipEl.style.left = tooltipX + 'px';
+            tooltipEl.style.top = tooltipY + 'px';
+        }
     };
 
 
@@ -553,7 +639,20 @@ wps_js.line_chart = function (data, tag_id, newOptions) {
         },
         plugins: {
             legend: false,
-         },
+            tooltip: {
+                enabled: false,
+                external: externalTooltipHandler,
+                callbacks: {
+                    title: (tooltipItems) => {
+                        return tooltipItems[0].label;
+                    },
+                    label: (tooltipItem) => {
+                        const index = tooltipItem.dataIndex;
+                    }
+
+                }
+            }
+        },
         scales: {
             x: {
                 offset: false,
@@ -572,7 +671,7 @@ wps_js.line_chart = function (data, tag_id, newOptions) {
                     maxTicksLimit: 9,
                     fontColor: '#898A8E',
                     fontSize: 13,
-                    padding:8
+                    padding: 8
                 }
             },
             y: {
@@ -580,7 +679,7 @@ wps_js.line_chart = function (data, tag_id, newOptions) {
                     maxTicksLimit: 7,
                     fontColor: '#898A8E',
                     fontSize: 13,
-                    padding:8
+                    padding: 8
                 },
                 type: 'linear',
                 position: 'right',
@@ -609,13 +708,14 @@ wps_js.line_chart = function (data, tag_id, newOptions) {
         options: options,
     });
 
-    const updateLegend = function() {
+    const updateLegend = function () {
         const legendContainer = document.querySelector('.wps-postbox-chart--items');
         if (legendContainer) {
             legendContainer.innerHTML = '';
 
             datasets.forEach((dataset, index) => {
-                const isPrevious = dataset.label.includes('Previous');
+                const isPrevious = dataset.label.includes('Previous') || dataset.label.includes('previousLabels');
+
                 if (!isPrevious) {
                     const currentData = dataset.data.reduce((a, b) => a + b, 0);
                     const previousData = data.previousData[dataset.label] ? data.previousData[dataset.label].reduce((a, b) => a + b, 0) : 'N/A';
@@ -638,7 +738,7 @@ wps_js.line_chart = function (data, tag_id, newOptions) {
                     `;
                     // Add click event to toggle visibility of the current dataset only
                     const currentDataDiv = legendItem.querySelector('.current-data');
-                    currentDataDiv.addEventListener('click', function() {
+                    currentDataDiv.addEventListener('click', function () {
                         const metaMain = lineChart.getDatasetMeta(index);
                         metaMain.hidden = !metaMain.hidden;
                         lineChart.update();
@@ -646,7 +746,7 @@ wps_js.line_chart = function (data, tag_id, newOptions) {
 
                     // Add click event to toggle visibility of the previous dataset
                     const previousDataDiv = legendItem.querySelector('.previous-data');
-                    previousDataDiv.addEventListener('click', function() {
+                    previousDataDiv.addEventListener('click', function () {
                         const metaPrevious = lineChart.getDatasetMeta(index + 1);
                         if (metaPrevious && metaPrevious.label.includes('(Previous)')) {
                             metaPrevious.hidden = !metaPrevious.hidden;
@@ -660,8 +760,7 @@ wps_js.line_chart = function (data, tag_id, newOptions) {
         }
     };
     updateLegend();
- };
-
+};
 
 
 // Head filters drop down

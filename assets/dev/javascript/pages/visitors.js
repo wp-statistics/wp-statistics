@@ -179,7 +179,8 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             previousData: {
                 views: [ 24, 0, 0, 0, 3, 17, 18, 19, 20, 0, 6, 18, 23, 20, 13],
                 visitors: [23, 20, 13, 10, 9, 4, 0, 5, 16, 25, 8, 18, 30, 2, 8]
-            }
+            },
+            previousLabels: ['March 2', 'March 3', 'March 4', 'March 5', 'March 6', 'March 7', 'March 8', 'March 9', 'March 10', 'March 11', 'March 12', 'March 13', 'March 14', 'March 15', 'March 16']
         };
         wps_js.line_chart(data, 'trafficTrendsChart', null);
     }
