@@ -487,7 +487,7 @@ wps_js.no_results = function () {
 /**
  * Show Line chart
  */
-wps_js.line_chart = function (data, tag_id, newOptions) {
+wps_js.new_line_chart = function (data, tag_id, newOptions) {
     // Define the colors
     const colors = ['#3288D7', '#7362BF', '#27A765', '#8AC3D0'];
     // Get Element By ID
@@ -495,13 +495,13 @@ wps_js.line_chart = function (data, tag_id, newOptions) {
 
     const datasets = [];
     // Dynamically create datasets
-    Object.keys(data).forEach((key, index) => {
-        if (key !== 'labels' && key !== 'previousData') {
+    Object.keys(data.data).forEach((key, index) => {
+        if (key !== 'labels' ) {
             // Main dataset
             datasets.push({
                 type: 'line',
                 label: key,
-                data: data[key],
+                data: data.data[key],
                 borderColor: colors[index - 1],
                 backgroundColor: colors[index - 1],
                 fill: false,
@@ -555,10 +555,7 @@ wps_js.line_chart = function (data, tag_id, newOptions) {
 
         if (tooltip.body) {
             const titleLines = tooltip.title || [];
-            const bodyLines = tooltip.body.map(b => b.lines);
             const dataIndex = tooltip.dataPoints[0].dataIndex;
-            const datasetIndex = tooltip.dataPoints[0].datasetIndex;
-            const label = tooltip.dataPoints[0].label;
             const datasets = chart.data.datasets;
 
             let innerHtml = `<div>`;
@@ -572,8 +569,8 @@ wps_js.line_chart = function (data, tag_id, newOptions) {
                 const value = dataset.data[dataIndex];
                 const isPrevious = dataset.label.includes('(Previous)');
                 const previousDataset = datasets.find(ds => ds.label === `${dataset.label} (Previous)`);
-                const previousValue = previousDataset ? previousDataset.data[dataIndex] : '';
-                if (!isPrevious && dataset.label !== 'previousLabels') {
+                const previousValue = data.previousData[dataset.label.replace(' (Previous)', '')]?.[dataIndex];
+                if (!isPrevious) {
                     innerHtml += `
                 <div class="current-data">
                     <div>
@@ -584,10 +581,9 @@ wps_js.line_chart = function (data, tag_id, newOptions) {
                 </div>`;
                 }
 
-                if (previousValue !== undefined && previousValue !== '') {
-                    const resultData = chart.data.datasets.find(dataset => dataset.label === 'previousLabels')?.data || null;
-                    const previousLabel = resultData[dataIndex];
-                    innerHtml += `
+                if (previousValue !== undefined && previousValue !== ''  && !isPrevious) {
+                     const previousLabel = data.previousData.labels[dataIndex];
+                     innerHtml += `
                 <div class="previous-data">
                     <div>
                         <span class="previous-data__colors">
@@ -702,7 +698,7 @@ wps_js.line_chart = function (data, tag_id, newOptions) {
     const lineChart = new Chart(ctx_line, {
         type: 'line',
         data: {
-            labels: data.labels,
+            labels: data.data.labels,
             datasets: datasets
         },
         options: options,
@@ -714,11 +710,10 @@ wps_js.line_chart = function (data, tag_id, newOptions) {
             legendContainer.innerHTML = '';
 
             datasets.forEach((dataset, index) => {
-                const isPrevious = dataset.label.includes('Previous') || dataset.label.includes('previousLabels');
-
+                const isPrevious = dataset.label.includes('(Previous)');
                 if (!isPrevious) {
                     const currentData = dataset.data.reduce((a, b) => a + b, 0);
-                    const previousData = data.previousData[dataset.label] ? data.previousData[dataset.label].reduce((a, b) => a + b, 0) : 'N/A';
+                    const previousData = data.previousData[dataset.label]?.reduce((a, b) => a + b, 0) || 'N/A';
                     const legendItem = document.createElement('div');
                     legendItem.className = 'wps-postbox-chart--item';
                     legendItem.innerHTML = `
