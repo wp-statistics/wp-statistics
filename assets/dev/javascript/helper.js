@@ -677,6 +677,10 @@ wps_js.new_line_chart = function (data, tag_id, newOptions) {
                     fontSize: 13,
                     padding: 8
                 },
+                border: {
+                    color: 'transparent',
+                    width: 0
+                },
                 type: 'linear',
                 position: 'right',
                 grid: {
