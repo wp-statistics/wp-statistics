@@ -137,22 +137,6 @@ class AuthorAnalyticsDataProvider
         ];
     }
 
-    public function getAuthorsPagesData()
-    {
-        $args = array_merge(
-            $this->args, 
-            ['post_type' => Helper::get_list_post_type()]
-        );
-        $authors = $this->authorModel->getAuthorsPagesData($args);
-        $total   = $this->authorModel->countAuthors($this->args);
-
-        return [
-            'authors' => $authors,
-            'total'   => $total
-        ];
-    }
-
-
     public function getAuthorsReportData()
     {
         $authors = $this->authorModel->getAuthorsReportData($this->args);
@@ -203,7 +187,7 @@ class AuthorAnalyticsDataProvider
 
     public function getAuthorSingleData()
     {
-        $recentViews         = $this->viewsModel->countViews($this->args);
+        $recentViews        = $this->viewsModel->countViews($this->args);
 
         $recentWords        = $this->postsModel->countWords($this->args);
         $totalWords         = $this->postsModel->countWords(array_merge($this->args, ['date' => '']));
@@ -214,7 +198,7 @@ class AuthorAnalyticsDataProvider
         $recentPosts        = $this->postsModel->countPosts($this->args);
         $totalPosts         = $this->postsModel->countPosts(array_merge($this->args, ['date' => '']));
 
-        $recentVisitors      = $this->visitorsModel->countVisitors($this->args);
+        $recentVisitors     = $this->visitorsModel->countVisitors($this->args);
 
         $taxonomies         = $this->taxonomyModel->getTaxonomiesData($this->args);
         $topPostsByView     = $this->postsModel->getPostsViewsData($this->args);

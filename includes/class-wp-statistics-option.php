@@ -54,6 +54,8 @@ class Option
             'geoip_license_type'        => 'js-deliver',
             'geoip_license_key'         => '',
             'content_report'            => '',
+            'email_free_content_header' => '',
+            'email_free_content_footer' => '',
             'update_geoip'              => true,
             'privacy_audit'             => true,
             'store_ua'                  => false,

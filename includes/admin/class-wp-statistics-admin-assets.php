@@ -2,8 +2,9 @@
 
 namespace WP_STATISTICS;
 
-use WP_Statistics\Components\Assets;
 use WP_Statistics\Utils\Request;
+use WP_Statistics\Components\Assets;
+use WP_Statistics\Components\DateRange;
 
 class Admin_Assets
 {
@@ -353,11 +354,17 @@ class Admin_Assets
             'visits'                       => __('Views', 'wp-statistics'),
             'today'                        => __('Today', 'wp-statistics'),
             'yesterday'                    => __('Yesterday', 'wp-statistics'),
-            'last-week'                    => __('Last week', 'wp-statistics'),
             'week'                         => __('Last 7 days', 'wp-statistics'),
+            'this-week'                    => __('This week', 'wp-statistics'),
+            'last-week'                    => __('Last week', 'wp-statistics'),
             'month'                        => __('Last 30 days', 'wp-statistics'),
+            'this-month'                   => __('This Month', 'wp-statistics'),
+            'last-month'                   => __('Last Month', 'wp-statistics'),
+            '7days'                        => __('Last 7 days', 'wp-statistics'),
+            '30days'                       => __('Last 30 days', 'wp-statistics'),
             '60days'                       => __('Last 60 days', 'wp-statistics'),
             '90days'                       => __('Last 90 days', 'wp-statistics'),
+            '6months'                      => __('Last 6 Months', 'wp-statistics'),
             'year'                         => __('Last 12 months', 'wp-statistics'),
             'this-year'                    => __('This year (Jan-Today)', 'wp-statistics'),
             'last-year'                    => __('Last year', 'wp-statistics'),
@@ -386,15 +393,16 @@ class Admin_Assets
             'page'                         => __('Visited Page', 'wp-statistics'),
             'str_today'                    => __('Today', 'wp-statistics'),
             'str_yesterday'                => __('Yesterday', 'wp-statistics'),
-            'str_7days'                    => __('Last 7 days', 'wp-statistics'),
-            'str_14days'                   => __('Last 14 days', 'wp-statistics'),
-            'str_30days'                   => __('Last 30 days', 'wp-statistics'),
+            'str_this_week'                => __('This Week', 'wp-statistics'),
+            'str_last_week'                => __('Last Week', 'wp-statistics'),
+            'str_this_month'               => __('This Month', 'wp-statistics'),
             'str_last_month'               => __('Last Month', 'wp-statistics'),
-            'str_60days'                   => __('Last 60 days', 'wp-statistics'),
+            'str_7days'                    => __('Last 7 days', 'wp-statistics'),
+            'str_30days'                   => __('Last 30 days', 'wp-statistics'),
             'str_90days'                   => __('Last 90 days', 'wp-statistics'),
-            'str_120days'                  => __('Last 120 days', 'wp-statistics'),
             'str_6months'                  => __('Last 6 months', 'wp-statistics'),
             'str_year'                     => __('This year', 'wp-statistics'),
+            'str_this_year'                => __('This year', 'wp-statistics'),
             'str_back'                     => __('Go Back', 'wp-statistics'),
             'str_custom'                   => __('Select Custom Range...', 'wp-statistics'),
             'str_more'                     => __('Additional Date Ranges', 'wp-statistics'),
@@ -427,6 +435,7 @@ class Admin_Assets
         );
 
         $list['active_post_type'] = Helper::getPostTypeName(Request::get('pt', 'post'));
+        $list['user_date_range']  = DateRange::retrieve();
 
         // Rest-API Meta Box Url
         $list['stats_report_option'] = Option::get('time_report') == '0' ? false : true;

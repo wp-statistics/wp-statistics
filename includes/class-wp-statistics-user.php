@@ -68,6 +68,20 @@ class User
         return $user_info;
     }
 
+
+
+    public static function getMeta($metaKey, $single = false, $userId = false)
+    {
+        $userId = !empty($userId) ? $userId : get_current_user_id();
+        return get_user_meta($userId, $metaKey, $single);
+    }
+
+    public static function saveMeta($metaKey, $metaValue, $userId = false)
+    {
+        $userId = !empty($userId) ? $userId : get_current_user_id();
+        return update_user_meta($userId, $metaKey, $metaValue);
+    }
+
     /**
      * Get Full name of User
      *

@@ -2,9 +2,10 @@
 
 namespace WP_Statistics\Models;
 use WP_STATISTICS\Helper;
+use WP_STATISTICS\TimeZone;
 use WP_Statistics\Utils\Query;
 use WP_Statistics\Abstracts\BaseModel;
-
+use WP_Statistics\Components\DateRange;
 
 class ViewsModel extends BaseModel
 {
@@ -138,73 +139,69 @@ class ViewsModel extends BaseModel
     public function getViewsSummary($args = [], $bypassCache = false)
     {
         $result = $this->countDailyViews(array_merge($args, [
-            'date' => [
-                'from' => (date('Y') - 1) . '-01-01', 
-                'to' => date('Y-m-d')]
-            ]
-        ), $bypassCache);
+            'date' => DateRange::get('this_year')
+        ]), $bypassCache);
 
         $summary = [
             'today'     => ['label' => esc_html__('Today', 'wp-statistics'), 'views' => 0],
             'yesterday' => ['label' => esc_html__('Yesterday', 'wp-statistics'), 'views' => 0],
+            'this_week' => ['label' => esc_html__('This Week', 'wp-statistics'), 'views' => 0],
+            'last_week' => ['label' => esc_html__('Last Week', 'wp-statistics'), 'views' => 0],
+            'this_month'=> ['label' => esc_html__('This Month', 'wp-statistics'), 'views' => 0],
+            'last_month'=> ['label' => esc_html__('Last Month', 'wp-statistics'), 'views' => 0],
             '7days'     => ['label' => esc_html__('Last 7 days', 'wp-statistics'), 'views' => 0],
             '30days'    => ['label' => esc_html__('Last 30 days', 'wp-statistics'), 'views' => 0],
-            '60days'    => ['label' => esc_html__('Last 60 days', 'wp-statistics'), 'views' => 0],
-            '120days'   => ['label' => esc_html__('Last 120 days', 'wp-statistics'), 'views' => 0],
-            'year'      => ['label' => esc_html__('Last 12 months', 'wp-statistics'), 'views' => 0],
+            '90days'    => ['label' => esc_html__('Last 90 days', 'wp-statistics'), 'views' => 0],
+            '6months'   => ['label' => esc_html__('Last 6 Months', 'wp-statistics'), 'views' => 0],
             'this_year' => ['label' => esc_html__('This year (Jan - Today)', 'wp-statistics'), 'views' => 0],
-            'last_year' => ['label' => esc_html__('Last Year', 'wp-statistics'), 'views' => 0]
         ];
-
-        $todayDate      = date('Y-m-d');
-        $yesterdayDate  = date('Y-m-d', strtotime('-1 day'));
-        $start7Days     = date('Y-m-d', strtotime('-6 days'));
-        $start30Days    = date('Y-m-d', strtotime('-29 days'));
-        $start60Days    = date('Y-m-d', strtotime('-59 days'));
-        $start120Days   = date('Y-m-d', strtotime('-119 days'));
-        $start12Months  = date('Y-m-d', strtotime('-12 months'));
-        $thisYearStart  = date('Y') . '-01-01';
-        $lastYearStart  = (date('Y') - 1) . '-01-01';
-        $lastYearEnd    = (date('Y') - 1) . '-12-31';
 
         foreach ($result as $record) {
             $date   = $record->date;
             $views  = $record->views;
-            
-            if ($date === $todayDate) {
+
+            if (DateRange::compare($date, '=', 'today')) {
                 $summary['today']['views'] += $views;
             }
-            
-            if ($date === $yesterdayDate) {
+
+            if (DateRange::compare($date, '=', 'yesterday')) {
                 $summary['yesterday']['views'] += $views;
             }
-            
-            if ($date >= $start7Days && $date <= $todayDate) {
+
+            if (DateRange::compare($date, 'in', 'this_week')) {
+                $summary['this_week']['views'] += $views;
+            }
+
+            if (DateRange::compare($date, 'in', 'last_week')) {
+                $summary['last_week']['views'] += $views;
+            }
+
+            if (DateRange::compare($date, 'in', 'this_month')) {
+                $summary['this_month']['views'] += $views;
+            }
+
+            if (DateRange::compare($date, 'in', 'last_month')) {
+                $summary['last_month']['views'] += $views;
+            }
+
+            if (DateRange::compare($date, 'in', '7days')) {
                 $summary['7days']['views'] += $views;
             }
-            
-            if ($date >= $start30Days && $date <= $todayDate) {
+
+            if (DateRange::compare($date, 'in', '30days')) {
                 $summary['30days']['views'] += $views;
             }
-            
-            if ($date >= $start60Days && $date <= $todayDate) {
-                $summary['60days']['views'] += $views;
+
+            if (DateRange::compare($date, 'in', '90days')) {
+                $summary['90days']['views'] += $views;
             }
-            
-            if ($date >= $start120Days && $date <= $todayDate) {
-                $summary['120days']['views'] += $views;
+
+            if (DateRange::compare($date, 'in', '6months')) {
+                $summary['6months']['views'] += $views;
             }
-            
-            if ($date >= $start12Months && $date <= $todayDate) {
-                $summary['year']['views'] += $views;
-            }
-            
-            if ($date >= $thisYearStart && $date <= $todayDate) {
+
+            if (DateRange::compare($date, 'in', 'this_year')) {
                 $summary['this_year']['views'] += $views;
-            }
-            
-            if ($date >= $lastYearStart && $date <= $lastYearEnd) {
-                $summary['last_year']['views'] += $views;
             }
         }
 

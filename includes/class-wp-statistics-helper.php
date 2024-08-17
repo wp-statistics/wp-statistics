@@ -5,6 +5,9 @@ namespace WP_STATISTICS;
 use ErrorException;
 use Exception;
 use WP_STATISTICS;
+use WP_Statistics\Models\AuthorsModel;
+use WP_Statistics\Models\PostsModel;
+use WP_Statistics\Models\TaxonomyModel;
 use WP_Statistics\Models\ViewsModel;
 use WP_Statistics\Models\VisitorsModel;
 use WP_Statistics\Service\Integrations\WpConsentApi;
@@ -808,20 +811,50 @@ class Helper
             $email_template = wp_normalize_path($email_template);
         }
 
-        $schedule = Option::get('time_report', false);
-        if (is_plugin_active('wp-statistics-advanced-reporting/wp-statistics-advanced-reporting.php')) {
-            $emailTitle = __('<table style="font-family: \'Roboto\', Arial, Helvetica, sans-serif; width: 100%;text-align: left;font-size: 21px; font-weight: 500; line-height: 24.61px; color: #0C0C0D;padding:0"><tbody><tr><td>Your Website Performance Overview</td></tr></tbody></table>', 'wp-statistics');
-        } else {
-            $emailTitle = sprintf(
-            // translators: %1$s: Website URL.
-                __('<span style="font-family: \'Roboto\', Arial, Helvetica, sans-serif; text-align: center;font-size: 16px; font-style: italic; font-weight: 400; line-height: 18.75px; color: #5E5E64;">Sent from </span><a style="color: #175DA4;text-decoration: underline" href="https://%1$s">%1$s</a>', 'wp-statistics'),
-                wp_parse_url(get_site_url(), PHP_URL_HOST)
-            );
-        }
+        $schedule   = Option::get('time_report', false);
+        $is_rtl     = is_rtl();
+        $text_align = $is_rtl ? 'right' : 'left';
+        $emailTitle = __('<table style="font-family: \'Roboto\', Arial, Helvetica, sans-serif; width: 100%; text-align: ' . $text_align . ';font-size: 21px; font-weight: 500; line-height: 24.61px; color: #0C0C0D; padding: 0;"><tbody><tr><td>Your Website Performance Overview</td></tr></tbody></table>', 'wp-statistics');
 
         if ($schedule && array_key_exists($schedule, Schedule::getSchedules())) {
-            $schedule   = Schedule::getSchedules()[$schedule];
-            $emailTitle .= is_plugin_active('wp-statistics-advanced-reporting/wp-statistics-advanced-reporting.php') ? '' : sprintf(__('<p style="margin-bottom:16px;margin-top:8px;padding:0;font-family: \'Roboto\',Arial, Helvetica, sans-serif; font-size: 16px; font-style: italic; font-weight: 500; line-height: 18.75px; text-align: center;"><small style="color:#5E5E64;font-family: \'Roboto\',Arial, Helvetica, sans-serif; font-size: 16px; font-style: italic; font-weight: 500; line-height: 18.75px; text-align: center">Report Date Range:</small> %s to %s</p>', 'wp-statistics'), $schedule['start'], $schedule['end']);
+            $schedule = Schedule::getSchedules()[$schedule];
+
+            if ($schedule['interval'] === DAY_IN_SECONDS) {
+                $report_date = esc_html(date_i18n(get_option('date_format', 'j F Y'), strtotime($schedule['start'])));
+            } else {
+                $report_date = sprintf(
+                // translators: 1: Report start date - 2: Report end date.
+                    __('%s - %s', 'wp-statistics'),
+                    esc_html(date_i18n(get_option('date_format', 'j F Y'), strtotime($schedule['start']))),
+                    esc_html(date_i18n(get_option('date_format', 'j F Y'), strtotime($schedule['end'])))
+                );
+            }
+
+            if (!Helper::isAddOnActive('advanced-reporting')) {
+                $emailTitle .= sprintf(
+                // translators: %1$s: Reoprt date - %2$s: Website URL - %3$s: Website name.
+                    __('<p style="margin-bottom: 12px;margin-top:4px;font-size: 14px; font-weight: 400; line-height: 16.41px; color: #56585A;">%1$s</p><p style="margin: 0"><a href="%2$s" title="%3$s" style="color: #56585A;font-size: 16px; font-weight: 500; line-height: 18.75px; text-decoration:none">%3$s</a></p>', 'wp-statistics'),
+                    $report_date,
+                    esc_url(get_site_url()),
+                    get_bloginfo('name')
+                );
+            }
+        } else {
+            $schedule = null;
+        }
+
+        // E-mail header and footer
+        $emailHeader = '';
+        $emailFooter = '';
+        $is_rtl      = is_rtl();
+        $text_align  = $is_rtl ? 'right' : 'left';
+        $dir         = $is_rtl ? 'rtl' : 'ltr';
+
+        if (!empty(wp_strip_all_tags(Option::get('email_free_content_header', '')))) {
+            $emailHeader = '<div style="direction:' . $dir . ';background: #D0DEF5; padding: 16px 32px; color: #0C0C0D; font-size: 16px; font-weight: 500; line-height: 18.75px; text-align: ' . $text_align . '; white-space: pre-wrap; ' . (!empty($content) ? 'border-radius: 0;' : 'border-radius: 0 0 12px 12px;') . '">' . wp_strip_all_tags(Option::get('email_free_content_header', '')) . '</div>';
+        }
+        if (!empty(wp_strip_all_tags(Option::get('email_free_content_footer', '')))) {
+            $emailFooter = '<div style="direction:' . $dir . ';background: #D0DEF5; padding: 16px 32px; color: #0C0C0D; font-size: 16px; font-weight: 500; line-height: 18.75px; text-align:  ' . $text_align . '; white-space: pre-wrap; border-radius: 0 0 18px 18px;">' . wp_strip_all_tags(Option::get('email_free_content_footer', '')) . '</div>';
         }
 
         //Template Arg
@@ -836,9 +869,10 @@ class Helper
             'logo_image'   => apply_filters('wp_statistics_email_logo', WP_STATISTICS_URL . 'assets/images/logo-statistics-header-blue.png'),
             'logo_url'     => apply_filters('wp_statistics_email_logo_url', get_bloginfo('url')),
             'copyright'    => apply_filters('wp_statistics_email_footer_copyright', Admin_Template::get_template('emails/copyright', array(), true)),
-            'email_header' => apply_filters('wp_statistics_email_header', ""),
-            'email_footer' => apply_filters('wp_statistics_email_footer', ""),
-            'is_rtl'       => (is_rtl() ? true : false)
+            'email_header' => apply_filters('wp_statistics_email_header', $emailHeader),
+            'email_footer' => apply_filters('wp_statistics_email_footer', $emailFooter),
+            'is_rtl'       => (is_rtl() ? true : false),
+            'schedule'     => $schedule,
         );
         $arg          = wp_parse_args($args, $template_arg);
 
@@ -977,8 +1011,6 @@ class Helper
      * ----------------------
      *
      * @return string|bool
-     *
-     * @todo Make the return values for "month", "last-month" and "2-months-ago" more dynamic (29, 30 or 31 depending on the current month).
      */
     public static function mysql_time_conditions($field = 'date', $time = 'total', $range = array())
     {
@@ -998,29 +1030,39 @@ class Helper
                 $where = "`$field` = '{$current_date}'";
                 break;
             case 'day-before-yesterday':
-                $fromDate = TimeZone::getTimeAgo(2, 'Y-m-d');
+                $date  = TimeZone::getTimeAgo(2, 'Y-m-d');
+                $where = "`$field` = '{$date}'";
+                break;
+            case 'yesterday':
+                $date  = TimeZone::getTimeAgo(1, 'Y-m-d');
+                $where = "`$field` = '{$date}'";
+                break;
+            case 'this-week':
+                $date  = TimeZone::calculateDateFilter('this_week');
+                $where = "`$field` BETWEEN '{$date["from"]}' AND '{$date["to"]}'";
+                break;
+            case 'last-week':
+                $date  = TimeZone::calculateDateFilter('last_week');
+                $where = "`$field` BETWEEN '{$date["from"]}' AND '{$date["to"]}'";
+                break;
+            case 'week':
+            case '7days':
+                $where = $field_sql(-6);
+                break;
+            case 'week-ex-today':
+                // Week, excluding today
+                $fromDate = date('Y-m-d', strtotime('-1 week'));
                 $toDate   = TimeZone::getTimeAgo(1, 'Y-m-d');
                 $where    = "`$field` BETWEEN '{$fromDate}' AND '{$toDate}'";
                 break;
-            case 'yesterday':
-                $getCurrentDate = TimeZone::getTimeAgo(1, 'Y-m-d');
-                $where          = "`$field` = '{$getCurrentDate}'";
-                break;
-            case '2-weeks-ago':
-                $fromDate = TimeZone::getTimeAgo(21, 'Y-m-d');
-                $toDate   = TimeZone::getTimeAgo(14, 'Y-m-d');
-                $where    = "`$field` BETWEEN '{$fromDate}' AND '{$toDate}'";
-                break;
-            case 'last-week':
-                $fromDate = TimeZone::getTimeAgo(14, 'Y-m-d');
-                $toDate   = TimeZone::getTimeAgo(7, 'Y-m-d');
-                $where    = "`$field` BETWEEN '{$fromDate}' AND '{$toDate}'";
-                break;
-            case 'week':
-                $where = $field_sql(-7);
-                break;
             case 'two-weeks':
-                $where = $field_sql(-14);
+            case '14days':
+                $where = $field_sql(-13);
+                break;
+            case 'two-weeks-ex-today':
+                $fromDate = date('Y-m-d', strtotime('-2 week'));
+                $toDate   = TimeZone::getTimeAgo(1, 'Y-m-d');
+                $where    = "`$field` BETWEEN '{$fromDate}' AND '{$toDate}'";
                 break;
             case 'last-two-weeks':
                 $fromDate = TimeZone::getTimeAgo(28, 'Y-m-d');
@@ -1028,35 +1070,54 @@ class Helper
                 $where    = "`$field` BETWEEN '{$fromDate}' AND '{$toDate}'";
                 break;
             case '2-months-ago':
-                $fromDate = TimeZone::getTimeAgo(90, 'Y-m-d');
-                $toDate   = TimeZone::getTimeAgo(60, 'Y-m-d');
-                $where    = "`$field` BETWEEN '{$fromDate}' AND '{$toDate}'";
+                $date  = TimeZone::calculateDateFilter('2months_ago');
+                $where = "`$field` BETWEEN '{$date["from"]}' AND '{$date["to"]}'";
+                break;
+            case 'this-month':
+                $date  = TimeZone::calculateDateFilter('this_month');
+                $where = "`$field` BETWEEN '{$date["from"]}' AND '{$date["to"]}'";
                 break;
             case 'last-month':
-                $fromDate = TimeZone::getTimeAgo(60, 'Y-m-d');
-                $toDate   = TimeZone::getTimeAgo(30, 'Y-m-d');
-                $where    = "`$field` BETWEEN '{$fromDate}' AND '{$toDate}'";
+                $date  = TimeZone::calculateDateFilter('last_month');
+                $where = "`$field` BETWEEN '{$date["from"]}' AND '{$date["to"]}'";
                 break;
             case 'month':
-                $where = $field_sql(-30);
+            case '30days':
+                $where = $field_sql(-29);
                 break;
-            case '60days':
-                $where = $field_sql(-60);
-                break;
-            case '90days':
-                $where = $field_sql(-90);
-                break;
-            case 'year':
-                $where = $field_sql(-365);
-                break;
-            case 'this-year':
-                $fromDate = TimeZone::getLocalDate('Y-m-d', strtotime(gmdate('Y-01-01')));
-                $toDate   = TimeZone::getCurrentDate('Y-m-d');
+            case 'month-ex-today':
+                // Month, excluding today
+                $fromDate = date('Y-m-d', strtotime('-30 days'));
+                $toDate   = TimeZone::getTimeAgo(1, 'Y-m-d');
                 $where    = "`$field` BETWEEN '{$fromDate}' AND '{$toDate}'";
                 break;
+            case '60days':
+                $where = $field_sql(-59);
+                break;
+            case '90days':
+                $where = $field_sql(-89);
+                break;
+            case '6months':
+                $date  = TimeZone::calculateDateFilter('6months');
+                $where = "`$field` BETWEEN '{$date["from"]}' AND '{$date["to"]}'";
+                break;
+            case 'this-year':
+                $date  = TimeZone::calculateDateFilter('this_year');
+                $where = "`$field` BETWEEN '{$date["from"]}' AND '{$date["to"]}'";
+                break;
             case 'last-year':
-                $fromDate = TimeZone::getTimeAgo(365, 'Y-01-01');
-                $toDate   = TimeZone::getTimeAgo(365, 'Y-12-31');
+                $date  = TimeZone::calculateDateFilter('last_year');
+                $where = "`$field` BETWEEN '{$date["from"]}' AND '{$date["to"]}'";
+                break;
+            case 'year':
+            case '12months':
+                $date  = TimeZone::calculateDateFilter('year');
+                $where = "`$field` BETWEEN '{$date["from"]}' AND '{$date["to"]}'";
+                break;
+            case 'year-ex-today':
+                // Year, excluding today
+                $fromDate = date('Y-m-d', strtotime('-1 year'));
+                $toDate   = TimeZone::getTimeAgo(1, 'Y-m-d');
                 $where    = "`$field` BETWEEN '{$fromDate}' AND '{$toDate}'";
                 break;
             case 'total':
@@ -1608,14 +1669,22 @@ class Helper
 
     public static function getReportEmailTip()
     {
-        $tips = [
+        $is_rtl             = is_rtl();
+        $text_align         = $is_rtl ? 'right' : 'left';
+        $text_align_reverse = $is_rtl ? 'left' : 'right';
+        $tips               = [
             [
                 'title'   => __('Optimize Your Content Strategy', 'wp-statistics'),
-                'content' => __('Use WP Statistics to identify your most popular pages and posts. Analyze the data to understand what content resonates with your audience, and use these insights to guide your content creation efforts.', 'wp-statistics'),
+                'content' => sprintf(
+                    __('For maximum accuracy, enable the cache compatibility mode on your website and check your filtering settings. By following these steps, traffic data becomes more accurate. <div style="margin-top: 16px">For more details, read <a href="%1$s" style="color:#5100FD;font-size:14px;line-height:16.41px;font-weight:500;border-bottom: 1px solid #5100FD;text-decoration: none" target="_blank">%2$s <img width="6.67" height="10.91" style="margin-' . $text_align . ':6px" src="%3$s" alt=""></a></div>', 'wp-statistics'),
+                    'https://wp-statistics.com/resources/enhancing-data-accuracy/?utm_source=wp-statistics&utm_medium=email&utm_campaign=tips',
+                    'Enhancing Data Accuracy',
+                    esc_url(WP_STATISTICS_URL . '/assets/images/mail/arrow-blue-' . $text_align_reverse . '.png')
+                ),
             ],
             [
                 'title'   => __('Optimize Your Data Accuracy', 'wp-statistics'),
-                'content' => __(sprintf('For maximum accuracy, enable the cache compatibility mode on your website and check your filtering settings. By following these steps, traffic data becomes more accurate. For more details, read %1$s.', '<a href="https://wp-statistics.com/resources/enhancing-data-accuracy/?utm_source=wp-statistics&utm_medium=email&utm_campaign=tips" target="_blank">Enhancing Data Accuracy</a>'), 'wp-statistics'),
+                'content' => __(sprintf('For maximum accuracy, enable the cache compatibility mode on your website and check your filtering settings. By following these steps, traffic data becomes more accurate. <div style="margin-top: 16px">For more details, read  <a href="https://wp-statistics.com/resources/enhancing-data-accuracy/?utm_source=wp-statistics&utm_medium=email&utm_campaign=tips" style="color:#5100FD;font-size:14px;line-height:16.41px;font-weight:500;border-bottom: 1px solid #5100FD;text-decoration: none" > %1$s. <img src="' . esc_url(WP_STATISTICS_URL . '/assets/images/mail/arrow-blue-' . $text_align_reverse . '.png') . '" width="6.67" height="10.91" style="margin-' . $text_align . ':6px" alt=""></a></div>', 'Enhancing Data Accuracy '), 'wp-statistics'),
             ],
             [
                 'title'   => __('Keep the plugin up-to-date', 'wp-statistics'),
@@ -1623,47 +1692,47 @@ class Helper
             ],
             [
                 'title'   => __('Maintain Privacy Compliance', 'wp-statistics'),
-                'content' => __(sprintf('To ensure that your website complies with the latest privacy standards, use the Privacy Audit feature in WP Statistics. It provides actionable recommendations for improving your privacy compliance by assessing your WP Statistics\' current settings. For more information, refer to our %1$s.', '<a href="https://wp-statistics.com/resources/privacy-audit/?utm_source=wp-statistics&utm_medium=email&utm_campaign=privacy" target="_blank">Privacy Audit Guide</a>'), 'wp-statistics'),
+                'content' => __(sprintf('To ensure that your website complies with the latest privacy standards, use the Privacy Audit feature in WP Statistics. It provides actionable recommendations for improving your privacy compliance by assessing your WP Statistics\' current settings.<div style="margin-top: 16px"> For more information, refer to our <a href="https://wp-statistics.com/resources/privacy-audit/?utm_source=wp-statistics&utm_medium=email&utm_campaign=privacy" style="color:#5100FD;font-size:14px;line-height:16.41px;font-weight:500;border-bottom: 1px solid #5100FD;text-decoration: none">Privacy Audit Guide <img src="' . esc_url(WP_STATISTICS_URL . '/assets/images/mail/arrow-blue-' . $text_align_reverse . '.png') . '" width="6.67" height="10.91" style="margin-' . $text_align . ':6px" alt=""></a></div>'), 'wp-statistics'),
             ],
             [
                 'title'   => __('WordPress Export and Erasure', 'wp-statistics'),
-                'content' => __(sprintf('If you record PII data with WP Statistics, use WordPress data export and erasure features to manage this information. This ensures compliance with privacy regulations like GDPR. For more details, see our %1$s.', '<a href="https://wp-statistics.com/resources/compliant-with-wordpress-data-export-and-erasure/?utm_source=wp-statistics&utm_medium=email&utm_campaign=tips" target="_blank">Data Export and Erasure Guide</a>'), 'wp-statistics'),
+                'content' => __(sprintf('If you record PII data with WP Statistics, use WordPress data export and erasure features to manage this information. This ensures compliance with privacy regulations like GDPR.<div style="margin-top: 16px"> For more details, see our <a href="https://wp-statistics.com/resources/compliant-with-wordpress-data-export-and-erasure/?utm_source=wp-statistics&utm_medium=email&utm_campaign=tips" style="color:#5100FD;font-size:14px;line-height:16.41px;font-weight:500;border-bottom: 1px solid #5100FD;text-decoration: none">Data Export and Erasure Guide <img src="' . esc_url(WP_STATISTICS_URL . '/assets/images/mail/arrow-blue-' . $text_align_reverse . '.png') . '" width="6.67" height="10.91" style="margin-' . $text_align . ':6px" alt=""></a></div>'), 'wp-statistics'),
             ],
             [
                 'title'   => __('Track Links and Downloads', 'wp-statistics'),
-                'content' => __(sprintf('Track how users interact with your site\'s links and downloads using the Link and Download Tracker feature. You can use this information to improve content engagement and understand user behavior. %1$s.', '<a href="https://wp-statistics.com/product/wp-statistics-data-plus/?utm_source=wp-statistics&utm_medium=email&utm_campaign=dp" target="_blank">Read more</a>'), 'wp-statistics'),
+                'content' => __(sprintf('Track how users interact with your site\'s links and downloads using the Link and Download Tracker feature. You can use this information to improve content engagement and understand user behavior. <div style="margin-top: 16px"><a href="https://wp-statistics.com/product/wp-statistics-data-plus/?utm_source=wp-statistics&utm_medium=email&utm_campaign=dp" style="color:#5100FD;font-size:14px;line-height:16.41px;font-weight:500;border-bottom: 1px solid #5100FD;text-decoration: none">Read more <img src="' . esc_url(WP_STATISTICS_URL . '/assets/images/mail/arrow-blue-' . $text_align_reverse . '.png') . '" width="6.67" height="10.91" style=" margin-' . $text_align . ':6px" alt=""></a></div>'), 'wp-statistics'),
             ],
             [
                 'title'   => __('Advanced Filtering', 'wp-statistics'),
-                'content' => __(sprintf('Analyze specific query parameters, including UTM tags, for each piece of content. Tracking marketing campaigns and engagement allows you to refine your strategies and maximize their impact. %1$s.', '<a href="https://wp-statistics.com/product/wp-statistics-data-plus/?utm_source=wp-statistics&utm_medium=email&utm_campaign=dp" target="_blank">Read more</a>'), 'wp-statistics'),
+                'content' => __(sprintf('Analyze specific query parameters, including UTM tags, for each piece of content. Tracking marketing campaigns and engagement allows you to refine your strategies and maximize their impact. <div style="margin-top: 16px"><a href="https://wp-statistics.com/product/wp-statistics-data-plus/?utm_source=wp-statistics&utm_medium=email&utm_campaign=dp" style="color:#5100FD;font-size:14px;line-height:16.41px;font-weight:500;border-bottom: 1px solid #5100FD;text-decoration: none">Read more <img src="' . esc_url(WP_STATISTICS_URL . '/assets/images/mail/arrow-blue-' . $text_align_reverse . '.png') . '" width="6.67" height="10.91" style="margin-' . $text_align . ':6px" alt=""></a></div>'), 'wp-statistics'),
             ],
             [
                 'title'   => __('Weekly Traffic Comparison Widget', 'wp-statistics'),
-                'content' => __(sprintf('On the Overview page, the Weekly Traffic Comparison widget provides a quick snapshot of your main metrics. You can analyze traffic changes, identify trends, and make data-driven decisions to improve your site\'s performance with this feature. %1$s.', '<a href="https://wp-statistics.com/product/wp-statistics-data-plus/?utm_source=wp-statistics&utm_medium=email&utm_campaign=dp" target="_blank">Read more</a>'), 'wp-statistics'),
+                'content' => __(sprintf('On the Overview page, the Weekly Traffic Comparison widget provides a quick snapshot of your main metrics. You can analyze traffic changes, identify trends, and make data-driven decisions to improve your site\'s performance with this feature. <div style="margin-top: 16px"><a href="https://wp-statistics.com/product/wp-statistics-data-plus/?utm_source=wp-statistics&utm_medium=email&utm_campaign=dp" style="color:#5100FD;font-size:14px;line-height:16.41px;font-weight:500;border-bottom: 1px solid #5100FD;text-decoration: none">Read more <img src="' . esc_url(WP_STATISTICS_URL . '/assets/images/mail/arrow-blue-' . $text_align_reverse . '.png') . '" width="6.67" height="10.91" style="margin-' . $text_align . ':6px" alt=""></a></div>'), 'wp-statistics'),
             ],
             [
                 'title'   => __('Traffic by Hour Widget', 'wp-statistics'),
-                'content' => __(sprintf('On the Overview page, the Traffic by Hour widget displays visitor patterns by hour. Ensure maximum engagement and efficiency by optimizing server resources and scheduling content releases for peak visitor times. %1$s.', '<a href="https://wp-statistics.com/product/wp-statistics-data-plus/?utm_source=wp-statistics&utm_medium=email&utm_campaign=dp" target="_blank">Read more</a>'), 'wp-statistics'),
+                'content' => __(sprintf('On the Overview page, the Traffic by Hour widget displays visitor patterns by hour. Ensure maximum engagement and efficiency by optimizing server resources and scheduling content releases for peak visitor times. <div style="margin-top: 16px"><a href="https://wp-statistics.com/product/wp-statistics-data-plus/?utm_source=wp-statistics&utm_medium=email&utm_campaign=dp" style="color:#5100FD;font-size:14px;line-height:16.41px;font-weight:500;border-bottom: 1px solid #5100FD;text-decoration: none">Read more <img src="' . esc_url(WP_STATISTICS_URL . '/assets/images/mail/arrow-blue-' . $text_align_reverse . '.png') . '" width="6.67" height="10.91" style="margin-' . $text_align . ':6px" alt=""></a></div>'), 'wp-statistics'),
             ],
             [
                 'title'   => __('Content-Specific Analytics', 'wp-statistics'),
-                'content' => __(sprintf('Analyze each piece of content in detail, including views, visitor locations, and online users. Based on user data, these insights can help you optimize content. %1$s.', '<a href="https://wp-statistics.com/product/wp-statistics-data-plus/?utm_source=wp-statistics&utm_medium=email&utm_campaign=dp" target="_blank">Read more</a>'), 'wp-statistics'),
+                'content' => __(sprintf('Analyze each piece of content in detail, including views, visitor locations, and online users. Based on user data, these insights can help you optimize content. <div style="margin-top: 16px"><a href="https://wp-statistics.com/product/wp-statistics-data-plus/?utm_source=wp-statistics&utm_medium=email&utm_campaign=dp" style="color:#5100FD;font-size:14px;line-height:16.41px;font-weight:500;border-bottom: 1px solid #5100FD;text-decoration: none">Read more <img src="' . esc_url(WP_STATISTICS_URL . '/assets/images/mail/arrow-blue-' . $text_align_reverse . '.png') . '" width="6.67" height="10.91" style="margin-' . $text_align . ':6px" alt=""></a></div>'), 'wp-statistics'),
             ],
             [
                 'title'   => __('Custom Post Type Tracking', 'wp-statistics'),
-                'content' => __(sprintf('Track all custom post types as well as posts and pages. This ensures complete analytics across all content types on your site. %1$s.', '<a href="https://wp-statistics.com/product/wp-statistics-data-plus/?utm_source=wp-statistics&utm_medium=email&utm_campaign=dp" target="_blank">Read more</a>'), 'wp-statistics'),
+                'content' => __(sprintf('Track all custom post types as well as posts and pages. This ensures complete analytics across all content types on your site. <div style="margin-top: 16px"><a href="https://wp-statistics.com/product/wp-statistics-data-plus/?utm_source=wp-statistics&utm_medium=email&utm_campaign=dp" style="color:#5100FD;font-size:14px;line-height:16.41px;font-weight:500;border-bottom: 1px solid #5100FD;text-decoration: none">Read more <img src="' . esc_url(WP_STATISTICS_URL . '/assets/images/mail/arrow-blue-' . $text_align_reverse . '.png') . '" width="6.67" height="10.91" style="margin-' . $text_align . ':6px" alt=""></a></div>'), 'wp-statistics'),
             ],
             [
                 'title'   => __('Custom Taxonomy Analytics', 'wp-statistics'),
-                'content' => __(sprintf('Track custom taxonomies along with default taxonomies like Categories and Tags to gain deeper insights into all taxonomies used on your site. %1$s.', '<a href="https://wp-statistics.com/product/wp-statistics-data-plus/?utm_source=wp-statistics&utm_medium=email&utm_campaign=dp" target="_blank">Read more</a>'), 'wp-statistics'),
+                'content' => __(sprintf('Track custom taxonomies along with default taxonomies like Categories and Tags to gain deeper insights into all taxonomies used on your site. <div style="margin-top: 16px"><a href="https://wp-statistics.com/product/wp-statistics-data-plus/?utm_source=wp-statistics&utm_medium=email&utm_campaign=dp" style="color:#5100FD;font-size:14px;line-height:16.41px;font-weight:500;border-bottom: 1px solid #5100FD;text-decoration: none">Read more <img src="' . esc_url(WP_STATISTICS_URL . '/assets/images/mail/arrow-blue-' . $text_align_reverse . '.png') . '" width="6.67" height="10.91" style="margin-' . $text_align . ':6px" alt=""></a></div>'), 'wp-statistics'),
             ],
             [
                 'title'   => __('Real-Time Stats', 'wp-statistics'),
-                'content' => __(sprintf('Monitor your website\'s traffic and activity in real time. Your WordPress statistics are displayed instantly, so you don\'t need to refresh your page every time someone visits your blog. Watch your website\'s performance live. %1$s.', '<a href="https://wp-statistics.com/product/wp-statistics-realtime-stats/?utm_source=wp-statistics&utm_medium=email&utm_campaign=realtime" target="_blank">Read more</a>'), 'wp-statistics'),
+                'content' => __(sprintf('Monitor your website\'s traffic and activity in real time. Your WordPress statistics are displayed instantly, so you don\'t need to refresh your page every time someone visits your blog. Watch your website\'s performance live. <div style="margin-top: 16px"><a href="https://wp-statistics.com/product/wp-statistics-realtime-stats/?utm_source=wp-statistics&utm_medium=email&utm_campaign=realtime" style="color:#5100FD;font-size:14px;line-height:16.41px;font-weight:500;border-bottom: 1px solid #5100FD;text-decoration: none">Read more <img src="' . esc_url(WP_STATISTICS_URL . '/assets/images/mail/arrow-blue-' . $text_align_reverse . '.png') . '" width="6.67" height="10.91" style="margin-' . $text_align . ':6px" alt=""></a></div>'), 'wp-statistics'),
             ],
             [
                 'title'   => __('Mini Chart', 'wp-statistics'),
-                'content' => __(sprintf('Track your content\'s performance with mini charts. Quick access to traffic data is provided by an admin bar. The chart type and color can be customized according to your preferences. Analyze your content\'s performance and make informed decisions to enhance its success.  %1$s.', '<a href="https://wp-statistics.com/product/wp-statistics-mini-chart/?utm_source=wp-statistics&utm_medium=email&utm_campaign=mini-chart" target="_blank">Read more</a>'), 'wp-statistics'),
+                'content' => __(sprintf('Track your content\'s performance with mini charts. Quick access to traffic data is provided by an admin bar. The chart type and color can be customized according to your preferences. Analyze your content\'s performance and make informed decisions to enhance its success. <div style="margin-top: 16px"><a href="https://wp-statistics.com/product/wp-statistics-mini-chart/?utm_source=wp-statistics&utm_medium=email&utm_campaign=mini-chart" style="color:#5100FD;font-size:14px;line-height:16.41px;font-weight:500;border-bottom: 1px solid #5100FD;text-decoration: none">Read more <img src="' . esc_url(WP_STATISTICS_URL . '/assets/images/mail/arrow-blue-' . $text_align_reverse . '.png') . '" width="6.67" height="10.91" style="margin-' . $text_align . ':6px" alt=""></a></div>'), 'wp-statistics'),
             ],
         ];
 
@@ -1929,28 +1998,251 @@ class Helper
         return true;
     }
 
-    public static function checkUrlForParams($url, $params) 
+    public static function checkUrlForParams($url, $params)
     {
         // Parse the URL and extract the query string
         $queryString = parse_url($url, PHP_URL_QUERY);
-        
+
         // If there's no query string, return false
         if (!$queryString) {
             return false;
         }
-        
+
         // Parse the query string into an array
         parse_str($queryString, $queryParams);
-        
+
         foreach ($params as $param) {
             // If param is found, return true
             if (array_key_exists($param, $queryParams)) {
                 return true;
             }
         }
-        
+
         // If param is not found, return false
         return false;
+    }
+
+    public static function getStartOfWeek()
+    {
+        $startDay = intval(get_option('start_of_week', 0));
+
+        switch ($startDay) {
+            case 0:
+                return 'sunday';
+            case 1:
+                return 'monday';
+            case 2:
+                return 'tuesday';
+            case 3:
+                return 'wednesday';
+            case 4:
+                return 'thursday';
+            case 5:
+                return 'friday';
+            case 6:
+                return 'saturday';
+            default:
+                return 'monday';
+        }
+    }
+
+    /**
+     * Returns the data needed for "Your performance at a glance" section (mostly used in e-mail reports).
+     *
+     * @param string $startDate Start date of the report in `Y-m-d` format.
+     * @param string $endDate End date of the report in `Y-m-d` format. Default: today.
+     *
+     * @return  array               Keys:
+     *  - `thisPeriodFromDaysAgo`
+     *  - `thisPeriodToDaysAgo`
+     *  - `lastPeriodFromDaysAgo`
+     *  - `lastPeriodToDaysAgo`
+     *  - `thisPeriodVisitors`
+     *  - `lastPeriodVisitors`
+     *  - `thisPeriodVisits`
+     *  - `lastPeriodVisits`
+     *  - `thisPeriodReferrals`
+     *  - `lastPeriodReferrals`
+     *  - `thisPeriodContents`
+     *  - `lastPeriodContents`
+     *  - `percentageChangeVisitors`
+     *  - `percentageChangeVisits`
+     *  - `percentageChangeReferrals`
+     *  - `percentageChangeContents`
+     *  - `topAuthor`
+     *  - `topPost`
+     *  - `topReferral`
+     *  - `topCategory`
+     * 
+     * @todo This function is a mess! We should make it more readable and break it down into several functions.
+     */
+    public static function getWebsitePerformanceSummary($startDate, $endDate = '')
+    {
+        if (empty($endDate)) {
+            $endDate = date('Y-m-d', strtotime('-1 day'));
+        }
+
+        $thisPeriodFromDaysAgo = 0;
+        $thisPeriodToDaysAgo   = 0;
+        $lastPeriodFromDaysAgo = 0;
+        $lastPeriodToDaysAgo   = 0;
+
+        $thisPeriodVisitors    = wp_statistics_visitor('total', null, true);
+        $lastPeriodVisitors    = 0;
+        $thisPeriodVisits      = wp_statistics_visit('total');
+        $lastPeriodVisits      = 0;
+        $thisPeriodReferrals   = 0;
+        $lastPeriodReferrals   = 0;
+        $thisPeriodContents    = 0;
+        $lastPeriodContents    = 0;
+
+        $skipPercentageChanges = false;
+        $postsModel            = new PostsModel();
+        $visitorsModel         = new VisitorsModel();
+
+        if ($startDate == date('Y-m-d', strtotime('-1 day'))) {
+            $thisPeriodFromDaysAgo = 1;
+            $thisPeriodToDaysAgo   = 1;
+            $lastPeriodFromDaysAgo = 2;
+            $lastPeriodToDaysAgo   = 2;
+            $thisPeriodVisitors    = wp_statistics_visitor('yesterday', null, true);
+            $lastPeriodVisitors    = wp_statistics_visitor('day-before-yesterday', null, true);
+            $thisPeriodVisits      = wp_statistics_visit('yesterday');
+            $lastPeriodVisits      = wp_statistics_visit('day-before-yesterday');
+            $thisPeriodReferrals   = $visitorsModel->getReferrers(['date' => ['from' => TimeZone::getTimeAgo($thisPeriodFromDaysAgo), 'to' => $endDate]]);
+            $lastPeriodReferrals   = $visitorsModel->getReferrers(['date' => ['from' => TimeZone::getTimeAgo($lastPeriodFromDaysAgo), 'to' => TimeZone::getTimeAgo($lastPeriodToDaysAgo)]]);
+            $thisPeriodContents    = $postsModel->countPosts(['date' => ['from' => TimeZone::getTimeAgo($thisPeriodFromDaysAgo), 'to' => $endDate]]);
+            $lastPeriodContents    = $postsModel->countPosts(['date' => ['from' => TimeZone::getTimeAgo($lastPeriodFromDaysAgo), 'to' => TimeZone::getTimeAgo($lastPeriodToDaysAgo)]]);
+        } else if ($startDate == date('Y-m-d', strtotime('-1 week'))) {
+            $thisPeriodFromDaysAgo = 7;
+            $thisPeriodToDaysAgo   = 1;
+            $lastPeriodFromDaysAgo = 14;
+            $lastPeriodToDaysAgo   = 8;
+            $thisPeriodVisitors    = wp_statistics_visitor('week-ex-today', null, true);
+            $lastPeriodVisitors    = wp_statistics_visitor(['start' => TimeZone::getTimeAgo($lastPeriodFromDaysAgo), 'end' => TimeZone::getTimeAgo($lastPeriodToDaysAgo)], null, true);
+            $thisPeriodVisits      = wp_statistics_visit('week-ex-today');
+            $lastPeriodVisits      = wp_statistics_visit(['start' => TimeZone::getTimeAgo($lastPeriodFromDaysAgo), 'end' => TimeZone::getTimeAgo($lastPeriodToDaysAgo)]);
+            $thisPeriodReferrals   = $visitorsModel->getReferrers(['date' => ['from' => TimeZone::getTimeAgo($thisPeriodFromDaysAgo), 'to' => $endDate]]);
+            $lastPeriodReferrals   = $visitorsModel->getReferrers(['date' => ['from' => TimeZone::getTimeAgo($lastPeriodFromDaysAgo), 'to' => TimeZone::getTimeAgo($lastPeriodToDaysAgo)]]);
+            $thisPeriodContents    = $postsModel->countPosts(['date' => ['from' => TimeZone::getTimeAgo($thisPeriodFromDaysAgo), 'to' => $endDate]]);
+            $lastPeriodContents    = $postsModel->countPosts(['date' => ['from' => TimeZone::getTimeAgo($lastPeriodFromDaysAgo), 'to' => TimeZone::getTimeAgo($lastPeriodToDaysAgo)]]);
+        } else if ($startDate == date('Y-m-d', strtotime('-2 weeks'))) {
+            $thisPeriodFromDaysAgo = 14;
+            $thisPeriodToDaysAgo   = 1;
+            $lastPeriodFromDaysAgo = 28;
+            $lastPeriodToDaysAgo   = 15;
+            $thisPeriodVisitors    = wp_statistics_visitor('two-weeks-ex-today', null, true);
+            $lastPeriodVisitors    = wp_statistics_visitor(['start' => TimeZone::getTimeAgo($lastPeriodFromDaysAgo), 'end' => TimeZone::getTimeAgo($lastPeriodToDaysAgo)], null, true);
+            $thisPeriodVisits      = wp_statistics_visit('two-weeks-ex-today');
+            $lastPeriodVisits      = wp_statistics_visit(['start' => TimeZone::getTimeAgo($lastPeriodFromDaysAgo), 'end' => TimeZone::getTimeAgo($lastPeriodToDaysAgo)]);
+            $thisPeriodReferrals   = $visitorsModel->getReferrers(['date' => ['from' => TimeZone::getTimeAgo($thisPeriodFromDaysAgo), 'to' => $endDate]]);
+            $lastPeriodReferrals   = $visitorsModel->getReferrers(['date' => ['from' => TimeZone::getTimeAgo($lastPeriodFromDaysAgo), 'to' => TimeZone::getTimeAgo($lastPeriodToDaysAgo)]]);
+            $thisPeriodContents    = $postsModel->countPosts(['date' => ['from' => TimeZone::getTimeAgo($thisPeriodFromDaysAgo), 'to' => $endDate]]);
+            $lastPeriodContents    = $postsModel->countPosts(['date' => ['from' => TimeZone::getTimeAgo($lastPeriodFromDaysAgo), 'to' => TimeZone::getTimeAgo($lastPeriodToDaysAgo)]]);
+        } else if ($startDate == date('Y-m-d', strtotime('-30 days'))) {
+            $thisPeriodFromDaysAgo = 30;
+            $thisPeriodToDaysAgo   = 1;
+            $lastPeriodFromDaysAgo = 60;
+            $lastPeriodToDaysAgo   = 30;
+            $thisPeriodVisitors    = wp_statistics_visitor('month-ex-today', null, true);
+            $lastPeriodVisitors    = wp_statistics_visitor(['start' => TimeZone::getTimeAgo($lastPeriodFromDaysAgo), 'end' => TimeZone::getTimeAgo($lastPeriodToDaysAgo)], null, true);
+            $thisPeriodVisits      = wp_statistics_visit('month-ex-today');
+            $lastPeriodVisits      = wp_statistics_visit(['start' => TimeZone::getTimeAgo($lastPeriodFromDaysAgo), 'end' => TimeZone::getTimeAgo($lastPeriodToDaysAgo)]);
+            $thisPeriodReferrals   = $visitorsModel->getReferrers(['date' => ['from' => TimeZone::getTimeAgo(30), 'to' => $endDate]]);
+            $lastPeriodReferrals   = $visitorsModel->getReferrers(['date' => ['from' => TimeZone::getTimeAgo($lastPeriodFromDaysAgo), 'to' => TimeZone::getTimeAgo($lastPeriodToDaysAgo)]]);
+            $thisPeriodContents    = $postsModel->countPosts(['date' => ['from' => TimeZone::getTimeAgo($thisPeriodFromDaysAgo), 'to' => $endDate]]);
+            $lastPeriodContents    = $postsModel->countPosts(['date' => ['from' => TimeZone::getTimeAgo($lastPeriodFromDaysAgo), 'to' => TimeZone::getTimeAgo($lastPeriodToDaysAgo)]]);
+        } else if (!empty($startDate)) {
+            $thisPeriodFromDaysAgo = TimeZone::getNumberDayBetween($startDate) - 1;
+            $thisPeriodToDaysAgo   = 1;
+            $lastPeriodFromDaysAgo = $thisPeriodFromDaysAgo * 2;
+            $lastPeriodToDaysAgo   = $thisPeriodFromDaysAgo + 1;
+            $thisPeriodVisitors    = wp_statistics_visitor(['start' => TimeZone::getTimeAgo($thisPeriodFromDaysAgo), 'end' => TimeZone::getTimeAgo($thisPeriodToDaysAgo)], null, true);
+            $thisPeriodVisits      = wp_statistics_visit(['start' => TimeZone::getTimeAgo($thisPeriodFromDaysAgo), 'end' => TimeZone::getTimeAgo($thisPeriodToDaysAgo)]);
+            $lastPeriodVisitors    = wp_statistics_visitor(['start' => TimeZone::getTimeAgo($lastPeriodFromDaysAgo), 'end' => TimeZone::getTimeAgo($lastPeriodToDaysAgo)], null, true);
+            $lastPeriodVisits      = wp_statistics_visit(['start' => TimeZone::getTimeAgo($lastPeriodFromDaysAgo), 'end' => TimeZone::getTimeAgo($lastPeriodToDaysAgo)]);
+            $thisPeriodReferrals   = $visitorsModel->getReferrers(['date' => ['from' => $startDate, 'to' => $endDate]]);
+            $thisPeriodContents    = $postsModel->countPosts(['date' => ['from' => $startDate, 'to' => $endDate]]);
+            $skipPercentageChanges = true;
+        } else {
+            $thisPeriodReferrals   = $visitorsModel->getReferrers();
+            $thisPeriodContents    = $postsModel->countPosts();
+            $skipPercentageChanges = true;
+        }
+
+        // Convert refferals results to one single integer
+        if (is_array($thisPeriodReferrals)) {
+            $referredVisitors = 0;
+            foreach ($thisPeriodReferrals as $referral) {
+                if (!empty($referral->visitors)) {
+                    $referredVisitors += intval($referral->visitors);
+                }
+            }
+            $thisPeriodReferrals = $referredVisitors;
+        }
+        if (is_array($lastPeriodReferrals)) {
+            $referredVisitors = 0;
+            foreach ($lastPeriodReferrals as $referral) {
+                if (!empty($referral->visitors)) {
+                    $referredVisitors += intval($referral->visitors);
+                }
+            }
+            $lastPeriodReferrals = $referredVisitors;
+        }
+
+        $percentageChangeVisitors  = 0;
+        $percentageChangeVisits    = 0;
+        $percentageChangeReferrals = 0;
+        $percentageChangeContents  = 0;
+        if (!$skipPercentageChanges) {
+            $percentageChangeVisitors  = intval(self::calculatePercentageChange($lastPeriodVisitors, $thisPeriodVisitors));
+            $percentageChangeVisits    = intval(self::calculatePercentageChange($lastPeriodVisits, $thisPeriodVisits));
+            $percentageChangeReferrals = intval(self::calculatePercentageChange($lastPeriodReferrals, $thisPeriodReferrals));
+            $percentageChangeContents  = intval(self::calculatePercentageChange($lastPeriodContents, $thisPeriodContents));
+        }
+
+        $authorModel = new AuthorsModel();
+        $topAuthor   = $authorModel->getAuthorsByPostPublishes();
+        $topAuthor   = !empty($topAuthor) ? $topAuthor[0]->name : '';
+
+        $topPost = $postsModel->getPostsViewsData();
+        $topPost = !empty($topPost) ? $topPost[0]->post_title : '';
+
+        $topReferral = '';
+        if (!empty($top_referring)) {
+            $topReferral = str_replace('www.', '', $top_referring[0]->domain);
+            $topReferral = ucfirst($topReferral);
+        }
+
+        $taxonomyModel = new TaxonomyModel();
+        $topCategory   = $taxonomyModel->getTaxonomiesData([
+            'order_by' => 'views',
+            'order'    => 'DESC',
+        ]);
+        $topCategory   = (!empty($topCategory['category']) && !empty($topCategory['category'][0]['term_name'])) ? $topCategory['category'][0]['term_name'] : '';
+
+        return [
+            'thisPeriodFromDaysAgo'     => $thisPeriodFromDaysAgo,
+            'thisPeriodToDaysAgo'       => $thisPeriodToDaysAgo,
+            'lastPeriodFromDaysAgo'     => $lastPeriodFromDaysAgo,
+            'lastPeriodToDaysAgo'       => $lastPeriodToDaysAgo,
+            'thisPeriodVisitors'        => $thisPeriodVisitors,
+            'lastPeriodVisitors'        => $lastPeriodVisitors,
+            'thisPeriodVisits'          => $thisPeriodVisits,
+            'lastPeriodVisits'          => $lastPeriodVisits,
+            'thisPeriodReferrals'       => $thisPeriodReferrals,
+            'lastPeriodReferrals'       => $lastPeriodReferrals,
+            'thisPeriodContents'        => $thisPeriodContents,
+            'lastPeriodContents'        => $lastPeriodContents,
+            'percentageChangeVisitors'  => $percentageChangeVisitors,
+            'percentageChangeVisits'    => $percentageChangeVisits,
+            'percentageChangeReferrals' => $percentageChangeReferrals,
+            'percentageChangeContents'  => $percentageChangeContents,
+            'topAuthor'                 => $topAuthor,
+            'topPost'                   => $topPost,
+            'topReferral'               => $topReferral,
+            'topCategory'               => $topCategory,
+        ];
     }
 
     /**

@@ -21,10 +21,6 @@ class TabsView extends BaseTabView
     public function __construct()
     {
         $this->dataProvider = new ContentAnalyticsDataProvider([
-            'date' => [
-                'from'  => Request::get('from', date('Y-m-d', strtotime('-29 days'))),
-                'to'    => Request::get('to', date('Y-m-d'))
-            ],
             'post_type' => Request::get('tab', 'post')
         ]);
 
@@ -48,15 +44,13 @@ class TabsView extends BaseTabView
 
     public function getTabs()
     {
-        $currentTab = $this->getCurrentTab();
-
         $tabs = [];
 
         foreach (Helper::getPostTypes() as $postType) {
             $tab = [
                 'link'    => Menus::admin_url('content-analytics', ['tab' => $postType]),
                 'title'   => Helper::getPostTypeName($postType),
-                'class'   => $currentTab === $postType ? 'current' : ''
+                'class'   => $this->isTab($postType) ? 'current' : ''
             ];
 
             if ($this->isLockedTab($postType)) {

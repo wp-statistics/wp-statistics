@@ -2,6 +2,7 @@
 
 namespace WP_STATISTICS;
 
+use WP_Statistics\Components\DateRange;
 use WP_Statistics\Utils\Request;
 
 class Ajax
@@ -83,6 +84,11 @@ class Ajax
             [
                 'class'  => $this, 
                 'action' => 'get_page_filter_items',
+                'public' => false
+            ],
+            [
+                'class'  => $this, 
+                'action' => 'store_date_range',
                 'public' => false
             ]
         ];
@@ -624,6 +630,20 @@ class Ajax
                     'more' => $query->max_num_pages > $paged ? true : false
                 ]
             ]);
+        }
+
+        exit;
+    }
+
+    public function store_date_range_action_callback()
+    {
+        if (Helper::is_request('ajax')) {
+            check_ajax_referer('wp_rest', 'wps_nonce');
+
+            $date = Request::get('date', [], 'array');
+            DateRange::store($date);
+            
+            wp_send_json_success(['message' => esc_html__('Date range has been stored successfully.', 'wp-statistics')]);
         }
 
         exit;

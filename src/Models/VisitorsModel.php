@@ -7,7 +7,7 @@ use WP_STATISTICS\TimeZone;
 use WP_STATISTICS\GeoIP;
 use WP_Statistics\Utils\Query;
 use WP_Statistics\Abstracts\BaseModel;
-
+use WP_Statistics\Components\DateRange;
 
 class VisitorsModel extends BaseModel
 {
@@ -208,74 +208,70 @@ class VisitorsModel extends BaseModel
     public function getVisitorsSummary($args = [], $bypassCache = false)
     {
         $result = $this->countDailyVisitors(array_merge($args, [
-                'date' => [
-                    'from' => (date('Y') - 1) . '-01-01',
-                    'to'   => date('Y-m-d')]
+                'date' => DateRange::get('this_year')
             ]
         ), $bypassCache);
 
         $summary = [
             'today'     => ['label' => esc_html__('Today', 'wp-statistics'), 'visitors' => 0],
             'yesterday' => ['label' => esc_html__('Yesterday', 'wp-statistics'), 'visitors' => 0],
+            'this_week' => ['label' => esc_html__('This Week', 'wp-statistics'), 'visitors' => 0],
+            'last_week' => ['label' => esc_html__('Last Week', 'wp-statistics'), 'visitors' => 0],
+            'this_month'=> ['label' => esc_html__('This Month', 'wp-statistics'), 'visitors' => 0],
+            'last_month'=> ['label' => esc_html__('Last Month', 'wp-statistics'), 'visitors' => 0],
             '7days'     => ['label' => esc_html__('Last 7 days', 'wp-statistics'), 'visitors' => 0],
             '30days'    => ['label' => esc_html__('Last 30 days', 'wp-statistics'), 'visitors' => 0],
-            '60days'    => ['label' => esc_html__('Last 60 days', 'wp-statistics'), 'visitors' => 0],
-            '120days'   => ['label' => esc_html__('Last 120 days', 'wp-statistics'), 'visitors' => 0],
-            'year'      => ['label' => esc_html__('Last 12 months', 'wp-statistics'), 'visitors' => 0],
+            '90days'    => ['label' => esc_html__('Last 90 days', 'wp-statistics'), 'visitors' => 0],
+            '6months'   => ['label' => esc_html__('Last 6 Months', 'wp-statistics'), 'visitors' => 0],
             'this_year' => ['label' => esc_html__('This year (Jan - Today)', 'wp-statistics'), 'visitors' => 0],
-            'last_year' => ['label' => esc_html__('Last Year', 'wp-statistics'), 'visitors' => 0]
         ];
-
-        // Init date ranges
-        $todayDate     = date('Y-m-d');
-        $yesterdayDate = date('Y-m-d', strtotime('-1 day'));
-        $start7Days    = date('Y-m-d', strtotime('-6 days'));
-        $start30Days   = date('Y-m-d', strtotime('-29 days'));
-        $start60Days   = date('Y-m-d', strtotime('-59 days'));
-        $start120Days  = date('Y-m-d', strtotime('-119 days'));
-        $start12Months = date('Y-m-d', strtotime('-12 months'));
-        $thisYearStart = date('Y') . '-01-01';
-        $lastYearStart = (date('Y') - 1) . '-01-01';
-        $lastYearEnd   = (date('Y') - 1) . '-12-31';
 
         foreach ($result as $record) {
             $date     = $record->date;
             $visitors = $record->visitors;
 
-            if ($date === $todayDate) {
+            if (DateRange::compare($date, '=', 'today')) {
                 $summary['today']['visitors'] += $visitors;
             }
 
-            if ($date === $yesterdayDate) {
+            if (DateRange::compare($date, '=', 'yesterday')) {
                 $summary['yesterday']['visitors'] += $visitors;
             }
 
-            if ($date >= $start7Days && $date <= $todayDate) {
+            if (DateRange::compare($date, 'in', 'this_week')) {
+                $summary['this_week']['visitors'] += $visitors;
+            }
+
+            if (DateRange::compare($date, 'in', 'last_week')) {
+                $summary['last_week']['visitors'] += $visitors;
+            }
+
+            if (DateRange::compare($date, 'in', 'this_month')) {
+                $summary['this_month']['visitors'] += $visitors;
+            }
+
+            if (DateRange::compare($date, 'in', 'last_month')) {
+                $summary['last_month']['visitors'] += $visitors;
+            }
+
+            if (DateRange::compare($date, 'in', '7days')) {
                 $summary['7days']['visitors'] += $visitors;
             }
 
-            if ($date >= $start30Days && $date <= $todayDate) {
+            if (DateRange::compare($date, 'in', '30days')) {
                 $summary['30days']['visitors'] += $visitors;
             }
 
-            if ($date >= $start60Days && $date <= $todayDate) {
-                $summary['60days']['visitors'] += $visitors;
+            if (DateRange::compare($date, 'in', '90days')) {
+                $summary['90days']['visitors'] += $visitors;
             }
 
-            if ($date >= $start120Days && $date <= $todayDate) {
-                $summary['120days']['visitors'] += $visitors;
+            if (DateRange::compare($date, 'in', '6months')) {
+                $summary['6months']['visitors'] += $visitors;
             }
 
-            if ($date >= $start12Months && $date <= $todayDate) {
-                $summary['year']['visitors'] += $visitors;
-            }
-
-            if ($date >= $thisYearStart && $date <= $todayDate) {
+            if (DateRange::compare($date, 'in', 'this_year')) {
                 $summary['this_year']['visitors'] += $visitors;
-            }
-
-            if ($date >= $lastYearStart && $date <= $lastYearEnd) {
-                $summary['last_year']['visitors'] += $visitors;
             }
         }
 
@@ -564,6 +560,8 @@ class VisitorsModel extends BaseModel
             'per_page'    => 10
         ]);
 
+        $filteredArgs = array_filter($args);
+
         $query = Query::select([
             'COUNT(DISTINCT visitor.ID) AS visitors',
             'visitor.referred as referrer'
@@ -576,7 +574,10 @@ class VisitorsModel extends BaseModel
             ->perPage($args['page'], $args['per_page'])
             ->bypassCache($bypassCache);
 
-        $filteredArgs = array_filter($args);
+        // When date is passed, but all other parameters below are empty, compare the given date with `visitor.last_counter`
+        if (!empty($args['date']) && !array_intersect(['post_type', 'post_id', 'query_param', 'taxonomy', 'term'], array_keys($filteredArgs))) {
+            $query->whereDate('visitor.last_counter', $args['date']);
+        }
 
         if (array_intersect(['post_type', 'post_id', 'query_param', 'taxonomy', 'term'], array_keys($filteredArgs))) {
             $query
@@ -674,16 +675,13 @@ class VisitorsModel extends BaseModel
 
     public function getSearchEnginesChartData($args)
     {
+        $args = $this->parseArgs($args, []);
+        
         // Get results up to 30 days
         $newArgs = [];
         $days    = TimeZone::getNumberDayBetween($args['date']['from'], $args['date']['to']);
         if ($days > 30) {
-            $newArgs = [
-                'date' => [
-                    'from' => date('Y-m-d', strtotime("-29 days", strtotime($args['date']['to']))),
-                    'to'   => $args['date']['to']
-                ]
-            ];
+            $newArgs = ['date' => DateRange::get('30days')];
         }
 
         $args = array_merge($args, $newArgs);

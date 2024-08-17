@@ -4,7 +4,7 @@ Donate link: https://wp-statistics.com/donate/
 Tags: analytics, google analytics, insights, stats, site visitors
 Requires at least: 5.0
 Tested up to: 6.6
-Stable tag: 14.9.4
+Stable tag: 14.10
 Requires PHP: 5.6
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -129,25 +129,14 @@ WP Statistics supports WordPress Multi-Site/Network installations. In the networ
 17. Mini Chart Quick View
 
 == Upgrade Notice ==
-= 14.9 =
+= 14.10 =
 To ensure the plugin works correctly, please clear your cache because some request payloads have been updated. Also, review your settings, especially if you use DataPlus, Advanced Reporting, or Customization, as some options have changed.
 Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest version.
 
 == Changelog ==
-= 14.9.4 - **.**.2024 =
-* Enhancement: Redesigned mini-charts in posts lists.
-* Enhancement: Show query params alongside page name inside single visitor page.
-* Enhancement: Improved GeoIP functionality by using object caching to optimize performance and reduce redundant operations.
-* Enhancement: Enabled Geolocation functionality by default for more seamless user experience.
-* Enhancement: Enhancement: Validate hit/online request params before storing them into the database.
-* Enhancement: Updated DatePicker options and improved reports accuracy within specific time-frame.
-* Enhancement: Validate hit/online request params before storing them into the database.
-* Enhancement: Improve post hits queries when sorted by views.
-* Fix: Fixed incorrect order in custom post types lists when sorted by views.
-* Fix: Fixed incorrect views count in admin bar.
-* Fix: Fixed incorrect views in posts and taxonomy lists.
-* Fix: Fixed incorrect Category Page Views in Category Analytics.
-* Fix: Fixed author and category page URLs in the Top Pages widget.
+= 14.10 - xx.xx.2024 =
+* New: Date filter value is stored globally in usermeta now, and could be used across pages.
+* Enhancement: Merged Contents, Category Pages, and Author Pages reports into one single Pages page.
 
 For more information about the major update, please [visit our blog post](https://wp-statistics.com/?p=15915) or follow [@wp_statistics](https://twitter.com/wp_statistics) on Twitter
 

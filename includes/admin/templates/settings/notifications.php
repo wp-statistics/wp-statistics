@@ -84,10 +84,51 @@ use WP_STATISTICS\Schedule;
             </th>
 
             <td>
-                <?php wp_editor(Option::get('content_report'), 'content-report', array('media_buttons' => false, 'textarea_name' => 'wps_content_report', 'editor_height' => 400, 'teeny' => true)); ?>
-                <p class="description"><?php echo sprintf(__('The email report includes a predefined template containing the main metrics. If you want to add custom areas to the report, you can use shortcodes. Refer to our %s for more details.', 'wp-statistics'), '<a href="https://wp-statistics.com/resources/shortcodes/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" target="_blank">shortcode guide</a>') ?></p>
+                <?php wp_editor(Option::get('content_report'), 'content-report', array('media_buttons' => false, 'textarea_name' => 'wps_content_report', 'textarea_rows' => 5, 'editor_height' => 400)); ?>
+                <p class="description"><?php esc_html_e('Using WP Statistics shortcodes to display specific statistics.', 'wp-statistics'); ?></p>
+
+                <p class="description data">
+                    <?php esc_html_e('Insert any of the following shortcode examples to show corresponding data:', 'wp-statistics'); ?>
+                    <br><br>
+                    <?php esc_html_e('Today\'s Visitors', 'wp-statistics'); ?>:
+                    <code>[wpstatistics stat=visitors time=today]</code><br>
+                    <?php esc_html_e('Today\'s Views', 'wp-statistics'); ?>:
+                    <code>[wpstatistics stat=visits time=today]</code><br>
+                    <?php esc_html_e('Yesterday\'s Visitors', 'wp-statistics'); ?>:
+                    <code>[wpstatistics stat=visitors time=yesterday]</code><br>
+                    <?php esc_html_e('Yesterday\'s Views', 'wp-statistics'); ?>:
+                    <code>[wpstatistics stat=visits time=yesterday]</code><br>
+                    <?php esc_html_e('Total Visitors', 'wp-statistics'); ?>:
+                    <code>[wpstatistics stat=visitors time=total]</code><br>
+                    <?php esc_html_e('Total Views', 'wp-statistics'); ?>:
+                    <code>[wpstatistics stat=visits time=total]</code><br>
+                </p>
+                <p class="description"><?php _e('Refer to our complete <a href="https://wp-statistics.com/resources/shortcodes/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" target="_blank">shortcode guide</a> for more options.', 'wp-statistics'); // phpcs:ignore WordPress.Security.EscapeOutput.UnsafePrintingFunction	?></p>
             </td>
         </tr>
+
+        <tr valign="top">
+            <th scope="row">
+                <label for="email_free_content_header"><?php esc_html_e('Email Header Customization', 'wp-statistics'); ?></label>
+            </th>
+
+            <td>
+                <?php wp_editor(stripslashes(Option::get('email_free_content_header')), 'email_free_content_header', array('textarea_name' => 'wps_email_free_content_header', 'editor_height' => 150, 'media_buttons' => false, 'teeny' => true)); ?>
+                <p class="description"><?php esc_html_e('Add a custom header to your email reports to introduce your brand or report summary.', 'wp-statistics'); ?></p>
+            </td>
+        </tr>
+
+        <tr valign="top">
+            <th scope="row">
+                <label for="email_free_content_footer"><?php esc_html_e('Email Footer Customization', 'wp-statistics'); ?></label>
+            </th>
+
+            <td>
+                <?php wp_editor(stripslashes(Option::get('email_free_content_footer')), 'email_free_content_footer', array('textarea_name' => 'wps_email_free_content_footer', 'editor_height' => 150, 'media_buttons' => false, 'teeny' => true)); ?>
+                <p class="description"><?php esc_html_e('Insert a custom footer in your email reports for additional notes, disclaimers, or contact information.', 'wp-statistics'); ?></p>
+            </td>
+        </tr>
+
         <tr valign="top">
             <th scope="row" style="vertical-align: top;">
                 <label for="content-report"><?php esc_html_e('Enhanced Visual Report', 'wp-statistics'); ?></label>
