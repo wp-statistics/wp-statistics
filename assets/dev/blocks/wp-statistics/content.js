@@ -23,7 +23,7 @@ const ContentElement = ({ data }) => {
     ) : '';
 
     return (
-        <div>
+        <div className="wp-statistics-block-editor-panel-content">
             <p>
                 Over the past week (<b>{data.fromString} - {data.toString}</b>), this post has been <b>viewed {thisWeekViews} times by {thisWeekVisitors} visitors</b>.{thisWeekTopReferrerText}<br />
                 In total, it has been <b>viewed {totalViews} times by {totalVisitors} visitors</b>{topReferrerText}. For more detailed insights, visit the <b><a href={data.contentAnalyticsUrl} target="_blank">analytics section</a></b>.
