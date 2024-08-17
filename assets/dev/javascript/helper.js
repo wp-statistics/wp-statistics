@@ -26,6 +26,7 @@ wps_js.date_picker = function () {
             jQuery(correspondingPicker).addClass(ev.target.className);
         });
     }
+
 };
 
 /**
@@ -481,6 +482,186 @@ wps_js.sum = function (array) {
 wps_js.no_results = function () {
     return '<div class="o-wrap o-wrap--no-data wps-center">' + wps_js._('no_result') + '</div>';
 };
+
+
+
+/**
+ * Show Line chart
+ */
+wps_js.line_chart = function (data, tag_id, newOptions) {
+    // Define the colors
+    const colors = ['#3288D7','#7362BF', '#27A765' , '#8AC3D0'];
+    // Get Element By ID
+    let ctx_line = document.getElementById(tag_id).getContext('2d');
+
+    const datasets = [];
+    // Dynamically create datasets
+    Object.keys(data).forEach((key, index) => {
+        if (key !== 'labels' && key !== 'previousData') {
+            // Main dataset
+            datasets.push({
+                type: 'line',
+                label: key,
+                data: data[key],
+                borderColor: colors[index-1],
+                backgroundColor: colors[index-1],
+                fill: false,
+                yAxisID: 'y',
+                pointRadius: 0
+            });
+
+            // Previous data dataset
+            if (data.previousData[key]) {
+                datasets.push({
+                    type: 'line',
+                    label: `${key} (Previous)`,
+                    data: data.previousData[key],
+                    borderColor: colors[index-1],
+                    backgroundColor: colors[index-1],
+                    fill: false,
+                    yAxisID: 'y',
+                    pointRadius: 0,
+                    borderDash: [5, 5],  // Dash line
+                });
+            }
+        }
+    });
+
+    const getOrCreateLegendList = (chart, id) => {
+        const legendContainer = document.getElementById(id);
+        let listContainer = legendContainer.querySelector('ul');
+
+        if (!listContainer) {
+            listContainer = document.createElement('ul');
+            listContainer.style.display = 'flex';
+            listContainer.style.flexDirection = 'row';
+            listContainer.style.margin = 0;
+            listContainer.style.padding = 0;
+
+            legendContainer.appendChild(listContainer);
+        }
+
+        return listContainer;
+    };
+
+
+    // Default options
+    const defaultOptions = {
+        interaction: {
+            intersect: false,
+            mode: 'index'
+        },
+        plugins: {
+            legend: false,
+         },
+        scales: {
+            x: {
+                offset: false,
+                grid: {
+                    display: false,
+                    drawBorder: false,
+                    tickLength: 0,
+                    drawTicks: false
+                },
+                border: {
+                    color: 'transparent',
+                    width: 0
+                },
+                ticks: {
+                    align: 'inner',
+                    maxTicksLimit: 9,
+                    fontColor: '#898A8E',
+                    fontSize: 13,
+                    padding:8
+                }
+            },
+            y: {
+                ticks: {
+                    maxTicksLimit: 7,
+                    fontColor: '#898A8E',
+                    fontSize: 13,
+                    padding:8
+                },
+                type: 'linear',
+                position: 'right',
+                grid: {
+                    display: true,
+                    tickMarkLength: 0,
+                    drawBorder: false,
+                },
+                gridLines: {
+                    drawTicks: false
+                },
+                title: {
+                    display: false,
+                }
+            }
+        }
+    };
+    // Merge default options with user options
+    const options = Object.assign({}, defaultOptions, newOptions);
+    const lineChart = new Chart(ctx_line, {
+        type: 'line',
+        data: {
+            labels: data.labels,
+            datasets: datasets
+        },
+        options: options,
+    });
+
+    const updateLegend = function() {
+        const legendContainer = document.querySelector('.wps-postbox-chart--items');
+        if (legendContainer) {
+            legendContainer.innerHTML = '';
+
+            datasets.forEach((dataset, index) => {
+                const isPrevious = dataset.label.includes('Previous');
+                if (!isPrevious) {
+                    const currentData = dataset.data.reduce((a, b) => a + b, 0);
+                    const previousData = data.previousData[dataset.label] ? data.previousData[dataset.label].reduce((a, b) => a + b, 0) : 'N/A';
+                    const legendItem = document.createElement('div');
+                    legendItem.className = 'wps-postbox-chart--item';
+                    legendItem.innerHTML = `
+                        <span>
+                             ${dataset.label}
+                        </span>
+                        <div>
+                            <div class="current-data"><span class="wps-postbox-chart--item--color" style="background: ${dataset.borderColor}"></span>${currentData}</div>
+                            <div class="previous-data" >
+                                <span>
+                                    <span class="wps-postbox-chart--item--color" style="background: ${dataset.borderColor}"></span> 
+                                    <span class="wps-postbox-chart--item--color" style="background: ${dataset.borderColor}"></span>
+                                </span>
+                                ${previousData}
+                            </div>
+                        </div>
+                    `;
+                    // Add click event to toggle visibility of the current dataset only
+                    const currentDataDiv = legendItem.querySelector('.current-data');
+                    currentDataDiv.addEventListener('click', function() {
+                        const metaMain = lineChart.getDatasetMeta(index);
+                        metaMain.hidden = !metaMain.hidden;
+                        lineChart.update();
+                    });
+
+                    // Add click event to toggle visibility of the previous dataset
+                    const previousDataDiv = legendItem.querySelector('.previous-data');
+                    previousDataDiv.addEventListener('click', function() {
+                        const metaPrevious = lineChart.getDatasetMeta(index + 1);
+                        if (metaPrevious && metaPrevious.label.includes('(Previous)')) {
+                            metaPrevious.hidden = !metaPrevious.hidden;
+                        }
+                        lineChart.update();
+                    });
+
+                    legendContainer.appendChild(legendItem);
+                }
+            });
+        }
+    };
+    updateLegend();
+ };
+
 
 
 // Head filters drop down

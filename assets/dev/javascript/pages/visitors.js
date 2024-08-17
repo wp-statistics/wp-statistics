@@ -170,6 +170,19 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         }, 500);
     }
 
+    // Add Traffic Trends chart
+    if (document.getElementById('trafficTrendsChart')) {
+        const data = {
+            labels: ['August 2', 'August 3', 'August 4', 'August 5', 'August 6', 'August 7', 'August 8', 'August 9', 'August 10', 'August 11', 'August 12', 'August 13', 'August 14', 'August 15', 'August 16'],
+            views: [5, 20, 19, 8, 3, 30, 10, 15, 2, 13, 6, 18, 8, 7, 14],
+            visitors: [13, 49, 42, 27, 17, 18, 19, 20, 0, 22, 23, 24, 0, 0, 0],
+            previousData: {
+                views: [ 24, 0, 0, 0, 3, 17, 18, 19, 20, 0, 6, 18, 23, 20, 13],
+                visitors: [23, 20, 13, 10, 9, 4, 0, 5, 16, 25, 8, 18, 30, 2, 8]
+            }
+        };
+        wps_js.line_chart(data, 'trafficTrendsChart', null);
+    }
 }
 
 // When close TickBox

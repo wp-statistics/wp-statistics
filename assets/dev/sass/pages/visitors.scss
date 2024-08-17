@@ -229,3 +229,8 @@ html[dir=rtl] {
     }
   }
 }
+#trafficTrendsChart{
+  width: 100% !important;
+  height: auto;
+  max-height: 230px;
+}
