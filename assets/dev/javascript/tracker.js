@@ -1,3 +1,5 @@
+
+
 let WP_Statistics_CheckTime = WP_Statistics_Tracker_Object.jsCheckTime;
 
 

@@ -431,6 +431,7 @@ class Helper
      * @param int $size
      * @param string $style
      * @return bool|string
+     * @deprecated 14.10
      */
     public static function show_site_icon($url, $size = 16, $style = '')
     {

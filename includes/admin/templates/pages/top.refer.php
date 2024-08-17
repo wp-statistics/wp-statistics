@@ -15,7 +15,7 @@
                                 <?php foreach ($list as $item) { ?>
 
                                     <tr>
-                                        <td><?php echo WP_STATISTICS\Helper::show_site_icon($item['domain']) . " " . \WP_STATISTICS\Referred::get_referrer_link($item['domain']); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped  ?></td>
+                                        <td><?php echo \WP_STATISTICS\Referred::get_referrer_link($item['domain']); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></td>
                                         <td>
                                             <a class='wps-text-success' href='<?php echo esc_url($item['page_link']); ?>'>
                                                 <?php echo esc_html($item['number']); ?>
