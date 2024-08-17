@@ -515,7 +515,7 @@
         div {
           font-size: 14px;
           font-weight: 400;
-          line-height: 16.41px;
+          line-height: 14px;
           display: flex;
           align-items: center;
           gap: 6px;
@@ -523,6 +523,7 @@
           &:first-child {
             color: #0C0C0D;
             font-weight: 500;
+            line-height: 17px;
 
             .wps-postbox-chart--item--color {
               display: inline-flex;
@@ -537,13 +538,14 @@
 
             & > span {
               display: inline-flex;
-              gap: 2px;
+              gap: 1px;
+              align-items: center;
             }
 
             .wps-postbox-chart--item--color {
               display: inline-flex;
               width: 3px;
-              height: 2px;
+              height: 3px;
               border-radius: 3px;
             }
           }
