@@ -48,7 +48,13 @@ class countries extends MetaBoxAbstract
         $result     = $wpdb->get_results($sqlQuery . " " . $limitQuery); //phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared	
         foreach ($result as $item) {
             $item->location = strtoupper($item->location);
-            $list[]         = array(
+
+            // Backward Compatibility
+            if ($item->location === '') {
+                continue;
+            }
+
+            $list[] = array(
                 'location' => $item->location,
                 'name'     => $ISOCountryCode[$item->location],
                 'flag'     => Country::flag($item->location),
