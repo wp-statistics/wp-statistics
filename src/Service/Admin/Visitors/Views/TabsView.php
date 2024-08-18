@@ -92,11 +92,11 @@ class TabsView extends BaseTabView
             if ($currentTab === 'visitors') {
                 $args['filter'] = self::filter();
             }
-            if ($currentTab === 'online') {
-                $args['real_time_button'] = true;
-            }
-            if ($currentTab !== 'visitors' && $currentTab !== 'online') {
+
+            if ($currentTab !== 'online') {
                 $args['hasDateRang'] = true;
+            }else{
+                $args['real_time_button'] = true;
             }
 
             Admin_Template::get_template(['layout/header', 'layout/tabbed-page-header'], $args);
@@ -111,7 +111,7 @@ class TabsView extends BaseTabView
     {
         $params = 0;
         foreach ($_GET as $params_key => $params_item) {
-            if (!in_array($params_key, ['page', 'from', 'to', 'order', 'orderby'])) {
+            if (!in_array($params_key, ['page', 'order', 'orderby' , 'tab' ,'to' , 'from'])) {
                 $params++;
             }
         }
