@@ -39,7 +39,6 @@ wps_js.browsers_meta_box = {
         }
 
         // Show Chart
-        // wps_js.pie_chart(wps_js.chart_id('browsers'), args['browsers_name'], data, label_callback, title_callback);
 
         //Todo Add browser images
         const image_urls = [
@@ -160,7 +159,13 @@ wps_js.show_custom_agent = function (args) {
             return wps_js._('visitors') + ':' + ctx[0].formattedValue
         }
         // Show Chart
-        wps_js.pie_chart(wps_js.chart_id('browser-' + BrowserKey), args['browsers_name'], data, label_callback, title_callback);
+        //Todo Add browser images
+        const image_urls = [
+            'https://via.placeholder.com/30',
+            'https://via.placeholder.com/30',
+        ];
+
+        wps_js.horizontal_bar(wps_js.chart_id('browser-' + BrowserKey), args['browsers_name'], data ,image_urls );
 
         // Reset All Height
         ['browser-' + BrowserKey + '-chart', 'browser-' + BrowserKey + '-table'].forEach((key) => {
