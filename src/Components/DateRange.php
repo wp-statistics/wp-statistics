@@ -18,16 +18,20 @@ class DateRange
      * Stores the given date range in the user's meta data.
      *
      * @param array $range An array containing 'from' and 'to' date strings.
-     * @return void
+     * @return bool
      */
     public static function store($range)
     {
-        $isFromValid = isset($range['from']) ? TimeZone::isValidDate($range['from']) : false;
-        $isToValid   = isset($range['to']) ? TimeZone::isValidDate($range['to']) : false;
+        $periods = self::getPeriods();
 
-        if ($isFromValid && $isToValid) {
-            User::saveMeta(self::USER_DATE_RANGE_META_KEY, $range);
+        foreach ($periods as $key => $period) {
+            if ($period['period']['from'] === $range['from'] && $period['period']['to'] === $range['to']) {
+                User::saveMeta(self::USER_DATE_RANGE_META_KEY, $key);
+                return true;
+            }
         }
+
+        return false;
     }
 
     /**
@@ -37,9 +41,10 @@ class DateRange
      */
     public static function retrieve()
     {
-        $storedRange = User::getMeta(self::USER_DATE_RANGE_META_KEY, true);
+        $defaultRange = self::getDefault();
+        $storedRange  = self::get(User::getMeta(self::USER_DATE_RANGE_META_KEY, true));
 
-        return !empty($storedRange) ? $storedRange : self::getDefault();
+        return !empty($storedRange) ? $storedRange : $defaultRange;
     }
 
     /**
