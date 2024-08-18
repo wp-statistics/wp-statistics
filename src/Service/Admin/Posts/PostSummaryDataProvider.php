@@ -10,7 +10,7 @@ use WP_STATISTICS\TimeZone;
 /**
  * This class is used to get summary stats about a post (e.g. visitors, views, referrers, etc.).
  */
-class PostSummary
+class PostSummaryDataProvider
 {
     private $postId = 0;
 

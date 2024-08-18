@@ -11,6 +11,7 @@ class PostsManager
 
     public function __construct()
     {
+        new PostSummaryManager();
         $this->wordsCount = new WordCountService();
 
         add_action('save_post', [$this, 'addWordsCountCallback'], 99, 3);
