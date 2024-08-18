@@ -84,13 +84,22 @@ const ChartElement = ({
       tooltipEl.innerHTML = innerHtml;
       const {
         offsetLeft: positionX,
-        offsetTop: positionY
+        offsetTop: positionY,
+        offsetWidth: canvasWidth,
+        offsetHeight: canvasHeight
       } = chart.canvas;
-
-      // Display, position, and set styles for font
       tooltipEl.style.opacity = bodyLines[0].length === 0 ? 0 : 1;
-      tooltipEl.style.left = positionX + tooltip.caretX + 'px';
-      tooltipEl.style.top = positionY + tooltip.caretY + 'px';
+      const tooltipWidth = tooltipEl.offsetWidth;
+      let left = positionX + tooltip.caretX - tooltipWidth / 2;
+      let top = positionY + canvasHeight + 10;
+      if (left < positionX) {
+        left = positionX;
+      }
+      if (left + tooltipWidth > positionX + canvasWidth) {
+        left = positionX + canvasWidth - tooltipWidth;
+      }
+      tooltipEl.style.left = `${left}px`;
+      tooltipEl.style.top = `${top}px`;
     }
   };
   const chartOptions = {

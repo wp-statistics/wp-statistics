@@ -14,13 +14,7 @@
   margin: 0;
   position: absolute;
   transition: all .1s ease;
-  transform:translate(-80%, -100%);
   z-index: 99999;
-  top: 0 !important;
-
-  .rtl & {
-    transform: translate(0, -100%);;
-  }
 
   .chart-title {
     color: #0C0C0D;
