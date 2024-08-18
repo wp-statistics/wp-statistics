@@ -69,24 +69,24 @@ class TabsView extends BaseTabView
                 ]),
                 'tabs'       => [
                     [
-                        'link'    => Menus::admin_url('visitors-report', ['tab' => 'visitors']),
+                        'link'    => Menus::admin_url('visitors', ['tab' => 'visitors']),
                         'title'   => esc_html__('Visitors', 'wp-statistics'),
                         'tooltip' => esc_html__('Visitors tooltip', 'wp-statistics'),
                         'class'   => $currentTab === 'visitors' ? 'current' : '',
                     ],
                     [
-                        'link'    => Menus::admin_url('visitors-report', ['tab' => 'views']),
+                        'link'    => Menus::admin_url('visitors', ['tab' => 'views']),
                         'title'   => esc_html__('Views', 'wp-statistics'),
                         'tooltip' => esc_html__('Views tooltip', 'wp-statistics'),
                         'class'   => $currentTab === 'views' ? 'current' : '',
                     ],
                     [
-                        'link'  => Menus::admin_url('visitors-report', ['tab' => 'online']),
+                        'link'  => Menus::admin_url('visitors', ['tab' => 'online']),
                         'title' => esc_html__('Online Visitors', 'wp-statistics'),
                         'class' => $currentTab === 'online' ? 'current wps-tab-link__online-visitors' : 'wps-tab-link__online-visitors',
                     ],
                     [
-                        'link'    => Menus::admin_url('visitors-report', ['tab' => 'top-visitors']),
+                        'link'    => Menus::admin_url('visitors', ['tab' => 'top-visitors']),
                         'title'   => esc_html__('Top Visitors', 'wp-statistics'),
                         'tooltip' => esc_html__('Top visitors tooltip', 'wp-statistics'),
                         'class'   => $currentTab === 'top-visitors' ? 'current' : '',
