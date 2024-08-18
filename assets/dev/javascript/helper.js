@@ -330,7 +330,7 @@ wps_js.horizontal_bar = function (tag_id, labels, data , imageUrls) {
             let dataPercentDiv = document.createElement('div');
             dataPercentDiv.classList.add('wps-horizontal-bar__data-percent-container');
             let dataDiv = document.createElement('div');
-            dataDiv.innerHTML = `<span>${value[i]}</span><span>${percentage}%</span>`;
+            dataDiv.innerHTML = `<span>${value[i].toLocaleString()}</span><span>${percentage}%</span>`;
             dataDiv.classList.add('wps-horizontal-bar__data');
             dataPercentDiv.appendChild(dataDiv);
             itemDiv.appendChild(dataPercentDiv);
@@ -624,7 +624,7 @@ wps_js.new_line_chart = function (data, tag_id, newOptions) {
                         <span class="current-data__color" style="background-color: ${dataset.borderColor};"></span>
                         ${dataset.label}
                     </div>
-                    <span class="current-data__value">${value}</span>
+                    <span class="current-data__value">${value.toLocaleString()}</span>
                 </div>`;
                 }
 
@@ -639,7 +639,7 @@ wps_js.new_line_chart = function (data, tag_id, newOptions) {
                         </span>
                         ${previousLabel}
                     </div>  
-                    <span class="previous-data__value"> ${previousValue}</span>   
+                    <span class="previous-data__value"> ${previousValue.toLocaleString()}</span>   
                 </div>`;
                 }
             });
@@ -774,13 +774,13 @@ wps_js.new_line_chart = function (data, tag_id, newOptions) {
                              ${dataset.label}
                         </span>
                         <div>
-                            <div class="current-data"><span class="wps-postbox-chart--item--color" style="background: ${dataset.borderColor}"></span>${currentData}</div>
+                            <div class="current-data"><span class="wps-postbox-chart--item--color" style="background: ${dataset.borderColor}"></span>${currentData.toLocaleString()}</div>
                             <div class="previous-data" >
                                 <span>
                                     <span class="wps-postbox-chart--item--color" style="background: ${dataset.borderColor}"></span> 
                                     <span class="wps-postbox-chart--item--color" style="background: ${dataset.borderColor}"></span>
                                 </span>
-                                ${previousData}
+                                ${previousData.toLocaleString()}
                             </div>
                         </div>
                     `;
