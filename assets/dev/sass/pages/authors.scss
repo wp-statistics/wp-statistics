@@ -817,9 +817,13 @@
 }
 
 .wps-author-chart {
+  .o-wrap--no-data{
+    padding-top: 0!important;
+  }
   canvas {
     margin: 0 auto;
     max-width: 100%;
+    height: 0!important;
   }
 }
 
