@@ -89,12 +89,12 @@ class DB
             /**
              * Data Plus Table
              */
-            'events'                => __('This table stores the events that are triggered on your website. It helps you track user interactions and behavior.', 'wp-statistics'),
+            'events'                => __('<b>(Add-on Data Plus)</b> This table stores the events that are triggered on your website. It helps you track user interactions and behavior.', 'wp-statistics'),
 
             /**
              * Advanced Reporting Table
              */
-            'ar_outbox'             => __('This table stores the messages that are sent from the Advanced Reporting plugin.', 'wp-statistics'),
+            'ar_outbox'             => __('<b>(Add-on Advanced Reporting)</b> This table stores the messages that are sent from this add-on.', 'wp-statistics'),
         ];
 
         $tbl_name = str_replace(self::prefix() . 'statistics_', '', $tbl);
