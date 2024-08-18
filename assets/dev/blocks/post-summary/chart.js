@@ -1,7 +1,7 @@
-import { Chart as ChartJS, CategoryScale, LinearScale, BarController, BarElement } from 'chart.js';
+import { Chart as ChartJS, CategoryScale, LinearScale, BarController, BarElement, Tooltip, Legend } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 
-ChartJS.register(CategoryScale, LinearScale, BarController, BarElement);
+ChartJS.register(CategoryScale, LinearScale, BarController, BarElement, Tooltip, Legend);
 
 const ChartElement = ({ data }) => {
     data.postChartData = [
@@ -36,21 +36,106 @@ const ChartElement = ({ data }) => {
             fullDate: '05 August 2024',
         }
     ];
+    let postChartData = [];
+    if (typeof (data.postChartData) !== 'undefined' && data.postChartData !== null) {
+        postChartData = data.postChartData;
+    }
+
+    const externalTooltipHandler = (context) => {
+        const { chart, tooltip } = context;
+
+        let tooltipEl = chart.canvas.parentNode.querySelector('div');
+        if (!tooltipEl) {
+            tooltipEl = document.createElement('div');
+            tooltipEl.classList.add('wps-mini-chart-list-tooltip');
+            chart.canvas.parentNode.appendChild(tooltipEl);
+        }
+
+        if (tooltip.opacity === 0) {
+            tooltipEl.style.opacity = 0;
+            return;
+        }
+
+        if (tooltip.body) {
+            const titleLines = tooltip.title || [];
+            const bodyLines = tooltip.body.map(b => b.lines);
+            let innerHtml = `<div>`;
+
+            // Title
+            titleLines.forEach(title => {
+                innerHtml += `<div class="chart-title">${title}</div>`;
+            });
+
+            bodyLines.forEach((body, i) => {
+                const line = body.join(': ');
+                innerHtml += `<div>${line}</div>`;
+            });
+
+            tooltipEl.innerHTML = innerHtml;
+            const { offsetLeft: positionX, offsetTop: positionY } = chart.canvas;
+
+            // Display, position, and set styles for font
+            tooltipEl.style.opacity = bodyLines[0].length === 0 ? 0 : 1;
+            tooltipEl.style.left = positionX + tooltip.caretX + 'px';
+            tooltipEl.style.top = positionY + tooltip.caretY + 'px';
+        }
+    };
 
     const chartOptions = {
+        animation: false,
         responsive: true,
         maintainAspectRatio: true,
         plugins: {
             legend: {
                 display: false,
+            },
+            tooltip: {
+                enabled: false,
+                displayColors: false,
+                position: 'nearest',
+                intersect: false,
+                external: externalTooltipHandler,
+                callbacks: {
+                    title: (tooltipItems) => {
+                        return postChartData[tooltipItems[0].dataIndex].fullDate;
+                    },
+                    label: (tooltipItem) => {
+                        const count = tooltipItem.formattedValue;
+                        if (tooltipItem.label === '-1') {
+                            return null;
+                        } else {
+                            return `<div class="content-itemss"> <div class="content-item"><span>Views</span> <span>${count}</span></div>`;
+                        }
+                    },
+                },
+            },
+        },
+        scales: {
+            x: {
+                offset: true,
+                display: false,
+                grid: {
+                    display: false,
+                },
+            },
+            y: {
+                display: false,
+                beginAtZero: true,
+                grid: {
+                    display: false,
+                },
             }
+        },
+        layout: {
+            padding: {
+                left: 0,
+                right: 0,
+                top: 0,
+                bottom: 0,
+            },
         }
     };
 
-    let postChartData = [];
-    if (typeof (data.postChartData) !== 'undefined' && data.postChartData !== null) {
-        postChartData = data.postChartData;
-    }
     const chartData = {
         labels: postChartData.map(stat => stat.shortDate),
         datasets: [{
