@@ -2262,6 +2262,7 @@ class Helper
      *  - `thisPeriodViews`
      *  - `thisPeriodTopReferrer`
      *  - `thisPeriodTopReferrerCount`
+     *  - `postChartData`
      *  - `contentAnalyticsUrl`
      */
     public static function getPostStatisticsSummary($post)
@@ -2276,6 +2277,22 @@ class Helper
         $topReferrerAndCountTotal      = $postSummary->getTopReferrerAndCount(true);
         $topReferrerAndCountThisPeriod = $postSummary->getTopReferrerAndCount();
 
+        // Data for the sidebar chart
+        $chartData    = [];
+        $dailyViews   = $postSummary->getDailyViews();
+        $wpDateFormat = get_option('date_format');
+        foreach ($dailyViews as $dailyView) {
+            if (empty($dailyView->date) || empty($dailyView->views)) {
+                continue;
+            }
+
+            $chartData[] = [
+                'views'     => intval($dailyView->views),
+                'shortDate' => date('d M', strtotime($dailyView->date)),
+                'fullDate'  => date($wpDateFormat, strtotime($dailyView->date)),
+            ];
+        }
+
         return [
             'postId'                     => $post->ID,
             'fromString'                 => $postSummary->getFromString(),
@@ -2288,6 +2305,7 @@ class Helper
             'thisPeriodViews'            => $postSummary->getViews(),
             'thisPeriodTopReferrer'      => $topReferrerAndCountThisPeriod['url'],
             'thisPeriodTopReferrerCount' => $topReferrerAndCountThisPeriod['count'],
+            'postChartData'              => $chartData,
             'contentAnalyticsUrl'        => $postSummary->getContentAnalyticsUrl(),
         ];
     }

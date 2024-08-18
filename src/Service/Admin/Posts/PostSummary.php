@@ -142,6 +142,24 @@ class PostSummary
     }
 
     /**
+     * Returns daily views for this post for the past 30 days.
+     *
+     * @param   bool    $isTotal    Should return total numbers? Or use `$fromDate` and `$toDate` as date range?
+     *
+     * @return  array               Format: `[['views' => {COUNT}, 'date' => '{DATE}'], ['views' => {COUNT}, 'date' => '{DATE}'], ...]`.
+     */
+    public function getDailyViews()
+    {
+        return $this->viewsModel->countDailyViews([
+            'post_id' => $this->postId,
+            'date'    => [
+                'from' => TimeZone::getTimeAgo(30),
+                'to' => TimeZone::getTimeAgo(),
+            ]
+        ]);
+    }
+
+    /**
      * Returns the top referrer website and its hit count for this post.
      *
      * @param   bool    $isTotal    Should return the top referrer of all time? Or use `$fromDate` and `$toDate` as date range?
