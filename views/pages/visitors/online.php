@@ -1,7 +1,5 @@
 <?php
-
 use WP_Statistics\Components\View;
-
 ?>
 
 <div class="postbox-container wps-postbox-full">
@@ -10,10 +8,10 @@ use WP_Statistics\Components\View;
             <div class="postbox">
                 <?php
                 $args = [
-                    'data'       => ['test', 'test'],
+                    'data'       => $data['data'],
                     'pagination' => isset($pagination) ? $pagination : null
                 ];
-                View::load("components/tables/visitors", $args);
+                View::load("components/tables/online", $args);
                 ?>
             </div>
         </div>

@@ -17,6 +17,9 @@ use WP_STATISTICS\Visitor;
                             <span class="wps-order"><?php esc_html_e('Last View', 'wp-statistics') ?></span>
                         </th>
                         <th class="wps-pd-l">
+                            <span><?php esc_html_e('Online For', 'wp-statistics') ?></span>
+                        </th>
+                        <th class="wps-pd-l">
                             <?php esc_html_e('Visitor Information', 'wp-statistics') ?>
                         </th>
                         <th class="wps-pd-l">
@@ -26,10 +29,7 @@ use WP_STATISTICS\Visitor;
                             <?php esc_html_e('Referrer', 'wp-statistics') ?>
                         </th>
                         <th class="wps-pd-l">
-                            <?php esc_html_e('Total Views', 'wp-statistics') ?>
-                        </th>
-                        <th class="wps-pd-l">
-                            <?php echo isset($page_column_title) ? esc_html($page_column_title) : esc_html__('Latest Page', 'wp-statistics'); ?>
+                            <?php echo esc_html__('Latest Page', 'wp-statistics'); ?>
                         </th>
                     </tr>
                 </thead>
@@ -40,6 +40,8 @@ use WP_STATISTICS\Visitor;
                     ?>
                         <tr>
                             <td class="wps-pd-l"><?php echo esc_html(date_i18n(Helper::getDefaultDateFormat(true), strtotime($visitor->date))) ?></td>
+
+                            <td class="wps-pd-l"><?php echo esc_html(date_i18n('H:i:s', $visitor->timestamp - $visitor->created)) ?></td>
 
                             <td class="wps-pd-l">
                                 <ul class="wps-browsers__flags">
@@ -95,10 +97,6 @@ use WP_STATISTICS\Visitor;
                                 <?php else : ?>
                                     <?php echo Admin_Template::UnknownColumn() ?>
                                 <?php endif; ?>
-                            </td>
-
-                            <td class="wps-pd-l">
-                                <a href="<?php echo esc_url(Menus::admin_url('visitors', ['type' => 'single-visitor', 'visitor_id' => $visitor->ID])) ?>"><?php echo esc_html(number_format_i18n($visitor->hits)) ?></a>
                             </td>
 
                             <td class="wps-pd-l">
