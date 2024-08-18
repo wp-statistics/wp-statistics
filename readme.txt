@@ -134,17 +134,9 @@ To ensure the plugin works correctly, please clear your cache because some reque
 Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest version.
 
 == Changelog ==
-= 14.9.4 - 12.08.2024 =
-* Enhancement: Redesigned Mini Charts in content lists for better clarity.
-* Enhancement: Updated the automated report email template for improved readability.
-* Enhancement: Display query parameters alongside page names on the single visitor page.
-* Enhancement: Optimized GeoIP functionality for better performance.
-* Enhancement: Added validation for Visit/Online request parameters before saving to the database.
-* Enhancement: Updated DatePicker options to improve report accuracy within specific time frames.
-* Fix: Corrected the sorting order in custom post type lists when sorted by views.
-* Fix: Resolved inaccurate view counts displayed in the admin bar.
-* Fix: Corrected incorrect Category Page Views in Category Analytics.
-* Fix: Fixed broken author and category page URLs in the Top Pages widget.
+= 14.9.x - **.**.2024 =
+* Enhancement: Use Transient API instead of WP Object Cache in Cacheable
+* Enhancement: Cleanup 'Top Referrers'
 
 For more information about the major update, please [visit our blog post](https://wp-statistics.com/?p=15915) or follow [@wp_statistics](https://twitter.com/wp_statistics) on Twitter
 
