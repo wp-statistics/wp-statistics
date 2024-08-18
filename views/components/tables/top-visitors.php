@@ -1,5 +1,6 @@
 <?php 
 use WP_STATISTICS\Menus;
+use WP_STATISTICS\Referred;
 use WP_STATISTICS\UserAgent;
 use WP_STATISTICS\Admin_Template;
 use WP_STATISTICS\Visitor;
@@ -87,9 +88,7 @@ use WP_STATISTICS\Country;
 
                         <td class="wps-pd-l">
                             <?php if (!empty($visitor->referred)) : ?>
-                                <a target="_blank" href="" title="<?php echo esc_attr($visitor->referred) ?>" class="wps-link-arrow">
-                                    <span><?php echo esc_html($visitor->referred) ?></span>
-                                </a>
+                                <span class="wps-link-arrow"><?php echo Referred::get_referrer_link($visitor->referred, '', true); ?></span>
                             <?php else : ?>
                                 <?php echo Admin_Template::UnknownColumn() ?>
                             <?php endif; ?>
