@@ -2323,18 +2323,11 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
       white-space: nowrap;
     }
 
-<<<<<<< HEAD
-    &.custom-range{
-      padding: 4px 8px!important;
-       svg{
-        display: none!important;
-=======
     &.custom-range {
       padding: 4px 8px !important;
 
       svg {
         display: none !important;
->>>>>>> release-v14.10-implement-visitor-report
       }
     }
     &.wps-disabled{
