@@ -66,7 +66,7 @@ class PostsManager
             return;
         }
 
-        $postSummary = $this->getPostStatisticsSummary($post);
+        $postSummary = self::getPostStatisticsSummary($post);
         if (empty($postSummary)) {
             return;
         }
@@ -86,14 +86,24 @@ class PostsManager
      */
     public function addPostMetaBoxes()
     {
-        // Get meta-box information
-        $metaBox = Meta_Box::getList('post');
-
         // Add meta-box to all post types
         foreach (Helper::get_list_post_type() as $screen) {
             add_meta_box(
+                Meta_Box::getMetaBoxKey('post-summary'),
+                Meta_Box::getList('post-summary')['name'],
+                Meta_Box::LoadMetaBox('post-summary'),
+                $screen,
+                'side',
+                'high',
+                [
+                    '__block_editor_compatible_meta_box' => false,
+                    '__back_compat_meta_box'             => false,
+                ]
+            );
+
+            add_meta_box(
                 Meta_Box::getMetaBoxKey('post'),
-                $metaBox['name'],
+                Meta_Box::getList('post')['name'],
                 Meta_Box::LoadMetaBox('post'),
                 $screen,
                 'normal',
@@ -126,7 +136,7 @@ class PostsManager
      *  - `postChartData`
      *  - `contentAnalyticsUrl`
      */
-    public function getPostStatisticsSummary($post)
+    public static function getPostStatisticsSummary($post)
     {
         $dataProvider = null;
         try {
