@@ -21,7 +21,7 @@ class SingleVisitorView extends BaseView
             'tooltip'        => esc_html__('Visitor Report', 'wp-statistics'),
             'backUrl'        => Menus::admin_url('visitors-report'),
             'backTitle'      => esc_html__('Visitor and Views Report', 'wp-statistics'),
-            'SearchBoxTitle' => esc_html__('Search by IP, Hash, Username, or Email', 'wp-statistics'),
+            'searchBoxTitle' => esc_html__('Search by IP, Hash, Username, or Email', 'wp-statistics'),
         ];
         Admin_Template::get_template(['layout/header', 'layout/title'], $args);
         View::load('pages/visitors/single-visitor');
