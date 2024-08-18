@@ -22,10 +22,10 @@ class PostsManager
         add_action('save_post', [$this, 'addWordsCountCallback'], 99, 3);
         add_action('delete_post', [$this, 'removeWordsCountCallback'], 99, 2);
 
-        add_action('enqueue_block_editor_assets', [$this, 'enqueueSidebarPanelAssets']);
-
-        // Add meta-boxes in edit page
-        if (User::Access('read') && !Option::get('disable_editor')) {
+        // Add meta-boxes and blocks if the user has access and only in edit mode
+        global $pagenow;
+        if (User::Access('read') && !Option::get('disable_editor') && $pagenow !== 'post-new.php') {
+            add_action('enqueue_block_editor_assets', [$this, 'enqueueSidebarPanelAssets']);
             add_action('add_meta_boxes', [$this, 'addPostMetaBoxes']);
         }
     }
@@ -61,11 +61,6 @@ class PostsManager
      */
     public function enqueueSidebarPanelAssets()
     {
-        global $pagenow;
-        if ($pagenow === 'post-new.php') {
-            return;
-        }
-
         global $post;
         if (empty($post)) {
             return;

@@ -243,14 +243,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _sidebar__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./sidebar */ "./assets/dev/blocks/post-summary/sidebar.js");
 
 
-(0,_wordpress_plugins__WEBPACK_IMPORTED_MODULE_0__.registerPlugin)('wp-statistics', {
-  render: _sidebar__WEBPACK_IMPORTED_MODULE_1__["default"]
-});
-window.onload = function () {
-  if (!wp.data.select('core/edit-post').isEditorPanelOpened('wp-statistics/wp-statistics-block-editor-panel')) {
-    wp.data.dispatch('core/edit-post').toggleEditorPanelOpened('wp-statistics/wp-statistics-block-editor-panel');
-  }
-};
+if (typeof WP_Statistics_Editor_Sidebar_Object !== 'undefined' && WP_Statistics_Editor_Sidebar_Object != null) {
+  (0,_wordpress_plugins__WEBPACK_IMPORTED_MODULE_0__.registerPlugin)('wp-statistics', {
+    render: _sidebar__WEBPACK_IMPORTED_MODULE_1__["default"]
+  });
+  window.onload = function () {
+    if (!wp.data.select('core/edit-post').isEditorPanelOpened('wp-statistics/wp-statistics-block-editor-panel')) {
+      wp.data.dispatch('core/edit-post').toggleEditorPanelOpened('wp-statistics/wp-statistics-block-editor-panel');
+    }
+  };
+}
 
 /***/ }),
 
@@ -294,10 +296,6 @@ const wpsIcon = (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("svg", {
   fill: "black"
 }));
 function sidebar() {
-  if (typeof WP_Statistics_Editor_Sidebar_Object === 'undefined' || WP_Statistics_Editor_Sidebar_Object == null) {
-    console.log('WP Statistics: Error while fetching panel data.');
-    return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null);
-  }
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_editor__WEBPACK_IMPORTED_MODULE_2__.PluginDocumentSettingPanel, {
     name: "wp-statistics-block-editor-panel",
     className: "wp-statistics-block-editor-panel",
