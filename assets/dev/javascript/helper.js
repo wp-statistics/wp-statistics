@@ -306,13 +306,21 @@ wps_js.horizontal_bar = function (tag_id, labels, data , imageUrls) {
     if (element) {
         let parent = element.parentNode;
         let nextSibling = element.nextSibling;
-        const value = data[0].data;
+        let value;
+        if(data[0]){
+            value = data[0].data;
+        }else{
+            value = data.data;
+        }
         parent.removeChild(element);
         let total = value.reduce((sum, value) => sum + value, 0);
         let blockDiv = document.createElement('div');
         blockDiv.classList.add('wps-horizontal-bar');
         for (let i = 0; i < value.length; i++) {
-            let percentage = total ? Math.round((value[i] / total * 100)) : 0;
+            // Calculate percentage as a float with two decimal places
+            let percentage = total ? ((value[i] / total) * 100) : 0;
+            // Format the percentage
+            let percentageText = percentage % 1 === 0 ? percentage.toFixed(0) : percentage.toFixed(2);
             let itemDiv = document.createElement('div');
             itemDiv.classList.add('wps-horizontal-bar__item');
             let labelImageDiv = document.createElement('div');
@@ -332,7 +340,7 @@ wps_js.horizontal_bar = function (tag_id, labels, data , imageUrls) {
             let dataPercentDiv = document.createElement('div');
             dataPercentDiv.classList.add('wps-horizontal-bar__data-percent-container');
             let dataDiv = document.createElement('div');
-            dataDiv.innerHTML = `<span>${value[i].toLocaleString()}</span><span>${percentage}%</span>`;
+            dataDiv.innerHTML = `<span>${value[i].toLocaleString()}</span><span>${percentageText}%</span>`;
             dataDiv.classList.add('wps-horizontal-bar__data');
             dataPercentDiv.appendChild(dataDiv);
             itemDiv.appendChild(dataPercentDiv);
@@ -565,7 +573,7 @@ wps_js.new_line_chart = function (data, tag_id, newOptions) {
                 yAxisID: 'y',
                 borderWidth: 2,
                 pointRadius: 0,
-                pointBorderColor: '#fff',
+                pointBorderColor: 'transparent',
                 pointBackgroundColor:colors[index - 1],
                 pointBorderWidth: 2,
                 hoverPointRadius: 6,
@@ -588,7 +596,7 @@ wps_js.new_line_chart = function (data, tag_id, newOptions) {
                     borderWidth: 1,
                     borderDash: [5, 5],
                     pointRadius: 0,
-                    pointBorderColor:'#fff',
+                    pointBorderColor:'transparent',
                     pointBackgroundColor:  colors[index - 1],
                     pointBorderWidth: 2,
                     hoverPointRadius: 6,

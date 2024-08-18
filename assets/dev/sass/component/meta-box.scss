@@ -488,3 +488,13 @@
     width: 100%;
   }
 }
+#wps-big-postbox{
+  #wp-statistics-hits-widget{
+    .inside{
+      margin-top: 24px!important;
+    }
+    #wp-statistics-hits-meta-box-chart{
+       max-height: 462px;
+    }
+  }
+}

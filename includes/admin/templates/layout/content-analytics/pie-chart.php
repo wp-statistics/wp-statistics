@@ -9,6 +9,6 @@
     </div>
 
     <div class="wps-content-analytics-chart">
-        <canvas id="<?php echo $unique_id; ?>" height="288"></canvas>
+        <canvas id="<?php echo $unique_id; ?>" height="0"></canvas>
     </div>
 </div>

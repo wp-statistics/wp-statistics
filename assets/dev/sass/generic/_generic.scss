@@ -632,6 +632,10 @@
       line-height: 16.41px;
        color: #65686A;
 
+      &:first-child {
+        justify-content: flex-start;
+      }
+
       &:last-child {
         color: #0C0C0D;
         font-weight: 500;
