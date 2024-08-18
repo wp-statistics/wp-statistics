@@ -77,7 +77,7 @@ const ChartElement = ({ data }) => {
              const tooltipWidth = tooltipEl.offsetWidth;
 
             let left = positionX + tooltip.caretX - tooltipWidth / 2;
-            let top = positionY + canvasHeight + 10;
+            let top = positionY + canvasHeight;
 
             if (left < positionX) {
                 left = positionX;
@@ -124,17 +124,38 @@ const ChartElement = ({ data }) => {
         scales: {
             x: {
                 offset: true,
-                display: false,
                 grid: {
                     display: false,
                 },
+                border: {
+                    color: 'transparent',
+                    width: 0
+                },
+                ticks: {
+                    align: 'inner',
+                    maxTicksLimit: 4,
+                    fontColor: '#898A8E',
+                    fontSize: 12,
+                    padding: 5,
+                }
             },
             y: {
-                display: false,
+                position: 'right',
                 beginAtZero: true,
                 grid: {
                     display: false,
                 },
+                border: {
+                    color: 'transparent',
+                    width: 0
+                },
+                ticks: {
+                    align: 'inner',
+                    maxTicksLimit: 5,
+                    fontColor: '#898A8E',
+                    fontSize: 12,
+                    padding: 8,
+                }
             }
         },
         layout: {
