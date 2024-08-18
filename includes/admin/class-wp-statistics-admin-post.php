@@ -11,13 +11,6 @@ use WP_Statistics\Utils\Request;
 class Admin_Post
 {
     /**
-     * Hits Chart Post/page Meta Box
-     *
-     * @var string
-     */
-    public static $hits_chart_post_meta_box = 'post';
-
-    /**
      * Admin_Post constructor.
      */
     public function __construct()
@@ -26,11 +19,6 @@ class Admin_Post
         // Add Hits Column in All Admin Post-Type Wp_List_Table
         if (User::Access('read') and !Option::get('disable_column')) {
             add_action('admin_init', array($this, 'init'));
-        }
-
-        // Add WordPress Post/Page Hit Chart Meta Box in edit Page
-        if (User::Access('read') and !Option::get('disable_editor')) {
-            add_action('add_meta_boxes', array($this, 'define_post_meta_box'));
         }
 
         // Add Post Hit Number in Publish Meta Box in WordPress Edit a post/page
@@ -248,21 +236,6 @@ class Admin_Post
                 esc_url(Menus::admin_url('content-analytics', ['post_id' => $post->ID, 'type' => 'single', 'from' => Request::get('from', date('Y-m-d', 0)), 'to' => Request::get('to', date('Y-m-d'))])),
                 esc_html(number_format($hitCount))
             );
-        }
-    }
-
-    /**
-     * Define Hit Chart Meta Box
-     */
-    public function define_post_meta_box()
-    {
-
-        // Get MetaBox information
-        $metaBox = Meta_Box::getList(self::$hits_chart_post_meta_box);
-
-        // Add MEtaBox To all Post Type
-        foreach (Helper::get_list_post_type() as $screen) {
-            add_meta_box(Meta_Box::getMetaBoxKey(self::$hits_chart_post_meta_box), $metaBox['name'], Meta_Box::LoadMetaBox(self::$hits_chart_post_meta_box), $screen, 'normal', 'high', array('__block_editor_compatible_meta_box' => true, '__back_compat_meta_box' => false));
         }
     }
 }

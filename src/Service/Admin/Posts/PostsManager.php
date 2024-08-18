@@ -3,6 +3,10 @@
 namespace WP_Statistics\Service\Admin\Posts;
 
 use WP_Statistics\Components\Assets;
+use WP_STATISTICS\Helper;
+use WP_STATISTICS\Meta_Box;
+use WP_STATISTICS\Option;
+use WP_STATISTICS\User;
 
 class PostsManager
 {
@@ -19,6 +23,11 @@ class PostsManager
         add_action('delete_post', [$this, 'removeWordsCountCallback'], 99, 2);
 
         add_action('enqueue_block_editor_assets', [$this, 'enqueueSidebarPanelAssets']);
+
+        // Add meta-boxes in edit page
+        if (User::Access('read') && !Option::get('disable_editor')) {
+            add_action('add_meta_boxes', [$this, 'addPostMetaBoxes']);
+        }
     }
 
     /**
@@ -31,7 +40,6 @@ class PostsManager
     {
         $this->wordsCount->handleSavePost($postId, $post);
     }
-
 
     /**
      * Remove wps_words_count meta when the post is deleted
@@ -72,6 +80,35 @@ class PostsManager
 
         $styleFileName = is_rtl() ? 'style-index-rtl.css' : 'style-index.css';
         Assets::style('editor-sidebar', "blocks/$styleFileName");
+    }
+
+    /**
+     * Adds meta-boxes for the post in the classic editor mode.
+     *
+     * @return	void
+     *
+     * @hooked	action: `add_meta_boxes` - 10
+     */
+    public function addPostMetaBoxes()
+    {
+        // Get meta-box information
+        $metaBox = Meta_Box::getList('post');
+
+        // Add meta-box to all post types
+        foreach (Helper::get_list_post_type() as $screen) {
+            add_meta_box(
+                Meta_Box::getMetaBoxKey('post'),
+                $metaBox['name'],
+                Meta_Box::LoadMetaBox('post'),
+                $screen,
+                'normal',
+                'high',
+                [
+                    '__block_editor_compatible_meta_box' => true,
+                    '__back_compat_meta_box'             => false,
+                ]
+            );
+        }
     }
 
     /**
