@@ -140,7 +140,6 @@ const ChartElement = ({ data }) => {
         labels: postChartData.map(stat => stat.shortDate),
         datasets: [{
             data: postChartData.map(stat => stat.views),
-            backgroundColor: 'rgba(115, 98, 191, 0.5)',
             borderColor: '#0D0725',
             backgroundColor: 'rgba(115, 98, 191, 0.5)',
             pointBackgroundColor: '#0D0725',
