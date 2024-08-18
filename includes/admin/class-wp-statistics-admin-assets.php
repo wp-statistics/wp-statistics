@@ -5,6 +5,7 @@ namespace WP_STATISTICS;
 use WP_Statistics\Utils\Request;
 use WP_Statistics\Components\Assets;
 use WP_Statistics\Components\DateRange;
+use WP_Statistics\Service\Admin\Posts\PostSummary;
 
 class Admin_Assets
 {
@@ -51,6 +52,7 @@ class Admin_Assets
     {
         add_action('admin_enqueue_scripts', array($this, 'admin_styles'), 999);
         add_action('admin_enqueue_scripts', array($this, 'admin_scripts'), 999);
+        add_action('enqueue_block_editor_assets', [$this, 'enqueueSidebarPanelData']);
 
         $this->initFeedback();
     }
@@ -302,6 +304,36 @@ class Admin_Assets
         if (Menus::in_page('pages')) {
             wp_enqueue_script(self::$prefix . '-datepicker', self::url('datepicker/datepicker.js'), array(), self::version(), ['in_footer' => true]);
         }
+    }
+
+    /**
+     * Send necessary data to "Statistics - Summary" panel in the Gutenberg editor sidebar.
+     *
+     * @return	void
+     *
+     * @hooked	action: `enqueue_block_editor_assets` - 10
+     */
+    public function enqueueSidebarPanelData()
+    {
+        global $pagenow;
+        if ($pagenow === 'post-new.php') {
+            return;
+        }
+
+        global $post;
+        if (empty($post)) {
+            return;
+        }
+
+        $postSummary = [];
+        try {
+            $postSummary = new PostSummary($post);
+            $postSummary = $postSummary->getSummaryWidgetStats();
+        } catch (\Exception $e) {
+            return;
+        }
+
+        Assets::script('editor-sidebar', 'blocks/index.js', ['wp-plugins', 'wp-editor'], $postSummary);
     }
 
     /**
