@@ -29,7 +29,7 @@ class Menus
         'content-analytics'  => 'content-analytics',
         'devices'            => 'devices',
         'category-analytics' => 'category-analytics',
-        'pages'              => 'pages',,
+        'pages'              => 'pages',
         'visitors'           => 'visitors'
     );
 
