@@ -325,11 +325,8 @@ class Admin_Assets
             return;
         }
 
-        $postSummary = [];
-        try {
-            $postSummary = new PostSummary($post);
-            $postSummary = $postSummary->getSummaryWidgetStats();
-        } catch (\Exception $e) {
+        $postSummary = Helper::getPostStatisticsSummary($post);
+        if (empty($postSummary)) {
             return;
         }
 

@@ -175,42 +175,4 @@ class PostSummary
     {
         return esc_url(Menus::admin_url('content-analytics', ['type' => 'single', 'post_id' => $this->postId]));
     }
-
-    /**
-     * Returns the data needed for "Statistics - Summary" widget/panel in edit posts.
-     *
-     * @return  array           Keys: 
-     *  - `postId`
-     *  - `fromString`
-     *  - `toString`
-     *  - `totalVisitors`
-     *  - `totalViews`
-     *  - `topReferrer`
-     *  - `topReferrerCount`
-     *  - `thisPeriodVisitors`
-     *  - `thisPeriodViews`
-     *  - `thisPeriodTopReferrer`
-     *  - `thisPeriodTopReferrerCount`
-     *  - `contentAnalyticsUrl`
-     */
-    public function getSummaryWidgetStats()
-    {
-        $topReferrerAndCountTotal      = $this->getTopReferrerAndCount(true);
-        $topReferrerAndCountThisPeriod = $this->getTopReferrerAndCount();
-
-        return [
-            'postId'                     => $this->postId,
-            'fromString'                 => $this->getFromString(),
-            'toString'                   => $this->getToString(),
-            'totalVisitors'              => $this->getVisitors(true),
-            'totalViews'                 => $this->getViews(true),
-            'topReferrer'                => $topReferrerAndCountTotal['url'],
-            'topReferrerCount'           => $topReferrerAndCountTotal['count'],
-            'thisPeriodVisitors'         => $this->getVisitors(),
-            'thisPeriodViews'            => $this->getViews(),
-            'thisPeriodTopReferrer'      => $topReferrerAndCountThisPeriod['url'],
-            'thisPeriodTopReferrerCount' => $topReferrerAndCountThisPeriod['count'],
-            'contentAnalyticsUrl'        => $this->getContentAnalyticsUrl(),
-        ];
-    }
 }

@@ -9,6 +9,7 @@ use WP_Statistics\Models\AuthorsModel;
 use WP_Statistics\Models\PostsModel;
 use WP_Statistics\Models\TaxonomyModel;
 use WP_Statistics\Models\VisitorsModel;
+use WP_Statistics\Service\Admin\Posts\PostSummary;
 use WP_Statistics\Service\Integrations\WpConsentApi;
 use WP_Statistics\Utils\Request;
 use WP_Statistics\Utils\Signature;
@@ -2241,6 +2242,53 @@ class Helper
             'topPost'                   => $topPost,
             'topReferral'               => $topReferral,
             'topCategory'               => $topCategory,
+        ];
+    }
+
+    /**
+     * Returns the data needed for "Statistics - Summary" widget/panel in edit posts.
+     *
+     * @param   \WP_Post    $post
+     *
+     * @return  array|null          Keys: 
+     *  - `postId`
+     *  - `fromString`
+     *  - `toString`
+     *  - `totalVisitors`
+     *  - `totalViews`
+     *  - `topReferrer`
+     *  - `topReferrerCount`
+     *  - `thisPeriodVisitors`
+     *  - `thisPeriodViews`
+     *  - `thisPeriodTopReferrer`
+     *  - `thisPeriodTopReferrerCount`
+     *  - `contentAnalyticsUrl`
+     */
+    public static function getPostStatisticsSummary($post)
+    {
+        $postSummary = [];
+        try {
+            $postSummary = new PostSummary($post);
+        } catch (\Exception $e) {
+            return null;
+        }
+
+        $topReferrerAndCountTotal      = $postSummary->getTopReferrerAndCount(true);
+        $topReferrerAndCountThisPeriod = $postSummary->getTopReferrerAndCount();
+
+        return [
+            'postId'                     => $post->ID,
+            'fromString'                 => $postSummary->getFromString(),
+            'toString'                   => $postSummary->getToString(),
+            'totalVisitors'              => $postSummary->getVisitors(true),
+            'totalViews'                 => $postSummary->getViews(true),
+            'topReferrer'                => $topReferrerAndCountTotal['url'],
+            'topReferrerCount'           => $topReferrerAndCountTotal['count'],
+            'thisPeriodVisitors'         => $postSummary->getVisitors(),
+            'thisPeriodViews'            => $postSummary->getViews(),
+            'thisPeriodTopReferrer'      => $topReferrerAndCountThisPeriod['url'],
+            'thisPeriodTopReferrerCount' => $topReferrerAndCountThisPeriod['count'],
+            'contentAnalyticsUrl'        => $postSummary->getContentAnalyticsUrl(),
         ];
     }
 }
