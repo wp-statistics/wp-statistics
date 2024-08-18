@@ -1,59 +1,85 @@
+<?php
+
+use WP_STATISTICS\Admin_Template;
+use WP_STATISTICS\Country;
+use WP_STATISTICS\Helper;
+use WP_STATISTICS\Option;
+use WP_STATISTICS\Referred;
+use WP_STATISTICS\UserAgent;
+
+?>
+
 <div class="wps-visitor__visitors-details">
     <div class="wps-visitor__visitors-detail--row">
-        <span><?php esc_html_e('Daily Visitor Hash', 'wp-statistics'); ?></span>
-        <div>
-            <a href="" title="3f8e5a6b12"><span>3f8e5a6b12</span></a>
-        </div>
+
+        <?php if (Option::get('hash_ips')) : ?>
+            <span><?php esc_html_e('Daily Visitor Hash', 'wp-statistics'); ?></span>
+            <div>
+                <a href="" title="<?php echo esc_html(substr($visitor->ip, 6, 10)) ?>"><span><?php echo esc_html(substr($visitor->ip, 6, 10)) ?></span></a>
+            </div>
+        <?php else : ?>
+            <span><?php esc_html_e('IP Address', 'wp-statistics'); ?></span>
+            <div>
+                <a href="" title="<?php echo esc_html($visitor->ip) ?>"><span><?php echo esc_html($visitor->ip) ?></span></a>
+            </div>
+        <?php endif; ?>
+        
     </div>
     <div class="wps-visitor__visitors-detail--row">
         <span><?php esc_html_e('Referrer', 'wp-statistics'); ?></span>
         <div>
-            <a href="" title="veronalabs.com" class="wps-link-arrow"><span>veronalabs.com</span></a>
+            <?php echo Referred::get_referrer_link($visitor->referred, '', true) ?>
         </div>
     </div>
     <div class="wps-visitor__visitors-detail--row">
         <span><?php esc_html_e('Browser', 'wp-statistics'); ?></span>
         <div class="wps-browsers__flag">
-            <img src="<?php echo esc_url(WP_STATISTICS_URL . 'assets/images/browser/chrome.svg') ?>" alt="chrome" width="15" height="15">
-            <span title="Chrome">Chrome</span>
+            <img src="<?php echo esc_url(UserAgent::getBrowserLogo($visitor->agent)) ?>" alt="<?php echo esc_attr($visitor->agent) ?>" width="15" height="15">
+            <span title="<?php echo esc_attr($visitor->agent) ?>"><?php echo esc_html($visitor->agent) ?></span>
         </div>
     </div>
     <div class="wps-visitor__visitors-detail--row">
         <span><?php esc_html_e('Operating System', 'wp-statistics'); ?></span>
         <div class="wps-os__flag">
-            <img src="<?php echo esc_url(WP_STATISTICS_URL . 'assets/images/operating-system/windows.svg') ?>" alt="Windows" width="15" height="15">
-            <span title="Windows">Windows</span>
+            <img src="<?php echo esc_url(UserAgent::getPlatformLogo($visitor->platform)) ?>" alt="<?php echo esc_attr($visitor->platform) ?>" width="15" height="15">
+            <span title="<?php echo esc_attr($visitor->platform) ?>"><?php echo esc_html($visitor->platform) ?></span>
         </div>
     </div>
     <div class="wps-visitor__visitors-detail--row">
         <span><?php esc_html_e('Country', 'wp-statistics'); ?></span>
         <div class="wps-country__flag">
-            <img src="<?php echo esc_url(WP_STATISTICS_URL . 'assets/images/flags/af.svg') ?>" alt="France" width="18.81" height="14">
-            <span title="France">France</span>
+            <img src="<?php echo esc_url(Country::flag($visitor->location)) ?>" alt="<?php echo esc_attr(Country::getName($visitor->location)) ?>" width="19" height="15">
+            <span title="<?php echo esc_attr(Country::getName($visitor->location)) ?>"><?php echo esc_html(Country::getName($visitor->location)) ?></span>
         </div>
     </div>
     <div class="wps-visitor__visitors-detail--row">
         <span><?php esc_html_e('City', 'wp-statistics'); ?></span>
         <div class="wps-ellipsis-parent">
-            <span title="Paris"> Paris</span>
+            <?php if ($visitor->city) : ?>
+                <span title="<?php echo esc_attr($visitor->city) ?>"><?php echo esc_attr($visitor->city) ?></span>
+            <?php else : ?>
+                <?php echo Admin_Template::UnknownColumn(); ?>
+            <?php endif; ?>
         </div>
     </div>
     <div class="wps-visitor__visitors-detail--row">
         <span><?php esc_html_e('Region', 'wp-statistics'); ?></span>
         <div class="wps-ellipsis-parent">
-            <span title="Île-de-France">Île-de-France</span>
+            <?php if ($visitor->region) : ?>
+                <span title="<?php echo esc_attr($visitor->region) ?>"><?php echo esc_attr($visitor->region) ?></span>
+            <?php else : ?>
+                <?php echo Admin_Template::UnknownColumn(); ?>
+            <?php endif; ?>
         </div>
     </div>
     <div class="wps-visitor__visitors-detail--row">
         <span><?php esc_html_e('First session ', 'wp-statistics'); ?></span>
         <div class="wps-ellipsis-parent">
-            <span title="Île-de-France">Feb 2, 2024, 10:50 AM</span>
+            <span><?php echo esc_html(date_i18n(Helper::getDefaultDateFormat(true), $visitor->first_hit)) ?></span>
         </div>
     </div>
     <div class="wps-visitor__visitors-detail--row">
         <span><?php esc_html_e('Number of visits', 'wp-statistics'); ?></span>
-        <div>
-            465
-        </div>
+        <div><?php echo esc_html($visitor->hits) ?></div>
     </div>
 </div>

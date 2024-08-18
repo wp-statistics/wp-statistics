@@ -65,4 +65,17 @@ class VisitorsDataProvider
             'total' => $this->visitorsModel->countVisitors($this->args)
         ];
     }
+
+    public function getVisitorData()
+    {
+        $visitorInfo    = $this->visitorsModel->getVisitorData($this->args);
+        $userInfo       = !empty($visitorInfo->user_id) ? new \WP_User($visitorInfo->user_id) : [];
+        $visitorJourney = $this->visitorsModel->getVisitorJourney($this->args);
+
+        return [
+            'visitor_info'      => $visitorInfo,
+            'visitor_journey'   => $visitorJourney,
+            'user_info'         => $userInfo
+        ];
+    }
 }
