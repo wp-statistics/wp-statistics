@@ -1,4 +1,4 @@
-if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.request_params.page === "visitors") {
+if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.request_params.page === "visitors"  || wps_js.global.request_params.page === "visitors-report") {
 
     // TickBox
     jQuery(document).on('click', "div#visitors-filter", function (e) {
@@ -170,6 +170,22 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         }, 500);
     }
 
+    // Add Traffic Trends chart
+    if (document.getElementById('trafficTrendsChart')) {
+        const data = {
+            data:{
+                labels: ['August 2', 'August 3', 'August 4', 'August 5', 'August 6', 'August 7', 'August 8', 'August 9', 'August 10', 'August 11', 'August 12', 'August 13', 'August 14', 'August 15', 'August 16'],
+                views: [5, 20, 19, 8, 3, 30, 10, 15, 2, 13, 6, 18, 8, 7, 14],
+                visitors: [13, 49, 42, 27, 17, 18, 19, 20, 0, 22, 23, 24, 0, 0, 0]
+            },
+            previousData: {
+                labels: ['March 2', 'March 3', 'March 4', 'March 5', 'March 6', 'March 7', 'March 8', 'March 9', 'March 10', 'March 11', 'March 12', 'March 13', 'March 14', 'March 15', 'March 16'],
+                views: [ 24, 0, 0, 0, 3, 17, 18, 19, 20, 0, 6, 18, 23, 20, 13],
+                visitors: [23, 20, 13, 10, 9, 4, 0, 5, 16, 25, 8, 18, 30, 2, 8]
+            }
+        };
+        wps_js.new_line_chart(data, 'trafficTrendsChart', null);
+    }
 }
 
 // When close TickBox

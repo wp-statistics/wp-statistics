@@ -249,6 +249,20 @@
 
       &.wps-pd-l {
         padding-left: 24px !important;
+
+        .wps-order {
+          display: flex;
+          gap: 6px;
+          align-items: center;
+
+          &:after {
+            content: '';
+            background: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAiIGhlaWdodD0iMTAiIHZpZXdCb3g9IjAgMCAxMCAxMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGcgY2xpcC1wYXRoPSJ1cmwoI2NsaXAwXzE0OTE4XzI0MTYwKSI+CjxwYXRoIGQ9Ik01LjUyMDg4IDcuMTcxNDFMOC4zMTQ2MyA0LjM3NzY2TDkuMDUxMiA1LjExNDIyTDUuMDAwMDUgOS4xNjUzNkwwLjk0ODkxNCA1LjExNDIyTDEuNjg1NDkgNC4zNzc2Nkw0LjQ3OTIyIDcuMTcxNDFWMC44MzIwMzFINS41MjA4OFY3LjE3MTQxWiIgZmlsbD0iIzU2NTg1QSIvPgo8L2c+CjxkZWZzPgo8Y2xpcFBhdGggaWQ9ImNsaXAwXzE0OTE4XzI0MTYwIj4KPHJlY3Qgd2lkdGg9IjEwIiBoZWlnaHQ9IjEwIiBmaWxsPSJ3aGl0ZSIvPgo8L2NsaXBQYXRoPgo8L2RlZnM+Cjwvc3ZnPgo=") center center no-repeat;
+            width: 10px;
+            height: 10px;
+            display: inline-flex;
+          }
+        }
       }
 
       a {
@@ -334,10 +348,40 @@
         }
       }
 
-
       &.wps-pd-l {
         padding-left: 24px !important;
+      }
 
+      .wps-table-ellipsis--name {
+        display: flex !important;
+        align-items: center;
+
+        span {
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          max-width: 200px;
+          font-size: 13px;
+          font-weight: 400;
+          line-height: 15.23px;
+          color: #0C0C0D;
+        }
+      }
+
+      .wps-pages-image, .wps-table-ellipsis--name svg, .wps-avatar {
+        width: 27px;
+        height: 27px;
+        border-radius: 2px;
+        margin-right: 8px;
+        max-width: 27px;
+
+        .rtl & {
+          margin-left: 8px;
+        }
+      }
+
+      .wps-avatar {
+        border-radius: 50%;
       }
 
       .wps-table-ellipsis--name {
@@ -441,13 +485,117 @@
             }
           }
         }
+<<<<<<< HEAD
+=======
+
+      }
+
+      .wps-browsers__flags {
+        padding: 0;
+        margin: 0;
+        display: flex;
+        gap: 12px;
+        align-items: center;
+
+        .wps-browsers__flag {
+          margin-bottom: 0;
+
+          a {
+            display: block;
+            height: 15px;
+          }
+
+          img {
+            width: 15px;
+            height: 15px;
+          }
+        }
+      }
+
+      .wps-country-flag {
+        padding: 0;
+        margin: 0;
+        display: flex;
+        gap: 6px;
+        align-items: center;
+
+        img {
+          width: 18.81px;
+          height: 14px;
+          border-radius: 2px;
+        }
+
+        span {
+          font-size: 13px;
+          font-weight: 400;
+          line-height: 15.23px;
+          color: #0C0C0D;
+        }
+      }
+
+      .wps-link-arrow {
+        display: flex !important;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 8px;
+        max-width: 150px;
+        span {
+          color: #404bf2 !important;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          max-width: calc(100% - 19px);
+        }
+
+        &:after {
+          content: '';
+          background: url("data:image/svg+xml;base64,Cjxzdmcgd2lkdGg9IjEzIiBoZWlnaHQ9IjEzIiB2aWV3Qm94PSIwIDAgMTMgMTMiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik01LjQxNjY3IDMuMjVWNC4zMzMzM0gyLjcwODMzVjEwLjI5MTdIOC42NjY2N1Y3LjU4MzMzSDkuNzVWMTAuODMzM0M5Ljc1IDExLjEzMjUgOS41MDc1IDExLjM3NSA5LjIwODMzIDExLjM3NUgyLjE2NjY3QzEuODY3NTEgMTEuMzc1IDEuNjI1IDExLjEzMjUgMS42MjUgMTAuODMzM1YzLjc5MTY3QzEuNjI1IDMuNDkyNTIgMS44Njc1MSAzLjI1IDIuMTY2NjcgMy4yNUg1LjQxNjY3Wk0xMS4zNzUgMS42MjVWNS45NTgzM0gxMC4yOTE3TDEwLjI5MTYgMy40NzM3MUw2LjA3MDUxIDcuNjk1NTFMNS4zMDQ0OCA2LjkyOTQ5TDkuNTI1MTUgMi43MDgzM0g3LjA0MTY3VjEuNjI1SDExLjM3NVoiIGZpbGw9IiM0MDRCRjIiLz4KPC9zdmc+Cg==") center center no-repeat;
+          width: 13px;
+          height: 13px;
+          display: inline-flex;
+          .rtl &{
+            transform: rotateY(180deg);
+          }
+        }
+
+        &:hover {
+          span {
+            color: #3c4043 !important
+          }
+          &:after{
+            filter: grayscale(1);
+          }
+        }
+      }
+
+      .wps-tooltip_templates {
+        display: none;
+>>>>>>> release-v14.10-implement-visitor-report
       }
 
       &:last-child:not(.start) {
         text-align: right !important;
+        padding-right: 16px;
 
+        @media screen and (min-width: 768px) {
+          padding-right: 32px;
+        }
+
+        .wps-link-arrow{
+          justify-content: flex-end;
+          float: right;
+        }
         .rtl & {
           text-align: left !important;
+          padding-left: 16px;
+
+          @media screen and (min-width: 768px) {
+            padding-left: 32px;
+          }
+
+          .wps-link-arrow{
+             float: left;
+          }
         }
       }
 
