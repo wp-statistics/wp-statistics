@@ -317,11 +317,13 @@ wps_js.horizontal_bar = function (tag_id, labels, data , imageUrls) {
             itemDiv.classList.add('wps-horizontal-bar__item');
             let labelImageDiv = document.createElement('div');
             labelImageDiv.classList.add('wps-horizontal-bar__label-image-container');
-            let img = document.createElement('img');
-            img.src = imageUrls[i];
-            img.alt = labels[i];
-            img.classList.add('wps-horizontal-bar__image');
-            labelImageDiv.appendChild(img);
+            if(imageUrls && imageUrls[i] && imageUrls[i] !== 'undefined'){
+                let img = document.createElement('img');
+                img.src = imageUrls[i];
+                img.alt = labels[i];
+                img.classList.add('wps-horizontal-bar__image');
+                labelImageDiv.appendChild(img);
+            }
             let labelDiv = document.createElement('div');
             labelDiv.innerHTML = labels[i];
             labelDiv.classList.add('wps-horizontal-bar__label');
@@ -534,6 +536,14 @@ wps_js.no_results = function () {
     return '<div class="o-wrap o-wrap--no-data wps-center">' + wps_js._('no_result') + '</div>';
 };
 
+wps_js.hex_to_rgba = function (hex, opacity) {
+    hex = hex.replace('#', '');
+    let hex_to_rgba_r = parseInt(hex.substring(0, 2), 16);
+    let hex_to_rgba_g = parseInt(hex.substring(2, 4), 16);
+    let hex_to_rgba_b = parseInt(hex.substring(4, 6), 16);
+    return `rgba(${hex_to_rgba_r}, ${hex_to_rgba_g}, ${hex_to_rgba_b}, ${opacity})`;
+}
+
 wps_js.new_line_chart = function (data, tag_id, newOptions) {
     // Define the colors
     const colors = ['#3288D7', '#7362BF', '#27A765', '#8AC3D0'];
@@ -553,7 +563,15 @@ wps_js.new_line_chart = function (data, tag_id, newOptions) {
                 backgroundColor: colors[index - 1],
                 fill: false,
                 yAxisID: 'y',
-                pointRadius: 0
+                borderWidth: 2,
+                pointRadius: 0,
+                pointBorderColor: '#fff',
+                pointBackgroundColor:colors[index - 1],
+                pointBorderWidth: 2,
+                hoverPointRadius: 6,
+                hoverPointBorderColor: '#fff',
+                hoverPointBackgroundColor: colors[index - 1],
+                hoverPointBorderWidth: 4
             });
 
             // Previous data dataset
@@ -562,12 +580,21 @@ wps_js.new_line_chart = function (data, tag_id, newOptions) {
                     type: 'line',
                     label: `${key} (Previous)`,
                     data: data.previousData[key],
-                    borderColor: colors[index - 1],
+                    borderColor: wps_js.hex_to_rgba(colors[index - 1], 0.4),
+                    hoverBorderColor: colors[index - 1],
                     backgroundColor: colors[index - 1],
                     fill: false,
                     yAxisID: 'y',
+                    borderWidth: 1,
+                    borderDash: [5, 5],
                     pointRadius: 0,
-                    borderDash: [5, 5],  // Dash line
+                    pointBorderColor:'#fff',
+                    pointBackgroundColor:  colors[index - 1],
+                    pointBorderWidth: 2,
+                    hoverPointRadius: 6,
+                    hoverPointBorderColor: '#fff',
+                    hoverPointBackgroundColor: colors[index - 1],
+                    hoverPointBorderWidth: 4
                 });
             }
         }
@@ -617,6 +644,11 @@ wps_js.new_line_chart = function (data, tag_id, newOptions) {
                 const isPrevious = dataset.label.includes('(Previous)');
                 const previousDataset = datasets.find(ds => ds.label === `${dataset.label} (Previous)`);
                 const previousValue = data.previousData[dataset.label.replace(' (Previous)', '')]?.[dataIndex];
+
+                if (isPrevious) {
+                    dataset.borderColor = colors[index - 1];
+                }
+
                 if (!isPrevious) {
                     innerHtml += `
                 <div class="current-data">
@@ -653,23 +685,52 @@ wps_js.new_line_chart = function (data, tag_id, newOptions) {
             // Calculate tooltip position
             const tooltipWidth = tooltipEl.offsetWidth;
             const tooltipHeight = tooltipEl.offsetHeight;
-            let tooltipX = chartLeft + caretX;
-            let tooltipY = chartTop + caretY - tooltipHeight;
-            if (tooltipX + tooltipWidth > chartLeft + chartWidth) {
-                tooltipX = chartLeft + chartWidth - tooltipWidth;
+
+            const margin = 16;
+            // Default tooltip position to the right of the point
+            let tooltipX = chartLeft + caretX + margin;
+            let tooltipY = chartTop + caretY - tooltipHeight / 2;
+
+            // Check if tooltip exceeds right boundary
+            if (tooltipX + tooltipWidth + margin > chartLeft + chartWidth) {
+                // Not enough space on the right, position to the left
+                tooltipX = chartLeft + caretX - tooltipWidth - margin;
             }
-            if (tooltipX < chartLeft) {
-                tooltipX = chartLeft;
+
+            // Ensure tooltip does not overflow horizontally
+            if (tooltipX < chartLeft + margin) {
+                tooltipX = chartLeft + margin;
             }
-            if (tooltipY < chartTop) {
-                tooltipY = chartTop;
+
+            // Ensure tooltip does not overflow vertically
+            if (tooltipY < chartTop + margin) {
+                tooltipY = chartTop + margin;
             }
-            if (tooltipY + tooltipHeight > chartTop + chartHeight) {
-                tooltipY = chartTop + chartHeight - tooltipHeight;
+            if (tooltipY + tooltipHeight + margin > chartTop + chartHeight) {
+                tooltipY = chartTop + chartHeight - tooltipHeight - margin;
             }
             tooltipEl.style.opacity = 1;
             tooltipEl.style.left = tooltipX + 'px';
             tooltipEl.style.top = tooltipY + 'px';
+        }
+    };
+
+    // Custom plugin definition
+    const drawVerticalLinePlugin = {
+        id: 'drawVerticalLine',
+        beforeDatasetDraw(chart) {
+            const { ctx, scales: { x, y }, tooltip, chartArea: { top, bottom } } = chart;
+            if (tooltip._active[0]) {
+                const xValue = tooltip._active[0].element.x;
+                ctx.beginPath();
+                ctx.strokeStyle = '#A9AAAE';
+                ctx.lineWidth = 1;
+                ctx.setLineDash([6, 6]);
+                ctx.moveTo(xValue, top);
+                ctx.lineTo(xValue, bottom);
+                ctx.stroke();
+                ctx.setLineDash([]);
+            }
         }
     };
 
@@ -686,17 +747,13 @@ wps_js.new_line_chart = function (data, tag_id, newOptions) {
                 enabled: false,
                 external: externalTooltipHandler,
                 callbacks: {
-                    title: (tooltipItems) => {
-                        return tooltipItems[0].label;
-                    },
-                    label: (tooltipItem) => {
-                        const index = tooltipItem.dataIndex;
-                    }
-
+                    title: (tooltipItems) => tooltipItems[0].label,
+                    label: (tooltipItem) => tooltipItem.formattedValue
                 }
-            }
+            },
+            drawVerticalLine: drawVerticalLinePlugin
         },
-        scales: {
+         scales: {
             x: {
                 offset: data.data.labels.length <= 1,
                 min: 0,
@@ -714,8 +771,12 @@ wps_js.new_line_chart = function (data, tag_id, newOptions) {
                     align: 'inner',
                     maxTicksLimit: 9,
                     fontColor: '#898A8E',
+                    fontStyle : 'italic',
+                    fontWeight : 'lighter ',
                     fontSize: 13,
                     padding: 8,
+                    fontFamily : '"Roboto",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif',
+                    lineHeight:15
                  }
             },
             y: {
@@ -724,7 +785,11 @@ wps_js.new_line_chart = function (data, tag_id, newOptions) {
                     maxTicksLimit: 7,
                     fontColor: '#898A8E',
                     fontSize: 13,
-                    padding: 8
+                    fontStyle : 'italic',
+                    fontFamily : '"Roboto",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif',
+                    fontWeight : 'lighter ',
+                    padding: 8,
+                    lineHeight:15
                 },
                 border: {
                     color: 'transparent',
@@ -744,7 +809,7 @@ wps_js.new_line_chart = function (data, tag_id, newOptions) {
                     display: false,
                 }
             }
-        }
+        },
     };
     // Merge default options with user options
     const options = Object.assign({}, defaultOptions, newOptions);
@@ -761,7 +826,6 @@ wps_js.new_line_chart = function (data, tag_id, newOptions) {
         const legendContainer = document.querySelector('.wps-postbox-chart--items');
         if (legendContainer) {
             legendContainer.innerHTML = '';
-
             datasets.forEach((dataset, index) => {
                 const isPrevious = dataset.label.includes('(Previous)');
                 if (!isPrevious) {

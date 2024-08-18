@@ -55,6 +55,7 @@ wps_js.hits_meta_box = {
         const visitsKey = wps_js._('visits');
         const visitorsKey = wps_js._('visitors');
 
+         // Todo dynamic previous data value
         if (document.getElementById(tag_id)) {
              const data = {
                 data:{
@@ -64,8 +65,8 @@ wps_js.hits_meta_box = {
                 },
                 previousData: {
                     labels: params['date'],
-                    [visitsKey]: params['visitors'],
-                    [visitorsKey]: params['visits']
+                    [visitsKey]: params['visits'].map(item => item + 25),
+                    [visitorsKey]: params['visitors'].map(item => item + 24)
                 }
             };
             wps_js.new_line_chart(data, tag_id, null);

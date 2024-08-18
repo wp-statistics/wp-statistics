@@ -41,11 +41,11 @@ wps_js.browsers_meta_box = {
         // Show Chart
         // wps_js.pie_chart(wps_js.chart_id('browsers'), args['browsers_name'], data, label_callback, title_callback);
 
+        //Todo Add browser images
         const image_urls = [
             'https://via.placeholder.com/30',
             'https://via.placeholder.com/30',
-            'https://via.placeholder.com/30'
-        ];
+         ];
 
         wps_js.horizontal_bar(wps_js.chart_id('browsers'), args['browsers_name'], data ,image_urls );
 

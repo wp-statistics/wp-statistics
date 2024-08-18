@@ -593,13 +593,15 @@
       .wps-horizontal-bar__label-image-container {
         .wps-horizontal-bar__label {
           font-weight: 500;
-        }
+         }
       }
 
       .wps-horizontal-bar__data span:first-child {
         color: #0C0C0D;
         font-weight: 500;
-      }
+        font-size: 13px;
+        line-height: 15.23px;
+       }
     }
 
     .wps-horizontal-bar__background {
@@ -628,12 +630,14 @@
       font-size: 14px;
       font-weight: 400;
       line-height: 16.41px;
-      color: #65686A;
+       color: #65686A;
 
       &:last-child {
         color: #0C0C0D;
         font-weight: 500;
-      }
+        font-size: 13px;
+        line-height: 15.23px;
+       }
     }
   }
 
@@ -659,11 +663,18 @@
   }
 }
 
-#wp-statistics-browsers-widget{
-  .o-wrap{
+#wp-statistics-browsers-widget  ,
+#wp-statistics-devices-widget{
+  .o-wrap {
     padding: 0 24px;
   }
 }
-.wps-line-through{
+
+.wps-line-through {
   text-decoration: line-through;
+  color: #A9AAAE !important;
+
+  span.wps-postbox-chart--item--color {
+    background: #DADCE0 !important;
+  }
 }
