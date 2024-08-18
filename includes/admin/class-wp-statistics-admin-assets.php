@@ -52,7 +52,7 @@ class Admin_Assets
     {
         add_action('admin_enqueue_scripts', array($this, 'admin_styles'), 999);
         add_action('admin_enqueue_scripts', array($this, 'admin_scripts'), 999);
-        add_action('enqueue_block_editor_assets', [$this, 'enqueueSidebarPanelData']);
+        add_action('enqueue_block_editor_assets', [$this, 'enqueueSidebarPanelAssets']);
 
         $this->initFeedback();
     }
@@ -307,13 +307,13 @@ class Admin_Assets
     }
 
     /**
-     * Send necessary data to "Statistics - Summary" panel in the Gutenberg editor sidebar.
+     * Enqueues assets for "Statistics - Summary" panel in the Gutenberg editor sidebar.
      *
      * @return	void
      *
      * @hooked	action: `enqueue_block_editor_assets` - 10
      */
-    public function enqueueSidebarPanelData()
+    public function enqueueSidebarPanelAssets()
     {
         global $pagenow;
         if ($pagenow === 'post-new.php') {
@@ -331,6 +331,9 @@ class Admin_Assets
         }
 
         Assets::script('editor-sidebar', 'blocks/index.js', ['wp-plugins', 'wp-editor'], $postSummary);
+
+        $styleFileName = is_rtl() ? 'style-index-rtl.css' : 'style-index.css';
+        Assets::style('editor-sidebar', "blocks/$styleFileName");
     }
 
     /**
