@@ -18,10 +18,10 @@ class VisitorsManager
      */
     public function addMenuItem($items)
     {
-        $items['visitors-report'] = [
+        $items['visitors'] = [
             'sub'       => 'overview',
-            'title'     => esc_html__('Visitors Report', 'wp-statistics'),
-            'page_url'  => 'visitors-report',
+            'title'     => esc_html__('Visitors', 'wp-statistics'),
+            'page_url'  => 'visitors',
             'callback'  => VisitorsPage::class,
             'priority'  => 20,
         ];
