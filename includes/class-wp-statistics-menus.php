@@ -20,7 +20,6 @@ class Menus
         'exclusions'         => 'exclusions',
         'referrers'          => 'referrers',
         'searches'           => 'searches',
-        'top-visitors'       => 'top_visitors',
         'optimization'       => 'optimization',
         'settings'           => 'settings',
         'plugins'            => 'plugins',
@@ -182,13 +181,6 @@ class Menus
                 'page_url' => 'searches',
                 'method'   => 'searches',
                 'priority' => 70,
-            ),
-            'top.visitors' => array(
-                'sub'      => 'overview',
-                'title'    => __('Top Visitors', 'wp-statistics'),
-                'page_url' => 'top-visitors',
-                'method'   => 'top_visitors',
-                'priority' => 80,
             ),
             'plugins'      => array(
                 'sub'      => 'overview',
