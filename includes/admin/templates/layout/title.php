@@ -46,10 +46,10 @@ use WP_Statistics\Utils\Request;
         </form>
     <?php endif ?>
 
-    <?php if (isset($SearchBoxTitle)): ?>
+    <?php if (isset($searchBoxTitle)): ?>
         <div class="wps-head-filters">
             <div class="wps-head-filters--search-box">
-                <input type="text" class="wps-head-filters--search-input" placeholder="<?php echo esc_attr($SearchBoxTitle); ?>">
+                <input type="text" class="wps-head-filters--search-input" placeholder="<?php echo esc_attr($searchBoxTitle); ?>">
             </div>
 
         </div>

@@ -1,7 +1,5 @@
 <?php
-
 use WP_Statistics\Components\View;
-
 ?>
 <div class="postbox-container-holder postbox-container--two-col postbox-container--visitor">
     <div class="postbox-container postbox-container--first-col">
