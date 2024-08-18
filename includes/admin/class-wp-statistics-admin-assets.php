@@ -430,6 +430,7 @@ class Admin_Assets
             'enable_now'                   => __('Enable Now', 'wp-statistics'),
             'receive_weekly_email_reports' => __('Receive Weekly Email Reports'),
             'close'                        => __('Close'),
+            'previous_period'                        => __('Previous period'),
             'start_of_week'                => get_option('start_of_week', 0)
         );
 
