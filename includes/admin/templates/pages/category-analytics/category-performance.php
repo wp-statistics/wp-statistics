@@ -96,7 +96,6 @@ use WP_STATISTICS\Helper;
         <?php
         $performance = [
             'title'       => esc_html__('Performance', 'wp-statistics'),
-            'tooltip'     => esc_html__('Shows the number of views, visitors, and published contents with this taxonomy over the last 15 days.', 'wp-statistics'),
             'type'        => 'category',
             'description' => esc_html__('Last 15 Days', 'wp-statistics'),
             'data'        => $data['performance']

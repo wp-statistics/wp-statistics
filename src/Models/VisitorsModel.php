@@ -288,20 +288,76 @@ class VisitorsModel extends BaseModel
             'country'     => '',
             'query_param' => '',
             'taxonomy'    => '',
-            'term'        => ''
+            'term'        => '',
+            'order_by'    => '',
+            'order'       => '',
+            'page'        => '',
+            'per_page'    => '',
+            'page_info'   => false,
+            'user_info'   => false
         ]);
 
-        $query = Query::select([
+        $additionalFields = [];
+
+        // If page info is true, get last page the visitor has visited
+        if ($args['page_info'] === true) {
+
+            $lastHit = Query::select([
+                'visitor_id',
+                'MAX(date) as date'
+            ])
+                ->from('visitor_relationships')
+                ->groupBy('visitor_id')
+                ->getQuery();
+    
+            $subQuery = Query::select([
+                'visitor_relationships.visitor_id',
+                'page_id',
+                'date'
+            ])
+                ->from('visitor_relationships')
+                ->whereRaw("(visitor_id, date) IN ($lastHit)")
+                ->groupBy('visitor_id')
+                ->getQuery();
+
+            $additionalFields[] = 'last_hit.page_id';
+            $additionalFields[] = 'last_hit.date';
+        }
+
+        if ($args['user_info'] === true) {
+            $additionalFields[] = 'users.display_name';
+            $additionalFields[] = 'users.user_email';
+        }
+
+        $query = Query::select(array_merge([
             'visitor.ID',
             'visitor.platform',
             'visitor.agent',
             'visitor.model',
             'visitor.device',
-            'visitor.location'
-        ])
+            'visitor.location',
+            'visitor.user_id',
+            'visitor.region',
+            'visitor.city',
+            'visitor.hits',
+            'visitor.referred'
+        ], $additionalFields))
             ->from('visitor')
+            ->perPage($args['page'], $args['per_page'])
+            ->orderBy($args['order_by'], $args['order'])
             ->groupBy('visitor.ID')
             ->bypassCache($bypassCache);
+
+        // If last page is true, get last page the visitor has visited
+        if ($args['page_info'] === true) {
+            $query
+                ->joinQuery($subQuery, ['visitor.ID', 'last_hit.visitor_id'], 'last_hit')
+                ->whereDate('last_hit.date', $args['date']);
+        }
+
+        if ($args['user_info']) {
+            $query->join('users', ['visitor.user_id', 'users.ID'], [], 'LEFT');
+        }
 
         $filteredArgs = array_filter($args);
 

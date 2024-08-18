@@ -18,12 +18,8 @@ class Menus
     public static $pages = array(
         'overview'           => 'overview',
         'exclusions'         => 'exclusions',
-        'hits'               => 'hits',
-        'online'             => 'online',
         'referrers'          => 'referrers',
         'searches'           => 'searches',
-        'top-visitors'       => 'top_visitors',
-        'visitors'           => 'visitors',
         'optimization'       => 'optimization',
         'settings'           => 'settings',
         'plugins'            => 'plugins',
@@ -34,6 +30,7 @@ class Menus
         'devices'            => 'devices',
         'category-analytics' => 'category-analytics',
         'pages'              => 'pages',
+        'visitors'           => 'visitors'
     );
 
     /**
@@ -172,28 +169,6 @@ class Menus
                 'page_url' => 'overview',
                 'priority' => 20,
             ),
-            'online'       => array(
-                'require'  => array('useronline' => true),
-                'sub'      => 'overview',
-                'title'    => __('Online', 'wp-statistics'),
-                'method'   => 'online',
-                'page_url' => 'online',
-                'priority' => 30,
-            ),
-            'hits'         => array(
-                'sub'      => 'overview',
-                'title'    => __('Views', 'wp-statistics'),
-                'page_url' => 'hits',
-                'method'   => 'hits',
-                'priority' => 40,
-            ),
-            'visitors'     => array(
-                'sub'      => 'overview',
-                'title'    => __('Visitors', 'wp-statistics'),
-                'page_url' => 'visitors',
-                'method'   => 'visitors',
-                'priority' => 50,
-            ),
             'referrers'    => array(
                 'sub'      => 'overview',
                 'title'    => __('Referrers', 'wp-statistics'),
@@ -207,13 +182,6 @@ class Menus
                 'page_url' => 'searches',
                 'method'   => 'searches',
                 'priority' => 70,
-            ),
-            'top.visitors' => array(
-                'sub'      => 'overview',
-                'title'    => __('Top Visitors', 'wp-statistics'),
-                'page_url' => 'top-visitors',
-                'method'   => 'top_visitors',
-                'priority' => 80,
             ),
             'plugins'      => array(
                 'sub'      => 'overview',

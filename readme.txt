@@ -136,6 +136,8 @@ Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest versio
 == Changelog ==
 = 14.10 - xx.xx.2024 =
 * New: Date filter value is stored globally in usermeta now, and could be used across pages.
+* New: Redesigned and merged Visitors, Views, Online and Top Visitor reports into one single Visitors page.
+* New: New Single Visitor page with detailed info about the visitor. 
 * Enhancement: Merged Contents, Category Pages, and Author Pages reports into one single Pages page.
 
 For more information about the major update, please [visit our blog post](https://wp-statistics.com/?p=15915) or follow [@wp_statistics](https://twitter.com/wp_statistics) on Twitter
