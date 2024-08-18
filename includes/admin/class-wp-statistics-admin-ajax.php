@@ -440,10 +440,9 @@ class Ajax
         if (Helper::is_request('ajax') and isset($_REQUEST['page'])) {
 
             // Run only Visitors Page
-            // @todo Add a condition for new visitor page
-            // if ($_REQUEST['page'] != "visitors") {
-            //     exit;
-            // }
+            if ($_REQUEST['page'] != "visitors") {
+                exit;
+            }
 
             // Check Refer Ajax
             check_ajax_referer('wp_rest', 'wps_nonce');
