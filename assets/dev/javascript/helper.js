@@ -42,14 +42,16 @@ const wpsDropdown = jQuery('.wps-dropdown');
 
 if (wpsSelect2.length) {
     const wpsFilterPage = jQuery('.wps-filter-page');
+    const wpsFilterVisitor = jQuery('.wps-filter-visitor');
     var dirValue = wpsBody.hasClass('rtl') ? 'rtl' : 'ltr';
 
     wpsSelect2.select2({
-        dropdownParent: $('.wps-filter-page'),
-        dir: dirValue,
+        dropdownParent: wpsFilterPage.length ?  $('.wps-filter-page') : $('.wps-filter-visitor'),
+        dir:dirValue,
         dropdownAutoWidth: true,
         dropdownCssClass: 'wps-select2-filter-dropdown'
     });
+
 
     wpsSelect2.on('select2:open', function () {
         wpsDropdown.addClass('active');
@@ -101,13 +103,18 @@ if (wpsSelect2.length) {
                     if (wps_js.isset(wps_js.global, 'request_params', 'pid')) {
                         query.post_id = wps_js.global.request_params.pid;
                     }
-
                     return query;
                 }
             }
         });
 
         wpsFilterPage.on('click', function () {
+            wpsSelect2.select2('open');
+        });
+    }
+
+    if (wpsFilterVisitor.length) {
+        wpsFilterVisitor.on('click', function () {
             wpsSelect2.select2('open');
         });
     }

@@ -397,6 +397,78 @@ class VisitorsModel extends BaseModel
         return $result ? $result : [];
     }
 
+    public function getVisitorData($args = [], $bypassCache = false)
+    {
+        $args = $this->parseArgs($args, [
+            'visitor_id' => '',
+        ]);
+
+        $firstHit = Query::select([
+            'visitor_id',
+            'MIN(date) as date'
+        ])
+            ->from('visitor_relationships')
+            ->groupBy('visitor_id')
+            ->getQuery();
+
+        $subQuery = Query::select([
+            'visitor_relationships.visitor_id',
+            'date'
+        ])
+            ->from('visitor_relationships')
+            ->whereRaw("(visitor_id, date) IN ($firstHit)")
+            ->groupBy('visitor_id')
+            ->getQuery();
+
+        $result = Query::select([
+            'visitor.ID',
+            'visitor.platform',
+            'visitor.agent',
+            'visitor.model',
+            'visitor.device',
+            'visitor.location',
+            'visitor.user_id',
+            'visitor.region',
+            'visitor.city',
+            'visitor.hits',
+            'visitor.referred',
+            'visitor.ip',
+            'users.display_name',
+            'users.user_email',
+            'users.user_login',
+            'users.user_registered',
+            'first_hit.date as first_hit',
+        ])
+            ->from('visitor')
+            ->join('users', ['visitor.user_id', 'users.ID'], [], 'LEFT')
+            ->joinQuery($subQuery, ['visitor.ID', 'first_hit.visitor_id'], 'first_hit')
+            ->where('visitor.ID', '=', $args['visitor_id'])
+            ->bypassCache($bypassCache)
+            ->getRow();
+
+        return $result;
+    }
+
+    public function getVisitorJourney($args, $bypassCache = false)
+    {
+        $args = $this->parseArgs($args, [
+            'visitor_id'    => '',
+            'ignore_date'   => true
+        ]);
+
+        $result = Query::select([
+            'date',
+            'page_id'
+        ])
+            ->from('visitor_relationships')
+            ->where('visitor_relationships.visitor_id', '=', $args['visitor_id'])
+            ->orderBy('date')
+            ->bypassCache($bypassCache)
+            ->getAll();
+
+        return $result;
+    }
+
     public function getVisitorsPlatformData($args, $bypassCache = false)
     {
         $data = $this->getVisitorsData($args, $bypassCache);

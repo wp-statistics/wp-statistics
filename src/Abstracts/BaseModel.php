@@ -49,7 +49,7 @@ abstract class BaseModel
 
     private function parseDateArg($args)
     {
-        if (empty($args['date'])) {
+        if (empty($args['date']) && empty($args['ignore_date'])) {
             $args['date'] = DateRange::retrieve();
         }
 

@@ -2057,28 +2057,6 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
     }
   }
 
-  .wps-head-filters--search-input[type=text] {
-    width: 250px;
-    height: 32px;
-    max-width: 100%;
-    border-radius: 3px;
-    border: none!important;
-    box-shadow: none!important;
-    outline: none!important;
-    font-size: 13px;
-    font-weight: 400;
-    line-height: 24px;
-    padding-right: 0!important;
-    padding-left: 0!important;
-
-    &::placeholder {
-      color: #8F9093
-    }
-
-
-  }
-
-
   input.js-date-range-picker-input {
     height: 0;
     position: absolute !important;
@@ -2866,8 +2844,19 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
     font-weight: 500;
   }
 }
+.wps-filter-visitor{
+  .select2-container{
+    right: 0 !important;
+    left: unset !important;
+  }
+  .select2-dropdown{
+    margin-left: unset !important;
+    margin-right: unset !important;
+    max-width: 100%!important;
+  }
+}
 
-.wps-filter-page {
+.wps-filter-page , .wps-filter-visitor {
 
   .wps-dropdown.active {
     background: #eeeff1;

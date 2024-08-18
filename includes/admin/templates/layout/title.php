@@ -46,16 +46,7 @@ use WP_Statistics\Utils\Request;
         </form>
     <?php endif ?>
 
-    <?php if (isset($searchBoxTitle)): ?>
-        <div class="wps-head-filters">
-            <div class="wps-head-filters--search-box">
-                <input type="text" class="wps-head-filters--search-input" placeholder="<?php echo esc_attr($searchBoxTitle); ?>">
-            </div>
-
-        </div>
-    <?php endif ?>
-
-    <?php if (isset($hasDateRang) || isset($filters) || isset($filter)): ?>
+    <?php if (isset($hasDateRang) || isset($filters) || isset($searchBoxTitle) || isset($filter)): ?>
         <div class="wps-head-filters">
             <?php
             if (!empty($hasDateRang)) {
@@ -74,7 +65,25 @@ use WP_Statistics\Utils\Request;
                     require_once "filters/$filter-filter.php";
                 }
             }
-            ?>
+
+            if (isset($searchBoxTitle)): ?>
+                <div class="wps-filter-visitor wps-head-filters__item loading">
+                    <div class="wps-dropdown">
+                        <label for="wps-page-filter" class="selectedItemLabel"><?php echo esc_attr($searchBoxTitle); ?></label>
+                        <select id="wps-page-filter" class="wps-select2" data-type-show="select2">
+                            <option value="test" >
+                                All
+                            </option>
+                            <option value="test" >
+                                test data
+                            </option>
+                            <option value="tes2t">
+                                test data
+                            </option>
+                        </select>
+                    </div>
+                </div>
+            <?php endif ?>
         </div>
     <?php endif ?>
 </div>

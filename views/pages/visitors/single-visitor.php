@@ -10,13 +10,9 @@ use WP_Statistics\Components\View;
                     <span class="wps-tooltip" title="<?php esc_html_e('Session Details tooltip', 'wp-statistics'); ?>"><i class="wps-tooltip-icon info"></i></span>
                 </h2>
             </div>
-            <?php
-            $session_args = [
-                'data'       => ['test', 'test'],
-            ];
-            View::load("components/session-details", $session_args);
-            ?>
+            <?php View::load("components/session-details", ['visitor' => $data['visitor_info']]); ?>
         </div>
+
         <div class="wps-card">
             <div class="wps-card__title">
                 <h2>
@@ -24,12 +20,7 @@ use WP_Statistics\Components\View;
                     <span class="wps-tooltip" title="<?php esc_html_e('Account Information tooltip', 'wp-statistics'); ?>"><i class="wps-tooltip-icon info"></i></span>
                 </h2>
             </div>
-            <?php
-            $account_info = [
-                'data'       => ['test', 'test'],
-            ];
-            View::load("components/account-information", $account_info);
-            ?>
+            <?php View::load("components/account-information", ['user' => $data['user_info']]); ?>
         </div>
     </div>
     <div class="postbox-container postbox-container--second-col" >
@@ -42,11 +33,11 @@ use WP_Statistics\Components\View;
             </div>
             <div class="wps-card--table__body">
                 <?php
-                $views_args = [
-                    'data'       => ['test', 'test'],
+                $args = [
+                    'data'       => $data['visitor_journey'],
                     'pagination' => isset($pagination) ? $pagination : null
                 ];
-                View::load("components/tables/recent-views", $views_args);
+                View::load("components/tables/recent-views", $args);
                 ?>
             </div>
 
