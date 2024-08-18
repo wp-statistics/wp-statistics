@@ -2416,7 +2416,7 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
         background-color: #196140;
         position: absolute;
         right: 12.75px;
-        top: 16px;
+        top: 16.25px;
         display: inline-block;
       }
 
@@ -2430,6 +2430,7 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
         right: 10px;
         top: 13.5px;
         border-radius: 50%;
+        transform-origin: center center;
         background-color: rgb(25 97 64 / 10%);
         animation: animated_bg_coparison 45s ease infinite;
       }
@@ -3097,89 +3098,9 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
 
 
 @keyframes animated_bg_coparison {
-  0% {
-    transform: scale(1)
-  }
-
-  5% {
-    transform: scale(1.1)
-  }
-
-  5% {
-    transform: scale(1)
-  }
-
-  15% {
-    transform: scale(1.1)
-  }
-
-  20% {
-    transform: scale(1)
-  }
-
-  25% {
-    transform: scale(1.1)
-  }
-
-  30% {
-    transform: scale(1)
-  }
-
-  35% {
-    transform: scale(1.1)
-  }
-
-  40% {
-    transform: scale(1)
-  }
-
-  45% {
-    transform: scale(1.1)
-  }
-
-  50% {
-    transform: scale(1)
-  }
-
-  55% {
-    transform: scale(1.1)
-  }
-
-  60% {
-    transform: scale(1)
-  }
-
-  65% {
-    transform: scale(1.1)
-  }
-
-  70% {
-    transform: scale(1)
-  }
-
-  75% {
-    transform: scale(1.1)
-  }
-
-  80% {
-    transform: scale(1)
-  }
-
-  85% {
-    transform: scale(1.1)
-  }
-
-  90% {
-    transform: scale(1)
-  }
-
-  95% {
-    transform: scale(1.1)
-  }
-
-  100% {
-    transform: scale(1)
-  }
+  0% { transform: scale(1); }
+  5%, 20%, 35%, 50%, 65%, 80%, 95% { transform: scale(1.1); }
+  10%, 25%, 40%, 55%, 70%, 85%, 100% { transform: scale(1); }
 }
 
 .wps-flex-container {
