@@ -209,6 +209,14 @@ class SiteHealthInfo
                     'label' => esc_html__('Purge Data Older Than', 'wp-statistics'),
                     'value' => Option::get('schedule_dbmaint_days') ? Option::get('schedule_dbmaint_days') : __('Not Set', 'wp-statistics'),
                 ],
+                'phpGmpExtension'               => [
+                    'label' => esc_html__('PHP Extension (GMP)', 'wp-statistics'),
+                    'value' => extension_loaded('gmp') ? __('Installed', 'wp-statistics') : __('Not Installed', 'wp-statistics'),
+                ],
+                'phpBcmathExtension'            => [
+                    'label' => esc_html__('PHP Extension (BCMath)', 'wp-statistics'),
+                    'value' => extension_loaded('bcmath') ? __('Installed', 'wp-statistics') : __('Not Installed', 'wp-statistics'),
+                ],
 
                 /**
                  * Add-ons configuration settings.
