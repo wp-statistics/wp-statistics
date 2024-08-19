@@ -42,7 +42,7 @@ class VisitorsModel extends BaseModel
             ->whereDate('visitor_relationships.date', $args['date'])
             ->bypassCache($bypassCache);
 
-            if (!empty($args['agent']) || !empty($args['platform']) || !empty($args['platform']) || !empty($args['user_id']) || !empty($args['ip'])) {
+            if (!empty($args['agent']) || !empty($args['country']) || !empty($args['platform']) || !empty($args['user_id']) || !empty($args['ip'])) {
                 $query
                     ->join('visitor', ['visitor_relationships.visitor_id', 'visitor.ID'])
                     ->where('agent', '=', $args['agent'])
