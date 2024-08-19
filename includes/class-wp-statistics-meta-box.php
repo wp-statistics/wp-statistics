@@ -267,7 +267,7 @@ class Meta_Box
                 'disable_overview'  => apply_filters('wp_statistics_disable_about_widget_overview', false),
             ),
             'post'            => array(
-                'name'              => __('Daily Traffic Trend', 'wp-statistics'),
+                'name'              => __('Statistics - Latest Visitors', 'wp-statistics'),
                 'page_url'          => Menus::admin_url('pages'),
                 'show_on_dashboard' => false,
                 'disable_overview'  => true
