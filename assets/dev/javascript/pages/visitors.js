@@ -1,5 +1,4 @@
-if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.request_params.page === "visitors"  || wps_js.global.request_params.page === "visitors-report") {
-
+if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.request_params.page === "visitors" ) {
     // TickBox
     jQuery(document).on('click', "div#visitors-filter", function (e) {
         e.preventDefault();
