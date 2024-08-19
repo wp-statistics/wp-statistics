@@ -6,6 +6,7 @@ use WP_Statistics\Components\Assets;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Meta_Box;
 use WP_STATISTICS\Option;
+use WP_Statistics\Service\Admin\Charts\ChartDataProvider;
 use WP_STATISTICS\User;
 
 class PostsManager
@@ -163,6 +164,14 @@ class PostsManager
             ];
         }
 
+        // Some settings for the chart
+        $chartDataProvider = new ChartDataProvider();
+        $chartSettings = [
+            'color'  => $chartDataProvider->getChartColor(),
+            'border' => $chartDataProvider->getBorderColor(),
+            'label'  => $chartDataProvider->getTooltipLabel(),
+        ];
+
         return [
             'postId'                     => $post->ID,
             'fromString'                 => $dataProvider->getFromString(),
@@ -176,6 +185,7 @@ class PostsManager
             'thisPeriodTopReferrer'      => $topReferrerAndCountThisPeriod['url'],
             'thisPeriodTopReferrerCount' => $topReferrerAndCountThisPeriod['count'],
             'postChartData'              => $chartData,
+            'postChartSettings'          => $chartSettings,
             'contentAnalyticsUrl'        => $dataProvider->getContentAnalyticsUrl(),
         ];
     }
