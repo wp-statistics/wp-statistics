@@ -123,11 +123,11 @@ class SiteHealthInfo
                 ],
                 'viewStatsInEditor'             => [
                     'label' => esc_html__('View Stats in Editor', 'wp-statistics'),
-                    'value' => Option::get('disable_editor') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
+                    'value' => Option::get('disable_editor') ? __('Disabled', 'wp-statistics') : __('Enable', 'wp-statistics'),
                 ],
                 'viewsColumnInContentList'      => [
                     'label' => esc_html__('Views Column in Content List', 'wp-statistics'),
-                    'value' => Option::get('disable_column') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
+                    'value' => Option::get('disable_column') ? __('Disable', 'wp-statistics') : __('Enable', 'wp-statistics'),
                 ],
                 'viewsColumnInUserList'         => [
                     'label' => esc_html__('Views Column in User List', 'wp-statistics'),
@@ -139,7 +139,7 @@ class SiteHealthInfo
                 ],
                 'wpStatisticsWidgets'           => [
                     'label' => esc_html__('WP Statistics Widgets in the WordPress dashboard', 'wp-statistics'),
-                    'value' => Option::get('disable_dashboard') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
+                    'value' => Option::get('disable_dashboard') ? __('Disable', 'wp-statistics') : __('Enable', 'wp-statistics'),
                 ],
                 'disableInactiveFeatureNotices' => [
                     'label' => esc_html__('Disable Inactive Essential Feature Notices', 'wp-statistics'),
