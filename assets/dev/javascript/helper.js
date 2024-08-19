@@ -114,6 +114,28 @@ if (wpsSelect2.length) {
     }
 
     if (wpsFilterVisitor.length) {
+        wpsSelect2.select2({
+            dropdownParent: $('.wps-filter-visitor'),
+            dir: dirValue,
+            dropdownAutoWidth: true,
+            dropdownCssClass: 'wps-select2-filter-dropdown',
+            ajax: {
+                delay: 500,
+                url: wps_js.global.ajax_url,
+                dataType: 'json',
+                data: function (params) {
+                    const query = {
+                        wps_nonce: wps_js.global.rest_api_nonce,
+                        search: params.term,
+                        action: 'wp_statistics_search_visitors',
+                        paged: params.page || 1
+                    }
+
+                    return query;
+                }
+            }
+        });
+
         wpsFilterVisitor.on('click', function () {
             wpsSelect2.select2('open');
         });

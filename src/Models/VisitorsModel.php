@@ -420,6 +420,36 @@ class VisitorsModel extends BaseModel
         return $result ? $result : [];
     }
 
+    public function searchVisitors($args = [], $bypassCache = false)
+    {
+        $args = $this->parseArgs($args, [
+            'user_id'     => '',
+            'ip'          => '',
+            'username'    => '',
+            'email'       => ''
+        ]);
+
+        $result = Query::select([
+            'visitor.ID',
+            'visitor.user_id',
+            'visitor.ip',
+            'users.display_name',
+            'users.user_email',
+            'users.user_login'
+        ])
+            ->from('visitor')
+            ->join('users', ['visitor.user_id', 'users.ID'], [], 'LEFT')
+            ->where('user_id', 'LIKE', $args['user_id'])
+            ->where('ip', 'LIKE', "%{$args['ip']}%")
+            ->where('user_email', 'LIKE', "%{$args['email']}%")
+            ->where('user_login', 'LIKE', "%{$args['username']}%")
+            ->whereRelation('OR')
+            ->bypassCache($bypassCache)
+            ->getAll();
+
+        return $result ? $result : [];
+    }
+
     public function getVisitorData($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
