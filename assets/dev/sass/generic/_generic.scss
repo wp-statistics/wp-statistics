@@ -589,6 +589,12 @@
     padding: 8px;
     position: relative;
 
+    &:hover{
+         .wps-horizontal-bar__label, .wps-horizontal-bar__data span {
+          font-weight: 500!important;
+        }
+    }
+
     &:first-child {
       .wps-horizontal-bar__label-image-container {
         .wps-horizontal-bar__label {

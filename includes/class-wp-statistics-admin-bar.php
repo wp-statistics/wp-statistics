@@ -21,18 +21,12 @@ class AdminBar
     /**
      * Check Show WP Statistics Admin Bar
      *
-     * @deprecated  14.9    Use `\WP_STATISTICS\Helper::isAdminBarShowing()` instead.
+     * @deprecated 14.9 Use Helper::isAdminBarShowing() instead
      */
     public static function show_admin_bar()
     {
-        /**
-         * Show/Hide WP Statistics Admin Bar
-         *
-         * @example add_filter('wp_statistics_show_admin_bar', function(){ return false; });
-         */
-        return (has_filter('wp_statistics_show_admin_bar')) ? apply_filters('wp_statistics_show_admin_bar', true) : Option::get('menu_bar');
+        return Helper::isAdminBarShowing();
     }
-
 
     /**
      * Show WordPress Admin Bar
@@ -108,7 +102,7 @@ class AdminBar
                 $pageLink = wp_make_link_relative($pageLink);
 
                 $historicalModel = new HistoricalModel();
-                $hit_number     += $historicalModel->countUris(['page_id' => $object_id, 'uri' => $pageLink]);
+                $hit_number      += $historicalModel->countUris(['page_id' => $object_id, 'uri' => $pageLink]);
 
                 $menu_title .= sprintf('%s: %s', $view_title, number_format($hit_number));
                 $menu_title .= ' - ';

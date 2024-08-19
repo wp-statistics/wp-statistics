@@ -7,6 +7,7 @@ use WP_STATISTICS\Helper;
 use WP_STATISTICS\Meta_Box;
 use WP_STATISTICS\Option;
 use WP_Statistics\Service\Admin\Charts\ChartDataProvider;
+use WP_STATISTICS\TimeZone;
 use WP_STATISTICS\User;
 
 class PostsManager
@@ -153,6 +154,9 @@ class PostsManager
         $chartData    = [];
         $wpDateFormat = get_option('date_format');
 
+        // Set date range for charts based on MiniChart's `date_range` option
+        $dataProvider->setFrom(TimeZone::getTimeAgo(Option::getByAddon('date_range', 'mini_chart', '14')));
+
         // Fill `$dailyHits` based on MiniChart's `metric` option
         $dailyHits = Helper::checkMiniChartOption('metric', 'visitors', 'visitors') ? $dataProvider->getDailyVisitors() : $dataProvider->getDailyViews();
 
@@ -176,6 +180,9 @@ class PostsManager
             'border' => $chartDataProvider->getBorderColor(),
             'label'  => $chartDataProvider->getTooltipLabel(),
         ];
+
+        // Reset date range because text summary displays info for the past week
+        $dataProvider->setFrom(TimeZone::getTimeAgo(7));
 
         return [
             'postId'                     => $post->ID,

@@ -43,16 +43,26 @@ class PostSummaryDataProvider
         $this->postId   = $post->ID;
         $this->fromDate = TimeZone::getTimeAgo(7);
         $this->toDate   = TimeZone::getTimeAgo();
-        $this->args     = [
+        $this->setArgs();
+
+        $this->visitorsModel = new VisitorsModel();
+        $this->viewsModel    = new ViewsModel();
+    }
+
+    /**
+     * Sets/Resets `$args` array based on the class attributes.
+     *
+     * @return  void
+     */
+    private function setArgs()
+    {
+        $this->args = [
             'post_id' => $this->postId,
             'date'    => [
                 'from' => $this->fromDate,
                 'to'   => $this->toDate,
             ],
         ];
-
-        $this->visitorsModel = new VisitorsModel();
-        $this->viewsModel    = new ViewsModel();
     }
 
     /**
@@ -66,6 +76,7 @@ class PostSummaryDataProvider
     {
         if (TimeZone::isValidDate($from)) {
             $this->fromDate = $from;
+            $this->setArgs();
         }
     }
 
@@ -80,6 +91,7 @@ class PostSummaryDataProvider
     {
         if (TimeZone::isValidDate($to)) {
             $this->toDate = $to;
+            $this->setArgs();
         }
     }
 
@@ -142,35 +154,23 @@ class PostSummaryDataProvider
     }
 
     /**
-     * Returns daily views for this post for the past 30 days.
+     * Returns daily views for this post for the past x days.
      *
      * @return  array   Format: `[['views' => {COUNT}, 'date' => '{DATE}'], ['views' => {COUNT}, 'date' => '{DATE}'], ...]`.
      */
     public function getDailyViews()
     {
-        return $this->viewsModel->countDailyViews([
-            'post_id' => $this->postId,
-            'date'    => [
-                'from' => TimeZone::getTimeAgo(30),
-                'to' => TimeZone::getTimeAgo(),
-            ]
-        ]);
+        return $this->viewsModel->countDailyViews($this->args);
     }
 
     /**
-     * Returns daily visitors for this post for the past 30 days.
+     * Returns daily visitors for this post for the past x days.
      *
      * @return  array   Format: `[['date' => '{DATE}', 'visitors' => {COUNT}], ['date' => '{DATE}', 'visitors' => {COUNT}], ...]`.
      */
     public function getDailyVisitors()
     {
-        return $this->visitorsModel->countDailyVisitors([
-            'post_id' => $this->postId,
-            'date'    => [
-                'from' => TimeZone::getTimeAgo(30),
-                'to' => TimeZone::getTimeAgo(),
-            ]
-        ]);
+        return $this->visitorsModel->countDailyVisitors($this->args);
     }
 
     /**
