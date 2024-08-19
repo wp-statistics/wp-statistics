@@ -44,6 +44,7 @@ class Meta_Box
         require_once WP_STATISTICS_DIR . 'includes/admin/meta-box/wp-statistics-meta-box-hitsmap.php';
         require_once WP_STATISTICS_DIR . 'includes/admin/meta-box/wp-statistics-meta-box-useronline.php';
         require_once WP_STATISTICS_DIR . 'includes/admin/meta-box/wp-statistics-meta-box-about.php';
+        require_once WP_STATISTICS_DIR . 'includes/admin/meta-box/wp-statistics-meta-box-post-summary.php';
         require_once WP_STATISTICS_DIR . 'includes/admin/meta-box/wp-statistics-meta-box-post.php';
         require_once WP_STATISTICS_DIR . 'includes/admin/meta-box/wp-statistics-meta-box-top-pages-chart.php';
         require_once WP_STATISTICS_DIR . 'includes/admin/meta-box/wp-statistics-meta-box-exclusions.php';
@@ -268,6 +269,12 @@ class Meta_Box
             'post'            => array(
                 'name'              => __('Daily Traffic Trend', 'wp-statistics'),
                 'page_url'          => Menus::admin_url('pages'),
+                'show_on_dashboard' => false,
+                'disable_overview'  => true
+            ),
+            'post-summary'    => array(
+                'name'              => __('Statistics - Summary', 'wp-statistics'),
+                'page_url'          => Menus::admin_url('content-analytics'),
                 'show_on_dashboard' => false,
                 'disable_overview'  => true
             ),
