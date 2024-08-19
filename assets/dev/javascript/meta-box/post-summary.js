@@ -19,8 +19,18 @@ wps_js.post_summary_meta_box = {
 
     post_summary_chart: function (elementId, args = []) {
         let postChartData = [];
+        let postChartSettings = [];
+        let postChartTooltipLabel = 'Visitors';
+
         if (typeof (args.postChartData) !== 'undefined' && args.postChartData !== null) {
             postChartData = args.postChartData;
+        }
+        if (typeof (args.postChartSettings) !== 'undefined' && args.postChartSettings !== null) {
+            postChartSettings = args.postChartSettings;
+
+            if (postChartSettings.label) {
+                postChartTooltipLabel = postChartSettings.label;
+            }
         }
 
         const externalTooltipHandler = (context) => {
@@ -97,7 +107,7 @@ wps_js.post_summary_meta_box = {
                             if (tooltipItem.label === '-1') {
                                 return null;
                             } else {
-                                return `<div class="content-itemss"> <div class="content-item"><span>Views</span> <span>${count}</span></div>`;
+                                return `<div class="content-itemss"> <div class="content-item"><span>${postChartTooltipLabel}</span> <span>${count}</span></div>`;
                             }
                         },
                     },
@@ -156,7 +166,7 @@ wps_js.post_summary_meta_box = {
             data: {
                 labels: postChartData.map(stat => stat.shortDate),
                 datasets: [{
-                    data: postChartData.map(stat => stat.views),
+                    data: postChartData.map(stat => stat.hits),
                     borderColor: '#0D0725',
                     backgroundColor: 'rgba(115, 98, 191, 0.5)',
                     pointBackgroundColor: '#0D0725',

@@ -134,6 +134,7 @@ class PostsManager
      *  - `thisPeriodTopReferrer`
      *  - `thisPeriodTopReferrerCount`
      *  - `postChartData`
+     *  - `postChartSettings`
      *  - `contentAnalyticsUrl`
      */
     public static function getPostStatisticsSummary($post)
@@ -150,17 +151,21 @@ class PostsManager
 
         // Data for the sidebar chart
         $chartData    = [];
-        $dailyViews   = $dataProvider->getDailyViews();
         $wpDateFormat = get_option('date_format');
-        foreach ($dailyViews as $dailyView) {
-            if (empty($dailyView->date) || empty($dailyView->views)) {
+
+        // Fill `$dailyHits` based on MiniChart's `metric` option
+        $dailyHits = Helper::checkMiniChartOption('metric', 'visitors', 'visitors') ? $dataProvider->getDailyVisitors() : $dataProvider->getDailyViews();
+
+        // Fill `$chartData` array
+        foreach ($dailyHits as $hit) {
+            if (empty($hit->date) || (empty($hit->visitors) && empty($hit->views))) {
                 continue;
             }
 
             $chartData[] = [
-                'views'     => intval($dailyView->views),
-                'shortDate' => date('d M', strtotime($dailyView->date)),
-                'fullDate'  => date($wpDateFormat, strtotime($dailyView->date)),
+                'hits'      => !empty($hit->visitors) ? intval($hit->visitors) : intval($hit->views),
+                'shortDate' => date('d M', strtotime($hit->date)),
+                'fullDate'  => date($wpDateFormat, strtotime($hit->date)),
             ];
         }
 

@@ -144,13 +144,27 @@ class PostSummaryDataProvider
     /**
      * Returns daily views for this post for the past 30 days.
      *
-     * @param   bool    $isTotal    Should return total numbers? Or use `$fromDate` and `$toDate` as date range?
-     *
-     * @return  array               Format: `[['views' => {COUNT}, 'date' => '{DATE}'], ['views' => {COUNT}, 'date' => '{DATE}'], ...]`.
+     * @return  array   Format: `[['views' => {COUNT}, 'date' => '{DATE}'], ['views' => {COUNT}, 'date' => '{DATE}'], ...]`.
      */
     public function getDailyViews()
     {
         return $this->viewsModel->countDailyViews([
+            'post_id' => $this->postId,
+            'date'    => [
+                'from' => TimeZone::getTimeAgo(30),
+                'to' => TimeZone::getTimeAgo(),
+            ]
+        ]);
+    }
+
+    /**
+     * Returns daily visitors for this post for the past 30 days.
+     *
+     * @return  array   Format: `[['date' => '{DATE}', 'visitors' => {COUNT}], ['date' => '{DATE}', 'visitors' => {COUNT}], ...]`.
+     */
+    public function getDailyVisitors()
+    {
+        return $this->visitorsModel->countDailyVisitors([
             'post_id' => $this->postId,
             'date'    => [
                 'from' => TimeZone::getTimeAgo(30),
