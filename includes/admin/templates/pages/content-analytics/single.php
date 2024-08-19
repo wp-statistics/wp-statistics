@@ -2,6 +2,7 @@
 use WP_STATISTICS\Admin_Template;
 use WP_STATISTICS\Helper;
 use WP_Statistics\Utils\Request;
+use WP_Statistics\Components\View;
 
 $postType = get_post_type(Request::get('post_id'));
 ?>
@@ -50,28 +51,28 @@ $postType = get_post_type(Request::get('post_id'));
             'tooltip'   => esc_html__('Distribution of visitors by their operating systems.', 'wp-statistics'),
             'unique_id' => 'content_operating_systems'
         ];
-        Admin_Template::get_template(['layout/content-analytics/pie-chart'], $operatingSystems);
+        View::load("components/charts/horizontal-bar", $operatingSystems);
 
         $browsers = [
             'title'     => esc_html__('Browsers', 'wp-statistics'),
             'tooltip'   => esc_html__('Distribution of visitors by their web browsers.', 'wp-statistics'),
             'unique_id' => 'content_browsers'
         ];
-        Admin_Template::get_template(['layout/content-analytics/pie-chart'], $browsers);
+        View::load("components/charts/horizontal-bar", $browsers);
 
         $deviceModels = [
             'title'     => esc_html__('Device Models', 'wp-statistics'),
             'tooltip'   => esc_html__('Distribution of visitors by their device models.', 'wp-statistics'),
             'unique_id' => 'content_device_models'
         ];
-        Admin_Template::get_template(['layout/content-analytics/pie-chart'], $deviceModels);
+        View::load("components/charts/horizontal-bar", $browsers);
 
         $deviceUsage = [
             'title'     => esc_html__('Device Usage', 'wp-statistics'),
             'tooltip'   => esc_html__('Distribution of visitors by their device types.', 'wp-statistics'),
             'unique_id' => 'content_device_usage'
         ];
-        Admin_Template::get_template(['layout/content-analytics/pie-chart'], $deviceUsage);
+        View::load("components/charts/horizontal-bar", $browsers);
         ?>
     </div>
 
