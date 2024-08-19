@@ -119,7 +119,7 @@ $postTypePlural   = Helper::getPostTypeName($postType);
             'description' => esc_html__('Last 15 Days', 'wp-statistics'),
             'data'        => $data['performance']
         ];
-        Admin_Template::get_template(['layout/content-analytics/performance-chart'], $performance);
+         View::load("components/charts/performance", $performance);
 
         $topPages = [
             'title'   => sprintf(esc_html__('Top %s', 'wp-statistics'), $postTypePlural),

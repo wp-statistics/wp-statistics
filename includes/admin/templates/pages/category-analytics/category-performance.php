@@ -103,7 +103,7 @@ use WP_Statistics\Components\View;
             'description' => esc_html__('Last 15 Days', 'wp-statistics'),
             'data'        => $data['performance']
         ];
-        Admin_Template::get_template(['layout/category-analytics/performance-chart'], $performance);
+        View::load("components/charts/performance", $performance);
 
         $topCategories = [
             'title'     => esc_html__('Top Categories', 'wp-statistics'),

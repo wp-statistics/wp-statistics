@@ -46,8 +46,8 @@ if (wpsSelect2.length) {
     var dirValue = wpsBody.hasClass('rtl') ? 'rtl' : 'ltr';
 
     wpsSelect2.select2({
-        dropdownParent: wpsFilterPage.length ?  $('.wps-filter-page') : $('.wps-filter-visitor'),
-        dir:dirValue,
+        dropdownParent: wpsFilterPage.length ? $('.wps-filter-page') : $('.wps-filter-visitor'),
+        dir: dirValue,
         dropdownAutoWidth: true,
         dropdownCssClass: 'wps-select2-filter-dropdown'
     });
@@ -308,18 +308,18 @@ wps_js.pie_chart = function (tag_id, label, data, label_callback = false, toolti
 /**
  * Create Horizontal Bar Chart
  */
-wps_js.horizontal_bar = function (tag_id, labels, data , imageUrls) {
+wps_js.horizontal_bar = function (tag_id, labels, data, imageUrls) {
 
     // Get Element By ID
-    let element  = document.getElementById(tag_id);
+    let element = document.getElementById(tag_id);
 
     if (element) {
         let parent = element.parentNode;
         let nextSibling = element.nextSibling;
         let value;
-        if(data[0]){
+        if (data[0]) {
             value = data[0].data;
-        }else{
+        } else {
             value = data.data;
         }
         parent.removeChild(element);
@@ -335,7 +335,7 @@ wps_js.horizontal_bar = function (tag_id, labels, data , imageUrls) {
             itemDiv.classList.add('wps-horizontal-bar__item');
             let labelImageDiv = document.createElement('div');
             labelImageDiv.classList.add('wps-horizontal-bar__label-image-container');
-            if(imageUrls && imageUrls[i] && imageUrls[i] !== 'undefined'){
+            if (imageUrls && imageUrls[i] && imageUrls[i] !== 'undefined') {
                 let img = document.createElement('img');
                 img.src = imageUrls[i];
                 img.alt = labels[i];
@@ -361,9 +361,9 @@ wps_js.horizontal_bar = function (tag_id, labels, data , imageUrls) {
             blockDiv.appendChild(itemDiv);
         }
         if (nextSibling) {
-             parent.insertBefore(blockDiv, nextSibling);
+            parent.insertBefore(blockDiv, nextSibling);
         } else {
-             parent.appendChild(blockDiv);
+            parent.appendChild(blockDiv);
         }
     }
 };
@@ -584,7 +584,7 @@ wps_js.new_line_chart = function (data, tag_id, newOptions) {
                 borderWidth: 2,
                 pointRadius: 0,
                 pointBorderColor: 'transparent',
-                pointBackgroundColor:colors[index - 1],
+                pointBackgroundColor: colors[index - 1],
                 pointBorderWidth: 2,
                 hoverPointRadius: 6,
                 hoverPointBorderColor: '#fff',
@@ -606,8 +606,8 @@ wps_js.new_line_chart = function (data, tag_id, newOptions) {
                     borderWidth: 1,
                     borderDash: [5, 5],
                     pointRadius: 0,
-                    pointBorderColor:'transparent',
-                    pointBackgroundColor:  colors[index - 1],
+                    pointBorderColor: 'transparent',
+                    pointBackgroundColor: colors[index - 1],
                     pointBorderWidth: 2,
                     hoverPointRadius: 6,
                     hoverPointBorderColor: '#fff',
@@ -737,7 +737,7 @@ wps_js.new_line_chart = function (data, tag_id, newOptions) {
     const drawVerticalLinePlugin = {
         id: 'drawVerticalLine',
         beforeDatasetDraw(chart) {
-            const { ctx, scales: { x, y }, tooltip, chartArea: { top, bottom } } = chart;
+            const {ctx, scales: {x, y}, tooltip, chartArea: {top, bottom}} = chart;
             if (tooltip._active[0]) {
                 const xValue = tooltip._active[0].element.x;
                 ctx.beginPath();
@@ -789,12 +789,12 @@ wps_js.new_line_chart = function (data, tag_id, newOptions) {
                     align: 'inner',
                     maxTicksLimit: 9,
                     fontColor: '#898A8E',
-                    fontStyle : 'italic',
-                    fontWeight : 'lighter ',
+                    fontStyle: 'italic',
+                    fontWeight: 'lighter ',
                     fontSize: 13,
                     padding: 8,
-                    fontFamily : '"Roboto",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif',
-                    lineHeight:15
+                    fontFamily: '"Roboto",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif',
+                    lineHeight: 15
                 }
             },
             y: {
@@ -803,11 +803,11 @@ wps_js.new_line_chart = function (data, tag_id, newOptions) {
                     maxTicksLimit: 7,
                     fontColor: '#898A8E',
                     fontSize: 13,
-                    fontStyle : 'italic',
-                    fontFamily : '"Roboto",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif',
-                    fontWeight : 'lighter ',
+                    fontStyle: 'italic',
+                    fontFamily: '"Roboto",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif',
+                    fontWeight: 'lighter ',
                     padding: 8,
-                    lineHeight:15
+                    lineHeight: 15
                 },
                 border: {
                     color: 'transparent',
@@ -892,6 +892,157 @@ wps_js.new_line_chart = function (data, tag_id, newOptions) {
         }
     };
     updateLegend();
+};
+
+wps_js.performance_chart = function (data, tag_id , is_single_content = false) {
+    const legendHandel = (chart) => {
+        document.querySelectorAll('.js-wps-performance-chart__item').forEach((legendItem, index) => {
+            legendItem.addEventListener('click', () => {
+                const dataset = chart.data.datasets[index];
+                dataset.hidden = !dataset.hidden;
+                chart.update();
+                legendItem.classList.toggle('hidden', dataset.hidden);
+            });
+        });
+    }
+    const colors = ['#3288D7', '#7362BF', '#8AC3D0'];
+    let ctx_performance = document.getElementById(tag_id).getContext('2d');
+    let datasets =  [
+        {
+            type: 'line',
+            label: wps_js._('visits'),
+            data: data.views,
+            borderColor: wps_js.hex_to_rgba(colors[1], 0.8),
+            pointStyle: 'circle',
+            yAxisID: 'y',
+            borderWidth: 2,
+            pointRadius: 0,
+            pointBorderColor: 'transparent',
+            pointBackgroundColor: colors[1],
+            pointBorderWidth: 2,
+            hoverPointRadius: 6,
+            hoverPointBorderColor: '#fff',
+            hoverPointBackgroundColor: colors[1],
+            hoverPointBorderWidth: 4
+        },
+        {
+            type: 'line',
+            label: wps_js._('visitors'),
+            data: data.visitors,
+            borderColor: wps_js.hex_to_rgba(colors[0], 0.8),
+            yAxisID: 'y',
+            borderWidth: 2,
+            pointRadius: 0,
+            pointBorderColor: 'transparent',
+            pointBackgroundColor: colors[0],
+            pointBorderWidth: 2,
+            hoverPointRadius: 6,
+            hoverPointBorderColor: '#fff',
+            hoverPointBackgroundColor: colors[0],
+            hoverPointBorderWidth: 4
+        },
+    ]
+    if(!is_single_content) datasets.push({
+        type: 'bar',
+        label: `${wps_js._('published')} Contents`,
+        data: data.posts,
+        backgroundColor: wps_js.hex_to_rgba(colors[2], 0.5),
+        hoverBackgroundColor: colors[2],
+        yAxisID: 'y1',
+    })
+
+    let scales={
+        x: {
+            offset:false,
+            ticks: {
+                maxTicksLimit: 9,
+                fontColor: '#898A8E',
+                fontSize: 13,
+                fontStyle: 'italic',
+                fontFamily: '"Roboto",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif',
+                fontWeight: 'lighter ',
+                padding: 8,
+                lineHeight: 15
+            },
+            border: {
+                color: 'transparent',
+                width: 0
+            },
+            grid: {
+                display: false,
+                drawBorder: false,
+                tickLength: 0,
+            }
+        },
+        y: {
+            offset:false,
+            border: {
+                color: 'transparent',
+                width: 0
+            },
+            type: 'linear',
+            position: is_single_content ? 'left' :  'right',
+            grid: {
+                display: true,
+                borderDash: [5, 5]
+            },
+            title: {
+                display: true,
+                text: wps_js._('Views'),
+                color: '#898A8E',
+                fontSize: 13
+            }
+        }
+    }
+    if (!is_single_content) {
+         scales.y1 = {
+            type: 'linear',
+                position: 'left',
+                border: {
+                color: 'transparent',
+                    width: 0
+            },
+            grid: {
+                display: false,
+                    drawBorder: false,
+                    tickLength: 0,
+            },
+            ticks: {
+                maxTicksLimit: 7,
+                    fontColor: '#898A8E',
+                    fontSize: 13,
+                    fontStyle: 'italic',
+                    fontFamily: '"Roboto",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif',
+                    fontWeight: 'lighter ',
+                    padding: 8,
+                    lineHeight: 15
+            },
+            title: {
+                display: true,
+                    text: `${wps_js._('published')} Contents`,
+                    color: '#898A8E',
+                    fontSize: 13
+            }
+        }
+    }
+     const performanceChart = new Chart(ctx_performance, {
+        type: 'bar',
+        data: {
+            labels: data.labels,
+            datasets:datasets
+        },
+        options: {
+             interaction: {
+                intersect: false,
+                mode: 'index'
+            },
+            plugins: {
+                legend: false
+            },
+            scales: scales
+        }
+    });
+    legendHandel(performanceChart)
 };
 
 

@@ -85,7 +85,7 @@ $postType = get_post_type(Request::get('post_id'));
             'description' => esc_html__('Last 15 Days', 'wp-statistics'),
             'data'        => $data['performance']
         ];
-        Admin_Template::get_template(['layout/content-analytics/performance-chart'], $performance);
+         View::load("components/charts/performance", $performance);
 
         $summary = [
             'title'   => esc_html__('Summary', 'wp-statistics'),
