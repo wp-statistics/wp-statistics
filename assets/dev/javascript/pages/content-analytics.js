@@ -158,223 +158,49 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
 
         generateOperatingSystemChart: function () {
             const OperatingSystemData = this.data.os_chart_data;
-
-            if (OperatingSystemData.data.length == 0) {
+            //Todo Add OS images
+            const image_urls = [
+                'https://via.placeholder.com/30',
+                'https://via.placeholder.com/30',
+            ];
+            if (!OperatingSystemData.data || OperatingSystemData.data.length == 0) {
                 jQuery('#content_operating_systems').parent().html(wps_js.no_results());
                 return;
+            }else{
+                wps_js.horizontal_bar( 'content_operating_systems', OperatingSystemData.labels, OperatingSystemData ,image_urls );
             }
-
-            const label_callback_content_operating_systems = function (tooltipItem) {
-                return tooltipItem.label;
-            }
-            const tooltip_callback_content_operating_systems = (ctx) => {
-                return `${wps_js._('visitors')} :` + ctx[0].formattedValue
-            }
-            const data_content_operating_systems = {
-                labels: OperatingSystemData.labels,
-                datasets: [{
-                    data: OperatingSystemData.data,
-                    backgroundColor: ['#F7D399', '#99D3FB', '#D7BDE2', '#D7BDE2', '#EBA39B', '#F5CBA7'],
-                    borderColor: '#fff',
-                    borderWidth: 1,
-                }]
-            };
-            const options_content_operating_systems = {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'top',
-                        hidden: false,
-                        labels: {
-                            padding: 13,
-                            fontSize: 13,
-                            fontWeight: 500,
-                            color: '#56585A',
-                            usePointStyle: true,
-                            pointStyle: 'rect',
-                            pointRadius: 2
-                        }
-                    },
-                    tooltip: {
-                        enable: true,
-                        callbacks: {
-                            label: label_callback_content_operating_systems,
-                            title: tooltip_callback_content_operating_systems
-                        }
-                    }
-                }
-            };
-            const ctx_content_operating_systems = document.getElementById('content_operating_systems').getContext('2d');
-            const chart_content_operating_systems = new Chart(ctx_content_operating_systems, {
-                type: 'pie',
-                data: data_content_operating_systems,
-                options: options_content_operating_systems
-            });
         },
         generateBrowsersChartData: function () {
             const browsersData = this.data.browser_chart_data;
-
-            if (browsersData.data.length == 0) {
+            //Todo Add browsers images
+            const image_urls = [
+                'https://via.placeholder.com/30',
+                'https://via.placeholder.com/30',
+            ];
+            if (!browsersData.data || browsersData.data.length == 0) {
                 jQuery('#content_browsers').parent().html(wps_js.no_results());
                 return;
+            }else{
+                wps_js.horizontal_bar( 'content_browsers', browsersData.labels, browsersData ,image_urls );
             }
-
-            const label_callback_content_browsers = function (tooltipItem) {
-                return tooltipItem.label;
-            }
-            const tooltip_callback_content_browsers = (ctx) => {
-                return `${wps_js._('visitors')}: ` + ctx[0].formattedValue
-            }
-            const data_content_browsers = {
-                labels: browsersData.labels,
-                datasets: [{
-                    data: browsersData.data,
-                    backgroundColor: ['#F7D399', '#99D3FB', '#D7BDE2', '#D7BDE2', '#EBA39B', '#F5CBA7'],
-                    borderColor: '#fff',
-                    borderWidth: 1,
-                }]
-            };
-            const options_content_browsers = {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'top',
-                        hidden: false,
-                        labels: {
-                            padding: 13,
-                            fontSize: 13,
-                            fontWeight: 500,
-                            color: '#56585A',
-                            usePointStyle: true,
-                            pointStyle: 'rect',
-                            pointRadius: 2
-                        }
-                    },
-                    tooltip: {
-                        enable: true,
-                        callbacks: {
-                            label: label_callback_content_browsers,
-                            title: tooltip_callback_content_browsers
-                        }
-                    }
-                }
-            };
-            const ctx_content_browsers = document.getElementById('content_browsers').getContext('2d');
-            const chart_content_browsers = new Chart(ctx_content_browsers, {
-                type: 'pie',
-                data: data_content_browsers,
-                options: options_content_browsers
-            });
         },
         generateDeviceModelsChart: function () {
             const deviceModelData = this.data.model_chart_data;
-
-            if (deviceModelData.data.length == 0) {
+            if (!deviceModelData.data || deviceModelData.data.length == 0) {
                 jQuery('#content_device_models').parent().html(wps_js.no_results());
                 return;
+            }else{
+                wps_js.horizontal_bar( 'content_device_models', deviceModelData.labels, deviceModelData ,null );
             }
-
-            const label_callback_content_device_model = function (tooltipItem) {
-                return tooltipItem.label;
-            }
-            const tooltip_callback_content_device_model = (ctx) => {
-                return `${wps_js._('visitors')}: ` + ctx[0].formattedValue
-            }
-            const data_content_device_model = {
-                labels: deviceModelData.labels,
-                datasets: [{
-                    data: deviceModelData.data,
-                    backgroundColor: ['#F7D399', '#99D3FB', '#D7BDE2', '#D7BDE2', '#EBA39B', '#F5CBA7'],
-                    borderColor: '#fff',
-                    borderWidth: 1,
-                }]
-            };
-            const options_content_device_model = {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'top',
-                        hidden: false,
-                        labels: {
-                            padding: 13,
-                            fontSize: 13,
-                            fontWeight: 500,
-                            color: '#56585A',
-                            usePointStyle: true,
-                            pointStyle: 'rect',
-                            pointRadius: 2
-                        }
-                    },
-                    tooltip: {
-                        enable: true,
-                        callbacks: {
-                            label: label_callback_content_device_model,
-                            title: tooltip_callback_content_device_model
-                        }
-                    }
-                }
-            };
-            const ctx_content_device_model = document.getElementById('content_device_models').getContext('2d');
-            const chart_content_device_model = new Chart(ctx_content_device_model, {
-                type: 'pie',
-                data: data_content_device_model,
-                options: options_content_device_model
-            });
         },
         generateDeviceUsageChart: function () {
             const deviceUsageData = this.data.device_chart_data;
-
-            if (deviceUsageData.data.length == 0) {
+            if (!deviceUsageData.data || deviceUsageData.data.length == 0) {
                 jQuery('#content_device_usage').parent().html(wps_js.no_results());
                 return;
+            }else{
+                wps_js.horizontal_bar( 'content_device_usage', deviceUsageData.labels, deviceUsageData ,null );
             }
-
-            const label_callback_content_device_usage = function (tooltipItem) {
-                return tooltipItem.label;
-            }
-            const tooltip_callback_content_device_usage = (ctx) => {
-                return `${wps_js._('visitors')}: ` + ctx[0].formattedValue
-            }
-            const data_content_device_usage = {
-                labels: deviceUsageData.labels,
-                datasets: [{
-                    data: deviceUsageData.data,
-                    backgroundColor: ['#F7D399', '#99D3FB', '#D7BDE2', '#D7BDE2', '#EBA39B', '#F5CBA7'],
-                    borderColor: '#fff',
-                    borderWidth: 1,
-                }]
-            };
-            const options_content_device_usage = {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'top',
-                        hidden: false,
-                        labels: {
-                            padding: 13,
-                            fontSize: 13,
-                            fontWeight: 500,
-                            color: '#56585A',
-                            usePointStyle: true,
-                            pointStyle: 'rect',
-                            pointRadius: 2
-                        }
-                    },
-                    tooltip: {
-                        enable: true,
-                        callbacks: {
-                            label: label_callback_content_device_usage,
-                            title: tooltip_callback_content_device_usage
-                        }
-                    }
-                }
-            };
-            const ctx_content_device_usage = document.getElementById('content_device_usage').getContext('2d');
-            const chart_content_usage = new Chart(ctx_content_device_usage, {
-                type: 'pie',
-                data: data_content_device_usage,
-                options: options_content_device_usage
-            });
         },
         generateSearchEngineChart: function () {
             const searchData = this.data.search_engine_chart_data;

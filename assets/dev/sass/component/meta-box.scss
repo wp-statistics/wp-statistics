@@ -473,3 +473,28 @@
     border-bottom: none !important;
   }
 }
+
+#wp-statistics-hits-widget{
+  .o-wrap{
+    padding: 12px 24px!important;
+    padding-top: 0!important;
+  }
+  .o-wrap .wps-postbox-chart--data{
+    margin-top: 0!important;
+  }
+  #wp-statistics-hits-meta-box-chart{
+    height: auto;
+    max-height: 262px;
+    width: 100%;
+  }
+}
+#wps-big-postbox{
+  #wp-statistics-hits-widget{
+    .inside{
+      margin-top: 24px!important;
+    }
+    #wp-statistics-hits-meta-box-chart{
+       max-height: 462px;
+    }
+  }
+}

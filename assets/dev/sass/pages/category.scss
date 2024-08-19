@@ -293,6 +293,13 @@
     margin-top: 24px;
   }
 
+  .wps-category-analytics-chart{
+    margin-top: 20px;
+    .o-wrap--no-data{
+      padding-top: 0!important;
+    }
+  }
+
   &-chart-items {
     display: flex;
     gap: 15px;

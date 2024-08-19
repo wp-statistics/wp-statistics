@@ -304,6 +304,70 @@ wps_js.pie_chart = function (tag_id, label, data, label_callback = false, toolti
     });
 };
 
+
+/**
+ * Create Horizontal Bar Chart
+ */
+wps_js.horizontal_bar = function (tag_id, labels, data , imageUrls) {
+
+    // Get Element By ID
+    let element  = document.getElementById(tag_id);
+
+    if (element) {
+        let parent = element.parentNode;
+        let nextSibling = element.nextSibling;
+        let value;
+        if(data[0]){
+            value = data[0].data;
+        }else{
+            value = data.data;
+        }
+        parent.removeChild(element);
+        let total = value.reduce((sum, value) => sum + value, 0);
+        let blockDiv = document.createElement('div');
+        blockDiv.classList.add('wps-horizontal-bar');
+        for (let i = 0; i < value.length; i++) {
+            // Calculate percentage as a float with two decimal places
+            let percentage = total ? ((value[i] / total) * 100) : 0;
+            // Format the percentage
+            let percentageText = percentage % 1 === 0 ? percentage.toFixed(0) : percentage.toFixed(2);
+            let itemDiv = document.createElement('div');
+            itemDiv.classList.add('wps-horizontal-bar__item');
+            let labelImageDiv = document.createElement('div');
+            labelImageDiv.classList.add('wps-horizontal-bar__label-image-container');
+            if(imageUrls && imageUrls[i] && imageUrls[i] !== 'undefined'){
+                let img = document.createElement('img');
+                img.src = imageUrls[i];
+                img.alt = labels[i];
+                img.classList.add('wps-horizontal-bar__image');
+                labelImageDiv.appendChild(img);
+            }
+            let labelDiv = document.createElement('div');
+            labelDiv.innerHTML = labels[i];
+            labelDiv.classList.add('wps-horizontal-bar__label');
+            labelImageDiv.appendChild(labelDiv);
+            itemDiv.appendChild(labelImageDiv);
+            let dataPercentDiv = document.createElement('div');
+            dataPercentDiv.classList.add('wps-horizontal-bar__data-percent-container');
+            let dataDiv = document.createElement('div');
+            dataDiv.innerHTML = `<span>${value[i].toLocaleString()}</span><span>${percentageText}%</span>`;
+            dataDiv.classList.add('wps-horizontal-bar__data');
+            dataPercentDiv.appendChild(dataDiv);
+            itemDiv.appendChild(dataPercentDiv);
+            let backgroundDiv = document.createElement('div');
+            backgroundDiv.classList.add('wps-horizontal-bar__background');
+            backgroundDiv.style.width = `${percentage}%`; // Set width according to percentage
+            itemDiv.appendChild(backgroundDiv);
+            blockDiv.appendChild(itemDiv);
+        }
+        if (nextSibling) {
+             parent.insertBefore(blockDiv, nextSibling);
+        } else {
+             parent.appendChild(blockDiv);
+        }
+    }
+};
+
 /**
  * Create Chart ID by Meta Box name
  *
@@ -488,6 +552,346 @@ wps_js.sum = function (array) {
  */
 wps_js.no_results = function () {
     return '<div class="o-wrap o-wrap--no-data wps-center">' + wps_js._('no_result') + '</div>';
+};
+
+wps_js.hex_to_rgba = function (hex, opacity) {
+    hex = hex.replace('#', '');
+    let hex_to_rgba_r = parseInt(hex.substring(0, 2), 16);
+    let hex_to_rgba_g = parseInt(hex.substring(2, 4), 16);
+    let hex_to_rgba_b = parseInt(hex.substring(4, 6), 16);
+    return `rgba(${hex_to_rgba_r}, ${hex_to_rgba_g}, ${hex_to_rgba_b}, ${opacity})`;
+}
+
+wps_js.new_line_chart = function (data, tag_id, newOptions) {
+    // Define the colors
+    const colors = ['#3288D7', '#7362BF', '#27A765', '#8AC3D0'];
+    // Get Element By ID
+    let ctx_line = document.getElementById(tag_id).getContext('2d');
+
+    const datasets = [];
+    // Dynamically create datasets
+    Object.keys(data.data).forEach((key, index) => {
+        if (key !== 'labels') {
+            // Main dataset
+            datasets.push({
+                type: 'line',
+                label: key,
+                data: data.data[key],
+                borderColor: colors[index - 1],
+                backgroundColor: colors[index - 1],
+                fill: false,
+                yAxisID: 'y',
+                borderWidth: 2,
+                pointRadius: 0,
+                pointBorderColor: 'transparent',
+                pointBackgroundColor:colors[index - 1],
+                pointBorderWidth: 2,
+                hoverPointRadius: 6,
+                hoverPointBorderColor: '#fff',
+                hoverPointBackgroundColor: colors[index - 1],
+                hoverPointBorderWidth: 4
+            });
+
+            // Previous data dataset
+            if (data.previousData[key]) {
+                datasets.push({
+                    type: 'line',
+                    label: `${key} (Previous)`,
+                    data: data.previousData[key],
+                    borderColor: wps_js.hex_to_rgba(colors[index - 1], 0.4),
+                    hoverBorderColor: colors[index - 1],
+                    backgroundColor: colors[index - 1],
+                    fill: false,
+                    yAxisID: 'y',
+                    borderWidth: 1,
+                    borderDash: [5, 5],
+                    pointRadius: 0,
+                    pointBorderColor:'transparent',
+                    pointBackgroundColor:  colors[index - 1],
+                    pointBorderWidth: 2,
+                    hoverPointRadius: 6,
+                    hoverPointBorderColor: '#fff',
+                    hoverPointBackgroundColor: colors[index - 1],
+                    hoverPointBorderWidth: 4
+                });
+            }
+        }
+    });
+
+    const getOrCreateTooltip = (chart) => {
+        let tooltipEl = chart.canvas.parentNode.querySelector('div');
+
+        if (!tooltipEl) {
+            tooltipEl = document.createElement('div');
+            tooltipEl.classList.add('wps-chart-tooltip');
+            tooltipEl.style.opacity = 1;
+            tooltipEl.style.pointerEvents = 'none';
+            tooltipEl.style.position = 'absolute';
+            tooltipEl.style.transition = 'all .1s ease';
+            const table = document.createElement('table');
+            table.style.margin = '0px';
+            tooltipEl.appendChild(table);
+            chart.canvas.parentNode.appendChild(tooltipEl);
+        }
+        return tooltipEl;
+    };
+
+    const externalTooltipHandler = (context) => {
+        const {chart, tooltip} = context;
+        const tooltipEl = getOrCreateTooltip(chart);
+
+        if (tooltip.opacity === 0) {
+            tooltipEl.style.opacity = 0;
+            return;
+        }
+
+        if (tooltip.body) {
+            const titleLines = tooltip.title || [];
+            const dataIndex = tooltip.dataPoints[0].dataIndex;
+            const datasets = chart.data.datasets;
+
+            let innerHtml = `<div>`;
+            // Title
+            titleLines.forEach(title => {
+                innerHtml += `<div class="chart-title">${title}</div>`;
+            });
+
+            // Iterate over each dataset to create the tooltip content
+            datasets.forEach((dataset, index) => {
+                const value = dataset.data[dataIndex];
+                const isPrevious = dataset.label.includes('(Previous)');
+                const previousDataset = datasets.find(ds => ds.label === `${dataset.label} (Previous)`);
+                const previousValue = data.previousData[dataset.label.replace(' (Previous)', '')]?.[dataIndex];
+
+                if (isPrevious) {
+                    dataset.borderColor = colors[index - 1];
+                }
+
+                if (!isPrevious) {
+                    innerHtml += `
+                <div class="current-data">
+                    <div>
+                        <span class="current-data__color" style="background-color: ${dataset.borderColor};"></span>
+                        ${dataset.label}
+                    </div>
+                    <span class="current-data__value">${value.toLocaleString()}</span>
+                </div>`;
+                }
+
+                if (previousValue !== undefined && previousValue !== '' && !isPrevious) {
+                    const previousLabel = data.previousData.labels[dataIndex];
+                    innerHtml += `
+                <div class="previous-data">
+                    <div>
+                        <span class="previous-data__colors">
+                            <span class="previous-data__color" style="background-color: ${dataset.borderColor};"></span>
+                            <span class="previous-data__color" style="background-color: ${dataset.borderColor};"></span>
+                        </span>
+                        ${previousLabel}
+                    </div>  
+                    <span class="previous-data__value"> ${previousValue.toLocaleString()}</span>   
+                </div>`;
+                }
+            });
+
+            innerHtml += `</div>`;
+
+            tooltipEl.innerHTML = innerHtml;
+            const {offsetLeft: chartLeft, offsetTop: chartTop, clientWidth: chartWidth, clientHeight: chartHeight} = chart.canvas;
+            const {caretX, caretY} = tooltip;
+
+            // Calculate tooltip position
+            const tooltipWidth = tooltipEl.offsetWidth;
+            const tooltipHeight = tooltipEl.offsetHeight;
+
+            const margin = 16;
+            // Default tooltip position to the right of the point
+            let tooltipX = chartLeft + caretX + margin;
+            let tooltipY = chartTop + caretY - tooltipHeight / 2;
+
+            // Check if tooltip exceeds right boundary
+            if (tooltipX + tooltipWidth + margin > chartLeft + chartWidth) {
+                // Not enough space on the right, position to the left
+                tooltipX = chartLeft + caretX - tooltipWidth - margin;
+            }
+
+            // Ensure tooltip does not overflow horizontally
+            if (tooltipX < chartLeft + margin) {
+                tooltipX = chartLeft + margin;
+            }
+
+            // Ensure tooltip does not overflow vertically
+            if (tooltipY < chartTop + margin) {
+                tooltipY = chartTop + margin;
+            }
+            if (tooltipY + tooltipHeight + margin > chartTop + chartHeight) {
+                tooltipY = chartTop + chartHeight - tooltipHeight - margin;
+            }
+            tooltipEl.style.opacity = 1;
+            tooltipEl.style.left = tooltipX + 'px';
+            tooltipEl.style.top = tooltipY + 'px';
+        }
+    };
+
+    // Custom plugin definition
+    const drawVerticalLinePlugin = {
+        id: 'drawVerticalLine',
+        beforeDatasetDraw(chart) {
+            const { ctx, scales: { x, y }, tooltip, chartArea: { top, bottom } } = chart;
+            if (tooltip._active[0]) {
+                const xValue = tooltip._active[0].element.x;
+                ctx.beginPath();
+                ctx.strokeStyle = '#A9AAAE';
+                ctx.lineWidth = 1;
+                ctx.setLineDash([6, 6]);
+                ctx.moveTo(xValue, top);
+                ctx.lineTo(xValue, bottom);
+                ctx.stroke();
+                ctx.setLineDash([]);
+            }
+        }
+    };
+
+
+    // Default options
+    const defaultOptions = {
+        interaction: {
+            intersect: false,
+            mode: 'index'
+        },
+        plugins: {
+            legend: false,
+            tooltip: {
+                enabled: false,
+                external: externalTooltipHandler,
+                callbacks: {
+                    title: (tooltipItems) => tooltipItems[0].label,
+                    label: (tooltipItem) => tooltipItem.formattedValue
+                }
+            },
+            drawVerticalLine: drawVerticalLinePlugin
+        },
+         scales: {
+            x: {
+                offset: data.data.labels.length <= 1,
+                min: 0,
+                grid: {
+                    display: false,
+                    drawBorder: false,
+                    tickLength: 0,
+                    drawTicks: false
+                },
+                border: {
+                    color: 'transparent',
+                    width: 0
+                },
+                ticks: {
+                    align: 'inner',
+                    maxTicksLimit: 9,
+                    fontColor: '#898A8E',
+                    fontStyle : 'italic',
+                    fontWeight : 'lighter ',
+                    fontSize: 13,
+                    padding: 8,
+                    fontFamily : '"Roboto",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif',
+                    lineHeight:15
+                 }
+            },
+            y: {
+                min: 0,
+                ticks: {
+                    maxTicksLimit: 7,
+                    fontColor: '#898A8E',
+                    fontSize: 13,
+                    fontStyle : 'italic',
+                    fontFamily : '"Roboto",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif',
+                    fontWeight : 'lighter ',
+                    padding: 8,
+                    lineHeight:15
+                },
+                border: {
+                    color: 'transparent',
+                    width: 0
+                },
+                type: 'linear',
+                position: 'right',
+                grid: {
+                    display: true,
+                    tickMarkLength: 0,
+                    drawBorder: false,
+                },
+                gridLines: {
+                    drawTicks: false
+                },
+                title: {
+                    display: false,
+                }
+            }
+        },
+    };
+    // Merge default options with user options
+    const options = Object.assign({}, defaultOptions, newOptions);
+    const lineChart = new Chart(ctx_line, {
+        type: 'line',
+        data: {
+            labels: data.data.labels,
+            datasets: datasets
+        },
+        options: options,
+    });
+
+    const updateLegend = function () {
+        const legendContainer = document.querySelector('.wps-postbox-chart--items');
+        if (legendContainer) {
+            legendContainer.innerHTML = '';
+            datasets.forEach((dataset, index) => {
+                const isPrevious = dataset.label.includes('(Previous)');
+                if (!isPrevious) {
+                    const currentData = dataset.data.reduce((a, b) => a + b, 0);
+                    const previousData = data.previousData[dataset.label]?.reduce((a, b) => a + b, 0) || 'N/A';
+                    const legendItem = document.createElement('div');
+                    legendItem.className = 'wps-postbox-chart--item';
+                    legendItem.innerHTML = `
+                        <span>
+                             ${dataset.label}
+                        </span>
+                        <div>
+                            <div class="current-data"><span class="wps-postbox-chart--item--color" style="background: ${dataset.borderColor}"></span>${currentData.toLocaleString()}</div>
+                            <div class="previous-data" >
+                                <span>
+                                    <span class="wps-postbox-chart--item--color" style="background: ${dataset.borderColor}"></span> 
+                                    <span class="wps-postbox-chart--item--color" style="background: ${dataset.borderColor}"></span>
+                                </span>
+                                ${previousData.toLocaleString()}
+                            </div>
+                        </div>
+                    `;
+                    // Add click event to toggle visibility of the current dataset only
+                    const currentDataDiv = legendItem.querySelector('.current-data');
+                    currentDataDiv.addEventListener('click', function () {
+                        const metaMain = lineChart.getDatasetMeta(index);
+                        metaMain.hidden = !metaMain.hidden;
+                        currentDataDiv.classList.toggle('wps-line-through');
+                        lineChart.update();
+                    });
+
+                    // Add click event to toggle visibility of the previous dataset
+                    const previousDataDiv = legendItem.querySelector('.previous-data');
+                    previousDataDiv.addEventListener('click', function () {
+                        const metaPrevious = lineChart.getDatasetMeta(index + 1);
+                        if (metaPrevious && metaPrevious.label.includes('(Previous)')) {
+                            previousDataDiv.classList.toggle('wps-line-through');
+                            metaPrevious.hidden = !metaPrevious.hidden;
+                        }
+                        lineChart.update();
+                    });
+
+                    legendContainer.appendChild(legendItem);
+                }
+            });
+        }
+    };
+    updateLegend();
 };
 
 
