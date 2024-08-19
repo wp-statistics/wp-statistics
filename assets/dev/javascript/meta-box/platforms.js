@@ -51,7 +51,7 @@ wps_js.platforms_meta_box = {
         }
 
         // Show Chart
-        //Todo Add platform images
+        //Todo chart Add platform images
         const image_urls = [
             'https://via.placeholder.com/30',
             'https://via.placeholder.com/30',

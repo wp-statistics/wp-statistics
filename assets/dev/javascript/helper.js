@@ -688,8 +688,8 @@ wps_js.new_line_chart = function (data, tag_id, newOptions) {
                             <span class="previous-data__color" style="background-color: ${dataset.borderColor};"></span>
                         </span>
                         ${previousLabel}
-                    </div>  
-                    <span class="previous-data__value"> ${previousValue.toLocaleString()}</span>   
+                    </div>
+                    <span class="previous-data__value"> ${previousValue.toLocaleString()}</span>
                 </div>`;
                 }
             });
@@ -771,7 +771,7 @@ wps_js.new_line_chart = function (data, tag_id, newOptions) {
             },
             drawVerticalLine: drawVerticalLinePlugin
         },
-         scales: {
+        scales: {
             x: {
                 offset: data.data.labels.length <= 1,
                 min: 0,
@@ -795,7 +795,7 @@ wps_js.new_line_chart = function (data, tag_id, newOptions) {
                     padding: 8,
                     fontFamily : '"Roboto",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif',
                     lineHeight:15
-                 }
+                }
             },
             y: {
                 min: 0,
@@ -859,7 +859,7 @@ wps_js.new_line_chart = function (data, tag_id, newOptions) {
                             <div class="current-data"><span class="wps-postbox-chart--item--color" style="background: ${dataset.borderColor}"></span>${currentData.toLocaleString()}</div>
                             <div class="previous-data" >
                                 <span>
-                                    <span class="wps-postbox-chart--item--color" style="background: ${dataset.borderColor}"></span> 
+                                    <span class="wps-postbox-chart--item--color" style="background: ${dataset.borderColor}"></span>
                                     <span class="wps-postbox-chart--item--color" style="background: ${dataset.borderColor}"></span>
                                 </span>
                                 ${previousData.toLocaleString()}
@@ -881,284 +881,6 @@ wps_js.new_line_chart = function (data, tag_id, newOptions) {
                         const metaPrevious = lineChart.getDatasetMeta(index + 1);
                         if (metaPrevious && metaPrevious.label.includes('(Previous)')) {
                             previousDataDiv.classList.toggle('wps-line-through');
-                            metaPrevious.hidden = !metaPrevious.hidden;
-                        }
-                        lineChart.update();
-                    });
-
-                    legendContainer.appendChild(legendItem);
-                }
-            });
-        }
-    };
-    updateLegend();
-};
-
-
-/**
- * Show Line chart
- */
-wps_js.new_line_chart = function (data, tag_id, newOptions) {
-    // Define the colors
-    const colors = ['#3288D7', '#7362BF', '#27A765', '#8AC3D0'];
-    // Get Element By ID
-    let ctx_line = document.getElementById(tag_id).getContext('2d');
-
-    const datasets = [];
-    // Dynamically create datasets
-    Object.keys(data.data).forEach((key, index) => {
-        if (key !== 'labels' ) {
-            // Main dataset
-            datasets.push({
-                type: 'line',
-                label: key,
-                data: data.data[key],
-                borderColor: colors[index - 1],
-                backgroundColor: colors[index - 1],
-                fill: false,
-                yAxisID: 'y',
-                pointRadius: 0
-            });
-
-            // Previous data dataset
-            if (data.previousData[key]) {
-                datasets.push({
-                    type: 'line',
-                    label: `${key} (Previous)`,
-                    data: data.previousData[key],
-                    borderColor: colors[index - 1],
-                    backgroundColor: colors[index - 1],
-                    fill: false,
-                    yAxisID: 'y',
-                    pointRadius: 0,
-                    borderDash: [5, 5],  // Dash line
-                });
-            }
-        }
-    });
-
-    const getOrCreateTooltip = (chart) => {
-        let tooltipEl = chart.canvas.parentNode.querySelector('div');
-
-        if (!tooltipEl) {
-            tooltipEl = document.createElement('div');
-            tooltipEl.classList.add('wps-chart-tooltip');
-            tooltipEl.style.opacity = 1;
-            tooltipEl.style.pointerEvents = 'none';
-            tooltipEl.style.position = 'absolute';
-             tooltipEl.style.transition = 'all .1s ease';
-            const table = document.createElement('table');
-            table.style.margin = '0px';
-            tooltipEl.appendChild(table);
-            chart.canvas.parentNode.appendChild(tooltipEl);
-        }
-        return tooltipEl;
-    };
-
-    const externalTooltipHandler = (context) => {
-        const {chart, tooltip} = context;
-        const tooltipEl = getOrCreateTooltip(chart);
-
-        if (tooltip.opacity === 0) {
-            tooltipEl.style.opacity = 0;
-            return;
-        }
-
-        if (tooltip.body) {
-            const titleLines = tooltip.title || [];
-            const dataIndex = tooltip.dataPoints[0].dataIndex;
-            const datasets = chart.data.datasets;
-
-            let innerHtml = `<div>`;
-            // Title
-            titleLines.forEach(title => {
-                innerHtml += `<div class="chart-title">${title}</div>`;
-            });
-
-            // Iterate over each dataset to create the tooltip content
-            datasets.forEach((dataset, index) => {
-                const value = dataset.data[dataIndex];
-                const isPrevious = dataset.label.includes('(Previous)');
-                const previousDataset = datasets.find(ds => ds.label === `${dataset.label} (Previous)`);
-                const previousValue = data.previousData[dataset.label.replace(' (Previous)', '')]?.[dataIndex];
-                if (!isPrevious) {
-                    innerHtml += `
-                <div class="current-data">
-                    <div>
-                        <span class="current-data__color" style="background-color: ${dataset.borderColor};"></span>
-                        ${dataset.label}
-                    </div>
-                    <span class="current-data__value">${value}</span>
-                </div>`;
-                }
-
-                if (previousValue !== undefined && previousValue !== ''  && !isPrevious) {
-                     const previousLabel = data.previousData.labels[dataIndex];
-                     innerHtml += `
-                <div class="previous-data">
-                    <div>
-                        <span class="previous-data__colors">
-                            <span class="previous-data__color" style="background-color: ${dataset.borderColor};"></span>
-                            <span class="previous-data__color" style="background-color: ${dataset.borderColor};"></span>
-                        </span>
-                        ${previousLabel}
-                    </div>  
-                    <span class="previous-data__value"> ${previousValue}</span>   
-                </div>`;
-                }
-            });
-
-            innerHtml += `</div>`;
-
-            tooltipEl.innerHTML = innerHtml;
-            const { offsetLeft: chartLeft, offsetTop: chartTop, clientWidth: chartWidth, clientHeight: chartHeight } = chart.canvas;
-            const { caretX, caretY } = tooltip;
-
-            // Calculate tooltip position
-            const tooltipWidth = tooltipEl.offsetWidth;
-            const tooltipHeight = tooltipEl.offsetHeight;
-            let tooltipX = chartLeft + caretX;
-            let tooltipY = chartTop + caretY - tooltipHeight;
-            if (tooltipX + tooltipWidth > chartLeft + chartWidth) {
-                tooltipX = chartLeft + chartWidth - tooltipWidth;
-            }
-            if (tooltipX < chartLeft) {
-                tooltipX = chartLeft;
-            }
-            if (tooltipY < chartTop) {
-                tooltipY = chartTop;
-            }
-            if (tooltipY + tooltipHeight > chartTop + chartHeight) {
-                tooltipY = chartTop + chartHeight - tooltipHeight;
-            }
-            tooltipEl.style.opacity = 1;
-            tooltipEl.style.left = tooltipX + 'px';
-            tooltipEl.style.top = tooltipY + 'px';
-        }
-    };
-
-
-    // Default options
-    const defaultOptions = {
-        interaction: {
-            intersect: false,
-            mode: 'index'
-        },
-        plugins: {
-            legend: false,
-            tooltip: {
-                enabled: false,
-                external: externalTooltipHandler,
-                callbacks: {
-                    title: (tooltipItems) => {
-                        return tooltipItems[0].label;
-                    },
-                    label: (tooltipItem) => {
-                        const index = tooltipItem.dataIndex;
-                    }
-
-                }
-            }
-        },
-        scales: {
-            x: {
-                offset: false,
-                grid: {
-                    display: false,
-                    drawBorder: false,
-                    tickLength: 0,
-                    drawTicks: false
-                },
-                border: {
-                    color: 'transparent',
-                    width: 0
-                },
-                ticks: {
-                    align: 'inner',
-                    maxTicksLimit: 9,
-                    fontColor: '#898A8E',
-                    fontSize: 13,
-                    padding: 8
-                }
-            },
-            y: {
-                ticks: {
-                    maxTicksLimit: 7,
-                    fontColor: '#898A8E',
-                    fontSize: 13,
-                    padding: 8
-                },
-                border: {
-                    color: 'transparent',
-                    width: 0
-                },
-                type: 'linear',
-                position: 'right',
-                grid: {
-                    display: true,
-                    tickMarkLength: 0,
-                    drawBorder: false,
-                },
-                gridLines: {
-                    drawTicks: false
-                },
-                title: {
-                    display: false,
-                }
-            }
-        }
-    };
-    // Merge default options with user options
-    const options = Object.assign({}, defaultOptions, newOptions);
-    const lineChart = new Chart(ctx_line, {
-        type: 'line',
-        data: {
-            labels: data.data.labels,
-            datasets: datasets
-        },
-        options: options,
-    });
-
-    const updateLegend = function () {
-        const legendContainer = document.querySelector('.wps-postbox-chart--items');
-        if (legendContainer) {
-            legendContainer.innerHTML = '';
-
-            datasets.forEach((dataset, index) => {
-                const isPrevious = dataset.label.includes('(Previous)');
-                if (!isPrevious) {
-                    const currentData = dataset.data.reduce((a, b) => a + b, 0);
-                    const previousData = data.previousData[dataset.label]?.reduce((a, b) => a + b, 0) || 'N/A';
-                    const legendItem = document.createElement('div');
-                    legendItem.className = 'wps-postbox-chart--item';
-                    legendItem.innerHTML = `
-                        <span>
-                             ${dataset.label}
-                        </span>
-                        <div>
-                            <div class="current-data"><span class="wps-postbox-chart--item--color" style="background: ${dataset.borderColor}"></span>${currentData}</div>
-                            <div class="previous-data" >
-                                <span>
-                                    <span class="wps-postbox-chart--item--color" style="background: ${dataset.borderColor}"></span> 
-                                    <span class="wps-postbox-chart--item--color" style="background: ${dataset.borderColor}"></span>
-                                </span>
-                                ${previousData}
-                            </div>
-                        </div>
-                    `;
-                    // Add click event to toggle visibility of the current dataset only
-                    const currentDataDiv = legendItem.querySelector('.current-data');
-                    currentDataDiv.addEventListener('click', function () {
-                        const metaMain = lineChart.getDatasetMeta(index);
-                        metaMain.hidden = !metaMain.hidden;
-                        lineChart.update();
-                    });
-
-                    // Add click event to toggle visibility of the previous dataset
-                    const previousDataDiv = legendItem.querySelector('.previous-data');
-                    previousDataDiv.addEventListener('click', function () {
-                        const metaPrevious = lineChart.getDatasetMeta(index + 1);
-                        if (metaPrevious && metaPrevious.label.includes('(Previous)')) {
                             metaPrevious.hidden = !metaPrevious.hidden;
                         }
                         lineChart.update();

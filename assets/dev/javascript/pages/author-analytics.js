@@ -24,7 +24,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
 
             const chartData = Wp_Statistics_Author_Analytics_Object.browser_chart_data;
 
-            //Todo Add browsers images
+            //Todo chart Add browsers images
             const image_urls = [
                 'https://via.placeholder.com/30',
                 'https://via.placeholder.com/30',
@@ -40,7 +40,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             if (!wps_js.isset(Wp_Statistics_Author_Analytics_Object, 'os_chart_data')) {
                 return;
             }
-            //Todo Add OS images
+            //Todo chart Add OS images
             const image_urls = [
                 'https://via.placeholder.com/30',
                 'https://via.placeholder.com/30',

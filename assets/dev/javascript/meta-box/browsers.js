@@ -40,7 +40,7 @@ wps_js.browsers_meta_box = {
 
         // Show Chart
 
-        //Todo Add browser images
+        //Todo chart Add browser images
         const image_urls = [
             'https://via.placeholder.com/30',
             'https://via.placeholder.com/30',
@@ -159,7 +159,7 @@ wps_js.show_custom_agent = function (args) {
             return wps_js._('visitors') + ':' + ctx[0].formattedValue
         }
         // Show Chart
-        //Todo Add browser images
+        //Todo chart Add browser images
         const image_urls = [
             'https://via.placeholder.com/30',
             'https://via.placeholder.com/30',

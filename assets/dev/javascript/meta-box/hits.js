@@ -55,7 +55,7 @@ wps_js.hits_meta_box = {
         const visitsKey = wps_js._('visits');
         const visitorsKey = wps_js._('visitors');
 
-         // Todo dynamic previous data value
+        //Todo chart chart dynamic previous data value
         if (document.getElementById(tag_id)) {
              const data = {
                 data:{

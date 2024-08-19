@@ -2,6 +2,14 @@
 
 }
 
+.c-wps-horizontal-bar__container {
+  margin-top: 20px;
+
+  .o-wrap--no-data {
+    padding-top: 0 !important;
+  }
+}
+
 .c-chart--limited-height {
   max-height: 444px;
 
