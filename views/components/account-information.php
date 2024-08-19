@@ -1,5 +1,6 @@
 <?php 
 use WP_STATISTICS\Helper;
+use WP_STATISTICS\User;
 ?>
 
 <div class="wps-visitor__visitors-details">
@@ -26,7 +27,8 @@ use WP_STATISTICS\Helper;
         <div class="wps-visitor__visitors-detail--row">
             <span><?php esc_html_e('Last login', 'wp-statistics'); ?></span>
             <div class="wps-ellipsis-parent">
-                <span><?php echo esc_html(date_i18n(Helper::getDefaultDateFormat(true), strtotime($user->last_checked))) ?></span>
+                <?php $lastLogin = User::getLastLogin($user->ID); ?>
+                <span><?php echo $lastLogin ? esc_html(date_i18n(Helper::getDefaultDateFormat(true), $lastLogin)) : esc_html('-') ?></span>
             </div>
         </div>
 
