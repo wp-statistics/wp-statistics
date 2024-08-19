@@ -1,15 +1,10 @@
-
-
 let WP_Statistics_CheckTime = WP_Statistics_Tracker_Object.jsCheckTime;
-
 
 // Check DoNotTrack Settings on User Browser
 let WP_Statistics_Dnd_Active = parseInt(navigator.msDoNotTrack || window.doNotTrack || navigator.doNotTrack, 10);
 
 // Prevent init() from running more than once
 let hasTrackerInitializedOnce = false;
-
-const referred = encodeURIComponent(document.referrer);
 
 let wpStatisticsUserOnline = {
     hitRequestSuccessful: true, // Flag to track hit request status
@@ -31,6 +26,26 @@ let wpStatisticsUserOnline = {
         }
     },
 
+    // Method to Base64 encode a string using modern approach
+    base64Encode: function (str) {
+        const encoder = new TextEncoder();
+        const data = encoder.encode(str);
+        return btoa(String.fromCharCode.apply(null, data));
+    },
+
+    // Extract Path and Query String from Current URL and Base64 encode it
+    getPathAndQueryString: function () {
+        const pathname = window.location.pathname;
+        const queryString = window.location.search;
+        const fullPath = pathname + queryString;
+        return this.base64Encode(fullPath);
+    },
+
+    // Get Referred URL
+    getReferred: function () {
+        return encodeURIComponent(document.referrer);
+    },
+
     // Check Conditions for Sending Hit Request
     checkHitRequestConditions: function () {
         if (WP_Statistics_Tracker_Object.option.dntEnabled) {
@@ -50,7 +65,8 @@ let wpStatisticsUserOnline = {
             let requestUrl = this.getRequestUrl('hit');
             const params = new URLSearchParams({
                 ...WP_Statistics_Tracker_Object.hitParams,
-                referred
+                referred: this.getReferred(), // Use the getReferred method
+                page_uri: this.getPathAndQueryString() // Use the correct key for the path and query string (Base64 encoded)
             }).toString();
 
             const xhr = new XMLHttpRequest();
@@ -84,7 +100,8 @@ let wpStatisticsUserOnline = {
             let requestUrl = this.getRequestUrl('online');
             const params = new URLSearchParams({
                 ...WP_Statistics_Tracker_Object.onlineParams,
-                referred
+                referred: this.getReferred(), // Use the getReferred method
+                page_uri: this.getPathAndQueryString() // Use the correct key for the path and query string (Base64 encoded)
             }).toString();
 
             const xhr = new XMLHttpRequest();
@@ -92,7 +109,7 @@ let wpStatisticsUserOnline = {
             xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
             xhr.send(params);
         } catch (error) {
-
+            console.error('WP Statistics: Error sending online user request:', error);
         }
     },
 
