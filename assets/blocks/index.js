@@ -24,8 +24,28 @@ const ChartElement = ({
   data
 }) => {
   let postChartData = [];
+  let postChartSettings = [];
+  let $postChartColor = '#A5AAEA';
+  let $postChartStroke = '#2C36D7';
+  let $postChartDates = [];
+  let gradient;
+  let type = 'bar';
+
+  // if ( type && type === 'line') {
+  //     gradient = context.createLinearGradient(0, 0, 0, context.canvas.height - 90);
+  //     gradient.addColorStop(0, wps_js.hex_to_rgba($postChartColor, 1));
+  //     gradient.addColorStop(0.5,  wps_js.hex_to_rgba($postChartColor, 0.25));
+  //     gradient.addColorStop(0.75, wps_js.hex_to_rgba($postChartColor, 0));
+  //     gradient.addColorStop(1, wps_js.hex_to_rgba($postChartColor, 0));
+  // }
+
   if (typeof data.postChartData !== 'undefined' && data.postChartData !== null) {
     postChartData = data.postChartData;
+  }
+  if (typeof data.postChartSettings !== 'undefined' && data.postChartSettings !== null) {
+    postChartSettings = data.postChartSettings;
+    if (postChartSettings.color) $postChartColor = postChartSettings.color;
+    if (postChartSettings.border) $postChartStroke = postChartSettings.border;
   }
   const externalTooltipHandler = context => {
     const {
@@ -116,10 +136,9 @@ const ChartElement = ({
           width: 0
         },
         ticks: {
-          align: 'inner',
           maxTicksLimit: 4,
           fontColor: '#898A8E',
-          fontSize: 12,
+          fontSize: 11,
           padding: 5
         }
       },
@@ -151,21 +170,33 @@ const ChartElement = ({
       }
     }
   };
+  const hex_to_rgba = (hex, opacity) => {
+    hex = hex.replace('#', '');
+    let hex_to_rgba_r = parseInt(hex.substring(0, 2), 16);
+    let hex_to_rgba_g = parseInt(hex.substring(2, 4), 16);
+    let hex_to_rgba_b = parseInt(hex.substring(4, 6), 16);
+    return `rgba(${hex_to_rgba_r}, ${hex_to_rgba_g}, ${hex_to_rgba_b}, ${opacity})`;
+  };
+  const getBackgroundColor = value => value.views === 0 ? '#000000b3' : hex_to_rgba($postChartColor, 0.5);
+  const getHoverBackgroundColor = value => value.views === 0 ? '#000000b3' : $postChartColor;
+  const backgroundColors = type === 'line' ? gradient : postChartData.map(getBackgroundColor);
+  const hoverBackgroundColors = type === 'line' ? gradient : postChartData.map(getHoverBackgroundColor);
+  const borderColor = $postChartStroke;
   const chartData = {
     labels: postChartData.map(stat => stat.shortDate),
     datasets: [{
       data: postChartData.map(stat => stat.views),
-      borderColor: '#0D0725',
-      backgroundColor: 'rgba(115, 98, 191, 0.5)',
-      pointBackgroundColor: '#0D0725',
-      fill: true,
+      backgroundColor: backgroundColors,
+      hoverBackgroundColor: hoverBackgroundColors,
+      pointBackgroundColor: borderColor,
+      fill: type === 'line',
       barPercentage: 0.9,
       categoryPercentage: 1.0,
       tension: 0.5,
       minBarLength: 1,
-      borderWidth: 1,
-      pointRadius: 0,
-      pointHoverRadius: 5
+      borderWidth: type === 'line' ? 1 : 0,
+      pointRadius: type === 'line' ? 0 : undefined,
+      pointHoverRadius: type === 'line' ? 5 : undefined
     }]
   };
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
