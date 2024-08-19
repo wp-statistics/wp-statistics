@@ -88,18 +88,17 @@ class PostsManager
     {
         // Add meta-box to all post types
         foreach (Helper::get_list_post_type() as $screen) {
-            add_meta_box(
-                Meta_Box::getMetaBoxKey('post-summary'),
-                Meta_Box::getList('post-summary')['name'],
-                Meta_Box::LoadMetaBox('post-summary'),
-                $screen,
-                'side',
-                'high',
-                [
-                    '__block_editor_compatible_meta_box' => false,
-                    '__back_compat_meta_box'             => false,
-                ]
-            );
+            if (!Helper::is_gutenberg()) {
+                add_meta_box(
+                    Meta_Box::getMetaBoxKey('post-summary'),
+                    Meta_Box::getList('post-summary')['name'],
+                    Meta_Box::LoadMetaBox('post-summary'),
+                    $screen,
+                    'side',
+                    'high',
+                    ['__back_compat_meta_box' => false]
+                );
+            }
 
             add_meta_box(
                 Meta_Box::getMetaBoxKey('post'),
