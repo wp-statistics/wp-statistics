@@ -49,9 +49,7 @@ class post_summary
 
         // Basic Chart Data
         $response = [
-            'title'      => __('Number of Views', 'wp-statistics'),
-            'post_title' => get_the_title($post->ID),
-            'summary'    => $postSummary,
+            'summary' => $postSummary,
         ];
 
         $response['output'] = apply_filters(

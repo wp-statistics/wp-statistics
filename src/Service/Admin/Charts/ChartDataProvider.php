@@ -2,6 +2,7 @@
 
 namespace WP_Statistics\Service\Admin\Charts;
 
+use WP_STATISTICS\Helper;
 use WP_STATISTICS\Option;
 
 class ChartDataProvider
@@ -31,8 +32,8 @@ class ChartDataProvider
      *
      * @return  string
      */
-    public function getTooltipLabel($isTotal = false)
+    public function getTooltipLabel()
     {
-        return Option::getByAddon('metric', 'mini_chart', 'visitors') === 'visitors' ? __('Visitors', 'wp-statistics') : __('Views', 'wp-statistics');
+        return Helper::checkMiniChartOption('metric', 'visitors', 'visitors') ? __('Visitors', 'wp-statistics') : __('Views', 'wp-statistics');
     }
 }

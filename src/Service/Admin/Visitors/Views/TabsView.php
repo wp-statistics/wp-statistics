@@ -23,7 +23,13 @@ class TabsView extends BaseTabView
 
     public function __construct()
     {
-        $this->dataProvider = new VisitorsDataProvider([]);
+        $this->dataProvider = new VisitorsDataProvider([
+            'country'   => Request::get('location', ''),
+            'agent'     => Request::get('agent', ''),
+            'platform'  => Request::get('platform', ''),
+            'user_id'   => Request::get('user_id', ''),
+            'ip'        => Request::get('ip', '')
+        ]);
     }
 
     public function getVisitorsData()

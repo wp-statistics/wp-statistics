@@ -7,6 +7,7 @@ use WP_STATISTICS\Helper;
 use WP_STATISTICS\Meta_Box;
 use WP_STATISTICS\Option;
 use WP_Statistics\Service\Admin\Charts\ChartDataProvider;
+use WP_STATISTICS\TimeZone;
 use WP_STATISTICS\User;
 
 class PostsManager
@@ -134,6 +135,7 @@ class PostsManager
      *  - `thisPeriodTopReferrer`
      *  - `thisPeriodTopReferrerCount`
      *  - `postChartData`
+     *  - `postChartSettings`
      *  - `contentAnalyticsUrl`
      */
     public static function getPostStatisticsSummary($post)
@@ -150,17 +152,24 @@ class PostsManager
 
         // Data for the sidebar chart
         $chartData    = [];
-        $dailyViews   = $dataProvider->getDailyViews();
         $wpDateFormat = get_option('date_format');
-        foreach ($dailyViews as $dailyView) {
-            if (empty($dailyView->date) || empty($dailyView->views)) {
+
+        // Set date range for charts based on MiniChart's `date_range` option
+        $dataProvider->setFrom(TimeZone::getTimeAgo(Option::getByAddon('date_range', 'mini_chart', '14')));
+
+        // Fill `$dailyHits` based on MiniChart's `metric` option
+        $dailyHits = Helper::checkMiniChartOption('metric', 'visitors', 'visitors') ? $dataProvider->getDailyVisitors() : $dataProvider->getDailyViews();
+
+        // Fill `$chartData` array
+        foreach ($dailyHits as $hit) {
+            if (empty($hit->date) || (empty($hit->visitors) && empty($hit->views))) {
                 continue;
             }
 
             $chartData[] = [
-                'views'     => intval($dailyView->views),
-                'shortDate' => date('d M', strtotime($dailyView->date)),
-                'fullDate'  => date($wpDateFormat, strtotime($dailyView->date)),
+                'hits'      => !empty($hit->visitors) ? intval($hit->visitors) : intval($hit->views),
+                'shortDate' => date('d M', strtotime($hit->date)),
+                'fullDate'  => date($wpDateFormat, strtotime($hit->date)),
             ];
         }
 
@@ -171,6 +180,9 @@ class PostsManager
             'border' => $chartDataProvider->getBorderColor(),
             'label'  => $chartDataProvider->getTooltipLabel(),
         ];
+
+        // Reset date range because text summary displays info for the past week
+        $dataProvider->setFrom(TimeZone::getTimeAgo(7));
 
         return [
             'postId'                     => $post->ID,

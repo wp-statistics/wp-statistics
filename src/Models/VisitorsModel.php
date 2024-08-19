@@ -23,6 +23,11 @@ class VisitorsModel extends BaseModel
             'query_param'   => '',
             'taxonomy'      => '',
             'term'          => '',
+            'agent'         => '',
+            'platform'      => '',
+            'country'       => '',
+            'user_id'       => '',
+            'ip'            => '',
         ]);
 
         $query = Query::select('COUNT(DISTINCT visitor_id) as total_visitors')
@@ -36,6 +41,16 @@ class VisitorsModel extends BaseModel
             ->where('pages.uri', '=', $args['query_param'])
             ->whereDate('visitor_relationships.date', $args['date'])
             ->bypassCache($bypassCache);
+
+            if (!empty($args['agent']) || !empty($args['country']) || !empty($args['platform']) || !empty($args['user_id']) || !empty($args['ip'])) {
+                $query
+                    ->join('visitor', ['visitor_relationships.visitor_id', 'visitor.ID'])
+                    ->where('agent', '=', $args['agent'])
+                    ->where('location', '=', $args['country'])
+                    ->where('platform', '=', $args['platform'])
+                    ->where('user_id', '=', $args['user_id'])
+                    ->where('ip', '=', $args['ip']);
+            }
 
         if (!empty($args['taxonomy']) || !empty($args['term'])) {
             $taxQuery = Query::select(['DISTINCT object_id'])
@@ -286,6 +301,10 @@ class VisitorsModel extends BaseModel
             'author_id'   => '',
             'post_id'     => '',
             'country'     => '',
+            'agent'       => '',
+            'platform'    => '',
+            'user_id'     => '',
+            'ip'          => '',
             'query_param' => '',
             'taxonomy'    => '',
             'term'        => '',
@@ -343,6 +362,10 @@ class VisitorsModel extends BaseModel
             'visitor.referred'
         ], $additionalFields))
             ->from('visitor')
+            ->where('agent', '=', $args['agent'])
+            ->where('platform', '=', $args['platform'])
+            ->where('user_id', '=', $args['user_id'])
+            ->where('ip', '=', $args['ip'])
             ->perPage($args['page'], $args['per_page'])
             ->orderBy($args['order_by'], $args['order'])
             ->groupBy('visitor.ID')

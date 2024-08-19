@@ -27,14 +27,15 @@ const ChartElement = ({
   let postChartSettings = [];
   let $postChartColor = '#A5AAEA';
   let $postChartStroke = '#2C36D7';
+  let $postChartLabel = 'Visitors';
   let $postChartDates = [];
   let gradient;
   let type = 'bar';
 
-  // if ( type && type === 'line') {
+  // if (type && type === 'line') {
   //     gradient = context.createLinearGradient(0, 0, 0, context.canvas.height - 90);
   //     gradient.addColorStop(0, wps_js.hex_to_rgba($postChartColor, 1));
-  //     gradient.addColorStop(0.5,  wps_js.hex_to_rgba($postChartColor, 0.25));
+  //     gradient.addColorStop(0.5, wps_js.hex_to_rgba($postChartColor, 0.25));
   //     gradient.addColorStop(0.75, wps_js.hex_to_rgba($postChartColor, 0));
   //     gradient.addColorStop(1, wps_js.hex_to_rgba($postChartColor, 0));
   // }
@@ -46,6 +47,7 @@ const ChartElement = ({
     postChartSettings = data.postChartSettings;
     if (postChartSettings.color) $postChartColor = postChartSettings.color;
     if (postChartSettings.border) $postChartStroke = postChartSettings.border;
+    if (postChartSettings.label) $postChartLabel = postChartSettings.label;
   }
   const externalTooltipHandler = context => {
     const {
@@ -119,7 +121,7 @@ const ChartElement = ({
             if (tooltipItem.label === '-1') {
               return null;
             } else {
-              return `<div class="content-itemss"> <div class="content-item"><span>Views</span> <span>${count}</span></div>`;
+              return `<div class="content-itemss"> <div class="content-item"><span>${$postChartLabel}</span> <span>${count}</span></div>`;
             }
           }
         }
@@ -177,15 +179,15 @@ const ChartElement = ({
     let hex_to_rgba_b = parseInt(hex.substring(4, 6), 16);
     return `rgba(${hex_to_rgba_r}, ${hex_to_rgba_g}, ${hex_to_rgba_b}, ${opacity})`;
   };
-  const getBackgroundColor = value => value.views === 0 ? '#000000b3' : hex_to_rgba($postChartColor, 0.5);
-  const getHoverBackgroundColor = value => value.views === 0 ? '#000000b3' : $postChartColor;
+  const getBackgroundColor = value => value.hits === 0 ? '#000000b3' : hex_to_rgba($postChartColor, 0.5);
+  const getHoverBackgroundColor = value => value.hits === 0 ? '#000000b3' : $postChartColor;
   const backgroundColors = type === 'line' ? gradient : postChartData.map(getBackgroundColor);
   const hoverBackgroundColors = type === 'line' ? gradient : postChartData.map(getHoverBackgroundColor);
   const borderColor = $postChartStroke;
   const chartData = {
     labels: postChartData.map(stat => stat.shortDate),
     datasets: [{
-      data: postChartData.map(stat => stat.views),
+      data: postChartData.map(stat => stat.hits),
       backgroundColor: backgroundColors,
       hoverBackgroundColor: hoverBackgroundColors,
       pointBackgroundColor: borderColor,
