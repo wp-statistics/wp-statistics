@@ -75,7 +75,7 @@ use WP_STATISTICS\UserAgent;
     <div class="wps-visitor__visitors-detail--row">
         <span><?php esc_html_e('First session ', 'wp-statistics'); ?></span>
         <div class="wps-ellipsis-parent">
-            <span><?php echo esc_html(date_i18n(Helper::getDefaultDateFormat(true), $visitor->first_hit)) ?></span>
+            <span><?php echo esc_html(date_i18n(Helper::getDefaultDateFormat(true), strtotime($visitor->first_hit))) ?></span>
         </div>
     </div>
     <div class="wps-visitor__visitors-detail--row">

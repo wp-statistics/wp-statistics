@@ -69,18 +69,8 @@ use WP_Statistics\Utils\Request;
             if (isset($searchBoxTitle)): ?>
                 <div class="wps-filter-visitor wps-head-filters__item loading">
                     <div class="wps-dropdown">
-                        <label for="wps-page-filter" class="selectedItemLabel"><?php echo esc_attr($searchBoxTitle); ?></label>
-                        <select id="wps-page-filter" class="wps-select2" data-type-show="select2">
-                            <option value="test" >
-                                All
-                            </option>
-                            <option value="test" >
-                                test data
-                            </option>
-                            <option value="tes2t">
-                                test data
-                            </option>
-                        </select>
+                        <label for="wps-visitor-filter" class="selectedItemLabel"><?php echo esc_attr($searchBoxTitle); ?></label>
+                        <select id="wps-visitor-filter" class="wps-select2" data-type-show="select2"></select>
                     </div>
                 </div>
             <?php endif ?>

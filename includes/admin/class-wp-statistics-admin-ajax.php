@@ -3,6 +3,7 @@
 namespace WP_STATISTICS;
 
 use WP_Statistics\Components\DateRange;
+use WP_Statistics\Models\VisitorsModel;
 use WP_Statistics\Utils\Request;
 
 class Ajax
@@ -84,6 +85,11 @@ class Ajax
             [
                 'class'  => $this, 
                 'action' => 'get_page_filter_items',
+                'public' => false
+            ],
+            [
+                'class'  => $this, 
+                'action' => 'search_visitors',
                 'public' => false
             ],
             [
@@ -630,6 +636,38 @@ class Ajax
                     'more' => $query->max_num_pages > $paged ? true : false
                 ]
             ]);
+        }
+
+        exit;
+    }
+
+    public function search_visitors_action_callback()
+    {
+        if (Helper::is_request('ajax') and User::Access('read')) {
+
+            check_ajax_referer('wp_rest', 'wps_nonce');
+
+            $results = [];
+            $search  = Request::get('search', '');
+
+            $visitorsModel  = new VisitorsModel();
+            $visitors       = $visitorsModel->searchVisitors([
+                'user_id'     => $search,
+                'ip'          => $search,
+                'username'    => $search,
+                'email'       => $search
+            ]);
+
+            foreach ($visitors as $visitor) {
+                $option = [
+                    'id'   => Menus::admin_url('visitors', ['type' => 'single-visitor', 'visitor_id' => $visitor->ID]),
+                    'text' => sprintf(esc_html__('Visitor (#%s)', 'wp-statistics'), $visitor->ID)
+                ];
+    
+                $results[] = $option;
+            }
+
+            wp_send_json(['results' => $results]);
         }
 
         exit;
