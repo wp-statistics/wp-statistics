@@ -24,90 +24,35 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
 
             const chartData = Wp_Statistics_Author_Analytics_Object.browser_chart_data;
 
-            if (chartData.data.length == 0) {
+            //Todo chart Add browsers images
+            const image_urls = [
+                'https://via.placeholder.com/30',
+                'https://via.placeholder.com/30',
+            ];
+            if (!chartData.data ||chartData.data.length == 0) {
                 jQuery('#wps-browsers').parent().html(wps_js.no_results());
                 return;
+            }else{
+                wps_js.horizontal_bar( 'wps-browsers', chartData.labels, chartData ,image_urls );
             }
-
-            const browsersData = {
-                labels: chartData.labels,
-                datasets: [{
-                    data: chartData.data,
-                    backgroundColor: ['#F7D399', '#99D3FB', '#D7BDE2', '#D7BDE2', '#EBA39B', '#F5CBA7'],
-                    borderColor: '#fff',
-                    borderWidth: 1,
-                }]
-            };
-            const browsersOptions = {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'top',
-                        hidden: false,
-                        labels: {
-                            padding: 13,
-                            fontSize: 13,
-                            color: '#56585A',
-                            usePointStyle: true,
-                            pointStyle: 'rect',
-                            pointRadius: 2
-                        }
-                    }
-                }
-            };
-            const browsersCtx = document.getElementById('wps-browsers').getContext('2d');
-            const browsersChart = new Chart(browsersCtx, {
-                type: 'pie',
-                data: browsersData,
-                options: browsersOptions
-            });
         },
-
         generateOperatingSystemChart: function() {
             if (!wps_js.isset(Wp_Statistics_Author_Analytics_Object, 'os_chart_data')) {
                 return;
             }
-
+            //Todo chart Add OS images
+            const image_urls = [
+                'https://via.placeholder.com/30',
+                'https://via.placeholder.com/30',
+            ];
             const chartData = Wp_Statistics_Author_Analytics_Object.os_chart_data;
-
-            if (chartData.labels.length == 0 || chartData.data.length ==0) {
+            if (!chartData.data || chartData.labels.length == 0 || chartData.data.length ==0) {
                 jQuery('#wps-operating-systems').parent().html(wps_js.no_results());
                 return;
+            }else{
+                wps_js.horizontal_bar( 'wps-operating-systems', chartData.labels, chartData ,image_urls );
             }
-
-            const operatingSystemsData = {
-                labels: chartData.labels,
-                datasets: [{
-                    data: chartData.data,
-                    backgroundColor: ['#F7D399', '#99D3FB', '#D7BDE2', '#D7BDE2', '#EBA39B', '#F5CBA7'],
-                    borderColor: '#fff',
-                    borderWidth: 1,
-                }]
-            };
-            const operatingSystemsOptions = {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'top',
-                        hidden: false,
-                        labels: {
-                            padding: 13,
-                            fontSize: 13,
-                            color: '#56585A',
-                            usePointStyle: true,
-                            pointStyle: 'rect',
-                            pointRadius: 2
-                        }
-                    }
-                }
-            };
-            const operatingSystemsCtx = document.getElementById('wps-operating-systems').getContext('2d');
-            const operatingSystemsChart = new Chart(operatingSystemsCtx, {
-                type: 'pie',
-                data: operatingSystemsData,
-                options: operatingSystemsOptions
-            });
-        },
+         },
 
         generateViewsPerPostsChart: function () {
             if (!wps_js.isset(Wp_Statistics_Author_Analytics_Object, 'views_per_posts_chart_data')) {

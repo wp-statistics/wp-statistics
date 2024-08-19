@@ -1,7 +1,7 @@
 wps_js.models_meta_box = {
 
     placeholder: function () {
-        return wps_js.circle_placeholder();
+        return wps_js.rectangle_placeholder();
     },
 
     view: function (args = []) {
@@ -43,7 +43,7 @@ wps_js.models_meta_box = {
         }
 
         // Show Chart
-        wps_js.pie_chart(wps_js.chart_id('models'), args['model_name'], data, label_callback, title_callback);
-    }
+        wps_js.horizontal_bar(wps_js.chart_id('models'), args['model_name'], data , null );
+     }
 
 };

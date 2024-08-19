@@ -1,7 +1,7 @@
 wps_js.platforms_meta_box = {
 
     placeholder: function () {
-        return wps_js.circle_placeholder();
+        return wps_js.rectangle_placeholder();
     },
 
     view: function (args = []) {
@@ -51,7 +51,13 @@ wps_js.platforms_meta_box = {
         }
 
         // Show Chart
-        wps_js.pie_chart(wps_js.chart_id('platforms'), args['platform_name'], data, label_callback, title_callback);
+        //Todo chart Add platform images
+        const image_urls = [
+            'https://via.placeholder.com/30',
+            'https://via.placeholder.com/30',
+        ];
+
+        wps_js.horizontal_bar(wps_js.chart_id('platforms'), args['platform_name'], data ,image_urls );
 
         // Check Table information
         if (wps_js.exist_tag('#' + wps_js.getMetaBoxKey('platforms-table'))) {
