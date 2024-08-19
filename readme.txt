@@ -140,6 +140,7 @@ Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest versio
 * New: New Single Visitor page with detailed info about the visitor. 
 * Enhancement: Merged Contents, Category Pages, and Author Pages reports into one single Pages page.
 * Enhancement: Enhancement: Multiple renaming, menu additions, and updates to improve settings organization and user interface.
+* Enhancement: The chart design has been updated to be more user-friendly.
 
 For more information about the major update, please [visit our blog post](https://wp-statistics.com/?p=15915) or follow [@wp_statistics](https://twitter.com/wp_statistics) on Twitter
 
