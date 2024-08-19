@@ -1,6 +1,7 @@
 <?php
 use WP_STATISTICS\Admin_Template;
 use WP_STATISTICS\Helper;
+use WP_Statistics\Components\View;
 ?>
 
 <div class="metabox-holder wps-category-analytics">
@@ -67,28 +68,30 @@ use WP_STATISTICS\Helper;
             'tooltip'   => esc_html__('Distribution of visitors by their operating systems.', 'wp-statistics'),
             'unique_id' => 'category_operating_systems'
         ];
-        Admin_Template::get_template(['layout/category-analytics/pie-chart'], $operatingSystems);
+        View::load("components/charts/horizontal-bar", $operatingSystems);
 
         $browsers = [
             'title'     => esc_html__('Browsers', 'wp-statistics'),
             'tooltip'   => esc_html__('Distribution of visitors by their web browsers.', 'wp-statistics'),
             'unique_id' => 'category_browsers'
         ];
-        Admin_Template::get_template(['layout/category-analytics/pie-chart'], $browsers);
+        View::load("components/charts/horizontal-bar", $browsers);
 
         $deviceModels = [
             'title'     => esc_html__('Device Models', 'wp-statistics'),
             'tooltip'   => esc_html__('Distribution of visitors by their device models.', 'wp-statistics'),
             'unique_id' => 'category_device_models'
         ];
-        Admin_Template::get_template(['layout/category-analytics/pie-chart'], $deviceModels);
+        View::load("components/charts/horizontal-bar", $deviceModels);
+
 
         $deviceUsage = [
             'title'     => esc_html__('Device Usage', 'wp-statistics'),
             'tooltip'   => esc_html__('Distribution of visitors by their device types.', 'wp-statistics'),
             'unique_id' => 'category_device_usage'
         ];
-        Admin_Template::get_template(['layout/category-analytics/pie-chart'], $deviceUsage);
+        View::load("components/charts/horizontal-bar", $deviceUsage);
+
         ?>
     </div>
 

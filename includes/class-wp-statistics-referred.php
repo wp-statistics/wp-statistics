@@ -255,23 +255,13 @@ class Referred
      */
     public static function PrepareReferData($referrals)
     {
-
         if (empty($referrals)) return [];
 
         $list = [];
-
-        $ISOCountryCode = Country::getList();
-
         foreach ($referrals as $domain => $number) {
-
-            $referrerUrl    = Referred::html_sanitize_referrer($domain);
-            $domainInfo     = Referred::get_domain_server($domain);
-
-            $list[] = [
+            $referrerUrl = Referred::html_sanitize_referrer($domain);
+            $list[]      = [
                 'domain'    => $domain,
-                'ip'        => $domainInfo['ip'] != "" ? $domainInfo['ip'] : '-',
-                'country'   => $domainInfo['country'] != "" ? $ISOCountryCode[$domainInfo['country']] : '',
-                'flag'      => $domainInfo['country'] != "" ? Country::flag($domainInfo['country']) : '',
                 'page_link' => Menus::admin_url('referrers', ['referrer' => $referrerUrl]),
                 'number'    => number_format_i18n($number)
             ];

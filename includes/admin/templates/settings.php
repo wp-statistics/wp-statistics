@@ -11,11 +11,14 @@
                         <div id="general-settings" class="tab-content current">
                             <?php include WP_STATISTICS_DIR . 'includes/admin/templates/settings/general.php'; ?>
                         </div>
-                        <div id="ip-configuration-settings" class="tab-content">
-                            <?php include WP_STATISTICS_DIR . 'includes/admin/templates/settings/visitor-ip.php'; ?>
+                        <div id="advanced-settings" class="tab-content">
+                            <?php include WP_STATISTICS_DIR . 'includes/admin/templates/settings/advanced.php'; ?>
                         </div>
                         <div id="privacy-settings" class="tab-content">
                             <?php include WP_STATISTICS_DIR . 'includes/admin/templates/settings/privacy.php'; ?>
+                        </div>
+                        <div id="display-settings" class="tab-content">
+                            <?php include WP_STATISTICS_DIR . 'includes/admin/templates/settings/display.php'; ?>
                         </div>
                         <div id="notifications-settings" class="tab-content">
                             <?php include WP_STATISTICS_DIR . 'includes/admin/templates/settings/notifications.php'; ?>
@@ -25,15 +28,6 @@
                         </div>
                         <div id="exclusions-settings" class="tab-content">
                             <?php include WP_STATISTICS_DIR . 'includes/admin/templates/settings/exclusions.php'; ?>
-                        </div>
-                        <div id="externals-settings" class="tab-content">
-                            <?php include WP_STATISTICS_DIR . 'includes/admin/templates/settings/externals.php'; ?>
-                        </div>
-                        <div id="maintenance-settings" class="tab-content">
-                            <?php include WP_STATISTICS_DIR . 'includes/admin/templates/settings/maintenance.php'; ?>
-                        </div>
-                        <div id="reset-settings" class="tab-content">
-                            <?php include WP_STATISTICS_DIR . 'includes/admin/templates/settings/reset.php'; ?>
                         </div>
                         <div id="data-plus-settings" class="tab-content">
                             <?php include WP_STATISTICS_DIR . 'includes/admin/templates/settings/add-ons/data-plus.php'; ?>
@@ -57,9 +51,6 @@
                             <?php include WP_STATISTICS_DIR . 'includes/admin/templates/settings/add-ons/widgets.php'; ?>
                         </div>
                     <?php } ?>
-                    <div id="about" class="tab-content">
-                        <?php include WP_STATISTICS_DIR . 'includes/admin/templates/settings/about.php'; ?>
-                    </div>
                 </div><!-- container -->
 
                 <input type="hidden" name="tab" id="wps_current_tab" value=""/>

@@ -640,14 +640,11 @@ class Ajax
         if (Helper::is_request('ajax')) {
             check_ajax_referer('wp_rest', 'wps_nonce');
 
-            $date   = Request::get('date', [], 'array');
-            $result = DateRange::store($date);
+            $date = Request::get('date', [], 'array');
+            DateRange::store($date);
             
-            if ($result) {
-                wp_send_json_success(['message' => esc_html__('Date range has been stored successfully.', 'wp-statistics')]);
-            } else {
-                wp_send_json_success(['message' => esc_html__('Something went wrong.', 'wp-statistics')]);
-            }
+            wp_send_json_success(['message' => esc_html__('Date range has been stored successfully.', 'wp-statistics')]);
+
         }
 
         exit;

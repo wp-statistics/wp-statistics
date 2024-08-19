@@ -319,6 +319,13 @@
     margin-top: 20px;
   }
 
+  .wps-content-analytics-chart{
+    margin-top: 20px;
+    .o-wrap--no-data{
+      padding-top: 0!important;
+    }
+  }
+
   #performance-chart, #performance-chart-single {
     height: 299px !important;
     width: 100% !important;

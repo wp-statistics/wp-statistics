@@ -18,20 +18,31 @@ class DateRange
      * Stores the given date range in the user's meta data.
      *
      * @param array $range An array containing 'from' and 'to' date strings.
-     * @return bool
      */
     public static function store($range)
     {
+        $period  = '';
         $periods = self::getPeriods();
 
-        foreach ($periods as $key => $period) {
-            if ($period['period']['from'] === $range['from'] && $period['period']['to'] === $range['to']) {
-                User::saveMeta(self::USER_DATE_RANGE_META_KEY, $key);
-                return true;
+        // If range is not set, or is invalid, use default
+        if (!is_array($range) || !isset($range['from'], $range['to'])) {
+            $range = self::getDefault();
+        }
+        
+        // If range is among the predefined periods, store the period key
+        foreach ($periods as $key => $item) {
+            if ($item['period']['from'] === $range['from'] && $item['period']['to'] === $range['to']) {
+                $period = $key;
+                break;
             }
         }
 
-        return false;
+        // If it's custom range, store the range
+        if (empty($period)) {
+            $period = $range;
+        }
+
+        User::saveMeta(self::USER_DATE_RANGE_META_KEY, $period);
     }
 
     /**
@@ -42,9 +53,11 @@ class DateRange
     public static function retrieve()
     {
         $defaultRange = self::getDefault();
-        $storedRange  = self::get(User::getMeta(self::USER_DATE_RANGE_META_KEY, true));
+        $storedPeriod = User::getMeta(self::USER_DATE_RANGE_META_KEY, true);
 
-        return !empty($storedRange) ? $storedRange : $defaultRange;
+        $period = self::resolveDate($storedPeriod);
+
+        return !empty($period) ? $period : $defaultRange;
     }
 
     /**
