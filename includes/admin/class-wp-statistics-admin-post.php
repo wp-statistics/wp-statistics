@@ -21,9 +21,6 @@ class Admin_Post
             add_action('admin_init', array($this, 'init'));
         }
 
-        // Add Post Hit Number in Publish Meta Box in WordPress Edit a post/page
-        add_action('post_submitbox_misc_actions', array($this, 'post_hit_misc'));
-
         // Remove Post Hits when Post Id deleted
         add_action('deleted_post', array($this, 'modify_delete_post'));
     }
@@ -210,33 +207,6 @@ class Admin_Post
         $wpdb->query(
             $wpdb->prepare("DELETE FROM `" . DB::table('pages') . "` WHERE `id` = %d AND (`type` = 'post' OR `type` = 'page' OR `type` = 'product');", esc_sql($post_id))
         );
-    }
-
-    /**
-     * Add Post Hit Number in Publish Meta Box in WordPress Edit a post/page
-     */
-    public function post_hit_misc()
-    {
-        global $post;
-
-        $hitCount = 0;
-        if (Helper::checkMiniChartOption('metric', 'visitors', 'visitors')) {
-            $visitorsModel = new VisitorsModel();
-            $hitCount      = $visitorsModel->countVisitors(['post_id' => $post->ID]);
-        } else {
-            $viewsModel = new ViewsModel();
-            $hitCount   = $viewsModel->countViews(['post_id' => $post->ID]);
-        }
-
-        if ($post->post_status == 'publish') {
-            echo sprintf(
-                // translators: 1: Either "Visitors" or "Views" - 2: Link to content analytics page - 3: Hits count.
-                '<div class="misc-pub-section misc-pub-hits">%s <a href="%s">%s</a></div>',
-                Helper::checkMiniChartOption('metric', 'visitors', 'visitors') ? esc_html__('Visitors:', 'wp-statistics') : esc_html__('Views:', 'wp-statistics'),
-                esc_url(Menus::admin_url('content-analytics', ['post_id' => $post->ID, 'type' => 'single', 'from' => Request::get('from', date('Y-m-d', 0)), 'to' => Request::get('to', date('Y-m-d'))])),
-                esc_html(number_format($hitCount))
-            );
-        }
     }
 }
 
