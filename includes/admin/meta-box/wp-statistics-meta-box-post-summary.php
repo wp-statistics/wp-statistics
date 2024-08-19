@@ -2,7 +2,7 @@
 
 namespace WP_STATISTICS\MetaBox;
 
-use WP_STATISTICS\Admin_Template;
+use WP_Statistics\Components\View;
 use WP_Statistics\Service\Admin\Posts\PostsManager;
 
 class post_summary
@@ -56,7 +56,7 @@ class post_summary
 
         $response['output'] = apply_filters(
             'wp_statistics_meta_box_post_summary',
-            Admin_Template::get_template('meta-box/post-summary', ['summary' => $postSummary], true),
+            View::load('components/meta-box/post-summary', ['summary' => $postSummary], true),
             $post
         );
 
