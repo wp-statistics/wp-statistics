@@ -11,7 +11,7 @@ use WP_STATISTICS\Visitor;
 <div class="inside">
     <?php if (!empty($data)) : ?>
         <div class="o-table-wrapper">
-            <table width="100%" class="o-table wps-new-table wps-table-inspect">
+            <table width="100%" class="o-table wps-new-table">
                 <thead>
                     <tr>
                         <th class="wps-pd-l">
@@ -86,7 +86,7 @@ use WP_STATISTICS\Visitor;
                                     <div class="wps-tooltip" title="<?php echo esc_attr(Country::getName($visitor->location)) ?>">
                                         <img src="<?php echo esc_url(Country::flag($visitor->location)) ?>" alt="<?php echo esc_attr("{$visitor->region}, {$visitor->city}") ?>" width="15" height="15">
                                     </div>
-                                    <span class="wps-ellipsis-text"><?php echo esc_html("{$visitor->region}, {$visitor->city}") ?></span>
+                                    <span class="wps-ellipsis-text" title="<?php echo esc_html("{$visitor->region}, {$visitor->city}") ?>"><?php echo esc_html("{$visitor->region}, {$visitor->city}") ?></span>
                                 </div>
                             </td>
 
