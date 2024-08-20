@@ -366,6 +366,7 @@ wps_js.horizontal_bar = function (tag_id, labels, data, imageUrls) {
             }
             let labelDiv = document.createElement('div');
             labelDiv.innerHTML = labels[i];
+            labelDiv.setAttribute('title', labels[i]);
             labelDiv.classList.add('wps-horizontal-bar__label');
             labelImageDiv.appendChild(labelDiv);
             itemDiv.appendChild(labelImageDiv);
