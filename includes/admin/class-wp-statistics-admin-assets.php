@@ -436,7 +436,7 @@ class Admin_Assets
         );
 
         $list['active_post_type'] = Helper::getPostTypeName(Request::get('pt', 'post'));
-        $list['user_date_range']  = DateRange::retrieve();
+        $list['user_date_range']  = DateRange::get();
 
         // Rest-API Meta Box Url
         $list['stats_report_option'] = Option::get('time_report') == '0' ? false : true;

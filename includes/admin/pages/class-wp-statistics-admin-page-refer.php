@@ -44,7 +44,7 @@ class refer_page extends Singleton
         $args['paged']    = Admin_Template::getCurrentPaged();
 
         // Get Date-Range
-        $args['DateRang']    = DateRange::retrieve();
+        $args['DateRang']    = DateRange::get();
         $args['hasDateRang'] = true;
 
         // Get Total List
