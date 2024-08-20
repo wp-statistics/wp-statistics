@@ -19,7 +19,7 @@ class SingleVisitorView extends BaseView
         $this->visitor_id = Request::get('visitor_id');
 
         if (empty($this->visitor_id)) {
-            throw new SystemErrorException(esc_html__('Invalid visitor id provided.', 'wp-statistics'));
+            throw new SystemErrorException(esc_html__('Please provide a valid visitor ID.', 'wp-statistics'));
         }
 
         $this->dataProvider = new VisitorsDataProvider(['visitor_id' => $this->visitor_id]);
@@ -27,7 +27,13 @@ class SingleVisitorView extends BaseView
 
     public function getData()
     {
-        return $this->dataProvider->getVisitorData();
+        $visitorData = $this->dataProvider->getVisitorData();
+
+        if (empty($visitorData['visitor_info'])) {
+            throw new SystemErrorException(esc_html__('Visitor does not exist.', 'wp-statistics'));
+        }
+
+        return $visitorData;
     }
 
     public function render()
