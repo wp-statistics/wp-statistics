@@ -49,7 +49,7 @@ use WP_STATISTICS\Visitor;
                                     <?php if (!empty($visitor->user_id)) : ?>
                                         <li class="wps-browsers__flag">
                                             <div class="wps-tooltip" data-tooltip-content="#tooltip_user_id">
-                                                <a href=""><img src="<?php echo esc_url(WP_STATISTICS_URL . 'assets/images/user-icon.svg') ?>" alt="user" width="15" height="15"></a>
+                                                <a href="<?php echo esc_url(Menus::admin_url('visitors', ['user_id' => $visitor->user_id])) ?>"><img src="<?php echo esc_url(WP_STATISTICS_URL . 'assets/images/user-icon.svg') ?>" alt="user" width="15" height="15"></a>
                                             </div>
                                             <div class="wps-tooltip_templates">
                                                 <div id="tooltip_user_id">
@@ -69,13 +69,13 @@ use WP_STATISTICS\Visitor;
 
                                     <li class="wps-browsers__flag">
                                         <div class="wps-tooltip" title="<?php echo esc_attr($visitor->agent) ?>">
-                                            <a href=""><img src="<?php echo esc_url(UserAgent::getBrowserLogo($visitor->agent)) ?>" alt="<?php echo esc_attr($visitor->agent) ?>" width="15" height="15"></a>
+                                            <a href="<?php echo esc_url(Menus::admin_url('visitors', ['agent' => $visitor->agent])) ?>"><img src="<?php echo esc_url(UserAgent::getBrowserLogo($visitor->agent)) ?>" alt="<?php echo esc_attr($visitor->agent) ?>" width="15" height="15"></a>
                                         </div>
                                     </li>
 
                                     <li class="wps-browsers__flag">
                                         <div class="wps-tooltip" title="<?php echo esc_attr($visitor->platform) ?>">
-                                            <a href=""><img src="<?php echo esc_url(UserAgent::getPlatformLogo($visitor->platform)) ?>" alt="<?php echo esc_attr($visitor->platform) ?>" width="15" height="15"></a>
+                                            <a href="<?php echo esc_url(Menus::admin_url('visitors', ['platform' => $visitor->platform])) ?>"><img src="<?php echo esc_url(UserAgent::getPlatformLogo($visitor->platform)) ?>" alt="<?php echo esc_attr($visitor->platform) ?>" width="15" height="15"></a>
                                         </div>
                                     </li>
                                 </ul>
