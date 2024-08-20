@@ -1,12 +1,12 @@
-/*!******************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[4].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[4].use[2]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[4].use[3]!./assets/dev/blocks/post-summary/style.scss ***!
-  \******************************************************************************************************************************************************************************************************************************************************************/
+/*!**************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[4].use[1]!./node_modules/@wordpress/scripts/node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[4].use[2]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[4].use[3]!./assets/dev/blocks/post-summary/style.scss ***!
+  \**************************************************************************************************************************************************************************************************************************************************************************************************/
 .wp-statistics-block-editor-panel-chart {
   position: relative;
 }
 
 .wps-mini-chart-list-tooltip {
-  box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.0196078431);
+  box-shadow: -1px 1px 2px 0 rgba(0, 0, 0, 0.0196078431);
   border: 0.5px solid #DADCE0;
   border-radius: 2px;
   background: #fff;
@@ -25,10 +25,10 @@
   font-weight: 500;
   line-height: 14.06px;
   padding-bottom: 8px;
-  text-align: left;
+  text-align: right;
 }
 .rtl .wps-mini-chart-list-tooltip .chart-title {
-  text-align: right;
+  text-align: left;
 }
 .wps-mini-chart-list-tooltip .content-item {
   display: flex;
@@ -50,5 +50,3 @@
   line-height: 15.23px;
   display: block !important;
 }
-
-/*# sourceMappingURL=style-index.css.map*/

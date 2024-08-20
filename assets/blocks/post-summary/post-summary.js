@@ -15749,8 +15749,8 @@ const Scatter = /* #__PURE__ */ createTypedChart("scatter", chart_js__WEBPACK_IM
 /******/ 		// undefined = chunk not loaded, null = chunk preloaded/prefetched
 /******/ 		// [resolve, reject, Promise] = chunk loading, 0 = chunk loaded
 /******/ 		var installedChunks = {
-/******/ 			"index": 0,
-/******/ 			"./style-index": 0
+/******/ 			"post-summary": 0,
+/******/ 			"./style-post-summary": 0
 /******/ 		};
 /******/ 		
 /******/ 		// no chunk on demand loading
@@ -15802,9 +15802,9 @@ const Scatter = /* #__PURE__ */ createTypedChart("scatter", chart_js__WEBPACK_IM
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
-/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["./style-index"], () => (__webpack_require__("./assets/dev/blocks/post-summary/index.js")))
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["./style-post-summary"], () => (__webpack_require__("./assets/dev/blocks/post-summary/index.js")))
 /******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
 /******/ 	
 /******/ })()
 ;
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=post-summary.js.map

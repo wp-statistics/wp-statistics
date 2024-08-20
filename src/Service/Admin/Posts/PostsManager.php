@@ -73,10 +73,10 @@ class PostsManager
             return;
         }
 
-        Assets::script('editor-sidebar', 'blocks/index.js', ['wp-plugins', 'wp-editor'], $postSummary);
+        Assets::script('editor-sidebar', 'blocks/post-summary/post-summary.js', ['wp-plugins', 'wp-editor'], $postSummary);
 
-        $styleFileName = is_rtl() ? 'style-index-rtl.css' : 'style-index.css';
-        Assets::style('editor-sidebar', "blocks/$styleFileName");
+        $styleFileName = is_rtl() ? 'style-post-summary-rtl.css' : 'style-post-summary.css';
+        Assets::style('editor-sidebar', "blocks/post-summary/$styleFileName");
     }
 
     /**
