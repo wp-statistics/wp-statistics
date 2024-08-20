@@ -146,6 +146,7 @@ class PostsManager
         } catch (\Exception $e) {
             return null;
         }
+        $chartDataProvider = new ChartDataProvider();
 
         $topReferrerAndCountTotal      = $dataProvider->getTopReferrerAndCount(true);
         $topReferrerAndCountThisPeriod = $dataProvider->getTopReferrerAndCount();
@@ -153,6 +154,19 @@ class PostsManager
         // Data for the sidebar chart
         $chartData    = [];
         $wpDateFormat = get_option('date_format');
+        $publishDate  = get_the_date('Y-m-d', $post->ID);
+
+        // Fill `$chartData` with default 0s
+        // Use a short date format for indexes and `chartDates` for values
+            // Short date format will be displayed below summary charts
+        // Also consider post's publish date so older dates get ignored
+        foreach ($chartDataProvider->getChartDates(0, $publishDate) as $date) {
+            $shortDate             = date('d M', strtotime($date));
+            $chartData[$shortDate] = [
+                'hits'      => 0,
+                'fullDate'  => date($wpDateFormat, strtotime($date)),
+            ];
+        }
 
         // Set date range for charts based on MiniChart's `date_range` option
         $dataProvider->setFrom(TimeZone::getTimeAgo(Option::getByAddon('date_range', 'mini_chart', '14')));
@@ -160,21 +174,20 @@ class PostsManager
         // Fill `$dailyHits` based on MiniChart's `metric` option
         $dailyHits = Helper::checkMiniChartOption('metric', 'visitors', 'visitors') ? $dataProvider->getDailyVisitors() : $dataProvider->getDailyViews();
 
-        // Fill `$chartData` array
+        // Fill `$chartData` with real stats
         foreach ($dailyHits as $hit) {
             if (empty($hit->date) || (empty($hit->visitors) && empty($hit->views))) {
                 continue;
             }
 
-            $chartData[] = [
+            $shortDate             = date('d M', strtotime($hit->date));
+            $chartData[$shortDate] = [
                 'hits'      => !empty($hit->visitors) ? intval($hit->visitors) : intval($hit->views),
-                'shortDate' => date('d M', strtotime($hit->date)),
                 'fullDate'  => date($wpDateFormat, strtotime($hit->date)),
             ];
         }
 
         // Some settings for the chart
-        $chartDataProvider = new ChartDataProvider();
         $chartSettings = [
             'color'  => $chartDataProvider->getChartColor(),
             'border' => $chartDataProvider->getBorderColor(),

@@ -100,15 +100,11 @@ wps_js.post_summary_meta_box = {
                     external: externalTooltipHandler,
                     callbacks: {
                         title: (tooltipItems) => {
-                            return postChartData[tooltipItems[0].dataIndex].fullDate;
+                            return postChartData[tooltipItems[0].label].fullDate;
                         },
                         label: (tooltipItem) => {
                             const count = tooltipItem.formattedValue;
-                            if (tooltipItem.label === '-1') {
-                                return null;
-                            } else {
-                                return `<div class="content-itemss"> <div class="content-item"><span>${postChartTooltipLabel}</span> <span>${count}</span></div>`;
-                            }
+                            return `<div class="content-itemss"> <div class="content-item"><span>${postChartTooltipLabel}</span> <span>${count}</span></div>`;
                         },
                     },
                 },
@@ -164,9 +160,9 @@ wps_js.post_summary_meta_box = {
         new Chart(chartContext, {
             type: 'bar',
             data: {
-                labels: postChartData.map(stat => stat.shortDate),
+                labels: Object.entries(postChartData).map(([date, stat]) => date),
                 datasets: [{
-                    data: postChartData.map(stat => stat.hits),
+                    data: Object.entries(postChartData).map(([date, stat]) => stat.hits),
                     borderColor: '#0D0725',
                     backgroundColor: 'rgba(115, 98, 191, 0.5)',
                     pointBackgroundColor: '#0D0725',
