@@ -48,9 +48,7 @@ wps_js.search_meta_box = {
                     acc[item.label] = item.data;
                     return acc;
                 }, {})
-            },
-
-
+            }
         };
         if (args['total']['active'] === 1) {
             const totalData = datasets.filter(item => item.label === wps_js._('total'))[0].data;
@@ -59,7 +57,7 @@ wps_js.search_meta_box = {
                 [wps_js._('total')]: totalData
             };
         }
-        //Todo chart Add
+        //Todo chart Add total previousData
         wps_js.new_line_chart(data, wps_js.chart_id('search'), null)
     },
 

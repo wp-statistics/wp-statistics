@@ -475,7 +475,17 @@
         line-height: 15.23px;
       }
     }
+
+    canvas {
+      width: 100% !important;
+      height: auto;
+      max-height: 299px;
+    }
+    .o-wrap--no-dat{
+      padding-top: 20px!important;
+    }
   }
+
 
   &--data {
     display: flex;
@@ -493,7 +503,7 @@
 
     .wps-postbox-chart--items {
       display: flex;
-       column-gap: 48px;
+      column-gap: 48px;
       row-gap: 20px;
       margin-bottom: 24px;
       flex-wrap: wrap;
@@ -536,7 +546,7 @@
               display: inline-flex;
               width: 6px;
               height: 0;
-              border:3px solid;
+              border: 3px solid;
               border-radius: 3px;
             }
           }
@@ -554,7 +564,7 @@
               display: inline-flex;
               width: 3px;
               height: 0;
-              border:3px solid;
+              border: 3px solid;
               border-radius: 3px;
             }
           }
@@ -596,17 +606,17 @@
     padding: 8px;
     position: relative;
 
-    &:hover{
-         .wps-horizontal-bar__label, .wps-horizontal-bar__data span {
-          font-weight: 500!important;
-        }
+    &:hover {
+      .wps-horizontal-bar__label, .wps-horizontal-bar__data span {
+        font-weight: 500 !important;
+      }
     }
 
     &:first-child {
       .wps-horizontal-bar__label-image-container {
         .wps-horizontal-bar__label {
           font-weight: 500;
-         }
+        }
       }
 
       .wps-horizontal-bar__data span:first-child {
@@ -614,7 +624,7 @@
         font-weight: 500;
         font-size: 13px;
         line-height: 15.23px;
-       }
+      }
     }
 
     .wps-horizontal-bar__background {
@@ -643,7 +653,7 @@
       font-size: 14px;
       font-weight: 400;
       line-height: 16.41px;
-       color: #65686A;
+      color: #65686A;
 
       &:first-child {
         justify-content: flex-start;
@@ -654,7 +664,7 @@
         font-weight: 500;
         font-size: 13px;
         line-height: 15.23px;
-       }
+      }
     }
   }
 
@@ -683,10 +693,10 @@
   }
 }
 
-#wp-statistics-browsers-widget  ,
+#wp-statistics-browsers-widget,
 #wp-statistics-platforms-widget,
 #wp-statistics-models-widget,
-#wp-statistics-devices-widget{
+#wp-statistics-devices-widget {
   .o-wrap {
     padding: 0 24px;
   }

@@ -10,7 +10,13 @@
   }
 }
 
-
+.c-wps-search-engine-chart {
+  canvas{
+    height: 222px !important;
+    width: 100% !important;
+    margin-top: 20px;
+  }
+}
 .c-wps-performance-chart {
   margin-top: 20px;
   &__items {
