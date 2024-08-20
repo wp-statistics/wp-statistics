@@ -239,9 +239,12 @@ const ContentElement = ({
     target: "_blank",
     rel: "noreferrer nofollow"
   }, thisPeriodTopReferrerLabel), "' with ", (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("b", null, thisPeriodTopReferrerCount, " visits"), ".") : '';
+
+  // Display the first part of text only if the post has been published more than a week ago
+  const thisPeriodText = new Date() - Date.parse(data.fromString) >= 7 * 24 * 60 * 60 * 1000 ? (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.Fragment, null, "Over the past week (", (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("b", null, data.fromString, " - ", data.toString), "), this post has been ", (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("b", null, "viewed ", thisPeriodViews, " times by ", thisPeriodVisitors, " visitors"), ".", thisPeriodTopReferrerText, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("br", null)) : '';
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "wp-statistics-block-editor-panel-content"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, "Over the past week (", (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("b", null, data.fromString, " - ", data.toString), "), this post has been ", (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("b", null, "viewed ", thisPeriodViews, " times by ", thisPeriodVisitors, " visitors"), ".", thisPeriodTopReferrerText, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("br", null), "In total, it has been ", (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("b", null, "viewed ", totalViews, " times by ", totalVisitors, " visitors"), topReferrerText, ". For more detailed insights, visit the ", (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("b", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, thisPeriodText, "In total, this post has been ", (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("b", null, "viewed ", totalViews, " times by ", totalVisitors, " visitors"), topReferrerText, ". For more detailed insights, visit the ", (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("b", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
     href: data.contentAnalyticsUrl,
     target: "_blank"
   }, "analytics section")), "."));
