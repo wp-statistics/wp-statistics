@@ -859,31 +859,41 @@ wps_js.new_line_chart = function (data, tag_id, newOptions) {
     });
 
     const updateLegend = function () {
-        const legendContainer = document.querySelector('.wps-postbox-chart--items');
+        const chartElement = document.getElementById(tag_id);
+        // Find the legend container that is beside this chart
+        const legendContainer = chartElement.parentElement.parentElement.querySelector('.wps-postbox-chart--items');
+
         if (legendContainer) {
             legendContainer.innerHTML = '';
             datasets.forEach((dataset, index) => {
                 const isPrevious = dataset.label.includes('(Previous)');
                 if (!isPrevious) {
-                    const currentData = dataset.data.reduce((a, b) => a + b, 0);
-                    const previousData = data.previousData[dataset.label]?.reduce((a, b) => a + b, 0) || 'N/A';
+                    const currentData = dataset.data.reduce((a, b) => Number(a) + Number(b), 0);
+                    const previousData = data.previousData[dataset.label]?.reduce((a, b) => Number(a) + Number(b), 0) || null;
                     const legendItem = document.createElement('div');
                     legendItem.className = 'wps-postbox-chart--item';
-                    legendItem.innerHTML = `
+                    const previousDataHTML = previousData ? `
+                    <div class="previous-data">
                         <span>
-                             ${dataset.label}
+                            <span class="wps-postbox-chart--item--color" style="border-color: ${dataset.borderColor}"></span>
+                            <span class="wps-postbox-chart--item--color" style="border-color: ${dataset.borderColor}"></span>
                         </span>
-                        <div>
-                            <div class="current-data"><span class="wps-postbox-chart--item--color" style="background: ${dataset.borderColor}"></span>${currentData.toLocaleString()}</div>
-                            <div class="previous-data" >
-                                <span>
-                                    <span class="wps-postbox-chart--item--color" style="background: ${dataset.borderColor}"></span>
-                                    <span class="wps-postbox-chart--item--color" style="background: ${dataset.borderColor}"></span>
-                                </span>
-                                ${previousData.toLocaleString()}
-                            </div>
+                        ${previousData.toLocaleString()}
+                    </div> ` : '';
+
+                    // Build the legend item HTML
+                    legendItem.innerHTML = `
+                    <span>
+                         ${dataset.label}
+                    </span>
+                    <div>
+                        <div class="current-data">
+                            <span class="wps-postbox-chart--item--color" style="border-color: ${dataset.borderColor}"></span>
+                            ${currentData.toLocaleString()}
                         </div>
-                    `;
+                        ${previousDataHTML}
+                    </div>`;
+
                     // Add click event to toggle visibility of the current dataset only
                     const currentDataDiv = legendItem.querySelector('.current-data');
                     currentDataDiv.addEventListener('click', function () {
@@ -895,15 +905,16 @@ wps_js.new_line_chart = function (data, tag_id, newOptions) {
 
                     // Add click event to toggle visibility of the previous dataset
                     const previousDataDiv = legendItem.querySelector('.previous-data');
-                    previousDataDiv.addEventListener('click', function () {
-                        const metaPrevious = lineChart.getDatasetMeta(index + 1);
-                        if (metaPrevious && metaPrevious.label.includes('(Previous)')) {
-                            previousDataDiv.classList.toggle('wps-line-through');
-                            metaPrevious.hidden = !metaPrevious.hidden;
-                        }
-                        lineChart.update();
-                    });
-
+                    if (previousDataDiv) {
+                        previousDataDiv.addEventListener('click', function () {
+                            const metaPrevious = lineChart.getDatasetMeta(index + 1);
+                            if (metaPrevious && metaPrevious.label.includes('(Previous)')) {
+                                previousDataDiv.classList.toggle('wps-line-through');
+                                metaPrevious.hidden = !metaPrevious.hidden;
+                            }
+                            lineChart.update();
+                        });
+                    }
                     legendContainer.appendChild(legendItem);
                 }
             });
