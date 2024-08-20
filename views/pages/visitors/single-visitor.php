@@ -42,7 +42,7 @@ use WP_Statistics\Components\View;
             </div>
 
         </div>
-        <div class="wps-card wps-card--table">
+        <!-- <div class="wps-card wps-card--table">
             <div class="wps-card__title">
                 <h2>
                     <?php esc_html_e('Recent Events', 'wp-statistics'); ?>
@@ -58,6 +58,6 @@ use WP_Statistics\Components\View;
                 View::load("components/tables/recent-events", $events_args);
                 ?>
             </div>
-        </div>
+        </div> -->
     </div>
 </div>
