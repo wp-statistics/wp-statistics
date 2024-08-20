@@ -19,6 +19,6 @@ trait Cacheable
     protected function setCachedResult($query, $result)
     {
         $cacheKey = $this->getCacheKey($query);
-        return set_transient($cacheKey, $result, HOUR_IN_SECONDS);
+        return set_transient($cacheKey, $result, HOUR_IN_SECONDS * 24);
     }
 }
