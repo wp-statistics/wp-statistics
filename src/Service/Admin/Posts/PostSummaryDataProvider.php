@@ -40,10 +40,10 @@ class PostSummaryDataProvider
             throw new \Exception('Invalid post!');
         }
 
-        $this->postId   = $post->ID;
-        $this->fromDate = TimeZone::getTimeAgo(7);
-        $this->toDate   = TimeZone::getTimeAgo();
-        $this->setArgs();
+        $this->postId = $post->ID;
+
+        $this->setFrom(TimeZone::getTimeAgo(7));
+        $this->setTo(TimeZone::getTimeAgo());
 
         $this->visitorsModel = new VisitorsModel();
         $this->viewsModel    = new ViewsModel();

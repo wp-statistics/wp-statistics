@@ -22,11 +22,16 @@ const ContentElement = ({ data }) => {
         <Fragment> The top referrer domain is '<a href={thisPeriodTopReferrer} target="_blank" rel="noreferrer nofollow">{thisPeriodTopReferrerLabel}</a>' with <b>{thisPeriodTopReferrerCount} visits</b>.</Fragment>
     ) : '';
 
+    // Display the first part of text only if the post has been published more than a week ago
+    const thisPeriodText = (new Date) - Date.parse(data.fromString) >= (7 * 24 * 60 * 60 * 1000) ? (
+        <Fragment>Over the past week (<b>{data.fromString} - {data.toString}</b>), this post has been <b>viewed {thisPeriodViews} times by {thisPeriodVisitors} visitors</b>.{thisPeriodTopReferrerText}<br /></Fragment>
+    ) : '';
+
     return (
         <div className="wp-statistics-block-editor-panel-content">
             <p>
-                Over the past week (<b>{data.fromString} - {data.toString}</b>), this post has been <b>viewed {thisPeriodViews} times by {thisPeriodVisitors} visitors</b>.{thisPeriodTopReferrerText}<br />
-                In total, it has been <b>viewed {totalViews} times by {totalVisitors} visitors</b>{topReferrerText}. For more detailed insights, visit the <b><a href={data.contentAnalyticsUrl} target="_blank">analytics section</a></b>.
+                {thisPeriodText}
+                In total, this post has been <b>viewed {totalViews} times by {totalVisitors} visitors</b>{topReferrerText}. For more detailed insights, visit the <b><a href={data.contentAnalyticsUrl} target="_blank">analytics section</a></b>.
             </p>
         </div>
     );

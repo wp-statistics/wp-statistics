@@ -15,31 +15,36 @@ $thisPeriodTopReferrerLabel = !empty($thisPeriodTopReferrer) ? wp_parse_url($thi
 $thisPeriodTopReferrerLabel = !empty($thisPeriodTopReferrerLabel) && !empty($thisPeriodTopReferrerLabel['host']) ? trim($thisPeriodTopReferrerLabel['host']) : '';
 ?>
 
-<p class="wps-fade-effect"><?php echo sprintf(
-        // translators: 1: Start date - 2: To date - 3: Views count - 4: Visitors count.
-        __('Over the past week (<b>%s - %s</b>), this post has been <b>viewed %s times by %s visitors</b>', 'wp-statistics'),
-        esc_html($summary['fromString']),
-        esc_html($summary['toString']),
-        number_format(intval($summary['thisPeriodViews'])),
-        number_format(intval($summary['thisPeriodVisitors'])),
-    );
+<p class="wps-fade-effect"><?php
 
-    // If post had any referrers in this period
-    if (intval($summary['thisPeriodTopReferrerCount']) > 0 && !empty($topReferrerLabel)) {
+    // Display the first part of text only if the post has been published more than a week ago
+    if (strtotime('now') - strtotime($summary['fromString']) >= WEEK_IN_SECONDS) {
         echo sprintf(
-            // translators: 1: Referrer link - 2: Referrer name - 3: Referrer count.
-            __(', with \'<a href="%s" target="_blank" rel="noreferrer nofollow">%s</a>\' leading with <b>%s referrals</b>', 'wp-statistics'),
-            esc_url($thisPeriodTopReferrer),
-            esc_html($thisPeriodTopReferrerLabel),
-            number_format(intval($summary['thisPeriodTopReferrerCount']))
+            // translators: 1: Start date - 2: To date - 3: Views count - 4: Visitors count.
+            __('Over the past week (<b>%s - %s</b>), this post has been <b>viewed %s times by %s visitors</b>', 'wp-statistics'),
+            esc_html($summary['fromString']),
+            esc_html($summary['toString']),
+            number_format(intval($summary['thisPeriodViews'])),
+            number_format(intval($summary['thisPeriodVisitors'])),
         );
-    }
 
-    echo '.<br />';
+        // If post had any referrers in this period
+        if (intval($summary['thisPeriodTopReferrerCount']) > 0 && !empty($topReferrerLabel)) {
+            echo sprintf(
+                // translators: 1: Referrer link - 2: Referrer name - 3: Referrer count.
+                __(', with \'<a href="%s" target="_blank" rel="noreferrer nofollow">%s</a>\' leading with <b>%s referrals</b>', 'wp-statistics'),
+                esc_url($thisPeriodTopReferrer),
+                esc_html($thisPeriodTopReferrerLabel),
+                number_format(intval($summary['thisPeriodTopReferrerCount']))
+            );
+        }
+
+        echo '.<br />';
+    }
 
     echo sprintf(
         // translators: 1: Views count - 2: Visitors count.
-        __('In total, it has been <b>viewed %s times by %s visitors</b>', 'wp-statistics'),
+        __('In total, this post has been <b>viewed %s times by %s visitors</b>', 'wp-statistics'),
         number_format(intval($summary['totalViews'])),
         number_format(intval($summary['totalVisitors'])),
     );
