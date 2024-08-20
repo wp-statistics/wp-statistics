@@ -64,14 +64,18 @@ class Admin_Post
 
         $post_type         = Pages::get_post_type($post_id);
         $hitPostType       = Pages::checkIfPageIsHome($post_id) ? 'home' : $post_type;
-        $args              = ['post_id' => $post_id, 'resource_type' => $hitPostType];
         $from              = date('Y-m-d', 0);
         $to                = date('Y-m-d');
+        $args              = [
+            'post_id'       => $post_id,
+            'resource_type' => $hitPostType,
+            'date'          => ['from' => $from, 'to' => $to],
+        ];
         $isMiniChartActive = Helper::isAddOnActive('mini-chart');
 
         if (Helper::checkMiniChartOption('count_display', 'date_range', 'total')) {
             $from         = TimeZone::getTimeAgo(intval(Option::getByAddon('date_range', 'mini_chart', '14')));
-            $args['date'] = ['from' => $from, 'to' => date('Y-m-d')];
+            $args['date'] = ['from' => $from, 'to' => $to];
         }
 
         if (Helper::checkMiniChartOption('count_display', 'disabled', 'total')) {
