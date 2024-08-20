@@ -177,8 +177,8 @@ class Admin_Template
                 'format'    => '',
                 'type'      => 'list',
                 'mid_size'  => 3,
-                'prev_text' => __('&laquo;'),
-                'next_text' => __('&raquo;'),
+                'prev_text' => __('Prev', 'wp-statistics'),
+                'next_text' => __('Next', 'wp-statistics'),
                 'total'     => $total_page,
                 'current'   => $args['current']
             ));

@@ -602,7 +602,7 @@ const getOrCreateTooltip = (chart) => {
     return tooltipEl;
 };
 
-const externalTooltipHandler = (context , dataset , colors , data) => {
+const externalTooltipHandler = (context, dataset, colors, data) => {
     const {chart, tooltip} = context;
     const tooltipEl = getOrCreateTooltip(chart);
 
@@ -637,7 +637,7 @@ const externalTooltipHandler = (context , dataset , colors , data) => {
                     <span class="current-data__value">${value.toLocaleString()}</span>
                 </div>`;
             }
-            if(data?.previousData) {
+            if (data?.previousData) {
                 const previousValue = data.previousData[dataset.label.replace(' (Previous)', '')]?.[dataIndex];
                 if (previousValue !== undefined && previousValue !== '' && !isPrevious) {
                     const previousLabel = data.previousData.labels[dataIndex];
@@ -731,7 +731,7 @@ wps_js.new_line_chart = function (data, tag_id, newOptions) {
                     type: 'line',
                     label: `${key} (Previous)`,
                     data: data.previousData[key],
-                    borderColor: wps_js.hex_to_rgba(colors[index - 1], 0.4),
+                    borderColor: wps_js.hex_to_rgba(colors[index - 1], 0.7),
                     hoverBorderColor: colors[index - 1],
                     backgroundColor: colors[index - 1],
                     fill: false,
@@ -781,7 +781,7 @@ wps_js.new_line_chart = function (data, tag_id, newOptions) {
             legend: false,
             tooltip: {
                 enabled: false,
-                external: (context) => externalTooltipHandler(context, datasets, colors , data),
+                external: (context) => externalTooltipHandler(context, datasets, colors, data),
                 callbacks: {
                     title: (tooltipItems) => tooltipItems[0].label,
                     label: (tooltipItem) => tooltipItem.formattedValue
@@ -912,9 +912,9 @@ wps_js.new_line_chart = function (data, tag_id, newOptions) {
     updateLegend();
 };
 
-wps_js.performance_chart = function (data, tag_id , type) {
+wps_js.performance_chart = function (data, tag_id, type) {
     const colors = ['#3288D7', '#7362BF', '#8AC3D0'];
-    const is_single_content= type ==='content-single';
+    const is_single_content = type === 'content-single';
     const legendHandel = (chart) => {
         document.querySelectorAll('.js-wps-performance-chart__item').forEach((legendItem, index) => {
             legendItem.addEventListener('click', () => {
@@ -926,7 +926,7 @@ wps_js.performance_chart = function (data, tag_id , type) {
         });
     }
     let ctx_performance = document.getElementById(tag_id).getContext('2d');
-    let datasets =  [
+    let datasets = [
         {
             type: 'line',
             label: wps_js._('visits'),
@@ -961,18 +961,18 @@ wps_js.performance_chart = function (data, tag_id , type) {
             hoverPointBorderWidth: 4
         },
     ]
-    if(!is_single_content) datasets.push({
+    if (!is_single_content) datasets.push({
         type: 'bar',
-        label: type === 'content' ? `${wps_js._('published')} Posts` : `${wps_js._('published')} Contents` ,
+        label: type === 'content' ? `${wps_js._('published')} Posts` : `${wps_js._('published')} Contents`,
         data: data.posts,
         backgroundColor: wps_js.hex_to_rgba(colors[2], 0.5),
         hoverBackgroundColor: colors[2],
         hoverPointBackgroundColor: colors[2],
         yAxisID: 'y1',
     })
-    let scales={
+    let scales = {
         x: {
-            offset:true,
+            offset: !is_single_content,
             ticks: {
                 maxTicksLimit: 9,
                 fontColor: '#898A8E',
@@ -981,7 +981,7 @@ wps_js.performance_chart = function (data, tag_id , type) {
                 fontFamily: '"Roboto",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif',
                 fontWeight: 'lighter ',
                 padding: 8,
-                lineHeight: 15
+                lineHeight: 15,
             },
             border: {
                 color: 'transparent',
@@ -990,67 +990,77 @@ wps_js.performance_chart = function (data, tag_id , type) {
             grid: {
                 display: false,
                 drawBorder: false,
-                tickLength: 0,
+                tickLength: 0
             }
         },
         y: {
-             border: {
+            border: {
                 color: 'transparent',
                 width: 0
             },
+            ticks: {
+                maxTicksLimit: 9,
+                fontColor: '#898A8E',
+                fontSize: 13,
+                fontStyle: 'italic',
+                fontFamily: '"Roboto",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif',
+                fontWeight: 'lighter ',
+                padding: 8,
+                lineHeight: 15,
+            },
             type: 'linear',
-            position: is_single_content ? 'left' :  'right',
+            position: is_single_content ? 'left' : 'right',
             grid: {
                 display: true,
                 borderDash: [5, 5]
             },
             title: {
-                display: false,
-                text: wps_js._('Views'),
+                display: true,
+                text: wps_js._('visits'),
                 color: '#898A8E',
-                fontSize: 13
+                fontSize: 13,
             }
         }
     }
     if (!is_single_content) {
-         scales.y1 = {
+        scales.y1 = {
             type: 'linear',
-                position: 'left',
-                border: {
+            position: 'left',
+            border: {
                 color: 'transparent',
-                    width: 0
+                width: 0
             },
             grid: {
                 display: false,
-                    drawBorder: false,
-                    tickLength: 0,
+                drawBorder: false,
+                tickLength: 0,
             },
             ticks: {
                 maxTicksLimit: 7,
-                    fontColor: '#898A8E',
-                    fontSize: 13,
-                    fontStyle: 'italic',
-                    fontFamily: '"Roboto",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif',
-                    fontWeight: 'lighter ',
-                    padding: 8,
-                    lineHeight: 15
+                fontColor: '#898A8E',
+                fontSize: 13,
+                fontStyle: 'italic',
+                fontFamily: '"Roboto",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif',
+                fontWeight: 'lighter ',
+                padding: 8,
+                lineHeight: 15
             },
             title: {
                 display: true,
-                text:  type === 'content' ? `${wps_js._('published')} Posts` : `${wps_js._('published')} Contents` ,
+                text: type === 'content' ? `${wps_js._('published')} Posts` : `${wps_js._('published')} Contents`,
                 color: '#898A8E',
                 fontSize: 13
             }
         }
     }
-     const performanceChart = new Chart(ctx_performance, {
-         type: 'bar',
+    const performanceChart = new Chart(ctx_performance, {
+        type: 'bar',
         data: {
             labels: data.labels,
-            datasets:datasets
+            datasets: datasets
         },
         options: {
-             interaction: {
+            interaction: {
                 intersect: false,
                 mode: 'index'
             },
@@ -1058,7 +1068,7 @@ wps_js.performance_chart = function (data, tag_id , type) {
                 legend: false,
                 tooltip: {
                     enabled: false,
-                    external: (context) => externalTooltipHandler(context, datasets, colors ,data),
+                    external: (context) => externalTooltipHandler(context, datasets, colors, data),
                     callbacks: {
                         title: (tooltipItems) => tooltipItems[0].label,
                         label: (tooltipItem) => tooltipItem.formattedValue
@@ -1070,6 +1080,7 @@ wps_js.performance_chart = function (data, tag_id , type) {
     });
     legendHandel(performanceChart)
 };
+
 
 // Head filters drop down
 jQuery(document).ready(function () {
