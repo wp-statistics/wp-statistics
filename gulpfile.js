@@ -27,11 +27,11 @@ function buildStyles(done) {
 function buildScripts(done) {
     gulp.src([
         './assets/dev/javascript/plugin/*.js',
-        './assets/dev/javascript/components/*.js',
         './assets/dev/javascript/config.js',
         './assets/dev/javascript/ajax.js',
         './assets/dev/javascript/placeholder.js',
         './assets/dev/javascript/helper.js',
+        './assets/dev/javascript/components/*.js',
         './assets/dev/javascript/meta-box.js',
         './assets/dev/javascript/meta-box/*.js',
         './assets/dev/javascript/pages/*.js',

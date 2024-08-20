@@ -69,15 +69,25 @@ class PostSummaryDataProvider
      * Sets a new value for the `$fromDate` attribute.
      *
      * @param   string  $from
+     * @param   bool    $checkPublishDate   Make sure the input date is after (or equal) the post's publish date.
      *
      * @return  void
      */
-    public function setFrom($from)
+    public function setFrom($from, $checkPublishDate = true)
     {
-        if (TimeZone::isValidDate($from)) {
-            $this->fromDate = $from;
-            $this->setArgs();
+        if (!TimeZone::isValidDate($from)) {
+            return;
         }
+
+        if ($checkPublishDate) {
+            $publishDate = get_the_date('Y-m-d', $this->postId);
+            if ($from < $publishDate) {
+                $from = $publishDate;
+            }
+        }
+
+        $this->fromDate = $from;
+        $this->setArgs();
     }
 
     /**
@@ -89,10 +99,12 @@ class PostSummaryDataProvider
      */
     public function setTo($to)
     {
-        if (TimeZone::isValidDate($to)) {
-            $this->toDate = $to;
-            $this->setArgs();
+        if (!TimeZone::isValidDate($to)) {
+            return;
         }
+
+        $this->toDate = $to;
+        $this->setArgs();
     }
 
     /**

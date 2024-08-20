@@ -585,6 +585,116 @@ wps_js.hex_to_rgba = function (hex, opacity) {
     return `rgba(${hex_to_rgba_r}, ${hex_to_rgba_g}, ${hex_to_rgba_b}, ${opacity})`;
 }
 
+const getOrCreateTooltip = (chart) => {
+    let tooltipEl = chart.canvas.parentNode.querySelector('div');
+    if (!tooltipEl) {
+        tooltipEl = document.createElement('div');
+        tooltipEl.classList.add('wps-chart-tooltip');
+        tooltipEl.style.opacity = 1;
+        tooltipEl.style.pointerEvents = 'none';
+        tooltipEl.style.position = 'absolute';
+        tooltipEl.style.transition = 'all .1s ease';
+        const table = document.createElement('table');
+        table.style.margin = '0px';
+        tooltipEl.appendChild(table);
+        chart.canvas.parentNode.appendChild(tooltipEl);
+    }
+    return tooltipEl;
+};
+
+const externalTooltipHandler = (context , dataset , colors , data) => {
+    const {chart, tooltip} = context;
+    const tooltipEl = getOrCreateTooltip(chart);
+
+    if (tooltip.opacity === 0) {
+        tooltipEl.style.opacity = 0;
+        return;
+    }
+    if (tooltip.body) {
+        const titleLines = tooltip.title || [];
+        const dataIndex = tooltip.dataPoints[0].dataIndex;
+        const datasets = chart.data.datasets;
+
+        let innerHtml = `<div>`;
+        titleLines.forEach(title => {
+            innerHtml += `<div class="chart-title">${title}</div>`;
+        });
+
+        // Iterate over each dataset to create the tooltip content
+        datasets.forEach((dataset, index) => {
+            const value = dataset.data[dataIndex];
+            const isPrevious = dataset.label.includes('(Previous)');
+            if (isPrevious) {
+                dataset.borderColor = colors[index - 1];
+            }
+            if (!isPrevious) {
+                innerHtml += `
+                <div class="current-data">
+                    <div>
+                        <span class="current-data__color" style="background-color: ${dataset.hoverPointBackgroundColor};"></span>
+                        ${dataset.label}
+                    </div>
+                    <span class="current-data__value">${value.toLocaleString()}</span>
+                </div>`;
+            }
+            if(data?.previousData) {
+                const previousValue = data.previousData[dataset.label.replace(' (Previous)', '')]?.[dataIndex];
+                if (previousValue !== undefined && previousValue !== '' && !isPrevious) {
+                    const previousLabel = data.previousData.labels[dataIndex];
+                    innerHtml += `
+                    <div class="previous-data">
+                        <div>
+                            <span class="previous-data__colors">
+                                <span class="previous-data__color" style="background-color: ${dataset.hoverPointBackgroundColor};"></span>
+                                <span class="previous-data__color" style="background-color: ${dataset.hoverPointBackgroundColor};"></span>
+                            </span>
+                            ${previousLabel}
+                        </div>
+                        <span class="previous-data__value"> ${previousValue.toLocaleString()}</span>
+                    </div>`;
+                }
+            }
+        });
+
+        innerHtml += `</div>`;
+
+        tooltipEl.innerHTML = innerHtml;
+        const {offsetLeft: chartLeft, offsetTop: chartTop, clientWidth: chartWidth, clientHeight: chartHeight} = chart.canvas;
+        const {caretX, caretY} = tooltip;
+
+        // Calculate tooltip position
+        const tooltipWidth = tooltipEl.offsetWidth;
+        const tooltipHeight = tooltipEl.offsetHeight;
+
+        const margin = 16;
+        // Default tooltip position to the right of the point
+        let tooltipX = chartLeft + caretX + margin;
+        let tooltipY = chartTop + caretY - tooltipHeight / 2;
+
+        // Check if tooltip exceeds right boundary
+        if (tooltipX + tooltipWidth + margin > chartLeft + chartWidth) {
+            // Not enough space on the right, position to the left
+            tooltipX = chartLeft + caretX - tooltipWidth - margin;
+        }
+
+        // Ensure tooltip does not overflow horizontally
+        if (tooltipX < chartLeft + margin) {
+            tooltipX = chartLeft + margin;
+        }
+
+        // Ensure tooltip does not overflow vertically
+        if (tooltipY < chartTop + margin) {
+            tooltipY = chartTop + margin;
+        }
+        if (tooltipY + tooltipHeight + margin > chartTop + chartHeight) {
+            tooltipY = chartTop + chartHeight - tooltipHeight - margin;
+        }
+        tooltipEl.style.opacity = 1;
+        tooltipEl.style.left = tooltipX + 'px';
+        tooltipEl.style.top = tooltipY + 'px';
+    }
+};
+
 wps_js.new_line_chart = function (data, tag_id, newOptions) {
     // Define the colors
     const colors = ['#3288D7', '#7362BF', '#27A765', '#8AC3D0'];
@@ -641,121 +751,6 @@ wps_js.new_line_chart = function (data, tag_id, newOptions) {
         }
     });
 
-    const getOrCreateTooltip = (chart) => {
-        let tooltipEl = chart.canvas.parentNode.querySelector('div');
-
-        if (!tooltipEl) {
-            tooltipEl = document.createElement('div');
-            tooltipEl.classList.add('wps-chart-tooltip');
-            tooltipEl.style.opacity = 1;
-            tooltipEl.style.pointerEvents = 'none';
-            tooltipEl.style.position = 'absolute';
-            tooltipEl.style.transition = 'all .1s ease';
-            const table = document.createElement('table');
-            table.style.margin = '0px';
-            tooltipEl.appendChild(table);
-            chart.canvas.parentNode.appendChild(tooltipEl);
-        }
-        return tooltipEl;
-    };
-
-    const externalTooltipHandler = (context) => {
-        const {chart, tooltip} = context;
-        const tooltipEl = getOrCreateTooltip(chart);
-
-        if (tooltip.opacity === 0) {
-            tooltipEl.style.opacity = 0;
-            return;
-        }
-
-        if (tooltip.body) {
-            const titleLines = tooltip.title || [];
-            const dataIndex = tooltip.dataPoints[0].dataIndex;
-            const datasets = chart.data.datasets;
-
-            let innerHtml = `<div>`;
-            // Title
-            titleLines.forEach(title => {
-                innerHtml += `<div class="chart-title">${title}</div>`;
-            });
-
-            // Iterate over each dataset to create the tooltip content
-            datasets.forEach((dataset, index) => {
-                const value = dataset.data[dataIndex];
-                const isPrevious = dataset.label.includes('(Previous)');
-                const previousDataset = datasets.find(ds => ds.label === `${dataset.label} (Previous)`);
-                const previousValue = data.previousData[dataset.label.replace(' (Previous)', '')]?.[dataIndex];
-
-                if (isPrevious) {
-                    dataset.borderColor = colors[index - 1];
-                }
-
-                if (!isPrevious) {
-                    innerHtml += `
-                <div class="current-data">
-                    <div>
-                        <span class="current-data__color" style="background-color: ${dataset.borderColor};"></span>
-                        ${dataset.label}
-                    </div>
-                    <span class="current-data__value">${value.toLocaleString()}</span>
-                </div>`;
-                }
-
-                if (previousValue !== undefined && previousValue !== '' && !isPrevious) {
-                    const previousLabel = data.previousData.labels[dataIndex];
-                    innerHtml += `
-                <div class="previous-data">
-                    <div>
-                        <span class="previous-data__colors">
-                            <span class="previous-data__color" style="background-color: ${dataset.borderColor};"></span>
-                            <span class="previous-data__color" style="background-color: ${dataset.borderColor};"></span>
-                        </span>
-                        ${previousLabel}
-                    </div>
-                    <span class="previous-data__value"> ${previousValue.toLocaleString()}</span>
-                </div>`;
-                }
-            });
-
-            innerHtml += `</div>`;
-
-            tooltipEl.innerHTML = innerHtml;
-            const {offsetLeft: chartLeft, offsetTop: chartTop, clientWidth: chartWidth, clientHeight: chartHeight} = chart.canvas;
-            const {caretX, caretY} = tooltip;
-
-            // Calculate tooltip position
-            const tooltipWidth = tooltipEl.offsetWidth;
-            const tooltipHeight = tooltipEl.offsetHeight;
-
-            const margin = 16;
-            // Default tooltip position to the right of the point
-            let tooltipX = chartLeft + caretX + margin;
-            let tooltipY = chartTop + caretY - tooltipHeight / 2;
-
-            // Check if tooltip exceeds right boundary
-            if (tooltipX + tooltipWidth + margin > chartLeft + chartWidth) {
-                // Not enough space on the right, position to the left
-                tooltipX = chartLeft + caretX - tooltipWidth - margin;
-            }
-
-            // Ensure tooltip does not overflow horizontally
-            if (tooltipX < chartLeft + margin) {
-                tooltipX = chartLeft + margin;
-            }
-
-            // Ensure tooltip does not overflow vertically
-            if (tooltipY < chartTop + margin) {
-                tooltipY = chartTop + margin;
-            }
-            if (tooltipY + tooltipHeight + margin > chartTop + chartHeight) {
-                tooltipY = chartTop + chartHeight - tooltipHeight - margin;
-            }
-            tooltipEl.style.opacity = 1;
-            tooltipEl.style.left = tooltipX + 'px';
-            tooltipEl.style.top = tooltipY + 'px';
-        }
-    };
-
     // Custom plugin definition
     const drawVerticalLinePlugin = {
         id: 'drawVerticalLine',
@@ -786,7 +781,7 @@ wps_js.new_line_chart = function (data, tag_id, newOptions) {
             legend: false,
             tooltip: {
                 enabled: false,
-                external: externalTooltipHandler,
+                external: (context) => externalTooltipHandler(context, datasets, colors , data),
                 callbacks: {
                     title: (tooltipItems) => tooltipItems[0].label,
                     label: (tooltipItem) => tooltipItem.formattedValue
@@ -917,7 +912,9 @@ wps_js.new_line_chart = function (data, tag_id, newOptions) {
     updateLegend();
 };
 
-wps_js.performance_chart = function (data, tag_id , is_single_content = false) {
+wps_js.performance_chart = function (data, tag_id , type) {
+    const colors = ['#3288D7', '#7362BF', '#8AC3D0'];
+    const is_single_content= type ==='content-single';
     const legendHandel = (chart) => {
         document.querySelectorAll('.js-wps-performance-chart__item').forEach((legendItem, index) => {
             legendItem.addEventListener('click', () => {
@@ -928,7 +925,6 @@ wps_js.performance_chart = function (data, tag_id , is_single_content = false) {
             });
         });
     }
-    const colors = ['#3288D7', '#7362BF', '#8AC3D0'];
     let ctx_performance = document.getElementById(tag_id).getContext('2d');
     let datasets =  [
         {
@@ -967,16 +963,16 @@ wps_js.performance_chart = function (data, tag_id , is_single_content = false) {
     ]
     if(!is_single_content) datasets.push({
         type: 'bar',
-        label: `${wps_js._('published')} Contents`,
+        label: type === 'content' ? `${wps_js._('published')} Posts` : `${wps_js._('published')} Contents` ,
         data: data.posts,
         backgroundColor: wps_js.hex_to_rgba(colors[2], 0.5),
         hoverBackgroundColor: colors[2],
+        hoverPointBackgroundColor: colors[2],
         yAxisID: 'y1',
     })
-
     let scales={
         x: {
-            offset:false,
+            offset:true,
             ticks: {
                 maxTicksLimit: 9,
                 fontColor: '#898A8E',
@@ -998,8 +994,7 @@ wps_js.performance_chart = function (data, tag_id , is_single_content = false) {
             }
         },
         y: {
-            offset:false,
-            border: {
+             border: {
                 color: 'transparent',
                 width: 0
             },
@@ -1010,7 +1005,7 @@ wps_js.performance_chart = function (data, tag_id , is_single_content = false) {
                 borderDash: [5, 5]
             },
             title: {
-                display: true,
+                display: false,
                 text: wps_js._('Views'),
                 color: '#898A8E',
                 fontSize: 13
@@ -1042,14 +1037,14 @@ wps_js.performance_chart = function (data, tag_id , is_single_content = false) {
             },
             title: {
                 display: true,
-                    text: `${wps_js._('published')} Contents`,
-                    color: '#898A8E',
-                    fontSize: 13
+                text:  type === 'content' ? `${wps_js._('published')} Posts` : `${wps_js._('published')} Contents` ,
+                color: '#898A8E',
+                fontSize: 13
             }
         }
     }
      const performanceChart = new Chart(ctx_performance, {
-        type: 'bar',
+         type: 'bar',
         data: {
             labels: data.labels,
             datasets:datasets
@@ -1060,14 +1055,21 @@ wps_js.performance_chart = function (data, tag_id , is_single_content = false) {
                 mode: 'index'
             },
             plugins: {
-                legend: false
+                legend: false,
+                tooltip: {
+                    enabled: false,
+                    external: (context) => externalTooltipHandler(context, datasets, colors ,data),
+                    callbacks: {
+                        title: (tooltipItems) => tooltipItems[0].label,
+                        label: (tooltipItem) => tooltipItem.formattedValue
+                    }
+                },
             },
             scales: scales
         }
     });
     legendHandel(performanceChart)
 };
-
 
 // Head filters drop down
 jQuery(document).ready(function () {
@@ -1140,7 +1142,6 @@ jQuery(document).ready(function () {
         }
     });
 });
-
 
 /**
  * FeedbackBird position
