@@ -170,6 +170,11 @@
     margin-left: 4px;
     width: 13.33px;
     height: 13.33px;
+
+    .rtl &{
+      margin-left: 0;
+      margin-right: 4px;
+    }
   }
 
 }
@@ -466,6 +471,15 @@
     }
   }
 
+}
+
+#wp-statistics-platforms-widget ,
+#wp-statistics-browsers-widget ,
+#wp-statistics-devices-widget,
+#wp-statistics-models-widget{
+  .inside{
+    margin-top: 20px;
+  }
 }
 
 #wp-statistics-comparison-widget {

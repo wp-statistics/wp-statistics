@@ -668,7 +668,10 @@
       font-weight: 400;
       line-height: 15.23px;
       color: #0C0C0D;
-
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 110px;
     }
   }
 }
