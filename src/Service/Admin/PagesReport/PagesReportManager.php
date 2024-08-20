@@ -1,8 +1,8 @@
 <?php
 
-namespace WP_Statistics\Service\Admin\Pages;
+namespace WP_Statistics\Service\Admin\PagesReport;
 
-class PagesManager
+class PagesReportManager
 {
 
     public function __construct()
@@ -22,7 +22,7 @@ class PagesManager
             'sub'       => 'overview',
             'title'     => esc_html__('Pages', 'wp-statistics'),
             'page_url'  => 'pages',
-            'callback'  => PagesPage::class,
+            'callback'  => PagesReportPage::class,
             'priority'  => 25
         ];
 

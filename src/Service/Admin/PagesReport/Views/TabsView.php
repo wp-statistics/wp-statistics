@@ -1,6 +1,6 @@
 <?php
 
-namespace WP_Statistics\Service\Admin\Pages\Views;
+namespace WP_Statistics\Service\Admin\PagesReport\Views;
 
 use Exception;
 use WP_Statistics\Components\View;
@@ -10,7 +10,7 @@ use WP_Statistics\Utils\Request;
 use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Abstracts\BaseTabView;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
-use WP_Statistics\Service\Admin\Pages\PagesDataProvider;
+use WP_Statistics\Service\Admin\PagesReport\PagesReportDataProvider;
 
 class TabsView extends BaseTabView
 {
@@ -36,7 +36,7 @@ class TabsView extends BaseTabView
             $args['post_type'] = Request::get('pt', 'post');
         }
 
-        $this->dataProvider = new PagesDataProvider($args);
+        $this->dataProvider = new PagesReportDataProvider($args);
     }
 
     public function isLocked()
