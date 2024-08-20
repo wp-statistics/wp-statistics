@@ -5,6 +5,7 @@ namespace WP_Statistics\Service\Admin\Visitors\Views;
 use Exception;
 use WP_Statistics\Components\View;
 use WP_STATISTICS\Menus;
+use WP_STATISTICS\Admin_Assets;
 use WP_Statistics\Utils\Request;
 use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Abstracts\BaseTabView;
@@ -37,14 +38,16 @@ class TabsView extends BaseTabView
         return $this->dataProvider->getVisitorsData();
     }
 
+    public function getViewsData()
+    {
+        wp_localize_script(Admin_Assets::$prefix, 'Wp_Statistics_Visitors_Object', $this->dataProvider->getChartsData());
+
+        return $this->dataProvider->getVisitorsData();
+    }
+
     public function getOnlineData()
     {
         return $this->dataProvider->getOnlineVisitorsData();
-    }
-
-    public function getViewsData()
-    {
-        return $this->dataProvider->getVisitorsData();
     }
 
     public function getTopVisitorsData()
