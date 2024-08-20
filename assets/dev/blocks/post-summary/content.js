@@ -28,7 +28,7 @@ const ContentElement = ({ data }) => {
     ) : '';
 
     return (
-        <div className="wp-statistics-block-editor-panel-content">
+        <div className="wp-statistics-post-summary-panel-content">
             <p>
                 {thisPeriodText}
                 In total, this post has been <b>viewed {totalViews} times by {totalVisitors} visitors</b>{topReferrerText}. For more detailed insights, visit the <b><a href={data.contentAnalyticsUrl} target="_blank">analytics section</a></b>.

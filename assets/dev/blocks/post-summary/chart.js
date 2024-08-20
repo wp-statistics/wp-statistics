@@ -28,7 +28,7 @@ const ChartElement = ({ data }) => {
         let tooltipEl = chart.canvas.parentNode.querySelector('div');
         if (!tooltipEl) {
             tooltipEl = document.createElement('div');
-            tooltipEl.classList.add('wps-mini-chart-list-tooltip');
+            tooltipEl.classList.add('wps-mini-chart-post-summary-tooltip');
             chart.canvas.parentNode.appendChild(tooltipEl);
         }
 
@@ -176,7 +176,7 @@ const ChartElement = ({ data }) => {
     };
 
     return (
-        <div className="wp-statistics-block-editor-panel-chart">
+        <div className="wp-statistics-post-summary-panel-chart">
             <Bar
                 data={chartData}
                 options={chartOptions}

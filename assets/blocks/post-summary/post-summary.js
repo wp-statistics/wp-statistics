@@ -47,7 +47,7 @@ const ChartElement = ({
     let tooltipEl = chart.canvas.parentNode.querySelector('div');
     if (!tooltipEl) {
       tooltipEl = document.createElement('div');
-      tooltipEl.classList.add('wps-mini-chart-list-tooltip');
+      tooltipEl.classList.add('wps-mini-chart-post-summary-tooltip');
       chart.canvas.parentNode.appendChild(tooltipEl);
     }
     if (tooltip.opacity === 0) {
@@ -188,7 +188,7 @@ const ChartElement = ({
     }]
   };
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "wp-statistics-block-editor-panel-chart"
+    className: "wp-statistics-post-summary-panel-chart"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_chartjs_2__WEBPACK_IMPORTED_MODULE_2__.Bar, {
     data: chartData,
     options: chartOptions
@@ -243,7 +243,7 @@ const ContentElement = ({
   // Display the first part of text only if the post has been published more than a week ago
   const thisPeriodText = new Date() - Date.parse(data.fromString) >= 7 * 24 * 60 * 60 * 1000 ? (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.Fragment, null, "Over the past week (", (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("b", null, data.fromString, " - ", data.toString), "), this post has been ", (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("b", null, "viewed ", thisPeriodViews, " times by ", thisPeriodVisitors, " visitors"), ".", thisPeriodTopReferrerText, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("br", null)) : '';
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "wp-statistics-block-editor-panel-content"
+    className: "wp-statistics-post-summary-panel-content"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, thisPeriodText, "In total, this post has been ", (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("b", null, "viewed ", totalViews, " times by ", totalVisitors, " visitors"), topReferrerText, ". For more detailed insights, visit the ", (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("b", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
     href: data.contentAnalyticsUrl,
     target: "_blank"
@@ -266,12 +266,12 @@ __webpack_require__.r(__webpack_exports__);
 
 
 if (typeof WP_Statistics_Editor_Sidebar_Object !== 'undefined' && WP_Statistics_Editor_Sidebar_Object != null) {
-  (0,_wordpress_plugins__WEBPACK_IMPORTED_MODULE_0__.registerPlugin)('wp-statistics', {
+  (0,_wordpress_plugins__WEBPACK_IMPORTED_MODULE_0__.registerPlugin)('wp-statistics-post-summary', {
     render: _sidebar__WEBPACK_IMPORTED_MODULE_1__["default"]
   });
   window.onload = function () {
-    if (!wp.data.select('core/edit-post').isEditorPanelOpened('wp-statistics/wp-statistics-block-editor-panel')) {
-      wp.data.dispatch('core/edit-post').toggleEditorPanelOpened('wp-statistics/wp-statistics-block-editor-panel');
+    if (!wp.data.select('core/edit-post').isEditorPanelOpened('wp-statistics-post-summary/wp-statistics-post-summary-panel')) {
+      wp.data.dispatch('core/edit-post').toggleEditorPanelOpened('wp-statistics-post-summary/wp-statistics-post-summary-panel');
     }
   };
 }
@@ -304,7 +304,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const wpsIcon = (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("svg", {
-  class: "wp-statistics-block-editor-panel-icon",
+  class: "wp-statistics-post-summary-panel-icon",
   width: "39",
   height: "40",
   viewBox: "0 0 39 40",
@@ -319,8 +319,8 @@ const wpsIcon = (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("svg", {
 }));
 function sidebar() {
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_editor__WEBPACK_IMPORTED_MODULE_2__.PluginDocumentSettingPanel, {
-    name: "wp-statistics-block-editor-panel",
-    className: "wp-statistics-block-editor-panel",
+    name: "wp-statistics-post-summary-panel",
+    className: "wp-statistics-post-summary-panel",
     title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Statistics - Summary', 'wp-statistics'),
     icon: wpsIcon
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_content__WEBPACK_IMPORTED_MODULE_4__["default"], {
