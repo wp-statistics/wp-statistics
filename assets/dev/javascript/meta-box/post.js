@@ -5,8 +5,7 @@ wps_js.post_meta_box = {
 
     view: function (args = []) {
         return args.hasOwnProperty('content') ?
-            ' <div class="wps-center" style="padding: 15px;"> ' + args['content'] + '</div>' :
-            '<div class="wps-wrap wps-meta-box-footer">' + args['visitors'] + '</div>';
+            ' <div class="wps-center" style="padding: 15px;"> ' + args['content'] + '</div>' : args['visitors'] ;
     },
 
     meta_box_init: function (args = []) {
