@@ -18,7 +18,6 @@ class GeneralNotices
      */
     private $core_notices = array(
         'check_tracking_mode',
-        'active_collation',
         'performance_and_clean_up',
         'memory_limit_check',
         'php_version_check',
@@ -41,36 +40,12 @@ class GeneralNotices
     private function check_tracking_mode()
     {
         if (Menus::in_plugin_page()) {
-            $cachePluginInfo = Helper::checkActiveCachePlugin();
-            $trackingMode    = Option::get('use_cache_plugin');
+            $trackingMode = Option::get('use_cache_plugin');
 
-            if (!$trackingMode && $cachePluginInfo['status'] === true) {
-                $settingsUrl = Menus::admin_url('settings');
-                $noticeText  = sprintf(__('<b>WP Statistics</b> accuracy may be affected by your current settings. Please switch to Client Side Tracking for better accuracy and caching compatibility. <a href="%s">Update Tracking Settings</a>.', 'wp-statistics'), $settingsUrl);
-                Notice::addNotice($noticeText, 'cache_plugin_usage_warning', 'warning');
-
-            } elseif (!$trackingMode) {
+            if (!$trackingMode) {
                 $settingsUrl = Menus::admin_url('settings');
                 $noticeText  = sprintf('<b>WP Statistics Notice:</b> Server Side Tracking is less accurate and will be deprecated in <b>version 15</b>. Please switch to Client Side Tracking for better accuracy. <a href="%s">Update Tracking Settings</a>.', $settingsUrl);
                 Notice::addNotice($noticeText, 'deprecate_server_side_tracking', 'warning');
-            }
-        }
-    }
-
-    private function active_collation()
-    {
-        if (Menus::in_plugin_page()) {
-
-            // Create Default Active List item
-            $active_collation = array();
-
-            // Check Active User Online
-            if (!Option::get('useronline')) {
-                $active_collation[] = __('Display Online Users', 'wp-statistics');
-            }
-
-            if (count($active_collation) > 0) {
-                Notice::addNotice(sprintf(__('Certain features are currently turned off. Please visit the %1$ssettings page%2$s to activate them: %3$s', 'wp-statistics'), '<a href="' . Menus::admin_url('settings') . '">', '</a>', implode(__(',', 'wp-statistics'), $active_collation)), 'active_collation');
             }
         }
     }
@@ -81,7 +56,7 @@ class GeneralNotices
             $totalDbRows = DB::getTableRows();
             $totalRows   = array_sum(array_column($totalDbRows, 'rows'));
 
-            if ($totalRows > apply_filters('wp_statistics_notice_db_row_threshold', 300000)) {
+            if ($totalRows > apply_filters('wp_statistics_notice_db_row_threshold', 500000)) {
                 $settingsUrl      = admin_url('admin.php?page=wps_settings_page&tab=maintenance-settings');
                 $optimizationUrl  = admin_url('admin.php?page=wps_optimization_page');
                 $documentationUrl = 'https://wp-statistics.com/resources/optimizing-database-size-for-improved-performance/';
@@ -119,6 +94,7 @@ class GeneralNotices
         if (wp_next_scheduled('wp_statistics_report_hook') && Option::get('time_report') != '0') {
             $timeReports       = Option::get('time_report');
             $schedulesInterval = Schedule::getSchedules();
+
             if (!isset($schedulesInterval[$timeReports])) {
                 Notice::addNotice(sprintf(
                     __('Please update your email report schedule due to new changes in our latest release: <a href="%1$s">Update Settings</a>.', 'wp-statistics'),
