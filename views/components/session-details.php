@@ -15,12 +15,12 @@ use WP_STATISTICS\UserAgent;
         <?php if (Option::get('hash_ips')) : ?>
             <span><?php esc_html_e('Daily Visitor Hash', 'wp-statistics'); ?></span>
             <div>
-                <a href="" title="<?php echo esc_html(substr($visitor->ip, 6, 10)) ?>"><span><?php echo esc_html(substr($visitor->ip, 6, 10)) ?></span></a>
+                <a href="" title="<?php echo esc_attr($visitor->ip) ?>"><span><?php echo esc_html(substr($visitor->ip, 6, 10)) ?></span></a>
             </div>
         <?php else : ?>
             <span><?php esc_html_e('IP Address', 'wp-statistics'); ?></span>
             <div>
-                <a href="" title="<?php echo esc_html($visitor->ip) ?>"><span><?php echo esc_html($visitor->ip) ?></span></a>
+                <a href="" title="<?php echo esc_attr($visitor->ip) ?>"><span><?php echo esc_html($visitor->ip) ?></span></a>
             </div>
         <?php endif; ?>
         
