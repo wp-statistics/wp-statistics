@@ -74,7 +74,8 @@ class Option
             'exclude_404s'              => false,
             'exclude_feeds'             => true,
             'schedule_dbmaint'          => true,
-            'schedule_dbmaint_days'     => '180'
+            'schedule_dbmaint_days'     => '180',
+            'latest_visitors_metabox'   => true,
         );
 
         return $options;

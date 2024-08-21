@@ -60,6 +60,30 @@ if (!$isDataPlusActive) echo Admin_Template::get_template(
     </table>
 </div>
 
+<div class="postbox">
+    <table class="form-table <?php echo !$isDataPlusActive ? 'form-table--preview' : '' ?>">
+        <tbody>
+            <tr valign="top">
+                <th scope="row" colspan="2">
+                    <h3><?php esc_html_e('User Interface Preferences', 'wp-statistics'); ?></h3>
+                </th>
+            </tr>
+
+            <tr valign="top">
+                <th scope="row">
+                    <label for="latest-visitors-metabox"><?php esc_html_e('Latest Visitors in Editor', 'wp-statistics'); ?></label>
+                </th>
+
+                <td>
+                    <input id="latest-visitors-metabox" type="checkbox" value="1" name="wps_latest_visitors_metabox" <?php checked(Option::get('latest_visitors_metabox')); ?>>
+                    <label for="latest-visitors-metabox"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
+                    <p class="description"><?php esc_html_e('Display the Latest Visitors section on the edit content pages.', 'wp-statistics'); ?></p>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
 <?php
 if ($isDataPlusActive) {
     submit_button(__('Update', 'wp-statistics'), 'primary', 'submit', '', array('OnClick' => "var wpsCurrentTab = getElementById('wps_current_tab'); wpsCurrentTab.value='data-plus-settings'"));
