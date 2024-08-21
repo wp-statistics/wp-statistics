@@ -84,7 +84,7 @@ use WP_STATISTICS\Visitor;
                             <td class="wps-pd-l">
                                 <div class="wps-country-flag wps-ellipsis-parent">
                                     <div class="wps-tooltip" title="<?php echo esc_attr(Country::getName($visitor->location)) ?>">
-                                        <img src="<?php echo esc_url(Country::flag($visitor->location)) ?>" alt="<?php echo esc_attr("{$visitor->region}, {$visitor->city}") ?>" width="15" height="15">
+                                        <img src="<?php echo esc_url(Country::flag($visitor->location)) ?>" alt="<?php echo esc_attr(Country::getName($visitor->location)) ?>" width="15" height="15">
                                     </div>
                                     <?php 
                                         $region = Admin_Template::unknownToNotSet($visitor->region);
