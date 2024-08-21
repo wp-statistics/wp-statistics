@@ -173,7 +173,7 @@ class Meta_Box
                 ]
             ),
             'hits'            => array(
-                'page_url'          => Menus::admin_url('hits'),
+                'page_url'          => Menus::admin_url('visitors', ['tab' => 'views']),
                 'name'              => __('Daily Traffic Trend', 'wp-statistics'),
                 'description'       => __('Day-by-day breakdown of views and page views over the selected period.', 'wp-statistics'),
                 'hidden'            => true,
@@ -215,7 +215,7 @@ class Meta_Box
                 ]
             ),
             'top-visitors'    => array(
-                'page_url'          => Menus::admin_url('top-visitors'),
+                'page_url'          => Menus::admin_url('visitors', ['tab' => 'top-visitors']),
                 'name'              => __('Most Active Visitors', 'wp-statistics'),
                 'description'       => __('Visitors with the highest number of views, including their country, city, IP address, and browser.', 'wp-statistics'),
                 'hidden'            => true,
@@ -252,7 +252,7 @@ class Meta_Box
             ),
             'useronline'      => array(
                 'name'              => __('Currently Online', 'wp-statistics'),
-                'page_url'          => Menus::admin_url('online'),
+                'page_url'          => Menus::admin_url('visitors', ['tab' => 'online']),
                 'require'           => array('useronline' => true),
                 'hidden'            => true,
                 'show_on_dashboard' => true,
