@@ -62,7 +62,7 @@ use WP_STATISTICS\Visitor;
                                     <?php else : ?>
                                         <li class="wps-browsers__flag">
                                             <div class="wps-tooltip" title="<?php esc_attr_e('Incognito', 'wp-statistics') ?>">
-                                                <a href=""><img src="<?php echo esc_url(WP_STATISTICS_URL . 'assets/images/incognito-user.svg') ?>" alt="<?php esc_attr_e('Incognito', 'wp-statistics') ?>" width="15" height="15"></a>
+                                                <img src="<?php echo esc_url(WP_STATISTICS_URL . 'assets/images/incognito-user.svg') ?>" alt="<?php esc_attr_e('Incognito', 'wp-statistics') ?>" width="15" height="15">
                                             </div>
                                         </li>
                                     <?php endif; ?>
