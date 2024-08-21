@@ -695,6 +695,25 @@ const externalTooltipHandler = (context, dataset, colors, data) => {
     }
 };
 
+// Custom plugin definition
+const drawVerticalLinePlugin = {
+    id: 'drawVerticalLine',
+    beforeDatasetDraw(chart) {
+        const {ctx, scales: {x, y}, tooltip, chartArea: {top, bottom}} = chart;
+        if (tooltip && tooltip._active && tooltip._active.length) {
+            const xValue = tooltip._active[0].element.x;
+            ctx.beginPath();
+            ctx.strokeStyle = '#A9AAAE';
+            ctx.lineWidth = 1;
+            ctx.setLineDash([6, 6]);
+            ctx.moveTo(xValue, top);
+            ctx.lineTo(xValue, bottom);
+            ctx.stroke();
+            ctx.setLineDash([]);
+        }
+    }
+};
+
 wps_js.new_line_chart = function (data, tag_id, newOptions) {
     // Define the colors
     const colors = ['#3288D7', '#7362BF', '#27A765', '#8AC3D0'];
@@ -750,27 +769,6 @@ wps_js.new_line_chart = function (data, tag_id, newOptions) {
             }
         }
     });
-
-    // Custom plugin definition
-    const drawVerticalLinePlugin = {
-        id: 'drawVerticalLine',
-        beforeDatasetDraw(chart) {
-            const {ctx, scales: {x, y}, tooltip, chartArea: {top, bottom}} = chart;
-            if (tooltip._active[0]) {
-                const xValue = tooltip._active[0].element.x;
-                ctx.beginPath();
-                ctx.strokeStyle = '#A9AAAE';
-                ctx.lineWidth = 1;
-                ctx.setLineDash([6, 6]);
-                ctx.moveTo(xValue, top);
-                ctx.lineTo(xValue, bottom);
-                ctx.stroke();
-                ctx.setLineDash([]);
-            }
-        }
-    };
-
-
     // Default options
     const defaultOptions = {
         interaction: {
@@ -786,8 +784,7 @@ wps_js.new_line_chart = function (data, tag_id, newOptions) {
                     title: (tooltipItems) => tooltipItems[0].label,
                     label: (tooltipItem) => tooltipItem.formattedValue
                 }
-            },
-            drawVerticalLine: drawVerticalLinePlugin
+            }
         },
         scales: {
             x: {
@@ -853,8 +850,9 @@ wps_js.new_line_chart = function (data, tag_id, newOptions) {
         type: 'line',
         data: {
             labels: data.data.labels,
-            datasets: datasets
+            datasets: datasets,
         },
+        plugins: [drawVerticalLinePlugin],
         options: options,
     });
 
@@ -1087,7 +1085,8 @@ wps_js.performance_chart = function (data, tag_id, type) {
                 },
             },
             scales: scales
-        }
+        },
+        plugins: [drawVerticalLinePlugin]
     });
     legendHandel(performanceChart)
 };
