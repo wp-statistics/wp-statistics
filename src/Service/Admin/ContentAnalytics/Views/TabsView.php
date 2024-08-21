@@ -14,9 +14,7 @@ use WP_Statistics\Utils\Request;
 
 class TabsView extends BaseTabView 
 {
-    protected $dataProvider;
     protected $defaultTab = 'post';
-    protected $tabs;
 
     public function __construct()
     {
