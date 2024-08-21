@@ -30,7 +30,7 @@ class OnlineModel extends BaseModel
         ]);
 
         $result = Query::select([
-            'ID',
+            'useronline.ID',
             'ip',
             'created',
             'timestamp',
@@ -42,9 +42,12 @@ class OnlineModel extends BaseModel
             'city',
             'user_id',
             'page_id',
-            'date'
+            'date',
+            'users.display_name',
+            'users.user_email'
         ])
             ->from('useronline')
+            ->join('users', ['useronline.user_id', 'users.ID'], [], 'LEFT')
             ->perPage($args['page'], $args['per_page'])
             ->orderBy($args['order_by'], $args['order'])
             ->bypassCache($bypassCache)
