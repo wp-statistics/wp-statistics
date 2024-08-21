@@ -86,7 +86,11 @@ use WP_STATISTICS\Visitor;
                                     <div class="wps-tooltip" title="<?php echo esc_attr(Country::getName($visitor->location)) ?>">
                                         <img src="<?php echo esc_url(Country::flag($visitor->location)) ?>" alt="<?php echo esc_attr("{$visitor->region}, {$visitor->city}") ?>" width="15" height="15">
                                     </div>
-                                    <span class="wps-ellipsis-text" title="<?php echo esc_html("{$visitor->region}, {$visitor->city}") ?>"><?php echo esc_html("{$visitor->region}, {$visitor->city}") ?></span>
+                                    <?php 
+                                        $region = empty($visitor->region) ? esc_html__('Unknown', 'wp-statistics') : $visitor->region;
+                                        $city   = empty($visitor->city) ? esc_html__('Unknown', 'wp-statistics') : $visitor->city;
+                                    ?>
+                                    <span class="wps-ellipsis-text" title="<?php echo esc_attr("$region, $city") ?>"><?php echo esc_html("$region, $city") ?></span>
                                 </div>
                             </td>
 
