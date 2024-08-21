@@ -512,3 +512,12 @@
     }
   }
 }
+
+#wp-statistics-search-widget{
+  .inside{
+    margin-top: 24px!important;
+  }
+  #wp-statistics-search-meta-box-chart{
+    max-height: 360px;
+  }
+}

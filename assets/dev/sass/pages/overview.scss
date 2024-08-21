@@ -4,6 +4,12 @@ body.toplevel_page_wps_overview_page {
     display: none !important;
   }
 
+  #wp-statistics-search-widget{
+    .inside,.wps-postbox-chart--data{
+      margin-top: 0!important;
+    }
+  }
+
   #side-sortables {
     .postbox {
 

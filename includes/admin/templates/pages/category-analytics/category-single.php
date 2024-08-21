@@ -129,10 +129,11 @@ use WP_Statistics\Components\View;
         Admin_Template::get_template(['layout/category-analytics/top-countries'], $topCountries);
 
         $engines = [
-            'title'   => esc_html__('Search Engines', 'wp-statistics'),
-            'tooltip' => esc_html__('Search engine traffic over the selected period.', 'wp-statistics'),
+            'title'     => esc_html__('Search Engines', 'wp-statistics'),
+            'tooltip'   => esc_html__('Search engine traffic over the selected period.', 'wp-statistics'),
+            'unique_id' => 'category-search-engines-chart'
         ];
-        Admin_Template::get_template(['layout/category-analytics/search-engines'], $engines);
+        View::load("components/charts/search-engines", $engines);
 
         $topReferring = [
             'title'   => esc_html__('Top Referring', 'wp-statistics'),

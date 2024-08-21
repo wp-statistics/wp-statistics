@@ -78,61 +78,31 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         },
         generateSearchEngineChart: function () {
             const searchData = this.data.search_engine_chart_data;
-
             if (searchData.datasets.length == 0) {
                 jQuery('#category-search-engines-chart').parent().html(wps_js.no_results());
+                jQuery('.wps-postbox-chart--data').remove();
                 return;
-            }
-
-            const searchEngineColors = [
-                'rgba(244, 161, 31, 0.3)',
-                'rgba(63, 158, 221, 0.3)',
-                'rgba(195, 68, 55, 0.3)',
-                'rgba(160, 98, 186, 0.3)',
-                'rgba(51, 178, 105, 0.3)',
-                'rgba(185, 185, 185, 0.3)'
-            ];
-
-            searchData.datasets.forEach((dataset, index) => {
-                const color = searchEngineColors[index % searchEngineColors.length];
-                dataset.backgroundColor = color;
-                dataset.borderColor = color.replace('0.3', '1'); // Adjust alpha for borderColor
-                dataset.borderWidth = 2;
-                dataset.cubicInterpolationMode = 'monotone';
-                dataset.pointRadius = 2;
-                dataset.pointHoverRadius = 5;
-                dataset.pointHoverBackgroundColor = '#fff';
-                dataset.pointHoverBorderWidth = 4;
-                dataset.fill = true;
-            });
-            const searchEngineChart = document.getElementById("category-search-engines-chart").getContext('2d');
-            new Chart(searchEngineChart, {
-                type: 'line',
-                data: searchData,
-                options: {
-                    interaction: {
-                        intersect: false,
-                        mode:'index'
-                    },
-                    plugins: {
-                        tooltip: {
-                            caretPadding: 5,
-                            boxWidth: 5,
-                            usePointStyle: true,
-                            boxPadding: 3
-                        }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            ticks: {
-                                stepSize: 1,
-                            }
-                        }
+            }else{
+                const data = {
+                    data: {
+                        labels: searchData.labels ,
+                        ...searchData.datasets.reduce((acc, item) => {
+                            acc[item.label] = item.data;
+                            return acc;
+                        }, {})
                     }
+                };
+                const totalData = searchData?.datasets.filter(item => item.label === wps_js._('total'))[0]?.data;
+                if (totalData && totalData.length) {
+                    data.previousData = {
+                        labels: searchData.labels,
+                        [wps_js._('total')]: totalData
+                    };
                 }
-            });
-        }
+                //Todo chart Add total previousData
+                 wps_js.new_line_chart(data, 'category-search-engines-chart', null)
+            }
+         }
     }
 
     jQuery(document).ready(function () {

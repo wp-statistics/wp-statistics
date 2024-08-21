@@ -11,7 +11,7 @@ use WP_STATISTICS\Visitor;
 <div class="inside">
     <?php if (!empty($data)) : ?>
         <div class="o-table-wrapper">
-            <table width="100%" class="o-table wps-new-table wps-table-inspect">
+            <table width="100%" class="o-table wps-new-table">
                 <thead>
                     <tr>
                         <th class="wps-pd-l">
@@ -90,7 +90,7 @@ use WP_STATISTICS\Visitor;
                                         $region = empty($visitor->region) ? esc_html__('Unknown', 'wp-statistics') : $visitor->region;
                                         $city   = empty($visitor->city) ? esc_html__('Unknown', 'wp-statistics') : $visitor->city;
                                     ?>
-                                    <span class="wps-ellipsis-text"><?php echo esc_html("$region, $city") ?></span>
+                                    <span class="wps-ellipsis-text" title="<?php echo esc_attr("$region, $city") ?>"><?php echo esc_html("$region, $city") ?></span>
                                 </div>
                             </td>
 

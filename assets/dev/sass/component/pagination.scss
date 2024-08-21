@@ -60,6 +60,10 @@
 
   .page-numbers li a.prev, .page-numbers li a.next  {
     border:none!important;
+    &.disabled{
+      color:#DADCE0!important;
+      pointer-events: none!important;
+    }
   }
 
   .pagination-wrap ul.page-numbers li .dots {
