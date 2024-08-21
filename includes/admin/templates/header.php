@@ -13,7 +13,7 @@ use WP_Statistics\Service\Admin\PrivacyAudit\PrivacyAuditDataProvider;
     <div class="wps-adminHeader__menu">
         <?php
         echo Admin_Template::get_template('layout/partials/menu-link', ['slug' => 'wps_overview_page', 'link_text' => __('Overview', 'wp-statistics'), 'icon_class' => 'overview', 'badge_count' => null], true);
-        echo Admin_Template::get_template('layout/partials/menu-link', ['slug' => 'wps_online_page', 'link_text' => __('Online Users', 'wp-statistics'), 'icon_class' => 'online-users', 'badge_count' => wp_statistics_useronline()], true);
+        echo Admin_Template::get_template('layout/partials/menu-link', ['slug' => 'wps_visitors_page&tab=online', 'link_text' => __('Online Users', 'wp-statistics'), 'icon_class' => 'online-users', 'badge_count' => wp_statistics_useronline()], true);
 
         if (apply_filters('wp_statistics_enable_header_addons_menu', true)) {
             echo Admin_Template::get_template('layout/partials/menu-link', ['slug' => 'wps_plugins_page', 'link_text' => __('Add-Ons', 'wp-statistics'), 'icon_class' => 'addons', 'badge_count' => null], true);
