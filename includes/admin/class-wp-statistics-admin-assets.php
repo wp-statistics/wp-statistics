@@ -51,6 +51,7 @@ class Admin_Assets
     {
         add_action('admin_enqueue_scripts', array($this, 'admin_styles'), 999);
         add_action('admin_enqueue_scripts', array($this, 'admin_scripts'), 999);
+        add_filter('wp_statistics_enqueue_chartjs', [$this, 'shouldEnqueueChartJs']);
 
         $this->initFeedback();
     }
@@ -228,16 +229,14 @@ class Admin_Assets
         // Get Current Screen ID
         $screen_id = Helper::get_screen_id();
 
-        // Load Chart.js library and mini chart
-        if (
-            (Helper::isAddOnActive('mini-chart') && Helper::isAdminBarShowing()) || Menus::in_plugin_page() ||
-            (in_array($screen_id, ['dashboard']) && !Option::get('disable_dashboard')) ||
-            (in_array($hook, ['post.php', 'edit.php', 'post-new.php']) && !Option::get('disable_editor'))
-        ) {
+        // Load Chart.js library
+        if (apply_filters('wp_statistics_enqueue_chartjs', false)) {
             Assets::script('chart.js', 'js/chartjs/chart.umd.min.js', [], [], true, false, null, '4.4.2');
             Assets::script('hammer.js', 'js/chartjs/hammer.min.js', [], [], true, false, null, '2.0.8');
             Assets::script('chartjs-plugin-zoom.js', 'js/chartjs/chartjs-plugin-zoom.min.js', ['wp-statistics-hammer.js'], [], true, false, null, '2.0.1');
         }
+
+        // Load mini-chart
         if (Helper::isAdminBarShowing()) {
             Assets::script('mini-chart', 'js/mini-chart.js', [], [], true);
         }
@@ -302,6 +301,28 @@ class Admin_Assets
         if (Menus::in_page('pages')) {
             wp_enqueue_script(self::$prefix . '-datepicker', self::url('datepicker/datepicker.js'), array(), self::version(), ['in_footer' => true]);
         }
+    }
+
+    /**
+     * Checks if any of the conditions for enqueuing Chart.js library are met.
+     *
+     * Conditions are: 
+     * - Mini Chart add-on is enabled and admin bar button is showing.
+     * - User is currently viewing the WP Statistics admin pages (e.g. Settings, Overview, Optimization, etc.).
+     * - User is currently viewing WP dashboard and `disable_dashboard` option is not disabled.
+     * - User is currently in edit post page and `disable_editor` option is not disabled.
+     *
+     * @return  bool
+     *
+     * @hooked  filter: `wp_statistics_enqueue_chartjs` - 10
+     */
+    public function shouldEnqueueChartJs()
+    {
+        global $pagenow;
+
+        return (Helper::isAddOnActive('mini-chart') && Helper::isAdminBarShowing()) || Menus::in_plugin_page() ||
+            (in_array(Helper::get_screen_id(), ['dashboard']) && !Option::get('disable_dashboard')) ||
+            (in_array($pagenow, ['post.php', 'edit.php', 'post-new.php']) && !Option::get('disable_editor'));
     }
 
     /**
@@ -431,7 +452,7 @@ class Admin_Assets
             'enable_now'                   => __('Enable Now', 'wp-statistics'),
             'receive_weekly_email_reports' => __('Receive Weekly Email Reports'),
             'close'                        => __('Close'),
-            'previous_period'                        => __('Previous period'),
+            'previous_period'              => __('Previous period'),
             'start_of_week'                => get_option('start_of_week', 0)
         );
 
