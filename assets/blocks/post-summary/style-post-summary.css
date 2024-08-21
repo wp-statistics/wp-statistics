@@ -59,8 +59,8 @@ body .edit-post-meta-boxes-area .ui-sortable #wp-statistics-post-widget {
 body .edit-post-meta-boxes-area .ui-sortable #wp-statistics-post-widget .postbox-header {
   border-bottom: none !important;
 }
-body .edit-post-meta-boxes-area .ui-sortable #wp-statistics-post-widget .postbox-header .wps-refresh {
-  margin-top: 13px;
+body .edit-post-meta-boxes-area .ui-sortable #wp-statistics-post-widget .postbox-header .handle-actions button {
+  height: 44px !important;
 }
 
 /*# sourceMappingURL=style-post-summary.css.map*/
