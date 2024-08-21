@@ -95,11 +95,7 @@ use WP_STATISTICS\Visitor;
                             </td>
 
                             <td class="wps-pd-l">
-                                <?php if (!empty($visitor->referred)) : ?>
-                                    <span class="wps-link-arrow"><?php echo Referred::get_referrer_link($visitor->referred, '', true); ?></span>
-                                <?php else : ?>
-                                    <?php echo Admin_Template::UnknownColumn() ?>
-                                <?php endif; ?>
+                                <?php echo Referred::get_referrer_link($visitor->referred, '', true); ?>
                             </td>
 
                             <td class="wps-pd-l">

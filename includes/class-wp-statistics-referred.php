@@ -101,7 +101,7 @@ class Referred
         $host_name = Helper::get_domain_name($base_url['host']);
 
         // Get Html Link
-        return "<a href='{$html_referrer}' title='{$title}'" . ($is_blank === true ? ' target="_blank"' : '') . ">{$host_name}</a>";
+        return "<span class='wps-link-arrow'><a href='{$html_referrer}' title='{$title}'" . ($is_blank === true ? ' target="_blank"' : '') . ">{$host_name}</a></span>";
     }
 
     /**
