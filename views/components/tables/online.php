@@ -87,10 +87,14 @@ use WP_STATISTICS\Visitor;
                                         <img src="<?php echo esc_url(Country::flag($visitor->location)) ?>" alt="<?php echo esc_attr("{$visitor->region}, {$visitor->city}") ?>" width="15" height="15">
                                     </div>
                                     <?php 
-                                        $region = empty($visitor->region) ? esc_html__('Unknown', 'wp-statistics') : $visitor->region;
-                                        $city   = empty($visitor->city) ? esc_html__('Unknown', 'wp-statistics') : $visitor->city;
+                                        $region = Admin_Template::unknownToNotSet($visitor->region);
+                                        $city   = Admin_Template::unknownToNotSet($visitor->city);
                                     ?>
-                                    <span class="wps-ellipsis-text" title="<?php echo esc_attr("$region, $city") ?>"><?php echo esc_html("$region, $city") ?></span>
+                                    <?php if ($region === $city) : ?>
+                                        <span class="wps-ellipsis-text" title="<?php echo esc_attr($city) ?>"><?php echo esc_html($city) ?></span>
+                                    <?php else : ?>
+                                        <span class="wps-ellipsis-text" title="<?php echo esc_html("$region, $city") ?>"><?php echo esc_html("$region, $city") ?></span>
+                                    <?php endif; ?>
                                 </div>
                             </td>
 

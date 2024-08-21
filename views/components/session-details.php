@@ -55,21 +55,13 @@ use WP_STATISTICS\UserAgent;
     <div class="wps-visitor__visitors-detail--row">
         <span><?php esc_html_e('City', 'wp-statistics'); ?></span>
         <div class="wps-ellipsis-parent">
-            <?php if ($visitor->city) : ?>
-                <span title="<?php echo esc_attr($visitor->city) ?>"><?php echo esc_attr($visitor->city) ?></span>
-            <?php else : ?>
-                <?php echo Admin_Template::UnknownColumn(); ?>
-            <?php endif; ?>
+            <span title="<?php echo Admin_Template::unknownToNotSet($visitor->city) ?>"><?php echo Admin_Template::unknownToNotSet($visitor->city) ?></span>
         </div>
     </div>
     <div class="wps-visitor__visitors-detail--row">
         <span><?php esc_html_e('Region', 'wp-statistics'); ?></span>
         <div class="wps-ellipsis-parent">
-            <?php if ($visitor->region) : ?>
-                <span title="<?php echo esc_attr($visitor->region) ?>"><?php echo esc_attr($visitor->region) ?></span>
-            <?php else : ?>
-                <?php echo Admin_Template::UnknownColumn(); ?>
-            <?php endif; ?>
+            <span title="<?php echo Admin_Template::unknownToNotSet($visitor->region) ?>"><?php echo Admin_Template::unknownToNotSet($visitor->region) ?></span>
         </div>
     </div>
     <div class="wps-visitor__visitors-detail--row">
