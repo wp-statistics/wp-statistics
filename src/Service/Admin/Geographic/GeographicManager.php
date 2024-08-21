@@ -21,7 +21,6 @@ class GeographicManager
     public function addMenuItem($items)
     {
         $items['geographic'] = [
-            'require'  => ['geoip' => true],
             'sub'      => 'overview',
             'title'    => esc_html__('Geographic', 'wp-statistics'),
             'page_url' => 'geographic',
