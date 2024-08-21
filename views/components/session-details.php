@@ -14,20 +14,20 @@ use WP_STATISTICS\UserAgent;
 
         <?php if (Option::get('hash_ips')) : ?>
             <span><?php esc_html_e('Daily Visitor Hash', 'wp-statistics'); ?></span>
-            <div>
-                <span title="<?php echo esc_attr($visitor->ip) ?>"><?php echo esc_html(substr($visitor->ip, 6, 10)) ?></span>
+            <div class="wps-ellipsis-parent">
+                <span class="wps-link-color" title="<?php echo esc_attr($visitor->ip) ?>"><?php echo esc_html(substr($visitor->ip, 6, 10)) ?></span>
             </div>
         <?php else : ?>
             <span><?php esc_html_e('IP Address', 'wp-statistics'); ?></span>
-            <div>
-                <span title="<?php echo esc_attr($visitor->ip) ?>"><?php echo esc_html($visitor->ip) ?></span>
+            <div class="wps-ellipsis-parent">
+                <span class="wps-link-color" title="<?php echo esc_attr($visitor->ip) ?>"><?php echo esc_html($visitor->ip) ?></span>
             </div>
         <?php endif; ?>
         
     </div>
     <div class="wps-visitor__visitors-detail--row">
         <span><?php esc_html_e('Referrer', 'wp-statistics'); ?></span>
-        <div>
+        <div class="wps-visitor__visitors-detail--link wps-ellipsis-parent">
             <?php echo Referred::get_referrer_link($visitor->referred, '', true) ?>
         </div>
     </div>
