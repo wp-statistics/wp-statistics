@@ -145,6 +145,8 @@ Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest versio
 * Enhancement: The chart design has been updated to be more user-friendly.
 * Enhancement: Cleanup the optimization page and remove unnecessary information.
 * Enhancement: Redesigned "Daily Traffic Trend" meta-box. It's now called "Statistics - Latest Visitors".
+* Enhancement: Improved "Views" column query and page load speed in post lists pages.
+* Fix: Fixed mini-charts not displaying in post lists when "Show Stats in Admin Menu Bar" option is disabled.
 
 For more information about the major update, please [visit our blog post](https://wp-statistics.com/?p=15915) or follow [@wp_statistics](https://twitter.com/wp_statistics) on Twitter
 

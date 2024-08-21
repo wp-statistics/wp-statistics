@@ -87,12 +87,12 @@ class Admin_Post
                 $hitCount      = $visitorsModel->countVisitors($args);
             } else {
                 $viewsModel = new ViewsModel();
-                $hitCount   = $viewsModel->countViews($args);
+                $hitCount   = $viewsModel->countViewsFromPagesOnly($args);
     
                 // Consider historical if `count_display` is equal to 'total'
                 if (!$isMiniChartActive || Helper::checkMiniChartOption('count_display', 'total', 'total')) {
                     $historicalModel = new HistoricalModel();
-                    $hitCount       += $historicalModel->countUris(['page_id' => $post_id, 'uri' => wp_make_link_relative(get_permalink($post_id))]);
+                    $hitCount       += intval($historicalModel->countUris(['page_id' => $post_id, 'uri' => wp_make_link_relative(get_permalink($post_id))]));
                 }
             }
         }

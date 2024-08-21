@@ -21,18 +21,18 @@ use WP_STATISTICS\UserAgent;
 
         <?php if (IP::IsHashIP($visitor->ip)) : ?>
             <div>
-                <span title="<?php echo esc_attr($visitor->ip) ?>"><?php echo esc_html(substr($visitor->ip, 6, 10)) ?></span>
+                <span class="wps-link-color" title="<?php echo esc_attr($visitor->ip) ?>"><?php echo esc_html(substr($visitor->ip, 6, 10)) ?></span>
             </div>
         <?php else : ?>
             <div>
-                <span title="<?php echo esc_attr($visitor->ip) ?>"><?php echo esc_html($visitor->ip) ?></span>
+                <span class="wps-link-color" title="<?php echo esc_attr($visitor->ip) ?>"><?php echo esc_html($visitor->ip) ?></span>
             </div>
         <?php endif; ?>
         
     </div>
     <div class="wps-visitor__visitors-detail--row">
         <span><?php esc_html_e('Referrer', 'wp-statistics'); ?></span>
-        <div>
+        <div class="wps-visitor__visitors-detail--link wps-ellipsis-parent">
             <?php echo Referred::get_referrer_link($visitor->referred, '', true) ?>
         </div>
     </div>
