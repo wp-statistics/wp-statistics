@@ -4,6 +4,7 @@ namespace WP_Statistics\Components;
 
 use WP_STATISTICS\TimeZone;
 use WP_STATISTICS\User;
+use WP_STATISTICS\Helper;
 use WP_Statistics\Utils\Request;
 
 class DateRange
@@ -213,6 +214,28 @@ class DateRange
                     'from'  => date(self::$defaultFormat, strtotime('-2 day')),
                     'to'    => date(self::$defaultFormat, strtotime('-2 day')),
                 ],
+            ],
+
+            'this_week' => [
+                'period' => [
+                    'from' => date(self::$defaultFormat, strtotime(Helper::getStartOfWeek() . ' this week')),
+                    'to'   => date(self::$defaultFormat, strtotime('next ' . Helper::getStartOfWeek()) - 1)
+                ],
+                'prev_period' => [
+                    'from' => date(self::$defaultFormat, strtotime(Helper::getStartOfWeek() . ' last week')),
+                    'to'   => date(self::$defaultFormat, strtotime(Helper::getStartOfWeek() . ' this week') - 1)
+                ]
+            ],
+
+            'last_week' => [
+                'period' => [
+                    'from' => date(self::$defaultFormat, strtotime(Helper::getStartOfWeek() . ' last week')),
+                    'to'   => date(self::$defaultFormat, strtotime(Helper::getStartOfWeek() . ' this week') - 1)
+                ],
+                'prev_period' => [
+                    'from' => date(self::$defaultFormat, strtotime(Helper::getStartOfWeek() . ' -2 weeks')),
+                    'to'   => date(self::$defaultFormat, strtotime(Helper::getStartOfWeek() . ' last week') - 1)
+                ]
             ],
 
             'this_month' => [
