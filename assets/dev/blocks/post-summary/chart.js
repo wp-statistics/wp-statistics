@@ -1,10 +1,8 @@
 import { Chart as ChartJS, CategoryScale,  LinearScale, BarController,LineController,LineElement,PointElement,  BarElement, Tooltip, Legend } from 'chart.js';
 import { Bar , Line } from 'react-chartjs-2';
-import React, { useRef } from 'react';
 ChartJS.register(CategoryScale, LinearScale, BarController, LineController,LineElement,PointElement ,BarElement, Tooltip, Legend);
 
 const ChartElement = ({ data }) => {
-    const chartRef = useRef(null);
     let postChartData = [];
     let postChartSettings = [];
     let $postChartColor = '#A5AAEA';
@@ -15,6 +13,9 @@ const ChartElement = ({ data }) => {
     if (typeof (data.postChartData) !== 'undefined' && data.postChartData !== null) {
         postChartData = data.postChartData;
     }
+    const chartDatasets= Object.entries(postChartData).map(([date, stat]) => stat.hits);
+    const type= chartDatasets.length <= 30 ? 'bar' : 'line';
+
     if (typeof (data.postChartSettings) !== 'undefined' && data.postChartSettings !== null) {
         postChartSettings = data.postChartSettings;
         if (postChartSettings.color) $postChartColor = postChartSettings.color;
@@ -141,6 +142,16 @@ const ChartElement = ({ data }) => {
                 top: 0,
                 bottom: 0,
             },
+        },
+        beforeDraw: (chart) => {
+            if (type === 'line') {
+                const { ctx, chartArea } = chart;
+                gradient = ctx.createLinearGradient(0, 0, 0, chartArea.bottom);
+                gradient.addColorStop(0, hex_to_rgba($postChartColor, 1));
+                gradient.addColorStop(0.5, hex_to_rgba($postChartColor, 0.25));
+                gradient.addColorStop(0.75, hex_to_rgba($postChartColor, 0));
+                gradient.addColorStop(1, hex_to_rgba($postChartColor, 0));
+            }
         }
     };
 
@@ -151,21 +162,6 @@ const ChartElement = ({ data }) => {
         let hex_to_rgba_b = parseInt(hex.substring(4, 6), 16);
         return `rgba(${hex_to_rgba_r}, ${hex_to_rgba_g}, ${hex_to_rgba_b}, ${opacity})`;
     }
-
-    const chartDatasets= Object.entries(postChartData).map(([date, stat]) => stat.hits);
-    const type= chartDatasets.length <= 30 ? 'bar' : 'line';
-
-    if (type === 'line'  && chartRef.current) {
-        const { ctx, chartArea } = chartRef.current.chartInstance;
-        if (chartArea) {
-            gradient = ctx.createLinearGradient(0, 0, 0, chartArea.bottom);
-            gradient.addColorStop(0, hex_to_rgba($postChartColor, 1));
-            gradient.addColorStop(0.5, hex_to_rgba($postChartColor, 0.25));
-            gradient.addColorStop(0.75, hex_to_rgba($postChartColor, 0));
-            gradient.addColorStop(1, hex_to_rgba($postChartColor, 0));
-        }
-     }
-
     const getBackgroundColor = (value) => value.hits === 0 ? '#000000b3' : hex_to_rgba($postChartColor, 0.5);
     const getHoverBackgroundColor = (value) => value.hits === 0 ? '#000000b3' : $postChartColor;
     const backgroundColors = type === 'line' ? gradient : Object.entries(postChartData).map(getBackgroundColor);
@@ -192,13 +188,13 @@ const ChartElement = ({ data }) => {
     if (type === 'bar'){
         return (
             <div className="wp-statistics-post-summary-panel-chart">
-                <Bar data={chartData} options={chartOptions} ref={chartRef} />
+                <Bar data={chartData} options={chartOptions} />
             </div>
         );
     }else{
         return (
             <div className="wp-statistics-post-summary-panel-chart">
-                <Line data={chartData} options={chartOptions} ref={chartRef} />
+                <Line data={chartData} options={chartOptions}  />
             </div>
         );
     }

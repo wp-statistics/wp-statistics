@@ -51,4 +51,16 @@
   display: block !important;
 }
 
+body .edit-post-meta-boxes-area .ui-sortable #wp-statistics-post-widget {
+  border: none !important;
+  margin-top: 10px;
+  box-shadow: none !important;
+}
+body .edit-post-meta-boxes-area .ui-sortable #wp-statistics-post-widget .postbox-header {
+  border-bottom: none !important;
+}
+body .edit-post-meta-boxes-area .ui-sortable #wp-statistics-post-widget .postbox-header .wps-refresh {
+  margin-top: 13px;
+}
+
 /*# sourceMappingURL=style-post-summary.css.map*/

@@ -19,12 +19,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
 chart_js__WEBPACK_IMPORTED_MODULE_1__.Chart.register(chart_js__WEBPACK_IMPORTED_MODULE_1__.CategoryScale, chart_js__WEBPACK_IMPORTED_MODULE_1__.LinearScale, chart_js__WEBPACK_IMPORTED_MODULE_1__.BarController, chart_js__WEBPACK_IMPORTED_MODULE_1__.LineController, chart_js__WEBPACK_IMPORTED_MODULE_1__.LineElement, chart_js__WEBPACK_IMPORTED_MODULE_1__.PointElement, chart_js__WEBPACK_IMPORTED_MODULE_1__.BarElement, chart_js__WEBPACK_IMPORTED_MODULE_1__.Tooltip, chart_js__WEBPACK_IMPORTED_MODULE_1__.Legend);
 const ChartElement = ({
   data
 }) => {
-  const chartRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
   let postChartData = [];
   let postChartSettings = [];
   let $postChartColor = '#A5AAEA';
@@ -34,6 +32,8 @@ const ChartElement = ({
   if (typeof data.postChartData !== 'undefined' && data.postChartData !== null) {
     postChartData = data.postChartData;
   }
+  const chartDatasets = Object.entries(postChartData).map(([date, stat]) => stat.hits);
+  const type = chartDatasets.length <= 30 ? 'bar' : 'line';
   if (typeof data.postChartSettings !== 'undefined' && data.postChartSettings !== null) {
     postChartSettings = data.postChartSettings;
     if (postChartSettings.color) $postChartColor = postChartSettings.color;
@@ -157,6 +157,19 @@ const ChartElement = ({
         top: 0,
         bottom: 0
       }
+    },
+    beforeDraw: chart => {
+      if (type === 'line') {
+        const {
+          ctx,
+          chartArea
+        } = chart;
+        gradient = ctx.createLinearGradient(0, 0, 0, chartArea.bottom);
+        gradient.addColorStop(0, hex_to_rgba($postChartColor, 1));
+        gradient.addColorStop(0.5, hex_to_rgba($postChartColor, 0.25));
+        gradient.addColorStop(0.75, hex_to_rgba($postChartColor, 0));
+        gradient.addColorStop(1, hex_to_rgba($postChartColor, 0));
+      }
     }
   };
   const hex_to_rgba = (hex, opacity) => {
@@ -166,21 +179,6 @@ const ChartElement = ({
     let hex_to_rgba_b = parseInt(hex.substring(4, 6), 16);
     return `rgba(${hex_to_rgba_r}, ${hex_to_rgba_g}, ${hex_to_rgba_b}, ${opacity})`;
   };
-  const chartDatasets = Object.entries(postChartData).map(([date, stat]) => stat.hits);
-  const type = chartDatasets.length <= 30 ? 'bar' : 'line';
-  if (type === 'line' && chartRef.current) {
-    const {
-      ctx,
-      chartArea
-    } = chartRef.current.chartInstance;
-    if (chartArea) {
-      gradient = ctx.createLinearGradient(0, 0, 0, chartArea.bottom);
-      gradient.addColorStop(0, hex_to_rgba($postChartColor, 1));
-      gradient.addColorStop(0.5, hex_to_rgba($postChartColor, 0.25));
-      gradient.addColorStop(0.75, hex_to_rgba($postChartColor, 0));
-      gradient.addColorStop(1, hex_to_rgba($postChartColor, 0));
-    }
-  }
   const getBackgroundColor = value => value.hits === 0 ? '#000000b3' : hex_to_rgba($postChartColor, 0.5);
   const getHoverBackgroundColor = value => value.hits === 0 ? '#000000b3' : $postChartColor;
   const backgroundColors = type === 'line' ? gradient : Object.entries(postChartData).map(getBackgroundColor);
@@ -208,16 +206,14 @@ const ChartElement = ({
       className: "wp-statistics-post-summary-panel-chart"
     }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_chartjs_2__WEBPACK_IMPORTED_MODULE_2__.Bar, {
       data: chartData,
-      options: chartOptions,
-      ref: chartRef
+      options: chartOptions
     }));
   } else {
     return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
       className: "wp-statistics-post-summary-panel-chart"
     }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_chartjs_2__WEBPACK_IMPORTED_MODULE_2__.Line, {
       data: chartData,
-      options: chartOptions,
-      ref: chartRef
+      options: chartOptions
     }));
   }
 };

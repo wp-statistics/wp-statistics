@@ -710,3 +710,12 @@
     border-color: #DADCE0 !important;
   }
 }
+.edit-post-meta-boxes-area .ui-sortable{
+  #wp-statistics-post-widget{
+    .postbox-header{
+      background: transparent!important;
+      border-bottom:none!important;
+    }
+  }
+}
+
