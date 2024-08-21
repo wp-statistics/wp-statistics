@@ -3,6 +3,7 @@
 use WP_STATISTICS\Admin_Template;
 use WP_STATISTICS\Country;
 use WP_STATISTICS\Helper;
+use WP_STATISTICS\IP;
 use WP_STATISTICS\Option;
 use WP_STATISTICS\Referred;
 use WP_STATISTICS\UserAgent;
@@ -14,11 +15,15 @@ use WP_STATISTICS\UserAgent;
 
         <?php if (Option::get('hash_ips')) : ?>
             <span><?php esc_html_e('Daily Visitor Hash', 'wp-statistics'); ?></span>
+        <?php else : ?>
+            <span><?php esc_html_e('IP Address', 'wp-statistics'); ?></span>
+        <?php endif; ?>
+
+        <?php if (IP::IsHashIP($visitor->ip)) : ?>
             <div>
                 <span title="<?php echo esc_attr($visitor->ip) ?>"><?php echo esc_html(substr($visitor->ip, 6, 10)) ?></span>
             </div>
         <?php else : ?>
-            <span><?php esc_html_e('IP Address', 'wp-statistics'); ?></span>
             <div>
                 <span title="<?php echo esc_attr($visitor->ip) ?>"><?php echo esc_html($visitor->ip) ?></span>
             </div>
