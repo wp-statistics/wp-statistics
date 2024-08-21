@@ -102,7 +102,7 @@ class Admin_Post
                 // translators: 1: Mini-chart product link - 2: "Unlock This Feature!" text - 3: Lock image - 4: Chart preview image.
                 '<div class="wps-admin-column__unlock"><a href="%s" target="_blank"><span class="wps-admin-column__unlock__text">%s</span><img class="wps-admin-column__unlock__lock" src="%s"/><img class="wps-admin-column__unlock__img" src="%s"/></a></div>',
                 'https://wp-statistics.com/product/wp-statistics-mini-chart?utm_source=wp-statistics&utm_medium=link&utm_campaign=mini-chart',
-                __('Unlock This Feature!', 'wp-statistics'),
+                __('Unlock', 'wp-statistics'),
                 WP_STATISTICS_URL . 'assets/images/mini-chart-posts-lock.svg',
                 WP_STATISTICS_URL . 'assets/images/mini-chart-posts-preview.svg'
             );
