@@ -42,15 +42,15 @@ class VisitorsModel extends BaseModel
             ->whereDate('visitor_relationships.date', $args['date'])
             ->bypassCache($bypassCache);
 
-            if (!empty($args['agent']) || !empty($args['country']) || !empty($args['platform']) || !empty($args['user_id']) || !empty($args['ip'])) {
-                $query
-                    ->join('visitor', ['visitor_relationships.visitor_id', 'visitor.ID'])
-                    ->where('agent', '=', $args['agent'])
-                    ->where('location', '=', $args['country'])
-                    ->where('platform', '=', $args['platform'])
-                    ->where('user_id', '=', $args['user_id'])
-                    ->where('ip', '=', $args['ip']);
-            }
+        if (!empty($args['agent']) || !empty($args['country']) || !empty($args['platform']) || !empty($args['user_id']) || !empty($args['ip'])) {
+            $query
+                ->join('visitor', ['visitor_relationships.visitor_id', 'visitor.ID'])
+                ->where('agent', '=', $args['agent'])
+                ->where('location', '=', $args['country'])
+                ->where('platform', '=', $args['platform'])
+                ->where('user_id', '=', $args['user_id'])
+                ->where('ip', '=', $args['ip']);
+        }
 
         if (!empty($args['taxonomy']) || !empty($args['term'])) {
             $taxQuery = Query::select(['DISTINCT object_id'])
@@ -67,7 +67,7 @@ class VisitorsModel extends BaseModel
 
         $result = $query->getVar();
 
-        return $result ? $result : 0;
+        return $result ? intval($result) : 0;
     }
 
     public function countDailyVisitors($args = [], $bypassCache = false)
@@ -85,7 +85,7 @@ class VisitorsModel extends BaseModel
 
         $query = Query::select([
             'DATE(visitor_relationships.date) as date',
-            'COUNT(DISTINCT visitor_id) as visitors'
+            'COUNT(DISTINCT visitor_id) as visitors',
         ])
             ->from('visitor_relationships')
             ->join('pages', ['visitor_relationships.page_id', 'pages.page_id'], [], 'LEFT')
@@ -165,7 +165,7 @@ class VisitorsModel extends BaseModel
             'order_by'       => 'visitors',
             'order'          => 'DESC',
             'per_page'       => '',
-            'page'           => 1
+            'page'           => 1,
         ]);
 
         $result = Query::select([
@@ -201,7 +201,7 @@ class VisitorsModel extends BaseModel
             'order_by'  => 'visitors',
             'order'     => 'DESC',
             'per_page'  => '',
-            'page'      => 1
+            'page'      => 1,
         ]);
 
         $result = Query::select([
@@ -222,23 +222,25 @@ class VisitorsModel extends BaseModel
 
     public function getVisitorsSummary($args = [], $bypassCache = false)
     {
-        $result = $this->countDailyVisitors(array_merge($args, [
-                'date' => DateRange::get('this_year')
+        $result = $this->countDailyVisitors(array_merge(
+            $args,
+            [
+                'date' => DateRange::get('this_year'),
             ]
         ), $bypassCache);
 
         $summary = [
-            'today'     => ['label' => esc_html__('Today', 'wp-statistics'), 'visitors' => 0],
-            'yesterday' => ['label' => esc_html__('Yesterday', 'wp-statistics'), 'visitors' => 0],
-            'this_week' => ['label' => esc_html__('This Week', 'wp-statistics'), 'visitors' => 0],
-            'last_week' => ['label' => esc_html__('Last Week', 'wp-statistics'), 'visitors' => 0],
-            'this_month'=> ['label' => esc_html__('This Month', 'wp-statistics'), 'visitors' => 0],
-            'last_month'=> ['label' => esc_html__('Last Month', 'wp-statistics'), 'visitors' => 0],
-            '7days'     => ['label' => esc_html__('Last 7 days', 'wp-statistics'), 'visitors' => 0],
-            '30days'    => ['label' => esc_html__('Last 30 days', 'wp-statistics'), 'visitors' => 0],
-            '90days'    => ['label' => esc_html__('Last 90 days', 'wp-statistics'), 'visitors' => 0],
-            '6months'   => ['label' => esc_html__('Last 6 Months', 'wp-statistics'), 'visitors' => 0],
-            'this_year' => ['label' => esc_html__('This year (Jan - Today)', 'wp-statistics'), 'visitors' => 0],
+            'today'      => ['label' => esc_html__('Today', 'wp-statistics'), 'visitors' => 0],
+            'yesterday'  => ['label' => esc_html__('Yesterday', 'wp-statistics'), 'visitors' => 0],
+            'this_week'  => ['label' => esc_html__('This Week', 'wp-statistics'), 'visitors' => 0],
+            'last_week'  => ['label' => esc_html__('Last Week', 'wp-statistics'), 'visitors' => 0],
+            'this_month' => ['label' => esc_html__('This Month', 'wp-statistics'), 'visitors' => 0],
+            'last_month' => ['label' => esc_html__('Last Month', 'wp-statistics'), 'visitors' => 0],
+            '7days'      => ['label' => esc_html__('Last 7 days', 'wp-statistics'), 'visitors' => 0],
+            '30days'     => ['label' => esc_html__('Last 30 days', 'wp-statistics'), 'visitors' => 0],
+            '90days'     => ['label' => esc_html__('Last 90 days', 'wp-statistics'), 'visitors' => 0],
+            '6months'    => ['label' => esc_html__('Last 6 Months', 'wp-statistics'), 'visitors' => 0],
+            'this_year'  => ['label' => esc_html__('This year (Jan - Today)', 'wp-statistics'), 'visitors' => 0],
         ];
 
         foreach ($result as $record) {
@@ -313,7 +315,7 @@ class VisitorsModel extends BaseModel
             'page'        => '',
             'per_page'    => '',
             'page_info'   => false,
-            'user_info'   => false
+            'user_info'   => false,
         ]);
 
         $additionalFields = [];
@@ -328,7 +330,7 @@ class VisitorsModel extends BaseModel
                 ->from('visitor_relationships')
                 ->groupBy('visitor_id')
                 ->getQuery();
-    
+
             $subQuery = Query::select([
                 'visitor_relationships.visitor_id',
                 'page_id',
@@ -359,7 +361,7 @@ class VisitorsModel extends BaseModel
             'visitor.region',
             'visitor.city',
             'visitor.hits',
-            'visitor.referred'
+            'visitor.referred',
         ], $additionalFields))
             ->from('visitor')
             ->where('agent', '=', $args['agent'])
@@ -426,7 +428,7 @@ class VisitorsModel extends BaseModel
             'user_id'     => '',
             'ip'          => '',
             'username'    => '',
-            'email'       => ''
+            'email'       => '',
         ]);
 
         $result = Query::select([
@@ -458,7 +460,7 @@ class VisitorsModel extends BaseModel
 
         $firstHit = Query::select([
             'visitor_id',
-            'MIN(date) as date'
+            'MIN(date) as date',
         ])
             ->from('visitor_relationships')
             ->groupBy('visitor_id')
@@ -466,7 +468,7 @@ class VisitorsModel extends BaseModel
 
         $subQuery = Query::select([
             'visitor_relationships.visitor_id',
-            'date'
+            'date',
         ])
             ->from('visitor_relationships')
             ->whereRaw("(visitor_id, date) IN ($firstHit)")
@@ -506,12 +508,12 @@ class VisitorsModel extends BaseModel
     {
         $args = $this->parseArgs($args, [
             'visitor_id'    => '',
-            'ignore_date'   => true
+            'ignore_date'   => true,
         ]);
 
         $result = Query::select([
             'date',
-            'page_id'
+            'page_id',
         ])
             ->from('visitor_relationships')
             ->where('visitor_relationships.visitor_id', '=', $args['visitor_id'])
@@ -530,7 +532,7 @@ class VisitorsModel extends BaseModel
             'platform' => [],
             'agent'    => [],
             'device'   => [],
-            'model'    => []
+            'model'    => [],
         ];
 
         if (!empty($data)) {
@@ -598,7 +600,7 @@ class VisitorsModel extends BaseModel
             'country'     => '',
             'region'      => '',
             'city'        => '',
-            'not_null'    => ''
+            'not_null'    => '',
         ]);
 
         $result = Query::select([
@@ -614,7 +616,7 @@ class VisitorsModel extends BaseModel
             ->bypassCache($bypassCache)
             ->getVar();
 
-        return $result ? $result : 0;
+        return $result ? intval($result) : 0;
     }
 
     public function getVisitorsGeoData($args = [], $bypassCache = false)
@@ -636,7 +638,7 @@ class VisitorsModel extends BaseModel
             'page'        => 1,
             'group_by'    => 'visitor.location',
             'order_by'    => ['visitors', 'views'],
-            'order'       => 'DESC'
+            'order'       => 'DESC',
         ]);
 
         $query = Query::select([
@@ -645,7 +647,7 @@ class VisitorsModel extends BaseModel
             'visitor.region as region',
             'visitor.continent as continent',
             'COUNT(DISTINCT visitor.ID) as visitors',
-            'SUM(visitor.hits) as views' // All views are counted and results can't be filtered by author, post type, etc...
+            'SUM(visitor.hits) as views', // All views are counted and results can't be filtered by author, post type, etc...
         ])
             ->from('visitor')
             ->where('visitor.location', 'IN', $args['country'])
@@ -713,7 +715,7 @@ class VisitorsModel extends BaseModel
 
         // Execute the query and return the result based on the returnCount parameter
         if ($returnCount) {
-            return $query->getVar();
+            return intval($query->getVar());
         } else {
             return $query->getAll();
         }
@@ -738,14 +740,14 @@ class VisitorsModel extends BaseModel
             'taxonomy'    => '',
             'term'        => '',
             'page'        => 1,
-            'per_page'    => 10
+            'per_page'    => 10,
         ]);
 
         $filteredArgs = array_filter($args);
 
         $query = Query::select([
             'COUNT(DISTINCT visitor.ID) AS visitors',
-            'visitor.referred as referrer'
+            'visitor.referred as referrer',
         ])
             ->from('visitor')
             ->where('visitor.referred', 'NOT LIKE', '%' . Helper::get_domain_name(home_url()) . '%')
@@ -857,7 +859,7 @@ class VisitorsModel extends BaseModel
     public function getSearchEnginesChartData($args)
     {
         $args = $this->parseArgs($args, []);
-        
+
         // Get results up to 30 days
         $newArgs = [];
         $days    = TimeZone::getNumberDayBetween($args['date']['from'], $args['date']['to']);
@@ -871,9 +873,11 @@ class VisitorsModel extends BaseModel
         $datesList = array_keys($datesList);
 
         $result = [
-            'labels'   => array_map(function ($date) {
-                return date_i18n(Helper::getDefaultDateFormat(false, true), strtotime($date));
-            }, $datesList
+            'labels'   => array_map(
+                function ($date) {
+                    return date_i18n(Helper::getDefaultDateFormat(false, true), strtotime($date));
+                },
+                $datesList
             ),
             'datasets' => []
         ];
@@ -995,7 +999,7 @@ class VisitorsModel extends BaseModel
                     ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy'])
                     ->where('terms.term_id', '=', $args['term_id'])
                     ->getQuery();
-    
+
                 $query
                     ->joinQuery($taxQuery, ['posts.ID', 'tax.object_id'], 'tax');
             }
