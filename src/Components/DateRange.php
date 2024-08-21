@@ -4,6 +4,7 @@ namespace WP_Statistics\Components;
 
 use WP_STATISTICS\TimeZone;
 use WP_STATISTICS\User;
+use WP_Statistics\Utils\Request;
 
 class DateRange
 {
@@ -60,7 +61,7 @@ class DateRange
     }
 
     /**
-     * Retrieves the period stored in the user's meta data. Returns default period if not set.
+     * Retrieves the period stored in the user's meta data, or from request object. 
      *
      * @return string|array Could be a period name like '30days' or an array containing 'from' and 'to' date strings.
      */
@@ -73,6 +74,7 @@ class DateRange
             $period = self::$defaultPeriod;
         }
 
+        // Predefined date periods like '30days', 'this_month', etc...
         if (is_string($period)) {
             $periods = self::getPeriods();
             $result = [
@@ -82,11 +84,21 @@ class DateRange
             ];
         }
 
+        // Custom date range store in usermeta like ['from' => '2024-01-01', 'to' => '2024-01-31']
         if (is_array($period)) {
             $result = [
                 'type'  => 'custom',
                 'value' => $period,
                 'range' => $period
+            ];
+        }
+
+        // Manual date range from request object
+        if (Request::has('from') && Request::has('to')) {
+            $result = [
+                'type'  => 'manual',
+                'value' => Request::getParams(['from', 'to']),
+                'range' => Request::getParams(['from', 'to'])
             ];
         }
 
@@ -104,7 +116,7 @@ class DateRange
     {
         $range = [];
 
-        // If period is not provided, retrieve it from usermeta
+        // If period is not provided, retrieve it
         if (!$period) {
             $storedRange = self::retrieve();
             $range       = $storedRange['range'];
@@ -134,7 +146,7 @@ class DateRange
      */
     public static function getPrevPeriod($period = false)
     {
-        // If period is not provided, retrieve it from user meta
+        // If period is not provided, retrieve it
         if (!$period) {
             $period = self::retrieve();
             $period = $period['value'];
