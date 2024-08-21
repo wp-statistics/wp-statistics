@@ -13,17 +13,13 @@ use WP_STATISTICS\UserAgent;
 <div class="wps-visitor__visitors-details">
     <div class="wps-visitor__visitors-detail--row">
 
-        <?php if (Option::get('hash_ips')) : ?>
-            <span><?php esc_html_e('Daily Visitor Hash', 'wp-statistics'); ?></span>
-        <?php else : ?>
-            <span><?php esc_html_e('IP Address', 'wp-statistics'); ?></span>
-        <?php endif; ?>
-
         <?php if (IP::IsHashIP($visitor->ip)) : ?>
+            <span><?php esc_html_e('Daily Visitor Hash', 'wp-statistics'); ?></span>
             <div>
                 <span class="wps-link-color" title="<?php echo esc_attr($visitor->ip) ?>"><?php echo esc_html(substr($visitor->ip, 6, 10)) ?></span>
             </div>
         <?php else : ?>
+            <span><?php esc_html_e('IP Address', 'wp-statistics'); ?></span>
             <div>
                 <span class="wps-link-color" title="<?php echo esc_attr($visitor->ip) ?>"><?php echo esc_html($visitor->ip) ?></span>
             </div>
