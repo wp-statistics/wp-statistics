@@ -22,7 +22,7 @@ class TabsView extends BaseTabView
             'taxonomy'  => Request::get('tab', 'category')
         ]);
 
-        $this->tabs = array_keys(Helper::get_list_taxonomy());
+        $this->tabs = array_keys(Helper::get_list_taxonomy(true));
     }
 
     public function isLockedTab($tab)
@@ -34,10 +34,10 @@ class TabsView extends BaseTabView
     {
         $tabs = [];
 
-        foreach (array_keys(Helper::get_list_taxonomy()) as $taxonomy) {
+        foreach ($this->tabs as $taxonomy) {
             $tab = [
                 'link'    => Menus::admin_url('category-analytics', ['tab' => $taxonomy]),
-                'title'   => Helper::getTaxonomyName($taxonomy),
+                'title'   => ucwords(Helper::getTaxonomyName($taxonomy)),
                 'class'   => $this->isTab($taxonomy) ? 'current' : ''
             ];
 
