@@ -150,7 +150,7 @@ class Query
         }
 
         // Determine whether caching should be allowed based on the date range
-        $this->allowCaching = $this->shouldAllowCachingForDateRange($from, $to);
+        $this->canUseCacheForDateRange($to);
 
         return $this;
     }
@@ -644,22 +644,18 @@ class Query
     }
 
     /**
-     * Determine whether the cache should be used based on the date range.
+     * Determine whether caching is permissible based on the specified date range.
      *
-     * @param string $from The start date of the range.
      * @param string $to The end date of the range.
-     * @return bool True if cache should be used, false otherwise.
+     * @return void
      */
-    protected function shouldAllowCachingForDateRange($from, $to)
+    protected function canUseCacheForDateRange($to)
     {
         $today = date('Y-m-d');
 
         // Cache should be used if the date range does not include today
         if ($to < $today) {
-            return true;
+            $this->allowCaching();
         }
-
-        // Do not use cache if today's date is within the date range
-        return false;
     }
 }
