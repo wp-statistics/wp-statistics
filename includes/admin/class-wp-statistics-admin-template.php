@@ -281,4 +281,35 @@ class Admin_Template
         return $value;
     }
 
+    public static function locationColumn($location = '', $region = '', $city = '')
+    {
+        $result = "$region, $city";
+
+        $location   = $location == Country::$unknown_location ? '' : $location;
+        $region     = $region == 'Unknown' ? '' : $region;
+        $city       = $city == 'Unknown' ? '' : $city;
+
+        // If location, region, and city are not set 
+        if (empty($location) && empty($region) && empty($city)) {
+            $result = esc_html__('(location not set)', 'wp-statistics');
+        }
+        
+        // If region, and city are not set 
+        if (!empty($location) && empty($region) && empty($city)) {
+            $result = esc_html__('(region/city not set)', 'wp-statistics');
+        } 
+        
+        // If only region is set 
+        if (!empty($location) && !empty($region) && empty($city)) {
+            $result = $region;
+        }
+        
+        // If only city is set 
+        if (!empty($location) && empty($region) && !empty($city)) {
+            $result = $city;
+        }
+
+        return $result;
+    }
+
 }

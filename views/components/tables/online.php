@@ -88,15 +88,8 @@ use WP_STATISTICS\Visitor;
                                     <a href="<?php echo esc_url(Menus::admin_url('visitors', ['location' => $visitor->location])) ?>" class="wps-tooltip" title="<?php echo esc_attr(Country::getName($visitor->location)) ?>">
                                         <img src="<?php echo esc_url(Country::flag($visitor->location)) ?>" alt="<?php echo esc_attr(Country::getName($visitor->location)) ?>" width="15" height="15">
                                     </a>
-                                    <?php 
-                                        $region = Admin_Template::unknownToNotSet($visitor->region);
-                                        $city   = Admin_Template::unknownToNotSet($visitor->city);
-                                    ?>
-                                    <?php if ($region === $city) : ?>
-                                        <span class="wps-ellipsis-text" title="<?php echo esc_attr($city) ?>"><?php echo esc_html($city) ?></span>
-                                    <?php else : ?>
-                                        <span class="wps-ellipsis-text" title="<?php echo esc_html("$region, $city") ?>"><?php echo esc_html("$region, $city") ?></span>
-                                    <?php endif; ?>
+                                    <?php $location = Admin_Template::locationColumn($visitor->location, $visitor->region, $visitor->city); ?>
+                                    <span class="wps-ellipsis-text" title="<?php echo esc_attr($location) ?>"><?php echo esc_html($location) ?></span>
                                 </div>
                             </td>
 
