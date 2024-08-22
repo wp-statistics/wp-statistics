@@ -14,7 +14,7 @@ use WP_Statistics\Service\Analytics\AnalyticsManager;
 use WP_Statistics\Service\Integrations\WpConsentApi;
 use WP_Statistics\Service\Admin\Devices\DevicesManager;
 use WP_Statistics\Service\Admin\Visitors\VisitorsManager;
-use WP_Statistics\Service\Admin\PagesReport\PagesReportManager;
+use WP_Statistics\Service\Admin\PageInsights\PageInsightsManager;
 
 defined('ABSPATH') || exit;
 
@@ -183,7 +183,7 @@ final class WP_Statistics
             $geographic        = new GeographicManager();
             $devices           = new DevicesManager();
             $categoryAnalytics = new CategoryAnalyticsManager();
-            $pagesManager      = new PagesReportManager();
+            $pageInsightsManager      = new PageInsightsManager();
             $visitorsManager   = new VisitorsManager();
 
             $wpConsentApi = new WpConsentApi();
