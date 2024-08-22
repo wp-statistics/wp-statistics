@@ -45,7 +45,7 @@ use WP_STATISTICS\Country;
                                 <?php if (!empty($visitor->user_id)) : ?>
                                     <li class="wps-browsers__flag">
                                         <div class="wps-tooltip" data-tooltip-content="#tooltip_user_id">
-                                            <a href="<?php echo esc_url(Menus::admin_url('visitors', ['user_id' => $visitor->user_id])) ?>"><img src="<?php echo esc_url(WP_STATISTICS_URL . 'assets/images/user-icon.svg') ?>" alt="user" width="15" height="15"></a>
+                                            <a href="<?php echo esc_url(Menus::admin_url('visitors', ['type' => 'single-visitor', 'visitor_id' => $visitor->ID])) ?>"><img src="<?php echo esc_url(WP_STATISTICS_URL . 'assets/images/user-icon.svg') ?>" alt="user" width="15" height="15"></a>
                                         </div>
                                         <div class="wps-tooltip_templates">
                                             <div id="tooltip_user_id">
@@ -58,7 +58,7 @@ use WP_STATISTICS\Country;
                                 <?php else : ?>
                                     <li class="wps-browsers__flag">
                                         <div class="wps-tooltip" title="<?php esc_attr_e('Incognito', 'wp-statistics') ?>">
-                                            <img src="<?php echo esc_url(WP_STATISTICS_URL . 'assets/images/incognito-user.svg') ?>" alt="<?php esc_attr_e('Incognito', 'wp-statistics') ?>" width="15" height="15">
+                                            <a href="<?php echo esc_url(Menus::admin_url('visitors', ['type' => 'single-visitor', 'visitor_id' => $visitor->ID])) ?>"><img src="<?php echo esc_url(WP_STATISTICS_URL . 'assets/images/incognito-user.svg') ?>" alt="<?php esc_attr_e('Incognito', 'wp-statistics') ?>" width="15" height="15"></a>
                                         </div>
                                     </li>
                                 <?php endif; ?>
