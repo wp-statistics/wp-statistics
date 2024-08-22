@@ -3,6 +3,7 @@ use WP_STATISTICS\Admin_Template;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Country;
 use WP_STATISTICS\Menus;
+use WP_STATISTICS\IP;
 use WP_STATISTICS\Referred;
 use WP_STATISTICS\UserAgent;
 use WP_STATISTICS\Visitor;
@@ -46,22 +47,23 @@ use WP_STATISTICS\Visitor;
 
                             <td class="wps-pd-l">
                                 <ul class="wps-browsers__flags">
-                                    <?php if (!empty($visitor->user_id)) : ?>
+                                <?php if (!empty($visitor->user_id)) : ?>
                                         <li class="wps-browsers__flag">
                                             <div class="wps-tooltip" data-tooltip-content="#tooltip_user_id">
-                                                <a href="<?php echo esc_url(Menus::admin_url('visitors', ['user_id' => $visitor->user_id])) ?>"><img src="<?php echo esc_url(WP_STATISTICS_URL . 'assets/images/user-icon.svg') ?>" alt="user" width="15" height="15"></a>
+                                                <a href="<?php echo esc_url(Menus::admin_url('visitors', ['type' => 'single-visitor', 'visitor_id' => $visitor->ID])) ?>"><img src="<?php echo esc_url(WP_STATISTICS_URL . 'assets/images/user-icon.svg') ?>" alt="user" width="15" height="15"></a>
                                             </div>
                                             <div class="wps-tooltip_templates">
                                                 <div id="tooltip_user_id">
                                                     <div><?php esc_html_e('ID: ', 'wp-statistics') ?> <?php echo esc_html($visitor->user_id) ?></div>
                                                     <div><?php esc_html_e('Name: ', 'wp-statistics') ?> <?php echo esc_html($visitor->display_name) ?></div>
                                                     <div><?php esc_html_e('Email: ', 'wp-statistics') ?> <?php echo esc_html($visitor->user_email) ?></div>
+                                                    <div><?php echo IP::IsHashIP($visitor->ip) ? sprintf(esc_html__('Daily Visitor Hash: %s', 'wp-statistics'), substr($visitor->ip, 6, 10)) : sprintf(esc_html__('IP: %s', 'wp-statistics'), $visitor->ip) ?></div>
                                                 </div>
                                             </div>
                                         </li>
                                     <?php else : ?>
                                         <li class="wps-browsers__flag">
-                                            <div class="wps-tooltip" title="<?php esc_attr_e('Incognito', 'wp-statistics') ?>">
+                                            <div class="wps-tooltip" title="<?php echo IP::IsHashIP($visitor->ip) ? sprintf(esc_attr__('Daily Visitor Hash: %s', 'wp-statistics'), substr($visitor->ip, 6, 10)) : sprintf(esc_attr__('IP: %s', 'wp-statistics'), $visitor->ip) ?>">
                                                 <a href="<?php echo esc_url(Menus::admin_url('visitors', ['ip' => urlencode($visitor->ip)])) ?>"><img src="<?php echo esc_url(WP_STATISTICS_URL . 'assets/images/incognito-user.svg') ?>" alt="<?php esc_attr_e('Incognito', 'wp-statistics') ?>" width="15" height="15"></a>
                                             </div>
                                         </li>

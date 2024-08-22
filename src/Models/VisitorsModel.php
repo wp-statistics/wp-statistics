@@ -352,6 +352,7 @@ class VisitorsModel extends BaseModel
 
         $query = Query::select(array_merge([
             'visitor.ID',
+            'visitor.ip',
             'visitor.platform',
             'visitor.agent',
             'visitor.version',
