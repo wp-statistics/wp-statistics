@@ -85,7 +85,7 @@ class GeneralNotices
     public function php_version_check()
     {
         if (version_compare(PHP_VERSION, '7.2', '<')) {
-            Notice::addNotice(__('<b>WP Statistics Notice: PHP Version Update Alert</b> Starting with <b>Version 14.11</b>, WP Statistics will require <b>PHP 7.2 or higher</b>. Please upgrade your PHP version to ensure uninterrupted use of the plugin.'), 'php_version_check', 'warning');
+            Notice::addNotice(__('<b>WP Statistics Important Notice:</b> Final Version for Your Current PHP Version <b>14.11</b> of WP Statistics will be the <b>last</b> update compatible with your current PHP version. To continue receiving the latest features and security updates, please upgrade your PHP to version 7.2 or higher.'), 'php_version_check', 'warning');
         }
     }
 
