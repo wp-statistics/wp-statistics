@@ -111,10 +111,14 @@
     }
   }
 }
+.wps-admin-mini-chart__unlock{
+  th#wp-statistics-post-hits{
+    width: 90px!important;
+  }
+}
 
 .wps-admin-column__unlock {
-
-    &-count{
+     &-count{
       width: 52px;
       display: block;
       text-align: center;
@@ -163,6 +167,13 @@
     .wps-admin-column__unlock__lock{
       visibility: hidden;
     }
+  }
+
+}
+td:has(div.wps-admin-column__unlock){
+  width: 90px!important;
+  div{
+    width: 90px!important;
   }
 }
 
