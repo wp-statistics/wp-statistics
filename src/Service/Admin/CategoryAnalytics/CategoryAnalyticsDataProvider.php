@@ -91,16 +91,16 @@ class CategoryAnalyticsDataProvider
 
     public function getSingleTermData()
     {
-        $totalPosts         = $this->postsModel->countPosts(array_merge($this->args, ['date' => '']));
+        $totalPosts         = $this->postsModel->countPosts(array_merge($this->args, ['ignore_date' => true]));
         $recentPosts        = $this->postsModel->countPosts($this->args);
         
         $recentViews         = $this->viewsModel->countViews($this->args);
         $recentVisitors      = $this->visitorsModel->countVisitors($this->args);
 
-        $totalWords         = $this->postsModel->countWords(array_merge($this->args, ['date' => '']));
+        $totalWords         = $this->postsModel->countWords(array_merge($this->args, ['ignore_date' => true]));
         $recentWords        = $this->postsModel->countWords($this->args);
 
-        $totalComments      = $this->postsModel->countComments(array_merge($this->args, ['date' => '']));
+        $totalComments      = $this->postsModel->countComments(array_merge($this->args, ['ignore_date' => true]));
         $recentComments     = $this->postsModel->countComments($this->args);
 
         $visitorsSummary    = $this->visitorsModel->getVisitorsSummary($this->args);
@@ -161,17 +161,17 @@ class CategoryAnalyticsDataProvider
 
     public function getPerformanceData()
     {
-        $totalPosts         = $this->postsModel->countPosts(array_merge($this->args, ['date' => '']));
+        $totalPosts         = $this->postsModel->countPosts(array_merge($this->args, ['ignore_date' => true]));
         $recentPosts        = $this->postsModel->countPosts($this->args);
 
         $recentViews        = $this->viewsModel->countViews($this->args);
         $recentVisitors     = $this->visitorsModel->countVisitors($this->args);
 
         $recentWords        = $this->postsModel->countWords($this->args);
-        $totalWords         = $this->postsModel->countWords(array_merge($this->args, ['date' => '']));
+        $totalWords         = $this->postsModel->countWords(array_merge($this->args, ['ignore_date' => true]));
 
         $recentComments     = $this->postsModel->countComments($this->args);
-        $totalComments      = $this->postsModel->countComments(array_merge($this->args, ['date' => '']));
+        $totalComments      = $this->postsModel->countComments(array_merge($this->args, ['ignore_date' => true]));
 
         $visitorsSummary    = $this->visitorsModel->getVisitorsSummary($this->args);
         $viewsSummary       = $this->viewsModel->getViewsSummary($this->args);

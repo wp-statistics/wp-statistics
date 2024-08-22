@@ -96,13 +96,13 @@ class AuthorAnalyticsDataProvider
 
         // Posts data
         $recentWords    = $this->postsModel->countWords($this->args);
-        $totalWords     = $this->postsModel->countWords(array_merge($this->args, ['date' => '']));
+        $totalWords     = $this->postsModel->countWords(array_merge($this->args, ['ignore_date' => true]));
 
         $recentComments = $this->postsModel->countComments($this->args);
-        $totalComments  = $this->postsModel->countComments(array_merge($this->args, ['date' => '']));
+        $totalComments  = $this->postsModel->countComments(array_merge($this->args, ['ignore_date' => true]));
 
         $recentPosts    = $this->postsModel->countPosts($this->args);
-        $totalPosts     = $this->postsModel->countPosts(array_merge($this->args, ['date' => '']));
+        $totalPosts     = $this->postsModel->countPosts(array_merge($this->args, ['ignore_date' => true]));
 
         return [
             'authors' => [
@@ -190,13 +190,13 @@ class AuthorAnalyticsDataProvider
         $recentViews        = $this->viewsModel->countViews($this->args);
 
         $recentWords        = $this->postsModel->countWords($this->args);
-        $totalWords         = $this->postsModel->countWords(array_merge($this->args, ['date' => '']));
+        $totalWords         = $this->postsModel->countWords(array_merge($this->args, ['ignore_date' => true]));
 
         $recentComments     = $this->postsModel->countComments($this->args);
-        $totalComments      = $this->postsModel->countComments(array_merge($this->args, ['date' => '']));
+        $totalComments      = $this->postsModel->countComments(array_merge($this->args, ['ignore_date' => true]));
 
         $recentPosts        = $this->postsModel->countPosts($this->args);
-        $totalPosts         = $this->postsModel->countPosts(array_merge($this->args, ['date' => '']));
+        $totalPosts         = $this->postsModel->countPosts(array_merge($this->args, ['ignore_date' => true]));
 
         $recentVisitors     = $this->visitorsModel->countVisitors($this->args);
 
