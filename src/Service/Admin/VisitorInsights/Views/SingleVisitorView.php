@@ -66,7 +66,7 @@ class SingleVisitorView extends BaseView
             'data'           => $visitorData
         ];
         Admin_Template::get_template(['layout/header', 'layout/title'], $args);
-        View::load('pages/visitors/single-visitor', $args);
+        View::load('pages/visitor-insights/single-visitor', $args);
         Admin_Template::get_template(['layout/footer'], $args);
     }
 }

@@ -109,7 +109,7 @@ class TabsView extends BaseTabView
             }
 
             Admin_Template::get_template(['layout/header', 'layout/tabbed-page-header'], $args);
-            View::load("pages/visitors/$currentTab", $args);
+            View::load("pages/visitor-insights/$currentTab", $args);
             Admin_Template::get_template(['layout/postbox.hide', 'layout/visitors.filter', 'layout/footer'], $args);
         } catch (Exception $e) {
             Notice::renderNotice($e->getMessage(), $e->getCode(), 'error');
