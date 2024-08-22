@@ -41,7 +41,6 @@
       color: #56585A;
       display: block !important;
     }
-
     span:last-child {
       color: #0C0C0D;
       font-size: 13px;
@@ -50,18 +49,5 @@
       line-height: 15.23px;
       display: block !important;
     }
-  }
-}
-
-body .edit-post-meta-boxes-area .ui-sortable #wp-statistics-post-widget{
-  border:none!important;
-  margin-top: 10px;
-  box-shadow: none!important;
-
-  .postbox-header{
-    border-bottom:none!important;
-     .handle-actions button{
-       height: 44px!important;
-     }
   }
 }

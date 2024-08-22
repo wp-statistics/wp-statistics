@@ -1,11 +1,5 @@
 
 #wp-statistics-post-widget{
-  .postbox-header {
-    .wps-refresh {
-      filter: opacity(0.5);
-      background-size: 85% auto;
-    }
-  }
   .inside{
     .o-wrap--no-data{
       padding: 15px !important;
@@ -64,13 +58,7 @@
 
 .edit-post-meta-boxes-area {
   .ui-sortable #wp-statistics-post-widget {
-    margin-bottom: 24px;
-    width: 96%;
-    margin-left: auto;
-    margin-right: auto;
     background: $white-color !important;
-    border: 1px solid $light-color;
-    border-radius: 8px;
 
     .wps-admin-pages-component__promotion {
       padding: 32px!important;
@@ -99,35 +87,8 @@
         margin-bottom: 0!important;
       }
     }
-
     .postbox-header {
-      padding: 5.6px 12px 5.6px 4px !important;
-      border: none !important;
-      border-bottom: 1px solid $light-secondary-color !important;
-
-      .toggle-indicator {
-        color: #0c0c0d;
-
-        &:hover {
-          color: $primary-color;
-        }
-      }
-
-      h2 {
-        color: $dim-black-color;
-        font-family: 'Roboto';
-        font-style: normal;
-        font-weight: 600;
-        font-size: 14px;
-        line-height: 1.4;
-      }
-      .postbox .handlediv{
-        height: unset!important;
-      }
       .wps-refresh {
-        top: 12px !important;
-        right: 4.6% !important;
-
         &:focus {
           outline: none;
           box-shadow: none;
