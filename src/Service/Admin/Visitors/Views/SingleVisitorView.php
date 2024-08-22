@@ -8,6 +8,7 @@ use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Components\View;
 use WP_Statistics\Abstracts\BaseView;
 use WP_Statistics\Exception\SystemErrorException;
+use WP_STATISTICS\IP;
 use WP_Statistics\Service\Admin\Visitors\VisitorsDataProvider;
 
 class SingleVisitorView extends BaseView
@@ -36,15 +37,33 @@ class SingleVisitorView extends BaseView
         return $visitorData;
     }
 
+    public function getTitle($visitorData)
+    {
+        $title = esc_html__('Visitor Report - %s: %s', 'wp-statistics');
+
+        if (!empty($visitorData['user_info'])) {
+            $title = sprintf($title, esc_html__('User', 'wp-statistics'), $visitorData['user_info']->display_name);
+        } else if (IP::IsHashIP($visitorData['visitor_info']->ip)) {
+            $title = sprintf($title, esc_html__('Hash', 'wp-statistics'), substr($visitorData['visitor_info']->ip, 6, 10));
+        } else {
+            $title = sprintf($title, esc_html__('IP', 'wp-statistics'), $visitorData['visitor_info']->ip);
+        }
+
+        return $title;
+    }
+
     public function render()
     {
+        $visitorData = $this->getData();
+        $title       = $this->getTitle($visitorData);
+
         $args = [
-            'title'          => sprintf(esc_html__('Visitor Report - User ID: %s', 'wp-statistics'), $this->visitor_id),
+            'title'          => $title,
             'tooltip'        => esc_html__('Visitor Report', 'wp-statistics'),
             'backUrl'        => Menus::admin_url('visitors'),
             'backTitle'      => esc_html__('Visitor and Views Report', 'wp-statistics'),
             'searchBoxTitle' => esc_html__('IP, Hash, Username, or Email', 'wp-statistics'),
-            'data'           => $this->getData(),
+            'data'           => $visitorData
         ];
         Admin_Template::get_template(['layout/header', 'layout/title'], $args);
         View::load('pages/visitors/single-visitor', $args);
