@@ -1,11 +1,11 @@
 <?php
 
-namespace WP_Statistics\Service\Admin\PagesReport;
+namespace WP_Statistics\Service\Admin\PageInsights;
 
 use WP_Statistics\Abstracts\MultiViewPage;
-use WP_Statistics\Service\Admin\PagesReport\Views\TabsView;
+use WP_Statistics\Service\Admin\PageInsights\Views\TabsView;
 
-class PagesReportPage extends MultiViewPage
+class PageInsightsPage extends MultiViewPage
 {
     protected $pageSlug = 'pages';
     protected $defaultView = 'tabs';

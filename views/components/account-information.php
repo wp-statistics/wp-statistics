@@ -8,7 +8,7 @@ use WP_STATISTICS\User;
         <div class="wps-visitor__visitors-detail--row">
             <span><?php esc_html_e('Username', 'wp-statistics'); ?></span>
             <div>
-                <a href="<?php echo get_edit_profile_url($user->ID) ?>" class="wps-visitor__username">
+                <a href="<?php echo get_edit_user_link($user->ID) ?>" class="wps-visitor__username">
                     <img src="<?php echo WP_STATISTICS_URL . 'assets/images/user-icon.svg' ?>" width="19" height="19">
                     <span><?php echo sprintf('%s (#%s)', $user->display_name, $user->ID) ?></span>
                 </a>

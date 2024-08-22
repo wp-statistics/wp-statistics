@@ -1,6 +1,6 @@
 <?php
 
-namespace WP_Statistics\Service\Admin\PagesReport\Views;
+namespace WP_Statistics\Service\Admin\PageInsights\Views;
 
 use Exception;
 use WP_Statistics\Components\View;
@@ -10,7 +10,7 @@ use WP_Statistics\Utils\Request;
 use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Abstracts\BaseTabView;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
-use WP_Statistics\Service\Admin\PagesReport\PagesReportDataProvider;
+use WP_Statistics\Service\Admin\PageInsights\PageInsightsDataProvider;
 
 class TabsView extends BaseTabView
 {
@@ -36,7 +36,7 @@ class TabsView extends BaseTabView
             $args['post_type'] = Request::get('pt', 'post');
         }
 
-        $this->dataProvider = new PagesReportDataProvider($args);
+        $this->dataProvider = new PageInsightsDataProvider($args);
     }
 
     public function isLocked()
@@ -79,7 +79,7 @@ class TabsView extends BaseTabView
             }
 
             $args = [
-                'title'         => esc_html__('Pages', 'wp-statistics'),
+                'title'         => esc_html__('Page Insights', 'wp-statistics'),
                 'pageName'      => Menus::get_page_slug('pages'),
                 'custom_get'    => [
                     'tab'       => $this->getCurrentTab(),
@@ -128,7 +128,7 @@ class TabsView extends BaseTabView
             ];
 
             Admin_Template::get_template(['layout/header', 'layout/tabbed-page-header'], $args);
-            View::load("pages/pages/$template", $args);
+            View::load("pages/page-insights/$template", $args);
             Admin_Template::get_template(['layout/postbox.hide', 'layout/footer'], $args);
         } catch (Exception $e) {
             Notice::renderNotice($e->getMessage(), $e->getCode(), 'error');

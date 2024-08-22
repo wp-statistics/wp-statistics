@@ -1,6 +1,6 @@
 <?php 
 
-namespace WP_Statistics\Service\Admin\Visitors;
+namespace WP_Statistics\Service\Admin\VisitorInsights;
 
 use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Components\DateRange;
@@ -10,7 +10,7 @@ use WP_Statistics\Models\VisitorsModel;
 use WP_STATISTICS\TimeZone;
 use WP_STATISTICS\Helper;
 
-class VisitorsDataProvider
+class VisitorInsightsDataProvider
 {
     protected $args;
     protected $visitorsModel;

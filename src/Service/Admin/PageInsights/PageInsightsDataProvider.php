@@ -1,6 +1,6 @@
 <?php 
 
-namespace WP_Statistics\Service\Admin\PagesReport;
+namespace WP_Statistics\Service\Admin\PageInsights;
 
 use WP_STATISTICS\Helper;
 use WP_Statistics\Models\PostsModel;
@@ -8,7 +8,7 @@ use WP_Statistics\Models\TaxonomyModel;
 use WP_Statistics\Models\AuthorsModel;
 use WP_Statistics\Utils\Request;
 
-class PagesReportDataProvider
+class PageInsightsDataProvider
 {
     protected $args;
     protected $postsModel;

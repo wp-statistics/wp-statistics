@@ -1,6 +1,6 @@
 <?php
 
-namespace WP_Statistics\Service\Admin\Visitors\Views;
+namespace WP_Statistics\Service\Admin\VisitorInsights\Views;
 
 use Exception;
 use WP_Statistics\Components\View;
@@ -10,7 +10,7 @@ use WP_Statistics\Utils\Request;
 use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Abstracts\BaseTabView;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
-use WP_Statistics\Service\Admin\Visitors\VisitorsDataProvider;
+use WP_Statistics\Service\Admin\VisitorInsights\VisitorInsightsDataProvider;
 
 class TabsView extends BaseTabView
 {
@@ -24,7 +24,7 @@ class TabsView extends BaseTabView
 
     public function __construct()
     {
-        $this->dataProvider = new VisitorsDataProvider([
+        $this->dataProvider = new VisitorInsightsDataProvider([
             'country'   => Request::get('location', ''),
             'agent'     => Request::get('agent', ''),
             'platform'  => Request::get('platform', ''),
@@ -62,7 +62,7 @@ class TabsView extends BaseTabView
             $data       = $this->getTabData();
 
             $args = [
-                'title'      => esc_html__('Visitors', 'wp-statistics'),
+                'title'      => esc_html__('Visitor Insights', 'wp-statistics'),
                 'pageName'   => Menus::get_page_slug('visitors'),
                 'custom_get' => ['tab' => $currentTab],
                 'DateRang'   => Admin_Template::DateRange(),
@@ -109,7 +109,7 @@ class TabsView extends BaseTabView
             }
 
             Admin_Template::get_template(['layout/header', 'layout/tabbed-page-header'], $args);
-            View::load("pages/visitors/$currentTab", $args);
+            View::load("pages/visitor-insights/$currentTab", $args);
             Admin_Template::get_template(['layout/postbox.hide', 'layout/visitors.filter', 'layout/footer'], $args);
         } catch (Exception $e) {
             Notice::renderNotice($e->getMessage(), $e->getCode(), 'error');
