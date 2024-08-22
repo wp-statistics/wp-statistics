@@ -1,8 +1,8 @@
 <?php
 
-namespace WP_Statistics\Service\Admin\Visitors;
+namespace WP_Statistics\Service\Admin\VisitorInsights;
 
-class VisitorsManager
+class VisitorInsightsManager
 {
 
     public function __construct()
@@ -18,11 +18,11 @@ class VisitorsManager
      */
     public function addMenuItem($items)
     {
-        $items['visitors'] = [
+        $items['visitor-insights'] = [
             'sub'       => 'overview',
-            'title'     => esc_html__('Visitors', 'wp-statistics'),
+            'title'     => esc_html__('Visitor Insights', 'wp-statistics'),
             'page_url'  => 'visitors',
-            'callback'  => VisitorsPage::class,
+            'callback'  => VisitorInsightsPage::class,
             'priority'  => 20,
         ];
 

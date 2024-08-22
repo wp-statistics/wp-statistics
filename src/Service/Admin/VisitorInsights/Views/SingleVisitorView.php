@@ -1,6 +1,6 @@
 <?php
 
-namespace WP_Statistics\Service\Admin\Visitors\Views;
+namespace WP_Statistics\Service\Admin\VisitorInsights\Views;
 
 use WP_STATISTICS\Menus;
 use WP_Statistics\Utils\Request;
@@ -9,7 +9,7 @@ use WP_Statistics\Components\View;
 use WP_Statistics\Abstracts\BaseView;
 use WP_Statistics\Exception\SystemErrorException;
 use WP_STATISTICS\IP;
-use WP_Statistics\Service\Admin\Visitors\VisitorsDataProvider;
+use WP_Statistics\Service\Admin\VisitorInsights\VisitorInsightsDataProvider;
 
 class SingleVisitorView extends BaseView
 {
@@ -23,7 +23,7 @@ class SingleVisitorView extends BaseView
             throw new SystemErrorException(esc_html__('Please provide a valid visitor ID.', 'wp-statistics'));
         }
 
-        $this->dataProvider = new VisitorsDataProvider(['visitor_id' => $this->visitor_id]);
+        $this->dataProvider = new VisitorInsightsDataProvider(['visitor_id' => $this->visitor_id]);
     }
 
     public function getData()

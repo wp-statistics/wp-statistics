@@ -1,12 +1,12 @@
 <?php
 
-namespace WP_Statistics\Service\Admin\Visitors;
+namespace WP_Statistics\Service\Admin\VisitorInsights;
 
 use WP_Statistics\Abstracts\MultiViewPage;
-use WP_Statistics\Service\Admin\Visitors\Views\TabsView;
-use WP_Statistics\Service\Admin\Visitors\Views\SingleVisitorView;
+use WP_Statistics\Service\Admin\VisitorInsights\Views\TabsView;
+use WP_Statistics\Service\Admin\VisitorInsights\Views\SingleVisitorView;
 
-class VisitorsPage extends MultiViewPage
+class VisitorInsightsPage extends MultiViewPage
 {
     protected $pageSlug = 'visitors';
     protected $defaultView = 'tabs';
