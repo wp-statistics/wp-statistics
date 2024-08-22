@@ -43,105 +43,90 @@ const wpsDropdown = jQuery('.wps-dropdown');
 if (wpsSelect2.length) {
     const wpsFilterPage = jQuery('.wps-filter-page');
     const wpsFilterVisitor = jQuery('.wps-filter-visitor');
-    var dirValue = wpsBody.hasClass('rtl') ? 'rtl' : 'ltr';
+    const dirValue = wpsBody.hasClass('rtl') ? 'rtl' : 'ltr';
+    const dropdownParent = wpsFilterPage.length ? wpsFilterPage : wpsFilterVisitor;
 
+    const initializeSelect2 = (parentElement, ajaxAction) => {
+        wpsSelect2.select2({
+            dropdownParent: parentElement,
+            dir: dirValue,
+            dropdownAutoWidth: true,
+            dropdownCssClass: 'wps-select2-filter-dropdown',
+            minimumInputLength: 1,
+            ajax: {
+                delay: 500,
+                url: wps_js.global.ajax_url,
+                dataType: 'json',
+                data: function(params) {
+                    const query = {
+                        wps_nonce: wps_js.global.rest_api_nonce,
+                        search: params.term, // The term to search for
+                        action: ajaxAction,
+                        paged: params.page || 1
+                    };
+
+                    if (wps_js.isset(wps_js.global, 'request_params')) {
+                        const requestParams = wps_js.global.request_params;
+                        if (requestParams.author_id) query.author_id = requestParams.author_id;
+                        if (requestParams.page) query.page = requestParams.page;
+                        if (requestParams.pt) query.post_type = requestParams.pt;
+                        if (requestParams.pid) query.post_id = requestParams.pid;
+                    }
+                    return query;
+                },
+                processResults: function(data) {
+                    if (data && Array.isArray(data.results)) {
+                        return {
+                            results: data.results.map(item => ({
+                                id: item.id,
+                                text: item.text
+                            })),
+                            pagination: {
+                                more: false
+                            }
+                        };
+                    } else {
+                        console.error('Expected an array of results but got:', data);
+                        return { results: [] };
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('AJAX request error:', status, error);
+                }
+            }
+        });
+    };
+
+    // Initial select2 setup without AJAX
     wpsSelect2.select2({
-        dropdownParent: wpsFilterPage.length ? $('.wps-filter-page') : $('.wps-filter-visitor'),
+        dropdownParent: dropdownParent,
         dir: dirValue,
         dropdownAutoWidth: true,
         dropdownCssClass: 'wps-select2-filter-dropdown'
     });
 
-
-    wpsSelect2.on('select2:open', function () {
-        wpsDropdown.addClass('active');
-    });
-
-    wpsSelect2.on('select2:close', function () {
-        wpsDropdown.removeClass('active');
-    });
-
-    wpsSelect2.on('change', function () {
-        var selectedOption = jQuery(this).find('option:selected');
-        var url = selectedOption.val();
-
+    // Event listeners
+    wpsSelect2.on('select2:open', () => wpsDropdown.addClass('active'));
+    wpsSelect2.on('select2:close', () => wpsDropdown.removeClass('active'));
+    wpsSelect2.on('change', function() {
+        const selectedOption = jQuery(this).find('option:selected');
+        const url = selectedOption.val();
         if (url) {
             window.location.href = url;
         }
     });
 
+    // Conditional initialization based on filter page or visitor
     if (wpsFilterPage.length) {
-        wpsSelect2.select2({
-            dropdownParent: $('.wps-filter-page'),
-            dir: dirValue,
-            dropdownAutoWidth: true,
-            dropdownCssClass: 'wps-select2-filter-dropdown',
-            ajax: {
-                delay: 500,
-                url: wps_js.global.ajax_url,
-                dataType: 'json',
-                data: function (params) {
-                    const query = {
-                        wps_nonce: wps_js.global.rest_api_nonce,
-                        search: params.term,
-                        action: 'wp_statistics_get_page_filter_items',
-                        paged: params.page || 1
-                    }
-
-                    if (wps_js.isset(wps_js.global, 'request_params', 'author_id')) {
-                        query.author_id = wps_js.global.request_params.author_id;
-                    }
-
-                    if (wps_js.isset(wps_js.global, 'request_params', 'page')) {
-                        query.page = wps_js.global.request_params.page;
-                    }
-
-                    if (wps_js.isset(wps_js.global, 'request_params', 'pt')) {
-                        query.post_type = wps_js.global.request_params.pt;
-                    }
-
-                    if (wps_js.isset(wps_js.global, 'request_params', 'pid')) {
-                        query.post_id = wps_js.global.request_params.pid;
-                    }
-                    return query;
-                }
-            }
-        });
-
-        wpsFilterPage.on('click', function () {
-            wpsSelect2.select2('open');
-        });
+        initializeSelect2(wpsFilterPage, 'wp_statistics_get_page_filter_items');
+        wpsFilterPage.on('click', () => wpsSelect2.select2('open'));
     }
 
     if (wpsFilterVisitor.length) {
-        wpsSelect2.select2({
-            dropdownParent: $('.wps-filter-visitor'),
-            dir: dirValue,
-            dropdownAutoWidth: true,
-            dropdownCssClass: 'wps-select2-filter-dropdown',
-            ajax: {
-                delay: 500,
-                url: wps_js.global.ajax_url,
-                dataType: 'json',
-                data: function (params) {
-                    const query = {
-                        wps_nonce: wps_js.global.rest_api_nonce,
-                        search: params.term,
-                        action: 'wp_statistics_search_visitors',
-                        paged: params.page || 1
-                    }
-
-                    return query;
-                }
-            }
-        });
-
-        wpsFilterVisitor.on('click', function () {
-            wpsSelect2.select2('open');
-        });
+        initializeSelect2(wpsFilterVisitor, 'wp_statistics_search_visitors');
+        wpsFilterVisitor.on('click', () => wpsSelect2.select2('open'));
     }
 }
-
 
 /**
  * Set Tooltip
