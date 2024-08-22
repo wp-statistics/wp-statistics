@@ -652,7 +652,6 @@ class Ajax
 
             $visitorsModel  = new VisitorsModel();
             $visitors       = $visitorsModel->searchVisitors([
-                'user_id'     => $search,
                 'ip'          => $search,
                 'username'    => $search,
                 'email'       => $search
