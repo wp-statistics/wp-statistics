@@ -8,6 +8,24 @@ use WP_Statistics\Abstracts\BaseModel;
 
 class TaxonomyModel extends BaseModel
 {
+    public function countTerms($args = [], $bypassCache = false)
+    {
+        $args = $this->parseArgs($args, [
+            'date'      => '',
+            'taxonomy'  => '',
+        ]);
+
+        $result = Query::select([
+                'COUNT(term_id)',
+            ])
+            ->from('term_taxonomy')
+            ->where('taxonomy', 'IN', $args['taxonomy'])
+            ->bypassCache($bypassCache)
+            ->getVar();
+
+        return $result;
+    }
+
     public function getTaxonomiesData($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [

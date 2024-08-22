@@ -49,22 +49,16 @@ class PageInsightsDataProvider
             'count_total_posts' => true
         ]);
 
-        $data = $this->taxonomyModel->getTaxonomiesData($args);
-
         return [
-            'categories'  => $data,
-            'total'       => count($data)
+            'categories'  => $this->taxonomyModel->getTaxonomiesData($args),
+            'total'       => $this->taxonomyModel->countTerms($this->args)
         ];
     }
 
     public function getAuthorsData()
     {
-        $args = array_merge($this->args, [
-            'post_type' => Helper::getPostTypes(),
-            'order_by'  => 'page_views'
-        ]);
-        $authors = $this->authorsModel->getAuthorsPagesData($args);
-        $total   = $this->authorsModel->countAuthors($this->args);
+        $authors = $this->authorsModel->getAuthorsPagesData($this->args, ['order_by' => 'page_views']);
+        $total   = $this->authorsModel->countAuthors(array_merge($this->args, ['ignore_date' => true]));
 
         return [
             'authors' => $authors,
