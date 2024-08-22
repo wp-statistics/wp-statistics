@@ -19,7 +19,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-chart_js__WEBPACK_IMPORTED_MODULE_1__.Chart.register(chart_js__WEBPACK_IMPORTED_MODULE_1__.CategoryScale, chart_js__WEBPACK_IMPORTED_MODULE_1__.LinearScale, chart_js__WEBPACK_IMPORTED_MODULE_1__.BarController, chart_js__WEBPACK_IMPORTED_MODULE_1__.LineController, chart_js__WEBPACK_IMPORTED_MODULE_1__.LineElement, chart_js__WEBPACK_IMPORTED_MODULE_1__.PointElement, chart_js__WEBPACK_IMPORTED_MODULE_1__.BarElement, chart_js__WEBPACK_IMPORTED_MODULE_1__.Tooltip, chart_js__WEBPACK_IMPORTED_MODULE_1__.Legend);
+chart_js__WEBPACK_IMPORTED_MODULE_1__.Chart.register(chart_js__WEBPACK_IMPORTED_MODULE_1__.CategoryScale, chart_js__WEBPACK_IMPORTED_MODULE_1__.LinearScale, chart_js__WEBPACK_IMPORTED_MODULE_1__.BarController, chart_js__WEBPACK_IMPORTED_MODULE_1__.LineController, chart_js__WEBPACK_IMPORTED_MODULE_1__.LineElement, chart_js__WEBPACK_IMPORTED_MODULE_1__.PointElement, chart_js__WEBPACK_IMPORTED_MODULE_1__.BarElement, chart_js__WEBPACK_IMPORTED_MODULE_1__.Tooltip, chart_js__WEBPACK_IMPORTED_MODULE_1__.Legend, chart_js__WEBPACK_IMPORTED_MODULE_1__.Filler);
 const ChartElement = ({
   data
 }) => {
@@ -89,6 +89,39 @@ const ChartElement = ({
       tooltipEl.style.top = `${top}px`;
     }
   };
+  const hex_to_rgba = (hex, opacity) => {
+    hex = hex.replace('#', '');
+    let hex_to_rgba_r = parseInt(hex.substring(0, 2), 16);
+    let hex_to_rgba_g = parseInt(hex.substring(2, 4), 16);
+    let hex_to_rgba_b = parseInt(hex.substring(4, 6), 16);
+    return `rgba(${hex_to_rgba_r}, ${hex_to_rgba_g}, ${hex_to_rgba_b}, ${opacity})`;
+  };
+  const getBackgroundColor = ([date, value]) => {
+    const backgroundColor = value.hits === 0 ? '#000000b3' : hex_to_rgba($postChartColor, 0.5);
+    return backgroundColor;
+  };
+  const getHoverBackgroundColor = ([date, value]) => {
+    const hoverBackgroundColor = value.hits === 0 ? '#000000b3' : $postChartColor;
+    return hoverBackgroundColor;
+  };
+  const chartData = {
+    labels: Object.entries(postChartData).map(([date, stat]) => date),
+    datasets: [{
+      data: Object.entries(postChartData).map(([date, stat]) => stat.hits),
+      backgroundColor: type === 'line' ? gradient : Object.entries(postChartData).map(getBackgroundColor),
+      hoverBackgroundColor: type === 'line' ? gradient : Object.entries(postChartData).map(getHoverBackgroundColor),
+      pointBackgroundColor: $postChartStroke,
+      fill: true,
+      barPercentage: 0.9,
+      categoryPercentage: 1.0,
+      tension: 0.5,
+      minBarLength: 1,
+      borderWidth: type === 'line' ? 1 : 0,
+      pointRadius: type === 'line' ? 0 : undefined,
+      pointHoverRadius: type === 'line' ? 5 : undefined,
+      borderColor: $postChartStroke
+    }]
+  };
   const chartOptions = {
     animation: false,
     responsive: true,
@@ -157,65 +190,36 @@ const ChartElement = ({
         top: 0,
         bottom: 0
       }
-    },
+    }
+  };
+  const plugins = [{
+    id: 'beforeDrawGradient',
     beforeDraw: chart => {
       if (type === 'line') {
         const {
           ctx,
           chartArea
         } = chart;
-        gradient = ctx.createLinearGradient(0, 0, 0, chartArea.bottom);
+        gradient = ctx.createLinearGradient(0, 0, 0, chartArea.bottom + 90);
         gradient.addColorStop(0, hex_to_rgba($postChartColor, 1));
         gradient.addColorStop(0.5, hex_to_rgba($postChartColor, 0.25));
         gradient.addColorStop(0.75, hex_to_rgba($postChartColor, 0));
         gradient.addColorStop(1, hex_to_rgba($postChartColor, 0));
+        chart.data.datasets[0].backgroundColor = gradient;
       }
     }
-  };
-  const hex_to_rgba = (hex, opacity) => {
-    hex = hex.replace('#', '');
-    let hex_to_rgba_r = parseInt(hex.substring(0, 2), 16);
-    let hex_to_rgba_g = parseInt(hex.substring(2, 4), 16);
-    let hex_to_rgba_b = parseInt(hex.substring(4, 6), 16);
-    return `rgba(${hex_to_rgba_r}, ${hex_to_rgba_g}, ${hex_to_rgba_b}, ${opacity})`;
-  };
-  const getBackgroundColor = value => value.hits === 0 ? '#000000b3' : hex_to_rgba($postChartColor, 0.5);
-  const getHoverBackgroundColor = value => value.hits === 0 ? '#000000b3' : $postChartColor;
-  const backgroundColors = type === 'line' ? gradient : Object.entries(postChartData).map(getBackgroundColor);
-  const hoverBackgroundColors = type === 'line' ? gradient : Object.entries(postChartData).map(getHoverBackgroundColor);
-  const borderColor = $postChartStroke;
-  const chartData = {
-    labels: Object.entries(postChartData).map(([date, stat]) => date),
-    datasets: [{
-      data: Object.entries(postChartData).map(([date, stat]) => stat.hits),
-      backgroundColor: backgroundColors,
-      hoverBackgroundColor: hoverBackgroundColors,
-      pointBackgroundColor: borderColor,
-      fill: type === 'line',
-      barPercentage: 0.9,
-      categoryPercentage: 1.0,
-      tension: 0.5,
-      minBarLength: 1,
-      borderWidth: type === 'line' ? 1 : 0,
-      pointRadius: type === 'line' ? 0 : undefined,
-      pointHoverRadius: type === 'line' ? 5 : undefined
-    }]
-  };
-  if (type === 'bar') {
-    return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-      className: "wp-statistics-post-summary-panel-chart"
-    }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_chartjs_2__WEBPACK_IMPORTED_MODULE_2__.Bar, {
-      data: chartData,
-      options: chartOptions
-    }));
-  } else {
-    return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-      className: "wp-statistics-post-summary-panel-chart"
-    }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_chartjs_2__WEBPACK_IMPORTED_MODULE_2__.Line, {
-      data: chartData,
-      options: chartOptions
-    }));
-  }
+  }];
+  chart_js__WEBPACK_IMPORTED_MODULE_1__.Chart.register(plugins);
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "wp-statistics-post-summary-panel-chart"
+  }, type === 'bar' ? (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_chartjs_2__WEBPACK_IMPORTED_MODULE_2__.Bar, {
+    data: chartData,
+    options: chartOptions
+  }) : (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_chartjs_2__WEBPACK_IMPORTED_MODULE_2__.Line, {
+    data: chartData,
+    options: chartOptions,
+    plugins: plugins
+  }));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ChartElement);
 

@@ -6,7 +6,7 @@ wps_js.post_summary_meta_box = {
     view: function (args = []) {
         return args.hasOwnProperty('content') ?
             '<div class="wps-center" style="padding: 15px;"> ' + args['content'] + '</div>' :
-            '<p class="wps-wrap wps-meta-box-header">' + args['output'] + '</p>' + '<div class="c-wps-post-summary-panel-chart"><canvas id="' + wps_js.chart_id('post_summary') + '" height="85"></canvas></div>';
+            '<p class="wps-wrap wps-meta-box-header">' + args['output'] + '</p>' + '<div class="c-wps-post-summary-panel-chart"><canvas id="' + wps_js.chart_id('post_summary') + '" height="100"></canvas></div>';
     },
 
     meta_box_init: function (args = []) {
@@ -171,11 +171,15 @@ wps_js.post_summary_meta_box = {
             gradient.addColorStop(1, wps_js.hex_to_rgba($postChartColor,0));
         }
 
-        const getBackgroundColor = (value) => value.hits === 0 ? '#000000b3' : wps_js.hex_to_rgba($postChartColor, 0.5);
-        const getHoverBackgroundColor = (value) => value.hits === 0 ? '#000000b3' : $postChartColor;
-        const backgroundColors = type === 'line' ? gradient : Object.entries(postChartData).map(getBackgroundColor);
-        const hoverBackgroundColors = type === 'line' ? gradient : Object.entries(postChartData).map(getHoverBackgroundColor);
-        const borderColor = $postChartStroke;
+         const getBackgroundColor = ([date, value]) => {
+            const backgroundColor = value.hits === 0 ? '#000000b3' : wps_js.hex_to_rgba($postChartColor, 0.5);
+            return backgroundColor;
+        };
+
+        const getHoverBackgroundColor = ([date, value]) => {
+            const hoverBackgroundColor = value.hits === 0 ? '#000000b3' : $postChartColor;
+            return hoverBackgroundColor;
+        };
 
         new Chart(chartContext, {
             type: type,
@@ -183,9 +187,9 @@ wps_js.post_summary_meta_box = {
                 labels: Object.entries(postChartData).map(([date, stat]) => date),
                 datasets: [{
                     data: chartData,
-                    backgroundColor: backgroundColors,
-                    hoverBackgroundColor: hoverBackgroundColors,
-                    pointBackgroundColor: borderColor,
+                    backgroundColor:type === 'line' ? gradient : Object.entries(postChartData).map(getBackgroundColor),
+                    hoverBackgroundColor: type === 'line' ? gradient : Object.entries(postChartData).map(getHoverBackgroundColor),
+                    pointBackgroundColor: $postChartStroke,
                     fill: type === 'line',
                     barPercentage: 0.9,
                     categoryPercentage: 1.0,
@@ -193,7 +197,8 @@ wps_js.post_summary_meta_box = {
                     minBarLength: 1,
                     borderWidth: type === 'line' ? 1 : 0,
                     pointRadius: type === 'line' ? 0 : undefined,
-                    pointHoverRadius: type === 'line' ? 5 : undefined
+                    pointHoverRadius: type === 'line' ? 5 : undefined,
+                    borderColor: $postChartStroke
                 }],
             },
             options: chartOptions,
