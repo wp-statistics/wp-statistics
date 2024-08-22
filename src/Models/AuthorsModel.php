@@ -319,7 +319,7 @@ class AuthorsModel extends BaseModel
                 ],
                 'LEFT'
             )
-            ->joinQuery($viewsQuery, ['users.ID', 'views.author_id'], 'views')
+            ->joinQuery($viewsQuery, ['users.ID', 'views.author_id'], 'views', 'LEFT')
             ->groupBy(['users.ID', 'users.display_name'])
             ->orderBy($args['order_by'], $args['order'])
             ->perPage($args['page'], $args['per_page'])
