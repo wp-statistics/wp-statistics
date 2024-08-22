@@ -5,8 +5,8 @@ wps_js.post_summary_meta_box = {
 
     view: function (args = []) {
         return args.hasOwnProperty('content') ?
-            ' <div class="wps-center" style="padding: 15px;"> ' + args['content'] + '</div>' :
-            '<p class="wps-wrap wps-meta-box-header">' + args['output'] + '</p>' + '<canvas id="' + wps_js.chart_id('post_summary') + '" height="85"></canvas>';
+            '<div class="wps-center" style="padding: 15px;"> ' + args['content'] + '</div>' :
+            '<p class="wps-wrap wps-meta-box-header">' + args['output'] + '</p>' + '<div class="c-wps-post-summary-panel-chart"><canvas id="' + wps_js.chart_id('post_summary') + '" height="85"></canvas></div>';
     },
 
     meta_box_init: function (args = []) {
@@ -21,17 +21,20 @@ wps_js.post_summary_meta_box = {
         let postChartData = [];
         let postChartSettings = [];
         let postChartTooltipLabel = 'Visitors';
+        let $postChartColor = '#A5AAEA';
+        let $postChartStroke = '#2C36D7';
+        let gradient;
 
         if (typeof (args.postChartData) !== 'undefined' && args.postChartData !== null) {
             postChartData = args.postChartData;
         }
         if (typeof (args.postChartSettings) !== 'undefined' && args.postChartSettings !== null) {
             postChartSettings = args.postChartSettings;
-
-            if (postChartSettings.label) {
-                postChartTooltipLabel = postChartSettings.label;
-            }
+            if (postChartSettings.color) $postChartColor = postChartSettings.color;
+            if (postChartSettings.border) $postChartStroke = postChartSettings.border;
+            if (postChartSettings.label)  postChartTooltipLabel = postChartSettings.label;
         }
+
 
         const externalTooltipHandler = (context) => {
             const { chart, tooltip } = context;
@@ -39,7 +42,7 @@ wps_js.post_summary_meta_box = {
             let tooltipEl = chart.canvas.parentNode.querySelector('div');
             if (!tooltipEl) {
                 tooltipEl = document.createElement('div');
-                tooltipEl.classList.add('wps-mini-chart-meta-box-tooltip');
+                tooltipEl.classList.add('c-wps-mini-chart-post-summary-tooltip');
                 chart.canvas.parentNode.appendChild(tooltipEl);
             }
 
@@ -156,24 +159,41 @@ wps_js.post_summary_meta_box = {
             }
         };
 
-        const chartContext = jQuery('#' + elementId)[0].getContext('2d')
+        const chartContext = jQuery('#' + elementId)[0].getContext('2d');
+        const chartData= Object.entries(postChartData).map(([date, stat]) => stat.hits);
+        const type= chartData.length <= 30 ? 'bar' : 'line';
+
+        if (type === 'line') {
+            gradient = chartContext.createLinearGradient(0, 0, 0, chartContext.canvas.height - 10);
+            gradient.addColorStop(0, wps_js.hex_to_rgba($postChartColor,1));
+            gradient.addColorStop(0.5, wps_js.hex_to_rgba($postChartColor,0.25));
+            gradient.addColorStop(0.75, wps_js.hex_to_rgba($postChartColor,0));
+            gradient.addColorStop(1, wps_js.hex_to_rgba($postChartColor,0));
+        }
+
+        const getBackgroundColor = (value) => value.hits === 0 ? '#000000b3' : wps_js.hex_to_rgba($postChartColor, 0.5);
+        const getHoverBackgroundColor = (value) => value.hits === 0 ? '#000000b3' : $postChartColor;
+        const backgroundColors = type === 'line' ? gradient : Object.entries(postChartData).map(getBackgroundColor);
+        const hoverBackgroundColors = type === 'line' ? gradient : Object.entries(postChartData).map(getHoverBackgroundColor);
+        const borderColor = $postChartStroke;
+
         new Chart(chartContext, {
-            type: 'bar',
+            type: type,
             data: {
                 labels: Object.entries(postChartData).map(([date, stat]) => date),
                 datasets: [{
-                    data: Object.entries(postChartData).map(([date, stat]) => stat.hits),
-                    borderColor: '#0D0725',
-                    backgroundColor: 'rgba(115, 98, 191, 0.5)',
-                    pointBackgroundColor: '#0D0725',
-                    fill: true,
+                    data: chartData,
+                    backgroundColor: backgroundColors,
+                    hoverBackgroundColor: hoverBackgroundColors,
+                    pointBackgroundColor: borderColor,
+                    fill: type === 'line',
                     barPercentage: 0.9,
                     categoryPercentage: 1.0,
                     tension: 0.5,
                     minBarLength: 1,
-                    borderWidth: 1,
-                    pointRadius: 0,
-                    pointHoverRadius: 5,
+                    borderWidth: type === 'line' ? 1 : 0,
+                    pointRadius: type === 'line' ? 0 : undefined,
+                    pointHoverRadius: type === 'line' ? 5 : undefined
                 }],
             },
             options: chartOptions,

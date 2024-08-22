@@ -88,9 +88,12 @@ class PostsManager
      */
     public function addPostMetaBoxes()
     {
+        $isGutenberg           = Helper::is_gutenberg();
+        $displayLatestVisitors = !Helper::isAddOnActive('data-plus') || Option::get('latest_visitors_metabox', true);
+
         // Add meta-box to all post types
         foreach (Helper::get_list_post_type() as $screen) {
-            if (!Helper::is_gutenberg()) {
+            if (!$isGutenberg) {
                 add_meta_box(
                     Meta_Box::getMetaBoxKey('post-summary'),
                     Meta_Box::getList('post-summary')['name'],
@@ -102,18 +105,20 @@ class PostsManager
                 );
             }
 
-            add_meta_box(
-                Meta_Box::getMetaBoxKey('post'),
-                Meta_Box::getList('post')['name'],
-                Meta_Box::LoadMetaBox('post'),
-                $screen,
-                'normal',
-                'high',
-                [
-                    '__block_editor_compatible_meta_box' => true,
-                    '__back_compat_meta_box'             => false,
-                ]
-            );
+            if ($displayLatestVisitors) {
+                add_meta_box(
+                    Meta_Box::getMetaBoxKey('post'),
+                    Meta_Box::getList('post')['name'],
+                    Meta_Box::LoadMetaBox('post'),
+                    $screen,
+                    'normal',
+                    'high',
+                    [
+                        '__block_editor_compatible_meta_box' => true,
+                        '__back_compat_meta_box'             => false,
+                    ]
+                );
+            }
         }
     }
 

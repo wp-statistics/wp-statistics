@@ -1,7 +1,6 @@
-import { Chart as ChartJS, CategoryScale, LinearScale, BarController, BarElement, Tooltip, Legend } from 'chart.js';
-import { Bar } from 'react-chartjs-2';
-
-ChartJS.register(CategoryScale, LinearScale, BarController, BarElement, Tooltip, Legend);
+import { Chart as ChartJS, CategoryScale,  LinearScale, BarController,LineController,LineElement,PointElement,  BarElement, Tooltip, Legend } from 'chart.js';
+import { Bar , Line } from 'react-chartjs-2';
+ChartJS.register(CategoryScale, LinearScale, BarController, LineController,LineElement,PointElement ,BarElement, Tooltip, Legend);
 
 const ChartElement = ({ data }) => {
     let postChartData = [];
@@ -10,11 +9,13 @@ const ChartElement = ({ data }) => {
     let $postChartStroke = '#2C36D7';
     let $postChartLabel = 'Visitors';
     let gradient;
-    let type = 'bar';
 
     if (typeof (data.postChartData) !== 'undefined' && data.postChartData !== null) {
         postChartData = data.postChartData;
     }
+    const chartDatasets= Object.entries(postChartData).map(([date, stat]) => stat.hits);
+    const type= chartDatasets.length <= 30 ? 'bar' : 'line';
+
     if (typeof (data.postChartSettings) !== 'undefined' && data.postChartSettings !== null) {
         postChartSettings = data.postChartSettings;
         if (postChartSettings.color) $postChartColor = postChartSettings.color;
@@ -141,6 +142,16 @@ const ChartElement = ({ data }) => {
                 top: 0,
                 bottom: 0,
             },
+        },
+        beforeDraw: (chart) => {
+            if (type === 'line') {
+                const { ctx, chartArea } = chart;
+                gradient = ctx.createLinearGradient(0, 0, 0, chartArea.bottom);
+                gradient.addColorStop(0, hex_to_rgba($postChartColor, 1));
+                gradient.addColorStop(0.5, hex_to_rgba($postChartColor, 0.25));
+                gradient.addColorStop(0.75, hex_to_rgba($postChartColor, 0));
+                gradient.addColorStop(1, hex_to_rgba($postChartColor, 0));
+            }
         }
     };
 
@@ -174,15 +185,20 @@ const ChartElement = ({ data }) => {
             pointHoverRadius: type === 'line' ? 5 : undefined
         }],
     };
+    if (type === 'bar'){
+        return (
+            <div className="wp-statistics-post-summary-panel-chart">
+                <Bar data={chartData} options={chartOptions} />
+            </div>
+        );
+    }else{
+        return (
+            <div className="wp-statistics-post-summary-panel-chart">
+                <Line data={chartData} options={chartOptions}  />
+            </div>
+        );
+    }
 
-    return (
-        <div className="wp-statistics-post-summary-panel-chart">
-            <Bar
-                data={chartData}
-                options={chartOptions}
-            />
-        </div>
-    );
 };
 
 export default ChartElement;

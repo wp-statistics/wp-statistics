@@ -1,6 +1,6 @@
-/*!**************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[4].use[1]!./node_modules/@wordpress/scripts/node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[4].use[2]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[4].use[3]!./assets/dev/blocks/post-summary/style.scss ***!
-  \**************************************************************************************************************************************************************************************************************************************************************************************************/
+/*!******************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[4].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[4].use[2]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[4].use[3]!./assets/dev/blocks/post-summary/style.scss ***!
+  \******************************************************************************************************************************************************************************************************************************************************************/
 .wp-statistics-post-summary-panel-chart {
   position: relative;
 }
@@ -49,6 +49,18 @@
   font-weight: 500;
   line-height: 15.23px;
   display: block !important;
+}
+
+body .edit-post-meta-boxes-area .ui-sortable #wp-statistics-post-widget {
+  border: none !important;
+  margin-top: 10px;
+  box-shadow: none !important;
+}
+body .edit-post-meta-boxes-area .ui-sortable #wp-statistics-post-widget .postbox-header {
+  border-bottom: none !important;
+}
+body .edit-post-meta-boxes-area .ui-sortable #wp-statistics-post-widget .postbox-header .handle-actions button {
+  height: 44px !important;
 }
 
 /*# sourceMappingURL=style-post-summary.css.map*/

@@ -19,7 +19,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-chart_js__WEBPACK_IMPORTED_MODULE_1__.Chart.register(chart_js__WEBPACK_IMPORTED_MODULE_1__.CategoryScale, chart_js__WEBPACK_IMPORTED_MODULE_1__.LinearScale, chart_js__WEBPACK_IMPORTED_MODULE_1__.BarController, chart_js__WEBPACK_IMPORTED_MODULE_1__.BarElement, chart_js__WEBPACK_IMPORTED_MODULE_1__.Tooltip, chart_js__WEBPACK_IMPORTED_MODULE_1__.Legend);
+chart_js__WEBPACK_IMPORTED_MODULE_1__.Chart.register(chart_js__WEBPACK_IMPORTED_MODULE_1__.CategoryScale, chart_js__WEBPACK_IMPORTED_MODULE_1__.LinearScale, chart_js__WEBPACK_IMPORTED_MODULE_1__.BarController, chart_js__WEBPACK_IMPORTED_MODULE_1__.LineController, chart_js__WEBPACK_IMPORTED_MODULE_1__.LineElement, chart_js__WEBPACK_IMPORTED_MODULE_1__.PointElement, chart_js__WEBPACK_IMPORTED_MODULE_1__.BarElement, chart_js__WEBPACK_IMPORTED_MODULE_1__.Tooltip, chart_js__WEBPACK_IMPORTED_MODULE_1__.Legend);
 const ChartElement = ({
   data
 }) => {
@@ -29,10 +29,11 @@ const ChartElement = ({
   let $postChartStroke = '#2C36D7';
   let $postChartLabel = 'Visitors';
   let gradient;
-  let type = 'bar';
   if (typeof data.postChartData !== 'undefined' && data.postChartData !== null) {
     postChartData = data.postChartData;
   }
+  const chartDatasets = Object.entries(postChartData).map(([date, stat]) => stat.hits);
+  const type = chartDatasets.length <= 30 ? 'bar' : 'line';
   if (typeof data.postChartSettings !== 'undefined' && data.postChartSettings !== null) {
     postChartSettings = data.postChartSettings;
     if (postChartSettings.color) $postChartColor = postChartSettings.color;
@@ -156,6 +157,19 @@ const ChartElement = ({
         top: 0,
         bottom: 0
       }
+    },
+    beforeDraw: chart => {
+      if (type === 'line') {
+        const {
+          ctx,
+          chartArea
+        } = chart;
+        gradient = ctx.createLinearGradient(0, 0, 0, chartArea.bottom);
+        gradient.addColorStop(0, hex_to_rgba($postChartColor, 1));
+        gradient.addColorStop(0.5, hex_to_rgba($postChartColor, 0.25));
+        gradient.addColorStop(0.75, hex_to_rgba($postChartColor, 0));
+        gradient.addColorStop(1, hex_to_rgba($postChartColor, 0));
+      }
     }
   };
   const hex_to_rgba = (hex, opacity) => {
@@ -187,12 +201,21 @@ const ChartElement = ({
       pointHoverRadius: type === 'line' ? 5 : undefined
     }]
   };
-  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "wp-statistics-post-summary-panel-chart"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_chartjs_2__WEBPACK_IMPORTED_MODULE_2__.Bar, {
-    data: chartData,
-    options: chartOptions
-  }));
+  if (type === 'bar') {
+    return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+      className: "wp-statistics-post-summary-panel-chart"
+    }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_chartjs_2__WEBPACK_IMPORTED_MODULE_2__.Bar, {
+      data: chartData,
+      options: chartOptions
+    }));
+  } else {
+    return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+      className: "wp-statistics-post-summary-panel-chart"
+    }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_chartjs_2__WEBPACK_IMPORTED_MODULE_2__.Line, {
+      data: chartData,
+      options: chartOptions
+    }));
+  }
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ChartElement);
 
