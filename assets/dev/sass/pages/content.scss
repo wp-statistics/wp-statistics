@@ -1,14 +1,3 @@
-.statistics_page_wps_content-analytics_page{
-  .wps-wrap__top .wps-previous-url{
-    margin-top: -12px;
-  }
-  .wps-head-filters{
-    top:32px;
-    @media((max-width: 1122px)){
-      top:unset;
-    }
-  }
-}
 .wps-content-analytics {
   display: flex;
   gap: 8px;
