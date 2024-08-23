@@ -169,6 +169,7 @@ class PostsManager
         foreach ($chartDataProvider->getChartDates(0, $publishDate) as $date) {
             $shortDate             = date('d M', strtotime($date));
             $chartData[$shortDate] = [
+                'ymdDate'   => date('Y-m-d', strtotime($date)),
                 'hits'      => 0,
                 'fullDate'  => date($wpDateFormat, strtotime($date)),
             ];
@@ -188,10 +189,16 @@ class PostsManager
 
             $shortDate             = date('d M', strtotime($hit->date));
             $chartData[$shortDate] = [
+                'ymdDate'   => $hit->date,
                 'hits'      => !empty($hit->visitors) ? intval($hit->visitors) : intval($hit->views),
                 'fullDate'  => date($wpDateFormat, strtotime($hit->date)),
             ];
         }
+
+        // Sort `$chartData` by date
+        uasort($chartData, function ($a, $b) {
+            return $a['ymdDate'] <=> $b['ymdDate'];
+        });
 
         // Some settings for the chart
         $chartSettings = [
