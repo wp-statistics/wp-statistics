@@ -131,6 +131,7 @@ class PostsManager
      *  - `postId`
      *  - `fromString`
      *  - `toString`
+     *  - `publishDateString`
      *  - `totalVisitors`
      *  - `totalViews`
      *  - `topReferrer`
@@ -159,7 +160,7 @@ class PostsManager
         // Data for the sidebar chart
         $chartData    = [];
         $wpDateFormat = get_option('date_format');
-        $publishDate  = get_the_date('Y-m-d', $post->ID);
+        $publishDate  = $dataProvider->getPublishDate();
 
         // Fill `$chartData` with default 0s
         // Use a short date format for indexes and `chartDates` for values
@@ -206,6 +207,7 @@ class PostsManager
             'postId'                     => $post->ID,
             'fromString'                 => $dataProvider->getFromString(),
             'toString'                   => $dataProvider->getToString(),
+            'publishDateString'          => $publishDate,
             'totalVisitors'              => $dataProvider->getVisitors(true),
             'totalViews'                 => $dataProvider->getViews(true),
             'topReferrer'                => $topReferrerAndCountTotal['url'],

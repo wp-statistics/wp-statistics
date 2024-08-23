@@ -18,7 +18,7 @@ $thisPeriodTopReferrerLabel = !empty($thisPeriodTopReferrerLabel) && !empty($thi
 <p class="wps-fade-effect"><?php
 
     // Display the first part of text only if the post has been published more than a week ago
-    if (strtotime('now') - strtotime($summary['fromString']) >= WEEK_IN_SECONDS) {
+    if (strtotime('now') - strtotime($summary['publishDateString']) >= WEEK_IN_SECONDS) {
         echo sprintf(
             // translators: 1: Start date - 2: To date - 3: Views count - 4: Visitors count.
             __('Over the past week (<b>%s - %s</b>), this post has been <b>viewed %s times by %s visitors</b>', 'wp-statistics'),

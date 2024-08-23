@@ -140,6 +140,18 @@ class PostSummaryDataProvider
     }
 
     /**
+     * Returns post publish date as a string.
+     *
+     * @param   string              $format     Returns the date with this format. Default: 'Y-m-d'.
+     *
+     * @return  string|int|false
+     */
+    public function getPublishDate($format = 'Y-m-d')
+    {
+        return get_the_date($format, $this->postId);
+    }
+
+    /**
      * Returns the number of visitors for this post.
      *
      * @param   bool    $isTotal    Should return total numbers? Or use `$fromDate` and `$toDate` as date range?
