@@ -43,7 +43,7 @@ class PostSummaryDataProvider
         $this->postId = $post->ID;
 
         $this->setFrom(TimeZone::getTimeAgo(7));
-        $this->setTo(TimeZone::getTimeAgo(0));
+        $this->setTo(TimeZone::getTimeAgo());
 
         $this->visitorsModel = new VisitorsModel();
         $this->viewsModel    = new ViewsModel();
