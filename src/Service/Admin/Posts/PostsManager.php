@@ -89,7 +89,7 @@ class PostsManager
     public function addPostMetaBoxes()
     {
         $isGutenberg           = Helper::is_gutenberg();
-        $displayLatestVisitors = !Helper::isAddOnActive('data-plus') || Option::get('latest_visitors_metabox', true);
+        $displayLatestVisitors = !Helper::isAddOnActive('data-plus') || Option::getByAddon('latest_visitors_metabox', 'data_plus', '1') === '1';
 
         // Add meta-box to all post types
         foreach (Helper::get_list_post_type() as $screen) {
