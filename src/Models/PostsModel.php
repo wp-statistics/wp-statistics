@@ -29,7 +29,7 @@ class PostsModel extends BaseModel
             ->bypassCache($bypassCache);
 
         // Count posts within view date
-        if ($args['filter_by_view_date'] != true) {
+        if ($args['filter_by_view_date'] == true) {
             $viewsQuery = Query::select(['pages.id', 'SUM(pages.count) AS views'])
                 ->from('pages')
                 ->whereDate('pages.date', $args['date'])
