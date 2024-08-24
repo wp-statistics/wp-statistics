@@ -138,6 +138,7 @@ Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest versio
 * Enhancement: Use Transient API instead of WP Object Cache in Cacheable
 * Enhancement: Improved performance for cacheable data when the data has not changed since the last request's date range.
 * Enhancement: Cleanup 'Top Referrers'
+* Enhancement: Fixed the cache of the query strings and UTM parameters when the page is cached
 
 For more information about the major update, please [visit our blog post](https://wp-statistics.com/?p=15915) or follow [@wp_statistics](https://twitter.com/wp_statistics) on Twitter
 
