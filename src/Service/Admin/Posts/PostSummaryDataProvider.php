@@ -21,6 +21,13 @@ class PostSummaryDataProvider
      */
     private $args = [];
 
+    /**
+     * Arguments to use in the visitors and views models when fetching total stats.
+     *
+     * @var array
+     */
+    private $argsTotal = [];
+
     private $fromDate = '';
     private $toDate = '';
 
@@ -44,6 +51,14 @@ class PostSummaryDataProvider
 
         $this->setFrom(TimeZone::getTimeAgo(7));
         $this->setTo(TimeZone::getTimeAgo());
+
+        $this->argsTotal = [
+            'post_id' => $this->postId,
+            'date'    => [
+                'from' => $this->getPublishDate(),
+                'to'   => TimeZone::getTimeAgo(),
+            ],
+        ];
 
         $this->visitorsModel = new VisitorsModel();
         $this->viewsModel    = new ViewsModel();
@@ -160,8 +175,7 @@ class PostSummaryDataProvider
      */
     public function getVisitors($isTotal = false)
     {
-        $args = $isTotal ? ['post_id' => $this->postId] : $this->args;
-        return intval($this->visitorsModel->countVisitors($args));
+        return intval($this->visitorsModel->countVisitors($isTotal ? $this->argsTotal : $this->args));
     }
 
     /**
@@ -173,8 +187,7 @@ class PostSummaryDataProvider
      */
     public function getViews($isTotal = false)
     {
-        $args = $isTotal ? ['post_id' => $this->postId] : $this->args;
-        return intval($this->viewsModel->countViews($args));
+        return intval($this->viewsModel->countViews($isTotal ? $this->argsTotal : $this->args));
     }
 
     /**
@@ -206,8 +219,7 @@ class PostSummaryDataProvider
      */
     public function getTopReferrerAndCount($isTotal = false)
     {
-        $args        = $isTotal ? ['post_id' => $this->postId] : $this->args;
-        $topReferrer = $this->visitorsModel->getReferrers($args);
+        $topReferrer = $this->visitorsModel->getReferrers($isTotal ? $this->argsTotal : $this->args);
 
         if (empty($topReferrer) && empty($topReferrer[0]->referrer)) {
             return [
