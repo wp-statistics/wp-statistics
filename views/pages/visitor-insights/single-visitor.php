@@ -5,10 +5,7 @@ use WP_Statistics\Components\View;
     <div class="postbox-container postbox-container--first-col">
         <div class="wps-card">
             <div class="wps-card__title">
-                <h2>
-                    <?php esc_html_e('Session Details', 'wp-statistics'); ?>
-                    <span class="wps-tooltip" title="<?php esc_html_e('Session Details tooltip', 'wp-statistics'); ?>"><i class="wps-tooltip-icon info"></i></span>
-                </h2>
+                <h2><?php esc_html_e('Session Details', 'wp-statistics'); ?></h2>
             </div>
             <?php View::load("components/session-details", ['visitor' => $data['visitor_info']]); ?>
         </div>
@@ -16,10 +13,7 @@ use WP_Statistics\Components\View;
         <?php if (!empty($data['user_info'])) : ?>
             <div class="wps-card">
                 <div class="wps-card__title">
-                    <h2>
-                        <?php esc_html_e('Account Information', 'wp-statistics'); ?>
-                        <span class="wps-tooltip" title="<?php esc_html_e('Account Information tooltip', 'wp-statistics'); ?>"><i class="wps-tooltip-icon info"></i></span>
-                    </h2>
+                    <h2><?php esc_html_e('Account Information', 'wp-statistics'); ?></h2>
                 </div>
                 <?php View::load("components/account-information", ['user' => $data['user_info']]); ?>
             </div>
@@ -28,10 +22,7 @@ use WP_Statistics\Components\View;
     <div class="postbox-container postbox-container--second-col" >
         <div class="wps-card wps-card wps-card--table">
             <div class="wps-card__title">
-                <h2>
-                    <?php esc_html_e('Recent Views', 'wp-statistics'); ?>
-                    <span class="wps-tooltip" title="<?php esc_html_e('Recent Views tooltip', 'wp-statistics'); ?>"><i class="wps-tooltip-icon info"></i></span>
-                </h2>
+                <h2><?php esc_html_e('Recent Views', 'wp-statistics'); ?></h2>
             </div>
             <div class="wps-card--table__body">
                 <?php
