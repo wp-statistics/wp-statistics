@@ -15,12 +15,12 @@ use WP_STATISTICS\UserAgent;
         <?php if (IP::IsHashIP($visitor->ip)) : ?>
             <span><?php esc_html_e('Daily Visitor Hash', 'wp-statistics'); ?></span>
             <div>
-                <span class="wps-link-color" title="<?php echo esc_attr($visitor->ip) ?>"><?php echo esc_html(substr($visitor->ip, 6, 10)) ?></span>
+                <span title="<?php echo esc_attr($visitor->ip) ?>"><?php echo esc_html(substr($visitor->ip, 6, 10)) ?></span>
             </div>
         <?php else : ?>
             <span><?php esc_html_e('IP Address', 'wp-statistics'); ?></span>
             <div>
-                <span class="wps-link-color" title="<?php echo esc_attr($visitor->ip) ?>"><?php echo esc_html($visitor->ip) ?></span>
+                <span title="<?php echo esc_attr($visitor->ip) ?>"><?php echo esc_html($visitor->ip) ?></span>
             </div>
         <?php endif; ?>
     </div>
