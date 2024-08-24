@@ -29,11 +29,11 @@ class VisitorInsightsDataProvider
     public function getChartsData()
     {
         return [
-            'traffic_chart_data' => $this->getTrafficData()
+            'traffic_chart_data' => $this->getTrafficChartData()
         ];
     }
 
-    public function getTrafficData()
+    public function getTrafficChartData()
     {
         $result = [
             'data'          => ['labels' => [], 'visitors' => [], 'views' => []],
