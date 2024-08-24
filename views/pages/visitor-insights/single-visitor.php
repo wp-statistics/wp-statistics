@@ -13,15 +13,17 @@ use WP_Statistics\Components\View;
             <?php View::load("components/session-details", ['visitor' => $data['visitor_info']]); ?>
         </div>
 
-        <div class="wps-card">
-            <div class="wps-card__title">
-                <h2>
-                    <?php esc_html_e('Account Information', 'wp-statistics'); ?>
-                    <span class="wps-tooltip" title="<?php esc_html_e('Account Information tooltip', 'wp-statistics'); ?>"><i class="wps-tooltip-icon info"></i></span>
-                </h2>
+        <?php if (!empty($data['user_info'])) : ?>
+            <div class="wps-card">
+                <div class="wps-card__title">
+                    <h2>
+                        <?php esc_html_e('Account Information', 'wp-statistics'); ?>
+                        <span class="wps-tooltip" title="<?php esc_html_e('Account Information tooltip', 'wp-statistics'); ?>"><i class="wps-tooltip-icon info"></i></span>
+                    </h2>
+                </div>
+                <?php View::load("components/account-information", ['user' => $data['user_info']]); ?>
             </div>
-            <?php View::load("components/account-information", ['user' => $data['user_info']]); ?>
-        </div>
+        <?php endif; ?>
     </div>
     <div class="postbox-container postbox-container--second-col" >
         <div class="wps-card wps-card wps-card--table">
