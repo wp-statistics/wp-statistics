@@ -444,11 +444,18 @@ class VisitorsModel extends BaseModel
             ->from('visitor')
             ->join('users', ['visitor.user_id', 'users.ID'], [], 'LEFT')
             ->where('user_id', '=', $args['user_id'])
-            ->where('ip', 'LIKE', "{$args['ip']}%")
             ->where('user_email', 'LIKE', "%{$args['email']}%")
             ->where('user_login', 'LIKE', "%{$args['username']}%")
+            ->whereRaw(
+                "OR (ip LIKE '#hash#%' AND ip LIKE %s)",
+                ["#hash#{$args['ip']}%"]
+            )
+            ->whereRaw(
+                "OR (ip NOT LIKE '#hash#%' AND ip LIKE %s)",
+                ["{$args['ip']}%"]
+            )
             ->whereRelation('OR')
-            ->bypassCache($bypassCache)
+            ->bypassCache(true)
             ->getAll();
 
         return $result ? $result : [];
