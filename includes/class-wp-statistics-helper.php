@@ -1759,7 +1759,7 @@ class Helper
      * @param bool $withTime
      * @return string
      */
-    public static function getDefaultDateFormat($withTime = false, $excludeYear = false)
+    public static function getDefaultDateFormat($withTime = false, $excludeYear = false, $dateTimeSeparator = ' ')
     {
         $dateFormat = get_option('date_format');
         $timeFormat = get_option('time_format');
@@ -1772,7 +1772,7 @@ class Helper
             $timeFormat = 'g:i a';
         }
 
-        $dateTimeFormat = $withTime ? $dateFormat . ' ' . $timeFormat : $dateFormat;
+        $dateTimeFormat = $withTime ? $dateFormat . $dateTimeSeparator . $timeFormat : $dateFormat;
 
         if ($excludeYear) {
             $dateTimeFormat = preg_replace('/(,\s?Y|Y\s?,|Y[, \/-]?|[, \/-]?Y)/i', '', $dateTimeFormat);
