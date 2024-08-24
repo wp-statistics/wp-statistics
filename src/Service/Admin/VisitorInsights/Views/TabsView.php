@@ -6,6 +6,7 @@ use Exception;
 use WP_Statistics\Components\View;
 use WP_STATISTICS\Menus;
 use WP_STATISTICS\Admin_Assets;
+use WP_STATISTICS\TimeZone;
 use WP_Statistics\Utils\Request;
 use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Abstracts\BaseTabView;
@@ -91,7 +92,7 @@ class TabsView extends BaseTabView
                         'link'    => Menus::admin_url('visitors', ['tab' => 'top-visitors']),
                         'title'   => esc_html__('Top Visitors', 'wp-statistics'),
                         'class'   => $this->isTab('top-visitors') ? 'current' : '',
-                    ]
+                     ]
                 ]
             ];
 
@@ -99,10 +100,18 @@ class TabsView extends BaseTabView
                 $args['filter'] = self::filter();
             }
 
-            if (!$this->isTab('online')) {
+            if (!$this->isTab('online') && !$this->isTab('top-visitors')) {
                 $args['hasDateRang'] = true;
-            }else{
+            }
+
+            if ($this->isTab('online')){
                 $args['real_time_button'] = true;
+            }
+
+            if ($this->isTab('top-visitors')){
+                $args['datepicker'] = true;
+                // Get Day
+                $args['day'] = (isset($_GET['day']) ? sanitize_text_field($_GET['day']) : TimeZone::getCurrentDate('Y-m-d'));
             }
 
             Admin_Template::get_template(['layout/header', 'layout/tabbed-page-header'], $args);

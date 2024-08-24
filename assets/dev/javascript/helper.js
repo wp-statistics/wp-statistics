@@ -819,6 +819,8 @@ wps_js.new_line_chart = function (data, tag_id, newOptions) {
                     display: true,
                     tickMarkLength: 0,
                     drawBorder: false,
+                    tickColor: '#EEEFF1',
+                    color: '#EEEFF1'
                 },
                 gridLines: {
                     drawTicks: false
@@ -1006,7 +1008,9 @@ wps_js.performance_chart = function (data, tag_id, type) {
             position: is_single_content ? 'left' : 'right',
             grid: {
                 display: true,
-                borderDash: [5, 5]
+                borderDash: [5, 5],
+                tickColor: '#EEEFF1',
+                color: '#EEEFF1'
             },
             title: {
                 display: true,

@@ -1950,9 +1950,8 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
 
 .wps-today-datepicker {
   position: absolute;
-  top: 50%;
+  top: 13px;
   right: 32px;
-  transform: translateY(-50%);
   display: flex;
   flex-direction: row-reverse;
   @media (max-width: 698px) {
@@ -1996,8 +1995,6 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
   }
 
   #search-date-input.wps-search-date__input {
-    padding: 4px 16px !important;
-    font-size: 13px;
     width: 136px;
     min-width: unset;
     min-height: unset;
@@ -2006,6 +2003,12 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
     background: #fff;
     text-align: center;
     cursor: pointer;
+    padding: 4px 8px !important;
+    color: #0c0c0d;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 24px;
+    white-space: nowrap;
 
     &:focus, &:hover {
       box-shadow: none !important;
@@ -2445,7 +2448,7 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
   color: #ABABAB;
   text-decoration: none;
   font-size: 13px;
-  line-height: 24px;
+  line-height: 27px;
   font-weight: 500;
 
   &:hover {
@@ -3090,6 +3093,11 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
 
   }
 
+}
+
+.wps-wrap__top .wps-realtime-btn {
+  top:13px!important;
+  transform: none!important;
 }
 
 

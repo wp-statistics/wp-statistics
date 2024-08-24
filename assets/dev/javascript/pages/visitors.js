@@ -129,6 +129,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         html += `<tr><td><input type="submit" value="${wps_js._('filter')}" class="button-primary"> &nbsp; <span class="filter-loading"></span></td></tr>`;
         html += `</table>`;
         jQuery(tickBox_DIV).html(html);
+        wps_js.select2();
     }
 
     // Add Traffic Trends chart

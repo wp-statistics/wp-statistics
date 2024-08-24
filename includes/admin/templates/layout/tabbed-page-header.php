@@ -26,6 +26,20 @@ use WP_STATISTICS\Helper;
     <?php endif; ?>
 
     <div class="wp-clearfix"></div>
+
+    <?php
+    $active_tab = isset($_GET['tab']) ? sanitize_text_field($_GET['tab']) : '';
+    if (isset($datepicker)): ?>
+        <form class="wps-search-date wps-today-datepicker" method="get">
+
+            <div>
+                <input type="hidden" name="page" value="<?php echo esc_attr($pageName); ?>">
+                <input type="hidden" name="tab" id="active-tab-input" value="<?php echo esc_attr($active_tab); ?>">
+                <input class="wps-search-date__input wps-js-calendar-field" id="search-date-input" type="text" size="18" name="day" data-wps-date-picker="day" readonly value="<?php echo esc_attr($day); ?>" autocomplete="off" placeholder="YYYY-MM-DD" required>
+            </div>
+        </form>
+    <?php endif ?>
+
     <?php if (isset($hasDateRang) || isset($filters) || isset($filter)) : ?>
         <div class="wps-head-filters">
             <?php

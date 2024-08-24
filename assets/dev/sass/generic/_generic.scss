@@ -558,7 +558,7 @@
               display: inline-flex;
               width: 6px;
               height: 0;
-              border: 3px solid;
+              border: 2px solid;
               border-radius: 3px;
             }
           }
@@ -576,7 +576,7 @@
               display: inline-flex;
               width: 3px;
               height: 0;
-              border: 3px solid;
+              border: 2px solid;
               border-radius: 3px;
             }
           }
@@ -621,6 +621,7 @@
     &:hover {
       .wps-horizontal-bar__label, .wps-horizontal-bar__data span {
         font-weight: 500 !important;
+        color: #0c0c0d;
       }
     }
 
@@ -688,14 +689,14 @@
     z-index: 2;
 
     .wps-horizontal-bar__image {
-      width: 11px;
-      height: 11px;
+      width: 13px;
+      height: 13px;
     }
 
     .wps-horizontal-bar__label {
-      font-size: 13px;
+      font-size: 14px;
       font-weight: 400;
-      line-height: 15.23px;
+      line-height: 16.41px;
       color: #0C0C0D;
       white-space: nowrap;
       overflow: hidden;
