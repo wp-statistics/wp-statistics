@@ -37,7 +37,7 @@ class OnlineModel extends BaseModel
             'referred',
             'agent',
             'platform',
-            'version',
+            'CAST(version AS SIGNED) as version',
             'location',
             'region',
             'city',
