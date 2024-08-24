@@ -157,7 +157,11 @@ if ($isMiniChartActive) {
 
 <script>
     jQuery(document).ready(function ($) {
-        //Initiate Color Picker
-        $('.js-color-picker').wpColorPicker();
+        // Ensure the color picker is available and initialize it
+        if ($.fn.wpColorPicker) {
+            $('.js-color-picker').wpColorPicker();
+        } else {
+            console.log('wpColorPicker function is not available.');
+        }
     });
 </script>
