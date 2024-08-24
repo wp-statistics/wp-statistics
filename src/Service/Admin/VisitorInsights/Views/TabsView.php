@@ -75,31 +75,31 @@ class TabsView extends BaseTabView
                     [
                         'link'    => Menus::admin_url('visitors', ['tab' => 'visitors']),
                         'title'   => esc_html__('Visitors', 'wp-statistics'),
-                        'class'   => $currentTab === 'visitors' ? 'current' : '',
+                        'class'   => $this->isTab('visitors') ? 'current' : '',
                     ],
                     [
                         'link'    => Menus::admin_url('visitors', ['tab' => 'views']),
                         'title'   => esc_html__('Views', 'wp-statistics'),
-                        'class'   => $currentTab === 'views' ? 'current' : '',
+                        'class'   => $this->isTab('views') ? 'current' : '',
                     ],
                     [
                         'link'  => Menus::admin_url('visitors', ['tab' => 'online']),
                         'title' => esc_html__('Online Visitors', 'wp-statistics'),
-                        'class' => $currentTab === 'online' ? 'current wps-tab-link__online-visitors' : 'wps-tab-link__online-visitors',
+                        'class' => $this->isTab('online') ? 'current wps-tab-link__online-visitors' : 'wps-tab-link__online-visitors',
                     ],
                     [
                         'link'    => Menus::admin_url('visitors', ['tab' => 'top-visitors']),
                         'title'   => esc_html__('Top Visitors', 'wp-statistics'),
-                        'class'   => $currentTab === 'top-visitors' ? 'current' : '',
+                        'class'   => $this->isTab('top-visitors') ? 'current' : '',
                     ]
                 ]
             ];
 
-            if ($currentTab === 'visitors') {
+            if ($this->isTab('visitors')) {
                 $args['filter'] = self::filter();
             }
 
-            if ($currentTab !== 'online') {
+            if (!$this->isTab('online')) {
                 $args['hasDateRang'] = true;
             }else{
                 $args['real_time_button'] = true;
@@ -113,6 +113,7 @@ class TabsView extends BaseTabView
         }
     }
 
+    // @todo refactor visitor page filter
     public static function filter()
     {
         $params = 0;
