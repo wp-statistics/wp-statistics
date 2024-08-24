@@ -7,16 +7,10 @@ use WP_Statistics\Components\View;
             <div class="postbox-header--table-title">
                 <h2>
                     <?php esc_html_e('Traffic Trends', 'wp-statistics'); ?>
-                    <span class="wps-tooltip" title=" <?php esc_html_e('Latest Views tooltip', 'wp-statistics'); ?>"><i class="wps-tooltip-icon info"></i></span>
                 </h2>
             </div>
             <div class="inside">
-                <?php
-                $args = [
-                    'data' => ['test', 'test'],
-                ];
-                View::load("components/charts/traffic-trends", $args);
-                ?>
+                <?php View::load("components/charts/traffic-trends"); ?>
             </div>
         </div>
     </div>
@@ -28,7 +22,6 @@ use WP_Statistics\Components\View;
             <div class="postbox-header--table-title">
                 <h2>
                     <?php esc_html_e('Latest Views', 'wp-statistics'); ?>
-                    <span class="wps-tooltip" title=" <?php esc_html_e('Latest Views tooltip', 'wp-statistics'); ?>"><i class="wps-tooltip-icon info"></i></span>
                 </h2>
             </div>
             <?php
