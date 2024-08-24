@@ -660,6 +660,19 @@ class Install
             Option::update('stats_report', true);
         }
 
+        /**
+         * Update old DataPlus options.
+         *
+         * @version 14.10
+         */
+        if (version_compare($installed_version, '14.10', '<')) {
+            Option::saveByAddon([
+                'link_tracker'            => Option::get('link_tracker'),
+                'download_tracker'        => Option::get('download_tracker'),
+                'latest_visitors_metabox' => '1',
+            ], 'data_plus');
+        }
+
         // Store the new version information.
         update_option('wp_statistics_plugin_version', WP_STATISTICS_VERSION);
     }
