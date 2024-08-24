@@ -75,13 +75,11 @@ class TabsView extends BaseTabView
                     [
                         'link'    => Menus::admin_url('visitors', ['tab' => 'visitors']),
                         'title'   => esc_html__('Visitors', 'wp-statistics'),
-                        'tooltip' => esc_html__('Visitors tooltip', 'wp-statistics'),
                         'class'   => $currentTab === 'visitors' ? 'current' : '',
                     ],
                     [
                         'link'    => Menus::admin_url('visitors', ['tab' => 'views']),
                         'title'   => esc_html__('Views', 'wp-statistics'),
-                        'tooltip' => esc_html__('Views tooltip', 'wp-statistics'),
                         'class'   => $currentTab === 'views' ? 'current' : '',
                     ],
                     [
@@ -92,7 +90,6 @@ class TabsView extends BaseTabView
                     [
                         'link'    => Menus::admin_url('visitors', ['tab' => 'top-visitors']),
                         'title'   => esc_html__('Top Visitors', 'wp-statistics'),
-                        'tooltip' => esc_html__('Top visitors tooltip', 'wp-statistics'),
                         'class'   => $currentTab === 'top-visitors' ? 'current' : '',
                     ]
                 ]
