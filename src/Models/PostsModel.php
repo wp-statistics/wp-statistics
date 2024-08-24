@@ -13,12 +13,12 @@ class PostsModel extends BaseModel
     public function countPosts($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
-            'date'          => '',
-            'post_type'     => Helper::getPostTypes(),
-            'author_id'     => '',
-            'taxonomy'      => '',
-            'term'          => '',
-            'count_no_views' => true
+            'date'                  => '',
+            'post_type'             => Helper::getPostTypes(),
+            'author_id'             => '',
+            'taxonomy'              => '',
+            'term'                  => '',
+            'filter_by_view_date'   => false
         ]);
 
         $query = Query::select('COUNT(posts.ID)')
@@ -26,11 +26,10 @@ class PostsModel extends BaseModel
             ->where('post_status', '=', 'publish')
             ->where('post_type', 'IN', $args['post_type'])
             ->where('post_author', '=', $args['author_id'])
-            ->whereDate('post_date', $args['date'])
             ->bypassCache($bypassCache);
 
-        // Get posts with more than 0 views
-        if ($args['count_no_views'] != true) {
+        // Count posts within view date
+        if ($args['filter_by_view_date'] != true) {
             $viewsQuery = Query::select(['pages.id', 'SUM(pages.count) AS views'])
                 ->from('pages')
                 ->whereDate('pages.date', $args['date'])
@@ -38,6 +37,9 @@ class PostsModel extends BaseModel
                 ->getQuery();
 
             $query->joinQuery($viewsQuery, ['posts.ID', 'views.id'], 'views');
+        } else {
+            $query
+                ->whereDate('post_date', $args['date']);
         }
 
         if (!empty($args['taxonomy']) || !empty($args['term'])) {
