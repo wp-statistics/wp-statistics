@@ -23,7 +23,7 @@ $taxName  = Helper::getTaxonomyName(Request::get('tx', 'category'), true);
                         </th>
                         <th class="wps-pd-l">
                             <a href="<?php echo esc_url(Helper::getTableColumnSortUrl('post_count')) ?>" class="sort <?php echo Request::compare('order_by', 'post_count') ? esc_attr($order) : '' ?>">
-                                <?php esc_html_e('Total Published Posts', 'wp-statistics') ?>
+                                <?php esc_html_e('Total Published Contents', 'wp-statistics') ?>
                             </a>
                         </th>
                         <th></th>

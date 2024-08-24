@@ -57,7 +57,7 @@ class PageInsightsDataProvider
 
     public function getAuthorsData()
     {
-        $authors = $this->authorsModel->getAuthorsPagesData($this->args, ['order_by' => 'page_views']);
+        $authors = $this->authorsModel->getAuthorsPagesData(array_merge($this->args, ['order_by' => Request::get('order_by', 'total_posts')]));
         $total   = $this->authorsModel->countAuthors(array_merge($this->args, ['ignore_date' => true]));
 
         return [
