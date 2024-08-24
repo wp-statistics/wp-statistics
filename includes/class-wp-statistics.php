@@ -11,6 +11,7 @@ use WP_Statistics\Service\Admin\Posts\PostsManager;
 use WP_Statistics\Service\Admin\PrivacyAudit\PrivacyAuditManager;
 use WP_Statistics\Service\Admin\CategoryAnalytics\CategoryAnalyticsManager;
 use WP_Statistics\Service\Analytics\AnalyticsManager;
+use WP_Statistics\Service\Integrations\IntegrationsManager;
 use WP_Statistics\Service\Integrations\WpConsentApi;
 use WP_Statistics\Service\Admin\Devices\DevicesManager;
 use WP_Statistics\Service\Admin\VisitorInsights\VisitorInsightsManager;
@@ -177,16 +178,15 @@ final class WP_Statistics
             require_once WP_STATISTICS_DIR . 'includes/admin/pages/class-wp-statistics-admin-page-searches.php';
             require_once WP_STATISTICS_DIR . 'includes/admin/pages/class-wp-statistics-admin-page-exclusions.php';
 
-            $analytics          = new AnalyticsManager();
-            $authorAnalytics    = new AuthorAnalyticsManager();
-            $privacyAudit       = new PrivacyAuditManager();
-            $geographic         = new GeographicManager();
-            $devices            = new DevicesManager();
-            $categoryAnalytics  = new CategoryAnalyticsManager();
-            $pageInsights       = new PageInsightsManager();
-            $visitorInsights    = new VisitorInsightsManager();
-
-            $wpConsentApi = new WpConsentApi();
+            $analytics           = new AnalyticsManager();
+            $authorAnalytics     = new AuthorAnalyticsManager();
+            $privacyAudit        = new PrivacyAuditManager();
+            $geographic          = new GeographicManager();
+            $devices             = new DevicesManager();
+            $categoryAnalytics   = new CategoryAnalyticsManager();
+            $pageInsights        = new PageInsightsManager();
+            $visitorInsights     = new VisitorInsightsManager();
+            $integrationsManager = new IntegrationsManager();
         }
 
         // WordPress ShortCode and Widget
