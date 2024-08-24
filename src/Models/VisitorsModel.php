@@ -455,7 +455,7 @@ class VisitorsModel extends BaseModel
                 ["{$args['ip']}%"]
             )
             ->whereRelation('OR')
-            ->bypassCache(true)
+            ->bypassCache($bypassCache)
             ->getAll();
 
         return $result ? $result : [];
