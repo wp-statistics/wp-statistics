@@ -75,7 +75,6 @@ class Option
             'exclude_feeds'             => true,
             'schedule_dbmaint'          => true,
             'schedule_dbmaint_days'     => '180',
-            'latest_visitors_metabox'   => true,
         );
 
         return $options;
