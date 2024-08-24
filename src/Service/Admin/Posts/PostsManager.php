@@ -89,7 +89,7 @@ class PostsManager
     public function addPostMetaBoxes()
     {
         $isGutenberg           = Helper::is_gutenberg();
-        $displayLatestVisitors = !Helper::isAddOnActive('data-plus') || Option::get('latest_visitors_metabox', true);
+        $displayLatestVisitors = !Helper::isAddOnActive('data-plus') || Option::getByAddon('latest_visitors_metabox', 'data_plus', '1') === '1';
 
         // Add meta-box to all post types
         foreach (Helper::get_list_post_type() as $screen) {
@@ -131,6 +131,7 @@ class PostsManager
      *  - `postId`
      *  - `fromString`
      *  - `toString`
+     *  - `publishDateString`
      *  - `totalVisitors`
      *  - `totalViews`
      *  - `topReferrer`
@@ -159,7 +160,7 @@ class PostsManager
         // Data for the sidebar chart
         $chartData    = [];
         $wpDateFormat = get_option('date_format');
-        $publishDate  = get_the_date('Y-m-d', $post->ID);
+        $publishDate  = $dataProvider->getPublishDate();
 
         // Fill `$chartData` with default 0s
         // Use a short date format for indexes and `chartDates` for values
@@ -168,6 +169,7 @@ class PostsManager
         foreach ($chartDataProvider->getChartDates(0, $publishDate) as $date) {
             $shortDate             = date('d M', strtotime($date));
             $chartData[$shortDate] = [
+                'ymdDate'   => date('Y-m-d', strtotime($date)),
                 'hits'      => 0,
                 'fullDate'  => date($wpDateFormat, strtotime($date)),
             ];
@@ -187,10 +189,16 @@ class PostsManager
 
             $shortDate             = date('d M', strtotime($hit->date));
             $chartData[$shortDate] = [
+                'ymdDate'   => $hit->date,
                 'hits'      => !empty($hit->visitors) ? intval($hit->visitors) : intval($hit->views),
                 'fullDate'  => date($wpDateFormat, strtotime($hit->date)),
             ];
         }
+
+        // Sort `$chartData` by date
+        uasort($chartData, function ($a, $b) {
+            return $a['ymdDate'] <=> $b['ymdDate'];
+        });
 
         // Some settings for the chart
         $chartSettings = [
@@ -206,6 +214,7 @@ class PostsManager
             'postId'                     => $post->ID,
             'fromString'                 => $dataProvider->getFromString(),
             'toString'                   => $dataProvider->getToString(),
+            'publishDateString'          => $publishDate,
             'totalVisitors'              => $dataProvider->getVisitors(true),
             'totalViews'                 => $dataProvider->getViews(true),
             'topReferrer'                => $topReferrerAndCountTotal['url'],

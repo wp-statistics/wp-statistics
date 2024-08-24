@@ -43,7 +43,7 @@ class PostSummaryDataProvider
         $this->postId = $post->ID;
 
         $this->setFrom(TimeZone::getTimeAgo(7));
-        $this->setTo(TimeZone::getTimeAgo(0));
+        $this->setTo(TimeZone::getTimeAgo());
 
         $this->visitorsModel = new VisitorsModel();
         $this->viewsModel    = new ViewsModel();
@@ -137,6 +137,18 @@ class PostSummaryDataProvider
         }
 
         return date($format, strtotime($this->toDate));
+    }
+
+    /**
+     * Returns post publish date as a string.
+     *
+     * @param   string              $format     Returns the date with this format. Default: 'Y-m-d'.
+     *
+     * @return  string|int|false
+     */
+    public function getPublishDate($format = 'Y-m-d')
+    {
+        return get_the_date($format, $this->postId);
     }
 
     /**

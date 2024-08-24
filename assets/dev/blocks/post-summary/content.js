@@ -23,7 +23,7 @@ const ContentElement = ({ data }) => {
     ) : '';
 
     // Display the first part of text only if the post has been published more than a week ago
-    const thisPeriodText = (new Date) - Date.parse(data.fromString) >= (7 * 24 * 60 * 60 * 1000) ? (
+    const thisPeriodText = (new Date) - Date.parse(data.publishDateString) >= (7 * 24 * 60 * 60 * 1000) ? (
         <Fragment>Over the past week (<b>{data.fromString} - {data.toString}</b>), this post has been <b>viewed {thisPeriodViews} times by {thisPeriodVisitors} visitors</b>.{thisPeriodTopReferrerText}<br /></Fragment>
     ) : '';
 

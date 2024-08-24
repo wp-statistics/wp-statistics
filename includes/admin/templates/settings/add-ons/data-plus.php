@@ -35,24 +35,26 @@ if (!$isDataPlusActive) echo Admin_Template::get_template(
 
             <tr valign="top">
                 <th scope="row">
-                    <label for="link-tracker"><?php esc_html_e('Link Tracker', 'wp-statistics'); ?></label>
+                    <label for="wps_addon_settings[data_plus][link_tracker]"><?php esc_html_e('Link Tracker', 'wp-statistics'); ?></label>
                 </th>
 
                 <td>
-                    <input id="link-tracker" type="checkbox" value="1" name="wps_link_tracker" <?php checked(Option::get('link_tracker')); ?>>
-                    <label for="link-tracker"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
+                    <input type="hidden" name="wps_addon_settings[data_plus][link_tracker]" value="0" />
+                    <input id="wps_addon_settings[data_plus][link_tracker]" type="checkbox" value="1" name="wps_addon_settings[data_plus][link_tracker]" <?php checked(Option::getByAddon('link_tracker', 'data_plus', '1'), '1'); ?>>
+                    <label for="wps_addon_settings[data_plus][link_tracker]"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
                     <p class="description"><?php esc_html_e('See which outside links people click on your site.', 'wp-statistics'); ?></p>
                 </td>
             </tr>
 
             <tr valign="top">
                 <th scope="row">
-                    <label for="download-tracker"><?php esc_html_e('Download Tracker', 'wp-statistics'); ?></label>
+                    <label for="wps_addon_settings[data_plus][download_tracker]"><?php esc_html_e('Download Tracker', 'wp-statistics'); ?></label>
                 </th>
 
                 <td>
-                    <input id="download-tracker" type="checkbox" value="1" name="wps_download_tracker" <?php checked(Option::get('download_tracker')); ?>>
-                    <label for="download-tracker"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
+                    <input type="hidden" name="wps_addon_settings[data_plus][download_tracker]" value="0" />
+                    <input id="wps_addon_settings[data_plus][download_tracker]" type="checkbox" value="1" name="wps_addon_settings[data_plus][download_tracker]" <?php checked(Option::getByAddon('download_tracker', 'data_plus', '1'), '1'); ?>>
+                    <label for="wps_addon_settings[data_plus][download_tracker]"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
                     <p class="description"><?php esc_html_e('Watch which files people download and learn what’s popular.', 'wp-statistics'); ?></p>
                 </td>
             </tr>
@@ -71,12 +73,13 @@ if (!$isDataPlusActive) echo Admin_Template::get_template(
 
             <tr valign="top">
                 <th scope="row">
-                    <label for="latest-visitors-metabox"><?php esc_html_e('Latest Visitors in Editor', 'wp-statistics'); ?></label>
+                    <label for="wps_addon_settings[data_plus][latest_visitors_metabox]"><?php esc_html_e('Latest Visitors in Editor', 'wp-statistics'); ?></label>
                 </th>
 
                 <td>
-                    <input id="latest-visitors-metabox" type="checkbox" value="1" name="wps_latest_visitors_metabox" <?php checked(Option::get('latest_visitors_metabox')); ?>>
-                    <label for="latest-visitors-metabox"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
+                    <input type="hidden" name="wps_addon_settings[data_plus][latest_visitors_metabox]" value="0" />
+                    <input id="wps_addon_settings[data_plus][latest_visitors_metabox]" type="checkbox" value="1" name="wps_addon_settings[data_plus][latest_visitors_metabox]" <?php checked(Option::getByAddon('latest_visitors_metabox', 'data_plus', '1'), '1'); ?>>
+                    <label for="wps_addon_settings[data_plus][latest_visitors_metabox]"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
                     <p class="description"><?php esc_html_e('Display the Latest Visitors section on the edit content pages.', 'wp-statistics'); ?></p>
                 </td>
             </tr>
