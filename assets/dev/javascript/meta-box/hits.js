@@ -48,27 +48,13 @@ wps_js.hits_meta_box = {
 
         // Check Hit-chart for Quick State
         let params = args;
-        if ('hits-chart' in args) {
-            params = args['hits-chart'];
-        }
 
-        const visitsKey = wps_js._('visits');
-        const visitorsKey = wps_js._('visitors');
-
-        //Todo chart chart dynamic previous data value
         if (document.getElementById(tag_id)) {
              const data = {
-                data:{
-                    labels: params['date'],
-                    [visitsKey]: params['visits'],
-                    [visitorsKey]: params['visitors']
-                },
-                previousData: {
-                    labels: params['date'],
-                    [visitsKey]: params['visits'].map(item => item + 25),
-                    [visitorsKey]: params['visitors'].map(item => item + 24)
-                }
+                data: params['data'],
+                previousData: params['previousData']
             };
+
             wps_js.new_line_chart(data, tag_id, null);
         }
      }

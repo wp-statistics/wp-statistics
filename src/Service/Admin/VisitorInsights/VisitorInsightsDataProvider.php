@@ -40,8 +40,9 @@ class VisitorInsightsDataProvider
             'previousData'  => ['labels' => [], 'visitors' => [], 'views' => []]
         ];
 
-        $thisPeriod = DateRange::get();
-        $prevPeriod = DateRange::getPrevPeriod();
+        // If range is set, use it, otherwise, get from usermeta
+        $thisPeriod = isset($this->args['date']) ? $this->args['date'] : DateRange::get();
+        $prevPeriod = isset($this->args['date']) ? DateRange::getPrevPeriod($this->args['date']) : DateRange::getPrevPeriod();
 
         $currentDates   = array_keys(TimeZone::getListDays($thisPeriod));
         $prevDates      = array_keys(TimeZone::getListDays($prevPeriod));
