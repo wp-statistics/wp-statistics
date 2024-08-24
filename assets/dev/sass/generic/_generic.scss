@@ -245,13 +245,22 @@
 }
 
 #wp-statistics-post-widget.postbox {
+
+  &.handle{
+    .postbox-header .handle-actions{
+      .handlediv.wps-refresh{
+        display: inline-block!important;
+      }
+    }
+  }
+
   .postbox-header .handle-actions{
     margin-top: 0!important;
     .handlediv:not(.wps-refresh) {
       height: 44px !important;
     }
     .handlediv.wps-refresh{
-       right: 44px !important;
+       right: calc(44px + 3.24rem)!important;
       height: 44px!important;
       width: 1.62rem!important;
     }
