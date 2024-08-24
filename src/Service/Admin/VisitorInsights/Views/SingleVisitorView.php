@@ -60,7 +60,7 @@ class SingleVisitorView extends BaseView
         $args = [
             'title'          => $title,
             'backUrl'        => Menus::admin_url('visitors'),
-            'backTitle'      => esc_html__('Visitor and Views Report', 'wp-statistics'),
+            'backTitle'      => esc_html__('Visitor Insights', 'wp-statistics'),
             'searchBoxTitle' => esc_html__('IP, Hash, Username, or Email', 'wp-statistics'),
             'data'           => $visitorData
         ];
