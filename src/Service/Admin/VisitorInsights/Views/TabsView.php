@@ -118,7 +118,7 @@ class TabsView extends BaseTabView
     {
         $params = 0;
         foreach ($_GET as $params_key => $params_item) {
-            if (!in_array($params_key, ['page', 'order', 'orderby' , 'tab' ,'to' , 'from'])) {
+            if (!in_array($params_key, ['pagination-page', 'page', 'order', 'orderby' , 'tab' ,'to' , 'from'])) {
                 $params++;
             }
         }
