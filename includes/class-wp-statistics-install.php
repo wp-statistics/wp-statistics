@@ -665,7 +665,7 @@ class Install
          *
          * @version 14.10
          */
-        if (version_compare($installed_version, '14.10', '<')) {
+        if (version_compare($installed_version, '14.10', '<') && (Option::get('link_tracker') || Option::get('download_tracker'))) {
             Option::saveByAddon([
                 'link_tracker'            => Option::get('link_tracker'),
                 'download_tracker'        => Option::get('download_tracker'),
