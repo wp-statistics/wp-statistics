@@ -620,8 +620,11 @@ const externalTooltipHandler = (context, dataset, colors, data) => {
 
         let innerHtml = `<div>`;
         titleLines.forEach(title => {
-            innerHtml += `<div class="chart-title">${title}</div>`;
+            // Assume `data.data.labels` contains `date` and `day` properties
+            const { date, day } = data.data.labels[dataIndex];
+            innerHtml += `<div class="chart-title">${date} (${day})</div>`;
         });
+
 
         // Iterate over each dataset to create the tooltip content
         datasets.forEach((dataset, index) => {
@@ -643,7 +646,7 @@ const externalTooltipHandler = (context, dataset, colors, data) => {
             if (data?.previousData) {
                 const previousValue = data.previousData[dataset.label.replace(' (Previous)', '')]?.[dataIndex];
                 if (previousValue !== undefined && previousValue !== '' && !isPrevious) {
-                    const previousLabel = data.previousData.labels[dataIndex];
+                    const previousLabel = data.previousData.labels[dataIndex].date;
                     innerHtml += `
                     <div class="previous-data">
                         <div>
@@ -726,6 +729,8 @@ wps_js.new_line_chart = function (data, tag_id, newOptions) {
     const datasets = [];
     // Dynamically create datasets
     Object.keys(data.data).forEach((key, index) => {
+
+
         if (key !== 'labels') {
             // Main dataset
             datasets.push({
@@ -791,7 +796,7 @@ wps_js.new_line_chart = function (data, tag_id, newOptions) {
         },
         scales: {
             x: {
-                offset: data.data.labels.length <= 1,
+                offset: data.data.labels.map(dateObj => dateObj.date).length <= 1,
                 min: 0,
                 grid: {
                     display: false,
@@ -854,7 +859,7 @@ wps_js.new_line_chart = function (data, tag_id, newOptions) {
     const lineChart = new Chart(ctx_line, {
         type: 'line',
         data: {
-            labels: data.data.labels,
+            labels: data.data.labels.map(dateObj => dateObj.date),
             datasets: datasets,
         },
         plugins: [drawVerticalLinePlugin],
@@ -871,11 +876,12 @@ wps_js.new_line_chart = function (data, tag_id, newOptions) {
             datasets.forEach((dataset, index) => {
                 const isPrevious = dataset.label.includes('(Previous)');
                 if (!isPrevious) {
-                    const currentData = dataset.data.reduce((a, b) => Number(a) + Number(b), 0);
-                    const previousData = data.previousData[dataset.label]?.reduce((a, b) => Number(a) + Number(b), 0) || null;
-                    const legendItem = document.createElement('div');
+                     const currentData = dataset.data.reduce((a, b) => Number(a) + Number(b), 0);
+                     const previousData = data.previousData[dataset.label] ? data.previousData[dataset.label].reduce((a, b) => Number(a) + Number(b), 0) :null ;
+                     const legendItem = document.createElement('div');
                     legendItem.className = 'wps-postbox-chart--item';
-                    const previousDataHTML = previousData ? `
+                    console.log(previousData);
+                    const previousDataHTML = previousData !== null ? `
                     <div class="previous-data">
                         <span>
                             <span class="wps-postbox-chart--item--color" style="border-color: ${dataset.borderColor}"></span>
@@ -1072,7 +1078,7 @@ wps_js.performance_chart = function (data, tag_id, type) {
     const performanceChart = new Chart(ctx_performance, {
         type: 'bar',
         data: {
-            labels: data.labels,
+            labels: data.labels.map(dateObj => dateObj.date),
             datasets: datasets
         },
         options: {
