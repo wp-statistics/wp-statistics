@@ -39,14 +39,7 @@ wps_js.platforms_meta_box = {
             return wps_js._('visitors') + ':' + ctx[0].formattedValue
         }
 
-        // Show Chart
-        //Todo chart Add platform images
-        const image_urls = [
-            'https://via.placeholder.com/30',
-            'https://via.placeholder.com/30',
-        ];
-
-        wps_js.horizontal_bar(wps_js.chart_id('platforms'), args['platform_name'], data ,image_urls );
+        wps_js.horizontal_bar(wps_js.chart_id('platforms'), args['platform_name'], data , args['platform_logos']);
 
         // Check Table information
         if (wps_js.exist_tag('#' + wps_js.getMetaBoxKey('platforms-table'))) {

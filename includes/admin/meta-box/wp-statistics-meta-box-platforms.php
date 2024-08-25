@@ -6,6 +6,7 @@ use WP_STATISTICS\DB;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Menus;
 use WP_STATISTICS\TimeZone;
+use WP_STATISTICS\UserAgent;
 
 class platforms extends MetaBoxAbstract
 {
@@ -35,7 +36,7 @@ class platforms extends MetaBoxAbstract
             'from'   => '',
             'to'     => '',
             'order'  => '',
-            'number' => 10 // Get Max number of platform
+            'number' => 4 // Get Max number of platform
         );
         $args     = wp_parse_args($arg, $defaults);
 
@@ -51,7 +52,7 @@ class platforms extends MetaBoxAbstract
 
         // Set Default Value
         $total       = $count = 0;
-        $lists_value = $lists_name = array();
+        $lists_value = $lists_name = $lists_logos = array();
 
         $order_by = '';
         if ($args['order'] and in_array($args['order'], array('DESC', 'ASC', 'desc', 'asc'))) {
@@ -72,18 +73,25 @@ class platforms extends MetaBoxAbstract
 
         // Push to array
         foreach ($platforms as $l) {
+            if (empty(trim($l['platform']))) continue;
 
-            if (trim($l['platform']) != "") {
+            // Sanitize Version name
+            $lists_name[] = sanitize_text_field($l['platform']);
 
-                // Sanitize Version name
-                $lists_name[] = sanitize_text_field($l['platform']);
+            $lists_logos[] = UserAgent::getPlatformLogo($l['platform']);
 
-                // Get List Count
-                $lists_value[] = (int)$l['count'];
+            // Get List Count
+            $lists_value[] = (int)$l['count'];
 
-                // Add to Total
-                $total += $l['count'];
-            }
+            // Add to Total
+            $total += $l['count'];
+        }
+
+        $others = array_slice($list, $args['number']);
+        if (!empty($others)) {
+            $lists_name[]   = __('Others', 'wp-statistics');
+            $lists_value[]  = array_sum(array_column($others, 'count'));
+            $total          += array_sum(array_column($others, 'count'));
         }
 
         // Set Title
@@ -97,6 +105,7 @@ class platforms extends MetaBoxAbstract
         $response = array(
             'title'          => $title,
             'platform_name'  => $lists_name,
+            'platform_logos' => $lists_logos,
             'platform_value' => $lists_value,
             'info'           => array(
                 'visitor_page' => Menus::admin_url('visitors')

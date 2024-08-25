@@ -58,13 +58,19 @@ class VisitorInsightsDataProvider
         $prevViews      = wp_list_pluck($prevViews, 'views', 'date');
 
         foreach ($currentDates as $date) {
-            $result['data']['labels'][]   = date_i18n(Helper::getDefaultDateFormat(false, true), strtotime($date));
+            $result['data']['labels'][]   = [
+                'date' => date_i18n(Helper::getDefaultDateFormat(false, true), strtotime($date)),
+                'day'  => date_i18n('l', strtotime($date))
+            ];
             $result['data']['visitors'][] = isset($currentVisitors[$date]) ? intval($currentVisitors[$date]) : 0;
             $result['data']['views'][]    = isset($currentViews[$date]) ? intval($currentViews[$date]) : 0;
         }
 
         foreach ($prevDates as $date) {
-            $result['previousData']['labels'][]   = date_i18n(Helper::getDefaultDateFormat(false, true), strtotime($date));
+            $result['previousData']['labels'][]   = [
+                'date' => date_i18n(Helper::getDefaultDateFormat(false, true), strtotime($date)),
+                'day'  => date_i18n('l', strtotime($date))
+            ];
             $result['previousData']['visitors'][] = isset($prevVisitors[$date]) ? intval($prevVisitors[$date]) : 0;
             $result['previousData']['views'][]    = isset($prevViews[$date]) ? intval($prevViews[$date]) : 0;
         }

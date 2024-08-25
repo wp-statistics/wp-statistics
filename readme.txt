@@ -135,19 +135,16 @@ Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest versio
 
 == Changelog ==
 = 14.10 - xx.08.2024 =
-* New: Date filter value is stored globally in user meta now, and could be used across pages.
-* New: Redesigned and merged Visitors, Views, Online and Top Visitor reports into one single Visitors page.
-* New: New Single Visitor page with detailed info about the visitor. 
-* New: Added plugin information to Site Health Info to better diagnose issues.
-* New: "Post Summary" meta-box and sidebar panel in edit post pages.
-* Enhancement: Merged Contents, Category Pages, and Author Pages reports into one single Pages page.
-* Enhancement: Multiple renaming, menu additions, and updates to improve settings organization and user interface.
-* Enhancement: The chart design has been updated to be more user-friendly.
-* Enhancement: Cleanup the optimization page and remove unnecessary information.
-* Enhancement: Redesigned "Daily Traffic Trend" meta-box. It's now called "Statistics - Latest Visitors".
-* Enhancement: Improved "Views" column query and page load speed in post lists pages.
-* Fix: Fixed mini-charts not displaying in post lists when "Show Stats in Admin Menu Bar" option is disabled.
+* New: Introduced the Visitor Insights menu by merging the Visitors, Views, Online Visitors, and Top Visitors reports into one centralized Visitors page.
+* New: Created the Page Insights menu by combining the Contents, Category Pages, and Author Pages reports into one unified Pages page for better organization.
+* New: Redesigned Single Visitor page with more detailed and better-organized visitor information.
+* New: Date filter settings now stored globally in user meta, allowing the selected date range to be used across all report pages.
+* New: Updated the content statistics widget in the editor to show visitor numbers directly on the edit post page.
+* New: Added plugin information to the Site Health Info section for easier diagnostics.
+* Enhancement: Redesigned charts with a modern look and added a Previous Period Indicator for easier data comparison.
+* Enhancement: Various improvements to the settings area for better clarity, including renaming options and removing unnecessary ones.
+* Enhancement: Performance enhancements and bug fixes for overall smoother operation.
 
-For more information about the major update, please [visit our blog post](https://wp-statistics.com/?p=15915) or follow [@wp_statistics](https://twitter.com/wp_statistics) on Twitter
+For more information about the major update, please [visit our blog post](https://wp-statistics.com/?p=16657) or follow [@wp_statistics](https://twitter.com/wp_statistics) on Twitter
 
 [See changelog for all versions](https://raw.githubusercontent.com/wp-statistics/wp-statistics/master/CHANGELOG.md).
