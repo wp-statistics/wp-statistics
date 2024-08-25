@@ -66,14 +66,14 @@ $postType = get_post_type(Request::get('post_id'));
             'tooltip'   => esc_html__('Distribution of visitors by their device models.', 'wp-statistics'),
             'unique_id' => 'content_device_models'
         ];
-        View::load("components/charts/horizontal-bar", $browsers);
+        View::load("components/charts/horizontal-bar", $deviceModels);
 
         $deviceUsage = [
             'title'     => esc_html__('Device Usage', 'wp-statistics'),
             'tooltip'   => esc_html__('Distribution of visitors by their device types.', 'wp-statistics'),
             'unique_id' => 'content_device_usage'
         ];
-        View::load("components/charts/horizontal-bar", $browsers);
+        View::load("components/charts/horizontal-bar", $deviceUsage);
         ?>
     </div>
 
