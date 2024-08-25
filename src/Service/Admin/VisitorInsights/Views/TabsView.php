@@ -100,18 +100,12 @@ class TabsView extends BaseTabView
                 $args['filter'] = self::filter();
             }
 
-            if (!$this->isTab('online') && !$this->isTab('top-visitors')) {
+            if (!$this->isTab('online') ) {
                 $args['hasDateRang'] = true;
             }
 
             if ($this->isTab('online')){
                 $args['real_time_button'] = true;
-            }
-
-            if ($this->isTab('top-visitors')){
-                $args['datepicker'] = true;
-                // Get Day
-                $args['day'] = (isset($_GET['day']) ? sanitize_text_field($_GET['day']) : TimeZone::getCurrentDate('Y-m-d'));
             }
 
             Admin_Template::get_template(['layout/header', 'layout/tabbed-page-header'], $args);
