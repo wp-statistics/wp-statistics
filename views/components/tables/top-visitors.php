@@ -66,7 +66,7 @@ use WP_STATISTICS\Country;
                                 <?php endif; ?>
 
                                 <li class="wps-browsers__flag">
-                                    <div class="wps-tooltip" title="<?php echo esc_attr("$visitor->agent $visitor->version") ?>">
+                                    <div class="wps-tooltip" title="<?php echo esc_attr("$visitor->agent v$visitor->version") ?>">
                                         <a href="<?php echo esc_url(Menus::admin_url('visitors', ['agent' => $visitor->agent])) ?>"><img src="<?php echo esc_url(UserAgent::getBrowserLogo($visitor->agent)) ?>" alt="<?php echo esc_attr($visitor->agent) ?>" width="15" height="15"></a>
                                     </div>
                                 </li>

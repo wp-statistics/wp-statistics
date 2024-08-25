@@ -36,7 +36,7 @@ use WP_STATISTICS\UserAgent;
         <span><?php esc_html_e('Browser', 'wp-statistics'); ?></span>
         <div class="wps-browsers__flag">
             <a href="<?php echo Menus::admin_url('visitors', ['agent' => $visitor->agent]) ?>"><img src="<?php echo esc_url(UserAgent::getBrowserLogo($visitor->agent)) ?>" alt="<?php echo esc_attr($visitor->agent) ?>" width="15" height="15"></a>
-            <span title="<?php echo esc_attr("$visitor->agent $visitor->version") ?>"><?php echo esc_html("$visitor->agent $visitor->version") ?></span>
+            <span title="<?php echo esc_attr("$visitor->agent v$visitor->version") ?>"><?php echo esc_html("$visitor->agent v$visitor->version") ?></span>
         </div>
     </div>
 
