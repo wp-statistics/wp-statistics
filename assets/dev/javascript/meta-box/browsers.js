@@ -39,14 +39,7 @@ wps_js.browsers_meta_box = {
         }
 
         // Show Chart
-
-        //Todo chart Add browser images
-        const image_urls = [
-            'https://via.placeholder.com/30',
-            'https://via.placeholder.com/30',
-         ];
-
-        wps_js.horizontal_bar(wps_js.chart_id('browsers'), args['browsers_name'], data ,image_urls );
+        wps_js.horizontal_bar(wps_js.chart_id('browsers'), args['browsers_name'], data , args['browsers_logos'] );
 
 
         // Check Table information
