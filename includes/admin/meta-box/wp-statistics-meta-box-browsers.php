@@ -110,7 +110,7 @@ class browsers extends MetaBoxAbstract
                 //Get Browser name
                 $browser_name  = UserAgent::BrowserList(strtolower($key));
                 $lists_name[]  = $browser_name;
-                $lists_value[] = Helper::formatNumberWithUnit($value);
+                $lists_value[] = (int)$value;
                 $lists_keys[]  = strtolower($key);
                 $lists_logo[]  = UserAgent::getBrowserLogo($key);
             }
@@ -118,7 +118,7 @@ class browsers extends MetaBoxAbstract
             // Push Other Browser
             if ($lists_name and $lists_value and $other_agent_count > 0) {
                 $lists_name[]  = __('Other', 'wp-statistics');
-                $lists_value[] = Helper::formatNumberWithUnit($total - $top_five);
+                $lists_value[] = (int)($total - $top_five);
             }
 
         } else {
@@ -149,7 +149,7 @@ class browsers extends MetaBoxAbstract
                 }
 
                 // Get List Count
-                $lists_value[] = Helper::formatNumberWithUnit($l['count']);
+                $lists_value[] = (int)$l['count'];
 
                 // Add to Total
                 $total += $l['count'];
