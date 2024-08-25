@@ -150,21 +150,23 @@ class GeographicDataProvider
 
         return [
             'search_engine_chart_data' => $this->visitorsModel->getSearchEnginesChartData($this->args),
-            'os_chart_data'            => [
-                'labels' => array_keys($platformData['platform']),
-                'data'   => array_values($platformData['platform'])
+            'os_chart_data'         => [
+                'labels'    => array_keys($platformData['platform']), 
+                'data'      => wp_list_pluck($platformData['platform'], 'visitors'),
+                'icons'     => wp_list_pluck($platformData['platform'], 'icon'),
             ],
-            'browser_chart_data'       => [
-                'labels' => array_keys($platformData['agent']),
-                'data'   => array_values($platformData['agent'])
+            'browser_chart_data'    => [
+                'labels'    => array_keys($platformData['agent']), 
+                'data'      => wp_list_pluck($platformData['agent'], 'visitors'),
+                'icons'     => wp_list_pluck($platformData['agent'], 'icon')
             ],
             'device_chart_data'        => [
                 'labels' => array_keys($platformData['device']),
-                'data'   => array_values($platformData['device'])
+                'data'   => wp_list_pluck($platformData['device'], 'visitors')
             ],
             'model_chart_data'         => [
                 'labels' => array_keys($platformData['model']),
-                'data'   => array_values($platformData['model'])
+                'data'   => wp_list_pluck($platformData['model'], 'visitors')
             ],
         ];
     }

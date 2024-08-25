@@ -8,6 +8,7 @@ use WP_STATISTICS\GeoIP;
 use WP_Statistics\Utils\Query;
 use WP_Statistics\Abstracts\BaseModel;
 use WP_Statistics\Components\DateRange;
+use WP_STATISTICS\UserAgent;
 
 class VisitorsModel extends BaseModel
 {
@@ -552,33 +553,39 @@ class VisitorsModel extends BaseModel
 
                 if (!empty($item->platform) && $item->platform !== 'Unknown') {
                     if (empty($result['platform'][$item->platform])) {
-                        $result['platform'][$item->platform] = 1;
+                        $result['platform'][$item->platform] = [
+                            'icon'     => UserAgent::getPlatformLogo($item->platform),
+                            'visitors' => 1
+                        ];
                     } else {
-                        $result['platform'][$item->platform]++;
+                        $result['platform'][$item->platform]['visitors']++;
                     }
                 }
 
                 if (!empty($item->agent) && $item->agent !== 'Unknown') {
                     if (empty($result['agent'][$item->agent])) {
-                        $result['agent'][$item->agent] = 1;
+                        $result['agent'][$item->agent] = [
+                            'icon'     => UserAgent::getBrowserLogo($item->agent),
+                            'visitors' => 1
+                        ];
                     } else {
-                        $result['agent'][$item->agent]++;
+                        $result['agent'][$item->agent]['visitors']++;
                     }
                 }
 
                 if (!empty($item->device) && $item->device !== 'Unknown') {
                     if (empty($result['device'][$item->device])) {
-                        $result['device'][$item->device] = 1;
+                        $result['device'][$item->device]['visitors'] = 1;
                     } else {
-                        $result['device'][$item->device]++;
+                        $result['device'][$item->device]['visitors']++;
                     }
                 }
 
                 if (!empty($item->model) && $item->model !== 'Unknown') {
                     if (empty($result['model'][$item->model])) {
-                        $result['model'][$item->model] = 1;
+                        $result['model'][$item->model]['visitors'] = 1;
                     } else {
-                        $result['model'][$item->model]++;
+                        $result['model'][$item->model]['visitors']++;
                     }
                 }
             }
@@ -592,7 +599,7 @@ class VisitorsModel extends BaseModel
 
                     // Show the rest of the results as others
                     $otherLabel   = esc_html__('Other', 'wp-statistics');
-                    $otherData    = [$otherLabel => array_sum(array_diff_key($data, $topData))];
+                    $otherData    = [$otherLabel => ['visitors' => array_sum(array_diff_key($data, $topData))]];
                     $result[$key] = array_merge($topData, $otherData);
                 }
             }
