@@ -39,7 +39,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                 jQuery('#category_operating_systems').parent().html(wps_js.no_results());
                 return;
             }else{
-                wps_js.horizontal_bar( 'category_operating_systems', OperatingSystemData.labels, OperatingSystemData ,image_urls );
+                wps_js.horizontal_bar( 'category_operating_systems', OperatingSystemData.labels, OperatingSystemData.data ,image_urls );
             }
          },
         generateBrowsersChartData: function () {
@@ -53,7 +53,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                 jQuery('#category_browsers').parent().html(wps_js.no_results());
                 return;
             }else{
-                wps_js.horizontal_bar( 'category_browsers', browsersData.labels, browsersData ,image_urls );
+                wps_js.horizontal_bar( 'category_browsers', browsersData.labels, browsersData.data ,image_urls );
             }
          },
         generateDeviceModelsChart: function () {
@@ -63,7 +63,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                 jQuery('#category_device_models').parent().html(wps_js.no_results());
                 return;
             }else{
-                wps_js.horizontal_bar( 'category_device_models', deviceModelData.labels, deviceModelData ,null );
+                wps_js.horizontal_bar( 'category_device_models', deviceModelData.labels, deviceModelData.data ,null );
             }
         },
         generateDeviceUsageChart: function () {
@@ -73,7 +73,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                 jQuery('#category_device_usage').parent().html(wps_js.no_results());
                 return;
             }else{
-                wps_js.horizontal_bar( 'category_device_usage', deviceUsageData.labels, deviceUsageData ,null );
+                wps_js.horizontal_bar( 'category_device_usage', deviceUsageData.labels, deviceUsageData.data ,null );
             }
         },
         generateSearchEngineChart: function () {

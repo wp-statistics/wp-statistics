@@ -34,7 +34,7 @@ wps_js.devices_meta_box = {
 
         // Show Chart
 
-        wps_js.horizontal_bar(wps_js.chart_id('devices'), args['device_name'], data ,null );
+        wps_js.horizontal_bar(wps_js.chart_id('devices'), args['device_name'], data[0].data ,null );
      }
 
 };

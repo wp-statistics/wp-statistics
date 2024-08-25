@@ -32,7 +32,7 @@ wps_js.models_meta_box = {
         }
 
         // Show Chart
-        wps_js.horizontal_bar(wps_js.chart_id('models'), args['model_name'], data , null );
+        wps_js.horizontal_bar(wps_js.chart_id('models'), args['model_name'], data[0].data , null );
      }
 
 };

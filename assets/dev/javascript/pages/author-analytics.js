@@ -33,7 +33,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                 jQuery('#wps-browsers').parent().html(wps_js.no_results());
                 return;
             }else{
-                wps_js.horizontal_bar( 'wps-browsers', chartData.labels, chartData ,image_urls );
+                wps_js.horizontal_bar( 'wps-browsers', chartData.labels, chartData.data ,image_urls );
             }
         },
         generateOperatingSystemChart: function() {
@@ -50,7 +50,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                 jQuery('#wps-operating-systems').parent().html(wps_js.no_results());
                 return;
             }else{
-                wps_js.horizontal_bar( 'wps-operating-systems', chartData.labels, chartData ,image_urls );
+                wps_js.horizontal_bar( 'wps-operating-systems', chartData.labels, chartData.data ,image_urls );
             }
          },
 

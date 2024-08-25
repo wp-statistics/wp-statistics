@@ -39,7 +39,7 @@ wps_js.platforms_meta_box = {
             return wps_js._('visitors') + ':' + ctx[0].formattedValue
         }
 
-        wps_js.horizontal_bar(wps_js.chart_id('platforms'), args['platform_name'], data , args['platform_logos']);
+        wps_js.horizontal_bar(wps_js.chart_id('platforms'), args['platform_name'], data[0].data , args['platform_logos']);
 
         // Check Table information
         if (wps_js.exist_tag('#' + wps_js.getMetaBoxKey('platforms-table'))) {

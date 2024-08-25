@@ -304,28 +304,6 @@ class Admin_Assets
     }
 
     /**
-     * Checks if any of the conditions for enqueuing Chart.js library are met.
-     *
-     * Conditions are: 
-     * - Mini Chart add-on is enabled and admin bar button is showing.
-     * - User is currently viewing the WP Statistics admin pages (e.g. Settings, Overview, Optimization, etc.).
-     * - User is currently viewing WP dashboard and `disable_dashboard` option is not disabled.
-     * - User is currently in edit post page and `disable_editor` option is not disabled.
-     *
-     * @return  bool
-     *
-     * @hooked  filter: `wp_statistics_enqueue_chartjs` - 10
-     */
-    public function shouldEnqueueChartJs()
-    {
-        global $pagenow;
-
-        return (Helper::isAddOnActive('mini-chart') && Helper::isAdminBarShowing()) || Menus::in_plugin_page() ||
-            (in_array(Helper::get_screen_id(), ['dashboard']) && !Option::get('disable_dashboard')) ||
-            (in_array($pagenow, ['post.php', 'edit.php', 'post-new.php']) && !Option::get('disable_editor'));
-    }
-
-    /**
      * Prepare global WP Statistics data for use Admin Js
      *
      * @param $hook
@@ -399,7 +377,7 @@ class Admin_Assets
             'country'                      => __('Country', 'wp-statistics'),
             'visitor_count'                => __('Visitors', 'wp-statistics'),
             'id'                           => __('ID', 'wp-statistics'),
-            'title'                        => __('Page Title', 'wp-statistics'),
+            'title'                        => __('Page', 'wp-statistics'),
             'link'                         => __('Page Link', 'wp-statistics'),
             'address'                      => __('Domain Address', 'wp-statistics'),
             'word'                         => __('Search Term', 'wp-statistics'),
@@ -453,6 +431,7 @@ class Admin_Assets
             'receive_weekly_email_reports' => __('Receive Weekly Email Reports'),
             'close'                        => __('Close'),
             'previous_period'              => __('Previous period'),
+            'view_content'                 => __('View Content'),
             'start_of_week'                => get_option('start_of_week', 0)
         );
 
@@ -511,6 +490,28 @@ class Admin_Assets
          * @since 14.9.4
          */
         return apply_filters('wp_statistics_admin_assets', $list);
+    }
+
+    /**
+     * Checks if any of the conditions for enqueuing Chart.js library are met.
+     *
+     * Conditions are:
+     * - Mini Chart add-on is enabled and admin bar button is showing.
+     * - User is currently viewing the WP Statistics admin pages (e.g. Settings, Overview, Optimization, etc.).
+     * - User is currently viewing WP dashboard and `disable_dashboard` option is not disabled.
+     * - User is currently in edit post page and `disable_editor` option is not disabled.
+     *
+     * @return  bool
+     *
+     * @hooked  filter: `wp_statistics_enqueue_chartjs` - 10
+     */
+    public function shouldEnqueueChartJs()
+    {
+        global $pagenow;
+
+        return (Helper::isAddOnActive('mini-chart') && Helper::isAdminBarShowing()) || Menus::in_plugin_page() ||
+            (in_array(Helper::get_screen_id(), ['dashboard']) && !Option::get('disable_dashboard')) ||
+            (in_array($pagenow, ['post.php', 'edit.php', 'post-new.php']) && !Option::get('disable_editor'));
     }
 }
 

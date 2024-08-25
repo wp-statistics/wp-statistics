@@ -336,19 +336,13 @@ wps_js.horizontal_bar = function (tag_id, labels, data, imageUrls) {
     if (element) {
         let parent = element.parentNode;
         let nextSibling = element.nextSibling;
-        let value;
-        if (data[0]) {
-            value = data[0].data;
-        } else {
-            value = data.data;
-        }
         parent.removeChild(element);
-        let total = value.reduce((sum, value) => sum + value, 0);
+        let total = data.reduce((sum, data) => sum + data, 0);
         let blockDiv = document.createElement('div');
         blockDiv.classList.add('wps-horizontal-bar');
-        for (let i = 0; i < value.length; i++) {
+        for (let i = 0; i < data.length; i++) {
             // Calculate percentage as a float with two decimal places
-            let percentage = total ? ((value[i] / total) * 100) : 0;
+            let percentage = total ? ((data[i] / total) * 100) : 0;
             // Format the percentage
             let percentageText = percentage % 1 === 0 ? percentage.toFixed(0) : percentage.toFixed(1);
 
@@ -376,7 +370,7 @@ wps_js.horizontal_bar = function (tag_id, labels, data, imageUrls) {
             let dataPercentDiv = document.createElement('div');
             dataPercentDiv.classList.add('wps-horizontal-bar__data-percent-container');
             let dataDiv = document.createElement('div');
-            dataDiv.innerHTML = `<span>${wps_js.formatNumber(value[i])}</span><span>${percentageText}%</span>`;
+            dataDiv.innerHTML = `<span>${wps_js.formatNumber(data[i])}</span><span>${percentageText}%</span>`;
             dataDiv.classList.add('wps-horizontal-bar__data');
             dataPercentDiv.appendChild(dataDiv);
             itemDiv.appendChild(dataPercentDiv);
@@ -880,7 +874,6 @@ wps_js.new_line_chart = function (data, tag_id, newOptions) {
                      const previousData = data.previousData[dataset.label] ? data.previousData[dataset.label].reduce((a, b) => Number(a) + Number(b), 0) :null ;
                      const legendItem = document.createElement('div');
                     legendItem.className = 'wps-postbox-chart--item';
-                    console.log(previousData);
                     const previousDataHTML = previousData !== null ? `
                     <div class="previous-data">
                         <span>
