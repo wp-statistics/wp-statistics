@@ -17,7 +17,7 @@ wps_js.pages_meta_box = {
             t += `<tr>
 			<td class="wps-pd-l"><div class="wps-ellipsis-parent" title="${value['title']}"><span class="wps-ellipsis-text">${value['title']}</span></div></td>
 			<td class="wps-pd-l"><a href="${value['hits_page']}">${value['number']}</a></td>
-		    <td class="wps-pd-l"><a class="wps-view-content" href="${value['link']}">${wps_js._('view_content')}</a></td>
+		    <td class="wps-pd-l"><a target="_blank" class="wps-view-content" href="${value['link']}">${wps_js._('view_content')}</a></td>
 			</tr>`;
             i++;
         });

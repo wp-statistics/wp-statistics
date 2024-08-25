@@ -494,6 +494,10 @@
               font-weight: 400;
               line-height: 20.4px;
 
+              &:hover{
+                background: #fafafb;
+              }
+
               &:after{
                 content:'' ;
                 width: 13px;
