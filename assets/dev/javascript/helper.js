@@ -29,6 +29,19 @@ wps_js.date_picker = function () {
 
 };
 
+wps_js.formatNumber = function (num, fixed=0) {
+    if (num === null) { return null; }
+    if (num === 0) { return '0'; }
+    fixed = (!fixed || fixed < 0) ? 0 : fixed;
+    var b = (parseInt(num)).toPrecision(2).split("e"),
+        k = b.length === 1 ? 0 : Math.floor(Math.min(b[1].slice(1), 14) / 3),
+        c = k < 1 ? num.toFixed(0 + fixed) : (num / Math.pow(10, k * 3) ).toFixed(1 + fixed),
+        d = c < 0 ? c : Math.abs(c),
+        e = d + ['', 'K', 'M', 'B', 'T'][k];
+    return e;
+}
+
+
 /**
  * Set Select2
  */
@@ -337,7 +350,12 @@ wps_js.horizontal_bar = function (tag_id, labels, data, imageUrls) {
             // Calculate percentage as a float with two decimal places
             let percentage = total ? ((value[i] / total) * 100) : 0;
             // Format the percentage
-            let percentageText = percentage % 1 === 0 ? percentage.toFixed(0) : percentage.toFixed(2);
+            let percentageText = percentage % 1 === 0 ? percentage.toFixed(0) : percentage.toFixed(1);
+
+            // If percentage ends with .0, remove it
+            if (percentageText.endsWith('.0')) {
+                percentageText = percentageText.slice(0, -2);
+            }
             let itemDiv = document.createElement('div');
             itemDiv.classList.add('wps-horizontal-bar__item');
             let labelImageDiv = document.createElement('div');
@@ -358,7 +376,7 @@ wps_js.horizontal_bar = function (tag_id, labels, data, imageUrls) {
             let dataPercentDiv = document.createElement('div');
             dataPercentDiv.classList.add('wps-horizontal-bar__data-percent-container');
             let dataDiv = document.createElement('div');
-            dataDiv.innerHTML = `<span>${value[i].toLocaleString()}</span><span>${percentageText}%</span>`;
+            dataDiv.innerHTML = `<span>${wps_js.formatNumber(value[i])}</span><span>${percentageText}%</span>`;
             dataDiv.classList.add('wps-horizontal-bar__data');
             dataPercentDiv.appendChild(dataDiv);
             itemDiv.appendChild(dataPercentDiv);

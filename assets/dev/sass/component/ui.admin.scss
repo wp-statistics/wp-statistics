@@ -2398,29 +2398,46 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
 
       &:after {
         content: "";
-        width: 5.5px;
-        height: 5.5px;
+        width: 5px;
+        height: 5px;
         border-radius: 50%;
         background-color: #196140;
         position: absolute;
-        right: 12.75px;
-        top: 16.25px;
+        right: 12.5px;
+        top: 50%;
         display: inline-block;
+        transform: translateY(-50%);
+        animation: animated_online_bg 45s ease infinite;
       }
 
       &:before {
         content: "";
         position: absolute;
         display: block;
-        width: 11px;
-        height: 11px;
+        width: 10px;
+        height: 10px;
         box-sizing: border-box;
         right: 10px;
-        top: 13.5px;
         border-radius: 50%;
         transform-origin: center center;
-        background-color: rgb(25 97 64 / 10%);
-        animation: animated_bg_coparison 45s ease infinite;
+        background-color: rgba(25, 97, 64, .1);
+        animation: animated_online_bg 45s ease infinite;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+    }
+
+    @keyframes animated_online_bg {
+      0% {
+        transform: translateY(-50%) scale(1);
+      }
+
+      5%, 20%, 35%, 50%, 65%, 80%, 95% {
+        transform: translateY(-50%) scale(1.1);
+      }
+
+      10%, 25%, 40%, 55%, 70%, 85%, 100% {
+        transform: translateY(-50%) scale(1);
       }
     }
 
