@@ -870,56 +870,77 @@ class VisitorsModel extends BaseModel
     {
         $args = $this->parseArgs($args, []);
 
-        // Get results up to 30 days
-        $newArgs = [];
-        $days    = TimeZone::getNumberDayBetween($args['date']['from'], $args['date']['to']);
-        if ($days > 30) {
-            $newArgs = ['date' => DateRange::get('30days')];
-        }
+        $thisPeriod = $args['date'];
+        $prevPeriod = DateRange::getPrevPeriod($args['date']);
 
-        $args = array_merge($args, $newArgs);
-
-        $datesList = TimeZone::getListDays($args['date']);
-        $datesList = array_keys($datesList);
+        $thisPeriodDates = array_keys(TimeZone::getListDays($thisPeriod));
+        $prevPeriodDates = array_keys(TimeZone::getListDays($prevPeriod));
 
         $result = [
-            'labels'   => array_map(
-                function ($date) {
-                    return date_i18n(Helper::getDefaultDateFormat(false, true), strtotime($date));
-                },
-                $datesList
-            ),
-            'datasets' => []
+            'data' => [
+                'labels'   => array_map(
+                    function ($date) {
+                        return date_i18n(Helper::getDefaultDateFormat(false, true), strtotime($date));
+                    },
+                    $thisPeriodDates
+                ),
+                'datasets' => []
+            ],
+            'previousData' => [
+                'labels'   => array_map(
+                    function ($date) {
+                        return date_i18n(Helper::getDefaultDateFormat(false, true), strtotime($date));
+                    },
+                    $prevPeriodDates
+                ),
+                'datasets' => []
+            ],
         ];
 
-        $data       = $this->getSearchEngineReferrals($args);
-        $parsedData = [];
-        $totalData  = array_fill_keys($datesList, 0);
+        // This period data
+        $thisParsedData     = [];
+        $thisPeriodData     = $this->getSearchEngineReferrals($args);
+        $thisPeriodTotal    = array_fill_keys($thisPeriodDates, 0);
 
-        // Format and parse data
-        foreach ($data as $item) {
-            $parsedData[$item->engine][$item->date] = $item->visitors;
-            $totalData[$item->date]                 += $item->visitors;
+        foreach ($thisPeriodData as $item) {
+            $visitors = intval($item->visitors);
+            $thisParsedData[$item->engine][$item->date] = $visitors;
+            $thisPeriodTotal[$item->date]               += $visitors;
         }
 
-        foreach ($parsedData as $searchEngine => &$data) {
+        foreach ($thisParsedData as $searchEngine => &$data) {
             // Fill out missing visitors with 0
-            $data = array_merge(array_fill_keys($datesList, 0), $data);
+            $data = array_merge(array_fill_keys($thisPeriodDates, 0), $data);
 
             // Sort data by date
             ksort($data);
 
             // Generate dataset
-            $result['datasets'][] = [
+            $result['data']['datasets'][] = [
                 'label' => ucfirst($searchEngine),
                 'data'  => array_values($data)
             ];
         }
 
-        if (!empty($result['datasets'])) {
-            $result['datasets'][] = [
+        if (!empty($thisPeriodTotal)) {
+            $result['data']['datasets'][] = [
                 'label' => esc_html__('Total', 'wp-statistics'),
-                'data'  => array_values($totalData)
+                'data'  => array_values($thisPeriodTotal)
+            ];
+        }
+
+        // Previous period data
+        $prevPeriodData     = $this->getSearchEngineReferrals(array_merge($args, ['date' => $prevPeriod]));
+        $prevPeriodTotal    = array_fill_keys($prevPeriodDates, 0);
+
+        foreach ($prevPeriodData as $item) {
+            $prevPeriodTotal[$item->date] += intval($item->visitors);
+        }
+
+        if (!empty($prevPeriodTotal)) {
+            $result['previousData']['datasets'][] = [
+                'label' => esc_html__('Total', 'wp-statistics'),
+                'data'  => array_values($prevPeriodTotal)
             ];
         }
 
