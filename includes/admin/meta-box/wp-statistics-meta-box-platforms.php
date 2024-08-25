@@ -73,20 +73,25 @@ class platforms extends MetaBoxAbstract
 
         // Push to array
         foreach ($platforms as $l) {
+            if (empty(trim($l['platform']))) continue;
 
-            if (trim($l['platform']) != "") {
+            // Sanitize Version name
+            $lists_name[] = sanitize_text_field($l['platform']);
 
-                // Sanitize Version name
-                $lists_name[] = sanitize_text_field($l['platform']);
+            $lists_logos[] = UserAgent::getPlatformLogo($l['platform']);
 
-                $lists_logos[] = UserAgent::getPlatformLogo($l['platform']);
+            // Get List Count
+            $lists_value[] = (int)$l['count'];
 
-                // Get List Count
-                $lists_value[] = (int)$l['count'];
+            // Add to Total
+            $total += $l['count'];
+        }
 
-                // Add to Total
-                $total += $l['count'];
-            }
+        $others = array_slice($list, $args['number']);
+        if (!empty($others)) {
+            $lists_name[]   = __('Others', 'wp-statistics');
+            $lists_value[]  = array_sum(array_column($others, 'count'));
+            $total          += array_sum(array_column($others, 'count'));
         }
 
         // Set Title
