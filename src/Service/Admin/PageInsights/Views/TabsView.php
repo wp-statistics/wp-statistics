@@ -103,7 +103,7 @@ class TabsView extends BaseTabView
                     [
                         'link'    => Menus::admin_url('pages', ['tab' => 'contents']),
                         'title'   => esc_html__('Contents', 'wp-statistics'),
-                        'tooltip' => esc_html__('Contents tooltip', 'wp-statistics'),
+                        'tooltip' => esc_html__('Shows visitor stats, views and word count for each content.', 'wp-statistics'),
                         'class'   => $this->isTab('contents') ? 'current' : '',
                     ],
                     [
