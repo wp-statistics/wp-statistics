@@ -39,7 +39,7 @@ wps_js.browsers_meta_box = {
         }
 
         // Show Chart
-        wps_js.horizontal_bar(wps_js.chart_id('browsers'), args['browsers_name'], data , args['browsers_logos'] );
+        wps_js.horizontal_bar(wps_js.chart_id('browsers'), args['browsers_name'], data , args['browsers_logos']);
 
 
         // Check Table information
@@ -139,8 +139,6 @@ wps_js.show_custom_agent = function (args) {
     // After Second Run Chart JS
     setTimeout(function () {
 
-
-
         // Prepare Data
         let data = [{
             data: args['browsers_value'],
@@ -151,14 +149,7 @@ wps_js.show_custom_agent = function (args) {
         const title_callback = (ctx) => {
             return wps_js._('visitors') + ':' + ctx[0].formattedValue
         }
-        // Show Chart
-        //Todo chart Add browser images
-        const image_urls = [
-            'https://via.placeholder.com/30',
-            'https://via.placeholder.com/30',
-        ];
-
-        wps_js.horizontal_bar(wps_js.chart_id('browser-' + BrowserKey), args['browsers_name'], data ,image_urls );
+        wps_js.horizontal_bar(wps_js.chart_id('browser-' + BrowserKey), args['browsers_name'], data , args['browsers_logos']);
 
         // Reset All Height
         ['browser-' + BrowserKey + '-chart', 'browser-' + BrowserKey + '-table'].forEach((key) => {
