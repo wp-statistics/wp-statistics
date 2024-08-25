@@ -82,7 +82,7 @@ class devices extends MetaBoxAbstract
                     $data[$device_name]['count'] += $device['count'];
                 } else {
                     $data[$device_name] = array(
-                        'device' => $device_name,
+                        'device' => ucfirst($device_name),
                         'count'  => intval($device['count'])
                     );
                 }

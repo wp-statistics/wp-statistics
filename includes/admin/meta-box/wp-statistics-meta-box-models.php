@@ -75,7 +75,7 @@ class models extends MetaBoxAbstract
             if (trim($l['model']) != "") {
 
                 // Sanitize Version name
-                $lists_name[] = ucfirst(sanitize_text_field($l['model']));
+                $lists_name[] = sanitize_text_field($l['model']);
 
                 // Get List Count
                 $lists_value[] = (int)$l['count'];
