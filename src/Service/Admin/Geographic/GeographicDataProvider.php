@@ -152,21 +152,21 @@ class GeographicDataProvider
             'search_engine_chart_data' => $this->visitorsModel->getSearchEnginesChartData($this->args),
             'os_chart_data'         => [
                 'labels'    => array_keys($platformData['platform']), 
-                'data'      => wp_list_pluck($platformData['platform'], 'visitors'),
-                'icons'     => wp_list_pluck($platformData['platform'], 'icon'),
+                'data'      => array_values(wp_list_pluck($platformData['platform'], 'visitors')),
+                'icons'     => array_values(wp_list_pluck($platformData['platform'], 'icon')),
             ],
             'browser_chart_data'    => [
                 'labels'    => array_keys($platformData['agent']), 
-                'data'      => wp_list_pluck($platformData['agent'], 'visitors'),
-                'icons'     => wp_list_pluck($platformData['agent'], 'icon')
+                'data'      => array_values(wp_list_pluck($platformData['agent'], 'visitors')),
+                'icons'     => array_values(wp_list_pluck($platformData['agent'], 'icon'))
             ],
             'device_chart_data'        => [
                 'labels' => array_keys($platformData['device']),
-                'data'   => wp_list_pluck($platformData['device'], 'visitors')
+                'data'   => array_values(wp_list_pluck($platformData['device'], 'visitors'))
             ],
             'model_chart_data'         => [
                 'labels' => array_keys($platformData['model']),
-                'data'   => wp_list_pluck($platformData['model'], 'visitors')
+                'data'   => array_values(wp_list_pluck($platformData['model'], 'visitors'))
             ],
         ];
     }

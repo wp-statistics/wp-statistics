@@ -69,21 +69,21 @@ class ContentAnalyticsDataProvider
             'post_type'                 => Helper::getPostTypeName(Request::get('tab', 'post')),
             'os_chart_data'         => [
                 'labels'    => array_keys($visitorsData['platform']), 
-                'data'      => wp_list_pluck($visitorsData['platform'], 'visitors'),
-                'icons'     => wp_list_pluck($visitorsData['platform'], 'icon'),
+                'data'      => array_values(wp_list_pluck($visitorsData['platform'], 'visitors')),
+                'icons'     => array_values(wp_list_pluck($visitorsData['platform'], 'icon')),
             ],
             'browser_chart_data'    => [
                 'labels'    => array_keys($visitorsData['agent']), 
-                'data'      => wp_list_pluck($visitorsData['agent'], 'visitors'),
-                'icons'     => wp_list_pluck($visitorsData['agent'], 'icon')
+                'data'      => array_values(wp_list_pluck($visitorsData['agent'], 'visitors')),
+                'icons'     => array_values(wp_list_pluck($visitorsData['agent'], 'icon'))
             ],
             'device_chart_data'         => [
                 'labels'    => array_keys($visitorsData['device']), 
-                'data'      => wp_list_pluck($visitorsData['device'], 'visitors')
+                'data'      => array_values(wp_list_pluck($visitorsData['device'], 'visitors'))
             ],
             'model_chart_data'          => [
                 'labels'    => array_keys($visitorsData['model']), 
-                'data'      => wp_list_pluck($visitorsData['model'], 'visitors')
+                'data'      => array_values(wp_list_pluck($visitorsData['model'], 'visitors'))
             ],
         ];
     }

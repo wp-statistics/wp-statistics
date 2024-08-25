@@ -24,35 +24,24 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
 
             const chartData = Wp_Statistics_Author_Analytics_Object.browser_chart_data;
 
-            //Todo chart Add browsers images
-            const image_urls = [
-                'https://via.placeholder.com/30',
-                'https://via.placeholder.com/30',
-            ];
             if (!chartData.data ||chartData.data.length == 0) {
                 jQuery('#wps-browsers').parent().html(wps_js.no_results());
-                return;
-            }else{
-                wps_js.horizontal_bar( 'wps-browsers', chartData.labels, chartData.data ,image_urls );
+            } else {
+                wps_js.horizontal_bar( 'wps-browsers', chartData.labels, chartData.data, chartData.icons );
             }
         },
         generateOperatingSystemChart: function() {
             if (!wps_js.isset(Wp_Statistics_Author_Analytics_Object, 'os_chart_data')) {
                 return;
             }
-            //Todo chart Add OS images
-            const image_urls = [
-                'https://via.placeholder.com/30',
-                'https://via.placeholder.com/30',
-            ];
+
             const chartData = Wp_Statistics_Author_Analytics_Object.os_chart_data;
             if (!chartData.data || chartData.labels.length == 0 || chartData.data.length ==0) {
                 jQuery('#wps-operating-systems').parent().html(wps_js.no_results());
-                return;
-            }else{
-                wps_js.horizontal_bar( 'wps-operating-systems', chartData.labels, chartData.data ,image_urls );
+            } else {
+                wps_js.horizontal_bar( 'wps-operating-systems', chartData.labels, chartData.data, chartData.icons );
             }
-         },
+        },
 
         generateViewsPerPostsChart: function () {
             if (!wps_js.isset(Wp_Statistics_Author_Analytics_Object, 'views_per_posts_chart_data')) {

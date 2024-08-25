@@ -29,31 +29,21 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             wps_js.performance_chart(performanceSingleData ,'performance-category-chart-single','category-single');
         },
         generateOperatingSystemChart: function () {
-            const OperatingSystemData = this.data.os_chart_data;
-            //Todo chart Add OS images
-            const image_urls = [
-                'https://via.placeholder.com/30',
-                'https://via.placeholder.com/30',
-            ];
-            if (!OperatingSystemData.data ||OperatingSystemData.data.length == 0) {
+            const operatingSystemData = this.data.os_chart_data;
+
+            if (!operatingSystemData.data || operatingSystemData.data.length == 0) {
                 jQuery('#category_operating_systems').parent().html(wps_js.no_results());
-                return;
-            }else{
-                wps_js.horizontal_bar( 'category_operating_systems', OperatingSystemData.labels, OperatingSystemData.data ,image_urls );
+            } else {
+                wps_js.horizontal_bar( 'category_operating_systems', operatingSystemData.labels, operatingSystemData.data, operatingSystemData.icons );
             }
          },
         generateBrowsersChartData: function () {
             const browsersData = this.data.browser_chart_data;
-            //Todo chart Add browsers images
-            const image_urls = [
-                'https://via.placeholder.com/30',
-                'https://via.placeholder.com/30',
-            ];
+
             if (!browsersData.data ||browsersData.data.length == 0) {
                 jQuery('#category_browsers').parent().html(wps_js.no_results());
-                return;
-            }else{
-                wps_js.horizontal_bar( 'category_browsers', browsersData.labels, browsersData.data ,image_urls );
+            } else {
+                wps_js.horizontal_bar( 'category_browsers', browsersData.labels, browsersData.data, browsersData.icons );
             }
          },
         generateDeviceModelsChart: function () {
