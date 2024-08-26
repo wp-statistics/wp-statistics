@@ -53,6 +53,6 @@ class search extends MetaBoxAbstract
             ]
         ]);
 
-        return $data;
+        return self::response($data);
     }
 }
