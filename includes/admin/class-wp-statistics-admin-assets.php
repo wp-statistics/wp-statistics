@@ -276,7 +276,11 @@ class Admin_Assets
         }
 
         // Load Admin Js
-        if (Menus::in_plugin_page() || (in_array($screen_id, array('dashboard')) and !Option::get('disable_dashboard')) || (in_array($hook, array('post.php', 'edit.php', 'post-new.php')) and !Option::get('disable_editor'))) {
+        if (
+            Menus::in_plugin_page() || (in_array($screen_id, ['dashboard']) && !Option::get('disable_dashboard')) ||
+            (in_array($hook, ['post.php', 'edit.php']) && !Option::get('disable_editor')) ||
+            (in_array($hook, ['post.php', 'edit.php']) && (!Helper::isAddOnActive('data-plus') || Option::getByAddon('latest_visitors_metabox', 'data_plus', '1') === '1'))
+        ) {
             wp_enqueue_script(self::$prefix, self::url('admin.min.js'), array('jquery'), self::version(), ['in_footer' => true]);
             wp_localize_script(self::$prefix, 'wps_global', self::wps_global($hook));
         }
@@ -499,7 +503,8 @@ class Admin_Assets
      * - Mini Chart add-on is enabled and admin bar button is showing.
      * - User is currently viewing the WP Statistics admin pages (e.g. Settings, Overview, Optimization, etc.).
      * - User is currently viewing WP dashboard and `disable_dashboard` option is not disabled.
-     * - User is currently in edit post page and `disable_editor` option is not disabled.
+     * - User is currently in edit post page and `disable_editor` is disabled.
+     * - User is currently in edit post page and `latest_visitors_metabox` is enabled.
      *
      * @return  bool
      *
@@ -511,7 +516,8 @@ class Admin_Assets
 
         return (Helper::isAddOnActive('mini-chart') && Helper::isAdminBarShowing()) || Menus::in_plugin_page() ||
             (in_array(Helper::get_screen_id(), ['dashboard']) && !Option::get('disable_dashboard')) ||
-            (in_array($pagenow, ['post.php', 'edit.php', 'post-new.php']) && !Option::get('disable_editor'));
+            (in_array($pagenow, ['post.php', 'edit.php']) && !Option::get('disable_editor')) ||
+            (in_array($pagenow, ['post.php', 'edit.php']) && (!Helper::isAddOnActive('data-plus') || Option::getByAddon('latest_visitors_metabox', 'data_plus', '1') === '1'));
     }
 }
 
