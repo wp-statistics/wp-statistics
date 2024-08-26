@@ -466,7 +466,7 @@ class Ajax
             $filter['browsers'] = array();
             $browsers           = UserAgent::BrowserList();
             foreach ($browsers as $key => $se) {
-                $filter['browsers'][$key] = $se;
+                $filter['browsers'][$se] = $se;
             }
 
             // Location
