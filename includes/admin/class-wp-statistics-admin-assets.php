@@ -418,7 +418,7 @@ class Admin_Assets
             'er_datepicker'                => __('Select Desired Time Range', 'wp-statistics'),
             'er_valid_ip'                  => __('Enter a Valid IP Address', 'wp-statistics'),
             'please_wait'                  => __('Loading, Please Wait...', 'wp-statistics'),
-            'user'                         => __('User Information', 'wp-statistics'),
+            'user'                         => __('User', 'wp-statistics'),
             'rest_connect'                 => __('Failed to retrieve data. Please check the browser console and the XHR request under Network → XHR for details.', 'wp-statistics'),
             'privacy_compliant'            => __('Your WP Statistics settings are privacy-compliant.', 'wp-statistics'),
             'non_privacy_compliant'        => __('Your WP Statistics settings are not privacy-compliant. Please update your settings.', 'wp-statistics'),
