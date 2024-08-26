@@ -91,7 +91,7 @@ wps_js.meta_box_button = function (key) {
     let meta_box_info = wps_js.get_meta_box_info(key);
 
     // Gutenberg Button Style
-    let gutenberg_style = 'z-index: 9999;position: absolute;top: 1px;display:none;';
+    let gutenberg_style = 'z-index: 9999;position: absolute;top: 1px;display:none;right: calc(44px + 3.24rem) !important;height: 44px !important;';
     let position_gutenberg = 'right';
     if (wps_js.is_active('rtl')) {
         position_gutenberg = 'left';

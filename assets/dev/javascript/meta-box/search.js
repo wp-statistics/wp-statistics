@@ -20,44 +20,23 @@ wps_js.search_meta_box = {
         // Prepare Chart Data
         let datasets = [];
         let i = 0;
-
-        // Set Total
-        if (args['total']['active'] === 1) {
-            datasets.push({
-                label: wps_js._('total'),
-                data: args['total']['stat'],
-            });
-        }
-
-        Object.keys(args['search-engine']).forEach(function (key) {
-            let search_engine_name = args['search-engine'][key]['name'];
-            let color = wps_js.random_color(i);
-            datasets.push({
-                label: search_engine_name,
-                data: args['stat'][search_engine_name],
-            });
-            i++;
-        });
-
-        const labels = datasets.map(item => item.label);
-
         const data = {
             data: {
-                labels: args['date'],
-                ...datasets.reduce((acc, item) => {
+                labels: args.data?.labels,
+                ...args.data.datasets.reduce((acc, item) => {
+                    acc[item.label] = item.data;
+                    return acc;
+                }, {})
+            },
+            previousData:{
+                labels: args.previousData?.labels,
+                ...args.previousData.datasets.reduce((acc, item) => {
                     acc[item.label] = item.data;
                     return acc;
                 }, {})
             }
         };
-        if (args['total']['active'] === 1) {
-            const totalData = datasets.filter(item => item.label === wps_js._('total'))[0].data;
-            data.previousData = {
-                labels: args['date'],
-                [wps_js._('total')]: totalData
-            };
-        }
-        //Todo chart Add total previousData
+
         wps_js.new_line_chart(data, wps_js.chart_id('search'), null)
     },
 

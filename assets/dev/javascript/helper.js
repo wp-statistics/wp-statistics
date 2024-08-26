@@ -29,13 +29,17 @@ wps_js.date_picker = function () {
 
 };
 
-wps_js.formatNumber = function (num, fixed=0) {
-    if (num === null) { return null; }
-    if (num === 0) { return '0'; }
+wps_js.formatNumber = function (num, fixed = 0) {
+    if (num === null) {
+        return null;
+    }
+    if (num === 0) {
+        return '0';
+    }
     fixed = (!fixed || fixed < 0) ? 0 : fixed;
     var b = (parseInt(num)).toPrecision(2).split("e"),
         k = b.length === 1 ? 0 : Math.floor(Math.min(b[1].slice(1), 14) / 3),
-        c = k < 1 ? num.toFixed(0 + fixed) : (num / Math.pow(10, k * 3) ).toFixed(1 + fixed),
+        c = k < 1 ? num.toFixed(0 + fixed) : (num / Math.pow(10, k * 3)).toFixed(1 + fixed),
         d = c < 0 ? c : Math.abs(c),
         e = d + ['', 'K', 'M', 'B', 'T'][k];
     return e;
@@ -70,7 +74,7 @@ if (wpsSelect2.length) {
                 delay: 500,
                 url: wps_js.global.ajax_url,
                 dataType: 'json',
-                data: function(params) {
+                data: function (params) {
                     const query = {
                         wps_nonce: wps_js.global.rest_api_nonce,
                         search: params.term, // The term to search for
@@ -87,7 +91,7 @@ if (wpsSelect2.length) {
                     }
                     return query;
                 },
-                processResults: function(data) {
+                processResults: function (data) {
                     if (data && Array.isArray(data.results)) {
                         return {
                             results: data.results.map(item => ({
@@ -100,10 +104,10 @@ if (wpsSelect2.length) {
                         };
                     } else {
                         console.error('Expected an array of results but got:', data);
-                        return { results: [] };
+                        return {results: []};
                     }
                 },
-                error: function(xhr, status, error) {
+                error: function (xhr, status, error) {
                     console.error('AJAX request error:', status, error);
                 }
             }
@@ -121,7 +125,7 @@ if (wpsSelect2.length) {
     // Event listeners
     wpsSelect2.on('select2:open', () => wpsDropdown.addClass('active'));
     wpsSelect2.on('select2:close', () => wpsDropdown.removeClass('active'));
-    wpsSelect2.on('change', function() {
+    wpsSelect2.on('change', function () {
         const selectedOption = jQuery(this).find('option:selected');
         const url = selectedOption.val();
         if (url) {
@@ -579,7 +583,7 @@ wps_js.hex_to_rgba = function (hex, opacity) {
     let hex_to_rgba_r = parseInt(hex.substring(0, 2), 16);
     let hex_to_rgba_g = parseInt(hex.substring(2, 4), 16);
     let hex_to_rgba_b = parseInt(hex.substring(4, 6), 16);
-    return  wps_js.rgba_to_hex(hex_to_rgba_r,hex_to_rgba_g,hex_to_rgba_b,opacity);
+    return wps_js.rgba_to_hex(hex_to_rgba_r, hex_to_rgba_g, hex_to_rgba_b, opacity);
 }
 
 wps_js.rgba_to_hex = function (r, g, b, a) {
@@ -623,7 +627,7 @@ const externalTooltipHandler = (context, dataset, colors, data) => {
         let innerHtml = `<div>`;
         titleLines.forEach(title => {
             // Assume `data.data.labels` contains `date` and `day` properties
-            const { date, day } = data.data.labels[dataIndex];
+            const {date, day} = data.data.labels[dataIndex];
             innerHtml += `<div class="chart-title">${date} (${day})</div>`;
         });
 
@@ -721,7 +725,14 @@ const drawVerticalLinePlugin = {
 
 wps_js.new_line_chart = function (data, tag_id, newOptions) {
     // Define the colors
-    const colors = ['#3288D7', '#7362BF', '#27A765', '#8AC3D0'];
+    let colors = {
+        'Total': '#27A765',
+        'views': '#7362BF',
+        'visitors': '#3288D7',
+        'Other1': '#3288D7',
+        'Other2': '#7362BF',
+        'Other3': '#8AC3D0'
+    };
     // Get Element By ID
     let ctx_line = document.getElementById(tag_id).getContext('2d');
 
@@ -731,23 +742,24 @@ wps_js.new_line_chart = function (data, tag_id, newOptions) {
 
 
         if (key !== 'labels') {
+            let color = colors[key] || colors[`Other${index}`];
             // Main dataset
             datasets.push({
                 type: 'line',
                 label: key,
                 data: data.data[key],
-                borderColor: colors[index - 1],
-                backgroundColor: colors[index - 1],
+                borderColor: color,
+                backgroundColor: color,
                 fill: false,
                 yAxisID: 'y',
                 borderWidth: 2,
                 pointRadius: 0,
                 pointBorderColor: 'transparent',
-                pointBackgroundColor: colors[index - 1],
+                pointBackgroundColor: color,
                 pointBorderWidth: 2,
                 hoverPointRadius: 6,
                 hoverPointBorderColor: '#fff',
-                hoverPointBackgroundColor: colors[index - 1],
+                hoverPointBackgroundColor: color,
                 hoverPointBorderWidth: 4
             });
 
@@ -757,20 +769,20 @@ wps_js.new_line_chart = function (data, tag_id, newOptions) {
                     type: 'line',
                     label: `${key} (Previous)`,
                     data: data.previousData[key],
-                    borderColor: wps_js.hex_to_rgba(colors[index - 1], 0.7),
-                    hoverBorderColor: colors[index - 1],
-                    backgroundColor: colors[index - 1],
+                    borderColor: wps_js.hex_to_rgba(color, 0.7),
+                    hoverBorderColor: color,
+                    backgroundColor: color,
                     fill: false,
                     yAxisID: 'y',
                     borderWidth: 1,
                     borderDash: [5, 5],
                     pointRadius: 0,
                     pointBorderColor: 'transparent',
-                    pointBackgroundColor: colors[index - 1],
+                    pointBackgroundColor: color,
                     pointBorderWidth: 2,
                     hoverPointRadius: 6,
                     hoverPointBorderColor: '#fff',
-                    hoverPointBackgroundColor: colors[index - 1],
+                    hoverPointBackgroundColor: color,
                     hoverPointBorderWidth: 4
                 });
             }
@@ -872,34 +884,43 @@ wps_js.new_line_chart = function (data, tag_id, newOptions) {
 
         if (legendContainer) {
             legendContainer.innerHTML = '';
+            datasets.sort((a, b) => {
+                // Move "Total" and "Total (Previous)" to the top
+                if (a.label === 'Total') return -1;
+                if (b.label === 'Total') return 1;
+                if (a.label === 'Total (Previous)') return -1;
+                if (b.label === 'Total (Previous)') return 1;
+                return 0;
+            });
             datasets.forEach((dataset, index) => {
                 const isPrevious = dataset.label.includes('(Previous)');
                 if (!isPrevious) {
-                     const currentData = dataset.data.reduce((a, b) => Number(a) + Number(b), 0);
-                     const previousData = data.previousData[dataset.label] ? data.previousData[dataset.label].reduce((a, b) => Number(a) + Number(b), 0) :null ;
-                     const legendItem = document.createElement('div');
+                    const currentData = dataset.data.reduce((a, b) => Number(a) + Number(b), 0);
+                    const previousData = data.previousData[dataset.label] ? data.previousData[dataset.label].reduce((a, b) => Number(a) + Number(b), 0) : null;
+                    const legendItem = document.createElement('div');
                     legendItem.className = 'wps-postbox-chart--item';
+
                     const previousDataHTML = previousData !== null ? `
-                    <div class="previous-data">
-                        <span>
-                            <span class="wps-postbox-chart--item--color" style="border-color: ${dataset.borderColor}"></span>
-                            <span class="wps-postbox-chart--item--color" style="border-color: ${dataset.borderColor}"></span>
-                        </span>
-                        ${previousData.toLocaleString()}
-                    </div> ` : '';
+            <div class="previous-data">
+                <span>
+                    <span class="wps-postbox-chart--item--color" style="border-color: ${dataset.borderColor}"></span>
+                    <span class="wps-postbox-chart--item--color" style="border-color: ${dataset.borderColor}"></span>
+                </span>
+                ${previousData.toLocaleString()}
+            </div>` : '';
 
                     // Build the legend item HTML
                     legendItem.innerHTML = `
-                    <span>
-                         ${dataset.label}
-                    </span>
-                    <div>
-                        <div class="current-data">
-                            <span class="wps-postbox-chart--item--color" style="border-color: ${dataset.borderColor}"></span>
-                            ${currentData.toLocaleString()}
-                        </div>
-                        ${previousDataHTML}
-                    </div>`;
+            <span>
+                ${dataset.label}
+            </span>
+            <div>
+                <div class="current-data">
+                    <span class="wps-postbox-chart--item--color" style="border-color: ${dataset.borderColor}"></span>
+                    ${currentData.toLocaleString()}
+                </div>
+                ${previousDataHTML}
+            </div>`;
 
                     // Add click event to toggle visibility of the current dataset only
                     const currentDataDiv = legendItem.querySelector('.current-data');
