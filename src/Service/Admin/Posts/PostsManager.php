@@ -167,8 +167,7 @@ class PostsManager
         // Fill `$chartData` with default 0s
         // Use a short date format for indexes and `chartDates` for values
             // Short date format will be displayed below summary charts
-        // Also consider post's publish date so older dates get ignored
-        foreach (MiniChartHelper::getChartDates(0, $publishDate) as $date) {
+        foreach (MiniChartHelper::getChartDates() as $date) {
             $shortDate             = date('d M', strtotime($date));
             $chartData[$shortDate] = [
                 'ymdDate'   => date('Y-m-d', strtotime($date)),
@@ -204,9 +203,6 @@ class PostsManager
             return $a['ymdDate'] <=> $b['ymdDate'];
         });
 
-        // Filtered array will be used later to check if the chart data is empty
-        $filteredChart = array_filter($chartData, fn($stat) => !empty($stat['hits']) && intval($stat['hits']) > 0);
-
         // Some settings for the chart
         $chartSettings = [
             'color'  => MiniChartHelper::getChartColor(),
@@ -231,7 +227,7 @@ class PostsManager
             'thisPeriodViews'            => $dataProvider->getViews(),
             'thisPeriodTopReferrer'      => $topReferrerAndCountThisPeriod['url'],
             'thisPeriodTopReferrerCount' => $topReferrerAndCountThisPeriod['count'],
-            'postChartData'              => !empty($filteredChart) ? $chartData : [],
+            'postChartData'              => $chartData,
             'postChartSettings'          => $chartSettings,
             'contentAnalyticsUrl'        => $dataProvider->getContentAnalyticsUrl(),
         ];
