@@ -113,7 +113,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             html += `<option value=''>${wps_js._('all')}</option>`;
             let current_value = wps_js.getLinkParams(select[key][0]);
             Object.keys(data[select[key][1]]).forEach(function (item) {
-                html += `<option value='${item}' ${((current_value != null && current_value == item) ? `selected` : ``)}>${data[select[key][1]][item]}</option>`;
+                html += `<option value='${item}' ${((current_value != null && current_value.replace(/\+/g, ' ') == item) ? `selected` : ``)}>${data[select[key][1]][item]}</option>`;
             });
             html += `</select></td></tr>`;
         });
