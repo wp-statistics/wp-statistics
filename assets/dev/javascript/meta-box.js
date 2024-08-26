@@ -103,6 +103,10 @@ wps_js.meta_box_button = function (key) {
     // Add Refresh Button
     jQuery(`<button class="handlediv wps-refresh"` + (wps_js.is_active('gutenberg') ? ` style="${gutenberg_style}${position_gutenberg}: 3%;" ` : 'style="line-height: 28px;"') + ` type="button" data-tooltip="` + wps_js._('reload') + `"></button>`).insertBefore(selector);
 
+    if (wps_js.is_active('gutenberg')){
+        jQuery('body').addClass('wps-gutenberg');
+    }
+
     jQuery("#" + wps_js.getMetaBoxKey(key) + " .hndle, #" + wps_js.getMetaBoxKey(key) + " .handlediv").on('click', function() {
         jQuery(this).closest('.postbox').addClass('handle');
     });

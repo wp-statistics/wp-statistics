@@ -241,6 +241,10 @@ a.wps-tooltip:hover{
   width: 100%;
   direction: ltr;
   margin-top: 5px;
+
+  .wps-postbox-chart--data{
+    margin-top: 0!important;
+  }
 }
 
 .log-url {
