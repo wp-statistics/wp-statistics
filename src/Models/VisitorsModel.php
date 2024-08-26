@@ -543,7 +543,7 @@ class VisitorsModel extends BaseModel
             'platform' => [],
             'agent'    => [],
             'device'   => [],
-            'model'    => [],
+            'model'    => []
         ];
 
         if (!empty($data)) {
@@ -552,55 +552,85 @@ class VisitorsModel extends BaseModel
                 $item->device = !empty($item->device) ? ucfirst(Helper::getDeviceCategoryName($item->device)) : esc_html__('Unknown', 'wp-statistics');
 
                 if (!empty($item->platform) && $item->platform !== 'Unknown') {
-                    if (empty($result['platform'][$item->platform])) {
-                        $result['platform'][$item->platform] = [
+                    $platforms = array_column($result['platform'], 'label');
+
+                    if (!in_array($item->platform, $platforms)) {
+                        $result['platform'][] = [
+                            'label'    => $item->platform,
                             'icon'     => UserAgent::getPlatformLogo($item->platform),
                             'visitors' => 1
                         ];
                     } else {
-                        $result['platform'][$item->platform]['visitors']++;
+                        $index = array_search($item->platform, $platforms);
+                        $result['platform'][$index]['visitors']++;
                     }
                 }
 
                 if (!empty($item->agent) && $item->agent !== 'Unknown') {
-                    if (empty($result['agent'][$item->agent])) {
-                        $result['agent'][$item->agent] = [
+                    $agents = array_column($result['agent'], 'label');
+
+                    if (!in_array($item->agent, $agents)) {
+                        $result['agent'][] = [
+                            'label'    => $item->agent,
                             'icon'     => UserAgent::getBrowserLogo($item->agent),
                             'visitors' => 1
                         ];
                     } else {
-                        $result['agent'][$item->agent]['visitors']++;
+                        $index = array_search($item->agent, $agents);
+                        $result['agent'][$index]['visitors']++;
                     }
                 }
 
                 if (!empty($item->device) && $item->device !== 'Unknown') {
-                    if (empty($result['device'][$item->device])) {
-                        $result['device'][$item->device]['visitors'] = 1;
+                    $devices = array_column($result['device'], 'label');
+
+                    if (!in_array($item->device, $devices)) {
+                        $result['device'][] = [
+                            'label'    => $item->device,
+                            'visitors' => 1
+                        ];
                     } else {
-                        $result['device'][$item->device]['visitors']++;
+                        $index = array_search($item->device, $devices);
+                        $result['device'][$index]['visitors']++;
                     }
                 }
 
                 if (!empty($item->model) && $item->model !== 'Unknown') {
-                    if (empty($result['model'][$item->model])) {
-                        $result['model'][$item->model]['visitors'] = 1;
+                    $models = array_column($result['model'], 'label');
+                    
+                    if (!in_array($item->model, $models)) {
+                        $result['model'][] = [
+                            'label'    => $item->model,
+                            'visitors' => 1
+                        ];
                     } else {
-                        $result['model'][$item->model]['visitors']++;
+                        $index = array_search($item->model, $models);
+                        $result['model'][$index]['visitors']++;
                     }
                 }
             }
 
             foreach ($result as $key => $data) {
-                arsort($data);
+                // Sort data by visitors
+                uasort($data, function ($a, $b) {
+                    if ($a['visitors'] == $b['visitors']) return 0;
+                    if ($a['visitors'] > $b['visitors']) return -1;
+                    if ($a['visitors'] < $b['visitors']) return 1;
+                });
 
                 if (count($data) > 4) {
-                    // Get top 5 results
-                    $topData = array_slice($data, 0, 4, true);
+                    // Get top 4 results, and others
+                    $topData    = array_slice($data, 0, 4);
+                    $otherData  = array_slice($data, 4);
 
-                    // Show the rest of the results as others
-                    $otherLabel   = esc_html__('Other', 'wp-statistics');
-                    $otherData    = [$otherLabel => ['visitors' => array_sum(array_diff_key($data, $topData))]];
-                    $result[$key] = array_merge($topData, $otherData);
+                    // Show the rest of the results as others, and sum up the visitors
+                    $otherItem    = [
+                        'label'    => esc_html__('Other', 'wp-statistics'),
+                        'icon'     => '',
+                        'visitors' => array_sum(array_column($otherData, 'visitors')),
+                    ];
+
+                    $result[$key] = array_merge($topData, [$otherItem]);
                 }
             }
         }

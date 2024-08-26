@@ -67,23 +67,23 @@ class ContentAnalyticsDataProvider
             'performance_chart_data'    => $this->getPerformanceChartData(),
             'search_engine_chart_data'  => $this->visitorsModel->getSearchEnginesChartData($this->args),
             'post_type'                 => Helper::getPostTypeName(Request::get('tab', 'post')),
-            'os_chart_data'         => [
-                'labels'    => array_keys($visitorsData['platform']), 
-                'data'      => array_values(wp_list_pluck($visitorsData['platform'], 'visitors')),
-                'icons'     => array_values(wp_list_pluck($visitorsData['platform'], 'icon')),
+            'os_chart_data'             => [
+                'labels'    => wp_list_pluck($visitorsData['platform'], 'label'), 
+                'data'      => wp_list_pluck($visitorsData['platform'], 'visitors'),
+                'icons'     => wp_list_pluck($visitorsData['platform'], 'icon'),
             ],
-            'browser_chart_data'    => [
-                'labels'    => array_keys($visitorsData['agent']), 
-                'data'      => array_values(wp_list_pluck($visitorsData['agent'], 'visitors')),
-                'icons'     => array_values(wp_list_pluck($visitorsData['agent'], 'icon'))
+            'browser_chart_data'        => [
+                'labels'    => wp_list_pluck($visitorsData['agent'], 'label'), 
+                'data'      => wp_list_pluck($visitorsData['agent'], 'visitors'),
+                'icons'     => wp_list_pluck($visitorsData['agent'], 'icon')
             ],
             'device_chart_data'         => [
-                'labels'    => array_keys($visitorsData['device']), 
-                'data'      => array_values(wp_list_pluck($visitorsData['device'], 'visitors'))
+                'labels'    => wp_list_pluck($visitorsData['device'], 'label'), 
+                'data'      => wp_list_pluck($visitorsData['device'], 'visitors')
             ],
             'model_chart_data'          => [
-                'labels'    => array_keys($visitorsData['model']), 
-                'data'      => array_values(wp_list_pluck($visitorsData['model'], 'visitors'))
+                'labels'    => wp_list_pluck($visitorsData['model'], 'label'), 
+                'data'      => wp_list_pluck($visitorsData['model'], 'visitors')
             ],
         ];
     }

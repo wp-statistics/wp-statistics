@@ -154,14 +154,14 @@ class AuthorAnalyticsDataProvider
 
         $data = [
             'os_chart_data'         => [
-                'labels'    => array_keys($platformData['platform']), 
-                'data'      => array_values(wp_list_pluck($platformData['platform'], 'visitors')),
-                'icons'     => array_values(wp_list_pluck($platformData['platform'], 'icon')),
+                'labels'    => wp_list_pluck($platformData['platform'], 'label'),
+                'data'      => wp_list_pluck($platformData['platform'], 'visitors'),
+                'icons'     => wp_list_pluck($platformData['platform'], 'icon'),
             ],
             'browser_chart_data'    => [
-                'labels'    => array_keys($platformData['agent']), 
-                'data'      => array_values(wp_list_pluck($platformData['agent'], 'visitors')),
-                'icons'     => array_values(wp_list_pluck($platformData['agent'], 'icon'))
+                'labels'    => wp_list_pluck($platformData['agent'], 'label'), 
+                'data'      => wp_list_pluck($platformData['agent'], 'visitors'),
+                'icons'     => wp_list_pluck($platformData['agent'], 'icon')
             ],
             'publish_chart_data'    => $this->getPublishingChartData()
         ];
