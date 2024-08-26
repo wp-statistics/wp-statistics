@@ -56,7 +56,7 @@ class PostSummaryDataProvider
             'post_id' => $this->postId,
             'date'    => [
                 'from' => $this->getPublishDate(),
-                'to'   => TimeZone::getTimeAgo(),
+                'to'   => date('Y-m-d'),
             ],
         ];
 
