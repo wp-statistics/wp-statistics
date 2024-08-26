@@ -26,8 +26,11 @@ class PostsManager
 
         // Add meta-boxes and blocks if the user has access and only in edit mode
         global $pagenow;
-        if (User::Access('read') && !Option::get('disable_editor') && $pagenow !== 'post-new.php') {
-            add_action('enqueue_block_editor_assets', [$this, 'enqueueSidebarPanelAssets']);
+        if (User::Access('read') && $pagenow !== 'post-new.php') {
+            if (!Option::get('disable_editor')) {
+                add_action('enqueue_block_editor_assets', [$this, 'enqueueSidebarPanelAssets']);
+            }
+
             add_action('add_meta_boxes', [$this, 'addPostMetaBoxes']);
         }
     }
@@ -88,12 +91,12 @@ class PostsManager
      */
     public function addPostMetaBoxes()
     {
-        $isGutenberg           = Helper::is_gutenberg();
+        $displaySummary        = !Helper::is_gutenberg() && !Option::get('disable_editor');
         $displayLatestVisitors = !Helper::isAddOnActive('data-plus') || Option::getByAddon('latest_visitors_metabox', 'data_plus', '1') === '1';
 
         // Add meta-box to all post types
         foreach (Helper::get_list_post_type() as $screen) {
-            if (!$isGutenberg) {
+            if ($displaySummary) {
                 add_meta_box(
                     Meta_Box::getMetaBoxKey('post-summary'),
                     Meta_Box::getList('post-summary')['name'],
