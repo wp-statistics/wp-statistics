@@ -34,7 +34,6 @@ class refer_page extends Singleton
      */
     public static function view()
     {
-        global $wpdb;
 
         // Page title
         $args['title'] = __('Top Referrers', 'wp-statistics');
