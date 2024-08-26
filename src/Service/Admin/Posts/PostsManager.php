@@ -91,8 +91,12 @@ class PostsManager
      */
     public function addPostMetaBoxes()
     {
+        // Display "Statistics - Summary" meta-box only in classic editor and only when `disable_editor` is disabled
         $displaySummary        = !Helper::is_gutenberg() && !Option::get('disable_editor');
-        $displayLatestVisitors = !Helper::isAddOnActive('data-plus') || Option::getByAddon('latest_visitors_metabox', 'data_plus', '1') === '1';
+
+        // Display "Statistics - Latest Visitors" meta-box only when DataPlus add-on is active and `latest_visitors_metabox` is enabled
+        // Or when DataPlus add-on is not active and `disable_editor` is disabled
+        $displayLatestVisitors = Helper::isAddOnActive('data-plus') ? Option::getByAddon('latest_visitors_metabox', 'data_plus', '1') === '1' : !Option::get('disable_editor');
 
         // Add meta-box to all post types
         foreach (Helper::get_list_post_type() as $screen) {
