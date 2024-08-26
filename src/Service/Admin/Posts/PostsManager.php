@@ -178,7 +178,9 @@ class PostsManager
         }
 
         // Set date range for charts based on MiniChart's `date_range` option
+        // Also change `to_date` to include today's stats in charts too
         $dataProvider->setFrom(TimeZone::getTimeAgo(Option::getByAddon('date_range', 'mini_chart', '14')));
+        $dataProvider->setTo(date('Y-m-d'));
 
         // Fill `$dailyHits` based on MiniChart's `metric` option
         $dailyHits = Helper::checkMiniChartOption('metric', 'visitors', 'visitors') ? $dataProvider->getDailyVisitors() : $dataProvider->getDailyViews();
@@ -211,6 +213,7 @@ class PostsManager
 
         // Reset date range because text summary displays info for the past week
         $dataProvider->setFrom(TimeZone::getTimeAgo(7));
+        $dataProvider->setTo(TimeZone::getTimeAgo());
 
         return [
             'postId'                     => $post->ID,
