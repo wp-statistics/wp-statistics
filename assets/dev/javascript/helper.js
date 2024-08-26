@@ -627,7 +627,7 @@ const externalTooltipHandler = (context, dataset, colors, data) => {
         let innerHtml = `<div>`;
         titleLines.forEach(title => {
             // Assume `data.data.labels` contains `date` and `day` properties
-            const {date, day} = data.data.labels[dataIndex];
+            const {date, day} = (data.data) ? data.data.labels[dataIndex] : data.labels[dataIndex] ;
             innerHtml += `<div class="chart-title">${date} (${day})</div>`;
         });
 
@@ -952,6 +952,7 @@ wps_js.new_line_chart = function (data, tag_id, newOptions) {
 };
 
 wps_js.performance_chart = function (data, tag_id, type) {
+
     const colors = ['#3288D7', '#7362BF', '#8AC3D0'];
     const is_single_content = type === 'content-single';
     const legendHandel = (chart) => {
@@ -1009,6 +1010,8 @@ wps_js.performance_chart = function (data, tag_id, type) {
         hoverPointBackgroundColor: colors[2],
         yAxisID: 'y1',
     })
+
+
     let scales = {
         x: {
             offset: !is_single_content,
@@ -1094,6 +1097,7 @@ wps_js.performance_chart = function (data, tag_id, type) {
             }
         }
     }
+
     const performanceChart = new Chart(ctx_performance, {
         type: 'bar',
         data: {
