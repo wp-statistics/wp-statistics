@@ -1,26 +1,26 @@
 <?php
 
-namespace WP_Statistics\Service\Admin\Charts;
+namespace WP_Statistics\Service\Admin\MiniChart;
 
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Option;
 use WP_STATISTICS\TimeZone;
 
-class ChartDataProvider
+class MiniChartHelper
 {
     /**
      * An array of simple `Y-m-d` dates from `date_range` days ago to today.
      *
      * @var array
      */
-    private $chartDates = [];
+    private static $chartDates = [];
 
     /**
      * Returns color of the chart.
      *
      * @return  string  Hex code.
      */
-    public function getChartColor()
+    public static function getChartColor()
     {
         return Option::getByAddon('chart_color', 'mini_chart', '#7362BF');
     }
@@ -30,7 +30,7 @@ class ChartDataProvider
      *
      * @return  string  Hex code.
      */
-    public function getBorderColor()
+    public static function getBorderColor()
     {
         return Option::getByAddon('chart_border_color', 'mini_chart', '#0D0725');
     }
@@ -40,7 +40,7 @@ class ChartDataProvider
      *
      * @return  string
      */
-    public function getTooltipLabel()
+    public static function getTooltipLabel()
     {
         return Helper::checkMiniChartOption('metric', 'visitors', 'visitors') ? __('Visitors', 'wp-statistics') : __('Views', 'wp-statistics');
     }
@@ -53,11 +53,11 @@ class ChartDataProvider
      *
      * @return  array               An array of simple `Y-m-d` dates from `date_range` days ago to today.
      */
-    public function getChartDates($forceDays = 0, $minDate = '')
+    public static function getChartDates($forceDays = 0, $minDate = '')
     {
         // Return `$chartDates` if it already has data
-        if (!empty($this->chartDates) && !intval($forceDays) && empty($minDate)) {
-            return $this->chartDates;
+        if (!empty(self::$chartDates) && !intval($forceDays) && empty($minDate)) {
+            return self::$chartDates;
         }
         $chartDates = [];
 
@@ -73,7 +73,7 @@ class ChartDataProvider
 
         // Update class attribute only if the method was called without `$forceDays` or `$minDate`
         if (!intval($forceDays) && empty($minDate)) {
-            $this->chartDates = $chartDates;
+            self::$chartDates = $chartDates;
         }
 
         return $chartDates;
