@@ -7,6 +7,8 @@ use WP_STATISTICS\IP;
 use WP_STATISTICS\Menus;
 use WP_STATISTICS\UserAgent;
 use WP_STATISTICS\Visitor;
+
+$linksTarget = !empty($open_links_in_new_tab) ? 'target="_blank"' : '';
 ?>
 
 <div class="inside">
@@ -50,7 +52,7 @@ use WP_STATISTICS\Visitor;
                                     <?php if (!empty($visitor->user_id)) : ?>
                                         <li class="wps-browsers__flag">
                                             <div class="wps-tooltip" data-tooltip-content="#tooltip_user_id">
-                                                <a href="<?php echo esc_url(Menus::admin_url('visitors', ['type' => 'single-visitor', 'visitor_id' => $visitor->ID])) ?>"><img src="<?php echo esc_url(WP_STATISTICS_URL . 'assets/images/user-icon.svg') ?>" alt="user" width="15" height="15"></a>
+                                                <a <?php echo $linksTarget; ?> href="<?php echo esc_url(Menus::admin_url('visitors', ['type' => 'single-visitor', 'visitor_id' => $visitor->ID])) ?>"><img src="<?php echo esc_url(WP_STATISTICS_URL . 'assets/images/user-icon.svg') ?>" alt="user" width="15" height="15"></a>
                                             </div>
                                             <div class="wps-tooltip_templates">
                                                 <div id="tooltip_user_id">
@@ -64,20 +66,20 @@ use WP_STATISTICS\Visitor;
                                     <?php else : ?>
                                         <li class="wps-browsers__flag">
                                             <div class="wps-tooltip" title="<?php echo IP::IsHashIP($visitor->ip) ? sprintf(esc_attr__('Daily Visitor Hash: %s', 'wp-statistics'), substr($visitor->ip, 6, 10)) : sprintf(esc_attr__('IP: %s', 'wp-statistics'), $visitor->ip) ?>">
-                                                <a href="<?php echo esc_url(Menus::admin_url('visitors', ['type' => 'single-visitor', 'visitor_id' => $visitor->ID])) ?>"><img src="<?php echo esc_url(WP_STATISTICS_URL . 'assets/images/incognito-user.svg') ?>" alt="<?php esc_attr_e('Incognito', 'wp-statistics') ?>" width="15" height="15"></a>
+                                                <a <?php echo $linksTarget; ?> href="<?php echo esc_url(Menus::admin_url('visitors', ['type' => 'single-visitor', 'visitor_id' => $visitor->ID])) ?>"><img src="<?php echo esc_url(WP_STATISTICS_URL . 'assets/images/incognito-user.svg') ?>" alt="<?php esc_attr_e('Incognito', 'wp-statistics') ?>" width="15" height="15"></a>
                                             </div>
                                         </li>
                                     <?php endif; ?>
 
                                     <li class="wps-browsers__flag">
                                         <div class="wps-tooltip" title="<?php echo esc_attr("$visitor->agent v$visitor->version") ?>">
-                                            <a href="<?php echo esc_url(Menus::admin_url('visitors', ['agent' => strtolower($visitor->agent)])) ?>"><img src="<?php echo esc_url(UserAgent::getBrowserLogo($visitor->agent)) ?>" alt="<?php echo esc_attr($visitor->agent) ?>" width="15" height="15"></a>
+                                            <a <?php echo $linksTarget; ?> href="<?php echo esc_url(Menus::admin_url('visitors', ['agent' => strtolower($visitor->agent)])) ?>"><img src="<?php echo esc_url(UserAgent::getBrowserLogo($visitor->agent)) ?>" alt="<?php echo esc_attr($visitor->agent) ?>" width="15" height="15"></a>
                                         </div>
                                     </li>
 
                                     <li class="wps-browsers__flag">
                                         <div class="wps-tooltip" title="<?php echo esc_attr($visitor->platform) ?>">
-                                            <a href="<?php echo esc_url(Menus::admin_url('visitors', ['platform' => $visitor->platform])) ?>"><img src="<?php echo esc_url(UserAgent::getPlatformLogo($visitor->platform)) ?>" alt="<?php echo esc_attr($visitor->platform) ?>" width="15" height="15"></a>
+                                            <a <?php echo $linksTarget; ?> href="<?php echo esc_url(Menus::admin_url('visitors', ['platform' => $visitor->platform])) ?>"><img src="<?php echo esc_url(UserAgent::getPlatformLogo($visitor->platform)) ?>" alt="<?php echo esc_attr($visitor->platform) ?>" width="15" height="15"></a>
                                         </div>
                                     </li>
                                 </ul>
@@ -85,7 +87,7 @@ use WP_STATISTICS\Visitor;
 
                             <td class="wps-pd-l">
                                 <div class="wps-country-flag wps-ellipsis-parent">
-                                    <a href="<?php echo esc_url(Menus::admin_url('geographic', ['type' => 'single-country', 'country' => $visitor->location])) ?>" class="wps-tooltip" title="<?php echo esc_attr(Country::getName($visitor->location)) ?>">
+                                    <a <?php echo $linksTarget; ?> href="<?php echo esc_url(Menus::admin_url('geographic', ['type' => 'single-country', 'country' => $visitor->location])) ?>" class="wps-tooltip" title="<?php echo esc_attr(Country::getName($visitor->location)) ?>">
                                         <img src="<?php echo esc_url(Country::flag($visitor->location)) ?>" alt="<?php echo esc_attr(Country::getName($visitor->location)) ?>" width="15" height="15">
                                     </a>
                                     <?php $location = Admin_Template::locationColumn($visitor->location, $visitor->region, $visitor->city); ?>
@@ -98,7 +100,7 @@ use WP_STATISTICS\Visitor;
                             </td>
 
                             <td class="wps-pd-l">
-                                <a href="<?php echo esc_url(Menus::admin_url('visitors', ['type' => 'single-visitor', 'visitor_id' => $visitor->ID])) ?>"><?php echo esc_html(number_format_i18n($visitor->hits)) ?></a>
+                                <a <?php echo $linksTarget; ?> href="<?php echo esc_url(Menus::admin_url('visitors', ['type' => 'single-visitor', 'visitor_id' => $visitor->ID])) ?>"><?php echo esc_html(number_format_i18n($visitor->hits)) ?></a>
                             </td>
 
                             <?php if (empty($hide_latest_page_column)) : ?>
