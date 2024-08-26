@@ -50,7 +50,10 @@ class ContentAnalyticsDataProvider
         for ($i = 14; $i >= 0; $i--) {
             $date = date('Y-m-d', strtotime("-$i days"));
 
-            $result['labels'][]     = date_i18n(Helper::getDefaultDateFormat(false, true), strtotime($date));
+            $result['labels'][]     = [
+                'date'  => date_i18n(Helper::getDefaultDateFormat(false, true), strtotime($date)),
+                'day'   => date_i18n('l', strtotime($date)),
+            ];
             $result['views'][]      = isset($viewsData[$date]) ? intval($viewsData[$date]) : 0;
             $result['visitors'][]   = isset($visitorsData[$date]) ? intval($visitorsData[$date]) : 0;
             $result['posts'][]      = isset($postsData[$date]) ? intval($postsData[$date]) : 0;
