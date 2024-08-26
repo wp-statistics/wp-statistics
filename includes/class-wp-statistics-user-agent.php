@@ -64,12 +64,20 @@ class UserAgent
 
         //List Of Detect Browser in WP Statistics
         $list        = array(
-            "chrome"  => __("Chrome", 'wp-statistics'),
-            "firefox" => __("Firefox", 'wp-statistics'),
-            "msie"    => __("Internet Explorer", 'wp-statistics'),
-            "edge"    => __("Edge", 'wp-statistics'),
-            "opera"   => __("Opera", 'wp-statistics'),
-            "safari"  => __("Safari", 'wp-statistics')
+            "chrome"            => __("Chrome", 'wp-statistics'),
+            "firefox"           => __("Firefox", 'wp-statistics'),
+            "msie"              => __("Internet Explorer", 'wp-statistics'),
+            "edge"              => __("Edge", 'wp-statistics'),
+            "opera"             => __("Opera", 'wp-statistics'),
+            "safari"            => __("Safari", 'wp-statistics'),
+            "samsung_internet"  => __("Samsung Internet", 'wp-statistics'),
+            "firefox_mobile"    => __("Firefox Mobile", 'wp-statistics'),
+            "opera_mobile"      => __("Opera Mobile", 'wp-statistics'),
+            "yandex_browser"    => __("Yandex Browser", 'wp-statistics'),
+            "yandex"            => __("Yandex", 'wp-statistics'),
+            "uc_browser"        => __("UC Browser", 'wp-statistics'),
+            "whale_browser"     => __("Whale Browser", 'wp-statistics'),
+            "aloha"             => __("Aloha Browser", 'wp-statistics')
         );
         $browser_key = array_keys($list);
 
