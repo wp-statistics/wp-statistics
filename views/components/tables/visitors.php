@@ -30,9 +30,11 @@ use WP_STATISTICS\Visitor;
                         <th class="wps-pd-l">
                             <?php esc_html_e('Total Views', 'wp-statistics') ?>
                         </th>
-                        <th class="wps-pd-l">
-                            <?php echo isset($page_column_title) ? esc_html($page_column_title) : esc_html__('Latest Page', 'wp-statistics'); ?>
-                        </th>
+                        <?php if (empty($hide_latest_page_column)) : ?>
+                            <th class="wps-pd-l">
+                                <?php echo isset($page_column_title) ? esc_html($page_column_title) : esc_html__('Latest Page', 'wp-statistics'); ?>
+                            </th>
+                        <?php endif; ?>
                     </tr>
                 </thead>
 
@@ -99,15 +101,17 @@ use WP_STATISTICS\Visitor;
                                 <a href="<?php echo esc_url(Menus::admin_url('visitors', ['type' => 'single-visitor', 'visitor_id' => $visitor->ID])) ?>"><?php echo esc_html(number_format_i18n($visitor->hits)) ?></a>
                             </td>
 
-                            <td class="wps-pd-l">
-                                <?php if (!empty($page)) : ?>
-                                    <a target="_blank" href="<?php echo esc_url($page['link']) ?>" title="<?php echo esc_attr($page['title']) ?>" class="wps-link-arrow">
-                                        <span><?php echo esc_html($page['title']) ?></span>
-                                    </a>
-                                <?php else : ?>
-                                    <?php echo Admin_Template::UnknownColumn() ?>
-                                <?php endif; ?>
-                            </td>
+                            <?php if (empty($hide_latest_page_column)) : ?>
+                                <td class="wps-pd-l">
+                                    <?php if (!empty($page)) : ?>
+                                        <a target="_blank" href="<?php echo esc_url($page['link']) ?>" title="<?php echo esc_attr($page['title']) ?>" class="wps-link-arrow">
+                                            <span><?php echo esc_html($page['title']) ?></span>
+                                        </a>
+                                    <?php else : ?>
+                                        <?php echo Admin_Template::UnknownColumn() ?>
+                                    <?php endif; ?>
+                                </td>
+                            <?php endif; ?>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
