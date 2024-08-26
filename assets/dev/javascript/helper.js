@@ -579,7 +579,15 @@ wps_js.hex_to_rgba = function (hex, opacity) {
     let hex_to_rgba_r = parseInt(hex.substring(0, 2), 16);
     let hex_to_rgba_g = parseInt(hex.substring(2, 4), 16);
     let hex_to_rgba_b = parseInt(hex.substring(4, 6), 16);
-    return `rgba(${hex_to_rgba_r}, ${hex_to_rgba_g}, ${hex_to_rgba_b}, ${opacity})`;
+    return  wps_js.rgba_to_hex(hex_to_rgba_r,hex_to_rgba_g,hex_to_rgba_b,opacity);
+}
+
+wps_js.rgba_to_hex = function (r, g, b, a) {
+    let hex_r = r.toString(16).padStart(2, '0');
+    let hex_g = g.toString(16).padStart(2, '0');
+    let hex_b = b.toString(16).padStart(2, '0');
+    let hex_a = Math.round(a * 255).toString(16).padStart(2, '0');
+    return `#${hex_r}${hex_g}${hex_b}${hex_a}`;
 }
 
 const getOrCreateTooltip = (chart) => {
@@ -624,9 +632,6 @@ const externalTooltipHandler = (context, dataset, colors, data) => {
         datasets.forEach((dataset, index) => {
             const value = dataset.data[dataIndex];
             const isPrevious = dataset.label.includes('(Previous)');
-            if (isPrevious) {
-                dataset.borderColor = colors[index - 1];
-            }
             if (!isPrevious) {
                 innerHtml += `
                 <div class="current-data">

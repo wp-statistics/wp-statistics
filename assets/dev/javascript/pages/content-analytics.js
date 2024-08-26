@@ -63,29 +63,27 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         },
         generateSearchEngineChart: function () {
             const searchData = this.data.search_engine_chart_data;
-
-            if (searchData.datasets.length == 0) {
+            if (!searchData.data.datasets || searchData.data.datasets.length == 0) {
                 jQuery('#content-search-engines-chart').parent().html(wps_js.no_results());
                 jQuery('.wps-postbox-chart--data').remove();
                 return;
             } else {
                 const data = {
                     data: {
-                        labels: searchData.labels,
-                        ...searchData.datasets.reduce((acc, item) => {
+                        labels: searchData.data.labels,
+                        ...searchData.data.datasets.reduce((acc, item) => {
+                            acc[item.label] = item.data;
+                            return acc;
+                        }, {})
+                    },
+                    previousData:{
+                        labels: searchData.previousData.labels,
+                        ...searchData.previousData.datasets.reduce((acc, item) => {
                             acc[item.label] = item.data;
                             return acc;
                         }, {})
                     }
                 };
-                const totalData = searchData?.datasets.filter(item => item.label === wps_js._('total'))[0]?.data;
-                if (totalData && totalData.length) {
-                    data.previousData = {
-                        labels: searchData.labels,
-                        [wps_js._('total')]: totalData
-                    };
-                }
-                //Todo chart Add total previousData
                 wps_js.new_line_chart(data, 'content-search-engines-chart', null)
             }
         },
