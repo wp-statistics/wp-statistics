@@ -4,30 +4,33 @@ wps_js.post_summary_meta_box = {
     },
 
     view: function (args = []) {
+        let chartElement = typeof (args['summary'].postChartData) !== 'undefined' && args['summary'].postChartData !== null && Object.keys(args['summary'].postChartData).length ?
+            '<div class="c-wps-post-summary-panel-chart"><canvas id="' + wps_js.chart_id('post_summary') + '" height="100"></canvas></div>' :
+            '';
+
         return args.hasOwnProperty('content') ?
             '<div class="wps-center" style="padding: 15px;"> ' + args['content'] + '</div>' :
-            '<p class="wps-wrap wps-meta-box-header">' + args['output'] + '</p>' + '<div class="c-wps-post-summary-panel-chart"><canvas id="' + wps_js.chart_id('post_summary') + '" height="100"></canvas></div>';
+            '<p class="wps-wrap wps-meta-box-header">' + args['output'] + chartElement;
     },
 
     meta_box_init: function (args = []) {
         if (!args.hasOwnProperty('content')) {
-            this.post_summary_chart(wps_js.chart_id('post_summary'), args['summary']);
+            if (typeof (args['summary'].postChartData) !== 'undefined' && args['summary'].postChartData !== null && Object.keys(args['summary'].postChartData).length) {
+                this.post_summary_chart(wps_js.chart_id('post_summary'), args['summary']);
+            }
         } else {
             jQuery("#" + wps_js.getMetaBoxKey('post_summary') + " button[onclick]").remove();
         }
     },
 
     post_summary_chart: function (elementId, args = []) {
-        let postChartData = [];
+        let postChartData = args.postChartData;
         let postChartSettings = [];
         let postChartTooltipLabel = 'Visitors';
         let $postChartColor = '#A5AAEA';
         let $postChartStroke = '#2C36D7';
         let gradient;
 
-        if (typeof (args.postChartData) !== 'undefined' && args.postChartData !== null) {
-            postChartData = args.postChartData;
-        }
         if (typeof (args.postChartSettings) !== 'undefined' && args.postChartSettings !== null) {
             postChartSettings = args.postChartSettings;
             if (postChartSettings.color) $postChartColor = postChartSettings.color;

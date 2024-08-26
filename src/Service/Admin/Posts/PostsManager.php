@@ -204,6 +204,9 @@ class PostsManager
             return $a['ymdDate'] <=> $b['ymdDate'];
         });
 
+        // Filtered array will be used later to check if the chart data is empty
+        $filteredChart = array_filter($chartData, fn($stat) => !empty($stat['hits']) && intval($stat['hits']) > 0);
+
         // Some settings for the chart
         $chartSettings = [
             'color'  => MiniChartHelper::getChartColor(),
@@ -228,7 +231,7 @@ class PostsManager
             'thisPeriodViews'            => $dataProvider->getViews(),
             'thisPeriodTopReferrer'      => $topReferrerAndCountThisPeriod['url'],
             'thisPeriodTopReferrerCount' => $topReferrerAndCountThisPeriod['count'],
-            'postChartData'              => $chartData,
+            'postChartData'              => !empty($filteredChart) ? $chartData : [],
             'postChartSettings'          => $chartSettings,
             'contentAnalyticsUrl'        => $dataProvider->getContentAnalyticsUrl(),
         ];

@@ -345,6 +345,7 @@ const wpsIcon = (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("svg", {
   fill: "black"
 }));
 function sidebar() {
+  let displayChart = typeof WP_Statistics_Editor_Sidebar_Object.postChartData !== 'undefined' && WP_Statistics_Editor_Sidebar_Object.postChartData !== null && Object.keys(WP_Statistics_Editor_Sidebar_Object.postChartData).length;
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_editor__WEBPACK_IMPORTED_MODULE_2__.PluginDocumentSettingPanel, {
     name: "wp-statistics-post-summary-panel",
     className: "wp-statistics-post-summary-panel",
@@ -352,9 +353,9 @@ function sidebar() {
     icon: wpsIcon
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_content__WEBPACK_IMPORTED_MODULE_4__["default"], {
     data: WP_Statistics_Editor_Sidebar_Object
-  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_chart__WEBPACK_IMPORTED_MODULE_5__["default"], {
+  }), displayChart ? (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_chart__WEBPACK_IMPORTED_MODULE_5__["default"], {
     data: WP_Statistics_Editor_Sidebar_Object
-  }));
+  }) : '');
 }
 
 /***/ }),
