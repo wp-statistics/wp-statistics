@@ -40,18 +40,11 @@ use WP_STATISTICS\Helper;
         </form>
     <?php endif ?>
 
-    <?php if (isset($hasDateRang) || isset($filters) || isset($filter)) : ?>
+    <?php if (isset($hasDateRang) || isset($filters)) : ?>
         <div class="wps-head-filters">
             <?php
             if (!empty($hasDateRang)) {
                 include 'date.range.php';
-            }
-
-            if (isset($filter) and isset($filter['code'])) {
-                echo $filter['code']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-                ?>
-                <div class="wp-clearfix"></div>
-                <?php
             }
 
             if (!empty($filters)) {

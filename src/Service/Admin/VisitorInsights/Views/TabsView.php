@@ -97,7 +97,7 @@ class TabsView extends BaseTabView
             ];
 
             if ($this->isTab('visitors')) {
-                $args['filter'] = self::filter();
+                $args['filters'] = ['visitors'];
             }
 
             if (!$this->isTab('online') ) {
@@ -114,37 +114,5 @@ class TabsView extends BaseTabView
         } catch (Exception $e) {
             Notice::renderNotice($e->getMessage(), $e->getCode(), 'error');
         }
-    }
-
-    // @todo refactor visitor page filter
-    public static function filter()
-    {
-        $params = 0;
-        foreach ($_GET as $params_key => $params_item) {
-            if (!in_array($params_key, ['pagination-page', 'page', 'order', 'orderby' , 'tab' ,'to' , 'from'])) {
-                $params++;
-            }
-        }
-        $filter['number'] = $params;
-        // Determine classes based on conditions
-        $activeClass = $filter['number'] > 0 ? 'wp-visitors-filter--active' : '';
-        $floatClass  = is_rtl() ? 'wps-pull-left' : 'wps-pull-right';
-        $badgeHTML   = '';
-        if ($filter['number'] > 0) {
-            $badgeHTML = '<span class="wps-badge">' . number_format_i18n($filter['number']) . '</span>';
-        }
-
-        // Code Button
-        $filter['code'] = '
-            <div class="' . $activeClass . ' ' . $floatClass . '" id="visitors-filter">
-                <span class="dashicons dashicons-filter"></span>
-                <span class="wps-visitor-filter__text">
-                    <span class="filter-text">' . __("Filters", "wp-statistics") . '</span> 
-                    ' . $badgeHTML . '
-                </span>
-                
-            </div>
-        ';
-        return $filter;
     }
 }
