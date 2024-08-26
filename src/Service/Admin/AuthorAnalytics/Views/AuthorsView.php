@@ -19,14 +19,11 @@ class AuthorsView extends BaseView
      */
     public function getData()
     {
-        $from     = Request::get('from', date('Y-m-d', strtotime('-29 days')));
-        $to       = Request::get('to', date('Y-m-d'));
         $postType = Request::get('pt', 'post');
         $orderBy  = Request::get('order_by');
         $order    = Request::get('order', 'DESC');
 
         $args = [
-            'date'      => ['from' => $from, 'to' => $to],
             'post_type' => $postType,
             'per_page'  => Admin_Template::$item_per_page,
             'page'      => Admin_Template::getCurrentPaged()

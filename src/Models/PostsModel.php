@@ -13,20 +13,34 @@ class PostsModel extends BaseModel
     public function countPosts($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
-            'date'      => '',
-            'post_type' => Helper::getPostTypes(),
-            'author_id' => '',
-            'taxonomy'  => '',
-            'term'      => ''
+            'date'                  => '',
+            'post_type'             => Helper::getPostTypes(),
+            'author_id'             => '',
+            'taxonomy'              => '',
+            'term'                  => '',
+            'filter_by_view_date'   => false
         ]);
 
-        $query = Query::select('COUNT(ID)')
+        $query = Query::select('COUNT(posts.ID)')
             ->from('posts')
             ->where('post_status', '=', 'publish')
             ->where('post_type', 'IN', $args['post_type'])
             ->where('post_author', '=', $args['author_id'])
-            ->whereDate('post_date', $args['date'])
             ->bypassCache($bypassCache);
+
+        // Count posts within view date
+        if ($args['filter_by_view_date'] == true) {
+            $viewsQuery = Query::select(['pages.id', 'SUM(pages.count) AS views'])
+                ->from('pages')
+                ->whereDate('pages.date', $args['date'])
+                ->groupBy('pages.id')
+                ->getQuery();
+
+            $query->joinQuery($viewsQuery, ['posts.ID', 'views.id'], 'views');
+        } else {
+            $query
+                ->whereDate('post_date', $args['date']);
+        }
 
         if (!empty($args['taxonomy']) || !empty($args['term'])) {
             $taxQuery = Query::select(['DISTINCT object_id'])
@@ -206,6 +220,7 @@ class PostsModel extends BaseModel
                 'posts.ID AS post_id',
                 'posts.post_author AS author_id',
                 'posts.post_title AS title',
+                'posts.post_date AS date',
                 'COALESCE(pages.views, 0) AS views',
                 'COALESCE(visitors.visitors, 0) AS visitors',
                 'COALESCE(comments.total_comments, 0) AS comments',

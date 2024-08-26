@@ -362,9 +362,9 @@ class Visitor
 
             // Push IP
             if (IP::IsHashIP($ip)) {
-                $item['ip'] = array('value' => substr($ip, 6, 10), 'link' => Menus::admin_url('visitors', array('ip' => urlencode($ip))));
+                $item['ip'] = array('value' => substr($ip, 6, 10), 'link' => Menus::admin_url('visitors', array('type' => 'single-visitor', 'visitor_id' => $items->ID)));
             } else {
-                $item['ip']  = array('value' => $ip, 'link' => Menus::admin_url('visitors', array('ip' => $ip)));
+                $item['ip']  = array('value' => $ip, 'link' => Menus::admin_url('visitors', array('type' => 'single-visitor', 'visitor_id' => $items->ID)));
                 $item['map'] = GeoIP::geoIPTools($ip);
             }
 

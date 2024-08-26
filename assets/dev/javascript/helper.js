@@ -26,7 +26,25 @@ wps_js.date_picker = function () {
             jQuery(correspondingPicker).addClass(ev.target.className);
         });
     }
+
 };
+
+wps_js.formatNumber = function (num, fixed = 0) {
+    if (num === null) {
+        return null;
+    }
+    if (num === 0) {
+        return '0';
+    }
+    fixed = (!fixed || fixed < 0) ? 0 : fixed;
+    var b = (parseInt(num)).toPrecision(2).split("e"),
+        k = b.length === 1 ? 0 : Math.floor(Math.min(b[1].slice(1), 14) / 3),
+        c = k < 1 ? num.toFixed(0 + fixed) : (num / Math.pow(10, k * 3)).toFixed(1 + fixed),
+        d = c < 0 ? c : Math.abs(c),
+        e = d + ['', 'K', 'M', 'B', 'T'][k];
+    return e;
+}
+
 
 /**
  * Set Select2
@@ -41,38 +59,17 @@ const wpsDropdown = jQuery('.wps-dropdown');
 
 if (wpsSelect2.length) {
     const wpsFilterPage = jQuery('.wps-filter-page');
-    var dirValue = wpsBody.hasClass('rtl') ? 'rtl' : 'ltr';
+    const wpsFilterVisitor = jQuery('.wps-filter-visitor');
+    const dirValue = wpsBody.hasClass('rtl') ? 'rtl' : 'ltr';
+    const dropdownParent = wpsFilterPage.length ? wpsFilterPage : wpsFilterVisitor;
 
-    wpsSelect2.select2({
-        dropdownParent: $('.wps-filter-page'),
-        dir: dirValue,
-        dropdownAutoWidth: true,
-        dropdownCssClass: 'wps-select2-filter-dropdown'
-    });
-
-    wpsSelect2.on('select2:open', function () {
-        wpsDropdown.addClass('active');
-    });
-
-    wpsSelect2.on('select2:close', function () {
-        wpsDropdown.removeClass('active');
-    });
-
-    wpsSelect2.on('change', function () {
-        var selectedOption = jQuery(this).find('option:selected');
-        var url = selectedOption.val();
-
-        if (url) {
-            window.location.href = url;
-        }
-    });
-
-    if (wpsFilterPage.length) {
+    const initializeSelect2 = (parentElement, ajaxAction) => {
         wpsSelect2.select2({
-            dropdownParent: $('.wps-filter-page'),
+            dropdownParent: parentElement,
             dir: dirValue,
             dropdownAutoWidth: true,
             dropdownCssClass: 'wps-select2-filter-dropdown',
+            minimumInputLength: 1,
             ajax: {
                 delay: 500,
                 url: wps_js.global.ajax_url,
@@ -80,46 +77,83 @@ if (wpsSelect2.length) {
                 data: function (params) {
                     const query = {
                         wps_nonce: wps_js.global.rest_api_nonce,
-                        search: params.term,
-                        action: 'wp_statistics_get_page_filter_items',
+                        search: params.term, // The term to search for
+                        action: ajaxAction,
                         paged: params.page || 1
-                    }
+                    };
 
-                    if (wps_js.isset(wps_js.global, 'request_params', 'author_id')) {
-                        query.author_id = wps_js.global.request_params.author_id;
+                    if (wps_js.isset(wps_js.global, 'request_params')) {
+                        const requestParams = wps_js.global.request_params;
+                        if (requestParams.author_id) query.author_id = requestParams.author_id;
+                        if (requestParams.page) query.page = requestParams.page;
+                        if (requestParams.pt) query.post_type = requestParams.pt;
+                        if (requestParams.pid) query.post_id = requestParams.pid;
                     }
-
-                    if (wps_js.isset(wps_js.global, 'request_params', 'page')) {
-                        query.page = wps_js.global.request_params.page;
-                    }
-
-                    if (wps_js.isset(wps_js.global, 'request_params', 'pt')) {
-                        query.post_type = wps_js.global.request_params.pt;
-                    }
-
-                    if (wps_js.isset(wps_js.global, 'request_params', 'pid')) {
-                        query.post_id = wps_js.global.request_params.pid;
-                    }
-
                     return query;
+                },
+                processResults: function (data) {
+                    if (data && Array.isArray(data.results)) {
+                        return {
+                            results: data.results.map(item => ({
+                                id: item.id,
+                                text: item.text
+                            })),
+                            pagination: {
+                                more: false
+                            }
+                        };
+                    } else {
+                        console.error('Expected an array of results but got:', data);
+                        return {results: []};
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error('AJAX request error:', status, error);
                 }
             }
         });
+    };
 
-        wpsFilterPage.on('click', function () {
-            wpsSelect2.select2('open');
-        });
+    // Initial select2 setup without AJAX
+    wpsSelect2.select2({
+        dropdownParent: dropdownParent,
+        dir: dirValue,
+        dropdownAutoWidth: true,
+        dropdownCssClass: 'wps-select2-filter-dropdown'
+    });
+
+    // Event listeners
+    wpsSelect2.on('select2:open', () => wpsDropdown.addClass('active'));
+    wpsSelect2.on('select2:close', () => wpsDropdown.removeClass('active'));
+    wpsSelect2.on('change', function () {
+        const selectedOption = jQuery(this).find('option:selected');
+        const url = selectedOption.val();
+        if (url) {
+            window.location.href = url;
+        }
+    });
+
+    // Conditional initialization based on filter page or visitor
+    if (wpsFilterPage.length) {
+        initializeSelect2(wpsFilterPage, 'wp_statistics_get_page_filter_items');
+        wpsFilterPage.on('click', () => wpsSelect2.select2('open'));
+    }
+
+    if (wpsFilterVisitor.length) {
+        initializeSelect2(wpsFilterVisitor, 'wp_statistics_search_visitors');
+        wpsFilterVisitor.on('click', () => wpsSelect2.select2('open'));
     }
 }
-
 
 /**
  * Set Tooltip
  */
 wps_js.tooltip = function () {
     jQuery('.wps-tooltip').tooltipster({
-        theme: 'tooltipster-flat'
+        theme: 'tooltipster-flat',
+        contentCloning: true
     });
+
     jQuery('body').on('mouseenter touchstart', '.wps-tooltip:not(.tooltipstered)', function () {
         $(this).tooltipster({
             theme: 'tooltipster-flat'
@@ -292,6 +326,70 @@ wps_js.pie_chart = function (tag_id, label, data, label_callback = false, toolti
             }
         }]
     });
+};
+
+
+/**
+ * Create Horizontal Bar Chart
+ */
+wps_js.horizontal_bar = function (tag_id, labels, data, imageUrls) {
+
+    // Get Element By ID
+    let element = document.getElementById(tag_id);
+
+    if (element) {
+        let parent = element.parentNode;
+        let nextSibling = element.nextSibling;
+        parent.removeChild(element);
+        let total = data.reduce((sum, data) => sum + data, 0);
+        let blockDiv = document.createElement('div');
+        blockDiv.classList.add('wps-horizontal-bar');
+        for (let i = 0; i < data.length; i++) {
+            // Calculate percentage as a float with two decimal places
+            let percentage = total ? ((data[i] / total) * 100) : 0;
+            // Format the percentage
+            let percentageText = percentage % 1 === 0 ? percentage.toFixed(0) : percentage.toFixed(1);
+
+            // If percentage ends with .0, remove it
+            if (percentageText.endsWith('.0')) {
+                percentageText = percentageText.slice(0, -2);
+            }
+            let itemDiv = document.createElement('div');
+            itemDiv.classList.add('wps-horizontal-bar__item');
+            let labelImageDiv = document.createElement('div');
+            labelImageDiv.classList.add('wps-horizontal-bar__label-image-container');
+            if (imageUrls && imageUrls[i] && imageUrls[i] !== 'undefined') {
+                let img = document.createElement('img');
+                img.src = imageUrls[i];
+                img.alt = labels[i];
+                img.classList.add('wps-horizontal-bar__image');
+                labelImageDiv.appendChild(img);
+            }
+            let labelDiv = document.createElement('div');
+            labelDiv.innerHTML = labels[i];
+            labelDiv.setAttribute('title', labels[i]);
+            labelDiv.classList.add('wps-horizontal-bar__label');
+            labelImageDiv.appendChild(labelDiv);
+            itemDiv.appendChild(labelImageDiv);
+            let dataPercentDiv = document.createElement('div');
+            dataPercentDiv.classList.add('wps-horizontal-bar__data-percent-container');
+            let dataDiv = document.createElement('div');
+            dataDiv.innerHTML = `<span>${wps_js.formatNumber(data[i])}</span><span>${percentageText}%</span>`;
+            dataDiv.classList.add('wps-horizontal-bar__data');
+            dataPercentDiv.appendChild(dataDiv);
+            itemDiv.appendChild(dataPercentDiv);
+            let backgroundDiv = document.createElement('div');
+            backgroundDiv.classList.add('wps-horizontal-bar__background');
+            backgroundDiv.style.width = `${percentage}%`; // Set width according to percentage
+            itemDiv.appendChild(backgroundDiv);
+            blockDiv.appendChild(itemDiv);
+        }
+        if (nextSibling) {
+            parent.insertBefore(blockDiv, nextSibling);
+        } else {
+            parent.appendChild(blockDiv);
+        }
+    }
 };
 
 /**
@@ -473,6 +571,555 @@ wps_js.no_results = function () {
     return '<div class="o-wrap o-wrap--no-data wps-center">' + wps_js._('no_result') + '</div>';
 };
 
+wps_js.hex_to_rgba = function (hex, opacity) {
+    hex = hex.replace('#', '');
+    let hex_to_rgba_r = parseInt(hex.substring(0, 2), 16);
+    let hex_to_rgba_g = parseInt(hex.substring(2, 4), 16);
+    let hex_to_rgba_b = parseInt(hex.substring(4, 6), 16);
+    return wps_js.rgba_to_hex(hex_to_rgba_r, hex_to_rgba_g, hex_to_rgba_b, opacity);
+}
+
+wps_js.rgba_to_hex = function (r, g, b, a) {
+    let hex_r = r.toString(16).padStart(2, '0');
+    let hex_g = g.toString(16).padStart(2, '0');
+    let hex_b = b.toString(16).padStart(2, '0');
+    let hex_a = Math.round(a * 255).toString(16).padStart(2, '0');
+    return `#${hex_r}${hex_g}${hex_b}${hex_a}`;
+}
+
+const getOrCreateTooltip = (chart) => {
+    let tooltipEl = chart.canvas.parentNode.querySelector('div');
+    if (!tooltipEl) {
+        tooltipEl = document.createElement('div');
+        tooltipEl.classList.add('wps-chart-tooltip');
+        tooltipEl.style.opacity = 1;
+        tooltipEl.style.pointerEvents = 'none';
+        tooltipEl.style.position = 'absolute';
+        tooltipEl.style.transition = 'all .1s ease';
+        const table = document.createElement('table');
+        table.style.margin = '0px';
+        tooltipEl.appendChild(table);
+        chart.canvas.parentNode.appendChild(tooltipEl);
+    }
+    return tooltipEl;
+};
+
+const externalTooltipHandler = (context, dataset, colors, data) => {
+    const {chart, tooltip} = context;
+    const tooltipEl = getOrCreateTooltip(chart);
+
+    if (tooltip.opacity === 0) {
+        tooltipEl.style.opacity = 0;
+        return;
+    }
+    if (tooltip.body) {
+        const titleLines = tooltip.title || [];
+        const dataIndex = tooltip.dataPoints[0].dataIndex;
+        const datasets = chart.data.datasets;
+
+        let innerHtml = `<div>`;
+        titleLines.forEach(title => {
+            // Assume `data.data.labels` contains `date` and `day` properties
+            const {date, day} = (data.data) ? data.data.labels[dataIndex] : data.labels[dataIndex] ;
+            innerHtml += `<div class="chart-title">${date} (${day})</div>`;
+        });
+
+
+        // Iterate over each dataset to create the tooltip content
+        datasets.forEach((dataset, index) => {
+            const value = dataset.data[dataIndex];
+            const isPrevious = dataset.label.includes('(Previous)');
+            if (!isPrevious) {
+                innerHtml += `
+                <div class="current-data">
+                    <div>
+                        <span class="current-data__color" style="background-color: ${dataset.hoverPointBackgroundColor};"></span>
+                        ${dataset.label}
+                    </div>
+                    <span class="current-data__value">${value.toLocaleString()}</span>
+                </div>`;
+            }
+            if (data?.previousData) {
+                const previousValue = data.previousData[dataset.label.replace(' (Previous)', '')]?.[dataIndex];
+                if (previousValue !== undefined && previousValue !== '' && !isPrevious) {
+                    const previousLabel = data.previousData.labels[dataIndex].date;
+                    innerHtml += `
+                    <div class="previous-data">
+                        <div>
+                            <span class="previous-data__colors">
+                                <span class="previous-data__color" style="background-color: ${dataset.hoverPointBackgroundColor};"></span>
+                                <span class="previous-data__color" style="background-color: ${dataset.hoverPointBackgroundColor};"></span>
+                            </span>
+                            ${previousLabel}
+                        </div>
+                        <span class="previous-data__value"> ${previousValue.toLocaleString()}</span>
+                    </div>`;
+                }
+            }
+        });
+
+        innerHtml += `</div>`;
+
+        tooltipEl.innerHTML = innerHtml;
+        const {offsetLeft: chartLeft, offsetTop: chartTop, clientWidth: chartWidth, clientHeight: chartHeight} = chart.canvas;
+        const {caretX, caretY} = tooltip;
+
+        // Calculate tooltip position
+        const tooltipWidth = tooltipEl.offsetWidth;
+        const tooltipHeight = tooltipEl.offsetHeight;
+
+        const margin = 16;
+        // Default tooltip position to the right of the point
+        let tooltipX = chartLeft + caretX + margin;
+        let tooltipY = chartTop + caretY - tooltipHeight / 2;
+
+        // Check if tooltip exceeds right boundary
+        if (tooltipX + tooltipWidth + margin > chartLeft + chartWidth) {
+            // Not enough space on the right, position to the left
+            tooltipX = chartLeft + caretX - tooltipWidth - margin;
+        }
+
+        // Ensure tooltip does not overflow horizontally
+        if (tooltipX < chartLeft + margin) {
+            tooltipX = chartLeft + margin;
+        }
+
+        // Ensure tooltip does not overflow vertically
+        if (tooltipY < chartTop + margin) {
+            tooltipY = chartTop + margin;
+        }
+        if (tooltipY + tooltipHeight + margin > chartTop + chartHeight) {
+            tooltipY = chartTop + chartHeight - tooltipHeight - margin;
+        }
+        tooltipEl.style.opacity = 1;
+        tooltipEl.style.left = tooltipX + 'px';
+        tooltipEl.style.top = tooltipY + 'px';
+    }
+};
+
+// Custom plugin definition
+const drawVerticalLinePlugin = {
+    id: 'drawVerticalLine',
+    beforeDatasetDraw(chart) {
+        const {ctx, scales: {x, y}, tooltip, chartArea: {top, bottom}} = chart;
+        if (tooltip && tooltip._active && tooltip._active.length) {
+            const xValue = tooltip._active[0].element.x;
+            ctx.beginPath();
+            ctx.strokeStyle = '#A9AAAE';
+            ctx.lineWidth = 1;
+            ctx.setLineDash([6, 6]);
+            ctx.moveTo(xValue, top);
+            ctx.lineTo(xValue, bottom);
+            ctx.stroke();
+            ctx.setLineDash([]);
+        }
+    }
+};
+
+wps_js.new_line_chart = function (data, tag_id, newOptions) {
+    // Define the colors
+    let colors = {
+        'Total': '#27A765',
+        'views': '#7362BF',
+        'visitors': '#3288D7',
+        'Other1': '#3288D7',
+        'Other2': '#7362BF',
+        'Other3': '#8AC3D0'
+    };
+    // Get Element By ID
+    let ctx_line = document.getElementById(tag_id).getContext('2d');
+
+    const datasets = [];
+    // Dynamically create datasets
+    Object.keys(data.data).forEach((key, index) => {
+
+
+        if (key !== 'labels') {
+            let color = colors[key] || colors[`Other${index}`];
+            // Main dataset
+            datasets.push({
+                type: 'line',
+                label: key,
+                data: data.data[key],
+                borderColor: color,
+                backgroundColor: color,
+                fill: false,
+                yAxisID: 'y',
+                borderWidth: 2,
+                pointRadius: 0,
+                pointBorderColor: 'transparent',
+                pointBackgroundColor: color,
+                pointBorderWidth: 2,
+                hoverPointRadius: 6,
+                hoverPointBorderColor: '#fff',
+                hoverPointBackgroundColor: color,
+                hoverPointBorderWidth: 4
+            });
+
+            // Previous data dataset
+            if (data.previousData[key]) {
+                datasets.push({
+                    type: 'line',
+                    label: `${key} (Previous)`,
+                    data: data.previousData[key],
+                    borderColor: wps_js.hex_to_rgba(color, 0.7),
+                    hoverBorderColor: color,
+                    backgroundColor: color,
+                    fill: false,
+                    yAxisID: 'y',
+                    borderWidth: 1,
+                    borderDash: [5, 5],
+                    pointRadius: 0,
+                    pointBorderColor: 'transparent',
+                    pointBackgroundColor: color,
+                    pointBorderWidth: 2,
+                    hoverPointRadius: 6,
+                    hoverPointBorderColor: '#fff',
+                    hoverPointBackgroundColor: color,
+                    hoverPointBorderWidth: 4
+                });
+            }
+        }
+    });
+    // Default options
+    const defaultOptions = {
+        interaction: {
+            intersect: false,
+            mode: 'index'
+        },
+        plugins: {
+            legend: false,
+            tooltip: {
+                enabled: false,
+                external: (context) => externalTooltipHandler(context, datasets, colors, data),
+                callbacks: {
+                    title: (tooltipItems) => tooltipItems[0].label,
+                    label: (tooltipItem) => tooltipItem.formattedValue
+                }
+            }
+        },
+        scales: {
+            x: {
+                offset: data.data.labels.map(dateObj => dateObj.date).length <= 1,
+                min: 0,
+                grid: {
+                    display: false,
+                    drawBorder: false,
+                    tickLength: 0,
+                    drawTicks: false
+                },
+                border: {
+                    color: 'transparent',
+                    width: 0
+                },
+                ticks: {
+                    align: 'inner',
+                    maxTicksLimit: 9,
+                    fontColor: '#898A8E',
+                    fontStyle: 'italic',
+                    fontWeight: 'lighter ',
+                    fontSize: 13,
+                    padding: 8,
+                    fontFamily: '"Roboto",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif',
+                    lineHeight: 15
+                }
+            },
+            y: {
+                min: 0,
+                ticks: {
+                    maxTicksLimit: 7,
+                    fontColor: '#898A8E',
+                    fontSize: 13,
+                    fontStyle: 'italic',
+                    fontFamily: '"Roboto",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif',
+                    fontWeight: 'lighter ',
+                    padding: 8,
+                    lineHeight: 15
+                },
+                border: {
+                    color: 'transparent',
+                    width: 0
+                },
+                type: 'linear',
+                position: 'right',
+                grid: {
+                    display: true,
+                    tickMarkLength: 0,
+                    drawBorder: false,
+                    tickColor: '#EEEFF1',
+                    color: '#EEEFF1'
+                },
+                gridLines: {
+                    drawTicks: false
+                },
+                title: {
+                    display: false,
+                }
+            }
+        },
+    };
+    // Merge default options with user options
+    const options = Object.assign({}, defaultOptions, newOptions);
+    const lineChart = new Chart(ctx_line, {
+        type: 'line',
+        data: {
+            labels: data.data.labels.map(dateObj => dateObj.date),
+            datasets: datasets,
+        },
+        plugins: [drawVerticalLinePlugin],
+        options: options,
+    });
+
+    const updateLegend = function () {
+        const chartElement = document.getElementById(tag_id);
+        // Find the legend container that is beside this chart
+        const legendContainer = chartElement.parentElement.parentElement.querySelector('.wps-postbox-chart--items');
+
+        if (legendContainer) {
+            legendContainer.innerHTML = '';
+            datasets.sort((a, b) => {
+                // Move "Total" and "Total (Previous)" to the top
+                if (a.label === 'Total') return -1;
+                if (b.label === 'Total') return 1;
+                if (a.label === 'Total (Previous)') return -1;
+                if (b.label === 'Total (Previous)') return 1;
+                return 0;
+            });
+            datasets.forEach((dataset, index) => {
+                const isPrevious = dataset.label.includes('(Previous)');
+                if (!isPrevious) {
+                    const currentData = dataset.data.reduce((a, b) => Number(a) + Number(b), 0);
+                    const previousData = data.previousData[dataset.label] ? data.previousData[dataset.label].reduce((a, b) => Number(a) + Number(b), 0) : null;
+                    const legendItem = document.createElement('div');
+                    legendItem.className = 'wps-postbox-chart--item';
+
+                    const previousDataHTML = previousData !== null ? `
+            <div class="previous-data">
+                <span>
+                    <span class="wps-postbox-chart--item--color" style="border-color: ${dataset.borderColor}"></span>
+                    <span class="wps-postbox-chart--item--color" style="border-color: ${dataset.borderColor}"></span>
+                </span>
+                ${previousData.toLocaleString()}
+            </div>` : '';
+
+                    // Build the legend item HTML
+                    legendItem.innerHTML = `
+            <span>
+                ${dataset.label}
+            </span>
+            <div>
+                <div class="current-data">
+                    <span class="wps-postbox-chart--item--color" style="border-color: ${dataset.borderColor}"></span>
+                    ${currentData.toLocaleString()}
+                </div>
+                ${previousDataHTML}
+            </div>`;
+
+                    // Add click event to toggle visibility of the current dataset only
+                    const currentDataDiv = legendItem.querySelector('.current-data');
+                    currentDataDiv.addEventListener('click', function () {
+                        const metaMain = lineChart.getDatasetMeta(index);
+                        metaMain.hidden = !metaMain.hidden;
+                        currentDataDiv.classList.toggle('wps-line-through');
+                        lineChart.update();
+                    });
+
+                    // Add click event to toggle visibility of the previous dataset
+                    const previousDataDiv = legendItem.querySelector('.previous-data');
+                    if (previousDataDiv) {
+                        previousDataDiv.addEventListener('click', function () {
+                            const metaPrevious = lineChart.getDatasetMeta(index + 1);
+                            if (metaPrevious && metaPrevious.label.includes('(Previous)')) {
+                                previousDataDiv.classList.toggle('wps-line-through');
+                                metaPrevious.hidden = !metaPrevious.hidden;
+                            }
+                            lineChart.update();
+                        });
+                    }
+                    legendContainer.appendChild(legendItem);
+                }
+            });
+        }
+    };
+    updateLegend();
+};
+
+wps_js.performance_chart = function (data, tag_id, type) {
+
+    const colors = ['#3288D7', '#7362BF', '#8AC3D0'];
+    const is_single_content = type === 'content-single';
+    const legendHandel = (chart) => {
+        document.querySelectorAll('.js-wps-performance-chart__item').forEach((legendItem, index) => {
+            legendItem.addEventListener('click', () => {
+                const dataset = chart.data.datasets[index];
+                dataset.hidden = !dataset.hidden;
+                chart.update();
+                legendItem.classList.toggle('hidden', dataset.hidden);
+            });
+        });
+    }
+    let ctx_performance = document.getElementById(tag_id).getContext('2d');
+    let datasets = [
+        {
+            type: 'line',
+            label: wps_js._('visits'),
+            data: data.views,
+            borderColor: wps_js.hex_to_rgba(colors[1], 0.8),
+            pointStyle: 'circle',
+            yAxisID: 'y',
+            borderWidth: 2,
+            pointRadius: 0,
+            pointBorderColor: 'transparent',
+            pointBackgroundColor: colors[1],
+            pointBorderWidth: 2,
+            hoverPointRadius: 6,
+            hoverPointBorderColor: '#fff',
+            hoverPointBackgroundColor: colors[1],
+            hoverPointBorderWidth: 4
+        },
+        {
+            type: 'line',
+            label: wps_js._('visitors'),
+            data: data.visitors,
+            borderColor: wps_js.hex_to_rgba(colors[0], 0.8),
+            yAxisID: 'y',
+            borderWidth: 2,
+            pointRadius: 0,
+            pointBorderColor: 'transparent',
+            pointBackgroundColor: colors[0],
+            pointBorderWidth: 2,
+            hoverPointRadius: 6,
+            hoverPointBorderColor: '#fff',
+            hoverPointBackgroundColor: colors[0],
+            hoverPointBorderWidth: 4
+        },
+    ]
+    if (!is_single_content) datasets.push({
+        type: 'bar',
+        label: type === 'content' ? `${wps_js._('published')} Posts` : `${wps_js._('published')} Contents`,
+        data: data.posts,
+        backgroundColor: wps_js.hex_to_rgba(colors[2], 0.5),
+        hoverBackgroundColor: colors[2],
+        hoverPointBackgroundColor: colors[2],
+        yAxisID: 'y1',
+    })
+
+
+    let scales = {
+        x: {
+            offset: !is_single_content,
+            ticks: {
+                maxTicksLimit: 9,
+                fontColor: '#898A8E',
+                fontSize: 13,
+                fontStyle: 'italic',
+                fontFamily: '"Roboto",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif',
+                fontWeight: 'lighter ',
+                padding: 8,
+                lineHeight: 15,
+            },
+            border: {
+                color: 'transparent',
+                width: 0
+            },
+            grid: {
+                display: false,
+                drawBorder: false,
+                tickLength: 0
+            }
+        },
+        y: {
+            border: {
+                color: 'transparent',
+                width: 0
+            },
+            ticks: {
+                maxTicksLimit: 9,
+                fontColor: '#898A8E',
+                fontSize: 13,
+                fontStyle: 'italic',
+                fontFamily: '"Roboto",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif',
+                fontWeight: 'lighter ',
+                padding: 8,
+                lineHeight: 15,
+            },
+            type: 'linear',
+            position: is_single_content ? 'left' : 'right',
+            grid: {
+                display: true,
+                borderDash: [5, 5],
+                tickColor: '#EEEFF1',
+                color: '#EEEFF1'
+            },
+            title: {
+                display: true,
+                text: wps_js._('visits'),
+                color: '#898A8E',
+                fontSize: 13,
+            }
+        }
+    }
+    if (!is_single_content) {
+        scales.y1 = {
+            type: 'linear',
+            position: 'left',
+            border: {
+                color: 'transparent',
+                width: 0
+            },
+            grid: {
+                display: false,
+                drawBorder: false,
+                tickLength: 0,
+            },
+            ticks: {
+                maxTicksLimit: 7,
+                fontColor: '#898A8E',
+                fontSize: 13,
+                fontStyle: 'italic',
+                fontFamily: '"Roboto",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif',
+                fontWeight: 'lighter ',
+                padding: 8,
+                lineHeight: 15
+            },
+            title: {
+                display: true,
+                text: type === 'content' ? `${wps_js._('published')} Posts` : `${wps_js._('published')} Contents`,
+                color: '#898A8E',
+                fontSize: 13
+            }
+        }
+    }
+
+    const performanceChart = new Chart(ctx_performance, {
+        type: 'bar',
+        data: {
+            labels: data.labels.map(dateObj => dateObj.date),
+            datasets: datasets
+        },
+        options: {
+            interaction: {
+                intersect: false,
+                mode: 'index'
+            },
+            plugins: {
+                legend: false,
+                tooltip: {
+                    enabled: false,
+                    external: (context) => externalTooltipHandler(context, datasets, colors, data),
+                    callbacks: {
+                        title: (tooltipItems) => tooltipItems[0].label,
+                        label: (tooltipItem) => tooltipItem.formattedValue
+                    }
+                },
+            },
+            scales: scales
+        },
+        plugins: [drawVerticalLinePlugin]
+    });
+    legendHandel(performanceChart)
+};
+
 
 // Head filters drop down
 jQuery(document).ready(function () {
@@ -545,7 +1192,6 @@ jQuery(document).ready(function () {
         }
     });
 });
-
 
 /**
  * FeedbackBird position

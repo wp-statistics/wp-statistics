@@ -1,0 +1,52 @@
+/*!**************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[4].use[1]!./node_modules/@wordpress/scripts/node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[4].use[2]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[4].use[3]!./assets/dev/blocks/post-summary/style.scss ***!
+  \**************************************************************************************************************************************************************************************************************************************************************************************************/
+.wp-statistics-post-summary-panel-chart {
+  position: relative;
+}
+
+.wps-mini-chart-post-summary-tooltip {
+  box-shadow: -1px 1px 2px 0 rgba(0, 0, 0, 0.0196078431);
+  border: 0.5px solid #DADCE0;
+  border-radius: 2px;
+  background: #fff;
+  padding: 12px;
+  opacity: 1;
+  pointer-events: none;
+  min-width: 105px;
+  margin: 0;
+  position: absolute;
+  transition: all 0.1s ease;
+  z-index: 99999;
+}
+.wps-mini-chart-post-summary-tooltip .chart-title {
+  color: #0C0C0D;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 14.06px;
+  padding-bottom: 8px;
+  text-align: right;
+}
+.rtl .wps-mini-chart-post-summary-tooltip .chart-title {
+  text-align: left;
+}
+.wps-mini-chart-post-summary-tooltip .content-item {
+  display: flex;
+  justify-content: space-between;
+}
+.wps-mini-chart-post-summary-tooltip .content-item span:first-child {
+  font-size: 13px;
+  font-style: italic;
+  font-weight: 400;
+  line-height: 15.23px;
+  color: #56585A;
+  display: block !important;
+}
+.wps-mini-chart-post-summary-tooltip .content-item span:last-child {
+  color: #0C0C0D;
+  font-size: 13px;
+  font-style: italic;
+  font-weight: 500;
+  line-height: 15.23px;
+  display: block !important;
+}

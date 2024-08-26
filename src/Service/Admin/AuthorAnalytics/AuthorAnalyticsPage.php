@@ -6,10 +6,9 @@ use WP_Statistics\Async\BackgroundProcessFactory;
 use WP_STATISTICS\Menus;
 use WP_STATISTICS\Option;
 use WP_Statistics\Abstracts\MultiViewPage;
-use WP_Statistics\Service\Admin\Posts\Views\PostsReportView;
 use WP_Statistics\Service\Admin\AuthorAnalytics\Views\AuthorsView;
 use WP_Statistics\Service\Admin\AuthorAnalytics\Views\SingleAuthorView;
-use WP_Statistics\Service\Admin\AuthorAnalytics\Views\TabsView;
+use WP_Statistics\Service\Admin\AuthorAnalytics\Views\PerformanceView;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Service\Admin\Posts\WordCountService;
 use WP_Statistics\Utils\Request;
@@ -18,12 +17,11 @@ class AuthorAnalyticsPage extends MultiViewPage
 {
     protected $pageSlug = 'author-analytics';
 
-    protected $defaultView = 'tabs';
+    protected $defaultView = 'performance';
 
     protected $views = [
-        'tabs'          => TabsView::class,
+        'performance'   => PerformanceView::class,
         'authors'       => AuthorsView::class,
-        'posts'         => PostsReportView::class,
         'single-author' => SingleAuthorView::class
     ];
 

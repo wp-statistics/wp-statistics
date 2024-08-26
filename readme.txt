@@ -4,7 +4,7 @@ Donate link: https://wp-statistics.com/donate/
 Tags: analytics, google analytics, insights, stats, site visitors
 Requires at least: 5.0
 Tested up to: 6.6
-Stable tag: 14.9.4
+Stable tag: 14.10
 Requires PHP: 5.6
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -129,17 +129,22 @@ WP Statistics supports WordPress Multi-Site/Network installations. In the networ
 17. Mini Chart Quick View
 
 == Upgrade Notice ==
-= 14.9 =
+= 14.10 =
 To ensure the plugin works correctly, please clear your cache because some request payloads have been updated. Also, review your settings, especially if you use DataPlus, Advanced Reporting, or Customization, as some options have changed.
 Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest version.
 
 == Changelog ==
-= 14.9.x - **.**.2024 =
-* Enhancement: Use Transient API instead of WP Object Cache in Cacheable
-* Enhancement: Improved performance for cacheable data when the data has not changed since the last request's date range.
-* Enhancement: Cleanup 'Top Referrers'
-* Enhancement: Fixed the cache of the query strings and UTM parameters when the page is cached
+= 14.10 - xx.08.2024 =
+* New: Introduced the Visitor Insights menu by merging the Visitors, Views, Online Visitors, and Top Visitors reports into one centralized Visitors page.
+* New: Created the Page Insights menu by combining the Contents, Category Pages, and Author Pages reports into one unified Pages page for better organization.
+* New: Redesigned Single Visitor page with more detailed and better-organized visitor information.
+* New: Date filter settings now stored globally in user meta, allowing the selected date range to be used across all report pages.
+* New: Updated the content statistics widget in the editor to show visitor numbers directly on the edit post page.
+* New: Added plugin information to the Site Health Info section for easier diagnostics.
+* Enhancement: Redesigned charts with a modern look and added a Previous Period Indicator for easier data comparison.
+* Enhancement: Various improvements to the settings area for better clarity, including renaming options and removing unnecessary ones.
+* Enhancement: Performance enhancements and bug fixes for overall smoother operation.
 
-For more information about the major update, please [visit our blog post](https://wp-statistics.com/?p=15915) or follow [@wp_statistics](https://twitter.com/wp_statistics) on Twitter
+For more information about the major update, please [visit our blog post](https://wp-statistics.com/?p=16657) or follow [@wp_statistics](https://twitter.com/wp_statistics) on Twitter
 
 [See changelog for all versions](https://raw.githubusercontent.com/wp-statistics/wp-statistics/master/CHANGELOG.md).

@@ -2,6 +2,8 @@
 
 namespace WP_STATISTICS;
 
+use WP_Statistics\Components\DateRange;
+use WP_Statistics\Models\VisitorsModel;
 use WP_Statistics\Utils\Request;
 
 class Ajax
@@ -83,6 +85,16 @@ class Ajax
             [
                 'class'  => $this, 
                 'action' => 'get_page_filter_items',
+                'public' => false
+            ],
+            [
+                'class'  => $this, 
+                'action' => 'search_visitors',
+                'public' => false
+            ],
+            [
+                'class'  => $this, 
+                'action' => 'store_date_range',
                 'public' => false
             ]
         ];
@@ -454,7 +466,7 @@ class Ajax
             $filter['browsers'] = array();
             $browsers           = UserAgent::BrowserList();
             foreach ($browsers as $key => $se) {
-                $filter['browsers'][$key] = $se;
+                $filter['browsers'][$se] = $se;
             }
 
             // Location
@@ -472,10 +484,10 @@ class Ajax
 
             // Platforms
             $filter['platform'] = array();
-            $platforms_list     = RestAPI::request(array('route' => 'metabox', 'params' => array('name' => 'platforms', 'number' => 15, 'order' => 'DESC')));
+            $platforms_list     = UserAgent::getPlatformsList();
 
-            for ($x = 0; $x < count($platforms_list['platform_name']); $x++) {
-                $filter['platform'][$platforms_list['platform_name'][$x]] = $platforms_list['platform_name'][$x];
+            foreach ($platforms_list as $platform) {
+                $filter['platform'][$platform] = $platform;
             }
 
             // Referrer
@@ -624,6 +636,52 @@ class Ajax
                     'more' => $query->max_num_pages > $paged ? true : false
                 ]
             ]);
+        }
+
+        exit;
+    }
+
+    public function search_visitors_action_callback()
+    {
+        if (Helper::is_request('ajax') and User::Access('read')) {
+
+            check_ajax_referer('wp_rest', 'wps_nonce');
+
+            $results = [];
+            $search  = Request::get('search', '');
+
+            $visitorsModel  = new VisitorsModel();
+            $visitors       = $visitorsModel->searchVisitors([
+                'ip'          => $search,
+                'username'    => $search,
+                'email'       => $search
+            ]);
+
+            foreach ($visitors as $visitor) {
+                $option = [
+                    'id'   => Menus::admin_url('visitors', ['type' => 'single-visitor', 'visitor_id' => $visitor->ID]),
+                    'text' => sprintf(esc_html__('Visitor (#%s)', 'wp-statistics'), $visitor->ID)
+                ];
+    
+                $results[] = $option;
+            }
+
+            wp_send_json(['results' => $results]);
+        }
+
+        exit;
+    }
+
+    public function store_date_range_action_callback()
+    {
+        if (Helper::is_request('ajax')) {
+            check_ajax_referer('wp_rest', 'wps_nonce');
+
+            $date = Request::get('date', [], 'array');
+            DateRange::store($date);
+            
+            wp_send_json_success(['message' => esc_html__('Date range has been stored successfully.', 'wp-statistics')]);
+
         }
 
         exit;

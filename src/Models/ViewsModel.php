@@ -1,11 +1,11 @@
 <?php
 
 namespace WP_Statistics\Models;
+
 use WP_STATISTICS\Helper;
-use WP_STATISTICS\TimeZone;
 use WP_Statistics\Utils\Query;
 use WP_Statistics\Abstracts\BaseModel;
-
+use WP_Statistics\Components\DateRange;
 
 class ViewsModel extends BaseModel
 {
@@ -20,7 +20,7 @@ class ViewsModel extends BaseModel
             'post_id'       => '',
             'query_param'   => '',
             'taxonomy'      => '',
-            'term'          => ''
+            'term'          => '',
         ]);
 
         $viewsQuery = Query::select(['id', 'date', 'SUM(count) AS count'])
@@ -54,7 +54,7 @@ class ViewsModel extends BaseModel
 
         $total = $query->getVar();
 
-        return $total ? $total : 0;
+        return $total ? intval($total) : 0;
     }
 
     /**
@@ -87,7 +87,7 @@ class ViewsModel extends BaseModel
 
         $total = $query->getVar();
 
-        return $total ? $total : 0;
+        return $total ? intval($total) : 0;
     }
 
     public function countDailyViews($args = [], $bypassCache = false)
@@ -100,13 +100,13 @@ class ViewsModel extends BaseModel
             'post_id'       => '',
             'query_param'   => '',
             'taxonomy'      => '',
-            'term'          => ''
+            'term'          => '',
         ]);
 
         $query = Query::select([
-                'SUM(pages.count) as views',
-                'pages.date as date'
-            ])
+            'SUM(pages.count) as views',
+            'pages.date as date',
+        ])
             ->from('pages')
             ->join('posts', ['pages.id', 'posts.ID'])
             ->where('post_type', 'IN', $args['post_type'])
@@ -139,73 +139,68 @@ class ViewsModel extends BaseModel
     public function getViewsSummary($args = [], $bypassCache = false)
     {
         $result = $this->countDailyViews(array_merge($args, [
-            'date' => [
-                'from' => (date('Y') - 1) . '-01-01', 
-                'to' => date('Y-m-d')]
-            ]
-        ), $bypassCache);
+            'date' => DateRange::get('this_year')
+        ]), $bypassCache);
 
         $summary = [
-            'today'     => ['label' => esc_html__('Today', 'wp-statistics'), 'views' => 0],
-            'yesterday' => ['label' => esc_html__('Yesterday', 'wp-statistics'), 'views' => 0],
-            'this_week' => ['label' => esc_html__('This Week', 'wp-statistics'), 'views' => 0],
-            'last_week' => ['label' => esc_html__('Last Week', 'wp-statistics'), 'views' => 0],
-            'this_month'=> ['label' => esc_html__('This Month', 'wp-statistics'), 'views' => 0],
-            'last_month'=> ['label' => esc_html__('Last Month', 'wp-statistics'), 'views' => 0],
-            '7days'     => ['label' => esc_html__('Last 7 days', 'wp-statistics'), 'views' => 0],
-            '30days'    => ['label' => esc_html__('Last 30 days', 'wp-statistics'), 'views' => 0],
-            '90days'    => ['label' => esc_html__('Last 90 days', 'wp-statistics'), 'views' => 0],
-            '6months'   => ['label' => esc_html__('Last 6 Months', 'wp-statistics'), 'views' => 0],
-            'this_year' => ['label' => esc_html__('This year (Jan - Today)', 'wp-statistics'), 'views' => 0],
+            'today'      => ['label' => esc_html__('Today', 'wp-statistics'), 'views' => 0],
+            'yesterday'  => ['label' => esc_html__('Yesterday', 'wp-statistics'), 'views' => 0],
+            'this_week'  => ['label' => esc_html__('This Week', 'wp-statistics'), 'views' => 0],
+            'last_week'  => ['label' => esc_html__('Last Week', 'wp-statistics'), 'views' => 0],
+            'this_month' => ['label' => esc_html__('This Month', 'wp-statistics'), 'views' => 0],
+            'last_month' => ['label' => esc_html__('Last Month', 'wp-statistics'), 'views' => 0],
+            '7days'      => ['label' => esc_html__('Last 7 days', 'wp-statistics'), 'views' => 0],
+            '30days'     => ['label' => esc_html__('Last 30 days', 'wp-statistics'), 'views' => 0],
+            '90days'     => ['label' => esc_html__('Last 90 days', 'wp-statistics'), 'views' => 0],
+            '6months'    => ['label' => esc_html__('Last 6 Months', 'wp-statistics'), 'views' => 0],
+            'this_year'  => ['label' => esc_html__('This year (Jan - Today)', 'wp-statistics'), 'views' => 0],
         ];
-
-        $dateRanges = TimeZone::getDateFilters();
 
         foreach ($result as $record) {
             $date   = $record->date;
             $views  = $record->views;
-            
-            if ($date === $dateRanges['today']['from']) {
+
+            if (DateRange::compare($date, '=', 'today')) {
                 $summary['today']['views'] += $views;
             }
 
-            if ($date === $dateRanges['yesterday']['from']) {
+            if (DateRange::compare($date, '=', 'yesterday')) {
                 $summary['yesterday']['views'] += $views;
             }
 
-            if ($date >= $dateRanges['this_week']['from'] && $date <= $dateRanges['this_week']['to']) {
+            if (DateRange::compare($date, 'in', 'this_week')) {
                 $summary['this_week']['views'] += $views;
             }
 
-            if ($date >= $dateRanges['last_week']['from'] && $date <= $dateRanges['last_week']['to']) {
+            if (DateRange::compare($date, 'in', 'last_week')) {
                 $summary['last_week']['views'] += $views;
             }
 
-            if ($date >= $dateRanges['this_month']['from'] && $date <= $dateRanges['this_month']['to']) {
+            if (DateRange::compare($date, 'in', 'this_month')) {
                 $summary['this_month']['views'] += $views;
             }
 
-            if ($date >= $dateRanges['last_month']['from'] && $date <= $dateRanges['last_month']['to']) {
+            if (DateRange::compare($date, 'in', 'last_month')) {
                 $summary['last_month']['views'] += $views;
             }
 
-            if ($date >= $dateRanges['7days']['from'] && $date <= $dateRanges['7days']['to']) {
+            if (DateRange::compare($date, 'in', '7days')) {
                 $summary['7days']['views'] += $views;
             }
 
-            if ($date >= $dateRanges['30days']['from'] && $date <= $dateRanges['30days']['to']) {
+            if (DateRange::compare($date, 'in', '30days')) {
                 $summary['30days']['views'] += $views;
             }
 
-            if ($date >= $dateRanges['90days']['from'] && $date <= $dateRanges['90days']['to']) {
+            if (DateRange::compare($date, 'in', '90days')) {
                 $summary['90days']['views'] += $views;
             }
 
-            if ($date >= $dateRanges['6months']['from'] && $date <= $dateRanges['6months']['to']) {
+            if (DateRange::compare($date, 'in', '6months')) {
                 $summary['6months']['views'] += $views;
             }
 
-            if ($date >= $dateRanges['this_year']['from'] && $date <= $dateRanges['this_year']['to']) {
+            if (DateRange::compare($date, 'in', 'this_year')) {
                 $summary['this_year']['views'] += $views;
             }
         }
@@ -216,14 +211,14 @@ class ViewsModel extends BaseModel
     public function getViewedPageUri($args = [], $bypassCache = false)
     {
         $args = $this->parseArgs($args, [
-            'id' => ''
+            'id' => '',
         ]);
 
         $results = $this->query::select([
-                'uri',
-                'page_id',
-                'SUM(count) AS total'
-            ])
+            'uri',
+            'page_id',
+            'SUM(count) AS total',
+        ])
             ->from('pages')
             ->where('id', '=', $args['id'])
             ->groupBy('uri')

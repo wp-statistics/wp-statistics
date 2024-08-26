@@ -153,42 +153,42 @@ class Helper
         // TODO: Optimize this function
         /* WordPress core */
         if (defined('WP_CACHE') && WP_CACHE) {
-            $use = array('status' => true, 'plugin' => 'core');
+            $use = array('status' => true, 'plugin' => __('WordPress Object Cache', 'wp-statistics'));
         }
 
         /* WP Rocket */
         if (function_exists('get_rocket_cdn_url')) {
-            $use = array('status' => true, 'plugin' => 'WP Rocket');
+            $use = array('status' => true, 'plugin' => __('WP Rocket', 'wp-statistics'));
         }
 
         /* WP Super Cache */
         if (function_exists('wpsc_init')) {
-            $use = array('status' => true, 'plugin' => 'WP Super Cache');
+            $use = array('status' => true, 'plugin' => __('WP Super Cache', 'wp-statistics'));
         }
 
         /* Comet Cache */
         if (function_exists('___wp_php_rv_initialize')) {
-            $use = array('status' => true, 'plugin' => 'Comet Cache');
+            $use = array('status' => true, 'plugin' => __('Comet Cache', 'wp-statistics'));
         }
 
         /* WP Fastest Cache */
         if (class_exists('WpFastestCache')) {
-            $use = array('status' => true, 'plugin' => 'WP Fastest Cache');
+            $use = array('status' => true, 'plugin' => __('WP Fastest Cache', 'wp-statistics'));
         }
 
         /* Cache Enabler */
         if (defined('CE_MIN_WP')) {
-            $use = array('status' => true, 'plugin' => 'Cache Enabler');
+            $use = array('status' => true, 'plugin' => __('Cache Enabler', 'wp-statistics'));
         }
 
         /* W3 Total Cache */
         if (defined('W3TC')) {
-            $use = array('status' => true, 'plugin' => 'W3 Total Cache');
+            $use = array('status' => true, 'plugin' => __('W3 Total Cache', 'wp-statistics'));
         }
 
         /* WP-Optimize */
         if (class_exists('WP_Optimize')) {
-            $use = array('status' => true, 'plugin' => 'WP-Optimize');
+            $use = array('status' => true, 'plugin' => __('WP-Optimize', 'wp-statistics'));
         }
 
         return apply_filters('wp_statistics_cache_status', $use);
@@ -1760,7 +1760,7 @@ class Helper
      * @param bool $withTime
      * @return string
      */
-    public static function getDefaultDateFormat($withTime = false, $excludeYear = false)
+    public static function getDefaultDateFormat($withTime = false, $excludeYear = false, $dateTimeSeparator = ' ')
     {
         $dateFormat = get_option('date_format');
         $timeFormat = get_option('time_format');
@@ -1773,7 +1773,7 @@ class Helper
             $timeFormat = 'g:i a';
         }
 
-        $dateTimeFormat = $withTime ? $dateFormat . ' ' . $timeFormat : $dateFormat;
+        $dateTimeFormat = $withTime ? $dateFormat . $dateTimeSeparator . $timeFormat : $dateFormat;
 
         if ($excludeYear) {
             $dateTimeFormat = preg_replace('/(,\s?Y|Y\s?,|Y[, \/-]?|[, \/-]?Y)/i', '', $dateTimeFormat);
@@ -1789,14 +1789,14 @@ class Helper
      */
     public static function isAdminBarShowing()
     {
-        /**
-         * Show/Hide WP Statistics Admin Bar
-         *
-         * @example add_filter('wp_statistics_show_admin_bar', function(){ return false; });
-         */
-        $showAdminBar = has_filter('wp_statistics_show_admin_bar') ? apply_filters('wp_statistics_show_admin_bar', true) : Option::get('menu_bar');
+        $showAdminBar = (Option::get('menu_bar') && is_admin_bar_showing() && User::Access());
 
-        return ($showAdminBar && is_admin_bar_showing() && User::Access());
+        /**
+         * Filters whether to show the WordPress admin bar.
+         *
+         * @example add_filter('wp_statistics_show_admin_bar', '__return_false');
+         */
+        return apply_filters('wp_statistics_show_admin_bar', $showAdminBar);
     }
 
     /**
@@ -2073,7 +2073,7 @@ class Helper
      *  - `topPost`
      *  - `topReferral`
      *  - `topCategory`
-     * 
+     *
      * @todo This function is a mess! We should make it more readable and break it down into several functions.
      */
     public static function getWebsitePerformanceSummary($startDate, $endDate = '')
@@ -2087,14 +2087,14 @@ class Helper
         $lastPeriodFromDaysAgo = 0;
         $lastPeriodToDaysAgo   = 0;
 
-        $thisPeriodVisitors    = wp_statistics_visitor('total', null, true);
-        $lastPeriodVisitors    = 0;
-        $thisPeriodVisits      = wp_statistics_visit('total');
-        $lastPeriodVisits      = 0;
-        $thisPeriodReferrals   = 0;
-        $lastPeriodReferrals   = 0;
-        $thisPeriodContents    = 0;
-        $lastPeriodContents    = 0;
+        $thisPeriodVisitors  = wp_statistics_visitor('total', null, true);
+        $lastPeriodVisitors  = 0;
+        $thisPeriodVisits    = wp_statistics_visit('total');
+        $lastPeriodVisits    = 0;
+        $thisPeriodReferrals = 0;
+        $lastPeriodReferrals = 0;
+        $thisPeriodContents  = 0;
+        $lastPeriodContents  = 0;
 
         $skipPercentageChanges = false;
         $postsModel            = new PostsModel();

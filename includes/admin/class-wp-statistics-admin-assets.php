@@ -2,8 +2,9 @@
 
 namespace WP_STATISTICS;
 
-use WP_Statistics\Components\Assets;
 use WP_Statistics\Utils\Request;
+use WP_Statistics\Components\Assets;
+use WP_Statistics\Components\DateRange;
 
 class Admin_Assets
 {
@@ -50,6 +51,7 @@ class Admin_Assets
     {
         add_action('admin_enqueue_scripts', array($this, 'admin_styles'), 999);
         add_action('admin_enqueue_scripts', array($this, 'admin_scripts'), 999);
+        add_filter('wp_statistics_enqueue_chartjs', [$this, 'shouldEnqueueChartJs']);
 
         $this->initFeedback();
     }
@@ -227,16 +229,14 @@ class Admin_Assets
         // Get Current Screen ID
         $screen_id = Helper::get_screen_id();
 
-        // Load Chart.js library and mini chart
-        if (
-            (Helper::isAddOnActive('mini-chart') && Helper::isAdminBarShowing()) || Menus::in_plugin_page() ||
-            (in_array($screen_id, ['dashboard']) && !Option::get('disable_dashboard')) ||
-            (in_array($hook, ['post.php', 'edit.php', 'post-new.php']) && !Option::get('disable_editor'))
-        ) {
+        // Load Chart.js library
+        if (apply_filters('wp_statistics_enqueue_chartjs', false)) {
             Assets::script('chart.js', 'js/chartjs/chart.umd.min.js', [], [], true, false, null, '4.4.2');
             Assets::script('hammer.js', 'js/chartjs/hammer.min.js', [], [], true, false, null, '2.0.8');
             Assets::script('chartjs-plugin-zoom.js', 'js/chartjs/chartjs-plugin-zoom.min.js', ['wp-statistics-hammer.js'], [], true, false, null, '2.0.1');
         }
+
+        // Load mini-chart
         if (Helper::isAdminBarShowing()) {
             Assets::script('mini-chart', 'js/mini-chart.js', [], [], true);
         }
@@ -276,7 +276,11 @@ class Admin_Assets
         }
 
         // Load Admin Js
-        if (Menus::in_plugin_page() || (in_array($screen_id, array('dashboard')) and !Option::get('disable_dashboard')) || (in_array($hook, array('post.php', 'edit.php', 'post-new.php')) and !Option::get('disable_editor'))) {
+        if (
+            Menus::in_plugin_page() || (in_array($screen_id, ['dashboard']) && !Option::get('disable_dashboard')) ||
+            (in_array($hook, ['post.php', 'edit.php']) && !Option::get('disable_editor')) ||
+            (in_array($hook, ['post.php', 'edit.php']) && (!Helper::isAddOnActive('data-plus') || Option::getByAddon('latest_visitors_metabox', 'data_plus', '1') === '1'))
+        ) {
             wp_enqueue_script(self::$prefix, self::url('admin.min.js'), array('jquery'), self::version(), ['in_footer' => true]);
             wp_localize_script(self::$prefix, 'wps_global', self::wps_global($hook));
         }
@@ -287,7 +291,7 @@ class Admin_Assets
         }
 
         // Add Thick box
-        if (Menus::in_page('visitors')) {
+        if (Menus::in_page('visitors') || Menus::in_page('visitors-report')) {
             wp_enqueue_script('thickbox');
             wp_enqueue_style('thickbox');
         }
@@ -357,13 +361,13 @@ class Admin_Assets
             'this-week'                    => __('This week', 'wp-statistics'),
             'last-week'                    => __('Last week', 'wp-statistics'),
             'month'                        => __('Last 30 days', 'wp-statistics'),
-            'this-month'                   => __('This Month', 'wp-statistics'),
-            'last-month'                   => __('Last Month', 'wp-statistics'),
+            'this-month'                   => __('This month', 'wp-statistics'),
+            'last-month'                   => __('Last month', 'wp-statistics'),
             '7days'                        => __('Last 7 days', 'wp-statistics'),
             '30days'                       => __('Last 30 days', 'wp-statistics'),
             '60days'                       => __('Last 60 days', 'wp-statistics'),
             '90days'                       => __('Last 90 days', 'wp-statistics'),
-            '6months'                      => __('Last 6 Months', 'wp-statistics'),
+            '6months'                      => __('Last 6 months', 'wp-statistics'),
             'year'                         => __('Last 12 months', 'wp-statistics'),
             'this-year'                    => __('This year (Jan-Today)', 'wp-statistics'),
             'last-year'                    => __('Last year', 'wp-statistics'),
@@ -377,7 +381,7 @@ class Admin_Assets
             'country'                      => __('Country', 'wp-statistics'),
             'visitor_count'                => __('Visitors', 'wp-statistics'),
             'id'                           => __('ID', 'wp-statistics'),
-            'title'                        => __('Page Title', 'wp-statistics'),
+            'title'                        => __('Page', 'wp-statistics'),
             'link'                         => __('Page Link', 'wp-statistics'),
             'address'                      => __('Domain Address', 'wp-statistics'),
             'word'                         => __('Search Term', 'wp-statistics'),
@@ -418,7 +422,7 @@ class Admin_Assets
             'er_datepicker'                => __('Select Desired Time Range', 'wp-statistics'),
             'er_valid_ip'                  => __('Enter a Valid IP Address', 'wp-statistics'),
             'please_wait'                  => __('Loading, Please Wait...', 'wp-statistics'),
-            'user'                         => __('User Information', 'wp-statistics'),
+            'user'                         => __('User', 'wp-statistics'),
             'rest_connect'                 => __('Failed to retrieve data. Please check the browser console and the XHR request under Network → XHR for details.', 'wp-statistics'),
             'privacy_compliant'            => __('Your WP Statistics settings are privacy-compliant.', 'wp-statistics'),
             'non_privacy_compliant'        => __('Your WP Statistics settings are not privacy-compliant. Please update your settings.', 'wp-statistics'),
@@ -430,10 +434,13 @@ class Admin_Assets
             'enable_now'                   => __('Enable Now', 'wp-statistics'),
             'receive_weekly_email_reports' => __('Receive Weekly Email Reports'),
             'close'                        => __('Close'),
+            'previous_period'              => __('Previous period'),
+            'view_content'                 => __('View Content'),
             'start_of_week'                => get_option('start_of_week', 0)
         );
 
         $list['active_post_type'] = Helper::getPostTypeName(Request::get('pt', 'post'));
+        $list['user_date_range']  = DateRange::get();
 
         // Rest-API Meta Box Url
         $list['stats_report_option'] = Option::get('time_report') == '0' ? false : true;
@@ -487,6 +494,30 @@ class Admin_Assets
          * @since 14.9.4
          */
         return apply_filters('wp_statistics_admin_assets', $list);
+    }
+
+    /**
+     * Checks if any of the conditions for enqueuing Chart.js library are met.
+     *
+     * Conditions are:
+     * - Mini Chart add-on is enabled and admin bar button is showing.
+     * - User is currently viewing the WP Statistics admin pages (e.g. Settings, Overview, Optimization, etc.).
+     * - User is currently viewing WP dashboard and `disable_dashboard` option is not disabled.
+     * - User is currently in edit post page and `disable_editor` is disabled.
+     * - User is currently in edit post page and `latest_visitors_metabox` is enabled.
+     *
+     * @return  bool
+     *
+     * @hooked  filter: `wp_statistics_enqueue_chartjs` - 10
+     */
+    public function shouldEnqueueChartJs()
+    {
+        global $pagenow;
+
+        return (Helper::isAddOnActive('mini-chart') && Helper::isAdminBarShowing()) || Menus::in_plugin_page() ||
+            (in_array(Helper::get_screen_id(), ['dashboard']) && !Option::get('disable_dashboard')) ||
+            (in_array($pagenow, ['post.php', 'edit.php']) && !Option::get('disable_editor')) ||
+            (in_array($pagenow, ['post.php', 'edit.php']) && (!Helper::isAddOnActive('data-plus') || Option::getByAddon('latest_visitors_metabox', 'data_plus', '1') === '1'));
     }
 }
 

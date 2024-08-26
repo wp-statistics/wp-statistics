@@ -328,8 +328,7 @@
   }
 
   .o-table-wrapper {
-    border-radius: 7px;
-    overflow-x: auto;
+     overflow-x: auto;
     scroll-behavior: smooth;
     scrollbar-width: thin;
     scrollbar-color: #DADCE0 $light-tertiary-color;
@@ -360,7 +359,7 @@
 
     .quickstats-values{
       font-weight: 600;
-      font-size: 16px;
+      font-size: 14px;
       color: #404BF2;
     }
   }
@@ -459,6 +458,7 @@
   }
 
   .o-table--pages {
+    margin-top: 0!important;
     tbody tr td,
     tbody tr th {
       padding: 11.1px 40px 11.1px 0;
@@ -470,12 +470,42 @@
         color: $dim-black-color;
         font-size: 13px;
 
+        .wps-ellipsis-parent{
+          max-width: 300px;
+        }
+
         &:not(:first-child) {
           text-align: left;
 
           span, a {
 
             text-align: left;
+            &.wps-view-content{
+              border: 1px solid #EEEFF1;
+              background: #FFFFFF;
+              padding: 4px 12px;
+              gap: 6px;
+              border-radius: 4px;
+              display: inline-flex!important;
+              justify-content: center;
+              align-items: center;
+              color: #4E4E4E!important;
+              font-size: 12px;
+              font-weight: 400;
+              line-height: 20.4px;
+
+              &:hover{
+                background: #fafafb;
+              }
+
+              &:after{
+                content:'' ;
+                width: 13px;
+                height: 13px;
+                display: inline-block;
+                background: url("data:image/svg+xml;base64,Cjxzdmcgd2lkdGg9IjEzIiBoZWlnaHQ9IjE0IiB2aWV3Qm94PSIwIDAgMTMgMTQiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik01LjQxNjY3IDQuMDcwMzFWNS4xNTM2NUgyLjcwODMzVjExLjExMkg4LjY2NjY3VjguNDAzNjVIOS43NVYxMS42NTM2QzkuNzUgMTEuOTUyOCA5LjUwNzUgMTIuMTk1MyA5LjIwODMzIDEyLjE5NTNIMi4xNjY2N0MxLjg2NzUxIDEyLjE5NTMgMS42MjUgMTEuOTUyOCAxLjYyNSAxMS42NTM2VjQuNjExOThDMS42MjUgNC4zMTI4MyAxLjg2NzUxIDQuMDcwMzEgMi4xNjY2NyA0LjA3MDMxSDUuNDE2NjdaTTExLjM3NSAyLjQ0NTMxVjYuNzc4NjVIMTAuMjkxN0wxMC4yOTE2IDQuMjk0MDJMNi4wNzA1MSA4LjUxNTgzTDUuMzA0NDggNy43NDk4TDkuNTI1MTUgMy41Mjg2NUg3LjA0MTY3VjIuNDQ1MzFIMTEuMzc1WiIgZmlsbD0iIzRFNEU0RSIvPgo8L3N2Zz4K") center center no-repeat;
+              }
+            }
           }
         }
       }

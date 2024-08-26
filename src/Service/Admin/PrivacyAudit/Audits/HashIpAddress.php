@@ -40,7 +40,7 @@ class HashIpAddress extends ResolvableAudit
                 <li><b>Disclosure:</b> If there are specific reasons for keeping hashing disabled, ensure transparent communication with your users by clearly disclosing this in your privacy policy, including the implications for their data privacy.</li>
             </ol>
             <div class="wps-privacy-list__content--note">
-                <b>To enable this feature,</b> navigate to <b>Settings -> User Data Protection -> Hash IP Addresses</b> and check <b>"Enable"</b>.
+                <b>To enable this feature,</b> navigate to <b>Settings -> Privacy & Data Protection -> Hash IP Addresses</b> and check <b>"Enable"</b>.
             </div>', 'wp-statistics')
         ];
     }

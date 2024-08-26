@@ -52,7 +52,7 @@ class browsers extends MetaBoxAbstract
         }
 
         // Set Default Value
-        $total         = $count = $top_ten = 0;
+        $total         = $count = $top_five = 0;
         $BrowserVisits = $lists_value = $lists_name = $lists_keys = $lists_logo = array();
 
         // Check Custom Browsers or ALL Browsers
@@ -101,9 +101,9 @@ class browsers extends MetaBoxAbstract
 
             // Get List Of Browser
             foreach ($BrowserVisits as $key => $value) {
-                $top_ten += $value;
+                $top_five += $value;
                 $count++;
-                if ($count > 9) { // Max 10 Browser
+                if ($count > 4) { // Max 4 Browser
                     break;
                 }
 
@@ -118,7 +118,7 @@ class browsers extends MetaBoxAbstract
             // Push Other Browser
             if ($lists_name and $lists_value and $other_agent_count > 0) {
                 $lists_name[]  = __('Other', 'wp-statistics');
-                $lists_value[] = (int)($total - $top_ten);
+                $lists_value[] = (int)($total - $top_five);
             }
 
         } else {
@@ -167,6 +167,7 @@ class browsers extends MetaBoxAbstract
         // Prepare Response
         $response = array(
             'title'          => $title,
+            'browsers_logos' => $lists_logo,
             'browsers_name'  => $lists_name,
             'browsers_value' => $lists_value,
             'info'           => array(

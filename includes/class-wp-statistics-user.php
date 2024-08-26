@@ -68,6 +68,20 @@ class User
         return $user_info;
     }
 
+
+
+    public static function getMeta($metaKey, $single = false, $userId = false)
+    {
+        $userId = !empty($userId) ? $userId : get_current_user_id();
+        return get_user_meta($userId, $metaKey, $single);
+    }
+
+    public static function saveMeta($metaKey, $metaValue, $userId = false)
+    {
+        $userId = !empty($userId) ? $userId : get_current_user_id();
+        return update_user_meta($userId, $metaKey, $metaValue);
+    }
+
     /**
      * Get Full name of User
      *
@@ -274,4 +288,22 @@ class User
         update_user_meta($userID, self::$dateFilterMetaKey, $meta);
     }
 
+    /**
+     * Retrieves the last login time of a WordPress user.
+     *
+     * @param int|false $userId The ID of the user to retrieve the last login time for. Defaults to the current user.
+     * @return string|false The last login time of the user, or false if no login time is found.
+     */
+    public static function getLastLogin($userId = false)
+    {
+        $userId     = empty($userId) ? get_current_user_id() : $userId;
+        $lastLogin  = get_user_meta($userId, 'session_tokens', true);
+
+        if (!empty($lastLogin)) {
+            $lastLogin = array_values($lastLogin);
+            return $lastLogin[0]['login'];
+        } else {
+            return false;
+        }
+    }
 }

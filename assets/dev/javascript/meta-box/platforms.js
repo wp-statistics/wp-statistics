@@ -1,7 +1,7 @@
 wps_js.platforms_meta_box = {
 
     placeholder: function () {
-        return wps_js.circle_placeholder();
+        return wps_js.rectangle_placeholder();
     },
 
     view: function (args = []) {
@@ -25,22 +25,11 @@ wps_js.platforms_meta_box = {
     },
 
     meta_box_init: function (args = []) {
-
-        // Get Background Color
-        let backgroundColor = [];
-        let color;
-        for (let i = 0; i <= 20; i++) {
-            color = wps_js.random_color(i);
-            backgroundColor.push('rgba(' + color[0] + ',' + color[1] + ',' + color[2] + ',' + '0.4)');
-        }
-
         // Prepare Data
         let data = [{
             label: wps_js._('platform'),
             data: args['platform_value'],
-            backgroundColor: backgroundColor,
-            tension: 0.4
-        }];
+         }];
 
         const label_callback = function (tooltipItem) {
             return tooltipItem.label;
@@ -50,8 +39,7 @@ wps_js.platforms_meta_box = {
             return wps_js._('visitors') + ':' + ctx[0].formattedValue
         }
 
-        // Show Chart
-        wps_js.pie_chart(wps_js.chart_id('platforms'), args['platform_name'], data, label_callback, title_callback);
+        wps_js.horizontal_bar(wps_js.chart_id('platforms'), args['platform_name'], data[0].data , args['platform_logos']);
 
         // Check Table information
         if (wps_js.exist_tag('#' + wps_js.getMetaBoxKey('platforms-table'))) {

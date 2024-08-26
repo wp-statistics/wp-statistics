@@ -134,7 +134,10 @@ class GeographicDataProvider
         $referrers = $this->visitorsModel->getReferrers($this->args);
 
         return [
-            'stats'     => $stats,
+            'stats'     => [
+                'visitors' => !empty($stats) ? $stats->visitors : 0,
+                'views'    => !empty($stats) ? $stats->views : 0
+            ],
             'regions'   => $regions,
             'cities'    => [
                 'data'  => $cities,
@@ -149,84 +152,25 @@ class GeographicDataProvider
         $platformData = $this->visitorsModel->getVisitorsPlatformData($this->args);
 
         return [
-            'search_engine_chart_data' => $this->getSearchEnginesChartData(),
-            'os_chart_data'            => [
-                'labels' => array_keys($platformData['platform']),
-                'data'   => array_values($platformData['platform'])
+            'search_engine_chart_data' => $this->visitorsModel->getSearchEnginesChartData($this->args),
+            'os_chart_data'         => [
+                'labels'    => wp_list_pluck($platformData['platform'], 'label'),
+                'data'      => wp_list_pluck($platformData['platform'], 'visitors'),
+                'icons'     => wp_list_pluck($platformData['platform'], 'icon'),
             ],
-            'browser_chart_data'       => [
-                'labels' => array_keys($platformData['agent']),
-                'data'   => array_values($platformData['agent'])
+            'browser_chart_data'    => [
+                'labels'    => wp_list_pluck($platformData['agent'], 'label'), 
+                'data'      => wp_list_pluck($platformData['agent'], 'visitors'),
+                'icons'     => wp_list_pluck($platformData['agent'], 'icon')
             ],
             'device_chart_data'        => [
-                'labels' => array_keys($platformData['device']),
-                'data'   => array_values($platformData['device'])
+                'labels' => wp_list_pluck($platformData['device'], 'label'),
+                'data'   => wp_list_pluck($platformData['device'], 'visitors')
             ],
             'model_chart_data'         => [
-                'labels' => array_keys($platformData['model']),
-                'data'   => array_values($platformData['model'])
+                'labels' => wp_list_pluck($platformData['model'], 'label'),
+                'data'   => wp_list_pluck($platformData['model'], 'visitors')
             ],
         ];
-    }
-
-    public function getSearchEnginesChartData()
-    {
-
-        // Get results up to 30 days
-        $args = [];
-        $days = TimeZone::getNumberDayBetween($this->args['date']['from'], $this->args['date']['to']);
-        if ($days > 30) {
-            $args = [
-                'date' => [
-                    'from' => date('Y-m-d', strtotime("-29 days", strtotime($this->args['date']['to']))),
-                    'to'   => $this->args['date']['to']
-                ]
-            ];
-        }
-
-        $args = array_merge($this->args, $args);
-
-        $datesList = TimeZone::getListDays($args['date']);
-        $datesList = array_keys($datesList);
-
-        $result = [
-            'labels'   => array_map(function ($date) {
-                return date_i18n('j M', strtotime($date));
-            }, $datesList),
-            'datasets' => []
-        ];
-
-        $data       = $this->visitorsModel->getSearchEngineReferrals($args);
-        $parsedData = [];
-        $totalData  = array_fill_keys($datesList, 0);
-
-        // Format and parse data
-        foreach ($data as $item) {
-            $parsedData[$item->engine][$item->date] = $item->visitors;
-            $totalData[$item->date]                 += $item->visitors;
-        }
-
-        foreach ($parsedData as $searchEngine => &$data) {
-            // Fill out missing visitors with 0
-            $data = array_merge(array_fill_keys($datesList, 0), $data);
-
-            // Sort data by date
-            ksort($data);
-
-            // Generate dataset
-            $result['datasets'][] = [
-                'label' => ucfirst($searchEngine),
-                'data'  => array_values($data)
-            ];
-        }
-
-        if (!empty($result['datasets'])) {
-            $result['datasets'][] = [
-                'label' => esc_html__('Total', 'wp-statistics'),
-                'data'  => array_values($totalData)
-            ];
-        }
-
-        return $result;
     }
 }

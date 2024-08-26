@@ -39,20 +39,22 @@ class CategoryAnalyticsDataProvider
             'performance_chart_data'    => $this->getPerformanceChartData(),
             'search_engine_chart_data'  => $this->visitorsModel->getSearchEnginesChartData($this->args),
             'os_chart_data'             => [
-                'labels'    => array_keys($visitorsData['platform']), 
-                'data'      => array_values($visitorsData['platform'])
+                'labels'    => wp_list_pluck($visitorsData['platform'], 'label'),
+                'data'      => wp_list_pluck($visitorsData['platform'], 'visitors'),
+                'icons'     => wp_list_pluck($visitorsData['platform'], 'icon'),
             ],
             'browser_chart_data'        => [
-                'labels'    => array_keys($visitorsData['agent']), 
-                'data'      => array_values($visitorsData['agent'])
+                'labels'    => wp_list_pluck($visitorsData['agent'], 'label'), 
+                'data'      => wp_list_pluck($visitorsData['agent'], 'visitors'),
+                'icons'     => wp_list_pluck($visitorsData['agent'], 'icon')
             ],
             'device_chart_data'         => [
-                'labels'    => array_keys($visitorsData['device']), 
-                'data'      => array_values($visitorsData['device'])
+                'labels'    => wp_list_pluck($visitorsData['device'], 'label'), 
+                'data'      => wp_list_pluck($visitorsData['device'], 'visitors')
             ],
             'model_chart_data'          => [
-                'labels'    => array_keys($visitorsData['model']), 
-                'data'      => array_values($visitorsData['model'])
+                'labels'    => wp_list_pluck($visitorsData['model'], 'label'), 
+                'data'      => wp_list_pluck($visitorsData['model'], 'visitors')
             ],
         ];
     }
@@ -80,7 +82,10 @@ class CategoryAnalyticsDataProvider
         for ($i = 14; $i >= 0; $i--) {
             $date = date('Y-m-d', strtotime("-$i days"));
 
-            $result['labels'][]     = date_i18n(Helper::getDefaultDateFormat(false, true), strtotime($date));
+            $result['labels'][]     = [
+                'date'  => date_i18n(Helper::getDefaultDateFormat(false, true), strtotime($date)),
+                'day'   => date_i18n('l', strtotime($date)),
+            ];
             $result['views'][]      = isset($viewsData[$date]) ? intval($viewsData[$date]) : 0;
             $result['visitors'][]   = isset($visitorsData[$date]) ? intval($visitorsData[$date]) : 0;
             $result['posts'][]      = isset($postsData[$date]) ? intval($postsData[$date]) : 0;
@@ -91,16 +96,16 @@ class CategoryAnalyticsDataProvider
 
     public function getSingleTermData()
     {
-        $totalPosts         = $this->postsModel->countPosts(array_merge($this->args, ['date' => '']));
+        $totalPosts         = $this->postsModel->countPosts(array_merge($this->args, ['ignore_date' => true]));
         $recentPosts        = $this->postsModel->countPosts($this->args);
         
         $recentViews         = $this->viewsModel->countViews($this->args);
         $recentVisitors      = $this->visitorsModel->countVisitors($this->args);
 
-        $totalWords         = $this->postsModel->countWords(array_merge($this->args, ['date' => '']));
+        $totalWords         = $this->postsModel->countWords(array_merge($this->args, ['ignore_date' => true]));
         $recentWords        = $this->postsModel->countWords($this->args);
 
-        $totalComments      = $this->postsModel->countComments(array_merge($this->args, ['date' => '']));
+        $totalComments      = $this->postsModel->countComments(array_merge($this->args, ['ignore_date' => true]));
         $recentComments     = $this->postsModel->countComments($this->args);
 
         $visitorsSummary    = $this->visitorsModel->getVisitorsSummary($this->args);
@@ -161,17 +166,17 @@ class CategoryAnalyticsDataProvider
 
     public function getPerformanceData()
     {
-        $totalPosts         = $this->postsModel->countPosts(array_merge($this->args, ['date' => '']));
+        $totalPosts         = $this->postsModel->countPosts(array_merge($this->args, ['ignore_date' => true]));
         $recentPosts        = $this->postsModel->countPosts($this->args);
 
         $recentViews        = $this->viewsModel->countViews($this->args);
         $recentVisitors     = $this->visitorsModel->countVisitors($this->args);
 
         $recentWords        = $this->postsModel->countWords($this->args);
-        $totalWords         = $this->postsModel->countWords(array_merge($this->args, ['date' => '']));
+        $totalWords         = $this->postsModel->countWords(array_merge($this->args, ['ignore_date' => true]));
 
         $recentComments     = $this->postsModel->countComments($this->args);
-        $totalComments      = $this->postsModel->countComments(array_merge($this->args, ['date' => '']));
+        $totalComments      = $this->postsModel->countComments(array_merge($this->args, ['ignore_date' => true]));
 
         $visitorsSummary    = $this->visitorsModel->getVisitorsSummary($this->args);
         $viewsSummary       = $this->viewsModel->getViewsSummary($this->args);
@@ -240,24 +245,6 @@ class CategoryAnalyticsDataProvider
                 'top_commented' => $topPostsByComment,
                 'recent'        => $recentPostsData
             ]
-        ];
-    }
-
-    public function getPagesData()
-    {
-        $args = array_merge($this->args, [
-            'order'             => Request::get('order', 'DESC'),
-            'order_by'          => Request::get('order_by', 'views'),
-            'per_page'          => Admin_Template::$item_per_page,
-            'page'              => Admin_Template::getCurrentPaged(),
-            'count_total_posts' => true
-        ]);
-
-        $data = $this->taxonomyModel->getTaxonomiesData($args);
-
-        return [
-            'categories'  => $data,
-            'total'       => count($data)
         ];
     }
 

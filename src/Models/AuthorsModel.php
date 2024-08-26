@@ -302,6 +302,13 @@ class AuthorsModel extends BaseModel
             ->groupBy('id')
             ->getQuery();
 
+        $authorQuery = Query::select(['post_author'])
+            ->from('posts')
+            ->where('post_status', '=', 'publish')
+            ->where('post_type', 'IN', $args['post_type'])
+            ->groupBy('post_author')
+            ->getQuery();
+
         $result = Query::select([
                 'users.ID AS id',
                 'users.display_name AS name',
@@ -319,7 +326,8 @@ class AuthorsModel extends BaseModel
                 ],
                 'LEFT'
             )
-            ->joinQuery($viewsQuery, ['users.ID', 'views.author_id'], 'views')
+            ->joinQuery($authorQuery, ['users.ID', 'authors.post_author'], 'authors')
+            ->joinQuery($viewsQuery, ['users.ID', 'views.author_id'], 'views', 'LEFT')
             ->groupBy(['users.ID', 'users.display_name'])
             ->orderBy($args['order_by'], $args['order'])
             ->perPage($args['page'], $args['per_page'])
