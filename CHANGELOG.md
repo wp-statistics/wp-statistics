@@ -1,4 +1,4 @@
-= 14.10 - xx.08.2024 =
+= 14.10 - 28.08.2024 =
 * New: Introduced the Visitor Insights menu by merging the Visitors, Views, Online Visitors, and Top Visitors reports into one centralized Visitors page.
 * New: Created the Page Insights menu by combining the Contents, Category Pages, and Author Pages reports into one unified Pages page for better organization.
 * New: Redesigned Single Visitor page with more detailed and better-organized visitor information.
