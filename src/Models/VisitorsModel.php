@@ -917,7 +917,10 @@ class VisitorsModel extends BaseModel
             'data' => [
                 'labels'   => array_map(
                     function ($date) {
-                        return date_i18n(Helper::getDefaultDateFormat(false, true), strtotime($date));
+                        return [
+                            'date'  => date_i18n(Helper::getDefaultDateFormat(false, true), strtotime($date)),
+                            'day'   => date_i18n('l', strtotime($date)),
+                        ];
                     },
                     $thisPeriodDates
                 ),
@@ -926,7 +929,10 @@ class VisitorsModel extends BaseModel
             'previousData' => [
                 'labels'   => array_map(
                     function ($date) {
-                        return date_i18n(Helper::getDefaultDateFormat(false, true), strtotime($date));
+                        return [
+                            'date'  => date_i18n(Helper::getDefaultDateFormat(false, true), strtotime($date)),
+                            'day'   => date_i18n('l', strtotime($date)),
+                        ];
                     },
                     $prevPeriodDates
                 ),
