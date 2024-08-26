@@ -134,7 +134,10 @@ class GeographicDataProvider
         $referrers = $this->visitorsModel->getReferrers($this->args);
 
         return [
-            'stats'     => $stats,
+            'stats'     => [
+                'visitors' => !empty($stats) ? $stats->visitors : 0,
+                'views'    => !empty($stats) ? $stats->views : 0
+            ],
             'regions'   => $regions,
             'cities'    => [
                 'data'  => $cities,
