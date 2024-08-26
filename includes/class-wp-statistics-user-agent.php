@@ -211,4 +211,18 @@ class UserAgent
 
         return esc_url(WP_STATISTICS_URL . 'assets/images/operating-system/unknown.svg');
     }
+
+    public static function getPlatformsList()
+    {
+        return [
+            'Windows',
+            'OS X',
+            'Android',
+            'iOS',
+            'Linux',
+            'Ubuntu',
+            'Chrome OS',
+            'Harmony OS'
+        ];
+    }
 }
