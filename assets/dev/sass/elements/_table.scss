@@ -517,6 +517,10 @@
         gap: 6px;
         align-items: center;
 
+        a{
+          display: flex !important;
+        }
+
         img {
           width: 18.81px;
           height: 14px;
