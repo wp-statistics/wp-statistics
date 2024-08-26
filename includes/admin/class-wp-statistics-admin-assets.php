@@ -279,7 +279,7 @@ class Admin_Assets
         if (
             Menus::in_plugin_page() || (in_array($screen_id, ['dashboard']) && !Option::get('disable_dashboard')) ||
             (in_array($hook, ['post.php', 'edit.php']) && !Option::get('disable_editor')) ||
-            (in_array($hook, ['post.php', 'edit.php']) && (!Helper::isAddOnActive('data-plus') || Option::getByAddon('latest_visitors_metabox', 'data_plus', '1') === '1'))
+            (in_array($hook, ['post.php', 'edit.php']) && Helper::isAddOnActive('data-plus') && Option::getByAddon('latest_visitors_metabox', 'data_plus', '1') === '1')
         ) {
             wp_enqueue_script(self::$prefix, self::url('admin.min.js'), array('jquery'), self::version(), ['in_footer' => true]);
             wp_localize_script(self::$prefix, 'wps_global', self::wps_global($hook));
@@ -517,7 +517,7 @@ class Admin_Assets
         return (Helper::isAddOnActive('mini-chart') && Helper::isAdminBarShowing()) || Menus::in_plugin_page() ||
             (in_array(Helper::get_screen_id(), ['dashboard']) && !Option::get('disable_dashboard')) ||
             (in_array($pagenow, ['post.php', 'edit.php']) && !Option::get('disable_editor')) ||
-            (in_array($pagenow, ['post.php', 'edit.php']) && (!Helper::isAddOnActive('data-plus') || Option::getByAddon('latest_visitors_metabox', 'data_plus', '1') === '1'));
+            (in_array($pagenow, ['post.php', 'edit.php']) && Helper::isAddOnActive('data-plus') && Option::getByAddon('latest_visitors_metabox', 'data_plus', '1') === '1');
     }
 }
 
