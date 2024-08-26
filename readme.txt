@@ -111,8 +111,8 @@ WP Statistics supports WordPress Multi-Site/Network installations. In the networ
 
 == Screenshots ==
 1. Overview
-2. Website Traffic Overview
-3. Live User Activity Tracker
+2. Visitors Insights
+3. Online Visitors Monitoring
 4. Optimization
 5. Settings
 6. Real-Time Stats
@@ -127,6 +127,8 @@ WP Statistics supports WordPress Multi-Site/Network installations. In the networ
 15. Category Analytics
 16. Website Performance Report
 17. Mini Chart Quick View
+18. Page Insights
+19. Detailed Visitor Report
 
 == Upgrade Notice ==
 = 14.10 =
