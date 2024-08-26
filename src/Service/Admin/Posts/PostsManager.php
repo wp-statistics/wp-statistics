@@ -6,7 +6,7 @@ use WP_Statistics\Components\Assets;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Meta_Box;
 use WP_STATISTICS\Option;
-use WP_Statistics\Service\Admin\Charts\ChartDataProvider;
+use WP_Statistics\Service\Admin\MiniChart\MiniChartHelper;
 use WP_STATISTICS\TimeZone;
 use WP_STATISTICS\User;
 
@@ -152,7 +152,6 @@ class PostsManager
         } catch (\Exception $e) {
             return null;
         }
-        $chartDataProvider = new ChartDataProvider();
 
         $topReferrerAndCountTotal      = $dataProvider->getTopReferrerAndCount(true);
         $topReferrerAndCountThisPeriod = $dataProvider->getTopReferrerAndCount();
@@ -166,7 +165,7 @@ class PostsManager
         // Use a short date format for indexes and `chartDates` for values
             // Short date format will be displayed below summary charts
         // Also consider post's publish date so older dates get ignored
-        foreach ($chartDataProvider->getChartDates(0, $publishDate) as $date) {
+        foreach (MiniChartHelper::getChartDates(0, $publishDate) as $date) {
             $shortDate             = date('d M', strtotime($date));
             $chartData[$shortDate] = [
                 'ymdDate'   => date('Y-m-d', strtotime($date)),
@@ -202,9 +201,9 @@ class PostsManager
 
         // Some settings for the chart
         $chartSettings = [
-            'color'  => $chartDataProvider->getChartColor(),
-            'border' => $chartDataProvider->getBorderColor(),
-            'label'  => $chartDataProvider->getTooltipLabel(),
+            'color'  => MiniChartHelper::getChartColor(),
+            'border' => MiniChartHelper::getBorderColor(),
+            'label'  => MiniChartHelper::getTooltipLabel(),
         ];
 
         // Reset date range because text summary displays info for the past week
