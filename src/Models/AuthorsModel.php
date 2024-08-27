@@ -251,6 +251,13 @@ class AuthorsModel extends BaseModel
             ->groupBy('post_author')
             ->getQuery();
 
+        $authorQuery = Query::select(['post_author'])
+            ->from('posts')
+            ->where('post_status', '=', 'publish')
+            ->where('post_type', 'IN', $args['post_type'])
+            ->groupBy('post_author')
+            ->getQuery();
+
         $result = Query::select([
                 'users.ID AS id',
                 'users.display_name AS name',
@@ -266,14 +273,17 @@ class AuthorsModel extends BaseModel
             ->join(
                 'posts', 
                 ['users.ID', 'posts.post_author'],
-                [['posts.post_status', '=', 'publish'], ['posts.post_type', 'IN', $args['post_type']]],
+                [
+                    ['posts.post_status', '=', 'publish'], 
+                    ['posts.post_type', 'IN', $args['post_type']], 
+                    ['DATE(posts.post_date)', 'BETWEEN', $args['date']]
+                ],
                 'LEFT'
             )
+            ->joinQuery($authorQuery, ['users.ID', 'authors.post_author'], 'authors')
             ->joinQuery($commentsQuery, ['users.ID', 'comments.post_author'], 'comments', 'LEFT')
             ->joinQuery($viewsQuery, ['users.ID', 'views.post_author'], 'views', 'LEFT')
             ->joinQuery($wordsQuery, ['users.ID', 'words.post_author'], 'words', 'LEFT')
-            ->where('post_status', '=', 'publish')
-            ->where('post_type', 'IN', $args['post_type'])
             ->groupBy(['users.ID', 'users.display_name'])
             ->orderBy($args['order_by'], $args['order'])
             ->perPage($args['page'], $args['per_page'])
