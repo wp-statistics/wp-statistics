@@ -220,8 +220,8 @@ class PostsManager
 
         return [
             'postId'                     => $post->ID,
-            'fromString'                 => $dataProvider->getFromString(),
-            'toString'                   => $dataProvider->getToString(),
+            'fromString'                 => $dataProvider->getFromString('', true),
+            'toString'                   => $dataProvider->getToString('', true),
             'publishDateString'          => $publishDate,
             'totalVisitors'              => $dataProvider->getVisitors(true),
             'totalViews'                 => $dataProvider->getViews(true),

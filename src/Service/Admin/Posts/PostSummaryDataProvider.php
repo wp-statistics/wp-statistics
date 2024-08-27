@@ -125,14 +125,19 @@ class PostSummaryDataProvider
     /**
      * Returns `$fromDate` as a string.
      *
-     * @param   string          $format     Returns the date with this format. If left empty, the format in WordPress settings will be used.
+     * @param   string          $format         Returns the date with this format. If left empty, the format in WordPress settings will be used.
+     * @param   bool            $shortFormat    Make the returned date format shorter.
      *
      * @return  string|false
      */
-    public function getFromString($format = '')
+    public function getFromString($format = '', $shortFormat = false)
     {
         if (empty($format)) {
             $format = get_option('date_format');
+        }
+
+        if ($shortFormat) {
+            $format = $this->makeDateFormatShorter($format);
         }
 
         return date($format, strtotime($this->fromDate));
@@ -141,17 +146,46 @@ class PostSummaryDataProvider
     /**
      * Returns `$toDate` as a string.
      *
-     * @param   string          $format     Returns the date with this format. If left empty, the format in WordPress settings will be used.
+     * @param   string          $format         Returns the date with this format. If left empty, the format in WordPress settings will be used.
+     * @param   bool            $shortFormat    Make the returned date format shorter.
      *
      * @return  string|false
      */
-    public function getToString($format = '')
+    public function getToString($format = '', $shortFormat = false)
     {
         if (empty($format)) {
             $format = get_option('date_format');
         }
 
+        if ($shortFormat) {
+            $format = $this->makeDateFormatShorter($format);
+        }
+
         return date($format, strtotime($this->toDate));
+    }
+
+    /**
+     * Removes year from the given date format and make the month shorter.
+     *
+     * @param   string  $dateFormat
+     *
+     * @return  string
+     */
+    private function makeDateFormatShorter($dateFormat)
+    {
+        // Remove year
+        $dateFormat = str_replace(['o', 'X', 'x', 'Y', 'y'], '', $dateFormat);
+
+        // Trim extra charaters
+        $dateFormat = trim($dateFormat, ' ,./\\-_');
+
+        // Replace full representation of a month with its short one
+        $dateFormat = str_replace('F', 'M', $dateFormat);
+
+        // Trim extra charaters
+        $dateFormat = trim($dateFormat, ' ,./\\-_');
+
+        return $dateFormat;
     }
 
     /**
