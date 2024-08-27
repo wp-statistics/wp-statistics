@@ -61,7 +61,7 @@ class platforms extends MetaBoxAbstract
 
         // Get List All Operating Systems
         $list = $wpdb->get_results(
-            $wpdb->prepare("SELECT platform, COUNT(*) as count FROM `" . DB::table('visitor') . "` WHERE platform != %s AND `last_counter` BETWEEN %s AND %s GROUP BY platform {$order_by}", _x('Unknown', 'Operating System', 'wp-statistics'), reset($days_time_list), end($days_time_list)),
+            $wpdb->prepare("SELECT platform, COUNT(*) as count FROM `" . DB::table('visitor') . "` WHERE `last_counter` BETWEEN %s AND %s GROUP BY platform {$order_by}", reset($days_time_list), end($days_time_list)),
             ARRAY_A
         );
 
