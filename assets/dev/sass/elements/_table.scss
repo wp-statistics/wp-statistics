@@ -34,9 +34,9 @@
     thead {
 
       tr th {
-        padding: 8px 0 8px 40px;
+        padding: 8px 0 12px 40px;
         font-weight: 400;
-        font-size: 14px;
+        font-size: 13px;
         line-height: 16px;
         border-bottom: 1px solid $light-secondary-color;
         color: $low-color;
@@ -214,10 +214,7 @@
     }
 
     tr:hover, tr:nth-child(even):hover {
-      cursor: pointer;
-
       td {
-        background: #EEEFF1 !important;
 
         &:first-child a:after {
           visibility:visible;

@@ -35,9 +35,9 @@
     thead {
 
       tr th {
-        padding: 8px 0 8px 40px;
+        padding: 8px 0 12px 40px;
         font-weight: 400;
-        font-size: 14px;
+        font-size: 13px;
         line-height: 16px;
         border-bottom: 1px solid $light-secondary-color;
         color: $low-color;
@@ -669,12 +669,6 @@
 
     thead tr, tbody tr {
       td, th {
-        padding: 11.1px 0 11.1px 22px !important;
-
-        @media screen and (min-width: 1450px) {
-          padding: 11.1px 0 11.1px 40px !important;
-        }
-
         &:first-child {
           padding-left: 16px !important;
 
@@ -689,6 +683,20 @@
           @media screen and (min-width: 1450px) {
             padding-right: 24px !important;
           }
+        }
+      }
+      th{
+        padding: 11.1px 0 12px 22px !important;
+
+        @media screen and (min-width: 1450px) {
+          padding: 11.1px 0 12px 40px !important;
+        }
+      }
+      td{
+        padding: 11.1px 0 11.1px 22px !important;
+
+        @media screen and (min-width: 1450px) {
+          padding: 11.1px 0 11.1px 40px !important;
         }
       }
     }
