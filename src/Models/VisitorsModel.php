@@ -951,7 +951,20 @@ class VisitorsModel extends BaseModel
             $thisPeriodTotal[$item->date]               += $visitors;
         }
 
+        // Create an array of top search engines
+        $topEngines = array_map(function($item) {
+            return array_sum($item);
+        }, $thisParsedData);
+        
+        // Sort top search engines in descending order
+        arsort($topEngines);
+        
+        // Get the top 3 items
+        $topEngines = array_slice($topEngines, 0, 3, true);
+
         foreach ($thisParsedData as $searchEngine => &$data) {
+            if (!in_array($searchEngine, array_keys($topEngines))) continue;
+
             // Fill out missing visitors with 0
             $data = array_merge(array_fill_keys($thisPeriodDates, 0), $data);
 
