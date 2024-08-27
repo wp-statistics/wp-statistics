@@ -68,11 +68,10 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         },
         generateSearchEngineChart: function () {
             const searchData = this.data.search_engine_chart_data;
-            if (!searchData.datasets || searchData.datasets.length == 0) {
+            if (!searchData.data.datasets || searchData.data.datasets.length == 0) {
                 jQuery('#category-search-engines-chart').parent().html(wps_js.no_results());
                 jQuery('.wps-postbox-chart--data').remove();
-                return;
-            }else{
+            } else {
                 const data = {
                     data: {
                         labels: searchData.data.labels,

@@ -217,7 +217,7 @@ class AuthorsModel extends BaseModel
         $args = $this->parseArgs($args, [
             'date'      => '',
             'post_type' => Helper::get_list_post_type(),
-            'order_by'  => 'total_posts',
+            'order_by'  => 'total_views',
             'order'     => 'DESC',
             'page'      => 1,
             'per_page'  => 5
@@ -226,6 +226,7 @@ class AuthorsModel extends BaseModel
         $commentsQuery  = Query::select(['DISTINCT post_author', 'COUNT(comment_ID) AS total_comments'])
             ->from('posts')
             ->join('comments', ['posts.ID', 'comments.comment_post_ID'])
+            ->where('comments.comment_type', '=', 'comment')
             ->where('post_status', '=', 'publish')
             ->where('post_type', 'IN', $args['post_type'])
             ->whereDate('post_date', $args['date'])
@@ -237,7 +238,7 @@ class AuthorsModel extends BaseModel
             ->join('pages', ['posts.ID', 'pages.id'])
             ->where('post_status', '=', 'publish')
             ->where('post_type', 'IN', $args['post_type'])
-            ->whereDate('post_date', $args['date'])
+            ->whereDate('pages.date', $args['date'])
             ->groupBy('post_author')
             ->getQuery();
 
@@ -248,6 +249,13 @@ class AuthorsModel extends BaseModel
             ->where('post_status', '=', 'publish')
             ->where('post_type', 'IN', $args['post_type'])
             ->whereDate('post_date', $args['date'])
+            ->groupBy('post_author')
+            ->getQuery();
+
+        $authorQuery = Query::select(['post_author'])
+            ->from('posts')
+            ->where('post_status', '=', 'publish')
+            ->where('post_type', 'IN', $args['post_type'])
             ->groupBy('post_author')
             ->getQuery();
 
@@ -266,15 +274,17 @@ class AuthorsModel extends BaseModel
             ->join(
                 'posts', 
                 ['users.ID', 'posts.post_author'],
-                [['posts.post_status', '=', 'publish'], ['posts.post_type', 'IN', $args['post_type']]],
+                [
+                    ['posts.post_status', '=', 'publish'], 
+                    ['posts.post_type', 'IN', $args['post_type']], 
+                    ['DATE(posts.post_date)', 'BETWEEN', [$args['date']['from'], $args['date']['to']]]
+                ],
                 'LEFT'
             )
+            ->joinQuery($authorQuery, ['users.ID', 'authors.post_author'], 'authors')
             ->joinQuery($commentsQuery, ['users.ID', 'comments.post_author'], 'comments', 'LEFT')
             ->joinQuery($viewsQuery, ['users.ID', 'views.post_author'], 'views', 'LEFT')
             ->joinQuery($wordsQuery, ['users.ID', 'words.post_author'], 'words', 'LEFT')
-            ->where('post_status', '=', 'publish')
-            ->where('post_type', 'IN', $args['post_type'])
-            ->whereDate('post_date', $args['date'])
             ->groupBy(['users.ID', 'users.display_name'])
             ->orderBy($args['order_by'], $args['order'])
             ->perPage($args['page'], $args['per_page'])
@@ -322,7 +332,7 @@ class AuthorsModel extends BaseModel
                 [
                     ['posts.post_status', '=', 'publish'], 
                     ['posts.post_type', 'IN', $args['post_type']], 
-                    ['DATE(posts.post_date)', 'BETWEEN', $args['date']]
+                    ['DATE(posts.post_date)', 'BETWEEN', [$args['date']['from'], $args['date']['to']]]
                 ],
                 'LEFT'
             )
