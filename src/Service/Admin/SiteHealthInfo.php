@@ -221,6 +221,10 @@ class SiteHealthInfo
                     'label' => esc_html__('PHP Function (gzopen)', 'wp-statistics'),
                     'value' => function_exists('gzopen') ? __('Installed', 'wp-statistics') : __('Not Installed', 'wp-statistics'),
                 ],
+                'phpPharDataClass'              => [
+                    'label' => esc_html__('PHP Class (PharData)', 'wp-statistics'),
+                    'value' => class_exists('PharData') ? __('Installed', 'wp-statistics') : __('Not Installed', 'wp-statistics'),
+                ],
 
                 /**
                  * Add-ons configuration settings.
