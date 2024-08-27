@@ -826,7 +826,8 @@ wps_js.new_line_chart = function (data, tag_id, newOptions) {
                     fontSize: 13,
                     padding: 8,
                     fontFamily: '"Roboto",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif',
-                    lineHeight: 15
+                    lineHeight: 15,
+                    stepSize: 1
                 }
             },
             y: {
@@ -839,7 +840,8 @@ wps_js.new_line_chart = function (data, tag_id, newOptions) {
                     fontFamily: '"Roboto",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif',
                     fontWeight: 'lighter ',
                     padding: 8,
-                    lineHeight: 15
+                    lineHeight: 15,
+                    stepSize: 1
                 },
                 border: {
                     color: 'transparent',
@@ -1024,6 +1026,7 @@ wps_js.performance_chart = function (data, tag_id, type) {
                 fontWeight: 'lighter ',
                 padding: 8,
                 lineHeight: 15,
+                stepSize: 1
             },
             border: {
                 color: 'transparent',
@@ -1049,6 +1052,7 @@ wps_js.performance_chart = function (data, tag_id, type) {
                 fontWeight: 'lighter ',
                 padding: 8,
                 lineHeight: 15,
+                stepSize: 1
             },
             type: 'linear',
             position: is_single_content ? 'left' : 'right',

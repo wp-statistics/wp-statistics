@@ -402,6 +402,18 @@ jQuery(document).on("click", '.wps-refresh', function (e) {
     let meta_box_name = wps_js.meta_box_name_by_id(parentID);
     let args = wps_js.global.meta_boxes[meta_box_name];
 
+    if(args.footer_options?.default_date_filter){
+        let current_filter = jQuery('#' + parentID).find('.c-footer__filters__list .is-selected')?.attr('data-filter');
+        if(current_filter !== 'custom'){
+            args.footer_options.default_date_filter= `filter|${current_filter}`;
+        }else{
+            const datePickerElement =  jQuery('#' + parentID).find('.js-datepicker-input').data('daterangepicker');
+            const startDate =datePickerElement.startDate.format('YYYY-MM-DD');
+            const endDate =datePickerElement.endDate.format('YYYY-MM-DD');
+            args.footer_options.default_date_filter=  `between|custom:${startDate}:${endDate}`;
+
+        }
+    }
     // Check Date Filter
     let data = wps_js.prepare_date_filter_data(args);
 
