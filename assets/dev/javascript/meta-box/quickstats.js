@@ -12,7 +12,7 @@ wps_js.quickstats_meta_box = {
 
         t += `</tbody></table></div>`;
         // Show Chart JS
-        t += `<canvas id="` + wps_js.chart_id('quickstats') + `" height="210"></canvas>`;
+        t += `<div class="o-wrap"><div class="wps-postbox-chart--data"><div class="wps-postbox-chart--items"></div><div class="wps-postbox-chart--previousPeriod">${wps_js._('previous_period')}</div></div><div class="wps-postbox-chart--container"><canvas id="${wps_js.chart_id('quickstats')}" height="210"></canvas></div></div>`;
 
         if (wps_js.global.stats_report_option == false) {
             // Enable weekly email summaries
@@ -34,6 +34,9 @@ wps_js.quickstats_meta_box = {
     },
 
     meta_box_init: function (args = []) {
-        wps_js.hits_meta_box.hits_chart(wps_js.chart_id('quickstats'), args);
+         if (document.getElementById(wps_js.chart_id('quickstats'))) {
+            wps_js.new_line_chart(args['hits-chart'], wps_js.chart_id('quickstats'), null);
+        }
+
     }
 };

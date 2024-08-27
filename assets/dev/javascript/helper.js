@@ -729,6 +729,9 @@ wps_js.new_line_chart = function (data, tag_id, newOptions) {
     // Get Element By ID
     let ctx_line = document.getElementById(tag_id).getContext('2d');
 
+    // Check if chart is inside the dashboard-widgets div
+    const isInsideDashboardWidgets = document.getElementById(tag_id).closest('#dashboard-widgets') !== null;
+
     const datasets = [];
     // Dynamically create datasets
     Object.keys(data.data).forEach((key, index) => {
@@ -814,7 +817,7 @@ wps_js.new_line_chart = function (data, tag_id, newOptions) {
                 },
                 ticks: {
                     align: 'inner',
-                    maxTicksLimit: 9,
+                    maxTicksLimit: isInsideDashboardWidgets ?  5 :  9,
                     fontColor: '#898A8E',
                     fontStyle: 'italic',
                     fontWeight: 'lighter ',
@@ -827,7 +830,7 @@ wps_js.new_line_chart = function (data, tag_id, newOptions) {
             y: {
                 min: 0,
                 ticks: {
-                    maxTicksLimit: 7,
+                    maxTicksLimit: isInsideDashboardWidgets ? 4 : 7,
                     fontColor: '#898A8E',
                     fontSize: 13,
                     fontStyle: 'italic',
