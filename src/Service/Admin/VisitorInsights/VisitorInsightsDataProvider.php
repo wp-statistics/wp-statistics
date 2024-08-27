@@ -49,7 +49,7 @@ class VisitorInsightsDataProvider
 
         $currentVisitors = $this->visitorsModel->countDailyVisitors($this->args);
         $currentVisitors = wp_list_pluck($currentVisitors, 'visitors', 'date');
-        $currentViews    = $this->viewsModel->countDailyViews($this->args);
+        $currentViews    = $this->viewsModel->countDailyViews(array_merge($this->args, ['ignore_post_type' => true]));
         $currentViews    = wp_list_pluck($currentViews, 'views', 'date');
         
         $prevVisitors   = $this->visitorsModel->countDailyVisitors(array_merge($this->args, ['date' => $prevPeriod]));
