@@ -23,7 +23,7 @@ class PageInsightsManager
             'title'     => esc_html__('Page Insights', 'wp-statistics'),
             'page_url'  => 'pages',
             'callback'  => PageInsightsPage::class,
-            'priority'  => 25
+            'priority'  => 26
         ];
 
         return $items;
