@@ -217,7 +217,7 @@ class AuthorsModel extends BaseModel
         $args = $this->parseArgs($args, [
             'date'      => '',
             'post_type' => Helper::get_list_post_type(),
-            'order_by'  => 'total_posts',
+            'order_by'  => 'total_views',
             'order'     => 'DESC',
             'page'      => 1,
             'per_page'  => 5
@@ -237,7 +237,7 @@ class AuthorsModel extends BaseModel
             ->join('pages', ['posts.ID', 'pages.id'])
             ->where('post_status', '=', 'publish')
             ->where('post_type', 'IN', $args['post_type'])
-            ->whereDate('post_date', $args['date'])
+            ->whereDate('pages.date', $args['date'])
             ->groupBy('post_author')
             ->getQuery();
 
@@ -274,7 +274,6 @@ class AuthorsModel extends BaseModel
             ->joinQuery($wordsQuery, ['users.ID', 'words.post_author'], 'words', 'LEFT')
             ->where('post_status', '=', 'publish')
             ->where('post_type', 'IN', $args['post_type'])
-            ->whereDate('post_date', $args['date'])
             ->groupBy(['users.ID', 'users.display_name'])
             ->orderBy($args['order_by'], $args['order'])
             ->perPage($args['page'], $args['per_page'])
