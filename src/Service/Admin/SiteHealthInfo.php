@@ -217,6 +217,10 @@ class SiteHealthInfo
                     'label' => esc_html__('PHP Extension (BCMath)', 'wp-statistics'),
                     'value' => extension_loaded('bcmath') ? __('Installed', 'wp-statistics') : __('Not Installed', 'wp-statistics'),
                 ],
+                'phpGzopenFunction'             => [
+                    'label' => esc_html__('PHP Function (gzopen)', 'wp-statistics'),
+                    'value' => function_exists('gzopen') ? __('Installed', 'wp-statistics') : __('Not Installed', 'wp-statistics'),
+                ],
 
                 /**
                  * Add-ons configuration settings.
