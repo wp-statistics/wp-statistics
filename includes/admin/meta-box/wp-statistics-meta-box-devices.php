@@ -61,8 +61,7 @@ class devices extends MetaBoxAbstract
         // Get List All Operating Systems
         $list = $wpdb->get_results(
             $wpdb->prepare(
-                "SELECT device, COUNT(*) as count FROM `" . DB::table('visitor') . "` WHERE device != %s AND `last_counter` BETWEEN %s AND %s GROUP BY device {$order_by}",
-                _x('Unknown', 'Device', 'wp-statistics'),
+                "SELECT device, COUNT(*) as count FROM `" . DB::table('visitor') . "` WHERE `last_counter` BETWEEN %s AND %s GROUP BY device {$order_by}",
                 reset($days_time_list),
                 end($days_time_list)),
             ARRAY_A);

@@ -58,6 +58,12 @@ class browsers extends MetaBoxAbstract
         // Check Custom Browsers or ALL Browsers
         if ($args['browser'] == "all") {
             $Browsers = wp_statistics_ua_list();
+            
+            // Consider Unknown browsers as well.
+            $Browsers = array_merge(
+                $Browsers,
+                ['Unknown']
+            );
 
             // Get List Of Browsers
             foreach ($Browsers as $Browser) {
