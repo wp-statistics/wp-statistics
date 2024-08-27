@@ -15,6 +15,10 @@ let wpStatisticsUserOnline = {
         }
         hasTrackerInitializedOnce = true;
 
+        if (WP_Statistics_Tracker_Object.option.isPreview) {
+            return;
+        }
+
         if (typeof WP_Statistics_Tracker_Object == "undefined") {
             console.error('WP Statistics: Variable WP_Statistics_Tracker_Object not found. Ensure /wp-content/plugins/wp-statistics/assets/js/tracker.js is either excluded from cache settings or not dequeued by any plugin. Clear your cache if necessary.');
         } else {
