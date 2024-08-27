@@ -14,10 +14,9 @@ class AuthorsModel extends BaseModel
      * By default, it will return total number of authors.
      *
      * @param array $args An array of arguments to filter the count.
-     * @param bool $bypassCache Flag to bypass the cache.
      * @return int The total number of distinct authors. Returns 0 if no authors are found.
      */
-    public function countAuthors($args = [], $bypassCache = false)
+    public function countAuthors($args = [])
     {
         $args = $this->parseArgs($args, [
             'date'      => '',
@@ -29,11 +28,10 @@ class AuthorsModel extends BaseModel
             ->where('post_status', '=', 'publish')
             ->where('post_type', 'IN', $args['post_type'])
             ->whereDate('post_date', $args['date'])
-            ->bypassCache($bypassCache)
             ->getVar();
     }
 
-    public function getTopViewingAuthors($args = [], $bypassCache = false)
+    public function getTopViewingAuthors($args = [])
     {
         $args = $this->parseArgs($args, [
             'date'      => '',
@@ -59,8 +57,7 @@ class AuthorsModel extends BaseModel
             ->whereDate('date', $args['date'])
             ->groupBy('post_author')
             ->orderBy($args['order_by'], $args['order'])
-            ->perPage($args['page'], $args['per_page'])
-            ->bypassCache($bypassCache);
+            ->perPage($args['page'], $args['per_page']);
 
         if (!empty($args['taxonomy']) || !empty($args['term'])) {
             $taxQuery = Query::select(['DISTINCT object_id'])
@@ -80,7 +77,7 @@ class AuthorsModel extends BaseModel
         return $result ? $result : [];
     }
     
-    public function getAuthorsByPostPublishes($args = [], $bypassCache = false)
+    public function getAuthorsByPostPublishes($args = [])
     {
         $args = $this->parseArgs($args, [
             'date'      => '',
@@ -99,8 +96,7 @@ class AuthorsModel extends BaseModel
             ->whereDate('post_date', $args['date'])
             ->groupBy('posts.post_author')
             ->orderBy('post_count')
-            ->perPage($args['page'], $args['per_page'])
-            ->bypassCache($bypassCache);
+            ->perPage($args['page'], $args['per_page']);
 
         if (!empty($args['taxonomy']) || !empty($args['term'])) {
             $query
@@ -120,7 +116,7 @@ class AuthorsModel extends BaseModel
         return $result ? $result : [];
     }
 
-    public function getAuthorsByCommentsPerPost($args = [], $bypassCache = false)
+    public function getAuthorsByCommentsPerPost($args = [])
     {
         $args = $this->parseArgs($args, [
             'date'      => '',
@@ -143,13 +139,12 @@ class AuthorsModel extends BaseModel
             ->groupBy('post_author')
             ->orderBy('average_comments')
             ->perPage($args['page'], $args['per_page'])
-            ->bypassCache($bypassCache)
             ->getAll();
 
         return $result ? $result : [];
     }
 
-    public function getAuthorsByViewsPerPost($args = [], $bypassCache = false)
+    public function getAuthorsByViewsPerPost($args = [])
     {
         $args = $this->parseArgs($args, [
             'date'      => '',
@@ -176,13 +171,12 @@ class AuthorsModel extends BaseModel
             ->groupBy('post_author')
             ->orderBy($args['order_by'], $args['order'])
             ->perPage($args['page'], $args['per_page'])
-            ->bypassCache($bypassCache)
             ->getAll();
 
         return $result ? $result : [];
     }
 
-    public function getAuthorsByWordsPerPost($args = [], $bypassCache = false)
+    public function getAuthorsByWordsPerPost($args = [])
     {
         $args = $this->parseArgs($args, [
             'date'      => '',
@@ -206,13 +200,12 @@ class AuthorsModel extends BaseModel
             ->groupBy('post_author')
             ->orderBy('average_words')
             ->perPage($args['page'], $args['per_page'])
-            ->bypassCache($bypassCache)
             ->getAll();
 
         return $result ? $result : [];
     }
 
-    public function getAuthorsReportData($args = [], $bypassCache = false)
+    public function getAuthorsReportData($args = [])
     {
         $args = $this->parseArgs($args, [
             'date'      => '',
@@ -288,13 +281,12 @@ class AuthorsModel extends BaseModel
             ->groupBy(['users.ID', 'users.display_name'])
             ->orderBy($args['order_by'], $args['order'])
             ->perPage($args['page'], $args['per_page'])
-            ->bypassCache($bypassCache)
             ->getAll();
 
         return $result ? $result : [];
     }
 
-    public function getAuthorsPagesData($args = [], $bypassCache = false)
+    public function getAuthorsPagesData($args = [])
     {
         $args = $this->parseArgs($args, [
             'date'      => '',
@@ -341,7 +333,6 @@ class AuthorsModel extends BaseModel
             ->groupBy(['users.ID', 'users.display_name'])
             ->orderBy($args['order_by'], $args['order'])
             ->perPage($args['page'], $args['per_page'])
-            ->bypassCache($bypassCache)
             ->getAll();
 
         return $result ? $result : [];

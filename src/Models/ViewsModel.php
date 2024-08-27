@@ -10,7 +10,7 @@ use WP_Statistics\Components\DateRange;
 class ViewsModel extends BaseModel
 {
 
-    public function countViews($args = [], $bypassCache = false)
+    public function countViews($args = [])
     {
         $args = $this->parseArgs($args, [
             'post_type'     => Helper::get_list_post_type(),
@@ -36,8 +36,7 @@ class ViewsModel extends BaseModel
             ->join('posts', ['pages.id', 'posts.ID'])
             ->where('post_type', 'IN', $args['post_type'])
             ->where('post_author', '=', $args['author_id'])
-            ->where('posts.ID', '=', $args['post_id'])
-            ->bypassCache($bypassCache);
+            ->where('posts.ID', '=', $args['post_id']);
 
         if (!empty($args['taxonomy']) || !empty($args['term'])) {
             $taxQuery = Query::select(['DISTINCT object_id'])
@@ -63,11 +62,10 @@ class ViewsModel extends BaseModel
      * Used for calculating taxonomies views (Unlike `countViews()` which is suited for calculating posts/pages/cpt views).
      *
      * @param   array   $args           Arguments to include in query (e.g. `post_id`, `resource_type`, `query_param`, `date`, etc.).
-     * @param   bool    $bypassCache    Send the cached result.
      *
      * @return  int
      */
-    public function countViewsFromPagesOnly($args = [], $bypassCache = false)
+    public function countViewsFromPagesOnly($args = [])
     {
         $args = $this->parseArgs($args, [
             'post_id'       => '',
@@ -82,15 +80,14 @@ class ViewsModel extends BaseModel
             ->where('pages.type', 'IN', $args['resource_type'])
             ->where('pages.uri', '=', $args['query_param'])
             ->whereDate('date', $args['date'])
-            ->groupBy('id')
-            ->bypassCache($bypassCache);
+            ->groupBy('id');
 
         $total = $query->getVar();
 
         return $total ? intval($total) : 0;
     }
 
-    public function countDailyViews($args = [], $bypassCache = false)
+    public function countDailyViews($args = [])
     {
         $args = $this->parseArgs($args, [
             'post_type'         => Helper::get_list_post_type(),
@@ -112,8 +109,7 @@ class ViewsModel extends BaseModel
             ->where('pages.type', 'IN', $args['resource_type'])
             ->where('pages.uri', '=', $args['query_param'])
             ->whereDate('pages.date', $args['date'])
-            ->groupBy('pages.date')
-            ->bypassCache($bypassCache);
+            ->groupBy('pages.date');
 
         if (!empty($args['author_id']) || !empty($args['post_id']) || !empty($args['taxonomy']) || !empty($args['term']) || (!empty($args['post_type']) && !$args['ignore_post_type'])) {
             $query
@@ -141,11 +137,11 @@ class ViewsModel extends BaseModel
         return $result;
     }
 
-    public function getViewsSummary($args = [], $bypassCache = false)
+    public function getViewsSummary($args = [])
     {
         $result = $this->countDailyViews(array_merge($args, [
             'date' => DateRange::get('this_year')
-        ]), $bypassCache);
+        ]));
 
         $summary = [
             'today'      => ['label' => esc_html__('Today', 'wp-statistics'), 'views' => 0],
@@ -213,7 +209,7 @@ class ViewsModel extends BaseModel
         return $summary;
     }
 
-    public function getViewedPageUri($args = [], $bypassCache = false)
+    public function getViewedPageUri($args = [])
     {
         $args = $this->parseArgs($args, [
             'id' => '',

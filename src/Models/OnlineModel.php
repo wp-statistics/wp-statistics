@@ -8,19 +8,18 @@ use WP_Statistics\Abstracts\BaseModel;
 class OnlineModel extends BaseModel
 {
 
-    public function countOnlines($args = [], $bypassCache = false)
+    public function countOnlines($args = [])
     {
         $args = $this->parseArgs($args, []);
 
         $result = Query::select('COUNT(ID)')
             ->from('useronline')
-            ->bypassCache($bypassCache)
             ->getVar();
 
         return $result ? $result : 0;
     }
 
-    public function getOnlineVisitorsData($args = [], $bypassCache = false)
+    public function getOnlineVisitorsData($args = [])
     {
         $args = $this->parseArgs($args, [
             'page'      => '',
@@ -51,7 +50,6 @@ class OnlineModel extends BaseModel
             ->join('users', ['useronline.user_id', 'users.ID'], [], 'LEFT')
             ->perPage($args['page'], $args['per_page'])
             ->orderBy($args['order_by'], $args['order'])
-            ->bypassCache($bypassCache)
             ->getAll();
 
         return $result ? $result : [];
