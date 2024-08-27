@@ -149,6 +149,7 @@ wps_js.post_summary_meta_box = {
                         fontColor: '#898A8E',
                         fontSize: 12,
                         padding: 8,
+                        stepSize:1
                     }
                 }
             },
