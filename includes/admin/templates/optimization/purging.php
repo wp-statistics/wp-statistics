@@ -324,7 +324,7 @@
                 </th>
 
                 <td>
-                    <input type="text" class="small-text code" id="purge-visitor-hits" name="wps_purge_visitor_hits" value="10"/>
+                    <input type="text" class="small-text code" id="purge-visitor-hits" name="wps_purge_visitor_hits" value="100"/>
                     <label for="purge-visitor-hits"><?php esc_html_e('Views', 'wp-statistics'); ?></label>
 
                     <p class="description"><?php echo esc_html__('Erase User Stats for Visitors Exceeding Daily View Limit. Useful for cleaning bot-related data. Removes visitor and their site visits, but not individual page visits, as they are not recorded per user. Minimum View Threshold: 10 Views.', 'wp-statistics'); ?></p>
