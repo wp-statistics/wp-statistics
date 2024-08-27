@@ -226,6 +226,7 @@ class AuthorsModel extends BaseModel
         $commentsQuery  = Query::select(['DISTINCT post_author', 'COUNT(comment_ID) AS total_comments'])
             ->from('posts')
             ->join('comments', ['posts.ID', 'comments.comment_post_ID'])
+            ->where('comments.comment_type', '=', 'comment')
             ->where('post_status', '=', 'publish')
             ->where('post_type', 'IN', $args['post_type'])
             ->whereDate('post_date', $args['date'])
