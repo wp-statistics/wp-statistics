@@ -742,6 +742,7 @@ wps_js.new_line_chart = function (data, tag_id, newOptions) {
             // Main dataset
             datasets.push({
                 type: 'line',
+                cubicInterpolationMode: 'monotone',
                 label: key,
                 data: data.data[key],
                 borderColor: color,
@@ -763,6 +764,7 @@ wps_js.new_line_chart = function (data, tag_id, newOptions) {
             if (data.previousData[key]) {
                 datasets.push({
                     type: 'line',
+                    cubicInterpolationMode: 'monotone',
                     label: `${key} (Previous)`,
                     data: data.previousData[key],
                     borderColor: wps_js.hex_to_rgba(color, 0.7),
@@ -965,6 +967,7 @@ wps_js.performance_chart = function (data, tag_id, type) {
     let datasets = [
         {
             type: 'line',
+            cubicInterpolationMode: 'monotone',
             label: wps_js._('visits'),
             data: data.views,
             borderColor: wps_js.hex_to_rgba(colors[1], 0.8),
@@ -978,10 +981,11 @@ wps_js.performance_chart = function (data, tag_id, type) {
             hoverPointRadius: 6,
             hoverPointBorderColor: '#fff',
             hoverPointBackgroundColor: colors[1],
-            hoverPointBorderWidth: 4
+            hoverPointBorderWidth: 4,
         },
         {
             type: 'line',
+            cubicInterpolationMode: 'monotone',
             label: wps_js._('visitors'),
             data: data.visitors,
             borderColor: wps_js.hex_to_rgba(colors[0], 0.8),
@@ -1103,7 +1107,6 @@ wps_js.performance_chart = function (data, tag_id, type) {
         options: {
             interaction: {
                 intersect: false,
-                mode: 'index'
             },
             plugins: {
                 legend: false,
