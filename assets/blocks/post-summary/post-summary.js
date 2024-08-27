@@ -119,7 +119,8 @@ const ChartElement = ({
       borderWidth: type === 'line' ? 1 : 0,
       pointRadius: type === 'line' ? 0 : undefined,
       pointHoverRadius: type === 'line' ? 5 : undefined,
-      borderColor: $postChartStroke
+      borderColor: $postChartStroke,
+      stepped: true
     }]
   };
   const chartOptions = {
@@ -179,7 +180,8 @@ const ChartElement = ({
           maxTicksLimit: 5,
           fontColor: '#898A8E',
           fontSize: 12,
-          padding: 8
+          padding: 8,
+          stepSize: 1
         }
       }
     },
