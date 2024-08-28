@@ -814,7 +814,7 @@ class Helper
         $schedule   = Option::get('time_report', false);
         $is_rtl     = is_rtl();
         $text_align = $is_rtl ? 'right' : 'left';
-        $emailTitle = __('<table style="font-family: \'Roboto\', Arial, Helvetica, sans-serif; width: 100%; text-align: ' . $text_align . ';font-size: 21px; font-weight: 500; line-height: 24.61px; color: #0C0C0D; padding: 0;"><tbody><tr><td>Your Website Performance Overview</td></tr></tbody></table>', 'wp-statistics');
+        $emailTitle = __('<table style="font-family:  -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans, Ubuntu, Cantarell, Helvetica Neue,sans-serif;; width: 100%; text-align: ' . $text_align . ';font-size: 21px; font-weight: 500; line-height: 24.61px; color: #0C0C0D; padding: 0;"><tbody><tr><td>Your Website Performance Overview</td></tr></tbody></table>', 'wp-statistics');
 
         if ($schedule && array_key_exists($schedule, Schedule::getSchedules())) {
             $schedule = Schedule::getSchedules()[$schedule];
