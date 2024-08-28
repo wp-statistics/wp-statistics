@@ -6,6 +6,7 @@ use Exception;
 use WP_Statistics;
 use WP_Statistics\Async\BackgroundProcessFactory;
 use WP_Statistics\Dependencies\GeoIp2\Database\Reader;
+use WP_Statistics\Service\Geolocation\GeolocationFactory;
 
 /**
  * @note This temporary GeoIP implementation will be replaced by a more efficient Geolocation structure in version 14.10
@@ -93,50 +94,6 @@ class GeoIP
     }
 
     /**
-     * Retrieves the last update date for the GeoIP database.
-     *
-     * @return false|string|void
-     */
-    public static function getLastUpdate()
-    {
-        if (self::isExist()) {
-            return date('Y-m-d H:i:s', filemtime(self::get_geo_ip_path()));
-        }
-    }
-
-    /**
-     * Retrieves the database size for the GeoIP database.
-     *
-     * @param bool $format Whether to format the size for readability.
-     */
-    public static function getDatabaseSize($format = true)
-    {
-        if (self::isExist()) {
-            if ($format) {
-                return size_format(filesize(self::get_geo_ip_path()));
-            } else {
-                return filesize(self::get_geo_ip_path());
-            }
-        }
-    }
-
-    /**
-     * Retrieves the database type for the GeoIP database.
-     *
-     * @return string|bool The database type or false on failure.
-     */
-    public static function getDatabaseType()
-    {
-        $reader = self::Loader();
-
-        if ($reader === false) {
-            return false;
-        }
-
-        return $reader->metadata()->databaseType;
-    }
-
-    /**
      * Loads the GeoIP database reader and caches it.
      *
      * @return bool|Reader Instance of GeoIP Reader if successful, false on failure.
@@ -154,7 +111,7 @@ class GeoIP
         try {
             if (!file_exists($file)) {
                 // Download it again if the GeoIP database is removed manually and not exist.
-                BackgroundProcessFactory::downloadGeoIPDatabase();
+                BackgroundProcessFactory::downloadGeolocationDatabase();
 
                 throw new Exception("GeoIP database library not found in {$file}, trying to download it.");
             }
@@ -285,146 +242,14 @@ class GeoIP
     /**
      * Downloads the GeoIP database from MaxMind.
      *
-     * @param string $type The type of download operation ('enable' or 'update').
-     *
      * @return mixed Array containing status and notice messages.
-     * @throws array if an error occurs during the download or extraction process.
+     * @deprecated This method is deprecated and should not be used in new development. use GeolocationFactory::downloadDatabase() instead.
      */
-    public static function download($type = 'enable')
+    public static function download()
     {
-        $result     = ['status' => false];
-        $gzFilePath = self::getGzPath();
+        _deprecated_function(__METHOD__, '14.11', 'GeolocationFactory::downloadDatabase()');
 
-        try {
-            $download_url = self::getDownloadUrl();
-
-            $response = wp_remote_get($download_url, [
-                'stream'   => true,
-                'filename' => $gzFilePath,
-                'timeout'  => 120,
-            ]);
-
-            // Check the HTTP status code
-            $status_code = wp_remote_retrieve_response_code($response);
-            if ($status_code !== 200) {
-                throw new Exception(sprintf(__('Unexpected HTTP status code %1$d while downloading GeoIP database from: %2$s', 'wp-statistics'), $status_code, $download_url));
-            }
-
-            if (is_wp_error($response)) {
-                throw new Exception(sprintf(__('Error downloading GeoIP database from: %1$s - %2$s', 'wp-statistics'), $download_url, $response->get_error_message()));
-            }
-
-            $DBFile = self::get_geo_ip_path();
-            self::extractGzFile($gzFilePath, $DBFile);
-
-            wp_delete_file($gzFilePath); // Clean up the temporary file
-
-            $result['status'] = true;
-            $result['notice'] = __('GeoIP Database successfully updated!', 'wp-statistics');
-
-            if ($type === 'update') {
-                Option::update('last_geoip_dl', time());
-            }
-
-            if (Option::get('auto_pop')) {
-                BackgroundProcessFactory::batchUpdateIncompleteGeoIpForVisitors();
-            }
-
-        } catch (Exception $e) {
-            wp_delete_file($gzFilePath); // Ensure temporary file is deleted in case of an error
-
-            $result['notice'] = sprintf(__('Error: %1$s', 'wp-statistics'), $e->getMessage());
-            WP_Statistics::log($result['notice'], 'error'); // Log the error for debugging
-        }
-
-        return $result;
-    }
-
-    /**
-     * Gets the download URL for the GeoIP database.
-     *
-     * @return string
-     */
-    private static function getDownloadUrl()
-    {
-        if (Option::get('geoip_license_type') === "user-license" && Option::get('geoip_license_key')) {
-            return add_query_arg(['license_key' => Option::get('geoip_license_key')], GeoIP::$library['userSource']);
-        }
-        return GeoIP::$library['source'];
-    }
-
-    /**
-     * Retrieves the path for the temporary GZ file.
-     *
-     * @return string The full path to the GZ file.
-     */
-    private static function getGzPath()
-    {
-        $upload_dir = wp_upload_dir();
-        return trailingslashit($upload_dir['basedir']) . self::$library['file'] . '.mmdb.gz';
-    }
-
-    /**
-     * Extracts the database file from the downloaded GZ archive.
-     *
-     * @param string $gzFilePath The path to the downloaded GZ file.
-     * @param string $destination The destination path for the extracted database file.
-     * @throws Exception if extraction fails.
-     */
-    private static function extractGzFile($gzFilePath, $destination)
-    {
-        $uploadPath = Helper::get_uploads_dir(WP_STATISTICS_UPLOADS_DIR);
-
-        if (!file_exists($uploadPath)) {
-            if (!mkdir($uploadPath, 0755, true) && !is_dir($uploadPath)) {
-                throw new Exception(sprintf(__('Error creating directory: %s', 'wp-statistics'), $uploadPath));
-            }
-        }
-
-        /**
-         * Check if the server is using MaxMind's GeoIP database.
-         * If so, extract the database file from the archive.
-         */
-        if (Option::get('geoip_license_type') === "user-license" && Option::get('geoip_license_key')) {
-            // Check if the PharData class is available.
-            if (!class_exists('PharData')) {
-                throw new Exception(__('PharData class not found.', 'wp-statistics'));
-            }
-
-            $tarGz         = new \PharData($gzFilePath);
-            $fileInArchive = trailingslashit($tarGz->current()->getFileName()) . self::$library['file'] . '.' . self::$file_extension;
-
-            // Extract the database file from the archive.
-            $tarGz->extractTo($uploadPath, $fileInArchive, true); // Extract all files
-
-            // Rename and remove the extracted directory.
-            rename($uploadPath . '/' . $fileInArchive, $destination);
-            rmdir($uploadPath . '/' . trailingslashit($tarGz->current()->getFileName()));
-
-            return;
-        }
-
-        $gzHandle = gzopen($gzFilePath, 'rb');
-        if (!$gzHandle) {
-            throw new Exception(__('Failed to open GZ archive.', 'wp-statistics'));
-        }
-
-        $dbFileHandle = fopen($destination, 'wb'); // Open the destination file for writing
-        if (!$dbFileHandle) {
-            gzclose($gzHandle);
-            throw new Exception(__('Failed to open destination file for writing.', 'wp-statistics'));
-        }
-
-        while (!gzeof($gzHandle)) {
-            fwrite($dbFileHandle, gzread($gzHandle, 4096)); // Read from GZ and write to the destination file
-        }
-
-        gzclose($gzHandle);
-        fclose($dbFileHandle);
-
-        if (!file_exists($destination)) {
-            throw new Exception(__('Error extracting GeoIP database file.', 'wp-statistics'));
-        }
+        return GeolocationFactory::downloadDatabase();
     }
 
     /**
