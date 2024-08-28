@@ -83,7 +83,7 @@ class CategoryAnalyticsDataProvider
             $date = date('Y-m-d', strtotime("-$i days"));
 
             $result['labels'][]     = [
-                'date'  => date_i18n(Helper::getDefaultDateFormat(false, true), strtotime($date)),
+                'date'  => date_i18n(Helper::getDefaultDateFormat(false, true, true), strtotime($date)),
                 'day'   => date_i18n('l', strtotime($date)),
             ];
             $result['views'][]      = isset($viewsData[$date]) ? intval($viewsData[$date]) : 0;

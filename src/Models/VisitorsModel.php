@@ -918,7 +918,7 @@ class VisitorsModel extends BaseModel
                 'labels'   => array_map(
                     function ($date) {
                         return [
-                            'date'  => date_i18n(Helper::getDefaultDateFormat(false, true), strtotime($date)),
+                            'date'  => date_i18n(Helper::getDefaultDateFormat(false, true, true), strtotime($date)),
                             'day'   => date_i18n('l', strtotime($date)),
                         ];
                     },
@@ -930,7 +930,7 @@ class VisitorsModel extends BaseModel
                 'labels'   => array_map(
                     function ($date) {
                         return [
-                            'date'  => date_i18n(Helper::getDefaultDateFormat(false, true), strtotime($date)),
+                            'date'  => date_i18n(Helper::getDefaultDateFormat(false, true, true), strtotime($date)),
                             'day'   => date_i18n('l', strtotime($date)),
                         ];
                     },

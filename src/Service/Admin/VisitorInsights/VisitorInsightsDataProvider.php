@@ -59,7 +59,7 @@ class VisitorInsightsDataProvider
 
         foreach ($currentDates as $date) {
             $result['data']['labels'][]   = [
-                'date' => date_i18n(Helper::getDefaultDateFormat(false, true), strtotime($date)),
+                'date' => date_i18n(Helper::getDefaultDateFormat(false, true, true), strtotime($date)),
                 'day'  => date_i18n('l', strtotime($date))
             ];
             $result['data']['visitors'][] = isset($currentVisitors[$date]) ? intval($currentVisitors[$date]) : 0;
@@ -68,7 +68,7 @@ class VisitorInsightsDataProvider
 
         foreach ($prevDates as $date) {
             $result['previousData']['labels'][]   = [
-                'date' => date_i18n(Helper::getDefaultDateFormat(false, true), strtotime($date)),
+                'date' => date_i18n(Helper::getDefaultDateFormat(false, true, true), strtotime($date)),
                 'day'  => date_i18n('l', strtotime($date))
             ];
             $result['previousData']['visitors'][] = isset($prevVisitors[$date]) ? intval($prevVisitors[$date]) : 0;

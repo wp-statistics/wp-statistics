@@ -45,7 +45,7 @@ $linksTarget = !empty($open_links_in_new_tab) ? '_blank' : '';
                         $page = Visitor::get_page_by_id($visitor->page_id);
                     ?>
                         <tr>
-                            <td class="wps-pd-l"><?php echo esc_html(date_i18n(Helper::getDefaultDateFormat(true, true, ', '), strtotime($visitor->date))) ?></td>
+                            <td class="wps-pd-l"><?php echo esc_html(date_i18n(Helper::getDefaultDateFormat(true, true, false, ', '), strtotime($visitor->date))) ?></td>
 
                             <td class="wps-pd-l">
                                 <ul class="wps-browsers__flags">

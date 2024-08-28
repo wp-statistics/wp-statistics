@@ -1760,7 +1760,7 @@ class Helper
      * @param bool $withTime
      * @return string
      */
-    public static function getDefaultDateFormat($withTime = false, $excludeYear = false, $dateTimeSeparator = ' ')
+    public static function getDefaultDateFormat($withTime = false, $excludeYear = false, $shortMonth = false, $dateTimeSeparator = ' ')
     {
         $dateFormat = get_option('date_format');
         $timeFormat = get_option('time_format');
@@ -1777,6 +1777,10 @@ class Helper
 
         if ($excludeYear) {
             $dateTimeFormat = preg_replace('/(,\s?Y|Y\s?,|Y[, \/-]?|[, \/-]?Y)/i', '', $dateTimeFormat);
+        }
+
+        if ($shortMonth) {
+            $dateTimeFormat = str_replace('F', 'M', $dateTimeFormat);
         }
 
         return $dateTimeFormat;
