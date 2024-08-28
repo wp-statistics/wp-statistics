@@ -12,6 +12,8 @@ class HistoricalModel extends BaseModel
      *
      * @param array $args Arguments to include in query (e.g. `page_id`, `uri`, etc.).
      * @return  int
+     *
+     * @todo    Merge this with count methods in `ViewsModel`.
      */
     public function countUris($args = [])
     {

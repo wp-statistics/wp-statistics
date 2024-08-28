@@ -433,6 +433,8 @@ function wp_statistics_visitor($time, $daily = null, $count_only = false, $optio
  * @param null $rangeenddate
  * @param bool $type
  * @return int|null|string
+ *
+ * @todo    Replace all instances of this function with `ViewsModel->countViews()`.
  */
 function wp_statistics_pages($time, $page_uri = '', $id = -1, $rangestartdate = null, $rangeenddate = null, $type = false)
 {
