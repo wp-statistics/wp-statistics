@@ -1,7 +1,7 @@
 wps_js.browsers_meta_box = {
 
     placeholder: function () {
-        return wps_js.circle_placeholder();
+        return wps_js.rectangle_placeholder();
     },
 
     view: function (args = []) {
@@ -26,20 +26,11 @@ wps_js.browsers_meta_box = {
 
     meta_box_init: function (args = []) {
 
-        // Get Background Color
-        let backgroundColor = [];
-        let color;
-        for (let i = 0; i <= 10; i++) {
-            color = wps_js.random_color(i);
-            backgroundColor.push('rgba(' + color[0] + ',' + color[1] + ',' + color[2] + ',' + '0.4)');
-        }
 
         // Prepare Data
         let data = [{
-            label: wps_js._('browsers'),
-            data: args['browsers_value'],
-            backgroundColor: backgroundColor
-        }];
+             data: args['browsers_value'],
+         }];
         const label_callback = function (tooltipItem, data) {
             return tooltipItem.label;
         }
@@ -48,7 +39,8 @@ wps_js.browsers_meta_box = {
         }
 
         // Show Chart
-        wps_js.pie_chart(wps_js.chart_id('browsers'), args['browsers_name'], data, label_callback, title_callback);
+        wps_js.horizontal_bar(wps_js.chart_id('browsers'), args['browsers_name'], data[0].data , args['browsers_logos']);
+
 
         // Check Table information
         if (wps_js.exist_tag('#' + wps_js.getMetaBoxKey('browsers-table'))) {
@@ -147,28 +139,17 @@ wps_js.show_custom_agent = function (args) {
     // After Second Run Chart JS
     setTimeout(function () {
 
-        // Get Background Color
-        let backgroundColor = [];
-        let color;
-        for (let i = 0; i <= 10; i++) {
-            color = wps_js.random_color(i);
-            backgroundColor.push('rgba(' + color[0] + ',' + color[1] + ',' + color[2] + ',' + '0.4)');
-        }
-
         // Prepare Data
         let data = [{
-            label: wps_js._('browsers'),
             data: args['browsers_value'],
-            backgroundColor: backgroundColor
-        }];
+         }];
         const label_callback = function (tooltipItem) {
             return tooltipItem.label;
         }
         const title_callback = (ctx) => {
             return wps_js._('visitors') + ':' + ctx[0].formattedValue
         }
-        // Show Chart
-        wps_js.pie_chart(wps_js.chart_id('browser-' + BrowserKey), args['browsers_name'], data, label_callback, title_callback);
+        wps_js.horizontal_bar(wps_js.chart_id('browser-' + BrowserKey), args['browsers_name'], data[0].data , args['browsers_logos']);
 
         // Reset All Height
         ['browser-' + BrowserKey + '-chart', 'browser-' + BrowserKey + '-table'].forEach((key) => {

@@ -11,13 +11,6 @@ use WP_Statistics\Utils\Request;
 class Admin_Post
 {
     /**
-     * Hits Chart Post/page Meta Box
-     *
-     * @var string
-     */
-    public static $hits_chart_post_meta_box = 'post';
-
-    /**
      * Admin_Post constructor.
      */
     public function __construct()
@@ -27,14 +20,6 @@ class Admin_Post
         if (User::Access('read') and !Option::get('disable_column')) {
             add_action('admin_init', array($this, 'init'));
         }
-
-        // Add WordPress Post/Page Hit Chart Meta Box in edit Page
-        if (User::Access('read') and !Option::get('disable_editor')) {
-            add_action('add_meta_boxes', array($this, 'define_post_meta_box'));
-        }
-
-        // Add Post Hit Number in Publish Meta Box in WordPress Edit a post/page
-        add_action('post_submitbox_misc_actions', array($this, 'post_hit_misc'));
 
         // Remove Post Hits when Post Id deleted
         add_action('deleted_post', array($this, 'modify_delete_post'));
@@ -79,14 +64,18 @@ class Admin_Post
 
         $post_type         = Pages::get_post_type($post_id);
         $hitPostType       = Pages::checkIfPageIsHome($post_id) ? 'home' : $post_type;
-        $args              = ['post_id' => $post_id, 'resource_type' => $hitPostType];
         $from              = date('Y-m-d', 0);
         $to                = date('Y-m-d');
+        $args              = [
+            'post_id'       => $post_id,
+            'resource_type' => $hitPostType,
+            'date'          => ['from' => $from, 'to' => $to],
+        ];
         $isMiniChartActive = Helper::isAddOnActive('mini-chart');
 
         if (Helper::checkMiniChartOption('count_display', 'date_range', 'total')) {
             $from         = TimeZone::getTimeAgo(intval(Option::getByAddon('date_range', 'mini_chart', '14')));
-            $args['date'] = ['from' => $from, 'to' => date('Y-m-d')];
+            $args['date'] = ['from' => $from, 'to' => $to];
         }
 
         if (Helper::checkMiniChartOption('count_display', 'disabled', 'total')) {
@@ -98,12 +87,12 @@ class Admin_Post
                 $hitCount      = $visitorsModel->countVisitors($args);
             } else {
                 $viewsModel = new ViewsModel();
-                $hitCount   = $viewsModel->countViews($args);
+                $hitCount   = $viewsModel->countViewsFromPagesOnly($args);
     
                 // Consider historical if `count_display` is equal to 'total'
                 if (!$isMiniChartActive || Helper::checkMiniChartOption('count_display', 'total', 'total')) {
                     $historicalModel = new HistoricalModel();
-                    $hitCount       += $historicalModel->countUris(['page_id' => $post_id, 'uri' => wp_make_link_relative(get_permalink($post_id))]);
+                    $hitCount       += intval($historicalModel->countUris(['page_id' => $post_id, 'uri' => wp_make_link_relative(get_permalink($post_id))]));
                 }
             }
         }
@@ -113,7 +102,7 @@ class Admin_Post
                 // translators: 1: Mini-chart product link - 2: "Unlock This Feature!" text - 3: Lock image - 4: Chart preview image.
                 '<div class="wps-admin-column__unlock"><a href="%s" target="_blank"><span class="wps-admin-column__unlock__text">%s</span><img class="wps-admin-column__unlock__lock" src="%s"/><img class="wps-admin-column__unlock__img" src="%s"/></a></div>',
                 'https://wp-statistics.com/product/wp-statistics-mini-chart?utm_source=wp-statistics&utm_medium=link&utm_campaign=mini-chart',
-                __('Unlock This Feature!', 'wp-statistics'),
+                __('Unlock', 'wp-statistics'),
                 WP_STATISTICS_URL . 'assets/images/mini-chart-posts-lock.svg',
                 WP_STATISTICS_URL . 'assets/images/mini-chart-posts-preview.svg'
             );
@@ -222,48 +211,6 @@ class Admin_Post
         $wpdb->query(
             $wpdb->prepare("DELETE FROM `" . DB::table('pages') . "` WHERE `id` = %d AND (`type` = 'post' OR `type` = 'page' OR `type` = 'product');", esc_sql($post_id))
         );
-    }
-
-    /**
-     * Add Post Hit Number in Publish Meta Box in WordPress Edit a post/page
-     */
-    public function post_hit_misc()
-    {
-        global $post;
-
-        $hitCount = 0;
-        if (Helper::checkMiniChartOption('metric', 'visitors', 'visitors')) {
-            $visitorsModel = new VisitorsModel();
-            $hitCount      = $visitorsModel->countVisitors(['post_id' => $post->ID]);
-        } else {
-            $viewsModel = new ViewsModel();
-            $hitCount   = $viewsModel->countViews(['post_id' => $post->ID]);
-        }
-
-        if ($post->post_status == 'publish') {
-            echo sprintf(
-                // translators: 1: Either "Visitors" or "Views" - 2: Link to content analytics page - 3: Hits count.
-                '<div class="misc-pub-section misc-pub-hits">%s <a href="%s">%s</a></div>',
-                Helper::checkMiniChartOption('metric', 'visitors', 'visitors') ? esc_html__('Visitors:', 'wp-statistics') : esc_html__('Views:', 'wp-statistics'),
-                esc_url(Menus::admin_url('content-analytics', ['post_id' => $post->ID, 'type' => 'single', 'from' => Request::get('from', date('Y-m-d', 0)), 'to' => Request::get('to', date('Y-m-d'))])),
-                esc_html(number_format($hitCount))
-            );
-        }
-    }
-
-    /**
-     * Define Hit Chart Meta Box
-     */
-    public function define_post_meta_box()
-    {
-
-        // Get MetaBox information
-        $metaBox = Meta_Box::getList(self::$hits_chart_post_meta_box);
-
-        // Add MEtaBox To all Post Type
-        foreach (Helper::get_list_post_type() as $screen) {
-            add_meta_box(Meta_Box::getMetaBoxKey(self::$hits_chart_post_meta_box), $metaBox['name'], Meta_Box::LoadMetaBox(self::$hits_chart_post_meta_box), $screen, 'normal', 'high', array('__block_editor_compatible_meta_box' => true, '__back_compat_meta_box' => false));
-        }
     }
 }
 

@@ -2,6 +2,7 @@
 
 namespace WP_Statistics\Abstracts;
 
+use WP_Statistics\Components\DateRange;
 use WP_Statistics\Utils\Query;
 
 
@@ -21,6 +22,7 @@ abstract class BaseModel
     {
         $args = wp_parse_args($args, $defaults);
         $args = $this->parseQueryParamArg($args);
+        $args = $this->parseDateArg($args);
 
         return apply_filters('wp_statistics_data_{child-method-name}_args', $args);
     }
@@ -40,6 +42,15 @@ abstract class BaseModel
                 ->getVar();
 
             $args['query_param'] = !empty($uri) ? $uri : '';
+        }
+
+        return $args;
+    }
+
+    private function parseDateArg($args)
+    {
+        if (empty($args['date']) && empty($args['ignore_date'])) {
+            $args['date'] = DateRange::get();
         }
 
         return $args;

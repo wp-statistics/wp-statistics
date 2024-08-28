@@ -29,10 +29,10 @@ $disableMenuArray = [
 if (empty(Option::get('useronline'))) {
     unset($disableMenuArray['online']);
 }
-if (!Helper::isAddOnActive('data-plus') || empty(Option::get('link_tracker'))) {
+if (!Helper::isAddOnActive('data-plus') || Option::getByAddon('link_tracker', 'data_plus', '1') !== '1') {
     unset($disableMenuArray['link_tracker']);
 }
-if (!Helper::isAddOnActive('data-plus') || empty(Option::get('download_tracker'))) {
+if (!Helper::isAddOnActive('data-plus') || Option::getByAddon('download_tracker', 'data_plus', '1') !== '1') {
     unset($disableMenuArray['download_tracker']);
 }
 if (empty(Option::get('privacy_audit'))) {

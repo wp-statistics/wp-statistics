@@ -1,6 +1,8 @@
 <?php
 
 namespace WP_STATISTICS;
+
+use WP_Statistics\Components\DateRange;
 use WP_Statistics\Components\Singleton;
 
 class refer_page extends Singleton
@@ -32,18 +34,17 @@ class refer_page extends Singleton
      */
     public static function view()
     {
-        global $wpdb;
 
         // Page title
-        $args['title'] = __('Leading Referral Websites', 'wp-statistics');
+        $args['title'] = __('Top Referrers', 'wp-statistics');
 
         // Get Current Page Url
         $args['pageName'] = Menus::get_page_slug('referrers');
         $args['paged']    = Admin_Template::getCurrentPaged();
 
         // Get Date-Range
-        $args['DateRang']    = Admin_Template::DateRange();
-        $args['hasDateRang'] = True;
+        $args['DateRang']    = DateRange::get();
+        $args['hasDateRang'] = true;
 
         // Get Total List
         if (!isset($_GET['referrer'])) {
@@ -70,7 +71,7 @@ class refer_page extends Singleton
                 // Push Domain Rate in List
                 $i = 1;
                 foreach ($list as $domain_list) {
-                    $args['list'][] = array_merge($domain_list, array('rate' => $i + (($args['paged'] - 1) * Admin_Template::$item_per_page)));
+                    $args['list'][] = $domain_list;
                     $i++;
                 }
             }

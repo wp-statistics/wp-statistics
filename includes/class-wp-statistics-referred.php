@@ -101,7 +101,7 @@ class Referred
         $host_name = Helper::get_domain_name($base_url['host']);
 
         // Get Html Link
-        return "<a href='{$html_referrer}' title='{$title}'" . ($is_blank === true ? ' target="_blank"' : '') . ">{$host_name}</a>";
+        return "<a class='wps-link-arrow' href='{$html_referrer}' title='{$title}'" . ($is_blank === true ? ' target="_blank"' : '') . "><span >{$host_name}</span></a>";
     }
 
     /**
@@ -255,23 +255,13 @@ class Referred
      */
     public static function PrepareReferData($referrals)
     {
-
         if (empty($referrals)) return [];
 
         $list = [];
-
-        $ISOCountryCode = Country::getList();
-
         foreach ($referrals as $domain => $number) {
-
-            $referrerUrl    = Referred::html_sanitize_referrer($domain);
-            $domainInfo     = Referred::get_domain_server($domain);
-
-            $list[] = [
+            $referrerUrl = Referred::html_sanitize_referrer($domain);
+            $list[]      = [
                 'domain'    => $domain,
-                'ip'        => $domainInfo['ip'] != "" ? $domainInfo['ip'] : '-',
-                'country'   => $domainInfo['country'] != "" ? $ISOCountryCode[$domainInfo['country']] : '',
-                'flag'      => $domainInfo['country'] != "" ? Country::flag($domainInfo['country']) : '',
                 'page_link' => Menus::admin_url('referrers', ['referrer' => $referrerUrl]),
                 'number'    => number_format_i18n($number)
             ];

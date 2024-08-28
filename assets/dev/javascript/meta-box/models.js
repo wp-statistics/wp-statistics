@@ -1,7 +1,7 @@
 wps_js.models_meta_box = {
 
     placeholder: function () {
-        return wps_js.circle_placeholder();
+        return wps_js.rectangle_placeholder();
     },
 
     view: function (args = []) {
@@ -17,22 +17,11 @@ wps_js.models_meta_box = {
     },
 
     meta_box_init: function (args = []) {
-
-        // Get Background Color
-        let backgroundColor = [];
-        let color;
-        for (let i = 0; i <= 20; i++) {
-            color = wps_js.random_color(i);
-            backgroundColor.push('rgba(' + color[0] + ',' + color[1] + ',' + color[2] + ',' + '0.4)');
-        }
-
         // Prepare Data
         let data = [{
             label: wps_js._('model'),
             data: args['model_value'],
-            backgroundColor: backgroundColor,
-            tension: 0.4
-        }];
+         }];
 
         const label_callback = function (tooltipItem) {
             return tooltipItem.label;
@@ -43,7 +32,7 @@ wps_js.models_meta_box = {
         }
 
         // Show Chart
-        wps_js.pie_chart(wps_js.chart_id('models'), args['model_name'], data, label_callback, title_callback);
-    }
+        wps_js.horizontal_bar(wps_js.chart_id('models'), args['model_name'], data[0].data , null );
+     }
 
 };

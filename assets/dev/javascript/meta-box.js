@@ -91,7 +91,7 @@ wps_js.meta_box_button = function (key) {
     let meta_box_info = wps_js.get_meta_box_info(key);
 
     // Gutenberg Button Style
-    let gutenberg_style = 'z-index: 9999;position: absolute;top: 1px;';
+    let gutenberg_style = 'z-index: 9999;position: absolute;top: 1px;display:none;right: calc(44px + 3.24rem) !important;height: 44px !important;';
     let position_gutenberg = 'right';
     if (wps_js.is_active('rtl')) {
         position_gutenberg = 'left';
@@ -102,6 +102,14 @@ wps_js.meta_box_button = function (key) {
 
     // Add Refresh Button
     jQuery(`<button class="handlediv wps-refresh"` + (wps_js.is_active('gutenberg') ? ` style="${gutenberg_style}${position_gutenberg}: 3%;" ` : 'style="line-height: 28px;"') + ` type="button" data-tooltip="` + wps_js._('reload') + `"></button>`).insertBefore(selector);
+
+    if (wps_js.is_active('gutenberg')){
+        jQuery('body').addClass('wps-gutenberg');
+    }
+
+    jQuery("#" + wps_js.getMetaBoxKey(key) + " .hndle, #" + wps_js.getMetaBoxKey(key) + " .handlediv").on('click', function() {
+        jQuery(this).closest('.postbox').addClass('handle');
+    });
 };
 
 wps_js.meta_box_tooltip = function (key) {
@@ -394,6 +402,18 @@ jQuery(document).on("click", '.wps-refresh', function (e) {
     let meta_box_name = wps_js.meta_box_name_by_id(parentID);
     let args = wps_js.global.meta_boxes[meta_box_name];
 
+    if(args.footer_options?.default_date_filter){
+        let current_filter = jQuery('#' + parentID).find('.c-footer__filters__list .is-selected')?.attr('data-filter');
+        if(current_filter !== 'custom'){
+            args.footer_options.default_date_filter= `filter|${current_filter}`;
+        }else{
+            const datePickerElement =  jQuery('#' + parentID).find('.js-datepicker-input').data('daterangepicker');
+            const startDate =datePickerElement.startDate.format('YYYY-MM-DD');
+            const endDate =datePickerElement.endDate.format('YYYY-MM-DD');
+            args.footer_options.default_date_filter=  `between|custom:${startDate}:${endDate}`;
+
+        }
+    }
     // Check Date Filter
     let data = wps_js.prepare_date_filter_data(args);
 

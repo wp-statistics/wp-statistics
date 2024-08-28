@@ -7,7 +7,7 @@ global $wp_roles;
             <tbody>
             <tr valign="top">
                 <th scope="row" colspan="2">
-                    <h3><?php esc_html_e('Access Control', 'wp-statistics'); ?></h3>
+                    <h3><?php esc_html_e('Roles & Permissions', 'wp-statistics'); ?></h3>
                 </th>
             </tr>
             <?php

@@ -6,16 +6,10 @@ use WP_CONSENT_API;
 
 class WpConsentApi
 {
-    public function __construct()
-    {
-        $this->registerPluginInWpConsentApi();
-    }
-
     /**
      * Checks if "WP Consent API" plugin is activated.
      *
      * @return  bool
-     * @todo This should move to Helper.php
      */
     public static function isWpConsentApiActive()
     {
@@ -25,13 +19,12 @@ class WpConsentApi
     /**
      * Registers our plugin in "WP Consent API'.
      * @return  void
-     * @todo This should move to IntegrationsManager.php
      */
-    public function registerPluginInWpConsentApi()
+    public function register()
     {
-        if (!self::isWpConsentApiActive()) return;
-
-        $plugin = plugin_basename(WP_STATISTICS_MAIN_FILE);
-        add_filter("wp_consent_api_registered_{$plugin}", '__return_true');
+        if (self::isWpConsentApiActive()) {
+            $plugin = plugin_basename(WP_STATISTICS_MAIN_FILE);
+            add_filter("wp_consent_api_registered_{$plugin}", '__return_true');
+        }
     }
 }

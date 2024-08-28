@@ -24,7 +24,7 @@ class Query
     private $whereClauses = [];
     private $rawWhereClause = [];
     private $valuesToPrepare = [];
-    private $bypassCache = false;
+    private $allowCaching = false;
 
     /** @var wpdb $db */
     protected $db;
@@ -48,6 +48,7 @@ class Query
 
         return $instance;
     }
+
     public static function update($table)
     {
         $instance            = new self();
@@ -148,12 +149,15 @@ class Query
             $this->valuesToPrepare[]    = $to;
         }
 
+        // Determine whether caching should be allowed based on the date range
+        $this->canUseCacheForDateRange($to);
+
         return $this;
     }
 
-    public function whereRaw($condition, $values = []) 
+    public function whereRaw($condition, $values = [])
     {
-        
+
         if (!empty($values)) {
             $this->rawWhereClause[] = $this->prepareQuery($condition, $values);
         } else {
@@ -182,8 +186,8 @@ class Query
         $condition = $this->generateCondition($field, $operator, $value);
 
         if (!empty($condition)) {
-            $this->whereClauses[]   = $condition['condition'];
-            $this->valuesToPrepare  = array_merge($this->valuesToPrepare, $condition['values']);
+            $this->whereClauses[]  = $condition['condition'];
+            $this->valuesToPrepare = array_merge($this->valuesToPrepare, $condition['values']);
         }
 
         return $this;
@@ -226,7 +230,7 @@ class Query
     }
 
 
-    public function whereRelation($relation) 
+    public function whereRelation($relation)
     {
         if (in_array($relation, ['AND', 'OR'])) {
             $this->whereRelation = $relation;
@@ -292,7 +296,7 @@ class Query
         $query = $this->buildQuery();
         $query = $this->prepareQuery($query, $this->valuesToPrepare);
 
-        if (!$this->bypassCache) {
+        if ($this->allowCaching) {
             $cachedResult = $this->getCachedResult($query);
             if ($cachedResult !== false) {
                 return $cachedResult;
@@ -301,7 +305,7 @@ class Query
 
         $result = $this->db->get_var($query);
 
-        if (!$this->bypassCache) {
+        if ($this->allowCaching) {
             $this->setCachedResult($query, $result);
         }
 
@@ -313,7 +317,7 @@ class Query
         $query = $this->buildQuery();
         $query = $this->prepareQuery($query, $this->valuesToPrepare);
 
-        if (!$this->bypassCache) {
+        if ($this->allowCaching) {
             $cachedResult = $this->getCachedResult($query);
             if ($cachedResult !== false) {
                 return $cachedResult;
@@ -322,7 +326,7 @@ class Query
 
         $result = $this->db->get_results($query);
 
-        if (!$this->bypassCache) {
+        if ($this->allowCaching) {
             $this->setCachedResult($query, $result);
         }
 
@@ -334,7 +338,7 @@ class Query
         $query = $this->buildQuery();
         $query = $this->prepareQuery($query, $this->valuesToPrepare);
 
-        if (!$this->bypassCache) {
+        if ($this->allowCaching) {
             $cachedResult = $this->getCachedResult($query);
             if ($cachedResult !== false) {
                 return $cachedResult;
@@ -343,7 +347,7 @@ class Query
 
         $result = $this->db->get_col($query);
 
-        if (!$this->bypassCache) {
+        if ($this->allowCaching) {
             $this->setCachedResult($query, $result);
         }
 
@@ -355,7 +359,7 @@ class Query
         $query = $this->buildQuery();
         $query = $this->prepareQuery($query, $this->valuesToPrepare);
 
-        if (!$this->bypassCache) {
+        if ($this->allowCaching) {
             $cachedResult = $this->getCachedResult($query);
             if ($cachedResult !== false) {
                 return $cachedResult;
@@ -364,7 +368,7 @@ class Query
 
         $result = $this->db->get_row($query);
 
-        if (!$this->bypassCache) {
+        if ($this->allowCaching) {
             $this->setCachedResult($query, $result);
         }
 
@@ -396,7 +400,7 @@ class Query
         $joinTable = $this->getTable($table);
 
         if ((is_array($on) && count($on) == 2) || is_string($on)) {
-            $joinClause  = "{$joinType} JOIN {$joinTable} AS $table ON ";
+            $joinClause = "{$joinType} JOIN {$joinTable} AS $table ON ";
             $joinClause .= is_array($on) ? "{$on[0]} = {$on[1]}" : "{$on}";
 
             if (!empty($conditions)) {
@@ -613,14 +617,45 @@ class Query
         return $query;
     }
 
-    public function bypassCache($flag = true)
+    /**
+     * @return $this
+     * @deprecated Use allowCaching() instead.
+     */
+    public function bypassCache()
     {
-        $this->bypassCache = $flag;
+        return $this;
+    }
+
+    /**
+     * Allow caching for the query.
+     *
+     * @param $flag
+     * @return $this
+     */
+    public function allowCaching($flag = true)
+    {
+        $this->allowCaching = $flag;
         return $this;
     }
 
     public function removeTablePrefix($query)
     {
         return str_replace([$this->db->prefix, 'statistics_'], '', $query);
+    }
+
+    /**
+     * Determine whether caching is permissible based on the specified date range.
+     *
+     * @param string $to The end date of the range.
+     * @return void
+     */
+    protected function canUseCacheForDateRange($to)
+    {
+        $today = date('Y-m-d');
+
+        // Cache should be used if the date range does not include today
+        if ($to < $today) {
+            $this->allowCaching();
+        }
     }
 }

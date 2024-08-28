@@ -10,6 +10,9 @@ class DB
      * @var array
      */
     public static $db_table = array(
+        /**
+         * WP Statistics Table
+         */
         'useronline',
         'visit',
         'visitor',
@@ -18,7 +21,16 @@ class DB
         'search',
         'historical',
         'visitor_relationships',
-        'events'
+
+        /**
+         * Data Plus Table
+         */
+        'events',
+
+        /**
+         * Advanced Reporting Table
+         */
+        'ar_outbox'
     );
 
     /**
@@ -62,6 +74,9 @@ class DB
     public static function getTableDesc($tbl)
     {
         $descriptions = [
+            /**
+             * WP Statistics Table
+             */
             'useronline'            => __('This table keeps a record of users currently online on your website. Each row corresponds to a unique user session.', 'wp-statistics'),
             'visit'                 => __('This table logs each unique visit to your website. A new row is added every time a visitor accesses your site.', 'wp-statistics'),
             'visitor'               => __('This table keeps a record of individual visitors to your website. Each row represents a unique visitor\'s information and their activities.', 'wp-statistics'),
@@ -70,6 +85,16 @@ class DB
             'search'                => __('This table records the search queries made on your website. It helps you understand what visitors are looking for.', 'wp-statistics'),
             'historical'            => __('This table stores historical data about views and visitors over time. It\'s useful for tracking trends and patterns in your website\'s traffic.', 'wp-statistics'),
             'visitor_relationships' => __('This table captures the relationships between visitors and the content they interact with, helping you understand user behavior and preferences.', 'wp-statistics'),
+
+            /**
+             * Data Plus Table
+             */
+            'events'                => __('<b>(Add-on Data Plus)</b> This table stores the events that are triggered on your website. It helps you track user interactions and behavior.', 'wp-statistics'),
+
+            /**
+             * Advanced Reporting Table
+             */
+            'ar_outbox'             => __('<b>(Add-on Advanced Reporting)</b> This table stores the messages that are sent from this add-on.', 'wp-statistics'),
         ];
 
         $tbl_name = str_replace(self::prefix() . 'statistics_', '', $tbl);

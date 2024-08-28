@@ -33,7 +33,7 @@ use WP_STATISTICS\Referred;
                                 <td class="wps-pd-l">
                                     <div class="wps-ellipsis-parent">
                                         <span class="wps-ellipsis-text wps-site-icon">
-                                            <?php echo Helper::show_site_icon($item->referrer) . ' ' . Referred::get_referrer_link($item->referrer, '', true) ?>
+                                            <?php echo Referred::get_referrer_link($item->referrer, '', true) ?>
                                         </span>
                                     </div>
                                 </td>

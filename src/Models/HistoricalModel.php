@@ -10,12 +10,12 @@ class HistoricalModel extends BaseModel
     /**
      * Returns historical views of a page by its URL.
      *
-     * @param   array   $args           Arguments to include in query (e.g. `page_id`, `uri`, etc.).
-     * @param   bool    $bypassCache    Send the cached result.
-     *
+     * @param array $args Arguments to include in query (e.g. `page_id`, `uri`, etc.).
      * @return  int
+     *
+     * @todo    Merge this with count methods in `ViewsModel`.
      */
-    public function countUris($args = [], $bypassCache = false)
+    public function countUris($args = [])
     {
         $args = $this->parseArgs($args, [
             'page_id' => '',
@@ -25,8 +25,7 @@ class HistoricalModel extends BaseModel
         $query = Query::select('SUM(`value`) AS `historical_views`')
             ->from('historical')
             ->where('page_id', '=', intval($args['page_id']))
-            ->where('uri', '=', $args['uri'])
-            ->bypassCache($bypassCache);
+            ->where('uri', '=', $args['uri']);
 
         return intval($query->getVar());
     }

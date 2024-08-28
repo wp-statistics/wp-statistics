@@ -35,7 +35,7 @@ class devices extends MetaBoxAbstract
             'from'   => '',
             'to'     => '',
             'order'  => '',
-            'number' => 10 // Get Max number of platform
+            'number' => 4 // Get Max number of platform
         );
         $args     = wp_parse_args($arg, $defaults);
 
@@ -61,8 +61,7 @@ class devices extends MetaBoxAbstract
         // Get List All Operating Systems
         $list = $wpdb->get_results(
             $wpdb->prepare(
-                "SELECT device, COUNT(*) as count FROM `" . DB::table('visitor') . "` WHERE device != %s AND `last_counter` BETWEEN %s AND %s GROUP BY device {$order_by}",
-                _x('Unknown', 'Device', 'wp-statistics'),
+                "SELECT device, COUNT(*) as count FROM `" . DB::table('visitor') . "` WHERE `last_counter` BETWEEN %s AND %s GROUP BY device {$order_by}",
                 reset($days_time_list),
                 end($days_time_list)),
             ARRAY_A);
@@ -95,7 +94,7 @@ class devices extends MetaBoxAbstract
             if (trim($l['device']) != "") {
 
                 // Remove device subtype, for example: mobile:smart -> mobile
-                $lists_name[] = \WP_STATISTICS\Helper::getDeviceCategoryName($l['device']);
+                $lists_name[] = ucfirst(Helper::getDeviceCategoryName($l['device']));
 
                 // Get List Count
                 $lists_value[] = (int)$l['count'];
@@ -103,6 +102,13 @@ class devices extends MetaBoxAbstract
                 // Add to Total
                 $total += $l['count'];
             }
+        }
+
+        $others = array_slice($list, $args['number']);
+        if (!empty($others)) {
+            $lists_name[]   = __('Others', 'wp-statistics');
+            $lists_value[]  = array_sum(array_column($others, 'count'));
+            $total          += array_sum(array_column($others, 'count'));
         }
 
         // Set Title

@@ -44,6 +44,7 @@ class Meta_Box
         require_once WP_STATISTICS_DIR . 'includes/admin/meta-box/wp-statistics-meta-box-hitsmap.php';
         require_once WP_STATISTICS_DIR . 'includes/admin/meta-box/wp-statistics-meta-box-useronline.php';
         require_once WP_STATISTICS_DIR . 'includes/admin/meta-box/wp-statistics-meta-box-about.php';
+        require_once WP_STATISTICS_DIR . 'includes/admin/meta-box/wp-statistics-meta-box-post-summary.php';
         require_once WP_STATISTICS_DIR . 'includes/admin/meta-box/wp-statistics-meta-box-post.php';
         require_once WP_STATISTICS_DIR . 'includes/admin/meta-box/wp-statistics-meta-box-top-pages-chart.php';
         require_once WP_STATISTICS_DIR . 'includes/admin/meta-box/wp-statistics-meta-box-exclusions.php';
@@ -172,7 +173,7 @@ class Meta_Box
                 ]
             ),
             'hits'            => array(
-                'page_url'          => Menus::admin_url('hits'),
+                'page_url'          => Menus::admin_url('visitors', ['tab' => 'views']),
                 'name'              => __('Daily Traffic Trend', 'wp-statistics'),
                 'description'       => __('Day-by-day breakdown of views and page views over the selected period.', 'wp-statistics'),
                 'hidden'            => true,
@@ -200,7 +201,7 @@ class Meta_Box
                 ]
             ),
             'pages'           => array(
-                'page_url'          => Menus::admin_url('content-analytics', ['type' => 'posts']),
+                'page_url'          => Menus::admin_url('pages'),
                 'name'              => __('Most Visited Pages', 'wp-statistics'),
                 'description'       => __('Pages on your website with the highest number of views in the selected time frame.', 'wp-statistics'),
                 'hidden'            => true,
@@ -214,7 +215,7 @@ class Meta_Box
                 ]
             ),
             'top-visitors'    => array(
-                'page_url'          => Menus::admin_url('top-visitors'),
+                'page_url'          => Menus::admin_url('visitors', ['tab' => 'top-visitors']),
                 'name'              => __('Most Active Visitors', 'wp-statistics'),
                 'description'       => __('Visitors with the highest number of views, including their country, city, IP address, and browser.', 'wp-statistics'),
                 'hidden'            => true,
@@ -251,7 +252,7 @@ class Meta_Box
             ),
             'useronline'      => array(
                 'name'              => __('Currently Online', 'wp-statistics'),
-                'page_url'          => Menus::admin_url('online'),
+                'page_url'          => Menus::admin_url('visitors', ['tab' => 'online']),
                 'require'           => array('useronline' => true),
                 'hidden'            => true,
                 'show_on_dashboard' => true,
@@ -266,8 +267,14 @@ class Meta_Box
                 'disable_overview'  => apply_filters('wp_statistics_disable_about_widget_overview', false),
             ),
             'post'            => array(
-                'name'              => __('Daily Traffic Trend', 'wp-statistics'),
+                'name'              => __('Statistics - Latest Visitors', 'wp-statistics'),
                 'page_url'          => Menus::admin_url('pages'),
+                'show_on_dashboard' => false,
+                'disable_overview'  => true
+            ),
+            'post-summary'    => array(
+                'name'              => __('Statistics - Summary', 'wp-statistics'),
+                'page_url'          => Menus::admin_url('content-analytics'),
                 'show_on_dashboard' => false,
                 'disable_overview'  => true
             ),

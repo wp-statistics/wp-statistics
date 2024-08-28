@@ -22,7 +22,7 @@ wps_js.hits_meta_box = {
         // }
 
         // Add Chart
-        html += '<div class="o-wrap"><canvas id="' + wps_js.chart_id('hits') + '" height="' + height + '"></canvas></div>';
+        html += '<div class="o-wrap"><div class="wps-postbox-chart--data"><div class="wps-postbox-chart--items"></div><div class="wps-postbox-chart--previousPeriod">' + wps_js._('previous_period') + '</div></div><div class="wps-postbox-chart--container"><canvas id="' + wps_js.chart_id('hits') + '" height="' + height + '"></canvas></div></div>';
 
         // show Data
         return html;
@@ -48,52 +48,14 @@ wps_js.hits_meta_box = {
 
         // Check Hit-chart for Quick State
         let params = args;
-        if ('hits-chart' in args) {
-            params = args['hits-chart'];
+
+        if (document.getElementById(tag_id)) {
+             const data = {
+                data: params['data'],
+                previousData: params['previousData']
+            };
+
+            wps_js.new_line_chart(data, tag_id, null);
         }
-
-        // Prepare Chart Data
-        let datasets = [];
-        datasets.push({
-            label: wps_js._('visitors'),
-            data: params['visitors'],
-            backgroundColor: 'rgba(255, 99, 132, 0.2)',
-            borderColor: 'rgba(255, 99, 132, 1)',
-            borderWidth: 1,
-            fill: true,
-            tension: 0.4
-        });
-        datasets.push({
-            label: wps_js._('visits'),
-            data: params['visits'],
-            backgroundColor: 'rgba(54, 162, 235, 0.2)',
-            borderColor: 'rgba(54, 162, 235, 1)',
-            borderWidth: 1,
-            fill: true,
-            tension: 0.4
-        });
-
-        // Set Options for Chart only for overview page
-        let options = {};
-        if (wps_js.is_active('overview_page')) {
-            options = {
-                options: {
-                    maintainAspectRatio: false,
-                    interaction: {
-                        intersect: false,
-                        mode: 'index',
-                    },
-                    scales: {
-                        y: {
-                            ticks: {
-                                stepSize: 1,
-                            }
-                        },
-                    }
-                },
-            }
-        }
-
-        wps_js.line_chart(tag_id, params['title'], params['date'], datasets, options);
-    }
+     }
 };

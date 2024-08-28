@@ -1,11 +1,3 @@
-<ul class="subsubsub">
-    <li class="all">
-        <a class="current" href="<?php echo esc_url(\WP_STATISTICS\Menus::admin_url('referrers')); ?>">
-            <?php esc_html_e('All', 'wp-statistics'); ?>
-            <span class="count">(<?php echo esc_html(number_format_i18n($total)); ?>)</span>
-        </a>
-    </li>
-</ul>
 <div class="postbox-container" id="wps-big-postbox">
     <div class="metabox-holder">
         <div class="meta-box-sortables">
@@ -17,19 +9,13 @@
                         <div class="o-table-wrapper">
                             <table class="o-table o-table--link" id="top-referring">
                                 <tr>
-                                    <td></td>
                                     <td><?php esc_html_e('Domain Address', 'wp-statistics'); ?></td>
-                                    <td><?php esc_html_e('Server IP', 'wp-statistics'); ?></td>
-                                    <td><?php esc_html_e('Country', 'wp-statistics'); ?></td>
                                     <td><?php esc_html_e('Number of Referrals', 'wp-statistics'); ?></td>
                                 </tr>
                                 <?php foreach ($list as $item) { ?>
 
                                     <tr>
-                                        <td><?php echo esc_html(number_format_i18n($item['rate'])); ?></td>
-                                        <td><?php echo WP_STATISTICS\Helper::show_site_icon($item['domain']) . " " . \WP_STATISTICS\Referred::get_referrer_link($item['domain']); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped  ?></td>
-                                        <td><?php echo trim($item['ip']) == "" ? \WP_STATISTICS\Admin_Template::UnknownColumn() : esc_attr($item['ip']); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></td>
-                                        <td><?php echo trim($item['country']) == "" ? \WP_STATISTICS\Admin_Template::UnknownColumn() : "<img src='" . esc_url($item['flag']) . "' title='" . esc_attr($item['country']) . "' alt='" . esc_attr($item['country']) . "' class='log-tools wps-flag'/>"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	 ?></td>
+                                        <td><?php echo \WP_STATISTICS\Referred::get_referrer_link($item['domain']); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></td>
                                         <td>
                                             <a class='wps-text-success' href='<?php echo esc_url($item['page_link']); ?>'>
                                                 <?php echo esc_html($item['number']); ?>

@@ -25,9 +25,15 @@ abstract class BaseTabView extends BaseView
         return Request::get('tab', $this->defaultTab);
     }
 
+    protected function isTab($tab)
+    {
+        return Request::get('tab', $this->defaultTab) === $tab;
+    }
+
     protected function getTabData()
     {
-        $tabDataMethod = 'get' . ucfirst($this->getCurrentTab()) . 'Data';
+        $currentTab     = ucwords($this->getCurrentTab(), '-');
+        $tabDataMethod  = 'get' . str_replace('-', '', $currentTab) . 'Data';
 
         if (!method_exists($this, $tabDataMethod)) return [];
 
