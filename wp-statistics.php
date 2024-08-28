@@ -9,6 +9,8 @@
  * Author URI: https://veronalabs.com/
  * Text Domain: wp-statistics
  * Domain Path: /languages
+ * Requires at least: 5.0
+ * Requires PHP: 7.2
  * License: GPL-2.0+
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  */
