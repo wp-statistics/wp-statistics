@@ -600,10 +600,8 @@ class VisitorsModel extends BaseModel
 
             foreach ($result as $key => $data) {
                 // Sort data by visitors
-                uasort($data, function ($a, $b) {
-                    if ($a['visitors'] == $b['visitors']) return 0;
-                    if ($a['visitors'] > $b['visitors']) return -1;
-                    if ($a['visitors'] < $b['visitors']) return 1;
+                usort($data, function ($a, $b) {
+                    return $b['visitors'] - $a['visitors'];
                 });
 
                 if (count($data) > 4) {
@@ -961,6 +959,10 @@ class VisitorsModel extends BaseModel
                 'data'  => array_values($data)
             ];
         }
+
+        usort($result['data']['datasets'], function($a, $b) {
+            return array_sum($b['data']) - array_sum($a['data']);
+        });
 
         if (!empty($thisPeriodTotal)) {
             $result['data']['datasets'][] = [
