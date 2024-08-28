@@ -962,6 +962,10 @@ class VisitorsModel extends BaseModel
             ];
         }
 
+        usort($result['data']['datasets'], function($a, $b) {
+            return array_sum($b['data']) - array_sum($a['data']);
+        });
+
         if (!empty($thisPeriodTotal)) {
             $result['data']['datasets'][] = [
                 'label' => esc_html__('Total', 'wp-statistics'),
