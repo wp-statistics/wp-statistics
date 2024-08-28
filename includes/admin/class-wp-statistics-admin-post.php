@@ -100,11 +100,11 @@ class Admin_Post
         if (is_numeric($hitCount)) {
             $preview_chart_unlock_html = sprintf(
                 // translators: 1: Mini-chart product link - 2: "Unlock This Feature!" text - 3: Lock image - 4: Chart preview image.
-                '<div class="wps-admin-column__unlock"><a href="%s" target="_blank"><span class="wps-admin-column__unlock__text">%s</span><img class="wps-admin-column__unlock__lock" src="%s"/><img class="wps-admin-column__unlock__img" src="%s"/></a></div>',
+                '<div class="wps-admin-column__unlock"><a href="%s" target="_blank"><span class="wps-admin-column__unlock__text">%s</span>
+                    <span class="wps-admin-column__unlock__lock"></span>
+                    <span class="wps-admin-column__unlock__img"></span></a></div>',
                 'https://wp-statistics.com/product/wp-statistics-mini-chart?utm_source=wp-statistics&utm_medium=link&utm_campaign=mini-chart',
                 __('Unlock', 'wp-statistics'),
-                WP_STATISTICS_URL . 'assets/images/mini-chart-posts-lock.svg',
-                WP_STATISTICS_URL . 'assets/images/mini-chart-posts-preview.svg'
             );
 
             // Remove post_type_ from prefix of custom post type because of incompatibility with WP Statistics MiniChart
