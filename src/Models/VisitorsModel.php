@@ -601,9 +601,7 @@ class VisitorsModel extends BaseModel
             foreach ($result as $key => $data) {
                 // Sort data by visitors
                 uasort($data, function ($a, $b) {
-                    if ($a['visitors'] == $b['visitors']) return 0;
-                    if ($a['visitors'] > $b['visitors']) return -1;
-                    if ($a['visitors'] < $b['visitors']) return 1;
+                    return $b['visitors'] - $a['visitors'];
                 });
 
                 if (count($data) > 4) {
