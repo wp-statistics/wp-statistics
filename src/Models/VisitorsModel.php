@@ -598,7 +598,7 @@ class VisitorsModel extends BaseModel
                 }
             }
 
-            foreach ($result as $key => $data) {
+            foreach ($result as $key => &$data) {
                 // Sort data by visitors
                 usort($data, function ($a, $b) {
                     return $b['visitors'] - $a['visitors'];
