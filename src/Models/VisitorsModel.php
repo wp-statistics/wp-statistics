@@ -13,7 +13,7 @@ use WP_STATISTICS\UserAgent;
 class VisitorsModel extends BaseModel
 {
 
-    public function countVisitors($args = [], $bypassCache = false)
+    public function countVisitors($args = [])
     {
         $args = $this->parseArgs($args, [
             'date'          => '',
@@ -40,8 +40,7 @@ class VisitorsModel extends BaseModel
             ->where('post_author', '=', $args['author_id'])
             ->where('posts.ID', '=', $args['post_id'])
             ->where('pages.uri', '=', $args['query_param'])
-            ->whereDate('visitor_relationships.date', $args['date'])
-            ->bypassCache($bypassCache);
+            ->whereDate('visitor_relationships.date', $args['date']);
 
         if (!empty($args['agent']) || !empty($args['country']) || !empty($args['platform']) || !empty($args['user_id']) || !empty($args['ip'])) {
             $query
@@ -71,7 +70,7 @@ class VisitorsModel extends BaseModel
         return $result ? intval($result) : 0;
     }
 
-    public function countDailyVisitors($args = [], $bypassCache = false)
+    public function countDailyVisitors($args = [])
     {
         $args = $this->parseArgs($args, [
             'date'          => '',
@@ -97,8 +96,7 @@ class VisitorsModel extends BaseModel
             ->where('posts.ID', '=', $args['post_id'])
             ->where('pages.uri', '=', $args['query_param'])
             ->whereDate('visitor_relationships.date', $args['date'])
-            ->groupBy('DATE(visitor_relationships.date)')
-            ->bypassCache($bypassCache);
+            ->groupBy('DATE(visitor_relationships.date)');
 
         if (!empty($args['taxonomy']) || !empty($args['term'])) {
             $taxQuery = Query::select(['DISTINCT object_id'])
@@ -122,11 +120,10 @@ class VisitorsModel extends BaseModel
      * Returns `COUNT DISTINCT` of a column from visitors table.
      *
      * @param array $args Arguments to include in query (e.g. `field`, `date`, `where_col`, `where_val`, etc.).
-     * @param bool $bypassCache Send the cached result.
      *
      * @return  int
      */
-    public function countColumnDistinct($args = [], $bypassCache = false)
+    public function countColumnDistinct($args = [])
     {
         $args = $this->parseArgs($args, [
             'field'          => 'ID',
@@ -142,7 +139,6 @@ class VisitorsModel extends BaseModel
             ->whereNotNull($args['where_not_null'])
             ->whereDate('last_counter', $args['date'])
             ->perPage(1, 1)
-            ->bypassCache($bypassCache)
             ->getVar();
 
         return $result ? intval($result) : 0;
@@ -152,11 +148,10 @@ class VisitorsModel extends BaseModel
      * Returns visitors' device information.
      *
      * @param array $args Arguments to include in query (e.g. `field`, `date`, `group_by`, etc.).
-     * @param bool $bypassCache Send the cached result.
      *
      * @return  array
      */
-    public function getVisitorsDevices($args = [], $bypassCache = false)
+    public function getVisitorsDevices($args = [])
     {
         $args = $this->parseArgs($args, [
             'field'          => 'agent',
@@ -179,7 +174,6 @@ class VisitorsModel extends BaseModel
             ->groupBy($args['group_by'])
             ->orderBy($args['order_by'], $args['order'])
             ->perPage($args['page'], $args['per_page'])
-            ->bypassCache($bypassCache)
             ->getAll();
 
         return $result ? $result : [];
@@ -189,11 +183,10 @@ class VisitorsModel extends BaseModel
      * Returns visitors' device versions for single view pages.
      *
      * @param array $args Arguments to include in query (e.g. `date`, etc.).
-     * @param bool $bypassCache Send the cached result.
      *
      * @return  array
      */
-    public function getVisitorsDevicesVersions($args = [], $bypassCache = false)
+    public function getVisitorsDevicesVersions($args = [])
     {
         $args = $this->parseArgs($args, [
             'date'      => '',
@@ -215,20 +208,19 @@ class VisitorsModel extends BaseModel
             ->groupBy('casted_version')
             ->orderBy($args['order_by'], $args['order'])
             ->perPage($args['page'], $args['per_page'])
-            ->bypassCache($bypassCache)
             ->getAll();
 
         return $result ? $result : [];
     }
 
-    public function getVisitorsSummary($args = [], $bypassCache = false)
+    public function getVisitorsSummary($args = [])
     {
         $result = $this->countDailyVisitors(array_merge(
             $args,
             [
                 'date' => DateRange::get('this_year'),
             ]
-        ), $bypassCache);
+        ));
 
         $summary = [
             'today'      => ['label' => esc_html__('Today', 'wp-statistics'), 'visitors' => 0],
@@ -296,7 +288,7 @@ class VisitorsModel extends BaseModel
         return $summary;
     }
 
-    public function getVisitorsData($args = [], $bypassCache = false)
+    public function getVisitorsData($args = [])
     {
         $args = $this->parseArgs($args, [
             'date'        => '',
@@ -373,8 +365,7 @@ class VisitorsModel extends BaseModel
             ->where('ip', '=', $args['ip'])
             ->perPage($args['page'], $args['per_page'])
             ->orderBy($args['order_by'], $args['order'])
-            ->groupBy('visitor.ID')
-            ->bypassCache($bypassCache);
+            ->groupBy('visitor.ID');
 
         // If last page is true, get last page the visitor has visited
         if ($args['page_info'] === true) {
@@ -425,7 +416,7 @@ class VisitorsModel extends BaseModel
         return $result ? $result : [];
     }
 
-    public function searchVisitors($args = [], $bypassCache = false)
+    public function searchVisitors($args = [])
     {
         $args = $this->parseArgs($args, [
             'user_id'     => '',
@@ -456,13 +447,12 @@ class VisitorsModel extends BaseModel
                 ["{$args['ip']}%"]
             )
             ->whereRelation('OR')
-            ->bypassCache($bypassCache)
             ->getAll();
 
         return $result ? $result : [];
     }
 
-    public function getVisitorData($args = [], $bypassCache = false)
+    public function getVisitorData($args = [])
     {
         $args = $this->parseArgs($args, [
             'visitor_id' => '',
@@ -509,13 +499,12 @@ class VisitorsModel extends BaseModel
             ->join('users', ['visitor.user_id', 'users.ID'], [], 'LEFT')
             ->joinQuery($subQuery, ['visitor.ID', 'first_hit.visitor_id'], 'first_hit')
             ->where('visitor.ID', '=', $args['visitor_id'])
-            ->bypassCache($bypassCache)
             ->getRow();
 
         return $result;
     }
 
-    public function getVisitorJourney($args, $bypassCache = false)
+    public function getVisitorJourney($args)
     {
         $args = $this->parseArgs($args, [
             'visitor_id'    => '',
@@ -529,15 +518,14 @@ class VisitorsModel extends BaseModel
             ->from('visitor_relationships')
             ->where('visitor_relationships.visitor_id', '=', $args['visitor_id'])
             ->orderBy('date')
-            ->bypassCache($bypassCache)
             ->getAll();
 
         return $result;
     }
 
-    public function getVisitorsPlatformData($args, $bypassCache = false)
+    public function getVisitorsPlatformData($args)
     {
-        $data = $this->getVisitorsData($args, $bypassCache);
+        $data = $this->getVisitorsData($args);
 
         $result = [
             'platform' => [],
@@ -638,7 +626,7 @@ class VisitorsModel extends BaseModel
         return $result;
     }
 
-    public function countGeoData($args = [], $bypassCache = false)
+    public function countGeoData($args = [])
     {
         $args = $this->parseArgs($args, [
             'date'        => '',
@@ -660,13 +648,12 @@ class VisitorsModel extends BaseModel
             ->where('visitor.region', '=', $args['region'])
             ->where('visitor.city', '=', $args['city'])
             ->whereNotNull("visitor.{$args['count_field']}")
-            ->bypassCache($bypassCache)
             ->getVar();
 
         return $result ? intval($result) : 0;
     }
 
-    public function getVisitorsGeoData($args = [], $bypassCache = false)
+    public function getVisitorsGeoData($args = [])
     {
         $args = $this->parseArgs($args, [
             'date'        => '',
@@ -705,8 +692,7 @@ class VisitorsModel extends BaseModel
             ->whereNotNull($args['not_null'])
             ->perPage($args['page'], $args['per_page'])
             ->groupBy($args['group_by'])
-            ->orderBy($args['order_by'], $args['order'])
-            ->bypassCache($bypassCache);
+            ->orderBy($args['order_by'], $args['order']);
 
 
         $filteredArgs = array_filter($args);
@@ -758,7 +744,7 @@ class VisitorsModel extends BaseModel
             OR (continent = location))
             AND ip NOT LIKE '#hash#%'",
                 [$privateCountry]
-            )->bypassCache();
+            );
 
         // Execute the query and return the result based on the returnCount parameter
         if ($returnCount) {
@@ -776,7 +762,7 @@ class VisitorsModel extends BaseModel
             ->execute();
     }
 
-    public function getReferrers($args = [], $bypassCache = false)
+    public function getReferrers($args = [])
     {
         $args = $this->parseArgs($args, [
             'date'        => '',
@@ -801,8 +787,7 @@ class VisitorsModel extends BaseModel
             ->whereNotNull('visitor.referred')
             ->groupBy('visitor.referred')
             ->orderBy('visitors')
-            ->perPage($args['page'], $args['per_page'])
-            ->bypassCache($bypassCache);
+            ->perPage($args['page'], $args['per_page']);
 
         // When date is passed, but all other parameters below are empty, compare the given date with `visitor.last_counter`
         if (!empty($args['date']) && !array_intersect(['post_type', 'post_id', 'query_param', 'taxonomy', 'term'], array_keys($filteredArgs))) {
@@ -844,7 +829,7 @@ class VisitorsModel extends BaseModel
         return $result ? $result : [];
     }
 
-    public function getSearchEngineReferrals($args = [], $bypassCache = false)
+    public function getSearchEngineReferrals($args = [])
     {
         $args = $this->parseArgs($args, [
             'date'        => '',
@@ -865,8 +850,7 @@ class VisitorsModel extends BaseModel
             ->from('search')
             ->whereDate('search.last_counter', $args['date'])
             ->groupBy($args['group_by'])
-            ->orderBy('date', 'DESC')
-            ->bypassCache($bypassCache);
+            ->orderBy('date', 'DESC');
 
         $filteredArgs = array_filter($args);
         if (array_intersect(['post_type', 'post_id', 'query_param', 'taxonomy', 'term'], array_keys($filteredArgs))) {
@@ -1007,13 +991,12 @@ class VisitorsModel extends BaseModel
      * Returns visitors, visits and referrers for the past given days, separated daily.
      *
      * @param array $args Arguments to include in query (e.g. `date`, `post_type`, `post_id`, etc.).
-     * @param bool $bypassCache Send the cached result.
      *
      * @return  array   Format: `[{'date' => "STRING", 'visitors' => INT, 'visits' => INT, 'referrers' => INT}, ...]`.
      *
      * @todo    Make the query faster for date ranges greater than one month.
      */
-    public function getDailyStats($args = [], $bypassCache = false)
+    public function getDailyStats($args = [])
     {
         $args = $this->parseArgs($args, [
             'date'      => [
@@ -1046,8 +1029,7 @@ class VisitorsModel extends BaseModel
         }
         $query
             ->whereDate('`visitor`.`last_counter`', $args['date'])
-            ->groupBy('`visitor`.`last_counter`')
-            ->bypassCache($bypassCache);
+            ->groupBy('`visitor`.`last_counter`');
 
         $filteredArgs = array_filter($args);
         if (array_intersect(['post_type', 'post_id', 'page_type', 'author_id', 'taxonomy', 'term_id'], array_keys($filteredArgs))) {

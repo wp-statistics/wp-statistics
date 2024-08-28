@@ -8,7 +8,7 @@ use WP_Statistics\Abstracts\BaseModel;
 
 class TaxonomyModel extends BaseModel
 {
-    public function countTerms($args = [], $bypassCache = false)
+    public function countTerms($args = [])
     {
         $args = $this->parseArgs($args, [
             'date'      => '',
@@ -20,13 +20,12 @@ class TaxonomyModel extends BaseModel
             ])
             ->from('term_taxonomy')
             ->where('taxonomy', 'IN', $args['taxonomy'])
-            ->bypassCache($bypassCache)
             ->getVar();
 
         return $result;
     }
 
-    public function getTaxonomiesData($args = [], $bypassCache = false)
+    public function getTaxonomiesData($args = [])
     {
         $args = $this->parseArgs($args, [
             'post_type'         => Helper::get_list_post_type(),
@@ -63,8 +62,7 @@ class TaxonomyModel extends BaseModel
             ->where('posts.post_author', '=', $args['author_id'])
             ->groupBy(['taxonomy', 'terms.term_id','terms.name'])
             ->orderBy($args['order_by'], $args['order'])
-            ->perPage($args['page'], $args['per_page'])
-            ->bypassCache($bypassCache);
+            ->perPage($args['page'], $args['per_page']);
 
         // If total posts is not requested, filter by date
         if ($args['count_total_posts'] == false) {
@@ -91,7 +89,7 @@ class TaxonomyModel extends BaseModel
         return $result ? $result : [];
     }
 
-    public function getTermsData($args = [], $bypassCache = false)
+    public function getTermsData($args = [])
     {
         $args = $this->parseArgs($args, [
             'order_by'  => 'views',
@@ -123,13 +121,12 @@ class TaxonomyModel extends BaseModel
             ->groupBy(['term_id'])
             ->orderBy($args['order_by'], $args['order'])
             ->perPage($args['page'], $args['per_page'])
-            ->bypassCache($bypassCache)
             ->getAll();
 
         return $result;
     }
 
-    public function getTermsReportData($args = [], $bypassCache = false)
+    public function getTermsReportData($args = [])
     {
         $args = $this->parseArgs($args, [
             'order_by'  => 'views',
@@ -160,7 +157,6 @@ class TaxonomyModel extends BaseModel
             ->where('posts.post_author', '=', $args['author_id'])
             ->whereDate('posts.post_date', $args['date'])
             ->groupBy(['terms.term_id'])
-            ->bypassCache($bypassCache)
             ->getQuery();
 
         $result = Query::select([
@@ -185,7 +181,6 @@ class TaxonomyModel extends BaseModel
             ->groupBy(['term_id'])
             ->orderBy($args['order_by'], $args['order'])
             ->perPage($args['page'], $args['per_page'])
-            ->bypassCache($bypassCache)
             ->getAll();
 
         return $result;

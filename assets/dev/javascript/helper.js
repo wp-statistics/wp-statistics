@@ -826,7 +826,8 @@ wps_js.new_line_chart = function (data, tag_id, newOptions) {
                     fontSize: 13,
                     padding: 8,
                     fontFamily: '"Roboto",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif',
-                    lineHeight: 15
+                    lineHeight: 15,
+                    stepSize: 1
                 }
             },
             y: {
@@ -839,7 +840,8 @@ wps_js.new_line_chart = function (data, tag_id, newOptions) {
                     fontFamily: '"Roboto",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif',
                     fontWeight: 'lighter ',
                     padding: 8,
-                    lineHeight: 15
+                    lineHeight: 15,
+                    stepSize: 1
                 },
                 border: {
                     color: 'transparent',
@@ -968,24 +970,6 @@ wps_js.performance_chart = function (data, tag_id, type) {
         {
             type: 'line',
             cubicInterpolationMode: 'monotone',
-            label: wps_js._('visits'),
-            data: data.views,
-            borderColor: wps_js.hex_to_rgba(colors[1], 0.8),
-            pointStyle: 'circle',
-            yAxisID: 'y',
-            borderWidth: 2,
-            pointRadius: 0,
-            pointBorderColor: 'transparent',
-            pointBackgroundColor: colors[1],
-            pointBorderWidth: 2,
-            hoverPointRadius: 6,
-            hoverPointBorderColor: '#fff',
-            hoverPointBackgroundColor: colors[1],
-            hoverPointBorderWidth: 4,
-        },
-        {
-            type: 'line',
-            cubicInterpolationMode: 'monotone',
             label: wps_js._('visitors'),
             data: data.visitors,
             borderColor: wps_js.hex_to_rgba(colors[0], 0.8),
@@ -1000,6 +984,24 @@ wps_js.performance_chart = function (data, tag_id, type) {
             hoverPointBackgroundColor: colors[0],
             hoverPointBorderWidth: 4
         },
+        {
+            type: 'line',
+            cubicInterpolationMode: 'monotone',
+            label: wps_js._('visits'),
+            data: data.views,
+            borderColor: wps_js.hex_to_rgba(colors[1], 0.8),
+            pointStyle: 'circle',
+            yAxisID: 'y',
+            borderWidth: 2,
+            pointRadius: 0,
+            pointBorderColor: 'transparent',
+            pointBackgroundColor: colors[1],
+            pointBorderWidth: 2,
+            hoverPointRadius: 6,
+            hoverPointBorderColor: '#fff',
+            hoverPointBackgroundColor: colors[1],
+            hoverPointBorderWidth: 4,
+        }
     ]
     if (!is_single_content) datasets.push({
         type: 'bar',
@@ -1024,6 +1026,7 @@ wps_js.performance_chart = function (data, tag_id, type) {
                 fontWeight: 'lighter ',
                 padding: 8,
                 lineHeight: 15,
+                stepSize: 1
             },
             border: {
                 color: 'transparent',
@@ -1049,6 +1052,7 @@ wps_js.performance_chart = function (data, tag_id, type) {
                 fontWeight: 'lighter ',
                 padding: 8,
                 lineHeight: 15,
+                stepSize: 1
             },
             type: 'linear',
             position: is_single_content ? 'left' : 'right',
@@ -1087,7 +1091,8 @@ wps_js.performance_chart = function (data, tag_id, type) {
                 fontFamily: '"Roboto",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif',
                 fontWeight: 'lighter ',
                 padding: 8,
-                lineHeight: 15
+                lineHeight: 15,
+                stepSize: 1
             },
             title: {
                 display: true,

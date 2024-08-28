@@ -23,7 +23,7 @@ class VisitorInsightsManager
             'title'     => esc_html__('Visitor Insights', 'wp-statistics'),
             'page_url'  => 'visitors',
             'callback'  => VisitorInsightsPage::class,
-            'priority'  => 20,
+            'priority'  => 25,
         ];
 
         return $items;

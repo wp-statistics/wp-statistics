@@ -16,13 +16,13 @@ $postType = Request::get('tab', 'post');
     </div>
     <div class="c-wps-performance-chart">
         <div class="c-wps-performance-chart__items">
-            <div class="c-wps-performance-chart__item  js-wps-performance-chart__item c-wps-performance-chart__item--views">
-                <p><?php echo esc_html__('Views', 'wp-statistics') ?></p>
-                <span><?php echo esc_html(Helper::formatNumberWithUnit($data['views'])) ?></span>
-            </div>
             <div class="c-wps-performance-chart__item js-wps-performance-chart__item c-wps-performance-chart__item--visitors">
                 <p><?php echo esc_html__('Visitors', 'wp-statistics') ?></p>
                 <span><?php echo esc_html(Helper::formatNumberWithUnit($data['visitors'])) ?></span>
+            </div>
+            <div class="c-wps-performance-chart__item  js-wps-performance-chart__item c-wps-performance-chart__item--views">
+                <p><?php echo esc_html__('Views', 'wp-statistics') ?></p>
+                <span><?php echo esc_html(Helper::formatNumberWithUnit($data['views'])) ?></span>
             </div>
             <?php if ($type !== 'single'): ?>
                 <div class="c-wps-performance-chart__item js-wps-performance-chart__item c-wps-performance-chart__item--published">

@@ -386,6 +386,11 @@ class GeoIP
          * If so, extract the database file from the archive.
          */
         if (Option::get('geoip_license_type') === "user-license" && Option::get('geoip_license_key')) {
+            // Check if the PharData class is available.
+            if (!class_exists('PharData')) {
+                throw new Exception(__('PharData class not found.', 'wp-statistics'));
+            }
+
             $tarGz         = new \PharData($gzFilePath);
             $fileInArchive = trailingslashit($tarGz->current()->getFileName()) . self::$library['file'] . '.' . self::$file_extension;
 

@@ -10,7 +10,7 @@ use WP_Statistics\Utils\Query;
 class PostsModel extends BaseModel
 {
 
-    public function countPosts($args = [], $bypassCache = false)
+    public function countPosts($args = [])
     {
         $args = $this->parseArgs($args, [
             'date'                  => '',
@@ -25,8 +25,7 @@ class PostsModel extends BaseModel
             ->from('posts')
             ->where('post_status', '=', 'publish')
             ->where('post_type', 'IN', $args['post_type'])
-            ->where('post_author', '=', $args['author_id'])
-            ->bypassCache($bypassCache);
+            ->where('post_author', '=', $args['author_id']);
 
         // Count posts within view date
         if ($args['filter_by_view_date'] == true) {
@@ -60,7 +59,7 @@ class PostsModel extends BaseModel
         return $result ? $result : 0;
     }
 
-    public function countDailyPosts($args = [], $bypassCache = false)
+    public function countDailyPosts($args = [])
     {
         $args = $this->parseArgs($args, [
             'date'      => '',
@@ -76,8 +75,7 @@ class PostsModel extends BaseModel
             ->where('post_type', 'IN', $args['post_type'])
             ->where('post_author', '=', $args['author_id'])
             ->whereDate('post_date', $args['date'])
-            ->groupBy('Date(post_date)')
-            ->bypassCache($bypassCache);
+            ->groupBy('Date(post_date)');
 
         if (!empty($args['taxonomy']) || !empty($args['term'])) {
             $taxQuery = Query::select(['DISTINCT object_id'])
@@ -97,7 +95,7 @@ class PostsModel extends BaseModel
         return $result;
     }
 
-    public function countWords($args = [], $bypassCache = false)
+    public function countWords($args = [])
     {
         $args = $this->parseArgs($args, [
             'date'      => '',
@@ -117,8 +115,7 @@ class PostsModel extends BaseModel
             ->where('post_type', 'IN', $args['post_type'])
             ->where('posts.ID', '=', $args['post_id'])
             ->where('post_author', '=', $args['author_id'])
-            ->where('meta_key', '=', $wordsCountMetaKey)
-            ->bypassCache($bypassCache);
+            ->where('meta_key', '=', $wordsCountMetaKey);
 
         // Filter by date when no particular post ID has been set  
         if (empty($args['post_id'])) {
@@ -144,7 +141,7 @@ class PostsModel extends BaseModel
         return $result ? $result : 0;
     }
 
-    public function countComments($args = [], $bypassCache = false)
+    public function countComments($args = [])
     {
         $args = $this->parseArgs($args, [
             'date'      => '',
@@ -163,8 +160,7 @@ class PostsModel extends BaseModel
             ->where('post_author', '=', $args['author_id'])
             ->where('comments.comment_type', '=', 'comment')
             ->where('posts.ID', '=', $args['post_id'])
-            ->whereDate('post_date', $args['date'])
-            ->bypassCache($bypassCache);
+            ->whereDate('post_date', $args['date']);
 
         if (!empty($args['taxonomy']) || !empty($args['term'])) {
             $taxQuery = Query::select(['DISTINCT object_id'])
@@ -184,7 +180,7 @@ class PostsModel extends BaseModel
         return $result ? $result : 0;
     }
 
-    public function getPostsReportData($args = [], $bypassCache = false)
+    public function getPostsReportData($args = [])
     {
         $args = $this->parseArgs($args, [
             'date'      => '',
@@ -237,13 +233,12 @@ class PostsModel extends BaseModel
             ->groupBy('posts.ID')
             ->orderBy($args['order_by'], $args['order'])
             ->perPage($args['page'], $args['per_page'])
-            ->bypassCache($bypassCache)
             ->getAll();
 
         return $result;
     }
 
-    public function getPostsViewsData($args = [], $bypassCache = false)
+    public function getPostsViewsData($args = [])
     {
         $args = $this->parseArgs($args, [
             'date'          => '',
@@ -260,7 +255,6 @@ class PostsModel extends BaseModel
 
         // Get posts with zero views or not
         $joinType = $args['show_no_views'] ? 'LEFT' : 'INNER';
-
 
         $viewsQuery = Query::select(['id', 'SUM(count) AS views'])
             ->from('pages')
@@ -282,8 +276,7 @@ class PostsModel extends BaseModel
             ->where('posts.post_author', '=', $args['author_id'])
             ->groupBy('posts.ID')
             ->orderBy($args['order_by'], $args['order'])
-            ->perPage($args['page'], $args['per_page'])
-            ->bypassCache($bypassCache);
+            ->perPage($args['page'], $args['per_page']);
 
         if (!empty($args['taxonomy']) || !empty($args['term'])) {
             $taxQuery = Query::select(['DISTINCT object_id'])
@@ -303,7 +296,7 @@ class PostsModel extends BaseModel
         return $result;
     }
 
-    public function getPostsCommentsData($args = [], $bypassCache = false)
+    public function getPostsCommentsData($args = [])
     {
         $args = $this->parseArgs($args, [
             'date'      => '',
@@ -332,8 +325,7 @@ class PostsModel extends BaseModel
             ->whereDate('posts.post_date', $args['date'])
             ->groupBy('posts.ID')
             ->orderBy($args['order_by'], $args['order'])
-            ->perPage($args['page'], $args['per_page'])
-            ->bypassCache($bypassCache);
+            ->perPage($args['page'], $args['per_page']);
         
         if (!empty($args['taxonomy']) || !empty($args['term'])) {
             $taxQuery = Query::select(['DISTINCT object_id'])
@@ -353,7 +345,7 @@ class PostsModel extends BaseModel
         return $result;
     }
 
-    public function getPostsWordsData($args = [], $bypassCache = false)
+    public function getPostsWordsData($args = [])
     {
         $args = $this->parseArgs($args, [
             'date'      => '',
@@ -380,7 +372,6 @@ class PostsModel extends BaseModel
             ->groupBy('posts.ID')
             ->orderBy($args['order_by'], $args['order'])
             ->perPage($args['page'], $args['per_page'])
-            ->bypassCache($bypassCache)
             ->getAll();
 
         return $result;
