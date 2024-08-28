@@ -31,8 +31,8 @@ class ContentAnalyticsDataProvider
     {
         $result = [
             'labels'    => [],
-            'views'     => [],
             'visitors'  => [],
+            'views'     => [],
             'posts'     => []
         ];
 

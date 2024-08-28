@@ -63,8 +63,8 @@ class CategoryAnalyticsDataProvider
     {
         $result = [
             'labels'    => [],
-            'views'     => [],
             'visitors'  => [],
+            'views'     => [],
             'posts'     => []
         ];
 
