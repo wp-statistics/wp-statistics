@@ -5,7 +5,7 @@ Tags: analytics, google analytics, insights, stats, site visitors
 Requires at least: 5.0
 Tested up to: 6.6
 Stable tag: 14.11
-Requires PHP: 5.6
+Requires PHP: 7.2
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
