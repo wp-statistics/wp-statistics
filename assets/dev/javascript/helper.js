@@ -726,6 +726,8 @@ wps_js.new_line_chart = function (data, tag_id, newOptions) {
         'Other2': '#7362BF',
         'Other3': '#8AC3D0'
     };
+    const tensionValues = [0.1, 0.3, 0.5, 0.7];
+
     // Get Element By ID
     let ctx_line = document.getElementById(tag_id).getContext('2d');
 
@@ -736,13 +738,13 @@ wps_js.new_line_chart = function (data, tag_id, newOptions) {
     // Dynamically create datasets
     Object.keys(data.data).forEach((key, index) => {
 
-
         if (key !== 'labels') {
             let color = colors[key] || colors[`Other${index}`];
+            let tension = tensionValues[index % tensionValues.length]; // Use tension value based on index
+
             // Main dataset
             datasets.push({
                 type: 'line',
-                cubicInterpolationMode: 'monotone',
                 label: key,
                 data: data.data[key],
                 borderColor: color,
@@ -757,14 +759,14 @@ wps_js.new_line_chart = function (data, tag_id, newOptions) {
                 hoverPointRadius: 6,
                 hoverPointBorderColor: '#fff',
                 hoverPointBackgroundColor: color,
-                hoverPointBorderWidth: 4
+                hoverPointBorderWidth: 4,
+                tension: tension
             });
 
             // Previous data dataset
             if (data.previousData[key]) {
                 datasets.push({
                     type: 'line',
-                    cubicInterpolationMode: 'monotone',
                     label: `${key} (Previous)`,
                     data: data.previousData[key],
                     borderColor: wps_js.hex_to_rgba(color, 0.7),
@@ -781,7 +783,8 @@ wps_js.new_line_chart = function (data, tag_id, newOptions) {
                     hoverPointRadius: 6,
                     hoverPointBorderColor: '#fff',
                     hoverPointBackgroundColor: color,
-                    hoverPointBorderWidth: 4
+                    hoverPointBorderWidth: 4,
+                    tension: tension
                 });
             }
         }
@@ -969,7 +972,6 @@ wps_js.performance_chart = function (data, tag_id, type) {
     let datasets = [
         {
             type: 'line',
-            cubicInterpolationMode: 'monotone',
             label: wps_js._('visitors'),
             data: data.visitors,
             borderColor: wps_js.hex_to_rgba(colors[0], 0.8),
@@ -982,11 +984,11 @@ wps_js.performance_chart = function (data, tag_id, type) {
             hoverPointRadius: 6,
             hoverPointBorderColor: '#fff',
             hoverPointBackgroundColor: colors[0],
-            hoverPointBorderWidth: 4
+            hoverPointBorderWidth: 4,
+            tension: 0.4
         },
         {
             type: 'line',
-            cubicInterpolationMode: 'monotone',
             label: wps_js._('visits'),
             data: data.views,
             borderColor: wps_js.hex_to_rgba(colors[1], 0.8),
@@ -1001,6 +1003,7 @@ wps_js.performance_chart = function (data, tag_id, type) {
             hoverPointBorderColor: '#fff',
             hoverPointBackgroundColor: colors[1],
             hoverPointBorderWidth: 4,
+            tension: 0.7
         }
     ]
     if (!is_single_content) datasets.push({
