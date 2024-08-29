@@ -16,6 +16,7 @@ use WP_Statistics\Service\Integrations\WpConsentApi;
 use WP_Statistics\Service\Admin\Devices\DevicesManager;
 use WP_Statistics\Service\Admin\VisitorInsights\VisitorInsightsManager;
 use WP_Statistics\Service\Admin\PageInsights\PageInsightsManager;
+use WP_Statistics\Service\Admin\Referrals\ReferralsManager;
 
 defined('ABSPATH') || exit;
 
@@ -186,6 +187,7 @@ final class WP_Statistics
             $categoryAnalytics   = new CategoryAnalyticsManager();
             $pageInsights        = new PageInsightsManager();
             $visitorInsights     = new VisitorInsightsManager();
+            $referrals           = new ReferralsManager();
             $integrationsManager = new IntegrationsManager();
         }
 

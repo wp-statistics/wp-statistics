@@ -19,6 +19,7 @@ class Menus
         'overview'           => 'overview',
         'exclusions'         => 'exclusions',
         'referrers'          => 'referrers',
+        'referrals'          => 'referrals',
         'searches'           => 'searches',
         'optimization'       => 'optimization',
         'settings'           => 'settings',
