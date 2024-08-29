@@ -46,26 +46,17 @@ class MaxmindGeoIPProvider extends AbstractGeoIPProvider
             $record = $this->reader->city($ipAddress);
 
             return [
-                'ip'        => $ipAddress,
-                'country'   => $record->country->name,
-                'continent' => $record->continent->name,
-                'region'    => $record->mostSpecificSubdivision->name,
-                'city'      => $record->city->name,
-                'latitude'  => $record->location->latitude,
-                'longitude' => $record->location->longitude,
+                'country'      => $record->country->name,
+                'country_code' => $record->country->isoCode,
+                'continent'    => $record->continent->name,
+                'region'       => $record->mostSpecificSubdivision->name,
+                'city'         => $record->city->name,
+                'latitude'     => $record->location->latitude,
+                'longitude'    => $record->location->longitude,
             ];
 
         } catch (Exception $e) {
-            return [
-                'ip'        => $ipAddress,
-                'country'   => null,
-                'continent' => null,
-                'region'    => null,
-                'city'      => null,
-                'latitude'  => null,
-                'longitude' => null,
-                'error'     => $e->getMessage(),
-            ];
+            return $this->getDefaultLocation();
         }
     }
 

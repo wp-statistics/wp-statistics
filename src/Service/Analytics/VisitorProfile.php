@@ -8,6 +8,7 @@ use WP_STATISTICS\IP;
 use WP_STATISTICS\Option;
 use WP_STATISTICS\Pages;
 use WP_STATISTICS\Referred;
+use WP_Statistics\Service\Geolocation\GeolocationFactory;
 use WP_STATISTICS\User;
 use WP_STATISTICS\UserAgent;
 use WP_STATISTICS\Visitor;
@@ -73,7 +74,8 @@ class VisitorProfile
     public function getCountry()
     {
         if (!$this->country) {
-            $this->country = GeoIP::getCountry($this->getIp());
+            $location      = GeolocationFactory::getLocation($this->getIp());
+            $this->country = $location['country'];
         }
 
         return $this->country;

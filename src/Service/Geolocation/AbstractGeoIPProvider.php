@@ -14,6 +14,31 @@ abstract class AbstractGeoIPProvider implements GeoServiceProviderInterface
     protected $databaseFileName = '';
 
     /**
+     * Default country code for private IP addresses.
+     *
+     * @var string
+     */
+    protected $privateCountry = '000';
+
+    /**
+     * Get the default location data.
+     *
+     * @return null[]
+     */
+    protected function getDefaultLocation()
+    {
+        return [
+            'country'      => null,
+            'country_code' => null,
+            'continent'    => null,
+            'region'       => null,
+            'city'         => null,
+            'latitude'     => null,
+            'longitude'    => null,
+        ];
+    }
+
+    /**
      * Construct the full path for a given file name in the uploads directory.
      *
      * @param string $fileName
@@ -126,5 +151,21 @@ abstract class AbstractGeoIPProvider implements GeoServiceProviderInterface
                 ]
             );
         }
+    }
+
+    /**
+     * Retrieves the default country code for private IPs.
+     *
+     * @return string The country code used for private IPs.
+     */
+    public function getDefaultCountryCode()
+    {
+        $defaultCountryCode = Option::get('private_country_code');
+
+        if ($defaultCountryCode) {
+            return trim($defaultCountryCode);
+        }
+
+        return $this->privateCountry;
     }
 }

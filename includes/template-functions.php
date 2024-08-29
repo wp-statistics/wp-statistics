@@ -5,6 +5,7 @@ use WP_STATISTICS\GeoIP;
 use WP_STATISTICS\IP;
 use WP_Statistics\Models\VisitorsModel;
 use WP_STATISTICS\Pages;
+use WP_Statistics\Service\Geolocation\GeolocationFactory;
 use WP_STATISTICS\TimeZone;
 use WP_STATISTICS\User;
 use WP_STATISTICS\UserAgent;
@@ -58,16 +59,18 @@ function wp_statistics_get_user_location($ip = false)
         'city'    => '',
     );
 
-    // Get user Country
-    $country         = GeoIP::getCountry($ip);
+    // Get the location
+    $location = GeolocationFactory::getLocation($ip);
+    $country  = $location['country'];
+
     $data['country'] = array(
-        'code' => $country,
+        'code' => $location,
         'name' => Country::getName($country),
         'flag' => Country::flag($country)
     );
 
     // Get User City
-    $data['city'] = GeoIP::getCity($ip);
+    $data['city'] = $location['city'];
 
     return $data;
 }

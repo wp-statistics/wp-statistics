@@ -3,6 +3,7 @@
 namespace WP_STATISTICS;
 
 use WP_Statistics\Service\Analytics\VisitorProfile;
+use WP_Statistics\Service\Geolocation\GeolocationFactory;
 
 class Visitor
 {
@@ -376,7 +377,8 @@ class Visitor
             if (!empty($items->location) && $items->location !== 'Unknown') {
                 $location = $items->location;
             } else {
-                $location = GeoIP::getCountry($ip);
+                $location = GeolocationFactory::getLocation($ip);
+                $location = $location['country'];
             }
 
             // Push Country
@@ -395,9 +397,9 @@ class Visitor
                 $item['city']   = $items->city;
                 $item['region'] = $items->region;
             } else {
-                $city           = GeoIP::getCity($ip, true);
-                $item['city']   = $city['city'];
-                $item['region'] = $city['region'];
+                $location       = GeolocationFactory::getLocation($ip);
+                $item['city']   = $location['city'];
+                $item['region'] = $location['region'];
             }
 
             // Get What is Page
