@@ -2,7 +2,9 @@
 
 namespace WP_Statistics\Service\Geolocation;
 
+use Exception;
 use WP_Error;
+use WP_STATISTICS\IP;
 use WP_Statistics\Service\Geolocation\Provider\GeoServiceProviderInterface;
 
 class GeolocationService
@@ -30,6 +32,25 @@ class GeolocationService
      */
     public function getGeolocation(string $ipAddress)
     {
+        /**
+         * Add compatibility for hash IP addresses.
+         */
+        if (strpos($ipAddress, IP::$hash_ip_prefix) !== false) {
+            return $this->provider->getDefaultLocation();
+        }
+
+        /**
+         * Check if the IP address is in a private range.
+         * @review: If this is not necessary, remove it.
+         */
+        try {
+            if (IP::CheckIPRange(IP::$private_SubNets)) {
+                return $this->provider->getDefaultCountryCode();
+            }
+        } catch (Exception $e) {
+            return $this->provider->getDefaultLocation();
+        }
+
         return $this->provider->fetchGeolocationData($ipAddress);
     }
 

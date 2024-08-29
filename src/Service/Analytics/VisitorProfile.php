@@ -2,7 +2,6 @@
 
 namespace WP_Statistics\Service\Analytics;
 
-use WP_STATISTICS\GeoIP;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\IP;
 use WP_STATISTICS\Option;
@@ -19,8 +18,7 @@ class VisitorProfile
     private $processedIPForStorage;
     private $isIpActiveToday;
     private $referrer;
-    private $country;
-    private $city;
+    private $location;
     private $userAgent;
     private $httpUserAgent;
     private $userId;
@@ -71,41 +69,52 @@ class VisitorProfile
         return $this->isIpActiveToday;
     }
 
-    public function getCountry()
+    /**
+     * Get the location of the visitor.
+     *
+     * @return array
+     */
+    public function getLocation($location = null)
     {
-        if (!$this->country) {
-            $location      = GeolocationFactory::getLocation($this->getIp());
-            $this->country = $location['country'];
+        if (!$this->location) {
+            $this->location = GeolocationFactory::getLocation($this->getIp());
         }
 
-        return $this->country;
+        if ($location) {
+            return $this->location[$location];
+        }
+
+        return $this->location;
+    }
+
+    public function getCountry()
+    {
+        return $this->getLocation('country');
     }
 
     public function getCity()
     {
-        if (!$this->city) {
-            $this->city = GeoIP::getCity($this->getIp(), true);
-        }
-
-        return $this->city['city'];
+        return $this->getLocation('city');
     }
 
     public function getRegion()
     {
-        if (!$this->city) {
-            $this->city = GeoIP::getCity($this->getIp(), true);
-        }
-
-        return $this->city['region'];
+        return $this->getLocation('region');
     }
 
     public function getContinent()
     {
-        if (!$this->city) {
-            $this->city = GeoIP::getCity($this->getIp(), true);
-        }
+        return $this->getLocation('continent');
+    }
 
-        return $this->city['continent'];
+    public function getLatitude()
+    {
+        return $this->getLocation('latitude');
+    }
+
+    public function getLongitude()
+    {
+        return $this->getLocation('longitude');
     }
 
     public function getReferrer()

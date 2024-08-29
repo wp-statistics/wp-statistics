@@ -3,6 +3,7 @@
 namespace WP_Statistics\Models;
 
 use WP_STATISTICS\Helper;
+use WP_Statistics\Service\Geolocation\GeolocationFactory;
 use WP_STATISTICS\TimeZone;
 use WP_STATISTICS\GeoIP;
 use WP_Statistics\Utils\Query;
@@ -725,7 +726,7 @@ class VisitorsModel extends BaseModel
 
     public function getVisitorsWithIncompleteLocation($returnCount = false)
     {
-        $privateCountry = GeoIP::$private_country;
+        $privateCountry = GeolocationFactory::getProviderInstance()->getPrivateCountryCode();
 
         // Determine the select fields based on the returnCount parameter
         $selectFields = $returnCount ? 'COUNT(*)' : ['ID', 'ip', 'location', 'city', 'region', 'continent'];

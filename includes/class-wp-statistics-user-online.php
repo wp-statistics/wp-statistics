@@ -312,15 +312,12 @@ class UserOnline
                 $item['ip'] = array('value' => substr($ip, 6, 10), 'link' => Menus::admin_url('visitors', array('ip' => urlencode($ip))));
             } else {
                 $item['ip']  = array('value' => $ip, 'link' => Menus::admin_url('visitors', array('ip' => $ip)));
-                $item['map'] = GeoIP::geoIPTools($ip);
+                $item['map'] = Helper::geoIPTools($ip);
             }
 
-            // Push Country
             $item['country'] = array('location' => $items->location, 'flag' => Country::flag($items->location), 'name' => Country::getName($items->location));
-
-            // Push City
-            $item['city']   = !empty($items->city) ? $items->city : GeoIP::getCity($ip);
-            $item['region'] = $items->region;
+            $item['city']    = $items->city;
+            $item['region']  = $items->region;
 
             // Online For Time
             $current_time = current_time('timestamp'); // Fetch current server time in WordPress format

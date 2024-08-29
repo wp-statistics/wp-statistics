@@ -25,7 +25,7 @@ abstract class AbstractGeoIPProvider implements GeoServiceProviderInterface
      *
      * @return null[]
      */
-    protected function getDefaultLocation()
+    public function getDefaultLocation()
     {
         return [
             'country'      => null,
@@ -36,6 +36,32 @@ abstract class AbstractGeoIPProvider implements GeoServiceProviderInterface
             'latitude'     => null,
             'longitude'    => null,
         ];
+    }
+
+    /**
+     * Retrieves the default country code for private IPs.
+     *
+     * @return string The country code used for private IPs.
+     */
+    public function getDefaultCountryCode()
+    {
+        $defaultCountryCode = Option::get('private_country_code');
+
+        if ($defaultCountryCode) {
+            return trim($defaultCountryCode);
+        }
+
+        return $this->privateCountry;
+    }
+
+    /**
+     * Retrieves the private country code.
+     *
+     * @return string
+     */
+    public function getPrivateCountryCode()
+    {
+        return $this->privateCountry;
     }
 
     /**
@@ -151,21 +177,5 @@ abstract class AbstractGeoIPProvider implements GeoServiceProviderInterface
                 ]
             );
         }
-    }
-
-    /**
-     * Retrieves the default country code for private IPs.
-     *
-     * @return string The country code used for private IPs.
-     */
-    public function getDefaultCountryCode()
-    {
-        $defaultCountryCode = Option::get('private_country_code');
-
-        if ($defaultCountryCode) {
-            return trim($defaultCountryCode);
-        }
-
-        return $this->privateCountry;
     }
 }

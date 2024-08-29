@@ -11,7 +11,7 @@ use WP_Statistics\Dependencies\GeoIp2\Database\Reader;
 class MaxmindGeoIPProvider extends AbstractGeoIPProvider
 {
     /**
-     * @var \WP_Statistics\Dependencies\GeoIp2\Database\Reader|null
+     * @var Reader|null
      */
     protected $reader = null;
 
@@ -74,17 +74,22 @@ class MaxmindGeoIPProvider extends AbstractGeoIPProvider
         }
 
         try {
-            $databasePath = $this->getDatabasePath();
-            if (!file_exists($databasePath)) {
+
+            if (!$this->isDatabaseExist()) {
                 WP_Statistics::log("GeoIP database not found. Attempting to download...");
 
                 $downloadResult = $this->downloadDatabase();
-                if (!$downloadResult['status']) {
-                    throw new Exception($downloadResult['notice']);
+
+                if (is_wp_error($downloadResult)) {
+                    throw new Exception($downloadResult->get_error_message());
                 }
             }
 
-            $this->reader = new Reader($databasePath);
+            /**
+             * Initialize the GeoIP reader.
+             */
+            $this->reader = new Reader($this->getDatabasePath());
+
         } catch (Exception $e) {
             $errorMessage = "Failed to initialize GeoIP reader: " . $e->getMessage();
             WP_Statistics::log($errorMessage); // Log the error for debugging

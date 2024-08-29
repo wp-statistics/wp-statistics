@@ -1,6 +1,7 @@
 <?php
 
 use WP_STATISTICS\IP;
+use WP_Statistics\Service\Geolocation\GeolocationFactory;
 
 // Get IP Method
 $ip_method  = IP::getIpMethod();
@@ -248,7 +249,7 @@ add_thickbox();
             </th>
 
             <td>
-                <input type="text" size="3" id="geoip-private-country-code" name="wps_private_country_code" value="<?php echo esc_attr(WP_STATISTICS\Option::get('private_country_code', \WP_STATISTICS\GeoIP::$private_country)); ?>">
+                <input type="text" size="3" id="geoip-private-country-code" name="wps_private_country_code" value="<?php echo esc_attr(WP_STATISTICS\Option::get('private_country_code', GeolocationFactory::getProviderInstance()->getPrivateCountryCode())); ?>">
                 <p class="description"><?php echo esc_html__('Assigns a default country code for private IP addresses that cannot be geographically located.', 'wp-statistics'); ?></p>
             </td>
         </tr>

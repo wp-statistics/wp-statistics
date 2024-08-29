@@ -105,7 +105,7 @@ class Visitor
 
         // Define the array of defaults
         $defaults = array(
-            'location'         => GeoIP::getDefaultCountryCode(),
+            'location'         => GeolocationFactory::getProviderInstance()->getDefaultCountryCode(),
             'exclusion_match'  => false,
             'exclusion_reason' => '',
         );
@@ -318,17 +318,17 @@ class Visitor
      */
     public static function prepareData($result = array())
     {
-
         // Prepare List
         $list = array();
 
         // Push to List
         foreach ($result as $items) {
 
-            $ip       = esc_html($items->ip);
-            $agent    = esc_html($items->agent);
-            $version  = esc_html(isset($items->casted_version) ? $items->casted_version : $items->version);
-            $platform = esc_html($items->platform);
+            $ip          = esc_html($items->ip);
+            $agent       = esc_html($items->agent);
+            $version     = esc_html(isset($items->casted_version) ? $items->casted_version : $items->version);
+            $platform    = esc_html($items->platform);
+            $geoLocation = false;
 
             $item = array(
                 'hits'     => (int)$items->hits,
@@ -366,7 +366,7 @@ class Visitor
                 $item['ip'] = array('value' => substr($ip, 6, 10), 'link' => Menus::admin_url('visitors', array('type' => 'single-visitor', 'visitor_id' => $items->ID)));
             } else {
                 $item['ip']  = array('value' => $ip, 'link' => Menus::admin_url('visitors', array('type' => 'single-visitor', 'visitor_id' => $items->ID)));
-                $item['map'] = GeoIP::geoIPTools($ip);
+                $item['map'] = Helper::geoIPTools($ip);
             }
 
             /**
@@ -374,11 +374,11 @@ class Visitor
              *
              * Set location from $items if it's not empty and not 'Unknown', otherwise use GeoIP to get the location
              */
-            if (!empty($items->location) && $items->location !== 'Unknown') {
+            if ($items->location && $items->location !== 'Unknown') {
                 $location = $items->location;
             } else {
-                $location = GeolocationFactory::getLocation($ip);
-                $location = $location['country'];
+                $geoLocation = GeolocationFactory::getLocation($ip); // Call once and reuse
+                $location    = $geoLocation['country'];
             }
 
             // Push Country
@@ -393,13 +393,12 @@ class Visitor
              *
              * Set city from $items if it's not empty and not 'Unknown', otherwise use GeoIP to get the city
              */
-            if (!empty($items->city) && $items->city !== __('Unknown', 'wp-statistics')) {
+            if ($items->location && $items->city !== __('Unknown', 'wp-statistics')) {
                 $item['city']   = $items->city;
                 $item['region'] = $items->region;
-            } else {
-                $location       = GeolocationFactory::getLocation($ip);
-                $item['city']   = $location['city'];
-                $item['region'] = $location['region'];
+            } else if (isset($geoLocation['city']) && $geoLocation['city']) {
+                $item['city']   = $geoLocation['city'];
+                $item['region'] = $geoLocation['region'];
             }
 
             // Get What is Page

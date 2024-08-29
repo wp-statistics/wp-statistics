@@ -7,6 +7,7 @@ use WP_STATISTICS\DB;
 use WP_STATISTICS\GeoIP;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\IP;
+use WP_Statistics\Service\Geolocation\GeolocationFactory;
 use WP_STATISTICS\UserAgent;
 
 class hitsmap extends MetaBoxAbstract
@@ -67,7 +68,7 @@ class hitsmap extends MetaBoxAbstract
             $result = self::getData($days_time_list, $chunk, $offset);
             foreach (Helper::yieldARow($result) as $country) {
                 // Check User is Unknown IP
-                if ($country->location == GeoIP::$private_country) {
+                if ($country->location == GeolocationFactory::getProviderInstance()->getPrivateCountryCode()) {
                     continue;
                 }
 
@@ -143,7 +144,6 @@ class hitsmap extends MetaBoxAbstract
             OBJECT);
     }
 
-
     private static function getVisitor($country)
     {
         // Push Browser
@@ -161,7 +161,8 @@ class hitsmap extends MetaBoxAbstract
 
         // Push City
         try {
-            $visitor['city'] = GeoIP::getCity($country->ip);
+            $location        = GeolocationFactory::getLocation($country->ip);
+            $visitor['city'] = $location['city'];
         } catch (\Exception $e) {
             $visitor['city'] = '';
         }
