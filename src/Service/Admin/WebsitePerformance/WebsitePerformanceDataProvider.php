@@ -72,14 +72,18 @@ class WebsitePerformanceDataProvider
     private $taxonomiesModel;
 
     // Cached attributes (to prevent duplicate queries)
-    private $currentPeriodVisitors   = null;
-    private $previousPeriodVisitors  = null;
-    private $currentPeriodViews      = null;
-    private $previousPeriodViews     = null;
-    private $currentPeriodReferrals  = null;
-    private $previousPeriodReferrals = null;
-    private $currentPeriodContents   = null;
-    private $previousPeriodContents  = null;
+    private $currentPeriodVisitors     = null;
+    private $previousPeriodVisitors    = null;
+    private $currentPeriodViews        = null;
+    private $previousPeriodViews       = null;
+    private $currentPeriodReferrals    = null;
+    private $previousPeriodReferrals   = null;
+    private $currentPeriodContents     = null;
+    private $previousPeriodContents    = null;
+    private $percentageChangeVisitors  = null;
+    private $percentageChangeViews     = null;
+    private $percentageChangeReferrals = null;
+    private $percentageChangeContents  = null;
 
     /**
      * Initializes the class.
@@ -174,14 +178,18 @@ class WebsitePerformanceDataProvider
         }
 
         // Reset cached attributes
-        $this->currentPeriodVisitors   = null;
-        $this->previousPeriodVisitors  = null;
-        $this->currentPeriodViews      = null;
-        $this->previousPeriodViews     = null;
-        $this->currentPeriodReferrals  = null;
-        $this->previousPeriodReferrals = null;
-        $this->currentPeriodContents   = null;
-        $this->previousPeriodContents  = null;
+        $this->currentPeriodVisitors     = null;
+        $this->previousPeriodVisitors    = null;
+        $this->currentPeriodViews        = null;
+        $this->previousPeriodViews       = null;
+        $this->currentPeriodReferrals    = null;
+        $this->previousPeriodReferrals   = null;
+        $this->currentPeriodContents     = null;
+        $this->previousPeriodContents    = null;
+        $this->percentageChangeVisitors  = null;
+        $this->percentageChangeViews     = null;
+        $this->percentageChangeReferrals = null;
+        $this->percentageChangeContents  = null;
     }
 
     /**
@@ -451,7 +459,11 @@ class WebsitePerformanceDataProvider
             return 0;
         }
 
-        return intval(Helper::calculatePercentageChange($this->getPreviousPeriodVisitors(), $this->getCurrentPeriodVisitors()));
+        if (!is_numeric($this->percentageChangeVisitors)) {
+            $this->percentageChangeVisitors = intval(Helper::calculatePercentageChange($this->getPreviousPeriodVisitors(), $this->getCurrentPeriodVisitors()));
+        }
+
+        return $this->percentageChangeVisitors;
     }
 
     /**
@@ -465,7 +477,11 @@ class WebsitePerformanceDataProvider
             return 0;
         }
 
-        return intval(Helper::calculatePercentageChange($this->getPreviousPeriodViews(), $this->getCurrentPeriodViews()));
+        if (!is_numeric($this->percentageChangeViews)) {
+            $this->percentageChangeViews = intval(Helper::calculatePercentageChange($this->getPreviousPeriodViews(), $this->getCurrentPeriodViews()));
+        }
+
+        return $this->percentageChangeViews;
     }
 
     /**
@@ -479,7 +495,11 @@ class WebsitePerformanceDataProvider
             return 0;
         }
 
-        return intval(Helper::calculatePercentageChange($this->getPreviousPeriodReferralsCount(), $this->getCurrentPeriodReferralsCount()));
+        if (!is_numeric($this->percentageChangeReferrals)) {
+            $this->percentageChangeReferrals = intval(Helper::calculatePercentageChange($this->getPreviousPeriodReferralsCount(), $this->getCurrentPeriodReferralsCount()));
+        }
+
+        return $this->percentageChangeReferrals;
     }
 
     /**
@@ -493,7 +513,11 @@ class WebsitePerformanceDataProvider
             return 0;
         }
 
-        return intval(Helper::calculatePercentageChange($this->getPreviousPeriodContents(), $this->getCurrentPeriodContents()));
+        if (!is_numeric($this->percentageChangeContents)) {
+            $this->percentageChangeContents = intval(Helper::calculatePercentageChange($this->getPreviousPeriodContents(), $this->getCurrentPeriodContents()));
+        }
+
+        return $this->percentageChangeContents;
     }
 
 
