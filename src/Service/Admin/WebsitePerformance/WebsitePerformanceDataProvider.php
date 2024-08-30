@@ -270,7 +270,7 @@ class WebsitePerformanceDataProvider
             $this->currentPeriodVisitors = $this->getVisitors();
         }
 
-        return $this->currentPeriodVisitors;
+        return intval($this->currentPeriodVisitors);
     }
 
     /**
@@ -284,7 +284,7 @@ class WebsitePerformanceDataProvider
             $this->previousPeriodVisitors = $this->getVisitors(false);
         }
 
-        return $this->previousPeriodVisitors;
+        return intval($this->previousPeriodVisitors);
     }
 
     /**
@@ -315,7 +315,7 @@ class WebsitePerformanceDataProvider
             $this->currentPeriodViews = $this->getViews();
         }
 
-        return $this->currentPeriodViews;
+        return intval($this->currentPeriodViews);
     }
 
     /**
@@ -329,7 +329,7 @@ class WebsitePerformanceDataProvider
             $this->previousPeriodViews = $this->getViews(false);
         }
 
-        return $this->previousPeriodViews;
+        return intval($this->previousPeriodViews);
     }
 
     /**
@@ -431,7 +431,7 @@ class WebsitePerformanceDataProvider
             $this->currentPeriodContents = $this->getContents();
         }
 
-        return $this->currentPeriodContents;
+        return intval($this->currentPeriodContents);
     }
 
     /**
@@ -445,7 +445,7 @@ class WebsitePerformanceDataProvider
             $this->previousPeriodContents = $this->getContents(false);
         }
 
-        return $this->previousPeriodContents;
+        return intval($this->previousPeriodContents);
     }
 
     /**
