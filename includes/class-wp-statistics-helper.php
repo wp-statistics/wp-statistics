@@ -2174,12 +2174,20 @@ class Helper
             $skipPercentageChanges = true;
         }
 
-        // Convert refferals results to one single integer
+        // Convert refferals results to one single integer and save the `$topReferral`
+        $topReferral = '';
         if (is_array($thisPeriodReferrals)) {
             $referredVisitors = 0;
             foreach ($thisPeriodReferrals as $referral) {
                 if (!empty($referral->visitors)) {
                     $referredVisitors += intval($referral->visitors);
+
+                    if (empty($topReferral)) {
+                        $topReferral = str_replace('www.', '', $referral->referrer);
+                        $topReferral = wp_parse_url($topReferral);
+                        $topReferral = !empty($topReferral['host']) ? trim($topReferral['host']) : '';
+                        $topReferral = ucfirst($topReferral);
+                    }
                 }
             }
             $thisPeriodReferrals = $referredVisitors;
@@ -2211,12 +2219,6 @@ class Helper
 
         $topPost = $postsModel->getPostsViewsData();
         $topPost = !empty($topPost) ? $topPost[0]->post_title : '';
-
-        $topReferral = '';
-        if (!empty($top_referring)) {
-            $topReferral = str_replace('www.', '', $top_referring[0]->domain);
-            $topReferral = ucfirst($topReferral);
-        }
 
         $taxonomyModel = new TaxonomyModel();
         $topCategory   = $taxonomyModel->getTaxonomiesData([
