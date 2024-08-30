@@ -215,7 +215,7 @@ class ViewsModel extends BaseModel
             'id' => '',
         ]);
 
-        $results = $this->query::select([
+        $results = Query::select([
             'uri',
             'page_id',
             'SUM(count) AS total',
