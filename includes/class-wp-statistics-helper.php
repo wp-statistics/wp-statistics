@@ -2078,7 +2078,7 @@ class Helper
      *  - `topReferral`
      *  - `topCategory`
      *
-     * @todo This function is a mess! We should make it more readable and break it down into several functions.
+     * @deprecated  Use `WP_Statistics\Service\Admin\WebsitePerformance\WebsitePerformanceDataProvider()` instead.
      */
     public static function getWebsitePerformanceSummary($startDate, $endDate = '')
     {
