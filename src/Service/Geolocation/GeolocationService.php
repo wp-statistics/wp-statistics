@@ -33,7 +33,7 @@ class GeolocationService
     public function getGeolocation(string $ipAddress)
     {
         /**
-         * Add compatibility for hash IP addresses.
+         * Check if the IP address is a hashed IP address, then, return the default location.
          */
         if (strpos($ipAddress, IP::$hash_ip_prefix) !== false) {
             return $this->provider->getDefaultLocation();
