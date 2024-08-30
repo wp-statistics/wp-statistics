@@ -3,10 +3,12 @@
 namespace WP_Statistics\Service\Geolocation\Provider;
 
 use Exception;
+use PharData;
 use WP_Error;
 use WP_Statistics;
 use WP_STATISTICS\Option;
 use WP_Statistics\Dependencies\GeoIp2\Database\Reader;
+use WP_Statistics\Service\Geolocation\AbstractGeoIPProvider;
 
 class MaxmindGeoIPProvider extends AbstractGeoIPProvider
 {
@@ -53,6 +55,7 @@ class MaxmindGeoIPProvider extends AbstractGeoIPProvider
                 'city'         => $record->city->name,
                 'latitude'     => $record->location->latitude,
                 'longitude'    => $record->location->longitude,
+                'postal_code'  => $record->postal->code,
             ];
 
         } catch (Exception $e) {
@@ -140,9 +143,9 @@ class MaxmindGeoIPProvider extends AbstractGeoIPProvider
             }
 
             $dbFile = $this->getDatabasePath();
-            $this->extractGzFile($gzFilePath, $dbFile);
 
-            wp_delete_file($gzFilePath); // Clean up the temporary file
+            $this->extractGzFile($gzFilePath, $dbFile); // Extract the downloaded file
+            $this->deleteFile($gzFilePath); // Clean up the temporary file
 
             // Update options and send notifications
             $this->updateLastDownloadTimestamp();
@@ -150,7 +153,7 @@ class MaxmindGeoIPProvider extends AbstractGeoIPProvider
             $this->sendGeoIpUpdateEmail(__('GeoIP Database successfully updated.', 'wp-statistics'));
 
         } catch (Exception $e) {
-            wp_delete_file($gzFilePath); // Ensure temporary file is deleted in case of an error
+            $this->deleteFile($gzFilePath); // Ensure temporary file is deleted in case of an error
 
             WP_Statistics::log($e->getMessage()); // Log the error for debugging
 
@@ -171,15 +174,53 @@ class MaxmindGeoIPProvider extends AbstractGeoIPProvider
     protected function extractGzFile(string $gzFilePath, string $destinationPath)
     {
         try {
-            $phar = new \PharData($gzFilePath);
-            $phar->decompress(); // Decompresses .gz to .tar
 
-            $tarPath = str_replace('.gz', '', $gzFilePath);
-            $pharTar = new \PharData($tarPath);
-            $pharTar->extractTo(dirname($destinationPath), null, true);
+            /**
+             * Check if the server is using MaxMind's GeoIP database.
+             * If so, extract the database file from the archive.
+             */
+            if (Option::get('geoip_license_type') === "user-license" && Option::get('geoip_license_key')) {
+                // Check if the PharData class is available.
+                if (!class_exists('PharData')) {
+                    throw new Exception(__('PharData class not found.', 'wp-statistics'));
+                }
 
-            // Clean up the .tar file
-            wp_delete_file($tarPath);
+                $tarGz         = new PharData($gzFilePath);
+                $fileInArchive = trailingslashit($tarGz->current()->getFileName()) . $this->databaseFileName;
+                $uploadPath    = dirname($destinationPath);
+
+                // Extract the database file from the archive.
+                $tarGz->extractTo($uploadPath, $fileInArchive, true); // Extract all files
+
+                // Rename and remove the extracted directory.
+                rename($uploadPath . '/' . $fileInArchive, $destinationPath);
+                rmdir($uploadPath . '/' . trailingslashit($tarGz->current()->getFileName()));
+
+                return;
+            }
+
+            $gzHandle = gzopen($gzFilePath, 'rb');
+            if (!$gzHandle) {
+                throw new Exception(__('Failed to open GZ archive.', 'wp-statistics'));
+            }
+
+            $dbFileHandle = fopen($destinationPath, 'wb'); // Open the destination file for writing
+            if (!$dbFileHandle) {
+                gzclose($gzHandle);
+                throw new Exception(__('Failed to open destination file for writing.', 'wp-statistics'));
+            }
+
+            while (!gzeof($gzHandle)) {
+                fwrite($dbFileHandle, gzread($gzHandle, 4096)); // Read from GZ and write to the destination file
+            }
+
+            gzclose($gzHandle);
+            fclose($dbFileHandle);
+
+            if (!file_exists($destinationPath)) {
+                throw new Exception(__('Error extracting GeoIP database file.', 'wp-statistics'));
+            }
+
         } catch (Exception $e) {
             throw new Exception("Failed to extract the database file: " . $e->getMessage());
         }

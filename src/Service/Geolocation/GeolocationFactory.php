@@ -3,9 +3,7 @@
 namespace WP_Statistics\Service\Geolocation;
 
 use WP_Error;
-use WP_Statistics\Service\Geolocation\Provider\GeoServiceProviderInterface;
 use WP_Statistics\Service\Geolocation\Provider\MaxmindGeoIPProvider;
-use WP_Statistics\Service\Geolocation\Provider\DbIpProvider;
 
 class GeolocationFactory
 {
@@ -53,6 +51,6 @@ class GeolocationFactory
             return new $providerName();
         }
 
-        return new DbIpProvider();
+        return new MaxmindGeoIPProvider();
     }
 }

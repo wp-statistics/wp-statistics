@@ -1,6 +1,6 @@
 <?php
 
-namespace WP_Statistics\Service\Geolocation\Provider;
+namespace WP_Statistics\Service\Geolocation;
 
 interface GeoServiceProviderInterface
 {

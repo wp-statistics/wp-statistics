@@ -1,6 +1,6 @@
 <?php
 
-namespace WP_Statistics\Service\Geolocation\Provider;
+namespace WP_Statistics\Service\Geolocation;
 
 use WP_STATISTICS\Option;
 use WP_Statistics\Async\BackgroundProcessFactory;
@@ -87,6 +87,20 @@ abstract class AbstractGeoIPProvider implements GeoServiceProviderInterface
     }
 
     /**
+     * Delete the given file.
+     *
+     * @param string $file
+     * @return bool
+     */
+    protected function deleteFile($file)
+    {
+        if (file_exists($file)) {
+            return wp_delete_file($file);
+        }
+        return true;
+    }
+
+    /**
      * Delete the existing GeoIP database.
      *
      * @return bool
@@ -95,7 +109,7 @@ abstract class AbstractGeoIPProvider implements GeoServiceProviderInterface
     {
         if ($this->isDatabaseExist()) {
             $databasePath = $this->getDatabasePath();
-            return unlink($databasePath);
+            return $this->deleteFile($databasePath);
         }
         return true; // If the file does not exist, treat it as already deleted
     }
