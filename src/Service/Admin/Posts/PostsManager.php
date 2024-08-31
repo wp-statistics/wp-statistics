@@ -214,7 +214,7 @@ class PostsManager
         // Some settings for the chart
         $chartSettings = [
             'color'  => $miniChartHelper->getChartColor(),
-            'label'  => $miniChartHelper->getTooltipLabel(),
+            'label'  => $miniChartHelper->getLabel(),
         ];
 
         // Reset date range because text summary displays info for the past week

@@ -38,6 +38,48 @@ class MiniChartHelper
     }
 
     /**
+     * Returns selected "Chart Metric" option.
+     *
+     * @return string Either `visitors` or `views`. Default: `visitors`.
+     */
+    public function getChartMetric()
+    {
+        if (!$this->isMiniChartActive()) {
+            return 'visitors';
+        }
+
+        return Option::getByAddon('metric', 'mini_chart', 'visitors');
+    }
+
+    /**
+     * Returns selected "Chart Date Range" option.
+     *
+     * @return int Either 7, 14, 30, 90 or 180. Default: 14.
+     */
+    public function getChartDateRange()
+    {
+        if (!$this->isMiniChartActive()) {
+            return 14;
+        }
+
+        return intval(Option::getByAddon('date_range', 'mini_chart', '14'));
+    }
+
+    /**
+     * Returns selected "Count Display" option.
+     *
+     * @return string Either `disabled`, `date_range` or `total`. Default: `total`.
+     */
+    public function getCountDisplay()
+    {
+        if (!$this->isMiniChartActive()) {
+            return 'total';
+        }
+
+        return Option::getByAddon('count_display', 'mini_chart', 'total');
+    }
+
+    /**
      * Returns color of the chart.
      *
      * @return string Hex code.
@@ -56,9 +98,9 @@ class MiniChartHelper
      *
      * @return string
      */
-    public function getTooltipLabel()
+    public function getLabel()
     {
-        return Helper::checkMiniChartOption('metric', 'views', 'visitors') ? __('Views', 'wp-statistics') : __('Visitors', 'wp-statistics');
+        return $this->getChartMetric() === 'visitors' ? __('Visitors', 'wp-statistics') : __('Views', 'wp-statistics');
     }
 
     /**
@@ -78,8 +120,7 @@ class MiniChartHelper
         $chartDates = [];
 
         // Fill `$chartDates` in reveresed order (oldest date is at the beginning of the array)
-        $defaultDaysCount  = $this->isMiniChartActive() ? intval(Option::getByAddon('date_range', 'mini_chart', '14')) : 14;
-        $daysAgoStartIndex = intval($forceDays) ? intval($forceDays) - 1 : $defaultDaysCount - 1;
+        $daysAgoStartIndex = intval($forceDays) ? intval($forceDays) - 1 : $this->getChartDateRange() - 1;
         for ($i = $daysAgoStartIndex; $i >= 0; $i--) {
             $date = TimeZone::getTimeAgo($i);
             // Add `$date` if `$minDate` is not passed or if `$minDate` is less than `$date`
