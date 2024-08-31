@@ -26,16 +26,6 @@ class MiniChartHelper
     }
 
     /**
-     * Returns border color of the chart.
-     *
-     * @return  string  Hex code.
-     */
-    public static function getBorderColor()
-    {
-        return Option::getByAddon('chart_border_color', 'mini_chart', '#0D0725');
-    }
-
-    /**
      * Returns either 'Visitors' or 'Views' depending on the selected options.
      *
      * @return  string

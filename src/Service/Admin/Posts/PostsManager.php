@@ -213,7 +213,6 @@ class PostsManager
         // Some settings for the chart
         $chartSettings = [
             'color'  => MiniChartHelper::getChartColor(),
-            'border' => MiniChartHelper::getBorderColor(),
             'label'  => MiniChartHelper::getTooltipLabel(),
         ];
 
