@@ -25,7 +25,7 @@ $thisPeriodTopReferrerLabel = !empty($thisPeriodTopReferrerLabel) && !empty($thi
             esc_html($summary['fromString']),
             esc_html($summary['toString']),
             number_format(intval($summary['thisPeriodViews'])),
-            number_format(intval($summary['thisPeriodVisitors'])),
+            number_format(intval($summary['thisPeriodVisitors']))
         );
 
         // If post had any referrers in this period
@@ -46,7 +46,7 @@ $thisPeriodTopReferrerLabel = !empty($thisPeriodTopReferrerLabel) && !empty($thi
         // translators: 1: Views count - 2: Visitors count.
         __('In total, this post has been <b>viewed %s times by %s visitors</b>', 'wp-statistics'),
         number_format(intval($summary['totalViews'])),
-        number_format(intval($summary['totalVisitors'])),
+        number_format(intval($summary['totalVisitors']))
     );
 
     // If post had any referrers in total

@@ -329,7 +329,6 @@
 #wp-statistics-quickstats-widget,
 #wp-statistics-devices-widget,
 #wp-statistics-useronline-widget {
-  font-family: $font-stack;
   overflow: visible;
 
   &.postbox.has-focus {
@@ -339,19 +338,10 @@
   .postbox-header {
 
     h2 {
-      font-family: $font-stack;
       font-weight: 500;
       font-size: 14px;
       margin: 0;
       line-height: 16.41px;
-    }
-  }
-
-  .inside {
-    table {
-      span.quickstats-values {
-        font-family: $font-stack;
-      }
     }
   }
 
@@ -376,10 +366,6 @@
 .inside .wp-statistics-widget {
   box-shadow: none;
   margin: 2em 0;
-}
-
-.wps_page .inside {
-  font-family: $font-base !important;
 }
 
 #wp-statistics-comparison-widget {

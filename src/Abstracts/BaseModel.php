@@ -3,16 +3,9 @@
 namespace WP_Statistics\Abstracts;
 
 use WP_Statistics\Components\DateRange;
-use WP_Statistics\Utils\Query;
 
-
-/**
- * Todo object cache, consider historical, hooks, filters, etc
- */
 abstract class BaseModel
 {
-    protected $query = Query::class;
-
     /**
      * @param $args
      * @param $defaults
