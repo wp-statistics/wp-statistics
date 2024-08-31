@@ -92,7 +92,6 @@ class ViewsModel extends BaseModel
 
     public function countDailyViews($args = [])
     {
-// این تغییر کرده و دو جا ازش استفاده کردم
         $args = $this->parseArgs($args, [
             'post_type'         => Helper::get_list_post_type(),
             'ignore_post_type'  => false,
