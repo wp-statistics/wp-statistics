@@ -55,7 +55,7 @@ class summary
             if (Option::get('useronline')) {
                 $data['user_online'] = array(
                     'value' => wp_statistics_useronline(),
-                    'link'  => Menus::admin_url('online')
+                    'link'  => Menus::admin_url('wps_visitors_page', ['tab' => 'online'])
                 );
             }
         }

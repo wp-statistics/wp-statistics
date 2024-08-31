@@ -170,7 +170,7 @@ class PostsManager
 
         // Fill `$chartData` with default 0s
         // Use a short date format for indexes and `chartDates` for values
-            // Short date format will be displayed below summary charts
+        // Short date format will be displayed below summary charts
         foreach (MiniChartHelper::getChartDates() as $date) {
             $shortDate             = date('d M', strtotime($date));
             $chartData[$shortDate] = [
@@ -204,7 +204,10 @@ class PostsManager
 
         // Sort `$chartData` by date
         uasort($chartData, function ($a, $b) {
-            return $a['ymdDate'] <=> $b['ymdDate'];
+            if ($a['ymdDate'] == $b['ymdDate']) {
+                return 0;
+            }
+            return ($a['ymdDate'] < $b['ymdDate']) ? -1 : 1;
         });
 
         // Some settings for the chart

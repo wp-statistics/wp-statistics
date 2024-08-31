@@ -79,8 +79,11 @@ class ViewsModel extends BaseModel
             ->where('pages.id', '=', $args['post_id'])
             ->where('pages.type', 'IN', $args['resource_type'])
             ->where('pages.uri', '=', $args['query_param'])
-            ->whereDate('date', $args['date'])
-            ->groupBy('id');
+            ->whereDate('date', $args['date']);
+
+        if (is_numeric($args['post_id'])) {
+            $query->groupBy('id');
+        }
 
         $total = $query->getVar();
 
@@ -215,7 +218,7 @@ class ViewsModel extends BaseModel
             'id' => '',
         ]);
 
-        $results = $this->query::select([
+        $results = Query::select([
             'uri',
             'page_id',
             'SUM(count) AS total',

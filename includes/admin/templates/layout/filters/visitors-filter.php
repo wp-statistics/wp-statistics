@@ -20,5 +20,3 @@ $classes[] = is_rtl() ? 'wps-pull-left' : 'wps-pull-right';
         <?php endif; ?>
     </span>
 </div>
-
-<div class="wp-clearfix"></div>
