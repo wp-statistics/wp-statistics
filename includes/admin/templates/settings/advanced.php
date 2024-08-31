@@ -204,7 +204,7 @@ add_thickbox();
                 <?php
                 if (WP_STATISTICS\Option::get('schedule_geoip')) {
                     echo '<p class="description">' . esc_html__('Next update will be', 'wp-statistics') . ': <code>';
-                    $last_update = WP_STATISTICS\Option::get('last_geoip_dl');
+                    $last_update = GeolocationFactory::getProviderInstance()->getLastDownloadTimestamp();
                     $this_month  = strtotime('first Tuesday of this month');
 
                     if ($last_update > $this_month) {
@@ -213,6 +213,7 @@ add_thickbox();
                         $next_update = $this_month + (86400 * 2);
                     }
 
+                    // @todo Really need to fix this and organize the cron jobs, planned for 14.x
                     $next_schedule = wp_next_scheduled('wp_statistics_geoip_hook');
                     if ($next_schedule) {
                         echo \WP_STATISTICS\TimeZone::getLocalDate(get_option('date_format'), $next_update) . // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped

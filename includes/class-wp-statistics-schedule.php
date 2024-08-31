@@ -247,7 +247,7 @@ class Schedule
     {
         // Max-mind updates the geo-ip database on the first Tuesday of the month, to make sure we don't update before they post
         $this_update = strtotime('first Tuesday of this month') + (86400 * 2);
-        $last_update = Option::get('last_geoip_dl');
+        $last_update = GeolocationFactory::getProviderInstance()->getLastDownloadTimestamp();
 
         if ($last_update < $this_update) {
             GeolocationFactory::downloadDatabase();
