@@ -5,10 +5,6 @@ namespace WP_STATISTICS;
 use ErrorException;
 use Exception;
 use WP_STATISTICS;
-use WP_Statistics\Models\AuthorsModel;
-use WP_Statistics\Models\PostsModel;
-use WP_Statistics\Models\TaxonomyModel;
-use WP_Statistics\Models\VisitorsModel;
 use WP_Statistics\Service\Integrations\WpConsentApi;
 use WP_Statistics\Utils\Request;
 use WP_Statistics\Utils\Signature;
@@ -2056,198 +2052,14 @@ class Helper
      * @param string $startDate Start date of the report in `Y-m-d` format.
      * @param string $endDate End date of the report in `Y-m-d` format. Default: today.
      *
-     * @return  array               Keys:
-     *  - `thisPeriodFromDaysAgo`
-     *  - `thisPeriodToDaysAgo`
-     *  - `lastPeriodFromDaysAgo`
-     *  - `lastPeriodToDaysAgo`
-     *  - `thisPeriodVisitors`
-     *  - `lastPeriodVisitors`
-     *  - `thisPeriodVisits`
-     *  - `lastPeriodVisits`
-     *  - `thisPeriodReferrals`
-     *  - `lastPeriodReferrals`
-     *  - `thisPeriodContents`
-     *  - `lastPeriodContents`
-     *  - `percentageChangeVisitors`
-     *  - `percentageChangeVisits`
-     *  - `percentageChangeReferrals`
-     *  - `percentageChangeContents`
-     *  - `topAuthor`
-     *  - `topPost`
-     *  - `topReferral`
-     *  - `topCategory`
+     * @return array
      *
-     * @deprecated  Use `WP_Statistics\Service\Admin\WebsitePerformance\WebsitePerformanceDataProvider()` instead.
+     * @deprecated 14.10.1 Use `WP_Statistics\Service\Admin\WebsitePerformance\WebsitePerformanceDataProvider()` instead.
      */
     public static function getWebsitePerformanceSummary($startDate, $endDate = '')
     {
-        if (empty($endDate)) {
-            $endDate = date('Y-m-d', strtotime('-1 day'));
-        }
+        _deprecated_function(__METHOD__, '14.10.1', 'WP_Statistics\Service\Admin\WebsitePerformance\WebsitePerformanceDataProvider()');
 
-        $thisPeriodFromDaysAgo = 0;
-        $thisPeriodToDaysAgo   = 0;
-        $lastPeriodFromDaysAgo = 0;
-        $lastPeriodToDaysAgo   = 0;
-
-        $thisPeriodVisitors  = wp_statistics_visitor('total', null, true);
-        $lastPeriodVisitors  = 0;
-        $thisPeriodVisits    = wp_statistics_visit('total');
-        $lastPeriodVisits    = 0;
-        $thisPeriodReferrals = 0;
-        $lastPeriodReferrals = 0;
-        $thisPeriodContents  = 0;
-        $lastPeriodContents  = 0;
-
-        $skipPercentageChanges = false;
-        $postsModel            = new PostsModel();
-        $visitorsModel         = new VisitorsModel();
-
-        if ($startDate == date('Y-m-d', strtotime('-1 day'))) {
-            $thisPeriodFromDaysAgo = 1;
-            $thisPeriodToDaysAgo   = 1;
-            $lastPeriodFromDaysAgo = 2;
-            $lastPeriodToDaysAgo   = 2;
-            $thisPeriodVisitors    = wp_statistics_visitor('yesterday', null, true);
-            $lastPeriodVisitors    = wp_statistics_visitor('day-before-yesterday', null, true);
-            $thisPeriodVisits      = wp_statistics_visit('yesterday');
-            $lastPeriodVisits      = wp_statistics_visit('day-before-yesterday');
-            $thisPeriodReferrals   = $visitorsModel->getReferrers(['date' => ['from' => TimeZone::getTimeAgo($thisPeriodFromDaysAgo), 'to' => $endDate]]);
-            $lastPeriodReferrals   = $visitorsModel->getReferrers(['date' => ['from' => TimeZone::getTimeAgo($lastPeriodFromDaysAgo), 'to' => TimeZone::getTimeAgo($lastPeriodToDaysAgo)]]);
-            $thisPeriodContents    = $postsModel->countPosts(['date' => ['from' => TimeZone::getTimeAgo($thisPeriodFromDaysAgo), 'to' => $endDate]]);
-            $lastPeriodContents    = $postsModel->countPosts(['date' => ['from' => TimeZone::getTimeAgo($lastPeriodFromDaysAgo), 'to' => TimeZone::getTimeAgo($lastPeriodToDaysAgo)]]);
-        } else if ($startDate == date('Y-m-d', strtotime('-1 week'))) {
-            $thisPeriodFromDaysAgo = 7;
-            $thisPeriodToDaysAgo   = 1;
-            $lastPeriodFromDaysAgo = 14;
-            $lastPeriodToDaysAgo   = 8;
-            $thisPeriodVisitors    = wp_statistics_visitor('week-ex-today', null, true);
-            $lastPeriodVisitors    = wp_statistics_visitor(['start' => TimeZone::getTimeAgo($lastPeriodFromDaysAgo), 'end' => TimeZone::getTimeAgo($lastPeriodToDaysAgo)], null, true);
-            $thisPeriodVisits      = wp_statistics_visit('week-ex-today');
-            $lastPeriodVisits      = wp_statistics_visit(['start' => TimeZone::getTimeAgo($lastPeriodFromDaysAgo), 'end' => TimeZone::getTimeAgo($lastPeriodToDaysAgo)]);
-            $thisPeriodReferrals   = $visitorsModel->getReferrers(['date' => ['from' => TimeZone::getTimeAgo($thisPeriodFromDaysAgo), 'to' => $endDate]]);
-            $lastPeriodReferrals   = $visitorsModel->getReferrers(['date' => ['from' => TimeZone::getTimeAgo($lastPeriodFromDaysAgo), 'to' => TimeZone::getTimeAgo($lastPeriodToDaysAgo)]]);
-            $thisPeriodContents    = $postsModel->countPosts(['date' => ['from' => TimeZone::getTimeAgo($thisPeriodFromDaysAgo), 'to' => $endDate]]);
-            $lastPeriodContents    = $postsModel->countPosts(['date' => ['from' => TimeZone::getTimeAgo($lastPeriodFromDaysAgo), 'to' => TimeZone::getTimeAgo($lastPeriodToDaysAgo)]]);
-        } else if ($startDate == date('Y-m-d', strtotime('-2 weeks'))) {
-            $thisPeriodFromDaysAgo = 14;
-            $thisPeriodToDaysAgo   = 1;
-            $lastPeriodFromDaysAgo = 28;
-            $lastPeriodToDaysAgo   = 15;
-            $thisPeriodVisitors    = wp_statistics_visitor('two-weeks-ex-today', null, true);
-            $lastPeriodVisitors    = wp_statistics_visitor(['start' => TimeZone::getTimeAgo($lastPeriodFromDaysAgo), 'end' => TimeZone::getTimeAgo($lastPeriodToDaysAgo)], null, true);
-            $thisPeriodVisits      = wp_statistics_visit('two-weeks-ex-today');
-            $lastPeriodVisits      = wp_statistics_visit(['start' => TimeZone::getTimeAgo($lastPeriodFromDaysAgo), 'end' => TimeZone::getTimeAgo($lastPeriodToDaysAgo)]);
-            $thisPeriodReferrals   = $visitorsModel->getReferrers(['date' => ['from' => TimeZone::getTimeAgo($thisPeriodFromDaysAgo), 'to' => $endDate]]);
-            $lastPeriodReferrals   = $visitorsModel->getReferrers(['date' => ['from' => TimeZone::getTimeAgo($lastPeriodFromDaysAgo), 'to' => TimeZone::getTimeAgo($lastPeriodToDaysAgo)]]);
-            $thisPeriodContents    = $postsModel->countPosts(['date' => ['from' => TimeZone::getTimeAgo($thisPeriodFromDaysAgo), 'to' => $endDate]]);
-            $lastPeriodContents    = $postsModel->countPosts(['date' => ['from' => TimeZone::getTimeAgo($lastPeriodFromDaysAgo), 'to' => TimeZone::getTimeAgo($lastPeriodToDaysAgo)]]);
-        } else if ($startDate == date('Y-m-d', strtotime('-30 days'))) {
-            $thisPeriodFromDaysAgo = 30;
-            $thisPeriodToDaysAgo   = 1;
-            $lastPeriodFromDaysAgo = 60;
-            $lastPeriodToDaysAgo   = 30;
-            $thisPeriodVisitors    = wp_statistics_visitor('month-ex-today', null, true);
-            $lastPeriodVisitors    = wp_statistics_visitor(['start' => TimeZone::getTimeAgo($lastPeriodFromDaysAgo), 'end' => TimeZone::getTimeAgo($lastPeriodToDaysAgo)], null, true);
-            $thisPeriodVisits      = wp_statistics_visit('month-ex-today');
-            $lastPeriodVisits      = wp_statistics_visit(['start' => TimeZone::getTimeAgo($lastPeriodFromDaysAgo), 'end' => TimeZone::getTimeAgo($lastPeriodToDaysAgo)]);
-            $thisPeriodReferrals   = $visitorsModel->getReferrers(['date' => ['from' => TimeZone::getTimeAgo(30), 'to' => $endDate]]);
-            $lastPeriodReferrals   = $visitorsModel->getReferrers(['date' => ['from' => TimeZone::getTimeAgo($lastPeriodFromDaysAgo), 'to' => TimeZone::getTimeAgo($lastPeriodToDaysAgo)]]);
-            $thisPeriodContents    = $postsModel->countPosts(['date' => ['from' => TimeZone::getTimeAgo($thisPeriodFromDaysAgo), 'to' => $endDate]]);
-            $lastPeriodContents    = $postsModel->countPosts(['date' => ['from' => TimeZone::getTimeAgo($lastPeriodFromDaysAgo), 'to' => TimeZone::getTimeAgo($lastPeriodToDaysAgo)]]);
-        } else if (!empty($startDate)) {
-            $thisPeriodFromDaysAgo = TimeZone::getNumberDayBetween($startDate) - 1;
-            $thisPeriodToDaysAgo   = 1;
-            $lastPeriodFromDaysAgo = $thisPeriodFromDaysAgo * 2;
-            $lastPeriodToDaysAgo   = $thisPeriodFromDaysAgo + 1;
-            $thisPeriodVisitors    = wp_statistics_visitor(['start' => TimeZone::getTimeAgo($thisPeriodFromDaysAgo), 'end' => TimeZone::getTimeAgo($thisPeriodToDaysAgo)], null, true);
-            $thisPeriodVisits      = wp_statistics_visit(['start' => TimeZone::getTimeAgo($thisPeriodFromDaysAgo), 'end' => TimeZone::getTimeAgo($thisPeriodToDaysAgo)]);
-            $lastPeriodVisitors    = wp_statistics_visitor(['start' => TimeZone::getTimeAgo($lastPeriodFromDaysAgo), 'end' => TimeZone::getTimeAgo($lastPeriodToDaysAgo)], null, true);
-            $lastPeriodVisits      = wp_statistics_visit(['start' => TimeZone::getTimeAgo($lastPeriodFromDaysAgo), 'end' => TimeZone::getTimeAgo($lastPeriodToDaysAgo)]);
-            $thisPeriodReferrals   = $visitorsModel->getReferrers(['date' => ['from' => $startDate, 'to' => $endDate]]);
-            $thisPeriodContents    = $postsModel->countPosts(['date' => ['from' => $startDate, 'to' => $endDate]]);
-            $skipPercentageChanges = true;
-        } else {
-            $thisPeriodReferrals   = $visitorsModel->getReferrers();
-            $thisPeriodContents    = $postsModel->countPosts();
-            $skipPercentageChanges = true;
-        }
-
-        // Convert refferals results to one single integer and save the `$topReferral`
-        $topReferral = '';
-        if (is_array($thisPeriodReferrals)) {
-            $referredVisitors = 0;
-            foreach ($thisPeriodReferrals as $referral) {
-                if (!empty($referral->visitors)) {
-                    $referredVisitors += intval($referral->visitors);
-
-                    if (empty($topReferral)) {
-                        $topReferral = str_replace('www.', '', $referral->referrer);
-                        $topReferral = wp_parse_url($topReferral);
-                        $topReferral = !empty($topReferral['host']) ? trim($topReferral['host']) : '';
-                        $topReferral = ucfirst($topReferral);
-                    }
-                }
-            }
-            $thisPeriodReferrals = $referredVisitors;
-        }
-        if (is_array($lastPeriodReferrals)) {
-            $referredVisitors = 0;
-            foreach ($lastPeriodReferrals as $referral) {
-                if (!empty($referral->visitors)) {
-                    $referredVisitors += intval($referral->visitors);
-                }
-            }
-            $lastPeriodReferrals = $referredVisitors;
-        }
-
-        $percentageChangeVisitors  = 0;
-        $percentageChangeVisits    = 0;
-        $percentageChangeReferrals = 0;
-        $percentageChangeContents  = 0;
-        if (!$skipPercentageChanges) {
-            $percentageChangeVisitors  = intval(self::calculatePercentageChange($lastPeriodVisitors, $thisPeriodVisitors));
-            $percentageChangeVisits    = intval(self::calculatePercentageChange($lastPeriodVisits, $thisPeriodVisits));
-            $percentageChangeReferrals = intval(self::calculatePercentageChange($lastPeriodReferrals, $thisPeriodReferrals));
-            $percentageChangeContents  = intval(self::calculatePercentageChange($lastPeriodContents, $thisPeriodContents));
-        }
-
-        $authorModel = new AuthorsModel();
-        $topAuthor   = $authorModel->getAuthorsByPostPublishes();
-        $topAuthor   = !empty($topAuthor) ? $topAuthor[0]->name : '';
-
-        $topPost = $postsModel->getPostsViewsData();
-        $topPost = !empty($topPost) ? $topPost[0]->post_title : '';
-
-        $taxonomyModel = new TaxonomyModel();
-        $topCategory   = $taxonomyModel->getTaxonomiesData([
-            'order_by' => 'views',
-            'order'    => 'DESC',
-        ]);
-        $topCategory   = (!empty($topCategory['category']) && !empty($topCategory['category'][0]['term_name'])) ? $topCategory['category'][0]['term_name'] : '';
-
-        return [
-            'thisPeriodFromDaysAgo'     => $thisPeriodFromDaysAgo,
-            'thisPeriodToDaysAgo'       => $thisPeriodToDaysAgo,
-            'lastPeriodFromDaysAgo'     => $lastPeriodFromDaysAgo,
-            'lastPeriodToDaysAgo'       => $lastPeriodToDaysAgo,
-            'thisPeriodVisitors'        => $thisPeriodVisitors,
-            'lastPeriodVisitors'        => $lastPeriodVisitors,
-            'thisPeriodVisits'          => $thisPeriodVisits,
-            'lastPeriodVisits'          => $lastPeriodVisits,
-            'thisPeriodReferrals'       => $thisPeriodReferrals,
-            'lastPeriodReferrals'       => $lastPeriodReferrals,
-            'thisPeriodContents'        => $thisPeriodContents,
-            'lastPeriodContents'        => $lastPeriodContents,
-            'percentageChangeVisitors'  => $percentageChangeVisitors,
-            'percentageChangeVisits'    => $percentageChangeVisits,
-            'percentageChangeReferrals' => $percentageChangeReferrals,
-            'percentageChangeContents'  => $percentageChangeContents,
-            'topAuthor'                 => $topAuthor,
-            'topPost'                   => $topPost,
-            'topReferral'               => $topReferral,
-            'topCategory'               => $topCategory,
-        ];
+        return [];
     }
 }
