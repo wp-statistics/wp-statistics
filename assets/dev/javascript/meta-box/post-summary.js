@@ -4,7 +4,7 @@ wps_js.post_summary_meta_box = {
     },
 
     view: function (args = []) {
-        let chartElement = typeof (args['summary'].postChartData) !== 'undefined' && args['summary'].postChartData !== null && Object.keys(args['summary'].postChartData).length ?
+        let chartElement = typeof (args['summary']) !== 'undefined' && typeof (args['summary'].postChartData) !== 'undefined' && args['summary'].postChartData !== null && Object.keys(args['summary'].postChartData).length ?
             '<div class="c-wps-post-summary-panel-chart"><canvas id="' + wps_js.chart_id('post_summary') + '" height="100"></canvas></div>' :
             '';
 
@@ -15,7 +15,7 @@ wps_js.post_summary_meta_box = {
 
     meta_box_init: function (args = []) {
         if (!args.hasOwnProperty('content')) {
-            if (typeof (args['summary'].postChartData) !== 'undefined' && args['summary'].postChartData !== null && Object.keys(args['summary'].postChartData).length) {
+            if (typeof (args['summary']) !== 'undefined' && typeof (args['summary'].postChartData) !== 'undefined' && args['summary'].postChartData !== null && Object.keys(args['summary'].postChartData).length) {
                 this.post_summary_chart(wps_js.chart_id('post_summary'), args['summary']);
             }
         } else {
