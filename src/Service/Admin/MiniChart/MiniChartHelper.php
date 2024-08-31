@@ -40,7 +40,7 @@ class MiniChartHelper
     /**
      * Returns color of the chart.
      *
-     * @return  string  Hex code.
+     * @return string Hex code.
      */
     public function getChartColor()
     {
@@ -54,7 +54,7 @@ class MiniChartHelper
     /**
      * Returns either 'Visitors' or 'Views' depending on the selected options.
      *
-     * @return  string
+     * @return string
      */
     public function getTooltipLabel()
     {
@@ -64,10 +64,10 @@ class MiniChartHelper
     /**
      * Returns `chartDates` array (and creates the array if it's empty).
      *
-     * @param   int     $forceDays  Ignore `date_range` option and send dates for the past x days.
-     * @param   string  $minDate    Ignore all dates before this date (e.g. You can pass post publish date here). Format `Y-m-d`.
+     * @param int $forceDays Ignore `date_range` option and send dates for the past x days.
+     * @param string $minDate Ignore all dates before this date (e.g. You can pass post publish date here). Format `Y-m-d`.
      *
-     * @return  array               An array of simple `Y-m-d` dates from `date_range` days ago to today.
+     * @return array An array of simple `Y-m-d` dates from `date_range` days ago to today.
      */
     public function getChartDates($forceDays = 0, $minDate = '')
     {
