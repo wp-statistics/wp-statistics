@@ -131,21 +131,13 @@ WP Statistics supports WordPress Multi-Site/Network installations. In the networ
 19. Real-Time Stats
 
 == Upgrade Notice ==
-= 14.10 =
+= 14.xx =
 To ensure the plugin works correctly, please clear your cache because some request payloads have been updated. Also, review your settings, especially if you use DataPlus, Advanced Reporting, or Customization, as some options have changed.
 Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest version.
 
 == Changelog ==
-= 14.10 - 28.08.2024 =
-* New: Introduced the Visitor Insights menu by merging the Visitors, Views, Online Visitors, and Top Visitors reports into one centralized Visitors page.
-* New: Created the Page Insights menu by combining the Contents, Category Pages, and Author Pages reports into one unified Pages page for better organization.
-* New: Redesigned Single Visitor page with more detailed and better-organized visitor information.
-* New: Date filter settings now stored globally in user meta, allowing the selected date range to be used across all report pages.
-* New: Updated the content statistics widget in the editor to show visitor numbers directly on the edit post page.
-* New: Added plugin information to the Site Health Info section for easier diagnostics.
-* Enhancement: Redesigned charts with a modern look and added a Previous Period Indicator for easier data comparison.
-* Enhancement: Various improvements to the settings area for better clarity, including renaming options and removing unnecessary ones.
-* Enhancement: Performance enhancements and bug fixes for overall smoother operation.
+= 14.xx - xx.xx.xx =
+* Enhancement: Chart labels dynamically change depending on the selected data range
 
 For more information about the major update, please [visit our blog post](https://wp-statistics.com/?p=16657) or follow [@wp_statistics](https://twitter.com/wp_statistics) on Twitter
 
