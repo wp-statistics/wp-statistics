@@ -162,18 +162,22 @@ class WebsitePerformanceDataProvider
         }
 
         $this->argsCurrentPeriod = [
-            'date' => [
+            'date'     => [
                 'from' => $this->currentPeriodFromDate,
                 'to'   => $this->currentPeriodToDate,
             ],
+            'page'     => 0,
+            'per_page' => 0,
         ];
 
         if ($this->calculatePercentageChanges) {
             $this->argsPreviousPeriod = [
-                'date' => [
+                'date'     => [
                     'from' => $this->previousPeriodFromDate,
                     'to'   => $this->previousPeriodToDate,
                 ],
+                'page'     => 0,
+                'per_page' => 0,
             ];
         }
 
