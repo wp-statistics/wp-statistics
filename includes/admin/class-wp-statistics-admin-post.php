@@ -6,10 +6,46 @@ use WP_Statistics\MiniChart\WP_Statistics_Mini_Chart_Settings;
 use WP_Statistics\Models\HistoricalModel;
 use WP_Statistics\Models\ViewsModel;
 use WP_Statistics\Models\VisitorsModel;
+use WP_Statistics\Service\Admin\MiniChart\MiniChartHelper;
 use WP_Statistics\Utils\Request;
 
 class Admin_Post
 {
+    /**
+     * Mini-chart helper class.
+     *
+     * @var MiniChartHelper
+     */
+    private $miniChartHelper;
+
+    /**
+     * Post type of posts retrieved from `Pages::get_post_type()`.
+     *
+     * @var string
+     */
+    private $postType;
+
+    /**
+     * Actual post type of posts (without the "post_type_" prefix).
+     *
+     * @var string
+     */
+    private $actualPostType;
+
+    /**
+     * Is this post type selected in Mini-chart add-on's options?
+     *
+     * @var bool
+     */
+    private $isCurrentPostTypeSelected;
+
+    /**
+     * A static "Unlock!" button that will be displayed when Mini-chart add-on is not active.
+     *
+     * @var string
+     */
+    private $previewChartUnlockHtml;
+
     /**
      * Admin_Post constructor.
      */
@@ -30,6 +66,16 @@ class Admin_Post
      */
     public function init()
     {
+        $this->miniChartHelper = new MiniChartHelper();
+
+        $this->previewChartUnlockHtml = sprintf(
+            '<div class="wps-admin-column__unlock"><a href="%s" target="_blank"><span class="wps-admin-column__unlock__text">%s</span>
+                <span class="wps-admin-column__unlock__lock"></span>
+                <span class="wps-admin-column__unlock__img"></span></a></div>',
+            'https://wp-statistics.com/product/wp-statistics-mini-chart?utm_source=wp-statistics&utm_medium=link&utm_campaign=mini-chart',
+            __('Unlock', 'wp-statistics')
+        );
+
         foreach (Helper::get_list_post_type() as $type) {
             add_action('manage_' . $type . '_posts_columns', array($this, 'add_hit_column'), 10, 2);
             add_action('manage_' . $type . '_posts_custom_column', array($this, 'render_hit_column'), 10, 2);
@@ -46,7 +92,7 @@ class Admin_Post
      */
     public function add_hit_column($columns)
     {
-        $columns['wp-statistics-post-hits'] = Helper::checkMiniChartOption('metric', 'visitors', 'visitors') ? __('Visitors', 'wp-statistics') : __('Views', 'wp-statistics');
+        $columns['wp-statistics-post-hits'] = $this->miniChartHelper->getLabel();
         return $columns;
     }
 
@@ -62,35 +108,47 @@ class Admin_Post
             return;
         }
 
-        $post_type         = Pages::get_post_type($post_id);
-        $hitPostType       = Pages::checkIfPageIsHome($post_id) ? 'home' : $post_type;
-        $from              = date('Y-m-d', 0);
-        $to                = date('Y-m-d');
-        $args              = [
-            'post_id'       => $post_id,
-            'resource_type' => $hitPostType,
-            'date'          => ['from' => $from, 'to' => $to],
-        ];
-        $isMiniChartActive = Helper::isAddOnActive('mini-chart');
+        // Initialize class attributes only once (since all posts in the list have the same post type)
+        if (empty($this->postType)) {
+            $this->postType = Pages::get_post_type($post_id);
 
-        if (Helper::checkMiniChartOption('count_display', 'date_range', 'total')) {
-            $from         = TimeZone::getTimeAgo(intval(Option::getByAddon('date_range', 'mini_chart', '14')));
-            $args['date'] = ['from' => $from, 'to' => $to];
+            // Remove "post_type_" prefix from the CPT name because of incompatibility with WP Statistics MiniChart
+            $this->actualPostType = $this->postType;
+            if (strpos($this->actualPostType, 'post_type_') === 0) {
+                $this->actualPostType = substr($this->actualPostType, strlen('post_type_'));
+            }
+
+            // Check if current post type is selected in Mini-chart add-on's options
+            $miniChartSettings               = class_exists(WP_Statistics_Mini_Chart_Settings::class) ? get_option(WP_Statistics_Mini_Chart_Settings::get_instance()->setting_name) : '';
+            $this->isCurrentPostTypeSelected = !empty($miniChartSettings) && !empty($miniChartSettings["active_mini_chart_{$this->actualPostType}"]);
         }
 
-        if (Helper::checkMiniChartOption('count_display', 'disabled', 'total')) {
-            // Don't execute queries if `count_display` is disabled
-            $hitCount = 0;
-        } else {
-            if (Helper::checkMiniChartOption('metric', 'visitors', 'visitors')) {
+        // Calculate stats if `count_display` is not disabled
+        $hitCount = 0;
+        if ($this->miniChartHelper->getCountDisplay() !== 'disabled')
+        {
+            $from = date('Y-m-d', 0);
+            $to   = date('Y-m-d');
+            $args = [
+                'post_id'       => $post_id,
+                'resource_type' => Pages::checkIfPageIsHome($post_id) ? 'home' : $this->postType,
+                'date'          => ['from' => $from, 'to' => $to],
+            ];
+
+            if ($this->miniChartHelper->getCountDisplay() === 'date_range') {
+                $from         = TimeZone::getTimeAgo(intval(Option::getByAddon('date_range', 'mini_chart', '14')));
+                $args['date'] = ['from' => $from, 'to' => $to];
+            }
+
+            if ($this->miniChartHelper->getChartMetric() === 'visitors') {
                 $visitorsModel = new VisitorsModel();
                 $hitCount      = $visitorsModel->countVisitors($args);
             } else {
                 $viewsModel = new ViewsModel();
                 $hitCount   = $viewsModel->countViewsFromPagesOnly($args);
-    
+
                 // Consider historical if `count_display` is equal to 'total'
-                if (!$isMiniChartActive || Helper::checkMiniChartOption('count_display', 'total', 'total')) {
+                if ($this->miniChartHelper->getCountDisplay() === 'total') {
                     $historicalModel = new HistoricalModel();
                     $hitCount       += intval($historicalModel->countUris(['page_id' => $post_id, 'uri' => wp_make_link_relative(get_permalink($post_id))]));
                 }
@@ -98,39 +156,20 @@ class Admin_Post
         }
 
         if (is_numeric($hitCount)) {
-            $preview_chart_unlock_html = sprintf(
-                // translators: 1: Mini-chart product link - 2: "Unlock This Feature!" text - 3: Lock image - 4: Chart preview image.
-                '<div class="wps-admin-column__unlock"><a href="%s" target="_blank"><span class="wps-admin-column__unlock__text">%s</span>
-                    <span class="wps-admin-column__unlock__lock"></span>
-                    <span class="wps-admin-column__unlock__img"></span></a></div>',
-                'https://wp-statistics.com/product/wp-statistics-mini-chart?utm_source=wp-statistics&utm_medium=link&utm_campaign=mini-chart',
-                __('Unlock', 'wp-statistics'),
-            );
-
-            // Remove post_type_ from prefix of custom post type because of incompatibility with WP Statistics MiniChart
-            $actual_post_type = $post_type;
-            if (strpos($actual_post_type, "post_type_") === 0) {
-                $actual_post_type = substr($actual_post_type, strlen("post_type_"));
-            }
-
-            $setting = class_exists(WP_Statistics_Mini_Chart_Settings::class) ? get_option(WP_Statistics_Mini_Chart_Settings::get_instance()->setting_name) : '';
-            if (
-                !$isMiniChartActive ||
-                (!empty($setting) && !empty($setting['active_mini_chart_' . $actual_post_type]))
-            ) {
-                // If add-on is not active, this line will display the "Unlock This Feature!" button
+            if (!$this->miniChartHelper->isMiniChartActive() || $this->isCurrentPostTypeSelected) {
+                // If add-on is not active, this line will display the "Unlock!" button
                 // If add-on is active but current post type is not selected in the settings, nothing will be displayed
-                echo apply_filters("wp_statistics_before_hit_column_{$actual_post_type}", $preview_chart_unlock_html, $post_id, $post_type); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                echo apply_filters("wp_statistics_before_hit_column_{$this->actualPostType}", $this->previewChartUnlockHtml, $post_id, $this->postType); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
             }
 
             echo sprintf(
                 // translators: 1 & 2: CSS class - 3: Either "Visitors" or "Views" - 4: Link to content analytics page - 5: CSS class - 6: Hits count.
                 '<div class="%s"><span class="%s">%s</span> <a href="%s" class="wps-admin-column__link %s">%s</a></div>',
-                Helper::checkMiniChartOption('count_display', 'disabled', 'total') ? 'wps-hide' : '',
-                $isMiniChartActive ? '' : 'wps-hide',
-                Helper::checkMiniChartOption('metric', 'visitors', 'visitors') ? esc_html__('Visitors:', 'wp-statistics') : esc_html__('Views:', 'wp-statistics'),
+                $this->miniChartHelper->getCountDisplay() === 'disabled' ? 'wps-hide' : '',
+                $this->miniChartHelper->isMiniChartActive() ? '' : 'wps-hide',
+                $this->miniChartHelper->getLabel(),
                 esc_url(Menus::admin_url('content-analytics', ['post_id' => $post_id, 'type' => 'single', 'from' => Request::get('from', $from), 'to' => Request::get('to', $to)])),
-                $isMiniChartActive ? '' : 'wps-admin-column__unlock-count',
+                $this->miniChartHelper->isMiniChartActive() ? '' : 'wps-admin-column__unlock-count',
                 esc_html(number_format($hitCount))
             );
         }
