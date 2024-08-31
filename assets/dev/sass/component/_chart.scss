@@ -234,3 +234,12 @@
   }
 }
 
+.c-chart__wps-skeleton{
+  canvas{
+    display: none!important;
+  }
+  &--legend{
+    display: none!important;
+  }
+
+}

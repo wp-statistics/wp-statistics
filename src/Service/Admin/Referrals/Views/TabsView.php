@@ -24,9 +24,9 @@ class TabsView extends BaseTabView
     public function __construct()
     {
         $args = [
-            'order'     => Request::get('order', 'DESC'),
-            'per_page'  => Admin_Template::$item_per_page,
-            'page'      => Admin_Template::getCurrentPaged(),
+            'order'    => Request::get('order', 'DESC'),
+            'per_page' => Admin_Template::$item_per_page,
+            'page'     => Admin_Template::getCurrentPaged(),
         ];
 
         $this->dataProvider = new ReferralsDataProvider($args);
@@ -35,39 +35,42 @@ class TabsView extends BaseTabView
     public function render()
     {
         try {
-            $data       = $this->getTabData();
-            $template   = $this->getCurrentTab();
+            $data     = $this->getTabData();
+            $template = $this->getCurrentTab();
 
             $args = [
-                'title'         => esc_html__('Referrals', 'wp-statistics'),
-                'pageName'      => Menus::get_page_slug('referrals'),
-                'custom_get'    => [
-                    'tab'       => $this->getCurrentTab(),
-                    'order_by'  => Request::get('order_by'),
-                    'order'     => Request::get('order'),
+                'title'       => esc_html__('Referrals', 'wp-statistics'),
+                'tooltip'     => esc_html__('Referrals tooltip', 'wp-statistics'),
+                'pageName'    => Menus::get_page_slug('referrals'),
+                'custom_get'  => [
+                    'tab'      => $this->getCurrentTab(),
+                    'order_by' => Request::get('order_by'),
+                    'order'    => Request::get('order'),
                 ],
-                'DateRang'      => Admin_Template::DateRange(),
-                'hasDateRang'   => true,
-                'data'          => $data,
-                'pagination'    => Admin_Template::paginate_links([
+                'DateRang'    => Admin_Template::DateRange(),
+                'filters'     => ['category'],
+                'hasDateRang' => true,
+                'data'        => $data,
+                'pagination'  => Admin_Template::paginate_links([
                     'total' => isset($data['total']) ? $data['total'] : 0,
                     'echo'  => false
                 ]),
-                'tabs'          => [
+                'tabs'        => [
                     [
-                        'link'    => Menus::admin_url('referrals', ['tab' => 'referrers']),
-                        'title'   => esc_html__('Referrers', 'wp-statistics'),
-                        'class'   => $this->isTab('referrers') ? 'current' : '',
+                        'link'  => Menus::admin_url('referrals', ['tab' => 'referred-visitors']),
+                        'title' => esc_html__('Referred Visitors', 'wp-statistics'),
+                        'class' => $this->isTab('referred-visitors') ? 'current' : '',
                     ],
                     [
-                        'link'    => Menus::admin_url('referrals', ['tab' => 'referred-visitors']),
-                        'title'   => esc_html__('Referred Visitors', 'wp-statistics'),
-                        'class'   => $this->isTab('referred-visitors') ? 'current' : '',
+                        'link'  => Menus::admin_url('referrals', ['tab' => 'referrers']),
+                        'title' => esc_html__('Referrers', 'wp-statistics'),
+                        'class' => $this->isTab('referrers') ? 'current' : '',
                     ],
+
                     [
-                        'link'    => Menus::admin_url('referrals', ['tab' => 'search-engines']),
-                        'title'   => esc_html__('Search Engines', 'wp-statistics'),
-                        'class'   => $this->isTab('search-engines') ? 'current' : '',
+                        'link'  => Menus::admin_url('referrals', ['tab' => 'search-engines']),
+                        'title' => esc_html__('Search Engines', 'wp-statistics'),
+                        'class' => $this->isTab('search-engines') ? 'current' : '',
                     ]
                 ]
             ];
