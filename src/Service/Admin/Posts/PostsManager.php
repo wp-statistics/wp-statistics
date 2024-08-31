@@ -153,7 +153,8 @@ class PostsManager
      */
     public static function getPostStatisticsSummary($post)
     {
-        $dataProvider = null;
+        $dataProvider    = null;
+        $miniChartHelper = new MiniChartHelper();
         try {
             $dataProvider = new PostSummaryDataProvider($post);
         } catch (\Exception $e) {
@@ -171,7 +172,7 @@ class PostsManager
         // Fill `$chartData` with default 0s
         // Use a short date format for indexes and `chartDates` for values
         // Short date format will be displayed below summary charts
-        foreach (MiniChartHelper::getChartDates() as $date) {
+        foreach ($miniChartHelper->getChartDates() as $date) {
             $shortDate             = date('d M', strtotime($date));
             $chartData[$shortDate] = [
                 'ymdDate'   => date('Y-m-d', strtotime($date)),
@@ -182,11 +183,11 @@ class PostsManager
 
         // Set date range for charts based on MiniChart's `date_range` option
         // Also change `to_date` to include today's stats in charts too
-        $dataProvider->setFrom(TimeZone::getTimeAgo(Option::getByAddon('date_range', 'mini_chart', '14')));
+        $dataProvider->setFrom(TimeZone::getTimeAgo($miniChartHelper->isMiniChartActive() ? Option::getByAddon('date_range', 'mini_chart', '14') : 14));
         $dataProvider->setTo(date('Y-m-d'));
 
         // Fill `$dailyHits` based on MiniChart's `metric` option
-        $dailyHits = Helper::checkMiniChartOption('metric', 'visitors', 'visitors') ? $dataProvider->getDailyVisitors() : $dataProvider->getDailyViews();
+        $dailyHits = Helper::checkMiniChartOption('metric', 'views', 'visitors') ? $dataProvider->getDailyViews() : $dataProvider->getDailyVisitors();
 
         // Fill `$chartData` with real stats
         foreach ($dailyHits as $hit) {
@@ -212,8 +213,8 @@ class PostsManager
 
         // Some settings for the chart
         $chartSettings = [
-            'color'  => MiniChartHelper::getChartColor(),
-            'label'  => MiniChartHelper::getTooltipLabel(),
+            'color'  => $miniChartHelper->getChartColor(),
+            'label'  => $miniChartHelper->getTooltipLabel(),
         ];
 
         // Reset date range because text summary displays info for the past week

@@ -9,19 +9,45 @@ use WP_STATISTICS\TimeZone;
 class MiniChartHelper
 {
     /**
+     * Is Mini-chart add-on active?
+     *
+     * @var bool
+     */
+    private $isMiniChartActive = false;
+
+    /**
      * An array of simple `Y-m-d` dates from `date_range` days ago to today.
      *
      * @var array
      */
-    private static $chartDates = [];
+    private $chartDates = [];
+
+    public function __construct()
+    {
+        $this->isMiniChartActive = Helper::isAddOnActive('mini-chart');
+    }
+
+    /**
+     * Returns Mini-chart add-on's active status.
+     *
+     * @return bool
+     */
+    public function isMiniChartActive()
+    {
+        return $this->isMiniChartActive;
+    }
 
     /**
      * Returns color of the chart.
      *
      * @return  string  Hex code.
      */
-    public static function getChartColor()
+    public function getChartColor()
     {
+        if (!$this->isMiniChartActive()) {
+            return '#7362BF';
+        }
+
         return Option::getByAddon('chart_color', 'mini_chart', '#7362BF');
     }
 
@@ -30,9 +56,9 @@ class MiniChartHelper
      *
      * @return  string
      */
-    public static function getTooltipLabel()
+    public function getTooltipLabel()
     {
-        return Helper::checkMiniChartOption('metric', 'visitors', 'visitors') ? __('Visitors', 'wp-statistics') : __('Views', 'wp-statistics');
+        return Helper::checkMiniChartOption('metric', 'views', 'visitors') ? __('Views', 'wp-statistics') : __('Visitors', 'wp-statistics');
     }
 
     /**
@@ -43,16 +69,17 @@ class MiniChartHelper
      *
      * @return  array               An array of simple `Y-m-d` dates from `date_range` days ago to today.
      */
-    public static function getChartDates($forceDays = 0, $minDate = '')
+    public function getChartDates($forceDays = 0, $minDate = '')
     {
-        // Return `$chartDates` if it already has data
-        if (!empty(self::$chartDates) && !intval($forceDays) && empty($minDate)) {
-            return self::$chartDates;
+        // Return `$chartDates` if it already has data (and `$forceDays` and `$minDate` are empty)
+        if (!empty($this->chartDates) && !intval($forceDays) && empty($minDate)) {
+            return $this->chartDates;
         }
         $chartDates = [];
 
         // Fill `$chartDates` in reveresed order (oldest date is at the beginning of the array)
-        $daysAgoStartIndex = intval($forceDays) ? intval($forceDays) - 1 : intval(Option::getByAddon('date_range', 'mini_chart', '14')) - 1;
+        $defaultDaysCount  = $this->isMiniChartActive() ? intval(Option::getByAddon('date_range', 'mini_chart', '14')) : 14;
+        $daysAgoStartIndex = intval($forceDays) ? intval($forceDays) - 1 : $defaultDaysCount - 1;
         for ($i = $daysAgoStartIndex; $i >= 0; $i--) {
             $date = TimeZone::getTimeAgo($i);
             // Add `$date` if `$minDate` is not passed or if `$minDate` is less than `$date`
@@ -61,9 +88,9 @@ class MiniChartHelper
             }
         }
 
-        // Update class attribute only if the method was called without `$forceDays` or `$minDate`
+        // Cache `$chartDates` as a class attribute only if the method was called without `$forceDays` or `$minDate`
         if (!intval($forceDays) && empty($minDate)) {
-            self::$chartDates = $chartDates;
+            $this->chartDates = $chartDates;
         }
 
         return $chartDates;
