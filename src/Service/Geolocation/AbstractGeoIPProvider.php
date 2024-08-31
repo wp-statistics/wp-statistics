@@ -137,6 +137,16 @@ abstract class AbstractGeoIPProvider implements GeoServiceProviderInterface
     }
 
     /**
+     * Get the last download timestamp for the GeoIP database.
+     *
+     * @return false|int
+     */
+    public function getLastDownloadTimestamp()
+    {
+        return Option::get('last_geoip_dl');
+    }
+
+    /**
      * Retrieves the database size for the GeoIP database.
      *
      * @param bool $format Whether to format the size for readability.
@@ -158,9 +168,6 @@ abstract class AbstractGeoIPProvider implements GeoServiceProviderInterface
     protected function updateLastDownloadTimestamp()
     {
         Option::update('last_geoip_dl', time());
-
-        // Update last download timestamp after successful completion
-        //update_option('wp_statistics_geo_db_last_download', time()); @todo
     }
 
     /**
