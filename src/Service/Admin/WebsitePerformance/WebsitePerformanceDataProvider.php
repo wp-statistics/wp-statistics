@@ -552,7 +552,7 @@ class WebsitePerformanceDataProvider
 
 
     /**
-     * Returns the name of the top author for current period.
+     * Returns the name of the author with the most published posts in current period.
      *
      * @return  string
      */
@@ -573,7 +573,7 @@ class WebsitePerformanceDataProvider
     }
 
     /**
-     * Returns the name of the post with the most views for current period.
+     * Returns the name of the post that had the most views in current period.
      *
      * @return  string
      */
@@ -594,7 +594,7 @@ class WebsitePerformanceDataProvider
     }
 
     /**
-     * Returns the name of the website with the most referrals for current period.
+     * Returns the URL of the website that referred the most users in current period.
      *
      * @return  string
      */
@@ -625,7 +625,7 @@ class WebsitePerformanceDataProvider
     }
 
     /**
-     * Returns the name of the post category with the most views for current period.
+     * Returns the name of the category/taxonomy that had the most views in its posts in current period.
      *
      * @return  string
      */
