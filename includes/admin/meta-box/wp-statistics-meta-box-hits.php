@@ -3,7 +3,7 @@
 namespace WP_STATISTICS\MetaBox;
 
 use WP_STATISTICS\Option;
-use WP_Statistics\Service\Admin\VisitorInsights\VisitorInsightsDataProvider;
+use WP_Statistics\Service\Admin\Charts\ChartDataProviderFactory;
 use WP_STATISTICS\TimeZone;
 
 class hits extends MetaBoxAbstract
@@ -68,16 +68,17 @@ class hits extends MetaBoxAbstract
             'to'   => ''
         ]);
         self::filterByDate($args);
-      
-        $range = array_keys(self::$daysList);
 
-        $visitorDataProvider = new VisitorInsightsDataProvider([
+        $range      = array_keys(self::$daysList);
+        $chartArgs  = [
             'date' => [
                 'from'  => reset($range),
                 'to'    => end($range)
             ]
-        ]);
+        ];
 
-        return $visitorDataProvider->getTrafficChartData();
+        $data = ChartDataProviderFactory::trafficChart($chartArgs)->getData();
+
+        return $data;
     }
 }
