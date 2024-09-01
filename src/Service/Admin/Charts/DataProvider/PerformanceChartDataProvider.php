@@ -28,15 +28,16 @@ class PerformanceChartDataProvider extends AbstractChartDataProvider
     public function getData()
     {
         $result = [
-            'labels'    => [],
-            'visitors'  => [],
-            'views'     => [],
-            'posts'     => []
+            'data' => [
+                'labels'    => [],
+                'datasets'  => []
+            ],
         ];
 
         $datePeriod = DateRange::get();
         $dateRange  = array_keys(TimeZone::getListDays($datePeriod));
 
+        // Get data from database
         $visitorsData   = $this->visitorsModel->countDailyVisitors($this->args);
         $visitorsData   = wp_list_pluck($visitorsData, 'visitors', 'date');
 
@@ -46,17 +47,35 @@ class PerformanceChartDataProvider extends AbstractChartDataProvider
         $postsData      = $this->postsModel->countDailyPosts($this->args);
         $postsData      = wp_list_pluck($postsData, 'posts', 'date');
 
+        // Parse data
+        $parsedData = [];
         foreach ($dateRange as $date) {
-            $date = date('Y-m-d', strtotime($date));
-
-            $result['labels'][]     = [
+            $parsedData['labels'][]       = [
                 'date'  => date_i18n(Helper::getDefaultDateFormat(false, true, true), strtotime($date)),
                 'day'   => date_i18n('l', strtotime($date)),
             ];
-            $result['views'][]      = isset($viewsData[$date]) ? intval($viewsData[$date]) : 0;
-            $result['visitors'][]   = isset($visitorsData[$date]) ? intval($visitorsData[$date]) : 0;
-            $result['posts'][]      = isset($postsData[$date]) ? intval($postsData[$date]) : 0;
+            $parsedData['views'][]      = isset($viewsData[$date]) ? intval($viewsData[$date]) : 0;
+            $parsedData['visitors'][]   = isset($visitorsData[$date]) ? intval($visitorsData[$date]) : 0;
+            $parsedData['posts'][]      = isset($postsData[$date]) ? intval($postsData[$date]) : 0;
         }
+
+        // Add parsed data to the results array dataset
+        $result['data']['labels'] = $parsedData['labels'];
+
+        $result['data']['datasets'][] = [
+            'label' => esc_html__('Visitors', 'wp-statistics'),
+            'data'  => $parsedData['visitors']
+        ];
+
+        $result['data']['datasets'][] = [
+            'label' => esc_html__('Views', 'wp-statistics'),
+            'data'  => $parsedData['views']
+        ];
+
+        $result['data']['datasets'][] = [
+            'label' => esc_html__('Posts', 'wp-statistics'),
+            'data'  => $parsedData['posts']
+        ];
 
         return $result;
     }
