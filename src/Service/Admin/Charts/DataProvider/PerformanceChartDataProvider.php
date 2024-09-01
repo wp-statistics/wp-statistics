@@ -34,7 +34,7 @@ class PerformanceChartDataProvider extends AbstractChartDataProvider
             ],
         ];
 
-        $datePeriod = DateRange::get();
+        $datePeriod = isset($this->args['date']) ? $this->args['date'] : DateRange::get();
         $dateRange  = array_keys(TimeZone::getListDays($datePeriod));
 
         // Get data from database
