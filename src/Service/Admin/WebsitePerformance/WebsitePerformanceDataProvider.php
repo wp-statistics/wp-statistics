@@ -64,11 +64,29 @@ class WebsitePerformanceDataProvider
      */
     private $argsPreviousPeriod = [];
 
-    // Models
+    /**
+     * @var VisitorsModel
+     */
     private $visitorsModel;
+
+    /**
+     * @var ViewsModel
+     */
     private $viewsModel;
+
+    /**
+     * @var PostsModel
+     */
     private $postsModel;
+
+    /**
+     * @var AuthorsModel
+     */
     private $authorsModel;
+
+    /**
+     * @var TaxonomyModel
+     */
     private $taxonomiesModel;
 
     // Cached attributes (to prevent duplicate queries)
