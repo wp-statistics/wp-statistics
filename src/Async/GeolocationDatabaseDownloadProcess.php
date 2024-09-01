@@ -2,9 +2,10 @@
 
 namespace WP_Statistics\Async;
 
+use WP_STATISTICS\WP_Background_Process;
 use WP_Statistics\Service\Geolocation\Provider\GeoServiceProviderInterface;
 
-class GeolocationDatabaseDownloadProcess extends \WP_Background_Process
+class GeolocationDatabaseDownloadProcess extends WP_Background_Process
 {
     /**
      * @var string
