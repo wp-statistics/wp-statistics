@@ -80,11 +80,10 @@ class ContentAnalyticsDataProvider
 
         $referrersData   = $this->visitorsModel->getReferrers($this->args);
 
-        $performanceArgs = ['date' => ['from' => date('Y-m-d', strtotime('-14 days')), 'to' => date('Y-m-d')]];
         $performanceData = [
-            'posts'     => $this->postsModel->countPosts(array_merge($this->args, $performanceArgs)),
-            'visitors'  => $this->visitorsModel->countVisitors(array_merge($this->args, $performanceArgs)),
-            'views'     => $this->viewsModel->countViews(array_merge($this->args, $performanceArgs)),
+            'posts'     => $this->postsModel->countPosts($this->args),
+            'visitors'  => $this->visitorsModel->countVisitors($this->args),
+            'views'     => $this->viewsModel->countViews($this->args),
         ];
 
         $topPostsByView     = $this->postsModel->getPostsViewsData($this->args);

@@ -2,10 +2,12 @@
 
 namespace WP_Statistics\Service\Admin\Charts\DataProvider;
 
+use WP_Statistics\Components\DateRange;
 use WP_STATISTICS\Helper;
 use WP_Statistics\Models\PostsModel;
 use WP_Statistics\Models\ViewsModel;
 use WP_Statistics\Models\VisitorsModel;
+use WP_STATISTICS\TimeZone;
 
 class PerformanceChartDataProvider extends AbstractChartDataProvider
 {
@@ -32,6 +34,9 @@ class PerformanceChartDataProvider extends AbstractChartDataProvider
             'posts'     => []
         ];
 
+        $datePeriod = DateRange::get();
+        $dateRange  = array_keys(TimeZone::getListDays($datePeriod));
+
         $visitorsData   = $this->visitorsModel->countDailyVisitors($this->args);
         $visitorsData   = wp_list_pluck($visitorsData, 'visitors', 'date');
 
@@ -41,8 +46,8 @@ class PerformanceChartDataProvider extends AbstractChartDataProvider
         $postsData  = $this->postsModel->countDailyPosts($this->args);
         $postsData  = wp_list_pluck($postsData, 'posts', 'date');
 
-        for ($i = 14; $i >= 0; $i--) {
-            $date = date('Y-m-d', strtotime("-$i days"));
+        foreach ($dateRange as $date) {
+            $date = date('Y-m-d', strtotime($date));
 
             $result['labels'][]     = [
                 'date'  => date_i18n(Helper::getDefaultDateFormat(false, true, true), strtotime($date)),
