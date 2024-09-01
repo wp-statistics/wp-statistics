@@ -11,6 +11,10 @@ changelog.txt
 composer.json
 composer.lock
 .gulpfile.js
+webpack.config.js
 package.json
 package-lock.json
 README.md
+CHANGELOG.md
+CONTRIBUTING.md
+security.md
