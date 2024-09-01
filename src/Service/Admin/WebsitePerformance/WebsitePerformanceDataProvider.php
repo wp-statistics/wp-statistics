@@ -102,6 +102,10 @@ class WebsitePerformanceDataProvider
     private $percentageChangeViews     = null;
     private $percentageChangeReferrals = null;
     private $percentageChangeContents  = null;
+    private $topAuthor                 = null;
+    private $topPost                   = null;
+    private $topReferral               = null;
+    private $topCategory               = null;
 
     /**
      * Initializes the class.
@@ -212,6 +216,10 @@ class WebsitePerformanceDataProvider
         $this->percentageChangeViews     = null;
         $this->percentageChangeReferrals = null;
         $this->percentageChangeContents  = null;
+        $this->topAuthor                 = null;
+        $this->topPost                   = null;
+        $this->topReferral               = null;
+        $this->topCategory               = null;
     }
 
     /**
@@ -550,12 +558,18 @@ class WebsitePerformanceDataProvider
      */
     public function getTopAuthor()
     {
+        if ($this->topAuthor !== null) {
+            return $this->topAuthor;
+        }
+
         if (empty($this->authorsModel)) {
             $this->authorsModel = new AuthorsModel();
         }
 
-        $topAuthor = $this->authorsModel->getAuthorsByPostPublishes($this->argsCurrentPeriod);
-        return !empty($topAuthor) ? $topAuthor[0]->name : '';
+        $this->topAuthor = $this->authorsModel->getAuthorsByPostPublishes($this->argsCurrentPeriod);
+        $this->topAuthor = !empty($this->topAuthor) ? $this->topAuthor[0]->name : '';
+
+        return $this->topAuthor;
     }
 
     /**
@@ -565,12 +579,18 @@ class WebsitePerformanceDataProvider
      */
     public function getTopPost()
     {
+        if ($this->topPost !== null) {
+            return $this->topPost;
+        }
+
         if (empty($this->postsModel)) {
             $this->postsModel = new PostsModel();
         }
 
-        $topPost = $this->postsModel->getPostsViewsData($this->argsCurrentPeriod);
-        return !empty($topPost) ? $topPost[0]->post_title : '';
+        $this->topPost = $this->postsModel->getPostsViewsData($this->argsCurrentPeriod);
+        $this->topPost = !empty($this->topPost) ? $this->topPost[0]->post_title : '';
+
+        return $this->topPost;
     }
 
     /**
@@ -580,24 +600,28 @@ class WebsitePerformanceDataProvider
      */
     public function getTopReferral()
     {
+        if ($this->topReferral !== null) {
+            return $this->topReferral;
+        }
+
         if (!is_array($this->currentPeriodReferrals)) {
             $this->currentPeriodReferrals = $this->getReferrals();
         }
 
-        $topReferral = '';
+        $this->topReferral = null;
         foreach ($this->previousPeriodReferrals as $referral) {
             if (!empty($referral->visitors) && !empty($referral->referrer)) {
-                $topReferral = str_replace('www.', '', $referral->referrer);
-                $topReferral = wp_parse_url($topReferral);
-                $topReferral = !empty($topReferral['host']) ? trim($topReferral['host']) : '';
-                $topReferral = ucfirst($topReferral);
+                $this->topReferral = str_replace('www.', '', $referral->referrer);
+                $this->topReferral = wp_parse_url($this->topReferral);
+                $this->topReferral = !empty($this->topReferral['host']) ? trim($this->topReferral['host']) : '';
+                $this->topReferral = ucfirst($this->topReferral);
 
                 // We only need the first referral
                 break;
             }
         }
 
-        return $topReferral;
+        return $this->topReferral;
     }
 
     /**
@@ -607,11 +631,15 @@ class WebsitePerformanceDataProvider
      */
     public function getTopCategory()
     {
+        if ($this->topCategory !== null) {
+            return $this->topCategory;
+        }
+
         if (empty($this->taxonomiesModel)) {
             $this->taxonomiesModel = new TaxonomyModel();
         }
 
-        $topCategory = $this->taxonomiesModel->getTermsData([
+        $this->topCategory = $this->taxonomiesModel->getTermsData([
             'date'     => [
                 'from' => $this->getCurrentPeriodFromDate(),
                 'to'   => $this->getCurrentPeriodToDate(),
@@ -620,6 +648,8 @@ class WebsitePerformanceDataProvider
             'order'    => 'DESC',
             'taxonomy' => array_keys(Helper::get_list_taxonomy()),
         ]);
-        return (!empty($topCategory) && is_array($topCategory) && !empty($topCategory[0]->term_name)) ? $topCategory[0]->term_name : '';
+        $this->topCategory = (!empty($this->topCategory) && is_array($this->topCategory) && !empty($this->topCategory[0]->term_name)) ? $this->topCategory[0]->term_name : '';
+
+        return $this->topCategory;
     }
 }
