@@ -3,7 +3,7 @@
 namespace WP_Statistics\Async;
 
 use WP_STATISTICS\WP_Background_Process;
-use WP_Statistics\Service\Geolocation\Provider\GeoServiceProviderInterface;
+use WP_Statistics\Service\Geolocation\GeoServiceProviderInterface;
 
 class GeolocationDatabaseDownloadProcess extends WP_Background_Process
 {
