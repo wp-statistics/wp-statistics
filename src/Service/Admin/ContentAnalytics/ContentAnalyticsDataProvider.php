@@ -32,11 +32,12 @@ class ContentAnalyticsDataProvider
     {
         $visitorsData = $this->visitorsModel->getVisitorsPlatformData($this->args);
 
-        $performanceChartData = ChartDataProviderFactory::performanceChart($this->args)->getData();
+        $performanceChartData   = ChartDataProviderFactory::performanceChart($this->args)->getData();
+        $searchEngineChartData  = ChartDataProviderFactory::searchEngineChart($this->args)->getData();
 
         return [
             'performance_chart_data'    => $performanceChartData,
-            'search_engine_chart_data'  => $this->visitorsModel->getSearchEnginesChartData($this->args),
+            'search_engine_chart_data'  => $searchEngineChartData,
             'post_type'                 => Helper::getPostTypeName(Request::get('tab', 'post')),
             'os_chart_data'             => [
                 'labels'    => wp_list_pluck($visitorsData['platform'], 'label'),

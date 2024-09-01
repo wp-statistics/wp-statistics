@@ -585,7 +585,7 @@ class VisitorsModel extends BaseModel
 
                 if (!empty($item->model) && $item->model !== 'Unknown') {
                     $models = array_column($result['model'], 'label');
-                    
+
                     if (!in_array($item->model, $models)) {
                         $result['model'][] = [
                             'label'    => $item->model,
@@ -734,11 +734,11 @@ class VisitorsModel extends BaseModel
         $query = Query::select($selectFields)
             ->from('visitor')
             ->whereRaw(
-                "(location = '' 
+                "(location = ''
             OR location = %s
-            OR location IS NULL 
-            OR continent = '' 
-            OR continent IS NULL 
+            OR location IS NULL
+            OR continent = ''
+            OR continent IS NULL
             OR (continent = location))
             AND ip NOT LIKE '#hash#%'",
                 [$privateCountry]
@@ -883,110 +883,6 @@ class VisitorsModel extends BaseModel
         $result = $query->getAll();
 
         return $result ? $result : [];
-    }
-
-    public function getSearchEnginesChartData($args)
-    {
-        $args = $this->parseArgs($args, []);
-
-        $thisPeriod = $args['date'];
-        $prevPeriod = DateRange::getPrevPeriod($args['date']);
-
-        $thisPeriodDates = array_keys(TimeZone::getListDays($thisPeriod));
-        $prevPeriodDates = array_keys(TimeZone::getListDays($prevPeriod));
-
-        $result = [
-            'data' => [
-                'labels'   => array_map(
-                    function ($date) {
-                        return [
-                            'date'  => date_i18n(Helper::getDefaultDateFormat(false, true, true), strtotime($date)),
-                            'day'   => date_i18n('l', strtotime($date)),
-                        ];
-                    },
-                    $thisPeriodDates
-                ),
-                'datasets' => []
-            ],
-            'previousData' => [
-                'labels'   => array_map(
-                    function ($date) {
-                        return [
-                            'date'  => date_i18n(Helper::getDefaultDateFormat(false, true, true), strtotime($date)),
-                            'day'   => date_i18n('l', strtotime($date)),
-                        ];
-                    },
-                    $prevPeriodDates
-                ),
-                'datasets' => []
-            ],
-        ];
-
-        // This period data
-        $thisParsedData     = [];
-        $thisPeriodData     = $this->getSearchEngineReferrals($args);
-        $thisPeriodTotal    = array_fill_keys($thisPeriodDates, 0);
-
-        foreach ($thisPeriodData as $item) {
-            $visitors = intval($item->visitors);
-            $thisParsedData[$item->engine][$item->date] = $visitors;
-            $thisPeriodTotal[$item->date]               += $visitors;
-        }
-
-        // Create an array of top search engines
-        $topEngines = array_map(function($item) {
-            return array_sum($item);
-        }, $thisParsedData);
-        
-        // Sort top search engines in descending order
-        arsort($topEngines);
-        
-        // Get the top 3 items
-        $topEngines = array_slice($topEngines, 0, 3, true);
-
-        foreach ($thisParsedData as $searchEngine => &$data) {
-            if (!in_array($searchEngine, array_keys($topEngines))) continue;
-
-            // Fill out missing visitors with 0
-            $data = array_merge(array_fill_keys($thisPeriodDates, 0), $data);
-
-            // Sort data by date
-            ksort($data);
-
-            // Generate dataset
-            $result['data']['datasets'][] = [
-                'label' => ucfirst($searchEngine),
-                'data'  => array_values($data)
-            ];
-        }
-
-        usort($result['data']['datasets'], function($a, $b) {
-            return array_sum($b['data']) - array_sum($a['data']);
-        });
-
-        if (!empty($thisPeriodTotal)) {
-            $result['data']['datasets'][] = [
-                'label' => esc_html__('Total', 'wp-statistics'),
-                'data'  => array_values($thisPeriodTotal)
-            ];
-        }
-
-        // Previous period data
-        $prevPeriodData     = $this->getSearchEngineReferrals(array_merge($args, ['date' => $prevPeriod]));
-        $prevPeriodTotal    = array_fill_keys($prevPeriodDates, 0);
-
-        foreach ($prevPeriodData as $item) {
-            $prevPeriodTotal[$item->date] += intval($item->visitors);
-        }
-
-        if (!empty($prevPeriodTotal)) {
-            $result['previousData']['datasets'][] = [
-                'label' => esc_html__('Total', 'wp-statistics'),
-                'data'  => array_values($prevPeriodTotal)
-            ];
-        }
-
-        return $result;
     }
 
     /**

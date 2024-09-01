@@ -4,6 +4,7 @@ namespace WP_Statistics\Service\Admin\Geographic;
 
 use WP_STATISTICS\Helper;
 use WP_Statistics\Models\VisitorsModel;
+use WP_Statistics\Service\Admin\Charts\ChartDataProviderFactory;
 use WP_STATISTICS\TimeZone;
 
 class GeographicDataProvider
@@ -152,14 +153,14 @@ class GeographicDataProvider
         $platformData = $this->visitorsModel->getVisitorsPlatformData($this->args);
 
         return [
-            'search_engine_chart_data' => $this->visitorsModel->getSearchEnginesChartData($this->args),
+            'search_engine_chart_data' => ChartDataProviderFactory::searchEngineChart($this->args)->getData(),
             'os_chart_data'         => [
                 'labels'    => wp_list_pluck($platformData['platform'], 'label'),
                 'data'      => wp_list_pluck($platformData['platform'], 'visitors'),
                 'icons'     => wp_list_pluck($platformData['platform'], 'icon'),
             ],
             'browser_chart_data'    => [
-                'labels'    => wp_list_pluck($platformData['agent'], 'label'), 
+                'labels'    => wp_list_pluck($platformData['agent'], 'label'),
                 'data'      => wp_list_pluck($platformData['agent'], 'visitors'),
                 'icons'     => wp_list_pluck($platformData['agent'], 'icon')
             ],

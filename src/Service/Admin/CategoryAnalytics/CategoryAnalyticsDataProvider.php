@@ -34,13 +34,14 @@ class CategoryAnalyticsDataProvider
 
     public function getChartsData()
     {
-        $performanceChartData = ChartDataProviderFactory::performanceChart($this->args)->getData();
+        $performanceChartData   = ChartDataProviderFactory::performanceChart($this->args)->getData();
+        $searchEngineChartData  = ChartDataProviderFactory::searchEngineChart($this->args)->getData();
 
         $visitorsData = $this->visitorsModel->getVisitorsPlatformData($this->args);
 
         return [
             'performance_chart_data'    => $performanceChartData,
-            'search_engine_chart_data'  => $this->visitorsModel->getSearchEnginesChartData($this->args),
+            'search_engine_chart_data'  => $searchEngineChartData,
             'os_chart_data'             => [
                 'labels'    => wp_list_pluck($visitorsData['platform'], 'label'),
                 'data'      => wp_list_pluck($visitorsData['platform'], 'visitors'),
