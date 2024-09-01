@@ -4,9 +4,9 @@ namespace WP_Statistics\Traits;
 
 /**
  * Trait to handle caching logic.
- * @doc https://github.com/wp-statistics/wp-statistics/wiki/Cacheable.md
+ * @doc https://github.com/wp-statistics/wp-statistics/wiki/TransientCacheTrait.md
  */
-trait Cacheable
+trait TransientCacheTrait
 {
     /**
      * Get the cache key for the given query.
