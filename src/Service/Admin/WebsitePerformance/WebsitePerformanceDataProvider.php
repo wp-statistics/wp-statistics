@@ -611,14 +611,15 @@ class WebsitePerformanceDataProvider
             $this->taxonomiesModel = new TaxonomyModel();
         }
 
-        $topCategory = $this->taxonomiesModel->getTaxonomiesData([
+        $topCategory = $this->taxonomiesModel->getTermsData([
             'date'     => [
                 'from' => $this->getCurrentPeriodFromDate(),
                 'to'   => $this->getCurrentPeriodToDate(),
             ],
             'order_by' => 'views',
             'order'    => 'DESC',
+            'taxonomy' => array_keys(Helper::get_list_taxonomy()),
         ]);
-        return (!empty($topCategory['category']) && !empty($topCategory['category'][0]['term_name'])) ? $topCategory['category'][0]['term_name'] : '';
+        return (!empty($topCategory) && is_array($topCategory) && !empty($topCategory[0]->term_name)) ? $topCategory[0]->term_name : '';
     }
 }
