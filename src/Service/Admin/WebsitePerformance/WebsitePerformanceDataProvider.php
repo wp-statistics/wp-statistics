@@ -156,12 +156,12 @@ class WebsitePerformanceDataProvider
             $this->previousPeriodFromDate = TimeZone::getTimeAgo(28);
             $this->previousPeriodToDate   = TimeZone::getTimeAgo(15);
         } else if ($fromDate == TimeZone::getTimeAgo(30)) {
-            // Current period = From 30 days ago to yesterday
-            $this->currentPeriodFromDate  = TimeZone::getTimeAgo(30);
-            $this->currentPeriodToDate    = TimeZone::getTimeAgo();
-            // Previous period = From 60 days ago to 30 days ago
-            $this->previousPeriodFromDate = TimeZone::getTimeAgo(60);
-            $this->previousPeriodToDate   = TimeZone::getTimeAgo(30);
+            // Current period = Last month
+            $this->currentPeriodFromDate  = date('Y-m-d', strtotime('First day of previous month'));
+            $this->currentPeriodToDate    = date('Y-m-d', strtotime('Last day of previous month'));
+            // Previous period = Previous month
+            $this->previousPeriodFromDate = date('Y-m-d', strtotime('First day of -2 months'));
+            $this->previousPeriodToDate   = date('Y-m-d', strtotime('Last day of -2 months'));
         } else if (!empty($fromDate)) {
             // Current period = From the `$fromDate` to `$toDate`
             $this->currentPeriodFromDate  = $fromDate;
