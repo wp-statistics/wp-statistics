@@ -80,7 +80,7 @@ class MaxmindGeoIPProvider extends AbstractGeoIPProvider
         try {
             // Check if the GeoIP database exists and download it via a background process.
             if (!$this->isDatabaseExist()) {
-                BackgroundProcessFactory::downloadGeolocationDatabase();
+                $this->downloadDatabase();
 
                 throw new Exception('GeoIP database not found. Attempting to download...');
             }
@@ -232,7 +232,7 @@ class MaxmindGeoIPProvider extends AbstractGeoIPProvider
     {
         $reader = $this->reader;
 
-        if ($reader === false) {
+        if (!$reader) {
             return false;
         }
 
