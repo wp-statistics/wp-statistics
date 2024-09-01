@@ -40,11 +40,11 @@ class PerformanceChartDataProvider extends AbstractChartDataProvider
         $visitorsData   = $this->visitorsModel->countDailyVisitors($this->args);
         $visitorsData   = wp_list_pluck($visitorsData, 'visitors', 'date');
 
-        $viewsData  = $this->viewsModel->countDailyViews($this->args);
-        $viewsData  = wp_list_pluck($viewsData, 'views', 'date');
+        $viewsData      = $this->viewsModel->countDailyViews($this->args);
+        $viewsData      = wp_list_pluck($viewsData, 'views', 'date');
 
-        $postsData  = $this->postsModel->countDailyPosts($this->args);
-        $postsData  = wp_list_pluck($postsData, 'posts', 'date');
+        $postsData      = $this->postsModel->countDailyPosts($this->args);
+        $postsData      = wp_list_pluck($postsData, 'posts', 'date');
 
         foreach ($dateRange as $date) {
             $date = date('Y-m-d', strtotime($date));
