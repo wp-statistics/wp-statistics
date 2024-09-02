@@ -4,8 +4,7 @@ namespace WP_Statistics\Service\Admin\Geographic;
 
 use WP_STATISTICS\Helper;
 use WP_Statistics\Models\VisitorsModel;
-use WP_Statistics\Service\Admin\Charts\ChartDataProviderFactory;
-use WP_STATISTICS\TimeZone;
+use WP_Statistics\Service\Charts\ChartDataProviderFactory;
 
 class GeographicDataProvider
 {

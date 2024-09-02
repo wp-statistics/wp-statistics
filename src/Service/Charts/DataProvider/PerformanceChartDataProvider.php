@@ -1,12 +1,13 @@
 <?php
 
-namespace WP_Statistics\Service\Admin\Charts\DataProvider;
+namespace WP_Statistics\Service\Charts\DataProvider;
 
 use WP_Statistics\Components\DateRange;
 use WP_STATISTICS\Helper;
 use WP_Statistics\Models\PostsModel;
 use WP_Statistics\Models\ViewsModel;
 use WP_Statistics\Models\VisitorsModel;
+use WP_Statistics\Service\Charts\AbstractChartDataProvider;
 use WP_STATISTICS\TimeZone;
 
 class PerformanceChartDataProvider extends AbstractChartDataProvider

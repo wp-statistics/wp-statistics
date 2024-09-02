@@ -3,14 +3,12 @@
 namespace WP_Statistics\Service\Admin\CategoryAnalytics;
 
 use WP_STATISTICS\Helper;
-use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Models\AuthorsModel;
 use WP_Statistics\Models\PostsModel;
-use WP_Statistics\Utils\Request;
 use WP_Statistics\Models\TaxonomyModel;
 use WP_Statistics\Models\ViewsModel;
 use WP_Statistics\Models\VisitorsModel;
-use WP_Statistics\Service\Admin\Charts\ChartDataProviderFactory;
+use WP_Statistics\Service\Charts\ChartDataProviderFactory;
 
 class CategoryAnalyticsDataProvider
 {

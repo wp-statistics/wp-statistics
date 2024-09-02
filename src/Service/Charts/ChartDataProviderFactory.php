@@ -1,10 +1,10 @@
 <?php
 
-namespace WP_Statistics\Service\Admin\Charts;
+namespace WP_Statistics\Service\Charts;
 
-use WP_Statistics\Service\Admin\Charts\DataProvider\PerformanceChartDataProvider;
-use WP_Statistics\Service\Admin\Charts\DataProvider\SearchEngineChartDataProvider;
-use WP_Statistics\Service\Admin\Charts\DataProvider\TrafficChartDataProvider;
+use WP_Statistics\Service\Charts\DataProvider\PerformanceChartDataProvider;
+use WP_Statistics\Service\Charts\DataProvider\SearchEngineChartDataProvider;
+use WP_Statistics\Service\Charts\DataProvider\TrafficChartDataProvider;
 
 class ChartDataProviderFactory
 {

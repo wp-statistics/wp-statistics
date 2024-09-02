@@ -2,9 +2,7 @@
 
 namespace WP_STATISTICS\MetaBox;
 
-use WP_STATISTICS\Option;
-use WP_Statistics\Service\Admin\Charts\ChartDataProviderFactory;
-use WP_STATISTICS\TimeZone;
+use WP_Statistics\Service\Charts\ChartDataProviderFactory;
 
 class hits extends MetaBoxAbstract
 {

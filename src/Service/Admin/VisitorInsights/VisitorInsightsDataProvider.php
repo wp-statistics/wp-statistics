@@ -3,13 +3,10 @@
 namespace WP_Statistics\Service\Admin\VisitorInsights;
 
 use WP_STATISTICS\Admin_Template;
-use WP_Statistics\Components\DateRange;
 use WP_Statistics\Models\OnlineModel;
 use WP_Statistics\Models\ViewsModel;
 use WP_Statistics\Models\VisitorsModel;
-use WP_STATISTICS\TimeZone;
-use WP_STATISTICS\Helper;
-use WP_Statistics\Service\Admin\Charts\ChartDataProviderFactory;
+use WP_Statistics\Service\Charts\ChartDataProviderFactory;
 
 class VisitorInsightsDataProvider
 {

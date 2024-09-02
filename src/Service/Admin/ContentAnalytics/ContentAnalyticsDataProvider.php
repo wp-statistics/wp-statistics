@@ -2,13 +2,12 @@
 namespace WP_Statistics\Service\Admin\ContentAnalytics;
 
 use WP_STATISTICS\Helper;
-use WP_STATISTICS\TimeZone;
-use WP_Statistics\Utils\Request;
 use WP_Statistics\Models\PostsModel;
-use WP_Statistics\Models\ViewsModel;
 use WP_Statistics\Models\TaxonomyModel;
+use WP_Statistics\Models\ViewsModel;
 use WP_Statistics\Models\VisitorsModel;
-use WP_Statistics\Service\Admin\Charts\ChartDataProviderFactory;
+use WP_Statistics\Service\Charts\ChartDataProviderFactory;
+use WP_Statistics\Utils\Request;
 
 class ContentAnalyticsDataProvider
 {
