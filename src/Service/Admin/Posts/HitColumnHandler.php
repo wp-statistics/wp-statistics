@@ -302,7 +302,10 @@ class HitColumnHandler
         }
 
         // Remove only the first occurrence of "post_type_" from `postType` attribute
-        $actualPostType = substr_replace('post_type_', '', 0, strlen($this->postType));
+        $actualPostType = $this->postType;
+        if (strpos($actualPostType, 'post_type_') === 0) {
+            $actualPostType = substr($actualPostType, strlen('post_type_'));
+        }
 
         if (empty($this->isCurrentPostTypeSelected)) {
             // Check if current post type is selected in Mini-chart add-on's options
