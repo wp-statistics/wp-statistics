@@ -44,8 +44,12 @@ class GeolocationService
          */
         try {
             if (IP::CheckIPRange(IP::$private_SubNets, $ipAddress)) {
-                return $this->provider->getDefaultLocation();
+                $location            = $this->provider->getDefaultLocation();
+                $location['country'] = $this->provider->getPrivateCountryCode();
+
+                return $location;
             }
+
         } catch (Exception $e) {
             return $this->provider->getDefaultLocation();
         }

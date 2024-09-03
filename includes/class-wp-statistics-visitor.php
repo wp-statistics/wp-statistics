@@ -105,7 +105,7 @@ class Visitor
 
         // Define the array of defaults
         $defaults = array(
-            'location'         => GeolocationFactory::getProviderInstance()->getDefaultCountryCode(), // @todo review this default value and the logic behind it
+            'location'         => '',
             'exclusion_match'  => false,
             'exclusion_reason' => '',
         );

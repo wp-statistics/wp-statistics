@@ -246,11 +246,11 @@ add_thickbox();
 
         <tr valign="top">
             <th scope="row">
-                <label for="geoip-schedule"><?php esc_html_e('Country Code for Unlocatable IPs', 'wp-statistics'); ?></label>
+                <label for="geoip-schedule"><?php esc_html_e('Country Code for Private IPs', 'wp-statistics'); ?></label>
             </th>
 
             <td>
-                <input type="text" size="3" id="geoip-private-country-code" name="wps_private_country_code" value="<?php echo esc_attr(WP_STATISTICS\Option::get('private_country_code', GeolocationFactory::getProviderInstance()->getPrivateCountryCode())); ?>">
+                <input type="text" size="3" id="geoip-private-country-code" name="wps_private_country_code" value="<?php echo esc_attr(WP_STATISTICS\Option::get('private_country_code', GeolocationFactory::getProviderInstance()->getDefaultPrivateCountryCode())); ?>">
                 <p class="description"><?php echo esc_html__('Assigns a default country code for private IP addresses that cannot be geographically located.', 'wp-statistics'); ?></p>
             </td>
         </tr>
