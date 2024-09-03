@@ -6,7 +6,6 @@ trait LineChartResponseTrait
 {
     private $chartData;
 
-
     /**
      * Initializes the chart data structure.
      *
@@ -30,34 +29,53 @@ trait LineChartResponseTrait
         }
     }
 
-
     /**
      * Sets the chart labels.
      *
      * @param array $labels The chart labels.
-     * @param bool $prevData Whether to set the labels for previous data or not.
      * @return void
      */
-    protected function setChartLabels($labels, $prevData = false)
+    protected function setChartLabels($labels)
     {
-        $key = $prevData ? 'previousData' : 'data';
-        $this->chartData[$key]['labels'] = $labels;
+        $this->chartData['data']['labels'] = $labels;
     }
 
+    /**
+     * Sets the previous chart labels.
+     *
+     * @param array $labels The chart labels.
+     * @return void
+     */
+    protected function setChartPreviousLabels($labels)
+    {
+        $this->chartData['previousData']['labels'] = $labels;
+    }
 
     /**
      * Adds a dataset to the chart data.
      *
      * @param string $label The label for the dataset.
      * @param array $data The data for the dataset.
-     * @param bool $prevData (optional) Whether to add the dataset to the previous data or not. Defaults to false.
      * @return void
      */
-    protected function addChartDataset($label, $data, $prevData = false)
+    protected function addChartDataset($label, $data)
     {
-        $key = $prevData ? 'previousData' : 'data';
+        $this->chartData['data']['datasets'][] = [
+            'label' => $label,
+            'data'  => $data
+        ];
+    }
 
-        $this->chartData[$key]['datasets'][] = [
+    /**
+     * Adds a dataset to the previous chart data.
+     *
+     * @param string $label The label for the dataset.
+     * @param array $data The data for the dataset.
+     * @return void
+     */
+    protected function addChartPreviousDataset($label, $data)
+    {
+        $this->chartData['previousData']['datasets'][] = [
             'label' => $label,
             'data'  => $data
         ];
