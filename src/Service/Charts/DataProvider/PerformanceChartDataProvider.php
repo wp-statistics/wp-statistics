@@ -46,7 +46,7 @@ class PerformanceChartDataProvider extends AbstractChartDataProvider
         ]);
 
         // Prepare data
-        $result = $this->prepareData($parsedData);
+        $result = $this->prepareResult($parsedData);
 
         return $result;
     }
@@ -74,7 +74,7 @@ class PerformanceChartDataProvider extends AbstractChartDataProvider
         return $parsedData;
     }
 
-    public function prepareData($data)
+    public function prepareResult($data)
     {
         $this->setChartLabels($data['labels']);
 
