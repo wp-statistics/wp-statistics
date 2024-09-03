@@ -2,9 +2,7 @@
 
 namespace WP_STATISTICS;
 
-use WP_Statistics\MiniChart\WP_Statistics_Mini_Chart_Settings;
-use WP_Statistics\Models\HistoricalModel;
-use WP_Statistics\Models\ViewsModel;
+use WP_Statistics\Service\Admin\Posts\HitColumnHandler;
 
 class Admin_Taxonomy
 {
@@ -34,118 +32,15 @@ class Admin_Taxonomy
             return;
         }
 
+        $hitColumnHandler = new HitColumnHandler(true);
+
         // Add Column
         foreach (Helper::get_list_taxonomy() as $tax => $name) {
-            add_action('manage_edit-' . $tax . '_columns', array($this, 'add_column'), 10, 2);
-            add_filter('manage_' . $tax . '_custom_column', array($this, 'render_column'), 10, 3);
-            add_filter('manage_edit-' . $tax . '_sortable_columns', array($this, 'modify_sortable_columns'));
+            add_action('manage_edit-' . $tax . '_columns', array($hitColumnHandler, 'addHitColumn'), 10, 2);
+            add_filter('manage_' . $tax . '_custom_column', array($hitColumnHandler, 'renderTaxHitColumn'), 10, 3);
+            add_filter('manage_edit-' . $tax . '_sortable_columns', array($hitColumnHandler, 'modifySortableColumns'));
         }
         add_filter('terms_clauses', array($this, 'modify_order_by_hits'), 10, 3);
-    }
-
-    /**
-     * Add a custom column to post/pages for hit statistics.
-     *
-     * @param array $columns Columns
-     * @return array Columns
-     */
-    public function add_column($columns)
-    {
-
-        // Check WooCommerce sortable UI
-        if (isset($columns['handle'])) {
-            $col = array();
-            foreach ($columns as $k => $v) {
-                if ($k == "handle") {
-                    $col['wp-statistics-tax-hits'] = __('Views', 'wp-statistics');
-                }
-                $col[$k] = $v;
-            }
-            return $col;
-        }
-
-        $columns['wp-statistics-tax-hits'] = __('Views', 'wp-statistics');
-        return $columns;
-    }
-
-    /**
-     * Render the custom column on the post/pages lists.
-     *
-     * @param string $value
-     * @param string $column_name Column Name
-     * @param int $term_id
-     * @return string
-     */
-    public function render_column($value, $column_name, $term_id)
-    {
-        if ($column_name !== 'wp-statistics-tax-hits') {
-            return $value;
-        }
-
-        $term              = get_term($term_id);
-        $termType          = ($term->taxonomy === 'category' || $term->taxonomy === 'post_tag') ? $term->taxonomy : 'tax';
-        $termLink          = get_term_link(intval($term->term_id), $term->taxonomy);
-        $termLink          = !is_wp_error($termLink) ? wp_make_link_relative($termLink) : '';
-        $args              = ['post_id' => $term_id, 'resource_type' => $termType];
-        $isMiniChartActive = Helper::isAddOnActive('mini-chart');
-
-        if (Helper::checkMiniChartOption('count_display', 'disabled', 'total')) {
-            // Don't execute queries if `count_display` is disabled
-            $hitCount = 0;
-        } else {
-            $viewsModel = new ViewsModel();
-            $hitCount   = $viewsModel->countViewsFromPagesOnly($args);
-
-            $historicalModel = new HistoricalModel();
-            $hitCount       += $historicalModel->countUris(['page_id' => $term_id, 'uri' => $termLink]);
-        }
-
-        if (is_numeric($hitCount)) {
-            $preview_chart_unlock_html = sprintf(
-                // translators: 1: Mini-chart product link - 2: "Unlock This Feature!" text - 3: Lock image - 4: Chart preview image.
-                '<div class="wps-admin-column__unlock"><a href="%s" target="_blank"><span class="wps-admin-column__unlock__text">%s</span><img class="wps-admin-column__unlock__lock" src="%s"/><img class="wps-admin-column__unlock__img" src="%s"/></a></div>',
-                'https://wp-statistics.com/product/wp-statistics-mini-chart?utm_source=wp-statistics&utm_medium=link&utm_campaign=mini-chart',
-                __('Unlock', 'wp-statistics'),
-                WP_STATISTICS_URL . 'assets/images/mini-chart-posts-lock.svg',
-                WP_STATISTICS_URL . 'assets/images/mini-chart-posts-preview.svg'
-            );
-
-            $setting = class_exists(WP_Statistics_Mini_Chart_Settings::class) ? get_option(WP_Statistics_Mini_Chart_Settings::get_instance()->setting_name) : '';
-            $value   = '';
-            if (
-                !$isMiniChartActive ||
-                (!empty($setting) && !empty($setting['active_mini_chart_' . $term->taxonomy]))
-            ) {
-                // If add-on is not active, this line will display the "Unlock This Feature!" button
-                // If add-on is active but current taxonomy is not selected in the settings, nothing will be displayed
-                $value = apply_filters("wp_statistics_before_hit_column", $preview_chart_unlock_html, $term_id, $term->taxonomy);
-            }
-
-            $value .= sprintf(
-                // translators: 1 & 2: CSS class - 3: "Views" text - 4: Link to category analytics page - 5: CSS class - 6: Hits count.
-                '<div class="%s"><span class="%s">%s</span> <a href="%s" class="wps-admin-column__link %s">%s</a></div>',
-                Helper::checkMiniChartOption('count_display', 'disabled', 'total') ? 'wps-hide' : '',
-                $isMiniChartActive ? '' : 'wps-hide',
-                esc_html__('Views:', 'wp-statistics'),
-                Menus::admin_url('category-analytics', ['type' => 'single', 'term_id' => $term_id]),
-                $isMiniChartActive ? '' : 'wps-admin-column__unlock-count',
-                esc_html(number_format($hitCount))
-            );
-        }
-
-        return $value;
-    }
-
-    /**
-     * Added Sortable Params
-     *
-     * @param $columns
-     * @return mixed
-     */
-    public function modify_sortable_columns($columns)
-    {
-        $columns['wp-statistics-tax-hits'] = 'hits';
-        return $columns;
     }
 
     /**

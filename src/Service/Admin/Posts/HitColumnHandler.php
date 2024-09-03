@@ -15,7 +15,7 @@ use WP_STATISTICS\TimeZone;
 use WP_Statistics\Utils\Request;
 
 /**
- * This class will add, render, modify sort and modify order by post hits column in posts list pages.
+ * This class will add, render, modify sort and modify order by hits column in posts and taxonomies list pages.
  */
 class HitColumnHandler
 {
@@ -27,6 +27,15 @@ class HitColumnHandler
     private $miniChartHelper;
 
     /**
+     * Hits column name.
+     *
+     * This will change in taxonomies lists.
+     *
+     * @var string
+     */
+    private $columnName = 'wp-statistics-post-hits';
+
+    /**
      * Arguments to use in the visitors and views models when fetching hits stats.
      *
      * @var array
@@ -34,18 +43,11 @@ class HitColumnHandler
     private $hitArgs;
 
     /**
-     * Post type of posts retrieved from `Pages::get_post_type()`.
+     * Post type of posts/terms.
      *
      * @var string
      */
     private $postType;
-
-    /**
-     * Actual post type of posts (without the "post_type_" prefix).
-     *
-     * @var string
-     */
-    private $actualPostType;
 
     /**
      * Is this post type selected in Mini-chart add-on's options?
@@ -54,32 +56,54 @@ class HitColumnHandler
      */
     private $isCurrentPostTypeSelected;
 
-    public function __construct()
+    /**
+     * Class constructor.
+     *
+     * @param bool $isTerm Is this instance handling a taxonomies list?
+     */
+    public function __construct($isTerm = false)
     {
+        if ($isTerm) {
+            $this->columnName = 'wp-statistics-tax-hits';
+        }
+
         $this->miniChartHelper = new MiniChartHelper();
     }
 
     /**
-     * Adds a custom column to post/pages for hit statistics.
+     * Adds a custom column to posts/taxonomies lists for hits statistics.
      *
      * @param array $columns
      *
      * @return array
      *
      * @hooked action: `manage_{$type}_posts_columns` - 10
+     * @hooked action: `manage_edit-{$tax}_columns` - 10
      */
     public function addHitColumn($columns)
     {
-        $columns['wp-statistics-post-hits'] = $this->miniChartHelper->getLabel();
+        // Handle WooCommerce sortable UI
+        if (isset($columns['handle'])) {
+            $cols = [];
+            foreach ($columns as $key => $value) {
+                if ($key == 'handle') {
+                    $cols[$this->columnName] = $this->miniChartHelper->getLabel();
+                }
+                $cols[$key] = $value;
+            }
+            return $cols;
+        }
+
+        $columns[$this->columnName] = $this->miniChartHelper->getLabel();
 
         return $columns;
     }
 
     /**
-     * Renders the custom column on the post/pages lists.
+     * Renders hits column in post/pages lists.
      *
      * @param string $columnName
-     * @param string $postId
+     * @param int $postId
      *
      * @return void
      *
@@ -88,27 +112,46 @@ class HitColumnHandler
     public function renderHitColumn($columnName, $postId)
     {
         // Exit early if the column is not the one we're interested in
-        if ($columnName !== 'wp-statistics-post-hits') {
+        if ($columnName !== $this->columnName) {
             return;
         }
 
         // Initialize class attributes only once (since all posts in the list have the same post type)
         if (empty($this->postType)) {
             $this->postType = Pages::get_post_type($postId);
-
-            // Remove "post_type_" prefix from the CPT name because of incompatibility with WP Statistics MiniChart
-            $this->actualPostType = $this->postType;
-            if (strpos($this->actualPostType, 'post_type_') === 0) {
-                $this->actualPostType = substr($this->actualPostType, strlen('post_type_'));
-            }
-
-            // Check if current post type is selected in Mini-chart add-on's options
-            $miniChartSettings               = class_exists(WP_Statistics_Mini_Chart_Settings::class) ? get_option(WP_Statistics_Mini_Chart_Settings::get_instance()->setting_name) : '';
-            $this->isCurrentPostTypeSelected = !empty($miniChartSettings) && !empty($miniChartSettings["active_mini_chart_{$this->actualPostType}"]);
         }
 
         $hitCount = $this->calculateHitCount($postId);
         echo $this->getHitColumnContent($hitCount, $postId);
+    }
+
+    /**
+     * Renders hits column in taxonomies lists.
+     *
+     * @param string Column HTML output.
+     * @param string $columnName
+     * @param int $termId
+     *
+     * @return string HTML output.
+     *
+     * @hooked filter: `manage_{$tax}_custom_column` - 10
+     */
+    public function renderTaxHitColumn($output, $columnName, $termId)
+    {
+        // Exit early if the column is not the one we're interested in
+        if ($columnName !== $this->columnName) {
+            return $output;
+        }
+
+        $term = get_term($termId);
+
+        // Initialize class attributes only once (since all terms in the list have the same taxonomy)
+        if (empty($this->postType)) {
+            $this->postType = (($term instanceof \WP_Term) && ($term->taxonomy === 'category' || $term->taxonomy === 'post_tag')) ? $term->taxonomy : 'tax';
+        }
+
+        $hitCount = $this->calculateHitCount($termId, $term);
+        return $this->getHitColumnContent($hitCount, $termId, true);
     }
 
     /**
@@ -119,10 +162,11 @@ class HitColumnHandler
      * @return array
      *
      * @hooked filter: `manage_edit-{$type}_sortable_columns` - 10
+     * @hooked filter: `manage_edit-{$tax}_sortable_columns` - 10
      */
     public function modifySortableColumns($columns)
     {
-        $columns['wp-statistics-post-hits'] = 'hits';
+        $columns[$this->columnName] = 'hits';
 
         return $columns;
     }
@@ -185,13 +229,14 @@ class HitColumnHandler
     }
 
     /**
-     * Calculates hit count based on Mini-chart add-on's options.
+     * Calculates hits count based on Mini-chart add-on's options.
      *
-     * @param string $postId
+     * @param int $objectId Post or term ID.
+     * @param \WP_Term $term If not empty, this method will calculate terms hits stats instead of posts hits stats.
      *
      * @return int|null
      */
-    private function calculateHitCount($postId)
+    private function calculateHitCount($objectId, $term = null)
     {
         // Don't calculate stats if `count_display` is disabled
         if ($this->miniChartHelper->getCountDisplay() === 'disabled') {
@@ -199,13 +244,18 @@ class HitColumnHandler
         }
 
         $this->hitArgs = [
-            'post_id'       => $postId,
-            'resource_type' => Pages::checkIfPageIsHome($postId) ? 'home' : $this->postType,
+            'post_id'       => $objectId,
+            'resource_type' => Pages::checkIfPageIsHome($objectId) ? 'home' : $this->postType,
             'date'          => [
                 'from' => date('Y-m-d', 0),
                 'to'   => date('Y-m-d'),
             ],
         ];
+
+        // Change `resource_type` parameter if it's a term
+        if (!empty($term)) {
+            $this->hitArgs['resource_type'] = $this->postType;
+        }
 
         if ($this->miniChartHelper->getCountDisplay() === 'date_range') {
             $this->hitArgs['date'] = [
@@ -224,8 +274,11 @@ class HitColumnHandler
 
             // Consider historical if `count_display` is equal to 'total'
             if ($this->miniChartHelper->getCountDisplay() === 'total') {
+                $uri = empty($term) ? get_permalink($objectId) : get_term_link(intval($term->term_id), $term->taxonomy);
+                $uri = !is_wp_error($uri) ? wp_make_link_relative($uri) : '';
+
                 $historicalModel = new HistoricalModel();
-                $hitCount       += intval($historicalModel->countUris(['page_id' => $postId, 'uri' => wp_make_link_relative(get_permalink($postId))]));
+                $hitCount       += intval($historicalModel->countUris(['page_id' => $objectId, 'uri' => $uri]));
             }
         }
 
@@ -233,34 +286,57 @@ class HitColumnHandler
     }
 
     /**
-     * Returns the content of the hit column.
+     * Returns the content of hits column.
      *
      * @param int $hitCount
-     * @param string $postId
+     * @param int $objectId Post or term ID.
+     * @param bool $isTerm Is this column being rendered in taxonomies list?
      *
      * @return string HTML markup.
      */
-    private function getHitColumnContent($hitCount, $postId)
+    private function getHitColumnContent($hitCount, $objectId, $isTerm = false)
     {
         // If hit count is not a valid number, don't display anything
         if (!is_numeric($hitCount)) {
             return '';
         }
 
+        // Remove only the first occurrence of "post_type_" from `postType` attribute
+        $actualPostType = substr_replace('post_type_', '', 0, strlen($this->postType));
+
+        if (empty($this->isCurrentPostTypeSelected)) {
+            // Check if current post type is selected in Mini-chart add-on's options
+            $miniChartSettings               = class_exists(WP_Statistics_Mini_Chart_Settings::class) ? get_option(WP_Statistics_Mini_Chart_Settings::get_instance()->setting_name) : '';
+            $this->isCurrentPostTypeSelected = !empty($miniChartSettings) && !empty($miniChartSettings["active_mini_chart_{$actualPostType}"]);
+        }
+
         $result = '';
         if (!$this->miniChartHelper->isMiniChartActive() || $this->isCurrentPostTypeSelected) {
             // If add-on is not active, this line will display the "Unlock!" button
-            // If add-on is active but current post type is not selected in the settings, nothing will be displayed
-            $result .= apply_filters("wp_statistics_before_hit_column_{$this->actualPostType}", $this->getPreviewChartUnlockHtml(), $postId, $this->postType);
+            // If add-on is active but current post type is not selected in the settings, the chart placeholder will be empty
+            $result .= apply_filters("wp_statistics_before_hit_column_{$actualPostType}", $this->getPreviewChartUnlockHtml(), $objectId, $this->postType);
         }
 
+        $contentAnalyticsArgs = [
+            'post_id' => $objectId,
+            'type'    => 'single',
+            'from'    => Request::get('from', $this->hitArgs['date']['from']),
+            'to'      => Request::get('to', $this->hitArgs['date']['to']),
+        ];
+        if ($isTerm) {
+            // Change content analytics URL if it's a taxonomy
+            unset($contentAnalyticsArgs['post_id']);
+            $contentAnalyticsArgs['term_id'] = $objectId;
+        }
+
+        // Add hit number below the chart
         $result .= sprintf(
             // translators: 1 & 2: CSS class - 3: Either "Visitors" or "Views" - 4: Link to content analytics page - 5: CSS class - 6: Hits count.
             '<div class="%s"><span class="%s">%s</span> <a href="%s" class="wps-admin-column__link %s">%s</a></div>',
             $this->miniChartHelper->getCountDisplay() === 'disabled' ? 'wps-hide' : '',
             $this->miniChartHelper->isMiniChartActive() ? '' : 'wps-hide',
             $this->miniChartHelper->getLabel(),
-            esc_url(Menus::admin_url('content-analytics', ['post_id' => $postId, 'type' => 'single', 'from' => Request::get('from', $this->hitArgs['date']['from']), 'to' => Request::get('to', $this->hitArgs['date']['to'])])),
+            esc_url(Menus::admin_url('content-analytics', $contentAnalyticsArgs)),
             $this->miniChartHelper->isMiniChartActive() ? '' : 'wps-admin-column__unlock-count',
             esc_html(number_format($hitCount))
         );
