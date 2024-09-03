@@ -8,10 +8,13 @@ use WP_Statistics\Models\PostsModel;
 use WP_Statistics\Models\ViewsModel;
 use WP_Statistics\Models\VisitorsModel;
 use WP_Statistics\Service\Charts\AbstractChartDataProvider;
+use WP_Statistics\Service\Charts\Traits\LineChartResponseTrait;
 use WP_STATISTICS\TimeZone;
 
 class PerformanceChartDataProvider extends AbstractChartDataProvider
 {
+    use LineChartResponseTrait;
+
     public $args;
     protected $visitorsModel;
     protected $viewsModel;
@@ -24,60 +27,72 @@ class PerformanceChartDataProvider extends AbstractChartDataProvider
         $this->visitorsModel    = new VisitorsModel();
         $this->viewsModel       = new ViewsModel();
         $this->postsModel       = new PostsModel();
+
+        $this->initChartData();
     }
 
     public function getData()
     {
-        $result = [
-            'data' => [
-                'labels'    => [],
-                'datasets'  => []
-            ],
-        ];
-
-        $datePeriod = isset($this->args['date']) ? $this->args['date'] : DateRange::get();
-        $dateRange  = array_keys(TimeZone::getListDays($datePeriod));
-
         // Get data from database
-        $visitorsData   = $this->visitorsModel->countDailyVisitors($this->args);
-        $visitorsData   = wp_list_pluck($visitorsData, 'visitors', 'date');
-
-        $viewsData      = $this->viewsModel->countDailyViews($this->args);
-        $viewsData      = wp_list_pluck($viewsData, 'views', 'date');
-
-        $postsData      = $this->postsModel->countDailyPosts($this->args);
-        $postsData      = wp_list_pluck($postsData, 'posts', 'date');
+        $visitors   = $this->visitorsModel->countDailyVisitors($this->args);
+        $views      = $this->viewsModel->countDailyViews($this->args);
+        $posts      = $this->postsModel->countDailyPosts($this->args);
 
         // Parse data
+        $parsedData = $this->parseData([
+            'visitors'  => $visitors,
+            'views'     => $views,
+            'posts'     => $posts
+        ]);
+
+        // Prepare data
+        $result = $this->prepareData($parsedData);
+
+        return $result;
+    }
+
+    public function parseData($data)
+    {
+        $datePeriod = isset($this->args['date']) ? $this->args['date'] : DateRange::get();
+        $dates      = array_keys(TimeZone::getListDays($datePeriod));
+
+        $visitors   = wp_list_pluck($data['visitors'], 'visitors', 'date');
+        $views      = wp_list_pluck($data['views'], 'views', 'date');
+        $posts      = wp_list_pluck($data['posts'], 'posts', 'date');
+
         $parsedData = [];
-        foreach ($dateRange as $date) {
-            $parsedData['labels'][]       = [
+        foreach ($dates as $date) {
+            $parsedData['labels'][]     = [
                 'date'  => date_i18n(Helper::getDefaultDateFormat(false, true, true), strtotime($date)),
                 'day'   => date_i18n('l', strtotime($date)),
             ];
-            $parsedData['views'][]      = isset($viewsData[$date]) ? intval($viewsData[$date]) : 0;
-            $parsedData['visitors'][]   = isset($visitorsData[$date]) ? intval($visitorsData[$date]) : 0;
-            $parsedData['posts'][]      = isset($postsData[$date]) ? intval($postsData[$date]) : 0;
+            $parsedData['visitors'][]   = isset($visitors[$date]) ? intval($visitors[$date]) : 0;
+            $parsedData['views'][]      = isset($views[$date]) ? intval($views[$date]) : 0;
+            $parsedData['posts'][]      = isset($posts[$date]) ? intval($posts[$date]) : 0;
         }
 
-        // Add parsed data to the results array dataset
-        $result['data']['labels'] = $parsedData['labels'];
+        return $parsedData;
+    }
 
-        $result['data']['datasets'][] = [
-            'label' => esc_html__('Visitors', 'wp-statistics'),
-            'data'  => $parsedData['visitors']
-        ];
+    public function prepareData($data)
+    {
+        $this->setChartLabels($data['labels']);
 
-        $result['data']['datasets'][] = [
-            'label' => esc_html__('Views', 'wp-statistics'),
-            'data'  => $parsedData['views']
-        ];
+        $this->addChartDataset(
+            esc_html__('Visitors', 'wp-statistics'),
+            $data['visitors']
+        );
 
-        $result['data']['datasets'][] = [
-            'label' => esc_html__('Posts', 'wp-statistics'),
-            'data'  => $parsedData['posts']
-        ];
+        $this->addChartDataset(
+            esc_html__('Views', 'wp-statistics'),
+            $data['views']
+        );
 
-        return $result;
+        $this->addChartDataset(
+            esc_html__('Posts', 'wp-statistics'),
+            $data['posts']
+        );
+
+        return $this->getChartData();
     }
 }
