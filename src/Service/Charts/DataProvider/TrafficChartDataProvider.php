@@ -54,8 +54,8 @@ class TrafficChartDataProvider extends AbstractChartDataProvider
 
     public function parseData($dates, $data)
     {
-        $currentVisitors = wp_list_pluck($data['visitors'], 'visitors', 'date');
-        $currentViews    = wp_list_pluck($data['views'], 'views', 'date');
+        $visitors = wp_list_pluck($data['visitors'], 'visitors', 'date');
+        $views    = wp_list_pluck($data['views'], 'views', 'date');
 
         $parsedData = [];
         foreach ($dates as $date) {
@@ -63,8 +63,8 @@ class TrafficChartDataProvider extends AbstractChartDataProvider
                 'date' => date_i18n(Helper::getDefaultDateFormat(false, true, true), strtotime($date)),
                 'day'  => date_i18n('l', strtotime($date))
             ];
-            $parsedData['visitors'][] = isset($currentVisitors[$date]) ? intval($currentVisitors[$date]) : 0;
-            $parsedData['views'][]    = isset($currentViews[$date]) ? intval($currentViews[$date]) : 0;
+            $parsedData['visitors'][] = isset($visitors[$date]) ? intval($visitors[$date]) : 0;
+            $parsedData['views'][]    = isset($views[$date]) ? intval($views[$date]) : 0;
         }
 
         return $parsedData;
