@@ -5,6 +5,10 @@ use WP_STATISTICS\GeoIP;
 use WP_STATISTICS\IP;
 use WP_Statistics\Models\VisitorsModel;
 use WP_STATISTICS\Pages;
+use WP_Statistics\Service\Admin\PrivacyAudit\Audits\AnonymizeIpAddress;
+use WP_Statistics\Service\Admin\PrivacyAudit\Audits\HashIpAddress;
+use WP_Statistics\Service\Admin\PrivacyAudit\Audits\RecordUserPageVisits;
+use WP_Statistics\Service\Admin\PrivacyAudit\Audits\StoreUserAgentString;
 use WP_STATISTICS\TimeZone;
 use WP_STATISTICS\User;
 use WP_STATISTICS\UserAgent;
@@ -941,4 +945,31 @@ function wp_statistics_referrer($time = null, $range = [])
 
     return count($get_urls);
 }
- 
+
+/**
+ * Checks if consent is required for collecting user statistics.
+ *
+ * This function evaluates several conditions that determine whether consent
+ * is needed to collect and store user data for statistics purposes. If any
+ * of the conditions are not met, it indicates that consent is required.
+ *
+ * @return bool Returns true if consent is required, false otherwise.
+ */
+function wp_statistics_is_consent_required_for_statistics()
+{
+    // Array of requirements that must be met to avoid requiring consent
+    $requirements = [
+        RecordUserPageVisits::isOptionPassed(),  // Check if recording user page visits is allowed
+        HashIpAddress::isOptionPassed(),         // Check if IP addresses should be hashed
+        AnonymizeIpAddress::isOptionPassed(),    // Check if IP addresses should be anonymized
+        StoreUserAgentString::isOptionPassed()   // Check if storing the user agent string is permitted
+    ];
+
+    // If any requirement is not met, consent is required
+    if (in_array(false, $requirements, true)) {
+        return true; // Consent is required
+    }
+
+    // If all requirements are met, consent is not required
+    return false;
+}
