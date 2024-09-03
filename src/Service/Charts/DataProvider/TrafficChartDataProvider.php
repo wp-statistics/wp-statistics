@@ -30,21 +30,20 @@ class TrafficChartDataProvider extends AbstractChartDataProvider
 
     public function getData()
     {
-        $thisPeriod     = isset($this->args['date']) ? $this->args['date'] : DateRange::get();
-        $prevPeriod     = DateRange::getPrevPeriod($thisPeriod);
-        $currentDates   = array_keys(TimeZone::getListDays($thisPeriod));
-        $prevDates      = array_keys(TimeZone::getListDays($prevPeriod));
+        // Get and parse current data
+        $currentPeriod  = isset($this->args['date']) ? $this->args['date'] : DateRange::get();
+        $currentDates   = array_keys(TimeZone::getListDays($currentPeriod));
 
-        // Get current data from database
         $visitors       = $this->visitorsModel->countDailyVisitors($this->args);
         $views          = $this->viewsModel->countDailyViews(array_merge($this->args, ['ignore_post_type' => true]));
+        $parsedData     = $this->parseData($currentDates, ['visitors' => $visitors, 'views' => $views]);
 
-        // Get previous data from database
+        // Get and parse previous data
+        $prevPeriod     = DateRange::getPrevPeriod($currentPeriod);
+        $prevDates      = array_keys(TimeZone::getListDays($prevPeriod));
+
         $prevVisitors   = $this->visitorsModel->countDailyVisitors(array_merge($this->args, ['date' => $prevPeriod]));
         $prevViews      = $this->viewsModel->countDailyViews(array_merge($this->args, ['date' => $prevPeriod]));
-
-        // Parse data
-        $parsedData     = $this->parseData($currentDates, ['visitors' => $visitors, 'views' => $views]);
         $prevParsedData = $this->parseData($prevDates, ['visitors' => $prevVisitors, 'views' => $prevViews]);
 
         // Prepare data
