@@ -954,8 +954,9 @@ function wp_statistics_referrer($time = null, $range = [])
  * of the conditions are not met, it indicates that consent is required.
  *
  * @return bool Returns true if consent is required, false otherwise.
+ * @since 14.10.1
  */
-function wp_statistics_is_consent_required_for_statistics()
+function wp_statistics_needs_consent()
 {
     // Array of requirements that must be met to avoid requiring consent
     $requirements = [
