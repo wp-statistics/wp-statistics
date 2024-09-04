@@ -808,6 +808,15 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null , type = 'line
         });
     }
 
+    const dateLabels = data.data.labels.map(dateObj => dateObj.date);
+    const length = dateLabels.length;
+    const threshold = containsPostsLabel ? 30 : 60;
+    const unitTime = length <= threshold
+        ? 'day'
+        : length <= 180
+            ? 'week'
+            : 'month';
+
     // Default options
     const defaultOptions = {
         interaction: {
@@ -827,8 +836,12 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null , type = 'line
         },
         scales: {
             x: {
+                type: 'time',
+                time: {
+                    unit: unitTime,
+                    parser: 'yyyy-MM-dd',
+                },
                 offset: data.data.labels.map(dateObj => dateObj.date).length <= 1,
-                min: 0,
                 grid: {
                     display: false,
                     drawBorder: false,
@@ -847,9 +860,7 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null , type = 'line
                     fontWeight: 'lighter ',
                     fontSize: 13,
                     padding: 8,
-                    fontFamily: '"Roboto",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif',
                     lineHeight: 15,
-                    stepSize: 1
                 }
             },
             y: {
@@ -951,12 +962,13 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null , type = 'line
         }
     }
 
-    // Merge default options with user options
+     // Merge default options with user options
     const options = Object.assign({}, defaultOptions, newOptions);
     const lineChart = new Chart(ctx_line, {
         type: containsPostsLabel ? 'bar' : 'line',
         data: {
-            labels: data.data.labels.map(dateObj => dateObj.date),
+            // labels: data.data.labels.map(dateObj => dateObj.date),
+            labels: dateLabels,
             datasets: datasets,
         },
         plugins: [drawVerticalLinePlugin],
