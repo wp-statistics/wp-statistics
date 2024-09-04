@@ -52,7 +52,7 @@ class TrafficChartDataProvider extends AbstractChartDataProvider
         return $result;
     }
 
-    public function parseData($dates, $data)
+    protected function parseData($dates, $data)
     {
         $visitors = wp_list_pluck($data['visitors'], 'visitors', 'date');
         $views    = wp_list_pluck($data['views'], 'views', 'date');
@@ -70,7 +70,7 @@ class TrafficChartDataProvider extends AbstractChartDataProvider
         return $parsedData;
     }
 
-    public function prepareResult($data, $prevData)
+    protected function prepareResult($data, $prevData)
     {
         // Current Data
         $this->setChartLabels($data['labels']);

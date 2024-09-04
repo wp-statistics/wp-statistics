@@ -38,7 +38,7 @@ class SearchEngineChartDataProvider extends AbstractChartDataProvider
         return $result;
     }
 
-    public function prepareResult($data, $prevData)
+    protected function prepareResult($data, $prevData)
     {
         $parsedData = [
             'data'          => [],
@@ -111,7 +111,7 @@ class SearchEngineChartDataProvider extends AbstractChartDataProvider
         return $this->getChartData();
     }
 
-    public function generateChartLabels($dateRange)
+    protected function generateChartLabels($dateRange)
     {
         $labels = array_map(
             function ($date) {
@@ -126,7 +126,7 @@ class SearchEngineChartDataProvider extends AbstractChartDataProvider
         return $labels;
     }
 
-    public function getTopSearchEngines($data)
+    protected function getTopSearchEngines($data)
     {
         // Create an array of top search engines
         $topSearchEngines = array_map(function($item) {

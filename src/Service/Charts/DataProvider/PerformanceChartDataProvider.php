@@ -51,7 +51,7 @@ class PerformanceChartDataProvider extends AbstractChartDataProvider
         return $result;
     }
 
-    public function parseData($data)
+    protected function parseData($data)
     {
         $datePeriod = isset($this->args['date']) ? $this->args['date'] : DateRange::get();
         $dates      = array_keys(TimeZone::getListDays($datePeriod));
@@ -74,7 +74,7 @@ class PerformanceChartDataProvider extends AbstractChartDataProvider
         return $parsedData;
     }
 
-    public function prepareResult($data)
+    protected function prepareResult($data)
     {
         $this->setChartLabels($data['labels']);
 
