@@ -9,6 +9,7 @@ use WP_Statistics\Service\Admin\PrivacyAudit\Audits\AnonymizeIpAddress;
 use WP_Statistics\Service\Admin\PrivacyAudit\Audits\HashIpAddress;
 use WP_Statistics\Service\Admin\PrivacyAudit\Audits\RecordUserPageVisits;
 use WP_Statistics\Service\Admin\PrivacyAudit\Audits\StoreUserAgentString;
+use WP_Statistics\Service\Admin\PrivacyAudit\Faqs\RequireConsent;
 use WP_STATISTICS\TimeZone;
 use WP_STATISTICS\User;
 use WP_STATISTICS\UserAgent;
@@ -958,19 +959,14 @@ function wp_statistics_referrer($time = null, $range = [])
  */
 function wp_statistics_needs_consent()
 {
-    // Array of requirements that must be met to avoid requiring consent
-    $requirements = [
-        RecordUserPageVisits::isOptionPassed(),  // Check if recording user page visits is allowed
-        HashIpAddress::isOptionPassed(),         // Check if IP addresses should be hashed
-        AnonymizeIpAddress::isOptionPassed(),    // Check if IP addresses should be anonymized
-        StoreUserAgentString::isOptionPassed()   // Check if storing the user agent string is permitted
-    ];
+    // Get the current status of the consent requirement
+    $status = RequireConsent::getStatus();
 
-    // If any requirement is not met, consent is required
-    if (in_array(false, $requirements, true)) {
+    // Check if consent is required
+    if ($status == 'warning') {
         return true; // Consent is required
     }
 
-    // If all requirements are met, consent is not required
+    // Return false if consent is not required
     return false;
 }
