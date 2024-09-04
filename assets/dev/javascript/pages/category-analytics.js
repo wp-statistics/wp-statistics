@@ -23,11 +23,11 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         generatePerformanceChart: function () {
             const performanceData = this.data.performance_chart_data;
             console.log(performanceData);
-            wps_js.new_line_chart(performanceData ,'performance-category-chart');
+            wps_js.new_line_chart(performanceData ,'performance-category-chart',null ,'performance');
         },
         generatePerformanceChartSingle: function () {
             const performanceSingleData = this.data.performance_chart_data;
-            wps_js.new_line_chart(performanceSingleData ,'performance-category-chart-single');
+            wps_js.new_line_chart(performanceSingleData ,'performance-category-chart-single',null,'performance');
          },
         generateOperatingSystemChart: function () {
             const operatingSystemData = this.data.os_chart_data;

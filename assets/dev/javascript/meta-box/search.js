@@ -16,6 +16,6 @@ wps_js.search_meta_box = {
     },
 
     meta_box_init: function (args = []) {
-        wps_js.new_line_chart(args, wps_js.chart_id('search'), null)
+        wps_js.new_line_chart(args, wps_js.chart_id('search'))
     }
 };

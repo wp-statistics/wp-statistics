@@ -717,7 +717,7 @@ const drawVerticalLinePlugin = {
     }
 };
 
-wps_js.new_line_chart = function (data, tag_id, newOptions) {
+wps_js.new_line_chart = function (data, tag_id, newOptions = null , type = 'line') {
     // Define the colors
     let colors = {
         'Total': '#27A765',
@@ -738,7 +738,7 @@ wps_js.new_line_chart = function (data, tag_id, newOptions) {
 
     const datasets = [];
 
-    const containsPostsLabel = data.data.datasets.some(dataset => dataset.label === 'Posts');
+    const containsPostsLabel = type === 'performance' && data.data.datasets.length > 2
     // Dynamically create datasets
     Object.keys(data.data.datasets).forEach((key, index) => {
 
