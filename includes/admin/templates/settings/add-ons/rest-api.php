@@ -42,7 +42,7 @@ if (!$isRestApiActive) echo Admin_Template::get_template('layout/partials/addon-
                 <td>
                     <input id="wps_addon_settings[rest_api][status]" name="wps_addon_settings[rest_api][status]" type="checkbox" value="1" <?php checked(WP_STATISTICS\Option::getByAddon('status', 'rest_api')) ?>>
                     <label for="wps_addon_settings[rest_api][status]"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
-                    <p class="description"><?php _e(sprintf('Enable or disable WP-Statistics API endpoints. For more information, visit the %1$s.', '<a href="https://documenter.getpostman.com/view/3239688/2s8Z6vZER4" target="_blank">API documentation</a>'), 'wp-statistics'); ?></p>
+                    <p class="description"><?php _e(sprintf('Enable or disable WP Statistics API endpoints. For more information, visit the %1$s.', '<a href="https://documenter.getpostman.com/view/3239688/2s8Z6vZER4" target="_blank">API documentation</a>'), 'wp-statistics'); ?></p>
                 </td>
             </tr>
 
