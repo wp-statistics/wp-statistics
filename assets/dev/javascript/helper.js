@@ -737,7 +737,6 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null , type = 'line
     const isInsideDashboardWidgets = document.getElementById(tag_id).closest('#dashboard-widgets') !== null;
 
     const datasets = [];
-
     const containsPostsLabel = type === 'performance' && data.data.datasets.length > 2
     // Dynamically create datasets
     Object.keys(data.data.datasets).forEach((key, index) => {
@@ -746,7 +745,7 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null , type = 'line
 
         let tension = tensionValues[index % tensionValues.length]; // Use tension value based on index
 
-        if(data.data.datasets[key].label === "Posts"){
+        if(containsPostsLabel && index === 2 ){
             datasets.push({
                 type: 'bar',
                 label:data.data.datasets[key].label,
@@ -951,6 +950,7 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null , type = 'line
             }
         }
     }
+
     // Merge default options with user options
     const options = Object.assign({}, defaultOptions, newOptions);
     const lineChart = new Chart(ctx_line, {
