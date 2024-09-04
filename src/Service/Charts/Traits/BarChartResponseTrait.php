@@ -10,7 +10,6 @@ trait BarChartResponseTrait
     /**
      * Initializes the chart data structure.
      *
-     * @param bool $prevData Whether to include previous data in the structure.
      * @return void
      */
     protected function initChartData()
@@ -27,7 +26,6 @@ trait BarChartResponseTrait
      * Sets the chart labels.
      *
      * @param array $labels The chart labels.
-     * @param bool $prevData Whether to set the labels for previous data or not.
      * @return void
      */
     protected function setChartLabels($labels)
