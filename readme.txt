@@ -137,7 +137,15 @@ Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest versio
 
 == Changelog ==
 = 14.10.1 - **.09.2024 =
-* 
+* Enhancement: Corrected sorting issues in bar charts.
+* Enhancement: Fixed font override conflicts with certain fonts.
+* Enhancement: Enhanced object cache handling for better performance.
+* Enhancement: Improved compatibility with PHP versions 5.6 ~ 7.2.
+* Fix: Resolved style tweaks in charts and fixed various JavaScript issues.
+* Fix: Fixed the "User Online" link in the Traffic Overview section.
+* Fix: Addressed issue where the top referral was not displaying in the "Your Performance at a Glance" section.
+* Fix: Resolved an issue with the report email option during some upgrades.
+* Dev: Added function `wp_statistics_needs_consent()` to check if user consent is required.
 
 For more information about the major update, please [visit our blog post](https://wp-statistics.com/?p=16657) or follow [@wp_statistics](https://twitter.com/wp_statistics) on Twitter
 
