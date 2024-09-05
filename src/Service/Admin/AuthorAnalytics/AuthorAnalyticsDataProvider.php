@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace WP_Statistics\Service\Admin\AuthorAnalytics;
 
@@ -8,6 +8,7 @@ use WP_Statistics\Models\ViewsModel;
 use WP_Statistics\Models\PostsModel;
 use WP_Statistics\Models\TaxonomyModel;
 use WP_Statistics\Models\VisitorsModel;
+use WP_Statistics\Service\Charts\ChartDataProviderFactory;
 
 class AuthorAnalyticsDataProvider
 {
@@ -18,7 +19,7 @@ class AuthorAnalyticsDataProvider
     protected $visitorsModel;
     protected $taxonomyModel;
 
-    
+
     public function __construct($args)
     {
         $this->args = $args;
@@ -36,12 +37,12 @@ class AuthorAnalyticsDataProvider
         $topAuthorsByViews  = $this->authorModel->getAuthorsByViewsPerPost($args);
 
         $data = [];
-        
+
         if ($topAuthorsByViews) {
             foreach ($topAuthorsByViews as $author) {
                 $data[] = [
-                    'x'      => $author->total_views,  
-                    'y'      => $author->total_posts,  
+                    'x'      => $author->total_views,
+                    'y'      => $author->total_posts,
                     'img'    => esc_url(get_avatar_url($author->id)),
                     'author' => esc_html($author->name)
                 ];
@@ -73,7 +74,7 @@ class AuthorAnalyticsDataProvider
                 'd' => date_i18n(get_option('date_format', 'Y-m-d'), strtotime($currentDate)),
                 'v' => $numberOfPosts
             ];
-    
+
             $date += 86400;
         }
 
@@ -150,26 +151,18 @@ class AuthorAnalyticsDataProvider
 
     public function getAuthorSingleChartData()
     {
-        $platformData = $this->visitorsModel->getVisitorsPlatformData($this->args);
+        $platformDataProvider = ChartDataProviderFactory::platformCharts($this->args);
 
         $data = [
-            'os_chart_data'         => [
-                'labels'    => wp_list_pluck($platformData['platform'], 'label'),
-                'data'      => wp_list_pluck($platformData['platform'], 'visitors'),
-                'icons'     => wp_list_pluck($platformData['platform'], 'icon'),
-            ],
-            'browser_chart_data'    => [
-                'labels'    => wp_list_pluck($platformData['agent'], 'label'), 
-                'data'      => wp_list_pluck($platformData['agent'], 'visitors'),
-                'icons'     => wp_list_pluck($platformData['agent'], 'icon')
-            ],
+            'os_chart_data'         => $platformDataProvider->getOsData(),
+            'browser_chart_data'    => $platformDataProvider->getBrowserData(),
             'publish_chart_data'    => $this->getPublishingChartData()
         ];
 
         return $data;
     }
 
-    
+
     public function getAuthorsChartData()
     {
         $data = [

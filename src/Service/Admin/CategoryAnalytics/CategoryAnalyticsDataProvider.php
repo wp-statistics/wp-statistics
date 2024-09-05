@@ -32,32 +32,17 @@ class CategoryAnalyticsDataProvider
 
     public function getChartsData()
     {
-        $performanceChartData   = ChartDataProviderFactory::performanceChart($this->args)->getData();
-        $searchEngineChartData  = ChartDataProviderFactory::searchEngineChart($this->args)->getData();
-
-        $visitorsData = $this->visitorsModel->getVisitorsPlatformData($this->args);
+        $performanceDataProvider    = ChartDataProviderFactory::performanceChart($this->args);
+        $searchEngineDataProvider   = ChartDataProviderFactory::searchEngineChart($this->args);
+        $platformDataProvider       = ChartDataProviderFactory::platformCharts($this->args);
 
         return [
-            'performance_chart_data'    => $performanceChartData,
-            'search_engine_chart_data'  => $searchEngineChartData,
-            'os_chart_data'             => [
-                'labels'    => wp_list_pluck($visitorsData['platform'], 'label'),
-                'data'      => wp_list_pluck($visitorsData['platform'], 'visitors'),
-                'icons'     => wp_list_pluck($visitorsData['platform'], 'icon'),
-            ],
-            'browser_chart_data'        => [
-                'labels'    => wp_list_pluck($visitorsData['agent'], 'label'),
-                'data'      => wp_list_pluck($visitorsData['agent'], 'visitors'),
-                'icons'     => wp_list_pluck($visitorsData['agent'], 'icon')
-            ],
-            'device_chart_data'         => [
-                'labels'    => wp_list_pluck($visitorsData['device'], 'label'),
-                'data'      => wp_list_pluck($visitorsData['device'], 'visitors')
-            ],
-            'model_chart_data'          => [
-                'labels'    => wp_list_pluck($visitorsData['model'], 'label'),
-                'data'      => wp_list_pluck($visitorsData['model'], 'visitors')
-            ],
+            'performance_chart_data'    => $performanceDataProvider->getData(),
+            'search_engine_chart_data'  => $searchEngineDataProvider->getData(),
+            'os_chart_data'             => $platformDataProvider->getOsData(),
+            'browser_chart_data'        => $platformDataProvider->getBrowserData(),
+            'device_chart_data'         => $platformDataProvider->getDeviceData(),
+            'model_chart_data'          => $platformDataProvider->getModelData()
         ];
     }
 
