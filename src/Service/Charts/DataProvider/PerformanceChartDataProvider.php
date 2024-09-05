@@ -27,8 +27,6 @@ class PerformanceChartDataProvider extends AbstractChartDataProvider
         $this->visitorsModel    = new VisitorsModel();
         $this->viewsModel       = new ViewsModel();
         $this->postsModel       = new PostsModel();
-
-        $this->initChartData();
     }
 
     public function getData()
@@ -76,6 +74,8 @@ class PerformanceChartDataProvider extends AbstractChartDataProvider
 
     protected function prepareResult($data)
     {
+        $this->initChartData();
+
         $this->setChartLabels($data['labels']);
 
         $this->addChartDataset(

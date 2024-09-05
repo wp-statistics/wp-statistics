@@ -21,8 +21,6 @@ class SearchEngineChartDataProvider extends AbstractChartDataProvider
         $this->args = $args;
 
         $this->visitorsModel = new VisitorsModel();
-
-        $this->initChartData(true);
     }
 
     public function getData()
@@ -54,6 +52,9 @@ class SearchEngineChartDataProvider extends AbstractChartDataProvider
         // This period data
         $thisParsedData     = [];
         $thisPeriodTotal    = array_fill_keys($thisPeriodDates, 0);
+
+        // Init chart data
+        $this->initChartData(true);
 
         // Set chart labels
         $this->setChartLabels($this->generateChartLabels($thisPeriodDates));
