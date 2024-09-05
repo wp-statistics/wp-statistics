@@ -35,8 +35,7 @@ class StoredUserAgentStringData extends BaseAudit
                     </ol>
                     <p>This action will remove all previously stored full user agent strings from your database, enhancing privacy and data protection on your website.</p>
                     <p><b>Need More Information?</b></p>
-                    <p>For detailed instructions and further information on the importance of this cleanup process, please visit our dedicated resource: <a target="_blank" href="https://wp-statistics.com/resources/how-to-clear-user-agent-strings/?utm_source=wp-statistics&utm_medium=link&utm_campaign=privacy">How to Clear User Agent Strings</a>.</p>
-                    ', 'wp-statistics'),
+                    <p>For detailed instructions and further information on the importance of this cleanup process, please visit our dedicated resource: <a target="_blank" href="https://wp-statistics.com/resources/how-to-clear-user-agent-strings/?utm_source=wp-statistics&utm_medium=link&utm_campaign=privacy">How to Clear User Agent Strings</a>.</p>', 'wp-statistics'),
                 'compliance'    => [
                     'key'   => 'action_required',
                     'value' => esc_html__('Action Required', 'wp-statistics'),

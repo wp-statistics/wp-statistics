@@ -16,19 +16,19 @@ use WP_STATISTICS\Visitor;
                 <thead>
                     <tr>
                         <th class="wps-pd-l">
-                            <span class="wps-order"><?php esc_html_e('Last View', 'wp-statistics') ?></span>
+                            <span class="wps-order"><?php esc_html_e('Last View', 'wp-statistics'); ?></span>
                         </th>
                         <th class="wps-pd-l">
-                            <span><?php esc_html_e('Online For', 'wp-statistics') ?></span>
+                            <span><?php esc_html_e('Online For', 'wp-statistics'); ?></span>
                         </th>
                         <th class="wps-pd-l">
-                            <?php esc_html_e('Visitor Information', 'wp-statistics') ?>
+                            <?php esc_html_e('Visitor Information', 'wp-statistics'); ?>
                         </th>
                         <th class="wps-pd-l">
-                            <?php esc_html_e('Location', 'wp-statistics') ?>
+                            <?php esc_html_e('Location', 'wp-statistics'); ?>
                         </th>
                         <th class="wps-pd-l">
-                            <?php esc_html_e('Referrer', 'wp-statistics') ?>
+                            <?php esc_html_e('Referrer', 'wp-statistics'); ?>
                         </th>
                         <th class="wps-pd-l">
                             <?php echo esc_html__('Latest Page', 'wp-statistics'); ?>
@@ -41,22 +41,22 @@ use WP_STATISTICS\Visitor;
                         $page = Visitor::get_page_by_id($visitor->page_id);
                     ?>
                         <tr>
-                            <td class="wps-pd-l"><?php echo esc_html(date_i18n(Helper::getDefaultDateFormat(true, true, false, ', '), strtotime($visitor->date))) ?></td>
+                            <td class="wps-pd-l"><?php echo esc_html(date_i18n(Helper::getDefaultDateFormat(true, true, false, ', '), strtotime($visitor->date))); ?></td>
 
-                            <td class="wps-pd-l"><?php echo esc_html(date_i18n('H:i:s', $visitor->timestamp - $visitor->created)) ?></td>
+                            <td class="wps-pd-l"><?php echo esc_html(date_i18n('H:i:s', $visitor->timestamp - $visitor->created)); ?></td>
 
                             <td class="wps-pd-l">
                                 <ul class="wps-browsers__flags">
                                 <?php if (!empty($visitor->user_id)) : ?>
                                         <li class="wps-browsers__flag">
                                             <div class="wps-tooltip" data-tooltip-content="#tooltip_user_id">
-                                                <a href="<?php echo esc_url(Menus::admin_url('visitors', ['ip' => urlencode($visitor->ip)])) ?>"><img src="<?php echo esc_url(WP_STATISTICS_URL . 'assets/images/user-icon.svg') ?>" alt="user" width="15" height="15"></a>
+                                                <a href="<?php echo esc_url(Menus::admin_url('visitors', ['ip' => urlencode($visitor->ip)])); ?>"><img src="<?php echo esc_url(WP_STATISTICS_URL . 'assets/images/user-icon.svg'); ?>" alt="user" width="15" height="15"></a>
                                             </div>
                                             <div class="wps-tooltip_templates">
                                                 <div id="tooltip_user_id">
-                                                    <div><?php esc_html_e('ID: ', 'wp-statistics') ?> <?php echo esc_html($visitor->user_id) ?></div>
-                                                    <div><?php esc_html_e('Name: ', 'wp-statistics') ?> <?php echo esc_html($visitor->display_name) ?></div>
-                                                    <div><?php esc_html_e('Email: ', 'wp-statistics') ?> <?php echo esc_html($visitor->user_email) ?></div>
+                                                    <div><?php esc_html_e('ID', 'wp-statistics'); ?>:&nbsp;<?php echo esc_html($visitor->user_id); ?></div>
+                                                    <div><?php esc_html_e('Name', 'wp-statistics'); ?>:&nbsp;<?php echo esc_html($visitor->display_name); ?></div>
+                                                    <div><?php esc_html_e('Email', 'wp-statistics'); ?>:&nbsp;<?php echo esc_html($visitor->user_email); ?></div>
                                                     <div><?php echo IP::IsHashIP($visitor->ip) ? sprintf(esc_html__('Daily Visitor Hash: %s', 'wp-statistics'), substr($visitor->ip, 6, 10)) : sprintf(esc_html__('IP: %s', 'wp-statistics'), $visitor->ip) ?></div>
                                                 </div>
                                             </div>

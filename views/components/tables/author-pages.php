@@ -13,10 +13,10 @@ $order = Request::get('order', 'desc');
                     <thead>
                         <tr>
                             <th class="wps-pd-l">
-                                <a href="<?php echo esc_url(Helper::getTableColumnSortUrl('name')) ?>" class="sort <?php echo Request::compare('order_by', 'name') ? esc_attr($order) : '' ?>"><?php esc_html_e('Author', 'wp-statistics') ?></a>
+                                <a href="<?php echo esc_url(Helper::getTableColumnSortUrl('name')); ?>" class="sort <?php echo Request::compare('order_by', 'name') ? esc_attr($order) : '' ?>"><?php esc_html_e('Author', 'wp-statistics'); ?></a>
                             </th>
                             <th class="wps-pd-l">
-                                <a href="<?php echo esc_url(Helper::getTableColumnSortUrl('page_views')) ?>" class="sort <?php echo !Request::has('order_by') || Request::compare('order_by', 'page_views') ? esc_attr($order) : '' ?>">
+                                <a href="<?php echo esc_url(Helper::getTableColumnSortUrl('page_views')); ?>" class="sort <?php echo !Request::has('order_by') || Request::compare('order_by', 'page_views') ? esc_attr($order) : '' ?>">
                                     <?php esc_html_e('Author\'s Page Views', 'wp-statistics') ?>
                                 </a>
                             </th>
