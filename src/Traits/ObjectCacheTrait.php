@@ -37,7 +37,7 @@ trait ObjectCacheTrait
      */
     public function getCache($key, $default = null)
     {
-        return $this->isCacheSet($key) ? $this->isCacheSet($key) : $default;
+        return $this->isCacheSet($key) ? $this->cache[$key] : $default;
     }
 
     /**
