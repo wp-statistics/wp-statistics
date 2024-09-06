@@ -156,14 +156,14 @@ class HitColumnHandler
     /**
      * Modifies query clauses when posts are sorted by hits column.
      *
-     * @param array $args Posts query clauses.
+     * @param array $clauses Clauses for the query.
      * @param \WP_Query $wpQuery Current posts query.
      *
-     * @return array Updated posts query clauses.
+     * @return array Updated clauses for the query.
      *
      * @hooked filter: `posts_clauses` - 10
      */
-    public function handleOrderByHits($clauses, $wpQuery)
+    public function handlePostOrderByHits($clauses, $wpQuery)
     {
         if (!is_admin()) {
             return;
@@ -206,6 +206,41 @@ class HitColumnHandler
 
         // Order by `post_hits_sortable`
         $clauses['orderby'] = " COALESCE(`post_hits_sortable`, 0) $order";
+
+        return $clauses;
+    }
+
+    /**
+     * Modifies query clauses when terms are sorted by hits column.
+     *
+     * @param array $clauses Clauses for the query.
+     * @param array $taxonomies Taxonomy names.
+     * @param array $args Term query arguments.
+     *
+     * @return array Updated clauses for the query.
+     *
+     * @hooked filter: `terms_clauses` - 10
+     *
+     * @todo Rewrite this method like `handlePostOrderByHits()`. And don't forget to consider historical when sorted by views.
+     */
+    public function handleTaxOrderByHits($clauses, $taxonomies, $args)
+    {
+        if (!is_admin()) {
+            return;
+        }
+
+        // If order-by.
+        if (!isset($args['orderby']) || $args['orderby'] !== 'hits') {
+            return $clauses;
+        }
+
+        global $wpdb;
+
+        // Select Field
+        $clauses['fields'] .= ", (select SUM(" . DB::table("pages") . ".count) from " . DB::table("pages") . " where (" . DB::table("pages") . ".type = 'category' OR " . DB::table("pages") . ".type = 'post_tag' OR " . DB::table("pages") . ".type = 'tax') AND t.term_id = " . DB::table("pages") . ".id) AS `tax_hits_sortable` ";
+
+        // Order by `tax_hits_sortable`
+        $clauses['orderby'] = " ORDER BY coalesce(`tax_hits_sortable`, 0)";
 
         return $clauses;
     }

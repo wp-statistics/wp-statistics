@@ -27,11 +27,14 @@ class PostsManager
 
         // Add Hits column in edit lists of all post types
         if (User::Access('read') && !Option::get('disable_column')) {
-            add_action('admin_init', [$this, 'initPostsHitsColumn']);
+            add_action('admin_init', [$this, 'initHitsColumn']);
         }
 
         // Remove post hits on post delete
         add_action('deleted_post', [$this, 'deletePostHits']);
+
+        // Remove term hits on term delete
+        add_action('delete_term', [$this, 'deleteTermHits'], 10, 2);
 
         // Add meta-boxes and blocks only in edit mode if the user has access
         global $pagenow;
@@ -67,24 +70,46 @@ class PostsManager
     }
 
     /**
-     * Initializes hits column in posts/pages list.
+     * Initializes hits column in edit lists.
      *
      * @return void
      *
      * @hooked action: `admin_init` - 10
      */
-    public function initPostsHitsColumn()
+    public function initHitsColumn()
     {
-        $hitColumnHandler = new HitColumnHandler();
+        global $pagenow;
 
-        foreach (Helper::get_list_post_type() as $type) {
-            add_action("manage_{$type}_posts_columns", [$hitColumnHandler, 'addHitColumn'], 10, 2);
-            // This is a filter! (+ in taxonomy?)
-            add_action("manage_{$type}_posts_custom_column", [$hitColumnHandler, 'renderHitColumn'], 10, 2);
-            add_filter("manage_edit-{$type}_sortable_columns", [$hitColumnHandler, 'modifySortableColumns']);
+        if ($pagenow === 'edit.php') {
+            // Posts and pages and CPTs
+
+            $hitColumnHandler = new HitColumnHandler();
+
+            foreach (Helper::get_list_post_type() as $type) {
+                add_action("manage_{$type}_posts_columns", [$hitColumnHandler, 'addHitColumn'], 10, 2);
+                add_action("manage_{$type}_posts_custom_column", [$hitColumnHandler, 'renderHitColumn'], 10, 2);
+                add_filter("manage_edit-{$type}_sortable_columns", [$hitColumnHandler, 'modifySortableColumns']);
+            }
+
+            add_filter('posts_clauses', [$hitColumnHandler, 'handlePostOrderByHits'], 10, 2);
+        } else if ($pagenow === 'edit-tags.php') {
+            // Taxonomies
+
+            if (!apply_filters('wp_statistics_show_taxonomy_hits', true)) {
+                return;
+            }
+
+            $hitColumnHandler = new HitColumnHandler(true);
+
+            // Add Column
+            foreach (Helper::get_list_taxonomy() as $tax => $name) {
+                add_action('manage_edit-' . $tax . '_columns', [$hitColumnHandler, 'addHitColumn'], 10, 2);
+                add_filter('manage_' . $tax . '_custom_column', [$hitColumnHandler, 'renderTaxHitColumn'], 10, 3);
+                add_filter('manage_edit-' . $tax . '_sortable_columns', [$hitColumnHandler, 'modifySortableColumns']);
+            }
+
+            add_filter('terms_clauses', [$hitColumnHandler, 'handleTaxOrderByHits'], 10, 3);
         }
-
-        add_filter('posts_clauses', [$hitColumnHandler, 'handleOrderByHits'], 10, 2);
     }
 
     /**
@@ -94,7 +119,10 @@ class PostsManager
      *
      * @return void
      *
+     * @hooked action: `deleted_post` - 10
+     *
      * @todo Replace this method with visitor decorator call after the class is ready.
+     * @todo Also delete from historical table.
      */
     public static function deletePostHits($postId)
     {
@@ -102,6 +130,28 @@ class PostsManager
 
         $wpdb->query(
             $wpdb->prepare("DELETE FROM `" . DB::table('pages') . "` WHERE `id` = %d AND (`type` = 'post' OR `type` = 'page' OR `type` = 'product');", esc_sql($postId))
+        );
+    }
+
+    /**
+     * Deletes all term hits when the term is deleted.
+     *
+     * @param int $term Term ID.
+     * @param int $ttId Term taxonomy ID.
+     *
+     * @return void
+     *
+     * @hooked action: `delete_term` - 10
+     *
+     * @todo Replace this method with visitor decorator call after the class is ready.
+     * @todo Also delete from historical table.
+     */
+    public static function deleteTermHits($term, $ttId)
+    {
+        global $wpdb;
+
+        $wpdb->query(
+            $wpdb->prepare("DELETE FROM `" . DB::table('pages') . "` WHERE `id` = %d AND (`type` = 'category' OR `type` = 'post_tag' OR `type` = 'tax');", esc_sql($ttId))
         );
     }
 
