@@ -35,9 +35,9 @@ trait ObjectCacheTrait
      *
      * @return mixed|null The cached value or null if not set.
      */
-    public function getCache($key)
+    public function getCache($key, $default = null)
     {
-        return isset($this->cache[$key]) ? $this->cache[$key] : null;
+        return $this->isCacheSet($key) ? $this->cache[$key] : $default;
     }
 
     /**
