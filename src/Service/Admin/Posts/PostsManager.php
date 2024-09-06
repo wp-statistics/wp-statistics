@@ -3,6 +3,7 @@
 namespace WP_Statistics\Service\Admin\Posts;
 
 use WP_Statistics\Components\Assets;
+use WP_STATISTICS\DB;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Meta_Box;
 use WP_STATISTICS\Option;
@@ -24,7 +25,15 @@ class PostsManager
         add_action('save_post', [$this, 'addWordsCountCallback'], 99, 3);
         add_action('delete_post', [$this, 'removeWordsCountCallback'], 99, 2);
 
-        // Add meta-boxes and blocks if the user has access and only in edit mode
+        // Add Hits column in edit lists of all post types
+        if (User::Access('read') && !Option::get('disable_column')) {
+            add_action('admin_init', [$this, 'initPostsHitsColumn']);
+        }
+
+        // Remove post hits on post delete
+        add_action('deleted_post', [$this, 'deletePostHits']);
+
+        // Add meta-boxes and blocks only in edit mode if the user has access
         global $pagenow;
         if (User::Access('read') && $pagenow !== 'post-new.php') {
             if (!Option::get('disable_editor')) {
@@ -55,6 +64,45 @@ class PostsManager
     public function removeWordsCountCallback($postId, $post)
     {
         $this->wordsCount->removeWordsCountMeta($postId, $post);
+    }
+
+    /**
+     * Initializes hits column in posts/pages list.
+     *
+     * @return void
+     *
+     * @hooked action: `admin_init` - 10
+     */
+    public function initPostsHitsColumn()
+    {
+        $hitColumnHandler = new HitColumnHandler();
+
+        foreach (Helper::get_list_post_type() as $type) {
+            add_action("manage_{$type}_posts_columns", [$hitColumnHandler, 'addHitColumn'], 10, 2);
+            // This is a filter! (+ in taxonomy?)
+            add_action("manage_{$type}_posts_custom_column", [$hitColumnHandler, 'renderHitColumn'], 10, 2);
+            add_filter("manage_edit-{$type}_sortable_columns", [$hitColumnHandler, 'modifySortableColumns']);
+        }
+
+        add_filter('posts_clauses', [$hitColumnHandler, 'handleOrderByHits'], 10, 2);
+    }
+
+    /**
+     * Deletes all post hits when the post is deleted.
+     *
+     * @param int $postId
+     *
+     * @return void
+     *
+     * @todo Replace this method with visitor decorator call after the class is ready.
+     */
+    public static function deletePostHits($postId)
+    {
+        global $wpdb;
+
+        $wpdb->query(
+            $wpdb->prepare("DELETE FROM `" . DB::table('pages') . "` WHERE `id` = %d AND (`type` = 'post' OR `type` = 'page' OR `type` = 'product');", esc_sql($postId))
+        );
     }
 
     /**
