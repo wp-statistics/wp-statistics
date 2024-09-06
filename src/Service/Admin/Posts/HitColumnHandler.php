@@ -12,6 +12,7 @@ use WP_STATISTICS\Option;
 use WP_STATISTICS\Pages;
 use WP_Statistics\Service\Admin\MiniChart\MiniChartHelper;
 use WP_STATISTICS\TimeZone;
+use WP_Statistics\Traits\ObjectCacheTrait;
 use WP_Statistics\Utils\Request;
 
 /**
@@ -19,6 +20,8 @@ use WP_Statistics\Utils\Request;
  */
 class HitColumnHandler
 {
+    use ObjectCacheTrait;
+
     /**
      * Mini-chart helper class.
      *
@@ -34,27 +37,6 @@ class HitColumnHandler
      * @var string
      */
     private $columnName = 'wp-statistics-post-hits';
-
-    /**
-     * Arguments to use in the visitors and views models when fetching hits stats.
-     *
-     * @var array
-     */
-    private $hitArgs;
-
-    /**
-     * Post type of posts/terms.
-     *
-     * @var string
-     */
-    private $postType;
-
-    /**
-     * Is this post type selected in Mini-chart add-on's options?
-     *
-     * @var bool
-     */
-    private $isCurrentPostTypeSelected;
 
     /**
      * Class constructor.
@@ -117,8 +99,8 @@ class HitColumnHandler
         }
 
         // Initialize class attributes only once (since all posts in the list have the same post type)
-        if (empty($this->postType)) {
-            $this->postType = Pages::get_post_type($postId);
+        if (!$this->isCacheSet('postType')) {
+            $this->setCache('postType', Pages::get_post_type($postId));
         }
 
         $hitCount = $this->calculateHitCount($postId);
@@ -146,8 +128,8 @@ class HitColumnHandler
         $term = get_term($termId);
 
         // Initialize class attributes only once (since all terms in the list have the same taxonomy)
-        if (empty($this->postType)) {
-            $this->postType = (($term instanceof \WP_Term) && ($term->taxonomy === 'category' || $term->taxonomy === 'post_tag')) ? $term->taxonomy : 'tax';
+        if (!$this->isCacheSet('postType')) {
+            $this->setCache('postType', (($term instanceof \WP_Term) && ($term->taxonomy === 'category' || $term->taxonomy === 'post_tag')) ? $term->taxonomy : 'tax');
         }
 
         $hitCount = $this->calculateHitCount($termId, $term);
@@ -243,9 +225,9 @@ class HitColumnHandler
             return null;
         }
 
-        $this->hitArgs = [
+        $hitArgs = [
             'post_id'       => $objectId,
-            'resource_type' => Pages::checkIfPageIsHome($objectId) ? 'home' : $this->postType,
+            'resource_type' => Pages::checkIfPageIsHome($objectId) ? 'home' : $this->getCache('postType'),
             'date'          => [
                 'from' => date('Y-m-d', 0),
                 'to'   => date('Y-m-d'),
@@ -254,23 +236,26 @@ class HitColumnHandler
 
         // Change `resource_type` parameter if it's a term
         if (!empty($term)) {
-            $this->hitArgs['resource_type'] = $this->postType;
+            $hitArgs['resource_type'] = $this->getCache('postType');
         }
 
         if ($this->miniChartHelper->getCountDisplay() === 'date_range') {
-            $this->hitArgs['date'] = [
+            $hitArgs['date'] = [
                 'from' => TimeZone::getTimeAgo(intval(Option::getByAddon('date_range', 'mini_chart', '14'))),
                 'to'   => date('Y-m-d'),
             ];
         }
 
+        // Cache hitArgs
+        $this->setCache('hitArgs', $hitArgs);
+
         $hitCount = 0;
         if ($this->miniChartHelper->getChartMetric() === 'visitors') {
             $visitorsModel = new VisitorsModel();
-            $hitCount      = $visitorsModel->countVisitors($this->hitArgs);
+            $hitCount      = $visitorsModel->countVisitors($hitArgs);
         } else {
             $viewsModel = new ViewsModel();
-            $hitCount   = $viewsModel->countViewsFromPagesOnly($this->hitArgs);
+            $hitCount   = $viewsModel->countViewsFromPagesOnly($hitArgs);
 
             // Consider historical if `count_display` is equal to 'total'
             if ($this->miniChartHelper->getCountDisplay() === 'total') {
@@ -302,29 +287,29 @@ class HitColumnHandler
         }
 
         // Remove only the first occurrence of "post_type_" from `postType` attribute
-        $actualPostType = $this->postType;
+        $actualPostType = $this->getCache('postType');
         if (strpos($actualPostType, 'post_type_') === 0) {
             $actualPostType = substr($actualPostType, strlen('post_type_'));
         }
 
-        if (empty($this->isCurrentPostTypeSelected)) {
+        if (!$this->isCacheSet('isCurrentPostTypeSelected')) {
             // Check if current post type is selected in Mini-chart add-on's options
             $miniChartSettings               = class_exists(WP_Statistics_Mini_Chart_Settings::class) ? get_option(WP_Statistics_Mini_Chart_Settings::get_instance()->setting_name) : '';
-            $this->isCurrentPostTypeSelected = !empty($miniChartSettings) && !empty($miniChartSettings["active_mini_chart_{$actualPostType}"]);
+            $this->setCache('isCurrentPostTypeSelected', !empty($miniChartSettings) && !empty($miniChartSettings["active_mini_chart_{$actualPostType}"]));
         }
 
         $result = '';
-        if (!$this->miniChartHelper->isMiniChartActive() || $this->isCurrentPostTypeSelected) {
+        if (!$this->miniChartHelper->isMiniChartActive() || $this->getCache('isCurrentPostTypeSelected')) {
             // If add-on is not active, this line will display the "Unlock!" button
             // If add-on is active but current post type is not selected in the settings, the chart placeholder will be empty
-            $result .= apply_filters("wp_statistics_before_hit_column_{$actualPostType}", $this->getPreviewChartUnlockHtml(), $objectId, $this->postType);
+            $result .= apply_filters("wp_statistics_before_hit_column_{$actualPostType}", $this->getPreviewChartUnlockHtml(), $objectId, $this->getCache('postType'));
         }
 
         $contentAnalyticsArgs = [
             'post_id' => $objectId,
             'type'    => 'single',
-            'from'    => Request::get('from', $this->hitArgs['date']['from']),
-            'to'      => Request::get('to', $this->hitArgs['date']['to']),
+            'from'    => Request::get('from', $this->getCache('hitArgs')['date']['from']),
+            'to'      => Request::get('to', $this->getCache('hitArgs')['date']['to']),
         ];
         if ($isTerm) {
             // Change content analytics URL if it's a taxonomy
