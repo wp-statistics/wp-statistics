@@ -35,8 +35,7 @@ class UnhashedIpAddress extends BaseAudit
                     </ol>
                     <p>This step will transform all existing raw IP addresses in your database into hashed formats, significantly improving user privacy and your website’s compliance with data protection regulations.</p>
                     <p><b>Need More Information?</b></p>
-                    <p>For a comprehensive guide on this process and to understand the benefits of IP address hashing, please refer to our detailed documentation: <a target="_blank" href="https://wp-statistics.com/resources/converting-ip-addresses-to-hash/?utm_source=wp-statistics&utm_medium=link&utm_campaign=privacy">Converting IP Addresses to Hash</a>.</p>
-                    ', 'wp-statistics'),
+                    <p>For a comprehensive guide on this process and to understand the benefits of IP address hashing, please refer to our detailed documentation: <a target="_blank" href="https://wp-statistics.com/resources/converting-ip-addresses-to-hash/?utm_source=wp-statistics&utm_medium=link&utm_campaign=privacy">Converting IP Addresses to Hash</a>.</p>', 'wp-statistics'),
                 'compliance'    => [
                     'key'   => 'action_required',
                     'value' => esc_html__('Action Required', 'wp-statistics'),
