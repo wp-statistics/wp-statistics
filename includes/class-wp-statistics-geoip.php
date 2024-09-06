@@ -320,7 +320,7 @@ class GeoIP
             wp_delete_file($gzFilePath); // Clean up the temporary file
 
             $result['status'] = true;
-            $result['notice'] = __('GeoIP Database successfully updated!', 'wp-statistics');
+            $result['notice'] = __('GeoIP Database successfully updated.', 'wp-statistics');
 
             if ($type === 'update') {
                 Option::update('last_geoip_dl', time());

@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-09-05T08:32:09+00:00\n"
+"POT-Creation-Date: 2024-09-06T09:15:18+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: wp-statistics\n"
@@ -218,6 +218,7 @@ msgstr ""
 #: includes/admin/templates/pages/country.php:11
 #: includes/admin/templates/settings/add-ons/customization.php:13
 #: includes/admin/templates/settings/add-ons/mini-chart.php:70
+#: includes/admin/templates/settings/add-ons/rest-api.php:19
 #: includes/admin/TinyMCE/class-wp-statistics-tinymce.php:38
 #: includes/class-wp-statistics-shortcode.php:198
 #: src/Service/Admin/MiniChart/MiniChartHelper.php:45
@@ -369,6 +370,7 @@ msgstr ""
 #: includes/admin/templates/pages/category-analytics/category-single.php:77
 #: includes/admin/templates/pages/content-analytics/post-type.php:92
 #: includes/admin/templates/pages/content-analytics/single.php:58
+#: includes/admin/templates/settings/add-ons/rest-api.php:14
 #: src/Service/Admin/Devices/Views/SingleBrowserView.php:13
 #: src/Service/Admin/Devices/Views/TabsView.php:97
 msgid "Browsers"
@@ -690,6 +692,7 @@ msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-network.php:63
 #: includes/admin/templates/settings/add-ons/customization.php:14
+#: includes/admin/templates/settings/add-ons/rest-api.php:16
 #: includes/class-wp-statistics-menus.php:174
 msgid "Referrers"
 msgstr ""
@@ -700,6 +703,7 @@ msgstr ""
 #: includes/admin/templates/pages/content-analytics/post-type.php:147
 #: includes/admin/templates/pages/content-analytics/single.php:106
 #: includes/admin/templates/settings/add-ons/customization.php:15
+#: includes/admin/templates/settings/add-ons/rest-api.php:17
 #: includes/class-wp-statistics-menus.php:181
 msgid "Search Engines"
 msgstr ""
@@ -1512,36 +1516,43 @@ msgstr ""
 
 #: includes/admin/templates/layout/partials/data-plus-locked-page.php:5
 #: includes/admin/templates/meta-box/pages-visitors-preview.php:7
+#: includes/admin/templates/settings/add-ons/data-plus.php:13
 #: views/components/locked-page.php:5
 msgid "DataPlus Add-On"
 msgstr ""
 
 #: includes/admin/templates/layout/partials/data-plus-locked-page.php:8
+#: includes/admin/templates/settings/add-ons/data-plus.php:14
 #: views/components/locked-page.php:8
 msgid "The settings on this page are part of the DataPlus add-on, which enhances WP Statistics by expanding tracking capabilities and providing detailed visitor insights."
 msgstr ""
 
 #: includes/admin/templates/layout/partials/data-plus-locked-page.php:13
+#: includes/admin/templates/settings/add-ons/data-plus.php:16
 #: views/components/locked-page.php:13
 msgid "Track custom post types and taxonomies."
 msgstr ""
 
 #: includes/admin/templates/layout/partials/data-plus-locked-page.php:16
+#: includes/admin/templates/settings/add-ons/data-plus.php:17
 #: views/components/locked-page.php:16
 msgid "Use advanced filtering for specific query parameters and UTM tags."
 msgstr ""
 
 #: includes/admin/templates/layout/partials/data-plus-locked-page.php:19
+#: includes/admin/templates/settings/add-ons/data-plus.php:18
 #: views/components/locked-page.php:19
 msgid "Monitor outbound link clicks and downloads."
 msgstr ""
 
 #: includes/admin/templates/layout/partials/data-plus-locked-page.php:22
+#: includes/admin/templates/settings/add-ons/data-plus.php:19
 #: views/components/locked-page.php:22
 msgid "Compare weekly traffic and view hourly visitor patterns."
 msgstr ""
 
 #: includes/admin/templates/layout/partials/data-plus-locked-page.php:25
+#: includes/admin/templates/settings/add-ons/data-plus.php:20
 #: views/components/locked-page.php:25
 msgid "Analyze individual content pieces with detailed widgets."
 msgstr ""
@@ -2226,6 +2237,7 @@ msgstr ""
 #: includes/admin/templates/pages/category-analytics/category-single.php:118
 #: includes/admin/templates/pages/content-analytics/post-type.php:133
 #: includes/admin/templates/pages/content-analytics/single.php:92
+#: includes/admin/templates/settings/add-ons/rest-api.php:18
 msgid "Summary"
 msgstr ""
 
@@ -2549,6 +2561,30 @@ msgstr ""
 msgid "Update"
 msgstr ""
 
+#: includes/admin/templates/settings/add-ons/advanced-reporting.php:11
+msgid "Advanced Reporting Add-On"
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/advanced-reporting.php:12
+msgid "The settings on this page are part of the Advanced Reporting add-on, which allows you to stay up-to-date on your website's performance by receiving graphical representations of your website's statistics directly in your inbox."
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/advanced-reporting.php:14
+msgid "Receive graphical statistics charts via email."
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/advanced-reporting.php:15
+msgid "Schedule reports to be sent to any inbox of your choice."
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/advanced-reporting.php:16
+msgid "Monitor your website's traffic and activity with no hassle."
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/advanced-reporting.php:18
+msgid "Keep a close eye on your website's performance with the Advanced Reporting add-on."
+msgstr ""
+
 #: includes/admin/templates/settings/add-ons/advanced-reporting.php:26
 msgid "Report Scheduling"
 msgstr ""
@@ -2842,6 +2878,26 @@ msgstr ""
 msgid "Download Tracker"
 msgstr ""
 
+#: includes/admin/templates/settings/add-ons/customization.php:50
+msgid "Customization Add-On"
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/customization.php:51
+msgid "The settings on this page are part of the Customization add-on, which allows you to customize menus and make WP Statistics white-label."
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/customization.php:53
+msgid "Customize menus according to your preferences."
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/customization.php:54
+msgid " Make WP Statistics white-label."
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/customization.php:56
+msgid "Enjoy a simplified, customized experience with the Customization add-on."
+msgstr ""
+
 #: includes/admin/templates/settings/add-ons/customization.php:63
 msgid "Manage Admin Menus"
 msgstr ""
@@ -2936,6 +2992,30 @@ msgstr ""
 msgid "Display the Latest Visitors section on the edit content pages."
 msgstr ""
 
+#: includes/admin/templates/settings/add-ons/mini-chart.php:29
+msgid "Mini Chart Add-On"
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/mini-chart.php:30
+msgid "The settings on this page are part of the Mini Chart add-on, which provides tiny charts for all your posts and pages, along with an Admin Bar for quick access to traffic data."
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/mini-chart.php:32
+msgid "Tiny charts for posts and pages to measure performance."
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/mini-chart.php:33
+msgid "Admin Bar for easy access to traffic data."
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/mini-chart.php:34
+msgid "Customizable chart type and color."
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/mini-chart.php:36
+msgid "Get clear insights into your website's traffic and content success with the Mini Chart add-on."
+msgstr ""
+
 #: includes/admin/templates/settings/add-ons/mini-chart.php:44
 msgid "Chart Preferences"
 msgstr ""
@@ -3024,6 +3104,26 @@ msgstr ""
 msgid "Pick a border color to enhance the visibility of your chart on the dashboard."
 msgstr ""
 
+#: includes/admin/templates/settings/add-ons/realtime-stats.php:11
+msgid "Real-Time Add-On"
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/realtime-stats.php:12
+msgid "The settings on this page are part of the Real-Time add-on, which allows you to track your visitors and online users in real time without needing to refresh the page."
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/realtime-stats.php:14
+msgid "Monitor website traffic and activity instantly."
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/realtime-stats.php:15
+msgid "Display real-time statistics directly on your WordPress dashboard."
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/realtime-stats.php:17
+msgid "Keep a close eye on your website's performance with the Real-Time add-on."
+msgstr ""
+
 #: includes/admin/templates/settings/add-ons/realtime-stats.php:25
 msgid "Update Interval"
 msgstr ""
@@ -3034,6 +3134,30 @@ msgstr ""
 
 #: includes/admin/templates/settings/add-ons/realtime-stats.php:34
 msgid "Set the time interval for how frequently the real-time data visuals should update."
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/rest-api.php:11
+msgid "Rest API Add-On"
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/rest-api.php:12
+msgid "The settings on this page are part of the REST API add-on, which enables the following endpoints in the WordPress REST API:"
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/rest-api.php:15
+msgid "Hits"
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/rest-api.php:20
+msgid "Pages"
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/rest-api.php:22
+msgid "For more information about the API and endpoints, please refer to the"
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/rest-api.php:23
+msgid "API documentation"
 msgstr ""
 
 #: includes/admin/templates/settings/add-ons/rest-api.php:34
@@ -3050,6 +3174,30 @@ msgstr ""
 
 #: includes/admin/templates/settings/add-ons/rest-api.php:56
 msgid "Enter your unique token here to secure and authorize API requests."
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/widgets.php:11
+msgid "Advanced Widgets Add-On"
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/widgets.php:12
+msgid "The settings on this page are part of the Advanced Widgets add-on, allowing you to display a range of data widgets on your website."
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/widgets.php:14
+msgid "Display data widgets using Gutenberg blocks or theme widgets."
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/widgets.php:15
+msgid "Easily present vital website statistics."
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/widgets.php:16
+msgid "Enhance your audience's user experience."
+msgstr ""
+
+#: includes/admin/templates/settings/add-ons/widgets.php:18
+msgid "With Advanced Widgets, you can easily display your website's important statistics"
 msgstr ""
 
 #: includes/admin/templates/settings/add-ons/widgets.php:26
@@ -4231,7 +4379,7 @@ msgid "Error downloading GeoIP database from: %1$s - %2$s"
 msgstr ""
 
 #: includes/class-wp-statistics-geoip.php:323
-msgid "GeoIP Database successfully updated!"
+msgid "GeoIP Database successfully updated."
 msgstr ""
 
 #: includes/class-wp-statistics-geoip.php:336
