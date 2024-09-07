@@ -34,7 +34,9 @@ class PerformanceChartDataProvider extends AbstractChartDataProvider
         // Get data from database
         $visitors   = $this->visitorsModel->countDailyVisitors($this->args);
         $views      = $this->viewsModel->countDailyViews($this->args);
-        $posts      = $this->postsModel->countDailyPosts($this->args);
+
+        // On single post view, no need to count posts
+        $posts = empty($this->args['post_id']) ? $this->postsModel->countDailyPosts($this->args) : [];
 
         // Parse data
         $parsedData = $this->parseData([
@@ -89,13 +91,16 @@ class PerformanceChartDataProvider extends AbstractChartDataProvider
             $data['views']
         );
 
-        $this->addChartDataset(
-            sprintf(
-                esc_html__('Published %s', 'wp-statistics'),
-                isset($this->args['post_type']) ? Helper::getPostTypeName($this->args['post_type']) : esc_html__('Contents', 'wp-statistics')
-            ),
-            $data['posts']
-        );
+        // On single post view, no need to count posts
+        if (empty($this->args['post_id'])) {
+            $this->addChartDataset(
+                sprintf(
+                    esc_html__('Published %s', 'wp-statistics'),
+                    isset($this->args['post_type']) ? Helper::getPostTypeName($this->args['post_type']) : esc_html__('Contents', 'wp-statistics')
+                ),
+                $data['posts']
+            );
+        }
 
         return $this->getChartData();
     }
