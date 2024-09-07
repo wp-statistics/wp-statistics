@@ -31,27 +31,6 @@ class AuthorAnalyticsDataProvider
         $this->taxonomyModel = new TaxonomyModel();
     }
 
-    public function getViewsPerPostsChartData()
-    {
-        $args               = array_merge($this->args, ['per_page' => -1]);
-        $topAuthorsByViews  = $this->authorModel->getAuthorsByViewsPerPost($args);
-
-        $data = [];
-
-        if ($topAuthorsByViews) {
-            foreach ($topAuthorsByViews as $author) {
-                $data[] = [
-                    'x'      => $author->total_views,
-                    'y'      => $author->total_posts,
-                    'img'    => esc_url(get_avatar_url($author->id)),
-                    'author' => esc_html($author->name)
-                ];
-            }
-        }
-
-        return $data;
-    }
-
     public function getAuthorsPerformanceData()
     {
         // Authors data
@@ -139,18 +118,14 @@ class AuthorAnalyticsDataProvider
 
     public function getAuthorsChartData()
     {
-        $publishOverviewDataProvider = ChartDataProviderFactory::publishOverview(
+        $authorsPostViewsDataProvider   = ChartDataProviderFactory::authorsPostViews(array_merge($this->args, ['per_page' => -1]));
+        $publishOverviewDataProvider    = ChartDataProviderFactory::publishOverview(
             Helper::filterArrayByKeys($this->args, ['post_type', 'author_id'])
         );
 
         $data = [
             'publish_chart_data'         => $publishOverviewDataProvider->getData(),
-            'views_per_posts_chart_data' => [
-                'data'          => $this->getViewsPerPostsChartData(),
-                'chartLabel'    => sprintf(esc_html__('Views/Published %s', 'wp-statistics'),Helper::getPostTypeName($this->args['post_type'])),
-                'yAxisLabel'    => sprintf(esc_html__('Published %s', 'wp-statistics'), Helper::getPostTypeName($this->args['post_type'])),
-                'xAxisLabel'    => sprintf(esc_html__('%s Views', 'wp-statistics'), Helper::getPostTypeName($this->args['post_type'], true))
-            ]
+            'views_per_posts_chart_data' => $authorsPostViewsDataProvider->getData()
         ];
 
         return $data;

@@ -7,6 +7,7 @@ use WP_Statistics\Service\Charts\DataProvider\SearchEngineChartDataProvider;
 use WP_Statistics\Service\Charts\DataProvider\TrafficChartDataProvider;
 use WP_Statistics\Service\Charts\DataProvider\PlatformChartDataProvider;
 use WP_Statistics\Service\Charts\DataProvider\PublishOverviewChartDataProvider;
+use WP_Statistics\Service\Charts\DataProvider\AuthorsPostViewsChartDataProvider;
 
 class ChartDataProviderFactory
 {
@@ -63,5 +64,16 @@ class ChartDataProviderFactory
     public static function publishOverview($args)
     {
         return new PublishOverviewChartDataProvider($args);
+    }
+
+    /**
+     * Returns a new instance of AuthorsPostViewsChartDataProvider.
+     *
+     * @param array $args The arguments to pass to the AuthorsPostViewsChartDataProvider constructor.
+     * @return AuthorsPostViewsChartDataProvider
+     */
+    public static function authorsPostViews($args)
+    {
+        return new AuthorsPostViewsChartDataProvider($args);
     }
 }

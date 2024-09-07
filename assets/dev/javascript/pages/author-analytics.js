@@ -50,7 +50,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
 
             const publishedChartData = Wp_Statistics_Author_Analytics_Object.views_per_posts_chart_data;
 
-            const chartImageUrls     = publishedChartData.data.map(point => point.img);
+            const chartImageUrls     = publishedChartData.datasets.map(point => point.img);
 
             const chartImages = chartImageUrls.map(url => {
                 const img = new Image();
@@ -118,8 +118,8 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
 
             const publishedData = {
                 datasets: [{
-                    label: publishedChartData.chartLabel,
-                    data: publishedChartData.data,
+                    label: publishedChartData.labels.chartLabel,
+                    data: publishedChartData.datasets,
                     backgroundColor: '#E8EAEE'
                 }],
             };
@@ -152,7 +152,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                             },
                             title: {
                                 display: true,
-                                text: publishedChartData.yAxisLabel,
+                                text: publishedChartData.labels.yAxisLabel,
                                 fontSize: 14,
                                 color: '#000'
                             },
@@ -166,7 +166,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                             position: 'bottom',
                             title: {
                                 display: true,
-                                text: publishedChartData.xAxisLabel,
+                                text: publishedChartData.labels.xAxisLabel,
                                 fontSize: 14,
                                 color: '#000'
                             },
