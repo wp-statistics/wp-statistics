@@ -63,37 +63,6 @@
                 });
         });
 
-        jQuery("#empty-table-submit").click(function () {
-
-            var action = jQuery('#empty-table').val();
-
-            if (action == 0)
-                return false;
-
-            var agree = confirm('<?php esc_html_e('Are you sure you want to permanently delete this data? This action cannot be undone.', 'wp-statistics'); ?>');
-
-            if (!agree)
-                return false;
-
-            jQuery("#empty-table-submit").attr("disabled", "disabled");
-            jQuery("#empty-status").html("<img src='<?php echo esc_url(plugins_url('wp-statistics')); ?>/assets/images/loading.gif'/>");
-            jQuery.ajax({
-                url: ajaxurl,
-                type: 'post',
-                data: {
-                    'action': 'wp_statistics_empty_table',
-                    'table-name': action,
-                    'wps_nonce': '<?php echo wp_create_nonce('wp_rest'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>'
-                },
-                datatype: 'json',
-            })
-                .always(function (result) {
-                    jQuery("#empty-status").html("");
-                    jQuery("#empty-result").html(result);
-                    jQuery("#empty-table-submit").removeAttr("disabled");
-                });
-        });
-
         jQuery("#delete-agents-submit").click(function () {
 
             var action = jQuery('#delete-agent').val();
@@ -274,32 +243,6 @@
             <tbody>
             <tr valign="top">
                 <th scope="row" colspan="2"><h3><?php esc_html_e('Data', 'wp-statistics'); ?></h3></th>
-            </tr>
-
-            <tr valign="top">
-                <th scope="row">
-                    <label for="empty-table"><?php esc_html_e('Clear Table Contents', 'wp-statistics'); ?></label>
-                </th>
-
-                <td>
-                    <select dir="<?php echo(is_rtl() ? 'rtl' : 'ltr'); ?>" id="empty-table" name="empty-table">
-                        <option value="0"><?php esc_html_e('Select an Option', 'wp-statistics'); ?></option>
-                        <?php
-                        foreach (WP_STATISTICS\DB::table('all', 'historical') as $tbl_key => $tbl_name) {
-                            echo '<option value="' . esc_attr($tbl_key) . '">' . esc_attr($tbl_name) . '</option>';
-                        }
-                        ?>
-                        <option value="all"><?php echo esc_html__('All', 'wp-statistics'); ?></option>
-                    </select>
-
-                    <p class="description">
-                        <span class="wps-note"><?php esc_html_e('Caution:', 'wp-statistics'); ?></span>
-                        <?php esc_html_e('All data in the table will be permanently deleted.', 'wp-statistics'); ?>
-                    </p>
-                    <input id="empty-table-submit" class="button button-primary" type="submit" value="<?php esc_html_e('Erase Data Now', 'wp-statistics'); ?>" name="empty-table-submit" Onclick="return false;"/>
-                    <span id="empty-status"></span>
-                    <div id="empty-result"></div>
-                </td>
             </tr>
 
             <tr>
