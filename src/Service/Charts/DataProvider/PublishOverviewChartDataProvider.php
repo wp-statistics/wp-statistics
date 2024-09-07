@@ -6,11 +6,11 @@ use WP_Statistics\Components\DateRange;
 use WP_STATISTICS\Helper;
 use WP_Statistics\Models\PostsModel;
 use WP_Statistics\Service\Charts\AbstractChartDataProvider;
-use WP_Statistics\Service\Charts\Traits\MatrixChartResponseTrait;
+use WP_Statistics\Service\Charts\Traits\BaseChartResponseTrait;
 
 class PublishOverviewChartDataProvider extends AbstractChartDataProvider
 {
-    use MatrixChartResponseTrait;
+    use BaseChartResponseTrait;
 
     public $args;
     protected $postsModel;

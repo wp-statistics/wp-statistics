@@ -2,7 +2,7 @@
 
 namespace WP_Statistics\Service\Charts\Traits;
 
-trait MatrixChartResponseTrait
+trait BaseChartResponseTrait
 {
     private $chartData;
 
@@ -15,8 +15,20 @@ trait MatrixChartResponseTrait
     protected function initChartData()
     {
         $this->chartData = [
+            'labels'   => [],
             'datasets' => []
         ];
+    }
+
+    /**
+     * Sets the chart labels.
+     *
+     * @param array $labels The chart labels.
+     * @return void
+     */
+    protected function setChartLabels($labels)
+    {
+        $this->chartData['labels'] = $labels;
     }
 
     /**
