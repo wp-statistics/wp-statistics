@@ -65,7 +65,15 @@ class TabsView extends BaseTabView
             $args = [
                 'title'      => esc_html__('Visitor Insights', 'wp-statistics'),
                 'pageName'   => Menus::get_page_slug('visitors'),
-                'custom_get' => ['tab' => $currentTab],
+                'custom_get' => [
+                    'tab'       => $currentTab,
+                    'agent'     => Request::get('agent'),
+                    'location'  => Request::get('location'),
+                    'platform'  => Request::get('platform'),
+                    'referrer'  => Request::get('referrer'),
+                    'user_id'   => Request::get('user_id', '', 'number'),
+                    'ip'        => Request::get('ip')
+                ],
                 'DateRang'   => Admin_Template::DateRange(),
                 'data'       => $data,
                 'pagination' => Admin_Template::paginate_links([
