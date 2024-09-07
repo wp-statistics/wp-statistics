@@ -9,13 +9,12 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-09-06T09:15:18+00:00\n"
+"POT-Creation-Date: 2024-09-07T05:01:51+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.11.0\n"
+"X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: wp-statistics\n"
 
 #. Plugin Name of the plugin
-#: wp-statistics.php
 #: includes/admin/class-wp-statistics-admin-privacy.php:25
 #: includes/class-wp-statistics-meta-box.php:262
 #: src/Service/Admin/AdminManager.php:46
@@ -24,116 +23,109 @@ msgid "WP Statistics"
 msgstr ""
 
 #. Plugin URI of the plugin
-#: wp-statistics.php
 msgid "https://wp-statistics.com/"
 msgstr ""
 
 #. Description of the plugin
-#: wp-statistics.php
 msgid "Get website traffic insights with GDPR/CCPA compliant, privacy-friendly analytics. Includes visitor data, stunning graphs, and no data sharing."
 msgstr ""
 
 #. Author of the plugin
-#: wp-statistics.php
 msgid "VeronaLabs"
 msgstr ""
 
 #. Author URI of the plugin
-#: wp-statistics.php
 msgid "https://veronalabs.com/"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-ajax.php:145
+#: includes/admin/class-wp-statistics-admin-ajax.php:140
 msgid "Successfully deleted %s agent data."
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-ajax.php:147
+#: includes/admin/class-wp-statistics-admin-ajax.php:142
 msgid "Couldn’t find agent data to delete."
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-ajax.php:150
-#: includes/admin/class-wp-statistics-admin-ajax.php:187
-#: includes/admin/class-wp-statistics-admin-ajax.php:223
-#: includes/admin/class-wp-statistics-admin-ajax.php:358
+#: includes/admin/class-wp-statistics-admin-ajax.php:145
+#: includes/admin/class-wp-statistics-admin-ajax.php:182
+#: includes/admin/class-wp-statistics-admin-ajax.php:218
 msgid "Kindly select the items you want to work with."
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-ajax.php:153
-#: includes/admin/class-wp-statistics-admin-ajax.php:190
-#: includes/admin/class-wp-statistics-admin-ajax.php:226
-#: includes/admin/class-wp-statistics-admin-ajax.php:254
-#: includes/admin/class-wp-statistics-admin-ajax.php:282
-#: includes/admin/class-wp-statistics-admin-ajax.php:339
-#: includes/admin/class-wp-statistics-admin-ajax.php:370
-#: includes/admin/class-wp-statistics-admin-ajax.php:386
-#: includes/admin/class-wp-statistics-admin-ajax.php:411
-#: includes/admin/class-wp-statistics-admin-ajax.php:440
-#: includes/admin/class-wp-statistics-admin-ajax.php:530
+#: includes/admin/class-wp-statistics-admin-ajax.php:148
+#: includes/admin/class-wp-statistics-admin-ajax.php:185
+#: includes/admin/class-wp-statistics-admin-ajax.php:221
+#: includes/admin/class-wp-statistics-admin-ajax.php:249
+#: includes/admin/class-wp-statistics-admin-ajax.php:277
+#: includes/admin/class-wp-statistics-admin-ajax.php:334
+#: includes/admin/class-wp-statistics-admin-ajax.php:359
+#: includes/admin/class-wp-statistics-admin-ajax.php:388
+#: includes/admin/class-wp-statistics-admin-ajax.php:478
 msgid "Unauthorized access!"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-ajax.php:182
+#: includes/admin/class-wp-statistics-admin-ajax.php:177
 msgid "Successfully deleted %s platform data."
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-ajax.php:184
+#: includes/admin/class-wp-statistics-admin-ajax.php:179
 msgid "Couldn’t find platform data to delete."
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-ajax.php:218
+#: includes/admin/class-wp-statistics-admin-ajax.php:213
 msgid "Successfully deleted %s IP data."
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-ajax.php:220
+#: includes/admin/class-wp-statistics-admin-ajax.php:215
 msgid "Couldn’t find any IP address data to delete."
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-ajax.php:248
+#: includes/admin/class-wp-statistics-admin-ajax.php:243
 msgid "Successfully deleted User ID data."
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-ajax.php:250
+#: includes/admin/class-wp-statistics-admin-ajax.php:245
 msgid "Couldn’t find any user ID data to delete."
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-ajax.php:276
+#: includes/admin/class-wp-statistics-admin-ajax.php:271
 msgid "Successfully deleted user agent strings data."
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-ajax.php:278
+#: includes/admin/class-wp-statistics-admin-ajax.php:273
 msgid "Couldn’t find any user agent strings data to delete."
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-ajax.php:315
+#: includes/admin/class-wp-statistics-admin-ajax.php:310
 msgid "Successfully removed query string parameter data from 'pages' table. <br>"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-ajax.php:317
+#: includes/admin/class-wp-statistics-admin-ajax.php:312
 msgid "Couldn't find any user query string parameter data to delete from 'pages' table. <br>"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-ajax.php:333
+#: includes/admin/class-wp-statistics-admin-ajax.php:328
 msgid "Successfully removed query string parameter data from 'visitor' table."
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-ajax.php:335
+#: includes/admin/class-wp-statistics-admin-ajax.php:330
 msgid "Couldn't find any user query string parameter data to delete from 'visitor' table."
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-ajax.php:435
+#: includes/admin/class-wp-statistics-admin-ajax.php:383
 msgid "View count must be 10 or more!"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-ajax.php:563
+#: includes/admin/class-wp-statistics-admin-ajax.php:511
 #: includes/api/v2/class-wp-statistics-api-meta-box.php:71
 msgid "Invalid MetaBox Name in Request."
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-ajax.php:589
+#: includes/admin/class-wp-statistics-admin-ajax.php:537
 msgid "Invalid Page in Request."
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-ajax.php:607
+#: includes/admin/class-wp-statistics-admin-ajax.php:555
 #: includes/admin/class-wp-statistics-admin-template.php:236
 #: includes/admin/templates/layout/filters/author-filter.php:6
 #: includes/admin/templates/layout/filters/author-filter.php:15
@@ -143,17 +135,16 @@ msgstr ""
 #: includes/admin/templates/layout/filters/query-params-filter.php:29
 #: includes/admin/templates/layout/filters/query-params-filter.php:34
 #: includes/admin/templates/optimization/database.php:51
-#: includes/admin/templates/optimization/purging.php:292
 #: includes/admin/templates/pages/refer.url.php:7
 #: includes/class-wp-statistics-widget.php:326
 msgid "All"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-ajax.php:663
+#: includes/admin/class-wp-statistics-admin-ajax.php:611
 msgid "Visitor (#%s)"
 msgstr ""
 
-#: includes/admin/class-wp-statistics-admin-ajax.php:683
+#: includes/admin/class-wp-statistics-admin-ajax.php:631
 msgid "Date range has been stored successfully."
 msgstr ""
 
@@ -241,7 +232,7 @@ msgstr ""
 #: includes/admin/templates/layout/category-analytics/top-authors.php:19
 #: includes/admin/templates/layout/category-analytics/top-category.php:23
 #: includes/admin/templates/layout/content-analytics/summary.php:23
-#: includes/admin/templates/optimization/purging.php:328
+#: includes/admin/templates/optimization/purging.php:271
 #: includes/admin/templates/pages/author-analytics/authors-performance.php:28
 #: includes/admin/templates/pages/category-analytics/category-performance.php:23
 #: includes/admin/templates/pages/category-analytics/category-report.php:28
@@ -1687,10 +1678,9 @@ msgid "Click to begin the setup process for the plugin from scratch, useful when
 msgstr ""
 
 #: includes/admin/templates/optimization/database.php:20
-#: includes/admin/templates/optimization/purging.php:296
-#: includes/admin/templates/optimization/purging.php:345
-#: includes/admin/templates/optimization/purging.php:361
-#: includes/admin/templates/optimization/purging.php:377
+#: includes/admin/templates/optimization/purging.php:288
+#: includes/admin/templates/optimization/purging.php:304
+#: includes/admin/templates/optimization/purging.php:320
 #: includes/admin/templates/settings/advanced.php:397
 msgid "Caution:"
 msgstr ""
@@ -1708,9 +1698,8 @@ msgid "Choose a Table to Optimize"
 msgstr ""
 
 #: includes/admin/templates/optimization/database.php:45
-#: includes/admin/templates/optimization/purging.php:286
-#: includes/admin/templates/optimization/purging.php:401
-#: includes/admin/templates/optimization/purging.php:425
+#: includes/admin/templates/optimization/purging.php:344
+#: includes/admin/templates/optimization/purging.php:368
 msgid "Select an Option"
 msgstr ""
 
@@ -1805,140 +1794,127 @@ msgstr ""
 #: includes/admin/templates/optimization/purging.php:10
 #: includes/admin/templates/optimization/purging.php:42
 #: includes/admin/templates/optimization/purging.php:73
-#: includes/admin/templates/optimization/purging.php:104
-#: includes/admin/templates/optimization/purging.php:137
-#: includes/admin/templates/optimization/purging.php:170
-#: includes/admin/templates/optimization/purging.php:197
-#: includes/admin/templates/optimization/purging.php:222
-#: includes/admin/templates/optimization/purging.php:247
+#: includes/admin/templates/optimization/purging.php:106
+#: includes/admin/templates/optimization/purging.php:139
+#: includes/admin/templates/optimization/purging.php:166
+#: includes/admin/templates/optimization/purging.php:191
+#: includes/admin/templates/optimization/purging.php:216
 msgid "Are you sure you want to permanently delete this data? This action cannot be undone."
 msgstr ""
 
-#: includes/admin/templates/optimization/purging.php:276
+#: includes/admin/templates/optimization/purging.php:245
 msgid "Data"
 msgstr ""
 
-#: includes/admin/templates/optimization/purging.php:281
-msgid "Clear Table Contents"
-msgstr ""
-
-#: includes/admin/templates/optimization/purging.php:297
-msgid "All data in the table will be permanently deleted."
-msgstr ""
-
-#: includes/admin/templates/optimization/purging.php:299
-msgid "Erase Data Now"
-msgstr ""
-
-#: includes/admin/templates/optimization/purging.php:307
+#: includes/admin/templates/optimization/purging.php:250
 msgid "Delete Records Older Than"
 msgstr ""
 
-#: includes/admin/templates/optimization/purging.php:312
+#: includes/admin/templates/optimization/purging.php:255
 #: includes/admin/templates/settings/advanced.php:339
 msgid "Days"
 msgstr ""
 
-#: includes/admin/templates/optimization/purging.php:314
+#: includes/admin/templates/optimization/purging.php:257
 msgid "Erase User Stats Older Than Specified Days."
 msgstr ""
 
-#: includes/admin/templates/optimization/purging.php:314
+#: includes/admin/templates/optimization/purging.php:257
 msgid "Minimum Age for Deletion: 30 Days."
 msgstr ""
 
-#: includes/admin/templates/optimization/purging.php:315
-#: includes/admin/templates/optimization/purging.php:331
+#: includes/admin/templates/optimization/purging.php:258
+#: includes/admin/templates/optimization/purging.php:274
 msgid "Start Purging Now"
 msgstr ""
 
-#: includes/admin/templates/optimization/purging.php:323
+#: includes/admin/templates/optimization/purging.php:266
 msgid "Remove Visitors Exceeding"
 msgstr ""
 
-#: includes/admin/templates/optimization/purging.php:330
+#: includes/admin/templates/optimization/purging.php:273
 msgid "Erase User Stats for Visitors Exceeding Daily View Limit. Useful for cleaning bot-related data. Removes visitor and their site visits, but not individual page visits, as they are not recorded per user. Minimum View Threshold: 10 Views."
 msgstr ""
 
-#: includes/admin/templates/optimization/purging.php:339
+#: includes/admin/templates/optimization/purging.php:282
 msgid "Remove User IDs"
 msgstr ""
 
-#: includes/admin/templates/optimization/purging.php:342
+#: includes/admin/templates/optimization/purging.php:285
 msgid "Delete User IDs Now"
 msgstr ""
 
-#: includes/admin/templates/optimization/purging.php:344
+#: includes/admin/templates/optimization/purging.php:287
 msgid "Permanently deletes all stored User IDs from the database to anonymize user visit records or to comply with privacy regulations."
 msgstr ""
 
-#: includes/admin/templates/optimization/purging.php:346
+#: includes/admin/templates/optimization/purging.php:289
 msgid "Permanent and cannot be reversed."
 msgstr ""
 
-#: includes/admin/templates/optimization/purging.php:355
+#: includes/admin/templates/optimization/purging.php:298
 msgid "Clear User Agent Strings"
 msgstr ""
 
-#: includes/admin/templates/optimization/purging.php:358
+#: includes/admin/templates/optimization/purging.php:301
 msgid "Clear User Agent Data Now"
 msgstr ""
 
-#: includes/admin/templates/optimization/purging.php:360
+#: includes/admin/templates/optimization/purging.php:303
 msgid "Permanently erases all User Agent Strings from the database, typically done after troubleshooting to remove unnecessary data."
 msgstr ""
 
-#: includes/admin/templates/optimization/purging.php:362
+#: includes/admin/templates/optimization/purging.php:305
 msgid "Permanent and cannot be undone."
 msgstr ""
 
-#: includes/admin/templates/optimization/purging.php:371
+#: includes/admin/templates/optimization/purging.php:314
 msgid "Clean Up Recorded Query Parameters"
 msgstr ""
 
-#: includes/admin/templates/optimization/purging.php:374
+#: includes/admin/templates/optimization/purging.php:317
 msgid "Run Cleanup"
 msgstr ""
 
-#: includes/admin/templates/optimization/purging.php:376
+#: includes/admin/templates/optimization/purging.php:319
 msgid "Removes previously stored query parameters from your historical data, ensuring consistency with your current privacy settings."
 msgstr ""
 
-#: includes/admin/templates/optimization/purging.php:378
+#: includes/admin/templates/optimization/purging.php:321
 msgid "It is recommended to back up your database before proceeding, as this cleanup is irreversible."
 msgstr ""
 
-#: includes/admin/templates/optimization/purging.php:391
+#: includes/admin/templates/optimization/purging.php:334
 msgid "Remove Certain User Agent Types"
 msgstr ""
 
-#: includes/admin/templates/optimization/purging.php:396
+#: includes/admin/templates/optimization/purging.php:339
 msgid "Choose Agents to Delete"
 msgstr ""
 
-#: includes/admin/templates/optimization/purging.php:411
+#: includes/admin/templates/optimization/purging.php:354
 msgid "Select and delete specific User Agents from the database. All associated data will be permanently removed."
 msgstr ""
 
-#: includes/admin/templates/optimization/purging.php:412
-#: includes/admin/templates/optimization/purging.php:438
-#: includes/admin/templates/optimization/purging.php:453
+#: includes/admin/templates/optimization/purging.php:355
+#: includes/admin/templates/optimization/purging.php:381
+#: includes/admin/templates/optimization/purging.php:396
 msgid "Delete Selected Items Now"
 msgstr ""
 
-#: includes/admin/templates/optimization/purging.php:420
+#: includes/admin/templates/optimization/purging.php:363
 msgid "Choose Operating Systems to Delete"
 msgstr ""
 
-#: includes/admin/templates/optimization/purging.php:437
+#: includes/admin/templates/optimization/purging.php:380
 msgid "Select and delete specific platforms from the database. All associated data will be permanently removed."
 msgstr ""
 
-#: includes/admin/templates/optimization/purging.php:446
+#: includes/admin/templates/optimization/purging.php:389
 msgid "Erase Data for Specific IP"
 msgstr ""
 
-#: includes/admin/templates/optimization/purging.php:452
+#: includes/admin/templates/optimization/purging.php:395
 msgid "Input and delete all data associated with a particular IP address. All associated data will be permanently removed."
 msgstr ""
 
@@ -5616,10 +5592,7 @@ msgid "User Consent Required."
 msgstr ""
 
 #: src/Service/Admin/PrivacyAudit/Faqs/RequireConsent.php:43
-msgid ""
-"\n"
-"                    <p>Your current settings indicate that WP Statistics is configured to collect personal data. In this case, it is essential to obtain user consent to comply with privacy laws and regulations. For detailed information on which settings may necessitate user consent and how to adjust them, please refer to the <b>Privacy Audit</b> section of this page.</p>\n"
-"                    <p>To have consent for WP Statistics on your site, read <a target=\"_blank\" href=\"https://wp-statistics.com/resources/wp-consent-level-integration/?utm_source=wp-statistics&utm_medium=link&utm_campaign=privacy\">WP Consent Level Integration</a>.</p>"
+msgid "<p>Your current settings indicate that WP Statistics is configured to collect personal data. In this case, it is essential to obtain user consent to comply with privacy laws and regulations. For detailed information on which settings may necessitate user consent and how to adjust them, please refer to the <b>Privacy Audit</b> section of this page.</p><p>To have consent for WP Statistics on your site, read <a target=\"_blank\" href=\"https://wp-statistics.com/resources/wp-consent-level-integration/?utm_source=wp-statistics&utm_medium=link&utm_campaign=privacy\">WP Consent Level Integration</a>.</p>"
 msgstr ""
 
 #: src/Service/Admin/PrivacyAudit/Faqs/RequireCookieBanner.php:16
