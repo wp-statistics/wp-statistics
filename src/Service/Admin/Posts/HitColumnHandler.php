@@ -220,8 +220,6 @@ class HitColumnHandler
      * @return array Updated clauses for the query.
      *
      * @hooked filter: `terms_clauses` - 10
-     *
-     * @todo Rewrite this method like `handlePostOrderByHits()`. And don't forget to consider historical when sorted by views.
      */
     public function handleTaxOrderByHits($clauses, $taxonomies, $args)
     {
@@ -234,10 +232,30 @@ class HitColumnHandler
             return $clauses;
         }
 
-        global $wpdb;
+        // Add date condition if needed
+        $dateCondition = '';
+        if ($this->miniChartHelper->getCountDisplay() === 'date_range') {
+            $dateCondition = 'BETWEEN "' . TimeZone::getTimeAgo(intval(Option::getByAddon('date_range', 'mini_chart', '14'))) . '" AND "' . date('Y-m-d') . '"';
+        }
 
         // Select Field
-        $clauses['fields'] .= ", (select SUM(" . DB::table("pages") . ".count) from " . DB::table("pages") . " where (" . DB::table("pages") . ".type = 'category' OR " . DB::table("pages") . ".type = 'post_tag' OR " . DB::table("pages") . ".type = 'tax') AND t.term_id = " . DB::table("pages") . ".id) AS `tax_hits_sortable` ";
+        if ($this->miniChartHelper->getChartMetric() === 'visitors') {
+            if (!empty($dateCondition)) {
+                $dateCondition = "AND `visitor_relationships`.`date` $dateCondition";
+            }
+
+            $clauses['fields'] .= ', (SELECT COUNT(DISTINCT `visitor_id`) FROM ' . DB::table('visitor_relationships') . ' AS `visitor_relationships` LEFT JOIN ' . DB::table('pages') . ' AS `pages` ON `visitor_relationships`.`page_id` = `pages`.`page_id` WHERE `pages`.`type` IN ("category", "post_tag", "tax") AND `t`.`term_id` = `pages`.`id` ' . $dateCondition . ') AS `tax_hits_sortable` ';
+        } else {
+            $historicalSubQuery = '';
+            if (!empty($dateCondition)) {
+                $dateCondition = "AND `pages`.`date` $dateCondition";
+            } else {
+                // Consider historical for total views
+                $historicalSubQuery = ' + IFNULL((SELECT SUM(`historical`.`value`) FROM ' . DB::table('historical') . ' AS `historical` WHERE `historical`.`page_id` = `t`.`term_id` AND `historical`.`uri` LIKE CONCAT("%/", `t`.`slug`, "/")), 0)';
+            }
+
+            $clauses['fields'] .= ', ((SELECT SUM(`pages`.`count`) FROM ' . DB::table('pages') . ' AS `pages` WHERE `pages`.`type` IN ("category", "post_tag", "tax") AND `t`.`term_id` = `pages`.`id` ' . $dateCondition . ')' . $historicalSubQuery . ') AS `tax_hits_sortable` ';
+        }
 
         // Order by `tax_hits_sortable`
         $clauses['orderby'] = " ORDER BY coalesce(`tax_hits_sortable`, 0)";
