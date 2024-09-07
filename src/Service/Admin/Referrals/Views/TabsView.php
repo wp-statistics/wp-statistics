@@ -14,10 +14,10 @@ use WP_Statistics\Service\Admin\Referrals\ReferralsDataProvider;
 
 class TabsView extends BaseTabView
 {
-    protected $defaultTab = 'referrers';
+    protected $defaultTab = 'referred-visitors';
     protected $tabs = [
-        'referrers',
         'referred-visitors',
+        'referrers',
         'search-engines'
     ];
 
