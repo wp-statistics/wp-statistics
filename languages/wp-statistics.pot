@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-09-07T05:01:51+00:00\n"
+"POT-Creation-Date: 2024-09-07T05:38:10+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: wp-statistics\n"
@@ -134,7 +134,6 @@ msgstr ""
 #: includes/admin/templates/layout/filters/post-types-filter.php:16
 #: includes/admin/templates/layout/filters/query-params-filter.php:29
 #: includes/admin/templates/layout/filters/query-params-filter.php:34
-#: includes/admin/templates/optimization/database.php:51
 #: includes/admin/templates/pages/refer.url.php:7
 #: includes/class-wp-statistics-widget.php:326
 msgid "All"
@@ -987,40 +986,7 @@ msgstr ""
 msgid "Successfully anonymized <b>%d</b> IP addresses using hash values."
 msgstr ""
 
-#: includes/admin/pages/class-wp-statistics-admin-page-optimization.php:73
-msgid "Installation Process Completed."
-msgstr ""
-
-#. translators: %s: Table name.
-#: includes/admin/pages/class-wp-statistics-admin-page-optimization.php:95
-msgid "The %s Table is Functioning Properly."
-msgstr ""
-
-#: includes/admin/pages/class-wp-statistics-admin-page-optimization.php:98
-msgid "Issue with %1$s Table: Error %2$s Detected. Attempting Repair&hellip;"
-msgstr ""
-
-#: includes/admin/pages/class-wp-statistics-admin-page-optimization.php:103
-msgid "Successfully Repaired the %s Table."
-msgstr ""
-
-#: includes/admin/pages/class-wp-statistics-admin-page-optimization.php:105
-msgid "Repair Unsuccessful for %1$s Table. Error: %2$s"
-msgstr ""
-
-#: includes/admin/pages/class-wp-statistics-admin-page-optimization.php:114
-msgid "%s Table is Already Optimized."
-msgstr ""
-
-#: includes/admin/pages/class-wp-statistics-admin-page-optimization.php:119
-msgid "Optimization of %s Table Successful."
-msgstr ""
-
-#: includes/admin/pages/class-wp-statistics-admin-page-optimization.php:122
-msgid "The %1$s table does not support optimize, doing recreate + analyze instead."
-msgstr ""
-
-#: includes/admin/pages/class-wp-statistics-admin-page-optimization.php:159
+#: includes/admin/pages/class-wp-statistics-admin-page-optimization.php:93
 msgid "Historical Data Successfully Updated."
 msgstr ""
 
@@ -1413,15 +1379,11 @@ msgstr ""
 msgid "Data Cleanup"
 msgstr ""
 
-#: includes/admin/templates/layout/menu-optimization.php:32
-msgid "Database Management"
-msgstr ""
-
-#: includes/admin/templates/layout/menu-optimization.php:39
+#: includes/admin/templates/layout/menu-optimization.php:31
 msgid "Plugin Maintenance"
 msgstr ""
 
-#: includes/admin/templates/layout/menu-optimization.php:47
+#: includes/admin/templates/layout/menu-optimization.php:39
 msgid "Historical Data"
 msgstr ""
 
@@ -1661,60 +1623,6 @@ msgstr ""
 msgid "Unlock deeper insights into your website's performance with WP Statistics Premium."
 msgstr ""
 
-#: includes/admin/templates/optimization/database.php:8
-msgid "Database Configuration"
-msgstr ""
-
-#: includes/admin/templates/optimization/database.php:13
-msgid "Reinitialize Plugin"
-msgstr ""
-
-#: includes/admin/templates/optimization/database.php:17
-msgid "Reinitialize Now"
-msgstr ""
-
-#: includes/admin/templates/optimization/database.php:19
-msgid "Click to begin the setup process for the plugin from scratch, useful when you encounter issues with missing elements or inconsistencies in the database setup."
-msgstr ""
-
-#: includes/admin/templates/optimization/database.php:20
-#: includes/admin/templates/optimization/purging.php:288
-#: includes/admin/templates/optimization/purging.php:304
-#: includes/admin/templates/optimization/purging.php:320
-#: includes/admin/templates/settings/advanced.php:397
-msgid "Caution:"
-msgstr ""
-
-#: includes/admin/templates/optimization/database.php:21
-msgid "Executing this may lead to the loss of certain data."
-msgstr ""
-
-#: includes/admin/templates/optimization/database.php:36
-msgid "Optimize & Repair"
-msgstr ""
-
-#: includes/admin/templates/optimization/database.php:41
-msgid "Choose a Table to Optimize"
-msgstr ""
-
-#: includes/admin/templates/optimization/database.php:45
-#: includes/admin/templates/optimization/purging.php:344
-#: includes/admin/templates/optimization/purging.php:368
-msgid "Select an Option"
-msgstr ""
-
-#: includes/admin/templates/optimization/database.php:53
-msgid "Select a specific database table to optimize and repair. This can help improve the efficiency and performance of the selected table."
-msgstr ""
-
-#: includes/admin/templates/optimization/database.php:57
-msgid "Execute Optimization"
-msgstr ""
-
-#: includes/admin/templates/optimization/database.php:71
-msgid "Please select database table"
-msgstr ""
-
 #: includes/admin/templates/optimization/export.php:9
 msgid "Export"
 msgstr ""
@@ -1848,6 +1756,13 @@ msgstr ""
 msgid "Permanently deletes all stored User IDs from the database to anonymize user visit records or to comply with privacy regulations."
 msgstr ""
 
+#: includes/admin/templates/optimization/purging.php:288
+#: includes/admin/templates/optimization/purging.php:304
+#: includes/admin/templates/optimization/purging.php:320
+#: includes/admin/templates/settings/advanced.php:397
+msgid "Caution:"
+msgstr ""
+
 #: includes/admin/templates/optimization/purging.php:289
 msgid "Permanent and cannot be reversed."
 msgstr ""
@@ -1890,6 +1805,11 @@ msgstr ""
 
 #: includes/admin/templates/optimization/purging.php:339
 msgid "Choose Agents to Delete"
+msgstr ""
+
+#: includes/admin/templates/optimization/purging.php:344
+#: includes/admin/templates/optimization/purging.php:368
+msgid "Select an Option"
 msgstr ""
 
 #: includes/admin/templates/optimization/purging.php:354
