@@ -358,26 +358,29 @@ class HitColumnHandler
             $result .= apply_filters("wp_statistics_before_hit_column_{$actualPostType}", $this->getPreviewChartUnlockHtml(), $objectId, $this->getCache('postType'));
         }
 
-        $contentAnalyticsArgs = [
+        $analyticsUrl = Menus::admin_url('content-analytics', [
             'post_id' => $objectId,
             'type'    => 'single',
             'from'    => Request::get('from', $this->getCache('hitArgs')['date']['from']),
             'to'      => Request::get('to', $this->getCache('hitArgs')['date']['to']),
-        ];
+        ]);
         if ($isTerm) {
-            // Change content analytics URL if it's a taxonomy
-            unset($contentAnalyticsArgs['post_id']);
-            $contentAnalyticsArgs['term_id'] = $objectId;
+            $analyticsUrl = Menus::admin_url('category-analytics', [
+                'term_id' => $objectId,
+                'type'    => 'single',
+                'from'    => Request::get('from', $this->getCache('hitArgs')['date']['from']),
+                'to'      => Request::get('to', $this->getCache('hitArgs')['date']['to']),
+            ]);
         }
 
         // Add hit number below the chart
         $result .= sprintf(
-            // translators: 1 & 2: CSS class - 3: Either "Visitors" or "Views" - 4: Link to content analytics page - 5: CSS class - 6: Hits count.
+            // translators: 1 & 2: CSS class - 3: Either "Visitors" or "Views" - 4: Link to analytics page - 5: CSS class - 6: Hits count.
             '<div class="%s"><span class="%s">%s</span> <a href="%s" class="wps-admin-column__link %s">%s</a></div>',
             $this->miniChartHelper->getCountDisplay() === 'disabled' ? 'wps-hide' : '',
             $this->miniChartHelper->isMiniChartActive() ? '' : 'wps-hide',
             $this->miniChartHelper->getLabel(),
-            esc_url(Menus::admin_url('content-analytics', $contentAnalyticsArgs)),
+            esc_url($analyticsUrl),
             $this->miniChartHelper->isMiniChartActive() ? '' : 'wps-admin-column__unlock-count',
             esc_html(number_format($hitCount))
         );
