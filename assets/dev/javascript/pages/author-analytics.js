@@ -239,7 +239,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             const overviewPublishData = {
                 datasets: [{
                     label: 'overview',
-                    data: Wp_Statistics_Author_Analytics_Object.publish_chart_data,
+                    data: Wp_Statistics_Author_Analytics_Object.publish_chart_data.datasets,
                     backgroundColor: (c) => backgroundColor(c),
                     borderColor: 'transparent',
                     borderWidth: 4,

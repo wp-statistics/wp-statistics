@@ -52,35 +52,6 @@ class AuthorAnalyticsDataProvider
         return $data;
     }
 
-    public function getPublishingChartData()
-    {
-        // Just filter by post type
-        $args = Helper::filterArrayByKeys($this->args, ['post_type', 'author_id']);
-
-        $publishingData = $this->postsModel->countDailyPosts(array_merge($args, ['date' => ['from' => date('Y-m-d', strtotime('-365 days')), 'to' => date('Y-m-d')]]));
-        $publishingData = wp_list_pluck($publishingData, 'posts', 'date');
-
-        $today  = time();
-        $date   = strtotime('-365 days');
-
-        // Get number of posts published per day during last 365 days
-        while ($date <= $today) {
-            $currentDate    = date('Y-m-d', $date);
-            $numberOfPosts  = isset($publishingData[$currentDate]) ? intval($publishingData[$currentDate]) : 0;
-
-            $data[] = [
-                'x' => $currentDate,
-                'y' => date('N', $date),
-                'd' => date_i18n(get_option('date_format', 'Y-m-d'), strtotime($currentDate)),
-                'v' => $numberOfPosts
-            ];
-
-            $date += 86400;
-        }
-
-        return $data;
-    }
-
     public function getAuthorsPerformanceData()
     {
         // Authors data
@@ -151,12 +122,15 @@ class AuthorAnalyticsDataProvider
 
     public function getAuthorSingleChartData()
     {
-        $platformDataProvider = ChartDataProviderFactory::platformCharts($this->args);
+        $platformDataProvider           = ChartDataProviderFactory::platformCharts($this->args);
+        $publishOverviewDataProvider    = ChartDataProviderFactory::publishOverview(
+            Helper::filterArrayByKeys($this->args, ['post_type', 'author_id'])
+        );
 
         $data = [
             'os_chart_data'         => $platformDataProvider->getOsData(),
             'browser_chart_data'    => $platformDataProvider->getBrowserData(),
-            'publish_chart_data'    => $this->getPublishingChartData()
+            'publish_chart_data'    => $publishOverviewDataProvider->getData()
         ];
 
         return $data;
@@ -165,8 +139,12 @@ class AuthorAnalyticsDataProvider
 
     public function getAuthorsChartData()
     {
+        $publishOverviewDataProvider = ChartDataProviderFactory::publishOverview(
+            Helper::filterArrayByKeys($this->args, ['post_type', 'author_id'])
+        );
+
         $data = [
-            'publish_chart_data'         => $this->getPublishingChartData(),
+            'publish_chart_data'         => $publishOverviewDataProvider->getData(),
             'views_per_posts_chart_data' => [
                 'data'          => $this->getViewsPerPostsChartData(),
                 'chartLabel'    => sprintf(esc_html__('Views/Published %s', 'wp-statistics'),Helper::getPostTypeName($this->args['post_type'])),

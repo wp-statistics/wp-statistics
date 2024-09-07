@@ -6,6 +6,7 @@ use WP_Statistics\Service\Charts\DataProvider\PerformanceChartDataProvider;
 use WP_Statistics\Service\Charts\DataProvider\SearchEngineChartDataProvider;
 use WP_Statistics\Service\Charts\DataProvider\TrafficChartDataProvider;
 use WP_Statistics\Service\Charts\DataProvider\PlatformChartDataProvider;
+use WP_Statistics\Service\Charts\DataProvider\PublishOverviewChartDataProvider;
 
 class ChartDataProviderFactory
 {
@@ -45,11 +46,22 @@ class ChartDataProviderFactory
     /**
      * Returns a new instance of PlatformChartDataProvider.
      *
-     * @param array $args The arguments to pass to the TrafficChartDataProvider constructor.
+     * @param array $args The arguments to pass to the PlatformChartDataProvider constructor.
      * @return PlatformChartDataProvider
      */
     public static function platformCharts($args)
     {
         return new PlatformChartDataProvider($args);
+    }
+
+    /**
+     * Returns a new instance of PublishOverviewChartDataProvider.
+     *
+     * @param array $args The arguments to pass to the PublishOverviewChartDataProvider constructor.
+     * @return PublishOverviewChartDataProvider
+     */
+    public static function publishOverview($args)
+    {
+        return new PublishOverviewChartDataProvider($args);
     }
 }
