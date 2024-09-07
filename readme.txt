@@ -145,7 +145,7 @@ Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest versio
 * Fix: Fixed the "User Online" link in the Traffic Overview section.
 * Fix: Addressed issue where the top referral was not displaying in the "Your Performance at a Glance" section.
 * Fix: Resolved an issue with the report email option during some upgrades.
-* Fix: Fixed date filter issue on "Single Browser" page.
+* Fix: Fixed date filter issue on "Single Browser" and "Visitor Insights" page.
 * Dev: Added function `wp_statistics_needs_consent()` to check if user consent is required.
 
 For more information about the major update, please [visit our blog post](https://wp-statistics.com/?p=16657) or follow [@wp_statistics](https://twitter.com/wp_statistics) on Twitter
