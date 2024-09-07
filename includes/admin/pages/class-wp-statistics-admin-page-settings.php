@@ -235,8 +235,6 @@ class settings_page extends Singleton
         $wps_option_list = array(
             'wps_schedule_dbmaint',
             'wps_schedule_dbmaint_days',
-            'wps_schedule_dbmaint_visitor',
-            'wps_schedule_dbmaint_visitor_hits',
         );
         foreach ($wps_option_list as $option) {
             $wp_statistics_options[self::input_name_to_option($option)] = (isset($_POST[$option]) ? sanitize_text_field($_POST[$option]) : '');

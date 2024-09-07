@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-09-07T05:38:10+00:00\n"
+"POT-Creation-Date: 2024-09-07T06:05:45+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: wp-statistics\n"
@@ -240,7 +240,6 @@ msgstr ""
 #: includes/admin/templates/pages/content-analytics/single.php:15
 #: includes/admin/templates/settings/add-ons/customization.php:12
 #: includes/admin/templates/settings/add-ons/mini-chart.php:71
-#: includes/admin/templates/settings/advanced.php:373
 #: includes/admin/TinyMCE/class-wp-statistics-tinymce.php:37
 #: includes/class-wp-statistics-shortcode.php:197
 #: src/Service/Admin/MiniChart/MiniChartHelper.php:45
@@ -1022,15 +1021,15 @@ msgstr ""
 msgid "All Settings Have Been Reset to Default."
 msgstr ""
 
-#: includes/admin/pages/class-wp-statistics-admin-page-settings.php:313
+#: includes/admin/pages/class-wp-statistics-admin-page-settings.php:311
 msgid "WP Statistics - Honey Pot Page for Tracking"
 msgstr ""
 
-#: includes/admin/pages/class-wp-statistics-admin-page-settings.php:314
+#: includes/admin/pages/class-wp-statistics-admin-page-settings.php:312
 msgid "Do Not Delete: Honey Pot Page for WP Statistics Tracking."
 msgstr ""
 
-#: includes/admin/pages/class-wp-statistics-admin-page-settings.php:380
+#: includes/admin/pages/class-wp-statistics-admin-page-settings.php:378
 msgid "Custom header IP detection failed or the specified custom header is empty. Will switch to default detection method (Sequential IP Detection)."
 msgstr ""
 
@@ -1759,7 +1758,7 @@ msgstr ""
 #: includes/admin/templates/optimization/purging.php:288
 #: includes/admin/templates/optimization/purging.php:304
 #: includes/admin/templates/optimization/purging.php:320
-#: includes/admin/templates/settings/advanced.php:397
+#: includes/admin/templates/settings/advanced.php:363
 msgid "Caution:"
 msgstr ""
 
@@ -2448,7 +2447,7 @@ msgstr ""
 #: includes/admin/templates/settings/add-ons/realtime-stats.php:44
 #: includes/admin/templates/settings/add-ons/rest-api.php:66
 #: includes/admin/templates/settings/add-ons/widgets.php:74
-#: includes/admin/templates/settings/advanced.php:405
+#: includes/admin/templates/settings/advanced.php:371
 #: includes/admin/templates/settings/display.php:118
 #: includes/admin/templates/settings/exclusions.php:297
 #: includes/admin/templates/settings/general.php:148
@@ -2551,7 +2550,6 @@ msgstr ""
 #: includes/admin/templates/settings/advanced.php:202
 #: includes/admin/templates/settings/advanced.php:240
 #: includes/admin/templates/settings/advanced.php:327
-#: includes/admin/templates/settings/advanced.php:361
 #: includes/admin/templates/settings/display.php:14
 #: includes/admin/templates/settings/display.php:25
 #: includes/admin/templates/settings/display.php:36
@@ -3267,7 +3265,6 @@ msgid "Purge Old Data Daily"
 msgstr ""
 
 #: includes/admin/templates/settings/advanced.php:322
-#: includes/admin/templates/settings/advanced.php:356
 #: src/Service/Admin/SiteHealthInfo.php:205
 msgid "Automatic Cleanup"
 msgstr ""
@@ -3285,43 +3282,27 @@ msgstr ""
 msgid "Sets the age threshold for deleting data entries. Data exceeding the specified age in days will be removed. The minimum setting is 30 days."
 msgstr ""
 
-#: includes/admin/templates/settings/advanced.php:350
-msgid "Purge High Hit Count Visitors Daily"
-msgstr ""
-
-#: includes/admin/templates/settings/advanced.php:362
-msgid "Removes user statistics data daily for users with an abnormally high number of visits, indicating potential bot activity."
-msgstr ""
-
-#: includes/admin/templates/settings/advanced.php:368
-msgid "Purge Visitors More Than"
-msgstr ""
-
-#: includes/admin/templates/settings/advanced.php:374
-msgid "Establishes a daily visit limit. Users with visit counts above this limit are considered for removal, with the minimum set threshold being 10 visits."
-msgstr ""
-
-#: includes/admin/templates/settings/advanced.php:385
+#: includes/admin/templates/settings/advanced.php:351
 msgid "Restore Default Settings"
 msgstr ""
 
-#: includes/admin/templates/settings/advanced.php:390
+#: includes/admin/templates/settings/advanced.php:356
 msgid "Reset Options"
 msgstr ""
 
-#: includes/admin/templates/settings/advanced.php:395
+#: includes/admin/templates/settings/advanced.php:361
 msgid "Reset"
 msgstr ""
 
-#: includes/admin/templates/settings/advanced.php:396
+#: includes/admin/templates/settings/advanced.php:362
 msgid "Revert all user-specific and global configurations to the WP Statistics default settings, preserving your existing data."
 msgstr ""
 
-#: includes/admin/templates/settings/advanced.php:397
+#: includes/admin/templates/settings/advanced.php:363
 msgid "This change is irreversible."
 msgstr ""
 
-#: includes/admin/templates/settings/advanced.php:398
+#: includes/admin/templates/settings/advanced.php:364
 msgid "<b>For multisite users</b>: Every site within the network will return to the default settings."
 msgstr ""
 
@@ -4448,23 +4429,23 @@ msgstr ""
 msgid "Rate this plugin"
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:696
+#: includes/class-wp-statistics-install.php:704
 msgid "WP Statistics database requires upgrade."
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:699
+#: includes/class-wp-statistics-install.php:707
 msgid "Upgrade Database"
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:723
+#: includes/class-wp-statistics-install.php:731
 msgid "Database Upgrade Completed Successfully!"
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:761
+#: includes/class-wp-statistics-install.php:769
 msgid "Error During Operation. Please Refresh the Page."
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:774
+#: includes/class-wp-statistics-install.php:782
 msgid "Item processed"
 msgstr ""
 
@@ -4661,31 +4642,31 @@ msgstr ""
 msgid "Invalid signature"
 msgstr ""
 
-#: includes/class-wp-statistics-schedule.php:150
+#: includes/class-wp-statistics-schedule.php:139
 msgid "Daily"
 msgstr ""
 
-#: includes/class-wp-statistics-schedule.php:157
+#: includes/class-wp-statistics-schedule.php:146
 msgid "Weekly"
 msgstr ""
 
-#: includes/class-wp-statistics-schedule.php:164
+#: includes/class-wp-statistics-schedule.php:153
 msgid "Bi-Weekly"
 msgstr ""
 
-#: includes/class-wp-statistics-schedule.php:171
+#: includes/class-wp-statistics-schedule.php:160
 msgid "Monthly"
 msgstr ""
 
-#: includes/class-wp-statistics-schedule.php:282
+#: includes/class-wp-statistics-schedule.php:262
 msgid "Your WP Statistics Report"
 msgstr ""
 
-#: includes/class-wp-statistics-schedule.php:288
+#: includes/class-wp-statistics-schedule.php:268
 msgid " for %s"
 msgstr ""
 
-#: includes/class-wp-statistics-schedule.php:290
+#: includes/class-wp-statistics-schedule.php:270
 msgid " for %s to %s"
 msgstr ""
 

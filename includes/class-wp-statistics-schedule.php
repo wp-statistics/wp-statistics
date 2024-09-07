@@ -61,16 +61,6 @@ class Schedule
                 wp_unschedule_event(wp_next_scheduled('wp_statistics_dbmaint_hook'), 'wp_statistics_dbmaint_hook');
             }
 
-            // Add the visitor database maintenance schedule if it doesn't exist and it should be.
-            if (!wp_next_scheduled('wp_statistics_dbmaint_visitor_hook') && Option::get('schedule_dbmaint_visitor')) {
-                wp_schedule_event(time(), 'daily', 'wp_statistics_dbmaint_visitor_hook');
-            }
-
-            // Remove the visitor database maintenance schedule if it does exist and it shouldn't.
-            if (wp_next_scheduled('wp_statistics_dbmaint_visitor_hook') && (!Option::get('schedule_dbmaint_visitor'))) {
-                wp_unschedule_event(wp_next_scheduled('wp_statistics_dbmaint_visitor_hook'), 'wp_statistics_dbmaint_visitor_hook');
-            }
-
             // Add the add visit table row schedule if it does exist and it should.
             if (!wp_next_scheduled('wp_statistics_add_visit_hook')) {
                 wp_schedule_event(time(), 'daily', 'wp_statistics_add_visit_hook');
@@ -79,7 +69,6 @@ class Schedule
             //After construct
             add_action('wp_statistics_add_visit_hook', array($this, 'add_visit_event'));
             add_action('wp_statistics_dbmaint_hook', array($this, 'dbmaint_event'));
-            add_action('wp_statistics_dbmaint_visitor_hook', array($this, 'dbmaint_visitor_event'));
         }
 
         // Add the report schedule if it doesn't exist and is enabled.
@@ -265,15 +254,6 @@ class Schedule
     {
         $purge_days = intval(Option::get('schedule_dbmaint_days', false));
         Purge::purge_data($purge_days);
-    }
-
-    /**
-     * Purges visitors with more than a defined number of hits in a day.
-     */
-    public function dbmaint_visitor_event()
-    {
-        $purge_hits = intval(Option::get('schedule_dbmaint_visitor_hits', false));
-        Purge::purge_visitor_hits($purge_hits);
     }
 
     public function getEmailSubject()
