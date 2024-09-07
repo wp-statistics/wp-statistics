@@ -667,13 +667,11 @@ class Install
             ], 'data_plus');
         }
 
-        // Require cron.php if its functions not exist
-        if (!function_exists('wp_clear_scheduled_hook')) {
-            require ABSPATH . WPINC . '/cron.php';
+        // Clear not used scheduled.
+        if (function_exists('wp_clear_scheduled_hook')) {
+            // Remove unused cron job for purging high hit count visitors daily
+            wp_clear_scheduled_hook('wp_statistics_dbmaint_visitor_hook');
         }
-
-        // Remove unused cron job for purging high hit count visitors daily
-        wp_clear_scheduled_hook('wp_statistics_dbmaint_visitor_hook');
 
         // Store the new version information.
         update_option('wp_statistics_plugin_version', WP_STATISTICS_VERSION);
