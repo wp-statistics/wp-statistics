@@ -93,6 +93,7 @@ class Install
                         city varchar(100),
                         region varchar(100),
                         continent varchar(50),
+                        visitor_id bigint(20) NOT NULL,
 						`user_id` BIGINT(48) NOT NULL,
 						`page_id` BIGINT(48) NOT NULL,
 						`type` VARCHAR(100) NOT NULL,
@@ -396,6 +397,16 @@ class Install
         $result = $wpdb->query("SHOW COLUMNS FROM {$visitorTable} LIKE 'source_channel'");
         if ($result == 0) {
             $wpdb->query("ALTER TABLE {$visitorTable} ADD `source_channel` VARCHAR(50) NULL;");
+        }
+
+        /**
+         * Add visitor id column to user online table
+         *
+         * @version 14.11
+         */
+        $result = $wpdb->query("SHOW COLUMNS FROM {$userOnlineTable} LIKE 'visitor_id'");
+        if ($result == 0) {
+            $wpdb->query("ALTER TABLE {$userOnlineTable} ADD `visitor_id` bigint(20) NOT NULL;");
         }
 
         /**

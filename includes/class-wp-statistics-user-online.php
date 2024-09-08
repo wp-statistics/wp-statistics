@@ -164,7 +164,8 @@ class UserOnline
             'city'      => $visitorProfile->getCity(),
             'user_id'   => $visitorProfile->getUserId(),
             'page_id'   => $pageId,
-            'type'      => $current_page['type']
+            'type'      => $current_page['type'],
+            'visitor_id'=> $visitorProfile->getVisitorId()
         );
         $user_online = apply_filters('wp_statistics_user_online_information', wp_parse_args($args, $user_online));
 
@@ -257,7 +258,7 @@ class UserOnline
 
         // Check Count
         if ($args['fields'] == "count") {
-            return $wpdb->get_var($SQL); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared	
+            return $wpdb->get_var($SQL); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
         }
 
         // Prepare Query
@@ -269,7 +270,7 @@ class UserOnline
         $args['sql'] = esc_sql($args['sql']) . $wpdb->prepare(" LIMIT %d, %d", $args['offset'], $args['per_page']);
 
         // Send Request
-        $result = $wpdb->get_results($args['sql']); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared	
+        $result = $wpdb->get_results($args['sql']); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 
         // Get List
         $list = array();

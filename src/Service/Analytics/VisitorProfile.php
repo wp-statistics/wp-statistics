@@ -23,6 +23,7 @@ class VisitorProfile
     private $userAgent;
     private $httpUserAgent;
     private $userId;
+    private $visitorId;
     private $currentPageType;
     private $requestUri;
 
@@ -41,6 +42,16 @@ class VisitorProfile
         if (property_exists($this, $name)) {
             $this->$name = $value;
         }
+    }
+
+    public function getVisitorId()
+    {
+        if (!$this->visitorId) {
+            $visitor         = Visitor::exist_ip_in_day($this->getProcessedIPForStorage());
+            $this->visitorId = $visitor->ID;
+        }
+
+        return $this->visitorId;
     }
 
     public function getIp()
