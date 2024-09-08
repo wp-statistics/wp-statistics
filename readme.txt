@@ -137,6 +137,9 @@ Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest versio
 
 == Changelog ==
 = 14.10.1 - **.09.2024 =
+* Fix: Resolved chart shrinking issue in Chrome.
+* Update: Upgraded ChartJS to v4.4.4.
+* Improvement: Remove unused function for pie charts.
 * Enhancement: Corrected sorting issues in bar charts.
 * Enhancement: Fixed font override conflicts with certain fonts.
 * Enhancement: Enhanced object cache handling for better performance.
