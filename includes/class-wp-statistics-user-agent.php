@@ -32,15 +32,15 @@ class UserAgent
             if ((isset($result->browser->version->value))) {
                 $version = Helper::makeAnonymousVersion($result->browser->version->value);
             } else {
-                $version = _x('Unknown', 'Version', 'wp-statistics');
+                $version = 'Unknown';
             }
 
             $agent = array(
-                'browser'            => (isset($result->browser->name)) ? $result->browser->name : _x('Unknown', 'Browser', 'wp-statistics'),
-                'platform'           => (isset($result->os->name)) ? $result->os->name : _x('Unknown', 'Operating System', 'wp-statistics'),
+                'browser'            => (isset($result->browser->name)) ? $result->browser->name : 'Unknown',
+                'platform'           => (isset($result->os->name)) ? $result->os->name : 'Unknown',
                 'version'            => $version,
-                'device'             => isset($result->device->type) ? $result->getType() : _x('Unknown', 'Device', 'wp-statistics'),
-                'model'              => isset($result->device->manufacturer) ? $result->device->getModel() : _x('Unknown', 'Model', 'wp-statistics'),
+                'device'             => isset($result->device->type) ? $result->getType() : 'Unknown',
+                'model'              => isset($result->device->manufacturer) ? $result->device->getModel() : 'Unknown',
                 'isBrowserDetected'  => isset($result->browser->name) ? true : false,
                 'isPlatformDetected' => isset($result->os->name) ? true : false,
                 'isBot'              => $result->isType('bot')
@@ -64,20 +64,20 @@ class UserAgent
 
         //List Of Detect Browser in WP Statistics
         $list        = array(
-            "chrome"            => __("Chrome", 'wp-statistics'),
-            "firefox"           => __("Firefox", 'wp-statistics'),
-            "msie"              => __("Internet Explorer", 'wp-statistics'),
-            "edge"              => __("Edge", 'wp-statistics'),
-            "opera"             => __("Opera", 'wp-statistics'),
-            "safari"            => __("Safari", 'wp-statistics'),
-            "samsung_internet"  => __("Samsung Internet", 'wp-statistics'),
-            "firefox_mobile"    => __("Firefox Mobile", 'wp-statistics'),
-            "opera_mobile"      => __("Opera Mobile", 'wp-statistics'),
-            "yandex_browser"    => __("Yandex Browser", 'wp-statistics'),
-            "yandex"            => __("Yandex", 'wp-statistics'),
-            "uc_browser"        => __("UC Browser", 'wp-statistics'),
-            "whale_browser"     => __("Whale Browser", 'wp-statistics'),
-            "aloha"             => __("Aloha Browser", 'wp-statistics')
+            "chrome"           => __("Chrome", 'wp-statistics'),
+            "firefox"          => __("Firefox", 'wp-statistics'),
+            "msie"             => __("Internet Explorer", 'wp-statistics'),
+            "edge"             => __("Edge", 'wp-statistics'),
+            "opera"            => __("Opera", 'wp-statistics'),
+            "safari"           => __("Safari", 'wp-statistics'),
+            "samsung_internet" => __("Samsung Internet", 'wp-statistics'),
+            "firefox_mobile"   => __("Firefox Mobile", 'wp-statistics'),
+            "opera_mobile"     => __("Opera Mobile", 'wp-statistics'),
+            "yandex_browser"   => __("Yandex Browser", 'wp-statistics'),
+            "yandex"           => __("Yandex", 'wp-statistics'),
+            "uc_browser"       => __("UC Browser", 'wp-statistics'),
+            "whale_browser"    => __("Whale Browser", 'wp-statistics'),
+            "aloha"            => __("Aloha Browser", 'wp-statistics')
         );
         $browser_key = array_keys($list);
 
@@ -100,7 +100,7 @@ class UserAgent
     /**
      * Returns browser logo.
      *
-     * @param   string  $browser    Browser name.
+     * @param string $browser Browser name.
      *
      * @return  string              Logo URL, or URL of an unknown browser icon.
      */
@@ -203,7 +203,7 @@ class UserAgent
     /**
      * Returns platform/OS logo.
      *
-     * @param   string  $platform    Platform name.
+     * @param string $platform Platform name.
      *
      * @return  string              Logo URL, or URL of an unknown browser icon.
      */

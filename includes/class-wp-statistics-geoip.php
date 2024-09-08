@@ -205,9 +205,9 @@ class GeoIP
 
         $defaultLocation = [
             'country'   => self::getDefaultCountryCode(),
-            'city'      => __('Unknown', 'wp-statistics'),
-            'continent' => __('Unknown', 'wp-statistics'),
-            'region'    => __('Unknown', 'wp-statistics'),
+            'city'      => 'Unknown',
+            'continent' => 'Unknown',
+            'region'    => 'Unknown',
         ];
 
         // Add compatibility for hash IP addresses.
