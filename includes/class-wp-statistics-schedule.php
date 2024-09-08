@@ -76,7 +76,7 @@ class Schedule
             $timeReports       = Option::get('time_report');
             $schedulesInterval = self::getSchedules();
 
-            if (isset($schedulesInterval[$timeReports]['next_schedule'])) {
+            if (isset($schedulesInterval[$timeReports], $schedulesInterval[$timeReports]['next_schedule'])) {
                 $scheduleTime = $schedulesInterval[$timeReports]['next_schedule'];
                 wp_schedule_event($scheduleTime, $timeReports, 'wp_statistics_report_hook');
             }
@@ -158,8 +158,8 @@ class Schedule
             'monthly'  => [
                 'interval'      => MONTH_IN_SECONDS,
                 'display'       => __('Monthly', 'wp-statistics'),
-                'start'         => wp_date('Y-m-d', strtotime("-30 days")),
-                'end'           => wp_date('Y-m-d', strtotime("-1 day")),
+                'start'         => wp_date('Y-m-d', strtotime('First day of previous month')),
+                'end'           => wp_date('Y-m-d', strtotime('Last day of previous month')),
                 'next_schedule' => $monthly->getTimestamp()
             ]
         ];
@@ -347,7 +347,7 @@ class Schedule
         $time               = sanitize_text_field($newTime);
         $schedulesInterval  = self::getSchedules();
 
-        if (isset($schedulesInterval[$time]['next_schedule'])) {
+        if (isset($schedulesInterval[$time], $schedulesInterval[$time]['next_schedule'])) {
             $scheduleTime = $schedulesInterval[$time]['next_schedule'];
             wp_schedule_event($scheduleTime, $time, $event);
         }
