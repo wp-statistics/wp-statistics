@@ -3,8 +3,8 @@
     "php": ">=5.4",
     "geoip2/geoip2": "^2.10.0",
     "s1lentium/iptools": "^1.1.0",
-    "whichbrowser/parser": "^2.1.0",
-    "jaybizzle/crawler-detect": "~1.2.102"
+    "jaybizzle/crawler-detect": "~1.2.102",
+    "matomo/device-detector": "^6.3"
   },
   "config": {
     "platform-check": false,
@@ -27,7 +27,9 @@
         "geoip2/geoip2",
         "s1lentium/iptools",
         "jaybizzle/crawler-detect",
-        "psr/cache"
+        "psr/cache",
+        "matomo/device-detector",
+        "mustangostang/spyc"
       ],
       "delete_vendor_directories": true
     }
