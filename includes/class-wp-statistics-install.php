@@ -132,6 +132,7 @@ class Install
 						city varchar(100),
                         region varchar(100),
                         continent varchar(50),
+                        source_channel varchar(50),
 						PRIMARY KEY  (ID),
 						UNIQUE KEY date_ip_agent (last_counter,ip,agent(50),platform(50),version(50)),
 						KEY agent (agent),
@@ -388,6 +389,16 @@ class Install
         $visitorRelationships = DB::table('visitor_relationships');
 
         /**
+         * Add source channel column to visitors table
+         *
+         * @version 14.11
+         */
+        $result = $wpdb->query("SHOW COLUMNS FROM {$visitorTable} LIKE 'source_channel'");
+        if ($result == 0) {
+            $wpdb->query("ALTER TABLE {$visitorTable} ADD `source_channel` VARCHAR(50) NULL;");
+        }
+
+        /**
          * Add visitor city
          *
          * @version 14.5.2
@@ -476,7 +487,7 @@ class Install
          * MySQL since version 8.0.19 doesn't honot  display width specification
          * so we have to handle accept BIGINT(20) and BIGINT.
          *
-         * see: https://dev.mysql.com/doc/relnotes/mysql/8.0/en/news-8-0-19.html  
+         * see: https://dev.mysql.com/doc/relnotes/mysql/8.0/en/news-8-0-19.html
          * - section Deprecation and Removal Notes
          */
         if (!DB::isColumnType('visitor', 'ID', 'bigint(20)') && !DB::isColumnType('visitor', 'ID', 'bigint')) {
