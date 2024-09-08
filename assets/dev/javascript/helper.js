@@ -530,7 +530,6 @@ const getOrCreateTooltip = (chart) => {
 const externalTooltipHandler = (context, dataset, colors, data) => {
     const {chart, tooltip} = context;
     const tooltipEl = getOrCreateTooltip(chart);
-
     if (tooltip.opacity === 0) {
         tooltipEl.style.opacity = 0;
         return;
@@ -550,9 +549,11 @@ const externalTooltipHandler = (context, dataset, colors, data) => {
 
         // Iterate over each dataset to create the tooltip content
         datasets.forEach((dataset, index) => {
+            const meta = chart.getDatasetMeta(index);
+            const metaPrevious = chart.getDatasetMeta(index + 1);
             const value = dataset.data[dataIndex];
             const isPrevious = dataset.label.includes('(Previous)');
-            if (!isPrevious) {
+            if (!meta.hidden && !isPrevious) {
                 innerHtml += `
                 <div class="current-data">
                     <div>
@@ -562,7 +563,7 @@ const externalTooltipHandler = (context, dataset, colors, data) => {
                     <span class="current-data__value">${value.toLocaleString()}</span>
                 </div>`;
             }
-            if (data?.previousData) {
+            if (data?.previousData && !metaPrevious.hidden) {
                 const previousValue = data.previousData[dataset.label.replace(' (Previous)', '')]?.[dataIndex];
                 if (previousValue !== undefined && previousValue !== '' && !isPrevious) {
                     const previousLabel = data.previousData.labels[dataIndex].date;
@@ -870,6 +871,7 @@ wps_js.new_line_chart = function (data, tag_id, newOptions) {
                                 previousDataDiv.classList.toggle('wps-line-through');
                                 metaPrevious.hidden = !metaPrevious.hidden;
                             }
+
                             lineChart.update();
                         });
                     }
@@ -886,12 +888,14 @@ wps_js.performance_chart = function (data, tag_id, type) {
     const colors = ['#3288D7', '#7362BF', '#8AC3D0'];
     const is_single_content = type === 'content-single';
     const legendHandel = (chart) => {
+
         document.querySelectorAll('.js-wps-performance-chart__item').forEach((legendItem, index) => {
             legendItem.addEventListener('click', () => {
-                const dataset = chart.data.datasets[index];
-                dataset.hidden = !dataset.hidden;
+
+                const metaMain = chart.getDatasetMeta(index);
+                metaMain.hidden = !metaMain.hidden;
                 chart.update();
-                legendItem.classList.toggle('hidden', dataset.hidden);
+                legendItem.classList.toggle('hidden', metaMain.hidden);
             });
         });
     }
