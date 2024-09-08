@@ -82,11 +82,6 @@ use WP_STATISTICS\Admin_Template;
                                             </div>
                                         </div>
                                     </li>
-                                    <li class="wps-browsers__flag">
-                                        <a class="wps-link-underline wps-ellipsis-parent" href="" title="user name">
-                                            <span class="wps-ellipsis-text">user name</span>
-                                        </a>
-                                    </li>
                                 </ul>
                             </td>
 
