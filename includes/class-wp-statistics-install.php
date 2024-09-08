@@ -193,21 +193,6 @@ class Install
 					) {$collate}");
         dbDelta($create_historical_table);
 
-        // Search Table
-        $create_search_table = ("
-					CREATE TABLE " . DB::table('search') . " (
-						ID bigint(20) NOT NULL AUTO_INCREMENT,
-						last_counter date NOT NULL,
-						engine varchar(64) NOT NULL,
-						host varchar(190),
-						visitor bigint(20),
-						PRIMARY KEY  (ID),
-						KEY last_counter (last_counter),
-						KEY engine (engine),
-						KEY host (host)
-					) {$collate}");
-        dbDelta($create_search_table);
-
         // Create events table
         self::create_events_table();
     }
@@ -385,7 +370,7 @@ class Install
         $pagesTable           = DB::table('pages');
         $visitorTable         = DB::table('visitor');
         $historicalTable      = DB::table('historical');
-        $searchTable          = DB::table('search');
+        $searchTable          = DB::getTableName('search');
         $eventTable           = DB::table('events');
         $visitorRelationships = DB::table('visitor_relationships');
 
@@ -565,15 +550,7 @@ class Install
         }
 
         if (DB::ExistTable($searchTable)) {
-            /**
-             * Remove words from search table
-             *
-             * @version 14.5.2
-             */
-            $result = $wpdb->query("SHOW COLUMNS FROM `" . $searchTable . "` LIKE 'words'");
-            if ($result > 0) {
-                $wpdb->query("ALTER TABLE `" . $searchTable . "` DROP `words`");
-            }
+            $wpdb->query("DROP TABLE `$searchTable`");
         }
 
         /**
