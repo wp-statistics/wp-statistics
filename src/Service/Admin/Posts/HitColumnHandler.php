@@ -316,7 +316,7 @@ class HitColumnHandler
                 $uri = !is_wp_error($uri) ? wp_make_link_relative($uri) : '';
 
                 $historicalModel = new HistoricalModel();
-                $hitCount       += intval($historicalModel->countUris(['page_id' => $objectId, 'uri' => $uri]));
+                $hitCount       += $historicalModel->countUris(['page_id' => $objectId, 'uri' => $uri]);
             }
         }
 
@@ -372,7 +372,6 @@ class HitColumnHandler
 
             // Add hit number below the chart
             $result .= sprintf(
-                // translators: 1 & 2: CSS class - 3: Either "Visitors" or "Views" - 4: Link to analytics page - 5: CSS class - 6: Hits count.
                 '<div class="%s"><span class="%s">%s</span> <a href="%s" class="wps-admin-column__link %s">%s</a></div>',
                 $this->miniChartHelper->getCountDisplay() === 'disabled' ? 'wps-hide' : '',
                 $this->miniChartHelper->isMiniChartActive() ? '' : 'wps-hide',
