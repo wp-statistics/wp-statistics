@@ -14,6 +14,7 @@ use WP_Statistics\Service\Analytics\AnalyticsManager;
 use WP_Statistics\Service\Integrations\IntegrationsManager;
 use WP_Statistics\Service\Integrations\WpConsentApi;
 use WP_Statistics\Service\Admin\Devices\DevicesManager;
+use WP_Statistics\Service\Admin\LicenseManager\LicenseManagerManager;
 use WP_Statistics\Service\Admin\VisitorInsights\VisitorInsightsManager;
 use WP_Statistics\Service\Admin\PageInsights\PageInsightsManager;
 
@@ -187,6 +188,7 @@ final class WP_Statistics
             $pageInsights        = new PageInsightsManager();
             $visitorInsights     = new VisitorInsightsManager();
             $integrationsManager = new IntegrationsManager();
+            $licenseManager      = new LicenseManagerManager();
         }
 
         // WordPress ShortCode and Widget

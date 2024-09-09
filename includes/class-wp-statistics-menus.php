@@ -30,7 +30,8 @@ class Menus
         'devices'            => 'devices',
         'category-analytics' => 'category-analytics',
         'pages'              => 'pages',
-        'visitors'           => 'visitors'
+        'visitors'           => 'visitors',
+        'license_manager'    => 'license_manager',
     );
 
     /**
