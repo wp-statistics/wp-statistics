@@ -334,11 +334,6 @@ class HitColumnHandler
      */
     private function getHitColumnContent($hitCount, $objectId, $isTerm = false)
     {
-        // If hit count is not a valid number, don't display anything
-        if (!is_numeric($hitCount)) {
-            return '';
-        }
-
         // Remove only the first occurrence of "post_type_" from `postType` attribute
         $actualPostType = $this->getCache('postType');
         if (strpos($actualPostType, 'post_type_') === 0) {
@@ -358,32 +353,35 @@ class HitColumnHandler
             $result .= apply_filters("wp_statistics_before_hit_column_{$actualPostType}", $this->getPreviewChartUnlockHtml(), $objectId, $this->getCache('postType'));
         }
 
-        $analyticsUrl = Menus::admin_url('content-analytics', [
-            'post_id' => $objectId,
-            'type'    => 'single',
-            'from'    => Request::get('from', $this->getCache('hitArgs')['date']['from']),
-            'to'      => Request::get('to', $this->getCache('hitArgs')['date']['to']),
-        ]);
-        if ($isTerm) {
-            $analyticsUrl = Menus::admin_url('category-analytics', [
-                'term_id' => $objectId,
+        // Display hit count only if it's a valid number
+        if (is_numeric($hitCount)) {
+            $analyticsUrl = Menus::admin_url('content-analytics', [
+                'post_id' => $objectId,
                 'type'    => 'single',
                 'from'    => Request::get('from', $this->getCache('hitArgs')['date']['from']),
                 'to'      => Request::get('to', $this->getCache('hitArgs')['date']['to']),
             ]);
-        }
+            if ($isTerm) {
+                $analyticsUrl = Menus::admin_url('category-analytics', [
+                    'term_id' => $objectId,
+                    'type'    => 'single',
+                    'from'    => Request::get('from', $this->getCache('hitArgs')['date']['from']),
+                    'to'      => Request::get('to', $this->getCache('hitArgs')['date']['to']),
+                ]);
+            }
 
-        // Add hit number below the chart
-        $result .= sprintf(
-            // translators: 1 & 2: CSS class - 3: Either "Visitors" or "Views" - 4: Link to analytics page - 5: CSS class - 6: Hits count.
-            '<div class="%s"><span class="%s">%s</span> <a href="%s" class="wps-admin-column__link %s">%s</a></div>',
-            $this->miniChartHelper->getCountDisplay() === 'disabled' ? 'wps-hide' : '',
-            $this->miniChartHelper->isMiniChartActive() ? '' : 'wps-hide',
-            $this->miniChartHelper->getLabel(),
-            esc_url($analyticsUrl),
-            $this->miniChartHelper->isMiniChartActive() ? '' : 'wps-admin-column__unlock-count',
-            esc_html(number_format($hitCount))
-        );
+            // Add hit number below the chart
+            $result .= sprintf(
+                // translators: 1 & 2: CSS class - 3: Either "Visitors" or "Views" - 4: Link to analytics page - 5: CSS class - 6: Hits count.
+                '<div class="%s"><span class="%s">%s</span> <a href="%s" class="wps-admin-column__link %s">%s</a></div>',
+                $this->miniChartHelper->getCountDisplay() === 'disabled' ? 'wps-hide' : '',
+                $this->miniChartHelper->isMiniChartActive() ? '' : 'wps-hide',
+                $this->miniChartHelper->getLabel(),
+                esc_url($analyticsUrl),
+                $this->miniChartHelper->isMiniChartActive() ? '' : 'wps-admin-column__unlock-count',
+                esc_html(number_format($hitCount))
+            );
+        }
 
         return $result;
     }
