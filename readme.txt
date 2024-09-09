@@ -151,7 +151,9 @@ Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest versio
 * Fix: Resolved an issue with the report email option during some upgrades.
 * Fix: Fixed date filter issue on "Single Browser" and "Visitor Insights" page.
 * Fix: Fixed incorrect dates in `monthly` schedule.
+* Fix: Fixed incorrect order in taxonomy lists when sorted by hits.
 * Dev: Added function `wp_statistics_needs_consent()` to check if user consent is required.
+* Dev: Removed `Admin_Post` and `Admin_Taxonomy` classes, and replaced them with `HitColumnHandler`.
 
 For more information about the major update, please [visit our blog post](https://wp-statistics.com/?p=16657) or follow [@wp_statistics](https://twitter.com/wp_statistics) on Twitter
 
