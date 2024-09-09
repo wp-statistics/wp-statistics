@@ -28,8 +28,7 @@
         "s1lentium/iptools",
         "jaybizzle/crawler-detect",
         "psr/cache",
-        "matomo/device-detector",
-        "mustangostang/spyc"
+        "matomo/device-detector"
       ],
       "delete_vendor_directories": true
     }
