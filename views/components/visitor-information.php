@@ -47,6 +47,6 @@ namespace WP_STATISTICS;
 <?php if (!empty($visitor->user_id) && Option::get('visitors_log')) : ?>
     <div class="wps-visitor__information__user-more-info">
         <div><?php esc_html_e('Email', 'wp-statistics') ?>: <?php echo esc_html($visitor->user_email) ?></div>
-        <div><?php esc_html_e('Role', 'wp-statistics') ?>: <?php echo esc_html(User::get($visitor->user_id)['role'][0]) ?></div>
+        <div><?php esc_html_e('Role', 'wp-statistics') ?>: <span class="c-capitalize"><?php echo esc_html(User::get($visitor->user_id)['role'][0]) ?></span></div>
     </div>
 <?php endif; ?>
