@@ -2,15 +2,16 @@
 
 namespace WP_Statistics\Service\Analytics;
 
-use WP_STATISTICS\GeoIP;
-use WP_STATISTICS\Helper;
 use WP_STATISTICS\IP;
-use WP_STATISTICS\Option;
-use WP_STATISTICS\Pages;
-use WP_STATISTICS\Referred;
 use WP_STATISTICS\User;
-use WP_STATISTICS\UserAgent;
+use WP_STATISTICS\GeoIP;
+use WP_STATISTICS\Pages;
+use WP_STATISTICS\Helper;
+use WP_STATISTICS\Option;
 use WP_STATISTICS\Visitor;
+use WP_STATISTICS\Referred;
+use WP_STATISTICS\UserAgent;
+use WP_Statistics\Service\Analytics\Referrals\Referrals;
 
 class VisitorProfile
 {
@@ -18,6 +19,7 @@ class VisitorProfile
     private $processedIPForStorage;
     private $isIpActiveToday;
     private $referrer;
+    private $sourceChannel;
     private $country;
     private $city;
     private $userAgent;
@@ -120,7 +122,16 @@ class VisitorProfile
     public function getReferrer()
     {
         if (!$this->referrer) {
-            $this->referrer = Referred::get();
+            $this->referrer = Referrals::getUrl();
+        }
+
+        return $this->referrer;
+    }
+
+    public function getSourceChannel()
+    {
+        if (!$this->sourceChannel) {
+            $this->referrer = Referrals::getSourceChannel();
         }
 
         return $this->referrer;
