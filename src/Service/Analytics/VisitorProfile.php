@@ -12,6 +12,9 @@ use WP_STATISTICS\User;
 use WP_STATISTICS\UserAgent;
 use WP_STATISTICS\Visitor;
 
+/**
+ * @todo Replace object cache internally with ObjectCacheTrait
+ */
 class VisitorProfile
 {
     private $ip;
