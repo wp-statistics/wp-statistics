@@ -159,7 +159,7 @@ class WebsitePerformanceDataProvider
             // Previous period = From 4 weeks ago to 15 days ago
             $this->previousPeriodFromDate = TimeZone::getTimeAgo(28);
             $this->previousPeriodToDate   = TimeZone::getTimeAgo(15);
-        } else if ($fromDate == TimeZone::getTimeAgo(30)) {
+        } else if ($fromDate == date('Y-m-d', strtotime('First day of previous month'))) {
             // Current period = Last month
             $this->currentPeriodFromDate  = date('Y-m-d', strtotime('First day of previous month'));
             $this->currentPeriodToDate    = date('Y-m-d', strtotime('Last day of previous month'));

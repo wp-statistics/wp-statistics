@@ -56,16 +56,48 @@ class TabsView extends BaseTabView
         return $this->dataProvider->getTopVisitorsData();
     }
 
+    public function getActiveFilters()
+    {
+        $filters = [];
+
+        if (Request::has('agent')) {
+            $filters['agent'] = Request::get('agent');
+        }
+
+        if (Request::has('location')) {
+            $filters['location'] = Request::get('location');
+        }
+
+        if (Request::has('platform')) {
+            $filters['platform'] = Request::get('platform');
+        }
+
+        if (Request::has('referrer')) {
+            $filters['referrer'] = Request::get('referrer');
+        }
+
+        if (Request::has('user_id')) {
+            $filters['user_id'] = Request::get('user_id');
+        }
+
+        if (Request::has('ip')) {
+            $filters['ip'] = Request::get('ip');
+        }
+
+        return $filters;
+    }
+
     public function render()
     {
         try {
             $currentTab = $this->getCurrentTab();
             $data       = $this->getTabData();
+            $filters    = $this->getActiveFilters();
 
             $args = [
                 'title'      => esc_html__('Visitor Insights', 'wp-statistics'),
                 'pageName'   => Menus::get_page_slug('visitors'),
-                'custom_get' => ['tab' => $currentTab],
+                'custom_get' => array_merge(['tab' => $currentTab], $filters),
                 'DateRang'   => Admin_Template::DateRange(),
                 'data'       => $data,
                 'pagination' => Admin_Template::paginate_links([
