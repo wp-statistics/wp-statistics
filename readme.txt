@@ -137,6 +137,7 @@ Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest versio
 
 == Changelog ==
 = 14.10.1 - **.09.2024 =
+* Enhancement: Sync charts custom tooltip visibility with legend toggle.
 * Fix: Resolved chart shrinking issue in Chrome.
 * Update: Upgraded ChartJS to v4.4.4.
 * Improvement: Remove unused function for pie charts.
