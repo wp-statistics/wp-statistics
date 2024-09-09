@@ -347,10 +347,12 @@ class HitColumnHandler
         }
 
         $result = '';
-        if (!$this->miniChartHelper->isMiniChartActive() || $this->getCache('isCurrentPostTypeSelected')) {
-            // If add-on is not active, this line will display the "Unlock!" button
-            // If add-on is active but current post type is not selected in the settings, the chart placeholder will be empty
-            $result .= apply_filters("wp_statistics_before_hit_column_{$actualPostType}", $this->getPreviewChartUnlockHtml(), $objectId, $this->getCache('postType'));
+        if (!$this->miniChartHelper->isMiniChartActive() || ($isTerm || $this->getCache('isCurrentPostTypeSelected'))) {
+            $hookName = !$isTerm ? "wp_statistics_before_hit_column_{$actualPostType}" : 'wp_statistics_before_hit_column';
+
+            // If Mini-chart add-on is not active, this line will display the "Unlock!" button
+            // If Mini-chart add-on is active and current post type is selected in settings (or it's a term), the chart will be displayed via the filter
+            $result .= apply_filters($hookName, $this->getPreviewChartUnlockHtml(), $objectId, $this->getCache('postType'));
         }
 
         // Display hit count only if it's a valid number
