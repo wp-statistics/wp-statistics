@@ -9,12 +9,13 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-09-07T13:12:31+00:00\n"
+"POT-Creation-Date: 2024-09-09T14:39:39+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.7.1\n"
+"X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: wp-statistics\n"
 
 #. Plugin Name of the plugin
+#: wp-statistics.php
 #: includes/admin/class-wp-statistics-admin-privacy.php:25
 #: includes/class-wp-statistics-meta-box.php:262
 #: src/Service/Admin/AdminManager.php:46
@@ -23,18 +24,22 @@ msgid "WP Statistics"
 msgstr ""
 
 #. Plugin URI of the plugin
+#: wp-statistics.php
 msgid "https://wp-statistics.com/"
 msgstr ""
 
 #. Description of the plugin
+#: wp-statistics.php
 msgid "Get website traffic insights with GDPR/CCPA compliant, privacy-friendly analytics. Includes visitor data, stunning graphs, and no data sharing."
 msgstr ""
 
 #. Author of the plugin
+#: wp-statistics.php
 msgid "VeronaLabs"
 msgstr ""
 
 #. Author URI of the plugin
+#: wp-statistics.php
 msgid "https://veronalabs.com/"
 msgstr ""
 
@@ -195,7 +200,6 @@ msgstr ""
 #: includes/admin/class-wp-statistics-admin-assets.php:356
 #: includes/admin/class-wp-statistics-admin-assets.php:382
 #: includes/admin/class-wp-statistics-admin-network.php:62
-#: includes/admin/class-wp-statistics-admin-post.php:49
 #: includes/admin/templates/emails/layout.php:101
 #: includes/admin/templates/layout/category-analytics/summary.php:20
 #: includes/admin/templates/layout/category-analytics/top-countries.php:24
@@ -211,8 +215,8 @@ msgstr ""
 #: includes/admin/templates/settings/add-ons/rest-api.php:19
 #: includes/admin/TinyMCE/class-wp-statistics-tinymce.php:38
 #: includes/class-wp-statistics-shortcode.php:198
-#: src/Service/Admin/MiniChart/MiniChartHelper.php:45
-#: src/Service/Admin/VisitorInsights/Views/TabsView.php:78
+#: src/Service/Admin/MiniChart/MiniChartHelper.php:103
+#: src/Service/Admin/VisitorInsights/Views/TabsView.php:110
 #: views/components/charts/performance.php:20
 #: views/components/tables/content-report.php:25
 msgid "Visitors"
@@ -221,9 +225,6 @@ msgstr ""
 #: includes/admin/class-wp-statistics-admin-assets.php:357
 #: includes/admin/class-wp-statistics-admin-assets.php:392
 #: includes/admin/class-wp-statistics-admin-network.php:60
-#: includes/admin/class-wp-statistics-admin-post.php:49
-#: includes/admin/class-wp-statistics-admin-taxonomy.php:60
-#: includes/admin/class-wp-statistics-admin-taxonomy.php:67
 #: includes/admin/class-wp-statistics-admin-user.php:33
 #: includes/admin/templates/emails/layout.php:133
 #: includes/admin/templates/layout/author-analytics/top-authors.php:25
@@ -242,8 +243,8 @@ msgstr ""
 #: includes/admin/templates/settings/add-ons/mini-chart.php:71
 #: includes/admin/TinyMCE/class-wp-statistics-tinymce.php:37
 #: includes/class-wp-statistics-shortcode.php:197
-#: src/Service/Admin/MiniChart/MiniChartHelper.php:45
-#: src/Service/Admin/VisitorInsights/Views/TabsView.php:83
+#: src/Service/Admin/MiniChart/MiniChartHelper.php:103
+#: src/Service/Admin/VisitorInsights/Views/TabsView.php:115
 #: views/components/charts/performance.php:24
 #: views/components/tables/content-report.php:31
 msgid "Views"
@@ -360,7 +361,7 @@ msgstr ""
 #: includes/admin/templates/pages/content-analytics/post-type.php:92
 #: includes/admin/templates/pages/content-analytics/single.php:58
 #: includes/admin/templates/settings/add-ons/rest-api.php:14
-#: src/Service/Admin/Devices/Views/SingleBrowserView.php:13
+#: src/Service/Admin/Devices/Views/SingleBrowserView.php:40
 #: src/Service/Admin/Devices/Views/TabsView.php:97
 msgid "Browsers"
 msgstr ""
@@ -387,9 +388,6 @@ msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-assets.php:383
 #: includes/admin/TinyMCE/class-wp-statistics-tinymce.php:65
-#: views/components/tables/online.php:57
-#: views/components/tables/top-visitors.php:53
-#: views/components/tables/visitors.php:59
 msgid "ID"
 msgstr ""
 
@@ -526,14 +524,12 @@ msgstr ""
 #: includes/admin/templates/pages/devices/categories.php:18
 #: includes/admin/templates/pages/devices/models.php:18
 #: includes/admin/templates/pages/devices/platforms.php:18
-#: includes/admin/templates/pages/devices/single-locked.php:18
+#: includes/admin/templates/pages/devices/single-browser.php:18
 msgid "Percent Share"
 msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-assets.php:419
-#: src/Service/Admin/Devices/Views/SingleBrowserView.php:15
-#: src/Service/Admin/Devices/Views/SingleModelView.php:15
-#: src/Service/Admin/Devices/Views/SinglePlatformView.php:15
+#: src/Service/Admin/Devices/Views/SingleBrowserView.php:42
 #: src/Service/Admin/SiteHealthInfo.php:45
 msgid "Version"
 msgstr ""
@@ -610,7 +606,7 @@ msgstr ""
 #: includes/admin/templates/pages/devices/categories.php:44
 #: includes/admin/templates/pages/devices/models.php:44
 #: includes/admin/templates/pages/devices/platforms.php:45
-#: includes/admin/templates/pages/devices/single-locked.php:44
+#: includes/admin/templates/pages/devices/single-browser.php:44
 #: includes/admin/templates/pages/geographic/cities.php:69
 #: includes/admin/templates/pages/geographic/countries.php:57
 #: includes/admin/templates/pages/geographic/europe.php:56
@@ -621,11 +617,11 @@ msgstr ""
 #: views/components/tables/author-pages.php:55
 #: views/components/tables/category-pages.php:55
 #: views/components/tables/content-report.php:102
-#: views/components/tables/online.php:116
+#: views/components/tables/online.php:83
 #: views/components/tables/recent-events.php:75
 #: views/components/tables/recent-views.php:41
-#: views/components/tables/top-visitors.php:112
-#: views/components/tables/visitors.php:124
+#: views/components/tables/top-visitors.php:79
+#: views/components/tables/visitors.php:91
 msgid "No recent data available."
 msgstr ""
 
@@ -749,20 +745,6 @@ msgstr ""
 #: includes/class-wp-statistics-install.php:341
 #: includes/class-wp-statistics-menus.php:197
 msgid "Settings"
-msgstr ""
-
-#: includes/admin/class-wp-statistics-admin-post.php:105
-#: includes/admin/class-wp-statistics-admin-taxonomy.php:108
-msgid "Unlock"
-msgstr ""
-
-#: includes/admin/class-wp-statistics-admin-post.php:131
-msgid "Visitors:"
-msgstr ""
-
-#: includes/admin/class-wp-statistics-admin-post.php:131
-#: includes/admin/class-wp-statistics-admin-taxonomy.php:129
-msgid "Views:"
 msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-privacy.php:38
@@ -1153,7 +1135,7 @@ msgid "Top Referral"
 msgstr ""
 
 #: includes/admin/templates/header.php:16
-#: src/Service/Admin/VisitorInsights/Views/TabsView.php:88
+#: src/Service/Admin/VisitorInsights/Views/TabsView.php:120
 msgid "Online Visitors"
 msgstr ""
 
@@ -2315,7 +2297,7 @@ msgstr ""
 #: includes/admin/templates/pages/devices/categories.php:15
 #: includes/admin/templates/pages/devices/models.php:15
 #: includes/admin/templates/pages/devices/platforms.php:15
-#: includes/admin/templates/pages/devices/single-locked.php:15
+#: includes/admin/templates/pages/devices/single-browser.php:15
 #: includes/admin/templates/pages/geographic/cities.php:26
 #: includes/admin/templates/pages/geographic/countries.php:20
 #: includes/admin/templates/pages/geographic/europe.php:19
@@ -2440,7 +2422,7 @@ msgstr ""
 #: includes/admin/templates/settings/add-ons/advanced-reporting.php:365
 #: includes/admin/templates/settings/add-ons/customization.php:187
 #: includes/admin/templates/settings/add-ons/data-plus.php:92
-#: includes/admin/templates/settings/add-ons/mini-chart.php:154
+#: includes/admin/templates/settings/add-ons/mini-chart.php:142
 #: includes/admin/templates/settings/add-ons/realtime-stats.php:44
 #: includes/admin/templates/settings/add-ons/rest-api.php:66
 #: includes/admin/templates/settings/add-ons/widgets.php:74
@@ -2755,7 +2737,7 @@ msgid "Geographic"
 msgstr ""
 
 #: includes/admin/templates/settings/add-ons/customization.php:21
-#: src/Service/Admin/VisitorInsights/Views/TabsView.php:93
+#: src/Service/Admin/VisitorInsights/Views/TabsView.php:125
 msgid "Top Visitors"
 msgstr ""
 
@@ -2985,14 +2967,6 @@ msgstr ""
 
 #: includes/admin/templates/settings/add-ons/mini-chart.php:133
 msgid "Select a color for your chart’s main elements to match your website’s theme."
-msgstr ""
-
-#: includes/admin/templates/settings/add-ons/mini-chart.php:139
-msgid "Border Color"
-msgstr ""
-
-#: includes/admin/templates/settings/add-ons/mini-chart.php:144
-msgid "Pick a border color to enhance the visibility of your chart on the dashboard."
 msgstr ""
 
 #: includes/admin/templates/settings/add-ons/realtime-stats.php:11
@@ -3714,9 +3688,7 @@ msgid "Delivery Method"
 msgstr ""
 
 #: includes/admin/templates/settings/notifications.php:71
-#: views/components/tables/online.php:59
-#: views/components/tables/top-visitors.php:55
-#: views/components/tables/visitors.php:61
+#: views/components/visitor-information.php:49
 msgid "Email"
 msgstr ""
 
@@ -3777,8 +3749,8 @@ msgstr ""
 #: includes/admin/templates/settings/notifications.php:103
 #: includes/class-wp-statistics-widget.php:97
 #: includes/class-wp-statistics-widget.php:296
-#: views/components/tables/top-visitors.php:18
-#: views/components/tables/visitors.php:33
+#: views/components/tables/top-visitors.php:17
+#: views/components/tables/visitors.php:32
 msgid "Total Views"
 msgstr ""
 
@@ -3981,9 +3953,9 @@ msgstr ""
 #: includes/admin/TinyMCE/class-wp-statistics-tinymce.php:50
 #: includes/class-wp-statistics-shortcode.php:210
 #: views/components/session-details.php:29
-#: views/components/tables/online.php:31
-#: views/components/tables/top-visitors.php:27
-#: views/components/tables/visitors.php:30
+#: views/components/tables/online.php:30
+#: views/components/tables/top-visitors.php:26
+#: views/components/tables/visitors.php:29
 msgid "Referrer"
 msgstr ""
 
@@ -4426,23 +4398,23 @@ msgstr ""
 msgid "Rate this plugin"
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:704
+#: includes/class-wp-statistics-install.php:702
 msgid "WP Statistics database requires upgrade."
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:707
+#: includes/class-wp-statistics-install.php:705
 msgid "Upgrade Database"
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:731
+#: includes/class-wp-statistics-install.php:729
 msgid "Database Upgrade Completed Successfully!"
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:769
+#: includes/class-wp-statistics-install.php:767
 msgid "Error During Operation. Please Refresh the Page."
 msgstr ""
 
-#: includes/class-wp-statistics-install.php:782
+#: includes/class-wp-statistics-install.php:780
 msgid "Item processed"
 msgstr ""
 
@@ -4551,9 +4523,9 @@ msgid "Statistics - Latest Visitors"
 msgstr ""
 
 #: includes/class-wp-statistics-meta-box.php:276
-#: assets/blocks/post-summary/post-summary.js:354
+#: assets/blocks/post-summary/post-summary.js:352
 #: assets/dev/blocks/post-summary/sidebar.js:21
-#: assets/blocks/post-summary/post-summary.js:292
+#: assets/blocks/post-summary/post-summary.js:291
 msgid "Statistics - Summary"
 msgstr ""
 
@@ -4931,9 +4903,6 @@ msgid "Total Users"
 msgstr ""
 
 #: includes/class-wp-statistics-widget.php:255
-#: views/components/tables/online.php:58
-#: views/components/tables/top-visitors.php:54
-#: views/components/tables/visitors.php:60
 msgid "Name"
 msgstr ""
 
@@ -4945,7 +4914,7 @@ msgstr ""
 msgid "Choose a Specific Search Engine Type"
 msgstr ""
 
-#: includes/class-wp-statistics.php:263
+#: includes/class-wp-statistics.php:261
 msgid "Unable to create the required upload directory at <code>%s</code>. Please check that the web server has write permissions for the parent directory. Alternatively, you can manually create the directory yourself. Please keep in mind that the GeoIP database may not work correctly if the directory structure is not properly set up."
 msgstr ""
 
@@ -5079,24 +5048,12 @@ msgstr ""
 msgid "To view reports for all your custom post types, you need to have the Data Plus add-on."
 msgstr ""
 
-#: src/Service/Admin/Devices/Views/SingleModelView.php:13
-msgid "Models"
-msgstr ""
-
-#: src/Service/Admin/Devices/Views/SinglePlatformView.php:13
-msgid "Platforms"
-msgstr ""
-
-#: src/Service/Admin/Devices/Views/SingleView.php:25
-msgid "Invalid single view arguments provided!"
-msgstr ""
-
-#: src/Service/Admin/Devices/Views/SingleView.php:32
-msgid "Invalid single view key provided!"
+#: src/Service/Admin/Devices/Views/SingleBrowserView.php:21
+msgid "Invalid browser provided!"
 msgstr ""
 
 #. translators: %s: Browser/OS/Model/etc. name.
-#: src/Service/Admin/Devices/Views/SingleView.php:46
+#: src/Service/Admin/Devices/Views/SingleBrowserView.php:39
 msgid "%s Report"
 msgstr ""
 
@@ -5237,6 +5194,10 @@ msgstr ""
 
 #: src/Service/Admin/PageInsights/Views/TabsView.php:123
 msgid "404 Pages"
+msgstr ""
+
+#: src/Service/Admin/Posts/HitColumnHandler.php:402
+msgid "Unlock"
 msgstr ""
 
 #: src/Service/Admin/PrivacyAudit/Audits/Abstracts/ResolvableAudit.php:107
@@ -5686,7 +5647,7 @@ msgid "IP"
 msgstr ""
 
 #: src/Service/Admin/VisitorInsights/Views/SingleVisitorView.php:63
-#: src/Service/Admin/VisitorInsights/Views/TabsView.php:66
+#: src/Service/Admin/VisitorInsights/Views/TabsView.php:98
 #: src/Service/Admin/VisitorInsights/VisitorInsightsManager.php:23
 msgid "Visitor Insights"
 msgstr ""
@@ -5721,6 +5682,7 @@ msgid "Registered"
 msgstr ""
 
 #: views/components/account-information.php:42
+#: views/components/visitor-information.php:50
 msgid "Role"
 msgstr ""
 
@@ -5799,55 +5761,31 @@ msgstr ""
 msgid "View Content"
 msgstr ""
 
-#: views/components/tables/online.php:19
-#: views/components/tables/visitors.php:21
+#: views/components/tables/online.php:18
+#: views/components/tables/visitors.php:20
 msgid "Last View"
 msgstr ""
 
-#: views/components/tables/online.php:22
+#: views/components/tables/online.php:21
 msgid "Online For"
 msgstr ""
 
-#: views/components/tables/online.php:25
-#: views/components/tables/top-visitors.php:21
-#: views/components/tables/visitors.php:24
+#: views/components/tables/online.php:24
+#: views/components/tables/top-visitors.php:20
+#: views/components/tables/visitors.php:23
 msgid "Visitor Information"
 msgstr ""
 
-#: views/components/tables/online.php:28
-#: views/components/tables/top-visitors.php:24
-#: views/components/tables/visitors.php:27
+#: views/components/tables/online.php:27
+#: views/components/tables/top-visitors.php:23
+#: views/components/tables/visitors.php:26
 msgid "Location"
 msgstr ""
 
-#: views/components/tables/online.php:34
-#: views/components/tables/top-visitors.php:30
-#: views/components/tables/visitors.php:37
+#: views/components/tables/online.php:33
+#: views/components/tables/top-visitors.php:29
+#: views/components/tables/visitors.php:36
 msgid "Latest Page"
-msgstr ""
-
-#: views/components/tables/online.php:60
-#: views/components/tables/online.php:66
-#: views/components/tables/top-visitors.php:56
-#: views/components/tables/top-visitors.php:62
-#: views/components/tables/visitors.php:62
-#: views/components/tables/visitors.php:68
-msgid "Daily Visitor Hash: %s"
-msgstr ""
-
-#: views/components/tables/online.php:60
-#: views/components/tables/online.php:66
-#: views/components/tables/top-visitors.php:56
-#: views/components/tables/top-visitors.php:62
-#: views/components/tables/visitors.php:62
-#: views/components/tables/visitors.php:68
-msgid "IP: %s"
-msgstr ""
-
-#: views/components/tables/online.php:67
-#: views/components/tables/top-visitors.php:63
-#: views/components/tables/visitors.php:69
-msgid "Incognito"
 msgstr ""
 
 #: views/components/tables/recent-events.php:12
