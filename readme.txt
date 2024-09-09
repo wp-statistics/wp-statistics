@@ -138,6 +138,7 @@ Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest versio
 == Changelog ==
 = 14.10.1 - **.09.2024 =
 * Enhancement: UX improvement for visitor information when users are logged in.
+* Enhancement: Sync charts custom tooltip visibility with legend toggle.
 * Fix: Resolved chart shrinking issue in Chrome.
 * Update: Upgraded ChartJS to v4.4.4.
 * Improvement: Remove unused function for pie charts.
@@ -151,7 +152,9 @@ Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest versio
 * Fix: Resolved an issue with the report email option during some upgrades.
 * Fix: Fixed date filter issue on "Single Browser" and "Visitor Insights" page.
 * Fix: Fixed incorrect dates in `monthly` schedule.
+* Fix: Fixed incorrect order in taxonomy lists when sorted by hits.
 * Dev: Added function `wp_statistics_needs_consent()` to check if user consent is required.
+* Dev: Removed `Admin_Post` and `Admin_Taxonomy` classes, and replaced them with `HitColumnHandler`.
 
 For more information about the major update, please [visit our blog post](https://wp-statistics.com/?p=16657) or follow [@wp_statistics](https://twitter.com/wp_statistics) on Twitter
 
