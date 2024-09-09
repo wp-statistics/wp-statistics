@@ -1,5 +1,5 @@
 <?php
-namespace WP_Statistics\Service\Analytics;
+namespace WP_Statistics\Service\Analytics\Referrals;
 
 use WP_STATISTICS\Helper;
 use WP_Statistics\Utils\Request;
