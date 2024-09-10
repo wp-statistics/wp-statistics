@@ -25,7 +25,7 @@ class Url
      */
     public static function getDomain($url, $protocol = false)
     {
-        $parsedUrl = wp_parse_url($url);
+        $parsedUrl = wp_parse_url(sanitize_url($url));
 
         // If host is empty, return early
         if (empty($parsedUrl['host'])) return '';
