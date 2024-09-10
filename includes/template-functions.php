@@ -1,14 +1,13 @@
 <?php
 
 use WP_STATISTICS\Country;
-use WP_STATISTICS\GeoIP;
 use WP_STATISTICS\IP;
-use WP_Statistics\Models\VisitorsModel;
 use WP_STATISTICS\Pages;
+use WP_Statistics\Service\Analytics\DeviceDetection\DeviceHelper;
+use WP_Statistics\Service\Analytics\DeviceDetection\UserAgent;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
 use WP_STATISTICS\TimeZone;
 use WP_STATISTICS\User;
-use WP_STATISTICS\UserAgent;
 
 /**
  * Get Current User IP
@@ -661,7 +660,7 @@ function wp_statistics_ua_list($rangestartdate = null, $rangeenddate = null)
     }
 
     $Browsers        = array();
-    $default_browser = WP_STATISTICS\UserAgent::BrowserList();
+    $default_browser = DeviceHelper::getBrowserList();
 
     foreach ($result as $out) {
 

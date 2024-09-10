@@ -6,7 +6,7 @@ use WP_STATISTICS\Helper;
 use WP_STATISTICS\IP;
 use WP_STATISTICS\Menus;
 use WP_STATISTICS\Referred;
-use WP_STATISTICS\UserAgent;
+use WP_Statistics\Service\Analytics\DeviceDetection\DeviceHelper;
 
 ?>
 
@@ -35,7 +35,7 @@ use WP_STATISTICS\UserAgent;
     <div class="wps-visitor__visitors-detail--row">
         <span><?php esc_html_e('Browser', 'wp-statistics'); ?></span>
         <div class="wps-browsers__flag">
-            <a href="<?php echo Menus::admin_url('visitors', ['agent' => $visitor->agent]) ?>"><img src="<?php echo esc_url(UserAgent::getBrowserLogo($visitor->agent)) ?>" alt="<?php echo esc_attr($visitor->agent) ?>" width="15" height="15"></a>
+            <a href="<?php echo Menus::admin_url('visitors', ['agent' => $visitor->agent]) ?>"><img src="<?php echo esc_url(DeviceHelper::getPlatformLogo($visitor->agent)); ?>" alt="<?php echo esc_attr($visitor->agent) ?>" width="15" height="15"></a>
             <span title="<?php echo esc_attr("$visitor->agent v$visitor->version") ?>"><?php echo esc_html("$visitor->agent v$visitor->version") ?></span>
         </div>
     </div>
@@ -43,7 +43,7 @@ use WP_STATISTICS\UserAgent;
     <div class="wps-visitor__visitors-detail--row">
         <span><?php esc_html_e('Operating System', 'wp-statistics'); ?></span>
         <div class="wps-os__flag">
-            <a href="<?php echo Menus::admin_url('visitors', ['platform' => $visitor->platform]) ?>"><img src="<?php echo esc_url(UserAgent::getPlatformLogo($visitor->platform)) ?>" alt="<?php echo esc_attr($visitor->platform) ?>" width="15" height="15"></a>
+            <a href="<?php echo Menus::admin_url('visitors', ['platform' => $visitor->platform]) ?>"><img src="<?php echo esc_url(DeviceHelper::getPlatformLogo($visitor->platform)) ?>" alt="<?php echo esc_attr($visitor->platform) ?>" width="15" height="15"></a>
             <span title="<?php echo esc_attr($visitor->platform) ?>"><?php echo esc_html($visitor->platform) ?></span>
         </div>
     </div>

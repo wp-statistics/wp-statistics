@@ -420,11 +420,11 @@ class Exclusion
 
         $userAgent = $visitorProfile->getUserAgent();
 
-        if (isset($userAgent['isBot']) && $userAgent['isBot'] === true) {
+        if ($userAgent->isBot()) {
             return true;
         }
 
-        if (!$userAgent['isBrowserDetected'] && !$userAgent['isPlatformDetected']) {
+        if (!$userAgent->isBrowserDetected() && !$userAgent->isPlatformDetected()) {
             return true;
         }
 

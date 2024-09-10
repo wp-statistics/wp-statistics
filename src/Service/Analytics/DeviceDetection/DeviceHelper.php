@@ -1,6 +1,6 @@
 <?php
 
-namespace WP_Statistics\Service\Analytics\UserAgent;
+namespace WP_Statistics\Service\Analytics\DeviceDetection;
 
 class DeviceHelper
 {
@@ -44,7 +44,7 @@ class DeviceHelper
      * @param string $browser
      * @return string
      */
-    public static function getBrowserLogo(string $browser): string
+    public static function getBrowserLogo(string $browser)
     {
         $browser  = str_replace(' ', '_', sanitize_key(str_replace('msie', 'internet_explorer', $browser)));
         $logoPath = "assets/images/browser/{$browser}.svg";
@@ -62,7 +62,7 @@ class DeviceHelper
      * @param string $platform
      * @return string
      */
-    public static function getPlatformLogo(string $platform): string
+    public static function getPlatformLogo(string $platform)
     {
         $platform = str_replace(' ', '_', sanitize_key($platform));
         $logoPath = "assets/images/operating-system/{$platform}.svg";
@@ -79,7 +79,7 @@ class DeviceHelper
      *
      * @return array
      */
-    public static function getPlatformsList(): array
+    public static function getPlatformsList()
     {
         return [
             'Windows',

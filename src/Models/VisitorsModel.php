@@ -3,13 +3,12 @@
 namespace WP_Statistics\Models;
 
 use WP_STATISTICS\Helper;
+use WP_Statistics\Service\Analytics\DeviceDetection\DeviceHelper;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
 use WP_STATISTICS\TimeZone;
-use WP_STATISTICS\GeoIP;
 use WP_Statistics\Utils\Query;
 use WP_Statistics\Abstracts\BaseModel;
 use WP_Statistics\Components\DateRange;
-use WP_STATISTICS\UserAgent;
 
 class VisitorsModel extends BaseModel
 {
@@ -546,7 +545,7 @@ class VisitorsModel extends BaseModel
                     if (!in_array($item->platform, $platforms)) {
                         $result['platform'][] = [
                             'label'    => $item->platform,
-                            'icon'     => UserAgent::getPlatformLogo($item->platform),
+                            'icon'     => DeviceHelper::getPlatformLogo($item->platform),
                             'visitors' => 1
                         ];
                     } else {
@@ -561,7 +560,7 @@ class VisitorsModel extends BaseModel
                     if (!in_array($item->agent, $agents)) {
                         $result['agent'][] = [
                             'label'    => $item->agent,
-                            'icon'     => UserAgent::getBrowserLogo($item->agent),
+                            'icon'     => DeviceHelper::getBrowserLogo($item->agent),
                             'visitors' => 1
                         ];
                     } else {

@@ -4,11 +4,10 @@ namespace WP_STATISTICS\MetaBox;
 
 use WP_STATISTICS\Country;
 use WP_STATISTICS\DB;
-use WP_STATISTICS\GeoIP;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\IP;
+use WP_Statistics\Service\Analytics\DeviceDetection\DeviceHelper;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
-use WP_STATISTICS\UserAgent;
 
 class hitsmap extends MetaBoxAbstract
 {
@@ -149,7 +148,7 @@ class hitsmap extends MetaBoxAbstract
         // Push Browser
         $visitor['browser'] = array(
             'name' => $country->agent,
-            'logo' => UserAgent::getBrowserLogo($country->agent)
+            'logo' => DeviceHelper::getBrowserLogo($country->agent)
         );
 
         // Push IP

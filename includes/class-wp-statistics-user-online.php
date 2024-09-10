@@ -2,6 +2,7 @@
 
 namespace WP_STATISTICS;
 
+use WP_Statistics\Service\Analytics\DeviceDetection\DeviceHelper;
 use WP_Statistics\Service\Analytics\VisitorProfile;
 
 class UserOnline
@@ -145,8 +146,7 @@ class UserOnline
 
         $current_page = $visitorProfile->getCurrentPageType();
         $user_agent   = $visitorProfile->getUserAgent();
-
-        $pageId = Pages::getPageId($current_page['type'], $current_page['id']);
+        $pageId       = Pages::getPageId($current_page['type'], $current_page['id']);
 
         //Prepare User online Data
         $user_online = array(
@@ -155,9 +155,9 @@ class UserOnline
             'created'   => TimeZone::getCurrentTimestamp(),
             'date'      => TimeZone::getCurrentDate(),
             'referred'  => $visitorProfile->getReferrer(),
-            'agent'     => $user_agent['browser'],
-            'platform'  => $user_agent['platform'],
-            'version'   => $user_agent['version'],
+            'agent'     => $user_agent->getBrowser(),
+            'platform'  => $user_agent->getPlatform(),
+            'version'   => $user_agent->getVersion(),
             'location'  => $visitorProfile->getCountry(),
             'region'    => $visitorProfile->getRegion(),
             'continent' => $visitorProfile->getContinent(),
@@ -303,7 +303,7 @@ class UserOnline
             // Push Browser
             $item['browser'] = array(
                 'name' => $agent,
-                'logo' => UserAgent::getBrowserLogo($agent),
+                'logo' => DeviceHelper::getPlatformLogo($agent),
                 'link' => Menus::admin_url('visitors', array('agent' => $agent))
             );
 

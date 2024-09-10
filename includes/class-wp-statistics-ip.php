@@ -5,6 +5,7 @@ namespace WP_STATISTICS;
 use Exception;
 use WP_Statistics;
 use WP_Statistics\Dependencies\IPTools\Range;
+use WP_Statistics\Service\Analytics\DeviceDetection\UserAgent;
 
 class IP
 {
@@ -164,8 +165,8 @@ class IP
             $ip = self::getIP();
         }
 
-        // Retrieve the current user agent, defaulting to 'Unknown' if unavailable or empty.
-        $userAgent = (UserAgent::getHttpUserAgent() == '' ? 'Unknown' : UserAgent::getHttpUserAgent());
+        // Retrieve the current user agent, defaulting to '' if unavailable or empty.
+        $userAgent = UserAgent::getHttpUserAgent();
 
         // Hash the combination of daily salt, IP, and user agent to create a unique identifier.
         // This hash is then prefixed and filtered for potential modification before being returned.
