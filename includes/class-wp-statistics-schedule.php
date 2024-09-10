@@ -2,7 +2,7 @@
 
 namespace WP_STATISTICS;
 
-use WP_Statistics\Service\Analytics\Referrals\ReferralsDb;
+use WP_Statistics\Service\Analytics\Referrals\ReferralsDatabase;
 
 class Schedule
 {
@@ -288,7 +288,7 @@ class Schedule
      */
     public function referrals_db_event()
     {
-        ReferralsDb::download();
+        ReferralsDatabase::download();
     }
 
     public function getEmailSubject()

@@ -5,7 +5,7 @@ namespace WP_Statistics\Service\Analytics\Referrals;
 use Exception;
 use WP_STATISTICS\Helper;
 
-class ReferralsDb
+class ReferralsDatabase
 {
     public static $dbLink = 'https://cdn.jsdelivr.net/gh/wp-statistics/Referral-Channels@main/source-channels.json';
 
