@@ -65,11 +65,11 @@ class Referrals
      * Returns the source channel of the given referrer.
      *
      * @param string $referrer The referrer URL.
-     * @return string The source channel of the referrer.
+     * @return SourceDetector
      */
-    public static function getSourceChannel()
+    public static function getSource()
     {
-        $detector = new SourceChannelDetector(self::getUrl());
+        return new SourceDetector(self::getUrl());
     }
 
     /**

@@ -131,7 +131,7 @@ class VisitorProfile
     public function getSourceChannel()
     {
         if (!$this->sourceChannel) {
-            $this->referrer = Referrals::getSourceChannel();
+            $this->referrer = Referrals::getSource()->getChannel();
         }
 
         return $this->referrer;

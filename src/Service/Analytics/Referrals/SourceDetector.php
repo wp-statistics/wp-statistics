@@ -2,7 +2,7 @@
 
 namespace WP_Statistics\Service\Analytics\Referrals;
 
-class SourceChannelDetector
+class SourceDetector
 {
     public $referral;
 
