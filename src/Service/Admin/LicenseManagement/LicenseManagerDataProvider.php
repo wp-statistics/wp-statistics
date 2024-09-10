@@ -6,9 +6,14 @@ class LicenseManagerDataProvider
 {
     protected $args;
 
+    /** @var LicenseValidator */
+    protected $licenseValidator;
+
     public function __construct($args = [])
     {
         $this->args = $args;
+
+        $this->licenseValidator = new LicenseValidator();
     }
 
     /**
