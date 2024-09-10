@@ -1,9 +1,9 @@
 <?php
 
-namespace WP_Statistics\Service\Admin\LicenseManager;
+namespace WP_Statistics\Service\Admin\LicenseManagement;
 
 use WP_Statistics\Abstracts\MultiViewPage;
-use WP_Statistics\Service\Admin\LicenseManager\Views\TabsView;
+use WP_Statistics\Service\Admin\LicenseManagement\Views\TabsView;
 
 class LicenseManagerPage extends MultiViewPage
 {

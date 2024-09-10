@@ -1,10 +1,9 @@
 <?php
 
-namespace WP_Statistics\Service\Admin\LicenseManager;
+namespace WP_Statistics\Service\Admin\LicenseManagement;
 
-class LicenseManagerManager
+class LicenseManagementManager
 {
-
     public function __construct()
     {
         add_filter('wp_statistics_admin_menu_list', [$this, 'addMenuItem']);

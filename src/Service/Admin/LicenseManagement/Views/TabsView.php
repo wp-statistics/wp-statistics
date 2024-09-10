@@ -1,6 +1,6 @@
 <?php
 
-namespace WP_Statistics\Service\Admin\LicenseManager\Views;
+namespace WP_Statistics\Service\Admin\LicenseManagement\Views;
 
 use Exception;
 use WP_Statistics\Components\View;
@@ -9,7 +9,7 @@ use WP_Statistics\Utils\Request;
 use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Abstracts\BaseTabView;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
-use WP_Statistics\Service\Admin\LicenseManager\LicenseManagerDataProvider;
+use WP_Statistics\Service\Admin\LicenseManagement\LicenseManagerDataProvider;
 
 class TabsView extends BaseTabView
 {

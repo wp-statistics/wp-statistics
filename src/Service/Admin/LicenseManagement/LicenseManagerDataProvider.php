@@ -1,6 +1,6 @@
 <?php
 
-namespace WP_Statistics\Service\Admin\LicenseManager;
+namespace WP_Statistics\Service\Admin\LicenseManagement;
 
 class LicenseManagerDataProvider
 {
