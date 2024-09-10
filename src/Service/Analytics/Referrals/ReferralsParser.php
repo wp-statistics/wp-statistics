@@ -29,6 +29,12 @@ class ReferralsParser {
             }
         }
 
-        return null;
+        // Fallback to direct
+        return [
+            'name'          => '',
+            'identifier'    => '',
+            'domain'        => $domain,
+            'channel'       => 'direct'
+        ];
     }
 }
