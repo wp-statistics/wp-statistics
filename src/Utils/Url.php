@@ -20,10 +20,10 @@ class Url
      * Retrieves the domain from a given URL without www.
      *
      * @param string $url The URL from which to extract the domain.
-     * @param bool $protocol (Optional) Whether to include the protocol in the domain. Default is true.
+     * @param bool $protocol (Optional) Whether to include the protocol in the domain. Default is false.
      * @return string The domain extracted from the URL, or an empty string if the URL is invalid.
      */
-    public static function getDomain($url, $protocol = true)
+    public static function getDomain($url, $protocol = false)
     {
         $parsedUrl = wp_parse_url($url);
 

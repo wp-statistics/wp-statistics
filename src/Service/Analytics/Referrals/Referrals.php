@@ -50,8 +50,8 @@ class Referrals
 
         // For http, and https protocols we only want the domain
         if (in_array($protocol, ['https', 'http'])) {
-            $referrer   = Url::getDomain($referrer, false);
-            $homeUrl    = Url::getDomain(home_url(), false);
+            $referrer   = Url::getDomain($referrer);
+            $homeUrl    = Url::getDomain(home_url());
 
             // If referrer is my own domain, set referrer to empty
             if ($referrer === $homeUrl) return '';
