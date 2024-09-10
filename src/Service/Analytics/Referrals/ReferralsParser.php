@@ -10,9 +10,16 @@ class ReferralsParser
 
     public function __construct()
     {
-        $this->referralsList = ReferralsDatabase::get();
+        $referralsDatabase   = new ReferralsDatabase();
+        $this->referralsList = $referralsDatabase->getList();
     }
 
+    /**
+     * Parse the given URL to determine the referral source.
+     *
+     * @param string $url The URL to parse.
+     * @return array An array containing the referral source information.
+     */
     public function parse($url)
     {
         $domain = Url::getDomain($url);
@@ -21,7 +28,6 @@ class ReferralsParser
             foreach ($channelData['channels'] as $channel) {
                 foreach ($channel['domains'] as $channelDomain) {
                     if ($channelDomain === $domain) {
-
                         return [
                             'name'          => $channel['name'],
                             'identifier'    => $channel['identifier'],

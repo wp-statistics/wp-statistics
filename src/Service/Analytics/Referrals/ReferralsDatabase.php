@@ -4,10 +4,16 @@ namespace WP_Statistics\Service\Analytics\Referrals;
 
 use Exception;
 use WP_STATISTICS\Helper;
+use WP_STATISTICS\Option;
 
 class ReferralsDatabase
 {
-    public static $dbLink = 'https://cdn.jsdelivr.net/gh/wp-statistics/Referral-Channels@main/source-channels.json';
+    public $databaseFileName = 'source-channels.json';
+
+    public function getDownloadUrl()
+    {
+        return 'https://cdn.jsdelivr.net/gh/wp-statistics/Referral-Channels@main/source-channels.json';
+    }
 
     /**
      * Downloads source channels database and stores it in the WordPress uploads folder
@@ -15,10 +21,10 @@ class ReferralsDatabase
      * @see https://github.com/wp-statistics/Referral-Channels/blob/main/source-channels.json
      * @return bool returns true if the download was successful, false otherwise
      */
-    public static function download()
+    public function download()
     {
         try {
-            $response = wp_remote_get(self::$dbLink, ['timeout' => 60]);
+            $response = wp_remote_get($this->getDownloadUrl(), ['timeout' => 60]);
 
             if (is_wp_error($response)) {
                 throw new Exception($response->get_error_message());
@@ -34,17 +40,23 @@ class ReferralsDatabase
 
             return true;
         } catch (Exception $e) {
-            \WP_Statistics::log(esc_html__('Cannot download referrals database.', 'wp-statistics'), 'Error');
+            \WP_Statistics::log(esc_html__('Cannot download referrals database.', 'wp-statistics'), 'error');
             return false;
         }
     }
 
-    public static function get()
+    /**
+     * Retrieves the referrals list from the stored file.
+     * If the file does not exist, it downloads the list first.
+     *
+     * @return array The referrals list in array format.
+     */
+    public function getList()
     {
-        $file = self::getFilePath();
+        $file = $this->getFilePath();
 
         if (!file_exists($file)) {
-            self::download();
+            $this->download();
         }
 
         $referralsList = file_get_contents($file);
@@ -52,9 +64,29 @@ class ReferralsDatabase
         return json_decode($referralsList, true);
     }
 
-    private static function getFilePath()
+    /**
+     * Retrieves the file path for the 'source-channels.json' file in the WordPress uploads directory.
+     *
+     * @return string The absolute file path for the 'source-channels.json' file.
+     */
+    protected function getFilePath()
     {
-        $fileName = 'source-channels.json';
-        return Helper::get_uploads_dir(WP_STATISTICS_UPLOADS_DIR . '/' . $fileName);
+        return Helper::get_uploads_dir(WP_STATISTICS_UPLOADS_DIR . '/' . $this->databaseFileName);
+    }
+
+    /**
+     * Update the last download timestamp.
+     */
+    public function getLastDownloadTimestamp()
+    {
+        return Option::get('last_referrals_list_dl');
+    }
+
+    /**
+     * Update the last download timestamp.
+     */
+    public function updateLastDownloadTimestamp()
+    {
+        Option::update('last_referrals_list_dl', time());
     }
 }
