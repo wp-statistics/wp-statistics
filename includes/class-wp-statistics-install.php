@@ -134,6 +134,7 @@ class Install
                         region varchar(100),
                         continent varchar(50),
                         source_channel varchar(50),
+                        source_name varchar(100),
 						PRIMARY KEY  (ID),
 						UNIQUE KEY date_ip_agent (last_counter,ip,agent(50),platform(50),version(50)),
 						KEY agent (agent),
@@ -382,6 +383,16 @@ class Install
         $result = $wpdb->query("SHOW COLUMNS FROM {$visitorTable} LIKE 'source_channel'");
         if ($result == 0) {
             $wpdb->query("ALTER TABLE {$visitorTable} ADD `source_channel` VARCHAR(50) NULL;");
+        }
+
+        /**
+         * Add source name column to visitors table
+         *
+         * @version 14.11
+         */
+        $result = $wpdb->query("SHOW COLUMNS FROM {$visitorTable} LIKE 'source_name'");
+        if ($result == 0) {
+            $wpdb->query("ALTER TABLE {$visitorTable} ADD `source_name` VARCHAR(100) NULL;");
         }
 
         /**
