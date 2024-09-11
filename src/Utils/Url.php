@@ -25,6 +25,10 @@ class Url
      */
     public static function getDomain($url, $protocol = false)
     {
+        // Make url lower case
+        $url = strtolower($url);
+
+        // Parse URL
         $parsedUrl = wp_parse_url(sanitize_url($url));
 
         // If host is empty, return early
