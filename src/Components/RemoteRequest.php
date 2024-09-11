@@ -82,8 +82,8 @@ class RemoteRequest
                     $responseBody = json_decode($responseBody, true);
                 }
 
-                // translators: %s: Response message
-                throw new \Exception(sprintf(esc_html__('Failed to get success response, %s', 'wp-statistics'), esc_html(print_r($responseBody, 1))));
+                // translators: %s: Response message.
+                throw new \Exception(sprintf(esc_html__('Failed to get success response, %s', 'wp-statistics'), esc_html(var_export($responseBody, true))));
             }
         }
 
