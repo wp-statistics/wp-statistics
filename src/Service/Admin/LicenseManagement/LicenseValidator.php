@@ -37,13 +37,16 @@ class LicenseValidator
         $result = [];
 
         foreach ($licenseKeysToValidate as $currentLicenseKey) {
+            $licenseManagerApi = new LicenseManagerApi();
             $response = '';
             try {
-                // Try to validate current license key
-                $response = LicenseManagerApi::call(LicenseManagerApi::LICENSE_STATUS, 'GET', [
-                    'license_key' => $currentLicenseKey,
-                    'domain'      => Helper::get_domain_name(home_url()),
-                ]);
+                // Get current license key's status
+                $response = $licenseManagerApi->getStatus($currentLicenseKey);
+
+                if (empty($response)) {
+                    // translators: %s: License key.
+                    throw new \Exception(sprintf(esc_html__('Invalid license key: %s', 'wp-statistics'), $currentLicenseKey));
+                }
 
                 $result[$currentLicenseKey] = $response;
 
