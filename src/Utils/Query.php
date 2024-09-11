@@ -221,8 +221,7 @@ class Query
 
         if (is_array($fields)) {
             foreach ($fields as $field) {
-                $this->whereClauses[] = "{$field} IS NULL";
-                $this->whereClauses[] = "{$field} = ''";
+                $this->whereClauses[] = "{$field} IS NULL OR {$field} = ''";
             }
         }
 
