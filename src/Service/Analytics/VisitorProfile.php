@@ -19,6 +19,7 @@ class VisitorProfile
     private $processedIPForStorage;
     private $isIpActiveToday;
     private $referrer;
+    private $sourceName;
     private $sourceChannel;
     private $country;
     private $city;
@@ -131,10 +132,19 @@ class VisitorProfile
     public function getSourceChannel()
     {
         if (!$this->sourceChannel) {
-            $this->referrer = Referrals::getSource()->getChannel();
+            $this->sourceChannel = Referrals::getSource()->getChannel();
         }
 
-        return $this->referrer;
+        return $this->sourceChannel;
+    }
+
+    public function getSourceName()
+    {
+        if (!$this->sourceName) {
+            $this->sourceName = Referrals::getSource()->getName();
+        }
+
+        return $this->sourceName;
     }
 
     public function getUserAgent()

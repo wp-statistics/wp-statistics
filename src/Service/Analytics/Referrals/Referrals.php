@@ -24,7 +24,7 @@ class Referrals
             $referrer = urldecode(Request::get('referred'));
         }
 
-        return $referrer;
+        return 'https://google.com';
     }
 
     /**

@@ -120,6 +120,7 @@ class Visitor
             $visitor = array(
                 'last_counter'  => TimeZone::getCurrentDate('Y-m-d'),
                 'referred'      => $visitorProfile->getReferrer(),
+                'source_name'   => $visitorProfile->getSourceName(),
                 'source_channel'=> $visitorProfile->getSourceChannel(),
                 'agent'         => $user_agent['browser'],
                 'platform'      => $user_agent['platform'],

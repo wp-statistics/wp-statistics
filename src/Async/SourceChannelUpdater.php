@@ -41,6 +41,7 @@ class SourceChannelUpdater extends WP_Background_Process
 
             $visitorModel->updateVisitor($visitor->ID, [
                 'source_channel'    => $sourceDetector->getChannel(),
+                'source_name'       => $sourceDetector->getName(),
                 'referred'          => Url::getDomain($referrer)
             ]);
         }
