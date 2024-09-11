@@ -41,14 +41,4 @@ class SourceDetector
     {
         return $this->referral['channel'];
     }
-
-    /**
-     * Returns the domain of the referral source.
-     *
-     * @return string The domain of the referral source.
-     */
-    public function getDomain()
-    {
-        return $this->referral['domain'];
-    }
 }
