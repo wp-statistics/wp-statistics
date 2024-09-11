@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-09-11T13:20:34+00:00\n"
+"POT-Creation-Date: 2024-09-11T15:14:30+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: wp-statistics\n"
@@ -1421,7 +1421,7 @@ msgid "Advanced Reporting"
 msgstr ""
 
 #: includes/admin/templates/layout/menu-settings.php:74
-#: includes/class-wp-statistics-helper.php:1730
+#: includes/class-wp-statistics-helper.php:1729
 msgid "Mini Chart"
 msgstr ""
 
@@ -1489,6 +1489,7 @@ msgid "Analyze individual content pieces with detailed widgets."
 msgstr ""
 
 #: includes/admin/templates/layout/partials/data-plus-locked-page.php:29
+#: includes/admin/templates/settings/add-ons/data-plus.php:22
 #: views/components/locked-page.php:29
 msgid "Unlock deeper insights into your website's performance with DataPlus."
 msgstr ""
@@ -2307,7 +2308,7 @@ msgid "Visitor Count"
 msgstr ""
 
 #: includes/admin/templates/pages/devices/categories.php:12
-#: includes/class-wp-statistics-helper.php:921
+#: includes/class-wp-statistics-helper.php:920
 msgid "Category"
 msgstr ""
 
@@ -2764,7 +2765,7 @@ msgid "Customize menus according to your preferences."
 msgstr ""
 
 #: includes/admin/templates/settings/add-ons/customization.php:54
-msgid " Make WP Statistics white-label."
+msgid "Make WP Statistics white-label."
 msgstr ""
 
 #: includes/admin/templates/settings/add-ons/customization.php:56
@@ -2796,7 +2797,7 @@ msgid "White label WP Statistics report pages. Remove branding and promotional e
 msgstr ""
 
 #: includes/admin/templates/settings/add-ons/customization.php:106
-msgid " Change the Header Logo"
+msgid "Change the Header Logo"
 msgstr ""
 
 #: includes/admin/templates/settings/add-ons/customization.php:127
@@ -4285,7 +4286,7 @@ msgid "WP-Optimize"
 msgstr ""
 
 #: includes/class-wp-statistics-helper.php:813
-msgid "<table style=\"font-family:  -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans, Ubuntu, Cantarell, Helvetica Neue,sans-serif;; width: 100%; text-align: "
+msgid "Your Website Performance Overview"
 msgstr ""
 
 #. translators: 1: Report start date - 2: Report end date.
@@ -4293,92 +4294,87 @@ msgstr ""
 msgid "%s - %s"
 msgstr ""
 
-#. translators: %1$s: Reoprt date - %2$s: Website URL - %3$s: Website name.
-#: includes/class-wp-statistics-helper.php:832
-msgid "<p style=\"margin-bottom: 12px;margin-top:4px;font-size: 14px; font-weight: 400; line-height: 16.41px; color: #56585A;\">%1$s</p><p style=\"margin: 0\"><a href=\"%2$s\" title=\"%3$s\" style=\"color: #56585A;font-size: 16px; font-weight: 500; line-height: 18.75px; text-decoration:none\">%3$s</a></p>"
-msgstr ""
-
-#: includes/class-wp-statistics-helper.php:921
+#: includes/class-wp-statistics-helper.php:920
 msgid "Tags"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1563
+#: includes/class-wp-statistics-helper.php:1562
 msgid "a year"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1565
+#: includes/class-wp-statistics-helper.php:1564
 msgid "a month"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1568
+#: includes/class-wp-statistics-helper.php:1567
 msgid "a week"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1570
+#: includes/class-wp-statistics-helper.php:1569
 msgid "a day"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1673
+#: includes/class-wp-statistics-helper.php:1672
 msgid "Optimize Your Content Strategy"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1675
+#: includes/class-wp-statistics-helper.php:1674
 msgid "For maximum accuracy, enable the cache compatibility mode on your website and check your filtering settings. By following these steps, traffic data becomes more accurate. <div style=\"margin-top: 16px\">For more details, read <a href=\"%1$s\" style=\"color:#5100FD;font-size:14px;line-height:16.41px;font-weight:500;border-bottom: 1px solid #5100FD;text-decoration: none\" target=\"_blank\">%2$s <img width=\"6.67\" height=\"10.91\" style=\"margin-"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1682
+#: includes/class-wp-statistics-helper.php:1681
 msgid "Optimize Your Data Accuracy"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1686
+#: includes/class-wp-statistics-helper.php:1685
 msgid "Keep the plugin up-to-date"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1687
+#: includes/class-wp-statistics-helper.php:1686
 msgid "Ensure that your WP Statistics plugin is up-to-date in order to get the latest features and security improvements."
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1690
+#: includes/class-wp-statistics-helper.php:1689
 msgid "Maintain Privacy Compliance"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1694
+#: includes/class-wp-statistics-helper.php:1693
 msgid "WordPress Export and Erasure"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1698
+#: includes/class-wp-statistics-helper.php:1697
 msgid "Track Links and Downloads"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1702
+#: includes/class-wp-statistics-helper.php:1701
 msgid "Advanced Filtering"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1706
+#: includes/class-wp-statistics-helper.php:1705
 msgid "Weekly Traffic Comparison Widget"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1710
+#: includes/class-wp-statistics-helper.php:1709
 msgid "Traffic by Hour Widget"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1714
+#: includes/class-wp-statistics-helper.php:1713
 msgid "Content-Specific Analytics"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1718
+#: includes/class-wp-statistics-helper.php:1717
 msgid "Custom Post Type Tracking"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1722
+#: includes/class-wp-statistics-helper.php:1721
 msgid "Custom Taxonomy Analytics"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1726
+#: includes/class-wp-statistics-helper.php:1725
 msgid "Real-Time Stats"
 msgstr ""
 
-#: includes/class-wp-statistics-helper.php:1995
+#: includes/class-wp-statistics-helper.php:1994
 msgid "Invalid hit request params."
 msgstr ""
 
