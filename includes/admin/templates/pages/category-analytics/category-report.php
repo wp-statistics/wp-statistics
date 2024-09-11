@@ -30,22 +30,22 @@ $taxName        = Helper::getTaxonomyName(Request::get('tx', 'category'), true);
                                         </th>
                                         <th class="wps-pd-l">
                                             <a href="<?php echo esc_url(Helper::getTableColumnSortUrl('posts')) ?>" class="sort <?php echo Request::compare('order_by', 'posts') ? esc_attr($order) : ''; ?>">
-                                                <?php esc_html_e('Published ', 'wp-statistics'); ?>
+                                                <?php esc_html_e('Published', 'wp-statistics'); ?>&nbsp;
                                             </a>
                                         </th>
                                         <th class="wps-pd-l">
                                             <a href="<?php echo esc_url(Helper::getTableColumnSortUrl('words')) ?>" class="sort <?php echo Request::compare('order_by', 'words') ? esc_attr($order) : ''; ?>">
-                                                <?php esc_html_e('Words ', 'wp-statistics'); ?>
+                                                <?php esc_html_e('Words', 'wp-statistics'); ?>&nbsp;
                                             </a>
                                         </th>
                                         <th class="wps-pd-l">
                                             <a href="<?php echo esc_url(Helper::getTableColumnSortUrl('avg_views')) ?>" class="sort <?php echo Request::compare('order_by', 'avg_views') ? esc_attr($order) : ''; ?>">
-                                                <?php esc_html_e('Views/Content ', 'wp-statistics'); ?>
+                                                <?php esc_html_e('Views/Content', 'wp-statistics'); ?>&nbsp;
                                             </a>
                                         </th>
                                         <th class="wps-pd-l">
                                             <a href="<?php echo esc_url(Helper::getTableColumnSortUrl('avg_words')) ?>" class="sort <?php echo Request::compare('order_by', 'avg_words') ? esc_attr($order) : ''; ?>">
-                                                <?php esc_html_e('Words/Content ', 'wp-statistics'); ?>
+                                                <?php esc_html_e('Words/Content', 'wp-statistics'); ?>&nbsp;
                                             </a>
                                         </th>
                                     </tr>

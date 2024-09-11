@@ -3,6 +3,7 @@
 namespace WP_Statistics\Service\Admin\Posts;
 
 use WP_Statistics\Components\Assets;
+use WP_STATISTICS\DB;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Meta_Box;
 use WP_STATISTICS\Option;
@@ -24,7 +25,18 @@ class PostsManager
         add_action('save_post', [$this, 'addWordsCountCallback'], 99, 3);
         add_action('delete_post', [$this, 'removeWordsCountCallback'], 99, 2);
 
-        // Add meta-boxes and blocks if the user has access and only in edit mode
+        // Add Hits column in edit lists of all post types
+        if (User::Access('read') && !Option::get('disable_column')) {
+            add_action('admin_init', [$this, 'initHitsColumn']);
+        }
+
+        // Remove post hits on post delete
+        add_action('deleted_post', [$this, 'deletePostHits']);
+
+        // Remove term hits on term delete
+        add_action('delete_term', [$this, 'deleteTermHits'], 10, 2);
+
+        // Add meta-boxes and blocks only in edit mode if the user has access
         global $pagenow;
         if (User::Access('read') && $pagenow !== 'post-new.php') {
             if (!Option::get('disable_editor')) {
@@ -55,6 +67,92 @@ class PostsManager
     public function removeWordsCountCallback($postId, $post)
     {
         $this->wordsCount->removeWordsCountMeta($postId, $post);
+    }
+
+    /**
+     * Initializes hits column in edit lists.
+     *
+     * @return void
+     *
+     * @hooked action: `admin_init` - 10
+     */
+    public function initHitsColumn()
+    {
+        global $pagenow;
+
+        if ($pagenow === 'edit.php') {
+            // Posts and pages and CPTs
+
+            $hitColumnHandler = new HitColumnHandler();
+
+            foreach (Helper::get_list_post_type() as $type) {
+                add_action("manage_{$type}_posts_columns", [$hitColumnHandler, 'addHitColumn'], 10, 2);
+                add_action("manage_{$type}_posts_custom_column", [$hitColumnHandler, 'renderHitColumn'], 10, 2);
+                add_filter("manage_edit-{$type}_sortable_columns", [$hitColumnHandler, 'modifySortableColumns']);
+            }
+
+            add_filter('posts_clauses', [$hitColumnHandler, 'handlePostOrderByHits'], 10, 2);
+        } else if ($pagenow === 'edit-tags.php') {
+            // Taxonomies
+
+            if (!apply_filters('wp_statistics_show_taxonomy_hits', true)) {
+                return;
+            }
+
+            $hitColumnHandler = new HitColumnHandler(true);
+
+            // Add Column
+            foreach (Helper::get_list_taxonomy() as $tax => $name) {
+                add_action('manage_edit-' . $tax . '_columns', [$hitColumnHandler, 'addHitColumn'], 10, 2);
+                add_filter('manage_' . $tax . '_custom_column', [$hitColumnHandler, 'renderTaxHitColumn'], 10, 3);
+                add_filter('manage_edit-' . $tax . '_sortable_columns', [$hitColumnHandler, 'modifySortableColumns']);
+            }
+
+            add_filter('terms_clauses', [$hitColumnHandler, 'handleTaxOrderByHits'], 10, 3);
+        }
+    }
+
+    /**
+     * Deletes all post hits when the post is deleted.
+     *
+     * @param int $postId
+     *
+     * @return void
+     *
+     * @hooked action: `deleted_post` - 10
+     *
+     * @todo Replace this method with visitor decorator call after the class is ready.
+     * @todo Also delete from historical table.
+     */
+    public static function deletePostHits($postId)
+    {
+        global $wpdb;
+
+        $wpdb->query(
+            $wpdb->prepare("DELETE FROM `" . DB::table('pages') . "` WHERE `id` = %d AND (`type` = 'post' OR `type` = 'page' OR `type` = 'product');", esc_sql($postId))
+        );
+    }
+
+    /**
+     * Deletes all term hits when the term is deleted.
+     *
+     * @param int $term Term ID.
+     * @param int $ttId Term taxonomy ID.
+     *
+     * @return void
+     *
+     * @hooked action: `delete_term` - 10
+     *
+     * @todo Replace this method with visitor decorator call after the class is ready.
+     * @todo Also delete from historical table.
+     */
+    public static function deleteTermHits($term, $ttId)
+    {
+        global $wpdb;
+
+        $wpdb->query(
+            $wpdb->prepare("DELETE FROM `" . DB::table('pages') . "` WHERE `id` = %d AND (`type` = 'category' OR `type` = 'post_tag' OR `type` = 'tax');", esc_sql($ttId))
+        );
     }
 
     /**
@@ -153,7 +251,8 @@ class PostsManager
      */
     public static function getPostStatisticsSummary($post)
     {
-        $dataProvider = null;
+        $dataProvider    = null;
+        $miniChartHelper = new MiniChartHelper();
         try {
             $dataProvider = new PostSummaryDataProvider($post);
         } catch (\Exception $e) {
@@ -170,8 +269,8 @@ class PostsManager
 
         // Fill `$chartData` with default 0s
         // Use a short date format for indexes and `chartDates` for values
-            // Short date format will be displayed below summary charts
-        foreach (MiniChartHelper::getChartDates() as $date) {
+        // Short date format will be displayed below summary charts
+        foreach ($miniChartHelper->getChartDates() as $date) {
             $shortDate             = date('d M', strtotime($date));
             $chartData[$shortDate] = [
                 'ymdDate'   => date('Y-m-d', strtotime($date)),
@@ -182,11 +281,11 @@ class PostsManager
 
         // Set date range for charts based on MiniChart's `date_range` option
         // Also change `to_date` to include today's stats in charts too
-        $dataProvider->setFrom(TimeZone::getTimeAgo(Option::getByAddon('date_range', 'mini_chart', '14')));
+        $dataProvider->setFrom(TimeZone::getTimeAgo($miniChartHelper->isMiniChartActive() ? Option::getByAddon('date_range', 'mini_chart', '14') : 14));
         $dataProvider->setTo(date('Y-m-d'));
 
         // Fill `$dailyHits` based on MiniChart's `metric` option
-        $dailyHits = Helper::checkMiniChartOption('metric', 'visitors', 'visitors') ? $dataProvider->getDailyVisitors() : $dataProvider->getDailyViews();
+        $dailyHits = Helper::checkMiniChartOption('metric', 'views', 'visitors') ? $dataProvider->getDailyViews() : $dataProvider->getDailyVisitors();
 
         // Fill `$chartData` with real stats
         foreach ($dailyHits as $hit) {
@@ -204,14 +303,16 @@ class PostsManager
 
         // Sort `$chartData` by date
         uasort($chartData, function ($a, $b) {
-            return $a['ymdDate'] <=> $b['ymdDate'];
+            if ($a['ymdDate'] == $b['ymdDate']) {
+                return 0;
+            }
+            return ($a['ymdDate'] < $b['ymdDate']) ? -1 : 1;
         });
 
         // Some settings for the chart
         $chartSettings = [
-            'color'  => MiniChartHelper::getChartColor(),
-            'border' => MiniChartHelper::getBorderColor(),
-            'label'  => MiniChartHelper::getTooltipLabel(),
+            'color'  => $miniChartHelper->getChartColor(),
+            'label'  => $miniChartHelper->getLabel(),
         ];
 
         // Reset date range because text summary displays info for the past week

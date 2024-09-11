@@ -61,16 +61,6 @@ class Schedule
                 wp_unschedule_event(wp_next_scheduled('wp_statistics_dbmaint_hook'), 'wp_statistics_dbmaint_hook');
             }
 
-            // Add the visitor database maintenance schedule if it doesn't exist and it should be.
-            if (!wp_next_scheduled('wp_statistics_dbmaint_visitor_hook') && Option::get('schedule_dbmaint_visitor')) {
-                wp_schedule_event(time(), 'daily', 'wp_statistics_dbmaint_visitor_hook');
-            }
-
-            // Remove the visitor database maintenance schedule if it does exist and it shouldn't.
-            if (wp_next_scheduled('wp_statistics_dbmaint_visitor_hook') && (!Option::get('schedule_dbmaint_visitor'))) {
-                wp_unschedule_event(wp_next_scheduled('wp_statistics_dbmaint_visitor_hook'), 'wp_statistics_dbmaint_visitor_hook');
-            }
-
             // Add the add visit table row schedule if it does exist and it should.
             if (!wp_next_scheduled('wp_statistics_add_visit_hook')) {
                 wp_schedule_event(time(), 'daily', 'wp_statistics_add_visit_hook');
@@ -79,7 +69,6 @@ class Schedule
             //After construct
             add_action('wp_statistics_add_visit_hook', array($this, 'add_visit_event'));
             add_action('wp_statistics_dbmaint_hook', array($this, 'dbmaint_event'));
-            add_action('wp_statistics_dbmaint_visitor_hook', array($this, 'dbmaint_visitor_event'));
         }
 
         // Add the report schedule if it doesn't exist and is enabled.
@@ -87,7 +76,7 @@ class Schedule
             $timeReports       = Option::get('time_report');
             $schedulesInterval = self::getSchedules();
 
-            if (isset($schedulesInterval[$timeReports]['next_schedule'])) {
+            if (isset($schedulesInterval[$timeReports], $schedulesInterval[$timeReports]['next_schedule'])) {
                 $scheduleTime = $schedulesInterval[$timeReports]['next_schedule'];
                 wp_schedule_event($scheduleTime, $timeReports, 'wp_statistics_report_hook');
             }
@@ -169,8 +158,8 @@ class Schedule
             'monthly'  => [
                 'interval'      => MONTH_IN_SECONDS,
                 'display'       => __('Monthly', 'wp-statistics'),
-                'start'         => wp_date('Y-m-d', strtotime("-30 days")),
-                'end'           => wp_date('Y-m-d', strtotime("-1 day")),
+                'start'         => wp_date('Y-m-d', strtotime('First day of previous month')),
+                'end'           => wp_date('Y-m-d', strtotime('Last day of previous month')),
                 'next_schedule' => $monthly->getTimestamp()
             ]
         ];
@@ -267,15 +256,6 @@ class Schedule
         Purge::purge_data($purge_days);
     }
 
-    /**
-     * Purges visitors with more than a defined number of hits in a day.
-     */
-    public function dbmaint_visitor_event()
-    {
-        $purge_hits = intval(Option::get('schedule_dbmaint_visitor_hits', false));
-        Purge::purge_visitor_hits($purge_hits);
-    }
-
     public function getEmailSubject()
     {
         $schedule = Option::get('time_report', false);
@@ -367,7 +347,7 @@ class Schedule
         $time               = sanitize_text_field($newTime);
         $schedulesInterval  = self::getSchedules();
 
-        if (isset($schedulesInterval[$time]['next_schedule'])) {
+        if (isset($schedulesInterval[$time], $schedulesInterval[$time]['next_schedule'])) {
             $scheduleTime = $schedulesInterval[$time]['next_schedule'];
             wp_schedule_event($scheduleTime, $time, $event);
         }

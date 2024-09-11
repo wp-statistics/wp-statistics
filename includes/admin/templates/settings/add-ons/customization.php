@@ -46,14 +46,14 @@ $disabledMenuItems = WP_STATISTICS\Option::getByAddon('disable_menus', 'customiz
 ?>
 <?php
 if (!$isCustomizationActive) echo Admin_Template::get_template('layout/partials/addon-premium-feature',
-    ['addon_slug'           => esc_url(WP_STATISTICS_SITE_URL . '/product/wp-statistics-customization/?utm_source=wp-statistics&utm_medium=link&utm_campaign=plugin-settings'),
-     'addon_title'          => 'Customization Add-On',
-     'addon_description'    => 'The settings on this page are part of the Customization add-on, which allows you to customize menus and make WP Statistics white-label.',
-     'addon_features'       => [
-         'Customize menus according to your preferences.',
-         ' Make WP Statistics white-label.',
+    ['addon_slug'        => esc_url(WP_STATISTICS_SITE_URL . '/product/wp-statistics-customization/?utm_source=wp-statistics&utm_medium=link&utm_campaign=plugin-settings'),
+     'addon_title'       => __('Customization Add-On', 'wp-statistics'),
+     'addon_description' => __('The settings on this page are part of the Customization add-on, which allows you to customize menus and make WP Statistics white-label.', 'wp-statistics'),
+     'addon_features'    => [
+         __('Customize menus according to your preferences.', 'wp-statistics'),
+         __(' Make WP Statistics white-label.', 'wp-statistics'),
      ],
-     'addon_info'           => 'Enjoy a simplified, customized experience with the Customization add-on.',
+     'addon_info'        => __('Enjoy a simplified, customized experience with the Customization add-on.', 'wp-statistics'),
     ], true);
 ?>
     <div class="postbox">

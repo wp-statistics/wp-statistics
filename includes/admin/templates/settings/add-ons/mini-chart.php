@@ -25,15 +25,15 @@ foreach ($miniChartPostTypes as $name => $label) {
 
 <?php
 if (!$isMiniChartActive) echo Admin_Template::get_template('layout/partials/addon-premium-feature',
-    ['addon_slug'           => esc_url(WP_STATISTICS_SITE_URL . '/product/wp-statistics-mini-chart/?utm_source=wp-statistics&utm_medium=link&utm_campaign=plugin-settings'),
-     'addon_title'          => 'Mini Chart Add-On',
-     'addon_description'    => 'The settings on this page are part of the Mini Chart add-on, which provides tiny charts for all your posts and pages, along with an Admin Bar for quick access to traffic data.',
-     'addon_features'       => [
-         'Tiny charts for posts and pages to measure performance.',
-         'Admin Bar for easy access to traffic data.',
-         'Customizable chart type and color.',
+    ['addon_slug'        => esc_url(WP_STATISTICS_SITE_URL . '/product/wp-statistics-mini-chart/?utm_source=wp-statistics&utm_medium=link&utm_campaign=plugin-settings'),
+     'addon_title'       => __('Mini Chart Add-On', 'wp-statistics'),
+     'addon_description' => __('The settings on this page are part of the Mini Chart add-on, which provides tiny charts for all your posts and pages, along with an Admin Bar for quick access to traffic data.', 'wp-statistics'),
+     'addon_features'    => [
+         __('Tiny charts for posts and pages to measure performance.', 'wp-statistics'),
+         __('Admin Bar for easy access to traffic data.', 'wp-statistics'),
+         __('Customizable chart type and color.', 'wp-statistics'),
      ],
-     'addon_info'           => 'Get clear insights into your website\'s traffic and content success with the Mini Chart add-on.',
+     'addon_info'        => __('Get clear insights into your website\'s traffic and content success with the Mini Chart add-on.', 'wp-statistics'),
     ], true);
 ?>
 
@@ -133,18 +133,6 @@ if (!$isMiniChartActive) echo Admin_Template::get_template('layout/partials/addo
                 <p class="description"><?php esc_html_e('Select a color for your chart’s main elements to match your website’s theme.', 'wp-statistics'); ?></p>
             </td>
         </tr>
-
-        <tr>
-            <th scope="row">
-                <label for="mini-chart-chart_border_color"><?php esc_html_e('Border Color', 'wp-statistics'); ?></label>
-            </th>
-
-            <td>
-                <input type="text" class="regular-text code js-color-picker" id="mini-chart-chart_border_color" name="wps_addon_settings[mini_chart][chart_border_color]" value="<?php echo esc_attr(WP_STATISTICS\Option::getByAddon('chart_border_color', 'mini_chart', '#0D0725')); ?>" style="min-width: 50px"/>
-                <p class="description"><?php esc_html_e('Pick a border color to enhance the visibility of your chart on the dashboard.', 'wp-statistics'); ?></p>
-            </td>
-        </tr>
-
         </tbody>
     </table>
 </div>

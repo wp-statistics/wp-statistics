@@ -251,83 +251,6 @@ wps_js.line_chart = function (tag_id, title, label, data, newOptions) {
     new Chart(ctx, options);
 };
 
-/**
- * Create pie Chart JS
- */
-wps_js.pie_chart = function (tag_id, label, data, label_callback = false, tooltip_callback = false) {
-
-    // Get Element By ID
-    let ctx = document.getElementById(tag_id).getContext('2d');
-
-    // Check is RTL Mode
-    if (wps_js.is_active('rtl')) {
-        Chart.defaults.global = {
-            defaultFontFamily: "Tahoma"
-        }
-    }
-    // Set Default Label Callback
-    if (label_callback === false) {
-        label_callback = function (tooltipItem) {
-            return tooltipItem.formattedValue
-        };
-    }
-
-    // Set Default tooltip title Callback
-    if (tooltip_callback === false) {
-        tooltip_callback = function (tooltipItem) {
-            return tooltipItem.label;
-        }
-    }
-
-    // Create Chart
-    new Chart(ctx, {
-        type: 'pie',
-        data: {
-            labels: label,
-            datasets: data
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: {
-                    position: function (chart) {
-                        if (chart.chart.width > 400) {
-                            return 'left';
-                        }
-                        return 'top';
-                    }
-                },
-                tooltip: {
-                    enable: true,
-                    callbacks: {
-                        label: label_callback,
-                        title: tooltip_callback
-                    }
-                }
-            },
-            animation: {
-                duration: 1500,
-            },
-        },
-        plugins: [{
-            afterDraw: function (chart) {
-                if (chart.data.datasets[0].data.every(x => x == 0) === true) {
-                    let ctx = chart.ctx;
-                    let width = chart.width;
-                    let height = chart.height;
-                    chart.clear();
-                    ctx.save();
-                    ctx.textAlign = 'center';
-                    ctx.textBaseline = 'middle';
-                    ctx.font = "14px normal 'Tahoma'";
-                    ctx.fillText(wps_js._('no_data'), width / 2, height / 2);
-                    ctx.restore();
-                }
-            }
-        }]
-    });
-};
-
 
 /**
  * Create Horizontal Bar Chart
@@ -607,7 +530,6 @@ const getOrCreateTooltip = (chart) => {
 const externalTooltipHandler = (context, dataset, colors, data) => {
     const {chart, tooltip} = context;
     const tooltipEl = getOrCreateTooltip(chart);
-
     if (tooltip.opacity === 0) {
         tooltipEl.style.opacity = 0;
         return;
@@ -627,9 +549,11 @@ const externalTooltipHandler = (context, dataset, colors, data) => {
 
         // Iterate over each dataset to create the tooltip content
         datasets.forEach((dataset, index) => {
+            const meta = chart.getDatasetMeta(index);
+            const metaPrevious = chart.getDatasetMeta(index + 1);
             const value = dataset.data[dataIndex];
             const isPrevious = dataset.label.includes('(Previous)');
-            if (!isPrevious) {
+            if (!meta.hidden && !isPrevious) {
                 innerHtml += `
                 <div class="current-data">
                     <div>
@@ -639,7 +563,7 @@ const externalTooltipHandler = (context, dataset, colors, data) => {
                     <span class="current-data__value">${value.toLocaleString()}</span>
                 </div>`;
             }
-            if (data?.previousData) {
+            if (data?.previousData && !metaPrevious.hidden) {
                 const previousValue = data.previousData[dataset.label.replace(' (Previous)', '')]?.[dataIndex];
                 if (previousValue !== undefined && previousValue !== '' && !isPrevious) {
                     const previousLabel = data.previousData.labels[dataIndex].date;
@@ -791,6 +715,12 @@ wps_js.new_line_chart = function (data, tag_id, newOptions) {
     });
     // Default options
     const defaultOptions = {
+        maintainAspectRatio: false,
+        resizeDelay: 200,
+        animation: {
+            duration: 0,  // Disable animation
+        },
+        responsive: true,
         interaction: {
             intersect: false,
             mode: 'index'
@@ -828,7 +758,6 @@ wps_js.new_line_chart = function (data, tag_id, newOptions) {
                     fontWeight: 'lighter ',
                     fontSize: 13,
                     padding: 8,
-                    fontFamily: '"Roboto",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif',
                     lineHeight: 15,
                     stepSize: 1
                 }
@@ -840,7 +769,6 @@ wps_js.new_line_chart = function (data, tag_id, newOptions) {
                     fontColor: '#898A8E',
                     fontSize: 13,
                     fontStyle: 'italic',
-                    fontFamily: '"Roboto",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif',
                     fontWeight: 'lighter ',
                     padding: 8,
                     lineHeight: 15,
@@ -943,6 +871,7 @@ wps_js.new_line_chart = function (data, tag_id, newOptions) {
                                 previousDataDiv.classList.toggle('wps-line-through');
                                 metaPrevious.hidden = !metaPrevious.hidden;
                             }
+
                             lineChart.update();
                         });
                     }
@@ -959,12 +888,14 @@ wps_js.performance_chart = function (data, tag_id, type) {
     const colors = ['#3288D7', '#7362BF', '#8AC3D0'];
     const is_single_content = type === 'content-single';
     const legendHandel = (chart) => {
+
         document.querySelectorAll('.js-wps-performance-chart__item').forEach((legendItem, index) => {
             legendItem.addEventListener('click', () => {
-                const dataset = chart.data.datasets[index];
-                dataset.hidden = !dataset.hidden;
+
+                const metaMain = chart.getDatasetMeta(index);
+                metaMain.hidden = !metaMain.hidden;
                 chart.update();
-                legendItem.classList.toggle('hidden', dataset.hidden);
+                legendItem.classList.toggle('hidden', metaMain.hidden);
             });
         });
     }
@@ -1025,7 +956,6 @@ wps_js.performance_chart = function (data, tag_id, type) {
                 fontColor: '#898A8E',
                 fontSize: 13,
                 fontStyle: 'italic',
-                fontFamily: '"Roboto",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif',
                 fontWeight: 'lighter ',
                 padding: 8,
                 lineHeight: 15,
@@ -1051,7 +981,6 @@ wps_js.performance_chart = function (data, tag_id, type) {
                 fontColor: '#898A8E',
                 fontSize: 13,
                 fontStyle: 'italic',
-                fontFamily: '"Roboto",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif',
                 fontWeight: 'lighter ',
                 padding: 8,
                 lineHeight: 15,
@@ -1091,7 +1020,6 @@ wps_js.performance_chart = function (data, tag_id, type) {
                 fontColor: '#898A8E',
                 fontSize: 13,
                 fontStyle: 'italic',
-                fontFamily: '"Roboto",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif',
                 fontWeight: 'lighter ',
                 padding: 8,
                 lineHeight: 15,
@@ -1113,6 +1041,12 @@ wps_js.performance_chart = function (data, tag_id, type) {
             datasets: datasets
         },
         options: {
+            maintainAspectRatio: false,
+            resizeDelay: 200,
+            responsive: true,
+            animation: {
+                duration: 0,  // Disable animation
+            },
             interaction: {
                 intersect: false,
             },

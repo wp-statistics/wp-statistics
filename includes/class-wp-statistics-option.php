@@ -61,7 +61,7 @@ class Option
             'store_ua'                  => false,
             'consent_level_integration' => 'disabled',
             'anonymous_tracking'        => false,
-            'do_not_track'              => true,
+            'do_not_track'              => false,
             'exclude_administrator'     => true,
             'referrerspam'              => true,
             'disable_se_clearch'        => true,

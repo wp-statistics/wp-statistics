@@ -13,9 +13,6 @@
                 <div id="purging" class="tab-content">
                     <?php include(WP_STATISTICS_DIR . 'includes/admin/templates/optimization/purging.php'); ?>
                 </div>
-                <div id="database" class="tab-content">
-                    <?php include(WP_STATISTICS_DIR . 'includes/admin/templates/optimization/database.php'); ?>
-                </div>
                 <div id="updates" class="tab-content">
                     <?php include(WP_STATISTICS_DIR . 'includes/admin/templates/optimization/updates.php'); ?>
                 </div>

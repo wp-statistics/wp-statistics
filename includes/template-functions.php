@@ -5,6 +5,11 @@ use WP_STATISTICS\GeoIP;
 use WP_STATISTICS\IP;
 use WP_Statistics\Models\VisitorsModel;
 use WP_STATISTICS\Pages;
+use WP_Statistics\Service\Admin\PrivacyAudit\Audits\AnonymizeIpAddress;
+use WP_Statistics\Service\Admin\PrivacyAudit\Audits\HashIpAddress;
+use WP_Statistics\Service\Admin\PrivacyAudit\Audits\RecordUserPageVisits;
+use WP_Statistics\Service\Admin\PrivacyAudit\Audits\StoreUserAgentString;
+use WP_Statistics\Service\Admin\PrivacyAudit\Faqs\RequireConsent;
 use WP_STATISTICS\TimeZone;
 use WP_STATISTICS\User;
 use WP_STATISTICS\UserAgent;
@@ -941,4 +946,27 @@ function wp_statistics_referrer($time = null, $range = [])
 
     return count($get_urls);
 }
- 
+
+/**
+ * Checks if consent is required for collecting user statistics.
+ *
+ * This function evaluates several conditions that determine whether consent
+ * is needed to collect and store user data for statistics purposes. If any
+ * of the conditions are not met, it indicates that consent is required.
+ *
+ * @return bool Returns true if consent is required, false otherwise.
+ * @since 14.10.1
+ */
+function wp_statistics_needs_consent()
+{
+    // Get the current status of the consent requirement
+    $status = RequireConsent::getStatus();
+
+    // Check if consent is required
+    if ($status == 'warning') {
+        return true; // Consent is required
+    }
+
+    // Return false if consent is not required
+    return false;
+}

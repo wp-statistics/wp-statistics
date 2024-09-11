@@ -14,13 +14,13 @@
                     <thead>
                         <tr>
                             <th class="wps-pd-l">
-                                <?php esc_html_e('Time', 'wp-statistics') ?>
+                                <?php esc_html_e('Time', 'wp-statistics'); ?>
                             </th>
                             <th class="wps-pd-l">
-                                <?php esc_html_e('Visitors', 'wp-statistics') ?>
+                                <?php esc_html_e('Visitors', 'wp-statistics'); ?>
                             </th>
                             <th class="wps-pd-l">
-                                <?php esc_html_e('Views ', 'wp-statistics') ?>
+                                <?php esc_html_e('Views', 'wp-statistics'); ?>&nbsp;
                             </th>
                         </tr>
                     </thead>
