@@ -19,7 +19,7 @@ class SourceDetector
      */
     public function getName()
     {
-        return $this->referral['name'];
+        return $this->referral['name'] ?? null;
     }
 
     /**
@@ -29,7 +29,7 @@ class SourceDetector
      */
     public function getIdentifier()
     {
-        return $this->referral['identifier'];
+        return $this->referral['identifier'] ?? null;
     }
 
     /**
@@ -39,6 +39,6 @@ class SourceDetector
      */
     public function getChannel()
     {
-        return $this->referral['channel'];
+        return $this->referral['channel'] ?? null;
     }
 }

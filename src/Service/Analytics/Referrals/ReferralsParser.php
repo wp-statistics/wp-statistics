@@ -17,34 +17,64 @@ class ReferralsParser
     /**
      * Parse the given URL to determine the referral source.
      *
-     * @param string $url The URL to parse.
-     * @return array An array containing the referral source information.
+     * @param string $referrerUrl The referrer URL to parse.
+     * @param string $pageUrl    The URL of the page being accessed.
+     *
+     * @return array|bool An array containing the referral source information. False if no match is found.
      */
-    public function parse($url)
+    public function parse($referrerUrl, $pageUrl)
     {
-        $domain = Url::getDomain($url);
+        $referrerUrl = Url::getDomain($referrerUrl);
 
         foreach ($this->referralsList['source_channels'] as $channelType => $channelData) {
             foreach ($channelData['channels'] as $channel) {
                 foreach ($channel['domains'] as $channelDomain) {
-                    if ($channelDomain === $domain) {
-                        return [
-                            'name'          => $channel['name'],
-                            'identifier'    => $channel['identifier'],
-                            'domain'        => $channelDomain,
-                            'channel'       => $channelType
-                        ];
+
+                    // check if domains don't match, skip
+                    if ($channelDomain !== $referrerUrl) {
+                        continue;
                     }
+
+                    // check if rules don't match, skip
+                    if (!$this->checkRules($channelData['rules'], $pageUrl)) {
+                        continue;
+                    }
+
+                    return [
+                        'name'         => $channel['name'],
+                        'identifier'   => $channel['identifier'],
+                        'channel'      => $channelType
+                    ];
                 }
             }
         }
 
-        // Fallback to direct
-        return [
-            'name'          => '',
-            'identifier'    => '',
-            'domain'        => $domain,
-            'channel'       => 'direct'
-        ];
+        return false;
+    }
+
+    /**
+     * Checks if a given page URL passes a set of rules.
+     *
+     * @param array $rules An array of regular expression patterns to match against the page URL.
+     * @param string $pageUrl The URL of the page to check against the rules.
+     *
+     * @return bool true if the page URL passes all rules, false otherwise.
+     */
+    public function checkRules($rules, $pageUrl)
+    {
+        foreach ($rules as $rule) {
+
+            switch ($rule['operator']) {
+                case 'MATCH':
+                    if (!preg_match($rule['pattern'], $pageUrl)) return false;
+                    break;
+
+                case 'NOT MATCH':
+                    if (preg_match($rule['pattern'], $pageUrl)) return false;
+                    break;
+            }
+        }
+
+        return true;
     }
 }
