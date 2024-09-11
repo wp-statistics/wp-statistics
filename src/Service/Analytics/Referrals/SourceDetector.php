@@ -6,10 +6,10 @@ class SourceDetector
 {
     public $referral;
 
-    public function __construct($url)
+    public function __construct($referrerUrl, $pageUrl)
     {
         $parser         = new ReferralsParser();
-        $this->referral = $parser->parse($url);
+        $this->referral = $parser->parse($referrerUrl, $pageUrl);
     }
 
     /**

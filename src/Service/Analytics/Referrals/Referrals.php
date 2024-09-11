@@ -2,6 +2,7 @@
 namespace WP_Statistics\Service\Analytics\Referrals;
 
 use WP_STATISTICS\Helper;
+use WP_STATISTICS\Pages;
 use WP_Statistics\Utils\Request;
 use WP_Statistics\Utils\Url;
 
@@ -64,12 +65,14 @@ class Referrals
     /**
      * Returns the source channel of the given referrer.
      *
-     * @param string $referrer The referrer URL.
      * @return SourceDetector
      */
     public static function getSource()
     {
-        return new SourceDetector(self::getUrl());
+        $referrerUrl = self::getUrl();
+        $pageUrl     = Pages::get_page_uri();
+
+        return new SourceDetector($referrerUrl, $pageUrl);
     }
 
     /**
