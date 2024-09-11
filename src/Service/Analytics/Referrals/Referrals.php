@@ -21,7 +21,7 @@ class Referrals
         $referrer = $_SERVER['HTTP_REFERER'] ?? '';
 
         if (Helper::is_rest_request() && Request::has('referred')) {
-            $referrer = urldecode(Request::get('referred'));
+            $referrer = urldecode(Request::get('referred', '', 'raw'));
         }
 
         return $referrer;
