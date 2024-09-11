@@ -53,15 +53,24 @@ class ReferralsDatabase
      */
     public function getList()
     {
-        $file = $this->getFilePath();
+        try {
+            $file = $this->getFilePath();
 
-        if (!file_exists($file)) {
-            $this->download();
+            if (!file_exists($file) || empty(file_get_contents($file))) {
+                $this->download();
+            }
+
+            $referralsList = file_get_contents($file);
+
+            if (json_last_error() !== JSON_ERROR_NONE) {
+                throw new Exception(esc_html__('Failed to parse the referrals database file.', 'wp-statistics'));
+            }
+
+            return json_decode($referralsList, true);
+        } catch (Exception $e) {
+            \WP_Statistics::log(esc_html__('Cannot download referrals database.', 'wp-statistics'), 'error');
+            return [];
         }
-
-        $referralsList = file_get_contents($file);
-
-        return json_decode($referralsList, true);
     }
 
     /**
