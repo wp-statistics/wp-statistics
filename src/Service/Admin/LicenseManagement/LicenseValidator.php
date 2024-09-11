@@ -2,7 +2,6 @@
 
 namespace WP_Statistics\Service\Admin\LicenseManagement;
 
-use WP_STATISTICS\Helper;
 use WP_STATISTICS\Option;
 
 /**
@@ -37,16 +36,11 @@ class LicenseValidator
         $result = [];
 
         foreach ($licenseKeysToValidate as $currentLicenseKey) {
-            $licenseManagerApi = new LicenseManagerApi();
-            $response = '';
-            try {
-                // Get current license key's status
-                $response = $licenseManagerApi->getStatus($currentLicenseKey);
+            $licenseManagerApi = new LicenseManagerApi($currentLicenseKey);
 
-                if (empty($response)) {
-                    // translators: %s: License key.
-                    throw new \Exception(sprintf(esc_html__('Invalid license key: %s', 'wp-statistics'), $currentLicenseKey));
-                }
+            if ($licenseManagerApi->getStatus() === 'active') {
+                // Get current license's full object
+                $response = $licenseManagerApi->getLicenseObject();
 
                 $result[$currentLicenseKey] = $response;
 
@@ -57,8 +51,8 @@ class LicenseValidator
                 if (!in_array($currentLicenseKey, $allLicenseKeys)) {
                     $allLicenseKeys[] = $currentLicenseKey;
                 }
-            } catch (\Exception $e) {
-                $result[$currentLicenseKey] = ['error' => $e->getMessage()];
+            } else {
+                $result[$currentLicenseKey] = [$licenseManagerApi->getStatus()];
             }
         }
 

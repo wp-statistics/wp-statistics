@@ -17,7 +17,19 @@ class LicenseManagerApi
     public const PRODUCT_DOWNLOAD = 'product/download';
 
     /** @var object License status request's result. */
-    private $licenseStatus = null;
+    private $license = null;
+
+    /**
+     * @param string $licenseKey
+     * @param string $domain
+     */
+    public function __construct($licenseKey, $domain = '')
+    {
+        try {
+            $this->initLicenseObject($licenseKey, $domain);
+        } catch (\Exception $e) {
+        }
+    }
 
     /**
      * Calls an API endpoint.
@@ -41,7 +53,7 @@ class LicenseManagerApi
     }
 
     /**
-     * Returns license status.
+     * Returns `license/status` request's result.
      *
      * @param string $licenseKey
      * @param string $domain
@@ -50,48 +62,67 @@ class LicenseManagerApi
      *
      * @throws \Exception
      */
-    public function getStatus($licenseKey = '', $domain = '')
+    public function initLicenseObject($licenseKey, $domain = '')
     {
-        if (!empty($this->licenseStatus)) {
-            return $this->licenseStatus;
+        if (!empty($this->license)) {
+            return $this->license;
         }
 
         if (empty($licenseKey)) {
             return null;
         }
 
-        $licenseStatus = $this->call(self::LICENSE_STATUS, 'GET', [
+        $result = $this->call(self::LICENSE_STATUS, 'GET', [
             'license_key' => $licenseKey,
             'domain'      => !empty($domain) ? esc_url($domain) : Helper::get_domain_name(home_url()),
         ]);
 
-        if (empty($licenseStatus) || !isset($licenseStatus->license_details)) {
-            // translators: %s: License status request's response.
-            throw new \Exception(sprintf(esc_html__('Invalid status response: %s', 'wp-statistics'), esc_html(var_export($licenseStatus, true))));
+        if (empty($result) || !isset($result->license_details)) {
+            // translators: %s: License status request's result.
+            throw new \Exception(sprintf(esc_html__('Invalid license status result: %s', 'wp-statistics'), esc_html(var_export($result, true))));
         }
 
-        $this->licenseStatus = $licenseStatus;
+        $this->license = $result;
 
-        return $this->licenseStatus;
+        return $this->license;
     }
 
     /**
-     * Returns products lists of the given license.
+     * Returns license status request's result as an object.
      *
-     * @param string $licenseKey
-     * @param string $domain
+     * @return object|null
+     */
+    public function getLicenseObject()
+    {
+        return $this->license;
+    }
+
+    /**
+     * Returns license status.
+     *
+     * @return string Possible returned values: `active`, `expired` or `invalid`.
+     */
+    public function getStatus()
+    {
+        if (empty($this->license) || empty($this->license->license_details)) {
+            return 'invalid';
+        }
+
+        if (empty($this->license->license_details->valid_until) || $this->license->license_details->valid_until < wp_date('Y-m-d')) {
+            return 'expired';
+        }
+
+        return 'active';
+    }
+
+    /**
+     * Returns products lists for the given license.
      *
      * @return array
      */
-    public function getProducts($licenseKey = '', $domain = '')
+    public function getProducts()
     {
-        try {
-            $this->getStatus($licenseKey, $domain);
-        } catch (\Exception $e) {
-            return [];
-        }
-
-        if (empty($this->licenseStatus->products) || !is_array($this->licenseStatus->products)) {
+        if (empty($this->license) || empty($this->license->products) || !is_array($this->license->products)) {
             return [];
         }
 
