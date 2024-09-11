@@ -3,6 +3,7 @@
 use WP_Statistics\Async\CalculatePostWordsCount;
 use WP_Statistics\Async\GeoIPDatabaseDownloadProcess;
 use WP_Statistics\Async\IncompleteGeoIpUpdater;
+use WP_Statistics\Async\SourceChannelUpdater;
 use WP_Statistics\Service\Admin\AuthorAnalytics\AuthorAnalyticsManager;
 use WP_Statistics\Service\Admin\ContentAnalytics\ContentAnalyticsManager;
 use WP_Statistics\Service\Admin\Geographic\GeographicManager;
@@ -228,6 +229,7 @@ final class WP_Statistics
         $this->registerBackgroundProcess(CalculatePostWordsCount::class, 'calculate_post_words_count');
         $this->registerBackgroundProcess(IncompleteGeoIpUpdater::class, 'update_unknown_visitor_geoip');
         $this->registerBackgroundProcess(GeoIPDatabaseDownloadProcess::class, 'geoip_database_download');
+        $this->registerBackgroundProcess(SourceChannelUpdater::class, 'update_visitors_source_channel');
     }
 
     /**

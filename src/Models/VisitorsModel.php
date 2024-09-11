@@ -585,7 +585,7 @@ class VisitorsModel extends BaseModel
 
                 if (!empty($item->model) && $item->model !== 'Unknown') {
                     $models = array_column($result['model'], 'label');
-                    
+
                     if (!in_array($item->model, $models)) {
                         $result['model'][] = [
                             'label'    => $item->model,
@@ -734,11 +734,11 @@ class VisitorsModel extends BaseModel
         $query = Query::select($selectFields)
             ->from('visitor')
             ->whereRaw(
-                "(location = '' 
+                "(location = ''
             OR location = %s
-            OR location IS NULL 
-            OR continent = '' 
-            OR continent IS NULL 
+            OR location IS NULL
+            OR continent = ''
+            OR continent IS NULL
             OR (continent = location))
             AND ip NOT LIKE '#hash#%'",
                 [$privateCountry]
@@ -750,6 +750,42 @@ class VisitorsModel extends BaseModel
         } else {
             return $query->getAll();
         }
+    }
+
+    public function getVisitorsWithIncompleteSourceChannel($args = [])
+    {
+        $firstHit = Query::select([
+            'visitor_id',
+            'MIN(date) as date'
+        ])
+            ->from('visitor_relationships')
+            ->groupBy('visitor_id')
+            ->getQuery();
+
+        $subQuery = Query::select([
+            'visitor_relationships.visitor_id',
+            'page_id',
+            'date'
+        ])
+            ->from('visitor_relationships')
+            ->whereRaw("(visitor_id, date) IN ($firstHit)")
+            ->groupBy('visitor_id')
+            ->getQuery();
+
+        $result = Query::select([
+            'visitor.ID',
+            'visitor.referred',
+            'visitor.source_channel',
+            'pages.uri as first_hit'
+        ])
+            ->from('visitor')
+            ->whereNull('source_channel')
+            ->joinQuery($subQuery, ['visitor.ID', 'first_hit.visitor_id'], 'first_hit')
+            ->join('pages', ['first_hit.page_id', 'pages.page_id'])
+            ->groupBy('visitor.ID')
+            ->getAll();
+
+        return $result ? $result : [];
     }
 
     public function updateVisitor($id, $data)
@@ -937,10 +973,10 @@ class VisitorsModel extends BaseModel
         $topEngines = array_map(function($item) {
             return array_sum($item);
         }, $thisParsedData);
-        
+
         // Sort top search engines in descending order
         arsort($topEngines);
-        
+
         // Get the top 3 items
         $topEngines = array_slice($topEngines, 0, 3, true);
 
