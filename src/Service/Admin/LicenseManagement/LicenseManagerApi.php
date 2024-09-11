@@ -4,6 +4,7 @@ namespace WP_Statistics\Service\Admin\LicenseManagement;
 
 use WP_Statistics\Components\RemoteRequest;
 use WP_STATISTICS\Helper;
+use WP_STATISTICS\TimeZone;
 
 /**
  * This class handles all the license management related API calls.
@@ -116,6 +117,74 @@ class LicenseManagerApi
     }
 
     /**
+     * Returns `valid_until` date for the given license.
+     *
+     * @return string Date with 'Y-m-d' format.
+     */
+    public function getValidUntil()
+    {
+        if (
+            empty($this->license) || empty($this->license->license_details) ||
+            !isset($this->license->license_details->valid_until) || !TimeZone::isValidDate($this->license->license_details->valid_until)
+        ) {
+            return '';
+        }
+
+        return $this->license->license_details->valid_until;
+    }
+
+    /**
+     * Returns `type` of the given license.
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        if (
+            empty($this->license) || empty($this->license->license_details) ||
+            !isset($this->license->license_details->type)
+        ) {
+            return '';
+        }
+
+        return $this->license->license_details->type;
+    }
+
+    /**
+     * Returns `max_domains` of the given license.
+     *
+     * @return int
+     */
+    public function getMaxDomains()
+    {
+        if (
+            empty($this->license) || empty($this->license->license_details) ||
+            !isset($this->license->license_details->max_domains)
+        ) {
+            return 0;
+        }
+
+        return intval($this->license->license_details->max_domains);
+    }
+
+    /**
+     * Returns full user information of the given product.
+     *
+     * @return object|null
+     */
+    public function getUser()
+    {
+        if (
+            empty($this->license) || empty($this->license->license_details) ||
+            empty($this->license->license_details->user)
+        ) {
+            return null;
+        }
+
+        return $this->license->license_details->user;
+    }
+
+    /**
      * Returns products lists for the given license.
      *
      * @return array
@@ -126,6 +195,52 @@ class LicenseManagerApi
             return [];
         }
 
-        return $this->licenseStatus->products;
+        return $this->license->products;
+    }
+
+    /**
+     * Returns full information of the given product.
+     *
+     * @param string $slug
+     *
+     * @return object|null
+     */
+    public function getProduct($slug)
+    {
+        if (empty($slug)) {
+            return null;
+        }
+
+        $products = $this->getProducts();
+        if (empty($products) || !is_array($products)) {
+            return null;
+        }
+
+        foreach ($products as $product) {
+            if (empty($product->slug)) {
+                continue;
+            }
+
+            if (trim($product->slug) === sanitize_text_field($slug)) {
+                return $product;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Returns download URL for the given product.
+     *
+     * @param string $slug
+     *
+     * @return string
+     *
+     * @todo Add more methods for `products` object.
+     */
+    public function getDownloadUrl($slug)
+    {
+        $product = $this->getProduct($slug);
+        return !empty($product->download_url) ? esc_url($product->download_url) : '';
     }
 }
