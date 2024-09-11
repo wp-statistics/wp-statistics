@@ -4,6 +4,7 @@ namespace WP_Statistics\Service\Admin\LicenseManagement;
 
 use WP_Statistics\Components\Assets;
 use WP_STATISTICS\Menus;
+use WP_Statistics\Utils\Request;
 
 class LicenseManagementManager
 {
@@ -81,10 +82,10 @@ class LicenseManagementManager
     public function check_license_action_callback()
     {
         try {
-            if (!wp_verify_nonce(sanitize_text_field(wp_unslash($_GET['nonce'])), 'wp_statistics_license_manager')) {
+            if (!wp_verify_nonce(wp_unslash(Request::get('nonce')), 'wp_statistics_license_manager')) {
                 throw new \Exception(__('Access denied.', 'wp-statistics'));
             }
-            $licenseKey = isset($_GET['license']) ? sanitize_text_field(wp_unslash($_GET['nonce'])) : '';
+            $licenseKey = Request::has('license') ? wp_unslash(Request::get('license')) : '';
 
             $licenseValidator = new LicenseValidator();
             wp_send_json_success([
