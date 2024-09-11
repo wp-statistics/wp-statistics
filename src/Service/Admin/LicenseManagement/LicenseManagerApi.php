@@ -74,4 +74,27 @@ class LicenseManagerApi
 
         return $this->licenseStatus;
     }
+
+    /**
+     * Returns products lists of the given license.
+     *
+     * @param string $licenseKey
+     * @param string $domain
+     *
+     * @return array
+     */
+    public function getProducts($licenseKey = '', $domain = '')
+    {
+        try {
+            $this->getStatus($licenseKey, $domain);
+        } catch (\Exception $e) {
+            return [];
+        }
+
+        if (empty($this->licenseStatus->products) || !is_array($this->licenseStatus->products)) {
+            return [];
+        }
+
+        return $this->licenseStatus->products;
+    }
 }
