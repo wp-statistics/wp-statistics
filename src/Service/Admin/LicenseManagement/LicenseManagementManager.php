@@ -10,11 +10,8 @@ class LicenseManagementManager
     public function __construct()
     {
         add_filter('wp_statistics_admin_menu_list', [$this, 'addMenuItem']);
-
         add_action('admin_enqueue_scripts', [$this, 'enqueueScripts']);
-
-        add_action('wp_ajax_wp_statistics_check_license', [$this, 'checkLicenseAjaxCallback']);
-        add_action('wp_ajax_nopriv_wp_statistics_check_license', [$this, 'checkLicenseAjaxCallback']);
+        add_filter('wp_statistics_ajax_list', [$this, 'registerAjaxCallbacks']);
     }
 
     /**
@@ -58,14 +55,30 @@ class LicenseManagementManager
     }
 
     /**
+     * Registers AJAX actions and callbacks.
+     *
+     * @param array $list
+     *
+     * @return array
+     *
+     * @hooked filter: `wp_statistics_ajax_list` - 10
+     */
+    public function registerAjaxCallbacks($list)
+    {
+        $list[] = [
+            'class'  => $this,
+            'action' => 'check_license',
+        ];
+
+        return $list;
+    }
+
+    /**
      * Handles `check_license` ajax call and checks license status.
      *
      * @return void
-     *
-     * @hooked action: `wp_ajax_wp_statistics_check_license` - 10
-     * @hooked action: `wp_ajax_nopriv_wp_statistics_check_license` - 10
      */
-    public function checkLicenseAjaxCallback()
+    public function check_license_action_callback()
     {
         try {
             if (!wp_verify_nonce(sanitize_text_field(wp_unslash($_GET['nonce'])), 'wp_statistics_license_manager')) {
