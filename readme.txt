@@ -136,25 +136,24 @@ To ensure the plugin works correctly, please clear your cache because some reque
 Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest version.
 
 == Changelog ==
-= 14.10.1 - **.09.2024 =
-* Enhancement: UX improvement for visitor information when users are logged in.
-* Enhancement: Sync charts custom tooltip visibility with legend toggle.
-* Fix: Resolved chart shrinking issue in Chrome.
-* Update: Upgraded ChartJS to v4.4.4.
-* Improvement: Remove unused function for pie charts.
-* Enhancement: Corrected sorting issues in bar charts.
-* Enhancement: Fixed font override conflicts with certain fonts.
-* Enhancement: Enhanced object cache handling for better performance.
-* Enhancement: Improved compatibility with PHP versions 5.6 ~ 7.2.
-* Fix: Resolved style tweaks in charts and fixed various JavaScript issues.
-* Fix: Fixed the "User Online" link in the Traffic Overview section.
-* Fix: Addressed issue where the top referral was not displaying in the "Your Performance at a Glance" section.
-* Fix: Resolved an issue with the report email option during some upgrades.
-* Fix: Fixed date filter issue on "Single Browser" and "Visitor Insights" page.
-* Fix: Fixed incorrect dates in `monthly` schedule.
-* Fix: Fixed incorrect order in taxonomy lists when sorted by hits.
-* Dev: Added function `wp_statistics_needs_consent()` to check if user consent is required.
-* Dev: Removed `Admin_Post` and `Admin_Taxonomy` classes, and replaced them with `HitColumnHandler`.
+= 14.10.1 - 11.09.2024 =
+* **Enhancement:** UX improvement for visitor information when users are logged in.
+* **Enhancement:** Corrected sorting issues in bar charts.
+* **Enhancement:** Fixed font override conflicts.
+* **Enhancement:** Enhanced object cache handling for better performance.
+* **Enhancement:** Improved compatibility with PHP versions 5.6 ~ 7.2.
+* **Enhancement:** Resolved style tweaks in charts and fixed various JavaScript issues.
+* **Fix:** Resolved issue with showing previous period data on hover when turned off.
+* **Fix:** Resolved chart shrinking issue in Chrome.
+* **Fix:** Fixed the “User Online” link in the Traffic Overview section.
+* **Fix:** Addressed issue where the top referral was not displaying in the “Your Performance at a Glance” section.
+* **Fix:** Resolved an issue with the report email option during some upgrades.
+* **Fix:** Fixed date filter issue on the “Single Browser” and “Visitor Insights” pages.
+* **Fix:** Fixed incorrect dates in the `monthly` schedule.
+* **Fix:** Fixed incorrect order in taxonomy lists when sorted by hits.
+* **Update:** Upgraded ChartJS to v4.4.4.
+* **Dev:** Added function `wp_statistics_needs_consent()` to check if user consent is required.
+* **Dev:** Removed `Admin_Post` and `Admin_Taxonomy` classes and replaced them with `HitColumnHandler`.
 
 For more information about the major update, please [visit our blog post](https://wp-statistics.com/?p=16657) or follow [@wp_statistics](https://twitter.com/wp_statistics) on Twitter
 
