@@ -61,12 +61,13 @@ class ReferralsDatabase
             }
 
             $referralsList = file_get_contents($file);
+            $referralsList = json_decode($referralsList, true);
 
             if (json_last_error() !== JSON_ERROR_NONE) {
                 throw new Exception(esc_html__('Failed to parse the referrals database file.', 'wp-statistics'));
             }
 
-            return json_decode($referralsList, true);
+            return $referralsList;
         } catch (Exception $e) {
             \WP_Statistics::log(esc_html__('Cannot download referrals database.', 'wp-statistics'), 'error');
             return [];
