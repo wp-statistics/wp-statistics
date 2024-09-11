@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-09-09T14:39:39+00:00\n"
+"POT-Creation-Date: 2024-09-11T13:20:34+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: wp-statistics\n"
@@ -2385,7 +2385,7 @@ msgid "The Add-Ons add more functionality to WP Statistics and unlock the premiu
 msgstr ""
 
 #: includes/admin/templates/settings/access-level.php:42
-#: src/Service/Admin/SiteHealthInfo.php:189
+#: src/Service/Admin/SiteHealthInfo.php:217
 msgid "Minimum Role to View Statistics"
 msgstr ""
 
@@ -2394,7 +2394,7 @@ msgid "Select the least privileged user role allowed to view WP Statistics. Note
 msgstr ""
 
 #: includes/admin/templates/settings/access-level.php:65
-#: src/Service/Admin/SiteHealthInfo.php:193
+#: src/Service/Admin/SiteHealthInfo.php:222
 msgid "Minimum Role to Manage Settings"
 msgstr ""
 
@@ -2494,8 +2494,8 @@ msgstr ""
 
 #: includes/admin/templates/settings/add-ons/advanced-reporting.php:62
 #: includes/admin/templates/settings/notifications.php:52
-#: src/Service/Admin/SiteHealthInfo.php:130
-#: src/Service/Admin/SiteHealthInfo.php:142
+#: src/Service/Admin/SiteHealthInfo.php:143
+#: src/Service/Admin/SiteHealthInfo.php:158
 msgid "Disable"
 msgstr ""
 
@@ -2549,9 +2549,9 @@ msgstr ""
 #: includes/admin/templates/settings/privacy.php:54
 #: includes/admin/templates/settings/privacy.php:132
 #: includes/admin/templates/settings/privacy.php:146
-#: src/Service/Admin/SiteHealthInfo.php:126
-#: src/Service/Admin/SiteHealthInfo.php:130
-#: src/Service/Admin/SiteHealthInfo.php:142
+#: src/Service/Admin/SiteHealthInfo.php:138
+#: src/Service/Admin/SiteHealthInfo.php:143
+#: src/Service/Admin/SiteHealthInfo.php:158
 msgid "Enable"
 msgstr ""
 
@@ -2812,12 +2812,12 @@ msgid "Enable Overview Widget"
 msgstr ""
 
 #: includes/admin/templates/settings/add-ons/customization.php:148
-#: src/Service/Admin/SiteHealthInfo.php:66
+#: src/Service/Admin/SiteHealthInfo.php:67
 msgid "Yes"
 msgstr ""
 
 #: includes/admin/templates/settings/add-ons/customization.php:149
-#: src/Service/Admin/SiteHealthInfo.php:66
+#: src/Service/Admin/SiteHealthInfo.php:67
 msgid "No"
 msgstr ""
 
@@ -3158,7 +3158,7 @@ msgid "GeoIP Settings"
 msgstr ""
 
 #: includes/admin/templates/settings/advanced.php:160
-#: src/Service/Admin/SiteHealthInfo.php:201
+#: src/Service/Admin/SiteHealthInfo.php:232
 msgid "GeoIP Database Update Source"
 msgstr ""
 
@@ -3236,7 +3236,7 @@ msgid "Purge Old Data Daily"
 msgstr ""
 
 #: includes/admin/templates/settings/advanced.php:322
-#: src/Service/Admin/SiteHealthInfo.php:205
+#: src/Service/Admin/SiteHealthInfo.php:237
 msgid "Automatic Cleanup"
 msgstr ""
 
@@ -3245,7 +3245,7 @@ msgid "Automatic deletion of data entries that are more than a specified number 
 msgstr ""
 
 #: includes/admin/templates/settings/advanced.php:334
-#: src/Service/Admin/SiteHealthInfo.php:209
+#: src/Service/Admin/SiteHealthInfo.php:242
 msgid "Purge Data Older Than"
 msgstr ""
 
@@ -3282,7 +3282,7 @@ msgid "Admin Interface"
 msgstr ""
 
 #: includes/admin/templates/settings/display.php:9
-#: src/Service/Admin/SiteHealthInfo.php:125
+#: src/Service/Admin/SiteHealthInfo.php:137
 msgid "View Stats in Editor"
 msgstr ""
 
@@ -3291,7 +3291,7 @@ msgid "Show a summary of content view statistics in the post editor."
 msgstr ""
 
 #: includes/admin/templates/settings/display.php:21
-#: src/Service/Admin/SiteHealthInfo.php:129
+#: src/Service/Admin/SiteHealthInfo.php:142
 msgid "Views Column in Content List"
 msgstr ""
 
@@ -3300,7 +3300,7 @@ msgid "Display the \"Views\" column in the content list menus, showing the view 
 msgstr ""
 
 #: includes/admin/templates/settings/display.php:32
-#: src/Service/Admin/SiteHealthInfo.php:133
+#: src/Service/Admin/SiteHealthInfo.php:147
 msgid "Views Column in User List"
 msgstr ""
 
@@ -3309,7 +3309,7 @@ msgid "Display the \"Views\" column in the admin user list, showing the page vie
 msgstr ""
 
 #: includes/admin/templates/settings/display.php:43
-#: src/Service/Admin/SiteHealthInfo.php:137
+#: src/Service/Admin/SiteHealthInfo.php:152
 msgid "Show Stats in Admin Menu Bar"
 msgstr ""
 
@@ -3318,7 +3318,7 @@ msgid "View your site's statistics directly from the WordPress admin menu bar."
 msgstr ""
 
 #: includes/admin/templates/settings/display.php:55
-#: src/Service/Admin/SiteHealthInfo.php:141
+#: src/Service/Admin/SiteHealthInfo.php:157
 msgid "WP Statistics Widgets in the WordPress dashboard"
 msgstr ""
 
@@ -3327,7 +3327,7 @@ msgid "View WP Statistics widgets in the WordPress dashboard."
 msgstr ""
 
 #: includes/admin/templates/settings/display.php:67
-#: src/Service/Admin/SiteHealthInfo.php:145
+#: src/Service/Admin/SiteHealthInfo.php:162
 msgid "Disable Inactive Essential Feature Notices"
 msgstr ""
 
@@ -3340,7 +3340,7 @@ msgid "Frontend Display"
 msgstr ""
 
 #: includes/admin/templates/settings/display.php:89
-#: src/Service/Admin/SiteHealthInfo.php:149
+#: src/Service/Admin/SiteHealthInfo.php:167
 msgid "Views in Single Contents"
 msgstr ""
 
@@ -3365,12 +3365,12 @@ msgid "Choose the position to show views."
 msgstr ""
 
 #: includes/admin/templates/settings/exclusions.php:5
-#: src/Service/Admin/SiteHealthInfo.php:157
+#: src/Service/Admin/SiteHealthInfo.php:177
 msgid "User Role Exclusions"
 msgstr ""
 
 #: includes/admin/templates/settings/exclusions.php:15
-#: src/Service/Admin/SiteHealthInfo.php:255
+#: src/Service/Admin/SiteHealthInfo.php:293
 msgid "Anonymous Users"
 msgstr ""
 
@@ -3391,7 +3391,7 @@ msgid "Exclude data collection for users with the %s role."
 msgstr ""
 
 #: includes/admin/templates/settings/exclusions.php:40
-#: src/Service/Admin/SiteHealthInfo.php:161
+#: src/Service/Admin/SiteHealthInfo.php:182
 msgid "IP Exclusions"
 msgstr ""
 
@@ -3473,7 +3473,7 @@ msgid "URL Exclusions"
 msgstr ""
 
 #: includes/admin/templates/settings/exclusions.php:142
-#: src/Service/Admin/SiteHealthInfo.php:165
+#: src/Service/Admin/SiteHealthInfo.php:187
 msgid "Excluded Login Page"
 msgstr ""
 
@@ -3482,7 +3482,7 @@ msgid "Login and Register page visits will not be included in site visit counts.
 msgstr ""
 
 #: includes/admin/templates/settings/exclusions.php:149
-#: src/Service/Admin/SiteHealthInfo.php:169
+#: src/Service/Admin/SiteHealthInfo.php:192
 msgid "Excluded RSS Feeds"
 msgstr ""
 
@@ -3491,7 +3491,7 @@ msgid "RSS feeds visits will not be included in site visit counts."
 msgstr ""
 
 #: includes/admin/templates/settings/exclusions.php:156
-#: src/Service/Admin/SiteHealthInfo.php:173
+#: src/Service/Admin/SiteHealthInfo.php:197
 msgid "Excluded 404 Pages"
 msgstr ""
 
@@ -3500,7 +3500,7 @@ msgid "404 Page visits will not be included in site visit counts."
 msgstr ""
 
 #: includes/admin/templates/settings/exclusions.php:163
-#: src/Service/Admin/SiteHealthInfo.php:177
+#: src/Service/Admin/SiteHealthInfo.php:202
 msgid "Excluded URLs"
 msgstr ""
 
@@ -3521,7 +3521,7 @@ msgid "Control which URL query parameters are retained in your statistics. The d
 msgstr ""
 
 #: includes/admin/templates/settings/exclusions.php:197
-#: src/Service/Admin/SiteHealthInfo.php:181
+#: src/Service/Admin/SiteHealthInfo.php:207
 msgid "Matomo Referrer Spam Blacklist"
 msgstr ""
 
@@ -3566,7 +3566,7 @@ msgid "General Exclusions"
 msgstr ""
 
 #: includes/admin/templates/settings/exclusions.php:287
-#: src/Service/Admin/SiteHealthInfo.php:185
+#: src/Service/Admin/SiteHealthInfo.php:212
 msgid "Log Record Exclusions"
 msgstr ""
 
@@ -3579,7 +3579,7 @@ msgid "Tracking Options"
 msgstr ""
 
 #: includes/admin/templates/settings/general.php:35
-#: src/Service/Admin/SiteHealthInfo.php:85
+#: src/Service/Admin/SiteHealthInfo.php:87
 msgid "Monitor Online Visitors"
 msgstr ""
 
@@ -3588,7 +3588,7 @@ msgid "Tracks and displays visitors currently online, including their activity d
 msgstr ""
 
 #: includes/admin/templates/settings/general.php:48
-#: src/Service/Admin/SiteHealthInfo.php:89
+#: src/Service/Admin/SiteHealthInfo.php:92
 msgid "Track Logged-In User Activity"
 msgstr ""
 
@@ -3608,7 +3608,7 @@ msgid "Note: Compliance with GDPR and other privacy regulations is essential. In
 msgstr ""
 
 #: includes/admin/templates/settings/general.php:64
-#: src/Service/Admin/SiteHealthInfo.php:93
+#: src/Service/Admin/SiteHealthInfo.php:97
 msgid "Store Entire User Agent String"
 msgstr ""
 
@@ -3621,7 +3621,7 @@ msgid "Tracker Configuration"
 msgstr ""
 
 #: includes/admin/templates/settings/general.php:88
-#: src/Service/Admin/SiteHealthInfo.php:97
+#: src/Service/Admin/SiteHealthInfo.php:102
 msgid "Tracking Method"
 msgstr ""
 
@@ -3638,7 +3638,7 @@ msgid "Client Side Tracking uses the visitor’s browser for better accuracy and
 msgstr ""
 
 #: includes/admin/templates/settings/general.php:106
-#: src/Service/Admin/SiteHealthInfo.php:101
+#: src/Service/Admin/SiteHealthInfo.php:107
 msgid "Bypass Ad Blockers"
 msgstr ""
 
@@ -3675,7 +3675,7 @@ msgid "Your next report is scheduled to be sent on <b>%s at %s</b>."
 msgstr ""
 
 #: includes/admin/templates/settings/notifications.php:48
-#: src/Service/Admin/SiteHealthInfo.php:153
+#: src/Service/Admin/SiteHealthInfo.php:172
 msgid "Report Frequency"
 msgstr ""
 
@@ -3771,7 +3771,7 @@ msgid "Data Protection"
 msgstr ""
 
 #: includes/admin/templates/settings/privacy.php:11
-#: src/Service/Admin/SiteHealthInfo.php:105
+#: src/Service/Admin/SiteHealthInfo.php:112
 msgid "Anonymize IP Addresses"
 msgstr ""
 
@@ -3780,7 +3780,7 @@ msgid "Masks the last segment of a user's IP address for privacy, complying with
 msgstr ""
 
 #: includes/admin/templates/settings/privacy.php:26
-#: src/Service/Admin/SiteHealthInfo.php:109
+#: src/Service/Admin/SiteHealthInfo.php:117
 msgid "Hash IP Addresses"
 msgstr ""
 
@@ -3801,33 +3801,33 @@ msgid "User Preferences"
 msgstr ""
 
 #: includes/admin/templates/settings/privacy.php:71
-#: src/Service/Admin/SiteHealthInfo.php:113
+#: src/Service/Admin/SiteHealthInfo.php:122
 msgid "WP Consent Level Integration"
 msgstr ""
 
 #: includes/admin/templates/settings/privacy.php:77
 #: src/Service/Admin/SiteHealthInfo.php:50
-#: src/Service/Admin/SiteHealthInfo.php:86
-#: src/Service/Admin/SiteHealthInfo.php:90
-#: src/Service/Admin/SiteHealthInfo.php:94
-#: src/Service/Admin/SiteHealthInfo.php:102
-#: src/Service/Admin/SiteHealthInfo.php:106
-#: src/Service/Admin/SiteHealthInfo.php:110
-#: src/Service/Admin/SiteHealthInfo.php:114
+#: src/Service/Admin/SiteHealthInfo.php:88
+#: src/Service/Admin/SiteHealthInfo.php:93
+#: src/Service/Admin/SiteHealthInfo.php:98
+#: src/Service/Admin/SiteHealthInfo.php:108
+#: src/Service/Admin/SiteHealthInfo.php:113
 #: src/Service/Admin/SiteHealthInfo.php:118
-#: src/Service/Admin/SiteHealthInfo.php:122
-#: src/Service/Admin/SiteHealthInfo.php:126
-#: src/Service/Admin/SiteHealthInfo.php:134
+#: src/Service/Admin/SiteHealthInfo.php:123
+#: src/Service/Admin/SiteHealthInfo.php:128
+#: src/Service/Admin/SiteHealthInfo.php:133
 #: src/Service/Admin/SiteHealthInfo.php:138
-#: src/Service/Admin/SiteHealthInfo.php:146
-#: src/Service/Admin/SiteHealthInfo.php:150
-#: src/Service/Admin/SiteHealthInfo.php:154
-#: src/Service/Admin/SiteHealthInfo.php:166
-#: src/Service/Admin/SiteHealthInfo.php:170
-#: src/Service/Admin/SiteHealthInfo.php:174
-#: src/Service/Admin/SiteHealthInfo.php:182
-#: src/Service/Admin/SiteHealthInfo.php:186
-#: src/Service/Admin/SiteHealthInfo.php:206
+#: src/Service/Admin/SiteHealthInfo.php:148
+#: src/Service/Admin/SiteHealthInfo.php:153
+#: src/Service/Admin/SiteHealthInfo.php:163
+#: src/Service/Admin/SiteHealthInfo.php:168
+#: src/Service/Admin/SiteHealthInfo.php:173
+#: src/Service/Admin/SiteHealthInfo.php:188
+#: src/Service/Admin/SiteHealthInfo.php:193
+#: src/Service/Admin/SiteHealthInfo.php:198
+#: src/Service/Admin/SiteHealthInfo.php:208
+#: src/Service/Admin/SiteHealthInfo.php:213
+#: src/Service/Admin/SiteHealthInfo.php:238
 msgid "Disabled"
 msgstr ""
 
@@ -3880,7 +3880,7 @@ msgid "For more details, please refer to our <a href=\"%s\" target=\"_blank\">do
 msgstr ""
 
 #: includes/admin/templates/settings/privacy.php:127
-#: src/Service/Admin/SiteHealthInfo.php:117
+#: src/Service/Admin/SiteHealthInfo.php:127
 msgid "Anonymous Tracking"
 msgstr ""
 
@@ -3893,7 +3893,7 @@ msgid "<b>Note</b>: This feature is currently in beta and enables user tracking 
 msgstr ""
 
 #: includes/admin/templates/settings/privacy.php:141
-#: src/Service/Admin/SiteHealthInfo.php:121
+#: src/Service/Admin/SiteHealthInfo.php:132
 msgid "Do Not Track (DNT)"
 msgstr ""
 
@@ -5519,110 +5519,111 @@ msgid "Detect Active Cache Plugin"
 msgstr ""
 
 #: src/Service/Admin/SiteHealthInfo.php:50
+#: src/Service/Admin/SiteHealthInfo.php:51
 msgid "Enabled (%s)"
 msgstr ""
 
-#: src/Service/Admin/SiteHealthInfo.php:53
+#: src/Service/Admin/SiteHealthInfo.php:54
 msgid "Active Post Types"
 msgstr ""
 
-#: src/Service/Admin/SiteHealthInfo.php:57
+#: src/Service/Admin/SiteHealthInfo.php:58
 msgid "Daily Salt Date"
 msgstr ""
 
-#: src/Service/Admin/SiteHealthInfo.php:65
+#: src/Service/Admin/SiteHealthInfo.php:66
 msgid "GeoIP Database Exists"
 msgstr ""
 
-#: src/Service/Admin/SiteHealthInfo.php:69
+#: src/Service/Admin/SiteHealthInfo.php:71
 msgid "GeoIP Database Last Updated"
 msgstr ""
 
-#: src/Service/Admin/SiteHealthInfo.php:73
+#: src/Service/Admin/SiteHealthInfo.php:75
 msgid "GeoIP Database Size"
 msgstr ""
 
-#: src/Service/Admin/SiteHealthInfo.php:77
+#: src/Service/Admin/SiteHealthInfo.php:79
 msgid "GeoIP Database Type"
 msgstr ""
 
-#: src/Service/Admin/SiteHealthInfo.php:86
-#: src/Service/Admin/SiteHealthInfo.php:90
-#: src/Service/Admin/SiteHealthInfo.php:94
-#: src/Service/Admin/SiteHealthInfo.php:102
-#: src/Service/Admin/SiteHealthInfo.php:106
-#: src/Service/Admin/SiteHealthInfo.php:110
-#: src/Service/Admin/SiteHealthInfo.php:114
+#: src/Service/Admin/SiteHealthInfo.php:88
+#: src/Service/Admin/SiteHealthInfo.php:93
+#: src/Service/Admin/SiteHealthInfo.php:98
+#: src/Service/Admin/SiteHealthInfo.php:108
+#: src/Service/Admin/SiteHealthInfo.php:113
 #: src/Service/Admin/SiteHealthInfo.php:118
-#: src/Service/Admin/SiteHealthInfo.php:122
-#: src/Service/Admin/SiteHealthInfo.php:134
-#: src/Service/Admin/SiteHealthInfo.php:138
-#: src/Service/Admin/SiteHealthInfo.php:146
-#: src/Service/Admin/SiteHealthInfo.php:150
-#: src/Service/Admin/SiteHealthInfo.php:166
-#: src/Service/Admin/SiteHealthInfo.php:170
-#: src/Service/Admin/SiteHealthInfo.php:174
-#: src/Service/Admin/SiteHealthInfo.php:182
-#: src/Service/Admin/SiteHealthInfo.php:186
-#: src/Service/Admin/SiteHealthInfo.php:206
+#: src/Service/Admin/SiteHealthInfo.php:123
+#: src/Service/Admin/SiteHealthInfo.php:128
+#: src/Service/Admin/SiteHealthInfo.php:133
+#: src/Service/Admin/SiteHealthInfo.php:148
+#: src/Service/Admin/SiteHealthInfo.php:153
+#: src/Service/Admin/SiteHealthInfo.php:163
+#: src/Service/Admin/SiteHealthInfo.php:168
+#: src/Service/Admin/SiteHealthInfo.php:188
+#: src/Service/Admin/SiteHealthInfo.php:193
+#: src/Service/Admin/SiteHealthInfo.php:198
+#: src/Service/Admin/SiteHealthInfo.php:208
+#: src/Service/Admin/SiteHealthInfo.php:213
+#: src/Service/Admin/SiteHealthInfo.php:238
 msgid "Enabled"
 msgstr ""
 
-#: src/Service/Admin/SiteHealthInfo.php:98
+#: src/Service/Admin/SiteHealthInfo.php:103
 msgid "Client Side Tracking"
 msgstr ""
 
-#: src/Service/Admin/SiteHealthInfo.php:98
+#: src/Service/Admin/SiteHealthInfo.php:103
 msgid "Server Side Tracking"
 msgstr ""
 
-#: src/Service/Admin/SiteHealthInfo.php:158
-#: src/Service/Admin/SiteHealthInfo.php:162
 #: src/Service/Admin/SiteHealthInfo.php:178
-#: src/Service/Admin/SiteHealthInfo.php:190
-#: src/Service/Admin/SiteHealthInfo.php:194
-#: src/Service/Admin/SiteHealthInfo.php:198
-#: src/Service/Admin/SiteHealthInfo.php:202
-#: src/Service/Admin/SiteHealthInfo.php:210
+#: src/Service/Admin/SiteHealthInfo.php:183
+#: src/Service/Admin/SiteHealthInfo.php:203
+#: src/Service/Admin/SiteHealthInfo.php:218
+#: src/Service/Admin/SiteHealthInfo.php:223
+#: src/Service/Admin/SiteHealthInfo.php:228
+#: src/Service/Admin/SiteHealthInfo.php:233
+#: src/Service/Admin/SiteHealthInfo.php:243
 msgid "Not Set"
 msgstr ""
 
-#: src/Service/Admin/SiteHealthInfo.php:162
-#: src/Service/Admin/SiteHealthInfo.php:178
+#: src/Service/Admin/SiteHealthInfo.php:183
+#: src/Service/Admin/SiteHealthInfo.php:203
 msgid "Set"
 msgstr ""
 
-#: src/Service/Admin/SiteHealthInfo.php:197
+#: src/Service/Admin/SiteHealthInfo.php:227
 msgid "IP Detection Method"
 msgstr ""
 
-#: src/Service/Admin/SiteHealthInfo.php:213
+#: src/Service/Admin/SiteHealthInfo.php:247
 msgid "PHP Extension (GMP)"
 msgstr ""
 
-#: src/Service/Admin/SiteHealthInfo.php:214
-#: src/Service/Admin/SiteHealthInfo.php:218
-#: src/Service/Admin/SiteHealthInfo.php:222
-#: src/Service/Admin/SiteHealthInfo.php:226
+#: src/Service/Admin/SiteHealthInfo.php:248
+#: src/Service/Admin/SiteHealthInfo.php:253
+#: src/Service/Admin/SiteHealthInfo.php:258
+#: src/Service/Admin/SiteHealthInfo.php:263
 msgid "Installed"
 msgstr ""
 
-#: src/Service/Admin/SiteHealthInfo.php:214
-#: src/Service/Admin/SiteHealthInfo.php:218
-#: src/Service/Admin/SiteHealthInfo.php:222
-#: src/Service/Admin/SiteHealthInfo.php:226
+#: src/Service/Admin/SiteHealthInfo.php:248
+#: src/Service/Admin/SiteHealthInfo.php:253
+#: src/Service/Admin/SiteHealthInfo.php:258
+#: src/Service/Admin/SiteHealthInfo.php:263
 msgid "Not Installed"
 msgstr ""
 
-#: src/Service/Admin/SiteHealthInfo.php:217
+#: src/Service/Admin/SiteHealthInfo.php:252
 msgid "PHP Extension (BCMath)"
 msgstr ""
 
-#: src/Service/Admin/SiteHealthInfo.php:221
+#: src/Service/Admin/SiteHealthInfo.php:257
 msgid "PHP Function (gzopen)"
 msgstr ""
 
-#: src/Service/Admin/SiteHealthInfo.php:225
+#: src/Service/Admin/SiteHealthInfo.php:262
 msgid "PHP Class (PharData)"
 msgstr ""
 
