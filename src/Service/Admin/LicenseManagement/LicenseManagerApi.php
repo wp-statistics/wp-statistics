@@ -99,13 +99,23 @@ class LicenseManagerApi
     }
 
     /**
+     * Checks if `license_details` object is not empty.
+     *
+     * @return bool
+     */
+    public function isLicenseDetailsValid()
+    {
+        return !empty($this->license) && !empty($this->license->license_details);
+    }
+
+    /**
      * Returns license status.
      *
      * @return string Possible returned values: `active`, `expired` or `invalid`.
      */
     public function getStatus()
     {
-        if (empty($this->license) || empty($this->license->license_details)) {
+        if (!$this->isLicenseDetailsValid()) {
             return 'invalid';
         }
 
@@ -124,7 +134,7 @@ class LicenseManagerApi
     public function getValidUntil()
     {
         if (
-            empty($this->license) || empty($this->license->license_details) ||
+            !$this->isLicenseDetailsValid() ||
             !isset($this->license->license_details->valid_until) || !TimeZone::isValidDate($this->license->license_details->valid_until)
         ) {
             return '';
@@ -140,10 +150,7 @@ class LicenseManagerApi
      */
     public function getType()
     {
-        if (
-            empty($this->license) || empty($this->license->license_details) ||
-            !isset($this->license->license_details->type)
-        ) {
+        if (!$this->isLicenseDetailsValid() || !isset($this->license->license_details->type)) {
             return '';
         }
 
@@ -157,10 +164,7 @@ class LicenseManagerApi
      */
     public function getMaxDomains()
     {
-        if (
-            empty($this->license) || empty($this->license->license_details) ||
-            !isset($this->license->license_details->max_domains)
-        ) {
+        if (!$this->isLicenseDetailsValid() || !isset($this->license->license_details->max_domains)) {
             return 0;
         }
 
@@ -174,10 +178,7 @@ class LicenseManagerApi
      */
     public function getUser()
     {
-        if (
-            empty($this->license) || empty($this->license->license_details) ||
-            empty($this->license->license_details->user)
-        ) {
+        if (!$this->isLicenseDetailsValid() || empty($this->license->license_details->user)) {
             return null;
         }
 
