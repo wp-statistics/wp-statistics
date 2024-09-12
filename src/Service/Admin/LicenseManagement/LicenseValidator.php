@@ -3,6 +3,7 @@
 namespace WP_Statistics\Service\Admin\LicenseManagement;
 
 use WP_STATISTICS\Option;
+use WP_Statistics\Service\Admin\LicenseManagement\ApiHandler\LicenseManagerApiFactory;
 
 /**
  * This class handles licenses status and validations.
@@ -36,23 +37,27 @@ class LicenseValidator
         $result = [];
 
         foreach ($licenseKeysToValidate as $currentLicenseKey) {
-            $licenseManagerApi = new LicenseManagerApi($currentLicenseKey);
+            try {
+                $licenseManagerStatusApi = LicenseManagerApiFactory::getStatusApi($currentLicenseKey);
 
-            if ($licenseManagerApi->getStatus() === 'active') {
-                // Get current license's full object
-                $response = $licenseManagerApi->getLicenseObject();
+                if ($licenseManagerStatusApi->getStatus() === 'active') {
+                    // Get current license's full object
+                    $response = $licenseManagerStatusApi->getLicenseObject();
 
-                $result[$currentLicenseKey] = $response;
+                    $result[$currentLicenseKey] = $response;
 
-                // Also store the result in the validated license array
-                $validatedLicenses[$currentLicenseKey] = $response;
+                    // Also store the result in the validated license array
+                    $validatedLicenses[$currentLicenseKey] = $response;
 
-                // And store the key in database
-                if (!in_array($currentLicenseKey, $allLicenseKeys)) {
-                    $allLicenseKeys[] = $currentLicenseKey;
+                    // And store the key in database
+                    if (!in_array($currentLicenseKey, $allLicenseKeys)) {
+                        $allLicenseKeys[] = $currentLicenseKey;
+                    }
+                } else {
+                    $result[$currentLicenseKey] = [$licenseManagerStatusApi->getStatus()];
                 }
-            } else {
-                $result[$currentLicenseKey] = [$licenseManagerApi->getStatus()];
+            } catch (\Exception $e) {
+                $result[$currentLicenseKey] = [$e->getMessage()];
             }
         }
 
