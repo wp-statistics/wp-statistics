@@ -76,7 +76,7 @@ function getPerformanceStyles($percentageChange) {
     $styles = [
         'background' => '#A9AAAE1A', // Default for 0 change
         'color' => '#A9AAAE',
-        'image' => 'arrow-right-line.png'
+        'image' => 'arrow.png'
     ];
     if ($percentageChange > 0) {
         $styles['background'] = '#1961401A';
@@ -91,12 +91,11 @@ function getPerformanceStyles($percentageChange) {
 }
 
 function generatePerformanceSection($icon, $currentValue, $percentageChange, $label, $text_align = null, $text_align_reverse = null) {
-    global $text_align, $text_align_reverse;
     if (is_null($text_align)) {
-        $text_align = $GLOBALS['text_align'];
+        $text_align = is_rtl() ? 'right' : 'left';
     }
     if (is_null($text_align_reverse)) {
-        $text_align_reverse = $GLOBALS['text_align_reverse'];
+        $text_align_reverse = is_rtl() ? 'left' : 'right';
     }
     $styles = getPerformanceStyles($percentageChange);
 
