@@ -1,15 +1,26 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <phpunit
-	bootstrap="tests/bootstrap.php"
-	backupGlobals="false"
-	colors="true"
-	convertErrorsToExceptions="true"
-	convertNoticesToExceptions="true"
-	convertWarningsToExceptions="true"
-	>
-	<testsuites>
-		<testsuite name="testing">
-			<directory prefix="test-" suffix=".php">./tests/</directory>
-		</testsuite>
-	</testsuites>
+    bootstrap="tests/bootstrap.php"
+    backupGlobals="false"
+    colors="true"
+    verbose="true"
+    stopOnFailure="false"
+    convertErrorsToExceptions="true"
+    convertNoticesToExceptions="true"
+    convertWarningsToExceptions="true"
+>
+    <!-- Define the testsuite -->
+    <testsuites>
+        <testsuite name="Unit Tests">
+            <!-- Find test files prefixed with 'Test_' -->
+            <directory prefix="Test_" suffix=".php">./tests/</directory>
+        </testsuite>
+    </testsuites>
+
+    <!-- Enable logging for coverage and testdox HTML/text output -->
+    <logging>
+        <log type="coverage-html" target="tests/coverage" />
+        <log type="testdox-html" target="tests/logs/testdox.html" />
+        <log type="testdox-text" target="tests/logs/testdox.txt" />
+    </logging>
 </phpunit>

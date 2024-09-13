@@ -1,9 +1,7 @@
 <?php
 
-namespace WP_Statistics\Tests;
 
 use WP_Statistics\Service\Analytics\DeviceDetection\UserAgentService;
-use WP_UnitTestCase;
 
 class Test_UserAgentService extends WP_UnitTestCase
 {

@@ -35,7 +35,7 @@
   },
   "scripts": {
     "test": [
-      "phpunit"
+      "phpunit --testdox"
     ],
     "post-install-cmd": [
       "~/.composer/vendor/bin/mozart compose",
