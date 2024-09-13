@@ -11,6 +11,7 @@
 .phpcs.xml.dist
 .phpunit.result.cache
 .gulpfile.js
+.phpunit.result.cache
 
 changelog.txt
 composer.json
