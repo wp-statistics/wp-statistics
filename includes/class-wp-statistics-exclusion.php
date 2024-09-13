@@ -2,7 +2,6 @@
 
 namespace WP_STATISTICS;
 
-use WP_Statistics\Dependencies\Jaybizzle\CrawlerDetect\CrawlerDetect;
 use WP_Statistics\Service\Analytics\VisitorProfile;
 use WP_Statistics\Utils\Request;
 
@@ -18,7 +17,6 @@ class Exclusion
         return array(
             'ajax'            => __('Ajax', 'wp-statistics'),
             'cronjob'         => __('Cron job', 'wp-statistics'),
-            'CrawlerDetect'   => __('Crawler Detect', 'wp-statistics'),
             'robot'           => __('Robot', 'wp-statistics'),
             'BrokenFile'      => __('Broken Link', 'wp-statistics'),
             'ip match'        => __('IP Match', 'wp-statistics'),
@@ -275,19 +273,6 @@ class Exclusion
                     }
                 }
             }
-        }
-
-        return false;
-    }
-
-    /**
-     * Detect if Crawler.
-     */
-    public static function exclusion_crawlerdetect()
-    {
-        $CrawlerDetect = new CrawlerDetect();
-        if ($CrawlerDetect->isCrawler()) {
-            return true;
         }
 
         return false;
