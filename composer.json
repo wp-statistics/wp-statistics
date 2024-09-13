@@ -34,6 +34,9 @@
     }
   },
   "scripts": {
+    "test": [
+      "phpunit"
+    ],
     "post-install-cmd": [
       "~/.composer/vendor/bin/mozart compose",
       "composer dump-autoload"

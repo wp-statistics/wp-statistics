@@ -3,17 +3,22 @@
 /.github
 /node_modules
 /bin
+/tests
 
 .distignore
+.editorconfig
 .gitignore
+.phpcs.xml.dist
+.phpunit.result.cache
+.gulpfile.js
 
 changelog.txt
 composer.json
 composer.lock
-.gulpfile.js
 webpack.config.js
 package.json
 package-lock.json
+phpunit.xml.dist
 README.md
 CHANGELOG.md
 CONTRIBUTING.md
