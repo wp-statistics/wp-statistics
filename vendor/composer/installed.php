@@ -3,7 +3,7 @@
         'name' => '__root__',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => '34923150a5f1afeb664e60ce68c01d4900085a35',
+        'reference' => 'e64e1d25aa63fddb6c117a99157fe92062bc85a8',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -13,7 +13,7 @@
         '__root__' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => '34923150a5f1afeb664e60ce68c01d4900085a35',
+            'reference' => 'e64e1d25aa63fddb6c117a99157fe92062bc85a8',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -47,9 +47,9 @@
             'dev_requirement' => false,
         ),
         'matomo/device-detector' => array(
-            'pretty_version' => '6.3.2',
-            'version' => '6.3.2.0',
-            'reference' => 'fd4042cb6a7f3f985a81aedc075dd59e0b991a51',
+            'pretty_version' => '6.4.0',
+            'version' => '6.4.0.0',
+            'reference' => '05dca429cfe7b6a59947a0d449dbeb60cddc02f2',
             'type' => 'library',
             'install_path' => __DIR__ . '/../matomo/device-detector',
             'aliases' => array(),
@@ -85,7 +85,7 @@
         'piwik/device-detector' => array(
             'dev_requirement' => false,
             'replaced' => array(
-                0 => '6.3.2',
+                0 => '6.4.0',
             ),
         ),
         's1lentium/iptools' => array(

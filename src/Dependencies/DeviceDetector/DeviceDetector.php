@@ -68,7 +68,7 @@ class DeviceDetector
     /**
      * Current version number of WP_Statistics\Dependencies\DeviceDetector
      */
-    public const VERSION = '6.3.2';
+    public const VERSION = '6.4.0';
 
     /**
      * Constant used as value for unknown browser / os
@@ -1049,7 +1049,7 @@ class DeviceDetector
         /**
          * All devices that contain Andr0id in string are assumed to be a tv
          */
-        if ($this->matchUserAgent('Andr0id|(?:Android(?: UHD)?|Google) TV|\(lite\) TV|BRAVIA')) {
+        if ($this->matchUserAgent('Andr0id|(?:Android(?: UHD)?|Google) TV|\(lite\) TV|BRAVIA| TV$')) {
             $this->device = AbstractDeviceParser::DEVICE_TYPE_TV;
         }
 
