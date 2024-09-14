@@ -18,7 +18,6 @@ class Menus
     public static $pages = array(
         'overview'           => 'overview',
         'exclusions'         => 'exclusions',
-        'referrers'          => 'referrers',
         'referrals'          => 'referrals',
         'searches'           => 'searches',
         'optimization'       => 'optimization',
