@@ -22,7 +22,6 @@ class Menus
         'searches'           => 'searches',
         'optimization'       => 'optimization',
         'settings'           => 'settings',
-        'plugins'            => 'plugins',
         'author-analytics'   => 'author-analytics',
         'privacy-audit'      => 'privacy-audit',
         'geographic'         => 'geographic',

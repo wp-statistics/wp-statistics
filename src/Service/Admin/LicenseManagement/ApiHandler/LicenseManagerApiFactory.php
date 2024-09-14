@@ -20,20 +20,21 @@ class LicenseManagerApiFactory
      * Returns `license/status` request's result.
      *
      * @param string $licenseKey
-     * @param string $domain
+     * @param bool $domain
      *
      * @return LicenseStatusResponseDecorator
      *
      * @throws \Exception
      */
-    public static function getStatusApi($licenseKey, $domain = '')
+    public static function getStatusApi($licenseKey, $domain = false)
     {
         $url      = self::$apiRootUrl . self::LICENSE_STATUS;
         $request  = new RemoteRequest($url, 'GET', [
             'license_key' => $licenseKey,
-            'domain'      => !empty($domain) ? esc_url($domain) : Helper::get_domain_name(home_url()),
+            'domain'      => $domain ? $domain : Helper::get_domain_name(home_url()),
         ]);
-        $response = $request->execute(true);
+
+        $response = $request->execute();
 
         return new LicenseStatusResponseDecorator($response);
     }

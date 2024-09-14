@@ -1,6 +1,6 @@
 <?php
 
-namespace WP_Statistics\Service\Admin;
+namespace WP_Statistics\Service\Admin\LicenseManagement;
 
 class AddOnsFactory
 {
