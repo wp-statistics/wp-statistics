@@ -91,4 +91,41 @@ class RemoteRequest
 
         return ($responseJson == null) ? $responseBody : $responseJson;
     }
+
+    /**
+     * Downloads a URL to a local path using the WordPress HTTP API.
+     *
+     * @param string $destination Destination to move the downloaded file to.
+     *
+     * @return string|\WP_Error The path to the file or an error if invalid.
+     */
+    public function downloadToSite($destination)
+    {
+        if (empty($this->requestUrl) || empty($destination)) {
+            return new \WP_Error('wp_statistics_download_url_error', __('Download URL and destination are required!', 'wp-statistics'));
+        }
+
+        // Ensure the necessary function is available
+        if (!function_exists('download_url')) {
+            require_once ABSPATH . 'wp-admin/includes/file.php';
+        }
+
+        // Download the file to a temporary location
+        $tempFile = download_url(esc_url_raw($this->requestUrl));
+        if (is_wp_error($tempFile)) {
+            return new \WP_Error('wp_statistics_download_url_error', $tempFile->get_error_data());
+        }
+
+        // Move the temporary file to the final destination
+        $destination = path_join($destination, basename($this->requestUrl));
+        copy($tempFile, $destination);
+        unlink($tempFile);
+
+        // Verify the file exists at the destination
+        if (file_exists($destination)) {
+            return $destination;
+        }
+
+        return new \WP_Error('wp_statistics_download_url_error', __('Error downloading the file!', 'wp-statistics'));
+    }
 }
