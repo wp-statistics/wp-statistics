@@ -2,7 +2,6 @@
 
 namespace WP_Statistics\Service\Admin\LicenseManagement;
 
-use Exception;
 use WP_Statistics\Components\Assets;
 use WP_STATISTICS\Menus;
 use WP_Statistics\Utils\Request;
@@ -88,24 +87,22 @@ class LicenseManagementManager
     {
         try {
             if (!wp_verify_nonce(wp_unslash(Request::get('nonce')), 'wp_statistics_license_manager')) {
-                throw new Exception(__('Access denied.', 'wp-statistics'));
+                throw new \Exception(__('Access denied.', 'wp-statistics'));
             }
 
             $licenseKey = Request::has('license_key') ? wp_unslash(Request::get('license_key')) : false;
 
             if (!$licenseKey) {
-                throw new Exception(__('License key is missing.', 'wp-statistics'));
+                throw new \Exception(__('License key is missing.', 'wp-statistics'));
             }
 
-            // @todo review
             $licenseValidator = new LicenseValidator();
             $licenses         = $licenseValidator->validateLicense($licenseKey);
 
             wp_send_json_success([
                 'licenses' => $licenses,
             ]);
-
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             wp_send_json_error($e->getMessage());
         }
 
@@ -121,7 +118,7 @@ class LicenseManagementManager
     {
         try {
             if (!wp_verify_nonce(wp_unslash(Request::get('nonce')), 'wp_statistics_license_manager')) {
-                throw new Exception(__('Access denied.', 'wp-statistics'));
+                throw new \Exception(__('Access denied.', 'wp-statistics'));
             }
 
             // Get the license key and plugin slug from the request
@@ -129,7 +126,7 @@ class LicenseManagementManager
             $pluginSlug = Request::has('plugin_slug') ? wp_unslash(Request::get('plugin_slug')) : false;
 
             if (!$licenseKey || !$pluginSlug) {
-                throw new Exception(__('Missing license key or plugin slug.', 'wp-statistics'));
+                throw new \Exception(__('Missing license key or plugin slug.', 'wp-statistics'));
             }
 
             /**
@@ -151,8 +148,7 @@ class LicenseManagementManager
             wp_send_json_success([
                 'message' => __('Plugin downloaded, installed, and activated successfully!', 'wp-statistics'),
             ]);
-
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             wp_send_json_error([
                 'message' => $e->getMessage(),
             ]);
