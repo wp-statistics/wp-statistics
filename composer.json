@@ -33,14 +33,14 @@
   },
   "scripts": {
     "test": [
-      "phpunit --testdox"
+      "PATH=$(composer global config bin-dir --absolute --quiet):$PATH phpunit --testdox"
     ],
     "post-install-cmd": [
-      "~/.composer/vendor/bin/mozart compose",
+      "PATH=$(composer global config bin-dir --absolute --quiet):$PATH mozart compose",
       "composer dump-autoload"
     ],
     "post-update-cmd": [
-      "~/.composer/vendor/bin/mozart compose",
+      "PATH=$(composer global config bin-dir --absolute --quiet):$PATH mozart compose",
       "composer dump-autoload"
     ]
   }
