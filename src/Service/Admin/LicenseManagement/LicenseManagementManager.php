@@ -4,6 +4,7 @@ namespace WP_Statistics\Service\Admin\LicenseManagement;
 
 use WP_Statistics\Components\Assets;
 use WP_STATISTICS\Menus;
+use WP_Statistics\Service\Admin\LicenseManagement\ApiHandler\LicenseManagerApiFactory;
 use WP_Statistics\Utils\Request;
 
 class LicenseManagementManager
@@ -129,18 +130,24 @@ class LicenseManagementManager
                 throw new \Exception(__('Missing license key or plugin slug.', 'wp-statistics'));
             }
 
-            /**
-             * Validate the license again
-             */
-            $apiResponse = ''; // todo
-
-            /**
-             * Get plugin url from the api response
-             */
-            $pluginUrl = ''; // todo
+            // Validate the license
+            try {
+                $licenseManagerStatusApi = LicenseManagerApiFactory::getStatusApi($licenseKey);
+                if (empty($licenseManagerStatusApi) || !$licenseManagerStatusApi->isLicenseDetailsValid()) {
+                    throw new \Exception(sprintf(
+                        // translators: %s: License key.
+                        __('Invalid license: %s', 'wp-statistics'),
+                        $licenseKey
+                    ));
+                }
+            } catch (\Exception $e) {
+                return [
+                    'licenses' => $e->getMessage(),
+                ];
+            }
 
             // Instantiate the PluginInstaller class
-            $installer = new PluginInstaller($pluginUrl, $pluginSlug);
+            $installer = new PluginInstaller($licenseManagerStatusApi->getDownloadUrl($pluginSlug), $pluginSlug);
             $installer->downloadAndInstallPlugin();
             $installer->activatePlugin();
 
