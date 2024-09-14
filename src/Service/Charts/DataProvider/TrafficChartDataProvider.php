@@ -24,8 +24,6 @@ class TrafficChartDataProvider extends AbstractChartDataProvider
 
         $this->visitorsModel    = new VisitorsModel();
         $this->viewsModel       = new ViewsModel();
-
-        $this->initChartData(true);
     }
 
     public function getData()
@@ -73,6 +71,9 @@ class TrafficChartDataProvider extends AbstractChartDataProvider
 
     protected function prepareResult($data, $prevData)
     {
+        // Init chart response with previous data
+        $this->initChartData(true);
+
         // Current Data
         $this->setChartLabels($data['labels']);
         $this->addChartDataset(esc_html__('Visitors', 'wp-statistics'), $data['visitors']);
