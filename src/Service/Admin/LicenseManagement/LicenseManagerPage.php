@@ -7,7 +7,7 @@ use WP_Statistics\Service\Admin\LicenseManagement\Views\TabsView;
 
 class LicenseManagerPage extends MultiViewPage
 {
-    protected $pageSlug    = 'license_manager';
+    protected $pageSlug    = 'plugins';
     protected $defaultView = 'tabs';
     protected $views       = ['tabs' => TabsView::class];
 

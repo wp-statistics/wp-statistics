@@ -26,11 +26,11 @@ class LicenseManagementManager
      */
     public function addMenuItem($items)
     {
-        $items['license_manager'] = [
+        $items['plugins'] = [
             'sub'      => 'overview',
-            'title'    => esc_html__('License Manager', 'wp-statistics'),
-            'name'     => '<span class="wps-text-warning">' . esc_html__('License Manager', 'wp-statistics') . '</span>',
-            'page_url' => 'license_manager',
+            'title'    => __('Add-Ons', 'wp-statistics'),
+            'name'     => '<span class="wps-text-warning">' . __('Add-Ons', 'wp-statistics') . '</span>',
+            'page_url' => 'plugins',
             'callback' => LicenseManagerPage::class,
             'priority' => 90,
             'break'    => true,

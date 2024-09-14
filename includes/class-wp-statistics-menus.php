@@ -31,7 +31,6 @@ class Menus
         'category-analytics' => 'category-analytics',
         'pages'              => 'pages',
         'visitors'           => 'visitors',
-        'license_manager'    => 'license_manager',
     );
 
     /**
@@ -183,15 +182,6 @@ class Menus
                 'page_url' => 'searches',
                 'method'   => 'searches',
                 'priority' => 70,
-            ),
-            'plugins'      => array(
-                'sub'      => 'overview',
-                'title'    => __('Add-Ons', 'wp-statistics'),
-                'name'     => '<span class="wps-text-warning">' . __('Add-Ons', 'wp-statistics') . '</span>',
-                'page_url' => 'plugins',
-                'method'   => 'plugins',
-                'priority' => 90,
-                'break'    => true,
             ),
             'settings'     => array(
                 'sub'      => 'overview',

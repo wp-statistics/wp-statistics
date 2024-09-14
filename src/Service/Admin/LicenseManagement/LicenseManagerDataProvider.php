@@ -17,32 +17,42 @@ class LicenseManagerDataProvider
     }
 
     /**
-     * Returns data for step 1.
+     * Returns data for "Add-Ons" tab.
      *
      * @return array
      */
-    public function getStepOneData()
+    public function getAddOnsData()
     {
-        return ['step' => 1];
+        return '';
     }
 
     /**
-     * Returns data for step 2.
+     * Returns data for "Add Your License" tab.
      *
      * @return array
      */
-    public function getStepTwoData()
+    public function getAddLicenseData()
     {
-        return ['step' => 2];
+        return '';
     }
 
     /**
-     * Returns data for step 3.
+     * Returns data for "Download Add-ons" tab.
      *
      * @return array
      */
-    public function getStepThreeData()
+    public function getDownloadsData()
     {
-        return ['step' => 3];
+        return '';
+    }
+
+    /**
+     * Returns data for "Get Started" tab.
+     *
+     * @return array
+     */
+    public function getGetStartedData()
+    {
+        return '';
     }
 }
