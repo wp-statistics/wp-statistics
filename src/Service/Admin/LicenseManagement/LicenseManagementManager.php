@@ -129,12 +129,13 @@ class LicenseManagementManager
             $pluginSlug = Request::has('plugin_slug') ? wp_unslash(Request::get('plugin_slug')) : false;
 
             if (!$licenseKey || !$pluginSlug) {
-                throw new Exception(__('Missing plugin URL or slug.', 'wp-statistics'));
+                throw new Exception(__('Missing license key or plugin slug.', 'wp-statistics'));
             }
 
             /**
              * Validate the license again
              */
+            $apiResponse = ''; // todo
 
             /**
              * Get plugin url from the api response
