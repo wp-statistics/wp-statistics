@@ -37,7 +37,8 @@ class PluginInstaller
         }
 
         // Prepare for unpacking the plugin
-        $pluginUpgrader = new \Plugin_Upgrader();
+        $skin           = new \Automatic_Upgrader_Skin();
+        $pluginUpgrader = new \Plugin_Upgrader($skin);
         $installResult  = $pluginUpgrader->install($downloadFile);
 
         // Cleanup downloaded file
