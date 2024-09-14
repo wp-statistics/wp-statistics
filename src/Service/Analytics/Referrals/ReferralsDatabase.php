@@ -38,6 +38,8 @@ class ReferralsDatabase
                 throw new Exception(esc_html__('Failed to save the referrals database file.', 'wp-statistics'));
             }
 
+            $this->updateLastDownloadTimestamp();
+
             return true;
         } catch (Exception $e) {
             \WP_Statistics::log(esc_html__('Cannot download referrals database.', 'wp-statistics'), 'error');

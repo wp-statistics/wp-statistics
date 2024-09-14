@@ -290,7 +290,6 @@ class Schedule
     {
         $referralsDatabase = new ReferralsDatabase();
         $referralsDatabase->download();
-        $referralsDatabase->updateLastDownloadTimestamp();
     }
 
     public function getEmailSubject()
