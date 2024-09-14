@@ -91,9 +91,9 @@ class LicenseManagementManager
                 throw new Exception(__('Access denied.', 'wp-statistics'));
             }
 
-            $licenseKey = Request::has('license') ? wp_unslash(Request::get('license')) : '';
+            $licenseKey = Request::has('license_key') ? wp_unslash(Request::get('license_key')) : false;
 
-            if (empty($licenseKey)) {
+            if (!$licenseKey) {
                 throw new Exception(__('License key is missing.', 'wp-statistics'));
             }
 
@@ -124,13 +124,22 @@ class LicenseManagementManager
                 throw new Exception(__('Access denied.', 'wp-statistics'));
             }
 
-            // Get the download URL and plugin slug from the request
-            $pluginUrl  = Request::has('download_url') ? wp_unslash(Request::get('download_url')) : '';
-            $pluginSlug = Request::has('plugin_slug') ? wp_unslash(Request::get('plugin_slug')) : '';
+            // Get the license key and plugin slug from the request
+            $licenseKey = Request::has('license_key') ? wp_unslash(Request::get('license_key')) : false;
+            $pluginSlug = Request::has('plugin_slug') ? wp_unslash(Request::get('plugin_slug')) : false;
 
-            if (empty($pluginUrl) || empty($pluginSlug)) {
+            if (!$licenseKey || !$pluginSlug) {
                 throw new Exception(__('Missing plugin URL or slug.', 'wp-statistics'));
             }
+
+            /**
+             * Validate the license again
+             */
+
+            /**
+             * Get plugin url from the api response
+             */
+            $pluginUrl = ''; // todo
 
             // Instantiate the PluginInstaller class
             $installer = new PluginInstaller($pluginUrl, $pluginSlug);

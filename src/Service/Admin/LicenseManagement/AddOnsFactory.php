@@ -2,6 +2,9 @@
 
 namespace WP_Statistics\Service\Admin\LicenseManagement;
 
+/**
+ * @todo The options need to used in development, then we can remove this class as well.
+ */
 class AddOnsFactory
 {
     private static $optionMap = [

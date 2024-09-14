@@ -2,6 +2,9 @@
 
 namespace WP_Statistics\Service\Admin\LicenseManagement;
 
+/**
+ * @todo Remove if is not needed.
+ */
 class AddOnDecorator
 {
     private $addOn;
