@@ -36,9 +36,7 @@ namespace WP_STATISTICS;
                     <span class="wps-visitor__information__incognito-img"></span>
                 </a>
                 <span class="wps-visitor__information__incognito-text">
-                    <?php if (Option::get('visitors_log')): ?>
-                        <?php echo IP::IsHashIP($visitor->ip) ? '#' . substr($visitor->ip, 6, 8) : $visitor->ip; ?>
-                    <?php endif ?>
+                    <?php echo IP::IsHashIP($visitor->ip) ? '#' . substr($visitor->ip, 6, 8) : $visitor->ip; ?>
                 </span>
             </div>
         </li>
