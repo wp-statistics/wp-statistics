@@ -41,7 +41,7 @@ class TrafficChartDataProvider extends AbstractChartDataProvider
         $prevDates      = array_keys(TimeZone::getListDays($prevPeriod));
 
         $prevVisitors   = $this->visitorsModel->countDailyVisitors(array_merge($this->args, ['date' => $prevPeriod]));
-        $prevViews      = $this->viewsModel->countDailyViews(array_merge($this->args, ['date' => $prevPeriod]));
+        $prevViews      = $this->viewsModel->countDailyViews(array_merge($this->args, ['date' => $prevPeriod, 'ignore_post_type' => true]));
         $prevParsedData = $this->parseData($prevDates, ['visitors' => $prevVisitors, 'views' => $prevViews]);
 
         // Prepare data
