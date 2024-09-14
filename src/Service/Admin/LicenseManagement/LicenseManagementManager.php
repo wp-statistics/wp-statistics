@@ -2,8 +2,8 @@
 
 namespace WP_Statistics\Service\Admin\LicenseManagement;
 
+use Exception;
 use WP_Statistics\Components\Assets;
-use WP_Statistics\Components\RemoteRequest;
 use WP_STATISTICS\Menus;
 use WP_Statistics\Utils\Request;
 
@@ -80,63 +80,74 @@ class LicenseManagementManager
     }
 
     /**
-     * Handles `check_license` ajax call and checks license status.
+     * Handles `check_license` ajax call and checks license status with try/catch.
      *
      * @return void
      */
     public function check_license_action_callback()
     {
-        if (!wp_verify_nonce(wp_unslash(Request::get('nonce')), 'wp_statistics_license_manager')) {
-            wp_send_json_error([
-                'message' => __('Access denied.', 'wp-statistics'),
-            ], 200); // Return 200 HTTP code to prevent console from showing a 404 error
-            exit;
+        try {
+            if (!wp_verify_nonce(wp_unslash(Request::get('nonce')), 'wp_statistics_license_manager')) {
+                throw new Exception(__('Access denied.', 'wp-statistics'));
+            }
+
+            $licenseKey = Request::has('license') ? wp_unslash(Request::get('license')) : '';
+
+            if (empty($licenseKey)) {
+                throw new Exception(__('License key is missing.', 'wp-statistics'));
+            }
+
+            // @todo review
+            $licenseValidator = new LicenseValidator();
+            $licenses         = $licenseValidator->validateLicense($licenseKey);
+
+            wp_send_json_success([
+                'licenses' => $licenses,
+            ]);
+
+        } catch (Exception $e) {
+            wp_send_json_error($e->getMessage());
         }
-
-        $licenseKey = Request::has('license') ? wp_unslash(Request::get('license')) : '';
-
-        $licenseValidator = new LicenseValidator();
-        wp_send_json_success([
-            'licenses' => $licenseValidator->validateLicense($licenseKey),
-        ]);
 
         exit;
     }
 
     /**
-     * Handles `download_plugin` ajax call and downloads a plugin.
+     * Handles `download_plugin` ajax call and downloads a plugin with try/catch.
      *
      * @return void
      */
     public function download_plugin_action_callback()
     {
-        if (!wp_verify_nonce(wp_unslash(Request::get('nonce')), 'wp_statistics_license_manager')) {
+        try {
+            if (!wp_verify_nonce(wp_unslash(Request::get('nonce')), 'wp_statistics_license_manager')) {
+                throw new Exception(__('Access denied.', 'wp-statistics'));
+            }
+
+            // Get the download URL and plugin slug from the request
+            $pluginUrl  = Request::has('download_url') ? wp_unslash(Request::get('download_url')) : '';
+            $pluginSlug = Request::has('plugin_slug') ? wp_unslash(Request::get('plugin_slug')) : '';
+
+            if (empty($pluginUrl) || empty($pluginSlug)) {
+                throw new Exception(__('Missing plugin URL or slug.', 'wp-statistics'));
+            }
+
+            // Instantiate the PluginInstaller class
+            $installer = new PluginInstaller($pluginUrl, $pluginSlug);
+            $installer->downloadAndInstallPlugin();
+            $installer->activatePlugin();
+
+            // Respond with success
+            wp_send_json_success([
+                'message' => __('Plugin downloaded, installed, and activated successfully!', 'wp-statistics'),
+            ]);
+
+        } catch (Exception $e) {
             wp_send_json_error([
-                'message' => __('Access denied.', 'wp-statistics'),
-            ], 200);
-            exit;
+                'message' => $e->getMessage(),
+            ]);
         }
 
-        $downloadUrl = Request::has('download_url') ? wp_unslash(Request::get('download_url')) : '';
-        if (empty($downloadUrl)) {
-            wp_send_json_error([
-                'message' => esc_html__('Invalid Download URL!', 'wp-statistics')
-            ], 200);
-            exit;
-        }
-
-        $request = new RemoteRequest($downloadUrl);
-
-        $downloadedFile = $request->downloadToSite(WP_PLUGIN_DIR);
-        if (is_wp_error($downloadedFile)) {
-            wp_send_json_error([
-                'message' => $downloadedFile->get_error_message('wp_statistics_download_url_error'),
-            ], 200);
-            exit;
-        }
-
-        wp_send_json_success([
-            'url' => $downloadedFile,
-        ]);
+        exit;
     }
 }
