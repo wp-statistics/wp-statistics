@@ -72,19 +72,20 @@ class PluginHandler
      *
      * @throws \Exception
      */
-    private function getPluginFile()
+    public function getPluginFile()
     {
-        $pluginDir = path_join(WP_PLUGIN_DIR, $this->pluginSlug);
-        if (is_dir($pluginDir)) {
-            $pluginFiles = scandir($pluginDir);
-            foreach ($pluginFiles as $file) {
-                if (strpos($file, '.php') !== false) {
-                    return path_join($this->pluginSlug, $file);
-                }
+        if (!function_exists('get_plugins')) {
+            require_once ABSPATH . 'wp-admin/includes/plugin.php';
+        }
+
+        foreach (get_plugins() as $pluginFile => $pluginInfo) {
+            // Return this plugin if the folder name matches the input slug
+            if (explode('/', $pluginFile)[0] == $this->pluginSlug) {
+                return trailingslashit(WP_PLUGIN_DIR) . $pluginFile;
             }
         }
 
-        throw new \Exception(__('Plugin directory not found.', 'wp-statistics'));
+        throw new \Exception(__('Plugin not found.', 'wp-statistics'));
     }
 
     /**
@@ -142,7 +143,7 @@ class PluginHandler
         }
 
         if (!function_exists('get_plugin_data')) {
-            require_once(ABSPATH . 'wp-admin/includes/plugin.php');
+            require_once ABSPATH . 'wp-admin/includes/plugin.php';
         }
 
         return get_plugin_data($pluginFile);
