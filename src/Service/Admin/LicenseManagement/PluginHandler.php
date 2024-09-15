@@ -5,7 +5,7 @@ namespace WP_Statistics\Service\Admin\LicenseManagement;
 /**
  * Helper class that handles plugin download, install, etc.
  */
-class PluginInstaller
+class PluginHandler
 {
     private $pluginSlug;
 

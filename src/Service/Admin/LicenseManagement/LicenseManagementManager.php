@@ -146,10 +146,9 @@ class LicenseManagementManager
                 ];
             }
 
-            // Instantiate the PluginInstaller class
-            $installer = new PluginInstaller($pluginSlug);
-            $installer->downloadAndInstallPlugin($licenseManagerStatusApi->getDownloadUrl($pluginSlug));
-            $installer->activatePlugin();
+            $pluginHandler = new PluginHandler($pluginSlug);
+            $pluginHandler->downloadAndInstallPlugin($licenseManagerStatusApi->getDownloadUrl($pluginSlug));
+            $pluginHandler->activatePlugin();
 
             // Respond with success
             wp_send_json_success([
