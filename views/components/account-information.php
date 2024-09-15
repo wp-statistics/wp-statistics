@@ -41,7 +41,7 @@ use WP_STATISTICS\User;
     <div class="wps-visitor__visitors-detail--row">
         <span><?php esc_html_e('Role', 'wp-statistics'); ?></span>
         <div class="wps-ellipsis-parent">
-            <span><?php echo esc_html($user->roles[0]); ?></span>
+            <span class="c-capitalize"><?php echo esc_html($user->roles[0]); ?></span>
         </div>
     </div>
 </div>

@@ -810,7 +810,7 @@ class Helper
         $schedule   = Option::get('time_report', false);
         $is_rtl     = is_rtl();
         $text_align = $is_rtl ? 'right' : 'left';
-        $emailTitle = __('<table style="font-family:  -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans, Ubuntu, Cantarell, Helvetica Neue,sans-serif;; width: 100%; text-align: ' . $text_align . ';font-size: 21px; font-weight: 500; line-height: 24.61px; color: #0C0C0D; padding: 0;"><tbody><tr><td>Your Website Performance Overview</td></tr></tbody></table>', 'wp-statistics');
+        $emailTitle = '<table style="font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans, Ubuntu, Cantarell, Helvetica Neue,sans-serif; width: 100%; text-align: ' . esc_attr($text_align) . ';font-size: 21px; font-weight: 500; line-height: 24.61px; color: #0C0C0D; padding: 0;"><tbody><tr><td>' . __('Your Website Performance Overview', 'wp-statistics') . '</td></tr></tbody></table>';
 
         if ($schedule && array_key_exists($schedule, Schedule::getSchedules())) {
             $schedule = Schedule::getSchedules()[$schedule];
@@ -828,11 +828,10 @@ class Helper
 
             if (!Helper::isAddOnActive('advanced-reporting')) {
                 $emailTitle .= sprintf(
-                // translators: %1$s: Reoprt date - %2$s: Website URL - %3$s: Website name.
-                    __('<p style="margin-bottom: 12px;margin-top:4px;font-size: 14px; font-weight: 400; line-height: 16.41px; color: #56585A;">%1$s</p><p style="margin: 0"><a href="%2$s" title="%3$s" style="color: #56585A;font-size: 16px; font-weight: 500; line-height: 18.75px; text-decoration:none">%3$s</a></p>', 'wp-statistics'),
-                    $report_date,
+                    '<p style="margin-bottom: 12px;margin-top:4px;font-size: 14px; font-weight: 400; line-height: 16.41px; color: #56585A;">%1$s</p><p style="margin: 0"><a href="%2$s" title="%3$s" style="color: #56585A;font-size: 16px; font-weight: 500; line-height: 18.75px; text-decoration:none">%3$s</a></p>',
+                    esc_html($report_date),
                     esc_url(get_site_url()),
-                    get_bloginfo('name')
+                    esc_html(get_bloginfo('name'))
                 );
             }
         } else {

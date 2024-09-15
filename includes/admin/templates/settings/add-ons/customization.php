@@ -51,7 +51,7 @@ if (!$isCustomizationActive) echo Admin_Template::get_template('layout/partials/
      'addon_description' => __('The settings on this page are part of the Customization add-on, which allows you to customize menus and make WP Statistics white-label.', 'wp-statistics'),
      'addon_features'    => [
          __('Customize menus according to your preferences.', 'wp-statistics'),
-         __(' Make WP Statistics white-label.', 'wp-statistics'),
+         __('Make WP Statistics white-label.', 'wp-statistics'),
      ],
      'addon_info'        => __('Enjoy a simplified, customized experience with the Customization add-on.', 'wp-statistics'),
     ], true);
@@ -103,7 +103,7 @@ if (!$isCustomizationActive) echo Admin_Template::get_template('layout/partials/
 
             <tr valign="top">
                 <th scope="row">
-                    <label for="wps_addon_settings[customization][wps_modify_banner]"><?php esc_html_e(' Change the Header Logo', 'wp-statistics'); ?></label>
+                    <label for="wps_addon_settings[customization][wps_modify_banner]"><?php esc_html_e('Change the Header Logo', 'wp-statistics'); ?></label>
                 </th>
 
                 <?php

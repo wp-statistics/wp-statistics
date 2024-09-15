@@ -1,11 +1,10 @@
 <?php 
 use WP_STATISTICS\Menus;
 use WP_STATISTICS\Referred;
-use WP_STATISTICS\IP;
-use WP_STATISTICS\UserAgent;
 use WP_STATISTICS\Admin_Template;
 use WP_STATISTICS\Visitor;
 use WP_STATISTICS\Country;
+use WP_Statistics\Components\View;
 ?>
 
 <div class="inside">
@@ -42,41 +41,9 @@ use WP_STATISTICS\Country;
                         </td>
 
                         <td class="wps-pd-l">
-                            <ul class="wps-browsers__flags">
-                                <?php if (!empty($visitor->user_id)) : ?>
-                                    <li class="wps-browsers__flag">
-                                        <div class="wps-tooltip" data-tooltip-content="#tooltip_user_id">
-                                            <a href="<?php echo esc_url(Menus::admin_url('visitors', ['type' => 'single-visitor', 'visitor_id' => $visitor->ID])); ?>"><img src="<?php echo esc_url(WP_STATISTICS_URL . 'assets/images/user-icon.svg') ?>" alt="user" width="15" height="15"></a>
-                                        </div>
-                                        <div class="wps-tooltip_templates">
-                                            <div id="tooltip_user_id">
-                                                <div><?php esc_html_e('ID', 'wp-statistics') ?>:&nbsp;<?php echo esc_html($visitor->user_id) ?></div>
-                                                <div><?php esc_html_e('Name', 'wp-statistics') ?>:&nbsp;<?php echo esc_html($visitor->display_name) ?></div>
-                                                <div><?php esc_html_e('Email', 'wp-statistics') ?>:&nbsp;<?php echo esc_html($visitor->user_email) ?></div>
-                                                <div><?php echo IP::IsHashIP($visitor->ip) ? sprintf(esc_html__('Daily Visitor Hash: %s', 'wp-statistics'), substr($visitor->ip, 6, 10)) : sprintf(esc_html__('IP: %s', 'wp-statistics'), $visitor->ip) ?></div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                <?php else : ?>
-                                    <li class="wps-browsers__flag">
-                                        <div class="wps-tooltip" title="<?php echo IP::IsHashIP($visitor->ip) ? sprintf(esc_attr__('Daily Visitor Hash: %s', 'wp-statistics'), substr($visitor->ip, 6, 10)) : sprintf(esc_attr__('IP: %s', 'wp-statistics'), $visitor->ip) ?>">
-                                            <a href="<?php echo esc_url(Menus::admin_url('visitors', ['type' => 'single-visitor', 'visitor_id' => $visitor->ID])) ?>"><img src="<?php echo esc_url(WP_STATISTICS_URL . 'assets/images/incognito-user.svg') ?>" alt="<?php esc_attr_e('Incognito', 'wp-statistics') ?>" width="15" height="15"></a>
-                                        </div>
-                                    </li>
-                                <?php endif; ?>
-
-                                <li class="wps-browsers__flag">
-                                    <div class="wps-tooltip" title="<?php echo esc_attr("$visitor->agent v$visitor->version") ?>">
-                                        <a href="<?php echo esc_url(Menus::admin_url('visitors', ['agent' => $visitor->agent])) ?>"><img src="<?php echo esc_url(UserAgent::getBrowserLogo($visitor->agent)) ?>" alt="<?php echo esc_attr($visitor->agent) ?>" width="15" height="15"></a>
-                                    </div>
-                                </li>
-
-                                <li class="wps-browsers__flag">
-                                    <div class="wps-tooltip" title="<?php echo esc_attr($visitor->platform) ?>">
-                                        <a href="<?php echo esc_url(Menus::admin_url('visitors', ['platform' => $visitor->platform])) ?>"><img src="<?php echo esc_url(UserAgent::getPlatformLogo($visitor->platform)) ?>" alt="<?php echo esc_attr($visitor->platform) ?>" width="15" height="15"></a>
-                                    </div>
-                                </li>
-                            </ul>
+                            <?php
+                            View::load("components/visitor-information", ['visitor' => $visitor]);
+                            ?>
                         </td>
 
                         <td class="wps-pd-l">
