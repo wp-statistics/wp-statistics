@@ -416,6 +416,95 @@ class VisitorsModel extends BaseModel
         return $result ? $result : [];
     }
 
+    public function getReferredVisitors($args = [])
+    {
+        $args = $this->parseArgs($args, [
+            'date'              => '',
+            'source_channel'    => '',
+            'source_name'       => '',
+            'order_by'          => '',
+            'order'             => '',
+            'page'              => '',
+            'per_page'          => '',
+            'page_info'         => false,
+            'user_info'         => false,
+        ]);
+
+        $firstHit = Query::select([
+            'visitor_id',
+            'MIN(date) as date'
+        ])
+            ->from('visitor_relationships')
+            ->groupBy('visitor_id')
+            ->getQuery();
+
+        $firstHitQuery = Query::select([
+            'visitor_relationships.visitor_id',
+            'page_id',
+            'date'
+        ])
+            ->from('visitor_relationships')
+            ->whereRaw("(visitor_id, date) IN ($firstHit)")
+            ->groupBy('visitor_id')
+            ->getQuery();
+
+        $lastHit = Query::select([
+            'visitor_id',
+            'MAX(date) as date'
+        ])
+            ->from('visitor_relationships')
+            ->groupBy('visitor_id')
+            ->getQuery();
+
+        $lastHitQuery = Query::select([
+            'visitor_relationships.visitor_id',
+            'page_id',
+            'date'
+        ])
+            ->from('visitor_relationships')
+            ->whereRaw("(visitor_id, date) IN ($lastHit)")
+            ->groupBy('visitor_id')
+            ->getQuery();
+
+        $result = Query::select([
+            'visitor.ID',
+            'visitor.ip',
+            'visitor.platform',
+            'visitor.agent',
+            'CAST(`visitor`.`version` AS SIGNED) as version',
+            'visitor.model',
+            'visitor.device',
+            'visitor.location',
+            'visitor.user_id',
+            'visitor.region',
+            'visitor.city',
+            'visitor.hits',
+            'visitor.referred',
+            'visitor.source_channel',
+            'visitor.source_name',
+            'users.display_name',
+            'users.user_email',
+            'first_hit.page_id as first_page',
+            'first_hit.date as first_view',
+            'last_hit.page_id as last_page',
+            'last_hit.date as last_view'
+        ])
+            ->from('visitor')
+            ->join('users', ['visitor.user_id', 'users.ID'], [], 'LEFT')
+            ->joinQuery($firstHitQuery, ['visitor.ID', 'first_hit.visitor_id'], 'first_hit')
+            ->joinQuery($lastHitQuery, ['visitor.ID', 'last_hit.visitor_id'], 'last_hit')
+            ->where('source_channel', '=', $args['source_channel'])
+            ->where('source_name', '=', $args['source_name'])
+            ->whereDate('visitor.last_counter', $args['date'])
+            ->whereNotNull('visitor.referred')
+            ->perPage($args['page'], $args['per_page'])
+            ->orderBy($args['order_by'], $args['order'])
+            ->groupBy('visitor.ID')
+            ->getAll();
+
+        return $result ?? [];
+    }
+
     public function searchVisitors($args = [])
     {
         $args = $this->parseArgs($args, [

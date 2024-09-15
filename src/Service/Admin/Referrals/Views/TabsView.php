@@ -32,6 +32,11 @@ class TabsView extends BaseTabView
         $this->dataProvider = new ReferralsDataProvider($args);
     }
 
+    public function getReferredVisitorsData()
+    {
+        return $this->dataProvider->getReferredVisitors();
+    }
+
     public function render()
     {
         try {
@@ -66,7 +71,6 @@ class TabsView extends BaseTabView
                         'title' => esc_html__('Referrers', 'wp-statistics'),
                         'class' => $this->isTab('referrers') ? 'current' : '',
                     ],
-
                     [
                         'link'  => Menus::admin_url('referrals', ['tab' => 'search-engines']),
                         'title' => esc_html__('Search Engines', 'wp-statistics'),
