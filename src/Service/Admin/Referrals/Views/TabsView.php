@@ -24,9 +24,10 @@ class TabsView extends BaseTabView
     public function __construct()
     {
         $args = [
-            'order'    => Request::get('order', 'DESC'),
-            'per_page' => Admin_Template::$item_per_page,
-            'page'     => Admin_Template::getCurrentPaged(),
+            'source_channel'    => Request::get('source_channel'),
+            'order'             => Request::get('order', 'DESC'),
+            'per_page'          => Admin_Template::$item_per_page,
+            'page'              => Admin_Template::getCurrentPaged()
         ];
 
         $this->dataProvider = new ReferralsDataProvider($args);

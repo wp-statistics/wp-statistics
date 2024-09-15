@@ -1,3 +1,12 @@
+<?php
+use WP_Statistics\Service\Analytics\Referrals\SourceChannels;
+use WP_Statistics\Utils\Request;
+
+$selected       = Request::get('source_channel');
+$channels       = SourceChannels::getList();
+$selectedTitle  = $channels[$selected] ?? null;
+?>
+
 <div class="wps-head-filters__item loading">
     <div class="wps-dropdown">
         <label class="selectedItemLabel"><?php esc_html_e('Source Category:', 'wp-statistics'); ?> </label>
@@ -5,10 +14,13 @@
 
         <div class="dropdown-content">
             <input type="text" class="wps-search-dropdown">
-            <a href="" data-index="0" class="<?php echo !isset($selected) ? 'selected' : '' ?>"><?php esc_html_e('All', 'wp-statistics'); ?></a>
-            <a href="" data-index="2" title="" class="dropdown-item">
-                test
-            </a>
+            <a href="<?php echo esc_url(remove_query_arg('source_channel')); ?>" data-index="0" class="<?php echo !isset($selected) ? 'selected' : '' ?>"><?php esc_html_e('All', 'wp-statistics'); ?></a>
+
+            <?php foreach ($channels as $key => $value) : ?>
+                <a href="<?php echo esc_url(add_query_arg('source_channel', $key)); ?>" class="dropdown-item <?php echo $selected === $key ? 'selected' : ''; ?>">
+                    <?php echo esc_html($value); ?>
+                </a>
+            <?php endforeach; ?>
         </div>
     </div>
 </div>

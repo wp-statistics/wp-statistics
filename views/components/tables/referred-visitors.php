@@ -1,5 +1,6 @@
 <?php
 
+use WP_Statistics\Service\Analytics\Referrals\SourceChannels;
 use WP_STATISTICS\Admin_Template;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\IP;
@@ -55,9 +56,11 @@ use WP_STATISTICS\UserAgent;
 
                             <td class="wps-pd-l">
                                 <div class="wps-ellipsis-parent">
-                                    <?php // TODO: Use Referral Decorator
+                                    <?php
+                                        // TODO: Use Referral Decorator
+                                        $sourceChannel = SourceChannels::getName($visitor->source_channel);
+                                        echo $sourceChannel ? esc_html($sourceChannel) : Admin_Template::UnknownColumn();
                                     ?>
-                                    <?php echo esc_html($visitor->source_channel) ?>
                                 </div>
                             </td>
 
@@ -141,5 +144,5 @@ use WP_STATISTICS\UserAgent;
 </div>
 
 <?php
-echo $pagination ?? ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+    echo $pagination ?? ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 ?>
