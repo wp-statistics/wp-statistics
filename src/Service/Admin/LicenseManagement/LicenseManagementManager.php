@@ -127,7 +127,7 @@ class LicenseManagementManager
             $pluginSlug = Request::has('plugin_slug') ? wp_unslash(Request::get('plugin_slug')) : false;
 
             if (!$licenseKey || !$pluginSlug) {
-                throw new \Exception(__('Missing license key or plugin slug.', 'wp-statistics'));
+                throw new \Exception(__('License key or plugin slug missing.', 'wp-statistics'));
             }
 
             // Validate the license
@@ -147,8 +147,8 @@ class LicenseManagementManager
             }
 
             // Instantiate the PluginInstaller class
-            $installer = new PluginInstaller($licenseManagerStatusApi->getDownloadUrl($pluginSlug), $pluginSlug);
-            $installer->downloadAndInstallPlugin();
+            $installer = new PluginInstaller($pluginSlug);
+            $installer->downloadAndInstallPlugin($licenseManagerStatusApi->getDownloadUrl($pluginSlug));
             $installer->activatePlugin();
 
             // Respond with success
