@@ -10,12 +10,6 @@ use WP_STATISTICS\Helper;
  */
 class LicenseManagerApiFactory
 {
-    public static $apiRootUrl = WP_STATISTICS_SITE . 'wp-json/wp-license-manager/v1/';
-
-    // Endpoints
-    public const LICENSE_STATUS   = 'license/status';
-    public const PRODUCT_DOWNLOAD = 'product/download';
-
     /**
      * Returns `license/status` request's result.
      *
@@ -28,7 +22,7 @@ class LicenseManagerApiFactory
      */
     public static function getStatusApi($licenseKey, $domain = false)
     {
-        $url      = self::$apiRootUrl . self::LICENSE_STATUS;
+        $url      = WP_STATISTICS_SITE . 'wp-json/wp-license-manager/v1/license/status';
         $request  = new RemoteRequest($url, 'GET', [
             'license_key' => $licenseKey,
             'domain'      => $domain ? $domain : Helper::get_domain_name(home_url()),
