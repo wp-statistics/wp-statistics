@@ -135,14 +135,10 @@ WP Statistics supports WordPress Multi-Site/Network installations. In the networ
 To ensure the plugin works correctly, please clear your cache because some request payloads have been updated. Also, review your settings, especially if you use DataPlus, Advanced Reporting, or Customization, as some options have changed.
 Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest version.
 
-
-== Changelog ==
-= 14.10.x - *.09.2024 =
-* **Enhancement:** Improve UX for "Performance at a Glance" section in email report.
-
 == Changelog ==
 = 14.10.* - **.09.2024 =
-* Enhancement: make the referral base64 in the request payload.
+* **Enhancement:** make the referral base64 in the request payload.
+* **Enhancement:** Improve UX for "Performance at a Glance" section in email report.
 
 For more information about the major update, please [visit our blog post](https://wp-statistics.com/?p=16657) or follow [@wp_statistics](https://twitter.com/wp_statistics) on Twitter
 
