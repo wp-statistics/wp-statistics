@@ -43,7 +43,7 @@ class GeolocationService
          * @review: If this is not necessary, remove it.
          */
         try {
-            if (IP::CheckIPRange(IP::$private_SubNets, $ipAddress)) {
+            if (IP::checkIPRange(IP::$private_SubNets, $ipAddress)) {
                 $location            = $this->provider->getDefaultLocation();
                 $location['country'] = $this->provider->getPrivateCountryCode();
 

@@ -4,7 +4,6 @@ namespace WP_STATISTICS;
 
 use Exception;
 use WP_Statistics;
-use WP_Statistics\Dependencies\IPTools\Range;
 use WP_Statistics\Service\Analytics\DeviceDetection\UserAgent;
 
 class IP
@@ -115,12 +114,15 @@ class IP
 
     public static function getIpVersion()
     {
-        try {
-            $ipTools = new \WP_Statistics\Dependencies\IPTools\IP(self::getIP());
-            return $ipTools->getVersion();
-        } catch (Exception $e) {
-            return '';
+        $ip = self::getIP();
+
+        if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
+            return 'IPv4';
+        } elseif (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6)) {
+            return 'IPv6';
         }
+
+        return '';
     }
 
     /**
@@ -219,25 +221,18 @@ class IP
     }
 
     /**
-     * Check IP Has The Custom IP Range List
+     * Check if the given IP is within any of the specified IP ranges.
      *
      * @param $ip
      * @param array $range
      * @return bool
      * @throws Exception
      */
-    public static function CheckIPRange($range = array(), $ip = false)
+    public static function checkIPRange($range = array(), $ip = false)
     {
-
         // Get User IP
-        $ip = ($ip === false ? IP::getIP() : $ip);
-
-        // Get Range OF This IP
-        try {
-            $ip = new WP_Statistics\Dependencies\IPTools\IP($ip);
-        } catch (Exception $e) {
-            WP_Statistics::log($e->getMessage(), 'warning');
-            $ip = new WP_Statistics\Dependencies\IPTools\IP(self::$default_ip);
+        if (!$ip) {
+            $ip = self::getIP();
         }
 
         // Check List

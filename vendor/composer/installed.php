@@ -3,7 +3,7 @@
         'name' => '__root__',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => '26ee81ca9a1121c482b041697bcf25121b68d856',
+        'reference' => '3f9d973189e155678c67fdfd8872581cbba79233',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -13,7 +13,7 @@
         '__root__' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => '26ee81ca9a1121c482b041697bcf25121b68d856',
+            'reference' => '3f9d973189e155678c67fdfd8872581cbba79233',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -78,15 +78,6 @@
             'replaced' => array(
                 0 => '6.4.0',
             ),
-        ),
-        's1lentium/iptools' => array(
-            'pretty_version' => 'v1.1.1',
-            'version' => '1.1.1.0',
-            'reference' => 'f6f8ab6132ca7443bd7cced1681f5066d725fd5f',
-            'type' => 'library',
-            'install_path' => __DIR__ . '/../s1lentium/iptools',
-            'aliases' => array(),
-            'dev_requirement' => false,
         ),
     ),
 );

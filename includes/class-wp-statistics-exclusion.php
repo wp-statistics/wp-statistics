@@ -338,7 +338,7 @@ class Exclusion
             if (strlen($subnet) > 6) {
 
                 // Check in Range
-                if (IP::CheckIPRange(array($subnet))) {
+                if (IP::checkIPRange(array($subnet))) {
                     return true;
                 }
             }
