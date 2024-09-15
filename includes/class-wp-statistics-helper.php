@@ -1978,7 +1978,7 @@ class Helper
                 'required' => true,
                 'nullable' => true,
                 'type'     => 'url',
-                'encoding' => 'url'
+                'encoding' => 'base64'
             ],
         ]);
 

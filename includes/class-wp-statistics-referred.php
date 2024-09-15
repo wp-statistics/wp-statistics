@@ -35,7 +35,17 @@ class Referred
     public static function getRefererURL()
     {
         if (Helper::is_rest_request() && isset($_REQUEST['referred'])) {
-            return sanitize_url(wp_unslash(urldecode($_REQUEST['referred'])));
+
+            $referred = $_REQUEST['referred'];
+
+            /**
+             * Decode the url if the request type is client-side tracking
+             */
+            if (Option::get('use_cache_plugin')) {
+                $referred = base64_decode($referred);
+            }
+
+            return sanitize_url(wp_unslash(urldecode($referred)));
         }
 
         return (isset($_SERVER['HTTP_REFERER']) ? sanitize_url(wp_unslash($_SERVER['HTTP_REFERER'])) : '');
