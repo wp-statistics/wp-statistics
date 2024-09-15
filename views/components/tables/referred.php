@@ -49,7 +49,7 @@ use WP_Statistics\Service\Analytics\Referrals\SourceChannels;
 
                                 <td class="wps-pd-l start">
                                     <a href="<?php echo esc_url(Menus::admin_url('referrals', ['referrer' => $referrer->referrer])) ?>">
-                                        <?php echo esc_html($referrer->hits) ?>
+                                        <?php echo esc_html($referrer->visitors) ?>
                                     </a>
                                 </td>
                             </tr>

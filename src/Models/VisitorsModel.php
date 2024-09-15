@@ -926,7 +926,6 @@ class VisitorsModel extends BaseModel
 
         $query = Query::select([
             'COUNT(DISTINCT visitor.ID) AS visitors',
-            'SUM(visitor.hits) as hits',
             'visitor.referred as referrer',
             'visitor.source_channel as source_channel'
         ])
