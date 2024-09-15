@@ -79,6 +79,10 @@ class LicenseManagementManager
             'class'  => $this,
             'action' => 'check_plugin',
         ];
+        $list[] = [
+            'class'  => $this,
+            'action' => 'activate_plugin',
+        ];
 
         return $list;
     }
@@ -152,11 +156,10 @@ class LicenseManagementManager
 
             $pluginHandler = new PluginHandler($pluginSlug);
             $pluginHandler->downloadAndInstallPlugin($licenseManagerStatusApi->getDownloadUrl($pluginSlug));
-            $pluginHandler->activatePlugin();
 
             // Respond with success
             wp_send_json_success([
-                'message' => __('Plugin downloaded, installed, and activated successfully!', 'wp-statistics'),
+                'message' => __('Plugin downloaded and installed successfully!', 'wp-statistics'),
             ]);
         } catch (\Exception $e) {
             wp_send_json_error([
@@ -190,6 +193,39 @@ class LicenseManagementManager
             wp_send_json_success([
                 'active' => $pluginHandler->isPluginActive(),
                 'data'   => $pluginHandler->getPluginData(),
+            ]);
+        } catch (\Exception $e) {
+            wp_send_json_error([
+                'message' => $e->getMessage(),
+            ]);
+        }
+
+        exit;
+    }
+
+    /**
+     * Handles `activate_plugin` ajax call and downloads a plugin with try/catch.
+     *
+     * @return void
+     */
+    public function activate_plugin_action_callback()
+    {
+        try {
+            if (!wp_verify_nonce(wp_unslash(Request::get('nonce')), 'wp_statistics_license_manager')) {
+                throw new \Exception(__('Access denied.', 'wp-statistics'));
+            }
+
+            $pluginSlug = Request::has('plugin_slug') ? wp_unslash(Request::get('plugin_slug')) : false;
+            if (!$pluginSlug) {
+                throw new \Exception(__('Plugin slug missing.', 'wp-statistics'));
+            }
+
+            $pluginHandler = new PluginHandler($pluginSlug);
+            $pluginHandler->activatePlugin();
+
+            // Respond with success
+            wp_send_json_success([
+                'message' => __('Plugin activated successfully!', 'wp-statistics'),
             ]);
         } catch (\Exception $e) {
             wp_send_json_error([
