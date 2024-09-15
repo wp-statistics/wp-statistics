@@ -24,6 +24,7 @@ class TabsView extends BaseTabView
     public function __construct()
     {
         $args = [
+            'referrer'          => Request::get('referrer'),
             'source_channel'    => Request::get('source_channel'),
             'order'             => Request::get('order', 'DESC'),
             'per_page'          => Admin_Template::$item_per_page,
@@ -36,6 +37,11 @@ class TabsView extends BaseTabView
     public function getReferredVisitorsData()
     {
         return $this->dataProvider->getReferredVisitors();
+    }
+
+    public function getReferrersData()
+    {
+        return $this->dataProvider->getReferrers();
     }
 
     public function render()

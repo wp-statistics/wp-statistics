@@ -10,9 +10,9 @@ use WP_Statistics\Components\View;
             <div class="postbox">
                 <?php
                 $args = [
-                    'data'                 => [],
-                    'show_source_category' => true,
-                    'pagination'           => isset($pagination) ? $pagination : null
+                    'referrers'             => $data['referrers'],
+                    'show_source_category'  => true,
+                    'pagination'            => $pagination ?? null
                 ];
                 View::load("components/tables/referred", $args);
                 ?>

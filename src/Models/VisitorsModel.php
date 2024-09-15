@@ -422,6 +422,7 @@ class VisitorsModel extends BaseModel
             'date'              => '',
             'source_channel'    => '',
             'source_name'       => '',
+            'referrer'          => '',
             'order_by'          => '',
             'order'             => '',
             'page'              => '',
@@ -493,6 +494,7 @@ class VisitorsModel extends BaseModel
             ->joinQuery($lastHitQuery, ['visitor.ID', 'last_hit.visitor_id'], 'last_hit')
             ->where('source_channel', '=', $args['source_channel'])
             ->where('source_name', '=', $args['source_name'])
+            ->where('referred', '=', $args['referrer'])
             ->whereDate('visitor.last_counter', $args['date'])
             ->whereNotNull('visitor.referred')
             ->perPage($args['page'], $args['per_page'])
@@ -508,7 +510,8 @@ class VisitorsModel extends BaseModel
         $args = $this->parseArgs($args, [
             'date'              => '',
             'source_channel'    => '',
-            'source_name'       => ''
+            'source_name'       => '',
+            'referrer'          => ''
         ]);
 
         $result = Query::select('COUNT(visitor.ID)')
@@ -516,6 +519,7 @@ class VisitorsModel extends BaseModel
             ->join('visitor_relationships', ['visitor.ID', 'visitor_relationships.visitor_id'])
             ->where('source_channel', '=', $args['source_channel'])
             ->where('source_name', '=', $args['source_name'])
+            ->where('referred', '=', $args['referrer'])
             ->whereDate('visitor.last_counter', $args['date'])
             ->whereNotNull('visitor.referred')
             ->getVar();
@@ -906,24 +910,28 @@ class VisitorsModel extends BaseModel
     public function getReferrers($args = [])
     {
         $args = $this->parseArgs($args, [
-            'date'        => '',
-            'post_type'   => '',
-            'post_id'     => '',
-            'country'     => '',
-            'query_param' => '',
-            'taxonomy'    => '',
-            'term'        => '',
-            'page'        => 1,
-            'per_page'    => 10,
+            'date'          => '',
+            'post_type'     => '',
+            'source_channel'=> '',
+            'post_id'       => '',
+            'country'       => '',
+            'query_param'   => '',
+            'taxonomy'      => '',
+            'term'          => '',
+            'page'          => 1,
+            'per_page'      => 10
         ]);
 
         $filteredArgs = array_filter($args);
 
         $query = Query::select([
             'COUNT(DISTINCT visitor.ID) AS visitors',
+            'SUM(visitor.hits) as hits',
             'visitor.referred as referrer',
+            'visitor.source_channel as source_channel'
         ])
             ->from('visitor')
+            ->where('source_channel', '=', $args['source_channel'])
             ->where('visitor.referred', 'NOT LIKE', '%' . Helper::get_domain_name(home_url()) . '%')
             ->whereNotNull('visitor.referred')
             ->groupBy('visitor.referred')
@@ -966,6 +974,70 @@ class VisitorsModel extends BaseModel
         }
 
         $result = $query->getAll();
+
+        return $result ? $result : [];
+    }
+
+    public function countReferrers($args = [])
+    {
+        $args = $this->parseArgs($args, [
+            'date'          => '',
+            'source_channel'=> '',
+            'post_type'     => '',
+            'post_id'       => '',
+            'country'       => '',
+            'query_param'   => '',
+            'taxonomy'      => '',
+            'term'          => '',
+        ]);
+
+        $filteredArgs = array_filter($args);
+
+        $query = Query::select([
+            'COUNT(visitor.referred)'
+        ])
+            ->from('visitor')
+            ->where('visitor.referred', 'NOT LIKE', '%' . Helper::get_domain_name(home_url()) . '%')
+            ->where('source_channel', '=', $args['source_channel'])
+            ->whereNotNull('visitor.referred')
+            ->groupBy('visitor.referred');
+
+        // When date is passed, but all other parameters below are empty, compare the given date with `visitor.last_counter`
+        if (!empty($args['date']) && !array_intersect(['post_type', 'post_id', 'query_param', 'taxonomy', 'term'], array_keys($filteredArgs))) {
+            $query->whereDate('visitor.last_counter', $args['date']);
+        }
+
+        if (array_intersect(['post_type', 'post_id', 'query_param', 'taxonomy', 'term'], array_keys($filteredArgs))) {
+            $query
+                ->join('visitor_relationships', ['visitor_relationships.visitor_id', 'visitor.ID'], [], 'LEFT')
+                ->join('pages', ['visitor_relationships.page_id', 'pages.page_id'], [], 'LEFT')
+                ->join('posts', ['posts.ID', 'pages.id'], [], 'LEFT')
+                ->where('post_type', 'IN', $args['post_type'])
+                ->where('posts.ID', '=', $args['post_id'])
+                ->where('pages.uri', '=', $args['query_param'])
+                ->whereDate('pages.date', $args['date']);
+
+            if (array_intersect(['taxonomy', 'term'], array_keys($filteredArgs))) {
+                $taxQuery = Query::select(['DISTINCT object_id'])
+                    ->from('term_relationships')
+                    ->join('term_taxonomy', ['term_relationships.term_taxonomy_id', 'term_taxonomy.term_taxonomy_id'])
+                    ->join('terms', ['term_taxonomy.term_id', 'terms.term_id'])
+                    ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy'])
+                    ->where('terms.term_id', '=', $args['term'])
+                    ->getQuery();
+
+                $query
+                    ->joinQuery($taxQuery, ['posts.ID', 'tax.object_id'], 'tax');
+            }
+        }
+
+        if (!empty($args['country'])) {
+            $query
+                ->where('visitor.location', '=', $args['country'])
+                ->whereDate('visitor.last_counter', $args['date']);
+        }
+
+        $result = $query->getVar();
 
         return $result ? $result : [];
     }
