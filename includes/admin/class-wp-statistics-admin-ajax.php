@@ -4,6 +4,7 @@ namespace WP_STATISTICS;
 
 use WP_Statistics\Components\DateRange;
 use WP_Statistics\Models\VisitorsModel;
+use WP_Statistics\Service\Analytics\DeviceDetection\DeviceHelper;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
 use WP_Statistics\Utils\Request;
 
@@ -465,7 +466,7 @@ class Ajax
 
             // Browsers
             $filter['browsers'] = array();
-            $browsers           = UserAgent::BrowserList();
+            $browsers           = DeviceHelper::getBrowserList();
             foreach ($browsers as $key => $se) {
                 $filter['browsers'][$se] = $se;
             }
@@ -485,7 +486,7 @@ class Ajax
 
             // Platforms
             $filter['platform'] = array();
-            $platforms_list     = UserAgent::getPlatformsList();
+            $platforms_list     = DeviceHelper::getPlatformsList();
 
             foreach ($platforms_list as $platform) {
                 $filter['platform'][$platform] = $platform;

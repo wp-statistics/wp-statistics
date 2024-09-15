@@ -7,9 +7,9 @@ use WP_STATISTICS\IP;
 use WP_STATISTICS\Option;
 use WP_STATISTICS\Pages;
 use WP_STATISTICS\Referred;
+use WP_Statistics\Service\Analytics\DeviceDetection\UserAgent;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
 use WP_STATISTICS\User;
-use WP_STATISTICS\UserAgent;
 use WP_STATISTICS\Visitor;
 
 class VisitorProfile
@@ -126,6 +126,9 @@ class VisitorProfile
         return $this->referrer;
     }
 
+    /**
+     * @return array|DeviceDetection\UserAgentService|null
+     */
     public function getUserAgent()
     {
         if (!$this->userAgent) {

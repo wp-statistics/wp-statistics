@@ -2,6 +2,7 @@
 
 namespace WP_STATISTICS;
 
+use WP_Statistics\Service\Analytics\DeviceDetection\DeviceHelper;
 use WP_Statistics\Service\Analytics\VisitorProfile;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
 
@@ -121,11 +122,11 @@ class Visitor
             $visitor = array(
                 'last_counter' => TimeZone::getCurrentDate('Y-m-d'),
                 'referred'     => $visitorProfile->getReferrer(),
-                'agent'        => $user_agent['browser'],
-                'platform'     => $user_agent['platform'],
-                'version'      => $user_agent['version'],
-                'device'       => $user_agent['device'],
-                'model'        => $user_agent['model'],
+                'agent'        => $user_agent->getBrowser(),
+                'platform'     => $user_agent->getPlatform(),
+                'version'      => $user_agent->getVersion(),
+                'device'       => $user_agent->getDevice(),
+                'model'        => $user_agent->getModel(),
                 'ip'           => $visitorProfile->getProcessedIPForStorage(),
                 'location'     => $visitorProfile->getCountry(),
                 'city'         => $visitorProfile->getCity(),
@@ -357,7 +358,7 @@ class Visitor
             $item['browser'] = array(
                 'name'    => $agent,
                 'version' => $version,
-                'logo'    => UserAgent::getBrowserLogo($agent),
+                'logo'    => DeviceHelper::getBrowserLogo($agent),
                 'link'    => Menus::admin_url('visitors', array('agent' => $agent))
             );
 
