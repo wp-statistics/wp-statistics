@@ -18,7 +18,8 @@ class ReferralsDataProvider
     public function getReferredVisitors()
     {
         return [
-            'visitors' => $this->visitorsModel->getReferredVisitors($this->args)
+            'visitors' => $this->visitorsModel->getReferredVisitors($this->args),
+            'total'    => $this->visitorsModel->countReferredVisitors($this->args)
         ];
     }
 }

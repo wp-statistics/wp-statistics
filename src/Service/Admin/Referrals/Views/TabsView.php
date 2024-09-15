@@ -58,7 +58,7 @@ class TabsView extends BaseTabView
                 'hasDateRang' => true,
                 'data'        => $data,
                 'pagination'  => Admin_Template::paginate_links([
-                    'total' => isset($data['total']) ? $data['total'] : 0,
+                    'total' => $data['total'] ?? 0,
                     'echo'  => false
                 ]),
                 'tabs'        => [

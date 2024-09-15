@@ -426,8 +426,6 @@ class VisitorsModel extends BaseModel
             'order'             => '',
             'page'              => '',
             'per_page'          => '',
-            'page_info'         => false,
-            'user_info'         => false,
         ]);
 
         $firstHit = Query::select([
@@ -501,6 +499,26 @@ class VisitorsModel extends BaseModel
             ->orderBy($args['order_by'], $args['order'])
             ->groupBy('visitor.ID')
             ->getAll();
+
+        return $result ?? [];
+    }
+
+    public function countReferredVisitors($args = [])
+    {
+        $args = $this->parseArgs($args, [
+            'date'              => '',
+            'source_channel'    => '',
+            'source_name'       => ''
+        ]);
+
+        $result = Query::select('COUNT(visitor.ID)')
+            ->from('visitor')
+            ->join('visitor_relationships', ['visitor.ID', 'visitor_relationships.visitor_id'])
+            ->where('source_channel', '=', $args['source_channel'])
+            ->where('source_name', '=', $args['source_name'])
+            ->whereDate('visitor.last_counter', $args['date'])
+            ->whereNotNull('visitor.referred')
+            ->getVar();
 
         return $result ?? [];
     }
