@@ -1103,7 +1103,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _chunks_helpers_segment_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./chunks/helpers.segment.js */ "./node_modules/chart.js/dist/chunks/helpers.segment.js");
 /*!
- * Chart.js v4.4.3
+ * Chart.js v4.4.4
  * https://www.chartjs.org
  * (c) 2024 Chart.js Contributors
  * Released under the MIT License
@@ -2591,8 +2591,10 @@ class BarController extends DatasetController {
         const metasets = iScale.getMatchingVisibleMetas(this._type).filter((meta)=>meta.controller.options.grouped);
         const stacked = iScale.options.stacked;
         const stacks = [];
+        const currentParsed = this._cachedMeta.controller.getParsed(dataIndex);
+        const iScaleValue = currentParsed && currentParsed[iScale.axis];
         const skipNull = (meta)=>{
-            const parsed = meta.controller.getParsed(dataIndex);
+            const parsed = meta._parsed.find((item)=>item[iScale.axis] === iScaleValue);
             const val = parsed && parsed[meta.vScale.axis];
             if ((0,_chunks_helpers_segment_js__WEBPACK_IMPORTED_MODULE_0__.k)(val) || isNaN(val)) {
                 return true;
@@ -3860,7 +3862,7 @@ function binarySearch(metaset, axis, value, intersect) {
     const rangeMethod = axis === 'x' ? 'inXRange' : 'inYRange';
     let intersectsItem = false;
     evaluateInteractionItems(chart, axis, position, (element, datasetIndex, index)=>{
-        if (element[rangeMethod](position[axis], useFinalPosition)) {
+        if (element[rangeMethod] && element[rangeMethod](position[axis], useFinalPosition)) {
             items.push({
                 element,
                 datasetIndex,
@@ -6618,7 +6620,7 @@ function needContext(proxy, names) {
     return false;
 }
 
-var version = "4.4.3";
+var version = "4.4.4";
 
 const KNOWN_POSITIONS = [
     'top',
@@ -7150,8 +7152,8 @@ class Chart {
         let i;
         if (this._resizeBeforeDraw) {
             const { width , height  } = this._resizeBeforeDraw;
-            this._resize(width, height);
             this._resizeBeforeDraw = null;
+            this._resize(width, height);
         }
         this.clear();
         if (this.width <= 0 || this.height <= 0) {
@@ -7790,7 +7792,8 @@ class ArcElement extends Element {
         ], useFinalPosition);
         const rAdjust = (this.options.spacing + this.options.borderWidth) / 2;
         const _circumference = (0,_chunks_helpers_segment_js__WEBPACK_IMPORTED_MODULE_0__.v)(circumference, endAngle - startAngle);
-        const betweenAngles = _circumference >= _chunks_helpers_segment_js__WEBPACK_IMPORTED_MODULE_0__.T || (0,_chunks_helpers_segment_js__WEBPACK_IMPORTED_MODULE_0__.p)(angle, startAngle, endAngle);
+        const nonZeroBetween = (0,_chunks_helpers_segment_js__WEBPACK_IMPORTED_MODULE_0__.p)(angle, startAngle, endAngle) && startAngle !== endAngle;
+        const betweenAngles = _circumference >= _chunks_helpers_segment_js__WEBPACK_IMPORTED_MODULE_0__.T || nonZeroBetween;
         const withinRadius = (0,_chunks_helpers_segment_js__WEBPACK_IMPORTED_MODULE_0__.aj)(distance, innerRadius + rAdjust, outerRadius + rAdjust);
         return betweenAngles && withinRadius;
     }
@@ -10011,6 +10014,9 @@ const positioners = {
                 ++count;
             }
         }
+        if (count === 0 || xSet.size === 0) {
+            return false;
+        }
         const xAverage = [
             ...xSet
         ].reduce((a, b)=>a + b) / xSet.size;
@@ -11967,7 +11973,7 @@ class RadialLinearScale extends LinearScaleBase {
                 ctx.strokeStyle = color;
                 ctx.setLineDash(optsAtIndex.borderDash);
                 ctx.lineDashOffset = optsAtIndex.borderDashOffset;
-                offset = this.getDistanceFromCenterForValue(opts.ticks.reverse ? this.min : this.max);
+                offset = this.getDistanceFromCenterForValue(opts.reverse ? this.min : this.max);
                 position = this.getPointPosition(i, offset);
                 ctx.beginPath();
                 ctx.moveTo(this.xCenter, this.yCenter);
@@ -12708,7 +12714,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _kurkle_color__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @kurkle/color */ "./node_modules/@kurkle/color/dist/color.esm.js");
 /*!
- * Chart.js v4.4.3
+ * Chart.js v4.4.4
  * https://www.chartjs.org
  * (c) 2024 Chart.js Contributors
  * Released under the MIT License
