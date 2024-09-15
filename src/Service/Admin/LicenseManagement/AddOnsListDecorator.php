@@ -2,10 +2,7 @@
 
 namespace WP_Statistics\Service\Admin\LicenseManagement;
 
-/**
- * @todo Remove if is not needed.
- */
-class AddOnDecorator
+class AddOnsListDecorator
 {
     private $addOn;
     private $isActivated = false;
@@ -138,7 +135,6 @@ class AddOnDecorator
                 $this->updateStatuses(false);
                 return __('Not activated', 'wp-statistics');
             }
-
         } else if ($this->isExist()) {
             $this->updateStatuses(false);
             return __('Inactive', 'wp-statistics');
