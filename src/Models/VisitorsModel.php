@@ -887,8 +887,8 @@ class VisitorsModel extends BaseModel
         ])
             ->from('visitor')
             ->whereNull('source_channel')
-            ->joinQuery($subQuery, ['visitor.ID', 'first_hit.visitor_id'], 'first_hit')
-            ->join('pages', ['first_hit.page_id', 'pages.page_id'])
+            ->joinQuery($subQuery, ['visitor.ID', 'first_hit.visitor_id'], 'first_hit', 'LEFT')
+            ->join('pages', ['first_hit.page_id', 'pages.page_id'], [], 'LEFT')
             ->groupBy('visitor.ID')
             ->getAll();
 
