@@ -75,6 +75,10 @@ class LicenseManagementManager
             'class'  => $this,
             'action' => 'download_plugin',
         ];
+        $list[] = [
+            'class'  => $this,
+            'action' => 'check_plugin',
+        ];
 
         return $list;
     }
@@ -153,6 +157,39 @@ class LicenseManagementManager
             // Respond with success
             wp_send_json_success([
                 'message' => __('Plugin downloaded, installed, and activated successfully!', 'wp-statistics'),
+            ]);
+        } catch (\Exception $e) {
+            wp_send_json_error([
+                'message' => $e->getMessage(),
+            ]);
+        }
+
+        exit;
+    }
+
+    /**
+     * Handles `check_plugin` ajax call and returns info about a local plugin.
+     *
+     * @return void
+     */
+    public function check_plugin_action_callback()
+    {
+        try {
+            if (!wp_verify_nonce(wp_unslash(Request::get('nonce')), 'wp_statistics_license_manager')) {
+                throw new \Exception(__('Access denied.', 'wp-statistics'));
+            }
+
+            $pluginSlug = Request::has('plugin_slug') ? wp_unslash(Request::get('plugin_slug')) : false;
+            if (!$pluginSlug) {
+                throw new \Exception(__('Plugin slug missing.', 'wp-statistics'));
+            }
+
+            $pluginHandler = new PluginHandler($pluginSlug);
+
+            // Respond with success
+            wp_send_json_success([
+                'active' => $pluginHandler->isPluginActive(),
+                'data'   => $pluginHandler->getPluginData(),
             ]);
         } catch (\Exception $e) {
             wp_send_json_error([
