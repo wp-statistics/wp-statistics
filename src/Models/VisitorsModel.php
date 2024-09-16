@@ -886,11 +886,12 @@ class VisitorsModel extends BaseModel
         $result = Query::select([
             'visitor.ID',
             'visitor.referred',
-            'visitor.source_channel',
             'pages.uri as first_hit'
         ])
             ->from('visitor')
+            ->whereRelation('OR')
             ->whereNull('source_channel')
+            ->whereNull('source_name')
             ->joinQuery($subQuery, ['visitor.ID', 'first_hit.visitor_id'], 'first_hit', 'LEFT')
             ->join('pages', ['first_hit.page_id', 'pages.page_id'], [], 'LEFT')
             ->groupBy('visitor.ID')
