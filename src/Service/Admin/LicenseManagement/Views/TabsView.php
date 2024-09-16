@@ -25,46 +25,6 @@ class TabsView extends BaseTabView
         $this->dataProvider = new LicenseManagerDataProvider();
     }
 
-    /**
-     * Returns data for "Add-Ons" tab.
-     *
-     * @return array
-     */
-    public function getAddOnsData()
-    {
-        return $this->dataProvider->getAddOnsData();
-    }
-
-    /**
-     * Returns data for "Add Your License" tab.
-     *
-     * @return array
-     */
-    public function getAddLicenseData()
-    {
-        return $this->dataProvider->getAddLicenseData();
-    }
-
-    /**
-     * Returns data for "Download Add-ons" tab.
-     *
-     * @return array
-     */
-    public function getDownloadsData()
-    {
-        return $this->dataProvider->getDownloadsData();
-    }
-
-    /**
-     * Returns data for "Get Started" tab.
-     *
-     * @return array
-     */
-    public function getGetStartedData()
-    {
-        return $this->dataProvider->getGetStartedData();
-    }
-
     public function render()
     {
         try {
