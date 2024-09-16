@@ -31,7 +31,7 @@ if (!empty($data['addons'])) {
                                 $args = [
                                     'title'              => esc_html($addOn['name']),
                                     'version'            => esc_html($addOn['version']),
-                                    'icon'               => 'data-plus.svg', // @todo Dynamic icon URL.
+                                    'icon'               => esc_url($addOn['icon']),
                                     'status_text'        => esc_html__('Activated', 'wp-statistics'),
                                     'status_class'       => 'success',
                                     'label_text'         => $labelText,
@@ -64,7 +64,7 @@ if (!empty($data['addons'])) {
                                 $args = [
                                     'title'              => esc_html($addOn['name']),
                                     'version'            => esc_html($addOn['version']),
-                                    'icon'               => 'data-plus.svg', // @todo Dynamic icon URL.
+                                    'icon'               => esc_url($addOn['icon']),
                                     'status_text'        => $statusText,
                                     'status_class'       => $statusClass,
                                     'label_text'         => $labelText,

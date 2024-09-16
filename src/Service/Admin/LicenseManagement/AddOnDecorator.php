@@ -51,13 +51,23 @@ class AddOnDecorator
     }
 
     /**
+     * Returns add-on slug.
+     *
+     * @return string
+     */
+    public function getSlug()
+    {
+        return sanitize_key($this->getAddOnObject()->slug);
+    }
+
+    /**
      * Returns add-on URL.
      *
      * @return string
      */
     public function getUrl()
     {
-        return $this->getAddOnObject()->url;
+        return esc_url($this->getAddOnObject()->url);
     }
 
     /**
@@ -71,13 +81,28 @@ class AddOnDecorator
     }
 
     /**
-     * Returns add-on icon URL.
+     * Returns add-on icon `src` to use in `img` tag.
      *
      * @return string
      */
     public function getIcon()
     {
-        return $this->getAddOnObject()->icon;
+        $iconPath = "assets/images/add-ons/{$this->getSlug()}.svg";
+        if (file_exists(WP_STATISTICS_DIR . $iconPath)) {
+            return esc_url(WP_STATISTICS_URL . $iconPath);
+        }
+
+        return $this->getIconUrl();;
+    }
+
+    /**
+     * Returns add-on icon URL.
+     *
+     * @return string
+     */
+    public function getIconUrl()
+    {
+        return esc_url($this->getAddOnObject()->icon);
     }
 
     /**

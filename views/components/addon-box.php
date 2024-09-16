@@ -2,7 +2,7 @@
     <div>
         <div class="wps-postbox-addon__item--info">
             <div class="wps-postbox-addon__item--info__img">
-                <img src="<?php echo esc_url(WP_STATISTICS_URL . 'assets/images/add-ons/' . $icon) ?>" alt="<?php echo $title ?>">
+                <img src="<?php echo esc_url($icon) ?>" alt="<?php echo $title ?>">
             </div>
             <div class="wps-postbox-addon__item--info__text">
                 <div class="wps-postbox-addon__item--info__title">

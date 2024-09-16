@@ -42,6 +42,7 @@ class LicenseManagerDataProvider
                 'addOnObject'   => $addOn,
                 'id'            => $addOn->getId(),
                 'name'          => $addOn->getName(),
+                'slug'          => $addOn->getSlug(),
                 'url'           => $addOn->getUrl(),
                 'description'   => $addOn->getDescription(),
                 'icon'          => $addOn->getIcon(),
