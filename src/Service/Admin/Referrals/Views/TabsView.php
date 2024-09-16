@@ -44,6 +44,11 @@ class TabsView extends BaseTabView
         return $this->dataProvider->getReferrers();
     }
 
+    public function getSearchEnginesData()
+    {
+        return $this->dataProvider->getSearchEngineReferrals();
+    }
+
     public function render()
     {
         try {

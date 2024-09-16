@@ -22,12 +22,12 @@ use WP_Statistics\Components\View;
     <div class="meta-box-sortables">
         <div class="postbox">
             <?php
-            $args = [
-                'data'                 => [],
-                'show_source_category' => false,
-                'pagination'           => isset($pagination) ? $pagination : null
-            ];
-            View::load("components/tables/referred", $args);
+                $args = [
+                    'referrers'             => $data['referrers'],
+                    'show_source_category'  => false,
+                    'pagination'            => $pagination ?? null
+                ];
+                View::load("components/tables/referrers", $args);
             ?>
         </div>
     </div>

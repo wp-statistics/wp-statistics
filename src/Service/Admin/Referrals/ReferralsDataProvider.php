@@ -30,4 +30,11 @@ class ReferralsDataProvider
             'total'     => $this->visitorsModel->countReferrers($this->args)
         ];
     }
+
+    public function getSearchEngineReferrals()
+    {
+        return [
+            'referrers' => $this->visitorsModel->getReferrers(array_merge($this->args, ['source_channel' => 'search'])),
+        ];
+    }
 }

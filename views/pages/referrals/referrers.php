@@ -14,7 +14,7 @@ use WP_Statistics\Components\View;
                     'show_source_category'  => true,
                     'pagination'            => $pagination ?? null
                 ];
-                View::load("components/tables/referred", $args);
+                View::load("components/tables/referrers", $args);
                 ?>
             </div>
         </div>

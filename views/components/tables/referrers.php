@@ -2,7 +2,6 @@
 use WP_STATISTICS\Admin_Template;
 use WP_STATISTICS\Menus;
 use WP_Statistics\Service\Analytics\Referrals\SourceChannels;
-
 ?>
 
     <div class="inside">
