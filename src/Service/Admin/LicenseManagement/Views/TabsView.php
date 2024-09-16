@@ -106,7 +106,7 @@ class TabsView extends BaseTabView
                 $args['install_addon_btn_link'] = '';
                 Admin_Template::get_template(['layout/header', 'layout/title'], $args);
             } else {
-                Admin_Template::get_template(['layout/header', 'layout/tabbed-page-header'], $args);
+                Admin_Template::get_template(['layout/header', 'layout/addon-header-steps'], $args);
             }
 
             View::load("pages/license-manager/$currentTab", $args);

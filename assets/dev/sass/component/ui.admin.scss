@@ -2379,6 +2379,51 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
   }
 }
 
+.wps-steps{
+  width: 768px;
+  display: flex;
+  max-width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  margin: 2px auto 22px;
+  .wps-step-link{
+    a{
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    &__badge{
+      width: 16px;
+      height: 16px;
+      border-radius: 250px;
+      background: #eeeff1;
+      font-size: 12px;
+      font-weight: 500;
+      line-height: 14.06px;
+      color: #a9aaae;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    &__title{
+      color: #56585A;
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 16.41px;
+    }
+    &.current{
+      .wps-step-link__badge{
+        background:#404BF2;
+        color: #FFFFFF
+      }
+      .wps-step-link__title{
+        color: #0C0C0D;
+        font-weight: 500;
+      }
+    }
+  }
+}
+
 .wps-tabs {
   margin: 20px 0 0;
 }
