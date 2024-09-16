@@ -4,7 +4,7 @@ namespace WP_Statistics\Service\Admin\LicenseManagement\ApiHandler;
 
 use WP_Statistics\Components\RemoteRequest;
 use WP_STATISTICS\Helper;
-use WP_Statistics\Service\Admin\LicenseManagement\AddOnsListDecorator;
+use WP_Statistics\Service\Admin\LicenseManagement\AddOnDecorator;
 
 /**
  * Factory class for all the license management related API calls.
@@ -37,7 +37,7 @@ class LicenseManagerApiFactory
     /**
      * Returns the list of availalbe add-ons on WP-Statistics.com.
      *
-     * @return AddOnsListDecorator
+     * @return array Format: `['slug' => new AddOnDecorator(), 'slug' => new AddOnDecorator(), ...]`.
      *
      * @throws \Exception
      */
@@ -45,18 +45,25 @@ class LicenseManagerApiFactory
     {
         $addOns = get_transient('wp_statistics_addons');
         if (!empty($addOns) && is_array($addOns)) {
-            return new AddOnsListDecorator($addOns);
+            return $addOns;
         }
-        $addOns = [];
 
         $request  = new RemoteRequest(WP_STATISTICS_SITE . 'wp-json/plugin/addons/');
         $response = $request->execute();
-        if (empty($response) || empty($response->items)) {
+        if (empty($response) || empty($response->items) || !is_array($response->items)) {
             throw new \Exception(__('Invalid add-ons list response!', 'wp-statistics'));
         }
 
-        set_transient('wp_statistics_addons', $response->items, WEEK_IN_SECONDS);
+        $addOns = [];
+        foreach ($response->items as $addOn) {
+            if (empty($addOn->id) || empty($addOn->slug)) {
+                continue;
+            }
 
-        return new AddOnsListDecorator($response->items);
+            $addOns[$addOn->slug] = new AddOnDecorator($addOn);
+        }
+
+        set_transient('wp_statistics_addons', $addOns, WEEK_IN_SECONDS);
+        return $addOns;
     }
 }
