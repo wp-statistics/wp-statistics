@@ -37,4 +37,19 @@ class ReferralsDataProvider
             'referrers' => $this->visitorsModel->getReferrers(array_merge($this->args, ['source_channel' => 'search'])),
         ];
     }
+
+    public function getChartsData()
+    {
+        $args = [
+            'source_channel'    => 'search',
+            'group_by'          => ['visitor.referred', 'visitor.last_counter']
+        ];
+
+        // TODO: Get data from chart data provider
+        $searchEngineChart = $this->visitorsModel->getSearchEnginesChartData(array_merge($this->args, $args));
+
+        return [
+            'search_engine_chart_data' => $searchEngineChart
+        ];
+    }
 }

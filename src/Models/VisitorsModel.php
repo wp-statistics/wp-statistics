@@ -918,6 +918,7 @@ class VisitorsModel extends BaseModel
             'query_param'   => '',
             'taxonomy'      => '',
             'term'          => '',
+            'group_by'      => 'visitor.referred',
             'page'          => 1,
             'per_page'      => 10
         ]);
@@ -927,13 +928,16 @@ class VisitorsModel extends BaseModel
         $query = Query::select([
             'COUNT(DISTINCT visitor.ID) AS visitors',
             'visitor.referred as referrer',
-            'visitor.source_channel as source_channel'
+            'visitor.source_channel as source_channel',
+            'visitor.source_name as engine',
+            'visitor.last_counter'
         ])
             ->from('visitor')
             ->where('source_channel', '=', $args['source_channel'])
             ->where('visitor.referred', 'NOT LIKE', '%' . Helper::get_domain_name(home_url()) . '%')
+            ->where('visitor.location', '=', $args['country'])
             ->whereNotNull('visitor.referred')
-            ->groupBy('visitor.referred')
+            ->groupBy($args['group_by'])
             ->orderBy('visitors')
             ->perPage($args['page'], $args['per_page']);
 
@@ -964,12 +968,6 @@ class VisitorsModel extends BaseModel
                 $query
                     ->joinQuery($taxQuery, ['posts.ID', 'tax.object_id'], 'tax');
             }
-        }
-
-        if (!empty($args['country'])) {
-            $query
-                ->where('visitor.location', '=', $args['country'])
-                ->whereDate('visitor.last_counter', $args['date']);
         }
 
         $result = $query->getAll();
@@ -1041,64 +1039,6 @@ class VisitorsModel extends BaseModel
         return $result ? $result : [];
     }
 
-    public function getSearchEngineReferrals($args = [])
-    {
-        $args = $this->parseArgs($args, [
-            'date'        => '',
-            'post_type'   => '',
-            'post_id'     => '',
-            'country'     => '',
-            'query_param' => '',
-            'taxonomy'    => '',
-            'term'        => '',
-            'group_by'    => ['search.last_counter', 'search.engine'],
-        ]);
-
-        $query = Query::select([
-            'search.last_counter AS date',
-            'COUNT(DISTINCT search.visitor) AS visitors',
-            'search.engine',
-        ])
-            ->from('search')
-            ->whereDate('search.last_counter', $args['date'])
-            ->groupBy($args['group_by'])
-            ->orderBy('date', 'DESC');
-
-        $filteredArgs = array_filter($args);
-        if (array_intersect(['post_type', 'post_id', 'query_param', 'taxonomy', 'term'], array_keys($filteredArgs))) {
-            $query
-                ->join('visitor_relationships', ['visitor_relationships.visitor_id', 'search.visitor'])
-                ->join('pages', ['visitor_relationships.page_id', 'pages.page_id'])
-                ->join('posts', ['posts.ID', 'pages.id'])
-                ->where('post_type', 'IN', $args['post_type'])
-                ->where('posts.ID', '=', $args['post_id'])
-                ->where('pages.uri', '=', $args['query_param']);
-
-            if (array_intersect(['taxonomy', 'term'], array_keys($filteredArgs))) {
-                $taxQuery = Query::select(['DISTINCT object_id'])
-                    ->from('term_relationships')
-                    ->join('term_taxonomy', ['term_relationships.term_taxonomy_id', 'term_taxonomy.term_taxonomy_id'])
-                    ->join('terms', ['term_taxonomy.term_id', 'terms.term_id'])
-                    ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy'])
-                    ->where('terms.term_id', '=', $args['term'])
-                    ->getQuery();
-
-                $query
-                    ->joinQuery($taxQuery, ['posts.ID', 'tax.object_id'], 'tax');
-            }
-        }
-
-        if (!empty($args['country'])) {
-            $query
-                ->join('visitor', ['search.visitor', 'visitor.ID'])
-                ->where('visitor.location', '=', $args['country']);
-        }
-
-        $result = $query->getAll();
-
-        return $result ? $result : [];
-    }
-
     public function getSearchEnginesChartData($args)
     {
         $args = $this->parseArgs($args, []);
@@ -1138,13 +1078,13 @@ class VisitorsModel extends BaseModel
 
         // This period data
         $thisParsedData     = [];
-        $thisPeriodData     = $this->getSearchEngineReferrals($args);
+        $thisPeriodData     = $this->getReferrers($args);
         $thisPeriodTotal    = array_fill_keys($thisPeriodDates, 0);
 
         foreach ($thisPeriodData as $item) {
             $visitors = intval($item->visitors);
-            $thisParsedData[$item->engine][$item->date] = $visitors;
-            $thisPeriodTotal[$item->date]               += $visitors;
+            $thisParsedData[$item->engine][$item->last_counter] = $visitors;
+            $thisPeriodTotal[$item->last_counter]               += $visitors;
         }
 
         // Create an array of top search engines
@@ -1186,11 +1126,11 @@ class VisitorsModel extends BaseModel
         }
 
         // Previous period data
-        $prevPeriodData     = $this->getSearchEngineReferrals(array_merge($args, ['date' => $prevPeriod]));
+        $prevPeriodData     = $this->getReferrers(array_merge($args, ['date' => $prevPeriod]));
         $prevPeriodTotal    = array_fill_keys($prevPeriodDates, 0);
 
         foreach ($prevPeriodData as $item) {
-            $prevPeriodTotal[$item->date] += intval($item->visitors);
+            $prevPeriodTotal[$item->last_counter] += intval($item->visitors);
         }
 
         if (!empty($prevPeriodTotal)) {
