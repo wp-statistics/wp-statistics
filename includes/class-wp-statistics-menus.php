@@ -19,7 +19,6 @@ class Menus
         'overview'           => 'overview',
         'exclusions'         => 'exclusions',
         'referrals'          => 'referrals',
-        'searches'           => 'searches',
         'optimization'       => 'optimization',
         'settings'           => 'settings',
         'plugins'            => 'plugins',
@@ -168,20 +167,6 @@ class Menus
                 'title'    => __('Overview', 'wp-statistics'),
                 'page_url' => 'overview',
                 'priority' => 20,
-            ),
-            'referrers'    => array(
-                'sub'      => 'overview',
-                'title'    => __('Referrers', 'wp-statistics'),
-                'page_url' => 'referrers',
-                'method'   => 'refer',
-                'priority' => 60,
-            ),
-            'searches'     => array(
-                'sub'      => 'overview',
-                'title'    => __('Search Engines', 'wp-statistics'),
-                'page_url' => 'searches',
-                'method'   => 'searches',
-                'priority' => 70,
             ),
             'plugins'      => array(
                 'sub'      => 'overview',
