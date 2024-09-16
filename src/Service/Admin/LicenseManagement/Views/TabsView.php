@@ -99,6 +99,15 @@ class TabsView extends BaseTabView
                     ],
                 ]
             ];
+            if ($this->isTab('add-ons')) {
+                $args['title']                  = esc_html__('Add-Ons', 'wp-statistics');
+                $args['tooltip']                = esc_html__('Add-Ons tooltip', 'wp-statistics');
+                $args['install_addon_btn_txt']  = esc_html__('Install Add-on', 'wp-statistics');
+                $args['install_addon_btn_link'] = '';
+                Admin_Template::get_template(['layout/header', 'layout/title'], $args);
+            } else {
+                Admin_Template::get_template(['layout/header', 'layout/tabbed-page-header'], $args);
+            }
 
             View::load("pages/license-manager/$currentTab", $args);
             Admin_Template::get_template(['layout/postbox.hide', 'layout/footer'], $args);
