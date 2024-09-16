@@ -4,208 +4,188 @@ namespace WP_Statistics\Service\Admin\LicenseManagement;
 
 class AddOnsListDecorator
 {
-    private $addOn;
-    private $isActivated = false;
-    private $status;
+    /**
+     * Add-ons array.
+     *
+     * @var array Format: `['{SLUG}' => {ADDON-OBJECT}, '{SLUG}' => {ADDON-OBJECT}, ...]`.
+     */
+    private $addOns;
 
     /**
-     * @param $addOn
+     * @param array $addOns
+     *
+     * @throws \Exception
      */
-    public function __construct($addOn)
+    public function __construct($addOns)
     {
-        $this->addOn = $addOn;
-    }
+        if (empty($addOns) || !is_array($addOns)) {
+            // translators: %s: Add-ons list request's result.
+            throw new \Exception(sprintf(esc_html__('Invalid add-ons list result: %s', 'wp-statistics'), esc_html(var_export($addOns, true))));
+        }
 
-    public function getName()
-    {
-        return $this->addOn->name;
-    }
-
-    public function getSlug()
-    {
-        return $this->addOn->slug;
-    }
-
-    public function getUrl()
-    {
-        return $this->addOn->url . '?' . AddOnsFactory::$addOnUtm[$this->getSlug()];
-    }
-
-    public function getDescription()
-    {
-        return $this->addOn->description;
-    }
-
-    public function getIcon()
-    {
-        return $this->addOn->icon;
-    }
-
-    public function getImage()
-    {
-        return $this->addOn->image;
-    }
-
-    public function getPrice()
-    {
-        return $this->addOn->price;
-    }
-
-    public function getVersion()
-    {
-        return $this->addOn->version;
-    }
-
-    public function isFeatured()
-    {
-        return $this->addOn->is_feature == true ? true : false;
-    }
-
-    public function getFeaturedLabel()
-    {
-        return $this->addOn->featured_label;
-    }
-
-    public function isExist()
-    {
-        return file_exists(WP_PLUGIN_DIR . '/' . $this->getPluginName());
-    }
-
-    public function isEnabled()
-    {
-        return is_plugin_active($this->getPluginName());
-    }
-
-    public function isActivated()
-    {
-        $this->status = $this->getRemoteStatus();
-
-        return $this->isActivated;
-    }
-
-    public function getOptionName()
-    {
-        return AddOnsFactory::getSettingNameByKey($this->getSlug());
-    }
-
-    public function getLicense()
-    {
-        $option = get_option($this->getOptionName());
-        return isset($option['license_key']) ? $option['license_key'] : '';
-    }
-
-    public function getPluginName()
-    {
-        return sprintf('%s/%s.php', $this->getSlug(), $this->getSlug());
-    }
-
-    public function getActivateUrl()
-    {
-        return add_query_arg([
-            'action'   => 'activate',
-            'plugin'   => $this->getPluginName(),
-            '_wpnonce' => wp_create_nonce("activate-plugin_{$this->getPluginName()}")
-        ], admin_url('plugins.php'));
-    }
-
-    public function getDeactivateUrl()
-    {
-        return add_query_arg([
-            'action'   => 'deactivate',
-            'plugin'   => $this->getPluginName(),
-            '_wpnonce' => wp_create_nonce("deactivate-plugin_{$this->getPluginName()}")
-        ], admin_url('plugins.php'));
-    }
-
-    public function getStatus()
-    {
-        if ($this->isEnabled()) {
-
-            $this->status = $this->getRemoteStatus();
-
-            if (is_wp_error($this->status)) {
-                $this->updateStatuses(false);
-                return $this->status->get_error_message();
+        // Fill `addOns` attribute array
+        $this->addOns = [];
+        foreach ($addOns as $addOn) {
+            if (empty($addOn->id) || empty($addOn->slug)) {
+                continue;
             }
 
-            if ($this->status) {
-                $this->updateStatuses(true);
-                return __('Activated', 'wp-statistics');
-            } else {
-                $this->updateStatuses(false);
-                return __('Not activated', 'wp-statistics');
-            }
-        } else if ($this->isExist()) {
-            $this->updateStatuses(false);
-            return __('Inactive', 'wp-statistics');
-        }
-
-        return __('Not installed', 'wp-statistics');
-    }
-
-    public function getRemoteStatus()
-    {
-        // Avoid remote request
-        if (!$this->isExist() or !$this->getLicense()) {
-            return false;
-        }
-
-        // Cache the status
-        if ($this->status) {
-            return $this->status;
-        }
-
-        $transientKey         = AddOnsFactory::getLicenseTransientKey($this->getSlug());
-        $downloadTransientKey = AddOnsFactory::getDownloadTransientKey($this->getSlug());
-
-        // Get any existing copy of our transient data
-        if (false === ($response = get_transient($transientKey))) {
-            $args = add_query_arg([
-                'plugin-name' => $this->getSlug(),
-                'license_key' => $this->getLicense(),
-                'website'     => get_bloginfo('url'),
-            ], WP_STATISTICS_SITE . '/wp-json/plugins/v1/validate');
-
-            $response = wp_remote_get($args, [
-                'timeout' => 35,
-            ]);
-
-            if (is_wp_error($response)) {
-                return $response;
-            }
-
-            $body     = wp_remote_retrieve_body($response);
-            $response = json_decode($body, false);
-
-            set_transient($transientKey, $response, DAY_IN_SECONDS);
-        }
-
-        if (isset($response->code) && $response->code == 'error') {
-            return new \WP_Error($response->data->status, $response->message);
-        }
-
-        if (isset($response->status) and $response->status == 200) {
-            $this->isActivated = true;
-
-            // To clear the download transient and sync with download status
-            delete_transient($downloadTransientKey);
-
-            return true;
+            $this->addOns[$addOn->slug] = $addOn;
         }
     }
 
-    private function updateStatuses($status)
+    /**
+     * Returns the full list of add-ons.
+     *
+     * @return array
+     */
+    public function getAddOnsList()
     {
-        $statues                     = get_option('wp_statistics_activate_addons', []);
-        $statues[$this->addOn->slug] = $status;
-
-        unset($statues['add-ons-bundle']);
-
-        update_option('wp_statistics_activate_addons', $statues);
+        return $this->addOns;
     }
 
-    public static function countActivatedAddOns()
+    /**
+     * Returns an add-on by its slug.
+     *
+     * @param string $slug
+     *
+     * @return object
+     *
+     * @throws \Exception
+     */
+    public function getAddOnObject($slug)
     {
-        return array_sum(get_option('wp_statistics_activate_addons', []));
+        if (empty($this->addOns[$slug])) {
+            // translators: %s: Add-on slug.
+            throw new \Exception(sprintf(esc_html__('No add-on found with the given slug: %s', 'wp-statistics'), esc_html($slug)));
+        }
+
+        return $this->addOns[$slug];
+    }
+
+    /**
+     * Returns add-on ID by slug.
+     *
+     * @param string $slug
+     *
+     * @return int
+     *
+     * @throws \Exception
+     */
+    public function getAddOnId($slug)
+    {
+        return intval($this->getAddOnObject($slug)->id);
+    }
+
+    /**
+     * Returns add-on name by slug.
+     *
+     * @param string $slug
+     *
+     * @return string
+     *
+     * @throws \Exception
+     */
+    public function getAddOnName($slug)
+    {
+        return $this->getAddOnObject($slug)->name;
+    }
+
+    /**
+     * Returns add-on URL by slug.
+     *
+     * @param string $slug
+     *
+     * @return string
+     *
+     * @throws \Exception
+     */
+    public function getAddOnUrl($slug)
+    {
+        return $this->getAddOnObject($slug)->url;
+    }
+
+    /**
+     * Returns add-on description by slug.
+     *
+     * @param string $slug
+     *
+     * @return string
+     *
+     * @throws \Exception
+     */
+    public function getAddOnDescription($slug)
+    {
+        return $this->getAddOnObject($slug)->description;
+    }
+
+    /**
+     * Returns add-on icon URL by slug.
+     *
+     * @param string $slug
+     *
+     * @return string
+     *
+     * @throws \Exception
+     */
+    public function getAddOnIcon($slug)
+    {
+        return $this->getAddOnObject($slug)->icon;
+    }
+
+    /**
+     * Returns add-on version by slug.
+     *
+     * @param string $slug
+     *
+     * @return string
+     *
+     * @throws \Exception
+     */
+    public function getAddOnVersion($slug)
+    {
+        return $this->getAddOnObject($slug)->version;
+    }
+
+    /**
+     * Returns add-on price by slug.
+     *
+     * @param string $slug
+     *
+     * @return string
+     *
+     * @throws \Exception
+     */
+    public function getAddOnPrice($slug)
+    {
+        return $this->getAddOnObject($slug)->price;
+    }
+
+    /**
+     * Whether this add-on is featured or not?
+     *
+     * @param string $slug
+     *
+     * @return bool
+     *
+     * @throws \Exception
+     */
+    public function IsAddOnFeatured($slug)
+    {
+        return $this->getAddOnObject($slug)->is_feature == true ? true : false;
+    }
+
+    /**
+     * Returns add-on price by slug.
+     *
+     * @param string $slug
+     *
+     * @return string
+     *
+     * @throws \Exception
+     */
+    public function getAddOnFeaturedLabel($slug)
+    {
+        return $this->getAddOnObject($slug)->featured_label;
     }
 }
