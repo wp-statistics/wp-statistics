@@ -5,6 +5,7 @@ namespace WP_STATISTICS;
 use WP_Statistics\Async\BackgroundProcessFactory;
 use WP_Statistics\Components\Singleton;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
+use WP_Statistics\Service\Geolocation\GeolocationFactory;
 
 class optimization_page extends Singleton
 {
@@ -37,7 +38,7 @@ class optimization_page extends Singleton
 
         // Check Access Level
         if (Menus::in_page('optimization') and !User::Access('manage')) {
-            wp_die(__('You do not have sufficient permissions to access this page.')); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	
+            wp_die(__('You do not have sufficient permissions to access this page.')); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
         }
 
         // Check Wp Nonce and Require Field
@@ -48,13 +49,23 @@ class optimization_page extends Singleton
         // Update All GEO IP Country
         if (isset($_POST['submit'], $_POST['populate-submit']) && intval($_POST['populate-submit']) == 1) {
             // First download/update the GeoIP database
-            GeoIP::download('update');
+            GeolocationFactory::downloadDatabase();
 
             // Update GeoIP data for visitors with incomplete information
             BackgroundProcessFactory::batchUpdateIncompleteGeoIpForVisitors();
 
             // Show Notice
             Notice::addFlashNotice(__('GeoIP update for incomplete visitors initiated successfully.', 'wp-statistics'), 'success');
+        }
+
+        // Update source channel data
+        if (isset($_POST['submit'], $_POST['populate-source-channel-submit']) && intval($_POST['populate-source-channel-submit']) == 1) {
+
+            // Update source channel data for visitors with incomplete information
+            BackgroundProcessFactory::batchUpdateSourceChannelForVisitors();
+
+            // Show Notice
+            Notice::addFlashNotice(__('Source channel update for visitors initiated successfully.', 'wp-statistics'), 'success');
         }
 
         // Check Hash IP Update

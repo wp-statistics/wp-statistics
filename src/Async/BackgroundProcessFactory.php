@@ -5,6 +5,7 @@ namespace WP_Statistics\Async;
 use WP_Statistics\Models\VisitorsModel;
 use WP_STATISTICS\Option;
 use WP_Statistics\Service\Admin\Posts\WordCountService;
+use WP_Statistics\Service\Geolocation\GeolocationFactory;
 
 class BackgroundProcessFactory
 {
@@ -56,16 +57,45 @@ class BackgroundProcessFactory
     }
 
     /**
-     * Download/Update geoip database using.
+     * Download/Update geolocation database using.
      *
      * @return void
      */
-    public static function downloadGeoIPDatabase()
+    public static function downloadGeolocationDatabase()
     {
-        $downloadProcess = WP_Statistics()->getBackgroundProcess('geoip_database_download');
+        $provider        = GeolocationFactory::getProviderInstance();
+        $downloadProcess = WP_Statistics()->getBackgroundProcess('geolocation_database_download');
 
-        // Async download process
-        $downloadProcess->dispatch();
+        // Queue download process
+        $downloadProcess->push_to_queue(['provider' => $provider]);
+        $downloadProcess->save()->dispatch();
+    }
+
+    /**
+     * Batch update incomplete Source Channel info for visitors.
+     *
+     * @return void
+     */
+    public static function batchUpdateSourceChannelForVisitors()
+    {
+        $visitorModel                           = new VisitorsModel();
+        $visitorsWithIncompleteSourceChannel    = $visitorModel->getVisitorsWithIncompleteSourceChannel();
+        $updateIncompleteVisitorsSourceChannels = WP_Statistics()->getBackgroundProcess('update_visitors_source_channel');
+
+        // Define the batch size
+        $batchSize = 100;
+        $batches   = array_chunk($visitorsWithIncompleteSourceChannel, $batchSize);
+
+        // Push each batch to the queue
+        foreach ($batches as $batch) {
+            $updateIncompleteVisitorsSourceChannels->push_to_queue(['visitors' => $batch]);
+        }
+
+        // Mark the process as completed
+        Option::saveOptionGroup('update_source_channel_process_started', true, 'jobs');
+
+        // Save the queue and dispatch it
+        $updateIncompleteVisitorsSourceChannels->save()->dispatch();
     }
 
     // Add other static methods for different background processes as needed

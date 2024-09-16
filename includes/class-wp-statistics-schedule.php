@@ -2,6 +2,9 @@
 
 namespace WP_STATISTICS;
 
+use WP_Statistics\Service\Geolocation\GeolocationFactory;
+use WP_Statistics\Service\Analytics\Referrals\ReferralsDatabase;
+
 class Schedule
 {
 
@@ -82,6 +85,10 @@ class Schedule
             add_action('wp_statistics_dbmaint_visitor_hook', array($this, 'dbmaint_visitor_event'));
         }
 
+        if (!wp_next_scheduled('wp_statistics_referrals_db_hook')) {
+            wp_schedule_event(time(), 'monthly', 'wp_statistics_referrals_db_hook');
+        }
+
         // Add the report schedule if it doesn't exist and is enabled.
         if (!wp_next_scheduled('wp_statistics_report_hook') && Option::get('time_report') != '0') {
             $timeReports       = Option::get('time_report');
@@ -99,6 +106,7 @@ class Schedule
         }
 
         add_action('wp_statistics_report_hook', array($this, 'send_report'));
+        add_action('wp_statistics_referrals_db_hook', [$this, 'referrals_db_event']);
     }
 
     /**
@@ -245,17 +253,11 @@ class Schedule
     {
         // Max-mind updates the geo-ip database on the first Tuesday of the month, to make sure we don't update before they post
         $this_update = strtotime('first Tuesday of this month') + (86400 * 2);
-        $last_update = Option::get('last_geoip_dl');
-        $file_path   = GeoIP::get_geo_ip_path();
+        $last_update = GeolocationFactory::getProviderInstance()->getLastDownloadTimestamp();
 
-        if (file_exists($file_path)) {
-            if ($last_update < $this_update) {
-                GeoIP::download('update');
-            }
+        if ($last_update < $this_update) {
+            GeolocationFactory::downloadDatabase();
         }
-
-        // Update the last update time
-        Option::update('last_geoip_dl', time());
     }
 
     /**
@@ -274,6 +276,15 @@ class Schedule
     {
         $purge_hits = intval(Option::get('schedule_dbmaint_visitor_hits', false));
         Purge::purge_visitor_hits($purge_hits);
+    }
+
+    /**
+     * Download Referrals Database
+     */
+    public function referrals_db_event()
+    {
+        $referralsDatabase = new ReferralsDatabase();
+        $referralsDatabase->download();
     }
 
     public function getEmailSubject()
@@ -364,8 +375,8 @@ class Schedule
             wp_unschedule_event(wp_next_scheduled($event), $event);
         }
 
-        $time               = sanitize_text_field($newTime);
-        $schedulesInterval  = self::getSchedules();
+        $time              = sanitize_text_field($newTime);
+        $schedulesInterval = self::getSchedules();
 
         if (isset($schedulesInterval[$time]['next_schedule'])) {
             $scheduleTime = $schedulesInterval[$time]['next_schedule'];

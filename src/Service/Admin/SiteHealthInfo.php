@@ -5,6 +5,7 @@ namespace WP_Statistics\Service\Admin;
 use WP_STATISTICS\GeoIP;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Option;
+use WP_Statistics\Service\Geolocation\GeolocationFactory;
 
 /**
  * Class SiteHealthInfo
@@ -33,6 +34,7 @@ class SiteHealthInfo
     public function addStatisticsInfo($info)
     {
         $userRoleExclusions = $this->getUserRoleExclusions();
+        $geoIpProvider      = GeolocationFactory::getProviderInstance();
 
         $info[self::DEBUG_INFO_SLUG] = [
             'label'       => esc_html__('WP Statistics', 'wp-statistics'),
@@ -63,19 +65,19 @@ class SiteHealthInfo
                  */
                 'geoIpDatabaseExists'           => [
                     'label' => esc_html__('GeoIP Database Exists', 'wp-statistics'),
-                    'value' => GeoIP::isExist() ? __('Yes', 'wp-statistics') : __('No', 'wp-statistics'),
+                    'value' => $geoIpProvider->isDatabaseExist() ? __('Yes', 'wp-statistics') : __('No', 'wp-statistics'),
                 ],
                 'geoIpDatabaseLastUpdated'      => [
                     'label' => esc_html__('GeoIP Database Last Updated', 'wp-statistics'),
-                    'value' => GeoIP::getLastUpdate(),
+                    'value' => $geoIpProvider->getLastDatabaseFileUpdated(),
                 ],
                 'geoIpDatabaseSize'             => [
                     'label' => esc_html__('GeoIP Database Size', 'wp-statistics'),
-                    'value' => GeoIP::getDatabaseSize(),
+                    'value' => $geoIpProvider->getDatabaseSize(),
                 ],
                 'geoIpDatabaseType'             => [
                     'label' => esc_html__('GeoIP Database Type', 'wp-statistics'),
-                    'value' => GeoIP::getDatabaseType(),
+                    'value' => $geoIpProvider->getDatabaseType(),
                 ],
 
                 /**

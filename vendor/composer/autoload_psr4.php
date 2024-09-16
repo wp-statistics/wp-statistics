@@ -6,6 +6,5 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
-    'WhichBrowser\\' => array($vendorDir . '/whichbrowser/parser/src', $vendorDir . '/whichbrowser/parser/tests/src'),
     'WP_Statistics\\' => array($baseDir . '/src'),
 );

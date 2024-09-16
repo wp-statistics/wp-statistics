@@ -2,6 +2,7 @@
 
 namespace WP_STATISTICS;
 
+use WP_Statistics\Service\Analytics\DeviceDetection\DeviceHelper;
 use WP_Statistics\Service\Analytics\VisitorProfile;
 
 class UserOnline
@@ -145,8 +146,7 @@ class UserOnline
 
         $current_page = $visitorProfile->getCurrentPageType();
         $user_agent   = $visitorProfile->getUserAgent();
-
-        $pageId = Pages::getPageId($current_page['type'], $current_page['id']);
+        $pageId       = Pages::getPageId($current_page['type'], $current_page['id']);
 
         //Prepare User online Data
         $user_online = array(
@@ -155,16 +155,17 @@ class UserOnline
             'created'   => TimeZone::getCurrentTimestamp(),
             'date'      => TimeZone::getCurrentDate(),
             'referred'  => $visitorProfile->getReferrer(),
-            'agent'     => $user_agent['browser'],
-            'platform'  => $user_agent['platform'],
-            'version'   => $user_agent['version'],
+            'agent'     => $user_agent->getBrowser(),
+            'platform'  => $user_agent->getPlatform(),
+            'version'   => $user_agent->getVersion(),
             'location'  => $visitorProfile->getCountry(),
             'region'    => $visitorProfile->getRegion(),
             'continent' => $visitorProfile->getContinent(),
             'city'      => $visitorProfile->getCity(),
             'user_id'   => $visitorProfile->getUserId(),
             'page_id'   => $pageId,
-            'type'      => $current_page['type']
+            'type'      => $current_page['type'],
+            'visitor_id'=> $visitorProfile->getVisitorId()
         );
         $user_online = apply_filters('wp_statistics_user_online_information', wp_parse_args($args, $user_online));
 
@@ -257,7 +258,7 @@ class UserOnline
 
         // Check Count
         if ($args['fields'] == "count") {
-            return $wpdb->get_var($SQL); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared	
+            return $wpdb->get_var($SQL); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
         }
 
         // Prepare Query
@@ -269,7 +270,7 @@ class UserOnline
         $args['sql'] = esc_sql($args['sql']) . $wpdb->prepare(" LIMIT %d, %d", $args['offset'], $args['per_page']);
 
         // Send Request
-        $result = $wpdb->get_results($args['sql']); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared	
+        $result = $wpdb->get_results($args['sql']); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 
         // Get List
         $list = array();
@@ -303,7 +304,7 @@ class UserOnline
             // Push Browser
             $item['browser'] = array(
                 'name' => $agent,
-                'logo' => UserAgent::getBrowserLogo($agent),
+                'logo' => DeviceHelper::getPlatformLogo($agent),
                 'link' => Menus::admin_url('visitors', array('agent' => $agent))
             );
 
@@ -312,15 +313,12 @@ class UserOnline
                 $item['ip'] = array('value' => substr($ip, 6, 10), 'link' => Menus::admin_url('visitors', array('ip' => urlencode($ip))));
             } else {
                 $item['ip']  = array('value' => $ip, 'link' => Menus::admin_url('visitors', array('ip' => $ip)));
-                $item['map'] = GeoIP::geoIPTools($ip);
+                $item['map'] = Helper::geoIPTools($ip);
             }
 
-            // Push Country
             $item['country'] = array('location' => $items->location, 'flag' => Country::flag($items->location), 'name' => Country::getName($items->location));
-
-            // Push City
-            $item['city']   = !empty($items->city) ? $items->city : GeoIP::getCity($ip);
-            $item['region'] = $items->region;
+            $item['city']    = $items->city;
+            $item['region']  = $items->region;
 
             // Online For Time
             $current_time = current_time('timestamp'); // Fetch current server time in WordPress format

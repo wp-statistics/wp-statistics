@@ -2250,4 +2250,15 @@ class Helper
             'topCategory'               => $topCategory,
         ];
     }
+
+    /**
+     * Generates a link to an external GeoIP tool for IP information.
+     *
+     * @param string $ip The IP address to query.
+     * @return string URL to the GeoIP tool with the IP parameter.
+     */
+    public static function geoIPTools($ip)
+    {
+        return "https://redirect.li/map/?ip={$ip}";
+    }
 }

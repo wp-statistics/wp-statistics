@@ -1,6 +1,7 @@
 <?php
 
 use WP_STATISTICS\IP;
+use WP_Statistics\Service\Geolocation\GeolocationFactory;
 
 // Get IP Method
 $ip_method  = IP::getIpMethod();
@@ -203,7 +204,7 @@ add_thickbox();
                 <?php
                 if (WP_STATISTICS\Option::get('schedule_geoip')) {
                     echo '<p class="description">' . esc_html__('Next update will be', 'wp-statistics') . ': <code>';
-                    $last_update = WP_STATISTICS\Option::get('last_geoip_dl');
+                    $last_update = GeolocationFactory::getProviderInstance()->getLastDownloadTimestamp();
                     $this_month  = strtotime('first Tuesday of this month');
 
                     if ($last_update > $this_month) {
@@ -212,6 +213,7 @@ add_thickbox();
                         $next_update = $this_month + (86400 * 2);
                     }
 
+                    // @todo Really need to fix this and organize the cron jobs, planned for 14.x
                     $next_schedule = wp_next_scheduled('wp_statistics_geoip_hook');
                     if ($next_schedule) {
                         echo \WP_STATISTICS\TimeZone::getLocalDate(get_option('date_format'), $next_update) . // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
@@ -244,11 +246,11 @@ add_thickbox();
 
         <tr valign="top">
             <th scope="row">
-                <label for="geoip-schedule"><?php esc_html_e('Country Code for Unlocatable IPs', 'wp-statistics'); ?></label>
+                <label for="geoip-schedule"><?php esc_html_e('Country Code for Private IPs', 'wp-statistics'); ?></label>
             </th>
 
             <td>
-                <input type="text" size="3" id="geoip-private-country-code" name="wps_private_country_code" value="<?php echo esc_attr(WP_STATISTICS\Option::get('private_country_code', \WP_STATISTICS\GeoIP::$private_country)); ?>">
+                <input type="text" size="3" id="geoip-private-country-code" name="wps_private_country_code" value="<?php echo esc_attr(WP_STATISTICS\Option::get('private_country_code', GeolocationFactory::getProviderInstance()->getDefaultPrivateCountryCode())); ?>">
                 <p class="description"><?php echo esc_html__('Assigns a default country code for private IP addresses that cannot be geographically located.', 'wp-statistics'); ?></p>
             </td>
         </tr>

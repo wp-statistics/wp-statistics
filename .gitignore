@@ -34,3 +34,7 @@ package-lock.json
 
 # VSCode IDE
 .vscode/*
+
+# Unit Test
+.phpunit.result.cache
+tests/logs

@@ -5,6 +5,7 @@ namespace WP_STATISTICS;
 use WP_Statistics\Components\AssetNameObfuscator;
 use WP_Statistics\Components\Singleton;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
+use WP_Statistics\Service\Geolocation\GeolocationFactory;
 use WP_Statistics\Utils\Request;
 
 class settings_page extends Singleton
@@ -269,11 +270,11 @@ class settings_page extends Singleton
         if (array_key_exists('wps_private_country_code', $_POST)) {
             $_POST['wps_private_country_code'] = trim(strtoupper(sanitize_text_field($_POST['wps_private_country_code'])));
         } else {
-            $_POST['wps_private_country_code'] = GeoIP::$private_country;
+            $_POST['wps_private_country_code'] = GeolocationFactory::getProviderInstance()->getDefaultPrivateCountryCode();
         }
 
         if ($_POST['wps_private_country_code'] == '') {
-            $_POST['wps_private_country_code'] = GeoIP::$private_country;
+            $_POST['wps_private_country_code'] = GeolocationFactory::getProviderInstance()->getDefaultPrivateCountryCode();
         }
 
         foreach ($wps_option_list as $option) {

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace WP_Statistics\Dependencies\GeoIp2\Record;
 
 /**
@@ -30,6 +32,8 @@ class Subdivision extends AbstractPlaceRecord
 {
     /**
      * @ignore
+     *
+     * @var array<string>
      */
     protected $validAttributes = [
         'confidence',

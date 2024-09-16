@@ -4,8 +4,8 @@ Donate link: https://wp-statistics.com/donate/
 Tags: analytics, google analytics, insights, stats, site visitors
 Requires at least: 5.0
 Tested up to: 6.6
-Stable tag: 14.10
-Requires PHP: 5.6
+Stable tag: 14.11
+Requires PHP: 7.2
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -131,12 +131,14 @@ WP Statistics supports WordPress Multi-Site/Network installations. In the networ
 19. Real-Time Stats
 
 == Upgrade Notice ==
-= 14.xx =
+= 14.11 =
 To ensure the plugin works correctly, please clear your cache because some request payloads have been updated. Also, review your settings, especially if you use DataPlus, Advanced Reporting, or Customization, as some options have changed.
 Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest version.
 
 == Changelog ==
-= 14.xx - xx.xx.xx =
+= 14.11 - **.**.2024 =
+* New: Introduced brand-new Referrals report page.
+* Enhancement: Improved the Device Detection.
 * Enhancement: Chart labels dynamically change depending on the selected data range
 
 For more information about the major update, please [visit our blog post](https://wp-statistics.com/?p=16657) or follow [@wp_statistics](https://twitter.com/wp_statistics) on Twitter

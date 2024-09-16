@@ -5,7 +5,7 @@ use WP_STATISTICS\Helper;
 use WP_STATISTICS\Country;
 use WP_STATISTICS\IP;
 use WP_STATISTICS\Menus;
-use WP_STATISTICS\UserAgent;
+use WP_Statistics\Service\Analytics\DeviceDetection\DeviceHelper;
 use WP_STATISTICS\Visitor;
 
 $linksTarget = !empty($open_links_in_new_tab) ? '_blank' : '';
@@ -73,13 +73,13 @@ $linksTarget = !empty($open_links_in_new_tab) ? '_blank' : '';
 
                                     <li class="wps-browsers__flag">
                                         <div class="wps-tooltip" title="<?php echo esc_attr("$visitor->agent v$visitor->version") ?>">
-                                            <a target="<?php echo esc_attr($linksTarget); ?>" href="<?php echo esc_url(Menus::admin_url('visitors', ['agent' => $visitor->agent])) ?>"><img src="<?php echo esc_url(UserAgent::getBrowserLogo($visitor->agent)) ?>" alt="<?php echo esc_attr($visitor->agent) ?>" width="15" height="15"></a>
+                                            <a target="<?php echo esc_attr($linksTarget); ?>" href="<?php echo esc_url(Menus::admin_url('visitors', ['agent' => $visitor->agent])) ?>"><img src="<?php echo esc_url(DeviceHelper::getBrowserLogo($visitor->agent)) ?>" alt="<?php echo esc_attr($visitor->agent) ?>" width="15" height="15"></a>
                                         </div>
                                     </li>
 
                                     <li class="wps-browsers__flag">
                                         <div class="wps-tooltip" title="<?php echo esc_attr($visitor->platform) ?>">
-                                            <a target="<?php echo esc_attr($linksTarget); ?>" href="<?php echo esc_url(Menus::admin_url('visitors', ['platform' => $visitor->platform])) ?>"><img src="<?php echo esc_url(UserAgent::getPlatformLogo($visitor->platform)) ?>" alt="<?php echo esc_attr($visitor->platform) ?>" width="15" height="15"></a>
+                                            <a target="<?php echo esc_attr($linksTarget); ?>" href="<?php echo esc_url(Menus::admin_url('visitors', ['platform' => $visitor->platform])) ?>"><img src="<?php echo esc_url(DeviceHelper::getPlatformLogo($visitor->platform)) ?>" alt="<?php echo esc_attr($visitor->platform) ?>" width="15" height="15"></a>
                                         </div>
                                     </li>
                                 </ul>
