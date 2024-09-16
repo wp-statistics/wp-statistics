@@ -3,6 +3,7 @@
 namespace WP_Statistics\Service\Admin\Referrals;
 use WP_Statistics\Models\VisitorsModel;
 use WP_Statistics\Service\Charts\ChartDataProviderFactory;
+use WP_Statistics\Utils\Request;
 
 class ReferralsDataProvider
 {
@@ -35,14 +36,14 @@ class ReferralsDataProvider
     public function getSearchEngineReferrals()
     {
         return [
-            'referrers' => $this->visitorsModel->getReferrers(array_merge($this->args, ['source_channel' => 'search'])),
+            'referrers' => $this->visitorsModel->getReferrers(array_merge($this->args, ['source_channel' => Request::get('source_channel', 'search')])),
         ];
     }
 
     public function getChartsData()
     {
         $args = [
-            'source_channel'    => 'search',
+            'source_channel'    => Request::get('source_channel', 'search'),
             'group_by'          => ['visitor.referred', 'visitor.last_counter']
         ];
 
