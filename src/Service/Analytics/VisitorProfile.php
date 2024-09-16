@@ -11,6 +11,9 @@ use WP_Statistics\Service\Analytics\DeviceDetection\UserAgent;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
 use WP_Statistics\Service\Analytics\Referrals\Referrals;
 
+/**
+ * @todo use the ObjectCacheTrait trait instead of the properties
+ */
 class VisitorProfile
 {
     private $ip;
