@@ -41,9 +41,9 @@ if (!empty($data['addons'])) {
                                     'detail_link'        => '#',
                                     'change_log_link'    => '#',
                                     'documentation_link' => '#',
-                                    'description'        => esc_html($addOn['description']),
+                                    'description'        => wp_kses($addOn['description'], 'data'),
                                 ];
-                                View::load("components/addon-box", $args);
+                                View::load('components/addon-box', $args);
                             }
                             ?>
                         </div>
@@ -74,9 +74,9 @@ if (!empty($data['addons'])) {
                                     'detail_link'        => '#',
                                     'change_log_link'    => '#',
                                     'documentation_link' => '#',
-                                    'description'        => esc_html($addOn['description']),
+                                    'description'        => wp_kses($addOn['description'], 'data'),
                                 ];
-                                View::load("components/addon-box", $args);
+                                View::load('components/addon-box', $args);
                             }
                             ?>
                         </div>
