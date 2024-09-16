@@ -219,7 +219,10 @@ class Menus
                 $b['priority'] = 999;
             }
 
-            return $a['priority'] <=> $b['priority'];
+            if ($a['priority'] == $b['priority']) {
+                return 0;
+            }
+            return ($a['priority'] < $b['priority']) ? -1 : 1;
         });
 
         return $list;

@@ -3,6 +3,7 @@
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Menus;
 use WP_Statistics\Service\Admin\PrivacyAudit\PrivacyAuditDataProvider;
+use WP_Statistics\Service\Admin\WebsitePerformance\WebsitePerformanceDataProvider;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -69,7 +70,7 @@ if (!empty($schedule)) {
     $startDate = $schedule['start'];
     $endDate   = $schedule['end'];
 }
-extract(Helper::getWebsitePerformanceSummary($startDate, $endDate));
+$websitePerformanceDataProvider = new WebsitePerformanceDataProvider($startDate, $endDate);
 
 $email_performance_html = '
     <div class="card performance_glance" style="background-color: #fff;border-radius: 12px;margin-bottom: 39px"> 
@@ -92,9 +93,9 @@ $email_performance_html = '
                                     <img src="' . esc_url(WP_STATISTICS_URL . 'assets/images/mail/visitor.png') .'" width="24" height="24">
                                 </td>
                                 <td style="padding-'.$text_align.': 6px;">
-                                    <div style="margin-bottom: 6px;font-size: 19px;font-weight: 500;line-height: 23.44px;text-align: '.$text_align.';color:#3D3D44"><span style="float: '.$text_align.';margin-'.$text_align_reverse.': 10px;margin-top: -3px;" >' . Helper::formatNumberWithUnit($thisPeriodVisitors, 1) . '</span>
-                                        <span style="padding: 2px 4px;gap: 2px;border-radius: 4px;background-color: ' . ($percentageChangeVisitors >= 0 ? '#1961401A' : '#FCECEB') . ';font-size: 12px; font-weight: 600; line-height: 14.06px;color:' . ($percentageChangeVisitors >= 0 ? '#196140' : '#D54037') . ';display: inline-block">
-                                            <img width="7" height="7" style="margin-'.$text_align_reverse.': 2px;" src="' . esc_url(WP_STATISTICS_URL . 'assets/images/mail/' . ($percentageChangeVisitors >= 0 ? 'up' : 'down') . '.png') .'"  >' . $percentageChangeVisitors . '%
+                                    <div style="margin-bottom: 6px;font-size: 19px;font-weight: 500;line-height: 23.44px;text-align: '.$text_align.';color:#3D3D44"><span style="float: '.$text_align.';margin-'.$text_align_reverse.': 10px;margin-top: -3px;" >' . Helper::formatNumberWithUnit($websitePerformanceDataProvider->getCurrentPeriodVisitors(), 1) . '</span>
+                                        <span style="padding: 2px 4px;gap: 2px;border-radius: 4px;background-color: ' . ($websitePerformanceDataProvider->getPercentageChangeVisitors() >= 0 ? '#1961401A' : '#FCECEB') . ';font-size: 12px; font-weight: 600; line-height: 14.06px;color:' . ($websitePerformanceDataProvider->getPercentageChangeVisitors() >= 0 ? '#196140' : '#D54037') . ';display: inline-block">
+                                            <img width="7" height="7" style="margin-'.$text_align_reverse.': 2px;" src="' . esc_url(WP_STATISTICS_URL . 'assets/images/mail/' . ($websitePerformanceDataProvider->getPercentageChangeVisitors() >= 0 ? 'up' : 'down') . '.png') .'"  >' . $websitePerformanceDataProvider->getPercentageChangeVisitors() . '%
                                         </span>
                                     </div>
                                      <span style="font-size: 14px;color:#3D3D44;line-height:16.41px">' . __('Visitors', 'wp-statistics') . '</span> 
@@ -107,9 +108,9 @@ $email_performance_html = '
                                     <img src="' . esc_url(WP_STATISTICS_URL . 'assets/images/mail/referrals.png') .'" width="24" height="24" >
                                 </td>
                                 <td style="padding-'.$text_align.': 6px;">
-                                    <div style="margin-bottom: 6px;font-size: 19px;font-weight: 500;line-height: 23.44px;text-align: '.$text_align.';color:#3D3D44"><span  style="float: '.$text_align.';margin-'.$text_align_reverse.': 10px;margin-top: -3px;">' . Helper::formatNumberWithUnit($thisPeriodReferrals, 1) . '</span>
-                                        <span style="padding: 2px 4px;gap: 2px;border-radius: 4px;background-color: ' . ($percentageChangeReferrals >= 0 ? '#1961401A' : '#FCECEB') . ';font-size: 12px; font-weight: 600; line-height: 14.06px;color:' . ($percentageChangeReferrals >= 0 ? '#196140' : '#D54037') . ';display: inline-block">
-                                            <img width="7" height="7" style="margin-'.$text_align_reverse.': 2px" src="' . esc_url(WP_STATISTICS_URL . 'assets/images/mail/' . ($percentageChangeReferrals >= 0 ? 'up' : 'down') . '.png') .'"  >' . $percentageChangeReferrals . '%
+                                    <div style="margin-bottom: 6px;font-size: 19px;font-weight: 500;line-height: 23.44px;text-align: '.$text_align.';color:#3D3D44"><span  style="float: '.$text_align.';margin-'.$text_align_reverse.': 10px;margin-top: -3px;">' . Helper::formatNumberWithUnit($websitePerformanceDataProvider->getCurrentPeriodReferralsCount(), 1) . '</span>
+                                        <span style="padding: 2px 4px;gap: 2px;border-radius: 4px;background-color: ' . ($websitePerformanceDataProvider->getPercentageChangeReferrals() >= 0 ? '#1961401A' : '#FCECEB') . ';font-size: 12px; font-weight: 600; line-height: 14.06px;color:' . ($websitePerformanceDataProvider->getPercentageChangeReferrals() >= 0 ? '#196140' : '#D54037') . ';display: inline-block">
+                                            <img width="7" height="7" style="margin-'.$text_align_reverse.': 2px" src="' . esc_url(WP_STATISTICS_URL . 'assets/images/mail/' . ($websitePerformanceDataProvider->getPercentageChangeReferrals() >= 0 ? 'up' : 'down') . '.png') .'"  >' . $websitePerformanceDataProvider->getPercentageChangeReferrals() . '%
                                         </span>
                                     </div>
                                      <span  style="font-size: 14px;color:#3D3D44;line-height:16.41px">' . __('Referrals', 'wp-statistics') . '</span> 
@@ -124,9 +125,9 @@ $email_performance_html = '
                                     <img src="' . esc_url(WP_STATISTICS_URL . 'assets/images/mail/views.png') .'" width="24" height="24" >
                                 </td>
                                 <td style="padding-'.$text_align.': 6px;">
-                                    <div style="margin-bottom: 6px;font-size: 19px;font-weight: 500;line-height: 23.44px;text-align: '.$text_align.';color:#3D3D44"><span  style="float: '.$text_align.';margin-'.$text_align_reverse.': 10px;margin-top: -3px;" >' . Helper::formatNumberWithUnit($thisPeriodVisits, 1) . '</span> 
-                                        <span style="padding: 2px 4px;gap: 2px;border-radius: 4px;background-color: ' . ($percentageChangeVisits >= 0 ? '#1961401A' : '#FCECEB') . ';font-size: 12px; font-weight: 600; line-height: 14.06px;color:' . ($percentageChangeVisits >= 0 ? '#196140' : '#D54037') . ';display: inline-block">
-                                            <img width="7" height="7" style="width: 7px;height: 7px;margin-'.$text_align_reverse.': 4px" src="' . esc_url(WP_STATISTICS_URL . 'assets/images/mail/' . ($percentageChangeVisits >= 0 ? 'up' : 'down') . '.png') .'"  >' . $percentageChangeVisits . '%
+                                    <div style="margin-bottom: 6px;font-size: 19px;font-weight: 500;line-height: 23.44px;text-align: '.$text_align.';color:#3D3D44"><span  style="float: '.$text_align.';margin-'.$text_align_reverse.': 10px;margin-top: -3px;" >' . Helper::formatNumberWithUnit($websitePerformanceDataProvider->getCurrentPeriodViews(), 1) . '</span> 
+                                        <span style="padding: 2px 4px;gap: 2px;border-radius: 4px;background-color: ' . ($websitePerformanceDataProvider->getPercentageChangeViews() >= 0 ? '#1961401A' : '#FCECEB') . ';font-size: 12px; font-weight: 600; line-height: 14.06px;color:' . ($websitePerformanceDataProvider->getPercentageChangeViews() >= 0 ? '#196140' : '#D54037') . ';display: inline-block">
+                                            <img width="7" height="7" style="width: 7px;height: 7px;margin-'.$text_align_reverse.': 4px" src="' . esc_url(WP_STATISTICS_URL . 'assets/images/mail/' . ($websitePerformanceDataProvider->getPercentageChangeViews() >= 0 ? 'up' : 'down') . '.png') .'"  >' . $websitePerformanceDataProvider->getPercentageChangeViews() . '%
                                         </span>
                                     </div>
                                     <span  style="font-size: 14px;color:#3D3D44;line-height:16.41px">' . __('Views', 'wp-statistics') . '</span> 
@@ -139,9 +140,9 @@ $email_performance_html = '
                                     <img src="' . esc_url(WP_STATISTICS_URL . 'assets/images/mail/contents.png') .'"  width="24" height="24">
                                 </td>
                                 <td style="padding-'.$text_align.': 6px;">
-                                    <div style="margin-bottom: 6px;font-size: 19px;font-weight: 500;line-height: 23.44px;text-align: '.$text_align.';color:#3D3D44"><span  style="float: '.$text_align.';margin-'.$text_align_reverse.': 10px;margin-top: -3px;" >' . $thisPeriodContents . '</span> 
-                                        <span style="padding: 2px 4px;gap: 2px;border-radius: 4px;background-color: ' . ($percentageChangeContents >= 0 ? '#1961401A' : '#FCECEB') . ';color:' . ($percentageChangeContents >= 0 ? '#196140' : '#D54037') . ';font-size: 12px; font-weight: 600; line-height: 14.06px;display: inline-block">
-                                            <img  width="7" height="7" style="margin-'.$text_align_reverse.': 2px" src="' . esc_url(WP_STATISTICS_URL . 'assets/images/mail/' . ($percentageChangeContents >= 0 ? 'up' : 'down') . '.png') .'"  >' . $percentageChangeContents . '%
+                                    <div style="margin-bottom: 6px;font-size: 19px;font-weight: 500;line-height: 23.44px;text-align: '.$text_align.';color:#3D3D44"><span  style="float: '.$text_align.';margin-'.$text_align_reverse.': 10px;margin-top: -3px;" >' . $websitePerformanceDataProvider->getCurrentPeriodContents() . '</span> 
+                                        <span style="padding: 2px 4px;gap: 2px;border-radius: 4px;background-color: ' . ($websitePerformanceDataProvider->getPercentageChangeContents() >= 0 ? '#1961401A' : '#FCECEB') . ';color:' . ($websitePerformanceDataProvider->getPercentageChangeContents() >= 0 ? '#196140' : '#D54037') . ';font-size: 12px; font-weight: 600; line-height: 14.06px;display: inline-block">
+                                            <img  width="7" height="7" style="margin-'.$text_align_reverse.': 2px" src="' . esc_url(WP_STATISTICS_URL . 'assets/images/mail/' . ($websitePerformanceDataProvider->getPercentageChangeContents() >= 0 ? 'up' : 'down') . '.png') .'"  >' . $websitePerformanceDataProvider->getPercentageChangeContents() . '%
                                         </span>
                                     </div>
                                      <span  style="font-size: 14px;color:#3D3D44;line-height:16.41px">' . __('Published Contents', 'wp-statistics') . '</span> 
@@ -159,92 +160,92 @@ $email_performance_html .= '<table width="100%" cellpadding="0" cellspacing="0" 
 $firstColumnContent  = [];
 $secondColumnContent = [];
 
-// Add topAuthor to the first column
-if (!empty($topAuthor)) {
+// Add top author to the first column
+if (!empty($websitePerformanceDataProvider->getTopAuthor())) {
     $firstColumnContent['top_author'] = '<table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom: 20px;">
             <tr>
                 <td width="24" style="vertical-align: top">
                     <img src="' . esc_url(WP_STATISTICS_URL . 'assets/images/mail/top-author.png') .'"  width="24" height="24">
                 </td>
                 <td style="padding-'.$text_align.': 6px;">
-                    <div style="margin-bottom: 6px;font-size: 17px;font-weight: 500;line-height: 21.09px;text-align:  ' . $text_align . ';color:#3D3D44">' . esc_html($topAuthor) . '</div>
+                    <div style="margin-bottom: 6px;font-size: 17px;font-weight: 500;line-height: 21.09px;text-align:  ' . $text_align . ';color:#3D3D44">' . esc_html($websitePerformanceDataProvider->getTopAuthor()) . '</div>
                     <span style="font-size: 14px;color:#3D3D44;line-height:16.41px">' . __('Top Author', 'wp-statistics') . '</span>
                 </td>
             </tr>
         </table>';
 }
 
-if (!empty($topCategory)) {
+if (!empty($websitePerformanceDataProvider->getTopCategory())) {
     $topCategoryHtml = '<table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom: 20px;">
             <tr>
                 <td width="24" style="vertical-align: top">
                     <img src="' . esc_url(WP_STATISTICS_URL . 'assets/images/mail/top-category.png') .'"  width="24" height="24">
                 </td>
                 <td style="padding-'.$text_align.': 6px;">
-                    <div style="margin-bottom: 6px;font-size: 17px;font-weight: 500;line-height: 21.09px;text-align:  ' . $text_align . ';color:#3D3D44">' . esc_html($topCategory) . '</div>
+                    <div style="margin-bottom: 6px;font-size: 17px;font-weight: 500;line-height: 21.09px;text-align:  ' . $text_align . ';color:#3D3D44">' . esc_html($websitePerformanceDataProvider->getTopCategory()) . '</div>
                     <span style="font-size: 14px;color:#3D3D44;line-height:16.41px">' . __('Top Category', 'wp-statistics') . '</span>
                 </td>
             </tr>
         </table>';
 
-    // Add topCategory to the first column if it's empty
+    // Add top category to the first column if it's empty
     if (empty($firstColumnContent)) {
         $firstColumnContent['top_category'] = $topCategoryHtml;
     } else {
-        // When the first column already has an item, add topCategory to the second column
+        // When the first column already has an item, add top category to the second column
         $secondColumnContent['top_category'] = $topCategoryHtml;
     }
 }
 
-if (!empty($topPost)) {
+if (!empty($websitePerformanceDataProvider->getTopPost())) {
     $topPostHtml = '<table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom: 20px;">
             <tr>
                 <td width="24" style="vertical-align: top">
                     <img src="' . WP_STATISTICS_URL . 'assets/images/mail/top-content.png"  width="24" height="24">
                 </td>
                 <td style="padding-'.$text_align.': 6px;">
-                    <div style="margin-bottom: 6px;font-size: 17px;font-weight: 500;line-height: 21.09px;text-align:  ' . $text_align . ';color:#3D3D44">' . esc_html($topPost) . '</div>
+                    <div style="margin-bottom: 6px;font-size: 17px;font-weight: 500;line-height: 21.09px;text-align:  ' . $text_align . ';color:#3D3D44">' . esc_html($websitePerformanceDataProvider->getTopPost()) . '</div>
                     <span style="font-size: 14px;color:#3D3D44;line-height:16.41px">' . __('Top Content', 'wp-statistics') . '</span>
                 </td>
             </tr>
         </table>';
 
-    // Add topPost to the first column if it's empty
+    // Add top post to the first column if it's empty
     if (empty($firstColumnContent)) {
         $firstColumnContent['top_post'] = $topPostHtml;
     } else if (empty($secondColumnContent)) {
-        // If second column is empty, add topPost to the second column
+        // If second column is empty, add top post to the second column
         $secondColumnContent['top_post'] = $topPostHtml;
     } else {
-        // When both columns already have an item, add topPost to second row of the first column
+        // When both columns already have an item, add top post to second row of the first column
         $firstColumnContent['top_post'] = $topPostHtml;
     }
 }
 
-if (!empty($topReferral)) {
+if (!empty($websitePerformanceDataProvider->getTopReferral())) {
     $topReferralHtml = '<table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom: 20px;">
             <tr>
                 <td width="24" style="vertical-align: top">
                     <img src="' . WP_STATISTICS_URL . 'assets/images/mail/top-referral.png"  width="24" height="24">
                 </td>
                 <td style="padding-'.$text_align.': 6px;">
-                    <div style="margin-bottom: 6px;font-size: 17px;font-weight: 500;line-height: 21.09px;text-align:  ' . $text_align . ';color:#3D3D44">' . esc_html($topReferral) . '</div>
+                    <div style="margin-bottom: 6px;font-size: 17px;font-weight: 500;line-height: 21.09px;text-align:  ' . $text_align . ';color:#3D3D44">' . esc_html($websitePerformanceDataProvider->getTopReferral()) . '</div>
                     <span style="font-size: 14px;color:#3D3D44;line-height:16.41px">' . __('Top Referral', 'wp-statistics') . '</span>
                 </td>
             </tr>
         </table>';
 
-    // Add topReferral to the first column if it's empty
+    // Add top referral to the first column if it's empty
     if (empty($firstColumnContent)) {
         $firstColumnContent['top_referral'] = $topReferralHtml;
     } else if (empty($secondColumnContent)) {
-        // If second column is empty, add topReferral to the second column
+        // If second column is empty, add top referral to the second column
         $secondColumnContent['top_referral'] = $topReferralHtml;
     } else if (count($firstColumnContent) == 1) {
-        // When both columns already have an item but first column doesn't have a second row, add topReferral to second row of the first column
+        // When both columns already have an item but first column doesn't have a second row, add top referral to second row of the first column
         $firstColumnContent['top_referral'] = $topReferralHtml;
     } else {
-        // Otherwise, add topReferral to second row of the second column
+        // Otherwise, add top referral to second row of the second column
         $secondColumnContent['top_referral'] = $topReferralHtml;
     }
 }

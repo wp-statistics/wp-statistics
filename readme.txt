@@ -139,6 +139,7 @@ Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest versio
 = 14.11 - **.**.2024 =
 * New: Introduced brand-new Referrals report page.
 * Enhancement: Improved the Device Detection.
+* Enhancement: Chart labels dynamically change depending on the selected data range
 
 For more information about the major update, please [visit our blog post](https://wp-statistics.com/?p=16657) or follow [@wp_statistics](https://twitter.com/wp_statistics) on Twitter
 
