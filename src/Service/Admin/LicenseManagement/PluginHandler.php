@@ -11,6 +11,8 @@ class PluginHandler
 
     /**
      * @param string $pluginSlug
+     *
+     * @throws \Exception
      */
     public function __construct($pluginSlug)
     {
@@ -99,7 +101,7 @@ class PluginHandler
     {
         $pluginFile = $this->getPluginFile($this->pluginSlug);
 
-        return $pluginFile && is_plugin_active($pluginFile);
+        return $pluginFile && is_plugin_active(plugin_basename($pluginFile));
     }
 
     /**
