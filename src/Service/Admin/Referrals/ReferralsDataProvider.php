@@ -2,6 +2,7 @@
 
 namespace WP_Statistics\Service\Admin\Referrals;
 use WP_Statistics\Models\VisitorsModel;
+use WP_Statistics\Service\Charts\ChartDataProviderFactory;
 
 class ReferralsDataProvider
 {
@@ -45,11 +46,10 @@ class ReferralsDataProvider
             'group_by'          => ['visitor.referred', 'visitor.last_counter']
         ];
 
-        // TODO: Get data from chart data provider
-        $searchEngineChart = $this->visitorsModel->getSearchEnginesChartData(array_merge($this->args, $args));
+        $searchEngineChart = ChartDataProviderFactory::searchEngineChart(array_merge($this->args, $args));
 
         return [
-            'search_engine_chart_data' => $searchEngineChart
+            'search_engine_chart_data' => $searchEngineChart->getData()
         ];
     }
 }

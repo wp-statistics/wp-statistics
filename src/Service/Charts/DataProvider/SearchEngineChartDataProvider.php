@@ -28,8 +28,8 @@ class SearchEngineChartDataProvider extends AbstractChartDataProvider
         $thisPeriod = isset($this->args['date']) ? $this->args['date'] : DateRange::get();
         $prevPeriod = DateRange::getPrevPeriod($thisPeriod);
 
-        $data       = $this->visitorsModel->getSearchEngineReferrals($this->args);
-        $prevData   = $this->visitorsModel->getSearchEngineReferrals(array_merge($this->args, ['date' => $prevPeriod]));
+        $data       = $this->visitorsModel->getReferrers($this->args);
+        $prevData   = $this->visitorsModel->getReferrers(array_merge($this->args, ['date' => $prevPeriod]));
 
         $result     = $this->prepareResult($data, $prevData);
 
@@ -62,8 +62,8 @@ class SearchEngineChartDataProvider extends AbstractChartDataProvider
 
         foreach ($data as $item) {
             $visitors = intval($item->visitors);
-            $thisParsedData[$item->engine][$item->date] = $visitors;
-            $thisPeriodTotal[$item->date]               += $visitors;
+            $thisParsedData[$item->engine][$item->last_counter] = $visitors;
+            $thisPeriodTotal[$item->last_counter]               += $visitors;
         }
 
         $topSearchEngines = $this->getTopSearchEngines($thisParsedData);
@@ -99,7 +99,7 @@ class SearchEngineChartDataProvider extends AbstractChartDataProvider
         $prevPeriodTotal = array_fill_keys($prevPeriodDates, 0);
 
         foreach ($prevData as $item) {
-            $prevPeriodTotal[$item->date] += intval($item->visitors);
+            $prevPeriodTotal[$item->last_counter] += intval($item->visitors);
         }
 
         if (!empty($prevPeriodTotal)) {
