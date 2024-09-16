@@ -67,7 +67,7 @@ class TabsView extends BaseTabView
                     'order'    => Request::get('order'),
                 ],
                 'DateRang'    => Admin_Template::DateRange(),
-                'filters'     => ['source-channel'],
+                'filters'     => !$this->isTab('search-engines') ? ['source-channel'] : [],
                 'hasDateRang' => true,
                 'data'        => $data,
                 'pagination'  => Admin_Template::paginate_links([
