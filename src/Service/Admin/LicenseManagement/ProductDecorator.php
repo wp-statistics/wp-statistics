@@ -7,20 +7,30 @@ class ProductDecorator
     private $product;
     private $licensedProduct;
 
-    public function __construct($product, $licensedProduct = null)
+    public function __construct($product = null, $licensedProduct = null)
     {
-        $this->product = $product;
+        $this->product         = $product;
         $this->licensedProduct = $licensedProduct;
+    }
+
+    public function getId()
+    {
+        return $this->product->id;
     }
 
     public function getVersion()
     {
-        return $this->product['version'];
+        return $this->product->version;
+    }
+
+    public function getChangelogUrl()
+    {
+        return $this->product->changelog_url;
     }
 
     public function getChangelog()
     {
-        return $this->product['changelog'];
+        return $this->product->changelog;
     }
 
     public function getStatus()
@@ -50,12 +60,12 @@ class ProductDecorator
 
     public function getPluginFile()
     {
-        return $this->product['slug'] . '/' . $this->product['slug'] . '.php';
+        return $this->product->slug . '/' . $this->product->slug . '.php';
     }
 
     public function getDownloadUrl()
     {
-        return $this->licensedProduct['download_url'] ?? null;
+        return $this->licensedProduct->download_url ?? null;
     }
 
     public static function decorateProducts(array $products)
@@ -71,8 +81,8 @@ class ProductDecorator
     {
         $decorated = [];
         foreach ($products as $product) {
-            $licensedProduct = self::findLicensedProduct($product['slug'], $licensedProducts);
-            $decorated[] = new self($product, $licensedProduct);
+            $licensedProduct = self::findLicensedProduct($product->slug, $licensedProducts);
+            $decorated[]     = new self($product, $licensedProduct);
         }
         return $decorated;
     }
@@ -80,7 +90,7 @@ class ProductDecorator
     private static function findLicensedProduct($slug, array $licensedProducts)
     {
         foreach ($licensedProducts as $licensedProduct) {
-            if ($licensedProduct['slug'] === $slug) {
+            if ($licensedProduct->slug === $slug) {
                 return $licensedProduct;
             }
         }

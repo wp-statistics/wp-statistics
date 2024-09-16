@@ -64,7 +64,10 @@ class TabsView extends BaseTabView
                 $args['tooltip']                = esc_html__('Add-Ons tooltip', 'wp-statistics');
                 $args['install_addon_btn_txt']  = esc_html__('Install Add-on', 'wp-statistics');
                 $args['install_addon_btn_link'] = '';
+                $args['addons_list']            = $this->dataProvider->getProductList();
+
                 Admin_Template::get_template(['layout/header', 'layout/title'], $args);
+
             } else {
                 Admin_Template::get_template(['layout/header', 'layout/addon-header-steps'], $args);
             }

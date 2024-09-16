@@ -42,9 +42,9 @@ trait TransientCacheTrait
      *
      * @return bool
      */
-    protected function setCachedResult($query, $result)
+    protected function setCachedResult($query, $result, $expiration = HOUR_IN_SECONDS)
     {
         $cacheKey = $this->getCacheKey($query);
-        return set_transient($cacheKey, $result, HOUR_IN_SECONDS * 24);
+        return set_transient($cacheKey, $result, $expiration * 24);
     }
 }

@@ -12,10 +12,10 @@ class LicenseManagementManager
     private $licenseService;
     private $pluginInstaller;
 
-    public function __construct(LicenseManagementService $licenseService, PluginInstaller $pluginInstaller)
+    public function __construct()
     {
-        $this->licenseService  = $licenseService;
-        $this->pluginInstaller = $pluginInstaller;
+        $this->licenseService  = new LicenseManagementService();
+        $this->pluginInstaller = new PluginInstaller();
 
         add_filter('wp_statistics_admin_menu_list', [$this, 'addMenuItem']);
         add_action('admin_enqueue_scripts', [$this, 'enqueueScripts']);

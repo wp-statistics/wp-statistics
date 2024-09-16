@@ -30,12 +30,19 @@ class LicenseManagementService
         // Try to get cached result
         $cachedProducts = $this->getCachedResult('product_list');
         if ($cachedProducts) {
-            return $this->productDecorator->decorateProducts($cachedProducts);
+            //return $this->productDecorator->decorateProducts($cachedProducts); // @todo let it be disable during the development
         }
 
         try {
-            $remoteRequest = new RemoteRequest("{$this->apiUrl}/product/list");
-            $products = $remoteRequest->execute();
+
+            //// ---- dev
+            /// @todo set the auth during development and DON'T PUSH IT IN GIT :)
+            $arguments['headers']['Authorization'] = 'Basic ' . base64_encode('username:password');
+            //// ---- dev
+
+            $remoteRequest = new RemoteRequest("{$this->apiUrl}/product/list", 'GET', [], $arguments);
+            $products      = $remoteRequest->execute();
+
         } catch (Exception $e) {
             throw new Exception(
                 sprintf(__('Error fetching product list: %s', 'wp-statistics'), $e->getMessage())
@@ -43,7 +50,7 @@ class LicenseManagementService
         }
 
         // Cache the response for 1 week (7 days)
-        $this->setCachedResult('product_list', $products, WEEK_IN_SECONDS);
+        //$this->setCachedResult('product_list', $products, WEEK_IN_SECONDS); //@todo let it be disable during the development
 
         return $this->productDecorator->decorateProducts($products);
     }
@@ -61,11 +68,19 @@ class LicenseManagementService
         $domain = home_url();
 
         try {
+
+            //// ---- dev
+            /// @todo set the auth during development and DON'T PUSH IT IN GIT :)
+            $arguments['headers']['Authorization'] = 'Basic ' . base64_encode('username:password');
+            //// ---- dev
+
             $remoteRequest = new RemoteRequest("{$this->apiUrl}/license/status", 'GET', [
                 'license_key' => $licenseKey,
-                'domain' => $domain,
-            ]);
+                'domain'      => $domain,
+            ], $arguments);
+
             $licenseData = $remoteRequest->execute();
+
         } catch (Exception $e) {
             throw new Exception(
                 sprintf(__('Error validating license: %s', 'wp-statistics'), $e->getMessage())
