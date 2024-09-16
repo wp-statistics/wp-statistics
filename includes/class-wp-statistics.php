@@ -3,6 +3,7 @@
 use WP_Statistics\Async\CalculatePostWordsCount;
 use WP_Statistics\Async\GeolocationDatabaseDownloadProcess;
 use WP_Statistics\Async\IncompleteGeoIpUpdater;
+use WP_Statistics\Async\SourceChannelUpdater;
 use WP_Statistics\Service\Admin\AuthorAnalytics\AuthorAnalyticsManager;
 use WP_Statistics\Service\Admin\ContentAnalytics\ContentAnalyticsManager;
 use WP_Statistics\Service\Admin\Geographic\GeographicManager;
@@ -15,6 +16,7 @@ use WP_Statistics\Service\Integrations\IntegrationsManager;
 use WP_Statistics\Service\Admin\Devices\DevicesManager;
 use WP_Statistics\Service\Admin\VisitorInsights\VisitorInsightsManager;
 use WP_Statistics\Service\Admin\PageInsights\PageInsightsManager;
+use WP_Statistics\Service\Admin\Referrals\ReferralsManager;
 
 defined('ABSPATH') || exit;
 
@@ -173,8 +175,6 @@ final class WP_Statistics
             require_once WP_STATISTICS_DIR . 'includes/admin/pages/class-wp-statistics-admin-page-optimization.php';
             require_once WP_STATISTICS_DIR . 'includes/admin/pages/class-wp-statistics-admin-page-plugins.php';
             require_once WP_STATISTICS_DIR . 'includes/admin/pages/class-wp-statistics-admin-page-overview.php';
-            require_once WP_STATISTICS_DIR . 'includes/admin/pages/class-wp-statistics-admin-page-refer.php';
-            require_once WP_STATISTICS_DIR . 'includes/admin/pages/class-wp-statistics-admin-page-searches.php';
             require_once WP_STATISTICS_DIR . 'includes/admin/pages/class-wp-statistics-admin-page-exclusions.php';
 
             $analytics           = new AnalyticsManager();
@@ -185,6 +185,7 @@ final class WP_Statistics
             $categoryAnalytics   = new CategoryAnalyticsManager();
             $pageInsights        = new PageInsightsManager();
             $visitorInsights     = new VisitorInsightsManager();
+            $referrals           = new ReferralsManager();
             $integrationsManager = new IntegrationsManager();
         }
 
@@ -225,6 +226,7 @@ final class WP_Statistics
         $this->registerBackgroundProcess(CalculatePostWordsCount::class, 'calculate_post_words_count');
         $this->registerBackgroundProcess(IncompleteGeoIpUpdater::class, 'update_unknown_visitor_geoip');
         $this->registerBackgroundProcess(GeolocationDatabaseDownloadProcess::class, 'geolocation_database_download');
+        $this->registerBackgroundProcess(SourceChannelUpdater::class, 'update_visitors_source_channel');
     }
 
     /**

@@ -120,22 +120,24 @@ class Visitor
 
             // Prepare Visitor information
             $visitor = array(
-                'last_counter' => TimeZone::getCurrentDate('Y-m-d'),
-                'referred'     => $visitorProfile->getReferrer(),
-                'agent'        => $user_agent->getBrowser(),
-                'platform'     => $user_agent->getPlatform(),
-                'version'      => $user_agent->getVersion(),
-                'device'       => $user_agent->getDevice(),
-                'model'        => $user_agent->getModel(),
-                'ip'           => $visitorProfile->getProcessedIPForStorage(),
-                'location'     => $visitorProfile->getCountry(),
-                'city'         => $visitorProfile->getCity(),
-                'region'       => $visitorProfile->getRegion(),
-                'continent'    => $visitorProfile->getContinent(),
-                'user_id'      => $visitorProfile->getUserId(),
-                'UAString'     => ((Option::get('store_ua') == true && !Helper::shouldTrackAnonymously()) ? $visitorProfile->getHttpUserAgent() : ''),
-                'hits'         => 1,
-                'honeypot'     => ($args['exclusion_reason'] == 'Honeypot' ? 1 : 0),
+                'last_counter'  => TimeZone::getCurrentDate('Y-m-d'),
+                'referred'      => $visitorProfile->getReferrer(),
+                'source_name'   => $visitorProfile->getSourceName(),
+                'source_channel'=> $visitorProfile->getSourceChannel(),
+                'agent'         => $user_agent['browser'],
+                'platform'      => $user_agent['platform'],
+                'version'       => $user_agent['version'],
+                'device'        => $user_agent['device'],
+                'model'         => $user_agent['model'],
+                'ip'            => $visitorProfile->getProcessedIPForStorage(),
+                'location'      => $visitorProfile->getCountry(),
+                'city'          => $visitorProfile->getCity(),
+                'region'        => $visitorProfile->getRegion(),
+                'continent'     => $visitorProfile->getContinent(),
+                'user_id'       => $visitorProfile->getUserId(),
+                'UAString'      => ((Option::get('store_ua') == true && !Helper::shouldTrackAnonymously()) ? $visitorProfile->getHttpUserAgent() : ''),
+                'hits'          => 1,
+                'honeypot'      => ($args['exclusion_reason'] == 'Honeypot' ? 1 : 0),
             );
             $visitor = apply_filters('wp_statistics_visitor_information', $visitor);
 
@@ -263,7 +265,7 @@ class Visitor
         if ($args['day'] == 'today') {
             $sql_time = TimeZone::getCurrentDate('Y-m-d');
         } else {
-            $sql_time = date('Y-m-d', strtotime($args['day'])); // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date	
+            $sql_time = date('Y-m-d', strtotime($args['day'])); // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
         }
 
         // Prepare Query
@@ -304,7 +306,7 @@ class Visitor
         $args['sql'] = $args['sql'] . $wpdb->prepare(" LIMIT %d, %d", $limit, $args['per_page']);
 
         // Send Request
-        $result = $wpdb->get_results($args['sql']); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared	
+        $result = $wpdb->get_results($args['sql']); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 
         // Get Visitor Data
         return self::prepareData($result);
@@ -463,7 +465,7 @@ class Visitor
 
         // Get Result
         return $wpdb->get_results(
-            $wpdb->prepare("SELECT DISTINCT {$pages_table}.id, {$pages_table}.uri FROM {$pages_table} INNER JOIN {$visitor_relationships_table} ON {$pages_table}.page_id = {$visitor_relationships_table}.page_id WHERE {$visitor_relationships_table}.visitor_id = %d ORDER BY {$pages_table}.count DESC LIMIT %d", $visitor_ID, $total), // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared	 
+            $wpdb->prepare("SELECT DISTINCT {$pages_table}.id, {$pages_table}.uri FROM {$pages_table} INNER JOIN {$visitor_relationships_table} ON {$pages_table}.page_id = {$visitor_relationships_table}.page_id WHERE {$visitor_relationships_table}.visitor_id = %d ORDER BY {$pages_table}.count DESC LIMIT %d", $visitor_ID, $total), // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
             ARRAY_N
         );
     }

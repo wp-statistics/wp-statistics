@@ -3,6 +3,7 @@
 namespace WP_STATISTICS;
 
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
+use WP_Statistics\Service\Analytics\Referrals\ReferralsDatabase;
 
 class Schedule
 {
@@ -84,6 +85,10 @@ class Schedule
             add_action('wp_statistics_dbmaint_visitor_hook', array($this, 'dbmaint_visitor_event'));
         }
 
+        if (!wp_next_scheduled('wp_statistics_referrals_db_hook')) {
+            wp_schedule_event(time(), 'monthly', 'wp_statistics_referrals_db_hook');
+        }
+
         // Add the report schedule if it doesn't exist and is enabled.
         if (!wp_next_scheduled('wp_statistics_report_hook') && Option::get('time_report') != '0') {
             $timeReports       = Option::get('time_report');
@@ -101,6 +106,7 @@ class Schedule
         }
 
         add_action('wp_statistics_report_hook', array($this, 'send_report'));
+        add_action('wp_statistics_referrals_db_hook', [$this, 'referrals_db_event']);
     }
 
     /**
@@ -270,6 +276,15 @@ class Schedule
     {
         $purge_hits = intval(Option::get('schedule_dbmaint_visitor_hits', false));
         Purge::purge_visitor_hits($purge_hits);
+    }
+
+    /**
+     * Download Referrals Database
+     */
+    public function referrals_db_event()
+    {
+        $referralsDatabase = new ReferralsDatabase();
+        $referralsDatabase->download();
     }
 
     public function getEmailSubject()

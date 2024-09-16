@@ -416,6 +416,117 @@ class VisitorsModel extends BaseModel
         return $result ? $result : [];
     }
 
+    public function getReferredVisitors($args = [])
+    {
+        $args = $this->parseArgs($args, [
+            'date'              => '',
+            'source_channel'    => '',
+            'source_name'       => '',
+            'referrer'          => '',
+            'order_by'          => '',
+            'order'             => '',
+            'page'              => '',
+            'per_page'          => '',
+        ]);
+
+        $firstHit = Query::select([
+            'visitor_id',
+            'MIN(date) as date'
+        ])
+            ->from('visitor_relationships')
+            ->groupBy('visitor_id')
+            ->getQuery();
+
+        $firstHitQuery = Query::select([
+            'visitor_relationships.visitor_id',
+            'page_id',
+            'date'
+        ])
+            ->from('visitor_relationships')
+            ->whereRaw("(visitor_id, date) IN ($firstHit)")
+            ->groupBy('visitor_id')
+            ->getQuery();
+
+        $lastHit = Query::select([
+            'visitor_id',
+            'MAX(date) as date'
+        ])
+            ->from('visitor_relationships')
+            ->groupBy('visitor_id')
+            ->getQuery();
+
+        $lastHitQuery = Query::select([
+            'visitor_relationships.visitor_id',
+            'page_id',
+            'date'
+        ])
+            ->from('visitor_relationships')
+            ->whereRaw("(visitor_id, date) IN ($lastHit)")
+            ->groupBy('visitor_id')
+            ->getQuery();
+
+        $result = Query::select([
+            'visitor.ID',
+            'visitor.ip',
+            'visitor.platform',
+            'visitor.agent',
+            'CAST(`visitor`.`version` AS SIGNED) as version',
+            'visitor.model',
+            'visitor.device',
+            'visitor.location',
+            'visitor.user_id',
+            'visitor.region',
+            'visitor.city',
+            'visitor.hits',
+            'visitor.referred',
+            'visitor.source_channel',
+            'visitor.source_name',
+            'users.display_name',
+            'users.user_email',
+            'first_hit.page_id as first_page',
+            'first_hit.date as first_view',
+            'last_hit.page_id as last_page',
+            'last_hit.date as last_view'
+        ])
+            ->from('visitor')
+            ->join('users', ['visitor.user_id', 'users.ID'], [], 'LEFT')
+            ->joinQuery($firstHitQuery, ['visitor.ID', 'first_hit.visitor_id'], 'first_hit')
+            ->joinQuery($lastHitQuery, ['visitor.ID', 'last_hit.visitor_id'], 'last_hit')
+            ->where('source_channel', '=', $args['source_channel'])
+            ->where('source_name', '=', $args['source_name'])
+            ->where('referred', '=', $args['referrer'])
+            ->whereDate('visitor.last_counter', $args['date'])
+            ->whereNotNull('visitor.referred')
+            ->perPage($args['page'], $args['per_page'])
+            ->orderBy($args['order_by'], $args['order'])
+            ->groupBy('visitor.ID')
+            ->getAll();
+
+        return $result ?? [];
+    }
+
+    public function countReferredVisitors($args = [])
+    {
+        $args = $this->parseArgs($args, [
+            'date'              => '',
+            'source_channel'    => '',
+            'source_name'       => '',
+            'referrer'          => ''
+        ]);
+
+        $result = Query::select('COUNT(visitor.ID)')
+            ->from('visitor')
+            ->join('visitor_relationships', ['visitor.ID', 'visitor_relationships.visitor_id'])
+            ->where('source_channel', '=', $args['source_channel'])
+            ->where('source_name', '=', $args['source_name'])
+            ->where('referred', '=', $args['referrer'])
+            ->whereDate('visitor.last_counter', $args['date'])
+            ->whereNotNull('visitor.referred')
+            ->getVar();
+
+        return $result ?? [];
+    }
+
     public function searchVisitors($args = [])
     {
         $args = $this->parseArgs($args, [
@@ -585,7 +696,7 @@ class VisitorsModel extends BaseModel
 
                 if (!empty($item->model) && $item->model !== 'Unknown') {
                     $models = array_column($result['model'], 'label');
-                    
+
                     if (!in_array($item->model, $models)) {
                         $result['model'][] = [
                             'label'    => $item->model,
@@ -598,7 +709,7 @@ class VisitorsModel extends BaseModel
                 }
             }
 
-            foreach ($result as $key => $data) {
+            foreach ($result as $key => &$data) {
                 // Sort data by visitors
                 usort($data, function ($a, $b) {
                     return $b['visitors'] - $a['visitors'];
@@ -734,11 +845,11 @@ class VisitorsModel extends BaseModel
         $query = Query::select($selectFields)
             ->from('visitor')
             ->whereRaw(
-                "(location = '' 
+                "(location = ''
             OR location = %s
-            OR location IS NULL 
-            OR continent = '' 
-            OR continent IS NULL 
+            OR location IS NULL
+            OR continent = ''
+            OR continent IS NULL
             OR (continent = location))
             AND ip NOT LIKE '#hash#%'",
                 [$privateCountry]
@@ -752,6 +863,43 @@ class VisitorsModel extends BaseModel
         }
     }
 
+    public function getVisitorsWithIncompleteSourceChannel($args = [])
+    {
+        $firstHit = Query::select([
+            'visitor_id',
+            'MIN(date) as date'
+        ])
+            ->from('visitor_relationships')
+            ->groupBy('visitor_id')
+            ->getQuery();
+
+        $subQuery = Query::select([
+            'visitor_relationships.visitor_id',
+            'page_id',
+            'date'
+        ])
+            ->from('visitor_relationships')
+            ->whereRaw("(visitor_id, date) IN ($firstHit)")
+            ->groupBy('visitor_id')
+            ->getQuery();
+
+        $result = Query::select([
+            'visitor.ID',
+            'visitor.referred',
+            'pages.uri as first_hit'
+        ])
+            ->from('visitor')
+            ->whereRelation('OR')
+            ->whereNull('source_channel')
+            ->whereNull('source_name')
+            ->joinQuery($subQuery, ['visitor.ID', 'first_hit.visitor_id'], 'first_hit', 'LEFT')
+            ->join('pages', ['first_hit.page_id', 'pages.page_id'], [], 'LEFT')
+            ->groupBy('visitor.ID')
+            ->getAll();
+
+        return $result ? $result : [];
+    }
+
     public function updateVisitor($id, $data)
     {
         Query::update('visitor')
@@ -763,15 +911,17 @@ class VisitorsModel extends BaseModel
     public function getReferrers($args = [])
     {
         $args = $this->parseArgs($args, [
-            'date'        => '',
-            'post_type'   => '',
-            'post_id'     => '',
-            'country'     => '',
-            'query_param' => '',
-            'taxonomy'    => '',
-            'term'        => '',
-            'page'        => 1,
-            'per_page'    => 10,
+            'date'          => '',
+            'post_type'     => '',
+            'source_channel'=> '',
+            'post_id'       => '',
+            'country'       => '',
+            'query_param'   => '',
+            'taxonomy'      => '',
+            'term'          => '',
+            'group_by'      => 'visitor.referred',
+            'page'          => 1,
+            'per_page'      => 10
         ]);
 
         $filteredArgs = array_filter($args);
@@ -779,13 +929,76 @@ class VisitorsModel extends BaseModel
         $query = Query::select([
             'COUNT(DISTINCT visitor.ID) AS visitors',
             'visitor.referred as referrer',
+            'visitor.source_channel as source_channel',
+            'visitor.source_name as engine',
+            'visitor.last_counter'
+        ])
+            ->from('visitor')
+            ->where('source_channel', '=', $args['source_channel'])
+            ->where('visitor.referred', 'NOT LIKE', '%' . Helper::get_domain_name(home_url()) . '%')
+            ->where('visitor.location', '=', $args['country'])
+            ->whereNotNull('visitor.referred')
+            ->groupBy($args['group_by'])
+            ->orderBy('visitors')
+            ->perPage($args['page'], $args['per_page']);
+
+        // When date is passed, but all other parameters below are empty, compare the given date with `visitor.last_counter`
+        if (!empty($args['date']) && !array_intersect(['post_type', 'post_id', 'query_param', 'taxonomy', 'term'], array_keys($filteredArgs))) {
+            $query->whereDate('visitor.last_counter', $args['date']);
+        }
+
+        if (array_intersect(['post_type', 'post_id', 'query_param', 'taxonomy', 'term'], array_keys($filteredArgs))) {
+            $query
+                ->join('visitor_relationships', ['visitor_relationships.visitor_id', 'visitor.ID'], [], 'LEFT')
+                ->join('pages', ['visitor_relationships.page_id', 'pages.page_id'], [], 'LEFT')
+                ->join('posts', ['posts.ID', 'pages.id'], [], 'LEFT')
+                ->where('post_type', 'IN', $args['post_type'])
+                ->where('posts.ID', '=', $args['post_id'])
+                ->where('pages.uri', '=', $args['query_param'])
+                ->whereDate('pages.date', $args['date']);
+
+            if (array_intersect(['taxonomy', 'term'], array_keys($filteredArgs))) {
+                $taxQuery = Query::select(['DISTINCT object_id'])
+                    ->from('term_relationships')
+                    ->join('term_taxonomy', ['term_relationships.term_taxonomy_id', 'term_taxonomy.term_taxonomy_id'])
+                    ->join('terms', ['term_taxonomy.term_id', 'terms.term_id'])
+                    ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy'])
+                    ->where('terms.term_id', '=', $args['term'])
+                    ->getQuery();
+
+                $query
+                    ->joinQuery($taxQuery, ['posts.ID', 'tax.object_id'], 'tax');
+            }
+        }
+
+        $result = $query->getAll();
+
+        return $result ? $result : [];
+    }
+
+    public function countReferrers($args = [])
+    {
+        $args = $this->parseArgs($args, [
+            'date'          => '',
+            'source_channel'=> '',
+            'post_type'     => '',
+            'post_id'       => '',
+            'country'       => '',
+            'query_param'   => '',
+            'taxonomy'      => '',
+            'term'          => '',
+        ]);
+
+        $filteredArgs = array_filter($args);
+
+        $query = Query::select([
+            'COUNT(visitor.referred)'
         ])
             ->from('visitor')
             ->where('visitor.referred', 'NOT LIKE', '%' . Helper::get_domain_name(home_url()) . '%')
+            ->where('source_channel', '=', $args['source_channel'])
             ->whereNotNull('visitor.referred')
-            ->groupBy('visitor.referred')
-            ->orderBy('visitors')
-            ->perPage($args['page'], $args['per_page']);
+            ->groupBy('visitor.referred');
 
         // When date is passed, but all other parameters below are empty, compare the given date with `visitor.last_counter`
         if (!empty($args['date']) && !array_intersect(['post_type', 'post_id', 'query_param', 'taxonomy', 'term'], array_keys($filteredArgs))) {
@@ -822,65 +1035,7 @@ class VisitorsModel extends BaseModel
                 ->whereDate('visitor.last_counter', $args['date']);
         }
 
-        $result = $query->getAll();
-
-        return $result ? $result : [];
-    }
-
-    public function getSearchEngineReferrals($args = [])
-    {
-        $args = $this->parseArgs($args, [
-            'date'        => '',
-            'post_type'   => '',
-            'post_id'     => '',
-            'country'     => '',
-            'query_param' => '',
-            'taxonomy'    => '',
-            'term'        => '',
-            'group_by'    => ['search.last_counter', 'search.engine'],
-        ]);
-
-        $query = Query::select([
-            'search.last_counter AS date',
-            'COUNT(DISTINCT search.visitor) AS visitors',
-            'search.engine',
-        ])
-            ->from('search')
-            ->whereDate('search.last_counter', $args['date'])
-            ->groupBy($args['group_by'])
-            ->orderBy('date', 'DESC');
-
-        $filteredArgs = array_filter($args);
-        if (array_intersect(['post_type', 'post_id', 'query_param', 'taxonomy', 'term'], array_keys($filteredArgs))) {
-            $query
-                ->join('visitor_relationships', ['visitor_relationships.visitor_id', 'search.visitor'])
-                ->join('pages', ['visitor_relationships.page_id', 'pages.page_id'])
-                ->join('posts', ['posts.ID', 'pages.id'])
-                ->where('post_type', 'IN', $args['post_type'])
-                ->where('posts.ID', '=', $args['post_id'])
-                ->where('pages.uri', '=', $args['query_param']);
-
-            if (array_intersect(['taxonomy', 'term'], array_keys($filteredArgs))) {
-                $taxQuery = Query::select(['DISTINCT object_id'])
-                    ->from('term_relationships')
-                    ->join('term_taxonomy', ['term_relationships.term_taxonomy_id', 'term_taxonomy.term_taxonomy_id'])
-                    ->join('terms', ['term_taxonomy.term_id', 'terms.term_id'])
-                    ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy'])
-                    ->where('terms.term_id', '=', $args['term'])
-                    ->getQuery();
-
-                $query
-                    ->joinQuery($taxQuery, ['posts.ID', 'tax.object_id'], 'tax');
-            }
-        }
-
-        if (!empty($args['country'])) {
-            $query
-                ->join('visitor', ['search.visitor', 'visitor.ID'])
-                ->where('visitor.location', '=', $args['country']);
-        }
-
-        $result = $query->getAll();
+        $result = $query->getVar();
 
         return $result ? $result : [];
     }
@@ -924,23 +1079,23 @@ class VisitorsModel extends BaseModel
 
         // This period data
         $thisParsedData     = [];
-        $thisPeriodData     = $this->getSearchEngineReferrals($args);
+        $thisPeriodData     = $this->getReferrers($args);
         $thisPeriodTotal    = array_fill_keys($thisPeriodDates, 0);
 
         foreach ($thisPeriodData as $item) {
             $visitors = intval($item->visitors);
-            $thisParsedData[$item->engine][$item->date] = $visitors;
-            $thisPeriodTotal[$item->date]               += $visitors;
+            $thisParsedData[$item->engine][$item->last_counter] = $visitors;
+            $thisPeriodTotal[$item->last_counter]               += $visitors;
         }
 
         // Create an array of top search engines
         $topEngines = array_map(function($item) {
             return array_sum($item);
         }, $thisParsedData);
-        
+
         // Sort top search engines in descending order
         arsort($topEngines);
-        
+
         // Get the top 3 items
         $topEngines = array_slice($topEngines, 0, 3, true);
 
@@ -972,11 +1127,11 @@ class VisitorsModel extends BaseModel
         }
 
         // Previous period data
-        $prevPeriodData     = $this->getSearchEngineReferrals(array_merge($args, ['date' => $prevPeriod]));
+        $prevPeriodData     = $this->getReferrers(array_merge($args, ['date' => $prevPeriod]));
         $prevPeriodTotal    = array_fill_keys($prevPeriodDates, 0);
 
         foreach ($prevPeriodData as $item) {
-            $prevPeriodTotal[$item->date] += intval($item->visitors);
+            $prevPeriodTotal[$item->last_counter] += intval($item->visitors);
         }
 
         if (!empty($prevPeriodTotal)) {

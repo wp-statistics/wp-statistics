@@ -2,15 +2,14 @@
 
 namespace WP_Statistics\Service\Analytics;
 
-use WP_STATISTICS\Helper;
 use WP_STATISTICS\IP;
-use WP_STATISTICS\Option;
+use WP_STATISTICS\User;
 use WP_STATISTICS\Pages;
-use WP_STATISTICS\Referred;
+use WP_STATISTICS\Helper;
+use WP_STATISTICS\Option;
 use WP_Statistics\Service\Analytics\DeviceDetection\UserAgent;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
-use WP_STATISTICS\User;
-use WP_STATISTICS\Visitor;
+use WP_Statistics\Service\Analytics\Referrals\Referrals;
 
 class VisitorProfile
 {
@@ -18,10 +17,13 @@ class VisitorProfile
     private $processedIPForStorage;
     private $isIpActiveToday;
     private $referrer;
+    private $sourceName;
+    private $sourceChannel;
     private $location;
     private $userAgent;
     private $httpUserAgent;
     private $userId;
+    private $visitorId;
     private $currentPageType;
     private $requestUri;
 
@@ -40,6 +42,16 @@ class VisitorProfile
         if (property_exists($this, $name)) {
             $this->$name = $value;
         }
+    }
+
+    public function getVisitorId()
+    {
+        if (!$this->visitorId) {
+            $visitor         = Visitor::exist_ip_in_day($this->getProcessedIPForStorage());
+            $this->visitorId = $visitor->ID;
+        }
+
+        return $this->visitorId;
     }
 
     public function getIp()
@@ -120,10 +132,28 @@ class VisitorProfile
     public function getReferrer()
     {
         if (!$this->referrer) {
-            $this->referrer = Referred::get();
+            $this->referrer = Referrals::getUrl();
         }
 
         return $this->referrer;
+    }
+
+    public function getSourceChannel()
+    {
+        if (!$this->sourceChannel) {
+            $this->sourceChannel = Referrals::getSource()->getChannel();
+        }
+
+        return $this->sourceChannel;
+    }
+
+    public function getSourceName()
+    {
+        if (!$this->sourceName) {
+            $this->sourceName = Referrals::getSource()->getName();
+        }
+
+        return $this->sourceName;
     }
 
     /**

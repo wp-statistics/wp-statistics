@@ -71,5 +71,32 @@ class BackgroundProcessFactory
         $downloadProcess->save()->dispatch();
     }
 
+    /**
+     * Batch update incomplete Source Channel info for visitors.
+     *
+     * @return void
+     */
+    public static function batchUpdateSourceChannelForVisitors()
+    {
+        $visitorModel                           = new VisitorsModel();
+        $visitorsWithIncompleteSourceChannel    = $visitorModel->getVisitorsWithIncompleteSourceChannel();
+        $updateIncompleteVisitorsSourceChannels = WP_Statistics()->getBackgroundProcess('update_visitors_source_channel');
+
+        // Define the batch size
+        $batchSize = 100;
+        $batches   = array_chunk($visitorsWithIncompleteSourceChannel, $batchSize);
+
+        // Push each batch to the queue
+        foreach ($batches as $batch) {
+            $updateIncompleteVisitorsSourceChannels->push_to_queue(['visitors' => $batch]);
+        }
+
+        // Mark the process as completed
+        Option::saveOptionGroup('update_source_channel_process_started', true, 'jobs');
+
+        // Save the queue and dispatch it
+        $updateIncompleteVisitorsSourceChannels->save()->dispatch();
+    }
+
     // Add other static methods for different background processes as needed
 }

@@ -303,6 +303,9 @@
       &:last-child:not(.start) {
         text-align: right !important;
 
+        .wps-order{
+          justify-content: flex-end;
+        }
         .rtl & {
           text-align: left !important;
         }
@@ -415,13 +418,13 @@
       }
 
       .wps-ellipsis-parent {
-        display: table;
+        display: table!important;
         table-layout: fixed;
         width: 100%;
         max-width: 200px;
 
         .wps-ellipsis-text {
-          display: table-cell;
+          display: table-cell!important;
           white-space: nowrap;
           text-overflow: ellipsis;
           overflow: hidden;
@@ -512,7 +515,7 @@
       .wps-country-flag {
         padding: 0;
         margin: 0;
-        display: flex;
+        display: flex!important;
         gap: 6px;
         align-items: center;
 
@@ -534,8 +537,15 @@
         }
       }
 
+      .wps-link-underline{
+        span{
+          color: #404bf2!important;
+          text-decoration: underline!important;
+        }
+      }
+
       .wps-link-arrow {
-        display: flex !important;
+        display: inline-flex!important;
         justify-content: flex-start;
         align-items: center;
         gap: 8px;
@@ -627,6 +637,15 @@
           border-radius: 50%;
         }
       }
+    }
+  }
+
+  &--referrers{
+    td,th{
+      width: 33.33%;
+    }
+    a.wps-link-arrow{
+      max-width: 300px!important;
     }
   }
 }
