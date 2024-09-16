@@ -2,6 +2,8 @@
 
 namespace WP_Statistics\Service\Admin\LicenseManagement;
 
+use WP_Statistics\Service\Admin\LicenseManagement\ApiHandler\LicenseManagerApiFactory;
+
 class LicenseManagerDataProvider
 {
     protected $args;
@@ -23,7 +25,47 @@ class LicenseManagerDataProvider
      */
     public function getAddOnsData()
     {
-        return '';
+        try {
+            // Get add-ons list
+            $addOnsList = LicenseManagerApiFactory::getAddOnsList();
+        } catch (\Exception $e) {
+            return [
+                'addons' => [],
+                'error'  => $e->getMessage(),
+            ];
+        }
+
+        // Add more info to response
+        $response = [];
+        foreach ($addOnsList as $slug => $addOn) {
+            $response[$slug] = [
+                'addOnObject'   => $addOn,
+                'id'            => $addOn->getId(),
+                'name'          => $addOn->getName(),
+                'url'           => $addOn->getUrl(),
+                'description'   => $addOn->getDescription(),
+                'icon'          => $addOn->getIcon(),
+                'version'       => $addOn->getVersion(),
+                'price'         => $addOn->getPrice(),
+                'featuredLabel' => $addOn->getFeaturedLabel(),
+            ];
+
+            // Add info about plugin's install or active status
+            try {
+                $pluginHandler = new PluginHandler($slug);
+
+                $response[$slug]['isInstalled'] = !empty($pluginHandler->getPluginFile());
+                $response[$slug]['isActive']    = $pluginHandler->isPluginActive();
+            } catch (\Exception $e) {
+                $response[$slug]['isInstalled'] = false;
+                $response[$slug]['isActive']    = false;
+            }
+        }
+
+        return [
+            'addons' => $response,
+            'error'  => '',
+        ];
     }
 
     /**
