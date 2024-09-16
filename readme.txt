@@ -131,12 +131,13 @@ WP Statistics supports WordPress Multi-Site/Network installations. In the networ
 19. Real-Time Stats
 
 == Upgrade Notice ==
-= 14.10 =
+= 14.11 =
 To ensure the plugin works correctly, please clear your cache because some request payloads have been updated. Also, review your settings, especially if you use DataPlus, Advanced Reporting, or Customization, as some options have changed.
 Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest version.
 
 == Changelog ==
 = 14.11 - **.**.2024 =
+* New: Introduced brand-new Referrals report page.
 * Enhancement: Improved the Device Detection.
 
 For more information about the major update, please [visit our blog post](https://wp-statistics.com/?p=16657) or follow [@wp_statistics](https://twitter.com/wp_statistics) on Twitter
