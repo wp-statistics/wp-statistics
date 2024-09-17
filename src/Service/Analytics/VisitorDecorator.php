@@ -2,7 +2,12 @@
 
 namespace WP_Statistics\Service\Analytics;
 
+use WP_STATISTICS\Country;
+use WP_STATISTICS\IP;
 use WP_Statistics\Service\Analytics\DeviceDetection\DeviceHelper;
+use WP_Statistics\Service\Analytics\Referrals\ReferralDecorator;
+use WP_STATISTICS\User;
+use WP_STATISTICS\Visitor;
 
 class VisitorDecorator
 {
@@ -21,6 +26,56 @@ class VisitorDecorator
     }
 
     /**
+     * Get the country icon URL based on the visitor's location.
+     *
+     * @return string
+     */
+    public function getCountryFlag()
+    {
+        return Country::flag($this->visitor->location);
+    }
+
+    /**
+     * Get the country name based on the visitor's location.
+     *
+     * @return string
+     */
+    public function getCountryName()
+    {
+        return Country::getName($this->visitor->location);
+    }
+
+    /**
+     * Retrieves the country code of the visitor.
+     *
+     * @return string|null The country code, or null if not available.
+     */
+    public function getCountryCode()
+    {
+        return $this->visitor->location ?? null;
+    }
+
+    /**
+     * Get the visitor's agent.
+     *
+     * @return string|null
+     */
+    public function getBrowser()
+    {
+        return $this->visitor->agent ?? null;
+    }
+
+    /**
+     * Get the browser logo URL based on the visitor's browser.
+     *
+     * @return string
+     */
+    public function getBrowserName()
+    {
+        return DeviceHelper::getBrowserList($this->visitor->agent);
+    }
+
+    /**
      * Get the browser logo URL based on the visitor's browser.
      *
      * @return string
@@ -31,11 +86,21 @@ class VisitorDecorator
     }
 
     /**
+     * Get the platform (operating system)
+     *
+     * @return string
+     */
+    public function getOs()
+    {
+        return $this->visitor->platform ?? null;
+    }
+
+    /**
      * Get the platform (operating system) logo URL based on the visitor's platform.
      *
      * @return string
      */
-    public function getPlatformLogo()
+    public function getOsLogo()
     {
         return DeviceHelper::getPlatformLogo($this->visitor->platform);
     }
@@ -87,21 +152,47 @@ class VisitorDecorator
      */
     public function getIP()
     {
-        return $this->visitor->ip ?? null;
+        return $this->isHashedIP() ? substr($this->visitor->ip, 6, 10) : $this->visitor->ip;
     }
 
     /**
-     * Get the location (city, region, continent) of the visitor.
+     * Is the visitor's IP hashed?
      *
-     * @return array
+     * @return string|null
      */
-    public function getLocation()
+    public function isHashedIP()
     {
-        return [
-            'city'      => $this->visitor->city ?? null,
-            'region'    => $this->visitor->region ?? null,
-            'continent' => $this->visitor->continent ?? null,
-        ];
+        return IP::IsHashIP($this->visitor->ip);
+    }
+
+    /**
+     * Retrieves the region of the visitor.
+     *
+     * @return string|null The region of the visitor, or null if not available.
+     */
+    public function getRegion()
+    {
+        return $this->visitor->region ?? null;
+    }
+
+    /**
+     * Retrieves the city associated with the visitor's location.
+     *
+     * @return string|null The city name, or null if not available.
+     */
+    public function getCity()
+    {
+        return $this->visitor->city ?? null;
+    }
+
+    /**
+     * Retrieves the continent associated with the visitor's location.
+     *
+     * @return string|null The continent name, or null if not available.
+     */
+    public function getContinent()
+    {
+        return $this->visitor->continent ?? null;
     }
 
     /**
@@ -126,16 +217,6 @@ class VisitorDecorator
     }
 
     /**
-     * Get the visitor's source channel (e.g., direct, referral, etc.).
-     *
-     * @return string|null
-     */
-    public function getSourceChannel()
-    {
-        return $this->visitor->source_channel ?? null;
-    }
-
-    /**
      * Get the last counter value recorded for the visitor.
      *
      * @return int|null
@@ -146,13 +227,34 @@ class VisitorDecorator
     }
 
     /**
-     * Get the referred URL of the visitor (if available).
+     * Get the visitor's referral information.
      *
-     * @return string|null
+     * @return ReferralDecorator
      */
-    public function getReferred()
+    public function getReferral()
     {
-        return $this->visitor->referred ?? null;
+        return new ReferralDecorator($this->visitor);
+    }
+
+    /**
+     * Get the visitor's ID.
+     *
+     * @return int|null
+     */
+    public function getId()
+    {
+        return $this->visitor->ID ?? null;
+    }
+
+
+    /**
+     * Checks whether the visitor is a logged-in user.
+     *
+     * @return bool True if the visitor is logged in, false otherwise.
+     */
+    public function isLoggedInUser()
+    {
+        return !empty($this->visitor->user_id);
     }
 
     /**
@@ -163,5 +265,75 @@ class VisitorDecorator
     public function getUserId()
     {
         return $this->visitor->user_id ?? null;
+    }
+
+    /**
+     * Retrieves the username of the visitor.
+     *
+     * @return string|null The username of the visitor, or null if not available.
+     */
+    public function getUserName()
+    {
+        return $this->visitor->display_name ?? null;
+    }
+
+    /**
+     * Retrieves the email address of the visitor if they are a logged-in user.
+     *
+     * @return string|null The visitor's email address, or null if not available.
+     */
+    public function getUserEmail()
+    {
+        return $this->visitor->user_email ?? null;
+    }
+
+    /**
+     * Retrieves the first role of the visitor.
+     *
+     * @return string|null The visitor's first role, or null if not available.
+     */
+    public function getUserRole()
+    {
+        return User::get($this->visitor->user_id)['role'][0] ?? null;
+    }
+
+    /**
+     * Retrieves the first view time of the visitor.
+     *
+     * @return int|null The time of the first view, or null if not available.
+     */
+    public function getFirstView()
+    {
+        return $this->visitor->first_view ?? null;
+    }
+
+    /**
+     * Retrieves the first page viewed by the visitor.
+     *
+     * @return string|null The first page viewed by the visitor, or null if not available.
+     */
+    public function getFirstPage()
+    {
+        return $this->visitor->first_page ? Visitor::get_page_by_id($this->visitor->first_page) : null;
+    }
+
+    /**
+     * Retrieves the last view time of the visitor.
+     *
+     * @return int|null The time of the last view, or null if not available.
+     */
+    public function getLastView()
+    {
+        return $this->visitor->last_view ?? null;
+    }
+
+    /**
+     * Retrieves the last page viewed by the visitor.
+     *
+     * @return string|null The last page viewed by the visitor, or null if not available.
+     */
+    public function getLastPage()
+    {
+        return $this->visitor->last_page ? Visitor::get_page_by_id($this->visitor->last_page) : null;
     }
 }

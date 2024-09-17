@@ -1,14 +1,9 @@
 <?php
-
-use WP_Statistics\Service\Analytics\Referrals\SourceChannels;
 use WP_STATISTICS\Admin_Template;
 use WP_STATISTICS\Helper;
-use WP_STATISTICS\IP;
 use WP_STATISTICS\Menus;
-use WP_STATISTICS\Country;
-use WP_STATISTICS\Visitor;
-use WP_STATISTICS\UserAgent;
 use WP_Statistics\Components\View;
+use WP_Statistics\Service\Analytics\VisitorDecorator;
 ?>
 
 <div class="inside">
@@ -42,49 +37,47 @@ use WP_Statistics\Components\View;
                 </thead>
 
                 <tbody>
-
                     <?php foreach ($visitors as $visitor) : ?>
+                        <?php /** @var VisitorDecorator $visitor */ ?>
                         <tr>
                             <td class="wps-pd-l">
-                                <?php echo esc_html(date_i18n(Helper::getDefaultDateFormat(true, true, false, ', '), strtotime($visitor->last_view))) ?>
+                                <?php echo esc_html(date_i18n(Helper::getDefaultDateFormat(true, true, false, ', '), strtotime($visitor->getLastView()))) ?>
                             </td>
 
                             <td class="wps-pd-l">
-                                <a href="<?php echo esc_url($visitor->referred) ?>" title="<?php echo esc_attr($visitor->referred) ?>" target="_blank" class="wps-link-arrow">
-                                    <span><?php echo esc_html($visitor->referred) ?></span>
+                                <a href="<?php echo esc_url($visitor->getReferral()->getReferrer()) ?>" title="<?php echo esc_attr($visitor->getReferral()->getReferrer()) ?>" target="_blank" class="wps-link-arrow">
+                                    <span><?php echo esc_html($visitor->getReferral()->getReferrer()) ?></span>
                                 </a>
                             </td>
 
                             <td class="wps-pd-l">
                                 <div class="wps-ellipsis-parent">
                                     <?php
-                                        // TODO: Use Referral Decorator
-                                        $sourceChannel = SourceChannels::getName($visitor->source_channel);
-                                        echo $sourceChannel ? esc_html($sourceChannel) : Admin_Template::UnknownColumn();
+                                        echo $visitor->getReferral()->getSourceChannel() ? esc_html($visitor->getReferral()->getSourceChannel()) : Admin_Template::UnknownColumn();
                                     ?>
                                 </div>
                             </td>
 
                             <td class="wps-pd-l">
                                 <?php
-                                View::load("components/visitor-information", ['visitor' => $visitor]);
+                                    View::load("components/visitor-information", ['visitor' => $visitor]);
                                 ?>
                              </td>
 
                             <td class="wps-pd-l">
                                 <div class="wps-country-flag wps-ellipsis-parent">
                                     <div class="wps-country-flag wps-ellipsis-parent">
-                                        <a href="<?php echo esc_url(Menus::admin_url('geographic', ['type' => 'single-country', 'country' => $visitor->location])) ?>" class="wps-tooltip" title="<?php echo esc_attr(Country::getName($visitor->location)) ?>">
-                                            <img src="<?php echo esc_url(Country::flag($visitor->location)) ?>" alt="<?php echo esc_attr(Country::getName($visitor->location)) ?>" width="15" height="15">
+                                        <a href="<?php echo esc_url(Menus::admin_url('geographic', ['type' => 'single-country', 'country' => $visitor->getCountryCode()])) ?>" class="wps-tooltip" title="<?php echo esc_attr($visitor->getCountryName()) ?>">
+                                            <img src="<?php echo esc_url($visitor->getCountryFlag()) ?>" alt="<?php echo esc_attr($visitor->getCountryName()) ?>" width="15" height="15">
                                         </a>
-                                        <?php $location = Admin_Template::locationColumn($visitor->location, $visitor->region, $visitor->city); ?>
+                                        <?php $location = Admin_Template::locationColumn($visitor->getCountryName(), $visitor->getRegion(), $visitor->getCity()); ?>
                                         <span class="wps-ellipsis-text" title="<?php echo esc_attr($location) ?>"><?php echo esc_html($location) ?></span>
                                     </div>
                                 </div>
                             </td>
 
                             <td class="wps-pd-l">
-                                <?php $page = Visitor::get_page_by_id($visitor->first_page); ?>
+                                <?php $page = $visitor->getFirstPage(); ?>
 
                                 <?php if (!empty($page)) : ?>
                                     <a target="_blank" href="<?php echo esc_url($page['link']) ?>" title="<?php echo esc_attr($page['title']) ?>" class="wps-link-arrow">
@@ -96,8 +89,8 @@ use WP_Statistics\Components\View;
                             </td>
 
                             <td class="wps-pd-l">
-                                <a href="<?php echo esc_url(Menus::admin_url('visitors', ['type' => 'single-visitor', 'visitor_id' => $visitor->ID])) ?>">
-                                    <?php echo esc_html($visitor->hits) ?>
+                                <a href="<?php echo esc_url(Menus::admin_url('visitors', ['type' => 'single-visitor', 'visitor_id' => $visitor->getId()])) ?>">
+                                    <?php echo esc_html($visitor->getHits()) ?>
                                 </a>
                             </td>
                         </tr>

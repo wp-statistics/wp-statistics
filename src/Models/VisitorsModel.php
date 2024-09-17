@@ -9,6 +9,7 @@ use WP_STATISTICS\TimeZone;
 use WP_Statistics\Utils\Query;
 use WP_Statistics\Abstracts\BaseModel;
 use WP_Statistics\Components\DateRange;
+use WP_Statistics\Service\Analytics\VisitorDecorator;
 
 class VisitorsModel extends BaseModel
 {
@@ -500,7 +501,7 @@ class VisitorsModel extends BaseModel
             ->perPage($args['page'], $args['per_page'])
             ->orderBy($args['order_by'], $args['order'])
             ->groupBy('visitor.ID')
-            ->getAll();
+            ->getAll(VisitorDecorator::class);
 
         return $result ?? [];
     }
