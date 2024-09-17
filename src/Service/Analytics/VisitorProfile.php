@@ -3,6 +3,7 @@
 namespace WP_Statistics\Service\Analytics;
 
 use WP_STATISTICS\IP;
+use WP_Statistics\Traits\ObjectCacheTrait;
 use WP_STATISTICS\User;
 use WP_STATISTICS\Pages;
 use WP_STATISTICS\Helper;
@@ -12,34 +13,19 @@ use WP_Statistics\Service\Analytics\DeviceDetection\UserAgent;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
 use WP_Statistics\Service\Analytics\Referrals\Referrals;
 
-/**
- * @todo Replace object cache internally with ObjectCacheTrait
- */
 class VisitorProfile
 {
-    private $ip;
-    private $processedIPForStorage;
-    private $isIpActiveToday;
-    private $referrer;
-    private $sourceName;
-    private $sourceChannel;
-    private $location;
-    private $userAgent;
-    private $httpUserAgent;
-    private $userId;
-    private $visitorId;
-    private $currentPageType;
-    private $requestUri;
+    use ObjectCacheTrait;
 
     public function __construct()
     {
     }
 
     /**
-     * Magic method to set properties dynamically.
+     * Magic method to dynamically set properties if they exist.
      *
      * @param string $name The name of the property.
-     * @param mixed $value The value to set.
+     * @param mixed $value The value to assign to the property.
      */
     public function __set($name, $value)
     {
@@ -48,167 +34,231 @@ class VisitorProfile
         }
     }
 
+    /**
+     * Get the visitor ID using caching to prevent redundant lookups.
+     *
+     * @return int The visitor ID.
+     */
     public function getVisitorId()
     {
-        if (!$this->visitorId) {
-            $visitor         = Visitor::exist_ip_in_day($this->getProcessedIPForStorage());
-            $this->visitorId = $visitor->ID;
-        }
-
-        return $this->visitorId;
-    }
-
-    public function getIp()
-    {
-        if (!$this->ip) {
-            $this->ip = IP::getIP();
-        }
-
-        return $this->ip;
-    }
-
-    public function getProcessedIPForStorage()
-    {
-        if (!$this->processedIPForStorage) {
-            $this->processedIPForStorage = IP::getStoreIP();
-        }
-
-        return $this->processedIPForStorage;
-    }
-
-    public function isIpActiveToday()
-    {
-        if (!$this->isIpActiveToday) {
-            $this->isIpActiveToday = Visitor::exist_ip_in_day($this->getProcessedIPForStorage());
-        }
-
-        return $this->isIpActiveToday;
+        return $this->getCachedData('visitorId', function () {
+            $visitor = Visitor::exist_ip_in_day($this->getProcessedIPForStorage());
+            return $visitor->ID;
+        });
     }
 
     /**
-     * Get the location of the visitor.
+     * Get the visitor's IP address, cached to avoid multiple retrievals.
      *
-     * @return array
+     * @return string The IP address.
+     */
+    public function getIp()
+    {
+        return $this->getCachedData('ip', function () {
+            return IP::getIP();
+        });
+    }
+
+    /**
+     * Get the processed IP address for storage, using caching.
+     *
+     * @return string The processed IP for storage.
+     */
+    public function getProcessedIPForStorage()
+    {
+        return $this->getCachedData('processedIPForStorage', function () {
+            return IP::getStoreIP();
+        });
+    }
+
+    /**
+     * Check if the IP is active today, cached for performance.
+     *
+     * @return bool True if active today, false otherwise.
+     */
+    public function isIpActiveToday()
+    {
+        return $this->getCachedData('isIpActiveToday', function () {
+            return Visitor::exist_ip_in_day($this->getProcessedIPForStorage());
+        });
+    }
+
+    /**
+     * Get the visitor's location, with optional specific location information.
+     *
+     * @param string|null $location Specific location data to retrieve.
+     * @return array|string|null The location data or specific part if requested.
      */
     public function getLocation($location = null)
     {
-        if (!$this->location) {
-            $this->location = GeolocationFactory::getLocation($this->getIp());
-        }
+        $locationData = $this->getCachedData('location', function () {
+            return GeolocationFactory::getLocation($this->getIp());
+        });
 
         if ($location) {
-            return $this->location[$location];
+            return $locationData[$location];
         }
 
-        return $this->location;
+        return $locationData;
     }
 
+    /**
+     * Get the visitor's country from the location data.
+     *
+     * @return string The country.
+     */
     public function getCountry()
     {
         return $this->getLocation('country');
     }
 
+    /**
+     * Get the visitor's city from the location data.
+     *
+     * @return string The city.
+     */
     public function getCity()
     {
         return $this->getLocation('city');
     }
 
+    /**
+     * Get the visitor's region from the location data.
+     *
+     * @return string The region.
+     */
     public function getRegion()
     {
         return $this->getLocation('region');
     }
 
+    /**
+     * Get the visitor's continent from the location data.
+     *
+     * @return string The continent.
+     */
     public function getContinent()
     {
         return $this->getLocation('continent');
     }
 
+    /**
+     * Get the visitor's latitude from the location data.
+     *
+     * @return float The latitude.
+     */
     public function getLatitude()
     {
         return $this->getLocation('latitude');
     }
 
+    /**
+     * Get the visitor's longitude from the location data.
+     *
+     * @return float The longitude.
+     */
     public function getLongitude()
     {
         return $this->getLocation('longitude');
     }
 
+    /**
+     * Get the visitor's referrer URL, cached for reuse.
+     *
+     * @return string The referrer URL.
+     */
     public function getReferrer()
     {
-        if (!$this->referrer) {
-            $this->referrer = Referrals::getUrl();
-        }
-
-        return $this->referrer;
-    }
-
-    public function getSourceChannel()
-    {
-        if (!$this->sourceChannel) {
-            $this->sourceChannel = Referrals::getSource()->getChannel();
-        }
-
-        return $this->sourceChannel;
-    }
-
-    public function getSourceName()
-    {
-        if (!$this->sourceName) {
-            $this->sourceName = Referrals::getSource()->getName();
-        }
-
-        return $this->sourceName;
+        return $this->getCachedData('referrer', function () {
+            return Referrals::getUrl();
+        });
     }
 
     /**
-     * @return array|DeviceDetection\UserAgentService|null
+     * Get the visitor's source channel (e.g., search, social), cached for reuse.
+     *
+     * @return string The source channel.
+     */
+    public function getSourceChannel()
+    {
+        return $this->getCachedData('sourceChannel', function () {
+            return Referrals::getSource()->getChannel();
+        });
+    }
+
+    /**
+     * Get the visitor's source name, cached for reuse.
+     *
+     * @return string The source name.
+     */
+    public function getSourceName()
+    {
+        return $this->getCachedData('sourceName', function () {
+            return Referrals::getSource()->getName();
+        });
+    }
+
+    /**
+     * Get the visitor's user agent information, cached for reuse.
+     *
+     * @return array|DeviceDetection\UserAgentService|null The user agent details.
      */
     public function getUserAgent()
     {
-        if (!$this->userAgent) {
-            $this->userAgent = UserAgent::getUserAgent();
-        }
-
-        return $this->userAgent;
+        return $this->getCachedData('userAgent', function () {
+            return UserAgent::getUserAgent();
+        });
     }
 
+    /**
+     * Get the HTTP user agent string, cached for reuse.
+     *
+     * @return string The HTTP user agent.
+     */
     public function getHttpUserAgent()
     {
-        if (!$this->httpUserAgent) {
-            $this->httpUserAgent = UserAgent::getHttpUserAgent();
-        }
-
-        return $this->httpUserAgent;
+        return $this->getCachedData('httpUserAgent', function () {
+            return UserAgent::getHttpUserAgent();
+        });
     }
 
+    /**
+     * Get the current request URI, cached for reuse.
+     *
+     * @return string The request URI.
+     */
     public function getRequestUri()
     {
-        if (!$this->requestUri) {
-            $this->requestUri = Helper::getRequestUri();
-        }
-
-        return $this->requestUri;
+        return $this->getCachedData('requestUri', function () {
+            return Helper::getRequestUri();
+        });
     }
 
+    /**
+     * Get the user ID of the visitor, with caching for better performance.
+     *
+     * @return int The user ID or 0 if anonymous tracking is enabled.
+     */
     public function getUserId()
     {
-        if (!$this->userId) {
+        return $this->getCachedData('userId', function () {
             if (!Option::get('visitors_log') || Helper::shouldTrackAnonymously()) {
-                $this->userId = 0;
+                return 0;
             } else {
-                $this->userId = User::get_user_id();
+                return User::get_user_id();
             }
-        }
-
-        return $this->userId;
+        });
     }
 
+    /**
+     * Get the type of the current page the visitor is viewing, cached for reuse.
+     *
+     * @return string The page type.
+     */
     public function getCurrentPageType()
     {
-        if (!$this->currentPageType) {
-            $this->currentPageType = Pages::get_page_type();
-        }
-
-        return $this->currentPageType;
+        return $this->getCachedData('currentPageType', function () {
+            return Pages::get_page_type();
+        });
     }
 }
