@@ -41,7 +41,7 @@ use WP_Statistics\Service\Analytics\VisitorDecorator;
                         <?php /** @var VisitorDecorator $visitor */ ?>
                         <tr>
                             <td class="wps-pd-l">
-                                <?php echo esc_html(date_i18n(Helper::getDefaultDateFormat(true, true, false, ', '), strtotime($visitor->getLastView()))) ?>
+                                <?php echo esc_html($visitor->getLastView()) ?>
                             </td>
 
                             <td class="wps-pd-l">

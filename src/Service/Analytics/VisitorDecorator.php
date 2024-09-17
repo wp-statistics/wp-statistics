@@ -203,7 +203,7 @@ class VisitorDecorator
      */
     public function getHits()
     {
-        return $this->visitor->hits ?? null;
+        return $this->visitor->hits ? number_format_i18n(intval($this->visitor->hits)) : 0;
     }
 
     /**
