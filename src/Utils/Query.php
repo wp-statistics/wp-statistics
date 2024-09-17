@@ -311,7 +311,13 @@ class Query
         return $result;
     }
 
-    public function getAll()
+    /**
+     * Retrieves all results from the database based on the built query.
+     *
+     * @param string|null $decorator Optional decorator class to decorate results.
+     * @return array Results from the database query.
+     */
+    public function getAll($decorator = null)
     {
         $query = $this->buildQuery();
         $query = $this->prepareQuery($query, $this->valuesToPrepare);
@@ -327,6 +333,17 @@ class Query
 
         if ($this->allowCaching) {
             $this->setCachedResult($query, $result);
+        }
+
+        // Decorate results
+        if ($decorator) {
+            $decoratedResult = [];
+
+            foreach ($result as $item) {
+                $decoratedResult[] = new $decorator($item);
+            }
+
+            $result = $decoratedResult;
         }
 
         return $result;
