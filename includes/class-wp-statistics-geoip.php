@@ -6,9 +6,6 @@ use Exception;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
 
 /**
- * @note This temporary GeoIP implementation will be replaced by a more efficient Geolocation structure in version 14.10
- * As a lesson learned: never let someone without an understanding of software architecture design the code.
- *
  * @deprecated This class is deprecated and should not be used in new development. It remains for backward compatibility of Add-ons.
  */
 class GeoIP
@@ -23,6 +20,8 @@ class GeoIP
      */
     public static function getLocation($ip)
     {
+        _deprecated_function(__METHOD__, '14.11', 'GeolocationFactory::getLocation()');
+
         return GeolocationFactory::getLocation($ip);
     }
 
