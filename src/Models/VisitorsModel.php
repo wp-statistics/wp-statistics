@@ -937,7 +937,7 @@ class VisitorsModel extends BaseModel
 
         $result = $query->getVar();
 
-        return $result ? $result : [];
+        return $result ? $result : 0;
     }
 
 
