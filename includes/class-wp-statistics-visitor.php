@@ -112,7 +112,7 @@ class Visitor
         );
 
         $args         = wp_parse_args($arg, $defaults);
-        $user_agent   = $visitorProfile->getUserAgent();
+        $userAgent    = $visitorProfile->getUserAgent();
         $same_visitor = $visitorProfile->isIpActiveToday();
 
         // If we have a new Visitor in Day
@@ -124,11 +124,11 @@ class Visitor
                 'referred'      => $visitorProfile->getReferrer(),
                 'source_name'   => $visitorProfile->getSourceName(),
                 'source_channel'=> $visitorProfile->getSourceChannel(),
-                'agent'         => $user_agent['browser'],
-                'platform'      => $user_agent['platform'],
-                'version'       => $user_agent['version'],
-                'device'        => $user_agent['device'],
-                'model'         => $user_agent['model'],
+                'agent'         => $userAgent->getBrowser(),
+                'platform'      => $userAgent->getPlatform(),
+                'version'       => $userAgent->getVersion(),
+                'device'        => $userAgent->getDevice(),
+                'model'         => $userAgent->getModel(),
                 'ip'            => $visitorProfile->getProcessedIPForStorage(),
                 'location'      => $visitorProfile->getCountry(),
                 'city'          => $visitorProfile->getCity(),
