@@ -18,7 +18,10 @@
             </div>
         </div>
         <div class="wps-postbox-addon__item--actions">
+            <?php if (isset($status_text)) : ?>
             <span class="wps-postbox-addon__status wps-postbox-addon__status--<?php echo $status_class ?> "><?php echo $status_text ?></span>
+            <?php endif; ?>
+
             <?php if (isset($has_license_btn)) : ?>
                 <a class="wps-postbox-addon__button js-wps-addon-license-button"><?php echo esc_html__('License', 'wp-statistics') ?></a>
             <?php endif; ?>
@@ -57,7 +60,7 @@
             <div>
                 <p><?php echo $alert_text ?></p>
                 <?php if (isset($alert_link_text)) : ?>
-                    <a href="<?php echo $alert_link ?>" title="<?php echo $alert_link_text ?>"><?php echo $alert_link_text ?></a>
+                    <a href="<?php echo $alert_link ?>" class="js-wps-addon-check-box" title="<?php echo $alert_link_text ?>"><?php echo $alert_link_text ?></a>
                 <?php endif; ?>
             </div>
         </div>
