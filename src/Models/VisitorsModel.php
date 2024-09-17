@@ -335,8 +335,8 @@ class VisitorsModel extends BaseModel
                 ->groupBy('visitor_id')
                 ->getQuery();
 
-            $additionalFields[] = 'last_hit.page_id';
-            $additionalFields[] = 'last_hit.date';
+            $additionalFields[] = 'last_hit.page_id as last_page';
+            $additionalFields[] = 'last_hit.date as last_view';
         }
 
         if ($args['user_info'] === true) {
@@ -412,7 +412,7 @@ class VisitorsModel extends BaseModel
                 ->whereDate('visitor.last_counter', $args['date']);
         }
 
-        $result = $query->getAll();
+        $result = $query->getAll(VisitorDecorator::class);
 
         return $result ? $result : [];
     }
