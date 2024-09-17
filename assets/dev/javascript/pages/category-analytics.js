@@ -22,7 +22,6 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         },
         generatePerformanceChart: function () {
             const performanceData = this.data.performance_chart_data;
-            console.log(performanceData);
             wps_js.new_line_chart(performanceData ,'performance-category-chart',null ,'performance');
         },
         generatePerformanceChartSingle: function () {

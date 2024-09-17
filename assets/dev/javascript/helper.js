@@ -574,7 +574,7 @@ const externalTooltipHandler = (context, dataset, colors, data) => {
             if (data?.previousData && metaPrevious && !chart.getDatasetMeta(chart.data.datasets.indexOf(metaPrevious)).hidden ) {
 
                 const previousDataset = data.previousData.datasets.find(prev => prev.label === dataset.label.replace(' (Previous)', ''));
-                if (previousDataset !== undefined && previousDataset !== '' && !isPrevious) {
+                if (previousDataset !== undefined && previousDataset !== '' && previousDataset.data && !isPrevious) {
                     let previousValue = previousDataset.data[dataIndex];
                     const previousLabel = data.previousData.labels[dataIndex].date;
                      innerHtml += `
@@ -940,7 +940,7 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
                             }
                             return false;
                         });
-                        if (previousDataset) {
+                        if (previousDataset && previousDataset.data) {
                             previousData = previousDataset.data.reduce((a, b) => Number(a) + Number(b), 0);
                         }
                     }
