@@ -1,12 +1,9 @@
 <?php
 use WP_STATISTICS\Admin_Template;
-use WP_STATISTICS\Helper;
 use WP_STATISTICS\Country;
 use WP_STATISTICS\Menus;
-use WP_STATISTICS\Referred;
-use WP_Statistics\Service\Analytics\DeviceDetection\DeviceHelper;
-use WP_STATISTICS\Visitor;
 use WP_Statistics\Components\View;
+use WP_Statistics\Service\Analytics\VisitorDecorator;
 ?>
 
 <div class="inside">
@@ -37,13 +34,12 @@ use WP_Statistics\Components\View;
                 </thead>
 
                 <tbody>
-                    <?php foreach ($data as $visitor) :
-                        $page = Visitor::get_page_by_id($visitor->page_id);
-                    ?>
+                    <?php foreach ($data as $visitor) : ?>
+                    <?php /** @var VisitorDecorator $visitor */ ?>
                         <tr>
-                            <td class="wps-pd-l"><?php echo esc_html(date_i18n(Helper::getDefaultDateFormat(true, true, false, ', '), strtotime($visitor->date))); ?></td>
+                            <td class="wps-pd-l"><?php echo esc_html($visitor->getLastView()); ?></td>
 
-                            <td class="wps-pd-l"><?php echo esc_html(date_i18n('H:i:s', $visitor->timestamp - $visitor->created)); ?></td>
+                            <td class="wps-pd-l"><?php echo esc_html($visitor->getOnlineTime()); ?></td>
 
                             <td class="wps-pd-l">
                                 <?php
@@ -53,19 +49,26 @@ use WP_Statistics\Components\View;
 
                             <td class="wps-pd-l">
                                 <div class="wps-country-flag wps-ellipsis-parent">
-                                    <a href="<?php echo esc_url(Menus::admin_url('geographic', ['type' => 'single-country', 'country' => $visitor->location])) ?>" class="wps-tooltip" title="<?php echo esc_attr(Country::getName($visitor->location)) ?>">
-                                        <img src="<?php echo esc_url(Country::flag($visitor->location)) ?>" alt="<?php echo esc_attr(Country::getName($visitor->location)) ?>" width="15" height="15">
+                                    <a href="<?php echo esc_url(Menus::admin_url('geographic', ['type' => 'single-country', 'country' => $visitor->getCountryCode()])) ?>" class="wps-tooltip" title="<?php echo esc_attr(Country::getName($visitor->getCountryCode())) ?>">
+                                        <img src="<?php echo esc_url($visitor->getCountryFlag()) ?>" alt="<?php echo esc_attr($visitor->getCountryName()) ?>" width="15" height="15">
                                     </a>
-                                    <?php $location = Admin_Template::locationColumn($visitor->location, $visitor->region, $visitor->city); ?>
+                                    <?php $location = Admin_Template::locationColumn($visitor->getCountryCode(), $visitor->getRegion(), $visitor->getCity()); ?>
                                     <span class="wps-ellipsis-text" title="<?php echo esc_attr($location) ?>"><?php echo esc_html($location) ?></span>
                                 </div>
                             </td>
 
                             <td class="wps-pd-l">
-                                <?php echo Referred::get_referrer_link($visitor->referred, '', true); ?>
+                                <?php if ($visitor->getReferral()->getReferrer()) : ?>
+                                    <a href="<?php echo esc_url($visitor->getReferral()->getReferrer()) ?>" target="_blank">
+                                        <?php echo esc_html($visitor->getReferral()->getReferrer()) ?>
+                                    </a>
+                                <?php else : ?>
+                                    <?php echo Admin_Template::UnknownColumn(); ?>
+                                <?php endif; ?>
                             </td>
 
                             <td class="wps-pd-l">
+                                <?php $page = $visitor->getLastPage(); ?>
                                 <?php if (!empty($page)) : ?>
                                     <a target="_blank" href="<?php echo esc_url($page['link']) ?>" title="<?php echo esc_attr($page['title']) ?>" class="wps-link-arrow">
                                         <span><?php echo esc_html($page['title']) ?></span>

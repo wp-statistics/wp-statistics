@@ -337,4 +337,18 @@ class VisitorDecorator
     {
         return $this->visitor->last_page ? Visitor::get_page_by_id($this->visitor->last_page) : null;
     }
+
+    /**
+     * Retrieves the online time of the visitor.
+     *
+     * @return string|null The online time in 'H:i:s' format, or null if not available.
+     */
+    public function getOnlineTime()
+    {
+        if (isset($this->visitor->timestamp) && isset($this->visitor->created)) {
+            return date_i18n('H:i:s', $this->visitor->timestamp - $this->visitor->created);
+        }
+
+        return null;
+    }
 }
