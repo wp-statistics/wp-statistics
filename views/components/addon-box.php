@@ -51,19 +51,18 @@
             <input type="text" placeholder="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx">
             <button><?php echo esc_html__('Update License', 'wp-statistics') ?></button>
         </div>
-        <div class="wps-alert wps-alert--danger">
+        <?php if (isset($alert_text)) : ?>
+        <div class="wps-alert wps-alert--<?php echo $alert_class;?>">
             <span class="icon"></span>
             <div>
-                <p><?php echo esc_html__('Almost There! Your license is valid. To proceed, please whitelist this domain in customer portal.', 'wp-statistics') ?></p>
-                <a href=""><?php echo esc_html__('Learn how to whitelist your domain', 'wp-statistics') ?></a>
+                <p><?php echo $alert_text ?></p>
+                <?php if (isset($alert_link_text)) : ?>
+                    <a href="<?php echo $alert_link ?>" title="<?php echo $alert_link_text ?>"><?php echo $alert_link_text ?></a>
+                <?php endif; ?>
             </div>
         </div>
-        <div class="wps-alert wps-alert--success">
-            <span class="icon"></span>
-            <div>
-                <p><?php echo esc_html__('You\'re All Set! Your License is Successfully Activated!', 'wp-statistics') ?></p>
-            </div>
-        </div>
+        <?php endif; ?>
+
     </div>
 
 </div>
