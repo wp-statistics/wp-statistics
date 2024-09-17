@@ -4,6 +4,7 @@ namespace WP_Statistics\Service\Analytics;
 
 use WP_STATISTICS\Country;
 use WP_STATISTICS\IP;
+use WP_STATISTICS\Helper;
 use WP_Statistics\Service\Analytics\DeviceDetection\DeviceHelper;
 use WP_Statistics\Service\Analytics\Referrals\ReferralDecorator;
 use WP_STATISTICS\User;
@@ -304,7 +305,7 @@ class VisitorDecorator
      */
     public function getFirstView()
     {
-        return $this->visitor->first_view ?? null;
+        return $this->visitor->first_view ? date_i18n(Helper::getDefaultDateFormat(true, true, false, ', '), strtotime($this->visitor->first_view)) : null;
     }
 
     /**
@@ -324,7 +325,7 @@ class VisitorDecorator
      */
     public function getLastView()
     {
-        return $this->visitor->last_view ?? null;
+        return $this->visitor->last_view ? date_i18n(Helper::getDefaultDateFormat(true, true, false, ', '), strtotime($this->visitor->last_view)) : null;
     }
 
     /**
