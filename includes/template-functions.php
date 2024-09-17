@@ -6,6 +6,7 @@ use WP_STATISTICS\Pages;
 use WP_Statistics\Service\Analytics\DeviceDetection\DeviceHelper;
 use WP_Statistics\Service\Analytics\DeviceDetection\UserAgent;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
+use WP_Statistics\Service\Admin\PrivacyAudit\Faqs\RequireConsent;
 use WP_STATISTICS\TimeZone;
 use WP_STATISTICS\User;
 
@@ -194,7 +195,7 @@ function wp_statistics_useronline($options = array())
     }
 
     //Return Number od user Online
-    return ($arg['return'] == "count" ? $wpdb->get_var($sql) : $wpdb->get_results($sql)); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared	
+    return ($arg['return'] == "count" ? $wpdb->get_var($sql) : $wpdb->get_results($sql)); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 }
 
 /**
@@ -234,7 +235,7 @@ function wp_statistics_visit($time, $daily = null)
             $d = TimeZone::getCurrentDate('Y-m-d', $time);
         }
 
-        $result = $wpdb->get_row($sql . " WHERE `$date_column` = '" . $d . "'");  // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared	
+        $result = $wpdb->get_row($sql . " WHERE `$date_column` = '" . $d . "'");  // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
         if (null !== $result) {
             $sum = $result->visit;
         }
@@ -254,7 +255,7 @@ function wp_statistics_visit($time, $daily = null)
         }
 
         //Request To database
-        $result = $wpdb->get_var($sql); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared		
+        $result = $wpdb->get_var($sql); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 
         //Custom Action
         if ($time == "total") {
@@ -886,7 +887,7 @@ function wp_statistics_get_search_engine_query($search_engine = 'all', $time = '
     }
 
     //Request Data
-    return $wpdb->get_var($sql); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared	
+    return $wpdb->get_var($sql); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 }
 
 /**
@@ -929,7 +930,7 @@ function wp_statistics_referrer($time = null, $range = [])
         $sql = $sql . ' AND (' . $mysql_time_sql . ')';
     }
 
-    $result = $wpdb->get_results($sql); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared	
+    $result = $wpdb->get_results($sql); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 
     $urls = array();
     foreach ($result as $item) {
@@ -943,4 +944,27 @@ function wp_statistics_referrer($time = null, $range = [])
 
     return count($get_urls);
 }
- 
+
+/**
+ * Checks if consent is required for collecting user statistics.
+ *
+ * This function evaluates several conditions that determine whether consent
+ * is needed to collect and store user data for statistics purposes. If any
+ * of the conditions are not met, it indicates that consent is required.
+ *
+ * @return bool Returns true if consent is required, false otherwise.
+ * @since 14.10.1
+ */
+function wp_statistics_needs_consent()
+{
+    // Get the current status of the consent requirement
+    $status = RequireConsent::getStatus();
+
+    // Check if consent is required
+    if ($status == 'warning') {
+        return true; // Consent is required
+    }
+
+    // Return false if consent is not required
+    return false;
+}

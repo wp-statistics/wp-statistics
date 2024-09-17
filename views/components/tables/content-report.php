@@ -15,7 +15,7 @@ $order                = Request::get('order', 'desc');
                 <thead>
                     <tr>
                         <th class="wps-pd-l">
-                            <a href="<?php echo esc_url(Helper::getTableColumnSortUrl('title')) ?>" class="sort <?php echo Request::compare('order_by', 'title') ? esc_attr($order) : ''; ?>">
+                            <a href="<?php echo esc_url(Helper::getTableColumnSortUrl('title')); ?>" class="sort <?php echo Request::compare('order_by', 'title') ? esc_attr($order) : ''; ?>">
                                 <?php echo Request::has('pt') ? esc_html($postTypeNameSingular) : esc_html__('Content', 'wp-statistics'); ?>
                             </a>
                         </th>

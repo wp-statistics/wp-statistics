@@ -251,83 +251,6 @@ wps_js.line_chart = function (tag_id, title, label, data, newOptions) {
     new Chart(ctx, options);
 };
 
-/**
- * Create pie Chart JS
- */
-wps_js.pie_chart = function (tag_id, label, data, label_callback = false, tooltip_callback = false) {
-
-    // Get Element By ID
-    let ctx = document.getElementById(tag_id).getContext('2d');
-
-    // Check is RTL Mode
-    if (wps_js.is_active('rtl')) {
-        Chart.defaults.global = {
-            defaultFontFamily: "Tahoma"
-        }
-    }
-    // Set Default Label Callback
-    if (label_callback === false) {
-        label_callback = function (tooltipItem) {
-            return tooltipItem.formattedValue
-        };
-    }
-
-    // Set Default tooltip title Callback
-    if (tooltip_callback === false) {
-        tooltip_callback = function (tooltipItem) {
-            return tooltipItem.label;
-        }
-    }
-
-    // Create Chart
-    new Chart(ctx, {
-        type: 'pie',
-        data: {
-            labels: label,
-            datasets: data
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: {
-                    position: function (chart) {
-                        if (chart.chart.width > 400) {
-                            return 'left';
-                        }
-                        return 'top';
-                    }
-                },
-                tooltip: {
-                    enable: true,
-                    callbacks: {
-                        label: label_callback,
-                        title: tooltip_callback
-                    }
-                }
-            },
-            animation: {
-                duration: 1500,
-            },
-        },
-        plugins: [{
-            afterDraw: function (chart) {
-                if (chart.data.datasets[0].data.every(x => x == 0) === true) {
-                    let ctx = chart.ctx;
-                    let width = chart.width;
-                    let height = chart.height;
-                    chart.clear();
-                    ctx.save();
-                    ctx.textAlign = 'center';
-                    ctx.textBaseline = 'middle';
-                    ctx.font = "14px normal 'Tahoma'";
-                    ctx.fillText(wps_js._('no_data'), width / 2, height / 2);
-                    ctx.restore();
-                }
-            }
-        }]
-    });
-};
-
 
 /**
  * Create Horizontal Bar Chart
@@ -607,7 +530,6 @@ const getOrCreateTooltip = (chart) => {
 const externalTooltipHandler = (context, dataset, colors, data) => {
     const {chart, tooltip} = context;
     const tooltipEl = getOrCreateTooltip(chart);
-
     if (tooltip.opacity === 0) {
         tooltipEl.style.opacity = 0;
         return;
@@ -626,10 +548,18 @@ const externalTooltipHandler = (context, dataset, colors, data) => {
 
 
         // Iterate over each dataset to create the tooltip content
-        datasets.forEach((dataset, index) => {
+         datasets.forEach((dataset, index) => {
+            const meta = chart.getDatasetMeta(index);
+            // const metaPrevious = chart.getDatasetMeta(index + 1);
+
+
+             const metaPrevious = chart.data.datasets.find((dataset, dsIndex) => {
+                 return dataset.label === `${datasets[index].label} (Previous)` && chart.getDatasetMeta(dsIndex);
+             });
+
             const value = dataset.data[dataIndex];
             const isPrevious = dataset.label.includes('(Previous)');
-            if (!isPrevious) {
+            if (!meta.hidden && !isPrevious) {
                 innerHtml += `
                 <div class="current-data">
                     <div>
@@ -639,12 +569,15 @@ const externalTooltipHandler = (context, dataset, colors, data) => {
                     <span class="current-data__value">${value.toLocaleString()}</span>
                 </div>`;
             }
-            if (data?.previousData) {
-                const previousLabel = data.previousData.labels[dataIndex].date;
-                const previousDataset = data.previousData.datasets.find(prev => prev.label === dataset.label);
-                if (previousDataset) {
+
+
+            if (data?.previousData && metaPrevious && !chart.getDatasetMeta(chart.data.datasets.indexOf(metaPrevious)).hidden ) {
+
+                const previousDataset = data.previousData.datasets.find(prev => prev.label === dataset.label.replace(' (Previous)', ''));
+                if (previousDataset !== undefined && previousDataset !== '' && !isPrevious) {
                     let previousValue = previousDataset.data[dataIndex];
-                    innerHtml += `
+                    const previousLabel = data.previousData.labels[dataIndex].date;
+                     innerHtml += `
                     <div class="previous-data">
                         <div>
                             <span class="previous-data__colors">
@@ -717,7 +650,7 @@ const drawVerticalLinePlugin = {
     }
 };
 
-wps_js.new_line_chart = function (data, tag_id, newOptions = null , type = 'line') {
+wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line') {
     // Define the colors
     let colors = {
         'Total': '#27A765',
@@ -741,21 +674,21 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null , type = 'line
     // Dynamically create datasets
     Object.keys(data.data.datasets).forEach((key, index) => {
 
-        let color = colors[data.data.datasets[key].label] || colors[`Other${index+1}`];
+        let color = colors[data.data.datasets[key].label] || colors[`Other${index + 1}`];
 
         let tension = tensionValues[index % tensionValues.length]; // Use tension value based on index
 
-        if(containsPostsLabel && index === 2 ){
+        if (containsPostsLabel && index === 2) {
             datasets.push({
                 type: 'bar',
-                label:data.data.datasets[key].label,
-                 data: data.data.datasets[key].data,
-                 backgroundColor:color,
+                label: data.data.datasets[key].label,
+                data: data.data.datasets[key].data,
+                backgroundColor: color,
                 hoverBackgroundColor: color,
                 hoverPointBackgroundColor: color,
                 yAxisID: 'y1',
             });
-        }else{
+        } else {
             // Main dataset
             datasets.push({
                 type: 'line',
@@ -819,6 +752,12 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null , type = 'line
 
     // Default options
     const defaultOptions = {
+        maintainAspectRatio: false,
+        resizeDelay: 200,
+        animation: {
+            duration: 0,  // Disable animation
+        },
+        responsive: true,
         interaction: {
             intersect: false,
             mode: 'index'
@@ -870,7 +809,6 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null , type = 'line
                     fontColor: '#898A8E',
                     fontSize: 13,
                     fontStyle: 'italic',
-                    fontFamily: '"Roboto",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif',
                     fontWeight: 'lighter ',
                     padding: 8,
                     lineHeight: 15,
@@ -924,50 +862,48 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null , type = 'line
             },
             title: {
                 display: true,
-                text: `${wps_js._('published')} Posts` ,
+                text: `${wps_js._('published')} Posts`,
                 color: '#898A8E',
                 fontSize: 13
             }
         }
 
-        defaultOptions.scales.y  = {
+        defaultOptions.scales.y = {
             border: {
                 color: 'transparent',
                 width: 0
             },
             ticks: {
                 maxTicksLimit: 9,
-                    fontColor: '#898A8E',
-                    fontSize: 13,
-                    fontStyle: 'italic',
-                    fontFamily: '"Roboto",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif',
-                    fontWeight: 'lighter ',
-                    padding: 8,
-                    lineHeight: 15,
-                    stepSize: 1
+                fontColor: '#898A8E',
+                fontSize: 13,
+                fontStyle: 'italic',
+                fontFamily: '"Roboto",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif',
+                fontWeight: 'lighter ',
+                padding: 8,
+                lineHeight: 15,
+                stepSize: 1
             },
             position: containsPostsLabel ? 'right' : 'left',
             grid: {
                 display: true,
-                    borderDash: [5, 5],
-                    tickColor: '#EEEFF1',
-                    color: '#EEEFF1'
+                borderDash: [5, 5],
+                tickColor: '#EEEFF1',
+                color: '#EEEFF1'
             },
             title: {
                 display: true,
-                    text: wps_js._('visits'),
-                    color: '#898A8E',
-                    fontSize: 13,
+                text: wps_js._('visits'),
+                color: '#898A8E',
+                fontSize: 13,
             }
         }
     }
-
-     // Merge default options with user options
+    // Merge default options with user options
     const options = Object.assign({}, defaultOptions, newOptions);
     const lineChart = new Chart(ctx_line, {
         type: containsPostsLabel ? 'bar' : 'line',
         data: {
-            // labels: data.data.labels.map(dateObj => dateObj.date),
             labels: dateLabels,
             datasets: datasets,
         },
@@ -992,7 +928,7 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null , type = 'line
             });
             datasets.forEach((dataset, index) => {
                 const isPrevious = dataset.label.includes('(Previous)');
-                 if (!isPrevious) {
+                if (!isPrevious) {
                     const currentData = dataset.data.reduce((a, b) => Number(a) + Number(b), 0);
                     let previousData = null;
                     let previousDatasetIndex = null;
@@ -1044,22 +980,22 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null , type = 'line
 
                     // Add click event to toggle visibility of the previous dataset
                     const previousDataDiv = legendItem.querySelector('.previous-data');
-                     if (previousDataDiv && previousDatasetIndex !== null) {
-                         previousDataDiv.addEventListener('click', function () {
-                             // Find the metaPrevious dataset by matching the label with "(Previous)"
-                             const metaPrevious = lineChart.data.datasets.find((dataset, dsIndex) => {
-                                 return dataset.label === `${datasets[index].label} (Previous)` && lineChart.getDatasetMeta(dsIndex);
-                             });
-                             // Toggle visibility of the previous dataset
-                             if (metaPrevious) {
-                                 const metaPreviousIndex = lineChart.data.datasets.indexOf(metaPrevious);
-                                 const metaPreviousVisibility = lineChart.getDatasetMeta(metaPreviousIndex);
-                                 metaPreviousVisibility.hidden = !metaPreviousVisibility.hidden;
-                                 previousDataDiv.classList.toggle('wps-line-through');
-                                 lineChart.update();
-                             }
-                         });
-                     }
+                    if (previousDataDiv && previousDatasetIndex !== null) {
+                        previousDataDiv.addEventListener('click', function () {
+                            // Find the metaPrevious dataset by matching the label with "(Previous)"
+                            const metaPrevious = lineChart.data.datasets.find((dataset, dsIndex) => {
+                                return dataset.label === `${datasets[index].label} (Previous)` && lineChart.getDatasetMeta(dsIndex);
+                            });
+                            // Toggle visibility of the previous dataset
+                            if (metaPrevious) {
+                                const metaPreviousIndex = lineChart.data.datasets.indexOf(metaPrevious);
+                                const metaPreviousVisibility = lineChart.getDatasetMeta(metaPreviousIndex);
+                                metaPreviousVisibility.hidden = !metaPreviousVisibility.hidden;
+                                previousDataDiv.classList.toggle('wps-line-through');
+                                lineChart.update();
+                            }
+                        });
+                    }
                     legendContainer.appendChild(legendItem);
                 }
             });

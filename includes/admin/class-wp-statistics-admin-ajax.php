@@ -56,11 +56,6 @@ class Ajax
             ],
             [
                 'class'  => $this,
-                'action' => 'empty_table',
-                'public' => false
-            ],
-            [
-                'class'  => $this,
                 'action' => 'purge_data',
                 'public' => false
             ],
@@ -337,53 +332,6 @@ class Ajax
                 esc_html_e('Couldn\'t find any user query string parameter data to delete from \'visitor\' table.', 'wp-statistics');
             }
 
-        } else {
-            esc_html_e('Unauthorized access!', 'wp-statistics');
-        }
-
-        exit;
-    }
-
-    /**
-     * Setup an AJAX action to empty a table in the optimization page.
-     */
-    public function empty_table_action_callback()
-    {
-
-        // Check Ajax Request
-        if (!Helper::is_request('ajax')) {
-            exit;
-        }
-
-        //Check isset Table-post
-        if (!isset($_POST['table-name'])) {
-            esc_html_e('Kindly select the items you want to work with.', 'wp-statistics');
-            exit;
-        }
-
-        // Check Refer Ajax
-        check_ajax_referer('wp_rest', 'wps_nonce');
-
-        //Check Valid Table name
-        $table_name    = sanitize_text_field($_POST['table-name']);
-        $list_db_table = DB::table('all', 'historical');
-
-        if (!array_key_exists($table_name, $list_db_table) and $table_name != 'all') {
-            esc_html_e('Unauthorized access!', 'wp-statistics');
-            exit;
-        }
-
-        if (User::Access('manage')) {
-
-            if ($table_name == "all") {
-                $x_tbl = 1;
-                foreach ($list_db_table as $tbl_key => $tbl_name) {
-                    echo ($x_tbl > 1 ? '<br>' : '') . DB::EmptyTable($tbl_name); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-                    $x_tbl++;
-                }
-            } else {
-                echo DB::EmptyTable(DB::table($table_name)); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-            }
         } else {
             esc_html_e('Unauthorized access!', 'wp-statistics');
         }

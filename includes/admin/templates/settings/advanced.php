@@ -345,40 +345,6 @@ add_thickbox();
         </tbody>
     </table>
 </div>
-<div class="postbox">
-    <table class="form-table">
-        <tbody>
-        <tr valign="top">
-            <th scope="row" colspan="2"><h3><?php esc_html_e('Purge High Hit Count Visitors Daily', 'wp-statistics'); ?></h3>
-            </th>
-        </tr>
-
-        <tr valign="top">
-            <th scope="row">
-                <label for="wps_schedule_dbmaint_visitor"><?php esc_html_e('Automatic Cleanup', 'wp-statistics'); ?></label>
-            </th>
-
-            <td>
-                <input id="wps_schedule_dbmaint_visitor" type="checkbox" name="wps_schedule_dbmaint_visitor" <?php echo WP_STATISTICS\Option::get('schedule_dbmaint_visitor') == true ? "checked='checked'" : ''; ?> onclick='DBMaintWarning();'>
-                <label for="wps_schedule_dbmaint_visitor"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
-                <p class="description"><?php esc_html_e('Removes user statistics data daily for users with an abnormally high number of visits, indicating potential bot activity.', 'wp-statistics'); ?></p>
-            </td>
-        </tr>
-
-        <tr valign="top">
-            <th scope="row">
-                <label for="wps_schedule_dbmaint_visitor_hits"><?php esc_html_e('Purge Visitors More Than', 'wp-statistics'); ?></label>
-            </th>
-
-            <td>
-                <input type="text" class="small-text code" id="wps_schedule_dbmaint_visitor_hits" name="wps_schedule_dbmaint_visitor_hits" value="<?php echo esc_attr(WP_STATISTICS\Option::get('schedule_dbmaint_visitor_hits', '50')); ?>"/>
-                <?php esc_html_e('Views', 'wp-statistics'); ?>
-                <p class="description"><?php echo esc_html__('Establishes a daily visit limit. Users with visit counts above this limit are considered for removal, with the minimum set threshold being 10 visits.', 'wp-statistics'); ?></p>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-</div>
 
 <div class="postbox">
     <table class="form-table">

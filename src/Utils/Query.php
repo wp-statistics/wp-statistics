@@ -2,14 +2,14 @@
 
 namespace WP_Statistics\Utils;
 
-use WP_Statistics\Traits\Cacheable;
+use WP_Statistics\Traits\TransientCacheTrait;
 use WP_STATISTICS\DB;
 use WP_STATISTICS\TimeZone;
 use InvalidArgumentException;
 
 class Query
 {
-    use Cacheable;
+    use TransientCacheTrait;
 
     private $operation;
     private $table;

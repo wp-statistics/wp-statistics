@@ -188,8 +188,14 @@
             display: block;
             width: 12px;
             height: 12px;
-            margin-right: 5px;
+            margin-right: 5px; //
             background: url("../images/preview-lock.png") right center/auto 100% no-repeat;
+
+            .rtl &{
+              margin-left: 5px;
+              margin-right: 0;
+            }
+
           }
         }
 

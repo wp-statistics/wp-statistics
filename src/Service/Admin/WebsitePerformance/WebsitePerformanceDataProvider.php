@@ -64,11 +64,29 @@ class WebsitePerformanceDataProvider
      */
     private $argsPreviousPeriod = [];
 
-    // Models
+    /**
+     * @var VisitorsModel
+     */
     private $visitorsModel;
+
+    /**
+     * @var ViewsModel
+     */
     private $viewsModel;
+
+    /**
+     * @var PostsModel
+     */
     private $postsModel;
+
+    /**
+     * @var AuthorsModel
+     */
     private $authorsModel;
+
+    /**
+     * @var TaxonomyModel
+     */
     private $taxonomiesModel;
 
     // Cached attributes (to prevent duplicate queries)
@@ -84,6 +102,10 @@ class WebsitePerformanceDataProvider
     private $percentageChangeViews     = null;
     private $percentageChangeReferrals = null;
     private $percentageChangeContents  = null;
+    private $topAuthor                 = null;
+    private $topPost                   = null;
+    private $topReferral               = null;
+    private $topCategory               = null;
 
     /**
      * Initializes the class.
@@ -137,13 +159,13 @@ class WebsitePerformanceDataProvider
             // Previous period = From 4 weeks ago to 15 days ago
             $this->previousPeriodFromDate = TimeZone::getTimeAgo(28);
             $this->previousPeriodToDate   = TimeZone::getTimeAgo(15);
-        } else if ($fromDate == TimeZone::getTimeAgo(30)) {
-            // Current period = From 30 days ago to yesterday
-            $this->currentPeriodFromDate  = TimeZone::getTimeAgo(30);
-            $this->currentPeriodToDate    = TimeZone::getTimeAgo();
-            // Previous period = From 60 days ago to 30 days ago
-            $this->previousPeriodFromDate = TimeZone::getTimeAgo(60);
-            $this->previousPeriodToDate   = TimeZone::getTimeAgo(30);
+        } else if ($fromDate == date('Y-m-d', strtotime('First day of previous month'))) {
+            // Current period = Last month
+            $this->currentPeriodFromDate  = date('Y-m-d', strtotime('First day of previous month'));
+            $this->currentPeriodToDate    = date('Y-m-d', strtotime('Last day of previous month'));
+            // Previous period = Previous month
+            $this->previousPeriodFromDate = date('Y-m-d', strtotime('First day of -2 months'));
+            $this->previousPeriodToDate   = date('Y-m-d', strtotime('Last day of -2 months'));
         } else if (!empty($fromDate)) {
             // Current period = From the `$fromDate` to `$toDate`
             $this->currentPeriodFromDate  = $fromDate;
@@ -162,18 +184,22 @@ class WebsitePerformanceDataProvider
         }
 
         $this->argsCurrentPeriod = [
-            'date' => [
+            'date'     => [
                 'from' => $this->currentPeriodFromDate,
                 'to'   => $this->currentPeriodToDate,
             ],
+            'page'     => 0,
+            'per_page' => 0,
         ];
 
         if ($this->calculatePercentageChanges) {
             $this->argsPreviousPeriod = [
-                'date' => [
+                'date'     => [
                     'from' => $this->previousPeriodFromDate,
                     'to'   => $this->previousPeriodToDate,
                 ],
+                'page'     => 0,
+                'per_page' => 0,
             ];
         }
 
@@ -190,6 +216,10 @@ class WebsitePerformanceDataProvider
         $this->percentageChangeViews     = null;
         $this->percentageChangeReferrals = null;
         $this->percentageChangeContents  = null;
+        $this->topAuthor                 = null;
+        $this->topPost                   = null;
+        $this->topReferral               = null;
+        $this->topCategory               = null;
     }
 
     /**
@@ -522,81 +552,104 @@ class WebsitePerformanceDataProvider
 
 
     /**
-     * Returns the name of the top author for current period.
+     * Returns the name of the author with the most published posts in current period.
      *
      * @return  string
      */
     public function getTopAuthor()
     {
+        if ($this->topAuthor !== null) {
+            return $this->topAuthor;
+        }
+
         if (empty($this->authorsModel)) {
             $this->authorsModel = new AuthorsModel();
         }
 
-        $topAuthor = $this->authorsModel->getAuthorsByPostPublishes($this->argsCurrentPeriod);
-        return !empty($topAuthor) ? $topAuthor[0]->name : '';
+        $this->topAuthor = $this->authorsModel->getAuthorsByPostPublishes($this->argsCurrentPeriod);
+        $this->topAuthor = !empty($this->topAuthor) ? $this->topAuthor[0]->name : '';
+
+        return $this->topAuthor;
     }
 
     /**
-     * Returns the name of the post with the most views for current period.
+     * Returns the name of the post that had the most views in current period.
      *
      * @return  string
      */
     public function getTopPost()
     {
+        if ($this->topPost !== null) {
+            return $this->topPost;
+        }
+
         if (empty($this->postsModel)) {
             $this->postsModel = new PostsModel();
         }
 
-        $topPost = $this->postsModel->getPostsViewsData($this->argsCurrentPeriod);
-        return !empty($topPost) ? $topPost[0]->post_title : '';
+        $this->topPost = $this->postsModel->getPostsViewsData($this->argsCurrentPeriod);
+        $this->topPost = !empty($this->topPost) ? $this->topPost[0]->post_title : '';
+
+        return $this->topPost;
     }
 
     /**
-     * Returns the name of the website with the most referrals for current period.
+     * Returns the URL of the website that referred the most users in current period.
      *
      * @return  string
      */
     public function getTopReferral()
     {
+        if ($this->topReferral !== null) {
+            return $this->topReferral;
+        }
+
         if (!is_array($this->currentPeriodReferrals)) {
             $this->currentPeriodReferrals = $this->getReferrals();
         }
 
-        $topReferral = '';
+        $this->topReferral = null;
         foreach ($this->previousPeriodReferrals as $referral) {
             if (!empty($referral->visitors) && !empty($referral->referrer)) {
-                $topReferral = str_replace('www.', '', $referral->referrer);
-                $topReferral = wp_parse_url($topReferral);
-                $topReferral = !empty($topReferral['host']) ? trim($topReferral['host']) : '';
-                $topReferral = ucfirst($topReferral);
+                $this->topReferral = str_replace('www.', '', $referral->referrer);
+                $this->topReferral = wp_parse_url($this->topReferral);
+                $this->topReferral = !empty($this->topReferral['host']) ? trim($this->topReferral['host']) : '';
+                $this->topReferral = ucfirst($this->topReferral);
 
                 // We only need the first referral
                 break;
             }
         }
 
-        return $topReferral;
+        return $this->topReferral;
     }
 
     /**
-     * Returns the name of the post category with the most views for current period.
+     * Returns the name of the category/taxonomy that had the most views in its posts in current period.
      *
      * @return  string
      */
     public function getTopCategory()
     {
+        if ($this->topCategory !== null) {
+            return $this->topCategory;
+        }
+
         if (empty($this->taxonomiesModel)) {
             $this->taxonomiesModel = new TaxonomyModel();
         }
 
-        $topCategory = $this->taxonomiesModel->getTaxonomiesData([
+        $this->topCategory = $this->taxonomiesModel->getTermsData([
             'date'     => [
                 'from' => $this->getCurrentPeriodFromDate(),
                 'to'   => $this->getCurrentPeriodToDate(),
             ],
             'order_by' => 'views',
             'order'    => 'DESC',
+            'taxonomy' => array_keys(Helper::get_list_taxonomy()),
         ]);
-        return (!empty($topCategory['category']) && !empty($topCategory['category'][0]['term_name'])) ? $topCategory['category'][0]['term_name'] : '';
+        $this->topCategory = (!empty($this->topCategory) && is_array($this->topCategory) && !empty($this->topCategory[0]->term_name)) ? $this->topCategory[0]->term_name : '';
+
+        return $this->topCategory;
     }
 }

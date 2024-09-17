@@ -15,17 +15,17 @@ $text_align_reverse = $is_rtl ? 'left' : 'right';
 $dir                = $is_rtl ? 'rtl' : 'ltr';
 
 // Setting up the logo.
-$final_logo = ' <a href="' . esc_url($logo_url) . '"  class="wp-statistics-logo" style=" font-family: \'Roboto\' ,Arial,Helvetica,sans-serif; margin: 0; padding: 0; text-decoration: none;"><img src="' . esc_url($logo_image) . '" width="168" height="38" title="WP Statistics" alt="WP Statistics" style="margin: 0; margin-bottom: 32px; padding: 0; text-decoration: none;"></a>';
+$final_logo = ' <a href="' . esc_url($logo_url) . '"  class="wp-statistics-logo" style=" font-family:  -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans, Ubuntu, Cantarell, Helvetica Neue,sans-serif; margin: 0; padding: 0; text-decoration: none;"><img src="' . esc_url($logo_image) . '" width="168" height="38" title="WP Statistics" alt="WP Statistics" style="margin: 0; margin-bottom: 32px; padding: 0; text-decoration: none;"></a>';
 
 // Advertisement For WP Statistics Advanced Report Plugin
 $advanced_reporting_ad = is_plugin_active('wp-statistics-advanced-reporting/wp-statistics-advanced-reporting.php') ? '' :
-    '<table class="better-reports" style="background-color: #404bf2; border: 1px solid #404bf2;  ' . ($email_footer ? 'border-radius: 12px 12px 0 0;' : 'border-radius: 12px;') . '  font-family: \'Roboto\', Arial, Helvetica, sans-serif; margin: 0; margin-top: 39px;  text-align: center; text-decoration: none;">
+    '<table class="better-reports" style="background-color: #404bf2; border: 1px solid #404bf2;  ' . ($email_footer ? 'border-radius: 12px 12px 0 0;' : 'border-radius: 12px;') . '  font-family:  -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans, Ubuntu, Cantarell, Helvetica Neue,sans-serif;; margin: 0; margin-top: 39px;  text-align: center; text-decoration: none;">
         <tbody><tr><td style="padding: 32px 18px;">
-        <h2 class="better-reports__title" style=" color: #fff; font-family: \'Roboto\', Arial, Helvetica, sans-serif; font-size: 18px; font-weight: 600; line-height: 21.09px; margin: 0 0 24px; padding: 0; text-decoration: none;">' . __('Get Better Reports', 'wp-statistics') . '</h2>
-        <p style=" color: #fff; font-family: \'Roboto\', Arial, Helvetica, sans-serif; font-size: 15px; font-weight: 400; line-height: 25px; margin: 0 0 32px; padding: 0; text-decoration: none;">
+        <h2 class="better-reports__title" style=" color: #fff; font-family:  -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans, Ubuntu, Cantarell, Helvetica Neue,sans-serif;; font-size: 18px; font-weight: 600; line-height: 21.09px; margin: 0 0 24px; padding: 0; text-decoration: none;">' . __('Get Better Reports', 'wp-statistics') . '</h2>
+        <p style=" color: #fff; font-family:  -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans, Ubuntu, Cantarell, Helvetica Neue,sans-serif;; font-size: 15px; font-weight: 400; line-height: 25px; margin: 0 0 32px; padding: 0; text-decoration: none;">
            ' . __('Detailed and customizable email reports are available with the Advanced Reporting add-on. Make sure you always have the insights you need to make informed decisions by digging deeper into your website analytics.', 'wp-statistics') . '
         </p>
-        <a href="https://wp-statistics.com/product/wp-statistics-advanced-reporting/?utm_source=wp_statistics&utm_medium=display&utm_campaign=email_report"  title="' . __('See the Full Picture — Try Advanced Reporting Today', 'wp-statistics') . '" style="background-color: #fff; background-image: url(\'' . esc_url(WP_STATISTICS_URL . 'assets/mail/images/arrow-right.png') . '\'); background-position: center right 24px; background-repeat: no-repeat; background-size: 16px; border-radius: 4px;  color: #404bf2; display: inline-block; font-family: \'Roboto\', Arial, Helvetica, sans-serif; font-size: 15px; font-weight: 600; line-height: 17.58px; margin: 0; padding: 12px 50px 12px 16px;  text-decoration: none; word-break: break-word;">
+        <a href="https://wp-statistics.com/product/wp-statistics-advanced-reporting/?utm_source=wp_statistics&utm_medium=display&utm_campaign=email_report"  title="' . __('See the Full Picture — Try Advanced Reporting Today', 'wp-statistics') . '" style="background-color: #fff; background-image: url(\'' . esc_url(WP_STATISTICS_URL . 'assets/mail/images/arrow-right.png') . '\'); background-position: center right 24px; background-repeat: no-repeat; background-size: 16px; border-radius: 4px;  color: #404bf2; display: inline-block; font-family:  -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans, Ubuntu, Cantarell, Helvetica Neue,sans-serif;; font-size: 15px; font-weight: 600; line-height: 17.58px; margin: 0; padding: 12px 50px 12px 16px;  text-decoration: none; word-break: break-word;">
             ' . __('See the Full Picture — Try Advanced Reporting Today', 'wp-statistics') . '
         </a>
    </td></tr></tbody></table>';
@@ -72,13 +72,61 @@ if (!empty($schedule)) {
 }
 $websitePerformanceDataProvider = new WebsitePerformanceDataProvider($startDate, $endDate);
 
+function getPerformanceStyles($percentageChange) {
+    $styles = [
+        'background' => '#A9AAAE1A', // Default for 0 change
+        'color' => '#A9AAAE',
+        'image' => 'arrow.png'
+    ];
+    if ($percentageChange > 0) {
+        $styles['background'] = '#1961401A';
+        $styles['color'] = '#196140';
+        $styles['image'] = 'up.png';
+    } elseif ($percentageChange < 0) {
+        $styles['background'] = '#FCECEB';
+        $styles['color'] = '#D54037';
+        $styles['image'] = 'down.png';
+    }
+    return $styles;
+}
+
+function generatePerformanceSection($icon, $currentValue, $percentageChange, $label, $text_align = null, $text_align_reverse = null) {
+    if (is_null($text_align)) {
+        $text_align = is_rtl() ? 'right' : 'left';
+    }
+    if (is_null($text_align_reverse)) {
+        $text_align_reverse = is_rtl() ? 'left' : 'right';
+    }
+    $styles = getPerformanceStyles($percentageChange);
+
+    return '
+        <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom: 20px;">
+            <tr>
+                <td width="24" style="vertical-align: top">
+                    <img src="' . esc_url(WP_STATISTICS_URL . 'assets/images/mail/' . $icon) . '" width="24" height="24">
+                </td>
+                <td style="padding-' . $text_align . ': 6px;">
+                    <div style="margin-bottom: 6px;font-size: 19px;font-weight: 500;line-height: 23.44px;text-align: ' . $text_align . ';color:#3D3D44">
+                        <span style="float: ' . $text_align . ';margin-' . $text_align_reverse . ': 10px;margin-top: -3px;">' . $currentValue . '</span>
+                        <span style="padding: 2px 4px;gap: 2px;border-radius: 4px;background-color: ' . $styles['background'] . ';font-size: 12px; font-weight: 600; line-height: 14.06px;color:' . $styles['color'] . ';display: inline-block">
+                            <img width="7" height="7" style="margin-' . $text_align_reverse . ': 2px;" src="' . esc_url(WP_STATISTICS_URL . 'assets/images/mail/' . $styles['image']) . '"  >
+                            ' . $percentageChange . '%
+                        </span>
+                    </div>
+                    <span style="font-size: 14px;color:#3D3D44;line-height:16.41px">' . $label . '</span> 
+                </td>
+            </tr>
+        </table>';
+}
+
+
 $email_performance_html = '
     <div class="card performance_glance" style="background-color: #fff;border-radius: 12px;margin-bottom: 39px"> 
         <div class="card__header" style="background-color: #E1EBFE;border-radius: 12px 12px 0 0">
             <table style="border-collapse: separate; mso-table-lspace: 0; mso-table-rspace: 0; width: 100%;" cellpadding="15" bgcolor="#F7F7F7" align="center">
                 <tbody>
                 <tr>
-                    <td style="color: #1E1E20;font-size: 17px;margin: 0;padding: 16px 32px;text-align: ' . $text_align . ';border-radius: 12px 12px 0 0;font-weight: 500;background-color: #E1EBFE;line-height: 19.92px;font-family: \'Roboto\', Arial, Helvetica, sans-serif;">' . __('Your performance at a glance', 'wp-statistics') . '</td>
+                    <td style="color: #1E1E20;font-size: 17px;margin: 0;padding: 16px 32px;text-align: ' . $text_align . ';border-radius: 12px 12px 0 0;font-weight: 500;background-color: #E1EBFE;line-height: 19.92px;font-family:  -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans, Ubuntu, Cantarell, Helvetica Neue,sans-serif;;">' . __('Your performance at a glance', 'wp-statistics') . '</td>
                 </tr>
                 </tbody>
             </table>
@@ -87,68 +135,32 @@ $email_performance_html = '
             <table width="100%" cellpadding="0" cellspacing="0" border="0">
                 <tr>
                     <td width="40%" valign="top">
-                        <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom: 20px;">
-                            <tr>
-                                <td width="24" style="vertical-align: top">
-                                    <img src="' . esc_url(WP_STATISTICS_URL . 'assets/images/mail/visitor.png') .'" width="24" height="24">
-                                </td>
-                                <td style="padding-'.$text_align.': 6px;">
-                                    <div style="margin-bottom: 6px;font-size: 19px;font-weight: 500;line-height: 23.44px;text-align: '.$text_align.';color:#3D3D44"><span style="float: '.$text_align.';margin-'.$text_align_reverse.': 10px;margin-top: -3px;" >' . Helper::formatNumberWithUnit($websitePerformanceDataProvider->getCurrentPeriodVisitors(), 1) . '</span>
-                                        <span style="padding: 2px 4px;gap: 2px;border-radius: 4px;background-color: ' . ($websitePerformanceDataProvider->getPercentageChangeVisitors() >= 0 ? '#1961401A' : '#FCECEB') . ';font-size: 12px; font-weight: 600; line-height: 14.06px;color:' . ($websitePerformanceDataProvider->getPercentageChangeVisitors() >= 0 ? '#196140' : '#D54037') . ';display: inline-block">
-                                            <img width="7" height="7" style="margin-'.$text_align_reverse.': 2px;" src="' . esc_url(WP_STATISTICS_URL . 'assets/images/mail/' . ($websitePerformanceDataProvider->getPercentageChangeVisitors() >= 0 ? 'up' : 'down') . '.png') .'"  >' . $websitePerformanceDataProvider->getPercentageChangeVisitors() . '%
-                                        </span>
-                                    </div>
-                                     <span style="font-size: 14px;color:#3D3D44;line-height:16.41px">' . __('Visitors', 'wp-statistics') . '</span> 
-                                </td>
-                            </tr>
-                        </table>
-                        <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom: 20px;">
-                            <tr>
-                                <td width="24" style="vertical-align: top">
-                                    <img src="' . esc_url(WP_STATISTICS_URL . 'assets/images/mail/referrals.png') .'" width="24" height="24" >
-                                </td>
-                                <td style="padding-'.$text_align.': 6px;">
-                                    <div style="margin-bottom: 6px;font-size: 19px;font-weight: 500;line-height: 23.44px;text-align: '.$text_align.';color:#3D3D44"><span  style="float: '.$text_align.';margin-'.$text_align_reverse.': 10px;margin-top: -3px;">' . Helper::formatNumberWithUnit($websitePerformanceDataProvider->getCurrentPeriodReferralsCount(), 1) . '</span>
-                                        <span style="padding: 2px 4px;gap: 2px;border-radius: 4px;background-color: ' . ($websitePerformanceDataProvider->getPercentageChangeReferrals() >= 0 ? '#1961401A' : '#FCECEB') . ';font-size: 12px; font-weight: 600; line-height: 14.06px;color:' . ($websitePerformanceDataProvider->getPercentageChangeReferrals() >= 0 ? '#196140' : '#D54037') . ';display: inline-block">
-                                            <img width="7" height="7" style="margin-'.$text_align_reverse.': 2px" src="' . esc_url(WP_STATISTICS_URL . 'assets/images/mail/' . ($websitePerformanceDataProvider->getPercentageChangeReferrals() >= 0 ? 'up' : 'down') . '.png') .'"  >' . $websitePerformanceDataProvider->getPercentageChangeReferrals() . '%
-                                        </span>
-                                    </div>
-                                     <span  style="font-size: 14px;color:#3D3D44;line-height:16.41px">' . __('Referrals', 'wp-statistics') . '</span> 
-                                </td>
-                            </tr>
-                        </table> 
+                          ' . generatePerformanceSection(
+                            'visitor.png',
+                            Helper::formatNumberWithUnit($websitePerformanceDataProvider->getCurrentPeriodVisitors(), 1),
+                            $websitePerformanceDataProvider->getPercentageChangeVisitors(),
+                            __('Visitors', 'wp-statistics')
+                        ) . '
+                        ' . generatePerformanceSection(
+                            'referrals.png',
+                            Helper::formatNumberWithUnit($websitePerformanceDataProvider->getCurrentPeriodReferralsCount(), 1),
+                            $websitePerformanceDataProvider->getPercentageChangeReferrals(),
+                            __('Referrals', 'wp-statistics')
+                        ) . '
                     </td>
                     <td width="60%" valign="top">
-                        <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom: 20px;">
-                            <tr>
-                                <td width="24" style="vertical-align: top">
-                                    <img src="' . esc_url(WP_STATISTICS_URL . 'assets/images/mail/views.png') .'" width="24" height="24" >
-                                </td>
-                                <td style="padding-'.$text_align.': 6px;">
-                                    <div style="margin-bottom: 6px;font-size: 19px;font-weight: 500;line-height: 23.44px;text-align: '.$text_align.';color:#3D3D44"><span  style="float: '.$text_align.';margin-'.$text_align_reverse.': 10px;margin-top: -3px;" >' . Helper::formatNumberWithUnit($websitePerformanceDataProvider->getCurrentPeriodViews(), 1) . '</span> 
-                                        <span style="padding: 2px 4px;gap: 2px;border-radius: 4px;background-color: ' . ($websitePerformanceDataProvider->getPercentageChangeViews() >= 0 ? '#1961401A' : '#FCECEB') . ';font-size: 12px; font-weight: 600; line-height: 14.06px;color:' . ($websitePerformanceDataProvider->getPercentageChangeViews() >= 0 ? '#196140' : '#D54037') . ';display: inline-block">
-                                            <img width="7" height="7" style="width: 7px;height: 7px;margin-'.$text_align_reverse.': 4px" src="' . esc_url(WP_STATISTICS_URL . 'assets/images/mail/' . ($websitePerformanceDataProvider->getPercentageChangeViews() >= 0 ? 'up' : 'down') . '.png') .'"  >' . $websitePerformanceDataProvider->getPercentageChangeViews() . '%
-                                        </span>
-                                    </div>
-                                    <span  style="font-size: 14px;color:#3D3D44;line-height:16.41px">' . __('Views', 'wp-statistics') . '</span> 
-                                </td>
-                            </tr>
-                        </table>
-                        <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom: 20px;">
-                            <tr>
-                                <td width="24" style="vertical-align: top">
-                                    <img src="' . esc_url(WP_STATISTICS_URL . 'assets/images/mail/contents.png') .'"  width="24" height="24">
-                                </td>
-                                <td style="padding-'.$text_align.': 6px;">
-                                    <div style="margin-bottom: 6px;font-size: 19px;font-weight: 500;line-height: 23.44px;text-align: '.$text_align.';color:#3D3D44"><span  style="float: '.$text_align.';margin-'.$text_align_reverse.': 10px;margin-top: -3px;" >' . $websitePerformanceDataProvider->getCurrentPeriodContents() . '</span> 
-                                        <span style="padding: 2px 4px;gap: 2px;border-radius: 4px;background-color: ' . ($websitePerformanceDataProvider->getPercentageChangeContents() >= 0 ? '#1961401A' : '#FCECEB') . ';color:' . ($websitePerformanceDataProvider->getPercentageChangeContents() >= 0 ? '#196140' : '#D54037') . ';font-size: 12px; font-weight: 600; line-height: 14.06px;display: inline-block">
-                                            <img  width="7" height="7" style="margin-'.$text_align_reverse.': 2px" src="' . esc_url(WP_STATISTICS_URL . 'assets/images/mail/' . ($websitePerformanceDataProvider->getPercentageChangeContents() >= 0 ? 'up' : 'down') . '.png') .'"  >' . $websitePerformanceDataProvider->getPercentageChangeContents() . '%
-                                        </span>
-                                    </div>
-                                     <span  style="font-size: 14px;color:#3D3D44;line-height:16.41px">' . __('Published Contents', 'wp-statistics') . '</span> 
-                                </td>
-                            </tr>
-                        </table> 
+                        ' . generatePerformanceSection(
+                            'views.png',
+                            Helper::formatNumberWithUnit($websitePerformanceDataProvider->getCurrentPeriodViews(), 1),
+                            $websitePerformanceDataProvider->getPercentageChangeViews(),
+                            __('Views', 'wp-statistics')
+                        ) . '
+                        ' . generatePerformanceSection(
+                            'contents.png',
+                            $websitePerformanceDataProvider->getCurrentPeriodContents(),
+                            $websitePerformanceDataProvider->getPercentageChangeContents(),
+                            __('Published Contents', 'wp-statistics')
+                        ) . '
                     </td>
                 </tr>
             </table>';
@@ -257,18 +269,18 @@ $email_performance_html .= '<td width="60%" valign="top">' . implode('', $second
 $email_performance_html .= '</tr></table></div></div>';
 
 $email_body = '
-        <div class="mail-body" style="direction: ' . $dir . ';background-color: #F7F9FA;  font-family: \'Roboto\', Arial, Helvetica, sans-serif; margin: 0; padding: 39px 0; text-decoration: none;">
-            <div class="main-section" style=" font-family: \'Roboto\', Arial, Helvetica, sans-serif; margin:0 auto;  padding: 0 5px; text-decoration: none; width: 618px; ">
+        <div class="mail-body" style="direction: ' . $dir . ';background-color: #F7F9FA;  font-family:  -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans, Ubuntu, Cantarell, Helvetica Neue,sans-serif;; margin: 0; padding: 39px 0; text-decoration: none;">
+            <div class="main-section" style=" font-family:  -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans, Ubuntu, Cantarell, Helvetica Neue,sans-serif;; margin:0 auto;  padding: 0 5px; text-decoration: none; width: 618px; ">
                 <div style="border-radius: 12px;margin-bottom: 24px;background-color: #fff;">
-                    <table class="header" style="background-color: #E1EBFE;padding: 32px 34px; font-family: \'Roboto\', Arial, Helvetica, sans-serif; margin: 0; text-align: ' . $text_align . ';text-decoration: none; width: 100%; ' . (!empty($content) || !empty($email_header) ? 'border-radius: 12px 12px 0 0;' : 'border-radius: 12px;') . ' ">
-                        <tr style=" font-family: \'Roboto\', Arial, Helvetica, sans-serif; margin: 0; padding: 0; text-decoration: none;">
-                            <td style=" font-family: \'Roboto\', Arial, Helvetica, sans-serif; margin: 0; padding: 0; text-decoration: none;">
+                    <table class="header" style="background-color: #E1EBFE;padding: 32px 34px; font-family:  -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans, Ubuntu, Cantarell, Helvetica Neue,sans-serif;; margin: 0; text-align: ' . $text_align . ';text-decoration: none; width: 100%; ' . (!empty($content) || !empty($email_header) ? 'border-radius: 12px 12px 0 0;' : 'border-radius: 12px;') . ' ">
+                        <tr style=" font-family:  -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans, Ubuntu, Cantarell, Helvetica Neue,sans-serif;; margin: 0; padding: 0; text-decoration: none;">
+                            <td style=" font-family:  -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans, Ubuntu, Cantarell, Helvetica Neue,sans-serif;; margin: 0; padding: 0; text-decoration: none;">
                                  ' . $final_logo . '
                             </td>
                         </tr>
-                        <tr style=" font-family: \'Roboto\', Arial, Helvetica, sans-serif; margin: 0; padding: 0; text-decoration: none;">
-                            <td style=" font-family: \'Roboto\', Arial, Helvetica, sans-serif; margin: 0; padding: 0; text-decoration: none;">
-                                <p style=" color: #0C0C0D ; font-family: \'Roboto\', Arial, Helvetica, sans-serif; font-size:21px; font-weight: 600; line-height: 24.61px; margin: 0;  padding: 0">' . $email_title . '</p>
+                        <tr style=" font-family:  -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans, Ubuntu, Cantarell, Helvetica Neue,sans-serif;; margin: 0; padding: 0; text-decoration: none;">
+                            <td style=" font-family:  -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans, Ubuntu, Cantarell, Helvetica Neue,sans-serif;; margin: 0; padding: 0; text-decoration: none;">
+                                <p style=" color: #0C0C0D ; font-family:  -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans, Ubuntu, Cantarell, Helvetica Neue,sans-serif;; font-size:21px; font-weight: 600; line-height: 24.61px; margin: 0;  padding: 0">' . $email_title . '</p>
                             </td>
                         </tr>
                     </table>
@@ -285,17 +297,17 @@ if (!empty($content)) {
 }
 $email_body .= '</div>
                 ' .$email_performance_html . $privacyBox .'
-                <div class="content" style="' . ($email_footer ? 'border-radius: 0;' : 'border-radius: 0 0 18px 18px;') . '  font-family:  \'Roboto\',Arial,Helvetica,sans-serif; margin: 0;">
-                     <table class="content__tip" style="background-color: #E1EBFE; border-radius: 12px;  font-family: \'Roboto\',Arial,Helvetica,sans-serif; margin: 0;  text-decoration: none;">
+                <div class="content" style="' . ($email_footer ? 'border-radius: 0;' : 'border-radius: 0 0 18px 18px;') . '  font-family:  -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans, Ubuntu, Cantarell, Helvetica Neue,sans-serif; margin: 0;">
+                     <table class="content__tip" style="background-color: #E1EBFE; border-radius: 12px;  font-family:  -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans, Ubuntu, Cantarell, Helvetica Neue,sans-serif; margin: 0;  text-decoration: none;">
                         <tbody>
                             <tr>
                                 <td style="padding: 20px;">
-                                    <div class="content__tip--title" style=" font-family: \'Roboto\',Arial,Helvetica,sans-serif; margin: 0; margin-bottom: 16px; padding: 0; text-decoration: none;">
-                                    <h2 style=" font-family: \'Roboto\',Arial,Helvetica,sans-serif; font-size: 17px; font-weight: 500; line-height: 19.92px; margin: 0; text-decoration: none;color: #303032">
+                                    <div class="content__tip--title" style=" font-family:  -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans, Ubuntu, Cantarell, Helvetica Neue,sans-serif; margin: 0; margin-bottom: 16px; padding: 0; text-decoration: none;">
+                                    <h2 style=" font-family:  -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans, Ubuntu, Cantarell, Helvetica Neue,sans-serif; font-size: 17px; font-weight: 500; line-height: 19.92px; margin: 0; text-decoration: none;color: #303032">
                                        <img src="' . esc_url(WP_STATISTICS_URL . '/assets/images/mail/tip.png') . '" width="16" height="16" style="float:' . $text_align . ';margin-top: 2px;margin-' . $text_align_reverse . ':6px">' . $tipOfEmail['title'] . '
                                     </h2>
                                     </div>
-                                    <div class="content__tip--description" style=" color: #303032; font-family: \'Roboto\',Arial,Helvetica,sans-serif; font-size: 16px; font-weight: 400; line-height: 22px; margin: 0; padding: 0; text-decoration: none;">
+                                    <div class="content__tip--description" style=" color: #303032; font-family:  -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans, Ubuntu, Cantarell, Helvetica Neue,sans-serif; font-size: 16px; font-weight: 400; line-height: 22px; margin: 0; padding: 0; text-decoration: none;">
                                     ' . $tipOfEmail['content'] . '
                                     </div>
                                                             

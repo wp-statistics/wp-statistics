@@ -7,12 +7,13 @@ use WP_STATISTICS\User;
 use WP_STATISTICS\Pages;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Option;
+use WP_STATISTICS\Visitor;
 use WP_Statistics\Service\Analytics\DeviceDetection\UserAgent;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
 use WP_Statistics\Service\Analytics\Referrals\Referrals;
 
 /**
- * @todo use the ObjectCacheTrait trait instead of the properties
+ * @todo Replace object cache internally with ObjectCacheTrait
  */
 class VisitorProfile
 {

@@ -1,6 +1,5 @@
 <?php
 
-use WP_STATISTICS\Helper;
 use WP_Statistics\Utils\Request;
 
 $postType = Request::get('tab', 'post');
@@ -9,7 +8,7 @@ $postType = Request::get('tab', 'post');
 <div class="wps-card">
     <div class="wps-card__title">
         <h2>
-            <?php echo esc_html($title) ?>
+            <?php echo esc_html($title); ?>
             <?php if (isset($tooltip) &&  $tooltip): ?>
                 <span class="wps-tooltip" title="<?php echo esc_attr($tooltip); ?>"><i class="wps-tooltip-icon info"></i></span>
             <?php endif ?>

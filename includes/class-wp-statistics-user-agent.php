@@ -27,6 +27,7 @@ class UserAgent
      * Returns browser logo.
      *
      * @param string $browser Browser name.
+     * @param string $browser Browser name.
      *
      * @return  string              Logo URL, or URL of an unknown browser icon.
      */

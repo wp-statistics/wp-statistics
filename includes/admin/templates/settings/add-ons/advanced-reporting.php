@@ -8,14 +8,14 @@ global $wp_version;
 <?php
 if (!$isAdvancedReportingActive) echo Admin_Template::get_template('layout/partials/addon-premium-feature',
     ['addon_slug'        => esc_url(WP_STATISTICS_SITE_URL . '/product/wp-statistics-advanced-reporting/?utm_source=wp-statistics&utm_medium=link&utm_campaign=plugin-settings'),
-     'addon_title'       => 'Advanced Reporting Add-On',
-     'addon_description' => 'The settings on this page are part of the Advanced Reporting add-on, which allows you to stay up-to-date on your website\'s performance by receiving graphical representations of your website\'s statistics directly in your inbox.',
+     'addon_title'       => __('Advanced Reporting Add-On', 'wp-statistics'),
+     'addon_description' => __('The settings on this page are part of the Advanced Reporting add-on, which allows you to stay up-to-date on your website\'s performance by receiving graphical representations of your website\'s statistics directly in your inbox.', 'wp-statistics'),
      'addon_features'    => [
-         'Receive graphical statistics charts via email.',
-         'Schedule reports to be sent to any inbox of your choice.',
-         'Monitor your website\'s traffic and activity with no hassle.',
+         __('Receive graphical statistics charts via email.', 'wp-statistics'),
+         __('Schedule reports to be sent to any inbox of your choice.', 'wp-statistics'),
+         __('Monitor your website\'s traffic and activity with no hassle.', 'wp-statistics'),
      ],
-     'addon_info'        => 'Keep a close eye on your website\'s performance with the Advanced Reporting add-on.',
+     'addon_info'        => __('Keep a close eye on your website\'s performance with the Advanced Reporting add-on.', 'wp-statistics'),
     ], true);
 ?>
 

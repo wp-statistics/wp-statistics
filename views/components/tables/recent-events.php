@@ -6,19 +6,19 @@
                 <thead>
                 <tr>
                     <th class="wps-pd-l">
-                        <?php esc_html_e('Date', 'wp-statistics') ?>
+                        <?php esc_html_e('Date', 'wp-statistics'); ?>
                     </th>
                     <th class="wps-pd-l">
-                        <?php esc_html_e('Link URL', 'wp-statistics') ?>
+                        <?php esc_html_e('Link URL', 'wp-statistics'); ?>
                     </th>
                     <th class="wps-pd-l">
-                        <?php esc_html_e('Link ID', 'wp-statistics') ?>
+                        <?php esc_html_e('Link ID', 'wp-statistics'); ?>
                     </th>
                     <th class="wps-pd-l">
-                        <?php esc_html_e('Link Class', 'wp-statistics') ?>
+                        <?php esc_html_e('Link Class', 'wp-statistics'); ?>
                     </th>
                     <th class="wps-pd-l">
-                        <?php esc_html_e('Link Text', 'wp-statistics') ?>
+                        <?php esc_html_e('Link Text', 'wp-statistics'); ?>
                     </th>
                     <th class="wps-pd-l">
                         <?php esc_html_e('Page', 'wp-statistics') ?>
