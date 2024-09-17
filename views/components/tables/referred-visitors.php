@@ -70,7 +70,7 @@ use WP_Statistics\Service\Analytics\VisitorDecorator;
                                         <a href="<?php echo esc_url(Menus::admin_url('geographic', ['type' => 'single-country', 'country' => $visitor->getCountryCode()])) ?>" class="wps-tooltip" title="<?php echo esc_attr($visitor->getCountryName()) ?>">
                                             <img src="<?php echo esc_url($visitor->getCountryFlag()) ?>" alt="<?php echo esc_attr($visitor->getCountryName()) ?>" width="15" height="15">
                                         </a>
-                                        <?php $location = Admin_Template::locationColumn($visitor->getCountryName(), $visitor->getRegion(), $visitor->getCity()); ?>
+                                        <?php $location = Admin_Template::locationColumn($visitor->getCountryCode(), $visitor->getRegion(), $visitor->getCity()); ?>
                                         <span class="wps-ellipsis-text" title="<?php echo esc_attr($location) ?>"><?php echo esc_html($location) ?></span>
                                     </div>
                                 </div>
