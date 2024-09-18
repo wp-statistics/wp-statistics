@@ -419,7 +419,7 @@ class Exclusion
     /**
      * Detect if GeoIP include or exclude country.
      *
-     * @param $visitorProfile VisitorProfile
+     * @param VisitorProfile VisitorProfile
      * @throws \Exception
      */
     public static function exclusion_geoip($visitorProfile)
