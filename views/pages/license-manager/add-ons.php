@@ -1,29 +1,18 @@
 <?php
 
 use WP_Statistics\Components\View;
+use WP_Statistics\Service\Admin\LicenseManagement\ProductDecorator;
 
 $activeAddOns   = [];
 $inactiveAddOns = [];
-if (!empty($data['addons'])) {
-    foreach ($data['addons'] as $addOn) {
-        if ($addOn['isActive']) {
+if (!empty($addons_list)) {
+    foreach ($addons_list as $addOn) {
+        if ($addOn->isActivated()) {
             $activeAddOns[] = $addOn;
         } else {
             $inactiveAddOns[] = $addOn;
         }
     }
-}
-
-
-// Todo, loop component addon-box
-/** @var \WP_Statistics\Service\Admin\LicenseManagement\ProductDecorator $addOn */
-foreach ($addons_list as $addOn) {
-    echo '<pre>'.print_r($addOn->getChangelogUrl(), 1).'</pre>';
-    echo '<pre>'.print_r($addOn->getVersion(), 1).'</pre>';
-    echo '<pre>'.print_r($addOn->getPluginFile(), 1).'</pre>';
-    echo '<pre>'.print_r($addOn->getStatus(), 1).'</pre>';
-    echo '<pre>'.print_r($addOn->isActivated(), 1).'</pre>';
-    echo '<pre>'.print_r($addOn->isActivated(), 1).'</pre>';
 }
 
 ?>
@@ -35,15 +24,16 @@ foreach ($addons_list as $addOn) {
                 <h2 class="wps-postbox-addon__title"><?php esc_html_e('Active Add-Ons', 'wp-statistics'); ?></h2>
                 <div class="wps-postbox-addon__items">
                     <?php
+                    /** @var ProductDecorator $addOn */
                     foreach ($activeAddOns as $addOn) {
                         // @todo Dynamic value for these.
                         $labelText  = esc_html__('Updated', 'wp-statistics');
                         $labelClass = 'updated';
 
                         $args = [
-                            'title'              => esc_html($addOn['name']),
-                            'version'            => esc_html($addOn['version']),
-                            'icon'               => esc_url($addOn['icon']),
+                            'title'              => esc_html($addOn->getName()),
+                            'version'            => esc_html($addOn->getVersion()),
+                            'icon'               => esc_url($addOn->getIcon()),
                             'status_text'        => esc_html__('Activated', 'wp-statistics'),
                             'status_class'       => 'success',
                             'label_text'         => $labelText,
@@ -53,10 +43,10 @@ foreach ($addons_list as $addOn) {
                             'detail_link'        => '#',
                             'change_log_link'    => '#',
                             'documentation_link' => '#',
-                            'description'        => wp_kses($addOn['description'], 'data'),
+                            'description'        => wp_kses($addOn->getDescription(), 'data'),
                             'alert_class'        => 'danger',
                             'alert_text'         => esc_html__('Almost There! Your license is valid. To proceed, please whitelist this domain in customer portal.', 'wp-statistics'),
-                            'alert_link'         => esc_url($addOn['icon']),
+                            'alert_link'         => esc_url($addOn->getIcon()),
                             'alert_link_text'    => esc_html__('Learn how to whitelist your domain', 'wp-statistics'),
                         ];
                         View::load('components/addon-box', $args);
@@ -68,19 +58,20 @@ foreach ($addons_list as $addOn) {
                 <h2 class="wps-postbox-addon__title"><?php esc_html_e('Inactive Add-Ons', 'wp-statistics'); ?></h2>
                 <div class="wps-postbox-addon__items">
                     <?php
+                    /** @var ProductDecorator $addOn */
                     foreach ($inactiveAddOns as $addOn) {
                         // @todo Add "Needs License" status.
-                        $statusText  = $addOn['isInstalled'] ? esc_html__('Installed', 'wp-statistics') : esc_html__('Not Installed', 'wp-statistics');
-                        $statusClass = $addOn['isInstalled'] ? 'primary' : 'disable';
+                        $statusText  = $addOn->isInstalled() ? esc_html__('Installed', 'wp-statistics') : esc_html__('Not Installed', 'wp-statistics');
+                        $statusClass = $addOn->isInstalled() ? 'primary' : 'disable';
 
                         // @todo Dynamic value for these.
                         $labelText  = esc_html__('Updated', 'wp-statistics');
                         $labelClass = 'updated';
 
                         $args = [
-                            'title'              => esc_html($addOn['name']),
-                            'version'            => esc_html($addOn['version']),
-                            'icon'               => esc_url($addOn['icon']),
+                            'title'              => esc_html($addOn->getName()),
+                            'version'            => esc_html($addOn->getVersion()),
+                            'icon'               => esc_url($addOn->getIcon()),
                             'status_text'        => $statusText,
                             'status_class'       => $statusClass,
                             'label_text'         => $labelText,
@@ -90,7 +81,7 @@ foreach ($addons_list as $addOn) {
                             'detail_link'        => '#',
                             'change_log_link'    => '#',
                             'documentation_link' => '#',
-                            'description'        => wp_kses($addOn['description'], 'data'),
+                            'description'        => wp_kses($addOn->getDescription(), 'data'),
                         ];
                         View::load('components/addon-box', $args);
                     }
