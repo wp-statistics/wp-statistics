@@ -2,9 +2,9 @@
 
 namespace WP_Statistics\Models;
 
-use WP_Statistics\Utils\Query;
 use WP_Statistics\Abstracts\BaseModel;
-use WP_Statistics\Service\Analytics\VisitorDecorator;
+use WP_Statistics\Service\Analytics\Decorators\VisitorDecorator;
+use WP_Statistics\Utils\Query;
 
 class OnlineModel extends BaseModel
 {

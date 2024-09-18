@@ -1,6 +1,8 @@
 <?php
 
-namespace WP_Statistics\Service\Analytics\Referrals;
+namespace WP_Statistics\Service\Analytics\Decorators;
+
+use WP_Statistics\Service\Analytics\Referrals\SourceChannels;
 
 class ReferralDecorator
 {

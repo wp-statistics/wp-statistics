@@ -1,12 +1,11 @@
 <?php
 
-namespace WP_Statistics\Service\Analytics;
+namespace WP_Statistics\Service\Analytics\Decorators;
 
 use WP_STATISTICS\Country;
-use WP_STATISTICS\IP;
 use WP_STATISTICS\Helper;
+use WP_STATISTICS\IP;
 use WP_Statistics\Service\Analytics\DeviceDetection\DeviceHelper;
-use WP_Statistics\Service\Analytics\Referrals\ReferralDecorator;
 use WP_STATISTICS\User;
 use WP_STATISTICS\Visitor;
 

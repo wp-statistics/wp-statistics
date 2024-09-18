@@ -2,14 +2,12 @@
 
 namespace WP_Statistics\Models;
 
-use WP_STATISTICS\Helper;
-use WP_Statistics\Service\Analytics\DeviceDetection\DeviceHelper;
-use WP_Statistics\Service\Geolocation\GeolocationFactory;
-use WP_STATISTICS\TimeZone;
-use WP_Statistics\Utils\Query;
 use WP_Statistics\Abstracts\BaseModel;
 use WP_Statistics\Components\DateRange;
-use WP_Statistics\Service\Analytics\VisitorDecorator;
+use WP_STATISTICS\Helper;
+use WP_Statistics\Service\Analytics\Decorators\VisitorDecorator;
+use WP_Statistics\Service\Geolocation\GeolocationFactory;
+use WP_Statistics\Utils\Query;
 
 class VisitorsModel extends BaseModel
 {

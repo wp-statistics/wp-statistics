@@ -1,9 +1,10 @@
 <?php
+
 use WP_STATISTICS\Admin_Template;
-use WP_STATISTICS\Helper;
-use WP_STATISTICS\Menus;
 use WP_Statistics\Components\View;
-use WP_Statistics\Service\Analytics\VisitorDecorator;
+use WP_STATISTICS\Menus;
+use WP_Statistics\Service\Analytics\Decorators\VisitorDecorator;
+
 ?>
 
 <div class="inside">

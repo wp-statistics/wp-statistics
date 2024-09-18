@@ -1,12 +1,9 @@
 <?php
-use WP_STATISTICS\Menus;
-use WP_STATISTICS\Referred;
-use WP_STATISTICS\IP;
+
 use WP_STATISTICS\Admin_Template;
-use WP_STATISTICS\Visitor;
-use WP_STATISTICS\Country;
 use WP_Statistics\Components\View;
-use WP_Statistics\Service\Analytics\VisitorDecorator;
+use WP_STATISTICS\Menus;
+use WP_Statistics\Service\Analytics\Decorators\VisitorDecorator;
 
 ?>
 
