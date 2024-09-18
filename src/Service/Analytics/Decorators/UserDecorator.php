@@ -61,7 +61,6 @@ class UserDecorator
      */
     public function getRegisteredDate()
     {
-        $registered = $this->visitor->user_registered;
         return $this->visitor->user_registered ? date_i18n(Helper::getDefaultDateFormat(true), strtotime($this->visitor->user_registered)) : null;
     }
 
