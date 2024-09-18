@@ -51,7 +51,8 @@ class OnlineModel extends BaseModel
             ->join('users', ['useronline.user_id', 'users.ID'], [], 'LEFT')
             ->perPage($args['page'], $args['per_page'])
             ->orderBy($args['order_by'], $args['order'])
-            ->getAll(VisitorDecorator::class);
+            ->decorate(VisitorDecorator::class)
+            ->getAll();
 
         return $result ? $result : [];
     }

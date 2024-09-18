@@ -364,6 +364,7 @@ class VisitorsModel extends BaseModel
             ->where('ip', '=', $args['ip'])
             ->perPage($args['page'], $args['per_page'])
             ->orderBy($args['order_by'], $args['order'])
+            ->decorate(VisitorDecorator::class)
             ->groupBy('visitor.ID');
 
         // If last page is true, get last page the visitor has visited
@@ -410,7 +411,7 @@ class VisitorsModel extends BaseModel
                 ->whereDate('visitor.last_counter', $args['date']);
         }
 
-        $result = $query->getAll(VisitorDecorator::class);
+        $result = $query->getAll();
 
         return $result ? $result : [];
     }
@@ -499,7 +500,8 @@ class VisitorsModel extends BaseModel
             ->perPage($args['page'], $args['per_page'])
             ->orderBy($args['order_by'], $args['order'])
             ->groupBy('visitor.ID')
-            ->getAll(VisitorDecorator::class);
+            ->decorate(VisitorDecorator::class)
+            ->getAll();
 
         return $result ?? [];
     }

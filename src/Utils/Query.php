@@ -25,6 +25,7 @@ class Query
     private $rawWhereClause = [];
     private $valuesToPrepare = [];
     private $allowCaching = false;
+    private $decorator;
 
     /** @var wpdb $db */
     protected $db;
@@ -317,7 +318,7 @@ class Query
      * @param string|null $decorator Optional decorator class to decorate results.
      * @return array Results from the database query.
      */
-    public function getAll($decorator = null)
+    public function getAll()
     {
         $query = $this->buildQuery();
         $query = $this->prepareQuery($query, $this->valuesToPrepare);
@@ -336,17 +337,23 @@ class Query
         }
 
         // Decorate results
-        if ($decorator) {
+        if (!empty($this->decorator)) {
             $decoratedResult = [];
 
             foreach ($result as $item) {
-                $decoratedResult[] = new $decorator($item);
+                $decoratedResult[] = new $this->decorator($item);
             }
 
             $result = $decoratedResult;
         }
 
         return $result;
+    }
+
+    public function decorate($decorator)
+    {
+        $this->decorator = $decorator;
+        return $this;
     }
 
     public function getCol()
