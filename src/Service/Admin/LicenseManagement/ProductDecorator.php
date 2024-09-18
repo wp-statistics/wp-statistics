@@ -6,16 +6,94 @@ class ProductDecorator
 {
     private $product;
     private $licensedProduct;
+    private $pluginHandler;
 
     public function __construct($product = null, $licensedProduct = null)
     {
         $this->product         = $product;
         $this->licensedProduct = $licensedProduct;
+
+        $this->pluginHandler   = new PluginHandler();
     }
 
     public function getId()
     {
         return $this->product->id;
+    }
+
+    /**
+     * Returns product slug.
+     *
+     * @return string
+     */
+    public function getSlug()
+    {
+        return $this->product->slug;
+    }
+
+    /**
+     * Returns product name.
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->product->name;
+    }
+
+    /**
+     * Returns product description.
+     *
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->product->description;
+    }
+
+    /**
+     * Returns product icon `src` to use in `img` tag.
+     *
+     * @return string
+     */
+    public function getIcon()
+    {
+        $iconPath = "assets/images/add-ons/{$this->getSlug()}.svg";
+        if (file_exists(WP_STATISTICS_DIR . $iconPath)) {
+            return esc_url(WP_STATISTICS_URL . $iconPath);
+        }
+
+        return $this->getThumbnail();
+    }
+
+    /**
+     * Returns product thumbnail URL.
+     *
+     * @return string
+     */
+    public function getThumbnail()
+    {
+        return $this->product->thumbnail;
+    }
+
+    /**
+     * Returns product price.
+     *
+     * @return string
+     */
+    public function getPrice()
+    {
+        return $this->product->price;
+    }
+
+    /**
+     * Returns product label.
+     *
+     * @return string
+     */
+    public function getLabel()
+    {
+        return $this->product->label;
     }
 
     public function getVersion()
@@ -44,23 +122,33 @@ class ProductDecorator
                 return 'not_activated';
             }
         }
-        return 'not_in_license';
+        return 'not_licensed';
     }
 
     public function isActivated()
     {
-        return !empty($this->licensedProduct) && $this->licensedProduct['is_active'] ?? false;
+        try {
+            return $this->pluginHandler->isPluginActive($this->product->slug);
+        } catch (\Exception $e) {
+            return false;
+        }
     }
 
     public function isInstalled()
     {
-        $pluginFile = $this->getPluginFile();
-        return is_plugin_active($pluginFile);
+        return !empty($this->getPluginFile());
     }
 
     public function getPluginFile()
     {
-        return $this->product->slug . '/' . $this->product->slug . '.php';
+        $pluginFile = null;
+        try {
+            $pluginFile = $this->pluginHandler->getPluginFile($this->product->slug);
+        } catch (\Exception $e) {
+            return null;
+        }
+
+        return $pluginFile;
     }
 
     public function getDownloadUrl()
