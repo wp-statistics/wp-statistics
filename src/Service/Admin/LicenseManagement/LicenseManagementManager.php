@@ -62,9 +62,13 @@ class LicenseManagementManager
         return $list;
     }
 
-    public function check_license()
+    public function check_license_action_callback()
     {
         try {
+            if (!wp_verify_nonce(wp_unslash(Request::get('nonce')), 'wp_statistics_license_manager')) {
+                throw new \Exception(__('Access denied.', 'wp-statistics'));
+            }
+
             $licenseKey = Request::has('license_key') ? wp_unslash(Request::get('license_key')) : false;
 
             if (!$licenseKey) {
@@ -78,7 +82,6 @@ class LicenseManagementManager
                 'products' => $mergedProductList,
                 'message'  => __('License is valid.', 'wp-statistics'),
             ]);
-
         } catch (Exception $e) {
             wp_send_json_error([
                 'message' => $e->getMessage(),
@@ -88,9 +91,13 @@ class LicenseManagementManager
         exit;
     }
 
-    public function download_plugins_bulk()
+    public function download_plugins_bulk_action_callback()
     {
         try {
+            if (!wp_verify_nonce(wp_unslash(Request::get('nonce')), 'wp_statistics_license_manager')) {
+                throw new \Exception(__('Access denied.', 'wp-statistics'));
+            }
+
             $licenseKey  = Request::has('license_key') ? wp_unslash(Request::get('license_key')) : false;
             $pluginSlugs = Request::has('plugin_slugs') ? wp_unslash(Request::get('plugin_slugs')) : false; // Array of selected plugin slugs
 
@@ -113,7 +120,6 @@ class LicenseManagementManager
             wp_send_json_success([
                 'message' => 'Selected plugins downloaded successfully.',
             ]);
-
         } catch (Exception $e) {
             wp_send_json_error([
                 'message' => $e->getMessage(),
@@ -123,9 +129,13 @@ class LicenseManagementManager
         exit;
     }
 
-    public function activate_plugin()
+    public function activate_plugin_action_callback()
     {
         try {
+            if (!wp_verify_nonce(wp_unslash(Request::get('nonce')), 'wp_statistics_license_manager')) {
+                throw new \Exception(__('Access denied.', 'wp-statistics'));
+            }
+
             $pluginSlug = Request::has('plugin_slug') ? wp_unslash(Request::get('plugin_slug')) : false;
 
             if (!$pluginSlug) {
@@ -137,7 +147,6 @@ class LicenseManagementManager
             wp_send_json_success([
                 'message' => 'Plugin activated successfully.',
             ]);
-
         } catch (Exception $e) {
             wp_send_json_error([
                 'message' => $e->getMessage(),
