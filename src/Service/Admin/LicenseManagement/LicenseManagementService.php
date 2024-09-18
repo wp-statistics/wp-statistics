@@ -60,7 +60,7 @@ class LicenseManagementService
      *
      * @param string $licenseKey
      *
-     * @return array License status
+     * @return object License status
      * @throws Exception if the API call fails
      */
     public function validateLicense($licenseKey)
@@ -88,7 +88,7 @@ class LicenseManagementService
         }
 
         // Store the license details in the database
-        $this->storeLicense($licenseKey, $licenseData['license_details']);
+        $this->storeLicense($licenseKey, $licenseData->license_details);
 
         return $licenseData;
     }
@@ -126,7 +126,7 @@ class LicenseManagementService
         $licenseStatus = $this->validateLicense($licenseKey);
 
         // Merge product list with license status and return the result
-        return $this->productDecorator->decorateProductsWithLicense($productList, $licenseStatus['products']);
+        return $this->productDecorator->decorateProductsWithLicense($productList, $licenseStatus->products);
     }
 
     /**
@@ -143,7 +143,7 @@ class LicenseManagementService
         $licenseStatus = $this->validateLicense($licenseKey);
 
         // Search for the download URL in the licensed products
-        foreach ($licenseStatus['products'] as $product) {
+        foreach ($licenseStatus->products as $product) {
             if ($product['slug'] === $pluginSlug) {
                 return $product['download_url'] ?? null;
             }
