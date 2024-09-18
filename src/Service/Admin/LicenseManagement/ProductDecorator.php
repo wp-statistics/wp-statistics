@@ -8,12 +8,29 @@ class ProductDecorator
     private $licensedProduct;
     private $pluginHandler;
 
+    /**
+     * @param ProductDecorator|object $product
+     * @param object $licensedProduct
+     */
     public function __construct($product = null, $licensedProduct = null)
     {
-        $this->product         = $product;
+        if ($product instanceof ProductDecorator) {
+            $this->product = $product->getProductObject();
+        } else {
+            $this->product = $product;
+        }
         $this->licensedProduct = $licensedProduct;
-
         $this->pluginHandler   = new PluginHandler();
+    }
+
+    /**
+     * Returns the raw product object.
+     *
+     * @return object
+     */
+    public function getProductObject()
+    {
+        return $this->product;
     }
 
     public function getId()
@@ -169,7 +186,14 @@ class ProductDecorator
     {
         $decorated = [];
         foreach ($products as $product) {
-            $licensedProduct = self::findLicensedProduct($product->slug, $licensedProducts);
+            $slug = '';
+            if ($product instanceof ProductDecorator) {
+                $slug = $product->getSlug();
+            } else {
+                $slug = $product->slug;
+            }
+
+            $licensedProduct = self::findLicensedProduct($slug, $licensedProducts);
             $decorated[]     = new self($product, $licensedProduct);
         }
         return $decorated;
