@@ -60,7 +60,9 @@
             <div>
                 <p><?php echo $alert_text ?></p>
                 <?php if (isset($alert_link_text)) : ?>
+                <div>
                     <a href="<?php echo $alert_link ?>" class="js-wps-addon-check-box" title="<?php echo $alert_link_text ?>"><?php echo $alert_link_text ?></a>
+                </div>
                 <?php endif; ?>
             </div>
         </div>

@@ -16,14 +16,18 @@
                 <span class="icon"></span>
                 <div>
                     <p><?php esc_html_e('Almost There! Your license is valid. To proceed, please whitelist this domain in customer portal.', 'wp-statistics'); ?></p>
-                    <a href=""><?php esc_html_e('Learn how to whitelist your domain', 'wp-statistics'); ?></a>
+                    <div>
+                        <a href=""><?php esc_html_e('Learn how to whitelist your domain', 'wp-statistics'); ?></a>
+                    </div>
                 </div>
             </div>
             <div class="wps-alert wps-alert--danger">
                 <span class="icon"></span>
                 <div>
                     <p><?php esc_html_e('License Key Error! The license key you entered does not exist. Please double-check your key or purchase a new one.', 'wp-statistics'); ?></p>
-                    <a href=""><?php esc_html_e('Renew Your License Now'); ?></a>
+                    <div>
+                        <a href=""><?php esc_html_e('Renew Your License Now'); ?></a>
+                    </div>
                 </div>
             </div>
         </div>
