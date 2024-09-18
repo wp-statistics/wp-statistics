@@ -83,13 +83,6 @@ class Meta_Box
                 'place'             => 'side',
                 'disable_overview'  => true
             ),
-            'summary'         => array(
-                'name'              => __('Traffic Summary', 'wp-statistics'),
-                'description'       => __('A quick overview of your website\'s visitor statistics.', 'wp-statistics'),
-                'hidden'            => true,
-                'show_on_dashboard' => true,
-                'place'             => 'side'
-            ),
             'browsers'        => array(
                 'page_url'          => Menus::admin_url('devices', ['tab' => 'browsers']),
                 'name'              => __('Browser Usage', 'wp-statistics'),
