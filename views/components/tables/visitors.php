@@ -51,10 +51,10 @@ $linksTarget = !empty($open_links_in_new_tab) ? '_blank' : '';
 
                             <td class="wps-pd-l">
                                 <div class="wps-country-flag wps-ellipsis-parent">
-                                    <a target="<?php echo esc_attr($linksTarget); ?>" href="<?php echo esc_url(Menus::admin_url('geographic', ['type' => 'single-country', 'country' => $visitor->getCountryCode()])) ?>" class="wps-tooltip" title="<?php echo esc_attr($visitor->getCountryName()) ?>">
-                                        <img src="<?php echo esc_url($visitor->getCountryFlag()) ?>" alt="<?php echo esc_attr($visitor->getCountryName()) ?>" width="15" height="15">
+                                    <a target="<?php echo esc_attr($linksTarget); ?>" href="<?php echo esc_url(Menus::admin_url('geographic', ['type' => 'single-country', 'country' => $visitor->getLocation()->getCountryCode()])) ?>" class="wps-tooltip" title="<?php echo esc_attr($visitor->getLocation()->getCountryName()) ?>">
+                                        <img src="<?php echo esc_url($visitor->getLocation()->getCountryFlag()) ?>" alt="<?php echo esc_attr($visitor->getLocation()->getCountryName()) ?>" width="15" height="15">
                                     </a>
-                                    <?php $location = Admin_Template::locationColumn($visitor->getCountryCode(), $visitor->getRegion(), $visitor->getCity()); ?>
+                                    <?php $location = Admin_Template::locationColumn($visitor->getLocation()->getCountryCode(), $visitor->getLocation()->getRegion(), $visitor->getLocation()->getCity()); ?>
                                     <span class="wps-ellipsis-text" title="<?php echo esc_attr($location) ?>"><?php echo esc_html($location) ?></span>
                                 </div>
                             </td>
