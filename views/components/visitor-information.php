@@ -1,7 +1,7 @@
 <?php
 namespace WP_STATISTICS;
 
-use WP_Statistics\Service\Analytics\Decorators\VisitorDecorator;
+use WP_Statistics\Decorators\VisitorDecorator;
 
 ?>
 

@@ -1,9 +1,9 @@
 <?php
 
-namespace WP_Statistics\Service\Analytics\Decorators;
+namespace WP_Statistics\Decorators;
 
-use WP_STATISTICS\User;
 use WP_STATISTICS\Helper;
+use WP_STATISTICS\User;
 
 class UserDecorator
 {

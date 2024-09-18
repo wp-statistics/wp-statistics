@@ -1,7 +1,7 @@
 <?php
-use WP_STATISTICS\Helper;
-use WP_Statistics\Service\Analytics\Decorators\UserDecorator;
-use WP_STATISTICS\User;
+
+use WP_Statistics\Decorators\UserDecorator;
+
 ?>
 
 <?php /** @var UserDecorator $user */ ?>

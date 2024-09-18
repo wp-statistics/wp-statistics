@@ -2,15 +2,14 @@
 
 namespace WP_Statistics\Service\Admin\VisitorInsights\Views;
 
-use WP_STATISTICS\Menus;
-use WP_Statistics\Utils\Request;
+use WP_Statistics\Abstracts\BaseView;
 use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Components\View;
-use WP_Statistics\Abstracts\BaseView;
+use WP_Statistics\Decorators\VisitorDecorator;
 use WP_Statistics\Exception\SystemErrorException;
-use WP_STATISTICS\IP;
+use WP_STATISTICS\Menus;
 use WP_Statistics\Service\Admin\VisitorInsights\VisitorInsightsDataProvider;
-use WP_Statistics\Service\Analytics\Decorators\VisitorDecorator;
+use WP_Statistics\Utils\Request;
 
 class SingleVisitorView extends BaseView
 {

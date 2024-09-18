@@ -1,6 +1,7 @@
 <?php
+
 use WP_Statistics\Components\View;
-use WP_Statistics\Service\Analytics\Decorators\VisitorDecorator;
+use WP_Statistics\Decorators\VisitorDecorator;
 
 /** @var VisitorDecorator $visitor */
 $visitor = $data['visitor'];

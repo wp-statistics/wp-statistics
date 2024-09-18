@@ -2,9 +2,8 @@
 
 use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Components\View;
-use WP_STATISTICS\Country;
+use WP_Statistics\Decorators\VisitorDecorator;
 use WP_STATISTICS\Menus;
-use WP_Statistics\Service\Analytics\Decorators\VisitorDecorator;
 
 ?>
 

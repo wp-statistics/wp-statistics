@@ -1,8 +1,6 @@
 <?php
 
-namespace WP_Statistics\Service\Analytics\Decorators;
-
-use WP_Statistics\Service\Analytics\DeviceDetection\DeviceHelper;
+namespace WP_Statistics\Decorators;
 
 class DeviceDecorator
 {
