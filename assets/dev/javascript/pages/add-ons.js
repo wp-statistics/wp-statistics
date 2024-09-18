@@ -13,6 +13,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                 });
             });
         }
+
         if (action_buttons.length > 0) {
             action_buttons.forEach(function (button) {
                 button.addEventListener('click', function (event) {
@@ -36,7 +37,6 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             });
         }
 
-
         if (license_buttons.length > 0) {
             license_buttons.forEach(function (button) {
                 button.addEventListener('click', function (event) {
@@ -59,5 +59,26 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                 });
             });
         }
+
+        let params = {
+            'wps_nonce': wps_js.global.rest_api_nonce,
+            'action': 'wp_statistics_check_license'
+        };
+        params = Object.assign(params, wps_js.global.request_params);
+
+        // Create Ajax
+        jQuery.ajax({
+            url: wps_js.global.admin_url + 'admin-ajax.php',
+            type: 'GET',
+            dataType: 'json',
+            data: params,
+            timeout: 30000,
+            success: function (data) {
+                console.log(data);
+            },
+            error: function (xhr, status, error) {
+                console.log(error);
+            }
+        });
     });
 }

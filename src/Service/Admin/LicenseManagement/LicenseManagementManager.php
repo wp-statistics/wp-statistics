@@ -2,8 +2,6 @@
 
 namespace WP_Statistics\Service\Admin\LicenseManagement;
 
-use WP_Statistics\Components\Assets;
-use WP_STATISTICS\Menus;
 use WP_Statistics\Utils\Request;
 use Exception;
 
@@ -18,7 +16,6 @@ class LicenseManagementManager
         $this->pluginHandler   = new PluginHandler();
 
         add_filter('wp_statistics_admin_menu_list', [$this, 'addMenuItem']);
-        add_action('admin_enqueue_scripts', [$this, 'enqueueScripts']);
         add_filter('wp_statistics_ajax_list', [$this, 'registerAjaxCallbacks']);
     }
 
@@ -34,15 +31,6 @@ class LicenseManagementManager
             'break'    => true,
         ];
         return $items;
-    }
-
-    public function enqueueScripts()
-    {
-        if (Menus::in_page('plugins')) {
-            Assets::script('license-manager', 'js/license-manager.js', ['jquery'], [
-                'ajaxUrl' => admin_url('admin-ajax.php?nonce=' . wp_create_nonce('wp_statistics_license_manager')),
-            ], true);
-        }
     }
 
     public function registerAjaxCallbacks($list)
@@ -68,11 +56,9 @@ class LicenseManagementManager
 
     public function check_license_action_callback()
     {
-        try {
-            if (!wp_verify_nonce(wp_unslash(Request::get('nonce')), 'wp_statistics_license_manager')) {
-                throw new \Exception(__('Access denied.', 'wp-statistics'));
-            }
+        check_ajax_referer('wp_rest', 'wps_nonce');
 
+        try {
             $licenseKey = Request::has('license_key') ? wp_unslash(Request::get('license_key')) : false;
 
             if (!$licenseKey) {
@@ -97,11 +83,9 @@ class LicenseManagementManager
 
     public function download_plugin_action_callback()
     {
-        try {
-            if (!wp_verify_nonce(wp_unslash(Request::get('nonce')), 'wp_statistics_license_manager')) {
-                throw new \Exception(__('Access denied.', 'wp-statistics'));
-            }
+        check_ajax_referer('wp_rest', 'wps_nonce');
 
+        try {
             $licenseKey = Request::has('license_key') ? wp_unslash(Request::get('license_key')) : false;
             $pluginSlug = Request::has('plugin_slug') ? wp_unslash(Request::get('plugin_slug')) : false;
 
@@ -136,11 +120,9 @@ class LicenseManagementManager
      */
     public function check_plugin_action_callback()
     {
-        try {
-            if (!wp_verify_nonce(wp_unslash(Request::get('nonce')), 'wp_statistics_license_manager')) {
-                throw new \Exception(__('Access denied.', 'wp-statistics'));
-            }
+        check_ajax_referer('wp_rest', 'wps_nonce');
 
+        try {
             $pluginSlug = Request::has('plugin_slug') ? wp_unslash(Request::get('plugin_slug')) : false;
             if (!$pluginSlug) {
                 throw new \Exception(__('Plugin slug missing.', 'wp-statistics'));
@@ -161,11 +143,9 @@ class LicenseManagementManager
 
     public function activate_plugin_action_callback()
     {
-        try {
-            if (!wp_verify_nonce(wp_unslash(Request::get('nonce')), 'wp_statistics_license_manager')) {
-                throw new \Exception(__('Access denied.', 'wp-statistics'));
-            }
+        check_ajax_referer('wp_rest', 'wps_nonce');
 
+        try {
             $pluginSlug = Request::has('plugin_slug') ? wp_unslash(Request::get('plugin_slug')) : false;
 
             if (!$pluginSlug) {
