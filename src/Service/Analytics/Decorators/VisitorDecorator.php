@@ -56,23 +56,13 @@ class VisitorDecorator
     }
 
     /**
-     * Get the device name (e.g., smartphone, desktop) used by the visitor.
+     * Get the device used by the visitor.
      *
-     * @return string|null
+     * @return DeviceDecorator
      */
     public function getDevice()
     {
-        return $this->visitor->device ?? null;
-    }
-
-    /**
-     * Get the device model (e.g., iPhone, Galaxy S10) used by the visitor.
-     *
-     * @return string|null
-     */
-    public function getDeviceModel()
-    {
-        return $this->visitor->model ?? null;
+        return new DeviceDecorator($this->visitor);
     }
 
     /**
