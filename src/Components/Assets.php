@@ -32,14 +32,14 @@ class Assets
     /**
      * Enqueue a script.
      *
-     * @param   string  $handle     The script handle.
-     * @param   string  $src        The source URL of the script.
-     * @param   array   $deps       An array of script dependencies.
-     * @param   array   $localize   An array of data to be localized.
-     * @param   bool    $inFooter   Whether to enqueue the script in the footer.
-     * @param   bool    $obfuscate  Ofuscate/Randomize asset's file name.
-     * @param   string  $pluginUrl  The plugin URL.
-     * @param   string  $version    Script version number.
+     * @param string $handle The script handle.
+     * @param string $src The source URL of the script.
+     * @param array $deps An array of script dependencies.
+     * @param array $localize An array of data to be localized.
+     * @param bool $inFooter Whether to enqueue the script in the footer.
+     * @param bool $obfuscate Ofuscate/Randomize asset's file name.
+     * @param string $pluginUrl The plugin URL.
+     * @param string $version Script version number.
      *
      * @return  void
      * @example Assets::script('admin', 'dist/admin.js', ['jquery'], ['foo' => 'bar'], true, false, WP_STATISTICS_URL, '1.0.0');
@@ -62,13 +62,13 @@ class Assets
     /**
      * Register a script.
      *
-     * @param   string      $handle     The script handle.
-     * @param   string      $src        The source URL of the script.
-     * @param   array       $deps       An array of script dependencies.
-     * @param   string|null $version    Optional. The version of the script. Defaults to plugin version.
-     * @param   bool        $inFooter   Whether to enqueue the script in the footer.
-     * @param   bool        $obfuscate  Ofuscate/Randomize asset's file name.
-     * @param   string      $plugin_url The plugin URL.
+     * @param string $handle The script handle.
+     * @param string $src The source URL of the script.
+     * @param array $deps An array of script dependencies.
+     * @param string|null $version Optional. The version of the script. Defaults to plugin version.
+     * @param bool $inFooter Whether to enqueue the script in the footer.
+     * @param bool $obfuscate Ofuscate/Randomize asset's file name.
+     * @param string $plugin_url The plugin URL.
      *
      * @return  void
      * @example Assets::registerScript('chartjs', 'js/chart.min.js', [], '3.7.1', false, false, WP_STATISTICS_URL);
@@ -90,12 +90,12 @@ class Assets
     /**
      * Enqueue a style.
      *
-     * @param   string  $handle     The style handle.
-     * @param   string  $src        The source URL of the style.
-     * @param   array   $deps       An array of style dependencies.
-     * @param   string  $media      The context which style needs to be loaded: all, print, or screen
-     * @param   bool    $obfuscate  Ofuscate/Randomize asset's file name.
-     * @param   string  $plugin_url The plugin URL.
+     * @param string $handle The style handle.
+     * @param string $src The source URL of the style.
+     * @param array $deps An array of style dependencies.
+     * @param string $media The context which style needs to be loaded: all, print, or screen
+     * @param bool $obfuscate Ofuscate/Randomize asset's file name.
+     * @param string $plugin_url The plugin URL.
      *
      * @return  void
      * @example Assets::style('admin', 'dist/admin.css', ['jquery'], 'all', false, WP_STATISTICS_URL);
@@ -113,15 +113,16 @@ class Assets
      */
     private static function getHandle($handle)
     {
-        return sprintf('wp-statistics-%s', strtolower($handle));
+        $handle = sprintf('wp-statistics-%s', strtolower($handle));
+        return apply_filters('wp_statistics_assets_handle', $handle);
     }
 
     /**
      * Get the source URL for the script/style.
      *
-     * @param   string  $src        The source URL.
-     * @param   bool    $obfuscate  Ofuscate/Randomize asset's file name.
-     * @param   string  $plugin_url The plugin URL.
+     * @param string $src The source URL.
+     * @param bool $obfuscate Ofuscate/Randomize asset's file name.
+     * @param string $plugin_url The plugin URL.
      *
      * @return  string
      */
