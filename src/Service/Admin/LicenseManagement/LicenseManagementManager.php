@@ -53,7 +53,7 @@ class LicenseManagementManager
         ];
         $list[] = [
             'class'  => $this,
-            'action' => 'download_plugins_bulk',
+            'action' => 'download_plugin',
         ];
         $list[] = [
             'class'  => $this,
@@ -95,34 +95,30 @@ class LicenseManagementManager
         exit;
     }
 
-    public function download_plugins_bulk_action_callback()
+    public function download_plugin_action_callback()
     {
         try {
             if (!wp_verify_nonce(wp_unslash(Request::get('nonce')), 'wp_statistics_license_manager')) {
                 throw new \Exception(__('Access denied.', 'wp-statistics'));
             }
 
-            $licenseKey  = Request::has('license_key') ? wp_unslash(Request::get('license_key')) : false;
-            $pluginSlugs = Request::has('plugin_slugs') ? wp_unslash(Request::get('plugin_slugs')) : false; // Array of selected plugin slugs
+            $licenseKey = Request::has('license_key') ? wp_unslash(Request::get('license_key')) : false;
+            $pluginSlug = Request::has('plugin_slug') ? wp_unslash(Request::get('plugin_slug')) : false;
 
-            if (!$licenseKey || !$pluginSlugs || !is_array($pluginSlugs)) {
-                throw new Exception('License key or selected plugins are missing.');
+            if (!$licenseKey || !$pluginSlug) {
+                throw new Exception('License key or selected plugin are missing.');
             }
 
-            foreach ($pluginSlugs as $pluginSlug) {
-                // Get the download URL for each plugin slug
-                $downloadUrl = $this->licenseService->getPluginDownloadUrl($licenseKey, $pluginSlug);
-
-                if (!$downloadUrl) {
-                    throw new Exception('Download URL not found for plugin: ' . $pluginSlug);
-                }
-
-                // Download and install the plugin
-                $this->pluginHandler->downloadAndInstallPlugin($downloadUrl);
+            $downloadUrl = $this->licenseService->getPluginDownloadUrl($licenseKey, $pluginSlug);
+            if (!$downloadUrl) {
+                throw new Exception('Download URL not found!');
             }
+
+            // Download and install the plugin
+            $this->pluginHandler->downloadAndInstallPlugin($downloadUrl);
 
             wp_send_json_success([
-                'message' => 'Selected plugins downloaded successfully.',
+                'message' => 'Plugin downloaded and installed successfully.',
             ]);
         } catch (Exception $e) {
             wp_send_json_error([
