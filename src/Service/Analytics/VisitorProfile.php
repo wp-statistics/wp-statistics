@@ -12,6 +12,7 @@ use WP_STATISTICS\Visitor;
 use WP_Statistics\Service\Analytics\DeviceDetection\UserAgent;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
 use WP_Statistics\Service\Analytics\Referrals\Referrals;
+use WP_Statistics\Service\Analytics\Referrals\SourceDetector;
 
 class VisitorProfile
 {
@@ -175,28 +176,17 @@ class VisitorProfile
     }
 
     /**
-     * Get the visitor's source channel (e.g., search, social), cached for reuse.
+     * Get the visitor's source info
      *
-     * @return string The source channel.
+     * @return SourceDetector The source channel.
      */
-    public function getSourceChannel()
+    public function getSource()
     {
-        return $this->getCachedData('sourceChannel', function () {
-            return Referrals::getSource()->getChannel();
+        return $this->getCachedData('source', function () {
+            return Referrals::getSource();
         });
     }
 
-    /**
-     * Get the visitor's source name, cached for reuse.
-     *
-     * @return string The source name.
-     */
-    public function getSourceName()
-    {
-        return $this->getCachedData('sourceName', function () {
-            return Referrals::getSource()->getName();
-        });
-    }
 
     /**
      * Get the visitor's user agent information, cached for reuse.
