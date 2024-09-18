@@ -4,27 +4,24 @@ namespace WP_Statistics\Service\Admin\LicenseManagement;
 
 use WP_Statistics\Components\Assets;
 use WP_STATISTICS\Menus;
-use WP_Statistics\Service\Admin\LicenseManagement\ApiHandler\LicenseManagerApiFactory;
 use WP_Statistics\Utils\Request;
+use Exception;
 
 class LicenseManagementManager
 {
+    private $licenseService;
+    private $pluginInstaller;
+
     public function __construct()
     {
+        $this->licenseService  = new LicenseManagementService();
+        $this->pluginInstaller = new PluginInstaller();
+
         add_filter('wp_statistics_admin_menu_list', [$this, 'addMenuItem']);
         add_action('admin_enqueue_scripts', [$this, 'enqueueScripts']);
         add_filter('wp_statistics_ajax_list', [$this, 'registerAjaxCallbacks']);
     }
 
-    /**
-     * Adds menu item.
-     *
-     * @param array $items
-     *
-     * @return array
-     *
-     * @hooked filter: `wp_statistics_admin_menu_list` - 10
-     */
     public function addMenuItem($items)
     {
         $items['plugins'] = [
@@ -36,17 +33,9 @@ class LicenseManagementManager
             'priority' => 90,
             'break'    => true,
         ];
-
         return $items;
     }
 
-    /**
-     * Enqueues admin scripts.
-     *
-     * @return void
-     *
-     * @hooked action: `admin_enqueue_scripts` - 10
-     */
     public function enqueueScripts()
     {
         if (Menus::in_page('plugins')) {
@@ -56,15 +45,6 @@ class LicenseManagementManager
         }
     }
 
-    /**
-     * Registers AJAX actions and callbacks.
-     *
-     * @param array $list
-     *
-     * @return array
-     *
-     * @hooked filter: `wp_statistics_ajax_list` - 10
-     */
     public function registerAjaxCallbacks($list)
     {
         $list[] = [
@@ -73,95 +53,68 @@ class LicenseManagementManager
         ];
         $list[] = [
             'class'  => $this,
-            'action' => 'download_plugin',
-        ];
-        $list[] = [
-            'class'  => $this,
-            'action' => 'check_plugin',
+            'action' => 'download_plugins_bulk',
         ];
         $list[] = [
             'class'  => $this,
             'action' => 'activate_plugin',
         ];
-
         return $list;
     }
 
-    /**
-     * Handles `check_license` ajax call and checks license status with try/catch.
-     *
-     * @return void
-     */
-    public function check_license_action_callback()
+    public function check_license()
     {
         try {
-            if (!wp_verify_nonce(wp_unslash(Request::get('nonce')), 'wp_statistics_license_manager')) {
-                throw new \Exception(__('Access denied.', 'wp-statistics'));
-            }
-
             $licenseKey = Request::has('license_key') ? wp_unslash(Request::get('license_key')) : false;
 
             if (!$licenseKey) {
-                throw new \Exception(__('License key is missing.', 'wp-statistics'));
+                throw new Exception('License key is missing.');
             }
 
-            $licenseValidator = new LicenseValidator();
-            $licenses         = $licenseValidator->validateLicense($licenseKey);
+            // Merge the product list with the license and installation status
+            $mergedProductList = $this->licenseService->mergeProductStatusWithLicense($licenseKey);
 
             wp_send_json_success([
-                'licenses' => $licenses,
+                'products' => $mergedProductList,
+                'message'  => __('License is valid.', 'wp-statistics'),
             ]);
-        } catch (\Exception $e) {
-            wp_send_json_error($e->getMessage());
+
+        } catch (Exception $e) {
+            wp_send_json_error([
+                'message' => $e->getMessage(),
+            ]);
         }
 
         exit;
     }
 
-    /**
-     * Handles `download_plugin` ajax call and downloads a plugin with try/catch.
-     *
-     * @return void
-     */
-    public function download_plugin_action_callback()
+    public function download_plugins_bulk()
     {
         try {
-            if (!wp_verify_nonce(wp_unslash(Request::get('nonce')), 'wp_statistics_license_manager')) {
-                throw new \Exception(__('Access denied.', 'wp-statistics'));
+            $licenseKey  = Request::has('license_key') ? wp_unslash(Request::get('license_key')) : false;
+            $pluginSlugs = Request::has('plugin_slugs') ? wp_unslash(Request::get('plugin_slugs')) : false; // Array of selected plugin slugs
+
+            if (!$licenseKey || !$pluginSlugs || !is_array($pluginSlugs)) {
+                throw new Exception('License key or selected plugins are missing.');
             }
 
-            // Get the license key and plugin slug from the request
-            $licenseKey = Request::has('license_key') ? wp_unslash(Request::get('license_key')) : false;
-            $pluginSlug = Request::has('plugin_slug') ? wp_unslash(Request::get('plugin_slug')) : false;
+            foreach ($pluginSlugs as $pluginSlug) {
+                // Get the download URL for each plugin slug
+                $downloadUrl = $this->licenseService->getPluginDownloadUrl($licenseKey, $pluginSlug);
 
-            if (!$licenseKey || !$pluginSlug) {
-                throw new \Exception(__('License key or plugin slug missing.', 'wp-statistics'));
-            }
-
-            // Validate the license
-            try {
-                $licenseManagerStatusApi = LicenseManagerApiFactory::getStatusApi($licenseKey);
-                if (empty($licenseManagerStatusApi) || !$licenseManagerStatusApi->isLicenseDetailsValid()) {
-                    throw new \Exception(sprintf(
-                        // translators: %s: License key.
-                        __('Invalid license: %s', 'wp-statistics'),
-                        $licenseKey
-                    ));
+                if (!$downloadUrl) {
+                    throw new Exception('Download URL not found for plugin: ' . $pluginSlug);
                 }
-            } catch (\Exception $e) {
-                return [
-                    'licenses' => $e->getMessage(),
-                ];
+
+                // Install the plugin
+                $this->pluginInstaller->installPlugin($downloadUrl);
             }
 
-            $pluginHandler = new PluginHandler($pluginSlug);
-            $pluginHandler->downloadAndInstallPlugin($licenseManagerStatusApi->getDownloadUrl($pluginSlug));
-
-            // Respond with success
             wp_send_json_success([
-                'message' => __('Plugin downloaded and installed successfully!', 'wp-statistics'),
+                'message' => 'Selected plugins downloaded successfully.',
             ]);
-        } catch (\Exception $e) {
+
+        } catch (Exception $e) {
             wp_send_json_error([
                 'message' => $e->getMessage(),
             ]);
@@ -170,64 +123,22 @@ class LicenseManagementManager
         exit;
     }
 
-    /**
-     * Handles `check_plugin` ajax call and returns info about a local plugin.
-     *
-     * @return void
-     */
-    public function check_plugin_action_callback()
+    public function activate_plugin()
     {
         try {
-            if (!wp_verify_nonce(wp_unslash(Request::get('nonce')), 'wp_statistics_license_manager')) {
-                throw new \Exception(__('Access denied.', 'wp-statistics'));
-            }
-
             $pluginSlug = Request::has('plugin_slug') ? wp_unslash(Request::get('plugin_slug')) : false;
+
             if (!$pluginSlug) {
-                throw new \Exception(__('Plugin slug missing.', 'wp-statistics'));
+                throw new Exception('Plugin slug is missing.');
             }
 
-            $pluginHandler = new PluginHandler($pluginSlug);
+            $this->pluginInstaller->activatePlugin($pluginSlug);
 
-            // Respond with success
             wp_send_json_success([
-                'active' => $pluginHandler->isPluginActive(),
-                'data'   => $pluginHandler->getPluginData(),
+                'message' => 'Plugin activated successfully.',
             ]);
-        } catch (\Exception $e) {
-            wp_send_json_error([
-                'message' => $e->getMessage(),
-            ]);
-        }
 
-        exit;
-    }
-
-    /**
-     * Handles `activate_plugin` ajax call and downloads a plugin with try/catch.
-     *
-     * @return void
-     */
-    public function activate_plugin_action_callback()
-    {
-        try {
-            if (!wp_verify_nonce(wp_unslash(Request::get('nonce')), 'wp_statistics_license_manager')) {
-                throw new \Exception(__('Access denied.', 'wp-statistics'));
-            }
-
-            $pluginSlug = Request::has('plugin_slug') ? wp_unslash(Request::get('plugin_slug')) : false;
-            if (!$pluginSlug) {
-                throw new \Exception(__('Plugin slug missing.', 'wp-statistics'));
-            }
-
-            $pluginHandler = new PluginHandler($pluginSlug);
-            $pluginHandler->activatePlugin();
-
-            // Respond with success
-            wp_send_json_success([
-                'message' => __('Plugin activated successfully!', 'wp-statistics'),
-            ]);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             wp_send_json_error([
                 'message' => $e->getMessage(),
             ]);

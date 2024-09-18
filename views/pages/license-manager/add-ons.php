@@ -13,6 +13,19 @@ if (!empty($data['addons'])) {
         }
     }
 }
+
+
+// Todo, loop component addon-box
+/** @var \WP_Statistics\Service\Admin\LicenseManagement\ProductDecorator $addOn */
+foreach ($addons_list as $addOn) {
+    echo '<pre>'.print_r($addOn->getChangelogUrl(), 1).'</pre>';
+    echo '<pre>'.print_r($addOn->getVersion(), 1).'</pre>';
+    echo '<pre>'.print_r($addOn->getPluginFile(), 1).'</pre>';
+    echo '<pre>'.print_r($addOn->getStatus(), 1).'</pre>';
+    echo '<pre>'.print_r($addOn->isActivated(), 1).'</pre>';
+    echo '<pre>'.print_r($addOn->isActivated(), 1).'</pre>';
+}
+
 ?>
 <div class="wps-wrap__main">
     <div class="wp-header-end"></div>
