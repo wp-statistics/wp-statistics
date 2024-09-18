@@ -37,7 +37,7 @@ class GeolocationFactory
     /**
      * Get an instance of the configured geolocation provider.
      *
-     * @return GeoServiceProviderInterface
+     * @return MaxmindGeoIPProvider
      */
     public static function getProviderInstance()
     {
