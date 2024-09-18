@@ -110,7 +110,7 @@ class VisitorProfile
      */
     public function getCountry()
     {
-        return $this->getLocation('country');
+        return $this->getLocation('country_code');
     }
 
     /**
