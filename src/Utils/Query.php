@@ -395,6 +395,10 @@ class Query
             $this->setCachedResult($query, $result);
         }
 
+        if (!empty($this->decorator)) {
+            $result = new $this->decorator($result);
+        }
+
         return $result;
     }
 
