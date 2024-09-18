@@ -16,9 +16,9 @@ use WP_Statistics\Service\Analytics\Decorators\VisitorDecorator;
     </li>
 
     <li class="wps-visitor__information">
-        <div class="wps-tooltip" title="<?php echo esc_attr($visitor->getOs()) ?>">
+        <div class="wps-tooltip" title="<?php echo esc_attr($visitor->getOs()->getName()) ?>">
             <a href="<?php echo esc_url(Menus::admin_url('visitors', ['platform' => $visitor->getOs()])) ?>">
-                <img src="<?php echo esc_url($visitor->getOsLogo()) ?>" alt="<?php echo esc_attr($visitor->getOs()) ?>" width="15" height="15">
+                <img src="<?php echo esc_url($visitor->getOs()->getLogo()) ?>" alt="<?php echo esc_attr($visitor->getOs()->getName()) ?>" width="15" height="15">
             </a>
         </div>
     </li>

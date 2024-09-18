@@ -48,21 +48,11 @@ class VisitorDecorator
     /**
      * Get the platform (operating system)
      *
-     * @return string
+     * @return OsDecorator
      */
     public function getOs()
     {
-        return $this->visitor->platform ?? null;
-    }
-
-    /**
-     * Get the platform (operating system) logo URL based on the visitor's platform.
-     *
-     * @return string
-     */
-    public function getOsLogo()
-    {
-        return DeviceHelper::getPlatformLogo($this->visitor->platform);
+        return new OsDecorator($this->visitor);
     }
 
     /**
