@@ -2,6 +2,8 @@
 
 namespace WP_STATISTICS\MetaBox;
 
+use WP_STATISTICS\Menus;
+use WP_Statistics\Models\VisitorsModel;
 use WP_STATISTICS\Referred;
 
 class referring extends MetaBoxAbstract
@@ -24,18 +26,25 @@ class referring extends MetaBoxAbstract
 
         // Filter By Date
         self::filterByDate($args);
-        $args['from']  = self::$fromDate;
-        $args['to']    = self::$toDate;
-        $args['limit'] = $number;
+        $args['date']['from']  = self::$fromDate;
+        $args['date']['to']    = self::$toDate;
+        $args['per_page'] = $number;
 
         // Get List Top Referring
         try {
-            $result   = Referred::getList($args);
-            $get_urls = [];
-            foreach ($result as $items) {
-                $get_urls[$items->domain] = $items->number;
+            $visitorsModel  = new VisitorsModel();
+            $referrers      = $visitorsModel->getReferrers($args);
+            $parsedReferrers= [];
+
+            foreach ($referrers as $referrer) {
+                $parsedReferrers[]      = [
+                    'domain'    => $referrer->referrer,
+                    'page_link' => Menus::admin_url('referrals', ['referrer' => $referrer->referrer]),
+                    'number'    => number_format_i18n($referrer->visitors)
+                ];
             }
-            $response['referring'] = Referred::PrepareReferData($get_urls);
+
+            $response['referring'] = $parsedReferrers;
         } catch (\Exception $e) {
             $response = [
                 'referring' => []
