@@ -26,6 +26,16 @@ class VisitorDecorator
     }
 
     /**
+     * Get the visitor's ID.
+     *
+     * @return int|null
+     */
+    public function getId()
+    {
+        return $this->visitor->ID ?? null;
+    }
+
+    /**
      * Returns the visitor's location.
      *
      * @return LocationDecorator
@@ -137,17 +147,6 @@ class VisitorDecorator
     }
 
     /**
-     * Get the visitor's ID.
-     *
-     * @return int|null
-     */
-    public function getId()
-    {
-        return $this->visitor->ID ?? null;
-    }
-
-
-    /**
      * Checks whether the visitor is a logged-in user.
      *
      * @return bool True if the visitor is logged in, false otherwise.
@@ -158,43 +157,13 @@ class VisitorDecorator
     }
 
     /**
-     * Get the visitor's user ID (if logged in).
+     * Get the visitor's user object (if logged in).
      *
-     * @return int|null
+     * @return UserDecorator
      */
-    public function getUserId()
+    public function getUser()
     {
-        return $this->visitor->user_id ?? null;
-    }
-
-    /**
-     * Retrieves the username of the visitor.
-     *
-     * @return string|null The username of the visitor, or null if not available.
-     */
-    public function getUserName()
-    {
-        return $this->visitor->display_name ?? null;
-    }
-
-    /**
-     * Retrieves the email address of the visitor if they are a logged-in user.
-     *
-     * @return string|null The visitor's email address, or null if not available.
-     */
-    public function getUserEmail()
-    {
-        return $this->visitor->user_email ?? null;
-    }
-
-    /**
-     * Retrieves the first role of the visitor.
-     *
-     * @return string|null The visitor's first role, or null if not available.
-     */
-    public function getUserRole()
-    {
-        return User::get($this->visitor->user_id)['role'][0] ?? null;
+        return new UserDecorator($this->visitor);
     }
 
     /**
