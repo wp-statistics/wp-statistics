@@ -3,6 +3,7 @@
 namespace WP_Statistics\Service\Analytics\Decorators;
 
 use WP_STATISTICS\User;
+use WP_STATISTICS\Helper;
 
 class UserDecorator
 {
@@ -51,5 +52,27 @@ class UserDecorator
     public function getRole()
     {
         return User::get($this->visitor->user_id)['role'][0] ?? null;
+    }
+
+    /**
+     * Retrieves the registered date of the visitor.
+     *
+     * @return string|null The visitor's registered date, or null if not available.
+     */
+    public function getRegisteredDate()
+    {
+        $registered = $this->visitor->user_registered;
+        return $this->visitor->user_registered ? date_i18n(Helper::getDefaultDateFormat(true), strtotime($this->visitor->user_registered)) : null;
+    }
+
+    /**
+     * Retrieves the last login date of the visitor.
+     *
+     * @return string|null The visitor's last login date, or null if not available.
+     */
+    public function getLastLogin()
+    {
+        $lastLogin = User::getLastLogin($this->visitor->user_id);
+        return $lastLogin ? date_i18n(Helper::getDefaultDateFormat(true), $lastLogin) : null;
     }
 }

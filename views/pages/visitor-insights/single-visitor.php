@@ -1,21 +1,26 @@
 <?php
 use WP_Statistics\Components\View;
+use WP_Statistics\Service\Analytics\Decorators\VisitorDecorator;
+
+/** @var VisitorDecorator $visitor */
+$visitor = $data['visitor'];
 ?>
+
 <div class="postbox-container-holder postbox-container--two-col postbox-container--visitor">
     <div class="postbox-container postbox-container--first-col">
         <div class="wps-card">
             <div class="wps-card__title">
                 <h2><?php esc_html_e('Session Details', 'wp-statistics'); ?></h2>
             </div>
-            <?php View::load("components/session-details", ['visitor' => $data['visitor_info']]); ?>
+            <?php View::load("components/session-details", ['visitor' => $visitor]); ?>
         </div>
 
-        <?php if (!empty($data['user_info'])) : ?>
+        <?php if (!empty($visitor->isLoggedInUser())) : ?>
             <div class="wps-card">
                 <div class="wps-card__title">
                     <h2><?php esc_html_e('Account Information', 'wp-statistics'); ?></h2>
                 </div>
-                <?php View::load("components/account-information", ['user' => $data['user_info']]); ?>
+                <?php View::load("components/account-information", ['user' => $visitor->getUser()]); ?>
             </div>
         <?php endif; ?>
     </div>
@@ -28,7 +33,7 @@ use WP_Statistics\Components\View;
                 <?php
                 $args = [
                     'data'       => $data['visitor_journey'],
-                    'pagination' => isset($pagination) ? $pagination : null
+                    'pagination' => $pagination ?? null
                 ];
                 View::load("components/tables/recent-views", $args);
                 ?>

@@ -605,12 +605,13 @@ class VisitorsModel extends BaseModel
             'users.user_email',
             'users.user_login',
             'users.user_registered',
-            'first_hit.date as first_hit',
+            'first_hit.date as first_view',
         ])
             ->from('visitor')
             ->join('users', ['visitor.user_id', 'users.ID'], [], 'LEFT')
             ->joinQuery($subQuery, ['visitor.ID', 'first_hit.visitor_id'], 'first_hit')
             ->where('visitor.ID', '=', $args['visitor_id'])
+            ->decorate(VisitorDecorator::class)
             ->getRow();
 
         return $result;
