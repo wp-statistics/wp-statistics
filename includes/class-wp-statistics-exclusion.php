@@ -438,6 +438,9 @@ class Exclusion
             $included_countries = explode("\n", $included_countries_string);
         }
 
+        $excluded_countries = array_filter($excluded_countries);
+        $included_countries = array_filter($included_countries);
+
         // Check to see if the current location is in the excluded countries list.
         if (in_array($location, $excluded_countries)) {
             return true;
