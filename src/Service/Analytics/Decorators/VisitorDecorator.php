@@ -36,33 +36,13 @@ class VisitorDecorator
     }
 
     /**
-     * Get the visitor's agent.
+     * Get the visitor's browser.
      *
-     * @return string|null
+     * @return BrowserDecorator
      */
     public function getBrowser()
     {
-        return $this->visitor->agent ?? null;
-    }
-
-    /**
-     * Get the browser logo URL based on the visitor's browser.
-     *
-     * @return string
-     */
-    public function getBrowserName()
-    {
-        return DeviceHelper::getBrowserList($this->visitor->agent);
-    }
-
-    /**
-     * Get the browser logo URL based on the visitor's browser.
-     *
-     * @return string
-     */
-    public function getBrowserLogo()
-    {
-        return DeviceHelper::getBrowserLogo($this->visitor->agent);
+        return new BrowserDecorator($this->visitor);
     }
 
     /**
@@ -83,16 +63,6 @@ class VisitorDecorator
     public function getOsLogo()
     {
         return DeviceHelper::getPlatformLogo($this->visitor->platform);
-    }
-
-    /**
-     * Get the browser version used by the visitor.
-     *
-     * @return string|null
-     */
-    public function getBrowserVersion()
-    {
-        return $this->visitor->version ?? null;
     }
 
     /**

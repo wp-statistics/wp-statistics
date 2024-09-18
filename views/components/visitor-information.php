@@ -8,9 +8,9 @@ use WP_Statistics\Service\Analytics\Decorators\VisitorDecorator;
 <?php /** @var VisitorDecorator $visitor */ ?>
 <ul class="wps-visitor__information--container">
     <li class="wps-visitor__information">
-        <div class="wps-tooltip" title="<?php echo esc_attr("{$visitor->getBrowserName()} v{$visitor->getBrowserVersion()}") ?>">
-            <a href="<?php echo esc_url(Menus::admin_url('visitors', ['agent' => $visitor->getBrowser()])) ?>">
-                <img src="<?php echo esc_url($visitor->getBrowserLogo()) ?>" alt="<?php echo esc_attr($visitor->getBrowserName()) ?>" width="15" height="15">
+        <div class="wps-tooltip" title="<?php echo $visitor->getBrowser()->getName() !== 'Unknown' ? esc_attr("{$visitor->getBrowser()->getName()} v{$visitor->getBrowser()->getVersion()}") : $visitor->getBrowser()->getName(); ?>">
+            <a href="<?php echo esc_url(Menus::admin_url('visitors', ['agent' => $visitor->getBrowser()->getRaw()])) ?>">
+                <img src="<?php echo esc_url($visitor->getBrowser()->getLogo()) ?>" alt="<?php echo esc_attr($visitor->getBrowser()->getName()) ?>" width="15" height="15">
             </a>
         </div>
     </li>
