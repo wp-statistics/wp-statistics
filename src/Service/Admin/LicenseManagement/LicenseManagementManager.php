@@ -10,12 +10,12 @@ use Exception;
 class LicenseManagementManager
 {
     private $licenseService;
-    private $pluginInstaller;
+    private $pluginHandler;
 
     public function __construct()
     {
         $this->licenseService  = new LicenseManagementService();
-        $this->pluginInstaller = new PluginInstaller();
+        $this->pluginHandler   = new PluginHandler();
 
         add_filter('wp_statistics_admin_menu_list', [$this, 'addMenuItem']);
         add_action('admin_enqueue_scripts', [$this, 'enqueueScripts']);
@@ -113,8 +113,8 @@ class LicenseManagementManager
                     throw new Exception('Download URL not found for plugin: ' . $pluginSlug);
                 }
 
-                // Install the plugin
-                $this->pluginInstaller->installPlugin($downloadUrl);
+                // Download and install the plugin
+                $this->pluginHandler->downloadAndInstallPlugin($downloadUrl);
             }
 
             wp_send_json_success([
@@ -142,7 +142,7 @@ class LicenseManagementManager
                 throw new Exception('Plugin slug is missing.');
             }
 
-            $this->pluginInstaller->activatePlugin($pluginSlug);
+            $this->pluginHandler->activatePlugin($pluginSlug);
 
             wp_send_json_success([
                 'message' => 'Plugin activated successfully.',
