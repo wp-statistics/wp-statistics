@@ -332,10 +332,6 @@ class Query
 
         $result = $this->db->get_results($query);
 
-        if ($this->allowCaching) {
-            $this->setCachedResult($query, $result);
-        }
-
         // Decorate results
         if (!empty($this->decorator)) {
             $decoratedResult = [];
@@ -345,6 +341,10 @@ class Query
             }
 
             $result = $decoratedResult;
+        }
+
+        if ($this->allowCaching) {
+            $this->setCachedResult($query, $result);
         }
 
         return $result;
@@ -391,12 +391,12 @@ class Query
 
         $result = $this->db->get_row($query);
 
-        if ($this->allowCaching) {
-            $this->setCachedResult($query, $result);
-        }
-
         if (!empty($this->decorator)) {
             $result = new $this->decorator($result);
+        }
+
+        if ($this->allowCaching) {
+            $this->setCachedResult($query, $result);
         }
 
         return $result;
