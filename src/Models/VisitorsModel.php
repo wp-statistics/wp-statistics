@@ -836,7 +836,7 @@ class VisitorsModel extends BaseModel
             'visitor.last_counter'
         ])
             ->from('visitor')
-            ->where('source_channel', '=', $args['source_channel'])
+            ->where('source_channel', 'IN', $args['source_channel'])
             ->where('visitor.referred', 'NOT LIKE', '%' . Helper::get_domain_name(home_url()) . '%')
             ->where('visitor.location', '=', $args['country'])
             ->whereNotNull('visitor.referred')

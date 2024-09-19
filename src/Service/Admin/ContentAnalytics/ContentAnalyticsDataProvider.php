@@ -30,7 +30,7 @@ class ContentAnalyticsDataProvider
     public function getChartsData()
     {
         $performanceDataProvider    = ChartDataProviderFactory::performanceChart($this->args);
-        $searchEngineDataProvider   = ChartDataProviderFactory::searchEngineChart($this->args);
+        $searchEngineDataProvider   = ChartDataProviderFactory::searchEngineChart(array_merge($this->args, ['source_channel' => ['search', 'paid_search']]));
         $platformDataProvider       = ChartDataProviderFactory::platformCharts($this->args);
 
         return [
