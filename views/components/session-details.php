@@ -13,12 +13,13 @@ use WP_STATISTICS\Menus;
         <span>
             <?php if ($visitor->isHashedIP()) : ?>
                 <?php esc_html_e('Daily Visitor Hash', 'wp-statistics'); ?>
+                <span title="<?php echo esc_attr('#' . $visitor->getIP()); ?>"><?php echo esc_html('#' . $visitor->getIP()); ?></span>
             <?php else : ?>
                 <?php esc_html_e('IP Address', 'wp-statistics'); ?>
+                <span title="<?php echo esc_attr($visitor->getIP()); ?>"><?php echo esc_html($visitor->getIP()); ?></span>
             <?php endif; ?>
         </span>
         <div>
-            <span title="<?php echo esc_attr($visitor->getIP()); ?>"><?php echo esc_html($visitor->getIP()); ?></span>
         </div>
     </div>
 
