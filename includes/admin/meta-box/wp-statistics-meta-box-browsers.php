@@ -73,7 +73,7 @@ class browsers extends MetaBoxAbstract
             // Sanitize Version name
             $lists_name[] = sanitize_text_field($l['agent']);
 
-            $lists_logo[] = DeviceHelper::getPlatformLogo($l['agent']);
+            $lists_logo[] = DeviceHelper::getBrowserLogo($l['agent']);
 
             // Get List Count
             $lists_value[] = (int)$l['count'];
