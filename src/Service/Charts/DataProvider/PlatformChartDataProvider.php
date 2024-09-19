@@ -4,6 +4,7 @@ namespace WP_Statistics\Service\Charts\DataProvider;
 
 use WP_STATISTICS\Helper;
 use WP_Statistics\Models\VisitorsModel;
+use WP_Statistics\Service\Analytics\DeviceDetection\DeviceHelper;
 use WP_Statistics\Service\Charts\AbstractChartDataProvider;
 use WP_Statistics\Service\Charts\Traits\BarChartResponseTrait;
 use WP_STATISTICS\UserAgent;
@@ -108,7 +109,7 @@ class PlatformChartDataProvider extends AbstractChartDataProvider
                     if (!in_array($item->platform, $platforms)) {
                         $parsedData['os'][] = [
                             'label'    => $item->platform,
-                            'icon'     => UserAgent::getPlatformLogo($item->platform),
+                            'icon'     => DeviceHelper::getPlatformLogo($item->platform),
                             'visitors' => 1
                         ];
                     } else {
@@ -124,7 +125,7 @@ class PlatformChartDataProvider extends AbstractChartDataProvider
                     if (!in_array($item->agent, $agents)) {
                         $parsedData['browser'][] = [
                             'label'    => $item->agent,
-                            'icon'     => UserAgent::getBrowserLogo($item->agent),
+                            'icon'     => DeviceHelper::getBrowserLogo($item->agent),
                             'visitors' => 1
                         ];
                     } else {
