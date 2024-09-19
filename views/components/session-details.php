@@ -10,19 +10,21 @@ use WP_STATISTICS\Menus;
 
 <div class="wps-visitor__visitors-details">
     <div class="wps-visitor__visitors-detail--row">
-        <span>
-            <?php if ($visitor->isHashedIP()) : ?>
+        <?php if ($visitor->isHashedIP()) : ?>
+            <span>
                 <?php esc_html_e('Daily Visitor Hash', 'wp-statistics'); ?>
-                <div>
-                    <span title="<?php echo esc_attr('#' . $visitor->getIP()); ?>"><?php echo esc_html('#' . $visitor->getIP()); ?></span>
-                </div>
-            <?php else : ?>
+            </span>
+            <div>
+                <span title="<?php echo esc_attr('#' . $visitor->getIP()); ?>"><?php echo esc_html('#' . $visitor->getIP()); ?></span>
+            </div>
+        <?php else : ?>
+            <span>
                 <?php esc_html_e('IP Address', 'wp-statistics'); ?>
-                <div>
-                    <span title="<?php echo esc_attr($visitor->getIP()); ?>"><?php echo esc_html($visitor->getIP()); ?></span>
-                </div>
-            <?php endif; ?>
-        </span>
+            </span>
+            <div>
+                <span title="<?php echo esc_attr($visitor->getIP()); ?>"><?php echo esc_html($visitor->getIP()); ?></span>
+            </div>
+        <?php endif; ?>
     </div>
 
     <div class="wps-visitor__visitors-detail--row">
