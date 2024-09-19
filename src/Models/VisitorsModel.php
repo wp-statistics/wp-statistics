@@ -423,8 +423,8 @@ class VisitorsModel extends BaseModel
             'source_channel'    => '',
             'source_name'       => '',
             'referrer'          => '',
-            'order_by'          => '',
-            'order'             => '',
+            'order_by'          => 'last_hit.date',
+            'order'             => 'desc',
             'page'              => '',
             'per_page'          => '',
         ]);
