@@ -1,26 +1,32 @@
+<?php
+
+/** @var \WP_Statistics\Service\Admin\LicenseManagement\ProductDecorator $addOn */
+if (!defined('ABSPATH') || empty($addOn)) {
+    exit;
+}
+
+?>
 <div class="wps-postbox-addon__item">
     <div>
         <div class="wps-postbox-addon__item--info">
             <div class="wps-postbox-addon__item--info__img">
-                <img src="<?php echo esc_url($icon) ?>" alt="<?php echo $title ?>">
+                <img src="<?php echo esc_url($addOn->getIcon()); ?>" alt="<?php echo esc_html($addOn->getName()); ?>" />
             </div>
             <div class="wps-postbox-addon__item--info__text">
                 <div class="wps-postbox-addon__item--info__title">
-                    <?php echo $title ?>
-                    <span class="wps-postbox-addon__version">v<?php echo $version ?></span>
+                    <?php echo esc_html($addOn->getName()); ?>
+                    <span class="wps-postbox-addon__version">v<?php echo esc_html($addOn->getVersion()); ?></span>
                     <?php if (isset($label_text)) : ?>
                         <span class="wps-postbox-addon__label wps-postbox-addon__label--<?php echo $label_class ?>"><?php echo $label_text ?></span>
                     <?php endif; ?>
                 </div>
                 <p class="wps-postbox-addon__item--info__desc">
-                    <?php echo $description ?>
+                    <?php echo wp_kses($addOn->getDescription(), 'data'); ?>
                 </p>
             </div>
         </div>
         <div class="wps-postbox-addon__item--actions">
-            <?php if (isset($status_text)) : ?>
-            <span class="wps-postbox-addon__status wps-postbox-addon__status--<?php echo $status_class ?> "><?php echo $status_text ?></span>
-            <?php endif; ?>
+            <span class="wps-postbox-addon__status wps-postbox-addon__status--<?php echo esc_attr($addOn->getStatusClass()); ?> "><?php echo esc_html($addOn->getStatusLabel()); ?></span>
 
             <?php if (isset($has_license_btn)) : ?>
                 <a class="wps-postbox-addon__button js-wps-addon-license-button"><?php echo esc_html__('License', 'wp-statistics') ?></a>

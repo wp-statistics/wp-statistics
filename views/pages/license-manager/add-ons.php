@@ -31,11 +31,7 @@ if (!empty($addons_list)) {
                         $labelClass = 'updated';
 
                         $args = [
-                            'title'              => esc_html($addOn->getName()),
-                            'version'            => esc_html($addOn->getVersion()),
-                            'icon'               => esc_url($addOn->getIcon()),
-                            'status_text'        => esc_html__('Activated', 'wp-statistics'),
-                            'status_class'       => 'success',
+                            'addOn'              => $addOn,
                             'label_text'         => $labelText,
                             'label_class'        => $labelClass,
                             'has_license_btn'    => true,
@@ -43,7 +39,6 @@ if (!empty($addons_list)) {
                             'detail_link'        => '#',
                             'change_log_link'    => '#',
                             'documentation_link' => '#',
-                            'description'        => wp_kses($addOn->getDescription(), 'data'),
                             'alert_class'        => 'danger',
                             'alert_text'         => esc_html__('Almost There! Your license is valid. To proceed, please whitelist this domain in customer portal.', 'wp-statistics'),
                             'alert_link'         => esc_url($addOn->getIcon()),
@@ -60,20 +55,12 @@ if (!empty($addons_list)) {
                     <?php
                     /** @var ProductDecorator $addOn */
                     foreach ($inactiveAddOns as $addOn) {
-                        // @todo Add "Needs License" status.
-                        $statusText  = $addOn->isInstalled() ? esc_html__('Installed', 'wp-statistics') : esc_html__('Not Installed', 'wp-statistics');
-                        $statusClass = $addOn->isInstalled() ? 'primary' : 'disable';
-
                         // @todo Dynamic value for these.
                         $labelText  = esc_html__('Updated', 'wp-statistics');
                         $labelClass = 'updated';
 
                         $args = [
-                            'title'              => esc_html($addOn->getName()),
-                            'version'            => esc_html($addOn->getVersion()),
-                            'icon'               => esc_url($addOn->getIcon()),
-                            'status_text'        => $statusText,
-                            'status_class'       => $statusClass,
+                            'addOn'              => $addOn,
                             'label_text'         => $labelText,
                             'label_class'        => $labelClass,
                             'has_license_btn'    => true,
@@ -81,7 +68,6 @@ if (!empty($addons_list)) {
                             'detail_link'        => '#',
                             'change_log_link'    => '#',
                             'documentation_link' => '#',
-                            'description'        => wp_kses($addOn->getDescription(), 'data'),
                         ];
                         View::load('components/addon-box', $args);
                     }
