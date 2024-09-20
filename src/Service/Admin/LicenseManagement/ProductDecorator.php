@@ -130,6 +130,10 @@ class ProductDecorator
 
     public function getStatus()
     {
+        if (!$this->isInstalled()) {
+            return 'not_installed';
+        }
+
         if ($this->licensedProduct) {
             if ($this->isActivated()) {
                 return 'activated';
@@ -140,6 +144,44 @@ class ProductDecorator
             }
         }
         return 'not_licensed';
+    }
+
+    /**
+     * Returns status label that will be printed in the front-end.
+     *
+     * @return string
+     */
+    public function getStatusLabel()
+    {
+        switch ($this->getStatus()) {
+            case 'not_installed':
+                return __('Not Installed', 'wp-statistics');
+            case 'installed':
+                return __('Installed', 'wp-statistics');
+            case 'activated':
+                return __('Activated', 'wp-statistics');
+        }
+
+        return __('Needs License', 'wp-statistics');
+    }
+
+    /**
+     * Returns status CSS class that will be used in the front-end.
+     *
+     * @return string
+     */
+    public function getStatusClass()
+    {
+        switch ($this->getStatus()) {
+            case 'not_installed':
+                return 'disable';
+            case 'installed':
+                return 'primary';
+            case 'activated':
+                return 'success';
+        }
+
+        return 'danger';
     }
 
     public function isActivated()
