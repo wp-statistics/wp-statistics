@@ -345,24 +345,35 @@ class Query
         return $this;
     }
 
+    /**
+     * Decorates the result if a decorator is set and the decorator class exists.
+     *
+     * @param mixed $result The result to decorate. Can be an object or array of objects.
+     * @return mixed The decorated result or the original result if no decorator is set or the class does not exist.
+     */
     private function maybeDecorate($result)
     {
-        if (empty($this->decorator)) return $result;
+        // Check if a decorator is set and if the decorator class exists
+        if (empty($this->decorator) || !class_exists($this->decorator)) {
+            // If no decorator is set or the class doesn't exist, return the original result
+            return $result;
+        }
 
         $decoratedResult = [];
 
-        // if result is an array, decorate each item
+        // If result is an array, decorate each item individually
         if (is_array($result)) {
             foreach ($result as $item) {
                 $decoratedResult[] = new $this->decorator($item);
             }
         }
 
-        // if result is an object, decorate the object
+        // If result is an object, decorate the object itself
         if (is_object($result)) {
             $decoratedResult = new $this->decorator($result);
         }
 
+        // Return the decorated result
         return $decoratedResult;
     }
 
