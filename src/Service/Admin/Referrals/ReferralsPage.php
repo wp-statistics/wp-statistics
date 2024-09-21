@@ -37,20 +37,23 @@ class ReferralsPage extends MultiViewPage
      */
     private function incompleteSourceChannelsNotice()
     {
-        $actionUrl = add_query_arg(
-            [
-                'action' => 'update_visitor_source_channel',
-                'nonce'  => wp_create_nonce('update_visitor_source_channel_nonce')
-            ],
-            Menus::admin_url('referrals')
-        );
+        if (!Option::getOptionGroup('jobs', 'update_source_channel_process_started') || !Option::getOptionGroup('jobs', 'update_source_channel_process_finished')) {
+            $actionUrl = add_query_arg(
+                [
+                    'action' => 'update_visitor_source_channel',
+                    'nonce'  => wp_create_nonce('update_visitor_source_channel_nonce')
+                ],
+                Menus::admin_url('referrals')
+            );
 
-        $message = sprintf(
-            __('Please <a href="%s">click here</a> to update the source channel data in the background. This is necessary for accurate analytics.', 'wp-statistics'),
-            esc_url($actionUrl)
-        );
+            $message = sprintf(
+                __('Please <a href="%s">click here</a> to update the source channel data in the background. This is necessary for accurate analytics.', 'wp-statistics'),
+                esc_url($actionUrl)
+            );
 
-        Notice::addNotice($message, 'update_visitors_source_channel');
+            Notice::addNotice($message, 'update_visitors_source_channel_notice', 'info', false);
+        }
+
     }
 
     private function processSourceChannelBackgroundAction()
