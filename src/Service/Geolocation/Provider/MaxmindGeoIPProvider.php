@@ -177,21 +177,28 @@ class MaxmindGeoIPProvider extends AbstractGeoIPProvider
              * If so, extract the database file from the archive.
              */
             if (Option::get('geoip_license_type') === "user-license" && Option::get('geoip_license_key')) {
-                // Check if the PharData class is available.
                 if (!class_exists('PharData')) {
                     throw new Exception(__('PharData class not found.', 'wp-statistics'));
                 }
 
-                $tarGz         = new PharData($gzFilePath);
-                $fileInArchive = trailingslashit($tarGz->current()->getFileName()) . $this->databaseFileName;
-                $uploadPath    = dirname($destinationPath);
+                $tarGz          = new PharData($gzFilePath);
+                $fileInArchive  = trailingslashit($tarGz->current()->getFileName()) . $this->databaseFileName;
+                $uploadPath     = dirname($destinationPath);
 
-                // Extract the database file from the archive.
-                $tarGz->extractTo($uploadPath, $fileInArchive, true); // Extract all files
+                // Extract database in the destination path.
+                $tarGz->extractTo($uploadPath, $fileInArchive, true);
+                $fileExtractedPath = $uploadPath . '/' . $fileInArchive;
+                if (!file_exists($fileExtractedPath)) {
+                    throw new Exception(esc_html__('Extraction failed: File not found.', 'wp-statistics'));
+                }
 
-                // Rename and remove the extracted directory.
-                rename($uploadPath . '/' . $fileInArchive, $destinationPath);
-                rmdir($uploadPath . '/' . trailingslashit($tarGz->current()->getFileName()));
+                if (!copy($fileExtractedPath, $destinationPath)) {
+                    throw new Exception(esc_html__('Failed to move extracted file.', 'wp-statistics'));
+                }
+
+                // Remove the extracted file and its parent directory
+                unlink($fileExtractedPath);
+                rmdir(dirname($fileExtractedPath));
 
                 return;
             }
