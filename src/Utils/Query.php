@@ -326,34 +326,44 @@ class Query
         if ($this->allowCaching) {
             $cachedResult = $this->getCachedResult($query);
             if ($cachedResult !== false) {
-                return $cachedResult;
+                return $this->maybeDecorate($cachedResult);
             }
         }
 
         $result = $this->db->get_results($query);
 
-        // Decorate results
-        if (!empty($this->decorator)) {
-            $decoratedResult = [];
-
-            foreach ($result as $item) {
-                $decoratedResult[] = new $this->decorator($item);
-            }
-
-            $result = $decoratedResult;
-        }
-
         if ($this->allowCaching) {
             $this->setCachedResult($query, $result);
         }
 
-        return $result;
+        return $this->maybeDecorate($result);
     }
 
     public function decorate($decorator)
     {
         $this->decorator = $decorator;
         return $this;
+    }
+
+    private function maybeDecorate($result)
+    {
+        if (empty($this->decorator)) return $result;
+
+        $decoratedResult = [];
+
+        // if result is an array, decorate each item
+        if (is_array($result)) {
+            foreach ($result as $item) {
+                $decoratedResult[] = new $this->decorator($item);
+            }
+        }
+
+        // if result is an object, decorate the object
+        if (is_object($result)) {
+            $decoratedResult = new $this->decorator($result);
+        }
+
+        return $decoratedResult;
     }
 
     public function getCol()
@@ -385,21 +395,17 @@ class Query
         if ($this->allowCaching) {
             $cachedResult = $this->getCachedResult($query);
             if ($cachedResult !== false) {
-                return $cachedResult;
+                return $this->maybeDecorate($cachedResult);
             }
         }
 
         $result = $this->db->get_row($query);
 
-        if (!empty($this->decorator)) {
-            $result = new $this->decorator($result);
-        }
-
         if ($this->allowCaching) {
             $this->setCachedResult($query, $result);
         }
 
-        return $result;
+        return $this->maybeDecorate($result);
     }
 
     public function execute()
