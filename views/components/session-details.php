@@ -30,7 +30,7 @@ use WP_STATISTICS\Menus;
         <div class="wps-visitor__visitors-detail--link wps-ellipsis-parent">
             <?php if (!empty($visitor->getReferral()->getReferrer())) : ?>
                 <a href="<?php echo esc_url($visitor->getReferral()->getReferrer()) ?>">
-                    <?php echo esc_html($visitor->getReferral()->getReferrer()) ?>
+                    <?php echo esc_html($visitor->getReferral()->getRawReferrer()) ?>
                 </a>
             <?php else : ?>
                 <?php echo Admin_Template::UnknownColumn() ?>

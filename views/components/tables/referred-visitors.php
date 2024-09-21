@@ -47,7 +47,7 @@ use WP_STATISTICS\Menus;
 
                             <td class="wps-pd-l">
                                 <a href="<?php echo esc_url($visitor->getReferral()->getReferrer()) ?>" title="<?php echo esc_attr($visitor->getReferral()->getReferrer()) ?>" target="_blank" class="wps-link-arrow">
-                                    <span><?php echo esc_html($visitor->getReferral()->getReferrer()) ?></span>
+                                    <span><?php echo esc_html($visitor->getReferral()->getRawReferrer()) ?></span>
                                 </a>
                             </td>
 

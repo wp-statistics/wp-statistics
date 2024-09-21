@@ -3,6 +3,7 @@
 namespace WP_Statistics\Decorators;
 
 use WP_Statistics\Service\Analytics\Referrals\SourceChannels;
+use WP_Statistics\Utils\Url;
 
 class ReferralDecorator
 {
@@ -14,13 +15,23 @@ class ReferralDecorator
     }
 
     /**
+     * Get the visitor's raw referrer value.
+     *
+     * @return string|null
+     */
+    public function getRawReferrer()
+    {
+        return $this->visitor->referred ?? null;
+    }
+
+    /**
      * Get the visitor's referrer url.
      *
      * @return string|null
      */
     public function getReferrer()
     {
-        return $this->visitor->referred ?? null;
+        return $this->visitor->referred ? Url::formatUrl($this->visitor->referred) : null;
     }
 
     /**
