@@ -14,17 +14,15 @@ use WP_STATISTICS\Menus;
             <span>
                 <?php esc_html_e('Daily Visitor Hash', 'wp-statistics'); ?>
             </span>
-            <div>
-                <span title="<?php echo esc_attr('#' . $visitor->getIP()); ?>"><?php echo esc_html('#' . $visitor->getIP()); ?></span>
-            </div>
         <?php else : ?>
             <span>
                 <?php esc_html_e('IP Address', 'wp-statistics'); ?>
             </span>
-            <div>
-                <span title="<?php echo esc_attr($visitor->getIP()); ?>"><?php echo esc_html($visitor->getIP()); ?></span>
-            </div>
         <?php endif; ?>
+
+        <div>
+            <span title="<?php echo esc_attr($visitor->getIP()); ?>"><?php echo esc_html($visitor->getIP()); ?></span>
+        </div>
     </div>
 
     <div class="wps-visitor__visitors-detail--row">

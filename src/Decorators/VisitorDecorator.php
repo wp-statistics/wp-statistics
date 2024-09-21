@@ -89,7 +89,17 @@ class VisitorDecorator
      */
     public function getIP()
     {
-        return $this->isHashedIP() ? substr($this->visitor->ip, 6, 10) : $this->visitor->ip;
+        return $this->isHashedIP() ? '#' . substr($this->visitor->ip, 6, 10) : $this->visitor->ip;
+    }
+
+    /**
+     * Returns the raw IP address of the visitor.
+     *
+     * @return string The raw IP address of the visitor.
+     */
+    public function getRawIP()
+    {
+        return $this->visitor->ip;
     }
 
     /**

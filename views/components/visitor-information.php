@@ -58,7 +58,7 @@ use WP_Statistics\Decorators\VisitorDecorator;
                             <div>
                                 <?php
                                     echo sprintf(
-                                        $visitor->isHashedIP() ? esc_html__('Daily Visitor Hash: #%s', 'wp-statistics') : esc_html__('IP: %s', 'wp-statistics'),
+                                        $visitor->isHashedIP() ? esc_html__('Daily Visitor Hash: %s', 'wp-statistics') : esc_html__('IP: %s', 'wp-statistics'),
                                         $visitor->getIP()
                                     );
                                 ?>
@@ -76,10 +76,10 @@ use WP_Statistics\Decorators\VisitorDecorator;
                         <span class="wps-visitor__information__incognito-img"></span>
                     </a>
                     <span class="wps-visitor__information__incognito-text">
-                        <?php echo $visitor->isHashedIP() ? '#' . $visitor->getIP() : $visitor->getIP(); ?>
+                        <?php echo esc_html($visitor->getIP()); ?>
                     </span>
                 <?php else: ?>
-                    <div class="wps-tooltip" title="<?php echo sprintf($visitor->isHashedIP() ? esc_html__('Daily Visitor Hash: #%s', 'wp-statistics') : esc_html__('IP: %s', 'wp-statistics'), $visitor->getIP()) ?>">
+                    <div class="wps-tooltip" title="<?php echo sprintf($visitor->isHashedIP() ? esc_html__('Daily Visitor Hash: %s', 'wp-statistics') : esc_html__('IP: %s', 'wp-statistics'), $visitor->getIP()) ?>">
                         <a href="<?php echo esc_url(Menus::admin_url('visitors', ['type' => 'single-visitor', 'visitor_id' => $visitor->getId()])) ?>"><span class="wps-visitor__information__incognito-img"></span></a>
                     </div>
                 <?php endif; ?>
