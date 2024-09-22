@@ -56,8 +56,8 @@ class SourceChannelUpdater extends WP_Background_Process
     {
         parent::complete();
 
-        // Delete option
-        Option::deleteOptionGroup('update_source_channel_process_started', 'jobs');
+        // Set running to false
+        Option::saveOptionGroup('update_source_channel_process_running', false, 'jobs');
 
         // Mark the process as completed
         Option::saveOptionGroup('update_source_channel_process_finished', true, 'jobs');
