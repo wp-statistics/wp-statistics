@@ -25,6 +25,18 @@ class LicenseManagerDataProvider
     }
 
     /**
+     * Returns a list of licensed products.
+     *
+     * @return ProductDecorator[]
+     *
+     * @throws \Exception
+     */
+    public function getLicensedProductList()
+    {
+        return $this->licenseService->mergeProductsListWithAllValidLicenses();
+    }
+
+    /**
      * Returns data for "Add-Ons" tab.
      *
      * @return array
@@ -35,7 +47,7 @@ class LicenseManagerDataProvider
         $inactiveAddOns = [];
 
         try {
-            foreach ($this->getProductList() as $addOn) {
+            foreach ($this->getLicensedProductList() as $addOn) {
                 if ($addOn->isActivated()) {
                     $activeAddOns[] = $addOn;
                 } else {

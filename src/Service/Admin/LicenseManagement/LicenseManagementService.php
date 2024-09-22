@@ -116,6 +116,8 @@ class LicenseManagementService
      * @param string $licenseKey
      *
      * @return array Merged product list with status
+     *
+     * @throws \Exception
      */
     public function mergeProductStatusWithLicense($licenseKey)
     {
@@ -127,6 +129,35 @@ class LicenseManagementService
 
         // Merge product list with license status and return the result
         return $this->productDecorator->decorateProductsWithLicense($productList, $licenseStatus->products);
+    }
+
+    /**
+     * Merges the product list with the status from all validated license.
+     *
+     * @return ProductDecorator[]
+     *
+     * @throws \Exception
+     */
+    public function mergeProductsListWithAllValidLicenses()
+    {
+        // Get the list of all products
+        $productList = $this->getProductList();
+
+        // Make a list of licensed products (retrieved from license status calls)
+        $licensedProducts = [];
+
+        // Get all stored licenses
+        $licenses = get_option($this->licensesOption, []);
+
+        // Loop through the array keys (the actual license keys) and merge the validated products
+        foreach (array_keys($licenses) as $license) {
+            // Get current license status
+            $licenseStatus = $this->validateLicense($license);
+            $licensedProducts = array_merge($licensedProducts, $licenseStatus->products);
+        }
+
+        // Merge the new list with all products and return the result
+        return $this->productDecorator->decorateProductsWithLicense($productList, $licensedProducts);
     }
 
     /**
