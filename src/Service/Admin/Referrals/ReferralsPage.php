@@ -37,7 +37,7 @@ class ReferralsPage extends MultiViewPage
      */
     private function incompleteSourceChannelsNotice()
     {
-        if (!Option::getOptionGroup('jobs', 'update_source_channel_process_started') || !Option::getOptionGroup('jobs', 'update_source_channel_process_finished')) {
+        if (Option::getOptionGroup('jobs', 'update_source_channel_process_started') || !Option::getOptionGroup('jobs', 'update_source_channel_process_finished')) {
             $actionUrl = add_query_arg(
                 [
                     'action' => 'update_visitor_source_channel',
