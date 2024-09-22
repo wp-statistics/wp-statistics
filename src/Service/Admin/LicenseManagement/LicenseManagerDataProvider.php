@@ -2,8 +2,6 @@
 
 namespace WP_Statistics\Service\Admin\LicenseManagement;
 
-use WP_Statistics\Service\Admin\LicenseManagement\ApiHandler\LicenseManagerApiFactory;
-
 class LicenseManagerDataProvider
 {
     protected $args;
@@ -24,5 +22,34 @@ class LicenseManagerDataProvider
     public function getProductList()
     {
         return $this->licenseService->getProductList();
+    }
+
+    /**
+     * Returns data for "Add-Ons" tab.
+     *
+     * @return array
+     */
+    public function getAddOnsData()
+    {
+        $activeAddOns   = [];
+        $inactiveAddOns = [];
+
+        try {
+            foreach ($this->getProductList() as $addOn) {
+                if ($addOn->isActivated()) {
+                    $activeAddOns[] = $addOn;
+                } else {
+                    $inactiveAddOns[] = $addOn;
+                }
+            }
+        } catch (\Exception $e) {
+            $activeAddOns   = [];
+            $inactiveAddOns = [];
+        }
+
+        return [
+            'active_addons'   => $activeAddOns,
+            'inactive_addons' => $inactiveAddOns,
+        ];
     }
 }
