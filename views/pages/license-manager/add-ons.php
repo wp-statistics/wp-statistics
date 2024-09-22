@@ -29,7 +29,6 @@ if (!empty($addons_list)) {
                         $args = [
                             'addOn'              => $addOn,
                             'has_license_btn'    => true,
-                            'setting_link'       => '#',
                             'detail_link'        => '#',
                             'change_log_link'    => '#',
                             'documentation_link' => '#',
@@ -52,7 +51,6 @@ if (!empty($addons_list)) {
                         $args = [
                             'addOn'              => $addOn,
                             'has_license_btn'    => true,
-                            'setting_link'       => '#',
                             'detail_link'        => '#',
                             'change_log_link'    => '#',
                             'documentation_link' => '#',

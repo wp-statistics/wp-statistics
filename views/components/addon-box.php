@@ -39,8 +39,8 @@ if (!defined('ABSPATH') || empty($addOn)) {
             <div class="wps-addon--actions">
                 <span class="wps-addon--actions--show-more js-addon-show-more"></span>
                 <ul class="wps-addon--submenus">
-                    <?php if (isset($setting_link)) : ?>
-                        <li><a href="<?php echo esc_url($setting_link) ?>" class="wps-addon--submenu wps-addon--submenu__settings"><?php esc_html_e('Settings', 'wp-statistics'); ?></a></li>
+                    <?php if ($addOn->isActivated()) : ?>
+                        <li><a href="<?php echo esc_url($addOn->getSettingsUrl()) ?>" class="wps-addon--submenu wps-addon--submenu__settings"><?php esc_html_e('Settings', 'wp-statistics'); ?></a></li>
                     <?php endif; ?>
                     <?php if (isset($detail_link)) : ?>
                         <li><a href="<?php echo esc_url($detail_link) ?>" class="wps-addon--submenu" target="_blank"><?php esc_html_e('Add-On Detail', 'wp-statistics'); ?></a></li>

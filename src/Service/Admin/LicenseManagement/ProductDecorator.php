@@ -2,6 +2,8 @@
 
 namespace WP_Statistics\Service\Admin\LicenseManagement;
 
+use WP_STATISTICS\Menus;
+
 class ProductDecorator
 {
     private $product;
@@ -267,5 +269,45 @@ class ProductDecorator
             }
         }
         return null;
+    }
+
+    /**
+     * Returns add-on's settings page link.
+     *
+     * @return string Settings URL.
+     */
+    public function getSettingsUrl()
+    {
+        $tab = '';
+        switch ($this->getSlug()) {
+            case 'wp-statistics-data-plus':
+                $tab = 'data-plus-settings';
+                break;
+            case 'wp-statistics-realtime-stats':
+                $tab = 'realtime-stats-settings';
+                break;
+            case 'wp-statistics-customization':
+                $tab = 'customization-settings';
+                break;
+            case 'wp-statistics-advanced-reporting':
+                $tab = 'advanced-reporting-settings';
+                break;
+            case 'wp-statistics-mini-chart':
+                $tab = 'mini-chart-settings';
+                break;
+            case 'wp-statistics-rest-api':
+                $tab = 'rest-api-settings';
+                break;
+            case 'wp-statistics-widgets':
+                $tab = 'widgets-settings';
+                break;
+        }
+
+        $args = [];
+        if (!empty($tab)) {
+            $args['tab'] = $tab;
+        }
+
+        return esc_url(Menus::admin_url('settings', $args));
     }
 }
