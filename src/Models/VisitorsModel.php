@@ -4,6 +4,7 @@ namespace WP_Statistics\Models;
 
 use WP_Statistics\Abstracts\BaseModel;
 use WP_Statistics\Components\DateRange;
+use WP_Statistics\Decorators\ReferralDecorator;
 use WP_Statistics\Decorators\VisitorDecorator;
 use WP_STATISTICS\Helper;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
@@ -823,7 +824,8 @@ class VisitorsModel extends BaseModel
             'term'          => '',
             'group_by'      => 'visitor.referred',
             'page'          => 1,
-            'per_page'      => 10
+            'per_page'      => 10,
+            'decorate'      => false
         ]);
 
         $filteredArgs = array_filter($args);
@@ -871,6 +873,10 @@ class VisitorsModel extends BaseModel
                 $query
                     ->joinQuery($taxQuery, ['posts.ID', 'tax.object_id'], 'tax');
             }
+        }
+
+        if ($args['decorate']) {
+            $query->decorate(ReferralDecorator::class);
         }
 
         $result = $query->getAll();
