@@ -15,18 +15,7 @@ use WP_Statistics\Service\Admin\LicenseManagement\ProductDecorator;
                         <?php
                         /** @var ProductDecorator $addOn */
                         foreach ($data['active_addons'] as $addOn) {
-                            $args = [
-                                'addOn'              => $addOn,
-                                'has_license_btn'    => true,
-                                'detail_link'        => '#',
-                                'change_log_link'    => '#',
-                                'documentation_link' => '#',
-                                'alert_class'        => 'danger',
-                                'alert_text'         => esc_html__('Almost There! Your license is valid. To proceed, please whitelist this domain in customer portal.', 'wp-statistics'),
-                                'alert_link'         => esc_url($addOn->getIcon()),
-                                'alert_link_text'    => esc_html__('Learn how to whitelist your domain', 'wp-statistics'),
-                            ];
-                            View::load('components/addon-box', $args);
+                            View::load('components/addon-box', ['addOn' => $addOn]);
                         }
                         ?>
                     </div>
@@ -39,14 +28,7 @@ use WP_Statistics\Service\Admin\LicenseManagement\ProductDecorator;
                         <?php
                         /** @var ProductDecorator $addOn */
                         foreach ($data['inactive_addons'] as $addOn) {
-                            $args = [
-                                'addOn'              => $addOn,
-                                'has_license_btn'    => true,
-                                'detail_link'        => '#',
-                                'change_log_link'    => '#',
-                                'documentation_link' => '#',
-                            ];
-                            View::load('components/addon-box', $args);
+                            View::load('components/addon-box', ['addOn' => $addOn]);
                         }
                         ?>
                     </div>

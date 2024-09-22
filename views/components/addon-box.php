@@ -42,14 +42,12 @@ if (!defined('ABSPATH') || empty($addOn)) {
                     <?php if ($addOn->isActivated()) : ?>
                         <li><a href="<?php echo esc_url($addOn->getSettingsUrl()); ?>" class="wps-addon--submenu wps-addon--submenu__settings"><?php esc_html_e('Settings', 'wp-statistics'); ?></a></li>
                     <?php endif; ?>
-                    <?php if (isset($detail_link)) : ?>
-                        <li><a href="<?php echo esc_url($detail_link); ?>" class="wps-addon--submenu" target="_blank"><?php esc_html_e('Add-On Detail', 'wp-statistics'); ?></a></li>
+                    <li><a href="<?php echo esc_url($addOn->getProductUrl()); ?>" class="wps-addon--submenu" target="_blank"><?php esc_html_e('Add-On Detail', 'wp-statistics'); ?></a></li>
+                    <?php if (!empty($addOn->getChangelogUrl())) : ?>
+                        <li><a href="<?php echo esc_url($addOn->getChangelogUrl()); ?>" class="wps-addon--submenu" target="_blank"><?php esc_html_e('Changelog', 'wp-statistics'); ?></a></li>
                     <?php endif; ?>
-                    <?php if (isset($change_log_link)) : ?>
-                        <li><a href="<?php echo esc_url($change_log_link); ?>" class="wps-addon--submenu" target="_blank"><?php esc_html_e('Changelog', 'wp-statistics'); ?></a></li>
-                    <?php endif; ?>
-                    <?php if (isset($documentation_link)) : ?>
-                        <li><a href="<?php echo esc_url($documentation_link); ?>" class="wps-addon--submenu" target="_blank"><?php esc_html_e('Documentation', 'wp-statistics'); ?></a></li>
+                    <?php if (!empty($addOn->getDocumentationUrl())) : ?>
+                        <li><a href="<?php echo esc_url($addOn->getDocumentationUrl()); ?>" class="wps-addon--submenu" target="_blank"><?php esc_html_e('Documentation', 'wp-statistics'); ?></a></li>
                     <?php endif; ?>
                 </ul>
             </div>

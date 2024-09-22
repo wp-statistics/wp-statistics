@@ -148,6 +148,26 @@ class ProductDecorator
         return $this->product->changelog;
     }
 
+    /**
+     * Returns product URL.
+     *
+     * @return string
+     */
+    public function getProductUrl()
+    {
+        return $this->product->product_url;
+    }
+
+    /**
+     * Returns product's documentation URL.
+     *
+     * @return string
+     */
+    public function getDocumentationUrl()
+    {
+        return $this->product->documentation_url;
+    }
+
     public function getStatus()
     {
         if (!$this->isInstalled()) {
