@@ -113,6 +113,24 @@ class ProductDecorator
         return $this->product->label;
     }
 
+    /**
+     * Returns label CSS class that will be used in the front-end.
+     *
+     * @return string
+     */
+    public function getLabelClass()
+    {
+        if (stripos($this->getLabel(), 'new') !== false) {
+            return 'new';
+        }
+
+        if (stripos($this->getLabel(), 'updated') !== false) {
+            return 'updated';
+        }
+
+        return 'updated';
+    }
+
     public function getVersion()
     {
         return $this->product->version;

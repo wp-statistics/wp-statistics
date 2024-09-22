@@ -26,14 +26,8 @@ if (!empty($addons_list)) {
                     <?php
                     /** @var ProductDecorator $addOn */
                     foreach ($activeAddOns as $addOn) {
-                        // @todo Dynamic value for these.
-                        $labelText  = esc_html__('Updated', 'wp-statistics');
-                        $labelClass = 'updated';
-
                         $args = [
                             'addOn'              => $addOn,
-                            'label_text'         => $labelText,
-                            'label_class'        => $labelClass,
                             'has_license_btn'    => true,
                             'setting_link'       => '#',
                             'detail_link'        => '#',
@@ -55,14 +49,8 @@ if (!empty($addons_list)) {
                     <?php
                     /** @var ProductDecorator $addOn */
                     foreach ($inactiveAddOns as $addOn) {
-                        // @todo Dynamic value for these.
-                        $labelText  = esc_html__('Updated', 'wp-statistics');
-                        $labelClass = 'updated';
-
                         $args = [
                             'addOn'              => $addOn,
-                            'label_text'         => $labelText,
-                            'label_class'        => $labelClass,
                             'has_license_btn'    => true,
                             'setting_link'       => '#',
                             'detail_link'        => '#',

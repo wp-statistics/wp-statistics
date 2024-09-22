@@ -16,8 +16,8 @@ if (!defined('ABSPATH') || empty($addOn)) {
                 <div class="wps-postbox-addon__item--info__title">
                     <?php echo esc_html($addOn->getName()); ?>
                     <span class="wps-postbox-addon__version">v<?php echo esc_html($addOn->getVersion()); ?></span>
-                    <?php if (isset($label_text)) : ?>
-                        <span class="wps-postbox-addon__label wps-postbox-addon__label--<?php echo $label_class ?>"><?php echo $label_text ?></span>
+                    <?php if (!empty($addOn->getLabel())) : ?>
+                        <span class="wps-postbox-addon__label wps-postbox-addon__label--<?php echo esc_attr($addOn->getLabelClass()); ?>"><?php echo esc_html($addOn->getLabel()); ?></span>
                     <?php endif; ?>
                 </div>
                 <p class="wps-postbox-addon__item--info__desc">
