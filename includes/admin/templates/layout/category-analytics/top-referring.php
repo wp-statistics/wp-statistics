@@ -26,14 +26,14 @@ use WP_STATISTICS\Referred;
                             </th>
                         </tr>
                     </thead>
-                    
+
                     <tbody>
                         <?php foreach ($data as $item) : ?>
                             <tr>
                                 <td class="wps-pd-l">
                                     <div class="wps-ellipsis-parent">
                                         <span class="wps-ellipsis-text wps-site-icon">
-                                            <?php echo Referred::get_referrer_link($item->referrer, '', true) ?>
+                                            <?php echo Referred::get_referrer_link($item->referred, '', true) ?>
                                         </span>
                                     </div>
                                 </td>
@@ -45,7 +45,7 @@ use WP_STATISTICS\Referred;
             </div>
         <?php else : ?>
             <div class="o-wrap o-wrap--no-data wps-center">
-                <?php esc_html_e('No recent data available.', 'wp-statistics')   ?> 
+                <?php esc_html_e('No recent data available.', 'wp-statistics')   ?>
             </div>
         <?php endif; ?>
     </div>

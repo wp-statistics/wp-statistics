@@ -830,9 +830,9 @@ class VisitorsModel extends BaseModel
 
         $query = Query::select([
             'COUNT(DISTINCT visitor.ID) AS visitors',
-            'visitor.referred as referrer',
-            'visitor.source_channel as source_channel',
-            'visitor.source_name as engine',
+            'visitor.referred',
+            'visitor.source_channel',
+            'visitor.source_name',
             'visitor.last_counter'
         ])
             ->from('visitor')

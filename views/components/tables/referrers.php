@@ -28,8 +28,8 @@ use WP_Statistics\Service\Analytics\Referrals\SourceChannels;
                         <?php foreach ($referrers as $referrer) : ?>
                             <tr>
                                 <td class="wps-pd-l">
-                                    <a href="<?php echo esc_url($referrer->referrer) ?>" title="<?php echo esc_html($referrer->referrer) ?>" target="_blank" class="wps-link-arrow">
-                                        <span><?php echo esc_html($referrer->referrer) ?></span>
+                                    <a href="<?php echo esc_url($referrer->referred) ?>" title="<?php echo esc_html($referrer->referred) ?>" target="_blank" class="wps-link-arrow">
+                                        <span><?php echo esc_html($referrer->referred) ?></span>
                                     </a>
                                 </td>
 
@@ -47,7 +47,7 @@ use WP_Statistics\Service\Analytics\Referrals\SourceChannels;
                                 <?php endif; ?>
 
                                 <td class="wps-pd-l start">
-                                    <a href="<?php echo esc_url(Menus::admin_url('referrals', ['referrer' => $referrer->referrer])) ?>">
+                                    <a href="<?php echo esc_url(Menus::admin_url('referrals', ['referrer' => $referrer->referred])) ?>">
                                         <?php echo esc_html($referrer->visitors) ?>
                                     </a>
                                 </td>

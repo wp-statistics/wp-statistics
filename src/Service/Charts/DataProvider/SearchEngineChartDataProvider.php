@@ -62,8 +62,8 @@ class SearchEngineChartDataProvider extends AbstractChartDataProvider
 
         foreach ($data as $item) {
             $visitors = intval($item->visitors);
-            $thisParsedData[$item->engine][$item->last_counter] = $visitors;
-            $thisPeriodTotal[$item->last_counter]               += $visitors;
+            $thisParsedData[$item->source_name][$item->last_counter] = $visitors;
+            $thisPeriodTotal[$item->last_counter]                    += $visitors;
         }
 
         $topSearchEngines = $this->getTopSearchEngines($thisParsedData);

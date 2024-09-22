@@ -38,8 +38,8 @@ class referring extends MetaBoxAbstract
 
             foreach ($referrers as $referrer) {
                 $parsedReferrers[]      = [
-                    'domain'    => $referrer->referrer,
-                    'page_link' => Menus::admin_url('referrals', ['referrer' => $referrer->referrer]),
+                    'domain'    => $referrer->referred,
+                    'page_link' => Menus::admin_url('referrals', ['referrer' => $referrer->referred]),
                     'number'    => number_format_i18n($referrer->visitors)
                 ];
             }
