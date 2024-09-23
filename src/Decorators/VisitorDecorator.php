@@ -89,7 +89,7 @@ class VisitorDecorator
      */
     public function getIP()
     {
-        return $this->isHashedIP() ? '#' . substr($this->visitor->ip, 6, 10) : $this->visitor->ip;
+        return $this->isHashedIP() ? '#' . substr($this->visitor->ip, 6, 8) : $this->visitor->ip;
     }
 
     /**
