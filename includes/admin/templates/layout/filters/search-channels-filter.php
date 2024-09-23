@@ -16,6 +16,7 @@ $selectedTitle  = $channels[$selected] ?? null;
 
         <div class="dropdown-content">
             <input type="text" class="wps-search-dropdown">
+            <a href="<?php echo esc_url(remove_query_arg('source_channel')); ?>" data-index="0" class="<?php echo !isset($selected) ? 'selected' : '' ?>"><?php esc_html_e('All', 'wp-statistics'); ?></a>
 
             <?php foreach ($channels as $key => $value) : ?>
                 <a href="<?php echo esc_url(add_query_arg('source_channel', $key)); ?>" class="dropdown-item <?php echo $selected === $key ? 'selected' : ''; ?>">
