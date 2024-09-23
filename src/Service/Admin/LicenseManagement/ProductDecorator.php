@@ -237,7 +237,7 @@ class ProductDecorator
     public function isActivated()
     {
         try {
-            return $this->pluginHandler->isPluginActive($this->product->slug);
+            return $this->pluginHandler->isPluginActive($this->getSlug());
         } catch (\Exception $e) {
             return false;
         }
@@ -252,7 +252,7 @@ class ProductDecorator
     {
         $pluginFile = null;
         try {
-            $pluginFile = $this->pluginHandler->getPluginFile($this->product->slug);
+            $pluginFile = $this->pluginHandler->getPluginFile($this->getSlug());
         } catch (\Exception $e) {
             return null;
         }
@@ -339,5 +339,31 @@ class ProductDecorator
         }
 
         return esc_url(Menus::admin_url('settings', $args));
+    }
+
+    /**
+     * Compares add-on version in license status call with the version of the locally installed plugin.
+     *
+     * @return bool|null `null` on error or if the plugin is not installed.
+     */
+    public function isUpdateAvailable()
+    {
+        if (!$this->isInstalled()) {
+            return null;
+        }
+
+        $installedPlugin = null;
+        try {
+            $installedPlugin = $this->pluginHandler->getPluginData($this->getSlug());
+
+            // If there's an issue with local plugin's version, return true so that a new version can be downloaded
+            if (empty($installedPlugin) || empty($installedPlugin['Version'])) {
+                return true;
+            }
+        } catch (\Exception $e) {
+            return null;
+        }
+
+        return version_compare($this->getVersion(), $installedPlugin['Version'], '>');
     }
 }

@@ -19,8 +19,8 @@ if (!defined('ABSPATH') || empty($addOn)) {
                         <?php esc_html_e('Learn More', 'wp-statistics'); ?>
                     </a>
                 <?php endif; ?>
-                <?php if (!empty($addOn->getLabel())) : ?>
-                    <span class="wps-postbox-addon__label wps-postbox-addon__label--<?php echo esc_attr($addOn->getLabelClass()); ?>"><?php echo esc_html($addOn->getLabel()); ?></span>
+                <?php if ($addOn->isUpdateAvailable()) : ?>
+                    <span class="wps-postbox-addon__label wps-postbox-addon__label--updated"><?php esc_html_e('Update Available', 'wp-statistics'); ?></span>
                 <?php endif; ?>
             </div>
             <p class="wps-addon__download__item--info__desc">
@@ -34,7 +34,7 @@ if (!defined('ABSPATH') || empty($addOn)) {
         <?php elseif (!$addOn->isLicensed()) : ?>
             <span class="wps-postbox-addon__status wps-postbox-addon__status--primary "><?php esc_html_e('Not included', 'wp-statistics'); ?></span>
         <?php endif; ?>
-        <?php if ($addOn->isLicensed() && !$addOn->isInstalled()) : ?>
+        <?php if ($addOn->isLicensed() && (!$addOn->isInstalled() || $addOn->isUpdateAvailable())) : ?>
             <input type="checkbox" class="js-wps-addon-check-box" name="addon-select">
         <?php endif; ?>
     </div>
