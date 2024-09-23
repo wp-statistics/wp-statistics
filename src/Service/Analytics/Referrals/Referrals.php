@@ -51,7 +51,7 @@ class Referrals
         if (empty($referrer)) return '';
 
         // Sanitize url
-        $referrer = sanitize_url($referrer, self::getAllowedProtocols());
+        $referrer = sanitize_url($referrer);
 
         // Get protocol
         $protocol = Url::getProtocol($referrer);
@@ -80,15 +80,5 @@ class Referrals
         $pageUrl     = Pages::get_page_uri();
 
         return new SourceDetector($referrerUrl, $pageUrl);
-    }
-
-    /**
-     * Returns the allowed protocols for referrers.
-     *
-     * @return array An array of allowed protocols.
-     */
-    public static function getAllowedProtocols()
-    {
-        return apply_filters('wp_statistics_allowed_referrer_protocols', ['http', 'https', 'android-app']);
     }
 }
