@@ -225,36 +225,6 @@ class summary
             );
         }
 
-        // Get Search Engine Detail
-        if (in_array('search-engine', $component)) {
-            $data['search-engine'] = array();
-            $total_today           = 0;
-            $total_yesterday       = 0;
-            foreach (SearchEngine::getList() as $key => $value) {
-
-                // Get Statistics
-                $today     = wp_statistics_searchengine($value['tag'], 'today');
-                $yesterday = wp_statistics_searchengine($value['tag'], 'yesterday');
-
-                // Push to List
-                $data['search-engine'][$key] = array(
-                    'name'      => sprintf(__('%s', 'wp-statistics'), $value['name']),
-                    'logo'      => $value['logo_url'],
-                    'today'     => number_format_i18n($today),
-                    'yesterday' => number_format_i18n($yesterday)
-                );
-
-                // Sum Search engine
-                $total_today     += $today;
-                $total_yesterday += $yesterday;
-            }
-            $data['search-engine-total'] = array(
-                'today'     => number_format_i18n($total_today),
-                'yesterday' => number_format_i18n($total_yesterday),
-                'total'     => number_format_i18n(wp_statistics_searchengine('all')),
-            );
-        }
-
         // Get Current Date and Time
         if (in_array('timezone', $component)) {
             $data['timezone'] = array(
