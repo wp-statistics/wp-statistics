@@ -45,6 +45,16 @@ class TabsView extends BaseTabView
         return $this->dataProvider->getDownloadsData();
     }
 
+    /**
+     * Returns data for "Get Started" tab.
+     *
+     * @return array
+     */
+    public function getGetStartedData()
+    {
+        return $this->dataProvider->getGetStartedData();
+    }
+
     public function render()
     {
         try {

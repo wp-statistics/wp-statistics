@@ -2,6 +2,9 @@
 
 namespace WP_Statistics\Service\Admin\LicenseManagement;
 
+use WP_STATISTICS\Menus;
+use WP_Statistics\Utils\Request;
+
 class LicenseManagerDataProvider
 {
     protected $args;
@@ -91,6 +94,37 @@ class LicenseManagerDataProvider
         return [
             'licensed_addons'     => $licensedAddOns,
             'not_included_addons' => $notIncludedAddOns,
+        ];
+    }
+
+    /**
+     * Returns data for "Get Started" tab.
+     *
+     * @return array
+     */
+    public function getGetStartedData()
+    {
+        // Redirect back to second step if the `addons` have not been sent via Ajax
+        if (!Request::has('addons') || !is_array(Request::get('addons'))) {
+            wp_redirect(Menus::admin_url('plugins', ['tab' => 'downloads']));
+            exit;
+        }
+
+        $selectedAddOns = Request::get('addons');
+        $addOns         = [];
+
+        try {
+            foreach ($this->getLicensedProductList() as $addOn) {
+                if ($addOn->isLicensed() && in_array($addOn->getSlug(), $selectedAddOns)) {
+                    $addOns[] = $addOn;
+                }
+            }
+        } catch (\Exception $e) {
+            $addOns = [];
+        }
+
+        return [
+            'addons' => $addOns,
         ];
     }
 }
