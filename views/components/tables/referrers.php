@@ -14,11 +14,9 @@ use WP_Statistics\Service\Analytics\Referrals\SourceChannels;
                             <th class="wps-pd-l">
                                 <span><?php esc_html_e('Domain Address', 'wp-statistics') ?></span>
                             </th>
-                            <?php if ($show_source_category && $show_source_category !== null) : ?>
-                                <th class="wps-pd-l">
-                                    <?php esc_html_e('Source Category', 'wp-statistics') ?>
-                                </th>
-                            <?php endif; ?>
+                            <th class="wps-pd-l">
+                                <?php esc_html_e('Source Category', 'wp-statistics') ?>
+                            </th>
                             <th class="wps-pd-l start">
                                 <span class="wps-order"><?php esc_html_e('Number of Referrals', 'wp-statistics') ?></span>
                             </th>
@@ -35,17 +33,15 @@ use WP_Statistics\Service\Analytics\Referrals\SourceChannels;
                                     </a>
                                 </td>
 
-                                <?php if ($show_source_category && $show_source_category !== null) : ?>
-                                    <td class="wps-pd-l">
-                                        <div class="wps-ellipsis-parent">
-                                            <?php if (!empty($referrer->getSourceName())) : ?>
-                                                <span class="wps-ellipsis-text" title="<?php echo esc_attr($referrer->getSourceName()) ?>"><?php echo esc_html($referrer->getSourceName()) ?></span>
-                                            <?php else : ?>
-                                                <?php echo Admin_Template::UnknownColumn() ?>
-                                            <?php endif; ?>
-                                        </div>
-                                    </td>
-                                <?php endif; ?>
+                                <td class="wps-pd-l">
+                                    <div class="wps-ellipsis-parent">
+                                        <?php if (!empty($referrer->getSourceName())) : ?>
+                                            <span class="wps-ellipsis-text" title="<?php echo esc_attr($referrer->getSourceName()) ?>"><?php echo esc_html($referrer->getSourceName()) ?></span>
+                                        <?php else : ?>
+                                            <?php echo Admin_Template::UnknownColumn() ?>
+                                        <?php endif; ?>
+                                    </div>
+                                </td>
 
                                 <td class="wps-pd-l start">
                                     <a href="<?php echo esc_url(Menus::admin_url('referrals', ['referrer' => $referrer->getRawReferrer()])) ?>">
