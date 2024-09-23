@@ -20,38 +20,14 @@ use WP_Statistics\Components\View;
             </div>
             <div class="wps-addon__download__items">
                 <?php
-                $args = [
-                    'title'          => esc_html__('Data Plus', 'wp-statistics'),
-                    'icon'           => esc_url(WP_STATISTICS_URL . 'assets/images/add-ons/wp-statistics-data-plus.svg'),
-                    'label_text'     => esc_html__('Update Available', 'wp-statistics'),
-                    'label_class'    => 'updated',
-                    'read_more_link' => '',
-                    'disable'        => false,
-                    'description'    => esc_html__('Track custom post types, taxonomies, links, and download tracker.', 'wp-statistics'),
-                ];
-                View::load('components/addon-download-card', $args);
-
-                $args = [
-                    'title'          => esc_html__('REST API', 'wp-statistics'),
-                    'icon'           => esc_url(WP_STATISTICS_URL . 'assets/images/add-ons/wp-statistics-mini-chart.svg'),
-                    'status_text'    => esc_html__('Already installed', 'wp-statistics'),
-                    'status_class'   => 'success',
-                    'read_more_link' => '',
-                    'disable'        => false,
-                    'description'    => esc_html__('Enable WP Statistics endpoints in the REST API for advanced data retrieval.', 'wp-statistics'),
-                ];
-                View::load('components/addon-download-card', $args);
-
-                $args = [
-                    'title'          => esc_html__('REST API', 'wp-statistics'),
-                    'icon'           => esc_url(WP_STATISTICS_URL . 'assets/images/add-ons/wp-statistics-mini-chart.svg'),
-                    'status_text'    => esc_html__('Not included', 'wp-statistics'),
-                    'status_class'   => 'primary',
-                    'read_more_link' => '',
-                    'disable'        => true,
-                    'description'    => esc_html__('Enable WP Statistics endpoints in the REST API for advanced data retrieval.', 'wp-statistics'),
-                ];
-                View::load('components/addon-download-card', $args);
+                /** @var ProductDecorator $addOn */
+                foreach ($data['licensed_addons'] as $addOn) {
+                    View::load('components/addon-download-card', ['addOn' => $addOn]);
+                }
+                /** @var ProductDecorator $addOn */
+                foreach ($data['not_included_addons'] as $addOn) {
+                    View::load('components/addon-download-card', ['addOn' => $addOn]);
+                }
                 ?>
             </div>
         </div>

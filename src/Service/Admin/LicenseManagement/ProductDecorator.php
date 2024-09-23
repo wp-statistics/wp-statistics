@@ -168,13 +168,23 @@ class ProductDecorator
         return $this->product->documentation_url;
     }
 
+    /**
+     * Does this product have a license?
+     *
+     * @return bool
+     */
+    public function isLicensed()
+    {
+        return !empty($this->licensedProduct);
+    }
+
     public function getStatus()
     {
         if (!$this->isInstalled()) {
             return 'not_installed';
         }
 
-        if ($this->licensedProduct) {
+        if ($this->isLicensed()) {
             if ($this->isActivated()) {
                 return 'activated';
             } elseif ($this->isInstalled()) {

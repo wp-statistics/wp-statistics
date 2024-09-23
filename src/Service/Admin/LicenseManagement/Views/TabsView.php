@@ -35,6 +35,16 @@ class TabsView extends BaseTabView
         return $this->dataProvider->getAddOnsData();
     }
 
+    /**
+     * Returns data for "Download Add-ons" tab.
+     *
+     * @return array
+     */
+    public function getDownloadsData()
+    {
+        return $this->dataProvider->getDownloadsData();
+    }
+
     public function render()
     {
         try {

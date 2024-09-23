@@ -64,4 +64,33 @@ class LicenseManagerDataProvider
             'inactive_addons' => $inactiveAddOns,
         ];
     }
+
+    /**
+     * Returns data for "Download Add-ons" tab.
+     *
+     * @return array
+     */
+    public function getDownloadsData()
+    {
+        $licensedAddOns    = [];
+        $notIncludedAddOns = [];
+
+        try {
+            foreach ($this->getLicensedProductList() as $addOn) {
+                if ($addOn->isLicensed()) {
+                    $licensedAddOns[] = $addOn;
+                } else {
+                    $notIncludedAddOns[] = $addOn;
+                }
+            }
+        } catch (\Exception $e) {
+            $licensedAddOns   = [];
+            $notIncludedAddOns = [];
+        }
+
+        return [
+            'licensed_addons'     => $licensedAddOns,
+            'not_included_addons' => $notIncludedAddOns,
+        ];
+    }
 }
