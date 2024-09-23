@@ -93,25 +93,38 @@ class LicenseManagementService
             throw new \Exception(__('License is expired!', 'wp-statistics'));
         }
 
-        // Store the license details in the database
-        $this->storeLicense($licenseKey, $licenseData->license_details);
+        // Store the license in the database
+        $this->storeLicense($licenseKey, $licenseData);
 
         return $licenseData;
+    }
+
+    /**
+     * Returns the licenses stored in the WordPress database.
+     *
+     * @return array
+     */
+    public function getStoredLicenses()
+    {
+        return get_option($this->licensesOption, []);
     }
 
     /**
      * Store license details in the WordPress database.
      *
      * @param string $licenseKey
-     * @param array $licenseDetails
+     * @param object $license
      */
-    public function storeLicense($licenseKey, $licenseDetails)
+    public function storeLicense($licenseKey, $license)
     {
         // Get current licenses
-        $currentLicenses = get_option($this->licensesOption, []);
+        $currentLicenses = $this->getStoredLicenses();
 
-        // Store the new license with its details
-        $currentLicenses[$licenseKey] = $licenseDetails;
+        // Store the new license with its details and product slugs
+        $currentLicenses[$licenseKey] = [
+            'license'  => $license->license_details,
+            'products' => wp_list_pluck($license->products, 'slug'),
+        ];
 
         update_option($this->licensesOption, $currentLicenses);
     }
@@ -152,11 +165,8 @@ class LicenseManagementService
         // Make a list of licensed products (retrieved from license status calls)
         $licensedProducts = [];
 
-        // Get all stored licenses
-        $licenses = get_option($this->licensesOption, []);
-
         // Loop through the array keys (the actual license keys) and merge the validated products
-        foreach (array_keys($licenses) as $license) {
+        foreach (array_keys($this->getStoredLicenses()) as $license) {
             // Get current license status
             $licenseStatus = $this->validateLicense($license);
             $licensedProducts = array_merge($licensedProducts, $licenseStatus->products);
