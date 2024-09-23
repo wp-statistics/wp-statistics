@@ -6,7 +6,7 @@ if (!defined('ABSPATH') || empty($addOn)) {
 }
 
 ?>
-<div class="wps-addon__download__item <?php echo $addOn->isLicensed() ? 'wps-addon__download__item--disabled' : '' ?>">
+<div class="wps-addon__download__item <?php echo $addOn->isLicensed() ? 'wps-addon__download__item--disabled' : ''; ?>">
     <div class="wps-addon__download__item--info">
         <div class="wps-addon__download__item--info__img">
             <img src="<?php echo esc_url($addOn->getIcon()); ?>" alt="<?php echo esc_attr($addOn->getName()); ?>">

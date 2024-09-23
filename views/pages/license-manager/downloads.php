@@ -20,13 +20,18 @@ use WP_Statistics\Components\View;
             </div>
             <div class="wps-addon__download__items">
                 <?php
-                /** @var ProductDecorator $addOn */
-                foreach ($data['licensed_addons'] as $addOn) {
-                    View::load('components/addon-download-card', ['addOn' => $addOn]);
+                if (!empty($data['licensed_addons'])) {
+                    /** @var ProductDecorator $addOn */
+                    foreach ($data['licensed_addons'] as $addOn) {
+                        View::load('components/addon-download-card', ['addOn' => $addOn]);
+                    }
                 }
-                /** @var ProductDecorator $addOn */
-                foreach ($data['not_included_addons'] as $addOn) {
-                    View::load('components/addon-download-card', ['addOn' => $addOn]);
+
+                if (!empty($data['not_included_addons'])) {
+                    /** @var ProductDecorator $addOn */
+                    foreach ($data['not_included_addons'] as $addOn) {
+                        View::load('components/addon-download-card', ['addOn' => $addOn]);
+                    }
                 }
                 ?>
             </div>
