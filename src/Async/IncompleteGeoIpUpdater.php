@@ -41,7 +41,7 @@ class IncompleteGeoIpUpdater extends WP_Background_Process
             $location = GeolocationFactory::getLocation($visitor->ip);
 
             $visitorModel->updateVisitor($visitor->ID, [
-                'location'  => $location['country'],
+                'location'  => $location['country_code'],
                 'city'      => $location['city'],
                 'region'    => $location['region'],
                 'continent' => $location['continent'],
