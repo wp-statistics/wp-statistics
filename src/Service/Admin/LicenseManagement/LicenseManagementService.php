@@ -42,7 +42,6 @@ class LicenseManagementService
 
             $remoteRequest = new RemoteRequest("{$this->apiUrl}/product/list", 'GET', [], $arguments);
             $products      = $remoteRequest->execute();
-
         } catch (Exception $e) {
             throw new Exception(
                 sprintf(__('Error fetching product list: %s', 'wp-statistics'), $e->getMessage())
@@ -81,10 +80,17 @@ class LicenseManagementService
 
             $licenseData = $remoteRequest->execute();
 
+            if (empty($licenseData)) {
+                throw new \Exception(__('Invalid license response!', 'wp-statistics'));
+            }
         } catch (Exception $e) {
             throw new Exception(
                 sprintf(__('Error validating license: %s', 'wp-statistics'), $e->getMessage())
             );
+        }
+
+        if (empty($licenseData->license_details->valid_until) || $licenseData->license_details->valid_until < wp_date('Y-m-d')) {
+            throw new \Exception(__('License is expired!', 'wp-statistics'));
         }
 
         // Store the license details in the database
