@@ -27,16 +27,16 @@ class ReferralsParser
         $referrerUrl = Url::getDomain($referrerUrl);
 
         foreach ($this->referralsList['source_channels'] as $channelType => $channelData) {
+            // check if rules don't match, skip to the next channel
+            if (!$this->checkRules($channelData['rules'], $pageUrl)) {
+                continue;
+            }
+
             foreach ($channelData['channels'] as $channel) {
                 foreach ($channel['domains'] as $channelDomain) {
 
                     // check if domains don't match, skip
                     if ($channelDomain !== $referrerUrl) {
-                        continue;
-                    }
-
-                    // check if rules don't match, skip
-                    if (!$this->checkRules($channelData['rules'], $pageUrl)) {
                         continue;
                     }
 

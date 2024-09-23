@@ -62,7 +62,7 @@ class Url
         $url = rtrim($url, '/');
 
         // Add protocol if missing
-        if (!preg_match("~^https?://~i", $url)) {
+        if (empty(wp_parse_url($url, PHP_URL_SCHEME))) {
             $url = "https://$url";
         }
 
