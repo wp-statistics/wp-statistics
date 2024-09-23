@@ -28,8 +28,8 @@ class SearchEngineChartDataProvider extends AbstractChartDataProvider
         $thisPeriod = isset($this->args['date']) ? $this->args['date'] : DateRange::get();
         $prevPeriod = DateRange::getPrevPeriod($thisPeriod);
 
-        $data       = $this->visitorsModel->getReferrers($this->args);
-        $prevData   = $this->visitorsModel->getReferrers(array_merge($this->args, ['date' => $prevPeriod]));
+        $data       = $this->visitorsModel->getReferrers(array_merge($this->args, ['source_channel' => ['search', 'paid_search']]));
+        $prevData   = $this->visitorsModel->getReferrers(array_merge($this->args, ['date' => $prevPeriod, 'source_channel' => ['search', 'paid_search']]));
 
         $result     = $this->prepareResult($data, $prevData);
 

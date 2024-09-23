@@ -187,7 +187,7 @@ class Meta_Box
                 ]
             ),
             'search'          => array(
-                'page_url'          => Menus::admin_url('searches'),
+                'page_url'          => Menus::admin_url('referrals', ['tab' => 'search-engines']),
                 'name'              => __('Referrals from Search Engines', 'wp-statistics'),
                 'description'       => __('A breakdown of views from different search engines over time.', 'wp-statistics'),
                 'hidden'            => true,
