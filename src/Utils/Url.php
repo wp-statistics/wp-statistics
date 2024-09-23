@@ -61,8 +61,8 @@ class Url
         // Remove trailing slash
         $url = rtrim($url, '/');
 
-        // Add protocol if missing
-        if (empty(wp_parse_url($url, PHP_URL_SCHEME))) {
+        // Add https protocol if missing
+        if (empty(self::getProtocol($url))) {
             $url = "https://$url";
         }
 
