@@ -89,8 +89,16 @@ class LicenseManagementManager
             $licenseKey = Request::has('license_key') ? wp_unslash(Request::get('license_key')) : false;
             $pluginSlug = Request::has('plugin_slug') ? wp_unslash(Request::get('plugin_slug')) : false;
 
-            if (!$licenseKey || !$pluginSlug) {
-                throw new Exception('License key or selected plugin are missing.');
+            if (!$pluginSlug) {
+                throw new Exception('Plugin slug is missing.');
+            }
+
+            if (empty($licenseKey)) {
+                $licenseKey = $this->licenseService->getValidLicenseForProduct($pluginSlug);
+            }
+
+            if (empty($licenseKey)) {
+                throw new Exception('License key is missing.');
             }
 
             $downloadUrl = $this->licenseService->getPluginDownloadUrl($licenseKey, $pluginSlug);

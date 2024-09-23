@@ -130,6 +130,30 @@ class LicenseManagementService
     }
 
     /**
+     * Returns the first validated license key that contains the add-on with the given slug.
+     *
+     * @param string $slug
+     *
+     * @return string|null License key. `null` if no valid licenses was found for this slug.
+     *
+     * @throws \Exception
+     */
+    public function getValidLicenseForProduct($slug)
+    {
+        foreach ($this->getStoredLicenses() as $key => $license) {
+            if (empty($license) || empty($license['products']) || !is_array($license['products'])) {
+                continue;
+            }
+
+            if (in_array($slug, $license['products'])) {
+                return $key;
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * Merge the product list with the status from the license.
      *
      * @param string $licenseKey
