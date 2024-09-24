@@ -54,7 +54,7 @@ class ReferralsPage extends MultiViewPage
             Notice::addNotice($message, 'update_visitors_source_channel_notice', 'info', false);
         } else if (Option::getOptionGroup('jobs', 'update_source_channel_process_running')) {
             $message = esc_html__('The background data process is currently running. It may take a few minutes to complete based on your data size.', 'wp-statistics');
-            Notice::addNotice($message, 'update_visitors_source_channel_notice', 'info', false);
+            Notice::addNotice($message, 'running_visitors_source_channel_notice', 'info', false);
         }
     }
 
