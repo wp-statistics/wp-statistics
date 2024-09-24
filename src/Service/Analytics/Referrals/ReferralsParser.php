@@ -62,8 +62,10 @@ class ReferralsParser
      */
     public function checkRules($rules, $pageUrl)
     {
-        foreach ($rules as $rule) {
+        // If pageUrl is empty, set it to empty string
+        $pageUrl = !empty($pageUrl) ? $pageUrl : '';
 
+        foreach ($rules as $rule) {
             switch ($rule['operator']) {
                 case 'MATCH':
                     if (!preg_match($rule['pattern'], $pageUrl)) return false;
