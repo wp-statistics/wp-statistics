@@ -38,7 +38,7 @@ use WP_Statistics\Components\View;
         </div>
         <div class="wps-addon__step__action">
             <a href="" class="wps-addon__step__back"><?php esc_html_e('Back', 'wp-statistics'); ?></a>
-            <a href="" class="wps-postbox-addon-button">
+            <a href="" class="wps-postbox-addon-button js-addon-download-button disabled">
                 <?php esc_html_e('Download & Install Selected Add-ons', 'wp-statistics'); ?>
             </a>
         </div>

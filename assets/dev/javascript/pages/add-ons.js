@@ -5,14 +5,53 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         const addon_items = document.querySelectorAll('.js-wps-addon-check-box');
         const select_all = document.querySelector('.js-wps-addon-select-all');
         const active_license_btn = document.querySelector('.js-addon-active-license');
+        const addon_download_btn = document.querySelector('.js-addon-download-button');
         const license_input = document.querySelector('.wps-addon__step__active-license input');
 
-        if (select_all) {
-            select_all.addEventListener('click', function (event) {
-                event.stopPropagation();
-                addon_items.forEach(function (item) {
-                    item.checked = true;
+
+        if (addon_items) {
+            if (select_all) {
+                select_all.addEventListener('click', function (event) {
+                    event.stopPropagation();
+                    addon_items.forEach(function (item) {
+                        item.checked = true;
+                    });
+                    addon_download_btn.classList.remove('disabled');
                 });
+            }
+
+            // Function to check the status of addon_items checkboxes
+            function updateDownloadButtonState() {
+                let anyChecked = false;
+                let allUnchecked = true;
+
+                addon_items.forEach(function (item) {
+                    if (item.checked) {
+                        anyChecked = true;
+                        allUnchecked = false;
+                    }
+                });
+
+                if (anyChecked) {
+                    addon_download_btn.classList.remove('disabled');
+                } else {
+                    addon_download_btn.classList.add('disabled');
+                }
+            }
+
+            // Handle individual addon items checkboxes
+            addon_items.forEach(function (item) {
+                item.addEventListener('change', updateDownloadButtonState);
+            });
+        }
+
+
+        if (addon_download_btn) {
+            addon_download_btn.addEventListener('click', function (event) {
+                if (!addon_download_btn.classList.contains('disable')) {
+                    event.stopPropagation();
+                }
+
             });
         }
 
