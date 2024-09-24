@@ -160,7 +160,7 @@ class Meta_Box
                 ]
             ),
             'referring'       => array(
-                'page_url'          => Menus::admin_url('referrals'),
+                'page_url'          => Menus::admin_url('referrals', ['tab' => 'referrers']),
                 'name'              => __('Top Referring', 'wp-statistics'),
                 'hidden'            => true,
                 'show_on_dashboard' => true,
