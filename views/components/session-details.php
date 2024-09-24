@@ -29,8 +29,8 @@ use WP_STATISTICS\Menus;
         <span><?php esc_html_e('Referrer', 'wp-statistics'); ?></span>
         <div class="wps-visitor__visitors-detail--link wps-ellipsis-parent">
             <?php if (!empty($visitor->getReferral()->getReferrer())) : ?>
-                <a href="<?php echo esc_url($visitor->getReferral()->getReferrer()) ?>">
-                    <?php echo esc_html($visitor->getReferral()->getRawReferrer()) ?>
+                <a class="wps-link-arrow" target="_blank" href="<?php echo esc_url($visitor->getReferral()->getReferrer()) ?>">
+                    <span><?php echo esc_html($visitor->getReferral()->getRawReferrer()) ?></span>
                 </a>
             <?php else : ?>
                 <?php echo Admin_Template::UnknownColumn() ?>
