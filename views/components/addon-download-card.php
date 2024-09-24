@@ -35,7 +35,7 @@ if (!defined('ABSPATH') || empty($addOn)) {
             <span class="wps-postbox-addon__status wps-postbox-addon__status--primary "><?php esc_html_e('Not included', 'wp-statistics'); ?></span>
         <?php endif; ?>
         <?php if ($addOn->isLicensed() && (!$addOn->isInstalled() || $addOn->isUpdateAvailable())) : ?>
-            <input type="checkbox" class="js-wps-addon-check-box" name="addon-select">
+            <input type="checkbox" class="js-wps-addon-check-box" name="addon-select" data-slug="<?php echo esc_attr($addOn->getSlug()); ?>" >
         <?php endif; ?>
     </div>
 </div>
