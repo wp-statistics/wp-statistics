@@ -30,7 +30,7 @@ class Schedule
 
                 // Add the GeoIP update schedule if it doesn't exist and it should be.
                 if (!wp_next_scheduled('wp_statistics_geoip_hook') && Option::get('schedule_geoip')) {
-                    wp_schedule_event(time(), 'daily', 'wp_statistics_geoip_hook');
+                    wp_schedule_event(time(), 'monthly', 'wp_statistics_geoip_hook');
                 }
 
                 // Remove the GeoIP update schedule if it does exist and it should shouldn't.
@@ -240,13 +240,7 @@ class Schedule
      */
     public function geoip_event()
     {
-        // Max-mind updates the geo-ip database on the first Tuesday of the month, to make sure we don't update before they post
-        $this_update = strtotime('first Tuesday of this month') + (86400 * 2);
-        $last_update = GeolocationFactory::getProviderInstance()->getLastDownloadTimestamp();
-
-        if ($last_update < $this_update) {
-            GeolocationFactory::downloadDatabase();
-        }
+        GeolocationFactory::downloadDatabase();
     }
 
     /**

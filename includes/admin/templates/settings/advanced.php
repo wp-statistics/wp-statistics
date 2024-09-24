@@ -1,5 +1,6 @@
 <?php
 
+use WP_STATISTICS\Helper;
 use WP_STATISTICS\IP;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
 
@@ -204,25 +205,10 @@ add_thickbox();
                 <?php
                 if (WP_STATISTICS\Option::get('schedule_geoip')) {
                     echo '<p class="description">' . esc_html__('Next update will be', 'wp-statistics') . ': <code>';
-                    $last_update = GeolocationFactory::getProviderInstance()->getLastDownloadTimestamp();
-                    $this_month  = strtotime('first Tuesday of this month');
+                    $event = wp_get_scheduled_event('wp_statistics_geoip_hook');
 
-                    if ($last_update > $this_month) {
-                        $next_update = strtotime('first Tuesday of next month') + (86400 * 2);
-                    } else {
-                        $next_update = $this_month + (86400 * 2);
-                    }
-
-                    // @todo Really need to fix this and organize the cron jobs, planned for 14.x
-                    $next_schedule = wp_next_scheduled('wp_statistics_geoip_hook');
-                    if ($next_schedule) {
-                        echo \WP_STATISTICS\TimeZone::getLocalDate(get_option('date_format'), $next_update) . // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-                            ' @ ' .
-                            \WP_STATISTICS\TimeZone::getLocalDate(get_option('time_format'), $next_schedule); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-                    } else {
-                        echo \WP_STATISTICS\TimeZone::getLocalDate(get_option('date_format'), $next_update) . // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-                            ' @ ' .
-                            \WP_STATISTICS\TimeZone::getLocalDate(get_option('time_format'), time()); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                    if ($event) {
+                        echo date_i18n(Helper::getDefaultDateFormat(true, false, false, ' @ '), $event->timestamp); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                     }
 
                     echo '</code></p>';
