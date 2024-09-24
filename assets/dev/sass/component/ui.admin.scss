@@ -2391,6 +2391,8 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
       display: flex;
       gap: 8px;
       align-items: center;
+      pointer-events: none;
+      cursor: default;
     }
     &__badge{
       width: 16px;
@@ -2423,6 +2425,10 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
       }
     }
     &.completed{
+      a{
+        pointer-events: auto;
+        cursor: pointer;
+      }
       .wps-step-link__badge{
         background-color:#165E2E;
         color:transparent;
