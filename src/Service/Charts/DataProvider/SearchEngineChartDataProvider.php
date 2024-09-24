@@ -18,7 +18,11 @@ class SearchEngineChartDataProvider extends AbstractChartDataProvider
 
     public function __construct($args)
     {
-        $this->args = $args;
+        $this->args = wp_parse_args($args, [
+            'source_channel'    => ['search', 'paid_search'],
+            'group_by'          => ['source_name', 'last_counter'],
+            'per_page'          => ''
+        ]);
 
         $this->visitorsModel = new VisitorsModel();
     }

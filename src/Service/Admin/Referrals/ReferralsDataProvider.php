@@ -43,9 +43,7 @@ class ReferralsDataProvider
     public function getChartsData()
     {
         $args = [
-            'source_channel'    => Request::get('source_channel', ['search', 'paid_search']),
-            'group_by'          => ['source_name', 'last_counter'],
-            'per_page'          => '',
+            'source_channel' => Request::get('source_channel', ['search', 'paid_search']),
         ];
 
         $searchEngineChart = ChartDataProviderFactory::searchEngineChart(array_merge($this->args, $args));
