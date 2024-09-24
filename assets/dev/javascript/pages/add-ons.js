@@ -7,6 +7,22 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         const active_license_btn = document.querySelector('.js-addon-active-license');
         const addon_download_btn = document.querySelector('.js-addon-download-button');
         const license_input = document.querySelector('.wps-addon__step__active-license input');
+        let selectedSlugs = [];
+        let params = {
+            'wps_nonce': wps_js.global.rest_api_nonce,
+            'action': 'wp_statistics_check_license'
+        };
+        params = Object.assign(params, wps_js.global.request_params);
+
+
+        function updateSelectedSlugs() {
+            selectedSlugs = [];
+            addon_items.forEach(function (item) {
+                if (item.checked) {
+                    selectedSlugs.push(item.getAttribute('data-slug'));
+                }
+            });
+        }
 
 
         if (addon_items) {
@@ -17,18 +33,16 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                         item.checked = true;
                     });
                     addon_download_btn.classList.remove('disabled');
+                    updateSelectedSlugs();
                 });
             }
 
             // Function to check the status of addon_items checkboxes
             function updateDownloadButtonState() {
                 let anyChecked = false;
-                let allUnchecked = true;
-
                 addon_items.forEach(function (item) {
                     if (item.checked) {
                         anyChecked = true;
-                        allUnchecked = false;
                     }
                 });
 
@@ -37,6 +51,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                 } else {
                     addon_download_btn.classList.add('disabled');
                 }
+                updateSelectedSlugs();
             }
 
             // Handle individual addon items checkboxes
@@ -50,6 +65,15 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             addon_download_btn.addEventListener('click', function (event) {
                 if (!addon_download_btn.classList.contains('disable')) {
                     event.stopPropagation();
+
+                    // Change action and add selected slugs to params
+                    let download_params = {
+                        ...params,
+                        'action': 'wp_statistics_download_plugin',
+                        'slug': selectedSlugs
+                    };
+                    sendAjaxRequest(download_params, addon_download_btn);
+
                 }
 
             });
@@ -101,12 +125,6 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             });
         }
 
-        let params = {
-            'wps_nonce': wps_js.global.rest_api_nonce,
-            'action': 'wp_statistics_check_license'
-        };
-        params = Object.assign(params, wps_js.global.request_params);
-
         // Define the AJAX request function
         const sendAjaxRequest = (params, button) => {
             button.classList.add('loading');
@@ -121,7 +139,13 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                     button.classList.remove('loading');
                     if (data.success) {
                         button.classList.add('disabled');
-                        window.location.href = 'admin.php?page=wps_plugins_page&tab=downloads';
+                        if (params.action==="wp_statistics_check_license"){
+                            window.location.href = 'admin.php?page=wps_plugins_page&tab=downloads';
+                        }
+                        if (params.action==="wp_statistics_download_plugin"){
+                            window.location.href = 'admin.php?page=wps_plugins_page&tab=get-started';
+                        }
+
                     }else{
                         license_input.classList.add('wps-danger');
 

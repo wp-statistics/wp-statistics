@@ -423,6 +423,7 @@
         border-radius: 8px;
         display: flex;
         justify-content: space-between;
+        align-items: flex-start;
 
         @media (max-width: 522px) {
           flex-direction: column;
