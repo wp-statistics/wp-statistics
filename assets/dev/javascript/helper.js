@@ -656,14 +656,14 @@ const drawVerticalLinePlugin = {
 };
 
 
-function phpToMomentFormat(phpFormat) {
+const phpToMomentFormat=(phpFormat)=> {
     const formatMap = {
         'd': 'DD',
         'j': 'D',
         'S': 'Do',
         'n': 'M',
         'm': 'MM',
-        'F': 'MMMM',
+        'F': 'MMM',
         'M': 'MMM',
         'y': 'YY',
         'Y': 'YYYY'
@@ -675,16 +675,16 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
     const phpDateFormat = wps_js.isset(wps_js.global, 'options', 'wp_date_format') ? wps_js.global['options']['wp_date_format'] : 'MM/DD/YYYY';
     let momentDateFormat = phpToMomentFormat(phpDateFormat);
 
-    function formatDateRange(start, end, unitTime) {
+    const formatDateRange= (start, end, unitTime) =>{
         if (unitTime === 'month') {
-            return moment(start).format('MMMM YYYY');
+            return moment(start).format('MMM YYYY');
         } else {
             const startDateFormat = momentDateFormat.replace(/,?\s?(YYYY|YY)[-/\s]?,?|[-/\s]?(YYYY|YY)[-/\s]?,?/g, "");
             return `${moment(start).format(startDateFormat)} to ${moment(end).format(momentDateFormat)}`;
         }
     }
 
-    function aggregateData(labels, datasets, unitTime) {
+    const  aggregateData=(labels, datasets, unitTime) => {
         const aggregatedLabels = [];
         const aggregatedData = datasets.map(() => []);
         let tempData = [];
@@ -726,6 +726,7 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
 // Determine whether to aggregate by day, week, or month
     let dateLabels = data.data.labels.map(dateObj => dateObj.formatted_date);
     const length = dateLabels.length;
+    const containsPostsLabel = type === 'performance' && data.data.datasets.length > 2;
     const threshold = containsPostsLabel ? 30 : 60;
     let unitTime = length <= threshold ? 'day' : length <= 180 ? 'week' : 'month';
 
@@ -763,7 +764,8 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
     // Check if chart is inside the dashboard-widgets div
     const isInsideDashboardWidgets = document.getElementById(tag_id).closest('#dashboard-widgets') !== null;
     const datasets = [];
-    const containsPostsLabel = type === 'performance' && data.data.datasets.length > 2
+
+
     // Dynamically create datasets
     Object.keys(data.data.datasets).forEach((key, index) => {
 
@@ -874,16 +876,15 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
                     width: 0
                 },
                 ticks: {
-                    align: 'inner',
-                    maxTicksLimit: isInsideDashboardWidgets ? 5 : unitTime === 'week' ? 5 : 9,
-                    fontColor: '#898A8E',
-                    fontStyle: 'italic',
-                    fontWeight: 'lighter ',
-                    autoSkip: true,
-                    fontSize: unitTime !== 'day' ? 12 : 13,
-                    padding: 8,
-                    lineHeight: 15,
-                    stepSize: 1
+                    align:'inner',
+                    maxTicksLimit: isInsideDashboardWidgets ? unitTime === 'week' ? 2 : 4 : unitTime === 'week' ? 3 : unitTime === 'month' ?  7 : 9,
+                    font: {
+                        color: '#898A8E',
+                        style: 'italic',
+                        weight: 'lighter',
+                        size: isInsideDashboardWidgets ? (unitTime === 'week'  ? 9 : 11) : (unitTime === 'week' ? 11 : 13)
+                    },
+                    padding: 8
                 }
             },
             y: {
