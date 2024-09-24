@@ -44,7 +44,7 @@ class ReferralsDataProvider
     {
         $args = [
             'source_channel'    => Request::get('source_channel', ['search', 'paid_search']),
-            'group_by'          => ['source_name'],
+            'group_by'          => ['source_name', 'last_counter'],
             'per_page'          => '',
         ];
 
