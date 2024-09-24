@@ -84,7 +84,20 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                         button.classList.add('disabled');
                         window.location.href = 'admin.php?page=wps_plugins_page&tab=downloads';
                     }else{
+                        license_input.classList.add('wps-danger');
 
+                        const alertDiv = document.createElement('div');
+                        alertDiv.classList.add('wps-alert', 'wps-alert--danger');
+                        alertDiv.innerHTML = `
+                        <span class="icon"></span>
+                        <div>
+                            <p>${data?.data?.message}</p>
+                        </div>
+                    `;
+                        const activeLicenseDiv = document.querySelector('.wps-addon__step__active-license');
+                        if (activeLicenseDiv) {
+                            activeLicenseDiv.parentNode.insertBefore(alertDiv, activeLicenseDiv.nextSibling);
+                        }
                     }
                 },
                 error: function (xhr, status, error) {
@@ -97,6 +110,12 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
 
         if (license_input && active_license_btn) {
             function toggleButtonState() {
+                license_input.classList.remove('wps-danger', 'wps-warning');
+                // Check if the alert div already exists and remove it
+                const existingAlertDiv = document.querySelector('.wps-alert');
+                if (existingAlertDiv) {
+                    existingAlertDiv.remove();
+                }
 
                 if (license_input.value.trim() === '') {
                     active_license_btn.classList.add('disabled');
@@ -122,8 +141,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         if (active_license_btn) {
             active_license_btn.addEventListener('click', function (event) {
                 event.stopPropagation();
-
-                // Get and trim the license key input value
+                 // Get and trim the license key input value
                 const license_key = license_input.value.trim();
                 if (license_key) {
                     const active_params = {
