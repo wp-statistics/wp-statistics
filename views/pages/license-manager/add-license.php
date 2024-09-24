@@ -10,7 +10,7 @@
             <div class="wps-addon__step__active-license">
                 <!--   Add wps-danger or wps-warning class to input-->
                 <input type="text" placeholder="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx">
-                <button class="wps-postbox-addon-button"><?php esc_html_e('Activate License', 'wp-statistics'); ?></button>
+                <button class="wps-postbox-addon-button js-addon-active-license disabled"><?php esc_html_e('Activate License', 'wp-statistics'); ?></button>
             </div>
             <div class="wps-alert wps-alert--warning">
                 <span class="icon"></span>

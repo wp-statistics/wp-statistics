@@ -4,11 +4,13 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         const license_buttons = document.querySelectorAll('.js-wps-addon-license-button');
         const addon_items = document.querySelectorAll('.js-wps-addon-check-box');
         const select_all = document.querySelector('.js-wps-addon-select-all');
+        const active_license_btn = document.querySelector('.js-addon-active-license');
+        const license_input = document.querySelector('.wps-addon__step__active-license input');
 
         if (select_all) {
-            select_all.addEventListener('click', function(event) {
+            select_all.addEventListener('click', function (event) {
                 event.stopPropagation();
-                addon_items.forEach(function(item) {
+                addon_items.forEach(function (item) {
                     item.checked = true;
                 });
             });
@@ -66,7 +68,73 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         };
         params = Object.assign(params, wps_js.global.request_params);
 
-        // Create Ajax
+        // Define the AJAX request function
+        const sendAjaxRequest = (params, button) => {
+            button.classList.add('loading');
+            jQuery.ajax({
+                url: wps_js.global.admin_url + 'admin-ajax.php',
+                type: 'GET',
+                dataType: 'json',
+                data: params,
+                timeout: 30000,
+                success: function (data) {
+                    console.log(data);
+                    button.classList.remove('loading');
+                    if (data.success) {
+                        button.classList.add('disabled');
+                        window.location.href = 'admin.php?page=wps_plugins_page&tab=downloads';
+                    }else{
+
+                    }
+                },
+                error: function (xhr, status, error) {
+                    button.classList.remove('loading');
+                    console.log(error);
+                }
+            });
+        }
+
+
+        if (license_input && active_license_btn) {
+            function toggleButtonState() {
+
+                if (license_input.value.trim() === '') {
+                    active_license_btn.classList.add('disabled');
+                    active_license_btn.disabled = true;
+                } else {
+                    active_license_btn.classList.remove('disabled');
+                    active_license_btn.disabled = false;
+                }
+
+            }
+
+            // Initial check when the page loads
+            toggleButtonState();
+
+            // Listen for input event to enable button when typing
+            license_input.addEventListener('input', function () {
+                toggleButtonState();
+            });
+
+        }
+
+
+        if (active_license_btn) {
+            active_license_btn.addEventListener('click', function (event) {
+                event.stopPropagation();
+
+                // Get and trim the license key input value
+                const license_key = license_input.value.trim();
+                if (license_key) {
+                    const active_params = {
+                        'license_key': license_key,
+                        ...params
+                    }
+                    sendAjaxRequest(active_params, active_license_btn);
+                }
+            });
+        }
+
         jQuery.ajax({
             url: wps_js.global.admin_url + 'admin-ajax.php',
             type: 'GET',
@@ -74,11 +142,11 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             data: params,
             timeout: 30000,
             success: function (data) {
-                console.log(data);
             },
             error: function (xhr, status, error) {
                 console.log(error);
             }
         });
+
     });
 }
