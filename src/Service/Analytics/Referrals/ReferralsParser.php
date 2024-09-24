@@ -27,16 +27,16 @@ class ReferralsParser
         $referrerUrl = Url::getDomain($referrerUrl);
 
         foreach ($this->referralsList['source_channels'] as $channelType => $channelData) {
+            // check if rules don't match, skip to the next channel
+            if (!$this->checkRules($channelData['rules'], $pageUrl)) {
+                continue;
+            }
+
             foreach ($channelData['channels'] as $channel) {
                 foreach ($channel['domains'] as $channelDomain) {
 
                     // check if domains don't match, skip
                     if ($channelDomain !== $referrerUrl) {
-                        continue;
-                    }
-
-                    // check if rules don't match, skip
-                    if (!$this->checkRules($channelData['rules'], $pageUrl)) {
                         continue;
                     }
 
@@ -62,8 +62,10 @@ class ReferralsParser
      */
     public function checkRules($rules, $pageUrl)
     {
-        foreach ($rules as $rule) {
+        // If pageUrl is empty, set it to empty string
+        $pageUrl = !empty($pageUrl) ? $pageUrl : '';
 
+        foreach ($rules as $rule) {
             switch ($rule['operator']) {
                 case 'MATCH':
                     if (!preg_match($rule['pattern'], $pageUrl)) return false;

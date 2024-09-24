@@ -64,7 +64,7 @@ class DeviceHelper
      */
     public static function getPlatformLogo(string $platform)
     {
-        $platform = str_replace(' ', '_', sanitize_key($platform));
+        $platform = str_replace(' ', '_', sanitize_text_field(strtolower($platform)));
         $logoPath = "assets/images/operating-system/{$platform}.svg";
 
         if (file_exists(WP_STATISTICS_DIR . $logoPath)) {

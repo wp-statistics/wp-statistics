@@ -2,8 +2,10 @@
 
 namespace WP_Statistics\Service\Charts\DataProvider;
 
+use WP_Statistics\Decorators\VisitorDecorator;
 use WP_STATISTICS\Helper;
 use WP_Statistics\Models\VisitorsModel;
+use WP_Statistics\Service\Analytics\DeviceDetection\DeviceHelper;
 use WP_Statistics\Service\Charts\AbstractChartDataProvider;
 use WP_Statistics\Service\Charts\Traits\BarChartResponseTrait;
 use WP_STATISTICS\UserAgent;
@@ -98,67 +100,70 @@ class PlatformChartDataProvider extends AbstractChartDataProvider
 
         if (!empty($data)) {
             foreach ($data as $item) {
-                // Remove device subtype, for example: mobile:smart -> mobile
-                $item->device = !empty($item->device) ? ucfirst(Helper::getDeviceCategoryName($item->device)) : esc_html__('Unknown', 'wp-statistics');
+                /** @var VisitorDecorator $item */
+                $platform   = $item->getOs()->getName();
+                $agent      = $item->getBrowser()->getRaw();
+                $device     = !empty($item->getDevice()->getType()) ? ucfirst(Helper::getDeviceCategoryName($item->getDevice()->getType())) : esc_html__('Unknown', 'wp-statistics');
+                $model      = $item->getDevice()->getModel();
 
                 // OS data
-                if (!empty($item->platform) && $item->platform !== 'Unknown') {
+                if (!empty($platform) && $platform !== 'Unknown') {
                     $platforms = array_column($parsedData['os'], 'label');
 
-                    if (!in_array($item->platform, $platforms)) {
+                    if (!in_array($platform, $platforms)) {
                         $parsedData['os'][] = [
-                            'label'    => $item->platform,
-                            'icon'     => UserAgent::getPlatformLogo($item->platform),
+                            'label'    => $platform,
+                            'icon'     => DeviceHelper::getPlatformLogo($platform),
                             'visitors' => 1
                         ];
                     } else {
-                        $index = array_search($item->platform, $platforms);
+                        $index = array_search($platform, $platforms);
                         $parsedData['os'][$index]['visitors']++;
                     }
                 }
 
                 // Browser data
-                if (!empty($item->agent) && $item->agent !== 'Unknown') {
+                if (!empty($agent) && $agent !== 'Unknown') {
                     $agents = array_column($parsedData['browser'], 'label');
 
-                    if (!in_array($item->agent, $agents)) {
+                    if (!in_array($agent, $agents)) {
                         $parsedData['browser'][] = [
-                            'label'    => $item->agent,
-                            'icon'     => UserAgent::getBrowserLogo($item->agent),
+                            'label'    => $agent,
+                            'icon'     => DeviceHelper::getBrowserLogo($agent),
                             'visitors' => 1
                         ];
                     } else {
-                        $index = array_search($item->agent, $agents);
+                        $index = array_search($agent, $agents);
                         $parsedData['browser'][$index]['visitors']++;
                     }
                 }
 
                 // Device data
-                if (!empty($item->device) && $item->device !== 'Unknown') {
+                if (!empty($device) && $device !== 'Unknown') {
                     $devices = array_column($parsedData['device'], 'label');
 
-                    if (!in_array($item->device, $devices)) {
+                    if (!in_array($device, $devices)) {
                         $parsedData['device'][] = [
-                            'label'    => $item->device,
+                            'label'    => $device,
                             'visitors' => 1
                         ];
                     } else {
-                        $index = array_search($item->device, $devices);
+                        $index = array_search($device, $devices);
                         $parsedData['device'][$index]['visitors']++;
                     }
                 }
 
                 // Model data
-                if (!empty($item->model) && $item->model !== 'Unknown') {
+                if (!empty($model) && $model !== 'Unknown') {
                     $models = array_column($parsedData['model'], 'label');
 
-                    if (!in_array($item->model, $models)) {
+                    if (!in_array($model, $models)) {
                         $parsedData['model'][] = [
-                            'label'    => $item->model,
+                            'label'    => $model,
                             'visitors' => 1
                         ];
                     } else {
-                        $index = array_search($item->model, $models);
+                        $index = array_search($model, $models);
                         $parsedData['model'][$index]['visitors']++;
                     }
                 }

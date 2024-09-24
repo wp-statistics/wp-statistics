@@ -610,8 +610,8 @@ class WebsitePerformanceDataProvider
 
         $this->topReferral = null;
         foreach ($this->previousPeriodReferrals as $referral) {
-            if (!empty($referral->visitors) && !empty($referral->referrer)) {
-                $this->topReferral = str_replace('www.', '', $referral->referrer);
+            if (!empty($referral->visitors) && !empty($referral->referred)) {
+                $this->topReferral = str_replace('www.', '', $referral->referred);
                 $this->topReferral = wp_parse_url($this->topReferral);
                 $this->topReferral = !empty($this->topReferral['host']) ? trim($this->topReferral['host']) : '';
                 $this->topReferral = ucfirst($this->topReferral);

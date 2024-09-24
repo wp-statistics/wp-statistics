@@ -1,7 +1,7 @@
 <?php
 namespace WP_STATISTICS;
 
-use WP_Statistics\Service\Analytics\Decorators\VisitorDecorator;
+use WP_Statistics\Decorators\VisitorDecorator;
 
 ?>
 
@@ -76,7 +76,7 @@ use WP_Statistics\Service\Analytics\Decorators\VisitorDecorator;
                         <span class="wps-visitor__information__incognito-img"></span>
                     </a>
                     <span class="wps-visitor__information__incognito-text">
-                        <?php echo $visitor->getIP(); ?>
+                        <?php echo esc_html($visitor->getIP()); ?>
                     </span>
                 <?php else: ?>
                     <div class="wps-tooltip" title="<?php echo sprintf($visitor->isHashedIP() ? esc_html__('Daily Visitor Hash: %s', 'wp-statistics') : esc_html__('IP: %s', 'wp-statistics'), $visitor->getIP()) ?>">

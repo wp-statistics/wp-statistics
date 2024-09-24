@@ -37,20 +37,25 @@ class ReferralsPage extends MultiViewPage
      */
     private function incompleteSourceChannelsNotice()
     {
-        $actionUrl = add_query_arg(
-            [
-                'action' => 'update_visitor_source_channel',
-                'nonce'  => wp_create_nonce('update_visitor_source_channel_nonce')
-            ],
-            Menus::admin_url('referrals')
-        );
+        if (!Option::getOptionGroup('jobs', 'update_source_channel_process_finished')) {
+            $actionUrl = add_query_arg(
+                [
+                    'action' => 'update_visitor_source_channel',
+                    'nonce'  => wp_create_nonce('update_visitor_source_channel_nonce')
+                ],
+                Menus::admin_url('referrals')
+            );
 
-        $message = sprintf(
-            __('Please <a href="%s">click here</a> to update the source channel data in the background. This is necessary for accurate analytics.', 'wp-statistics'),
-            esc_url($actionUrl)
-        );
+            $message = sprintf(
+                __('We’ve updated the referral structure in this version. To ensure accurate reports, please initiate the background data process by clicking <a href="%s">here</a>. This process runs in the background and may take several minutes depending on your data.', 'wp-statistics'),
+                esc_url($actionUrl)
+            );
 
-        Notice::addNotice($message, 'update_visitors_source_channel');
+            Notice::addNotice($message, 'update_visitors_source_channel_notice', 'info', false);
+        } else if (Option::getOptionGroup('jobs', 'update_source_channel_process_running')) {
+            $message = esc_html__('The background data process is currently running. It may take a few minutes to complete based on your data size.', 'wp-statistics');
+            Notice::addNotice($message, 'running_visitors_source_channel_notice', 'info', false);
+        }
     }
 
     private function processSourceChannelBackgroundAction()
@@ -63,9 +68,7 @@ class ReferralsPage extends MultiViewPage
         check_admin_referer('update_visitor_source_channel_nonce', 'nonce');
 
         // Check if already processed
-        if (Option::getOptionGroup('jobs', 'update_source_channel_process_started')) {
-            Notice::addFlashNotice(__('Source channel update is already in progress.', 'wp-statistics'));
-
+        if (Option::getOptionGroup('jobs', 'update_source_channel_process_running')) {
             wp_redirect(Menus::admin_url('referrals'));
             exit;
         }

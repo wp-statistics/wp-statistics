@@ -38,11 +38,6 @@ class SearchEngineChartDataProvider extends AbstractChartDataProvider
 
     protected function prepareResult($data, $prevData)
     {
-        $parsedData = [
-            'data'          => [],
-            'previousData'  => []
-        ];
-
         $thisPeriod = isset($this->args['date']) ? $this->args['date'] : DateRange::get();
         $prevPeriod = DateRange::getPrevPeriod($thisPeriod);
 
@@ -62,15 +57,19 @@ class SearchEngineChartDataProvider extends AbstractChartDataProvider
 
         foreach ($data as $item) {
             $visitors = intval($item->visitors);
-            $thisParsedData[$item->engine][$item->last_counter] = $visitors;
-            $thisPeriodTotal[$item->last_counter]               += $visitors;
+            $thisParsedData[$item->source_name][$item->last_counter] = $visitors;
+            $thisPeriodTotal[$item->last_counter]                    += $visitors;
         }
 
-        $topSearchEngines = $this->getTopSearchEngines($thisParsedData);
+        // Sort data by search engine referrals number
+        uasort($thisParsedData, function($a, $b) {
+            return array_sum($b) - array_sum($a);
+        });
 
-        foreach ($thisParsedData as $searchEngine => &$data) {
-            if (!in_array($searchEngine, $topSearchEngines)) continue;
+        // Get top 3 search engines
+        $topSearchEngines = array_slice($thisParsedData, 0, 3, true);
 
+        foreach ($topSearchEngines as $searchEngine => &$data) {
             // Fill out missing visitors with 0
             $data = array_merge(array_fill_keys($thisPeriodDates, 0), $data);
 
@@ -83,10 +82,6 @@ class SearchEngineChartDataProvider extends AbstractChartDataProvider
                 array_values($data)
             );
         }
-
-        usort($parsedData['data'], function($a, $b) {
-            return array_sum($b['data']) - array_sum($a['data']);
-        });
 
         if (!empty($thisPeriodTotal)) {
             $this->addChartDataset(
@@ -126,20 +121,5 @@ class SearchEngineChartDataProvider extends AbstractChartDataProvider
         );
 
         return $labels;
-    }
-
-    protected function getTopSearchEngines($data)
-    {
-        // Create an array of top search engines
-        $topSearchEngines = array_map(function($item) {
-            return array_sum($item);
-        }, $data);
-
-        // Get the top 3 items
-        arsort($topSearchEngines);
-        $topSearchEngines = array_slice($topSearchEngines, 0, 3, true);
-        $topSearchEngines = array_keys($topSearchEngines);
-
-        return $topSearchEngines;
     }
 }

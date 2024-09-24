@@ -3,6 +3,7 @@ namespace WP_Statistics\Service\Analytics\Referrals;
 
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Pages;
+use WP_STATISTICS\Option;
 use WP_Statistics\Utils\Request;
 use WP_Statistics\Utils\Url;
 
@@ -21,7 +22,13 @@ class Referrals
         $referrer = $_SERVER['HTTP_REFERER'] ?? '';
 
         if (Helper::is_rest_request() && Request::has('referred')) {
-            $referrer = urldecode(Request::get('referred', '', 'raw'));
+            $referrer = Request::get('referred', '', 'raw');
+
+            if (Option::get('use_cache_plugin')) {
+                $referrer = base64_decode($referrer);
+            }
+
+            $referrer = urldecode($referrer);
         }
 
         return $referrer;
@@ -44,7 +51,7 @@ class Referrals
         if (empty($referrer)) return '';
 
         // Sanitize url
-        $referrer = sanitize_url($referrer, self::getAllowedProtocols());
+        $referrer = sanitize_url($referrer);
 
         // Get protocol
         $protocol = Url::getProtocol($referrer);
@@ -73,15 +80,5 @@ class Referrals
         $pageUrl     = Pages::get_page_uri();
 
         return new SourceDetector($referrerUrl, $pageUrl);
-    }
-
-    /**
-     * Returns the allowed protocols for referrers.
-     *
-     * @return array An array of allowed protocols.
-     */
-    public static function getAllowedProtocols()
-    {
-        return apply_filters('wp_statistics_allowed_referrer_protocols', ['http', 'https', 'android-app']);
     }
 }

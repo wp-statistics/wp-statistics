@@ -1,6 +1,6 @@
 <?php
 
-namespace WP_Statistics\Service\Analytics\Decorators;
+namespace WP_Statistics\Decorators;
 
 use WP_STATISTICS\Country;
 

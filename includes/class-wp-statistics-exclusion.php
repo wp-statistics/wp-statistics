@@ -419,7 +419,7 @@ class Exclusion
     /**
      * Detect if GeoIP include or exclude country.
      *
-     * @param $visitorProfile VisitorProfile
+     * @param VisitorProfile VisitorProfile
      * @throws \Exception
      */
     public static function exclusion_geoip($visitorProfile)
@@ -437,6 +437,9 @@ class Exclusion
         } else {
             $included_countries = explode("\n", $included_countries_string);
         }
+
+        $excluded_countries = array_filter($excluded_countries);
+        $included_countries = array_filter($included_countries);
 
         // Check to see if the current location is in the excluded countries list.
         if (in_array($location, $excluded_countries)) {

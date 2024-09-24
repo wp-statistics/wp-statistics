@@ -171,13 +171,6 @@ class Hits extends Singleton
         }
 
         /**
-         * Record Search Engine
-         */
-        if ($visitorId) {
-            SearchEngine::record(array('visitor_id' => $visitorId));
-        }
-
-        /**
          * Record Pages
          */
         $pageId = false;

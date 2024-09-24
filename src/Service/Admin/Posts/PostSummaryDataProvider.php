@@ -255,7 +255,7 @@ class PostSummaryDataProvider
     {
         $topReferrer = $this->visitorsModel->getReferrers($isTotal ? $this->argsTotal : $this->args);
 
-        if (empty($topReferrer) && empty($topReferrer[0]->referrer)) {
+        if (empty($topReferrer) && empty($topReferrer[0]->referred)) {
             return [
                 'url'   => '',
                 'count' => 0,
@@ -263,7 +263,7 @@ class PostSummaryDataProvider
         }
 
         return [
-            'url'   => esc_url($topReferrer[0]->referrer),
+            'url'   => esc_url($topReferrer[0]->referred),
             'count' => intval($topReferrer[0]->visitors),
         ];
     }

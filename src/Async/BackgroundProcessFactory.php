@@ -91,8 +91,7 @@ class BackgroundProcessFactory
             $updateIncompleteVisitorsSourceChannels->push_to_queue(['visitors' => $batch]);
         }
 
-        // Mark the process as completed
-        Option::saveOptionGroup('update_source_channel_process_started', true, 'jobs');
+        Option::saveOptionGroup('update_source_channel_process_running', true, 'jobs');
 
         // Save the queue and dispatch it
         $updateIncompleteVisitorsSourceChannels->save()->dispatch();

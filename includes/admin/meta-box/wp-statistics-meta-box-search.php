@@ -40,7 +40,7 @@ class search extends MetaBoxAbstract
         $from   = reset($range);
         $to     = end($range);
 
-        $searchEngineChartData = ChartDataProviderFactory::searchEngineChart(['data' => ['from' => $from, 'to' => $to]])->getData();
+        $searchEngineChartData = ChartDataProviderFactory::searchEngineChart(['date' => ['from' => $from, 'to' => $to]])->getData();
 
         return self::response($searchEngineChartData);
     }

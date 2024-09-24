@@ -1,12 +1,9 @@
 <?php
 
-namespace WP_Statistics\Service\Analytics\Decorators;
+namespace WP_Statistics\Decorators;
 
-use WP_STATISTICS\Country;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\IP;
-use WP_Statistics\Service\Analytics\DeviceDetection\DeviceHelper;
-use WP_STATISTICS\User;
 use WP_STATISTICS\Visitor;
 
 class VisitorDecorator
@@ -92,7 +89,17 @@ class VisitorDecorator
      */
     public function getIP()
     {
-        return $this->isHashedIP() ? substr($this->visitor->ip, 6, 10) : $this->visitor->ip;
+        return $this->isHashedIP() ? '#' . substr($this->visitor->ip, 6, 8) : $this->visitor->ip;
+    }
+
+    /**
+     * Returns the raw IP address of the visitor.
+     *
+     * @return string The raw IP address of the visitor.
+     */
+    public function getRawIP()
+    {
+        return $this->visitor->ip;
     }
 
     /**

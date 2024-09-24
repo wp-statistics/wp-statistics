@@ -32,9 +32,9 @@ class GeolocationService
     public function getGeolocation(string $ipAddress)
     {
         /**
-         * Check if the IP address is a hashed IP address, then, return the default location.
+         * Check if the IP address is not valid (or is hashed), return default location
          */
-        if (strpos($ipAddress, IP::$hash_ip_prefix) !== false) {
+        if (!filter_var($ipAddress, FILTER_VALIDATE_IP)) {
             return $this->provider->getDefaultLocation();
         }
 

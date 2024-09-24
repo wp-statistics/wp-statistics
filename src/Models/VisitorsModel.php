@@ -4,8 +4,9 @@ namespace WP_Statistics\Models;
 
 use WP_Statistics\Abstracts\BaseModel;
 use WP_Statistics\Components\DateRange;
+use WP_Statistics\Decorators\ReferralDecorator;
+use WP_Statistics\Decorators\VisitorDecorator;
 use WP_STATISTICS\Helper;
-use WP_Statistics\Service\Analytics\Decorators\VisitorDecorator;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
 use WP_Statistics\Utils\Query;
 
@@ -423,8 +424,8 @@ class VisitorsModel extends BaseModel
             'source_channel'    => '',
             'source_name'       => '',
             'referrer'          => '',
-            'order_by'          => '',
-            'order'             => '',
+            'order_by'          => 'last_hit.date',
+            'order'             => 'desc',
             'page'              => '',
             'per_page'          => '',
         ]);
@@ -605,12 +606,13 @@ class VisitorsModel extends BaseModel
             'users.user_email',
             'users.user_login',
             'users.user_registered',
-            'first_hit.date as first_hit',
+            'first_hit.date as first_view',
         ])
             ->from('visitor')
             ->join('users', ['visitor.user_id', 'users.ID'], [], 'LEFT')
             ->joinQuery($subQuery, ['visitor.ID', 'first_hit.visitor_id'], 'first_hit')
             ->where('visitor.ID', '=', $args['visitor_id'])
+            ->decorate(VisitorDecorator::class)
             ->getRow();
 
         return $result;
@@ -822,20 +824,21 @@ class VisitorsModel extends BaseModel
             'term'          => '',
             'group_by'      => 'visitor.referred',
             'page'          => 1,
-            'per_page'      => 10
+            'per_page'      => 10,
+            'decorate'      => false
         ]);
 
         $filteredArgs = array_filter($args);
 
         $query = Query::select([
             'COUNT(DISTINCT visitor.ID) AS visitors',
-            'visitor.referred as referrer',
-            'visitor.source_channel as source_channel',
-            'visitor.source_name as engine',
+            'visitor.referred',
+            'visitor.source_channel',
+            'visitor.source_name',
             'visitor.last_counter'
         ])
             ->from('visitor')
-            ->where('source_channel', '=', $args['source_channel'])
+            ->where('source_channel', 'IN', $args['source_channel'])
             ->where('visitor.referred', 'NOT LIKE', '%' . Helper::get_domain_name(home_url()) . '%')
             ->where('visitor.location', '=', $args['country'])
             ->whereNotNull('visitor.referred')
@@ -870,6 +873,10 @@ class VisitorsModel extends BaseModel
                 $query
                     ->joinQuery($taxQuery, ['posts.ID', 'tax.object_id'], 'tax');
             }
+        }
+
+        if ($args['decorate']) {
+            $query->decorate(ReferralDecorator::class);
         }
 
         $result = $query->getAll();

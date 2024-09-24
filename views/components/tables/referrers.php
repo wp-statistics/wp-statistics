@@ -1,5 +1,6 @@
 <?php
 use WP_STATISTICS\Admin_Template;
+use WP_Statistics\Decorators\ReferralDecorator;
 use WP_STATISTICS\Menus;
 use WP_Statistics\Service\Analytics\Referrals\SourceChannels;
 ?>
@@ -13,11 +14,9 @@ use WP_Statistics\Service\Analytics\Referrals\SourceChannels;
                             <th class="wps-pd-l">
                                 <span><?php esc_html_e('Domain Address', 'wp-statistics') ?></span>
                             </th>
-                            <?php if ($show_source_category && $show_source_category !== null) : ?>
-                                <th class="wps-pd-l">
-                                    <?php esc_html_e('Source Category', 'wp-statistics') ?>
-                                </th>
-                            <?php endif; ?>
+                            <th class="wps-pd-l">
+                                <?php esc_html_e('Source Category', 'wp-statistics') ?>
+                            </th>
                             <th class="wps-pd-l start">
                                 <span class="wps-order"><?php esc_html_e('Number of Referrals', 'wp-statistics') ?></span>
                             </th>
@@ -26,29 +25,27 @@ use WP_Statistics\Service\Analytics\Referrals\SourceChannels;
 
                     <tbody>
                         <?php foreach ($referrers as $referrer) : ?>
+                            <?php /** @var ReferralDecorator $referrer */ ?>
                             <tr>
                                 <td class="wps-pd-l">
-                                    <a href="<?php echo esc_url($referrer->referrer) ?>" title="<?php echo esc_html($referrer->referrer) ?>" target="_blank" class="wps-link-arrow">
-                                        <span><?php echo esc_html($referrer->referrer) ?></span>
+                                    <a href="<?php echo esc_url($referrer->getReferrer()) ?>" title="<?php echo esc_html($referrer->getRawReferrer()) ?>" target="_blank" class="wps-link-arrow">
+                                        <span><?php echo esc_html($referrer->getRawReferrer()) ?></span>
                                     </a>
                                 </td>
 
-                                <?php if ($show_source_category && $show_source_category !== null) : ?>
-                                    <?php $sourceChannel = SourceChannels::getName($referrer->source_channel); ?>
-                                    <td class="wps-pd-l">
-                                        <div class="wps-ellipsis-parent">
-                                            <?php if (!empty($sourceChannel)) : ?>
-                                                <span class="wps-ellipsis-text" title="<?php echo esc_attr($sourceChannel) ?>"><?php echo esc_html($sourceChannel) ?></span>
-                                            <?php else : ?>
-                                                <?php echo Admin_Template::UnknownColumn() ?>
-                                            <?php endif; ?>
-                                        </div>
-                                    </td>
-                                <?php endif; ?>
+                                <td class="wps-pd-l">
+                                    <div class="wps-ellipsis-parent">
+                                        <?php if (!empty($referrer->getSourceName())) : ?>
+                                            <span class="wps-ellipsis-text" title="<?php echo esc_attr($referrer->getSourceName()) ?>"><?php echo esc_html($referrer->getSourceName()) ?></span>
+                                        <?php else : ?>
+                                            <?php echo Admin_Template::UnknownColumn() ?>
+                                        <?php endif; ?>
+                                    </div>
+                                </td>
 
                                 <td class="wps-pd-l start">
-                                    <a href="<?php echo esc_url(Menus::admin_url('referrals', ['referrer' => $referrer->referrer])) ?>">
-                                        <?php echo esc_html($referrer->visitors) ?>
+                                    <a href="<?php echo esc_url(Menus::admin_url('referrals', ['referrer' => $referrer->getRawReferrer()])) ?>">
+                                        <?php echo esc_html($referrer->getTotalReferrals()) ?>
                                     </a>
                                 </td>
                             </tr>

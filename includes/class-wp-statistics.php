@@ -17,6 +17,7 @@ use WP_Statistics\Service\Admin\Devices\DevicesManager;
 use WP_Statistics\Service\Admin\VisitorInsights\VisitorInsightsManager;
 use WP_Statistics\Service\Admin\PageInsights\PageInsightsManager;
 use WP_Statistics\Service\Admin\Referrals\ReferralsManager;
+use WP_Statistics\Service\HooksManager;
 
 defined('ABSPATH') || exit;
 
@@ -186,6 +187,8 @@ final class WP_Statistics
             $referrals           = new ReferralsManager();
             $integrationsManager = new IntegrationsManager();
         }
+
+        $hooksManager = new HooksManager();
 
         // WordPress ShortCode and Widget
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-shortcode.php';

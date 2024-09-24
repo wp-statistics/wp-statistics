@@ -50,4 +50,22 @@ class Url
 
         return $domain;
     }
+
+    /**
+     * Formats a given URL by removing trailing slashes and adding a protocol if missing.
+     *
+     * @param string $url The URL to be formatted.
+     * @return string The formatted URL.
+     */
+    public static function formatUrl($url) {
+        // Remove trailing slash
+        $url = rtrim($url, '/');
+
+        // Add https protocol if missing
+        if (empty(self::getProtocol($url))) {
+            $url = "https://$url";
+        }
+
+        return $url;
+    }
 }

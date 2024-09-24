@@ -28,7 +28,7 @@ class ReferralsDataProvider
     public function getReferrers()
     {
         return [
-            'referrers' => $this->visitorsModel->getReferrers($this->args),
+            'referrers' => $this->visitorsModel->getReferrers(array_merge($this->args, ['decorate' => true])),
             'total'     => $this->visitorsModel->countReferrers($this->args)
         ];
     }
@@ -36,15 +36,16 @@ class ReferralsDataProvider
     public function getSearchEngineReferrals()
     {
         return [
-            'referrers' => $this->visitorsModel->getReferrers(array_merge($this->args, ['source_channel' => Request::get('source_channel', 'search')])),
+            'referrers' => $this->visitorsModel->getReferrers(array_merge($this->args, ['source_channel' => Request::get('source_channel', ['search', 'paid_search']), 'decorate' => true])),
         ];
     }
 
     public function getChartsData()
     {
         $args = [
-            'source_channel'    => Request::get('source_channel', 'search'),
-            'group_by'          => ['visitor.referred', 'visitor.last_counter']
+            'source_channel'    => Request::get('source_channel', ['search', 'paid_search']),
+            'group_by'          => ['source_name', 'last_counter'],
+            'per_page'          => '',
         ];
 
         $searchEngineChart = ChartDataProviderFactory::searchEngineChart(array_merge($this->args, $args));

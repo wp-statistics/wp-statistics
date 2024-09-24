@@ -2,8 +2,8 @@
 
 use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Components\View;
+use WP_Statistics\Decorators\VisitorDecorator;
 use WP_STATISTICS\Menus;
-use WP_Statistics\Service\Analytics\Decorators\VisitorDecorator;
 
 ?>
 
@@ -57,7 +57,7 @@ use WP_Statistics\Service\Analytics\Decorators\VisitorDecorator;
 
                         <td class="wps-pd-l">
                             <?php if ($visitor->getReferral()->getReferrer()) : ?>
-                                <a href="<?php echo esc_url($visitor->getReferral()->getReferrer()) ?>"><?php echo esc_html($visitor->getReferral()->getReferrer()) ?></a>
+                                <a href="<?php echo esc_url($visitor->getReferral()->getReferrer()) ?>"><?php echo esc_html($visitor->getReferral()->getRawReferrer()) ?></a>
                             <?php else : ?>
                                 <?php echo Admin_Template::UnknownColumn() ?>
                             <?php endif; ?>
