@@ -124,19 +124,6 @@ class SearchEngine
             )
         );
 
-        if ($all == false) {
-            foreach ($engines as $key => $engine) {
-                if (Option::get('disable_se_' . $engine['tag'])) {
-                    unset($engines[$key]);
-                }
-            }
-
-            // If we've disabled all the search engines, reset the list back to default.
-            if (count($engines) == 0) {
-                $engines = $default;
-            }
-        }
-
         return apply_filters('wp_statistics_search_engine_list', $engines);
     }
 

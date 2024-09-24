@@ -21,7 +21,7 @@ class settings_page extends Singleton
 
         // Check Access Level
         if (Menus::in_page('settings') and !User::Access('manage')) {
-            wp_die(__('You do not have sufficient permissions to access this page.')); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	
+            wp_die(__('You do not have sufficient permissions to access this page.')); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
         }
     }
 
@@ -397,16 +397,6 @@ class settings_page extends Singleton
      */
     public static function save_general_option($wp_statistics_options)
     {
-
-        $selist = SearchEngine::getList(true);
-
-        foreach ($selist as $se) {
-            $se_post     = 'wps_disable_se_' . $se['tag'];
-            $optionValue = isset($_POST[$se_post]) && sanitize_text_field($_POST[$se_post]) == '1' ? '' : '1';
-
-            $wp_statistics_options[self::input_name_to_option($se_post)] = $optionValue;
-        }
-
         $wps_option_list = array(
             'wps_useronline',
             'wps_visits',
