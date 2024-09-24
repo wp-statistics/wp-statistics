@@ -674,13 +674,20 @@ const phpToMomentFormat=(phpFormat)=> {
 wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line') {
     const phpDateFormat = wps_js.isset(wps_js.global, 'options', 'wp_date_format') ? wps_js.global['options']['wp_date_format'] : 'MM/DD/YYYY';
     let momentDateFormat = phpToMomentFormat(phpDateFormat);
+    // Check if chart is inside the dashboard-widgets div
+    const isInsideDashboardWidgets = document.getElementById(tag_id).closest('#dashboard-widgets') !== null;
 
     const formatDateRange= (start, end, unitTime) =>{
         if (unitTime === 'month') {
             return moment(start).format('MMM YYYY');
         } else {
             const startDateFormat = momentDateFormat.replace(/,?\s?(YYYY|YY)[-/\s]?,?|[-/\s]?(YYYY|YY)[-/\s]?,?/g, "");
-            return `${moment(start).format(startDateFormat)} to ${moment(end).format(momentDateFormat)}`;
+            if(isInsideDashboardWidgets){
+                return `${moment(start).format(startDateFormat)} to ${moment(end).format(startDateFormat)}`;
+            }else{
+                return `${moment(start).format(startDateFormat)} to ${moment(end).format(momentDateFormat)}`;
+            }
+
         }
     }
 
@@ -761,8 +768,6 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
     // Get Element By ID
     let ctx_line = document.getElementById(tag_id).getContext('2d');
 
-    // Check if chart is inside the dashboard-widgets div
-    const isInsideDashboardWidgets = document.getElementById(tag_id).closest('#dashboard-widgets') !== null;
     const datasets = [];
 
 
@@ -877,6 +882,7 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
                 },
                 ticks: {
                     align:'inner',
+                    autoSkip:true,
                     maxTicksLimit: isInsideDashboardWidgets ? unitTime === 'week' ? 2 : 4 : unitTime === 'week' ? 3 : unitTime === 'month' ?  7 : 9,
                     font: {
                         color: '#898A8E',
@@ -884,8 +890,8 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
                         weight: 'lighter',
                         size: isInsideDashboardWidgets ? (unitTime === 'week'  ? 9 : 11) : (unitTime === 'week' ? 11 : 13)
                     },
-                    padding: 8
-                }
+                    padding: 8,
+                 }
             },
             y: {
                 min: 0,
