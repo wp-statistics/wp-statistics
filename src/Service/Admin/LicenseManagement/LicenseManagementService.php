@@ -83,8 +83,13 @@ class LicenseManagementService
             if (empty($licenseData)) {
                 throw new \Exception(__('Invalid license response!', 'wp-statistics'));
             }
+
+            if (empty($licenseData->license_details)) {
+                throw new \Exception(!empty($licenseData->message) ? $licenseData->message : __('Unknown error!', 'wp-statistics'));
+            }
         } catch (Exception $e) {
             throw new Exception(
+                // translators: %s: Error message.
                 sprintf(__('Error validating license: %s', 'wp-statistics'), $e->getMessage())
             );
         }
