@@ -122,10 +122,18 @@ class LicenseManagerDataProvider
         $selectedAddOns = Request::get('addons');
         $addOns         = [];
 
+        // Don't display the "Activate All" button if no add-ons can be downloaded
+        $displayActivateAll = false;
+
         try {
             foreach ($this->getLicensedProductList() as $addOn) {
                 if ($addOn->isLicensed() && in_array($addOn->getSlug(), $selectedAddOns)) {
                     $addOns[] = $addOn;
+
+                    if ($addOn->isInstalled() && !$addOn->isActivated()) {
+                        // Add-on can be activated, display the "Activate All" button
+                        $displayActivateAll = true;
+                    }
                 }
             }
         } catch (\Exception $e) {
@@ -133,7 +141,8 @@ class LicenseManagerDataProvider
         }
 
         return [
-            'addons' => $addOns,
+            'addons'               => $addOns,
+            'display_activate_all' => $displayActivateAll,
         ];
     }
 }
