@@ -37,6 +37,7 @@ class ReferralsDataProvider
     {
         return [
             'referrers' => $this->visitorsModel->getReferrers(array_merge($this->args, ['source_channel' => Request::get('source_channel', ['search', 'paid_search']), 'decorate' => true])),
+            'total'     => $this->visitorsModel->countReferrers(array_merge($this->args, ['source_channel' => Request::get('source_channel', ['search', 'paid_search'])]))
         ];
     }
 

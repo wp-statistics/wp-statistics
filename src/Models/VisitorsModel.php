@@ -903,7 +903,7 @@ class VisitorsModel extends BaseModel
             'COUNT(DISTINCT visitor.referred)'
         ])
             ->from('visitor')
-            ->where('source_channel', '=', $args['source_channel'])
+            ->where('source_channel', 'IN', $args['source_channel'])
             ->whereNotNull('visitor.referred');
 
         // When date is passed, but all other parameters below are empty, compare the given date with `visitor.last_counter`
