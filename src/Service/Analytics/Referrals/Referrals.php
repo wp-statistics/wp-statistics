@@ -40,12 +40,16 @@ class Referrals
      * This function gets the raw referrer URL and sanitizes it.
      * It also checks if the referrer is the same as the current domain and returns an empty string if so.
      *
+     * @param string|bool $referrer The raw referrer URL. By default it will get the referrer value of the current request.
+     *
      * @return string The sanitized referrer URL.
      */
-    public static function getUrl()
+    public static function getUrl($referrer = false)
     {
-        // Get referrer
-        $referrer = self::getRawUrl();
+        // If referrer is not provided get it from the request
+        if (empty($referrer)) {
+            $referrer = self::getRawUrl();
+        }
 
         // Return early if referrer is empty
         if (empty($referrer)) return '';

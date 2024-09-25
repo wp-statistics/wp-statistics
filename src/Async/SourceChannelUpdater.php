@@ -6,6 +6,7 @@ use WP_STATISTICS\GeoIP;
 use WP_Statistics\Models\VisitorsModel;
 use WP_STATISTICS\Option;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
+use WP_Statistics\Service\Analytics\Referrals\Referrals;
 use WP_Statistics\Service\Analytics\Referrals\SourceDetector;
 use WP_Statistics\Utils\Url;
 use WP_STATISTICS\WP_Background_Process;
@@ -42,7 +43,7 @@ class SourceChannelUpdater extends WP_Background_Process
             $visitorModel->updateVisitor($visitor->ID, [
                 'source_channel'    => $sourceDetector->getChannel(),
                 'source_name'       => $sourceDetector->getName(),
-                'referred'          => Url::getDomain($referrer)
+                'referred'          => Referrals::getUrl($referrer)
             ]);
         }
 
