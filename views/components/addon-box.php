@@ -32,8 +32,8 @@ if (!defined('ABSPATH') || empty($addOn)) {
                 <a class="wps-postbox-addon__button js-wps-addon-license-button"><?php echo esc_html__('License', 'wp-statistics'); ?></a>
             <?php endif; ?>
 
-            <?php if (isset($active_link)) : ?>
-                <a class="wps-postbox-addon__button" href="<?php echo esc_url($active_link); ?>" title="<?php echo esc_html__('Active', 'wp-statistics'); ?>"><?php echo esc_html__('Active', 'wp-statistics'); ?></a>
+            <?php if ($addOn->isInstalled() && !$addOn->isActivated()) : ?>
+                <a class="wps-postbox-addon__button" href="#" data-slug="<?php echo esc_attr($addOn->getSlug()); ?>" title="<?php echo esc_html__('Activate', 'wp-statistics'); ?>"><?php echo esc_html__('Activate', 'wp-statistics'); ?></a>
             <?php endif; ?>
 
             <div class="wps-addon--actions">
