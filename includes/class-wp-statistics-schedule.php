@@ -25,22 +25,18 @@ class Schedule
         //Run This Method Only Admin Area
         if (is_admin()) {
 
-            //Disable Run to Ajax
-            if (!Helper::is_request('ajax')) {
-
-                // Add the GeoIP update schedule if it doesn't exist and it should be.
-                if (!wp_next_scheduled('wp_statistics_geoip_hook') && Option::get('schedule_geoip')) {
-                    wp_schedule_event(time(), 'monthly', 'wp_statistics_geoip_hook');
-                }
-
-                // Remove the GeoIP update schedule if it does exist and it should shouldn't.
-                if (wp_next_scheduled('wp_statistics_geoip_hook') && (!Option::get('schedule_geoip'))) {
-                    wp_unschedule_event(wp_next_scheduled('wp_statistics_geoip_hook'), 'wp_statistics_geoip_hook');
-                }
-
-                //Construct Event
-                add_action('wp_statistics_geoip_hook', array($this, 'geoip_event'));
+            // Add the GeoIP update schedule if it doesn't exist and it should be.
+            if (!wp_next_scheduled('wp_statistics_geoip_hook') && Option::get('schedule_geoip')) {
+                wp_schedule_event(time(), 'monthly', 'wp_statistics_geoip_hook');
             }
+
+            // Remove the GeoIP update schedule if it does exist and it should shouldn't.
+            if (wp_next_scheduled('wp_statistics_geoip_hook') && (!Option::get('schedule_geoip'))) {
+                wp_unschedule_event(wp_next_scheduled('wp_statistics_geoip_hook'), 'wp_statistics_geoip_hook');
+            }
+
+            //Construct Event
+            add_action('wp_statistics_geoip_hook', array($this, 'geoip_event'));
 
         } else {
 
