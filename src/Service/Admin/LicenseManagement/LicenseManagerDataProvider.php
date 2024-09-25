@@ -3,6 +3,7 @@
 namespace WP_Statistics\Service\Admin\LicenseManagement;
 
 use WP_STATISTICS\Menus;
+use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Utils\Request;
 
 class LicenseManagerDataProvider
@@ -97,6 +98,11 @@ class LicenseManagerDataProvider
         } catch (\Exception $e) {
             $licensedAddOns   = [];
             $notIncludedAddOns = [];
+
+            // Redirect back to first step
+            Notice::addFlashNotice($e->getMessage(), 'warning');
+            wp_redirect(Menus::admin_url('plugins', ['tab' => 'add-license']));
+            exit;
         }
 
         return [
@@ -115,6 +121,7 @@ class LicenseManagerDataProvider
     {
         // Redirect back to second step if the `addons` have not been sent via Ajax
         if (!Request::has('addons') || !is_array(Request::get('addons'))) {
+            Notice::addFlashNotice(__('No licensed add-ons were selected!', 'wp-statistics'), 'warning');
             wp_redirect(Menus::admin_url('plugins', ['tab' => 'downloads']));
             exit;
         }
