@@ -734,7 +734,7 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
     let dateLabels = data.data.labels.map(dateObj => dateObj.formatted_date);
     const length = dateLabels.length;
     const containsPostsLabel = type === 'performance' && data.data.datasets.length > 2;
-    const threshold = containsPostsLabel ? 30 : 60;
+    const threshold = type === 'performance' ? 30 : 60;
     let unitTime = length <= threshold ? 'day' : length <= 180 ? 'week' : 'month';
 
 // Aggregate data for week or month view
