@@ -1,6 +1,7 @@
 <?php
 
 use WP_Statistics\Components\View;
+use WP_STATISTICS\Menus;
 
 ?>
 <div class="wps-wrap__main">
@@ -37,7 +38,7 @@ use WP_Statistics\Components\View;
             </div>
         </div>
         <div class="wps-addon__step__action">
-            <a href="" class="wps-addon__step__back"><?php esc_html_e('Back', 'wp-statistics'); ?></a>
+            <a href="<?php echo esc_url(Menus::admin_url('plugins', ['tab' => 'add-license'])); ?>" class="wps-addon__step__back"><?php esc_html_e('Back', 'wp-statistics'); ?></a>
             <a class="wps-postbox-addon-button js-addon-download-button disabled">
                 <?php esc_html_e('Download & Install Selected Add-ons', 'wp-statistics'); ?>
             </a>

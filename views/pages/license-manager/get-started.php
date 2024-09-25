@@ -1,6 +1,7 @@
 <?php
 
 use WP_Statistics\Components\View;
+use WP_STATISTICS\Menus;
 
 ?>
 
@@ -39,7 +40,7 @@ use WP_Statistics\Components\View;
                 </div>
                 <div class="wps-review_premium__actions">
                     <a href="" class="wps-review_premium__actions__review-btn"><?php esc_html_e('Write a Review', 'wp-statistics'); ?></a>
-                    <a href="" class="wps-review_premium__actions__overview-btn"><?php esc_html_e('No, Take me to the Overview', 'wp-statistics'); ?></a>
+                    <a href="<?php echo esc_url(Menus::admin_url('overview')); ?>" class="wps-review_premium__actions__overview-btn"><?php esc_html_e('No, Take me to the Overview', 'wp-statistics'); ?></a>
                 </div>
             </div>
         </div>
