@@ -78,12 +78,20 @@ class LicenseManagerDataProvider
         $licensedAddOns    = [];
         $notIncludedAddOns = [];
 
+        // Don't display the "Select All" button if no add-ons can be downloaded
+        $displaySelectAll = false;
+
         try {
             foreach ($this->getLicensedProductList() as $addOn) {
                 if ($addOn->isLicensed()) {
                     $licensedAddOns[] = $addOn;
                 } else {
                     $notIncludedAddOns[] = $addOn;
+                }
+
+                if ($addOn->isLicensed() && (!$addOn->isInstalled() || $addOn->isUpdateAvailable())) {
+                    // Add-on can be downloaded, display the "Select All" button
+                    $displaySelectAll = true;
                 }
             }
         } catch (\Exception $e) {
@@ -94,6 +102,7 @@ class LicenseManagerDataProvider
         return [
             'licensed_addons'     => $licensedAddOns,
             'not_included_addons' => $notIncludedAddOns,
+            'display_select_all'  => $displaySelectAll,
         ];
     }
 
