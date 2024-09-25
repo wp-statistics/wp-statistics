@@ -33,7 +33,8 @@ class PluginHandler
         // Download the plugin zip file
         $downloadFile = download_url($pluginUrl);
         if (is_wp_error($downloadFile)) {
-            throw new \Exception(__('Failed to download the plugin.', 'wp-statistics'));
+            // translators: %s: Error message.
+            throw new \Exception(sprintf(__('Failed to download the plugin: %s', 'wp-statistics'), $downloadFile->get_error_message()));
         }
 
         // Prepare for unpacking the plugin
@@ -44,7 +45,8 @@ class PluginHandler
         @unlink($downloadFile);
 
         if (is_wp_error($installResult)) {
-            throw new \Exception(__('Failed to install the plugin.', 'wp-statistics'));
+            // translators: %s: Error message.
+            throw new \Exception(sprintf(__('Failed to install the plugin: %s', 'wp-statistics'), $installResult->get_error_message()));
         }
 
         return $installResult;
@@ -113,7 +115,8 @@ class PluginHandler
 
         $activateResult = activate_plugin($pluginFile);
         if (is_wp_error($activateResult)) {
-            throw new \Exception(__('Failed to activate the plugin.', 'wp-statistics'));
+            // translators: %s: Error message.
+            throw new \Exception(sprintf(__('Failed to activate the plugin: %s', 'wp-statistics'), $activateResult->get_error_message()));
         }
 
         return true;
@@ -135,10 +138,7 @@ class PluginHandler
             throw new \Exception(__('Plugin not found.', 'wp-statistics'));
         }
 
-        $deactivateResult = deactivate_plugins($pluginFile);
-        if (is_wp_error($deactivateResult)) {
-            throw new \Exception(__('Failed to deactivate the plugin.', 'wp-statistics'));
-        }
+        deactivate_plugins($pluginFile);
 
         return true;
     }
