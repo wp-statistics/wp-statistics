@@ -220,8 +220,8 @@ class LicenseManagementService
 
         // Search for the download URL in the licensed products
         foreach ($licenseStatus->products as $product) {
-            if ($product['slug'] === $pluginSlug) {
-                return $product['download_url'] ?? null;
+            if ($product->slug === $pluginSlug) {
+                return $product->download_url ?? null;
             }
         }
 
