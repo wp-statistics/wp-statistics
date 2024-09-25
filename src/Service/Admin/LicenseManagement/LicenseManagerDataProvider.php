@@ -121,7 +121,7 @@ class LicenseManagerDataProvider
     {
         // Redirect back to second step if the `addons` have not been sent via Ajax
         if (!Request::has('addons') || !is_array(Request::get('addons'))) {
-            Notice::addFlashNotice(__('No licensed add-ons were selected!', 'wp-statistics'), 'warning');
+            Notice::addFlashNotice(__('No add-ons were selected!', 'wp-statistics'), 'warning');
             wp_redirect(Menus::admin_url('plugins', ['tab' => 'downloads']));
             exit;
         }
@@ -144,7 +144,17 @@ class LicenseManagerDataProvider
                 }
             }
         } catch (\Exception $e) {
+            Notice::addFlashNotice($e->getMessage(), 'warning');
+            wp_redirect(Menus::admin_url('plugins', ['tab' => 'downloads']));
+            exit;
+
             $addOns = [];
+        }
+
+        if (empty($addOns)) {
+            Notice::addFlashNotice(__('No licensed add-ons were selected!', 'wp-statistics'), 'warning');
+            wp_redirect(Menus::admin_url('plugins', ['tab' => 'downloads']));
+            exit;
         }
 
         return [

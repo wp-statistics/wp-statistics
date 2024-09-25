@@ -44,6 +44,7 @@ class LicenseManagementService
             $products      = $remoteRequest->execute();
         } catch (Exception $e) {
             throw new Exception(
+                // translators: %s: Error message.
                 sprintf(__('Error fetching product list: %s', 'wp-statistics'), $e->getMessage())
             );
         }
