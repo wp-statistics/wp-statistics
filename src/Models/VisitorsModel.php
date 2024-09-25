@@ -900,13 +900,11 @@ class VisitorsModel extends BaseModel
         $filteredArgs = array_filter($args);
 
         $query = Query::select([
-            'COUNT(visitor.referred)'
+            'COUNT(DISTINCT visitor.referred)'
         ])
             ->from('visitor')
-            ->where('visitor.referred', 'NOT LIKE', '%' . Helper::get_domain_name(home_url()) . '%')
             ->where('source_channel', '=', $args['source_channel'])
-            ->whereNotNull('visitor.referred')
-            ->groupBy('visitor.referred');
+            ->whereNotNull('visitor.referred');
 
         // When date is passed, but all other parameters below are empty, compare the given date with `visitor.last_counter`
         if (!empty($args['date']) && !array_intersect(['post_type', 'post_id', 'query_param', 'taxonomy', 'term'], array_keys($filteredArgs))) {
