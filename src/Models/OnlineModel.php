@@ -30,7 +30,8 @@ class OnlineModel extends BaseModel
         ]);
 
         $result = Query::select([
-            'useronline.ID',
+            'useronline.ID as online_id',
+            'visitor_id as ID',
             'ip',
             'created',
             'timestamp',

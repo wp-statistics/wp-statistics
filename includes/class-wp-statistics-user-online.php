@@ -320,6 +320,8 @@ class UserOnline
             $item['city']    = $items->city;
             $item['region']  = $items->region;
 
+            $item['single_url'] = Menus::admin_url('visitors', ['type' => 'single-visitor', 'visitor_id' => $items->visitor_id]);
+
             // Online For Time
             $current_time = current_time('timestamp'); // Fetch current server time in WordPress format
             $time_diff    = $items->timestamp - $items->created;
