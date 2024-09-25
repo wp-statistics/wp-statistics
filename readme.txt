@@ -139,6 +139,7 @@ Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest versio
 = 14.11 - **.**.2024 =
 * Enhancement: Update charts based on selected date range.
 * New: Introduced brand-new Referrals report page.
+* New: Add option to disable previous period data for charts.
 * Enhancement: Improved the Device Detection.
 * Enhancement: Chart labels dynamically change depending on the selected data range
 
