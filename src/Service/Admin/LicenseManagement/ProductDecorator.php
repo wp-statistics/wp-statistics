@@ -71,6 +71,16 @@ class ProductDecorator
     }
 
     /**
+     * Returns product's short description.
+     *
+     * @return string
+     */
+    public function getShortDescription()
+    {
+        return $this->product->short_description;
+    }
+
+    /**
      * Returns product icon `src` to use in `img` tag.
      *
      * @return string

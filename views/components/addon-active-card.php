@@ -16,7 +16,7 @@ if (!defined('ABSPATH') || empty($addOn)) {
                 <?php echo esc_html($addOn->getName()); ?>
             </div>
             <p class="wps-addon__download__item--info__desc">
-                <?php echo wp_kses($addOn->getDescription(), 'data'); ?>
+                <?php echo wp_kses($addOn->getShortDescription(), 'data'); ?>
             </p>
         </div>
     </div>
