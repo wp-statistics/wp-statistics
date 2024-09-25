@@ -34,35 +34,32 @@ class SearchEngineChartDataProvider extends AbstractChartDataProvider
 
     public function getData()
     {
-        $thisPeriod = isset($this->args['date']) ? $this->args['date'] : DateRange::get();
-        $prevPeriod = DateRange::getPrevPeriod($thisPeriod);
+        // Init chart data
+        $this->initChartData($this->isPreviousDataEnabled());
 
-        $data       = $this->visitorsModel->getReferrers($this->args);
-        $prevData   = $this->visitorsModel->getReferrers(array_merge($this->args, ['date' => $prevPeriod]));
+        $this->setThisPeriodData();
 
-        $result     = $this->prepareResult($data, $prevData);
+        // Get previous data only if previous chart data option is enabled
+        if ($this->isPreviousDataEnabled()) {
+            $this->setPrevPeriodData();
+        }
 
-        return $result;
+        return $this->getChartData();
     }
 
-    protected function prepareResult($data, $prevData)
+    protected function setThisPeriodData()
     {
-        $thisPeriod = isset($this->args['date']) ? $this->args['date'] : DateRange::get();
-        $prevPeriod = DateRange::getPrevPeriod($thisPeriod);
-
+        $thisPeriod      = isset($this->args['date']) ? $this->args['date'] : DateRange::get();
         $thisPeriodDates = array_keys(TimeZone::getListDays($thisPeriod));
-        $prevPeriodDates = array_keys(TimeZone::getListDays($prevPeriod));
 
         // This period data
         $thisParsedData     = [];
         $thisPeriodTotal    = array_fill_keys($thisPeriodDates, 0);
 
-        // Init chart data
-        $this->initChartData(true);
-
         // Set chart labels
         $this->setChartLabels($this->generateChartLabels($thisPeriodDates));
-        $this->setChartPreviousLabels($this->generateChartLabels($prevPeriodDates));
+
+        $data = $this->visitorsModel->getReferrers($this->args);
 
         foreach ($data as $item) {
             $visitors = intval($item->visitors);
@@ -98,11 +95,23 @@ class SearchEngineChartDataProvider extends AbstractChartDataProvider
                 array_values($thisPeriodTotal)
             );
         }
+    }
+
+    protected function setPrevPeriodData()
+    {
+        $thisPeriod = isset($this->args['date']) ? $this->args['date'] : DateRange::get();
+        $prevPeriod = DateRange::getPrevPeriod($thisPeriod);
+
+        $data = $this->visitorsModel->getReferrers(array_merge($this->args, ['date' => $prevPeriod]));
+
+        $prevPeriodDates = array_keys(TimeZone::getListDays($prevPeriod));
+
+        $this->setChartPreviousLabels($this->generateChartLabels($prevPeriodDates));
 
         // Previous period data
         $prevPeriodTotal = array_fill_keys($prevPeriodDates, 0);
 
-        foreach ($prevData as $item) {
+        foreach ($data as $item) {
             $prevPeriodTotal[$item->last_counter] += intval($item->visitors);
         }
 
@@ -112,8 +121,6 @@ class SearchEngineChartDataProvider extends AbstractChartDataProvider
                 array_values($prevPeriodTotal)
             );
         }
-
-        return $this->getChartData();
     }
 
     protected function generateChartLabels($dateRange)

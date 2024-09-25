@@ -410,7 +410,8 @@ class settings_page extends Singleton
             'wps_display_hits_position',
             'wps_menu_bar',
             'wps_coefficient',
-            'wps_hide_notices'
+            'wps_hide_notices',
+            'wps_charts_previous_period'
         );
 
         foreach ($wps_option_list as $option) {
