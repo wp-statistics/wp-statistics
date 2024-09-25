@@ -214,7 +214,7 @@ add_thickbox();
                     echo '</code></p>';
                 }
                 ?>
-                <p class="description"><?php esc_html_e('Automates monthly GeoIP database updates for the latest geographical data, occurring two days after the first Tuesday each month.', 'wp-statistics'); ?></p>
+                <p class="description"><?php esc_html_e('Automates monthly GeoIP database updates for the latest geographical data.', 'wp-statistics'); ?></p>
             </td>
         </tr>
 
