@@ -18,12 +18,12 @@
 
             <tr valign="top">
                 <th scope="row">
-                    <label for="disable_column"><?php esc_html_e('Views Column in Content List', 'wp-statistics'); ?></label>
+                    <label for="disable_column"><?php esc_html_e('Visitors Column in Content List', 'wp-statistics'); ?></label>
                 </th>
                 <td>
                     <input id="disable_column" type="checkbox" value="1" name="wps_disable_column" <?php echo WP_STATISTICS\Option::get('disable_column') == '1' ? '' : "checked='checked'"; ?>>
                     <label for="disable_column"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
-                    <p class="description"><?php esc_html_e('Display the "Views" column in the content list menus, showing the view counts for content across all post types.', 'wp-statistics'); ?></p>
+                    <p class="description"><?php esc_html_e('Display the "Visitors" column in the content list menus, showing the visitors counts for content across all post types.', 'wp-statistics'); ?></p>
                 </td>
             </tr>
 
