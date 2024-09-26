@@ -56,6 +56,18 @@ use WP_STATISTICS\Option;
 
             <tr valign="top">
                 <th scope="row">
+                    <label for="charts_previous_period"><?php esc_html_e('Previous Period in Charts', 'wp-statistics'); ?></label>
+                </th>
+
+                <td>
+                    <input id="charts_previous_period" type="checkbox" value="1" name="wps_charts_previous_period" <?php checked(Option::get('charts_previous_period', 1)) ?>>
+                    <label for="charts_previous_period"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
+                    <p class="description"><?php esc_html_e('Show data from the previous period in charts for comparison.', 'wp-statistics'); ?></p>
+                </td>
+            </tr>
+
+            <tr valign="top">
+                <th scope="row">
                     <label for="disable-map"><?php esc_html_e('WP Statistics Widgets in the WordPress dashboard', 'wp-statistics'); ?></label>
                 </th>
 
@@ -75,18 +87,6 @@ use WP_STATISTICS\Option;
                     <input id="hide_notices" type="checkbox" value="1" name="wps_hide_notices" <?php echo WP_STATISTICS\Option::get('hide_notices') == true ? "checked='checked'" : ''; ?>>
                     <label for="hide_notices"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
                     <p class="description"><?php esc_html_e('Stops displaying messages for essential features that are currently switched off.', 'wp-statistics'); ?></p>
-                </td>
-            </tr>
-
-            <tr valign="top">
-                <th scope="row">
-                    <label for="charts_previous_period"><?php esc_html_e('Previous Period in Charts', 'wp-statistics'); ?></label>
-                </th>
-
-                <td>
-                    <input id="charts_previous_period" type="checkbox" value="1" name="wps_charts_previous_period" <?php checked(Option::get('charts_previous_period', 1)) ?>>
-                    <label for="charts_previous_period"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
-                    <p class="description"><?php esc_html_e('Show data from the previous period in charts for comparison.', 'wp-statistics'); ?></p>
                 </td>
             </tr>
 
