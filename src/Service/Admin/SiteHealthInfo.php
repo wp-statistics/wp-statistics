@@ -154,6 +154,11 @@ class SiteHealthInfo
                     'value' => Option::get('menu_bar') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
                     'debug' => Option::get('menu_bar') ? 'Enabled' : 'Disabled',
                 ],
+                'wpStatisticsChartsPrevPeriod'  => [
+                    'label' => esc_html__('Previous Period in Charts', 'wp-statistics'),
+                    'value' => Option::get('charts_previous_period') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
+                    'debug' => Option::get('charts_previous_period') ? 'Enabled' : 'Disabled',
+                ],
                 'wpStatisticsWidgets'           => [
                     'label' => esc_html__('WP Statistics Widgets in the WordPress dashboard', 'wp-statistics'),
                     'value' => Option::get('disable_dashboard') ? __('Disable', 'wp-statistics') : __('Enable', 'wp-statistics'),
