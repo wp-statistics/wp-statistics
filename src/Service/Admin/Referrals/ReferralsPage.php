@@ -37,7 +37,10 @@ class ReferralsPage extends MultiViewPage
      */
     private function incompleteSourceChannelsNotice()
     {
-        if (!Option::getOptionGroup('jobs', 'update_source_channel_process_finished')) {
+        $backgroundProcess = WP_Statistics()->getBackgroundProcess('update_visitors_source_channel');
+
+        // Show migration notice if the process is not already initiated
+        if (!$backgroundProcess->is_initiated()) {
             $actionUrl = add_query_arg(
                 [
                     'action' => 'update_visitor_source_channel',
@@ -52,7 +55,10 @@ class ReferralsPage extends MultiViewPage
             );
 
             Notice::addNotice($message, 'update_visitors_source_channel_notice', 'info', false);
-        } else if (Option::getOptionGroup('jobs', 'update_source_channel_process_running')) {
+        }
+
+        // Show notice if already running
+        if ($backgroundProcess->is_active()) {
             $message = esc_html__('The background data process is currently running. It may take a few minutes to complete based on your data size.', 'wp-statistics');
             Notice::addNotice($message, 'running_visitors_source_channel_notice', 'info', false);
         }
