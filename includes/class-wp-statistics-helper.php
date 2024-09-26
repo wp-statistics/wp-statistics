@@ -32,6 +32,7 @@ class Helper
      *
      * @param string $type admin, ajax, cron or frontend.
      * @return bool
+     * @deprecated This method should move to WP_Statistics\Utils::Request()
      */
     public static function is_request($type)
     {

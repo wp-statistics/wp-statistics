@@ -78,7 +78,7 @@ class MaxmindGeoIPProvider extends AbstractGeoIPProvider
         }
 
         try {
-            // Check if the GeoIP database exists and download it via a background process.
+            // Check if the GeoIP database exists and download it immediately.
             if (!$this->isDatabaseExist()) {
                 $this->downloadDatabase();
 
