@@ -1,6 +1,6 @@
 <?php
 
-namespace WP_Statistics\Service\Admin\LicenseManagement;
+namespace WP_Statistics\Service\Admin\LicenseManagement\Plugin;
 
 /**
  * Helper class that handles plugin download, install, etc.

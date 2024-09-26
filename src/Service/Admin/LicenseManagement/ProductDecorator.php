@@ -3,6 +3,7 @@
 namespace WP_Statistics\Service\Admin\LicenseManagement;
 
 use WP_STATISTICS\Menus;
+use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHandler;
 
 class ProductDecorator
 {

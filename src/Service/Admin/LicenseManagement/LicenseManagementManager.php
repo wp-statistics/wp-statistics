@@ -2,8 +2,9 @@
 
 namespace WP_Statistics\Service\Admin\LicenseManagement;
 
-use WP_Statistics\Utils\Request;
 use Exception;
+use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHandler;
+use WP_Statistics\Utils\Request;
 
 class LicenseManagementManager
 {
