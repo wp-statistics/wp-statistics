@@ -30,24 +30,22 @@ if (!defined('ABSPATH') || empty($addOn)) {
             <a class="wps-postbox-addon__button button-activate-addon" href="#" data-slug="<?php echo esc_attr($addOn->getSlug()); ?>" title="<?php esc_html_e('Activate', 'wp-statistics'); ?>"><?php esc_html_e('Activate', 'wp-statistics'); ?></a>
         <?php endif; ?>
 
-        <?php if ($addOn->isActivated() || !empty($addOn->getProductUrl()) || !empty($addOn->getChangelogUrl()) || !empty($addOn->getDocumentationUrl())) : ?>
-            <div class="wps-addon--actions">
-                <span class="wps-addon--actions--show-more js-addon-show-more"></span>
-                <ul class="wps-addon--submenus">
-                    <?php if ($addOn->isActivated()) : ?>
-                        <li><a href="<?php echo esc_url($addOn->getSettingsUrl()); ?>" class="wps-addon--submenu wps-addon--submenu__settings"><?php esc_html_e('Settings', 'wp-statistics'); ?></a></li>
-                    <?php endif; ?>
-                    <?php if (!empty($addOn->getProductUrl())) : ?>
-                        <li><a href="<?php echo esc_url($addOn->getProductUrl()); ?>" class="wps-addon--submenu" target="_blank"><?php esc_html_e('Add-On Detail', 'wp-statistics'); ?></a></li>
-                    <?php endif; ?>
-                    <?php if (!empty($addOn->getChangelogUrl())) : ?>
-                        <li><a href="<?php echo esc_url($addOn->getChangelogUrl()); ?>" class="wps-addon--submenu" target="_blank"><?php esc_html_e('Changelog', 'wp-statistics'); ?></a></li>
-                    <?php endif; ?>
-                    <?php if (!empty($addOn->getDocumentationUrl())) : ?>
-                        <li><a href="<?php echo esc_url($addOn->getDocumentationUrl()); ?>" class="wps-addon--submenu" target="_blank"><?php esc_html_e('Documentation', 'wp-statistics'); ?></a></li>
-                    <?php endif; ?>
-                </ul>
-            </div>
-        <?php endif; ?>
+        <div class="wps-addon--actions <?php echo !$addOn->isInstalled() ? 'wps-hide' : ''; ?>">
+            <span class="wps-addon--actions--show-more js-addon-show-more"></span>
+            <ul class="wps-addon--submenus">
+                <?php if ($addOn->isActivated()) : ?>
+                    <li><a href="<?php echo esc_url($addOn->getSettingsUrl()); ?>" class="wps-addon--submenu wps-addon--submenu__settings"><?php esc_html_e('Settings', 'wp-statistics'); ?></a></li>
+                <?php endif; ?>
+                <?php if (!empty($addOn->getProductUrl())) : ?>
+                    <li><a href="<?php echo esc_url($addOn->getProductUrl()); ?>" class="wps-addon--submenu" target="_blank"><?php esc_html_e('Add-On Detail', 'wp-statistics'); ?></a></li>
+                <?php endif; ?>
+                <?php if (!empty($addOn->getChangelogUrl())) : ?>
+                    <li><a href="<?php echo esc_url($addOn->getChangelogUrl()); ?>" class="wps-addon--submenu" target="_blank"><?php esc_html_e('Changelog', 'wp-statistics'); ?></a></li>
+                <?php endif; ?>
+                <?php if (!empty($addOn->getDocumentationUrl())) : ?>
+                    <li><a href="<?php echo esc_url($addOn->getDocumentationUrl()); ?>" class="wps-addon--submenu" target="_blank"><?php esc_html_e('Documentation', 'wp-statistics'); ?></a></li>
+                <?php endif; ?>
+            </ul>
+        </div>
     </div>
 </div>
