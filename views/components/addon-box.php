@@ -28,9 +28,7 @@ if (!defined('ABSPATH') || empty($addOn)) {
         <div class="wps-postbox-addon__item--actions">
             <span class="wps-postbox-addon__status wps-postbox-addon__status--<?php echo esc_attr($addOn->getStatusClass()); ?> "><?php echo esc_html($addOn->getStatusLabel()); ?></span>
 
-            <?php if (isset($has_license_btn)) : ?>
-                <a class="wps-postbox-addon__button js-wps-addon-license-button"><?php echo esc_html__('License', 'wp-statistics'); ?></a>
-            <?php endif; ?>
+            <a class="wps-postbox-addon__button js-wps-addon-license-button"><?php echo esc_html__('License', 'wp-statistics'); ?></a>
 
             <?php if ($addOn->isInstalled() && !$addOn->isActivated()) : ?>
                 <a class="wps-postbox-addon__button" href="#" data-slug="<?php echo esc_attr($addOn->getSlug()); ?>" title="<?php echo esc_html__('Activate', 'wp-statistics'); ?>"><?php echo esc_html__('Activate', 'wp-statistics'); ?></a>
@@ -59,17 +57,17 @@ if (!defined('ABSPATH') || empty($addOn)) {
             <button><?php echo esc_html__('Update License', 'wp-statistics'); ?></button>
         </div>
         <?php if (isset($alert_text)) : ?>
-        <div class="wps-alert wps-alert--<?php echo $alert_class;?>">
-            <span class="icon"></span>
-            <div>
-                <p><?php echo $alert_text ?></p>
-                <?php if (isset($alert_link_text)) : ?>
+            <div class="wps-alert wps-alert--<?php echo $alert_class; ?>">
+                <span class="icon"></span>
                 <div>
-                    <a href="<?php echo $alert_link ?>" class="js-wps-addon-check-box" title="<?php echo $alert_link_text ?>"><?php echo $alert_link_text ?></a>
+                    <p><?php echo $alert_text ?></p>
+                    <?php if (isset($alert_link_text)) : ?>
+                        <div>
+                            <a href="<?php echo $alert_link ?>" class="js-wps-addon-check-box" title="<?php echo $alert_link_text ?>"><?php echo $alert_link_text ?></a>
+                        </div>
+                    <?php endif; ?>
                 </div>
-                <?php endif; ?>
             </div>
-        </div>
         <?php endif; ?>
 
     </div>
