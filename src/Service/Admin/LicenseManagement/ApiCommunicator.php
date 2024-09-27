@@ -6,7 +6,7 @@ use WP_Statistics\Traits\TransientCacheTrait;
 use WP_Statistics\Components\RemoteRequest;
 use Exception;
 
-class LicenseManagementService
+class ApiCommunicator
 {
     use TransientCacheTrait;
 

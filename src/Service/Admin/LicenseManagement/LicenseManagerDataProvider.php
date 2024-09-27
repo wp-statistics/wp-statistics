@@ -14,7 +14,7 @@ class LicenseManagerDataProvider
     public function __construct($args = [])
     {
         $this->args           = $args;
-        $this->licenseService = new LicenseManagementService();
+        $this->licenseService = new ApiCommunicator();
     }
 
     /**

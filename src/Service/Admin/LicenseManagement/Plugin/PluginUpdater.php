@@ -3,7 +3,7 @@
 namespace WP_Statistics\Service\Admin\LicenseManagement\Plugin;
 
 use Exception;
-use WP_Statistics\Service\Admin\LicenseManagement\LicenseManagementService;
+use WP_Statistics\Service\Admin\LicenseManagement\ApiCommunicator;
 
 if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly.
@@ -96,7 +96,7 @@ class PluginUpdater
      */
     private function getVersionInfo()
     {
-        $result = new LicenseManagementService();
+        $result = new ApiCommunicator();
         return $result->getDownload($this->licenseKey, $this->pluginSlug);
     }
 

@@ -13,7 +13,7 @@ class LicenseManagementManager
 
     public function __construct()
     {
-        $this->licenseService  = new LicenseManagementService();
+        $this->licenseService  = new ApiCommunicator();
         $this->pluginHandler   = new PluginHandler();
 
         add_filter('wp_statistics_admin_menu_list', [$this, 'addMenuItem']);

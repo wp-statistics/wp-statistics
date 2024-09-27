@@ -15,7 +15,7 @@ class LicenseMigration
         'wp-statistics-data-plus'          => 'wpstatistics_data_plus_settings',
     ];
 
-    public function __construct(LicenseManagementService $licenseService)
+    public function __construct(ApiCommunicator $licenseService)
     {
         $this->licenseService = $licenseService;
     }
