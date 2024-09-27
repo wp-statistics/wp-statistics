@@ -27,15 +27,9 @@ class ApiCommunicator
      */
     public function getProductList()
     {
-        // Try to get cached result
-        $cachedProducts = $this->getCachedResult('remote_addons_list');
-        if ($cachedProducts) {
-            //return $this->productDecorator->decorateProducts($cachedProducts); // @todo let it be disable during the development
-        }
-
         try {
             $remoteRequest = new RemoteRequest("{$this->apiUrl}/product/list", 'GET');
-            $products      = $remoteRequest->execute();
+            $products      = $remoteRequest->execute(true, true, WEEK_IN_SECONDS);
 
         } catch (Exception $e) {
             throw new Exception(
@@ -43,9 +37,6 @@ class ApiCommunicator
                 sprintf(__('Error fetching product list: %s', 'wp-statistics'), $e->getMessage())
             );
         }
-
-        // Cache the response for 1 week (7 days)
-        //$this->setCachedResult('remote_addons_list', $products, WEEK_IN_SECONDS); //@todo let it be disable during the development
 
         return $this->productDecorator->decorateProducts($products);
     }
@@ -67,7 +58,7 @@ class ApiCommunicator
             'plugin_slug' => $pluginSlug,
         ]);
 
-        return $remoteRequest->execute();
+        return $remoteRequest->execute(true, true, DAY_IN_SECONDS);
     }
 
     /**
