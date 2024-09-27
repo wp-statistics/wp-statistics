@@ -2,6 +2,7 @@
 
 namespace WP_Statistics\Components;
 
+use Exception;
 use WP_STATISTICS\Helper;
 
 class RemoteRequest
@@ -60,7 +61,7 @@ class RemoteRequest
      *
      * @return mixed
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function execute($throwFailedHttpCodeResponse = true)
     {
@@ -70,7 +71,7 @@ class RemoteRequest
         );
 
         if (is_wp_error($response)) {
-            throw new \Exception(esc_html($response->get_error_message()));
+            throw new Exception(esc_html($response->get_error_message()));
         }
 
         $responseCode = wp_remote_retrieve_response_code($response);
@@ -83,7 +84,7 @@ class RemoteRequest
                 }
 
                 // translators: %s: Response message.
-                throw new \Exception(sprintf(esc_html__('Failed to get success response, %s', 'wp-statistics'), esc_html(var_export($responseBody, true))));
+                throw new Exception(sprintf(esc_html__('Failed to get success response, %s', 'wp-statistics'), esc_html(var_export($responseBody, true))));
             }
         }
 

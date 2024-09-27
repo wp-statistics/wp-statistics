@@ -28,31 +28,46 @@ class LicenseManagementService
     public function getProductList()
     {
         // Try to get cached result
-        $cachedProducts = $this->getCachedResult('product_list');
+        $cachedProducts = $this->getCachedResult('remote_addons_list');
         if ($cachedProducts) {
             //return $this->productDecorator->decorateProducts($cachedProducts); // @todo let it be disable during the development
         }
 
         try {
-
-            //// ---- dev
-            /// @todo set the auth during development and DON'T PUSH IT IN GIT :)
-            $arguments['headers']['Authorization'] = 'Basic ' . base64_encode('username:password');
-            //// ---- dev
-
-            $remoteRequest = new RemoteRequest("{$this->apiUrl}/product/list", 'GET', [], $arguments);
+            $remoteRequest = new RemoteRequest("{$this->apiUrl}/product/list", 'GET');
             $products      = $remoteRequest->execute();
+
         } catch (Exception $e) {
             throw new Exception(
-                // translators: %s: Error message.
+            // translators: %s: Error message.
                 sprintf(__('Error fetching product list: %s', 'wp-statistics'), $e->getMessage())
             );
         }
 
         // Cache the response for 1 week (7 days)
-        //$this->setCachedResult('product_list', $products, WEEK_IN_SECONDS); //@todo let it be disable during the development
+        //$this->setCachedResult('remote_addons_list', $products, WEEK_IN_SECONDS); //@todo let it be disable during the development
 
         return $this->productDecorator->decorateProducts($products);
+    }
+
+    /**
+     * Get the download link for the specified plugin using the license key.
+     *
+     * @param string $licenseKey
+     * @param string $pluginSlug
+     *
+     * @return string|null The download URL if found, null otherwise
+     * @throws Exception if the API call fails
+     */
+    public function getDownload($licenseKey, $pluginSlug)
+    {
+        $remoteRequest = new RemoteRequest("{$this->apiUrl}/product/download", 'GET', [
+            'license_key' => $licenseKey,
+            'domain'      => home_url(),
+            'plugin_slug' => $pluginSlug,
+        ]);
+
+        return $remoteRequest->execute();
     }
 
     /**
@@ -65,38 +80,32 @@ class LicenseManagementService
      */
     public function validateLicense($licenseKey)
     {
-        $domain = home_url();
-
         try {
-
-            //// ---- dev
-            /// @todo set the auth during development and DON'T PUSH IT IN GIT :)
-            $arguments['headers']['Authorization'] = 'Basic ' . base64_encode('username:password');
-            //// ---- dev
 
             $remoteRequest = new RemoteRequest("{$this->apiUrl}/license/status", 'GET', [
                 'license_key' => $licenseKey,
-                'domain'      => $domain,
-            ], $arguments);
+                'domain'      => home_url(),
+            ]);
 
             $licenseData = $remoteRequest->execute();
 
             if (empty($licenseData)) {
-                throw new \Exception(__('Invalid license response!', 'wp-statistics'));
+                throw new Exception(__('Invalid license response!', 'wp-statistics'));
             }
 
             if (empty($licenseData->license_details)) {
-                throw new \Exception(!empty($licenseData->message) ? $licenseData->message : __('Unknown error!', 'wp-statistics'));
+                throw new Exception(!empty($licenseData->message) ? $licenseData->message : __('Unknown error!', 'wp-statistics'));
             }
+
         } catch (Exception $e) {
             throw new Exception(
-                // translators: %s: Error message.
+            // translators: %s: Error message.
                 sprintf(__('Error validating license: %s', 'wp-statistics'), $e->getMessage())
             );
         }
 
         if (empty($licenseData->license_details->valid_until) || $licenseData->license_details->valid_until < wp_date('Y-m-d')) {
-            throw new \Exception(__('License is expired!', 'wp-statistics'));
+            throw new Exception(__('License is expired!', 'wp-statistics'));
         }
 
         // Store the license in the database
@@ -142,7 +151,7 @@ class LicenseManagementService
      *
      * @return string|null License key. `null` if no valid licenses was found for this slug.
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function getValidLicenseForProduct($slug)
     {
@@ -166,7 +175,7 @@ class LicenseManagementService
      *
      * @return array Merged product list with status
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function mergeProductStatusWithLicense($licenseKey)
     {
@@ -185,7 +194,7 @@ class LicenseManagementService
      *
      * @return ProductDecorator[]
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function mergeProductsListWithAllValidLicenses()
     {
@@ -198,7 +207,7 @@ class LicenseManagementService
         // Loop through the array keys (the actual license keys) and merge the validated products
         foreach (array_keys($this->getStoredLicenses()) as $license) {
             // Get current license status
-            $licenseStatus = $this->validateLicense($license);
+            $licenseStatus    = $this->validateLicense($license);
             $licensedProducts = array_merge($licensedProducts, $licenseStatus->products);
         }
 
@@ -213,6 +222,7 @@ class LicenseManagementService
      * @param string $pluginSlug
      *
      * @return string|null The download URL if found, null otherwise
+     * @throws Exception
      */
     public function getPluginDownloadUrl($licenseKey, $pluginSlug)
     {
