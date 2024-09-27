@@ -3,6 +3,7 @@
 namespace WP_Statistics\Service\Admin\LicenseManagement\Plugin;
 
 use Exception;
+use stdClass;
 use WP_Statistics;
 use WP_Statistics\Service\Admin\LicenseManagement\ApiCommunicator;
 
@@ -43,26 +44,6 @@ class PluginUpdater
     }
 
     /**
-     * Fetch the version information from the API using ApiCommunicator and handle exceptions.
-     *
-     * @return object|false
-     */
-    private function requestUpdateInfo()
-    {
-        try {
-
-            $result = new ApiCommunicator();
-            $remote = $result->getDownload($this->licenseKey, $this->pluginSlug);
-
-        } catch (Exception $e) {
-            WP_Statistics::log($e->getMessage());
-            return false;
-        }
-
-        return $remote;
-    }
-
-    /**
      * Handle the plugins_api call, returning version information when requested.
      *
      * @param mixed $res
@@ -83,7 +64,7 @@ class PluginUpdater
             return $res;
         }
 
-        $res                 = new \stdClass();
+        $res                 = new stdClass();
         $res->name           = $remote->name;
         $res->slug           = $remote->slug;
         $res->version        = $remote->version;
@@ -114,6 +95,26 @@ class PluginUpdater
     }
 
     /**
+     * Fetch the version information from the API using ApiCommunicator and handle exceptions.
+     *
+     * @return object|false
+     */
+    private function requestUpdateInfo()
+    {
+        try {
+
+            $apiCommunicator = new ApiCommunicator();
+            $remote          = $apiCommunicator->getDownload($this->licenseKey, $this->pluginSlug);
+
+        } catch (Exception $e) {
+            WP_Statistics::log($e->getMessage());
+            return false;
+        }
+
+        return $remote;
+    }
+
+    /**
      * Check if an update is available by comparing versions.
      *
      * @param object $transient
@@ -128,9 +129,9 @@ class PluginUpdater
         $remote = $this->requestUpdateInfo();
 
         if ($remote && version_compare($this->pluginVersion, $remote->version, '<')) {
-            $res              = new \stdClass();
+            $res              = new stdClass();
             $res->slug        = $this->pluginSlug;
-            $res->plugin      = plugin_basename(__FILE__);
+            $res->plugin      = $this->pluginSlug . '/' . $this->pluginSlug . '.php';
             $res->new_version = $remote->version;
             $res->tested      = $remote->tested;
             $res->package     = $remote->download_url;
