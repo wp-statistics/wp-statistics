@@ -47,20 +47,31 @@ class LicenseManagerDataProvider
      */
     public function getAddOnsData()
     {
+        $addOnsList     = [];
         $activeAddOns   = [];
         $inactiveAddOns = [];
 
+        // Try to fetch licensed addons first
         try {
-            foreach ($this->getLicensedProductList() as $addOn) {
-                if ($addOn->isActivated()) {
-                    $activeAddOns[] = $addOn;
-                } else {
-                    $inactiveAddOns[] = $addOn;
-                }
-            }
+            $addOnsList = $this->getLicensedProductList();
         } catch (\Exception $e) {
-            $activeAddOns   = [];
-            $inactiveAddOns = [];
+        }
+
+        // If previous attempt had failed (because of invalid licenses, invalid domain, etc.), try to fetch all addons
+        if (empty($addOnsList)) {
+            try {
+                $addOnsList = $this->getProductList();
+            } catch (\Exception $e) {
+            }
+        }
+
+        // Separate active and inactive add-ons
+        foreach ($addOnsList as $addOn) {
+            if ($addOn->isActivated()) {
+                $activeAddOns[] = $addOn;
+            } else {
+                $inactiveAddOns[] = $addOn;
+            }
         }
 
         return [
