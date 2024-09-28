@@ -106,11 +106,12 @@ class RemoteRequest
 
         if ($throwFailedHttpCodeResponse) {
             if (!in_array($responseCode, [200, 201, 202])) {
-                if (Helper::isJson($responseBody)) {
-                    $responseBody = json_decode($responseBody, true);
-                }
-
-                throw new Exception(sprintf(esc_html__('Failed to get success response, %s', 'wp-statistics'), esc_html(var_export($responseBody, true))));
+                throw new Exception(sprintf(
+                    esc_html__('Failed to get success response. URL: %s, Method: %s, Status Code: %s', 'wp-statistics'),
+                    esc_html($this->requestUrl),
+                    esc_html($this->parsedArgs['method'] ?? 'GET'),
+                    esc_html($responseCode)
+                ));
             }
         }
 

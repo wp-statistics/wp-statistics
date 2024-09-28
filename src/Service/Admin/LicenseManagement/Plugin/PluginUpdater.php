@@ -125,7 +125,7 @@ class PluginUpdater
             return $remote;
 
         } catch (Exception $e) {
-            WP_Statistics::log($e->getMessage());
+            WP_Statistics::log($e->getMessage(), 'error');
             return false;
         }
     }
