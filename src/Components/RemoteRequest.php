@@ -58,6 +58,16 @@ class RemoteRequest
     }
 
     /**
+     * Generates a cache key based on the request URL and arguments.
+     *
+     * @return string
+     */
+    protected function generateCacheKey()
+    {
+        return $this->getCacheKey($this->requestUrl . serialize($this->parsedArgs));
+    }
+
+    /**
      * Executes the request with optional caching.
      *
      * @param bool $throwFailedHttpCodeResponse Whether or not to throw an exception if the request returns a failed HTTP code.
@@ -68,10 +78,10 @@ class RemoteRequest
      *
      * @throws Exception
      */
-    public function execute($throwFailedHttpCodeResponse = true, $useCache = false, $cacheExpiration = HOUR_IN_SECONDS)
+    public function execute($throwFailedHttpCodeResponse = true, $useCache = true, $cacheExpiration = HOUR_IN_SECONDS)
     {
-        // Use request URL and arguments as part of the cache key
-        $cacheKey = $this->getCacheKey($this->requestUrl . serialize($this->parsedArgs));
+        // Generate the cache key
+        $cacheKey = $this->generateCacheKey();
 
         // Check if cached result exists if caching is enabled
         if ($useCache) {
