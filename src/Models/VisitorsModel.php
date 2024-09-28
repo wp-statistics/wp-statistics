@@ -28,41 +28,43 @@ class VisitorsModel extends BaseModel
             'platform'      => '',
             'country'       => '',
             'user_id'       => '',
-            'ip'            => '',
+            'ip'            => ''
         ]);
 
-        $query = Query::select('COUNT(DISTINCT visitor_id) as total_visitors')
-            ->from('visitor_relationships')
-            ->join('pages', ['visitor_relationships.page_id', 'pages.page_id'], [], 'LEFT')
-            ->join('posts', ['posts.ID', 'pages.id'], [], 'LEFT')
-            ->where('post_type', 'IN', $args['post_type'])
-            ->where('pages.type', 'IN', $args['resource_type'])
-            ->where('post_author', '=', $args['author_id'])
-            ->where('posts.ID', '=', $args['post_id'])
-            ->where('pages.uri', '=', $args['query_param'])
-            ->whereDate('visitor_relationships.date', $args['date']);
+        $query = Query::select('COUNT(visitor_id) as total_visitors')
+            ->from('visitor')
+            ->where('agent', '=', $args['agent'])
+            ->where('location', '=', $args['country'])
+            ->where('platform', '=', $args['platform'])
+            ->where('user_id', '=', $args['user_id'])
+            ->where('ip', '=', $args['ip'])
+            ->whereDate('last_counter', $args['date']);
 
-        if (!empty($args['agent']) || !empty($args['country']) || !empty($args['platform']) || !empty($args['user_id']) || !empty($args['ip'])) {
+        $filteredArgs = array_filter($args);
+
+        if (array_intersect(['post_type', 'resource_type', 'author_id', 'post_id', 'query_param', 'taxonomy', 'term'], array_keys($filteredArgs))) {
             $query
-                ->join('visitor', ['visitor_relationships.visitor_id', 'visitor.ID'])
-                ->where('agent', '=', $args['agent'])
-                ->where('location', '=', $args['country'])
-                ->where('platform', '=', $args['platform'])
-                ->where('user_id', '=', $args['user_id'])
-                ->where('ip', '=', $args['ip']);
-        }
+                ->join('visitor_relationships', ['visitor_relationships.visitor_id', 'visitor.ID'], [], 'LEFT')
+                ->join('pages', ['visitor_relationships.page_id', 'pages.page_id'], [], 'LEFT')
+                ->join('posts', ['posts.ID', 'pages.id'], [], 'LEFT')
+                ->where('post_type', 'IN', $args['post_type'])
+                ->where('pages.type', 'IN', $args['resource_type'])
+                ->where('post_author', '=', $args['author_id'])
+                ->where('posts.ID', '=', $args['post_id'])
+                ->where('pages.uri', '=', $args['query_param']);
 
-        if (!empty($args['taxonomy']) || !empty($args['term'])) {
-            $taxQuery = Query::select(['DISTINCT object_id'])
-                ->from('term_relationships')
-                ->join('term_taxonomy', ['term_relationships.term_taxonomy_id', 'term_taxonomy.term_taxonomy_id'])
-                ->join('terms', ['term_taxonomy.term_id', 'terms.term_id'])
-                ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy'])
-                ->where('terms.term_id', '=', $args['term'])
-                ->getQuery();
+            if (!empty($args['taxonomy']) || !empty($args['term'])) {
+                $taxQuery = Query::select(['DISTINCT object_id'])
+                    ->from('term_relationships')
+                    ->join('term_taxonomy', ['term_relationships.term_taxonomy_id', 'term_taxonomy.term_taxonomy_id'])
+                    ->join('terms', ['term_taxonomy.term_id', 'terms.term_id'])
+                    ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy'])
+                    ->where('terms.term_id', '=', $args['term'])
+                    ->getQuery();
 
-            $query
-                ->joinQuery($taxQuery, ['posts.ID', 'tax.object_id'], 'tax');
+                $query
+                    ->joinQuery($taxQuery, ['posts.ID', 'tax.object_id'], 'tax');
+            }
         }
 
         $result = $query->getVar();
