@@ -1,36 +1,45 @@
 <div class="wps-wrap__top tabbed_page">
-    <?php if (!empty($tabs ) && is_array($tabs )) { ?>
+    <?php if (!empty($tabs) && is_array($tabs)) { ?>
         <ul class="wps-steps">
             <?php
-            $index = 1;
-            $total_steps = count($tabs);
-            $found_current = false;
+            $stepBadge       = 1;
+            $foundCurrent    = false;
+            $disableNextTabs = empty($stored_licenses);
 
+            // Add "completed" class to all tabs until "current" class is found
+            // And add "disabled" class to next tabs if the user has no licenses
+            // So, for example if the second tab is the current tab, add "completed" to the first tab only, etc.
             foreach ($tabs as $key => $step) {
-                // Skip the 'Add-Ons' tab
-                if ($step['title'] !== esc_html__('Add-Ons', 'wp-statistics')) :
+                // Skip the "Add-Ons" tab
+                if ($key !== 0) {
+                    $stepClass = esc_attr($step['class']);
+                    if ($foundCurrent) {
+                        // Current tab was already found, don't change the CSS classes
+                        $stepClass = $stepClass;
 
-                    $step_class = esc_attr($step['class']);
-                    if ($found_current) {
-                        $step_class = $step_class;
-                    } elseif ($step_class === 'current') {
-                         $found_current = true;
+                        // But disable all tabs after the current tab if the user has no saved licenses
+                        if ($disableNextTabs) {
+                            $stepClass .= ' disabled';
+                        }
+                    } else if (stripos($stepClass, 'current') !== false) {
+                        // Current tab found, don't change the CSS class
+                        $foundCurrent = true;
                     } else {
-                         $step_class .= 'completed';
+                        // Current tab is not found yet, add "completed" class
+                        $stepClass .= 'completed ';
                     }
                     ?>
-                    <li class="wps-step-link <?php echo $step_class; ?>">
+                    <li class="wps-step-link <?php echo $stepClass; ?>">
                         <a href="<?php echo esc_attr($step['link']); ?>">
-                            <span class="wps-step-link__badge"><?php echo $index; ?></span>
+                            <span class="wps-step-link__badge"><?php echo $stepBadge; ?></span>
                             <span class="wps-step-link__title"><?php echo esc_html($step['title']); ?></span>
                         </a>
                     </li>
                     <?php
-                    $index++;
-                endif;
+                    $stepBadge++;
+                }
             }
             ?>
         </ul>
-
     <?php } ?>
 </div>

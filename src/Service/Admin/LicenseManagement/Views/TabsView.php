@@ -7,6 +7,7 @@ use WP_Statistics\Components\View;
 use WP_STATISTICS\Menus;
 use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Abstracts\BaseTabView;
+use WP_Statistics\Service\Admin\LicenseManagement\ApiCommunicator;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseManagerDataProvider;
 
@@ -20,9 +21,12 @@ class TabsView extends BaseTabView
         'get-started',
     ];
 
+    private $apiCommunicator;
+
     public function __construct()
     {
-        $this->dataProvider = new LicenseManagerDataProvider();
+        $this->dataProvider    = new LicenseManagerDataProvider();
+        $this->apiCommunicator = new ApiCommunicator();
     }
 
     /**
@@ -99,6 +103,8 @@ class TabsView extends BaseTabView
 
                 Admin_Template::get_template(['layout/header', 'layout/title'], $args);
             } else {
+                $args['stored_licenses'] = $this->apiCommunicator->getStoredLicenses();
+
                 Admin_Template::get_template(['layout/header', 'layout/addon-header-steps'], $args);
             }
 
