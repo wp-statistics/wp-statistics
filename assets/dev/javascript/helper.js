@@ -495,6 +495,13 @@ wps_js.no_results = function () {
 };
 
 wps_js.hex_to_rgba = function (hex, opacity) {
+    const defaultColor ='#3288D7';
+    if (typeof hex !== 'string' || hex[0] !== '#' || (hex.length !== 7 && hex.length !== 4)) {
+        hex = defaultColor;
+    }
+    if (hex.length === 4) {
+        hex = '#' + hex[1].repeat(2) + hex[2].repeat(2) + hex[3].repeat(2);
+    }
     hex = hex.replace('#', '');
     let hex_to_rgba_r = parseInt(hex.substring(0, 2), 16);
     let hex_to_rgba_g = parseInt(hex.substring(2, 4), 16);
