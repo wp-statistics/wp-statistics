@@ -309,6 +309,7 @@ class VisitorsModel extends BaseModel
             'per_page'    => '',
             'page_info'   => false,
             'user_info'   => false,
+            'date_field'  => 'visitor.last_counter'
         ]);
 
         $additionalFields = [];
@@ -357,21 +358,22 @@ class VisitorsModel extends BaseModel
             'visitor.city',
             'visitor.hits',
             'visitor.referred',
+            'visitor.last_counter'
         ], $additionalFields))
             ->from('visitor')
             ->where('agent', '=', $args['agent'])
             ->where('platform', '=', $args['platform'])
             ->where('user_id', '=', $args['user_id'])
             ->where('ip', '=', $args['ip'])
+            ->where('visitor.location', '=', $args['country'])
+            ->whereDate($args['date_field'], $args['date'])
             ->perPage($args['page'], $args['per_page'])
             ->orderBy($args['order_by'], $args['order'])
             ->groupBy('visitor.ID');
 
         // If last page is true, get last page the visitor has visited
         if ($args['page_info'] === true) {
-            $query
-                ->joinQuery($subQuery, ['visitor.ID', 'last_hit.visitor_id'], 'last_hit')
-                ->whereDate('last_hit.date', $args['date']);
+            $query->joinQuery($subQuery, ['visitor.ID', 'last_hit.visitor_id'], 'last_hit', 'LEFT');
         }
 
         if ($args['user_info']) {
@@ -388,8 +390,7 @@ class VisitorsModel extends BaseModel
                 ->where('post_type', 'IN', $args['post_type'])
                 ->where('post_author', '=', $args['author_id'])
                 ->where('posts.ID', '=', $args['post_id'])
-                ->where('pages.uri', '=', $args['query_param'])
-                ->whereDate('pages.date', $args['date']);
+                ->where('pages.uri', '=', $args['query_param']);
 
             if (array_intersect(['taxonomy', 'term'], array_keys($filteredArgs))) {
                 $taxQuery = Query::select(['DISTINCT object_id'])
@@ -403,12 +404,6 @@ class VisitorsModel extends BaseModel
                 $query
                     ->joinQuery($taxQuery, ['posts.ID', 'tax.object_id'], 'tax');
             }
-        }
-
-        if (!empty($args['country'])) {
-            $query
-                ->where('visitor.location', '=', $args['country'])
-                ->whereDate('visitor.last_counter', $args['date']);
         }
 
         $result = $query->getAll();
