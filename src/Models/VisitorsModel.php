@@ -84,31 +84,37 @@ class VisitorsModel extends BaseModel
         ]);
 
         $query = Query::select([
-            'DATE(visitor_relationships.date) as date',
-            'COUNT(DISTINCT visitor_id) as visitors',
+            'visitor.last_counter as date',
+            'COUNT(visitor.ID) as visitors',
         ])
-            ->from('visitor_relationships')
-            ->join('pages', ['visitor_relationships.page_id', 'pages.page_id'], [], 'LEFT')
-            ->join('posts', ['posts.ID', 'pages.id'], [], 'LEFT')
-            ->where('post_type', 'IN', $args['post_type'])
-            ->where('pages.type', 'IN', $args['resource_type'])
-            ->where('post_author', '=', $args['author_id'])
-            ->where('posts.ID', '=', $args['post_id'])
-            ->where('pages.uri', '=', $args['query_param'])
-            ->whereDate('visitor_relationships.date', $args['date'])
-            ->groupBy('DATE(visitor_relationships.date)');
+            ->from('visitor')
+            ->whereDate('visitor.last_counter', $args['date'])
+            ->groupBy('visitor.last_counter');
 
-        if (!empty($args['taxonomy']) || !empty($args['term'])) {
-            $taxQuery = Query::select(['DISTINCT object_id'])
-                ->from('term_relationships')
-                ->join('term_taxonomy', ['term_relationships.term_taxonomy_id', 'term_taxonomy.term_taxonomy_id'])
-                ->join('terms', ['term_taxonomy.term_id', 'terms.term_id'])
-                ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy'])
-                ->where('terms.term_id', '=', $args['term'])
-                ->getQuery();
-
+        $filteredArgs = array_filter($args);
+        if (array_intersect(['post_type', 'resource_type', 'author_id', 'post_id', 'query_param', 'taxonomy', 'term'], array_keys($filteredArgs))) {
             $query
-                ->joinQuery($taxQuery, ['posts.ID', 'tax.object_id'], 'tax');
+                ->where('post_type', 'IN', $args['post_type'])
+                ->where('pages.type', 'IN', $args['resource_type'])
+                ->where('post_author', '=', $args['author_id'])
+                ->where('posts.ID', '=', $args['post_id'])
+                ->where('pages.uri', '=', $args['query_param'])
+                ->join('visitor_relationships', ['visitor_relationships.visitor_id', 'visitor.ID'], [], 'LEFT')
+                ->join('pages', ['visitor_relationships.page_id', 'pages.page_id'], [], 'LEFT')
+                ->join('posts', ['posts.ID', 'pages.id'], [], 'LEFT');
+
+            if (!empty($args['taxonomy']) || !empty($args['term'])) {
+                $taxQuery = Query::select(['DISTINCT object_id'])
+                    ->from('term_relationships')
+                    ->join('term_taxonomy', ['term_relationships.term_taxonomy_id', 'term_taxonomy.term_taxonomy_id'])
+                    ->join('terms', ['term_taxonomy.term_id', 'terms.term_id'])
+                    ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy'])
+                    ->where('terms.term_id', '=', $args['term'])
+                    ->getQuery();
+
+                $query
+                    ->joinQuery($taxQuery, ['posts.ID', 'tax.object_id'], 'tax');
+            }
         }
 
         $result = $query->getAll();
