@@ -1,3 +1,7 @@
+<?php
+use WP_STATISTICS\Option;
+?>
+
 <div class="postbox">
     <table class="form-table">
         <tbody>
@@ -47,6 +51,18 @@
                     <input id="menu-bar" type="checkbox" value="1" name="wps_menu_bar" <?php echo WP_STATISTICS\Option::get('menu_bar') == true ? "checked='checked'" : ''; ?>>
                     <label for="menu-bar"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
                     <p class="description"><?php esc_html_e('View your site\'s statistics directly from the WordPress admin menu bar.', 'wp-statistics'); ?></p>
+                </td>
+            </tr>
+
+            <tr valign="top">
+                <th scope="row">
+                    <label for="charts_previous_period"><?php esc_html_e('Previous Period in Charts', 'wp-statistics'); ?></label>
+                </th>
+
+                <td>
+                    <input id="charts_previous_period" type="checkbox" value="1" name="wps_charts_previous_period" <?php checked(Option::get('charts_previous_period', 1)) ?>>
+                    <label for="charts_previous_period"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
+                    <p class="description"><?php esc_html_e('Show data from the previous period in charts for comparison.', 'wp-statistics'); ?></p>
                 </td>
             </tr>
 

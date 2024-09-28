@@ -1017,6 +1017,22 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
                 if (b.label === 'Total (Previous)') return 1;
                 return 0;
             });
+            const previousPeriod=document.querySelectorAll('.wps-postbox-chart--previousPeriod');
+            if (previousPeriod.length>0) {
+                let foundPrevious = false;
+
+                datasets.forEach((dataset) => {
+                    if (dataset.label.includes('(Previous)')) {
+                        foundPrevious = true;
+                    }
+                });
+
+                if (foundPrevious) {
+                    previousPeriod.forEach((element) => {
+                        element.style.display = 'flex';
+                    });
+                }
+            }
             datasets.forEach((dataset, index) => {
                 const isPrevious = dataset.label.includes('(Previous)');
                 if (!isPrevious) {
