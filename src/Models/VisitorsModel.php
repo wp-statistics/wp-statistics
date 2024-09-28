@@ -521,7 +521,6 @@ class VisitorsModel extends BaseModel
 
         $result = Query::select('COUNT(visitor.ID)')
             ->from('visitor')
-            ->join('visitor_relationships', ['visitor.ID', 'visitor_relationships.visitor_id'])
             ->where('source_channel', '=', $args['source_channel'])
             ->where('source_name', '=', $args['source_name'])
             ->where('referred', '=', $args['referrer'])
