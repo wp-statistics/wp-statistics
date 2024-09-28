@@ -99,8 +99,8 @@ function miniChart(done) {
 // Gulp charts Script
 function chartScripts(done) {
     gulp.src([
-        './assets/dev/javascript/plugin/chartjs-adapter-date-fns.bundle.min.js',
-        './assets/dev/javascript/plugin/chartjs-chart-matrix.min.js'])
+        './assets/js/chartjs/chartjs-adapter-date-fns.bundle.min.js',
+        './assets/js/chartjs/chartjs-chart-matrix.min.js'])
         .pipe(concat('chart-matrix.min.js'))
         .pipe(gulp.dest('./assets/js/chartjs')).pipe(babel({presets: ['@babel/env']})).pipe(replace("\\n", '')).pipe(replace("\\t", '')).pipe(replace("  ", '')).pipe(uglify()).pipe(gulp.dest('./assets/js/chartjs/'));
     done()

@@ -137,6 +137,8 @@ Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest versio
 
 == Changelog ==
 = 14.10.2 - **.09.2024 =
+- **Fix:** Fix chartjs conflict with other plugins.
+- **Remove:** Remove chartjs zoom plugin.
 - **Enhancement:** Encoded the referral in the request payload using Base64 for improved security.
 - **Enhancement:** Enhanced user experience (UX) for the "Performance at a Glance" section in email reports.
 - **Enhancement:** Improved the layout and functionality of the visitor information section.

@@ -97,13 +97,13 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                 }
             };
 
-            if (Chart.version.replace(/\./g, "") > 400) {
-                Chart.register(afterRenderPlugin);
+            if (WPSChart.version.replace(/\./g, "") > 400) {
+                WPSChart.register(afterRenderPlugin);
             } else {
-                Chart.plugins.register(afterRenderPlugin);
+                WPSChart.plugins.register(afterRenderPlugin);
             }
 
-            Chart.Tooltip.positioners.top = function (element, eventPosition) {
+            WPSChart.Tooltip.positioners.top = function (element, eventPosition) {
                 const tooltip = this;
 
                 const { chartArea: { bottom }, scales: { x, y } } = this.chart;
@@ -206,7 +206,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                 plugins: [afterRenderPlugin]
             };
 
-            new Chart(
+            new WPSChart(
                 document.getElementById('publishedChart'),
                 publishedConfig
             );
@@ -364,7 +364,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                 }
             };
 
-            new Chart(document.getElementById('overviewPublishChart'), overviewPublishConfig);
+            new WPSChart(document.getElementById('overviewPublishChart'), overviewPublishConfig);
         }
     };
 

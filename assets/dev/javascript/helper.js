@@ -222,25 +222,6 @@ wps_js.line_chart = function (tag_id, title, label, data, newOptions) {
                         stepSize: 1,
                     }
                 },
-            },
-            plugins: {
-                zoom: {
-                    pan: {
-                        enabled: true,
-                        mode: 'xy',
-                    },
-                    zoom: {
-                        wheel: {
-                            enabled: true,
-                            speed: 0.05,
-                            modifierKey: 'ctrl'
-                        },
-                        pinch: {
-                            enabled: true
-                        },
-                        mode: 'xy',
-                    }
-                }
             }
         }
     };
@@ -248,7 +229,7 @@ wps_js.line_chart = function (tag_id, title, label, data, newOptions) {
     const options = Object.assign({}, defaultOptions, newOptions);
 
     // Create Chart
-    new Chart(ctx, options);
+    new WPSChart(ctx, options);
 };
 
 
@@ -798,7 +779,7 @@ wps_js.new_line_chart = function (data, tag_id, newOptions) {
     };
     // Merge default options with user options
     const options = Object.assign({}, defaultOptions, newOptions);
-    const lineChart = new Chart(ctx_line, {
+    const lineChart = new WPSChart(ctx_line, {
         type: 'line',
         data: {
             labels: data.data.labels.map(dateObj => dateObj.date),
@@ -1034,7 +1015,7 @@ wps_js.performance_chart = function (data, tag_id, type) {
         }
     }
 
-    const performanceChart = new Chart(ctx_performance, {
+    const performanceChart = new WPSChart(ctx_performance, {
         type: 'bar',
         data: {
             labels: data.labels.map(dateObj => dateObj.date),
