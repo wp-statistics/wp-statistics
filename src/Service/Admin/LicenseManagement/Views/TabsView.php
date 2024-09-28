@@ -96,7 +96,6 @@ class TabsView extends BaseTabView
 
             if ($this->isTab('add-ons')) {
                 $args['title']                  = esc_html__('Add-Ons', 'wp-statistics');
-                $args['tooltip']                = esc_html__('Add-Ons tooltip', 'wp-statistics');
                 $args['install_addon_btn_txt']  = esc_html__('Install Add-on', 'wp-statistics');
                 $args['install_addon_btn_link'] = esc_url(Menus::admin_url('plugins', ['tab' => 'add-license']));
                 $args['addons_list']            = $this->dataProvider->getProductList();
