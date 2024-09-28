@@ -233,4 +233,30 @@ class Request
         return true;
     }
 
+    /**
+     * Checks where the current request is coming from.
+     *
+     * @param string $type The type of request to check for. Can be 'admin', 'ajax', 'cron', 'wp-cli', or 'public'.
+     * @return bool True if the request is from the specified type, false otherwise.
+     */
+    public static function from($type)
+    {
+        if ($type === 'admin') {
+            return is_admin();
+        }
+
+        if ($type === 'ajax') {
+            return defined('DOING_AJAX');
+        }
+
+        if ($type === 'cron') {
+            return defined('DOING_CRON');
+        }
+
+        if ($type === 'wp-cli') {
+            return defined('WP_CLI') && WP_CLI;
+        }
+
+        return false;
+    }
 }
