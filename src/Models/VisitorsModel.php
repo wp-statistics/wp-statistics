@@ -492,7 +492,7 @@ class VisitorsModel extends BaseModel
         ])
             ->from('visitor')
             ->join('users', ['visitor.user_id', 'users.ID'], [], 'LEFT')
-            ->joinQuery($subQuery, ['visitor.ID', 'first_hit.visitor_id'], 'first_hit')
+            ->joinQuery($subQuery, ['visitor.ID', 'first_hit.visitor_id'], 'first_hit', 'LEFT')
             ->where('visitor.ID', '=', $args['visitor_id'])
             ->getRow();
 
