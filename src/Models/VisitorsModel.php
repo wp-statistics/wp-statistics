@@ -419,7 +419,7 @@ class VisitorsModel extends BaseModel
             'source_channel'    => '',
             'source_name'       => '',
             'referrer'          => '',
-            'order_by'          => 'last_hit.date',
+            'order_by'          => 'visitor.ID',
             'order'             => 'desc',
             'page'              => '',
             'per_page'          => '',
@@ -475,6 +475,7 @@ class VisitorsModel extends BaseModel
             'visitor.city',
             'visitor.hits',
             'visitor.referred',
+            'visitor.last_counter',
             'visitor.source_channel',
             'visitor.source_name',
             'users.display_name',
@@ -486,8 +487,8 @@ class VisitorsModel extends BaseModel
         ])
             ->from('visitor')
             ->join('users', ['visitor.user_id', 'users.ID'], [], 'LEFT')
-            ->joinQuery($firstHitQuery, ['visitor.ID', 'first_hit.visitor_id'], 'first_hit')
-            ->joinQuery($lastHitQuery, ['visitor.ID', 'last_hit.visitor_id'], 'last_hit')
+            ->joinQuery($firstHitQuery, ['visitor.ID', 'first_hit.visitor_id'], 'first_hit', 'LEFT')
+            ->joinQuery($lastHitQuery, ['visitor.ID', 'last_hit.visitor_id'], 'last_hit', 'LEFT')
             ->where('source_channel', '=', $args['source_channel'])
             ->where('source_name', '=', $args['source_name'])
             ->where('referred', '=', $args['referrer'])
@@ -495,7 +496,6 @@ class VisitorsModel extends BaseModel
             ->whereNotNull('visitor.referred')
             ->perPage($args['page'], $args['per_page'])
             ->orderBy($args['order_by'], $args['order'])
-            ->groupBy('visitor.ID')
             ->decorate(VisitorDecorator::class)
             ->getAll();
 
