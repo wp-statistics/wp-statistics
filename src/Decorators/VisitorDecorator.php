@@ -200,6 +200,7 @@ class VisitorDecorator
      */
     public function getLastView()
     {
+        // Get date from last_view (DateTime), if not set use last_counter (Date)
         $date = $this->visitor->last_view ?? $this->visitor->last_counter;
         $date = date_i18n(Helper::getDefaultDateFormat(true, true, false, ', '), strtotime($date));
 
