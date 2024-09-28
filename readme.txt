@@ -140,7 +140,8 @@ Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest versio
 * Enhancement: Update charts based on selected date range.
 * New: Introduced brand-new Referrals report page.
 * Enhancement: Improved the Device Detection.
-* Enhancement: Chart labels dynamically change depending on the selected data range
+* Enhancement: Chart labels dynamically change depending on the selected data range.
+* Fix: Show visitors data even if they didn't have data in visitor_relationship table.
 
 For more information about the major update, please [visit our blog post](https://wp-statistics.com/?p=16657) or follow [@wp_statistics](https://twitter.com/wp_statistics) on Twitter
 
