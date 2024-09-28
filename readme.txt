@@ -137,6 +137,7 @@ Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest versio
 
 == Changelog ==
 = 14.10.2 - **.09.2024 =
+- **Fix:** Fix js conflict in Search Engine Referrals page.
 - **Enhancement:** Encoded the referral in the request payload using Base64 for improved security.
 - **Enhancement:** Enhanced user experience (UX) for the "Performance at a Glance" section in email reports.
 - **Enhancement:** Improved the layout and functionality of the visitor information section.
