@@ -32,7 +32,7 @@ class Helper
      *
      * @param string $type admin, ajax, cron or frontend.
      * @return bool
-     * @deprecated This method should move to WP_Statistics\Utils::Request()
+     * @deprecated This method should move to WP_Statistics\Utils\Request::from()
      */
     public static function is_request($type)
     {
@@ -1921,13 +1921,13 @@ class Helper
             '/[\'"\(](?:\s|%20)*OR(?:\s|%20)*\d+(?:\s|%20)*=(?:\s|%20)*\d+/i',  // ' " ( OR 1 = 1
             '/[\'"\(](?:\s|%20)*XOR(?:\s|%20)*/i',              // ' " ( XOR
 
-            // Function-based SQL injection 
+            // Function-based SQL injection
             '/(?:\s|%20)*now\(/i',                                           // now(
             '/(?:\s|%20)*sysdate\(/i',                                       // sysdate(
             '/(?:\s|%20)*sleep\(/i',                                         // sleep(
             '/[\'"\(](?:\s|%20)*benchmark(?:\s|%20)*\(\d+,(?:\s|%20)*/i',   // ' " ( benchmark(10,
 
-            // XSS patterns 
+            // XSS patterns
             '/<script\b[^>]*>(.*?)<\/script>/is',               // <script>...</script>
             '/<[^>]+on[a-z]+\s*=\s*"[^"]*"/i',                  // <tag onEvent="...">
             '/<[^>]+on[a-z]+\s*=\s*\'[^\']*\'/i',               // <tag onEvent='...'>
