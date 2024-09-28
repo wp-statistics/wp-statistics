@@ -4,6 +4,7 @@ namespace WP_STATISTICS;
 
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
 use WP_Statistics\Service\Analytics\Referrals\ReferralsDatabase;
+use WP_Statistics\Utils\Request;
 
 class Schedule
 {
@@ -23,7 +24,7 @@ class Schedule
         add_filter('cron_schedules', array($this, 'define_schedules_time'));
 
         //Run This Method Only Admin Area
-        if (is_admin()) {
+        if (Request::from('admin') || Request::from('wp-cli')) {
 
             // Add the GeoIP update schedule if it doesn't exist and it should be.
             if (!wp_next_scheduled('wp_statistics_geoip_hook') && Option::get('schedule_geoip')) {
