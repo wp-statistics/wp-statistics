@@ -44,7 +44,7 @@ class VisitorsModel extends BaseModel
 
         if (array_intersect(['post_type', 'resource_type', 'author_id', 'post_id', 'query_param', 'taxonomy', 'term'], array_keys($filteredArgs))) {
             $query
-                ->join('visitor_relationships', ['visitor_relationships.visitor_id', 'visitor.ID'], [], 'LEFT')
+                ->join('visitor_relationships', ['visitor_relationships.visitor_id', 'visitor.ID'])
                 ->join('pages', ['visitor_relationships.page_id', 'pages.page_id'], [], 'LEFT')
                 ->join('posts', ['posts.ID', 'pages.id'], [], 'LEFT')
                 ->where('post_type', 'IN', $args['post_type'])
@@ -96,14 +96,14 @@ class VisitorsModel extends BaseModel
         $filteredArgs = array_filter($args);
         if (array_intersect(['post_type', 'resource_type', 'author_id', 'post_id', 'query_param', 'taxonomy', 'term'], array_keys($filteredArgs))) {
             $query
+                ->join('visitor_relationships', ['visitor_relationships.visitor_id', 'visitor.ID'])
+                ->join('pages', ['visitor_relationships.page_id', 'pages.page_id'], [], 'LEFT')
+                ->join('posts', ['posts.ID', 'pages.id'], [], 'LEFT')
                 ->where('post_type', 'IN', $args['post_type'])
                 ->where('pages.type', 'IN', $args['resource_type'])
                 ->where('post_author', '=', $args['author_id'])
                 ->where('posts.ID', '=', $args['post_id'])
-                ->where('pages.uri', '=', $args['query_param'])
-                ->join('visitor_relationships', ['visitor_relationships.visitor_id', 'visitor.ID'], [], 'LEFT')
-                ->join('pages', ['visitor_relationships.page_id', 'pages.page_id'], [], 'LEFT')
-                ->join('posts', ['posts.ID', 'pages.id'], [], 'LEFT');
+                ->where('pages.uri', '=', $args['query_param']);
 
             if (!empty($args['taxonomy']) || !empty($args['term'])) {
                 $taxQuery = Query::select(['DISTINCT object_id'])
