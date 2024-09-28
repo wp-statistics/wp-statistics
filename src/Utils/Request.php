@@ -239,7 +239,7 @@ class Request
      * @param string $type The type of request to check for. Can be 'admin', 'ajax', 'cron', 'wp-cli', or 'public'.
      * @return bool True if the request is from the specified type, false otherwise.
      */
-    public static function from($type)
+    public static function isFrom($type)
     {
         if ($type === 'admin') {
             return is_admin();

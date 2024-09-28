@@ -24,7 +24,7 @@ class Schedule
         add_filter('cron_schedules', array($this, 'define_schedules_time'));
 
         //Run This Method Only Admin Area
-        if (Request::from('admin') || Request::from('wp-cli')) {
+        if (Request::isFrom('admin') || Request::isFrom('wp-cli')) {
 
             // Add the GeoIP update schedule if it doesn't exist and it should be.
             if (!wp_next_scheduled('wp_statistics_geoip_hook') && Option::get('schedule_geoip')) {
