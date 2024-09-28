@@ -31,7 +31,7 @@ class VisitorsModel extends BaseModel
             'ip'            => ''
         ]);
 
-        $query = Query::select('COUNT(visitor_id) as total_visitors')
+        $query = Query::select('COUNT(visitor.id) as total_visitors')
             ->from('visitor')
             ->where('agent', '=', $args['agent'])
             ->where('location', '=', $args['country'])
