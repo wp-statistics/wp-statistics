@@ -4,7 +4,7 @@ namespace WP_Statistics\Service\Admin\LicenseManagement;
 
 class LicenseMigration
 {
-    private $licenseService;
+    private $apiCommunicator;
     private $optionMap = [
         'wp-statistics-advanced-reporting' => 'wpstatistics_advanced_reporting_settings',
         'wp-statistics-customization'      => 'wpstatistics_customization_settings',
@@ -15,9 +15,9 @@ class LicenseMigration
         'wp-statistics-data-plus'          => 'wpstatistics_data_plus_settings',
     ];
 
-    public function __construct(ApiCommunicator $licenseService)
+    public function __construct(ApiCommunicator $apiCommunicator)
     {
-        $this->licenseService = $licenseService;
+        $this->apiCommunicator = $apiCommunicator;
     }
 
     /**
@@ -34,7 +34,7 @@ class LicenseMigration
                 if ($licenseKey) {
                     // Validate and store the new license structure
                     try {
-                        $this->licenseService->validateLicense($licenseKey);
+                        $this->apiCommunicator->validateLicense($licenseKey);
                         printf(__('Migrated license for %s successfully.', 'wp-statistics'), $addonSlug);
                     } catch (\Exception $e) {
                         printf(__('Failed to migrate license for %s: %s', 'wp-statistics'), $addonSlug, $e->getMessage());

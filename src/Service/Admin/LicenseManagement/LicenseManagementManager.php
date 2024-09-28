@@ -8,12 +8,12 @@ use WP_Statistics\Utils\Request;
 
 class LicenseManagementManager
 {
-    private $licenseService;
+    private $apiCommunicator;
     private $pluginHandler;
 
     public function __construct()
     {
-        $this->licenseService  = new ApiCommunicator();
+        $this->apiCommunicator = new ApiCommunicator();
         $this->pluginHandler   = new PluginHandler();
 
         add_filter('wp_statistics_admin_menu_list', [$this, 'addMenuItem']);
@@ -67,7 +67,7 @@ class LicenseManagementManager
             }
 
             // Merge the product list with the license and installation status
-            $mergedProductList = $this->licenseService->mergeProductStatusWithLicense($licenseKey);
+            $mergedProductList = $this->apiCommunicator->mergeProductStatusWithLicense($licenseKey);
 
             wp_send_json_success([
                 'products' => $mergedProductList,
@@ -95,14 +95,14 @@ class LicenseManagementManager
             }
 
             if (empty($licenseKey)) {
-                $licenseKey = $this->licenseService->getValidLicenseForProduct($pluginSlug);
+                $licenseKey = $this->apiCommunicator->getValidLicenseForProduct($pluginSlug);
             }
 
             if (empty($licenseKey)) {
                 throw new Exception('License key is missing.');
             }
 
-            $downloadUrl = $this->licenseService->getPluginDownloadUrl($licenseKey, $pluginSlug);
+            $downloadUrl = $this->apiCommunicator->getPluginDownloadUrl($licenseKey, $pluginSlug);
             if (!$downloadUrl) {
                 throw new Exception('Download URL not found!');
             }

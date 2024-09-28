@@ -9,12 +9,12 @@ use WP_Statistics\Utils\Request;
 class LicenseManagerDataProvider
 {
     protected $args;
-    private $licenseService;
+    private $apiCommunicator;
 
     public function __construct($args = [])
     {
-        $this->args           = $args;
-        $this->licenseService = new ApiCommunicator();
+        $this->args            = $args;
+        $this->apiCommunicator = new ApiCommunicator();
     }
 
     /**
@@ -25,7 +25,7 @@ class LicenseManagerDataProvider
      */
     public function getProductList()
     {
-        return $this->licenseService->getProductList();
+        return $this->apiCommunicator->getProductList();
     }
 
     /**
@@ -37,7 +37,7 @@ class LicenseManagerDataProvider
      */
     public function getLicensedProductList()
     {
-        return $this->licenseService->mergeProductsListWithAllValidLicenses();
+        return $this->apiCommunicator->mergeProductsListWithAllValidLicenses();
     }
 
     /**
