@@ -17,9 +17,7 @@ use WP_STATISTICS\Menus;
                 <h3>
                     <?php esc_html_e('Select Your Add-ons', 'wp-statistics'); ?>
                 </h3>
-                <?php if (!empty($data['display_select_all'])) : ?>
-                    <a class="wps-addon__download_select-all js-wps-addon-select-all"><?php esc_html_e('Select All', 'wp-statistics'); ?></a>
-                <?php endif; ?>
+                <a class="wps-addon__download_select-all js-wps-addon-select-all <?php echo empty($data['display_select_all']) ? 'wps-hide' : ''; ?>"><?php esc_html_e('Select All', 'wp-statistics'); ?></a>
             </div>
             <div class="wps-addon__download__items">
                 <?php
