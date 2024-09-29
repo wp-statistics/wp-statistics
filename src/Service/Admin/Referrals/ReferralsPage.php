@@ -50,7 +50,7 @@ class ReferralsPage extends MultiViewPage
             );
 
             $message = sprintf(
-                __('We’ve updated the referral structure in this version. To ensure accurate reports, please initiate the background data process by clicking <a href="%s">here</a>. This process runs in the background and may take several minutes depending on your data.', 'wp-statistics'),
+                __('We’ve updated the referral structure in this version. To ensure accurate reports, please initiate the background data process <a href="%s">by clicking here</a>.', 'wp-statistics'),
                 esc_url($actionUrl)
             );
 
@@ -59,7 +59,7 @@ class ReferralsPage extends MultiViewPage
 
         // Show notice if already running
         if ($backgroundProcess->is_active()) {
-            $message = esc_html__('The background data process is currently running. It may take a few minutes to complete based on your data size.', 'wp-statistics');
+            $message = esc_html__('This process runs in the background and may take several minutes depending on your data.', 'wp-statistics');
             Notice::addNotice($message, 'running_visitors_source_channel_notice', 'info', false);
         }
     }
