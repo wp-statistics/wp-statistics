@@ -2,6 +2,9 @@
 
 namespace WP_STATISTICS;
 
+use WP_Statistics\Service\Admin\LicenseManagement\ApiCommunicator;
+use WP_Statistics\Service\Admin\LicenseManagement\LicenseMigration;
+
 class Schedule
 {
 
@@ -87,7 +90,12 @@ class Schedule
             wp_unschedule_event(wp_next_scheduled('wp_statistics_report_hook'), 'wp_statistics_report_hook');
         }
 
+        if (!wp_next_scheduled('wp_statistics_licenses_hook')) {
+            wp_schedule_event(time(), 'daily', 'wp_statistics_licenses_hook');
+        }
+
         add_action('wp_statistics_report_hook', array($this, 'send_report'));
+        add_action('wp_statistics_licenses_hook', [$this, 'migrateOldLicenses']);
     }
 
     /**
@@ -351,6 +359,18 @@ class Schedule
             $scheduleTime = $schedulesInterval[$time]['next_schedule'];
             wp_schedule_event($scheduleTime, $time, $event);
         }
+    }
+
+    /**
+     * Calls `LicenseMigration->migrateOldLicenses()` and migrates old licenses to the new structure.
+     *
+     * @return void
+     */
+    public function migrateOldLicenses()
+    {
+        $apiCommunicator  = new ApiCommunicator();
+        $licenseMigration = new LicenseMigration($apiCommunicator);
+        $licenseMigration->migrateOldLicenses();
     }
 }
 
