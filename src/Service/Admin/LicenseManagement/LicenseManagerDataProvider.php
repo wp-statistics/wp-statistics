@@ -51,6 +51,10 @@ class LicenseManagerDataProvider
         $activeAddOns   = [];
         $inactiveAddOns = [];
 
+        // Try migrating old license keys before handling the new ones
+        $licenseMigration = new LicenseMigration($this->apiCommunicator);
+        $licenseMigration->migrateOldLicenses();
+
         // Try to fetch licensed addons first
         try {
             $addOnsList = $this->getLicensedProductList();
