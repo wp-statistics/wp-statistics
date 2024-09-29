@@ -122,6 +122,10 @@ class PluginUpdater
                 throw new Exception('Failed to retrieve remote plugin information.');
             }
 
+            if (isset($remote->code) && isset($remote->message)) {
+                throw new Exception($remote->message, $remote->code);
+            }
+
             return $remote;
 
         } catch (Exception $e) {

@@ -58,7 +58,7 @@ class ApiCommunicator
             'plugin_slug' => $pluginSlug,
         ]);
 
-        return $remoteRequest->execute(false, true, DAY_IN_SECONDS);
+        return $remoteRequest->execute(true, true, DAY_IN_SECONDS);
     }
 
     /**
