@@ -43,9 +43,6 @@ class settings_page extends Singleton
             $args['wps_admin'] = 0;
         }
 
-        // Get Search List
-        $args['selist'] = SearchEngine::getList(true);
-
         // Get Permalink Structure
         $args['permalink'] = get_option('permalink_structure');
 
