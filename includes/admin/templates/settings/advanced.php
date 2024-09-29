@@ -3,6 +3,7 @@
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\IP;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
+use WP_STATISTICS\TimeZone;
 
 // Get IP Method
 $ip_method  = IP::getIpMethod();
@@ -208,7 +209,7 @@ add_thickbox();
                     $event = wp_get_scheduled_event('wp_statistics_geoip_hook');
 
                     if ($event) {
-                        echo date_i18n(Helper::getDefaultDateFormat(true, false, false, ' @ '), $event->timestamp); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                        echo TimeZone::getLocalDate(Helper::getDefaultDateFormat(true, false, false, ' @ '), $event->timestamp); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                     }
 
                     echo '</code></p>';
