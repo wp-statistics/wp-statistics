@@ -209,7 +209,7 @@ add_thickbox();
                     $event = wp_get_scheduled_event('wp_statistics_geoip_hook');
 
                     if ($event) {
-                        echo TimeZone::getLocalDate(Helper::getDefaultDateFormat(true, false, false, ' @ '), $event->timestamp); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                        echo TimeZone::getLocalDate(get_option('date_format'), $event->timestamp) . ' ' . __('at', 'wp-statistics') . ' ' . TimeZone::getLocalDate(get_option('time_format'), $event->timestamp); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                     }
 
                     echo '</code></p>';
