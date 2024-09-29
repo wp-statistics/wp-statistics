@@ -10,12 +10,16 @@ if (!defined('ABSPATH') || empty($addOn)) {
     <div>
         <div class="wps-postbox-addon__item--info">
             <div class="wps-postbox-addon__item--info__img">
-                <img src="<?php echo esc_url($addOn->getIcon()); ?>" alt="<?php echo esc_html($addOn->getName()); ?>" />
+                <a href="<?php echo esc_url($addOn->getProductUrl()); ?>" target="_blank">
+                    <img src="<?php echo esc_url($addOn->getIcon()); ?>" alt="<?php echo esc_html($addOn->getName()); ?>" />
+                </a>
             </div>
             <div class="wps-postbox-addon__item--info__text">
                 <div class="wps-postbox-addon__item--info__title">
-                    <?php echo esc_html($addOn->getName()); ?>
-                    <span class="wps-postbox-addon__version">v<?php echo esc_html($addOn->getVersion()); ?></span>
+                    <a href="<?php echo esc_url($addOn->getProductUrl()); ?>" target="_blank">
+                        <?php echo esc_html($addOn->getName()); ?>
+                        <span class="wps-postbox-addon__version">v<?php echo esc_html($addOn->getVersion()); ?></span>
+                    </a>
                     <?php if (!empty($addOn->getLabel())) : ?>
                         <span class="wps-postbox-addon__label wps-postbox-addon__label--<?php echo esc_attr($addOn->getLabelClass()); ?>"><?php echo esc_html($addOn->getLabel()); ?></span>
                     <?php endif; ?>
