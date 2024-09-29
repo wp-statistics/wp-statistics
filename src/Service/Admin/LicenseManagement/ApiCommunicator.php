@@ -29,7 +29,7 @@ class ApiCommunicator
     {
         try {
             $remoteRequest = new RemoteRequest("{$this->apiUrl}/product/list", 'GET');
-            $products      = $remoteRequest->execute(true, true, WEEK_IN_SECONDS);
+            $products      = $remoteRequest->execute(false, true, WEEK_IN_SECONDS);
 
         } catch (Exception $e) {
             throw new Exception(
@@ -58,7 +58,7 @@ class ApiCommunicator
             'plugin_slug' => $pluginSlug,
         ]);
 
-        return $remoteRequest->execute(true, true, DAY_IN_SECONDS);
+        return $remoteRequest->execute(false, true, DAY_IN_SECONDS);
     }
 
     /**
@@ -78,7 +78,7 @@ class ApiCommunicator
                 'domain'      => home_url(),
             ]);
 
-            $licenseData = $remoteRequest->execute();
+            $licenseData = $remoteRequest->execute(false);
 
             if (empty($licenseData)) {
                 throw new Exception(__('Invalid license response!', 'wp-statistics'));
