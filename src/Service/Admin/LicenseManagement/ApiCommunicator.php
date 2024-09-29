@@ -5,12 +5,13 @@ namespace WP_Statistics\Service\Admin\LicenseManagement;
 use WP_Statistics\Traits\TransientCacheTrait;
 use WP_Statistics\Components\RemoteRequest;
 use Exception;
+use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 
 class ApiCommunicator
 {
     use TransientCacheTrait;
 
-    private $apiUrl = 'https://staging.wp-statistics.veronalabs.com/wp-json/wp-license-manager/v1';
+    private $apiUrl         = 'https://staging.wp-statistics.veronalabs.com/wp-json/wp-license-manager/v1';
     private $licensesOption = 'wp_statistics_licenses'; // Option key to store licenses
     private $productDecorator;
 
@@ -30,10 +31,9 @@ class ApiCommunicator
         try {
             $remoteRequest = new RemoteRequest("{$this->apiUrl}/product/list", 'GET');
             $products      = $remoteRequest->execute(false, true, WEEK_IN_SECONDS);
-
         } catch (Exception $e) {
             throw new Exception(
-            // translators: %s: Error message.
+                // translators: %s: Error message.
                 sprintf(__('Error fetching product list: %s', 'wp-statistics'), $e->getMessage())
             );
         }
@@ -72,7 +72,6 @@ class ApiCommunicator
     public function validateLicense($licenseKey)
     {
         try {
-
             $remoteRequest = new RemoteRequest("{$this->apiUrl}/license/status", 'GET', [
                 'license_key' => $licenseKey,
                 'domain'      => home_url(),
@@ -87,10 +86,9 @@ class ApiCommunicator
             if (empty($licenseData->license_details)) {
                 throw new Exception(!empty($licenseData->message) ? $licenseData->message : __('Unknown error!', 'wp-statistics'));
             }
-
         } catch (Exception $e) {
             throw new Exception(
-            // translators: %s: Error message.
+                // translators: %s: Error message.
                 sprintf(__('Error validating license: %s', 'wp-statistics'), $e->getMessage())
             );
         }
@@ -103,6 +101,45 @@ class ApiCommunicator
         $this->storeLicense($licenseKey, $licenseData);
 
         return $licenseData;
+    }
+
+    /**
+     * Validates all stored licenses.
+     *
+     * @return void
+     *
+     * @todo Remove later if it was not used by other classes.
+     */
+    public function validateAllLicenses()
+    {
+        foreach ($this->getStoredLicenses() as $licenseKey => $license) {
+            try {
+                $this->validateLicense($licenseKey);
+            } catch (\Exception $e) {
+                $this->removeLicense($licenseKey);
+
+                if (stripos($e->getMessage(), 'domain') !== false) {
+                    Notice::addNotice(sprintf(
+                        // translators: %s: License key.
+                        __('License %s was removed because of an invalid domain!', 'wp-statistics'),
+                        $licenseKey
+                    ), 'license_invalid_domain');
+                } else if (stripos($e->getMessage(), 'expired') !== false) {
+                    Notice::addNotice(sprintf(
+                        // translators: %s: License key.
+                        __('License %s was removed because it was expired!', 'wp-statistics'),
+                        $licenseKey
+                    ), 'license_expired');
+                } else {
+                    Notice::addNotice(sprintf(
+                        // translators: 1: License key - 2: Error message.
+                        __('License %s was removed because of an error: %s', 'wp-statistics'),
+                        $licenseKey,
+                        $e->getMessage()
+                    ), 'license_error');
+                }
+            }
+        }
     }
 
     /**
@@ -131,6 +168,24 @@ class ApiCommunicator
             'license'  => $license->license_details,
             'products' => wp_list_pluck($license->products, 'slug'),
         ];
+
+        update_option($this->licensesOption, $currentLicenses);
+    }
+
+    /**
+     * Removes a license from WordPress database.
+     *
+     * @param string $licenseKey
+     *
+     * @return void
+     */
+    public function removeLicense($licenseKey)
+    {
+        $currentLicenses = $this->getStoredLicenses();
+
+        if (isset($currentLicenses[$licenseKey])) {
+            unset($currentLicenses[$licenseKey]);
+        }
 
         update_option($this->licensesOption, $currentLicenses);
     }
