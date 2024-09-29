@@ -2,6 +2,8 @@
 
 namespace WP_Statistics\Service\Admin\LicenseManagement;
 
+use WP_Statistics\Service\Admin\NoticeHandler\Notice;
+
 class LicenseMigration
 {
     private $apiCommunicator;
@@ -25,6 +27,9 @@ class LicenseMigration
      */
     public function migrateOldLicenses()
     {
+        // Prevent already migrated licenses from migrating again
+        $storedLicenses = array_keys($this->apiCommunicator->getStoredLicenses());
+
         foreach ($this->optionMap as $addonSlug => $optionName) {
             $licenseData = get_option($optionName);
 
@@ -32,12 +37,16 @@ class LicenseMigration
                 $licenseKey = $licenseData['license_key'] ?? null;
 
                 if ($licenseKey) {
+                    if (in_array($licenseKey, $storedLicenses)) {
+                        continue;
+                    }
+
                     // Validate and store the new license structure
                     try {
                         $this->apiCommunicator->validateLicense($licenseKey);
-                        printf(__('Migrated license for %s successfully.', 'wp-statistics'), $addonSlug);
                     } catch (\Exception $e) {
-                        printf(__('Failed to migrate license for %s: %s', 'wp-statistics'), $addonSlug, $e->getMessage());
+                        // translators: 1: Add-on slug - 2: Error message.
+                        Notice::addNotice(sprintf(__('Failed to migrate license for %s: %s', 'wp-statistics'), $addonSlug, $e->getMessage()), 'license_migration', 'error');
                     }
                 }
             }
