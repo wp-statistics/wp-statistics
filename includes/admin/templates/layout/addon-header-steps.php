@@ -19,7 +19,8 @@
 
                         // But disable all tabs after the current tab if the user has no saved licenses
                         if ($disableNextTabs) {
-                            $stepClass .= ' disabled';
+                            $stepClass   .= ' disabled';
+                            $step['link'] = '#';
                         }
                     } else if (stripos($stepClass, 'current') !== false) {
                         // Current tab found, don't change the CSS class
