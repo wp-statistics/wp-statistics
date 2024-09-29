@@ -436,6 +436,14 @@ class Admin_Assets
             'close'                        => __('Close'),
             'previous_period'              => __('Previous period'),
             'view_content'                 => __('View Content'),
+            'downloading'                  => __('Downloading'),
+            'activated'                    => __('Activated'),
+            'active'                       => __('Acctive'),
+            'activating'                  => __('Activating '),
+            'already_installed'            => __('Already installed'),
+            'failed'                       => __('Failed'),
+            'retry'                        => __('Retry'),
+            'redirecting'                        => __('Redirecting... Please wait'),
             'start_of_week'                => get_option('start_of_week', 0)
         );
 
