@@ -828,18 +828,10 @@ function wp_statistics_searchengine_query($search_engine = 'all')
     $search_query = '';
     // Are we getting results for all search engines or a specific one?
     if (strtolower($search_engine) == 'all') {
-        // Get a complete list of search engines
-        $searchengine_list = WP_STATISTICS\SearchEngine::getList();
-        // For all of them?  Ok, look through the search engine list and create a SQL query string to get them all from the database.
-        foreach ($searchengine_list as $key => $se) {
-            $search_query .= $wpdb->prepare("`engine` = %s OR ", $key);
-        }
-
-        // Trim off the last ' OR ' for the loop above.
-        $search_query = substr($search_query, 0, strlen($search_query) - 4);
+        $search_query .= "`source_channel` in ('search', 'paid_search')";
     } else {
         // Are we getting results for all search engines or a specific one?
-        $search_query .= $wpdb->prepare("`engine` = %s", $search_engine);
+        $search_query .= $wpdb->prepare("`source_name` = %s", $search_engine);
     }
 
     return $search_query;
@@ -859,7 +851,7 @@ function wp_statistics_get_search_engine_query($search_engine = 'all', $time = '
     global $wpdb;
 
     //Prepare Table Name
-    $table_name = \WP_STATISTICS\DB::table('search');
+    $table_name = \WP_STATISTICS\DB::table('visitor');
 
     //Date Column table
     $date_column = 'last_counter';
@@ -870,7 +862,7 @@ function wp_statistics_get_search_engine_query($search_engine = 'all', $time = '
     }
 
     //Generate Base Sql
-    $sql = "SELECT COUNT(*) FROM {$table_name} WHERE ({$search_query})";
+    $sql = "SELECT COUNT(ID) FROM {$table_name} WHERE ({$search_query})";
 
     // Check Sanitize Datetime
     if (TimeZone::isValidDate($time)) {
