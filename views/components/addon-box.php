@@ -32,10 +32,10 @@ if (!defined('ABSPATH') || empty($addOn)) {
         <div class="wps-postbox-addon__item--actions">
             <span class="wps-postbox-addon__status wps-postbox-addon__status--<?php echo esc_attr($addOn->getStatusClass()); ?> "><?php echo esc_html($addOn->getStatusLabel()); ?></span>
 
-            <a class="wps-postbox-addon__button js-wps-addon-license-button"><?php echo esc_html__('License', 'wp-statistics'); ?></a>
+            <a class="wps-postbox-addon__button js-wps-addon-license-button"><?php esc_html_e('License', 'wp-statistics'); ?></a>
 
             <?php if ($addOn->isInstalled() && !$addOn->isActivated()) : ?>
-                <a class="wps-postbox-addon__button js-addon-active-plugin-btn"  data-slug="<?php echo esc_attr($addOn->getSlug()); ?>" title="<?php echo esc_html__('Activate', 'wp-statistics'); ?>"><?php echo esc_html__('Activate', 'wp-statistics'); ?></a>
+                <a class="wps-postbox-addon__button js-addon-active-plugin-btn" data-slug="<?php echo esc_attr($addOn->getSlug()); ?>" title="<?php esc_html_e('Activate', 'wp-statistics'); ?>"><?php esc_html_e('Activate', 'wp-statistics'); ?></a>
             <?php endif; ?>
 
             <div class="wps-addon--actions">
@@ -58,16 +58,16 @@ if (!defined('ABSPATH') || empty($addOn)) {
     <div class="wps-addon__item__license js-wps-addon-license">
         <div class="wps-addon__item__update_license">
             <input type="text" placeholder="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx">
-            <button><?php echo esc_html__('Update License', 'wp-statistics'); ?></button>
+            <button><?php esc_html_e('Update License', 'wp-statistics'); ?></button>
         </div>
         <?php if (isset($alert_text)) : ?>
-            <div class="wps-alert wps-alert--<?php echo $alert_class; ?>">
+            <div class="wps-alert wps-alert--<?php echo esc_attr($alert_class); ?>">
                 <span class="icon"></span>
                 <div>
-                    <p><?php echo $alert_text ?></p>
+                    <p><?php echo esc_html($alert_text); ?></p>
                     <?php if (isset($alert_link_text)) : ?>
                         <div>
-                            <a href="<?php echo $alert_link ?>" class="js-wps-addon-check-box" title="<?php echo $alert_link_text ?>"><?php echo $alert_link_text ?></a>
+                            <a href="<?php echo esc_url($alert_link); ?>" class="js-wps-addon-check-box" title="<?php echo esc_attr($alert_link_text); ?>"><?php echo esc_html($alert_link_text); ?></a>
                         </div>
                     <?php endif; ?>
                 </div>
