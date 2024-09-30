@@ -30,7 +30,7 @@
                     }
                     ?>
                     <li class="wps-step-link <?php echo $stepClass; ?>">
-                        <a href="<?php echo esc_attr($step['link']); ?>">
+                        <a href="<?php echo esc_attr($step['link']); ?>" class="<?php echo esc_attr($step['class'])?>">
                             <span class="wps-step-link__badge"><?php echo $stepBadge; ?></span>
                             <span class="wps-step-link__title"><?php echo esc_html($step['title']); ?></span>
                         </a>

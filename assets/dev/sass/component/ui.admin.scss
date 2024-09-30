@@ -2391,8 +2391,12 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
       display: flex;
       gap: 8px;
       align-items: center;
+
+      &.disabled {
       pointer-events: none;
       cursor: default;
+    }
+
     }
     &__badge{
       width: 16px;
