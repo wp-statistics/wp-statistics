@@ -94,12 +94,7 @@ class LicenseManagerDataProvider
         $licensedAddOns    = [];
         $notIncludedAddOns = [];
 
-        // Redirect back to first step if no licenses were stored in the database
-        if (empty($this->apiCommunicator->getStoredLicenses())) {
-            Notice::addFlashNotice(__('No licenses were found!', 'wp-statistics'), 'error');
-            wp_redirect(Menus::admin_url('plugins', ['tab' => 'add-license']));
-            exit;
-        }
+        $this->redirectOnEmptyLicenses();
 
         // Don't display the "Select All" button if no add-ons can be downloaded
         $displaySelectAll = false;
@@ -141,12 +136,7 @@ class LicenseManagerDataProvider
      */
     public function getGetStartedData()
     {
-        // Redirect back to first step if no licenses were stored in the database
-        if (empty($this->apiCommunicator->getStoredLicenses())) {
-            Notice::addFlashNotice(__('No licenses were found!', 'wp-statistics'), 'error');
-            wp_redirect(Menus::admin_url('plugins', ['tab' => 'add-license']));
-            exit;
-        }
+        $this->redirectOnEmptyLicenses();
 
         // Redirect back to second step if the `addons` have not been sent via Ajax
         if (!Request::has('addons') || !is_array(Request::get('addons'))) {
@@ -190,5 +180,21 @@ class LicenseManagerDataProvider
             'addons'               => $addOns,
             'display_activate_all' => $displayActivateAll,
         ];
+    }
+
+    /**
+     * Redirects the user back to the first step if no licenses were stored in the database.
+     *
+     * @return void
+     */
+    private function redirectOnEmptyLicenses()
+    {
+        if (!empty($this->apiCommunicator->getStoredLicenses())) {
+            return;
+        }
+
+        Notice::addFlashNotice(__('No licenses were found!', 'wp-statistics'), 'error');
+        wp_redirect(Menus::admin_url('plugins', ['tab' => 'add-license']));
+        exit;
     }
 }
