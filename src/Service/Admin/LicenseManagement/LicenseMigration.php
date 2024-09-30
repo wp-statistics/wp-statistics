@@ -43,6 +43,7 @@ class LicenseMigration
 
             if ($licenseKey) {
                 if ($this->isLicenseAlreadyStored($licenseKey)) {
+                    $this->removeOldLicenseKey($optionName);
                     continue;
                 }
 
@@ -79,6 +80,26 @@ class LicenseMigration
     {
         $licenseData = get_option($optionName);
         return $licenseData['license_key'] ?? null;
+    }
+
+    /**
+     * Removes the license key from the old option structure.
+     *
+     * @param string $optionName
+     *
+     * @param void
+     */
+    private function removeOldLicenseKey($optionName)
+    {
+        $licenseData = get_option($optionName);
+
+        if (!isset($licenseData['license_key'])) {
+            return;
+        }
+
+        unset($licenseData['license_key']);
+
+        update_option($optionName, $licenseData);
     }
 
     /**
