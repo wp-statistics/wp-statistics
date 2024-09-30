@@ -47,6 +47,18 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         }
         toggleActiveAll();
 
+        // Check if the alert div already exists and remove it
+        const toggleAlertBox= (btn)=>{
+            const existingAlertDiv = btn.parentElement.parentElement.querySelector('.wps-alert:not(.wps-alert--warning.wps-hide)');
+            if (existingAlertDiv) {
+                if (existingAlertDiv.classList.contains('wps-alert--warning')) {
+                    existingAlertDiv.classList.add('wps-hide');
+                } else {
+                    existingAlertDiv.remove();
+                }
+            }
+        }
+
         const updateSelectedSlugs = () => {
             selectedSlugs = [];
             addon_items.forEach(function (item) {
@@ -244,11 +256,8 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                             if (active_input && active_button) {
                                 function toggleButtonState() {
                                     active_input.classList.remove('wps-danger', 'wps-warning');
-                                    // Check if the alert div already exists and remove it
-                                    const existingAlertDiv = document.querySelector('.wps-alert:not(.wps-alert--warning.wps-hide)');
-                                    if (existingAlertDiv) {
-                                        existingAlertDiv.remove();
-                                    }
+
+                                    toggleAlertBox(active_button);
 
                                     if (active_input.value.trim() === '') {
                                         active_button.classList.add('disabled');
@@ -292,8 +301,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
 
         const errorHandel = (params, button, data) => {
             if (params.action === "wp_statistics_check_license") {
-                const alertBox = document.querySelector('.wps-alert:not(.wps-alert--warning.wps-hide)');
-                if (alertBox) alertBox.remove();
+                toggleAlertBox(button);
                 if (data?.data?.message?.toLowerCase().includes('domain')) {
                     const alertWarningBox = document.querySelector('.wps-alert--warning');
                     if (alertWarningBox) alertWarningBox.classList.remove('wps-hide')
@@ -477,11 +485,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         if (license_input && active_license_btn) {
             function toggleButtonState() {
                 license_input.classList.remove('wps-danger', 'wps-warning');
-                // Check if the alert div already exists and remove it
-                const existingAlertDiv = document.querySelector('.wps-alert:not(.wps-alert--warning.wps-hide)');
-                if (existingAlertDiv) {
-                    existingAlertDiv.remove();
-                }
+                toggleAlertBox(active_license_btn);
 
                 if (license_input.value.trim() === '') {
                     active_license_btn.classList.add('disabled');

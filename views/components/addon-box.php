@@ -60,20 +60,15 @@ if (!defined('ABSPATH') || empty($addOn)) {
             <input type="text" placeholder="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx">
             <button><?php echo esc_html__('Update License', 'wp-statistics'); ?></button>
         </div>
-        <?php if (isset($alert_text)) : ?>
-            <div class="wps-alert wps-alert--<?php echo $alert_class; ?>">
-                <span class="icon"></span>
+        <div class="wps-alert wps-alert--warning wps-hide">
+            <span class="icon"></span>
+            <div>
+                <p><?php esc_html_e('Almost There! Your license is valid. To proceed, please whitelist this domain in customer portal.', 'wp-statistics'); ?></p>
                 <div>
-                    <p><?php echo $alert_text ?></p>
-                    <?php if (isset($alert_link_text)) : ?>
-                        <div>
-                            <a href="<?php echo $alert_link ?>" class="js-wps-addon-check-box" title="<?php echo $alert_link_text ?>"><?php echo $alert_link_text ?></a>
-                        </div>
-                    <?php endif; ?>
+                    <a href=""><?php esc_html_e('Learn how to whitelist your domain', 'wp-statistics'); ?></a>
                 </div>
             </div>
-        <?php endif; ?>
-
+        </div>
     </div>
 
 </div>

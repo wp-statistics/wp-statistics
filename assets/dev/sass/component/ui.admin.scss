@@ -2387,6 +2387,14 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
   align-items: center;
   margin: 2px auto 22px;
   .wps-step-link{
+
+    &.disabled{
+      a{
+        pointer-events: none;
+        cursor: default;
+      }
+    }
+
     a{
       display: flex;
       gap: 8px;
