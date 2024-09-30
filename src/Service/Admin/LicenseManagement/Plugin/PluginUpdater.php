@@ -46,10 +46,13 @@ class PluginUpdater
      */
     public function handle()
     {
-        add_filter('plugins_api', [$this, 'pluginsApiInfo'], 20, 3);
-        add_filter('pre_set_site_transient_update_plugins', [$this, 'checkForUpdate']);
-        add_action('upgrader_process_complete', [$this, 'clearCache'], 10, 2);
-        add_action('after_plugin_row_' . $this->pluginFilePath, [$this, 'showLicenseNotice'], 10, 2);
+        if ($this->licenseKey) {
+            add_filter('plugins_api', [$this, 'pluginsApiInfo'], 20, 3);
+            add_filter('pre_set_site_transient_update_plugins', [$this, 'checkForUpdate']);
+            add_action('upgrader_process_complete', [$this, 'clearCache'], 10, 2);
+        } else {
+            add_action('after_plugin_row_' . $this->pluginFilePath, [$this, 'showLicenseNotice'], 10, 2);
+        }
     }
 
     /**
