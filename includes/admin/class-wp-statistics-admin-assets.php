@@ -346,8 +346,10 @@ class Admin_Assets
                 if (!is_array($value)) {
                     $list['request_params'][esc_html($key)] = esc_html($value);
                 } else {
+                    // Ensure each value in the array is escaped properly
                     $value = array_map('esc_html', $value);
-                    $list['request_params'][esc_html($key)] = implode(',', $value);
+                    // Assign the entire escaped array to the request_params array
+                    $list['request_params'][esc_html($key)] = $value;
                 }
             }
         }
@@ -444,11 +446,11 @@ class Admin_Assets
             'downloading'                  => __('Downloading'),
             'activated'                    => __('Activated'),
             'active'                       => __('Acctive'),
-            'activating'                  => __('Activating '),
+            'activating'                   => __('Activating '),
             'already_installed'            => __('Already installed'),
             'failed'                       => __('Failed'),
             'retry'                        => __('Retry'),
-            'redirecting'                        => __('Redirecting... Please wait'),
+            'redirecting'                  => __('Redirecting... Please wait'),
             'start_of_week'                => get_option('start_of_week', 0)
         );
 
