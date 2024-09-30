@@ -83,11 +83,9 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             processSlugs(selectedSlugs, 'wp_statistics_download_plugin', index, () => {
                 addon_download_btn.classList.add('redirecting');
                 addon_download_btn.textContent = wps_js._('redirecting');
-                const new_params = {
-                    'products': selectedSlugs,
-                }
-                const queryString = new URLSearchParams(new_params).toString();
-                window.location.href = 'admin.php?page=wps_plugins_page&tab=get-started&' + queryString;
+                const new_params = new URLSearchParams();
+                selectedSlugs.forEach(slug => new_params.append('addons[]', slug));
+                window.location.href = 'admin.php?page=wps_plugins_page&tab=get-started&' + new_params.toString();
             }, addon_download_btn);
         };
 
