@@ -2,7 +2,9 @@
 
 namespace WP_STATISTICS;
 
+use WP_Statistics\Models\VisitorsModel;
 use WP_Statistics\Service\Analytics\DeviceDetection\DeviceHelper;
+use WP_Statistics\Service\Analytics\Referrals\Referrals;
 use WP_Statistics\Service\Analytics\VisitorProfile;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
 
@@ -155,17 +157,23 @@ class Visitor
                 // Action Before Visitor Update
                 do_action('wp_statistics_update_visitor_hits', $visitor_id, $same_visitor);
 
-                $visitorTable = DB::table('visitor');
+                $data = [
+                    'hits'      => $same_visitor->hits + 1,
+                    'user_id'   => $visitorProfile->getUserId()
+                ];
 
-                // Update Visitor Count in DB
-                $wpdb->query(
-                    $wpdb->prepare(
-                        "UPDATE `" . $visitorTable . "` SET `hits` = `hits` + %d, user_id = %s WHERE `ID` = %d",
-                        1,
-                        $visitorProfile->getUserId(),
-                        $visitor_id
-                    )
-                );
+                // Update Visitor source info if attribution model is last touch
+                if (Option::get('attribution_model') === 'last-touch') {
+                    // If visitor is referred, update referrals info
+                    if ($visitorProfile->isReferred()) {
+                        $data['referred']       = $visitorProfile->getReferrer();
+                        $data['source_channel'] = $visitorProfile->getSource()->getChannel();
+                        $data['source_name']    = $visitorProfile->getSource()->getName();
+                    }
+                }
+
+                $visitorModel = new VisitorsModel();
+                $visitorModel->updateVisitor($visitor_id, $data);
             }
         }
 
