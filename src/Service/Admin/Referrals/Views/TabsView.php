@@ -59,7 +59,6 @@ class TabsView extends BaseTabView
 
             $args = [
                 'title'       => esc_html__('Referrals', 'wp-statistics'),
-                'tooltip'     => esc_html__('Referrals tooltip', 'wp-statistics'),
                 'pageName'    => Menus::get_page_slug('referrals'),
                 'custom_get'  => [
                     'tab'      => $this->getCurrentTab(),

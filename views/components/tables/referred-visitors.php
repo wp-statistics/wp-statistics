@@ -20,7 +20,7 @@ use WP_STATISTICS\Menus;
                             <span><?php esc_html_e('Referrer', 'wp-statistics') ?></span>
                         </th>
                         <th class="wps-pd-l">
-                            <?php esc_html_e('Traffic Category', 'wp-statistics') ?>
+                            <?php esc_html_e('Source Category', 'wp-statistics') ?>
                         </th>
                         <th class="wps-pd-l">
                             <?php esc_html_e('Visitor Information', 'wp-statistics') ?>
