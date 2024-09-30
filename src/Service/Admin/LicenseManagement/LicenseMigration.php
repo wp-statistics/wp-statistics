@@ -8,6 +8,7 @@ use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 class LicenseMigration
 {
     private $apiCommunicator;
+    private $storedLicenses;
     private $optionMap = [
         'wp-statistics-advanced-reporting' => 'wpstatistics_advanced_reporting_settings',
         'wp-statistics-customization'      => 'wpstatistics_customization_settings',
@@ -21,45 +22,100 @@ class LicenseMigration
     public function __construct(ApiCommunicator $apiCommunicator)
     {
         $this->apiCommunicator = $apiCommunicator;
+        $this->storedLicenses  = array_keys($this->apiCommunicator->getStoredLicenses());
     }
 
     /**
-     * Migrate old licenses to the new license structure.
+     * Migrates all old licenses to the new license structure.
+     *
+     * @return void
      */
     public function migrateOldLicenses()
     {
-        // Prevent already migrated licenses from migrating again
-        $storedLicenses = array_keys($this->apiCommunicator->getStoredLicenses());
+        if ($this->hasLicensesAlreadyMigrated()) {
+            return;
+        }
 
-        // All licenses migrated successfully without any errors
         $allLicensesMigrated = true;
 
         foreach ($this->optionMap as $addonSlug => $optionName) {
-            $licenseData = get_option($optionName);
+            $licenseKey = $this->fetchOldLicenseKey($optionName);
 
-            if ($licenseData) {
-                $licenseKey = $licenseData['license_key'] ?? null;
+            if ($licenseKey) {
+                if ($this->isLicenseAlreadyStored($licenseKey)) {
+                    continue;
+                }
 
-                if ($licenseKey) {
-                    if (in_array($licenseKey, $storedLicenses)) {
-                        continue;
-                    }
-
-                    // Validate and store the new license structure
-                    try {
-                        $this->apiCommunicator->validateLicense($licenseKey);
-                    } catch (\Exception $e) {
-                        $allLicensesMigrated = false;
-
-                        // translators: 1: Add-on slug - 2: Error message.
-                        Notice::addNotice(sprintf(__('Failed to migrate license for %s: %s', 'wp-statistics'), $addonSlug, $e->getMessage()), 'license_migration', 'error');
-                    }
+                if (!$this->migrateLicense($addonSlug, $licenseKey)) {
+                    $allLicensesMigrated = false;
                 }
             }
         }
 
         if ($allLicensesMigrated) {
+            // All licenses have been migrated successfully without any errors
             Option::saveOptionGroup('licenses_migrated', true, 'jobs');
         }
+    }
+
+    /**
+     * Checks if all licenses have already been migrated.
+     *
+     * @return bool
+     */
+    public function hasLicensesAlreadyMigrated()
+    {
+        return Option::getOptionGroup('licenses_migrated', 'jobs');
+    }
+
+    /**
+     * Fetches the license key from the old option structure.
+     *
+     * @param string $optionName
+     *
+     * @return string|null
+     */
+    private function fetchOldLicenseKey($optionName)
+    {
+        $licenseData = get_option($optionName);
+        return $licenseData['license_key'] ?? null;
+    }
+
+    /**
+     * Checks if the license is already stored.
+     *
+     * @param string $licenseKey
+     *
+     * @return bool
+     */
+    private function isLicenseAlreadyStored($licenseKey)
+    {
+        return in_array($licenseKey, $this->storedLicenses);
+    }
+
+    /**
+     * Tries to migrate a single license.
+     *
+     * @param string $addonSlug
+     * @param string $licenseKey
+     *
+     * @return bool
+     */
+    private function migrateLicense($addonSlug, $licenseKey)
+    {
+        try {
+            $this->apiCommunicator->validateLicense($licenseKey);
+        } catch (\Exception $e) {
+            Notice::addNotice(
+                // translators: 1: Add-on slug - 2: Error message.
+                sprintf(__('Failed to migrate license for %s: %s', 'wp-statistics'), $addonSlug, $e->getMessage()),
+                'license_migration',
+                'error'
+            );
+
+            return false;
+        }
+
+        return true;
     }
 }
