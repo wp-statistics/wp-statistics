@@ -213,12 +213,7 @@ class LicenseManagementManager
                 foreach ($licenseData['products'] as $productSlug) {
                     // Avoid duplicate handling for the same product
                     if (!in_array($productSlug, $this->handledPlugins)) {
-                        try {
-                            $this->initializePluginUpdater($productSlug, $licenseKey);
-                        } catch (Exception $e) {
-                            WP_Statistics::log("Failed to initialize PluginUpdater for {$productSlug}: " . $e->getMessage());
-                        }
-
+                        $this->initializePluginUpdater($productSlug, $licenseKey);
                         $this->handledPlugins[] = $productSlug;
                     }
                 }
@@ -231,7 +226,6 @@ class LicenseManagementManager
      *
      * @param string $pluginSlug The slug of the plugin (e.g., 'wp-statistics-data-plus').
      * @param string $licenseKey The license key for the product.
-     * @throws Exception
      */
     private function initializePluginUpdater($pluginSlug, $licenseKey)
     {
@@ -248,7 +242,7 @@ class LicenseManagementManager
             $pluginUpdater->handle();
 
         } catch (Exception $e) {
-            throw new Exception("Failed to initialize PluginUpdater for {$pluginSlug}: " . $e->getMessage());
+            WP_Statistics::log("Failed to initialize PluginUpdater for {$pluginSlug}: " . $e->getMessage());
         }
     }
 }
