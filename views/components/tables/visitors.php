@@ -72,7 +72,7 @@ $linksTarget = !empty($open_links_in_new_tab) ? '_blank' : '';
 
                             <?php if (empty($hide_latest_page_column)) : ?>
                                 <td class="wps-pd-l">
-                                    <?php if (!empty($page)) : ?>
+                                    <?php if (!empty($page['link'])) : ?>
                                         <a target="_blank" href="<?php echo esc_url($page['link']) ?>" title="<?php echo esc_attr($page['title']) ?>" class="wps-link-arrow">
                                             <span><?php echo esc_html($page['title']) ?></span>
                                         </a>
