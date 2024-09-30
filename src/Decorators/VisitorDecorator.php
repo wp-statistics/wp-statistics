@@ -196,11 +196,15 @@ class VisitorDecorator
     /**
      * Retrieves the last view time of the visitor.
      *
-     * @return int|null The time of the last view, or null if not available.
+     * @return string The time of the last view, or null if not available.
      */
     public function getLastView()
     {
-        return $this->visitor->last_view ? date_i18n(Helper::getDefaultDateFormat(true, true, false, ', '), strtotime($this->visitor->last_view)) : null;
+        // Get date from last_view (DateTime), if not set use last_counter (Date)
+        $date = $this->visitor->last_view ?? $this->visitor->last_counter;
+        $date = date_i18n(Helper::getDefaultDateFormat(true, true, false, ', '), strtotime($date));
+
+        return $date ?? null;
     }
 
     /**
