@@ -22,10 +22,15 @@ use WP_STATISTICS\Menus;
             </div>
             <div class="wps-addon__download__items">
                 <?php
-                if (!empty($data['addons'])) {
+                if (!empty($data['licensed_addons'])) {
+                    $selectedAddOns = !empty($data['selected_addons']) ? $data['selected_addons'] : [];
+
                     /** @var ProductDecorator $addOn */
-                    foreach ($data['addons'] as $addOn) {
-                        View::load('components/addon-active-card', ['addOn' => $addOn]);
+                    foreach ($data['licensed_addons'] as $addOn) {
+                        View::load('components/addon-active-card', [
+                            'addOn'          => $addOn,
+                            'selectedAddOns' => $selectedAddOns,
+                        ]);
                     }
                 }
                 ?>

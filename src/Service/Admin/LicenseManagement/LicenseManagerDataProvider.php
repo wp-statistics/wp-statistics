@@ -55,13 +55,13 @@ class LicenseManagerDataProvider
         $licenseMigration = new LicenseMigration($this->apiCommunicator);
         $licenseMigration->migrateOldLicenses();
 
-        // Try to fetch licensed addons first
+        // Try to fetch licensed add-ons first
         try {
             $addOnsList = $this->getLicensedProductList();
         } catch (\Exception $e) {
         }
 
-        // If previous attempt had failed (because of invalid licenses, invalid domain, etc.), try to fetch all addons
+        // If previous attempt had failed (because of invalid licenses, invalid domain, etc.), try to fetch all add-ons
         if (empty($addOnsList)) {
             try {
                 $addOnsList = $this->getProductList();
@@ -138,23 +138,17 @@ class LicenseManagerDataProvider
     {
         $this->redirectOnEmptyLicenses();
 
-        // Redirect back to second step if the `addons` have not been sent via Ajax
-        if (!Request::has('addons') || !is_array(Request::get('addons'))) {
-            Notice::addFlashNotice(__('No add-ons were selected!', 'wp-statistics'), 'error');
-            wp_redirect(Menus::admin_url('plugins', ['tab' => 'downloads']));
-            exit;
-        }
+        $licensedAddOns = [];
+        $selectedAddOns = Request::has('addons') && is_array(Request::get('addons')) ? Request::get('addons') : [];
 
-        $selectedAddOns = Request::get('addons');
-        $addOns         = [];
-
-        // Don't display the "Activate All" button if no add-ons can be downloaded
+        // Don't display the "Activate All" button if no add-ons can be activated
         $displayActivateAll = false;
 
+        // Fetch all licensed add-ons
         try {
             foreach ($this->getLicensedProductList() as $addOn) {
-                if ($addOn->isLicensed() && in_array($addOn->getSlug(), $selectedAddOns)) {
-                    $addOns[] = $addOn;
+                if ($addOn->isLicensed()) {
+                    $licensedAddOns[] = $addOn;
 
                     if ($addOn->isInstalled() && !$addOn->isActivated()) {
                         // Add-on can be activated, display the "Activate All" button
@@ -167,17 +161,18 @@ class LicenseManagerDataProvider
             wp_redirect(Menus::admin_url('plugins', ['tab' => 'downloads']));
             exit;
 
-            $addOns = [];
+            $licensedAddOns = [];
         }
 
-        if (empty($addOns)) {
-            Notice::addFlashNotice(__('No licensed add-ons were selected!', 'wp-statistics'), 'warning');
+        if (empty($licensedAddOns)) {
+            Notice::addFlashNotice(__('No licensed add-ons were found!', 'wp-statistics'), 'warning');
             wp_redirect(Menus::admin_url('plugins', ['tab' => 'downloads']));
             exit;
         }
 
         return [
-            'addons'               => $addOns,
+            'licensed_addons'      => $licensedAddOns,
+            'selected_addons'      => $selectedAddOns,
             'display_activate_all' => $displayActivateAll,
         ];
     }
