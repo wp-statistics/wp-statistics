@@ -51,6 +51,10 @@ class LicenseManagerDataProvider
         $activeAddOns   = [];
         $inactiveAddOns = [];
 
+        // Try migrating old license keys before handling the new ones
+        $licenseMigration = new LicenseMigration($this->apiCommunicator);
+        $licenseMigration->migrateOldLicenses();
+
         // Try to fetch licensed addons first
         try {
             $addOnsList = $this->getLicensedProductList();
@@ -90,6 +94,13 @@ class LicenseManagerDataProvider
         $licensedAddOns    = [];
         $notIncludedAddOns = [];
 
+        // Redirect back to first step if no licenses were stored in the database
+        if (empty($this->apiCommunicator->getStoredLicenses())) {
+            Notice::addFlashNotice(__('No licenses were found!', 'wp-statistics'), 'error');
+            wp_redirect(Menus::admin_url('plugins', ['tab' => 'add-license']));
+            exit;
+        }
+
         // Don't display the "Select All" button if no add-ons can be downloaded
         $displaySelectAll = false;
 
@@ -111,7 +122,7 @@ class LicenseManagerDataProvider
             $notIncludedAddOns = [];
 
             // Redirect back to first step
-            Notice::addFlashNotice($e->getMessage(), 'warning');
+            Notice::addFlashNotice($e->getMessage(), 'error');
             wp_redirect(Menus::admin_url('plugins', ['tab' => 'add-license']));
             exit;
         }
@@ -130,9 +141,16 @@ class LicenseManagerDataProvider
      */
     public function getGetStartedData()
     {
+        // Redirect back to first step if no licenses were stored in the database
+        if (empty($this->apiCommunicator->getStoredLicenses())) {
+            Notice::addFlashNotice(__('No licenses were found!', 'wp-statistics'), 'error');
+            wp_redirect(Menus::admin_url('plugins', ['tab' => 'add-license']));
+            exit;
+        }
+
         // Redirect back to second step if the `addons` have not been sent via Ajax
         if (!Request::has('addons') || !is_array(Request::get('addons'))) {
-            Notice::addFlashNotice(__('No add-ons were selected!', 'wp-statistics'), 'warning');
+            Notice::addFlashNotice(__('No add-ons were selected!', 'wp-statistics'), 'error');
             wp_redirect(Menus::admin_url('plugins', ['tab' => 'downloads']));
             exit;
         }

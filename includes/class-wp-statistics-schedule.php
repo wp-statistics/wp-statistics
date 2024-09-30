@@ -90,8 +90,14 @@ class Schedule
             wp_unschedule_event(wp_next_scheduled('wp_statistics_report_hook'), 'wp_statistics_report_hook');
         }
 
-        if (!wp_next_scheduled('wp_statistics_licenses_hook')) {
+        // Schedule license migration
+        if (!wp_next_scheduled('wp_statistics_licenses_hook') && !Option::get('licenses_migrated')) {
             wp_schedule_event(time(), 'daily', 'wp_statistics_licenses_hook');
+        }
+
+        // Remove license migration schedule if licenses have been migrated before
+        if (wp_next_scheduled('wp_statistics_licenses_hook') && Option::get('licenses_migrated')) {
+            wp_unschedule_event(wp_next_scheduled('wp_statistics_licenses_hook'), 'wp_statistics_licenses_hook');
         }
 
         add_action('wp_statistics_report_hook', array($this, 'send_report'));

@@ -276,10 +276,14 @@ class ProductDecorator
         return $this->licensedProduct->download_url ?? null;
     }
 
-    public static function decorateProducts(array $products)
+    public static function decorateProducts(array $products, bool $skipPremium = true)
     {
         $decorated = [];
         foreach ($products as $product) {
+            if ($skipPremium && $product->slug == 'wp-statistics-premium') {
+                continue;
+            }
+
             $decorated[] = new self($product);
         }
         return $decorated;

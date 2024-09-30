@@ -5,12 +5,13 @@ namespace WP_Statistics\Service\Admin\LicenseManagement;
 use WP_Statistics\Traits\TransientCacheTrait;
 use WP_Statistics\Components\RemoteRequest;
 use Exception;
+use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 
 class ApiCommunicator
 {
     use TransientCacheTrait;
 
-    private $apiUrl = 'https://staging.wp-statistics.veronalabs.com/wp-json/wp-license-manager/v1';
+    private $apiUrl         = 'https://staging.wp-statistics.veronalabs.com/wp-json/wp-license-manager/v1';
     private $licensesOption = 'wp_statistics_licenses'; // Option key to store licenses
     private $productDecorator;
 
@@ -22,23 +23,24 @@ class ApiCommunicator
     /**
      * Get the list of products (add-ons) from the API and cache it for 1 week.
      *
+     * @param bool $skipPremium Skip "WP Statistics Premium" from displaying in the list.
+     *
      * @return ProductDecorator[] List of products
      * @throws Exception if there is an error with the API call
      */
-    public function getProductList()
+    public function getProductList($skipPremium = true)
     {
         try {
             $remoteRequest = new RemoteRequest("{$this->apiUrl}/product/list", 'GET');
             $products      = $remoteRequest->execute(false, true, WEEK_IN_SECONDS);
-
         } catch (Exception $e) {
             throw new Exception(
-            // translators: %s: Error message.
+                // translators: %s: Error message.
                 sprintf(__('Error fetching product list: %s', 'wp-statistics'), $e->getMessage())
             );
         }
 
-        return $this->productDecorator->decorateProducts($products);
+        return $this->productDecorator->decorateProducts($products, $skipPremium);
     }
 
     /**
@@ -72,7 +74,6 @@ class ApiCommunicator
     public function validateLicense($licenseKey)
     {
         try {
-
             $remoteRequest = new RemoteRequest("{$this->apiUrl}/license/status", 'GET', [
                 'license_key' => $licenseKey,
                 'domain'      => home_url(),
@@ -87,10 +88,9 @@ class ApiCommunicator
             if (empty($licenseData->license_details)) {
                 throw new Exception(!empty($licenseData->message) ? $licenseData->message : __('Unknown error!', 'wp-statistics'));
             }
-
         } catch (Exception $e) {
             throw new Exception(
-            // translators: %s: Error message.
+                // translators: %s: Error message.
                 sprintf(__('Error validating license: %s', 'wp-statistics'), $e->getMessage())
             );
         }
@@ -103,6 +103,45 @@ class ApiCommunicator
         $this->storeLicense($licenseKey, $licenseData);
 
         return $licenseData;
+    }
+
+    /**
+     * Validates all stored licenses.
+     *
+     * @return void
+     *
+     * @todo Remove later if it was not used by other classes.
+     */
+    public function validateAllLicenses()
+    {
+        foreach ($this->getStoredLicenses() as $licenseKey => $license) {
+            try {
+                $this->validateLicense($licenseKey);
+            } catch (\Exception $e) {
+                $this->removeLicense($licenseKey);
+
+                if (stripos($e->getMessage(), 'domain') !== false) {
+                    Notice::addNotice(sprintf(
+                        // translators: %s: License key.
+                        __('License %s was removed because of an invalid domain!', 'wp-statistics'),
+                        $licenseKey
+                    ), 'license_invalid_domain');
+                } else if (stripos($e->getMessage(), 'expired') !== false) {
+                    Notice::addNotice(sprintf(
+                        // translators: %s: License key.
+                        __('License %s was removed because it was expired!', 'wp-statistics'),
+                        $licenseKey
+                    ), 'license_expired');
+                } else {
+                    Notice::addNotice(sprintf(
+                        // translators: 1: License key - 2: Error message.
+                        __('License %s was removed because of an error: %s', 'wp-statistics'),
+                        $licenseKey,
+                        $e->getMessage()
+                    ), 'license_error');
+                }
+            }
+        }
     }
 
     /**
@@ -136,6 +175,24 @@ class ApiCommunicator
     }
 
     /**
+     * Removes a license from WordPress database.
+     *
+     * @param string $licenseKey
+     *
+     * @return void
+     */
+    public function removeLicense($licenseKey)
+    {
+        $currentLicenses = $this->getStoredLicenses();
+
+        if (isset($currentLicenses[$licenseKey])) {
+            unset($currentLicenses[$licenseKey]);
+        }
+
+        update_option($this->licensesOption, $currentLicenses);
+    }
+
+    /**
      * Returns the first validated license key that contains the add-on with the given slug.
      *
      * @param string $slug
@@ -163,15 +220,16 @@ class ApiCommunicator
      * Merge the product list with the status from the license.
      *
      * @param string $licenseKey
+     * @param bool $skipPremium Skip "WP Statistics Premium" from displaying in the list.
      *
      * @return array Merged product list with status
      *
      * @throws Exception
      */
-    public function mergeProductStatusWithLicense($licenseKey)
+    public function mergeProductStatusWithLicense($licenseKey, $skipPremium = true)
     {
         // Get the list of products
-        $productList = $this->getProductList();
+        $productList = $this->getProductList($skipPremium);
 
         // Get the license status
         $licenseStatus = $this->validateLicense($licenseKey);
@@ -183,14 +241,16 @@ class ApiCommunicator
     /**
      * Merges the product list with the status from all validated license.
      *
+     * @param bool $skipPremium Skip "WP Statistics Premium" from displaying in the list.
+     *
      * @return ProductDecorator[]
      *
      * @throws Exception
      */
-    public function mergeProductsListWithAllValidLicenses()
+    public function mergeProductsListWithAllValidLicenses($skipPremium = true)
     {
         // Get the list of all products
-        $productList = $this->getProductList();
+        $productList = $this->getProductList($skipPremium);
 
         // Make a list of licensed products (retrieved from license status calls)
         $licensedProducts = [];
