@@ -59,7 +59,7 @@ class LicenseMigration
         }
 
         if ($allLicensesMigrated) {
-            Option::update('licenses_migrated', true);
+            Option::saveOptionGroup('licenses_migrated', true, 'jobs');
         }
     }
 }
