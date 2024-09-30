@@ -343,7 +343,12 @@ class Admin_Assets
                     $slug  = Menus::getPageKeyFromSlug(esc_html($value));
                     $value = $slug[0];
                 }
-                $list['request_params'][esc_html($key)] = esc_html($value);
+                if (!is_array($value)) {
+                    $list['request_params'][esc_html($key)] = esc_html($value);
+                } else {
+                    $value = array_map('esc_html', $value);
+                    $list['request_params'][esc_html($key)] = implode(',', $value);
+                }
             }
         }
 
