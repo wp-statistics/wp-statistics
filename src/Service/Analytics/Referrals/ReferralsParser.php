@@ -20,11 +20,14 @@ class ReferralsParser
      * @param string $referrerUrl The referrer URL to parse.
      * @param string $pageUrl    The URL of the page being accessed.
      *
-     * @return array|bool An array containing the referral source information. False if no match is found.
+     * @return array|bool An array containing the referral source information. False if no match is found, or is self-referral.
      */
     public function parse($referrerUrl, $pageUrl)
     {
         $referrerUrl = Url::getDomain($referrerUrl);
+
+        // Return false if self referral
+        if (Referrals::isSelfReferral($referrerUrl)) return false;
 
         foreach ($this->referralsList['source_channels'] as $channelType => $channelData) {
             // check if rules don't match, skip to the next channel

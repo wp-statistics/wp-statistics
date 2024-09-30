@@ -28,8 +28,11 @@ class Url
         // Make url lower case
         $url = strtolower($url);
 
+        // Sanitize url
+        $url = sanitize_url($url);
+
         // Parse URL
-        $parsedUrl = wp_parse_url(sanitize_url($url));
+        $parsedUrl = wp_parse_url($url);
 
         // If host is empty, return early
         if (empty($parsedUrl['host'])) return '';

@@ -44,12 +44,13 @@ class Referrals
     public static function getUrl($referrer = false)
     {
         // If referrer is not provided get it from the request
-        if (empty($referrer)) {
-            $referrer = self::getRawUrl();
-        }
+        $referrer = empty($referrer) ? self::getRawUrl() : $referrer;
 
-        // Return early if referrer is empty
+        // If referrer is empty, return
         if (empty($referrer)) return '';
+
+        // If referrer is my own domain, return
+        if (self::isSelfReferral($referrer)) return '';
 
         // Sanitize url
         $referrer = sanitize_url($referrer);
@@ -59,13 +60,8 @@ class Referrals
 
         // For http, and https protocols we only want the domain
         if (in_array($protocol, ['https', 'http'])) {
-            $referrer   = Url::getDomain($referrer);
-            $homeUrl    = Url::getDomain(home_url());
-
-            // If referrer is my own domain, set referrer to empty
-            if ($referrer === $homeUrl) return '';
+            $referrer = Url::getDomain($referrer);
         }
-
 
         return $referrer;
     }
@@ -77,9 +73,23 @@ class Referrals
      */
     public static function getSource()
     {
-        $referrerUrl = self::getUrl();
+        $referrerUrl = self::getRawUrl();
         $pageUrl     = Pages::get_page_uri();
 
         return new SourceDetector($referrerUrl, $pageUrl);
+    }
+
+    /**
+     * Checks if a given referrer URL is a self-referral by comparing its domain to the current website domain.
+     *
+     * @param string $referrer The referrer URL to check.
+     * @return bool True if the referrer's domain matches the current domain, false otherwise.
+     */
+    public static function isSelfReferral($referrer)
+    {
+        $referrer   = Url::getDomain($referrer);
+        $homeUrl    = Url::getDomain(home_url());
+
+        return $referrer === $homeUrl;
     }
 }
