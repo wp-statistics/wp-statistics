@@ -39,7 +39,7 @@ class PluginHandler
 
         // Prepare for unpacking the plugin
         $pluginUpgrader = new \Plugin_Upgrader(new \Automatic_Upgrader_Skin());
-        $installResult  = $pluginUpgrader->install($downloadFile);
+        $installResult  = $pluginUpgrader->install($downloadFile, ['overwrite_package' => true]);
 
         // Cleanup downloaded file
         @unlink($downloadFile);
