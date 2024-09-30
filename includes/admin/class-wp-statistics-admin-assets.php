@@ -343,7 +343,14 @@ class Admin_Assets
                     $slug  = Menus::getPageKeyFromSlug(esc_html($value));
                     $value = $slug[0];
                 }
-                $list['request_params'][esc_html($key)] = esc_html($value);
+                if (!is_array($value)) {
+                    $list['request_params'][esc_html($key)] = esc_html($value);
+                } else {
+                    // Ensure each value in the array is escaped properly
+                    $value = array_map('esc_html', $value);
+                    // Assign the entire escaped array to the request_params array
+                    $list['request_params'][esc_html($key)] = $value;
+                }
             }
         }
 
@@ -432,18 +439,18 @@ class Admin_Assets
             'author'                       => __('Author', 'wp-statistics'),
             'view_detailed_analytics'      => __('View Detailed Analytics', 'wp-statistics'),
             'enable_now'                   => __('Enable Now', 'wp-statistics'),
-            'receive_weekly_email_reports' => __('Receive Weekly Email Reports'),
-            'close'                        => __('Close'),
-            'previous_period'              => __('Previous period'),
-            'view_content'                 => __('View Content'),
-            'downloading'                  => __('Downloading'),
-            'activated'                    => __('Activated'),
-            'active'                       => __('Acctive'),
-            'activating'                  => __('Activating '),
-            'already_installed'            => __('Already installed'),
-            'failed'                       => __('Failed'),
-            'retry'                        => __('Retry'),
-            'redirecting'                        => __('Redirecting... Please wait'),
+            'receive_weekly_email_reports' => __('Receive Weekly Email Reports', 'wp-statistics'),
+            'close'                        => __('Close', 'wp-statistics'),
+            'previous_period'              => __('Previous period', 'wp-statistics'),
+            'view_content'                 => __('View Content', 'wp-statistics'),
+            'downloading'                  => __('Downloading', 'wp-statistics'),
+            'activated'                    => __('Activated', 'wp-statistics'),
+            'active'                       => __('Acctive', 'wp-statistics'),
+            'activating'                   => __('Activating ', 'wp-statistics'),
+            'already_installed'            => __('Already installed', 'wp-statistics'),
+            'failed'                       => __('Failed', 'wp-statistics'),
+            'retry'                        => __('Retry', 'wp-statistics'),
+            'redirecting'                  => __('Redirecting... Please wait', 'wp-statistics'),
             'start_of_week'                => get_option('start_of_week', 0)
         );
 

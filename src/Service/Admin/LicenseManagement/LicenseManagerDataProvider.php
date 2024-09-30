@@ -139,7 +139,7 @@ class LicenseManagerDataProvider
         $this->redirectOnEmptyLicenses();
 
         $licensedAddOns = [];
-        $selectedAddOns = Request::has('addons') && is_array(Request::get('addons')) ? Request::get('addons') : [];
+        $selectedAddOns = Request::has('addons') ? Request::get('addons', [], 'array') : [];
 
         // Don't display the "Activate All" button if no add-ons can be activated
         $displayActivateAll = false;

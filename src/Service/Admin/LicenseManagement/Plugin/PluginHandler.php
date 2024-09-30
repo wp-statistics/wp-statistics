@@ -2,6 +2,8 @@
 
 namespace WP_Statistics\Service\Admin\LicenseManagement\Plugin;
 
+use Exception;
+
 /**
  * Helper class that handles plugin download, install, etc.
  */
@@ -14,16 +16,16 @@ class PluginHandler
      *
      * @return void
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function downloadAndInstallPlugin($pluginUrl)
     {
         if (empty($pluginUrl)) {
-            throw new \Exception(__('Download URL is empty!', 'wp-statistics'));
+            throw new Exception(__('Download URL is empty!', 'wp-statistics'));
         }
 
         if (!current_user_can('install_plugins')) {
-            throw new \Exception(__('You do not have permission to install plugins.', 'wp-statistics'));
+            throw new Exception(__('You do not have permission to install plugins.', 'wp-statistics'));
         }
 
         require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
@@ -34,7 +36,7 @@ class PluginHandler
         $downloadFile = download_url($pluginUrl);
         if (is_wp_error($downloadFile)) {
             // translators: %s: Error message.
-            throw new \Exception(sprintf(__('Failed to download the plugin: %s', 'wp-statistics'), $downloadFile->get_error_message()));
+            throw new Exception(sprintf(__('Failed to download the plugin: %s', 'wp-statistics'), $downloadFile->get_error_message()));
         }
 
         // Prepare for unpacking the plugin
@@ -46,7 +48,7 @@ class PluginHandler
 
         if (is_wp_error($installResult)) {
             // translators: %s: Error message.
-            throw new \Exception(sprintf(__('Failed to install the plugin: %s', 'wp-statistics'), $installResult->get_error_message()));
+            throw new Exception(sprintf(__('Failed to install the plugin: %s', 'wp-statistics'), $installResult->get_error_message()));
         }
 
         return $installResult;
@@ -59,7 +61,7 @@ class PluginHandler
      *
      * @return string
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function getPluginFile($pluginSlug)
     {
@@ -74,7 +76,7 @@ class PluginHandler
             }
         }
 
-        throw new \Exception(__('Plugin not found.', 'wp-statistics'));
+        throw new Exception(__('Plugin not found.', 'wp-statistics'));
     }
 
     /**
@@ -84,7 +86,7 @@ class PluginHandler
      *
      * @return bool
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function isPluginActive($pluginSlug)
     {
@@ -100,23 +102,23 @@ class PluginHandler
      *
      * @return bool
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function activatePlugin($pluginSlug)
     {
         if ($this->isPluginActive($pluginSlug)) {
-            throw new \Exception(__('Plugin already active.', 'wp-statistics'));
+            throw new Exception(__('Plugin already active.', 'wp-statistics'));
         }
 
         $pluginFile = $this->getPluginFile($pluginSlug);
         if (!$pluginFile) {
-            throw new \Exception(__('Plugin not found.', 'wp-statistics'));
+            throw new Exception(__('Plugin not found.', 'wp-statistics'));
         }
 
         $activateResult = activate_plugin($pluginFile);
         if (is_wp_error($activateResult)) {
             // translators: %s: Error message.
-            throw new \Exception(sprintf(__('Failed to activate the plugin: %s', 'wp-statistics'), $activateResult->get_error_message()));
+            throw new Exception(sprintf(__('Failed to activate the plugin: %s', 'wp-statistics'), $activateResult->get_error_message()));
         }
 
         return true;
@@ -129,13 +131,13 @@ class PluginHandler
      *
      * @return bool
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function deactivatePlugin($pluginSlug)
     {
         $pluginFile = $this->getPluginFile($pluginSlug);
         if (!$pluginFile) {
-            throw new \Exception(__('Plugin not found.', 'wp-statistics'));
+            throw new Exception(__('Plugin not found.', 'wp-statistics'));
         }
 
         deactivate_plugins($pluginFile);
@@ -150,13 +152,13 @@ class PluginHandler
      *
      * @return array
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function getPluginData($pluginSlug)
     {
         $pluginFile = $this->getPluginFile($pluginSlug);
         if (!$pluginFile) {
-            throw new \Exception(__('Plugin not found.', 'wp-statistics'));
+            throw new Exception(__('Plugin not found.', 'wp-statistics'));
         }
 
         if (!function_exists('get_plugin_data')) {
