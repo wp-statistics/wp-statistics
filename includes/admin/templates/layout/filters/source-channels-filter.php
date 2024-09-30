@@ -1,9 +1,10 @@
 <?php
+use WP_STATISTICS\Helper;
 use WP_Statistics\Service\Analytics\Referrals\SourceChannels;
 use WP_Statistics\Utils\Request;
 
 $selected       = Request::get('source_channel');
-$channels       = SourceChannels::getList();
+$channels       = Helper::filterArrayByKeys(SourceChannels::getList(), ['search', 'paid_search']);
 $selectedTitle  = $channels[$selected] ?? null;
 ?>
 
