@@ -39,6 +39,17 @@ use WP_STATISTICS\Menus;
     </div>
 
     <div class="wps-visitor__visitors-detail--row">
+        <span><?php esc_html_e('Source Category', 'wp-statistics'); ?></span>
+        <div class="wps-visitor__visitors-detail--link wps-ellipsis-parent">
+            <?php if (!empty($visitor->getReferral()->getSourceChannel())) : ?>
+                <span><?php echo esc_html($visitor->getReferral()->getSourceChannel()) ?></span>
+            <?php else : ?>
+                <?php echo Admin_Template::UnknownColumn() ?>
+            <?php endif; ?>
+        </div>
+    </div>
+
+    <div class="wps-visitor__visitors-detail--row">
         <span><?php esc_html_e('Browser', 'wp-statistics'); ?></span>
         <div class="wps-browsers__flag">
             <a href="<?php echo Menus::admin_url('visitors', ['agent' => $visitor->getBrowser()->getRaw()]) ?>"><img src="<?php echo esc_url($visitor->getBrowser()->getLogo()); ?>" alt="<?php echo esc_attr($visitor->getBrowser()->getName()) ?>" width="15" height="15"></a>

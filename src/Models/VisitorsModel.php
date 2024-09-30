@@ -601,6 +601,8 @@ class VisitorsModel extends BaseModel
             'visitor.city',
             'visitor.hits',
             'visitor.referred',
+            'visitor.source_channel',
+            'visitor.source_name',
             'visitor.ip',
             'users.display_name',
             'users.user_email',
