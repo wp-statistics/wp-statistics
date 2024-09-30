@@ -91,12 +91,12 @@ class Schedule
         }
 
         // Schedule license migration
-        if (!wp_next_scheduled('wp_statistics_licenses_hook') && !Option::getOptionGroup('jobs', 'licenses_migrated')) {
+        if (!wp_next_scheduled('wp_statistics_licenses_hook') && !LicenseMigration::hasLicensesAlreadyMigrated()) {
             wp_schedule_event(time(), 'daily', 'wp_statistics_licenses_hook');
         }
 
         // Remove license migration schedule if licenses have been migrated before
-        if (wp_next_scheduled('wp_statistics_licenses_hook') && Option::getOptionGroup('jobs', 'licenses_migrated')) {
+        if (wp_next_scheduled('wp_statistics_licenses_hook') && LicenseMigration::hasLicensesAlreadyMigrated()) {
             wp_unschedule_event(wp_next_scheduled('wp_statistics_licenses_hook'), 'wp_statistics_licenses_hook');
         }
 

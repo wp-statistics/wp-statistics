@@ -32,7 +32,7 @@ class LicenseMigration
      */
     public function migrateOldLicenses()
     {
-        if ($this->hasLicensesAlreadyMigrated()) {
+        if (self::hasLicensesAlreadyMigrated()) {
             return;
         }
 
@@ -64,9 +64,9 @@ class LicenseMigration
      *
      * @return bool
      */
-    public function hasLicensesAlreadyMigrated()
+    public static function hasLicensesAlreadyMigrated()
     {
-        return Option::getOptionGroup('licenses_migrated', 'jobs');
+        return Option::getOptionGroup('jobs', 'licenses_migrated');
     }
 
     /**
