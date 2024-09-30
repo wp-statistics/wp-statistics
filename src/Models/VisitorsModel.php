@@ -28,41 +28,43 @@ class VisitorsModel extends BaseModel
             'platform'      => '',
             'country'       => '',
             'user_id'       => '',
-            'ip'            => '',
+            'ip'            => ''
         ]);
 
-        $query = Query::select('COUNT(DISTINCT visitor_id) as total_visitors')
-            ->from('visitor_relationships')
-            ->join('pages', ['visitor_relationships.page_id', 'pages.page_id'], [], 'LEFT')
-            ->join('posts', ['posts.ID', 'pages.id'], [], 'LEFT')
-            ->where('post_type', 'IN', $args['post_type'])
-            ->where('pages.type', 'IN', $args['resource_type'])
-            ->where('post_author', '=', $args['author_id'])
-            ->where('posts.ID', '=', $args['post_id'])
-            ->where('pages.uri', '=', $args['query_param'])
-            ->whereDate('visitor_relationships.date', $args['date']);
+        $query = Query::select('COUNT(visitor.id) as total_visitors')
+            ->from('visitor')
+            ->where('agent', '=', $args['agent'])
+            ->where('location', '=', $args['country'])
+            ->where('platform', '=', $args['platform'])
+            ->where('user_id', '=', $args['user_id'])
+            ->where('ip', '=', $args['ip'])
+            ->whereDate('last_counter', $args['date']);
 
-        if (!empty($args['agent']) || !empty($args['country']) || !empty($args['platform']) || !empty($args['user_id']) || !empty($args['ip'])) {
+        $filteredArgs = array_filter($args);
+
+        if (array_intersect(['post_type', 'resource_type', 'author_id', 'post_id', 'query_param', 'taxonomy', 'term'], array_keys($filteredArgs))) {
             $query
-                ->join('visitor', ['visitor_relationships.visitor_id', 'visitor.ID'])
-                ->where('agent', '=', $args['agent'])
-                ->where('location', '=', $args['country'])
-                ->where('platform', '=', $args['platform'])
-                ->where('user_id', '=', $args['user_id'])
-                ->where('ip', '=', $args['ip']);
-        }
+                ->join('visitor_relationships', ['visitor_relationships.visitor_id', 'visitor.ID'])
+                ->join('pages', ['visitor_relationships.page_id', 'pages.page_id'], [], 'LEFT')
+                ->join('posts', ['posts.ID', 'pages.id'], [], 'LEFT')
+                ->where('post_type', 'IN', $args['post_type'])
+                ->where('pages.type', 'IN', $args['resource_type'])
+                ->where('post_author', '=', $args['author_id'])
+                ->where('posts.ID', '=', $args['post_id'])
+                ->where('pages.uri', '=', $args['query_param']);
 
-        if (!empty($args['taxonomy']) || !empty($args['term'])) {
-            $taxQuery = Query::select(['DISTINCT object_id'])
-                ->from('term_relationships')
-                ->join('term_taxonomy', ['term_relationships.term_taxonomy_id', 'term_taxonomy.term_taxonomy_id'])
-                ->join('terms', ['term_taxonomy.term_id', 'terms.term_id'])
-                ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy'])
-                ->where('terms.term_id', '=', $args['term'])
-                ->getQuery();
+            if (!empty($args['taxonomy']) || !empty($args['term'])) {
+                $taxQuery = Query::select(['DISTINCT object_id'])
+                    ->from('term_relationships')
+                    ->join('term_taxonomy', ['term_relationships.term_taxonomy_id', 'term_taxonomy.term_taxonomy_id'])
+                    ->join('terms', ['term_taxonomy.term_id', 'terms.term_id'])
+                    ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy'])
+                    ->where('terms.term_id', '=', $args['term'])
+                    ->getQuery();
 
-            $query
-                ->joinQuery($taxQuery, ['posts.ID', 'tax.object_id'], 'tax');
+                $query
+                    ->joinQuery($taxQuery, ['posts.ID', 'tax.object_id'], 'tax');
+            }
         }
 
         $result = $query->getVar();
@@ -84,31 +86,37 @@ class VisitorsModel extends BaseModel
         ]);
 
         $query = Query::select([
-            'DATE(visitor_relationships.date) as date',
-            'COUNT(DISTINCT visitor_id) as visitors',
+            'visitor.last_counter as date',
+            'COUNT(visitor.ID) as visitors',
         ])
-            ->from('visitor_relationships')
-            ->join('pages', ['visitor_relationships.page_id', 'pages.page_id'], [], 'LEFT')
-            ->join('posts', ['posts.ID', 'pages.id'], [], 'LEFT')
-            ->where('post_type', 'IN', $args['post_type'])
-            ->where('pages.type', 'IN', $args['resource_type'])
-            ->where('post_author', '=', $args['author_id'])
-            ->where('posts.ID', '=', $args['post_id'])
-            ->where('pages.uri', '=', $args['query_param'])
-            ->whereDate('visitor_relationships.date', $args['date'])
-            ->groupBy('DATE(visitor_relationships.date)');
+            ->from('visitor')
+            ->whereDate('visitor.last_counter', $args['date'])
+            ->groupBy('visitor.last_counter');
 
-        if (!empty($args['taxonomy']) || !empty($args['term'])) {
-            $taxQuery = Query::select(['DISTINCT object_id'])
-                ->from('term_relationships')
-                ->join('term_taxonomy', ['term_relationships.term_taxonomy_id', 'term_taxonomy.term_taxonomy_id'])
-                ->join('terms', ['term_taxonomy.term_id', 'terms.term_id'])
-                ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy'])
-                ->where('terms.term_id', '=', $args['term'])
-                ->getQuery();
-
+        $filteredArgs = array_filter($args);
+        if (array_intersect(['post_type', 'resource_type', 'author_id', 'post_id', 'query_param', 'taxonomy', 'term'], array_keys($filteredArgs))) {
             $query
-                ->joinQuery($taxQuery, ['posts.ID', 'tax.object_id'], 'tax');
+                ->join('visitor_relationships', ['visitor_relationships.visitor_id', 'visitor.ID'])
+                ->join('pages', ['visitor_relationships.page_id', 'pages.page_id'], [], 'LEFT')
+                ->join('posts', ['posts.ID', 'pages.id'], [], 'LEFT')
+                ->where('post_type', 'IN', $args['post_type'])
+                ->where('pages.type', 'IN', $args['resource_type'])
+                ->where('post_author', '=', $args['author_id'])
+                ->where('posts.ID', '=', $args['post_id'])
+                ->where('pages.uri', '=', $args['query_param']);
+
+            if (!empty($args['taxonomy']) || !empty($args['term'])) {
+                $taxQuery = Query::select(['DISTINCT object_id'])
+                    ->from('term_relationships')
+                    ->join('term_taxonomy', ['term_relationships.term_taxonomy_id', 'term_taxonomy.term_taxonomy_id'])
+                    ->join('terms', ['term_taxonomy.term_id', 'terms.term_id'])
+                    ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy'])
+                    ->where('terms.term_id', '=', $args['term'])
+                    ->getQuery();
+
+                $query
+                    ->joinQuery($taxQuery, ['posts.ID', 'tax.object_id'], 'tax');
+            }
         }
 
         $result = $query->getAll();
@@ -309,6 +317,7 @@ class VisitorsModel extends BaseModel
             'per_page'    => '',
             'page_info'   => false,
             'user_info'   => false,
+            'date_field'  => 'visitor.last_counter'
         ]);
 
         $additionalFields = [];
@@ -357,12 +366,15 @@ class VisitorsModel extends BaseModel
             'visitor.city',
             'visitor.hits',
             'visitor.referred',
+            'visitor.last_counter'
         ], $additionalFields))
             ->from('visitor')
             ->where('agent', '=', $args['agent'])
             ->where('platform', '=', $args['platform'])
             ->where('user_id', '=', $args['user_id'])
             ->where('ip', '=', $args['ip'])
+            ->where('visitor.location', '=', $args['country'])
+            ->whereDate($args['date_field'], $args['date'])
             ->perPage($args['page'], $args['per_page'])
             ->orderBy($args['order_by'], $args['order'])
             ->decorate(VisitorDecorator::class)
@@ -370,9 +382,7 @@ class VisitorsModel extends BaseModel
 
         // If last page is true, get last page the visitor has visited
         if ($args['page_info'] === true) {
-            $query
-                ->joinQuery($subQuery, ['visitor.ID', 'last_hit.visitor_id'], 'last_hit')
-                ->whereDate('last_hit.date', $args['date']);
+            $query->joinQuery($subQuery, ['visitor.ID', 'last_hit.visitor_id'], 'last_hit', 'LEFT');
         }
 
         if ($args['user_info']) {
@@ -389,8 +399,7 @@ class VisitorsModel extends BaseModel
                 ->where('post_type', 'IN', $args['post_type'])
                 ->where('post_author', '=', $args['author_id'])
                 ->where('posts.ID', '=', $args['post_id'])
-                ->where('pages.uri', '=', $args['query_param'])
-                ->whereDate('pages.date', $args['date']);
+                ->where('pages.uri', '=', $args['query_param']);
 
             if (array_intersect(['taxonomy', 'term'], array_keys($filteredArgs))) {
                 $taxQuery = Query::select(['DISTINCT object_id'])
@@ -406,12 +415,6 @@ class VisitorsModel extends BaseModel
             }
         }
 
-        if (!empty($args['country'])) {
-            $query
-                ->where('visitor.location', '=', $args['country'])
-                ->whereDate('visitor.last_counter', $args['date']);
-        }
-
         $result = $query->getAll();
 
         return $result ? $result : [];
@@ -424,7 +427,7 @@ class VisitorsModel extends BaseModel
             'source_channel'    => '',
             'source_name'       => '',
             'referrer'          => '',
-            'order_by'          => 'last_hit.date',
+            'order_by'          => 'visitor.ID',
             'order'             => 'desc',
             'page'              => '',
             'per_page'          => '',
@@ -480,6 +483,7 @@ class VisitorsModel extends BaseModel
             'visitor.city',
             'visitor.hits',
             'visitor.referred',
+            'visitor.last_counter',
             'visitor.source_channel',
             'visitor.source_name',
             'users.display_name',
@@ -491,8 +495,8 @@ class VisitorsModel extends BaseModel
         ])
             ->from('visitor')
             ->join('users', ['visitor.user_id', 'users.ID'], [], 'LEFT')
-            ->joinQuery($firstHitQuery, ['visitor.ID', 'first_hit.visitor_id'], 'first_hit')
-            ->joinQuery($lastHitQuery, ['visitor.ID', 'last_hit.visitor_id'], 'last_hit')
+            ->joinQuery($firstHitQuery, ['visitor.ID', 'first_hit.visitor_id'], 'first_hit', 'LEFT')
+            ->joinQuery($lastHitQuery, ['visitor.ID', 'last_hit.visitor_id'], 'last_hit', 'LEFT')
             ->where('source_channel', '=', $args['source_channel'])
             ->where('source_name', '=', $args['source_name'])
             ->where('referred', '=', $args['referrer'])
@@ -500,7 +504,6 @@ class VisitorsModel extends BaseModel
             ->whereNotNull('visitor.referred')
             ->perPage($args['page'], $args['per_page'])
             ->orderBy($args['order_by'], $args['order'])
-            ->groupBy('visitor.ID')
             ->decorate(VisitorDecorator::class)
             ->getAll();
 
@@ -518,7 +521,6 @@ class VisitorsModel extends BaseModel
 
         $result = Query::select('COUNT(visitor.ID)')
             ->from('visitor')
-            ->join('visitor_relationships', ['visitor.ID', 'visitor_relationships.visitor_id'])
             ->where('source_channel', '=', $args['source_channel'])
             ->where('source_name', '=', $args['source_name'])
             ->where('referred', '=', $args['referrer'])
@@ -612,7 +614,7 @@ class VisitorsModel extends BaseModel
         ])
             ->from('visitor')
             ->join('users', ['visitor.user_id', 'users.ID'], [], 'LEFT')
-            ->joinQuery($subQuery, ['visitor.ID', 'first_hit.visitor_id'], 'first_hit')
+            ->joinQuery($subQuery, ['visitor.ID', 'first_hit.visitor_id'], 'first_hit', 'LEFT')
             ->where('visitor.ID', '=', $args['visitor_id'])
             ->decorate(VisitorDecorator::class)
             ->getRow();
