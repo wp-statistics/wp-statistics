@@ -11,7 +11,7 @@ $visitor = $data['visitor'];
     <div class="postbox-container postbox-container--first-col">
         <div class="wps-card">
             <div class="wps-card__title">
-                <h2><?php esc_html_e('Session Details', 'wp-statistics'); ?></h2>
+                <h2><?php esc_html_e('Visitor Details', 'wp-statistics'); ?></h2>
             </div>
             <?php View::load("components/session-details", ['visitor' => $visitor]); ?>
         </div>

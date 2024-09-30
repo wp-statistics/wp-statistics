@@ -95,7 +95,7 @@ use WP_STATISTICS\Menus;
     </div>
 
     <div class="wps-visitor__visitors-detail--row">
-        <span><?php esc_html_e('First session', 'wp-statistics'); ?>&nbsp;</span>
+        <span><?php esc_html_e('First view', 'wp-statistics'); ?>&nbsp;</span>
         <div class="wps-ellipsis-parent">
             <span><?php echo esc_html($visitor->getFirstView()) ?></span>
         </div>
