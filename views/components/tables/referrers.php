@@ -15,7 +15,7 @@ use WP_Statistics\Service\Analytics\Referrals\SourceChannels;
                                 <span><?php esc_html_e('Domain Address', 'wp-statistics') ?></span>
                             </th>
                             <th class="wps-pd-l">
-                                <?php esc_html_e('Source Category', 'wp-statistics') ?>
+                                <?php esc_html_e('Source Name', 'wp-statistics') ?>
                             </th>
                             <th class="wps-pd-l start">
                                 <span class="wps-order"><?php esc_html_e('Number of Referrals', 'wp-statistics') ?></span>
