@@ -71,11 +71,15 @@ use WP_STATISTICS\UserAgent;
             <span title="<?php echo Admin_Template::unknownToNotSet($visitor->region) ?>"><?php echo Admin_Template::unknownToNotSet($visitor->region) ?></span>
         </div>
     </div>
-    
+
     <div class="wps-visitor__visitors-detail--row">
         <span><?php esc_html_e('First session', 'wp-statistics'); ?>&nbsp;</span>
         <div class="wps-ellipsis-parent">
-            <span><?php echo esc_html(date_i18n(Helper::getDefaultDateFormat(true), strtotime($visitor->first_hit))) ?></span>
+            <?php if (!empty($visitor->first_hit)) : ?>
+                <span><?php echo esc_html(date_i18n(Helper::getDefaultDateFormat(true), strtotime($visitor->first_hit))) ?></span>
+            <?php else : ?>
+                <?php echo Admin_Template::UnknownColumn() ?>
+            <?php endif; ?>
         </div>
     </div>
 
