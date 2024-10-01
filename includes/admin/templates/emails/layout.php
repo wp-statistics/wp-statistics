@@ -72,6 +72,54 @@ if (!empty($schedule)) {
 }
 $websitePerformanceDataProvider = new WebsitePerformanceDataProvider($startDate, $endDate);
 
+function getPerformanceStyles($percentageChange) {
+    $styles = [
+        'background' => '#A9AAAE1A', // Default for 0 change
+        'color' => '#A9AAAE',
+        'image' => 'arrow.png'
+    ];
+    if ($percentageChange > 0) {
+        $styles['background'] = '#1961401A';
+        $styles['color'] = '#196140';
+        $styles['image'] = 'up.png';
+    } elseif ($percentageChange < 0) {
+        $styles['background'] = '#FCECEB';
+        $styles['color'] = '#D54037';
+        $styles['image'] = 'down.png';
+    }
+    return $styles;
+}
+
+function generatePerformanceSection($icon, $currentValue, $percentageChange, $label, $text_align = null, $text_align_reverse = null) {
+    if (is_null($text_align)) {
+        $text_align = is_rtl() ? 'right' : 'left';
+    }
+    if (is_null($text_align_reverse)) {
+        $text_align_reverse = is_rtl() ? 'left' : 'right';
+    }
+    $styles = getPerformanceStyles($percentageChange);
+
+    return '
+        <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom: 20px;">
+            <tr>
+                <td width="24" style="vertical-align: top">
+                    <img src="' . esc_url(WP_STATISTICS_URL . 'assets/images/mail/' . $icon) . '" width="24" height="24">
+                </td>
+                <td style="padding-' . $text_align . ': 6px;">
+                    <div style="margin-bottom: 6px;font-size: 19px;font-weight: 500;line-height: 23.44px;text-align: ' . $text_align . ';color:#3D3D44">
+                        <span style="float: ' . $text_align . ';margin-' . $text_align_reverse . ': 10px;margin-top: -3px;">' . $currentValue . '</span>
+                        <span style="padding: 2px 4px;gap: 2px;border-radius: 4px;background-color: ' . $styles['background'] . ';font-size: 12px; font-weight: 600; line-height: 14.06px;color:' . $styles['color'] . ';display: inline-block">
+                            <img width="7" height="7" style="margin-' . $text_align_reverse . ': 2px;" src="' . esc_url(WP_STATISTICS_URL . 'assets/images/mail/' . $styles['image']) . '"  >
+                            ' . $percentageChange . '%
+                        </span>
+                    </div>
+                    <span style="font-size: 14px;color:#3D3D44;line-height:16.41px">' . $label . '</span> 
+                </td>
+            </tr>
+        </table>';
+}
+
+
 $email_performance_html = '
     <div class="card performance_glance" style="background-color: #fff;border-radius: 12px;margin-bottom: 39px"> 
         <div class="card__header" style="background-color: #E1EBFE;border-radius: 12px 12px 0 0">
@@ -87,68 +135,32 @@ $email_performance_html = '
             <table width="100%" cellpadding="0" cellspacing="0" border="0">
                 <tr>
                     <td width="40%" valign="top">
-                        <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom: 20px;">
-                            <tr>
-                                <td width="24" style="vertical-align: top">
-                                    <img src="' . esc_url(WP_STATISTICS_URL . 'assets/images/mail/visitor.png') .'" width="24" height="24">
-                                </td>
-                                <td style="padding-'.$text_align.': 6px;">
-                                    <div style="margin-bottom: 6px;font-size: 19px;font-weight: 500;line-height: 23.44px;text-align: '.$text_align.';color:#3D3D44"><span style="float: '.$text_align.';margin-'.$text_align_reverse.': 10px;margin-top: -3px;" >' . Helper::formatNumberWithUnit($websitePerformanceDataProvider->getCurrentPeriodVisitors(), 1) . '</span>
-                                        <span style="padding: 2px 4px;gap: 2px;border-radius: 4px;background-color: ' . ($websitePerformanceDataProvider->getPercentageChangeVisitors() >= 0 ? '#1961401A' : '#FCECEB') . ';font-size: 12px; font-weight: 600; line-height: 14.06px;color:' . ($websitePerformanceDataProvider->getPercentageChangeVisitors() >= 0 ? '#196140' : '#D54037') . ';display: inline-block">
-                                            <img width="7" height="7" style="margin-'.$text_align_reverse.': 2px;" src="' . esc_url(WP_STATISTICS_URL . 'assets/images/mail/' . ($websitePerformanceDataProvider->getPercentageChangeVisitors() >= 0 ? 'up' : 'down') . '.png') .'"  >' . $websitePerformanceDataProvider->getPercentageChangeVisitors() . '%
-                                        </span>
-                                    </div>
-                                     <span style="font-size: 14px;color:#3D3D44;line-height:16.41px">' . __('Visitors', 'wp-statistics') . '</span> 
-                                </td>
-                            </tr>
-                        </table>
-                        <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom: 20px;">
-                            <tr>
-                                <td width="24" style="vertical-align: top">
-                                    <img src="' . esc_url(WP_STATISTICS_URL . 'assets/images/mail/referrals.png') .'" width="24" height="24" >
-                                </td>
-                                <td style="padding-'.$text_align.': 6px;">
-                                    <div style="margin-bottom: 6px;font-size: 19px;font-weight: 500;line-height: 23.44px;text-align: '.$text_align.';color:#3D3D44"><span  style="float: '.$text_align.';margin-'.$text_align_reverse.': 10px;margin-top: -3px;">' . Helper::formatNumberWithUnit($websitePerformanceDataProvider->getCurrentPeriodReferralsCount(), 1) . '</span>
-                                        <span style="padding: 2px 4px;gap: 2px;border-radius: 4px;background-color: ' . ($websitePerformanceDataProvider->getPercentageChangeReferrals() >= 0 ? '#1961401A' : '#FCECEB') . ';font-size: 12px; font-weight: 600; line-height: 14.06px;color:' . ($websitePerformanceDataProvider->getPercentageChangeReferrals() >= 0 ? '#196140' : '#D54037') . ';display: inline-block">
-                                            <img width="7" height="7" style="margin-'.$text_align_reverse.': 2px" src="' . esc_url(WP_STATISTICS_URL . 'assets/images/mail/' . ($websitePerformanceDataProvider->getPercentageChangeReferrals() >= 0 ? 'up' : 'down') . '.png') .'"  >' . $websitePerformanceDataProvider->getPercentageChangeReferrals() . '%
-                                        </span>
-                                    </div>
-                                     <span  style="font-size: 14px;color:#3D3D44;line-height:16.41px">' . __('Referrals', 'wp-statistics') . '</span> 
-                                </td>
-                            </tr>
-                        </table> 
+                          ' . generatePerformanceSection(
+                            'visitor.png',
+                            Helper::formatNumberWithUnit($websitePerformanceDataProvider->getCurrentPeriodVisitors(), 1),
+                            $websitePerformanceDataProvider->getPercentageChangeVisitors(),
+                            __('Visitors', 'wp-statistics')
+                        ) . '
+                        ' . generatePerformanceSection(
+                            'referrals.png',
+                            Helper::formatNumberWithUnit($websitePerformanceDataProvider->getCurrentPeriodReferralsCount(), 1),
+                            $websitePerformanceDataProvider->getPercentageChangeReferrals(),
+                            __('Referrals', 'wp-statistics')
+                        ) . '
                     </td>
                     <td width="60%" valign="top">
-                        <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom: 20px;">
-                            <tr>
-                                <td width="24" style="vertical-align: top">
-                                    <img src="' . esc_url(WP_STATISTICS_URL . 'assets/images/mail/views.png') .'" width="24" height="24" >
-                                </td>
-                                <td style="padding-'.$text_align.': 6px;">
-                                    <div style="margin-bottom: 6px;font-size: 19px;font-weight: 500;line-height: 23.44px;text-align: '.$text_align.';color:#3D3D44"><span  style="float: '.$text_align.';margin-'.$text_align_reverse.': 10px;margin-top: -3px;" >' . Helper::formatNumberWithUnit($websitePerformanceDataProvider->getCurrentPeriodViews(), 1) . '</span> 
-                                        <span style="padding: 2px 4px;gap: 2px;border-radius: 4px;background-color: ' . ($websitePerformanceDataProvider->getPercentageChangeViews() >= 0 ? '#1961401A' : '#FCECEB') . ';font-size: 12px; font-weight: 600; line-height: 14.06px;color:' . ($websitePerformanceDataProvider->getPercentageChangeViews() >= 0 ? '#196140' : '#D54037') . ';display: inline-block">
-                                            <img width="7" height="7" style="width: 7px;height: 7px;margin-'.$text_align_reverse.': 4px" src="' . esc_url(WP_STATISTICS_URL . 'assets/images/mail/' . ($websitePerformanceDataProvider->getPercentageChangeViews() >= 0 ? 'up' : 'down') . '.png') .'"  >' . $websitePerformanceDataProvider->getPercentageChangeViews() . '%
-                                        </span>
-                                    </div>
-                                    <span  style="font-size: 14px;color:#3D3D44;line-height:16.41px">' . __('Views', 'wp-statistics') . '</span> 
-                                </td>
-                            </tr>
-                        </table>
-                        <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom: 20px;">
-                            <tr>
-                                <td width="24" style="vertical-align: top">
-                                    <img src="' . esc_url(WP_STATISTICS_URL . 'assets/images/mail/contents.png') .'"  width="24" height="24">
-                                </td>
-                                <td style="padding-'.$text_align.': 6px;">
-                                    <div style="margin-bottom: 6px;font-size: 19px;font-weight: 500;line-height: 23.44px;text-align: '.$text_align.';color:#3D3D44"><span  style="float: '.$text_align.';margin-'.$text_align_reverse.': 10px;margin-top: -3px;" >' . $websitePerformanceDataProvider->getCurrentPeriodContents() . '</span> 
-                                        <span style="padding: 2px 4px;gap: 2px;border-radius: 4px;background-color: ' . ($websitePerformanceDataProvider->getPercentageChangeContents() >= 0 ? '#1961401A' : '#FCECEB') . ';color:' . ($websitePerformanceDataProvider->getPercentageChangeContents() >= 0 ? '#196140' : '#D54037') . ';font-size: 12px; font-weight: 600; line-height: 14.06px;display: inline-block">
-                                            <img  width="7" height="7" style="margin-'.$text_align_reverse.': 2px" src="' . esc_url(WP_STATISTICS_URL . 'assets/images/mail/' . ($websitePerformanceDataProvider->getPercentageChangeContents() >= 0 ? 'up' : 'down') . '.png') .'"  >' . $websitePerformanceDataProvider->getPercentageChangeContents() . '%
-                                        </span>
-                                    </div>
-                                     <span  style="font-size: 14px;color:#3D3D44;line-height:16.41px">' . __('Published Contents', 'wp-statistics') . '</span> 
-                                </td>
-                            </tr>
-                        </table> 
+                        ' . generatePerformanceSection(
+                            'views.png',
+                            Helper::formatNumberWithUnit($websitePerformanceDataProvider->getCurrentPeriodViews(), 1),
+                            $websitePerformanceDataProvider->getPercentageChangeViews(),
+                            __('Views', 'wp-statistics')
+                        ) . '
+                        ' . generatePerformanceSection(
+                            'contents.png',
+                            $websitePerformanceDataProvider->getCurrentPeriodContents(),
+                            $websitePerformanceDataProvider->getPercentageChangeContents(),
+                            __('Published Contents', 'wp-statistics')
+                        ) . '
                     </td>
                 </tr>
             </table>';

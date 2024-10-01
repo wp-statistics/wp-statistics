@@ -115,34 +115,5 @@
         </tbody>
     </table>
 </div>
-<div class="postbox">
-    <table class="form-table">
-        <tbody>
-        <tr valign="top">
-            <th scope="row" colspan="2"><h3><?php esc_html_e('Search Engine Tracking', 'wp-statistics'); ?></h3></th>
-        </tr>
-
-        <?php
-        $se_option_list = '';
-
-        foreach ($selist as $se) {
-            $option_name    = 'wps_disable_se_' . $se['tag'];
-            $store_name     = 'disable_se_' . $se['tag'];
-            $se_option_list .= $option_name . ',';
-            ?>
-
-            <tr valign="top">
-                <th scope="row">
-                    <label for="<?php echo esc_attr($option_name); ?>"><?php echo esc_attr($se['name']); ?></label>
-                </th>
-                <td>
-                    <input id="<?php echo esc_attr($option_name); ?>" type="checkbox" value="1" name="<?php echo esc_attr($option_name); ?>" <?php echo WP_STATISTICS\Option::get($store_name) == '1' ? '' : "checked='checked'"; ?>><label for="<?php echo esc_attr($option_name); ?>"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
-                    <p class="description"><?php echo esc_attr(sprintf(__('Track and report visits referred from %s.', 'wp-statistics'), $se['name'])); ?></p>
-                </td>
-            </tr>
-        <?php } ?>
-        </tbody>
-    </table>
-</div>
 
 <?php submit_button(__('Update', 'wp-statistics'), 'primary', 'submit', '', array('OnClick' => "var wpsCurrentTab = getElementById('wps_current_tab'); wpsCurrentTab.value='general-settings'")); ?>

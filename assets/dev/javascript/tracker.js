@@ -45,9 +45,9 @@ let wpStatisticsUserOnline = {
         return this.base64Encode(fullPath);
     },
 
-    // Get Referred URL
+    // Get Referred URL and Base64 encode it
     getReferred: function () {
-        return encodeURIComponent(document.referrer);
+        return this.base64Encode(document.referrer);
     },
 
     // Check Conditions for Sending Hit Request

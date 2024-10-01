@@ -18,8 +18,7 @@ class Menus
     public static $pages = array(
         'overview'           => 'overview',
         'exclusions'         => 'exclusions',
-        'referrers'          => 'referrers',
-        'searches'           => 'searches',
+        'referrals'          => 'referrals',
         'optimization'       => 'optimization',
         'settings'           => 'settings',
         'plugins'            => 'plugins',
@@ -168,20 +167,6 @@ class Menus
                 'title'    => __('Overview', 'wp-statistics'),
                 'page_url' => 'overview',
                 'priority' => 20,
-            ),
-            'referrers'    => array(
-                'sub'      => 'overview',
-                'title'    => __('Referrers', 'wp-statistics'),
-                'page_url' => 'referrers',
-                'method'   => 'refer',
-                'priority' => 60,
-            ),
-            'searches'     => array(
-                'sub'      => 'overview',
-                'title'    => __('Search Engines', 'wp-statistics'),
-                'page_url' => 'searches',
-                'method'   => 'searches',
-                'priority' => 70,
             ),
             'settings'     => array(
                 'sub'      => 'overview',

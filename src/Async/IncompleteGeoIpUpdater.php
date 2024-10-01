@@ -2,10 +2,10 @@
 
 namespace WP_Statistics\Async;
 
-use WP_STATISTICS\GeoIP;
 use WP_Statistics\Models\VisitorsModel;
 use WP_STATISTICS\Option;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
+use WP_Statistics\Service\Geolocation\GeolocationFactory;
 use WP_STATISTICS\WP_Background_Process;
 
 class IncompleteGeoIpUpdater extends WP_Background_Process
@@ -38,14 +38,13 @@ class IncompleteGeoIpUpdater extends WP_Background_Process
         $visitorModel = new VisitorsModel();
 
         foreach ($visitors as $visitor) {
-            $country = GeoIP::getCountry($visitor->ip);
-            $city    = GeoIP::getCity($visitor->ip, true);
+            $location = GeolocationFactory::getLocation($visitor->ip);
 
             $visitorModel->updateVisitor($visitor->ID, [
-                'location'  => $country,
-                'city'      => $city['city'] == 'Unknown' ? null : $city['city'],
-                'region'    => $city['region'] == 'Unknown' ? null : $city['region'],
-                'continent' => $city['continent'] == 'Unknown' ? null : $city['continent'],
+                'location'  => $location['country_code'],
+                'city'      => $location['city'],
+                'region'    => $location['region'],
+                'continent' => $location['continent'],
             ]);
         }
 

@@ -55,7 +55,7 @@ wps_js.hits_meta_box = {
                 previousData: params['previousData']
             };
 
-            wps_js.new_line_chart(data, tag_id, null);
+            wps_js.new_line_chart(data, tag_id);
         }
      }
 };

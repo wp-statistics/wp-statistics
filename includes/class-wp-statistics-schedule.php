@@ -4,6 +4,9 @@ namespace WP_STATISTICS;
 
 use WP_Statistics\Service\Admin\LicenseManagement\ApiCommunicator;
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseMigration;
+use WP_Statistics\Service\Geolocation\GeolocationFactory;
+use WP_Statistics\Service\Analytics\Referrals\ReferralsDatabase;
+use WP_Statistics\Utils\Request;
 
 class Schedule
 {
@@ -23,24 +26,20 @@ class Schedule
         add_filter('cron_schedules', array($this, 'define_schedules_time'));
 
         //Run This Method Only Admin Area
-        if (is_admin()) {
+        if (Request::isFrom('admin') || Request::isFrom('wp-cli')) {
 
-            //Disable Run to Ajax
-            if (!Helper::is_request('ajax')) {
-
-                // Add the GeoIP update schedule if it doesn't exist and it should be.
-                if (!wp_next_scheduled('wp_statistics_geoip_hook') && Option::get('schedule_geoip')) {
-                    wp_schedule_event(time(), 'daily', 'wp_statistics_geoip_hook');
-                }
-
-                // Remove the GeoIP update schedule if it does exist and it should shouldn't.
-                if (wp_next_scheduled('wp_statistics_geoip_hook') && (!Option::get('schedule_geoip'))) {
-                    wp_unschedule_event(wp_next_scheduled('wp_statistics_geoip_hook'), 'wp_statistics_geoip_hook');
-                }
-
-                //Construct Event
-                add_action('wp_statistics_geoip_hook', array($this, 'geoip_event'));
+            // Add the GeoIP update schedule if it doesn't exist and it should be.
+            if (!wp_next_scheduled('wp_statistics_geoip_hook') && Option::get('schedule_geoip')) {
+                wp_schedule_event(self::getSchedules()['monthly']['next_schedule'], 'monthly', 'wp_statistics_geoip_hook');
             }
+
+            // Remove the GeoIP update schedule if it does exist and it should shouldn't.
+            if (wp_next_scheduled('wp_statistics_geoip_hook') && (!Option::get('schedule_geoip'))) {
+                wp_unschedule_event(wp_next_scheduled('wp_statistics_geoip_hook'), 'wp_statistics_geoip_hook');
+            }
+
+            //Construct Event
+            add_action('wp_statistics_geoip_hook', array($this, 'geoip_event'));
 
         } else {
 
@@ -74,6 +73,10 @@ class Schedule
             add_action('wp_statistics_dbmaint_hook', array($this, 'dbmaint_event'));
         }
 
+        if (!wp_next_scheduled('wp_statistics_referrals_db_hook')) {
+            wp_schedule_event(time(), 'monthly', 'wp_statistics_referrals_db_hook');
+        }
+
         // Add the report schedule if it doesn't exist and is enabled.
         if (!wp_next_scheduled('wp_statistics_report_hook') && Option::get('time_report') != '0') {
             $timeReports       = Option::get('time_report');
@@ -101,6 +104,7 @@ class Schedule
         }
 
         add_action('wp_statistics_report_hook', array($this, 'send_report'));
+        add_action('wp_statistics_referrals_db_hook', [$this, 'referrals_db_event']);
         add_action('wp_statistics_licenses_hook', [$this, 'migrateOldLicenses']);
     }
 
@@ -246,19 +250,7 @@ class Schedule
      */
     public function geoip_event()
     {
-        // Max-mind updates the geo-ip database on the first Tuesday of the month, to make sure we don't update before they post
-        $this_update = strtotime('first Tuesday of this month') + (86400 * 2);
-        $last_update = Option::get('last_geoip_dl');
-        $file_path   = GeoIP::get_geo_ip_path();
-
-        if (file_exists($file_path)) {
-            if ($last_update < $this_update) {
-                GeoIP::download('update');
-            }
-        }
-
-        // Update the last update time
-        Option::update('last_geoip_dl', time());
+        GeolocationFactory::downloadDatabase();
     }
 
     /**
@@ -268,6 +260,15 @@ class Schedule
     {
         $purge_days = intval(Option::get('schedule_dbmaint_days', false));
         Purge::purge_data($purge_days);
+    }
+
+    /**
+     * Download Referrals Database
+     */
+    public function referrals_db_event()
+    {
+        $referralsDatabase = new ReferralsDatabase();
+        $referralsDatabase->download();
     }
 
     public function getEmailSubject()
@@ -358,8 +359,8 @@ class Schedule
             wp_unschedule_event(wp_next_scheduled($event), $event);
         }
 
-        $time               = sanitize_text_field($newTime);
-        $schedulesInterval  = self::getSchedules();
+        $time              = sanitize_text_field($newTime);
+        $schedulesInterval = self::getSchedules();
 
         if (isset($schedulesInterval[$time], $schedulesInterval[$time]['next_schedule'])) {
             $scheduleTime = $schedulesInterval[$time]['next_schedule'];

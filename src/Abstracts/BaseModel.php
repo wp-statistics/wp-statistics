@@ -2,6 +2,7 @@
 
 namespace WP_Statistics\Abstracts;
 
+use WP_Statistics\Utils\Query;
 use WP_Statistics\Components\DateRange;
 
 abstract class BaseModel
@@ -28,8 +29,7 @@ abstract class BaseModel
     private function parseQueryParamArg($args)
     {
         if (!empty($args['query_param'])) {
-            $select = $this->query;
-            $uri    = $select::select('uri')
+            $uri = Query::select('uri')
                 ->from('pages')
                 ->where('page_id', '=', $args['query_param'])
                 ->getVar();

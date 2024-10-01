@@ -7,7 +7,6 @@ const ChartElement = ({data}) => {
     let postChartData = [];
     let postChartSettings = [];
     let $postChartColor = '#A5AAEA';
-    let $postChartStroke = '#2C36D7';
     let $postChartLabel = 'Visitors';
     let gradient;
 
@@ -20,7 +19,6 @@ const ChartElement = ({data}) => {
     if (typeof (data.postChartSettings) !== 'undefined' && data.postChartSettings !== null) {
         postChartSettings = data.postChartSettings;
         if (postChartSettings.color) $postChartColor = postChartSettings.color;
-        if (postChartSettings.border) $postChartStroke = postChartSettings.border;
         if (postChartSettings.label) $postChartLabel = postChartSettings.label;
     }
 
@@ -94,11 +92,12 @@ const ChartElement = ({data}) => {
 
     const chartData = {
         labels: Object.entries(postChartData).map(([date, stat]) => date),
+
         datasets: [{
             data: Object.entries(postChartData).map(([date, stat]) => stat.hits),
             backgroundColor: type === 'line' ? gradient : Object.entries(postChartData).map(getBackgroundColor),
             hoverBackgroundColor: type === 'line' ? gradient : Object.entries(postChartData).map(getHoverBackgroundColor),
-            pointBackgroundColor: $postChartStroke,
+            pointBackgroundColor: $postChartColor,
             fill: true,
             barPercentage: 0.9,
             categoryPercentage: 1.0,
@@ -107,7 +106,7 @@ const ChartElement = ({data}) => {
             borderWidth: type === 'line' ? 1 : 0,
             pointRadius: type === 'line' ? 0 : undefined,
             pointHoverRadius: type === 'line' ? 5 : undefined,
-            borderColor: $postChartStroke,
+            borderColor: $postChartColor,
             stepped: true
         }],
     };

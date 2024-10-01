@@ -1,12 +1,9 @@
-<?php 
+<?php
+
 use WP_STATISTICS\Admin_Template;
-use WP_STATISTICS\Referred;
-use WP_STATISTICS\Helper;
-use WP_STATISTICS\Country;
-use WP_STATISTICS\IP;
+use WP_Statistics\Components\View;
+use WP_Statistics\Decorators\VisitorDecorator;
 use WP_STATISTICS\Menus;
-use WP_STATISTICS\UserAgent;
-use WP_STATISTICS\Visitor;
 
 $linksTarget = !empty($open_links_in_new_tab) ? '_blank' : '';
 ?>
@@ -41,70 +38,42 @@ $linksTarget = !empty($open_links_in_new_tab) ? '_blank' : '';
                 </thead>
 
                 <tbody>
-                    <?php foreach ($data as $visitor) :  
-                        $page = Visitor::get_page_by_id($visitor->page_id);
-                    ?>
+                    <?php foreach ($data as $visitor) : ?>
+                        <?php /** @var VisitorDecorator $visitor */ ?>
                         <tr>
-                            <td class="wps-pd-l"><?php echo esc_html(date_i18n(Helper::getDefaultDateFormat(true, true, false, ', '), strtotime($visitor->date))); ?></td>
+                            <td class="wps-pd-l"><?php echo esc_html($visitor->getLastView()); ?></td>
 
                             <td class="wps-pd-l">
-                                <ul class="wps-browsers__flags">
-                                    <?php if (!empty($visitor->user_id)) : ?>
-                                        <li class="wps-browsers__flag">
-                                            <div class="wps-tooltip" data-tooltip-content="#tooltip_user_id">
-                                                <a target="<?php echo esc_attr($linksTarget); ?>" href="<?php echo esc_url(Menus::admin_url('visitors', ['type' => 'single-visitor', 'visitor_id' => $visitor->ID])); ?>"><img src="<?php echo esc_url(WP_STATISTICS_URL . 'assets/images/user-icon.svg'); ?>" alt="user" width="15" height="15"></a>
-                                            </div>
-                                            <div class="wps-tooltip_templates">
-                                                <div id="tooltip_user_id">
-                                                    <div><?php esc_html_e('ID', 'wp-statistics'); ?>:&nbsp;<?php echo esc_html($visitor->user_id); ?></div>
-                                                    <div><?php esc_html_e('Name', 'wp-statistics'); ?>:&nbsp;<?php echo esc_html($visitor->display_name); ?></div>
-                                                    <div><?php esc_html_e('Email', 'wp-statistics'); ?>:&nbsp;<?php echo esc_html($visitor->user_email); ?></div>
-                                                    <div><?php echo IP::IsHashIP($visitor->ip) ? sprintf(esc_html__('Daily Visitor Hash: %s', 'wp-statistics'), substr($visitor->ip, 6, 10)) : sprintf(esc_html__('IP: %s', 'wp-statistics'), $visitor->ip); ?></div>
-                                                </div>
-                                            </div>
-                                        </li>
-                                    <?php else : ?>
-                                        <li class="wps-browsers__flag">
-                                            <div class="wps-tooltip" title="<?php echo IP::IsHashIP($visitor->ip) ? sprintf(esc_attr__('Daily Visitor Hash: %s', 'wp-statistics'), substr($visitor->ip, 6, 10)) : sprintf(esc_attr__('IP: %s', 'wp-statistics'), $visitor->ip); ?>">
-                                                <a target="<?php echo esc_attr($linksTarget); ?>" href="<?php echo esc_url(Menus::admin_url('visitors', ['type' => 'single-visitor', 'visitor_id' => $visitor->ID])); ?>"><img src="<?php echo esc_url(WP_STATISTICS_URL . 'assets/images/incognito-user.svg') ?>" alt="<?php esc_attr_e('Incognito', 'wp-statistics') ?>" width="15" height="15"></a>
-                                            </div>
-                                        </li>
-                                    <?php endif; ?>
-
-                                    <li class="wps-browsers__flag">
-                                        <div class="wps-tooltip" title="<?php echo esc_attr("$visitor->agent v$visitor->version") ?>">
-                                            <a target="<?php echo esc_attr($linksTarget); ?>" href="<?php echo esc_url(Menus::admin_url('visitors', ['agent' => $visitor->agent])) ?>"><img src="<?php echo esc_url(UserAgent::getBrowserLogo($visitor->agent)) ?>" alt="<?php echo esc_attr($visitor->agent) ?>" width="15" height="15"></a>
-                                        </div>
-                                    </li>
-
-                                    <li class="wps-browsers__flag">
-                                        <div class="wps-tooltip" title="<?php echo esc_attr($visitor->platform) ?>">
-                                            <a target="<?php echo esc_attr($linksTarget); ?>" href="<?php echo esc_url(Menus::admin_url('visitors', ['platform' => $visitor->platform])) ?>"><img src="<?php echo esc_url(UserAgent::getPlatformLogo($visitor->platform)) ?>" alt="<?php echo esc_attr($visitor->platform) ?>" width="15" height="15"></a>
-                                        </div>
-                                    </li>
-                                </ul>
+                                <?php
+                                    View::load("components/visitor-information", ['visitor' => $visitor]);
+                                ?>
                             </td>
 
                             <td class="wps-pd-l">
                                 <div class="wps-country-flag wps-ellipsis-parent">
-                                    <a target="<?php echo esc_attr($linksTarget); ?>" href="<?php echo esc_url(Menus::admin_url('geographic', ['type' => 'single-country', 'country' => $visitor->location])) ?>" class="wps-tooltip" title="<?php echo esc_attr(Country::getName($visitor->location)) ?>">
-                                        <img src="<?php echo esc_url(Country::flag($visitor->location)) ?>" alt="<?php echo esc_attr(Country::getName($visitor->location)) ?>" width="15" height="15">
+                                    <a target="<?php echo esc_attr($linksTarget); ?>" href="<?php echo esc_url(Menus::admin_url('geographic', ['type' => 'single-country', 'country' => $visitor->getLocation()->getCountryCode()])) ?>" class="wps-tooltip" title="<?php echo esc_attr($visitor->getLocation()->getCountryName()) ?>">
+                                        <img src="<?php echo esc_url($visitor->getLocation()->getCountryFlag()) ?>" alt="<?php echo esc_attr($visitor->getLocation()->getCountryName()) ?>" width="15" height="15">
                                     </a>
-                                    <?php $location = Admin_Template::locationColumn($visitor->location, $visitor->region, $visitor->city); ?>
+                                    <?php $location = Admin_Template::locationColumn($visitor->getLocation()->getCountryCode(), $visitor->getLocation()->getRegion(), $visitor->getLocation()->getCity()); ?>
                                     <span class="wps-ellipsis-text" title="<?php echo esc_attr($location) ?>"><?php echo esc_html($location) ?></span>
                                 </div>
                             </td>
 
                             <td class="wps-pd-l">
-                                <?php echo Referred::get_referrer_link($visitor->referred, '', true); ?>
+                                <?php if ($visitor->getReferral()->getReferrer()) : ?>
+                                    <a href="<?php echo esc_url($visitor->getReferral()->getReferrer()); ?>"><?php echo esc_html($visitor->getReferral()->getRawReferrer()) ?></a>
+                                <?php else : ?>
+                                    <?php echo Admin_Template::UnknownColumn() ?>
+                                <?php endif; ?>
                             </td>
 
                             <td class="wps-pd-l">
-                                <a target="<?php echo esc_attr($linksTarget); ?>" href="<?php echo esc_url(Menus::admin_url('visitors', ['type' => 'single-visitor', 'visitor_id' => $visitor->ID])) ?>"><?php echo esc_html(number_format_i18n($visitor->hits)) ?></a>
+                                <a target="<?php echo esc_attr($linksTarget); ?>" href="<?php echo esc_url(Menus::admin_url('visitors', ['type' => 'single-visitor', 'visitor_id' => $visitor->getId()])) ?>"><?php echo esc_html($visitor->getHits()) ?></a>
                             </td>
 
                             <?php if (empty($hide_latest_page_column)) : ?>
                                 <td class="wps-pd-l">
+                                    <?php $page = $visitor->getLastPage(); ?>
                                     <?php if (!empty($page)) : ?>
                                         <a target="_blank" href="<?php echo esc_url($page['link']) ?>" title="<?php echo esc_attr($page['title']) ?>" class="wps-link-arrow">
                                             <span><?php echo esc_html($page['title']) ?></span>
@@ -125,5 +94,5 @@ $linksTarget = !empty($open_links_in_new_tab) ? '_blank' : '';
         </div>
     <?php endif; ?>
 </div>
-<?php echo isset($pagination) ? $pagination : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped 
+<?php echo isset($pagination) ? $pagination : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 ?>

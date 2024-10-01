@@ -4,8 +4,8 @@ Donate link: https://wp-statistics.com/donate/
 Tags: analytics, google analytics, insights, stats, site visitors
 Requires at least: 5.0
 Tested up to: 6.6
-Stable tag: 14.10.1
-Requires PHP: 5.6
+Stable tag: 14.11
+Requires PHP: 7.2
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -131,26 +131,18 @@ WP Statistics supports WordPress Multi-Site/Network installations. In the networ
 19. Real-Time Stats
 
 == Upgrade Notice ==
-= 14.10 =
+= 14.11 =
 To ensure the plugin works correctly, please clear your cache because some request payloads have been updated. Also, review your settings, especially if you use DataPlus, Advanced Reporting, or Customization, as some options have changed.
 Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest version.
 
 == Changelog ==
-= 14.10.1 - **.09.2024 =
-* Fix: Resolved chart shrinking issue in Chrome.
-* Update: Upgraded ChartJS to v4.4.4.
-* Improvement: Remove unused function for pie charts.
-* Enhancement: Corrected sorting issues in bar charts.
-* Enhancement: Fixed font override conflicts with certain fonts.
-* Enhancement: Enhanced object cache handling for better performance.
-* Enhancement: Improved compatibility with PHP versions 5.6 ~ 7.2.
-* Fix: Resolved style tweaks in charts and fixed various JavaScript issues.
-* Fix: Fixed the "User Online" link in the Traffic Overview section.
-* Fix: Addressed issue where the top referral was not displaying in the "Your Performance at a Glance" section.
-* Fix: Resolved an issue with the report email option during some upgrades.
-* Fix: Fixed date filter issue on "Single Browser" and "Visitor Insights" page.
-* Fix: Fixed incorrect dates in `monthly` schedule.
-* Dev: Added function `wp_statistics_needs_consent()` to check if user consent is required.
+= 14.11 - **.**.2024 =
+* Enhancement: Update charts based on selected date range.
+* New: Introduced brand-new Referrals report page.
+* New: Add option to disable previous period data for charts.
+* Enhancement: Improved the Device Detection.
+* Enhancement: Chart labels dynamically change depending on the selected data range.
+* Fix: Show visitors data even if they didn't have data in visitor_relationship table.
 
 For more information about the major update, please [visit our blog post](https://wp-statistics.com/?p=16657) or follow [@wp_statistics](https://twitter.com/wp_statistics) on Twitter
 

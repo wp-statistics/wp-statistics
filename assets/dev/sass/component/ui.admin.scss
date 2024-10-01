@@ -2459,6 +2459,16 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
 .wps-tabs {
   margin: 20px 0 0;
 }
+@media (max-width: 669px) {
+  .statistics_page_wps_visitors_page,.statistics_page_wps_pages_page{
+    .wps-tabs {
+      width: 100%;
+      white-space: nowrap;
+      overflow-x: auto;
+      padding-bottom: 2px;
+    }
+  }
+}
 
 .wps-tab-link {
   display: inline-block;

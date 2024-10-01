@@ -1,3 +1,7 @@
+<?php
+use WP_STATISTICS\Option;
+?>
+
 <div class="postbox">
     <table class="form-table">
         <tbody>
@@ -18,12 +22,12 @@
 
             <tr valign="top">
                 <th scope="row">
-                    <label for="disable_column"><?php esc_html_e('Views Column in Content List', 'wp-statistics'); ?></label>
+                    <label for="disable_column"><?php esc_html_e('Visitors Column in Content List', 'wp-statistics'); ?></label>
                 </th>
                 <td>
                     <input id="disable_column" type="checkbox" value="1" name="wps_disable_column" <?php echo WP_STATISTICS\Option::get('disable_column') == '1' ? '' : "checked='checked'"; ?>>
                     <label for="disable_column"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
-                    <p class="description"><?php esc_html_e('Display the "Views" column in the content list menus, showing the view counts for content across all post types.', 'wp-statistics'); ?></p>
+                    <p class="description"><?php esc_html_e('Display the "Visitors" column in the content list menus, showing the visitors counts for content across all post types.', 'wp-statistics'); ?></p>
                 </td>
             </tr>
 
@@ -47,6 +51,18 @@
                     <input id="menu-bar" type="checkbox" value="1" name="wps_menu_bar" <?php echo WP_STATISTICS\Option::get('menu_bar') == true ? "checked='checked'" : ''; ?>>
                     <label for="menu-bar"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
                     <p class="description"><?php esc_html_e('View your site\'s statistics directly from the WordPress admin menu bar.', 'wp-statistics'); ?></p>
+                </td>
+            </tr>
+
+            <tr valign="top">
+                <th scope="row">
+                    <label for="charts_previous_period"><?php esc_html_e('Previous Period in Charts', 'wp-statistics'); ?></label>
+                </th>
+
+                <td>
+                    <input id="charts_previous_period" type="checkbox" value="1" name="wps_charts_previous_period" <?php checked(Option::get('charts_previous_period', 1)) ?>>
+                    <label for="charts_previous_period"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
+                    <p class="description"><?php esc_html_e('Show data from the previous period in charts for comparison.', 'wp-statistics'); ?></p>
                 </td>
             </tr>
 

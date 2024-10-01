@@ -28,13 +28,11 @@ wps_js.post_summary_meta_box = {
         let postChartSettings = [];
         let postChartTooltipLabel = 'Visitors';
         let $postChartColor = '#A5AAEA';
-        let $postChartStroke = '#2C36D7';
         let gradient;
 
         if (typeof (args.postChartSettings) !== 'undefined' && args.postChartSettings !== null) {
             postChartSettings = args.postChartSettings;
             if (postChartSettings.color) $postChartColor = postChartSettings.color;
-            if (postChartSettings.border) $postChartStroke = postChartSettings.border;
             if (postChartSettings.label)  postChartTooltipLabel = postChartSettings.label;
         }
 
@@ -193,7 +191,7 @@ wps_js.post_summary_meta_box = {
                     data: chartData,
                     backgroundColor:type === 'line' ? gradient : Object.entries(postChartData).map(getBackgroundColor),
                     hoverBackgroundColor: type === 'line' ? gradient : Object.entries(postChartData).map(getHoverBackgroundColor),
-                    pointBackgroundColor: $postChartStroke,
+                    pointBackgroundColor: $postChartColor,
                     fill: type === 'line',
                     barPercentage: 0.9,
                     categoryPercentage: 1.0,
@@ -202,7 +200,7 @@ wps_js.post_summary_meta_box = {
                     borderWidth: type === 'line' ? 1 : 0,
                     pointRadius: type === 'line' ? 0 : undefined,
                     pointHoverRadius: type === 'line' ? 5 : undefined,
-                    borderColor: $postChartStroke
+                    borderColor: $postChartColor
                 }],
             },
             options: chartOptions,

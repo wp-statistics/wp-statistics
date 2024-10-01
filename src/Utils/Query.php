@@ -25,6 +25,7 @@ class Query
     private $rawWhereClause = [];
     private $valuesToPrepare = [];
     private $allowCaching = false;
+    private $decorator;
 
     /** @var wpdb $db */
     protected $db;
@@ -221,8 +222,7 @@ class Query
 
         if (is_array($fields)) {
             foreach ($fields as $field) {
-                $this->whereClauses[] = "{$field} IS NULL";
-                $this->whereClauses[] = "{$field} = ''";
+                $this->whereClauses[] = "{$field} IS NULL OR {$field} = ''";
             }
         }
 
@@ -312,6 +312,12 @@ class Query
         return $result;
     }
 
+    /**
+     * Retrieves all results from the database based on the built query.
+     *
+     * @param string|null $decorator Optional decorator class to decorate results.
+     * @return array Results from the database query.
+     */
     public function getAll()
     {
         $query = $this->buildQuery();
@@ -320,7 +326,7 @@ class Query
         if ($this->allowCaching) {
             $cachedResult = $this->getCachedResult($query);
             if ($cachedResult !== false) {
-                return $cachedResult;
+                return $this->maybeDecorate($cachedResult);
             }
         }
 
@@ -330,7 +336,45 @@ class Query
             $this->setCachedResult($query, $result);
         }
 
-        return $result;
+        return $this->maybeDecorate($result);
+    }
+
+    public function decorate($decorator)
+    {
+        $this->decorator = $decorator;
+        return $this;
+    }
+
+    /**
+     * Decorates the result if a decorator is set and the decorator class exists.
+     *
+     * @param mixed $result The result to decorate. Can be an object or array of objects.
+     * @return mixed The decorated result or the original result if no decorator is set or the class does not exist.
+     */
+    private function maybeDecorate($result)
+    {
+        // Check if a decorator is set and if the decorator class exists
+        if (empty($this->decorator) || !class_exists($this->decorator)) {
+            // If no decorator is set or the class doesn't exist, return the original result
+            return $result;
+        }
+
+        $decoratedResult = [];
+
+        // If result is an array, decorate each item individually
+        if (is_array($result)) {
+            foreach ($result as $item) {
+                $decoratedResult[] = new $this->decorator($item);
+            }
+        }
+
+        // If result is an object, decorate the object itself
+        if (is_object($result)) {
+            $decoratedResult = new $this->decorator($result);
+        }
+
+        // Return the decorated result
+        return $decoratedResult;
     }
 
     public function getCol()
@@ -362,7 +406,7 @@ class Query
         if ($this->allowCaching) {
             $cachedResult = $this->getCachedResult($query);
             if ($cachedResult !== false) {
-                return $cachedResult;
+                return $this->maybeDecorate($cachedResult);
             }
         }
 
@@ -372,7 +416,7 @@ class Query
             $this->setCachedResult($query, $result);
         }
 
-        return $result;
+        return $this->maybeDecorate($result);
     }
 
     public function execute()

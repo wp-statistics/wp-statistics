@@ -44,7 +44,7 @@ class DateRange
         if (!self::validate($range)) {
             $range = self::get(self::$defaultPeriod);
         }
-        
+
         // If range is among the predefined periods, store the period key
         foreach ($periods as $key => $item) {
             if ($item['period']['from'] === $range['from'] && $item['period']['to'] === $range['to']) {
@@ -62,7 +62,7 @@ class DateRange
     }
 
     /**
-     * Retrieves the period stored in the user's meta data, or from request object. 
+     * Retrieves the period stored in the user's meta data, or from request object.
      *
      * @return string|array Could be a period name like '30days' or an array containing 'from' and 'to' date strings.
      */
@@ -139,10 +139,10 @@ class DateRange
     }
 
     /**
-     * Get the previous period based on a period name or custom date range. 
+     * Get the previous period based on a period name or custom date range.
      * By default it returns result based on the stored period in usermeta.
      *
-     * @param mixed $period The name of the period (e.g., '30days', 'this_month') or custom date range. 
+     * @param mixed $period The name of the period (e.g., '30days', 'this_month') or custom date range.
      * @return array The previous period's date range.
      */
     public static function getPrevPeriod($period = false)
@@ -155,7 +155,7 @@ class DateRange
 
         // Check if the period name exists in the predefined periods
         $periods = self::getPeriods();
-        if (is_string($period)) {
+        if (is_string($period) && isset($periods[$period])) {
             return $periods[$period]['prev_period'];
         }
 
@@ -164,6 +164,11 @@ class DateRange
             $range  = self::resolveDate($period);
             $from   = strtotime($range['from']);
             $to     = strtotime($range['to']);
+
+            $periodName = self::getPeriodFromRange($range);
+            if ($periodName) {
+                return $periods[$periodName]['prev_period'];
+            }
 
             // Calculate the number of days in the current period
             $daysInPeriod = ($to - $from) / (60 * 60 * 24);
@@ -180,6 +185,25 @@ class DateRange
 
         // Fallback to default period if period is invalid
         return self::getPrevPeriod(self::$defaultPeriod);
+    }
+
+    /**
+     * Retrieves the period name from a predefined date range.
+     *
+     * @param array $date An array containing 'from' and 'to' date strings.
+     * @return string The period name.
+     */
+    public static function getPeriodFromRange($date)
+    {
+        $periods = self::getPeriods();
+
+        foreach ($periods as $key => $period) {
+            if ($date['from'] === $period['period']['from'] && $date['to'] === $period['period']['to']) {
+                return $key;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -358,11 +382,11 @@ class DateRange
      * @param mixed $date2 A date string, array, or period name.
      *
      * @return bool Whether the date ranges match the comparison operator.
-     * @example 
-     * DateRange::compare($date, '=', 'today') 
-     * DateRange::compare($date, 'in', 'this_month') 
-     * DateRange::compare($date1, '!=', $date2) 
-     * DateRange::compare($date, 'in', ['from' => '2024-01-01', 'to' => '2024-01-31']) 
+     * @example
+     * DateRange::compare($date, '=', 'today')
+     * DateRange::compare($date, 'in', 'this_month')
+     * DateRange::compare($date1, '!=', $date2)
+     * DateRange::compare($date, 'in', ['from' => '2024-01-01', 'to' => '2024-01-31'])
      */
     public static function compare($date1, $operator, $date2)
     {

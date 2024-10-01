@@ -21,6 +21,18 @@
                         <p class="description"><?php esc_html_e('This action updates and corrects any unidentified or missing country data in the database. Please be patient, as the process might take some time, depending on the amount of data.', 'wp-statistics'); ?></p>
                     </td>
                 </tr>
+
+                <tr valign="top">
+                    <th scope="row">
+                        <label for="populate-source-channel-submit"><?php esc_html_e('Update Source Channel Data', 'wp-statistics'); ?></label>
+                    </th>
+
+                    <td>
+                        <input type="hidden" name="submit" value="1"/>
+                        <button id="populate-source-channel-submit" class="button button-primary" type="submit" value="1" name="populate-source-channel-submit"><?php esc_html_e('Update Source Channel', 'wp-statistics'); ?></button>
+                        <p class="description"><?php esc_html_e('This action updates and corrects any unidentified source channel in the database. Please be patient, as the process might take some time, depending on the amount of data.', 'wp-statistics'); ?></p>
+                    </td>
+                </tr>
                 </tbody>
             </table>
         </form>

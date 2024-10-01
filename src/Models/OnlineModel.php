@@ -2,8 +2,9 @@
 
 namespace WP_Statistics\Models;
 
-use WP_Statistics\Utils\Query;
 use WP_Statistics\Abstracts\BaseModel;
+use WP_Statistics\Decorators\VisitorDecorator;
+use WP_Statistics\Utils\Query;
 
 class OnlineModel extends BaseModel
 {
@@ -29,7 +30,8 @@ class OnlineModel extends BaseModel
         ]);
 
         $result = Query::select([
-            'useronline.ID',
+            'useronline.ID as online_id',
+            'visitor_id as ID',
             'ip',
             'created',
             'timestamp',
@@ -41,8 +43,8 @@ class OnlineModel extends BaseModel
             'region',
             'city',
             'user_id',
-            'page_id',
-            'date',
+            'page_id as last_page',
+            'date as last_view',
             'users.display_name',
             'users.user_email'
         ])
@@ -50,6 +52,7 @@ class OnlineModel extends BaseModel
             ->join('users', ['useronline.user_id', 'users.ID'], [], 'LEFT')
             ->perPage($args['page'], $args['per_page'])
             ->orderBy($args['order_by'], $args['order'])
+            ->decorate(VisitorDecorator::class)
             ->getAll();
 
         return $result ? $result : [];

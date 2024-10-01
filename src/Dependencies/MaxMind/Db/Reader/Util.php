@@ -1,10 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace WP_Statistics\Dependencies\MaxMind\Db\Reader;
 
 class Util
 {
-    public static function read($stream, $offset, $numberOfBytes)
+    /**
+     * @param resource    $stream
+     * @param int<0, max> $numberOfBytes
+     */
+    public static function read($stream, int $offset, int $numberOfBytes): string
     {
         if ($numberOfBytes === 0) {
             return '';
@@ -15,10 +21,11 @@ class Util
             // We check that the number of bytes read is equal to the number
             // asked for. We use ftell as getting the length of $value is
             // much slower.
-            if (ftell($stream) - $offset === $numberOfBytes) {
+            if ($value !== false && ftell($stream) - $offset === $numberOfBytes) {
                 return $value;
             }
         }
+
         throw new InvalidDatabaseException(
             'The MaxMind DB file contains bad data'
         );

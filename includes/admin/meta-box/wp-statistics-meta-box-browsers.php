@@ -5,8 +5,7 @@ namespace WP_STATISTICS\MetaBox;
 use WP_STATISTICS\DB;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Menus;
-use WP_STATISTICS\TimeZone;
-use WP_STATISTICS\UserAgent;
+use WP_Statistics\Service\Analytics\DeviceDetection\DeviceHelper;
 
 class browsers extends MetaBoxAbstract
 {
@@ -49,7 +48,7 @@ class browsers extends MetaBoxAbstract
         // Set Default Value
         $total       = $count = 0;
         $lists_value = $lists_name = $lists_logo = array();
-        
+
         $order_by = '';
         if (isset($args['order']) and in_array($args['order'], array('DESC', 'ASC', 'desc', 'asc'))) {
             $order_by = "ORDER BY `count` " . esc_sql($args['order']);
@@ -74,7 +73,7 @@ class browsers extends MetaBoxAbstract
             // Sanitize Version name
             $lists_name[] = sanitize_text_field($l['agent']);
 
-            $lists_logo[] = UserAgent::getBrowserLogo($l['agent']);
+            $lists_logo[] = DeviceHelper::getBrowserLogo($l['agent']);
 
             // Get List Count
             $lists_value[] = (int)$l['count'];
@@ -89,7 +88,7 @@ class browsers extends MetaBoxAbstract
             $lists_value[]  = array_sum(array_column($others, 'count'));
             $total          += array_sum(array_column($others, 'count'));
         }
-        
+
 
         // Prepare Response
         $response = array(
