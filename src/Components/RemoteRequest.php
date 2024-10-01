@@ -62,7 +62,7 @@ class RemoteRequest
      *
      * @return string
      */
-    protected function generateCacheKey()
+    public function generateCacheKey()
     {
         return $this->getCacheKey($this->requestUrl . serialize($this->parsedArgs));
     }
