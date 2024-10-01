@@ -7,6 +7,7 @@ use WP_STATISTICS\Option;
 use WP_Statistics\Utils\Request;
 use WP_Statistics\Abstracts\MultiViewPage;
 use WP_Statistics\Async\BackgroundProcessFactory;
+use WP_Statistics\Async\SourceChannelUpdater;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Service\Admin\Referrals\Views\TabsView;
 
@@ -37,6 +38,7 @@ class ReferralsPage extends MultiViewPage
      */
     private function incompleteSourceChannelsNotice()
     {
+        /** @var SourceChannelUpdater $backgroundProcess */
         $backgroundProcess = WP_Statistics()->getBackgroundProcess('update_visitors_source_channel');
 
         // Show migration notice if the process is not already initiated
