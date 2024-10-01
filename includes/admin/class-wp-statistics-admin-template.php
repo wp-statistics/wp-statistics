@@ -273,9 +273,18 @@ class Admin_Template
         return '<span aria-hidden="true">—</span><span class="screen-reader-text">' . __("Unknown", 'wp-statistics') . '</span>';
     }
 
+    public static function isUnknown($value)
+    {
+        if (empty($value) or $value == 'Unknown' or $value == __("Unknown", 'wp-statistics')) {
+            return true;
+        }
+
+        return false;
+    }
+
     public static function unknownToNotSet($value)
     {
-        if (empty($value) or $value == 'Unknown') {
+        if (self::isUnknown($value)) {
             return __('(not set)', 'wp-statistics');
         }
         return $value;
@@ -285,25 +294,25 @@ class Admin_Template
     {
         $result = "$region, $city";
 
-        $location   = $location == Country::$unknown_location ? '' : $location;
-        $region     = $region == 'Unknown' ? '' : $region;
-        $city       = $city == 'Unknown' ? '' : $city;
+        $location = $location == Country::$unknown_location ? '' : $location;
+        $region   = self::isUnknown($region) ? '' : $region;
+        $city     = self::isUnknown($city) ? '' : $city;
 
         // If location, region, and city are not set 
         if (empty($location) && empty($region) && empty($city)) {
             $result = esc_html__('(location not set)', 'wp-statistics');
         }
-        
+
         // If region, and city are not set 
         if (!empty($location) && empty($region) && empty($city)) {
             $result = esc_html__('(region/city not set)', 'wp-statistics');
-        } 
-        
+        }
+
         // If only region is set 
         if (!empty($location) && !empty($region) && empty($city)) {
             $result = $region;
         }
-        
+
         // If only city is set 
         if (!empty($location) && empty($region) && !empty($city)) {
             $result = $city;

@@ -41,7 +41,7 @@ use WP_STATISTICS\Admin_Template;
                                                 <?php echo $item->region ? esc_html(\WP_STATISTICS\Admin_Template::unknownToNotSet($item->region)) : Admin_Template::UnknownColumn() ?>
                                             </td>
                                             <td class="wps-pd-l">
-                                                <?php if (empty($item->city) || $item->city == 'Unknown') : ?>
+                                                <?php if (\WP_STATISTICS\Admin_Template::isUnknown($item->city)) : ?>
                                                     <span title="<?php esc_attr_e('(not set)', 'wp-statistics') ?>" class="wps-country-name">
                                                         <img alt="<?php esc_attr_e('(not set)', 'wp-statistics') ?>" src="<?php echo esc_url(Country::flag(Country::$unknown_location)) ?>" title="<?php esc_attr_e('Unknown', 'wp-statistics') ?>" class="log-tools wps-flag"/>
                                                         <?php esc_html_e('(not set)', 'wp-statistics') ?>
