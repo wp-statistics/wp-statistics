@@ -71,4 +71,18 @@ class Url
 
         return $url;
     }
+
+    /**
+     * Checks if a given URL is internal by comparing its domain to the current website domain.
+     *
+     * @param string $url The URL to check.
+     * @return bool True if the URL's domain matches the current domain, false otherwise.
+     */
+    public static function isInternal($url)
+    {
+        $url        = Url::getDomain($url);
+        $homeUrl    = Url::getDomain(home_url());
+
+        return $url === $homeUrl;
+    }
 }
