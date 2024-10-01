@@ -162,15 +162,7 @@ class Visitor
                     'user_id'   => $visitorProfile->getUserId()
                 ];
 
-                // Update Visitor source info if attribution model is last touch
-                if (Option::get('attribution_model') === 'last-touch') {
-                    // If visitor is referred, update referrals info
-                    if ($visitorProfile->isReferred()) {
-                        $data['referred']       = $visitorProfile->getReferrer();
-                        $data['source_channel'] = $visitorProfile->getSource()->getChannel();
-                        $data['source_name']    = $visitorProfile->getSource()->getName();
-                    }
-                }
+                $data = apply_filters('wp_statistics_visitor_data_before_update', $data, $visitorProfile);
 
                 $visitorModel = new VisitorsModel();
                 $visitorModel->updateVisitor($visitor_id, $data);
