@@ -194,10 +194,6 @@ class PostsManager
      */
     public function addPostMetaBoxes()
     {
-        // Display "Statistics - Latest Visitors" meta-box only when DataPlus add-on is active and `latest_visitors_metabox` is enabled
-        // Or when DataPlus add-on is not active and `disable_editor` is disabled
-        $displayLatestVisitors = Helper::isAddOnActive('data-plus') ? Option::getByAddon('latest_visitors_metabox', 'data_plus', '1') === '1' : !Option::get('disable_editor');
-
         // Add meta-box to all post types
         foreach (Helper::get_list_post_type() as $screen) {
             if ($this->shouldDisplaySummaryMetabox()) {
@@ -212,7 +208,7 @@ class PostsManager
                 );
             }
 
-            if ($displayLatestVisitors) {
+            if ($this->shouldDisplayLatestVisitorsMetabox()) {
                 add_meta_box(
                     Meta_Box::getMetaBoxKey('post'),
                     Meta_Box::getList('post')['name'],
@@ -242,6 +238,20 @@ class PostsManager
     private function shouldDisplaySummaryMetabox()
     {
         return !Option::get('disable_editor') && (!Helper::is_gutenberg() || version_compare(get_bloginfo('version'), '6.5.5', '<='));
+    }
+
+    /**
+     * Checks if any of the conditions for displaying "Statistics - Latest Visitors" meta-box are met.
+     *
+     * Conditions are: 
+     * - DataPlus add-on is active and `latest_visitors_metabox` option is enabled.
+     * - DataPlus add-on is not active and `disable_editor` is disabled.
+     *
+     * @return  bool
+     */
+    private function shouldDisplayLatestVisitorsMetabox()
+    {
+        return Helper::isAddOnActive('data-plus') ? Option::getByAddon('latest_visitors_metabox', 'data_plus', '1') === '1' : !Option::get('disable_editor');
     }
 
     /**
