@@ -17,7 +17,7 @@ class DeviceHelper
             'chrome_webview'   => __('Chrome Webview', 'wp-statistics'),
             'firefox'          => __('Firefox', 'wp-statistics'),
             'msie'             => __('Internet Explorer', 'wp-statistics'),
-            'edge'             => __('Edge', 'wp-statistics'),
+            'microsoft_edge'   => __('Edge', 'wp-statistics'),
             'opera'            => __('Opera', 'wp-statistics'),
             'safari'           => __('Safari', 'wp-statistics'),
             'samsung_internet' => __('Samsung Internet', 'wp-statistics'),
