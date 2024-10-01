@@ -82,6 +82,8 @@ class BackgroundProcessFactory
         $visitorsWithIncompleteSourceChannel    = $visitorModel->getVisitorsWithIncompleteSourceChannel();
         $updateIncompleteVisitorsSourceChannels = WP_Statistics()->getBackgroundProcess('update_visitors_source_channel');
 
+        $visitorsWithIncompleteSourceChannel    = wp_list_pluck($visitorsWithIncompleteSourceChannel, 'ID');
+
         // Define the batch size
         $batchSize = 100;
         $batches   = array_chunk($visitorsWithIncompleteSourceChannel, $batchSize);
