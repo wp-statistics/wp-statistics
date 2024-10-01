@@ -2,6 +2,7 @@
 
 namespace WP_Statistics\Async;
 
+use WP_Statistics\Decorators\VisitorDecorator;
 use WP_Statistics\Models\VisitorsModel;
 use WP_STATISTICS\Option;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
@@ -37,10 +38,13 @@ class IncompleteGeoIpUpdater extends WP_Background_Process
         $visitors     = $item['visitors'];
         $visitorModel = new VisitorsModel();
 
-        foreach ($visitors as $visitor) {
-            $location = GeolocationFactory::getLocation($visitor->ip);
+        foreach ($visitors as $visitorId) {
+            /** @var VisitorDecorator $visitor */
+            $visitor    = $visitorModel->getVisitorData(['visitor_id' => $visitorId]);
 
-            $visitorModel->updateVisitor($visitor->ID, [
+            $location   = GeolocationFactory::getLocation($visitor->getIP());
+
+            $visitorModel->updateVisitor($visitorId, [
                 'location'  => $location['country_code'],
                 'city'      => $location['city'],
                 'region'    => $location['region'],
