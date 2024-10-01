@@ -2,6 +2,7 @@
 
 namespace WP_Statistics\Async;
 
+use WP_Statistics\Decorators\VisitorDecorator;
 use WP_STATISTICS\GeoIP;
 use WP_Statistics\Models\VisitorsModel;
 use WP_STATISTICS\Option;
@@ -34,13 +35,18 @@ class SourceChannelUpdater extends WP_Background_Process
         $visitors     = $item['visitors'];
         $visitorModel = new VisitorsModel();
 
-        foreach ($visitors as $visitor) {
-            $referrer    = $visitor->referred;
-            $landingPage = $visitor->first_hit;
+        foreach ($visitors as $visitorId) {
+            /** @var VisitorDecorator */
+            $visitor    = $visitorModel->getVisitorData(['visitor_id' => $visitorId]);
 
-            $sourceDetector = new SourceDetector($referrer, $landingPage);
+            $referrer   = $visitor->getReferral()->getRawReferrer();
+            $firstPage  = $visitor->getFirstPage();
 
-            $visitorModel->updateVisitor($visitor->ID, [
+            $firstPage = $firstPage['link'] ?? '';
+
+            $sourceDetector = new SourceDetector($referrer, $firstPage);
+
+            $visitorModel->updateVisitor($visitorId, [
                 'source_channel'    => $sourceDetector->getChannel(),
                 'source_name'       => $sourceDetector->getName(),
                 'referred'          => Referrals::getUrl($referrer)

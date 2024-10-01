@@ -18,9 +18,13 @@ class BackgroundProcessFactory
     {
         $calculatePostWordsCount = WP_Statistics()->getBackgroundProcess('calculate_post_words_count');
         $wordCount               = new WordCountService();
+        $postsWithoutWordCount   = $wordCount->getPostsWithoutWordCountMeta();
 
-        foreach ($wordCount->getPostsWithoutWordCountMeta() as $postId) {
-            $calculatePostWordsCount->push_to_queue(['post_id' => $postId]);
+        $batchSize = 100;
+        $batches   = array_chunk($postsWithoutWordCount, $batchSize);
+
+        foreach ($batches as $batch) {
+            $calculatePostWordsCount->push_to_queue(['posts' => $batch]);
         }
 
         // Mark as processed
@@ -39,6 +43,8 @@ class BackgroundProcessFactory
         $visitorModel                      = new VisitorsModel();
         $visitorsWithIncompleteLocation    = $visitorModel->getVisitorsWithIncompleteLocation();
         $updateIncompleteVisitorsLocations = WP_Statistics()->getBackgroundProcess('update_unknown_visitor_geoip');
+
+        $visitorsWithIncompleteLocation    = wp_list_pluck($visitorsWithIncompleteLocation, 'ID');
 
         // Define the batch size
         $batchSize = 100;
@@ -81,6 +87,8 @@ class BackgroundProcessFactory
         $visitorModel                           = new VisitorsModel();
         $visitorsWithIncompleteSourceChannel    = $visitorModel->getVisitorsWithIncompleteSourceChannel();
         $updateIncompleteVisitorsSourceChannels = WP_Statistics()->getBackgroundProcess('update_visitors_source_channel');
+
+        $visitorsWithIncompleteSourceChannel    = wp_list_pluck($visitorsWithIncompleteSourceChannel, 'ID');
 
         // Define the batch size
         $batchSize = 100;
