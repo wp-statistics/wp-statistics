@@ -29,7 +29,7 @@ class Menus
         'devices'            => 'devices',
         'category-analytics' => 'category-analytics',
         'pages'              => 'pages',
-        'visitors'           => 'visitors'
+        'visitors'           => 'visitors',
     );
 
     /**
@@ -167,15 +167,6 @@ class Menus
                 'title'    => __('Overview', 'wp-statistics'),
                 'page_url' => 'overview',
                 'priority' => 20,
-            ),
-            'plugins'      => array(
-                'sub'      => 'overview',
-                'title'    => __('Add-Ons', 'wp-statistics'),
-                'name'     => '<span class="wps-text-warning">' . __('Add-Ons', 'wp-statistics') . '</span>',
-                'page_url' => 'plugins',
-                'method'   => 'plugins',
-                'priority' => 90,
-                'break'    => true,
             ),
             'settings'     => array(
                 'sub'      => 'overview',

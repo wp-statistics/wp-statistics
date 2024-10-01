@@ -2,6 +2,8 @@
 
 namespace WP_STATISTICS;
 
+use WP_Statistics\Service\Admin\LicenseManagement\ApiCommunicator;
+use WP_Statistics\Service\Admin\LicenseManagement\LicenseMigration;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
 use WP_Statistics\Service\Analytics\Referrals\ReferralsDatabase;
 use WP_Statistics\Utils\Request;
@@ -91,8 +93,19 @@ class Schedule
             wp_unschedule_event(wp_next_scheduled('wp_statistics_report_hook'), 'wp_statistics_report_hook');
         }
 
+        // Schedule license migration
+        if (!wp_next_scheduled('wp_statistics_licenses_hook') && !LicenseMigration::hasLicensesAlreadyMigrated()) {
+            wp_schedule_event(time(), 'daily', 'wp_statistics_licenses_hook');
+        }
+
+        // Remove license migration schedule if licenses have been migrated before
+        if (wp_next_scheduled('wp_statistics_licenses_hook') && LicenseMigration::hasLicensesAlreadyMigrated()) {
+            wp_unschedule_event(wp_next_scheduled('wp_statistics_licenses_hook'), 'wp_statistics_licenses_hook');
+        }
+
         add_action('wp_statistics_report_hook', array($this, 'send_report'));
         add_action('wp_statistics_referrals_db_hook', [$this, 'referrals_db_event']);
+        add_action('wp_statistics_licenses_hook', [$this, 'migrateOldLicenses']);
     }
 
     /**
@@ -353,6 +366,18 @@ class Schedule
             $scheduleTime = $schedulesInterval[$time]['next_schedule'];
             wp_schedule_event($scheduleTime, $time, $event);
         }
+    }
+
+    /**
+     * Calls `LicenseMigration->migrateOldLicenses()` and migrates old licenses to the new structure.
+     *
+     * @return void
+     */
+    public function migrateOldLicenses()
+    {
+        $apiCommunicator  = new ApiCommunicator();
+        $licenseMigration = new LicenseMigration($apiCommunicator);
+        $licenseMigration->migrateOldLicenses();
     }
 }
 

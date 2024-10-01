@@ -137,9 +137,10 @@ Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest versio
 
 == Changelog ==
 = 14.11 - **.**.2024 =
-* Enhancement: Update charts based on selected date range.
 * New: Introduced brand-new Referrals report page.
+* New: Introduced brand-new Add-Ons page and license manager system.
 * New: Add option to disable previous period data for charts.
+* Enhancement: Update charts based on selected date range.
 * Enhancement: Improved the Device Detection.
 * Enhancement: Chart labels dynamically change depending on the selected data range.
 * Fix: Show visitors data even if they didn't have data in visitor_relationship table.

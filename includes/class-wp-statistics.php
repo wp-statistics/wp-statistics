@@ -14,6 +14,7 @@ use WP_Statistics\Service\Admin\CategoryAnalytics\CategoryAnalyticsManager;
 use WP_Statistics\Service\Analytics\AnalyticsManager;
 use WP_Statistics\Service\Integrations\IntegrationsManager;
 use WP_Statistics\Service\Admin\Devices\DevicesManager;
+use WP_Statistics\Service\Admin\LicenseManagement\LicenseManagementManager;
 use WP_Statistics\Service\Admin\VisitorInsights\VisitorInsightsManager;
 use WP_Statistics\Service\Admin\PageInsights\PageInsightsManager;
 use WP_Statistics\Service\Admin\Referrals\ReferralsManager;
@@ -172,7 +173,6 @@ final class WP_Statistics
             // Admin Pages List
             require_once WP_STATISTICS_DIR . 'includes/admin/pages/class-wp-statistics-admin-page-settings.php';
             require_once WP_STATISTICS_DIR . 'includes/admin/pages/class-wp-statistics-admin-page-optimization.php';
-            require_once WP_STATISTICS_DIR . 'includes/admin/pages/class-wp-statistics-admin-page-plugins.php';
             require_once WP_STATISTICS_DIR . 'includes/admin/pages/class-wp-statistics-admin-page-overview.php';
             require_once WP_STATISTICS_DIR . 'includes/admin/pages/class-wp-statistics-admin-page-exclusions.php';
 
@@ -186,6 +186,7 @@ final class WP_Statistics
             $visitorInsights     = new VisitorInsightsManager();
             $referrals           = new ReferralsManager();
             $integrationsManager = new IntegrationsManager();
+            $licenseManager      = new LicenseManagementManager();
         }
 
         $hooksManager = new HooksManager();

@@ -39,12 +39,26 @@ trait TransientCacheTrait
      *
      * @param string $input
      * @param mixed $result
+     * @param int $expiration Expiration time for the cache in seconds.
      *
      * @return bool
      */
-    public function setCachedResult($input, $result)
+    public function setCachedResult($input, $result, $expiration = HOUR_IN_SECONDS)
     {
         $cacheKey = $this->getCacheKey($input);
-        return set_transient($cacheKey, $result, HOUR_IN_SECONDS * 24);
+        return set_transient($cacheKey, $result, $expiration * 24);
+    }
+
+    /**
+     * Clear the cached result for the given query.
+     *
+     * @param string $query
+     *
+     * @return bool
+     */
+    public function clearCache($query)
+    {
+        $cacheKey = $this->getCacheKey($query);
+        return delete_transient($cacheKey);
     }
 }

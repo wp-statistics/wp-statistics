@@ -2379,6 +2379,83 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
   }
 }
 
+.wps-steps{
+  width: 768px;
+  display: flex;
+  max-width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  margin: 2px auto 22px;
+  .wps-step-link{
+
+    &.disabled{
+      a{
+        pointer-events: none;
+        cursor: default;
+      }
+    }
+
+    a{
+      display: flex;
+      gap: 8px;
+      align-items: center;
+
+      &.disabled {
+      pointer-events: none;
+      cursor: default;
+    }
+
+    }
+    &__badge{
+      width: 16px;
+      height: 16px;
+      border-radius: 250px;
+      background: #eeeff1;
+      font-size: 12px;
+      font-weight: 500;
+      line-height: 14.06px;
+      color: #a9aaae;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 16px;
+    }
+    &__title{
+      color: #56585A;
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 16.41px;
+    }
+    &.current{
+      .wps-step-link__badge{
+        background:#404BF2;
+        color: #FFFFFF
+      }
+      .wps-step-link__title{
+        color: #0C0C0D;
+        font-weight: 500;
+      }
+    }
+    &.completed{
+      a{
+        pointer-events: auto;
+        cursor: pointer;
+      }
+      .wps-step-link__badge{
+        background-color:#165E2E;
+        color:transparent;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-image: url("data:image/svg+xml;base64,Cjxzdmcgd2lkdGg9IjEwIiBoZWlnaHQ9IjEwIiB2aWV3Qm94PSIwIDAgMTAgMTAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik00LjE2NjU0IDYuMzIyMzVMNy45OTY3MSAyLjQ5MjE5TDguNTg1OTYgMy4wODE0NEw0LjE2NjU0IDcuNTAwODVMMS41MTQ4OSA0Ljg0OTIyTDIuMTA0MTUgNC4yNTk5N0w0LjE2NjU0IDYuMzIyMzVaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4K");
+
+       }
+      .wps-step-link__title{
+        color: #165E2E;
+      }
+    }
+  }
+}
+
 .wps-tabs {
   margin: 20px 0 0;
 }

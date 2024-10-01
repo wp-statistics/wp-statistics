@@ -1111,6 +1111,187 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
     updateLegend();
 };
 
+wps_js.performance_chart = function (data, tag_id, type) {
+
+    const colors = ['#3288D7', '#7362BF', '#8AC3D0'];
+    const is_single_content = type === 'content-single';
+    const legendHandel = (chart) => {
+        document.querySelectorAll('.js-wps-performance-chart__item').forEach((legendItem, index) => {
+            legendItem.addEventListener('click', () => {
+                const dataset = chart.data.datasets[index];
+                dataset.hidden = !dataset.hidden;
+                chart.update();
+                legendItem.classList.toggle('hidden', dataset.hidden);
+            });
+        });
+    }
+    let ctx_performance = document.getElementById(tag_id).getContext('2d');
+    let datasets = [
+        {
+            type: 'line',
+            label: wps_js._('visitors'),
+            data: data.visitors,
+            borderColor: wps_js.hex_to_rgba(colors[0], 0.8),
+            yAxisID: 'y',
+            borderWidth: 2,
+            pointRadius: 0,
+            pointBorderColor: 'transparent',
+            pointBackgroundColor: colors[0],
+            pointBorderWidth: 2,
+            hoverPointRadius: 6,
+            hoverPointBorderColor: '#fff',
+            hoverPointBackgroundColor: colors[0],
+            hoverPointBorderWidth: 4,
+            tension: 0.4
+        },
+        {
+            type: 'line',
+            label: wps_js._('visits'),
+            data: data.views,
+            borderColor: wps_js.hex_to_rgba(colors[1], 0.8),
+            pointStyle: 'circle',
+            yAxisID: 'y',
+            borderWidth: 2,
+            pointRadius: 0,
+            pointBorderColor: 'transparent',
+            pointBackgroundColor: colors[1],
+            pointBorderWidth: 2,
+            hoverPointRadius: 6,
+            hoverPointBorderColor: '#fff',
+            hoverPointBackgroundColor: colors[1],
+            hoverPointBorderWidth: 4,
+            tension: 0.7
+        }
+    ]
+    if (!is_single_content) datasets.push({
+        type: 'bar',
+        label: type === 'content' ? `${wps_js._('published')} Posts` : `${wps_js._('published')} Contents`,
+        data: data.posts,
+        backgroundColor: wps_js.hex_to_rgba(colors[2], 0.5),
+        hoverBackgroundColor: colors[2],
+        hoverPointBackgroundColor: colors[2],
+        yAxisID: 'y1',
+    })
+
+
+    let scales = {
+        x: {
+            offset: !is_single_content,
+            ticks: {
+                maxTicksLimit: 9,
+                fontColor: '#898A8E',
+                fontSize: 13,
+                fontStyle: 'italic',
+                fontFamily: '"Roboto",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif',
+                fontWeight: 'lighter ',
+                padding: 8,
+                lineHeight: 15,
+                stepSize: 1
+            },
+            border: {
+                color: 'transparent',
+                width: 0
+            },
+            grid: {
+                display: false,
+                drawBorder: false,
+                tickLength: 0
+            }
+        },
+        y: {
+            border: {
+                color: 'transparent',
+                width: 0
+            },
+            ticks: {
+                maxTicksLimit: 9,
+                fontColor: '#898A8E',
+                fontSize: 13,
+                fontStyle: 'italic',
+                fontFamily: '"Roboto",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif',
+                fontWeight: 'lighter ',
+                padding: 8,
+                lineHeight: 15,
+                stepSize: 1
+            },
+            type: 'linear',
+            position: is_single_content ? 'left' : 'right',
+            grid: {
+                display: true,
+                borderDash: [5, 5],
+                tickColor: '#EEEFF1',
+                color: '#EEEFF1'
+            },
+            title: {
+                display: true,
+                text: wps_js._('visits'),
+                color: '#898A8E',
+                fontSize: 13,
+            }
+        }
+    }
+    if (!is_single_content) {
+        scales.y1 = {
+            type: 'linear',
+            position: 'left',
+            border: {
+                color: 'transparent',
+                width: 0
+            },
+            grid: {
+                display: false,
+                drawBorder: false,
+                tickLength: 0,
+            },
+            ticks: {
+                maxTicksLimit: 7,
+                fontColor: '#898A8E',
+                fontSize: 13,
+                fontStyle: 'italic',
+                fontFamily: '"Roboto",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif',
+                fontWeight: 'lighter ',
+                padding: 8,
+                lineHeight: 15,
+                stepSize: 1
+            },
+            title: {
+                display: true,
+                text: type === 'content' ? `${wps_js._('published')} Posts` : `${wps_js._('published')} Contents`,
+                color: '#898A8E',
+                fontSize: 13
+            }
+        }
+    }
+
+    const performanceChart = new Chart(ctx_performance, {
+        type: 'bar',
+        data: {
+            labels: data.labels.map(dateObj => dateObj.date),
+            datasets: datasets
+        },
+        options: {
+            interaction: {
+                intersect: false,
+            },
+            plugins: {
+                legend: false,
+                tooltip: {
+                    enabled: false,
+                    external: (context) => externalTooltipHandler(context, datasets, colors, data),
+                    callbacks: {
+                        title: (tooltipItems) => tooltipItems[0].label,
+                        label: (tooltipItem) => tooltipItem.formattedValue
+                    }
+                },
+            },
+            scales: scales
+        },
+        plugins: [drawVerticalLinePlugin]
+    });
+    legendHandel(performanceChart)
+};
+
+
 // Head filters drop down
 jQuery(document).ready(function () {
     var dropdowns = document.querySelectorAll(".wps-head-filters__item");
