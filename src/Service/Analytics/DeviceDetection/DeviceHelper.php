@@ -14,6 +14,7 @@ class DeviceHelper
     {
         $list = [
             'chrome'           => __('Chrome', 'wp-statistics'),
+            'chrome_webview'   => __('Chrome Webview', 'wp-statistics'),
             'firefox'          => __('Firefox', 'wp-statistics'),
             'msie'             => __('Internet Explorer', 'wp-statistics'),
             'edge'             => __('Edge', 'wp-statistics'),
@@ -35,7 +36,9 @@ class DeviceHelper
             return array_keys($list);
         }
 
-        return $list[strtolower($all)] ?? __('Unknown', 'wp-statistics');
+        $browser = strtolower(str_replace(' ', '_', $all));
+
+        return $list[$browser] ?? __('Unknown', 'wp-statistics');
     }
 
     /**
@@ -46,7 +49,7 @@ class DeviceHelper
      */
     public static function getBrowserLogo(string $browser)
     {
-        $browser  = str_replace(' ', '_', sanitize_key(str_replace('msie', 'internet_explorer', $browser)));
+        $browser  = str_replace(' ', '_', strtolower(str_replace('msie', 'internet_explorer', $browser)));
         $logoPath = "assets/images/browser/{$browser}.svg";
 
         if (file_exists(WP_STATISTICS_DIR . $logoPath)) {
