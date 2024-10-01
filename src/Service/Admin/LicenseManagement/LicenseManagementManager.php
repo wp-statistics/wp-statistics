@@ -84,7 +84,7 @@ class LicenseManagementManager
             $licenseKey = Request::has('license_key') ? wp_unslash(Request::get('license_key')) : false;
 
             if (!$licenseKey) {
-                throw new Exception('License key is missing.');
+                throw new Exception(__('License key is missing.', 'wp-statistics'));
             }
 
             // Merge the product list with the license and installation status
@@ -112,7 +112,7 @@ class LicenseManagementManager
             $pluginSlug = Request::has('plugin_slug') ? wp_unslash(Request::get('plugin_slug')) : false;
 
             if (!$pluginSlug) {
-                throw new Exception('Plugin slug is missing.');
+                throw new Exception(__('Plugin slug is missing.', 'wp-statistics'));
             }
 
             if (empty($licenseKey)) {
@@ -120,19 +120,19 @@ class LicenseManagementManager
             }
 
             if (empty($licenseKey)) {
-                throw new Exception('License key is missing.');
+                throw new Exception(__('License key is missing.', 'wp-statistics'));
             }
 
             $downloadUrl = $this->apiCommunicator->getPluginDownloadUrl($licenseKey, $pluginSlug);
             if (!$downloadUrl) {
-                throw new Exception('Download URL not found!');
+                throw new Exception(__('Download URL not found!', 'wp-statistics'));
             }
 
             // Download and install the plugin
             $this->pluginHandler->downloadAndInstallPlugin($downloadUrl);
 
             wp_send_json_success([
-                'message' => 'Plugin downloaded and installed successfully.',
+                'message' => __('Plugin downloaded and installed successfully.', 'wp-statistics'),
             ]);
         } catch (Exception $e) {
             wp_send_json_error([
@@ -155,7 +155,7 @@ class LicenseManagementManager
         try {
             $pluginSlug = Request::has('plugin_slug') ? wp_unslash(Request::get('plugin_slug')) : false;
             if (!$pluginSlug) {
-                throw new Exception(__('Plugin slug missing.', 'wp-statistics'));
+                throw new Exception(__('Plugin slug is missing.', 'wp-statistics'));
             }
 
             wp_send_json_success([
@@ -179,13 +179,13 @@ class LicenseManagementManager
             $pluginSlug = Request::has('plugin_slug') ? wp_unslash(Request::get('plugin_slug')) : false;
 
             if (!$pluginSlug) {
-                throw new Exception('Plugin slug is missing.');
+                throw new Exception(__('Plugin slug is missing.', 'wp-statistics'));
             }
 
             $this->pluginHandler->activatePlugin($pluginSlug);
 
             wp_send_json_success([
-                'message' => 'Plugin activated successfully.',
+                'message' => __('Plugin activated successfully.', 'wp-statistics'),
             ]);
         } catch (Exception $e) {
             wp_send_json_error([
@@ -213,12 +213,7 @@ class LicenseManagementManager
                 foreach ($licenseData['products'] as $productSlug) {
                     // Avoid duplicate handling for the same product
                     if (!in_array($productSlug, $this->handledPlugins)) {
-                        try {
-                            $this->initializePluginUpdater($productSlug, $licenseKey);
-                        } catch (Exception $e) {
-                            WP_Statistics::log("Failed to initialize PluginUpdater for {$productSlug}: " . $e->getMessage());
-                        }
-
+                        $this->initializePluginUpdater($productSlug, $licenseKey);
                         $this->handledPlugins[] = $productSlug;
                     }
                 }
@@ -231,7 +226,6 @@ class LicenseManagementManager
      *
      * @param string $pluginSlug The slug of the plugin (e.g., 'wp-statistics-data-plus').
      * @param string $licenseKey The license key for the product.
-     * @throws Exception
      */
     private function initializePluginUpdater($pluginSlug, $licenseKey)
     {
@@ -240,7 +234,7 @@ class LicenseManagementManager
             $pluginData = $this->pluginHandler->getPluginData($pluginSlug);
 
             if (!$pluginData) {
-                throw new Exception("Plugin data not found for: {$pluginSlug}");
+                throw new Exception(sprintf(__('Plugin data not found for: %s', 'wp-statistics'), $pluginSlug));
             }
 
             // Initialize PluginUpdater with the version and license key
@@ -248,7 +242,7 @@ class LicenseManagementManager
             $pluginUpdater->handle();
 
         } catch (Exception $e) {
-            throw new Exception("Failed to initialize PluginUpdater for {$pluginSlug}: " . $e->getMessage());
+            WP_Statistics::log(sprintf(__('Failed to initialize PluginUpdater for %s: %s', 'wp-statistics'), $pluginSlug, $e->getMessage()));
         }
     }
 }
