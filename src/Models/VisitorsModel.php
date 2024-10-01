@@ -748,7 +748,7 @@ class VisitorsModel extends BaseModel
         $privateCountry = GeolocationFactory::getProviderInstance()->getPrivateCountryCode();
 
         // Determine the select fields based on the returnCount parameter
-        $selectFields = $returnCount ? 'COUNT(*)' : ['ID', 'ip', 'location', 'city', 'region', 'continent'];
+        $selectFields = $returnCount ? 'COUNT(*)' : ['ID'];
 
         // Build the query
         $query = Query::select($selectFields)

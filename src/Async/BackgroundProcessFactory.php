@@ -40,6 +40,8 @@ class BackgroundProcessFactory
         $visitorsWithIncompleteLocation    = $visitorModel->getVisitorsWithIncompleteLocation();
         $updateIncompleteVisitorsLocations = WP_Statistics()->getBackgroundProcess('update_unknown_visitor_geoip');
 
+        $visitorsWithIncompleteLocation    = wp_list_pluck($visitorsWithIncompleteLocation, 'ID');
+
         // Define the batch size
         $batchSize = 100;
         $batches   = array_chunk($visitorsWithIncompleteLocation, $batchSize);
