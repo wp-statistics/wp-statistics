@@ -129,6 +129,11 @@ class PluginUpdater
                 throw new Exception($remote->message, $remote->code);
             }
 
+            // Adjust patch version to match the current WordPress version
+            if (isset($remote->tested)) {
+                $remote->tested = $this->adjustPatchVersion($remote->tested);
+            }
+
             return $remote;
 
         } catch (Exception $e) {
@@ -212,5 +217,27 @@ class PluginUpdater
         if ('update' === $options['action'] && 'plugin' === $options['type']) {
             //delete_transient(); // todo
         }
+    }
+
+    /**
+     * Adjusts the patch version of the plugin to match the current WordPress version.
+     *
+     * @param string $testedVersion The version retrieved from the API.
+     * @return string The adjusted version.
+     */
+    public function adjustPatchVersion($testedVersion)
+    {
+        global $wp_version;
+
+        // Adjust the tested version to the same patch level as the current WordPress version
+        $testedParts = explode('.', $testedVersion);
+        $wpParts     = explode('.', $wp_version);
+
+        // Ensure both versions have at least two parts
+        if (count($testedParts) >= 2 && count($wpParts) >= 2) {
+            return $testedParts[0] . '.' . $testedParts[1] . '.' . ($wpParts[2] ?? '0');
+        }
+
+        return $testedVersion;
     }
 }
