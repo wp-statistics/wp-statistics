@@ -73,6 +73,24 @@
                     <p class="description"><?php _e('Records full details of visitors for diagnostic purposes. When \'Hash IP Addresses\' is operational, this feature is bypassed, and data collection is disabled to ensure privacy. Refer to our <a href="https://wp-statistics.com/resources/avoiding-pii-data-collection/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" target="_blank">avoiding PII data collection guide</a> for more information.', 'wp-statistics');  // phpcs:ignore WordPress.Security.EscapeOutput.UnsafePrintingFunction	  ?></p>
                 </td>
             </tr>
+
+            <tr valign="top">
+                <th scope="row">
+                    <label for="attribution_model"><?php esc_html_e('Attribution Model', 'wp-statistics'); ?></label>
+                </th>
+
+                <td>
+                    <select id="attribution_model" name="wps_attribution_model">
+                        <option value="first-touch" <?php selected(WP_STATISTICS\Option::get('attribution_model', 'first-touch'), 'first-touch'); ?>>
+                            <?php esc_html_e('First-Touch', 'wp-statistics'); ?>
+                        </option>
+                        <option value="last-touch" <?php selected(WP_STATISTICS\Option::get('attribution_model'), 'last-touch'); ?>>
+                            <?php esc_html_e('Last-Touch', 'wp-statistics'); ?>
+                        </option>
+                    </select>
+                    <p class="description"><?php _e('Select how conversions are attributed: First-Touch credits the first interaction, and Last-Touch credits the most recent. Learn more.', 'wp-statistics'); ?></p>
+                </td>
+            </tr>
         </tbody>
     </table>
 </div>
