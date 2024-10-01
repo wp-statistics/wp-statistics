@@ -44,12 +44,10 @@ class Referrals
     public static function getUrl($referrer = false)
     {
         // If referrer is not provided get it from the request
-        if (empty($referrer)) {
-            $referrer = self::getRawUrl();
-        }
+        $referrer = empty($referrer) ? self::getRawUrl() : $referrer;
 
-        // Return early if referrer is empty
-        if (empty($referrer)) return '';
+        // If referrer is empty, or internal, return
+        if (empty($referrer) || Url::isInternal($referrer)) return '';
 
         // Sanitize url
         $referrer = sanitize_url($referrer);
@@ -59,13 +57,8 @@ class Referrals
 
         // For http, and https protocols we only want the domain
         if (in_array($protocol, ['https', 'http'])) {
-            $referrer   = Url::getDomain($referrer);
-            $homeUrl    = Url::getDomain(home_url());
-
-            // If referrer is my own domain, set referrer to empty
-            if ($referrer === $homeUrl) return '';
+            $referrer = Url::getDomain($referrer);
         }
-
 
         return $referrer;
     }
@@ -77,7 +70,7 @@ class Referrals
      */
     public static function getSource()
     {
-        $referrerUrl = self::getUrl();
+        $referrerUrl = self::getRawUrl();
         $pageUrl     = Pages::get_page_uri();
 
         return new SourceDetector($referrerUrl, $pageUrl);

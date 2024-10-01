@@ -403,6 +403,7 @@ class settings_page extends Singleton
             'wps_bypass_ad_blockers',
             'wps_pages',
             'wps_use_cache_plugin',
+            'wps_attribution_model',
             'wps_show_hits',
             'wps_display_hits_position',
             'wps_menu_bar',

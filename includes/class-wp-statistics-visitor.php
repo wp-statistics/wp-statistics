@@ -2,7 +2,9 @@
 
 namespace WP_STATISTICS;
 
+use WP_Statistics\Models\VisitorsModel;
 use WP_Statistics\Service\Analytics\DeviceDetection\DeviceHelper;
+use WP_Statistics\Service\Analytics\Referrals\Referrals;
 use WP_Statistics\Service\Analytics\VisitorProfile;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
 
@@ -155,17 +157,15 @@ class Visitor
                 // Action Before Visitor Update
                 do_action('wp_statistics_update_visitor_hits', $visitor_id, $same_visitor);
 
-                $visitorTable = DB::table('visitor');
+                $data = [
+                    'hits'      => $same_visitor->hits + 1,
+                    'user_id'   => $visitorProfile->getUserId()
+                ];
 
-                // Update Visitor Count in DB
-                $wpdb->query(
-                    $wpdb->prepare(
-                        "UPDATE `" . $visitorTable . "` SET `hits` = `hits` + %d, user_id = %s WHERE `ID` = %d",
-                        1,
-                        $visitorProfile->getUserId(),
-                        $visitor_id
-                    )
-                );
+                $data = apply_filters('wp_statistics_visitor_data_before_update', $data, $visitorProfile);
+
+                $visitorModel = new VisitorsModel();
+                $visitorModel->updateVisitor($visitor_id, $data);
             }
         }
 
