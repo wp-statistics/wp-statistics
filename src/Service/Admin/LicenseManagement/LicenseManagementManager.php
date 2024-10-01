@@ -242,7 +242,7 @@ class LicenseManagementManager
             $pluginUpdater->handle();
 
         } catch (Exception $e) {
-            WP_Statistics::log(sprintf(__('Failed to initialize PluginUpdater for %s: %s', 'wp-statistics'), $pluginSlug, $e->getMessage()));
+            WP_Statistics::log(sprintf('Failed to initialize PluginUpdater for %s: %s', $pluginSlug, $e->getMessage()));
         }
     }
 }
