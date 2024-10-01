@@ -142,6 +142,7 @@ Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest versio
 - **Enhancement:** Enhanced user experience (UX) for the "Performance at a Glance" section in email reports.
 - **Enhancement:** Improved the layout and functionality of the visitor information section.
 - **Fix:** Resolved the 'tinyMCE is not defined' error triggered by Avada Builder.
+- **Fix:** Resolved post summary block's 'React error 130' error on WordPress v6.5.5 and lower.
 - **Dev:** Introduced the new filter `wp_statistics_assets_handle` for asset management.
 - **Enhancement:** Removed the Traffic Summary widget from the dashboard for a cleaner interface.
 
