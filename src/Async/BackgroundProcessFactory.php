@@ -18,9 +18,13 @@ class BackgroundProcessFactory
     {
         $calculatePostWordsCount = WP_Statistics()->getBackgroundProcess('calculate_post_words_count');
         $wordCount               = new WordCountService();
+        $postsWithoutWordCount   = $wordCount->getPostsWithoutWordCountMeta();
 
-        foreach ($wordCount->getPostsWithoutWordCountMeta() as $postId) {
-            $calculatePostWordsCount->push_to_queue(['post_id' => $postId]);
+        $batchSize = 100;
+        $batches   = array_chunk($postsWithoutWordCount, $batchSize);
+
+        foreach ($batches as $batch) {
+            $calculatePostWordsCount->push_to_queue(['posts' => $batch]);
         }
 
         // Mark as processed
