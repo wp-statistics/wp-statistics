@@ -1,14 +1,14 @@
 = 14.10.2 - 02.10.2024 =
-- **Fix:** Fix js conflict in Search Engine Referrals page.
-- **Enhancement:** Encoded the referral in the request payload using Base64 for improved security.
-- **Enhancement:** Enhanced user experience (UX) for the "Performance at a Glance" section in email reports.
-- **Enhancement:** Improved the layout and functionality of the visitor information section.
-- **Enhancement:** Removed the Traffic Summary widget from the dashboard for a cleaner interface.
-- **Enhancement:** Fixed an issue where visitor data wasn't shown for users missing information in the relationship table.
-- **Fix:** Resolved an issue where the Post Summary sidebar was incompatible with the Gutenberg editor in WordPress versions earlier than 6.5.5.
-- **Fix:** Resolved the 'tinyMCE is not defined' error triggered by Avada Builder.
-- **Fix:** Resolved post summary block's 'React error 130' error on WordPress v6.5.5 and lower.
-- **Dev:** Introduced the new filter `wp_statistics_assets_handle` for asset management.
+- **Enhancement**: Encoded referral data in requests using Base64 to improve security.
+- **Enhancement**: Enhanced the “Performance at a Glance” section in email reports for better user experience.
+- **Enhancement**: Updated the layout and functionality of the visitor information section for easier use.
+- **Enhancement**: Removed the Traffic Summary widget from the dashboard to simplify the interface.
+- **Enhancement**: Improved visitor data display for users with missing information in the relationship table.
+- **Dev**: Added a new filter wp_statistics_assets_handle to manage assets more effectively.
+- **Fix**: Fixed a JavaScript conflict on the Search Engine Referrals page.
+- **Fix**: Resolved an issue where the Post Summary sidebar didn’t work with the Gutenberg editor in WordPress versions below 6.5.5.
+- **Fix**: Fixed the ‘tinyMCE is not defined’ error caused by the Avada Builder.
+- **Fix**: Fixed the ‘React error 130’ in the post summary block on WordPress v6.5.5 and lower.
 
 = 14.10.1 - 11.09.2024 =
 * **Enhancement:** UX improvement for visitor information when users are logged in.

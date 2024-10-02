@@ -132,21 +132,21 @@ WP Statistics supports WordPress Multi-Site/Network installations. In the networ
 
 == Upgrade Notice ==
 = 14.10 =
-To ensure the plugin works correctly, please clear your cache because some request payloads have been updated. Also, review your settings, especially if you use DataPlus, Advanced Reporting, or Customization, as some options have changed.
+To ensure the plugin works correctly, please **clear your cache** because some request payloads have been updated. Also, review your settings, especially if you use DataPlus, Advanced Reporting, or Customization, as some options have changed.
 Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest version.
 
 == Changelog ==
 = 14.10.2 - 02.10.2024 =
-- **Fix:** Fix js conflict in Search Engine Referrals page.
-- **Enhancement:** Encoded the referral in the request payload using Base64 for improved security.
-- **Enhancement:** Enhanced user experience (UX) for the "Performance at a Glance" section in email reports.
-- **Enhancement:** Improved the layout and functionality of the visitor information section.
-- **Enhancement:** Removed the Traffic Summary widget from the dashboard for a cleaner interface.
-- **Enhancement:** Fixed an issue where visitor data wasn't shown for users missing information in the relationship table.
-- **Fix:** Resolved an issue where the Post Summary sidebar was incompatible with the Gutenberg editor in WordPress versions earlier than 6.5.5.
-- **Fix:** Resolved the 'tinyMCE is not defined' error triggered by Avada Builder.
-- **Fix:** Resolved post summary block's 'React error 130' error on WordPress v6.5.5 and lower.
-- **Dev:** Introduced the new filter `wp_statistics_assets_handle` for asset management.
+- **Enhancement**: Encoded referral data in requests using Base64 to improve security.
+- **Enhancement**: Enhanced the “Performance at a Glance” section in email reports for better user experience.
+- **Enhancement**: Updated the layout and functionality of the visitor information section for easier use.
+- **Enhancement**: Removed the Traffic Summary widget from the dashboard to simplify the interface.
+- **Enhancement**: Improved visitor data display for users with missing information in the relationship table.
+- **Dev**: Added a new filter wp_statistics_assets_handle to manage assets more effectively.
+- **Fix**: Fixed a JavaScript conflict on the Search Engine Referrals page.
+- **Fix**: Resolved an issue where the Post Summary sidebar didn’t work with the Gutenberg editor in WordPress versions below 6.5.5.
+- **Fix**: Fixed the ‘tinyMCE is not defined’ error caused by the Avada Builder.
+- **Fix**: Fixed the ‘React error 130’ in the post summary block on WordPress v6.5.5 and lower.
 
 For more information about the major update, please [visit our blog post](https://wp-statistics.com/?p=16657) or follow [@wp_statistics](https://twitter.com/wp_statistics) on Twitter
 
