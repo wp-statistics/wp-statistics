@@ -4,7 +4,7 @@ Donate link: https://wp-statistics.com/donate/
 Tags: analytics, google analytics, insights, stats, site visitors
 Requires at least: 5.0
 Tested up to: 6.6
-Stable tag: 14.10.1
+Stable tag: 14.10.2
 Requires PHP: 5.6
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -132,28 +132,21 @@ WP Statistics supports WordPress Multi-Site/Network installations. In the networ
 
 == Upgrade Notice ==
 = 14.10 =
-To ensure the plugin works correctly, please clear your cache because some request payloads have been updated. Also, review your settings, especially if you use DataPlus, Advanced Reporting, or Customization, as some options have changed.
+To ensure the plugin works correctly, please **clear your cache** because some request payloads have been updated. Also, review your settings, especially if you use DataPlus, Advanced Reporting, or Customization, as some options have changed.
 Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest version.
 
 == Changelog ==
-= 14.10.1 - 11.09.2024 =
-* **Enhancement:** UX improvement for visitor information when users are logged in.
-* **Enhancement:** Corrected sorting issues in bar charts.
-* **Enhancement:** Fixed font override conflicts.
-* **Enhancement:** Enhanced object cache handling for better performance.
-* **Enhancement:** Improved compatibility with PHP versions 5.6 ~ 7.2.
-* **Enhancement:** Resolved style tweaks in charts and fixed various JavaScript issues.
-* **Fix:** Resolved issue with showing previous period data on hover when turned off.
-* **Fix:** Resolved chart shrinking issue in Chrome.
-* **Fix:** Fixed the “User Online” link in the Traffic Overview section.
-* **Fix:** Addressed issue where the top referral was not displaying in the “Your Performance at a Glance” section.
-* **Fix:** Resolved an issue with the report email option during some upgrades.
-* **Fix:** Fixed date filter issue on the “Single Browser” and “Visitor Insights” pages.
-* **Fix:** Fixed incorrect dates in the `monthly` schedule.
-* **Fix:** Fixed incorrect order in taxonomy lists when sorted by hits.
-* **Update:** Upgraded ChartJS to v4.4.4.
-* **Dev:** Added function `wp_statistics_needs_consent()` to check if user consent is required.
-* **Dev:** Removed `Admin_Post` and `Admin_Taxonomy` classes and replaced them with `HitColumnHandler`.
+= 14.10.2 - 02.10.2024 =
+- **Enhancement**: Encoded referral data in requests using Base64 to improve security.
+- **Enhancement**: Enhanced the “Performance at a Glance” section in email reports for better user experience.
+- **Enhancement**: Updated the layout and functionality of the visitor information section for easier use.
+- **Enhancement**: Removed the Traffic Summary widget from the dashboard to simplify the interface.
+- **Enhancement**: Improved visitor data display for users with missing information in the relationship table.
+- **Dev**: Added a new filter wp_statistics_assets_handle to manage assets more effectively.
+- **Fix**: Fixed a JavaScript conflict on the Search Engine Referrals page.
+- **Fix**: Resolved an issue where the Post Summary sidebar didn’t work with the Gutenberg editor in WordPress versions below 6.5.5.
+- **Fix**: Fixed the ‘tinyMCE is not defined’ error caused by the Avada Builder.
+- **Fix**: Fixed the ‘React error 130’ in the post summary block on WordPress v6.5.5 and lower.
 
 For more information about the major update, please [visit our blog post](https://wp-statistics.com/?p=16657) or follow [@wp_statistics](https://twitter.com/wp_statistics) on Twitter
 

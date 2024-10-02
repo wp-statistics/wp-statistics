@@ -84,7 +84,7 @@ class VisitorInsightsDataProvider
             'data'  => $this->visitorsModel->getVisitorsData(array_merge($this->args, [
                 'page_info' => true,
                 'user_info' => true,
-                'order_by'  => 'date',
+                'order_by'  => 'visitor.ID',
                 'order'     => 'DESC',
                 'page'      => Admin_Template::getCurrentPaged(),
                 'per_page'  => Admin_Template::$item_per_page,

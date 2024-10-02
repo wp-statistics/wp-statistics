@@ -1,3 +1,15 @@
+= 14.10.2 - 02.10.2024 =
+- **Enhancement**: Encoded referral data in requests using Base64 to improve security.
+- **Enhancement**: Enhanced the “Performance at a Glance” section in email reports for better user experience.
+- **Enhancement**: Updated the layout and functionality of the visitor information section for easier use.
+- **Enhancement**: Removed the Traffic Summary widget from the dashboard to simplify the interface.
+- **Enhancement**: Improved visitor data display for users with missing information in the relationship table.
+- **Dev**: Added a new filter wp_statistics_assets_handle to manage assets more effectively.
+- **Fix**: Fixed a JavaScript conflict on the Search Engine Referrals page.
+- **Fix**: Resolved an issue where the Post Summary sidebar didn’t work with the Gutenberg editor in WordPress versions below 6.5.5.
+- **Fix**: Fixed the ‘tinyMCE is not defined’ error caused by the Avada Builder.
+- **Fix**: Fixed the ‘React error 130’ in the post summary block on WordPress v6.5.5 and lower.
+
 = 14.10.1 - 11.09.2024 =
 * **Enhancement:** UX improvement for visitor information when users are logged in.
 * **Enhancement:** Corrected sorting issues in bar charts.

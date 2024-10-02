@@ -7,7 +7,7 @@ wps_js.pages_meta_box = {
         <thead>
             <tr>
                 <th class="wps-pd-l">${wps_js._('title')}</th>
-                <th class="wps-pd-l"><span class="wps-order">${wps_js._('visitors')}</span></th>
+                <th class="wps-pd-l"><span class="wps-order">${wps_js._('visits')}</span></th>
                 <th></th>
             </tr>
         </thead>

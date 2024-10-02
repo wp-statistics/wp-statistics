@@ -429,6 +429,7 @@
           white-space: nowrap;
           text-overflow: ellipsis;
           overflow: hidden;
+          line-height: normal;
         }
       }
 
@@ -616,22 +617,24 @@
         margin: 0;
         display: flex;
         gap: 6px;
-        align-items: center;
+        align-items: stretch;
 
         a {
           display: flex !important;
+          align-items: center;
         }
 
         img {
           width: 18.81px;
           height: 14px;
           border-radius: 2px;
+          margin-top: 2px;
         }
 
         span {
           font-size: 13px;
           font-weight: 400;
-          line-height: 15.23px;
+          line-height: 16.8px!important;
           color: #0C0C0D;
         }
       }
@@ -649,6 +652,7 @@
           overflow: hidden;
           text-overflow: ellipsis;
           max-width: calc(100% - 19px);
+          line-height: normal;
         }
 
         &:after {
