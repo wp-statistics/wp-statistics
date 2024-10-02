@@ -211,6 +211,15 @@ class LicenseManagementManager
 
                 // Loop through each associated product for this license
                 foreach ($licenseData['products'] as $productSlug) {
+                    try {
+                        if (!$this->pluginHandler->isPluginActive($productSlug)) {
+                            continue;
+                        }
+                    } catch (Exception $e) {
+                        // Plugin is not installed
+                        continue;
+                    }
+
                     // Avoid duplicate handling for the same product
                     if (!in_array($productSlug, $this->handledPlugins)) {
                         $this->initializePluginUpdater($productSlug, $licenseKey);
