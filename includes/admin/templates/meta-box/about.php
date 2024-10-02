@@ -9,7 +9,7 @@ if ($aboutWidgetContent) {
 <div class="o-wrap wps-about-widget">
     <div class="c-about">
         <div class="c-about__row c-about__row--logo">
-            <a href="https://wp-statistics.com/?utm_source=wp-statistics&utm_medium=link&utm_campaign=logo" target="_blank">
+            <a href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/?utm_source=wp-statistics&utm_medium=link&utm_campaign=logo'); ?>" target="_blank">
                 <span class="c-about-logo"></span>
             </a>
             <span class="c-about-badge"><span><?php esc_html_e('Version', 'wp-statistics'); ?></span> <span><?php echo WP_STATISTICS_VERSION // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	 ?></span> </span>
@@ -17,27 +17,27 @@ if ($aboutWidgetContent) {
         <div class="c-about__row c-about__links">
             <div class="c-about__links--title"><?php esc_html_e('Quick Actions', 'wp-statistics'); ?></div>
             <div class="c-about__links--content">
-                <a href=" " target="_blank">
+                <a href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/documentation/?utm_source=wp-statistics&utm_medium=link&utm_campaign=help'); ?>" target="_blank">
                     <span class="c-about__links--icon c-about__links--icon__help"></span>
                     <?php esc_html_e('Help Center', 'wp-statistics'); ?>
                 </a>
 
-                <a href="https://wp-statistics.com/add-ons/?utm_source=wp-statistics&utm_medium=link&utm_campaign=add-ons" target="_blank">
+                <a href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/add-ons/?utm_source=wp-statistics&utm_medium=link&utm_campaign=add-ons'); ?>" target="_blank">
                     <span class="c-about__links--icon c-about__links--icon__add-ons"></span>
                     <?php esc_html_e('Add-Ons', 'wp-statistics'); ?>
                 </a>
 
-                <a href="" target="_blank">
+                <a href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/changelog/?utm_source=wp-statistics&utm_medium=link&utm_campaign=changelog'); ?>" target="_blank">
                     <span class="c-about__links--icon c-about__links--icon__release"></span>
                     <?php esc_html_e('Release Notes', 'wp-statistics'); ?>
                 </a>
 
-                <a href="" target="_blank">
+                <a href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/blog/?utm_source=wp-statistics&utm_medium=link&utm_campaign=blog'); ?>" target="_blank">
                     <span class="c-about__links--icon c-about__links--icon__blog"></span>
                     <?php esc_html_e('Blog Updates', 'wp-statistics'); ?>
                 </a>
                 <div class="c-about__rate">
-                    <a href="https://wordpress.org/support/plugin/wp-statistics/reviews/?rate=5#new-post" target="_blank">
+                    <a href="https://wordpress.org/support/plugin/wp-statistics/reviews/?filter=5#new-post" target="_blank">
                         <?php esc_html_e('Enjoying WP Statistics? Give Us 5 Stars', 'wp-statistics'); ?>
                     </a>
                 </div>
