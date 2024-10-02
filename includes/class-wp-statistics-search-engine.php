@@ -2,6 +2,8 @@
 
 namespace WP_STATISTICS;
 
+use WP_Statistics\Service\Analytics\Referrals\ReferralsDatabase;
+
 class SearchEngine
 {
     /**
@@ -24,105 +26,25 @@ class SearchEngine
     /**
      * Get List Of Search engine in WP Statistics
      *
+     * @deprecated This function is deprecated. use ReferralsDatabase::getList()
      * @param bool $all
      * @return array
      */
     public static function getList($all = false)
     {
+        _deprecated_function('getList', '14.11', 'ReferralsDatabase::getList()');
 
-        // List OF Search engine
-        $default = $engines = array(
-            'ask'        => array(
-                'name'         => 'Ask.com',
-                'translated'   => __('Ask.com', 'wp-statistics'),
-                'tag'          => 'ask',
-                'sqlpattern'   => '%ask.com%',
-                'regexpattern' => 'ask\.com',
-                'querykey'     => 'q',
-                'image'        => 'ask.png',
-                'logo_url'     => self::Asset() . 'ask.png'
-            ),
-            'baidu'      => array(
-                'name'         => 'Baidu',
-                'translated'   => __('Baidu', 'wp-statistics'),
-                'tag'          => 'baidu',
-                'sqlpattern'   => '%baidu.com%',
-                'regexpattern' => 'baidu\.com',
-                'querykey'     => 'wd',
-                'image'        => 'baidu.png',
-                'logo_url'     => self::Asset() . 'baidu.png'
-            ),
-            'bing'       => array(
-                'name'         => 'Bing',
-                'translated'   => __('Bing', 'wp-statistics'),
-                'tag'          => 'bing',
-                'sqlpattern'   => '%bing.com%',
-                'regexpattern' => 'bing\.com',
-                'querykey'     => 'q',
-                'image'        => 'bing.png',
-                'logo_url'     => self::Asset() . 'bing.png'
-            ),
-            'clearch'    => array(
-                'name'         => 'clearch.org',
-                'translated'   => __('clearch.org', 'wp-statistics'),
-                'tag'          => 'clearch',
-                'sqlpattern'   => '%clearch.org%',
-                'regexpattern' => 'clearch\.org',
-                'querykey'     => 'q',
-                'image'        => 'clearch.png',
-                'logo_url'     => self::Asset() . 'clearch.png'
-            ),
-            'duckduckgo' => array(
-                'name'         => 'DuckDuckGo',
-                'translated'   => __('DuckDuckGo', 'wp-statistics'),
-                'tag'          => 'duckduckgo',
-                'sqlpattern'   => array('%duckduckgo.com%', '%ddg.gg%'),
-                'regexpattern' => array('duckduckgo\.com', 'ddg\.gg'),
-                'querykey'     => 'q',
-                'image'        => 'duckduckgo.png',
-                'logo_url'     => self::Asset() . 'duckduckgo.png'
-            ),
-            'google'     => array(
-                'name'         => 'Google',
-                'translated'   => __('Google', 'wp-statistics'),
-                'tag'          => 'google',
-                'sqlpattern'   => '%google.%',
-                'regexpattern' => 'google\.',
-                'querykey'     => 'q',
-                'image'        => 'google.png',
-                'logo_url'     => self::Asset() . 'google.png'
-            ),
-            'yahoo'      => array(
-                'name'         => 'Yahoo!',
-                'translated'   => __('Yahoo!', 'wp-statistics'),
-                'tag'          => 'yahoo',
-                'sqlpattern'   => '%yahoo.com%',
-                'regexpattern' => 'yahoo\.com',
-                'querykey'     => 'p',
-                'image'        => 'yahoo.png',
-                'logo_url'     => self::Asset() . 'yahoo.png'
-            ),
-            'yandex'     => array(
-                'name'         => 'Yandex',
-                'translated'   => __('Yandex', 'wp-statistics'),
-                'tag'          => 'yandex',
-                'sqlpattern'   => '%yandex.ru%',
-                'regexpattern' => 'yandex\.ru',
-                'querykey'     => 'text',
-                'image'        => 'yandex.png',
-                'logo_url'     => self::Asset() . 'yandex.png'
-            ),
-            'qwant'      => array(
-                'name'         => 'Qwant',
-                'translated'   => __('Qwant', 'wp-statistics'),
-                'tag'          => 'qwant',
-                'sqlpattern'   => '%qwant.com%',
-                'regexpattern' => 'qwant\.com',
-                'querykey'     => 'q',
-                'image'        => 'qwant.png',
-                'logo_url'     => self::Asset() . 'qwant.png'
-            )
-        );
+        $referralsDatabase  = new ReferralsDatabase();
+        $referralsDatabase  = $referralsDatabase->getList();
+        $searchEngines      = $referralsDatabase['source_channels']['search']['channels'];
+
+        $engines = [];
+        foreach ($searchEngines as $searchEngine) {
+            $engines[$searchEngine['identifier']] = [
+                'name' => $searchEngine['name'],
+                'tag'  => $searchEngine['identifier']
+            ];
+        }
 
         return apply_filters('wp_statistics_search_engine_list', $engines);
     }
