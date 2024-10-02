@@ -211,19 +211,9 @@ class LicenseManagementManager
 
                 // Loop through each associated product for this license
                 foreach ($licenseData['products'] as $productSlug) {
-                    try {
-                        if (!$this->pluginHandler->isPluginActive($productSlug)) {
-                            continue;
-                        }
-                    } catch (Exception $e) {
-                        // Plugin is not installed
-                        continue;
-                    }
-
                     // Avoid duplicate handling for the same product
                     if (!in_array($productSlug, $this->handledPlugins)) {
                         $this->initializePluginUpdater($productSlug, $licenseKey);
-                        $this->handledPlugins[] = $productSlug;
                     }
                 }
             }
@@ -246,9 +236,15 @@ class LicenseManagementManager
                 throw new Exception(sprintf(__('Plugin data not found for: %s', 'wp-statistics'), $pluginSlug));
             }
 
+            if (!$this->pluginHandler->isPluginActive($pluginSlug)) {
+                return;
+            }
+
             // Initialize PluginUpdater with the version and license key
             $pluginUpdater = new PluginUpdater($pluginSlug, $pluginData['Version'], $licenseKey);
             $pluginUpdater->handle();
+
+            $this->handledPlugins[] = $pluginSlug;
 
         } catch (Exception $e) {
             WP_Statistics::log(sprintf('Failed to initialize PluginUpdater for %s: %s', $pluginSlug, $e->getMessage()));
