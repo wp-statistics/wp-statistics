@@ -3,6 +3,7 @@
 namespace WP_STATISTICS;
 
 use WP_Statistics\Components\AssetNameObfuscator;
+use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 
 class Install
 {
@@ -673,6 +674,19 @@ class Install
             wp_clear_scheduled_hook('wp_statistics_dbmaint_visitor_hook');
         }
 
+        /**
+         * Update old excluded URLs to the new structure with explicit wildcards.
+         *
+         * @version 14.11
+         */
+        if (version_compare($installed_version, '14.11', '<') && Option::get('excluded_urls')) {
+            $updatedExcludedUrls = self::updateOldExcludedUrls();
+            if (!empty($updatedExcludedUrls)) {
+                Option::update('excluded_urls', implode("\n", $updatedExcludedUrls));
+                Notice::addNotice(esc_html__('Your excluded URLs have been updated to match the new structure! Please head over to Settings > Filtering & Exceptions > Excluded URLs and review the changes.', 'wp-statistics'), 'updated_excluded_urls');
+            }
+        }
+
         // Store the new version information.
         update_option('wp_statistics_plugin_version', WP_STATISTICS_VERSION);
     }
@@ -977,6 +991,39 @@ class Install
         }
 
         return $page_type;
+    }
+
+    /**
+     * Updates old excluded URLs to the new structure with explicit wildcards.
+     *
+     * @return array updated URLs.
+     */
+    public static function updateOldExcludedUrls()
+    {
+        $updatedUrls = [];
+
+        foreach (explode("\n", Option::get('excluded_urls')) as $url) {
+            $url = wp_make_link_relative($url);
+            $url = trim($url);
+
+            // If the URL contains a query string, strip it
+            $url = explode('?', $url)[0];
+
+            // Trim leading/trailing slashes
+            $url = trim($url, '/\\');
+
+            // If the URL doesn't end with an asterisk (*), add one and make it a wildcard
+            if (substr($url, -1) !== '*') {
+                $url .= '*';
+            }
+
+            // Add the URL to the new list if it's not similar to others
+            if (!in_array($url, $updatedUrls)) {
+                $updatedUrls[] = $url;
+            }
+        }
+
+        return $updatedUrls;
     }
 }
 

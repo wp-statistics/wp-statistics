@@ -163,7 +163,13 @@
             <th scope="row"><label for="wps_excluded_urls"><?php esc_html_e('Excluded URLs', 'wp-statistics'); ?></label></th>
             <td>
                 <textarea id="wps_excluded_urls" name="wps_excluded_urls" rows="5" cols="80" class="code" dir="ltr"><?php echo esc_textarea(WP_STATISTICS\Option::get('excluded_urls')); ?></textarea>
-                <p class="description"><?php echo esc_html__('List specific URLs here that you wish to exclude from tracking. URL parameters aren\'t considered.', 'wp-statistics'); ?></p>
+                <p class="description"><?php echo esc_html__('List specific URLs here that you wish to exclude from tracking. URL parameters aren\'t considered. Acceptable formats: ', 'wp-statistics'); ?></p>
+                <ul class="description">
+                    <li dir="ltr"><code>/post/123</code></li>
+                    <li dir="ltr"><code>privacy-policy/</code></li>
+                    <li dir="ltr"><code>faq/*</code></li>
+                    <li dir="ltr"><code>*some-word-in-url*</code></li>
+                </ul>
             </td>
         </tr>
         </tbody>
