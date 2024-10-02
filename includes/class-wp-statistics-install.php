@@ -3,7 +3,6 @@
 namespace WP_STATISTICS;
 
 use WP_Statistics\Components\AssetNameObfuscator;
-use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 
 class Install
 {
@@ -677,13 +676,12 @@ class Install
         /**
          * Update old excluded URLs to the new structure with explicit wildcards.
          *
-         * @version 14.11
+         * @version 14.10.3
          */
-        if (version_compare($installed_version, '14.11', '<') && Option::get('excluded_urls')) {
+        if (version_compare($installed_version, '14.10.3', '<') && Option::get('excluded_urls')) {
             $updatedExcludedUrls = self::updateOldExcludedUrls();
             if (!empty($updatedExcludedUrls)) {
                 Option::update('excluded_urls', implode("\n", $updatedExcludedUrls));
-                Notice::addNotice(esc_html__('Your excluded URLs have been updated to match the new structure! Please head over to Settings > Filtering & Exceptions > Excluded URLs and review the changes.', 'wp-statistics'), 'updated_excluded_urls');
             }
         }
 
