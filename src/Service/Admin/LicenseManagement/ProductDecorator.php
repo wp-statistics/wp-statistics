@@ -245,30 +245,14 @@ class ProductDecorator
         return 'danger';
     }
 
-    public function isActivated()
-    {
-        try {
-            return $this->pluginHandler->isPluginActive($this->getSlug());
-        } catch (\Exception $e) {
-            return false;
-        }
-    }
-
     public function isInstalled()
     {
-        return !empty($this->getPluginFile());
+        return $this->pluginHandler->isPluginInstalled($this->getSlug());
     }
 
-    public function getPluginFile()
+    public function isActivated()
     {
-        $pluginFile = null;
-        try {
-            $pluginFile = $this->pluginHandler->getPluginFile($this->getSlug());
-        } catch (\Exception $e) {
-            return null;
-        }
-
-        return $pluginFile;
+        return $this->pluginHandler->isPluginActive($this->getSlug());
     }
 
     public function getDownloadUrl()

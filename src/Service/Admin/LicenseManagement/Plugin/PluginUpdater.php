@@ -129,7 +129,12 @@ class PluginUpdater
                 throw new Exception($remote->message, $remote->code);
             }
 
-            // Adjust patch version to match the current WordPress version
+            /**
+             * Adjusts the tested version to ignore the patch number for compatibility checks.
+             * Based on the patch from https://core.trac.wordpress.org/ticket/62151.
+             *
+             * @note If the patch is applied in WordPress core, this section can be removed.
+             */
             if (isset($remote->tested)) {
                 $remote->tested = $this->adjustPatchVersion($remote->tested);
             }
