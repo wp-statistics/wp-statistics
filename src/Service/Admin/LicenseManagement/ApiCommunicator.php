@@ -202,8 +202,6 @@ class ApiCommunicator
      * @param string $slug
      *
      * @return string|null License key. `null` if no valid licenses was found for this slug.
-     *
-     * @throws Exception
      */
     public function getValidLicenseForProduct($slug)
     {

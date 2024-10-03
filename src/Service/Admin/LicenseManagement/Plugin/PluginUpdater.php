@@ -46,13 +46,14 @@ class PluginUpdater
      */
     public function handle()
     {
-        if ($this->licenseKey) {
-            add_filter('plugins_api', [$this, 'pluginsApiInfo'], 20, 3);
-            add_filter('pre_set_site_transient_update_plugins', [$this, 'checkForUpdate']);
-            add_action('upgrader_process_complete', [$this, 'clearCache'], 10, 2);
-        } else {
-            add_action('after_plugin_row_' . $this->pluginFilePath, [$this, 'showLicenseNotice'], 10, 2);
-        }
+        add_filter('plugins_api', [$this, 'pluginsApiInfo'], 20, 3);
+        add_filter('pre_set_site_transient_update_plugins', [$this, 'checkForUpdate']);
+        add_action('upgrader_process_complete', [$this, 'clearCache'], 10, 2);
+    }
+
+    public function handleLicenseNotice()
+    {
+        add_action("after_plugin_row_{$this->pluginFilePath}", [$this, 'showLicenseNotice'], 10, 2);
     }
 
     /**
@@ -168,6 +169,12 @@ class PluginUpdater
             $res->new_version = $remote->version;
             $res->tested      = $remote->tested;
             $res->package     = $remote->download_url;
+            $res->icons       = [
+                'svg'     => $remote->icons->{'1x'},
+                'default' => $remote->icons->{'1x'},
+                '1x'      => $remote->icons->{'1x'},
+                '2x'      => $remote->icons->{'2x'},
+            ];
 
             $transient->response[$res->plugin] = $res;
         }

@@ -23,6 +23,8 @@ class LicenseManagementManager
         $this->initializeMenu();
         $this->initializeAjaxCallbacks();
         $this->initializePluginUpdaters();
+
+        add_action('admin_init', [$this, 'checkForPluginsWithoutLicenses']);
     }
 
     /**
@@ -57,22 +59,11 @@ class LicenseManagementManager
 
     public function registerAjaxCallbacks($list)
     {
-        $list[] = [
-            'class'  => $this,
-            'action' => 'check_license',
-        ];
-        $list[] = [
-            'class'  => $this,
-            'action' => 'download_plugin',
-        ];
-        $list[] = [
-            'class'  => $this,
-            'action' => 'check_plugin',
-        ];
-        $list[] = [
-            'class'  => $this,
-            'action' => 'activate_plugin',
-        ];
+        $list[] = ['class' => $this, 'action' => 'check_license'];
+        $list[] = ['class' => $this, 'action' => 'download_plugin'];
+        $list[] = ['class' => $this, 'action' => 'check_plugin'];
+        $list[] = ['class' => $this, 'action' => 'activate_plugin'];
+
         return $list;
     }
 
@@ -201,19 +192,16 @@ class LicenseManagementManager
      */
     private function initializePluginUpdaters()
     {
-        // Get all stored licenses
         $storedLicenses = $this->apiCommunicator->getStoredLicenses();
 
         if (!empty($storedLicenses)) {
-            // Loop through each stored license
             foreach ($storedLicenses as $licenseData) {
                 $licenseKey = $licenseData['license']->license_key;
 
-                // Loop through each associated product for this license
                 foreach ($licenseData['products'] as $productSlug) {
                     // Avoid duplicate handling for the same product
                     if (!in_array($productSlug, $this->handledPlugins)) {
-                        $this->initializePluginUpdater($productSlug, $licenseKey);
+                        $this->initializePluginUpdaterIfValid($productSlug, $licenseKey);
                     }
                 }
             }
@@ -226,7 +214,7 @@ class LicenseManagementManager
      * @param string $pluginSlug The slug of the plugin (e.g., 'wp-statistics-data-plus').
      * @param string $licenseKey The license key for the product.
      */
-    private function initializePluginUpdater($pluginSlug, $licenseKey)
+    private function initializePluginUpdaterIfValid($pluginSlug, $licenseKey)
     {
         try {
             if (!$this->pluginHandler->isPluginActive($pluginSlug)) {
@@ -247,6 +235,25 @@ class LicenseManagementManager
 
         } catch (Exception $e) {
             WP_Statistics::log(sprintf('Failed to initialize PluginUpdater for %s: %s', $pluginSlug, $e->getMessage()));
+        }
+    }
+
+    /**
+     * Loop through plugins and show license notice for those without a valid license
+     */
+    public function checkForPluginsWithoutLicenses()
+    {
+        $plugins = get_plugins();
+
+        foreach ($plugins as $pluginFile => $pluginData) {
+            if (strpos($pluginFile, 'wp-statistics-') === 0) {
+                $licenseKey = $this->apiCommunicator->getValidLicenseForProduct($pluginData['TextDomain']);
+
+                if (!$licenseKey) {
+                    $pluginUpdater = new PluginUpdater($pluginData['TextDomain'], $pluginData['Version']);
+                    $pluginUpdater->handleLicenseNotice();
+                }
+            }
         }
     }
 }
