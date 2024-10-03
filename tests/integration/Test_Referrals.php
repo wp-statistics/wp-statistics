@@ -74,4 +74,40 @@ class Test_Referrals extends WP_UnitTestCase
         $result = Referrals::getUrl();
         $this->assertEquals('', $result);
     }
+
+    /**
+     * Test getUrl() with query params
+     */
+    public function test_getUrl_with_query_params()
+    {
+        $_SERVER['HTTP_REFERER'] = 'https://external.com?test=1';
+
+        $result = Referrals::getUrl();
+
+        $this->assertEquals('external.com', $result);
+    }
+
+
+    /**
+     * Test getUrl() without protocol
+     */
+    public function test_getUrl_without_protocol()
+    {
+        $_SERVER['HTTP_REFERER'] = 'external.com';
+
+        $result = Referrals::getUrl();
+
+        $this->assertEquals('external.com', $result);
+    }
+
+    /**
+     * Test getUrl() with non-http protocol
+     */
+    public function test_getUrl_with_non_http_protocol()
+    {
+        $result = Referrals::getUrl('android-app://com.google.android.gm');
+
+        $this->assertEquals('android-app://com.google.android.gm', $result);
+    }
+
 }
