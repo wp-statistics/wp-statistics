@@ -229,15 +229,14 @@ class LicenseManagementManager
     private function initializePluginUpdater($pluginSlug, $licenseKey)
     {
         try {
-            // Get the dynamic version of the plugin
-            $pluginData = $this->pluginHandler->getPluginData($pluginSlug);
-
-            if (!$pluginData) {
-                throw new Exception(sprintf(__('Plugin data not found for: %s', 'wp-statistics'), $pluginSlug));
-            }
-
             if (!$this->pluginHandler->isPluginActive($pluginSlug)) {
                 return;
+            }
+
+            // Get the dynamic version of the plugin
+            $pluginData = $this->pluginHandler->getPluginData($pluginSlug);
+            if (!$pluginData) {
+                throw new Exception(sprintf(__('Plugin data not found for: %s', 'wp-statistics'), $pluginSlug));
             }
 
             // Initialize PluginUpdater with the version and license key

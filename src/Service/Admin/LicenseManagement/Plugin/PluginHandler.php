@@ -60,23 +60,22 @@ class PluginHandler
      * @param string $pluginSlug
      *
      * @return string
-     *
-     * @throws Exception
      */
     public function getPluginFile($pluginSlug)
     {
-        if (!function_exists('get_plugins')) {
-            require_once ABSPATH . 'wp-admin/includes/plugin.php';
-        }
+        return "$pluginSlug/$pluginSlug.php";
+    }
 
-        foreach (get_plugins() as $pluginFile => $pluginInfo) {
-            // Return this plugin if the folder name matches the input slug
-            if (explode('/', $pluginFile)[0] == $pluginSlug) {
-                return trailingslashit(WP_PLUGIN_DIR) . $pluginFile;
-            }
-        }
-
-        throw new Exception(__('Plugin not found.', 'wp-statistics'));
+    /**
+     * Checks if the plugin is installed?
+     *
+     * @param string $pluginSlug
+     *
+     * @return bool
+     */
+    public function isPluginInstalled($pluginSlug)
+    {
+        return file_exists(WP_PLUGIN_DIR . DIRECTORY_SEPARATOR . $this->getPluginFile($pluginSlug));
     }
 
     /**
@@ -85,14 +84,10 @@ class PluginHandler
      * @param string $pluginSlug
      *
      * @return bool
-     *
-     * @throws Exception
      */
     public function isPluginActive($pluginSlug)
     {
-        $pluginFile = $this->getPluginFile($pluginSlug);
-
-        return $pluginFile && is_plugin_active(plugin_basename($pluginFile));
+        return $this->isPluginInstalled($pluginSlug) && is_plugin_active(plugin_basename($this->getPluginFile($pluginSlug)));
     }
 
     /**
@@ -106,16 +101,15 @@ class PluginHandler
      */
     public function activatePlugin($pluginSlug)
     {
+        if (!$this->isPluginInstalled($pluginSlug)) {
+            throw new Exception(__('Plugin is not installed!', 'wp-statistics'));
+        }
+
         if ($this->isPluginActive($pluginSlug)) {
             throw new Exception(__('Plugin already active.', 'wp-statistics'));
         }
 
-        $pluginFile = $this->getPluginFile($pluginSlug);
-        if (!$pluginFile) {
-            throw new Exception(__('Plugin not found.', 'wp-statistics'));
-        }
-
-        $activateResult = activate_plugin($pluginFile);
+        $activateResult = activate_plugin($this->getPluginFile($pluginSlug));
         if (is_wp_error($activateResult)) {
             // translators: %s: Error message.
             throw new Exception(sprintf(__('Failed to activate the plugin: %s', 'wp-statistics'), $activateResult->get_error_message()));
@@ -135,12 +129,11 @@ class PluginHandler
      */
     public function deactivatePlugin($pluginSlug)
     {
-        $pluginFile = $this->getPluginFile($pluginSlug);
-        if (!$pluginFile) {
-            throw new Exception(__('Plugin not found.', 'wp-statistics'));
+        if (!$this->isPluginInstalled($pluginSlug)) {
+            throw new Exception(__('Plugin is not installed!', 'wp-statistics'));
         }
 
-        deactivate_plugins($pluginFile);
+        deactivate_plugins($this->getPluginFile($pluginSlug));
 
         return true;
     }
@@ -156,15 +149,10 @@ class PluginHandler
      */
     public function getPluginData($pluginSlug)
     {
-        $pluginFile = $this->getPluginFile($pluginSlug);
-        if (!$pluginFile) {
-            throw new Exception(__('Plugin not found.', 'wp-statistics'));
+        if (!$this->isPluginInstalled($pluginSlug)) {
+            throw new Exception(__('Plugin is not installed!', 'wp-statistics'));
         }
 
-        if (!function_exists('get_plugin_data')) {
-            require_once ABSPATH . 'wp-admin/includes/plugin.php';
-        }
-
-        return get_plugin_data($pluginFile);
+        return get_plugin_data(WP_PLUGIN_DIR . DIRECTORY_SEPARATOR . $this->getPluginFile($pluginSlug));
     }
 }
