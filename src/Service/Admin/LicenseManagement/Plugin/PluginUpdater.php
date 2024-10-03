@@ -208,7 +208,7 @@ class PluginUpdater
                         <p>
                             <?php echo sprintf(__('<i>Automatic update is unavailable for the %s plugin.</i>', $this->pluginSlug), esc_attr($pluginData['Name'])); ?>
                             <br/>
-                            <?php echo sprintf(__('To enable automatic updates with new features and security improvements, input your license key in <a href="%s">Settings page</a>.', $this->pluginSlug), Menus::admin_url('plugins', ['tab' => 'add-license'])); ?>
+                            <?php echo sprintf(__('To enable automatic updates with new features and security improvements, <a href="%s">Activate your license</a>.', $this->pluginSlug), Menus::admin_url('plugins', ['tab' => 'add-license'])); ?>
                         </p>
                     </div>
                 </td>
