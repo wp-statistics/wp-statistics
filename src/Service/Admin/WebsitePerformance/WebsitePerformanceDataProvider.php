@@ -111,7 +111,7 @@ class WebsitePerformanceDataProvider
      * @param string $fromDate Start date of the report in `Y-m-d` format.
      * @param string $toDate End date of the report in `Y-m-d` format. Default: Yesterday.
      *
-     * @return  void
+     * @return void
      */
     public function setArgs($fromDate, $toDate = '')
     {
@@ -255,7 +255,7 @@ class WebsitePerformanceDataProvider
     /**
      * Should calculate percentage change between current period and previous period stats?
      *
-     * @return  bool
+     * @return bool
      */
     public function shouldCalculatePercentageChanges()
     {
@@ -265,9 +265,9 @@ class WebsitePerformanceDataProvider
     /**
      * Returns visitors for the selected period.
      *
-     * @param   bool    $isCurrentPeriod   Whether return current period's data or previous period's.
+     * @param bool $isCurrentPeriod Whether return current period's data or previous period's.
      *
-     * @return  int
+     * @return int
      */
     public function getVisitors($isCurrentPeriod = true)
     {
@@ -282,7 +282,7 @@ class WebsitePerformanceDataProvider
     /**
      * Returns visitors for current period.
      *
-     * @return  int
+     * @return int
      */
     public function getCurrentPeriodVisitors()
     {
@@ -296,7 +296,7 @@ class WebsitePerformanceDataProvider
     /**
      * Returns visitors for previous period.
      *
-     * @return  int
+     * @return int
      */
     public function getPreviousPeriodVisitors()
     {
@@ -310,9 +310,9 @@ class WebsitePerformanceDataProvider
     /**
      * Returns visitors for the selected period.
      *
-     * @param   bool    $isCurrentPeriod   Whether return current period's data or previous period's.
+     * @param bool $isCurrentPeriod Whether return current period's data or previous period's.
      *
-     * @return  int
+     * @return int
      */
     public function getViews($isCurrentPeriod = true)
     {
@@ -327,7 +327,7 @@ class WebsitePerformanceDataProvider
     /**
      * Returns views for current period.
      *
-     * @return  int
+     * @return int
      */
     public function getCurrentPeriodViews()
     {
@@ -341,7 +341,7 @@ class WebsitePerformanceDataProvider
     /**
      * Returns views for previous period.
      *
-     * @return  int
+     * @return int
      */
     public function getPreviousPeriodViews()
     {
@@ -355,9 +355,9 @@ class WebsitePerformanceDataProvider
     /**
      * Returns referrals for the selected period.
      *
-     * @param   bool    $isCurrentPeriod   Whether return current period's data or previous period's.
+     * @param bool $isCurrentPeriod Whether return current period's data or previous period's.
      *
-     * @return  array                   Format: `['visitors' => {COUNT}, 'referrer' => {URL}, 'visitors' => {COUNT}, 'referrer' => {URL}, ...]`
+     * @return array Format: `['visitors' => {COUNT}, 'referrer' => {URL}, 'visitors' => {COUNT}, 'referrer' => {URL}, ...]`
      */
     public function getReferrals($isCurrentPeriod = true)
     {
@@ -372,7 +372,7 @@ class WebsitePerformanceDataProvider
     /**
      * Returns referrals count for current period.
      *
-     * @return  int
+     * @return int
      */
     public function getCurrentPeriodReferralsCount()
     {
@@ -397,7 +397,7 @@ class WebsitePerformanceDataProvider
     /**
      * Returns referrals count for previous period.
      *
-     * @return  int
+     * @return int
      */
     public function getPreviousPeriodReferralsCount()
     {
@@ -422,9 +422,9 @@ class WebsitePerformanceDataProvider
     /**
      * Returns number of published contents for the selected period.
      *
-     * @param   bool    $isCurrentPeriod   Whether return current period's data or previous period's.
+     * @param bool $isCurrentPeriod Whether return current period's data or previous period's.
      *
-     * @return  int
+     * @return int
      */
     public function getContents($isCurrentPeriod = true)
     {
@@ -443,7 +443,7 @@ class WebsitePerformanceDataProvider
     /**
      * Returns contents for current period.
      *
-     * @return  int
+     * @return int
      */
     public function getCurrentPeriodContents()
     {
@@ -457,7 +457,7 @@ class WebsitePerformanceDataProvider
     /**
      * Returns contents for previous period.
      *
-     * @return  int
+     * @return int
      */
     public function getPreviousPeriodContents()
     {
@@ -471,7 +471,7 @@ class WebsitePerformanceDataProvider
     /**
      * Returns percentage change between current and previous period's visitors.
      *
-     * @return  int
+     * @return int
      */
     public function getPercentageChangeVisitors()
     {
@@ -489,7 +489,7 @@ class WebsitePerformanceDataProvider
     /**
      * Returns percentage change between current and previous period's views.
      *
-     * @return  int
+     * @return int
      */
     public function getPercentageChangeViews()
     {
@@ -507,7 +507,7 @@ class WebsitePerformanceDataProvider
     /**
      * Returns percentage change between current and previous period's referrals.
      *
-     * @return  int
+     * @return int
      */
     public function getPercentageChangeReferrals()
     {
@@ -525,7 +525,7 @@ class WebsitePerformanceDataProvider
     /**
      * Returns percentage change between current and previous period's contents.
      *
-     * @return  int
+     * @return int
      */
     public function getPercentageChangeContents()
     {
@@ -544,7 +544,7 @@ class WebsitePerformanceDataProvider
     /**
      * Returns the name of the author with the most published posts in current period.
      *
-     * @return  string
+     * @return string
      */
     public function getTopAuthor()
     {
@@ -565,7 +565,7 @@ class WebsitePerformanceDataProvider
     /**
      * Returns the name of the post that had the most views in current period.
      *
-     * @return  string
+     * @return string
      */
     public function getTopPost()
     {
@@ -586,7 +586,7 @@ class WebsitePerformanceDataProvider
     /**
      * Returns the URL of the website that referred the most users in current period.
      *
-     * @return  string
+     * @return string
      */
     public function getTopReferral()
     {
@@ -617,7 +617,7 @@ class WebsitePerformanceDataProvider
     /**
      * Returns the name of the category/taxonomy that had the most views in its posts in current period.
      *
-     * @return  string
+     * @return string
      */
     public function getTopCategory()
     {
