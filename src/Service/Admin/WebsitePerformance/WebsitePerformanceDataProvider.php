@@ -16,32 +16,18 @@ use WP_STATISTICS\TimeZone;
 class WebsitePerformanceDataProvider
 {
     /**
-     * Start date of current period.
+     * Current period dates.
      *
-     * @var string  Format: `Y-m-d`.
+     * @var array Format: `['from' => {Y-m-d}, 'to' => {Y-m-d}]`.
      */
-    private $currentPeriodFromDate = '';
+    private $currentPeriod;
 
     /**
-     * End date of current period.
+     * Previous period dates.
      *
-     * @var string  Format: `Y-m-d`.
+     * @var array Format: `['from' => {Y-m-d}, 'to' => {Y-m-d}]`.
      */
-    private $currentPeriodToDate = '';
-
-    /**
-     * Start date of previous period.
-     *
-     * @var string  Format: `Y-m-d`.
-     */
-    private $previousPeriodFromDate = '';
-
-    /**
-     * End date of previous period.
-     *
-     * @var string  Format: `Y-m-d`.
-     */
-    private $previousPeriodToDate = '';
+    private $previousPeriod;
 
     /**
      * Should calculate percentage change between current period and previous period stats?
@@ -108,102 +94,126 @@ class WebsitePerformanceDataProvider
     private $topCategory               = null;
 
     /**
-     * Initializes the class.
-     *
-     * @param   string  $fromDate  Start date of the report in `Y-m-d` format.
-     * @param   string  $toDate    End date of the report in `Y-m-d` format. Default: Yesterday.
+     * @param string $fromDate Start date of the report in `Y-m-d` format.
+     * @param string $toDate End date of the report in `Y-m-d` format. Default: Yesterday.
      */
     public function __construct($fromDate, $toDate = '')
     {
         $this->setArgs($fromDate, $toDate);
 
-        $this->visitorsModel   = new VisitorsModel();
-        $this->viewsModel      = new ViewsModel();
+        $this->visitorsModel = new VisitorsModel();
+        $this->viewsModel    = new ViewsModel();
     }
 
     /**
      * Sets arguments for current period and previous period.
      *
-     * @param   string  $fromDate  Start date of the report in `Y-m-d` format.
-     * @param   string  $toDate    End date of the report in `Y-m-d` format. Default: Yesterday.
+     * @param string $fromDate Start date of the report in `Y-m-d` format.
+     * @param string $toDate End date of the report in `Y-m-d` format. Default: Yesterday.
      *
      * @return  void
      */
     public function setArgs($fromDate, $toDate = '')
     {
+        $this->setPeriods($fromDate, $toDate);
+        $this->setArguments();
+        $this->resetCachedData();
+    }
+
+    /**
+     * Sets current and previous period dates.
+     *
+     * @param string $fromDate Start date of the report in `Y-m-d` format.
+     * @param string $toDate End date of the report in `Y-m-d` format. Default: Yesterday.
+     *
+     * @return void
+     */
+    private function setPeriods($fromDate, $toDate = '')
+    {
         if (!TimeZone::isValidDate($fromDate)) {
             $fromDate = TimeZone::getTimeAgo(7);
             $toDate   = TimeZone::getTimeAgo();
         } else if (!TimeZone::isValidDate($toDate)) {
-            $toDate   = TimeZone::getTimeAgo();
+            $toDate = TimeZone::getTimeAgo();
         }
 
         if ($fromDate == TimeZone::getTimeAgo()) {
-            // Current period = Yesterday
-            $this->currentPeriodFromDate  = TimeZone::getTimeAgo();
-            $this->currentPeriodToDate    = TimeZone::getTimeAgo();
-            // Previous period = The day before yesterday
-            $this->previousPeriodFromDate = TimeZone::getTimeAgo(2);
-            $this->previousPeriodToDate   = TimeZone::getTimeAgo(2);
+            // Current period: Yesterday - Previous period: The day before yesterday
+            $this->setCurrentAndPreviousPeriods(TimeZone::getTimeAgo(), TimeZone::getTimeAgo(), TimeZone::getTimeAgo(2), TimeZone::getTimeAgo(2));
         } else if ($fromDate == TimeZone::getTimeAgo(7)) {
-            // Current period = From 7 days ago to yesterday
-            $this->currentPeriodFromDate  = TimeZone::getTimeAgo(7);
-            $this->currentPeriodToDate    = TimeZone::getTimeAgo();
-            // Previous period = From 2 weeks ago to 8 days ago
-            $this->previousPeriodFromDate = TimeZone::getTimeAgo(14);
-            $this->previousPeriodToDate   = TimeZone::getTimeAgo(8);
+            // Current period: From 7 days ago to yesterday - Previous period: From 2 weeks ago to 8 days ago
+            $this->setCurrentAndPreviousPeriods(TimeZone::getTimeAgo(7), TimeZone::getTimeAgo(), TimeZone::getTimeAgo(14), TimeZone::getTimeAgo(8));
         } else if ($fromDate == TimeZone::getTimeAgo(14)) {
-            // Current period = From 2 weeks ago to yesterday
-            $this->currentPeriodFromDate  = TimeZone::getTimeAgo(14);
-            $this->currentPeriodToDate    = TimeZone::getTimeAgo();
-            // Previous period = From 4 weeks ago to 15 days ago
-            $this->previousPeriodFromDate = TimeZone::getTimeAgo(28);
-            $this->previousPeriodToDate   = TimeZone::getTimeAgo(15);
+            // Current period: From 2 weeks ago to yesterday - Previous period: From 4 weeks ago to 15 days ago
+            $this->setCurrentAndPreviousPeriods(TimeZone::getTimeAgo(14), TimeZone::getTimeAgo(), TimeZone::getTimeAgo(28), TimeZone::getTimeAgo(15));
         } else if ($fromDate == date('Y-m-d', strtotime('First day of previous month'))) {
-            // Current period = Last month
-            $this->currentPeriodFromDate  = date('Y-m-d', strtotime('First day of previous month'));
-            $this->currentPeriodToDate    = date('Y-m-d', strtotime('Last day of previous month'));
-            // Previous period = Previous month
-            $this->previousPeriodFromDate = date('Y-m-d', strtotime('First day of -2 months'));
-            $this->previousPeriodToDate   = date('Y-m-d', strtotime('Last day of -2 months'));
+            // Current period: Last month - Previous period: Previous month
+            $this->setCurrentAndPreviousPeriods(
+                date('Y-m-d', strtotime('First day of previous month')),
+                date('Y-m-d', strtotime('Last day of previous month')),
+                date('Y-m-d', strtotime('First day of -2 months')),
+                date('Y-m-d', strtotime('Last day of -2 months'))
+            );
         } else if (!empty($fromDate)) {
-            // Current period = From the `$fromDate` to `$toDate`
-            $this->currentPeriodFromDate  = $fromDate;
-            $this->currentPeriodToDate    = $toDate;
-            // Previous period = From twice the `$fromDate` to one day before the `$fromDate`
-            $this->previousPeriodFromDate = TimeZone::getTimeAgo(TimeZone::getNumberDayBetween($fromDate) * 2);
-            $this->previousPeriodToDate   = TimeZone::getTimeAgo(TimeZone::getNumberDayBetween($fromDate) + 1);
+            // Current period: From the `$fromDate` to `$toDate` - Previous period: From twice the `$fromDate` to one day before the `$fromDate`
+            $this->setCurrentAndPreviousPeriods(
+                $fromDate,
+                $toDate,
+                TimeZone::getTimeAgo(TimeZone::getNumberDayBetween($fromDate) * 2),
+                TimeZone::getTimeAgo(TimeZone::getNumberDayBetween($fromDate) + 1)
+            );
         } else {
-            // Current period = Total (including today)
-            $this->currentPeriodFromDate      = date('Y-m-d', 0);
-            $this->currentPeriodToDate        = TimeZone::getTimeAgo(0);
-            // Skip previous period (and the percentage change number)
-            $this->previousPeriodFromDate     = '';
-            $this->previousPeriodToDate       = '';
+            // Current period: Total (including today) - Skip previous period (and the percentage change number)
+            $this->setCurrentAndPreviousPeriods(date('Y-m-d', 0), TimeZone::getTimeAgo(0));
             $this->calculatePercentageChanges = false;
         }
+    }
 
+    /**
+     * Sets the current and previous period dates.
+     *
+     * @param string $currentFrom Start date of the current period.
+     * @param string $currentTo End date of the current period.
+     * @param string $previousFrom Start date of the previous period.
+     * @param string $previousTo End date of the previous period.
+     *
+     * @return void
+     */
+    private function setCurrentAndPreviousPeriods($currentFrom, $currentTo, $previousFrom = '', $previousTo = '')
+    {
+        $this->currentPeriod  = ['from' => $currentFrom, 'to' => $currentTo];
+        $this->previousPeriod = ['from' => $previousFrom, 'to' => $previousTo];
+    }
+
+    /**
+     * Configures the arguments for fetching data.
+     *
+     * @return void
+     */
+    private function setArguments()
+    {
         $this->argsCurrentPeriod = [
-            'date'     => [
-                'from' => $this->currentPeriodFromDate,
-                'to'   => $this->currentPeriodToDate,
-            ],
+            'date'     => $this->getCurrentPeriod(),
             'page'     => 0,
             'per_page' => 0,
         ];
 
         if ($this->calculatePercentageChanges) {
             $this->argsPreviousPeriod = [
-                'date'     => [
-                    'from' => $this->previousPeriodFromDate,
-                    'to'   => $this->previousPeriodToDate,
-                ],
+                'date'     => $this->getPreviousPeriod(),
                 'page'     => 0,
                 'per_page' => 0,
             ];
         }
+    }
 
-        // Reset cached attributes
+    /**
+     * Resets cached data.
+     *
+     * @return void
+     */
+    private function resetCachedData()
+    {
         $this->currentPeriodVisitors     = null;
         $this->previousPeriodVisitors    = null;
         $this->currentPeriodViews        = null;
@@ -223,43 +233,23 @@ class WebsitePerformanceDataProvider
     }
 
     /**
-     * Returns start date of current period.
+     * Returns current period dates.
      *
-     * @return  string  Format: `Y-m-d`.
+     * @return array Format: `['from' => {Y-m-d}, 'to' => {Y-m-d}]`.
      */
-    public function getCurrentPeriodFromDate()
+    public function getCurrentPeriod()
     {
-        return $this->currentPeriodFromDate;
+        return $this->currentPeriod;
     }
 
     /**
-     * Returns end date of current period.
+     * Returns previous period dates.
      *
-     * @return  string  Format: `Y-m-d`.
+     * @return array Format: `['from' => {Y-m-d}, 'to' => {Y-m-d}]`.
      */
-    public function getCurrentPeriodToDate()
+    public function getPreviousPeriod()
     {
-        return $this->currentPeriodToDate;
-    }
-
-    /**
-     * Returns start date of previous period.
-     *
-     * @return  string  Format: `Y-m-d`.
-     */
-    public function getPreviousPeriodFromDate()
-    {
-        return $this->previousPeriodFromDate;
-    }
-
-    /**
-     * Returns end date of previous period.
-     *
-     * @return  string  Format: `Y-m-d`.
-     */
-    public function getPreviousPeriodToDate()
-    {
-        return $this->previousPeriodToDate;
+        return $this->previousPeriod;
     }
 
     /**
@@ -640,10 +630,7 @@ class WebsitePerformanceDataProvider
         }
 
         $this->topCategory = $this->taxonomiesModel->getTermsData([
-            'date'     => [
-                'from' => $this->getCurrentPeriodFromDate(),
-                'to'   => $this->getCurrentPeriodToDate(),
-            ],
+            'date'     => $this->getCurrentPeriod(),
             'order_by' => 'views',
             'order'    => 'DESC',
             'taxonomy' => array_keys(Helper::get_list_taxonomy()),
