@@ -9,12 +9,15 @@ use WP_Statistics\Models\TaxonomyModel;
 use WP_Statistics\Models\ViewsModel;
 use WP_Statistics\Models\VisitorsModel;
 use WP_STATISTICS\TimeZone;
+use WP_Statistics\Traits\ObjectCacheTrait;
 
 /**
  * This class is used to get data needed for "Your performance at a glance" section (mostly used in e-mail reports).
  */
 class WebsitePerformanceDataProvider
 {
+    use ObjectCacheTrait;
+
     /**
      * Current period dates.
      *
@@ -74,24 +77,6 @@ class WebsitePerformanceDataProvider
      * @var TaxonomyModel
      */
     private $taxonomiesModel;
-
-    // Cached attributes (to prevent duplicate queries)
-    private $currentPeriodVisitors     = null;
-    private $previousPeriodVisitors    = null;
-    private $currentPeriodViews        = null;
-    private $previousPeriodViews       = null;
-    private $currentPeriodReferrals    = null;
-    private $previousPeriodReferrals   = null;
-    private $currentPeriodContents     = null;
-    private $previousPeriodContents    = null;
-    private $percentageChangeVisitors  = null;
-    private $percentageChangeViews     = null;
-    private $percentageChangeReferrals = null;
-    private $percentageChangeContents  = null;
-    private $topAuthor                 = null;
-    private $topPost                   = null;
-    private $topReferral               = null;
-    private $topCategory               = null;
 
     /**
      * @param string $fromDate Start date of the report in `Y-m-d` format.
@@ -214,22 +199,22 @@ class WebsitePerformanceDataProvider
      */
     private function resetCachedData()
     {
-        $this->currentPeriodVisitors     = null;
-        $this->previousPeriodVisitors    = null;
-        $this->currentPeriodViews        = null;
-        $this->previousPeriodViews       = null;
-        $this->currentPeriodReferrals    = null;
-        $this->previousPeriodReferrals   = null;
-        $this->currentPeriodContents     = null;
-        $this->previousPeriodContents    = null;
-        $this->percentageChangeVisitors  = null;
-        $this->percentageChangeViews     = null;
-        $this->percentageChangeReferrals = null;
-        $this->percentageChangeContents  = null;
-        $this->topAuthor                 = null;
-        $this->topPost                   = null;
-        $this->topReferral               = null;
-        $this->topCategory               = null;
+        $this->setCache('currentPeriodVisitors', null);
+        $this->setCache('previousPeriodVisitors', null);
+        $this->setCache('currentPeriodViews', null);
+        $this->setCache('previousPeriodViews', null);
+        $this->setCache('currentPeriodReferrals', null);
+        $this->setCache('previousPeriodReferrals', null);
+        $this->setCache('currentPeriodContents', null);
+        $this->setCache('previousPeriodContents', null);
+        $this->setCache('percentageChangeVisitors', null);
+        $this->setCache('percentageChangeViews', null);
+        $this->setCache('percentageChangeReferrals', null);
+        $this->setCache('percentageChangeContents', null);
+        $this->setCache('topAuthor', null);
+        $this->setCache('topPost', null);
+        $this->setCache('topReferral', null);
+        $this->setCache('topCategory', null);
     }
 
     /**
@@ -286,11 +271,11 @@ class WebsitePerformanceDataProvider
      */
     public function getCurrentPeriodVisitors()
     {
-        if (!is_numeric($this->currentPeriodVisitors)) {
-            $this->currentPeriodVisitors = $this->getVisitors();
+        if (!is_numeric($this->getCache('currentPeriodVisitors'))) {
+            $this->setCache('currentPeriodVisitors', $this->getVisitors());
         }
 
-        return intval($this->currentPeriodVisitors);
+        return intval($this->getCache('currentPeriodVisitors'));
     }
 
     /**
@@ -300,11 +285,11 @@ class WebsitePerformanceDataProvider
      */
     public function getPreviousPeriodVisitors()
     {
-        if (!is_numeric($this->previousPeriodVisitors)) {
-            $this->previousPeriodVisitors = $this->getVisitors(false);
+        if (!is_numeric($this->getCache('previousPeriodVisitors'))) {
+            $this->setCache('previousPeriodVisitors', $this->getVisitors(false));
         }
 
-        return intval($this->previousPeriodVisitors);
+        return intval($this->getCache('previousPeriodVisitors'));
     }
 
     /**
@@ -331,11 +316,11 @@ class WebsitePerformanceDataProvider
      */
     public function getCurrentPeriodViews()
     {
-        if (!is_numeric($this->currentPeriodViews)) {
-            $this->currentPeriodViews = $this->getViews();
+        if (!is_numeric($this->getCache('currentPeriodViews'))) {
+            $this->setCache('currentPeriodViews', $this->getViews());
         }
 
-        return intval($this->currentPeriodViews);
+        return intval($this->getCache('currentPeriodViews'));
     }
 
     /**
@@ -345,11 +330,11 @@ class WebsitePerformanceDataProvider
      */
     public function getPreviousPeriodViews()
     {
-        if (!is_numeric($this->previousPeriodViews)) {
-            $this->previousPeriodViews = $this->getViews(false);
+        if (!is_numeric($this->getCache('previousPeriodViews'))) {
+            $this->setCache('previousPeriodViews', $this->getViews(false));
         }
 
-        return intval($this->previousPeriodViews);
+        return intval($this->getCache('previousPeriodViews'));
     }
 
     /**
@@ -376,16 +361,16 @@ class WebsitePerformanceDataProvider
      */
     public function getCurrentPeriodReferralsCount()
     {
-        if (!is_array($this->currentPeriodReferrals)) {
-            $this->currentPeriodReferrals = $this->getReferrals();
+        if (!is_array($this->getCache('currentPeriodReferrals'))) {
+            $this->setCache('currentPeriodReferrals', $this->getReferrals());
         }
 
-        if (empty($this->currentPeriodReferrals)) {
+        if (empty($this->getCache('currentPeriodReferrals'))) {
             return 0;
         }
 
         $count = 0;
-        foreach ($this->currentPeriodReferrals as $referral) {
+        foreach ($this->getCache('currentPeriodReferrals') as $referral) {
             if (!empty($referral->visitors)) {
                 $count += intval($referral->visitors);
             }
@@ -401,16 +386,16 @@ class WebsitePerformanceDataProvider
      */
     public function getPreviousPeriodReferralsCount()
     {
-        if (!is_array($this->previousPeriodReferrals)) {
-            $this->previousPeriodReferrals = $this->getReferrals(false);
+        if (!is_array($this->getCache('previousPeriodReferrals'))) {
+            $this->setCache('previousPeriodReferrals', $this->getReferrals(false));
         }
 
-        if (empty($this->previousPeriodReferrals)) {
+        if (empty($this->getCache('previousPeriodReferrals'))) {
             return 0;
         }
 
         $count = 0;
-        foreach ($this->previousPeriodReferrals as $referral) {
+        foreach ($this->getCache('previousPeriodReferrals') as $referral) {
             if (!empty($referral->visitors)) {
                 $count += intval($referral->visitors);
             }
@@ -447,11 +432,11 @@ class WebsitePerformanceDataProvider
      */
     public function getCurrentPeriodContents()
     {
-        if (!is_numeric($this->currentPeriodContents)) {
-            $this->currentPeriodContents = $this->getContents();
+        if (!is_numeric($this->getCache('currentPeriodContents'))) {
+            $this->setCache('currentPeriodContents', $this->getContents());
         }
 
-        return intval($this->currentPeriodContents);
+        return intval($this->getCache('currentPeriodContents'));
     }
 
     /**
@@ -461,11 +446,11 @@ class WebsitePerformanceDataProvider
      */
     public function getPreviousPeriodContents()
     {
-        if (!is_numeric($this->previousPeriodContents)) {
-            $this->previousPeriodContents = $this->getContents(false);
+        if (!is_numeric($this->getCache('previousPeriodContents'))) {
+            $this->setCache('previousPeriodContents', $this->getContents(false));
         }
 
-        return intval($this->previousPeriodContents);
+        return intval($this->getCache('previousPeriodContents'));
     }
 
     /**
@@ -479,11 +464,11 @@ class WebsitePerformanceDataProvider
             return 0;
         }
 
-        if (!is_numeric($this->percentageChangeVisitors)) {
-            $this->percentageChangeVisitors = intval(Helper::calculatePercentageChange($this->getPreviousPeriodVisitors(), $this->getCurrentPeriodVisitors()));
+        if (!is_numeric($this->getCache('percentageChangeVisitors'))) {
+            $this->setCache('percentageChangeVisitors', intval(Helper::calculatePercentageChange($this->getPreviousPeriodVisitors(), $this->getCurrentPeriodVisitors())));
         }
 
-        return $this->percentageChangeVisitors;
+        return $this->getCache('percentageChangeVisitors');
     }
 
     /**
@@ -497,11 +482,11 @@ class WebsitePerformanceDataProvider
             return 0;
         }
 
-        if (!is_numeric($this->percentageChangeViews)) {
-            $this->percentageChangeViews = intval(Helper::calculatePercentageChange($this->getPreviousPeriodViews(), $this->getCurrentPeriodViews()));
+        if (!is_numeric($this->getCache('percentageChangeViews'))) {
+            $this->setCache('percentageChangeViews', intval(Helper::calculatePercentageChange($this->getPreviousPeriodViews(), $this->getCurrentPeriodViews())));
         }
 
-        return $this->percentageChangeViews;
+        return $this->getCache('percentageChangeViews');
     }
 
     /**
@@ -515,11 +500,11 @@ class WebsitePerformanceDataProvider
             return 0;
         }
 
-        if (!is_numeric($this->percentageChangeReferrals)) {
-            $this->percentageChangeReferrals = intval(Helper::calculatePercentageChange($this->getPreviousPeriodReferralsCount(), $this->getCurrentPeriodReferralsCount()));
+        if (!is_numeric($this->getCache('percentageChangeReferrals'))) {
+            $this->setCache('percentageChangeReferrals', intval(Helper::calculatePercentageChange($this->getPreviousPeriodReferralsCount(), $this->getCurrentPeriodReferralsCount())));
         }
 
-        return $this->percentageChangeReferrals;
+        return $this->getCache('percentageChangeReferrals');
     }
 
     /**
@@ -533,11 +518,11 @@ class WebsitePerformanceDataProvider
             return 0;
         }
 
-        if (!is_numeric($this->percentageChangeContents)) {
-            $this->percentageChangeContents = intval(Helper::calculatePercentageChange($this->getPreviousPeriodContents(), $this->getCurrentPeriodContents()));
+        if (!is_numeric($this->getCache('percentageChangeContents'))) {
+            $this->setCache('percentageChangeContents', intval(Helper::calculatePercentageChange($this->getPreviousPeriodContents(), $this->getCurrentPeriodContents())));
         }
 
-        return $this->percentageChangeContents;
+        return $this->getCache('percentageChangeContents');
     }
 
 
@@ -548,18 +533,18 @@ class WebsitePerformanceDataProvider
      */
     public function getTopAuthor()
     {
-        if ($this->topAuthor !== null) {
-            return $this->topAuthor;
+        if ($this->getCache('topAuthor') !== null) {
+            return $this->getCache('topAuthor');
         }
 
         if (empty($this->authorsModel)) {
             $this->authorsModel = new AuthorsModel();
         }
 
-        $this->topAuthor = $this->authorsModel->getAuthorsByPostPublishes($this->argsCurrentPeriod);
-        $this->topAuthor = !empty($this->topAuthor) ? $this->topAuthor[0]->name : '';
+        $topAuthor = $this->authorsModel->getAuthorsByPostPublishes($this->argsCurrentPeriod);
+        $this->setCache('topAuthor', !empty($topAuthor) ? $topAuthor[0]->name : '');
 
-        return $this->topAuthor;
+        return $this->getCache('topAuthor');
     }
 
     /**
@@ -569,18 +554,18 @@ class WebsitePerformanceDataProvider
      */
     public function getTopPost()
     {
-        if ($this->topPost !== null) {
-            return $this->topPost;
+        if ($this->getCache('topPost') !== null) {
+            return $this->getCache('topPost');
         }
 
         if (empty($this->postsModel)) {
             $this->postsModel = new PostsModel();
         }
 
-        $this->topPost = $this->postsModel->getPostsViewsData($this->argsCurrentPeriod);
-        $this->topPost = !empty($this->topPost) ? $this->topPost[0]->post_title : '';
+        $topPost = $this->postsModel->getPostsViewsData($this->argsCurrentPeriod);
+        $this->setCache('topPost', !empty($topPost) ? $topPost[0]->post_title : '');
 
-        return $this->topPost;
+        return $this->getCache('topPost');
     }
 
     /**
@@ -590,28 +575,28 @@ class WebsitePerformanceDataProvider
      */
     public function getTopReferral()
     {
-        if ($this->topReferral !== null) {
-            return $this->topReferral;
+        if ($this->getCache('topReferral') !== null) {
+            return $this->getCache('topReferral');
         }
 
-        if (!is_array($this->currentPeriodReferrals)) {
-            $this->currentPeriodReferrals = $this->getReferrals();
+        if (!is_array($this->getCache('currentPeriodReferrals'))) {
+            $this->setCache('currentPeriodReferrals', $this->getReferrals());
         }
 
-        $this->topReferral = null;
-        foreach ($this->previousPeriodReferrals as $referral) {
+        $topReferral = null;
+        foreach ($this->getCache('currentPeriodReferrals') as $referral) {
             if (!empty($referral->visitors) && !empty($referral->referred)) {
-                $this->topReferral = str_replace('www.', '', $referral->referred);
-                $this->topReferral = wp_parse_url($this->topReferral);
-                $this->topReferral = !empty($this->topReferral['host']) ? trim($this->topReferral['host']) : '';
-                $this->topReferral = ucfirst($this->topReferral);
+                $topReferral = str_replace('www.', '', $referral->referred);
+                $topReferral = wp_parse_url($topReferral);
+                $topReferral = !empty($topReferral['host']) ? trim($topReferral['host']) : '';
+                $this->setCache('topReferral', ucfirst($topReferral));
 
                 // We only need the first referral
                 break;
             }
         }
 
-        return $this->topReferral;
+        return $this->getCache('topReferral');
     }
 
     /**
@@ -621,22 +606,22 @@ class WebsitePerformanceDataProvider
      */
     public function getTopCategory()
     {
-        if ($this->topCategory !== null) {
-            return $this->topCategory;
+        if ($this->getCache('topCategory') !== null) {
+            return $this->getCache('topCategory');
         }
 
         if (empty($this->taxonomiesModel)) {
             $this->taxonomiesModel = new TaxonomyModel();
         }
 
-        $this->topCategory = $this->taxonomiesModel->getTermsData([
+        $topCategory = $this->taxonomiesModel->getTermsData([
             'date'     => $this->getCurrentPeriod(),
             'order_by' => 'views',
             'order'    => 'DESC',
             'taxonomy' => array_keys(Helper::get_list_taxonomy()),
         ]);
-        $this->topCategory = (!empty($this->topCategory) && is_array($this->topCategory) && !empty($this->topCategory[0]->term_name)) ? $this->topCategory[0]->term_name : '';
+        $this->setCache('topCategory', (!empty($topCategory) && is_array($topCategory) && !empty($topCategory[0]->term_name)) ? $topCategory[0]->term_name : '');
 
-        return $this->topCategory;
+        return $this->getCache('topCategory');
     }
 }
