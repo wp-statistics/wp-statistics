@@ -164,6 +164,10 @@
             background-image: url("data:image/svg+xml;base64,Cjxzdmcgd2lkdGg9IjEyIiBoZWlnaHQ9IjExIiB2aWV3Qm94PSIwIDAgMTIgMTEiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik0zLjU4MzI1IDkuMjU2OTlWMS43NDQyMkMzLjU4MzI1IDEuMzg0MjMgMy45NzkyMyAxLjE2NDc2IDQuMjg0NSAxLjM1NTU2TDEwLjI5NDcgNS4xMTE5NkMxMC41ODIgNS4yOTE0NCAxMC41ODIgNS43MDk3NiAxMC4yOTQ3IDUuODg5MjlMNC4yODQ1IDkuNjQ1NjVDMy45NzkyMyA5LjgzNjQ2IDMuNTgzMjUgOS42MTcwMSAzLjU4MzI1IDkuMjU2OTlaIiBmaWxsPSIjMTk2MTQwIiBmaWxsLW9wYWNpdHk9IjAuOSIvPgo8L3N2Zz4K") ;
             transition: all 0.3s ease-in-out;
 
+            .rtl &{
+              transform: rotate(180deg);
+            }
+
             &:hover{
               background-color:rgba(25, 97, 64, 0.1);
             }
