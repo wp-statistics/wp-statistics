@@ -39,8 +39,8 @@ wps_js.summary_meta_box = {
         let t = '';
         if (args['user_online']) {
             t = `<div class="c-live">
-                <div>                    
-                    <span class="c-live__status"></span> 
+                <div>
+                    <span class="c-live__status"></span>
                     <span class="c-live__title">${wps_js._('online_users')}</span>
                 </div>
             <div class="c-live__online">
@@ -64,6 +64,7 @@ wps_js.summary_meta_box = {
         t += `</table></div>`;
 
              // Enable weekly email summaries
+        if (wps_js.global.stats_report_option == false) {
             t += `<div class="wp-quickstats-widget__enable-email">
                     <div class="wp-quickstats-widget__enable-email__desc">
                         <span class="wp-quickstats-widget__enable-email__icon"></span>
@@ -74,6 +75,7 @@ wps_js.summary_meta_box = {
                     </div>
                     <div class="wp-quickstats-widget__enable-email__close"><span class="wp-close" title="${wps_js._('close')}" onclick="this.parentElement.parentElement.remove()"></span></div>
                     </div>`;
+        }
 
         return t;
     }
