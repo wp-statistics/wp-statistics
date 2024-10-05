@@ -124,6 +124,28 @@ class VisitorsModel extends BaseModel
         return $result;
     }
 
+    public function countDailyReferrers($args = [])
+    {
+        $args = $this->parseArgs($args, [
+            'date'              => '',
+            'source_channel'    => '',
+            'source_name'       => '',
+            'referrer'          => ''
+        ]);
+
+        $result = Query::select('COUNT(visitor.ID) as visitors, last_counter as date')
+            ->from('visitor')
+            ->where('source_channel', '=', $args['source_channel'])
+            ->where('source_name', '=', $args['source_name'])
+            ->where('referred', '=', $args['referrer'])
+            ->whereDate('visitor.last_counter', $args['date'])
+            ->whereNotNull('visitor.referred')
+            ->groupBy('last_counter')
+            ->getVar();
+
+        return $result ?? [];
+    }
+
     /**
      * Returns `COUNT DISTINCT` of a column from visitors table.
      *
