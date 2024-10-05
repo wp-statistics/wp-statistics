@@ -88,7 +88,7 @@
                             <?php esc_html_e('Last-Touch', 'wp-statistics'); ?>
                         </option>
                     </select>
-                    <p class="description"><?php _e('Select how conversions are attributed: First-Touch credits the first interaction, and Last-Touch credits the most recent. Learn more.', 'wp-statistics'); ?></p>
+                    <p class="description"><?php _e('Select how conversions are attributed: First-Touch credits the first interaction, and Last-Touch credits the most recent. <a href="https://wp-statistics.com/resources/attribution-models/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" target="_blank">Learn more</a>.', 'wp-statistics'); ?></p>
                 </td>
             </tr>
         </tbody>
