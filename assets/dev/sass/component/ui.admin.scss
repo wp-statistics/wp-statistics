@@ -152,15 +152,23 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
   #overview-widgets {
     display: flex;
     gap: 16px;
+    flex-direction: column;
+    @media (min-width: 759px) {
+      flex-direction: row;
+    }
+
 
     #wps-postbox-container-2 {
       margin: 0;
     }
-    .postbox:not(.closed){
+
+    .postbox{
       box-shadow: 1px 2px 4px 0px #0000000D;
       border: none !important;
       margin-bottom: 16px;
+    }
 
+    .postbox:not(.closed){
       .postbox-header {
         padding: 24px 24px 16px 24px;
 

@@ -389,7 +389,7 @@ class Admin_Assets
             'browser'                      => __('Visitor\'s Browser', 'wp-statistics'),
             'city'                         => __('Visitor\'s City', 'wp-statistics'),
             'ip'                           => Option::get('hash_ips') == true ? __('Daily Visitor Hash', 'wp-statistics') : __('IP Address', 'wp-statistics'),
-            'referrer'                     => __('Referring Site', 'wp-statistics'),
+            'referring_site'               => __('Referring Site', 'wp-statistics'),
             'hits'                         => __('Views', 'wp-statistics'),
             'agent'                        => __('User Agent', 'wp-statistics'),
             'platform'                     => __('Operating System', 'wp-statistics'),
@@ -437,6 +437,16 @@ class Admin_Assets
             'close'                        => __('Close'),
             'previous_period'              => __('Previous period'),
             'view_content'                 => __('View Content'),
+            'last_view'                    => __('Last View'),
+            'visitor_info'                 => __('Visitor Info'),
+            'location'                     => __('Location'),
+            'name'                         => __('Name'),
+            'email'                        => __('Email'),
+            'role'                         => __('Role'),
+            'latest_page'                  => __('Latest Page'),
+            'referrer'                  => __('Referrer'),
+            'online_for'                   => __('Online For'),
+            'views'                        => __('Views'),
             'start_of_week'                => get_option('start_of_week', 0)
         );
 

@@ -2,7 +2,7 @@
     <div class="wps-about-widget__close">
         <span class="wp-close" title="Close" onclick="this.parentElement.parentElement.parentElement.remove()"></span>
     </div>
-    <div class="c-about">
+    <div class="c-about hndle ui-sortable-handle">
         <div class="c-about__row c-about__row--logo">
             <a href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/?utm_source=wp-statistics&utm_medium=link&utm_campaign=logo'); ?>" target="_blank">
                 <span class="c-about-logo"></span>
