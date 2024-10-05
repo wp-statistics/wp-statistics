@@ -3,28 +3,48 @@ wps_js.top_visitors_meta_box = {
     view: function (args = []) {
         let t = '';
         t += `<div class="o-table-wrapper">`;
-        t += `<table width="100%" class="o-table o-table--responsive"><tbody>
+        t += `<table width="100%" class="o-table wps-new-table"><thead>
         <tr>
-
-            ` + (wps_js.is_active('geo_ip') ? `<td>${wps_js._('country')}</td>` : ``) + `
-            ` + (wps_js.is_active('geo_city') ? `<td>${wps_js._('city')}</td>` : ``) + `
-            <td>${wps_js._('ip')}</td>
-            <td>${wps_js._('browser')}</td>
-            <td>${wps_js._('platform')}</td>
-            <td>${wps_js._('version')}</td>
-            <td class="o-table__td--sm-width">${wps_js._('hits')}</td>
-        </tr>`;
+            <th class="wps-pd-l"><span class="wps-order">${wps_js._('views')}</span></th>
+            <th class="wps-pd-l">${wps_js._('visitor_info')}</th>
+            ` + (wps_js.is_active('geo_ip') ? `<th class="wps-pd-l">${wps_js._('location')}</th>` : ``) + `
+            <th class="wps-pd-l">${wps_js._('referrer')}</th>
+            <th class="wps-pd-l">${wps_js._('latest_page')}</th>
+            <th class="wps-pd-l">${wps_js._('last_view')}</th>
+        </tr></thead><tbody>`;
 
         let i = 1;
         args.forEach(function (value) {
             t += `<tr>
-            ` + (wps_js.is_active('geo_ip') ? `<td><img src='${value['country']['flag']}' alt='${value['country']['name']}' title='${value['country']['name']}' class='log-tools wps-flag'/> ${value['country']['name']}</td>` : ``) + `
-            ` + (wps_js.is_active('geo_city') ? `<td>${value['city']}</td>` : ``) + `
-            <td class="wps-admin-column__ip">` + (value['hash_ip'] ? value['hash_ip'] : `<a href='${value['ip']['link']}'>${value['ip']['value']}</a>`) + `</td>
-            <td><a class="is-normal-text" href="${value['browser']['link']}" title="${value['browser']['name']}"><img src="${value['browser']['logo']}" alt="${value['browser']['name']}" class='wps-flag log-tools' title='${value['browser']['name']}'/> ${value['browser']['name']}</a></td>
-            <td>${value['platform']}</td>
-            <td>${value['version']}</td>
-            <td class="o-table__td--sm-width">${value['hits']}</td>
+            <td class="wps-pd-l">
+                <a href="">${value['hits']}</a>
+            </td>
+             <td class="wps-pd-l">
+                ${wps_js.visitor_info(value)}
+            </td>`
+                + (wps_js.is_active('geo_ip') ? `<td class="wps-pd-l">
+                <div class="wps-country-flag wps-ellipsis-parent">
+                    <a href="" class="wps-tooltip" title="${value['country']['name']}">
+                        <img src="${value['country']['flag']}" alt="" width="15" height="15">
+                    </a>
+                     <span class="wps-ellipsis-text" title="${value['country']['name']}">${value['country']['name']}</span>
+                </div>
+             </td>` : `-`) + `
+            <td class="wps-pd-l">`
+                + (value['refer'] && value['refer'] !== '' ?
+                    `<a target="_blank" href="" title="${value['refer']}" class="wps-link-arrow">
+                        <span>${value['refer']}</span>
+                    </a>`
+                    : `<span aria-hidden="true">—</span>`) + `
+            </td>
+            <td class="wps-pd-l">`
+                + (value['page'] && value['page']['title'] !== '' ?
+                    `<a target="_blank" href="${value['page']['link']}" title="${value['page']['title']}" class="wps-link-arrow">
+                        <span>${value['page']['title']}</span>
+                    </a>`
+                    : `<span aria-hidden="true">—</span><span class="screen-reader-text">-</span>`) + `
+            </td>
+             <td class="wps-pd-l">10 Mar, 4:15 pm</td>
 			</tr>`;
             i++;
         });
