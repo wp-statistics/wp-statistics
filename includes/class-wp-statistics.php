@@ -151,6 +151,7 @@ final class WP_Statistics
         // Ajax area
         require_once WP_STATISTICS_DIR . 'includes/admin/class-wp-statistics-admin-template.php';
 
+        $referrals    = new ReferralsManager();
         $postsManager = new PostsManager();
         $userOnline   = new \WP_STATISTICS\UserOnline();
 
@@ -184,7 +185,6 @@ final class WP_Statistics
             $categoryAnalytics   = new CategoryAnalyticsManager();
             $pageInsights        = new PageInsightsManager();
             $visitorInsights     = new VisitorInsightsManager();
-            $referrals           = new ReferralsManager();
             $integrationsManager = new IntegrationsManager();
             $licenseManager      = new LicenseManagementManager();
         }
