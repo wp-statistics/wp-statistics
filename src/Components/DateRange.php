@@ -257,7 +257,7 @@ class DateRange
                     'to'   => date(self::$defaultFormat, strtotime(Helper::getStartOfWeek() . ' this week') - 1)
                 ],
                 'prev_period' => [
-                    'from' => date(self::$defaultFormat, strtotime(Helper::getStartOfWeek() . ' -2 weeks')),
+                    'from' => date(self::$defaultFormat, strtotime(Helper::getStartOfWeek() . ' -3 weeks')),
                     'to'   => date(self::$defaultFormat, strtotime(Helper::getStartOfWeek() . ' last week') - 1)
                 ]
             ],
