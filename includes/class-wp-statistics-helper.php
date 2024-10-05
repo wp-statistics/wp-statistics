@@ -1809,12 +1809,9 @@ class Helper
      */
     public static function calculatePercentageChange($firstNumber, $secondNumber)
     {
-        if (!is_numeric($firstNumber)) {
-            $firstNumber = 0;
-        }
-        if (!is_numeric($secondNumber)) {
-            $secondNumber = 0;
-        }
+        $firstNumber    = intval($firstNumber);
+        $secondNumber   = intval($secondNumber);
+
         if ($firstNumber == $secondNumber) {
             return 0;
         }
