@@ -206,9 +206,8 @@ class PluginUpdater
                 <td colspan='<?php echo esc_attr($colspan); ?>' class='plugin-update'>
                     <div class='notice inline notice-warning notice-alt'>
                         <p>
-                            <?php echo sprintf(__('<i>Automatic update is unavailable for the %s plugin.</i>', $this->pluginSlug), esc_attr($pluginData['Name'])); ?>
-                            <br/>
-                            <?php echo sprintf(__('To enable automatic updates with new features and security improvements, <a href="%s">Activate your license</a>.', $this->pluginSlug), Menus::admin_url('plugins', ['tab' => 'add-license'])); ?>
+                            <?php echo sprintf(__('Automatic updates are disabled for the <b>%s</b>.', $this->pluginSlug), esc_attr($pluginData['Name'])); ?>
+                            <?php echo sprintf(__('To unlock automatic updates and access new features and security improvements, please <a href="%s">activate your license</a>.', $this->pluginSlug), Menus::admin_url('plugins', ['tab' => 'add-license'])); ?>
                         </p>
                     </div>
                 </td>
