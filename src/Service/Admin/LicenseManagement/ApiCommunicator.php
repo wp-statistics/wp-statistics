@@ -32,7 +32,7 @@ class ApiCommunicator
     {
         try {
             $remoteRequest = new RemoteRequest("{$this->apiUrl}/product/list", 'GET');
-            $products      = $remoteRequest->execute(false, false, WEEK_IN_SECONDS);
+            $products      = $remoteRequest->execute(false, true, WEEK_IN_SECONDS);
 
             if (empty($products) || !is_array($products)) {
                 throw new Exception(__('Product list is empty!', 'wp-statistics'));
