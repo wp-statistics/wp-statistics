@@ -93,11 +93,6 @@ class Ajax
                 'class'  => $this,
                 'action' => 'store_date_range',
                 'public' => false
-            ],
-            [
-                'class'  => $this,
-                'action' => 'search_referrers',
-                'public' => false
             ]
         ];
 
@@ -618,35 +613,6 @@ class Ajax
                 $option = [
                     'id'   => Menus::admin_url('visitors', ['type' => 'single-visitor', 'visitor_id' => $visitor->ID]),
                     'text' => sprintf(esc_html__('Visitor (#%s)', 'wp-statistics'), $visitor->ID)
-                ];
-
-                $results[] = $option;
-            }
-
-            wp_send_json(['results' => $results]);
-        }
-
-        exit;
-    }
-
-    public function search_referrers_action_callback()
-    {
-        if (Request::isFrom('ajax') and User::Access('read')) {
-            check_ajax_referer('wp_rest', 'wps_nonce');
-
-            $results = [];
-            $search  = Request::get('search', '');
-
-            $visitorsModel = new VisitorsModel();
-            $referrers  = $visitorsModel->getReferrers([
-                'referrer'      => $search,
-                'ignore_date'   => true
-            ]);
-
-            foreach ($referrers as $referrer) {
-                $option = [
-                    'id'   => Menus::admin_url('referrals', ['referrer' => $referrer->referrer]),
-                    'text' => $referrer->referrer
                 ];
 
                 $results[] = $option;
