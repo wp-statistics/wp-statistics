@@ -207,7 +207,7 @@ class Admin_Assets
         //        }
 
         // Load Select2
-        if (Menus::in_page('visitors') || Menus::in_page('link_tracker') || Menus::in_page('download_tracker') || (Menus::in_page('pages') and isset($_GET['ID']))) {
+        if (Menus::in_page('visitors') || Menus::in_page('referrals') || Menus::in_page('link_tracker') || Menus::in_page('download_tracker') || (Menus::in_page('pages') and isset($_GET['ID']))) {
             wp_enqueue_style(self::$prefix . '-select2', self::url('select2/select2.min.css'), array(), '4.0.9');
         }
 
@@ -259,7 +259,7 @@ class Admin_Assets
         //        }
 
         // Load Select2
-        if (Menus::in_page('visitors') || Menus::in_page('link_tracker') || Menus::in_page('download_tracker') || (Menus::in_page('pages') and isset($_GET['ID']))) {
+        if (Menus::in_page('visitors') || Menus::in_page('referrals') || Menus::in_page('link_tracker') || Menus::in_page('download_tracker') || (Menus::in_page('pages') and isset($_GET['ID']))) {
             wp_enqueue_script(self::$prefix . '-select2', self::url('select2/select2.full.min.js'), array('jquery'), "4.1.0", ['in_footer' => true]);
         }
 
@@ -291,7 +291,7 @@ class Admin_Assets
         }
 
         // Add Thick box
-        if (Menus::in_page('visitors') || Menus::in_page('visitors-report')) {
+        if (Menus::in_page('visitors') || Menus::in_page('visitors-report') || Menus::in_page('referrals') ) {
             wp_enqueue_script('thickbox');
             wp_enqueue_style('thickbox');
         }
@@ -452,6 +452,7 @@ class Admin_Assets
             'failed'                       => __('Failed', 'wp-statistics'),
             'retry'                        => __('Retry', 'wp-statistics'),
             'redirecting'                  => __('Redirecting... Please wait', 'wp-statistics'),
+            'search_by_referrer'                  => __('Search by Referrer', 'wp-statistics'),
             'start_of_week'                => get_option('start_of_week', 0)
         );
 
