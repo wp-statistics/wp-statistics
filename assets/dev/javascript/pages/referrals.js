@@ -95,7 +95,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                     const query = {
                         wps_nonce: wps_js.global.rest_api_nonce,
                         search: params.term,
-                        action: 'ajaxAction',
+                        action: 'wp_statistics_search_referrers',
                         paged: params.page || 1
                     };
 
@@ -104,22 +104,6 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                         if (requestParams.page) query.page = requestParams.page;
                     }
                     return query;
-                },
-                processResults: function (data) {
-                    if (data && Array.isArray(data.results)) {
-                        return {
-                            results: data.results.map(item => ({
-                                id: item.id,
-                                text: item.text
-                            })),
-                            pagination: {
-                                more: false
-                            }
-                        };
-                    } else {
-                        console.error('Expected an array of results but got:', data);
-                        return {results: []};
-                    }
                 },
                 error: function (xhr, status, error) {
                     console.error('AJAX request error:', status, error);

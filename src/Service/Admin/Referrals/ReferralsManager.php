@@ -72,7 +72,7 @@ class ReferralsManager
     {
         $list[] = [
             'class'     => $this,
-            'action'    => 'searchReferrers',
+            'action'    => 'search_referrers',
             'public'    => false
         ];
 
@@ -86,7 +86,7 @@ class ReferralsManager
      *
      * @ignore
      */
-    public function searchReferrers_action_callback()
+    public function search_referrers_action_callback()
     {
         if (Request::isFrom('ajax') && User::Access('read')) {
             check_ajax_referer('wp_rest', 'wps_nonce');
@@ -97,13 +97,13 @@ class ReferralsManager
             $visitorsModel = new VisitorsModel();
             $referrers  = $visitorsModel->getReferrers([
                 'referrer'      => $search,
-                'ignore_date'   => true
+                'decorate'      => true
             ]);
 
             foreach ($referrers as $referrer) {
                 $option = [
-                    'id'   => Menus::admin_url('referrals', ['referrer' => $referrer->referrer]),
-                    'text' => $referrer->referrer
+                    'id'   => $referrer->getRawReferrer(),
+                    'text' => $referrer->getRawReferrer()
                 ];
 
                 $results[] = $option;
