@@ -51,11 +51,22 @@ class TabsView extends BaseTabView
         return $this->dataProvider->getSearchEngineReferrals();
     }
 
+    public function getActiveFilters()
+    {
+        $filters = [];
+        if (Request::has('referrer')) {
+            $filters['referrer'] = Request::get('referrer');
+        }
+
+        return $filters;
+    }
+
     public function render()
     {
         try {
             $data     = $this->getTabData();
             $template = $this->getCurrentTab();
+            $filters    = $this->getActiveFilters();
 
             $args = [
                 'title'       => esc_html__('Referrals', 'wp-statistics'),
@@ -64,9 +75,10 @@ class TabsView extends BaseTabView
                     'tab'      => $this->getCurrentTab(),
                     'order_by' => Request::get('order_by'),
                     'order'    => Request::get('order'),
+                    'filters'    => $filters,
+
                 ],
                 'DateRang'    => Admin_Template::DateRange(),
-                'filters'     => ['source-channels'],
                 'hasDateRang' => true,
                 'data'        => $data,
                 'pagination'  => Admin_Template::paginate_links([
@@ -92,9 +104,15 @@ class TabsView extends BaseTabView
                 ]
             ];
 
+
+            if ($this->isTab('referred-visitors')) {
+                $args['filters'][] = 'referrals';
+            }
+            $args['filters'][] = 'source-channels';
+
             Admin_Template::get_template(['layout/header', 'layout/tabbed-page-header'], $args);
             View::load("pages/referrals/$template", $args);
-            Admin_Template::get_template(['layout/postbox.hide', 'layout/footer'], $args);
+            Admin_Template::get_template(['layout/postbox.hide', 'layout/referrals.filter', 'layout/footer'], $args);
         } catch (Exception $e) {
             Notice::renderNotice($e->getMessage(), $e->getCode(), 'error');
         }
