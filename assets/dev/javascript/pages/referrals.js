@@ -30,7 +30,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         // Add Content
         setTimeout(function () {
 
-            var tickBox_DIV = "#wps-referrals-filter-form";
+            var tickBox_DIV = "#wps-referral-filter-div";
             if (!wps_js.exist_tag(tickBox_DIV + " input[type=submit]")) {
 
                 // Set PlaceHolder
@@ -42,9 +42,8 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
 
     });
 
-
     // submit and disable empty value
-    var FORM_ID = '#wps_referrals_filter_form';
+    var FORM_ID = '#wps-referrals-filter-form';
     jQuery(document).on('submit', FORM_ID, function () {
         // Remove Empty Parameter
         let forms = {
@@ -61,8 +60,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
 
         // Show Loading
         jQuery("span.filter-loading").html(wps_js._('please_wait'));
-
-        return true;
+        // return true;
     });
 
     // Show Filter form
@@ -73,17 +71,60 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
 
         // Show List Select
 
-           html += `<tr><td class="wps-referrals-filter-title">${wps_js._('search_by_referrer')}</td></tr>`;
-            html += `<tr><td><select name="referrer" class="select2 wps-width-100" data-type-show="select2">`;
-            html += `<option value=''>${wps_js._('all')}</option>`;
-            let current_value = wps_js.getLinkParams('referrer');
-            html += `</select></td></tr>`;
+        html += `<tr><td class="wps-referrals-filter-title">${wps_js._('search_by_referrer')}</td></tr>`;
+        html += `<tr><td><select name="referrer" class="wps-select2   wps-width-100">`;
+        html += `<option value=''>${wps_js._('all')}</option>`;
+        html += `<option value='test'>test</option>`;
+        let current_value = wps_js.getLinkParams('referrer');
+        if (current_value != null) {
+            html += `<option value='${current_value}'  selected>${current_value}</option>`;
+        }
 
+        html += `</select></td></tr>`;
         // Submit Button
         html += `<tr><td></td></tr>`;
         html += `<tr><td><input type="submit" value="${wps_js._('filter')}" class="button-primary"> &nbsp; <span class="filter-loading"></span></td></tr>`;
         html += `</table>`;
         jQuery(tickBox_DIV).html(html);
-        wps_js.select2();
+        jQuery('.wps-select2').select2({
+            ajax: {
+                delay: 500,
+                url: wps_js.global.ajax_url,
+                dataType: 'json',
+                data: function (params) {
+                    const query = {
+                        wps_nonce: wps_js.global.rest_api_nonce,
+                        search: params.term,
+                        action: 'ajaxAction',
+                        paged: params.page || 1
+                    };
+
+                    if (wps_js.isset(wps_js.global, 'request_params')) {
+                        const requestParams = wps_js.global.request_params;
+                        if (requestParams.page) query.page = requestParams.page;
+                    }
+                    return query;
+                },
+                processResults: function (data) {
+                    if (data && Array.isArray(data.results)) {
+                        return {
+                            results: data.results.map(item => ({
+                                id: item.id,
+                                text: item.text
+                            })),
+                            pagination: {
+                                more: false
+                            }
+                        };
+                    } else {
+                        console.error('Expected an array of results but got:', data);
+                        return {results: []};
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error('AJAX request error:', status, error);
+                }
+            }
+        });
     }
 }

@@ -89,8 +89,6 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
 
     // Show Filter form
     function wp_statistics_show_visitors_filter(tickBox_DIV, data) {
-        console.log(data);
-
         // Create Table
         let html = '<table class="o-table">';
 
