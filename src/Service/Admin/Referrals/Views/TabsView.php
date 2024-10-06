@@ -51,33 +51,22 @@ class TabsView extends BaseTabView
         return $this->dataProvider->getSearchEngineReferrals();
     }
 
-    public function getActiveFilters()
-    {
-        $filters = [];
-        if (Request::has('referrer')) {
-            $filters['referrer'] = Request::get('referrer');
-        }
-
-        return $filters;
-    }
-
     public function render()
     {
         try {
-            $data     = $this->getTabData();
-            $template = $this->getCurrentTab();
-            $filters    = $this->getActiveFilters();
+            $data       = $this->getTabData();
+            $template   = $this->getCurrentTab();
 
             $args = [
                 'title'       => esc_html__('Referrals', 'wp-statistics'),
                 'pageName'    => Menus::get_page_slug('referrals'),
                 'custom_get'  => [
-                    'tab'      => $this->getCurrentTab(),
-                    'order_by' => Request::get('order_by'),
-                    'order'    => Request::get('order'),
-                    'filters'    => $filters,
-
+                    'tab'       => $this->getCurrentTab(),
+                    'order_by'  => Request::get('order_by'),
+                    'order'     => Request::get('order'),
+                    'referrer'  => Request::get('referrer')
                 ],
+                'filters'     => ['source-channels'],
                 'DateRang'    => Admin_Template::DateRange(),
                 'hasDateRang' => true,
                 'data'        => $data,
@@ -104,15 +93,14 @@ class TabsView extends BaseTabView
                 ]
             ];
 
-
+            // Add referrer filter if tab is referred visitors
             if ($this->isTab('referred-visitors')) {
-                $args['filters'][] = 'referrals';
+                array_unshift($args['filters'], 'referrer');
             }
-            $args['filters'][] = 'source-channels';
 
             Admin_Template::get_template(['layout/header', 'layout/tabbed-page-header'], $args);
             View::load("pages/referrals/$template", $args);
-            Admin_Template::get_template(['layout/postbox.hide', 'layout/referrals.filter', 'layout/footer'], $args);
+            Admin_Template::get_template(['layout/postbox.hide', 'layout/referrer.filter', 'layout/footer'], $args);
         } catch (Exception $e) {
             Notice::renderNotice($e->getMessage(), $e->getCode(), 'error');
         }
