@@ -98,7 +98,7 @@ class DeviceHelper
     {
         return [
             'Windows',
-            'OS X',
+            'Mac',
             'Android',
             'iOS',
             'Linux',
