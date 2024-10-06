@@ -95,13 +95,15 @@ class PluginUpdater
             'changelog'    => $remote->sections->changelog,
         ];
 
-        // Banners (if provided)
-        if (!empty($remote->banners)) {
-            $res->banners = [
-                'low'  => $remote->banners->low,
-                'high' => $remote->banners->high,
-            ];
-        }
+        $res->icons = [
+            '1x' => $remote->icons->low,
+            '2x' => $remote->icons->high,
+        ];
+
+        $res->banners = [
+            'low'  => $remote->banners->low,
+            'high' => $remote->banners->high,
+        ];
 
         return $res;
     }
@@ -170,10 +172,12 @@ class PluginUpdater
             $res->tested      = $remote->tested;
             $res->package     = $remote->download_url;
             $res->icons       = [
-                'svg'     => $remote->icons->{'1x'},
-                'default' => $remote->icons->{'1x'},
-                '1x'      => $remote->icons->{'1x'},
-                '2x'      => $remote->icons->{'2x'},
+                '1x' => $remote->icons->low,
+                '2x' => $remote->icons->high,
+            ];
+            $res->banners     = [
+                'low'  => $remote->banners->low,
+                'high' => $remote->banners->high,
             ];
 
             $transient->response[$res->plugin] = $res;
