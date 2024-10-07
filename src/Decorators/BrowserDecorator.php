@@ -30,7 +30,7 @@ class BrowserDecorator
      */
     public function getName()
     {
-        return DeviceHelper::getBrowserList($this->visitor->agent);
+        return $this->visitor->agent ?? esc_html__('Unknown', 'wp-statistics');
     }
 
     /**
