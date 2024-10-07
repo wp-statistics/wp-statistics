@@ -13,14 +13,14 @@ class DateTime
     /**
      * Returns the name of the day of the week used as the start of the week on the calendar.
      *
-     * @param string $return Whether to return the name of the day, the key of the day, or both.
+     * @param string $return Whether to return the name of the day, the number of the day, or both.
      * @return mixed
      */
     public static function getStartOfWeek($return = 'name')
     {
-        $dayKey = intval(get_option('start_of_week', 0));
+        $dayNumber = intval(get_option('start_of_week', 0));
 
-        switch ($dayKey) {
+        switch ($dayNumber) {
             case 0:
                 $dayName = 'Sunday';
                 break;
@@ -47,12 +47,14 @@ class DateTime
                 break;
         }
 
-        if ($return === 'key') {
-            return $dayKey;
-        } else if ($return === 'name') {
-            return $dayName;
-        } else {
-            return ['key' => $dayKey, 'name' => $dayName];
+        // Return the name of the day, the number of the day, or both.
+        switch ($return) {
+            case 'number':
+                return $dayNumber;
+            case 'name':
+                return $dayName;
+            default:
+                return ['number' => $dayNumber, 'name' => $dayName];
         }
     }
 

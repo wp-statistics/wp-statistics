@@ -458,7 +458,7 @@ class DateRange
      */
     private static function calculateWeekRange($weeksAgo = 0)
     {
-        $startOfWeek    = DateTime::getStartOfWeek('key');
+        $startOfWeek    = DateTime::getStartOfWeek('number');
         $dateFormat     = DateTime::$defaultDateFormat;
 
         $today = new \DateTime();
