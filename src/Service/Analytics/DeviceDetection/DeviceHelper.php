@@ -61,7 +61,7 @@ class DeviceHelper
      */
     public static function getBrowserLogo(string $browser)
     {
-        $browser  = str_replace(' ', '_', $browser);
+        $browser  = str_replace(' ', '_', strtolower($browser));
         $logoPath = "assets/images/browser/{$browser}.svg";
 
         if (file_exists(WP_STATISTICS_DIR . $logoPath)) {
