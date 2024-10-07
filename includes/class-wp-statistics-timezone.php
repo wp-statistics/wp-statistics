@@ -206,6 +206,12 @@ class TimeZone
         return $list;
     }
 
+    /**
+     * Returns an array of date filters.
+     *
+     * @deprecated 14.11 Use WP_Statistics/DateRange::getPeriods() instead.
+     * @return array
+     */
     public static function getDateFilters()
     {
         _deprecated_function(__METHOD__, '14.11', 'WP_Statistics/DateRange::getPeriods()');
@@ -276,6 +282,15 @@ class TimeZone
         ];
     }
 
+    /**
+     * Calculates the date filter by given date filter string.
+     *
+     * @deprecated 14.11 Use WP_Statistics/DateRange::get() instead.
+     *
+     * @param string $dateFilter Date filter string.
+     *
+     * @return array
+     */
     public static function calculateDateFilter($dateFilter = false)
     {
         _deprecated_function(__METHOD__, '14.11', 'WP_Statistics/DateRange::get()');
