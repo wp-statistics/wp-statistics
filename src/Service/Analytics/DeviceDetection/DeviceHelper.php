@@ -18,6 +18,7 @@ class DeviceHelper
             'brave'                         => __('Brave', 'wp-statistics'),
             'chrome'                        => __('Chrome', 'wp-statistics'),
             'chrome_mobile'                 => __('Chrome Mobile', 'wp-statistics'),
+            'chrome_mobile_ios'             => __('Chrome Mobile iOS', 'wp-statistics'),
             'chrome_webview'                => __('Chrome Webview', 'wp-statistics'),
             'chromium'                      => __('Chromium', 'wp-statistics'),
             'duckduckgo_privacy_browser'    => __('DuckDuckGo', 'wp-statistics'),
@@ -80,7 +81,7 @@ class DeviceHelper
      */
     public static function getPlatformLogo(string $platform)
     {
-        $platform = str_replace(' ', '_', sanitize_text_field(strtolower($platform)));
+        $platform = str_replace([' ', '/'], '_', sanitize_text_field(strtolower($platform)));
         $logoPath = "assets/images/operating-system/{$platform}.svg";
 
         if (file_exists(WP_STATISTICS_DIR . $logoPath)) {
