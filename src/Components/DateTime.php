@@ -61,7 +61,7 @@ class DateTime
      *
      * @return string
      */
-    public static function getWpDateFormat()
+    public static function getDateFormat()
     {
         return get_option('date_format', self::$defaultDateFormat);
     }
@@ -71,7 +71,7 @@ class DateTime
      *
      * @return string
      */
-    public static function getWpTimeFormat()
+    public static function getTimeFormat()
     {
         return get_option('time_format', self::$defaultTimeFormat);
     }
@@ -82,9 +82,9 @@ class DateTime
      * @param string $separator (optional) The separator to use between date and time.
      * @return string
      */
-    public static function getWpDateTimeFormat($separator = ' ')
+    public static function getDateTimeFormat($separator = ' ')
     {
-        return self::getWpDateFormat() . $separator . self::getWpTimeFormat();
+        return self::getDateFormat() . $separator . self::getTimeFormat();
     }
 
 
@@ -112,8 +112,8 @@ class DateTime
             'exclude_year'  => false,
             'short_month'   => false,
             'separator'     => ' ',
-            'date_format'   => self::getWpDateFormat(),
-            'time_format'   => self::getWpTimeFormat()
+            'date_format'   => self::getDateFormat(),
+            'time_format'   => self::getTimeFormat()
         ]);
 
         $timestamp  = is_numeric($datetime) ? $datetime : strtotime($datetime);
