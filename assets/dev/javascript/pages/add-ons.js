@@ -128,9 +128,6 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                 addon_items.forEach(function (item) {
                     if (item.checked) {
                         anyChecked = true;
-                        item.disabled = true;
-                    } else {
-                        item.disabled = false;
                     }
                 });
 
