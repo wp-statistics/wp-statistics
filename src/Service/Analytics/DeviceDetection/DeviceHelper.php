@@ -7,7 +7,7 @@ class DeviceHelper
     /**
      * Get all browser list for detection.
      *
-     * @param bool|string $all
+     * @param bool|string $browser
      * @return array|string
      */
     public static function getBrowserList($all = true)
@@ -52,7 +52,7 @@ class DeviceHelper
 
         $browser = strtolower(str_replace(' ', '_', $all));
 
-        return $list[$browser] ?? __('Unknown', 'wp-statistics');
+        return $list[$browser] ?? $browser;
     }
 
     /**
