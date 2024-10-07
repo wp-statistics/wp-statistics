@@ -17,6 +17,7 @@ class DeviceHelper
             'aloha_browser_lite'            => __('Aloha Browser Lite', 'wp-statistics'),
             'brave'                         => __('Brave', 'wp-statistics'),
             'chrome'                        => __('Chrome', 'wp-statistics'),
+            'chrome_mobile'                 => __('Chrome Mobile', 'wp-statistics'),
             'chrome_webview'                => __('Chrome Webview', 'wp-statistics'),
             'chromium'                      => __('Chromium', 'wp-statistics'),
             'duckduckgo_privacy_browser'    => __('DuckDuckGo', 'wp-statistics'),
