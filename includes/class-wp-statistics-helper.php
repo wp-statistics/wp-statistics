@@ -2022,8 +2022,18 @@ class Helper
         return false;
     }
 
+    /**
+     * Gets the start of week string.
+     *
+     * This function returns the string value of the start of week day.
+     *
+     * @return string The start of week string (e.g. 'monday', 'tuesday', etc.)
+     * @deprecated 14.11 Use WP_Statistics\Components\DateTime::getStartOfWeek instead.
+     */
     public static function getStartOfWeek()
     {
+        _deprecated_function('WP_Statistics\Helper::getStartOfWeek', '14.11', 'WP_Statistics\Components\DateTime::getStartOfWeek');
+
         $startDay = intval(get_option('start_of_week', 0));
 
         switch ($startDay) {
