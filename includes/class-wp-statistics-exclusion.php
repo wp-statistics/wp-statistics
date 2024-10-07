@@ -243,11 +243,15 @@ class Exclusion
             // Strip slashes from the beginning and the end of the request URI
             $requestUri = trim($requestUri, '/\\');
 
+            // Decode request URI since input URLs will be decoded too
+            $requestUri = urldecode($requestUri);
+
             foreach (explode("\n", $excludedUrls) as $url) {
                 // Sanitize input URL
                 $url = wp_make_link_relative($url);
                 $url = trim($url);
                 $url = trim($url, '/\\');
+                $url = urldecode($url);
 
                 if (strlen($url) > 2) {
                     // Check if the URL contains a wildcard (*)
