@@ -828,7 +828,7 @@ function wp_statistics_searchengine_query($search_engine = 'all')
     $search_query = '';
     // Are we getting results for all search engines or a specific one?
     if (strtolower($search_engine) == 'all') {
-        $search_query .= "`source_channel` in ('search', 'paid_search')";
+        $search_query .= "`source_channel` in ('search')";
     } else {
         // Are we getting results for all search engines or a specific one?
         $search_query .= $wpdb->prepare("`source_name` = %s", $search_engine);

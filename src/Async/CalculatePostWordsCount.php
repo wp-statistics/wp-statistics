@@ -33,11 +33,13 @@ class CalculatePostWordsCount extends WP_Background_Process
      */
     protected function task($item)
     {
-        $postId         = $item['post_id'];
-        $post           = get_post($postId);
-        $wordCountClass = new WordCountService();
+        $posts = $item['posts'];
 
-        $wordCountClass->handleSavePost($postId, $post);
+        foreach ($posts as $postId) {
+            $post           = get_post($postId);
+            $wordCountClass = new WordCountService();
+            $wordCountClass->handleSavePost($postId, $post);
+        }
 
         return false;
     }

@@ -605,7 +605,8 @@ class VisitorsModel extends BaseModel
 
         $subQuery = Query::select([
             'visitor_relationships.visitor_id',
-            'date',
+            'page_id',
+            'date'
         ])
             ->from('visitor_relationships')
             ->whereRaw("(visitor_id, date) IN ($firstHit)")
@@ -633,6 +634,7 @@ class VisitorsModel extends BaseModel
             'users.user_login',
             'users.user_registered',
             'first_hit.date as first_view',
+            'first_hit.page_id as first_page'
         ])
             ->from('visitor')
             ->join('users', ['visitor.user_id', 'users.ID'], [], 'LEFT')
@@ -768,7 +770,7 @@ class VisitorsModel extends BaseModel
         $privateCountry = GeolocationFactory::getProviderInstance()->getPrivateCountryCode();
 
         // Determine the select fields based on the returnCount parameter
-        $selectFields = $returnCount ? 'COUNT(*)' : ['ID', 'ip', 'location', 'city', 'region', 'continent'];
+        $selectFields = $returnCount ? 'COUNT(*)' : ['ID'];
 
         // Build the query
         $query = Query::select($selectFields)
@@ -813,14 +815,11 @@ class VisitorsModel extends BaseModel
             ->getQuery();
 
         $result = Query::select([
-            'visitor.ID',
-            'visitor.referred',
-            'pages.uri as first_hit'
+            'visitor.ID'
         ])
             ->from('visitor')
             ->whereRelation('OR')
-            ->whereNull('source_channel')
-            ->whereNull('source_name')
+            ->whereNotNull('referred')
             ->joinQuery($subQuery, ['visitor.ID', 'first_hit.visitor_id'], 'first_hit', 'LEFT')
             ->join('pages', ['first_hit.page_id', 'pages.page_id'], [], 'LEFT')
             ->groupBy('visitor.ID')
@@ -848,6 +847,7 @@ class VisitorsModel extends BaseModel
             'query_param'   => '',
             'taxonomy'      => '',
             'term'          => '',
+            'referrer'      => '',
             'group_by'      => 'visitor.referred',
             'page'          => 1,
             'per_page'      => 10,
@@ -871,6 +871,10 @@ class VisitorsModel extends BaseModel
             ->groupBy($args['group_by'])
             ->orderBy('visitors')
             ->perPage($args['page'], $args['per_page']);
+
+        if (!empty($args['referrer'])) {
+            $query->where('visitor.referred', 'LIKE', "%{$args['referrer']}%");
+        }
 
         // When date is passed, but all other parameters below are empty, compare the given date with `visitor.last_counter`
         if (!empty($args['date']) && !array_intersect(['post_type', 'post_id', 'query_param', 'taxonomy', 'term'], array_keys($filteredArgs))) {

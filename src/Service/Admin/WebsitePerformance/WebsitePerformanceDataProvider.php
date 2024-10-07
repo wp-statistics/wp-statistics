@@ -9,39 +9,28 @@ use WP_Statistics\Models\TaxonomyModel;
 use WP_Statistics\Models\ViewsModel;
 use WP_Statistics\Models\VisitorsModel;
 use WP_STATISTICS\TimeZone;
+use WP_Statistics\Traits\ObjectCacheTrait;
 
 /**
  * This class is used to get data needed for "Your performance at a glance" section (mostly used in e-mail reports).
  */
 class WebsitePerformanceDataProvider
 {
-    /**
-     * Start date of current period.
-     *
-     * @var string  Format: `Y-m-d`.
-     */
-    private $currentPeriodFromDate = '';
+    use ObjectCacheTrait;
 
     /**
-     * End date of current period.
+     * Current period dates.
      *
-     * @var string  Format: `Y-m-d`.
+     * @var array Format: `['from' => {Y-m-d}, 'to' => {Y-m-d}]`.
      */
-    private $currentPeriodToDate = '';
+    private $currentPeriod;
 
     /**
-     * Start date of previous period.
+     * Previous period dates.
      *
-     * @var string  Format: `Y-m-d`.
+     * @var array Format: `['from' => {Y-m-d}, 'to' => {Y-m-d}]`.
      */
-    private $previousPeriodFromDate = '';
-
-    /**
-     * End date of previous period.
-     *
-     * @var string  Format: `Y-m-d`.
-     */
-    private $previousPeriodToDate = '';
+    private $previousPeriod;
 
     /**
      * Should calculate percentage change between current period and previous period stats?
@@ -89,183 +78,169 @@ class WebsitePerformanceDataProvider
      */
     private $taxonomiesModel;
 
-    // Cached attributes (to prevent duplicate queries)
-    private $currentPeriodVisitors     = null;
-    private $previousPeriodVisitors    = null;
-    private $currentPeriodViews        = null;
-    private $previousPeriodViews       = null;
-    private $currentPeriodReferrals    = null;
-    private $previousPeriodReferrals   = null;
-    private $currentPeriodContents     = null;
-    private $previousPeriodContents    = null;
-    private $percentageChangeVisitors  = null;
-    private $percentageChangeViews     = null;
-    private $percentageChangeReferrals = null;
-    private $percentageChangeContents  = null;
-    private $topAuthor                 = null;
-    private $topPost                   = null;
-    private $topReferral               = null;
-    private $topCategory               = null;
-
     /**
-     * Initializes the class.
-     *
-     * @param   string  $fromDate  Start date of the report in `Y-m-d` format.
-     * @param   string  $toDate    End date of the report in `Y-m-d` format. Default: Yesterday.
+     * @param string $fromDate Start date of the report in `Y-m-d` format.
+     * @param string $toDate End date of the report in `Y-m-d` format. Default: Yesterday.
      */
     public function __construct($fromDate, $toDate = '')
     {
         $this->setArgs($fromDate, $toDate);
 
-        $this->visitorsModel   = new VisitorsModel();
-        $this->viewsModel      = new ViewsModel();
+        $this->visitorsModel = new VisitorsModel();
+        $this->viewsModel    = new ViewsModel();
     }
 
     /**
      * Sets arguments for current period and previous period.
      *
-     * @param   string  $fromDate  Start date of the report in `Y-m-d` format.
-     * @param   string  $toDate    End date of the report in `Y-m-d` format. Default: Yesterday.
+     * @param string $fromDate Start date of the report in `Y-m-d` format.
+     * @param string $toDate End date of the report in `Y-m-d` format. Default: Yesterday.
      *
-     * @return  void
+     * @return void
      */
     public function setArgs($fromDate, $toDate = '')
+    {
+        $this->setPeriods($fromDate, $toDate);
+        $this->setArguments();
+        $this->resetCachedData();
+    }
+
+    /**
+     * Sets current and previous period dates.
+     *
+     * @param string $fromDate Start date of the report in `Y-m-d` format.
+     * @param string $toDate End date of the report in `Y-m-d` format. Default: Yesterday.
+     *
+     * @return void
+     */
+    private function setPeriods($fromDate, $toDate = '')
     {
         if (!TimeZone::isValidDate($fromDate)) {
             $fromDate = TimeZone::getTimeAgo(7);
             $toDate   = TimeZone::getTimeAgo();
         } else if (!TimeZone::isValidDate($toDate)) {
-            $toDate   = TimeZone::getTimeAgo();
+            $toDate = TimeZone::getTimeAgo();
         }
 
         if ($fromDate == TimeZone::getTimeAgo()) {
-            // Current period = Yesterday
-            $this->currentPeriodFromDate  = TimeZone::getTimeAgo();
-            $this->currentPeriodToDate    = TimeZone::getTimeAgo();
-            // Previous period = The day before yesterday
-            $this->previousPeriodFromDate = TimeZone::getTimeAgo(2);
-            $this->previousPeriodToDate   = TimeZone::getTimeAgo(2);
+            // Current period: Yesterday - Previous period: The day before yesterday
+            $this->setCurrentAndPreviousPeriods(TimeZone::getTimeAgo(), TimeZone::getTimeAgo(), TimeZone::getTimeAgo(2), TimeZone::getTimeAgo(2));
         } else if ($fromDate == TimeZone::getTimeAgo(7)) {
-            // Current period = From 7 days ago to yesterday
-            $this->currentPeriodFromDate  = TimeZone::getTimeAgo(7);
-            $this->currentPeriodToDate    = TimeZone::getTimeAgo();
-            // Previous period = From 2 weeks ago to 8 days ago
-            $this->previousPeriodFromDate = TimeZone::getTimeAgo(14);
-            $this->previousPeriodToDate   = TimeZone::getTimeAgo(8);
+            // Current period: From 7 days ago to yesterday - Previous period: From 2 weeks ago to 8 days ago
+            $this->setCurrentAndPreviousPeriods(TimeZone::getTimeAgo(7), TimeZone::getTimeAgo(), TimeZone::getTimeAgo(14), TimeZone::getTimeAgo(8));
         } else if ($fromDate == TimeZone::getTimeAgo(14)) {
-            // Current period = From 2 weeks ago to yesterday
-            $this->currentPeriodFromDate  = TimeZone::getTimeAgo(14);
-            $this->currentPeriodToDate    = TimeZone::getTimeAgo();
-            // Previous period = From 4 weeks ago to 15 days ago
-            $this->previousPeriodFromDate = TimeZone::getTimeAgo(28);
-            $this->previousPeriodToDate   = TimeZone::getTimeAgo(15);
+            // Current period: From 2 weeks ago to yesterday - Previous period: From 4 weeks ago to 15 days ago
+            $this->setCurrentAndPreviousPeriods(TimeZone::getTimeAgo(14), TimeZone::getTimeAgo(), TimeZone::getTimeAgo(28), TimeZone::getTimeAgo(15));
         } else if ($fromDate == date('Y-m-d', strtotime('First day of previous month'))) {
-            // Current period = Last month
-            $this->currentPeriodFromDate  = date('Y-m-d', strtotime('First day of previous month'));
-            $this->currentPeriodToDate    = date('Y-m-d', strtotime('Last day of previous month'));
-            // Previous period = Previous month
-            $this->previousPeriodFromDate = date('Y-m-d', strtotime('First day of -2 months'));
-            $this->previousPeriodToDate   = date('Y-m-d', strtotime('Last day of -2 months'));
+            // Current period: Last month - Previous period: Previous month
+            $this->setCurrentAndPreviousPeriods(
+                date('Y-m-d', strtotime('First day of previous month')),
+                date('Y-m-d', strtotime('Last day of previous month')),
+                date('Y-m-d', strtotime('First day of -2 months')),
+                date('Y-m-d', strtotime('Last day of -2 months'))
+            );
         } else if (!empty($fromDate)) {
-            // Current period = From the `$fromDate` to `$toDate`
-            $this->currentPeriodFromDate  = $fromDate;
-            $this->currentPeriodToDate    = $toDate;
-            // Previous period = From twice the `$fromDate` to one day before the `$fromDate`
-            $this->previousPeriodFromDate = TimeZone::getTimeAgo(TimeZone::getNumberDayBetween($fromDate) * 2);
-            $this->previousPeriodToDate   = TimeZone::getTimeAgo(TimeZone::getNumberDayBetween($fromDate) + 1);
+            // Current period: From the `$fromDate` to `$toDate` - Previous period: From twice the `$fromDate` to one day before the `$fromDate`
+            $this->setCurrentAndPreviousPeriods(
+                $fromDate,
+                $toDate,
+                TimeZone::getTimeAgo(TimeZone::getNumberDayBetween($fromDate) * 2),
+                TimeZone::getTimeAgo(TimeZone::getNumberDayBetween($fromDate) + 1)
+            );
         } else {
-            // Current period = Total (including today)
-            $this->currentPeriodFromDate      = date('Y-m-d', 0);
-            $this->currentPeriodToDate        = TimeZone::getTimeAgo(0);
-            // Skip previous period (and the percentage change number)
-            $this->previousPeriodFromDate     = '';
-            $this->previousPeriodToDate       = '';
+            // Current period: Total (including today) - Skip previous period (and the percentage change number)
+            $this->setCurrentAndPreviousPeriods(date('Y-m-d', 0), TimeZone::getTimeAgo(0));
             $this->calculatePercentageChanges = false;
         }
+    }
 
+    /**
+     * Sets the current and previous period dates.
+     *
+     * @param string $currentFrom Start date of the current period.
+     * @param string $currentTo End date of the current period.
+     * @param string $previousFrom Start date of the previous period.
+     * @param string $previousTo End date of the previous period.
+     *
+     * @return void
+     */
+    private function setCurrentAndPreviousPeriods($currentFrom, $currentTo, $previousFrom = '', $previousTo = '')
+    {
+        $this->currentPeriod  = ['from' => $currentFrom, 'to' => $currentTo];
+        $this->previousPeriod = ['from' => $previousFrom, 'to' => $previousTo];
+    }
+
+    /**
+     * Configures the arguments for fetching data.
+     *
+     * @return void
+     */
+    private function setArguments()
+    {
         $this->argsCurrentPeriod = [
-            'date'     => [
-                'from' => $this->currentPeriodFromDate,
-                'to'   => $this->currentPeriodToDate,
-            ],
+            'date'     => $this->getCurrentPeriod(),
             'page'     => 0,
             'per_page' => 0,
         ];
 
         if ($this->calculatePercentageChanges) {
             $this->argsPreviousPeriod = [
-                'date'     => [
-                    'from' => $this->previousPeriodFromDate,
-                    'to'   => $this->previousPeriodToDate,
-                ],
+                'date'     => $this->getPreviousPeriod(),
                 'page'     => 0,
                 'per_page' => 0,
             ];
         }
-
-        // Reset cached attributes
-        $this->currentPeriodVisitors     = null;
-        $this->previousPeriodVisitors    = null;
-        $this->currentPeriodViews        = null;
-        $this->previousPeriodViews       = null;
-        $this->currentPeriodReferrals    = null;
-        $this->previousPeriodReferrals   = null;
-        $this->currentPeriodContents     = null;
-        $this->previousPeriodContents    = null;
-        $this->percentageChangeVisitors  = null;
-        $this->percentageChangeViews     = null;
-        $this->percentageChangeReferrals = null;
-        $this->percentageChangeContents  = null;
-        $this->topAuthor                 = null;
-        $this->topPost                   = null;
-        $this->topReferral               = null;
-        $this->topCategory               = null;
     }
 
     /**
-     * Returns start date of current period.
+     * Resets cached data.
      *
-     * @return  string  Format: `Y-m-d`.
+     * @return void
      */
-    public function getCurrentPeriodFromDate()
+    private function resetCachedData()
     {
-        return $this->currentPeriodFromDate;
+        $this->setCache('currentPeriodVisitors', null);
+        $this->setCache('previousPeriodVisitors', null);
+        $this->setCache('currentPeriodViews', null);
+        $this->setCache('previousPeriodViews', null);
+        $this->setCache('currentPeriodReferrals', null);
+        $this->setCache('previousPeriodReferrals', null);
+        $this->setCache('currentPeriodContents', null);
+        $this->setCache('previousPeriodContents', null);
+        $this->setCache('percentageChangeVisitors', null);
+        $this->setCache('percentageChangeViews', null);
+        $this->setCache('percentageChangeReferrals', null);
+        $this->setCache('percentageChangeContents', null);
+        $this->setCache('topAuthor', null);
+        $this->setCache('topPost', null);
+        $this->setCache('topReferral', null);
+        $this->setCache('topCategory', null);
     }
 
     /**
-     * Returns end date of current period.
+     * Returns current period dates.
      *
-     * @return  string  Format: `Y-m-d`.
+     * @return array Format: `['from' => {Y-m-d}, 'to' => {Y-m-d}]`.
      */
-    public function getCurrentPeriodToDate()
+    public function getCurrentPeriod()
     {
-        return $this->currentPeriodToDate;
+        return $this->currentPeriod;
     }
 
     /**
-     * Returns start date of previous period.
+     * Returns previous period dates.
      *
-     * @return  string  Format: `Y-m-d`.
+     * @return array Format: `['from' => {Y-m-d}, 'to' => {Y-m-d}]`.
      */
-    public function getPreviousPeriodFromDate()
+    public function getPreviousPeriod()
     {
-        return $this->previousPeriodFromDate;
-    }
-
-    /**
-     * Returns end date of previous period.
-     *
-     * @return  string  Format: `Y-m-d`.
-     */
-    public function getPreviousPeriodToDate()
-    {
-        return $this->previousPeriodToDate;
+        return $this->previousPeriod;
     }
 
     /**
      * Should calculate percentage change between current period and previous period stats?
      *
-     * @return  bool
+     * @return bool
      */
     public function shouldCalculatePercentageChanges()
     {
@@ -275,9 +250,9 @@ class WebsitePerformanceDataProvider
     /**
      * Returns visitors for the selected period.
      *
-     * @param   bool    $isCurrentPeriod   Whether return current period's data or previous period's.
+     * @param bool $isCurrentPeriod Whether return current period's data or previous period's.
      *
-     * @return  int
+     * @return int
      */
     public function getVisitors($isCurrentPeriod = true)
     {
@@ -292,37 +267,37 @@ class WebsitePerformanceDataProvider
     /**
      * Returns visitors for current period.
      *
-     * @return  int
+     * @return int
      */
     public function getCurrentPeriodVisitors()
     {
-        if (!is_numeric($this->currentPeriodVisitors)) {
-            $this->currentPeriodVisitors = $this->getVisitors();
+        if (!is_numeric($this->getCache('currentPeriodVisitors'))) {
+            $this->setCache('currentPeriodVisitors', $this->getVisitors());
         }
 
-        return intval($this->currentPeriodVisitors);
+        return intval($this->getCache('currentPeriodVisitors'));
     }
 
     /**
      * Returns visitors for previous period.
      *
-     * @return  int
+     * @return int
      */
     public function getPreviousPeriodVisitors()
     {
-        if (!is_numeric($this->previousPeriodVisitors)) {
-            $this->previousPeriodVisitors = $this->getVisitors(false);
+        if (!is_numeric($this->getCache('previousPeriodVisitors'))) {
+            $this->setCache('previousPeriodVisitors', $this->getVisitors(false));
         }
 
-        return intval($this->previousPeriodVisitors);
+        return intval($this->getCache('previousPeriodVisitors'));
     }
 
     /**
      * Returns visitors for the selected period.
      *
-     * @param   bool    $isCurrentPeriod   Whether return current period's data or previous period's.
+     * @param bool $isCurrentPeriod Whether return current period's data or previous period's.
      *
-     * @return  int
+     * @return int
      */
     public function getViews($isCurrentPeriod = true)
     {
@@ -337,37 +312,37 @@ class WebsitePerformanceDataProvider
     /**
      * Returns views for current period.
      *
-     * @return  int
+     * @return int
      */
     public function getCurrentPeriodViews()
     {
-        if (!is_numeric($this->currentPeriodViews)) {
-            $this->currentPeriodViews = $this->getViews();
+        if (!is_numeric($this->getCache('currentPeriodViews'))) {
+            $this->setCache('currentPeriodViews', $this->getViews());
         }
 
-        return intval($this->currentPeriodViews);
+        return intval($this->getCache('currentPeriodViews'));
     }
 
     /**
      * Returns views for previous period.
      *
-     * @return  int
+     * @return int
      */
     public function getPreviousPeriodViews()
     {
-        if (!is_numeric($this->previousPeriodViews)) {
-            $this->previousPeriodViews = $this->getViews(false);
+        if (!is_numeric($this->getCache('previousPeriodViews'))) {
+            $this->setCache('previousPeriodViews', $this->getViews(false));
         }
 
-        return intval($this->previousPeriodViews);
+        return intval($this->getCache('previousPeriodViews'));
     }
 
     /**
      * Returns referrals for the selected period.
      *
-     * @param   bool    $isCurrentPeriod   Whether return current period's data or previous period's.
+     * @param bool $isCurrentPeriod Whether return current period's data or previous period's.
      *
-     * @return  array                   Format: `['visitors' => {COUNT}, 'referrer' => {URL}, 'visitors' => {COUNT}, 'referrer' => {URL}, ...]`
+     * @return array Format: `['visitors' => {COUNT}, 'referrer' => {URL}, 'visitors' => {COUNT}, 'referrer' => {URL}, ...]`
      */
     public function getReferrals($isCurrentPeriod = true)
     {
@@ -382,20 +357,20 @@ class WebsitePerformanceDataProvider
     /**
      * Returns referrals count for current period.
      *
-     * @return  int
+     * @return int
      */
     public function getCurrentPeriodReferralsCount()
     {
-        if (!is_array($this->currentPeriodReferrals)) {
-            $this->currentPeriodReferrals = $this->getReferrals();
+        if (!is_array($this->getCache('currentPeriodReferrals'))) {
+            $this->setCache('currentPeriodReferrals', $this->getReferrals());
         }
 
-        if (empty($this->currentPeriodReferrals)) {
+        if (empty($this->getCache('currentPeriodReferrals'))) {
             return 0;
         }
 
         $count = 0;
-        foreach ($this->currentPeriodReferrals as $referral) {
+        foreach ($this->getCache('currentPeriodReferrals') as $referral) {
             if (!empty($referral->visitors)) {
                 $count += intval($referral->visitors);
             }
@@ -407,20 +382,20 @@ class WebsitePerformanceDataProvider
     /**
      * Returns referrals count for previous period.
      *
-     * @return  int
+     * @return int
      */
     public function getPreviousPeriodReferralsCount()
     {
-        if (!is_array($this->previousPeriodReferrals)) {
-            $this->previousPeriodReferrals = $this->getReferrals(false);
+        if (!is_array($this->getCache('previousPeriodReferrals'))) {
+            $this->setCache('previousPeriodReferrals', $this->getReferrals(false));
         }
 
-        if (empty($this->previousPeriodReferrals)) {
+        if (empty($this->getCache('previousPeriodReferrals'))) {
             return 0;
         }
 
         $count = 0;
-        foreach ($this->previousPeriodReferrals as $referral) {
+        foreach ($this->getCache('previousPeriodReferrals') as $referral) {
             if (!empty($referral->visitors)) {
                 $count += intval($referral->visitors);
             }
@@ -432,9 +407,9 @@ class WebsitePerformanceDataProvider
     /**
      * Returns number of published contents for the selected period.
      *
-     * @param   bool    $isCurrentPeriod   Whether return current period's data or previous period's.
+     * @param bool $isCurrentPeriod Whether return current period's data or previous period's.
      *
-     * @return  int
+     * @return int
      */
     public function getContents($isCurrentPeriod = true)
     {
@@ -453,35 +428,35 @@ class WebsitePerformanceDataProvider
     /**
      * Returns contents for current period.
      *
-     * @return  int
+     * @return int
      */
     public function getCurrentPeriodContents()
     {
-        if (!is_numeric($this->currentPeriodContents)) {
-            $this->currentPeriodContents = $this->getContents();
+        if (!is_numeric($this->getCache('currentPeriodContents'))) {
+            $this->setCache('currentPeriodContents', $this->getContents());
         }
 
-        return intval($this->currentPeriodContents);
+        return intval($this->getCache('currentPeriodContents'));
     }
 
     /**
      * Returns contents for previous period.
      *
-     * @return  int
+     * @return int
      */
     public function getPreviousPeriodContents()
     {
-        if (!is_numeric($this->previousPeriodContents)) {
-            $this->previousPeriodContents = $this->getContents(false);
+        if (!is_numeric($this->getCache('previousPeriodContents'))) {
+            $this->setCache('previousPeriodContents', $this->getContents(false));
         }
 
-        return intval($this->previousPeriodContents);
+        return intval($this->getCache('previousPeriodContents'));
     }
 
     /**
      * Returns percentage change between current and previous period's visitors.
      *
-     * @return  int
+     * @return int
      */
     public function getPercentageChangeVisitors()
     {
@@ -489,17 +464,17 @@ class WebsitePerformanceDataProvider
             return 0;
         }
 
-        if (!is_numeric($this->percentageChangeVisitors)) {
-            $this->percentageChangeVisitors = intval(Helper::calculatePercentageChange($this->getPreviousPeriodVisitors(), $this->getCurrentPeriodVisitors()));
+        if (!is_numeric($this->getCache('percentageChangeVisitors'))) {
+            $this->setCache('percentageChangeVisitors', intval(Helper::calculatePercentageChange($this->getPreviousPeriodVisitors(), $this->getCurrentPeriodVisitors())));
         }
 
-        return $this->percentageChangeVisitors;
+        return $this->getCache('percentageChangeVisitors');
     }
 
     /**
      * Returns percentage change between current and previous period's views.
      *
-     * @return  int
+     * @return int
      */
     public function getPercentageChangeViews()
     {
@@ -507,17 +482,17 @@ class WebsitePerformanceDataProvider
             return 0;
         }
 
-        if (!is_numeric($this->percentageChangeViews)) {
-            $this->percentageChangeViews = intval(Helper::calculatePercentageChange($this->getPreviousPeriodViews(), $this->getCurrentPeriodViews()));
+        if (!is_numeric($this->getCache('percentageChangeViews'))) {
+            $this->setCache('percentageChangeViews', intval(Helper::calculatePercentageChange($this->getPreviousPeriodViews(), $this->getCurrentPeriodViews())));
         }
 
-        return $this->percentageChangeViews;
+        return $this->getCache('percentageChangeViews');
     }
 
     /**
      * Returns percentage change between current and previous period's referrals.
      *
-     * @return  int
+     * @return int
      */
     public function getPercentageChangeReferrals()
     {
@@ -525,17 +500,17 @@ class WebsitePerformanceDataProvider
             return 0;
         }
 
-        if (!is_numeric($this->percentageChangeReferrals)) {
-            $this->percentageChangeReferrals = intval(Helper::calculatePercentageChange($this->getPreviousPeriodReferralsCount(), $this->getCurrentPeriodReferralsCount()));
+        if (!is_numeric($this->getCache('percentageChangeReferrals'))) {
+            $this->setCache('percentageChangeReferrals', intval(Helper::calculatePercentageChange($this->getPreviousPeriodReferralsCount(), $this->getCurrentPeriodReferralsCount())));
         }
 
-        return $this->percentageChangeReferrals;
+        return $this->getCache('percentageChangeReferrals');
     }
 
     /**
      * Returns percentage change between current and previous period's contents.
      *
-     * @return  int
+     * @return int
      */
     public function getPercentageChangeContents()
     {
@@ -543,113 +518,110 @@ class WebsitePerformanceDataProvider
             return 0;
         }
 
-        if (!is_numeric($this->percentageChangeContents)) {
-            $this->percentageChangeContents = intval(Helper::calculatePercentageChange($this->getPreviousPeriodContents(), $this->getCurrentPeriodContents()));
+        if (!is_numeric($this->getCache('percentageChangeContents'))) {
+            $this->setCache('percentageChangeContents', intval(Helper::calculatePercentageChange($this->getPreviousPeriodContents(), $this->getCurrentPeriodContents())));
         }
 
-        return $this->percentageChangeContents;
+        return $this->getCache('percentageChangeContents');
     }
 
 
     /**
      * Returns the name of the author with the most published posts in current period.
      *
-     * @return  string
+     * @return string
      */
     public function getTopAuthor()
     {
-        if ($this->topAuthor !== null) {
-            return $this->topAuthor;
+        if ($this->getCache('topAuthor') !== null) {
+            return $this->getCache('topAuthor');
         }
 
         if (empty($this->authorsModel)) {
             $this->authorsModel = new AuthorsModel();
         }
 
-        $this->topAuthor = $this->authorsModel->getAuthorsByPostPublishes($this->argsCurrentPeriod);
-        $this->topAuthor = !empty($this->topAuthor) ? $this->topAuthor[0]->name : '';
+        $topAuthor = $this->authorsModel->getAuthorsByPostPublishes($this->argsCurrentPeriod);
+        $this->setCache('topAuthor', !empty($topAuthor) ? $topAuthor[0]->name : '');
 
-        return $this->topAuthor;
+        return $this->getCache('topAuthor');
     }
 
     /**
      * Returns the name of the post that had the most views in current period.
      *
-     * @return  string
+     * @return string
      */
     public function getTopPost()
     {
-        if ($this->topPost !== null) {
-            return $this->topPost;
+        if ($this->getCache('topPost') !== null) {
+            return $this->getCache('topPost');
         }
 
         if (empty($this->postsModel)) {
             $this->postsModel = new PostsModel();
         }
 
-        $this->topPost = $this->postsModel->getPostsViewsData($this->argsCurrentPeriod);
-        $this->topPost = !empty($this->topPost) ? $this->topPost[0]->post_title : '';
+        $topPost = $this->postsModel->getPostsViewsData($this->argsCurrentPeriod);
+        $this->setCache('topPost', !empty($topPost) ? $topPost[0]->post_title : '');
 
-        return $this->topPost;
+        return $this->getCache('topPost');
     }
 
     /**
      * Returns the URL of the website that referred the most users in current period.
      *
-     * @return  string
+     * @return string
      */
     public function getTopReferral()
     {
-        if ($this->topReferral !== null) {
-            return $this->topReferral;
+        if ($this->getCache('topReferral') !== null) {
+            return $this->getCache('topReferral');
         }
 
-        if (!is_array($this->currentPeriodReferrals)) {
-            $this->currentPeriodReferrals = $this->getReferrals();
+        if (!is_array($this->getCache('currentPeriodReferrals'))) {
+            $this->setCache('currentPeriodReferrals', $this->getReferrals());
         }
 
-        $this->topReferral = null;
-        foreach ($this->previousPeriodReferrals as $referral) {
+        $topReferral = null;
+        foreach ($this->getCache('currentPeriodReferrals') as $referral) {
             if (!empty($referral->visitors) && !empty($referral->referred)) {
-                $this->topReferral = str_replace('www.', '', $referral->referred);
-                $this->topReferral = wp_parse_url($this->topReferral);
-                $this->topReferral = !empty($this->topReferral['host']) ? trim($this->topReferral['host']) : '';
-                $this->topReferral = ucfirst($this->topReferral);
+                $topReferral = str_replace('www.', '', $referral->referred);
+                $topReferral = wp_parse_url($topReferral);
+                $topReferral = !empty($topReferral['host']) ? trim($topReferral['host']) : '';
+                $this->setCache('topReferral', ucfirst($topReferral));
 
                 // We only need the first referral
                 break;
             }
         }
 
-        return $this->topReferral;
+        return $this->getCache('topReferral');
     }
 
     /**
      * Returns the name of the category/taxonomy that had the most views in its posts in current period.
      *
-     * @return  string
+     * @return string
      */
     public function getTopCategory()
     {
-        if ($this->topCategory !== null) {
-            return $this->topCategory;
+        if ($this->getCache('topCategory') !== null) {
+            return $this->getCache('topCategory');
         }
 
         if (empty($this->taxonomiesModel)) {
             $this->taxonomiesModel = new TaxonomyModel();
         }
 
-        $this->topCategory = $this->taxonomiesModel->getTermsData([
-            'date'     => [
-                'from' => $this->getCurrentPeriodFromDate(),
-                'to'   => $this->getCurrentPeriodToDate(),
-            ],
+        $topCategory = $this->taxonomiesModel->getTermsData([
+            'date'     => $this->getCurrentPeriod(),
             'order_by' => 'views',
             'order'    => 'DESC',
             'taxonomy' => array_keys(Helper::get_list_taxonomy()),
         ]);
-        $this->topCategory = (!empty($this->topCategory) && is_array($this->topCategory) && !empty($this->topCategory[0]->term_name)) ? $this->topCategory[0]->term_name : '';
+        $this->setCache('topCategory', (!empty($topCategory) && is_array($topCategory) && !empty($topCategory[0]->term_name)) ? $topCategory[0]->term_name : '');
 
-        return $this->topCategory;
+        return $this->getCache('topCategory');
     }
 }

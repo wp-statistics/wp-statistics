@@ -2,6 +2,8 @@
 
 namespace WP_STATISTICS;
 
+use WP_Statistics\Service\Admin\LicenseManagement\ApiCommunicator;
+use WP_Statistics\Service\Admin\LicenseManagement\LicenseMigration;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
 use WP_Statistics\Service\Analytics\Referrals\ReferralsDatabase;
 use WP_Statistics\Utils\Request;
@@ -23,23 +25,7 @@ class Schedule
         // Define New Cron Schedules Time in WordPress
         add_filter('cron_schedules', array($this, 'define_schedules_time'));
 
-        //Run This Method Only Admin Area
-        if (Request::isFrom('admin') || Request::isFrom('wp-cli')) {
-
-            // Add the GeoIP update schedule if it doesn't exist and it should be.
-            if (!wp_next_scheduled('wp_statistics_geoip_hook') && Option::get('schedule_geoip')) {
-                wp_schedule_event(self::getSchedules()['monthly']['next_schedule'], 'monthly', 'wp_statistics_geoip_hook');
-            }
-
-            // Remove the GeoIP update schedule if it does exist and it should shouldn't.
-            if (wp_next_scheduled('wp_statistics_geoip_hook') && (!Option::get('schedule_geoip'))) {
-                wp_unschedule_event(wp_next_scheduled('wp_statistics_geoip_hook'), 'wp_statistics_geoip_hook');
-            }
-
-            //Construct Event
-            add_action('wp_statistics_geoip_hook', array($this, 'geoip_event'));
-
-        } else {
+        if (!Request::isFrom('admin')) {
 
             // Add the referrerspam update schedule if it doesn't exist and it should be.
             if (!wp_next_scheduled('wp_statistics_referrerspam_hook') && Option::get('schedule_referrerspam')) {
@@ -91,8 +77,31 @@ class Schedule
             wp_unschedule_event(wp_next_scheduled('wp_statistics_report_hook'), 'wp_statistics_report_hook');
         }
 
+        // Schedule license migration
+        if (!wp_next_scheduled('wp_statistics_licenses_hook') && !LicenseMigration::hasLicensesAlreadyMigrated()) {
+            wp_schedule_event(time(), 'daily', 'wp_statistics_licenses_hook');
+        }
+
+        // Remove license migration schedule if licenses have been migrated before
+        if (wp_next_scheduled('wp_statistics_licenses_hook') && LicenseMigration::hasLicensesAlreadyMigrated()) {
+            wp_unschedule_event(wp_next_scheduled('wp_statistics_licenses_hook'), 'wp_statistics_licenses_hook');
+        }
+
+        // Add the GeoIP update schedule if it doesn't exist and it should be.
+        if (!wp_next_scheduled('wp_statistics_geoip_hook') && Option::get('schedule_geoip')) {
+            wp_schedule_event(self::getSchedules()['monthly']['next_schedule'], 'monthly', 'wp_statistics_geoip_hook');
+        }
+
+        // Remove the GeoIP update schedule if it does exist and it should shouldn't.
+        if (wp_next_scheduled('wp_statistics_geoip_hook') && (!Option::get('schedule_geoip'))) {
+            wp_unschedule_event(wp_next_scheduled('wp_statistics_geoip_hook'), 'wp_statistics_geoip_hook');
+        }
+
+        //Construct Event
+        add_action('wp_statistics_geoip_hook', array($this, 'geoip_event'));
         add_action('wp_statistics_report_hook', array($this, 'send_report'));
         add_action('wp_statistics_referrals_db_hook', [$this, 'referrals_db_event']);
+        add_action('wp_statistics_licenses_hook', [$this, 'migrateOldLicenses']);
     }
 
     /**
@@ -353,6 +362,18 @@ class Schedule
             $scheduleTime = $schedulesInterval[$time]['next_schedule'];
             wp_schedule_event($scheduleTime, $time, $event);
         }
+    }
+
+    /**
+     * Calls `LicenseMigration->migrateOldLicenses()` and migrates old licenses to the new structure.
+     *
+     * @return void
+     */
+    public function migrateOldLicenses()
+    {
+        $apiCommunicator  = new ApiCommunicator();
+        $licenseMigration = new LicenseMigration($apiCommunicator);
+        $licenseMigration->migrateOldLicenses();
     }
 }
 

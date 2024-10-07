@@ -15,6 +15,12 @@ use WP_Statistics\Utils\Request;
             <?php if (!empty($tooltip)) : ?>
                 <span class="wps-tooltip" title="<?php echo esc_attr($tooltip); ?>"><i class="wps-tooltip-icon info"></i></span>
             <?php endif; ?>
+
+            <?php if (isset($install_addon_btn_txt)) : ?>
+                <a href="<?php echo esc_attr($install_addon_btn_link); ?>" class="wps-install-addon-btn">
+                    <span><?php echo esc_attr($install_addon_btn_txt); ?></span>
+                </a>
+             <?php endif; ?>
         </h2>
     <?php endif ?>
 

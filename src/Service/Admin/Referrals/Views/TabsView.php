@@ -54,19 +54,20 @@ class TabsView extends BaseTabView
     public function render()
     {
         try {
-            $data     = $this->getTabData();
-            $template = $this->getCurrentTab();
+            $data       = $this->getTabData();
+            $template   = $this->getCurrentTab();
 
             $args = [
                 'title'       => esc_html__('Referrals', 'wp-statistics'),
                 'pageName'    => Menus::get_page_slug('referrals'),
                 'custom_get'  => [
-                    'tab'      => $this->getCurrentTab(),
-                    'order_by' => Request::get('order_by'),
-                    'order'    => Request::get('order'),
+                    'tab'       => $this->getCurrentTab(),
+                    'order_by'  => Request::get('order_by'),
+                    'order'     => Request::get('order'),
+                    'referrer'  => Request::get('referrer')
                 ],
-                'DateRang'    => Admin_Template::DateRange(),
                 'filters'     => ['source-channels'],
+                'DateRang'    => Admin_Template::DateRange(),
                 'hasDateRang' => true,
                 'data'        => $data,
                 'pagination'  => Admin_Template::paginate_links([
@@ -92,9 +93,14 @@ class TabsView extends BaseTabView
                 ]
             ];
 
+            // Add referrer filter if tab is referred visitors
+            if ($this->isTab('referred-visitors')) {
+                array_unshift($args['filters'], 'referrer');
+            }
+
             Admin_Template::get_template(['layout/header', 'layout/tabbed-page-header'], $args);
             View::load("pages/referrals/$template", $args);
-            Admin_Template::get_template(['layout/postbox.hide', 'layout/footer'], $args);
+            Admin_Template::get_template(['layout/postbox.hide', 'layout/referrer.filter', 'layout/footer'], $args);
         } catch (Exception $e) {
             Notice::renderNotice($e->getMessage(), $e->getCode(), 'error');
         }

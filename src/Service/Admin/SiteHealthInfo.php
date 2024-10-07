@@ -99,6 +99,11 @@ class SiteHealthInfo
                     'value' => Option::get('store_ua') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
                     'debug' => Option::get('store_ua') ? 'Enabled' : 'Disabled',
                 ],
+                'attributionModel'              => [
+                    'label' => esc_html__('Attribution Model', 'wp-statistics'),
+                    'value' => Option::get('attribution_model', 'first-touch'),
+                    'debug' => Option::get('attribution_model', 'first-touch'),
+                ],
                 'trackingMethod'                => [
                     'label' => esc_html__('Tracking Method', 'wp-statistics'),
                     'value' => Option::get('use_cache_plugin') ? __('Client Side Tracking', 'wp-statistics') : __('Server Side Tracking', 'wp-statistics'),

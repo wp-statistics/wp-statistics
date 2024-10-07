@@ -75,7 +75,7 @@ class VisitorProfile
     /**
      * Check if the IP is active today, cached for performance.
      *
-     * @return bool True if active today, false otherwise.
+     * @return object visitor object if active today, false otherwise.
      */
     public function isIpActiveToday()
     {
@@ -161,6 +161,16 @@ class VisitorProfile
     public function getLongitude()
     {
         return $this->getLocation('longitude');
+    }
+
+    /**
+     * Check if the visitor is referred from another site, or not.
+     *
+     * @return bool
+     */
+    public function isReferred()
+    {
+        return !empty(Referrals::getUrl()) ? true : false;
     }
 
     /**

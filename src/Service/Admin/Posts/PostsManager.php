@@ -164,6 +164,11 @@ class PostsManager
      */
     public function enqueueSidebarPanelAssets()
     {
+        // Do not display the block on WP v6.5.5 or older, since PluginDocumentSettingPanel causes "React error #130"
+        if (version_compare(get_bloginfo('version'), '6.5.5', '<=')) {
+            return;
+        }
+
         global $post;
         if (empty($post)) {
             return;
@@ -189,16 +194,9 @@ class PostsManager
      */
     public function addPostMetaBoxes()
     {
-        // Display "Statistics - Summary" meta-box only in classic editor and only when `disable_editor` is disabled
-        $displaySummary        = !Helper::is_gutenberg() && !Option::get('disable_editor');
-
-        // Display "Statistics - Latest Visitors" meta-box only when DataPlus add-on is active and `latest_visitors_metabox` is enabled
-        // Or when DataPlus add-on is not active and `disable_editor` is disabled
-        $displayLatestVisitors = Helper::isAddOnActive('data-plus') ? Option::getByAddon('latest_visitors_metabox', 'data_plus', '1') === '1' : !Option::get('disable_editor');
-
         // Add meta-box to all post types
         foreach (Helper::get_list_post_type() as $screen) {
-            if ($displaySummary) {
+            if ($this->shouldDisplaySummaryMetabox()) {
                 add_meta_box(
                     Meta_Box::getMetaBoxKey('post-summary'),
                     Meta_Box::getList('post-summary')['name'],
@@ -210,7 +208,7 @@ class PostsManager
                 );
             }
 
-            if ($displayLatestVisitors) {
+            if ($this->shouldDisplayLatestVisitorsMetabox()) {
                 add_meta_box(
                     Meta_Box::getMetaBoxKey('post'),
                     Meta_Box::getList('post')['name'],
@@ -225,6 +223,35 @@ class PostsManager
                 );
             }
         }
+    }
+
+    /**
+     * Checks if any of the conditions for displaying "Statistics - Summary" meta-box are met.
+     *
+     * Conditions are: 
+     * - `disable_editor` option is disabled.
+     * - User is in classic editor.
+     * - Installed WordPress version is v6.5.5 or lower (to prevent "React error #130" caused by `PluginDocumentSettingPanel`).
+     *
+     * @return  bool
+     */
+    private function shouldDisplaySummaryMetabox()
+    {
+        return !Option::get('disable_editor') && (!Helper::is_gutenberg() || version_compare(get_bloginfo('version'), '6.5.5', '<='));
+    }
+
+    /**
+     * Checks if any of the conditions for displaying "Statistics - Latest Visitors" meta-box are met.
+     *
+     * Conditions are: 
+     * - DataPlus add-on is active and `latest_visitors_metabox` option is enabled.
+     * - DataPlus add-on is not active and `disable_editor` is disabled.
+     *
+     * @return  bool
+     */
+    private function shouldDisplayLatestVisitorsMetabox()
+    {
+        return Helper::isAddOnActive('data-plus') ? Option::getByAddon('latest_visitors_metabox', 'data_plus', '1') === '1' : !Option::get('disable_editor');
     }
 
     /**

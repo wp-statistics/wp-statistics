@@ -102,7 +102,7 @@ use WP_STATISTICS\Menus;
     </div>
 
     <div class="wps-visitor__visitors-detail--row">
-        <span><?php esc_html_e('Number of visits', 'wp-statistics'); ?></span>
+        <span><?php esc_html_e('Number of views', 'wp-statistics'); ?></span>
         <div><?php echo esc_html($visitor->getHits()) ?></div>
     </div>
 </div>

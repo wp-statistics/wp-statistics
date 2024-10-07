@@ -28,8 +28,11 @@ class Url
         // Make url lower case
         $url = strtolower($url);
 
+        // Sanitize url
+        $url = sanitize_url($url);
+
         // Parse URL
-        $parsedUrl = wp_parse_url(sanitize_url($url));
+        $parsedUrl = wp_parse_url($url);
 
         // If host is empty, return early
         if (empty($parsedUrl['host'])) return '';
@@ -67,5 +70,19 @@ class Url
         }
 
         return $url;
+    }
+
+    /**
+     * Checks if a given URL is internal by comparing its domain to the current website domain.
+     *
+     * @param string $url The URL to check.
+     * @return bool True if the URL's domain matches the current domain, false otherwise.
+     */
+    public static function isInternal($url)
+    {
+        $url        = Url::getDomain($url);
+        $homeUrl    = Url::getDomain(home_url());
+
+        return $url === $homeUrl;
     }
 }
