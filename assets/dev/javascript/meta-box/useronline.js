@@ -41,7 +41,7 @@ wps_js.useronline_meta_box = {
                     <span>Home Page: Sample Page</span>
                 </a>
             </td>
-            <td class="wps-pd-l">00:00:30</td>
+            <td class="wps-pd-l">${value['online_for']}</td>
             <td class="wps-pd-l">
                 <a href="${value['single_url']}">12</a>
             </td>
