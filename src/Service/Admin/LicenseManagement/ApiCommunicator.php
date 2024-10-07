@@ -291,4 +291,45 @@ class ApiCommunicator
 
         return null;
     }
+
+    /**
+     * Checks whether the given license is premium or not.
+     *
+     * @param string $licenseKey
+     *
+     * @return bool
+     */
+    public function isLicensePremium($licenseKey)
+    {
+        try {
+            $licenseData = $this->validateLicense($licenseKey);
+
+            if (!empty($licenseData->license_details->sku) && $licenseData->license_details->sku === 'premium') {
+                return true;
+            }
+        } catch (Exception $e) {
+        }
+
+        return false;
+    }
+
+    /**
+     * Checks all stored licenses to see if any of them is premium.
+     *
+     * @return string|null License key. `null` if no premium licenses were found.
+     */
+    public function userHasPremiumLicense()
+    {
+        foreach ($this->getStoredLicenses() as $key => $license) {
+            if (empty($license) || empty($license['license'])) {
+                continue;
+            }
+
+            if (!empty($license['license']->sku) && $license['license']->sku === 'premium') {
+                return $key;
+            }
+        }
+
+        return null;
+    }
 }

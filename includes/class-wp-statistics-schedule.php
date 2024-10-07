@@ -25,23 +25,7 @@ class Schedule
         // Define New Cron Schedules Time in WordPress
         add_filter('cron_schedules', array($this, 'define_schedules_time'));
 
-        //Run This Method Only Admin Area
-        if (Request::isFrom('admin') || Request::isFrom('wp-cli')) {
-
-            // Add the GeoIP update schedule if it doesn't exist and it should be.
-            if (!wp_next_scheduled('wp_statistics_geoip_hook') && Option::get('schedule_geoip')) {
-                wp_schedule_event(self::getSchedules()['monthly']['next_schedule'], 'monthly', 'wp_statistics_geoip_hook');
-            }
-
-            // Remove the GeoIP update schedule if it does exist and it should shouldn't.
-            if (wp_next_scheduled('wp_statistics_geoip_hook') && (!Option::get('schedule_geoip'))) {
-                wp_unschedule_event(wp_next_scheduled('wp_statistics_geoip_hook'), 'wp_statistics_geoip_hook');
-            }
-
-            //Construct Event
-            add_action('wp_statistics_geoip_hook', array($this, 'geoip_event'));
-
-        } else {
+        if (!Request::isFrom('admin')) {
 
             // Add the referrerspam update schedule if it doesn't exist and it should be.
             if (!wp_next_scheduled('wp_statistics_referrerspam_hook') && Option::get('schedule_referrerspam')) {
@@ -103,6 +87,18 @@ class Schedule
             wp_unschedule_event(wp_next_scheduled('wp_statistics_licenses_hook'), 'wp_statistics_licenses_hook');
         }
 
+        // Add the GeoIP update schedule if it doesn't exist and it should be.
+        if (!wp_next_scheduled('wp_statistics_geoip_hook') && Option::get('schedule_geoip')) {
+            wp_schedule_event(self::getSchedules()['monthly']['next_schedule'], 'monthly', 'wp_statistics_geoip_hook');
+        }
+
+        // Remove the GeoIP update schedule if it does exist and it should shouldn't.
+        if (wp_next_scheduled('wp_statistics_geoip_hook') && (!Option::get('schedule_geoip'))) {
+            wp_unschedule_event(wp_next_scheduled('wp_statistics_geoip_hook'), 'wp_statistics_geoip_hook');
+        }
+
+        //Construct Event
+        add_action('wp_statistics_geoip_hook', array($this, 'geoip_event'));
         add_action('wp_statistics_report_hook', array($this, 'send_report'));
         add_action('wp_statistics_referrals_db_hook', [$this, 'referrals_db_event']);
         add_action('wp_statistics_licenses_hook', [$this, 'migrateOldLicenses']);

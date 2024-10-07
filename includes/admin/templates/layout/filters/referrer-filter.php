@@ -1,4 +1,4 @@
-<?php 
+<?php
 $activeFilters = 0;
 
 foreach ($_GET as $params_key => $params_item) {
