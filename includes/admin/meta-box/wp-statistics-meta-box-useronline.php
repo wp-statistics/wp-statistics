@@ -2,6 +2,7 @@
 
 namespace WP_STATISTICS\MetaBox;
 
+use WP_STATISTICS\Menus;
 use WP_Statistics\Models\OnlineModel;
 use WP_Statistics\Decorators\VisitorDecorator;
 
@@ -59,6 +60,7 @@ class useronline
                 'last_page'     => $visitor->getLastPage(),
                 'hits'          => $visitor->getHits(),
                 'online_time'   => $visitor->getOnlineTime(),
+                'single_url'    => Menus::admin_url('visitors', ['type' => 'single-visitor', 'visitor_id' => $visitor->getId()]),
                 'referrer'      => [
                     'name' => $visitor->getReferral()->getRawReferrer(),
                     'link' => $visitor->getReferral()->getReferrer()
@@ -66,6 +68,7 @@ class useronline
                 'location'      => [
                     'country_code'  => $visitor->getLocation()->getCountryCode(),
                     'country'       => $visitor->getLocation()->getCountryName(),
+                    'flag'          => $visitor->getLocation()->getCountryFlag(),
                     'city'          => $visitor->getLocation()->getCity(),
                     'region'        => $visitor->getLocation()->getRegion()
                 ],
