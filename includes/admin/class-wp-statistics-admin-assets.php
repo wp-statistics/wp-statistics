@@ -328,7 +328,8 @@ class Admin_Assets
             'overview_page'  => (Menus::in_page('overview') ? 1 : 0),
             'gutenberg'      => (Helper::is_gutenberg() ? 1 : 0),
             'more_btn'       => (apply_filters('wp_statistics_meta_box_more_button', true) ? 1 : 0),
-            'wp_date_format' => Helper::getDefaultDateFormat()
+            'wp_date_format' => Helper::getDefaultDateFormat(),
+            'track_users'    => Option::get('visitors_log') ? 1 : 0,
         );
 
         // WordPress Current Page
