@@ -337,7 +337,7 @@ class Meta_Box
         $apiCommunicator    = new ApiCommunicator();
         $isPremium          = $apiCommunicator->userHasPremiumLicense();
 
-        if ($isPremium) {
+        if (!$isPremium) {
             $list['about-premium'] = [
                 'name'              => apply_filters('wp_statistics_about-premium_widget_title', __('WP Statistics', 'wp-statistics')),
                 'description'       => $aboutWidgetContent ? null : __('Information about the current version of WP Statistics and related resources.', 'wp-statistics'),
