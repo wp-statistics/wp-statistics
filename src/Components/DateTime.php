@@ -91,9 +91,9 @@ class DateTime
 
 
     /**
-     * Formats a given datetime string according to WordPress settings and provided arguments.
+     * Formats a given date string according to WordPress settings and provided arguments.
      *
-     * @param string|int $datetime The datetime string to format. If numeric, it is treated as a Unix timestamp.
+     * @param string|int $date The date string to format. If numeric, it is treated as a Unix timestamp.
      * @param array $args {
      *     @type bool $include_time Whether to include the time in the formatted string. Default false.
      *     @type bool $exclude_year Whether to exclude the year from the formatted string. Default false.
@@ -107,7 +107,7 @@ class DateTime
      *
      * @throws ErrorException If the provided datetime string is invalid.
      */
-    public static function format($datetime, $args = [])
+    public static function format($date, $args = [])
     {
         $args = wp_parse_args($args, [
             'include_time'  => false,
@@ -118,16 +118,14 @@ class DateTime
             'time_format'   => self::getTimeFormat()
         ]);
 
-        $timestamp  = is_numeric($datetime) ? $datetime : strtotime($datetime);
-
+        $timestamp  = is_numeric($date) ? $date : strtotime($date);
         if ($timestamp === false) {
             throw new ErrorException(esc_html__('Invalid date passed as argument.', 'wp-statistics'));
         }
 
+        $format = $args['date_format'];
         if ($args['include_time'] === true) {
             $format = $args['date_format'] . $args['separator'] . $args['time_format'];
-        } else {
-            $format = $args['date_format'];
         }
 
         if ($args['exclude_year']) {
