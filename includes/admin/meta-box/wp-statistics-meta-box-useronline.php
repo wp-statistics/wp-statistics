@@ -10,6 +10,11 @@ class useronline
 
     public static function get($args = array())
     {
+        $args = wp_parse_args($args, [
+            'order_by'  => 'date',
+            'order'     => 'DESC'
+        ]);
+
         /**
          * Filters the args used from metabox for query stats
          *
@@ -32,6 +37,8 @@ class useronline
         // Check For No Data Meta Box
         if (count($response) < 1) {
             $response['no_data'] = 1;
+        } else {
+            $response = self::prepareResponse($response);
         }
 
         // Response
