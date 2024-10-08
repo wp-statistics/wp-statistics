@@ -40,7 +40,7 @@ use WP_STATISTICS\Menus;
                         <tr>
                             <td class="wps-pd-l"><?php echo esc_html($visitor->getLastView()); ?></td>
 
-                            <td class="wps-pd-l"><?php echo esc_html($visitor->getOnlineTime());; ?></td>
+                            <td class="wps-pd-l"><?php echo esc_html($visitor->getOnlineTime()); ?></td>
 
                             <td class="wps-pd-l">
                                 <?php
