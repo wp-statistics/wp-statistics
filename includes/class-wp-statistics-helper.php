@@ -329,7 +329,7 @@ class Helper
     public static function getDefaultPostTypes()
     {
         $postTypes = get_post_types(array('public' => true, '_builtin' => true), 'names', 'and');
-        $postTypes = array_diff($postTypes, ['attachment']);;
+        $postTypes = array_diff($postTypes, ['attachment']);
 
         return array_values($postTypes);
     }
