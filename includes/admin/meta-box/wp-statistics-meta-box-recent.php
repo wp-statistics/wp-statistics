@@ -2,15 +2,22 @@
 
 namespace WP_STATISTICS\MetaBox;
 
-use WP_STATISTICS\DB;
-use WP_STATISTICS\Option;
-use WP_STATISTICS\Visitor;
+use WP_Statistics\Decorators\VisitorDecorator;
+use WP_Statistics\Models\VisitorsModel;
 
 class recent
 {
 
     public static function get($args = array())
     {
+        $args = wp_parse_args($args, [
+            'page'          => 1,
+            'per_page'      => 10,
+            'ignore_date'   => true,
+            'user_info'     => true,
+            'page_info'     => true
+        ]);
+
         /**
          * Filters the args used from metabox for query stats
          *
@@ -23,14 +30,8 @@ class recent
         // Prepare Response
         try {
 
-            $visitorTable      = DB::table('visitor');
-            $relationshipTable = DB::table('visitor_relationships');
-
-            if (Option::get('visitors_log')) {
-                $args['sql'] = "SELECT vsr.*, vs.* FROM ( SELECT visitor_id, page_id, MAX(date) AS latest_visit_date FROM `{$relationshipTable}` GROUP BY visitor_id ) AS latest_visits JOIN `{$visitorTable}` vs ON latest_visits.visitor_id = vs.ID JOIN `{$relationshipTable}` vsr ON vsr.visitor_id = latest_visits.visitor_id AND vsr.date = latest_visits.latest_visit_date ORDER BY vsr.date DESC";
-            }
-
-            $response = Visitor::get($args);
+            $visitorsModel  = new VisitorsModel();
+            $response       = $visitorsModel->getVisitorsData($args);
 
         } catch (\Exception $e) {
             \WP_Statistics::log($e->getMessage());
@@ -40,10 +41,55 @@ class recent
         // Check For No Data Meta Box
         if (count($response) < 1) {
             $response['no_data'] = 1;
+        } else {
+            $response = self::prepareResponse($response);
         }
 
         // Response
         return $response;
+    }
+
+    private static function prepareResponse($data)
+    {
+        $result = [];
+
+        foreach ($data as $visitor) {
+            /** @var VisitorDecorator $visitor */
+
+            $result[] = [
+                'ID'        => $visitor->getId(),
+                'IP'        => $visitor->getIP(),
+                'last_view' => $visitor->getLastView(),
+                'last_page' => $visitor->getFirstPage(),
+                'hits'      => $visitor->getHits(),
+                'referrer'  => [
+                    'name' => $visitor->getReferral()->getRawReferrer(),
+                    'link' => $visitor->getReferral()->getReferrer()
+                ],
+                'location'  => [
+                    'country_code'  => $visitor->getLocation()->getCountryCode(),
+                    'country'       => $visitor->getLocation()->getCountryName(),
+                    'city'          => $visitor->getLocation()->getCity(),
+                    'region'        => $visitor->getLocation()->getRegion()
+                ],
+                'browser'   => [
+                    'name'      => $visitor->getBrowser()->getName(),
+                    'version'   => $visitor->getBrowser()->getVersion(),
+                    'logo'      => $visitor->getBrowser()->getLogo()
+                ],
+                'os'        => [
+                    'name'      => $visitor->getOs()->getName(),
+                    'logo'      => $visitor->getOs()->getLogo()
+                ],
+                'user'      => $visitor->isLoggedInUser() ? [
+                    'name'  => $visitor->getUser()->getDisplayName(),
+                    'email' => $visitor->getUser()->getEmail(),
+                    'role'  => $visitor->getUser()->getRole(),
+                ] : [],
+            ];
+
+            return $result;
+        }
     }
 
 }
