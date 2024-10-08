@@ -27,7 +27,7 @@ wps_js.top_visitors_meta_box = {
                     <a href="" class="wps-tooltip" title="${value['location']['country']}">
                         <img src="${value['location']['flag']}" alt="" width="15" height="15">
                     </a>
-                     <span class="wps-ellipsis-text" title="${value['location']['country']}">${value['location']['country']}</span>
+                     <span class="wps-ellipsis-text" title="${value['location']['location']}">${value['location']['location']}</span>
                 </div>
              </td>` : `-`) + `
             <td class="wps-pd-l">`
