@@ -1,6 +1,7 @@
 <?php
 
 namespace WP_STATISTICS;
+use WP_Statistics\Service\Admin\LicenseManagement\ApiCommunicator;
 
 class Meta_Box
 {
@@ -303,14 +304,6 @@ class Meta_Box
                 'place'             => 'side',
                 'disable_overview'  => apply_filters('wp_statistics_disable_about_widget_overview', false),
             ),
-            'about-premium'           => array(
-                'name'              => apply_filters('wp_statistics_about-premium_widget_title', __('WP Statistics', 'wp-statistics')),
-                'description'       => $aboutWidgetContent ? null : __('Information about the current version of WP Statistics and related resources.', 'wp-statistics'),
-                'show_on_dashboard' => false,
-                'js'                => false,
-                'place'             => 'side',
-                'disable_overview'  => apply_filters('wp_statistics_disable_about_widget_overview', false),
-            ),
             'post'            => array(
                 'name'              => __('Statistics - Latest Visitors', 'wp-statistics'),
                 'page_url'          => Menus::admin_url('pages'),
@@ -339,6 +332,21 @@ class Meta_Box
                 'disable_overview'  => true
             ),
         );
+
+        // Load Upgrade metabox if user is not premium
+        $apiCommunicator    = new ApiCommunicator();
+        $isPremium          = $apiCommunicator->userHasPremiumLicense();
+
+        if ($isPremium) {
+            $list['about-premium'] = [
+                'name'              => apply_filters('wp_statistics_about-premium_widget_title', __('WP Statistics', 'wp-statistics')),
+                'description'       => $aboutWidgetContent ? null : __('Information about the current version of WP Statistics and related resources.', 'wp-statistics'),
+                'show_on_dashboard' => false,
+                'js'                => false,
+                'place'             => 'side',
+                'disable_overview'  => apply_filters('wp_statistics_disable_about_widget_overview', false),
+            ];
+        }
 
         /**
          * Filter the list of metaboxes list
