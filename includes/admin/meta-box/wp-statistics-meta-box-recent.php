@@ -60,7 +60,7 @@ class recent
                 'ID'        => $visitor->getId(),
                 'IP'        => $visitor->getIP(),
                 'last_view' => $visitor->getLastView(),
-                'last_page' => $visitor->getFirstPage(),
+                'last_page' => $visitor->getLastPage(),
                 'hits'      => $visitor->getHits(),
                 'referrer'  => [
                     'name' => $visitor->getReferral()->getRawReferrer(),
