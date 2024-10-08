@@ -61,8 +61,8 @@ class ReferralsPage extends MultiViewPage
 
         // Show notice if already running
         if ($backgroundProcess->is_active()) {
-            $message = esc_html__('This process runs in the background and may take several minutes depending on your data.', 'wp-statistics');
-            Notice::addNotice($message, 'running_visitors_source_channel_notice', 'info', false);
+            $message = esc_html__('The referrals process is running in the background and may take a while depending on your data size.', 'wp-statistics');
+            Notice::addNotice($message, 'running_visitors_source_channel_notice', 'info', true);
         }
     }
 
