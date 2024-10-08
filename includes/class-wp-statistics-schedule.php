@@ -2,6 +2,7 @@
 
 namespace WP_STATISTICS;
 
+use WP_Statistics\Components\DateTime;
 use WP_Statistics\Service\Admin\LicenseManagement\ApiCommunicator;
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseMigration;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
@@ -129,7 +130,7 @@ class Schedule
         $datetime->setTimezone($timezone);
 
         // Determine the day name based on the start of the week setting
-        $start_day_name = Helper::getStartOfWeek();;
+        $start_day_name = DateTime::getStartOfWeek();
 
         // Daily schedule
         $daily = clone $datetime;

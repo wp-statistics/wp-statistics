@@ -5,6 +5,7 @@ namespace WP_STATISTICS;
 use ErrorException;
 use Exception;
 use WP_STATISTICS;
+use WP_Statistics\Components\DateTime;
 use WP_Statistics\Service\Integrations\WpConsentApi;
 use WP_Statistics\Utils\Request;
 use WP_Statistics\Utils\Signature;
@@ -2032,28 +2033,9 @@ class Helper
      */
     public static function getStartOfWeek()
     {
-        _deprecated_function('WP_Statistics\Helper::getStartOfWeek', '14.11', 'WP_Statistics\Components\DateTime::getStartOfWeek');
+        _deprecated_function(__METHOD__, '14.11', 'WP_Statistics\Components\DateTime::getStartOfWeek');
 
-        $startDay = intval(get_option('start_of_week', 0));
-
-        switch ($startDay) {
-            case 0:
-                return 'sunday';
-            case 1:
-                return 'monday';
-            case 2:
-                return 'tuesday';
-            case 3:
-                return 'wednesday';
-            case 4:
-                return 'thursday';
-            case 5:
-                return 'friday';
-            case 6:
-                return 'saturday';
-            default:
-                return 'monday';
-        }
+        return DateTime::getStartOfWeek();
     }
 
     /**
