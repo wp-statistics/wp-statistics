@@ -3,6 +3,7 @@
 namespace WP_STATISTICS\MetaBox;
 
 use WP_STATISTICS\Menus;
+use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Models\OnlineModel;
 use WP_Statistics\Decorators\VisitorDecorator;
 
@@ -65,11 +66,9 @@ class useronline
                     'link' => $visitor->getReferral()->getReferrer()
                 ],
                 'location'      => [
-                    'country_code'  => $visitor->getLocation()->getCountryCode(),
                     'country'       => $visitor->getLocation()->getCountryName(),
                     'flag'          => $visitor->getLocation()->getCountryFlag(),
-                    'city'          => $visitor->getLocation()->getCity(),
-                    'region'        => $visitor->getLocation()->getRegion()
+                    'location'      => Admin_Template::locationColumn($visitor->getLocation()->getCountryCode(), $visitor->getLocation()->getRegion(), $visitor->getLocation()->getCity()),
                 ],
                 'browser'       => [
                     'name'      => $visitor->getBrowser()->getName(),
