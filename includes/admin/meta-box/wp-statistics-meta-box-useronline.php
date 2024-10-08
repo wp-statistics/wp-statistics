@@ -2,6 +2,9 @@
 
 namespace WP_STATISTICS\MetaBox;
 
+use WP_Statistics\Models\OnlineModel;
+use WP_Statistics\Decorators\VisitorDecorator;
+
 class useronline
 {
 
@@ -18,7 +21,10 @@ class useronline
 
         // Prepare Response
         try {
-            $response = \WP_STATISTICS\UserOnline::get($args);
+
+            $onlineModel = new OnlineModel();
+            $response    = $onlineModel->getOnlineVisitorsData($args);
+
         } catch (\Exception $e) {
             $response = array();
         }
@@ -30,7 +36,50 @@ class useronline
 
         // Response
         return $response;
+    }
 
+    private static function prepareResponse($data)
+    {
+        $result = [];
+
+        foreach ($data as $visitor) {
+            /** @var VisitorDecorator $visitor */
+
+            $result[] = [
+                'ID'            => $visitor->getId(),
+                'IP'            => $visitor->getIP(),
+                'last_view'     => $visitor->getLastView(),
+                'last_page'     => $visitor->getLastPage(),
+                'hits'          => $visitor->getHits(),
+                'online_time'   => $visitor->getOnlineTime(),
+                'referrer'      => [
+                    'name' => $visitor->getReferral()->getRawReferrer(),
+                    'link' => $visitor->getReferral()->getReferrer()
+                ],
+                'location'      => [
+                    'country_code'  => $visitor->getLocation()->getCountryCode(),
+                    'country'       => $visitor->getLocation()->getCountryName(),
+                    'city'          => $visitor->getLocation()->getCity(),
+                    'region'        => $visitor->getLocation()->getRegion()
+                ],
+                'browser'       => [
+                    'name'      => $visitor->getBrowser()->getName(),
+                    'version'   => $visitor->getBrowser()->getVersion(),
+                    'logo'      => $visitor->getBrowser()->getLogo()
+                ],
+                'os'            => [
+                    'name'      => $visitor->getOs()->getName(),
+                    'logo'      => $visitor->getOs()->getLogo()
+                ],
+                'user'          => $visitor->isLoggedInUser() ? [
+                    'name'  => $visitor->getUser()->getDisplayName(),
+                    'email' => $visitor->getUser()->getEmail(),
+                    'role'  => $visitor->getUser()->getRole(),
+                ] : [],
+            ];
+
+            return $result;
+        }
     }
 
 }
