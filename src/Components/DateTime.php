@@ -9,34 +9,50 @@ class DateTime
     public static $defaultDateFormat = 'Y-m-d';
     public static $defaultTimeFormat = 'g:i a';
 
-    /**
-     * Gets the start of week string.
-     *
-     * This function returns the string value of the start of week day.
-     *
-     * @return string The start of week string (e.g. 'monday', 'tuesday', etc.)
-     */
-    public static function getStartOfWeek()
-    {
-        $startDay = intval(get_option('start_of_week', 0));
 
-        switch ($startDay) {
+    /**
+     * Returns the name of the day of the week used as the start of the week on the calendar.
+     *
+     * @param string $return Whether to return the name of the day, the key of the day, or both.
+     * @return mixed
+     */
+    public static function getStartOfWeek($return = 'name')
+    {
+        $dayKey = intval(get_option('start_of_week', 0));
+
+        switch ($dayKey) {
             case 0:
-                return 'sunday';
+                $dayName = 'Sunday';
+                break;
             case 1:
-                return 'monday';
+                $dayName = 'Monday';
+                break;
             case 2:
-                return 'tuesday';
+                $dayName = 'Tuesday';
+                break;
             case 3:
-                return 'wednesday';
+                $dayName = 'Wednesday';
+                break;
             case 4:
-                return 'thursday';
+                $dayName = 'Thursday';
+                break;
             case 5:
-                return 'friday';
+                $dayName = 'Friday';
+                break;
             case 6:
-                return 'saturday';
+                $dayName = 'Saturday';
+                break;
             default:
-                return 'monday';
+                $dayName = 'Monday';
+                break;
+        }
+
+        if ($return === 'key') {
+            return $dayKey;
+        } else if ($return === 'name') {
+            return $dayName;
+        } else {
+            return ['key' => $dayKey, 'name' => $dayName];
         }
     }
 
@@ -45,7 +61,7 @@ class DateTime
      *
      * @return string
      */
-    public static function getDateFormat()
+    public static function getWpDateFormat()
     {
         return get_option('date_format', self::$defaultDateFormat);
     }
@@ -55,7 +71,7 @@ class DateTime
      *
      * @return string
      */
-    public static function getTimeFormat()
+    public static function getWpTimeFormat()
     {
         return get_option('time_format', self::$defaultTimeFormat);
     }
@@ -66,9 +82,9 @@ class DateTime
      * @param string $separator (optional) The separator to use between date and time.
      * @return string
      */
-    public static function getDateTimeFormat($separator = ' ')
+    public static function getWpDateTimeFormat($separator = ' ')
     {
-        return self::getDateFormat() . $separator . self::getTimeFormat();
+        return self::getWpDateFormat() . $separator . self::getWpTimeFormat();
     }
 
 
@@ -77,8 +93,6 @@ class DateTime
      *
      * @param string|int $datetime The datetime string to format. If numeric, it is treated as a Unix timestamp.
      * @param array $args {
-     *     Arguments to customize the formatting.
-     *
      *     @type bool $include_time Whether to include the time in the formatted string. Default false.
      *     @type bool $exclude_year Whether to exclude the year from the formatted string. Default false.
      *     @type bool $short_month Whether to use a short month name (e.g. 'Jan' instead of 'January'). Default false.
@@ -98,8 +112,8 @@ class DateTime
             'exclude_year'  => false,
             'short_month'   => false,
             'separator'     => ' ',
-            'date_format'   => self::getDateFormat(),
-            'time_format'   => self::getTimeFormat()
+            'date_format'   => self::getWpDateFormat(),
+            'time_format'   => self::getWpTimeFormat()
         ]);
 
         $timestamp  = is_numeric($datetime) ? $datetime : strtotime($datetime);

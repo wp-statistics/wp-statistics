@@ -216,8 +216,7 @@ class DateRange
      */
     public static function getPeriods()
     {
-        $dateFormat     = DateTime::$defaultDateFormat;
-        $startOfWeek    = DateTime::getStartOfWeek();
+        $dateFormat = DateTime::$defaultDateFormat;
 
         return [
             'today'     => [
@@ -243,25 +242,13 @@ class DateRange
             ],
 
             'this_week' => [
-                'period' => [
-                    'from' => date($dateFormat, strtotime("$startOfWeek this week")),
-                    'to'   => date($dateFormat, strtotime("next $startOfWeek") - 1)
-                ],
-                'prev_period' => [
-                    'from' => date($dateFormat, strtotime( "$startOfWeek last week")),
-                    'to'   => date($dateFormat, strtotime( "$startOfWeek this week") - 1)
-                ]
+                'period'        => self::calculateWeekRange(0),
+                'prev_period'   => self::calculateWeekRange(1)
             ],
 
             'last_week' => [
-                'period' => [
-                    'from' => date($dateFormat, strtotime( "$startOfWeek last week")),
-                    'to'   => date($dateFormat, strtotime( "$startOfWeek this week") - 1)
-                ],
-                'prev_period' => [
-                    'from' => date($dateFormat, strtotime("$startOfWeek -2 weeks")),
-                    'to'   => date($dateFormat, strtotime("$startOfWeek last week") - 1)
-                ]
+                'period'        => self::calculateWeekRange(1),
+                'prev_period'   => self::calculateWeekRange(2)
             ],
 
             'this_month' => [
@@ -461,5 +448,33 @@ class DateRange
         }
 
         return false;
+    }
+
+    /**
+     * Calculates the date range for a given week, where 0 is the current week, 1 is last week, 2 is two weeks ago, etc.
+     *
+     * @param int $weeksAgo The number of weeks ago to calculate the range for.
+     * @return array An array containing 'from' and 'to' date strings representing the start and end of the week.
+     */
+    private static function calculateWeekRange($weeksAgo = 0)
+    {
+        $startOfWeek    = DateTime::getStartOfWeek('key');
+        $dateFormat     = DateTime::$defaultDateFormat;
+
+        $today = new \DateTime();
+        $today->modify("-{$weeksAgo} weeks");
+
+        // Calculate the start of the week
+        $weekStart = clone $today;
+        $weekStart->modify(($startOfWeek - $weekStart->format('w') - 7) % 7 . ' days');
+
+        // Calculate the end of the week
+        $weekEnd = clone $weekStart;
+        $weekEnd->modify('+6 days');
+
+        return [
+            'from'  => $weekStart->format($dateFormat),
+            'to'    => $weekEnd->format($dateFormat)
+        ];
     }
 }
