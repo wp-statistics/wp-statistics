@@ -3,7 +3,6 @@
 #wp-statistics-countries-widget,
 #wp-statistics-hitsmap-widget,
 #wp-statistics-hits-widget,
-#wp-statistics-pages-widget,
 #wp-statistics-referring-widget,
 #wp-statistics-search-widget,
 #wp-statistics-summary-widget,
@@ -148,7 +147,6 @@
   #wp-statistics-countries-widget,
   #wp-statistics-hitsmap-widget,
   #wp-statistics-hits-widget,
-  #wp-statistics-pages-widget,
   #wp-statistics-referring-widget,
   #wp-statistics-search-widget,
   #wp-statistics-summary-widget,
@@ -347,6 +345,33 @@ body .o-table-wrapper  table.wps-new-table{
         }
       }
 
+      a.wps-view-content{
+        border: 1px solid #EEEFF1;
+        background: #FFFFFF;
+        padding: 4px 12px;
+        gap: 6px;
+        border-radius: 4px;
+        display: inline-flex!important;
+        justify-content: center;
+        align-items: center;
+        color: #4E4E4E!important;
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 20.4px;
+
+        &:hover{
+          background: #fafafb;
+        }
+
+        &:after{
+          content:'' ;
+          width: 13px;
+          height: 13px;
+          display: inline-block;
+          background: url("data:image/svg+xml;base64,Cjxzdmcgd2lkdGg9IjEzIiBoZWlnaHQ9IjE0IiB2aWV3Qm94PSIwIDAgMTMgMTQiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik01LjQxNjY3IDQuMDcwMzFWNS4xNTM2NUgyLjcwODMzVjExLjExMkg4LjY2NjY3VjguNDAzNjVIOS43NVYxMS42NTM2QzkuNzUgMTEuOTUyOCA5LjUwNzUgMTIuMTk1MyA5LjIwODMzIDEyLjE5NTNIMi4xNjY2N0MxLjg2NzUxIDEyLjE5NTMgMS42MjUgMTEuOTUyOCAxLjYyNSAxMS42NTM2VjQuNjExOThDMS42MjUgNC4zMTI4MyAxLjg2NzUxIDQuMDcwMzEgMi4xNjY2NyA0LjA3MDMxSDUuNDE2NjdaTTExLjM3NSAyLjQ0NTMxVjYuNzc4NjVIMTAuMjkxN0wxMC4yOTE2IDQuMjk0MDJMNi4wNzA1MSA4LjUxNTgzTDUuMzA0NDggNy43NDk4TDkuNTI1MTUgMy41Mjg2NUg3LjA0MTY3VjIuNDQ1MzFIMTEuMzc1WiIgZmlsbD0iIzRFNEU0RSIvPgo8L3N2Zz4K") center center no-repeat;
+        }
+      }
+
       &.wps-pd-l {
         padding-left: 24px !important;
       }
@@ -415,11 +440,16 @@ body .o-table-wrapper  table.wps-new-table{
         border-radius: 50%;
       }
 
+      .wps-ellipsis-parent:not(a){
+        min-width: 100px;
+      }
+
       .wps-ellipsis-parent {
         display: table!important;
         table-layout: fixed;
         width: 100%;
         max-width: 200px;
+
 
         .wps-ellipsis-text {
           display: table-cell!important;

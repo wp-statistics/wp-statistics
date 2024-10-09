@@ -454,7 +454,6 @@ class Admin_Assets
             'retry'                        => __('Retry', 'wp-statistics'),
             'redirecting'                  => __('Redirecting... Please wait', 'wp-statistics'),
             'search_by_referrer'           => __('Search by Referrer', 'wp-statistics'),
-            'view_content'                 => __('View Content', 'wp-statistics'),
             'last_view'                    => __('Last View', 'wp-statistics'),
             'visitor_info'                 => __('Visitor Info', 'wp-statistics'),
             'location'                     => __('Location', 'wp-statistics'),
@@ -465,6 +464,7 @@ class Admin_Assets
             'referrer'                     => __('Referrer', 'wp-statistics'),
             'online_for'                   => __('Online For', 'wp-statistics'),
             'views'                        => __('Views', 'wp-statistics'),
+            'view'                         => __('View', 'wp-statistics'),
             'start_of_week'                => get_option('start_of_week', 0)
         );
 

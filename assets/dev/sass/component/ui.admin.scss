@@ -151,10 +151,12 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
 
   #overview-widgets {
     display: flex;
-    gap: 16px;
+    gap: 0;
     flex-direction: column;
+
     @media (min-width: 759px) {
       flex-direction: row;
+      gap: 16px;
     }
 
 
@@ -196,6 +198,7 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
           &:before {
             width: 17px;
             height: 17px;
+            transform: rotate(180deg);
             background: url("data:image/svg+xml;base64,Cjxzdmcgd2lkdGg9IjE4IiBoZWlnaHQ9IjE4IiB2aWV3Qm94PSIwIDAgMTggMTgiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik04LjgzMzIxIDkuODMwMjdMMTIuMzM5MyA2LjMyNDIyTDEzLjM0MSA3LjMyNTk1TDguODMzMjEgMTEuODMzOEw0LjMyNTQ0IDcuMzI1OTVMNS4zMjcxNyA2LjMyNDIyTDguODMzMjEgOS44MzAyN1oiIGZpbGw9IiM4MjhCOTgiLz4KPC9zdmc+Cg==") center center no-repeat !important;
           }
         }
@@ -222,6 +225,10 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
         .c-footer {
           padding-top: 0;
 
+          .c-footer__filter.is-active .c-footer__filter__btn::after{
+            transform: rotate(180deg);
+          }
+
           .c-footer__filter__btn {
             color: #56585A;
             font-size: 12px;
@@ -244,6 +251,7 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
               width: 16px;
               height: 16px;
               background: url("data:image/svg+xml;base64,Cjxzdmcgd2lkdGg9IjE3IiBoZWlnaHQ9IjE3IiB2aWV3Qm94PSIwIDAgMTcgMTciIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik04LjMzMzIyIDEwLjYxMTFMMTEuNDQ0NCA3LjVMMTIuMzMzMyA4LjM4ODg5TDguMzMzMjIgMTIuMzg4OUw0LjMzMzI1IDguMzg4ODlMNS4yMjIxNCA3LjVMOC4zMzMyMiAxMC42MTExWiIgZmlsbD0iIzU2NTg1QSIvPgo8L3N2Zz4K") center center no-repeat;
+              transform: rotate(0deg);
             }
           }
 
