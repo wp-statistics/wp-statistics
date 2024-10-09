@@ -25,6 +25,7 @@ class LicenseManagementManager
         $this->initializePluginUpdaters();
 
         add_action('admin_init', [$this, 'checkForPluginsWithoutLicenses']);
+        add_filter('wp_statistics_enable_upgrade_to_bundle', [$this, 'removeUpgradeToBundleButton']);
     }
 
     /**
@@ -255,5 +256,17 @@ class LicenseManagementManager
                 }
             }
         }
+    }
+
+    /**
+     * Removes the "Upgrade to Bundle" buttons if the user has a premium license.
+     *
+     * @return bool
+     *
+     * @hooked filter: `wp_statistics_enable_upgrade_to_bundle` - 10
+     */
+    public function removeUpgradeToBundleButton()
+    {
+        return empty($this->apiCommunicator->userHasPremiumLicense());
     }
 }
