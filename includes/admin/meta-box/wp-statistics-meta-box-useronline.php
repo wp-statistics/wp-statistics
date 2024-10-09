@@ -85,9 +85,9 @@ class useronline
                     'role'  => $visitor->getUser()->getRole(),
                 ] : [],
             ];
-
-            return $result;
         }
+
+        return $result;
     }
 
 }

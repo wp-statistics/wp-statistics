@@ -89,9 +89,9 @@ class recent
                     'role'  => $visitor->getUser()->getRole(),
                 ] : [],
             ];
-
-            return $result;
         }
+
+        return $result;
     }
 
 }

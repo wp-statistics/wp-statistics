@@ -90,8 +90,8 @@ class top_visitors
                     'role'  => $visitor->getUser()->getRole(),
                 ] : [],
             ];
-
-            return $result;
         }
+
+        return $result;
     }
 }
