@@ -167,7 +167,7 @@
                 <p class="description"><?php echo sprintf(
                     // translators: %s: Link to documentation.
                     __('<b>Note</b>: Once added, traffic from matching URLs will stop being tracked. For more detailed information, <a href="%s" target="_blank">click here</a>.', 'wp-statistics'),
-                    'https://wp-statistics.com/resources/excluding-urls/'
+                    'https://wp-statistics.com/resources/excluding-urls/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings'
                 ); ?></p>
             </td>
         </tr>
