@@ -637,14 +637,14 @@ class Install
         /**
          * Update options
          */
-        if (Option::get('privacy_audit') === false && version_compare($installed_version, '14.7', '>=')) {
+        if (Option::get('privacy_audit') === false && version_compare(WP_STATISTICS_VERSION, '14.7', '>=')) {
             Option::update('privacy_audit', true);
         }
 
         /**
          * Update GeoIP schedule from daily to monthly
          */
-        if (Option::get('schedule_geoip') && version_compare($installed_version, '14.11', '>=')) {
+        if (Option::get('schedule_geoip') && version_compare(WP_STATISTICS_VERSION, '14.11', '>=')) {
             Event::reschedule('wp_statistics_geoip_hook', 'monthly');
         }
 
