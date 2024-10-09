@@ -16,7 +16,7 @@
                      <p><?php esc_html_e('Enhance your experience with exclusive features and tools designed to maximize your website\'s potential.', 'wp-statistics'); ?></p>
                  </div>
                 <div class="c-about__upgrade">
-                    <a href="" target="_blank">
+                    <a href="https://wp-statistics.com/product/add-ons-bundle?utm_source=wp-statistics&utm_medium=link&utm_campaign=widget" target="_blank">
                         <?php esc_html_e('Upgrade Now', 'wp-statistics'); ?>
                     </a>
                 </div>
