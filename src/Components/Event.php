@@ -65,23 +65,26 @@ class Event
      * Reschedule an already scheduled event hook.
      *
      * @param string $event
-     * @param string $newTime
-     * @param string $prevTime
+     * @param string $recurrence
      *
      * @return void
      */
-    public static function reschedule($event, $newTime, $prevTime = false)
+    public static function reschedule($event, $recurrence)
     {
-        if ($prevTime && $newTime === $prevTime) return;
+        // If not scheduled, return
+        if (!self::isScheduled($event)) return;
+
+        // If already scheduled with the same recurrence, return
+        if (self::get($event)->schedule === $recurrence) return;
 
         // unschedule previous event
         self::unschedule($event);
 
         $schedules = Schedule::getSchedules();
 
-        if (isset($schedules[$newTime])) {
-            $nextRun = $schedules[$newTime]['next_schedule'];
-            self::schedule($event, $nextRun, $newTime);
+        if (isset($schedules[$recurrence])) {
+            $nextRun = $schedules[$recurrence]['next_schedule'];
+            self::schedule($event, $nextRun, $recurrence);
         }
     }
 }
