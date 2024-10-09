@@ -15,7 +15,9 @@ wps_js.pages_meta_box = {
             const siteUrl = wps_js.global.admin_url.replace('/wp-admin/', '');
             let i = 1;
             args.pages.forEach(function (value) {
-                const viewContentLabel = window.innerWidth <= 500 ? wps_js._('view') : wps_js._('view_content');
+
+                const isInsideDashboardWidgets = document.getElementById('wp-statistics-pages-widget').closest('#dashboard-widgets') !== null;
+                const viewContentLabel = isInsideDashboardWidgets ? wps_js._('view') :  window.innerWidth <= 500 ? wps_js._('view') : wps_js._('view_content');
                 t += `<tr>
 			<td class="wps-pd-l"><div class="wps-ellipsis-parent" title="${value['title']}"><span class="wps-ellipsis-text">${value['title']}</span></div></td>
 			<td class="wps-pd-l"><a href="${value['hits_page']}">${value['number']}</a></td>
@@ -34,10 +36,11 @@ wps_js.pages_meta_box = {
 };
  window.addEventListener('resize', function () {
      window.addEventListener('resize', function () {
+         const isInsideDashboardWidgets = document.getElementById('wp-statistics-pages-widget').closest('#dashboard-widgets') !== null;
          const metaBoxes = document.querySelectorAll('.wps-view-content');
          if(metaBoxes.length > 0){
              metaBoxes.forEach(function (metaBox) {
-                 metaBox.textContent = window.innerWidth <= 500 ? wps_js._('view') : wps_js._('view_content');
+                 metaBox.textContent =isInsideDashboardWidgets ? wps_js._('view') :  window.innerWidth <= 500 ? wps_js._('view') : wps_js._('view_content'); ;
              });
          }
      });

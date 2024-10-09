@@ -24,6 +24,9 @@
 #wp-statistics-platforms-widget,
 #wp-statistics-quickstats-widget,
 #wp-statistics-devices-widget,
+#wp-statistics-recent-widget,
+#wp-statistics-useronline-widget,
+#wp-statistics-pages-widget,
 .wps-wrap {
   .o-table {
     width: 100%;
@@ -39,6 +42,10 @@
         border-bottom: 1px solid $light-secondary-color;
         color: $low-color;
         text-align: left;
+
+        .rtl &{
+          text-align: right;
+        }
 
         &:first-child {
           padding-left: 16px;
@@ -77,6 +84,10 @@
 
     tr:first-child td {
       text-align: left;
+
+      .rtl &{
+        text-align: right;
+      }
     }
 
     tr td {
@@ -549,24 +560,40 @@
   }
 }
 
-#wp-statistics-summary-widget, #wp-statistics-top-visitors-widget {
+#wp-statistics-summary-widget{
   table.o-table {
 
     thead tr, tbody tr {
       td, th {
         &:first-child {
           padding-left: 16px !important;
+          .rtl &{
+            padding-left: 0px !important;
+            padding-right: 16px !important;
+          }
 
           @media screen and (min-width: 1450px) {
             padding-left: 24px !important;
+            .rtl &{
+              padding-left: 0px !important;
+              padding-right: 24px !important;
+            }
           }
         }
 
         &:last-child {
           padding-right: 8px !important;
+          .rtl &{
+            padding-left: 8px !important;
+            padding-right: 0px !important;
+          }
 
           @media screen and (min-width: 1450px) {
             padding-right: 24px !important;
+            .rtl &{
+              padding-left: 24px !important;
+              padding-right: 0px !important;
+            }
           }
         }
       }

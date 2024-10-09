@@ -38,6 +38,9 @@
         border-bottom: 1px solid $light-secondary-color;
         color: $low-color;
         text-align: left;
+        .rtl &{
+          text-align: right;
+        }
 
         &:first-child {
           padding-left: 16px;
@@ -221,7 +224,37 @@
     }
   }
 }
+#wp-statistics-pages-widget table.wps-new-table tr td a{
 
+  text-decoration: none;
+  &.wps-view-content{
+    border: 1px solid #EEEFF1;
+    background: #FFFFFF;
+    padding: 4px 12px;
+    gap: 6px;
+    border-radius: 4px;
+    display: inline-flex!important;
+    justify-content: center;
+    align-items: center;
+    color: #4E4E4E!important;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 20.4px;
+
+    &:hover{
+      background: #fafafb;
+    }
+
+    &:after{
+      content:'' ;
+      width: 13px;
+      height: 13px;
+      display: inline-block;
+      background: url("data:image/svg+xml;base64,Cjxzdmcgd2lkdGg9IjEzIiBoZWlnaHQ9IjE0IiB2aWV3Qm94PSIwIDAgMTMgMTQiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik01LjQxNjY3IDQuMDcwMzFWNS4xNTM2NUgyLjcwODMzVjExLjExMkg4LjY2NjY3VjguNDAzNjVIOS43NVYxMS42NTM2QzkuNzUgMTEuOTUyOCA5LjUwNzUgMTIuMTk1MyA5LjIwODMzIDEyLjE5NTNIMi4xNjY2N0MxLjg2NzUxIDEyLjE5NTMgMS42MjUgMTEuOTUyOCAxLjYyNSAxMS42NTM2VjQuNjExOThDMS42MjUgNC4zMTI4MyAxLjg2NzUxIDQuMDcwMzEgMi4xNjY2NyA0LjA3MDMxSDUuNDE2NjdaTTExLjM3NSAyLjQ0NTMxVjYuNzc4NjVIMTAuMjkxN0wxMC4yOTE2IDQuMjk0MDJMNi4wNzA1MSA4LjUxNTgzTDUuMzA0NDggNy43NDk4TDkuNTI1MTUgMy41Mjg2NUg3LjA0MTY3VjIuNDQ1MzFIMTEuMzc1WiIgZmlsbD0iIzRFNEU0RSIvPgo8L3N2Zz4K") center center no-repeat;
+    }
+  }
+
+}
 body .o-table-wrapper  table.wps-new-table{
   margin-top: 13px;
 
@@ -236,6 +269,11 @@ body .o-table-wrapper  table.wps-new-table{
 
       &.wps-pd-l {
         padding-left: 24px !important;
+
+        .rtl &{
+          padding-left: 0px !important;
+          padding-right: 24px !important;
+        }
 
         .wps-order {
           display: flex;
@@ -345,35 +383,12 @@ body .o-table-wrapper  table.wps-new-table{
         }
       }
 
-      a.wps-view-content{
-        border: 1px solid #EEEFF1;
-        background: #FFFFFF;
-        padding: 4px 12px;
-        gap: 6px;
-        border-radius: 4px;
-        display: inline-flex!important;
-        justify-content: center;
-        align-items: center;
-        color: #4E4E4E!important;
-        font-size: 12px;
-        font-weight: 400;
-        line-height: 20.4px;
-
-        &:hover{
-          background: #fafafb;
-        }
-
-        &:after{
-          content:'' ;
-          width: 13px;
-          height: 13px;
-          display: inline-block;
-          background: url("data:image/svg+xml;base64,Cjxzdmcgd2lkdGg9IjEzIiBoZWlnaHQ9IjE0IiB2aWV3Qm94PSIwIDAgMTMgMTQiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik01LjQxNjY3IDQuMDcwMzFWNS4xNTM2NUgyLjcwODMzVjExLjExMkg4LjY2NjY3VjguNDAzNjVIOS43NVYxMS42NTM2QzkuNzUgMTEuOTUyOCA5LjUwNzUgMTIuMTk1MyA5LjIwODMzIDEyLjE5NTNIMi4xNjY2N0MxLjg2NzUxIDEyLjE5NTMgMS42MjUgMTEuOTUyOCAxLjYyNSAxMS42NTM2VjQuNjExOThDMS42MjUgNC4zMTI4MyAxLjg2NzUxIDQuMDcwMzEgMi4xNjY2NyA0LjA3MDMxSDUuNDE2NjdaTTExLjM3NSAyLjQ0NTMxVjYuNzc4NjVIMTAuMjkxN0wxMC4yOTE2IDQuMjk0MDJMNi4wNzA1MSA4LjUxNTgzTDUuMzA0NDggNy43NDk4TDkuNTI1MTUgMy41Mjg2NUg3LjA0MTY3VjIuNDQ1MzFIMTEuMzc1WiIgZmlsbD0iIzRFNEU0RSIvPgo8L3N2Zz4K") center center no-repeat;
-        }
-      }
-
       &.wps-pd-l {
         padding-left: 24px !important;
+        .rtl &{
+          padding-left: 0px !important;
+          padding-right: 24px !important;
+        }
       }
 
       .wps-table-ellipsis--name {
@@ -682,6 +697,7 @@ body .o-table-wrapper  table.wps-new-table{
           text-overflow: ellipsis;
           max-width: calc(100% - 19px);
           line-height: normal;
+          min-width: 40px;
         }
 
         &:after {
@@ -715,8 +731,17 @@ body .o-table-wrapper  table.wps-new-table{
         text-align: right !important;
         padding-right: 16px;
 
+        .rtl &{
+          text-align: left !important;
+          padding-left: 16px;
+        }
+
+
         @media screen and (min-width: 768px) {
           padding-right: 32px;
+          .rtl &{
+            padding-left: 32px;
+          }
         }
 
         .wps-link-arrow {
