@@ -354,7 +354,7 @@ class Schedule
      */
     public static function rescheduleEvent($event, $newTime, $prevTime)
     {
-        Event::reschedule($event, $prevTime, $newTime);
+        Event::reschedule($event, $newTime, $prevTime);
     }
 
     /**

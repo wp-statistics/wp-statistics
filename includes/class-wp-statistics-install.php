@@ -645,7 +645,7 @@ class Install
          * Update GeoIP schedule from daily to monthly
          */
         if (Option::get('schedule_geoip') && version_compare($installed_version, '14.11', '>=')) {
-            Event::reschedule('wp_statistics_geoip_hook', 'daily', 'monthly');
+            Event::reschedule('wp_statistics_geoip_hook', 'monthly');
         }
 
         /**

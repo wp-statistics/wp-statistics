@@ -70,9 +70,9 @@ class Event
      *
      * @return void
      */
-    public static function reschedule($event, $currentTime, $newTime)
+    public static function reschedule($event, $newTime, $prevTime = false)
     {
-        if ($newTime === $currentTime) return;
+        if ($prevTime && $newTime === $prevTime) return;
 
         // unschedule previous event
         self::unschedule($event);
