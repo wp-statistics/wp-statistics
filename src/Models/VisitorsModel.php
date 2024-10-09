@@ -434,8 +434,8 @@ class VisitorsModel extends BaseModel
         ]);
 
         $firstHit = Query::select([
-            'visitor_id',
-            'MIN(date) as date'
+            'MIN(ID) as ID',
+            'visitor_id'
         ])
             ->from('visitor_relationships')
             ->groupBy('visitor_id')
@@ -447,7 +447,7 @@ class VisitorsModel extends BaseModel
             'date'
         ])
             ->from('visitor_relationships')
-            ->whereRaw("(visitor_id, date) IN ($firstHit)")
+            ->whereRaw("(ID, visitor_id) IN ($firstHit)")
             ->groupBy('visitor_id')
             ->getQuery();
 
@@ -574,8 +574,8 @@ class VisitorsModel extends BaseModel
         ]);
 
         $firstHit = Query::select([
-            'visitor_id',
-            'MIN(date) as date',
+            'MIN(ID) as ID',
+            'visitor_id'
         ])
             ->from('visitor_relationships')
             ->groupBy('visitor_id')
@@ -587,7 +587,7 @@ class VisitorsModel extends BaseModel
             'date'
         ])
             ->from('visitor_relationships')
-            ->whereRaw("(visitor_id, date) IN ($firstHit)")
+            ->whereRaw("(ID, visitor_id) IN ($firstHit)")
             ->groupBy('visitor_id')
             ->getQuery();
 
@@ -775,8 +775,8 @@ class VisitorsModel extends BaseModel
     public function getVisitorsWithIncompleteSourceChannel($args = [])
     {
         $firstHit = Query::select([
-            'visitor_id',
-            'MIN(date) as date'
+            'MIN(ID) as ID',
+            'visitor_id'
         ])
             ->from('visitor_relationships')
             ->groupBy('visitor_id')
@@ -788,7 +788,7 @@ class VisitorsModel extends BaseModel
             'date'
         ])
             ->from('visitor_relationships')
-            ->whereRaw("(visitor_id, date) IN ($firstHit)")
+            ->whereRaw("(ID, visitor_id) IN ($firstHit)")
             ->groupBy('visitor_id')
             ->getQuery();
 
