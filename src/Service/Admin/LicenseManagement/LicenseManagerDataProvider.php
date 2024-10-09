@@ -2,6 +2,7 @@
 
 namespace WP_Statistics\Service\Admin\LicenseManagement;
 
+use Exception;
 use WP_STATISTICS\Menus;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Utils\Request;
@@ -21,7 +22,7 @@ class LicenseManagerDataProvider
      * Return a list of the product for view
      *
      * @return ProductDecorator[]
-     * @throws \Exception
+     * @throws Exception
      */
     public function getProductList()
     {
@@ -33,7 +34,7 @@ class LicenseManagerDataProvider
      *
      * @return ProductDecorator[]
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function getLicensedProductList()
     {
@@ -60,15 +61,14 @@ class LicenseManagerDataProvider
         // Try to fetch licensed add-ons first
         try {
             $addOnsList = $this->getLicensedProductList();
-        } catch (\Exception $e) {
-        }
 
-        // If previous attempt had failed (because of invalid licenses, invalid domain, etc.), try to fetch all add-ons
-        if (empty($addOnsList)) {
-            try {
+            // If previous attempt had failed (because of invalid licenses, invalid domain, etc.), try to fetch all add-ons
+            if (empty($addOnsList)) {
                 $addOnsList = $this->getProductList();
-            } catch (\Exception $e) {
             }
+
+        } catch (Exception $e) {
+
         }
 
         // Separate active and inactive add-ons
@@ -114,8 +114,8 @@ class LicenseManagerDataProvider
                     $displaySelectAll = true;
                 }
             }
-        } catch (\Exception $e) {
-            $licensedAddOns   = [];
+        } catch (Exception $e) {
+            $licensedAddOns    = [];
             $notIncludedAddOns = [];
 
             // Redirect back to first step
@@ -158,7 +158,7 @@ class LicenseManagerDataProvider
                     }
                 }
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             Notice::addFlashNotice($e->getMessage(), 'warning');
             wp_redirect(Menus::admin_url('plugins', ['tab' => 'downloads']));
             exit;
@@ -192,12 +192,12 @@ class LicenseManagerDataProvider
 
         try {
             $this->apiCommunicator->validateLicense(Request::get('license_key', ''));
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             Notice::addFlashNotice(esc_html($e->getMessage()), 'error');
             return;
         }
 
-        Notice::addFlashNotice(__('License was added successfully.', 'wp-statistics'), 'success');
+        Notice::addFlashNotice(__('License added successfully.', 'wp-statistics'), 'success');
         wp_redirect(Menus::admin_url('plugins', ['tab' => 'downloads']));
         exit;
     }
