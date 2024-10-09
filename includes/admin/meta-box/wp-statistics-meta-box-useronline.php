@@ -59,6 +59,7 @@ class useronline
                 'IP'            => $visitor->getIP(),
                 'last_view'     => $visitor->getLastView(),
                 'last_page'     => $visitor->getLastPage(),
+                'hits'          => $visitor->getHits(),
                 'online_time'   => $visitor->getOnlineTime(),
                 'single_url'    => Menus::admin_url('visitors', ['type' => 'single-visitor', 'visitor_id' => $visitor->getId()]),
                 'referrer'      => [
