@@ -47,6 +47,8 @@ class LicenseManagerDataProvider
      */
     public function getAddOnsData()
     {
+        $this->validateLicenseKeyInUrl();
+
         $addOnsList     = [];
         $activeAddOns   = [];
         $inactiveAddOns = [];
@@ -175,6 +177,29 @@ class LicenseManagerDataProvider
             'selected_addons'      => $selectedAddOns,
             'display_activate_all' => $displayActivateAll,
         ];
+    }
+
+    /**
+     * Checks for `license_key` parameter in the URL and will redirect the user to the second step if the licenses is valid.
+     *
+     * @return void
+     */
+    private function validateLicenseKeyInUrl()
+    {
+        if (!Request::has('license_key')) {
+            return;
+        }
+
+        try {
+            $this->apiCommunicator->validateLicense(Request::get('license_key', ''));
+        } catch (\Exception $e) {
+            Notice::addFlashNotice(esc_html($e->getMessage()), 'error');
+            return;
+        }
+
+        Notice::addFlashNotice(__('License was added successfully.', 'wp-statistics'), 'success');
+        wp_redirect(Menus::admin_url('plugins', ['tab' => 'downloads']));
+        exit;
     }
 
     /**
