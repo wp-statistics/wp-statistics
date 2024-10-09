@@ -3,6 +3,7 @@
 namespace WP_STATISTICS;
 
 use WP_Statistics\Components\AssetNameObfuscator;
+use WP_Statistics\Components\Event;
 
 class Install
 {
@@ -362,8 +363,10 @@ class Install
         self::load_dbDelta();
 
         // Check installed plugin version
-        $installed_version = get_option('wp_statistics_plugin_version');
-        if ($installed_version == WP_STATISTICS_VERSION) {
+        $installed_version  = get_option('wp_statistics_plugin_version');
+        $latest_version     = WP_STATISTICS_VERSION;
+
+        if ($installed_version == $latest_version) {
             return;
         }
 
@@ -636,8 +639,15 @@ class Install
         /**
          * Update options
          */
-        if (Option::get('privacy_audit') === false && version_compare($installed_version, '14.7', '>=')) {
+        if (Option::get('privacy_audit') === false && version_compare($latest_version, '14.7', '>=')) {
             Option::update('privacy_audit', true);
+        }
+
+        /**
+         * Update GeoIP schedule from daily to monthly
+         */
+        if (Option::get('schedule_geoip') && version_compare($installed_version, '14.11', '<')) {
+            Event::reschedule('wp_statistics_geoip_hook', 'monthly');
         }
 
         /**
