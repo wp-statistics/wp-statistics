@@ -99,9 +99,10 @@ class ApiCommunicator
             );
         }
 
-        if (empty($licenseData->license_details->valid_until) || $licenseData->license_details->valid_until < wp_date('Y-m-d')) {
+        // No need to check this since it will check from the server.
+        /*if (empty($licenseData->license_details->valid_until) || $licenseData->license_details->valid_until < wp_date('Y-m-d')) {
             throw new Exception(__('License is expired!', 'wp-statistics'));
-        }
+        }*/
 
         // Store the license in the database
         $this->storeLicense($licenseKey, $licenseData);
