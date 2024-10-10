@@ -37,6 +37,7 @@ class ApiCommunicator
             if (empty($products) || !is_array($products)) {
                 throw new Exception(__('Product list is empty!', 'wp-statistics'));
             }
+
         } catch (Exception $e) {
             throw new Exception(
             // translators: %s: Error message.
@@ -95,13 +96,14 @@ class ApiCommunicator
 
             /**
              * @todo and important: Ensure that we throw an exception to prevent usage of licenses that are not related to the requested add-on.
-             * @note And we need to get it from front-end, also not sure this is the correct place since this method is uses in different places.
+             * @note And we need to get it from front-end, also not sure this is **the correct place** since this method is uses in different places.
+             * Then uncomment the Exception
              */
             $requestedAddOn = $_POST['slug']; // e.g. wp-statistics-data-plus
             $productSlugs   = array_column($licenseData->products, 'slug');
 
             if (!in_array($requestedAddOn, $productSlugs, true)) {
-                throw new Exception(sprintf(__('The license is not related to the requested add-on <b>%s</b>.', 'wp-statistics'), $requestedAddOn));
+                //throw new Exception(sprintf(__('The license is not related to the requested add-on <b>%s</b>.', 'wp-statistics'), $requestedAddOn));
             }
 
         } catch (Exception $e) {
@@ -110,11 +112,6 @@ class ApiCommunicator
                 sprintf(__('Error: %s', 'wp-statistics'), $e->getMessage())
             );
         }
-
-        // No need to check this since it will check from the server.
-        /*if (empty($licenseData->license_details->valid_until) || $licenseData->license_details->valid_until < wp_date('Y-m-d')) {
-            throw new Exception(__('License is expired!', 'wp-statistics'));
-        }*/
 
         // Store the license in the database
         $this->storeLicense($licenseKey, $licenseData);

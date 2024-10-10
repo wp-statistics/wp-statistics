@@ -68,7 +68,8 @@ class LicenseManagerDataProvider
             }
 
         } catch (Exception $e) {
-
+            //@todo If there's the exception will call twice! weird indeed.
+            Notice::renderNotice($e->getMessage(), $e->getCode(), 'error');
         }
 
         // Separate active and inactive add-ons
