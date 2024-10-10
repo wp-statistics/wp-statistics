@@ -39,18 +39,14 @@ wps_js.summary_meta_box = {
         let t = '';
         if (args['user_online']) {
             t = `<div class="c-live">
-                <div>                    
-                    <span class="c-live__status"></span> 
-                    <span class="c-live__title">${wps_js._('online_users')}:</span>
-                    <span><a class="c-live__value" href="${args['user_online']['link']}">${args['user_online']['value']}</a></span>
-                </div>`;
-
-            if (args['real_time_button']) {
-                t += `
-                <a target="_blank" class="${args['real_time_button']['class']}" href="${args['real_time_button']['link']}" title="${args['real_time_button']['title']}">
-                    ${wps_js._('Realtime')} 
-                </a>`;
-            }
+                <div>
+                    <span class="c-live__status"></span>
+                    <span class="c-live__title">${wps_js._('online_users')}</span>
+                </div>
+            <div class="c-live__online">
+                <span class="c-live__online--value">${args['user_online']['value']}</span>
+                <a className="c-live__value" href="${args['user_online']['link']}"><span class="c-live__online--arrow"></span></a>
+            </div>`;
 
             t += `</div>`;
         }
@@ -66,6 +62,21 @@ wps_js.summary_meta_box = {
         t += this.summary_statistics(args);
 
         t += `</table></div>`;
+
+             // Enable weekly email summaries
+        if (wps_js.global.stats_report_option == false) {
+            t += `<div class="wp-quickstats-widget__enable-email">
+                    <div class="wp-quickstats-widget__enable-email__desc">
+                        <span class="wp-quickstats-widget__enable-email__icon"></span>
+                        <div>
+                            <p>${wps_js._('receive_weekly_email_reports')}</p>
+                            <a href="${wps_js.global.setting_url}&tab=notifications-settings" title="${wps_js._('enable_now')}">${wps_js._('enable_now')}</a>
+                        </div>
+                    </div>
+                    <div class="wp-quickstats-widget__enable-email__close"><span class="wp-close" title="${wps_js._('close')}" onclick="this.parentElement.parentElement.remove()"></span></div>
+                    </div>`;
+        }
+
         return t;
     }
 };

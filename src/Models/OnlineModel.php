@@ -32,17 +32,18 @@ class OnlineModel extends BaseModel
         $result = Query::select([
             'useronline.ID as online_id',
             'visitor_id as ID',
-            'ip',
-            'created',
-            'timestamp',
-            'referred',
-            'agent',
-            'platform',
-            'CAST(version AS SIGNED) as version',
-            'location',
-            'region',
-            'city',
-            'user_id',
+            'useronline.ip',
+            'useronline.created',
+            'useronline.timestamp',
+            'useronline.referred',
+            'useronline.agent',
+            'useronline.platform',
+            'CAST(useronline.version AS SIGNED) as version',
+            'useronline.location',
+            'useronline.region',
+            'useronline.city',
+            'visitor.hits',
+            'useronline.user_id',
             'page_id as last_page',
             'date as last_view',
             'users.display_name',
@@ -50,6 +51,7 @@ class OnlineModel extends BaseModel
         ])
             ->from('useronline')
             ->join('users', ['useronline.user_id', 'users.ID'], [], 'LEFT')
+            ->join('visitor', ['useronline.visitor_id', 'visitor.ID'])
             ->perPage($args['page'], $args['per_page'])
             ->orderBy($args['order_by'], $args['order'])
             ->decorate(VisitorDecorator::class)

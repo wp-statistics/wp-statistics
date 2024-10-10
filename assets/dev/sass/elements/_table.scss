@@ -3,13 +3,10 @@
 #wp-statistics-countries-widget,
 #wp-statistics-hitsmap-widget,
 #wp-statistics-hits-widget,
-#wp-statistics-pages-widget,
-#wp-statistics-recent-widget,
 #wp-statistics-referring-widget,
 #wp-statistics-search-widget,
 #wp-statistics-summary-widget,
 #wp-statistics-words-widget,
-#wp-statistics-top-visitors-widget,
 #wps_hits_postbox,
 #wps_top_visitors_postbox,
 #wps_search_postbox,
@@ -41,6 +38,9 @@
         border-bottom: 1px solid $light-secondary-color;
         color: $low-color;
         text-align: left;
+        .rtl &{
+          text-align: right;
+        }
 
         &:first-child {
           padding-left: 16px;
@@ -91,7 +91,6 @@
       tr td {
         font-weight: 400;
         font-size: 13px;
-        line-height: 15px;
         color: $dark-color;
         border: none;
 
@@ -115,7 +114,6 @@
         a, a span {
           font-weight: 400;
           font-size: 13px;
-          line-height: 15px;
           color: $dark-color;
           display: inline-block !important;
 
@@ -152,13 +150,10 @@
   #wp-statistics-countries-widget,
   #wp-statistics-hitsmap-widget,
   #wp-statistics-hits-widget,
-  #wp-statistics-pages-widget,
-  #wp-statistics-recent-widget,
   #wp-statistics-referring-widget,
   #wp-statistics-search-widget,
   #wp-statistics-summary-widget,
   #wp-statistics-words-widget,
-  #wp-statistics-top-visitors-widget,
   #wps_hits_postbox,
   #wps_top_visitors_postbox,
   #wps_search_postbox,
@@ -229,8 +224,38 @@
     }
   }
 }
+#wp-statistics-pages-widget table.wps-new-table tr td a{
 
-.o-table-wrapper .wps-new-table {
+  text-decoration: none;
+  &.wps-view-content{
+    border: 1px solid #EEEFF1;
+    background: #FFFFFF;
+    padding: 4px 12px;
+    gap: 6px;
+    border-radius: 4px;
+    display: inline-flex!important;
+    justify-content: center;
+    align-items: center;
+    color: #4E4E4E!important;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 20.4px;
+
+    &:hover{
+      background: #fafafb;
+    }
+
+    &:after{
+      content:'' ;
+      width: 13px;
+      height: 13px;
+      display: inline-block;
+      background: url("data:image/svg+xml;base64,Cjxzdmcgd2lkdGg9IjEzIiBoZWlnaHQ9IjE0IiB2aWV3Qm94PSIwIDAgMTMgMTQiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik01LjQxNjY3IDQuMDcwMzFWNS4xNTM2NUgyLjcwODMzVjExLjExMkg4LjY2NjY3VjguNDAzNjVIOS43NVYxMS42NTM2QzkuNzUgMTEuOTUyOCA5LjUwNzUgMTIuMTk1MyA5LjIwODMzIDEyLjE5NTNIMi4xNjY2N0MxLjg2NzUxIDEyLjE5NTMgMS42MjUgMTEuOTUyOCAxLjYyNSAxMS42NTM2VjQuNjExOThDMS42MjUgNC4zMTI4MyAxLjg2NzUxIDQuMDcwMzEgMi4xNjY2NyA0LjA3MDMxSDUuNDE2NjdaTTExLjM3NSAyLjQ0NTMxVjYuNzc4NjVIMTAuMjkxN0wxMC4yOTE2IDQuMjk0MDJMNi4wNzA1MSA4LjUxNTgzTDUuMzA0NDggNy43NDk4TDkuNTI1MTUgMy41Mjg2NUg3LjA0MTY3VjIuNDQ1MzFIMTEuMzc1WiIgZmlsbD0iIzRFNEU0RSIvPgo8L3N2Zz4K") center center no-repeat;
+    }
+  }
+
+}
+body .o-table-wrapper  table.wps-new-table{
   margin-top: 13px;
 
   thead {
@@ -244,6 +269,11 @@
 
       &.wps-pd-l {
         padding-left: 24px !important;
+
+        .rtl &{
+          padding-left: 0px !important;
+          padding-right: 24px !important;
+        }
 
         .wps-order {
           display: flex;
@@ -321,7 +351,7 @@
     tr{
       vertical-align: top;
     }
-    td {
+    tr td {
       padding-left: 0 !important;
       color: #0C0C0D;
       font-size: 13px;
@@ -355,6 +385,10 @@
 
       &.wps-pd-l {
         padding-left: 24px !important;
+        .rtl &{
+          padding-left: 0px !important;
+          padding-right: 24px !important;
+        }
       }
 
       .wps-table-ellipsis--name {
@@ -419,6 +453,10 @@
 
       .wps-avatar {
         border-radius: 50%;
+      }
+
+      .wps-ellipsis-parent:not(a){
+        min-width: 100px;
       }
 
       .wps-ellipsis-parent {
@@ -426,6 +464,7 @@
         table-layout: fixed;
         width: 100%;
         max-width: 200px;
+
 
         .wps-ellipsis-text {
           display: table-cell!important;
@@ -514,7 +553,6 @@
               &-text {
                 font-size: 12px;
                 font-weight: 400;
-                line-height: 15px;
                 color: #56585A;
               }
 
@@ -549,10 +587,6 @@
 
                 &:hover {
                   border-bottom: 0.5px solid #0C0C0D;
-
-                  span:last-child {
-                    color: #0C0C0D;
-                  }
                 }
               }
 
@@ -663,6 +697,7 @@
           text-overflow: ellipsis;
           max-width: calc(100% - 19px);
           line-height: normal;
+          min-width: 40px;
         }
 
         &:after {
@@ -696,8 +731,17 @@
         text-align: right !important;
         padding-right: 16px;
 
+        .rtl &{
+          text-align: left !important;
+          padding-left: 16px;
+        }
+
+
         @media screen and (min-width: 768px) {
           padding-right: 32px;
+          .rtl &{
+            padding-left: 32px;
+          }
         }
 
         .wps-link-arrow {

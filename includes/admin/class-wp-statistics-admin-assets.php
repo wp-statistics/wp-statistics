@@ -291,7 +291,7 @@ class Admin_Assets
         }
 
         // Add Thick box
-        if (Menus::in_page('visitors') || Menus::in_page('visitors-report') || Menus::in_page('referrals') ) {
+        if (Menus::in_page('visitors') || Menus::in_page('visitors-report') || Menus::in_page('referrals')) {
             wp_enqueue_script('thickbox');
             wp_enqueue_style('thickbox');
         }
@@ -319,16 +319,17 @@ class Admin_Assets
 
         //Global Option
         $list['options'] = array(
-            'rtl'           => (is_rtl() ? 1 : 0),
-            'user_online'   => (Option::get('useronline') ? 1 : 0),
-            'visitors'      => 1,
-            'visits'        => 1,
-            'geo_ip'        => 1,
-            'geo_city'      => 1,
-            'overview_page' => (Menus::in_page('overview') ? 1 : 0),
-            'gutenberg'     => (Helper::is_gutenberg() ? 1 : 0),
-            'more_btn'      => (apply_filters('wp_statistics_meta_box_more_button', true) ? 1 : 0),
-            'wp_date_format'=> Helper::getDefaultDateFormat()
+            'rtl'            => (is_rtl() ? 1 : 0),
+            'user_online'    => (Option::get('useronline') ? 1 : 0),
+            'visitors'       => 1,
+            'visits'         => 1,
+            'geo_ip'         => 1,
+            'geo_city'       => 1,
+            'overview_page'  => (Menus::in_page('overview') ? 1 : 0),
+            'gutenberg'      => (Helper::is_gutenberg() ? 1 : 0),
+            'more_btn'       => (apply_filters('wp_statistics_meta_box_more_button', true) ? 1 : 0),
+            'wp_date_format' => Helper::getDefaultDateFormat(),
+            'track_users'    => Option::get('visitors_log') ? 1 : 0,
         );
 
         // WordPress Current Page
@@ -396,7 +397,7 @@ class Admin_Assets
             'browser'                      => __('Visitor\'s Browser', 'wp-statistics'),
             'city'                         => __('Visitor\'s City', 'wp-statistics'),
             'ip'                           => Option::get('hash_ips') == true ? __('Daily Visitor Hash', 'wp-statistics') : __('IP Address', 'wp-statistics'),
-            'referrer'                     => __('Referring Site', 'wp-statistics'),
+            'referring_site'               => __('Referring Site', 'wp-statistics'),
             'hits'                         => __('Views', 'wp-statistics'),
             'agent'                        => __('User Agent', 'wp-statistics'),
             'platform'                     => __('Operating System', 'wp-statistics'),
@@ -452,7 +453,18 @@ class Admin_Assets
             'failed'                       => __('Failed', 'wp-statistics'),
             'retry'                        => __('Retry', 'wp-statistics'),
             'redirecting'                  => __('Redirecting... Please wait', 'wp-statistics'),
-            'search_by_referrer'                  => __('Search by Referrer', 'wp-statistics'),
+            'search_by_referrer'           => __('Search by Referrer', 'wp-statistics'),
+            'last_view'                    => __('Last View', 'wp-statistics'),
+            'visitor_info'                 => __('Visitor Info', 'wp-statistics'),
+            'location'                     => __('Location', 'wp-statistics'),
+            'name'                         => __('Name', 'wp-statistics'),
+            'email'                        => __('Email', 'wp-statistics'),
+            'role'                         => __('Role', 'wp-statistics'),
+            'latest_page'                  => __('Latest Page', 'wp-statistics'),
+            'referrer'                     => __('Referrer', 'wp-statistics'),
+            'online_for'                   => __('Online For', 'wp-statistics'),
+            'views'                        => __('Views', 'wp-statistics'),
+            'view'                         => __('View', 'wp-statistics'),
             'start_of_week'                => get_option('start_of_week', 0)
         );
 

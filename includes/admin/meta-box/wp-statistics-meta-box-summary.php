@@ -60,16 +60,6 @@ class summary
             }
         }
 
-        $is_realtime_active    = Helper::isAddOnActive('realtime-stats');
-        $realtime_button_class = $is_realtime_active ? 'wps-realtime-btn' : 'wps-realtime-btn disabled';
-        $realtime_button_title = $is_realtime_active ? 'Real-time stats are available! Click here to view.' : 'Real-Time add-on required to enable this feature';
-        $realtime_button_href  = $is_realtime_active ? Menus::admin_url('wp_statistics_realtime_stats') : WP_STATISTICS_SITE_URL . '/product/wp-statistics-realtime-stats/?utm_source=wp-statistics&utm_medium=link&utm_campaign=realtime';
-
-        $data['real_time_button'] = array(
-            'class' => esc_html__($realtime_button_class, 'wp-statistics'),
-            'title' => esc_html__($realtime_button_title, 'wp-statistics'),
-            'link'  => esc_url($realtime_button_href)
-        );
 
         // Get Visitors
         if (in_array('visitors', $component)) {
