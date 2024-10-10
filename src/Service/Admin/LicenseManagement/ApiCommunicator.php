@@ -11,7 +11,7 @@ class ApiCommunicator
 {
     use TransientCacheTrait;
 
-    private $apiUrl         = 'https://staging.wp-statistics.veronalabs.com/wp-json/wp-license-manager/v1';
+    private $apiUrl = 'https://staging.wp-statistics.veronalabs.com/wp-json/wp-license-manager/v1';
     private $licensesOption = 'wp_statistics_licenses'; // Option key to store licenses
     private $productDecorator;
 
@@ -39,7 +39,7 @@ class ApiCommunicator
             }
         } catch (Exception $e) {
             throw new Exception(
-                // translators: %s: Error message.
+            // translators: %s: Error message.
                 sprintf(__('Error fetching product list: %s', 'wp-statistics'), $e->getMessage())
             );
         }
@@ -92,10 +92,22 @@ class ApiCommunicator
             if (empty($licenseData->license_details)) {
                 throw new Exception(!empty($licenseData->message) ? $licenseData->message : __('Unknown error!', 'wp-statistics'));
             }
+
+            /**
+             * @todo and important: Ensure that we throw an exception to prevent usage of licenses that are not related to the requested add-on.
+             * @note And we need to get it from front-end, also not sure this is the correct place since this method is uses in different places.
+             */
+            $requestedAddOn = $_POST['slug']; // e.g. wp-statistics-data-plus
+            $productSlugs   = array_column($licenseData->products, 'slug');
+
+            if (!in_array($requestedAddOn, $productSlugs, true)) {
+                throw new Exception(sprintf(__('The license is not related to the requested add-on <b>%s</b>.', 'wp-statistics'), $requestedAddOn));
+            }
+
         } catch (Exception $e) {
             throw new Exception(
-                // translators: %s: Error message.
-                sprintf(__('Error validating license: %s', 'wp-statistics'), $e->getMessage())
+            // translators: %s: Error message.
+                sprintf(__('Error: %s', 'wp-statistics'), $e->getMessage())
             );
         }
 
@@ -127,19 +139,19 @@ class ApiCommunicator
 
                 if (stripos($e->getMessage(), 'domain') !== false) {
                     Notice::addNotice(sprintf(
-                        // translators: %s: License key.
+                    // translators: %s: License key.
                         __('License %s was removed because of an invalid domain!', 'wp-statistics'),
                         $licenseKey
                     ), 'license_invalid_domain');
                 } else if (stripos($e->getMessage(), 'expired') !== false) {
                     Notice::addNotice(sprintf(
-                        // translators: %s: License key.
+                    // translators: %s: License key.
                         __('License %s was removed because it was expired!', 'wp-statistics'),
                         $licenseKey
                     ), 'license_expired');
                 } else {
                     Notice::addNotice(sprintf(
-                        // translators: 1: License key - 2: Error message.
+                    // translators: 1: License key - 2: Error message.
                         __('License %s was removed because of an error: %s', 'wp-statistics'),
                         $licenseKey,
                         $e->getMessage()
