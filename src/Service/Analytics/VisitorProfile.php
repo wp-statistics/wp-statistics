@@ -44,7 +44,7 @@ class VisitorProfile
     {
         return $this->getCachedData('visitorId', function () {
             $visitor = Visitor::exist_ip_in_day($this->getProcessedIPForStorage());
-            return $visitor->ID;
+            return $visitor->ID ?? 0;
         });
     }
 
