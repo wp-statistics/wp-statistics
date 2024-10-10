@@ -335,18 +335,18 @@ class Meta_Box
 
         // Load Upgrade metabox if user is not premium
         $apiCommunicator    = new ApiCommunicator();
-        $isPremium          = $apiCommunicator->userHasPremiumLicense();
+        $isPremium          = $apiCommunicator->userHasPremiumLicense() ? true : false;
+        $disableUpgrade     = apply_filters('wp_statistics_enable_upgrade_to_bundle', true) ? false : true;
+        $dismissedWidget    = in_array('about-premium', get_option('wp_statistics_dismissed_widgets', [])) ? true : false;
 
-        if (!$isPremium && apply_filters('wp_statistics_enable_upgrade_to_bundle', true)) {
-            $list['about-premium'] = [
-                'name'              => apply_filters('wp_statistics_about-premium_widget_title', __('WP Statistics', 'wp-statistics')),
-                'description'       => $aboutWidgetContent ? null : __('Information about the current version of WP Statistics and related resources.', 'wp-statistics'),
-                'show_on_dashboard' => false,
-                'js'                => false,
-                'place'             => 'side',
-                'disable_overview'  => apply_filters('wp_statistics_disable_about_widget_overview', false),
-            ];
-        }
+        $list['about-premium'] = [
+            'name'              => apply_filters('wp_statistics_about-premium_widget_title', __('WP Statistics', 'wp-statistics')),
+            'description'       => $aboutWidgetContent ? null : __('Information about the current version of WP Statistics and related resources.', 'wp-statistics'),
+            'show_on_dashboard' => false,
+            'js'                => false,
+            'place'             => 'side',
+            'disable_overview'  => $isPremium || $disableUpgrade || $dismissedWidget
+        ];
 
         /**
          * Filter the list of metaboxes list

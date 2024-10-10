@@ -1,6 +1,12 @@
 <div class="o-wrap wps-about-widget wps-about-widget__premium">
     <div class="wps-about-widget__close">
-        <span class="wp-close" title="Close" onclick="this.parentElement.parentElement.parentElement.remove()"></span>
+        <a href="<?php echo esc_url(add_query_arg([
+            'action'    => 'wp_statistics_dismiss_widget',
+            'nonce'     => wp_create_nonce('wp_statistics_dismiss_widget'),
+            'widget_id' => 'about-premium'
+        ])) ?>">
+            <span class="wp-close" title="Close"></span>
+        </a>
     </div>
     <div class="c-about">
         <div class="c-about__row c-about__row--logo  hndle ui-sortable-handle">
