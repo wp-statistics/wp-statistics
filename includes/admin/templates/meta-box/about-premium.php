@@ -30,9 +30,7 @@
         </div>
         <div class="c-about__row c-about__footer">
             <div class="c-about__guarantee">
-                <a href="" target="_blank">
-                    <?php esc_html_e('14-day money back guarantee', 'wp-statistics'); ?>
-                </a>
+                <?php esc_html_e('14-day money back guarantee', 'wp-statistics'); ?>
             </div>
         </div>
     </div>

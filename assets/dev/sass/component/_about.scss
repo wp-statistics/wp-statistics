@@ -282,17 +282,9 @@
     gap: 2px;
     align-items: center;
     width: 100%;
-
-    a {
-      font-size: 12px;
-      font-weight: 400;
-      color: #E4E4E4;
-
-      &:hover {
-        color: #fff;
-      }
-    }
-
+    font-size: 12px;
+    font-weight: 400;
+    color: #E4E4E4;
     &:before {
       content: '';
       width: 13px;
