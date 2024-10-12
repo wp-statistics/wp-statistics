@@ -193,18 +193,13 @@ class ProductDecorator
     {
         if (!$this->isInstalled()) {
             return 'not_installed';
+        } else if (!$this->isActivated()) {
+            return 'not_activated'; // same as 'installed'
+        } else if (!$this->isLicensed()) {
+            return 'not_licensed';
+        } else {
+            return 'activated';
         }
-
-        if ($this->isLicensed()) {
-            if ($this->isActivated()) {
-                return 'activated';
-            } elseif ($this->isInstalled()) {
-                return 'installed';
-            } else {
-                return 'not_activated';
-            }
-        }
-        return 'not_licensed';
     }
 
     /**
@@ -217,13 +212,13 @@ class ProductDecorator
         switch ($this->getStatus()) {
             case 'not_installed':
                 return __('Not Installed', 'wp-statistics');
-            case 'installed':
-                return __('Installed', 'wp-statistics');
+            case 'not_activated':
+                return __('Inactive', 'wp-statistics');
+            case 'not_licensed':
+                return __('Needs License', 'wp-statistics');
             case 'activated':
                 return __('Activated', 'wp-statistics');
         }
-
-        return __('Needs License', 'wp-statistics');
     }
 
     /**
@@ -236,13 +231,13 @@ class ProductDecorator
         switch ($this->getStatus()) {
             case 'not_installed':
                 return 'disable';
-            case 'installed':
+            case 'not_activated':
                 return 'primary';
+            case 'not_licensed':
+                return 'danger';
             case 'activated':
                 return 'success';
         }
-
-        return 'danger';
     }
 
     public function isInstalled()
