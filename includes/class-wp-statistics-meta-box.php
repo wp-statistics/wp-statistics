@@ -172,7 +172,7 @@ class Meta_Box
             ),
             'models'          => array(
                 'page_url'          => Menus::admin_url('devices', ['tab' => 'models']),
-                'name'              => __('Top Device Models', 'wp-statistics'),
+                'name'              => __('Top Device Model', 'wp-statistics'),
                 'hidden'            => true,
                 'show_on_dashboard' => true,
                 'place'             => 'side',
@@ -272,7 +272,13 @@ class Meta_Box
                 'description'       => __('Details of the most recent visitors to your site.', 'wp-statistics'),
                 'hidden'            => true,
                 'show_on_dashboard' => true,
-                'place'             => 'normal'
+                'place'             => 'normal',
+                'footer_options'    => [
+                    'filter_by_date'      => false,
+                    'default_date_filter' => false,
+                    'display_more_link'   => true,
+                    'more_link_title'     => __('View Latest Visitor Breakdown', 'wp-statistics'),
+                ]
             ),
             'hitsmap'         => array(
                 'name'              => __('Global Visitor Distribution', 'wp-statistics'),
@@ -294,7 +300,13 @@ class Meta_Box
                 'require'           => array('useronline' => true),
                 'hidden'            => true,
                 'show_on_dashboard' => true,
-                'place'             => 'normal'
+                'place'             => 'normal',
+                'footer_options'    => [
+                    'filter_by_date'      => false,
+                    'default_date_filter' => false,
+                    'display_more_link'   => true,
+                    'more_link_title'     => __('View Online Visitors', 'wp-statistics'),
+                ]
             ),
             'about'           => array(
                 'name'              => apply_filters('wp_statistics_about_widget_title', __('WP Statistics', 'wp-statistics')),
