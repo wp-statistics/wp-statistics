@@ -6,6 +6,7 @@ use WP_Statistics\Traits\TransientCacheTrait;
 use WP_Statistics\Components\RemoteRequest;
 use Exception;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
+use WP_Statistics\Utils\Request;
 
 class ApiCommunicator
 {
@@ -99,7 +100,7 @@ class ApiCommunicator
              * @note And we need to get it from front-end, also not sure this is **the correct place** since this method is uses in different places.
              * Then uncomment the Exception
              */
-            $requestedAddOn = $_POST['slug']; // e.g. wp-statistics-data-plus
+            $requestedAddOn = Request::get('slug'); // e.g. wp-statistics-data-plus
             $productSlugs   = array_column($licenseData->products, 'slug');
 
             if (!in_array($requestedAddOn, $productSlugs, true)) {
