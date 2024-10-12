@@ -10,7 +10,7 @@
 
 .c-about-badge {
   padding: 4px 6px;
-  gap: 10px;
+  gap: 3px;
   display: flex;
   border-radius: 4px;
   font-size: 11px;
@@ -33,16 +33,16 @@
     display: flex;
     flex-direction: column;
     gap: 16px;
+    align-items: self-start;
 
     a {
       font-weight: 400;
       font-size: 13px;
       color: #656668;
-      transition: 0.22s;
       white-space: nowrap;
       padding: 0;
       gap: 10px;
-      display: flex;
+      display: inline-flex;
       align-items: center;
 
       .c-about__links--icon {
@@ -71,19 +71,20 @@
         color: #000;
 
         .c-about__links--icon {
-          filter: contrast(1.5);
+          filter: brightness(0.8);
         }
       }
     }
   }
-
-
 }
 
 .c-about__rate {
   margin-top: 2px;
+  display: flex;
+  width: 100%;
 
   a {
+    width: 100%;
     padding: 8px;
     gap: 10px;
     display: flex;
@@ -101,9 +102,13 @@
     }
 
     &:hover {
-      &:before {
-        filter: brightness(0);
+      color: #FFA63F;
+      background: #fdf6e0;
+
+      .c-about__links--icon {
+        filter: none;
       }
+
     }
 
     &:before {
@@ -306,6 +311,17 @@
           background: transparent
         }
       }
+    }
+  }
+}
+#wp-statistics-about-widget.wp-statistics-about-widget__customize{
+  .postbox-header{
+    display: flex;
+  }
+
+  &.closed{
+    .inside{
+      display: none!important;
     }
   }
 }

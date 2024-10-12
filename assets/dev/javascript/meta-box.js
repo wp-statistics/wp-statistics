@@ -550,4 +550,12 @@ jQuery(document).on("click", function (event) {
     }
 });
 
+const wpsAoutWidget = document.getElementById('wp-statistics-about-widget');
+if (wpsAoutWidget) {
+    if (!wpsAoutWidget.querySelector('.js-wps-widget-customization-empty') &&
+        !wpsAoutWidget.querySelector('.wps-about-widget__premium')) {
+        wpsAoutWidget.classList.add('wp-statistics-about-widget__customize');
+    }
+}
+
 
