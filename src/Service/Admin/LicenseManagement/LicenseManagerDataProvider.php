@@ -61,15 +61,15 @@ class LicenseManagerDataProvider
         // Try to fetch licensed add-ons first
         try {
             $addOnsList = $this->getLicensedProductList();
+        } catch (\Exception $e) {
+        }
 
-            // If previous attempt had failed (because of invalid licenses, invalid domain, etc.), try to fetch all add-ons
-            if (empty($addOnsList)) {
+        // If previous attempt had failed (because of invalid licenses, invalid domain, etc.), try to fetch all add-ons
+        if (empty($addOnsList)) {
+            try {
                 $addOnsList = $this->getProductList();
+            } catch (\Exception $e) {
             }
-
-        } catch (Exception $e) {
-            //@todo If there's the exception will call twice! weird indeed.
-            Notice::renderNotice($e->getMessage(), $e->getCode(), 'error');
         }
 
         // Separate active and inactive add-ons
