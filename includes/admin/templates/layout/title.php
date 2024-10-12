@@ -35,11 +35,11 @@ use WP_Statistics\Utils\Request;
     <?php if (isset($real_time_button)): ?>
         <?php
         $is_realtime_active = Helper::isAddOnActive('realtime-stats');
-        $button_class       = $is_realtime_active ? 'wps-realtime-btn' : 'wps-realtime-btn disabled';
+        $button_class       = $is_realtime_active ? 'wps-realtime-btn' : 'wps-realtime-btn disabled js-wps-openPremiumModal';
         $button_title       = $is_realtime_active ? 'Real-time stats are available! Click here to view.' : 'Real-Time add-on required to enable this feature';
         $button_href        = $is_realtime_active ? admin_url('admin.php?page=wp_statistics_realtime_stats') : WP_STATISTICS_SITE_URL . '/product/wp-statistics-realtime-stats/?utm_source=wp-statistics&utm_medium=link&utm_campaign=realtime';
         ?>
-        <a target="_blank" class="<?php echo esc_html($button_class); ?>" href="<?php echo esc_url($button_href) ?>" title="<?php echo esc_html_e($button_title, 'wp-statistics') ?>">
+        <a  data-target="wp-statistics-real-time" class="<?php echo esc_html($button_class); ?>" href="<?php echo esc_url($button_href) ?>" title="<?php echo esc_html_e($button_title, 'wp-statistics') ?>">
             <?php esc_html_e('Realtime', 'wp-statistics'); ?>
         </a>
     <?php endif; ?>

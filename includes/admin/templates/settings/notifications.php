@@ -134,7 +134,7 @@ use WP_STATISTICS\Schedule;
                 <label for="content-report"><?php esc_html_e('Enhanced Visual Report', 'wp-statistics'); ?></label>
             </th>
             <td>
-                <div><?php _e('For graphical representations of your data, explore our <a href="https://wp-statistics.com/product/wp-statistics-advanced-reporting/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" target="_blank">Advanced Reporting Add-on</a> for additional chart and graph options.', 'wp-statistics') // phpcs:ignore WordPress.Security.EscapeOutput.UnsafePrintingFunction	  ?></div>
+                <div><?php _e('For graphical representations of your data, explore our <a class="js-wps-openPremiumModal"  data-target="wp-statistics-advanced-reporting" href="https://wp-statistics.com/product/wp-statistics-advanced-reporting/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" >Advanced Reporting Add-on</a> for additional chart and graph options.', 'wp-statistics') // phpcs:ignore WordPress.Security.EscapeOutput.UnsafePrintingFunction	  ?></div>
             </td>
         </tr>
         </tbody>
