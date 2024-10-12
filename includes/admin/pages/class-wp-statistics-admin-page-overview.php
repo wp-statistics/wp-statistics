@@ -2,6 +2,7 @@
 
 namespace WP_STATISTICS;
 use WP_Statistics\Components\Singleton;
+use WP_Statistics\Utils\Request;
 
 class log_page extends Singleton
 {
@@ -16,6 +17,8 @@ class log_page extends Singleton
 
         // Set default hidden Meta Box
         add_filter('default_hidden_meta_boxes', array($this, 'default_hidden_meta_boxes'), 10, 2);
+
+        $this->handleDismissWidgets();
     }
 
     /**
@@ -61,6 +64,26 @@ class log_page extends Singleton
             }
         }
         return $hidden;
+    }
+
+    public function handleDismissWidgets()
+    {
+        if (Request::compare('action', 'wp_statistics_dismiss_widget')) {
+            if (!Request::has('widget_id')) return;
+
+            check_admin_referer('wp_statistics_dismiss_widget', 'nonce');
+
+            $widgetId           = sanitize_text_field($_GET['widget_id']);
+            $dismissedWidgets   = get_option('wp_statistics_dismissed_widgets', []);
+
+            if (!in_array($widgetId, $dismissedWidgets, true)) {
+                $dismissedWidgets[] = $widgetId;
+                update_option('wp_statistics_dismissed_widgets', $dismissedWidgets);
+            }
+
+            wp_redirect(remove_query_arg(['nonce', 'action', 'widget_id']));
+            exit;
+        }
     }
 }
 
