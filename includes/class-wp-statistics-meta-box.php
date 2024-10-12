@@ -260,7 +260,7 @@ class Meta_Box
                 'show_on_dashboard' => true,
                 'place'             => 'normal',
                 'footer_options'    => [
-                    'filter_by_date'      => false,
+                    'filter_by_date'      => true,
                     'default_date_filter' => false,
                     'display_more_link'   => true,
                     'more_link_title'     => __('View Most Active Visitors', 'wp-statistics'),
