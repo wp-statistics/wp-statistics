@@ -302,37 +302,10 @@ class ProductDecorator
      */
     public function getSettingsUrl()
     {
-        $tab = '';
-        switch ($this->getSlug()) {
-            case 'wp-statistics-data-plus':
-                $tab = 'data-plus-settings';
-                break;
-            case 'wp-statistics-realtime-stats':
-                $tab = 'realtime-stats-settings';
-                break;
-            case 'wp-statistics-customization':
-                $tab = 'customization-settings';
-                break;
-            case 'wp-statistics-advanced-reporting':
-                $tab = 'advanced-reporting-settings';
-                break;
-            case 'wp-statistics-mini-chart':
-                $tab = 'mini-chart-settings';
-                break;
-            case 'wp-statistics-rest-api':
-                $tab = 'rest-api-settings';
-                break;
-            case 'wp-statistics-widgets':
-                $tab = 'widgets-settings';
-                break;
-        }
+        $pluginName = str_replace('wp-statistics-', '', $this->getSlug());
+        $tab        = !empty($pluginName) ? "$pluginName-settings" : '';
 
-        $args = [];
-        if (!empty($tab)) {
-            $args['tab'] = $tab;
-        }
-
-        return esc_url(Menus::admin_url('settings', $args));
+        return esc_url(Menus::admin_url('settings', ['tab' => $tab]));
     }
 
     /**
