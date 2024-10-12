@@ -3,7 +3,6 @@
 namespace WP_Statistics\Components;
 
 use Exception;
-use WP_STATISTICS\Helper;
 use WP_Statistics\Traits\TransientCacheTrait;
 
 class RemoteRequest
@@ -67,6 +66,18 @@ class RemoteRequest
         return $this->getCacheKey($this->requestUrl . serialize($this->parsedArgs));
     }
 
+
+    /**
+     * Checks if the given HTTP response code indicates a successful request.
+     *
+     * @param int $responseCode The HTTP response code.
+     * @return bool True if the response code indicates a successful request, false otherwise.
+     */
+    public function isRequestSuccessful($responseCode)
+    {
+        return in_array($responseCode, [200, 201, 202]);
+    }
+
     /**
      * Executes the request with optional caching.
      *
@@ -105,7 +116,7 @@ class RemoteRequest
         $responseBody = wp_remote_retrieve_body($response);
 
         if ($throwFailedHttpCodeResponse) {
-            if (!in_array($responseCode, [200, 201, 202])) {
+            if ($this->isRequestSuccessful($responseCode)) {
                 throw new Exception(sprintf(
                     esc_html__('Failed to get success response. URL: %s, Method: %s, Status Code: %s', 'wp-statistics'),
                     esc_html($this->requestUrl),
@@ -120,7 +131,9 @@ class RemoteRequest
         // Cache the result if caching is enabled
         $resultToCache = ($responseJson === null) ? $responseBody : $responseJson;
         if ($useCache) {
-            $this->setCachedResult($cacheKey, $resultToCache, $cacheExpiration);
+            if ($this->isRequestSuccessful($responseCode) && (is_object($resultToCache) || is_array($resultToCache))) {
+                $this->setCachedResult($cacheKey, $resultToCache, $cacheExpiration);
+            }
         }
 
         return $resultToCache;
