@@ -7,49 +7,51 @@ use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Models\VisitorsModel;
 use WP_Statistics\Decorators\VisitorDecorator;
 
-class top_visitors
+class top_visitors extends MetaBoxAbstract
 {
 
     public static function get($args = array())
     {
         $args = wp_parse_args($args, [
-            'page'          => 1,
-            'per_page'      => 10,
-            'order_by'      => 'hits',
-            'order'         => 'DESC',
-            'ignore_date'   => true,
-            'user_info'     => true,
-            'page_info'     => true
+            'ago'    => 0,
+            'from'   => '',
+            'to'     => ''
         ]);
 
-        /**
-         * Filters the args used from metabox for query stats
-         *
-         * @param array $args The args passed to query stats
-         * @since 14.2.1
-         *
-         */
         $args = apply_filters('wp_statistics_meta_box_top_visitors_args', $args);
+
+        self::filterByDate($args);
+        $daysList = array_keys(self::$daysList);
 
         // Prepare Response
         try {
-
             $visitorsModel  = new VisitorsModel();
-            $response       = $visitorsModel->getVisitorsData($args);
+            $response       = $visitorsModel->getVisitorsData([
+                'date'          => [
+                    'from' => reset($daysList),
+                    'to'   => end($daysList)
+                ],
+                'page'          => 1,
+                'per_page'      => 10,
+                'order_by'      => 'hits',
+                'order'         => 'DESC',
+                'user_info'     => true,
+                'page_info'     => true
+            ]);
 
         } catch (\Exception $e) {
-            $response = array();
+            $result = array();
         }
 
         // Check For No Data Meta Box
         if (count($response) < 1) {
-            $response['no_data'] = 1;
+            $result['no_data'] = 1;
         } else {
-            $response = self::prepareResponse($response);
+            $result['data'] = self::prepareResponse($response);
         }
 
         // Response
-        return $response;
+        return self::response($result);
     }
 
     private static function prepareResponse($data)

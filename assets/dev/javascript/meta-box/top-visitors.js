@@ -14,7 +14,7 @@ wps_js.top_visitors_meta_box = {
         </tr></thead><tbody>`;
 
         let i = 1;
-        args.forEach(function (value) {
+        args['data'].forEach(function (value) {
             t += `<tr>
             <td class="wps-pd-l">
                 <a href="${value['single_url']}">${value['hits']}</a>
