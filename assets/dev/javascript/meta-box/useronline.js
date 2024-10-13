@@ -129,15 +129,14 @@ wps_js.visitor_info = function (value) {
     if (track_users && Object.keys(value['user']).length > 0) {
         user_info += ` <div class="wps-visitor__information__user-more-info">
             <div>
-                 ${wps_js._('email')}:  ${value['user']['email']}
+                 ${wps_js._('email')}:<span>${value['user']['email']}</span>
             </div>
         
             <div>
-                ${wps_js._('role')}:  ${value['user']['role']}   
+                ${wps_js._('role')}:<span class="c-capitalize">${value['user']['role']} </span>  
             </div>
         </div>`;
     }
-
 
     return user_info;
 }
