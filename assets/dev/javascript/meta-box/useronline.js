@@ -115,9 +115,9 @@ wps_js.visitor_info = function (value) {
                 <a href="${value['single_url']}">
                     <span class="wps-visitor__information__incognito-img"></span>
                 </a>
-                <span class="wps-visitor__information__incognito-text">
+                <a href="${value['single_url']}" class="wps-visitor__information__incognito-text">
                 ${value['IP']}
-                </span>`;
+                </a>`;
         } else {
             user_info += `
                 <div class="wps-tooltip" title="  ${wps_js._('ip')}: ${value['IP']}">
