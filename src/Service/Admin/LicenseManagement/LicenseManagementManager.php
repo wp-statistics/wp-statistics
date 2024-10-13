@@ -20,21 +20,14 @@ class LicenseManagementManager
         $this->pluginHandler   = new PluginHandler();
 
         // Initialize the necessary components
-        $this->initializeMenu();
-        $this->initializeActionCallbacks();
-        $this->initializePluginUpdaters();
+        $this->initActionCallbacks();
+        $this->initPluginUpdaters();
 
-        add_action('admin_init', [$this, 'checkForPluginsWithoutLicenses']);
+        add_action('admin_init', [$this, 'showPluginActivationNotice']);
         add_filter('wp_statistics_enable_upgrade_to_bundle', [$this, 'removeUpgradeToBundleButton']);
-    }
-
-    /**
-     * Initialize the menu item for the License Management.
-     */
-    private function initializeMenu()
-    {
         add_filter('wp_statistics_admin_menu_list', [$this, 'addMenuItem']);
     }
+
 
     public function addMenuItem($items)
     {
@@ -53,7 +46,7 @@ class LicenseManagementManager
     /**
      * Initialize AJAX callbacks for various license management actions.
      */
-    private function initializeActionCallbacks()
+    private function initActionCallbacks()
     {
         add_filter('wp_statistics_ajax_list', [new PluginActions(), 'registerAjaxCallbacks']);
     }
@@ -61,7 +54,7 @@ class LicenseManagementManager
     /**
      * Initialize the PluginUpdater for all stored licenses.
      */
-    private function initializePluginUpdaters()
+    private function initPluginUpdaters()
     {
         $storedLicenses = $this->apiCommunicator->getStoredLicenses();
 
@@ -72,7 +65,7 @@ class LicenseManagementManager
                 foreach ($licenseData['products'] as $productSlug) {
                     // Avoid duplicate handling for the same product
                     if (!in_array($productSlug, $this->handledPlugins)) {
-                        $this->initializePluginUpdaterIfValid($productSlug, $licenseKey);
+                        $this->initPluginUpdaterIfValid($productSlug, $licenseKey);
                     }
                 }
             }
@@ -85,7 +78,7 @@ class LicenseManagementManager
      * @param string $pluginSlug The slug of the plugin (e.g., 'wp-statistics-data-plus').
      * @param string $licenseKey The license key for the product.
      */
-    private function initializePluginUpdaterIfValid($pluginSlug, $licenseKey)
+    private function initPluginUpdaterIfValid($pluginSlug, $licenseKey)
     {
         try {
             if (!$this->pluginHandler->isPluginActive($pluginSlug)) {
@@ -112,18 +105,16 @@ class LicenseManagementManager
     /**
      * Loop through plugins and show license notice for those without a valid license
      */
-    public function checkForPluginsWithoutLicenses()
+    public function showPluginActivationNotice()
     {
-        $plugins = get_plugins();
+        $plugins = $this->pluginHandler->getInstalledPlugins();
 
-        foreach ($plugins as $pluginFile => $pluginData) {
-            if (strpos($pluginFile, 'wp-statistics-') === 0) {
-                $licenseKey = $this->apiCommunicator->getValidLicenseForProduct($pluginData['TextDomain']);
+        foreach ($plugins as $plugin) {
+            $licenseKey = $this->apiCommunicator->getValidLicenseForProduct($plugin['TextDomain']);
 
-                if (!$licenseKey) {
-                    $pluginUpdater = new PluginUpdater($pluginData['TextDomain'], $pluginData['Version']);
-                    $pluginUpdater->handleLicenseNotice();
-                }
+            if (empty($licenseKey)) {
+                $pluginUpdater = new PluginUpdater($plugin['TextDomain'], $plugin['Version']);
+                $pluginUpdater->handleLicenseNotice();
             }
         }
     }
