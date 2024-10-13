@@ -259,6 +259,9 @@ class ProductDecorator
     {
         $decorated = [];
         foreach ($products as $product) {
+            // Just show single products and skip bundle
+            if ($product->sku === 'premium') continue;
+
             $decorated[] = new self($product);
         }
         return $decorated;
