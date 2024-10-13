@@ -583,7 +583,9 @@ body .o-table-wrapper  table.wps-new-table{
             &:hover {
               border-bottom: 0.5px solid #0C0C0D;
               span {
-                color: #0C0C0D!important;
+                &:first-child, &:last-child{
+                  color: #0C0C0D!important;
+                }
               }
             }
             span {
