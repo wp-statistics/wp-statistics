@@ -13,9 +13,9 @@ use WP_Statistics\Components\View;
         <div class="wps-premium-step__content">
             <?php
             $data = [
-                'description' => __('<p>Say hello to WP Statistics Premium! We’ve combined all your favorite features into one powerful package—no need for separate tools anymore.</p>
-                <p>With Premium, you get everything in one place: real-time stats, advanced reports, and full customization to track and display your data just the way you want.</p>
-                <p>Ready to level up your site? WP Statistics Premium gives you the insights and flexibility you need to make smarter decisions with ease.</p>', 'wp-statistics'),
+                'description' => __('<p><b>Say hello to WP Statistics Premium!</b> We’ve combined all your favorite features into one powerful package—no need for separate tools anymore.</p>
+                <p><b>With Premium, you get everything in one place:</b> real-time stats, advanced reports, and full customization to track and display your data just the way you want.</p>
+                <p>Ready to level up your site? <b>WP Statistics Premium</b> gives you the insights and flexibility you need to make smarter decisions with ease.</p>', 'wp-statistics'),
                 'step_name'   => 'first-step',
                 'step_href'   => esc_url(WP_STATISTICS_SITE_URL . '/product/add-ons-bundle/?utm_source=wp-statistics&utm_medium=link&utm_campaign=pop-up-premium')
             ];
