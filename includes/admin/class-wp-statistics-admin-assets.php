@@ -360,7 +360,7 @@ class Admin_Assets
         $list['i18n'] = array(
             'more_detail'                  => __('View Details', 'wp-statistics'),
             'reload'                       => __('Reload', 'wp-statistics'),
-            'online_users'                 => __('Online Users', 'wp-statistics'),
+            'online_users'                 => __('Online Visitors', 'wp-statistics'),
             'Realtime'                     => __('Realtime', 'wp-statistics'),
             'visitors'                     => __('Visitors', 'wp-statistics'),
             'visits'                       => __('Views', 'wp-statistics'),

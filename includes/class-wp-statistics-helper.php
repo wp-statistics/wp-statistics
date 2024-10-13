@@ -1713,7 +1713,7 @@ class Helper
             ],
             [
                 'title'   => __('Content-Specific Analytics', 'wp-statistics'),
-                'content' => __(sprintf('Analyze each piece of content in detail, including views, visitor locations, and online users. Based on user data, these insights can help you optimize content. <div style="margin-top: 16px"><a href="https://wp-statistics.com/product/wp-statistics-data-plus/?utm_source=wp-statistics&utm_medium=email&utm_campaign=dp" style="color:#5100FD;font-size:14px;line-height:16.41px;font-weight:500;border-bottom: 1px solid #5100FD;text-decoration: none">Read more <img src="' . esc_url(WP_STATISTICS_URL . '/assets/images/mail/arrow-blue-' . $text_align_reverse . '.png') . '" width="6.67" height="10.91" style="margin-' . $text_align . ':6px" alt=""></a></div>'), 'wp-statistics'),
+                'content' => __(sprintf('Analyze each piece of content in detail, including views, visitor locations, and online visitors. Based on user data, these insights can help you optimize content. <div style="margin-top: 16px"><a href="https://wp-statistics.com/product/wp-statistics-data-plus/?utm_source=wp-statistics&utm_medium=email&utm_campaign=dp" style="color:#5100FD;font-size:14px;line-height:16.41px;font-weight:500;border-bottom: 1px solid #5100FD;text-decoration: none">Read more <img src="' . esc_url(WP_STATISTICS_URL . '/assets/images/mail/arrow-blue-' . $text_align_reverse . '.png') . '" width="6.67" height="10.91" style="margin-' . $text_align . ':6px" alt=""></a></div>'), 'wp-statistics'),
             ],
             [
                 'title'   => __('Custom Post Type Tracking', 'wp-statistics'),
