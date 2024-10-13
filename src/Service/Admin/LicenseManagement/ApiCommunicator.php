@@ -24,12 +24,10 @@ class ApiCommunicator
     /**
      * Get the list of products (add-ons) from the API and cache it for 1 week.
      *
-     * @param bool $skipPremium Skip "WP Statistics Premium" from displaying in the list.
-     *
      * @return ProductDecorator[] List of products
      * @throws Exception if there is an error with the API call
      */
-    public function getProductList($skipPremium = true)
+    public function getProductList()
     {
         try {
             $remoteRequest = new RemoteRequest("{$this->apiUrl}/product/list", 'GET');
@@ -46,7 +44,7 @@ class ApiCommunicator
             );
         }
 
-        return $this->productDecorator->decorateProducts($products, $skipPremium);
+        return $this->productDecorator->decorateProducts($products);
     }
 
     /**
@@ -233,16 +231,15 @@ class ApiCommunicator
      * Merge the product list with the status from the license.
      *
      * @param string $licenseKey
-     * @param bool $skipPremium Skip "WP Statistics Premium" from displaying in the list.
      *
      * @return array Merged product list with status
      *
      * @throws Exception
      */
-    public function mergeProductStatusWithLicense($licenseKey, $skipPremium = true)
+    public function mergeProductStatusWithLicense($licenseKey)
     {
         // Get the list of products
-        $productList = $this->getProductList($skipPremium);
+        $productList = $this->getProductList();
 
         // Get the license status
         $licenseStatus = $this->validateLicense($licenseKey);
@@ -254,16 +251,14 @@ class ApiCommunicator
     /**
      * Merges the product list with the status from all validated license.
      *
-     * @param bool $skipPremium Skip "WP Statistics Premium" from displaying in the list.
-     *
      * @return ProductDecorator[]
      *
      * @throws Exception
      */
-    public function mergeProductsListWithAllValidLicenses($skipPremium = true)
+    public function mergeProductsListWithAllValidLicenses()
     {
         // Get the list of all products
-        $productList = $this->getProductList($skipPremium);
+        $productList = $this->getProductList();
 
         // Make a list of licensed products (retrieved from license status calls)
         $licensedProducts = [];
