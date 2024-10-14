@@ -155,7 +155,7 @@ $postTypePlural   = Helper::getPostTypeName($postType);
             'tooltip' => esc_html__('The top referring domains.', 'wp-statistics'),
             'data'    => $data['referrers']
         ];
-        Admin_Template::get_template(['layout/content-analytics/top-referring'], $topReferring);
+        View::load("components/tables/top-referring", $topReferring);
         ?>
     </div>
 
