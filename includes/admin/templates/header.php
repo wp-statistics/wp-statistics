@@ -56,9 +56,13 @@ $isPremium       = $apiCommunicator->userHasPremiumLicense() ? true : false;
     </div>
     <div class="wps-adminHeader__side">
         <?php if (!$isPremium && apply_filters('wp_statistics_enable_upgrade_to_bundle', true)) { ?>
-            <a href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/product/add-ons-bundle?utm_source=wp-statistics&utm_medium=link&utm_campaign=header'); ?>" target="_blank" class="wps-adminHeader__bundle">
+            <!--TODO: Dynamic content of this section-->
+            <a href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/product/add-ons-bundle?utm_source=wp-statistics&utm_medium=link&utm_campaign=header'); ?>" target="_blank" class="wps-license-status wps-license-status--free">
                 <?php esc_html_e('Upgrade To Premium', 'wp-statistics'); ?>
             </a>
+<!--            <a href="" class="wps-license-status wps-license-status--valid">-->
+<!--                <span>--><?php //esc_html_e('License:', 'wp-statistics')?><!-- 1/6</span> <span>--><?php //esc_html_e('Upgrade', 'wp-statistics'); ?><!--</span>-->
+<!--            </a>-->
         <?php } ?>
         <?php if (Option::get('privacy_audit')) : ?>
             <?php
@@ -108,9 +112,13 @@ $isPremium       = $apiCommunicator->userHasPremiumLicense() ? true : false;
                 <?php } ?>
                 <?php if (!$isPremium && apply_filters('wp_statistics_enable_upgrade_to_bundle', true)) { ?>
                     <div class="wps-bundle">
-                        <a href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/product/add-ons-bundle?utm_source=wp-statistics&utm_medium=link&utm_campaign=header'); ?>" target="_blank" class="wps-adminHeader__bundle">
+                        <!--TODO: Dynamic content of this section-->
+                        <a href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/product/add-ons-bundle?utm_source=wp-statistics&utm_medium=link&utm_campaign=header'); ?>" target="_blank" class="wps-license-status wps-license-status--free">
                             <?php esc_html_e('Upgrade To Premium', 'wp-statistics'); ?>
                         </a>
+<!--                        <a href="" class="wps-license-status wps-license-status--valid">-->
+<!--                            <span>--><?php //esc_html_e('License:', 'wp-statistics')?><!-- 1/6</span> <span>--><?php //esc_html_e('Upgrade', 'wp-statistics'); ?><!--</span>-->
+<!--                        </a>-->
                     </div>
                 <?php } ?>
             </div>

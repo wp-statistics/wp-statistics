@@ -186,7 +186,7 @@
     }
   }
 
-  .wps-adminHeader a.wps-adminHeader__bundle:before  {
+  .wps-adminHeader a.wps-license-status:before  {
     margin-right: unset;
     margin-left: 3px;
   }
@@ -196,7 +196,7 @@
     margin-right: 4px;
   }
 
-  .wps-adminHeader a.wps-adminHeader__bundle:after {
+  .wps-adminHeader a.wps-license-status:after {
     transform: rotate(180deg);
   }
 
