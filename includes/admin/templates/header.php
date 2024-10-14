@@ -9,6 +9,7 @@ use WP_Statistics\Service\Admin\LicenseManagement\ApiCommunicator;
 
 $apiCommunicator = new ApiCommunicator();
 $isPremium       = $apiCommunicator->userHasPremiumLicense() ? true : false;
+
 ?>
 
 <div class="wps-adminHeader <?php echo $isPremium ? 'wps-adminHeader__premium' : '' ?>">
