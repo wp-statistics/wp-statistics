@@ -15,9 +15,12 @@ wps_js.pages_meta_box = {
             const siteUrl = wps_js.global.admin_url.replace('/wp-admin/', '');
             let i = 1;
             args.pages.forEach(function (value) {
-
-                const isInsideDashboardWidgets = document.getElementById('wp-statistics-pages-widget').closest('#dashboard-widgets') !== null;
-                const viewContentLabel = isInsideDashboardWidgets ? wps_js._('view') :  window.innerWidth <= 500 ? wps_js._('view') : wps_js._('view_content');
+                const statisticsPagesWidget =document.getElementById('wp-statistics-pages-widget');
+                let viewContentLabel =wps_js._('view');
+                if(statisticsPagesWidget) {
+                    const isInsideDashboardWidgets = statisticsPagesWidget.closest('#dashboard-widgets') !== null;
+                    viewContentLabel = isInsideDashboardWidgets ? wps_js._('view') :  window.innerWidth <= 500 ? wps_js._('view') : wps_js._('view_content');
+                }
                 t += `<tr>
 			<td class="wps-pd-l"><div class="wps-ellipsis-parent" title="${value['title']}"><span class="wps-ellipsis-text">${value['title']}</span></div></td>
 			<td class="wps-pd-l"><a href="${value['hits_page']}">${value['number']}</a></td>
