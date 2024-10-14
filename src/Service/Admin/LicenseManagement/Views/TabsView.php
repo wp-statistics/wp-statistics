@@ -31,7 +31,6 @@ class TabsView extends BaseTabView
         $this->apiCommunicator = new ApiCommunicator();
 
         $this->handleUrlLicenseValidation();
-        $this->handleInvalidLicense();
     }
 
     /**
@@ -49,21 +48,6 @@ class TabsView extends BaseTabView
     }
 
     /**
-     * If the user is trying to access the 'downloads' or 'get-started' tab but no valid licenses were found, throw an exception.
-     *
-     * @return void
-     * @throws SystemErrorException
-     */
-    private function handleInvalidLicense()
-    {
-        if ($this->isTab(['downloads', 'get-started']) && !$this->apiCommunicator->userHasLicense()) {
-            throw new SystemErrorException(
-                sprintf(__('No valid licenses were found! Please add your license key <a href="%s">here</a>.', 'wp-statistics'), Menus::admin_url('plugins', ['tab' => 'add-license']))
-            );
-        }
-    }
-
-    /**
      * Returns the current tab to be displayed.
      *
      * @return string
@@ -75,6 +59,11 @@ class TabsView extends BaseTabView
         // If license key is sent via URL, redirect to "Downloads" tab
         if (in_array($currentTab, ['add-ons', 'add-license']) && Request::has('license_key')) {
             return 'downloads';
+        }
+
+        // If license key has not been found, prevent accessing certain tabs
+        if (in_array($currentTab, ['downloads', 'get-started']) && !$this->apiCommunicator->userHasLicense()) {
+            return 'add-license';
         }
 
         return $currentTab;
