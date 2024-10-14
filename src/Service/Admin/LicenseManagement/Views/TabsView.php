@@ -27,12 +27,11 @@ class TabsView extends BaseTabView
 
     public function __construct()
     {
-        parent::__construct();
-
         $this->dataProvider    = new LicenseManagerDataProvider();
         $this->apiCommunicator = new ApiCommunicator();
-
         $this->handleUrlLicenseValidation();
+
+        parent::__construct();
     }
 
     /**
