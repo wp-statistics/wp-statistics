@@ -140,7 +140,7 @@ use WP_Statistics\Components\View;
             'tooltip' => esc_html__('The top referring domains.', 'wp-statistics'),
             'data'    => $data['referrers']
         ];
-        Admin_Template::get_template(['layout/category-analytics/top-referring'], $topReferring);
+        View::load("components/tables/top-referring", $topReferring);
         ?>
     </div>
 
