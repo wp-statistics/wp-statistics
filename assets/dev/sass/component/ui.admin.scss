@@ -550,7 +550,7 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
       }
 
       &.active {
-        background: #FFFFFF33;
+        background: rgba(255, 255, 255, 0.1);
 
         span {
           opacity: 1;
@@ -633,7 +633,7 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
           height: 100%;
           box-sizing: border-box;
           border-radius: 50%;
-          background: rgba(255, 255, 255, .3019607843);
+          background: rgba(255, 255, 255, 0.1);
           animation: animated_bg_coparison 45s ease infinite;
         }
       }
@@ -2927,8 +2927,7 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
 .hamburger-menu-container {
   position: relative;
   font-size: 14px;
-  line-height: 17px;
-  font-weight: 400;
+  font-weight: 500;
   display: flex;
   gap: 4px;
   padding: 8px;

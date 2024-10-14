@@ -1,8 +1,26 @@
 <?php
 $class = '';
-if (isset($_GET['page']) && $_GET['page'] === $slug) {
-    $class = 'active';
+// Check if 'page' is set in $_GET
+if (isset($_GET['page'])) {
+    // Construct the full slug with the tab if it exists
+    $full_slug = $_GET['page'];
+    if (isset($_GET['tab'])) {
+        $full_slug .= '&tab=' . $_GET['tab'];
+    }
+
+    // Compare the full slug with the current slug
+    if ($slug === $full_slug) {
+        $class = 'active';
+    }
+} else {
+    // If no tab, just compare the page
+    if ($_GET['page'] === $slug) {
+        $class = 'active';
+    }
 }
+
+
+
 
 $href = esc_url(admin_url('admin.php?page=' . $slug));
 
