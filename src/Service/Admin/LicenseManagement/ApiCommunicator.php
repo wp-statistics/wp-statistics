@@ -338,4 +338,14 @@ class ApiCommunicator
 
         return null;
     }
+
+    /**
+     * Checks if user has any license or not.
+     *
+     * @return bool
+     */
+    public function userHasLicense()
+    {
+        return !empty($this->getStoredLicenses());
+    }
 }

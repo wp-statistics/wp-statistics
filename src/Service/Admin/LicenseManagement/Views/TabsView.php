@@ -4,9 +4,11 @@ namespace WP_Statistics\Service\Admin\LicenseManagement\Views;
 
 use Exception;
 use WP_Statistics\Components\View;
+use WP_Statistics\Utils\Request;
 use WP_STATISTICS\Menus;
 use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Abstracts\BaseTabView;
+use WP_Statistics\Exception\SystemErrorException;
 use WP_Statistics\Service\Admin\LicenseManagement\ApiCommunicator;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseManagerDataProvider;
@@ -27,6 +29,55 @@ class TabsView extends BaseTabView
     {
         $this->dataProvider    = new LicenseManagerDataProvider();
         $this->apiCommunicator = new ApiCommunicator();
+
+        $this->handleUrlLicenseValidation();
+        $this->handleInvalidLicense();
+    }
+
+    /**
+     * Validate the license key sent via URL
+     *
+     * @return void
+     */
+    private function handleUrlLicenseValidation()
+    {
+        $license = Request::get('license_key');
+
+        if (!empty($license)) {
+            $this->apiCommunicator->validateLicense($license);
+        }
+    }
+
+    /**
+     * If the user is trying to access the 'downloads' or 'get-started' tab but no valid licenses were found, throw an exception.
+     *
+     * @return void
+     * @throws SystemErrorException
+     */
+    private function handleInvalidLicense()
+    {
+        if ($this->isTab(['downloads', 'get-started']) && !$this->apiCommunicator->userHasLicense()) {
+            throw new SystemErrorException(
+                sprintf(__('No valid licenses were found! Please add your license key <a href="%s">here</a>.', 'wp-statistics'), Menus::admin_url('plugins', ['tab' => 'add-license']))
+            );
+        }
+    }
+
+    /**
+     * Returns the current tab to be displayed.
+     *
+     * @return string
+     */
+    protected function getCurrentTab()
+    {
+        $currentTab = Request::get('tab', $this->defaultTab);
+
+        // If license key is sent via URL, redirect to "Downloads" tab
+        if (in_array($currentTab, ['add-ons', 'add-license']) && Request::has('license_key')) {
+            return 'downloads';
+        }
+
+        return $currentTab;
     }
 
     /**
