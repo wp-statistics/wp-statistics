@@ -182,45 +182,6 @@ class ApiCommunicator
     }
 
     /**
-     * Validates all stored licenses.
-     *
-     * @return void
-     *
-     * @todo Remove later if it was not used by other classes.
-     */
-    public function validateAllLicenses()
-    {
-        foreach ($this->getStoredLicenses() as $licenseKey => $license) {
-            try {
-                $this->validateLicense($licenseKey);
-            } catch (\Exception $e) {
-                $this->removeLicense($licenseKey);
-
-                if (stripos($e->getMessage(), 'domain') !== false) {
-                    Notice::addNotice(sprintf(
-                    // translators: %s: License key.
-                        __('License %s was removed because of an invalid domain!', 'wp-statistics'),
-                        $licenseKey
-                    ), 'license_invalid_domain');
-                } else if (stripos($e->getMessage(), 'expired') !== false) {
-                    Notice::addNotice(sprintf(
-                    // translators: %s: License key.
-                        __('License %s was removed because it was expired!', 'wp-statistics'),
-                        $licenseKey
-                    ), 'license_expired');
-                } else {
-                    Notice::addNotice(sprintf(
-                    // translators: 1: License key - 2: Error message.
-                        __('License %s was removed because of an error: %s', 'wp-statistics'),
-                        $licenseKey,
-                        $e->getMessage()
-                    ), 'license_error');
-                }
-            }
-        }
-    }
-
-    /**
      * Returns the licenses stored in the WordPress database.
      *
      * @return array
