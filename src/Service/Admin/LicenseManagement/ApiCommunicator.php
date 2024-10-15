@@ -27,7 +27,7 @@ class ApiCommunicator
      * @return ProductDecorator[] List of products
      * @throws Exception if there is an error with the API call
      */
-    public function getProductList()
+    public function getRemotePlugins()
     {
         try {
             $remoteRequest = new RemoteRequest("{$this->apiUrl}/product/list", 'GET');
@@ -227,51 +227,32 @@ class ApiCommunicator
         return null;
     }
 
-    /**
-     * Merge the product list with the status from the license.
-     *
-     * @param string $licenseKey
-     *
-     * @return array Merged product list with status
-     *
-     * @throws Exception
-     */
-    public function mergeProductStatusWithLicense($licenseKey)
-    {
-        // Get the list of products
-        $productList = $this->getProductList();
-
-        // Get the license status
-        $licenseStatus = $this->validateLicense($licenseKey);
-
-        // Merge product list with license status and return the result
-        return $this->productDecorator->decorateProductsWithLicense($productList, $licenseStatus->products);
-    }
 
     /**
-     * Merges the product list with the status from all validated license.
+     * Get all purchased plugins for a given license key or all stored licenses.
      *
-     * @return ProductDecorator[]
+     * @param string $licenseKey Optional license key to get purchased plugins for.
      *
-     * @throws Exception
+     * @return ProductDecorator[] List of purchased plugins.
      */
-    public function mergeProductsListWithAllValidLicenses()
+    public function getPurchasedPlugins($licenseKey = false)
     {
-        // Get the list of all products
-        $productList = $this->getProductList();
+        $remotePlugins      = $this->getRemotePlugins();
+        $purchasedPlugins   = [];
 
-        // Make a list of licensed products (retrieved from license status calls)
-        $licensedProducts = [];
-
-        // Loop through the array keys (the actual license keys) and merge the validated products
-        foreach (array_keys($this->getStoredLicenses()) as $license) {
-            // Get current license status
-            $licenseStatus    = $this->validateLicense($license);
-            $licensedProducts = array_merge($licensedProducts, $licenseStatus->products);
+        if ($licenseKey) {
+            $licenseStatus      = $this->validateLicense($licenseKey);
+            $purchasedPlugins   = $licenseStatus->products;
+        } else {
+            foreach ($this->getStoredLicenses() as $license => $data) {
+                // Get current license status
+                $licenseStatus    = $this->validateLicense($license);
+                $purchasedPlugins = array_merge($purchasedPlugins, $licenseStatus->products);
+            }
         }
 
         // Merge the new list with all products and return the result
-        return $this->productDecorator->decorateProductsWithLicense($productList, $licensedProducts);
+        return $this->productDecorator->decorateProductsWithLicense($remotePlugins, $purchasedPlugins);
     }
 
     /**

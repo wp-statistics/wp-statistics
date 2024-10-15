@@ -49,13 +49,11 @@ class PluginActions
                 throw new \Exception(__('License key is missing.', 'wp-statistics'));
             }
 
-            // Merge the product list with the license and installation status
-
-            $mergedProductList = $this->apiCommunicator->mergeProductStatusWithLicense($licenseKey);
+            $purchasedPlugins = $this->apiCommunicator->getPurchasedPlugins($licenseKey);
 
             wp_send_json_success([
-                'products' => $mergedProductList,
-                'message'  => __('License is valid.', 'wp-statistics'),
+                'plugins'   => $purchasedPlugins,
+                'message'   => __('License is valid.', 'wp-statistics'),
             ]);
         } catch (\Exception $e) {
             wp_send_json_error([

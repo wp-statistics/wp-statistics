@@ -19,18 +19,6 @@ class LicenseManagerDataProvider
     }
 
     /**
-     * Returns a list of licensed products.
-     *
-     * @return ProductDecorator[]
-     *
-     * @throws Exception
-     */
-    public function getLicensedProductList()
-    {
-        return $this->apiCommunicator->mergeProductsListWithAllValidLicenses();
-    }
-
-    /**
      * Returns data for "Add-Ons" tab.
      *
      * @return array
@@ -47,12 +35,12 @@ class LicenseManagerDataProvider
 
         // Try to fetch licensed add-ons first
         try {
-            $addOnsList = $this->getLicensedProductList();
+            $addOnsList = $this->apiCommunicator->getPurchasedPlugins();
         } catch (Exception $th) {}
 
         // If previous attempt had failed (because of invalid licenses, invalid domain, etc.), try to fetch all add-ons
         if (empty($addOnsList)) {
-            $this->apiCommunicator->getProductList();
+            $this->apiCommunicator->getRemotePlugins();
         }
 
         // Separate active and inactive add-ons
@@ -83,7 +71,7 @@ class LicenseManagerDataProvider
         // Don't display the "Select All" button if no add-ons can be downloaded
         $displaySelectAll = false;
 
-        foreach ($this->getLicensedProductList() as $addOn) {
+        foreach ($this->apiCommunicator->getPurchasedPlugins() as $addOn) {
             if ($addOn->isLicensed()) {
                 $licensedAddOns[] = $addOn;
             } else {
@@ -118,7 +106,7 @@ class LicenseManagerDataProvider
 
         // Fetch all licensed add-ons
         try {
-            foreach ($this->getLicensedProductList() as $addOn) {
+            foreach ($this->apiCommunicator->getPurchasedPlugins() as $addOn) {
                 if ($addOn->isLicensed()) {
                     $licensedAddOns[] = $addOn;
 
