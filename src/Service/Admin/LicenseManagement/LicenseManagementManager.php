@@ -56,7 +56,7 @@ class LicenseManagementManager
      */
     private function initPluginUpdaters()
     {
-        $storedLicenses = $this->apiCommunicator->getStoredLicenses();
+        $storedLicenses = LicenseHelper::getLicenses();
 
         if (!empty($storedLicenses)) {
             foreach ($storedLicenses as $licenseData) {
@@ -110,7 +110,7 @@ class LicenseManagementManager
         $plugins = $this->pluginHandler->getInstalledPlugins();
 
         foreach ($plugins as $plugin) {
-            $licenseKey = $this->apiCommunicator->getValidLicenseForPlugin($plugin['TextDomain']);
+            $licenseKey = LicenseHelper::getPluginLicense($plugin['TextDomain']);
 
             if (empty($licenseKey)) {
                 $pluginUpdater = new PluginUpdater($plugin['TextDomain'], $plugin['Version']);
@@ -128,6 +128,6 @@ class LicenseManagementManager
      */
     public function removeUpgradeToBundleButton()
     {
-        return empty($this->apiCommunicator->userHasPremiumLicense());
+        return empty(LicenseHelper::isPremiumLicenseAvailable());
     }
 }

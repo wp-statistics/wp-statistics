@@ -3,6 +3,7 @@ namespace WP_Statistics\Service\Admin\LicenseManagement\Plugin;
 
 use WP_Statistics\Utils\Request;
 use WP_Statistics\Service\Admin\LicenseManagement\ApiCommunicator;
+use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHandler;
 
 class PluginActions
@@ -49,7 +50,7 @@ class PluginActions
                 throw new \Exception(__('License key is missing.', 'wp-statistics'));
             }
 
-            $purchasedPlugins = $this->apiCommunicator->getPurchasedPlugins($licenseKey);
+            $purchasedPlugins = PluginHelper::getPurchasedPlugins($licenseKey);
 
             wp_send_json_success([
                 'plugins'   => $purchasedPlugins,
@@ -77,14 +78,14 @@ class PluginActions
             }
 
             if (empty($licenseKey)) {
-                $licenseKey = $this->apiCommunicator->getValidLicenseForPlugin($pluginSlug);
+                $licenseKey = LicenseHelper::getPluginLicense($pluginSlug);
             }
 
             if (empty($licenseKey)) {
                 throw new \Exception(__('License key is missing.', 'wp-statistics'));
             }
 
-            $downloadUrl = $this->apiCommunicator->getPluginDownloadUrl($licenseKey, $pluginSlug);
+            $downloadUrl = $this->apiCommunicator->getDownloadUrlFromLicense($licenseKey, $pluginSlug);
             if (!$downloadUrl) {
                 throw new \Exception(__('Download URL not found!', 'wp-statistics'));
             }

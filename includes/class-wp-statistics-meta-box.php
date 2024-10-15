@@ -1,7 +1,7 @@
 <?php
 
 namespace WP_STATISTICS;
-use WP_Statistics\Service\Admin\LicenseManagement\ApiCommunicator;
+use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 
 class Meta_Box
 {
@@ -346,8 +346,7 @@ class Meta_Box
         );
 
         // Load Upgrade metabox if user is not premium
-        $apiCommunicator    = new ApiCommunicator();
-        $isPremium          = $apiCommunicator->userHasPremiumLicense() ? true : false;
+        $isPremium          = LicenseHelper::isPremiumLicenseAvailable() ? true : false;
         $disableUpgrade     = apply_filters('wp_statistics_enable_upgrade_to_bundle', true) ? false : true;
         $dismissedWidget    = in_array('about-premium', get_option('wp_statistics_dismissed_widgets', [])) ? true : false;
 

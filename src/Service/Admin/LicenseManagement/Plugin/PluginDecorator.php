@@ -3,6 +3,7 @@ namespace WP_Statistics\Service\Admin\LicenseManagement\Plugin;
 
 use WP_STATISTICS\Menus;
 use WP_Statistics\Service\Admin\LicenseManagement\ApiCommunicator;
+use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHandler;
 
 class PluginDecorator
@@ -240,13 +241,13 @@ class PluginDecorator
 
     public function getDownloadUrl()
     {
-        $downloadUrl = $this->apiCommunicator->getPluginDownloadUrl($this->getLicenseKey(), $this->getSlug());
+        $downloadUrl = $this->apiCommunicator->getDownloadUrlFromLicense($this->getLicenseKey(), $this->getSlug());
         return $downloadUrl ?? null;
     }
 
     public function getLicenseKey()
     {
-        return $this->apiCommunicator->getValidLicenseForPlugin($this->getSlug());
+        return LicenseHelper::getPluginLicense($this->getSlug());
     }
 
     /**

@@ -22,7 +22,7 @@ class LicenseMigration
     public function __construct(ApiCommunicator $apiCommunicator)
     {
         $this->apiCommunicator = $apiCommunicator;
-        $this->storedLicenses  = array_keys($this->apiCommunicator->getStoredLicenses());
+        $this->storedLicenses  = array_keys(LicenseHelper::getLicenses());
     }
 
     /**

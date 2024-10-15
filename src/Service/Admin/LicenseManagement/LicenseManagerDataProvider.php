@@ -3,6 +3,7 @@
 namespace WP_Statistics\Service\Admin\LicenseManagement;
 
 use Exception;
+use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHelper;
 use WP_Statistics\Utils\Request;
 
 class LicenseManagerDataProvider
@@ -32,7 +33,7 @@ class LicenseManagerDataProvider
         $licenseMigration->migrateOldLicenses();
 
         // Try to fetch licensed add-ons first
-        $addOnsList = $this->apiCommunicator->getPlugins();
+        $addOnsList = PluginHelper::getPlugins();
 
         // Separate active and inactive add-ons
         foreach ($addOnsList as $addOn) {
@@ -62,7 +63,7 @@ class LicenseManagerDataProvider
         // Don't display the "Select All" button if no add-ons can be downloaded
         $displaySelectAll = false;
 
-        foreach ($this->apiCommunicator->getPlugins() as $addOn) {
+        foreach (PluginHelper::getPlugins() as $addOn) {
             if ($addOn->isLicensed()) {
                 $licensedAddOns[] = $addOn;
             } else {
@@ -97,7 +98,7 @@ class LicenseManagerDataProvider
 
         // Fetch all licensed add-ons
         try {
-            foreach ($this->apiCommunicator->getPlugins() as $addOn) {
+            foreach (PluginHelper::getPlugins() as $addOn) {
                 if ($addOn->isLicensed()) {
                     $licensedAddOns[] = $addOn;
 

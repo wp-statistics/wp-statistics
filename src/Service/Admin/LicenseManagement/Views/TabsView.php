@@ -10,6 +10,7 @@ use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Abstracts\BaseTabView;
 use WP_Statistics\Exception\SystemErrorException;
 use WP_Statistics\Service\Admin\LicenseManagement\ApiCommunicator;
+use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseManagerDataProvider;
 
@@ -63,7 +64,7 @@ class TabsView extends BaseTabView
         }
 
         // If license key has not been found, prevent accessing certain tabs
-        if (in_array($currentTab, ['downloads', 'get-started']) && !$this->apiCommunicator->userHasLicense()) {
+        if (in_array($currentTab, ['downloads', 'get-started']) && !LicenseHelper::isLicenseAvailable()) {
             return 'add-license';
         }
 
@@ -142,7 +143,7 @@ class TabsView extends BaseTabView
 
                 Admin_Template::get_template(['layout/header', 'layout/title'], $args);
             } else {
-                $args['stored_licenses'] = $this->apiCommunicator->getStoredLicenses();
+                $args['stored_licenses'] = LicenseHelper::getLicenses();
 
                 Admin_Template::get_template(['layout/header', 'layout/addon-header-steps'], $args);
             }
