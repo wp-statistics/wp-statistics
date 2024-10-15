@@ -42,6 +42,11 @@ class ApiCommunicator
         return $plugins;
     }
 
+    /**
+     * Returns a decorated list of plugins (add-ons)
+     *
+     * @return PluginDecorator[] List of plugins
+     */
     public function getPlugins()
     {
         $result  = [];
@@ -56,6 +61,13 @@ class ApiCommunicator
         return $result;
     }
 
+    /**
+     * Retrieve plugin info by slug.
+     *
+     * @param string $slug Plugin slug.
+     *
+     * @return PluginDecorator|null Plugin object if found, null otherwise.
+     */
     public function getPluginBySlug($slug)
     {
         $plugins = $this->getPlugins();
@@ -67,7 +79,7 @@ class ApiCommunicator
         return null;
     }
 
-        /**
+    /**
      * Get all purchased plugins for a given license key or all stored licenses.
      *
      * @param string $licenseKey Optional license key to get purchased plugins for.
