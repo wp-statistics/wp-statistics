@@ -110,7 +110,7 @@ class LicenseManagementManager
         $plugins = $this->pluginHandler->getInstalledPlugins();
 
         foreach ($plugins as $plugin) {
-            $licenseKey = $this->apiCommunicator->getValidLicenseForProduct($plugin['TextDomain']);
+            $licenseKey = $this->apiCommunicator->getValidLicenseForPlugin($plugin['TextDomain']);
 
             if (empty($licenseKey)) {
                 $pluginUpdater = new PluginUpdater($plugin['TextDomain'], $plugin['Version']);

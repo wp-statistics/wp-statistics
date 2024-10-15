@@ -119,7 +119,7 @@ class ApiCommunicator
      * @return string|null The download URL if found, null otherwise
      * @throws Exception if the API call fails
      */
-    public function getDownload($licenseKey, $pluginSlug)
+    public function getDownloadUrl($licenseKey, $pluginSlug)
     {
         $remoteRequest = new RemoteRequest("{$this->apiUrl}/product/download", 'GET', [
             'license_key' => $licenseKey,
@@ -236,7 +236,7 @@ class ApiCommunicator
      *
      * @return string|null License key. `null` if no valid licenses was found for this slug.
      */
-    public function getValidLicenseForProduct($slug)
+    public function getValidLicenseForPlugin($slug)
     {
         foreach ($this->getStoredLicenses() as $key => $license) {
             if (empty($license) || empty($license['products']) || !is_array($license['products'])) {

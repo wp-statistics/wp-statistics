@@ -246,7 +246,7 @@ class PluginDecorator
 
     public function getLicenseKey()
     {
-        return $this->apiCommunicator->getValidLicenseForProduct($this->getSlug());
+        return $this->apiCommunicator->getValidLicenseForPlugin($this->getSlug());
     }
 
     /**

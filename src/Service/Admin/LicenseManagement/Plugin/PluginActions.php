@@ -77,7 +77,7 @@ class PluginActions
             }
 
             if (empty($licenseKey)) {
-                $licenseKey = $this->apiCommunicator->getValidLicenseForProduct($pluginSlug);
+                $licenseKey = $this->apiCommunicator->getValidLicenseForPlugin($pluginSlug);
             }
 
             if (empty($licenseKey)) {
