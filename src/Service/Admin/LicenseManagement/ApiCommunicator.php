@@ -2,11 +2,12 @@
 
 namespace WP_Statistics\Service\Admin\LicenseManagement;
 
-use WP_Statistics\Traits\TransientCacheTrait;
-use WP_Statistics\Components\RemoteRequest;
 use Exception;
-use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Utils\Request;
+use WP_Statistics\Components\RemoteRequest;
+use WP_Statistics\Traits\TransientCacheTrait;
+use WP_Statistics\Service\Admin\NoticeHandler\Notice;
+use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginDecorator;
 
 class ApiCommunicator
 {
@@ -14,26 +15,20 @@ class ApiCommunicator
 
     private $apiUrl = 'https://staging.wp-statistics.veronalabs.com/wp-json/wp-license-manager/v1';
     private $licensesOption = 'wp_statistics_licenses'; // Option key to store licenses
-    private $productDecorator;
-
-    public function __construct()
-    {
-        $this->productDecorator = new ProductDecorator();
-    }
 
     /**
      * Get the list of products (add-ons) from the API and cache it for 1 week.
      *
-     * @return ProductDecorator[] List of products
+     * @return array
      * @throws Exception if there is an error with the API call
      */
     public function getRemotePlugins()
     {
         try {
-            $remoteRequest = new RemoteRequest("{$this->apiUrl}/product/list", 'GET');
-            $products      = $remoteRequest->execute(false, true, WEEK_IN_SECONDS);
+            $remoteRequest  = new RemoteRequest("{$this->apiUrl}/product/list", 'GET');
+            $plugins        = $remoteRequest->execute(false, true, WEEK_IN_SECONDS);
 
-            if (empty($products) || !is_array($products)) {
+            if (empty($plugins) || !is_array($plugins)) {
                 throw new Exception(__('Product list is empty!', 'wp-statistics'));
             }
 
@@ -44,7 +39,63 @@ class ApiCommunicator
             );
         }
 
-        return $this->productDecorator->decorateProducts($products);
+        return $plugins;
+    }
+
+    public function getPlugins()
+    {
+        $result  = [];
+        $plugins = $this->getRemotePlugins();
+
+        foreach ($plugins as $plugin) {
+            if ($plugin->sku === 'premium') continue;
+
+            $result[] = new PluginDecorator($plugin);
+        }
+
+        return $result;
+    }
+
+    public function getPluginBySlug($slug)
+    {
+        $plugins = $this->getPlugins();
+
+        foreach ($plugins as $plugin) {
+            if ($plugin->getSlug() === $slug) return $plugin;
+        }
+
+        return null;
+    }
+
+        /**
+     * Get all purchased plugins for a given license key or all stored licenses.
+     *
+     * @param string $licenseKey Optional license key to get purchased plugins for.
+     *
+     * @return PluginDecorator[] List of purchased plugins.
+     */
+    public function getPurchasedPlugins($licenseKey = false)
+    {
+        $result  = [];
+        $plugins = [];
+
+        if ($licenseKey) {
+            $licenseStatus  = $this->validateLicense($licenseKey);
+            $plugins        = $licenseStatus->products;
+        } else {
+            foreach ($this->getStoredLicenses() as $license => $data) {
+                $licenseStatus  = $this->validateLicense($license);
+                $plugins        = array_merge($plugins, $licenseStatus->products);
+            }
+        }
+
+        if (empty($purchasedPlugins)) return [];
+
+        foreach ($purchasedPlugins as $plugin) {
+            $result[] = self::getPluginBySlug($plugin);
+        }
+
+        return $result;
     }
 
     /**
@@ -225,34 +276,6 @@ class ApiCommunicator
         }
 
         return null;
-    }
-
-
-    /**
-     * Get all purchased plugins for a given license key or all stored licenses.
-     *
-     * @param string $licenseKey Optional license key to get purchased plugins for.
-     *
-     * @return ProductDecorator[] List of purchased plugins.
-     */
-    public function getPurchasedPlugins($licenseKey = false)
-    {
-        $remotePlugins      = $this->getRemotePlugins();
-        $purchasedPlugins   = [];
-
-        if ($licenseKey) {
-            $licenseStatus      = $this->validateLicense($licenseKey);
-            $purchasedPlugins   = $licenseStatus->products;
-        } else {
-            foreach ($this->getStoredLicenses() as $license => $data) {
-                // Get current license status
-                $licenseStatus    = $this->validateLicense($license);
-                $purchasedPlugins = array_merge($purchasedPlugins, $licenseStatus->products);
-            }
-        }
-
-        // Merge the new list with all products and return the result
-        return $this->productDecorator->decorateProductsWithLicense($remotePlugins, $purchasedPlugins);
     }
 
     /**
