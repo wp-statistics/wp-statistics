@@ -45,14 +45,14 @@ class LicenseHelper
      * @param string $licenseKey
      * @param object $license
      */
-    public static function storeLicense($licenseKey, $license)
+    public static function storeLicense($licenseKey, $licenseData)
     {
-        $licenseData = [
-            'license'  => $license->license_details,
-            'products' => wp_list_pluck($license->products, 'slug'),
+        $data = [
+            'license'  => $licenseData->license_details,
+            'products' => wp_list_pluck($licenseData->products, 'slug'),
         ];
 
-        Option::saveOptionGroup($licenseKey, $licenseData, self::LICENSE_OPTION_KEY);
+        Option::saveOptionGroup($licenseKey, $data, self::LICENSE_OPTION_KEY);
     }
 
     /**
