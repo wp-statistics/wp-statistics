@@ -266,7 +266,7 @@ final class WP_Statistics
          * Create .htaccess to avoid public access.
          */
         // phpcs:disable
-        if (is_dir($upload_dir_name) and is_writable($upload_dir_name)) {
+        if (apply_filters('wp_statistics_enable_htaccess_protection', true) && is_dir($upload_dir_name) and is_writable($upload_dir_name)) {
             $htaccess_file = path_join($upload_dir_name, '.htaccess');
 
             if (!file_exists($htaccess_file)
