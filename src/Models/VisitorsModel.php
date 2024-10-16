@@ -796,33 +796,11 @@ class VisitorsModel extends BaseModel
 
     public function getVisitorsWithIncompleteSourceChannel($args = [])
     {
-        $firstHit = Query::select([
-            'MIN(ID) as ID',
-            'visitor_id'
-        ])
-            ->from('visitor_relationships')
-            ->groupBy('visitor_id')
-            ->getQuery();
-
-        $subQuery = Query::select([
-            'visitor_relationships.visitor_id',
-            'page_id',
-            'date'
-        ])
-            ->from('visitor_relationships')
-            ->whereRaw("(ID, visitor_id) IN ($firstHit)")
-            ->groupBy('visitor_id')
-            ->getQuery();
-
         $result = Query::select([
             'visitor.ID'
         ])
             ->from('visitor')
-            ->whereRelation('OR')
             ->whereNotNull('referred')
-            ->joinQuery($subQuery, ['visitor.ID', 'first_hit.visitor_id'], 'first_hit', 'LEFT')
-            ->join('pages', ['first_hit.page_id', 'pages.page_id'], [], 'LEFT')
-            ->groupBy('visitor.ID')
             ->getAll();
 
         return $result ? $result : [];
