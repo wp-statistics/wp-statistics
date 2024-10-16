@@ -37,7 +37,12 @@ class SourceChannelUpdater extends WP_Background_Process
 
         foreach ($visitors as $visitorId) {
             /** @var VisitorDecorator */
-            $visitor    = $visitorModel->getVisitorData(['visitor_id' => $visitorId]);
+            $visitor    = $visitorModel->getVisitorData([
+                'visitor_id' => $visitorId,
+                'user_info'  => false,
+                'page_info'  => true,
+                'fields'     => ['visitor.referred']
+            ]);
 
             $referrer   = $visitor->getReferral()->getRawReferrer();
             $firstPage  = $visitor->getFirstPage();
