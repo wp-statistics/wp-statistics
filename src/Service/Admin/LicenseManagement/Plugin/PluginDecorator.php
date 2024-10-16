@@ -178,12 +178,12 @@ class PluginDecorator
             return 'not_installed';
         }
 
-        if (!$this->isActivated()) {
-            return 'not_activated'; // same as 'installed'
-        }
-
         if (!$this->isLicensed()) {
             return 'not_licensed';
+        }
+
+        if (!$this->isActivated()) {
+            return 'not_activated'; // same as 'installed'
         }
 
         return 'activated';
@@ -199,10 +199,10 @@ class PluginDecorator
         switch ($this->getStatus()) {
             case 'not_installed':
                 return __('Not Installed', 'wp-statistics');
-            case 'not_activated':
-                return __('Inactive', 'wp-statistics');
             case 'not_licensed':
                 return __('Needs License', 'wp-statistics');
+            case 'not_activated':
+                return __('Inactive', 'wp-statistics');
             case 'activated':
                 return __('Activated', 'wp-statistics');
             default:
