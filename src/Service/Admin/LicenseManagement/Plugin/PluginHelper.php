@@ -8,7 +8,7 @@ use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 class PluginHelper
 {
     /**
-     * Returns a decorated list of plugins (add-ons)
+     * Returns a decorated list of plugins (add-ons), excluding bundled plugins.
      *
      * @return PluginDecorator[] List of plugins
      */
@@ -20,7 +20,7 @@ class PluginHelper
         $products   = $apiCommunicator->getProducts();
 
         foreach ($products as $product) {
-            if ($product->sku === 'premium') continue;
+            if (isset($product->sku) && $product->sku === 'premium') continue;
 
             $result[] = new PluginDecorator($product);
         }
