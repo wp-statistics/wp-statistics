@@ -10,13 +10,11 @@ use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginUpdater;
 
 class LicenseManagementManager
 {
-    private $apiCommunicator;
     private $pluginHandler;
     private $handledPlugins = [];
 
     public function __construct()
     {
-        $this->apiCommunicator = new ApiCommunicator();
         $this->pluginHandler   = new PluginHandler();
 
         // Initialize the necessary components

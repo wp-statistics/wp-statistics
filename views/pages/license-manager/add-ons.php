@@ -1,7 +1,7 @@
 <?php
 
 use WP_Statistics\Components\View;
-use WP_Statistics\Service\Admin\LicenseManagement\ProductDecorator;
+use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginDecorator;
 
 ?>
 <div class="postbox-container wps-postbox-addon-container">
@@ -11,7 +11,7 @@ use WP_Statistics\Service\Admin\LicenseManagement\ProductDecorator;
                 <h2 class="wps-postbox-addon__title"><?php esc_html_e('Active Add-Ons', 'wp-statistics'); ?></h2>
                 <div class="wps-postbox-addon__items">
                     <?php
-                    /** @var ProductDecorator $addOn */
+                    /** @var PluginDecorator $addOn */
                     foreach ($data['active_addons'] as $addOn) {
                         View::load('components/addon-box', ['addOn' => $addOn]);
                     }
@@ -24,7 +24,7 @@ use WP_Statistics\Service\Admin\LicenseManagement\ProductDecorator;
                 <h2 class="wps-postbox-addon__title"><?php esc_html_e('Inactive Add-Ons', 'wp-statistics'); ?></h2>
                 <div class="wps-postbox-addon__items">
                     <?php
-                    /** @var ProductDecorator $addOn */
+                    /** @var PluginDecorator $addOn */
                     foreach ($data['inactive_addons'] as $addOn) {
                         View::load('components/addon-box', ['addOn' => $addOn]);
                     }
