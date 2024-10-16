@@ -45,16 +45,20 @@ class PluginActions
 
         try {
             $licenseKey = Request::has('license_key') ? wp_unslash(Request::get('license_key')) : false;
+            $addOn      = Request::get('addon_slug');
 
             if (!$licenseKey) {
                 throw new \Exception(__('License key is missing.', 'wp-statistics'));
             }
 
-            $purchasedPlugins = PluginHelper::getPurchasedPlugins($licenseKey);
+            if (!$addOn) {
+                throw new \Exception(__('Add-on is not valid.', 'wp-statistics'));
+            }
+
+            $this->apiCommunicator->validateLicense($licenseKey, $addOn);
 
             wp_send_json_success([
-                'plugins'   => $purchasedPlugins,
-                'message'   => __('License is valid.', 'wp-statistics'),
+                'message' => __('License is valid.', 'wp-statistics'),
             ]);
         } catch (\Exception $e) {
             wp_send_json_error([
