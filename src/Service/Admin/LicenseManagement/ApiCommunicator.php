@@ -73,7 +73,7 @@ class ApiCommunicator
     public function getDownloadUrlFromLicense($licenseKey, $pluginSlug)
     {
         // Validate the license and get the licensed products
-        $licenseStatus = $this->validateLicense($licenseKey);
+        $licenseStatus = $this->validateLicense($licenseKey, $pluginSlug);
 
         // Search for the download URL in the licensed products
         foreach ($licenseStatus->products as $product) {
@@ -89,11 +89,12 @@ class ApiCommunicator
      * Validate the license and get the status of licensed products.
      *
      * @param string $licenseKey
+     * @param string $product Optional param to check whether the license is valid for that product, or not
      *
      * @return object License status
      * @throws Exception if the API call fails
      */
-    public function validateLicense($licenseKey)
+    public function validateLicense($licenseKey, $product = false)
     {
         try {
             $remoteRequest = new RemoteRequest("{$this->apiUrl}/license/status", 'GET', [
@@ -111,16 +112,13 @@ class ApiCommunicator
                 throw new Exception(!empty($licenseData->message) ? $licenseData->message : __('Unknown error!', 'wp-statistics'));
             }
 
-            /**
-             * @todo and important: Ensure that we throw an exception to prevent usage of licenses that are not related to the requested add-on.
-             * @note And we need to get it from front-end, also not sure this is **the correct place** since this method is uses in different places.
-             * Then uncomment the Exception
-             */
-            $requestedAddOn = Request::get('slug'); // e.g. wp-statistics-data-plus
-            $productSlugs   = array_column($licenseData->products, 'slug');
 
-            if (!in_array($requestedAddOn, $productSlugs, true)) {
-                //throw new Exception(sprintf(__('The license is not related to the requested add-on <b>%s</b>.', 'wp-statistics'), $requestedAddOn));
+            if (!empty($product)) {
+                $productSlugs = array_column($licenseData->products, 'slug');
+
+                if (!in_array($product, $productSlugs, true)) {
+                    throw new Exception(sprintf(__('The license is not related to the requested add-on <b>%s</b>.', 'wp-statistics'), $requestedAddOn));
+                }
             }
 
         } catch (Exception $e) {

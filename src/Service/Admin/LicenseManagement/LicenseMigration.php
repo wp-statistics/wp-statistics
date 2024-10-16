@@ -125,7 +125,7 @@ class LicenseMigration
     private function migrateLicense($addonSlug, $licenseKey)
     {
         try {
-            $this->apiCommunicator->validateLicense($licenseKey);
+            $this->apiCommunicator->validateLicense($licenseKey, $addonSlug);
         } catch (\Exception $e) {
             Notice::addNotice(
                 // translators: 1: Add-on slug - 2: Error message.
