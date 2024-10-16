@@ -89,7 +89,7 @@ class ApiCommunicator
      * Validate the license and get the status of licensed products.
      *
      * @param string $licenseKey
-     * @param string $product Optional param to check whether the license is valid for that product, or not
+     * @param string $product Optional param to check whether the license is valid for a particular product, or not
      *
      * @return object License status
      * @throws Exception if the API call fails
@@ -117,7 +117,7 @@ class ApiCommunicator
                 $productSlugs = array_column($licenseData->products, 'slug');
 
                 if (!in_array($product, $productSlugs, true)) {
-                    throw new Exception(sprintf(__('The license is not related to the requested add-on <b>%s</b>.', 'wp-statistics'), $requestedAddOn));
+                    throw new Exception(sprintf(__('The license is not related to the requested add-on <b>%s</b>.', 'wp-statistics'), $product));
                 }
             }
 
