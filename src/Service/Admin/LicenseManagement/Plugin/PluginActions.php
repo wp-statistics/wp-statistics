@@ -51,10 +51,6 @@ class PluginActions
                 throw new \Exception(__('License key is missing.', 'wp-statistics'));
             }
 
-            if (!$addOn) {
-                throw new \Exception(__('Add-on is not valid.', 'wp-statistics'));
-            }
-
             $this->apiCommunicator->validateLicense($licenseKey, $addOn);
 
             wp_send_json_success([
