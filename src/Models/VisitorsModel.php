@@ -592,10 +592,11 @@ class VisitorsModel extends BaseModel
     public function getVisitorData($args = [])
     {
         $args = $this->parseArgs($args, [
+            'fields'     => [],
             'visitor_id' => '',
+            'decorate'   => true,
             'page_info'  => true,
-            'user_info'  => true,
-            'fields'     => []
+            'user_info'  => true
         ]);
 
         $fields = !empty($args['fields']) && is_array($args['fields']) ? $args['fields'] : [
@@ -637,6 +638,7 @@ class VisitorsModel extends BaseModel
 
             $fields[] = 'first_hit.date as first_view';
             $fields[] = 'first_hit.page_id as first_page';
+            $fields[] = 'pages.uri as first_uri';
         }
 
         if ($args['user_info']) {
@@ -648,17 +650,22 @@ class VisitorsModel extends BaseModel
 
         $query = Query::select($fields)
             ->from('visitor')
-            ->where('visitor.ID', '=', $args['visitor_id'])
-            ->decorate(VisitorDecorator::class);
+            ->where('visitor.ID', '=', $args['visitor_id']);
 
         if ($args['page_info']) {
             $query
-                ->joinQuery($subQuery, ['visitor.ID', 'first_hit.visitor_id'], 'first_hit', 'LEFT');
+                ->joinQuery($subQuery, ['visitor.ID', 'first_hit.visitor_id'], 'first_hit', 'LEFT')
+                ->join('pages', ['first_hit.page_id', 'pages.page_id'], [], 'LEFT');
         }
 
         if ($args['user_info']) {
             $query
                ->join('users', ['visitor.user_id', 'users.ID'], [], 'LEFT');
+        }
+
+        if ($args['decorate']) {
+            $query
+                ->decorate(VisitorDecorator::class);
         }
 
         return $query->getRow();
