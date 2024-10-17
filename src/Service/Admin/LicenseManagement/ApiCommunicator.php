@@ -102,7 +102,7 @@ class ApiCommunicator
                 'domain'      => home_url(),
             ]);
 
-            $licenseData = $remoteRequest->execute(false);
+            $licenseData = $remoteRequest->execute(false, false);
 
             if (empty($licenseData)) {
                 throw new Exception(__('Invalid license response!', 'wp-statistics'));
