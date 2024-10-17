@@ -81,9 +81,7 @@ $postType = get_post_type(Request::get('post_id'));
         <?php
         $performance = [
             'title'       => esc_html__('Performance', 'wp-statistics'),
-            'tooltip'     => esc_html__('A graph showing the number of views, visitors over the last 15 days.', 'wp-statistics'),
             'type'        => 'single',
-            'description' => esc_html__('Last 15 Days', 'wp-statistics'),
             'data'        => $data['performance']
         ];
         View::load("components/charts/performance", $performance);

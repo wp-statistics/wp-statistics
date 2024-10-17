@@ -100,9 +100,7 @@ use WP_Statistics\Components\View;
         <?php
         $performance = [
             'title'       => esc_html__('Performance', 'wp-statistics'),
-            'tooltip'     => esc_html__('Shows the number of views, visitors, and published contents with this term over the last 15 days.', 'wp-statistics'),
             'type'        => 'categorySingle',
-            'description' => esc_html__('Last 15 Days', 'wp-statistics'),
             'data'        => $data['performance']
         ];
         View::load("components/charts/performance", $performance);
