@@ -2,10 +2,12 @@
 
 use WP_Statistics\Components\View;
 use WP_STATISTICS\Menus;
+use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginDecorator;
 
 ?>
 <div class="wps-wrap__main">
     <div class="wp-header-end"></div>
+
     <div class="wps-postbox-addon__step">
         <div class="wps-addon__step__info">
             <span class="wps-addon__step__image wps-addon__step__image--checked"></span>
@@ -22,14 +24,14 @@ use WP_STATISTICS\Menus;
             <div class="wps-addon__download__items">
                 <?php
                 if (!empty($data['licensed_addons'])) {
-                    /** @var ProductDecorator $addOn */
+                    /** @var PluginDecorator $addOn */
                     foreach ($data['licensed_addons'] as $addOn) {
                         View::load('components/addon-download-card', ['addOn' => $addOn]);
                     }
                 }
 
                 if (!empty($data['not_included_addons'])) {
-                    /** @var ProductDecorator $addOn */
+                    /** @var PluginDecorator $addOn */
                     foreach ($data['not_included_addons'] as $addOn) {
                         View::load('components/addon-download-card', ['addOn' => $addOn]);
                     }

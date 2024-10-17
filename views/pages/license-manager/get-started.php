@@ -2,9 +2,8 @@
 
 use WP_Statistics\Components\View;
 use WP_STATISTICS\Menus;
-
+use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginDecorator;
 ?>
-
 <div class="wps-wrap__main">
     <div class="wp-header-end"></div>
     <div class="wps-postbox-addon__step">
@@ -25,7 +24,7 @@ use WP_STATISTICS\Menus;
                 if (!empty($data['licensed_addons'])) {
                     $selectedAddOns = !empty($data['selected_addons']) ? $data['selected_addons'] : [];
 
-                    /** @var ProductDecorator $addOn */
+                    /** @var PluginDecorator $addOn */
                     foreach ($data['licensed_addons'] as $addOn) {
                         View::load('components/addon-active-card', [
                             'addOn'          => $addOn,

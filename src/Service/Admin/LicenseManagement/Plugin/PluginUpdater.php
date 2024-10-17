@@ -122,7 +122,7 @@ class PluginUpdater
 
         try {
             $apiCommunicator = new ApiCommunicator();
-            $remote          = $apiCommunicator->getDownload($this->licenseKey, $this->pluginSlug);
+            $remote          = $apiCommunicator->getDownloadUrl($this->licenseKey, $this->pluginSlug);
 
             if (!$remote) {
                 throw new Exception('Failed to retrieve remote plugin information.');

@@ -279,9 +279,12 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                                     event.stopPropagation();
                                     // Get and trim the license key input value
                                     const license_key = active_input.value.trim();
-                                    if (license_key) {
+                                    const addon_slug = active_input.dataset.addonSlug;
+
+                                    if (license_key && addon_slug) {
                                         const active_params = {
                                             'license_key': license_key,
+                                            'addon_slug': addon_slug,
                                             ...params
                                         }
                                         sendAjaxRequest(active_params, active_button);

@@ -115,15 +115,13 @@ class RemoteRequest
         $responseCode = wp_remote_retrieve_response_code($response);
         $responseBody = wp_remote_retrieve_body($response);
 
-        if ($throwFailedHttpCodeResponse) {
-            if ($this->isRequestSuccessful($responseCode)) {
-                throw new Exception(sprintf(
-                    esc_html__('Failed to get success response. URL: %s, Method: %s, Status Code: %s', 'wp-statistics'),
-                    esc_html($this->requestUrl),
-                    esc_html($this->parsedArgs['method'] ?? 'GET'),
-                    esc_html($responseCode)
-                ));
-            }
+        if ($throwFailedHttpCodeResponse && !$this->isRequestSuccessful($responseCode)) {
+            throw new Exception(sprintf(
+                esc_html__('Failed to get success response. URL: %s, Method: %s, Status Code: %s', 'wp-statistics'),
+                esc_html($this->requestUrl),
+                esc_html($this->parsedArgs['method'] ?? 'GET'),
+                esc_html($responseCode)
+            ));
         }
 
         $responseJson = json_decode($responseBody);

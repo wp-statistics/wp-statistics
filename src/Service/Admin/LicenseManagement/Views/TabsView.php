@@ -4,10 +4,13 @@ namespace WP_Statistics\Service\Admin\LicenseManagement\Views;
 
 use Exception;
 use WP_Statistics\Components\View;
+use WP_Statistics\Utils\Request;
 use WP_STATISTICS\Menus;
 use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Abstracts\BaseTabView;
+use WP_Statistics\Exception\SystemErrorException;
 use WP_Statistics\Service\Admin\LicenseManagement\ApiCommunicator;
+use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseManagerDataProvider;
 
@@ -27,6 +30,45 @@ class TabsView extends BaseTabView
     {
         $this->dataProvider    = new LicenseManagerDataProvider();
         $this->apiCommunicator = new ApiCommunicator();
+        $this->handleUrlLicenseValidation();
+
+        parent::__construct();
+    }
+
+    /**
+     * Validate the license key sent via URL
+     *
+     * @return void
+     */
+    private function handleUrlLicenseValidation()
+    {
+        $license = Request::get('license_key');
+
+        if (!empty($license)) {
+            $this->apiCommunicator->validateLicense($license);
+        }
+    }
+
+    /**
+     * Returns the current tab to be displayed.
+     *
+     * @return string
+     */
+    protected function getCurrentTab()
+    {
+        $currentTab = Request::get('tab', $this->defaultTab);
+
+        // If license key is sent via URL, redirect to "Downloads" tab
+        if (in_array($currentTab, ['add-ons', 'add-license']) && Request::has('license_key')) {
+            return 'downloads';
+        }
+
+        // If license key has not been found, prevent accessing certain tabs
+        if (in_array($currentTab, ['downloads', 'get-started']) && !LicenseHelper::isLicenseAvailable()) {
+            return 'add-license';
+        }
+
+        return $currentTab;
     }
 
     /**
@@ -101,7 +143,7 @@ class TabsView extends BaseTabView
 
                 Admin_Template::get_template(['layout/header', 'layout/title'], $args);
             } else {
-                $args['stored_licenses'] = $this->apiCommunicator->getStoredLicenses();
+                $args['stored_licenses'] = LicenseHelper::getLicenses();
 
                 Admin_Template::get_template(['layout/header', 'layout/addon-header-steps'], $args);
             }
