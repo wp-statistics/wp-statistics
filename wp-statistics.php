@@ -19,9 +19,6 @@ if (!defined('ABSPATH')) exit;
 # Load Plugin Defines
 require_once __DIR__ . '/includes/defines.php';
 
-# Include some empty class to make sure they are existed while upgrading plugin.
-require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-updates.php';
-
 # Load Plugin
 if (!class_exists('WP_Statistics')) {
     require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics.php';
