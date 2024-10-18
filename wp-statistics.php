@@ -19,6 +19,9 @@ if (!defined('ABSPATH')) exit;
 # Load Plugin Defines
 require_once __DIR__ . '/includes/defines.php';
 
+# Set another useful plugin define.
+define('WP_STATISTICS_VERSION', '14.10.2');
+
 # Load Plugin
 if (!class_exists('WP_Statistics')) {
     require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics.php';

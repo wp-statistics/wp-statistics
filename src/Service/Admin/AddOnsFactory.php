@@ -50,7 +50,7 @@ class AddOnsFactory
         }
 
         // If not found, fetch the data from the remote source
-        $addOnsRemoteUrl = WP_STATISTICS_SITE . '/wp-json/plugin/addons';
+        $addOnsRemoteUrl = WP_STATISTICS_SITE_URL . '/wp-json/plugin/addons';
         $response        = wp_remote_get($addOnsRemoteUrl, ['timeout' => 35]);
 
         if (is_wp_error($response)) {
