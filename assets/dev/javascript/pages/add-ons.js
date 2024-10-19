@@ -426,6 +426,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                                 window.location.href = `admin.php?page=wps_plugins_page&tab=downloads&license_key=${params.license_key}`;
                             }else{
                                 toggleAlertBox(button);
+                                button.parentElement.querySelector('input').classList.remove('wps-danger');
                                 const alertDiv = document.createElement('div');
                                 alertDiv.classList.add('wps-alert', 'wps-alert--success');
                                 alertDiv.innerHTML = `
