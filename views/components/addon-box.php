@@ -1,6 +1,6 @@
 <?php
 
-/** @var \WP_Statistics\Service\Admin\LicenseManagement\ProductDecorator $addOn */
+/** @var WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginDecorator $addOn */
 if (!defined('ABSPATH') || empty($addOn)) {
     exit;
 }
@@ -57,7 +57,7 @@ if (!defined('ABSPATH') || empty($addOn)) {
     </div>
     <div class="wps-addon__item__license js-wps-addon-license">
         <div class="wps-addon__item__update_license">
-            <input type="text" placeholder="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx">
+            <input data-addon-slug="<?php echo esc_attr($addOn->getSlug()) ?>" type="text" placeholder="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" value="<?php echo esc_attr($addOn->getLicenseKey()) ?>">
             <button><?php esc_html_e('Update License', 'wp-statistics'); ?></button>
         </div>
         <?php if (isset($alert_text)) : ?>

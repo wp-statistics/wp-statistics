@@ -1,5 +1,6 @@
 <div class="wps-wrap__main">
     <div class="wp-header-end"></div>
+
     <div class="wps-postbox-addon__step">
         <div class="wps-addon__step__info">
             <span class="wps-addon__step__image wps-addon__step__image--lock"></span>

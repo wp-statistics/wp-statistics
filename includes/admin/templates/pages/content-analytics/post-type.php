@@ -115,9 +115,7 @@ $postTypePlural   = Helper::getPostTypeName($postType);
         <?php
         $performance = [
             'title'       => esc_html__('Performance', 'wp-statistics'),
-            'tooltip'     => esc_html__('A graph showing the number of views, visitors, and published posts over the last 15 days.', 'wp-statistics'),
             'type'        => 'post-type',
-            'description' => esc_html__('Last 15 Days', 'wp-statistics'),
             'data'        => $data['performance']
         ];
         View::load("components/charts/performance", $performance);
@@ -155,7 +153,7 @@ $postTypePlural   = Helper::getPostTypeName($postType);
             'tooltip' => esc_html__('The top referring domains.', 'wp-statistics'),
             'data'    => $data['referrers']
         ];
-        Admin_Template::get_template(['layout/content-analytics/top-referring'], $topReferring);
+        View::load("components/tables/top-referring", $topReferring);
         ?>
     </div>
 

@@ -3,8 +3,7 @@
 namespace WP_Statistics\Service\Admin\LicenseManagement;
 
 use Exception;
-use WP_STATISTICS\Menus;
-use WP_Statistics\Service\Admin\NoticeHandler\Notice;
+use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHelper;
 use WP_Statistics\Utils\Request;
 
 class LicenseManagerDataProvider
@@ -19,37 +18,12 @@ class LicenseManagerDataProvider
     }
 
     /**
-     * Return a list of the product for view
-     *
-     * @return ProductDecorator[]
-     * @throws Exception
-     */
-    public function getProductList()
-    {
-        return $this->apiCommunicator->getProductList();
-    }
-
-    /**
-     * Returns a list of licensed products.
-     *
-     * @return ProductDecorator[]
-     *
-     * @throws Exception
-     */
-    public function getLicensedProductList()
-    {
-        return $this->apiCommunicator->mergeProductsListWithAllValidLicenses();
-    }
-
-    /**
      * Returns data for "Add-Ons" tab.
      *
      * @return array
      */
     public function getAddOnsData()
     {
-        $this->validateLicenseKeyInUrl();
-
         $addOnsList     = [];
         $activeAddOns   = [];
         $inactiveAddOns = [];
@@ -59,18 +33,7 @@ class LicenseManagerDataProvider
         $licenseMigration->migrateOldLicenses();
 
         // Try to fetch licensed add-ons first
-        try {
-            $addOnsList = $this->getLicensedProductList();
-        } catch (\Exception $e) {
-        }
-
-        // If previous attempt had failed (because of invalid licenses, invalid domain, etc.), try to fetch all add-ons
-        if (empty($addOnsList)) {
-            try {
-                $addOnsList = $this->getProductList();
-            } catch (\Exception $e) {
-            }
-        }
+        $addOnsList = PluginHelper::getPlugins();
 
         // Separate active and inactive add-ons
         foreach ($addOnsList as $addOn) {
@@ -97,32 +60,20 @@ class LicenseManagerDataProvider
         $licensedAddOns    = [];
         $notIncludedAddOns = [];
 
-        $this->redirectOnEmptyLicenses();
-
         // Don't display the "Select All" button if no add-ons can be downloaded
         $displaySelectAll = false;
 
-        try {
-            foreach ($this->getLicensedProductList() as $addOn) {
-                if ($addOn->isLicensed()) {
-                    $licensedAddOns[] = $addOn;
-                } else {
-                    $notIncludedAddOns[] = $addOn;
-                }
-
-                if ($addOn->isLicensed() && (!$addOn->isInstalled() || $addOn->isUpdateAvailable())) {
-                    // Add-on can be downloaded, display the "Select All" button
-                    $displaySelectAll = true;
-                }
+        foreach (PluginHelper::getPlugins() as $addOn) {
+            if ($addOn->isLicensed()) {
+                $licensedAddOns[] = $addOn;
+            } else {
+                $notIncludedAddOns[] = $addOn;
             }
-        } catch (Exception $e) {
-            $licensedAddOns    = [];
-            $notIncludedAddOns = [];
 
-            // Redirect back to first step
-            Notice::addFlashNotice($e->getMessage(), 'error');
-            wp_redirect(Menus::admin_url('plugins', ['tab' => 'add-license']));
-            exit;
+            if ($addOn->isLicensed() && (!$addOn->isInstalled() || $addOn->isUpdateAvailable())) {
+                // Add-on can be downloaded, display the "Select All" button
+                $displaySelectAll = true;
+            }
         }
 
         return [
@@ -139,8 +90,6 @@ class LicenseManagerDataProvider
      */
     public function getGetStartedData()
     {
-        $this->redirectOnEmptyLicenses();
-
         $licensedAddOns = [];
         $selectedAddOns = Request::has('addons') ? Request::get('addons', [], 'array') : [];
 
@@ -149,7 +98,7 @@ class LicenseManagerDataProvider
 
         // Fetch all licensed add-ons
         try {
-            foreach ($this->getLicensedProductList() as $addOn) {
+            foreach (PluginHelper::getPlugins() as $addOn) {
                 if ($addOn->isLicensed()) {
                     $licensedAddOns[] = $addOn;
 
@@ -160,17 +109,7 @@ class LicenseManagerDataProvider
                 }
             }
         } catch (Exception $e) {
-            Notice::addFlashNotice($e->getMessage(), 'warning');
-            wp_redirect(Menus::admin_url('plugins', ['tab' => 'downloads']));
-            exit;
-
             $licensedAddOns = [];
-        }
-
-        if (empty($licensedAddOns)) {
-            Notice::addFlashNotice(__('No licensed add-ons were found!', 'wp-statistics'), 'warning');
-            wp_redirect(Menus::admin_url('plugins', ['tab' => 'downloads']));
-            exit;
         }
 
         return [
@@ -178,44 +117,5 @@ class LicenseManagerDataProvider
             'selected_addons'      => $selectedAddOns,
             'display_activate_all' => $displayActivateAll,
         ];
-    }
-
-    /**
-     * Checks for `license_key` parameter in the URL and will redirect the user to the second step if the licenses is valid.
-     *
-     * @return void
-     */
-    private function validateLicenseKeyInUrl()
-    {
-        if (!Request::has('license_key')) {
-            return;
-        }
-
-        try {
-            $this->apiCommunicator->validateLicense(Request::get('license_key', ''));
-        } catch (Exception $e) {
-            Notice::addFlashNotice(esc_html($e->getMessage()), 'error');
-            return;
-        }
-
-        Notice::addFlashNotice(__('License added successfully.', 'wp-statistics'), 'success');
-        wp_redirect(Menus::admin_url('plugins', ['tab' => 'downloads']));
-        exit;
-    }
-
-    /**
-     * Redirects the user back to the first step if no licenses were stored in the database.
-     *
-     * @return void
-     */
-    private function redirectOnEmptyLicenses()
-    {
-        if (!empty($this->apiCommunicator->getStoredLicenses())) {
-            return;
-        }
-
-        Notice::addFlashNotice(__('No licenses were found!', 'wp-statistics'), 'error');
-        wp_redirect(Menus::admin_url('plugins', ['tab' => 'add-license']));
-        exit;
     }
 }
