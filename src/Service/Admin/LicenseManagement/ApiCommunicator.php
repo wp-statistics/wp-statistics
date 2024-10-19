@@ -13,7 +13,7 @@ class ApiCommunicator
 {
     use TransientCacheTrait;
 
-    private $apiUrl = 'https://staging.wp-statistics.veronalabs.com/wp-json/wp-license-manager/v1';
+    private $apiUrl = 'https://staging.wp-statistics.com/wp-json/wp-license-manager/v1';
 
     /**
      * Get the list of products (add-ons) from the API and cache it for 1 week.
