@@ -14,7 +14,7 @@ class PluginHandler
      *
      * @param string $pluginUrl
      *
-     * @return void
+     * @return mixed
      *
      * @throws Exception
      */
@@ -154,5 +154,25 @@ class PluginHandler
         }
 
         return get_plugin_data(WP_PLUGIN_DIR . DIRECTORY_SEPARATOR . $this->getPluginFile($pluginSlug));
+    }
+
+    /**
+     * Retrieves a list of installed wp-statistics add-ons (plugins that starts with wp-statistics- prefix).
+     *
+     * @return array Array of plugin data, keyed by plugin file name. See get_plugin_data().
+     */
+    public function getInstalledPlugins()
+    {
+        $result     = [];
+        $plugins    = get_plugins();
+
+        foreach ($plugins as $pluginFile => $pluginData) {
+            // If not wp-statistics add-on, skip
+            if (strpos($pluginFile, 'wp-statistics-') !== 0) continue;
+
+            $result[$pluginFile] = $pluginData;
+        }
+
+        return $result;
     }
 }

@@ -41,7 +41,7 @@ class Notice
             'is_dismissible' => (bool)$isDismissible,
         );
 
-        set_transient('wp_statistics_flash_notices', $flashNotices, 1); // Keep for 1 second
+        set_transient('wp_statistics_flash_notices', $flashNotices, 3); // Keep for 3 second
     }
 
     public static function displayNotices()

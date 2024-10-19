@@ -5,6 +5,7 @@ namespace WP_STATISTICS;
 use ErrorException;
 use Exception;
 use WP_STATISTICS;
+use WP_Statistics\Components\DateTime;
 use WP_Statistics\Service\Integrations\WpConsentApi;
 use WP_Statistics\Utils\Request;
 use WP_Statistics\Utils\Signature;
@@ -328,7 +329,7 @@ class Helper
     public static function getDefaultPostTypes()
     {
         $postTypes = get_post_types(array('public' => true, '_builtin' => true), 'names', 'and');
-        $postTypes = array_diff($postTypes, ['attachment']);;
+        $postTypes = array_diff($postTypes, ['attachment']);
 
         return array_values($postTypes);
     }
@@ -1703,8 +1704,8 @@ class Helper
                 'content' => __(sprintf('Analyze specific query parameters, including UTM tags, for each piece of content. Tracking marketing campaigns and engagement allows you to refine your strategies and maximize their impact. <div style="margin-top: 16px"><a href="https://wp-statistics.com/product/wp-statistics-data-plus/?utm_source=wp-statistics&utm_medium=email&utm_campaign=dp" style="color:#5100FD;font-size:14px;line-height:16.41px;font-weight:500;border-bottom: 1px solid #5100FD;text-decoration: none">Read more <img src="' . esc_url(WP_STATISTICS_URL . '/assets/images/mail/arrow-blue-' . $text_align_reverse . '.png') . '" width="6.67" height="10.91" style="margin-' . $text_align . ':6px" alt=""></a></div>'), 'wp-statistics'),
             ],
             [
-                'title'   => __('Weekly Traffic Comparison Widget', 'wp-statistics'),
-                'content' => __(sprintf('On the Overview page, the Weekly Traffic Comparison widget provides a quick snapshot of your main metrics. You can analyze traffic changes, identify trends, and make data-driven decisions to improve your site\'s performance with this feature. <div style="margin-top: 16px"><a href="https://wp-statistics.com/product/wp-statistics-data-plus/?utm_source=wp-statistics&utm_medium=email&utm_campaign=dp" style="color:#5100FD;font-size:14px;line-height:16.41px;font-weight:500;border-bottom: 1px solid #5100FD;text-decoration: none">Read more <img src="' . esc_url(WP_STATISTICS_URL . '/assets/images/mail/arrow-blue-' . $text_align_reverse . '.png') . '" width="6.67" height="10.91" style="margin-' . $text_align . ':6px" alt=""></a></div>'), 'wp-statistics'),
+                'title'   => __('Weekly Performance Overview', 'wp-statistics'),
+                'content' => __(sprintf('On the Overview page, the Weekly Performance Overview widget provides a quick snapshot of your main metrics. You can analyze traffic changes, identify trends, and make data-driven decisions to improve your site\'s performance with this feature. <div style="margin-top: 16px"><a href="https://wp-statistics.com/product/wp-statistics-data-plus/?utm_source=wp-statistics&utm_medium=email&utm_campaign=dp" style="color:#5100FD;font-size:14px;line-height:16.41px;font-weight:500;border-bottom: 1px solid #5100FD;text-decoration: none">Read more <img src="' . esc_url(WP_STATISTICS_URL . '/assets/images/mail/arrow-blue-' . $text_align_reverse . '.png') . '" width="6.67" height="10.91" style="margin-' . $text_align . ':6px" alt=""></a></div>'), 'wp-statistics'),
             ],
             [
                 'title'   => __('Traffic by Hour Widget', 'wp-statistics'),
@@ -1712,7 +1713,7 @@ class Helper
             ],
             [
                 'title'   => __('Content-Specific Analytics', 'wp-statistics'),
-                'content' => __(sprintf('Analyze each piece of content in detail, including views, visitor locations, and online users. Based on user data, these insights can help you optimize content. <div style="margin-top: 16px"><a href="https://wp-statistics.com/product/wp-statistics-data-plus/?utm_source=wp-statistics&utm_medium=email&utm_campaign=dp" style="color:#5100FD;font-size:14px;line-height:16.41px;font-weight:500;border-bottom: 1px solid #5100FD;text-decoration: none">Read more <img src="' . esc_url(WP_STATISTICS_URL . '/assets/images/mail/arrow-blue-' . $text_align_reverse . '.png') . '" width="6.67" height="10.91" style="margin-' . $text_align . ':6px" alt=""></a></div>'), 'wp-statistics'),
+                'content' => __(sprintf('Analyze each piece of content in detail, including views, visitor locations, and online visitors. Based on user data, these insights can help you optimize content. <div style="margin-top: 16px"><a href="https://wp-statistics.com/product/wp-statistics-data-plus/?utm_source=wp-statistics&utm_medium=email&utm_campaign=dp" style="color:#5100FD;font-size:14px;line-height:16.41px;font-weight:500;border-bottom: 1px solid #5100FD;text-decoration: none">Read more <img src="' . esc_url(WP_STATISTICS_URL . '/assets/images/mail/arrow-blue-' . $text_align_reverse . '.png') . '" width="6.67" height="10.91" style="margin-' . $text_align . ':6px" alt=""></a></div>'), 'wp-statistics'),
             ],
             [
                 'title'   => __('Custom Post Type Tracking', 'wp-statistics'),
@@ -1809,12 +1810,9 @@ class Helper
      */
     public static function calculatePercentageChange($firstNumber, $secondNumber)
     {
-        if (!is_numeric($firstNumber)) {
-            $firstNumber = 0;
-        }
-        if (!is_numeric($secondNumber)) {
-            $secondNumber = 0;
-        }
+        $firstNumber    = intval($firstNumber);
+        $secondNumber   = intval($secondNumber);
+
         if ($firstNumber == $secondNumber) {
             return 0;
         }
@@ -2022,28 +2020,19 @@ class Helper
         return false;
     }
 
+    /**
+     * Gets the start of week string.
+     *
+     * This function returns the string value of the start of week day.
+     *
+     * @return string The start of week string (e.g. 'monday', 'tuesday', etc.)
+     * @deprecated 14.11 Use WP_Statistics\Components\DateTime::getStartOfWeek instead.
+     */
     public static function getStartOfWeek()
     {
-        $startDay = intval(get_option('start_of_week', 0));
+        _deprecated_function(__METHOD__, '14.11', 'WP_Statistics\Components\DateTime::getStartOfWeek');
 
-        switch ($startDay) {
-            case 0:
-                return 'sunday';
-            case 1:
-                return 'monday';
-            case 2:
-                return 'tuesday';
-            case 3:
-                return 'wednesday';
-            case 4:
-                return 'thursday';
-            case 5:
-                return 'friday';
-            case 6:
-                return 'saturday';
-            default:
-                return 'monday';
-        }
+        return DateTime::getStartOfWeek();
     }
 
     /**

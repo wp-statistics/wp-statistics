@@ -64,7 +64,7 @@ class ReferralsManager
     /**
      * Registers AJAX actions for the referrals tab.
      *
-     * @param array $list List of AJAX actions.
+     * @param array $list
      *
      * @return array List of AJAX actions.
      */
@@ -82,9 +82,7 @@ class ReferralsManager
     /**
      * Handles the AJAX action for searching referrers in the referrals table.
      *
-     * @since 14.0.4
-     *
-     * @ignore
+     * @return void
      */
     public function search_referrers_action_callback()
     {

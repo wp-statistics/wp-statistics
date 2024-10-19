@@ -2,11 +2,13 @@
 
 namespace WP_STATISTICS;
 
-use WP_Statistics\Service\Admin\LicenseManagement\ApiCommunicator;
-use WP_Statistics\Service\Admin\LicenseManagement\LicenseMigration;
+use WP_Statistics\Utils\Request;
+use WP_Statistics\Components\Event;
+use WP_Statistics\Components\DateTime;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
 use WP_Statistics\Service\Analytics\Referrals\ReferralsDatabase;
-use WP_Statistics\Utils\Request;
+use WP_Statistics\Service\Admin\LicenseManagement\ApiCommunicator;
+use WP_Statistics\Service\Admin\LicenseManagement\LicenseMigration;
 
 class Schedule
 {
@@ -129,7 +131,7 @@ class Schedule
         $datetime->setTimezone($timezone);
 
         // Determine the day name based on the start of the week setting
-        $start_day_name = Helper::getStartOfWeek();;
+        $start_day_name = DateTime::getStartOfWeek();
 
         // Daily schedule
         $daily = clone $datetime;
@@ -347,21 +349,12 @@ class Schedule
         }
     }
 
+    /**
+     * @deprecated Use WP_Statistics\Components\Event::reschedule() instead
+     */
     public static function rescheduleEvent($event, $newTime, $prevTime)
     {
-        if ($newTime === $prevTime) return;
-
-        if (wp_next_scheduled($event)) {
-            wp_unschedule_event(wp_next_scheduled($event), $event);
-        }
-
-        $time              = sanitize_text_field($newTime);
-        $schedulesInterval = self::getSchedules();
-
-        if (isset($schedulesInterval[$time], $schedulesInterval[$time]['next_schedule'])) {
-            $scheduleTime = $schedulesInterval[$time]['next_schedule'];
-            wp_schedule_event($scheduleTime, $time, $event);
-        }
+        Event::reschedule($event, $newTime);
     }
 
     /**

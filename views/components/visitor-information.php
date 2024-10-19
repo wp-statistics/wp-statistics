@@ -57,10 +57,10 @@ use WP_Statistics\Decorators\VisitorDecorator;
 
                             <div>
                                 <?php
-                                    echo sprintf(
-                                        $visitor->isHashedIP() ? esc_html__('Daily Visitor Hash: %s', 'wp-statistics') : esc_html__('IP: %s', 'wp-statistics'),
-                                        $visitor->getIP()
-                                    );
+                                echo sprintf(
+                                    $visitor->isHashedIP() ? esc_html__('Daily Visitor Hash: %s', 'wp-statistics') : esc_html__('IP: %s', 'wp-statistics'),
+                                    $visitor->getIP()
+                                );
                                 ?>
                             </div>
                         </div>
@@ -75,9 +75,11 @@ use WP_Statistics\Decorators\VisitorDecorator;
                     <a href="<?php echo esc_url(Menus::admin_url('visitors', ['type' => 'single-visitor', 'visitor_id' => $visitor->getId()])) ?>">
                         <span class="wps-visitor__information__incognito-img"></span>
                     </a>
-                    <span class="wps-visitor__information__incognito-text">
+
+                    <a class="wps-visitor__information__incognito-text" href="<?php echo esc_url(Menus::admin_url('visitors', ['type' => 'single-visitor', 'visitor_id' => $visitor->getId()])) ?>">
                         <?php echo esc_html($visitor->getIP()); ?>
-                    </span>
+                    </a>
+
                 <?php else: ?>
                     <div class="wps-tooltip" title="<?php echo sprintf($visitor->isHashedIP() ? esc_html__('Daily Visitor Hash: %s', 'wp-statistics') : esc_html__('IP: %s', 'wp-statistics'), $visitor->getIP()) ?>">
                         <a href="<?php echo esc_url(Menus::admin_url('visitors', ['type' => 'single-visitor', 'visitor_id' => $visitor->getId()])) ?>"><span class="wps-visitor__information__incognito-img"></span></a>

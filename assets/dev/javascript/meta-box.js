@@ -294,7 +294,7 @@ wps_js.meta_box_footer = function (key, data) {
     }
     html += `</div><div class="c-footer__more">`;
     if (params.footer_options.display_more_link) {
-        html += `<a class="c-footer__more__link" href="` + args.page_url + `">${params.footer_options.more_link_title}<svg width="14" height="10" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="m9.61181.611328-.71269.712722 3.17148 3.17149L0 4.49951v1.00398h12.0706L8.89912 8.67495l.71269.71272L14 4.99948 9.61181.611328Z" fill="#404BF2"/></svg></a>`;
+        html += `<a class="c-footer__more__link" href="` + args.page_url + `">${params.footer_options.more_link_title}<svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10.4191 7.98577L7.73705 5.22727L8.44415 4.5L12.3333 8.50003L8.44415 12.5L7.73705 11.7727L10.4191 9.01429H4.33325V7.98577H10.4191Z" fill="#56585A"/></svg></a>`;
     }
     html += `</div></div>`;
 
@@ -549,5 +549,13 @@ jQuery(document).on("click", function (event) {
         }
     }
 });
+
+const wpsAoutWidget = document.getElementById('wp-statistics-about-widget');
+if (wpsAoutWidget) {
+    if (!wpsAoutWidget.querySelector('.js-wps-widget-customization-empty') &&
+        !wpsAoutWidget.querySelector('.wps-about-widget__premium')) {
+        wpsAoutWidget.classList.add('wp-statistics-about-widget__customize');
+    }
+}
 
 

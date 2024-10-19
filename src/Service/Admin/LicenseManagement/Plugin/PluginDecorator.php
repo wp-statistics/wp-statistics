@@ -1,44 +1,27 @@
 <?php
-
-namespace WP_Statistics\Service\Admin\LicenseManagement;
+namespace WP_Statistics\Service\Admin\LicenseManagement\Plugin;
 
 use WP_STATISTICS\Menus;
+use WP_Statistics\Service\Admin\LicenseManagement\ApiCommunicator;
+use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHandler;
 
-class ProductDecorator
+class PluginDecorator
 {
-    private $product;
-    private $licensedProduct;
+    private $plugin;
     private $pluginHandler;
+    private $apiCommunicator;
 
-    /**
-     * @param ProductDecorator|object $product
-     * @param object $licensedProduct
-     */
-    public function __construct($product = null, $licensedProduct = null)
+    public function __construct($plugin)
     {
-        if ($product instanceof ProductDecorator) {
-            $this->product = $product->getProductObject();
-        } else {
-            $this->product = $product;
-        }
-        $this->licensedProduct = $licensedProduct;
-        $this->pluginHandler   = new PluginHandler();
-    }
-
-    /**
-     * Returns the raw product object.
-     *
-     * @return object
-     */
-    public function getProductObject()
-    {
-        return $this->product;
+        $this->apiCommunicator  = new ApiCommunicator();
+        $this->pluginHandler    = new PluginHandler();
+        $this->plugin           = $plugin;
     }
 
     public function getId()
     {
-        return $this->product->id;
+        return $this->plugin->id;
     }
 
     /**
@@ -48,7 +31,7 @@ class ProductDecorator
      */
     public function getSlug()
     {
-        return $this->product->slug;
+        return $this->plugin->slug;
     }
 
     /**
@@ -58,7 +41,7 @@ class ProductDecorator
      */
     public function getName()
     {
-        return $this->product->name;
+        return $this->plugin->name;
     }
 
     /**
@@ -68,7 +51,7 @@ class ProductDecorator
      */
     public function getDescription()
     {
-        return $this->product->description;
+        return $this->plugin->description;
     }
 
     /**
@@ -78,7 +61,7 @@ class ProductDecorator
      */
     public function getShortDescription()
     {
-        return $this->product->short_description;
+        return $this->plugin->short_description;
     }
 
     /**
@@ -103,7 +86,7 @@ class ProductDecorator
      */
     public function getThumbnail()
     {
-        return $this->product->thumbnail;
+        return $this->plugin->thumbnail;
     }
 
     /**
@@ -113,7 +96,7 @@ class ProductDecorator
      */
     public function getPrice()
     {
-        return $this->product->price;
+        return $this->plugin->price;
     }
 
     /**
@@ -123,7 +106,7 @@ class ProductDecorator
      */
     public function getLabel()
     {
-        return $this->product->label;
+        return $this->plugin->label;
     }
 
     /**
@@ -146,17 +129,17 @@ class ProductDecorator
 
     public function getVersion()
     {
-        return $this->product->version;
+        return $this->plugin->version;
     }
 
     public function getChangelogUrl()
     {
-        return $this->product->changelog_url;
+        return $this->plugin->changelog_url;
     }
 
     public function getChangelog()
     {
-        return $this->product->changelog;
+        return $this->plugin->changelog;
     }
 
     /**
@@ -166,7 +149,7 @@ class ProductDecorator
      */
     public function getProductUrl()
     {
-        return $this->product->product_url;
+        return $this->plugin->product_url;
     }
 
     /**
@@ -176,7 +159,7 @@ class ProductDecorator
      */
     public function getDocumentationUrl()
     {
-        return $this->product->documentation_url;
+        return $this->plugin->documentation_url;
     }
 
     /**
@@ -186,7 +169,7 @@ class ProductDecorator
      */
     public function isLicensed()
     {
-        return !empty($this->licensedProduct);
+        return !empty($this->getLicenseKey());
     }
 
     public function getStatus()
@@ -195,16 +178,15 @@ class ProductDecorator
             return 'not_installed';
         }
 
-        if ($this->isLicensed()) {
-            if ($this->isActivated()) {
-                return 'activated';
-            } elseif ($this->isInstalled()) {
-                return 'installed';
-            } else {
-                return 'not_activated';
-            }
+        if (!$this->isLicensed()) {
+            return 'not_licensed';
         }
-        return 'not_licensed';
+
+        if (!$this->isActivated()) {
+            return 'not_activated'; // same as 'installed'
+        }
+
+        return 'activated';
     }
 
     /**
@@ -217,13 +199,15 @@ class ProductDecorator
         switch ($this->getStatus()) {
             case 'not_installed':
                 return __('Not Installed', 'wp-statistics');
-            case 'installed':
-                return __('Installed', 'wp-statistics');
+            case 'not_licensed':
+                return __('Needs License', 'wp-statistics');
+            case 'not_activated':
+                return __('Inactive', 'wp-statistics');
             case 'activated':
                 return __('Activated', 'wp-statistics');
+            default:
+                return __('Unknown', 'wp-statistics');
         }
-
-        return __('Needs License', 'wp-statistics');
     }
 
     /**
@@ -236,13 +220,13 @@ class ProductDecorator
         switch ($this->getStatus()) {
             case 'not_installed':
                 return 'disable';
-            case 'installed':
+            case 'not_activated':
                 return 'primary';
+            case 'not_licensed':
+                return 'danger';
             case 'activated':
                 return 'success';
         }
-
-        return 'danger';
     }
 
     public function isInstalled()
@@ -257,47 +241,13 @@ class ProductDecorator
 
     public function getDownloadUrl()
     {
-        return $this->licensedProduct->download_url ?? null;
+        $downloadUrl = $this->apiCommunicator->getDownloadUrlFromLicense($this->getLicenseKey(), $this->getSlug());
+        return $downloadUrl ?? null;
     }
 
-    public static function decorateProducts(array $products, bool $skipPremium = true)
+    public function getLicenseKey()
     {
-        $decorated = [];
-        foreach ($products as $product) {
-            if ($skipPremium && $product->slug == 'wp-statistics-premium') {
-                continue;
-            }
-
-            $decorated[] = new self($product);
-        }
-        return $decorated;
-    }
-
-    public static function decorateProductsWithLicense(array $products, array $licensedProducts)
-    {
-        $decorated = [];
-        foreach ($products as $product) {
-            $slug = '';
-            if ($product instanceof ProductDecorator) {
-                $slug = $product->getSlug();
-            } else {
-                $slug = $product->slug;
-            }
-
-            $licensedProduct = self::findLicensedProduct($slug, $licensedProducts);
-            $decorated[]     = new self($product, $licensedProduct);
-        }
-        return $decorated;
-    }
-
-    private static function findLicensedProduct($slug, array $licensedProducts)
-    {
-        foreach ($licensedProducts as $licensedProduct) {
-            if ($licensedProduct->slug === $slug) {
-                return $licensedProduct;
-            }
-        }
-        return null;
+        return LicenseHelper::getPluginLicense($this->getSlug());
     }
 
     /**
@@ -307,37 +257,10 @@ class ProductDecorator
      */
     public function getSettingsUrl()
     {
-        $tab = '';
-        switch ($this->getSlug()) {
-            case 'wp-statistics-data-plus':
-                $tab = 'data-plus-settings';
-                break;
-            case 'wp-statistics-realtime-stats':
-                $tab = 'realtime-stats-settings';
-                break;
-            case 'wp-statistics-customization':
-                $tab = 'customization-settings';
-                break;
-            case 'wp-statistics-advanced-reporting':
-                $tab = 'advanced-reporting-settings';
-                break;
-            case 'wp-statistics-mini-chart':
-                $tab = 'mini-chart-settings';
-                break;
-            case 'wp-statistics-rest-api':
-                $tab = 'rest-api-settings';
-                break;
-            case 'wp-statistics-widgets':
-                $tab = 'widgets-settings';
-                break;
-        }
+        $pluginName = str_replace('wp-statistics-', '', $this->getSlug());
+        $tab        = !empty($pluginName) ? "$pluginName-settings" : '';
 
-        $args = [];
-        if (!empty($tab)) {
-            $args['tab'] = $tab;
-        }
-
-        return esc_url(Menus::admin_url('settings', $args));
+        return esc_url(Menus::admin_url('settings', ['tab' => $tab]));
     }
 
     /**

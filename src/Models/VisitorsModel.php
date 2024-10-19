@@ -124,6 +124,28 @@ class VisitorsModel extends BaseModel
         return $result;
     }
 
+    public function countDailyReferrers($args = [])
+    {
+        $args = $this->parseArgs($args, [
+            'date'              => '',
+            'source_channel'    => '',
+            'source_name'       => '',
+            'referrer'          => ''
+        ]);
+
+        $result = Query::select('COUNT(visitor.ID) as visitors, last_counter as date')
+            ->from('visitor')
+            ->where('source_channel', '=', $args['source_channel'])
+            ->where('source_name', '=', $args['source_name'])
+            ->where('referred', '=', $args['referrer'])
+            ->whereDate('visitor.last_counter', $args['date'])
+            ->whereNotNull('visitor.referred')
+            ->groupBy('last_counter')
+            ->getVar();
+
+        return $result ?? [];
+    }
+
     /**
      * Returns `COUNT DISTINCT` of a column from visitors table.
      *
@@ -311,8 +333,8 @@ class VisitorsModel extends BaseModel
             'query_param' => '',
             'taxonomy'    => '',
             'term'        => '',
-            'order_by'    => '',
-            'order'       => '',
+            'order_by'    => 'visitor.ID',
+            'order'       => 'DESC',
             'page'        => '',
             'per_page'    => '',
             'page_info'   => false,
@@ -434,8 +456,8 @@ class VisitorsModel extends BaseModel
         ]);
 
         $firstHit = Query::select([
-            'visitor_id',
-            'MIN(date) as date'
+            'MIN(ID) as ID',
+            'visitor_id'
         ])
             ->from('visitor_relationships')
             ->groupBy('visitor_id')
@@ -447,7 +469,7 @@ class VisitorsModel extends BaseModel
             'date'
         ])
             ->from('visitor_relationships')
-            ->whereRaw("(visitor_id, date) IN ($firstHit)")
+            ->whereRaw("(ID, visitor_id) IN ($firstHit)")
             ->groupBy('visitor_id')
             ->getQuery();
 
@@ -570,28 +592,14 @@ class VisitorsModel extends BaseModel
     public function getVisitorData($args = [])
     {
         $args = $this->parseArgs($args, [
+            'fields'     => [],
             'visitor_id' => '',
+            'decorate'   => true,
+            'page_info'  => true,
+            'user_info'  => true
         ]);
 
-        $firstHit = Query::select([
-            'visitor_id',
-            'MIN(date) as date',
-        ])
-            ->from('visitor_relationships')
-            ->groupBy('visitor_id')
-            ->getQuery();
-
-        $subQuery = Query::select([
-            'visitor_relationships.visitor_id',
-            'page_id',
-            'date'
-        ])
-            ->from('visitor_relationships')
-            ->whereRaw("(visitor_id, date) IN ($firstHit)")
-            ->groupBy('visitor_id')
-            ->getQuery();
-
-        $result = Query::select([
+        $fields = !empty($args['fields']) && is_array($args['fields']) ? $args['fields'] : [
             'visitor.ID',
             'visitor.platform',
             'visitor.agent',
@@ -606,22 +614,61 @@ class VisitorsModel extends BaseModel
             'visitor.referred',
             'visitor.source_channel',
             'visitor.source_name',
-            'visitor.ip',
-            'users.display_name',
-            'users.user_email',
-            'users.user_login',
-            'users.user_registered',
-            'first_hit.date as first_view',
-            'first_hit.page_id as first_page'
-        ])
-            ->from('visitor')
-            ->join('users', ['visitor.user_id', 'users.ID'], [], 'LEFT')
-            ->joinQuery($subQuery, ['visitor.ID', 'first_hit.visitor_id'], 'first_hit', 'LEFT')
-            ->where('visitor.ID', '=', $args['visitor_id'])
-            ->decorate(VisitorDecorator::class)
-            ->getRow();
+            'visitor.ip'
+        ];
 
-        return $result;
+        if ($args['page_info'])  {
+            $firstHit = Query::select([
+                'MIN(ID) as ID',
+                'visitor_id'
+            ])
+                ->from('visitor_relationships')
+                ->groupBy('visitor_id')
+                ->getQuery();
+
+            $subQuery = Query::select([
+                'visitor_relationships.visitor_id',
+                'page_id',
+                'date'
+            ])
+                ->from('visitor_relationships')
+                ->whereRaw("(ID, visitor_id) IN ($firstHit)")
+                ->groupBy('visitor_id')
+                ->getQuery();
+
+            $fields[] = 'first_hit.date as first_view';
+            $fields[] = 'first_hit.page_id as first_page';
+            $fields[] = 'pages.uri as first_uri';
+        }
+
+        if ($args['user_info']) {
+            $fields[] = 'users.display_name';
+            $fields[] = 'users.user_email';
+            $fields[] = 'users.user_login';
+            $fields[] = 'users.user_registered';
+        }
+
+        $query = Query::select($fields)
+            ->from('visitor')
+            ->where('visitor.ID', '=', $args['visitor_id']);
+
+        if ($args['page_info']) {
+            $query
+                ->joinQuery($subQuery, ['visitor.ID', 'first_hit.visitor_id'], 'first_hit', 'LEFT')
+                ->join('pages', ['first_hit.page_id', 'pages.page_id'], [], 'LEFT');
+        }
+
+        if ($args['user_info']) {
+            $query
+               ->join('users', ['visitor.user_id', 'users.ID'], [], 'LEFT');
+        }
+
+        if ($args['decorate']) {
+            $query
+                ->decorate(VisitorDecorator::class);
+        }
+
+        return $query->getRow();
     }
 
     public function getVisitorJourney($args)
@@ -774,33 +821,11 @@ class VisitorsModel extends BaseModel
 
     public function getVisitorsWithIncompleteSourceChannel($args = [])
     {
-        $firstHit = Query::select([
-            'visitor_id',
-            'MIN(date) as date'
-        ])
-            ->from('visitor_relationships')
-            ->groupBy('visitor_id')
-            ->getQuery();
-
-        $subQuery = Query::select([
-            'visitor_relationships.visitor_id',
-            'page_id',
-            'date'
-        ])
-            ->from('visitor_relationships')
-            ->whereRaw("(visitor_id, date) IN ($firstHit)")
-            ->groupBy('visitor_id')
-            ->getQuery();
-
         $result = Query::select([
             'visitor.ID'
         ])
             ->from('visitor')
-            ->whereRelation('OR')
             ->whereNotNull('referred')
-            ->joinQuery($subQuery, ['visitor.ID', 'first_hit.visitor_id'], 'first_hit', 'LEFT')
-            ->join('pages', ['first_hit.page_id', 'pages.page_id'], [], 'LEFT')
-            ->groupBy('visitor.ID')
             ->getAll();
 
         return $result ? $result : [];

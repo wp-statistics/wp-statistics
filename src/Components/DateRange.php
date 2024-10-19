@@ -9,7 +9,6 @@ use WP_Statistics\Utils\Request;
 
 class DateRange
 {
-    public static $defaultFormat = 'Y-m-d';
     public static $defaultPeriod = '30days';
     const USER_DATE_RANGE_META_KEY = 'wp_statistics_user_date_filter';
 
@@ -130,8 +129,8 @@ class DateRange
         }
 
         if (!empty($range) && $excludeToday) {
-            if ($period !== 'today' && $range['to'] === date(self::$defaultFormat)) {
-                $range['to'] = date(self::$defaultFormat, strtotime('-1 day'));
+            if ($period !== 'today' && $range['to'] === date(DateTime::$defaultDateFormat)) {
+                $range['to'] = date(DateTime::$defaultDateFormat, strtotime('-1 day'));
             }
         }
 
@@ -178,8 +177,8 @@ class DateRange
             $prevFrom   = $prevTo - $daysInPeriod * 60 * 60 * 24;
 
             return [
-                'from'  => date(self::$defaultFormat, $prevFrom),
-                'to'    => date(self::$defaultFormat, $prevTo)
+                'from'  => date(DateTime::$defaultDateFormat, $prevFrom),
+                'to'    => date(DateTime::$defaultDateFormat, $prevTo)
             ];
         }
 
@@ -217,136 +216,126 @@ class DateRange
      */
     public static function getPeriods()
     {
+        $dateFormat = DateTime::$defaultDateFormat;
+
         return [
             'today'     => [
                 'period'    => [
-                    'from'  => date(self::$defaultFormat),
-                    'to'    => date(self::$defaultFormat)
+                    'from'  => date($dateFormat),
+                    'to'    => date($dateFormat)
                 ],
                 'prev_period' => [
-                    'from'  => date(self::$defaultFormat, strtotime('-1 day')),
-                    'to'    => date(self::$defaultFormat, strtotime('-1 day'))
+                    'from'  => date($dateFormat, strtotime('-1 day')),
+                    'to'    => date($dateFormat, strtotime('-1 day'))
                 ],
             ],
 
             'yesterday' => [
                 'period' => [
-                    'from'  => date(self::$defaultFormat, strtotime('-1 day')),
-                    'to'    => date(self::$defaultFormat, strtotime('-1 day')),
+                    'from'  => date($dateFormat, strtotime('-1 day')),
+                    'to'    => date($dateFormat, strtotime('-1 day')),
                 ],
                 'prev_period' => [
-                    'from'  => date(self::$defaultFormat, strtotime('-2 day')),
-                    'to'    => date(self::$defaultFormat, strtotime('-2 day')),
+                    'from'  => date($dateFormat, strtotime('-2 day')),
+                    'to'    => date($dateFormat, strtotime('-2 day')),
                 ],
             ],
 
             'this_week' => [
-                'period' => [
-                    'from' => date(self::$defaultFormat, strtotime(Helper::getStartOfWeek() . ' this week')),
-                    'to'   => date(self::$defaultFormat, strtotime('next ' . Helper::getStartOfWeek()) - 1)
-                ],
-                'prev_period' => [
-                    'from' => date(self::$defaultFormat, strtotime(Helper::getStartOfWeek() . ' last week')),
-                    'to'   => date(self::$defaultFormat, strtotime(Helper::getStartOfWeek() . ' this week') - 1)
-                ]
+                'period'        => self::calculateWeekRange(0),
+                'prev_period'   => self::calculateWeekRange(1)
             ],
 
             'last_week' => [
-                'period' => [
-                    'from' => date(self::$defaultFormat, strtotime(Helper::getStartOfWeek() . ' last week')),
-                    'to'   => date(self::$defaultFormat, strtotime(Helper::getStartOfWeek() . ' this week') - 1)
-                ],
-                'prev_period' => [
-                    'from' => date(self::$defaultFormat, strtotime(Helper::getStartOfWeek() . ' -3 weeks')),
-                    'to'   => date(self::$defaultFormat, strtotime(Helper::getStartOfWeek() . ' last week') - 1)
-                ]
+                'period'        => self::calculateWeekRange(1),
+                'prev_period'   => self::calculateWeekRange(2)
             ],
 
             'this_month' => [
                 'period' => [
-                    'from'  => date(self::$defaultFormat, strtotime('first day of this month')),
-                    'to'    => date(self::$defaultFormat, strtotime('last day of this month')),
+                    'from'  => date($dateFormat, strtotime('first day of this month')),
+                    'to'    => date($dateFormat, strtotime('last day of this month')),
                 ],
                 'prev_period' => [
-                    'from'  => date(self::$defaultFormat, strtotime('first day of last month')),
-                    'to'    => date(self::$defaultFormat, strtotime('last day of last month')),
+                    'from'  => date($dateFormat, strtotime('first day of last month')),
+                    'to'    => date($dateFormat, strtotime('last day of last month')),
                 ]
             ],
 
             'last_month' => [
                 'period' => [
-                    'from'  => date(self::$defaultFormat, strtotime('first day of -1 month')),
-                    'to'    => date(self::$defaultFormat, strtotime('last day of -1 month')),
+                    'from'  => date($dateFormat, strtotime('first day of -1 month')),
+                    'to'    => date($dateFormat, strtotime('last day of -1 month')),
                 ],
                 'prev_period' => [
-                    'from'  => date(self::$defaultFormat, strtotime('first day of -2 months')),
-                    'to'    => date(self::$defaultFormat, strtotime('last day of -2 months')),
+                    'from'  => date($dateFormat, strtotime('first day of -2 months')),
+                    'to'    => date($dateFormat, strtotime('last day of -2 months')),
                 ]
             ],
 
             '7days'     => [
                 'period' => [
-                    'from'  => date(self::$defaultFormat, strtotime('-6 days')),
-                    'to'    => date(self::$defaultFormat)
+                    'from'  => date($dateFormat, strtotime('-6 days')),
+                    'to'    => date($dateFormat)
                 ],
                 'prev_period' => [
-                    'from'  => date(self::$defaultFormat, strtotime('-13 days')),
-                    'to'    => date(self::$defaultFormat, strtotime('-7 days'))
+                    'from'  => date($dateFormat, strtotime('-13 days')),
+                    'to'    => date($dateFormat, strtotime('-7 days'))
                 ]
             ],
 
             '14days'    => [
                 'period' => [
-                    'from'  => date(self::$defaultFormat, strtotime('-13 days')),
-                    'to'    => date(self::$defaultFormat)
+                    'from'  => date($dateFormat, strtotime('-13 days')),
+                    'to'    => date($dateFormat)
                 ],
                 'prev_period' => [
-                    'from'  => date(self::$defaultFormat, strtotime('-27 days')),
-                    'to'    => date(self::$defaultFormat, strtotime('-14 days'))
+                    'from'  => date($dateFormat, strtotime('-27 days')),
+                    'to'    => date($dateFormat, strtotime('-14 days'))
                 ]
             ],
 
             '30days'    => [
                 'period' => [
-                    'from'  => date(self::$defaultFormat, strtotime('-29 days')),
-                    'to'    => date(self::$defaultFormat)
+                    'from'  => date($dateFormat, strtotime('-29 days')),
+                    'to'    => date($dateFormat)
                 ],
                 'prev_period' => [
-                    'from'  => date(self::$defaultFormat, strtotime('-59 days')),
-                    'to'    => date(self::$defaultFormat, strtotime('-30 days'))
+                    'from'  => date($dateFormat, strtotime('-59 days')),
+                    'to'    => date($dateFormat, strtotime('-30 days'))
                 ]
             ],
 
             '90days'    => [
                 'period' => [
-                    'from'  => date(self::$defaultFormat, strtotime('-89 days')),
-                    'to'    => date(self::$defaultFormat)
+                    'from'  => date($dateFormat, strtotime('-89 days')),
+                    'to'    => date($dateFormat)
                 ],
                 'prev_period' => [
-                    'from'  => date(self::$defaultFormat, strtotime('-179 days')),
-                    'to'    => date(self::$defaultFormat, strtotime('-90 days'))
+                    'from'  => date($dateFormat, strtotime('-179 days')),
+                    'to'    => date($dateFormat, strtotime('-90 days'))
                 ]
             ],
 
             '6months'  => [
                 'period' => [
-                    'from'  => date(self::$defaultFormat, strtotime('-6 months')),
-                    'to'    => date(self::$defaultFormat),
+                    'from'  => date($dateFormat, strtotime('-6 months')),
+                    'to'    => date($dateFormat),
                 ],
                 'prev_period' => [
-                    'from'  => date(self::$defaultFormat, strtotime('-12 months')),
-                    'to'    => date(self::$defaultFormat, strtotime('-6 months')),
+                    'from'  => date($dateFormat, strtotime('-12 months')),
+                    'to'    => date($dateFormat, strtotime('-6 months')),
                 ]
             ],
 
             '12months'  => [
                 'period' => [
-                    'from'  => date(self::$defaultFormat, strtotime('-12 months')),
-                    'to'    => date(self::$defaultFormat),
+                    'from'  => date($dateFormat, strtotime('-12 months')),
+                    'to'    => date($dateFormat),
                 ],
                 'prev_period' => [
-                    'from'  => date(self::$defaultFormat, strtotime('-24 months')),
-                    'to'    => date(self::$defaultFormat, strtotime('-12 months')),
+                    'from'  => date($dateFormat, strtotime('-24 months')),
+                    'to'    => date($dateFormat, strtotime('-12 months')),
                 ]
             ],
 
@@ -459,5 +448,33 @@ class DateRange
         }
 
         return false;
+    }
+
+    /**
+     * Calculates the date range for a given week, where 0 is the current week, 1 is last week, 2 is two weeks ago, etc.
+     *
+     * @param int $weeksAgo The number of weeks ago to calculate the range for.
+     * @return array An array containing 'from' and 'to' date strings representing the start and end of the week.
+     */
+    private static function calculateWeekRange($weeksAgo = 0)
+    {
+        $startOfWeek    = DateTime::getStartOfWeek('number');
+        $dateFormat     = DateTime::$defaultDateFormat;
+
+        $today = new \DateTime();
+        $today->modify("-{$weeksAgo} weeks");
+
+        // Calculate the start of the week
+        $weekStart = clone $today;
+        $weekStart->modify(($startOfWeek - $weekStart->format('w') - 7) % 7 . ' days');
+
+        // Calculate the end of the week
+        $weekEnd = clone $weekStart;
+        $weekEnd->modify('+6 days');
+
+        return [
+            'from'  => $weekStart->format($dateFormat),
+            'to'    => $weekEnd->format($dateFormat)
+        ];
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-/** @var \WP_Statistics\Service\Admin\LicenseManagement\ProductDecorator $addOn */
+/** @var WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginDecorator $addOn */
 if (!defined('ABSPATH') || empty($addOn)) {
     exit;
 }
@@ -10,13 +10,13 @@ if (!defined('ABSPATH') || empty($addOn)) {
     <div>
         <div class="wps-postbox-addon__item--info">
             <div class="wps-postbox-addon__item--info__img">
-                <a href="<?php echo esc_url($addOn->getProductUrl()); ?>" target="_blank">
+                <a href="<?php echo esc_url($addOn->getProductUrl()); ?>?utm_source=wp-statistics&utm_medium=link&utm_campaign=dp" target="_blank">
                     <img src="<?php echo esc_url($addOn->getIcon()); ?>" alt="<?php echo esc_html($addOn->getName()); ?>" />
                 </a>
             </div>
             <div class="wps-postbox-addon__item--info__text">
                 <div class="wps-postbox-addon__item--info__title">
-                    <a href="<?php echo esc_url($addOn->getProductUrl()); ?>" target="_blank">
+                    <a href="<?php echo esc_url($addOn->getProductUrl()); ?>?utm_source=wp-statistics&utm_medium=link&utm_campaign=dp" target="_blank">
                         <?php echo esc_html($addOn->getName()); ?>
                         <span class="wps-postbox-addon__version">v<?php echo esc_html($addOn->getVersion()); ?></span>
                     </a>
@@ -44,12 +44,12 @@ if (!defined('ABSPATH') || empty($addOn)) {
                     <?php if ($addOn->isActivated()) : ?>
                         <li><a href="<?php echo esc_url($addOn->getSettingsUrl()); ?>" class="wps-addon--submenu wps-addon--submenu__settings"><?php esc_html_e('Settings', 'wp-statistics'); ?></a></li>
                     <?php endif; ?>
-                    <li><a href="<?php echo esc_url($addOn->getProductUrl()); ?>" class="wps-addon--submenu" target="_blank"><?php esc_html_e('Add-On Detail', 'wp-statistics'); ?></a></li>
+                    <li><a href="<?php echo esc_url($addOn->getProductUrl()); ?>?utm_source=wp-statistics&utm_medium=link&utm_campaign=dp" class="wps-addon--submenu" target="_blank"><?php esc_html_e('Add-On Details', 'wp-statistics'); ?></a></li>
                     <?php if (!empty($addOn->getChangelogUrl())) : ?>
-                        <li><a href="<?php echo esc_url($addOn->getChangelogUrl()); ?>" class="wps-addon--submenu" target="_blank"><?php esc_html_e('Changelog', 'wp-statistics'); ?></a></li>
+                        <li><a href="<?php echo esc_url($addOn->getChangelogUrl()); ?>?utm_source=wp-statistics&utm_medium=link&utm_campaign=dp" class="wps-addon--submenu" target="_blank"><?php esc_html_e('Changelog', 'wp-statistics'); ?></a></li>
                     <?php endif; ?>
                     <?php if (!empty($addOn->getDocumentationUrl())) : ?>
-                        <li><a href="<?php echo esc_url($addOn->getDocumentationUrl()); ?>" class="wps-addon--submenu" target="_blank"><?php esc_html_e('Documentation', 'wp-statistics'); ?></a></li>
+                        <li><a href="<?php echo esc_url($addOn->getDocumentationUrl()); ?>?utm_source=wp-statistics&utm_medium=link&utm_campaign=dp" class="wps-addon--submenu" target="_blank"><?php esc_html_e('Documentation', 'wp-statistics'); ?></a></li>
                     <?php endif; ?>
                 </ul>
             </div>
@@ -57,7 +57,7 @@ if (!defined('ABSPATH') || empty($addOn)) {
     </div>
     <div class="wps-addon__item__license js-wps-addon-license">
         <div class="wps-addon__item__update_license">
-            <input type="text" placeholder="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx">
+            <input data-addon-slug="<?php echo esc_attr($addOn->getSlug()) ?>" type="text" placeholder="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" value="<?php echo esc_attr($addOn->getLicenseKey()) ?>">
             <button><?php esc_html_e('Update License', 'wp-statistics'); ?></button>
         </div>
         <?php if (isset($alert_text)) : ?>

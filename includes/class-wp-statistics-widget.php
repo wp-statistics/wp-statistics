@@ -38,7 +38,7 @@ class WP_Statistics_Widget extends \WP_Widget
 
         if ($widget_options['useronline_widget']) {
             echo '<li>';
-            echo '<label>' . __('Online Users', 'wp-statistics') . ':&nbsp;</label>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+            echo '<label>' . __('Online Visitors', 'wp-statistics') . ':&nbsp;</label>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
             echo number_format_i18n(wp_statistics_useronline()); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
             echo '</li>';
         }
@@ -261,7 +261,7 @@ class WP_Statistics_Widget extends \WP_Widget
         <ul>
             <li>
                 <input type="checkbox" id="<?php echo esc_attr($this->get_field_id('useronline_widget')); ?>" name="<?php echo esc_attr($this->get_field_name('useronline_widget')); ?>" <?php if (isset($widget_options['useronline_widget'])) checked('on', $widget_options['useronline_widget']); ?>/>
-                <label for="<?php echo esc_attr($this->get_field_id('useronline_widget')); ?>"><?php esc_html_e('Online Users', 'wp-statistics'); ?></label>
+                <label for="<?php echo esc_attr($this->get_field_id('useronline_widget')); ?>"><?php esc_html_e('Online Visitors', 'wp-statistics'); ?></label>
             </li>
             <li>
                 <input type="checkbox" id="<?php echo esc_attr($this->get_field_id('tvisit_widget')); ?>" name="<?php echo esc_attr($this->get_field_name('tvisit_widget')); ?>" <?php if (isset($widget_options['tvisit_widget'])) checked('on', $widget_options['tvisit_widget']); ?>/>

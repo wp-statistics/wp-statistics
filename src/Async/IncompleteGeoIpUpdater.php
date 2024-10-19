@@ -40,7 +40,12 @@ class IncompleteGeoIpUpdater extends WP_Background_Process
 
         foreach ($visitors as $visitorId) {
             /** @var VisitorDecorator $visitor */
-            $visitor    = $visitorModel->getVisitorData(['visitor_id' => $visitorId]);
+            $visitor    = $visitorModel->getVisitorData([
+                'visitor_id' => $visitorId,
+                'user_info'  => false,
+                'page_info'  => false,
+                'fields'     => ['visitor.ip']
+            ]);
 
             $location   = GeolocationFactory::getLocation($visitor->getIP());
 
