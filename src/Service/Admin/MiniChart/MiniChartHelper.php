@@ -18,7 +18,7 @@ class MiniChartHelper
     /**
      * Chart Metric
      *
-     * @var string Either `visitors` or `views`. Default: `visitors`.
+     * @var string Either `visitors` or `views`.
      */
     private $metric = 'views';
 
