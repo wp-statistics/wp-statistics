@@ -25,7 +25,7 @@ class log_page extends Singleton
     public function __destruct()
     {
         // Save overview page initial load in the database
-        Option::saveOptionGroup('overview', true, 'wp_statistics_initial_load');
+        Option::saveOptionGroup('overview', true, 'wp_statistics_page_initialized');
     }
 
     /**
@@ -53,7 +53,7 @@ class log_page extends Singleton
         $args['title'] =  __('Overview', 'wp-statistics');
 
         // Show welcome modal on first load
-        if (!Option::getOptionGroup('wp_statistics_initial_load', 'overview')) {
+        if (!Option::getOptionGroup('wp_statistics_page_initialized', 'overview')) {
             View::load("components/premium-pop-up/welcome-modal");
         }
 
