@@ -2,6 +2,7 @@
 
 namespace WP_STATISTICS;
 use WP_Statistics\Components\Singleton;
+use WP_Statistics\Components\View;
 use WP_Statistics\Utils\Request;
 
 class log_page extends Singleton
@@ -19,6 +20,12 @@ class log_page extends Singleton
         add_filter('default_hidden_meta_boxes', array($this, 'default_hidden_meta_boxes'), 10, 2);
 
         $this->handleDismissWidgets();
+    }
+
+    public function __destruct()
+    {
+        // Save overview page initial load in the database
+        Option::saveOptionGroup('overview', true, 'wp_statistics_initial_load');
     }
 
     /**
@@ -44,6 +51,12 @@ class log_page extends Singleton
         $args['tooltip'] = __('Quickly view your website’s traffic and visitor analytics.', 'wp-statistics');
         $args['real_time_button'] = true;
         $args['title'] =  __('Overview', 'wp-statistics');
+
+        // Show welcome modal on first load
+        if (!Option::getOptionGroup('wp_statistics_initial_load', 'overview')) {
+            View::load("components/premium-pop-up/welcome-modal");
+        }
+
         Admin_Template::get_template(array('layout/header', 'layout/title', 'pages/overview', 'layout/footer'), $args);
     }
 
