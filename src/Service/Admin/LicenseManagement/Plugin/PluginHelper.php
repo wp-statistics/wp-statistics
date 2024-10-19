@@ -2,6 +2,7 @@
 
 namespace WP_Statistics\Service\Admin\LicenseManagement\Plugin;
 
+use Exception;
 use WP_Statistics\Service\Admin\LicenseManagement\ApiCommunicator;
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 
@@ -60,16 +61,20 @@ class PluginHelper
         $result  = [];
         $plugins = [];
 
-        if ($licenseKey) {
-            $licenseStatus  = $apiCommunicator->validateLicense($licenseKey);
-            $plugins        = $licenseStatus->products;
-        } else {
-            $licenses = LicenseHelper::getLicenses();
+        try {
+            if ($licenseKey) {
+                $licenseStatus  = $apiCommunicator->validateLicense($licenseKey);
+                $plugins        = $licenseStatus->products;
+            } else {
+                $licenses = LicenseHelper::getLicenses();
 
-            foreach ($licenses as $license => $data) {
-                $licenseStatus  = $apiCommunicator->validateLicense($license);
-                $plugins        = array_merge($plugins, $licenseStatus->products);
+                foreach ($licenses as $license => $data) {
+                    $licenseStatus  = $apiCommunicator->validateLicense($license);
+                    $plugins        = array_merge($plugins, $licenseStatus->products);
+                }
             }
+        } catch (Exception $e) {
+            $plugins = [];
         }
 
         if (empty($plugins)) return [];
