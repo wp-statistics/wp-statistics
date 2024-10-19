@@ -64,7 +64,7 @@ class TabsView extends BaseTabView
         }
 
         // If license key has not been found, prevent accessing certain tabs
-        if (in_array($currentTab, ['downloads', 'get-started']) && !LicenseHelper::isLicenseAvailable()) {
+        if (in_array($currentTab, ['downloads', 'get-started']) && !Request::has('license_key')) {
             return 'add-license';
         }
 
@@ -143,8 +143,6 @@ class TabsView extends BaseTabView
 
                 Admin_Template::get_template(['layout/header', 'layout/title'], $args);
             } else {
-                $args['stored_licenses'] = LicenseHelper::getLicenses();
-
                 Admin_Template::get_template(['layout/header', 'layout/addon-header-steps'], $args);
             }
 

@@ -4,7 +4,6 @@
             <?php
             $stepBadge       = 1;
             $foundCurrent    = false;
-            $disableNextTabs = empty($stored_licenses);
 
             // Add "completed" class to all tabs until "current" class is found
             // And add "disabled" class to next tabs if the user has no licenses
@@ -14,14 +13,8 @@
                 if ($key !== 0) {
                     $stepClass = esc_attr($step['class']);
                     if ($foundCurrent) {
-                        // Current tab was already found, don't change the CSS classes
-                        $stepClass = $stepClass;
-
-                        // But disable all tabs after the current tab if the user has no saved licenses
-                        if ($disableNextTabs) {
-                            $stepClass   .= ' disabled';
-                            $step['link'] = '#';
-                        }
+                        $stepClass   .= ' disabled';
+                        $step['link'] = '#';
                     } else if (stripos($stepClass, 'current') !== false) {
                         // Current tab found, don't change the CSS class
                         $foundCurrent = true;
