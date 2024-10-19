@@ -1,6 +1,7 @@
 <?php
 
 use WP_Statistics\Components\View;
+use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHelper;
 
 ?>
 <div class="wps-premium-step">
@@ -74,13 +75,13 @@ use WP_Statistics\Components\View;
         <div class="wps-premium-step__sidebar">
             <p><?php esc_html_e('WP Statistics Premium Include:', 'wp-statistics'); ?></p>
             <ul class="wps-premium-step__features-list">
-                <li class="wps-premium-step__feature js-wps-premiumStepFeature" data-modal="wp-statistics-data-plus"><?php esc_html_e('Data Plus', 'wp-statistics'); ?></li>
-                <li class="wps-premium-step__feature js-wps-premiumStepFeature" data-modal="wp-statistics-mini-chart"><?php esc_html_e('Mini Chart', 'wp-statistics'); ?></li>
-                <li class="wps-premium-step__feature js-wps-premiumStepFeature" data-modal="wp-statistics-advanced-reporting"><?php esc_html_e('Advanced Reporting', 'wp-statistics'); ?></li>
-                <li class="wps-premium-step__feature js-wps-premiumStepFeature" data-modal="wp-statistics-real-time"><?php esc_html_e('Real-Time Stats', 'wp-statistics'); ?></li>
-                <li class="wps-premium-step__feature js-wps-premiumStepFeature" data-modal="wp-statistics-widgets"><?php esc_html_e('Widgets', 'wp-statistics'); ?></li>
-                <li class="wps-premium-step__feature js-wps-premiumStepFeature" data-modal="wp-statistics-customization"><?php esc_html_e('Customization', 'wp-statistics'); ?></li>
-                <li class="wps-premium-step__feature js-wps-premiumStepFeature" data-modal="wp-statistics-rest-api"><?php esc_html_e('REST API', 'wp-statistics'); ?></li>
+                <li class="<?php echo PluginHelper::isPluginPurchased('wp-statistics-data-plus') ? 'activated' : '' ?> wps-premium-step__feature js-wps-premiumStepFeature" data-modal="wp-statistics-data-plus"><?php esc_html_e('Data Plus', 'wp-statistics'); ?></li>
+                <li class="<?php echo PluginHelper::isPluginPurchased('wp-statistics-mini-chart') ? 'activated' : '' ?> wps-premium-step__feature js-wps-premiumStepFeature" data-modal="wp-statistics-mini-chart"><?php esc_html_e('Mini Chart', 'wp-statistics'); ?></li>
+                <li class="<?php echo PluginHelper::isPluginPurchased('wp-statistics-advanced-reporting') ? 'activated' : '' ?> wps-premium-step__feature js-wps-premiumStepFeature" data-modal="wp-statistics-advanced-reporting"><?php esc_html_e('Advanced Reporting', 'wp-statistics'); ?></li>
+                <li class="<?php echo PluginHelper::isPluginPurchased('wp-statistics-realtime-stats') ? 'activated' : '' ?> wps-premium-step__feature js-wps-premiumStepFeature" data-modal="wp-statistics-real-time"><?php esc_html_e('Real-Time Stats', 'wp-statistics'); ?></li>
+                <li class="<?php echo PluginHelper::isPluginPurchased('wp-statistics-widgets') ? 'activated' : '' ?> wps-premium-step__feature js-wps-premiumStepFeature" data-modal="wp-statistics-widgets"><?php esc_html_e('Widgets', 'wp-statistics'); ?></li>
+                <li class="<?php echo PluginHelper::isPluginPurchased('wp-statistics-customization') ? 'activated' : '' ?> wps-premium-step__feature js-wps-premiumStepFeature" data-modal="wp-statistics-customization"><?php esc_html_e('Customization', 'wp-statistics'); ?></li>
+                <li class="<?php echo PluginHelper::isPluginPurchased('wp-statistics-rest-api') ? 'activated' : '' ?> wps-premium-step__feature js-wps-premiumStepFeature" data-modal="wp-statistics-rest-api"><?php esc_html_e('REST API', 'wp-statistics'); ?></li>
             </ul>
             <div class="wps-premium-step__actions">
                 <a target="_blank" class="wps-premium-step__action-btn wps-premium-step__action-btn--upgrade js-wps-premiumModalUpgradeBtn"><?php esc_html_e('Upgrade Now', 'wp-statistics'); ?></a>
