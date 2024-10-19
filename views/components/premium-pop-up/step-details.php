@@ -1,6 +1,7 @@
 <?php
 
 use WP_Statistics\Components\View;
+use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHelper;
 
 ?>
@@ -84,7 +85,14 @@ use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHelper;
                 <li class="<?php echo PluginHelper::isPluginPurchased('wp-statistics-rest-api') ? 'activated' : '' ?> wps-premium-step__feature js-wps-premiumStepFeature" data-modal="wp-statistics-rest-api"><?php esc_html_e('REST API', 'wp-statistics'); ?></li>
             </ul>
             <div class="wps-premium-step__actions">
-                <a target="_blank" class="wps-premium-step__action-btn wps-premium-step__action-btn--upgrade js-wps-premiumModalUpgradeBtn"><?php esc_html_e('Upgrade Now', 'wp-statistics'); ?></a>
+                <?php if (LicenseHelper::isPremiumLicenseAvailable()) : ?>
+                    <a target="_blank" class="wps-premium-step__action-btn wps-premium-step__action-btn--upgrade js-wps-premiumModalUpgradeBtn"><?php esc_html_e('Premium Activated', 'wp-statistics'); ?></a>
+                <?php elseif (LicenseHelper::isLicenseAvailable() && !LicenseHelper::isPremiumLicenseAvailable()) : ?>
+                    <a target="_blank" class="wps-premium-step__action-btn wps-premium-step__action-btn--upgrade js-wps-premiumModalUpgradeBtn"><?php esc_html_e('Upgrade to Premium', 'wp-statistics'); ?></a>
+                <?php else : ?>
+                    <a target="_blank" class="wps-premium-step__action-btn wps-premium-step__action-btn--upgrade js-wps-premiumModalUpgradeBtn"><?php esc_html_e('Upgrade Now', 'wp-statistics'); ?></a>
+                <?php endif; ?>
+
                 <a class="wps-premium-step__action-btn wps-premium-step__action-btn--later js-wps-premiumModalClose"><?php esc_html_e('Maybe Later', 'wp-statistics'); ?></a>
             </div>
         </div>
