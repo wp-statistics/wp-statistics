@@ -18,6 +18,14 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         };
         params = Object.assign(params, wps_js.global.request_params);
 
+        if(params.page==='plugins' && params?.tab==='downloads'){
+            if (addon_items.length === 0) {
+                addon_download_btn.textContent= wps_js._('continue_to_next_step');
+                addon_download_btn.classList.add('disabled');
+                addon_download_btn.href='admin.php?page=wps_plugins_page&tab=get-started';
+            }
+        }
+
         // Get data
         const wps_fetch = (params = params) => {
             jQuery.ajax({
@@ -253,9 +261,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                             if (active_input && active_button) {
                                 function toggleButtonState() {
                                     active_input.classList.remove('wps-danger', 'wps-warning');
-
                                     toggleAlertBox(active_button);
-
                                     if (active_input.value.trim() === '') {
                                         active_button.classList.add('disabled');
                                         active_button.disabled = true;
@@ -414,9 +420,26 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                     if (data.success) {
                         if (button) button.classList.add('disabled');
                         if (params.action === "wp_statistics_check_license") {
-                            button.classList.add('redirecting');
-                            button.textContent = wps_js._('redirecting');
-                            window.location.href = 'admin.php?page=wps_plugins_page&tab=downloads';
+                            if(wps_js.global.request_params?.tab){
+                                button.classList.add('redirecting');
+                                button.textContent = wps_js._('redirecting');
+                                window.location.href = `admin.php?page=wps_plugins_page&tab=downloads&license_key=${params.license_key}`;
+                            }else{
+                                toggleAlertBox(button);
+                                const alertDiv = document.createElement('div');
+                                alertDiv.classList.add('wps-alert', 'wps-alert--success');
+                                alertDiv.innerHTML = `
+                                <span class="icon"></span>
+                                <div>
+                                    <p>${data?.data?.message}</p>
+                                </div>
+                                `;
+                                let activeLicenseDiv = button.parentElement;
+                                if (activeLicenseDiv) {
+                                    activeLicenseDiv.parentNode.insertBefore(alertDiv, activeLicenseDiv.nextSibling);
+                                }
+                            }
+
                         }
                         if (params.action === "wp_statistics_download_plugin") {
                             const current_plugin_checkbox = document.querySelector(`[data-slug="${params.plugin_slug}"]`);
