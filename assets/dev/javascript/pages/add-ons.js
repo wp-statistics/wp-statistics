@@ -21,7 +21,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         if(params.page==='plugins' && params?.tab==='downloads'){
             if (addon_items.length === 0) {
                 addon_download_btn.textContent= wps_js._('continue_to_next_step');
-                addon_download_btn.classList.add('disabled');
+                addon_download_btn.classList.remove('disabled');
                 addon_download_btn.href='admin.php?page=wps_plugins_page&tab=get-started';
             }
         }
