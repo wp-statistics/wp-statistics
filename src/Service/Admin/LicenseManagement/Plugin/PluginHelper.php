@@ -56,7 +56,6 @@ class PluginHelper
     public static function getPurchasedPlugins($licenseKey = false)
     {
         $apiCommunicator    = new ApiCommunicator();
-        $licenses           = LicenseHelper::getLicenses();
 
         $result  = [];
         $plugins = [];
@@ -65,18 +64,31 @@ class PluginHelper
             $licenseStatus  = $apiCommunicator->validateLicense($licenseKey);
             $plugins        = $licenseStatus->products;
         } else {
+            $licenses = LicenseHelper::getLicenses();
+
             foreach ($licenses as $license => $data) {
                 $licenseStatus  = $apiCommunicator->validateLicense($license);
                 $plugins        = array_merge($plugins, $licenseStatus->products);
             }
         }
 
-        if (empty($purchasedPlugins)) return [];
+        if (empty($plugins)) return [];
 
-        foreach ($purchasedPlugins as $plugin) {
-            $result[] = self::getPluginBySlug($plugin);
+        foreach ($plugins as $plugin) {
+            $result[$plugin->slug] = self::getPluginBySlug($plugin->slug);
         }
 
         return $result;
+    }
+
+    public static function isPluginPurchased($slug)
+    {
+        $purchasedPlugins = self::getPurchasedPlugins();
+
+        foreach ($purchasedPlugins as $plugin) {
+            if ($plugin->getSlug() === $slug) return true;
+        }
+
+        return false;
     }
 }
