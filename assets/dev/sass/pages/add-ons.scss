@@ -968,16 +968,35 @@
       transition: all .3s ease-in-out;
       background: transparent;
       cursor: pointer;
+      user-select: none;
+
+      &:focus{
+        background: #DDDFFB;
+        color: #404BF2;
+        border: 1px solid #404BF2;
+       }
 
       &:hover {
         border: 1px solid #404BF2;
         background: #ECEDFE;
         color: #404BF2;
+
+        &.active {
+          background: #252FC8;
+          border: 1px solid #252FC8;
+          color: #fff;
+        }
       }
 
       &.active {
         background: #404BF2;
+        border: 1px solid #404BF2;
         color: #fff;
+
+        &:focus{
+          background: #1B24AD;
+          border: 1px solid #1B24AD;
+        }
       }
     }
   }
