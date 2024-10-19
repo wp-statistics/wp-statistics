@@ -1,3 +1,12 @@
+= 14.10.3 - **.10.2024 =
+- **Fix**: Enhanced the Excluded URLs functionality to support wildcards (*) for more flexible exclusions.
+- **Fix**: Fixed missing PostsManager issue causing access problems, resolved by optimizing autoload.
+- **Enhancement**: Updated `moment.js` to v2.30.1.
+- **Enhancement**: Set "views" as the default metric for mini charts in post list columns.
+- **Enhancement**: Ensured compatibility with WordPress v6.7.
+- **Dev**: Added the filter `wp_statistics_mini_chart_metric` to allow changes to the default chart metric.
+- **Dev**: Added Introduced the filter `wp_statistics_enable_htaccess_protection` to control the creation of `.htaccess` files in the `uploads/wp-statistics` folder.
+
 = 14.10.2 - 02.10.2024 =
 - **Enhancement**: Encoded referral data in requests using Base64 to improve security.
 - **Enhancement**: Enhanced the “Performance at a Glance” section in email reports for better user experience.
