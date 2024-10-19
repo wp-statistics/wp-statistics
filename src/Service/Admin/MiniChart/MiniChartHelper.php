@@ -45,10 +45,10 @@ class MiniChartHelper
     public function getChartMetric()
     {
         if (!$this->isMiniChartActive()) {
-            return 'visitors';
+            return 'views';
         }
 
-        return Option::getByAddon('metric', 'mini_chart', 'visitors');
+        return Option::getByAddon('metric', 'mini_chart', 'views');
     }
 
     /**
