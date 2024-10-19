@@ -396,8 +396,7 @@ class HitColumnHandler
     {
         return sprintf(
             '<div class="wps-admin-column__unlock"><a href="%s" target="_blank"><span class="wps-admin-column__unlock__text">%s</span>
-                <span class="wps-admin-column__unlock__lock"></span>
-                <span class="wps-admin-column__unlock__img"></span></a></div>',
+                 <span class="wps-admin-column__unlock__img"></span></a></div>',
             'https://wp-statistics.com/product/wp-statistics-mini-chart?utm_source=wp-statistics&utm_medium=link&utm_campaign=mini-chart',
             __('Unlock', 'wp-statistics')
         );
