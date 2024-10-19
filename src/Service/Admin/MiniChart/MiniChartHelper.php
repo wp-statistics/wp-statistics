@@ -20,7 +20,7 @@ class MiniChartHelper
      *
      * @var string Either `visitors` or `views`. Default: `visitors`.
      */
-    private $metric = 'visitors';
+    private $metric = 'views';
 
     /**
      * An array of simple `Y-m-d` dates from `date_range` days ago to today.
@@ -54,7 +54,7 @@ class MiniChartHelper
         $metric = $this->metric;
 
         if ($this->isMiniChartActive()) {
-            $metric = Option::getByAddon('metric', 'mini_chart', 'visitors');
+            $metric = Option::getByAddon('metric', 'mini_chart', 'views');
         }
 
         return apply_filters('wp_statistics_mini_chart_metric', $metric);
