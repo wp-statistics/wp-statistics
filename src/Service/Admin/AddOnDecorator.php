@@ -165,7 +165,7 @@ class AddOnDecorator
                 'plugin-name' => $this->getSlug(),
                 'license_key' => $this->getLicense(),
                 'website'     => get_bloginfo('url'),
-            ], WP_STATISTICS_SITE . '/wp-json/plugins/v1/validate');
+            ], WP_STATISTICS_SITE_URL . '/wp-json/plugins/v1/validate');
 
             $response = wp_remote_get($args, [
                 'timeout' => 35,
