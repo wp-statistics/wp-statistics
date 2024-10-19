@@ -18,7 +18,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         };
         params = Object.assign(params, wps_js.global.request_params);
 
-        if(params.page==='plugins' && params?.tab==='downloads'){
+        if(params.page==='plugins' && params?.tab==='downloads' && addon_download_btn){
             if (addon_items.length === 0) {
                 addon_download_btn.textContent= wps_js._('continue_to_next_step');
                 addon_download_btn.classList.remove('disabled');
