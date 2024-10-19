@@ -54,7 +54,7 @@ class MiniChartHelper
         $metric = $this->metric;
 
         if ($this->isMiniChartActive()) {
-            $metric = Option::getByAddon('metric', 'mini_chart', 'visitors');
+            $metric = Option::getByAddon('metric', 'mini_chart', 'views');
         }
 
         return apply_filters('wp_statistics_mini_chart_metric', $metric);
