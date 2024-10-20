@@ -137,13 +137,13 @@ Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest versio
 
 == Changelog ==
 = 14.10.3 - **.10.2024 =
-- **Fix**: Enhanced the Excluded URLs functionality to support wildcards (*) for more flexible exclusions.
-- **Fix**: Fixed missing PostsManager issue causing access problems, resolved by optimizing autoload.
-- **Enhancement**: Updated `moment.js` to v2.30.1.
-- **Enhancement**: Set "views" as the default metric for mini charts in post list columns.
-- **Enhancement**: Ensured compatibility with WordPress v6.7.
-- **Dev**: Added the filter `wp_statistics_mini_chart_metric` to allow changes to the default chart metric.
-- **Dev**: Added Introduced the filter `wp_statistics_enable_htaccess_protection` to control the creation of `.htaccess` files in the `uploads/wp-statistics` folder.
+- **Enhancement**: Updated `moment.js` to version 2.30.1.
+- **Enhancement**: Set “views” as the default metric for mini charts in post list columns.
+- **Enhancement**: Ensured full compatibility with WordPress version 6.7.
+- **Dev**: Added the filter `wp_statistics_mini_chart_metric` to allow changing the default chart metric for mini charts.
+- **Dev**: Added the filter `wp_statistics_enable_htaccess_protection` to control the creation of `.htaccess` files in the `uploads/wp-statistics` folder.
+- **Fix**: Improved the Excluded URLs feature to better support wildcards (*) for more flexible exclusions.
+- **Fix**: Resolved missing PostsManager issue by optimizing autoloading, fixing access problems.
 
 For more information about the major update, please [visit our blog post](https://wp-statistics.com/?p=16657) or follow [@wp_statistics](https://twitter.com/wp_statistics) on Twitter
 
