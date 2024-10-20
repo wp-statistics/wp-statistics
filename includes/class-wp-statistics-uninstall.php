@@ -45,7 +45,6 @@ class Uninstall
         delete_option('wp_statistics_daily_salt');
         delete_option('wp_statistics_dismissed_notices');
         delete_option('wp_statistics_dismissed_widgets');
-        delete_option('wp_statistics_page_initialized');
         delete_option('wp_statistics_jobs');
 
         // Delete the transients.

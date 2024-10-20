@@ -22,12 +22,6 @@ class log_page extends Singleton
         $this->handleDismissWidgets();
     }
 
-    public function __destruct()
-    {
-        // Save overview page initial load in the database
-        Option::saveOptionGroup('overview', true, 'wp_statistics_page_initialized');
-    }
-
     /**
      * Define Meta Box
      */

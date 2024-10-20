@@ -1,14 +1,16 @@
 <?php
 namespace WP_STATISTICS;
 use WP_Statistics\Components\View;
+
+$isModalDisplayed = User::getMeta('wp_statistics_welcome_modal_displayed', true);
 ?>
 
-<?php if (!Option::getOptionGroup('wp_statistics_page_initialized', 'overview')) : ?>
+<?php if (!$isModalDisplayed) : ?>
     <div class="wps-modal wps-modal--premium js-wps-premiumModal"  style="display: block">
     <?php else: ?>
     <div class="wps-modal wps-modal--premium js-wps-premiumModal">
 <?php endif; ?>
-    <?php if (!Option::getOptionGroup('wp_statistics_page_initialized', 'overview')) : ?>
+    <?php if (!$isModalDisplayed) : ?>
     <div class="wps-modal__content wps-modal__content--welcome js-wps-premiumModalWelcomeContent">
         <span class="wps-modal__welcome-image"></span>
         <div class="wps-modal__welcome-description">
@@ -26,3 +28,4 @@ use WP_Statistics\Components\View;
     </div>
 </div>
 
+<?php do_action('wp_statistics_after_welcome_modal'); ?>
