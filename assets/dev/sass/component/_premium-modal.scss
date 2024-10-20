@@ -323,6 +323,10 @@
               height: 16px;
               background: url(data:image/svg+xml;base64,Cjxzdmcgd2lkdGg9IjE3IiBoZWlnaHQ9IjE2IiB2aWV3Qm94PSIwIDAgMTcgMTYiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik05LjI4MTMgOC4wMDA0N0w1Ljk4MTQ1IDQuNzAwNjJMNi45MjQyNiAzLjc1NzgxTDExLjE2NjkgOC4wMDA0N0w2LjkyNDI2IDEyLjI0MzFMNS45ODE0NSAxMS4zMDAzTDkuMjgxMyA4LjAwMDQ3WiIgZmlsbD0id2hpdGUiLz4KPC9zdmc+Cg==);
               display: inline-block;
+
+              .rtl &{
+                transform: rotate(180deg);
+              }
             }
 
             &:hover {
