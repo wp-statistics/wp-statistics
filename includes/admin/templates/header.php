@@ -4,9 +4,12 @@ use WP_STATISTICS\Admin_Template;
 use WP_STATISTICS\Menus;
 use WP_STATISTICS\Option;
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
+use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHelper;
 use WP_Statistics\Service\Admin\PrivacyAudit\PrivacyAuditDataProvider;
 
-$isPremium = LicenseHelper::isPremiumLicenseAvailable() ? true : false;
+$isPremium          = LicenseHelper::isPremiumLicenseAvailable() ? true : false;
+$purchasedPlugins   = count(PluginHelper::getPurchasedPlugins());
+$allPlugins         = count(PluginHelper::getPlugins());
 ?>
 
 <div class="wps-adminHeader <?php echo $isPremium ? 'wps-adminHeader__premium' : '' ?>">
@@ -52,19 +55,20 @@ $isPremium = LicenseHelper::isPremiumLicenseAvailable() ? true : false;
         ?>
     </div>
     <div class="wps-adminHeader__side">
-        <?php if (!$isPremium && apply_filters('wp_statistics_enable_upgrade_to_bundle', true)) { ?>
-            <!--TODO: Dynamic content of this section-->
+        <?php if (!$isPremium && apply_filters('wp_statistics_enable_upgrade_to_bundle', true)) : ?>
             <a href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/product/add-ons-bundle?utm_source=wp-statistics&utm_medium=link&utm_campaign=header'); ?>" target="_blank" class="wps-license-status wps-license-status--free">
                 <?php esc_html_e('Upgrade To Premium', 'wp-statistics'); ?>
             </a>
-<!--            <a href="" class="wps-license-status wps-license-status--valid">-->
-<!--                <span>--><?php //esc_html_e('License:', 'wp-statistics')?><!-- 1/6</span> <span>--><?php //esc_html_e('Upgrade', 'wp-statistics'); ?><!--</span>-->
-<!--            </a>-->
-        <?php } ?>
+
+           <a href="" class="wps-license-status wps-license-status--valid">
+                <span><?php esc_html_e(sprintf('License: %s/%s', $purchasedPlugins, $allPlugins), 'wp-statistics')?></span> <span><?php esc_html_e('Upgrade', 'wp-statistics'); ?></span>
+            </a>
+        <?php endif; ?>
+
         <?php if (Option::get('privacy_audit')) : ?>
             <?php
-            $privacyAuditData   = new PrivacyAuditDataProvider();
-            $privacyAuditStatus = $privacyAuditData->getComplianceStatus();
+                $privacyAuditData   = new PrivacyAuditDataProvider();
+                $privacyAuditStatus = $privacyAuditData->getComplianceStatus();
             ?>
             <a href="<?php echo esc_url(Menus::admin_url('privacy-audit')); ?>" title="<?php esc_html_e('Privacy Audit', 'wp-statistics'); ?>" class="privacy <?php echo $privacyAuditStatus['percentage_ready'] != 100 ? 'warning' : ''; ?> <?php echo Menus::in_page('privacy-audit') ? 'active' : ''; ?>"></a>
         <?php endif; ?>
@@ -107,17 +111,16 @@ $isPremium = LicenseHelper::isPremiumLicenseAvailable() ? true : false;
                         <?php esc_html_e('Help Center', 'wp-statistics'); ?>
                     </a>
                 <?php } ?>
-                <?php if (!$isPremium && apply_filters('wp_statistics_enable_upgrade_to_bundle', true)) { ?>
+                <?php if (!$isPremium && apply_filters('wp_statistics_enable_upgrade_to_bundle', true)) : ?>
                     <div class="wps-bundle">
-                        <!--TODO: Dynamic content of this section-->
                         <a href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/product/add-ons-bundle?utm_source=wp-statistics&utm_medium=link&utm_campaign=header'); ?>" target="_blank" class="wps-license-status wps-license-status--free">
                             <?php esc_html_e('Upgrade To Premium', 'wp-statistics'); ?>
                         </a>
-<!--                        <a href="" class="wps-license-status wps-license-status--valid">-->
-<!--                            <span>--><?php //esc_html_e('License:', 'wp-statistics')?><!-- 1/6</span> <span>--><?php //esc_html_e('Upgrade', 'wp-statistics'); ?><!--</span>-->
-<!--                        </a>-->
+                       <a href="" class="wps-license-status wps-license-status--valid">
+                            <span><?php esc_html_e(sprintf('License: %s/%s', $purchasedPlugins, $allPlugins), 'wp-statistics')?></span> <span><?php esc_html_e('Upgrade', 'wp-statistics'); ?></span>
+                        </a>
                     </div>
-                <?php } ?>
+                <?php endif; ?>
             </div>
         </div>
     </div>

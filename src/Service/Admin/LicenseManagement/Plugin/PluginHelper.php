@@ -71,9 +71,9 @@ class PluginHelper
             }
         }
 
-        if (empty($purchasedPlugins)) return [];
+        if (empty($plugins)) return [];
 
-        foreach ($purchasedPlugins as $plugin) {
+        foreach ($plugins as $plugin) {
             $result[] = self::getPluginBySlug($plugin);
         }
 
