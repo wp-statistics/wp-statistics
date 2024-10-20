@@ -2,6 +2,7 @@
 
 namespace WP_Statistics\Service\Admin\LicenseManagement\Plugin;
 
+use Exception;
 use WP_Statistics\Service\Admin\LicenseManagement\ApiCommunicator;
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 
@@ -14,10 +15,15 @@ class PluginHelper
      */
     public static function getPlugins()
     {
-        $apiCommunicator = new ApiCommunicator();
+        $result = [];
 
-        $result     = [];
-        $products   = $apiCommunicator->getProducts();
+        try {
+            $apiCommunicator    = new ApiCommunicator();
+            $products           = $apiCommunicator->getProducts();
+        } catch (Exception $e) {
+            WP_Statistics()->log($e->getMessage(), 'error');
+            $products = [];
+        }
 
         foreach ($products as $product) {
             if (isset($product->sku) && $product->sku === 'premium') continue;
