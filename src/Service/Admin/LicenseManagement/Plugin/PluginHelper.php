@@ -74,6 +74,7 @@ class PluginHelper
                 }
             }
         } catch (Exception $e) {
+            WP_Statistics()->log($e->getMessage(), 'error');
             $plugins = [];
         }
 
