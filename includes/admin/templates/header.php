@@ -3,13 +3,10 @@
 use WP_STATISTICS\Admin_Template;
 use WP_STATISTICS\Menus;
 use WP_STATISTICS\Option;
-use WP_STATISTICS\UserOnline;
+use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 use WP_Statistics\Service\Admin\PrivacyAudit\PrivacyAuditDataProvider;
-use WP_Statistics\Service\Admin\LicenseManagement\ApiCommunicator;
 
-$apiCommunicator = new ApiCommunicator();
-$isPremium       = $apiCommunicator->userHasPremiumLicense() ? true : false;
-
+$isPremium = LicenseHelper::isPremiumLicenseAvailable() ? true : false;
 ?>
 
 <div class="wps-adminHeader <?php echo $isPremium ? 'wps-adminHeader__premium' : '' ?>">
