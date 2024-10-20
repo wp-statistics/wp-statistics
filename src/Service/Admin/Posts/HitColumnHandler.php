@@ -279,7 +279,6 @@ class HitColumnHandler
         }
 
         $hitArgs = [
-            'resource_id'   => $objectId,
             'resource_type' => Pages::checkIfPageIsHome($objectId) ? 'home' : $this->getCache('postType'),
             'date'          => [
                 'from' => date('Y-m-d', 0),
@@ -305,10 +304,10 @@ class HitColumnHandler
         $hitCount = 0;
         if ($this->miniChartHelper->getChartMetric() === 'visitors') {
             $visitorsModel = new VisitorsModel();
-            $hitCount      = $visitorsModel->countVisitors($hitArgs);
+            $hitCount      = $visitorsModel->countVisitors(array_merge($hitArgs, ['resource_id' => $objectId]));
         } else {
             $viewsModel = new ViewsModel();
-            $hitCount   = $viewsModel->countViewsFromPagesOnly($hitArgs);
+            $hitCount   = $viewsModel->countViewsFromPagesOnly(array_merge($hitArgs, ['post_id' => $objectId]));
 
             // Consider historical if `count_display` is equal to 'total'
             if ($this->miniChartHelper->getCountDisplay() === 'total') {
