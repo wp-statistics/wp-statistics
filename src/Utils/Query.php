@@ -418,7 +418,7 @@ class Query
                 }
             }
 
-            $this->joinClauses[] = $joinClause;
+            $this->joinClauses[$joinTable] = $joinClause;
         } else {
             throw new InvalidArgumentException(esc_html__('Invalid join clause', 'wp-statistics'));
         }
