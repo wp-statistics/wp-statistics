@@ -55,14 +55,16 @@ $allPlugins         = count(PluginHelper::getPlugins());
         ?>
     </div>
     <div class="wps-adminHeader__side">
-        <?php if (!$isPremium && apply_filters('wp_statistics_enable_upgrade_to_bundle', true)) : ?>
-            <a href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/product/add-ons-bundle?utm_source=wp-statistics&utm_medium=link&utm_campaign=header'); ?>" target="_blank" class="wps-license-status wps-license-status--free">
-                <?php esc_html_e('Upgrade To Premium', 'wp-statistics'); ?>
-            </a>
-
-           <a href="" class="wps-license-status wps-license-status--valid">
-                <span><?php esc_html_e(sprintf('License: %s/%s', $purchasedPlugins, $allPlugins), 'wp-statistics')?></span> <span><?php esc_html_e('Upgrade', 'wp-statistics'); ?></span>
-            </a>
+        <?php if (apply_filters('wp_statistics_enable_upgrade_to_bundle', true)) : ?>
+            <?php if (!$isPremium && !LicenseHelper::isLicenseAvailable()) : ?>
+                <a href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/product/add-ons-bundle?utm_source=wp-statistics&utm_medium=link&utm_campaign=header'); ?>" target="_blank" class="wps-license-status wps-license-status--free">
+                    <?php esc_html_e('Upgrade To Premium', 'wp-statistics'); ?>
+                </a>
+            <?php else : ?>
+                <a href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/product/add-ons-bundle?utm_source=wp-statistics&utm_medium=link&utm_campaign=header'); ?>" class="wps-license-status wps-license-status--valid">
+                    <span><?php esc_html_e(sprintf('License: %s/%s', $purchasedPlugins, $allPlugins), 'wp-statistics')?></span> <span><?php esc_html_e('Upgrade', 'wp-statistics'); ?></span>
+                </a>
+            <?php endif; ?>
         <?php endif; ?>
 
         <?php if (Option::get('privacy_audit')) : ?>
@@ -111,14 +113,18 @@ $allPlugins         = count(PluginHelper::getPlugins());
                         <?php esc_html_e('Help Center', 'wp-statistics'); ?>
                     </a>
                 <?php } ?>
-                <?php if (!$isPremium && apply_filters('wp_statistics_enable_upgrade_to_bundle', true)) : ?>
+
+                <?php if (apply_filters('wp_statistics_enable_upgrade_to_bundle', true)) : ?>
                     <div class="wps-bundle">
-                        <a href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/product/add-ons-bundle?utm_source=wp-statistics&utm_medium=link&utm_campaign=header'); ?>" target="_blank" class="wps-license-status wps-license-status--free">
-                            <?php esc_html_e('Upgrade To Premium', 'wp-statistics'); ?>
-                        </a>
-                       <a href="" class="wps-license-status wps-license-status--valid">
-                            <span><?php esc_html_e(sprintf('License: %s/%s', $purchasedPlugins, $allPlugins), 'wp-statistics')?></span> <span><?php esc_html_e('Upgrade', 'wp-statistics'); ?></span>
-                        </a>
+                        <?php if (!$isPremium && !LicenseHelper::isLicenseAvailable()) : ?>
+                            <a href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/product/add-ons-bundle?utm_source=wp-statistics&utm_medium=link&utm_campaign=header'); ?>" target="_blank" class="wps-license-status wps-license-status--free">
+                                <?php esc_html_e('Upgrade To Premium', 'wp-statistics'); ?>
+                            </a>
+                        <?php else : ?>
+                            <a href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/product/add-ons-bundle?utm_source=wp-statistics&utm_medium=link&utm_campaign=header'); ?>" class="wps-license-status wps-license-status--valid">
+                                <span><?php esc_html_e(sprintf('License: %s/%s', $purchasedPlugins, $allPlugins), 'wp-statistics')?></span> <span><?php esc_html_e('Upgrade', 'wp-statistics'); ?></span>
+                            </a>
+                        <?php endif; ?>
                     </div>
                 <?php endif; ?>
             </div>
