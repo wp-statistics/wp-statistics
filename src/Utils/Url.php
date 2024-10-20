@@ -85,4 +85,14 @@ class Url
 
         return $url === $homeUrl;
     }
+
+    /**
+     * Clean a URL by removing the protocol and www.
+     *
+     * @param string $url The URL to clean.
+     * @return string The cleaned URL.
+     */
+    public static function removePrefix($url) {
+        return preg_replace('/^(https?:\/\/)?(www\.)?/i', '', $url);
+    }
 }
