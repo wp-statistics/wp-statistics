@@ -279,7 +279,7 @@ class HitColumnHandler
         }
 
         $hitArgs = [
-            'post_id'       => $objectId,
+            'resource_id'   => $objectId,
             'resource_type' => Pages::checkIfPageIsHome($objectId) ? 'home' : $this->getCache('postType'),
             'date'          => [
                 'from' => date('Y-m-d', 0),

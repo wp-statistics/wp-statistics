@@ -19,6 +19,7 @@ class VisitorsModel extends BaseModel
             'date'          => '',
             'post_type'     => '',
             'resource_type' => '',
+            'resource_id'   => '',
             'author_id'     => '',
             'post_id'       => '',
             'query_param'   => '',
@@ -42,16 +43,23 @@ class VisitorsModel extends BaseModel
 
         $filteredArgs = array_filter($args);
 
-        if (array_intersect(['post_type', 'resource_type', 'author_id', 'post_id', 'query_param', 'taxonomy', 'term'], array_keys($filteredArgs))) {
+        if (array_intersect(['resource_type', 'resource_id', 'query_param'], array_keys($filteredArgs))) {
+            $query
+                ->join('visitor_relationships', ['visitor_relationships.visitor_id', 'visitor.ID'])
+                ->join('pages', ['visitor_relationships.page_id', 'pages.page_id'], [], 'LEFT')
+                ->where('pages.type', 'IN', $args['resource_type'])
+                ->where('pages.id', '=', $args['resource_id'])
+                ->where('pages.uri', '=', $args['query_param']);
+        }
+
+        if (array_intersect(['post_type', 'author_id', 'post_id', 'taxonomy', 'term'], array_keys($filteredArgs))) {
             $query
                 ->join('visitor_relationships', ['visitor_relationships.visitor_id', 'visitor.ID'])
                 ->join('pages', ['visitor_relationships.page_id', 'pages.page_id'], [], 'LEFT')
                 ->join('posts', ['posts.ID', 'pages.id'], [], 'LEFT')
                 ->where('post_type', 'IN', $args['post_type'])
-                ->where('pages.type', 'IN', $args['resource_type'])
                 ->where('post_author', '=', $args['author_id'])
-                ->where('posts.ID', '=', $args['post_id'])
-                ->where('pages.uri', '=', $args['query_param']);
+                ->where('posts.ID', '=', $args['post_id']);
 
             if (!empty($args['taxonomy']) || !empty($args['term'])) {
                 $taxQuery = Query::select(['DISTINCT object_id'])
@@ -588,7 +596,7 @@ class VisitorsModel extends BaseModel
 
                 if (!empty($item->model) && $item->model !== 'Unknown') {
                     $models = array_column($result['model'], 'label');
-                    
+
                     if (!in_array($item->model, $models)) {
                         $result['model'][] = [
                             'label'    => $item->model,
@@ -737,11 +745,11 @@ class VisitorsModel extends BaseModel
         $query = Query::select($selectFields)
             ->from('visitor')
             ->whereRaw(
-                "(location = '' 
+                "(location = ''
             OR location = %s
-            OR location IS NULL 
-            OR continent = '' 
-            OR continent IS NULL 
+            OR location IS NULL
+            OR continent = ''
+            OR continent IS NULL
             OR (continent = location))
             AND ip NOT LIKE '#hash#%'",
                 [$privateCountry]
@@ -940,10 +948,10 @@ class VisitorsModel extends BaseModel
         $topEngines = array_map(function($item) {
             return array_sum($item);
         }, $thisParsedData);
-        
+
         // Sort top search engines in descending order
         arsort($topEngines);
-        
+
         // Get the top 3 items
         $topEngines = array_slice($topEngines, 0, 3, true);
 
