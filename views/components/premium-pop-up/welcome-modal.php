@@ -23,5 +23,3 @@ $isModalDisplayed = User::getMeta('wp_statistics_welcome_modal_displayed', true)
         </div>
     </div>
 <?php endif; ?>
-
-<?php do_action('wp_statistics_after_welcome_modal'); ?>
