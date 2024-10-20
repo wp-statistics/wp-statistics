@@ -1,10 +1,14 @@
 <?php
-
+namespace WP_STATISTICS;
 use WP_Statistics\Components\View;
-
 ?>
 
-<div class="wps-modal wps-modal--premium js-wps-premiumModal">
+<?php if (!Option::getOptionGroup('wp_statistics_page_initialized', 'overview')) : ?>
+    <div class="wps-modal wps-modal--premium js-wps-premiumModal"  style="display: block">
+    <?php else: ?>
+    <div class="wps-modal wps-modal--premium js-wps-premiumModal">
+<?php endif; ?>
+    <?php if (!Option::getOptionGroup('wp_statistics_page_initialized', 'overview')) : ?>
     <div class="wps-modal__content wps-modal__content--welcome js-wps-premiumModalWelcomeContent">
         <span class="wps-modal__welcome-image"></span>
         <div class="wps-modal__welcome-description">
@@ -16,6 +20,7 @@ use WP_Statistics\Components\View;
             <a class="wps-modal__action-btn wps-modal__action-btn--skip js-wps-premiumModalClose"><?php esc_html_e('Skip', 'wp-statistics'); ?></a>
         </div>
     </div>
+    <?php endif; ?>
     <div class="wps-modal__content wps-modal__content--premium-steps js-wps-premiumModalSteps">
         <?php  View::load("components/premium-pop-up/step-details");  ?>
     </div>

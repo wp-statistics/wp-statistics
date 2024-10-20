@@ -1,8 +1,4 @@
-.toplevel_page_wps_overview_page{
-  .wps-modal--premium {
-    display: block;
-  }
-}
+
 
 .wps-modal--premium {
   position: fixed;
@@ -13,6 +9,10 @@
   left: 0;
   z-index: 100050;
   display: none;
+
+  .js-wps-premium-steps__head, js-wps-first-step__head{
+    display: none;
+  }
 
   .wps-modal__content {
     position: absolute;
@@ -154,6 +154,7 @@
         font-weight: 500;
         line-height: 14.06px;
         color: #404BF2;
+        text-transform: uppercase;
       }
 
       p {
@@ -211,6 +212,10 @@
     }
 
     &__sidebar {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+
       p {
         margin: 0 0 16px;
         font-size: 13px;
@@ -296,6 +301,28 @@
           &--upgrade {
             background: #404BF2;
             color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            &.activated{
+              border: 1px solid #196140;
+              background: #FFFFFF;
+              color: #196140;
+              pointer-events:none;
+
+              :after{
+                display: none!important;
+              }
+            }
+
+            &:after {
+              content: '';
+              width: 16px;
+              height: 16px;
+              background: url(data:image/svg+xml;base64,Cjxzdmcgd2lkdGg9IjE3IiBoZWlnaHQ9IjE2IiB2aWV3Qm94PSIwIDAgMTcgMTYiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik05LjI4MTMgOC4wMDA0N0w1Ljk4MTQ1IDQuNzAwNjJMNi45MjQyNiAzLjc1NzgxTDExLjE2NjkgOC4wMDA0N0w2LjkyNDI2IDEyLjI0MzFMNS45ODE0NSAxMS4zMDAzTDkuMjgxMyA4LjAwMDQ3WiIgZmlsbD0id2hpdGUiLz4KPC9zdmc+Cg==);
+              display: inline-block;
+            }
 
             &:hover {
               background: #1f269c;
