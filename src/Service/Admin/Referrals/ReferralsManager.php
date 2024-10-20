@@ -92,7 +92,7 @@ class ReferralsManager
 
             $results = [];
             $search  = Request::get('search', '');
-            $search  = Url::removePrefix($search);
+            $search  = Url::cleanUrl($search);
 
             $visitorsModel = new VisitorsModel();
             $referrers  = $visitorsModel->getReferrers([

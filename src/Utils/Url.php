@@ -92,7 +92,12 @@ class Url
      * @param string $url The URL to clean.
      * @return string The cleaned URL.
      */
-    public static function removePrefix($url) {
-        return preg_replace('/^(https?:\/\/)?(www\.)?/i', '', $url);
+    public static function cleanUrl($url)
+    {
+        $url = trim($url); // remove whitespaces
+        $url = rtrim($url, '/'); // remove trailing slash
+        $url = preg_replace('/^(https?:\/\/)?(www\.)?/i', '', $url); // remove protocol and www
+
+        return $url;
     }
 }
