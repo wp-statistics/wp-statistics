@@ -19,7 +19,7 @@ $isModalDisplayed = User::getMeta('wp_statistics_welcome_modal_displayed', true)
             </div>
         </div>
          <div class="wps-modal__content wps-modal__content--premium-steps js-wps-premiumModalSteps">
-            <?php  View::load("components/premium-pop-up/step-details");  ?>
+            <?php  View::load("components/modals/premium/step-details");  ?>
         </div>
     </div>
 <?php endif; ?>

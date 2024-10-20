@@ -45,7 +45,7 @@ use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHelper;
                 $data['description'] = $license_description;
             }
 
-            View::load("components/premium-pop-up/step-content", $data);
+            View::load("components/modals/premium/step-content", $data);
 
 
             $data = [
@@ -56,7 +56,7 @@ use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHelper;
                 'step_name'   => 'wp-statistics-data-plus',
                 'step_href'   => esc_url(WP_STATISTICS_SITE_URL . '/product/wp-statistics-data-plus/?utm_source=wp-statistics&utm_medium=link&utm_campaign=pop-up-premium')
             ];
-            View::load("components/premium-pop-up/step-content", $data);
+            View::load("components/modals/premium/step-content", $data);
 
             $data = [
                 'description' => sprintf(__('<p>Instantly view customizable performance charts for all posts and pages, with quick access to traffic data via the admin bar. Gain insights at a glance.<a target="_blank" href="%s">Learn more</a></p>', 'wp-statistics'),
@@ -65,7 +65,7 @@ use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHelper;
                 'step_name'   => 'wp-statistics-mini-chart',
                 'step_href'   => esc_url(WP_STATISTICS_SITE_URL . '/product/wp-statistics-mini-chart/?utm_source=wp-statistics&utm_medium=link&utm_campaign=pop-up-premium')
             ];
-            View::load("components/premium-pop-up/step-content", $data);
+            View::load("components/modals/premium/step-content", $data);
 
             $data = [
                 'description' => sprintf(__('<p>Receive scheduled, customizable traffic reports with detailed charts straight to your inbox. Stay informed about your website\'s performance effortlessly. <a target="_blank" href="%s">Learn more</a></p>', 'wp-statistics'),
@@ -74,7 +74,7 @@ use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHelper;
                 'step_name'   => 'wp-statistics-advanced-reporting',
                 'step_href'   => esc_url(WP_STATISTICS_SITE_URL . '/product/wp-statistics-advanced-reporting/?utm_source=wp-statistics&utm_medium=link&utm_campaign=pop-up-premium')
             ];
-            View::load("components/premium-pop-up/step-content", $data);
+            View::load("components/modals/premium/step-content", $data);
 
             $data = [
                 'description' => sprintf(__('<p>Monitor visitor activity and online users live, without refreshing the page. Stay updated on your website\'s performance in real-time. <a target="_blank" href="%s">Learn more</a></p>', 'wp-statistics'),
@@ -83,7 +83,7 @@ use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHelper;
                 'step_name'   => 'wp-statistics-real-time',
                 'step_href'   => esc_url(WP_STATISTICS_SITE_URL . '/product/wp-statistics-realtime-stats/?utm_source=wp-statistics&utm_medium=link&utm_campaign=pop-up-premium')
             ];
-            View::load("components/premium-pop-up/step-content", $data);
+            View::load("components/modals/premium/step-content", $data);
 
             $data = [
                 'description' => sprintf(__('<p>Display vital site stats using customizable Gutenberg blocks or theme widgets. Enhance your audience\'s experience with flexible, real-time data presentations.<a target="_blank" href="%s">Learn more</a></p>', 'wp-statistics'),
@@ -92,7 +92,7 @@ use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHelper;
                 'step_name'   => 'wp-statistics-widgets',
                 'step_href'   => esc_url(WP_STATISTICS_SITE_URL . '/product/wp-statistics-widgets/?utm_source=wp-statistics&utm_medium=link&utm_campaign=pop-up-premium')
             ];
-            View::load("components/premium-pop-up/step-content", $data);
+            View::load("components/modals/premium/step-content", $data);
 
             $data = [
                 'description' => sprintf(__('<p>Manage admin menus, modify plugin headers, and create white-label products. Enhance the Overview page with fully customized widgets tailored to your needs.<a target="_blank" href="%s">Learn more</a></p>', 'wp-statistics'),
@@ -101,7 +101,7 @@ use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHelper;
                 'step_name'   => 'wp-statistics-customization',
                 'step_href'   => esc_url(WP_STATISTICS_SITE_URL . '/product/wp-statistics-customization/?utm_source=wp-statistics&utm_medium=link&utm_campaign=pop-up-premium')
             ];
-            View::load("components/premium-pop-up/step-content", $data);
+            View::load("components/modals/premium/step-content", $data);
 
             $data = [
                 'description' => sprintf(__('<p>Unlock new endpoints in the WordPress REST API for detailed insights, including browsers, referrers, visitors, and more. Easily access and integrate key statistics. <a target="_blank" href="%s">Learn more</a></p>', 'wp-statistics'),
@@ -110,7 +110,7 @@ use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHelper;
                 'step_name'   => 'wp-statistics-rest-api',
                 'step_href'   => esc_url(WP_STATISTICS_SITE_URL . '/product/wp-statistics-rest-api/?utm_source=wp-statistics&utm_medium=link&utm_campaign=pop-up-premium')
             ];
-            View::load("components/premium-pop-up/step-content", $data);
+            View::load("components/modals/premium/step-content", $data);
             ?>
         </div>
         <div class="wps-premium-step__sidebar">

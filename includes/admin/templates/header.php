@@ -80,5 +80,5 @@ use WP_Statistics\Service\Admin\PrivacyAudit\PrivacyAuditDataProvider;
     </div>
 </div>
 <?php
-    View::load("components/premium-pop-up/premium-modal");
+    View::load("components/modals/premium/premium-modal");
 ?>

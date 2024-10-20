@@ -48,7 +48,7 @@ class log_page extends Singleton
 
         // Show welcome modal on first load
         if (!User::getMeta('wp_statistics_welcome_modal_displayed')) {
-            View::load("components/premium-pop-up/welcome-modal");
+            View::load("components/modals/premium/welcome-modal");
 
             User::saveMeta('wp_statistics_welcome_modal_displayed', true);
         }
