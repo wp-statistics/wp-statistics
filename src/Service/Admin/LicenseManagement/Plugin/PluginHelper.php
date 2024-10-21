@@ -61,7 +61,6 @@ class PluginHelper
      */
     public static function getPurchasedPlugins($licenseKey = false)
     {
-
         $result  = [];
         $plugins = [];
 
@@ -74,9 +73,6 @@ class PluginHelper
             foreach ($licenses as $license => $data) {
                 $plugins = array_merge($plugins, $data['products']);
             }
-        } catch (Exception $e) {
-            WP_Statistics()->log($e->getMessage(), 'error');
-            $plugins = [];
         }
 
         if (empty($plugins)) return [];
