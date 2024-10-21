@@ -114,7 +114,7 @@ class ApiCommunicator
                 $productSlugs = array_column($licenseData->products, 'slug');
 
                 if (!in_array($product, $productSlugs, true)) {
-                    throw new Exception(sprintf(__('The license is not related to the requested add-on <b>%s</b>.', 'wp-statistics'), $product));
+                    throw new Exception(sprintf(__('The license is not related to the requested Add-On <b>%s</b>.', 'wp-statistics'), $product));
                 }
             }
 
