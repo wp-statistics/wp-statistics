@@ -118,7 +118,7 @@ class LicenseManagementManager
     }
 
     /**
-     * Removes the "Upgrade to Bundle" buttons if the user has a premium license.
+     * Removes the "Upgrade To Premium" buttons if the user has a premium license.
      *
      * @return bool
      *

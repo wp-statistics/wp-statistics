@@ -2,6 +2,7 @@
 
 namespace WP_Statistics\Service\Admin\LicenseManagement\Plugin;
 
+use Exception;
 use WP_Statistics\Service\Admin\LicenseManagement\ApiCommunicator;
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 
@@ -14,10 +15,15 @@ class PluginHelper
      */
     public static function getPlugins()
     {
-        $apiCommunicator = new ApiCommunicator();
+        $result = [];
 
-        $result     = [];
-        $products   = $apiCommunicator->getProducts();
+        try {
+            $apiCommunicator    = new ApiCommunicator();
+            $products           = $apiCommunicator->getProducts();
+        } catch (Exception $e) {
+            WP_Statistics()->log($e->getMessage(), 'error');
+            $products = [];
+        }
 
         foreach ($products as $product) {
             if (isset($product->sku) && $product->sku === 'premium') continue;
@@ -55,25 +61,23 @@ class PluginHelper
      */
     public static function getPurchasedPlugins($licenseKey = false)
     {
-        $apiCommunicator    = new ApiCommunicator();
-        $licenses           = LicenseHelper::getLicenses();
-
         $result  = [];
         $plugins = [];
 
         if ($licenseKey) {
-            $licenseStatus  = $apiCommunicator->validateLicense($licenseKey);
-            $plugins        = $licenseStatus->products;
+            $license = LicenseHelper::getLicenseData($licenseKey);
+            $plugins = $license ? $license['products'] : [];
         } else {
+            $licenses = LicenseHelper::getLicenses();
+
             foreach ($licenses as $license => $data) {
-                $licenseStatus  = $apiCommunicator->validateLicense($license);
-                $plugins        = array_merge($plugins, $licenseStatus->products);
+                $plugins = array_merge($plugins, $data['products']);
             }
         }
 
-        if (empty($purchasedPlugins)) return [];
+        if (empty($plugins)) return [];
 
-        foreach ($purchasedPlugins as $plugin) {
+        foreach ($plugins as $plugin) {
             $result[] = self::getPluginBySlug($plugin);
         }
 

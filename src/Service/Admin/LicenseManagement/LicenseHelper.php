@@ -20,6 +20,19 @@ class LicenseHelper
 
 
     /**
+     * Returns the stored data for a given license key.
+     *
+     * @param string $licenseKey
+     *
+     * @return object|false License data if found, false otherwise.
+     */
+    public static function getLicenseData($licenseKey)
+    {
+        $licenses = self::getLicenses();
+        return isset($license[$licenseKey]) ? $licenses[$licenseKey] : false;
+    }
+
+    /**
      * Returns the first validated license key that contains the add-on with the given slug.
      *
      * @param string $slug
