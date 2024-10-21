@@ -78,7 +78,7 @@ class PluginHelper
         if (empty($plugins)) return [];
 
         foreach ($plugins as $plugin) {
-            $result[$plugin->slug] = self::getPluginBySlug($plugin->slug);
+            $result[$plugin] = self::getPluginBySlug($plugin);
         }
 
         return $result;
