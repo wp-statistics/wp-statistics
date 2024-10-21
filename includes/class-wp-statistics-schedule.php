@@ -189,7 +189,7 @@ class Schedule
     public static function check_licenses_status()
     {
         $apiCommunicator = new ApiCommunicator();
-        $licenses = LicenseHelper::getValidLicenses();
+        $licenses        = LicenseHelper::getLicenses();
 
         foreach ($licenses as $key => $data) {
             try {
