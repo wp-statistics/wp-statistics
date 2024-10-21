@@ -8,7 +8,7 @@ use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 class PluginHelper
 {
     /**
-     * Returns a decorated list of plugins (add-ons), excluding bundled plugins.
+     * Returns a decorated list of plugins (add-ons) from API, excluding bundled plugins.
      *
      * @return PluginDecorator[] List of plugins
      */
