@@ -117,7 +117,7 @@ class PostsModel extends BaseModel
             ->where('post_author', '=', $args['author_id'])
             ->where('meta_key', '=', $wordsCountMetaKey);
 
-        // Filter by date when no particular post ID has been set  
+        // Filter by date when no particular post ID has been set
         if (empty($args['post_id'])) {
             $query
                 ->whereDate('post_date', $args['date']);
@@ -183,14 +183,20 @@ class PostsModel extends BaseModel
     public function getPostsReportData($args = [])
     {
         $args = $this->parseArgs($args, [
-            'date'      => '',
-            'post_type' => Helper::get_list_post_type(),
-            'order_by'  => 'title',
-            'order'     => 'DESC',
-            'page'      => 1,
-            'per_page'  => 5,
-            'author_id' => ''
+            'date'          => '',
+            'post_type'     => Helper::get_list_post_type(),
+            'resource_type' => array_merge(Helper::get_list_post_type(), ['home']),
+            'order_by'      => 'title',
+            'order'         => 'DESC',
+            'page'          => 1,
+            'per_page'      => 5,
+            'author_id'     => ''
         ]);
+
+        // added 'home' type, since type of homepage in pages table is 'home'
+        if ($args['resource_type'] === 'page') {
+            $args['resource_type'] = ['home', 'page'];
+        }
 
         $commentsQuery = Query::select(['comment_post_ID', 'COUNT(comment_ID) AS total_comments'])
             ->from('comments')
@@ -202,12 +208,14 @@ class PostsModel extends BaseModel
         $visitorsQuery = Query::select(['pages.id as post_id', 'COUNT(DISTINCT visitor_relationships.visitor_id) AS visitors'])
             ->from('visitor_relationships')
             ->join('pages', ['pages.page_id', 'visitor_relationships.page_id'])
+            ->where('type', 'IN', $args['resource_type'])
             ->whereDate('visitor_relationships.date', $args['date'])
             ->groupBy('pages.id')
             ->getQuery();
 
         $viewsQuery = Query::select(['pages.id', 'SUM(pages.count) AS views'])
             ->from('pages')
+            ->where('type', 'IN', $args['resource_type'])
             ->whereDate('pages.date', $args['date'])
             ->groupBy('pages.id')
             ->getQuery();
@@ -326,7 +334,7 @@ class PostsModel extends BaseModel
             ->groupBy('posts.ID')
             ->orderBy($args['order_by'], $args['order'])
             ->perPage($args['page'], $args['per_page']);
-        
+
         if (!empty($args['taxonomy']) || !empty($args['term'])) {
             $taxQuery = Query::select(['DISTINCT object_id'])
                 ->from('term_relationships')
