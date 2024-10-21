@@ -57,9 +57,7 @@ class LicenseManagementManager
         $storedLicenses = LicenseHelper::getLicenses();
 
         if (!empty($storedLicenses)) {
-            foreach ($storedLicenses as $licenseData) {
-                $licenseKey = $licenseData['license']->license_key;
-
+            foreach ($storedLicenses as $licenseKey => $licenseData) {
                 foreach ($licenseData['products'] as $productSlug) {
                     // Avoid duplicate handling for the same product
                     if (!in_array($productSlug, $this->handledPlugins)) {
