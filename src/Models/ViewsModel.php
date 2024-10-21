@@ -139,7 +139,7 @@ class ViewsModel extends BaseModel
 
         $result = $query->getAll();
 
-        return $result;
+        return $result ?? [];
     }
 
     public function getViewsSummary($args = [])
