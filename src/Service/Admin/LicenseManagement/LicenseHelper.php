@@ -53,17 +53,34 @@ class LicenseHelper
     }
 
     /**
+     * Format license data to be stored in the database.
+     *
+     * @param object $licenseData The license data from the API.
+     * @return array The formatted license data.
+     */
+    private static function formatLicenseData($licenseData)
+    {
+        $data = [
+            'status'        => !empty($licenseData) ? true : false,
+            'type'          => $licenseData->license_details->type ?? null,
+            'sku'           => $licenseData->license_details->sku ?? null,
+            'max_domains'   => $licenseData->license_details->max_domains ?? null,
+            'user'          => $licenseData->license_details->user ?? null,
+            'products'      => wp_list_pluck($licenseData->products, 'slug'),
+        ];
+
+        return $data;
+    }
+
+    /**
      * Store license details in the WordPress database.
      *
      * @param string $licenseKey
      * @param object $license
      */
-    public static function storeLicense($licenseKey, $licenseData)
+    public static function saveLicense($licenseKey, $licenseData)
     {
-        $data = [
-            'license'  => $licenseData->license_details,
-            'products' => wp_list_pluck($licenseData->products, 'slug'),
-        ];
+        $data = self::formatLicenseData($licenseData);
 
         Option::saveOptionGroup($licenseKey, $data, self::LICENSE_OPTION_KEY);
     }

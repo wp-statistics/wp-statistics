@@ -125,7 +125,7 @@ class ApiCommunicator
             );
         }
 
-        LicenseHelper::storeLicense($licenseKey, $licenseData);
+        LicenseHelper::saveLicense($licenseKey, $licenseData);
 
         return $licenseData;
     }
