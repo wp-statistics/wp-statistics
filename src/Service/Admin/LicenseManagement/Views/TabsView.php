@@ -125,7 +125,7 @@ class TabsView extends BaseTabView
                     ],
                     [
                         'link'  => Menus::admin_url('plugins', ['tab' => 'downloads']),
-                        'title' => esc_html__('Download Add-ons', 'wp-statistics'),
+                        'title' => esc_html__('Download Add-Ons', 'wp-statistics'),
                         'class' => $this->isTab('downloads') ? 'current' : '',
                     ],
                     [
@@ -138,7 +138,7 @@ class TabsView extends BaseTabView
 
             if ($this->isTab('add-ons')) {
                 $args['title']                  = esc_html__('Add-Ons', 'wp-statistics');
-                $args['install_addon_btn_txt']  = esc_html__('Install Add-on', 'wp-statistics');
+                $args['install_addon_btn_txt']  = esc_html__('Install Add-On', 'wp-statistics');
                 $args['install_addon_btn_link'] = esc_url(Menus::admin_url('plugins', ['tab' => 'add-license']));
 
                 Admin_Template::get_template(['layout/header', 'layout/title'], $args);
