@@ -8,6 +8,7 @@ use WP_Statistics\Components\DateTime;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
 use WP_Statistics\Service\Analytics\Referrals\ReferralsDatabase;
 use WP_Statistics\Service\Admin\LicenseManagement\ApiCommunicator;
+use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseMigration;
 
 class Schedule
@@ -104,6 +105,8 @@ class Schedule
         add_action('wp_statistics_report_hook', array($this, 'send_report'));
         add_action('wp_statistics_referrals_db_hook', [$this, 'referrals_db_event']);
         add_action('wp_statistics_licenses_hook', [$this, 'migrateOldLicenses']);
+
+        Event::schedule('wp_statistics_check_licenses_status', time(), 'weekly', [$this, 'check_licenses_status']);
     }
 
     /**
@@ -181,6 +184,22 @@ class Schedule
         ];
 
         return apply_filters('wp_statistics_cron_schedules', $schedules);
+    }
+
+    public static function check_licenses_status()
+    {
+        $apiCommunicator = new ApiCommunicator();
+        $licenses = LicenseHelper::getValidLicenses();
+
+        foreach ($licenses as $key => $data) {
+            try {
+                $status = $apiCommunicator->validateLicense($key);
+            } catch (\Exception $e) {
+                $status = [];
+            }
+
+            LicenseHelper::saveLicense($key, $status);
+        }
     }
 
     /**

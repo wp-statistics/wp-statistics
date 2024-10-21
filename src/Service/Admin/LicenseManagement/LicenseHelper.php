@@ -9,13 +9,23 @@ class LicenseHelper
     const LICENSE_OPTION_KEY = 'licenses';
 
     /**
-     * Returns valid licenses stored in the WordPress database.
+     * Returns all licenses stored in the WordPress database.
      *
      * @return array
      */
     public static function getLicenses()
     {
-        $licenses = Option::getOptionGroup(self::LICENSE_OPTION_KEY);
+        return Option::getOptionGroup(self::LICENSE_OPTION_KEY) ?? [];
+    }
+
+    /**
+     * Returns all valid licenses.
+     *
+     * @return array
+     */
+    public static function getValidLicenses()
+    {
+        $licenses = self::getLicenses();
 
         // Filter licenses with active status
         $licenses = array_filter($licenses, function ($license) {
@@ -24,7 +34,6 @@ class LicenseHelper
 
         return $licenses;
     }
-
 
     /**
      * Returns the stored data for a given license key.
@@ -35,7 +44,7 @@ class LicenseHelper
      */
     public static function getLicenseData($licenseKey)
     {
-        $licenses = self::getLicenses();
+        $licenses = self::getValidLicenses();
         return isset($license[$licenseKey]) ? $licenses[$licenseKey] : false;
     }
 
@@ -48,7 +57,7 @@ class LicenseHelper
      */
     public static function getPluginLicense($slug)
     {
-        foreach (self::getLicenses() as $key => $license) {
+        foreach (self::getValidLicenses() as $key => $license) {
             if (empty($license['products'])) continue;
 
             if (in_array($slug, $license['products'])) {
@@ -105,13 +114,13 @@ class LicenseHelper
     }
 
     /**
-     * Checks if user has any license or not.
+     * Checks if user has any valid license or not.
      *
      * @return bool
      */
     public static function isLicenseAvailable()
     {
-        return !empty(self::getLicenses());
+        return !empty(self::getValidLicenses());
     }
 
     /**
@@ -121,12 +130,8 @@ class LicenseHelper
      */
     public static function isPremiumLicenseAvailable()
     {
-        foreach (self::getLicenses() as $key => $license) {
-            if (empty($license['license'])) {
-                continue;
-            }
-
-            if (!empty($license['license']->sku) && $license['license']->sku === 'premium') {
+        foreach (self::getValidLicenses() as $key => $data) {
+            if (!empty($data['sku']) && $data['sku'] === 'premium') {
                 return $key;
             }
         }
