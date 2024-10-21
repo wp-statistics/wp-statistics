@@ -222,27 +222,52 @@ class Exclusion
     }
 
     /**
-     * Detect if Excluded URL.
-     * @param $visitorProfile VisitorProfile
+     * Detects if current URL opened by the visitor should be excluded.
+     *
+     * @param VisitorProfile $visitorProfile VisitorProfile
+     *
+     * @return bool
      */
     public static function exclusion_excluded_url($visitorProfile)
     {
+        $excludedUrls = Option::get('excluded_urls');
+        if (!empty($excludedUrls)) {
+            $requestUri = $visitorProfile->getRequestUri();
+            $delimiter  = strpos($requestUri, '?');
 
-        if (Option::get('excluded_urls')) {
-            $script    = $visitorProfile->getRequestUri();
-            $delimiter = strpos($script, '?');
-
+            // Remove query parameters from the request URI
             if ($delimiter > 0) {
-                $script = substr($script, 0, $delimiter);
+                $requestUri = substr($requestUri, 0, $delimiter);
             }
 
-            $excluded_urls = explode("\n", Option::get('excluded_urls'));
-            foreach ($excluded_urls as $url) {
-                $this_url = trim($url);
+            // Strip slashes from the beginning and the end of the request URI
+            $requestUri = trim($requestUri, '/\\');
 
-                if (strlen($this_url) > 2) {
-                    if (stripos($script, $this_url) === 0) {
-                        return true;
+            // Decode request URI since input URLs will be decoded too
+            $requestUri = urldecode($requestUri);
+
+            foreach (explode("\n", $excludedUrls) as $url) {
+                // Sanitize input URL
+                $url = wp_make_link_relative($url);
+                $url = trim($url);
+                $url = trim($url, '/\\');
+                $url = urldecode($url);
+
+                if (strlen($url) > 2) {
+                    // Check if the URL contains a wildcard (*)
+                    if (strpos($url, '*') !== false) {
+                        // Escape special characters for regex, then replace '*' with '.*' for wildcards
+                        $pattern = str_replace('\*', '.*', preg_quote($url, '/'));
+
+                        // Adjust the pattern to allow wildcards at both ends or in the middle
+                        if (preg_match('/^' . $pattern . '$/i', $requestUri)) {
+                            return true;
+                        }
+                    } else {
+                        // Exact match check
+                        if (strtolower($url) == strtolower($requestUri)) {
+                            return true;
+                        }
                     }
                 }
             }

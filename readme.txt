@@ -3,8 +3,8 @@ Contributors: mostafa.s1990, kashani, veronalabs, GregRoss
 Donate link: https://wp-statistics.com/donate/
 Tags: analytics, google analytics, insights, stats, site visitors
 Requires at least: 5.0
-Tested up to: 6.6
-Stable tag: 14.10.2
+Tested up to: 6.7
+Stable tag: 14.10.3
 Requires PHP: 5.6
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -136,16 +136,15 @@ To ensure the plugin works correctly, please **clear your cache** because some r
 Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest version.
 
 == Changelog ==
-= 14.10.2 - 02.10.2024 =
-- **Enhancement**: Encoded referral data in requests using Base64 to improve security.
-- **Enhancement**: Enhanced the “Performance at a Glance” section in email reports for better user experience.
-- **Enhancement**: Updated the layout and functionality of the visitor information section for easier use.
-- **Enhancement**: Removed the Traffic Summary widget from the dashboard to simplify the interface.
-- **Enhancement**: Improved visitor data display for users with missing information in the relationship table.
-- **Fix**: Fixed a JavaScript conflict on the Search Engine Referrals page.
-- **Fix**: Resolved an issue where the Post Summary sidebar didn’t work with the Gutenberg editor in WordPress versions below 6.5.5.
-- **Fix**: Fixed the ‘tinyMCE is not defined’ error caused by the Avada Builder.
-- **Dev**: Added a new filter `wp_statistics_assets_handle` to manage assets more effectively.
+= 14.10.3 - 21.10.2024 =
+- **Enhancement**: Updated `moment.js` to version 2.30.1.
+- **Enhancement**: Set “views” as the default metric for mini charts in post list columns.
+- **Enhancement**: Ensured full compatibility with WordPress version 6.7.
+- **Enhancement**: Improved performance of query and minor improvements.
+- **Dev**: Added the filter `wp_statistics_mini_chart_metric` to allow changing the default chart metric for mini charts.
+- **Dev**: Added the filter `wp_statistics_enable_htaccess_protection` to control the creation of `.htaccess` files in the `uploads/wp-statistics` folder.
+- **Fix**: Improved the Excluded URLs feature to better support wildcards (*) for more flexible exclusions.
+- **Fix**: Resolved missing PostsManager issue by optimizing autoloading, fixing access problems.
 
 For more information about the major update, please [visit our blog post](https://wp-statistics.com/?p=16657) or follow [@wp_statistics](https://twitter.com/wp_statistics) on Twitter
 

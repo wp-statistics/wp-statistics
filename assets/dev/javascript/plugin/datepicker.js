@@ -6,7 +6,7 @@ jQuery(document).ready(function () {
 
     // Update the week start day based on WordPress setting
     if (datePickerBtn.length) {
-        moment.locale('en', {
+        moment.updateLocale('en', {
             week: {
                 dow: parseInt(wps_js._('start_of_week'))
             }

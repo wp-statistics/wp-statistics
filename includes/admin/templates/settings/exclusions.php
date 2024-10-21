@@ -163,7 +163,12 @@
             <th scope="row"><label for="wps_excluded_urls"><?php esc_html_e('Excluded URLs', 'wp-statistics'); ?></label></th>
             <td>
                 <textarea id="wps_excluded_urls" name="wps_excluded_urls" rows="5" cols="80" class="code" dir="ltr"><?php echo esc_textarea(WP_STATISTICS\Option::get('excluded_urls')); ?></textarea>
-                <p class="description"><?php echo esc_html__('List specific URLs here that you wish to exclude from tracking. URL parameters aren\'t considered.', 'wp-statistics'); ?></p>
+                <p class="description"><?php echo __('List specific URLs here that you wish to exclude from tracking. You can use a wildcard (*) to match multiple paths. For example, <code>/blog/*</code> will exclude all pages under <code>/blog/</code>.', 'wp-statistics'); ?></p>
+                <p class="description"><?php echo sprintf(
+                    // translators: %s: Link to documentation.
+                    __('<b>Note</b>: Once added, traffic from matching URLs will stop being tracked. For more detailed information, <a href="%s" target="_blank">click here</a>.', 'wp-statistics'),
+                    'https://wp-statistics.com/resources/excluding-urls/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings'
+                ); ?></p>
             </td>
         </tr>
         </tbody>
