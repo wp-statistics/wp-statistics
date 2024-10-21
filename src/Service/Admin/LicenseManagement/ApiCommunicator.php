@@ -3,11 +3,8 @@
 namespace WP_Statistics\Service\Admin\LicenseManagement;
 
 use Exception;
-use WP_Statistics\Utils\Request;
 use WP_Statistics\Components\RemoteRequest;
 use WP_Statistics\Traits\TransientCacheTrait;
-use WP_Statistics\Service\Admin\NoticeHandler\Notice;
-use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginDecorator;
 
 class ApiCommunicator
 {

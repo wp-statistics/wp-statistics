@@ -86,12 +86,6 @@ class PluginHelper
 
     public static function isPluginPurchased($slug)
     {
-        $purchasedPlugins = self::getPurchasedPlugins();
-
-        foreach ($purchasedPlugins as $plugin) {
-            if ($plugin->getSlug() === $slug) return true;
-        }
-
-        return false;
+        return LicenseHelper::getPluginLicense($slug) ? true : false;
     }
 }
