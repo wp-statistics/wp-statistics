@@ -9,13 +9,20 @@ class LicenseHelper
     const LICENSE_OPTION_KEY = 'licenses';
 
     /**
-     * Returns the licenses stored in the WordPress database.
+     * Returns valid licenses stored in the WordPress database.
      *
      * @return array
      */
     public static function getLicenses()
     {
-        return Option::getOptionGroup(self::LICENSE_OPTION_KEY);
+        $licenses = Option::getOptionGroup(self::LICENSE_OPTION_KEY);
+
+        // Filter licenses with active status
+        $licenses = array_filter($licenses, function ($license) {
+            return $license['status'] == true;
+        });
+
+        return $licenses;
     }
 
 
