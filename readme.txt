@@ -136,10 +136,11 @@ To ensure the plugin works correctly, please **clear your cache** because some r
 Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest version.
 
 == Changelog ==
-= 14.10.3 - **.10.2024 =
+= 14.10.3 - 21.10.2024 =
 - **Enhancement**: Updated `moment.js` to version 2.30.1.
 - **Enhancement**: Set “views” as the default metric for mini charts in post list columns.
 - **Enhancement**: Ensured full compatibility with WordPress version 6.7.
+- **Enhancement**: Improved performance of query and minor improvements.
 - **Dev**: Added the filter `wp_statistics_mini_chart_metric` to allow changing the default chart metric for mini charts.
 - **Dev**: Added the filter `wp_statistics_enable_htaccess_protection` to control the creation of `.htaccess` files in the `uploads/wp-statistics` folder.
 - **Fix**: Improved the Excluded URLs feature to better support wildcards (*) for more flexible exclusions.
