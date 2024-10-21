@@ -146,17 +146,14 @@
     margin-right: unset;
     margin-left: 10px;
   }
-  #wps-menu-toggle:checked~.wps-mobileMenuContent>a .icon{
+  #wps-menu-toggle:checked~.wps-mobileMenuContent a .icon{
     margin-right:unset;
     margin-left: 10px;
   }
   .daterangepicker select.yearselect,.daterangepicker select.monthselect{
     text-align: right;
   }
-  #wps-menu-toggle:checked~.wps-mobileMenuContent>a.addons:after{
-    margin-left: unset;
-    margin-right: 4px;
-  }
+
   .wps-today-datepicker{
     right: unset;
     left: 23px;
@@ -180,18 +177,8 @@
     right: unset;
   }
 
-  .wps-adminHeader .wps-adminHeader__logo {
-    margin-right: unset;
-    margin-left: 50px;
-  }
-
-  .wps-adminHeader .wps-adminHeader__menu a span.icon {
-    margin-right: unset;
-    margin-left: 7px;
-  }
-
   .wps-adminHeader .wps-adminHeader__menu a span.badge {
-    margin-right: 10px;
+    margin-right: 4px;
     margin-left: unset;
     &:before{
       margin-left: unset;
@@ -199,7 +186,7 @@
     }
   }
 
-  .wps-adminHeader a.wps-adminHeader__bundle:before, .wps-adminHeader a.wps-adminHeader__bundle:after {
+  .wps-adminHeader a.wps-license-status:before  {
     margin-right: unset;
     margin-left: 3px;
   }
@@ -209,7 +196,7 @@
     margin-right: 4px;
   }
 
-  .wps-adminHeader a.wps-adminHeader__bundle:after {
+  .wps-adminHeader a.wps-license-status:after {
     transform: rotate(180deg);
   }
 

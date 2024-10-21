@@ -8,6 +8,7 @@ use WP_STATISTICS\User;
 use WP_Statistics\Utils\Request;
 use WP_Statistics\Models\VisitorsModel;
 use WP_Statistics\Service\Analytics\VisitorProfile;
+use WP_Statistics\Utils\Url;
 
 class ReferralsManager
 {
@@ -91,6 +92,7 @@ class ReferralsManager
 
             $results = [];
             $search  = Request::get('search', '');
+            $search  = Url::cleanUrl($search);
 
             $visitorsModel = new VisitorsModel();
             $referrers  = $visitorsModel->getReferrers([

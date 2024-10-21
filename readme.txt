@@ -138,6 +138,7 @@ Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest versio
 == Changelog ==
 = 14.11 - **.**.2024 =
 * New: Add pop-up to introduce Premium version for all premium features.
+* New: Add special header for premium users and some minor improvements to the free version header.
 * New: Introduced brand-new Referrals report page.
 * New: Introduced brand-new Add-Ons page and license manager system.
 * New: Add option to disable previous period data for charts.

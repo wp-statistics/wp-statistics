@@ -9,16 +9,21 @@ use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 class PluginHelper
 {
     /**
-     * Returns a decorated list of plugins (add-ons), excluding bundled plugins.
+     * Returns a decorated list of plugins (add-ons) from API, excluding bundled plugins.
      *
      * @return PluginDecorator[] List of plugins
      */
     public static function getPlugins()
     {
-        $apiCommunicator = new ApiCommunicator();
+        $result = [];
 
-        $result     = [];
-        $products   = $apiCommunicator->getProducts();
+        try {
+            $apiCommunicator    = new ApiCommunicator();
+            $products           = $apiCommunicator->getProducts();
+        } catch (Exception $e) {
+            WP_Statistics()->log($e->getMessage(), 'error');
+            $products = [];
+        }
 
         foreach ($products as $product) {
             if (isset($product->sku) && $product->sku === 'premium') continue;
@@ -56,22 +61,18 @@ class PluginHelper
      */
     public static function getPurchasedPlugins($licenseKey = false)
     {
-        $apiCommunicator    = new ApiCommunicator();
 
         $result  = [];
         $plugins = [];
 
-        try {
-            if ($licenseKey) {
-                $licenseStatus  = $apiCommunicator->validateLicense($licenseKey);
-                $plugins        = $licenseStatus->products;
-            } else {
-                $licenses = LicenseHelper::getLicenses();
+        if ($licenseKey) {
+            $license = LicenseHelper::getLicenseData($licenseKey);
+            $plugins = $license ? $license['products'] : [];
+        } else {
+            $licenses = LicenseHelper::getLicenses();
 
-                foreach ($licenses as $license => $data) {
-                    $licenseStatus  = $apiCommunicator->validateLicense($license);
-                    $plugins        = array_merge($plugins, $licenseStatus->products);
-                }
+            foreach ($licenses as $license => $data) {
+                $plugins = array_merge($plugins, $data['products']);
             }
         } catch (Exception $e) {
             WP_Statistics()->log($e->getMessage(), 'error');
