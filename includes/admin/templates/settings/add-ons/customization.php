@@ -8,17 +8,14 @@ $isCustomizationActive = WP_STATISTICS\Helper::isAddOnActive('customization');
 global $wp_version;
 
 $disableMenuArray = [
-    'online'             => __('Online', 'wp-statistics'),
-    'hits'               => __('Views', 'wp-statistics'),
-    'visitors'           => __('Visitors', 'wp-statistics'),
-    'referrers'          => __('Referrers', 'wp-statistics'),
-    'searches'           => __('Search Engines', 'wp-statistics'),
+    'visitors'           => __('Visitor Insight', 'wp-statistics'),
+    'pages'              => __('Page Insight', 'wp-statistics'),
+    'referrals'          => __('Referrals', 'wp-statistics'),
     'content_analytics'  => __('Content Analytics', 'wp-statistics'),
     'author_analytics'   => __('Author Analytics', 'wp-statistics'),
     'category_analytics' => __('Category Analytics', 'wp-statistics'),
     'geographic'         => __('Geographic', 'wp-statistics'),
     'devices'            => __('Devices', 'wp-statistics'),
-    'top.visitors'       => __('Top Visitors', 'wp-statistics'),
     'link_tracker'       => __('Link Tracker', 'wp-statistics'),
     'download_tracker'   => __('Download Tracker', 'wp-statistics'),
     'plugins'            => __('Add-Ons', 'wp-statistics'),
