@@ -17,7 +17,7 @@ class Event
     }
 
     /**
-     * Schedules a WordPress event hook.
+     * Schedules a WordPress event hook if it is not already scheduled.
      *
      * @param string    $hook       The action hook of the event.
      * @param int       $timestamp  The timestamp for when the event should occur.
@@ -28,6 +28,8 @@ class Event
      */
     public static function schedule($event, $timestamp, $recurrence, $callback = null)
     {
+        if (self::isScheduled($event)) return;
+
         wp_schedule_event($timestamp, $recurrence, $event);
 
         if ($callback) {
