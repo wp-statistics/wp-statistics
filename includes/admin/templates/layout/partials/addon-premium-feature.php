@@ -22,6 +22,7 @@
                 <a href="<?php echo esc_url($addon_documentation_slug) ?>" target="_blank" title="<?php echo esc_html($addon_documentation_title); ?>"><?php echo esc_html($addon_documentation_title); ?></a>.
             <?php endif; ?>
         </div>
-    <?php endif; ?>
-    <a target="_blank" class="button button-primary" href="<?php echo esc_url($addon_slug) ?>"><?php esc_html_e('Upgrade Now', 'wp-statistics') ?></a>
+    <?php endif;
+    ?>
+    <a class="wps-show-premium-modal button button-primary js-wps-openPremiumModal" data-target="<?php echo esc_html($addon_modal_target)?>" data-name="<?php echo esc_html($addon_title)?>"  href="<?php echo esc_url($addon_slug) ?>"><?php esc_html_e('Upgrade Now', 'wp-statistics') ?></a>
 </div>

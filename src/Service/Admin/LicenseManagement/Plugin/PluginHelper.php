@@ -61,6 +61,7 @@ class PluginHelper
      */
     public static function getPurchasedPlugins($licenseKey = false)
     {
+
         $result  = [];
         $plugins = [];
 
@@ -73,14 +74,28 @@ class PluginHelper
             foreach ($licenses as $license => $data) {
                 $plugins = array_merge($plugins, $data['products']);
             }
+        } catch (Exception $e) {
+            WP_Statistics()->log($e->getMessage(), 'error');
+            $plugins = [];
         }
 
         if (empty($plugins)) return [];
 
         foreach ($plugins as $plugin) {
-            $result[] = self::getPluginBySlug($plugin);
+            $result[$plugin->slug] = self::getPluginBySlug($plugin->slug);
         }
 
         return $result;
+    }
+
+    public static function isPluginPurchased($slug)
+    {
+        $purchasedPlugins = self::getPurchasedPlugins();
+
+        foreach ($purchasedPlugins as $plugin) {
+            if ($plugin->getSlug() === $slug) return true;
+        }
+
+        return false;
     }
 }

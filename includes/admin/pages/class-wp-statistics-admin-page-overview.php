@@ -2,6 +2,7 @@
 
 namespace WP_STATISTICS;
 use WP_Statistics\Components\Singleton;
+use WP_Statistics\Components\View;
 use WP_Statistics\Utils\Request;
 
 class log_page extends Singleton
@@ -44,6 +45,14 @@ class log_page extends Singleton
         $args['tooltip'] = __('Quickly view your website’s traffic and visitor analytics.', 'wp-statistics');
         $args['real_time_button'] = true;
         $args['title'] =  __('Overview', 'wp-statistics');
+
+        // Show welcome modal on first load
+        if (!User::getMeta('wp_statistics_welcome_modal_displayed')) {
+            View::load("components/modals/premium/welcome-modal");
+
+            User::saveMeta('wp_statistics_welcome_modal_displayed', true);
+        }
+
         Admin_Template::get_template(array('layout/header', 'layout/title', 'pages/overview', 'layout/footer'), $args);
     }
 
