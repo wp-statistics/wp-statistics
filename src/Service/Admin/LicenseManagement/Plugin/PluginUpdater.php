@@ -117,6 +117,9 @@ class PluginUpdater
     {
         // Don't request update info if the license key is not provided
         if (empty($this->licenseKey)) {
+            // If license is empty, force a check for updates by removing update_plugins transient
+            delete_site_transient('update_plugins');
+
             return false;
         }
 
