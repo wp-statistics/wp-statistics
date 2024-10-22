@@ -31,13 +31,19 @@ class TabsView extends BaseTabView
         $this->dataProvider    = new LicenseManagerDataProvider();
         $this->apiCommunicator = new ApiCommunicator();
         $this->handleUrlLicenseValidation();
+        $this->checkLicensesStatus();
 
-        // Check licenses status on main add-on page
+        parent::__construct();
+    }
+
+    /**
+     * Checks the licenses status if the current tab is 'add-ons'.
+     */
+    private function checkLicensesStatus()
+    {
         if ($this->isTab('add-ons')) {
             LicenseHelper::checkLicensesStatus();
         }
-
-        parent::__construct();
     }
 
     /**
@@ -111,6 +117,11 @@ class TabsView extends BaseTabView
         try {
             $currentTab = $this->getCurrentTab();
             $data       = $this->getTabData();
+            $urlParams  = [];
+
+            if (Request::get('license_key')) {
+                $urlParams['license_key'] = Request::get('license_key');
+            }
 
             $args = [
                 'title'      => esc_html__('License Manager', 'wp-statistics'),
@@ -129,12 +140,12 @@ class TabsView extends BaseTabView
                         'class' => $this->isTab('add-license') ? 'current' : '',
                     ],
                     [
-                        'link'  => Menus::admin_url('plugins', ['tab' => 'downloads']),
+                        'link'  => Menus::admin_url('plugins', array_merge(['tab' => 'downloads'], $urlParams)),
                         'title' => esc_html__('Download Add-Ons', 'wp-statistics'),
                         'class' => $this->isTab('downloads') ? 'current' : '',
                     ],
                     [
-                        'link'  => Menus::admin_url('plugins', ['tab' => 'get-started']),
+                        'link'  => Menus::admin_url('plugins', array_merge(['tab' => 'get-started'], $urlParams)),
                         'title' => esc_html__('Get Started', 'wp-statistics'),
                         'class' => $this->isTab('get-started') ? 'current' : '',
                     ],
