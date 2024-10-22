@@ -117,7 +117,7 @@ use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHelper;
             <div>
                 <p><?php esc_html_e('WP Statistics Premium Include', 'wp-statistics'); ?>:</p>
                 <ul class="wps-premium-step__features-list">
-                    <li class="<?php echo PluginHelper::isPluginPurchased('wp-statistics-data-plus') ? 'activated' : '' ?> wps-premium-step__feature js-wps-premiumStepFeature" data-modal="wp-statistics-data-plus"><?php esc_html_e('Data Plus', 'wp-statistics'); ?></li>
+                    <li class="<?php echo PluginHelper::isPluginPurchased('wp-statistics-data-plus') ? 'activated' : '' ?> wps-premium-step__feature js-wps-premiumStepFeature" data-modal="wp-statistics-data-plus"><?php esc_html_e('Data Plus', 'wp-statistics'); ?> <span class="wps-premium-step__feature-badge"><?php esc_html_e('Not Installed', 'wp-statistics'); ?></span></li>
                     <li class="<?php echo PluginHelper::isPluginPurchased('wp-statistics-mini-chart') ? 'activated' : '' ?> wps-premium-step__feature js-wps-premiumStepFeature" data-modal="wp-statistics-mini-chart"><?php esc_html_e('Mini Chart', 'wp-statistics'); ?></li>
                     <li class="<?php echo PluginHelper::isPluginPurchased('wp-statistics-advanced-reporting') ? 'activated' : '' ?> wps-premium-step__feature js-wps-premiumStepFeature" data-modal="wp-statistics-advanced-reporting"><?php esc_html_e('Advanced Reporting', 'wp-statistics'); ?></li>
                     <li class="<?php echo PluginHelper::isPluginPurchased('wp-statistics-realtime-stats') ? 'activated' : '' ?> wps-premium-step__feature js-wps-premiumStepFeature" data-modal="wp-statistics-real-time"><?php esc_html_e('Real-Time Stats', 'wp-statistics'); ?></li>

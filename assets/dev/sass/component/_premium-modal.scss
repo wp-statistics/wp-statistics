@@ -277,6 +277,21 @@
               }
              }
           }
+          .wps-premium-step__feature-badge{
+            color: #56585a;
+            background: #fafafb;
+            padding: 2px 4px;
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: 400;
+            margin-left: 8px;
+            cursor: default;
+
+            .rtl &{
+              margin-left: 0;
+              margin-right: 8px;
+            }
+          }
 
         }
       }
