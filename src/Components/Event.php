@@ -28,9 +28,9 @@ class Event
      */
     public static function schedule($event, $timestamp, $recurrence, $callback = null)
     {
-        if (self::isScheduled($event)) return;
-
-        wp_schedule_event($timestamp, $recurrence, $event);
+        if (!self::isScheduled($event)) {
+            wp_schedule_event($timestamp, $recurrence, $event);
+        }
 
         if ($callback) {
             add_action($event, $callback);
