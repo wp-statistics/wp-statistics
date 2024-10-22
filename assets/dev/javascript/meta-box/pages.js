@@ -39,8 +39,12 @@ wps_js.pages_meta_box = {
 };
  window.addEventListener('resize', function () {
      window.addEventListener('resize', function () {
-         const isInsideDashboardWidgets = document.getElementById('wp-statistics-pages-widget').closest('#dashboard-widgets') !== null;
-         const metaBoxes = document.querySelectorAll('.wps-view-content');
+         const  statisticsPagesWidget= document.getElementById('wp-statistics-pages-widget');
+         let isInsideDashboardWidgets = null ;
+         if(statisticsPagesWidget) {
+             isInsideDashboardWidgets = statisticsPagesWidget.closest('#dashboard-widgets') !== null;
+          }
+          const metaBoxes = document.querySelectorAll('.wps-view-content');
          if(metaBoxes.length > 0){
              metaBoxes.forEach(function (metaBox) {
                  metaBox.textContent =isInsideDashboardWidgets ? wps_js._('view') :  window.innerWidth <= 500 ? wps_js._('view') : wps_js._('view_content'); ;
