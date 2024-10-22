@@ -65,7 +65,7 @@ class PluginHelper
         $plugins = [];
 
         if ($licenseKey) {
-            $license = LicenseHelper::getLicenseData($licenseKey);
+            $license = LicenseHelper::getLicenseInfo($licenseKey);
             $plugins = $license ? $license['products'] : [];
         } else {
             $licenses = LicenseHelper::getValidLicenses();

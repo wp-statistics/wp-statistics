@@ -36,13 +36,13 @@ class LicenseHelper
     }
 
     /**
-     * Returns the stored data for a given license key.
+     * Returns the stored info for a given license key.
      *
      * @param string $licenseKey
      *
      * @return object|false License data if found, false otherwise.
      */
-    public static function getLicenseData($licenseKey)
+    public static function getLicenseInfo($licenseKey)
     {
         $licenses = self::getValidLicenses();
         return isset($license[$licenseKey]) ? $licenses[$licenseKey] : false;
