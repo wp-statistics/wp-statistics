@@ -25,7 +25,7 @@ if ($selected) {
 
 <div class="wps-filter-query-params wps-head-filters__item loading <?php echo !$isDataPlusActive ? 'disabled' : '' ?>">
     <div class="wps-dropdown">
-        <label class="selectedItemLabel"><?php esc_html_e('Query Parameter:', 'wp-statistics'); ?> </label>
+        <label class="selectedItemLabel"><?php esc_html_e('Query Parameter', 'wp-statistics'); ?>: </label>
         <button type="button" class="dropbtn"><span><?php echo !empty($selectedTitle) ? esc_html($selectedTitle) : esc_html__('All', 'wp-statistics'); ?></span></button>
 
         <?php if ($isDataPlusActive) : ?>

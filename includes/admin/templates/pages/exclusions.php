@@ -23,12 +23,12 @@
                         </tr>
 
                         <tr>
-                            <th><?php esc_html_e('Chart Total:', 'wp-statistics'); ?></th>
+                            <th><?php esc_html_e('Chart Total', 'wp-statistics'); ?>:</th>
                             <th class="th-center"><span id="number-total-chart-exclusions"></span></th>
                         </tr>
 
                         <tr>
-                            <th class="wps-text-muted"><?php esc_html_e('All Time Total:', 'wp-statistics'); ?></th>
+                            <th class="wps-text-muted"><?php esc_html_e('All Time Total', 'wp-statistics'); ?>:</th>
                             <th class="th-center"><span style="color: #DC3545 !important;"><?php echo esc_html(number_format_i18n($total_exclusions)); ?></span></th>
                         </tr>
                         </tbody>
