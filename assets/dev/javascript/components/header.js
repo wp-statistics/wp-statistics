@@ -5,7 +5,7 @@ function moveFeedbackBird() {
     let windowWidth = window.outerWidth || document.documentElement.clientWidth;
     const feedbackBird = document.getElementById('feedback-bird-app');
     const feedbackBirdTitle = document.querySelector('.c-fbb-widget__header__title');
-    const license = document.querySelector('.wps-mobileMenuContent>a:last-child');
+    const license = document.querySelector('.wps-mobileMenuContent>div:last-child');
     const support = document.querySelector('.wps-adminHeader__side');
     if (feedbackBird && (document.body.classList.contains('wps_page'))) {
         if (windowWidth <= 1030) {

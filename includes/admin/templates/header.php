@@ -109,10 +109,12 @@ $allPlugins         = count(PluginHelper::getPlugins());
                 echo Admin_Template::get_template('layout/partials/menu-link', ['slug' => 'wps_optimization_page', 'link_text' => __('Optimization', 'wp-statistics'), 'icon_class' => 'optimization', 'badge_count' => null], true);
                 ?>
                 <?php if (apply_filters('wp_statistics_enable_help_icon', true)) { ?>
-                    <a href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/support?utm_source=wp-statistics&utm_medium=link&utm_campaign=header'); ?>" target="_blank" title="<?php esc_html_e('Help Center', 'wp-statistics'); ?>" class="help">
-                        <span class="icon"></span>
-                        <?php esc_html_e('Help Center', 'wp-statistics'); ?>
-                    </a>
+                    <div>
+                        <a href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/support?utm_source=wp-statistics&utm_medium=link&utm_campaign=header'); ?>" target="_blank" title="<?php esc_html_e('Help Center', 'wp-statistics'); ?>" class="help">
+                            <span class="icon"></span>
+                            <?php esc_html_e('Help Center', 'wp-statistics'); ?>
+                        </a>
+                    </div>
                 <?php } ?>
 
                 <?php if (apply_filters('wp_statistics_enable_upgrade_to_bundle', true)) : ?>

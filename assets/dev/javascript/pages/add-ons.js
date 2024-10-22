@@ -26,25 +26,6 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             }
         }
 
-        // Get data
-        const wps_fetch = (params = params) => {
-            jQuery.ajax({
-                url: wps_js.global.admin_url + 'admin-ajax.php',
-                type: 'GET',
-                dataType: 'json',
-                data: params,
-                timeout: 30000,
-                success: function (data) {
-                },
-                error: function (xhr, status, error) {
-                    console.log(error);
-                }
-            });
-        }
-
-        if (params.tab === 'add-license') {
-            wps_fetch();
-        }
 
         const toggleActiveAll = () => {
             if (active_addon_plugin_btn && active_addon_plugin_btn.length > 0) {
