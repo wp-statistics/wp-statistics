@@ -56,7 +56,7 @@ class SiteHealthInfo
                 ],
                 'dailySaltDate'                 => [
                     'label' => esc_html__('Daily Salt Date', 'wp-statistics'),
-                    'value' => get_option('wp_statistics_daily_salt')['date'],
+                    'value' => is_array(get_option('wp_statistics_daily_salt')) ? get_option('wp_statistics_daily_salt')['date'] : '',
                 ],
 
                 /**
