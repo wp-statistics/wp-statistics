@@ -22,7 +22,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             if (addon_items.length === 0) {
                 addon_download_btn.textContent= wps_js._('continue_to_next_step');
                 addon_download_btn.classList.remove('disabled');
-                addon_download_btn.href='admin.php?page=wps_plugins_page&tab=get-started';
+                addon_download_btn.href=`admin.php?page=wps_plugins_page&tab=get-started&license_key=${params.license_key}`;
             }
         }
 
@@ -105,7 +105,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                 addon_download_btn.textContent = wps_js._('redirecting');
                 const new_params = new URLSearchParams();
                 selectedSlugs.forEach(slug => new_params.append('addons[]', slug));
-                window.location.href = 'admin.php?page=wps_plugins_page&tab=get-started&' + new_params.toString();
+                window.location.href = `admin.php?page=wps_plugins_page&tab=get-started&license_key=${params.license_key}&` + new_params.toString();
             }, addon_download_btn);
         };
 
