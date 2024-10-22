@@ -31,13 +31,19 @@ class TabsView extends BaseTabView
         $this->dataProvider    = new LicenseManagerDataProvider();
         $this->apiCommunicator = new ApiCommunicator();
         $this->handleUrlLicenseValidation();
+        $this->checkLicensesStatus();
 
-        // Check licenses status on main add-on page
+        parent::__construct();
+    }
+
+    /**
+     * Checks the licenses status if the current tab is 'add-ons'.
+     */
+    private function checkLicensesStatus()
+    {
         if ($this->isTab('add-ons')) {
             LicenseHelper::checkLicensesStatus();
         }
-
-        parent::__construct();
     }
 
     /**
