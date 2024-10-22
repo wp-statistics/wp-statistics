@@ -2942,11 +2942,19 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
   display: block;
   width: 13px;
   height: 1px;
-  margin: 3px auto;
+  margin: 0 auto;
   background-color: #fff;
   opacity: 60%;
   border-radius: 3px;
   transition: background-color 0.3s, transform 0.3s;
+}
+
+.hamburger-menu-bar{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  justify-content: center;
 }
 
 .hamburger-menu-container {
