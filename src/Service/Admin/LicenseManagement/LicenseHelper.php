@@ -82,7 +82,7 @@ class LicenseHelper
             'sku'           => $licenseData->license_details->sku ?? null,
             'max_domains'   => $licenseData->license_details->max_domains ?? null,
             'user'          => $licenseData->license_details->user ?? null,
-            'products'      => wp_list_pluck($licenseData->products, 'slug'),
+            'products'      => isset($licenseData->products) ? wp_list_pluck($licenseData->products, 'slug') : null,
         ];
 
         return $data;
