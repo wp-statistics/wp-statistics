@@ -3,6 +3,7 @@
 namespace WP_Statistics\Service\Admin\LicenseManagement;
 
 use WP_Statistics\Abstracts\MultiViewPage;
+use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 use WP_Statistics\Service\Admin\LicenseManagement\Views\TabsView;
 
 class LicenseManagerPage extends MultiViewPage
@@ -19,5 +20,6 @@ class LicenseManagerPage extends MultiViewPage
     protected function init()
     {
         $this->disableScreenOption();
+        LicenseHelper::checkLicensesStatus();
     }
 }

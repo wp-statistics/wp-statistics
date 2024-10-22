@@ -138,4 +138,20 @@ class LicenseHelper
 
         return null;
     }
+
+    public static function checkLicensesStatus()
+    {
+        $apiCommunicator = new ApiCommunicator();
+        $licenses        = LicenseHelper::getLicenses();
+
+        foreach ($licenses as $key => $data) {
+            try {
+                $status = $apiCommunicator->validateLicense($key);
+            } catch (Exception $e) {
+                $status = [];
+            }
+
+            LicenseHelper::saveLicense($key, $status);
+        }
+    }
 }
