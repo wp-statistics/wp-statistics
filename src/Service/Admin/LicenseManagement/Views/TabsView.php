@@ -32,6 +32,11 @@ class TabsView extends BaseTabView
         $this->apiCommunicator = new ApiCommunicator();
         $this->handleUrlLicenseValidation();
 
+        // Check licenses status on main add-on page
+        if ($this->isTab('add-ons')) {
+            LicenseHelper::checkLicensesStatus();
+        }
+
         parent::__construct();
     }
 

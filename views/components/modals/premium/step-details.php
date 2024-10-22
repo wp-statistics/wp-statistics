@@ -115,7 +115,7 @@ use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHelper;
         </div>
         <div class="wps-premium-step__sidebar">
             <div>
-                <p><?php esc_html_e('WP Statistics Premium Include:', 'wp-statistics'); ?></p>
+                <p><?php esc_html_e('WP Statistics Premium Include', 'wp-statistics'); ?>:</p>
                 <ul class="wps-premium-step__features-list">
                     <li class="<?php echo PluginHelper::isPluginPurchased('wp-statistics-data-plus') ? 'activated' : '' ?> wps-premium-step__feature js-wps-premiumStepFeature" data-modal="wp-statistics-data-plus"><?php esc_html_e('Data Plus', 'wp-statistics'); ?></li>
                     <li class="<?php echo PluginHelper::isPluginPurchased('wp-statistics-mini-chart') ? 'activated' : '' ?> wps-premium-step__feature js-wps-premiumStepFeature" data-modal="wp-statistics-mini-chart"><?php esc_html_e('Mini Chart', 'wp-statistics'); ?></li>

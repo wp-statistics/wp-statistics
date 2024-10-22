@@ -30,7 +30,7 @@ use WP_Statistics\Decorators\VisitorDecorator;
                     <a href="<?php echo esc_url(Menus::admin_url('visitors', ['type' => 'single-visitor', 'visitor_id' => $visitor->getId()])); ?>">
                         <span class="wps-visitor__information__user-img"></span>
                     </a>
-                    <a class="wps-visitor__information__user-text" href="<?php echo esc_url(Menus::admin_url('visitors', ['type' => 'single-visitor', 'visitor_id' => $visitor->getId()])); ?>">
+                    <a class="wps-visitor__information__user-text wps-tooltip" title="<?php echo esc_html($visitor->getUser()->getEmail()) ?> (<?php echo esc_html($visitor->getUser()->getRole()) ?>)" href="<?php echo esc_url(Menus::admin_url('visitors', ['type' => 'single-visitor', 'visitor_id' => $visitor->getId()])); ?>">
                         <span><?php echo esc_html($visitor->getUser()->getDisplayName()) ?></span>
                         <span>#<?php echo esc_html($visitor->getUser()->getId()) ?></span>
                     </a>
@@ -41,17 +41,17 @@ use WP_Statistics\Decorators\VisitorDecorator;
                     <div class="wps-tooltip_templates">
                         <div id="tooltip_user_id">
                             <div>
-                                <?php esc_html_e('ID:', 'wp-statistics'); ?>
+                                <?php esc_html_e('ID', 'wp-statistics'); ?>:
                                 <?php echo esc_html($visitor->getUser()->getId()); ?>
                             </div>
 
                             <div>
-                                <?php esc_html_e('Name:', 'wp-statistics'); ?>
+                                <?php esc_html_e('Name', 'wp-statistics'); ?>:
                                 <?php echo esc_html($visitor->getUser()->getDisplayName()); ?>
                             </div>
 
                             <div>
-                                <?php esc_html_e('Email:', 'wp-statistics'); ?>
+                                <?php esc_html_e('Email', 'wp-statistics'); ?>:
                                 <?php echo esc_html($visitor->getUser()->getEmail()); ?>
                             </div>
 
@@ -89,16 +89,3 @@ use WP_Statistics\Decorators\VisitorDecorator;
         </li>
     <?php endif; ?>
 </ul>
-<?php if (!empty($visitor->user_id) && Option::get('visitors_log')) : ?>
-    <div class="wps-visitor__information__user-more-info">
-        <div>
-            <?php esc_html_e('Email:', 'wp-statistics') ?>
-            <?php echo esc_html($visitor->getUser()->getEmail()) ?>
-        </div>
-
-        <div>
-            <?php esc_html_e('Role:', 'wp-statistics') ?>
-            <span class="c-capitalize"><?php echo esc_html($visitor->getUser()->getRole()) ?></span>
-        </div>
-    </div>
-<?php endif; ?>

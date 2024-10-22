@@ -29,7 +29,7 @@ $postTypeSingular   = Helper::getPostTypeName(get_post_type($postId), true);
         <div class="wps-content-analytics-header__info">
             <span class="wps-content-analytics-header__type"><?php echo esc_html($postTypeSingular) ?></span>
             <span class="wps-content-analytics-header__date_published"><?php echo get_the_date(Helper::getDefaultDateFormat(true), $postId) ?></span>
-            <span class="wps-content-analytics-header__date_updated"><span><?php  echo esc_html__('Updated on:', 'wp-statistics') ?>&nbsp;</span><?php echo get_the_modified_date(Helper::getDefaultDateFormat(true), $postId) ?></span>
+            <span class="wps-content-analytics-header__date_updated"><span><?php  echo esc_html__('Updated on', 'wp-statistics') ?>:&nbsp;</span><?php echo get_the_modified_date(Helper::getDefaultDateFormat(true), $postId) ?></span>
             <span class="wps-content-analytics-header__author">
                 <a href="<?php echo Menus::admin_url('author-analytics', ['type' => 'single-author', 'author_id' => $postAuthor]) ?>"><?php echo get_the_author_meta('display_name', $postAuthor) ?></a>
             </span>

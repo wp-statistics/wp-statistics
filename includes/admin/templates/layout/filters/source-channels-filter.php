@@ -10,7 +10,7 @@ $selectedTitle  = $channels[$selected] ?? null;
 
 <div class="wps-head-filters__item loading">
     <div class="wps-dropdown">
-        <label class="selectedItemLabel"><?php esc_html_e('Source Category:', 'wp-statistics'); ?> </label>
+        <label class="selectedItemLabel"><?php esc_html_e('Source Category', 'wp-statistics'); ?>: </label>
         <button type="button" class="dropbtn"><span><?php echo !empty($selectedTitle) ? esc_html($selectedTitle) : esc_html__('All', 'wp-statistics'); ?></span></button>
 
         <div class="dropdown-content">

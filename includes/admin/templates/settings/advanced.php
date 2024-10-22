@@ -349,7 +349,7 @@ add_thickbox();
                 <input id="reset-plugin" type="checkbox" name="wps_reset_plugin">
                 <label for="reset-plugin"><?php esc_html_e('Reset', 'wp-statistics'); ?></label>
                 <p class="description"><?php esc_html_e('Revert all user-specific and global configurations to the WP Statistics default settings, preserving your existing data.', 'wp-statistics'); ?></p>
-                <p class="description"><span class="wps-note"><?php esc_html_e('Caution:', 'wp-statistics'); ?></span> <?php esc_html_e('This change is irreversible.', 'wp-statistics'); ?></p>
+                <p class="description"><span class="wps-note"><?php esc_html_e('Caution', 'wp-statistics'); ?>:</span> <?php esc_html_e('This change is irreversible.', 'wp-statistics'); ?></p>
                 <p class="description"><?php _e('<b>For multisite users</b>: Every site within the network will return to the default settings.', 'wp-statistics'); // phpcs:ignore WordPress.Security.EscapeOutput.UnsafePrintingFunction	?></p>
             </td>
         </tr>

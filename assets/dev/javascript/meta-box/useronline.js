@@ -82,7 +82,7 @@ wps_js.visitor_info = function (value) {
             user_info += `<a href="${value['single_url']}">
                 <span class="wps-visitor__information__user-img"></span>
             </a>
-            <a class="wps-visitor__information__user-text" href="${value['single_url']}">
+            <a class="wps-visitor__information__user-text wps-tooltip" title="${value['user']['email']} (${value['user']['role']})" href="${value['single_url']}">
                 <span>${value['user']['name']}</span>
                 <span>#${value['ID']}</span>
             </a>`
@@ -126,17 +126,6 @@ wps_js.visitor_info = function (value) {
         }
     }
     user_info += `</div></li></ul>`;
-    if (track_users && Object.keys(value['user']).length > 0) {
-        user_info += ` <div class="wps-visitor__information__user-more-info">
-            <div>
-                 ${wps_js._('email')}:<span>${value['user']['email']}</span>
-            </div>
-        
-            <div>
-                ${wps_js._('role')}:<span class="c-capitalize">${value['user']['role']} </span>  
-            </div>
-        </div>`;
-    }
 
     return user_info;
 }

@@ -174,6 +174,16 @@ class VisitorDecorator
     }
 
     /**
+     * Get user ID
+     *
+     * @return mixed
+     */
+    public function getUserId()
+    {
+        return $this->visitor->user_id;
+    }
+
+    /**
      * Retrieves the first view time of the visitor.
      *
      * @return int|null The time of the first view, or null if not available.

@@ -9,7 +9,7 @@ $taxonomies       = Helper::get_list_taxonomy(true);
 
 <div class="wps-filter-taxonomy wps-head-filters__item loading">
     <div class="wps-dropdown">
-        <label class="selectedItemLabel"><?php esc_html_e('Taxonomy:', 'wp-statistics'); ?> </label>
+        <label class="selectedItemLabel"><?php esc_html_e('Taxonomy', 'wp-statistics'); ?>: </label>
         <button type="button" class="dropbtn"><span><?php echo isset($taxonomies[$selectedOption]) ? esc_html(ucwords($taxonomies[$selectedOption])) : '—'; ?></span></button>
 
         <div class="dropdown-content">
