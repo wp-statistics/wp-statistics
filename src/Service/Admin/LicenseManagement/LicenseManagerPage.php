@@ -20,6 +20,5 @@ class LicenseManagerPage extends MultiViewPage
     protected function init()
     {
         $this->disableScreenOption();
-        LicenseHelper::checkLicensesStatus();
     }
 }
