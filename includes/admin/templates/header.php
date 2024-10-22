@@ -58,11 +58,11 @@ $allPlugins         = count(PluginHelper::getPlugins());
     <div class="wps-adminHeader__side">
         <?php if (apply_filters('wp_statistics_enable_upgrade_to_bundle', true)) : ?>
             <?php if (!$isPremium && !LicenseHelper::isLicenseAvailable()) : ?>
-                <a href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/product/add-ons-bundle?utm_source=wp-statistics&utm_medium=link&utm_campaign=header'); ?>" target="_blank" class="wps-license-status wps-license-status--free">
+                <a href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/pricing?utm_source=wp-statistics&utm_medium=link&utm_campaign=header'); ?>" target="_blank" class="wps-license-status wps-license-status--free">
                     <?php esc_html_e('Upgrade To Premium', 'wp-statistics'); ?>
                 </a>
             <?php else : ?>
-                <a href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/product/add-ons-bundle?utm_source=wp-statistics&utm_medium=link&utm_campaign=header'); ?>" class="wps-license-status wps-license-status--valid">
+                <a href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/pricing?utm_source=wp-statistics&utm_medium=link&utm_campaign=header'); ?>" class="wps-license-status wps-license-status--valid">
                     <span><?php esc_html_e(sprintf('License: %s/%s', $purchasedPlugins, $allPlugins), 'wp-statistics')?></span> <span><?php esc_html_e('Upgrade', 'wp-statistics'); ?></span>
                 </a>
             <?php endif; ?>
@@ -120,11 +120,11 @@ $allPlugins         = count(PluginHelper::getPlugins());
                 <?php if (apply_filters('wp_statistics_enable_upgrade_to_bundle', true)) : ?>
                     <div class="wps-bundle">
                         <?php if (!$isPremium && !LicenseHelper::isLicenseAvailable()) : ?>
-                            <a href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/product/add-ons-bundle?utm_source=wp-statistics&utm_medium=link&utm_campaign=header'); ?>" target="_blank" class="wps-license-status wps-license-status--free">
+                            <a href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/pricing?utm_source=wp-statistics&utm_medium=link&utm_campaign=header'); ?>" target="_blank" class="wps-license-status wps-license-status--free">
                                 <?php esc_html_e('Upgrade To Premium', 'wp-statistics'); ?>
                             </a>
                         <?php else : ?>
-                            <a href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/product/add-ons-bundle?utm_source=wp-statistics&utm_medium=link&utm_campaign=header'); ?>" class="wps-license-status wps-license-status--valid">
+                            <a href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/pricing?utm_source=wp-statistics&utm_medium=link&utm_campaign=header'); ?>" class="wps-license-status wps-license-status--valid">
                                 <span><?php esc_html_e(sprintf('License: %s/%s', $purchasedPlugins, $allPlugins), 'wp-statistics')?></span> <span><?php esc_html_e('Upgrade', 'wp-statistics'); ?></span>
                             </a>
                         <?php endif; ?>
