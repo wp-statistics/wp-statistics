@@ -37,7 +37,7 @@ if (!defined('ABSPATH') || empty($addOn)) {
         <?php endif; ?>
 
         <?php if ($included && (!$addOn->isInstalled() || $addOn->isUpdateAvailable())) : ?>
-            <input type="checkbox" class="js-wps-addon-check-box" name="addon-select" data-slug="<?php echo esc_attr($addOn->getSlug()); ?>">
+            <span> <input type="checkbox" class="js-wps-addon-check-box" name="addon-select" data-slug="<?php echo esc_attr($addOn->getSlug()); ?>"></span>
         <?php endif; ?>
     </div>
 </div>

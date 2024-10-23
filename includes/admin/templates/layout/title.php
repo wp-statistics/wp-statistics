@@ -11,7 +11,7 @@ use WP_Statistics\Utils\Request;
     <?php endif ?>
     
     <?php if (isset($title)): ?>
-        <h2 class="wps_title"><?php echo(isset($title) ? esc_attr($title) : (function_exists('get_admin_page_title') ? get_admin_page_title() : '')); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	 ?>
+        <h2 class="wps_title <?php echo isset($install_addon_btn_txt) ? 'wps_plugins_page-title' : '' ?>"><?php echo(isset($title) ? esc_attr($title) : (function_exists('get_admin_page_title') ? get_admin_page_title() : '')); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	 ?>
             <?php if (!empty($tooltip)) : ?>
                 <span class="wps-tooltip" title="<?php echo esc_attr($tooltip); ?>"><i class="wps-tooltip-icon info"></i></span>
             <?php endif; ?>
