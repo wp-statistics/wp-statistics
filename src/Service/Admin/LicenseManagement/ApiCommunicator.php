@@ -93,36 +93,30 @@ class ApiCommunicator
      */
     public function validateLicense($licenseKey, $product = false)
     {
-        try {
-            $remoteRequest = new RemoteRequest("{$this->apiUrl}/license/status", 'GET', [
-                'license_key' => $licenseKey,
-                'domain'      => home_url(),
-            ]);
+        $remoteRequest = new RemoteRequest("{$this->apiUrl}/license/status", 'GET', [
+            'license_key' => $licenseKey,
+            'domain'      => home_url(),
+        ]);
 
-            $licenseData = $remoteRequest->execute(false, false);
+        $licenseData = $remoteRequest->execute(false, false);
 
-            if (empty($licenseData)) {
-                throw new Exception(__('Invalid license response!', 'wp-statistics'));
-            }
+        if (empty($licenseData)) {
+            throw new Exception(__('Invalid license response!', 'wp-statistics'));
+        }
 
-            if (empty($licenseData->license_details)) {
-                throw new Exception(!empty($licenseData->message) ? $licenseData->message : __('Unknown error!', 'wp-statistics'));
-            }
-
-
-            if (!empty($product)) {
-                $productSlugs = array_column($licenseData->products, 'slug');
-
-                if (!in_array($product, $productSlugs, true)) {
-                    throw new Exception(sprintf(__('The license is not related to the requested Add-On <b>%s</b>.', 'wp-statistics'), $product));
-                }
-            }
-
-        } catch (Exception $e) {
+        if (empty($licenseData->license_details)) {
             throw new Exception(
-            // translators: %s: Error message.
-                sprintf(__('Error: %s', 'wp-statistics'), $e->getMessage())
+                $licenseData->message ?? esc_html__('Unknown error!', 'wp-statistics'),
+                $licenseData->code ?? 0
             );
+        }
+
+        if (!empty($product)) {
+            $productSlugs = array_column($licenseData->products, 'slug');
+
+            if (!in_array($product, $productSlugs, true)) {
+                throw new Exception(sprintf(__('The license is not related to the requested Add-On <b>%s</b>.', 'wp-statistics'), $product));
+            }
         }
 
         LicenseHelper::saveLicense($licenseKey, $licenseData);

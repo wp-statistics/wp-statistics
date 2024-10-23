@@ -3,17 +3,12 @@
  */
 
 @media(max-width: 500px){
-  .statistics_page_wps_plugins_page{
-    .wps-wrap__top{
-
-      .wps_title{
-        width: 100%;
-        box-sizing: border-box;
-        display: flex;
-        flex-direction: column;
-        gap: 16px;
-      }
-    }
+  .wps_plugins_page-title{
+      width: 100%;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
   }
 }
 
@@ -88,11 +83,12 @@
     &__title {
       padding: 0;
       margin: 0;
-      color: #898A8E;
+      color: #56585A;
       font-size: 11px;
       font-weight: 500;
       line-height: 12.89px;
       letter-spacing: 0.09em;
+      text-transform: uppercase;
     }
 
     &__items {
@@ -111,10 +107,12 @@
         display: flex;
         align-items: flex-start;
         justify-content: space-between;
+        position: relative;
 
         @media(max-width: 500px) {
           flex-direction: column;
           align-items: flex-end;
+          padding-bottom: 40px;
 
           .wps-postbox-addon__item--info {
             order: 2;
@@ -124,6 +122,9 @@
           .wps-postbox-addon__item--actions {
             order: 1;
             gap: 8px;
+            align-items: self-start;
+             height: 100%;
+            top: 0;
           }
         }
       }
@@ -173,7 +174,7 @@
           line-height: 17.58px;
 
           span.wps-postbox-addon__version {
-            color: #56585A;
+            color: #898A8E;
             font-size: 11px;
             font-weight: 500;
             line-height: 16px;
@@ -284,11 +285,16 @@
                 -moz-animation-fill-mode: forwards;
                 background: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTMuNjQxNzIgMi45NTM3OEM0LjgxMDM4IDEuOTQzMjggNi4zMzM4MSAxLjMzMjAzIDguMDAwMDEgMS4zMzIwM0MxMS42ODE5IDEuMzMyMDMgMTQuNjY2NyA0LjMxNjggMTQuNjY2NyA3Ljk5ODdDMTQuNjY2NyA5LjQyMjc2IDE0LjIyMDEgMTAuNzQyNiAxMy40NTk1IDExLjgyNThMMTEuMzMzMyA3Ljk5ODdIMTMuMzMzM0MxMy4zMzMzIDUuMDUzMTggMTAuOTQ1NSAyLjY2NTM2IDguMDAwMDEgMi42NjUzNkM2LjU2NjU2IDIuNjY1MzYgNS4yNjUxOSAzLjIzMDg4IDQuMzA2ODMgNC4xNTA5OEwzLjY0MTcyIDIuOTUzNzhaTTEyLjM1ODMgMTMuMDQzNkMxMS4xODk2IDE0LjA1NDEgOS42NjYyMSAxNC42NjU0IDguMDAwMDEgMTQuNjY1NEM0LjMxODExIDE0LjY2NTQgMS4zMzMzNCAxMS42ODA2IDEuMzMzMzQgNy45OTg3QzEuMzMzMzQgNi41NzQ2IDEuNzc5ODcgNS4yNTQ4IDIuNTQwNTQgNC4xNzE2Nkw0LjY2NjY4IDcuOTk4N0gyLjY2NjY4QzIuNjY2NjggMTAuOTQ0MiA1LjA1NDQ5IDEzLjMzMiA4LjAwMDAxIDEzLjMzMkM5LjQzMzQ4IDEzLjMzMiAxMC43MzQ4IDEyLjc2NjUgMTEuNjkzMiAxMS44NDY0TDEyLjM1ODMgMTMuMDQzNloiIGZpbGw9IiM1NjU4NUEiLz4KPC9zdmc+Cg==") center center no-repeat;
               }
+              &:hover {
+                background: transparent;
+              }
             }
 
             &:hover {
               background: #121926CC;
-
+              &.redirecting {
+                background: transparent;
+              }
             }
 
             &.loading {
@@ -527,6 +533,7 @@
           align-items: flex-end;
           gap: 0;
           position: relative;
+           padding-bottom: 56px;
         }
 
         &:hover {
@@ -619,7 +626,7 @@
             line-height: 17.58px;
 
             span.wps-postbox-addon__version {
-              color: #56585A;
+              color: #898A8E;
               font-size: 11px;
               font-weight: 500;
               line-height: 16px;
@@ -763,6 +770,10 @@
   justify-content: center;
   white-space: nowrap;
 
+  @media(max-width: 500px){
+    margin-top:4px;
+  }
+
   &--success {
     color: #196140;
     background: #1961400D;
@@ -789,6 +800,7 @@
       height: 17px;
       background: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAyMDAgMjAwJz48Y2lyY2xlIGZpbGw9JyM3MzYyQkYnIHN0cm9rZT0nIzczNjJCRicgc3Ryb2tlLXdpZHRoPScxNScgcj0nMTUnIGN4PSc0MCcgY3k9JzEwMCc+PGFuaW1hdGUgYXR0cmlidXRlTmFtZT0nb3BhY2l0eScgY2FsY01vZGU9J3NwbGluZScgZHVyPScyJyB2YWx1ZXM9JzE7MDsxOycga2V5U3BsaW5lcz0nLjUgMCAuNSAxOy41IDAgLjUgMScgcmVwZWF0Q291bnQ9J2luZGVmaW5pdGUnIGJlZ2luPSctLjQnPjwvYW5pbWF0ZT48L2NpcmNsZT48Y2lyY2xlIGZpbGw9JyM3MzYyQkYnIHN0cm9rZT0nIzczNjJCRicgc3Ryb2tlLXdpZHRoPScxNScgcj0nMTUnIGN4PScxMDAnIGN5PScxMDAnPjxhbmltYXRlIGF0dHJpYnV0ZU5hbWU9J29wYWNpdHknIGNhbGNNb2RlPSdzcGxpbmUnIGR1cj0nMicgdmFsdWVzPScxOzA7MTsnIGtleVNwbGluZXM9Jy41IDAgLjUgMTsuNSAwIC41IDEnIHJlcGVhdENvdW50PSdpbmRlZmluaXRlJyBiZWdpbj0nLS4yJz48L2FuaW1hdGU+PC9jaXJjbGU+PGNpcmNsZSBmaWxsPScjNzM2MkJGJyBzdHJva2U9JyM3MzYyQkYnIHN0cm9rZS13aWR0aD0nMTUnIHI9JzE1JyBjeD0nMTYwJyBjeT0nMTAwJz48YW5pbWF0ZSBhdHRyaWJ1dGVOYW1lPSdvcGFjaXR5JyBjYWxjTW9kZT0nc3BsaW5lJyBkdXI9JzInIHZhbHVlcz0nMTswOzE7JyBrZXlTcGxpbmVzPScuNSAwIC41IDE7LjUgMCAuNSAxJyByZXBlYXRDb3VudD0naW5kZWZpbml0ZScgYmVnaW49JzAnPjwvYW5pbWF0ZT48L2NpcmNsZT48L3N2Zz4=") center center no-repeat;
     }
+
   }
 
   &--disable {
@@ -826,6 +838,10 @@
     font-weight: 500;
     opacity: 1;
 
+    &:hover{
+      background: transparent;
+    }
+
     &:after {
       width: 16px;
       height: 16px;
@@ -841,7 +857,6 @@
       -moz-animation-duration: 2s;
       -moz-animation-iteration-count: infinite;
       -moz-animation-fill-mode: forwards;
-
       background: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTMuNjQxNzIgMi45NTM3OEM0LjgxMDM4IDEuOTQzMjggNi4zMzM4MSAxLjMzMjAzIDguMDAwMDEgMS4zMzIwM0MxMS42ODE5IDEuMzMyMDMgMTQuNjY2NyA0LjMxNjggMTQuNjY2NyA3Ljk5ODdDMTQuNjY2NyA5LjQyMjc2IDE0LjIyMDEgMTAuNzQyNiAxMy40NTk1IDExLjgyNThMMTEuMzMzMyA3Ljk5ODdIMTMuMzMzM0MxMy4zMzMzIDUuMDUzMTggMTAuOTQ1NSAyLjY2NTM2IDguMDAwMDEgMi42NjUzNkM2LjU2NjU2IDIuNjY1MzYgNS4yNjUxOSAzLjIzMDg4IDQuMzA2ODMgNC4xNTA5OEwzLjY0MTcyIDIuOTUzNzhaTTEyLjM1ODMgMTMuMDQzNkMxMS4xODk2IDE0LjA1NDEgOS42NjYyMSAxNC42NjU0IDguMDAwMDEgMTQuNjY1NEM0LjMxODExIDE0LjY2NTQgMS4zMzMzNCAxMS42ODA2IDEuMzMzMzQgNy45OTg3QzEuMzMzMzQgNi41NzQ2IDEuNzc5ODcgNS4yNTQ4IDIuNTQwNTQgNC4xNzE2Nkw0LjY2NjY4IDcuOTk4N0gyLjY2NjY4QzIuNjY2NjggMTAuOTQ0MiA1LjA1NDQ5IDEzLjMzMiA4LjAwMDAxIDEzLjMzMkM5LjQzMzQ4IDEzLjMzMiAxMC43MzQ4IDEyLjc2NjUgMTEuNjkzMiAxMS44NDY0TDEyLjM1ODMgMTMuMDQzNloiIGZpbGw9IiM1NjU4NUEiLz4KPC9zdmc+Cg==") center center no-repeat;
 
       .rtl & {
@@ -894,6 +909,11 @@
     @media (max-width: 500px) {
       justify-content: flex-end;
       position: absolute;
+      order: 1;
+      gap: 8px;
+      align-items: self-start;
+      height: calc(100% - 32px);
+      top: 16px;
     }
 
     .wps-addon--actions {
@@ -993,6 +1013,15 @@
         }
       }
 
+    }
+    .wps-postbox-addon__buttons{
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      @media (max-width: 500px) {
+        position: absolute;
+        bottom: 0;
+      }
     }
 
     .wps-postbox-addon__button {

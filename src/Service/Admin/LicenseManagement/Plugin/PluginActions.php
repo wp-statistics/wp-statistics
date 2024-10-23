@@ -56,7 +56,7 @@ class PluginActions
             $this->apiCommunicator->validateLicense($licenseKey, $addOn);
 
             wp_send_json_success([
-                'message' => __('License is valid.', 'wp-statistics'),
+                'message' => __('You\'re All Set! Your License is Successfully Activated!', 'wp-statistics'),
             ]);
         } catch (Exception $e) {
             wp_send_json_error([

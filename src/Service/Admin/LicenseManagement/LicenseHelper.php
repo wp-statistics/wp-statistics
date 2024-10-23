@@ -45,7 +45,7 @@ class LicenseHelper
     public static function getLicenseInfo($licenseKey)
     {
         $licenses = self::getValidLicenses();
-        return isset($license[$licenseKey]) ? $licenses[$licenseKey] : false;
+        return $licenses[$licenseKey] ?? false;
     }
 
     /**
@@ -139,6 +139,11 @@ class LicenseHelper
         return null;
     }
 
+    /**
+     * Checks all stored licenses to see if they are valid or not.
+     *
+     * @return void
+     */
     public static function checkLicensesStatus()
     {
         $apiCommunicator = new ApiCommunicator();
@@ -148,7 +153,8 @@ class LicenseHelper
             try {
                 $status = $apiCommunicator->validateLicense($key);
             } catch (Exception $e) {
-                $status = [];
+                // Exception code 1000 and above means that the license is no longer valid.
+                $status = $e->getCode() >= 1000 ? [] : $data;
             }
 
             LicenseHelper::saveLicense($key, $status);

@@ -318,35 +318,35 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             if (params.action === "wp_statistics_download_plugin") {
                 const current_plugin_checkbox = document.querySelector(`[data-slug="${params.plugin_slug}"]`);
                 if (current_plugin_checkbox) {
-                    const downloadingStatus = current_plugin_checkbox.parentElement.querySelector('.wps-postbox-addon__status--purple');
+                    const downloadingStatus = current_plugin_checkbox.parentElement.parentElement.querySelector('.wps-postbox-addon__status--purple');
                     if (downloadingStatus) {
                         downloadingStatus.remove();
                     }
                     const statusSpan = document.createElement('span');
                     statusSpan.classList.add('wps-postbox-addon__status', 'wps-postbox-addon__status--danger');
                     statusSpan.textContent = wps_js._('failed');
-                    current_plugin_checkbox.parentElement.insertBefore(statusSpan, current_plugin_checkbox.parentElement.firstChild);
+                    current_plugin_checkbox.parentElement.parentElement.insertBefore(statusSpan, current_plugin_checkbox.parentElement.parentElement.firstChild);
 
                     if (params.tab === 'get-started') {
                         const retryBtn = document.createElement('a');
                         retryBtn.classList.add('wps-postbox-addon__button', 'button-retry-addon-download', 'js-addon-retry-btn');
                         retryBtn.textContent = wps_js._('retry');
                         retryBtn.setAttribute('data-slug', params.plugin_slug);
-                        current_plugin_checkbox.parentElement.insertBefore(retryBtn, statusSpan.nextSibling);
+                        current_plugin_checkbox.parentElement.parentElement.insertBefore(retryBtn, statusSpan.nextSibling);
                     }
                 }
             }
             if (params.action === "wp_statistics_activate_plugin") {
                 const current_plugin = document.querySelector(`[data-slug="${params.plugin_slug}"]`);
                 if (current_plugin) {
-                    const loadingStatus = current_plugin.parentElement.querySelector('.wps-postbox-addon__status');
+                    const loadingStatus = current_plugin.parentElement.parentElement.querySelector('.wps-postbox-addon__status');
                     if (loadingStatus) {
                         loadingStatus.remove();
                     }
                     const statusSpan = document.createElement('span');
                     statusSpan.classList.add('wps-postbox-addon__status', 'wps-postbox-addon__status--danger');
                     statusSpan.textContent = wps_js._('failed');
-                    current_plugin.parentElement.insertBefore(statusSpan, current_plugin.parentElement.firstChild);
+                    current_plugin.parentElement.parentElement.insertBefore(statusSpan, current_plugin.parentElement.parentElement.firstChild);
                     current_plugin.style.display = 'flex';
                 }
             }
@@ -358,15 +358,15 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
 
                 const current_plugin = document.querySelector(`[data-slug="${params.plugin_slug}"]`);
                 if (current_plugin) {
-                    const statusLable = current_plugin.parentElement.querySelector('.wps-postbox-addon__status');
+                    const statusLable = current_plugin.parentElement.parentElement.querySelector('.wps-postbox-addon__status');
                     if (statusLable) {
                         statusLable.remove();
                     }
                     const statusSpan = document.createElement('span');
                     statusSpan.classList.add('wps-postbox-addon__status', 'wps-postbox-addon__status--purple');
                     statusSpan.textContent = wps_js._('downloading');
-                    if (current_plugin && current_plugin.parentElement) {
-                        current_plugin.parentElement.insertBefore(statusSpan, current_plugin.parentElement.firstChild);
+                    if (current_plugin && current_plugin.parentElement.parentElement) {
+                        current_plugin.parentElement.parentElement.insertBefore(statusSpan, current_plugin.parentElement.parentElement.firstChild);
                         current_plugin.style.display = 'none';
                     }
 
@@ -377,15 +377,15 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
 
                 const current_plugin = document.querySelector(`[data-slug="${params.plugin_slug}"]`);
                 if (current_plugin) {
-                    const statusLable = current_plugin.parentElement.querySelector('.wps-postbox-addon__status');
+                    const statusLable = current_plugin.parentElement.parentElement.querySelector('.wps-postbox-addon__status');
                     if (statusLable) {
                         statusLable.remove();
                     }
                     const statusSpan = document.createElement('span');
                     statusSpan.classList.add('wps-postbox-addon__status', 'wps-postbox-addon__status--purple');
                     statusSpan.textContent = wps_js._('activating');
-                    if (current_plugin && current_plugin.parentElement) {
-                        current_plugin.parentElement.insertBefore(statusSpan, current_plugin.parentElement.firstChild);
+                    if (current_plugin && current_plugin.parentElement.parentElement) {
+                        current_plugin.parentElement.parentElement.insertBefore(statusSpan, current_plugin.parentElement.parentElement.firstChild);
                         current_plugin.style.display = 'none';
                     }
                 }
@@ -432,7 +432,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                         if (params.action === "wp_statistics_download_plugin") {
                             const current_plugin_checkbox = document.querySelector(`[data-slug="${params.plugin_slug}"]`);
                             if (current_plugin_checkbox) {
-                                const loadingStatus = current_plugin_checkbox.parentElement.querySelector('.wps-postbox-addon__status--purple');
+                                const loadingStatus = current_plugin_checkbox.parentElement.parentElement.querySelector('.wps-postbox-addon__status--purple');
                                 const updatedLable = current_plugin_checkbox.parentElement.parentElement.querySelector('.wps-postbox-addon__label--updated');
                                 if (loadingStatus) {
                                     loadingStatus.remove();
@@ -443,8 +443,8 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                                 const statusSpan = document.createElement('span');
                                 statusSpan.classList.add('wps-postbox-addon__status', 'wps-postbox-addon__status--success');
                                 statusSpan.textContent = wps_js._('already_installed');
-                                if (current_plugin_checkbox && current_plugin_checkbox.parentElement) {
-                                    current_plugin_checkbox.parentElement.insertBefore(statusSpan, current_plugin_checkbox.parentElement.firstChild);
+                                if (current_plugin_checkbox && current_plugin_checkbox.parentElement.parentElement) {
+                                    current_plugin_checkbox.parentElement.parentElement.insertBefore(statusSpan, current_plugin_checkbox.parentElement.parentElement.firstChild);
                                 }
 
                                 if (params.tab === 'downloads') {
@@ -469,14 +469,14 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                         if (params.action === "wp_statistics_activate_plugin") {
                             const current_plugin_checkbox = document.querySelector(`[data-slug="${params.plugin_slug}"]`);
                             if (current_plugin_checkbox) {
-                                const loadingStatus = current_plugin_checkbox.parentElement.querySelector('.wps-postbox-addon__status--purple');
+                                const loadingStatus = current_plugin_checkbox.parentElement.parentElement.querySelector('.wps-postbox-addon__status--purple');
                                 if (loadingStatus) {
                                     loadingStatus.remove();
                                 }
                                 const statusSpan = document.createElement('span');
                                 statusSpan.classList.add('wps-postbox-addon__status', 'wps-postbox-addon__status--success');
                                 statusSpan.textContent = wps_js._('activated');
-                                current_plugin_checkbox.parentElement.insertBefore(statusSpan, current_plugin_checkbox.parentElement.firstChild);
+                                current_plugin_checkbox.parentElement.parentElement.insertBefore(statusSpan, current_plugin_checkbox.parentElement.parentElement.firstChild);
                                 current_plugin_checkbox.remove();
                             }
                         }

@@ -47,7 +47,7 @@ class log_page extends Singleton
         $args['title'] =  __('Overview', 'wp-statistics');
 
         // Show welcome modal on first load
-        if (!User::getMeta('wp_statistics_welcome_modal_displayed')) {
+        if (!User::getMeta('wp_statistics_welcome_modal_displayed') && apply_filters('wp_statistics_enable_upgrade_to_bundle', true)) {
             View::load("components/modals/premium/welcome-modal");
 
             User::saveMeta('wp_statistics_welcome_modal_displayed', true);
