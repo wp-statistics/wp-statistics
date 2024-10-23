@@ -2,8 +2,10 @@
 
 use WP_Statistics\Components\View;
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
+use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHandler;
 use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHelper;
 
+$pluginHandler = new PluginHandler();
 ?>
 <div class="wps-premium-step">
     <div class="wps-premium-step__header">
@@ -117,13 +119,27 @@ use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHelper;
             <div>
                 <p><?php esc_html_e('WP Statistics Premium Include', 'wp-statistics'); ?>:</p>
                 <ul class="wps-premium-step__features-list">
-                    <li class="<?php echo PluginHelper::isPluginPurchased('wp-statistics-data-plus') ? 'activated' : '' ?> wps-premium-step__feature js-wps-premiumStepFeature" data-modal="wp-statistics-data-plus"><?php esc_html_e('Data Plus', 'wp-statistics'); ?> <span class="wps-premium-step__feature-badge"><?php esc_html_e('Not Installed', 'wp-statistics'); ?></span></li>
-                    <li class="<?php echo PluginHelper::isPluginPurchased('wp-statistics-mini-chart') ? 'activated' : '' ?> wps-premium-step__feature js-wps-premiumStepFeature" data-modal="wp-statistics-mini-chart"><?php esc_html_e('Mini Chart', 'wp-statistics'); ?></li>
-                    <li class="<?php echo PluginHelper::isPluginPurchased('wp-statistics-advanced-reporting') ? 'activated' : '' ?> wps-premium-step__feature js-wps-premiumStepFeature" data-modal="wp-statistics-advanced-reporting"><?php esc_html_e('Advanced Reporting', 'wp-statistics'); ?></li>
-                    <li class="<?php echo PluginHelper::isPluginPurchased('wp-statistics-realtime-stats') ? 'activated' : '' ?> wps-premium-step__feature js-wps-premiumStepFeature" data-modal="wp-statistics-real-time"><?php esc_html_e('Real-Time Stats', 'wp-statistics'); ?></li>
-                    <li class="<?php echo PluginHelper::isPluginPurchased('wp-statistics-widgets') ? 'activated' : '' ?> wps-premium-step__feature js-wps-premiumStepFeature" data-modal="wp-statistics-widgets"><?php esc_html_e('Widgets', 'wp-statistics'); ?></li>
-                    <li class="<?php echo PluginHelper::isPluginPurchased('wp-statistics-customization') ? 'activated' : '' ?> wps-premium-step__feature js-wps-premiumStepFeature" data-modal="wp-statistics-customization"><?php esc_html_e('Customization', 'wp-statistics'); ?></li>
-                    <li class="<?php echo PluginHelper::isPluginPurchased('wp-statistics-rest-api') ? 'activated' : '' ?> wps-premium-step__feature js-wps-premiumStepFeature" data-modal="wp-statistics-rest-api"><?php esc_html_e('REST API', 'wp-statistics'); ?></li>
+                    <?php
+                    $plugins = [
+                        'wp-statistics-data-plus'           => esc_html__('Data Plus', 'wp-statistics'),
+                        'wp-statistics-mini-chart'          => esc_html__('Mini Chart', 'wp-statistics'),
+                        'wp-statistics-advanced-reporting'  => esc_html__('Advanced Reporting', 'wp-statistics'),
+                        'wp-statistics-realtime-stats'      => esc_html__('Real-Time Stats', 'wp-statistics'),
+                        'wp-statistics-widgets'             => esc_html__('Widgets', 'wp-statistics'),
+                        'wp-statistics-customization'       => esc_html__('Customization', 'wp-statistics'),
+                        'wp-statistics-rest-api'            => esc_html__('REST API', 'wp-statistics'),
+                    ];
+                    ?>
+
+                    <?php foreach ($plugins as $slug => $title) : ?>
+                        <li class="<?php echo PluginHelper::isPluginPurchased($slug) ? 'activated' : '' ?> wps-premium-step__feature js-wps-premiumStepFeature" data-modal="<?php echo esc_attr($slug) ?>">
+                            <?php echo esc_html($title); ?>
+
+                            <?php if (!$pluginHandler->isPluginInstalled($slug)) : ?>
+                                <span class="wps-premium-step__feature-badge"><?php esc_html_e('Not Installed', 'wp-statistics'); ?></span>
+                            <?php endif; ?>
+                        </li>
+                    <?php endforeach; ?>
                 </ul>
             </div>
             <div class="wps-premium-step__actions">
