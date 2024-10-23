@@ -89,32 +89,27 @@ class LicenseManagerDataProvider
      */
     public function getGetStartedData()
     {
-        $licensedAddOns = [];
-        $selectedAddOns = Request::has('addons') ? Request::get('addons', [], 'array') : [];
+        $result = [
+            'licensed_addons'      => [],
+            'selected_addons'      => Request::has('addons') ? Request::get('addons', [], 'array') : [],
+            'display_activate_all' => false
+        ];
 
-        // Don't display the "Activate All" button if no add-ons can be activated
-        $displayActivateAll = false;
+        $licenseKey      = Request::get('license_key');
+        $purchasedAddons = array_keys(PluginHelper::getPurchasedPlugins($licenseKey));
 
         // Fetch all licensed add-ons
-        try {
-            foreach (PluginHelper::getPlugins() as $addOn) {
-                if ($addOn->isLicensed()) {
-                    $licensedAddOns[] = $addOn;
+        foreach (PluginHelper::getPlugins() as $addOn) {
+            if (in_array($addOn->getSlug(), $purchasedAddons)) {
+                $result['licensed_addons'][] = $addOn;
 
-                    if ($addOn->isInstalled() && !$addOn->isActivated()) {
-                        // Add-on can be activated, display the "Activate All" button
-                        $displayActivateAll = true;
-                    }
+                // Add-on can be activated, display the "Activate All" button
+                if ($addOn->isInstalled() && !$addOn->isActivated()) {
+                    $result['display_activate_all'] = true;
                 }
             }
-        } catch (Exception $e) {
-            $licensedAddOns = [];
         }
 
-        return [
-            'licensed_addons'      => $licensedAddOns,
-            'selected_addons'      => $selectedAddOns,
-            'display_activate_all' => $displayActivateAll,
-        ];
+        return $result;
     }
 }
