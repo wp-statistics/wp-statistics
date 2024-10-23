@@ -23,6 +23,10 @@ if (!defined('ABSPATH') || empty($addOn)) {
                     <?php if (!empty($addOn->getLabel())) : ?>
                         <span class="wps-postbox-addon__label wps-postbox-addon__label--<?php echo esc_attr($addOn->getLabelClass()); ?>"><?php echo esc_html($addOn->getLabel()); ?></span>
                     <?php endif; ?>
+
+                    <?php if ($addOn->isUpdateAvailable()) : ?>
+                        <span class="wps-postbox-addon__label wps-postbox-addon__label--updated"><?php esc_html_e('Update Available', 'wp-statistics'); ?></span>
+                    <?php endif; ?>
                 </div>
                 <p class="wps-postbox-addon__item--info__desc">
                     <?php echo wp_kses($addOn->getShortDescription(), 'data'); ?>
