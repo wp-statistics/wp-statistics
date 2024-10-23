@@ -22,7 +22,7 @@ class LicenseManagementManager
         $this->initPluginUpdaters();
 
         add_action('admin_init', [$this, 'showPluginActivationNotice']);
-        add_filter('wp_statistics_enable_upgrade_to_bundle', [$this, 'removeUpgradeToBundleButton']);
+        add_filter('wp_statistics_enable_upgrade_to_bundle', [$this, 'showUpgradeToBundle']);
         add_filter('wp_statistics_admin_menu_list', [$this, 'addMenuItem']);
     }
 
@@ -116,14 +116,12 @@ class LicenseManagementManager
     }
 
     /**
-     * Removes the "Upgrade To Premium" buttons if the user has a premium license.
+     * Show the "Upgrade To Premium" only if the user has a premium license.
      *
      * @return bool
-     *
-     * @hooked filter: `wp_statistics_enable_upgrade_to_bundle` - 10
      */
-    public function removeUpgradeToBundleButton()
+    public function showUpgradeToBundle()
     {
-        return empty(LicenseHelper::isPremiumLicenseAvailable());
+        return LicenseHelper::isPremiumLicenseAvailable() ? false : true;
     }
 }

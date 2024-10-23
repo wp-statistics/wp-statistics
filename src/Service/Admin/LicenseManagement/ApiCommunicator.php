@@ -106,9 +106,11 @@ class ApiCommunicator
             }
 
             if (empty($licenseData->license_details)) {
-                throw new Exception(!empty($licenseData->message) ? $licenseData->message : __('Unknown error!', 'wp-statistics'));
+                throw new Exception(
+                    $licenseData->message ?? esc_html__('Unknown error!', 'wp-statistics'),
+                    $licenseData->code ?? 0
+                );
             }
-
 
             if (!empty($product)) {
                 $productSlugs = array_column($licenseData->products, 'slug');
@@ -120,8 +122,8 @@ class ApiCommunicator
 
         } catch (Exception $e) {
             throw new Exception(
-            // translators: %s: Error message.
-                sprintf(__('Error: %s', 'wp-statistics'), $e->getMessage())
+                sprintf(__('Error: %s', 'wp-statistics'), $e->getMessage()),
+                $e->getCode()
             );
         }
 
