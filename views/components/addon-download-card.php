@@ -6,7 +6,7 @@ if (!defined('ABSPATH') || empty($addOn)) {
 }
 
 ?>
-<div class="wps-addon__download__item <?php echo !$addOn->isLicensed() ? 'wps-addon__download__item--disabled' : ''; ?>">
+<div class="wps-addon__download__item <?php echo !$included ? 'wps-addon__download__item--disabled' : ''; ?>">
     <div class="wps-addon__download__item--info">
         <div class="wps-addon__download__item--info__img">
             <img src="<?php echo esc_url($addOn->getIcon()); ?>" alt="<?php echo esc_attr($addOn->getName()); ?>">
@@ -19,7 +19,8 @@ if (!defined('ABSPATH') || empty($addOn)) {
                         <?php esc_html_e('Learn More', 'wp-statistics'); ?>
                     </a>
                 <?php endif; ?>
-                <?php if ($addOn->isUpdateAvailable()) : ?>
+
+                <?php if ($included && $addOn->isUpdateAvailable()) : ?>
                     <span class="wps-postbox-addon__label wps-postbox-addon__label--updated"><?php esc_html_e('Update Available', 'wp-statistics'); ?></span>
                 <?php endif; ?>
             </div>
@@ -29,12 +30,13 @@ if (!defined('ABSPATH') || empty($addOn)) {
         </div>
     </div>
     <div class="wps-addon__download__item--select">
-        <?php if ($addOn->isInstalled()) : ?>
+        <?php if ($included && $addOn->isInstalled()) : ?>
             <span class="wps-postbox-addon__status wps-postbox-addon__status--success "><?php esc_html_e('Already installed', 'wp-statistics'); ?></span>
-        <?php elseif (!$addOn->isLicensed()) : ?>
+        <?php elseif (!$included) : ?>
             <span class="wps-postbox-addon__status wps-postbox-addon__status--primary "><?php esc_html_e('Not included', 'wp-statistics'); ?></span>
         <?php endif; ?>
-        <?php if ($addOn->isLicensed() && (!$addOn->isInstalled() || $addOn->isUpdateAvailable())) : ?>
+
+        <?php if ($included && (!$addOn->isInstalled() || $addOn->isUpdateAvailable())) : ?>
             <input type="checkbox" class="js-wps-addon-check-box" name="addon-select" data-slug="<?php echo esc_attr($addOn->getSlug()); ?>">
         <?php endif; ?>
     </div>

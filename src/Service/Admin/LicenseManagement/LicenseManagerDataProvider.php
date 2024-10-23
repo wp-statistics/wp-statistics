@@ -57,30 +57,29 @@ class LicenseManagerDataProvider
      */
     public function getDownloadsData()
     {
-        $licensedAddOns    = [];
-        $notIncludedAddOns = [];
+        $result = [
+            'licensed_addons'     => [],
+            'not_included_addons' => [],
+            'display_select_all'  => false
+        ];
 
-        // Don't display the "Select All" button if no add-ons can be downloaded
-        $displaySelectAll = false;
+        $licenseKey      = Request::get('license_key');
+        $purchasedAddons = array_keys(PluginHelper::getPurchasedPlugins($licenseKey));
 
         foreach (PluginHelper::getPlugins() as $addOn) {
-            if ($addOn->isLicensed()) {
-                $licensedAddOns[] = $addOn;
+            if (in_array($addOn->getSlug(), $purchasedAddons)) {
+                $result['licensed_addons'][] = $addOn;
             } else {
-                $notIncludedAddOns[] = $addOn;
+                $result['not_included_addons'][] = $addOn;
             }
 
             if ($addOn->isLicensed() && (!$addOn->isInstalled() || $addOn->isUpdateAvailable())) {
                 // Add-on can be downloaded, display the "Select All" button
-                $displaySelectAll = true;
+                $result['display_select_all'] = true;
             }
         }
 
-        return [
-            'licensed_addons'     => $licensedAddOns,
-            'not_included_addons' => $notIncludedAddOns,
-            'display_select_all'  => $displaySelectAll,
-        ];
+        return $result;
     }
 
     /**

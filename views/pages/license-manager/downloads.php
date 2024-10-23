@@ -26,14 +26,14 @@ use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginDecorator;
                 if (!empty($data['licensed_addons'])) {
                     /** @var PluginDecorator $addOn */
                     foreach ($data['licensed_addons'] as $addOn) {
-                        View::load('components/addon-download-card', ['addOn' => $addOn]);
+                        View::load('components/addon-download-card', ['addOn' => $addOn, 'included' => true]);
                     }
                 }
 
                 if (!empty($data['not_included_addons'])) {
                     /** @var PluginDecorator $addOn */
                     foreach ($data['not_included_addons'] as $addOn) {
-                        View::load('components/addon-download-card', ['addOn' => $addOn]);
+                        View::load('components/addon-download-card', ['addOn' => $addOn, 'included' => false]);
                     }
                 }
                 ?>
