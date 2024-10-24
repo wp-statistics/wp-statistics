@@ -54,7 +54,7 @@ class LicenseManagementManager
      */
     private function initPluginUpdaters()
     {
-        $storedLicenses = LicenseHelper::getValidLicenses();
+        $storedLicenses = LicenseHelper::getLicenses();
 
         if (!empty($storedLicenses)) {
             foreach ($storedLicenses as $licenseKey => $licenseData) {

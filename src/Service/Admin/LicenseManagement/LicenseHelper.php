@@ -2,6 +2,7 @@
 namespace WP_Statistics\Service\Admin\LicenseManagement;
 
 use Exception;
+use WP_Statistics\Exception\LicenseException;
 use WP_STATISTICS\Option;
 
 class LicenseHelper
@@ -9,28 +10,20 @@ class LicenseHelper
     const LICENSE_OPTION_KEY = 'licenses';
 
     /**
-     * Returns all licenses stored in the WordPress database.
+     * Returns license stored in the WordPress database. By default only valid licenses are returned.
      *
+     * @param string $status param to filter licenses by status. Could be: `valid`, `license_expired` or `all`
      * @return array
      */
-    public static function getLicenses()
+    public static function getLicenses($status = 'valid')
     {
-        return Option::getOptionGroup(self::LICENSE_OPTION_KEY) ?? [];
-    }
+        $licenses = Option::getOptionGroup(self::LICENSE_OPTION_KEY) ?? [];
 
-    /**
-     * Returns all valid licenses.
-     *
-     * @return array
-     */
-    public static function getValidLicenses()
-    {
-        $licenses = self::getLicenses();
-
-        // Filter licenses with active status
-        $licenses = array_filter($licenses, function ($license) {
-            return $license['status'] == true;
-        });
+        if (!empty($status) && $status !== 'all') {
+            $licenses = array_filter($licenses, function ($license) use ($status) {
+                return $license['status'] === $status;
+            });
+        }
 
         return $licenses;
     }
@@ -44,7 +37,7 @@ class LicenseHelper
      */
     public static function getLicenseInfo($licenseKey)
     {
-        $licenses = self::getValidLicenses();
+        $licenses = self::getLicenses('all');
         return $licenses[$licenseKey] ?? false;
     }
 
@@ -57,7 +50,7 @@ class LicenseHelper
      */
     public static function getPluginLicense($slug)
     {
-        foreach (self::getValidLicenses() as $key => $license) {
+        foreach (self::getLicenses() as $key => $license) {
             if (empty($license['products'])) continue;
 
             if (in_array($slug, $license['products'])) {
@@ -77,7 +70,7 @@ class LicenseHelper
     private static function formatLicenseData($licenseData)
     {
         $data = [
-            'status'        => !empty($licenseData) ? true : false,
+            'status'        => $licenseData->status,
             'type'          => $licenseData->license_details->type ?? null,
             'sku'           => $licenseData->license_details->sku ?? null,
             'max_domains'   => $licenseData->license_details->max_domains ?? null,
@@ -94,11 +87,22 @@ class LicenseHelper
      * @param string $licenseKey
      * @param object $license
      */
-    public static function saveLicense($licenseKey, $licenseData)
+    public static function storeLicense($licenseKey, $licenseData)
     {
         $data = self::formatLicenseData($licenseData);
 
         Option::saveOptionGroup($licenseKey, $data, self::LICENSE_OPTION_KEY);
+    }
+
+    /**
+     * Update license in the database
+     *
+     * @param string $licenseKey
+     * @param object $license
+     */
+    public static function updateLicense($licenseKey, $licenseData)
+    {
+        Option::saveOptionGroup($licenseKey, $licenseData, self::LICENSE_OPTION_KEY);
     }
 
     /**
@@ -120,7 +124,7 @@ class LicenseHelper
      */
     public static function isLicenseAvailable()
     {
-        return !empty(self::getValidLicenses());
+        return !empty(self::getLicenses());
     }
 
     /**
@@ -130,7 +134,7 @@ class LicenseHelper
      */
     public static function isPremiumLicenseAvailable()
     {
-        foreach (self::getValidLicenses() as $key => $data) {
+        foreach (self::getLicenses() as $key => $data) {
             if (!empty($data['sku']) && $data['sku'] === 'premium') {
                 return $key;
             }
@@ -147,17 +151,26 @@ class LicenseHelper
     public static function checkLicensesStatus()
     {
         $apiCommunicator = new ApiCommunicator();
-        $licenses        = LicenseHelper::getLicenses();
+        $licenses        = LicenseHelper::getLicenses('all');
 
         foreach ($licenses as $key => $data) {
             try {
-                $status = $apiCommunicator->validateLicense($key);
-            } catch (Exception $e) {
-                // Exception code 1000 and above means that the license is no longer valid.
-                $status = $e->getCode() >= 1000 ? [] : $data;
-            }
+                $licenseData = $apiCommunicator->validateLicense($key);
+                LicenseHelper::storeLicense($key, $licenseData);
+            } catch (LicenseException $e) {
+                // If status is empty, do nothing (probably server error, or connection issue)
+                if (!$e->getStatus()) return;
 
-            LicenseHelper::saveLicense($key, $status);
+                // If license is expired, update the status
+                if ($e->getStatus() === 'license_expired') {
+                    $data['status'] = $e->getStatus();
+                    LicenseHelper::updateLicense($key, $data);
+                    return;
+                }
+
+                // If license is invalid, remove the license
+                LicenseHelper::removeLicense($key);
+            }
         }
     }
 }

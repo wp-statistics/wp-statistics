@@ -66,9 +66,9 @@ class PluginHelper
 
         if ($licenseKey) {
             $license = LicenseHelper::getLicenseInfo($licenseKey);
-            $plugins = $license ? $license['products'] : [];
+            $plugins = $license && $license['status'] === 'valid' ? $license['products'] : [];
         } else {
-            $licenses = LicenseHelper::getValidLicenses();
+            $licenses = LicenseHelper::getLicenses();
 
             foreach ($licenses as $license => $data) {
                 $plugins = array_merge($plugins, $data['products']);
