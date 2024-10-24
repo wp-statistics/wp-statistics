@@ -52,6 +52,7 @@ class ShortCode
         }
 
         $formatnumber = array_key_exists('format', $atts);
+        $result       = '';
 
         switch ($atts['stat']) {
             case 'usersonline':
