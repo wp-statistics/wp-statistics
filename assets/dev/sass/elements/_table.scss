@@ -47,7 +47,7 @@
           padding-left: 16px;
 
           @media screen and (min-width: 1300px) {
-            padding-left: 32px;
+            padding-left: 24px;
           }
         }
 
@@ -56,7 +56,7 @@
           padding-right: 16px;
 
           @media screen and (min-width: 768px) {
-            padding-right: 32px;
+            padding-right: 24px;
           }
         }
       }
@@ -75,7 +75,7 @@
           padding-left: 16px;
 
           @media screen and (min-width: 1300px) {
-            padding-left: 32px;
+            padding-left: 24px;
           }
         }
 
@@ -84,7 +84,7 @@
           padding-right: 16px;
 
           @media screen and (min-width: 768px) {
-            padding-right: 32px;
+            padding-right: 24px;
           }
         }
       }
@@ -99,7 +99,7 @@
           padding-left: 16px;
 
           @media screen and (min-width: 1300px) {
-            padding-left: 32px;
+            padding-left: 24px;
           }
         }
 
@@ -108,7 +108,7 @@
           padding-right: 16px;
 
           @media screen and (min-width: 768px) {
-            padding-right: 32px;
+            padding-right: 24px;
           }
         }
 
@@ -720,11 +720,11 @@ body .o-table-wrapper table.wps-new-table {
         display: inline-flex !important;
         justify-content: flex-start;
         align-items: center;
-        gap: 8px;
+        gap: 4px;
         max-width: 150px;
 
         span {
-          color: #404bf2 !important;
+          color: #10188D !important;
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
@@ -735,7 +735,7 @@ body .o-table-wrapper table.wps-new-table {
 
         &:after {
           content: '';
-          background: url("data:image/svg+xml;base64,Cjxzdmcgd2lkdGg9IjEzIiBoZWlnaHQ9IjEzIiB2aWV3Qm94PSIwIDAgMTMgMTMiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik01LjQxNjY3IDMuMjVWNC4zMzMzM0gyLjcwODMzVjEwLjI5MTdIOC42NjY2N1Y3LjU4MzMzSDkuNzVWMTAuODMzM0M5Ljc1IDExLjEzMjUgOS41MDc1IDExLjM3NSA5LjIwODMzIDExLjM3NUgyLjE2NjY3QzEuODY3NTEgMTEuMzc1IDEuNjI1IDExLjEzMjUgMS42MjUgMTAuODMzM1YzLjc5MTY3QzEuNjI1IDMuNDkyNTIgMS44Njc1MSAzLjI1IDIuMTY2NjcgMy4yNUg1LjQxNjY3Wk0xMS4zNzUgMS42MjVWNS45NTgzM0gxMC4yOTE3TDEwLjI5MTYgMy40NzM3MUw2LjA3MDUxIDcuNjk1NTFMNS4zMDQ0OCA2LjkyOTQ5TDkuNTI1MTUgMi43MDgzM0g3LjA0MTY3VjEuNjI1SDExLjM3NVoiIGZpbGw9IiM0MDRCRjIiLz4KPC9zdmc+Cg==") center center no-repeat;
+          background: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTQiIGhlaWdodD0iMTQiIHZpZXdCb3g9IjAgMCAxNCAxNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTUuNzQ5OTIgNC4wNjY0MVY1LjE0OTc0SDMuMDQxNTlWMTEuMTA4MUg4Ljk5OTkyVjguMzk5NzRIMTAuMDgzM1YxMS42NDk3QzEwLjA4MzMgMTEuOTQ4OSA5Ljg0MDc1IDEyLjE5MTQgOS41NDE1OSAxMi4xOTE0SDIuNDk5OTJDMi4yMDA3NyAxMi4xOTE0IDEuOTU4MjUgMTEuOTQ4OSAxLjk1ODI1IDExLjY0OTdWNC42MDgwN0MxLjk1ODI1IDQuMzA4OTIgMi4yMDA3NyA0LjA2NjQxIDIuNDk5OTIgNC4wNjY0MUg1Ljc0OTkyWk0xMS43MDgzIDIuNDQxNDFWNi43NzQ3NEgxMC42MjQ5TDEwLjYyNDkgNC4yOTAxMUw2LjQwMzc2IDguNTExOTJMNS42Mzc3MyA3Ljc0NTg5TDkuODU4NDEgMy41MjQ3NEg3LjM3NDkyVjIuNDQxNDFIMTEuNzA4M1oiIGZpbGw9IiMxMDE4OEQiLz4KPC9zdmc+Cg==") center center no-repeat;
           width: 13px;
           height: 13px;
           display: inline-flex;
@@ -769,9 +769,9 @@ body .o-table-wrapper table.wps-new-table {
 
 
         @media screen and (min-width: 768px) {
-          padding-right: 32px;
+          padding-right: 24px;
           .rtl & {
-            padding-left: 32px;
+            padding-left: 24px;
           }
         }
 
@@ -785,7 +785,7 @@ body .o-table-wrapper table.wps-new-table {
           padding-left: 16px;
 
           @media screen and (min-width: 768px) {
-            padding-left: 32px;
+            padding-left: 24px;
           }
 
           .wps-link-arrow {

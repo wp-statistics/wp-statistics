@@ -13,10 +13,10 @@ wps_js.useronline_meta_box = {
                     <th class="wps-pd-l">${wps_js._('online_for')}</th>
                     <th class="wps-pd-l">${wps_js._('views')}</th>
                  </tr>
-           </thead>`;
+           </thead><tbody>`;
 
         args.forEach(function (value) {
-            t += `<tbody><tr>
+            t += `<tr>
             <td class="wps-pd-l">${value['last_view']}</td>
             <td class="wps-pd-l">
                 ${wps_js.visitor_info(value)}
@@ -47,10 +47,10 @@ wps_js.useronline_meta_box = {
             <td class="wps-pd-l">
                  <a href="${value['single_url']}">${value['hits']}</a>
             </td>
-             </tr></tbody>`;
+             </tr>`;
         });
 
-        t += `</table></div>`;
+        t += `</tbody></table></div>`;
         return t;
     }
 
