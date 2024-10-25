@@ -468,7 +468,7 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
-  padding: 10px 20px;
+  padding: 23px 20px;
   position: relative;
   flex-direction: column;
   z-index: 3 !important;
@@ -499,15 +499,6 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
       margin-left: 64px;
     }
 
-    span {
-      color: #fff;
-      background: rgba(255, 87, 34, .6);
-      padding: 1.28px 4.86px;
-      border-radius: 4px;
-      font-weight: 500;
-      font-size: 12px;
-      box-sizing: border-box;
-    }
 
     &:hover {
       cursor: default;
@@ -518,6 +509,11 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
     width: 147px;
     max-height: 100%;
     object-fit: contain;
+    height: 35px;
+
+    &--premium{
+      width:214px;
+    }
   }
 
   .wps-adminHeader__menu {
@@ -647,7 +643,7 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
   .wps-adminHeader__side {
     position: absolute;
     right: 20px;
-    bottom: 10px;
+    bottom: 23px;
     display: flex;
     align-items: center;
     gap: 26px;
