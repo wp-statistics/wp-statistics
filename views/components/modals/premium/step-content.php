@@ -17,5 +17,4 @@ $pluginHandler = new PluginHandler();
             </div>
         <?php endif; ?>
     <?php endif; ?>
-
 </div>
