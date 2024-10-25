@@ -33,6 +33,9 @@ wps_js.formatNumber = function (num, fixed = 0) {
     if (num === null) {
         return null;
     }
+    // Convert to string and remove commas
+    num = parseFloat(num.toString().replace(/,/g, ''));
+
     if (num === 0) {
         return '0';
     }
