@@ -9,6 +9,11 @@ use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 class PluginHelper
 {
     /**
+     * Total number of products (add-ons) in the API.
+     */
+    public static $totalPlugins = 7;
+
+    /**
      * Returns a decorated list of plugins (add-ons) from API, excluding bundled plugins.
      *
      * @return PluginDecorator[] List of plugins
