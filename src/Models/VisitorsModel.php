@@ -476,6 +476,7 @@ class VisitorsModel extends BaseModel
     {
         $args = $this->parseArgs($args, [
             'visitor_id' => '',
+            'ip'         => '',
         ]);
 
         $firstHit = Query::select([
@@ -519,6 +520,7 @@ class VisitorsModel extends BaseModel
             ->join('users', ['visitor.user_id', 'users.ID'], [], 'LEFT')
             ->joinQuery($subQuery, ['visitor.ID', 'first_hit.visitor_id'], 'first_hit', 'LEFT')
             ->where('visitor.ID', '=', $args['visitor_id'])
+            ->where('visitor.ip', '=', $args['ip'])
             ->getRow();
 
         return $result;
