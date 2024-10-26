@@ -18,7 +18,7 @@ use WP_Statistics\Decorators\VisitorDecorator;
     </li>
 
     <li class="wps-visitor__information">
-        <div class="wps-tooltip" title="<?php echo $visitor->getBrowser()->getName() !== 'Unknown' ? esc_attr("{$visitor->getBrowser()->getName()} v{$visitor->getBrowser()->getVersion()}") : $visitor->getBrowser()->getName(); ?>">
+        <div class="wps-tooltip" title="<?php echo $visitor->getBrowser()->getName() !== '(not set)' ? esc_attr("{$visitor->getBrowser()->getName()} v{$visitor->getBrowser()->getVersion()}") : $visitor->getBrowser()->getName(); ?>">
             <a href="<?php echo esc_url(Menus::admin_url('visitors', ['agent' => $visitor->getBrowser()->getRaw()])) ?>">
                 <img src="<?php echo esc_url($visitor->getBrowser()->getLogo()) ?>" alt="<?php echo esc_attr($visitor->getBrowser()->getName()) ?>" width="15" height="15">
             </a>

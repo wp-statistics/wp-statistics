@@ -76,7 +76,7 @@ class platforms extends MetaBoxAbstract
             if (empty(trim($l['platform']))) continue;
 
             // Sanitize Version name
-            $lists_name[]  = sanitize_text_field($l['platform']);
+            $lists_name[]  = \WP_STATISTICS\Admin_Template::unknownToNotSet($l['platform']);
             $lists_logos[] = DeviceHelper::getPlatformLogo($l['platform']);
 
             // Get List Count
