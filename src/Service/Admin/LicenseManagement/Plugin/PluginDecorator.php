@@ -1,6 +1,7 @@
 <?php
 namespace WP_Statistics\Service\Admin\LicenseManagement\Plugin;
 
+use Exception;
 use WP_STATISTICS\Menus;
 use WP_Statistics\Service\Admin\LicenseManagement\ApiCommunicator;
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
@@ -172,10 +173,22 @@ class PluginDecorator
         return LicenseHelper::isPluginLicenseValid($this->getSlug());
     }
 
+    /**
+     * Check if the license for this product is expired.
+     */
+    public function isLicenseExpired()
+    {
+        return LicenseHelper::getPluginLicenseStatus($this->getSlug()) === 'license_expired';
+    }
+
     public function getStatus()
     {
         if (!$this->isInstalled()) {
             return 'not_installed';
+        }
+
+        if ($this->isLicenseExpired()) {
+            return 'license_expired';
         }
 
         if (!$this->hasValidLicense()) {
@@ -201,6 +214,8 @@ class PluginDecorator
                 return __('Not Installed', 'wp-statistics');
             case 'not_licensed':
                 return __('Needs License', 'wp-statistics');
+            case 'license_expired':
+                return __('License Expired', 'wp-statistics');
             case 'not_activated':
                 return __('Inactive', 'wp-statistics');
             case 'activated':
@@ -223,9 +238,12 @@ class PluginDecorator
             case 'not_activated':
                 return 'primary';
             case 'not_licensed':
+            case 'license_expired':
                 return 'danger';
             case 'activated':
                 return 'success';
+            default:
+                throw new Exception('Unknown status');
         }
     }
 
