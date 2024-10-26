@@ -18,11 +18,11 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         };
         params = Object.assign(params, wps_js.global.request_params);
 
-        if(params.page==='plugins' && params?.tab==='downloads' && addon_download_btn){
+        if (params.page === 'plugins' && params?.tab === 'downloads' && addon_download_btn) {
             if (addon_items.length === 0) {
-                addon_download_btn.textContent= wps_js._('continue_to_next_step');
+                addon_download_btn.textContent = wps_js._('continue_to_next_step');
                 addon_download_btn.classList.remove('disabled');
-                addon_download_btn.href=`admin.php?page=wps_plugins_page&tab=get-started&license_key=${params.license_key}`;
+                addon_download_btn.href = `admin.php?page=wps_plugins_page&tab=get-started&license_key=${params.license_key}`;
             }
         }
 
@@ -37,14 +37,10 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         toggleActiveAll();
 
         // Check if the alert div already exists and remove it
-        const toggleAlertBox= (btn)=>{
-            const existingAlertDiv = btn.parentElement.parentElement.querySelector('.wps-alert:not(.wps-alert--warning.wps-hide)');
+        const toggleAlertBox = (btn) => {
+            const existingAlertDiv = btn.parentElement.parentElement.querySelector('.wps-alert');
             if (existingAlertDiv) {
-                if (existingAlertDiv.classList.contains('wps-alert--warning')) {
-                    existingAlertDiv.classList.add('wps-hide');
-                } else {
-                    existingAlertDiv.remove();
-                }
+                existingAlertDiv.remove();
             }
         }
 
@@ -289,31 +285,30 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         const errorHandel = (params, button, data) => {
             if (params.action === "wp_statistics_check_license") {
                 toggleAlertBox(button);
+                const alertDiv = document.createElement('div');
                 if (data?.data?.message?.toLowerCase().includes('domain')) {
-                    const alertWarningBox = document.querySelector('.wps-alert--warning');
-                    if (alertWarningBox) alertWarningBox.classList.remove('wps-hide')
+                    button.parentElement.querySelector('input').classList.add('wps-warning');
+                    alertDiv.classList.add('wps-alert', 'wps-alert--warning');
                 } else {
                     button.parentElement.querySelector('input').classList.add('wps-danger');
-                    const alertDiv = document.createElement('div');
                     alertDiv.classList.add('wps-alert', 'wps-alert--danger');
-                    alertDiv.innerHTML = `
+                }
+                alertDiv.innerHTML = `
                                 <span class="icon"></span>
                                 <div>
                                     <p>${data?.data?.message}</p>
                                 </div>
                                 `;
-                    let activeLicenseDiv;
-                    if (params.tab) {
-                        activeLicenseDiv = document.querySelector('.wps-addon__step__active-license');
-                    } else {
-                        activeLicenseDiv = button.parentElement;
-                    }
-
-                    if (activeLicenseDiv) {
-                        activeLicenseDiv.parentNode.insertBefore(alertDiv, activeLicenseDiv.nextSibling);
-                    }
+                let activeLicenseDiv;
+                if (params.tab) {
+                    activeLicenseDiv = document.querySelector('.wps-addon__step__active-license');
+                } else {
+                    activeLicenseDiv = button.parentElement;
                 }
 
+                if (activeLicenseDiv) {
+                    activeLicenseDiv.parentNode.insertBefore(alertDiv, activeLicenseDiv.nextSibling);
+                }
             }
             if (params.action === "wp_statistics_download_plugin") {
                 const current_plugin_checkbox = document.querySelector(`[data-slug="${params.plugin_slug}"]`);
@@ -401,18 +396,18 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                     if (data.success) {
                         if (button) button.classList.add('disabled');
                         if (params.action === "wp_statistics_check_license") {
-                            if(wps_js.global.request_params?.tab){
+                            if (wps_js.global.request_params?.tab) {
                                 button.classList.add('redirecting');
                                 button.textContent = wps_js._('redirecting');
                                 window.location.href = `admin.php?page=wps_plugins_page&tab=downloads&license_key=${params.license_key}`;
-                            }else{
+                            } else {
                                 toggleAlertBox(button);
                                 button.parentElement.querySelector('input').classList.remove('wps-danger');
                                 const statusDanger = button.parentElement.parentElement.parentElement.querySelector('.wps-postbox-addon__status');
-                                if(statusDanger.classList.contains('wps-postbox-addon__status--danger')){
+                                if (statusDanger.classList.contains('wps-postbox-addon__status--danger')) {
                                     statusDanger.classList.add('wps-postbox-addon__status--success');
                                     statusDanger.classList.remove('wps-postbox-addon__status--danger');
-                                    statusDanger.textContent=wps_js._('activated');
+                                    statusDanger.textContent = wps_js._('activated');
                                 }
                                 const alertDiv = document.createElement('div');
                                 alertDiv.classList.add('wps-alert', 'wps-alert--success');

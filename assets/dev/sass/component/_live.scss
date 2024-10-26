@@ -228,13 +228,12 @@
         padding: 12px 16px;
         border-radius: 4px;
         background: #F9FCFE;
-        width: calc(100% - 44px);
+        width: calc(100% - 16px);
         display: flex;
         box-sizing: border-box;
-        margin-right: 24px;
-        margin-left: 24px;
         justify-content: space-between;
         align-items: center;
+        margin: -12px 8px -16px;
 
 
         &__desc {

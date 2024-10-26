@@ -13,16 +13,7 @@
                 <input type="text" placeholder="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx">
                 <button class="wps-postbox-addon-button js-addon-active-license disabled"><?php esc_html_e('Activate License', 'wp-statistics'); ?></button>
             </div>
-            <div class="wps-alert wps-alert--warning wps-hide">
-                <span class="icon"></span>
-                <div>
-                    <p><?php esc_html_e('Almost There! Your license is valid. To proceed, please whitelist this domain in customer portal.', 'wp-statistics'); ?></p>
-                    <div>
-                        <a href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/resources/troubleshooting-license-validation-errors/'); ?>" target="_blank"><?php esc_html_e('Learn how to whitelist your domain', 'wp-statistics'); ?></a>
-                    </div>
-                </div>
-            </div>
-        </div>
+         </div>
         <div class="wps-addon__step__faq">
             <ul>
                 <li>

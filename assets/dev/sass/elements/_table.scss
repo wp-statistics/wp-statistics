@@ -498,7 +498,7 @@ body .o-table-wrapper table.wps-new-table {
         width: 245px;
         box-sizing: border-box;
 
-        a {
+        a:not(.js-wps-openPremiumModal) {
           display: inline-flex !important;
           align-items: center;
           justify-content: center;
