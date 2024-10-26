@@ -1,13 +1,13 @@
 <?php
 
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
-$isPremium          = LicenseHelper::isPremiumLicenseAvailable() ? true : false;
+ $isPremium          = LicenseHelper::isPremiumLicenseAvailable() ? true : false;
 
 ?>
 
 <div class="wps-premium-feature wps-premium-feature--premium-user">
     <div class="wps-premium-feature__head">
-        <?php if ($isPremium): ?>
+        <?php if ($isPremium ||  LicenseHelper::isPluginLicenseValid($addon_modal_target)): ?>
             <h1>
                 <?php esc_html_e('You Have the Premium Version!', 'wp-statistics')?>
              </h1>
@@ -22,7 +22,7 @@ $isPremium          = LicenseHelper::isPremiumLicenseAvailable() ? true : false;
         <?php endif ?>
     </div>
 
-    <?php if ($isPremium): ?>
+    <?php if ($isPremium ||  LicenseHelper::isPluginLicenseValid($addon_modal_target)): ?>
         <div class="wps-premium-feature__info wps-premium-feature__info--premium-user">
             <?php echo sprintf(esc_attr__('Your WP Statistics Premium includes the %s add-on, but it\'s not installed yet. Visit the Add-Ons page to install and activate it, unlocking its full features.', 'wp-statistics'),esc_html($addon_title)); ?>
         </div>
@@ -43,8 +43,7 @@ $isPremium          = LicenseHelper::isPremiumLicenseAvailable() ? true : false;
                 <a href="<?php echo esc_url($addon_documentation_slug) ?>" target="_blank" title="<?php echo esc_html($addon_documentation_title); ?>"><?php echo esc_html($addon_documentation_title); ?></a>.
             <?php endif; ?>
         </div>
-        <?php endif;
-        ?>
+        <?php endif;?>
 
         <div class="wps-premium-feature__info">
             <?php echo esc_html_e('To unlock every premium feature in WP Statistics, upgrade to Premium.', 'wp-statistics'); ?>

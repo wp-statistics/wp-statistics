@@ -1,3 +1,6 @@
+<?php
+ use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
+?>
 <div class="wps-optionsMenu">
     <a data-tab="general-settings" class="wps-optionsMenuItem current">
         <svg width="17" height="18" viewBox="0 0 17 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -64,8 +67,8 @@
     foreach ($addons as $addon) :
         $isActive = \WP_STATISTICS\Helper::isAddOnActive($addon['key']);
         ?>
-        <a data-tab="<?php echo esc_attr($addon['tab']); ?>"
-           class="wps-optionsMenuItem wps-optionsMenuItem--extension premium <?php echo $isActive ? 'active' : ''; ?>">
+         <a data-tab="<?php echo esc_attr($addon['tab']); ?>"
+           class="wps-optionsMenuItem wps-optionsMenuItem--extension premium <?php echo LicenseHelper::isPluginLicenseValid('wp-statistics-'.$addon['key']) ? 'wps-license-activated' : '' ?> <?php echo $isActive ? 'active' : ''; ?>">
             <span class="wps-optionsMenuItem__title--extension"><?php esc_html_e($addon['title'], 'wp-statistics'); ?></span>
         </a>
     <?php endforeach; ?>

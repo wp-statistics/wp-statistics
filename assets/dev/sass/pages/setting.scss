@@ -248,6 +248,12 @@
             color: #56585A !important;
           }
 
+          &.wps-license-activated{
+            &:after {
+              display: none;
+            }
+          }
+
 
 
           &:after {
