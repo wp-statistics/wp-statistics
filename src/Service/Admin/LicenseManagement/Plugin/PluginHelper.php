@@ -71,6 +71,8 @@ class PluginHelper
             $licenses = LicenseHelper::getLicenses();
 
             foreach ($licenses as $license => $data) {
+                if (empty($data['products'])) continue;
+
                 $plugins = array_merge($plugins, $data['products']);
             }
         }
