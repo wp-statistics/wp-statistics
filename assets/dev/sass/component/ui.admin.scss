@@ -174,11 +174,12 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
     }
 
     .postbox-header {
-      padding: 24px 24px 16px 24px;
+      padding: 24px;
 
       .handle-actions {
         display: flex;
         gap: 6px;
+        margin-top: 0 !important;
 
         .wps-refresh {
           margin: 0 !important;
@@ -214,7 +215,7 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
 
     .postbox:not(.closed) {
       .inside {
-        margin-top: 0;
+        margin-top: -4px;
         padding-bottom: 24px;
         margin-bottom: 0;
         display: flex;
@@ -226,7 +227,7 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
         }
 
         .o-table-wrapper table th {
-          padding-top: 4px;
+          padding-top:0;
         }
 
         .c-footer {

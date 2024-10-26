@@ -243,14 +243,15 @@ td .wps-tooltip-icon.info {
   #wp-statistics-pages-widget,
   #wp-statistics-recent-widget,
   #wp-statistics-referring-widget,
+  #wp-statistics-countries-widget,
   #wp-statistics-useronline-widget{
     .o-table.wps-new-table {
-      margin-top: 0;
+      margin-top:0;
     }
   }
 }
 
-#wp-statistics-referring-widget{
+#wp-statistics-referring-widget , #wp-statistics-countries-widget{
   .o-table.wps-new-table {
     tbody {
       tr {
@@ -289,6 +290,6 @@ td .wps-tooltip-icon.info {
   }
 }
 
-body .o-table-wrapper table.wps-new-table tbody tr td .wps-link-arrow span{
-
+#wp-statistics-comparison-widget .inside{
+  margin-top: -8px!important;
 }

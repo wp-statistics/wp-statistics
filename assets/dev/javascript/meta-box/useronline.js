@@ -58,18 +58,20 @@ wps_js.useronline_meta_box = {
 wps_js.visitor_info = function (value) {
     const track_users = wps_js.isset(wps_js.global, 'options', 'track_users') ? wps_js.global['options']['track_users'] : null;
     let user_info = '<ul class="wps-visitor__information--container">';
-    if (Object.keys(value['browser']).length > 0) {
-        user_info += `<li class="wps-visitor__information">
-            <div class="wps-tooltip" title="${value['browser']['name']}">
-                <img src="${value['browser']['logo']}" width="15" height="15">
-            </div>
-        </li>`
-    }
+
 
     if (Object.keys(value['os']).length > 0) {
         user_info += `<li class="wps-visitor__information">
             <div class="wps-tooltip" title="${value['os']['name']}">
                 <img src="${value['os']['logo']}" width="15" height="15">
+            </div>
+        </li>`
+    }
+
+    if (Object.keys(value['browser']).length > 0) {
+        user_info += `<li class="wps-visitor__information">
+            <div class="wps-tooltip" title="${value['browser']['name']}">
+                <img src="${value['browser']['logo']}" width="15" height="15">
             </div>
         </li>`
     }
