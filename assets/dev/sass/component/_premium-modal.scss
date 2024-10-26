@@ -14,6 +14,7 @@
     display: none;
   }
 
+
   .wps-modal__content {
     position: absolute;
     top: 50%;
@@ -65,7 +66,7 @@
           line-height: 24px;
           color: #56585A;
           text-align: center;
-        }
+         }
       }
 
       .wps-modal__actions {
@@ -187,6 +188,7 @@
           color: #292D32;
           padding: 0;
           margin: 16px 0 0;
+          min-height: 63px;
 
           &:first-child {
             margin: 0;
@@ -301,6 +303,20 @@
         text-align: center;
         margin-top: 30px;
 
+
+        .js-wps-premium-steps__side-buttons{
+          .wps-premium-step__action-btn{
+            display: none;
+
+            &--later{
+              display: block;
+            }
+          }
+          .wps-premium-step__action-btn--upgrade--active{
+            display: flex;
+          }
+        }
+
         .wps-premium-step__action-btn {
           padding: 8px 28px;
           border-radius: 4px;
@@ -311,9 +327,10 @@
           display: block;
           box-sizing: border-box;
           width: 100%;
+          white-space: nowrap;
 
 
-          &--upgrade {
+          &--upgrade , &--addons{
             background: #404BF2;
             color: #fff;
             display: flex;
@@ -326,6 +343,7 @@
               background: #FFFFFF;
               color: #196140;
               pointer-events:none;
+              white-space: nowrap;
 
               :after{
                 display: none!important;
@@ -361,6 +379,28 @@
             }
           }
         }
+      }
+    }
+
+    &__notice{
+      padding: 8px 12px;
+      gap: 7px;
+      border-radius: 8px;
+      display: flex;
+      margin-top: 24px;
+      color: #196140;
+      background: #F6FAF6;
+      font-size: 14px;
+      font-weight: 400;
+
+      &:before{
+        content: '';;
+        width: 11.7px;
+        min-width: 11.7px;
+        display: inline-block;
+        height: 11.7px;
+        margin-top: 5px;
+        background: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIiIGhlaWdodD0iMTIiIHZpZXdCb3g9IjAgMCAxMiAxMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTUuODUgMTEuN0MyLjYxOTEzIDExLjcgMCA5LjA4MDg0IDAgNS44NUMwIDIuNjE5MTMgMi42MTkxMyAwIDUuODUgMEM5LjA4MDg0IDAgMTEuNyAyLjYxOTEzIDExLjcgNS44NUMxMS43IDkuMDgwODQgOS4wODA4NCAxMS43IDUuODUgMTEuN1pNNS4yNjY1MiA4LjE5TDkuNDAzMTEgNC4wNTM0Mkw4LjU3NTgxIDMuMjI2MTFMNS4yNjY1MiA2LjUzNTM5TDMuNjExOTEgNC44ODA3MUwyLjc4NDU5IDUuNzA4MDhMNS4yNjY1MiA4LjE5WiIgZmlsbD0iIzQ4OUU0RSIvPgo8L3N2Zz4K") center center no-repeat;
       }
     }
   }

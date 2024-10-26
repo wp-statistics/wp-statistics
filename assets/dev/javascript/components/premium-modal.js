@@ -3,12 +3,13 @@ const modal = document.querySelector('.js-wps-premiumModal');
 const welcomeContent = document.querySelector('.js-wps-premiumModalWelcomeContent');
 const premiumStepsContent = document.querySelector('.js-wps-premiumModalSteps');
 const premiumSteps = document.querySelectorAll('.js-wps-premiumModalStep');
+const premiumWelcomeSteps = document.querySelectorAll('.js-wps-premiumModal-welcome .js-wps-premiumModalStep');
 const exploreButton = document.querySelector('.js-wps-premiumModalExploreBtn');
 const premiumFeatures = document.querySelectorAll('.js-wps-premiumStepFeature');
 const premiumBtn = document.querySelectorAll('.js-wps-openPremiumModal');
-const upgradeButton = document.querySelector('.js-wps-premiumModalUpgradeBtn');
-const firstStepHeader = document.querySelector('.js-wps-premium-first-step__head');
-const stepsHeader = document.querySelector('.js-wps-premium-steps__head');
+const upgradeButton = document.querySelectorAll('.js-wps-premiumModalUpgradeBtn');
+const firstStepHeader = document.querySelectorAll('.js-wps-premium-first-step__head');
+const stepsHeader = document.querySelectorAll('.js-wps-premium-steps__head');
 
 let autoSlideInterval;
 let currentStepIndex = 1;
@@ -31,10 +32,6 @@ const openModal = (target, href) => {
         currentStepIndex = targetIndex;
          if(welcomeContent){
              welcomeContent.style.display = 'none';
-          }
-          const targetStep = premiumSteps[currentStepIndex + 1];
-          if (targetStep) {
-              targetStep.setAttribute('data-href', href);
           }
           showStep(currentStepIndex+1);
           premiumStepsContent.style.display = 'block';
@@ -80,36 +77,34 @@ if (exploreButton) {
 // Function to show a specific step and sync the sidebar
 const showStep = (index) => {
     if (index < 0 || index >= premiumSteps.length) return;
-
-
     premiumSteps.forEach(step => step.classList.remove('wps-modal__premium-step--active'));
+    upgradeButton.forEach(btn => btn.classList.remove('wps-premium-step__action-btn--upgrade--active'));
     premiumFeatures.forEach(feature => feature.classList.remove('active'));
 
     premiumSteps[index].classList.add('wps-modal__premium-step--active');
+    upgradeButton[index].classList.add('wps-premium-step__action-btn--upgrade--active');
+
+    const toggleDisplay = (elements, displayStyle) => {
+        elements.forEach(element => {
+            element.style.display = displayStyle;
+        });
+    };
+
     if (index > 0) {
-        firstStepHeader.style.display = 'none';
-        stepsHeader.style.display = 'block';
-        premiumFeatures[index - 1].classList.add('active'); // Sync the sidebar with the step
+        toggleDisplay(firstStepHeader, 'none');
+        toggleDisplay(stepsHeader, 'block');
+        premiumFeatures[index - 1].classList.add('active');
+    } else {
+        toggleDisplay(firstStepHeader, 'block');
+        toggleDisplay(stepsHeader, 'none');
     }
-    else{
-        firstStepHeader.style.display = 'block';
-        stepsHeader.style.display = 'none';
-    }
-    if (upgradeButton) {
-        const activeStep = document.querySelector('.wps-modal__premium-step--active');
-        if (activeStep) {
-            const href = activeStep.getAttribute('data-href');
-            if (href) {
-                upgradeButton.setAttribute('href', href);
-            }
-        }
-    }
+
 }
 
 // Function to start the auto-slide process
 const startAutoSlide = () => {
         autoSlideInterval = setInterval(() => {
-        currentStepIndex = (currentStepIndex + 1) % premiumSteps.length; // Loop through steps
+        currentStepIndex = (currentStepIndex + 1) % premiumWelcomeSteps.length; // Loop through steps
         showStep(currentStepIndex); // Show the current step and sync sidebar
     }, 5000); // Adjust time interval to 5 seconds
 }

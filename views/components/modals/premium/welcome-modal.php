@@ -3,7 +3,7 @@ namespace WP_STATISTICS;
 use WP_Statistics\Components\View;
 ?>
 
-<div class="wps-modal wps-modal--premium js-wps-premiumModal"  style="display: block">
+<div class="wps-modal wps-modal--premium js-wps-premiumModal js-wps-premiumModal-welcome"  style="display: block">
         <div class="wps-modal__content wps-modal__content--welcome js-wps-premiumModalWelcomeContent">
         <span class="wps-modal__welcome-image"></span>
         <div class="wps-modal__welcome-description">

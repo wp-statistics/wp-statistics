@@ -9,7 +9,7 @@ use WP_Statistics\Utils\Request;
     <?php if (isset($backUrl, $backTitle)): ?>
         <a href="<?php echo esc_url($backUrl) ?>" title="<?php echo esc_html($backTitle) ?>" class="wps-previous-url"><?php echo esc_html($backTitle) ?></a>
     <?php endif ?>
-
+    
     <?php if (isset($title)): ?>
         <h2 class="wps_title <?php echo isset($install_addon_btn_txt) ? 'wps_plugins_page-title' : '' ?>"><?php echo(isset($title) ? esc_attr($title) : (function_exists('get_admin_page_title') ? get_admin_page_title() : '')); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	 ?>
             <?php if (!empty($tooltip)) : ?>
@@ -20,7 +20,7 @@ use WP_Statistics\Utils\Request;
                 <a href="<?php echo esc_attr($install_addon_btn_link); ?>" class="wps-install-addon-btn">
                     <span><?php echo esc_attr($install_addon_btn_txt); ?></span>
                 </a>
-            <?php endif; ?>
+             <?php endif; ?>
         </h2>
     <?php endif ?>
 
@@ -36,16 +36,17 @@ use WP_Statistics\Utils\Request;
         <?php
         $is_realtime_active = Helper::isAddOnActive('realtime-stats');
         ?>
+
         <?php if ($is_realtime_active): ?>
             <a class="wps-realtime-btn" href="<?php echo esc_url(admin_url('admin.php?page=wp_statistics_realtime_stats')) ?>" title="<?php echo esc_html_e('Real-time stats are available! Click here to view', 'wp-statistics') ?>">
                 <?php esc_html_e('Realtime', 'wp-statistics'); ?>
             </a>
         <?php else: ?>
-            <button class="wps-realtime-btn wps-tooltip-premium disabled " >
+            <button class="wps-realtime-btn disabled wps-tooltip-premium" >
                 <?php esc_html_e('Realtime', 'wp-statistics'); ?>
                 <span class="wps-tooltip_templates tooltip-premium tooltip-premium--bottom tooltip-premium--right">
                     <span id="tooltip_realtime">
-                        <a data-target="wp-statistics-real-time" class="js-wps-openPremiumModal"><?php esc_html_e('Learn More', 'wp-statistics'); ?></a>
+                        <a data-target="wp-statistics-realtime-stats" class="js-wps-openPremiumModal"><?php esc_html_e('Learn More', 'wp-statistics'); ?></a>
                         <span>
                             <?php esc_html_e('Premium Feature', 'wp-statistics'); ?>
                         </span>
@@ -53,8 +54,6 @@ use WP_Statistics\Utils\Request;
                 </span>
             </button>
         <?php endif ?>
-
-
     <?php endif; ?>
     <?php if (isset($Datepicker)): ?>
         <form class="wps-search-date wps-today-datepicker" method="get">

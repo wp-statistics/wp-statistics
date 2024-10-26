@@ -15,9 +15,11 @@ $allPlugins         = count(PluginHelper::getPlugins());
 
 <div class="wps-adminHeader <?php echo $isPremium ? 'wps-adminHeader__premium' : '' ?>">
     <div class="wps-adminHeader__logo--container">
-        <img class="wps-adminHeader__logo" src="<?php echo esc_url(apply_filters('wp_statistics_header_url', WP_STATISTICS_URL . 'assets/images/white-header-logo.svg')); ?>"/>
-        <?php if ($isPremium): ?>
-            <span><?php esc_html_e('PREMIUM', 'wp-statistics'); ?></span>
+         <?php if ($isPremium): ?>
+            <img class="wps-adminHeader__logo wps-adminHeader__logo--premium" src="<?php echo esc_url(apply_filters('wp_statistics_header_url', WP_STATISTICS_URL . 'assets/images/wp-statistics-premium.svg')); ?>"/>
+         <?php else: ?>
+            <img class="wps-adminHeader__logo" src="<?php echo esc_url(apply_filters('wp_statistics_header_url', WP_STATISTICS_URL . 'assets/images/white-header-logo.svg')); ?>"/>
+
         <?php endif; ?>
     </div>
     <div class="wps-adminHeader__menu">

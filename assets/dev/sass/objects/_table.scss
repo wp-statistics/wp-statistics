@@ -51,7 +51,7 @@
           padding-left: 16px;
 
           @media screen and (min-width: 1300px) {
-            padding-left: 32px;
+            padding-left: 24px;
           }
         }
 
@@ -60,7 +60,7 @@
           padding-right: 16px;
 
           @media screen and (min-width: 768px) {
-            padding-right: 32px;
+            padding-right: 24px;
           }
         }
       }
@@ -197,7 +197,7 @@
 
 
         &:last-child {
-          padding-right: 32px;
+          padding-right: 24px;
         }
       }
 
@@ -212,7 +212,7 @@
           padding-left: 16px;
 
           @media screen and (min-width: 1300px) {
-            padding-left: 32px;
+            padding-left: 24px;
           }
         }
 
@@ -225,7 +225,7 @@
         }
 
         &:last-child {
-          padding-right: 32px;
+          padding-right: 24px;
         }
 
         a, a span {
@@ -364,8 +364,8 @@
     }
 
     .quickstats-values{
-      font-weight: 600;
-      font-size: 14px;
+      font-weight: 500;
+      font-size: 13px;
       color: #404BF2;
     }
   }
@@ -520,7 +520,7 @@
 
     td:nth-child(2), th:nth-child(2) {
       min-width: 100px;
-      padding-left: 32px;
+      padding-left: 24px;
     }
 
     td:nth-child(3), th:nth-child(3) {
