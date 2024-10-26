@@ -601,7 +601,7 @@
       .wps-horizontal-bar__data span:first-child {
         color: #0C0C0D;
         font-weight: 500;
-        font-size: 13px;
+        font-size: 14px;
         line-height: 15.23px;
       }
     }
@@ -636,6 +636,7 @@
 
       &:first-child {
         justify-content: flex-start;
+        font-size: 14px;
       }
 
       &:last-child {
