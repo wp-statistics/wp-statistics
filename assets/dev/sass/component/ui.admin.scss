@@ -186,6 +186,9 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
           width: 17px;
           height: 17px;
           background: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHZpZXdCb3g9IjAgMCAxOCAxOCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTguODMyOSA1LjY3NzI3QzcuNTU4NTYgNS42NzcyNyA2LjQzMzYyIDYuMzE5OTkgNS43NjU2OCA3LjNINi45NzgzNVY4LjIyNzI3SDQuMTk2NTNWNS40NDU0NUg1LjEyMzgxVjYuNjA0MjVDNS45NjkzOSA1LjQ3ODY4IDcuMzE1NzEgNC43NSA4LjgzMjkgNC43NUMxMS4zOTM1IDQuNzUgMTMuNDY5MyA2LjgyNTc3IDEzLjQ2OTMgOS4zODYzNkgxMi41NDJDMTIuNTQyIDcuMzM3ODkgMTAuODgxNCA1LjY3NzI3IDguODMyOSA1LjY3NzI3Wk01LjEyMzgxIDkuMzg2MzZDNS4xMjM4MSAxMS40MzQ4IDYuNzg0NDIgMTMuMDk1NSA4LjgzMjkgMTMuMDk1NUMxMC4xMDcyIDEzLjA5NTUgMTEuMjMyMiAxMi40NTI3IDExLjkwMDEgMTEuNDcyN0gxMC42ODc0VjEwLjU0NTVIMTMuNDY5M1YxMy4zMjczSDEyLjU0MlYxMi4xNjg1QzExLjY5NjQgMTMuMjk0IDEwLjM1MDEgMTQuMDIyNyA4LjgzMjkgMTQuMDIyN0M2LjI3MjMgMTQuMDIyNyA0LjE5NjUzIDExLjk0NjkgNC4xOTY1MyA5LjM4NjM2SDUuMTIzODFaIiBmaWxsPSIjODI4Qjk4Ii8+Cjwvc3ZnPgo=") center center no-repeat !important;
+          &:hover {
+              filter: brightness(0.5);
+          }
         }
 
         .handlediv {
@@ -2834,32 +2837,8 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
     top: -1px;
     border-radius: 100%;
 
-    &::after {
-      content: attr(data-tooltip);
-      visibility: hidden;
-      width: 37px;
-      background-color: $white-color;
-      box-shadow: 0 0 12px 1px rgba(0, 0, 0, 0.07);
-      border-radius: 4px;
-      color: $dim-black-color;
-      text-align: center;
-      padding: 6px 6px;
-      border-radius: 6px;
-      /* Position the tooltip text - see examples below! */
-      position: absolute;
-      z-index: 1;
-      top: 110%;
-      left: 50%;
-      margin-left: -40px;
-      font-weight: 400;
-      font-size: 10px;
-      line-height: 12px;
-    }
-
     &:hover {
-      &::after {
-        visibility: visible;
-      }
+      filter: brightness(0.5);
     }
   }
 }
