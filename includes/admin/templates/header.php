@@ -9,7 +9,7 @@ use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHelper;
 use WP_Statistics\Service\Admin\PrivacyAudit\PrivacyAuditDataProvider;
 
 $isPremium          = LicenseHelper::isPremiumLicenseAvailable() ? true : false;
-$purchasedPlugins   = count(PluginHelper::getPurchasedPlugins());
+$purchasedPlugins   = count(PluginHelper::getLicensedPlugins());
 $allPlugins         = count(PluginHelper::getPlugins());
 ?>
 

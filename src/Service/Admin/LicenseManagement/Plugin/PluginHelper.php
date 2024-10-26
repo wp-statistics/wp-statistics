@@ -53,13 +53,13 @@ class PluginHelper
     }
 
     /**
-     * Get all purchased plugins for a given license key or all stored licenses.
+     * Get all plugins for a given license key or all stored licenses.
      *
      * @param string $licenseKey Optional license key to get purchased plugins for.
      *
      * @return PluginDecorator[] List of purchased plugins.
      */
-    public static function getPurchasedPlugins($licenseKey = false)
+    public static function getLicensedPlugins($licenseKey = false)
     {
         $result  = [];
         $plugins = [];
