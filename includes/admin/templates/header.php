@@ -8,7 +8,7 @@ use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHelper;
 use WP_Statistics\Service\Admin\PrivacyAudit\PrivacyAuditDataProvider;
 
-$isPremium          = LicenseHelper::isPremiumLicenseAvailable() ? true : false;
+$isPremium = LicenseHelper::isPremiumLicenseAvailable() ? true : false;
 ?>
 
 <div class="wps-adminHeader <?php echo $isPremium ? 'wps-adminHeader__premium' : '' ?>">
