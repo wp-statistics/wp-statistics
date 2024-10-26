@@ -24,7 +24,7 @@ if (!defined('ABSPATH') || empty($addOn)) {
                         <span class="wps-postbox-addon__label wps-postbox-addon__label--<?php echo esc_attr($addOn->getLabelClass()); ?>"><?php echo esc_html($addOn->getLabel()); ?></span>
                     <?php endif; ?>
 
-                    <?php if ($addOn->isLicensed() && $addOn->isUpdateAvailable()) : ?>
+                    <?php if ($addOn->hasValidLicense() && $addOn->isUpdateAvailable()) : ?>
                         <span class="wps-postbox-addon__label wps-postbox-addon__label--updated"><?php esc_html_e('Update Available', 'wp-statistics'); ?></span>
                     <?php endif; ?>
                 </div>

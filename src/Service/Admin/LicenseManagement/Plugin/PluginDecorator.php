@@ -163,13 +163,13 @@ class PluginDecorator
     }
 
     /**
-     * Does this product have a license?
+     * Does this product have a valid license?
      *
      * @return bool
      */
-    public function isLicensed()
+    public function hasValidLicense()
     {
-        return !empty($this->getLicenseKey());
+        return LicenseHelper::isPluginLicenseValid($this->getSlug());
     }
 
     public function getStatus()
@@ -178,7 +178,7 @@ class PluginDecorator
             return 'not_installed';
         }
 
-        if (!$this->isLicensed()) {
+        if (!$this->hasValidLicense()) {
             return 'not_licensed';
         }
 
