@@ -79,7 +79,6 @@ class LicenseHelper
         return $status['status'] ?? null;
     }
 
-
     /**
      * Checks if the given plugin slug has a valid license.
      *
@@ -91,6 +90,17 @@ class LicenseHelper
     {
         $status = self::getPluginLicenseStatus($slug);
         return $status === 'valid';
+    }
+
+    /**
+     * Checks if the given plugin is expired.
+     *
+     * @param string $slug The slug of the plugin.
+     */
+    public static function isPluginLicenseExpired($slug)
+    {
+        $status = self::getPluginLicenseStatus($slug);
+        return $status === 'license_expired';
     }
 
     /**

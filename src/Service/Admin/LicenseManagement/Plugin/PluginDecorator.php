@@ -168,7 +168,7 @@ class PluginDecorator
      *
      * @return bool
      */
-    public function hasValidLicense()
+    public function isLicenseValid()
     {
         return LicenseHelper::isPluginLicenseValid($this->getSlug());
     }
@@ -178,7 +178,7 @@ class PluginDecorator
      */
     public function isLicenseExpired()
     {
-        return LicenseHelper::getPluginLicenseStatus($this->getSlug()) === 'license_expired';
+        return LicenseHelper::isPluginLicenseExpired($this->getSlug());
     }
 
     public function getStatus()
@@ -191,7 +191,7 @@ class PluginDecorator
             return 'license_expired';
         }
 
-        if (!$this->hasValidLicense()) {
+        if (!$this->isLicenseValid()) {
             return 'not_licensed';
         }
 
