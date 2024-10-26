@@ -6,6 +6,7 @@ use WP_STATISTICS\Menus;
 use WP_STATISTICS\Option;
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHelper;
+use WP_Statistics\Service\Admin\ModalHandler\Modal;
 use WP_Statistics\Service\Admin\PrivacyAudit\PrivacyAuditDataProvider;
 
 $isPremium = LicenseHelper::isPremiumLicenseAvailable() ? true : false;
@@ -134,6 +135,4 @@ $isPremium = LicenseHelper::isPremiumLicenseAvailable() ? true : false;
         </div>
     </div>
 </div>
-<?php
-    View::load("components/modals/premium/premium-modal");
-?>
+<?php Modal::show('premium'); ?>
