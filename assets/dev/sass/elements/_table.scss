@@ -226,13 +226,16 @@
   }
 }
 
-#wp-statistics-top-visitors-widget table.wps-new-table tbody tr td .wps-visitor__information--container .wps-visitor__information > div .wps-visitor__information__incognito-text {
-  color: #56585a !important;
+#wp-statistics-recent-widget , #wp-statistics-top-visitors-widget  , #wp-statistics-useronline-widget{
+  table.wps-new-table tbody tr td .wps-visitor__information--container .wps-visitor__information > div .wps-visitor__information__incognito-text {
+    color: #56585a !important;
 
-  &:hover {
-    color: #0c0c0d !important
+    &:hover {
+      color: #0c0c0d !important
+    }
   }
 }
+
 
 #wp-statistics-pages-widget table.wps-new-table tr td a {
 

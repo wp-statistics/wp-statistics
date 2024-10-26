@@ -1235,25 +1235,6 @@
       font-weight: 400;
       line-height: 21px;
       border-bottom: 1px solid;
-
-      &:hover:after {
-        filter: grayscale(1);
-      }
-
-      &:after {
-        content: '';
-        width: 10px;
-        height: 10px;
-        display: inline-block;
-        background: url("data:image/svg+xml;base64,Cjxzdmcgd2lkdGg9IjEwIiBoZWlnaHQ9IjExIiB2aWV3Qm94PSIwIDAgMTAgMTEiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxnIGNsaXAtcGF0aD0idXJsKCNjbGlwMF8xNjQ5M183MDU3MykiPgo8cGF0aCBkPSJNNy43NDAyOSA1LjE2OTgzTDQuNTc0MDQgMS45MTMyN0w1LjQwODgxIDEuMDU0NjlMMTAuMDAwMSA1Ljc3Njk1TDUuNDA4ODEgMTAuNDk5MUw0LjU3NDA0IDkuNjQwNTVMNy43NDAyOSA2LjM4NDA2SDAuNTU1NjY0VjUuMTY5ODNINy43NDAyOVoiIGZpbGw9IiM0MDRCRjIiLz4KPC9nPgo8ZGVmcz4KPGNsaXBQYXRoIGlkPSJjbGlwMF8xNjQ5M183MDU3MyI+CjxyZWN0IHdpZHRoPSIxMCIgaGVpZ2h0PSIxMCIgZmlsbD0id2hpdGUiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDAgMC41KSIvPgo8L2NsaXBQYXRoPgo8L2RlZnM+Cjwvc3ZnPgo=") center center no-repeat;
-        margin-left: 5px;
-
-        .rtl & {
-          transform: rotate(180deg);
-          margin-left: 0;
-          margin-right: 5px;
-        }
-      }
     }
   }
 
