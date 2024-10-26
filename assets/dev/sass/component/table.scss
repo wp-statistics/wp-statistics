@@ -292,4 +292,7 @@ td .wps-tooltip-icon.info {
 
 #wp-statistics-comparison-widget .inside{
   margin-top: -8px!important;
+  .col__data a{
+    text-transform: capitalize;
+  }
 }
