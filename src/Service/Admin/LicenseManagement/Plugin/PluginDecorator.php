@@ -1,6 +1,7 @@
 <?php
 namespace WP_Statistics\Service\Admin\LicenseManagement\Plugin;
 
+use Exception;
 use WP_STATISTICS\Menus;
 use WP_Statistics\Service\Admin\LicenseManagement\ApiCommunicator;
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
@@ -163,13 +164,21 @@ class PluginDecorator
     }
 
     /**
-     * Does this product have a license?
+     * Does this product have a valid license?
      *
      * @return bool
      */
-    public function isLicensed()
+    public function isLicenseValid()
     {
-        return !empty($this->getLicenseKey());
+        return LicenseHelper::isPluginLicenseValid($this->getSlug());
+    }
+
+    /**
+     * Check if the license for this product is expired.
+     */
+    public function isLicenseExpired()
+    {
+        return LicenseHelper::isPluginLicenseExpired($this->getSlug());
     }
 
     public function getStatus()
@@ -178,7 +187,11 @@ class PluginDecorator
             return 'not_installed';
         }
 
-        if (!$this->isLicensed()) {
+        if ($this->isLicenseExpired()) {
+            return 'license_expired';
+        }
+
+        if (!$this->isLicenseValid()) {
             return 'not_licensed';
         }
 
@@ -201,6 +214,8 @@ class PluginDecorator
                 return __('Not Installed', 'wp-statistics');
             case 'not_licensed':
                 return __('Needs License', 'wp-statistics');
+            case 'license_expired':
+                return __('License Expired', 'wp-statistics');
             case 'not_activated':
                 return __('Inactive', 'wp-statistics');
             case 'activated':
@@ -223,9 +238,12 @@ class PluginDecorator
             case 'not_activated':
                 return 'primary';
             case 'not_licensed':
+            case 'license_expired':
                 return 'danger';
             case 'activated':
                 return 'success';
+            default:
+                throw new Exception('Unknown status');
         }
     }
 

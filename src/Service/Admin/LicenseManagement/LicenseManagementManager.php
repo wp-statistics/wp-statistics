@@ -54,7 +54,7 @@ class LicenseManagementManager
      */
     private function initPluginUpdaters()
     {
-        $storedLicenses = LicenseHelper::getValidLicenses();
+        $storedLicenses = LicenseHelper::getLicenses();
 
         if (!empty($storedLicenses)) {
             foreach ($storedLicenses as $licenseKey => $licenseData) {
@@ -106,9 +106,7 @@ class LicenseManagementManager
         $plugins = $this->pluginHandler->getInstalledPlugins();
 
         foreach ($plugins as $plugin) {
-            $licenseKey = LicenseHelper::getPluginLicense($plugin['TextDomain']);
-
-            if (empty($licenseKey)) {
+            if (!LicenseHelper::isPluginLicenseValid($plugin['TextDomain'])) {
                 $pluginUpdater = new PluginUpdater($plugin['TextDomain'], $plugin['Version']);
                 $pluginUpdater->handleLicenseNotice();
             }

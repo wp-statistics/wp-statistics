@@ -4,6 +4,7 @@ namespace WP_Statistics\Service\Admin\LicenseManagement;
 
 use Exception;
 use WP_Statistics\Components\RemoteRequest;
+use WP_Statistics\Exception\LicenseException;
 use WP_Statistics\Traits\TransientCacheTrait;
 
 class ApiCommunicator
@@ -101,12 +102,13 @@ class ApiCommunicator
         $licenseData = $remoteRequest->execute(false, false);
 
         if (empty($licenseData)) {
-            throw new Exception(__('Invalid license response!', 'wp-statistics'));
+            throw new LicenseException(__('Invalid license response!', 'wp-statistics'));
         }
 
         if (empty($licenseData->license_details)) {
-            throw new Exception(
+            throw new LicenseException(
                 $licenseData->message ?? esc_html__('Unknown error!', 'wp-statistics'),
+                $licenseData->status ?? '',
                 $licenseData->code ?? 0
             );
         }
@@ -115,11 +117,11 @@ class ApiCommunicator
             $productSlugs = array_column($licenseData->products, 'slug');
 
             if (!in_array($product, $productSlugs, true)) {
-                throw new Exception(sprintf(__('The license is not related to the requested Add-On <b>%s</b>.', 'wp-statistics'), $product));
+                throw new LicenseException(sprintf(__('The license is not related to the requested Add-On <b>%s</b>.', 'wp-statistics'), $product));
             }
         }
 
-        LicenseHelper::saveLicense($licenseKey, $licenseData);
+        LicenseHelper::storeLicense($licenseKey, $licenseData);
 
         return $licenseData;
     }

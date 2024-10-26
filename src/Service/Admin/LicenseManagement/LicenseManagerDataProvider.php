@@ -73,7 +73,7 @@ class LicenseManagerDataProvider
                 $result['not_included_addons'][] = $addOn;
             }
 
-            if ($addOn->isLicensed() && (!$addOn->isInstalled() || $addOn->isUpdateAvailable())) {
+            if ($addOn->isLicenseValid() && (!$addOn->isInstalled() || $addOn->isUpdateAvailable())) {
                 // Add-on can be downloaded, display the "Select All" button
                 $result['display_select_all'] = true;
             }

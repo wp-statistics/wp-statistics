@@ -14,7 +14,7 @@ $pluginHandler = new PluginHandler();
         <div class="js-wps-premium-first-step__head">
             <?php if (LicenseHelper::isPremiumLicenseAvailable()) : ?>
                 <p><?php esc_html_e('You\'re All Set with WP Statistics Premium', 'wp-statistics'); ?></p>
-            <?php elseif (LicenseHelper::isLicenseAvailable() && !LicenseHelper::isPremiumLicenseAvailable()) : ?>
+            <?php elseif (LicenseHelper::isValidLicenseAvailable() && !LicenseHelper::isPremiumLicenseAvailable()) : ?>
                 <p><?php esc_html_e('You\'re Already Enjoying Some Premium Add-Ons!', 'wp-statistics'); ?></p>
             <?php else : ?>
                 <p><?php esc_html_e('Unlock WP Statistics Premium', 'wp-statistics'); ?></p>
@@ -48,7 +48,7 @@ $pluginHandler = new PluginHandler();
 
             if (LicenseHelper::isPremiumLicenseAvailable()) {
                 $data['description'] = $premium_description;
-            } elseif (LicenseHelper::isLicenseAvailable() && !LicenseHelper::isPremiumLicenseAvailable()) {
+            } elseif (LicenseHelper::isValidLicenseAvailable() && !LicenseHelper::isPremiumLicenseAvailable()) {
                 $data['description'] = $license_description;
             }
 
@@ -137,7 +137,7 @@ $pluginHandler = new PluginHandler();
                     ?>
 
                     <?php foreach ($plugins as $slug => $title) : ?>
-                        <li class="<?php echo PluginHelper::isPluginPurchased($slug) ? 'activated' : '' ?> wps-premium-step__feature js-wps-premiumStepFeature" data-modal="<?php echo esc_attr($slug) ?>">
+                        <li class="<?php echo LicenseHelper::isPluginLicenseValid($slug) ? 'activated' : '' ?> wps-premium-step__feature js-wps-premiumStepFeature" data-modal="<?php echo esc_attr($slug) ?>">
                             <?php echo esc_html($title); ?>
 
                             <?php if (!$pluginHandler->isPluginInstalled($slug)) : ?>
@@ -151,7 +151,7 @@ $pluginHandler = new PluginHandler();
                 <div class="js-wps-premium-first-step__head">
                     <?php if (LicenseHelper::isPremiumLicenseAvailable()) : ?>
                         <a class="wps-premium-step__action-btn wps-premium-step__action-btn--upgrade activated js-wps-premiumModalUpgradeBtn"><?php esc_html_e('Premium Activated', 'wp-statistics'); ?></a>
-                    <?php elseif (LicenseHelper::isLicenseAvailable() && !LicenseHelper::isPremiumLicenseAvailable()) : ?>
+                    <?php elseif (LicenseHelper::isValidLicenseAvailable() && !LicenseHelper::isPremiumLicenseAvailable()) : ?>
                         <a target="_blank" class="wps-premium-step__action-btn wps-premium-step__action-btn--upgrade js-wps-premiumModalUpgradeBtn"><?php esc_html_e('Upgrade to Premium', 'wp-statistics'); ?></a>
                     <?php else : ?>
                         <a target="_blank" class="wps-premium-step__action-btn wps-premium-step__action-btn--upgrade js-wps-premiumModalUpgradeBtn"><?php esc_html_e('Upgrade Now', 'wp-statistics'); ?></a>
