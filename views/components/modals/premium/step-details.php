@@ -132,7 +132,7 @@ $pluginHandler = new PluginHandler();
                     ?>
 
                     <?php foreach ($plugins as $slug => $title) : ?>
-                        <li class="<?php echo PluginHelper::isPluginPurchased($slug) ? 'activated' : '' ?> wps-premium-step__feature js-wps-premiumStepFeature" data-modal="<?php echo esc_attr($slug) ?>">
+                        <li class="<?php echo LicenseHelper::isPluginLicenseValid($slug) ? 'activated' : '' ?> wps-premium-step__feature js-wps-premiumStepFeature" data-modal="<?php echo esc_attr($slug) ?>">
                             <?php echo esc_html($title); ?>
 
                             <?php if (!$pluginHandler->isPluginInstalled($slug)) : ?>

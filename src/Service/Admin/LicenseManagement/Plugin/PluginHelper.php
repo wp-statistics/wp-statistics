@@ -83,9 +83,4 @@ class PluginHelper
 
         return $result;
     }
-
-    public static function isPluginPurchased($slug)
-    {
-        return LicenseHelper::getPluginLicense($slug) ? true : false;
-    }
 }

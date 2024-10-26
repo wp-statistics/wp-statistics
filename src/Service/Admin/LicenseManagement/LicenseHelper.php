@@ -42,7 +42,7 @@ class LicenseHelper
     }
 
     /**
-     * Returns the first validated license key that contains the add-on with the given slug.
+     * Returns the license key that contains the add-on with the given slug, if any.
      *
      * @param string $slug
      *
@@ -50,7 +50,10 @@ class LicenseHelper
      */
     public static function getPluginLicense($slug)
     {
-        foreach (self::getLicenses() as $key => $license) {
+        // Prioritize valid licenses over expired
+        $licenses = array_merge(self::getLicenses('valid'), self::getLicenses('license_expired'));
+
+        foreach ($licenses as $key => $license) {
             if (empty($license['products'])) continue;
 
             if (in_array($slug, $license['products'])) {
@@ -59,6 +62,35 @@ class LicenseHelper
         }
 
         return null;
+    }
+
+    /**
+     * Retrieve the status of a given plugin slug.
+     *
+     * @param string $slug The slug of the plugin.
+     *
+     * @return string|null The status of the plugin, e.g. 'valid', 'expired', or null if no matching license was found.
+     */
+    public static function getPluginLicenseStatus($slug)
+    {
+        $licenseKey = self::getPluginLicense($slug);
+        $status     = self::getLicenseInfo($licenseKey);
+
+        return $status['status'] ?? null;
+    }
+
+
+    /**
+     * Checks if the given plugin slug has a valid license.
+     *
+     * @param string $slug The slug of the plugin.
+     *
+     * @return bool True if the plugin has a valid license, false otherwise.
+     */
+    public static function isPluginLicenseValid($slug)
+    {
+        $status = self::getPluginLicenseStatus($slug);
+        return $status === 'valid';
     }
 
     /**
