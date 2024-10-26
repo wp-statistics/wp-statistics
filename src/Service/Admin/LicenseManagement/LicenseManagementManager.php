@@ -106,7 +106,7 @@ class LicenseManagementManager
         $plugins = $this->pluginHandler->getInstalledPlugins();
 
         foreach ($plugins as $plugin) {
-            if (LicenseHelper::isPluginLicenseValid($plugin['TextDomain'])) {
+            if (!LicenseHelper::isPluginLicenseValid($plugin['TextDomain'])) {
                 $pluginUpdater = new PluginUpdater($plugin['TextDomain'], $plugin['Version']);
                 $pluginUpdater->handleLicenseNotice();
             }
