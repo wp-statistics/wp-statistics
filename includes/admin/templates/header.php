@@ -57,7 +57,7 @@ $allPlugins         = count(PluginHelper::getPlugins());
     </div>
     <div class="wps-adminHeader__side">
         <?php if (apply_filters('wp_statistics_enable_upgrade_to_bundle', true)) : ?>
-            <?php if (!$isPremium && !LicenseHelper::isLicenseAvailable()) : ?>
+            <?php if (!$isPremium && !LicenseHelper::isValidLicenseAvailable()) : ?>
                 <a href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/pricing?utm_source=wp-statistics&utm_medium=link&utm_campaign=header'); ?>" target="_blank" class="wps-license-status wps-license-status--free">
                     <?php esc_html_e('Upgrade To Premium', 'wp-statistics'); ?>
                 </a>
@@ -119,7 +119,7 @@ $allPlugins         = count(PluginHelper::getPlugins());
 
                 <?php if (apply_filters('wp_statistics_enable_upgrade_to_bundle', true)) : ?>
                     <div class="wps-bundle">
-                        <?php if (!$isPremium && !LicenseHelper::isLicenseAvailable()) : ?>
+                        <?php if (!$isPremium && !LicenseHelper::isValidLicenseAvailable()) : ?>
                             <a href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/pricing?utm_source=wp-statistics&utm_medium=link&utm_campaign=header'); ?>" target="_blank" class="wps-license-status wps-license-status--free">
                                 <?php esc_html_e('Upgrade To Premium', 'wp-statistics'); ?>
                             </a>

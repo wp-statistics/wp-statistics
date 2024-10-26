@@ -109,7 +109,7 @@ class LicenseHelper
      *
      * @return bool
      */
-    public static function isLicenseAvailable()
+    public static function isValidLicenseAvailable()
     {
         return !empty(self::getLicenses());
     }
