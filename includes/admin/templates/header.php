@@ -9,8 +9,6 @@ use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHelper;
 use WP_Statistics\Service\Admin\PrivacyAudit\PrivacyAuditDataProvider;
 
 $isPremium          = LicenseHelper::isPremiumLicenseAvailable() ? true : false;
-$purchasedPlugins   = count(PluginHelper::getLicensedPlugins());
-$allPlugins         = count(PluginHelper::getPlugins());
 ?>
 
 <div class="wps-adminHeader <?php echo $isPremium ? 'wps-adminHeader__premium' : '' ?>">
@@ -65,7 +63,7 @@ $allPlugins         = count(PluginHelper::getPlugins());
                 </a>
             <?php else : ?>
                 <a href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/pricing?utm_source=wp-statistics&utm_medium=link&utm_campaign=header'); ?>" class="wps-license-status wps-license-status--valid">
-                    <span><?php esc_html_e(sprintf('License: %s/%s', $purchasedPlugins, $allPlugins), 'wp-statistics')?></span> <span><?php esc_html_e('Upgrade', 'wp-statistics'); ?></span>
+                    <span><?php esc_html_e(sprintf('License: %s/%s', count(PluginHelper::getLicensedPlugins()), count(PluginHelper::getPlugins())), 'wp-statistics')?></span> <span><?php esc_html_e('Upgrade', 'wp-statistics'); ?></span>
                 </a>
             <?php endif; ?>
         <?php endif; ?>
@@ -127,7 +125,7 @@ $allPlugins         = count(PluginHelper::getPlugins());
                             </a>
                         <?php else : ?>
                             <a href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/pricing?utm_source=wp-statistics&utm_medium=link&utm_campaign=header'); ?>" class="wps-license-status wps-license-status--valid">
-                                <span><?php esc_html_e(sprintf('License: %s/%s', $purchasedPlugins, $allPlugins), 'wp-statistics')?></span> <span><?php esc_html_e('Upgrade', 'wp-statistics'); ?></span>
+                                <span><?php esc_html_e(sprintf('License: %s/%s', count(PluginHelper::getLicensedPlugins()), count(PluginHelper::getPlugins())), 'wp-statistics')?></span> <span><?php esc_html_e('Upgrade', 'wp-statistics'); ?></span>
                             </a>
                         <?php endif; ?>
                     </div>
