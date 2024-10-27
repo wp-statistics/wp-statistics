@@ -80,6 +80,9 @@ class PostsManager
     {
         global $pagenow;
 
+        $isPostQuickSave = $pagenow === 'admin-ajax.php' && !empty($_POST['action']) && $_POST['action'] === 'inline-save';
+        $isTaxQuickSave  = $pagenow === 'admin-ajax.php' && !empty($_POST['action']) && $_POST['action'] === 'inline-save-tax';
+
         if ($pagenow === 'edit.php') {
             // Posts and pages and CPTs
 
@@ -109,6 +112,20 @@ class PostsManager
             }
 
             add_filter('terms_clauses', [$hitColumnHandler, 'handleTaxOrderByHits'], 10, 3);
+        } else if ($isPostQuickSave) {
+            // Posts quick edit
+
+            $hitColumnHandler = new HitColumnHandler();
+
+            add_action('manage_edit-post_columns', [$hitColumnHandler, 'addHitColumn'], 10, 2);
+            add_action('manage_posts_custom_column', [$hitColumnHandler, 'renderHitColumn'], 10, 2);
+        } else if ($isTaxQuickSave) {
+            // Taxonomies quick edit
+
+            $hitColumnHandler = new HitColumnHandler(true);
+
+            add_action('manage_edit-category_columns', [$hitColumnHandler, 'addHitColumn'], 10, 2);
+            add_action('manage_category_custom_column', [$hitColumnHandler, 'renderTaxHitColumn'], 10, 3);
         }
     }
 
