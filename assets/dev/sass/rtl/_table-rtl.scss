@@ -86,6 +86,9 @@
 #wp-statistics-countries-widget,
 #wp-statistics-referring-widget {
   .inside {
+    table tbody tr td a.wps-link-arrow{
+      display: inline-flex !important;
+    }
     table.o-table {
       tr {
         td:last-child, th:last-child {

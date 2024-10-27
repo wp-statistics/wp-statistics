@@ -544,10 +544,6 @@
 
         &:last-child {
           padding: 14px 24px 14px 24px;
-          text-align: right!important;
-          .rtl &{
-            text-align: left!important;
-          }
         }
       }
       b{

@@ -245,38 +245,50 @@
           color: #56585A;
           list-style: disc;
           cursor: pointer;
+          display: flex;
+          align-items: center;
+          flex-wrap: wrap;
+          gap: 4px;
+
+
+          &:before{
+            content: '';
+            display: inline-block;
+            width: 6px;
+            height:6px;
+            margin-left: -20px;
+            margin-right: 3px;
+            border-radius:6px;
+            background-color: #dadce0;
+
+            .rtl &{
+              margin-right: -20px;
+              margin-left: 3px;
+            }
+          }
 
           &.active {
             font-weight: 600;
             color: #404BF2;
 
-            &::marker {
-              color: #404BF2;
+            &:before {
+              background-color: #404BF2;
             }
           }
 
-          &::marker {
-            color: #DADCE0;
-          }
+
 
           &.activated{
-            list-style: none;
-            display: flex;
-            align-items: center;
 
             &:before{
               content: '';
               display: inline-block;
               width: 16px;
+              border-radius: 0;
               height: 16px;
               margin-left: -20px;
               margin-right: 3px;
               background: url("data:image/svg+xml;base64,Cjxzdmcgd2lkdGg9IjExIiBoZWlnaHQ9IjgiIHZpZXdCb3g9IjAgMCAxMSA4IiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cGF0aCBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGNsaXAtcnVsZT0iZXZlbm9kZCIgZD0iTTkuNDkxOTUgMEwzLjg2ODY1IDUuNjIzMzFMMC45NTgwMDkgMi43MTI2N0wwIDMuNjcwNjdMMy44Njg2NSA3LjU0TDEwLjQ1MDYgMC45NTg2ODlMOS40OTE5NSAwWiIgZmlsbD0iIzE5NjE0MCIvPgo8L3N2Zz4K") center center no-repeat;
-
-              .rtl &{
-                margin-right: -20px;
-                margin-left: 3px;
-              }
              }
           }
           .wps-premium-step__feature-badge{
@@ -345,7 +357,7 @@
               pointer-events:none;
               white-space: nowrap;
 
-              :after{
+              &:after{
                 display: none!important;
               }
             }

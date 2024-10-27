@@ -269,7 +269,8 @@ td .wps-tooltip-icon.info {
      tbody {
       tr{
         td{
-          padding: 10px 0 10px 40px!important;
+          padding: 6.5px 0 6.5px 40px!important;
+          vertical-align: middle;
 
           &:first-child {
             padding-left: 24px!important;
@@ -296,3 +297,4 @@ td .wps-tooltip-icon.info {
     text-transform: capitalize;
   }
 }
+

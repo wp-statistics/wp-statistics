@@ -3,7 +3,7 @@
 use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Decorators\VisitorDecorator;
 use WP_STATISTICS\Menus;
-
+use WP_Statistics\Components\View;
 ?>
 
 <?php /** @var VisitorDecorator $visitor */ ?>
@@ -28,11 +28,9 @@ use WP_STATISTICS\Menus;
     <div class="wps-visitor__visitors-detail--row">
         <span><?php esc_html_e('Referrer', 'wp-statistics'); ?></span>
         <div class="wps-visitor__visitors-detail--link wps-ellipsis-parent">
-            <?php if (!empty($visitor->getReferral()->getReferrer())) : ?>
-                <a class="wps-link-arrow" target="_blank" href="<?php echo esc_url($visitor->getReferral()->getReferrer()) ?>">
-                    <span><?php echo esc_html($visitor->getReferral()->getRawReferrer()) ?></span>
-                </a>
-            <?php else : ?>
+            <?php if (!empty($visitor->getReferral()->getReferrer())) :
+                View::load("components/objects/external-link", ['url' => $visitor->getReferral()->getReferrer(), 'title' => $visitor->getReferral()->getRawReferrer()]);
+            else : ?>
                 <?php echo Admin_Template::UnknownColumn() ?>
             <?php endif; ?>
         </div>

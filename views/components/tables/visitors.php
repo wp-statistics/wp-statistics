@@ -60,9 +60,9 @@ $linksTarget = !empty($open_links_in_new_tab) ? '_blank' : '';
                             </td>
 
                             <td class="wps-pd-l">
-                                <?php if ($visitor->getReferral()->getReferrer()) : ?>
-                                    <a href="<?php echo esc_url($visitor->getReferral()->getReferrer()); ?>"><?php echo esc_html($visitor->getReferral()->getRawReferrer()) ?></a>
-                                <?php else : ?>
+                                <?php if ($visitor->getReferral()->getReferrer()) :
+                                    View::load("components/objects/external-link", ['url' => $visitor->getReferral()->getReferrer(), 'title' => $visitor->getReferral()->getRawReferrer()]);
+                                 else : ?>
                                     <?php echo Admin_Template::UnknownColumn() ?>
                                 <?php endif; ?>
                             </td>
@@ -74,11 +74,9 @@ $linksTarget = !empty($open_links_in_new_tab) ? '_blank' : '';
                             <?php if (empty($hide_latest_page_column)) : ?>
                                 <td class="wps-pd-l">
                                     <?php $page = $visitor->getLastPage(); ?>
-                                    <?php if (!empty($page)) : ?>
-                                        <a target="_blank" href="<?php echo esc_url($page['link']) ?>" title="<?php echo esc_attr($page['title']) ?>" class="wps-link-arrow">
-                                            <span><?php echo esc_html($page['title']) ?></span>
-                                        </a>
-                                    <?php else : ?>
+                                    <?php if (!empty($page)) :
+                                        View::load("components/objects/external-link", ['url' => $page['link'], 'title' => $page['title']]);
+                                     else : ?>
                                         <?php echo Admin_Template::UnknownColumn() ?>
                                     <?php endif; ?>
                                 </td>
