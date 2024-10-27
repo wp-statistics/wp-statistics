@@ -72,7 +72,7 @@ if (!$isCustomizationActive) echo Admin_Template::get_template('layout/partials/
                             <option value="<?php echo esc_attr($key) ?>" <?php echo in_array($key, $disabledMenuItems ? $disabledMenuItems : []) ? 'selected' : '' ?>><?php echo esc_html($title) ?></option>
                         <?php } ?>
                     </select>
-                    <p class="description"><?php esc_html_e('Choose which menus you want to remove from the WordPress sidebar.', 'wp-statistics'); ?></p>
+                    <p class="description"><?php esc_html_e('Select the menus you want to hide from the WordPress sidebar. To deselect a menu, hold Ctrl and click on it.', 'wp-statistics'); ?></p>
                 </td>
             </tr>
 
