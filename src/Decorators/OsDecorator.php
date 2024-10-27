@@ -20,7 +20,7 @@ class OsDecorator
      */
     public function getName()
     {
-        return $this->visitor->platform ?? null;
+        return \WP_STATISTICS\Admin_Template::unknownToNotSet($this->visitor->platform) ?? null;
     }
 
     /**

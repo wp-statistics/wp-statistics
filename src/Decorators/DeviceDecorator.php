@@ -18,7 +18,7 @@ class DeviceDecorator
      */
     public function getType()
     {
-        return $this->visitor->device ?? null;
+        return \WP_STATISTICS\Admin_Template::unknownToNotSet($this->visitor->device) ?? null;
     }
 
     /**
@@ -28,6 +28,6 @@ class DeviceDecorator
      */
     public function getModel()
     {
-        return $this->visitor->model ?? null;
+        return \WP_STATISTICS\Admin_Template::unknownToNotSet($this->visitor->model) ?? null;
     }
 }

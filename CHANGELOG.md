@@ -1,3 +1,18 @@
+= 14.11 - 2024-10-** =
+- **New:** Launched WP Statistics Premium with a pop-up to introduce its features.
+- **New:** Added a dedicated header for Premium users, with minor updates to the free version’s header.
+- **New:** Completely revamped Referral reports.
+- **New:** Created a new Add-Ons page with an easier way to install add-ons.
+- **New:** Added an option to turn off previous period data in charts.
+- **Enhancement:** Updated PHP requirement to version 7.2.
+- **Enhancement:** Improved geolocation accuracy.
+- **Enhancement:** Enhanced device detection using Matomo’s Device Detector.
+- **Enhancement:** Updated report pages, especially the visitor sections, with refined styling.
+- **Enhancement:** Chart labels now adjust automatically to the chosen date range.
+- **Enhancement:** Various functional improvements and small updates.
+- **Fix:** Resolved a memory issue affecting background processes.
+- **Fix:** Fixed a bug that blocked visitor data display when missing from the `visitor_relationship` table.
+
 = 14.10.1 - 11.09.2024 =
 * **Enhancement:** UX improvement for visitor information when users are logged in.
 * **Enhancement:** Corrected sorting issues in bar charts.

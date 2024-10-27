@@ -136,17 +136,20 @@ To ensure the plugin works correctly, please clear your cache because some reque
 Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest version.
 
 == Changelog ==
-= 14.11 - **.**.2024 =
-* New: Add pop-up to introduce Premium version for all premium features.
-* New: Add special header for premium users and some minor improvements to the free version header.
-* New: Introduced brand-new Referrals report page.
-* New: Introduced brand-new Add-Ons page and license manager system.
-* New: Add option to disable previous period data for charts.
-* Enhancement: Update charts based on selected date range.
-* Enhancement: Improved the Device Detection.
-* Enhancement: Chart labels dynamically change depending on the selected data range.
-* Fix: Show visitors data even if they didn't have data in visitor_relationship table.
-* Fix: Background process memory exhaustion bug.
+= 14.11 - 2024-10-** =
+- **New:** Launched WP Statistics Premium with a pop-up to introduce its features.
+- **New:** Added a dedicated header for Premium users, with minor updates to the free version’s header.
+- **New:** Completely revamped Referral reports.
+- **New:** Created a new Add-Ons page with an easier way to install add-ons.
+- **New:** Added an option to turn off previous period data in charts.
+- **Enhancement:** Updated PHP requirement to version 7.2.
+- **Enhancement:** Improved geolocation accuracy.
+- **Enhancement:** Enhanced device detection using Matomo’s Device Detector.
+- **Enhancement:** Updated report pages, especially the visitor sections, with refined styling.
+- **Enhancement:** Chart labels now adjust automatically to the chosen date range.
+- **Enhancement:** Various functional improvements and small updates.
+- **Fix:** Resolved a memory issue affecting background processes.
+- **Fix:** Fixed a bug that blocked visitor data display when missing from the `visitor_relationship` table.
 
 For more information about the major update, please [visit our blog post](https://wp-statistics.com/?p=16657) or follow [@wp_statistics](https://twitter.com/wp_statistics) on Twitter
 

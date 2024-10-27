@@ -214,8 +214,6 @@ class TimeZone
      */
     public static function getDateFilters()
     {
-        _deprecated_function(__METHOD__, '14.11', 'WP_Statistics/DateRange::getPeriods()');
-
         return [
             'today'      => [
                 'from' => self::getTimeAgo(0),
@@ -293,8 +291,6 @@ class TimeZone
      */
     public static function calculateDateFilter($dateFilter = false)
     {
-        _deprecated_function(__METHOD__, '14.11', 'WP_Statistics/DateRange::get()');
-
         $dateFilters = self::getDateFilters();
 
         if (!empty($dateFilters[$dateFilter])) {

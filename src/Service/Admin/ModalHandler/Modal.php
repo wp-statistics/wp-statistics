@@ -7,6 +7,11 @@ use WP_STATISTICS\Option;
 class Modal {
     const MODAL_OPTION_KEY = 'user_modals';
 
+    /**
+     * Returns the relative path to the modals directory.
+     *
+     * @return string
+     */
     private static function getModalsDir()
     {
         return '/components/modals/';
@@ -27,7 +32,7 @@ class Modal {
     }
 
     /**
-     * Shows the modal and updates the state.
+     * Shows the modal and updates the state. (stateful modal)
      *
      * @param string $modalId The name of the modal to show.
      *
@@ -36,17 +41,29 @@ class Modal {
     public static function show($modalId)
     {
         self::updateState($modalId);
+        self::render($modalId);
+    }
 
+
+    /**
+     * Renders the modal with the given ID. (stateless modal)
+     *
+     * @param string $modalId The ID of the modal to render.
+     *
+     * @return void
+     */
+    public static function render($modalId)
+    {
         View::load(self::getModalsDir() . "/{$modalId}/{$modalId}-modal");
     }
 
-        /**
-         * Updates the state of a modal.
-         *
-         * @param string $modalId The name of the modal.
-         *
-         * @return void
-         */
+    /**
+     * Updates the state of a modal.
+     *
+     * @param string $modalId The name of the modal.
+     *
+     * @return void
+     */
     private static function updateState($modalId)
     {
         $modals             = self::getStates();

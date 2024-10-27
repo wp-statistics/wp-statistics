@@ -71,7 +71,7 @@ class browsers extends MetaBoxAbstract
             if (empty(trim($l['agent']))) continue;
 
             // Sanitize Version name
-            $lists_name[] = sanitize_text_field($l['agent']);
+            $lists_name[] = \WP_STATISTICS\Admin_Template::unknownToNotSet($l['agent']);
 
             $lists_logo[] = DeviceHelper::getBrowserLogo($l['agent']);
 

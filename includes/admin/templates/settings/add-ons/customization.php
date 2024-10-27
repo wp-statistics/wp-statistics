@@ -8,8 +8,8 @@ $isCustomizationActive = WP_STATISTICS\Helper::isAddOnActive('customization');
 global $wp_version;
 
 $disableMenuArray = [
-    'visitors'           => __('Visitor Insight', 'wp-statistics'),
-    'pages'              => __('Page Insight', 'wp-statistics'),
+    'visitor_insights'   => __('Visitor Insight', 'wp-statistics'),
+    'pages_insight'      => __('Page Insight', 'wp-statistics'),
     'referrals'          => __('Referrals', 'wp-statistics'),
     'content_analytics'  => __('Content Analytics', 'wp-statistics'),
     'author_analytics'   => __('Author Analytics', 'wp-statistics'),
@@ -72,7 +72,7 @@ if (!$isCustomizationActive) echo Admin_Template::get_template('layout/partials/
                             <option value="<?php echo esc_attr($key) ?>" <?php echo in_array($key, $disabledMenuItems ? $disabledMenuItems : []) ? 'selected' : '' ?>><?php echo esc_html($title) ?></option>
                         <?php } ?>
                     </select>
-                    <p class="description"><?php esc_html_e('Choose which menus you want to remove from the WordPress sidebar.', 'wp-statistics'); ?></p>
+                    <p class="description"><?php esc_html_e('Select the menus you want to hide from the WordPress sidebar. To deselect a menu, hold Ctrl and click on it.', 'wp-statistics'); ?></p>
                 </td>
             </tr>
 

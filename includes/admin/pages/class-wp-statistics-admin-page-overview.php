@@ -47,7 +47,7 @@ class log_page extends Singleton
         $args['real_time_button'] = true;
         $args['title'] =  __('Overview', 'wp-statistics');
 
-        Modal::showOnce('welcome');
+        Modal::showOnce('welcome-premium');
 
         Admin_Template::get_template(array('layout/header', 'layout/title', 'pages/overview', 'layout/footer'), $args);
     }
