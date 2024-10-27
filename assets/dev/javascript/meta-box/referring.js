@@ -10,7 +10,7 @@ wps_js.referring_meta_box = {
 
         args.referring.forEach(function (value) {
             t += `<tr>
-			<td class="wps-pd-l"><a class="wps-link-arrow" href='//${value['domain']}' title='${value['title']}' target="_blank"><span>${value['domain']}</span></a></td>
+			<td class="wps-pd-l"><a class="wps-link-arrow" href='//${value['domain']}' title='${value['domain']}' target="_blank"><span>${value['domain']}</span></a></td>
 			<td class="wps-pd-l wps-middle-vertical"><a style="justify-content: flex-end;" href="${value['page_link']}">${wps_js.formatNumber(value['number'])} </a></td>
 			</tr>`;
         });
