@@ -32,7 +32,7 @@ class Modal {
     }
 
     /**
-     * Shows the modal and updates the state. (Stateful modal)
+     * Shows the modal and updates the state. (stateful modal)
      *
      * @param string $modalId The name of the modal to show.
      *
@@ -46,7 +46,7 @@ class Modal {
 
 
     /**
-     * Renders the modal with the given ID. (Steteless modal)
+     * Renders the modal with the given ID. (stateless modal)
      *
      * @param string $modalId The ID of the modal to render.
      *
