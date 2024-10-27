@@ -135,4 +135,4 @@ $isPremium = LicenseHelper::isPremiumLicenseAvailable() ? true : false;
         </div>
     </div>
 </div>
-<?php Modal::show('premium'); ?>
+<?php Modal::render('premium'); ?>
