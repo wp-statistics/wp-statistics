@@ -8,8 +8,8 @@ $isCustomizationActive = WP_STATISTICS\Helper::isAddOnActive('customization');
 global $wp_version;
 
 $disableMenuArray = [
-    'visitors'           => __('Visitor Insight', 'wp-statistics'),
-    'pages'              => __('Page Insight', 'wp-statistics'),
+    'visitor_insights'   => __('Visitor Insight', 'wp-statistics'),
+    'pages_insight'      => __('Page Insight', 'wp-statistics'),
     'referrals'          => __('Referrals', 'wp-statistics'),
     'content_analytics'  => __('Content Analytics', 'wp-statistics'),
     'author_analytics'   => __('Author Analytics', 'wp-statistics'),

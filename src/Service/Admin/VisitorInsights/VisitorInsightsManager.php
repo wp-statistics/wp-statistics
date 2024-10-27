@@ -18,7 +18,7 @@ class VisitorInsightsManager
      */
     public function addMenuItem($items)
     {
-        $items['visitor-insights'] = [
+        $items['visitor_insights'] = [
             'sub'       => 'overview',
             'title'     => esc_html__('Visitor Insights', 'wp-statistics'),
             'page_url'  => 'visitors',
