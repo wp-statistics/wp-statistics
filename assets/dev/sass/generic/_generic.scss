@@ -868,6 +868,7 @@
     display: flex;
     box-sizing: border-box;
     box-shadow: 4px 4px 15px 0 #3130400D;
+    cursor: default;
 
     a {
       background: #404BF20D;
@@ -876,13 +877,16 @@
       color: #404BF2;
       padding: 10px;
       cursor: pointer;
-    }
+      white-space: nowrap;
+     }
 
     span {
       color: #56585A;
       font-size: 13px;
       font-weight: 500;
       padding: 10px;
+      white-space: nowrap;
+      cursor: default;
     }
 
 
@@ -1021,4 +1025,6 @@
 }
 
 
-
+.v-image-lazy {
+   transition: all .5s ease-in 0s;
+}

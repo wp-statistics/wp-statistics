@@ -838,3 +838,9 @@ body .o-table-wrapper table.wps-new-table {
     }
   }
 }
+
+#wp-statistics-referring-widget  ,body.statistics_page_wps_visitors_page{
+  .o-table-wrapper table.wps-new-table tbody tr td .wps-link-arrow{
+    max-width: 200px;
+  }
+}

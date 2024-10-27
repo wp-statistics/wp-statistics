@@ -1,10 +1,5 @@
-<?php
-use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
-$isPremium          = LicenseHelper::isPremiumLicenseAvailable() ? true : false;
-?>
-
 <div id="poststuff"  >
-    <div id="post-body" class="metabox-holder wps-settingsPageFlex <?php echo $isPremium ? 'wps-settings__premium-user' : ''?>">
+    <div id="post-body" class="metabox-holder wps-settingsPageFlex">
         <?php include WP_STATISTICS_DIR . 'includes/admin/templates/layout/menu-settings.php'; ?>
 
         <div class="wp-list-table widefat wps-settingsBox">
