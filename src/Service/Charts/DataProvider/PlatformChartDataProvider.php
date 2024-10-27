@@ -107,7 +107,7 @@ class PlatformChartDataProvider extends AbstractChartDataProvider
                 $model      = $item->getDevice()->getModel();
 
                 // OS data
-                if (!empty($platform) && $platform !== 'Unknown') {
+                if (!empty($platform) && $platform !== '(not set)') {
                     $platforms = array_column($parsedData['os'], 'label');
 
                     if (!in_array($platform, $platforms)) {
@@ -123,7 +123,7 @@ class PlatformChartDataProvider extends AbstractChartDataProvider
                 }
 
                 // Browser data
-                if (!empty($agent) && $agent !== 'Unknown') {
+                if (!empty($agent) && $agent !== '(not set)') {
                     $agents = array_column($parsedData['browser'], 'label');
 
                     if (!in_array($agent, $agents)) {
@@ -139,7 +139,7 @@ class PlatformChartDataProvider extends AbstractChartDataProvider
                 }
 
                 // Device data
-                if (!empty($device) && $device !== 'Unknown') {
+                if (!empty($device) && $device !== '(not set)') {
                     $devices = array_column($parsedData['device'], 'label');
 
                     if (!in_array($device, $devices)) {
@@ -154,7 +154,7 @@ class PlatformChartDataProvider extends AbstractChartDataProvider
                 }
 
                 // Model data
-                if (!empty($model) && $model !== 'Unknown') {
+                if (!empty($model) && $model !== '(not set)') {
                     $models = array_column($parsedData['model'], 'label');
 
                     if (!in_array($model, $models)) {

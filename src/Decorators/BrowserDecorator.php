@@ -20,7 +20,7 @@ class BrowserDecorator
      */
     public function getRaw()
     {
-        return $this->visitor->agent ?? null;
+        return \WP_STATISTICS\Admin_Template::unknownToNotSet($this->visitor->agent) ?? null;
     }
 
     /**
