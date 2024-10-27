@@ -80,23 +80,30 @@ class PostsManager
     {
         global $pagenow;
 
-        $isPostQuickSave = $pagenow === 'admin-ajax.php' && !empty($_POST['action']) && $_POST['action'] === 'inline-save';
-        $isTaxQuickSave  = $pagenow === 'admin-ajax.php' && !empty($_POST['action']) && $_POST['action'] === 'inline-save-tax';
+        $isPostQuickEdit = $pagenow === 'admin-ajax.php' && !empty($_POST['action']) && $_POST['action'] === 'inline-save';
+        $isTaxQuickEdit  = $pagenow === 'admin-ajax.php' && !empty($_POST['action']) && $_POST['action'] === 'inline-save-tax';
 
-        if ($pagenow === 'edit.php') {
-            // Posts and pages and CPTs
+        if ($pagenow === 'edit.php' || $isPostQuickEdit) {
+            // Posts and pages and CPTs + Quick edit
 
             $hitColumnHandler = new HitColumnHandler();
 
             foreach (Helper::get_list_post_type() as $type) {
-                add_action("manage_{$type}_posts_columns", [$hitColumnHandler, 'addHitColumn'], 10, 2);
+                if (!$isPostQuickEdit) {
+                    add_action("manage_{$type}_posts_columns", [$hitColumnHandler, 'addHitColumn'], 10, 2);
+                } else {
+                    add_action("manage_edit-{$type}_columns", [$hitColumnHandler, 'addHitColumn'], 10, 2);
+                }
+
                 add_action("manage_{$type}_posts_custom_column", [$hitColumnHandler, 'renderHitColumn'], 10, 2);
                 add_filter("manage_edit-{$type}_sortable_columns", [$hitColumnHandler, 'modifySortableColumns']);
             }
 
-            add_filter('posts_clauses', [$hitColumnHandler, 'handlePostOrderByHits'], 10, 2);
-        } else if ($pagenow === 'edit-tags.php') {
-            // Taxonomies
+            if (!$isPostQuickEdit) {
+                add_filter('posts_clauses', [$hitColumnHandler, 'handlePostOrderByHits'], 10, 2);
+            }
+        } else if ($pagenow === 'edit-tags.php' || $isTaxQuickEdit) {
+            // Taxonomies + Quick edit
 
             if (!apply_filters('wp_statistics_show_taxonomy_hits', true)) {
                 return;
@@ -104,28 +111,13 @@ class PostsManager
 
             $hitColumnHandler = new HitColumnHandler(true);
 
-            // Add Column
             foreach (Helper::get_list_taxonomy() as $tax => $name) {
-                add_action('manage_edit-' . $tax . '_columns', [$hitColumnHandler, 'addHitColumn'], 10, 2);
-                add_filter('manage_' . $tax . '_custom_column', [$hitColumnHandler, 'renderTaxHitColumn'], 10, 3);
-                add_filter('manage_edit-' . $tax . '_sortable_columns', [$hitColumnHandler, 'modifySortableColumns']);
+                add_action("manage_edit-{$tax}_columns", [$hitColumnHandler, 'addHitColumn'], 10, 2);
+                add_filter("manage_{$tax}_custom_column", [$hitColumnHandler, 'renderTaxHitColumn'], 10, 3);
+                add_filter("manage_edit-{$tax}_sortable_columns", [$hitColumnHandler, 'modifySortableColumns']);
             }
 
             add_filter('terms_clauses', [$hitColumnHandler, 'handleTaxOrderByHits'], 10, 3);
-        } else if ($isPostQuickSave) {
-            // Posts quick edit
-
-            $hitColumnHandler = new HitColumnHandler();
-
-            add_action('manage_edit-post_columns', [$hitColumnHandler, 'addHitColumn'], 10, 2);
-            add_action('manage_posts_custom_column', [$hitColumnHandler, 'renderHitColumn'], 10, 2);
-        } else if ($isTaxQuickSave) {
-            // Taxonomies quick edit
-
-            $hitColumnHandler = new HitColumnHandler(true);
-
-            add_action('manage_edit-category_columns', [$hitColumnHandler, 'addHitColumn'], 10, 2);
-            add_action('manage_category_custom_column', [$hitColumnHandler, 'renderTaxHitColumn'], 10, 3);
         }
     }
 
