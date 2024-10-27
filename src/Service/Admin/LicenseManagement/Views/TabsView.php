@@ -13,6 +13,7 @@ use WP_Statistics\Service\Admin\LicenseManagement\ApiCommunicator;
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseManagerDataProvider;
+use WP_STATISTICS\User;
 
 class TabsView extends BaseTabView
 {
@@ -30,10 +31,23 @@ class TabsView extends BaseTabView
     {
         $this->dataProvider    = new LicenseManagerDataProvider();
         $this->apiCommunicator = new ApiCommunicator();
+        $this->checkUserAccess();
         $this->handleUrlLicenseValidation();
         $this->checkLicensesStatus();
 
         parent::__construct();
+    }
+
+    /**
+     * Prevent access to certain tabs if the user is not an admin.
+     *
+     * @throws SystemErrorException if the user does not have permission to access the page.
+     */
+    private function checkUserAccess()
+    {
+        if (!User::isAdmin() && !$this->isTab('add-ons')) {
+            throw new SystemErrorException(esc_html__('You do not have permission to access this page.', 'wp-statistics'));
+        }
     }
 
     /**
@@ -154,8 +168,11 @@ class TabsView extends BaseTabView
 
             if ($this->isTab('add-ons')) {
                 $args['title']                  = esc_html__('Add-Ons', 'wp-statistics');
-                $args['install_addon_btn_txt']  = esc_html__('Install Add-On', 'wp-statistics');
-                $args['install_addon_btn_link'] = esc_url(Menus::admin_url('plugins', ['tab' => 'add-license']));
+
+                if (User::isAdmin()) {
+                    $args['install_addon_btn_txt']  = esc_html__('Install Add-On', 'wp-statistics');
+                    $args['install_addon_btn_link'] = esc_url(Menus::admin_url('plugins', ['tab' => 'add-license']));
+                }
 
                 Admin_Template::get_template(['layout/header', 'layout/title'], $args);
             } else {
