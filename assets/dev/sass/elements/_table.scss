@@ -692,6 +692,10 @@ body .o-table-wrapper table.wps-new-table {
         gap: 6px;
         align-items: stretch;
 
+        .wps-ellipsis-text{
+          max-width: 100px;
+        }
+
         a {
           display: flex !important;
           align-items: center;
