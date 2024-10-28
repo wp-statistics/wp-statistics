@@ -242,12 +242,11 @@
             color: #56585A !important;
           }
 
-          &.wps-license-activated{
+          &.wps-license-activated {
             &:after {
               display: none;
             }
           }
-
 
 
           &:after {
@@ -715,5 +714,53 @@
         color: #404bf2;
       }
     }
+  }
+}
+
+.wps-notice-settings {
+  margin-bottom: 20px;
+  padding: 13px 16px;
+  border-radius: 8px;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+
+  &:before {
+    content: '';
+    width: 16.73px;
+    min-width: 16.73px;
+    height: 18.7px;
+    display: inline-flex;
+  }
+
+  &--warning {
+    border: 1px solid #E68C3F80;
+    background: #FEF9F5;
+
+    &:before {
+      background: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTciIGhlaWdodD0iMTkiIHZpZXdCb3g9IjAgMCAxNyAxOSIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGcgY2xpcC1wYXRoPSJ1cmwoI2NsaXAwXzE4NDczXzYxNTkzKSI+CjxwYXRoIGQ9Ik05LjA1MjE0IDQuMzk3NDNMMTYuNjIxNiAxNy41MDgxQzE2Ljg0MTEgMTcuODg4MiAxNi43MTA4IDE4LjM3NDEgMTYuMzMwOCAxOC41OTM1QzE2LjIxIDE4LjY2MzMgMTYuMDcyOSAxOC43IDE1LjkzMzUgMTguN0gwLjc5NDU4NkMwLjM1NTc1MiAxOC43IDAgMTguMzQ0MyAwIDE3LjkwNTRDMCAxNy43NjU5IDAuMDM2NzE3OCAxNy42Mjg5IDAuMTA2NDU5IDE3LjUwODFMNy42NzU5MSA0LjM5NzQzQzcuODk1MyA0LjAxNzM4IDguMzgxMjcgMy44ODcxNyA4Ljc2MTMyIDQuMTA2NTlDOC44ODIxIDQuMTc2MzMgOC45ODI0NSA0LjI3NjY0IDkuMDUyMTQgNC4zOTc0M1pNNy41Njk0NCAxNC43MjcxVjE2LjMxNjJIOS4xNTg2MVYxNC43MjcxSDcuNTY5NDRaTTcuNTY5NDQgOS4xNjQ5NFYxMy4xMzc5SDkuMTU4NjFWOS4xNjQ5NEg3LjU2OTQ0WiIgZmlsbD0iI0U2OEMzRiIvPgo8L2c+CjxkZWZzPgo8Y2xpcFBhdGggaWQ9ImNsaXAwXzE4NDczXzYxNTkzIj4KPHJlY3Qgd2lkdGg9IjE2LjcyODIiIGhlaWdodD0iMTguNyIgZmlsbD0id2hpdGUiLz4KPC9jbGlwUGF0aD4KPC9kZWZzPgo8L3N2Zz4K") center center no-repeat;
+    }
+  }
+
+  &__title {
+    color: #0C0C0D;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 22px;
+    margin-top: 0;
+    margin-bottom: 4px;
+  }
+
+  &__desc {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 22px;
+    color: #0C0C0D;
+
+    a {
+      color: #404BF2;
+      text-decoration: underline;
+    }
+
   }
 }
