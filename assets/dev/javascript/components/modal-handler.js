@@ -21,7 +21,6 @@ const closeModal=()=> {
      }
 }
 
-
 const openModal = (target, href) => {
      if (modal){
          modal.style.display = 'block';
@@ -76,6 +75,11 @@ if (exploreButton) {
 
 // Function to show a specific step and sync the sidebar
 const showStep = (index) => {
+
+    document.querySelectorAll('.wps-premium-step__image').forEach((img) => {
+        img.src = img.dataset.src;
+    });
+
     if (index < 0 || index >= premiumSteps.length) return;
     premiumSteps.forEach(step => step.classList.remove('wps-modal__premium-step--active'));
     upgradeButton.forEach(btn => btn.classList.remove('wps-premium-step__action-btn--upgrade--active'));

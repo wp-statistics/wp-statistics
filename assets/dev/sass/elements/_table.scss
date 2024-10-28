@@ -692,6 +692,10 @@ body .o-table-wrapper table.wps-new-table {
         gap: 6px;
         align-items: stretch;
 
+        .wps-ellipsis-text{
+          max-width: 100px;
+        }
+
         a {
           display: flex !important;
           align-items: center;
@@ -836,5 +840,11 @@ body .o-table-wrapper table.wps-new-table {
     a.wps-link-arrow {
       max-width: 300px !important;
     }
+  }
+}
+
+#wp-statistics-referring-widget  ,body.statistics_page_wps_visitors_page{
+  .o-table-wrapper table.wps-new-table tbody tr td .wps-link-arrow{
+    max-width: 200px;
   }
 }

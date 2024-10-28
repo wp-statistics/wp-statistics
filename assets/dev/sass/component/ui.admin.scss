@@ -2640,8 +2640,7 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
       width: 100%;
       white-space: nowrap;
       overflow-x: auto;
-      padding-bottom: 2px;
-    }
+     }
   }
 }
 
@@ -3513,6 +3512,7 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
 
 .wps-tab-link .wps-locked {
    color: #BFC2C9;
+   cursor: pointer;
 
   &:hover {
     color: #ADB4C1 !important;

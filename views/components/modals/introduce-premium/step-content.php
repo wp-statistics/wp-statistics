@@ -7,7 +7,7 @@ $pluginHandler = new PluginHandler();
 <div class="wps-modal__premium-step js-wps-premiumModalStep wps-modal__premium-step--<?php echo esc_attr($step_name) ?>" >
     <?php echo $description; ?>
     <?php if ( $step_name !== 'first-step') : ?>
-        <img class="wps-premium-step__image" src="<?php echo WP_STATISTICS_URL . 'assets/images/premium-modal/' . esc_attr($step_name) . '.png'; ?>" alt="<?php echo esc_attr($step_name); ?>">
+        <img class="wps-premium-step__image v-image-lazy" width="509" height="291" data-src="<?php echo WP_STATISTICS_URL . 'assets/images/premium-modal/' . esc_attr($step_name) . '.png'; ?>" alt="<?php echo esc_attr($step_name); ?>">
         <?php if (LicenseHelper::isPremiumLicenseAvailable() &&!$pluginHandler->isPluginInstalled($step_name)) : ?>
             <div class="wps-premium-step__notice">
                 <div>
