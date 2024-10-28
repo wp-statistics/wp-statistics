@@ -51,7 +51,11 @@ class UserDecorator
      */
     public function getRole()
     {
-        return User::get($this->visitor->user_id)['role'][0] ?? null;
+        if (User::exists($this->visitor->user_id)) {
+            return User::get($this->visitor->user_id)['role'][0] ?? null;
+        }
+
+        return null;
     }
 
     /**
