@@ -75,8 +75,8 @@ if ($isMiniChartActive && !$isLicenseValid) {
 
             <td>
                 <select name="wps_addon_settings[mini_chart][metric]" id="mini-chart-metric">
-                    <option value="visitors" <?php selected(WP_STATISTICS\Option::getByAddon('metric', 'mini_chart', 'visitors'), 'visitors'); ?>><?php esc_html_e('Visitors', 'wp-statistics'); ?></option>
-                    <option value="views" <?php selected(WP_STATISTICS\Option::getByAddon('metric', 'mini_chart', 'visitors'), 'views'); ?>><?php esc_html_e('Views', 'wp-statistics'); ?></option>
+                    <option value="visitors" <?php selected(WP_STATISTICS\Option::getByAddon('metric', 'mini_chart', 'views'), 'visitors'); ?>><?php esc_html_e('Visitors', 'wp-statistics'); ?></option>
+                    <option value="views" <?php selected(WP_STATISTICS\Option::getByAddon('metric', 'mini_chart', 'views'), 'views'); ?>><?php esc_html_e('Views', 'wp-statistics'); ?></option>
                 </select>
                 <p class="description">
                     <?php _e('Choose the metric to display on the chart.', 'wp-statistics'); ?>
