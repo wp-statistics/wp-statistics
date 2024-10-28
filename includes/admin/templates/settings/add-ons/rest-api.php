@@ -1,7 +1,9 @@
 <?php
-
 use WP_STATISTICS\Admin_Template;
+use WP_Statistics\Components\View;
+use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 
+$isLicenseValid  = LicenseHelper::isPluginLicenseValid('wp-statistics-rest-api');
 $isRestApiActive = WP_STATISTICS\Helper::isAddOnActive('rest-api');
 ?>
 
@@ -25,6 +27,10 @@ if (!$isRestApiActive) echo Admin_Template::get_template('layout/partials/addon-
      'addon_documentation_slug'  => esc_url('https://documenter.getpostman.com/view/3239688/2s8Z6vZER4'),
 
     ], true);
+
+if ($isRestApiActive && !$isLicenseValid) {
+    View::load("components/lock-sections/notice-inactive-license-addon");
+}
 ?>
 
 

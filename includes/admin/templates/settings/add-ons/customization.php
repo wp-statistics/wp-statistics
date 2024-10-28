@@ -1,10 +1,13 @@
 <?php
 
-use WP_STATISTICS\Admin_Template;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Option;
+use WP_STATISTICS\Admin_Template;
+use WP_Statistics\Components\View;
+use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 
-$isCustomizationActive = WP_STATISTICS\Helper::isAddOnActive('customization');
+$isLicenseValid         = LicenseHelper::isPluginLicenseValid('wp-statistics-customization');
+$isCustomizationActive  = WP_STATISTICS\Helper::isAddOnActive('customization');
 global $wp_version;
 
 $disableMenuArray = [
@@ -53,6 +56,10 @@ if (!$isCustomizationActive) echo Admin_Template::get_template('layout/partials/
      ],
      'addon_info'         => __('Enjoy a simplified, customized experience with the Customization add-on.', 'wp-statistics'),
     ], true);
+
+if ($isCustomizationActive && !$isLicenseValid) {
+    View::load("components/lock-sections/notice-inactive-license-addon");
+}
 ?>
     <div class="postbox">
         <table class="form-table <?php echo !$isCustomizationActive ? 'form-table--preview' : '' ?>">

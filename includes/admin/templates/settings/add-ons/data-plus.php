@@ -1,10 +1,13 @@
 <?php
 
 use WP_STATISTICS\Admin_Template;
+use WP_Statistics\Components\View;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Option;
+use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 
-$isDataPlusActive = Helper::isAddOnActive('data-plus');
+$isLicenseValid     = LicenseHelper::isPluginLicenseValid('wp-statistics-data-plus');
+$isDataPlusActive   = Helper::isAddOnActive('data-plus');
 
 if (!$isDataPlusActive) echo Admin_Template::get_template(
     'layout/partials/addon-premium-feature',
@@ -24,6 +27,10 @@ if (!$isDataPlusActive) echo Admin_Template::get_template(
     ],
     true
 );
+
+if ($isDataPlusActive && !$isLicenseValid) {
+    View::load("components/lock-sections/notice-inactive-license-addon");
+}
 ?>
     <div class="postbox">
         <table class="form-table <?php echo !$isDataPlusActive ? 'form-table--preview' : '' ?>">

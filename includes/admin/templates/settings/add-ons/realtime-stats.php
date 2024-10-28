@@ -1,8 +1,11 @@
 <?php
 
 use WP_STATISTICS\Admin_Template;
+use WP_Statistics\Components\View;
+use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 
-$isRealTimeStatsActive = WP_STATISTICS\Helper::isAddOnActive('realtime-stats');
+$isLicenseValid         = LicenseHelper::isPluginLicenseValid('wp-statistics-realtime-stats');
+$isRealTimeStatsActive  = WP_STATISTICS\Helper::isAddOnActive('realtime-stats');
 ?>
 
 <?php
@@ -17,6 +20,10 @@ if (!$isRealTimeStatsActive) echo Admin_Template::get_template('layout/partials/
      ],
      'addon_info'         => __('Keep a close eye on your website\'s performance with the Real-Time add-on.', 'wp-statistics'),
     ], true);
+
+if ($isRealTimeStatsActive && !$isLicenseValid) {
+    View::load("components/lock-sections/notice-inactive-license-addon");
+}
 ?>
 
     <div class="postbox">

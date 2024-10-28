@@ -1,10 +1,13 @@
 <?php
 
-use WP_STATISTICS\Admin_Template;
 use WP_STATISTICS\Option;
 use WP_STATISTICS\Schedule;
+use WP_STATISTICS\Admin_Template;
+use WP_Statistics\Components\View;
+use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 
-$isAdvancedReportingActive = WP_STATISTICS\Helper::isAddOnActive('advanced-reporting');
+$isLicenseValid             = LicenseHelper::isPluginLicenseValid('wp-statistics-advanced-reporting');
+$isAdvancedReportingActive  = WP_STATISTICS\Helper::isAddOnActive('advanced-reporting');
 global $wp_version;
 ?>
 <?php
@@ -20,6 +23,11 @@ if (!$isAdvancedReportingActive) echo Admin_Template::get_template('layout/parti
      ],
      'addon_info'         => __('Keep a close eye on your website\'s performance with the Advanced Reporting add-on.', 'wp-statistics'),
     ], true);
+
+
+if ($isAdvancedReportingActive && !$isLicenseValid) {
+    View::load("components/lock-sections/notice-inactive-license-addon");
+}
 ?>
 
     <div class="postbox">

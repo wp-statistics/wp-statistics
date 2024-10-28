@@ -1,7 +1,10 @@
 <?php
 
 use WP_STATISTICS\Admin_Template;
+use WP_Statistics\Components\View;
+use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 
+$isLicenseValid  = LicenseHelper::isPluginLicenseValid('wp-statistics-widgets');
 $isWidgetsActive = WP_STATISTICS\Helper::isAddOnActive('widgets');
 ?>
 
@@ -18,6 +21,10 @@ if (!$isWidgetsActive) echo Admin_Template::get_template('layout/partials/addon-
      ],
      'addon_info'         => __('With Advanced Widgets, you can easily display your website\'s important statistics', 'wp-statistics'),
     ], true);
+
+if ($isWidgetsActive && !$isLicenseValid) {
+    View::load("components/lock-sections/notice-inactive-license-addon");
+}
 ?>
 
     <div class="postbox">
