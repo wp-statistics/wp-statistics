@@ -29,6 +29,7 @@ if (!class_exists('WP_Statistics')) {
     require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics.php';
 }
 
+# test
 # Returns the main instance of WP Statistics.
 function WP_Statistics()
 {
