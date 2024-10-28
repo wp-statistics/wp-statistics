@@ -142,16 +142,16 @@
         },
         {
             "name": "matomo/device-detector",
-            "version": "6.4.0",
+            "version": "6.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/device-detector.git",
-                "reference": "05dca429cfe7b6a59947a0d449dbeb60cddc02f2"
+                "reference": "0d364e0dd6c177da3c24cd4049178026324fd7ac"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/device-detector/zipball/05dca429cfe7b6a59947a0d449dbeb60cddc02f2",
-                "reference": "05dca429cfe7b6a59947a0d449dbeb60cddc02f2",
+                "url": "https://api.github.com/repos/matomo-org/device-detector/zipball/0d364e0dd6c177da3c24cd4049178026324fd7ac",
+                "reference": "0d364e0dd6c177da3c24cd4049178026324fd7ac",
                 "shasum": ""
             },
             "require": {
@@ -207,7 +207,7 @@
                 "source": "https://github.com/matomo-org/matomo",
                 "wiki": "https://dev.matomo.org/"
             },
-            "time": "2024-09-10T08:27:24+00:00"
+            "time": "2024-09-24T13:50:04+00:00"
         },
         {
             "name": "maxmind-db/reader",
@@ -383,13 +383,13 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {},
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
         "php": ">=5.4"
     },
-    "platform-dev": [],
+    "platform-dev": {},
     "platform-overrides": {
         "php": "7.2"
     },

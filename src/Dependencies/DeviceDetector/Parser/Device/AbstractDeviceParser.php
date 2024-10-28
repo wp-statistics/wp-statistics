@@ -251,6 +251,7 @@ abstract class AbstractDeviceParser extends AbstractParser
         'YB'  => 'Beista',
         'BY'  => 'BS Mobile',
         'BZ'  => 'Bezkam',
+        'BEL' => 'Bell',
         '9B'  => 'Bellphone',
         '63'  => 'Beyond',
         'BG'  => 'BGH',
@@ -308,6 +309,7 @@ abstract class AbstractDeviceParser extends AbstractParser
         '4Q'  => 'Bundy',
         'Y8'  => 'Bubblegum',
         'BMW' => 'BMW',
+        'BYJ' => 'BYJU\'S',
         'BYY' => 'BYYBUO',
         'BYD' => 'BYD',
         'C9'  => 'CAGI',
@@ -402,6 +404,7 @@ abstract class AbstractDeviceParser extends AbstractParser
         'CUI' => 'Cuiud',
         'CV'  => 'CVTE',
         'CWO' => 'Cwowdefu',
+        'CX0' => 'CX',
         'C4'  => 'Cyrus',
         'D5'  => 'Daewoo',
         'DA'  => 'Danew',
@@ -525,6 +528,7 @@ abstract class AbstractDeviceParser extends AbstractParser
         '7E'  => 'ELARI',
         '03'  => 'Electroneum',
         'Z8'  => 'ELECTRONIA',
+        'ELG' => 'ELE-GATE',
         'EL1' => 'Elecson',
         'ELK' => 'Elektroland',
         'L0'  => 'Element',
@@ -676,6 +680,7 @@ abstract class AbstractDeviceParser extends AbstractParser
         'GIR' => 'GIRASOLE',
         'G4'  => 'Globex',
         'GLB' => 'Globmall',
+        'GME' => 'GlocalMe',
         '38'  => 'GLONYX',
         'U6'  => 'Glofiish',
         'GLO' => 'Glory Star',
@@ -695,6 +700,7 @@ abstract class AbstractDeviceParser extends AbstractParser
         '6G'  => 'Gooweel',
         'GOO' => 'GOODTEL',
         'GO1' => 'GOtv',
+        'GPL' => 'G-PLUS',
         '8G'  => 'Gplus',
         'GR'  => 'Gradiente',
         'GRE' => 'Graetz',
@@ -785,6 +791,7 @@ abstract class AbstractDeviceParser extends AbstractParser
         'HG'  => 'Huavi',
         'HU'  => 'Huawei',
         'HX'  => 'Humax',
+        'HUM' => 'Humanware',
         'HR'  => 'Hurricane',
         'H5'  => 'Huskee',
         'HUG' => 'Hugerock',
@@ -794,6 +801,7 @@ abstract class AbstractDeviceParser extends AbstractParser
         'HYT' => 'Hytera',
         'HYK' => 'Hykker',
         'HYA' => 'Hyatta',
+        'IKL' => 'I KALL',
         '3I'  => 'i-Cherry',
         'IJ'  => 'i-Joy',
         'IM'  => 'i-mate',
@@ -810,6 +818,7 @@ abstract class AbstractDeviceParser extends AbstractParser
         'IDI' => 'iDino',
         '6Z'  => 'iData',
         'IG'  => 'iGet',
+        'IHL' => 'iHome Life',
         'IH'  => 'iHunt',
         'IA'  => 'Ikea',
         'IYO' => 'iYou',
@@ -855,6 +864,7 @@ abstract class AbstractDeviceParser extends AbstractParser
         'IV'  => 'Inverto',
         '32'  => 'Invens',
         '4I'  => 'Invin',
+        'IFT' => 'iFIT',
         'INA' => 'iNavi',
         'I1'  => 'iOcean',
         'IMU' => 'iMuz',
@@ -923,6 +933,7 @@ abstract class AbstractDeviceParser extends AbstractParser
         'KS'  => 'Kempler & Strauss',
         'K3'  => 'Keneksi',
         'KHI' => 'KENSHI',
+        'KNW' => 'KENWOOD',
         'KX'  => 'Kenxinda',
         'KEN' => 'Kenbo',
         'KND' => 'Kendo',
@@ -1013,12 +1024,14 @@ abstract class AbstractDeviceParser extends AbstractParser
         'JJ'  => 'Listo',
         'LNM' => 'LNMBBS',
         'LO'  => 'Loewe',
+        'LNG' => 'LongTV',
         'YL'  => 'Loview',
         'LOV' => 'Lovme',
         '1L'  => 'Logic',
         'LH'  => 'Logic Instrument',
         'LM'  => 'Logicom',
         'LOG' => 'Logik',
+        'LGT' => 'Logitech',
         'GY'  => 'LOKMAT',
         'LPX' => 'LPX-G',
         '0L'  => 'Lumigon',
@@ -1128,8 +1141,10 @@ abstract class AbstractDeviceParser extends AbstractParser
         'MOB' => 'Mobell',
         'MVO' => 'Mobvoi',
         'M4'  => 'Modecom',
+        'MEP' => 'Mode Mobile',
         'MF'  => 'Mofut',
         'MR'  => 'Motorola',
+        'MTS' => 'Motorola Solutions',
         'MIV' => 'Motiv',
         'MV'  => 'Movic',
         'MOV' => 'Movitel',
@@ -1143,6 +1158,7 @@ abstract class AbstractDeviceParser extends AbstractParser
         'N4'  => 'MTN',
         '72'  => 'M-Tech',
         '9H'  => 'M-Horse',
+        'MKP' => 'M-KOPA',
         '1R'  => 'Multilaser',
         'MPS' => 'MultiPOS',
         '1M'  => 'MYFON',
@@ -1254,6 +1270,7 @@ abstract class AbstractDeviceParser extends AbstractParser
         'O1'  => 'Odys',
         'ODP' => 'Odotpad',
         'O9'  => 'Ok',
+        'OKA' => 'Okapi',
         'OA'  => 'Okapia',
         'OKI' => 'Oking',
         'OLA' => 'Olax',
@@ -1423,7 +1440,9 @@ abstract class AbstractDeviceParser extends AbstractParser
         '95'  => 'Rakuten',
         'RAY' => 'Raylandz',
         'RC'  => 'RCA Tablets',
+        'RCT' => 'RCT',
         '2R'  => 'Reach',
+        'RLX' => 'Realix',
         'REL' => 'RelNAT',
         'RE4' => 'Relndoo',
         'RB'  => 'Readboy',
@@ -1731,6 +1750,7 @@ abstract class AbstractDeviceParser extends AbstractParser
         'TRI' => 'TriaPlay',
         'TJ'  => 'Trifone',
         'Q5'  => 'Trident',
+        'TRB' => 'Trimble',
         '4T'  => 'Tronsmart',
         '11'  => 'True',
         'JT'  => 'True Slim',
@@ -1797,6 +1817,7 @@ abstract class AbstractDeviceParser extends AbstractParser
         'VAN' => 'VANGUARD',
         'VAW' => 'VANWIN',
         'VB'  => 'VC',
+        'VEI' => 'Veidoo',
         'VN'  => 'Venso',
         'VNP' => 'VNPT Technology',
         'VEN' => 'Venstar',
@@ -2026,11 +2047,11 @@ abstract class AbstractDeviceParser extends AbstractParser
     protected static $clientHintFormFactorsMapping = [
         'automotive' => self::DEVICE_TYPE_CAR_BROWSER,
         'xr'         => self::DEVICE_TYPE_WEARABLE,
-        'eink'       => self::DEVICE_TYPE_TABLET,
         'watch'      => self::DEVICE_TYPE_WEARABLE,
         'mobile'     => self::DEVICE_TYPE_SMARTPHONE,
         'tablet'     => self::DEVICE_TYPE_TABLET,
         'desktop'    => self::DEVICE_TYPE_DESKTOP,
+        'eink'       => self::DEVICE_TYPE_TABLET,
     ];
 
     /**
@@ -2153,13 +2174,26 @@ abstract class AbstractDeviceParser extends AbstractParser
         $deviceModel      = $resultClientHint['model'] ?? '';
 
         // is freeze user-agent then restoring the original UA for the device definition
-        if ('' !== $deviceModel && \preg_match('~Android 10[.\d]*; K(?: Build/|[;)])~i', $this->userAgent)) {
+        if ('' !== $deviceModel && $this->hasUserAgentClientHintsFragment()) {
             $osVersion = $this->clientHints ? $this->clientHints->getOperatingSystemVersion() : '';
             $this->setUserAgent((string) \preg_replace(
                 '(Android 10[.\d]*; K)',
                 \sprintf('Android %s; %s', '' !== $osVersion ? $osVersion : '10', $deviceModel),
                 $this->userAgent
             ));
+        }
+
+        // is freeze user-agent then restoring the original UA for the device definition
+        if ('' !== $deviceModel && $this->hasDesktopFragment()) {
+            $this->setUserAgent((string) \preg_replace(
+                '(X11; Linux x86_64)',
+                \sprintf('X11; Linux x86_64; %s', $deviceModel),
+                $this->userAgent
+            ));
+        }
+
+        if ('' === $deviceModel && $this->hasUserAgentClientHintsFragment()) {
+            return $this->getResult();
         }
 
         if ('' === $deviceModel && $this->hasDesktopFragment()) {
@@ -2178,6 +2212,8 @@ abstract class AbstractDeviceParser extends AbstractParser
         }
 
         if (empty($matches)) {
+            $this->deviceType = $resultClientHint['deviceType'] ?? null;
+
             return $resultClientHint;
         }
 
@@ -2259,24 +2295,20 @@ abstract class AbstractDeviceParser extends AbstractParser
      */
     protected function parseClientHints(): ?array
     {
-        if ($this->clientHints) {
-            $deviceType  = null;
-            $formFactors = $this->clientHints->getFormFactors();
+        if ($this->clientHints && $this->clientHints->getModel()) {
+            $detectedDeviceType = null;
+            $formFactors        = $this->clientHints->getFormFactors();
 
-            if (\count($formFactors) > 0) {
-                foreach (self::$clientHintFormFactorsMapping as $formFactor) {
-                    $deviceType = $formFactors[$formFactor] ?? null;
+            foreach (self::$clientHintFormFactorsMapping as $formFactor => $deviceType) {
+                if (\in_array($formFactor, $formFactors)) {
+                    $detectedDeviceType = $deviceType;
 
-                    if (null !== $deviceType) {
-                        $deviceType = self::getDeviceName($deviceType);
-
-                        break;
-                    }
+                    break;
                 }
             }
 
             return [
-                'deviceType' => $deviceType,
+                'deviceType' => $detectedDeviceType,
                 'model'      => $this->clientHints->getModel(),
                 'brand'      => '',
             ];
@@ -2301,6 +2333,16 @@ abstract class AbstractDeviceParser extends AbstractParser
         return
             $this->matchUserAgent('(?:Windows (?:NT|IoT)|X11; Linux x86_64)') &&
             !$this->matchUserAgent($regexExcludeDesktopFragment);
+    }
+
+    /**
+     * Returns if the parsed UA contains the 'Android 10 K;' or Android 10 K Build/` fragment
+     *
+     * @return bool
+     */
+    protected function hasUserAgentClientHintsFragment(): bool
+    {
+        return (bool) \preg_match('~Android 10[.\d]*; K(?: Build/|[;)])~i', $this->userAgent);
     }
 
     /**
