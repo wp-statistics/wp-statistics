@@ -132,6 +132,11 @@ class TinyMCE
      */
     public function my_post_edit_page_footer()
     {
+        // Fix Avada builder messing up WP hooks
+        if (Helper::get_screen_id() !== 'widgets') {
+            return;
+        }
+
         echo '
         <script type="text/javascript">
         jQuery( document ).on( \'tinymce-editor-setup\', function( event, editor ) {

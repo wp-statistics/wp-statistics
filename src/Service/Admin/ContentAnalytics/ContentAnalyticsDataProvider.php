@@ -64,7 +64,6 @@ class ContentAnalyticsDataProvider
         $viewsSummary    = $this->viewsModel->getViewsSummary($this->args);
 
         $referrersData   = $this->visitorsModel->getReferrers($this->args);
-
         $performanceData = [
             'posts'     => $this->postsModel->countPosts($this->args),
             'visitors'  => $this->visitorsModel->countVisitors($this->args),
@@ -119,10 +118,14 @@ class ContentAnalyticsDataProvider
 
     public function getSinglePostData()
     {
-        $totalViews         = $this->viewsModel->countViews(Helper::filterArrayByKeys($this->args, ['post_id', 'query_param']));
-        $totalVisitors      = $this->visitorsModel->countVisitors(Helper::filterArrayByKeys($this->args, ['post_id', 'query_param']));
+        $totalHitsArgs      = array_merge(Helper::filterArrayByKeys($this->args, ['post_id', 'query_param', 'resource_type']), ['ignore_date' => true]);
+
+        $totalViews         = $this->viewsModel->countViews($totalHitsArgs);
+        $totalVisitors      = $this->visitorsModel->countVisitors($totalHitsArgs);
+
         $recentViews        = $this->viewsModel->countViews($this->args);
         $recentVisitors     = $this->visitorsModel->countVisitors($this->args);
+
         $totalWords         = $this->postsModel->countWords($this->args);
         $totalComments      = $this->postsModel->countComments($this->args);
 

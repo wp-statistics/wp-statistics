@@ -178,7 +178,7 @@ class Query
     public function where($field, $operator, $value)
     {
         if (is_array($value)) {
-            $value = array_filter($value);
+            $value = array_filter(array_values($value));
         }
 
         // If the value is empty, we don't need to add it to the query (except for numbers)
@@ -461,7 +461,7 @@ class Query
                 }
             }
 
-            $this->joinClauses[] = $joinClause;
+            $this->joinClauses[$joinTable] = $joinClause;
         } else {
             throw new InvalidArgumentException(esc_html__('Invalid join clause', 'wp-statistics'));
         }

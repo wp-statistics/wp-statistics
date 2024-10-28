@@ -279,7 +279,6 @@ class HitColumnHandler
         }
 
         $hitArgs = [
-            'post_id'       => $objectId,
             'resource_type' => Pages::checkIfPageIsHome($objectId) ? 'home' : $this->getCache('postType'),
             'date'          => [
                 'from' => date('Y-m-d', 0),
@@ -305,10 +304,10 @@ class HitColumnHandler
         $hitCount = 0;
         if ($this->miniChartHelper->getChartMetric() === 'visitors') {
             $visitorsModel = new VisitorsModel();
-            $hitCount      = $visitorsModel->countVisitors($hitArgs);
+            $hitCount      = $visitorsModel->countVisitors(array_merge($hitArgs, ['resource_id' => $objectId]));
         } else {
             $viewsModel = new ViewsModel();
-            $hitCount   = $viewsModel->countViewsFromPagesOnly($hitArgs);
+            $hitCount   = $viewsModel->countViewsFromPagesOnly(array_merge($hitArgs, ['post_id' => $objectId]));
 
             // Consider historical if `count_display` is equal to 'total'
             if ($this->miniChartHelper->getCountDisplay() === 'total') {
@@ -395,9 +394,12 @@ class HitColumnHandler
     private function getPreviewChartUnlockHtml()
     {
         return sprintf(
-            '<div class="wps-admin-column__unlock"><a href="%s" target="_blank"><span class="wps-admin-column__unlock__text">%s</span>
-                <span class="wps-admin-column__unlock__lock"></span>
-                <span class="wps-admin-column__unlock__img"></span></a></div>',
+            '<div class="wps-admin-column__unlock">
+                        <a href="%s" target="_blank">
+                            <span class="wps-admin-column__unlock__text">%s</span>
+                            <span class="wps-admin-column__unlock__img"></span>
+                        </a>
+                    </div>',
             'https://wp-statistics.com/product/wp-statistics-mini-chart?utm_source=wp-statistics&utm_medium=link&utm_campaign=mini-chart',
             __('Unlock', 'wp-statistics')
         );

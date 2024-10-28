@@ -14,6 +14,9 @@ use WP_Statistics\Service\Geolocation\GeolocationFactory;
 use WP_Statistics\Service\Analytics\Referrals\Referrals;
 use WP_Statistics\Service\Analytics\Referrals\SourceDetector;
 
+/**
+ * @todo Replace object cache internally with ObjectCacheTrait
+ */
 class VisitorProfile
 {
     use ObjectCacheTrait;

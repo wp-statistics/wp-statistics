@@ -20,7 +20,7 @@ if (!$isDataPlusActive) echo Admin_Template::get_template(
             __('Compare weekly traffic and view hourly visitor patterns.', 'wp-statistics'),
             __('Analyze individual content pieces with detailed widgets.', 'wp-statistics'),
         ],
-        'addon_info'         => __('Unlock deeper insights into your website\'s performance with DataPlus.', 'wp-statistics'),
+        'addon_info'        => __('Unlock deeper insights into your website\'s performance with DataPlus.', 'wp-statistics'),
     ],
     true
 );

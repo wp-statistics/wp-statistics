@@ -225,25 +225,6 @@ wps_js.line_chart = function (tag_id, title, label, data, newOptions) {
                         stepSize: 1,
                     }
                 },
-            },
-            plugins: {
-                zoom: {
-                    pan: {
-                        enabled: true,
-                        mode: 'xy',
-                    },
-                    zoom: {
-                        wheel: {
-                            enabled: true,
-                            speed: 0.05,
-                            modifierKey: 'ctrl'
-                        },
-                        pinch: {
-                            enabled: true
-                        },
-                        mode: 'xy',
-                    }
-                }
             }
         }
     };
@@ -498,6 +479,13 @@ wps_js.no_results = function () {
 };
 
 wps_js.hex_to_rgba = function (hex, opacity) {
+    const defaultColor ='#3288D7';
+    if (typeof hex !== 'string' || hex[0] !== '#' || (hex.length !== 7 && hex.length !== 4)) {
+        hex = defaultColor;
+    }
+    if (hex.length === 4) {
+        hex = '#' + hex[1].repeat(2) + hex[2].repeat(2) + hex[3].repeat(2);
+    }
     hex = hex.replace('#', '');
     let hex_to_rgba_r = parseInt(hex.substring(0, 2), 16);
     let hex_to_rgba_g = parseInt(hex.substring(2, 4), 16);
@@ -1185,7 +1173,6 @@ wps_js.performance_chart = function (data, tag_id, type) {
                 fontColor: '#898A8E',
                 fontSize: 13,
                 fontStyle: 'italic',
-                fontFamily: '"Roboto",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif',
                 fontWeight: 'lighter ',
                 padding: 8,
                 lineHeight: 15,
@@ -1211,7 +1198,6 @@ wps_js.performance_chart = function (data, tag_id, type) {
                 fontColor: '#898A8E',
                 fontSize: 13,
                 fontStyle: 'italic',
-                fontFamily: '"Roboto",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif',
                 fontWeight: 'lighter ',
                 padding: 8,
                 lineHeight: 15,
@@ -1251,7 +1237,6 @@ wps_js.performance_chart = function (data, tag_id, type) {
                 fontColor: '#898A8E',
                 fontSize: 13,
                 fontStyle: 'italic',
-                fontFamily: '"Roboto",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif',
                 fontWeight: 'lighter ',
                 padding: 8,
                 lineHeight: 15,
@@ -1273,6 +1258,12 @@ wps_js.performance_chart = function (data, tag_id, type) {
             datasets: datasets
         },
         options: {
+            maintainAspectRatio: false,
+            resizeDelay: 200,
+            responsive: true,
+            animation: {
+                duration: 0,  // Disable animation
+            },
             interaction: {
                 intersect: false,
             },

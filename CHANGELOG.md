@@ -13,6 +13,46 @@
 - **Fix:** Resolved a memory issue affecting background processes.
 - **Fix:** Fixed a bug that blocked visitor data display when missing from the `visitor_relationship` table.
 
+= 14.10.3 - 21.10.2024 =
+- **Enhancement**: Updated `moment.js` to version 2.30.1.
+- **Enhancement**: Set “views” as the default metric for mini charts in post list columns.
+- **Enhancement**: Ensured full compatibility with WordPress version 6.7.
+- **Enhancement**: Improved performance of query and minor improvements.
+- **Dev**: Added the filter `wp_statistics_mini_chart_metric` to allow changing the default chart metric for mini charts.
+- **Dev**: Added the filter `wp_statistics_enable_htaccess_protection` to control the creation of `.htaccess` files in the `uploads/wp-statistics` folder.
+- **Fix**: Improved the Excluded URLs feature to better support wildcards (*) for more flexible exclusions.
+- **Fix**: Resolved missing PostsManager issue by optimizing autoloading, fixing access problems.
+
+= 14.10.2 - 02.10.2024 =
+- **Enhancement**: Encoded referral data in requests using Base64 to improve security.
+- **Enhancement**: Enhanced the “Performance at a Glance” section in email reports for better user experience.
+- **Enhancement**: Updated the layout and functionality of the visitor information section for easier use.
+- **Enhancement**: Removed the Traffic Summary widget from the dashboard to simplify the interface.
+- **Enhancement**: Improved visitor data display for users with missing information in the relationship table.
+- **Fix**: Fixed a JavaScript conflict on the Search Engine Referrals page.
+- **Fix**: Resolved an issue where the Post Summary sidebar didn’t work with the Gutenberg editor in WordPress versions below 6.5.5.
+- **Fix**: Fixed the ‘tinyMCE is not defined’ error caused by the Avada Builder.
+- **Dev**: Added a new filter `wp_statistics_assets_handle` to manage assets more effectively.
+
+= 14.10.1 - 11.09.2024 =
+* **Enhancement:** UX improvement for visitor information when users are logged in.
+* **Enhancement:** Corrected sorting issues in bar charts.
+* **Enhancement:** Fixed font override conflicts.
+* **Enhancement:** Enhanced object cache handling for better performance.
+* **Enhancement:** Improved compatibility with PHP versions 5.6 ~ 7.2.
+* **Enhancement:** Resolved style tweaks in charts and fixed various JavaScript issues.
+* **Fix:** Resolved issue with showing previous period data on hover when turned off.
+* **Fix:** Resolved chart shrinking issue in Chrome.
+* **Fix:** Fixed the “User Online” link in the Traffic Overview section.
+* **Fix:** Addressed issue where the top referral was not displaying in the “Your Performance at a Glance” section.
+* **Fix:** Resolved an issue with the report email option during some upgrades.
+* **Fix:** Fixed date filter issue on the “Single Browser” and “Visitor Insights” pages.
+* **Fix:** Fixed incorrect dates in the `monthly` schedule.
+* **Fix:** Fixed incorrect order in taxonomy lists when sorted by hits.
+* **Update:** Upgraded ChartJS to v4.4.4.
+* **Dev:** Added function `wp_statistics_needs_consent()` to check if user consent is required.
+* **Dev:** Removed `Admin_Post` and `Admin_Taxonomy` classes and replaced them with `HitColumnHandler`.
+
 14.10.1 - 11.09.2024
 * **Enhancement:** UX improvement for visitor information when users are logged in.
 * **Enhancement:** Corrected sorting issues in bar charts.

@@ -125,7 +125,7 @@ class Meta_Box
                 'name'              => __('Traffic Summary', 'wp-statistics'),
                 'description'       => __('A quick overview of your website\'s visitor statistics.', 'wp-statistics'),
                 'hidden'            => true,
-                'show_on_dashboard' => true,
+                'show_on_dashboard' => false,
                 'place'             => 'side'
             ),
             'browsers'        => array(

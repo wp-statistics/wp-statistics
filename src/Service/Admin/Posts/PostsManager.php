@@ -237,7 +237,7 @@ class PostsManager
     /**
      * Checks if any of the conditions for displaying "Statistics - Summary" meta-box are met.
      *
-     * Conditions are: 
+     * Conditions are:
      * - `disable_editor` option is disabled.
      * - User is in classic editor.
      * - Installed WordPress version is v6.5.5 or lower (to prevent "React error #130" caused by `PluginDocumentSettingPanel`).
@@ -252,7 +252,7 @@ class PostsManager
     /**
      * Checks if any of the conditions for displaying "Statistics - Latest Visitors" meta-box are met.
      *
-     * Conditions are: 
+     * Conditions are:
      * - DataPlus add-on is active and `latest_visitors_metabox` option is enabled.
      * - DataPlus add-on is not active and `disable_editor` is disabled.
      *
@@ -268,7 +268,7 @@ class PostsManager
      *
      * @param   \WP_Post    $post
      *
-     * @return  array|null          Keys: 
+     * @return  array|null          Keys:
      *  - `postId`
      *  - `fromString`
      *  - `toString`

@@ -91,10 +91,7 @@ class Frontend
         // Load Chart.js library
         if (Helper::isAdminBarShowing()) {
             Assets::script('chart.js', 'js/chartjs/chart.umd.min.js', [], [], true, false, null, '4.4.4');
-            Assets::script('hammer.js', 'js/chartjs/hammer.min.js', [], [], true, false, null, '2.0.8');
-            Assets::script('chartjs-plugin-zoom.js', 'js/chartjs/chartjs-plugin-zoom.min.js', ['wp-statistics-hammer.js'], [], true, false, null, '2.0.1');
             Assets::script('mini-chart', 'js/mini-chart.js', [], [], true);
-
             Assets::style('front', 'css/frontend.min.css');
         }
     }
@@ -105,7 +102,7 @@ class Frontend
     public function print_out_plugin_html()
     {
         if (apply_filters('wp_statistics_html_comment', true)) {
-            echo '<!-- Analytics by WP Statistics v' . WP_STATISTICS_VERSION . ' - ' . WP_STATISTICS_SITE . ' -->' . "\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+            echo '<!-- Analytics by WP Statistics v' . WP_STATISTICS_VERSION . ' - ' . WP_STATISTICS_SITE_URL . ' -->' . "\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
         }
     }
 

@@ -96,6 +96,7 @@ class ViewsModel extends BaseModel
             'post_type'         => Helper::get_list_post_type(),
             'ignore_post_type'  => false,
             'resource_type'     => '',
+            'resource_id'       => '',
             'date'              => '',
             'author_id'         => '',
             'post_id'           => '',
@@ -110,11 +111,12 @@ class ViewsModel extends BaseModel
         ])
             ->from('pages')
             ->where('pages.type', 'IN', $args['resource_type'])
+            ->where('pages.id', '=', $args['resource_id'])
             ->where('pages.uri', '=', $args['query_param'])
             ->whereDate('pages.date', $args['date'])
             ->groupBy('pages.date');
 
-        if (!empty($args['author_id']) || !empty($args['post_id']) || !empty($args['taxonomy']) || !empty($args['term']) || (!empty($args['post_type']) && !$args['ignore_post_type'])) {
+        if (empty($args['resource_id']) && (!empty($args['author_id']) || !empty($args['post_id']) || !empty($args['taxonomy']) || !empty($args['term']) || (!empty($args['post_type']) && !$args['ignore_post_type']))) {
             $query
                 ->join('posts', ['pages.id', 'posts.ID'])
                 ->where('post_author', '=', $args['author_id'])
@@ -129,7 +131,7 @@ class ViewsModel extends BaseModel
                     ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy'])
                     ->where('terms.term_id', '=', $args['term'])
                     ->getQuery();
-    
+
                 $query
                     ->joinQuery($taxQuery, ['posts.ID', 'tax.object_id'], 'tax');
             }
@@ -137,7 +139,7 @@ class ViewsModel extends BaseModel
 
         $result = $query->getAll();
 
-        return $result;
+        return $result ?? [];
     }
 
     public function getViewsSummary($args = [])
