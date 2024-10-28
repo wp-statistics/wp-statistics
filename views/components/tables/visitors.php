@@ -1,5 +1,4 @@
 <?php
-<?php
 
 use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Components\View;
@@ -39,9 +38,6 @@ $linksTarget = !empty($open_links_in_new_tab) ? '_blank' : '';
                 </thead>
 
                 <tbody>
-                    <?php foreach ($data as $visitor) :
-                        $page = Visitor::get_page_by_id($visitor->page_id);
-                    ?>
                     <?php foreach ($data as $visitor) : ?>
                         <?php /** @var VisitorDecorator $visitor */ ?>
                         <tr>
