@@ -40,7 +40,7 @@
                         if (isset($number_post_in_tag)) {
                             ?>
                             <tr>
-                                <th><?php esc_html_e('Number of posts in tag:', 'wp-statistics'); ?></th>
+                                <th><?php esc_html_e('Number of posts in tag', 'wp-statistics'); ?>:</th>
                                 <th class="th-center">
                                     <span><?php echo esc_html(number_format_i18n($number_post_in_tag)); ?></span></th>
                             </tr>
@@ -49,12 +49,12 @@
                         ?>
 
                         <tr>
-                            <th><?php esc_html_e('Total Views:', 'wp-statistics'); ?></th>
+                            <th><?php esc_html_e('Total Views', 'wp-statistics'); ?>:</th>
                             <th class="th-center"><span id="number-total-chart-visits"></span></th>
                         </tr>
 
                         <tr>
-                            <th><?php esc_html_e('All Time Views:', 'wp-statistics'); ?></th>
+                            <th><?php esc_html_e('All Time Views', 'wp-statistics'); ?>:</th>
                             <th class="th-center"><span id="number-total-visits"></span></th>
                         </tr>
                         </tbody>

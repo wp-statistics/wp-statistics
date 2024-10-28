@@ -27,6 +27,36 @@
     </div>
 </div>
 
+
+<div class="wrap wps-wrap">
+    <div class="postbox">
+        <form action="<?php echo esc_url(admin_url('admin.php?page=wps_optimization_page&tab=updates')) ?>" method="post">
+            <?php wp_nonce_field('wps_optimization_nonce'); ?>
+            <table class="form-table">
+                <tbody>
+                <tr valign="top">
+                    <th scope="row" colspan="2">
+                        <h3><?php esc_html_e('Referrals Settings', 'wp-statistics'); ?></h3>
+                    </th>
+                </tr>
+
+                <tr valign="top">
+                    <th scope="row">
+                        <label for="populate-source-channel-submit"><?php esc_html_e('Update Source Channel Data', 'wp-statistics'); ?></label>
+                    </th>
+
+                    <td>
+                        <input type="hidden" name="submit" value="1"/>
+                        <button id="populate-source-channel-submit" class="button button-primary" type="submit" value="1" name="populate-source-channel-submit"><?php esc_html_e('Update Source Channel', 'wp-statistics'); ?></button>
+                        <p class="description"><?php _e('This action updates and corrects any unidentified source channels in the database. Please be patient, as this process might take some time depending on the amount of data. <br> <i>Note: The accuracy of the results may be affected as we only retain whitelisted query parameters.</i>', 'wp-statistics'); ?></p>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>
+
 <div class="wrap wps-wrap">
     <div class="postbox">
         <form action="<?php echo esc_url(admin_url('admin.php?page=wps_optimization_page&tab=updates')) ?>" method="post">

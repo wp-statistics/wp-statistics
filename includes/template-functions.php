@@ -1,18 +1,14 @@
 <?php
 
 use WP_STATISTICS\Country;
-use WP_STATISTICS\GeoIP;
 use WP_STATISTICS\IP;
-use WP_Statistics\Models\VisitorsModel;
 use WP_STATISTICS\Pages;
-use WP_Statistics\Service\Admin\PrivacyAudit\Audits\AnonymizeIpAddress;
-use WP_Statistics\Service\Admin\PrivacyAudit\Audits\HashIpAddress;
-use WP_Statistics\Service\Admin\PrivacyAudit\Audits\RecordUserPageVisits;
-use WP_Statistics\Service\Admin\PrivacyAudit\Audits\StoreUserAgentString;
+use WP_Statistics\Service\Analytics\DeviceDetection\DeviceHelper;
+use WP_Statistics\Service\Analytics\DeviceDetection\UserAgent;
+use WP_Statistics\Service\Geolocation\GeolocationFactory;
 use WP_Statistics\Service\Admin\PrivacyAudit\Faqs\RequireConsent;
 use WP_STATISTICS\TimeZone;
 use WP_STATISTICS\User;
-use WP_STATISTICS\UserAgent;
 
 /**
  * Get Current User IP
@@ -63,16 +59,18 @@ function wp_statistics_get_user_location($ip = false)
         'city'    => '',
     );
 
-    // Get user Country
-    $country         = GeoIP::getCountry($ip);
+    // Get the location
+    $location = GeolocationFactory::getLocation($ip);
+    $country  = $location['country'];
+
     $data['country'] = array(
-        'code' => $country,
+        'code' => $location,
         'name' => Country::getName($country),
         'flag' => Country::flag($country)
     );
 
     // Get User City
-    $data['city'] = GeoIP::getCity($ip);
+    $data['city'] = $location['city'];
 
     return $data;
 }
@@ -197,7 +195,7 @@ function wp_statistics_useronline($options = array())
     }
 
     //Return Number od user Online
-    return ($arg['return'] == "count" ? $wpdb->get_var($sql) : $wpdb->get_results($sql)); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared	
+    return ($arg['return'] == "count" ? $wpdb->get_var($sql) : $wpdb->get_results($sql)); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 }
 
 /**
@@ -237,7 +235,7 @@ function wp_statistics_visit($time, $daily = null)
             $d = TimeZone::getCurrentDate('Y-m-d', $time);
         }
 
-        $result = $wpdb->get_row($sql . " WHERE `$date_column` = '" . $d . "'");  // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared	
+        $result = $wpdb->get_row($sql . " WHERE `$date_column` = '" . $d . "'");  // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
         if (null !== $result) {
             $sum = $result->visit;
         }
@@ -257,7 +255,7 @@ function wp_statistics_visit($time, $daily = null)
         }
 
         //Request To database
-        $result = $wpdb->get_var($sql); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared		
+        $result = $wpdb->get_var($sql); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 
         //Custom Action
         if ($time == "total") {
@@ -663,7 +661,7 @@ function wp_statistics_ua_list($rangestartdate = null, $rangeenddate = null)
     }
 
     $Browsers        = array();
-    $default_browser = WP_STATISTICS\UserAgent::BrowserList();
+    $default_browser = DeviceHelper::getBrowserList();
 
     foreach ($result as $out) {
 
@@ -830,18 +828,10 @@ function wp_statistics_searchengine_query($search_engine = 'all')
     $search_query = '';
     // Are we getting results for all search engines or a specific one?
     if (strtolower($search_engine) == 'all') {
-        // Get a complete list of search engines
-        $searchengine_list = WP_STATISTICS\SearchEngine::getList();
-        // For all of them?  Ok, look through the search engine list and create a SQL query string to get them all from the database.
-        foreach ($searchengine_list as $key => $se) {
-            $search_query .= $wpdb->prepare("`engine` = %s OR ", $key);
-        }
-
-        // Trim off the last ' OR ' for the loop above.
-        $search_query = substr($search_query, 0, strlen($search_query) - 4);
+        $search_query .= "`source_channel` in ('search')";
     } else {
         // Are we getting results for all search engines or a specific one?
-        $search_query .= $wpdb->prepare("`engine` = %s", $search_engine);
+        $search_query .= $wpdb->prepare("`source_name` = %s", $search_engine);
     }
 
     return $search_query;
@@ -861,7 +851,7 @@ function wp_statistics_get_search_engine_query($search_engine = 'all', $time = '
     global $wpdb;
 
     //Prepare Table Name
-    $table_name = \WP_STATISTICS\DB::table('search');
+    $table_name = \WP_STATISTICS\DB::table('visitor');
 
     //Date Column table
     $date_column = 'last_counter';
@@ -872,7 +862,7 @@ function wp_statistics_get_search_engine_query($search_engine = 'all', $time = '
     }
 
     //Generate Base Sql
-    $sql = "SELECT COUNT(*) FROM {$table_name} WHERE ({$search_query})";
+    $sql = "SELECT COUNT(ID) FROM {$table_name} WHERE ({$search_query})";
 
     // Check Sanitize Datetime
     if (TimeZone::isValidDate($time)) {
@@ -889,7 +879,7 @@ function wp_statistics_get_search_engine_query($search_engine = 'all', $time = '
     }
 
     //Request Data
-    return $wpdb->get_var($sql); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared	
+    return $wpdb->get_var($sql); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 }
 
 /**
@@ -932,7 +922,7 @@ function wp_statistics_referrer($time = null, $range = [])
         $sql = $sql . ' AND (' . $mysql_time_sql . ')';
     }
 
-    $result = $wpdb->get_results($sql); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared	
+    $result = $wpdb->get_results($sql); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 
     $urls = array();
     foreach ($result as $item) {

@@ -22,12 +22,12 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         },
         generatePerformanceChart: function () {
             const performanceData = this.data.performance_chart_data;
-            wps_js.performance_chart(performanceData ,'performance-category-chart','category');
+            wps_js.new_line_chart(performanceData ,'performance-category-chart',null ,'performance');
         },
         generatePerformanceChartSingle: function () {
             const performanceSingleData = this.data.performance_chart_data;
-            wps_js.performance_chart(performanceSingleData ,'performance-category-chart-single','category-single');
-        },
+            wps_js.new_line_chart(performanceSingleData ,'performance-category-chart-single',null,'performance');
+         },
         generateOperatingSystemChart: function () {
             const operatingSystemData = this.data.os_chart_data;
 
@@ -72,23 +72,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                 jQuery('#category-search-engines-chart').parent().html(wps_js.no_results());
                 jQuery('.wps-postbox-chart--data').remove();
             } else {
-                const data = {
-                    data: {
-                        labels: searchData.data.labels,
-                        ...searchData.data.datasets.reduce((acc, item) => {
-                            acc[item.label] = item.data;
-                            return acc;
-                        }, {})
-                    },
-                    previousData:{
-                        labels: searchData.previousData.labels,
-                        ...searchData.previousData.datasets.reduce((acc, item) => {
-                            acc[item.label] = item.data;
-                            return acc;
-                        }, {})
-                    }
-                };
-                wps_js.new_line_chart(data, 'category-search-engines-chart', null)
+                wps_js.new_line_chart(searchData, 'category-search-engines-chart', null)
             }
          }
     }

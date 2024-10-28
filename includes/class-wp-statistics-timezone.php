@@ -3,6 +3,7 @@
 namespace WP_STATISTICS;
 
 use DateTimeZone;
+use WP_Statistics\Components\DateRange;
 
 class TimeZone
 {
@@ -151,7 +152,7 @@ class TimeZone
      */
     public static function getTimeAgo($ago_days = 1, $format = 'Y-m-d')
     {
-        return date($format, strtotime("- " . $ago_days . " day", self::getCurrentTimestamp()));  // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date	
+        return date($format, strtotime("- " . $ago_days . " day", self::getCurrentTimestamp()));  // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
     }
 
     /**
@@ -194,7 +195,7 @@ class TimeZone
         $args['to'] = ($args['to'] === false ? self::getCurrentDate() : $args['to']);
 
         // Get List Of Day
-        $period = new \DatePeriod(new \DateTime($args['from']), new \DateInterval('P1D'), new \DateTime(date('Y-m-d', strtotime("+1 day", strtotime($args['to']))))); // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date	
+        $period = new \DatePeriod(new \DateTime($args['from']), new \DateInterval('P1D'), new \DateTime(date('Y-m-d', strtotime("+1 day", strtotime($args['to']))))); // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
         foreach ($period as $key => $value) {
             $list[$value->format('Y-m-d')] = array(
                 'timestamp' => $value->format('U'),
@@ -205,6 +206,12 @@ class TimeZone
         return $list;
     }
 
+    /**
+     * Returns an array of date filters.
+     *
+     * @deprecated 14.11 Use WP_Statistics/DateRange::getPeriods() instead.
+     * @return array
+     */
     public static function getDateFilters()
     {
         return [
@@ -216,25 +223,19 @@ class TimeZone
                 'from' => self::getTimeAgo(1),
                 'to'   => self::getTimeAgo(1)
             ],
-            'this_week' => [
-                'from' => date('Y-m-d', strtotime(Helper::getStartOfWeek() . ' this week')),  // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date	
-                'to'   => date('Y-m-d', strtotime('next ' . Helper::getStartOfWeek()) - 1),  // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date	
-            ],
-            'last_week' => [
-                'from' => date('Y-m-d', strtotime(Helper::getStartOfWeek() . ' last week')),  // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date	
-                'to'   => date('Y-m-d', strtotime(Helper::getStartOfWeek() . ' this week') - 1),  // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date	
-            ],
+            'this_week' => DateRange::get('this_week'),
+            'last_week' => DateRange::get('last_week'),
             'this_month' => [
-                'from' => date('Y-m-d', strtotime('first day of this month')),  // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date	
-                'to'   => date('Y-m-d', strtotime('last day of this month')),  // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date	
+                'from' => date('Y-m-d', strtotime('first day of this month')),  // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
+                'to'   => date('Y-m-d', strtotime('last day of this month')),  // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
             ],
             'last_month' => [
-                'from' => date('Y-m-d', strtotime('first day of previous month')),  // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date	
-                'to'   => date('Y-m-d', strtotime('last day of previous month')),  // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date	
+                'from' => date('Y-m-d', strtotime('first day of previous month')),  // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
+                'to'   => date('Y-m-d', strtotime('last day of previous month')),  // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
             ],
             '2months_ago' => [
-                'from' => date('Y-m-d', strtotime('first day of -2 months')),  // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date	
-                'to'   => date('Y-m-d', strtotime('last day of -2 months')),  // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date	
+                'from' => date('Y-m-d', strtotime('first day of -2 months')),  // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
+                'to'   => date('Y-m-d', strtotime('last day of -2 months')),  // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
             ],
             '7days'      => [
                 'from' => self::getTimeAgo(6),
@@ -279,6 +280,15 @@ class TimeZone
         ];
     }
 
+    /**
+     * Calculates the date filter by given date filter string.
+     *
+     * @deprecated 14.11 Use WP_Statistics/DateRange::get() instead.
+     *
+     * @param string $dateFilter Date filter string.
+     *
+     * @return array
+     */
     public static function calculateDateFilter($dateFilter = false)
     {
         $dateFilters = self::getDateFilters();

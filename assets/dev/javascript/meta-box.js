@@ -101,7 +101,7 @@ wps_js.meta_box_button = function (key) {
     jQuery("#" + wps_js.getMetaBoxKey(key) + " button[class*=wps-refresh]").remove();
 
     // Add Refresh Button
-    jQuery(`<button class="handlediv wps-refresh"` + (wps_js.is_active('gutenberg') ? ` style="${gutenberg_style}${position_gutenberg}: 3%;" ` : 'style="line-height: 28px;"') + ` type="button" data-tooltip="` + wps_js._('reload') + `"></button>`).insertBefore(selector);
+    jQuery(`<button class="handlediv wps-refresh"` + (wps_js.is_active('gutenberg') ? ` style="${gutenberg_style}${position_gutenberg}: 3%;" ` : 'style="line-height: 28px;"') + ` type="button" title="` + wps_js._('reload') + `"></button>`).insertBefore(selector);
 
     if (wps_js.is_active('gutenberg')){
         jQuery('body').addClass('wps-gutenberg');
@@ -277,14 +277,14 @@ wps_js.meta_box_footer = function (key, data) {
                     <button data-metabox-key="${key}" data-filter="last_week" class="c-footer__filters__list-item">` + wps_js._('str_last_week') + `</button>
                     <button data-metabox-key="${key}" data-filter="this_month" class="c-footer__filters__list-item">` + wps_js._('str_this_month') + `</button>
                     <button data-metabox-key="${key}" data-filter="last_month" class="c-footer__filters__list-item">` + wps_js._('str_last_month') + `</button>
-                    <button class="c-footer__filters__list-item c-footer__filters__list-item--more" onclick="jQuery(this).closest('.c-footer__filters__list').find('.js-more-filters').addClass('is-open')">` + wps_js._('str_more') + ` <svg width="8" height="6" viewBox="0 0 8 6" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4.25736 5.07544L4.32794 5.14601C4.241 5.23295 4.12308 5.28182 4.00009 5.28182C3.87715 5.28182 3.7592 5.233 3.67226 5.14604C3.67226 5.14603 3.67225 5.14603 3.67225 5.14602L0.0358041 1.50968L0.106514 1.43896L0.0358032 1.50968C-0.14526 1.32861 -0.14526 1.03507 0.0357727 0.854006M4.25736 5.07544L0.10649 0.92471M4.25736 5.07544L4.32794 5.14601L7.9642 1.50965C8.14527 1.32859 8.14527 1.03504 7.9642 0.853976C7.78317 0.67294 7.4896 0.672907 7.30853 0.853976L7.37924 0.924687M4.25736 5.07544L7.37924 0.924687M0.0357727 0.854006L0.10649 0.92471M0.0357727 0.854006C0.0357708 0.854008 0.0357689 0.85401 0.035767 0.854012L0.10649 0.92471M0.0357727 0.854006C0.126294 0.763456 0.245135 0.718189 0.363629 0.718189C0.482123 0.718189 0.600959 0.763457 0.691478 0.853975L4.00008 4.16249M0.10649 0.92471C0.177495 0.85368 0.270562 0.818189 0.363629 0.818189C0.456695 0.818189 0.549762 0.85368 0.620768 0.924686L3.92938 4.2332L4.00008 4.16249M4.00008 4.16249L7.30853 0.853977L7.37924 0.924687M4.00008 4.16249L4.0708 4.2332L7.37924 0.924687" fill="#5F6368" stroke="#5F6368" stroke-width="0.2"/></svg></button>
+                    <button class="c-footer__filters__list-item c-footer__filters__list-item--more" onclick="jQuery(this).closest('.c-footer__filters__list').find('.js-more-filters').addClass('is-open')">` + wps_js._('str_more') + `</button>
                     <div class="c-footer__filters__more-filters js-more-filters">
                         <button data-metabox-key="${key}" data-filter="7days" class="c-footer__filters__list-item">` + wps_js._('str_7days') + `</button>
                         <button data-metabox-key="${key}" data-filter="30days" class="c-footer__filters__list-item">` + wps_js._('str_30days') + `</button>
                         <button data-metabox-key="${key}" data-filter="90days" class="c-footer__filters__list-item">` + wps_js._('str_90days') + `</button>
                         <button data-metabox-key="${key}" data-filter="6months" class="c-footer__filters__list-item">` + wps_js._('str_6months') + `</button>
                         <button data-metabox-key="${key}" data-filter="this_year" class="c-footer__filters__list-item">` + wps_js._('str_this_year') + `</button>
-                        <button class="c-footer__filters__close-more-filters" onclick="jQuery(this).closest('.js-more-fi' + 'lters').removeClass('is-open')"><svg width="8" height="6" viewBox="0 0 8 6" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4.25736 5.07544L4.32794 5.14601C4.241 5.23295 4.12308 5.28182 4.00009 5.28182C3.87715 5.28182 3.7592 5.233 3.67226 5.14604C3.67226 5.14603 3.67225 5.14603 3.67225 5.14602L0.0358041 1.50968L0.106514 1.43896L0.0358032 1.50968C-0.14526 1.32861 -0.14526 1.03507 0.0357727 0.854006M4.25736 5.07544L0.10649 0.92471M4.25736 5.07544L4.32794 5.14601L7.9642 1.50965C8.14527 1.32859 8.14527 1.03504 7.9642 0.853976C7.78317 0.67294 7.4896 0.672907 7.30853 0.853976L7.37924 0.924687M4.25736 5.07544L7.37924 0.924687M0.0357727 0.854006L0.10649 0.92471M0.0357727 0.854006C0.0357708 0.854008 0.0357689 0.85401 0.035767 0.854012L0.10649 0.92471M0.0357727 0.854006C0.126294 0.763456 0.245135 0.718189 0.363629 0.718189C0.482123 0.718189 0.600959 0.763457 0.691478 0.853975L4.00008 4.16249M0.10649 0.92471C0.177495 0.85368 0.270562 0.818189 0.363629 0.818189C0.456695 0.818189 0.549762 0.85368 0.620768 0.924686L3.92938 4.2332L4.00008 4.16249M4.00008 4.16249L7.30853 0.853977L7.37924 0.924687M4.00008 4.16249L4.0708 4.2332L7.37924 0.924687" fill="#5F6368" stroke="#5F6368" stroke-width="0.2"/></svg> ` + wps_js._('str_back') + `</button>
+                        <button class="c-footer__filters__close-more-filters" onclick="jQuery(this).closest('.js-more-fi' + 'lters').removeClass('is-open')">` + wps_js._('str_back') + `</button>
                     </div>
                     <input type="text" class="c-footer__filters__custom-date-input js-datepicker-input"/>
                     <button data-metabox-key="${key}" data-filter="custom" class="c-footer__filters__list-item c-footer__filters__list-item--custom js-custom-datepicker">` + wps_js._('str_custom') + `</button>
@@ -294,7 +294,7 @@ wps_js.meta_box_footer = function (key, data) {
     }
     html += `</div><div class="c-footer__more">`;
     if (params.footer_options.display_more_link) {
-        html += `<a class="c-footer__more__link" href="` + args.page_url + `">${params.footer_options.more_link_title}<svg width="14" height="10" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="m9.61181.611328-.71269.712722 3.17148 3.17149L0 4.49951v1.00398h12.0706L8.89912 8.67495l.71269.71272L14 4.99948 9.61181.611328Z" fill="#404BF2"/></svg></a>`;
+        html += `<a class="c-footer__more__link" href="` + args.page_url + `">${params.footer_options.more_link_title}<svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10.4191 7.98577L7.73705 5.22727L8.44415 4.5L12.3333 8.50003L8.44415 12.5L7.73705 11.7727L10.4191 9.01429H4.33325V7.98577H10.4191Z" fill="#56585A"/></svg></a>`;
     }
     html += `</div></div>`;
 
@@ -549,5 +549,13 @@ jQuery(document).on("click", function (event) {
         }
     }
 });
+
+const wpsAoutWidget = document.getElementById('wp-statistics-about-widget');
+if (wpsAoutWidget) {
+    if (!wpsAoutWidget.querySelector('.js-wps-widget-customization-empty') &&
+        !wpsAoutWidget.querySelector('.wps-about-widget__premium')) {
+        wpsAoutWidget.classList.add('wp-statistics-about-widget__customize');
+    }
+}
 
 

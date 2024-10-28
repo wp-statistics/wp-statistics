@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" bootstrap="tests/bootstrap.php" backupGlobals="false" colors="true" verbose="true" stopOnFailure="false" convertErrorsToExceptions="true" convertNoticesToExceptions="true" convertWarningsToExceptions="true" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd">
+  <coverage>
+    <report>
+      <html outputDirectory="tests/coverage"/>
+    </report>
+  </coverage>
+  <!-- Define the testsuite -->
+  <testsuites>
+    <testsuite name="Unit Tests">
+      <!-- Find test files prefixed with 'Test_' -->
+      <directory prefix="Test_" suffix=".php">./tests/</directory>
+    </testsuite>
+  </testsuites>
+  <!-- Enable logging for coverage and testdox HTML/text output -->
+  <logging>
+    <testdoxHtml outputFile="tests/logs/testdox.html"/>
+    <testdoxText outputFile="tests/logs/testdox.txt"/>
+  </logging>
+</phpunit>

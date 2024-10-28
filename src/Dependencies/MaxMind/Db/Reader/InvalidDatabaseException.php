@@ -1,12 +1,11 @@
 <?php
 
-namespace WP_Statistics\Dependencies\MaxMind\Db\Reader;
+declare(strict_types=1);
 
-use Exception;
+namespace WP_Statistics\Dependencies\MaxMind\Db\Reader;
 
 /**
  * This class should be thrown when unexpected data is found in the database.
  */
-class InvalidDatabaseException extends Exception
-{
-}
+// phpcs:disable
+class InvalidDatabaseException extends \Exception {}

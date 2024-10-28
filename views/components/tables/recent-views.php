@@ -3,6 +3,8 @@
 
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Visitor;
+use WP_Statistics\Components\View;
+
 ?>
 
 <div class="inside">
@@ -27,9 +29,9 @@ use WP_STATISTICS\Visitor;
                     <tr>
                         <td class="wps-pd-l"><?php echo esc_html(date_i18n(Helper::getDefaultDateFormat(true), strtotime($view->date))); ?></td>
                         <td class="wps-pd-l start">
-                            <a target="_blank" href="<?php echo esc_url($page['link']); ?>" title="<?php echo esc_attr($page['title']); ?>" class="wps-link-arrow">
-                                <span><?php echo esc_html($page['title']); ?></span>
-                            </a>
+                            <?php
+                            View::load("components/objects/external-link", ['url' => $page['link'], 'title' => $page['title']]);
+                            ?>
                         </td>
                     </tr>
                 <?php endforeach; ?>

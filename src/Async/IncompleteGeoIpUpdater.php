@@ -2,10 +2,11 @@
 
 namespace WP_Statistics\Async;
 
-use WP_STATISTICS\GeoIP;
+use WP_Statistics\Decorators\VisitorDecorator;
 use WP_Statistics\Models\VisitorsModel;
 use WP_STATISTICS\Option;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
+use WP_Statistics\Service\Geolocation\GeolocationFactory;
 use WP_STATISTICS\WP_Background_Process;
 
 class IncompleteGeoIpUpdater extends WP_Background_Process
@@ -37,15 +38,22 @@ class IncompleteGeoIpUpdater extends WP_Background_Process
         $visitors     = $item['visitors'];
         $visitorModel = new VisitorsModel();
 
-        foreach ($visitors as $visitor) {
-            $country = GeoIP::getCountry($visitor->ip);
-            $city    = GeoIP::getCity($visitor->ip, true);
+        foreach ($visitors as $visitorId) {
+            /** @var VisitorDecorator $visitor */
+            $visitor    = $visitorModel->getVisitorData([
+                'visitor_id' => $visitorId,
+                'user_info'  => false,
+                'page_info'  => false,
+                'fields'     => ['visitor.ip']
+            ]);
 
-            $visitorModel->updateVisitor($visitor->ID, [
-                'location'  => $country,
-                'city'      => $city['city'] == 'Unknown' ? null : $city['city'],
-                'region'    => $city['region'] == 'Unknown' ? null : $city['region'],
-                'continent' => $city['continent'] == 'Unknown' ? null : $city['continent'],
+            $location   = GeolocationFactory::getLocation($visitor->getIP());
+
+            $visitorModel->updateVisitor($visitorId, [
+                'location'  => $location['country_code'],
+                'city'      => $location['city'],
+                'region'    => $location['region'],
+                'continent' => $location['continent'],
             ]);
         }
 

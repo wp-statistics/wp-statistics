@@ -2,9 +2,10 @@
 
 namespace WP_STATISTICS;
 
+use ErrorException;
 use Exception;
 use WP_Statistics;
-use WP_Statistics\Dependencies\IPTools\Range;
+use WP_Statistics\Service\Analytics\DeviceDetection\UserAgent;
 
 class IP
 {
@@ -20,7 +21,7 @@ class IP
      *
      * @var array
      */
-    public static $private_SubNets = array('10.0.0.0/8', '172.16.0.0/12', '192.168.0.0/16', '127.0.0.1/24', 'fc00::/7');
+    public static $private_SubNets = array('10.0.0.0/8', '172.16.0.0/12', '192.168.0.0/16', '127.0.0.1/24', 'fc00::/7', '::1');
 
     /**
      * List Of Common $_SERVER for get Users IP
@@ -114,12 +115,15 @@ class IP
 
     public static function getIpVersion()
     {
-        try {
-            $ipTools = new \WP_Statistics\Dependencies\IPTools\IP(self::getIP());
-            return $ipTools->getVersion();
-        } catch (Exception $e) {
-            return '';
+        $ip = self::getIP();
+
+        if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
+            return 'IPv4';
+        } elseif (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6)) {
+            return 'IPv6';
         }
+
+        return '';
     }
 
     /**
@@ -164,8 +168,8 @@ class IP
             $ip = self::getIP();
         }
 
-        // Retrieve the current user agent, defaulting to 'Unknown' if unavailable or empty.
-        $userAgent = (UserAgent::getHttpUserAgent() == '' ? 'Unknown' : UserAgent::getHttpUserAgent());
+        // Retrieve the current user agent, defaulting to '' if unavailable or empty.
+        $userAgent = UserAgent::getHttpUserAgent();
 
         // Hash the combination of daily salt, IP, and user agent to create a unique identifier.
         // This hash is then prefixed and filtered for potential modification before being returned.
@@ -218,47 +222,62 @@ class IP
     }
 
     /**
-     * Check IP Has The Custom IP Range List
+     * Check if the given IP is within any of the specified IP ranges.
      *
      * @param $ip
      * @param array $range
      * @return bool
      * @throws Exception
      */
-    public static function CheckIPRange($range = array(), $ip = false)
+    public static function checkIPRange($ranges = array(), $ip = false)
     {
+        $isWithinRange = false;
 
         // Get User IP
-        $ip = ($ip === false ? IP::getIP() : $ip);
-
-        // Get Range OF This IP
-        try {
-            $ip = new WP_Statistics\Dependencies\IPTools\IP($ip);
-        } catch (Exception $e) {
-            WP_Statistics::log($e->getMessage(), 'warning');
-            $ip = new WP_Statistics\Dependencies\IPTools\IP(self::$default_ip);
+        if (!$ip) {
+            $ip = self::getIP();
         }
 
         // Check List
-        foreach ($range as $list) {
+        foreach ($ranges as $range) {
             try {
-                $parsedRange = Range::parse($list);
-                $contains_ip = false;
-
-                if ($parsedRange->contains($ip)) {
-                    $contains_ip = true;
+                // Not a CIDR range, just compare IPs directly
+                if (strpos($range, '/') === false) {
+                    if ($ip === $range) {
+                        $isWithinRange = true;
+                        break;
+                    } else {
+                        continue;
+                    }
                 }
+
+                // Separate the IP from the CIDR mask
+                [$range, $netmask] = explode('/', $range, 2);
+
+                // convert IP and Range to binary values
+                $binIp      = inet_pton($ip);
+                $binRange   = inet_pton($range);
+
+                if ($binIp == false || $binRange == false) {
+                    throw new ErrorException(esc_html__('Invalid IP address or Range.'));
+                }
+
+                $IpLength   = strlen($binIp) * 8;
+                $binNetmask = str_repeat('1', $netmask) . str_repeat('0', $IpLength - $netmask);
+                $binNetmask = pack('H*', base_convert($binNetmask, 2, 16));
+
+                if (($binIp & $binNetmask) === ($binRange & $binNetmask)) {
+                    $isWithinRange = true;
+                    break;
+                }
+
             } catch (Exception $e) {
                 WP_Statistics::log($e->getMessage(), 'warning');
-                $contains_ip = false;
-            }
-
-            if ($contains_ip) {
-                return true;
+                $isWithinRange = false;
             }
         }
 
-        return false;
+        return $isWithinRange;
     }
 
     /**

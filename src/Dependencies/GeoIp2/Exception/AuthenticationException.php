@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace WP_Statistics\Dependencies\GeoIp2\Exception;
 
 /**

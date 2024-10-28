@@ -100,18 +100,6 @@ class Purge
             }
 
             /**
-             * Purge the search data.
-             */
-            $table_name = DB::table('search');
-            $result     = $wpdb->query($wpdb->prepare("DELETE FROM {$table_name} WHERE `last_counter` < %s", $date_string));
-
-            if ($result) {
-                $result_string .= '<br>' . sprintf(__('Data from %1$s Older Than %2$s Days Successfully Purged.', 'wp-statistics'), '<code>' . $table_name . '</code>', '<code>' . $purge_days . '</code>');
-            } else {
-                $result_string .= '<br>' . sprintf(__('No Records to Purge from %s!', 'wp-statistics'), '<code>' . $table_name . '</code>');
-            }
-
-            /**
              * Purge the pages data, this is more complex as we want to save the historical data per page.
              */
             $table_name = DB::table('pages');

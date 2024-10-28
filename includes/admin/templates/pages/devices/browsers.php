@@ -3,7 +3,9 @@
         <div class="meta-box-sortables">
             <div class="postbox">
                 <div class="inside">
-                    <?php if (!empty($data['visitors'])) : ?>
+                    <?php use WP_Statistics\Service\Analytics\DeviceDetection\DeviceHelper;
+
+                    if (!empty($data['visitors'])) : ?>
                         <div class="o-table-wrapper">
                             <table width="100%" class="o-table wps-new-table">
                                 <thead>
@@ -25,9 +27,9 @@
                                     <?php foreach ($data['visitors'] as $item) : ?>
                                         <tr>
                                             <td class="wps-pd-l">
-                                                <span title="<?php echo esc_attr($item->agent); ?>" class="wps-browser-name">
-                                                    <img alt="<?php echo esc_attr($item->agent); ?>" src="<?php echo esc_url(\WP_STATISTICS\UserAgent::getBrowserLogo($item->agent)); ?>" title="<?php echo esc_attr($item->agent); ?>" class="log-tools wps-flag" />
-                                                    <?php echo esc_html($item->agent); ?>
+                                                <span title="<?php echo \WP_STATISTICS\Admin_Template::unknownToNotSet($item->agent); ?>" class="wps-browser-name">
+                                                    <img alt="<?php echo \WP_STATISTICS\Admin_Template::unknownToNotSet($item->agent); ?>" src="<?php echo esc_url(DeviceHelper::getBrowserLogo($item->agent)); ?>" title="<?php echo \WP_STATISTICS\Admin_Template::unknownToNotSet($item->agent); ?>" class="log-tools wps-flag" />
+                                                    <?php echo \WP_STATISTICS\Admin_Template::unknownToNotSet($item->agent); ?>
                                                 </span>
                                             </td>
                                             <td class="wps-pd-l">

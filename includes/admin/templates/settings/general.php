@@ -73,6 +73,24 @@
                     <p class="description"><?php _e('Records full details of visitors for diagnostic purposes. When \'Hash IP Addresses\' is operational, this feature is bypassed, and data collection is disabled to ensure privacy. Refer to our <a href="https://wp-statistics.com/resources/avoiding-pii-data-collection/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" target="_blank">avoiding PII data collection guide</a> for more information.', 'wp-statistics');  // phpcs:ignore WordPress.Security.EscapeOutput.UnsafePrintingFunction	  ?></p>
                 </td>
             </tr>
+
+            <tr valign="top">
+                <th scope="row">
+                    <label for="attribution_model"><?php esc_html_e('Attribution Model', 'wp-statistics'); ?></label>
+                </th>
+
+                <td>
+                    <select id="attribution_model" name="wps_attribution_model">
+                        <option value="first-touch" <?php selected(WP_STATISTICS\Option::get('attribution_model', 'first-touch'), 'first-touch'); ?>>
+                            <?php esc_html_e('First-Touch', 'wp-statistics'); ?>
+                        </option>
+                        <option value="last-touch" <?php selected(WP_STATISTICS\Option::get('attribution_model'), 'last-touch'); ?>>
+                            <?php esc_html_e('Last-Touch', 'wp-statistics'); ?>
+                        </option>
+                    </select>
+                    <p class="description"><?php _e('Select how conversions are attributed: First-Touch credits the first interaction, and Last-Touch credits the most recent. <a href="https://wp-statistics.com/resources/attribution-models/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" target="_blank">Learn more</a>.', 'wp-statistics'); ?></p>
+                </td>
+            </tr>
         </tbody>
     </table>
 </div>
@@ -112,35 +130,6 @@
                 <p class="description"><?php esc_html_e('Dynamically load the tracking script with a unique name and address to bypass ad blockers.', 'wp-statistics'); ?></p>
             </td>
         </tr>
-        </tbody>
-    </table>
-</div>
-<div class="postbox">
-    <table class="form-table">
-        <tbody>
-        <tr valign="top">
-            <th scope="row" colspan="2"><h3><?php esc_html_e('Search Engine Tracking', 'wp-statistics'); ?></h3></th>
-        </tr>
-
-        <?php
-        $se_option_list = '';
-
-        foreach ($selist as $se) {
-            $option_name    = 'wps_disable_se_' . $se['tag'];
-            $store_name     = 'disable_se_' . $se['tag'];
-            $se_option_list .= $option_name . ',';
-            ?>
-
-            <tr valign="top">
-                <th scope="row">
-                    <label for="<?php echo esc_attr($option_name); ?>"><?php echo esc_attr($se['name']); ?></label>
-                </th>
-                <td>
-                    <input id="<?php echo esc_attr($option_name); ?>" type="checkbox" value="1" name="<?php echo esc_attr($option_name); ?>" <?php echo WP_STATISTICS\Option::get($store_name) == '1' ? '' : "checked='checked'"; ?>><label for="<?php echo esc_attr($option_name); ?>"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
-                    <p class="description"><?php echo esc_attr(sprintf(__('Track and report visits referred from %s.', 'wp-statistics'), $se['name'])); ?></p>
-                </td>
-            </tr>
-        <?php } ?>
         </tbody>
     </table>
 </div>

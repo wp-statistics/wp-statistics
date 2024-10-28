@@ -2,14 +2,14 @@
 
 namespace WP_Statistics\Service\Admin\VisitorInsights\Views;
 
-use WP_STATISTICS\Menus;
-use WP_Statistics\Utils\Request;
+use WP_Statistics\Abstracts\BaseView;
 use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Components\View;
-use WP_Statistics\Abstracts\BaseView;
+use WP_Statistics\Decorators\VisitorDecorator;
 use WP_Statistics\Exception\SystemErrorException;
-use WP_STATISTICS\IP;
+use WP_STATISTICS\Menus;
 use WP_Statistics\Service\Admin\VisitorInsights\VisitorInsightsDataProvider;
+use WP_Statistics\Utils\Request;
 
 class SingleVisitorView extends BaseView
 {
@@ -30,7 +30,7 @@ class SingleVisitorView extends BaseView
     {
         $visitorData = $this->dataProvider->getVisitorData();
 
-        if (empty($visitorData['visitor_info'])) {
+        if (empty($visitorData['visitor'])) {
             throw new SystemErrorException(esc_html__('Visitor does not exist.', 'wp-statistics'));
         }
 
@@ -39,14 +39,19 @@ class SingleVisitorView extends BaseView
 
     public function getTitle($visitorData)
     {
+        /** @var VisitorDecorator $visitor */
+        $visitor = $visitorData['visitor'];
+
         $title = esc_html__('Visitor Report - %s: %s', 'wp-statistics');
 
-        if (!empty($visitorData['user_info'])) {
-            $title = sprintf($title, esc_html__('User', 'wp-statistics'), $visitorData['user_info']->display_name);
-        } else if (IP::IsHashIP($visitorData['visitor_info']->ip)) {
-            $title = sprintf($title, esc_html__('Hash', 'wp-statistics'), substr($visitorData['visitor_info']->ip, 6, 10));
+        if ($visitor->isLoggedInUser()) {
+            $title = sprintf($title, esc_html__('User', 'wp-statistics'), $visitor->getUser()->getDisplayName());
         } else {
-            $title = sprintf($title, esc_html__('IP', 'wp-statistics'), $visitorData['visitor_info']->ip);
+            $title = sprintf(
+                $title,
+                $visitor->isHashedIP() ? esc_html__('Hash', 'wp-statistics') : esc_html__('IP', 'wp-statistics'),
+                $visitor->getIP()
+            );
         }
 
         return $title;

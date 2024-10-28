@@ -5,6 +5,7 @@ namespace WP_STATISTICS;
 use WP_Statistics\Components\AssetNameObfuscator;
 use WP_Statistics\Components\Singleton;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
+use WP_Statistics\Service\Geolocation\GeolocationFactory;
 use WP_Statistics\Utils\Request;
 
 class settings_page extends Singleton
@@ -20,7 +21,7 @@ class settings_page extends Singleton
 
         // Check Access Level
         if (Menus::in_page('settings') and !User::Access('manage')) {
-            wp_die(__('You do not have sufficient permissions to access this page.')); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	
+            wp_die(__('You do not have sufficient permissions to access this page.')); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
         }
     }
 
@@ -41,9 +42,6 @@ class settings_page extends Singleton
         if ($args['wps_admin'] === false) {
             $args['wps_admin'] = 0;
         }
-
-        // Get Search List
-        $args['selist'] = SearchEngine::getList(true);
 
         // Get Permalink Structure
         $args['permalink'] = get_option('permalink_structure');
@@ -267,11 +265,11 @@ class settings_page extends Singleton
         if (array_key_exists('wps_private_country_code', $_POST)) {
             $_POST['wps_private_country_code'] = trim(strtoupper(sanitize_text_field($_POST['wps_private_country_code'])));
         } else {
-            $_POST['wps_private_country_code'] = GeoIP::$private_country;
+            $_POST['wps_private_country_code'] = GeolocationFactory::getProviderInstance()->getDefaultPrivateCountryCode();
         }
 
         if ($_POST['wps_private_country_code'] == '') {
-            $_POST['wps_private_country_code'] = GeoIP::$private_country;
+            $_POST['wps_private_country_code'] = GeolocationFactory::getProviderInstance()->getDefaultPrivateCountryCode();
         }
 
         foreach ($wps_option_list as $option) {
@@ -396,16 +394,6 @@ class settings_page extends Singleton
      */
     public static function save_general_option($wp_statistics_options)
     {
-
-        $selist = SearchEngine::getList(true);
-
-        foreach ($selist as $se) {
-            $se_post     = 'wps_disable_se_' . $se['tag'];
-            $optionValue = isset($_POST[$se_post]) && sanitize_text_field($_POST[$se_post]) == '1' ? '' : '1';
-
-            $wp_statistics_options[self::input_name_to_option($se_post)] = $optionValue;
-        }
-
         $wps_option_list = array(
             'wps_useronline',
             'wps_visits',
@@ -415,11 +403,13 @@ class settings_page extends Singleton
             'wps_bypass_ad_blockers',
             'wps_pages',
             'wps_use_cache_plugin',
+            'wps_attribution_model',
             'wps_show_hits',
             'wps_display_hits_position',
             'wps_menu_bar',
             'wps_coefficient',
-            'wps_hide_notices'
+            'wps_hide_notices',
+            'wps_charts_previous_period'
         );
 
         foreach ($wps_option_list as $option) {

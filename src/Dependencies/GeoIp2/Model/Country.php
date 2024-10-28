@@ -1,13 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace WP_Statistics\Dependencies\GeoIp2\Model;
 
 /**
  * Model class for the data returned by GeoIP2 Country web service and database.
  *
- * The only difference between the City and Insights model classes is which
- * fields in each record may be populated. See
- * https://dev.maxmind.com/geoip/geoip2/web-services for more details.
+ * See https://dev.maxmind.com/geoip/docs/web-services?lang=en for more details.
  *
  * @property-read \WP_Statistics\Dependencies\GeoIp2\Record\Continent $continent Continent data for the
  * requested IP address.
@@ -26,24 +26,49 @@ namespace WP_Statistics\Dependencies\GeoIp2\Model;
  * the represented country differs from the country.
  * @property-read \WP_Statistics\Dependencies\GeoIp2\Record\Traits $traits Data for the traits of the
  * requested IP address.
+ * @property-read array $raw The raw data from the web service.
  */
 class Country extends AbstractModel
 {
+    /**
+     * @var \WP_Statistics\Dependencies\GeoIp2\Record\Continent
+     */
     protected $continent;
+
+    /**
+     * @var \WP_Statistics\Dependencies\GeoIp2\Record\Country
+     */
     protected $country;
+
+    /**
+     * @var array<string>
+     */
     protected $locales;
+
+    /**
+     * @var \WP_Statistics\Dependencies\GeoIp2\Record\MaxMind
+     */
     protected $maxmind;
+
+    /**
+     * @var \WP_Statistics\Dependencies\GeoIp2\Record\Country
+     */
     protected $registeredCountry;
+
+    /**
+     * @var \WP_Statistics\Dependencies\GeoIp2\Record\RepresentedCountry
+     */
     protected $representedCountry;
+
+    /**
+     * @var \WP_Statistics\Dependencies\GeoIp2\Record\Traits
+     */
     protected $traits;
 
     /**
      * @ignore
-     *
-     * @param mixed $raw
-     * @param mixed $locales
      */
-    public function __construct($raw, $locales = ['en'])
+    public function __construct(array $raw, array $locales = ['en'])
     {
         parent::__construct($raw);
 

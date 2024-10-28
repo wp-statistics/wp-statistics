@@ -306,4 +306,17 @@ class User
             return false;
         }
     }
+
+    /**
+     * Check if the current user is an administrator or super admin in multisite network.
+     *
+     * @return bool Whether the current user is an administrator.
+     */
+    public static function isAdmin() {
+        if (!is_user_logged_in()) {
+            return false;
+        }
+
+        return is_multisite() ? is_super_admin() : current_user_can('manage_options');
+    }
 }

@@ -33,10 +33,12 @@ $image_path: "../images";
 @import "component/jqvmap";
 @import "component/search";
 @import "component/filters-modal";
+@import "component/premium-modal";
 
 // WordPress Admin Page
 @import "pages/setting";
-@import "pages/add-one";
+@import "pages/referrals";
+@import "pages/add-ons";
 @import "pages/admin";
 @import "pages/overview";
 @import "pages/authors";

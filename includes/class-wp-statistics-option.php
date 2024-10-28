@@ -64,10 +64,6 @@ class Option
             'do_not_track'              => false,
             'exclude_administrator'     => true,
             'referrerspam'              => true,
-            'disable_se_clearch'        => true,
-            'disable_se_qwant'          => true,
-            'disable_se_baidu'          => true,
-            'disable_se_ask'            => true,
             'map_type'                  => 'jqvmap',
             'ip_method'                 => 'sequential',
             'exclude_loginpage'         => true,
@@ -75,6 +71,8 @@ class Option
             'exclude_feeds'             => true,
             'schedule_dbmaint'          => true,
             'schedule_dbmaint_days'     => '180',
+            'charts_previous_period'    => true,
+            'attribution_model'         => 'first-touch'
         );
 
         return $options;

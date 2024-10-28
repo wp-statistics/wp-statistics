@@ -1,6 +1,7 @@
 <?php
 
 namespace WP_STATISTICS;
+use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 
 class Meta_Box
 {
@@ -44,10 +45,47 @@ class Meta_Box
         require_once WP_STATISTICS_DIR . 'includes/admin/meta-box/wp-statistics-meta-box-hitsmap.php';
         require_once WP_STATISTICS_DIR . 'includes/admin/meta-box/wp-statistics-meta-box-useronline.php';
         require_once WP_STATISTICS_DIR . 'includes/admin/meta-box/wp-statistics-meta-box-about.php';
+        require_once WP_STATISTICS_DIR . 'includes/admin/meta-box/wp-statistics-meta-box-about-premium.php';
         require_once WP_STATISTICS_DIR . 'includes/admin/meta-box/wp-statistics-meta-box-post-summary.php';
         require_once WP_STATISTICS_DIR . 'includes/admin/meta-box/wp-statistics-meta-box-post.php';
         require_once WP_STATISTICS_DIR . 'includes/admin/meta-box/wp-statistics-meta-box-top-pages-chart.php';
         require_once WP_STATISTICS_DIR . 'includes/admin/meta-box/wp-statistics-meta-box-exclusions.php';
+    }
+
+    /**
+     * Get Meta Box Key By ClassName
+     *
+     * @param $className
+     * @return string
+     */
+    public static function getMetaBoxKeyByClassName($className)
+    {
+        $className = str_replace("WP_STATISTICS\\MetaBox\\", '', $className);
+        return str_replace('_', '-', $className);
+    }
+
+    /**
+     * Load MetaBox
+     *
+     * @param $key
+     * @return null
+     */
+    public static function LoadMetaBox($key)
+    {
+
+        // Get MetaBox by Key
+        $metaBox = self::getList($key);
+        if (count($metaBox) > 0) {
+            // Check Load Rest-API or Manually
+            if (isset($metaBox['js']) and $metaBox['js'] === false && self::metaBoxClassExist($key)) {
+                $class = self::getMetaBoxClass($key);
+                return array($class, 'get');
+            }
+        }
+
+        return function () {
+            return null;
+        };
     }
 
     /**
@@ -134,7 +172,7 @@ class Meta_Box
             ),
             'models'          => array(
                 'page_url'          => Menus::admin_url('devices', ['tab' => 'models']),
-                'name'              => __('Top Device Models', 'wp-statistics'),
+                'name'              => __('Top Device Model', 'wp-statistics'),
                 'hidden'            => true,
                 'show_on_dashboard' => true,
                 'place'             => 'side',
@@ -160,7 +198,7 @@ class Meta_Box
                 ]
             ),
             'referring'       => array(
-                'page_url'          => Menus::admin_url('referrers'),
+                'page_url'          => Menus::admin_url('referrals', ['tab' => 'referrers']),
                 'name'              => __('Top Referring', 'wp-statistics'),
                 'hidden'            => true,
                 'show_on_dashboard' => true,
@@ -187,7 +225,7 @@ class Meta_Box
                 ]
             ),
             'search'          => array(
-                'page_url'          => Menus::admin_url('searches'),
+                'page_url'          => Menus::admin_url('referrals', ['tab' => 'search-engines']),
                 'name'              => __('Referrals from Search Engines', 'wp-statistics'),
                 'description'       => __('A breakdown of views from different search engines over time.', 'wp-statistics'),
                 'hidden'            => true,
@@ -222,7 +260,7 @@ class Meta_Box
                 'show_on_dashboard' => true,
                 'place'             => 'normal',
                 'footer_options'    => [
-                    'filter_by_date'      => false,
+                    'filter_by_date'      => true,
                     'default_date_filter' => false,
                     'display_more_link'   => true,
                     'more_link_title'     => __('View Most Active Visitors', 'wp-statistics'),
@@ -234,7 +272,13 @@ class Meta_Box
                 'description'       => __('Details of the most recent visitors to your site.', 'wp-statistics'),
                 'hidden'            => true,
                 'show_on_dashboard' => true,
-                'place'             => 'normal'
+                'place'             => 'normal',
+                'footer_options'    => [
+                    'filter_by_date'      => false,
+                    'default_date_filter' => false,
+                    'display_more_link'   => true,
+                    'more_link_title'     => __('View Latest Visitor Breakdown', 'wp-statistics'),
+                ]
             ),
             'hitsmap'         => array(
                 'name'              => __('Global Visitor Distribution', 'wp-statistics'),
@@ -256,7 +300,13 @@ class Meta_Box
                 'require'           => array('useronline' => true),
                 'hidden'            => true,
                 'show_on_dashboard' => true,
-                'place'             => 'normal'
+                'place'             => 'normal',
+                'footer_options'    => [
+                    'filter_by_date'      => false,
+                    'default_date_filter' => false,
+                    'display_more_link'   => true,
+                    'more_link_title'     => __('View Online Visitors', 'wp-statistics'),
+                ]
             ),
             'about'           => array(
                 'name'              => apply_filters('wp_statistics_about_widget_title', __('WP Statistics', 'wp-statistics')),
@@ -295,6 +345,20 @@ class Meta_Box
             ),
         );
 
+        // Load Upgrade metabox if user is not premium
+        $isPremium          = LicenseHelper::isPremiumLicenseAvailable() ? true : false;
+        $disableUpgrade     = apply_filters('wp_statistics_enable_upgrade_to_bundle', true) ? false : true;
+        $dismissedWidget    = in_array('about-premium', get_option('wp_statistics_dismissed_widgets', [])) ? true : false;
+
+        $list['about-premium'] = [
+            'name'              => apply_filters('wp_statistics_about-premium_widget_title', __('WP Statistics', 'wp-statistics')),
+            'description'       => $aboutWidgetContent ? null : __('Information about the current version of WP Statistics and related resources.', 'wp-statistics'),
+            'show_on_dashboard' => false,
+            'js'                => false,
+            'place'             => 'side',
+            'disable_overview'  => $isPremium || $disableUpgrade || $dismissedWidget
+        ];
+
         /**
          * Filter the list of metaboxes list
          * @since 14.0
@@ -314,17 +378,6 @@ class Meta_Box
     }
 
     /**
-     * Get Meta Box Class name
-     *
-     * @param $meta_box
-     * @return string
-     */
-    public static function getMetaBoxClass($meta_box)
-    {
-        return apply_filters('wp_statistics_meta_box_class', self::$namespace . str_replace("-", "_", $meta_box), $meta_box);
-    }
-
-    /**
      * Check Exist Meta Box Class
      *
      * @param $meta_box
@@ -336,39 +389,14 @@ class Meta_Box
     }
 
     /**
-     * Get Meta Box Key By ClassName
+     * Get Meta Box Class name
      *
-     * @param $className
+     * @param $meta_box
      * @return string
      */
-    public static function getMetaBoxKeyByClassName($className)
+    public static function getMetaBoxClass($meta_box)
     {
-        $className = str_replace("WP_STATISTICS\\MetaBox\\", '', $className);
-        return str_replace('_', '-', $className);
-    }
-
-    /**
-     * Load MetaBox
-     *
-     * @param $key
-     * @return null
-     */
-    public static function LoadMetaBox($key)
-    {
-
-        // Get MetaBox by Key
-        $metaBox = self::getList($key);
-        if (count($metaBox) > 0) {
-            // Check Load Rest-API or Manually
-            if (isset($metaBox['js']) and $metaBox['js'] === false && self::metaBoxClassExist($key)) {
-                $class = self::getMetaBoxClass($key);
-                return array($class, 'get');
-            }
-        }
-
-        return function () {
-            return null;
-        };
+        return apply_filters('wp_statistics_meta_box_class', self::$namespace . str_replace("-", "_", $meta_box), $meta_box);
     }
 
 }

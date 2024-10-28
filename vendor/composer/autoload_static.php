@@ -4,22 +4,20 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit5f564c5d781bbd86ba3fd12450bf69bd
+class ComposerStaticInit0c58b92c1859559503021091c91f6640
 {
+    public static $files = array (
+        '04c6c5c2f7095ccf6c481d3e53e1776f' => __DIR__ . '/..' . '/mustangostang/spyc/Spyc.php',
+    );
+
     public static $prefixLengthsPsr4 = array (
         'W' => 
         array (
-            'WhichBrowser\\' => 13,
             'WP_Statistics\\' => 14,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'WhichBrowser\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/whichbrowser/parser/src',
-            1 => __DIR__ . '/..' . '/whichbrowser/parser/tests/src',
-        ),
         'WP_Statistics\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src',
@@ -247,9 +245,9 @@ class ComposerStaticInit5f564c5d781bbd86ba3fd12450bf69bd
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit5f564c5d781bbd86ba3fd12450bf69bd::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit5f564c5d781bbd86ba3fd12450bf69bd::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit5f564c5d781bbd86ba3fd12450bf69bd::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit0c58b92c1859559503021091c91f6640::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit0c58b92c1859559503021091c91f6640::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit0c58b92c1859559503021091c91f6640::$classMap;
 
         }, null, ClassLoader::class);
     }

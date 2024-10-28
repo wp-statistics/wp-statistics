@@ -15,4 +15,23 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             $('#wp-statistics-settings-form ul.tabs li[data-tab=' + ActiveTab + ']').click();
         }
     }
-}
+
+
+        const customizationWidgetSelect = document.getElementById('wps_addon_settings[customization][show_wps_about_widget_overview]');
+        const widget_title = document.querySelector('label[for="wps_addon_settings[customization][wps_about_widget_title]"]').parentElement.parentElement;
+        const widget_content = document.querySelector('label[for="wps_addon_settings[customization][wps_about_widget_content]"]').parentElement.parentElement;
+         function toggleCustomizationDivs() {
+            if (customizationWidgetSelect.value === 'yes') {
+                widget_title.style.display = 'table-row';
+                widget_content.style.display = 'table-row';
+            } else {
+                widget_title.style.display = 'none';
+                widget_content.style.display = 'none';
+            }
+        }
+        if(customizationWidgetSelect){
+            toggleCustomizationDivs();
+            customizationWidgetSelect.addEventListener('change', toggleCustomizationDivs);
+        }
+
+ }
