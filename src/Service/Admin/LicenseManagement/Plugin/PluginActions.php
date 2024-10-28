@@ -7,6 +7,7 @@ use WP_Statistics\Utils\Request;
 use WP_Statistics\Service\Admin\LicenseManagement\ApiCommunicator;
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHandler;
+use WP_STATISTICS\User;
 
 class PluginActions
 {
@@ -75,11 +76,7 @@ class PluginActions
             $licenseKey = Request::has('license_key') ? wp_unslash(Request::get('license_key')) : false;
             $pluginSlug = Request::has('plugin_slug') ? wp_unslash(Request::get('plugin_slug')) : false;
 
-            /**
-             * Restrict plugin installation on this sub-site.
-             * Starting from version 14.11.*, installations will be managed at the network level if enabled.
-             */
-            if (get_current_blog_id() == '2') {
+            if (!User::isAdmin()) {
                 throw new Exception(__('Plugin installation is not permitted on this sub-site. Please contact your network administrator to install the plugin across the entire network.', 'wp-statistics'));
             }
 
