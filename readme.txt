@@ -12,7 +12,7 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Get website traffic insights with GDPR/CCPA compliant, privacy-friendly analytics. Includes visitor data, stunning graphs, and no data sharing.
 
 == Description ==
-= WP Statistics: THE #1 WORDPRESS ANALYTICS PLUGIN =
+= WP Statistics: THE #1 WordPress ANALYTICS PLUGIN =
 Discover GDPR-compliant analytics with [WP Statistics](https://wp-statistics.com/?utm_source=wporg&utm_medium=link&utm_campaign=website), the top choice for WordPress users seeking an alternative to Google Analytics. No external accounts, unlimited visitor tracking, and full data ownership-all stored directly in your WordPress database.
 
 [Checkout Demo](https://wp-statistics.com/demo) | [View Screenshots](#screenshots)
