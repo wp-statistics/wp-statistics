@@ -51,7 +51,7 @@ $isPremium          = LicenseHelper::isPremiumLicenseAvailable() ? true : false;
                                                     </a>
                                                 <?php else: ?>
                                                     <button class="disabled wps-tooltip-premium">
-                                                        <?php esc_html_e('View Details', 'wp-statistics'); ?>
+                                                        <a class="wps-tooltip-premium__link" href="<?php echo esc_url(\WP_STATISTICS\Menus::admin_url('geographic', ['type' => 'single-country', 'country' => $item->country])) ?>"><?php esc_html_e('View Details', 'wp-statistics'); ?></a>
                                                         <span class="wps-tooltip_templates tooltip-premium tooltip-premium--side tooltip-premium--left">
                                                             <span id="tooltip_realtime">
                                                                 <a data-target="wp-statistics-data-plus" class="js-wps-openPremiumModal"><?php esc_html_e('Learn More', 'wp-statistics'); ?></a>

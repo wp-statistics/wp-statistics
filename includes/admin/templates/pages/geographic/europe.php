@@ -42,9 +42,24 @@ use WP_STATISTICS\Country;
                                                 <?php echo esc_html(number_format($item->views)) ?>
                                             </td>
                                             <td class="-table__cell o-table__cell--right view-more">
-                                                <a href="<?php echo esc_url(\WP_STATISTICS\Menus::admin_url('geographic', ['type' => 'single-country', 'country' => $item->country])) ?>" title="<?php esc_html_e('View Details', 'wp-statistics'); ?>">
-                                                    <?php esc_html_e('View Details', 'wp-statistics'); ?>
-                                                </a>
+                                                <?php if($isPremium): ?>
+                                                    <a href="<?php echo esc_url(Menus::admin_url('geographic', ['type' => 'single-country', 'country' => $item->country])) ?>" title="<?php esc_html_e('View Details', 'wp-statistics'); ?>">
+                                                        <?php esc_html_e('View Details', 'wp-statistics'); ?>
+                                                    </a>
+                                                <?php else: ?>
+                                                    <button class="disabled wps-tooltip-premium">
+                                                        <a class="wps-tooltip-premium__link" href="<?php echo esc_url(\WP_STATISTICS\Menus::admin_url('geographic', ['type' => 'single-country', 'country' => $item->country])) ?>"><?php esc_html_e('View Details', 'wp-statistics'); ?></a>
+                                                        <?php esc_html_e('View Details', 'wp-statistics'); ?>
+                                                        <span class="wps-tooltip_templates tooltip-premium tooltip-premium--side tooltip-premium--left">
+                                                            <span id="tooltip_realtime">
+                                                                <a data-target="wp-statistics-data-plus" class="js-wps-openPremiumModal"><?php esc_html_e('Learn More', 'wp-statistics'); ?></a>
+                                                                <span>
+                                                                     <?php esc_html_e('Premium Feature', 'wp-statistics'); ?>
+                                                                </span>
+                                                            </span>
+                                                        </span>
+                                                    </button>
+                                                <?php endif; ?>
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>

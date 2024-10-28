@@ -1,0 +1,111 @@
+.wps-lock-page{
+  &--container{
+    width: 913px;
+    padding: 0 24px;
+    max-width: 100%;
+    margin: 49px auto 20px;
+    box-sizing: border-box;
+  }
+  &__head{
+    color: #0C0C0D;
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 24px;
+  }
+  &__description{
+    color: #56585A;
+    font-size: 17px;
+    font-weight: 400;
+    line-height: 24px;
+    margin-top: 16px;
+  }
+  &__actions{
+    margin-top: 32px;
+    display: flex;
+    gap: 12px;
+    margin-bottom: 48px;
+    flex-wrap: wrap;
+
+    .wps-lock-page__action{
+      margin: 0;
+      padding: 8px 16px;
+      border-radius: 4px;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 22px;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+
+      &--learn-more{
+        border: 1px solid #DADCE0;
+        color: #56585a;
+        background: #fff;
+
+        &:hover{
+          background: #fafafb;
+        }
+       }
+      &--premium{
+        border: 1px solid #404bf2;
+        background-color: #404bf2;
+        color: #fff ;
+        &:after {
+          content: "";
+          width: 16px;
+          min-width: 16px;
+          height: 16px;
+          background: url(data:image/svg+xml;base64,Cjxzdmcgd2lkdGg9IjE3IiBoZWlnaHQ9IjE2IiB2aWV3Qm94PSIwIDAgMTcgMTYiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik05LjI4MTMgOC4wMDA0N0w1Ljk4MTQ1IDQuNzAwNjJMNi45MjQyNiAzLjc1NzgxTDExLjE2NjkgOC4wMDA0N0w2LjkyNDI2IDEyLjI0MzFMNS45ODE0NSAxMS4zMDAzTDkuMjgxMyA4LjAwMDQ3WiIgZmlsbD0id2hpdGUiLz4KPC9zdmc+Cg==);
+          display: inline-block;
+
+          .rtl &{
+            transform: rotate(180deg);
+          }
+        }
+
+        &:hover{
+          border: 1px solid #1e27bf;
+          background-color: #1e27bf;
+          color: #fff ;
+        }
+      }
+    }
+  }
+  .wps-slider {
+    position: relative;
+    max-width: 100%;
+    overflow: hidden;
+
+    &__slide {
+      display: none;
+      width: 100%;
+
+      img{
+        max-width: 100%;
+        height: auto;
+      }
+    }
+
+    &__dots {
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    &__dot {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      margin: 0 5px;
+      border-radius: 50%;
+      background-color: #ccc; /* Inactive dot color */
+      cursor: pointer;
+
+      &.active {
+        background-color: #404bf2; /* Active dot color */
+      }
+    }
+  }
+}
+
+
+

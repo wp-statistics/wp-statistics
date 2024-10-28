@@ -6,6 +6,7 @@ use WP_Statistics\Utils\Request;
 use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Abstracts\BaseView;
 use WP_STATISTICS\Country;
+use WP_Statistics\Components\View;
 use WP_Statistics\Exception\SystemErrorException;
 
 class SingleCountryView extends BaseView
@@ -22,11 +23,16 @@ class SingleCountryView extends BaseView
     public function render()
     {
         $args = [
-            'title'     => sprintf(esc_html__('%s Traffic Report', 'wp-statistics'), Country::getName(Request::get('country'))),
-            'backUrl'   => Menus::admin_url('geographic'),
-            'backTitle' => esc_html__('Geographic', 'wp-statistics'),
+            'page_title'       =>  esc_html(__('Unlock Detailed Geographic Traffic Insights', 'wp-statistics')),
+            'addon_name'       =>  esc_html(__('Geographic', 'wp-statistics')),
+            'addon_slug'       =>  'wp-statistics-data-plus',
+            'campaign' => 'geographic',
+            'images' => ['assets/images/locked/geographic-single.jpg'],
+            'description' =>  esc_html(__('Discover your traffic on a country-by-country basis. Discover how visitors from each region, city, and country interact with your site. Know where your audience comes from, what devices they use, and how they found you.', 'wp-statistics'))
         ];
 
-        Admin_Template::get_template(['layout/header', 'layout/title', 'pages/geographic/single-locked', 'layout/footer'], $args);
+        Admin_Template::get_template(['layout/header']);
+        View::load("pages/lock-page",$args);
+        Admin_Template::get_template(['layout/footer']);
     }
 }

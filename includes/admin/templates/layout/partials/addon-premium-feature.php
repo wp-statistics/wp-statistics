@@ -10,9 +10,7 @@ $hasLicense     = LicenseHelper::isPluginLicenseValid($addon_modal_target) ? tru
 
 <div class="wps-premium-feature wps-premium-feature--premium-user">
     <?php
-        if ($isPremium) :
-            View::load("components/lock-sections/setting-active-premium-addon", ['addon_title' => $addon_title]);
-        elseif (!$isPremium && $hasLicense) :
+        if ( !$pluginHandler->isPluginActive($addon_modal_target) || !$pluginHandler->isPluginInstalled($addon_modal_target)) :
             View::load("components/lock-sections/setting-active-licensed-addon", ['addon_title' => $addon_title]);
         elseif (!$isPremium && !$hasLicense) :
             View::load("components/lock-sections/setting-unlock-premium", [
