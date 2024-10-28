@@ -735,6 +735,8 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
       display: none;
       @media(max-width: 1030px) {
         display: block;
+        margin-bottom: -8px;
+
         .wps-bundle {
           padding: 12px;
 
