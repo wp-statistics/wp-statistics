@@ -100,6 +100,14 @@ class Notice
         self::renderNoticeInternal($notice, $dismissible, $dismissUrl);
     }
 
+    /**
+     *
+     * @todo Should use component View::load() instead of Admin_Template
+     * @param $notice
+     * @param $dismissible
+     * @param $dismissUrl
+     * @return void
+     */
     private static function renderNoticeInternal($notice, $dismissible, $dismissUrl)
     {
         Admin_Template::get_template('notice', [

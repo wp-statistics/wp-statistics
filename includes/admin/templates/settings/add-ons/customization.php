@@ -57,6 +57,7 @@ if (!$isCustomizationActive) echo Admin_Template::get_template('layout/partials/
      'addon_info'         => __('Enjoy a simplified, customized experience with the Customization add-on.', 'wp-statistics'),
     ], true);
 
+// @todo, render the notice with \WP_Statistics\Service\Admin\NoticeHandler\Notice::renderNotice(); in future.
 if ($isCustomizationActive && !$isLicenseValid) {
     View::load("components/lock-sections/notice-inactive-license-addon");
 }

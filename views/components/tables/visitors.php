@@ -1,5 +1,4 @@
 <?php
-<?php
 
 use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Components\View;
@@ -39,18 +38,13 @@ $linksTarget = !empty($open_links_in_new_tab) ? '_blank' : '';
                 </thead>
 
                 <tbody>
-                    <?php foreach ($data as $visitor) :
-                        $page = Visitor::get_page_by_id($visitor->page_id);
-                    ?>
                     <?php foreach ($data as $visitor) : ?>
                         <?php /** @var VisitorDecorator $visitor */ ?>
                         <tr>
                             <td class="wps-pd-l"><?php echo esc_html($visitor->getLastView()); ?></td>
 
                             <td class="wps-pd-l">
-                                <?php
-                                    View::load("components/visitor-information", ['visitor' => $visitor]);
-                                ?>
+                                <?php View::load("components/visitor-information", ['visitor' => $visitor]); ?>
                             </td>
 
                             <td class="wps-pd-l">
@@ -66,7 +60,7 @@ $linksTarget = !empty($open_links_in_new_tab) ? '_blank' : '';
                             <td class="wps-pd-l">
                                 <?php if ($visitor->getReferral()->getReferrer()) :
                                     View::load("components/objects/external-link", ['url' => $visitor->getReferral()->getReferrer(), 'title' => $visitor->getReferral()->getRawReferrer()]);
-                                 else : ?>
+                                else : ?>
                                     <?php echo Admin_Template::UnknownColumn() ?>
                                 <?php endif; ?>
                             </td>
@@ -77,12 +71,15 @@ $linksTarget = !empty($open_links_in_new_tab) ? '_blank' : '';
 
                             <?php if (empty($hide_latest_page_column)) : ?>
                                 <td class="wps-pd-l">
-                                    <?php $page = $visitor->getLastPage(); ?>
-                                    <?php if (!empty($page)) :
+                                    <?php
+                                    $page = $visitor->getLastPage();
+
+                                    if (!empty($page)) :
                                         View::load("components/objects/external-link", ['url' => $page['link'], 'title' => $page['title']]);
-                                     else : ?>
-                                        <?php echo Admin_Template::UnknownColumn() ?>
-                                    <?php endif; ?>
+                                    else :
+                                        echo Admin_Template::UnknownColumn();
+                                    endif;
+                                    ?>
                                 </td>
                             <?php endif; ?>
                         </tr>
