@@ -47,14 +47,14 @@ class MiniChartHelper
     /**
      * Returns selected "Chart Metric" option.
      *
-     * @return string Either `visitors` or `views`. Default: `visitors`.
+     * @return string Either `visitors` or `views`. Default: `views`.
      */
     public function getChartMetric()
     {
         $metric = $this->metric;
 
         if ($this->isMiniChartActive()) {
-            $metric = Option::getByAddon('metric', 'mini_chart', 'views');
+            $metric = Option::getByAddon('metric', 'mini_chart', 'visitors');
         }
 
         return apply_filters('wp_statistics_mini_chart_metric', $metric);
