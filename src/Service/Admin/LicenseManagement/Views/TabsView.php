@@ -45,7 +45,7 @@ class TabsView extends BaseTabView
      */
     private function checkUserAccess()
     {
-        if (!User::isAdmin() && !$this->isTab('add-ons')) {
+        if (!is_main_site() && !$this->isTab('add-ons')) {
             throw new SystemErrorException(esc_html__('You do not have permission to access this page.', 'wp-statistics'));
         }
     }
@@ -169,7 +169,7 @@ class TabsView extends BaseTabView
             if ($this->isTab('add-ons')) {
                 $args['title']                  = esc_html__('Add-Ons', 'wp-statistics');
 
-                if (User::isAdmin()) {
+                if (is_main_site()) {
                     $args['install_addon_btn_txt']  = esc_html__('Install Add-On', 'wp-statistics');
                     $args['install_addon_btn_link'] = esc_url(Menus::admin_url('plugins', ['tab' => 'add-license']));
                 }

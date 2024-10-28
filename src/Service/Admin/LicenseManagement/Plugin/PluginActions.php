@@ -76,7 +76,7 @@ class PluginActions
             $licenseKey = Request::has('license_key') ? wp_unslash(Request::get('license_key')) : false;
             $pluginSlug = Request::has('plugin_slug') ? wp_unslash(Request::get('plugin_slug')) : false;
 
-            if (!User::isAdmin()) {
+            if (!is_main_site()) {
                 throw new Exception(__('Plugin installation is not permitted on this sub-site. Please contact your network administrator to install the plugin across the entire network.', 'wp-statistics'));
             }
 
