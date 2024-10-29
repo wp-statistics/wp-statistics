@@ -61,7 +61,7 @@ class GeneralNotices
             if ($totalRows === false) {
                 $totalDbRows = DB::getTableRows();
                 $totalRows   = array_sum(array_column($totalDbRows, 'rows'));
-                $this->setCachedResult('db_rows', $totalRows);
+                $this->setCachedResult('db_rows', $totalRows, WEEK_IN_SECONDS);
             }
 
             if ($totalRows > apply_filters('wp_statistics_notice_db_row_threshold', 500000)) {
