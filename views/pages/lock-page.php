@@ -53,7 +53,7 @@ $isActive       = $pluginHandler->isPluginActive($addon_slug);
             <div class="wps-slider">
                 <?php foreach ($images as $image) : ?>
                     <div class="wps-slider__slide">
-                        <img src="<?php echo esc_url(WP_STATISTICS_URL . 'assets/images/locked/' . $image); ?>" alt="<?php echo esc_attr($feature_name); ?> Image">
+                        <img src="<?php echo esc_url(WP_STATISTICS_URL . 'assets/images/locked/' . $image); ?>" alt="<?php echo esc_attr($addon_slug); ?> Image">
                     </div>
                 <?php endforeach; ?>
             </div>

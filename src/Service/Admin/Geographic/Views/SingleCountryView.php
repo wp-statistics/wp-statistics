@@ -24,7 +24,7 @@ class SingleCountryView extends BaseView
     {
         $args = [
             'page_title'        => esc_html(__('Unlock Detailed Geographic Traffic Insights', 'wp-statistics')),
-            'feature_name'      => esc_html(__('Geographic', 'wp-statistics')),
+            'feature_name'      => esc_html(__('Data Plus', 'wp-statistics')),
             'addon_slug'        => 'wp-statistics-data-plus',
             'campaign'          => 'geographic',
             'more_title'        => esc_html(__('Learn More', 'wp-statistics')),

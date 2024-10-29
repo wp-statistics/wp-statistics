@@ -81,9 +81,9 @@ class TabsView extends BaseTabView
                 $lock_args = [
                     'page_title'         => esc_html(__('Data Plus: Advanced Analytics for Deeper Insights', 'wp-statistics')),
                     'page_second_title'  => esc_html(__('WP Statistics Premium: Beyond Just Data Plus', 'wp-statistics')),
-                    'feature_name'       => esc_html(__('Geographic', 'wp-statistics')),
+                    'feature_name'       => esc_html(__('Data Plus', 'wp-statistics')),
                     'addon_slug'         => 'wp-statistics-data-plus',
-                    'campaign'           => 'category',
+                    'campaign'           => 'content',
                     'more_title'         => esc_html(__('Learn More About Data Plus', 'wp-statistics')),
                     'premium_btn_title'  => esc_html(__('Upgrade Now to Unlock All Premium Features!', 'wp-statistics')),
                     'images'             => ['category-lock.jpg'],
