@@ -400,7 +400,7 @@ class HitColumnHandler
                             <span class="wps-admin-column__unlock__img"></span>
                         </a>
                     </div>',
-            esc_url(get_admin_url() .'/admin.php?page=wps_plugins_page&type=locked-mini-chart'),
+            esc_url(admin_url('admin.php?page=wps_plugins_page&type=locked-mini-chart')),
             __('Unlock', 'wp-statistics')
         );
     }

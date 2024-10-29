@@ -151,7 +151,7 @@ class AdminBar
                         __('Unlock the Full Power of WP Statistics', 'wp-statistics'),
                         __('Learn More', 'wp-statistics')
                     ),
-                    'href'   =>  esc_url(get_admin_url() .'/admin.php?page=wps_plugins_page&type=locked-mini-chart'),
+                    'href'   =>  esc_url(admin_url('admin.php?page=wps_plugins_page&type=locked-mini-chart')),
                     'meta'   => [
                         'target' => '_blank',
                     ],
