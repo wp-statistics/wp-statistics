@@ -3,6 +3,7 @@
 namespace WP_Statistics\Service\Admin\ContentAnalytics\Views;
 
 use Exception;
+use WP_Statistics\Components\View;
 use WP_STATISTICS\Menus;
 use WP_STATISTICS\Admin_Assets;
 use WP_STATISTICS\Helper;
@@ -66,12 +67,6 @@ class TabsView extends BaseTabView
     {
         try {
             $postType = $this->getCurrentTab();
-            $template = 'post-type';
-
-            if ($this->isLockedTab($postType)) {
-                $template = 'post-type-locked';
-            }
-    
             $args = [
                 'title'         => esc_html__('Content Analytics', 'wp-statistics'),
                 'pageName'      => Menus::get_page_slug('content-analytics'),
@@ -82,8 +77,26 @@ class TabsView extends BaseTabView
                 'tabs'          => $this->getTabs(),
                 'data'          => $this->getTabData()
             ];
+            if ($this->isLockedTab($postType)) {
+                $lock_args = [
+                    'page_title'         => esc_html(__('Data Plus: Advanced Analytics for Deeper Insights', 'wp-statistics')),
+                    'page_second_title'  => esc_html(__('WP Statistics Premium: Beyond Just Data Plus', 'wp-statistics')),
+                    'feature_name'       => esc_html(__('Geographic', 'wp-statistics')),
+                    'addon_slug'         => 'wp-statistics-data-plus',
+                    'campaign'           => 'category',
+                    'more_title'         => esc_html(__('Learn More About Data Plus', 'wp-statistics')),
+                    'premium_btn_title'  => esc_html(__('Upgrade Now to Unlock All Premium Features!', 'wp-statistics')),
+                    'images'             => ['category-lock.jpg'],
+                    'description'        => esc_html(__('Data Plus is a premium add-on for WP Statistics that unlocks powerful analytics features, providing a complete view of your site’s performance. Take advantage of advanced tools that help you understand visitor behavior, enhance your content, and track engagement on a new level. With Data Plus, you can make data-driven decisions to grow your site more effectively.', 'wp-statistics')),
+                    'second_description' => esc_html(__('When you upgrade to WP Statistics Premium, you don’t just get Data Plus — you gain access to all premium add-ons, delivering detailed insights and tools for every aspect of your site.', 'wp-statistics'))
+                ];
+                Admin_Template::get_template(['layout/header']);
+                View::load("pages/lock-page", $lock_args);
+                Admin_Template::get_template(['layout/footer']);
+            }else{
+                Admin_Template::get_template(['layout/header', 'layout/tabbed-page-header', "pages/content-analytics/post-type", 'layout/postbox.hide', 'layout/footer'], $args);
+            }
     
-            Admin_Template::get_template(['layout/header', 'layout/tabbed-page-header', "pages/content-analytics/$template", 'layout/postbox.hide', 'layout/footer'], $args);
         } catch (Exception $e) {
             Notice::renderNotice($e->getMessage(), $e->getCode(), 'error');
         }
