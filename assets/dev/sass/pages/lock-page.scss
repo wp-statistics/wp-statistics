@@ -12,6 +12,10 @@
     font-weight: 500;
     line-height: 30px;
 
+    &--second{
+      margin-top: 48px;
+    }
+
     @media (min-width: 500px) {
       line-height: 24px;
     }
