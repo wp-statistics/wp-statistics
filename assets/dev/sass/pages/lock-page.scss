@@ -10,7 +10,11 @@
     color: #0C0C0D;
     font-size: 24px;
     font-weight: 500;
-    line-height: 24px;
+    line-height: 30px;
+
+    @media (min-width: 500px) {
+      line-height: 24px;
+    }
   }
   &__description{
     color: #56585A;
