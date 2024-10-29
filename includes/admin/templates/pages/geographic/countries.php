@@ -50,17 +50,19 @@ $isPremium          = LicenseHelper::isPremiumLicenseAvailable() ? true : false;
                                                         <?php esc_html_e('View Details', 'wp-statistics'); ?>
                                                     </a>
                                                 <?php else: ?>
-                                                    <button class="disabled wps-tooltip-premium">
-                                                        <a class="wps-tooltip-premium__link" href="<?php echo esc_url(\WP_STATISTICS\Menus::admin_url('geographic', ['type' => 'single-country', 'country' => $item->country])) ?>"><?php esc_html_e('View Details', 'wp-statistics'); ?></a>
-                                                        <span class="wps-tooltip_templates tooltip-premium tooltip-premium--side tooltip-premium--left">
-                                                            <span id="tooltip_realtime">
-                                                                <a data-target="wp-statistics-data-plus" class="js-wps-openPremiumModal"><?php esc_html_e('Learn More', 'wp-statistics'); ?></a>
-                                                                <span>
-                                                                     <?php esc_html_e('Premium Feature', 'wp-statistics'); ?>
+                                                    <div>
+                                                        <button class="disabled wps-tooltip-premium">
+                                                            <a class="wps-tooltip-premium__link" href="<?php echo esc_url(\WP_STATISTICS\Menus::admin_url('geographic', ['type' => 'single-country', 'country' => $item->country])) ?>"><?php esc_html_e('View Details', 'wp-statistics'); ?></a>
+                                                            <span class="wps-tooltip_templates tooltip-premium tooltip-premium--side tooltip-premium--left">
+                                                                <span id="tooltip_realtime">
+                                                                    <a data-target="wp-statistics-data-plus" class="js-wps-openPremiumModal"><?php esc_html_e('Learn More', 'wp-statistics'); ?></a>
+                                                                    <span>
+                                                                         <?php esc_html_e('Premium Feature', 'wp-statistics'); ?>
+                                                                    </span>
                                                                 </span>
                                                             </span>
-                                                        </span>
-                                                    </button>
+                                                        </button>
+                                                    </div>
                                                 <?php endif; ?>
                                             </td>
                                         </tr>

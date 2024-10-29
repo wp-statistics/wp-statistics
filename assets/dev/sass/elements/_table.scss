@@ -498,6 +498,13 @@ body .o-table-wrapper table.wps-new-table {
         width: 245px;
         box-sizing: border-box;
 
+        &.o-table__cell--right{
+          &>div{
+            display: flex;
+            justify-content: flex-end;
+          }
+        }
+
         a:not(.js-wps-openPremiumModal):not(.wps-tooltip-premium__link)  {
           display: inline-flex !important;
           align-items: center;

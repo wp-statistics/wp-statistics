@@ -58,7 +58,7 @@ $pluginHandler = new PluginHandler();
             $data = [
                 'description' => sprintf(
                     __('<p>Elevate your analytics with custom post tracking, detailed visitor behavior insights, and advanced filtering. Gain deeper understanding with content-specific widgets and traffic analysis tools. <a target="_blank" href="%s">Learn more</a></p>', 'wp-statistics'),
-                    esc_url(WP_STATISTICS_SITE_URL . '/product/wp-statistics-data-plus/?utm_source=wp-statistics&utm_medium=link&utm_campaign=pop-up-premium')
+                    esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-data-plus/?utm_source=wp-statistics&utm_medium=link&utm_campaign=pop-up-premium')
                 ),
                 'step_name'   => 'wp-statistics-data-plus',
                 'step_title'  => esc_html__('Data Plus', 'wp-statistics'),
@@ -66,8 +66,8 @@ $pluginHandler = new PluginHandler();
             View::load("components/modals/introduce-premium/step-content", $data);
 
             $data = [
-                'description' => sprintf(__('<p>Instantly view customizable performance charts for all posts and pages, with quick access to traffic data via the admin bar. Gain insights at a glance.<a target="_blank" href="%s">Learn more</a></p>', 'wp-statistics'),
-                    esc_url(WP_STATISTICS_SITE_URL . '/product/wp-statistics-mini-chart/?utm_source=wp-statistics&utm_medium=link&utm_campaign=pop-up-premium')
+                'description' => sprintf(__('<p>Instantly view customizable performance charts for all posts and pages, with quick access to traffic data via the admin bar. Gain insights at a glance. <a target="_blank" href="%s">Learn more</a></p>', 'wp-statistics'),
+                    esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-mini-chart/?utm_source=wp-statistics&utm_medium=link&utm_campaign=pop-up-premium')
                 ),
                 'step_name'   => 'wp-statistics-mini-chart',
                 'step_title'  => esc_html__('Mini Chart', 'wp-statistics'),
@@ -76,7 +76,7 @@ $pluginHandler = new PluginHandler();
 
             $data = [
                 'description' => sprintf(__('<p>Receive scheduled, customizable traffic reports with detailed charts straight to your inbox. Stay informed about your website\'s performance effortlessly. <a target="_blank" href="%s">Learn more</a></p>', 'wp-statistics'),
-                    esc_url(WP_STATISTICS_SITE_URL . '/product/wp-statistics-advanced-reporting/?utm_source=wp-statistics&utm_medium=link&utm_campaign=pop-up-premium')
+                    esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-advanced-reporting/?utm_source=wp-statistics&utm_medium=link&utm_campaign=pop-up-premium')
                 ),
                 'step_name'   => 'wp-statistics-advanced-reporting',
                 'step_title'  => esc_html__('Advanced Reporting', 'wp-statistics'),
@@ -85,7 +85,7 @@ $pluginHandler = new PluginHandler();
 
             $data = [
                 'description' => sprintf(__('<p>Monitor visitor activity and online users live, without refreshing the page. Stay updated on your website\'s performance in real-time. <a target="_blank" href="%s">Learn more</a></p>', 'wp-statistics'),
-                    esc_url(WP_STATISTICS_SITE_URL . '/product/wp-statistics-realtime-stats/?utm_source=wp-statistics&utm_medium=link&utm_campaign=pop-up-premium')
+                    esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-realtime-stats/?utm_source=wp-statistics&utm_medium=link&utm_campaign=pop-up-premium')
                 ),
                 'step_name'   => 'wp-statistics-realtime-stats',
                 'step_title'  => esc_html__('Real-Time Stats', 'wp-statistics'),
@@ -93,8 +93,8 @@ $pluginHandler = new PluginHandler();
             View::load("components/modals/introduce-premium/step-content", $data);
 
             $data = [
-                'description' => sprintf(__('<p>Display vital site stats using customizable Gutenberg blocks or theme widgets. Enhance your audience\'s experience with flexible, real-time data presentations.<a target="_blank" href="%s">Learn more</a></p>', 'wp-statistics'),
-                    esc_url(WP_STATISTICS_SITE_URL . '/product/wp-statistics-widgets/?utm_source=wp-statistics&utm_medium=link&utm_campaign=pop-up-premium')
+                'description' => sprintf(__('<p>Display vital site stats using customizable Gutenberg blocks or theme widgets. Enhance your audience\'s experience with flexible, real-time data presentations. <a target="_blank" href="%s">Learn more</a></p>', 'wp-statistics'),
+                    esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-widgets/?utm_source=wp-statistics&utm_medium=link&utm_campaign=pop-up-premium')
                 ),
                 'step_name'   => 'wp-statistics-widgets',
                 'step_title'  => esc_html__('Widgets', 'wp-statistics'),
@@ -102,8 +102,8 @@ $pluginHandler = new PluginHandler();
             View::load("components/modals/introduce-premium/step-content", $data);
 
             $data = [
-                'description' => sprintf(__('<p>Manage admin menus, modify plugin headers, and create white-label products. Enhance the Overview page with fully customized widgets tailored to your needs.<a target="_blank" href="%s">Learn more</a></p>', 'wp-statistics'),
-                    esc_url(WP_STATISTICS_SITE_URL . '/product/wp-statistics-customization/?utm_source=wp-statistics&utm_medium=link&utm_campaign=pop-up-premium')
+                'description' => sprintf(__('<p>Manage admin menus, modify plugin headers, and create white-label products. Enhance the Overview page with fully customized widgets tailored to your needs. <a target="_blank" href="%s">Learn more</a></p>', 'wp-statistics'),
+                    esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-customization/?utm_source=wp-statistics&utm_medium=link&utm_campaign=pop-up-premium')
                 ),
                 'step_name'   => 'wp-statistics-customization',
                 'step_title'  => esc_html__('Customization', 'wp-statistics'),
@@ -112,7 +112,7 @@ $pluginHandler = new PluginHandler();
 
             $data = [
                 'description' => sprintf(__('<p>Unlock new endpoints in the WordPress REST API for detailed insights, including browsers, referrers, visitors, and more. Easily access and integrate key statistics. <a target="_blank" href="%s">Learn more</a></p>', 'wp-statistics'),
-                    esc_url(WP_STATISTICS_SITE_URL . '/product/wp-statistics-rest-api/?utm_source=wp-statistics&utm_medium=link&utm_campaign=pop-up-premium')
+                    esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-rest-api/?utm_source=wp-statistics&utm_medium=link&utm_campaign=pop-up-premium')
                 ),
                 'step_name'   => 'wp-statistics-rest-api',
                 'step_title'  => esc_html__('REST API', 'wp-statistics'),
@@ -169,7 +169,7 @@ $pluginHandler = new PluginHandler();
                                 <a class="wps-premium-step__action-btn wps-premium-step__action-btn--upgrade  activated js-wps-premiumModalUpgradeBtn"><?php esc_html_e('Premium Activated', 'wp-statistics'); ?></a>
                             <?php endif; ?>
                         <?php else : ?>
-                            <a href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/product/' . $slug . '/?utm_source=wp-statistics&utm_medium=link&utm_campaign=pop-up-premium') ?>" target="_blank" class="wps-premium-step__action-btn wps-premium-step__action-btn--upgrade js-wps-premiumModalUpgradeBtn"><?php esc_html_e('Upgrade to Premium', 'wp-statistics'); ?></a>
+                            <a href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/add-ons/' . $slug . '/?utm_source=wp-statistics&utm_medium=link&utm_campaign=pop-up-premium') ?>" target="_blank" class="wps-premium-step__action-btn wps-premium-step__action-btn--upgrade js-wps-premiumModalUpgradeBtn"><?php esc_html_e('Upgrade to Premium', 'wp-statistics'); ?></a>
                         <?php endif; ?>
                     <?php endforeach; ?>
                     <?php if (!LicenseHelper::isPremiumLicenseAvailable()) : ?>
