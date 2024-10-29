@@ -6,14 +6,14 @@ use WP_Statistics\Components\View;
 use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Abstracts\BaseView;
 
-class LockedDataPlusView extends BaseView
+class LockedMiniChartView extends BaseView
 {
     public function render()
     {
         $args = [
             'page_title'        => esc_html__('Unlock Detailed Insights', 'wp-statistics'),
-            'addon_name'        => esc_html__('Data Plus', 'wp-statistics'),
-            'addon_slug'        => 'wp-statistics-data-plus',
+            'addon_name'        => esc_html__('Mini Chart', 'wp-statistics'),
+            'addon_slug'        => 'wp-statistics-mini-chart',
             'campaign'          => '',
             'more_title'        => esc_html__('Learn More', 'wp-statistics'),
             'premium_btn_title' => esc_html__('Go Premium', 'wp-statistics'),

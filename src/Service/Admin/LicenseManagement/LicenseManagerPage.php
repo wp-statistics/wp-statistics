@@ -4,7 +4,7 @@ namespace WP_Statistics\Service\Admin\LicenseManagement;
 
 use WP_Statistics\Abstracts\MultiViewPage;
 use WP_Statistics\Service\Admin\LicenseManagement\Views\TabsView;
-use WP_Statistics\Service\Admin\LicenseManagement\Views\LockedDataPlusView;
+use WP_Statistics\Service\Admin\LicenseManagement\Views\LockedMiniChartView;
 
 class LicenseManagerPage extends MultiViewPage
 {
@@ -12,7 +12,7 @@ class LicenseManagerPage extends MultiViewPage
     protected $defaultView = 'tabs';
     protected $views       = [
         'tabs'              => TabsView::class,
-        'locked-data-plus'  => LockedDataPlusView::class
+        'locked-mini-chart' => LockedMiniChartView::class
     ];
 
     public function __construct()
