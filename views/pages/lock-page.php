@@ -22,7 +22,7 @@ $isActive       = $pluginHandler->isPluginActive($addon_slug);
         <?php if (!$isActive && $hasLicense) : ?>
             <div class="wps-premium-feature wps-premium-feature--premium-user">
                 <?php
-                View::load("components/lock-sections/setting-active-licensed-addon", ['addon_title' => $feature_name]);
+                View::load("components/lock-sections/setting-active-licensed-addon", ['addon_title' => $addon_name]);
                 ?>
             </div>
         <?php endif ?>
