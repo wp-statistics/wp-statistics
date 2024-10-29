@@ -148,8 +148,8 @@ class AdminBar
                     'parent' => 'wp-statistic-menu-global-data',
                     'title'  => sprintf('<img src="%s"/><div><span class="wps-admin-bar__chart__unlock-button">%s</span><button>%s</button></div>',
                         esc_url(WP_STATISTICS_URL . 'assets/images/mini-chart-lock.png'),
-                        __('Unlock full potential of Mini-chart', 'wp-statistics'),
-                        __('Upgrade Now', 'wp-statistics')
+                        __('Unlock the Full Power of WP Statistics', 'wp-statistics'),
+                        __('Learn More', 'wp-statistics')
                     ),
                     'href'   => 'https://wp-statistics.com/product/wp-statistics-mini-chart?utm_source=wp-statistics&utm_medium=link&utm_campaign=mini-chart',
                     'meta'   => [

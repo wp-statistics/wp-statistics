@@ -50,12 +50,13 @@
         background: #fff;
 
         &:hover{
-          background: #fafafb;
+          background:#FAFAFB;
+          color:#56585A
         }
        }
       &--premium{
         border: 1px solid #404bf2;
-        background-color: #404bf2;
+        background-color: #404BF2;
         color: #fff ;
         &:after {
           content: "";
@@ -71,8 +72,8 @@
         }
 
         &:hover{
-          border: 1px solid #1e27bf;
-          background-color: #1e27bf;
+          border: 1px solid #5100FD;
+          background-color: #5100FD;
           color: #fff ;
         }
       }
