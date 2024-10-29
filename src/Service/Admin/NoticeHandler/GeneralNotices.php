@@ -8,9 +8,12 @@ use WP_STATISTICS\Menus;
 use WP_STATISTICS\Option;
 use WP_STATISTICS\Schedule;
 use WP_STATISTICS\User;
+use WP_Statistics\Traits\TransientCacheTrait;
 
 class GeneralNotices
 {
+    use TransientCacheTrait;
+
     /**
      * List Of Admin Notice
      *
@@ -53,8 +56,13 @@ class GeneralNotices
     private function performance_and_clean_up()
     {
         if (Menus::in_plugin_page()) {
-            $totalDbRows = DB::getTableRows();
-            $totalRows   = array_sum(array_column($totalDbRows, 'rows'));
+            $totalRows = $this->getCachedResult('db_rows');
+
+            if ($totalRows === false) {
+                $totalDbRows = DB::getTableRows();
+                $totalRows   = array_sum(array_column($totalDbRows, 'rows'));
+                $this->setCachedResult('db_rows', $totalRows);
+            }
 
             if ($totalRows > apply_filters('wp_statistics_notice_db_row_threshold', 500000)) {
                 $settingsUrl      = admin_url('admin.php?page=wps_settings_page&tab=maintenance-settings');
