@@ -3,7 +3,7 @@
         'name' => '__root__',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => '3f9d973189e155678c67fdfd8872581cbba79233',
+        'reference' => 'b28adcab8ad6dad01ac6b53a38e4889963ea7b49',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -13,7 +13,7 @@
         '__root__' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => '3f9d973189e155678c67fdfd8872581cbba79233',
+            'reference' => 'b28adcab8ad6dad01ac6b53a38e4889963ea7b49',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -38,9 +38,9 @@
             'dev_requirement' => false,
         ),
         'matomo/device-detector' => array(
-            'pretty_version' => '6.4.0',
-            'version' => '6.4.0.0',
-            'reference' => '05dca429cfe7b6a59947a0d449dbeb60cddc02f2',
+            'pretty_version' => '6.4.1',
+            'version' => '6.4.1.0',
+            'reference' => '0d364e0dd6c177da3c24cd4049178026324fd7ac',
             'type' => 'library',
             'install_path' => __DIR__ . '/../matomo/device-detector',
             'aliases' => array(),
@@ -76,7 +76,7 @@
         'piwik/device-detector' => array(
             'dev_requirement' => false,
             'replaced' => array(
-                0 => '6.4.0',
+                0 => '6.4.1',
             ),
         ),
     ),
