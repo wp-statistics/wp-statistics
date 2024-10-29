@@ -395,12 +395,12 @@ class HitColumnHandler
     {
         return sprintf(
             '<div class="wps-admin-column__unlock">
-                        <a href="%s" target="_blank">
+                        <a href="%s">
                             <span class="wps-admin-column__unlock__text">%s</span>
                             <span class="wps-admin-column__unlock__img"></span>
                         </a>
                     </div>',
-            'https://wp-statistics.com/product/wp-statistics-mini-chart?utm_source=wp-statistics&utm_medium=link&utm_campaign=mini-chart',
+            esc_url(get_admin_url() .'/admin.php?page=wps_plugins_page&type=locked-mini-chart'),
             __('Unlock', 'wp-statistics')
         );
     }
