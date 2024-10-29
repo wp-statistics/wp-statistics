@@ -27,7 +27,6 @@
     margin-top: 32px;
     display: flex;
     gap: 12px;
-    margin-bottom: 48px;
     flex-wrap: wrap;
 
     .wps-lock-page__action{
@@ -79,6 +78,7 @@
     position: relative;
     max-width: 100%;
     overflow: hidden;
+    margin-top: 48px;
 
     &__slide {
       display: none;
