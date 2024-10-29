@@ -6,11 +6,12 @@ use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHandler;
 $pluginHandler  = new PluginHandler();
 $isPremium      = LicenseHelper::isPremiumLicenseAvailable() ? true : false;
 $hasLicense     = LicenseHelper::isPluginLicenseValid($addon_modal_target) ? true : false;
+$isActive       = $pluginHandler->isPluginActive($addon_modal_target);
 ?>
 
 <div class="wps-premium-feature wps-premium-feature--premium-user">
     <?php
-        if ( !$pluginHandler->isPluginActive($addon_modal_target) || !$pluginHandler->isPluginInstalled($addon_modal_target)) :
+        if (!$isActive && $hasLicense) :
             View::load("components/lock-sections/setting-active-licensed-addon", ['addon_title' => $addon_title]);
         elseif (!$isPremium && !$hasLicense) :
             View::load("components/lock-sections/setting-unlock-premium", [
