@@ -8,8 +8,9 @@ class MoveRtlStylePlugin {
         compiler.hooks.emit.tapAsync('MoveRtlStylePlugin', (compilation, callback) => {
             const assets = Object.keys(compilation.assets);
 
+            // Change output folder only for `post-summary` block CSS files
             assets.forEach((asset) => {
-                if (asset.includes('rtl.css')) {
+                if (asset.includes('post-summary')) {
                     const targetPath = path.join('assets/blocks/post-summary', path.basename(asset));
                     const content = compilation.assets[asset].source();
 
@@ -34,16 +35,28 @@ module.exports = {
     },
     output: {
         ...defaultConfig.output,
-        filename: 'post-summary/[name].js',
+        filename: (pathData) => {
+            // Apply custom output folder only to `post-summary`
+            if (pathData.chunk.name === 'post-summary') {
+                return 'post-summary/[name].js';
+            }
+            return '[name].js'; // Default output for all other blocks
+        },
     },
     plugins: [
         ...defaultConfig.plugins.filter(
             (plugin) => !(plugin instanceof MiniCssExtractPlugin)
         ),
         new MiniCssExtractPlugin({
-            filename: 'post-summary/[name].css',
+            filename: ({ chunk }) => {
+                // Only apply custom folder for `post-summary` CSS files
+                if (chunk.name === 'post-summary') {
+                    return 'post-summary/[name].css';
+                }
+                return '[name].css'; // Default for other blocks
+            },
         }),
-        new MoveRtlStylePlugin(),
+        new MoveRtlStylePlugin(), // Handles moving 'post-summary' RTL files
     ],
     module: {
         rules: [
