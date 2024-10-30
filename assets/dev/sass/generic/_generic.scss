@@ -886,7 +886,6 @@
     box-sizing: border-box;
     box-shadow: 4px 4px 15px 0 #3130400D;
     cursor: default;
-    overflow: hidden;
 
     a {
       background: #404BF20D;
@@ -896,6 +895,11 @@
       padding: 10px;
       cursor: pointer;
       white-space: nowrap;
+      border-radius: 8px 0 0 8px;
+
+      .rtl &{
+        border-radius:  0 8px 8px 0;
+      }
     }
 
     span {

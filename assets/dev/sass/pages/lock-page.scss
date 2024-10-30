@@ -1,4 +1,11 @@
 .wps-lock-page{
+
+  &__main{
+    .wp-statistics-notice{
+      display: none!important;
+    }
+  }
+
   &--container{
     width: 913px;
     padding: 0 24px;
@@ -90,10 +97,12 @@
       width: 100%;
 
       img{
-        max-width: 100%;
+        max-width: 99%;
         height: auto;
         user-select: none;
         -webkit-user-drag: none;
+        border: 1px solid #A9AAAE;
+        border-radius: 8px;
       }
     }
 
