@@ -40,6 +40,7 @@ $postTypeNamePlural   = Helper::getPostTypeName($postType);
                                 'author_id'        => $author->id,
                                 'author_name'      => $author->name,
                                 'count'            => $author->total_views,
+                                'counter'          => $counter,
                                 'count_label'      => sprintf(esc_html__('%s views', 'wp-statistics'), strtolower($postTypeNameSingular)),
                             ]);
                             $counter++;
@@ -69,6 +70,7 @@ $postTypeNamePlural   = Helper::getPostTypeName($postType);
                                 'author_id'        => $author->id,
                                 'author_name'      => $author->name,
                                 'count'            => $author->post_count,
+                                'counter'          => $counter,
                                 'count_label'      => sprintf(esc_html__('%s published', 'wp-statistics'), strtolower($postTypeNamePlural)),
                             ]);
                             $counter++;
@@ -101,6 +103,7 @@ $postTypeNamePlural   = Helper::getPostTypeName($postType);
                                 'author_id'        => $author->id,
                                 'author_name'      => $author->name,
                                 'count'            => $author->average_views,
+                                'counter'          => $counter,
                                 'count_label'      => sprintf(esc_html__('views/%s', 'wp-statistics'), strtolower($postTypeNameSingular)),
                             ]);
                             $counter++;
@@ -131,6 +134,7 @@ $postTypeNamePlural   = Helper::getPostTypeName($postType);
                                     'author_id'        => $author->id,
                                     'author_name'      => $author->name,
                                     'count'            => $author->average_comments,
+                                    'counter'          => $counter,
                                     'count_label'      => sprintf(esc_html__('comments/%s', 'wp-statistics'), strtolower($postTypeNameSingular)),
                                 ]);
                                 $counter++;
@@ -161,6 +165,7 @@ $postTypeNamePlural   = Helper::getPostTypeName($postType);
                                 'author_id'        => $author->id,
                                 'author_name'      => $author->name,
                                 'count'            => $author->average_words,
+                                'counter'          => $counter,
                                 'count_label'      => sprintf(esc_html__('words/%s', 'wp-statistics'), strtolower($postTypeNameSingular)),
                             ]);
                             $counter++;
