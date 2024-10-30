@@ -124,19 +124,7 @@ $pluginHandler = new PluginHandler();
             <div>
                 <p><?php esc_html_e('WP Statistics Premium Include', 'wp-statistics'); ?>:</p>
                 <ul class="wps-premium-step__features-list">
-                    <?php
-                    $plugins = [
-                        'wp-statistics-data-plus'          => esc_html__('Data Plus', 'wp-statistics'),
-                        'wp-statistics-mini-chart'         => esc_html__('Mini Chart', 'wp-statistics'),
-                        'wp-statistics-advanced-reporting' => esc_html__('Advanced Reporting', 'wp-statistics'),
-                        'wp-statistics-realtime-stats'     => esc_html__('Real-Time Stats', 'wp-statistics'),
-                        'wp-statistics-widgets'            => esc_html__('Widgets', 'wp-statistics'),
-                        'wp-statistics-customization'      => esc_html__('Customization', 'wp-statistics'),
-                        'wp-statistics-rest-api'           => esc_html__('REST API', 'wp-statistics'),
-                    ];
-                    ?>
-
-                    <?php foreach ($plugins as $slug => $title) : ?>
+                    <?php foreach (PluginHelper::$plugins as $slug => $title) : ?>
                         <li class="<?php echo LicenseHelper::isPluginLicenseValid($slug) ? 'activated' : '' ?> wps-premium-step__feature js-wps-premiumStepFeature" data-modal="<?php echo esc_attr($slug) ?>">
                             <?php echo esc_html($title); ?>
 
@@ -161,7 +149,7 @@ $pluginHandler = new PluginHandler();
                     <?php endif; ?>
                 </div>
                 <div class="js-wps-premium-steps__head js-wps-premium-steps__side-buttons">
-                    <?php foreach ($plugins as $slug => $title) : ?>
+                    <?php foreach (PluginHelper::$plugins as $slug => $title) : ?>
                         <?php if (LicenseHelper::isPremiumLicenseAvailable()) : ?>
                             <?php if (!$pluginHandler->isPluginInstalled($slug)) : ?>
                                 <a  href="<?php echo esc_url(admin_url('admin.php?page=wps_plugins_page')) ?>" class="wps-premium-step__action-btn js-wps-premiumModalUpgradeBtn wps-premium-step__action-btn--addons"><?php esc_html_e('Go to Add-Ons Page', 'wp-statistics'); ?></a>
