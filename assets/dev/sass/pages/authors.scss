@@ -10,7 +10,7 @@
     display: inline-flex;
     flex-direction: column;
     gap: 8px;
-    @media(min-width: 759px) {
+    @media(min-width: 758px) {
       width: 304px;
     }
   }
@@ -333,6 +333,64 @@
       & > label:last-of-type {
         margin-right: 15px;
       }
+
+      @media(max-width: 758px){
+        .tooltip-premium--side{
+          transform: none;
+          top: 100%;
+        }
+        .tooltip-premium--left{
+          left: 5px;
+          right: unset;
+          padding-top: 5px;
+
+          .rtl &{
+            right: 5px;
+            left: unset;
+          }
+
+          #tooltip_content{
+            position: relative;
+
+            &:after, &:before {
+              bottom: 100%;
+              top: unset;
+               left: 30px;
+              border: solid transparent;
+              content: "";
+              height: 0;
+              width: 0;
+              position: absolute;
+              pointer-events: none;
+              transform: none;
+
+
+              .rtl & {
+                left: unset;
+                right: 30px;
+              }
+            }
+
+            &:after {
+              border-color: rgba(255, 255, 255, 0);
+              border-bottom-color: #404bf20d;
+              border-width: 5px;
+            }
+
+            &:before {
+              border-color: rgba(221, 224, 232, 0);
+              border-bottom-color: #dde0e8;
+              border-width: 6px;
+              margin-left: -1px;
+
+              .rtl & {
+                margin-left: 0;
+                margin-right: -1px;
+              }
+            }
+          }
+        }
+      }
     }
 
     @media (min-width: 1192px) {
@@ -388,6 +446,10 @@
     @media (min-width: 376px) {
       padding: 0 12px 6px;
     }
+  }
+
+  @media(max-width: 758px){
+
   }
 
   .wps-author-tabs__content {
