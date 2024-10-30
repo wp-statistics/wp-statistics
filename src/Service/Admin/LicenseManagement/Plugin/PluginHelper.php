@@ -9,16 +9,24 @@ use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 class PluginHelper
 {
     /**
-     * Total number of products (add-ons) in the API.
+     * Hard-coded list of all plugins, useful when we don't want to request the API.
      */
-    public static $totalPlugins = 7;
+    public static $plugins = [
+        'wp-statistics-data-plus'          => 'Data Plus',
+        'wp-statistics-mini-chart'         => 'Mini Chart',
+        'wp-statistics-advanced-reporting' => 'Advanced Reporting',
+        'wp-statistics-realtime-stats'     => 'Real-Time Stats',
+        'wp-statistics-widgets'            => 'Widgets',
+        'wp-statistics-customization'      => 'Customization',
+        'wp-statistics-rest-api'           => 'REST API'
+    ];
 
     /**
      * Returns a decorated list of plugins (add-ons) from API, excluding bundled plugins.
      *
      * @return PluginDecorator[] List of plugins
      */
-    public static function getPlugins()
+    public static function getRemotePlugins()
     {
         $result = [];
 
@@ -48,7 +56,7 @@ class PluginHelper
      */
     public static function getPluginBySlug($slug)
     {
-        $plugins = self::getPlugins();
+        $plugins = self::getRemotePlugins();
 
         foreach ($plugins as $plugin) {
             if ($plugin->getSlug() === $slug) return $plugin;
