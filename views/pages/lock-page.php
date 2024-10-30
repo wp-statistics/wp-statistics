@@ -5,11 +5,9 @@ use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHandler;
 
 $pluginHandler  = new PluginHandler();
-$isLicenseValid = LicenseHelper::isPluginLicenseValid($addon_slug);
-$isAddonActive  = WP_STATISTICS\Helper::isAddOnActive(str_replace("wp-statistics-", "", $addon_slug));
 $hasLicense     = LicenseHelper::isPluginLicenseValid($addon_slug) ? true : false;
 $isActive       = $pluginHandler->isPluginActive($addon_slug);
-$isInstalled = $pluginHandler->isPluginInstalled($addon_slug);
+$isInstalled    = $pluginHandler->isPluginInstalled($addon_slug);
 ?>
 
 
@@ -17,9 +15,9 @@ $isInstalled = $pluginHandler->isPluginInstalled($addon_slug);
     <div class="wp-header-end"></div>
     <div class="wps-lock-page wps-lock-page--container">
         <?php
-        if (!$hasLicense && $isInstalled) {
+        if (!$hasLicense && $isInstalled) :
             View::load("components/lock-sections/notice-inactive-license-addon");
-        }
+        endif;
         ?>
         <?php if ($hasLicense && !$isInstalled) : ?>
             <div class="wps-premium-feature wps-premium-feature--premium-user">
@@ -29,18 +27,18 @@ $isInstalled = $pluginHandler->isPluginInstalled($addon_slug);
             </div>
         <?php endif ?>
         <div class="wps-lock-page__head">
-            <?php echo $page_title; ?>
+            <?php echo esc_html($page_title); ?>
         </div>
         <div class="wps-lock-page__description">
-            <?php echo $description ?>
+            <?php echo esc_html($description); ?>
         </div>
 
         <?php if (!empty($page_second_title) || !empty($second_description)): ?>
             <div class="wps-lock-page__head wps-lock-page__head--second">
-                <?php if (!empty($page_second_title)) echo $page_second_title; ?>
+                <?php if (!empty($page_second_title)) echo esc_html($page_second_title); ?>
             </div>
             <div class="wps-lock-page__description">
-                <?php if (!empty($second_description)) echo $second_description; ?>
+                <?php if (!empty($second_description)) echo esc_html($second_description); ?>
             </div>
         <?php endif; ?>
 
