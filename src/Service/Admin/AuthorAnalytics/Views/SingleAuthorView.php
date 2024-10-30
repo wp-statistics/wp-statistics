@@ -14,7 +14,7 @@ class SingleAuthorView extends BaseView
     public function render()
     {
         try {
-            $lock_args = [
+            $args = [
                 'page_title'        => esc_html__('Uncover Author Performance at a Glance', 'wp-statistics'),
                 'addon_name'        => esc_html__('Data Plus', 'wp-statistics'),
                 'addon_slug'        => 'wp-statistics-data-plus',
@@ -25,9 +25,8 @@ class SingleAuthorView extends BaseView
                 'description'       => esc_html__('Track your authors\' impact, top posts, and engagement trends in one place. With Author Analytics, you get the insights needed to boost your content strategy.', 'wp-statistics'),
             ];
             Admin_Template::get_template(['layout/header']);
-            View::load("pages/lock-page", $lock_args);
+            View::load("pages/lock-page", $args);
             Admin_Template::get_template(['layout/footer']);
-
         } catch (Exception $e) {
             Notice::renderNotice($e->getMessage(), $e->getCode(), 'error');
         }

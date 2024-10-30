@@ -5,11 +5,9 @@ use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHandler;
 
 $pluginHandler  = new PluginHandler();
-$isLicenseValid = LicenseHelper::isPluginLicenseValid($addon_slug);
-$isAddonActive  = WP_STATISTICS\Helper::isAddOnActive(str_replace("wp-statistics-", "", $addon_slug));
 $hasLicense     = LicenseHelper::isPluginLicenseValid($addon_slug) ? true : false;
 $isActive       = $pluginHandler->isPluginActive($addon_slug);
-$isInstalled = $pluginHandler->isPluginInstalled($addon_slug);
+$isInstalled    = $pluginHandler->isPluginInstalled($addon_slug);
 ?>
 
 
@@ -17,11 +15,11 @@ $isInstalled = $pluginHandler->isPluginInstalled($addon_slug);
     <div class="wp-header-end"></div>
     <div class="wps-lock-page wps-lock-page--container">
         <?php
-        if (!$hasLicense && $isInstalled) {
+        if (!$hasLicense && $isInstalled) :
             View::load("components/lock-sections/notice-inactive-license-addon");
-        }
+        endif;
         ?>
-        <?php if ($hasLicense && !$isInstalled) : ?>
+        <?php if ($hasLicense && !$isActive) : ?>
             <div class="wps-premium-feature wps-premium-feature--premium-user">
                 <?php
                 View::load("components/lock-sections/setting-active-licensed-addon", ['addon_title' => $addon_name]);
@@ -29,23 +27,23 @@ $isInstalled = $pluginHandler->isPluginInstalled($addon_slug);
             </div>
         <?php endif ?>
         <div class="wps-lock-page__head">
-            <?php echo $page_title; ?>
+            <?php echo esc_html($page_title); ?>
         </div>
         <div class="wps-lock-page__description">
-            <?php echo $description ?>
+            <?php echo esc_html($description); ?>
         </div>
 
         <?php if (!empty($page_second_title) || !empty($second_description)): ?>
             <div class="wps-lock-page__head wps-lock-page__head--second">
-                <?php if (!empty($page_second_title)) echo $page_second_title; ?>
+                <?php if (!empty($page_second_title)) echo esc_html($page_second_title); ?>
             </div>
             <div class="wps-lock-page__description">
-                <?php if (!empty($second_description)) echo $second_description; ?>
+                <?php if (!empty($second_description)) echo esc_html($second_description); ?>
             </div>
         <?php endif; ?>
 
 
-        <?php if (!(!$hasLicense && $isInstalled) && !($hasLicense && !$isInstalled)): ?>
+        <?php if (!$hasLicense && !$isActive) : ?>
             <div class="wps-lock-page__actions">
                 <a target="_blank" class="wps-lock-page__action wps-lock-page__action--premium" href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/pricing?utm_source=wp-statistics&utm_medium=link&utm_campaign=dp-' . esc_html($campaign)) ?>">
                     <?php echo esc_html($premium_btn_title); ?>
