@@ -88,7 +88,12 @@ class Query
         if (DB::table($table)) {
             $table = DB::table($table);
         } else {
-            $table = "{$this->db->prefix}{$table}";
+            $globalTables = $this->db->tables('global');
+            if (in_array($table, array_keys($globalTables))) {
+                $table = $globalTables[$table];
+            } else {
+                $table = "{$this->db->prefix}{$table}";
+            }
         }
 
         return $table;
