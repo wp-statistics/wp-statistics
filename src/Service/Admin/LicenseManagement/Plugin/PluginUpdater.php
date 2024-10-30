@@ -167,7 +167,7 @@ class PluginUpdater
 
         $remote = $this->requestUpdateInfo();
 
-        if ($remote && version_compare($this->pluginVersion, $remote->version, '<')) {
+        if ($remote) {
             $res              = new stdClass();
             $res->slug        = $this->pluginSlug;
             $res->plugin      = $this->pluginFilePath;
@@ -183,7 +183,11 @@ class PluginUpdater
                 'high' => $remote->banners->high,
             ];
 
-            $transient->response[$res->plugin] = $res;
+            if (version_compare($this->pluginVersion, $remote->version, '<')) {
+                $transient->response[$res->plugin] = $res;
+            } else {
+                $transient->no_update[$res->plugin] = $res;
+            }
         }
 
         return $transient;
