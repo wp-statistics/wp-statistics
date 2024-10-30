@@ -2,7 +2,9 @@
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Menus; 
 use WP_Statistics\Utils\Request;
+use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 
+$isLicenseValid     = LicenseHelper::isPluginLicenseValid('wp-statistics-data-plus');
 $postType               = Request::get('pt', 'post');
 $postTypeNameSingular   = Helper::getPostTypeName($postType, true);
 $postTypeNamePlural     = Helper::getPostTypeName($postType);
@@ -31,16 +33,38 @@ $postTypeNamePlural     = Helper::getPostTypeName($postType);
 
                         if ($viewingAuthors) {
                             foreach ($viewingAuthors as $author) : ?>
-                                <a class="wps-author-tabs__item" href="<?php echo esc_url(Menus::admin_url('author-analytics', ['type' => 'single-author', 'author_id' => $author->id])); ?>">
-                                    <div class="wps-author-tabs__item--image">
-                                        <span># <?php echo esc_html($counter); ?></span>
-                                        <img src="<?php echo esc_url(get_avatar_url($author->id)); ?>" alt="<?php echo esc_html($author->name); ?>"/>
+                                <?php if ($isLicenseValid): ?>
+                                    <a class="wps-author-tabs__item" href="<?php echo esc_url(Menus::admin_url('author-analytics', ['type' => 'single-author', 'author_id' => $author->id])); ?>">
+                                        <div class="wps-author-tabs__item--image">
+                                            <span># <?php echo esc_html($counter); ?></span>
+                                            <img src="<?php echo esc_url(get_avatar_url($author->id)); ?>" alt="<?php echo esc_html($author->name); ?>"/>
+                                        </div>
+                                        <div class="wps-author-tabs__item--content">
+                                            <h3><?php echo esc_html($author->name); ?></h3>
+                                            <span><?php echo esc_html(Helper::formatNumberWithUnit($author->total_views)); ?> <?php echo sprintf(esc_html__('%s views', 'wp-statistics'), strtolower($postTypeNameSingular)) ?></span>
+                                        </div>
+                                    </a>
+                                <?php else: ?>
+                                    <div class="disabled wps-tooltip-premium">
+                                        <div class="wps-author-tabs__item">
+                                            <div class="wps-author-tabs__item--image">
+                                                <span><a href="<?php echo esc_url(Menus::admin_url('author-analytics', ['type' => 'single-author', 'author_id' => $author->id])); ?>"></a></span>
+                                                <img src="<?php echo esc_url(get_avatar_url($author->id)); ?>" alt="<?php echo esc_html($author->name); ?>"/>
+                                            </div>
+                                            <div class="wps-author-tabs__item--content">
+                                                <h3><?php echo esc_html($author->name); ?></h3>
+                                                <span><?php echo esc_html(Helper::formatNumberWithUnit($author->total_views)); ?> <?php echo sprintf(esc_html__('%s views', 'wp-statistics'), strtolower($postTypeNameSingular)) ?></span>
+                                            </div>
+                                        </div>
+                                        <span class="wps-tooltip_templates tooltip-premium tooltip-premium--side tooltip-premium--left">
+                                            <span id="tooltip_realtime">
+                                                <a data-target="wp-statistics-data-plus" class="js-wps-openPremiumModal"><?php esc_html_e('Learn More.', 'wp-statistics') ?></a>
+                                                <span><?php esc_html_e('Premium Feature.', 'wp-statistics') ?></span>
+                                            </span>
+                                        </span>
                                     </div>
-                                    <div class="wps-author-tabs__item--content">
-                                        <h3><?php echo esc_html($author->name); ?></h3>
-                                        <span><?php echo esc_html(Helper::formatNumberWithUnit($author->total_views)); ?> <?php echo sprintf(esc_html__('%s views', 'wp-statistics'), strtolower($postTypeNameSingular)) ?></span>
-                                    </div>
-                                </a>
+                                <?php endif ?>
+                                
                                 <?php $counter++;
                             endforeach; 
                         } else {

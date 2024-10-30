@@ -11,7 +11,7 @@ $isInstalled    = $pluginHandler->isPluginInstalled($addon_slug);
 ?>
 
 
-<div class="wps-wrap__main">
+<div class="wps-wrap__main wps-lock-page__main">
     <div class="wp-header-end"></div>
     <div class="wps-lock-page wps-lock-page--container">
         <?php
