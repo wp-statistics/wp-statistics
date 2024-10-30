@@ -33,7 +33,7 @@ class LicenseManagerDataProvider
         $licenseMigration->migrateOldLicenses();
 
         // Try to fetch licensed add-ons first
-        $addOnsList = PluginHelper::getPlugins();
+        $addOnsList = PluginHelper::getRemotePlugins();
 
         // Separate active and inactive add-ons
         foreach ($addOnsList as $addOn) {
@@ -66,7 +66,7 @@ class LicenseManagerDataProvider
         $licenseKey      = Request::get('license_key');
         $purchasedAddons = array_keys(PluginHelper::getLicensedPlugins($licenseKey));
 
-        foreach (PluginHelper::getPlugins() as $addOn) {
+        foreach (PluginHelper::getRemotePlugins() as $addOn) {
             if (in_array($addOn->getSlug(), $purchasedAddons)) {
                 $result['licensed_addons'][] = $addOn;
             } else {
@@ -99,7 +99,7 @@ class LicenseManagerDataProvider
         $purchasedAddons = array_keys(PluginHelper::getLicensedPlugins($licenseKey));
 
         // Fetch all licensed add-ons
-        foreach (PluginHelper::getPlugins() as $addOn) {
+        foreach (PluginHelper::getRemotePlugins() as $addOn) {
             if (in_array($addOn->getSlug(), $purchasedAddons)) {
                 $result['licensed_addons'][] = $addOn;
 
