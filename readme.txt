@@ -150,6 +150,7 @@ Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest versio
 - **Enhancement:** Various functional improvements and small updates.
 - **Fix:** Resolved a memory issue affecting background processes.
 - **Fix:** Fixed a bug that blocked visitor data display when missing from the `visitor_relationship` table.
+- **Fix:** Resolved an issue with global table prefixes in WordPress Multisite/Network setups.
 
 For more information about the major update, please [visit our blog post](https://wp-statistics.com/?p=16657) or follow [@wp_statistics](https://twitter.com/wp_statistics) on Twitter
 

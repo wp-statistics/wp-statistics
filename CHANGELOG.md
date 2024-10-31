@@ -12,8 +12,9 @@
 - **Enhancement:** Various functional improvements and small updates.
 - **Fix:** Resolved a memory issue affecting background processes.
 - **Fix:** Fixed a bug that blocked visitor data display when missing from the `visitor_relationship` table.
+- **Fix:** Resolved an issue with global table prefixes in WordPress Multisite/Network setups.
 
-= 14.10.3 - 21.10.2024 =
+14.10.3 - 21.10.2024
 - **Enhancement**: Updated `moment.js` to version 2.30.1.
 - **Enhancement**: Set “views” as the default metric for mini charts in post list columns.
 - **Enhancement**: Ensured full compatibility with WordPress version 6.7.
@@ -23,7 +24,7 @@
 - **Fix**: Improved the Excluded URLs feature to better support wildcards (*) for more flexible exclusions.
 - **Fix**: Resolved missing PostsManager issue by optimizing autoloading, fixing access problems.
 
-= 14.10.2 - 02.10.2024 =
+14.10.2 - 02.10.2024
 - **Enhancement**: Encoded referral data in requests using Base64 to improve security.
 - **Enhancement**: Enhanced the “Performance at a Glance” section in email reports for better user experience.
 - **Enhancement**: Updated the layout and functionality of the visitor information section for easier use.
@@ -34,7 +35,7 @@
 - **Fix**: Fixed the ‘tinyMCE is not defined’ error caused by the Avada Builder.
 - **Dev**: Added a new filter `wp_statistics_assets_handle` to manage assets more effectively.
 
-= 14.10.1 - 11.09.2024 =
+14.10.1 - 11.09.2024
 * **Enhancement:** UX improvement for visitor information when users are logged in.
 * **Enhancement:** Corrected sorting issues in bar charts.
 * **Enhancement:** Fixed font override conflicts.
