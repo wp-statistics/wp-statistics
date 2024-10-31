@@ -197,40 +197,39 @@ class PostsManager
     /**
      * Adds meta-boxes for the post in the classic editor mode.
      *
+     * @param string $postType Current post type.
+     *
      * @return	void
      *
      * @hooked	action: `add_meta_boxes` - 10
      */
-    public function addPostMetaBoxes()
+    public function addPostMetaBoxes($postType)
     {
-        // Add meta-box to all post types
-        foreach (Helper::get_list_post_type() as $screen) {
-            if ($this->shouldDisplaySummaryMetabox()) {
-                add_meta_box(
-                    Meta_Box::getMetaBoxKey('post-summary'),
-                    Meta_Box::getList('post-summary')['name'],
-                    Meta_Box::LoadMetaBox('post-summary'),
-                    $screen,
-                    'side',
-                    'high',
-                    ['__back_compat_meta_box' => false]
-                );
-            }
+        if ($this->shouldDisplaySummaryMetabox()) {
+            add_meta_box(
+                Meta_Box::getMetaBoxKey('post-summary'),
+                Meta_Box::getList('post-summary')['name'],
+                Meta_Box::LoadMetaBox('post-summary'),
+                $postType,
+                'side',
+                'high',
+                ['__back_compat_meta_box' => false]
+            );
+        }
 
-            if ($this->shouldDisplayLatestVisitorsMetabox()) {
-                add_meta_box(
-                    Meta_Box::getMetaBoxKey('post'),
-                    Meta_Box::getList('post')['name'],
-                    Meta_Box::LoadMetaBox('post'),
-                    $screen,
-                    'normal',
-                    'high',
-                    [
-                        '__block_editor_compatible_meta_box' => true,
-                        '__back_compat_meta_box'             => false,
-                    ]
-                );
-            }
+        if ($this->shouldDisplayLatestVisitorsMetabox()) {
+            add_meta_box(
+                Meta_Box::getMetaBoxKey('post'),
+                Meta_Box::getList('post')['name'],
+                Meta_Box::LoadMetaBox('post'),
+                $postType,
+                'normal',
+                'high',
+                [
+                    '__block_editor_compatible_meta_box' => true,
+                    '__back_compat_meta_box'             => false,
+                ]
+            );
         }
     }
 
