@@ -629,6 +629,7 @@ class VisitorsModel extends BaseModel
             'visitor.region',
             'visitor.city',
             'visitor.hits',
+            'visitor.last_counter',
             'visitor.referred',
             'visitor.source_channel',
             'visitor.source_name',
