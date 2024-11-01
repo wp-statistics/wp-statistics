@@ -206,6 +206,30 @@ class Helper
     }
 
     /**
+     * Get Upload URL
+     *
+     * @return mixed|string
+     */
+    public static function get_upload_url()
+    {
+        $uploadDir = wp_get_upload_dir();
+        $baseurl   = $uploadDir['baseurl'];
+
+        // Check if baseurl is not https
+        if (strpos($baseurl, 'http://') === 0) {
+            $isSsl = function_exists('is_ssl') ? is_ssl() :
+                (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ||
+                (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == 443);
+
+            if ($isSsl) {
+                $baseurl = 'https://' . substr($baseurl, 7);
+            }
+        }
+
+        return $baseurl;
+    }
+
+    /**
      * Get Robots List
      *
      * @param string $type

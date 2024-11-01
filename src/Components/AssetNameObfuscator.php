@@ -197,7 +197,7 @@ class AssetNameObfuscator
      */
     public function getHashedFileUrl()
     {
-        return Helper::dirToUrl($this->hashedFileDir);
+        return Helper::get_upload_url() . '/' . $this->hashedFileName;
     }
 
     /**
