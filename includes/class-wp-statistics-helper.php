@@ -1648,27 +1648,6 @@ class Helper
     }
 
     /**
-     * Returns full URL of a DIR.
-     *
-     * @param string $dir
-     *
-     * @return  string          URL. Empty on error.
-     * @source  https://wordpress.stackexchange.com/a/264870/
-     */
-    public static function dirToUrl($dir)
-    {
-        if (!is_file($dir)) {
-            return '';
-        }
-
-        return esc_url_raw(str_replace(
-            wp_normalize_path(untrailingslashit(ABSPATH)),
-            site_url(),
-            wp_normalize_path($dir)
-        ));
-    }
-
-    /**
      * Returns full DIR of a local URL.
      *
      * @param string $url
@@ -1834,8 +1813,8 @@ class Helper
      */
     public static function calculatePercentageChange($firstNumber, $secondNumber)
     {
-        $firstNumber    = intval($firstNumber);
-        $secondNumber   = intval($secondNumber);
+        $firstNumber  = intval($firstNumber);
+        $secondNumber = intval($secondNumber);
 
         if ($firstNumber == $secondNumber) {
             return 0;

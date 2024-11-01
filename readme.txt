@@ -136,7 +136,7 @@ To ensure the plugin works correctly, please clear your cache because some reque
 Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest version.
 
 == Changelog ==
-= 14.11 - 2024-10-** =
+= 14.11 - 2024-10-04 =
 - **New:** Launched WP Statistics Premium with a pop-up to introduce its features.
 - **New:** Added a dedicated header for Premium users, with minor updates to the free version’s header.
 - **New:** Completely revamped Referral reports.
@@ -144,7 +144,7 @@ Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest versio
 - **New:** Added an option to turn off previous period data in charts.
 - **Enhancement:** Updated PHP requirement to version 7.2.
 - **Enhancement:** Improved geolocation accuracy.
-- **Enhancement:** Enhanced device detection using Matomo’s Device Detector.
+- **Enhancement:** Enhanced device detection using [Matomo’s Device Detector](https://github.com/matomo-org/device-detector).
 - **Enhancement:** Updated report pages, especially the visitor sections, with refined styling.
 - **Enhancement:** Chart labels now adjust automatically to the chosen date range.
 - **Enhancement:** Various functional improvements and small updates.
@@ -152,6 +152,6 @@ Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest versio
 - **Fix:** Fixed a bug that blocked visitor data display when missing from the `visitor_relationship` table.
 - **Fix:** Resolved an issue with global table prefixes in WordPress Multisite/Network setups.
 
-For more information about the major update, please [visit our blog post](https://wp-statistics.com/?p=16657) or follow [@wp_statistics](https://twitter.com/wp_statistics) on Twitter
+For more information about the major update, please [visit our blog post](https://wp-statistics.com/release/wp-statistics-v14-11/) or follow [@wp_statistics](https://twitter.com/wp_statistics) on Twitter
 
 [See changelog for all versions](https://raw.githubusercontent.com/wp-statistics/wp-statistics/master/CHANGELOG.md).

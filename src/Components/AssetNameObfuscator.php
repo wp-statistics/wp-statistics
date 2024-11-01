@@ -2,6 +2,7 @@
 
 namespace WP_Statistics\Components;
 
+use WP_Statistics;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Option;
 
@@ -65,7 +66,7 @@ class AssetNameObfuscator
     private $hashedFileDir;
 
     /**
-     * @param   string  $file   Full path of the input file. 
+     * @param string $file Full path of the input file.
      * Pass `null` if you only want to use `deleteAllHashedFiles` and `deleteDatabaseOption` methods. (e.g. When uninstalling the plugin)
      *
      * @return  void
@@ -139,7 +140,7 @@ class AssetNameObfuscator
 
         // Copy and randomize the name of the input file
         if (!copy($this->inputFileDir, $this->getHashedFileDir())) {
-            \WP_Statistics::log("Unable to copy hashed file to {$this->getHashedFileDir()}!", 'warning');
+            WP_Statistics::log("Unable to copy hashed file to {$this->getHashedFileDir()}!", 'warning');
             return;
         }
 
@@ -203,8 +204,8 @@ class AssetNameObfuscator
     /**
      * Deletes a hashed file.
      *
-     * @param   array   $assetsArray    All hashed files.
-     * @param   string  $key            Hashed file's key (which is its path relative to `WP_STATISTICS_DIR`).
+     * @param array $assetsArray All hashed files.
+     * @param string $key Hashed file's key (which is its path relative to `WP_STATISTICS_DIR`).
      *
      * @return  void
      */
