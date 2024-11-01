@@ -13,6 +13,7 @@
 - **Fix:** Resolved a memory issue affecting background processes.
 - **Fix:** Fixed a bug that blocked visitor data display when missing from the `visitor_relationship` table.
 - **Fix:** Resolved an issue with global table prefixes in WordPress Multisite/Network setups.
+- **Fix:** Fixed retrieve correct tracker JS file path & Bedrock compatibility.
 
 14.10.3 - 21.10.2024
 - **Enhancement**: Updated `moment.js` to version 2.30.1.
