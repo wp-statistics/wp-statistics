@@ -31,7 +31,7 @@ if (!defined('ABSPATH') || empty($addOn)) {
     </div>
     <div class="wps-addon__download__item--select">
         <?php if ($included && $addOn->isInstalled()) : ?>
-            <span class="wps-postbox-addon__status wps-postbox-addon__status--success "><?php esc_html_e('Already installed', 'wp-statistics'); ?></span>
+            <span class="wps-postbox-addon__status wps-postbox-addon__status--installed "><?php esc_html_e('Already installed', 'wp-statistics'); ?></span>
         <?php elseif (!$included) : ?>
             <span class="wps-postbox-addon__status wps-postbox-addon__status--primary "><?php esc_html_e('Not included', 'wp-statistics'); ?></span>
         <?php endif; ?>

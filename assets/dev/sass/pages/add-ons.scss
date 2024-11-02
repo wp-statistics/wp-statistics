@@ -192,16 +192,18 @@
             display: flex;
             gap: 4px;
             align-items: center;
+            white-space: nowrap;
           }
 
           color: #0C0C0D;
           font-size: 15px;
           font-weight: 500;
           line-height: 17.58px;
-          height: 27px;
+          min-height: 27px;
           display: flex;
           align-items: center;
           gap: 8px;
+          flex-wrap: wrap;
 
           span.wps-postbox-addon__version {
             color: #898A8E;
@@ -599,10 +601,9 @@
           align-items: flex-end;
           gap: 0;
           position: relative;
-          padding-bottom: 56px;
-        }
+         }
 
-        &:hover {
+        &.wps-has-checkbox:hover {
           background: #FAFAFB;
           border: 1px solid #56585A
         }
@@ -626,6 +627,7 @@
           color: #6972F9;
           display: inline-flex;
           align-items: center;
+          white-space: nowrap;
 
           &:hover {
             color: #0C0C0D;
@@ -694,6 +696,8 @@
             display: flex;
             gap: 8px;
             align-items: center;
+            flex-wrap: wrap;
+            min-height: 27px;
 
             span.wps-postbox-addon__version {
               color: #898A8E;
@@ -716,7 +720,7 @@
 
         &--select {
           display: flex;
-          gap: 10px;
+          gap: 12px;
           align-items: flex-start;
           position: absolute;
           justify-content: flex-end;
@@ -733,7 +737,6 @@
           }
 
           .wps-postbox-addon__status {
-            background: transparent !important;
 
             &--disable {
               color: #56585A;
@@ -801,7 +804,7 @@
       }
 
       .wps-postbox-addon-button {
-        padding: 8px 32px;
+        padding: 8px 16px;
         @media (max-width: 768px) {
           padding: 8px;
           width: 100%;
@@ -880,19 +883,25 @@
     background: #1961400D;
   }
 
+  &--installed {
+    color: #196140;
+    background: transparent;
+  }
+
   &--danger {
     color: #D5201C;
     background: #D5201C0D;
   }
 
   &--primary {
-    color: #0C0C0D;
+    color: #56585A;
     background: transparent;
   }
 
   &--purple {
     color: #7362BF;
     background: #7362BF0D;
+
 
     &:after {
       content: '';
@@ -901,11 +910,15 @@
       height: 17px;
       background: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAyMDAgMjAwJz48Y2lyY2xlIGZpbGw9JyM3MzYyQkYnIHN0cm9rZT0nIzczNjJCRicgc3Ryb2tlLXdpZHRoPScxNScgcj0nMTUnIGN4PSc0MCcgY3k9JzEwMCc+PGFuaW1hdGUgYXR0cmlidXRlTmFtZT0nb3BhY2l0eScgY2FsY01vZGU9J3NwbGluZScgZHVyPScyJyB2YWx1ZXM9JzE7MDsxOycga2V5U3BsaW5lcz0nLjUgMCAuNSAxOy41IDAgLjUgMScgcmVwZWF0Q291bnQ9J2luZGVmaW5pdGUnIGJlZ2luPSctLjQnPjwvYW5pbWF0ZT48L2NpcmNsZT48Y2lyY2xlIGZpbGw9JyM3MzYyQkYnIHN0cm9rZT0nIzczNjJCRicgc3Ryb2tlLXdpZHRoPScxNScgcj0nMTUnIGN4PScxMDAnIGN5PScxMDAnPjxhbmltYXRlIGF0dHJpYnV0ZU5hbWU9J29wYWNpdHknIGNhbGNNb2RlPSdzcGxpbmUnIGR1cj0nMicgdmFsdWVzPScxOzA7MTsnIGtleVNwbGluZXM9Jy41IDAgLjUgMTsuNSAwIC41IDEnIHJlcGVhdENvdW50PSdpbmRlZmluaXRlJyBiZWdpbj0nLS4yJz48L2FuaW1hdGU+PC9jaXJjbGU+PGNpcmNsZSBmaWxsPScjNzM2MkJGJyBzdHJva2U9JyM3MzYyQkYnIHN0cm9rZS13aWR0aD0nMTUnIHI9JzE1JyBjeD0nMTYwJyBjeT0nMTAwJz48YW5pbWF0ZSBhdHRyaWJ1dGVOYW1lPSdvcGFjaXR5JyBjYWxjTW9kZT0nc3BsaW5lJyBkdXI9JzInIHZhbHVlcz0nMTswOzE7JyBrZXlTcGxpbmVzPScuNSAwIC41IDE7LjUgMCAuNSAxJyByZXBlYXRDb3VudD0naW5kZWZpbml0ZScgYmVnaW49JzAnPjwvYW5pbWF0ZT48L2NpcmNsZT48L3N2Zz4=") center center no-repeat;
     }
+  }
 
+  &--waiting {
+    color: #56585A;
+    background: transparent;
   }
 
   &--disable {
-    color: #A1A1A1;
+    color: #56585A;
     background: transparent;
   }
 
@@ -1228,7 +1241,7 @@
         }
       }
 
-      &.js-addon-active-plugin-btn {
+      &.js-addon-active-plugin-btn , &.button-retry-addon-download{
         background: #404BF20A;
         color: #404BF2;
 

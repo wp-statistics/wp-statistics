@@ -232,7 +232,7 @@ class Admin_Assets
         // Load Chart.js library
         if (apply_filters('wp_statistics_enqueue_chartjs', false)) {
             Assets::script('chart.js', 'js/chartjs/chart.umd.min.js', [], [], true, false, null, '4.4.4');
-         }
+        }
 
         // Load mini-chart
         if (Helper::isAdminBarShowing()) {
@@ -463,6 +463,7 @@ class Admin_Assets
             'online_for'                   => __('Online For', 'wp-statistics'),
             'views'                        => __('Views', 'wp-statistics'),
             'view'                         => __('View', 'wp-statistics'),
+            'waiting'                      => __('Waiting', 'wp-statistics'),
             'continue_to_next_step'        => __('Continue to Next Step', 'wp-statistics'),
             'start_of_week'                => get_option('start_of_week', 0)
         );

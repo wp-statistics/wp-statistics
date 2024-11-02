@@ -77,6 +77,22 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         // Function to handle step 2: downloading slugs
         const processSlugsSequentially = (index) => {
             select_all.classList.add('wps-hide');
+
+            addon_items.forEach(function (item, i) {
+                if (item.checked && i > index) {
+                    const containStatus = item.parentElement.parentElement.querySelector('.wps-postbox-addon__status');
+                    if (containStatus) {
+                        containStatus.remove();
+                    }
+                    const statusSpan = document.createElement('span');
+                    statusSpan.classList.add('wps-postbox-addon__status', 'wps-postbox-addon__status--waiting');
+                    statusSpan.textContent = wps_js._('waiting');
+                    item.parentElement.parentElement.insertBefore(statusSpan, item.parentElement.parentElement.firstChild);
+                    item.parentElement.classList.add('wps-hide');
+                }
+            });
+
+
             processSlugs(selectedSlugs, 'wp_statistics_download_plugin', index, () => {
                 addon_download_btn.classList.add('redirecting');
                 addon_download_btn.textContent = wps_js._('redirecting');
@@ -88,7 +104,25 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
 
         // Function to handle step 3: activating slugs
         const processActiveSlugsSequentially = (index) => {
+
+            active_addon_plugin_btn.forEach(function (item, i) {
+                if (i > index) {
+                    const containStatus = item.parentElement.parentElement.querySelector('.wps-postbox-addon__status');
+                    if (containStatus) {
+                        containStatus.remove();
+                    }
+                    const statusSpan = document.createElement('span');
+                    statusSpan.classList.add('wps-postbox-addon__status', 'wps-postbox-addon__status--waiting');
+                    statusSpan.textContent = wps_js._('waiting');
+                    item.parentElement.parentElement.insertBefore(statusSpan, item.parentElement.parentElement.firstChild);
+                    item.parentElement.classList.add('wps-hide')
+                }
+            });
+
             processSlugs(activeSlugs, 'wp_statistics_activate_plugin', index, () => {
+                active_addon_plugin_btn.forEach(function (item, i) {
+                    item.parentElement.classList.remove('wps-hide')
+                });
                 active_addon_plugin_btn = document.querySelectorAll('.js-addon-active-plugin-btn');
                 toggleActiveAll();
             });
@@ -101,10 +135,12 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                     event.stopPropagation();
                     addon_items.forEach(function (item) {
                         item.checked = true;
+                        item.parentElement.parentElement.parentElement.classList.add('wps-has-checkbox')
                     });
                     addon_download_btn.classList.remove('disabled');
                     updateSelectedSlugs();
                 });
+                select_all.click();
             }
 
             // Function to check the status of addon_items checkboxes
@@ -191,6 +227,12 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             addon_download_btn.addEventListener('click', function (event) {
                 if (!addon_download_btn.classList.contains('disable')) {
                     event.stopPropagation();
+
+                    addon_items.forEach(function (item) {
+                        if (!item.checked) {
+                            item.disabled = true;
+                        }
+                    });
                     processSlugsSequentially(0);
                 }
             });
@@ -313,7 +355,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             if (params.action === "wp_statistics_download_plugin") {
                 const current_plugin_checkbox = document.querySelector(`[data-slug="${params.plugin_slug}"]`);
                 if (current_plugin_checkbox) {
-                    const downloadingStatus = current_plugin_checkbox.parentElement.parentElement.querySelector('.wps-postbox-addon__status--purple');
+                    const downloadingStatus = current_plugin_checkbox.parentElement.parentElement.querySelector('.wps-postbox-addon__status');
                     if (downloadingStatus) {
                         downloadingStatus.remove();
                     }
@@ -436,7 +478,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                                     updatedLable.remove();
                                 }
                                 const statusSpan = document.createElement('span');
-                                statusSpan.classList.add('wps-postbox-addon__status', 'wps-postbox-addon__status--success');
+                                statusSpan.classList.add('wps-postbox-addon__status', 'wps-postbox-addon__status--installed');
                                 statusSpan.textContent = wps_js._('already_installed');
                                 if (current_plugin_checkbox && current_plugin_checkbox.parentElement.parentElement) {
                                     current_plugin_checkbox.parentElement.parentElement.insertBefore(statusSpan, current_plugin_checkbox.parentElement.parentElement.firstChild);
