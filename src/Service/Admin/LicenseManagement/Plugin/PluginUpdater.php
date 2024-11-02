@@ -211,9 +211,11 @@ class PluginUpdater
             // If something went wrong with retrieving the columns, default to 3 for colspan.
             $colspan = !is_countable($columns) ? 3 : count($columns);
 
+            $isActive = is_plugin_active($this->pluginFilePath);
+
             // phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped
             ?>
-            <tr class='plugin-update-tr update active' data-plugin='<?php echo esc_attr($this->pluginFilePath); ?>' data-plugin-row-type='feature-incomp-warn'>
+            <tr class='license-error-tr plugin-update-tr update <?php echo $isActive ? 'active' : ''; ?>' data-plugin='<?php echo esc_attr($this->pluginFilePath); ?>' data-plugin-row-type='feature-incomp-warn'>
                 <td colspan='<?php echo esc_attr($colspan); ?>' class='plugin-update'>
                     <div class='notice inline notice-warning notice-alt'>
                         <p>
