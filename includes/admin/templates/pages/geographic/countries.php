@@ -1,8 +1,11 @@
-<?php 
+<?php
 use WP_STATISTICS\Country;
 use WP_STATISTICS\Menus;
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
-$isPremium          = LicenseHelper::isPremiumLicenseAvailable() ? true : false;
+use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHandler;
+
+$pluginHandler  = new PluginHandler();
+$isActive       = $pluginHandler->isPluginActive('wp-statistics-data-plus');
 ?>
 
 <div class="postbox-container wps-postbox-full">
@@ -27,7 +30,7 @@ $isPremium          = LicenseHelper::isPremiumLicenseAvailable() ? true : false;
                                         <th></th>
                                     </tr>
                                 </thead>
-    
+
                                 <tbody>
 
                                     <?php foreach ($data['countries'] as $item) : ?>
@@ -45,7 +48,7 @@ $isPremium          = LicenseHelper::isPremiumLicenseAvailable() ? true : false;
                                                 <?php echo esc_html(number_format($item->views)) ?>
                                             </td>
                                             <td class="-table__cell o-table__cell--right view-more">
-                                                <?php if($isPremium): ?>
+                                                <?php if($isActive): ?>
                                                     <a href="<?php echo esc_url(Menus::admin_url('geographic', ['type' => 'single-country', 'country' => $item->country])) ?>" title="<?php esc_html_e('View Details', 'wp-statistics'); ?>">
                                                         <?php esc_html_e('View Details', 'wp-statistics'); ?>
                                                     </a>

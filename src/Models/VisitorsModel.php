@@ -629,6 +629,7 @@ class VisitorsModel extends BaseModel
             'visitor.region',
             'visitor.city',
             'visitor.hits',
+            'visitor.last_counter',
             'visitor.referred',
             'visitor.source_channel',
             'visitor.source_name',
@@ -636,26 +637,18 @@ class VisitorsModel extends BaseModel
         ];
 
         if ($args['page_info'])  {
-            $firstHit = Query::select([
-                'MIN(ID) as ID',
-                'visitor_id'
-            ])
+            $firstPage = Query::select(['MIN(ID)', 'page_id', 'visitor_id'])
                 ->from('visitor_relationships')
-                ->groupBy('visitor_id')
+                ->where('visitor_id', '=', $args['visitor_id'])
                 ->getQuery();
 
-            $subQuery = Query::select([
-                'visitor_relationships.visitor_id',
-                'page_id',
-                'date'
-            ])
+            $firstView = Query::select(['MIN(date) as date', 'visitor_id'])
                 ->from('visitor_relationships')
-                ->whereRaw("(ID, visitor_id) IN ($firstHit)")
-                ->groupBy('visitor_id')
+                ->where('visitor_id', '=', $args['visitor_id'])
                 ->getQuery();
 
-            $fields[] = 'first_hit.date as first_view';
-            $fields[] = 'first_hit.page_id as first_page';
+            $fields[] = 'first_view.date as first_view';
+            $fields[] = 'first_page.page_id as first_page';
             $fields[] = 'pages.uri as first_uri';
         }
 
@@ -673,8 +666,9 @@ class VisitorsModel extends BaseModel
 
         if ($args['page_info']) {
             $query
-                ->joinQuery($subQuery, ['visitor.ID', 'first_hit.visitor_id'], 'first_hit', 'LEFT', 'LEFT')
-                ->join('pages', ['first_hit.page_id', 'pages.page_id'], [], 'LEFT');
+                ->joinQuery($firstPage, ['visitor.ID', 'first_page.visitor_id'], 'first_page', 'LEFT')
+                ->joinQuery($firstView, ['visitor.ID', 'first_view.visitor_id'], 'first_view', 'LEFT')
+                ->join('pages', ['first_page.page_id', 'pages.page_id'], [], 'LEFT');
         }
 
         if ($args['user_info']) {

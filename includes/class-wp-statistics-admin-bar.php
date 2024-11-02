@@ -87,7 +87,7 @@ class AdminBar
 
             }
 
-            if ($view_type && $view_title) {
+            if (!Helper::isAddOnActive('mini-chart') && $view_type && $view_title) {
                 $viewsModel = new ViewsModel();
                 $hit_number = $viewsModel->countViewsFromPagesOnly(['post_id' => $object_id, 'resource_type' => $view_type]);
 
@@ -175,7 +175,7 @@ class AdminBar
                 'object_id'          => $object_id,
                 'view_type'          => $view_type,
                 'view_title'         => $view_title,
-                'hit_number'         => $hit_number,
+                'hit_number'         => isset($hit_number) ? intval($hit_number) : 0,
                 'footer_text'        => $footerText,
                 'footer_link'        => $footerLink,
                 'menu_href'          => Menus::admin_url('overview'),

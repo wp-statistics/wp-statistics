@@ -28,7 +28,10 @@ class ReferralsDataProvider
     public function getReferrers()
     {
         return [
-            'referrers' => $this->visitorsModel->getReferrers(array_merge($this->args, ['decorate' => true])),
+            'referrers' => $this->visitorsModel->getReferrers(array_merge($this->args, [
+                'decorate' => true,
+                'group_by' => ['visitor.referred', 'visitor.source_channel']
+            ])),
             'total'     => $this->visitorsModel->countReferrers($this->args)
         ];
     }
@@ -36,7 +39,11 @@ class ReferralsDataProvider
     public function getSearchEngineReferrals()
     {
         return [
-            'referrers' => $this->visitorsModel->getReferrers(array_merge($this->args, ['source_channel' => Request::get('source_channel', ['search', 'paid_search']), 'decorate' => true])),
+            'referrers' => $this->visitorsModel->getReferrers(array_merge($this->args, [
+                'source_channel'    => Request::get('source_channel', ['search', 'paid_search']),
+                'decorate'          => true,
+                'group_by'          => ['visitor.referred', 'visitor.source_channel']
+            ])),
             'total'     => $this->visitorsModel->countReferrers(array_merge($this->args, ['source_channel' => Request::get('source_channel', ['search', 'paid_search'])]))
         ];
     }

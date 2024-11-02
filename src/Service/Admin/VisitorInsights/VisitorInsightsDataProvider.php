@@ -80,7 +80,7 @@ class VisitorInsightsDataProvider
         $visitorJourney = $this->visitorsModel->getVisitorJourney($this->args);
 
         return [
-            'visitor'      => $visitorInfo,
+            'visitor'           => $visitorInfo,
             'visitor_journey'   => $visitorJourney
         ];
     }

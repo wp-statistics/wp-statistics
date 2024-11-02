@@ -2,6 +2,7 @@
 
 namespace WP_STATISTICS\MetaBox;
 
+use WP_STATISTICS\Admin_Template;
 use WP_STATISTICS\Country;
 use WP_STATISTICS\DB;
 use WP_STATISTICS\Helper;
@@ -164,6 +165,10 @@ class hitsmap extends MetaBoxAbstract
             $visitor['city'] = $location['city'];
         } catch (\Exception $e) {
             $visitor['city'] = '';
+        }
+
+        if (empty($visitor['city'])) {
+            $visitor['city'] = Admin_Template::unknownToNotSet($visitor['city']);
         }
 
         return $visitor;

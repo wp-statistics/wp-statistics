@@ -131,3 +131,9 @@ a[href*='?page=wps_break_menu'] {
 .wps-pull-left {
   float: left;
 }
+
+table.plugins tr:has(+ .license-error-tr) {
+  th, td {
+    box-shadow: unset !important;
+  }
+}

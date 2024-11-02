@@ -2,9 +2,10 @@
 
 namespace WP_Statistics\Decorators;
 
-use WP_STATISTICS\Helper;
 use WP_STATISTICS\IP;
+use WP_STATISTICS\Helper;
 use WP_STATISTICS\Visitor;
+use WP_Statistics\Components\DateTime;
 
 class VisitorDecorator
 {
@@ -140,7 +141,11 @@ class VisitorDecorator
      */
     public function getLastCounter()
     {
-        return $this->visitor->last_counter ?? null;
+        return !empty($this->visitor->last_counter) ? DateTime::format($this->visitor->last_counter, [
+            'include_time'  => true,
+            'exclude_year'  => true,
+            'separator'     => ', '
+        ]) : null;
     }
 
     /**
@@ -190,7 +195,11 @@ class VisitorDecorator
      */
     public function getFirstView()
     {
-        return $this->visitor->first_view ? date_i18n(Helper::getDefaultDateFormat(true, true, false, ', '), strtotime($this->visitor->first_view)) : null;
+        return !empty($this->visitor->first_view) ? DateTime::format($this->visitor->first_view, [
+            'include_time'  => true,
+            'exclude_year'  => true,
+            'separator'     => ', '
+        ]) : null;
     }
 
     /**

@@ -206,6 +206,30 @@ class Helper
     }
 
     /**
+     * Get Upload URL
+     *
+     * @return mixed|string
+     */
+    public static function get_upload_url()
+    {
+        $uploadDir = wp_get_upload_dir();
+        $baseurl   = $uploadDir['baseurl'];
+
+        // Check if baseurl is not https
+        if (strpos($baseurl, 'http://') === 0) {
+            $isSsl = function_exists('is_ssl') ? is_ssl() :
+                (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ||
+                (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == 443);
+
+            if ($isSsl) {
+                $baseurl = 'https://' . substr($baseurl, 7);
+            }
+        }
+
+        return $baseurl;
+    }
+
+    /**
      * Get Robots List
      *
      * @param string $type
@@ -1624,27 +1648,6 @@ class Helper
     }
 
     /**
-     * Returns full URL of a DIR.
-     *
-     * @param string $dir
-     *
-     * @return  string          URL. Empty on error.
-     * @source  https://wordpress.stackexchange.com/a/264870/
-     */
-    public static function dirToUrl($dir)
-    {
-        if (!is_file($dir)) {
-            return '';
-        }
-
-        return esc_url_raw(str_replace(
-            wp_normalize_path(untrailingslashit(ABSPATH)),
-            site_url(),
-            wp_normalize_path($dir)
-        ));
-    }
-
-    /**
      * Returns full DIR of a local URL.
      *
      * @param string $url
@@ -1810,8 +1813,8 @@ class Helper
      */
     public static function calculatePercentageChange($firstNumber, $secondNumber)
     {
-        $firstNumber    = intval($firstNumber);
-        $secondNumber   = intval($secondNumber);
+        $firstNumber  = intval($firstNumber);
+        $secondNumber = intval($secondNumber);
 
         if ($firstNumber == $secondNumber) {
             return 0;
