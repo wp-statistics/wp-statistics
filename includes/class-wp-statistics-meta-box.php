@@ -283,7 +283,6 @@ class Meta_Box
             'hitsmap'         => array(
                 'name'              => __('Global Visitor Distribution', 'wp-statistics'),
                 'description'       => __('Geographical representation of where your site\'s visitors come from.', 'wp-statistics'),
-                'require'           => array('geoip' => true),
                 'hidden'            => true,
                 'show_on_dashboard' => true,
                 'place'             => 'normal',
