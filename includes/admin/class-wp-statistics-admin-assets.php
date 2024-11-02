@@ -445,7 +445,7 @@ class Admin_Assets
             'view_content'                 => __('View Content', 'wp-statistics'),
             'downloading'                  => __('Downloading', 'wp-statistics'),
             'activated'                    => __('Activated', 'wp-statistics'),
-            'active'                       => __('Acctive', 'wp-statistics'),
+            'active'                       => __('Active', 'wp-statistics'),
             'activating'                   => __('Activating ', 'wp-statistics'),
             'already_installed'            => __('Already installed', 'wp-statistics'),
             'failed'                       => __('Failed', 'wp-statistics'),

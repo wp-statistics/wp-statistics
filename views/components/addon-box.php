@@ -17,8 +17,7 @@ if (!defined('ABSPATH') || empty($addOn)) {
             <div class="wps-postbox-addon__item--info__text">
                 <div class="wps-postbox-addon__item--info__title">
                     <a href="<?php echo esc_url($addOn->getProductUrl()); ?>?utm_source=wp-statistics&utm_medium=link&utm_campaign=dp" target="_blank">
-                        <?php echo esc_html($addOn->getName()); ?>
-                        <span class="wps-postbox-addon__version">v<?php echo esc_html($addOn->getVersion()); ?></span>
+                        <?php echo esc_html($addOn->getName())?><span class="wps-postbox-addon__version">v<?php echo esc_html($addOn->getVersion())?></span>
                     </a>
                     <?php if (!empty($addOn->getLabel())) : ?>
                         <span class="wps-postbox-addon__label wps-postbox-addon__label--<?php echo esc_attr($addOn->getLabelClass()); ?>"><?php echo esc_html($addOn->getLabel()); ?></span>
@@ -36,19 +35,19 @@ if (!defined('ABSPATH') || empty($addOn)) {
         <div class="wps-postbox-addon__item--actions">
             <span class="wps-postbox-addon__status wps-postbox-addon__status--<?php echo esc_attr($addOn->getStatusClass()); ?> "><?php echo esc_html($addOn->getStatusLabel()); ?></span>
             <div class="wps-postbox-addon__buttons">
+                <?php if ($addOn->isInstalled() && !$addOn->isActivated()) : ?>
+                    <a class="wps-postbox-addon__button js-addon-active-plugin-btn" data-slug="<?php echo esc_attr($addOn->getSlug()); ?>" title="<?php esc_html_e('Active', 'wp-statistics'); ?>"><?php esc_html_e('Active', 'wp-statistics'); ?></a>
+                <?php endif; ?>
                 <?php if ($addOn->isInstalled()) : ?>
                     <a class="wps-postbox-addon__button js-wps-addon-license-button"><?php esc_html_e('License', 'wp-statistics'); ?></a>
-                <?php endif; ?>
-
-                <?php if ($addOn->isInstalled() && !$addOn->isActivated()) : ?>
-                    <a class="wps-postbox-addon__button js-addon-active-plugin-btn" data-slug="<?php echo esc_attr($addOn->getSlug()); ?>" title="<?php esc_html_e('Activate', 'wp-statistics'); ?>"><?php esc_html_e('Activate', 'wp-statistics'); ?></a>
                 <?php endif; ?>
             </div>
             <div class="wps-addon--actions">
                 <span class="wps-addon--actions--show-more js-addon-show-more"></span>
                 <ul class="wps-addon--submenus">
                     <?php if ($addOn->isActivated()) : ?>
-                        <li><a href="<?php echo esc_url($addOn->getSettingsUrl()); ?>" class="wps-addon--submenu wps-addon--submenu__settings"><?php esc_html_e('Settings', 'wp-statistics'); ?></a></li>
+                        <li><a href="<?php echo esc_url($addOn->getSettingsUrl()); ?>" class="wps-addon--submenu wps-addon--submenu__settings"><span><?php esc_html_e('Settings', 'wp-statistics'); ?></span></a></li>
+                        <li><span class="wps-separator"></span></li>
                     <?php endif; ?>
                     <li><a href="<?php echo esc_url($addOn->getProductUrl()); ?>?utm_source=wp-statistics&utm_medium=link&utm_campaign=dp" class="wps-addon--submenu" target="_blank"><?php esc_html_e('Add-On Details', 'wp-statistics'); ?></a></li>
                     <?php if (!empty($addOn->getChangelogUrl())) : ?>

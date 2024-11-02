@@ -225,13 +225,8 @@
         display: flex;
         flex-direction: column;
         gap: 10px;
-        padding-left: 15px;
+        padding: 0;
         align-items: self-start;
-
-        .rtl & {
-          padding-left: 0;
-          padding-right: 15px;
-        }
 
         li {
           margin-bottom: 0;
@@ -251,14 +246,13 @@
             display: inline-block;
             width: 6px;
             height:6px;
-            margin-left: -20px;
             margin-right: 3px;
             border-radius:6px;
             background-color: #dadce0;
 
             .rtl &{
-              margin-right: -20px;
               margin-left: 3px;
+              margin-right: unset;
             }
           }
 
@@ -281,9 +275,14 @@
               width: 16px;
               border-radius: 0;
               height: 16px;
-              margin-left: -20px;
-              margin-right: 3px;
+              margin-left: -5px;
+              margin-right: -2px;
               background: url("data:image/svg+xml;base64,Cjxzdmcgd2lkdGg9IjExIiBoZWlnaHQ9IjgiIHZpZXdCb3g9IjAgMCAxMSA4IiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cGF0aCBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGNsaXAtcnVsZT0iZXZlbm9kZCIgZD0iTTkuNDkxOTUgMEwzLjg2ODY1IDUuNjIzMzFMMC45NTgwMDkgMi43MTI2N0wwIDMuNjcwNjdMMy44Njg2NSA3LjU0TDEwLjQ1MDYgMC45NTg2ODlMOS40OTE5NSAwWiIgZmlsbD0iIzE5NjE0MCIvPgo8L3N2Zz4K") center center no-repeat;
+
+              .rtl &{
+                margin-left: -2px;
+                margin-right:-5px;
+              }
              }
           }
           .wps-premium-step__feature-badge{
@@ -293,13 +292,8 @@
             border-radius: 4px;
             font-size: 13px;
             font-weight: 400;
-            margin-left: 8px;
-            cursor: default;
+             cursor: default;
 
-            .rtl &{
-              margin-left: 0;
-              margin-right: 8px;
-            }
           }
 
         }
