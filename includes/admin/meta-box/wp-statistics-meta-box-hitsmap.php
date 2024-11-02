@@ -68,7 +68,7 @@ class hitsmap extends MetaBoxAbstract
             $result = self::getData($days_time_list, $chunk, $offset);
             foreach (Helper::yieldARow($result) as $country) {
                 // Check User is Unknown IP
-                if ($country->location == GeolocationFactory::getProviderInstance()->getPrivateCountryCode()) {
+                if (empty($country->location) || $country->location == GeolocationFactory::getProviderInstance()->getPrivateCountryCode()) {
                     continue;
                 }
 
