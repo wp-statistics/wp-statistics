@@ -603,7 +603,7 @@
           position: relative;
          }
 
-        &.wps-has-checkbox:hover {
+        &.wps-has-checkbox:not(.wps-addon__download__item--disabled):hover {
           background: #FAFAFB;
           border: 1px solid #56585A
         }
