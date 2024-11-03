@@ -54,7 +54,7 @@ class PluginHelper
      *
      * @return PluginDecorator|null Plugin object if found, null otherwise.
      */
-    public static function getPluginBySlug($slug)
+    public static function getRemotePluginBySlug($slug)
     {
         $plugins = self::getRemotePlugins();
 
@@ -93,7 +93,7 @@ class PluginHelper
         if (empty($plugins)) return [];
 
         foreach ($plugins as $plugin) {
-            $result[$plugin] = self::getPluginBySlug($plugin);
+            $result[$plugin] = self::getRemotePluginBySlug($plugin);
         }
 
         return $result;
