@@ -111,24 +111,24 @@ WP Statistics supports WordPress Multi-Site/Network installations. In the networ
 
 == Screenshots ==
 1. Overview
-2. Privacy Audit
-3. Page Insights
-4. Visitors Insights
-5. Content Analytics Dashboard
-6. Author Analytics
-7. Category Analytics
-8. Website Performance Report
-9. Detailed Visitor Report
-10. Online Visitors Monitoring
-11. Settings
+2. Visitors Insights
+3. Online Visitors Monitoring
+4. Optimization
+5. Settings
+6. Real-Time Stats
+7. Download Tracker
+8. Understand Your Traffic Sources
+9. Geographic
+10. Author Analytics
+11. Devices
 12. Link Tracker
-13. Geographic
-14. Referrals
-15. Devices
-16. Download Tracker
+13. Privacy Audit
+14. Content Analytics Dashboard
+15. Category Analytics
+16. Website Performance Report
 17. Mini Chart Quick View
-18. Optimization
-19. Real-Time Stats
+18. Page Insights
+19. Detailed Visitor Report
 
 == Upgrade Notice ==
 = 14.11 =
