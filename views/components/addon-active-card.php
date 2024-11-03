@@ -30,7 +30,7 @@ if (!defined('ABSPATH') || empty($addOn)) {
         <div class="wps-postbox-addon__buttons">
             <?php if (in_array($addOn->getSlug(), $selectedAddOns) && (!$addOn->isInstalled() || $addOn->isUpdateAvailable())) : ?>
                 <a class="wps-postbox-addon__button button-retry-addon-download js-addon-retry-btn" data-slug="<?php echo esc_attr($addOn->getSlug()); ?>" title="<?php esc_html_e('Retry', 'wp-statistics'); ?>"><?php esc_html_e('Retry', 'wp-statistics'); ?></a>
-            <?php elseif ($addOn->isInstalled()) : ?>
+            <?php elseif ($addOn->isInstalled() && !$addOn->isActivated() ) : ?>
                 <a class="wps-postbox-addon__button button-activate-addon js-addon-active-plugin-btn" data-slug="<?php echo esc_attr($addOn->getSlug()); ?>" title="<?php esc_html_e('Active', 'wp-statistics'); ?>"><?php esc_html_e('Active', 'wp-statistics'); ?></a>
             <?php endif; ?>
         </div>
@@ -40,7 +40,7 @@ if (!defined('ABSPATH') || empty($addOn)) {
             <span class="wps-addon--actions--show-more js-addon-show-more"></span>
             <ul class="wps-addon--submenus">
                 <?php if ($addOn->isActivated()) : ?>
-                    <li><a href="<?php echo esc_url($addOn->getSettingsUrl()); ?>" class="wps-addon--submenu wps-addon--submenu__settings"><?php esc_html_e('Settings', 'wp-statistics'); ?></a></li>
+                    <li><a target="_blank" href="<?php echo esc_url($addOn->getSettingsUrl()); ?>" class="wps-addon--submenu wps-addon--submenu__settings"><?php esc_html_e('Settings', 'wp-statistics'); ?></a></li>
                 <?php endif; ?>
                 <?php if (!empty($addOn->getProductUrl())) : ?>
                     <li><a href="<?php echo esc_url($addOn->getProductUrl()); ?>?utm_source=wp-statistics&utm_medium=link&utm_campaign=dp" class="wps-addon--submenu" target="_blank"><?php esc_html_e('Add-On Details', 'wp-statistics'); ?></a></li>

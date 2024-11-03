@@ -19,7 +19,7 @@ use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginDecorator;
                 </h3>
                 <a class="wps-addon__download_active-all js-addon_active-all <?php echo empty($data['display_activate_all']) ? 'wps-hide' : ''; ?>"><?php esc_html_e('Activate All', 'wp-statistics'); ?></a>
             </div>
-            <div class="wps-addon__download__items">
+            <div class="wps-addon__download__items wps-addon__download__items--get-started">
                 <?php
                 if (!empty($data['licensed_addons'])) {
                     $selectedAddOns = !empty($data['selected_addons']) ? $data['selected_addons'] : [];
