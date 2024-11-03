@@ -146,6 +146,8 @@ $isPremium        = LicenseHelper::isPremiumLicenseAvailable();
 
                         if ($hasLicense && $isActive) {
                             $class = 'activated';
+                        }elseif ($hasLicense && !$isActive) {
+                            $class = 'not-active';
                         } elseif (!$hasLicense && $isInstalled) {
                             $class = 'no-license';
                         }
