@@ -26,13 +26,13 @@ $isPremium        = LicenseHelper::isPremiumLicenseAvailable();
         </div>
         <div class="js-wps-premium-steps__head">
             <?php // If  No License - Not installed
-            if (!$installedPlugins && !$hasLicense) :?>
+            if (!$installedPlugins && !$hasLicense) : ?>
                 <p><?php esc_html_e('Go Premium. See more. Do more.', 'wp-statistics'); ?></p>
             <?php // If  Single Add-on license
-            elseif ($hasLicense && !$isPremium) :?>
+            elseif ($hasLicense && !$isPremium) : ?>
                 <p><?php esc_html_e('You\'re Already Enjoying Some Premium Add-Ons!', 'wp-statistics'); ?></p>
             <?php // If Premium
-            elseif ($isPremium) :?>
+            elseif ($isPremium) : ?>
                 <p><?php esc_html_e('You\'re All Set with WP Statistics Premium', 'wp-statistics'); ?></p>
             <?php else : ?>
                 <p><?php esc_html_e('Go Premium. See more. Do more.', 'wp-statistics'); ?></p>
@@ -76,7 +76,8 @@ $isPremium        = LicenseHelper::isPremiumLicenseAvailable();
             View::load("components/modals/introduce-premium/step-content", $data);
 
             $data = [
-                'description' => sprintf(__('<p>Instantly view customizable performance charts for all posts and pages, with quick access to traffic data via the admin bar. Gain insights at a glance. <a target="_blank" href="%s">Learn more</a></p>', 'wp-statistics'),
+                'description' => sprintf(
+                    __('<p>Instantly view customizable performance charts for all posts and pages, with quick access to traffic data via the admin bar. Gain insights at a glance. <a target="_blank" href="%s">Learn more</a></p>', 'wp-statistics'),
                     esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-mini-chart/?utm_source=wp-statistics&utm_medium=link&utm_campaign=pop-up-premium')
                 ),
                 'step_name'   => 'wp-statistics-mini-chart',
@@ -85,7 +86,8 @@ $isPremium        = LicenseHelper::isPremiumLicenseAvailable();
             View::load("components/modals/introduce-premium/step-content", $data);
 
             $data = [
-                'description' => sprintf(__('<p>Receive scheduled, customizable traffic reports with detailed charts straight to your inbox. Stay informed about your website\'s performance effortlessly. <a target="_blank" href="%s">Learn more</a></p>', 'wp-statistics'),
+                'description' => sprintf(
+                    __('<p>Receive scheduled, customizable traffic reports with detailed charts straight to your inbox. Stay informed about your website\'s performance effortlessly. <a target="_blank" href="%s">Learn more</a></p>', 'wp-statistics'),
                     esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-advanced-reporting/?utm_source=wp-statistics&utm_medium=link&utm_campaign=pop-up-premium')
                 ),
                 'step_name'   => 'wp-statistics-advanced-reporting',
@@ -94,7 +96,8 @@ $isPremium        = LicenseHelper::isPremiumLicenseAvailable();
             View::load("components/modals/introduce-premium/step-content", $data);
 
             $data = [
-                'description' => sprintf(__('<p>Monitor visitor activity and online users live, without refreshing the page. Stay updated on your website\'s performance in real-time. <a target="_blank" href="%s">Learn more</a></p>', 'wp-statistics'),
+                'description' => sprintf(
+                    __('<p>Monitor visitor activity and online users live, without refreshing the page. Stay updated on your website\'s performance in real-time. <a target="_blank" href="%s">Learn more</a></p>', 'wp-statistics'),
                     esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-realtime-stats/?utm_source=wp-statistics&utm_medium=link&utm_campaign=pop-up-premium')
                 ),
                 'step_name'   => 'wp-statistics-realtime-stats',
@@ -103,7 +106,8 @@ $isPremium        = LicenseHelper::isPremiumLicenseAvailable();
             View::load("components/modals/introduce-premium/step-content", $data);
 
             $data = [
-                'description' => sprintf(__('<p>Display vital site stats using customizable Gutenberg blocks or theme widgets. Enhance your audience\'s experience with flexible, real-time data presentations. <a target="_blank" href="%s">Learn more</a></p>', 'wp-statistics'),
+                'description' => sprintf(
+                    __('<p>Display vital site stats using customizable Gutenberg blocks or theme widgets. Enhance your audience\'s experience with flexible, real-time data presentations. <a target="_blank" href="%s">Learn more</a></p>', 'wp-statistics'),
                     esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-widgets/?utm_source=wp-statistics&utm_medium=link&utm_campaign=pop-up-premium')
                 ),
                 'step_name'   => 'wp-statistics-widgets',
@@ -112,7 +116,8 @@ $isPremium        = LicenseHelper::isPremiumLicenseAvailable();
             View::load("components/modals/introduce-premium/step-content", $data);
 
             $data = [
-                'description' => sprintf(__('<p>Manage admin menus, modify plugin headers, and create white-label products. Enhance the Overview page with fully customized widgets tailored to your needs. <a target="_blank" href="%s">Learn more</a></p>', 'wp-statistics'),
+                'description' => sprintf(
+                    __('<p>Manage admin menus, modify plugin headers, and create white-label products. Enhance the Overview page with fully customized widgets tailored to your needs. <a target="_blank" href="%s">Learn more</a></p>', 'wp-statistics'),
                     esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-customization/?utm_source=wp-statistics&utm_medium=link&utm_campaign=pop-up-premium')
                 ),
                 'step_name'   => 'wp-statistics-customization',
@@ -121,7 +126,8 @@ $isPremium        = LicenseHelper::isPremiumLicenseAvailable();
             View::load("components/modals/introduce-premium/step-content", $data);
 
             $data = [
-                'description' => sprintf(__('<p>Unlock new endpoints in the WordPress REST API for detailed insights, including browsers, referrers, visitors, and more. Easily access and integrate key statistics. <a target="_blank" href="%s">Learn more</a></p>', 'wp-statistics'),
+                'description' => sprintf(
+                    __('<p>Unlock new endpoints in the WordPress REST API for detailed insights, including browsers, referrers, visitors, and more. Easily access and integrate key statistics. <a target="_blank" href="%s">Learn more</a></p>', 'wp-statistics'),
                     esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-rest-api/?utm_source=wp-statistics&utm_medium=link&utm_campaign=pop-up-premium')
                 ),
                 'step_name'   => 'wp-statistics-rest-api',
@@ -134,20 +140,27 @@ $isPremium        = LicenseHelper::isPremiumLicenseAvailable();
             <div>
                 <p><?php esc_html_e('WP Statistics Premium Includes', 'wp-statistics'); ?>:</p>
                 <ul class="wps-premium-step__features-list">
-                    <?php foreach (PluginHelper::$plugins as $slug => $title) : ?>
+                    <?php foreach (PluginHelper::$plugins as $slug => $title) :
+                        $class = '';
 
-                        <!--  TODO : calss 'activated' ->If Has License - Active -->
-                        <!--  TODO : calss '' ->If  No License - Not installed -->
-                        <!--  TODO : calss 'no-license' ->If  If  No License - Active or installed -->
+                        $isActive       = $pluginHandler->isPluginActive($slug);
+                        $isInstalled    = $pluginHandler->isPluginInstalled($slug);
+                        $hasLicense     = LicenseHelper::isPluginLicenseValid($slug);
 
-                        <li class="<?php echo LicenseHelper::isPluginLicenseValid($slug) ? 'activated' : '' ?> wps-premium-step__feature js-wps-premiumStepFeature" data-modal="<?php echo esc_attr($slug) ?>">
+                        if ($hasLicense && $isActive) {
+                            $class = 'activated';
+                        } elseif (!$hasLicense && $isInstalled) {
+                            $class = 'no-license';
+                        }
+                    ?>
+                        <li class="<?php echo esc_attr($class); ?> wps-premium-step__feature js-wps-premiumStepFeature" data-modal="<?php echo esc_attr($slug) ?>">
                             <?php echo esc_html($title); ?>
 
-                            <?php if (!$pluginHandler->isPluginInstalled($slug)) : ?>
+                            <?php if ($hasLicense && !$isInstalled) : ?>
                                 <span class="wps-premium-step__feature-badge"><?php esc_html_e('Not Installed', 'wp-statistics'); ?></span>
+                            <?php elseif ($hasLicense && !$isActive) : ?>
+                                <span class="wps-premium-step__feature-badge"><?php esc_html_e('Not activated', 'wp-statistics'); ?></span>
                             <?php endif; ?>
-                            <!-- TODO: set condition for 'Not activated' and 'Not Installed'-->
-                            <span class="wps-premium-step__feature-badge"><?php esc_html_e('Not activated', 'wp-statistics'); ?></span>
                         </li>
                     <?php endforeach; ?>
                 </ul>
