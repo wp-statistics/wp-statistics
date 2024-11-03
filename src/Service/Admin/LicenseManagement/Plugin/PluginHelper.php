@@ -93,7 +93,7 @@ class PluginHelper
         if (empty($plugins)) return [];
 
         foreach ($plugins as $plugin) {
-            $result[$plugin] = self::getRemotePluginBySlug($plugin);
+            $result[] = $plugin;
         }
 
         return $result;

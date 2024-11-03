@@ -68,7 +68,7 @@ class LicenseManagerDataProvider
         ];
 
         $licenseKey      = Request::get('license_key');
-        $purchasedAddons = array_keys(PluginHelper::getLicensedPlugins($licenseKey));
+        $purchasedAddons = PluginHelper::getLicensedPlugins($licenseKey);
 
         foreach (PluginHelper::getRemotePlugins() as $addOn) {
             if (in_array($addOn->getSlug(), $purchasedAddons)) {
@@ -100,7 +100,7 @@ class LicenseManagerDataProvider
         ];
 
         $licenseKey      = Request::get('license_key');
-        $purchasedAddons = array_keys(PluginHelper::getLicensedPlugins($licenseKey));
+        $purchasedAddons = PluginHelper::getLicensedPlugins($licenseKey);
 
         // Fetch all licensed add-ons
         foreach (PluginHelper::getRemotePlugins() as $addOn) {
