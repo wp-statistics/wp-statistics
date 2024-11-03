@@ -111,7 +111,7 @@ class ApiCommunicator
             throw new LicenseException(
                 $licenseData->message ?? esc_html__('Unknown error!', 'wp-statistics'),
                 $licenseData->status ?? '',
-                $licenseData->code ?? 0
+                intval($licenseData->code)
             );
         }
 
