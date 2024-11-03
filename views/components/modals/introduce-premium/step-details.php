@@ -186,7 +186,7 @@ $isPremium        = LicenseHelper::isPremiumLicenseAvailable();
                         ?>
 
                         <div class="wps-premium-step__action-container">
-                            //TODO : check conditions base on design
+<!--                            //TODO : check conditions base on design-->
                             <?php if (!$hasLicense && !$isInstalled) : ?>
                                 <a href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/add-ons/' . $slug . '/?utm_source=wp-statistics&utm_medium=link&utm_campaign=pop-up-premium') ?>" target="_blank" class="wps-premium-step__action-btn wps-premium-step__action-btn--upgrade js-wps-premiumModalUpgradeBtn"><?php esc_html_e('Upgrade to Premium', 'wp-statistics'); ?></a>
                                 <a class="wps-premium-step__action-btn wps-premium-step__action-btn--later js-wps-premiumModalClose"><?php esc_html_e('Maybe Later', 'wp-statistics'); ?></a>
