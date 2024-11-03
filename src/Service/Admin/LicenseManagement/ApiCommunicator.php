@@ -11,7 +11,7 @@ class ApiCommunicator
 {
     use TransientCacheTrait;
 
-    private $apiUrl = 'https://staging.wp-statistics.com/wp-json/wp-license-manager/v1';
+    private $apiUrl = WP_STATISTICS_SITE_URL . '/wp-json/wp-license-manager/v1';
 
     /**
      * Get the list of products (add-ons) from the API and cache it for 1 week.
@@ -22,17 +22,19 @@ class ApiCommunicator
     public function getProducts()
     {
         try {
-            $remoteRequest  = new RemoteRequest("{$this->apiUrl}/product/list", 'GET');
-            $plugins        = $remoteRequest->execute(false, true, WEEK_IN_SECONDS);
+            $remoteRequest = new RemoteRequest("{$this->apiUrl}/product/list", 'GET');
+            $plugins       = $remoteRequest->execute(false, true, WEEK_IN_SECONDS);
 
             if (empty($plugins) || !is_array($plugins)) {
-                throw new Exception(__('Product list is empty!', 'wp-statistics'));
+                throw new Exception(
+                    sprintf(__('No products were found. The API returned an empty response from the following URL: %s', 'wp-statistics'), "{$this->apiUrl}/product/list")
+                );
             }
 
         } catch (Exception $e) {
             throw new Exception(
             // translators: %s: Error message.
-                sprintf(__('Error fetching product list: %s', 'wp-statistics'), $e->getMessage())
+                sprintf(__('Unable to retrieve product list from the remote server, %s. Please check the remote server connection or your remote work configuration.', 'wp-statistics'), $e->getMessage())
             );
         }
 

@@ -152,6 +152,7 @@ Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest versio
 - **Fix:** Fixed a bug that blocked visitor data display when missing from the `visitor_relationship` table.
 - **Fix:** Resolved an issue with global table prefixes in WordPress Multisite/Network setups.
 - **Fix:** Fixed retrieve correct tracker JS file path & Bedrock compatibility.
+- **Fix:** Fixed user role exclusions in server side tracking.
 
 For more information about the major update, please [visit our blog post](https://wp-statistics.com/release/wp-statistics-v14-11/) or follow [@wp_statistics](https://twitter.com/wp_statistics) on Twitter
 
