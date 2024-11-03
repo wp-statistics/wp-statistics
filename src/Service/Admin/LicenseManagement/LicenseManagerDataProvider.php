@@ -2,7 +2,7 @@
 
 namespace WP_Statistics\Service\Admin\LicenseManagement;
 
-use Exception;
+use WP_Statistics\Exception\SystemErrorException;
 use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHelper;
 use WP_Statistics\Utils\Request;
 
@@ -34,6 +34,10 @@ class LicenseManagerDataProvider
 
         // Try to fetch licensed add-ons first
         $addOnsList = PluginHelper::getRemotePlugins();
+
+        if (empty($addOnsList)) {
+            throw new SystemErrorException(esc_html__('Failed to retrieve the list of available add-ons. Please try again later.'));
+        }
 
         // Separate active and inactive add-ons
         foreach ($addOnsList as $addOn) {
