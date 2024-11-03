@@ -172,9 +172,9 @@ $isPremium        = LicenseHelper::isPremiumLicenseAvailable();
             </div>
             <div class="wps-premium-step__actions">
                 <div class="js-wps-premium-first-step__head">
-                    <?php if (LicenseHelper::isPremiumLicenseAvailable()) : ?>
+                    <?php if ($isPremium) : ?>
                         <a class="wps-premium-step__action-btn wps-premium-step__action-btn--upgrade activated js-wps-premiumModalUpgradeBtn"><?php esc_html_e('Premium Activated', 'wp-statistics'); ?></a>
-                    <?php elseif (LicenseHelper::isValidLicenseAvailable() && !LicenseHelper::isPremiumLicenseAvailable()) : ?>
+                    <?php elseif ($hasLicense && !$isPremium) : ?>
                         <a target="_blank" class="wps-premium-step__action-btn wps-premium-step__action-btn--upgrade js-wps-premiumModalUpgradeBtn"><?php esc_html_e('Upgrade to Premium', 'wp-statistics'); ?></a>
                     <?php else : ?>
                         <a target="_blank" class="wps-premium-step__action-btn wps-premium-step__action-btn--upgrade js-wps-premiumModalUpgradeBtn"><?php esc_html_e('Upgrade Now', 'wp-statistics'); ?></a>
@@ -188,15 +188,13 @@ $isPremium        = LicenseHelper::isPremiumLicenseAvailable();
                         $isActive       = $pluginHandler->isPluginActive($slug);
                         $isInstalled    = $pluginHandler->isPluginInstalled($slug);
                         $hasLicense     = LicenseHelper::isPluginLicenseValid($slug);
-
-                        ?>
+                    ?>
 
                         <div class="wps-premium-step__action-container">
-<!--                            //TODO : check conditions base on design-->
                             <?php if (!$hasLicense && !$isInstalled) : ?>
                                 <a href="<?php echo esc_url(WP_STATISTICS_SITE_URL . '/add-ons/' . $slug . '/?utm_source=wp-statistics&utm_medium=link&utm_campaign=pop-up-premium') ?>" target="_blank" class="wps-premium-step__action-btn wps-premium-step__action-btn--upgrade js-wps-premiumModalUpgradeBtn"><?php esc_html_e('Upgrade to Premium', 'wp-statistics'); ?></a>
                                 <a class="wps-premium-step__action-btn wps-premium-step__action-btn--later js-wps-premiumModalClose"><?php esc_html_e('Maybe Later', 'wp-statistics'); ?></a>
-                            <?php elseif (($hasLicense &&  (!$isInstalled || ( $isInstalled && !$isActive))) || (!$hasLicense && $isInstalled && !$isActive)) : ?>
+                            <?php elseif ($hasLicense && !$isActive) : ?>
                                 <a href="<?php echo esc_url(admin_url('admin.php?page=wps_plugins_page')) ?>" class="wps-premium-step__action-btn js-wps-premiumModalUpgradeBtn wps-premium-step__action-btn--addons"><?php esc_html_e('Go to Add-Ons Page', 'wp-statistics'); ?></a>
                             <?php elseif ($hasLicense && $isActive) : ?>
                                 <a class="wps-premium-step__action-btn wps-premium-step__action-btn--upgrade  activated js-wps-premiumModalUpgradeBtn"><?php esc_html_e('Premium Activated', 'wp-statistics'); ?></a>
