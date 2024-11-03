@@ -21,7 +21,7 @@ if (!defined('ABSPATH')) exit;
 # Load Plugin Defines
 require_once __DIR__ . '/includes/defines.php';
 
-# Set another useful plugin define.
+# Set another useful plugin definition.
 define('WP_STATISTICS_VERSION', '14.11');
 
 # Load Plugin
