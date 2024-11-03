@@ -267,7 +267,7 @@
           }
 
           &.not-active:before{
-              background: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkiIGhlaWdodD0iMTkiIHZpZXdCb3g9IjAgMCAxOSAxOSIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEwLjE4NDkgMi4zNzY0NEwxNy43MjY2IDE1LjQzOUMxNy45NDUyIDE1LjgxNzYgMTcuODE1NSAxNi4zMDE4IDE3LjQzNjggMTYuNTIwNEMxNy4zMTY1IDE2LjU4OTkgMTcuMTc5OSAxNi42MjY1IDE3LjA0MSAxNi42MjY1SDEuOTU3NjhDMS41MjA0NiAxNi42MjY1IDEuMTY2MDIgMTYuMjcyIDEuMTY2MDIgMTUuODM0OEMxLjE2NjAyIDE1LjY5NTggMS4yMDI2IDE1LjU1OTMgMS4yNzIwOCAxNS40MzlMOC44MTM3MyAyLjM3NjQ0QzkuMDMyMzEgMS45OTc3OCA5LjUxNjQ5IDEuODY4MDUgOS44OTUxNSAyLjA4NjY2QzEwLjAxNTUgMi4xNTYxNSAxMC4xMTU1IDIuMjU2MDkgMTAuMTg0OSAyLjM3NjQ0Wk0zLjMyODg5IDE1LjA0MzFIMTUuNjY5N0w5LjQ5OTMxIDQuMzU1NkwzLjMyODg5IDE1LjA0MzFaTTguNzA3NjUgMTIuNjY4MUgxMC4yOTFWMTQuMjUxNUg4LjcwNzY1VjEyLjY2ODFaTTguNzA3NjUgNy4xMjY0NEgxMC4yOTFWMTEuMDg0OEg4LjcwNzY1VjcuMTI2NDRaIiBmaWxsPSIjRkZBNTAwIi8+Cjwvc3ZnPgo=") center center no-repeat;
+              background: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkiIGhlaWdodD0iMTkiIHZpZXdCb3g9IjAgMCAxOSAxOSIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0xNC44MzQyIDQuNzVMOC4xNTY1MiAxMS40Mjc3TDQuNzAwMTQgNy45NzEyOUwzLjU2MjUgOS4xMDg5M0w4LjE1NjUyIDEzLjcwMzdMMTUuOTcyNiA1Ljg4ODQ0TDE0LjgzNDIgNC43NVoiIGZpbGw9IiNBOUFBQUUiLz4KPC9zdmc+Cg==") center center no-repeat;
           }
 
           .wps-premium-step__feature-badge{
@@ -291,10 +291,9 @@
 
 
         .js-wps-premium-steps__side-buttons{
-          .wps-premium-step__action-btn{
+          .wps-premium-step__action-container{
             display: none;
-
-            &--later{
+            &.active{
               display: block;
             }
           }

@@ -7,7 +7,7 @@ const premiumWelcomeSteps = document.querySelectorAll('.js-wps-premiumModal-welc
 const exploreButton = document.querySelector('.js-wps-premiumModalExploreBtn');
 const premiumFeatures = document.querySelectorAll('.js-wps-premiumStepFeature');
 const premiumBtn = document.querySelectorAll('.js-wps-openPremiumModal');
-const upgradeButton = document.querySelectorAll('.js-wps-premiumModalUpgradeBtn');
+const upgradeButtonBox = document.querySelectorAll('.wps-premium-step__action-container');
 const firstStepHeader = document.querySelectorAll('.js-wps-premium-first-step__head');
 const stepsHeader = document.querySelectorAll('.js-wps-premium-steps__head');
 
@@ -82,11 +82,11 @@ const showStep = (index) => {
 
     if (index < 0 || index >= premiumSteps.length) return;
     premiumSteps.forEach(step => step.classList.remove('wps-modal__premium-step--active'));
-    upgradeButton.forEach(btn => btn.classList.remove('wps-premium-step__action-btn--upgrade--active'));
+    upgradeButtonBox.forEach(btn => btn.classList.remove('active'));
     premiumFeatures.forEach(feature => feature.classList.remove('active'));
 
     premiumSteps[index].classList.add('wps-modal__premium-step--active');
-    upgradeButton[index].classList.add('wps-premium-step__action-btn--upgrade--active');
+    upgradeButtonBox[index].classList.add('active');
 
     const toggleDisplay = (elements, displayStyle) => {
         elements.forEach(element => {
