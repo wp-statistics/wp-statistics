@@ -697,7 +697,10 @@
 
       &:hover {
         background: #FAFAFB;
+      }
 
+      &:focus{
+        box-shadow: none;
       }
     }
   }

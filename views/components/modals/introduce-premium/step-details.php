@@ -6,27 +6,37 @@ use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHandler;
 use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHelper;
 
 $pluginHandler = new PluginHandler();
+
+$installedPlugins = $pluginHandler->getInstalledPlugins();
+$hasLicense       = LicenseHelper::isValidLicenseAvailable();
+$isPremium        = LicenseHelper::isPremiumLicenseAvailable();
 ?>
 <div class="wps-premium-step">
     <div class="wps-premium-step__header">
         <span class="wps-premium-step__skip js-wps-premiumModalClose"></span>
         <span><?php esc_html_e('WP Statistics Premium', 'wp-statistics'); ?></span>
         <div class="js-wps-premium-first-step__head">
-            <?php if (LicenseHelper::isPremiumLicenseAvailable()) : ?>
+            <?php if ($isPremium) : ?>
                 <p><?php esc_html_e('You\'re All Set with WP Statistics Premium', 'wp-statistics'); ?></p>
-            <?php elseif (LicenseHelper::isValidLicenseAvailable() && !LicenseHelper::isPremiumLicenseAvailable()) : ?>
+            <?php elseif ($hasLicense && !$isPremium) : ?>
                 <p><?php esc_html_e('You\'re Already Enjoying Some Premium Add-Ons!', 'wp-statistics'); ?></p>
             <?php else : ?>
                 <p><?php esc_html_e('Unlock WP Statistics Premium', 'wp-statistics'); ?></p>
             <?php endif; ?>
         </div>
         <div class="js-wps-premium-steps__head">
-            <?php if (LicenseHelper::isPremiumLicenseAvailable()) : ?>
-                <p><?php esc_html_e('You Have the Premium Version!', 'wp-statistics'); ?></p>
+            <?php // If  No License - Not installed
+            if (!$installedPlugins && !$hasLicense) :?>
+                <p><?php esc_html_e('Go Premium. See more. Do more.', 'wp-statistics'); ?></p>
+            <?php // If  Single Add-on license
+            elseif ($hasLicense && !$isPremium) :?>
+                <p><?php esc_html_e('You\'re Already Enjoying Some Premium Add-Ons!', 'wp-statistics'); ?></p>
+            <?php // If Premium
+            elseif ($isPremium) :?>
+                <p><?php esc_html_e('You\'re All Set with WP Statistics Premium', 'wp-statistics'); ?></p>
             <?php else : ?>
-                <p><?php esc_html_e('Try the upgrade. See more. Do more.', 'wp-statistics'); ?></p>
+                <p><?php esc_html_e('Go Premium. See more. Do more.', 'wp-statistics'); ?></p>
             <?php endif; ?>
-
         </div>
     </div>
     <div class="wps-premium-step__body">
@@ -122,15 +132,22 @@ $pluginHandler = new PluginHandler();
         </div>
         <div class="wps-premium-step__sidebar">
             <div>
-                <p><?php esc_html_e('WP Statistics Premium Include', 'wp-statistics'); ?>:</p>
+                <p><?php esc_html_e('WP Statistics Premium Includes', 'wp-statistics'); ?>:</p>
                 <ul class="wps-premium-step__features-list">
                     <?php foreach (PluginHelper::$plugins as $slug => $title) : ?>
+
+                        <!--  TODO : calss 'activated' ->If Has License - Active -->
+                        <!--  TODO : calss '' ->If  No License - Not installed -->
+                        <!--  TODO : calss 'no-license' ->If  If  No License - Active or installed -->
+
                         <li class="<?php echo LicenseHelper::isPluginLicenseValid($slug) ? 'activated' : '' ?> wps-premium-step__feature js-wps-premiumStepFeature" data-modal="<?php echo esc_attr($slug) ?>">
                             <?php echo esc_html($title); ?>
 
                             <?php if (!$pluginHandler->isPluginInstalled($slug)) : ?>
                                 <span class="wps-premium-step__feature-badge"><?php esc_html_e('Not Installed', 'wp-statistics'); ?></span>
                             <?php endif; ?>
+                            <!-- TODO: set condition for 'Not activated' and 'Not Installed'-->
+                            <span class="wps-premium-step__feature-badge"><?php esc_html_e('Not activated', 'wp-statistics'); ?></span>
                         </li>
                     <?php endforeach; ?>
                 </ul>
@@ -152,7 +169,7 @@ $pluginHandler = new PluginHandler();
                     <?php foreach (PluginHelper::$plugins as $slug => $title) : ?>
                         <?php if (LicenseHelper::isPremiumLicenseAvailable()) : ?>
                             <?php if (!$pluginHandler->isPluginInstalled($slug)) : ?>
-                                <a  href="<?php echo esc_url(admin_url('admin.php?page=wps_plugins_page')) ?>" class="wps-premium-step__action-btn js-wps-premiumModalUpgradeBtn wps-premium-step__action-btn--addons"><?php esc_html_e('Go to Add-Ons Page', 'wp-statistics'); ?></a>
+                                <a href="<?php echo esc_url(admin_url('admin.php?page=wps_plugins_page')) ?>" class="wps-premium-step__action-btn js-wps-premiumModalUpgradeBtn wps-premium-step__action-btn--addons"><?php esc_html_e('Go to Add-Ons Page', 'wp-statistics'); ?></a>
                             <?php else : ?>
                                 <a class="wps-premium-step__action-btn wps-premium-step__action-btn--upgrade  activated js-wps-premiumModalUpgradeBtn"><?php esc_html_e('Premium Activated', 'wp-statistics'); ?></a>
                             <?php endif; ?>
