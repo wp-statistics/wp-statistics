@@ -25,14 +25,11 @@ $isPremium        = LicenseHelper::isPremiumLicenseAvailable();
             <?php endif; ?>
         </div>
         <div class="js-wps-premium-steps__head">
-            <?php // If  No License - Not installed
-            if (!$installedPlugins && !$hasLicense) : ?>
+            <?php if (!$installedPlugins && !$hasLicense) : ?>
                 <p><?php esc_html_e('Go Premium. See more. Do more.', 'wp-statistics'); ?></p>
-            <?php // If  Single Add-on license
-            elseif ($hasLicense && !$isPremium) : ?>
+            <?php elseif ($hasLicense && !$isPremium) : ?>
                 <p><?php esc_html_e('You\'re Already Enjoying Some Premium Add-Ons!', 'wp-statistics'); ?></p>
-            <?php // If Premium
-            elseif ($isPremium) : ?>
+            <?php elseif ($isPremium) : ?>
                 <p><?php esc_html_e('You\'re All Set with WP Statistics Premium', 'wp-statistics'); ?></p>
             <?php else : ?>
                 <p><?php esc_html_e('Go Premium. See more. Do more.', 'wp-statistics'); ?></p>
