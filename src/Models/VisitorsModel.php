@@ -1183,4 +1183,21 @@ class VisitorsModel extends BaseModel
 
         return $result ? $result : [];
     }
+
+    public function getVisitorHits($args = [])
+    {
+        $args = $this->parseArgs($args, [
+            'date'      => '',
+            'user_id'   => '',
+        ]);
+
+        $query = Query::select('SUM(visitor.hits) as hits')
+            ->from('visitor')
+            ->where('user_id', '=', $args['user_id'])
+            ->whereDate('last_counter', $args['date']);
+
+        $result = $query->getVar();
+
+        return intval($result);
+    }
 }
