@@ -339,23 +339,23 @@ class DateRange
 
             'this_year' => [
                 'period' => [
-                    'from'  => DateTime::get('now', ['date_format' => 'Y-01-01']),
-                    'to'    => DateTime::get('now', ['date_format' => 'Y-12-31'])
+                    'from'  => DateTime::get('now', 'Y-01-01'),
+                    'to'    => DateTime::get('now', 'Y-12-31')
                 ],
                 'prev_period' => [
-                    'from'  => DateTime::get('-1 year', ['date_format' => 'Y-01-01']),
-                    'to'    => DateTime::get('-1 year', ['date_format' => 'Y-12-31'])
+                    'from'  => DateTime::get('-1 year', 'Y-01-01'),
+                    'to'    => DateTime::get('-1 year', 'Y-12-31')
                 ]
             ],
 
             'last_year' => [
                 'period' => [
-                    'from'  => DateTime::get('-1 year', ['date_format' => 'Y-01-01']),
-                    'to'    => DateTime::get('-1 year', ['date_format' => 'Y-12-31'])
+                    'from'  => DateTime::get('-1 year', 'Y-01-01'),
+                    'to'    => DateTime::get('-1 year', 'Y-12-31')
                 ],
                 'prev_period' => [
-                    'from'  => DateTime::get('-2 year', ['date_format' => 'Y-01-01']),
-                    'to'    => DateTime::get('-2 year', ['date_format' => 'Y-12-31'])
+                    'from'  => DateTime::get('-2 year', 'Y-01-01'),
+                    'to'    => DateTime::get('-2 year', 'Y-12-31')
                 ]
             ],
 
