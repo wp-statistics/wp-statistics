@@ -1,3 +1,7 @@
+<?php
+use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHandler;
+$pluginHandler = new PluginHandler();
+?>
 <div class="wps-optionsMenu">
     <a data-tab="general-settings" class="wps-optionsMenuItem current">
         <svg width="17" height="18" viewBox="0 0 17 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -48,40 +52,25 @@
         <span><?php esc_html_e('Advanced Options', 'wp-statistics'); ?></span>
     </a>
 
-    <div class="wps-optionsMenuItem__title"><?php esc_html_e('Add-Ons', 'wp-statistics'); ?></div>
+   <div class="wps-optionsMenuItem__title wps-optionsMenuItem__title--premium"><?php esc_html_e('Premium Add-Ons', 'wp-statistics'); ?></div>
 
-    <a data-tab="data-plus-settings" class="wps-optionsMenuItem wps-optionsMenuItem--extension <?php echo (\WP_STATISTICS\Helper::isAddOnActive('data-plus')) ? 'active' : ''; ?>">
-        <span class="wps-optionsMenuItem__title--extension"><?php esc_html_e('Data Plus', 'wp-statistics'); ?></span>
-        <span class="wps-optionsMenuItem__status--extension"><?php esc_html_e('Add-on', 'wp-statistics'); ?></span>
-    </a>
+    <?php
+    $addons = [
+        ['tab' => 'data-plus-settings', 'title' => 'Data Plus', 'key' => 'data-plus'],
+        ['tab' => 'realtime-stats-settings', 'title' => 'Real-time Stats', 'key' => 'realtime-stats'],
+        ['tab' => 'customization-settings', 'title' => 'Customization', 'key' => 'customization'],
+        ['tab' => 'advanced-reporting-settings', 'title' => 'Advanced Reporting', 'key' => 'advanced-reporting'],
+        ['tab' => 'mini-chart-settings', 'title' => 'Mini Chart', 'key' => 'mini-chart'],
+        ['tab' => 'rest-api-settings', 'title' => 'REST API', 'key' => 'rest-api'],
+        ['tab' => 'widgets-settings', 'title' => 'Advanced Widgets', 'key' => 'widgets'],
+    ];
 
-    <a data-tab="realtime-stats-settings" class="wps-optionsMenuItem wps-optionsMenuItem--extension <?php echo (\WP_STATISTICS\Helper::isAddOnActive('realtime-stats')) ? 'active' : ''; ?>">
-        <span class="wps-optionsMenuItem__title--extension"><?php esc_html_e('Real-time Stats', 'wp-statistics'); ?></span>
-        <span class="wps-optionsMenuItem__status--extension"><?php esc_html_e('Add-on', 'wp-statistics'); ?></span>
-    </a>
-
-    <a data-tab="customization-settings" class="wps-optionsMenuItem wps-optionsMenuItem--extension <?php echo (\WP_STATISTICS\Helper::isAddOnActive('customization')) ? 'active' : ''; ?>">
-        <span class="wps-optionsMenuItem__title--extension"><?php esc_html_e('Customization', 'wp-statistics'); ?></span>
-        <span class="wps-optionsMenuItem__status--extension"><?php esc_html_e('Add-on', 'wp-statistics'); ?></span>
-    </a>
-
-    <a data-tab="advanced-reporting-settings" class="wps-optionsMenuItem wps-optionsMenuItem--extension <?php echo (\WP_STATISTICS\Helper::isAddOnActive('advanced-reporting')) ? 'active' : ''; ?>">
-        <span class="wps-optionsMenuItem__title--extension"><?php esc_html_e('Advanced Reporting', 'wp-statistics'); ?></span>
-        <span class="wps-optionsMenuItem__status--extension"><?php esc_html_e('Add-on', 'wp-statistics'); ?></span>
-    </a>
-
-    <a data-tab="mini-chart-settings" class="wps-optionsMenuItem wps-optionsMenuItem--extension <?php echo (\WP_STATISTICS\Helper::isAddOnActive('mini-chart')) ? 'active' : ''; ?>">
-        <span class="wps-optionsMenuItem__title--extension"><?php esc_html_e('Mini Chart', 'wp-statistics'); ?></span>
-        <span class="wps-optionsMenuItem__status--extension"><?php esc_html_e('Add-on', 'wp-statistics'); ?></span>
-    </a>
-
-    <a data-tab="rest-api-settings" class="wps-optionsMenuItem wps-optionsMenuItem--extension <?php echo (\WP_STATISTICS\Helper::isAddOnActive('rest-api')) ? 'active' : ''; ?>">
-        <span class="wps-optionsMenuItem__title--extension"><?php esc_html_e('REST API', 'wp-statistics'); ?></span>
-        <span class="wps-optionsMenuItem__status--extension"><?php esc_html_e('Add-on', 'wp-statistics'); ?></span>
-    </a>
-
-    <a data-tab="widgets-settings" class="wps-optionsMenuItem wps-optionsMenuItem--extension <?php echo (\WP_STATISTICS\Helper::isAddOnActive('widgets')) ? 'active' : ''; ?>">
-        <span class="wps-optionsMenuItem__title--extension"><?php esc_html_e('Advanced Widgets', 'wp-statistics'); ?></span>
-        <span class="wps-optionsMenuItem__status--extension"><?php esc_html_e('Add-on', 'wp-statistics'); ?></span>
-    </a>
+    foreach ($addons as $addon) :
+        $isActive = \WP_STATISTICS\Helper::isAddOnActive($addon['key']);
+        ?>
+         <a data-tab="<?php echo esc_attr($addon['tab']); ?>"
+           class="wps-optionsMenuItem wps-optionsMenuItem--extension premium <?php echo $pluginHandler->isPluginActive('wp-statistics-'.$addon['key']) ? 'wps-license-activated' : '' ?> <?php echo $isActive ? 'active' : ''; ?>">
+            <span class="wps-optionsMenuItem__title--extension"><?php esc_html_e($addon['title'], 'wp-statistics'); ?></span>
+        </a>
+    <?php endforeach; ?>
 </div>

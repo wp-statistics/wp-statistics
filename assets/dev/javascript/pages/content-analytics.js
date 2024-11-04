@@ -23,9 +23,8 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         },
         generatePerformanceChart: function () {
             const performanceData = this.data.performance_chart_data;
-            wps_js.performance_chart(performanceData, 'performance-chart', 'content');
+            wps_js.new_line_chart(performanceData, 'performance-chart',null, 'performance');
         },
-
         generateOperatingSystemChart: function () {
             const operatingSystemData = this.data.os_chart_data;
             if (!operatingSystemData.data || operatingSystemData.data.length == 0) {
@@ -66,30 +65,13 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             if (!searchData.data.datasets || searchData.data.datasets.length == 0) {
                 jQuery('#content-search-engines-chart').parent().html(wps_js.no_results());
                 jQuery('.wps-postbox-chart--data').remove();
-                return;
             } else {
-                const data = {
-                    data: {
-                        labels: searchData.data.labels,
-                        ...searchData.data.datasets.reduce((acc, item) => {
-                            acc[item.label] = item.data;
-                            return acc;
-                        }, {})
-                    },
-                    previousData:{
-                        labels: searchData.previousData.labels,
-                        ...searchData.previousData.datasets.reduce((acc, item) => {
-                            acc[item.label] = item.data;
-                            return acc;
-                        }, {})
-                    }
-                };
-                wps_js.new_line_chart(data, 'content-search-engines-chart', null)
+                wps_js.new_line_chart(searchData, 'content-search-engines-chart')
             }
         },
         generatePerformanceChartSingle: function () {
             const performanceSingleData = this.data.performance_chart_data;
-            wps_js.performance_chart(performanceSingleData, 'performance-chart-single', 'content-single');
+            wps_js.new_line_chart(performanceSingleData, 'performance-chart-single' , null , 'performance');
         }
     }
 

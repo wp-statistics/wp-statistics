@@ -10,7 +10,7 @@ $defaultUrl     = $postId ? add_query_arg([$queryKey => $postId]) : remove_query
 
 <div class="wps-filter-page wps-head-filters__item loading">
     <div class="wps-dropdown">
-        <label for="wps-page-filter" class="selectedItemLabel"><?php esc_html_e('Page:', 'wp-statistics'); ?></label>
+        <label for="wps-page-filter" class="selectedItemLabel"><?php esc_html_e('Page', 'wp-statistics'); ?>:</label>
         <select id="wps-page-filter" class="wps-select2" data-type-show="select2">
             <option value="<?php echo esc_url($defaultUrl) ?>" selected>
                 <?php echo esc_html($defaultTitle); ?>

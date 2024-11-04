@@ -9,12 +9,12 @@
     </div>
 
     <div class="wps-postbox-chart--data">
-        <div class="wps-postbox-chart--items" ></div>
+        <div class="wps-postbox-chart--items"></div>
         <div class="wps-postbox-chart--previousPeriod">
             <?php esc_html_e('Previous period', 'wp-statistics'); ?>
         </div>
     </div>
     <div class="wps-postbox-chart--container">
-        <canvas id="<?php echo $unique_id; ?>"></canvas>
+        <canvas id="<?php echo esc_attr($unique_id); ?>"></canvas>
     </div>
- </div>
+</div>

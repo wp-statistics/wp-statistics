@@ -60,16 +60,6 @@ class summary
             }
         }
 
-        $is_realtime_active    = Helper::isAddOnActive('realtime-stats');
-        $realtime_button_class = $is_realtime_active ? 'wps-realtime-btn' : 'wps-realtime-btn disabled';
-        $realtime_button_title = $is_realtime_active ? 'Real-time stats are available! Click here to view.' : 'Real-Time add-on required to enable this feature';
-        $realtime_button_href  = $is_realtime_active ? Menus::admin_url('wp_statistics_realtime_stats') : WP_STATISTICS_SITE_URL . '/product/wp-statistics-realtime-stats/?utm_source=wp-statistics&utm_medium=link&utm_campaign=realtime';
-
-        $data['real_time_button'] = array(
-            'class' => esc_html__($realtime_button_class, 'wp-statistics'),
-            'title' => esc_html__($realtime_button_title, 'wp-statistics'),
-            'link'  => esc_url($realtime_button_href)
-        );
 
         // Get Visitors
         if (in_array('visitors', $component)) {
@@ -222,36 +212,6 @@ class summary
             $data['visits']['total'] = array(
                 'link'  => Menus::admin_url('visitors'),
                 'value' => number_format_i18n(wp_statistics_visit('total'))
-            );
-        }
-
-        // Get Search Engine Detail
-        if (in_array('search-engine', $component)) {
-            $data['search-engine'] = array();
-            $total_today           = 0;
-            $total_yesterday       = 0;
-            foreach (SearchEngine::getList() as $key => $value) {
-
-                // Get Statistics
-                $today     = wp_statistics_searchengine($value['tag'], 'today');
-                $yesterday = wp_statistics_searchengine($value['tag'], 'yesterday');
-
-                // Push to List
-                $data['search-engine'][$key] = array(
-                    'name'      => sprintf(__('%s', 'wp-statistics'), $value['name']),
-                    'logo'      => $value['logo_url'],
-                    'today'     => number_format_i18n($today),
-                    'yesterday' => number_format_i18n($yesterday)
-                );
-
-                // Sum Search engine
-                $total_today     += $today;
-                $total_yesterday += $yesterday;
-            }
-            $data['search-engine-total'] = array(
-                'today'     => number_format_i18n($total_today),
-                'yesterday' => number_format_i18n($total_yesterday),
-                'total'     => number_format_i18n(wp_statistics_searchengine('all')),
             );
         }
 

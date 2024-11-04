@@ -1,24 +1,24 @@
 <?php
 
-use WP_STATISTICS\Admin_Template;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Option;
+use WP_STATISTICS\Admin_Template;
+use WP_Statistics\Components\View;
+use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 
-$isCustomizationActive = WP_STATISTICS\Helper::isAddOnActive('customization');
+$isLicenseValid         = LicenseHelper::isPluginLicenseValid('wp-statistics-customization');
+$isCustomizationActive  = WP_STATISTICS\Helper::isAddOnActive('customization');
 global $wp_version;
 
 $disableMenuArray = [
-    'online'             => __('Online', 'wp-statistics'),
-    'hits'               => __('Views', 'wp-statistics'),
-    'visitors'           => __('Visitors', 'wp-statistics'),
-    'referrers'          => __('Referrers', 'wp-statistics'),
-    'searches'           => __('Search Engines', 'wp-statistics'),
+    'visitor_insights'   => __('Visitor Insight', 'wp-statistics'),
+    'pages_insight'      => __('Page Insight', 'wp-statistics'),
+    'referrals'          => __('Referrals', 'wp-statistics'),
     'content_analytics'  => __('Content Analytics', 'wp-statistics'),
     'author_analytics'   => __('Author Analytics', 'wp-statistics'),
     'category_analytics' => __('Category Analytics', 'wp-statistics'),
     'geographic'         => __('Geographic', 'wp-statistics'),
     'devices'            => __('Devices', 'wp-statistics'),
-    'top.visitors'       => __('Top Visitors', 'wp-statistics'),
     'link_tracker'       => __('Link Tracker', 'wp-statistics'),
     'download_tracker'   => __('Download Tracker', 'wp-statistics'),
     'plugins'            => __('Add-Ons', 'wp-statistics'),
@@ -46,15 +46,21 @@ $disabledMenuItems = WP_STATISTICS\Option::getByAddon('disable_menus', 'customiz
 ?>
 <?php
 if (!$isCustomizationActive) echo Admin_Template::get_template('layout/partials/addon-premium-feature',
-    ['addon_slug'        => esc_url(WP_STATISTICS_SITE_URL . '/product/wp-statistics-customization/?utm_source=wp-statistics&utm_medium=link&utm_campaign=plugin-settings'),
-     'addon_title'       => __('Customization Add-On', 'wp-statistics'),
-     'addon_description' => __('The settings on this page are part of the Customization add-on, which allows you to customize menus and make WP Statistics white-label.', 'wp-statistics'),
-     'addon_features'    => [
+    ['addon_slug'         => esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-customization/?utm_source=wp-statistics&utm_medium=link&utm_campaign=plugin-settings'),
+     'addon_title'        => __('Customization Add-On', 'wp-statistics'),
+     'addon_modal_target' => 'wp-statistics-customization',
+     'addon_description'  => __('The settings on this page are part of the Customization add-on, which allows you to customize menus and make WP Statistics white-label.', 'wp-statistics'),
+     'addon_features'     => [
          __('Customize menus according to your preferences.', 'wp-statistics'),
          __('Make WP Statistics white-label.', 'wp-statistics'),
      ],
-     'addon_info'        => __('Enjoy a simplified, customized experience with the Customization add-on.', 'wp-statistics'),
+     'addon_info'         => __('Enjoy a simplified, customized experience with the Customization add-on.', 'wp-statistics'),
     ], true);
+
+// @todo, render the notice with \WP_Statistics\Service\Admin\NoticeHandler\Notice::renderNotice(); in future.
+if ($isCustomizationActive && !$isLicenseValid) {
+    View::load("components/lock-sections/notice-inactive-license-addon");
+}
 ?>
     <div class="postbox">
         <table class="form-table <?php echo !$isCustomizationActive ? 'form-table--preview' : '' ?>">
@@ -74,7 +80,7 @@ if (!$isCustomizationActive) echo Admin_Template::get_template('layout/partials/
                             <option value="<?php echo esc_attr($key) ?>" <?php echo in_array($key, $disabledMenuItems ? $disabledMenuItems : []) ? 'selected' : '' ?>><?php echo esc_html($title) ?></option>
                         <?php } ?>
                     </select>
-                    <p class="description"><?php esc_html_e('Choose which menus you want to remove from the WordPress sidebar.', 'wp-statistics'); ?></p>
+                    <p class="description"><?php esc_html_e('Select the menus you want to hide from the WordPress sidebar. To deselect a menu, hold Ctrl and click on it.', 'wp-statistics'); ?></p>
                 </td>
             </tr>
 

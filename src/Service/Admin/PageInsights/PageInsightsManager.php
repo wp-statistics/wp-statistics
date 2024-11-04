@@ -18,7 +18,7 @@ class PageInsightsManager
      */
     public function addMenuItem($items)
     {
-        $items['page-insights'] = [
+        $items['pages_insight'] = [
             'sub'       => 'overview',
             'title'     => esc_html__('Page Insights', 'wp-statistics'),
             'page_url'  => 'pages',

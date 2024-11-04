@@ -47,7 +47,7 @@ class MiniChartHelper
     /**
      * Returns selected "Chart Metric" option.
      *
-     * @return string Either `visitors` or `views`. Default: `visitors`.
+     * @return string Either `visitors` or `views`. Default: `views`.
      */
     public function getChartMetric()
     {

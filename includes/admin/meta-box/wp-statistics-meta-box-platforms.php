@@ -5,8 +5,8 @@ namespace WP_STATISTICS\MetaBox;
 use WP_STATISTICS\DB;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Menus;
+use WP_Statistics\Service\Analytics\DeviceDetection\DeviceHelper;
 use WP_STATISTICS\TimeZone;
-use WP_STATISTICS\UserAgent;
 
 class platforms extends MetaBoxAbstract
 {
@@ -76,9 +76,8 @@ class platforms extends MetaBoxAbstract
             if (empty(trim($l['platform']))) continue;
 
             // Sanitize Version name
-            $lists_name[] = sanitize_text_field($l['platform']);
-
-            $lists_logos[] = UserAgent::getPlatformLogo($l['platform']);
+            $lists_name[]  = \WP_STATISTICS\Admin_Template::unknownToNotSet($l['platform']);
+            $lists_logos[] = DeviceHelper::getPlatformLogo($l['platform']);
 
             // Get List Count
             $lists_value[] = (int)$l['count'];

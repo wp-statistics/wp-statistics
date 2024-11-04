@@ -10,7 +10,7 @@
                 <label for="anonymize_ips">
                     <?php esc_html_e('Anonymize IP Addresses', 'wp-statistics'); ?>
                     <?php if (\WP_STATISTICS\Option::get('privacy_audit')): ?>
-                        <a href="#" class="wps-tooltip" title="<?php esc_html_e('Privacy Impact - This setting affects user privacy. Adjust with caution to ensure compliance with privacy standards. For more details, visit the Privacy Audit page.', 'wp-statistics') ?>"><i class="wps-tooltip-icon privacy"></i></a>
+                        <a class="wps-tooltip" title="<?php esc_html_e('Privacy Impact - This setting affects user privacy. Adjust with caution to ensure compliance with privacy standards. For more details, visit the Privacy Audit page.', 'wp-statistics') ?>"><i class="wps-tooltip-icon privacy"></i></a>
                     <?php endif ?>
                 </label>
             </th>
@@ -25,7 +25,7 @@
             <th scope="row">
                 <label for="hash_ips"><?php esc_html_e('Hash IP Addresses', 'wp-statistics'); ?></label>
                 <?php if (\WP_STATISTICS\Option::get('privacy_audit')): ?>
-                    <a href="#" class="wps-tooltip" title="<?php esc_html_e('Privacy Impact - This setting affects user privacy. Adjust with caution to ensure compliance with privacy standards. For more details, visit the Privacy Audit page.', 'wp-statistics') ?>"><i class="wps-tooltip-icon privacy"></i></a>
+                    <a class="wps-tooltip" title="<?php esc_html_e('Privacy Impact - This setting affects user privacy. Adjust with caution to ensure compliance with privacy standards. For more details, visit the Privacy Audit page.', 'wp-statistics') ?>"><i class="wps-tooltip-icon privacy"></i></a>
                 <?php endif ?>
             </th>
             <td>

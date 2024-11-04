@@ -52,6 +52,7 @@ class ShortCode
         }
 
         $formatnumber = array_key_exists('format', $atts);
+        $result       = '';
 
         switch ($atts['stat']) {
             case 'usersonline':
@@ -193,7 +194,7 @@ class ShortCode
                             'description' => __('Select the statistic you wish to display.', 'wp-statistics'),
                             'value'       => 'usersonline',
                             'options'     => array(
-                                'usersonline'    => __('Online Users', 'wp-statistics'),
+                                'usersonline'    => __('Online Visitors', 'wp-statistics'),
                                 'visits'         => __('Views', 'wp-statistics'),
                                 'visitors'       => __('Visitors', 'wp-statistics'),
                                 'pagevisits'     => __('Page Views', 'wp-statistics'),

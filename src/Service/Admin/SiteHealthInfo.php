@@ -5,6 +5,7 @@ namespace WP_Statistics\Service\Admin;
 use WP_STATISTICS\GeoIP;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Option;
+use WP_Statistics\Service\Geolocation\GeolocationFactory;
 
 /**
  * Class SiteHealthInfo
@@ -33,6 +34,7 @@ class SiteHealthInfo
     public function addStatisticsInfo($info)
     {
         $userRoleExclusions = $this->getUserRoleExclusions();
+        $geoIpProvider      = GeolocationFactory::getProviderInstance();
 
         $info[self::DEBUG_INFO_SLUG] = [
             'label'       => esc_html__('WP Statistics', 'wp-statistics'),
@@ -56,7 +58,7 @@ class SiteHealthInfo
                 ],
                 'dailySaltDate'                 => [
                     'label' => esc_html__('Daily Salt Date', 'wp-statistics'),
-                    'value' => get_option('wp_statistics_daily_salt')['date'],
+                    'value' => is_array(get_option('wp_statistics_daily_salt')) ? get_option('wp_statistics_daily_salt')['date'] : '',
                 ],
 
                 /**
@@ -64,20 +66,19 @@ class SiteHealthInfo
                  */
                 'geoIpDatabaseExists'           => [
                     'label' => esc_html__('GeoIP Database Exists', 'wp-statistics'),
-                    'value' => GeoIP::isExist() ? __('Yes', 'wp-statistics') : __('No', 'wp-statistics'),
-                    'debug' => GeoIP::isExist() ? 'Yes' : 'No',
+                    'value' => $geoIpProvider->isDatabaseExist() ? __('Yes', 'wp-statistics') : __('No', 'wp-statistics'),
                 ],
                 'geoIpDatabaseLastUpdated'      => [
                     'label' => esc_html__('GeoIP Database Last Updated', 'wp-statistics'),
-                    'value' => GeoIP::getLastUpdate(),
+                    'value' => $geoIpProvider->getLastDatabaseFileUpdated(),
                 ],
                 'geoIpDatabaseSize'             => [
                     'label' => esc_html__('GeoIP Database Size', 'wp-statistics'),
-                    'value' => GeoIP::getDatabaseSize(),
+                    'value' => $geoIpProvider->getDatabaseSize(),
                 ],
                 'geoIpDatabaseType'             => [
                     'label' => esc_html__('GeoIP Database Type', 'wp-statistics'),
-                    'value' => GeoIP::getDatabaseType(),
+                    'value' => $geoIpProvider->getDatabaseType(),
                 ],
 
                 /**
@@ -97,6 +98,11 @@ class SiteHealthInfo
                     'label' => esc_html__('Store Entire User Agent String', 'wp-statistics'),
                     'value' => Option::get('store_ua') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
                     'debug' => Option::get('store_ua') ? 'Enabled' : 'Disabled',
+                ],
+                'attributionModel'              => [
+                    'label' => esc_html__('Attribution Model', 'wp-statistics'),
+                    'value' => Option::get('attribution_model', 'first-touch'),
+                    'debug' => Option::get('attribution_model', 'first-touch'),
                 ],
                 'trackingMethod'                => [
                     'label' => esc_html__('Tracking Method', 'wp-statistics'),
@@ -152,6 +158,11 @@ class SiteHealthInfo
                     'label' => esc_html__('Show Stats in Admin Menu Bar', 'wp-statistics'),
                     'value' => Option::get('menu_bar') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
                     'debug' => Option::get('menu_bar') ? 'Enabled' : 'Disabled',
+                ],
+                'wpStatisticsChartsPrevPeriod'  => [
+                    'label' => esc_html__('Previous Period in Charts', 'wp-statistics'),
+                    'value' => Option::get('charts_previous_period') ? __('Enabled', 'wp-statistics') : __('Disabled', 'wp-statistics'),
+                    'debug' => Option::get('charts_previous_period') ? 'Enabled' : 'Disabled',
                 ],
                 'wpStatisticsWidgets'           => [
                     'label' => esc_html__('WP Statistics Widgets in the WordPress dashboard', 'wp-statistics'),

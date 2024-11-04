@@ -41,7 +41,7 @@ class Notice
             'is_dismissible' => (bool)$isDismissible,
         );
 
-        set_transient('wp_statistics_flash_notices', $flashNotices, 1); // Keep for 1 second
+        set_transient('wp_statistics_flash_notices', $flashNotices, 3); // Keep for 3 second
     }
 
     public static function displayNotices()
@@ -100,6 +100,14 @@ class Notice
         self::renderNoticeInternal($notice, $dismissible, $dismissUrl);
     }
 
+    /**
+     *
+     * @todo Should use component View::load() instead of Admin_Template
+     * @param $notice
+     * @param $dismissible
+     * @param $dismissUrl
+     * @return void
+     */
     private static function renderNoticeInternal($notice, $dismissible, $dismissUrl)
     {
         Admin_Template::get_template('notice', [

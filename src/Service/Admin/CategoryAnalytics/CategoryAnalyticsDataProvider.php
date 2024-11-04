@@ -1,15 +1,14 @@
-<?php 
+<?php
 
 namespace WP_Statistics\Service\Admin\CategoryAnalytics;
 
 use WP_STATISTICS\Helper;
-use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Models\AuthorsModel;
 use WP_Statistics\Models\PostsModel;
-use WP_Statistics\Utils\Request;
 use WP_Statistics\Models\TaxonomyModel;
 use WP_Statistics\Models\ViewsModel;
 use WP_Statistics\Models\VisitorsModel;
+use WP_Statistics\Service\Charts\ChartDataProviderFactory;
 
 class CategoryAnalyticsDataProvider
 {
@@ -19,7 +18,7 @@ class CategoryAnalyticsDataProvider
     protected $visitorsModel;
     protected $viewsModel;
     protected $authorModel;
-    
+
     public function __construct($args)
     {
         $this->args = $args;
@@ -33,72 +32,25 @@ class CategoryAnalyticsDataProvider
 
     public function getChartsData()
     {
-        $visitorsData = $this->visitorsModel->getVisitorsPlatformData($this->args);
+        $performanceDataProvider    = ChartDataProviderFactory::performanceChart($this->args);
+        $searchEngineDataProvider   = ChartDataProviderFactory::searchEngineChart($this->args);
+        $platformDataProvider       = ChartDataProviderFactory::platformCharts($this->args);
 
         return [
-            'performance_chart_data'    => $this->getPerformanceChartData(),
-            'search_engine_chart_data'  => $this->visitorsModel->getSearchEnginesChartData($this->args),
-            'os_chart_data'             => [
-                'labels'    => wp_list_pluck($visitorsData['platform'], 'label'),
-                'data'      => wp_list_pluck($visitorsData['platform'], 'visitors'),
-                'icons'     => wp_list_pluck($visitorsData['platform'], 'icon'),
-            ],
-            'browser_chart_data'        => [
-                'labels'    => wp_list_pluck($visitorsData['agent'], 'label'), 
-                'data'      => wp_list_pluck($visitorsData['agent'], 'visitors'),
-                'icons'     => wp_list_pluck($visitorsData['agent'], 'icon')
-            ],
-            'device_chart_data'         => [
-                'labels'    => wp_list_pluck($visitorsData['device'], 'label'), 
-                'data'      => wp_list_pluck($visitorsData['device'], 'visitors')
-            ],
-            'model_chart_data'          => [
-                'labels'    => wp_list_pluck($visitorsData['model'], 'label'), 
-                'data'      => wp_list_pluck($visitorsData['model'], 'visitors')
-            ],
+            'performance_chart_data'    => $performanceDataProvider->getData(),
+            'search_engine_chart_data'  => $searchEngineDataProvider->getData(),
+            'os_chart_data'             => $platformDataProvider->getOsData(),
+            'browser_chart_data'        => $platformDataProvider->getBrowserData(),
+            'device_chart_data'         => $platformDataProvider->getDeviceData(),
+            'model_chart_data'          => $platformDataProvider->getModelData()
         ];
-    }
-
-    public function getPerformanceChartData()
-    {
-        $result = [
-            'labels'    => [],
-            'visitors'  => [],
-            'views'     => [],
-            'posts'     => []
-        ];
-
-        $args = array_merge($this->args, ['date' => ['from' => date('Y-m-d', strtotime('-14 days')), 'to' => date('Y-m-d')]]);
-
-        $visitorsData   = $this->visitorsModel->countDailyVisitors($args);
-        $visitorsData   = wp_list_pluck($visitorsData, 'visitors', 'date');
-        
-        $viewsData  = $this->viewsModel->countDailyViews($args);
-        $viewsData  = wp_list_pluck($viewsData, 'views', 'date');
-
-        $postsData  = $this->postsModel->countDailyPosts($args);
-        $postsData  = wp_list_pluck($postsData, 'posts', 'date');
-
-        for ($i = 14; $i >= 0; $i--) {
-            $date = date('Y-m-d', strtotime("-$i days"));
-
-            $result['labels'][]     = [
-                'date'  => date_i18n(Helper::getDefaultDateFormat(false, true, true), strtotime($date)),
-                'day'   => date_i18n('l', strtotime($date)),
-            ];
-            $result['views'][]      = isset($viewsData[$date]) ? intval($viewsData[$date]) : 0;
-            $result['visitors'][]   = isset($visitorsData[$date]) ? intval($visitorsData[$date]) : 0;
-            $result['posts'][]      = isset($postsData[$date]) ? intval($postsData[$date]) : 0;
-        }
-
-        return $result;
     }
 
     public function getSingleTermData()
     {
         $totalPosts         = $this->postsModel->countPosts(array_merge($this->args, ['ignore_date' => true]));
         $recentPosts        = $this->postsModel->countPosts($this->args);
-        
+
         $recentViews         = $this->viewsModel->countViews($this->args);
         $recentVisitors      = $this->visitorsModel->countVisitors($this->args);
 
@@ -113,12 +65,11 @@ class CategoryAnalyticsDataProvider
 
         $visitorsCountry    = $this->visitorsModel->getVisitorsGeoData(array_merge($this->args, ['per_page' => 10]));
         $referrersData      = $this->visitorsModel->getReferrers($this->args);
-        
-        $performanceArgs    = ['date' => ['from' => date('Y-m-d', strtotime('-14 days')), 'to' => date('Y-m-d')]];
+
         $performanceData    = [
-            'posts'     => $this->postsModel->countPosts(array_merge($this->args, $performanceArgs)),
-            'visitors'  => $this->visitorsModel->countVisitors(array_merge($this->args, $performanceArgs)),
-            'views'     => $this->viewsModel->countViews(array_merge($this->args, $performanceArgs)),
+            'posts'     => $this->postsModel->countPosts($this->args),
+            'visitors'  => $this->visitorsModel->countVisitors($this->args),
+            'views'     => $this->viewsModel->countViews($this->args),
         ];
 
         $topViewingPosts    = $this->postsModel->getPostsViewsData($this->args);
@@ -186,7 +137,7 @@ class CategoryAnalyticsDataProvider
 
         $visitorsCountry    = $this->visitorsModel->getVisitorsGeoData(array_merge($this->args, ['per_page' => 10]));
         $referrersData      = $this->visitorsModel->getReferrers($this->args);
-        
+
         $performanceArgs = ['date' => ['from' => date('Y-m-d', strtotime('-14 days')), 'to' => date('Y-m-d')]];
         $performanceData = [
             'posts'     => $this->postsModel->countPosts(array_merge($this->args, $performanceArgs)),
@@ -215,7 +166,7 @@ class CategoryAnalyticsDataProvider
             'overview'          => [
                 'published' => [
                     'total' => $totalPosts,
-                    'recent'=> $recentPosts
+                    'recent' => $recentPosts
                 ],
                 'views'     => [
                     'recent'    => $recentViews,

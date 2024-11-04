@@ -87,7 +87,7 @@ class AdminBar
 
             }
 
-            if ($view_type && $view_title) {
+            if (!Helper::isAddOnActive('mini-chart') && $view_type && $view_title) {
                 $viewsModel = new ViewsModel();
                 $hit_number = $viewsModel->countViewsFromPagesOnly(['post_id' => $object_id, 'resource_type' => $view_type]);
 
@@ -148,10 +148,10 @@ class AdminBar
                     'parent' => 'wp-statistic-menu-global-data',
                     'title'  => sprintf('<img src="%s"/><div><span class="wps-admin-bar__chart__unlock-button">%s</span><button>%s</button></div>',
                         esc_url(WP_STATISTICS_URL . 'assets/images/mini-chart-lock.png'),
-                        __('Unlock full potential of Mini-chart', 'wp-statistics'),
-                        __('Upgrade Now', 'wp-statistics')
+                        __('Unlock the Full Power of WP Statistics', 'wp-statistics'),
+                        __('Learn More', 'wp-statistics')
                     ),
-                    'href'   => 'https://wp-statistics.com/product/wp-statistics-mini-chart?utm_source=wp-statistics&utm_medium=link&utm_campaign=mini-chart',
+                    'href'   =>  esc_url(admin_url('admin.php?page=wps_plugins_page&type=locked-mini-chart')),
                     'meta'   => [
                         'target' => '_blank',
                     ],
@@ -175,7 +175,7 @@ class AdminBar
                 'object_id'          => $object_id,
                 'view_type'          => $view_type,
                 'view_title'         => $view_title,
-                'hit_number'         => $hit_number,
+                'hit_number'         => isset($hit_number) ? intval($hit_number) : 0,
                 'footer_text'        => $footerText,
                 'footer_link'        => $footerLink,
                 'menu_href'          => Menus::admin_url('overview'),

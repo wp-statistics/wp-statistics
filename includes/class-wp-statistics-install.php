@@ -3,6 +3,7 @@
 namespace WP_STATISTICS;
 
 use WP_Statistics\Components\AssetNameObfuscator;
+use WP_Statistics\Components\Event;
 
 class Install
 {
@@ -93,6 +94,7 @@ class Install
                         city varchar(100),
                         region varchar(100),
                         continent varchar(50),
+                        visitor_id bigint(20) NOT NULL,
 						`user_id` BIGINT(48) NOT NULL,
 						`page_id` BIGINT(48) NOT NULL,
 						`type` VARCHAR(100) NOT NULL,
@@ -132,6 +134,8 @@ class Install
 						city varchar(100),
                         region varchar(100),
                         continent varchar(50),
+                        source_channel varchar(50),
+                        source_name varchar(100),
 						PRIMARY KEY  (ID),
 						UNIQUE KEY date_ip_agent (last_counter,ip,agent(50),platform(50),version(50)),
 						KEY agent (agent),
@@ -190,21 +194,6 @@ class Install
 						UNIQUE KEY uri (uri)
 					) {$collate}");
         dbDelta($create_historical_table);
-
-        // Search Table
-        $create_search_table = ("
-					CREATE TABLE " . DB::table('search') . " (
-						ID bigint(20) NOT NULL AUTO_INCREMENT,
-						last_counter date NOT NULL,
-						engine varchar(64) NOT NULL,
-						host varchar(190),
-						visitor bigint(20),
-						PRIMARY KEY  (ID),
-						KEY last_counter (last_counter),
-						KEY engine (engine),
-						KEY host (host)
-					) {$collate}");
-        dbDelta($create_search_table);
 
         // Create events table
         self::create_events_table();
@@ -374,8 +363,10 @@ class Install
         self::load_dbDelta();
 
         // Check installed plugin version
-        $installed_version = get_option('wp_statistics_plugin_version');
-        if ($installed_version == WP_STATISTICS_VERSION) {
+        $installed_version  = get_option('wp_statistics_plugin_version');
+        $latest_version     = WP_STATISTICS_VERSION;
+
+        if ($installed_version == $latest_version) {
             return;
         }
 
@@ -383,9 +374,39 @@ class Install
         $pagesTable           = DB::table('pages');
         $visitorTable         = DB::table('visitor');
         $historicalTable      = DB::table('historical');
-        $searchTable          = DB::table('search');
+        $searchTable          = DB::getTableName('search');
         $eventTable           = DB::table('events');
         $visitorRelationships = DB::table('visitor_relationships');
+
+        /**
+         * Add source channel column to visitors table
+         *
+         * @version 14.11
+         */
+        $result = $wpdb->query("SHOW COLUMNS FROM {$visitorTable} LIKE 'source_channel'");
+        if ($result == 0) {
+            $wpdb->query("ALTER TABLE {$visitorTable} ADD `source_channel` VARCHAR(50) NULL;");
+        }
+
+        /**
+         * Add source name column to visitors table
+         *
+         * @version 14.11
+         */
+        $result = $wpdb->query("SHOW COLUMNS FROM {$visitorTable} LIKE 'source_name'");
+        if ($result == 0) {
+            $wpdb->query("ALTER TABLE {$visitorTable} ADD `source_name` VARCHAR(100) NULL;");
+        }
+
+        /**
+         * Add visitor id column to user online table
+         *
+         * @version 14.11
+         */
+        $result = $wpdb->query("SHOW COLUMNS FROM {$userOnlineTable} LIKE 'visitor_id'");
+        if ($result == 0) {
+            $wpdb->query("ALTER TABLE {$userOnlineTable} ADD `visitor_id` bigint(20) NOT NULL;");
+        }
 
         /**
          * Add visitor city
@@ -476,7 +497,7 @@ class Install
          * MySQL since version 8.0.19 doesn't honot  display width specification
          * so we have to handle accept BIGINT(20) and BIGINT.
          *
-         * see: https://dev.mysql.com/doc/relnotes/mysql/8.0/en/news-8-0-19.html  
+         * see: https://dev.mysql.com/doc/relnotes/mysql/8.0/en/news-8-0-19.html
          * - section Deprecation and Removal Notes
          */
         if (!DB::isColumnType('visitor', 'ID', 'bigint(20)') && !DB::isColumnType('visitor', 'ID', 'bigint')) {
@@ -543,15 +564,7 @@ class Install
         }
 
         if (DB::ExistTable($searchTable)) {
-            /**
-             * Remove words from search table
-             *
-             * @version 14.5.2
-             */
-            $result = $wpdb->query("SHOW COLUMNS FROM `" . $searchTable . "` LIKE 'words'");
-            if ($result > 0) {
-                $wpdb->query("ALTER TABLE `" . $searchTable . "` DROP `words`");
-            }
+            $wpdb->query("DROP TABLE `$searchTable`");
         }
 
         /**
@@ -626,8 +639,15 @@ class Install
         /**
          * Update options
          */
-        if (Option::get('privacy_audit') === false && version_compare($installed_version, '14.7', '>=')) {
+        if (Option::get('privacy_audit') === false && version_compare($latest_version, '14.7', '>=')) {
             Option::update('privacy_audit', true);
+        }
+
+        /**
+         * Update GeoIP schedule from daily to monthly
+         */
+        if (Option::get('schedule_geoip') && version_compare($installed_version, '14.11', '<')) {
+            Event::reschedule('wp_statistics_geoip_hook', 'monthly');
         }
 
         /**

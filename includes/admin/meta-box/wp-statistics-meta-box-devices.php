@@ -94,7 +94,7 @@ class devices extends MetaBoxAbstract
             if (trim($l['device']) != "") {
 
                 // Remove device subtype, for example: mobile:smart -> mobile
-                $lists_name[] = ucfirst(Helper::getDeviceCategoryName($l['device']));
+                $lists_name[] = ucfirst(Helper::getDeviceCategoryName(\WP_STATISTICS\Admin_Template::unknownToNotSet($l['device'])));
 
                 // Get List Count
                 $lists_value[] = (int)$l['count'];

@@ -171,13 +171,6 @@ class Hits extends Singleton
         }
 
         /**
-         * Record Search Engine
-         */
-        if ($visitorId) {
-            SearchEngine::record(array('visitor_id' => $visitorId));
-        }
-
-        /**
          * Record Pages
          */
         $pageId = false;
@@ -265,7 +258,7 @@ class Hits extends Singleton
     public static function trackServerSideCallback()
     {
         try {
-            if (is_admin() or is_preview() or Option::get('use_cache_plugin') or Helper::dntEnabled()) {
+            if (is_favicon() || is_admin() || is_preview() || Option::get('use_cache_plugin') || Helper::dntEnabled()) {
                 return;
             }
 

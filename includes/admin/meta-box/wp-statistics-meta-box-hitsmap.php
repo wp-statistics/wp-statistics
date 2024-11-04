@@ -2,12 +2,13 @@
 
 namespace WP_STATISTICS\MetaBox;
 
+use WP_STATISTICS\Admin_Template;
 use WP_STATISTICS\Country;
 use WP_STATISTICS\DB;
-use WP_STATISTICS\GeoIP;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\IP;
-use WP_STATISTICS\UserAgent;
+use WP_Statistics\Service\Analytics\DeviceDetection\DeviceHelper;
+use WP_Statistics\Service\Geolocation\GeolocationFactory;
 
 class hitsmap extends MetaBoxAbstract
 {
@@ -67,7 +68,7 @@ class hitsmap extends MetaBoxAbstract
             $result = self::getData($days_time_list, $chunk, $offset);
             foreach (Helper::yieldARow($result) as $country) {
                 // Check User is Unknown IP
-                if ($country->location == GeoIP::$private_country) {
+                if (empty($country->location) || $country->location == GeolocationFactory::getProviderInstance()->getPrivateCountryCode()) {
                     continue;
                 }
 
@@ -143,13 +144,12 @@ class hitsmap extends MetaBoxAbstract
             OBJECT);
     }
 
-
     private static function getVisitor($country)
     {
         // Push Browser
         $visitor['browser'] = array(
             'name' => $country->agent,
-            'logo' => UserAgent::getBrowserLogo($country->agent)
+            'logo' => DeviceHelper::getBrowserLogo($country->agent)
         );
 
         // Push IP
@@ -161,9 +161,14 @@ class hitsmap extends MetaBoxAbstract
 
         // Push City
         try {
-            $visitor['city'] = GeoIP::getCity($country->ip);
+            $location        = GeolocationFactory::getLocation($country->ip);
+            $visitor['city'] = $location['city'];
         } catch (\Exception $e) {
             $visitor['city'] = '';
+        }
+
+        if (empty($visitor['city'])) {
+            $visitor['city'] = Admin_Template::unknownToNotSet($visitor['city']);
         }
 
         return $visitor;

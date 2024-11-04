@@ -199,35 +199,6 @@ class Referred
     }
 
     /**
-     * Get WebSite IP Server And Country Name
-     *
-     * @param $url string domain name e.g : wp-statistics.com
-     * @return array
-     * @throws \Exception
-     */
-    public static function get_domain_server($url)
-    {
-
-        //Create Empty Object
-        $result = array('ip' => '', 'country' => '');
-
-        //Get Ip by Domain
-        if (function_exists('gethostbyname')) {
-
-            // Get Host Domain
-            $ip = gethostbyname($url);
-
-            // Check Validate IP
-            if (filter_var($ip, FILTER_VALIDATE_IP)) {
-                $result['ip']      = $ip;
-                $result['country'] = GeoIP::getCountry($ip);
-            }
-        }
-
-        return $result;
-    }
-
-    /**
      * Get Top Referring Site
      *
      * @param int $number

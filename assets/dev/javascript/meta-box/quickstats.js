@@ -35,7 +35,7 @@ wps_js.quickstats_meta_box = {
 
     meta_box_init: function (args = []) {
          if (document.getElementById(wps_js.chart_id('quickstats'))) {
-            wps_js.new_line_chart(args['hits-chart'], wps_js.chart_id('quickstats'), null);
+            wps_js.new_line_chart(args['hits-chart'], wps_js.chart_id('quickstats'));
         }
 
     }

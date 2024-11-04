@@ -2,7 +2,6 @@
 
 namespace WP_STATISTICS;
 
-use WP_Statistics\Dependencies\Jaybizzle\CrawlerDetect\CrawlerDetect;
 use WP_Statistics\Service\Analytics\VisitorProfile;
 use WP_Statistics\Utils\Request;
 
@@ -18,7 +17,6 @@ class Exclusion
         return array(
             'ajax'            => __('Ajax', 'wp-statistics'),
             'cronjob'         => __('Cron job', 'wp-statistics'),
-            'CrawlerDetect'   => __('Crawler Detect', 'wp-statistics'),
             'robot'           => __('Robot', 'wp-statistics'),
             'BrokenFile'      => __('Broken Link', 'wp-statistics'),
             'ip match'        => __('IP Match', 'wp-statistics'),
@@ -306,19 +304,6 @@ class Exclusion
     }
 
     /**
-     * Detect if Crawler.
-     */
-    public static function exclusion_crawlerdetect()
-    {
-        $CrawlerDetect = new CrawlerDetect();
-        if ($CrawlerDetect->isCrawler()) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
      * Detect if Self Referral WordPress.
      * @param $visitorProfile VisitorProfile
      */
@@ -378,7 +363,7 @@ class Exclusion
             if (strlen($subnet) > 6) {
 
                 // Check in Range
-                if (IP::CheckIPRange(array($subnet))) {
+                if (IP::checkIPRange(array($subnet))) {
                     return true;
                 }
             }
@@ -445,11 +430,11 @@ class Exclusion
 
         $userAgent = $visitorProfile->getUserAgent();
 
-        if (isset($userAgent['isBot']) && $userAgent['isBot'] === true) {
+        if ($userAgent->isBot()) {
             return true;
         }
 
-        if (!$userAgent['isBrowserDetected'] && !$userAgent['isPlatformDetected']) {
+        if (!$userAgent->isBrowserDetected() && !$userAgent->isPlatformDetected()) {
             return true;
         }
 
@@ -459,7 +444,7 @@ class Exclusion
     /**
      * Detect if GeoIP include or exclude country.
      *
-     * @param $visitorProfile VisitorProfile
+     * @param VisitorProfile VisitorProfile
      * @throws \Exception
      */
     public static function exclusion_geoip($visitorProfile)
@@ -477,6 +462,9 @@ class Exclusion
         } else {
             $included_countries = explode("\n", $included_countries_string);
         }
+
+        $excluded_countries = array_filter($excluded_countries);
+        $included_countries = array_filter($included_countries);
 
         // Check to see if the current location is in the excluded countries list.
         if (in_array($location, $excluded_countries)) {

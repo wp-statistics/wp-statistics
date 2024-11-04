@@ -9,7 +9,7 @@ $taxonomies       = Helper::get_list_taxonomy(true);
 
 <div class="wps-filter-taxonomy wps-head-filters__item loading">
     <div class="wps-dropdown">
-        <label class="selectedItemLabel"><?php esc_html_e('Taxonomy:', 'wp-statistics'); ?> </label>
+        <label class="selectedItemLabel"><?php esc_html_e('Taxonomy', 'wp-statistics'); ?>: </label>
         <button type="button" class="dropbtn"><span><?php echo isset($taxonomies[$selectedOption]) ? esc_html(ucwords($taxonomies[$selectedOption])) : '—'; ?></span></button>
 
         <div class="dropdown-content">
@@ -22,9 +22,15 @@ $taxonomies       = Helper::get_list_taxonomy(true);
                     $class[] = $selectedOption == $key ? 'selected' : '';
                     $class[] = Helper::isCustomTaxonomy($key) && !Helper::isAddOnActive('data-plus') ? 'disabled' : '';
                     ?>
+                        <?php if(Helper::isCustomTaxonomy($key) && !Helper::isAddOnActive('data-plus')): ?>
+                            <a  data-target="wp-statistics-data-plus" data-index="<?php echo esc_attr($index) ?>" title="<?php echo esc_attr($name) ?>" class="js-wps-openPremiumModal <?php echo esc_attr(implode(' ', $class)) ?>">
+                                <?php echo esc_html(ucwords($name)) ?>
+                            </a>
+                        <?php else:?>
                         <a href="<?php echo esc_url($url) ?>" data-index="<?php echo esc_attr($index) ?>" title="<?php echo esc_attr($name) ?>" class="<?php echo esc_attr(implode(' ', $class)) ?>">
                             <?php echo esc_html(ucwords($name)) ?>
                         </a>
+                        <?php endif;?>
                     <?php 
 
                     $index++; 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace WP_Statistics\Dependencies\GeoIp2\Model;
 
 use WP_Statistics\Dependencies\GeoIp2\Util;
@@ -18,16 +20,25 @@ use WP_Statistics\Dependencies\GeoIp2\Util;
  */
 class Domain extends AbstractModel
 {
+    /**
+     * @var string|null
+     */
     protected $domain;
+
+    /**
+     * @var string
+     */
     protected $ipAddress;
+
+    /**
+     * @var string
+     */
     protected $network;
 
     /**
      * @ignore
-     *
-     * @param mixed $raw
      */
-    public function __construct($raw)
+    public function __construct(array $raw)
     {
         parent::__construct($raw);
 

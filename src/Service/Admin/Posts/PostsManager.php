@@ -80,20 +80,30 @@ class PostsManager
     {
         global $pagenow;
 
-        if ($pagenow === 'edit.php') {
-            // Posts and pages and CPTs
+        $isPostQuickEdit = $pagenow === 'admin-ajax.php' && !empty($_POST['action']) && $_POST['action'] === 'inline-save';
+        $isTaxQuickEdit  = $pagenow === 'admin-ajax.php' && !empty($_POST['action']) && $_POST['action'] === 'inline-save-tax';
+
+        if ($pagenow === 'edit.php' || $isPostQuickEdit) {
+            // Posts and pages and CPTs + Quick edit
 
             $hitColumnHandler = new HitColumnHandler();
 
             foreach (Helper::get_list_post_type() as $type) {
-                add_action("manage_{$type}_posts_columns", [$hitColumnHandler, 'addHitColumn'], 10, 2);
+                if (!$isPostQuickEdit) {
+                    add_action("manage_{$type}_posts_columns", [$hitColumnHandler, 'addHitColumn'], 10, 2);
+                } else {
+                    add_action("manage_edit-{$type}_columns", [$hitColumnHandler, 'addHitColumn'], 10, 2);
+                }
+
                 add_action("manage_{$type}_posts_custom_column", [$hitColumnHandler, 'renderHitColumn'], 10, 2);
                 add_filter("manage_edit-{$type}_sortable_columns", [$hitColumnHandler, 'modifySortableColumns']);
             }
 
-            add_filter('posts_clauses', [$hitColumnHandler, 'handlePostOrderByHits'], 10, 2);
-        } else if ($pagenow === 'edit-tags.php') {
-            // Taxonomies
+            if (!$isPostQuickEdit) {
+                add_filter('posts_clauses', [$hitColumnHandler, 'handlePostOrderByHits'], 10, 2);
+            }
+        } else if ($pagenow === 'edit-tags.php' || $isTaxQuickEdit) {
+            // Taxonomies + Quick edit
 
             if (!apply_filters('wp_statistics_show_taxonomy_hits', true)) {
                 return;
@@ -101,11 +111,10 @@ class PostsManager
 
             $hitColumnHandler = new HitColumnHandler(true);
 
-            // Add Column
             foreach (Helper::get_list_taxonomy() as $tax => $name) {
-                add_action('manage_edit-' . $tax . '_columns', [$hitColumnHandler, 'addHitColumn'], 10, 2);
-                add_filter('manage_' . $tax . '_custom_column', [$hitColumnHandler, 'renderTaxHitColumn'], 10, 3);
-                add_filter('manage_edit-' . $tax . '_sortable_columns', [$hitColumnHandler, 'modifySortableColumns']);
+                add_action("manage_edit-{$tax}_columns", [$hitColumnHandler, 'addHitColumn'], 10, 2);
+                add_filter("manage_{$tax}_custom_column", [$hitColumnHandler, 'renderTaxHitColumn'], 10, 3);
+                add_filter("manage_edit-{$tax}_sortable_columns", [$hitColumnHandler, 'modifySortableColumns']);
             }
 
             add_filter('terms_clauses', [$hitColumnHandler, 'handleTaxOrderByHits'], 10, 3);
@@ -188,51 +197,46 @@ class PostsManager
     /**
      * Adds meta-boxes for the post in the classic editor mode.
      *
+     * @param string $postType Current post type.
+     *
      * @return	void
      *
      * @hooked	action: `add_meta_boxes` - 10
      */
-    public function addPostMetaBoxes()
+    public function addPostMetaBoxes($postType)
     {
-        // Display "Statistics - Latest Visitors" meta-box only when DataPlus add-on is active and `latest_visitors_metabox` is enabled
-        // Or when DataPlus add-on is not active and `disable_editor` is disabled
-        $displayLatestVisitors = Helper::isAddOnActive('data-plus') ? Option::getByAddon('latest_visitors_metabox', 'data_plus', '1') === '1' : !Option::get('disable_editor');
+        if ($this->shouldDisplaySummaryMetabox()) {
+            add_meta_box(
+                Meta_Box::getMetaBoxKey('post-summary'),
+                Meta_Box::getList('post-summary')['name'],
+                Meta_Box::LoadMetaBox('post-summary'),
+                $postType,
+                'side',
+                'high',
+                ['__back_compat_meta_box' => false]
+            );
+        }
 
-        // Add meta-box to all post types
-        foreach (Helper::get_list_post_type() as $screen) {
-            if ($this->shouldDisplaySummaryMetabox()) {
-                add_meta_box(
-                    Meta_Box::getMetaBoxKey('post-summary'),
-                    Meta_Box::getList('post-summary')['name'],
-                    Meta_Box::LoadMetaBox('post-summary'),
-                    $screen,
-                    'side',
-                    'high',
-                    ['__back_compat_meta_box' => false]
-                );
-            }
-
-            if ($displayLatestVisitors) {
-                add_meta_box(
-                    Meta_Box::getMetaBoxKey('post'),
-                    Meta_Box::getList('post')['name'],
-                    Meta_Box::LoadMetaBox('post'),
-                    $screen,
-                    'normal',
-                    'high',
-                    [
-                        '__block_editor_compatible_meta_box' => true,
-                        '__back_compat_meta_box'             => false,
-                    ]
-                );
-            }
+        if ($this->shouldDisplayLatestVisitorsMetabox()) {
+            add_meta_box(
+                Meta_Box::getMetaBoxKey('post'),
+                Meta_Box::getList('post')['name'],
+                Meta_Box::LoadMetaBox('post'),
+                $postType,
+                'normal',
+                'high',
+                [
+                    '__block_editor_compatible_meta_box' => true,
+                    '__back_compat_meta_box'             => false,
+                ]
+            );
         }
     }
 
     /**
      * Checks if any of the conditions for displaying "Statistics - Summary" meta-box are met.
      *
-     * Conditions are: 
+     * Conditions are:
      * - `disable_editor` option is disabled.
      * - User is in classic editor.
      * - Installed WordPress version is v6.5.5 or lower (to prevent "React error #130" caused by `PluginDocumentSettingPanel`).
@@ -245,11 +249,25 @@ class PostsManager
     }
 
     /**
+     * Checks if any of the conditions for displaying "Statistics - Latest Visitors" meta-box are met.
+     *
+     * Conditions are:
+     * - DataPlus add-on is active and `latest_visitors_metabox` option is enabled.
+     * - DataPlus add-on is not active and `disable_editor` is disabled.
+     *
+     * @return  bool
+     */
+    private function shouldDisplayLatestVisitorsMetabox()
+    {
+        return Helper::isAddOnActive('data-plus') ? Option::getByAddon('latest_visitors_metabox', 'data_plus', '1') === '1' : !Option::get('disable_editor');
+    }
+
+    /**
      * Returns the data needed for "Statistics - Summary" widget/panel in edit posts.
      *
      * @param   \WP_Post    $post
      *
-     * @return  array|null          Keys: 
+     * @return  array|null          Keys:
      *  - `postId`
      *  - `fromString`
      *  - `toString`

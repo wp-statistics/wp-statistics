@@ -4,7 +4,7 @@ namespace WP_Statistics\Service\Admin\Geographic;
 
 use WP_STATISTICS\Helper;
 use WP_Statistics\Models\VisitorsModel;
-use WP_STATISTICS\TimeZone;
+use WP_Statistics\Service\Charts\ChartDataProviderFactory;
 
 class GeographicDataProvider
 {
@@ -149,28 +149,15 @@ class GeographicDataProvider
 
     public function getSingleCountryChartsData()
     {
-        $platformData = $this->visitorsModel->getVisitorsPlatformData($this->args);
+        $platformDataProvider       = ChartDataProviderFactory::platformCharts($this->args);
+        $searchEngineDataProvider   = ChartDataProviderFactory::searchEngineChart($this->args);
 
         return [
-            'search_engine_chart_data' => $this->visitorsModel->getSearchEnginesChartData($this->args),
-            'os_chart_data'         => [
-                'labels'    => wp_list_pluck($platformData['platform'], 'label'),
-                'data'      => wp_list_pluck($platformData['platform'], 'visitors'),
-                'icons'     => wp_list_pluck($platformData['platform'], 'icon'),
-            ],
-            'browser_chart_data'    => [
-                'labels'    => wp_list_pluck($platformData['agent'], 'label'), 
-                'data'      => wp_list_pluck($platformData['agent'], 'visitors'),
-                'icons'     => wp_list_pluck($platformData['agent'], 'icon')
-            ],
-            'device_chart_data'        => [
-                'labels' => wp_list_pluck($platformData['device'], 'label'),
-                'data'   => wp_list_pluck($platformData['device'], 'visitors')
-            ],
-            'model_chart_data'         => [
-                'labels' => wp_list_pluck($platformData['model'], 'label'),
-                'data'   => wp_list_pluck($platformData['model'], 'visitors')
-            ],
+            'search_engine_chart_data'  => $searchEngineDataProvider->getData(),
+            'os_chart_data'             => $platformDataProvider->getOsData(),
+            'browser_chart_data'        => $platformDataProvider->getBrowserData(),
+            'device_chart_data'         => $platformDataProvider->getDeviceData(),
+            'model_chart_data'          => $platformDataProvider->getModelData()
         ];
     }
 }

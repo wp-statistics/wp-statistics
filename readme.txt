@@ -4,8 +4,8 @@ Donate link: https://wp-statistics.com/donate/
 Tags: analytics, google analytics, insights, stats, site visitors
 Requires at least: 5.0
 Tested up to: 6.7
-Stable tag: 14.10.3
-Requires PHP: 5.6
+Stable tag: 14.11
+Requires PHP: 7.2
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -64,7 +64,7 @@ You can find more information in "[What we collect](https://wp-statistics.com/re
 **Get the most out of your website analytics by using WP Statistics Premium Add-ons**
 Upgrade your analytics toolkit with our range of premium add-ons, including [Data Plus](https://wp-statistics.com/product/wp-statistics-data-plus?utm_source=wporg&utm_medium=link&utm_campaign=dp), [Advanced Reporting](https://wp-statistics.com/product/wp-statistics-advanced-reporting/?utm_source=wporg&utm_medium=link&utm_campaign=adv-report), [Real-Time Stats](https://wp-statistics.com/product/wp-statistics-realtime-stats/?utm_source=wporg&utm_medium=link&utm_campaign=realtime), [Mini Chart](https://wp-statistics.com/product/wp-statistics-mini-chart/?utm_source=wporg&utm_medium=link&utm_campaign=mini-chart), and [more](https://wp-statistics.com/add-ons/?utm_source=wporg&utm_medium=link&utm_campaign=add-ons). Making informed decisions is easier with these powerful tools.
 
-**Special Offer:** Purchase the [bundle pack](https://wp-statistics.com/product/add-ons-bundle/?utm_source=wporg&utm_medium=link&utm_campaign=bundle) and Enjoy Savings of up to 60%!
+**Special Offer:** Purchase the [bundle pack](https://wp-statistics.com/product/add-ons-bundle/?utm_source=wporg&utm_medium=link&utm_campaign=premium) and Enjoy Savings of up to 60%!
 
 = Report Bugs =
 Having trouble with a bug? Please [create an issue](https://github.com/wp-statistics/wp-statistics/issues/new) on GitHub. Kindly note that [GitHub](https://github.com/wp-statistics/wp-statistics) is exclusively for bug reports; other inquiries will be closed.
@@ -111,41 +111,51 @@ WP Statistics supports WordPress Multi-Site/Network installations. In the networ
 
 == Screenshots ==
 1. Overview
-2. Privacy Audit
-3. Page Insights
-4. Visitors Insights
-5. Content Analytics Dashboard
-6. Author Analytics
-7. Category Analytics
-8. Website Performance Report
-9. Detailed Visitor Report
-10. Online Visitors Monitoring
-11. Settings
+2. Visitors Insights
+3. Online Visitors Monitoring
+4. Optimization
+5. Settings
+6. Real-Time Stats
+7. Download Tracker
+8. Understand Your Traffic Sources
+9. Geographic
+10. Author Analytics
+11. Devices
 12. Link Tracker
-13. Geographic
-14. Referrals
-15. Devices
-16. Download Tracker
+13. Privacy Audit
+14. Content Analytics Dashboard
+15. Category Analytics
+16. Website Performance Report
 17. Mini Chart Quick View
-18. Optimization
-19. Real-Time Stats
+18. Page Insights
+19. Detailed Visitor Report
 
 == Upgrade Notice ==
-= 14.10 =
-To ensure the plugin works correctly, please **clear your cache** because some request payloads have been updated. Also, review your settings, especially if you use DataPlus, Advanced Reporting, or Customization, as some options have changed.
+= 14.11 =
+To ensure the plugin works correctly, please clear your cache because some request payloads have been updated. Also, review your settings, especially if you use DataPlus, Advanced Reporting, or Customization, as some options have changed.
 Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest version.
 
 == Changelog ==
-= 14.10.3 - 21.10.2024 =
-- **Enhancement**: Updated `moment.js` to version 2.30.1.
-- **Enhancement**: Set “views” as the default metric for mini charts in post list columns.
-- **Enhancement**: Ensured full compatibility with WordPress version 6.7.
-- **Enhancement**: Improved performance of query and minor improvements.
-- **Dev**: Added the filter `wp_statistics_mini_chart_metric` to allow changing the default chart metric for mini charts.
-- **Dev**: Added the filter `wp_statistics_enable_htaccess_protection` to control the creation of `.htaccess` files in the `uploads/wp-statistics` folder.
-- **Fix**: Improved the Excluded URLs feature to better support wildcards (*) for more flexible exclusions.
-- **Fix**: Resolved missing PostsManager issue by optimizing autoloading, fixing access problems.
+https://www.youtube.com/watch?v=jxYLVtBdhEc
 
-For more information about the major update, please [visit our blog post](https://wp-statistics.com/?p=16657) or follow [@wp_statistics](https://twitter.com/wp_statistics) on Twitter
+= 14.11 - 2024-10-04 =
+- **New:** Launched WP Statistics Premium with a pop-up to introduce its features.
+- **New:** Added a dedicated header for Premium users, with minor updates to the free version’s header.
+- **New:** Completely revamped Referral reports.
+- **New:** Created a new Add-Ons page with an easier way to install add-ons.
+- **New:** Added an option to turn off previous period data in charts.
+- **Enhancement:** Updated PHP requirement to version 7.2.
+- **Enhancement:** Improved geolocation accuracy.
+- **Enhancement:** Enhanced device detection using [Matomo’s Device Detector](https://github.com/matomo-org/device-detector).
+- **Enhancement:** Updated report pages, especially the visitor sections, with refined styling.
+- **Enhancement:** Chart labels now adjust automatically to the chosen date range.
+- **Enhancement:** Various functional improvements and small updates.
+- **Fix:** Resolved a memory issue affecting background processes.
+- **Fix:** Fixed a bug that blocked visitor data display when missing from the `visitor_relationship` table.
+- **Fix:** Resolved an issue with global table prefixes in WordPress Multisite/Network setups.
+- **Fix:** Fixed retrieve correct tracker JS file path & Bedrock compatibility.
+- **Fix:** Fixed user role exclusions in server side tracking.
+
+For more information about the major update, please [visit our blog post](https://wp-statistics.com/release/wp-statistics-v14-11/) or follow [@wp_statistics](https://twitter.com/wp_statistics) on Twitter
 
 [See changelog for all versions](https://raw.githubusercontent.com/wp-statistics/wp-statistics/master/CHANGELOG.md).

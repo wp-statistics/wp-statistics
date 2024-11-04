@@ -9,7 +9,7 @@ $baseUrl        = remove_query_arg([$queryKey, 'pid']); // remove post id and au
 
 <div class="wps-filter-author wps-head-filters__item loading">
     <div class="wps-dropdown">
-        <label class="selectedItemLabel"><?php esc_html_e('Author:', 'wp-statistics'); ?> </label>
+        <label class="selectedItemLabel"><?php esc_html_e('Author', 'wp-statistics'); ?>: </label>
         <button type="button" class="dropbtn"><span><?php echo esc_html($selectedOption); ?></span></button>
         <div class="dropdown-content">
             <a href="<?php echo esc_url($baseUrl) ?>" data-index="0" class="<?php echo !$authorId ? 'selected' : '' ?>"><?php  esc_html_e('All', 'wp-statistics'); ?></a>

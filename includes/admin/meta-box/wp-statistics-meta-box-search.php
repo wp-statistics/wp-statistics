@@ -2,10 +2,7 @@
 
 namespace WP_STATISTICS\MetaBox;
 
-use WP_Statistics\Models\VisitorsModel;
-use WP_STATISTICS\Option;
-use WP_STATISTICS\SearchEngine;
-use WP_STATISTICS\TimeZone;
+use WP_Statistics\Service\Charts\ChartDataProviderFactory;
 
 class search extends MetaBoxAbstract
 {
@@ -34,25 +31,17 @@ class search extends MetaBoxAbstract
             'from' => '',
             'to'   => ''
         );
-        $args     = wp_parse_args($arg, $defaults);
-
-        // Set Default Params
-        $date = $stats = $total_daily = $search_engine_list = array();
+        $args = wp_parse_args($arg, $defaults);
 
         // Filter By Date
         self::filterByDate($args);
 
-        $range = array_keys(self::$daysList);
+        $range  = array_keys(self::$daysList);
+        $from   = reset($range);
+        $to     = end($range);
 
-        $visitorsModel = new VisitorsModel();
+        $searchEngineChartData = ChartDataProviderFactory::searchEngineChart(['date' => ['from' => $from, 'to' => $to]])->getData();
 
-        $data = $visitorsModel->getSearchEnginesChartData([
-            'date' => [
-                'from'  => reset($range),
-                'to'    => end($range)
-            ]
-        ]);
-
-        return self::response($data);
+        return self::response($searchEngineChartData);
     }
 }

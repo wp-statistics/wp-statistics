@@ -16,28 +16,6 @@ wps_js.search_meta_box = {
     },
 
     meta_box_init: function (args = []) {
-
-        // Prepare Chart Data
-        let datasets = [];
-        let i = 0;
-        const data = {
-            data: {
-                labels: args.data?.labels,
-                ...args.data.datasets.reduce((acc, item) => {
-                    acc[item.label] = item.data;
-                    return acc;
-                }, {})
-            },
-            previousData:{
-                labels: args.previousData?.labels,
-                ...args.previousData.datasets.reduce((acc, item) => {
-                    acc[item.label] = item.data;
-                    return acc;
-                }, {})
-            }
-        };
-
-        wps_js.new_line_chart(data, wps_js.chart_id('search'), null)
-    },
-
+        wps_js.new_line_chart(args, wps_js.chart_id('search'))
+    }
 };

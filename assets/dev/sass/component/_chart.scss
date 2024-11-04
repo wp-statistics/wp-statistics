@@ -72,157 +72,12 @@
     margin-top: 20px;
   }
 }
-.c-wps-performance-chart {
-  margin-top: 20px;
-  &__items {
-    display: flex;
-    gap: 15px;
-    @media (min-width: 500px) {
-      gap: 48px;
-    }
-
-    .c-wps-performance-chart__item {
-      cursor: pointer;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-
-      &--published {
-        span {
-          &:before {
-            color:#8AC3D0;
-          }
-        }
-      }
-
-      &--views {
-        span {
-          &:before {
-            color: #7362BF;
-          }
-        }
-      }
-
-      &--visitors {
-        span {
-          &:before {
-            color: #3288D7;
-          }
-        }
-      }
-
-      &.hidden {
-        p {
-          text-decoration: line-through;
-          color:#A9AAAE;
-        }
-        span{
-          color:#A9AAAE;
-          &:before{
-            color: #A9AAAE!important;
-          }
-        }
-      }
-
-      p {
-        font-size: 13px;
-        font-style: italic;
-        font-weight: 400;
-        line-height: 15.23px;
-        color: #56585A;
-        padding: 0;
-        margin: 0;
-      }
-
-      span {
-        font-size: 16px;
-        font-weight: 600;
-        line-height: 25.78px;
-        color: #0C0C0D;
-        display: flex;
-        align-items: center;
-        gap: 6px;
-
-        &:before {
-          content: '';
-          width: 6px;
-          border: 2px solid;
-          border-radius: 3px;
-          display: inline-flex;
-        }
-      }
-    }
-  }
-  &__container {
-    position: relative;
-
-    .wps-chart-tooltip {
-      background: #fff;
-      padding: 12px;
-      box-shadow: 1px 1px 2px 0px #00000005;
-      border: 0.5px solid #EEEFF1;
-      border-radius: 2px;
-      width: 199px;
-
-
-      & > div {
-        display: flex;
-        gap: 8px;
-        flex-direction: column;
-      }
-
-      .current-data, .previous-data {
-        font-size: 13px;
-        font-style: italic;
-        font-weight: 400;
-        line-height: 15.23px;
-        color: #56585A;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-
-
-        &__value {
-          font-weight: 500;
-          color: #0C0C0D;
-        }
-
-        & > div {
-          display: flex;
-          align-items: center;
-          gap: 7px;
-          text-transform: capitalize;
-
-          .previous-data__colors {
-            display: flex;
-            align-items: center;
-            gap: 1px;
-
-            .previous-data__color {
-              width: 5px;
-              height: 3px;
-              display: inline-block;
-              border-radius: 3px;
-            }
-          }
-
-          .current-data__color {
-            width: 12px;
-            height: 3px;
-            display: inline-block;
-            border-radius: 3px;
-          }
-        }
-      }
-
-      .chart-title {
-        color: #0C0C0D;
-        font-size: 13px;
-        font-style: italic;
-        font-weight: 400;
-        line-height: 15.23px;
-      }
-    }
+.c-wps-performance-chart__items {
+  .current-data{
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 25.78px;
+    color: #0c0c0d;
   }
 }
 
@@ -234,3 +89,12 @@
   }
 }
 
+.c-chart__wps-skeleton{
+  canvas{
+    display: none!important;
+  }
+  &--legend{
+    display: none!important;
+  }
+
+}

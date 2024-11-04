@@ -1,7 +1,10 @@
 <?php
 
 use WP_STATISTICS\Admin_Template;
+use WP_Statistics\Components\View;
+use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 
+$isLicenseValid            = LicenseHelper::isPluginLicenseValid('wp-statistics-mini-chart');
 $isMiniChartActive         = WP_STATISTICS\Helper::isAddOnActive('mini-chart');
 $miniChartDefaultPostTypes = get_post_types(array(
     'public'   => true,
@@ -25,16 +28,21 @@ foreach ($miniChartPostTypes as $name => $label) {
 
 <?php
 if (!$isMiniChartActive) echo Admin_Template::get_template('layout/partials/addon-premium-feature',
-    ['addon_slug'        => esc_url(WP_STATISTICS_SITE_URL . '/product/wp-statistics-mini-chart/?utm_source=wp-statistics&utm_medium=link&utm_campaign=plugin-settings'),
-     'addon_title'       => __('Mini Chart Add-On', 'wp-statistics'),
-     'addon_description' => __('The settings on this page are part of the Mini Chart add-on, which provides tiny charts for all your posts and pages, along with an Admin Bar for quick access to traffic data.', 'wp-statistics'),
-     'addon_features'    => [
+    ['addon_slug'         => esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-mini-chart/?utm_source=wp-statistics&utm_medium=link&utm_campaign=plugin-settings'),
+     'addon_title'        => __('Mini Chart Add-On', 'wp-statistics'),
+     'addon_modal_target' => 'wp-statistics-mini-chart',
+     'addon_description'  => __('The settings on this page are part of the Mini Chart add-on, which provides tiny charts for all your posts and pages, along with an Admin Bar for quick access to traffic data.', 'wp-statistics'),
+     'addon_features'     => [
          __('Tiny charts for posts and pages to measure performance.', 'wp-statistics'),
          __('Admin Bar for easy access to traffic data.', 'wp-statistics'),
          __('Customizable chart type and color.', 'wp-statistics'),
      ],
-     'addon_info'        => __('Get clear insights into your website\'s traffic and content success with the Mini Chart add-on.', 'wp-statistics'),
+     'addon_info'         => __('Get clear insights into your website\'s traffic and content success with the Mini Chart add-on.', 'wp-statistics'),
     ], true);
+
+if ($isMiniChartActive && !$isLicenseValid) {
+    View::load("components/lock-sections/notice-inactive-license-addon");
+}
 ?>
 
 <div class="postbox">
@@ -67,8 +75,8 @@ if (!$isMiniChartActive) echo Admin_Template::get_template('layout/partials/addo
 
             <td>
                 <select name="wps_addon_settings[mini_chart][metric]" id="mini-chart-metric">
-                    <option value="visitors" <?php selected(WP_STATISTICS\Option::getByAddon('metric', 'mini_chart', 'visitors'), 'visitors'); ?>><?php esc_html_e('Visitors', 'wp-statistics'); ?></option>
-                    <option value="views" <?php selected(WP_STATISTICS\Option::getByAddon('metric', 'mini_chart', 'visitors'), 'views'); ?>><?php esc_html_e('Views', 'wp-statistics'); ?></option>
+                    <option value="visitors" <?php selected(WP_STATISTICS\Option::getByAddon('metric', 'mini_chart', 'views'), 'visitors'); ?>><?php esc_html_e('Visitors', 'wp-statistics'); ?></option>
+                    <option value="views" <?php selected(WP_STATISTICS\Option::getByAddon('metric', 'mini_chart', 'views'), 'views'); ?>><?php esc_html_e('Views', 'wp-statistics'); ?></option>
                 </select>
                 <p class="description">
                     <?php _e('Choose the metric to display on the chart.', 'wp-statistics'); ?>
