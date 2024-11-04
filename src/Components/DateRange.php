@@ -216,28 +216,26 @@ class DateRange
      */
     public static function getPeriods()
     {
-        $dateFormat = DateTime::$defaultDateFormat;
-
         return [
             'today'     => [
                 'period'    => [
-                    'from'  => date($dateFormat),
-                    'to'    => date($dateFormat)
+                    'from'  => DateTime::get(),
+                    'to'    => DateTime::get()
                 ],
                 'prev_period' => [
-                    'from'  => date($dateFormat, strtotime('-1 day')),
-                    'to'    => date($dateFormat, strtotime('-1 day'))
+                    'from'  => DateTime::get('-1 day'),
+                    'to'    => DateTime::get('-1 day')
                 ],
             ],
 
             'yesterday' => [
                 'period' => [
-                    'from'  => date($dateFormat, strtotime('-1 day')),
-                    'to'    => date($dateFormat, strtotime('-1 day')),
+                    'from'  => DateTime::get('-1 day'),
+                    'to'    => DateTime::get('-1 day'),
                 ],
                 'prev_period' => [
-                    'from'  => date($dateFormat, strtotime('-2 day')),
-                    'to'    => date($dateFormat, strtotime('-2 day')),
+                    'from'  => DateTime::get('-2 day'),
+                    'to'    => DateTime::get('-2 day')
                 ],
             ],
 
@@ -253,122 +251,122 @@ class DateRange
 
             'this_month' => [
                 'period' => [
-                    'from'  => date($dateFormat, strtotime('first day of this month')),
-                    'to'    => date($dateFormat, strtotime('last day of this month')),
+                    'from'  => DateTime::get('first day of this month'),
+                    'to'    => DateTime::get('last day of this month')
                 ],
                 'prev_period' => [
-                    'from'  => date($dateFormat, strtotime('first day of last month')),
-                    'to'    => date($dateFormat, strtotime('last day of last month')),
+                    'from'  => DateTime::get('first day of last month'),
+                    'to'    => DateTime::get('last day of last month')
                 ]
             ],
 
             'last_month' => [
                 'period' => [
-                    'from'  => date($dateFormat, strtotime('first day of -1 month')),
-                    'to'    => date($dateFormat, strtotime('last day of -1 month')),
+                    'from'  => DateTime::get('first day of -1 month'),
+                    'to'    => DateTime::get('last day of -1 month'),
                 ],
                 'prev_period' => [
-                    'from'  => date($dateFormat, strtotime('first day of -2 months')),
-                    'to'    => date($dateFormat, strtotime('last day of -2 months')),
+                    'from'  => DateTime::get('first day of -2 months'),
+                    'to'    => DateTime::get('last day of -2 months')
                 ]
             ],
 
             '7days'     => [
                 'period' => [
-                    'from'  => date($dateFormat, strtotime('-6 days')),
-                    'to'    => date($dateFormat)
+                    'from'  => DateTime::get('-6 days'),
+                    'to'    => DateTime::get()
                 ],
                 'prev_period' => [
-                    'from'  => date($dateFormat, strtotime('-13 days')),
-                    'to'    => date($dateFormat, strtotime('-7 days'))
+                    'from'  => DateTime::get('-13 days'),
+                    'to'    => DateTime::get('-7 days')
                 ]
             ],
 
             '14days'    => [
                 'period' => [
-                    'from'  => date($dateFormat, strtotime('-13 days')),
-                    'to'    => date($dateFormat)
+                    'from'  => DateTime::get('-13 days'),
+                    'to'    => DateTime::get()
                 ],
                 'prev_period' => [
-                    'from'  => date($dateFormat, strtotime('-27 days')),
-                    'to'    => date($dateFormat, strtotime('-14 days'))
+                    'from'  => DateTime::get('-27 days'),
+                    'to'    => DateTime::get('-14 days')
                 ]
             ],
 
             '30days'    => [
                 'period' => [
-                    'from'  => date($dateFormat, strtotime('-29 days')),
-                    'to'    => date($dateFormat)
+                    'from'  => DateTime::get('-29 days'),
+                    'to'    => DateTime::get()
                 ],
                 'prev_period' => [
-                    'from'  => date($dateFormat, strtotime('-59 days')),
-                    'to'    => date($dateFormat, strtotime('-30 days'))
+                    'from'  => DateTime::get('-59 days'),
+                    'to'    => DateTime::get('-30 days')
                 ]
             ],
 
             '90days'    => [
                 'period' => [
-                    'from'  => date($dateFormat, strtotime('-89 days')),
-                    'to'    => date($dateFormat)
+                    'from'  => DateTime::get('-89 days'),
+                    'to'    => DateTime::get()
                 ],
                 'prev_period' => [
-                    'from'  => date($dateFormat, strtotime('-179 days')),
-                    'to'    => date($dateFormat, strtotime('-90 days'))
+                    'from'  => DateTime::get('-179 days'),
+                    'to'    => DateTime::get('-90 days')
                 ]
             ],
 
             '6months'  => [
                 'period' => [
-                    'from'  => date($dateFormat, strtotime('-6 months')),
-                    'to'    => date($dateFormat),
+                    'from'  => DateTime::get('-6 months'),
+                    'to'    => DateTime::get()
                 ],
                 'prev_period' => [
-                    'from'  => date($dateFormat, strtotime('-12 months')),
-                    'to'    => date($dateFormat, strtotime('-6 months')),
+                    'from'  => DateTime::get('-12 months'),
+                    'to'    => DateTime::get('-6 months')
                 ]
             ],
 
             '12months'  => [
                 'period' => [
-                    'from'  => date($dateFormat, strtotime('-12 months')),
-                    'to'    => date($dateFormat),
+                    'from'  => DateTime::get('-12 months'),
+                    'to'    => DateTime::get()
                 ],
                 'prev_period' => [
-                    'from'  => date($dateFormat, strtotime('-24 months')),
-                    'to'    => date($dateFormat, strtotime('-12 months')),
+                    'from'  => DateTime::get('-24 months'),
+                    'to'    => DateTime::get('-12 months')
                 ]
             ],
 
             'this_year' => [
                 'period' => [
-                    'from'  => date('Y-01-01'),
-                    'to'    => date('Y-12-31'),
+                    'from'  => DateTime::get('now', 'Y-01-01'),
+                    'to'    => DateTime::get('now', 'Y-12-31')
                 ],
                 'prev_period' => [
-                    'from'  => date('Y-01-01', strtotime('-1 year')),
-                    'to'    => date('Y-12-31', strtotime('-1 year')),
+                    'from'  => DateTime::get('-1 year', 'Y-01-01'),
+                    'to'    => DateTime::get('-1 year', 'Y-12-31')
                 ]
             ],
 
             'last_year' => [
                 'period' => [
-                    'from'  => date('Y-01-01', strtotime('-1 year')),
-                    'to'    => date('Y-12-31', strtotime('-1 year')),
+                    'from'  => DateTime::get('-1 year', 'Y-01-01'),
+                    'to'    => DateTime::get('-1 year', 'Y-12-31')
                 ],
                 'prev_period' => [
-                    'from'  => date('Y-01-01', strtotime('-2 years')),
-                    'to'    => date('Y-12-31', strtotime('-2 years')),
+                    'from'  => DateTime::get('-2 year', 'Y-01-01'),
+                    'to'    => DateTime::get('-2 year', 'Y-12-31')
                 ]
             ],
 
-            'total' => [
+            'total'     => [
                 'period' => [
-                    'from'  => date('Y-m-d', 0),
-                    'to'    => date('Y-m-d')
+                    'from'  => DateTime::get(0),
+                    'to'    => DateTime::get()
                 ],
                 'prev_period' => [
-                    'from'  => date('Y-m-d', 0),
-                    'to'    => date('Y-m-d')
+                    'from'  => DateTime::get(0),
+                    'to'    => DateTime::get()
                 ]
             ],
         ];
