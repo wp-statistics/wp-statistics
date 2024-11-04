@@ -216,8 +216,6 @@ class DateRange
      */
     public static function getPeriods()
     {
-        $dateFormat = DateTime::$defaultDateFormat;
-
         return [
             'today'     => [
                 'period'    => [
