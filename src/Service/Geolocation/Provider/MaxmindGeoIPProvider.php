@@ -42,8 +42,10 @@ class MaxmindGeoIPProvider extends AbstractGeoIPProvider
     {
         try {
             // Ensure the reader is initialized
+            $this->initializeReader();
+
             if (empty($this->reader) || !method_exists($this->reader, 'city')) {
-                $this->initializeReader();
+                throw new Exception('GeoIP database is corrupted.');
             }
 
             $record = $this->reader->city($ipAddress);
@@ -73,7 +75,7 @@ class MaxmindGeoIPProvider extends AbstractGeoIPProvider
      */
     protected function initializeReader()
     {
-        if (!empty($this->reader)) {
+        if (!empty($this->reader) && method_exists($this->reader, 'city')) {
             return; // Return early if the reader is already initialized
         }
 
