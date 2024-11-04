@@ -22,10 +22,40 @@ const closeModal=()=> {
      }
 }
 
+ const setMaxHeightForAllSteps = () => {
+    let maxHeight = 0;
+    if (premiumSteps.length === 0) {
+         return;
+    }
+     premiumSteps.forEach(step => {
+        step.style.height = 'auto'; // Reset height to measure actual content
+        const stepHeight = step.offsetHeight;
+         if (stepHeight > maxHeight) {
+            maxHeight = stepHeight;
+        }
+    });
+
+    if (maxHeight === 0) {
+         return;
+    }
+
+    // Set all modal steps to the maximum height
+    premiumSteps.forEach(step => {
+        step.style.height = `${maxHeight}px`;
+    });
+ };
+
+
+// Optionally, re-run the function when the window is resized
+window.addEventListener('resize', setMaxHeightForAllSteps);
+
 const openModal = (target, href) => {
      if (modal){
-         modal.style.display = 'block';
+          modal.style.display = 'block';
          document.body.style.overflow = 'hidden';
+         setTimeout(() => {
+             setMaxHeightForAllSteps();
+         }, 100);
      }
      const targetIndex = Array.from(premiumFeatures).findIndex(step => step.getAttribute('data-modal') === target);
       if (targetIndex !== -1) {
@@ -37,9 +67,7 @@ const openModal = (target, href) => {
           premiumStepsContent.style.display = 'block';
           stopAutoSlide();
     }
-  }
-
-
+ }
 
 if(premiumBtn.length>0){
     premiumBtn.forEach(button => {
