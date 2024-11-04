@@ -825,6 +825,10 @@
         min-width: 18px;
         height: 18px;
         background: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHZpZXdCb3g9IjAgMCAxOCAxOCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTUuODcxMzIgOC4yNTE2M0gxNVY5Ljc1MTYzSDUuODcxMzJMOS44OTQzIDEzLjc3NDZMOC44MzM2NSAxNC44MzUyTDMgOS4wMDE2M0w4LjgzMzY1IDMuMTY3OTdMOS44OTQzIDQuMjI4NjNMNS44NzEzMiA4LjI1MTYzWiIgZmlsbD0iIzU2NTg1QSIvPgo8L3N2Zz4K") center center no-repeat;
+
+        .rtl &{
+          transform: rotate(180deg);
+        }
       }
 
       &:hover {
@@ -1042,6 +1046,11 @@
     position: absolute;
     top: 16px;
     right: 16px;
+
+    .rtl &{
+      left: 16px;
+      right: unset;
+    }
 
     @media (max-width: 768px) {
       justify-content: flex-end;
