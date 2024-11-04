@@ -23,7 +23,7 @@ if ( $step_name !== 'first-step'){
             </div>
         <?php endif; ?>
 
-        <?php if (!$hasLicense) : ?>
+        <?php if (!$hasLicense && $isInstalled) : ?>
             <div class="wps-premium-step__notice wps-premium-step__notice--warning">
                 <div>
                     <?php echo  sprintf(__('This add-on does <b>not have an active license</b>, which means it cannot receive updates, including important security updates. For uninterrupted access to updates and to keep your site secure, we strongly recommend activating a license. Activate your license <a href="%s">here</a>.', 'wp-statistics'),
