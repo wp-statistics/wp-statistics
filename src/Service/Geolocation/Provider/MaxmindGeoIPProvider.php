@@ -42,7 +42,7 @@ class MaxmindGeoIPProvider extends AbstractGeoIPProvider
     {
         try {
             // Ensure the reader is initialized
-            if ($this->reader === null) {
+            if (empty($this->reader) || !method_exists($this->reader, 'city')) {
                 $this->initializeReader();
             }
 
@@ -73,7 +73,7 @@ class MaxmindGeoIPProvider extends AbstractGeoIPProvider
      */
     protected function initializeReader()
     {
-        if ($this->reader !== null) {
+        if (!empty($this->reader)) {
             return; // Return early if the reader is already initialized
         }
 
