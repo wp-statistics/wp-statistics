@@ -14,7 +14,7 @@ if ( $step_name !== 'first-step'){
     <?php echo $description; ?>
     <?php if ( $step_name !== 'first-step') : ?>
         <img class="wps-premium-step__image v-image-lazy" width="509" height="291" data-src="<?php echo WP_STATISTICS_URL . 'assets/images/premium-modal/' . esc_attr($step_name) . '.png'; ?>" alt="<?php echo esc_attr($step_name); ?>">
-        <?php if (($hasLicense &&!$isInstalled) || ($hasLicense && !$isActive)) : ?>
+        <?php if ($hasLicense && !$isActive) : ?>
             <div class="wps-premium-step__notice">
                 <div>
                     <?php echo  sprintf(__('Your license includes the %s, but it’s not installed yet. Go to the Add-Ons page to install and activate it, so you can start using all its features.', 'wp-statistics'),
