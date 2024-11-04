@@ -1043,6 +1043,11 @@
     top: 16px;
     right: 16px;
 
+    .rtl &{
+      left: 16px;
+      right: unset;
+    }
+
     @media (max-width: 768px) {
       justify-content: flex-end;
       order: 1;
