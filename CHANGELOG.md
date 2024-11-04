@@ -1,3 +1,7 @@
+= 14.11.1 - 2024-10-04 =
+- **Enhancement:** Ensured GeoIP location data is processed correctly.
+- **Enhancement:** Improved display of Add-Ons, with better support for right-to-left languages.
+
 14.11 - 2024-10-04
 - **New:** Launched WP Statistics Premium with a pop-up to introduce its features.
 - **New:** Added a dedicated header for Premium users, with minor updates to the free version’s header.
