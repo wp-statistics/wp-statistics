@@ -45,24 +45,24 @@ $isPremium        = LicenseHelper::isPremiumLicenseAvailable();
     <div class="wps-premium-step__body">
         <div class="wps-premium-step__content">
             <?php
-            $default_description = __('<p>Get access to all advanced features in one package. With WP Statistics Premium, you can explore powerful add-ons that enhance your analytics experience and provide deeper insights into your site’s performance.</p>
+            $defaultDescription = __('<p>Get access to all advanced features in one package. With WP Statistics Premium, you can explore powerful add-ons that enhance your analytics experience and provide deeper insights into your site’s performance.</p>
             <p>Curious about what each feature offers?</p><p>Simply click on any add-on to learn more and see how WP Statistics Premium can power your site’s growth.</p>', 'wp-statistics');
 
-            $premium_description = __('<p><b>Thank you for supporting us by being a Premium user! Since you previously had the Bundle, you now have access to all the Premium features. There’s nothing more you need to do—just enjoy the full range of advanced tools and insights.</b></p>
+            $premiumDescription = __('<p><b>Thank you for supporting us by being a Premium user! Since you previously had the Bundle, you now have access to all the Premium features. There’s nothing more you need to do—just enjoy the full range of advanced tools and insights.</b></p>
             <p>We truly appreciate your continued support. With your help, we’re able to keep improving and providing even better analytics for your site.</p>', 'wp-statistics');
 
-            $license_description = __('<p>It looks like you’ve unlocked some of our great add-ons. Awesome! To get the most out of WP Statistics, upgrade to Premium and get access to all our advanced features and add-ons. Unlock deeper insights and powerful analytics with the full package at your fingertips.</p>', 'wp-statistics');
+            $licenseDescription = __('<p>It looks like you’ve unlocked some of our great add-ons. Awesome! To get the most out of WP Statistics, upgrade to Premium and get access to all our advanced features and add-ons. Unlock deeper insights and powerful analytics with the full package at your fingertips.</p>', 'wp-statistics');
 
             $data = [
-                'description' => $default_description,
+                'description' => $defaultDescription,
                 'step_name'   => 'first-step',
                 'step_href'   => esc_url(WP_STATISTICS_SITE_URL . '/product/add-ons-bundle/?utm_source=wp-statistics&utm_medium=link&utm_campaign=pop-up-premium')
             ];
 
-            if (LicenseHelper::isPremiumLicenseAvailable()) {
-                $data['description'] = $premium_description;
-            } elseif (LicenseHelper::isValidLicenseAvailable() && !LicenseHelper::isPremiumLicenseAvailable()) {
-                $data['description'] = $license_description;
+            if ($isPremium) {
+                $data['description'] = $premiumDescription;
+            } elseif ($hasLicense && !$isPremium) {
+                $data['description'] = $licenseDescription;
             }
 
             View::load("components/modals/introduce-premium/step-content", $data);
@@ -179,7 +179,8 @@ $isPremium        = LicenseHelper::isPremiumLicenseAvailable();
                     <?php else : ?>
                         <a target="_blank" class="wps-premium-step__action-btn wps-premium-step__action-btn--upgrade js-wps-premiumModalUpgradeBtn"><?php esc_html_e('Upgrade Now', 'wp-statistics'); ?></a>
                     <?php endif; ?>
-                    <?php if (!LicenseHelper::isPremiumLicenseAvailable()) : ?>
+
+                    <?php if (!$isPremium) : ?>
                         <a class="wps-premium-step__action-btn wps-premium-step__action-btn--later js-wps-premiumModalClose"><?php esc_html_e('Maybe Later', 'wp-statistics'); ?></a>
                     <?php endif; ?>
                 </div>
