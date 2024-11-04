@@ -141,6 +141,7 @@ https://www.youtube.com/watch?v=jxYLVtBdhEc
 = 14.11.1 - 2024-10-04 =
 - **Enhancement:** Ensured GeoIP location data is processed correctly.
 - **Enhancement:** Improved display of Add-Ons, with better support for right-to-left languages.
+- **Fix:** Corrected number formatting in Traffic Summary.
 
 = 14.11 - 2024-10-04 =
 - **New:** Launched WP Statistics Premium with a pop-up to introduce its features.
