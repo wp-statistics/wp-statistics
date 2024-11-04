@@ -1184,7 +1184,7 @@ class VisitorsModel extends BaseModel
         return $result ? $result : [];
     }
 
-    public function getVisitorHits($args = [])
+    public function countVisitorsHits($args = [])
     {
         $args = $this->parseArgs($args, [
             'date'      => '',
