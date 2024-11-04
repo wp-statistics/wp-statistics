@@ -197,7 +197,7 @@ $isPremium        = LicenseHelper::isPremiumLicenseAvailable();
                             <?php elseif ($hasLicense && !$isActive) : ?>
                                 <a href="<?php echo esc_url(admin_url('admin.php?page=wps_plugins_page')) ?>" class="wps-premium-step__action-btn js-wps-premiumModalUpgradeBtn wps-premium-step__action-btn--addons"><?php esc_html_e('Go to Add-Ons Page', 'wp-statistics'); ?></a>
                             <?php elseif ($hasLicense && $isActive) : ?>
-                                <a class="wps-premium-step__action-btn wps-premium-step__action-btn--upgrade  activated js-wps-premiumModalUpgradeBtn"><?php esc_html_e('Premium Activated', 'wp-statistics'); ?></a>
+                                <a class="wps-premium-step__action-btn wps-premium-step__action-btn--upgrade  activated js-wps-premiumModalUpgradeBtn"><?php esc_html_e('Add-on Activated', 'wp-statistics'); ?></a>
                             <?php endif; ?>
                         </div>
                       <?php endforeach; ?>
