@@ -18,6 +18,9 @@
     }
   }
 }
+.wps_page .select2-dropdown {
+  z-index: 9999999 !important;
+}
 
 .wps_page #TB_window {
   max-height: 90vh;
@@ -70,6 +73,7 @@
       border: none;
       border-radius: 0 0 8px 8px;
       overflow: hidden;
+      z-index: 9999999999 !important;
 
       .select2-search__field {
         line-height: 32px;
