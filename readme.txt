@@ -136,6 +136,8 @@ To ensure the plugin works correctly, please clear your cache because some reque
 Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest version.
 
 == Changelog ==
+https://www.youtube.com/watch?v=jxYLVtBdhEc
+
 = 14.11 - 2024-10-04 =
 - **New:** Launched WP Statistics Premium with a pop-up to introduce its features.
 - **New:** Added a dedicated header for Premium users, with minor updates to the free version’s header.
