@@ -9,6 +9,21 @@ class DateTime
     public static $defaultDateFormat = 'Y-m-d';
     public static $defaultTimeFormat = 'g:i a';
 
+    /**
+     * Retrieves a formatted date and/or time string based on the given datetime and arguments.
+     *
+     * @param string|int $datetime Human-readable string date passed to strtotime() function. Defaults to 'today'.
+     * @param array $args optional formatting args. see: WP_Statistics\Components\DateTime::format()
+     * @return string The formatted date and/or time string.
+     */
+    public static function get($date = 'today', $args = [])
+    {
+        if (!isset($args['date_format'])) {
+            $args['date_format'] = self::$defaultDateFormat;
+        }
+
+        return DateTime::format($date, $args);
+    }
 
     /**
      * Returns the name of the day of the week used as the start of the week on the calendar.
