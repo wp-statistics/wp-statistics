@@ -359,7 +359,18 @@ class DateRange
                     'from'  => date('Y-01-01', strtotime('-2 years')),
                     'to'    => date('Y-12-31', strtotime('-2 years')),
                 ]
-            ]
+            ],
+
+            'total' => [
+                'period' => [
+                    'from'  => date('Y-m-d', 0),
+                    'to'    => date('Y-m-d')
+                ],
+                'prev_period' => [
+                    'from'  => date('Y-m-d', 0),
+                    'to'    => date('Y-m-d')
+                ]
+            ],
         ];
     }
 
