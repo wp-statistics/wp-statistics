@@ -22,28 +22,39 @@ const closeModal=()=> {
      }
 }
 
- const setMaxHeightForAllSteps = () => {
-    let maxHeight = 0;
+const setMaxHeightForAllSteps = () => {
+    let maxImageHeight = 0; // To store the maximum image height
     if (premiumSteps.length === 0) {
-         return;
+        return;
     }
-     premiumSteps.forEach(step => {
-        step.style.height = 'auto'; // Reset height to measure actual content
-        const stepHeight = step.offsetHeight;
-         if (stepHeight > maxHeight) {
-            maxHeight = stepHeight;
+     premiumSteps.forEach((step) => {
+         const imageElement = step.querySelector('.wps-premium-step__image');
+         if (imageElement) {
+             if (imageElement.complete) {
+                const imageHeight = imageElement.offsetHeight;
+                maxImageHeight = Math.max(maxImageHeight, imageHeight); // Update maxImageHeight
+            }
         }
     });
-
-    if (maxHeight === 0) {
-         return;
-    }
-
-    // Set all modal steps to the maximum height
-    premiumSteps.forEach(step => {
-        step.style.height = `${maxHeight}px`;
+     premiumSteps.forEach(step => {
+        const imageElement = step.querySelector('.wps-premium-step__image');
+        if (imageElement) {
+             imageElement.style.height = `${maxImageHeight}px`;
+        }
     });
- };
+    let maxStepHeight = 0;
+    premiumSteps.forEach(step => {
+         const originalDisplay = step.style.display;
+        step.style.display = 'block';
+         step.style.minHeight = 'auto';
+         let stepHeight = step.getBoundingClientRect().height;
+         maxStepHeight = Math.max(maxStepHeight, stepHeight);
+        step.style.display = originalDisplay;
+    });
+    premiumSteps.forEach(step => {
+        step.style.minHeight = `${maxStepHeight}px`;
+    });
+};
 
 
 // Optionally, re-run the function when the window is resized
