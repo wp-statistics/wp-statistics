@@ -140,6 +140,7 @@ https://www.youtube.com/watch?v=jxYLVtBdhEc
 
 = 14.11.2 - 2024-10-05 =
 - **Fix:** Resolved memory usage issue in Firefox within the Overview page.
+- **Fix:** Fixed logged-in user views issue in the users list.
 
 = 14.11.1 - 2024-10-04 =
 - **Enhancement:** Ensured GeoIP location data is processed correctly.
