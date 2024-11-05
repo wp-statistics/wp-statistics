@@ -2,6 +2,9 @@
 
 namespace WP_STATISTICS;
 
+use WP_Statistics\Components\DateRange;
+use WP_Statistics\Models\VisitorsModel;
+
 class Admin_User
 {
     /**
@@ -46,8 +49,9 @@ class Admin_User
     {
         switch ($column_name) {
             case 'visits' :
-                $count = Visitor::Count(array('key' => 'user_id', 'compare' => '=', 'value' => $user_id));
-                return '<a href="' . Menus::admin_url('visitors', array('user_id' => $user_id)) . '" class="wps-text-muted" target="_blank">' . number_format_i18n($count) . '</a>';
+                $visitorsModel  = new VisitorsModel();
+                $count          = $visitorsModel->getVisitorHits(['user_id' => $user_id, 'ignore_date' => true]);
+                return '<a href="' . Menus::admin_url('visitors', array_merge(['user_id' => $user_id], DateRange::get('total'))) . '" class="wps-text-muted" target="_blank">' . number_format_i18n($count) . '</a>';
             default:
         }
         return $val;

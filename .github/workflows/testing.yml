@@ -5,6 +5,9 @@ on:
     branches:
       - master
       - development
+  push:
+    branches:
+      - master
 
 jobs:
   phpunit:
