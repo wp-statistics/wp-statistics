@@ -41,8 +41,9 @@ class SearchEngine
         $engines = [];
         foreach ($searchEngines as $searchEngine) {
             $engines[$searchEngine['identifier']] = [
-                'name' => $searchEngine['name'],
-                'tag'  => $searchEngine['identifier']
+                'name'          => $searchEngine['name'],
+                'translated'    => $searchEngine['name'],
+                'tag'           => $searchEngine['identifier']
             ];
         }
 
