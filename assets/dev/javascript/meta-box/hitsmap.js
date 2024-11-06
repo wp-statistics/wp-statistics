@@ -48,15 +48,22 @@ wps_js.hitsmap_meta_box = {
         const widgetWrapper = jQuery("#wp-statistics-hitsmap-widget");
         const sideSortable = jQuery("#side-sortables");
         const normalSortable = jQuery("#normal-sortables");
-        const observerConfig = {attributes: false, childList: true, characterData: false, subtree: true};
+
+        const observerConfig = { attributes: false, childList: true, subtree: false };
 
         const observer = new MutationObserver(function (mutations) {
             if (sideSortable.find(widgetWrapper).length || normalSortable.find(widgetWrapper).length) {
                 window.dispatchEvent(new Event('resize'));
+                observer.disconnect();
             }
         });
 
-        observer.observe(document.getElementById('side-sortables'), observerConfig);
-        observer.observe(document.getElementById('normal-sortables'), observerConfig);
+         if (sideSortable.length) {
+            observer.observe(document.getElementById('side-sortables'), observerConfig);
+        }
+        if (normalSortable.length) {
+            observer.observe(document.getElementById('normal-sortables'), observerConfig);
+        }
+
     }
 };

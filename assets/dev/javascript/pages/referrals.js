@@ -67,7 +67,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
     function wps_show_referrals_filter(tickBox_DIV) {
 
         // Create Table
-        let html = '<table class="o-table">';
+        let html = '<table class="o-table wps-referrals-filter">';
 
         // Show List Select
 

@@ -4,7 +4,7 @@ Donate link: https://wp-statistics.com/donate/
 Tags: analytics, google analytics, insights, stats, site visitors
 Requires at least: 5.0
 Tested up to: 6.7
-Stable tag: 14.11
+Stable tag: 14.11.2
 Requires PHP: 7.2
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -137,6 +137,15 @@ Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest versio
 
 == Changelog ==
 https://www.youtube.com/watch?v=jxYLVtBdhEc
+
+= 14.11.2 - 2024-10-05 =
+- **Fix:** Resolved memory usage issue in Firefox within the Overview page.
+- **Fix:** Fixed logged-in user views issue in the users list.
+
+= 14.11.1 - 2024-10-04 =
+- **Enhancement:** Ensured GeoIP location data is processed correctly.
+- **Enhancement:** Improved display of Add-Ons, with better support for right-to-left languages.
+- **Fix:** Corrected number formatting in Traffic Summary.
 
 = 14.11 - 2024-10-04 =
 - **New:** Launched WP Statistics Premium with a pop-up to introduce its features.

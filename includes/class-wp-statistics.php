@@ -314,7 +314,12 @@ final class WP_Statistics
         }
 
         $log_level = strtoupper($level);
-        error_log(sprintf('[WP STATISTICS] [%s]: %s', $log_level, $message));
+
+
+        // Log when debug is enabled
+        if (defined('WP_DEBUG') && WP_DEBUG) {
+            error_log(sprintf('[WP STATISTICS] [%s]: %s', $log_level, $message));
+        }
     }
 
     /**
