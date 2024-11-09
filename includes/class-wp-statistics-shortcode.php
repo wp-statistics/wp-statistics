@@ -2,6 +2,8 @@
 
 namespace WP_STATISTICS;
 
+use WP_Statistics\Models\VisitorsModel;
+
 class ShortCode
 {
 
@@ -71,6 +73,15 @@ class ShortCode
                 $result = wp_statistics_pages($atts['time'], null, $atts['id']);
                 break;
 
+            case 'pagevisitors':
+                $visitorModel = new VisitorsModel();
+                $time         = $this->parseTime($atts['time']);
+                $result       = $visitorModel->countVisitors([
+                    'date'    => $time,
+                    'post_id' => $atts['id'],
+                ]);
+                break;
+
             case 'searches':
                 $result = wp_statistics_searchengine($atts['provider'], $atts['time']);
                 break;
@@ -135,6 +146,37 @@ class ShortCode
         }
 
         return $result;
+    }
+
+    /**
+     * Parse the time parameter.
+     *
+     * @param $time
+     * @return array|mixed|string
+     */
+    public function parseTime($time)
+    {
+        $timeMap = [
+            'week'  => '7days',
+            'month' => '30days',
+            'year'  => '12months',
+        ];
+
+        if (array_key_exists($time, $timeMap)) {
+            return $timeMap[$time];
+        }
+
+        if (is_numeric($time)) {
+            $to   = date('Y-m-d');
+            $from = date('Y-m-d', strtotime("{$time} days"));
+
+            return [
+                'from' => $from,
+                'to'   => $to,
+            ];
+        }
+
+        return $time;
     }
 
     /**

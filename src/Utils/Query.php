@@ -2,6 +2,7 @@
 
 namespace WP_Statistics\Utils;
 
+use WP_Statistics\Components\DateRange;
 use WP_Statistics\Traits\TransientCacheTrait;
 use WP_STATISTICS\DB;
 use WP_STATISTICS\TimeZone;
@@ -143,7 +144,7 @@ class Query
         }
 
         if (is_string($date)) {
-            $date = TimeZone::calculateDateFilter($date);
+            $date = DateRange::get($date);
             $from = $date['from'];
             $to   = $date['to'];
         }
