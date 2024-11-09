@@ -88,8 +88,12 @@ class PostsManager
 
             $hitColumnHandler = new HitColumnHandler();
 
-            add_filter("manage_posts_columns", [$hitColumnHandler, 'addHitColumn'], 10, 2);
-            add_action("manage_posts_custom_column", [$hitColumnHandler, 'renderHitColumn'], 10, 2);
+            $postTypes = ['posts', 'pages'];
+            foreach ($postTypes as $type) {
+                add_filter("manage_{$type}_columns", [$hitColumnHandler, 'addHitColumn'], 10, 2);
+                add_action("manage_{$type}_custom_column", [$hitColumnHandler, 'renderHitColumn'], 10, 2);
+            }
+
             add_filter("manage_edit-sortable_columns", [$hitColumnHandler, 'modifySortableColumns']);
 
             if (!$isPostQuickEdit) {
