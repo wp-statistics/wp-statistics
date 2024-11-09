@@ -138,6 +138,9 @@ Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest versio
 == Changelog ==
 https://www.youtube.com/watch?v=jxYLVtBdhEc
 
+= 14.11.x
+- **Fix:** Resolved issue with showing not queryable post-types in Content Analytics
+
 = 14.11.2 - 2024-10-05 =
 - **Fix:** Resolved memory usage issue in Firefox within the Overview page.
 - **Fix:** Fixed logged-in user views issue in the users list.
