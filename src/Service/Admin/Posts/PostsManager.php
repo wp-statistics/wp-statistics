@@ -88,8 +88,7 @@ class PostsManager
 
             $hitColumnHandler = new HitColumnHandler();
 
-            $postTypes = ['posts', 'pages'];
-            foreach ($postTypes as $type) {
+            foreach (['posts', 'pages'] as $type) {
                 add_filter("manage_{$type}_columns", [$hitColumnHandler, 'addHitColumn'], 10, 2);
                 add_action("manage_{$type}_custom_column", [$hitColumnHandler, 'renderHitColumn'], 10, 2);
             }
