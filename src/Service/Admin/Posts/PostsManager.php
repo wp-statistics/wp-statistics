@@ -90,9 +90,9 @@ class PostsManager
 
             foreach (Helper::get_list_post_type() as $type) {
                 if (!$isPostQuickEdit) {
-                    add_action("manage_{$type}_posts_columns", [$hitColumnHandler, 'addHitColumn'], 10, 2);
+                    add_action("manage_{$type}_posts_columns", [$hitColumnHandler, 'addHitColumn'], 99, 2);
                 } else {
-                    add_action("manage_edit-{$type}_columns", [$hitColumnHandler, 'addHitColumn'], 10, 2);
+                    add_action("manage_edit-{$type}_columns", [$hitColumnHandler, 'addHitColumn'], 99, 2);
                 }
 
                 add_action("manage_{$type}_posts_custom_column", [$hitColumnHandler, 'renderHitColumn'], 10, 2);
