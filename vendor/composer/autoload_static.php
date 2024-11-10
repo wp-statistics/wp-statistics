@@ -15,12 +15,54 @@ class ComposerStaticInit0c58b92c1859559503021091c91f6640
         array (
             'WP_Statistics\\' => 14,
         ),
+        'M' => 
+        array (
+            'MaxMind\\WebService\\' => 19,
+            'MaxMind\\Exception\\' => 18,
+            'MaxMind\\Db\\' => 11,
+        ),
+        'G' => 
+        array (
+            'GeoIp2\\' => 7,
+        ),
+        'D' => 
+        array (
+            'DeviceDetector\\' => 15,
+        ),
+        'C' => 
+        array (
+            'Composer\\CaBundle\\' => 18,
+        ),
     );
 
     public static $prefixDirsPsr4 = array (
         'WP_Statistics\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src',
+        ),
+        'MaxMind\\WebService\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/maxmind/web-service-common/src/WebService',
+        ),
+        'MaxMind\\Exception\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/maxmind/web-service-common/src/Exception',
+        ),
+        'MaxMind\\Db\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/maxmind-db/reader/src/MaxMind/Db',
+        ),
+        'GeoIp2\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/geoip2/geoip2/src',
+        ),
+        'DeviceDetector\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/matomo/device-detector',
+        ),
+        'Composer\\CaBundle\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/composer/ca-bundle/src',
         ),
     );
 
@@ -255,7 +297,9 @@ class ComposerStaticInit0c58b92c1859559503021091c91f6640
         'WP_Statistics\\Service\\Geolocation\\Provider\\DbIpProvider' => __DIR__ . '/../..' . '/src/Service/Geolocation/Provider/DbIpProvider.php',
         'WP_Statistics\\Service\\Geolocation\\Provider\\MaxmindGeoIPProvider' => __DIR__ . '/../..' . '/src/Service/Geolocation/Provider/MaxmindGeoIPProvider.php',
         'WP_Statistics\\Service\\HooksManager' => __DIR__ . '/../..' . '/src/Service/HooksManager.php',
+        'WP_Statistics\\Service\\Integrations\\AbstractIntegration' => __DIR__ . '/../..' . '/src/Service/Integrations/AbstractIntegration.php',
         'WP_Statistics\\Service\\Integrations\\IntegrationsManager' => __DIR__ . '/../..' . '/src/Service/Integrations/IntegrationsManager.php',
+        'WP_Statistics\\Service\\Integrations\\RealCookieBanner' => __DIR__ . '/../..' . '/src/Service/Integrations/RealCookieBanner.php',
         'WP_Statistics\\Service\\Integrations\\WpConsentApi' => __DIR__ . '/../..' . '/src/Service/Integrations/WpConsentApi.php',
         'WP_Statistics\\Traits\\ObjectCacheTrait' => __DIR__ . '/../..' . '/src/Traits/ObjectCacheTrait.php',
         'WP_Statistics\\Traits\\TransientCacheTrait' => __DIR__ . '/../..' . '/src/Traits/TransientCacheTrait.php',
