@@ -4,14 +4,14 @@ namespace WP_Statistics\Service\Integrations;
 
 use WP_CONSENT_API;
 
-class WpConsentApi
+class WpConsentApi extends AbstractIntegration
 {
     /**
      * Checks if "WP Consent API" plugin is activated.
      *
      * @return  bool
      */
-    public static function isWpConsentApiActive()
+    public static function isActive()
     {
         return class_exists(WP_CONSENT_API::class);
     }
@@ -22,9 +22,7 @@ class WpConsentApi
      */
     public function register()
     {
-        if (self::isWpConsentApiActive()) {
-            $plugin = plugin_basename(WP_STATISTICS_MAIN_FILE);
-            add_filter("wp_consent_api_registered_{$plugin}", '__return_true');
-        }
+        $plugin = plugin_basename(WP_STATISTICS_MAIN_FILE);
+        add_filter("wp_consent_api_registered_{$plugin}", '__return_true');
     }
 }

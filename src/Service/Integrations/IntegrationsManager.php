@@ -10,6 +10,7 @@ class IntegrationsManager
      */
     private $integrations = [
         WpConsentApi::class,
+        RealCookieBanner::class
     ];
 
     /**
@@ -27,7 +28,7 @@ class IntegrationsManager
     private function registerIntegrations()
     {
         foreach ($this->integrations as $integration) {
-            if (!class_exists($integration)) {
+            if (!class_exists($integration) || !$integration->isActive()) {
                 continue;
             }
 

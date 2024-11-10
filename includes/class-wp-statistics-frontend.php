@@ -78,7 +78,7 @@ class Frontend
                     'consentLevel'         => Option::get('consent_level_integration', 'disabled'),
                     'dntEnabled'           => Option::get('do_not_track'),
                     'bypassAdBlockers'     => Option::get('bypass_ad_blockers', false),
-                    'isWpConsentApiActive' => WpConsentApi::isWpConsentApiActive(),
+                    'isWpConsentApiActive' => WpConsentApi::isActive(),
                     'trackAnonymously'     => Helper::shouldTrackAnonymously(),
                     'isPreview'            => is_preview(),
                 ],
