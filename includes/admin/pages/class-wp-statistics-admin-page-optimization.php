@@ -42,12 +42,12 @@ class optimization_page extends Singleton
         }
 
         // Check Wp Nonce and Require Field
-        if (isset($_POST['submit']) && (!isset($_POST['_wpnonce']) || !wp_verify_nonce($_POST['_wpnonce'], 'wps_optimization_nonce'))) {
+        if (!isset($_POST['_wpnonce']) || !wp_verify_nonce($_POST['_wpnonce'], 'wps_optimization_nonce')) {
             return;
         }
 
         // Update All GEO IP Country
-        if (isset($_POST['submit'], $_POST['populate-submit']) && intval($_POST['populate-submit']) == 1) {
+        if (isset($_POST['update_location_action']) && intval($_POST['update_location_action']) == 1) {
             // First download/update the GeoIP database
             GeolocationFactory::downloadDatabase();
 
@@ -59,7 +59,7 @@ class optimization_page extends Singleton
         }
 
         // Update source channel data
-        if (isset($_POST['submit'], $_POST['populate-source-channel-submit']) && intval($_POST['populate-source-channel-submit']) == 1) {
+        if (isset($_POST['update_source_channels_action']) && intval($_POST['update_source_channels_action']) == 1) {
 
             // Update source channel data for visitors with incomplete information
             BackgroundProcessFactory::batchUpdateSourceChannelForVisitors();
@@ -69,7 +69,7 @@ class optimization_page extends Singleton
         }
 
         // Check Hash IP Update
-        if (isset($_POST['submit'], $_POST['hash-ips-submit']) and intval($_POST['hash-ips-submit']) == 1) {
+        if (isset($_POST['update_ips_action']) && intval($_POST['update_ips_action']) == 1) {
             $result = IP::Update_HashIP_Visitor();
 
             // Show Notice
