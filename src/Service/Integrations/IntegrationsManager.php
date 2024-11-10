@@ -28,12 +28,15 @@ class IntegrationsManager
     private function registerIntegrations()
     {
         foreach ($this->integrations as $integration) {
-            if (!class_exists($integration) || !$integration->isActive()) {
+            if (!class_exists($integration)) {
                 continue;
             }
 
             $integration = new $integration();
-            $integration->register();
+
+            if ($integration->isActive()) {
+                $integration->register();
+            }
         }
     }
 }
