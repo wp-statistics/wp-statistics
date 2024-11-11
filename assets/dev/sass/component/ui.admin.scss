@@ -1,5 +1,5 @@
 body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
-  z-index: 3 !important;
+  z-index: 4 !important;
 }
 
 .wps-info-box {
@@ -672,7 +672,7 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
       @media(max-width: 1030px) {
         right: 0;
         position: absolute;
-        top: -40px;
+        top: -25px;
         display: block !important;
       }
 
