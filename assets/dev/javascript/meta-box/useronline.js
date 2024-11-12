@@ -85,7 +85,7 @@ wps_js.visitor_info = function (value) {
                 <span class="wps-visitor__information__user-img"></span>
             </a>
             <a class="wps-visitor__information__user-text wps-tooltip" title="${value['user']['email']} (${value['user']['role']})" href="${value['single_url']}">
-                <span>${value['user']['name']}</span>
+                <span title="${value['user']['name']}">${value['user']['name']}</span>
                 <span>#${value['ID']}</span>
             </a>`
         } else {

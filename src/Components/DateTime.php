@@ -11,6 +11,19 @@ class DateTime
 
 
     /**
+     * Returns a formatted date string.
+     *
+     * @param string $date Human readable date string passed to strtotime() function. Defaults to 'today'
+     * @param string $format The format string to use for the date. Default is 'Y-m-d'.
+     *
+     * @return string The formatted date string.
+     */
+    public static function get($date = 'today', $format = 'Y-m-d')
+    {
+        return DateTime::format($date, ['date_format' => $format]);
+    }
+
+    /**
      * Returns the name of the day of the week used as the start of the week on the calendar.
      *
      * @param string $return Whether to return the name of the day, the number of the day, or both.

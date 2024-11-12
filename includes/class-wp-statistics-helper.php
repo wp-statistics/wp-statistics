@@ -363,7 +363,7 @@ class Helper
      */
     public static function getCustomPostTypes()
     {
-        return array_values(get_post_types(array('public' => true, '_builtin' => false), 'names', 'and'));
+        return array_values(get_post_types(array('public' => true, '_builtin' => false, 'publicly_queryable' => true), 'names', 'and'));
     }
 
     /**
