@@ -16,11 +16,17 @@ class RealCookieBanner extends AbstractIntegration
     {
         add_action('wp_statistics_save_settings', [$this, 'clearTemplateCache']);
         add_action('RCB/Templates/TechnicalHandlingIntegration', [$this, 'handleIntegration']);
+        add_filter('RCB/Templates/Recommended', [$this, 'setRecommendedTemplate']);
     }
 
     public function clearTemplateCache()
     {
         wp_rcb_invalidate_templates_cache();
+    }
+
+    public function setRecommendedTemplate()
+    {
+        // Recommend a template with
     }
 
     public function handleIntegration($integration)
