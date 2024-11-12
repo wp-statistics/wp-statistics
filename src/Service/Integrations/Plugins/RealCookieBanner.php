@@ -29,6 +29,15 @@ class RealCookieBanner extends AbstractIntegration
         // TODO: Recommend a wp-statistics consent template based on settings
     }
 
+    public function hasConsent()
+    {
+        if (!function_exists('wp_rcb_consent_given')) return true;
+
+        $consent = wp_rcb_consent_given('');
+
+        return isset($consent['consentGiven']) && $consent['consentGiven'];
+    }
+
     public function handleIntegration($integration)
     {
         if (!class_exists(Option::class) || !defined('WP_STATISTICS_MAIN_FILE')) {

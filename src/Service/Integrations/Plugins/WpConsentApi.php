@@ -2,6 +2,7 @@
 
 namespace WP_Statistics\Service\Integrations\Plugins;
 
+use WP_STATISTICS\Option;
 use WP_CONSENT_API;
 
 class WpConsentApi extends AbstractIntegration
@@ -14,6 +15,15 @@ class WpConsentApi extends AbstractIntegration
     public static function isActive()
     {
         return class_exists(WP_CONSENT_API::class);
+    }
+
+    public function hasConsent()
+    {
+        $consentLevel = Option::get('consent_level_integration', 'disabled');
+
+        if (!function_exists('wp_has_consent') || $consentLevel === 'disabled') return true;
+
+        return wp_has_consent($consentLevel);
     }
 
     /**
