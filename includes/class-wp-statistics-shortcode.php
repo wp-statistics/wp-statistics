@@ -2,6 +2,8 @@
 
 namespace WP_STATISTICS;
 
+use WP_Statistics\Models\VisitorsModel;
+
 class ShortCode
 {
 
@@ -71,6 +73,12 @@ class ShortCode
                 $result = wp_statistics_pages($atts['time'], null, $atts['id']);
                 break;
 
+            case 'pagevisitors':
+                $visitorModel = new VisitorsModel();
+                $args         = $this->parseArgs($atts);
+                $result       = $visitorModel->countVisitors($args);
+                break;
+
             case 'searches':
                 $result = wp_statistics_searchengine($atts['provider'], $atts['time']);
                 break;
@@ -135,6 +143,48 @@ class ShortCode
         }
 
         return $result;
+    }
+
+    /**
+     * Parse the shortcode arguments.
+     *
+     * @param $time
+     * @return array|mixed|string
+     */
+    public function parseArgs($atts)
+    {
+        // Set the default arguments.
+        $args = [
+            'date'    => null,
+            'post_id' => null,
+        ];
+
+        // Parse the post_id parameter.
+        if (isset($atts['id'])) {
+            $args['post_id'] = $atts['id'];
+        }
+
+        // Parse the time parameter.
+        if (isset($atts['time'])) {
+            $timeMap = [
+                'week'  => '7days',
+                'month' => '30days',
+                'year'  => '12months',
+            ];
+
+            if (array_key_exists($atts['time'], $timeMap)) {
+                $args['date'] = $timeMap[$atts['time']];
+            } elseif (is_numeric($atts['time'])) {
+                $args['date'] = [
+                    'from' => date('Y-m-d', strtotime("{$atts['time']} days")),
+                    'to'   => date('Y-m-d'),
+                ];
+            } else {
+                $args['date'] = $atts['time'];
+            }
+        }
+
+        return $args;
     }
 
     /**
