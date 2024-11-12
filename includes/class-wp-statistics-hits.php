@@ -5,7 +5,7 @@ namespace WP_STATISTICS;
 use Exception;
 use WP_Statistics\Components\Singleton;
 use WP_Statistics\Service\Analytics\VisitorProfile;
-use WP_Statistics\Service\Integrations\WpConsentApi;
+use WP_Statistics\Service\Integrations\Plugins\WpConsentApi;
 
 class Hits extends Singleton
 {

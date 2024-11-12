@@ -1,6 +1,6 @@
 <?php
 
-namespace WP_Statistics\Service\Integrations;
+namespace WP_Statistics\Service\Integrations\Plugins;
 
 abstract class AbstractIntegration
 {

@@ -3,7 +3,7 @@
 namespace WP_STATISTICS;
 
 use WP_Statistics\Components\Assets;
-use WP_Statistics\Service\Integrations\WpConsentApi;
+use WP_Statistics\Service\Integrations\Plugins\WpConsentApi;
 
 class Frontend
 {

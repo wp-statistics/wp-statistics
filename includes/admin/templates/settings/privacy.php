@@ -72,7 +72,7 @@
             </th>
 
             <td>
-                <?php $isWpConsentApiActive = \WP_Statistics\Service\Integrations\WpConsentApi::isActive(); ?>
+                <?php $isWpConsentApiActive = \WP_Statistics\Service\Integrations\Plugins\WpConsentApi::isActive(); ?>
                 <select id="consent_level_integration" name="wps_consent_level_integration" <?php echo !$isWpConsentApiActive ? 'disabled' : ''; ?>>
                     <option value="disabled" <?php selected(WP_STATISTICS\Option::get('consent_level_integration'), 'disabled'); ?>><?php esc_html_e('Disabled', 'wp-statistics'); ?></option>
                     <?php if ($isWpConsentApiActive) : ?>

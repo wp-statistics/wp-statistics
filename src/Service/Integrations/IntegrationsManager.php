@@ -2,6 +2,9 @@
 
 namespace WP_Statistics\Service\Integrations;
 
+use WP_Statistics\Service\Integrations\Plugins\RealCookieBanner;
+use WP_Statistics\Service\Integrations\Plugins\WpConsentApi;
+
 class IntegrationsManager
 {
     /**
