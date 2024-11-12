@@ -8,15 +8,6 @@ use WP_Statistics\Service\Integrations\Plugins\WpConsentApi;
 class IntegrationsManager
 {
     /**
-     * List of integrations to register.
-     * @var  array
-     */
-    private $integrations = [
-        WpConsentApi::class,
-        RealCookieBanner::class
-    ];
-
-    /**
      * IntegrationsManager constructor.
      */
     public function __construct()
@@ -30,16 +21,10 @@ class IntegrationsManager
      */
     private function registerIntegrations()
     {
-        foreach ($this->integrations as $integration) {
-            if (!class_exists($integration)) {
-                continue;
-            }
+        $integrations = IntegrationHelper::getIntegrations();
 
-            $integration = new $integration();
-
-            if ($integration->isActive()) {
-                $integration->register();
-            }
+        foreach ($integrations as $integration) {
+            $integration->register();
         }
     }
 }
