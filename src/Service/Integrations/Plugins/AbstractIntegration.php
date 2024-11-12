@@ -9,7 +9,7 @@ abstract class AbstractIntegration
      *
      * @return  bool
      */
-    abstract public static function isActive();
+    abstract public function isActive();
 
     /**
      * Checks if the user has given consent.

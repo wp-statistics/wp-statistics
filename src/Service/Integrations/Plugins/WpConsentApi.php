@@ -12,7 +12,7 @@ class WpConsentApi extends AbstractIntegration
      *
      * @return  bool
      */
-    public static function isActive()
+    public function isActive()
     {
         return class_exists(WP_CONSENT_API::class);
     }

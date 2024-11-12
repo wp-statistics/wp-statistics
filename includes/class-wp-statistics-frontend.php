@@ -3,7 +3,7 @@
 namespace WP_STATISTICS;
 
 use WP_Statistics\Components\Assets;
-use WP_Statistics\Service\Integrations\Plugins\WpConsentApi;
+use WP_Statistics\Service\Integrations\IntegrationHelper;
 
 class Frontend
 {
@@ -78,7 +78,7 @@ class Frontend
                     'consentLevel'         => Option::get('consent_level_integration', 'disabled'),
                     'dntEnabled'           => Option::get('do_not_track'),
                     'bypassAdBlockers'     => Option::get('bypass_ad_blockers', false),
-                    'isWpConsentApiActive' => WpConsentApi::isActive(),
+                    'isWpConsentApiActive' => IntegrationHelper::get('wpConsentApi')->isActive(),
                     'trackAnonymously'     => Helper::shouldTrackAnonymously(),
                     'isPreview'            => is_preview(),
                 ],

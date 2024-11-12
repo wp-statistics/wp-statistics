@@ -2,14 +2,14 @@
 
 namespace WP_STATISTICS;
 
-use ErrorException;
 use Exception;
 use WP_STATISTICS;
-use WP_Statistics\Components\DateTime;
-use WP_Statistics\Service\Integrations\Plugins\WpConsentApi;
+use ErrorException;
+use WP_Statistics_Mail;
 use WP_Statistics\Utils\Request;
 use WP_Statistics\Utils\Signature;
-use WP_Statistics_Mail;
+use WP_Statistics\Components\DateTime;
+use WP_Statistics\Service\Integrations\IntegrationHelper;
 
 class Helper
 {
@@ -1848,7 +1848,7 @@ class Helper
     {
         $selectedConsentLevel = Option::get('consent_level_integration', 'disabled');
 
-        return WpConsentApi::isActive() &&
+        return IntegrationHelper::get('wpConsentApi')->isActive() &&
             $selectedConsentLevel !== 'disabled' &&
             Option::get('anonymous_tracking', false) == true &&
             !(function_exists('wp_has_consent') && wp_has_consent($selectedConsentLevel));

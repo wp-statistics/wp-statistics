@@ -7,7 +7,7 @@ use WP_STATISTICS\Option;
 class RealCookieBanner extends AbstractIntegration
 {
 
-    public static function isActive()
+    public function isActive()
     {
         return class_exists(\DevOwl\RealCookieBanner\Core::class);
     }

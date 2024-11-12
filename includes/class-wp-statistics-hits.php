@@ -5,7 +5,7 @@ namespace WP_STATISTICS;
 use Exception;
 use WP_Statistics\Components\Singleton;
 use WP_Statistics\Service\Analytics\VisitorProfile;
-use WP_Statistics\Service\Integrations\Plugins\WpConsentApi;
+use WP_Statistics\Service\Integrations\IntegrationHelper;
 
 class Hits extends Singleton
 {
@@ -264,7 +264,7 @@ class Hits extends Singleton
 
             $consentLevel = Option::get('consent_level_integration', 'disabled');
 
-            if ($consentLevel == 'disabled' || Helper::shouldTrackAnonymously() || !WpConsentApi::isActive() || !function_exists('wp_has_consent') || wp_has_consent($consentLevel)) {
+            if ($consentLevel == 'disabled' || Helper::shouldTrackAnonymously() || !IntegrationHelper::get('wpConsentApi')->isActive() || !function_exists('wp_has_consent') || wp_has_consent($consentLevel)) {
                 self::record();
             }
 

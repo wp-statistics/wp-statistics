@@ -41,9 +41,12 @@ class IntegrationHelper
         $integrations = [];
 
         foreach (self::$integrations as $name => $class) {
-            if (!$class::isActive()) continue;
+            /** @var AbstractIntegration $class */
+            $integration = new $class();
 
-            $integrations[$name] = new $class();
+            if (!$integration->isActive()) continue;
+
+            $integrations[$name] = $integration;
         }
 
         return $integrations;
