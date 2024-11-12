@@ -11,7 +11,7 @@ class IntegrationHelper
 {
     /**
      * List of integrations to register.
-     * @var  array
+     * @var AbstractIntegration[]
      */
     public static $integrations = [
         'wpConsentApi'      => WpConsentApi::class,
@@ -41,7 +41,6 @@ class IntegrationHelper
         $integrations = [];
 
         foreach (self::$integrations as $name => $class) {
-            /** @var AbstractIntegration $class */
             $integration = new $class();
 
             if (!$integration->isActive()) continue;
@@ -50,5 +49,24 @@ class IntegrationHelper
         }
 
         return $integrations;
+    }
+
+    /**
+     * Returns an array of status information for each integration.
+     *
+     * @return array
+     */
+    public static function getIntegrationsStatus()
+    {
+        $result = [];
+
+        foreach (self::$integrations as $key => $integration) {
+            $result[$key] = [
+                'is_active'     => $integration->isActive(),
+                'has_consent'   => $integration->hasConsent()
+            ];
+        }
+
+        return $result;
     }
 }
