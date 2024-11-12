@@ -26,7 +26,7 @@ class RealCookieBanner extends AbstractIntegration
 
     public function setRecommendedTemplate()
     {
-        // Recommend a template with
+        // TODO: Recommend a wp-statistics consent template based on settings
     }
 
     public function handleIntegration($integration)
