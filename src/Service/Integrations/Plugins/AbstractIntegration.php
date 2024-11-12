@@ -4,8 +4,6 @@ namespace WP_Statistics\Service\Integrations\Plugins;
 
 abstract class AbstractIntegration
 {
-    public static $integration;
-
     /**
      * Checks if plugin is activated.
      *
