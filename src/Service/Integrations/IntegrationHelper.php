@@ -19,6 +19,19 @@ class IntegrationHelper
     ];
 
     /**
+     * Get an integration class by name.
+     *
+     * @param string $integration The name of the integration (e.g. "wpConsentApi").
+     * @return AbstractIntegration|false
+     */
+    public static function get($integration)
+    {
+        return isset(self::$integrations[$integration])
+            ? new self::$integrations[$integration]
+            : false;
+    }
+
+    /**
      * Return an array of integrations that are active.
      *
      * @return AbstractIntegration[]
@@ -34,17 +47,5 @@ class IntegrationHelper
         }
 
         return $integrations;
-    }
-
-    /**
-     * Get an integration class by name.
-     *
-     * @param string $integration The name of the integration (e.g. "wpConsentApi").
-     * @return AbstractIntegration|false
-     */
-    public static function getIntegration($integration)
-    {
-        if (!isset(self::$integrations[$integration])) return false;
-        return new self::$integrations[$integration];
     }
 }
