@@ -40,10 +40,6 @@ class RealCookieBanner extends AbstractIntegration
 
     public function handleIntegration($integration)
     {
-        if (!class_exists(Option::class) || !defined('WP_STATISTICS_MAIN_FILE')) {
-            return;
-        }
-
         $options        = Option::getOptions();
         $defaultOptions = Option::defaultOption();
         $userOnline     = boolval($options['useronline'] ?? $defaultOptions['useronline']); // Monitor Online Visitors
