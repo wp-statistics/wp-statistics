@@ -56,7 +56,7 @@ $isPremium        = LicenseHelper::isPremiumLicenseAvailable();
             $data = [
                 'description' => $defaultDescription,
                 'step_name'   => 'first-step',
-                'step_href'   => esc_url(WP_STATISTICS_SITE_URL . '/add-ons/add-ons-bundle/?utm_source=wp-statistics&utm_medium=link&utm_campaign=pop-up-premium')
+                'step_href'   => esc_url(WP_STATISTICS_SITE_URL . '/pricing/?utm_source=wp-statistics&utm_medium=link&utm_campaign=pop-up-premium')
             ];
 
             if ($isPremium) {
