@@ -138,18 +138,18 @@ Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest versio
 == Changelog ==
 https://www.youtube.com/watch?v=jxYLVtBdhEc
 
-= 14.11.3
-- **New:** Introduced unique page visitor tracking in shortcode functionality.
-- **Fix:** Added backward compatibility for SE list translations.
-- **Fix:** Addressed issue with non-queryable post-types appearing in Content Analytics.
-- **Fix:** Resolved priority issue for post views column during Quick Edit.
-- **Fix:** Corrected display of views for pages in specific contexts.
-- **Fix:** Fixed issue with Overview Screen Options not saving preferences.
-- **Fix:** Adjusted background process to prevent reinitialization if already active.
-- **Enhancement:** Updated minimum WordPress version requirement to 5.3.
-- **Enhancement:** Added date tooltip to charts for easier Monthly View navigation.
-- **Enhancement:** Disabled GeoIP update email notifications by default.
-- **Enhancement:** Minor optimizations for enhanced performance and usability.
+= 14.11.3 - 2024-11-18 =
+- **New:** Added unique visitor tracking in shortcodes.
+- **Fix:** Improved translation loading and compatibility with WP v6.7.
+- **Fix:** Filtered out non-queryable post types in Content Analytics.
+- **Fix:** Corrected Quick Edit view column priority.
+- **Fix:** Corrected page view displays in specific cases.
+- **Fix:** Resolved issue with Overview Screen Options not saving.
+- **Fix:** Improved background process to prevent duplicate initialization.
+- **Enhancement:** Updated minimum WordPress version to 5.3.
+- **Enhancement:** Added date tooltips to charts for easier monthly navigation.
+- **Enhancement:** Disabled GeoIP update notifications by default.
+- **Enhancement:** Minor performance and usability improvements.
 
 = 14.11.2 - 2024-11-05 =
 - **Fix:** Resolved memory usage issue in Firefox within the Overview page.
