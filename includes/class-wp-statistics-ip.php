@@ -262,6 +262,7 @@ class IP
                     throw new ErrorException(esc_html__('Invalid IP address or Range.'));
                 }
 
+                $netmask    = absint($netmask);
                 $IpLength   = strlen($binIp) * 8;
                 $binNetmask = str_repeat('1', $netmask) . str_repeat('0', $IpLength - $netmask);
                 $binNetmask = pack('H*', base_convert($binNetmask, 2, 16));
