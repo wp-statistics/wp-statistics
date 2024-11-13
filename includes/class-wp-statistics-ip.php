@@ -254,6 +254,12 @@ class IP
                 // Separate the IP from the CIDR mask
                 [$range, $netmask] = explode('/', $range, 2);
 
+
+                // Skip IPv6 range if IP is IPv4, or vise versa
+                if ((self::isIPv4($ip) && self::isIPv6($range)) || (self::isIPv6($ip) && self::isIPv4($range))) {
+                    continue;
+                }
+
                 // convert IP and Range to binary values
                 $binIp      = inet_pton($ip);
                 $binRange   = inet_pton($range);
@@ -290,6 +296,28 @@ class IP
     public static function isIP($ip)
     {
         return filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE);
+    }
+
+    /**
+     * Validate an IP address is an IPv6 address
+     *
+     * @param string $ip The IP address to validate
+     * @return bool True if the IP address is an IPv6 address, false otherwise
+     */
+    public static function isIPv6($ip)
+    {
+        return filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6);
+    }
+
+    /**
+     * Validate an IP address is an IPv4 address
+     *
+     * @param string $ip The IP address to validate
+     * @return bool True if the IP address is an IPv4 address, false otherwise
+     */
+    public static function isIPv4($ip)
+    {
+        return filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4);
     }
 
     /**
