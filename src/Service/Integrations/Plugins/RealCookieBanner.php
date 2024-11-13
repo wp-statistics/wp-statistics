@@ -31,7 +31,7 @@ class RealCookieBanner extends AbstractIntegration
 
     public function hasConsent()
     {
-        if (!function_exists('wp_rcb_consent_given')) return true;
+        if (!function_exists('wp_rcb_consent_given')) return false;
 
         $consent = wp_rcb_consent_given('');
 
