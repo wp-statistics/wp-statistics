@@ -61,6 +61,8 @@ class IntegrationHelper
         $result = [];
 
         foreach (self::$integrations as $key => $integration) {
+            $integration = new $integration();
+
             $result[$key] = [
                 'is_active'     => $integration->isActive(),
                 'has_consent'   => $integration->hasConsent()
@@ -68,5 +70,23 @@ class IntegrationHelper
         }
 
         return $result;
+    }
+
+    /**
+     * Returns true if any of the active integrations have consent given.
+     *
+     * @return bool
+     */
+    public static function isAnyConsentGiven()
+    {
+        $integrations = self::getIntegrations();
+
+        foreach ($integrations as $integration) {
+            if (!$integration->hasConsent()) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }
