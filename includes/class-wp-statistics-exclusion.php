@@ -483,39 +483,43 @@ class Exclusion
      */
     public static function exclusion_hostname($visitorProfile)
     {
-        // Get Host name List
-        $excluded_host = explode("\n", Option::get('excluded_hosts'));
+        if (!isset($_SERVER['CF-Connecting-IP'])) {
+            // Get Host name List
+            $excluded_host = explode("\n", Option::get('excluded_hosts'));
 
-        // If there's nothing in the excluded host list, don't do anything.
-        if (count($excluded_host) > 0) {
-            $transient_name = 'wps_excluded_hostname_to_ip_cache';
+            // If there's nothing in the excluded host list, don't do anything.
+            if (count($excluded_host) > 0) {
+                $transient_name = 'wps_excluded_hostname_to_ip_cache';
 
-            // Get the transient with the hostname cache.
-            $hostname_cache = get_transient($transient_name);
+                // Get the transient with the hostname cache.
+                $hostname_cache = get_transient($transient_name);
 
-            // If the transient has expired (or has never been set), create one now.
-            if ($hostname_cache === false) {
-                // Flush the failed cache variable.
-                $hostname_cache = array();
+                // If the transient has expired (or has never been set), create one now.
+                if ($hostname_cache === false) {
+                    // Flush the failed cache variable.
+                    $hostname_cache = array();
 
-                // Loop through the list of hosts and look them up.
-                foreach ($excluded_host as $host) {
-                    if (strpos($host, '.') > 0) {
-                        $hostname_cache[$host] = gethostbyname($host . '.');
+                    // Loop through the list of hosts and look them up.
+                    foreach ($excluded_host as $host) {
+                        if (strpos($host, '.') > 0) {
+                            $hostname_cache[$host] = gethostbyname($host . '.');
+                        }
                     }
+
+                    // Set the transient and store it for 1 hour.
+                    set_transient($transient_name, $hostname_cache, 3600);
                 }
 
-                // Set the transient and store it for 1 hour.
-                set_transient($transient_name, $hostname_cache, 360);
+                // Check if the current IP address matches one of the ones in the excluded hosts list.
+                if (in_array($visitorProfile->getIp(), $hostname_cache)) {
+                    return true;
+                }
             }
 
-            // Check if the current IP address matches one of the ones in the excluded hosts list.
-            if (in_array($visitorProfile->getIp(), $hostname_cache)) {
-                return true;
-            }
+            return false;
         }
 
-        return false;
+        return true;
     }
 
     /**
