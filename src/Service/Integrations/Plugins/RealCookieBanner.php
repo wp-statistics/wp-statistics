@@ -7,6 +7,16 @@ use WP_STATISTICS\Option;
 class RealCookieBanner extends AbstractIntegration
 {
 
+    /**
+     * Returns the name of the integration.
+     *
+     * @return  string
+     */
+    public function getName()
+    {
+        return esc_html__('Real Cookie Banner', 'wp-statistics');
+    }
+
     public function isActive()
     {
         return class_exists(\DevOwl\RealCookieBanner\Core::class);

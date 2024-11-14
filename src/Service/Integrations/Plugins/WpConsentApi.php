@@ -8,6 +8,16 @@ use WP_CONSENT_API;
 class WpConsentApi extends AbstractIntegration
 {
     /**
+     * Returns the name of the integration.
+     *
+     * @return  string
+     */
+    public function getName()
+    {
+        return esc_html__('WP Consent API', 'wp-statistics');
+    }
+
+    /**
      * Checks if "WP Consent API" plugin is activated.
      *
      * @return  bool
