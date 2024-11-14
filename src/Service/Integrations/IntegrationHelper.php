@@ -14,14 +14,14 @@ class IntegrationHelper
      * @var AbstractIntegration[]
      */
     public static $integrations = [
-        'wpConsentApi'      => WpConsentApi::class,
-        'realCookieBanner'  => RealCookieBanner::class
+        'wp_consent_api'      => WpConsentApi::class,
+        'real_cookie_banner'  => RealCookieBanner::class
     ];
 
     /**
      * Get an integration class by name.
      *
-     * @param string $integration The name of the integration (e.g. "wpConsentApi").
+     * @param string $integration The name of the integration (e.g. "wp_consent_api").
      * @return AbstractIntegration|false
      */
     public static function get($integration)

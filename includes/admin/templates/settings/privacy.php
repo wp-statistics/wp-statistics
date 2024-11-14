@@ -76,7 +76,7 @@ use WP_Statistics\Service\Integrations\IntegrationHelper;
             </th>
 
             <td>
-                <?php $isWpConsentApiActive = IntegrationHelper::get('wpConsentApi')->isActive(); ?>
+                <?php $isWpConsentApiActive = IntegrationHelper::get('wp_consent_api')->isActive(); ?>
                 <select id="consent_level_integration" name="wps_consent_level_integration" <?php echo !$isWpConsentApiActive ? 'disabled' : ''; ?>>
                     <option value="disabled" <?php selected(WP_STATISTICS\Option::get('consent_level_integration'), 'disabled'); ?>><?php esc_html_e('Disabled', 'wp-statistics'); ?></option>
                     <?php if ($isWpConsentApiActive) : ?>
