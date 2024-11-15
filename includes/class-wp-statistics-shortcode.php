@@ -50,7 +50,7 @@ class ShortCode
             $atts['format'] = '';
         }
         if (!array_key_exists('id', $atts)) {
-            $atts['id'] = -1;
+            $atts['id'] = get_the_ID();
         }
 
         $formatnumber = array_key_exists('format', $atts);
@@ -155,13 +155,13 @@ class ShortCode
     {
         // Set the default arguments.
         $args = [
-            'date'    => null,
-            'post_id' => null,
+            'date'        => null,
+            'resource_id' => null,
         ];
 
         // Parse the post_id parameter.
         if (isset($atts['id'])) {
-            $args['post_id'] = $atts['id'];
+            $args['resource_id'] = $atts['id'];
         }
 
         // Parse the time parameter.
