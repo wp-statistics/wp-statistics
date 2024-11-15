@@ -248,6 +248,7 @@ class ShortCode
                                 'visits'         => __('Views', 'wp-statistics'),
                                 'visitors'       => __('Visitors', 'wp-statistics'),
                                 'pagevisits'     => __('Page Views', 'wp-statistics'),
+                                'pagevisitors'   => __('Page Visitors', 'wp-statistics'),
                                 'searches'       => __('Searches', 'wp-statistics'),
                                 'postcount'      => __('Post Count', 'wp-statistics'),
                                 'pagecount'      => __('Page Count', 'wp-statistics'),
