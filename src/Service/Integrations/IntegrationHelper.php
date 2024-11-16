@@ -2,6 +2,7 @@
 
 namespace WP_Statistics\Service\Integrations;
 
+use WP_STATISTICS\Option;
 use WP_Statistics\Service\Integrations\Plugins\WpConsentApi;
 use WP_Statistics\Service\Integrations\Plugins\RealCookieBanner;
 use WP_Statistics\Service\Integrations\Plugins\AbstractIntegration;
@@ -24,26 +25,24 @@ class IntegrationHelper
      * @param string $integration The name of the integration (e.g. "wp_consent_api").
      * @return AbstractIntegration|false
      */
-    public static function get($integration)
+    public static function getIntegration($integration)
     {
-        return isset(self::$integrations[$integration])
+        return !empty($integration) && isset(self::$integrations[$integration])
             ? new self::$integrations[$integration]
             : false;
     }
 
     /**
-     * Return an array of integrations that are active.
+     * Return an array of all integrations.
      *
      * @return AbstractIntegration[]
      */
-    public static function getIntegrations()
+    public static function getAllIntegrations()
     {
         $integrations = [];
 
         foreach (self::$integrations as $name => $class) {
             $integration = new $class();
-
-            if (!$integration->isActive()) continue;
 
             $integrations[$name] = $integration;
         }
@@ -52,41 +51,15 @@ class IntegrationHelper
     }
 
     /**
-     * Returns an array of status information for each integration.
+     * Returns the currently selected integration class.
      *
-     * @return array
+     * @return AbstractIntegration|false False if no integration is selected.
      */
-    public static function getIntegrationsStatus()
+    public static function getCurrentIntegration()
     {
-        $result = [];
+        $selectedIntegration = Option::get('consent_integration');
 
-        foreach (self::$integrations as $key => $integration) {
-            $integration = new $integration();
-
-            $result[$key] = [
-                'is_active'     => $integration->isActive(),
-                'has_consent'   => $integration->hasConsent()
-            ];
-        }
-
-        return $result;
+        return self::getIntegration($selectedIntegration);
     }
 
-    /**
-     * Returns true if any of the active integrations have consent given.
-     *
-     * @return bool
-     */
-    public static function isAnyConsentGiven()
-    {
-        $integrations = self::getIntegrations();
-
-        foreach ($integrations as $integration) {
-            if (!$integration->hasConsent()) {
-                return false;
-            }
-        }
-
-        return true;
-    }
 }

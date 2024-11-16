@@ -2,9 +2,6 @@
 
 namespace WP_Statistics\Service\Integrations;
 
-use WP_Statistics\Service\Integrations\Plugins\RealCookieBanner;
-use WP_Statistics\Service\Integrations\Plugins\WpConsentApi;
-
 class IntegrationsManager
 {
     /**
@@ -21,9 +18,11 @@ class IntegrationsManager
      */
     private function registerIntegrations()
     {
-        $integrations = IntegrationHelper::getIntegrations();
+        $integrations = IntegrationHelper::getAllIntegrations();
 
         foreach ($integrations as $integration) {
+            if (!$integration->isActive()) continue;
+
             $integration->register();
         }
     }

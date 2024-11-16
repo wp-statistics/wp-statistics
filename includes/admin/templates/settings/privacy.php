@@ -79,7 +79,7 @@ use WP_Statistics\Service\Integrations\IntegrationHelper;
                 <select id="consent_integration" name="wps_consent_integration">
                     <option value="" <?php selected(WP_STATISTICS\Option::get('integration_plugin')); ?>><?php esc_html_e('None', 'wp-statistics'); ?></option>
 
-                    <?php foreach (IntegrationHelper::getIntegrations() as $key => $integration) : ?>
+                    <?php foreach (IntegrationHelper::getAllIntegrations() as $key => $integration) : ?>
                         <option <?php disabled(!$integration->isActive()) ?> value="<?php echo esc_attr($key); ?>" <?php selected(WP_STATISTICS\Option::get('integration_plugin'), $key); ?>><?php echo esc_html($integration->getName()); ?></option>
                     <?php endforeach; ?>
                 </select>
@@ -95,7 +95,7 @@ use WP_Statistics\Service\Integrations\IntegrationHelper;
             </th>
 
             <td>
-                <?php $isWpConsentApiActive = IntegrationHelper::get('wp_consent_api')->isActive(); ?>
+                <?php $isWpConsentApiActive = IntegrationHelper::getIntegration('wp_consent_api')->isActive(); ?>
                 <select id="consent_level_integration" name="wps_consent_level_integration" <?php echo !$isWpConsentApiActive ? 'disabled' : ''; ?>>
                     <option value="disabled" <?php selected(WP_STATISTICS\Option::get('consent_level_integration'), 'disabled'); ?>><?php esc_html_e('Disabled', 'wp-statistics'); ?></option>
                     <?php if ($isWpConsentApiActive) : ?>

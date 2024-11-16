@@ -1848,7 +1848,7 @@ class Helper
     {
         $selectedConsentLevel = Option::get('consent_level_integration', 'disabled');
 
-        return IntegrationHelper::get('wp_consent_api')->isActive() &&
+        return IntegrationHelper::getIntegration('wp_consent_api')->isActive() &&
             $selectedConsentLevel !== 'disabled' &&
             Option::get('anonymous_tracking', false) == true &&
             !(function_exists('wp_has_consent') && wp_has_consent($selectedConsentLevel));
