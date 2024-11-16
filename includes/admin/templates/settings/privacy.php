@@ -109,8 +109,8 @@ use WP_Statistics\Service\Integrations\IntegrationHelper;
                 <select id="consent_integration" name="wps_consent_integration">
                     <option value="" <?php selected(WP_STATISTICS\Option::get('integration_plugin')); ?>><?php esc_html_e('None', 'wp-statistics'); ?></option>
 
-                    <?php foreach (IntegrationHelper::getAllIntegrations() as $key => $integration) : ?>
-                        <option <?php disabled(!$integration->isActive()) ?> value="<?php echo esc_attr($key); ?>" <?php selected(WP_STATISTICS\Option::get('integration_plugin'), $key); ?>><?php echo esc_html($integration->getName()); ?></option>
+                    <?php foreach (IntegrationHelper::getAllIntegrations() as $integration) : ?>
+                        <option <?php disabled(!$integration->isActive()) ?> value="<?php echo esc_attr($integration->getKey()); ?>" <?php selected(WP_STATISTICS\Option::get('integration_plugin'), $integration->getKey()); ?>><?php echo esc_html($integration->getName()); ?></option>
                     <?php endforeach; ?>
                 </select>
                 <p class="description"><?php esc_html_e("Enable integration with supported consent management plugins, such as WP Consent API and Cookie Banner, to ensure WP Statistics respects user privacy preferences. When enabled, WP Statistics will only track data based on the consent settings provided by your active consent management plugin.", 'wp-statistics'); ?></p>
