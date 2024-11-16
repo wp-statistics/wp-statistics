@@ -91,7 +91,7 @@ use WP_Statistics\Service\Integrations\IntegrationHelper;
 
         <tr valign="top">
             <th scope="row">
-                <label for="consent_level_integration"><?php esc_html_e('WP Consent Level Integration', 'wp-statistics'); ?></label>
+                <label for="consent_level_integration"><?php esc_html_e('Consent Categories', 'wp-statistics'); ?></label>
             </th>
 
             <td>
@@ -105,59 +105,38 @@ use WP_Statistics\Service\Integrations\IntegrationHelper;
                         <option value="marketing" <?php selected(WP_STATISTICS\Option::get('consent_level_integration'), 'marketing'); ?>><?php esc_html_e('Marketing', 'wp-statistics'); ?></option>
                     <?php endif; ?>
                 </select>
-                <p class="description"><?php esc_html_e("Enable WP Consent Level API integration to ensure WP Statistics complies with user-selected privacy preferences. When enabled, WP Statistics will only trigger tracking based on the user's chosen consent category.", 'wp-statistics'); ?></p>
-                <?php if ($isWpConsentApiActive) : ?>
-                    <p class="description"><?php _e('<b>Note</b>: This integration requires a compatible consent management provider.', 'wp-statistics'); ?></p>
-                    <?php if (\WP_STATISTICS\Option::get('privacy_audit', false)) : ?>
-                        <p class="description">
-                            <?php echo sprintf(
-                            // translators: %s: Consent option.
-                                __('Recommended Category: <b>%s</b>', 'wp-statistics'),
-                                \WP_Statistics\Service\Admin\PrivacyAudit\Faqs\RequireConsent::getStatus() === 'success' ? esc_html__('Functional or Statistics-Anonymous', 'wp-statistics') : esc_html__('Statistics', 'wp-statistics')
-                            ); ?>
-                            <br/>
-                            <?php echo \WP_Statistics\Service\Admin\PrivacyAudit\Faqs\RequireConsent::getStatus() === 'success' ?
-                                esc_html__('WP Statistics, based on your settings, does not use cookies or other personally identifiable information (PII). Therefore, you could use it without notifying users. However, informing users about this can improve your transparency and demonstrate respect for their privacy.', 'wp-statistics') :
-                                sprintf(
-                                // translators: %s: Privacy Audit page link.
-                                    __('WP Statistics, based on your settings, collects data that can be considered as personally identifiable information (PII). For more information, see the <a href="%s" target="_blank">Privacy Audit</a>.', 'wp-statistics'),
-                                    esc_url(admin_url('admin.php?page=wps_privacy-audit_page'))
-                                ); ?>
-                        </p>
-                    <?php endif; ?>
-                <?php else : ?>
+                <p class="description"><?php esc_html_e("When using WP Consent API, select the consent categories that WP Statistics should track. Only visitors who have consented to the selected categories will be tracked.", 'wp-statistics'); ?></p>
+
+                <?php if (\WP_STATISTICS\Option::get('privacy_audit', false)) : ?>
                     <p class="description">
                         <?php echo sprintf(
-                        // translators: %s: WP Consent API link.
-                            __('<b>Notice: To use this feature, you need to install and activate the <a href="%s" target="_blank">WP Consent API</a> WordPress plugin.</b>', 'wp-statistics'),
-                            'https://wordpress.org/plugins/wp-consent-api/'
+                        // translators: %s: Consent option.
+                            __('Recommended Category: <b>%s</b>', 'wp-statistics'),
+                            \WP_Statistics\Service\Admin\PrivacyAudit\Faqs\RequireConsent::getStatus() === 'success' ? esc_html__('Functional or Statistics-Anonymous', 'wp-statistics') : esc_html__('Statistics', 'wp-statistics')
                         ); ?>
                     </p>
                 <?php endif; ?>
+
                 <p class="description">
-                    <?php echo sprintf(
-                    // translators: %s: Documentation link.
-                        __('For more details, please refer to our <a href="%s" target="_blank">documentation</a>.', 'wp-statistics'),
-                        'https://wp-statistics.com/resources/wp-consent-level-integration/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings'
-                    ); ?>
+                    <?php _e('More Information: Learn more about configuring WP Consent API and the available categories in our <a href="https://wp-statistics.com/resources/wp-consent-level-integration/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings">WP Consent API documentation</a>.', 'wp-statistics'); ?>
+                    <br/>
+                    <?php _e('Note: Selecting the correct categories ensures compliance with privacy laws and demonstrates respect for user preferences.', 'wp-statistics'); ?>
                 </p>
             </td>
         </tr>
 
-        <?php if ($isWpConsentApiActive && WP_STATISTICS\Option::get('consent_level_integration', 'disabled') !== 'disabled') : ?>
-            <tr valign="top">
-                <th scope="row">
-                    <label for="anonymous_tracking"><?php _e('Anonymous Tracking', 'wp-statistics'); ?></label>
-                </th>
+        <tr valign="top">
+            <th scope="row">
+                <label for="anonymous_tracking"><?php _e('Anonymous Tracking', 'wp-statistics'); ?></label>
+            </th>
 
-                <td>
-                    <input id="anonymous_tracking" type="checkbox" value="1" name="wps_anonymous_tracking" <?php echo WP_STATISTICS\Option::get('anonymous_tracking', false) == true ? 'checked="checked"' : ''; ?> />
-                    <label for="anonymous_tracking"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
-                    <p class="description"><?php _e('When this option is enabled, all users will be tracked anonymously by default, without recording any Personally Identifiable Information (PII), regardless of consent. This anonymous tracking data is classified as "Functional" to align with privacy regulations. PII data will only be collected when explicit consent is provided by the website visitor.', 'wp-statistics'); ?></p>
-                    <p class="description"><?php _e('<b>Note</b>: This feature is currently in beta and enables user tracking while adhering to privacy laws. Users are advised to review and ensure compliance with applicable legal requirements in their jurisdiction.', 'wp-statistics'); ?></p>
-                </td>
-            </tr>
-        <?php endif; ?>
+            <td>
+                <input id="anonymous_tracking" type="checkbox" value="1" name="wps_anonymous_tracking" <?php echo WP_STATISTICS\Option::get('anonymous_tracking', false) == true ? 'checked="checked"' : ''; ?> />
+                <label for="anonymous_tracking"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
+                <p class="description"><?php _e('When this option is enabled, all users will be tracked anonymously by default, without recording any Personally Identifiable Information (PII), regardless of consent. This anonymous tracking data is classified as "Functional" to align with privacy regulations. PII data will only be collected when explicit consent is provided by the website visitor.', 'wp-statistics'); ?></p>
+                <p class="description"><?php _e('<b>Note</b>: This feature is currently in beta and enables user tracking while adhering to privacy laws. Users are advised to review and ensure compliance with applicable legal requirements in their jurisdiction.', 'wp-statistics'); ?></p>
+            </td>
+        </tr>
 
         <tr valign="top">
             <th scope="row">
