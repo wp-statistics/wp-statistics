@@ -6,6 +6,15 @@ use WP_STATISTICS\Option;
 
 class RealCookieBanner extends AbstractIntegration
 {
+    /**
+     * Returns the key of the integration.
+     *
+     * @return string
+     */
+    public function getKey()
+    {
+        return 'real_cookie_banner';
+    }
 
     /**
      * Returns the name of the integration.

@@ -5,6 +5,12 @@ namespace WP_Statistics\Service\Integrations\Plugins;
 abstract class AbstractIntegration
 {
     /**
+     * Integration key
+     * @return string
+     */
+    abstract public function getKey();
+
+    /**
      * Integration name
      * @return string
      */
