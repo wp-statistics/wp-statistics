@@ -24,6 +24,12 @@ abstract class AbstractIntegration
     abstract public function hasConsent();
 
     /**
+     * Get integration status
+     * @return array
+     */
+    abstract public function getStatus();
+
+    /**
      * Register integration hooks.
      * @return  void
      */

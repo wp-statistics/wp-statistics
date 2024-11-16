@@ -47,4 +47,16 @@ class WpConsentApi extends AbstractIntegration
         $plugin = plugin_basename(WP_STATISTICS_MAIN_FILE);
         add_filter("wp_consent_api_registered_{$plugin}", '__return_true');
     }
+
+    /**
+     * Return the status of the integration.
+     *
+     * @return array The status of the integration.
+     */
+    public function getStatus()
+    {
+        return [
+            'has_consent' => $this->hasConsent()
+        ];
+    }
 }

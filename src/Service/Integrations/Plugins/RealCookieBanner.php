@@ -76,4 +76,16 @@ class RealCookieBanner extends AbstractIntegration
             $integration->integrate($file, 'wp-statistics-with-data-processing');
         }
     }
+
+    /**
+     * Return the status of the integration.
+     *
+     * @return array The status of the integration.
+     */
+    public function getStatus()
+    {
+        return [
+            'has_consent' => $this->hasConsent()
+        ];
+    }
 }
