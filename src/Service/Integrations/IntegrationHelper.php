@@ -32,6 +32,29 @@ class IntegrationHelper
             : false;
     }
 
+       /**
+     * Returns the currently selected integration status.
+     *
+     * @return array
+     */
+    public static function getIntegrationStatus()
+    {
+        $status = [
+            'integration' => null,
+            'has_consent' => false
+        ];
+
+        $selectedIntegration    = Option::get('consent_integration');
+        $integration            = self::getIntegration($selectedIntegration);
+
+        if (empty($integration)) return $status;
+
+        $status['integration'] = $selectedIntegration;
+        $status['has_consent'] = $integration->hasConsent();
+
+        return $status;
+    }
+
     /**
      * Return an array of all integrations.
      *
