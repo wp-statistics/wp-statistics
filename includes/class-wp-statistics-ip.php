@@ -254,11 +254,14 @@ class IP
                 // Separate the IP from the CIDR mask
                 [$range, $netmask] = explode('/', $range, 2);
 
+                // Skip if the IPv4 netmask is not valid
+                if (self::isIPv4($range) && ($netmask < 0 || $netmask > 32)) continue;
+
+                // Skip if the IPv6 netmask is not valid
+                if (self::isIPv6($range) && ($netmask < 0 || $netmask > 128)) continue;
 
                 // Skip IPv6 range if IP is IPv4, or vise versa
-                if ((self::isIPv4($ip) && self::isIPv6($range)) || (self::isIPv6($ip) && self::isIPv4($range))) {
-                    continue;
-                }
+                if ((self::isIPv4($ip) && self::isIPv6($range)) || (self::isIPv6($ip) && self::isIPv4($range))) continue;
 
                 // convert IP and Range to binary values
                 $binIp      = inet_pton($ip);
