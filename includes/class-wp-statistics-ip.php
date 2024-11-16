@@ -263,7 +263,7 @@ class IP
                 // Skip IPv6 range if IP is IPv4, or vise versa
                 if ((self::isIPv4($ip) && self::isIPv6($range)) || (self::isIPv6($ip) && self::isIPv4($range))) continue;
 
-                // convert IP and Range to binary values
+                // Convert IP and Range to binary values
                 $binIp      = inet_pton($ip);
                 $binRange   = inet_pton($range);
 
@@ -271,12 +271,28 @@ class IP
                     throw new ErrorException(esc_html__('Invalid IP address or Range.'));
                 }
 
-                $netmask    = absint($netmask);
-                $IpLength   = strlen($binIp) * 8;
-                $binNetmask = str_repeat('1', $netmask) . str_repeat('0', $IpLength - $netmask);
-                $binNetmask = pack('H*', base_convert($binNetmask, 2, 16));
+                // Calculate the number of bytes in the IP address
+                $bytes = strlen($binIp);
 
-                if (($binIp & $binNetmask) === ($binRange & $binNetmask)) {
+                // Calculate the number of bits in the netmask
+                $bits = absint($netmask);
+
+                // Calculate the number of bytes in the netmask
+                $netmaskBytes = ceil($bits / 8);
+
+                // Calculate the netmask
+                $netmask = str_repeat("\xff", $netmaskBytes);
+
+                // If the number of bits is not a multiple of 8, calculate the remaining bits
+                if ($bits % 8 != 0) {
+                    $remainingBits = 8 - ($bits % 8);
+                    $netmask = substr($netmask, 0, -1) . chr(256 - pow(2, $remainingBits));
+                }
+
+                // Pad the netmask with zeros if necessary
+                $netmask = str_pad($netmask, $bytes, "\x00");
+
+                if (($binIp & $netmask) === ($binRange & $netmask)) {
                     $isWithinRange = true;
                     break;
                 }
