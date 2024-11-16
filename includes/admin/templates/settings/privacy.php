@@ -2,6 +2,36 @@
 use WP_Statistics\Service\Integrations\IntegrationHelper;
 ?>
 
+<script type="text/javascript">
+    const toggleConsentIntegration = () => {
+        const selectElement = document.getElementById('consent_integration');
+        const consentCategories = document.getElementById('wps-consent-categories');
+        const anonymousTracking = document.getElementById('wps-anonymous-tracking');
+        const updateVisibility = (element, shouldShow) => {
+            element.classList.toggle('wps-hide', !shouldShow);
+        };
+        switch (selectElement.value) {
+            case 'wp_consent_api':
+                updateVisibility(consentCategories, true);
+                updateVisibility(anonymousTracking, true);
+                break;
+            case 'real_cookie_banner':
+                updateVisibility(consentCategories, false);
+                updateVisibility(anonymousTracking, true);
+                break;
+            default:
+                updateVisibility(consentCategories, false);
+                updateVisibility(anonymousTracking, false);
+                break;
+        }
+    };
+    jQuery(document).ready(() => {
+        jQuery('#consent_integration').on('change', toggleConsentIntegration);
+        toggleConsentIntegration(); // Initialize on page load
+    });
+
+</script>
+
 <div class="postbox">
     <table class="form-table">
         <tbody>
@@ -89,7 +119,7 @@ use WP_Statistics\Service\Integrations\IntegrationHelper;
             </td>
         </tr>
 
-        <tr valign="top">
+        <tr valign="top" id="wps-consent-categories">
             <th scope="row">
                 <label for="consent_level_integration"><?php esc_html_e('Consent Categories', 'wp-statistics'); ?></label>
             </th>
@@ -125,7 +155,7 @@ use WP_Statistics\Service\Integrations\IntegrationHelper;
             </td>
         </tr>
 
-        <tr valign="top">
+        <tr valign="top" id="wps-anonymous-tracking">
             <th scope="row">
                 <label for="anonymous_tracking"><?php _e('Anonymous Tracking', 'wp-statistics'); ?></label>
             </th>
