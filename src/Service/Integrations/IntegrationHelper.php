@@ -15,8 +15,8 @@ class IntegrationHelper
      * @var AbstractIntegration[]
      */
     public static $integrations = [
-        'wp_consent_api'      => WpConsentApi::class,
-        'real_cookie_banner'  => RealCookieBanner::class
+        WpConsentApi::class,
+        RealCookieBanner::class
     ];
 
     /**
@@ -27,9 +27,15 @@ class IntegrationHelper
      */
     public static function getIntegration($integration)
     {
-        return !empty($integration) && isset(self::$integrations[$integration])
-            ? new self::$integrations[$integration]
-            : false;
+        foreach (self::$integrations as $class) {
+            $class = new $class();
+
+            if ($class->getKey() === $integration) {
+                return $class;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -59,6 +65,8 @@ class IntegrationHelper
     {
         $selectedIntegration = Option::get('consent_integration');
 
+        if (empty($selectedIntegration)) return false;
+
         return self::getIntegration($selectedIntegration);
     }
 
@@ -70,17 +78,16 @@ class IntegrationHelper
     public static function getIntegrationStatus()
     {
         $status = [
-            'integration'   => null,
-            'status'        => []
+            'name'      => null,
+            'status'    => []
         ];
 
-        $selectedIntegration    = Option::get('consent_integration');
-        $integration            = self::getIntegration($selectedIntegration);
+        $integration = self::getCurrentIntegration();
 
         if (empty($integration)) return $status;
 
-        $status['integration']  = $selectedIntegration;
-        $status['status']       = $integration->getStatus();
+        $status['name']     = $integration->getKey();
+        $status['status']   = $integration->getStatus();
 
         return $status;
     }

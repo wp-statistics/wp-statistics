@@ -8,6 +8,16 @@ use WP_CONSENT_API;
 class WpConsentApi extends AbstractIntegration
 {
     /**
+     * Returns the key of the integration.
+     *
+     * @return string
+     */
+    public function getKey()
+    {
+        return 'wp_consent_api';
+    }
+
+    /**
      * Returns the name of the integration.
      *
      * @return  string
