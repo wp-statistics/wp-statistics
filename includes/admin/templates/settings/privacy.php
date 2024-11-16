@@ -72,6 +72,25 @@ use WP_Statistics\Service\Integrations\IntegrationHelper;
 
         <tr valign="top">
             <th scope="row">
+                <label for="consent_integration"><?php esc_html_e('Consent Plugin Integration', 'wp-statistics'); ?></label>
+            </th>
+
+            <td>
+                <select id="consent_integration" name="wps_consent_integration">
+                    <option value="" <?php selected(WP_STATISTICS\Option::get('integration_plugin')); ?>><?php esc_html_e('None', 'wp-statistics'); ?></option>
+
+                    <?php foreach (IntegrationHelper::getIntegrations() as $key => $integration) : ?>
+                        <option <?php disabled(!$integration->isActive()) ?> value="<?php echo esc_attr($key); ?>" <?php selected(WP_STATISTICS\Option::get('integration_plugin'), $key); ?>><?php echo esc_html($integration->getName()); ?></option>
+                    <?php endforeach; ?>
+                </select>
+                <p class="description"><?php esc_html_e("Enable integration with supported consent management plugins, such as WP Consent API and Cookie Banner, to ensure WP Statistics respects user privacy preferences. When enabled, WP Statistics will only track data based on the consent settings provided by your active consent management plugin.", 'wp-statistics'); ?></p>
+                <p class="description"><?php esc_html_e("Note: To use this feature, you must install and activate one of the supported consent management plugins.", 'wp-statistics'); ?></p>
+                <p class="description"><?php _e("For step-by-step setup, refer to our <a href='#'>detailed guide</a>.", 'wp-statistics'); ?></p>
+            </td>
+        </tr>
+
+        <tr valign="top">
+            <th scope="row">
                 <label for="consent_level_integration"><?php esc_html_e('WP Consent Level Integration', 'wp-statistics'); ?></label>
             </th>
 
