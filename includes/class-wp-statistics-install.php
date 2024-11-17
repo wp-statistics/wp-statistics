@@ -653,7 +653,7 @@ class Install
         /**
          * Update consent integration to WP Consent API for backward compatibility
          */
-        if (empty(Option::get('consent_integration')) && Option::get('consent_level_integration') !== 'disabled') {
+        if (empty(Option::get('consent_integration')) && Option::get('consent_level_integration', 'disabled') !== 'disabled') {
             Option::update('consent_integration', 'wp_consent_api');
         }
 
