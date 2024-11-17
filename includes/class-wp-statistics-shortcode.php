@@ -2,6 +2,8 @@
 
 namespace WP_STATISTICS;
 
+use WP_Statistics\Models\VisitorsModel;
+
 class ShortCode
 {
 
@@ -48,7 +50,7 @@ class ShortCode
             $atts['format'] = '';
         }
         if (!array_key_exists('id', $atts)) {
-            $atts['id'] = -1;
+            $atts['id'] = get_the_ID();
         }
 
         $formatnumber = array_key_exists('format', $atts);
@@ -69,6 +71,12 @@ class ShortCode
 
             case 'pagevisits':
                 $result = wp_statistics_pages($atts['time'], null, $atts['id']);
+                break;
+
+            case 'pagevisitors':
+                $visitorModel = new VisitorsModel();
+                $args         = $this->parseArgs($atts);
+                $result       = $visitorModel->countVisitors($args);
                 break;
 
             case 'searches':
@@ -138,6 +146,48 @@ class ShortCode
     }
 
     /**
+     * Parse the shortcode arguments.
+     *
+     * @param $time
+     * @return array|mixed|string
+     */
+    public function parseArgs($atts)
+    {
+        // Set the default arguments.
+        $args = [
+            'date'        => null,
+            'resource_id' => null,
+        ];
+
+        // Parse the post_id parameter.
+        if (isset($atts['id'])) {
+            $args['resource_id'] = $atts['id'];
+        }
+
+        // Parse the time parameter.
+        if (isset($atts['time'])) {
+            $timeMap = [
+                'week'  => '7days',
+                'month' => '30days',
+                'year'  => '12months',
+            ];
+
+            if (array_key_exists($atts['time'], $timeMap)) {
+                $args['date'] = $timeMap[$atts['time']];
+            } elseif (is_numeric($atts['time'])) {
+                $args['date'] = [
+                    'from' => date('Y-m-d', strtotime("{$atts['time']} days")),
+                    'to'   => date('Y-m-d'),
+                ];
+            } else {
+                $args['date'] = $atts['time'];
+            }
+        }
+
+        return $args;
+    }
+
+    /**
      * Format a number in shorthand notation (1K, 1M, 1B).
      *
      * @param int|float $number El número que se formateará.
@@ -198,6 +248,7 @@ class ShortCode
                                 'visits'         => __('Views', 'wp-statistics'),
                                 'visitors'       => __('Visitors', 'wp-statistics'),
                                 'pagevisits'     => __('Page Views', 'wp-statistics'),
+                                'pagevisitors'   => __('Page Visitors', 'wp-statistics'),
                                 'searches'       => __('Searches', 'wp-statistics'),
                                 'postcount'      => __('Post Count', 'wp-statistics'),
                                 'pagecount'      => __('Page Count', 'wp-statistics'),

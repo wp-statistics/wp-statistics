@@ -33,7 +33,7 @@ use WP_Statistics\Decorators\VisitorDecorator;
                         <span class="wps-visitor__information__user-img"></span>
                     </a>
                     <a class="wps-visitor__information__user-text wps-tooltip" title="<?php echo esc_html($visitor->getUser()->getEmail()) ?> (<?php echo esc_html($visitor->getUser()->getRole()) ?>)" href="<?php echo esc_url(Menus::admin_url('visitors', ['type' => 'single-visitor', 'visitor_id' => $visitor->getId()])); ?>">
-                        <span><?php echo esc_html($visitor->getUser()->getDisplayName()) ?></span>
+                        <span title="<?php echo esc_html($visitor->getUser()->getDisplayName()) ?>"><?php echo esc_html($visitor->getUser()->getDisplayName()) ?></span>
                         <span>#<?php echo esc_html($visitor->getUser()->getId()) ?></span>
                     </a>
                 <?php else: ?>

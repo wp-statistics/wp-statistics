@@ -1,13 +1,27 @@
-14.11.2 - 2024-10-05
+14.11.3 - 2024-11-17
+- **New:** Added support for tracking unique visitors in shortcodes.
+- **Enhancement:** Updated the minimum required WordPress version to 5.3.
+- **Enhancement:** Added date tooltips to charts for easier monthly navigation.
+- **Enhancement:** Disabled GeoIP update notifications by default to reduce distractions.
+- **Enhancement:** Implemented minor performance and usability improvements for a smoother experience.
+- **Enhancement:** Recognize `chatgpt.com` as an Organic Search engine.
+- **Fix:** Resolved translation loading issue to ensure compatibility with WordPress v6.7.
+- **Fix:** Non-queryable post types no longer appear in Content Analytics reports.
+- **Fix:** Addressed issues with the Quick Edit feature in the content list.
+- **Fix:** Corrected display errors for page views in specific cases.
+- **Fix:** Resolved issue with Overview Screen Options not saving properly.
+- **Fix:** Improved background process handling to prevent duplicate initialization.
+
+14.11.2 - 2024-11-05
 - **Fix:** Resolved memory usage issue in Firefox within the Overview page.
 - **Fix:** Fixed logged-in user views issue in the users list.
 
-14.11.1 - 2024-10-04
+14.11.1 - 2024-11-04
 - **Enhancement:** Ensured GeoIP location data is processed correctly.
 - **Enhancement:** Improved display of Add-Ons, with better support for right-to-left languages.
 - **Fix:** Corrected number formatting in Traffic Summary.
 
-14.11 - 2024-10-04
+14.11 - 2024-11-04
 - **New:** Launched WP Statistics Premium with a pop-up to introduce its features.
 - **New:** Added a dedicated header for Premium users, with minor updates to the free version’s header.
 - **New:** Completely revamped Referral reports.

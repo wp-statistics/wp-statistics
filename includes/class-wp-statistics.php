@@ -293,7 +293,7 @@ final class WP_Statistics
         if (function_exists('determine_locale')) {
             $locale = apply_filters('plugin_locale', determine_locale(), 'wp-statistics');
 
-            unload_textdomain('wp-statistics');
+            unload_textdomain('wp-statistics', true);
             load_textdomain('wp-statistics', WP_LANG_DIR . '/wp-statistics-' . $locale . '.mo');
         }
 
@@ -314,7 +314,12 @@ final class WP_Statistics
         }
 
         $log_level = strtoupper($level);
-        error_log(sprintf('[WP STATISTICS] [%s]: %s', $log_level, $message));
+
+
+        // Log when debug is enabled
+        if (defined('WP_DEBUG') && WP_DEBUG) {
+            error_log(sprintf('[WP STATISTICS] [%s]: %s', $log_level, $message));
+        }
     }
 
     /**

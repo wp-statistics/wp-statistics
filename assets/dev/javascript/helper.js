@@ -521,7 +521,7 @@ const getOrCreateTooltip = (chart) => {
     return tooltipEl;
 };
 
-const externalTooltipHandler = (context, dataset, colors, data, unitTime, dateLabels) => {
+const externalTooltipHandler = (context, dataset, colors, data, unitTime, dateLabels, monthTooltip) => {
     const {chart, tooltip} = context;
     const tooltipEl = getOrCreateTooltip(chart);
     if (tooltip.opacity === 0) {
@@ -532,14 +532,13 @@ const externalTooltipHandler = (context, dataset, colors, data, unitTime, dateLa
         const titleLines = tooltip.title || [];
         const dataIndex = tooltip.dataPoints[0].dataIndex;
         const datasets = chart.data.datasets;
-
         let innerHtml = `<div>`;
         titleLines.forEach(title => {
-            // Assume `data.data.labels` contains `date` and `day` properties
             const {date, day} = (data.data) ? data.data.labels[dataIndex] : data.labels[dataIndex];
-
             if (unitTime === 'day') {
                 innerHtml += `<div class="chart-title">${date} (${day})</div>`;
+            } else if (unitTime === 'month') {
+                innerHtml += `<div class="chart-title">${monthTooltip[dataIndex]} </div>`;
             } else {
                 innerHtml += `<div class="chart-title">${dateLabels[dataIndex]} </div>`;
             }
@@ -650,7 +649,7 @@ const drawVerticalLinePlugin = {
 };
 
 
-const phpToMomentFormat=(phpFormat)=> {
+const phpToMomentFormat = (phpFormat) => {
     const formatMap = {
         'd': 'DD',
         'j': 'D',
@@ -670,23 +669,27 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
     let momentDateFormat = phpToMomentFormat(phpDateFormat);
     // Check if chart is inside the dashboard-widgets div
     const isInsideDashboardWidgets = document.getElementById(tag_id).closest('#dashboard-widgets') !== null;
-
-    const formatDateRange= (start, end, unitTime) =>{
+    const formatDateRange = (start, end, unitTime) => {
+        const startDateFormat = momentDateFormat.replace(/,?\s?(YYYY|YY)[-/\s]?,?|[-/\s]?(YYYY|YY)[-/\s]?,?/g, "");
         if (unitTime === 'month') {
             return moment(start).format('MMM YYYY');
         } else {
-            const startDateFormat = momentDateFormat.replace(/,?\s?(YYYY|YY)[-/\s]?,?|[-/\s]?(YYYY|YY)[-/\s]?,?/g, "");
-            if(isInsideDashboardWidgets){
+            if (isInsideDashboardWidgets) {
                 return `${moment(start).format(startDateFormat)} to ${moment(end).format(startDateFormat)}`;
-            }else{
+            } else {
                 return `${moment(start).format(startDateFormat)} to ${moment(end).format(momentDateFormat)}`;
             }
 
         }
     }
+    const setMonthDateRange = (start, end) => {
+        const startDateFormat = momentDateFormat.replace(/,?\s?(YYYY|YY)[-/\s]?,?|[-/\s]?(YYYY|YY)[-/\s]?,?/g, "");
+        return `${moment(start).format(startDateFormat)} to ${moment(end).format(momentDateFormat)}`;
+    }
 
-    const  aggregateData=(labels, datasets, unitTime) => {
+    const aggregateData = (labels, datasets, unitTime) => {
         const aggregatedLabels = [];
+        let monthTooltipTitle = [];
         const aggregatedData = datasets.map(() => []);
         let tempData = [];
         let tempLabelStart = labels[0]?.date;
@@ -707,6 +710,9 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
             if (isEndOfPeriod || i === labels.length - 1) {
                 const tempLabelEnd = labels[i]?.date || tempLabelStart;
                 aggregatedLabels.push(formatDateRange(tempLabelStart, tempLabelEnd, unitTime)); // Pass unitTime
+                if (unitTime === 'month') {
+                    monthTooltipTitle.push(setMonthDateRange(tempLabelStart, tempLabelEnd));
+                }
 
                 datasets.forEach((dataset, idx) => {
                     const aggregatedValue = tempData.reduce((sum, dataObj) => {
@@ -721,11 +727,12 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
             }
         });
 
-        return {aggregatedLabels, aggregatedData};
+        return {aggregatedLabels, aggregatedData, monthTooltipTitle};
     }
 
 // Determine whether to aggregate by day, week, or month
     let dateLabels = data.data.labels.map(dateObj => dateObj.formatted_date);
+    let monthTooltip = [];
     const length = dateLabels.length;
     const containsPostsLabel = type === 'performance' && data.data.datasets.length > 2;
     const threshold = type === 'performance' ? 30 : 60;
@@ -745,6 +752,7 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
                 dataset.data = aggregatedPreviousData.aggregatedData[idx];
             });
         }
+        monthTooltip = aggregatedData.monthTooltipTitle;
     }
 
     // Define the colors
@@ -854,7 +862,7 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
             legend: false,
             tooltip: {
                 enabled: false,
-                external: (context) => externalTooltipHandler(context, datasets, colors, data, unitTime, dateLabels),
+                external: (context) => externalTooltipHandler(context, datasets, colors, data, unitTime, dateLabels, monthTooltip),
                 callbacks: {
                     title: (tooltipItems) => tooltipItems[0].label,
                     label: (tooltipItem) => tooltipItem.formattedValue
@@ -875,17 +883,17 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
                     width: 0
                 },
                 ticks: {
-                    align:'inner',
-                    autoSkip:true,
-                    maxTicksLimit: isInsideDashboardWidgets ? unitTime === 'week' ? 2 : 4 : unitTime === 'week' ? 3 : unitTime === 'month' ?  7 : 9,
+                    align: 'inner',
+                    autoSkip: true,
+                    maxTicksLimit: isInsideDashboardWidgets ? unitTime === 'week' ? 2 : 4 : unitTime === 'week' ? 3 : unitTime === 'month' ? 7 : 9,
                     font: {
                         color: '#898A8E',
                         style: 'italic',
                         weight: 'lighter',
-                        size: isInsideDashboardWidgets ? (unitTime === 'week'  ? 9 : 11) : (unitTime === 'week' ? 11 : 13)
+                        size: isInsideDashboardWidgets ? (unitTime === 'week' ? 9 : 11) : (unitTime === 'week' ? 11 : 13)
                     },
                     padding: 8,
-                 }
+                }
             },
             y: {
                 min: 0,
@@ -1011,8 +1019,8 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
                 if (b.label === 'Total (Previous)') return 1;
                 return 0;
             });
-            const previousPeriod=document.querySelectorAll('.wps-postbox-chart--previousPeriod');
-            if (previousPeriod.length>0) {
+            const previousPeriod = document.querySelectorAll('.wps-postbox-chart--previousPeriod');
+            if (previousPeriod.length > 0) {
                 let foundPrevious = false;
 
                 datasets.forEach((dataset) => {
@@ -1103,189 +1111,6 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
         }
     };
     updateLegend();
-};
-
-wps_js.performance_chart = function (data, tag_id, type) {
-
-    const colors = ['#3288D7', '#7362BF', '#8AC3D0'];
-    const is_single_content = type === 'content-single';
-    const legendHandel = (chart) => {
-        document.querySelectorAll('.js-wps-performance-chart__item').forEach((legendItem, index) => {
-            legendItem.addEventListener('click', () => {
-                const dataset = chart.data.datasets[index];
-                dataset.hidden = !dataset.hidden;
-                chart.update();
-                legendItem.classList.toggle('hidden', dataset.hidden);
-            });
-        });
-    }
-    let ctx_performance = document.getElementById(tag_id).getContext('2d');
-    let datasets = [
-        {
-            type: 'line',
-            label: wps_js._('visitors'),
-            data: data.visitors,
-            borderColor: wps_js.hex_to_rgba(colors[0], 0.8),
-            yAxisID: 'y',
-            borderWidth: 2,
-            pointRadius: 0,
-            pointBorderColor: 'transparent',
-            pointBackgroundColor: colors[0],
-            pointBorderWidth: 2,
-            hoverPointRadius: 6,
-            hoverPointBorderColor: '#fff',
-            hoverPointBackgroundColor: colors[0],
-            hoverPointBorderWidth: 4,
-            tension: 0.4
-        },
-        {
-            type: 'line',
-            label: wps_js._('visits'),
-            data: data.views,
-            borderColor: wps_js.hex_to_rgba(colors[1], 0.8),
-            pointStyle: 'circle',
-            yAxisID: 'y',
-            borderWidth: 2,
-            pointRadius: 0,
-            pointBorderColor: 'transparent',
-            pointBackgroundColor: colors[1],
-            pointBorderWidth: 2,
-            hoverPointRadius: 6,
-            hoverPointBorderColor: '#fff',
-            hoverPointBackgroundColor: colors[1],
-            hoverPointBorderWidth: 4,
-            tension: 0.7
-        }
-    ]
-    if (!is_single_content) datasets.push({
-        type: 'bar',
-        label: type === 'content' ? `${wps_js._('published')} Posts` : `${wps_js._('published')} Contents`,
-        data: data.posts,
-        backgroundColor: wps_js.hex_to_rgba(colors[2], 0.5),
-        hoverBackgroundColor: colors[2],
-        hoverPointBackgroundColor: colors[2],
-        yAxisID: 'y1',
-    })
-
-
-    let scales = {
-        x: {
-            offset: !is_single_content,
-            ticks: {
-                maxTicksLimit: 9,
-                fontColor: '#898A8E',
-                fontSize: 13,
-                fontStyle: 'italic',
-                fontWeight: 'lighter ',
-                padding: 8,
-                lineHeight: 15,
-                stepSize: 1
-            },
-            border: {
-                color: 'transparent',
-                width: 0
-            },
-            grid: {
-                display: false,
-                drawBorder: false,
-                tickLength: 0
-            }
-        },
-        y: {
-            border: {
-                color: 'transparent',
-                width: 0
-            },
-            ticks: {
-                maxTicksLimit: 9,
-                fontColor: '#898A8E',
-                fontSize: 13,
-                fontStyle: 'italic',
-                fontWeight: 'lighter ',
-                padding: 8,
-                lineHeight: 15,
-                stepSize: 1
-            },
-            type: 'linear',
-            position: is_single_content ? 'left' : 'right',
-            grid: {
-                display: true,
-                borderDash: [5, 5],
-                tickColor: '#EEEFF1',
-                color: '#EEEFF1'
-            },
-            title: {
-                display: true,
-                text: wps_js._('visits'),
-                color: '#898A8E',
-                fontSize: 13,
-            }
-        }
-    }
-    if (!is_single_content) {
-        scales.y1 = {
-            type: 'linear',
-            position: 'left',
-            border: {
-                color: 'transparent',
-                width: 0
-            },
-            grid: {
-                display: false,
-                drawBorder: false,
-                tickLength: 0,
-            },
-            ticks: {
-                maxTicksLimit: 7,
-                fontColor: '#898A8E',
-                fontSize: 13,
-                fontStyle: 'italic',
-                fontWeight: 'lighter ',
-                padding: 8,
-                lineHeight: 15,
-                stepSize: 1
-            },
-            title: {
-                display: true,
-                text: type === 'content' ? `${wps_js._('published')} Posts` : `${wps_js._('published')} Contents`,
-                color: '#898A8E',
-                fontSize: 13
-            }
-        }
-    }
-
-    const performanceChart = new Chart(ctx_performance, {
-        type: 'bar',
-        data: {
-            labels: data.labels.map(dateObj => dateObj.date),
-            datasets: datasets
-        },
-        options: {
-            maintainAspectRatio: false,
-            resizeDelay: 200,
-            responsive: true,
-            animation: {
-                duration: 0,  // Disable animation
-            },
-            interaction: {
-                intersect: false,
-            },
-            plugins: {
-                legend: false,
-                tooltip: {
-                    enabled: false,
-                    external: (context) => externalTooltipHandler(context, datasets, colors, data),
-                    callbacks: {
-                        title: (tooltipItems) => tooltipItems[0].label,
-                        label: (tooltipItem) => tooltipItem.formattedValue
-                    }
-                },
-            },
-            scales: scales
-        },
-        plugins: [drawVerticalLinePlugin]
-    });
-    legendHandel(performanceChart)
 };
 
 

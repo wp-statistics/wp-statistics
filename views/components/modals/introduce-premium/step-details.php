@@ -56,7 +56,7 @@ $isPremium        = LicenseHelper::isPremiumLicenseAvailable();
             $data = [
                 'description' => $defaultDescription,
                 'step_name'   => 'first-step',
-                'step_href'   => esc_url(WP_STATISTICS_SITE_URL . '/product/add-ons-bundle/?utm_source=wp-statistics&utm_medium=link&utm_campaign=pop-up-premium')
+                'step_href'   => esc_url(WP_STATISTICS_SITE_URL . '/pricing/?utm_source=wp-statistics&utm_medium=link&utm_campaign=pop-up-premium')
             ];
 
             if ($isPremium) {
@@ -70,7 +70,7 @@ $isPremium        = LicenseHelper::isPremiumLicenseAvailable();
 
             $data = [
                 'description' => sprintf(
-                    __('<p>Elevate your analytics with custom post tracking, detailed visitor behavior insights, and advanced filtering. Gain deeper understanding with content-specific widgets and traffic analysis tools. <a target="_blank" href="%s">Learn more</a></p>', 'wp-statistics'),
+                    __('<p>Data Plus unlocks powerful features like Link and Download Tracking, custom content insights, and advanced filtering. Get a deeper view of your audience, boost your content, and track engagement with ease. <a target="_blank" href="%s">Learn more</a></p>', 'wp-statistics'),
                     esc_url(WP_STATISTICS_SITE_URL . '/add-ons/wp-statistics-data-plus/?utm_source=wp-statistics&utm_medium=link&utm_campaign=pop-up-premium')
                 ),
                 'step_name'   => 'wp-statistics-data-plus',

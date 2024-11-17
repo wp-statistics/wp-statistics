@@ -19,6 +19,7 @@
                                 {text: editor.getLang('wp_statistic_tinymce_plugin.visits'), value: 'visits'},
                                 {text: editor.getLang('wp_statistic_tinymce_plugin.visitors'), value: 'visitors'},
                                 {text: editor.getLang('wp_statistic_tinymce_plugin.pagevisits'), value: 'pagevisits'},
+                                {text: editor.getLang('wp_statistic_tinymce_plugin.pagevisitors'), value: 'pagevisitors'},
                                 {text: editor.getLang('wp_statistic_tinymce_plugin.searches'), value: 'searches'},
                                 {text: editor.getLang('wp_statistic_tinymce_plugin.postcount'), value: 'postcount'},
                                 {text: editor.getLang('wp_statistic_tinymce_plugin.pagecount'), value: 'pagecount'},

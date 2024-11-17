@@ -149,7 +149,13 @@ class MaxmindGeoIPProvider extends AbstractGeoIPProvider
             // Update options and send notifications
             $this->updateLastDownloadTimestamp();
             $this->batchUpdateIncompleteGeoIp();
-            $this->sendGeoIpUpdateEmail(__('GeoIP Database successfully updated.', 'wp-statistics'));
+
+            /*
+             * @since 14.11.3
+             * Email notification is currently disabled because the associated option was removed.
+             * However, the sendGeoIpUpdateEmail method is retained here in case future requirements necessitate enabling email notifications via a hook.
+             */
+            //$this->sendGeoIpUpdateEmail(__('GeoIP Database successfully updated.', 'wp-statistics'));
 
         } catch (Exception $e) {
             $this->deleteFile($gzFilePath); // Ensure temporary file is deleted in case of an error
@@ -183,9 +189,9 @@ class MaxmindGeoIPProvider extends AbstractGeoIPProvider
                     throw new Exception(__('PharData class not found.', 'wp-statistics'));
                 }
 
-                $tarGz          = new PharData($gzFilePath);
-                $fileInArchive  = trailingslashit($tarGz->current()->getFileName()) . $this->databaseFileName;
-                $uploadPath     = dirname($destinationPath);
+                $tarGz         = new PharData($gzFilePath);
+                $fileInArchive = trailingslashit($tarGz->current()->getFileName()) . $this->databaseFileName;
+                $uploadPath    = dirname($destinationPath);
 
                 // Extract database in the destination path.
                 $tarGz->extractTo($uploadPath, $fileInArchive, true);

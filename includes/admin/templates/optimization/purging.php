@@ -129,6 +129,24 @@
                 });
         });
 
+
+        const forms = document.querySelectorAll('.wps-submit-agree');
+
+        if (forms.length > 0) {
+            forms.forEach(function(form) {
+                const submitButton = form.querySelector('button[type="button"]');
+                submitButton.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const agreeMessage = form.getAttribute('data-agree');
+                     const agree = confirm(agreeMessage);
+                    if (!agree) return;
+                    submitButton.classList.add('wps-loading-btn');
+                     form.submit();
+                });
+            });
+        }
+
+
         jQuery("#delete-ip-submit").click(function () {
 
             var value = jQuery('#delete-ip').val();
