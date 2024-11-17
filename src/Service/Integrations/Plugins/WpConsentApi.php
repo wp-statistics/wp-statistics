@@ -66,8 +66,9 @@ class WpConsentApi extends AbstractIntegration
     public function getStatus()
     {
         return [
-            'is_active'   => $this->isActive(),
-            'has_consent' => $this->hasConsent()
+            'is_active'     => $this->isActive(),
+            'has_consent'   => $this->hasConsent(),
+            'consent_level' => Option::get('consent_level_integration', 'disabled')
         ];
     }
 }
