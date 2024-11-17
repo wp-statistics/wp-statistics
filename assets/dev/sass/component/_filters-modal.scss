@@ -25,7 +25,10 @@
 .wps_page #TB_window {
   max-height: 90vh;
   max-width: 98%;
-
+  box-shadow: 4px 4px 25px 0px #0000001A;
+  border-radius: 4px;
+  overflow: hidden;
+  border: none;
   margin: 0 !important;
   transform: translateY(-50%) translateX(-50%);
 
@@ -34,29 +37,31 @@
     max-width: 100% !important;
 
     .select2-container {
-      line-height: 32px;
+      line-height: 36px;
       color: $white-color;
       letter-spacing: .05rem;
       width: 100% !important;
       z-index: 4 !important;
 
       * {
-        height: 32px;
-        line-height: 32px !important;
-        font-size: 14px;
+        height: 36px;
+        line-height: 24px !important;
+        font-size: 13px;
+        font-weight: 400;
         letter-spacing: .05rem;
       }
 
       .select2-selection--single {
         background-color: transparent;
-        color: $black-color;
-        border: 1px solid #5B5B5B !important;
-        border-radius: 2px;
+        color: $dim-black-color;
+        border: 1px solid #DADCE0 !important;
+        border-radius: 3px;
       }
 
       .select2-selection__rendered {
-        color: $black-color;
-        padding: 0 20px 0 12px;
+        color: $dim-black-color;
+        padding: 6px 20px 6px 12px;
+        box-sizing: border-box;
       }
 
       .select2-selection__arrow {
@@ -100,6 +105,42 @@
     }
   }
 
+  #TB_closeWindowButton{
+    top: 16px;
+    right: 16px;
+  }
+
+  .tb-close-icon,#TB_closeWindowButton{
+    width: 20px;
+    height: 20px;
+  }
+  #TB_title {
+    background: #ffffff;
+    height: 47px;
+    border-bottom: 1px solid #F0F0F0;
+  }
+
+  #TB_ajaxWindowTitle{
+    padding-top: 16px;
+    color: #56585A;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 15.23px;
+  }
+
+  .tb-close-icon:before{
+    content:'';
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    background: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHZpZXdCb3g9IjAgMCAyMCAyMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTkuOTk5NTkgOC44MjQwNEwxNC4xMjQ0IDQuNjk5MjJMMTUuMzAyOSA1Ljg3NzczTDExLjE3ODEgMTAuMDAyNUwxNS4zMDI5IDE0LjEyNzNMMTQuMTI0NCAxNS4zMDU4TDkuOTk5NTkgMTEuMTgxTDUuODc0ODEgMTUuMzA1OEw0LjY5NjI5IDE0LjEyNzNMOC44MjEwOSAxMC4wMDI1TDQuNjk2MjkgNS44Nzc3M0w1Ljg3NDgxIDQuNjk5MjJMOS45OTk1OSA4LjgyNDA0WiIgZmlsbD0iI0E5QUFBRSIvPgo8L3N2Zz4K") center center no-repeat;
+  }
+
+  .tb-close-icon:hover{
+    &:before{
+      background: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHZpZXdCb3g9IjAgMCAyMCAyMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTkuOTk5NTkgOC44MjQwNEwxNC4xMjQ0IDQuNjk5MjJMMTUuMzAyOSA1Ljg3NzczTDExLjE3ODEgMTAuMDAyNUwxNS4zMDI5IDE0LjEyNzNMMTQuMTI0NCAxNS4zMDU4TDkuOTk5NTkgMTEuMTgxTDUuODc0ODEgMTUuMzA1OEw0LjY5NjI5IDE0LjEyNzNMOC44MjEwOSAxMC4wMDI1TDQuNjk2MjkgNS44Nzc3M0w1Ljg3NDgxIDQuNjk5MjJMOS45OTk1OSA4LjgyNDA0WiIgZmlsbD0iIzBDMEMwRCIvPgo8L3N2Zz4K") center center no-repeat;
+    }
+  }
   #wps-visitors-filter-form {
     td {
       font-size: 14px;

@@ -425,6 +425,7 @@ class Admin_Assets
             'percentage'                   => __('Percent Share', 'wp-statistics'),
             'version_list'                 => __('Version', 'wp-statistics'),
             'filter'                       => __('Apply Filters', 'wp-statistics'),
+            'filters'                      => __('Filters', 'wp-statistics'),
             'all'                          => __('All Entries', 'wp-statistics'),
             'er_datepicker'                => __('Select Desired Time Range', 'wp-statistics'),
             'er_valid_ip'                  => __('Enter a Valid IP Address', 'wp-statistics'),
@@ -464,6 +465,8 @@ class Admin_Assets
             'views'                        => __('Views', 'wp-statistics'),
             'view'                         => __('View', 'wp-statistics'),
             'waiting'                      => __('Waiting', 'wp-statistics'),
+            'apply'                        => __('Apply'),
+            'reset'                        => __('Reset'),
             'continue_to_next_step'        => __('Continue to Next Step', 'wp-statistics'),
             'start_of_week'                => get_option('start_of_week', 0)
         );

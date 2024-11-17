@@ -25,7 +25,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         e.preventDefault();
 
         // Show
-        tb_show('', '#TB_inline?&width=430&height=193&inlineId=referral-filter-popup');
+        tb_show( wps_js._('filters'), '#TB_inline?&width=430&height=193&inlineId=referral-filter-popup');
 
         // Add Content
         setTimeout(function () {
@@ -65,14 +65,16 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
 
     // Show Filter form
     function wps_show_referrals_filter(tickBox_DIV) {
+        const currentReferrer = wps_js.getLinkParams('referrer');
+        const isDisabled = currentReferrer === null ? 'disabled' : '';
 
         // Create Table
         let html = '<table class="o-table wps-referrals-filter">';
 
         // Show List Select
 
-        html += `<tr><td class="wps-referrals-filter-title">${wps_js._('search_by_referrer')}</td></tr>`;
-        html += `<tr><td><select name="referrer" class="wps-select2   wps-width-100">`;
+        html += `<tr><td colspan="2" class="wps-referrals-filter-title">${wps_js._('search_by_referrer')}</td></tr>`;
+        html += `<tr><td colspan="2" class="wps-referrals-filter-content"><select name="referrer" class="wps-select2   wps-width-100">`;
         html += `<option value=''>${wps_js._('all')}</option>`;
         html += `<option value='test'>test</option>`;
         let current_value = wps_js.getLinkParams('referrer');
@@ -83,7 +85,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         html += `</select></td></tr>`;
         // Submit Button
         html += `<tr><td></td></tr>`;
-        html += `<tr><td><input type="submit" value="${wps_js._('filter')}" class="button-primary"> &nbsp; <span class="filter-loading"></span></td></tr>`;
+        html += `<tr class="wps-referrals-filter-footer"><td><button class="js-reset-filter wps-reset-filter" type="button" ${isDisabled}>${wps_js._('reset')}</button></td><td><input type="submit" value="${wps_js._('apply')}" class="button-primary"> &nbsp; <span class="filter-loading"></span></td></tr>`;
         html += `</table>`;
         jQuery(tickBox_DIV).html(html);
         jQuery('.wps-select2').select2({
@@ -111,4 +113,10 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             }
         });
     }
+
+    jQuery(document).on('click', '.js-reset-filter', function () {
+        const url = new URL(window.location.href);
+        url.searchParams.delete('referrer');
+        window.location.href = url.toString();
+    });
 }
