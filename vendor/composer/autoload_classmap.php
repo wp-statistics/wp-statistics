@@ -236,6 +236,7 @@ return array(
     'WP_Statistics\\Service\\Geolocation\\Provider\\DbIpProvider' => $baseDir . '/src/Service/Geolocation/Provider/DbIpProvider.php',
     'WP_Statistics\\Service\\Geolocation\\Provider\\MaxmindGeoIPProvider' => $baseDir . '/src/Service/Geolocation/Provider/MaxmindGeoIPProvider.php',
     'WP_Statistics\\Service\\HooksManager' => $baseDir . '/src/Service/HooksManager.php',
+    'WP_Statistics\\Service\\Integrations\\IntegrationHelper' => $baseDir . '/src/Service/Integrations/IntegrationHelper.php',
     'WP_Statistics\\Service\\Integrations\\IntegrationsManager' => $baseDir . '/src/Service/Integrations/IntegrationsManager.php',
     'WP_Statistics\\Service\\Integrations\\Plugins\\AbstractIntegration' => $baseDir . '/src/Service/Integrations/Plugins/AbstractIntegration.php',
     'WP_Statistics\\Service\\Integrations\\Plugins\\RealCookieBanner' => $baseDir . '/src/Service/Integrations/Plugins/RealCookieBanner.php',
