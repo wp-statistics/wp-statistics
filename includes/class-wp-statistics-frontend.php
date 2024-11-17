@@ -75,10 +75,9 @@ class Frontend
                 'onlineParams' => $onlineParams,
                 'option'       => [
                     'userOnline'           => Option::get('useronline'),
-                    'consentLevel'         => Option::get('consent_level_integration', 'disabled'),
                     'dntEnabled'           => Option::get('do_not_track'),
                     'bypassAdBlockers'     => Option::get('bypass_ad_blockers', false),
-                    'isWpConsentApiActive' => IntegrationHelper::getIntegration('wp_consent_api')->isActive(),
+                    'consentIntegration'   => IntegrationHelper::getIntegrationStatus(),
                     'trackAnonymously'     => Helper::shouldTrackAnonymously(),
                     'isPreview'            => is_preview(),
                 ],
