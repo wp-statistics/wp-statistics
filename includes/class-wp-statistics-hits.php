@@ -262,9 +262,7 @@ class Hits extends Singleton
                 return;
             }
 
-            $consentLevel = Option::get('consent_level_integration', 'disabled');
-
-            if ($consentLevel == 'disabled' || Helper::shouldTrackAnonymously() || !IntegrationHelper::getIntegration('wp_consent_api')->isActive() || !function_exists('wp_has_consent') || wp_has_consent($consentLevel)) {
+            if (Helper::shouldTrackAnonymously() || IntegrationHelper::isConsentGiven()) {
                 self::record();
             }
 

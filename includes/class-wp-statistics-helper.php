@@ -1846,12 +1846,11 @@ class Helper
      */
     public static function shouldTrackAnonymously()
     {
-        $selectedConsentLevel = Option::get('consent_level_integration', 'disabled');
+        $integration        = IntegrationHelper::getCurrentIntegration();
+        $isConsentGiven     = !empty($integration) && $integration->hasConsent();
+        $anonymousTracking  = Option::get('anonymous_tracking', false);
 
-        return IntegrationHelper::getIntegration('wp_consent_api')->isActive() &&
-            $selectedConsentLevel !== 'disabled' &&
-            Option::get('anonymous_tracking', false) == true &&
-            !(function_exists('wp_has_consent') && wp_has_consent($selectedConsentLevel));
+        return !$isConsentGiven && $anonymousTracking;
     }
 
     /**

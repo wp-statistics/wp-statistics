@@ -92,4 +92,15 @@ class IntegrationHelper
 
         return $status;
     }
+
+    /**
+     * Returns whether a user consent has been given. If no integration is selected, returns true.
+     *
+     * @return bool
+     */
+    public static function isConsentGiven()
+    {
+        $integration = self::getCurrentIntegration();
+        return empty($integration) || $integration->hasConsent();
+    }
 }
