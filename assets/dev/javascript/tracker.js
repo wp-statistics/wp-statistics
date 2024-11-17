@@ -162,31 +162,49 @@ let wpStatisticsUserOnline = {
     },
 };
 
-// If WP Consent API integration is enabled
-if (WP_Statistics_Tracker_Object.option.consentIntegration.name === 'wp_consent_api') {
+document.addEventListener('DOMContentLoaded', function () {
+    // If no consent integration is set
+    if (!WP_Statistics_Tracker_Object.option.consentIntegration.name) {
+        wpStatisticsUserOnline.init();
+    }
+
+    // If WP Consent API integration is enabled
+    if (WP_Statistics_Tracker_Object.option.consentIntegration.name === 'wp_consent_api') {
+        handleWpConsentApiIntegration();
+    }
+
+    // If Real Cookie Banner integration is enabled
+    if (WP_Statistics_Tracker_Object.option.consentIntegration.name === 'real_cookie_banner') {
+        handleRealCookieBannerIntegration();
+    }
+});
+
+function handleWpConsentApiIntegration() {
     const consentLevel = WP_Statistics_Tracker_Object.option.consentIntegration.status['consent_level'];
 
-    document.addEventListener('DOMContentLoaded', function () {
-        if (WP_Statistics_Tracker_Object.option.trackAnonymously || consentLevel == 'disabled' || wp_has_consent(consentLevel)) {
-            wpStatisticsUserOnline.init();
-        }
+    if (WP_Statistics_Tracker_Object.option.trackAnonymously || consentLevel == 'disabled' || wp_has_consent(consentLevel)) {
+        wpStatisticsUserOnline.init();
+    }
 
-        document.addEventListener("wp_listen_for_consent_change", function (e) {
-            const changedConsentCategory = e.detail;
-            for (let key in changedConsentCategory) {
-                if (changedConsentCategory.hasOwnProperty(key)) {
-                    if (key === consentLevel && changedConsentCategory[key] === 'allow') {
-                        wpStatisticsUserOnline.init();
+    document.addEventListener("wp_listen_for_consent_change", function (e) {
+        const changedConsentCategory = e.detail;
+        for (let key in changedConsentCategory) {
+            if (changedConsentCategory.hasOwnProperty(key)) {
+                if (key === consentLevel && changedConsentCategory[key] === 'allow') {
+                    wpStatisticsUserOnline.init();
 
-                        // When trackAnonymously is enabled, the init() call above will get ignored (since it's already initialized before)
-                        // So, in this specific case, we can call checkHitRequestConditions() manually
-                        // This will insert a new record for the user (who just gave consent to us) and prevent other scripts (e.g. event.js) from malfunctioning
-                        if (WP_Statistics_Tracker_Object.option.trackAnonymously) {
-                            wpStatisticsUserOnline.checkHitRequestConditions();
-                        }
+                    // When trackAnonymously is enabled, the init() call above will get ignored (since it's already initialized before)
+                    // So, in this specific case, we can call checkHitRequestConditions() manually
+                    // This will insert a new record for the user (who just gave consent to us) and prevent other scripts (e.g. event.js) from malfunctioning
+                    if (WP_Statistics_Tracker_Object.option.trackAnonymously) {
+                        wpStatisticsUserOnline.checkHitRequestConditions();
                     }
                 }
             }
-        });
+        }
     });
+}
+
+function handleRealCookieBannerIntegration() {
+    //todo add real cookie banner integration
 }
