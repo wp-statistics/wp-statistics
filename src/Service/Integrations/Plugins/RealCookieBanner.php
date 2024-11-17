@@ -94,6 +94,7 @@ class RealCookieBanner extends AbstractIntegration
     public function getStatus()
     {
         return [
+            'is_active'   => $this->isActive(),
             'has_consent' => $this->hasConsent()
         ];
     }

@@ -64,10 +64,11 @@ class IntegrationHelper
     public static function getCurrentIntegration()
     {
         $selectedIntegration = Option::get('consent_integration');
+        $selectedIntegration = self::getIntegration($selectedIntegration);
 
-        if (empty($selectedIntegration)) return false;
-
-        return self::getIntegration($selectedIntegration);
+        return !empty($selectedIntegration) && $selectedIntegration->isActive()
+            ? $selectedIntegration
+            : false;
     }
 
     /**
@@ -84,10 +85,10 @@ class IntegrationHelper
 
         $integration = self::getCurrentIntegration();
 
-        if (empty($integration)) return $status;
-
-        $status['name']     = $integration->getKey();
-        $status['status']   = $integration->getStatus();
+        if (!empty($integration)) {
+            $status['name']     = $integration->getKey();
+            $status['status']   = $integration->getStatus();
+        }
 
         return $status;
     }
