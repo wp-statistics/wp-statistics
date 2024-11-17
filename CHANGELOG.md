@@ -1,15 +1,16 @@
-14.11.3 - 2024-11-18
-- **New:** Added unique visitor tracking in shortcodes.
-- **Fix:** Improved translation loading and compatibility with WP v6.7.
-- **Fix:** Filtered out non-queryable post types in Content Analytics.
-- **Fix:** Corrected Quick Edit view column priority.
-- **Fix:** Corrected page view displays in specific cases.
-- **Fix:** Resolved issue with Overview Screen Options not saving.
-- **Fix:** Improved background process to prevent duplicate initialization.
-- **Enhancement:** Updated minimum WordPress version to 5.3.
+14.11.3 - 2024-11-17
+- **New:** Added support for tracking unique visitors in shortcodes.
+- **Enhancement:** Updated the minimum required WordPress version to 5.3.
 - **Enhancement:** Added date tooltips to charts for easier monthly navigation.
-- **Enhancement:** Disabled GeoIP update notifications by default.
-- **Enhancement:** Minor performance and usability improvements.
+- **Enhancement:** Disabled GeoIP update notifications by default to reduce distractions.
+- **Enhancement:** Implemented minor performance and usability improvements for a smoother experience.
+- **Enhancement:** Recognize `chatgpt.com` as an Organic Search engine.
+- **Fix:** Resolved translation loading issue to ensure compatibility with WordPress v6.7.
+- **Fix:** Non-queryable post types no longer appear in Content Analytics reports.
+- **Fix:** Addressed issues with the Quick Edit feature in the content list.
+- **Fix:** Corrected display errors for page views in specific cases.
+- **Fix:** Resolved issue with Overview Screen Options not saving properly.
+- **Fix:** Improved background process handling to prevent duplicate initialization.
 
 14.11.2 - 2024-11-05
 - **Fix:** Resolved memory usage issue in Firefox within the Overview page.
