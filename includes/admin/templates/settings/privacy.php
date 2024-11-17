@@ -125,15 +125,12 @@ use WP_Statistics\Service\Integrations\IntegrationHelper;
             </th>
 
             <td>
-                <?php $isWpConsentApiActive = IntegrationHelper::getIntegration('wp_consent_api')->isActive(); ?>
-                <select id="consent_level_integration" name="wps_consent_level_integration" <?php echo !$isWpConsentApiActive ? 'disabled' : ''; ?>>
+                <select id="consent_level_integration" name="wps_consent_level_integration">
                     <option value="disabled" <?php selected(WP_STATISTICS\Option::get('consent_level_integration'), 'disabled'); ?>><?php esc_html_e('Disabled', 'wp-statistics'); ?></option>
-                    <?php if ($isWpConsentApiActive) : ?>
-                        <option value="functional" <?php selected(WP_STATISTICS\Option::get('consent_level_integration'), 'functional'); ?>><?php esc_html_e('Functional', 'wp-statistics'); ?></option>
-                        <option value="statistics-anonymous" <?php selected(WP_STATISTICS\Option::get('consent_level_integration'), 'statistics-anonymous'); ?>><?php esc_html_e('Statistics-Anonymous', 'wp-statistics'); ?></option>
-                        <option value="statistics" <?php selected(WP_STATISTICS\Option::get('consent_level_integration'), 'statistics'); ?>><?php esc_html_e('Statistics', 'wp-statistics'); ?></option>
-                        <option value="marketing" <?php selected(WP_STATISTICS\Option::get('consent_level_integration'), 'marketing'); ?>><?php esc_html_e('Marketing', 'wp-statistics'); ?></option>
-                    <?php endif; ?>
+                    <option value="functional" <?php selected(WP_STATISTICS\Option::get('consent_level_integration'), 'functional'); ?>><?php esc_html_e('Functional', 'wp-statistics'); ?></option>
+                    <option value="statistics-anonymous" <?php selected(WP_STATISTICS\Option::get('consent_level_integration'), 'statistics-anonymous'); ?>><?php esc_html_e('Statistics-Anonymous', 'wp-statistics'); ?></option>
+                    <option value="statistics" <?php selected(WP_STATISTICS\Option::get('consent_level_integration'), 'statistics'); ?>><?php esc_html_e('Statistics', 'wp-statistics'); ?></option>
+                    <option value="marketing" <?php selected(WP_STATISTICS\Option::get('consent_level_integration'), 'marketing'); ?>><?php esc_html_e('Marketing', 'wp-statistics'); ?></option>
                 </select>
                 <p class="description"><?php esc_html_e("When using WP Consent API, select the consent categories that WP Statistics should track. Only visitors who have consented to the selected categories will be tracked.", 'wp-statistics'); ?></p>
 
