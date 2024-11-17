@@ -39,7 +39,9 @@ class WpConsentApi extends AbstractIntegration
 
     public function hasConsent()
     {
-        if (!function_exists('wp_has_consent')) return false;
+        if (!function_exists('wp_has_consent')) {
+            return false;
+        }
 
         $consentLevel = Option::get('consent_level_integration', 'disabled');
 

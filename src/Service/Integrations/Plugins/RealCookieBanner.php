@@ -40,7 +40,9 @@ class RealCookieBanner extends AbstractIntegration
 
     public function clearTemplateCache()
     {
-        wp_rcb_invalidate_templates_cache();
+        if (function_exists('wp_rcb_invalidate_templates_cache')) {
+            wp_rcb_invalidate_templates_cache();
+        }
     }
 
     public function setRecommendedTemplate()
@@ -50,7 +52,9 @@ class RealCookieBanner extends AbstractIntegration
 
     public function hasConsent()
     {
-        if (!function_exists('wp_rcb_consent_given')) return false;
+        if (!function_exists('wp_rcb_consent_given')) {
+            return false;
+        }
 
         $consent = wp_rcb_consent_given('');
 
