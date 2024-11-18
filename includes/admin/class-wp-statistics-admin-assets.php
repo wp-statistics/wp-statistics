@@ -452,7 +452,6 @@ class Admin_Assets
             'failed'                       => __('Failed', 'wp-statistics'),
             'retry'                        => __('Retry', 'wp-statistics'),
             'redirecting'                  => __('Redirecting... Please wait', 'wp-statistics'),
-            'search_by_referrer'           => __('Search by Referrer', 'wp-statistics'),
             'last_view'                    => __('Last View', 'wp-statistics'),
             'visitor_info'                 => __('Visitor Info', 'wp-statistics'),
             'location'                     => __('Location', 'wp-statistics'),
@@ -467,6 +466,7 @@ class Admin_Assets
             'waiting'                      => __('Waiting', 'wp-statistics'),
             'apply'                        => __('Apply'),
             'reset'                        => __('Reset'),
+            'loading'                      => __('Loading'),
             'continue_to_next_step'        => __('Continue to Next Step', 'wp-statistics'),
             'start_of_week'                => get_option('start_of_week', 0)
         );

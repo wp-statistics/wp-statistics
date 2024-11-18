@@ -25,13 +25,13 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         e.preventDefault();
 
         // Show
-        tb_show( wps_js._('filters'), '#TB_inline?&width=430&height=193&inlineId=referral-filter-popup');
+        tb_show( wps_js._('filters'), '#TB_inline?&width=430&height=205&inlineId=referral-filter-popup');
 
         // Add Content
         setTimeout(function () {
 
             var tickBox_DIV = "#wps-referral-filter-div";
-            if (!wps_js.exist_tag(tickBox_DIV + " input[type=submit]")) {
+            if (!wps_js.exist_tag(tickBox_DIV + " button[type=submit]")) {
 
                 // Set PlaceHolder
                 jQuery(tickBox_DIV).html('<div style="height: 50px;"></div>' + wps_js.line_placeholder(1));
@@ -58,8 +58,11 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             });
         });
 
+
         // Show Loading
-        jQuery("span.filter-loading").html(wps_js._('please_wait'));
+        jQuery(".wps-tb-window-footer .button-primary")
+            .html(wps_js._('loading'))
+            .addClass('loading');
         // return true;
     });
 
@@ -73,7 +76,6 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
 
         // Show List Select
 
-        html += `<tr><td colspan="2" class="wps-referrals-filter-title">${wps_js._('search_by_referrer')}</td></tr>`;
         html += `<tr><td colspan="2" class="wps-referrals-filter-content"><select name="referrer" class="wps-select2   wps-width-100">`;
         html += `<option value=''>${wps_js._('all')}</option>`;
         html += `<option value='test'>test</option>`;
@@ -83,9 +85,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         }
 
         html += `</select></td></tr>`;
-        // Submit Button
-        html += `<tr><td></td></tr>`;
-        html += `<tr class="wps-referrals-filter-footer"><td><button class="js-reset-filter wps-reset-filter" type="button" ${isDisabled}>${wps_js._('reset')}</button></td><td><input type="submit" value="${wps_js._('apply')}" class="button-primary"> &nbsp; <span class="filter-loading"></span></td></tr>`;
+        html += `<tr class="wps-tb-window-footer"><td><button class="js-reset-filter wps-reset-filter" type="button" ${isDisabled}>${wps_js._('reset')}</button></td><td><button type="submit" class="button-primary">${wps_js._('apply')}</button></td></tr>`;
         html += `</table>`;
         jQuery(tickBox_DIV).html(html);
         jQuery('.wps-select2').select2({

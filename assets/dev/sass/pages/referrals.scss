@@ -109,13 +109,15 @@
 }
 
 #wps-referrals-filter-form {
-    padding: 0;
-    margin-right: -15px;
-    margin-left: -15px;
-    margin-bottom: -15px;
+  padding: 0;
+  margin-right: -15px;
+  margin-left: -15px;
+  margin-bottom: -15px;
 
   table {
     width: 100%;
+    padding-bottom: 52px;
+    position: relative;
   }
 
   table.widefat {
@@ -125,76 +127,9 @@
 }
 
 #wps-referrals-filter-form {
-  .wps-referrals-filter-title {
-    font-size: 14px;
-    font-weight: 400;
-    color: #56585A;
-    padding: 37px 16px 6px;
-  }
 
-  .wps-referrals-filter-content{
-    padding: 6px 16px 40px;
-  }
-
-  .wps-referrals-filter-footer{
-
-    td{
-      padding: 8px 0;
-      border-top: 1px solid #F0F0F0;
-      &:last-child{
-        text-align: right;
-
-        .rtl &{
-          text-align: left;
-        }
-      }
-    }
-
-    .wps-reset-filter{
-      color: #DADCE0;
-      font-size: 13px;
-      font-weight: 500;
-      text-shadow: none;
-      border: none;
-      outline: none;
-      background: transparent;
-      padding: 9px;
-      cursor: pointer;
-
-      &:disabled{
-        opacity: 0;
-        cursor: default;
-        pointer-events: none;
-      }
-
-      &:hover{
-        color: #56585A;
-        &:disabled{
-          color: #DADCE0;
-        }
-      }
-    }
-   }
-
-  .button-primary {
-    font-weight: 600 !important;
-    font-size: 14px;
-    line-height: 17px !important;
-    padding: 9px 16px;
-    border-radius: 4px;
-    background-color: #404bf2;
-    text-shadow: none;
-    height: auto;
-    transition: .2s;
-    box-shadow: none;
-    border: none;
-    letter-spacing: .05rem;
-    color: #fff;
-    min-width: 90px;
-
-    &:hover {
-      background-color: #1e27bf;
-    }
+  .wps-referrals-filter-content {
+    padding: 53px 16px;
   }
 
 }
