@@ -6,7 +6,7 @@ let WP_Statistics_Dnd_Active = parseInt(navigator.msDoNotTrack || window.doNotTr
 // Prevent init() from running more than once
 let hasTrackerInitializedOnce = false;
 
-let wpStatisticsUserOnline = {
+let wpStatisticsUserSession = {
     hitRequestSuccessful: true, // Flag to track hit request status
 
     init: function () {
@@ -163,18 +163,20 @@ let wpStatisticsUserOnline = {
 };
 
 document.addEventListener('DOMContentLoaded', function () {
+    const consentIntegration = WP_Statistics_Tracker_Object.option.consentIntegration.name;
+
     // If no consent integration is set
-    if (!WP_Statistics_Tracker_Object.option.consentIntegration.name) {
-        wpStatisticsUserOnline.init();
+    if (!consentIntegration) {
+        wpStatisticsUserSession.init();
     }
 
     // If WP Consent API integration is enabled
-    if (WP_Statistics_Tracker_Object.option.consentIntegration.name === 'wp_consent_api') {
+    if (consentIntegration === 'wp_consent_api') {
         handleWpConsentApiIntegration();
     }
 
     // If Real Cookie Banner integration is enabled
-    if (WP_Statistics_Tracker_Object.option.consentIntegration.name === 'real_cookie_banner') {
+    if (consentIntegration === 'real_cookie_banner') {
         handleRealCookieBannerIntegration();
     }
 });
@@ -183,7 +185,7 @@ function handleWpConsentApiIntegration() {
     const consentLevel = WP_Statistics_Tracker_Object.option.consentIntegration.status['consent_level'];
 
     if (WP_Statistics_Tracker_Object.option.trackAnonymously || consentLevel == 'disabled' || wp_has_consent(consentLevel)) {
-        wpStatisticsUserOnline.init();
+        wpStatisticsUserSession.init();
     }
 
     document.addEventListener("wp_listen_for_consent_change", function (e) {
@@ -191,13 +193,13 @@ function handleWpConsentApiIntegration() {
         for (let key in changedConsentCategory) {
             if (changedConsentCategory.hasOwnProperty(key)) {
                 if (key === consentLevel && changedConsentCategory[key] === 'allow') {
-                    wpStatisticsUserOnline.init();
+                    wpStatisticsUserSession.init();
 
                     // When trackAnonymously is enabled, the init() call above will get ignored (since it's already initialized before)
                     // So, in this specific case, we can call checkHitRequestConditions() manually
                     // This will insert a new record for the user (who just gave consent to us) and prevent other scripts (e.g. event.js) from malfunctioning
                     if (WP_Statistics_Tracker_Object.option.trackAnonymously) {
-                        wpStatisticsUserOnline.checkHitRequestConditions();
+                        wpStatisticsUserSession.checkHitRequestConditions();
                     }
                 }
             }
@@ -206,5 +208,5 @@ function handleWpConsentApiIntegration() {
 }
 
 function handleRealCookieBannerIntegration() {
-    //todo add real cookie banner integration
+    //todo: add real cookie banner integration
 }
