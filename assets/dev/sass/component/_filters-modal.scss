@@ -196,7 +196,7 @@
       }
 
       .wps-reset-filter {
-        color: #DADCE0;
+        color: #56585A;
         font-size: 13px;
         font-weight: 500;
         text-shadow: none;
@@ -207,13 +207,13 @@
         cursor: pointer;
 
         &:disabled {
-          opacity: 0;
+          color: #DADCE0;
           cursor: default;
           pointer-events: none;
         }
 
         &:hover {
-          color: #56585A;
+          color: #0C0C0D;
 
           &:disabled {
             color: #DADCE0;

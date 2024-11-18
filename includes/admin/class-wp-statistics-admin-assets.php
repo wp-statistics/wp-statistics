@@ -426,7 +426,7 @@ class Admin_Assets
             'version_list'                 => __('Version', 'wp-statistics'),
             'filter'                       => __('Apply Filters', 'wp-statistics'),
             'filters'                      => __('Filters', 'wp-statistics'),
-            'all'                          => __('All Entries', 'wp-statistics'),
+            'all'                          => __('All', 'wp-statistics'),
             'er_datepicker'                => __('Select Desired Time Range', 'wp-statistics'),
             'er_valid_ip'                  => __('Enter a Valid IP Address', 'wp-statistics'),
             'please_wait'                  => __('Loading, Please Wait...', 'wp-statistics'),
