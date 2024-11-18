@@ -49,8 +49,14 @@ class ShortCode
         if (!array_key_exists('format', $atts)) {
             $atts['format'] = '';
         }
+
+        $atts['type'] = '';
         if (!array_key_exists('id', $atts)) {
-            $atts['id'] = get_the_ID();
+            $atts['id']   = get_the_ID();
+            $currentPage  = Pages::get_page_type();
+            $atts['type'] = $currentPage['type'];
+        } else {
+            $atts['type'] = Pages::getPageTypeByID($atts['id']);
         }
 
         $formatnumber = array_key_exists('format', $atts);
@@ -70,7 +76,7 @@ class ShortCode
                 break;
 
             case 'pagevisits':
-                $result = wp_statistics_pages($atts['time'], null, $atts['id']);
+                $result = wp_statistics_pages($atts['time'], null, $atts['id'], null, null, $atts['type']);
                 break;
 
             case 'pagevisitors':
@@ -155,13 +161,21 @@ class ShortCode
     {
         // Set the default arguments.
         $args = [
-            'date'        => null,
-            'resource_id' => null,
+            'date'          => null,
+            'resource_id'   => null,
+            'resource_type' => null,
         ];
 
         // Parse the post_id parameter.
         if (isset($atts['id'])) {
             $args['resource_id'] = $atts['id'];
+        }
+
+        // Parse the resource_type parameter.
+        if (!empty($atts['type'])) {
+            $args['resource_type'] = $atts['type'];
+        } else {
+            $args['resource_type'] = Pages::getPageTypeByID($atts['id']);
         }
 
         // Parse the time parameter.

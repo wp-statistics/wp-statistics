@@ -123,8 +123,11 @@ class Frontend
             return $content;
         }
 
+        // Check post type
+        $post_type = Pages::getPageTypeByID($post_id);
+
         // Get post hits
-        $hits      = wp_statistics_pages('total', "", $post_id);
+        $hits      = wp_statistics_pages('total', "", $post_id, null, null, $post_type);
         $hits_html = '<p>' . sprintf(__('Views: %s', 'wp-statistics'), $hits) . '</p>';
 
         // Check hits position
