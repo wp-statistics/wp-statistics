@@ -77,7 +77,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         // Show List Select
 
         html += `<tr><td colspan="2" class="wps-referrals-filter-content"><select name="referrer" class="wps-select2   wps-width-100">`;
-        html += `<option value=''>${wps_js._('all')}</option>`;
+        html += `<option value=''>${wps_js._('referrer')}</option>`;
         html += `<option value='test'>test</option>`;
         let current_value = wps_js.getLinkParams('referrer');
         if (current_value != null) {
