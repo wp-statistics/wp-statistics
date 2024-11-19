@@ -92,13 +92,18 @@ class VisitorsModel extends BaseModel
             'query_param'   => '',
             'taxonomy'      => '',
             'term'          => '',
+            'country'       => '',
+            'include_hits'  => false
         ]);
 
-        $query = Query::select([
+        $additionalFields = !empty($args['include_hits']) ? ['SUM(visitor.hits) as hits'] : [];
+
+        $query = Query::select(array_merge([
             'visitor.last_counter as date',
-            'COUNT(visitor.ID) as visitors',
-        ])
+            'COUNT(visitor.ID) as visitors'
+        ], $additionalFields))
             ->from('visitor')
+            ->where('location', '=', $args['country'])
             ->whereDate('visitor.last_counter', $args['date'])
             ->groupBy('visitor.last_counter');
 
