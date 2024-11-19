@@ -133,6 +133,15 @@ class GeographicDataProvider
 
         $referrers = $this->visitorsModel->getReferrers($this->args);
 
+        $visitors = $this->visitorsModel->getVisitorsData(array_merge($this->args, [
+            'page_info' => true,
+            'user_info' => true,
+            'order_by'  => 'visitor.ID',
+            'order'     => 'DESC',
+            'page'      => 1,
+            'per_page'  => 10
+        ]));
+
         return [
             'stats'     => [
                 'visitors' => !empty($stats) ? $stats->visitors : 0,
@@ -144,6 +153,7 @@ class GeographicDataProvider
                 'total' => $citiesTotal
             ],
             'referrers' => $referrers,
+            'visitors'  => $visitors
         ];
     }
 
