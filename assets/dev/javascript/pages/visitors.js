@@ -4,13 +4,13 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         e.preventDefault();
 
         // Show
-        tb_show('', '#TB_inline?&width=430&height=520&inlineId=visitors-filter-popup');
+        tb_show(wps_js._('filters'), '#TB_inline?&width=430&height=510&inlineId=visitors-filter-popup');
 
         // Add Content
         setTimeout(function () {
 
             var tickBox_DIV = "#wps-visitors-filter-form";
-            if (!wps_js.exist_tag(tickBox_DIV + " input[type=submit]")) {
+            if (!wps_js.exist_tag(tickBox_DIV + " button[type=submit]")) {
 
                 // Set PlaceHolder
                 jQuery(tickBox_DIV).html('<div style="height: 50px;"></div>' + wps_js.line_placeholder(5));
@@ -82,7 +82,9 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         }
 
         // Show Loading
-        jQuery("span.filter-loading").html(wps_js._('please_wait'));
+        jQuery(".wps-tb-window-footer .button-primary")
+            .html(wps_js._('loading'))
+            .addClass('loading');
 
         return true;
     });
@@ -125,7 +127,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
 
         // Submit Button
         html += `<tr><td></td></tr>`;
-        html += `<tr><td><input type="submit" value="${wps_js._('filter')}" class="button-primary"> &nbsp; <span class="filter-loading"></span></td></tr>`;
+        html += `<tr class="wps-tb-window-footer"><td></td><td><button type="submit" class="button-primary">${wps_js._('filter')}</button></td></tr>`;
         html += `</table>`;
         jQuery(tickBox_DIV).html(html);
         wps_js.select2();

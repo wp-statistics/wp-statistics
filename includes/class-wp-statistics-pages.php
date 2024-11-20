@@ -122,32 +122,6 @@ class Pages
     }
 
     /**
-     * Get the type of a page.
-     *
-     * @param int|bool $pageID The ID of the post.
-     * @return string The resource type.
-     */
-    public static function getPageTypeByID($pageID = false)
-    {
-        if (!$pageID) {
-            return '';
-        }
-
-        $transientKey = 'page_type_' . $pageID;
-        $pageType     = get_transient($transientKey);
-
-        if ($pageType === false) {
-            $type = get_post_type($pageID);
-
-            $pageType = in_array($type, ['post', 'page', 'product']) ? $type : 'post_type_' . $type;
-
-            set_transient($transientKey, $pageType, 12 * HOUR_IN_SECONDS);
-        }
-
-        return $pageType;
-    }
-
-    /**
      * Get Page Url
      *
      * @return bool|mixed|string
