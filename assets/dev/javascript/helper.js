@@ -65,6 +65,7 @@ const wpsDropdown = jQuery('.wps-dropdown');
 
 if (wpsSelect2.length) {
     const wpsFilterPage = jQuery('.wps-filter-page');
+    const wpsUserRole = jQuery('.wps-filter-user-role');
     const wpsFilterVisitor = jQuery('.wps-filter-visitor');
     const dirValue = wpsBody.hasClass('rtl') ? 'rtl' : 'ltr';
     const dropdownParent = wpsFilterPage.length ? wpsFilterPage : wpsFilterVisitor;
@@ -143,6 +144,11 @@ if (wpsSelect2.length) {
     if (wpsFilterPage.length) {
         initializeSelect2(wpsFilterPage, 'wp_statistics_get_page_filter_items');
         wpsFilterPage.on('click', () => wpsSelect2.select2('open'));
+    }
+
+    if (wpsUserRole.length) {
+        initializeSelect2(wpsUserRole, 'wp_statistics_get_page_filter_items');
+        wpsUserRole.on('click', () => wpsSelect2.select2('open'));
     }
 
     if (wpsFilterVisitor.length) {
