@@ -2,6 +2,7 @@
 
 namespace WP_STATISTICS;
 
+use WP_Statistics\Models\ViewsModel;
 use WP_Statistics\Models\VisitorsModel;
 use WP_Statistics\Traits\TransientCacheTrait;
 
@@ -78,12 +79,14 @@ class ShortCode
                 break;
 
             case 'pagevisits':
-                $result = wp_statistics_pages($atts['time'], null, $atts['id'], null, null, $atts['type']);
+                $viewsModel = new ViewsModel();
+                $args       = $this->parseArgs($atts['stat'], $atts);
+                $result     = $viewsModel->countViews($args);
                 break;
 
             case 'pagevisitors':
                 $visitorModel = new VisitorsModel();
-                $args         = $this->parseArgs($atts);
+                $args         = $this->parseArgs($atts['stat'], $atts);
                 $result       = $visitorModel->countVisitors($args);
                 break;
 
@@ -156,21 +159,27 @@ class ShortCode
     /**
      * Parse the shortcode arguments.
      *
-     * @param $time
-     * @return array|mixed|string
+     * @param array $atts The shortcode arguments.
+     * @return array The parsed arguments.
      */
-    public function parseArgs($atts)
+    public function parseArgs($modelType, $atts)
     {
         // Set the default arguments.
         $args = [
-            'date'          => null,
-            'resource_id'   => null,
-            'resource_type' => null,
+            'post_type'     => '',
+            'post_id'       => '',
+            'resource_id'   => '',
+            'resource_type' => '',
+            'date'          => '',
         ];
 
         // Parse the post_id parameter.
         if (isset($atts['id'])) {
-            $args['resource_id'] = $atts['id'];
+            if ($modelType == 'pagevisits') {
+                $args['post_id'] = $atts['id'];
+            } else {
+                $args['resource_id'] = $atts['id'];
+            }
         }
 
         // Parse the resource_type parameter.
