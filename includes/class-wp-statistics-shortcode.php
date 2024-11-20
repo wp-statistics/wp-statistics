@@ -3,9 +3,11 @@
 namespace WP_STATISTICS;
 
 use WP_Statistics\Models\VisitorsModel;
+use WP_Statistics\Traits\TransientCacheTrait;
 
 class ShortCode
 {
+    use TransientCacheTrait;
 
     public function __construct()
     {
@@ -56,7 +58,7 @@ class ShortCode
             $currentPage  = Pages::get_page_type();
             $atts['type'] = $currentPage['type'];
         } else {
-            $atts['type'] = Pages::getPageTypeByID($atts['id']);
+            $atts['type'] = $this->getResourceType($atts['id']);
         }
 
         $formatnumber = array_key_exists('format', $atts);
@@ -175,7 +177,7 @@ class ShortCode
         if (!empty($atts['type'])) {
             $args['resource_type'] = $atts['type'];
         } else {
-            $args['resource_type'] = Pages::getPageTypeByID($atts['id']);
+            $args['resource_type'] = $this->getResourceType($atts['id']);
         }
 
         // Parse the time parameter.
@@ -199,6 +201,18 @@ class ShortCode
         }
 
         return $args;
+    }
+
+    public function getResourceType($resourceID = null)
+    {
+        $cacheKey = $this->getCacheKey('resourceType_' . $resourceID);
+
+        $resourceType = $this->getCachedResult($cacheKey);
+        if (!$resourceType) {
+            $this->setCachedResult($cacheKey, Pages::get_post_type($resourceID));
+        }
+
+        return $resourceType;
     }
 
     /**
