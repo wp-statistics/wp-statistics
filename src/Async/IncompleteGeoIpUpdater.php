@@ -60,6 +60,11 @@ class IncompleteGeoIpUpdater extends WP_Background_Process
         return false;
     }
 
+    public function is_initiated()
+    {
+        return Option::getOptionGroup('jobs', 'update_geoip_process_initiated');
+    }
+
     /**
      * Complete processing.
      *
@@ -69,9 +74,6 @@ class IncompleteGeoIpUpdater extends WP_Background_Process
     protected function complete()
     {
         parent::complete();
-
-        // Delete option
-        Option::deleteOptionGroup('geo_ip_process_started', 'jobs');
 
         // Show notice to user
         Notice::addFlashNotice(__('GeoIP update for incomplete visitors processed successfully.', 'wp-statistics'));

@@ -7,6 +7,7 @@ use WP_STATISTICS\GeoIP;
 use WP_STATISTICS\Menus;
 use WP_STATISTICS\Option;
 use WP_Statistics\Abstracts\MultiViewPage;
+use WP_Statistics\Async\IncompleteGeoIpUpdater;
 use WP_Statistics\Models\VisitorsModel;
 use WP_Statistics\Service\Admin\Geographic\Views\SingleCountryView;
 use WP_Statistics\Service\Admin\Geographic\Views\TabsView;
@@ -48,9 +49,10 @@ class GeographicPage extends MultiViewPage
      */
     private function checkIncompleteGeoIpUpdaterNotice()
     {
-        $visitorCount = $this->visitorModel->getVisitorsWithIncompleteLocation(true);
+        /** @var IncompleteGeoIpUpdater $backgroundProcess */
+        $backgroundProcess = WP_Statistics()->getBackgroundProcess('update_unknown_visitor_geoip');
 
-        if ($visitorCount > 0 && !Option::getOptionGroup('jobs', 'update_unknown_visitor_geoip_started')) {
+        if (!$backgroundProcess->is_initiated()) {
             $actionUrl = add_query_arg(
                 [
                     'action' => 'update_unknown_visitor_geoip',
@@ -60,12 +62,20 @@ class GeographicPage extends MultiViewPage
             );
 
             $message = sprintf(
-                __('Detected <b>%d</b> visitors without location data. Please <a href="%s">click here</a> to update the geographic data in the background. This is necessary for accurate analytics.', 'wp-statistics'),
-                $visitorCount,
+                __('Detected visitors without location data. Please <a href="%s">click here</a> to update the geographic data in the background. This is necessary for accurate analytics.', 'wp-statistics'),
                 esc_url($actionUrl)
             );
 
             Notice::addNotice($message, 'update_unknown_visitor_geoip');
+        }
+
+        if ($backgroundProcess->is_active()) {
+            Notice::addNotice(
+                __('Geographic data update is already in progress.', 'wp-statistics'),
+                'running_geoip_process_notice',
+                'info',
+                true
+            );
         }
     }
 
@@ -77,14 +87,6 @@ class GeographicPage extends MultiViewPage
         }
 
         check_admin_referer('update_unknown_visitor_geoip_nonce', 'nonce');
-
-        // Check if already processed
-        if (Option::getOptionGroup('jobs', 'update_unknown_visitor_geoip_started')) {
-            Notice::addFlashNotice(__('Geographic data update is already in progress.', 'wp-statistics'));
-
-            wp_redirect(Menus::admin_url('geographic'));
-            exit;
-        }
 
         // Update GeoIP data for visitors with incomplete information
         BackgroundProcessFactory::batchUpdateIncompleteGeoIpForVisitors();
