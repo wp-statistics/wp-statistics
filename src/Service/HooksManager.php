@@ -1,11 +1,25 @@
 <?php
 namespace WP_Statistics\Service;
 
+use WP_STATISTICS\Menus;
+
 class HooksManager
 {
     public function __construct()
     {
         add_filter('kses_allowed_protocols', [$this, 'updateAllowedProtocols']);
+        add_filter('plugin_action_links_' . plugin_basename(WP_STATISTICS_MAIN_FILE), [$this, 'addActionLinks']);
+    }
+
+    public function addActionLinks($links)
+    {
+        $customLinks = [
+            '<a class="wps-premium-link-btn" target="_blank" href="https://wp-statistics.com/pricing/?utm_source=wp-statistics&utm_medium=link&utm_campaign=plugins">' . esc_html__('Get Premium', 'wp-statistics') . '</a>',
+            '<a href="' . Menus::admin_url('settings') . '">' . esc_html__('Settings', 'wp-statistics') . '</a>',
+            '<a target="_blank" href="https://wp-statistics.com/documentation/?utm_source=wp-statistics&utm_medium=link&utm_campaign=plugins">' . esc_html__('Docs', 'wp-statistics') . '</a>',
+        ];
+
+        return array_merge($customLinks, $links);
     }
 
     /**

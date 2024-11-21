@@ -16,7 +16,6 @@ class Install
         add_filter('wpmu_drop_tables', array($this, 'remove_table_on_delete_blog'));
 
         // Change Plugin Action link in Plugin.php admin
-        add_filter('plugin_action_links_' . plugin_basename(WP_STATISTICS_MAIN_FILE), array($this, 'settings_links'), 10, 2);
         add_filter('plugin_row_meta', array($this, 'add_meta_links'), 10, 2);
 
         // Upgrade WordPress Plugin
@@ -315,21 +314,6 @@ class Install
     {
         $tables[] = array_merge($tables, DB::table('all'));
         return $tables;
-    }
-
-    /**
-     * Add a settings link to the plugin list.
-     *
-     * @param string $links Links
-     * @param string $file Not Used!
-     * @return string Links
-     */
-    public function settings_links($links, $file)
-    {
-        if (User::Access('manage')) {
-            array_unshift($links, '<a href="' . Menus::admin_url('settings') . '">' . __('Settings', 'wp-statistics') . '</a>');
-        }
-        return $links;
     }
 
     /**

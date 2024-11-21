@@ -348,3 +348,12 @@ td:has(div.wps-admin-column__unlock){
   }
 
 }
+
+.wps-premium-link-btn {
+  font-weight: bold;
+  color: #A03B1F;
+
+  &:hover {
+    color: #A03B1F;
+  }
+}
