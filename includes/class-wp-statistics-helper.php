@@ -1945,7 +1945,7 @@ class Helper
             '/<[^>]+on[a-z]+\s*=\s*\'[^\']*\'/i',  // <tag onEvent='...'>
         ];
 
-        return $patterns;
+        return apply_filters('wp_statistics_injection_patterns', $patterns);
     }
 
     /**
