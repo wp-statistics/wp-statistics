@@ -134,7 +134,6 @@ class GeographicDataProvider
         $referrers = $this->visitorsModel->getReferrers($this->args);
 
         $visitors = $this->visitorsModel->getVisitorsData(array_merge($this->args, [
-            'page_info' => true,
             'user_info' => true,
             'order_by'  => 'visitor.ID',
             'order'     => 'DESC',
