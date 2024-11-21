@@ -11,6 +11,13 @@ class HooksManager
         add_filter('plugin_action_links_' . plugin_basename(WP_STATISTICS_MAIN_FILE), [$this, 'addActionLinks']);
     }
 
+    /**
+     * Adds custom links to the plugin action links in the WordPress admin plugins page.
+     *
+     * @param array $links The existing plugin action links.
+     *
+     * @return array The modified links with the custom links added.
+     */
     public function addActionLinks($links)
     {
         $customLinks = [
