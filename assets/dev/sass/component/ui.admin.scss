@@ -3537,6 +3537,7 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
 .wps-tab-link .wps-locked {
    color: #BFC2C9;
    cursor: pointer;
+  align-items: center;
 
   &:hover {
     color: #ADB4C1 !important;
