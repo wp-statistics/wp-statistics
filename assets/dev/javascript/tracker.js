@@ -208,5 +208,11 @@ function handleWpConsentApiIntegration() {
 }
 
 function handleRealCookieBannerIntegration() {
-    //todo: add real cookie banner integration
+    // (window.consentApi?.consent("wp-statistics") || Promise.resolve()).then(() => {
+    //     console.log("wp-statistics consent is given.");
+    // });
+
+    // (window.consentApi?.consent("wp-statistics-with-data-processing") || Promise.resolve()).then(() => {
+    //     console.log("wp-statistics-with-data-processing consent is given.");
+    // });
 }
