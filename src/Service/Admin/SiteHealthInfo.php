@@ -80,6 +80,10 @@ class SiteHealthInfo
                     'label' => esc_html__('GeoIP Database Type', 'wp-statistics'),
                     'value' => $geoIpProvider->getDatabaseType(),
                 ],
+                'geoIpDatabaseValidation'       => [
+                    'label' => esc_html__('GeoIP Database Validation', 'wp-statistics'),
+                    'value' => is_wp_error($geoIpProvider->validateDatabaseFile()) ? $geoIpProvider->validateDatabaseFile()->get_error_message() : esc_html__('Yes', 'wp-statistics'),
+                ],
 
                 /**
                  * Plugin configuration settings.
