@@ -838,6 +838,8 @@ class VisitorsModel extends BaseModel
         ])
             ->from('visitor')
             ->whereNotNull('referred')
+            ->whereNull('source_channel')
+            ->whereNull('source_name')
             ->getAll();
 
         return $result ? $result : [];
