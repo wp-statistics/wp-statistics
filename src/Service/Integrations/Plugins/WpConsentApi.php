@@ -40,14 +40,12 @@ class WpConsentApi extends AbstractIntegration
     public function hasConsent()
     {
         if (!function_exists('wp_has_consent')) {
-            return false;
+            return true;
         }
 
         $consentLevel = Option::get('consent_level_integration', 'disabled');
 
-        if ($consentLevel === 'disabled') return true;
-
-        return wp_has_consent($consentLevel);
+        return ($consentLevel === 'disabled') ? true : wp_has_consent($consentLevel);
     }
 
     /**
