@@ -119,10 +119,10 @@ class TabsView extends BaseTabView
                         'class'   => $this->isTab('author') ? 'current' : '',
                     ],
                     [
-                        'link'        => Menus::admin_url('pages', ['tab' => '404']),
-                        'title'       => esc_html__('404 Pages', 'wp-statistics'),
-                        'class'       => $this->isTab('404') ? 'current' : '',
-                        'coming_soon' => true
+                        'link'      => Menus::admin_url('pages', ['tab' => '404']),
+                        'title'     => esc_html__('404 Pages', 'wp-statistics'),
+                        'class'     => $this->isTab('404') ? 'current' : '',
+                        'tooltip'   => esc_html__('', 'wp-statistics'),
                     ]
                 ]
             ];
