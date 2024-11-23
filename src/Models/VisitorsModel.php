@@ -411,7 +411,7 @@ class VisitorsModel extends BaseModel
             ->where('agent', '=', $args['agent'])
             ->where('platform', '=', $args['platform'])
             ->where('user_id', '=', $args['user_id'])
-            ->where('ip', '=', $args['ip'])
+            ->where('ip', 'LIKE', "%{$args['ip']}%")
             ->where('visitor.location', '=', $args['country'])
             ->whereDate($args['date_field'], $args['date'])
             ->perPage($args['page'], $args['per_page'])

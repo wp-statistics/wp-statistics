@@ -395,6 +395,7 @@ class Admin_Assets
             'browser'                      => __('Visitor\'s Browser', 'wp-statistics'),
             'city'                         => __('Visitor\'s City', 'wp-statistics'),
             'ip'                           => Option::get('hash_ips') == true ? __('Daily Visitor Hash', 'wp-statistics') : __('IP Address', 'wp-statistics'),
+            'ip_hash'                      => __('IP Address/Hash', 'wp-statistics'),
             'referring_site'               => __('Referring Site', 'wp-statistics'),
             'hits'                         => __('Views', 'wp-statistics'),
             'agent'                        => __('User Agent', 'wp-statistics'),
