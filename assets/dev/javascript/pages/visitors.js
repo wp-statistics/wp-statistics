@@ -121,7 +121,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
 
         // Add IP
         html += `<tr><td>${wps_js._('ip_hash')}</td></tr>`;
-        html += `<tr><td><input name="ip" value="${(wps_js.getLinkParams('ip') != null ? decodeURIComponent(wps_js.getLinkParams('ip')) : ``)}" class="wps-width-100" placeholder='' autocomplete="off"></td></tr>`;
+        html += `<tr><td><input placeholder="${wps_js._('ip_hash_placeholder')}" name="ip" value="${(wps_js.getLinkParams('ip') != null ? decodeURIComponent(wps_js.getLinkParams('ip')) : ``)}" class="wps-width-100" placeholder='' autocomplete="off"></td></tr>`;
 
 
 
