@@ -882,7 +882,6 @@ class VisitorsModel extends BaseModel
         ])
             ->from('visitor')
             ->where('source_channel', 'IN', $args['source_channel'])
-            ->where('visitor.referred', 'NOT LIKE', '%' . Helper::get_domain_name(home_url()) . '%')
             ->where('visitor.location', '=', $args['country'])
             ->whereNotNull('visitor.referred')
             ->groupBy($args['group_by'])
