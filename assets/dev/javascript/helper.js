@@ -4,6 +4,16 @@
 wps_js.exist_tag = function (tag) {
     return (jQuery(tag).length);
 };
+
+
+/**
+ * Loading button
+ */
+wps_js.loading_button = function (btn) {
+    btn.classList.add('wps-loading-button');
+ };
+
+
 /**
  * Jquery UI Picker
  */
