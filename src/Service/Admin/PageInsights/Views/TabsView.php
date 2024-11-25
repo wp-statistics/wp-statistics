@@ -122,7 +122,7 @@ class TabsView extends BaseTabView
                         'link'      => Menus::admin_url('pages', ['tab' => '404']),
                         'title'     => esc_html__('404 Pages', 'wp-statistics'),
                         'class'     => $this->isTab('404') ? 'current' : '',
-                        'tooltip'   => esc_html__('', 'wp-statistics'),
+                        'tooltip'   => esc_html__('View URLs that led visitors to 404 errors.', 'wp-statistics'),
                     ]
                 ]
             ];

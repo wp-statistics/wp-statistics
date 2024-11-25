@@ -139,6 +139,7 @@ Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest versio
 https://www.youtube.com/watch?v=jxYLVtBdhEc
 
 = 14.11.x
+- **New:** Added "404 Reports" under the "Page Insights".
 - **Fix:** Resolved issue with showing not queryable post-types in Content Analytics
 
 = 14.11.2 - 2024-11-05 =

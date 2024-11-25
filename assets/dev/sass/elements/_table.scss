@@ -741,6 +741,13 @@ body .o-table-wrapper table.wps-new-table {
         gap: 4px;
         max-width: 150px;
 
+        &--404-page{
+          max-width: 300px;
+          @media(min-width: 600px){
+            max-width: 500px;
+          }
+        }
+
         span {
           color: #10188D !important;
           white-space: nowrap;

@@ -2757,6 +2757,7 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
   font-weight: 500;
   display: flex;
   gap: 2px;
+  align-items: center;
 
   &:hover {
     border-bottom: 2px solid #404BF2 !important;
