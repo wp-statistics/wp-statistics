@@ -214,9 +214,14 @@ function handleRealCookieBannerIntegration() {
         wpStatisticsUserSession.init();
     }
 
-    (window.consentApi?.consent("wp-statistics") || Promise.resolve()).then(() => {
-        (window.consentApi?.consent("wp-statistics-with-data-processing") || Promise.resolve()).then(() => {
+    (window.consentApi?.consent("wp-statistics") || Promise.resolve())
+        .then(() => {
+            return (window.consentApi?.consent("wp-statistics-with-data-processing") || Promise.resolve());
+        })
+        .then(() => {
             wpStatisticsUserSession.init();
-        }).catch(() => {});
-    }).catch(() => {});
+        })
+        .catch(() => {
+            console.log('WP Statistics: Real Cookie Banner consent is NOT given.');
+        });
 }
