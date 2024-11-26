@@ -1,14 +1,11 @@
-<?php
-use WP_STATISTICS\Country;
-?>
-
 <div class="wps-card">
     <div class="wps-card__title">
         <h2>
-            <?php echo esc_html__('Top Countries', 'wp-statistics') ?>
+            <?php echo esc_html($title) ?>
             <?php if ($tooltip): ?>
                 <span class="wps-tooltip" title="<?php echo esc_attr($tooltip); ?>"><i class="wps-tooltip-icon info"></i></span>
-            <?php endif ?>        </h2>
+            <?php endif ?>
+        </h2>
     </div>
     <div class="inside">
         <?php if (!empty($data)) : ?>
@@ -17,25 +14,23 @@ use WP_STATISTICS\Country;
                     <thead>
                     <tr>
                         <th class="wps-pd-l">
-                            <?php esc_html_e('Country', 'wp-statistics') ?>
+                            <?php esc_html_e('Time', 'wp-statistics'); ?>
                         </th>
                         <th class="wps-pd-l">
-                            <?php esc_html_e('Visitors', 'wp-statistics') ?>
+                            <?php esc_html_e('Visitors', 'wp-statistics'); ?>
+                        </th>
+                        <th class="wps-pd-l">
+                            <?php esc_html_e('Views', 'wp-statistics'); ?>&nbsp;
                         </th>
                     </tr>
                     </thead>
+
                     <tbody>
                     <?php foreach ($data as $item) : ?>
                         <tr>
-                            <td class="wps-pd-l">
-                                <div >
-                                    <img class="wps-flag" src="<?php echo esc_url(Country::flag($item->country)) ?>" alt="<?php echo esc_attr(Country::getName($item->country)) ?>">
-                                    <?php echo esc_html(Country::getName($item->country)); ?>
-                                </div>
-                            </td>
-                            <td class="wps-pd-l">
-                                <span><?php echo esc_html(number_format_i18n($item->visitors)); ?></span>
-                            </td>
+                            <td class="wps-pd-l"><?php echo esc_html($item['label']) ?></td>
+                            <td class="wps-pd-l"><?php echo esc_html(number_format_i18n($item['visitors'])) ?></td>
+                            <td class="wps-pd-l"><?php echo esc_html(number_format_i18n($item['views'])) ?></td>
                         </tr>
                     <?php endforeach; ?>
                     </tbody>
@@ -43,9 +38,9 @@ use WP_STATISTICS\Country;
             </div>
         <?php else : ?>
             <div class="o-wrap o-wrap--no-data wps-center">
-                <?php esc_html_e('No recent data available.', 'wp-statistics') ?>
+                <?php esc_html_e('No recent data available.', 'wp-statistics')   ?>
             </div>
         <?php endif; ?>
-
     </div>
+
 </div>

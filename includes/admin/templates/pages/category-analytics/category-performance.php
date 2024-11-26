@@ -134,9 +134,10 @@ use WP_Statistics\Components\View;
             'tooltip' => esc_html__('Summary of views and visitors over various time periods, including today, yesterday, the last 7 days, and the last 30 days.', 'wp-statistics'),
             'data'    => $data['visits_summary']
         ];
-        Admin_Template::get_template(['layout/category-analytics/summary'], $summary);
+        View::load("components/tables/summary", $summary);
 
         $topCountries = [
+            'tooltip' => esc_html__('The countries from which the most visitors are coming.', 'wp-statistics'),
             'data'    => $data['visitors_country']
         ];
         View::load("components/tables/top-countries", $topCountries);

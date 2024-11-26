@@ -91,9 +91,10 @@ $postType = get_post_type(Request::get('post_id'));
             'tooltip' => esc_html__('From today to last year, a breakdown of visitors and views.', 'wp-statistics'),
             'data'    => $data['visits_summary']
         ];
-        Admin_Template::get_template(['layout/content-analytics/summary'], $summary);
+        View::load("components/tables/summary", $summary);
 
         $topCountries = [
+            'tooltip' => esc_html__('The countries from which the most visitors are coming.', 'wp-statistics'),
             'data'    => $data['visitors_country']
         ];
         View::load("components/tables/top-countries", $topCountries);
