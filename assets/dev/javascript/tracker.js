@@ -208,11 +208,15 @@ function handleWpConsentApiIntegration() {
 }
 
 function handleRealCookieBannerIntegration() {
-    // (window.consentApi?.consent("wp-statistics") || Promise.resolve()).then(() => {
-    //     console.log("wp-statistics consent is given.");
-    // });
+    const anonymousTracking = WP_Statistics_Tracker_Object.option.trackAnonymously;
 
-    // (window.consentApi?.consent("wp-statistics-with-data-processing") || Promise.resolve()).then(() => {
-    //     console.log("wp-statistics-with-data-processing consent is given.");
-    // });
+    if (anonymousTracking) {
+        wpStatisticsUserSession.init();
+    }
+
+    (window.consentApi?.consent("wp-statistics") || Promise.resolve()).then(() => {
+        (window.consentApi?.consent("wp-statistics-with-data-processing") || Promise.resolve()).then(() => {
+            wpStatisticsUserSession.init();
+        }).catch(() => {});
+    }).catch(() => {});
 }
