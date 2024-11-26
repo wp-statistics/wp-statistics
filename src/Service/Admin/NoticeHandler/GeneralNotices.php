@@ -65,7 +65,7 @@ class GeneralNotices
             }
 
             if ($totalRows > apply_filters('wp_statistics_notice_db_row_threshold', 500000)) {
-                $settingsUrl      = admin_url('admin.php?page=wps_settings_page&tab=maintenance-settings');
+                $settingsUrl      = admin_url('admin.php?page=wps_settings_page&tab=advanced-settings');
                 $optimizationUrl  = admin_url('admin.php?page=wps_optimization_page');
                 $documentationUrl = 'https://wp-statistics.com/resources/optimizing-database-size-for-improved-performance/';
 

@@ -32,4 +32,11 @@ interface GeoServiceProviderInterface
      * @return string
      */
     public function getDatabaseType();
+
+    /**
+     * Check the integrity and functionality of the geolocation database.
+     *
+     * @return bool|WP_Error True if the database is valid, or WP_Error on failure.
+     */
+    public function validateDatabaseFile();
 }

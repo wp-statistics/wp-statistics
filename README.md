@@ -3,13 +3,12 @@
 [![WP compatibility](https://plugintests.com/plugins/wporg/wp-statistics/wp-badge.svg)](https://plugintests.com/plugins/wporg/wp-statistics/latest)
 [![PHP compatibility](https://plugintests.com/plugins/wporg/wp-statistics/php-badge.svg)](https://plugintests.com/plugins/wporg/wp-statistics/latest)
 
-# WP Statistics - The Most Popular Privacy-Friendly Analytics Plugin
+# WP Statistics - The Most Popular Privacy-Friendly Analytics Plugin for WordPress
 
 ## Requirements
 - Requires at least: 5.0
-- Tested up to: 6.5
-- Stable tag: 14.8
-- Requires PHP: 5.6
+- Tested up to: 6.7
+- Requires PHP: 7.2
 
 ## License
 - License: GPL-2.0+

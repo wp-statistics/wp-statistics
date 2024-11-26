@@ -346,6 +346,11 @@ class Install
         // Load WordPress DBDelta
         self::load_dbDelta();
 
+        // Create options with default values in multi-site, if they don't exist
+        if (is_multisite()) {
+            self::create_options();
+        }
+
         // Check installed plugin version
         $installed_version  = get_option('wp_statistics_plugin_version');
         $latest_version     = WP_STATISTICS_VERSION;
