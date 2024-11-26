@@ -50,9 +50,10 @@ class RealCookieBanner extends AbstractIntegration
             return true;
         }
 
-        $consent = wp_rcb_consent_given('');
+        $baseConsent            = wp_rcb_consent_given('wp-statistics');
+        $dataProcessingConsent  = wp_rcb_consent_given('wp-statistics-with-data-processing');
 
-        return isset($consent['consentGiven']) && $consent['consentGiven'];
+        return !empty($baseConsent['consentGiven']) && !empty($dataProcessingConsent['consentGiven']);
     }
 
     public function handleIntegration($integration)
