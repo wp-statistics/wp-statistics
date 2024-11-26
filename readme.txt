@@ -139,7 +139,8 @@ Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest versio
 https://www.youtube.com/watch?v=jxYLVtBdhEc
 
 = 14.11.4 - 2024-**-** =
-- **New:** Added the geolocation validation in site info for better debugging.
+- **Enhancement:** Added the geolocation validation in site info for better debugging.
+- **Fix:** Fix the tooltip for the previous period on the monthly and weekly charts.
 
 = 14.11.3 - 2024-11-17 =
 - **New:** Added support for tracking unique visitors in shortcodes.

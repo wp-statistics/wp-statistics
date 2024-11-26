@@ -521,7 +521,7 @@ const getOrCreateTooltip = (chart) => {
     return tooltipEl;
 };
 
-const externalTooltipHandler = (context, dataset, colors, data, unitTime, dateLabels, monthTooltip) => {
+const externalTooltipHandler = (context, dataset, colors, data, unitTime, dateLabels , prevDateLabels, monthTooltip ,prevMonthTooltip) => {
     const {chart, tooltip} = context;
     const tooltipEl = getOrCreateTooltip(chart);
     if (tooltip.opacity === 0) {
@@ -574,8 +574,15 @@ const externalTooltipHandler = (context, dataset, colors, data, unitTime, dateLa
                 const previousDataset = data.previousData.datasets.find(prev => prev.label === dataset.label.replace(' (Previous)', ''));
                 if (previousDataset !== undefined && previousDataset !== '' && previousDataset.data && !isPrevious) {
                     let previousValue = previousDataset.data[dataIndex];
-                    const previousLabel = data.previousData.labels[dataIndex].date;
-                    innerHtml += `
+                    let previousLabel = null;
+                     if (unitTime === 'day') {
+                        previousLabel = data.previousData.labels[dataIndex].date
+                    } else if (unitTime === 'month') {
+                         previousLabel=prevMonthTooltip[dataIndex];
+                    } else {
+                        previousLabel =prevDateLabels[dataIndex];
+                    }
+                     innerHtml += `
                     <div class="previous-data">
                         <div>
                             <span class="previous-data__colors">
@@ -732,25 +739,30 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
 
 // Determine whether to aggregate by day, week, or month
     let dateLabels = data.data.labels.map(dateObj => dateObj.formatted_date);
+    let prevDateLabels = [];
     let monthTooltip = [];
+    let prevMonthTooltip = [];
     const length = dateLabels.length;
     const containsPostsLabel = type === 'performance' && data.data.datasets.length > 2;
     const threshold = type === 'performance' ? 30 : 60;
     let unitTime = length <= threshold ? 'day' : length <= 180 ? 'week' : 'month';
-
+    if (data.previousData && data.previousData.datasets.length > 0) {
+         prevDateLabels = data.previousData.labels.map(dateObj => dateObj.formatted_date);
+    }
 // Aggregate data for week or month view
     if (unitTime === 'week' || unitTime === 'month') {
         const aggregatedData = aggregateData(data.data.labels, data.data.datasets, unitTime);
-
         dateLabels = aggregatedData.aggregatedLabels;
         data.data.datasets.forEach((dataset, idx) => {
             dataset.data = aggregatedData.aggregatedData[idx];
         });
         if (data.previousData && data.previousData.datasets.length > 0) {
-            const aggregatedPreviousData = aggregateData(data.data.labels, data.previousData.datasets, unitTime);
+            const aggregatedPreviousData = aggregateData(data.previousData.labels, data.previousData.datasets, unitTime);
+             prevDateLabels = aggregatedPreviousData.aggregatedLabels;
             data.previousData.datasets.forEach((dataset, idx) => {
                 dataset.data = aggregatedPreviousData.aggregatedData[idx];
-            });
+             });
+            prevMonthTooltip = aggregatedPreviousData.monthTooltipTitle;
         }
         monthTooltip = aggregatedData.monthTooltipTitle;
     }
@@ -862,7 +874,7 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
             legend: false,
             tooltip: {
                 enabled: false,
-                external: (context) => externalTooltipHandler(context, datasets, colors, data, unitTime, dateLabels, monthTooltip),
+                external: (context) => externalTooltipHandler(context, datasets, colors, data, unitTime, dateLabels , prevDateLabels, monthTooltip ,prevMonthTooltip),
                 callbacks: {
                     title: (tooltipItems) => tooltipItems[0].label,
                     label: (tooltipItem) => tooltipItem.formattedValue
@@ -1111,6 +1123,7 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
         }
     };
     updateLegend();
+    wps_js.new_line_chart.aggregateData = aggregateData
 };
 
 
