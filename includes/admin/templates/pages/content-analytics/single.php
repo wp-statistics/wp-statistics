@@ -94,11 +94,9 @@ $postType = get_post_type(Request::get('post_id'));
         Admin_Template::get_template(['layout/content-analytics/summary'], $summary);
 
         $topCountries = [
-            'title'   => esc_html__('Top Countries', 'wp-statistics'),
-            'tooltip' => esc_html__('The countries from which the most visitors are coming.', 'wp-statistics'),
             'data'    => $data['visitors_country']
         ];
-        Admin_Template::get_template(['layout/content-analytics/top-countries'], $topCountries);
+        View::load("components/tables/top-countries", $topCountries);
 
         $engines = [
             'title'     => esc_html__('Search Engines', 'wp-statistics'),

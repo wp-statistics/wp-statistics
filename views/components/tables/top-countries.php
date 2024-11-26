@@ -5,16 +5,14 @@ use WP_STATISTICS\Country;
 <div class="wps-card">
     <div class="wps-card__title">
         <h2>
-            <?php echo esc_html($title); ?>
-            <?php if ($tooltip): ?>
-                <span class="wps-tooltip" title="<?php echo esc_attr($tooltip); ?>"><i class="wps-tooltip-icon info"></i></span>
-            <?php endif ?>
+            <?php echo esc_html__('Top Countries', 'wp-statistics') ?>
+            <span class="wps-tooltip" title="<?php echo esc_attr__('The countries from which the most visitors are coming.', 'wp-statistics')?>"><i class="wps-tooltip-icon info"></i></span>
         </h2>
     </div>
     <div class="inside">
         <?php if (!empty($data)) : ?>
             <div class="o-table-wrapper">
-                <table width="100%" class="o-table wps-authors-table wps-top-countries-table">
+                <table width="100%" class="o-table wps-new-table wps-top-countries-table">
                     <thead>
                     <tr>
                         <th class="wps-pd-l">
@@ -35,7 +33,7 @@ use WP_STATISTICS\Country;
                                 </div>
                             </td>
                             <td class="wps-pd-l">
-                                <span><?php echo esc_html(number_format($item->visitors)); ?></span>
+                                <span><?php echo esc_html(number_format_i18n($item->visitors)); ?></span>
                             </td>
                         </tr>
                     <?php endforeach; ?>

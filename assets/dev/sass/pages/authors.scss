@@ -861,25 +861,6 @@
   }
 }
 
-.wps-top-countries-table {
-  thead th:last-child {
-    text-align: right !important;
-  }
-
-  tbody tr {
-    td:nth-child(2) div {
-      display: flex;
-      gap: 6px;
-      align-items: center;
-    }
-
-    td:last-child span {
-      display: flex;
-      justify-content: flex-end;
-    }
-  }
-}
-
 .wps-top-categories__content, .wps-author-chart {
   margin-top: 20px;
 }
