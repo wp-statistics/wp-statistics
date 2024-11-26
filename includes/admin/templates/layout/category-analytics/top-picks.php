@@ -2,6 +2,7 @@
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Menus;
 use WP_Statistics\Utils\Request;
+use WP_Statistics\Components\View;
 
 $taxonomy   = Request::get('tx', 'category');
 ?>
@@ -114,13 +115,10 @@ $taxonomy   = Request::get('tx', 'category');
         </div>
     </div>
 
-    <?php if (Menus::in_page('category-analytics') && !Request::compare('type', 'single')) : ?>
-        <div class="c-footer">
-            <div class="c-footer__more">
-                <a href="<?php echo esc_url(add_query_arg(['tab' => 'contents'], Menus::admin_url('pages'))); ?>" class="c-footer__more__link">
-                    <?php echo esc_html__('See all contents', 'wp-statistics'); ?>
-                </a>
-            </div>
-        </div>
-    <?php endif; ?>
+    <?php if (Menus::in_page('category-analytics') && !Request::compare('type', 'single')) {
+        View::load("components/objects/view-more", [
+            'href'  => add_query_arg(['tab' => 'contents'], Menus::admin_url('pages')),
+            'title' => __('See all contents', 'wp-statistics'),
+            ]);
+    } ?>
 </div>

@@ -2,6 +2,7 @@
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Menus;
 use WP_Statistics\Utils\Request;
+use WP_Statistics\Components\View;
 
 $postType = Request::get('tab', 'post');
 ?>
@@ -116,11 +117,11 @@ $postType = Request::get('tab', 'post');
             </div>
         </div>
     </div>
-    <div class="c-footer">
-        <div class="c-footer__more">
-            <a href="<?php echo esc_url(add_query_arg(['tab' => 'contents', 'pt' => $postType], Menus::admin_url('pages'))); ?>" class="c-footer__more__link">
-                <?php echo sprintf(esc_html__('See all %s', 'wp-statistics'), strtolower(Helper::getPostTypeName($postType))) ?>
-            </a>
-        </div>
-    </div>
+    <?php
+    View::load("components/objects/view-more", [
+        'href'  => add_query_arg(['tab' => 'contents', 'pt' => $postType], Menus::admin_url('pages')),
+        'title' => sprintf(esc_html__('See all %s', 'wp-statistics'), strtolower(Helper::getPostTypeName($postType))),
+    ]);
+    ?>
+
 </div>

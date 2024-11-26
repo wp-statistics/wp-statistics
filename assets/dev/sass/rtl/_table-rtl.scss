@@ -106,6 +106,14 @@
   }
 }
 
+.o-table-wrapper table.wps-new-table{
+  thead th:last-child ,tbody td:last-child {
+    &:not(.start){
+      text-align: left !important;
+    }
+  }
+}
+
 #wp-statistics-countries-widget, #wp-statistics-pages-widget {
 
   .inside table.o-table tr {

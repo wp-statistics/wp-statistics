@@ -3,6 +3,7 @@
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Menus;
 use WP_Statistics\Utils\Request;
+use WP_Statistics\Components\View;
 
 $taxonomy  = Request::get('tx', 'category');
 ?>
@@ -74,11 +75,10 @@ $taxonomy  = Request::get('tx', 'category');
             </div>
         </div>
     </div>
-    <div class="c-footer">
-        <div class="c-footer__more">
-            <a href="<?php echo esc_url(Menus::admin_url('category-analytics', ['type' => 'report', 'tx' => $taxonomy])); ?>" class="c-footer__more__link">
-                <?php echo esc_html__('See all categories', 'wp-statistics'); ?>
-            </a>
-        </div>
-    </div>
+    <?php
+    View::load("components/objects/view-more", [
+        'href'  => Menus::admin_url('category-analytics', ['type' => 'report', 'tx' => $taxonomy]),
+        'title' => __('See all categories', 'wp-statistics'),
+    ]);
+    ?>
 </div>
