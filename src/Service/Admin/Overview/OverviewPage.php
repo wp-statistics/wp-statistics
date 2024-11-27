@@ -5,6 +5,7 @@ namespace WP_Statistics\Service\Admin\Overview;
 use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Components\View;
 use WP_Statistics\Abstracts\BasePage;
+use WP_STATISTICS\Menus;
 
 class OverviewPage extends BasePage
 {
@@ -19,7 +20,8 @@ class OverviewPage extends BasePage
     {
         $args = [
             'title'     => esc_html__('Overview', 'wp-statistics'),
-            'tooltip'   => esc_html__('Quickly view your website’s traffic and visitor analytics.', 'wp-statistics')
+            'tooltip'   => esc_html__('Quickly view your website’s traffic and visitor analytics.', 'wp-statistics'),
+            'screen_id' => Menus::get_action_menu_slug('overview'),
         ];
 
         Admin_Template::get_template(['layout/header', 'layout/title'], $args);
