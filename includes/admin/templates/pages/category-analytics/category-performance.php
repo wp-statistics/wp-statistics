@@ -150,7 +150,6 @@ use WP_Statistics\Components\View;
         View::load("components/charts/search-engines", $engines);
 
         $topReferring = [
-            'title'   => esc_html__('Top Referring', 'wp-statistics'),
             'tooltip' => esc_html__('The top referring domains.', 'wp-statistics'),
             'data'    => $data['referrers']
         ];

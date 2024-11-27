@@ -6,7 +6,7 @@ use WP_STATISTICS\Referred;
 <div class="wps-card">
     <div class="wps-card__title">
         <h2>
-            <?php echo esc_html($title) ?>
+            <?php echo esc_html__('Top Referring', 'wp-statistics') ?>
             <?php if ($tooltip): ?>
                 <span class="wps-tooltip" title="<?php echo esc_attr($tooltip); ?>"><i class="wps-tooltip-icon info"></i></span>
             <?php endif ?>
@@ -15,14 +15,14 @@ use WP_STATISTICS\Referred;
     <div class="inside">
         <?php if (!empty($data)) : ?>
             <div class="o-table-wrapper">
-                <table width="100%" class="o-table wps-new-table">
+                <table width="100%" class="o-table wps-new-table wps-new-table__top-referring">
                     <thead>
                     <tr>
                         <th class="wps-pd-l">
                             <?php echo esc_html__('Domain Address', 'wp-statistics') ?>
                         </th>
                         <th class="wps-pd-l">
-                            <?php echo esc_html__('Number of Refers', 'wp-statistics') ?>
+                            <?php echo esc_html__('Number of Referrals', 'wp-statistics') ?>
                         </th>
                     </tr>
                     </thead>

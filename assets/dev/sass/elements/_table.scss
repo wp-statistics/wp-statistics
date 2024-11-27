@@ -850,6 +850,27 @@ body .o-table-wrapper table.wps-new-table {
     }
   }
 
+  &__top-referring{
+
+    tbody tr{
+
+      td:first-child{
+        .wps-ellipsis-parent , .wps-link-arrow{
+          max-width: 550px;
+          @media(max-width: 700px){
+            max-width: 300px;
+          }
+        }
+      }
+
+      td:last-child{
+        font-weight: 400;
+      }
+
+    }
+
+  }
+
   &--referrers {
     td, th {
       width: 33.33%;

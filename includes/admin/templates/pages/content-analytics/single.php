@@ -107,7 +107,6 @@ $postType = get_post_type(Request::get('post_id'));
         View::load("components/charts/search-engines", $engines);
 
         $topReferring = [
-            'title'   => esc_html__('Top Referring', 'wp-statistics'),
             'tooltip' => esc_html__('The top referring domains.', 'wp-statistics'),
             'data'    => $data['referrers']
         ];
