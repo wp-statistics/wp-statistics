@@ -18,7 +18,8 @@ class OverviewPage extends BasePage
     public function view()
     {
         $args = [
-            'title' => esc_html__('Overview', 'wp-statistics'),
+            'title'     => esc_html__('Overview', 'wp-statistics'),
+            'tooltip'   => esc_html__('Quickly view your website’s traffic and visitor analytics.', 'wp-statistics')
         ];
 
         Admin_Template::get_template(['layout/header', 'layout/title'], $args);
