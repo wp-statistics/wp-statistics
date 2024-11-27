@@ -172,6 +172,7 @@ return array(
     'WP_Statistics\\Service\\Admin\\ModalHandler\\Modal' => $baseDir . '/src/Service/Admin/ModalHandler/Modal.php',
     'WP_Statistics\\Service\\Admin\\NoticeHandler\\GeneralNotices' => $baseDir . '/src/Service/Admin/NoticeHandler/GeneralNotices.php',
     'WP_Statistics\\Service\\Admin\\NoticeHandler\\Notice' => $baseDir . '/src/Service/Admin/NoticeHandler/Notice.php',
+    'WP_Statistics\\Service\\Admin\\Overview\\OverviewManager' => $baseDir . '/src/Service/Admin/Overview/OverviewManager.php',
     'WP_Statistics\\Service\\Admin\\PageInsights\\PageInsightsDataProvider' => $baseDir . '/src/Service/Admin/PageInsights/PageInsightsDataProvider.php',
     'WP_Statistics\\Service\\Admin\\PageInsights\\PageInsightsManager' => $baseDir . '/src/Service/Admin/PageInsights/PageInsightsManager.php',
     'WP_Statistics\\Service\\Admin\\PageInsights\\PageInsightsPage' => $baseDir . '/src/Service/Admin/PageInsights/PageInsightsPage.php',

@@ -233,6 +233,7 @@ class ComposerStaticInit0c58b92c1859559503021091c91f6640
         'WP_Statistics\\Service\\Admin\\ModalHandler\\Modal' => __DIR__ . '/../..' . '/src/Service/Admin/ModalHandler/Modal.php',
         'WP_Statistics\\Service\\Admin\\NoticeHandler\\GeneralNotices' => __DIR__ . '/../..' . '/src/Service/Admin/NoticeHandler/GeneralNotices.php',
         'WP_Statistics\\Service\\Admin\\NoticeHandler\\Notice' => __DIR__ . '/../..' . '/src/Service/Admin/NoticeHandler/Notice.php',
+        'WP_Statistics\\Service\\Admin\\Overview\\OverviewManager' => __DIR__ . '/../..' . '/src/Service/Admin/Overview/OverviewManager.php',
         'WP_Statistics\\Service\\Admin\\PageInsights\\PageInsightsDataProvider' => __DIR__ . '/../..' . '/src/Service/Admin/PageInsights/PageInsightsDataProvider.php',
         'WP_Statistics\\Service\\Admin\\PageInsights\\PageInsightsManager' => __DIR__ . '/../..' . '/src/Service/Admin/PageInsights/PageInsightsManager.php',
         'WP_Statistics\\Service\\Admin\\PageInsights\\PageInsightsPage' => __DIR__ . '/../..' . '/src/Service/Admin/PageInsights/PageInsightsPage.php',
