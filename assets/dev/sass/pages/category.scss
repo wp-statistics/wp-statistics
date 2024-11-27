@@ -157,6 +157,11 @@
         border-bottom: 0;
         margin-bottom: 20px;
         padding-bottom: 0;
+
+        .rtl &{
+          border-right: unset;
+          border-left: 1px solid #DADCE0;
+        }
       }
     }
 
@@ -167,6 +172,11 @@
 
       & > label:first-of-type {
         margin-left: 15px;
+
+        .rtl &{
+          margin-right: 15px;
+          margin-left: 0;
+        }
       }
 
       & > label:last-of-type {
@@ -182,6 +192,10 @@
       .wps-category-tabs {
         & > label:first-of-type {
           margin-left: 24px;
+          .rtl &{
+            margin-right: 24px;
+            margin-left: 0;
+          }
         }
       }
     }
