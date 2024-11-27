@@ -7,6 +7,7 @@ use WP_Statistics\Async\SourceChannelUpdater;
 use WP_Statistics\Service\Admin\AuthorAnalytics\AuthorAnalyticsManager;
 use WP_Statistics\Service\Admin\ContentAnalytics\ContentAnalyticsManager;
 use WP_Statistics\Service\Admin\Geographic\GeographicManager;
+use WP_Statistics\Service\Admin\Metabox\MetaboxManager;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Service\Admin\Posts\PostsManager;
 use WP_Statistics\Service\Admin\PrivacyAudit\PrivacyAuditManager;
@@ -187,6 +188,7 @@ final class WP_Statistics
             $visitorInsights     = new VisitorInsightsManager();
             $integrationsManager = new IntegrationsManager();
             $licenseManager      = new LicenseManagementManager();
+            $metaboxManager      = new MetaboxManager();
         }
 
         $hooksManager = new HooksManager();

@@ -7,6 +7,7 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
+    'WP_Statistics\\Abstracts\\BaseMetabox' => $baseDir . '/src/Abstracts/BaseMetabox.php',
     'WP_Statistics\\Abstracts\\BaseModel' => $baseDir . '/src/Abstracts/BaseModel.php',
     'WP_Statistics\\Abstracts\\BasePage' => $baseDir . '/src/Abstracts/BasePage.php',
     'WP_Statistics\\Abstracts\\BaseTabView' => $baseDir . '/src/Abstracts/BaseTabView.php',
@@ -166,6 +167,7 @@ return array(
     'WP_Statistics\\Service\\Admin\\LicenseManagement\\Views\\LockedMiniChartView' => $baseDir . '/src/Service/Admin/LicenseManagement/Views/LockedMiniChartView.php',
     'WP_Statistics\\Service\\Admin\\LicenseManagement\\Views\\LockedRealTimeStatView' => $baseDir . '/src/Service/Admin/LicenseManagement/Views/LockedRealTimeStatView.php',
     'WP_Statistics\\Service\\Admin\\LicenseManagement\\Views\\TabsView' => $baseDir . '/src/Service/Admin/LicenseManagement/Views/TabsView.php',
+    'WP_Statistics\\Service\\Admin\\Metabox\\MetaboxManager' => $baseDir . '/src/Service/Admin/Metabox/MetaboxManager.php',
     'WP_Statistics\\Service\\Admin\\MiniChart\\MiniChartHelper' => $baseDir . '/src/Service/Admin/MiniChart/MiniChartHelper.php',
     'WP_Statistics\\Service\\Admin\\ModalHandler\\Modal' => $baseDir . '/src/Service/Admin/ModalHandler/Modal.php',
     'WP_Statistics\\Service\\Admin\\NoticeHandler\\GeneralNotices' => $baseDir . '/src/Service/Admin/NoticeHandler/GeneralNotices.php',
