@@ -31,9 +31,12 @@ wps_js.useronline_meta_box = {
              </td>` : `-`) + `
             <td class="wps-pd-l">`
                 + (value['referrer'] && value['referrer']['name'] !== '' ?
-                    `<a target="_blank" href="${value['referrer']['link']}" title="${value['referrer']['name']}" class="wps-link-arrow">
-                        <span>${value['referrer']['name']}</span>
-                    </a>`
+                    `<div class="wps-referral-link">
+                        <a target="_blank" href="${value['referrer']['link']}" title="${value['referrer']['name']}" class="wps-link-arrow wps-link-arrow--external">
+                            <span>${value['referrer']['name']}</span>
+                        </a>
+                        <span class="wps-referral-label">Referral Traffic</span>
+                    </div>`
                     : `<span aria-hidden="true">—</span>`) + `
             </td>
             <td class="wps-pd-l">`

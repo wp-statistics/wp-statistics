@@ -57,7 +57,7 @@ use WP_STATISTICS\Menus;
 
                         <td class="wps-pd-l">
                             <?php if ($visitor->getReferral()->getReferrer()) :
-                                View::load("components/objects/external-link", ['url' => $visitor->getReferral()->getReferrer(), 'title' => $visitor->getReferral()->getRawReferrer() ]);
+                                View::load("components/objects/referrer-link", ['label' => 'Referral Traffic','url' => $visitor->getReferral()->getReferrer(), 'title' => $visitor->getReferral()->getRawReferrer() ]);
                              else : ?>
                                 <?php echo Admin_Template::UnknownColumn() ?>
                             <?php endif; ?>

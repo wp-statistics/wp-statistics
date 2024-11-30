@@ -305,3 +305,29 @@ td .wps-tooltip-icon.info {
   }
 }
 
+.wps-new-table{
+  tbody{
+    tr{
+      td{
+        vertical-align: middle;
+        .wps-referral-link{
+          display: flex;
+          flex-direction: column;
+          gap: 3px;
+          .wps-referral-label{
+            background: #00000005;
+            padding:2px;
+            border-radius:2px;
+            color:#636363;
+            font-size: 9px;
+            font-weight: 400;
+            line-height: 11.97px;
+            text-transform: uppercase;
+            max-width: fit-content;
+            display: inline-block;
+          }
+        }
+      }
+    }
+  }
+}
