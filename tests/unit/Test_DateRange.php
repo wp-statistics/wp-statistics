@@ -37,7 +37,7 @@ class Test_DateRange extends WP_UnitTestCase {
 
         $range = [
             'from'  => date('Y-m-d', strtotime('first day of this month')),
-            'to'    => date('Y-m-d', strtotime('last day of this month - 1 day'))
+            'to'    => date('Y-m-d', strtotime('-1 day', strtotime('last day of this month')))
         ];
         $period = DateRange::get('this_month', true);
         $this->assertEquals($range, $period);
