@@ -24,12 +24,13 @@ class optimization_page extends Singleton
 
         // Add Class inf
         $args['class'] = 'wp-statistics-settings';
+        $args['title'] =  __('Optimization', 'wp-statistics');
 
         // Get List Table
         $args['list_table'] = DB::table('all');
         $args['result']     = DB::getTableRows();
 
-        Admin_Template::get_template(array('layout/header', 'layout/title-after', 'optimization', 'layout/footer'), $args);
+        Admin_Template::get_template(array('layout/header', 'layout/title', 'optimization', 'layout/footer'), $args);
     }
 
     public function processForms()
