@@ -271,11 +271,8 @@ class Query
                 }
 
                 if (!empty($value) && is_array($value) && count($value) == 1) {
-                    if ($operator == 'IN') {
-                        return $this->generateCondition($field, '=', reset($value));
-                    } else {
-                        return $this->generateCondition($field, '!=', reset($value));
-                    }
+                    $operator = ($operator == 'IN') ? '=' : '!=';
+                    return $this->generateCondition($field, $operator, reset($value));
                 }
 
                 if (!empty($value) && is_array($value)) {
