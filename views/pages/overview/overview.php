@@ -14,6 +14,6 @@
 <script type="text/javascript">
     jQuery(document).ready(function () {
         jQuery('.if-js-closed').removeClass('if-js-closed').addClass('closed');
-        postboxes.add_postbox_toggles('<?php echo esc_js($screen_id); ?>');
+        postboxes.add_postbox_toggles('<?php echo esc_js(get_current_screen()->id); ?>');
     });
 </script>
