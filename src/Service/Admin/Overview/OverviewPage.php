@@ -16,12 +16,16 @@ class OverviewPage extends BasePage
         parent::__construct();
     }
 
+    protected function init()
+    {
+        $this->disableScreenOption();
+    }
+
     public function view()
     {
         $args = [
             'title'     => esc_html__('Overview', 'wp-statistics'),
-            'tooltip'   => esc_html__('Quickly view your website’s traffic and visitor analytics.', 'wp-statistics'),
-            'screen_id' => Menus::get_action_menu_slug('overview'),
+            'tooltip'   => esc_html__('Quickly view your website’s traffic and visitor analytics.', 'wp-statistics')
         ];
 
         Admin_Template::get_template(['layout/header', 'layout/title'], $args);

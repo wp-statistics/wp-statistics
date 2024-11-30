@@ -1,10 +1,10 @@
 <div class="metabox-holder" id="overview-widgets">
     <div class="postbox-container" id="wps-postbox-container-1">
-        <?php do_meta_boxes($screen_id, 'side', ''); ?>
+        <?php do_meta_boxes(get_current_screen(), 'side', ''); ?>
     </div>
 
     <div class="postbox-container" id="wps-postbox-container-2">
-        <?php do_meta_boxes($screen_id, 'normal', ''); ?>
+        <?php do_meta_boxes(get_current_screen(), 'normal', ''); ?>
     </div>
 </div>
 
