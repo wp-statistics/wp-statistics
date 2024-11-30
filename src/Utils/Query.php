@@ -270,6 +270,11 @@ class Query
                     $value = explode(',', $value);
                 }
 
+                if (!empty($value) && is_array($value) && count($value) == 1) {
+                    $operator = ($operator == 'IN') ? '=' : '!=';
+                    return $this->generateCondition($field, $operator, reset($value));
+                }
+
                 if (!empty($value) && is_array($value)) {
                     $placeholders = implode(', ', array_fill(0, count($value), '%s'));
                     $condition    = "$field $operator ($placeholders)";
