@@ -24,7 +24,10 @@ class TrafficSummary extends BaseMetabox
     public function getData()
     {
         $output = View::load('metabox/traffic-summary', [], true);
-        wp_send_json($output);
+        wp_send_json([
+            'output'    => $output,
+            'options'   => []
+        ]);
     }
 
     public function render()
