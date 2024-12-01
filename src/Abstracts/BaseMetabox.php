@@ -5,23 +5,14 @@ use Wp_Statistics\Components\Ajax;
 
 abstract class BaseMetabox
 {
-    /**
-     * Returns the key for the metabox (should be unique)
-     * @return string
-     */
-    abstract public function getKey();
+    protected $key;
+    protected $priority;
 
     /**
      * Returns the name of the metabox
      * @return string
      */
     abstract public function getName();
-
-    /**
-     * Returns the priority of the metabox (side, normal, advanced)
-     * @return string
-     */
-    abstract public function getPriority();
 
     /**
      * Returns the data for the metabox
@@ -34,6 +25,24 @@ abstract class BaseMetabox
      * @return void
      */
     abstract public function render();
+
+    /**
+     * Returns the key for the metabox (should be unique)
+     * @return string
+     */
+    public function getKey()
+    {
+        return $this->key;
+    }
+
+    /**
+     * Returns the priority of the metabox (side, normal, advanced)
+     * @return string
+     */
+    public function getPriority()
+    {
+        return $this->priority;
+    }
 
     /**
      * Determines if the metabox is active and should be displayed
