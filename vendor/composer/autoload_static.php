@@ -229,11 +229,13 @@ class ComposerStaticInit0c58b92c1859559503021091c91f6640
         'WP_Statistics\\Service\\Admin\\LicenseManagement\\Views\\LockedRealTimeStatView' => __DIR__ . '/../..' . '/src/Service/Admin/LicenseManagement/Views/LockedRealTimeStatView.php',
         'WP_Statistics\\Service\\Admin\\LicenseManagement\\Views\\TabsView' => __DIR__ . '/../..' . '/src/Service/Admin/LicenseManagement/Views/TabsView.php',
         'WP_Statistics\\Service\\Admin\\Metabox\\MetaboxManager' => __DIR__ . '/../..' . '/src/Service/Admin/Metabox/MetaboxManager.php',
+        'WP_Statistics\\Service\\Admin\\Metabox\\Metaboxes\\TrafficSummary' => __DIR__ . '/../..' . '/src/Service/Admin/Metabox/Metaboxes/TrafficSummary.php',
         'WP_Statistics\\Service\\Admin\\MiniChart\\MiniChartHelper' => __DIR__ . '/../..' . '/src/Service/Admin/MiniChart/MiniChartHelper.php',
         'WP_Statistics\\Service\\Admin\\ModalHandler\\Modal' => __DIR__ . '/../..' . '/src/Service/Admin/ModalHandler/Modal.php',
         'WP_Statistics\\Service\\Admin\\NoticeHandler\\GeneralNotices' => __DIR__ . '/../..' . '/src/Service/Admin/NoticeHandler/GeneralNotices.php',
         'WP_Statistics\\Service\\Admin\\NoticeHandler\\Notice' => __DIR__ . '/../..' . '/src/Service/Admin/NoticeHandler/Notice.php',
         'WP_Statistics\\Service\\Admin\\Overview\\OverviewManager' => __DIR__ . '/../..' . '/src/Service/Admin/Overview/OverviewManager.php',
+        'WP_Statistics\\Service\\Admin\\Overview\\OverviewPage' => __DIR__ . '/../..' . '/src/Service/Admin/Overview/OverviewPage.php',
         'WP_Statistics\\Service\\Admin\\PageInsights\\PageInsightsDataProvider' => __DIR__ . '/../..' . '/src/Service/Admin/PageInsights/PageInsightsDataProvider.php',
         'WP_Statistics\\Service\\Admin\\PageInsights\\PageInsightsManager' => __DIR__ . '/../..' . '/src/Service/Admin/PageInsights/PageInsightsManager.php',
         'WP_Statistics\\Service\\Admin\\PageInsights\\PageInsightsPage' => __DIR__ . '/../..' . '/src/Service/Admin/PageInsights/PageInsightsPage.php',
@@ -308,6 +310,7 @@ class ComposerStaticInit0c58b92c1859559503021091c91f6640
         'WP_Statistics\\Utils\\Request' => __DIR__ . '/../..' . '/src/Utils/Request.php',
         'WP_Statistics\\Utils\\Signature' => __DIR__ . '/../..' . '/src/Utils/Signature.php',
         'WP_Statistics\\Utils\\Url' => __DIR__ . '/../..' . '/src/Utils/Url.php',
+        'Wp_Statistics\\Components\\Ajax' => __DIR__ . '/../..' . '/src/Components/Ajax.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
