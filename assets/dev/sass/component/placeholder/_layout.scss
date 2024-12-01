@@ -1,11 +1,6 @@
 @use 'sass:math';
 
 .wps-ph-item {
-  &, *,
-  ::after, ::before {
-    box-sizing: border-box;
-  }
-
   position: relative;
   display: flex;
   flex-wrap: wrap;
@@ -13,9 +8,16 @@
   overflow: hidden;
   //margin-bottom: $ph-gutter;
   background-color: $ph-bg;
- // border: 1px solid darken($ph-bg, 10%);
+  // border: 1px solid darken($ph-bg, 10%);
   //border-radius: $ph-border-radius;
   direction: ltr;
+
+  &, *,
+  ::after, ::before {
+    box-sizing: border-box;
+  }
+
+
 
   &::before {
     content: " ";
