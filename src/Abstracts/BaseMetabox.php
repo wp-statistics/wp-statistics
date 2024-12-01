@@ -31,9 +31,9 @@ abstract class BaseMetabox
 
     /**
      * Renders the metabox output
-     * @return string
+     * @return void
      */
-    abstract public function render($data);
+    abstract public function render();
 
     /**
      * Determines if the metabox is active and should be displayed
@@ -46,6 +46,7 @@ abstract class BaseMetabox
 
     /**
      * Returns the screens the metabox is active on
+     * @todo get overview screen id dynamically
      * @return array
      */
     public function getScreen()

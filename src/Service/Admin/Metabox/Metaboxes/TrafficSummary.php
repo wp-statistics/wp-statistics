@@ -2,6 +2,7 @@
 namespace WP_Statistics\Service\Admin\Metabox\Metaboxes;
 
 use WP_Statistics\Abstracts\BaseMetabox;
+use WP_Statistics\Components\View;
 
 class TrafficSummary extends BaseMetabox
 {
@@ -22,10 +23,11 @@ class TrafficSummary extends BaseMetabox
 
     public function getData()
     {
-        wp_send_json('TEST');
+        $output = View::load('metabox/traffic-summary', [], true);
+        wp_send_json($output);
     }
 
-    public function render($data = [])
+    public function render()
     {
         echo 'TEST';
     }
