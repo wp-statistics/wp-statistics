@@ -22,11 +22,11 @@ class TrafficSummary extends BaseMetabox
 
     public function getData()
     {
-        return [];
+        wp_send_json('TEST');
     }
 
     public function render($data = [])
     {
-        return 'TEST OUTPUT';
+        echo 'TEST';
     }
 }
