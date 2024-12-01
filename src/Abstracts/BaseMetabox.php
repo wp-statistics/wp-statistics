@@ -1,7 +1,7 @@
 <?php
 namespace WP_Statistics\Abstracts;
 
-use WP_Statistics\Service\Admin\Overview\OverviewPage;
+use Wp_Statistics\Components\Ajax;
 
 abstract class BaseMetabox
 {
@@ -25,7 +25,7 @@ abstract class BaseMetabox
 
     /**
      * Returns the data for the metabox
-     * @return array
+     * @return void
      */
     abstract public function getData();
 
@@ -51,5 +51,18 @@ abstract class BaseMetabox
     public function getScreen()
     {
         return ['statistics_page_wps_overview-new_page', 'dashboard'];
+    }
+
+    /**
+     * Registers the metabox
+     *
+     * Registers the metabox with the admin and hooks into the WordPress AJAX handler
+     *
+     * @return void
+     */
+    public function register()
+    {
+        Ajax::register($this->getKey() . '_metabox_get_data', [$this, 'getData'], false);
+        add_meta_box($this->getKey(), $this->getName(), [$this, 'render'], $this->getScreen(), $this->getPriority());
     }
 }

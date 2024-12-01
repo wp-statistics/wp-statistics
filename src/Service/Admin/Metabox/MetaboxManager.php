@@ -40,7 +40,7 @@ class MetaboxManager
             // Skip inactive metaboxes
             if (!$metabox->isActive()) continue;
 
-            add_meta_box($metabox->getKey(), $metabox->getName(), [$metabox, 'render'], $metabox->getScreen(), $metabox->getPriority());
+            $metabox->register();
         }
     }
 }
