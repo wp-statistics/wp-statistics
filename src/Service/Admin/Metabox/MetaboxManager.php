@@ -6,6 +6,10 @@ use WP_Statistics\Service\Admin\Metabox\Metaboxes\TrafficSummary;
 
 class MetaboxManager
 {
+    public $metaboxes = [
+        TrafficSummary::class
+    ];
+
     public function __construct()
     {
         add_action('admin_init', [$this, 'registerMetaboxes']);
@@ -18,11 +22,7 @@ class MetaboxManager
      */
     public function getMetaboxes()
     {
-        $metaboxes = [
-            TrafficSummary::class
-        ];
-
-        return apply_filters('wp_statistics_metabox_list', $metaboxes);
+        return apply_filters('wp_statistics_metabox_list', $this->metaboxes);
     }
 
     /**
@@ -35,6 +35,8 @@ class MetaboxManager
         $metaboxes = $this->getMetaboxes();
 
         foreach ($metaboxes as $metabox) {
+            if (!class_exists($metabox)) continue;
+
             $metabox = new $metabox();
 
             // Skip inactive metaboxes
