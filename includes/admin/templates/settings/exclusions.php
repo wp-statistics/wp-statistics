@@ -94,21 +94,23 @@ use WP_Statistics\Service\Admin\NoticeHandler\Notice;
                 Notice::renderNotice( 
                     sprintf(
                         wp_kses(
-                            /* translators: %1$s: opening strong tag, %2$s: closing strong tag, %3$s: Learn more link */
-                            esc_html__('The WP Statistics %1$sHoney Pot Trap Page%2$s option will be removed in version 14.13. %3$s', 'wp-statistics'),
-                            [
+                            /* translators: %1$s: opening strong tag, %2$s: closing strong tag, %3$s: opening link tag, %4$s: Learn more text, %5$s: closing link tag */
+                            esc_html__('The WP Statistics %1$sHoney Pot Trap Page%2$s option will be removed in version 14.13. %3$s%4$s%5$s.', 'wp-statistics'),
+                           [
                                 'strong' => [],
                                 'a' => [
                                     'href' => [],
                                     'target' => [],
                                 ],
-                            ]
+                           ]
                         ),
                         '<strong>',
                         '</strong>',
-                        '<a href="https://wp-statistics.com/resources/deprecating-the-honey-pot-trap-page-option/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" target="_blank">Learn more</a>'
+                        '<a href="https://wp-statistics.com/resources/deprecating-the-honey-pot-trap-page-option/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" target="_blank">',
+                        esc_html__( 'Learn more', 'wp-statistics' ),
+                        '</a>'
                     ),
-                    'deprecated_honeypot',
+                    'id',
                     'warning'
                 );
             }
