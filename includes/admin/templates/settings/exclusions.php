@@ -110,7 +110,7 @@ use WP_Statistics\Service\Admin\NoticeHandler\Notice;
                         esc_html__( 'Learn more', 'wp-statistics' ),
                         '</a>'
                     ),
-                    'id',
+                    'deprecated_honeypot',
                     'warning'
                 );
             }
