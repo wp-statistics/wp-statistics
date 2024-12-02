@@ -18,7 +18,7 @@ class TrafficSummary extends BaseMetabox
     {
         return [
             'datepicker'    => true,
-            'button'        => true
+            'button'        => View::load('metabox/action-button',['link'=>'/','title'=>'more'],true)
         ];
     }
 

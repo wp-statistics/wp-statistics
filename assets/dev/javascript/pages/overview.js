@@ -65,6 +65,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
 
         const key = 'traffic_summary';
         let html = '<div class="c-footer"><div class="c-footer__filter js-widget-filters">';
+        if (response.options && response.options.datepicker) {
         html += `
             <button class="c-footer__filter__btn js-filters-toggle">` + wps_js._('str_30days') + `</button>
             <div class="c-footer__filters">
@@ -91,12 +92,13 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                     <input type="text" class="c-footer__filters__custom-date-input js-datepicker-input"/>
                     <button data-metabox-key="${key}" data-filter="custom" class="c-footer__filters__list-item c-footer__filters__list-item--custom js-custom-datepicker">` + wps_js._('str_custom') + `</button>
                 </div>
-            </div>
-        </div>`;
-
-        html += `<div class="c-footer__more">`;
-        html += `<a class="c-footer__more__link" href="` + response.page_url + `">more<svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10.4191 7.98577L7.73705 5.22727L8.44415 4.5L12.3333 8.50003L8.44415 12.5L7.73705 11.7727L10.4191 9.01429H4.33325V7.98577H10.4191Z" fill="#56585A"/></svg></a>`;
-        html += `</div></div></div>`;
+            </div> `;
+        }
+        html += `</div>`;
+        if (response.options && response.options.button) {
+            html += response.options.button;
+         }
+         html += `</div></div>`;
 
         metaBoxInner.append(html);
     }
