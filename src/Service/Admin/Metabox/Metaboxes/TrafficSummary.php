@@ -25,6 +25,6 @@ class TrafficSummary extends BaseMetabox
 
     public function render()
     {
-        echo View::load('metabox/metabox-skeleton', [], true);
+        View::load('metabox/metabox-skeleton', []);
     }
 }
