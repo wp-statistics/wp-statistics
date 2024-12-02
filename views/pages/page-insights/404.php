@@ -8,7 +8,7 @@ use WP_Statistics\Components\View;
             <div class="postbox">
                 <?php
                 View::load("components/tables/404", [
-                    'data'       => [],
+                    'data'       => $data,
                     'pagination' => $pagination
                 ]);
                 ?>

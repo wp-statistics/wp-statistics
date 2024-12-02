@@ -384,4 +384,43 @@ class PostsModel extends BaseModel
 
         return $result;
     }
+
+    public function get404Data($args = [])
+    {
+        $args = $this->parseArgs($args, [
+            'date'          => '',
+            'order_by'      => 'views',
+            'order'         => 'DESC',
+            'page'          => 1,
+            'per_page'      => 10,
+        ]);
+
+        $result = Query::select(['uri', 'COUNT(uri) AS views'])
+            ->from('pages')
+            ->where('type', '=', '404')
+            ->whereDate('pages.date', $args['date'])
+            ->groupBy('uri')
+            ->orderBy($args['order_by'], $args['order'])
+            ->perPage($args['page'], $args['per_page'])
+            ->getAll();
+
+        return $result;
+    }
+
+    public function count404Data($args = [])
+    {
+        $args = $this->parseArgs($args, [
+            'date'          => '',
+            'page'          => 1,
+            'per_page'      => 10,
+        ]);
+
+        $result = Query::select(['COUNT(DISTINCT uri)'])
+            ->from('pages')
+            ->where('type', '=', '404')
+            ->whereDate('pages.date', $args['date'])
+            ->getVar();
+
+        return $result;
+    }
 }
