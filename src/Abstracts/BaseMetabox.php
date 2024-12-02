@@ -79,6 +79,24 @@ abstract class BaseMetabox
         return ['statistics_page_wps_overview-new_page', 'dashboard'];
     }
 
+
+    /**
+     * Sends a JSON response with the given data and options
+     *
+     * @param mixed $data The data to be sent
+     *
+     * @return void
+     */
+    public function sendResponse($data)
+    {
+        $response = [
+            'output'    => $data,
+            'options'   => $this->getOptions()
+        ];
+
+        wp_send_json($response);
+    }
+
     /**
      * Registers the metabox
      *
@@ -88,7 +106,7 @@ abstract class BaseMetabox
      */
     public function register()
     {
-        Ajax::register($this->getKey() . '_metabox_get_data', [$this, 'getData'], false);
+        Ajax::register($this->getKey() . '_metabox_get_data', [$this, 'getResponse'], false);
         add_meta_box($this->getKey(), $this->getName(), [$this, 'render'], $this->getScreen(), $this->getPriority());
     }
 }
