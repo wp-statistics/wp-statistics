@@ -106,7 +106,7 @@ abstract class BaseMetabox
      */
     public function register()
     {
-        Ajax::register($this->getKey() . '_metabox_get_data', [$this, 'getResponse'], false);
+        Ajax::register($this->getKey() . '_metabox_get_data', [$this, 'getData'], false);
         add_meta_box($this->getKey(), $this->getName(), [$this, 'render'], $this->getScreen(), $this->getPriority());
     }
 }
