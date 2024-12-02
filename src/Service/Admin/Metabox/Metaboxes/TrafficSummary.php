@@ -1,8 +1,8 @@
 <?php
 namespace WP_Statistics\Service\Admin\Metabox\Metaboxes;
 
-use WP_Statistics\Abstracts\BaseMetabox;
 use WP_Statistics\Components\View;
+use WP_Statistics\Abstracts\BaseMetabox;
 
 class TrafficSummary extends BaseMetabox
 {
@@ -14,12 +14,27 @@ class TrafficSummary extends BaseMetabox
         return esc_html__('Traffic Summary', 'wp-statistics');
     }
 
+    public function getOptions()
+    {
+        return [
+            'datepicker'    => true,
+            'button'        => true
+        ];
+    }
+
     public function getData()
     {
-        $output = View::load('metabox/traffic-summary', [], true);
+        $args = [
+            'ignore_date' => true
+        ];
+
+        $data = $this->dataProvider->getTrafficSummaryData($args);
+
+        $output = View::load('metabox/traffic-summary', ['data' => $data], true);
+
         wp_send_json([
             'output'    => $output,
-            'options'   => []
+            'options'   => $this->getOptions()
         ]);
     }
 
