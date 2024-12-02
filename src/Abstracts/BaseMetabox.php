@@ -2,11 +2,18 @@
 namespace WP_Statistics\Abstracts;
 
 use Wp_Statistics\Components\Ajax;
+use WP_Statistics\Service\Admin\Metabox\MetaboxDataProvider;
 
 abstract class BaseMetabox
 {
     protected $key;
     protected $priority;
+    protected $dataProvider;
+
+    public function __construct()
+    {
+        $this->dataProvider = new MetaboxDataProvider();
+    }
 
     /**
      * Returns the name of the metabox
@@ -42,6 +49,15 @@ abstract class BaseMetabox
     public function getPriority()
     {
         return $this->priority;
+    }
+
+    /**
+     * Returns the options of the metabox (datepicker, button, etc.)
+     * @return array
+     */
+    public function getOptions()
+    {
+        return [];
     }
 
     /**
