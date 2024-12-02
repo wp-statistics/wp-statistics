@@ -588,7 +588,12 @@ const externalTooltipHandler = (context, dataset, colors, data, unitTime, dateLa
             if (data?.previousData && metaPrevious && !chart.getDatasetMeta(chart.data.datasets.indexOf(metaPrevious)).hidden) {
 
                 const previousDataset = data.previousData.datasets.find(prev => prev.label === dataset.label.replace(' (Previous)', ''));
-                if (previousDataset !== undefined && previousDataset !== '' && previousDataset.data && !isPrevious) {
+
+                // Check if previous period is globally hidden
+                const previousPeriodElement = document.querySelector('.wps-postbox-chart--previousPeriod');
+                const isPreviousHidden = previousPeriodElement && previousPeriodElement.classList.contains('wps-line-through');
+
+                if (previousDataset !== undefined && previousDataset !== '' && previousDataset.data && !isPrevious && !isPreviousHidden) {
                     let previousValue = previousDataset.data[dataIndex];
                     const previousLabel = data.previousData.labels[dataIndex].date;
                     innerHtml += `
@@ -913,6 +918,7 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
             },
             y: {
                 min: 0,
+                suggestedMax: 4,
                 ticks: {
                     maxTicksLimit: isInsideDashboardWidgets ? 4 : 7,
                     fontColor: '#898A8E',
@@ -1035,8 +1041,8 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
                 if (b.label === 'Total (Previous)') return 1;
                 return 0;
             });
-            const previousPeriod = document.querySelectorAll('.wps-postbox-chart--previousPeriod');
-            if (previousPeriod.length > 0) {
+            const previousPeriod = chartElement.parentElement.parentElement.querySelector('.wps-postbox-chart--previousPeriod');
+            if (previousPeriod) {
                 let foundPrevious = false;
 
                 datasets.forEach((dataset) => {
@@ -1046,8 +1052,29 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
                 });
 
                 if (foundPrevious) {
-                    previousPeriod.forEach((element) => {
-                        element.style.display = 'flex';
+                    previousPeriod.style.display = 'flex';
+                    previousPeriod.style.cursor = 'pointer';
+                    previousPeriod.addEventListener('click', function() {
+                        const isPreviousHidden = previousPeriod.classList.contains('wps-line-through');
+                        previousPeriod.classList.toggle('wps-line-through');
+                        
+                        datasets.forEach((dataset, datasetIndex) => {
+                            if (dataset.label.includes('(Previous)')) {
+                                const meta = lineChart.getDatasetMeta(datasetIndex);
+                                meta.hidden = !isPreviousHidden;
+                            }
+                        });
+                        
+                        const previousDataElements = legendContainer.querySelectorAll('.previous-data');
+                        previousDataElements.forEach(elem => {
+                            if (isPreviousHidden) {
+                                elem.classList.remove('wps-line-through');
+                             } else {
+                                elem.classList.add('wps-line-through');
+                             }
+                        });
+                        
+                        lineChart.update();
                     });
                 }
             }
@@ -1117,6 +1144,22 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
                                 const metaPreviousVisibility = lineChart.getDatasetMeta(metaPreviousIndex);
                                 metaPreviousVisibility.hidden = !metaPreviousVisibility.hidden;
                                 previousDataDiv.classList.toggle('wps-line-through');
+                                
+                                // Check if all previous-data elements have wps-line-through class
+                                const allPreviousData = legendContainer.querySelectorAll('.previous-data');
+                                const allHaveLineThrough = Array.from(allPreviousData).every(el => 
+                                    el.classList.contains('wps-line-through')
+                                );
+                                
+                                // Update the Previous period button class accordingly
+                                if (previousPeriod) {
+                                    if (allHaveLineThrough) {
+                                        previousPeriod.classList.add('wps-line-through');
+                                    } else {
+                                        previousPeriod.classList.remove('wps-line-through');
+                                    }
+                                }
+                                
                                 lineChart.update();
                             }
                         });

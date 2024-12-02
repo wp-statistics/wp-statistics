@@ -519,14 +519,14 @@
           &:first-child {
             color: #0C0C0D;
             font-weight: 500;
-            line-height: 17px;
+            line-height: 16.41px;
 
             .wps-postbox-chart--item--color {
               display: inline-flex;
               width: 6px;
               height: 0;
-              border: 2px solid;
-              border-radius: 3px;
+              border: 3px solid;
+              border-radius: 3px
             }
           }
 
@@ -543,8 +543,8 @@
               display: inline-flex;
               width: 3px;
               height: 0;
-              border: 2px solid;
-              border-radius: 3px;
+              border: 2px dashed;
+              border-radius: 2px;
             }
           }
         }
@@ -623,12 +623,6 @@
     padding: 8px;
     position: relative;
 
-    &:hover {
-      .wps-horizontal-bar__label, .wps-horizontal-bar__data span {
-        font-weight: 500 !important;
-        color: #0c0c0d;
-      }
-    }
 
     &:first-child {
       .wps-horizontal-bar__label-image-container {
@@ -707,10 +701,12 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      max-width: 110px;
+      max-width: 143px;
     }
   }
 }
+
+
 
 #wp-statistics-browsers-widget,
 #wp-statistics-platforms-widget,
@@ -724,10 +720,18 @@
 .wps-line-through {
   text-decoration: line-through;
   color: #A9AAAE !important;
-
   span.wps-postbox-chart--item--color {
     border-color: #DADCE0 !important;
   }
+
+  &.previous-data{
+    color: #898A8E !important;
+    span.wps-postbox-chart--item--color {
+      border-color: #898A8E !important;
+    }
+  }
+
+
 }
 
 .wps-gutenberg {
