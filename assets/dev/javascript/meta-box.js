@@ -372,11 +372,11 @@ jQuery(document).on("click", 'button[data-filter]:not(.c-footer__filters__list-i
     wps_js.run_meta_box(jQuery(this).attr('data-metabox-key'), {'ago': jQuery(this).attr('data-filter')});
 });
 
-jQuery(document).on("click", 'button[data-filter="custom"]', function () {
-    const metaBoxKey = jQuery(this).attr('data-metabox-key');
-    const datePickerElement = jQuery(wps_js.meta_box_inner(metaBoxKey)).find('.js-datepicker-input').first();
-    datePickerElement.data('daterangepicker').show();
-});
+// jQuery(document).on("click", 'button[data-filter="custom"]', function () {
+//     const metaBoxKey = jQuery(this).attr('data-metabox-key');
+//     const datePickerElement = jQuery(wps_js.meta_box_inner(metaBoxKey)).find('.js-datepicker-input').first();
+//     datePickerElement.data('daterangepicker').show();
+// });
 
 /**
  * Disable Close WordPress Post ox for Meta Box Button
