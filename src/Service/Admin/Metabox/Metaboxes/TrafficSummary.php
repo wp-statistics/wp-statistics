@@ -6,19 +6,12 @@ use WP_Statistics\Components\View;
 
 class TrafficSummary extends BaseMetabox
 {
-    public function getKey()
-    {
-        return 'traffic_summary';
-    }
+    protected $key = 'traffic_summary';
+    protected $priority = 'side';
 
     public function getName()
     {
         return esc_html__('Traffic Summary', 'wp-statistics');
-    }
-
-    public function getPriority()
-    {
-        return 'side';
     }
 
     public function getData()

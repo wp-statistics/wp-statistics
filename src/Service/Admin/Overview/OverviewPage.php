@@ -16,11 +16,6 @@ class OverviewPage extends BasePage
         parent::__construct();
     }
 
-    protected function init()
-    {
-        $this->disableScreenOption();
-    }
-
     public function view()
     {
         $args = [
