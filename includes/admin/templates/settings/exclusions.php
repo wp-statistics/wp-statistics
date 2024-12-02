@@ -1,3 +1,6 @@
+<?php
+use WP_Statistics\Service\Admin\NoticeHandler\Notice;
+?>
 <div class="postbox">
     <table class="form-table">
         <tbody>
@@ -84,11 +87,36 @@
                 <p class="description"><?php echo esc_html__('Set a threshold for daily robot visits. Robots exceeding this number daily will be identified as bots.', 'wp-statistics'); ?></p>
             </td>
         </tr>
+        <?php
+            $useHoneypot = ! empty(WP_STATISTICS\Option::get('use_honeypot'));
 
+            if ($useHoneypot) {
+                Notice::renderNotice( 
+                    sprintf(
+                        wp_kses(
+                            /* translators: %1$s: opening strong tag, %2$s: closing strong tag, %3$s: Learn more link */
+                            esc_html__('The WP Statistics %1$sHoney Pot Trap Page%2$s option will be removed in version 14.13. %3$s', 'wp-statistics'),
+                            [
+                                'strong' => [],
+                                'a' => [
+                                    'href' => [],
+                                    'target' => [],
+                                ],
+                            ]
+                        ),
+                        '<strong>',
+                        '</strong>',
+                        '<a href="https://wp-statistics.com/resources/deprecating-the-honey-pot-trap-page-option/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" target="_blank">Learn more</a>'
+                    ),
+                    'deprecated_honeypot',
+                    'warning'
+                );
+            }
+        ?>
         <tr valign="top">
             <th scope="row"><label for="use_honeypot"><?php esc_html_e('Activate Honey Pot Protection', 'wp-statistics'); ?></label></th>
             <td>
-                <input id="use_honeypot" type="checkbox" value="1" name="wps_use_honeypot" <?php echo WP_STATISTICS\Option::get('use_honeypot') == true ? "checked='checked'" : ''; ?>><label for="wps_use_honeypot"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
+                <input id="use_honeypot" type="checkbox" value="1" name="wps_use_honeypot" <?php checked($useHoneypot, true); ?>><label for="wps_use_honeypot"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
                 <p class="description"><?php echo esc_html__('Turn on Honey Pot to detect and filter out bots. This adds a hidden trap for malicious automated scripts.', 'wp-statistics'); ?></p>
             </td>
         </tr>
