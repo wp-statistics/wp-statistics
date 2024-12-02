@@ -2,11 +2,18 @@
 namespace WP_Statistics\Abstracts;
 
 use Wp_Statistics\Components\Ajax;
+use WP_Statistics\Service\Admin\Metabox\MetaboxDataProvider;
 
 abstract class BaseMetabox
 {
     protected $key;
     protected $priority;
+    protected $dataProvider;
+
+    public function __construct()
+    {
+        $this->dataProvider = new MetaboxDataProvider();
+    }
 
     /**
      * Returns the name of the metabox
@@ -45,6 +52,15 @@ abstract class BaseMetabox
     }
 
     /**
+     * Returns the options of the metabox (datepicker, button, etc.)
+     * @return array
+     */
+    public function getOptions()
+    {
+        return [];
+    }
+
+    /**
      * Determines if the metabox is active and should be displayed
      * @return bool
      */
@@ -61,6 +77,24 @@ abstract class BaseMetabox
     public function getScreen()
     {
         return ['statistics_page_wps_overview-new_page', 'dashboard'];
+    }
+
+
+    /**
+     * Sends a JSON response with the given data and options
+     *
+     * @param mixed $data The data to be sent
+     *
+     * @return void
+     */
+    public function sendResponse($data)
+    {
+        $response = [
+            'output'    => $data,
+            'options'   => $this->getOptions()
+        ];
+
+        wp_send_json($response);
     }
 
     /**

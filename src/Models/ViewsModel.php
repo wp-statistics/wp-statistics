@@ -144,9 +144,11 @@ class ViewsModel extends BaseModel
 
     public function getViewsSummary($args = [])
     {
-        $result = $this->countDailyViews(array_merge($args, [
-            'date' => DateRange::get('this_year')
-        ]));
+        if (empty($args['ignore_date'])) {
+            $args = array_merge($args, ['date' => DateRange::get('this_year')]);
+        }
+
+        $result = $this->countDailyViews($args);
 
         $summary = [
             'today'      => ['label' => esc_html__('Today', 'wp-statistics'), 'views' => 0],
@@ -161,6 +163,10 @@ class ViewsModel extends BaseModel
             '6months'    => ['label' => esc_html__('Last 6 Months', 'wp-statistics'), 'views' => 0],
             'this_year'  => ['label' => esc_html__('This year (Jan - Today)', 'wp-statistics'), 'views' => 0],
         ];
+
+        if (!empty($args['ignore_date'])) {
+            $summary['total'] = ['label' => esc_html__('Total', 'wp-statistics'), 'views' => 0];
+        }
 
         foreach ($result as $record) {
             $date   = $record->date;
@@ -208,6 +214,10 @@ class ViewsModel extends BaseModel
 
             if (DateRange::compare($date, 'in', 'this_year')) {
                 $summary['this_year']['views'] += $views;
+            }
+
+            if (!empty($args['ignore_date'])) {
+                $summary['total']['views'] += $views;
             }
         }
 

@@ -262,12 +262,11 @@ class VisitorsModel extends BaseModel
 
     public function getVisitorsSummary($args = [])
     {
-        $result = $this->countDailyVisitors(array_merge(
-            $args,
-            [
-                'date' => DateRange::get('this_year'),
-            ]
-        ));
+        if (empty($args['ignore_date'])) {
+            $args = array_merge($args, ['date' => DateRange::get('this_year')]);
+        }
+
+        $result = $this->countDailyVisitors($args);
 
         $summary = [
             'today'      => ['label' => esc_html__('Today', 'wp-statistics'), 'visitors' => 0],
@@ -282,6 +281,10 @@ class VisitorsModel extends BaseModel
             '6months'    => ['label' => esc_html__('Last 6 Months', 'wp-statistics'), 'visitors' => 0],
             'this_year'  => ['label' => esc_html__('This year (Jan - Today)', 'wp-statistics'), 'visitors' => 0],
         ];
+
+        if (!empty($args['ignore_date'])) {
+            $summary['total'] = ['label' => esc_html__('Total', 'wp-statistics'), 'visitors' => 0];
+        }
 
         foreach ($result as $record) {
             $date     = $record->date;
@@ -329,6 +332,10 @@ class VisitorsModel extends BaseModel
 
             if (DateRange::compare($date, 'in', 'this_year')) {
                 $summary['this_year']['visitors'] += $visitors;
+            }
+
+            if (!empty($args['ignore_date'])) {
+                $summary['total']['visitors'] += $visitors;
             }
         }
 
