@@ -90,13 +90,14 @@ abstract class BaseMetabox
     {
         $options = $this->getOptions();
 
-        if (!empty($options['datepicker'])) {
-            $range = [
-                'from'  => Request::get('from'),
-                'to'    => Request::get('to')
+        if (!empty($options['datepicker']) && Request::has('from') && Request::has('to')) {
+            $args = [
+                'filter'    => Request::get('date_filter'),
+                'from'      => Request::get('from'),
+                'to'        => Request::get('to')
             ];
 
-            User::saveDefaultDateFilter($this->getKey(), $range);
+            User::saveDefaultDateFilter($this->getKey(), $args);
         }
     }
 

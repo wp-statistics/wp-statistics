@@ -223,14 +223,15 @@ class User
     {
         $dateFilters = self::getMeta(self::$dateFilterMetaKey, true);
 
-        if (empty($dateFilters)) {
-            $dateFilters = [];
-        }
+        // Return default date filter
+        if (empty($dateFilters) || empty($dateFilters[$metaKey])) {
+            $range = DateRange::get(DateRange::$defaultPeriod);
 
-        if (empty($dateFilters[$metaKey])) {
             return [
                 'type'   => 'filter',
-                'filter' => DateRange::$defaultPeriod
+                'filter' => DateRange::$defaultPeriod,
+                'from'   => $range['from'],
+                'to'     => $range['to']
             ];
         }
 
@@ -239,12 +240,17 @@ class User
 
         if ($filterType === 'custom') {
             [$from, $to] = explode(':', $dateFilter);
-            $dateFilter  = ['from' => $from, 'to' => $to];
+        } elseif ($filterType === 'filter') {
+            $range = DateRange::get($dateFilter);
+            $from  = $range['from'];
+            $to    = $range['to'];
         }
 
         return [
-            'type'   => $filterType,
-            'filter' => $dateFilter
+            'type'      => $filterType,
+            'filter'    => $dateFilter,
+            'from'      => $from,
+            'to'        => $to
         ];
     }
 
@@ -255,10 +261,10 @@ class User
      * @param $value
      * @return void
      */
-    public static function saveDefaultDateFilter($metaKey, $range)
+    public static function saveDefaultDateFilter($metaKey, $args)
     {
-        // Return early if from and to is not set
-        if (!isset($range['from'], $range['to'])) {
+        // Return early if necessary fields are not set
+        if (!isset($args['filter'], $args['from'], $args['to'])) {
             return;
         }
 
@@ -271,16 +277,13 @@ class User
         }
 
         // Get period from range
-        $period = DateRange::getPeriodFromRange([
-            'from' => $range['from'],
-            'to'   => $range['to']
-        ]);
+        $period = DateRange::get($args['filter']);
 
         // Store date in the database depending on wether the period exists or not
         if (!empty($period)) {
-            $value = "filter|$period";
+            $value = "filter|{$args['filter']}";
         } else {
-            $value = "custom|{$range['from']}:{$range['to']}";
+            $value = "custom|{$args['from']}:{$args['to']}";
         }
 
         // Update meta value
