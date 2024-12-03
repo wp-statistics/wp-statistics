@@ -2,6 +2,8 @@
 
 namespace WP_STATISTICS;
 
+use WP_Statistics\Components\DateRange;
+
 class User
 {
     /**
@@ -215,24 +217,35 @@ class User
      * Get Date Filter
      *
      * @param $metaKey
-     * @param $defaultValue
      * @return mixed
      */
-    public static function getDefaultDateFilter($metaKey, $defaultValue)
+    public static function getDefaultDateFilter($metaKey)
     {
-        // get user id
-        $userID = self::get_user_id();
+        $dateFilters = self::getMeta(self::$dateFilterMetaKey, true);
 
-        // check user id
-        if (empty($userID)) {
-            return $defaultValue;
+        if (empty($dateFilters)) {
+            $dateFilters = [];
         }
 
-        // get meta
-        $meta = get_user_meta($userID, self::$dateFilterMetaKey, true);
+        if (empty($dateFilters[$metaKey])) {
+            return [
+                'type'   => 'filter',
+                'filter' => DateRange::$defaultPeriod
+            ];
+        }
 
-        // return
-        return !empty($meta[$metaKey]) ? $meta[$metaKey] : $defaultValue;
+        $dateFilter = $dateFilters[$metaKey];
+        [$filterType, $dateFilter] = explode('|', $dateFilter);
+
+        if ($filterType === 'custom') {
+            [$from, $to] = explode(':', $dateFilter);
+            $dateFilter  = ['from' => $from, 'to' => $to];
+        }
+
+        return [
+            'type'   => $filterType,
+            'filter' => $dateFilter
+        ];
     }
 
     /**
@@ -242,50 +255,37 @@ class User
      * @param $value
      * @return void
      */
-    public static function saveDefaultDateFilter($metaKey, $defaults)
+    public static function saveDefaultDateFilter($metaKey, $range)
     {
-        // get user id
-        $userID = self::get_user_id();
-
-        // check user id
-        if (empty($userID)) {
+        // Return early if from and to is not set
+        if (!isset($range['from'], $range['to'])) {
             return;
         }
 
-        // check defaults
-        if (empty($defaults)) {
-            return;
+        // Get metaboxes date filters
+        $dateFilters = self::getMeta(self::$dateFilterMetaKey, true);
+
+        // Check if date filters is empty, use default array
+        if (empty($dateFilters)) {
+            $dateFilters = [];
         }
 
-        // check if type and filter exists
-        if (!isset($defaults['type']) or !isset($defaults['filter'])) {
-            return;
+        // Get period from range
+        $period = DateRange::getPeriodFromRange([
+            'from' => $range['from'],
+            'to'   => $range['to']
+        ]);
+
+        // Store date in the database depending on wether the period exists or not
+        if (!empty($period)) {
+            $value = "filter|$period";
+        } else {
+            $value = "custom|{$range['from']}:{$range['to']}";
         }
 
-        // check type
-        if ($defaults['type'] == 'ago') {
-            return;;
-        }
-
-        // get meta
-        $meta = get_user_meta($userID, self::$dateFilterMetaKey, true);
-
-        // check meta
-        if (empty($meta)) {
-            $meta = array();
-        }
-
-        // prepare value
-        $value = $defaults['type'] . '|' . $defaults['filter'];
-        if ($defaults['filter'] == 'custom') {
-            $value .= ':' . $defaults['from'] . ':' . $defaults['to'];
-        }
-
-        // update meta value
-        $meta[$metaKey] = sanitize_text_field($value);
-
-        // save meta
-        update_user_meta($userID, self::$dateFilterMetaKey, $meta);
+        // Update meta value
+        $dateFilters[$metaKey] = sanitize_text_field($value);
+        self::saveMeta(self::$dateFilterMetaKey, $dateFilters);
     }
 
     /**
