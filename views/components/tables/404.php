@@ -8,7 +8,7 @@ $order = Request::get('order', 'desc');
 <div class="inside">
     <?php if (!empty($data['data'])) : ?>
         <div class="o-table-wrapper">
-            <table width="100%" class="o-table wps-new-table">
+            <table width="100%" class="o-table wps-new-table wps-new-table--404">
                 <thead>
                     <tr>
                         <th class="wps-pd-l">
@@ -26,7 +26,7 @@ $order = Request::get('order', 'desc');
                     <?php foreach ($data['data'] as $item) : ?>
                         <tr>
                             <td class="wps-pd-l">
-                                <span><?php echo esc_html($item->uri) ?></span>
+                                <span title="<?php echo esc_html($item->uri) ?>"><?php echo esc_html($item->uri) ?></span>
                             </td>
 
                             <td class="wps-pd-l"><?php echo esc_html($item->views) ?></td>

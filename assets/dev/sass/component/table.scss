@@ -306,6 +306,20 @@ td .wps-tooltip-icon.info {
 }
 
 .wps-new-table{
+
+  &--404{
+    tbody{
+      tr{
+        td:first-child span{
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          max-width: 900px;
+          display: block;
+        }
+      }
+    }
+  }
   tbody{
     tr{
       td{
