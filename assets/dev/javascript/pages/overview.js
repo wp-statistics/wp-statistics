@@ -9,29 +9,20 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         return error;
     };
 
-    function loadTrafficData(startDate = null, endDate = null, filterType = null) {
+    function loadTrafficData(startDate = null, endDate = null, date_filter = null) {
         return new Promise((resolve, reject) => {
             let data = {
                 'action': 'wp_statistics_traffic_summary_metabox_get_data',
                 'wps_nonce': wps_js.global.rest_api_nonce
             };
 
-            // not on initial load or reload
-            if (filterType) {
-                data.filter_type = filterType;
+            if (date_filter) {
+                data.date_filter = date_filter;
             }
 
-            // Send period and prev_period when dates are provided 
             if (startDate && endDate) {
-                data.period = {
-                    'from': startDate,
-                    'to': endDate
-                };
-                const duration = moment(endDate).diff(moment(startDate), 'days');
-                data.prev_period = {
-                    'from': moment(startDate).subtract(duration + 1, 'days').format('YYYY-MM-DD'),
-                    'to': moment(startDate).subtract(1, 'days').format('YYYY-MM-DD')
-                };
+                data.from = startDate;
+                data.to = endDate;
             }
 
             wps_js.traffic_data_success = function(data) {
@@ -55,10 +46,10 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         });
     }
 
-    function updateTrafficData(filterType, startDate = null, endDate = null) {
+    function updateTrafficData(date_filter, startDate = null, endDate = null) {
         const today = moment().format('YYYY-MM-DD');
         
-        switch(filterType) {
+        switch(date_filter) {
             case 'today':
                 startDate = today;
                 endDate = today;
@@ -124,7 +115,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                 endDate = today;
         }
 
-        loadTrafficData(startDate, endDate, filterType).then(function(response) {
+        loadTrafficData(startDate, endDate, date_filter).then(function(response) {
             renderMetaboxContent(response);
         });
     }
@@ -149,7 +140,11 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             if(response.filters && response.filters.date && response.filters.date.filter){
                 
                 if(response.filters.date.type==='custom'){
-                    defaultDate=response.filters.date.from+' - '+response.filters.date.to;
+                    if(response.filters.date.filter.from){
+                        defaultDate=response.filters.date.filter.from +' - '+ response.filters.date.filter.to;
+                    }else{
+                        defaultDate='30days';
+                    }
                 }else{
                     defaultDate=response.filters.date.filter;
                 }
@@ -319,7 +314,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         jQuery(document).off('click', '.c-footer__filters__list-item:not(.js-show-more-filters):not(.js-close-more-filters):not([data-filter="custom"])').on('click', '.c-footer__filters__list-item:not(.js-show-more-filters):not(.js-close-more-filters):not([data-filter="custom"])', function() {
             const filter = jQuery(this).data('filter');
             let startDate, endDate;
-
+            
             switch(filter) {
                 case 'today':
                     startDate = endDate = moment().format('YYYY-MM-DD');
@@ -381,22 +376,22 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         metaBoxInner.html('<div class="wps-skeleton-container"><div class="wps-skeleton-container__skeleton wps-skeleton-container__skeleton--full wps-skeleton-container__skeleton--h-150"></div></div>');
     }
 
-    // Initial load without filter_type
+    // Initial load without date_filter
     loadTrafficData().then(renderMetaboxContent);
 
     // Add refresh button click handler
     jQuery(document).on('click', '#traffic_summary .wps-refresh', function() {
-        // Refresh without sending filter_type
+        // Refresh without sending date_filter
         loadTrafficData().then(renderMetaboxContent);
     });
 
     // Handle filter changes
     jQuery(document).on('change', '.js-filter-select', function() {
-        const filterType = jQuery(this).val();
+        const date_filter = jQuery(this).val();
         const today = moment().format('YYYY-MM-DD');
         let startDate, endDate;
         
-        switch(filterType) {
+        switch(date_filter) {
             case 'today':
                 startDate = today;
                 endDate = today;
@@ -462,7 +457,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                 endDate = today;
         }
 
-        loadTrafficData(startDate, endDate, filterType).then(renderMetaboxContent);
+        loadTrafficData(startDate, endDate, date_filter).then(renderMetaboxContent);
     });
 
      jQuery(document).on('change', '.js-date-custom', function() {
