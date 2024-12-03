@@ -25,6 +25,7 @@ class GeneralNotices
         'memory_limit_check',
         'php_version_check',
         'email_report_schedule',
+        'deprecated_honeypot_option'
     );
 
     public function init()
@@ -110,5 +111,41 @@ class GeneralNotices
                 ), 'email_report_schedule', 'warning');
             }
         }
+    }
+
+    /**
+     * Add notice for deprecated honeypot option.
+     * 
+     * @return void|bool
+     */
+    public function deprecated_honeypot_option() {
+        $useHoneypot = ! empty(Option::get('use_honeypot'));
+
+        if (! $useHoneypot) {
+            return;
+        }
+
+        Notice::addNotice( 
+            sprintf(
+                wp_kses(
+                    /* translators: %1$s: opening strong tag, %2$s: closing strong tag, %3$s: opening link tag, %4$s: Learn more text, %5$s: closing link tag */
+                    esc_html__('The WP Statistics %1$sHoney Pot Trap Page%2$s option will be removed in version 14.13. %3$s%4$s%5$s.', 'wp-statistics'),
+                   [
+                        'strong' => [],
+                        'a' => [
+                            'href' => [],
+                            'target' => [],
+                        ],
+                   ]
+                ),
+                '<strong>',
+                '</strong>',
+                '<a href="https://wp-statistics.com/resources/deprecating-the-honey-pot-trap-page-option/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" target="_blank">',
+                esc_html__( 'Learn more', 'wp-statistics' ),
+                '</a>'
+            ),
+            'deprecated_honeypot',
+            'warning'
+        );
     }
 }
