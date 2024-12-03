@@ -3,6 +3,8 @@ namespace WP_Statistics\Abstracts;
 
 use Wp_Statistics\Components\Ajax;
 use WP_Statistics\Service\Admin\Metabox\MetaboxDataProvider;
+use WP_STATISTICS\User;
+use WP_Statistics\Utils\Request;
 
 abstract class BaseMetabox
 {
@@ -23,7 +25,7 @@ abstract class BaseMetabox
 
     /**
      * Returns the data for the metabox
-     * @return void
+     * @return string
      */
     abstract public function getData();
 
@@ -79,6 +81,40 @@ abstract class BaseMetabox
         return ['statistics_page_wps_overview-new_page', 'dashboard'];
     }
 
+    /**
+     * Stores the filters for the metabox.
+     *
+     * @return void
+     */
+    protected function storeFilters()
+    {
+        $options = $this->getOptions();
+
+        if (!empty($options['datepicker'])) {
+            $range = [
+                'from'  => Request::get('from'),
+                'to'    => Request::get('to')
+            ];
+
+            User::saveDefaultDateFilter($this->getKey(), $range);
+        }
+    }
+
+    /**
+     * Returns an array of filters for the metabox.
+     * @return array
+     */
+    protected function getFilters()
+    {
+        $filters = [];
+        $options = $this->getOptions();
+
+        if (!empty($options['datepicker'])) {
+            $filters['date'] = User::getDefaultDateFilter($this->getKey());
+        }
+
+        return $filters;
+    }
 
     /**
      * Sends a JSON response with the given data and options
@@ -87,11 +123,14 @@ abstract class BaseMetabox
      *
      * @return void
      */
-    public function sendResponse($data)
+    public function getResponse()
     {
+        $this->storeFilters();
+
         $response = [
-            'output'    => $data,
-            'options'   => $this->getOptions()
+            'output'    => $this->getData(),
+            'options'   => $this->getOptions(),
+            'filters'   => $this->getFilters()
         ];
 
         wp_send_json($response);
@@ -106,7 +145,7 @@ abstract class BaseMetabox
      */
     public function register()
     {
-        Ajax::register($this->getKey() . '_metabox_get_data', [$this, 'getData'], false);
+        Ajax::register($this->getKey() . '_metabox_get_data', [$this, 'getResponse'], false);
         add_meta_box($this->getKey(), $this->getName(), [$this, 'render'], $this->getScreen(), $this->getPriority());
     }
 }
