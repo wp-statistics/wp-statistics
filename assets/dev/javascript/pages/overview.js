@@ -1,10 +1,10 @@
 if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.request_params.page === "overview-new") {
 
-    wps_js.traffic_data_success = function(data) {
+    wps_js.traffic_data_success = function (data) {
         return data;
     };
 
-    wps_js.traffic_data_error = function(error) {
+    wps_js.traffic_data_error = function (error) {
         console.error('Traffic data error:', error);
         return error;
     };
@@ -25,12 +25,12 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                 data.to = endDate;
             }
 
-            wps_js.traffic_data_success = function(data) {
+            wps_js.traffic_data_success = function (data) {
                 resolve(data);
                 return data;
             };
 
-            wps_js.traffic_data_error = function(error) {
+            wps_js.traffic_data_error = function (error) {
                 reject(error);
                 return error;
             };
@@ -46,86 +46,13 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         });
     }
 
-    function updateTrafficData(date_filter, startDate = null, endDate = null) {
-        const today = moment().format('YYYY-MM-DD');
-        
-        switch(date_filter) {
-            case 'today':
-                startDate = today;
-                endDate = today;
-                break;
-            case 'yesterday':
-                startDate = moment().subtract(1, 'days').format('YYYY-MM-DD');
-                endDate = startDate;
-                break;
-            case 'this_week':
-                startDate = moment().startOf('week').format('YYYY-MM-DD');
-                endDate = today;
-                break;
-            case 'last_week':
-                startDate = moment().subtract(1, 'week').startOf('week').format('YYYY-MM-DD');
-                endDate = moment().subtract(1, 'week').endOf('week').format('YYYY-MM-DD');
-                break;
-            case 'this_month':
-                startDate = moment().startOf('month').format('YYYY-MM-DD');
-                endDate = moment().endOf('month').format('YYYY-MM-DD');
-                break;
-            case 'last_month':
-                startDate = moment().subtract(1, 'month').startOf('month').format('YYYY-MM-DD');
-                endDate = moment().subtract(1, 'month').endOf('month').format('YYYY-MM-DD');
-                break;
-            case '7days':
-                startDate = moment().subtract(6, 'days').format('YYYY-MM-DD');
-                endDate = today;
-                break;
-            case '14days':
-                startDate = moment().subtract(13, 'days').format('YYYY-MM-DD');
-                endDate = today;
-                break;
-            case '30days':
-                startDate = moment().subtract(29, 'days').format('YYYY-MM-DD');
-                endDate = today;
-                break;
-            case '90days':
-                startDate = moment().subtract(89, 'days').format('YYYY-MM-DD');
-                endDate = today;
-                break;
-            case '6months':
-                startDate = moment().subtract(6, 'months').format('YYYY-MM-DD');
-                endDate = today;
-                break;
-            case '12months':
-                startDate = moment().subtract(12, 'months').format('YYYY-MM-DD');
-                endDate = today;
-                break;
-            case 'this_year':
-                startDate = moment().startOf('year').format('YYYY-MM-DD');
-                endDate = moment().endOf('year').format('YYYY-MM-DD');
-                break;
-            case 'last_year':
-                startDate = moment().subtract(1, 'year').startOf('year').format('YYYY-MM-DD');
-                endDate = moment().subtract(1, 'year').endOf('year').format('YYYY-MM-DD');
-                break;
-            case 'total':
-                startDate = null;
-                endDate = null;
-                break;
-            default:
-                startDate = moment().subtract(29, 'days').format('YYYY-MM-DD');
-                endDate = today;
-        }
-
-        loadTrafficData(startDate, endDate, date_filter).then(function(response) {
-            renderMetaboxContent(response);
-        });
-    }
 
     function renderMetaboxContent(response) {
         let metaBoxInner = jQuery('#traffic_summary .inside');
-        
+
         if (response && response.output) {
             metaBoxInner.html(response.output);
-            initDatePickerHandlers();  
+            initDatePickerHandlers();
         }
 
         let selector = "#traffic_summary .handle-actions button:first";
@@ -136,26 +63,23 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         const key = 'traffic_summary';
         let html = '<div class="c-footer"><div class="c-footer__filter js-widget-filters">';
         if (response.options && response.options.datepicker) {
-            let defaultDate='30days';
-            if(response.filters && response.filters.date && response.filters.date.filter){
-                
-                if(response.filters.date.type==='custom'){
-                    if(response.filters.date.filter.from){
-                        defaultDate=response.filters.date.filter.from +' - '+ response.filters.date.filter.to;
-                    }else{
-                        defaultDate='30days';
-                    }
-                }else{
-                    defaultDate=response.filters.date.filter;
-                }
+            let startDateResponse;
+            let endDateResponse;
+            let dateFilterTitle =wps_js._(`str_30days`);
+            let dateFilterType = wps_js._(`str_30days`);
+            if (response?.filters && response.filters.date && response.filters.date.filter) {
+                dateFilterType = response.filters.date.type === 'custom' ? response.filters.date.filter : wps_js._(`str_${response.filters.date.filter}`);
+                startDateResponse = response.filters.date.from;
+                endDateResponse = response.filters.date.to;
+                dateFilterTitle = response.filters.date.type === 'custom' ? wps_js._('str_custom') : wps_js._(`str_${response.filters.date.filter}`)
             }
 
-         html += `
-            <button class="c-footer__filter__btn js-filters-toggle">` + wps_js._(`str_${defaultDate}`) + `</button>
+            html += `
+            <button class="c-footer__filter__btn js-filters-toggle">` + dateFilterType + `</button>
             <div class="c-footer__filters">
                 <div class="c-footer__filters__current-filter">
-                    <span class="c-footer__current-filter__title js-filter-title">` + wps_js._(`str_${defaultDate}`) + `</span>
-                    <span class="c-footer__current-filter__date-range hs-filter-range">` + moment().subtract(29, 'days').format('MMM D, YYYY') + ' - ' + moment().format('MMM D, YYYY') + `</span>
+                    <span class="c-footer__current-filter__title js-filter-title">` + dateFilterTitle + `</span>
+                     <span class="c-footer__current-filter__date-range hs-filter-range">` + startDateResponse + ' _ ' + endDateResponse + `</span>
                 </div>
                 <div class="c-footer__filters__list">
                     <button data-metabox-key="${key}" data-filter="today" class="c-footer__filters__list-item">` + wps_js._('str_today') + `</button>
@@ -181,15 +105,15 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         html += `</div>`;
         if (response.options && response.options.button) {
             html += response.options.button;
-         }
-         html += `</div></div>`;
+        }
+        html += `</div></div>`;
 
         metaBoxInner.append(html);
     }
 
     function initDatePickerHandlers() {
         // Toggle filters visibility using event delegation
-        jQuery(document).off('click', '.js-filters-toggle').on('click', '.js-filters-toggle', function() {
+        jQuery(document).off('click', '.js-filters-toggle').on('click', '.js-filters-toggle', function () {
             jQuery('.js-widget-filters').removeClass('is-active');
             jQuery('.postbox').removeClass('has-focus');
             jQuery(this).closest('.js-widget-filters').toggleClass('is-active');
@@ -205,19 +129,19 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         });
 
         // Handle show more filters click
-        jQuery(document).off('click', '.js-show-more-filters').on('click', '.js-show-more-filters', function(e) {
+        jQuery(document).off('click', '.js-show-more-filters').on('click', '.js-show-more-filters', function (e) {
             e.preventDefault();
             jQuery(this).closest('.c-footer__filters__list').find('.js-more-filters').addClass('is-open');
         });
 
         // Handle close more filters click
-        jQuery(document).off('click', '.js-close-more-filters').on('click', '.js-close-more-filters', function(e) {
+        jQuery(document).off('click', '.js-close-more-filters').on('click', '.js-close-more-filters', function (e) {
             e.preventDefault();
             jQuery(this).closest('.js-more-filters').removeClass('is-open');
         });
 
         // Initialize datepicker for custom date selection
-        jQuery('.js-datepicker-input').each(function() {
+        jQuery('.js-datepicker-input').each(function () {
             if (!jQuery(this).data('daterangepicker')) {
                 jQuery(this).daterangepicker({
                     autoUpdateInput: false,
@@ -231,10 +155,10 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         });
 
         // Handle custom date picker click
-        jQuery(document).off('click', 'button[data-filter="custom"]').on('click', 'button[data-filter="custom"]', function() {
+        jQuery(document).off('click', 'button[data-filter="custom"]').on('click', 'button[data-filter="custom"]', function () {
             var metaboxKey = jQuery(this).attr("data-metabox-key");
             var dateInput = jQuery('#' + metaboxKey + ' .inside .js-datepicker-input').first();
-            
+
             if (!dateInput.data('daterangepicker')) {
                 dateInput.daterangepicker({
                     autoUpdateInput: false,
@@ -246,15 +170,15 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                 });
 
                 // Add event listener for date selection
-                dateInput.on('apply.daterangepicker', function(ev, picker) {
+                dateInput.on('apply.daterangepicker', function (ev, picker) {
                     const startDate = picker.startDate.format('YYYY-MM-DD');
                     const endDate = picker.endDate.format('YYYY-MM-DD');
-                    
+
                     jQuery('.js-filter-title').text('Custom Range');
                     jQuery('.hs-filter-range').text(
-                        startDate === endDate ? 
-                        picker.startDate.format('MMM D, YYYY') : 
-                        picker.startDate.format('MMM D, YYYY') + ' - ' + picker.endDate.format('MMM D, YYYY')
+                        startDate === endDate ?
+                            picker.startDate.format('MMM D, YYYY') :
+                            picker.startDate.format('MMM D, YYYY') + ' - ' + picker.endDate.format('MMM D, YYYY')
                     );
                     jQuery('.js-filters-toggle').text('Custom Range');
                     jQuery('.c-footer__filters').removeClass('is-active');
@@ -264,21 +188,21 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                     loadTrafficData(startDate, endDate, 'custom').then(renderMetaboxContent);
                 });
             }
-            
+
             dateInput.data('daterangepicker').show();
         });
 
         // Handle date selection
-        jQuery('.js-datepicker-input').off('apply.daterangepicker').on('apply.daterangepicker', function(ev, picker) {
+        jQuery('.js-datepicker-input').off('apply.daterangepicker').on('apply.daterangepicker', function (ev, picker) {
             const startDate = picker.startDate.format('YYYY-MM-DD');
             const endDate = picker.endDate.format('YYYY-MM-DD');
-            
+
             // Update UI
             jQuery('.js-filter-title').text('Custom Range');
             jQuery('.hs-filter-range').text(
-                startDate === endDate ? 
-                picker.startDate.format('MMM D, YYYY') : 
-                picker.startDate.format('MMM D, YYYY') + ' - ' + picker.endDate.format('MMM D, YYYY')
+                startDate === endDate ?
+                    picker.startDate.format('MMM D, YYYY') :
+                    picker.startDate.format('MMM D, YYYY') + ' - ' + picker.endDate.format('MMM D, YYYY')
             );
             jQuery('.js-filters-toggle').text('Custom Range');
             jQuery('.c-footer__filters').removeClass('is-active');
@@ -290,16 +214,16 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         });
 
         // Handle date selection without apply button
-        jQuery('.js-datepicker-input').off('hide.daterangepicker').on('hide.daterangepicker', function(ev, picker) {
+        jQuery('.js-datepicker-input').off('hide.daterangepicker').on('hide.daterangepicker', function (ev, picker) {
             if (picker.startDate) {
                 const startDate = picker.startDate.format('YYYY-MM-DD');
                 const endDate = picker.endDate ? picker.endDate.format('YYYY-MM-DD') : startDate;
-                
+
                 jQuery('.js-filter-title').text('Custom Range');
                 jQuery('.hs-filter-range').text(
-                    startDate === endDate ? 
-                    picker.startDate.format('MMM D, YYYY') : 
-                    picker.startDate.format('MMM D, YYYY') + ' - ' + picker.endDate.format('MMM D, YYYY')
+                    startDate === endDate ?
+                        picker.startDate.format('MMM D, YYYY') :
+                        picker.startDate.format('MMM D, YYYY') + ' - ' + picker.endDate.format('MMM D, YYYY')
                 );
                 jQuery('.js-filters-toggle').text('Custom Range');
                 jQuery('.c-footer__filters').removeClass('is-active');
@@ -311,11 +235,11 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             }
         });
 
-        jQuery(document).off('click', '.c-footer__filters__list-item:not(.js-show-more-filters):not(.js-close-more-filters):not([data-filter="custom"])').on('click', '.c-footer__filters__list-item:not(.js-show-more-filters):not(.js-close-more-filters):not([data-filter="custom"])', function() {
+        jQuery(document).off('click', '.c-footer__filters__list-item:not(.js-show-more-filters):not(.js-close-more-filters):not([data-filter="custom"])').on('click', '.c-footer__filters__list-item:not(.js-show-more-filters):not(.js-close-more-filters):not([data-filter="custom"])', function () {
             const filter = jQuery(this).data('filter');
             let startDate, endDate;
-            
-            switch(filter) {
+
+            switch (filter) {
                 case 'today':
                     startDate = endDate = moment().format('YYYY-MM-DD');
                     break;
@@ -380,18 +304,19 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
     loadTrafficData().then(renderMetaboxContent);
 
     // Add refresh button click handler
-    jQuery(document).on('click', '#traffic_summary .wps-refresh', function() {
+    jQuery(document).on('click', '#traffic_summary .wps-refresh', function () {
+        showLoadingSkeleton();
         // Refresh without sending date_filter
         loadTrafficData().then(renderMetaboxContent);
     });
 
     // Handle filter changes
-    jQuery(document).on('change', '.js-filter-select', function() {
+    jQuery(document).on('change', '.js-filter-select', function () {
         const date_filter = jQuery(this).val();
         const today = moment().format('YYYY-MM-DD');
         let startDate, endDate;
-        
-        switch(date_filter) {
+
+        switch (date_filter) {
             case 'today':
                 startDate = today;
                 endDate = today;
@@ -458,12 +383,12 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         }
 
         loadTrafficData(startDate, endDate, date_filter).then(renderMetaboxContent);
-    });
+    })
 
-     jQuery(document).on('change', '.js-date-custom', function() {
+    jQuery(document).on('change', '.js-date-custom', function () {
         const startDate = jQuery('.js-date-custom-from').val();
         const endDate = jQuery('.js-date-custom-to').val();
-        
+
         if (startDate && endDate) {
             loadTrafficData(startDate, endDate, 'custom').then(renderMetaboxContent);
         }
