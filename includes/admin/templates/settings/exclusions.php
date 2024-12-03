@@ -84,7 +84,7 @@
                 <p class="description"><?php echo esc_html__('Set a threshold for daily robot visits. Robots exceeding this number daily will be identified as bots.', 'wp-statistics'); ?></p>
             </td>
         </tr>
-        
+
         <tr valign="top">
             <th scope="row"><label for="use_honeypot"><?php esc_html_e('Activate Honey Pot Protection', 'wp-statistics'); ?></label></th>
             <td>
