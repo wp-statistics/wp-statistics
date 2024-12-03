@@ -25,7 +25,7 @@ class GeneralNotices
         'memory_limit_check',
         'php_version_check',
         'email_report_schedule',
-        'deprecated_honeypot_option'
+        'notifyDeprecatedHoneypotOption'
     );
 
     public function init()
@@ -118,7 +118,7 @@ class GeneralNotices
      * 
      * @return void|bool
      */
-    public function deprecated_honeypot_option() {
+    public function notifyDeprecatedHoneypotOption() {
         if (empty(Option::get('use_honeypot'))) {
             return;
         }
