@@ -10,21 +10,148 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         return error;
     };
 
-    function loadTrafficData(startDate = null, endDate = null) {
+    function loadTrafficData(startDate = null, endDate = null, filterType = '30days') {
         return new Promise((resolve, reject) => {
             let data = {
                 'action': 'wp_statistics_traffic_summary_metabox_get_data',
-                'wps_nonce': wps_js.global.rest_api_nonce
+                'wps_nonce': wps_js.global.rest_api_nonce,
+                'filter_type': filterType
             };
 
-            // Handle date parameters
-            if (startDate) {
-                data.from = startDate;
-                data.to = endDate || startDate;
+            // Handle date parameters based on filter type
+            if (filterType === 'custom' && startDate && endDate) {
+                data.period = {
+                    'from': startDate,
+                    'to': endDate
+                };
+                // For custom dates, set prev_period as the same duration before the start date
+                const duration = moment(endDate).diff(moment(startDate), 'days');
+                data.prev_period = {
+                    'from': moment(startDate).subtract(duration + 1, 'days').format('YYYY-MM-DD'),
+                    'to': moment(startDate).subtract(1, 'days').format('YYYY-MM-DD')
+                };
             } else {
-                // Default to last 30 days
-                data.from = moment().subtract(29, 'days').format('YYYY-MM-DD');
-                data.to = moment().format('YYYY-MM-DD');
+                switch(filterType) {
+                    case 'today':
+                        data.period = {
+                            'from': moment().format('YYYY-MM-DD'),
+                            'to': moment().format('YYYY-MM-DD')
+                        };
+                        data.prev_period = {
+                            'from': moment().subtract(1, 'days').format('YYYY-MM-DD'),
+                            'to': moment().subtract(1, 'days').format('YYYY-MM-DD')
+                        };
+                        break;
+                    case 'yesterday':
+                        data.period = {
+                            'from': moment().subtract(1, 'days').format('YYYY-MM-DD'),
+                            'to': moment().subtract(1, 'days').format('YYYY-MM-DD')
+                        };
+                        data.prev_period = {
+                            'from': moment().subtract(2, 'days').format('YYYY-MM-DD'),
+                            'to': moment().subtract(2, 'days').format('YYYY-MM-DD')
+                        };
+                        break;
+                    case 'this_week':
+                        data.period = {
+                            'from': moment().startOf('week').format('YYYY-MM-DD'),
+                            'to': moment().format('YYYY-MM-DD')
+                        };
+                        data.prev_period = {
+                            'from': moment().subtract(1, 'week').startOf('week').format('YYYY-MM-DD'),
+                            'to': moment().subtract(1, 'week').endOf('week').format('YYYY-MM-DD')
+                        };
+                        break;
+                    case 'last_week':
+                        data.period = {
+                            'from': moment().subtract(1, 'week').startOf('week').format('YYYY-MM-DD'),
+                            'to': moment().subtract(1, 'week').endOf('week').format('YYYY-MM-DD')
+                        };
+                        data.prev_period = {
+                            'from': moment().subtract(2, 'weeks').startOf('week').format('YYYY-MM-DD'),
+                            'to': moment().subtract(2, 'weeks').endOf('week').format('YYYY-MM-DD')
+                        };
+                        break;
+                    case 'this_month':
+                        data.period = {
+                            'from': moment().startOf('month').format('YYYY-MM-DD'),
+                            'to': moment().format('YYYY-MM-DD')
+                        };
+                        data.prev_period = {
+                            'from': moment().subtract(1, 'month').startOf('month').format('YYYY-MM-DD'),
+                            'to': moment().subtract(1, 'month').endOf('month').format('YYYY-MM-DD')
+                        };
+                        break;
+                    case 'last_month':
+                        data.period = {
+                            'from': moment().subtract(1, 'month').startOf('month').format('YYYY-MM-DD'),
+                            'to': moment().subtract(1, 'month').endOf('month').format('YYYY-MM-DD')
+                        };
+                        data.prev_period = {
+                            'from': moment().subtract(2, 'months').startOf('month').format('YYYY-MM-DD'),
+                            'to': moment().subtract(2, 'months').endOf('month').format('YYYY-MM-DD')
+                        };
+                        break;
+                    case '7days':
+                        data.period = {
+                            'from': moment().subtract(6, 'days').format('YYYY-MM-DD'),
+                            'to': moment().format('YYYY-MM-DD')
+                        };
+                        data.prev_period = {
+                            'from': moment().subtract(13, 'days').format('YYYY-MM-DD'),
+                            'to': moment().subtract(7, 'days').format('YYYY-MM-DD')
+                        };
+                        break;
+                    case '30days':
+                        data.period = {
+                            'from': moment().subtract(29, 'days').format('YYYY-MM-DD'),
+                            'to': moment().format('YYYY-MM-DD')
+                        };
+                        data.prev_period = {
+                            'from': moment().subtract(59, 'days').format('YYYY-MM-DD'),
+                            'to': moment().subtract(30, 'days').format('YYYY-MM-DD')
+                        };
+                        break;
+                    case '90days':
+                        data.period = {
+                            'from': moment().subtract(89, 'days').format('YYYY-MM-DD'),
+                            'to': moment().format('YYYY-MM-DD')
+                        };
+                        data.prev_period = {
+                            'from': moment().subtract(179, 'days').format('YYYY-MM-DD'),
+                            'to': moment().subtract(90, 'days').format('YYYY-MM-DD')
+                        };
+                        break;
+                    case '6months':
+                        data.period = {
+                            'from': moment().subtract(6, 'months').format('YYYY-MM-DD'),
+                            'to': moment().format('YYYY-MM-DD')
+                        };
+                        data.prev_period = {
+                            'from': moment().subtract(12, 'months').format('YYYY-MM-DD'),
+                            'to': moment().subtract(6, 'months').format('YYYY-MM-DD')
+                        };
+                        break;
+                    case 'this_year':
+                        data.period = {
+                            'from': moment().startOf('year').format('YYYY-MM-DD'),
+                            'to': moment().format('YYYY-MM-DD')
+                        };
+                        data.prev_period = {
+                            'from': moment().subtract(1, 'year').startOf('year').format('YYYY-MM-DD'),
+                            'to': moment().subtract(1, 'year').endOf('year').format('YYYY-MM-DD')
+                        };
+                        break;
+                    default:
+                        data.period = {
+                            'from': moment().subtract(29, 'days').format('YYYY-MM-DD'),
+                            'to': moment().format('YYYY-MM-DD')
+                        };
+                        data.prev_period = {
+                            'from': moment().subtract(59, 'days').format('YYYY-MM-DD'),
+                            'to': moment().subtract(30, 'days').format('YYYY-MM-DD')
+                        };
+                }
             }
 
             // Store the resolve function to be called from the success callback
@@ -66,11 +193,21 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         const key = 'traffic_summary';
         let html = '<div class="c-footer"><div class="c-footer__filter js-widget-filters">';
         if (response.options && response.options.datepicker) {
+            let defaultDate='30days';
+            if(response.filters && response.filters.date && response.filters.date.filter){
+                
+                if(response.filters.date.type==='custom'){
+                    defaultDate=response.filters.date.from+' - '+response.filters.date.to;
+                }else{
+                    defaultDate=response.filters.date.filter;
+                }
+            }
+            console.log(defaultDate);
         html += `
-            <button class="c-footer__filter__btn js-filters-toggle">` + wps_js._('str_30days') + `</button>
+            <button class="c-footer__filter__btn js-filters-toggle">` + wps_js._(`str_${defaultDate}`) + `</button>
             <div class="c-footer__filters">
                 <div class="c-footer__filters__current-filter">
-                    <span class="c-footer__current-filter__title js-filter-title">Last 30 days</span>
+                    <span class="c-footer__current-filter__title js-filter-title">` + wps_js._(`str_${defaultDate}`) + `</span>
                     <span class="c-footer__current-filter__date-range hs-filter-range">` + moment().subtract(29, 'days').format('MMM D, YYYY') + ' - ' + moment().format('MMM D, YYYY') + `</span>
                 </div>
                 <div class="c-footer__filters__list">
@@ -177,9 +314,9 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                     jQuery('.c-footer__filters').removeClass('is-active');
                     jQuery('.postbox.has-focus').removeClass('has-focus');
 
-                    // Load data
+                    // Load data with custom filter type
                     showLoadingSkeleton();
-                    loadTrafficData(startDate, endDate).then(renderMetaboxContent);
+                    loadTrafficData(startDate, endDate, 'custom').then(renderMetaboxContent);
                 });
             }
             
@@ -204,7 +341,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
 
             // Load data
             showLoadingSkeleton();
-            loadTrafficData(startDate, endDate).then(renderMetaboxContent);
+            loadTrafficData(startDate, endDate, 'custom').then(renderMetaboxContent);
         });
 
         // Handle date selection without apply button
@@ -226,7 +363,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
 
                 // Load data
                 showLoadingSkeleton();
-                loadTrafficData(startDate, endDate).then(renderMetaboxContent);
+                loadTrafficData(startDate, endDate, 'custom').then(renderMetaboxContent);
             }
         });
 
@@ -287,13 +424,9 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             jQuery('.c-footer__filters').removeClass('is-active');
             jQuery('.postbox.has-focus').removeClass('has-focus');
 
-            // Load data
+            // Load data with the specific filter type
             showLoadingSkeleton();
-            if (startDate === endDate) {
-                loadTrafficData(startDate).then(renderMetaboxContent);
-            } else {
-                loadTrafficData(startDate, endDate).then(renderMetaboxContent);
-            }
+            loadTrafficData(startDate, endDate, filter).then(renderMetaboxContent);
         });
     }
 
@@ -308,6 +441,8 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
     // Add refresh button click handler
     jQuery(document).on('click', '#traffic_summary .wps-refresh', function() {
         showLoadingSkeleton();
-        loadTrafficData().then(renderMetaboxContent);
+        // Use current filter type when refreshing
+        const currentFilter = jQuery('.js-filters-toggle').text().toLowerCase().replace(/ /g, '_');
+        loadTrafficData(null, null, currentFilter).then(renderMetaboxContent);
     });
 }
