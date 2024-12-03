@@ -32,7 +32,7 @@ class TrafficSummary extends BaseMetabox
 
         $output = View::load('metabox/traffic-summary', ['data' => $data], true);
 
-        $this->sendResponse($output);
+        return $output;
     }
 
     public function render()
