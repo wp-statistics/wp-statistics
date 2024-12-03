@@ -119,9 +119,7 @@ class GeneralNotices
      * @return void|bool
      */
     public function deprecated_honeypot_option() {
-        $useHoneypot = ! empty(Option::get('use_honeypot'));
-
-        if (! $useHoneypot) {
+        if (empty(Option::get('use_honeypot'))) {
             return;
         }
 
