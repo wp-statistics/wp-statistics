@@ -58,11 +58,13 @@ $linksTarget = !empty($open_links_in_new_tab) ? '_blank' : '';
                             </td>
 
                             <td class="wps-pd-l">
-                                <?php if ($visitor->getReferral()->getReferrer()) :
-                                    View::load("components/objects/referrer-link", ['label' => 'Referral Traffic', 'url' => $visitor->getReferral()->getReferrer(), 'title' => $visitor->getReferral()->getRawReferrer()]);
-                                else : ?>
-                                    <?php echo Admin_Template::UnknownColumn() ?>
-                                <?php endif; ?>
+                                <?php
+                                    View::load("components/objects/referrer-link", [
+                                        'label' => $visitor->getReferral()->getSourceChannel(),
+                                        'url'   => $visitor->getReferral()->getReferrer() ,
+                                        'title' => $visitor->getReferral()->getRawReferrer()
+                                    ]);
+                                ?>
                             </td>
 
                             <td class="wps-pd-l">

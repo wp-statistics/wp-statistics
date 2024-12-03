@@ -11,7 +11,7 @@ class SourceChannels
     public static function getList()
     {
         $channels = [
-            'direct'        => esc_html__('Direct', 'wp-statistics'),
+            'direct'        => esc_html__('Direct Traffic', 'wp-statistics'),
             'search'        => esc_html__('Organic Search', 'wp-statistics'),
             'paid_search'   => esc_html__('Paid Search', 'wp-statistics')
         ];
