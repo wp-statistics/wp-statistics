@@ -328,7 +328,7 @@ class User
      */
     public static function checkUserCapability($capability)
     {
-        if (! self::is_login()) {
+        if (! self::is_login() || empty($capability)) {
             return;
         }
         
