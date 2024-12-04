@@ -16,32 +16,15 @@ class MetaboxManager
     }
 
     /**
-     * Retrieves a list of all metaboxes.
-     *
-     * @return BaseMetabox[]
-     */
-    public function getMetaboxes()
-    {
-        return apply_filters('wp_statistics_metabox_list', $this->metaboxes);
-    }
-
-    /**
      * Registers active metaboxes.
      *
      * @return void
      */
     public function registerMetaboxes()
     {
-        $metaboxes = $this->getMetaboxes();
+        $metaboxes = MetaboxHelper::getActiveMetaboxes();
 
         foreach ($metaboxes as $metabox) {
-            if (!class_exists($metabox)) continue;
-
-            $metabox = new $metabox();
-
-            // Skip inactive metaboxes
-            if (!$metabox->isActive()) continue;
-
             $metabox->register();
         }
     }
