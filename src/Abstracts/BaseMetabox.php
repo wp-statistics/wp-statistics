@@ -129,7 +129,7 @@ abstract class BaseMetabox
         $this->storeFilters();
 
         $response = [
-            'output'    => $this->getData(),
+            'response'  => $this->getData(),
             'options'   => $this->getOptions(),
             'filters'   => $this->getFilters()
         ];
