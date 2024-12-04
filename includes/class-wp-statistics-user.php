@@ -13,7 +13,7 @@ class User
      */
     public static $default_manage_cap = 'manage_options';
 
-    public static $dateFilterMetaKey = 'wp_statistics_date_filter';
+    public static $dateFilterMetaKey = 'wp_statistics_metabox_date_filter';
 
     /**
      * Check User is Logged in WordPress
