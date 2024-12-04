@@ -25,7 +25,7 @@ abstract class BaseMetabox
 
     /**
      * Returns the data for the metabox
-     * @return string
+     * @return string|array
      */
     abstract public function getData();
 
