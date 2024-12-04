@@ -349,4 +349,28 @@ class Option
             update_option($settingName, $options);
         }
     }
+
+    /**
+     * Retrieve the value of a specified index from a list.
+     *
+     * This method checks if the provided list and index exist. If the index is not found or the list is empty, 
+     * the specified default value is returned.
+     *
+     * @param array $list    The array to retrieve the value from.
+     * @param string $index  The index to look up in the array.
+     * @param mixed $default The value to return if the key does not exist. Defaults to null.
+     *
+     * @return mixed The value of the specified index, or the default value if not found.
+     */
+    public static function getListValue( $list, $index, $default = null ) {
+        if ( empty( $list ) ) {
+            return $default;
+        }
+
+        if ( empty( $list[ $index ] ) ) {
+            return $default;
+        }
+
+        return $list[ $index ];
+    }
 }
