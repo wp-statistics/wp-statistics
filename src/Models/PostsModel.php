@@ -395,7 +395,7 @@ class PostsModel extends BaseModel
             'per_page'      => 10,
         ]);
 
-        $result = Query::select(['uri', 'COUNT(uri) AS views'])
+        $result = Query::select(['uri', 'SUM(count) AS views'])
             ->from('pages')
             ->where('type', '=', '404')
             ->whereDate('pages.date', $args['date'])
