@@ -57,6 +57,10 @@ class GeneralNotices
      */
     private function checkTrackingMode()
     {
+        if (Notice::isNoticeDismissed('deprecate_server_side_tracking')) {
+            return;
+        }
+
         if (!Menus::in_plugin_page()) {
             return;
         }
@@ -90,6 +94,10 @@ class GeneralNotices
      */
     private function performanceAndCleanUp()
     {
+        if (Notice::isNoticeDismissed('performance_and_clean_up')) {
+            return;
+        }
+
         if (!Menus::in_plugin_page()) {
             return;
         }
@@ -135,6 +143,10 @@ class GeneralNotices
      */
     public function memoryLimitCheck()
     {
+        if (Notice::isNoticeDismissed('memory_limit_check')) {
+            return;
+        }
+
         if (! Menus::in_plugin_page()) {
             return;
         }
@@ -157,6 +169,10 @@ class GeneralNotices
      */
     public function phpVersionCheck()
     {
+        if (Notice::isNoticeDismissed('php_version_check')) {
+            return;
+        }
+
         if (! version_compare(PHP_VERSION, '7.2', '<')) {
             return;
         }
@@ -181,6 +197,10 @@ class GeneralNotices
      */
     public function emailReportSchedule()
     {
+        if (Notice::isNoticeDismissed('email_report_schedule')) {
+            return;
+        }
+
         if (Option::get('time_report') == '0') {
             return;
         }
@@ -220,6 +240,14 @@ class GeneralNotices
      * @return void
      */
     public function notifyDeprecatedHoneypotOption() {
+        if (Notice::isNoticeDismissed('deprecated_honeypot')) {
+            return;
+        }
+
+        if (! Menus::in_plugin_page()) {
+            return;
+        }
+
         if (empty(Option::get('use_honeypot'))) {
             return;
         }
