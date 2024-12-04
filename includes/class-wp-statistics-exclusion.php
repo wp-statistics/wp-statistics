@@ -9,7 +9,7 @@ class Exclusion
 {
     /**
      * Array for storing options.
-     * 
+     *
      * @access private
      * @var array
      * @static
@@ -69,7 +69,7 @@ class Exclusion
 
         // Get List Of Exclusion WP Statistics
         $exclusion_list = apply_filters('wp_statistics_exclusion_list', array_keys(Exclusion::exclusion_list()));
-        
+
         if (empty(self::$options)) {
             self::$options = Option::getOptions();
         }
@@ -202,7 +202,7 @@ class Exclusion
      */
     public static function exclusion_robot_threshold($visitorProfile)
     {
-        $robotThreshold = intval(self::$options['robot_threshold'] ?? 0);
+        $robotThreshold = intval(self::$options['robot_threshold']);
 
         if ($robotThreshold <= 0) {
             return false;
@@ -237,13 +237,13 @@ class Exclusion
         if ($current_user) {
             foreach ($current_user->roles as $role) {
                 $option_name = 'exclude_' . str_replace(' ', '_', strtolower($role));
-                if (self::$options[$option_name] ?? false) {
+                if (!empty(self::$options[$option_name])) {
                     return true;
                 }
             }
         } else {
             // Guest visitor
-            if (self::$options['exclude_anonymous_users'] ?? false) {
+            if (!empty(self::$options['exclude_anonymous_users'])) {
                 return true;
             }
         }
@@ -314,7 +314,7 @@ class Exclusion
     public static function exclusion_referrer_spam($visitorProfile)
     {
         // Check to see if we're excluding referrer spam.
-        if (self::$options['referrerspam'] ?? false) {
+        if (!empty(self::$options['referrerspam'])) {
             $referrer = $visitorProfile->getReferrer();
 
             // Pull the referrer spam list from the database.
@@ -487,22 +487,22 @@ class Exclusion
         if (empty($location)) {
             return false;
         }
-        
+
         $location = strtoupper($location);
-        
+
         static $excludedCountries = null;
         static $includedCountries = null;
-        
+
         if ($excludedCountries === null) {
             $excluded_option   = self::$options['excluded_countries'] ?? '';
-            $excludedCountries = empty($excluded_option) ? [] : 
+            $excludedCountries = empty($excluded_option) ? [] :
                 array_flip(array_filter(explode("\n", strtoupper(str_replace("\r\n", "\n", $excluded_option)))));
         }
-        
+
         if (isset($excludedCountries[$location])) {
             return true;
         }
-        
+
         if ($includedCountries === null) {
             $included_option = self::$options['included_countries'] ?? '';
 
@@ -514,7 +514,7 @@ class Exclusion
                     array_flip(array_filter(explode("\n", $included_countries_string)));
             }
         }
-        
+
         return !empty($includedCountries) && !isset($includedCountries[$location]);
     }
 
