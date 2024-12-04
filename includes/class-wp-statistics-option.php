@@ -362,15 +362,15 @@ class Option
      *
      * @return mixed The value of the specified index, or the default value if not found.
      */
-    public static function getListValue( $list, $index, $default = null ) {
-        if ( empty( $list ) ) {
+    public static function getListValue($list, $index, $default = null) {
+        if (empty($list)) {
             return $default;
         }
 
-        if ( empty( $list[ $index ] ) ) {
+        if (empty($list[$index])) {
             return $default;
         }
 
-        return $list[ $index ];
+        return $list[$index];
     }
 }

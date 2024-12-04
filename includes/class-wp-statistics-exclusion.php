@@ -187,7 +187,7 @@ class Exclusion
 
         $honeypotPostId = Option::getListValue(self::$options, 'honeypot_postid');
 
-        if ( empty( $honeypotPostId ) ) {
+        if (empty($honeypotPostId )) {
             return false;
         }
 
