@@ -57,6 +57,11 @@
       height: 5.92px;
       margin-right: 11px;
 
+      .rtl &{
+        margin-left: 11px;
+        margin-right: 0;
+      }
+
       &::before {
         margin-right: 16px;
         width: 5.92px;
@@ -164,11 +169,6 @@
     }
   }
 
-  .o-table--wps-summary-stats {
-    th {
-      padding-top: 0 !important;
-    }
-  }
 
   .wp-quickstats-widget__enable-email {
     padding: 12px 16px;

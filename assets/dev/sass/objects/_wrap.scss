@@ -24,3 +24,18 @@
     }
   }
 }
+
+#overview-widgets{
+  .o-wrap{
+    padding: 12px 24px !important;
+    padding-top: 0 !important;
+    .wps-postbox-chart--data {
+      margin-top: 0 !important;
+    }
+  }
+   #daily_traffic_trend{
+    #wps_daily_traffic_trend_meta_chart, #wps_referrals_search_engines_meta_chart{
+      min-height:300px
+    }
+  }
+}

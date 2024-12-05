@@ -529,31 +529,27 @@
   }
 }
 
-.wps-wrap, #dashboard-widgets-wrap {
-  .o-table--wps-summary-stats {
-    thead, tbody {
-      tr td, tr th {
-
-        &:not(:first-child) {
-          padding: 14px 0 14px 24px;
-        }
-
-        &:first-child {
-          color: #56585A !important;
-        }
-
-        &:last-child {
-          padding: 14px 24px 14px 24px;
-        }
-      }
-      b{
-        font-weight: 500;
-        color: #0C0C0D;
-        line-height: 15.23px;
-        font-size: 13px;
+#dashboard-widgets-wrap {
+  #traffic_summary ,  #daily_traffic_trend , #referrals_search_engines{
+    &.postbox .inside{
+      padding-right: 0;
+      padding-left: 0;
+      margin-bottom: 24px;
+      padding-bottom: 0;
+    }
+  }
+  #daily_traffic_trend , #referrals_search_engines{
+    .o-wrap {
+      padding: 12px 24px !important;
+      padding-top: 0 !important;
+      .wps-postbox-chart--data {
+        margin-top: 0 !important;
       }
     }
   }
+}
+
+.wps-wrap, #dashboard-widgets-wrap {
   #wp-statistics-pages-widget{
     &.postbox .inside{
       padding-right: 0;
@@ -736,6 +732,15 @@
           margin-right: 0;
         }
       }
+    }
+  }
+}
+
+
+#dashboard-widgets {
+  #traffic_summary{
+    .inside{
+      padding:0
     }
   }
 }

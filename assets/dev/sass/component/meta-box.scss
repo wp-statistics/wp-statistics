@@ -494,7 +494,7 @@ a.wps-tooltip:hover{
   .o-wrap .wps-postbox-chart--data{
     margin-top: 0!important;
   }
-  #wp-statistics-hits-meta-box-chart{
+  #wps_daily_traffic_trend_meta_chart{
     height: auto;
     max-height: 262px;
     width: 100%;
@@ -505,14 +505,9 @@ a.wps-tooltip:hover{
     .inside{
       margin-top: 24px!important;
     }
-    #wp-statistics-hits-meta-box-chart{
+    #wps_daily_traffic_trend_meta_chart{
        max-height: 462px;
     }
   }
 }
 
-#wp-statistics-search-widget{
-  #wp-statistics-search-meta-box-chart{
-    max-height: 262px;
-  }
-}

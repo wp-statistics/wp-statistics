@@ -2,12 +2,16 @@
 namespace WP_Statistics\Service\Admin\Metabox;
 
 use WP_Statistics\Abstracts\BaseMetabox;
+use WP_Statistics\Service\Admin\Metabox\Metaboxes\DailyTrafficTrend;
 use WP_Statistics\Service\Admin\Metabox\Metaboxes\TrafficSummary;
+use WP_Statistics\Service\Admin\Metabox\Metaboxes\ReferralsSearchEngines;
 
 class MetaboxHelper
 {
     public static $metaboxes = [
-        TrafficSummary::class
+        TrafficSummary::class,
+        DailyTrafficTrend::class,
+        ReferralsSearchEngines::class
     ];
 
     /**
