@@ -530,13 +530,80 @@
 }
 
 #dashboard-widgets-wrap {
-  #traffic_summary ,  #daily_traffic_trend , #referrals_search_engines{
+
+  .wps-new-table{
+    position: relative;
+    border-collapse: collapse;
+      tr{
+        th{
+          &.wps-pd-l{
+            font-weight: 400;
+            font-size: 13px;
+            line-height: 16px;
+            border-bottom: 1px solid #eeeff1;
+            text-align: left;
+            padding: 8px 0 12px 40px;
+
+            .rtl &{
+              text-align: right;
+              padding: 8px 40px 12px 0;
+            }
+          }
+        }
+        td{
+          padding: 14px 0 14px 40px;
+          font-weight: 400;
+          font-size: 13px;
+          color: #0c0c0d;
+          border: none;
+          .rtl &{
+            padding: 14px 40px 14px 0;
+          }
+
+        }
+
+    }
+    tbody{
+      tr:nth-child(even) td{
+        background-color: #fafafb;
+      }
+    }
+  }
+  #traffic_summary ,  #daily_traffic_trend , #referrals_search_engines , #top_countries{
     &.postbox .inside{
       padding-right: 0;
       padding-left: 0;
       margin-bottom: 24px;
       padding-bottom: 0;
     }
+  }
+
+  #top_countries{
+    th:last-child, td:last-child{
+      text-align: right !important;
+      padding-right: 24px;
+
+      .rtl &{
+        text-align: left !important;
+        padding-left: 24px;
+      }
+    }
+    tbody{
+      tr{
+        td{
+          &.wps-middle-vertical a {
+            color: #404bf2 !important;
+            font-weight: 500;
+            text-decoration: none;
+          }
+
+          .wps-country-flag .wps-ellipsis-text {
+            max-width: 250px;
+          }
+        }
+      }
+    }
+
   }
   #daily_traffic_trend , #referrals_search_engines{
     .o-wrap {

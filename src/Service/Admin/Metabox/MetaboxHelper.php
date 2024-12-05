@@ -5,13 +5,15 @@ use WP_Statistics\Abstracts\BaseMetabox;
 use WP_Statistics\Service\Admin\Metabox\Metaboxes\DailyTrafficTrend;
 use WP_Statistics\Service\Admin\Metabox\Metaboxes\TrafficSummary;
 use WP_Statistics\Service\Admin\Metabox\Metaboxes\ReferralsSearchEngines;
+use WP_Statistics\Service\Admin\Metabox\Metaboxes\TopCountries;
 
 class MetaboxHelper
 {
     public static $metaboxes = [
         TrafficSummary::class,
         DailyTrafficTrend::class,
-        ReferralsSearchEngines::class
+        ReferralsSearchEngines::class,
+        TopCountries::class,
     ];
 
     /**

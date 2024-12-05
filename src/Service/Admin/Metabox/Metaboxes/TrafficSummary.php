@@ -15,14 +15,6 @@ class TrafficSummary extends BaseMetabox
         return esc_html__('Traffic Summary', 'wp-statistics');
     }
 
-    public function getOptions()
-    {
-        return [
-            'datepicker'    => true,
-            'button'        => View::load('metabox/action-button',['link'=> Menus::admin_url('visitors', ['tab' => 'views']),'title'=>'Daily Traffic Trend Report'],true)
-        ];
-    }
-
     public function getData()
     {
         $args = [
