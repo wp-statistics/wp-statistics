@@ -139,6 +139,7 @@ Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest versio
 https://www.youtube.com/watch?v=jxYLVtBdhEc
 
 = 14.11.4 - 2024-**-** =
+- **Enhancement:** Optimize Global Visitor Distribution widget performance.
 - **Enhancement:** Added the geolocation validation in site info for better debugging.
 - **Fix:** Fix the tooltip for the previous period on the monthly and weekly charts.
 
