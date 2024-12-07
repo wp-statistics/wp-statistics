@@ -32,7 +32,7 @@
                                                 <?php echo number_format($item->visitors); ?>
                                             </td>
                                             <td class="wps-pd-l">
-                                                <?php echo number_format(\WP_STATISTICS\Helper::divideNumbers($item->visitors, $data['visits'], 4) * 100, 2); ?>%
+                                                <?php echo number_format(\WP_STATISTICS\Helper::divideNumbers($item->visitors, $data['visits'], 4) * 100, 1); ?>%
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>
