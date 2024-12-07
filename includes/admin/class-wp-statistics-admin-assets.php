@@ -327,7 +327,7 @@ class Admin_Assets
             'gutenberg'      => (Helper::is_gutenberg() ? 1 : 0),
             'more_btn'       => (apply_filters('wp_statistics_meta_box_more_button', true) ? 1 : 0),
             'wp_date_format' => Helper::getDefaultDateFormat(),
-            'track_users'    => Option::get('visitors_log') ? 1 : 0,
+            'track_users'    => Option::get('visitors_log') ? 1 : 0
         );
 
         // WordPress Current Page
@@ -475,6 +475,9 @@ class Admin_Assets
 
         $list['active_post_type'] = Helper::getPostTypeName(Request::get('pt', 'post'));
         $list['user_date_range']  = DateRange::get();
+
+        $list['initial_post_date'] = Helper::getInitialPostDate();
+
 
         // Rest-API Meta Box Url
         $list['stats_report_option'] = Option::get('time_report') == '0' ? false : true;

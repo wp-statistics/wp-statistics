@@ -316,7 +316,7 @@ class Query
         $result = $this->db->get_var($query);
 
         if ($this->allowCaching) {
-            $this->setCachedResult($query, $result);
+            $this->setCachedResult($query, $result, WEEK_IN_SECONDS);
         }
 
         return $result;
@@ -343,7 +343,7 @@ class Query
         $result = $this->db->get_results($query);
 
         if ($this->allowCaching) {
-            $this->setCachedResult($query, $result);
+            $this->setCachedResult($query, $result, WEEK_IN_SECONDS);
         }
 
         return $this->maybeDecorate($result);
@@ -402,7 +402,7 @@ class Query
         $result = $this->db->get_col($query);
 
         if ($this->allowCaching) {
-            $this->setCachedResult($query, $result);
+            $this->setCachedResult($query, $result, WEEK_IN_SECONDS);
         }
 
         return $result;
@@ -423,7 +423,7 @@ class Query
         $result = $this->db->get_row($query);
 
         if ($this->allowCaching) {
-            $this->setCachedResult($query, $result);
+            $this->setCachedResult($query, $result, WEEK_IN_SECONDS);
         }
 
         return $this->maybeDecorate($result);
