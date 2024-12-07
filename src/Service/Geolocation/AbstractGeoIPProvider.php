@@ -173,7 +173,7 @@ abstract class AbstractGeoIPProvider implements GeoServiceProviderInterface
     protected function getFilteredDownloadUrl(string $defaultUrl)
     {
         /**
-         * Filter: wp_statistics_geoip_download_url
+         * Filter: wp_statistics_geolocation_download_url
          *
          * Allows customization of the GeoIP database download URL.
          *
