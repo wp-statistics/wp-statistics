@@ -23,7 +23,6 @@ class GeneralNotices
         'checkTrackingMode',
         'performanceAndCleanUp',
         'memoryLimitCheck',
-        'phpVersionCheck',
         'emailReportSchedule',
         'notifyDeprecatedHoneypotOption'
     ];
@@ -158,34 +157,6 @@ class GeneralNotices
         Notice::addNotice(
             esc_html__('Your server memory limit is too low. Please contact your hosting provider to increase the memory limit.', 'wp-statistics'),
             'memory_limit_check',
-            'warning'
-        );
-    }
-
-    /**
-     * Notifies users about incompatible PHP versions.
-     *
-     * @return void
-     */
-    public function phpVersionCheck()
-    {
-        if (Notice::isNoticeDismissed('php_version_check')) {
-            return;
-        }
-
-        if (! version_compare(PHP_VERSION, '7.2', '<')) {
-            return;
-        }
-       
-        Notice::addNotice(
-            wp_kses(
-                /* translators: %s: PHP version requirement */
-                __('<b>WP Statistics Important Notice:</b> Final Version for Your Current PHP Version <b>14.11</b> of WP Statistics will be the <b>last</b> update compatible with your current PHP version. To continue receiving the latest features and security updates, please upgrade your PHP to version 7.2 or higher.', 'wp-statistics'),
-                [
-                    'b' => [],
-                ]
-            ),
-            'php_version_check',
             'warning'
         );
     }
