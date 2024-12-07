@@ -98,7 +98,10 @@ class ApiCommunicator
     public function validateLicense($licenseKey, $product = false)
     {
         if (empty($licenseKey) || !Helper::isStringLengthBetween($licenseKey, 32, 40) || !preg_match('/^[a-zA-Z0-9]+$/', $licenseKey)) {
-            throw new LicenseException(__('License key is not valid. Please enter a valid license and try again.', 'wp-statistics'));
+            throw new LicenseException(
+                esc_html__('License key is not valid. Please enter a valid license and try again.', 'wp-statistics'),
+                'invalid_license'
+            );
         }
 
         $remoteRequest = new RemoteRequest("{$this->apiUrl}/license/status", 'GET', [
