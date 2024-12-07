@@ -13,7 +13,7 @@ if (Menus::in_page('overview-new')) {
         <thead>
         <tr>
             <th class="wps-pd-l"><?php esc_html_e('Page', 'wp-statistics'); ?></th>
-            <th class="wps-pd-l"><span class="wps-order"><?php esc_html_e('Views', 'wp-statistics'); ?><</span></th>
+            <th class="wps-pd-l"><span class="wps-order"><?php esc_html_e('Views', 'wp-statistics'); ?></span></th>
             <th class="wps-pd-l"></th>
         </tr>
         </thead>
