@@ -2094,4 +2094,9 @@ class Helper
 
         return DateTime::format($initialDate, ['date_format' => 'Y-m-d']);
     }
+
+    public static function isStringLengthBetween($string, $minLength, $maxLength)
+    {
+        return strlen($string) >= $minLength && strlen($string) <= $maxLength;
+    }
 }
