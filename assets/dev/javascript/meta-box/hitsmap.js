@@ -10,19 +10,42 @@ wps_js.hitsmap_meta_box = {
 
     meta_box_init: function (args = []) {
         let pin = Array();
-
-        // Prepare Country Pin
-        if (args.hasOwnProperty('country')) {
-            Object.keys(args['country']).forEach(function (key) {
-                let t = `<div class='map-html-marker'><div class="map-country-header"><img src='${args['country'][key]['flag']}' alt="${args['country'][key]['name']}" title='${args['country'][key]['name']}' class='log-tools wps-flag'/> ${args['country'][key]['name']} (${args['total_country'][key]})</div>`;
-
-                // Get List visitors
-                Object.keys(args['visitor'][key]).forEach(function (visitor_id) {
-                    t += `<p><img src='${args['visitor'][key][visitor_id]['browser']['logo']}' alt="${args['visitor'][key][visitor_id]['browser']['name']}" class='wps-flag log-tools' title='${args['visitor'][key][visitor_id]['browser']['name']}'/> ${args['visitor'][key][visitor_id]['ip']} ` + (["Unknown", "(Unknown)"].includes(args['visitor'][key][visitor_id]['city']) ? '' : '- ' + args['visitor'][key][visitor_id]['city']) + `</p>`;
-                });
-                t += `</div>`;
-
-                pin[key] = t;
+        let colors = {};
+        
+        if (args.hasOwnProperty('codes') && args.codes.length > 0) {
+            const countryData = {};
+            args.codes.forEach((code, index) => {
+                countryData[code.toLowerCase()] = {
+                    label: args.labels[index],
+                    flag: args.flags[index],
+                    visitors: Number(args.data[index])
+                };
+            });
+            
+            // Maximum number of visitors
+            const maxVisitors = Math.max(...Object.values(countryData).map(country => country.visitors));
+            
+            // Generate colors
+            Object.keys(countryData).forEach(code => {
+                const country = countryData[code];
+                
+                const intensity = country.visitors / maxVisitors;
+                // Lighter blue (rgb(235, 245, 255)) to Medium blue (rgb(100, 181, 246))
+                const r = Math.round(235 - (135 * intensity));  // From 235 to 100
+                const g = Math.round(245 - (64 * intensity));   // From 245 to 181
+                const b = Math.round(255 - (9 * intensity));    // From 255 to 246
+                
+                colors[code] = `rgb(${r}, ${g}, ${b})`;
+                
+                 pin[code] = `<div class='map-html-marker'>
+                    <div class="map-country-header">
+                        <img src='${country.flag}' 
+                            alt="${country.label}" 
+                            title='${country.label}' 
+                            class='log-tools wps-flag'/> 
+                        ${country.label} (${country.visitors})
+                    </div>
+                </div>`;
             });
         }
 
@@ -35,12 +58,13 @@ wps_js.hitsmap_meta_box = {
             color: '#e6e5e2',
             selectedColor: '#9DA3F7',
             hoverColor: '#404BF2',
-            colors: args['color'],
+            colors: colors,
             onLabelShow: function (element, label, code) {
-                if (pin[code] !== undefined) {
-                    label.html(pin[code]);
+                const lowerCode = code.toLowerCase();
+                if (pin[lowerCode] !== undefined) {
+                    label.html(pin[lowerCode]);
                 } else {
-                    label.html(label.html() + ' [0]<hr />');
+                    label.html(label.html() + ' [0]');
                 }
             },
         });
