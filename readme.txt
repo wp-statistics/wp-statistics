@@ -141,6 +141,7 @@ https://www.youtube.com/watch?v=jxYLVtBdhEc
 = 14.11.4 - 2024-12-** =
 - **Enhancement:** Optimize Global Visitor Distribution widget performance.
 - **Enhancement:** Added the geolocation validation in site info for better debugging.
+- **Enhancement:** Implemented optimizations to reduce database requests and redundant operations on exclusions.
 - **Enhancement:** Added deprecated notice for Activate Honey Pot option.
 - **Fix:** Fixed the tooltip for the previous period on the monthly and weekly charts.
 - **Fix:** Corrected `urlToDir` function to resolve plugin paths properly in Bedrock.
