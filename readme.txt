@@ -4,7 +4,7 @@ Donate link: https://wp-statistics.com/donate/
 Tags: analytics, google analytics, insights, stats, site visitors
 Requires at least: 5.0
 Tested up to: 6.7
-Stable tag: 14.11.3
+Stable tag: 14.11.4
 Requires PHP: 7.2
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -138,10 +138,13 @@ Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest versio
 == Changelog ==
 https://www.youtube.com/watch?v=jxYLVtBdhEc
 
-= 14.11.4 - 2024-**-** =
+= 14.11.4 - 2024-12-** =
 - **Enhancement:** Optimize Global Visitor Distribution widget performance.
 - **Enhancement:** Added the geolocation validation in site info for better debugging.
-- **Fix:** Fix the tooltip for the previous period on the monthly and weekly charts.
+- **Enhancement:** Added deprecated notice for Activate Honey Pot option.
+- **Fix:** Fixed the tooltip for the previous period on the monthly and weekly charts.
+- **Fix:** Corrected `urlToDir` function to resolve plugin paths properly in Bedrock.
+- **Dev**: Added the filter `wp_statistics_geolocation_download_url`.
 
 = 14.11.3 - 2024-11-17 =
 - **New:** Added support for tracking unique visitors in shortcodes.

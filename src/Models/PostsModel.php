@@ -384,4 +384,15 @@ class PostsModel extends BaseModel
 
         return $result;
     }
+
+    public function getInitialPostDate()
+    {
+        $result = Query::select(['MIN(post_date) AS date'])
+            ->from('posts')
+            ->where('post_status', '=', 'publish')
+            ->allowCaching()
+            ->getVar();
+
+        return $result;
+    }
 }

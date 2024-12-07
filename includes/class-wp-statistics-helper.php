@@ -6,6 +6,7 @@ use ErrorException;
 use Exception;
 use WP_STATISTICS;
 use WP_Statistics\Components\DateTime;
+use WP_Statistics\Models\PostsModel;
 use WP_Statistics\Service\Integrations\WpConsentApi;
 use WP_Statistics\Utils\Request;
 use WP_Statistics\Utils\Signature;
@@ -1652,19 +1653,23 @@ class Helper
      *
      * @param string $url
      *
-     * @return  string          DIR. Empty on error.
+     * @return string DIR. Empty on error.
      */
     public static function urlToDir($url)
     {
-        if (stripos($url, site_url()) === false) {
+        // Ensure the URL is within the site scope
+        if (stripos($url, home_url()) === false) {
             return '';
         }
 
-        return (str_replace(
-            site_url(),
-            wp_normalize_path(untrailingslashit(ABSPATH)),
-            $url
-        ));
+        // Extract the plugin name from the URL (basename of the URL)
+        $pluginName = basename($url);
+
+        // Get the base directory from WP_PLUGIN_DIR
+        $pluginDir = untrailingslashit(WP_PLUGIN_DIR);
+
+        // Combine the plugin directory path with the plugin name
+        return wp_normalize_path($pluginDir . '/' . $pluginName);
     }
 
     public static function getReportEmailTip()
@@ -2078,5 +2083,15 @@ class Helper
         json_decode($string);
 
         return json_last_error() === JSON_ERROR_NONE;
+    }
+
+    public static function getInitialPostDate()
+    {
+        $postModel   = new PostsModel();
+
+        $initialDate = $postModel->getInitialPostDate();
+        $initialDate = !empty($initialDate) ? $initialDate : 0;
+
+        return DateTime::format($initialDate, ['date_format' => 'Y-m-d']);
     }
 }
