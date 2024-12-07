@@ -1,7 +1,7 @@
 <?php
 use WP_STATISTICS\Menus;
 
-if (Menus::in_page('overview-new')) {
+if (Menus::in_page('overview')) {
     $view_text = __('View Content', 'wp-statistics');
 } else {
     $view_text = __('View', 'wp-statistics');

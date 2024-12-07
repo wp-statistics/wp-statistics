@@ -570,7 +570,7 @@
     }
   }
   #traffic_summary ,  #daily_traffic_trend , #referrals_search_engines , #top_countries, #most_visited_pages,
-  #browser_usage,#most_used_operating_systems, #device_usage_breakdown,#top_device_model , #top_referring{
+  #browser_usage,#most_used_operating_systems, #device_usage_breakdown,#top_device_model , #top_referring , #most_active_visitors{
     &.postbox .inside{
       padding-right: 0;
       padding-left: 0;
@@ -588,6 +588,12 @@
     .o-wrap {
       padding: 0 24px;
     }
+    .o-table-wrapper{
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      scrollbar-width: thin;
+      scrollbar-color: #dadce0 #fafafb;
+    }
   }
 
   #browser_usage,#most_used_operating_systems,#device_usage_breakdown,#top_device_model{
@@ -595,10 +601,11 @@
       margin-top: 20px;
     }
   }
-  #top_countries , #top_referring , #most_visited_pages{
+  #top_countries , #top_referring , #most_visited_pages ,  #most_active_visitors{
     th:last-child, td:last-child{
       text-align: right !important;
       padding-right: 24px;
+      white-space: nowrap;
 
       .rtl &{
         text-align: left !important;

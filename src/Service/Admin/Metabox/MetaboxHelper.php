@@ -6,6 +6,7 @@ use WP_Statistics\Service\Admin\Metabox\Metaboxes\DailyTrafficTrend;
 use WP_Statistics\Service\Admin\Metabox\Metaboxes\TrafficSummary;
 use WP_Statistics\Service\Admin\Metabox\Metaboxes\ReferralsSearchEngines;
 use WP_Statistics\Service\Admin\Metabox\Metaboxes\MostVisitedPages;
+use WP_Statistics\Service\Admin\Metabox\Metaboxes\MostActiveVisitors;
 use WP_Statistics\Service\Admin\Metabox\Metaboxes\TopCountries;
 use WP_Statistics\Service\Admin\Metabox\Metaboxes\TopReferring;
 use WP_Statistics\Service\Admin\Metabox\Metaboxes\BrowserUsage;
@@ -24,6 +25,7 @@ class MetaboxHelper
         DailyTrafficTrend::class,
         ReferralsSearchEngines::class,
         MostVisitedPages::class,
+        MostActiveVisitors::class,
         TopCountries::class,
         TopReferring::class
     ];
