@@ -17,7 +17,7 @@ class BrowserUsage extends BaseMetabox
 
     public function getDescription()
     {
-        return esc_html__('', 'wp-statistics');
+        return esc_html__('Distribution of visitors based on the browsers they use.', 'wp-statistics');
     }
 
     public function getOptions()

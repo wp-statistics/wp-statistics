@@ -17,7 +17,7 @@ class DailyTrafficTrend extends BaseMetabox
 
     public function getDescription()
     {
-        return esc_html__('', 'wp-statistics');
+        return esc_html__('Day-by-day breakdown of views and page views over the selected period.', 'wp-statistics');
     }
 
     public function getOptions()

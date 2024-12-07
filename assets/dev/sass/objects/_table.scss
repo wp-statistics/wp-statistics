@@ -569,7 +569,7 @@
       }
     }
   }
-  #traffic_summary ,  #daily_traffic_trend , #referrals_search_engines , #top_countries,
+  #traffic_summary ,  #daily_traffic_trend , #referrals_search_engines , #top_countries, #most_visited_pages,
   #browser_usage,#most_used_operating_systems, #device_usage_breakdown,#top_device_model , #top_referring{
     &.postbox .inside{
       padding-right: 0;
@@ -595,8 +595,7 @@
       margin-top: 20px;
     }
   }
-
-  #top_countries , #top_referring{
+  #top_countries , #top_referring , #most_visited_pages{
     th:last-child, td:last-child{
       text-align: right !important;
       padding-right: 24px;
@@ -606,6 +605,9 @@
         padding-left: 24px;
       }
     }
+  }
+
+  #top_countries , #top_referring{
     tbody{
       tr{
         td{
