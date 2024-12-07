@@ -333,10 +333,6 @@ class User
         }
         
         if (is_multisite()) {
-            if (is_super_admin()) {
-                return true;
-            }
-
             if (! empty(get_current_blog_id()) && current_user_can_for_site(get_current_blog_id(), $capability)) {
                 return true;
             }
