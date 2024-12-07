@@ -442,7 +442,7 @@ class Exclusion
     {
 
         // Pull the robots from the database.
-        $robots = explode("\n", self::$options['exclude_ip'] ?? '');
+        $robots = explode("\n", self::$options['robotlist'] ?? '');
 
         // Check to see if we match any of the robots.
         foreach ($robots as $robot) {
