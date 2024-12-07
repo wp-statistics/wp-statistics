@@ -163,6 +163,26 @@ abstract class AbstractGeoIPProvider implements GeoServiceProviderInterface
     }
 
     /**
+     * Get the remote URL for downloading the GeoIP database.
+     *
+     * This URL can be filtered via WordPress filters.
+     *
+     * @param string $defaultUrl The default URL for downloading the database.
+     * @return string The filtered URL.
+     */
+    protected function getFilteredDownloadUrl(string $defaultUrl)
+    {
+        /**
+         * Filter: wp_statistics_geoip_download_url
+         *
+         * Allows customization of the GeoIP database download URL.
+         *
+         * @param string $defaultUrl The default download URL.
+         */
+        return apply_filters('wp_statistics_geoip_download_url', $defaultUrl);
+    }
+
+    /**
      * Update the last download timestamp.
      */
     protected function updateLastDownloadTimestamp()
