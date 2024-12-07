@@ -7,6 +7,8 @@ use WP_Statistics\Service\Admin\Metabox\Metaboxes\TrafficSummary;
 use WP_Statistics\Service\Admin\Metabox\Metaboxes\ReferralsSearchEngines;
 use WP_Statistics\Service\Admin\Metabox\Metaboxes\TopCountries;
 use WP_Statistics\Service\Admin\Metabox\Metaboxes\BrowserUsage;
+use WP_Statistics\Service\Admin\Metabox\Metaboxes\DeviceUsageBreakdown;
+use WP_Statistics\Service\Admin\Metabox\Metaboxes\TopDeviceModel;
 use WP_Statistics\Service\Admin\Metabox\Metaboxes\OperatingSystems;
 
 class MetaboxHelper
@@ -15,6 +17,8 @@ class MetaboxHelper
         TrafficSummary::class,
         BrowserUsage::class,
         OperatingSystems::class,
+        DeviceUsageBreakdown::class,
+        TopDeviceModel::class,
         DailyTrafficTrend::class,
         ReferralsSearchEngines::class,
         TopCountries::class

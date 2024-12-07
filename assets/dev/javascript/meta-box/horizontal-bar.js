@@ -13,7 +13,7 @@ wps_js.render_horizontal_bar_data = function(response, key) {
             response,
             key,
             args['tag_id'],
-            args['browsers_name'] || args['os_name'],
+            args['label'],
             args['data'],
             args['browsers_logos'] || args['os_logos']
         );
@@ -26,5 +26,13 @@ wps_js.render_browser_usage = function(response, key) {
 };
 
 wps_js.render_most_used_operating_systems = function(response, key) {
+    wps_js.render_horizontal_bar_data(response, key);
+};
+
+wps_js.render_device_usage_breakdown = function(response, key) {
+    wps_js.render_horizontal_bar_data(response, key);
+};
+
+wps_js.render_top_device_model = function(response, key) {
     wps_js.render_horizontal_bar_data(response, key);
 };

@@ -46,7 +46,7 @@ class OperatingSystems extends BaseMetabox
                 4,
                 5
             ],
-            'os_name' => [
+            'label' => [
                 "Windows",
                 "OS X",
                 "Android",

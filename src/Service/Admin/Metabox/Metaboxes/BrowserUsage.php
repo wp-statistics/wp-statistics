@@ -46,7 +46,7 @@ class BrowserUsage extends BaseMetabox
                 4,
                 5
             ],
-            'browsers_name' => [
+            'label' => [
                 "Chrome",
                 "Firefox",
                 "Edge",

@@ -570,7 +570,7 @@
     }
   }
   #traffic_summary ,  #daily_traffic_trend , #referrals_search_engines , #top_countries,
-  #browser_usage,#most_used_operating_systems{
+  #browser_usage,#most_used_operating_systems, #device_usage_breakdown,#top_device_model{
     &.postbox .inside{
       padding-right: 0;
       padding-left: 0;
@@ -582,7 +582,7 @@
     }
   }
 
-  #browser_usage,#most_used_operating_systems{
+  #browser_usage,#most_used_operating_systems,#device_usage_breakdown,#top_device_model{
     &.postbox .inside{
       margin-top: 20px;
     }
