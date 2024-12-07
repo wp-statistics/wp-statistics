@@ -6,6 +6,7 @@ use WP_Statistics\Service\Admin\Metabox\Metaboxes\DailyTrafficTrend;
 use WP_Statistics\Service\Admin\Metabox\Metaboxes\TrafficSummary;
 use WP_Statistics\Service\Admin\Metabox\Metaboxes\ReferralsSearchEngines;
 use WP_Statistics\Service\Admin\Metabox\Metaboxes\TopCountries;
+use WP_Statistics\Service\Admin\Metabox\Metaboxes\TopReferring;
 use WP_Statistics\Service\Admin\Metabox\Metaboxes\BrowserUsage;
 use WP_Statistics\Service\Admin\Metabox\Metaboxes\DeviceUsageBreakdown;
 use WP_Statistics\Service\Admin\Metabox\Metaboxes\TopDeviceModel;
@@ -21,7 +22,8 @@ class MetaboxHelper
         TopDeviceModel::class,
         DailyTrafficTrend::class,
         ReferralsSearchEngines::class,
-        TopCountries::class
+        TopCountries::class,
+        TopReferring::class
     ];
 
     /**

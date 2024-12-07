@@ -40,11 +40,20 @@
 
   }
 
-  #top_countries {
+  #top_referring{
+    tr td .wps-link-arrow{
+      max-width: 200px;
+    }
+  }
+
+  #top_referring , #top_countries{
     .o-table.wps-new-table td.wps-middle-vertical a {
       color: #404bf2 !important;
       font-weight: 500;
     }
+  }
+
+  #top_countries {
     .wps-country-flag .wps-ellipsis-text {
       max-width: 400px;
     }
