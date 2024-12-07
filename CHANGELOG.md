@@ -79,25 +79,6 @@
 * **Dev:** Added function `wp_statistics_needs_consent()` to check if user consent is required.
 * **Dev:** Removed `Admin_Post` and `Admin_Taxonomy` classes and replaced them with `HitColumnHandler`.
 
-14.10.1 - 11.09.2024
-* **Enhancement:** UX improvement for visitor information when users are logged in.
-* **Enhancement:** Corrected sorting issues in bar charts.
-* **Enhancement:** Fixed font override conflicts.
-* **Enhancement:** Enhanced object cache handling for better performance.
-* **Enhancement:** Improved compatibility with PHP versions 5.6 ~ 7.2.
-* **Enhancement:** Resolved style tweaks in charts and fixed various JavaScript issues.
-* **Fix:** Resolved issue with showing previous period data on hover when turned off.
-* **Fix:** Resolved chart shrinking issue in Chrome.
-* **Fix:** Fixed the “User Online” link in the Traffic Overview section.
-* **Fix:** Addressed issue where the top referral was not displaying in the “Your Performance at a Glance” section.
-* **Fix:** Resolved an issue with the report email option during some upgrades.
-* **Fix:** Fixed date filter issue on the “Single Browser” and “Visitor Insights” pages.
-* **Fix:** Fixed incorrect dates in the `monthly` schedule.
-* **Fix:** Fixed incorrect order in taxonomy lists when sorted by hits.
-* **Update:** Upgraded ChartJS to v4.4.4.
-* **Dev:** Added function `wp_statistics_needs_consent()` to check if user consent is required.
-* **Dev:** Removed `Admin_Post` and `Admin_Taxonomy` classes and replaced them with `HitColumnHandler`.
-
 14.10 - 28.08.2024
 * New: Introduced the Visitor Insights menu by merging the Visitors, Views, Online Visitors, and Top Visitors reports into one centralized Visitors page.
 * New: Created the Page Insights menu by combining the Contents, Category Pages, and Author Pages reports into one unified Pages page for better organization.

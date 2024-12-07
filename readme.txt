@@ -141,7 +141,8 @@ https://www.youtube.com/watch?v=jxYLVtBdhEc
 = 14.11.4 - 2024-**-** =
 - **Enhancement:** Added the geolocation validation in site info for better debugging.
 - **Enhancement:** Added deprecated notice for Activate Honey Pot option.
-- **Fix:** Fix the tooltip for the previous period on the monthly and weekly charts.
+- **Fix:** Fixed the tooltip for the previous period on the monthly and weekly charts.
+- **Fix:** Corrected `urlToDir` function to resolve plugin paths properly in Bedrock.
 
 = 14.11.3 - 2024-11-17 =
 - **New:** Added support for tracking unique visitors in shortcodes.
