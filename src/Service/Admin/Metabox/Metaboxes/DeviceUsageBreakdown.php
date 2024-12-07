@@ -15,6 +15,11 @@ class DeviceUsageBreakdown extends BaseMetabox
         return esc_html__('Device Usage Breakdown', 'wp-statistics');
     }
 
+    public function getDescription()
+    {
+        return esc_html__('', 'wp-statistics');
+    }
+
     public function getOptions()
     {
         return [

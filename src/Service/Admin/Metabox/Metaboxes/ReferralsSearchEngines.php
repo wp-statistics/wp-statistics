@@ -15,6 +15,11 @@ class ReferralsSearchEngines extends BaseMetabox
         return esc_html__('Referrals from Search Engines', 'wp-statistics');
     }
 
+    public function getDescription()
+    {
+        return esc_html__('', 'wp-statistics');
+    }
+
     public function getOptions()
     {
         return [

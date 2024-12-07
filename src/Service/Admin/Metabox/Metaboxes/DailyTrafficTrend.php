@@ -15,6 +15,11 @@ class DailyTrafficTrend extends BaseMetabox
         return esc_html__('Daily Traffic Trend', 'wp-statistics');
     }
 
+    public function getDescription()
+    {
+        return esc_html__('', 'wp-statistics');
+    }
+
     public function getOptions()
     {
         return [

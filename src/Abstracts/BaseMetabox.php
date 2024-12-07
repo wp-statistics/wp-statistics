@@ -23,6 +23,13 @@ abstract class BaseMetabox
      */
     abstract public function getName();
 
+
+    /**
+     * Returns the description of the metabox
+     * @return string
+     */
+    abstract public function getDescription();
+
     /**
      * Returns the data for the metabox
      * @return string|array
@@ -131,7 +138,10 @@ abstract class BaseMetabox
         $response = [
             'response'  => $this->getData(),
             'options'   => $this->getOptions(),
-            'filters'   => $this->getFilters()
+            'filters'   => $this->getFilters(),
+            'meta'      => [
+                'description' => $this->getDescription()
+            ],
         ];
 
         wp_send_json($response);
