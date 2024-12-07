@@ -382,9 +382,12 @@ class Exclusion
      */
     public static function exclusion_iP_match()
     {
+        if (empty(self::$options['exclude_ip'])) {
+            return false;
+        }
 
         // Pull the sub nets from the database.
-        $SubNets = explode("\n", self::$options['exclude_ip'] ?? '');
+        $SubNets = explode("\n", self::$options['exclude_ip']);
 
         // Check in Loop
         foreach ($SubNets as $subnet) {
@@ -482,14 +485,6 @@ class Exclusion
      */
     public static function exclusion_geoip($visitorProfile)
     {
-        $location = $visitorProfile->getCountry();
-
-        if (empty($location)) {
-            return false;
-        }
-
-        $location = strtoupper($location);
-
         static $excludedCountries = null;
         static $includedCountries = null;
 
@@ -497,10 +492,6 @@ class Exclusion
             $excluded_option   = self::$options['excluded_countries'] ?? '';
             $excludedCountries = empty($excluded_option) ? [] :
                 array_flip(array_filter(explode("\n", strtoupper(str_replace("\r\n", "\n", $excluded_option)))));
-        }
-
-        if (isset($excludedCountries[$location])) {
-            return true;
         }
 
         if ($includedCountries === null) {
@@ -513,6 +504,22 @@ class Exclusion
                 $includedCountries = $included_countries_string === '' ? [] :
                     array_flip(array_filter(explode("\n", $included_countries_string)));
             }
+        }
+
+        if ( empty($excludedCountries) && empty($includedCountries) ) {
+            return false;
+        }
+
+        $location = $visitorProfile->getCountry();
+
+        if (empty($location)) {
+            return false;
+        }
+
+        $location = strtoupper($location);
+
+        if (isset($excludedCountries[$location])) {
+            return true;
         }
 
         return !empty($includedCountries) && !isset($includedCountries[$location]);
