@@ -9,7 +9,7 @@ use WP_STATISTICS\Menus;
 
 class OverviewPage extends BasePage
 {
-    protected $pageSlug = 'overview-new';
+    protected $pageSlug = 'overview';
 
     public function __construct()
     {

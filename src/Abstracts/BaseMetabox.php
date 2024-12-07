@@ -2,6 +2,7 @@
 namespace WP_Statistics\Abstracts;
 
 use Wp_Statistics\Components\Ajax;
+use WP_STATISTICS\Menus;
 use WP_Statistics\Service\Admin\Metabox\MetaboxDataProvider;
 use WP_STATISTICS\User;
 use WP_Statistics\Utils\Request;
@@ -85,7 +86,7 @@ abstract class BaseMetabox
      */
     public function getScreen()
     {
-        return ['statistics_page_wps_overview-new_page', 'dashboard'];
+        return [Menus::get_action_menu_slug('overview'), 'dashboard'];
     }
 
     /**

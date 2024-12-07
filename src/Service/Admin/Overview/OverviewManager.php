@@ -18,12 +18,22 @@ class OverviewManager
      */
     public function addMenuItem($items)
     {
-        $items['overview-new'] = [
-            'sub'      => 'overview',
-            'title'    => esc_html__('Overview (NEW)', 'wp-statistics'),
-            'page_url' => 'overview-new',
+        // Top level parent menu item
+        $items['parent'] = [
+            'title'    => esc_html__('Statistics', 'wp-statistics'),
+            'page_url' => 'overview',
+            'icon'     => 'dashicons-chart-line',
             'callback' => OverviewPage::class,
-            'priority' => 21,
+            'priority' => 10
+        ];
+
+        // Sub menu overview page
+        $items['overview'] = [
+            'sub'      => 'overview',
+            'title'    => esc_html__('Overview', 'wp-statistics'),
+            'page_url' => 'overview',
+            'callback' => OverviewPage::class,
+            'priority' => 15
         ];
 
         return $items;
