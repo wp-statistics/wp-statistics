@@ -6,6 +6,7 @@ use ErrorException;
 use Exception;
 use WP_STATISTICS;
 use WP_Statistics\Components\DateTime;
+use WP_Statistics\Models\PostsModel;
 use WP_Statistics\Service\Integrations\WpConsentApi;
 use WP_Statistics\Utils\Request;
 use WP_Statistics\Utils\Signature;
@@ -2082,5 +2083,15 @@ class Helper
         json_decode($string);
 
         return json_last_error() === JSON_ERROR_NONE;
+    }
+
+    public static function getInitialPostDate()
+    {
+        $postModel   = new PostsModel();
+
+        $initialDate = $postModel->getInitialPostDate();
+        $initialDate = !empty($initialDate) ? $initialDate : 0;
+
+        return DateTime::format($initialDate, ['date_format' => 'Y-m-d']);
     }
 }

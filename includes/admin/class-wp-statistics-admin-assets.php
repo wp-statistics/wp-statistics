@@ -328,6 +328,7 @@ class Admin_Assets
             'more_btn'       => (apply_filters('wp_statistics_meta_box_more_button', true) ? 1 : 0),
             'wp_date_format' => Helper::getDefaultDateFormat(),
             'track_users'    => Option::get('visitors_log') ? 1 : 0,
+            'initial_date'   => Helper::getInitialPostDate()
         );
 
         // WordPress Current Page
