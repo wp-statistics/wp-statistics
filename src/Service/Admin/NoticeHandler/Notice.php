@@ -9,6 +9,15 @@ class Notice
 {
     private static $adminNotices = array();
 
+    /**
+     * List Of Dismissed Notices.
+     *
+     * @var array
+     * @static
+     * @access private
+     */
+    private static $dismissedNotices = [];
+
     public static function addNotice($message, $id, $class = 'info', $isDismissible = true)
     {
         $notice = array(
@@ -46,7 +55,7 @@ class Notice
 
     public static function displayNotices()
     {
-        $dismissedNotices = get_option('wp_statistics_dismissed_notices', array());
+        $dismissedNotices = self::getDismissedNotices();
 
         foreach (self::$adminNotices as $id => $notice) {
             if (in_array($id, $dismissedNotices, true)) {
@@ -126,7 +135,7 @@ class Notice
             check_admin_referer('wp_statistics_dismiss_notice', 'nonce');
 
             $noticeId         = sanitize_text_field($_GET['notice_id']);
-            $dismissedNotices = get_option('wp_statistics_dismissed_notices', array());
+            $dismissedNotices = self::getDismissedNotices();
 
             if (!in_array($noticeId, $dismissedNotices, true)) {
                 $dismissedNotices[] = $noticeId;
@@ -143,5 +152,23 @@ class Notice
     {
         $generalNotices = new GeneralNotices();
         $generalNotices->init();
+    }
+
+    public static function getDismissedNotices() {
+        if (empty(self::$dismissedNotices)) {
+            self::$dismissedNotices = get_option('wp_statistics_dismissed_notices', []);
+        }
+        
+        return self::$dismissedNotices;
+    }
+
+    public static function isNoticeDismissed($noticeId) {
+        if (empty($noticeId) || empty(self::$dismissedNotices)) {
+            return;
+        }
+    
+        $dismissedNotices = self::getDismissedNotices();
+
+        return in_array($noticeId, $dismissedNotices, true);
     }
 }
