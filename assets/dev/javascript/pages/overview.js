@@ -232,9 +232,7 @@ if (!wps_js.isset(wps_js.global, 'request_params', 'page') || wps_js.global.requ
             wps_js.showLoadingSkeleton(metaboxId);
             loadMetaBoxData(metaboxId, dates.startDate || dates.start, dates.endDate || dates.end, filter)
                 .then(response => {
-                    if (typeof wps_js[`render_${metaboxId}`] === 'function') {
-                        wps_js[`render_${metaboxId}`](response, metaboxId);
-                    }
+                    wps_js.handleMetaBoxRender(response, metaboxId);
                 })
                 .catch(error => console.error(`Error loading metabox ${metaboxId}:`, error));
         }
@@ -289,20 +287,24 @@ if (!wps_js.isset(wps_js.global, 'request_params', 'page') || wps_js.global.requ
         });
     }
 
+    wps_js.handleMetaBoxRender = function(response, metaBoxKey) {
+        if (typeof wps_js[`render_${metaBoxKey}`] === 'function') {
+            wps_js[`render_${metaBoxKey}`](response, metaBoxKey);
+            wps_js.handelReloadButton(metaBoxKey);
+            wps_js.handelMetaBoxFooter(metaBoxKey, response);
+        }
+    };
+
     // Initialize meta boxes
     meta_list.forEach((metaBoxKey) => {
         loadMetaBoxData(metaBoxKey).then(response => {
-            if (typeof wps_js[`render_${metaBoxKey}`] === 'function') {
-                wps_js[`render_${metaBoxKey}`](response, metaBoxKey);
-            }
+            wps_js.handleMetaBoxRender(response, metaBoxKey);
         });
 
         jQuery(document).on('click', `#${metaBoxKey} .wps-refresh`, function () {
             wps_js.showLoadingSkeleton(metaBoxKey);
             loadMetaBoxData(metaBoxKey).then(response => {
-                if (typeof wps_js[`render_${metaBoxKey}`] === 'function') {
-                    wps_js[`render_${metaBoxKey}`](response, metaBoxKey);
-                }
+                wps_js.handleMetaBoxRender(response, metaBoxKey);
             });
         });
     });

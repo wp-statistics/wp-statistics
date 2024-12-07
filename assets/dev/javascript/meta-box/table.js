@@ -1,0 +1,11 @@
+wps_js.set_content = function(response, key) {
+    if (response && response.response) {
+        wps_js.metaBoxInner(key).html(response.response);
+        wps_js.initDatePickerHandlers();
+    }
+};
+
+wps_js.render_table_content = wps_js.set_content;
+
+wps_js.render_top_countries = wps_js.render_table_content;
+wps_js.render_traffic_summary = wps_js.render_table_content;

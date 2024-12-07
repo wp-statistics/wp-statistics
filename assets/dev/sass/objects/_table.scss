@@ -569,12 +569,22 @@
       }
     }
   }
-  #traffic_summary ,  #daily_traffic_trend , #referrals_search_engines , #top_countries{
+  #traffic_summary ,  #daily_traffic_trend , #referrals_search_engines , #top_countries,
+  #browser_usage,#most_used_operating_systems{
     &.postbox .inside{
       padding-right: 0;
       padding-left: 0;
       margin-bottom: 24px;
       padding-bottom: 0;
+    }
+    .o-wrap {
+      padding: 0 24px;
+    }
+  }
+
+  #browser_usage,#most_used_operating_systems{
+    &.postbox .inside{
+      margin-top: 20px;
     }
   }
 

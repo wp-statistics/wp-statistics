@@ -6,14 +6,18 @@ use WP_Statistics\Service\Admin\Metabox\Metaboxes\DailyTrafficTrend;
 use WP_Statistics\Service\Admin\Metabox\Metaboxes\TrafficSummary;
 use WP_Statistics\Service\Admin\Metabox\Metaboxes\ReferralsSearchEngines;
 use WP_Statistics\Service\Admin\Metabox\Metaboxes\TopCountries;
+use WP_Statistics\Service\Admin\Metabox\Metaboxes\BrowserUsage;
+use WP_Statistics\Service\Admin\Metabox\Metaboxes\OperatingSystems;
 
 class MetaboxHelper
 {
     public static $metaboxes = [
         TrafficSummary::class,
+        BrowserUsage::class,
+        OperatingSystems::class,
         DailyTrafficTrend::class,
         ReferralsSearchEngines::class,
-        TopCountries::class,
+        TopCountries::class
     ];
 
     /**
