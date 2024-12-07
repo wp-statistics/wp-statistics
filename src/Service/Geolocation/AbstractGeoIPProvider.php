@@ -179,7 +179,7 @@ abstract class AbstractGeoIPProvider implements GeoServiceProviderInterface
          *
          * @param string $defaultUrl The default download URL.
          */
-        return apply_filters('wp_statistics_geoip_download_url', $defaultUrl);
+        return apply_filters('wp_statistics_geolocation_download_url', $defaultUrl);
     }
 
     /**
