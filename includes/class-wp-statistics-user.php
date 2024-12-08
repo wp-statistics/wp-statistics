@@ -319,4 +319,31 @@ class User
 
         return is_multisite() ? is_super_admin() : current_user_can('manage_options');
     }
+
+    /**
+     * Check if the current user has the specified capability.
+     * 
+     * @param string $capability The user capability to check.
+     * @return bool|null Whether the current user has the specified capability.
+     */
+    public static function checkUserCapability($capability)
+    {
+        if (! self::is_login() || empty($capability)) {
+            return;
+        }
+        
+        if (is_multisite()) {
+            if (! empty(get_current_blog_id()) && current_user_can_for_site(get_current_blog_id(), $capability)) {
+                return true;
+            }
+
+            return;
+        }
+
+        if (current_user_can($capability)) {
+            return true;
+        }
+
+        return;
+    }
 }

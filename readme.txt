@@ -155,6 +155,7 @@ https://www.youtube.com/watch?v=jxYLVtBdhEc
 - **Fix:** Resolved current page issue with mini charts.
 - **Fix:** Corrected default network option behavior.
 - **Fix:** Fixed device model percentage calculation issue.
+- **Fix:** Resolved issues in the Roles & Permissions section to prevent assigning higher capabilities than the current user.
 - **Dev:** Added new filters: `wp_statistics_geolocation_download_url`, `wp_statistics_injection_patterns`, and `wp_statistics_location_column_value`.
 
 = 14.11.3 - 2024-11-17 =
