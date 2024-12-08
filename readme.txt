@@ -139,16 +139,22 @@ Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest versio
 https://www.youtube.com/watch?v=jxYLVtBdhEc
 
 = 14.11.4 - 2024-12-** =
-- **Enhancement:** Optimize Global Visitor Distribution widget performance.
-- **Enhancement:** Added the geolocation validation in site info for better debugging.
-- **Enhancement:** Implemented optimizations to reduce database requests and redundant operations on exclusions.
-- **Enhancement:** Added deprecated notice for Activate Honey Pot option.
-- **Fix:** Fixed the tooltip for the previous period on the monthly and weekly charts.
-- **Fix:** Corrected `urlToDir` function to resolve plugin paths properly in Bedrock.
-- **Fix:** Removed widgets for non-published post types.
-- **Fix:** Removed the `views` column for non-published post types.
-- **Fix:** Resolved the issue with device models percentage calculation.
-- **Dev**: Added the filter `wp_statistics_geolocation_download_url`.
+- **New:** Added a reset button to the referral filter for easier resetting.
+- **Enhancement:** Optimized performance for the Global Visitor Distribution widget.
+- **Enhancement:** Added geolocation validation to site info for more accurate debugging.
+- **Enhancement:** Reduced database requests and eliminated redundant operations in exclusions.
+- **Enhancement:** Added deprecated notice for the "Activate Honey Pot" option.
+- **Enhancement:** Updated styles for referral and visitor filters for a more streamlined UI.
+- **Enhancement:** Increased cache expiration for previous period data from 1 day to 1 week.
+- **Fix:** Corrected tooltip behavior for previous period data on monthly and weekly charts.
+- **Fix:** Fixed shortcode logic to properly retrieve the correct resource ID.
+- **Fix:** Resolved issue loading `tracker.js` when "Bypass Ad Blockers" is enabled in Bedrock Boilerplate.
+- **Fix:** Fixed display of summary stats widget and views column for private post types.
+- **Fix:** Fixed issue with visitor hash search functionality.
+- **Fix:** Resolved current page issue with mini charts.
+- **Fix:** Corrected default network option behavior.
+- **Fix:** Fixed device model percentage calculation issue.
+- **Dev:** Added new filters: `wp_statistics_geolocation_download_url`, `wp_statistics_injection_patterns`, and `wp_statistics_location_column_value`.
 
 = 14.11.3 - 2024-11-17 =
 - **New:** Added support for tracking unique visitors in shortcodes.
