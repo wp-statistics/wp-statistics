@@ -2085,6 +2085,11 @@ class Helper
         return json_last_error() === JSON_ERROR_NONE;
     }
 
+    /**
+     * Get the date of the first published post on the site.
+     *
+     * @return string
+     */
     public static function getInitialPostDate()
     {
         $postModel   = new PostsModel();
@@ -2095,6 +2100,15 @@ class Helper
         return DateTime::format($initialDate, ['date_format' => 'Y-m-d']);
     }
 
+    /**
+     * Check if the length of the given string is between the given minimum and maximum length.
+     *
+     * @param string $string
+     * @param int $minLength
+     * @param int $maxLength
+     *
+     * @return bool
+     */
     public static function isStringLengthBetween($string, $minLength, $maxLength)
     {
         $length = strlen($string);
