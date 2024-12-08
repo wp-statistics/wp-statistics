@@ -138,7 +138,7 @@ Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest versio
 == Changelog ==
 https://www.youtube.com/watch?v=jxYLVtBdhEc
 
-= 14.11.4 - 2024-12-** =
+= 14.11.4 - 2024-12-09 =
 - **New:** Added a reset button to the referral filter for easier resetting.
 - **Enhancement:** Optimized performance for the Global Visitor Distribution widget.
 - **Enhancement:** Added geolocation validation to site info for more accurate debugging.
