@@ -157,6 +157,7 @@ https://www.youtube.com/watch?v=jxYLVtBdhEc
 - **Fix:** Fixed device model percentage calculation issue.
 - **Fix:** Resolved issues in the Roles & Permissions section to prevent assigning higher capabilities than the current user.
 - **Fix:** Resolved the sortable issue with the `views` custom column.
+- **Fix:** Resolved PHP deprecation issue.
 - **Dev:** Added new filters: `wp_statistics_geolocation_download_url`, `wp_statistics_injection_patterns`, and `wp_statistics_location_column_value`.
 
 = 14.11.3 - 2024-11-17 =
