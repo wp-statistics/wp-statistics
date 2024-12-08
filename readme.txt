@@ -4,7 +4,7 @@ Donate link: https://wp-statistics.com/donate/
 Tags: analytics, google analytics, insights, stats, site visitors
 Requires at least: 5.0
 Tested up to: 6.7
-Stable tag: 14.11.3
+Stable tag: 14.11.4
 Requires PHP: 7.2
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -138,10 +138,25 @@ Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest versio
 == Changelog ==
 https://www.youtube.com/watch?v=jxYLVtBdhEc
 
-= 14.11.4 - 2024-**-** =
-- **Enhancement:** Added the geolocation validation in site info for better debugging.
-- **Fix:** Fix the tooltip for the previous period on the monthly and weekly charts.
+= 14.11.4 - 2024-12-** =
+- **New:** Added a reset button to the referral filter for easier resetting.
+- **Enhancement:** Optimized performance for the Global Visitor Distribution widget.
+- **Enhancement:** Added geolocation validation to site info for more accurate debugging.
+- **Enhancement:** Reduced database requests and eliminated redundant operations in exclusions.
+- **Enhancement:** Added deprecated notice for the "Activate Honey Pot" option.
+- **Enhancement:** Updated styles for referral and visitor filters for a more streamlined UI.
+- **Enhancement:** Increased cache expiration for previous period data from 1 day to 1 week.
+- **Enhancement:** Updated visibility of `Add-ons` and `Privacy Audit` menu items based on the `Minimum Role to Manage Settings`.
+- **Fix:** Corrected tooltip behavior for previous period data on monthly and weekly charts.
+- **Fix:** Fixed shortcode logic to properly retrieve the correct resource ID.
+- **Fix:** Resolved issue loading `tracker.js` when "Bypass Ad Blockers" is enabled in Bedrock Boilerplate.
+- **Fix:** Fixed display of summary stats widget and views column for private post types.
+- **Fix:** Fixed issue with visitor hash search functionality.
+- **Fix:** Resolved current page issue with mini charts.
+- **Fix:** Corrected default network option behavior.
+- **Fix:** Fixed device model percentage calculation issue.
 - **Fix:** Resolved issues in the Roles & Permissions section to prevent assigning higher capabilities than the current user.
+- **Dev:** Added new filters: `wp_statistics_geolocation_download_url`, `wp_statistics_injection_patterns`, and `wp_statistics_location_column_value`.
 
 = 14.11.3 - 2024-11-17 =
 - **New:** Added support for tracking unique visitors in shortcodes.
