@@ -22,7 +22,7 @@ class OverviewManager
         $items['parent'] = [
             'title'    => esc_html__('Statistics', 'wp-statistics'),
             'page_url' => 'overview',
-            'icon'     => 'dashicons-chart-line',
+            'icon'     => 'dashicons-chart-pie',
             'callback' => OverviewPage::class,
             'priority' => 10
         ];

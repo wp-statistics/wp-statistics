@@ -81,7 +81,6 @@ abstract class BaseMetabox
 
     /**
      * Returns the screens the metabox is active on
-     * @todo get overview screen id dynamically
      * @return array
      */
     public function getScreen()
