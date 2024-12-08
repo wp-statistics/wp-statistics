@@ -94,9 +94,9 @@ class PostsManager
                 add_action("manage_{$type}_custom_column", [$hitColumnHandler, 'renderHitColumn'], 10, 2);
             }
 
-            $current_page = Request::get('post_type', 'post');
+            $currentPage = Request::get('post_type', 'post');
             
-            add_filter("manage_edit-{$current_page}_sortable_columns", [$hitColumnHandler, 'modifySortableColumns']);
+            add_filter("manage_edit-{$currentPage}_sortable_columns", [$hitColumnHandler, 'modifySortableColumns']);
 
             if (!$isPostQuickEdit) {
                 add_filter('posts_clauses', [$hitColumnHandler, 'handlePostOrderByHits'], 10, 2);
