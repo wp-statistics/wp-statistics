@@ -16,7 +16,7 @@ class about_premium
          */
         $args = apply_filters('wp_statistics_meta_about_post_args', $args);
 
-        include WP_STATISTICS_DIR . 'includes/admin/templates/meta-box/about-premium.php';
+        include WP_STATISTICS_DIR . 'includes/admin/templates/meta-box/go-premium.php';
     }
 
 }
