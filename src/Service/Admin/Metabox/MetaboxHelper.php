@@ -4,7 +4,7 @@ namespace WP_Statistics\Service\Admin\Metabox;
 use WP_Statistics\Abstracts\BaseMetabox;
 use WP_Statistics\Service\Admin\Metabox\Metaboxes\DailyTrafficTrend;
 use WP_Statistics\Service\Admin\Metabox\Metaboxes\TrafficSummary;
-use WP_Statistics\Service\Admin\Metabox\Metaboxes\ReferralsSearchEngines;
+use WP_Statistics\Service\Admin\Metabox\Metaboxes\SearchEngines;
 use WP_Statistics\Service\Admin\Metabox\Metaboxes\MostVisitedPages;
 use WP_Statistics\Service\Admin\Metabox\Metaboxes\MostActiveVisitors;
 use WP_Statistics\Service\Admin\Metabox\Metaboxes\LatestVisitor;
@@ -25,7 +25,7 @@ class MetaboxHelper
         DeviceUsageBreakdown::class,
         TopDeviceModel::class,
         DailyTrafficTrend::class,
-        ReferralsSearchEngines::class,
+        SearchEngines::class,
         MostVisitedPages::class,
         MostActiveVisitors::class,
         LatestVisitor::class,

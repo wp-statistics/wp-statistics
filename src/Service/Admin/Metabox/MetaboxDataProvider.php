@@ -39,4 +39,9 @@ class MetaboxDataProvider
     {
         return ChartDataProviderFactory::trafficChart($args)->getData();
     }
+
+    public function getSearchEnginesChartData($args = [])
+    {
+        return ChartDataProviderFactory::searchEngineChart($args)->getData();
+    }
 }
