@@ -10,6 +10,7 @@ use WP_STATISTICS\Option;
 use WP_Statistics\Service\Admin\MiniChart\MiniChartHelper;
 use WP_STATISTICS\TimeZone;
 use WP_STATISTICS\User;
+use WP_Statistics\Utils\Request;
 
 class PostsManager
 {
@@ -93,7 +94,7 @@ class PostsManager
                 add_action("manage_{$type}_custom_column", [$hitColumnHandler, 'renderHitColumn'], 10, 2);
             }
 
-            $current_page = ! empty($_GET['post_type']) ? sanitize_text_field($_GET['post_type']) : 'post';
+            $current_page = Request::get('post_type', 'post');
             
             add_filter("manage_edit-{$current_page}_sortable_columns", [$hitColumnHandler, 'modifySortableColumns']);
 
