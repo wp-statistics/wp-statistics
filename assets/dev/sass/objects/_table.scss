@@ -569,7 +569,7 @@
       }
     }
   }
-  #traffic_summary ,  #daily_traffic_trend , #referrals_search_engines , #top_countries, #most_visited_pages,
+  #traffic_summary ,  #daily_traffic_trend , #search_engines , #top_countries, #most_visited_pages,
   #browser_usage,#most_used_operating_systems, #device_usage_breakdown,#top_device_model ,
   #top_referring , #most_active_visitors ,#latest_visitor_breakdown , #currently_online{
     &.postbox .inside{
@@ -637,7 +637,7 @@
     }
 
   }
-  #daily_traffic_trend , #referrals_search_engines{
+  #daily_traffic_trend , #search_engines{
     .o-wrap {
       padding: 12px 24px !important;
       padding-top: 0 !important;

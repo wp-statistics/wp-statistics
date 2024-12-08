@@ -14,5 +14,5 @@ wps_js.render_line_chart = function(response, key) {
 };
 
  
-wps_js.render_referrals_search_engines = wps_js.render_line_chart;
+wps_js.render_search_engines = wps_js.render_line_chart;
 wps_js.render_daily_traffic_trend = wps_js.render_line_chart;
