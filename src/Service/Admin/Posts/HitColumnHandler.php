@@ -55,15 +55,20 @@ class HitColumnHandler
     /**
      * Adds a custom column to posts/taxonomies lists for hits statistics.
      *
-     * @param array $columns
+     * @param array  $columns Columns array.
+     * @param string $postType Post type.
      *
      * @return array
      *
      * @hooked action: `manage_{$type}_posts_columns` - 10
      * @hooked action: `manage_edit-{$tax}_columns` - 10
      */
-    public function addHitColumn($columns)
+    public function addHitColumn($columns, $postType='')
     {
+        if (! empty($postType) && empty(is_post_type_viewable($postType))) {
+            return $columns;
+        }
+        
         // Handle WooCommerce sortable UI
         if (isset($columns['handle'])) {
             $cols = [];
