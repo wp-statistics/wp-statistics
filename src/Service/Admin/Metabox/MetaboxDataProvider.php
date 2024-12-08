@@ -35,6 +35,20 @@ class MetaboxDataProvider
         return $data;
     }
 
+    public function getReferrersData($args = [])
+    {
+        $args = array_merge(
+            $args,
+            [
+                'decorate'  => true,
+                'per_page'  => 10,
+                'page'      => 1
+            ]
+        );
+
+        return $this->visitorsModel->getReferrers($args);
+    }
+
     public function getTopVisitorsData($args = [])
     {
         $visitors = $this->visitorsModel->getVisitorsData(array_merge($args, [
