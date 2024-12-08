@@ -93,7 +93,9 @@ class PostsManager
                 add_action("manage_{$type}_custom_column", [$hitColumnHandler, 'renderHitColumn'], 10, 2);
             }
 
-            add_filter("manage_edit-sortable_columns", [$hitColumnHandler, 'modifySortableColumns']);
+            $current_page = ! empty($_GET['post_type']) ? sanitize_text_field($_GET['post_type']) : 'post';
+            
+            add_filter("manage_edit-{$current_page}_sortable_columns", [$hitColumnHandler, 'modifySortableColumns']);
 
             if (!$isPostQuickEdit) {
                 add_filter('posts_clauses', [$hitColumnHandler, 'handlePostOrderByHits'], 10, 2);
