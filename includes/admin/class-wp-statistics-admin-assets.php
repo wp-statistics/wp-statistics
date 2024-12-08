@@ -5,6 +5,7 @@ namespace WP_STATISTICS;
 use WP_Statistics\Utils\Request;
 use WP_Statistics\Components\Assets;
 use WP_Statistics\Components\DateRange;
+use WP_Statistics\Components\DateTime;
 
 class Admin_Assets
 {
@@ -478,6 +479,11 @@ class Admin_Assets
 
         $list['initial_post_date'] = Helper::getInitialPostDate();
 
+        if (Request::has('post_id')) {
+            $list['post_creation_date'] = get_the_date(DateTime::$defaultDateFormat, Request::get('post_id'));
+        } else if (is_singular()) {
+            $list['post_creation_date'] = get_the_date(DateTime::$defaultDateFormat);
+        }
 
         // Rest-API Meta Box Url
         $list['stats_report_option'] = Option::get('time_report') == '0' ? false : true;
