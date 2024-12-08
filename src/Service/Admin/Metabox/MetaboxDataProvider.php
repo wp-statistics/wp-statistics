@@ -35,6 +35,20 @@ class MetaboxDataProvider
         return $data;
     }
 
+    public function getTopVisitorsData($args = [])
+    {
+        $visitors = $this->visitorsModel->getVisitorsData(array_merge($args, [
+            'page_info' => true,
+            'user_info' => true,
+            'order_by'  => 'hits',
+            'order'     => 'DESC',
+            'per_page'  => 10,
+            'page'      => 1
+        ]));
+
+        return $visitors;
+    }
+
     public function getTrafficChartData($args = [])
     {
         return ChartDataProviderFactory::trafficChart($args)->getData();

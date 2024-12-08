@@ -33,13 +33,9 @@ class MostActiveVisitors extends BaseMetabox
 
     public function getData()
     {
-        $args = [
-            'ignore_date' => true
-        ];
+        $args = $this->getFilters();
 
-        //  @todo  Add data
-        $data = [];
-
+        $data   = $this->dataProvider->getTopVisitorsData($args);
         $output = View::load('metabox/most-active-visitors', ['data' => $data], true);
 
         return $output;
