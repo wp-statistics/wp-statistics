@@ -201,6 +201,10 @@ class PostsManager
      */
     public function addPostMetaBoxes($postType)
     {
+        if (empty(is_post_type_viewable($postType))) {
+            return;
+        }
+        
         if ($this->shouldDisplaySummaryMetabox()) {
             add_meta_box(
                 Meta_Box::getMetaBoxKey('post-summary'),

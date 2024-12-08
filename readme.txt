@@ -141,9 +141,12 @@ https://www.youtube.com/watch?v=jxYLVtBdhEc
 = 14.11.4 - 2024-12-** =
 - **Enhancement:** Optimize Global Visitor Distribution widget performance.
 - **Enhancement:** Added the geolocation validation in site info for better debugging.
+- **Enhancement:** Implemented optimizations to reduce database requests and redundant operations on exclusions.
 - **Enhancement:** Added deprecated notice for Activate Honey Pot option.
 - **Fix:** Fixed the tooltip for the previous period on the monthly and weekly charts.
 - **Fix:** Corrected `urlToDir` function to resolve plugin paths properly in Bedrock.
+- **Fix:** Removed widgets for non-published post types.
+- **Fix:** Resolved the issue with device models percentage calculation.
 - **Dev**: Added the filter `wp_statistics_geolocation_download_url`.
 
 = 14.11.3 - 2024-11-17 =
