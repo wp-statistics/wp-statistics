@@ -570,7 +570,8 @@
     }
   }
   #traffic_summary ,  #daily_traffic_trend , #referrals_search_engines , #top_countries, #most_visited_pages,
-  #browser_usage,#most_used_operating_systems, #device_usage_breakdown,#top_device_model , #top_referring , #most_active_visitors{
+  #browser_usage,#most_used_operating_systems, #device_usage_breakdown,#top_device_model ,
+  #top_referring , #most_active_visitors ,#latest_visitor_breakdown , #currently_online{
     &.postbox .inside{
       padding-right: 0;
       padding-left: 0;
@@ -583,6 +584,10 @@
           outline: none;
           box-shadow: none;
         }
+      }
+
+      td, th{
+        white-space: nowrap;
       }
     }
     .o-wrap {
@@ -601,7 +606,7 @@
       margin-top: 20px;
     }
   }
-  #top_countries , #top_referring , #most_visited_pages ,  #most_active_visitors{
+  #top_countries , #top_referring , #most_visited_pages ,  #most_active_visitors , #latest_visitor_breakdown , #currently_online{
     th:last-child, td:last-child{
       text-align: right !important;
       padding-right: 24px;
