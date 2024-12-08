@@ -74,7 +74,7 @@ class AssetNameObfuscator
     public function __construct($file = null)
     {
         // Handle slashes
-        $this->inputFileDir = wp_normalize_path($file);
+        $this->inputFileDir = ! empty($file) ? wp_normalize_path($file) : '';
         $this->pluginsRoot  = wp_normalize_path(WP_PLUGIN_DIR . DIRECTORY_SEPARATOR);
 
         if (stripos($this->inputFileDir, $this->pluginsRoot) === false) {
