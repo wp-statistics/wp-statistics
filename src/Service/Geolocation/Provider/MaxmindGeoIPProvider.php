@@ -109,9 +109,11 @@ class MaxmindGeoIPProvider extends AbstractGeoIPProvider
             ? Option::get('geoip_license_key')
             : null;
 
-        return $licenseKey
+        $defaultUrl = $licenseKey
             ? "https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-City&license_key={$licenseKey}&suffix=tar.gz"
             : 'https://cdn.jsdelivr.net/npm/geolite2-city/GeoLite2-City.mmdb.gz';
+
+        return $this->getFilteredDownloadUrl($defaultUrl);
     }
 
     /**

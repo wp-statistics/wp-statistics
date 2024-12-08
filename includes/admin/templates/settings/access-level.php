@@ -1,5 +1,8 @@
 <?php
 //Get List Roles WordPress
+
+use WP_STATISTICS\User;
+
 global $wp_roles;
 ?>
     <div class="postbox">
@@ -34,7 +37,19 @@ global $wp_roles;
                     $selected = "";
                 }
 
-                $option_list .= sprintf("<option value='%s' %s>%s</option>", esc_attr($key), $selected, esc_attr($key));
+                $disabled = '';
+
+                if (!User::checkUserCapability($key)) {
+                    $disabled = 'disabled';
+                }
+
+                $option_list .= sprintf(
+                    '<option value="%1$s" %2$s %3$s>%4$s</option>',
+                    esc_attr($key),
+                    $selected,
+                    esc_attr($disabled),
+                    esc_attr($key)
+                );
             }
             ?>
             <tr valign="top">
@@ -57,7 +72,19 @@ global $wp_roles;
                     $selected = "";
                 }
 
-                $option_list .= sprintf("<option value='%s' %s>%s</option>", esc_attr($key), esc_attr($selected), esc_attr($key));
+                $disabled = '';
+
+                if (!User::checkUserCapability($key)) {
+                    $disabled = 'disabled';
+                }
+
+                $option_list .= sprintf(
+                    '<option value="%1$s" %2$s %3$s>%4$s</option>',
+                    esc_attr($key),
+                    $selected,
+                    esc_attr($disabled),
+                    esc_attr($key)
+                );
             }
             ?>
             <tr valign="top">

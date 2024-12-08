@@ -8,6 +8,7 @@ use WP_Statistics\Service\Charts\DataProvider\TrafficChartDataProvider;
 use WP_Statistics\Service\Charts\DataProvider\PlatformChartDataProvider;
 use WP_Statistics\Service\Charts\DataProvider\PublishOverviewChartDataProvider;
 use WP_Statistics\Service\Charts\DataProvider\AuthorsPostViewsChartDataProvider;
+use WP_Statistics\Service\Charts\DataProvider\MapChartDataProvider;
 
 class ChartDataProviderFactory
 {
@@ -75,5 +76,16 @@ class ChartDataProviderFactory
     public static function authorsPostViews($args)
     {
         return new AuthorsPostViewsChartDataProvider($args);
+    }
+
+    /**
+     * Returns a new instance of MapChartDataProvider.
+     *
+     * @param array $args
+     * @return MapChartDataProvider
+     */
+    public static function mapChart($args)
+    {
+        return new MapChartDataProvider($args);
     }
 }

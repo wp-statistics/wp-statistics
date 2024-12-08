@@ -270,6 +270,11 @@ class Query
                     $value = explode(',', $value);
                 }
 
+                if (!empty($value) && is_array($value) && count($value) == 1) {
+                    $operator = ($operator == 'IN') ? '=' : '!=';
+                    return $this->generateCondition($field, $operator, reset($value));
+                }
+
                 if (!empty($value) && is_array($value)) {
                     $placeholders = implode(', ', array_fill(0, count($value), '%s'));
                     $condition    = "$field $operator ($placeholders)";
@@ -311,7 +316,7 @@ class Query
         $result = $this->db->get_var($query);
 
         if ($this->allowCaching) {
-            $this->setCachedResult($query, $result);
+            $this->setCachedResult($query, $result, WEEK_IN_SECONDS);
         }
 
         return $result;
@@ -338,7 +343,7 @@ class Query
         $result = $this->db->get_results($query);
 
         if ($this->allowCaching) {
-            $this->setCachedResult($query, $result);
+            $this->setCachedResult($query, $result, WEEK_IN_SECONDS);
         }
 
         return $this->maybeDecorate($result);
@@ -397,7 +402,7 @@ class Query
         $result = $this->db->get_col($query);
 
         if ($this->allowCaching) {
-            $this->setCachedResult($query, $result);
+            $this->setCachedResult($query, $result, WEEK_IN_SECONDS);
         }
 
         return $result;
@@ -418,7 +423,7 @@ class Query
         $result = $this->db->get_row($query);
 
         if ($this->allowCaching) {
-            $this->setCachedResult($query, $result);
+            $this->setCachedResult($query, $result, WEEK_IN_SECONDS);
         }
 
         return $this->maybeDecorate($result);

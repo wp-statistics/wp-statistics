@@ -618,7 +618,7 @@ class VisitorsModel extends BaseModel
         $args = $this->parseArgs($args, [
             'fields'     => [],
             'visitor_id' => '',
-            'ip'         => '',
+            'ip'         => '', // not recommended to get visitor data by ip, it's less efficient
             'decorate'   => true,
             'page_info'  => true,
             'user_info'  => true
@@ -642,6 +642,16 @@ class VisitorsModel extends BaseModel
             'visitor.source_name',
             'visitor.ip'
         ];
+
+        // If visitor_id is empty, get visitor_id by IP
+        if (empty($args['visitor_id']) || !empty($args['ip'])) {
+            $visitorId = Query::select(['ID'])
+                ->from('visitor')
+                ->where('ip', '=', $args['ip'])
+                ->getVar();
+
+            $args['visitor_id'] = $visitorId ?? '';
+        }
 
         if ($args['page_info'])  {
             $firstPage = Query::select(['MIN(ID)', 'page_id', 'visitor_id'])
@@ -668,8 +678,7 @@ class VisitorsModel extends BaseModel
 
         $query = Query::select($fields)
             ->from('visitor')
-            ->where('visitor.ID', '=', $args['visitor_id'])
-            ->where('visitor.ip', '=', $args['ip']);
+            ->where('visitor.ID', '=', $args['visitor_id']);
 
         if ($args['page_info']) {
             $query
