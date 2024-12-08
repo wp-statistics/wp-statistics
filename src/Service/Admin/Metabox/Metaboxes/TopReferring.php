@@ -33,14 +33,10 @@ class TopReferring extends BaseMetabox
 
     public function getData()
     {
-        $args = [
-            'ignore_date' => true
-        ];
+        $args = $this->getFilters();
 
-        //  @todo  Add data
-        $data = [];
-
-        $output = View::load('metabox/top-referring', ['data' => $data], true);
+        $data   = $this->dataProvider->getReferrersData($args);
+        $output = View::load('metabox/top-referring', ['data' => $data, 'filters' => $args], true);
 
         return $output;
     }
