@@ -146,6 +146,7 @@ https://www.youtube.com/watch?v=jxYLVtBdhEc
 - **Enhancement:** Added deprecated notice for the "Activate Honey Pot" option.
 - **Enhancement:** Updated styles for referral and visitor filters for a more streamlined UI.
 - **Enhancement:** Increased cache expiration for previous period data from 1 day to 1 week.
+- **Enhancement:** Updated visibility of `Add-ons` and `Privacy Audit` menu items based on the `Minimum Role to Manage Settings`.
 - **Fix:** Corrected tooltip behavior for previous period data on monthly and weekly charts.
 - **Fix:** Fixed shortcode logic to properly retrieve the correct resource ID.
 - **Fix:** Resolved issue loading `tracker.js` when "Bypass Ad Blockers" is enabled in Bedrock Boilerplate.
