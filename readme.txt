@@ -146,6 +146,7 @@ https://www.youtube.com/watch?v=jxYLVtBdhEc
 - **Fix:** Fixed the tooltip for the previous period on the monthly and weekly charts.
 - **Fix:** Corrected `urlToDir` function to resolve plugin paths properly in Bedrock.
 - **Fix:** Removed widgets for non-published post types.
+- **Fix:** Resolved the issue with device models percentage calculation.
 - **Dev**: Added the filter `wp_statistics_geolocation_download_url`.
 
 = 14.11.3 - 2024-11-17 =
