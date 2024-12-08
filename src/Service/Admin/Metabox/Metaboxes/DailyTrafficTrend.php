@@ -33,67 +33,14 @@ class DailyTrafficTrend extends BaseMetabox
 
     public function getData()
     {
-        $args = [
-            'ignore_date' => true
-        ];
+        $args = $this->getFilters();
 
-        // @todo    Dynamic data
-        $data = [
-            "data" => [
-                "labels" => [
-                    [
-                        "formatted_date" => "Dec 13",
-                        "date" => "2024-12-13",
-                        "day" => "Friday"
-                    ],
-                    [
-                        "formatted_date" => "Dec 14",
-                        "date" => "2024-12-14",
-                        "day" => "Saturday"
-                    ]
-                ],
-                "datasets" => [
-                    [
-                        "label" => "Visitors",
-                        "data" => [2, 3]
-                    ],
-                    [
-                        "label" => "Views",
-                        "data" => [1, 0]
-                    ]
-                ]
-            ],
-            "previousData" => [
-                "labels" => [
-                    [
-                        "formatted_date" => "Dec 11",
-                        "date" => "2024-12-11",
-                        "day" => "Wednesday"
-                    ],
-                    [
-                        "formatted_date" => "Dec 12",
-                        "date" => "2024-12-12",
-                        "day" => "Thursday"
-                    ]
-                ],
-                "datasets" => [
-                    [
-                        "label" => "Visitors",
-                        "data" => [0, 0]
-                    ],
-                    [
-                        "label" => "Views",
-                        "data" => [0, 5]
-                    ]
-                ]
-            ]
-        ];
-
-        $output = View::load('metabox/daily-traffic-trend', ['data' => $data], true);
+        $data   = $this->dataProvider->getTrafficChartData($args);
+        $output = View::load('metabox/daily-traffic-trend', [], true);
 
         return [
-            'output' => $output,
-            'data' => $data
+            'data'      => $data,
+            'output'    => $output
         ];
     }
 

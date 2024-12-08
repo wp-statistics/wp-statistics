@@ -4,6 +4,7 @@ namespace WP_Statistics\Service\Admin\Metabox;
 use WP_Statistics\Models\OnlineModel;
 use WP_Statistics\Models\VisitorsModel;
 use WP_Statistics\Models\ViewsModel;
+use WP_Statistics\Service\Charts\ChartDataProviderFactory;
 
 class MetaboxDataProvider
 {
@@ -32,5 +33,10 @@ class MetaboxDataProvider
         ];
 
         return $data;
+    }
+
+    public function getTrafficChartData($args = [])
+    {
+        return ChartDataProviderFactory::trafficChart($args)->getData();
     }
 }
