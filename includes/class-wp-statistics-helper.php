@@ -2097,6 +2097,7 @@ class Helper
 
     public static function isStringLengthBetween($string, $minLength, $maxLength)
     {
-        return strlen($string) >= $minLength && strlen($string) <= $maxLength;
+        $length = strlen($string);
+        return $length >= $minLength && $length <= $maxLength;
     }
 }
