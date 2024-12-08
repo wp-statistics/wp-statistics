@@ -24,7 +24,10 @@ class ReferralsSearchEngines extends BaseMetabox
     {
         return [
             'datepicker'    => true,
-            'button'        => View::load('metabox/action-button',['link'=> Menus::admin_url('referrals', ['tab' => 'search-engines']),'title'=>'View Referrals from Search Engines'],true)
+            'button'        => View::load('metabox/action-button',[
+                'link'  => Menus::admin_url('referrals', ['tab' => 'search-engines']),
+                'title' => esc_html__('View Referrals from Search Engines', 'wp-statistics')
+            ],true)
         ];
     }
 

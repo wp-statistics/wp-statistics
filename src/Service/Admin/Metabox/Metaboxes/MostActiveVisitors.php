@@ -24,7 +24,10 @@ class MostActiveVisitors extends BaseMetabox
     {
         return [
             'datepicker'    => true,
-            'button'        => View::load('metabox/action-button',['link'=> Menus::admin_url('visitors', ['tab' => 'top-visitors']) ,'title'=>'View Most Active Visitors'],true)
+            'button'        => View::load('metabox/action-button',[
+                'link'  => Menus::admin_url('visitors', ['tab' => 'top-visitors']) ,
+                'title' => esc_html__('View Most Active Visitors', 'wp-statistics')
+            ],true)
         ];
     }
 

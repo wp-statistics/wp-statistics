@@ -24,7 +24,10 @@ class MostVisitedPages extends BaseMetabox
     {
         return [
             'datepicker'    => true,
-            'button'        => View::load('metabox/action-button',['link'=> Menus::admin_url('pages'),'title'=>'View Most Visited Pages'],true)
+            'button'        => View::load('metabox/action-button',[
+                'link'  => Menus::admin_url('pages'),
+                'title' => esc_html__('View Most Visited Pages', 'wp-statistics')
+            ],true)
         ];
     }
 

@@ -24,7 +24,10 @@ class DailyTrafficTrend extends BaseMetabox
     {
         return [
             'datepicker'    => true,
-            'button'        => View::load('metabox/action-button',['link'=> Menus::admin_url('visitors', ['tab' => 'views']),'title'=>'Daily Traffic Trend Report'],true)
+            'button'        => View::load('metabox/action-button',[
+                'link'  => Menus::admin_url('visitors', ['tab' => 'views']),
+                'title' => esc_html__('Daily Traffic Trend Report', 'wp-statistics')
+            ],true)
         ];
     }
 

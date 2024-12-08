@@ -24,7 +24,10 @@ class BrowserUsage extends BaseMetabox
     {
         return [
             'datepicker'    => true,
-            'button'        => View::load('metabox/action-button',['link'=> Menus::admin_url('devices', ['tab' => 'browsers']),'title'=>'View Browser Usage'],true)
+            'button'        => View::load('metabox/action-button',[
+                'link'  => Menus::admin_url('devices', ['tab' => 'browsers']),
+                'title' => esc_html__('View Browser Usage', 'wp-statistics')
+            ], true)
         ];
     }
 

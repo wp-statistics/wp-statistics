@@ -24,7 +24,10 @@ class OperatingSystems extends BaseMetabox
     {
         return [
             'datepicker'    => true,
-            'button'        => View::load('metabox/action-button',['link'=> Menus::admin_url('devices', ['tab' => 'platforms']),'title'=>'View Most Used OS'],true)
+            'button'        => View::load('metabox/action-button',[
+                'link'  => Menus::admin_url('devices', ['tab' => 'platforms']),
+                'title' => esc_html__('View Most Used OS', 'wp-statistics')
+            ],true)
         ];
     }
 

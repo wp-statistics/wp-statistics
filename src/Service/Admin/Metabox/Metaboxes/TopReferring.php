@@ -24,7 +24,10 @@ class TopReferring extends BaseMetabox
     {
         return [
             'datepicker'    => true,
-            'button'        => View::load('metabox/action-button',['link'=> Menus::admin_url('referrals', ['tab' => 'referrers']),'title'=>'View Top Referring'],true)
+            'button'        => View::load('metabox/action-button',[
+                'link'  => Menus::admin_url('referrals', ['tab' => 'referrers']),
+                'title' => esc_html__('View Top Referring', 'wp-statistics')
+            ],true)
         ];
     }
 

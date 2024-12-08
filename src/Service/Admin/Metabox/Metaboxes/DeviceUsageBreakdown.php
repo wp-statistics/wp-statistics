@@ -24,7 +24,10 @@ class DeviceUsageBreakdown extends BaseMetabox
     {
         return [
             'datepicker'    => true,
-            'button'        => View::load('metabox/action-button',['link'=> Menus::admin_url('devices', ['tab' => 'categories']),'title'=>'View Most Device Categories'],true)
+            'button'        => View::load('metabox/action-button',[
+                'link'  => Menus::admin_url('devices', ['tab' => 'categories']),
+                'title' => esc_html__('View Most Device Categories', 'wp-statistics')
+            ],true)
         ];
     }
 

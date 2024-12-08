@@ -24,7 +24,10 @@ class TopDeviceModel extends BaseMetabox
     {
         return [
             'datepicker'    => true,
-            'button'        => View::load('metabox/action-button',['link'=> Menus::admin_url('devices', ['tab' => 'models']),'title'=>'View Top Models'],true)
+            'button'        => View::load('metabox/action-button',[
+                'link'  => Menus::admin_url('devices', ['tab' => 'models']),
+                'title' => esc_html__('View Top Models', 'wp-statistics')
+            ],true)
         ];
     }
 
