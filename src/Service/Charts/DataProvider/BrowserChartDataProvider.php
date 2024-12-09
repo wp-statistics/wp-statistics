@@ -72,7 +72,7 @@ class BrowserChartDataProvider extends AbstractChartDataProvider
                 return $b['visitors'] - $a['visitors'];
             });
 
-            if (count($data) > 4) {
+            if (count($parsedData) > 4) {
                 // Get top 4 results, and others
                 $topData    = array_slice($parsedData, 0, 4);
                 $otherData  = array_slice($parsedData, 4);
