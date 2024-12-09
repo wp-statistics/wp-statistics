@@ -10,6 +10,7 @@ use WP_STATISTICS\Option;
 use WP_Statistics\Service\Admin\MiniChart\MiniChartHelper;
 use WP_STATISTICS\TimeZone;
 use WP_STATISTICS\User;
+use WP_Statistics\Utils\Request;
 
 class PostsManager
 {
@@ -93,7 +94,9 @@ class PostsManager
                 add_action("manage_{$type}_custom_column", [$hitColumnHandler, 'renderHitColumn'], 10, 2);
             }
 
-            add_filter("manage_edit-sortable_columns", [$hitColumnHandler, 'modifySortableColumns']);
+            $currentPage = Request::get('post_type', 'post');
+            
+            add_filter("manage_edit-{$currentPage}_sortable_columns", [$hitColumnHandler, 'modifySortableColumns']);
 
             if (!$isPostQuickEdit) {
                 add_filter('posts_clauses', [$hitColumnHandler, 'handlePostOrderByHits'], 10, 2);
@@ -201,6 +204,10 @@ class PostsManager
      */
     public function addPostMetaBoxes($postType)
     {
+        if (empty(is_post_type_viewable($postType))) {
+            return;
+        }
+        
         if ($this->shouldDisplaySummaryMetabox()) {
             add_meta_box(
                 Meta_Box::getMetaBoxKey('post-summary'),

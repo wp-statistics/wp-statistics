@@ -5,6 +5,7 @@ namespace WP_STATISTICS;
 use WP_Statistics\Utils\Request;
 use WP_Statistics\Components\Assets;
 use WP_Statistics\Components\DateRange;
+use WP_Statistics\Components\DateTime;
 
 class Admin_Assets
 {
@@ -327,7 +328,7 @@ class Admin_Assets
             'gutenberg'      => (Helper::is_gutenberg() ? 1 : 0),
             'more_btn'       => (apply_filters('wp_statistics_meta_box_more_button', true) ? 1 : 0),
             'wp_date_format' => Helper::getDefaultDateFormat(),
-            'track_users'    => Option::get('visitors_log') ? 1 : 0,
+            'track_users'    => Option::get('visitors_log') ? 1 : 0
         );
 
         // WordPress Current Page
@@ -395,6 +396,8 @@ class Admin_Assets
             'browser'                      => __('Visitor\'s Browser', 'wp-statistics'),
             'city'                         => __('Visitor\'s City', 'wp-statistics'),
             'ip'                           => Option::get('hash_ips') == true ? __('Daily Visitor Hash', 'wp-statistics') : __('IP Address', 'wp-statistics'),
+            'ip_hash'                      => __('IP Address/Hash', 'wp-statistics'),
+            'ip_hash_placeholder'          => __('Enter IP (e.g., 192.168.1.1) or hash (#...)', 'wp-statistics'),
             'referring_site'               => __('Referring Site', 'wp-statistics'),
             'hits'                         => __('Views', 'wp-statistics'),
             'agent'                        => __('User Agent', 'wp-statistics'),
@@ -425,9 +428,10 @@ class Admin_Assets
             'percentage'                   => __('Percent Share', 'wp-statistics'),
             'version_list'                 => __('Version', 'wp-statistics'),
             'filter'                       => __('Apply Filters', 'wp-statistics'),
-            'all'                          => __('All Entries', 'wp-statistics'),
+            'filters'                      => __('Filters', 'wp-statistics'),
+            'all'                          => __('All', 'wp-statistics'),
             'er_datepicker'                => __('Select Desired Time Range', 'wp-statistics'),
-            'er_valid_ip'                  => __('Enter a Valid IP Address', 'wp-statistics'),
+            'er_valid_ip'                  => __('Please enter a valid IP (e.g., 192.168.1.1) or hash (starting with #)', 'wp-statistics'),
             'please_wait'                  => __('Loading, Please Wait...', 'wp-statistics'),
             'user'                         => __('User', 'wp-statistics'),
             'rest_connect'                 => __('Failed to retrieve data. Please check the browser console and the XHR request under Network → XHR for details.', 'wp-statistics'),
@@ -451,7 +455,6 @@ class Admin_Assets
             'failed'                       => __('Failed', 'wp-statistics'),
             'retry'                        => __('Retry', 'wp-statistics'),
             'redirecting'                  => __('Redirecting... Please wait', 'wp-statistics'),
-            'search_by_referrer'           => __('Search by Referrer', 'wp-statistics'),
             'last_view'                    => __('Last View', 'wp-statistics'),
             'visitor_info'                 => __('Visitor Info', 'wp-statistics'),
             'location'                     => __('Location', 'wp-statistics'),
@@ -464,12 +467,23 @@ class Admin_Assets
             'views'                        => __('Views', 'wp-statistics'),
             'view'                         => __('View', 'wp-statistics'),
             'waiting'                      => __('Waiting', 'wp-statistics'),
+            'apply'                        => __('Apply'),
+            'reset'                        => __('Reset'),
+            'loading'                      => __('Loading'),
             'continue_to_next_step'        => __('Continue to Next Step', 'wp-statistics'),
             'start_of_week'                => get_option('start_of_week', 0)
         );
 
         $list['active_post_type'] = Helper::getPostTypeName(Request::get('pt', 'post'));
         $list['user_date_range']  = DateRange::get();
+
+        $list['initial_post_date'] = Helper::getInitialPostDate();
+
+        if (Request::has('post_id')) {
+            $list['post_creation_date'] = get_the_date(DateTime::$defaultDateFormat, Request::get('post_id'));
+        } else if (is_singular()) {
+            $list['post_creation_date'] = get_the_date(DateTime::$defaultDateFormat);
+        }
 
         // Rest-API Meta Box Url
         $list['stats_report_option'] = Option::get('time_report') == '0' ? false : true;

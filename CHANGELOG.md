@@ -1,3 +1,27 @@
+= 14.11.4 - 2024-12-09 =
+- **Enhancement:** Made the Global Visitor Distribution widget load faster on the Overview page.
+- **Enhancement:** Added geolocation validation to improve debugging accuracy.
+- **Enhancement:** Reduced unnecessary database requests and improved performance in exclusion settings.
+- **Enhancement:** Added a notice for the upcoming removal of the "Activate Honey Pot" option.
+- **Enhancement:** Updated referral and visitor filter styles for a cleaner look.
+- **Enhancement:** Increased cache duration for previous period data from 1 day to 1 week.
+- **Enhancement:** Adjusted visibility of `Add-ons` and `Privacy Audit` menu items based on user roles.
+- **Fix:** Fixed tooltips not showing correctly on monthly and weekly charts.
+- **Fix:** Corrected shortcode behavior to fetch the right resource ID.
+- **Fix:** Resolved an issue with `tracker.js` not loading when "Bypass Ad Blockers" is enabled in Bedrock Boilerplate.
+- **Fix:** Fixed the summary stats widget and views column for private post types.
+- **Fix:** Fixed issues with the visitor hash search.
+- **Fix:** Resolved incorrect data display on Mini Charts for the current page.
+- **Fix:** Fixed default behavior of network options when settings were not configured.
+- **Fix:** Corrected percentage calculations for device models.
+- **Fix:** Fixed a bug in Roles & Permissions to prevent users from assigning higher permissions than they have.
+- **Fix:** Made the `views` column sortable again.
+- **Fix:** Resolved a PHP deprecation warning for better compatibility.
+- **Dev:** Added new filters for developers:  
+  - `wp_statistics_geolocation_download_url`  
+  - `wp_statistics_injection_patterns`  
+  - `wp_statistics_location_column_value`
+
 14.11.3 - 2024-11-17
 - **New:** Added support for tracking unique visitors in shortcodes.
 - **Enhancement:** Updated the minimum required WordPress version to 5.3.
@@ -59,25 +83,6 @@
 - **Fix**: Resolved an issue where the Post Summary sidebar didn’t work with the Gutenberg editor in WordPress versions below 6.5.5.
 - **Fix**: Fixed the ‘tinyMCE is not defined’ error caused by the Avada Builder.
 - **Dev**: Added a new filter `wp_statistics_assets_handle` to manage assets more effectively.
-
-14.10.1 - 11.09.2024
-* **Enhancement:** UX improvement for visitor information when users are logged in.
-* **Enhancement:** Corrected sorting issues in bar charts.
-* **Enhancement:** Fixed font override conflicts.
-* **Enhancement:** Enhanced object cache handling for better performance.
-* **Enhancement:** Improved compatibility with PHP versions 5.6 ~ 7.2.
-* **Enhancement:** Resolved style tweaks in charts and fixed various JavaScript issues.
-* **Fix:** Resolved issue with showing previous period data on hover when turned off.
-* **Fix:** Resolved chart shrinking issue in Chrome.
-* **Fix:** Fixed the “User Online” link in the Traffic Overview section.
-* **Fix:** Addressed issue where the top referral was not displaying in the “Your Performance at a Glance” section.
-* **Fix:** Resolved an issue with the report email option during some upgrades.
-* **Fix:** Fixed date filter issue on the “Single Browser” and “Visitor Insights” pages.
-* **Fix:** Fixed incorrect dates in the `monthly` schedule.
-* **Fix:** Fixed incorrect order in taxonomy lists when sorted by hits.
-* **Update:** Upgraded ChartJS to v4.4.4.
-* **Dev:** Added function `wp_statistics_needs_consent()` to check if user consent is required.
-* **Dev:** Removed `Admin_Post` and `Admin_Taxonomy` classes and replaced them with `HitColumnHandler`.
 
 14.10.1 - 11.09.2024
 * **Enhancement:** UX improvement for visitor information when users are logged in.

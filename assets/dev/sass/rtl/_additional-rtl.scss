@@ -19,3 +19,26 @@ a.wps-optionsMenuItem {
 .daterangepicker{
   margin-left: 27px!important;
 }
+
+&.wps_page #TB_window{
+  text-align: right;
+
+  #TB_closeWindowButton{
+    left: 16px;
+    right: unset;
+  }
+  #TB_ajaxContent{
+    .select2-container{
+      .select2-selection__arrow b{
+        margin-left: 0;
+      }
+      .select2-selection__rendered{
+        padding: 6px 12px 6px 25px;
+      }
+    }
+  }
+
+  form .wps-tb-window-footer td:last-child{
+    text-align: left;
+  }
+ }

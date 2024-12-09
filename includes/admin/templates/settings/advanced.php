@@ -292,10 +292,11 @@ add_thickbox();
 
 <script type="text/javascript">
     function DBMaintWarning() {
-        var checkbox = jQuery('#wps_schedule_dbmaint');
-        if (checkbox.attr('checked') == 'checked') {
-            if (!confirm('<?php esc_html_e('This will permanently delete data from the database each day, are you sure you want to enable this option?', 'wp-statistics'); ?>'))
-                checkbox.attr('checked', false);
+        const checkbox = jQuery('#wps_schedule_dbmaint');
+        if (checkbox.prop('checked')) {
+            if (!confirm('<?php esc_html_e('This will permanently delete data from the database each day, are you sure you want to enable this option?', 'wp-statistics'); ?>')) {
+                checkbox.prop('checked', false);
+            }
         }
     }
 </script>
@@ -312,7 +313,7 @@ add_thickbox();
             </th>
 
             <td>
-                <input id="wps_schedule_dbmaint" type="checkbox" name="wps_schedule_dbmaint" <?php echo WP_STATISTICS\Option::get('schedule_dbmaint') == true ? "checked='checked'" : ''; ?> onclick='DBMaintWarning();'>
+                <input id="wps_schedule_dbmaint" type="checkbox" name="wps_schedule_dbmaint" <?php echo WP_STATISTICS\Option::get('schedule_dbmaint') == true ? "checked='checked'" : ''; ?> onchange='DBMaintWarning();'>
                 <label for="wps_schedule_dbmaint"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
                 <p class="description"><?php esc_html_e('Automatic deletion of data entries that are more than a specified number of days old to keep the database optimized. The process runs the following day.', 'wp-statistics'); ?></p>
             </td>

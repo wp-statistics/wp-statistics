@@ -25,13 +25,13 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         e.preventDefault();
 
         // Show
-        tb_show('', '#TB_inline?&width=430&height=193&inlineId=referral-filter-popup');
+        tb_show( wps_js._('filters'), '#TB_inline?&width=430&height=205&inlineId=referral-filter-popup');
 
         // Add Content
         setTimeout(function () {
 
             var tickBox_DIV = "#wps-referral-filter-div";
-            if (!wps_js.exist_tag(tickBox_DIV + " input[type=submit]")) {
+            if (!wps_js.exist_tag(tickBox_DIV + " button[type=submit]")) {
 
                 // Set PlaceHolder
                 jQuery(tickBox_DIV).html('<div style="height: 50px;"></div>' + wps_js.line_placeholder(1));
@@ -58,21 +58,25 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             });
         });
 
+
         // Show Loading
-        jQuery("span.filter-loading").html(wps_js._('please_wait'));
+        jQuery(".wps-tb-window-footer .button-primary")
+            .html(wps_js._('loading'))
+            .addClass('loading');
         // return true;
     });
 
     // Show Filter form
     function wps_show_referrals_filter(tickBox_DIV) {
+        const currentReferrer = wps_js.getLinkParams('referrer');
+        const isDisabled = currentReferrer === null ? 'disabled' : '';
 
         // Create Table
         let html = '<table class="o-table wps-referrals-filter">';
 
         // Show List Select
-
-        html += `<tr><td class="wps-referrals-filter-title">${wps_js._('search_by_referrer')}</td></tr>`;
-        html += `<tr><td><select name="referrer" class="wps-select2   wps-width-100">`;
+        html += `<tr><td colspan="2" class="wps-referrals-filter-title">${wps_js._('referrer')}</td></tr>`;
+        html += `<tr><td colspan="2" class="wps-referrals-filter-content"><select name="referrer" class="wps-select2   wps-width-100">`;
         html += `<option value=''>${wps_js._('all')}</option>`;
         html += `<option value='test'>test</option>`;
         let current_value = wps_js.getLinkParams('referrer');
@@ -81,9 +85,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         }
 
         html += `</select></td></tr>`;
-        // Submit Button
-        html += `<tr><td></td></tr>`;
-        html += `<tr><td><input type="submit" value="${wps_js._('filter')}" class="button-primary"> &nbsp; <span class="filter-loading"></span></td></tr>`;
+        html += `<tr class="wps-tb-window-footer"><td><button class="js-reset-filter wps-reset-filter" type="button" ${isDisabled}>${wps_js._('reset')}</button></td><td><button type="submit" class="button-primary">${wps_js._('apply')}</button></td></tr>`;
         html += `</table>`;
         jQuery(tickBox_DIV).html(html);
         jQuery('.wps-select2').select2({
@@ -111,4 +113,10 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             }
         });
     }
+
+    jQuery(document).on('click', '.js-reset-filter', function () {
+        const url = new URL(window.location.href);
+        url.searchParams.delete('referrer');
+        window.location.href = url.toString();
+    });
 }

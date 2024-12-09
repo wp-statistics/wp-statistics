@@ -16,7 +16,6 @@ class Install
         add_filter('wpmu_drop_tables', array($this, 'remove_table_on_delete_blog'));
 
         // Change Plugin Action link in Plugin.php admin
-        add_filter('plugin_action_links_' . plugin_basename(WP_STATISTICS_MAIN_FILE), array($this, 'settings_links'), 10, 2);
         add_filter('plugin_row_meta', array($this, 'add_meta_links'), 10, 2);
 
         // Upgrade WordPress Plugin
@@ -318,21 +317,6 @@ class Install
     }
 
     /**
-     * Add a settings link to the plugin list.
-     *
-     * @param string $links Links
-     * @param string $file Not Used!
-     * @return string Links
-     */
-    public function settings_links($links, $file)
-    {
-        if (User::Access('manage')) {
-            array_unshift($links, '<a href="' . Menus::admin_url('settings') . '">' . __('Settings', 'wp-statistics') . '</a>');
-        }
-        return $links;
-    }
-
-    /**
      * Add a WordPress plugin page and rating links to the meta information to the plugin list.
      *
      * @param string $links Links
@@ -361,6 +345,11 @@ class Install
 
         // Load WordPress DBDelta
         self::load_dbDelta();
+
+        // Create options with default values in multi-site, if they don't exist
+        if (is_multisite()) {
+            self::create_options();
+        }
 
         // Check installed plugin version
         $installed_version  = get_option('wp_statistics_plugin_version');

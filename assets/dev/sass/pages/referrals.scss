@@ -109,10 +109,15 @@
 }
 
 #wps-referrals-filter-form {
-  padding: 10px 5px;
+  padding: 0;
+  margin-right: -15px;
+  margin-left: -15px;
+  margin-bottom: -15px;
 
   table {
     width: 100%;
+    padding-bottom: 52px;
+    position: relative;
   }
 
   table.widefat {
@@ -122,32 +127,17 @@
 }
 
 #wps-referrals-filter-form {
-  .wps-referrals-filter-title {
-    font-size: 14px;
+
+  .wps-referrals-filter-title{
+    padding: 25px 16px 0;
+    color: #56585A;
+    font-size: 13px;
     font-weight: 400;
-    color: #000000;
-    padding-bottom: 6px;
+    line-height: 15.23px;
   }
 
-  .button-primary {
-    font-weight: 600 !important;
-    font-size: 14px;
-    line-height: 17px !important;
-    padding: 14px 20px;
-    border-radius: 2px;
-    background-color: #404bf2;
-    text-shadow: none;
-    height: auto;
-    transition: .2s;
-    box-shadow: none;
-    border: none;
-    letter-spacing: .05rem;
-    color: #fff;
-    margin-top: 18px;
-
-    &:hover {
-      background-color: #1e27bf;
-    }
+  .wps-referrals-filter-content {
+    padding: 8px 16px  53px;
   }
 
 }
@@ -161,3 +151,4 @@
     text-align: right !important;
   }
 }
+

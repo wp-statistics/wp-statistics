@@ -411,7 +411,7 @@ class VisitorsModel extends BaseModel
             ->where('agent', '=', $args['agent'])
             ->where('platform', '=', $args['platform'])
             ->where('user_id', '=', $args['user_id'])
-            ->where('ip', '=', $args['ip'])
+            ->where('ip', 'LIKE', "%{$args['ip']}%")
             ->where('visitor.location', '=', $args['country'])
             ->whereDate($args['date_field'], $args['date'])
             ->perPage($args['page'], $args['per_page'])
@@ -611,7 +611,7 @@ class VisitorsModel extends BaseModel
         $args = $this->parseArgs($args, [
             'fields'     => [],
             'visitor_id' => '',
-            'ip'         => '',
+            'ip'         => '', // not recommended to get visitor data by ip, it's less efficient
             'decorate'   => true,
             'page_info'  => true,
             'user_info'  => true
@@ -635,6 +635,16 @@ class VisitorsModel extends BaseModel
             'visitor.source_name',
             'visitor.ip'
         ];
+
+        // If visitor_id is empty, get visitor_id by IP
+        if (empty($args['visitor_id']) || !empty($args['ip'])) {
+            $visitorId = Query::select(['ID'])
+                ->from('visitor')
+                ->where('ip', '=', $args['ip'])
+                ->getVar();
+
+            $args['visitor_id'] = $visitorId ?? '';
+        }
 
         if ($args['page_info'])  {
             $firstPage = Query::select(['MIN(ID)', 'page_id', 'visitor_id'])
@@ -661,8 +671,7 @@ class VisitorsModel extends BaseModel
 
         $query = Query::select($fields)
             ->from('visitor')
-            ->where('visitor.ID', '=', $args['visitor_id'])
-            ->where('visitor.ip', '=', $args['ip']);
+            ->where('visitor.ID', '=', $args['visitor_id']);
 
         if ($args['page_info']) {
             $query
@@ -838,6 +847,8 @@ class VisitorsModel extends BaseModel
         ])
             ->from('visitor')
             ->whereNotNull('referred')
+            ->whereNull('source_channel')
+            ->whereNull('source_name')
             ->getAll();
 
         return $result ? $result : [];
@@ -880,7 +891,6 @@ class VisitorsModel extends BaseModel
         ])
             ->from('visitor')
             ->where('source_channel', 'IN', $args['source_channel'])
-            ->where('visitor.referred', 'NOT LIKE', '%' . Helper::get_domain_name(home_url()) . '%')
             ->where('visitor.location', '=', $args['country'])
             ->whereNotNull('visitor.referred')
             ->groupBy($args['group_by'])
@@ -1003,16 +1013,16 @@ class VisitorsModel extends BaseModel
     public function getDailyStats($args = [])
     {
         $args = $this->parseArgs($args, [
-            'date'      => [
+            'date'          => [
                 'from' => date('Y-m-d', strtotime('-30 days')),
                 'to'   => date('Y-m-d'),
             ],
-            'post_type' => '',
-            'post_id'   => '',
-            'page_type' => '',
-            'author_id' => '',
-            'taxonomy'  => '',
-            'term_id'   => '',
+            'post_type'     => '',
+            'post_id'       => '',
+            'resource_type' => '',
+            'author_id'     => '',
+            'taxonomy'      => '',
+            'term_id'       => '',
         ]);
 
         $fields = [
@@ -1036,14 +1046,14 @@ class VisitorsModel extends BaseModel
             ->groupBy('`visitor`.`last_counter`');
 
         $filteredArgs = array_filter($args);
-        if (array_intersect(['post_type', 'post_id', 'page_type', 'author_id', 'taxonomy', 'term_id'], array_keys($filteredArgs))) {
+        if (array_intersect(['post_type', 'post_id', 'resource_type', 'author_id', 'taxonomy', 'term_id'], array_keys($filteredArgs))) {
             $query
                 ->join('visitor_relationships', ['`visitor_relationships`.`visitor_id`', '`visitor`.`ID`'])
                 ->join('pages', '`visitor_relationships`.`page_id` = `pages`.`page_id` AND `visitor`.`last_counter` = `pages`.`date`');
 
-            if (!empty($args['page_type'])) {
+            if (!empty($args['resource_type'])) {
                 $query
-                    ->where('pages.type', '=', $args['page_type']);
+                    ->where('pages.type', '=', $args['resource_type']);
 
                 if (is_numeric($args['post_id'])) {
                     $query->where('pages.ID', '=', intval($args['post_id']));
@@ -1064,7 +1074,7 @@ class VisitorsModel extends BaseModel
                 }
             }
 
-            if (!empty($args['taxonomy']) && !empty($args['term_id']) && empty($args['page_type'])) {
+            if (!empty($args['taxonomy']) && !empty($args['term_id']) && empty($args['resource_type'])) {
                 $taxQuery = Query::select(['DISTINCT object_id'])
                     ->from('term_relationships')
                     ->join('term_taxonomy', ['term_relationships.term_taxonomy_id', 'term_taxonomy.term_taxonomy_id'])

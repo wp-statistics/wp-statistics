@@ -639,7 +639,7 @@ body .o-table-wrapper table.wps-new-table {
                 white-space: nowrap;
                 overflow: hidden;
                 text-overflow: ellipsis;
-                max-width: 100px;
+                max-width: 200px;
               }
 
               &:last-child {
@@ -704,7 +704,7 @@ body .o-table-wrapper table.wps-new-table {
         align-items: stretch;
 
         .wps-ellipsis-text{
-          max-width: 100px;
+          max-width: 300px;
         }
 
         a {

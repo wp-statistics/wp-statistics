@@ -33,8 +33,9 @@ class SiteHealthInfo
      */
     public function addStatisticsInfo($info)
     {
-        $userRoleExclusions = $this->getUserRoleExclusions();
-        $geoIpProvider      = GeolocationFactory::getProviderInstance();
+        $userRoleExclusions    = $this->getUserRoleExclusions();
+        $geoIpProvider         = GeolocationFactory::getProviderInstance();
+        $geoIpProviderValidity = $geoIpProvider->validateDatabaseFile();
 
         $info[self::DEBUG_INFO_SLUG] = [
             'label'       => esc_html__('WP Statistics', 'wp-statistics'),
@@ -79,6 +80,11 @@ class SiteHealthInfo
                 'geoIpDatabaseType'             => [
                     'label' => esc_html__('GeoIP Database Type', 'wp-statistics'),
                     'value' => $geoIpProvider->getDatabaseType(),
+                ],
+                'geoIpDatabaseValidation'       => [
+                    'label' => esc_html__('GeoIP Database Validation', 'wp-statistics'),
+                    'value' => is_wp_error($geoIpProviderValidity) ? esc_html__('No', 'wp-statistics') : esc_html__('Yes', 'wp-statistics'),
+                    'debug' => is_wp_error($geoIpProviderValidity) ? $geoIpProviderValidity->get_error_message() : 'Yes',
                 ],
 
                 /**
