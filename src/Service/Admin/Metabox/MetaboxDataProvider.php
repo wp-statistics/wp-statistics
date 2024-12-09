@@ -72,4 +72,9 @@ class MetaboxDataProvider
     {
         return ChartDataProviderFactory::searchEngineChart($args)->getData();
     }
+
+    public function getBrowsersChartData($args = [])
+    {
+        return ChartDataProviderFactory::browserChart($args)->getData();
+    }
 }

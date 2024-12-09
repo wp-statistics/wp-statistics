@@ -33,41 +33,19 @@ class BrowserUsage extends BaseMetabox
 
     public function getData()
     {
-        $args = [
-            'ignore_date' => true
-        ];
+        $args = $this->getFilters();
 
-        //  @todo  Add data
-        $data = [
-            'tag_id' => 'wps-browser-usage',
-            'browsers_logos' => [
-                WP_STATISTICS_URL."assets/images/browser/chrome.svg",
-                WP_STATISTICS_URL."assets/images/browser/firefox.svg",
-                WP_STATISTICS_URL."assets/images/browser/edge.svg",
-                WP_STATISTICS_URL."assets/images/browser/safari.svg",
-                ""
-            ],
-            'data' => [
-                121,
-                30,
-                5,
-                4,
-                5
-            ],
-            'label' => [
-                "Chrome",
-                "Firefox",
-                "Edge",
-                "Safari",
-                "Other"
-            ],
-        ];
+        $data = $this->dataProvider->getBrowsersChartData($args);
 
-        $output = View::load('metabox/horizontal-bar', ['data' => $data , 'unique_id' => 'wps-browser-usage'], true);
+        $data = array_merge($data, [
+            'tag_id' => 'wps-browser-usage'
+        ]);
+
+        $output = View::load('metabox/horizontal-bar', ['data' => $data], true);
 
         return [
-            'output' => $output,
-            'data' => $data
+            'output'    => $output,
+            'data'      => $data
         ];
     }
 

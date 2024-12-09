@@ -8,6 +8,7 @@ use WP_Statistics\Service\Charts\DataProvider\TrafficChartDataProvider;
 use WP_Statistics\Service\Charts\DataProvider\PlatformChartDataProvider;
 use WP_Statistics\Service\Charts\DataProvider\PublishOverviewChartDataProvider;
 use WP_Statistics\Service\Charts\DataProvider\AuthorsPostViewsChartDataProvider;
+use WP_Statistics\Service\Charts\DataProvider\BrowserChartDataProvider;
 use WP_Statistics\Service\Charts\DataProvider\MapChartDataProvider;
 
 class ChartDataProviderFactory
@@ -21,6 +22,17 @@ class ChartDataProviderFactory
     public static function performanceChart($args)
     {
         return new PerformanceChartDataProvider($args);
+    }
+
+    /**
+     * Returns a new instance of BrowserChartDataProvider.
+     *
+     * @param array $args
+     * @return BrowserChartDataProvider
+     */
+    public static function browserChart($args)
+    {
+        return new BrowserChartDataProvider($args);
     }
 
     /**

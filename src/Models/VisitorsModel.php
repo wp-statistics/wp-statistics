@@ -363,10 +363,29 @@ class VisitorsModel extends BaseModel
             'per_page'    => '',
             'page_info'   => false,
             'user_info'   => false,
-            'date_field'  => 'visitor.last_counter'
+            'date_field'  => 'visitor.last_counter',
+            'fields'      => []
         ]);
 
-        $additionalFields = [];
+        // Set default fields
+        if (empty($args['fields'])) {
+            $args['fields'] = [
+                'visitor.ID',
+                'visitor.ip',
+                'visitor.platform',
+                'visitor.agent',
+                'CAST(`visitor`.`version` AS SIGNED) as version',
+                'visitor.model',
+                'visitor.device',
+                'visitor.location',
+                'visitor.user_id',
+                'visitor.region',
+                'visitor.city',
+                'visitor.hits',
+                'visitor.referred',
+                'visitor.last_counter'
+            ];
+        }
 
         // If page info is true, get last page the visitor has visited
         if ($args['page_info'] === true) {
@@ -389,31 +408,16 @@ class VisitorsModel extends BaseModel
                 ->groupBy('visitor_id')
                 ->getQuery();
 
-            $additionalFields[] = 'last_hit.page_id as last_page';
-            $additionalFields[] = 'last_hit.date as last_view';
+            $args['fields'][] = 'last_hit.page_id as last_page';
+            $args['fields'][] = 'last_hit.date as last_view';
         }
 
         if ($args['user_info'] === true) {
-            $additionalFields[] = 'users.display_name';
-            $additionalFields[] = 'users.user_email';
+            $args['fields'][] = 'users.display_name';
+            $args['fields'][] = 'users.user_email';
         }
 
-        $query = Query::select(array_merge([
-            'visitor.ID',
-            'visitor.ip',
-            'visitor.platform',
-            'visitor.agent',
-            'CAST(`visitor`.`version` AS SIGNED) as version',
-            'visitor.model',
-            'visitor.device',
-            'visitor.location',
-            'visitor.user_id',
-            'visitor.region',
-            'visitor.city',
-            'visitor.hits',
-            'visitor.referred',
-            'visitor.last_counter'
-        ], $additionalFields))
+        $query = Query::select($args['fields'])
             ->from('visitor')
             ->where('agent', '=', $args['agent'])
             ->where('platform', '=', $args['platform'])
