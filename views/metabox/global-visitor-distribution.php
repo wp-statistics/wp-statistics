@@ -1,0 +1,1 @@
+<div class="o-wrap"><div id="wp-statistics-visitors-map"></div></div>

@@ -5,14 +5,13 @@
   width: 100%;
 
   .jqvmap-zoomin, .jqvmap-zoomout {
-    background: #FFFFFF !important;
-    border: 1px solid #EEEFF1 !important;
-    border-radius: 0 0 2px 2px;
+    background: #EEEFF1 !important;
+    border-radius: 0 0 4px 4px;
     color: #0C0C0D;
     margin: 0 !important;
     font-size: 16px;
-    width: 18.6px;
-    height: 18.6px;
+    width: 24px;
+    height: 24px;
     transition: 0.15s;
 
     &:hover {
@@ -21,11 +20,11 @@
   }
 
   .jqvmap-zoomin {
-    border-radius: 2px 2px 0 0;
+    border-radius: 4px 4px 0 0;
   }
 
   .jqvmap-zoomout {
-    top: 35px;
+    top: 42px;
     border-top: 0;
   }
 }
