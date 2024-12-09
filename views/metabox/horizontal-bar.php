@@ -3,3 +3,4 @@
         <canvas id="<?php echo esc_attr($data['tag_id']); ?>" height="0"></canvas>
     </div>
 </div>
+

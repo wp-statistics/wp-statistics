@@ -52,7 +52,7 @@ class GlobalVisitorDistribution extends BaseMetabox
             ]
         ];
 
-        $output = View::load('metabox/global-visitor-distribution', [], true);
+        $output = View::load('metabox/global-visitor-distribution',  ['data' => $data], true);
 
         return [
             'data' => $data,

@@ -571,7 +571,11 @@
   }
   #traffic_summary ,  #daily_traffic_trend , #search_engines , #top_countries, #most_visited_pages,
   #browser_usage,#most_used_operating_systems, #device_usage_breakdown,#top_device_model ,
-  #top_referring , #most_active_visitors ,#latest_visitor_breakdown , #currently_online{
+  #top_referring , #most_active_visitors ,#latest_visitor_breakdown , #currently_online , #global_visitor_distribution{
+
+    .handle-order-lower , .handle-order-higher{
+      display: none;
+    }
     &.postbox .inside{
       padding-right: 0;
       padding-left: 0;
@@ -637,7 +641,7 @@
     }
 
   }
-  #daily_traffic_trend , #search_engines{
+  #daily_traffic_trend , #search_engines ,#global_visitor_distribution{
     .o-wrap {
       padding: 12px 24px !important;
       padding-top: 0 !important;

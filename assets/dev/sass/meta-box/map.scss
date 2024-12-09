@@ -13,6 +13,11 @@
     width: 24px;
     height: 24px;
     transition: 0.15s;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
 
     &:hover {
       background-color: #f2f2f2 !important;
@@ -24,8 +29,26 @@
   }
 
   .jqvmap-zoomout {
-    top: 42px;
+    top: 36px;
     border-top: 0;
+  }
+}
+
+.wps-map-info{
+  display: flex;
+  gap: 4px;
+  align-items: center;
+
+  span:last-child, span:first-child{
+    color: #0C0C0D;
+    font-size: 11px;
+    font-weight: 400;
+    line-height: 12.89px;
+  }
+  &__color{
+    background: linear-gradient(90deg, #EBF5FF 0%, #3288D7 100%);
+    width: 177px;
+    height: 8px;
   }
 }
 
@@ -48,6 +71,7 @@
 
 .jqvmap-label {
   z-index: 10000;
+  border:0.5px solid #DADCE0;
 }
 
 .jqvmap-zoomin, .jqvmap-zoomout {

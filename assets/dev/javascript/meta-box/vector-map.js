@@ -20,10 +20,10 @@ wps_js.render_global_visitor_distribution = function (response, key){
                     const country = countryData[code];
 
                     const intensity = country.visitors / maxVisitors;
-                    // Lighter blue (rgb(235, 245, 255)) to Medium blue (rgb(100, 181, 246))
-                    const r = Math.round(235 - (135 * intensity));  // From 235 to 100
-                    const g = Math.round(245 - (64 * intensity));   // From 245 to 181
-                    const b = Math.round(255 - (9 * intensity));    // From 255 to 246
+                    // #EBF5FF to #3288D7
+                    const r = Math.round(235 - (185 * intensity));  // From 235 to 50
+                    const g = Math.round(245 - (109 * intensity));  // From 245 to 136
+                    const b = Math.round(255 - (40 * intensity));   // From 255 to 215
 
                     colors[code] = `rgb(${r}, ${g}, ${b})`;
 
@@ -33,7 +33,11 @@ wps_js.render_global_visitor_distribution = function (response, key){
                             alt="${country.label}" 
                             title='${country.label}' 
                             class='log-tools wps-flag'/> 
-                        ${country.label} (${country.visitors})
+                            <span>${country.label}  </span>
+                    </div>
+                    <div class="map-country-content">
+                        <div>${wps_js._('visitors')}</div>
+                        <div>${country.visitors}</div>
                     </div>
                 </div>`;
                 });

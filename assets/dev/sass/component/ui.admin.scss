@@ -2844,15 +2844,17 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
 #dashboard-widgets {
   .wps-refresh {
     line-height: unset !important;
-    width: auto;
-    height: auto;
     padding: 5px;
     position: relative;
-    top: -1px;
     border-radius: 100%;
+    width: 21px;
+    height: 21px;
+    top: -3px;
+    background: url(data:image/svg+xml;base64,Cjxzdmcgd2lkdGg9IjEyIiBoZWlnaHQ9IjEzIiB2aWV3Qm94PSIwIDAgMTIgMTMiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik02IDEuN0M0LjM1MDg2IDEuNyAyLjg5NTA1IDIuNTMxNzYgMi4wMzA2NiAzLjhIMy42VjVIMFYxLjRIMS4yVjIuODk5NjJDMi4yOTQyOSAxLjQ0MyA0LjAzNjU4IDAuNSA2IDAuNUM5LjMxMzY4IDAuNSAxMiAzLjE4NjI5IDEyIDYuNUgxMC44QzEwLjggMy44NDkwMyA4LjY1MDk4IDEuNyA2IDEuN1pNMS4yIDYuNUMxLjIgOS4xNTA5OCAzLjM0OTAzIDExLjMgNiAxMS4zQzcuNjQ5MTYgMTEuMyA5LjEwNDk0IDEwLjQ2ODIgOS45NjkzNiA5LjJIOC40VjhIMTJWMTEuNkgxMC44VjEwLjEwMDRDOS43MDU3MiAxMS41NTcgNy45NjM0NCAxMi41IDYgMTIuNUMyLjY4NjI5IDEyLjUgMCA5LjgxMzY4IDAgNi41SDEuMloiIGZpbGw9IiMwMDAiLz4KPC9zdmc+Cg==) center center no-repeat !important;
+    opacity: 0.5;
 
     &:hover {
-      filter: brightness(0.5);
+      opacity: 1;
     }
   }
 }
