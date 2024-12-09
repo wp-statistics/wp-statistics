@@ -33,26 +33,17 @@ class TopDeviceModel extends BaseMetabox
 
     public function getData()
     {
-        $args = [
-            'ignore_date' => true
-        ];
+        $args = $this->getFilters();
 
-        //  @todo  Add data
-        $data = [
+        $data = array_merge($this->dataProvider->getModelChartData($args), [
             'tag_id' => 'wps-top-device-model',
-            'data' => [
-                10
-            ],
-            'label' => [
-                "Desktop",
-             ],
-        ];
+        ]);
 
-        $output = View::load('metabox/horizontal-bar', ['data' => $data , 'unique_id' => 'wps-top-device-model'], true);
+        $output = View::load('metabox/horizontal-bar', ['data' => $data], true);
 
         return [
-            'output' => $output,
-            'data' => $data
+            'output'    => $output,
+            'data'      => $data
         ];
     }
 

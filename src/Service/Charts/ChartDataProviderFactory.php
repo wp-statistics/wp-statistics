@@ -12,6 +12,7 @@ use WP_Statistics\Service\Charts\DataProvider\BrowserChartDataProvider;
 use WP_Statistics\Service\Charts\DataProvider\OsChartDataProvider;
 use WP_Statistics\Service\Charts\DataProvider\DeviceChartDataProvider;
 use WP_Statistics\Service\Charts\DataProvider\MapChartDataProvider;
+use WP_Statistics\Service\Charts\DataProvider\ModelChartDataProvider;
 
 class ChartDataProviderFactory
 {
@@ -57,6 +58,17 @@ class ChartDataProviderFactory
     public static function osChart($args)
     {
         return new OsChartDataProvider($args);
+    }
+
+    /**
+     * Returns a new instance of ModelChartDataProvider.
+     *
+     * @param array $args
+     * @return ModelChartDataProvider
+     */
+    public static function modelChart($args)
+    {
+        return new ModelChartDataProvider($args);
     }
 
     /**
