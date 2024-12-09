@@ -1,10 +1,9 @@
-<?php use WP_Statistics\Decorators\ReferralDecorator;
+<?php
+use WP_Statistics\Decorators\ReferralDecorator;
 use WP_STATISTICS\Menus;
-
- ?>
+?>
 
 <?php if (!empty($data)) : ?>
-
     <div class="o-table-wrapper">
         <table width="100%" class="o-table wps-new-table">
             <thead>
