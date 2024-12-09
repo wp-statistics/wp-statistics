@@ -78,7 +78,10 @@ jQuery(document).ready(function () {
         });
 
         if (wps_js.isset(wps_js.global, 'request_params', 'from') && wps_js.isset(wps_js.global, 'request_params', 'to')) {
-            const requestFromDate = wps_js.global.request_params.from;
+            let requestFromDate = wps_js.global.request_params.from;
+            if (hasTypeParameter() && wps_js.global.post_creation_date ) {
+                requestFromDate =  wps_js.global.post_creation_date;
+            }
             const requestToDate = wps_js.global.request_params.to;
             datePickerElement.data('daterangepicker').setStartDate(moment(requestFromDate).format('MM/DD/YYYY'));
             datePickerElement.data('daterangepicker').setEndDate(moment(requestToDate).format('MM/DD/YYYY'));
