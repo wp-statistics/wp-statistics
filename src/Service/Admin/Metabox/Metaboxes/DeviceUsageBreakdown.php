@@ -33,28 +33,17 @@ class DeviceUsageBreakdown extends BaseMetabox
 
     public function getData()
     {
-        $args = [
-            'ignore_date' => true
-        ];
+        $args = $this->getFilters();
 
-        //  @todo  Add data
-        $data = [
-            'tag_id' => 'wps-device-usage-breakdown',
-            'data' => [
-                10,
-                2
-            ],
-            'label' => [
-                "Apple",
-                "smartphone"
-            ],
-        ];
+        $data = array_merge($this->dataProvider->getDeviceChartData($args), [
+            'tag_id' => 'wps-device-usage-breakdown'
+        ]);
 
-        $output = View::load('metabox/horizontal-bar', ['data' => $data , 'unique_id' => 'wps-device-usage-breakdown'], true);
+        $output = View::load('metabox/horizontal-bar', ['data' => $data], true);
 
         return [
-            'output' => $output,
-            'data' => $data
+            'output'    => $output,
+            'data'      => $data
         ];
     }
 

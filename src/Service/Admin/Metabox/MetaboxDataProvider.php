@@ -77,4 +77,9 @@ class MetaboxDataProvider
     {
         return ChartDataProviderFactory::browserChart($args)->getData();
     }
+
+    public function getDeviceChartData($args = [])
+    {
+        return ChartDataProviderFactory::deviceChart($args)->getData();
+    }
 }
