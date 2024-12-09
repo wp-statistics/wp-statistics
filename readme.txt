@@ -138,6 +138,9 @@ Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest versio
 == Changelog ==
 https://www.youtube.com/watch?v=jxYLVtBdhEc
 
+= 14.11.5 - 2024-**-** =
+- **Fix:** Resolved early translation loading issue.
+
 = 14.11.4 - 2024-12-09 =
 - **Enhancement:** Made the Global Visitor Distribution widget load faster on the Overview page.
 - **Enhancement:** Added geolocation validation to improve debugging accuracy.
