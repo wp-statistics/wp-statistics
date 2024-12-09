@@ -9,6 +9,7 @@ use WP_Statistics\Service\Charts\DataProvider\PlatformChartDataProvider;
 use WP_Statistics\Service\Charts\DataProvider\PublishOverviewChartDataProvider;
 use WP_Statistics\Service\Charts\DataProvider\AuthorsPostViewsChartDataProvider;
 use WP_Statistics\Service\Charts\DataProvider\BrowserChartDataProvider;
+use WP_Statistics\Service\Charts\DataProvider\OsChartDataProvider;
 use WP_Statistics\Service\Charts\DataProvider\DeviceChartDataProvider;
 use WP_Statistics\Service\Charts\DataProvider\MapChartDataProvider;
 
@@ -45,6 +46,17 @@ class ChartDataProviderFactory
     public static function deviceChart($args)
     {
         return new DeviceChartDataProvider($args);
+    }
+
+    /**
+     * Returns a new instance of OsChartDataProvider.
+     *
+     * @param array $args
+     * @return OsChartDataProvider
+     */
+    public static function osChart($args)
+    {
+        return new OsChartDataProvider($args);
     }
 
     /**

@@ -33,41 +33,17 @@ class OperatingSystems extends BaseMetabox
 
     public function getData()
     {
-        $args = [
-            'ignore_date' => true
-        ];
+        $args = $this->getFilters();
 
-        //  @todo  Add data
-        $data = [
-            'tag_id' => 'wps-most-used-operating-systems',
-            'os_logos' => [
-                WP_STATISTICS_URL."assets/images/operating-system/windows.svg",
-                WP_STATISTICS_URL."assets/images/operating-system/os_x.svg",
-                WP_STATISTICS_URL."assets/images/operating-system/android.svg",
-                WP_STATISTICS_URL."assets/images/operating-system/linux.svg",
-                ""
-            ],
-            'data' => [
-                121,
-                30,
-                5,
-                4,
-                5
-            ],
-            'label' => [
-                "Windows",
-                "OS X",
-                "Android",
-                "Linux",
-                "Other"
-            ],
-        ];
+        $data = array_merge($this->dataProvider->getOsChartData($args), [
+            'tag_id' => 'wps-most-used-operating-systems'
+        ]);
 
-        $output = View::load('metabox/horizontal-bar', ['data' => $data , 'unique_id' => 'wps-most-used-operating-systems'], true);
+        $output = View::load('metabox/horizontal-bar', ['data' => $data], true);
 
         return [
-            'output' => $output,
-            'data' => $data
+            'output'    => $output,
+            'data'      => $data
         ];
     }
 

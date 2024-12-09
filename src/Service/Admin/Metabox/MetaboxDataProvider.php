@@ -82,4 +82,9 @@ class MetaboxDataProvider
     {
         return ChartDataProviderFactory::deviceChart($args)->getData();
     }
+
+    public function getOsChartData($args = [])
+    {
+        return ChartDataProviderFactory::osChart($args)->getData();
+    }
 }
