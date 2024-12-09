@@ -63,6 +63,11 @@ class MetaboxDataProvider
         return $visitors;
     }
 
+    public function getTopCountiesData($args = [])
+    {
+        return $this->visitorsModel->getVisitorsGeoData(array_merge($args, ['per_page' => 10]));
+    }
+
     public function getTrafficChartData($args = [])
     {
         return ChartDataProviderFactory::trafficChart($args)->getData();
@@ -91,5 +96,10 @@ class MetaboxDataProvider
     public function getModelChartData($args = [])
     {
         return ChartDataProviderFactory::modelChart($args)->getData();
+    }
+
+    public function getMapChartData($args = [])
+    {
+        return ChartDataProviderFactory::mapChart($args)->getData();
     }
 }

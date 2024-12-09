@@ -3,6 +3,7 @@ namespace WP_Statistics\Service\Admin\Metabox\Metaboxes;
 
 use WP_Statistics\Components\View;
 use WP_Statistics\Abstracts\BaseMetabox;
+use WP_STATISTICS\Menus;
 
 class GoPremium extends BaseMetabox
 {
@@ -16,21 +17,24 @@ class GoPremium extends BaseMetabox
 
     public function getDescription()
     {
-        return esc_html__('', 'wp-statistics');
+        return '';
     }
 
+    /**
+     * Returns the screens the metabox is active on
+     * @return array
+     */
+    public function getScreen()
+    {
+        return [Menus::get_action_menu_slug('overview')];
+    }
 
     public function getData()
     {
-        $args = [
-            'ignore_date' => true
-        ];
-        $data = [];
-        $output = View::load('metabox/go-premium',['data' => $data],true);
+        $output = View::load('metabox/go-premium',[],true);
 
         return $output;
     }
-
 
     public function render()
     {

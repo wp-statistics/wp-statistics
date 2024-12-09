@@ -33,14 +33,11 @@ class TopCountries extends BaseMetabox
 
     public function getData()
     {
-        $args = [
-            'ignore_date' => true
-        ];
+        $args = $this->getFilters();
 
-        //  @todo  Add data
-        $data = [];
+        $data = $this->dataProvider->getTopCountiesData($args);
 
-        $output = View::load('metabox/top-countries', ['data' => $data], true);
+        $output = View::load('metabox/top-countries', ['data' => $data, 'filters' => $args], true);
 
         return $output;
     }
