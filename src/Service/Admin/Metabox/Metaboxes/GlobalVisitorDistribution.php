@@ -32,31 +32,13 @@ class GlobalVisitorDistribution extends BaseMetabox
     {
         $args = $this->getFilters();
 
-        $data = [
-
-            "labels" => [
-                "Germany",
-                "United Arab Emirates"
-            ],
-            "codes" => [
-                "DE",
-                "AE"
-            ],
-            "flags" => [
-                "http://wp-statistic.localhost/wp-content/plugins/wp-statistics/assets/images/flags/de.svg",
-                "http://wp-statistic.localhost/wp-content/plugins/wp-statistics/assets/images/flags/ae.svg"
-            ],
-            "data" => [
-                "8",
-                "4"
-            ]
-        ];
+        $data = $this->dataProvider->getMapChartData($args);
 
         $output = View::load('metabox/global-visitor-distribution', [], true);
 
         return [
-            'data' => $data,
-            'output' => $output
+            'data'      => $data,
+            'output'    => $output
         ];
     }
 

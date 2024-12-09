@@ -92,4 +92,9 @@ class MetaboxDataProvider
     {
         return ChartDataProviderFactory::modelChart($args)->getData();
     }
+
+    public function getMapChartData($args = [])
+    {
+        return ChartDataProviderFactory::mapChart($args)->getData();
+    }
 }
