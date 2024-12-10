@@ -6,10 +6,6 @@ use WP_Statistics\Service\Admin\Metabox\Metaboxes\TrafficSummary;
 
 class MetaboxManager
 {
-    public $metaboxes = [
-        TrafficSummary::class
-    ];
-
     public function __construct()
     {
         add_action('admin_init', [$this, 'registerMetaboxes']);
