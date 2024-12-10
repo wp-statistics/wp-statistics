@@ -15,17 +15,16 @@ body.toplevel_page_wps_overview_page {
 
       .c-footer {
         @media screen and (min-width: 758px) and (max-width: 900px) {
-          padding: 24px 4px 0 16px !important;
+          padding: 24px 24px 0 24px !important;
         }
 
         @media screen and (min-width: 758px) and (max-width: 1300px) {
-          padding: 24px 4px 0 16px !important;
-          flex-direction: column;
-          align-items: flex-start;
+           flex-direction: column;
+           align-items: flex-start;
         }
 
         @media screen and (min-width: 900px) and (max-width: 1420px) {
-          padding: 32px 12px 4px 16px !important;
+          padding: 24px 24px 4px 24px !important;
         }
       }
     }
@@ -104,9 +103,9 @@ body.toplevel_page_wps_overview_page,
 
       a.wps-tooltip {
         display: inline-block;
-         position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
+        position: relative;
+        top: unset;
+        transform: translateY(2px);
       }
     }
   }

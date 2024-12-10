@@ -237,6 +237,7 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
 
         .c-footer {
           padding-top: 0;
+          flex-wrap: wrap;
 
           .c-footer__filter.is-active .c-footer__filter__btn::after {
             transform: rotate(180deg);
