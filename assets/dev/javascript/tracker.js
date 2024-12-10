@@ -208,12 +208,6 @@ function handleWpConsentApiIntegration() {
 }
 
 function handleRealCookieBannerIntegration() {
-    const anonymousTracking = WP_Statistics_Tracker_Object.option.trackAnonymously;
-
-    if (anonymousTracking) {
-        wpStatisticsUserSession.init();
-    }
-
     (window.consentApi?.consent("wp-statistics") || Promise.resolve())
         .then(() => {
             return (window.consentApi?.consent("wp-statistics-with-data-processing") || Promise.resolve());
@@ -222,6 +216,9 @@ function handleRealCookieBannerIntegration() {
             wpStatisticsUserSession.init();
         })
         .catch(() => {
-            console.log('WP Statistics: Real Cookie Banner consent is NOT given.');
+            // If consent is not given, track anonymously if enabled
+            if (WP_Statistics_Tracker_Object.option.trackAnonymously) {
+                wpStatisticsUserSession.init();
+            }
         });
 }

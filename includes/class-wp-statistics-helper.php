@@ -1847,7 +1847,7 @@ class Helper
     public static function shouldTrackAnonymously()
     {
         $integration        = IntegrationHelper::getCurrentIntegration();
-        $isConsentGiven     = !empty($integration) && $integration->hasConsent();
+        $isConsentGiven     = empty($integration) || $integration->hasConsent();
         $anonymousTracking  = Option::get('anonymous_tracking', false);
 
         return !$isConsentGiven && $anonymousTracking;
