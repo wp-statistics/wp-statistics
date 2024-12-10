@@ -4,11 +4,13 @@ namespace WP_Statistics\Service\Admin\Metabox\Metaboxes;
 use WP_Statistics\Components\View;
 use WP_Statistics\Abstracts\BaseMetabox;
 use WP_STATISTICS\Menus;
+use WP_STATISTICS\Option;
 
 class GoPremium extends BaseMetabox
 {
     protected $key = 'go_premium';
     protected $priority = 'side';
+    protected $dismissible = true;
 
     public function getName()
     {
@@ -20,10 +22,6 @@ class GoPremium extends BaseMetabox
         return '';
     }
 
-    /**
-     * Returns the screens the metabox is active on
-     * @return array
-     */
     public function getScreen()
     {
         return [Menus::get_action_menu_slug('overview')];
@@ -31,13 +29,11 @@ class GoPremium extends BaseMetabox
 
     public function getData()
     {
-        $output = View::load('metabox/go-premium',[],true);
-
-        return $output;
+        return false;
     }
 
     public function render()
     {
-        View::load('metabox/go-premium', []);
+        View::load('metabox/go-premium', ['widget_id' => $this->getKey()]);
     }
 }
