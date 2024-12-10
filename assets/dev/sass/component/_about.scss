@@ -348,7 +348,7 @@
 }
 
 #wps-postbox-container-2 {
-  #wp-statistics-about-widget {
+  #about_wps {
     @media(min-width: 1312px) {
       .c-about__links--content {
         flex-direction: row;
@@ -361,7 +361,7 @@
     }
   }
 }
-#wp-statistics-about-widget.wp-statistics-about-widget__customize{
+#about_wps.about_wps__customize{
   .postbox-header{
     display: flex;
   }
@@ -373,9 +373,9 @@
   }
 }
 
-#wp-statistics-about-widget, #go_premium {
+#about_wps, #go_premium {
   .wps-about-widget {
-    padding: 0;
+    padding: 0!important;
   }
 
   &.closed {

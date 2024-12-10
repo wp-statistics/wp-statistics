@@ -9,7 +9,6 @@ wps_js.horizontal_bar_metabox = function(response, key, id, label, data, icon) {
 wps_js.render_horizontal_bar_data = function(response, key) {
     if (response.response?.data) {
         const args = response.response.data;
-        console.log(args)
         wps_js.horizontal_bar_metabox(
             response,
             key,

@@ -15,6 +15,7 @@ use WP_Statistics\Service\Admin\Metabox\Metaboxes\DeviceUsageBreakdown;
 use WP_Statistics\Service\Admin\Metabox\Metaboxes\CurrentlyOnline;
 use WP_Statistics\Service\Admin\Metabox\Metaboxes\TopDeviceModel;
 use WP_Statistics\Service\Admin\Metabox\Metaboxes\OperatingSystems;
+use WP_Statistics\Service\Admin\Metabox\Metaboxes\AboutWPS;
 use WP_Statistics\Service\Admin\Metabox\Metaboxes\GoPremium;
 use WP_Statistics\Service\Admin\Metabox\Metaboxes\GlobalVisitorDistribution;
 
@@ -34,6 +35,7 @@ class MetaboxHelper
         CurrentlyOnline::class,
         TopCountries::class,
         TopReferring::class,
+        AboutWPS::class,
         GoPremium::class,
         GlobalVisitorDistribution::class,
     ];

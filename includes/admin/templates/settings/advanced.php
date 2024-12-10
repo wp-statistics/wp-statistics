@@ -247,7 +247,6 @@ add_thickbox();
 
                 // Show and hide user license input base on license type option
                 function handle_geoip_license_key_field() {
-                    console.log(jQuery("#geoip_license_type").val())
                     if (jQuery("#geoip_license_type").val() == "user-license") {
                         jQuery("#geoip_license_key_option").show();
                     } else {
