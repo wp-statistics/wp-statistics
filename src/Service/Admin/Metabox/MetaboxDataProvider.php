@@ -65,7 +65,7 @@ class MetaboxDataProvider
 
     public function getTopCountiesData($args = [])
     {
-        return $this->visitorsModel->getVisitorsGeoData(array_merge($args, ['per_page' => 10]));
+        return $this->visitorsModel->getVisitorsGeoData(array_merge($args, ['per_page' => 10, 'not_null' => 'location']));
     }
 
     public function getTrafficChartData($args = [])
