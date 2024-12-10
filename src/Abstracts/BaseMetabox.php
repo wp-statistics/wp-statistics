@@ -3,6 +3,7 @@ namespace WP_Statistics\Abstracts;
 
 use Wp_Statistics\Components\Ajax;
 use WP_STATISTICS\Menus;
+use WP_STATISTICS\Option;
 use WP_Statistics\Service\Admin\Metabox\MetaboxDataProvider;
 use WP_STATISTICS\User;
 use WP_Statistics\Utils\Request;
@@ -11,6 +12,7 @@ abstract class BaseMetabox
 {
     protected $key;
     protected $priority;
+    protected $dismissible = false;
     protected $dataProvider;
 
     public function __construct()
@@ -71,11 +73,30 @@ abstract class BaseMetabox
     }
 
     /**
+     * Determines if the metabox is dismissed by the user
+     * @return bool
+     */
+    public function isDismissed()
+    {
+        if (!$this->dismissible) {
+            return false;
+        }
+
+        $dismissedWidgets = Option::getOptionGroup('dismissed_widgets');
+
+        return in_array($this->getKey(), $dismissedWidgets);
+    }
+
+    /**
      * Determines if the metabox is active and should be displayed
      * @return bool
      */
     public function isActive()
     {
+        if ($this->isDismissed()) {
+            return false;
+        }
+
         return true;
     }
 

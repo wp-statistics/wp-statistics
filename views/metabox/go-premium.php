@@ -3,7 +3,7 @@
         <a href="<?php echo esc_url(add_query_arg([
             'action'    => 'wp_statistics_dismiss_widget',
             'nonce'     => wp_create_nonce('wp_statistics_dismiss_widget'),
-            'widget_id' => 'about-premium'
+            'widget_id' => $widget_id
         ])) ?>">
             <span class="wp-close" title="Close"></span>
         </a>
