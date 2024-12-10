@@ -3,6 +3,7 @@ namespace WP_Statistics\Service\Admin\Metabox\Metaboxes;
 
 use WP_Statistics\Components\View;
 use WP_Statistics\Abstracts\BaseMetabox;
+use WP_STATISTICS\Menus;
 
 class AboutWPS extends BaseMetabox
 {
@@ -19,13 +20,14 @@ class AboutWPS extends BaseMetabox
         return esc_html__('', 'wp-statistics');
     }
 
+    public function getScreen()
+    {
+        return [Menus::get_action_menu_slug('overview')];
+    }
+
     public function getData()
     {
-        $args = $this->getFilters();
-
-        $output = View::load('metabox/about', [], true);
-
-        return $output;
+        return false;
     }
 
     public function render()

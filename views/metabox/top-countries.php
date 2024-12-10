@@ -14,7 +14,12 @@ use WP_STATISTICS\Menus;
             </thead>
 
             <tbody>
-                <?php foreach ($data as $item) : ?>
+                <?php
+                    foreach ($data as $item) :
+                        if ($item->country == Country::$unknown_location) {
+                            continue;
+                        }
+                ?>
                     <tr>
                         <td class="wps-pd-l">
                             <div class="wps-country-flag wps-ellipsis-parent">
