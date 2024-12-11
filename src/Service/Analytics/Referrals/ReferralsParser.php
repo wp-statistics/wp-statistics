@@ -24,7 +24,16 @@ class ReferralsParser
      */
     public function parse($referrerUrl, $pageUrl)
     {
+        $channels = [];
+
         $referrerUrl = Url::getDomain($referrerUrl);
+
+        // Get a list of all the parameters to check
+        $paramsToCheck = array_filter([
+            'utm_source'    => Url::getParam($pageUrl, 'utm_source'),
+            'source'        => Url::getParam($pageUrl, 'source'),
+            'ref'           => Url::getParam($pageUrl, 'ref')
+        ]);
 
         // Return false if self referral
         if (Url::isInternal($referrerUrl)) return false;
@@ -36,20 +45,59 @@ class ReferralsParser
             }
 
             foreach ($channelData['channels'] as $channel) {
-                foreach ($channel['domains'] as $channelDomain) {
+                $currentChannel = [
+                    'name'         => $channel['name'],
+                    'identifier'   => $channel['identifier'],
+                    'channel'      => $channelType
+                ];
 
-                    // check if domains don't match, skip
-                    if ($channelDomain !== $referrerUrl) {
-                        continue;
+                foreach ($channel['domains'] as $channelDomain) {
+                    // Check if the current source matches any of the source parameters
+                    foreach ($paramsToCheck as $key => $param) {
+                        if ($channelDomain === $param) {
+                            $channels[$key] = $currentChannel;
+                        }
                     }
 
-                    return [
-                        'name'         => $channel['name'],
-                        'identifier'   => $channel['identifier'],
-                        'channel'      => $channelType
-                    ];
+                    // Check if the current source matches the referrer
+                    if ($channelDomain === $referrerUrl) {
+                        $channels['referrer'] = $currentChannel;
+                    }
+
+                    // Break if all available params and referrer have channels
+                    if (count($channels) === count($paramsToCheck) + 1) {
+                        break 3;
+                    }
                 }
             }
+        }
+
+        return $this->getSourceInfo($channels);
+    }
+
+    /**
+     * Returns the source info based on the provided channels and priority.
+     *
+     * @param array $channels
+     *
+     * @return array|bool
+     */
+    private function getSourceInfo($channels)
+    {
+        if (!empty($channels['utm_source'])) {
+            return $channels['utm_source'];
+        }
+
+        if (!empty($channels['source'])) {
+            return $channels['source'];
+        }
+
+        if (!empty($channels['ref'])) {
+            return $channels['ref'];
+        }
+
+        if (!empty($channels['referrer'])) {
+            return $channels['referrer'];
         }
 
         return false;
