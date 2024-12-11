@@ -540,7 +540,13 @@ class VisitorsModel extends BaseModel
             ->where('source_name', '=', $args['source_name'])
             ->where('referred', '=', $args['referrer'])
             ->whereDate('visitor.last_counter', $args['date'])
-            ->whereNotNull('visitor.referred')
+            ->whereRaw("
+                AND (
+                    (visitor.referred != '' AND visitor.referred IS NOT NULL)
+                    OR
+                    (visitor.source_channel IS NOT NULL AND visitor.source_channel != '' AND visitor.source_channel != 'direct')
+                )
+            ")
             ->perPage($args['page'], $args['per_page'])
             ->orderBy($args['order_by'], $args['order'])
             ->decorate(VisitorDecorator::class)
@@ -564,7 +570,12 @@ class VisitorsModel extends BaseModel
             ->where('source_name', '=', $args['source_name'])
             ->where('referred', '=', $args['referrer'])
             ->whereDate('visitor.last_counter', $args['date'])
-            ->whereNotNull('visitor.referred')
+            ->whereRaw("
+                AND (
+                    (visitor.referred != '' AND visitor.referred IS NOT NULL)
+                    OR (visitor.source_channel IS NOT NULL AND visitor.source_channel != '' AND visitor.source_channel != 'direct')
+                )
+            ")
             ->getVar();
 
         return $result ?? [];
