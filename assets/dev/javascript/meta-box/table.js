@@ -16,3 +16,4 @@ wps_js.render_latest_visitor_breakdown = wps_js.render_table_content;
 wps_js.render_currently_online = wps_js.render_table_content;
 wps_js.render_go_premium = wps_js.render_table_content;
 wps_js.render_about_wps = wps_js.render_table_content;
+wps_js.render_weekly_performance = wps_js.render_table_content;
