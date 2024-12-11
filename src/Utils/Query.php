@@ -258,7 +258,10 @@ class Query
             case '<=':
             case 'LIKE':
             case 'NOT LIKE':
-                if (is_numeric($value) || !empty($value)) {
+                // For LIKE and NOT LIKE, remove the '%' from the value
+                $rawValue = str_replace('%', '', $value);
+
+                if (is_numeric($rawValue) || !empty($rawValue)) {
                     $condition = "$field $operator %s";
                     $values[]  = $value;
                 }
