@@ -28,8 +28,8 @@ class ReferralsParser
 
         $referrerUrl = Url::getDomain($referrerUrl);
 
-        // Get a list of all the parameters to check
-        $paramsToCheck = array_filter([
+        // Get a list of all source parameters to check
+        $sourceParams = array_filter([
             'utm_source'    => Url::getParam($pageUrl, 'utm_source'),
             'source'        => Url::getParam($pageUrl, 'source'),
             'ref'           => Url::getParam($pageUrl, 'ref')
@@ -53,8 +53,8 @@ class ReferralsParser
 
                 foreach ($channel['domains'] as $channelDomain) {
                     // Check if the current source matches any of the source parameters
-                    foreach ($paramsToCheck as $key => $param) {
-                        if ($channelDomain === $param) {
+                    foreach ($sourceParams as $key => $value) {
+                        if ($channelDomain === $value) {
                             $channels[$key] = $currentChannel;
                         }
                     }
@@ -65,7 +65,7 @@ class ReferralsParser
                     }
 
                     // Break if all available params and referrer have channels
-                    if (count($channels) === count($paramsToCheck) + 1) {
+                    if (count($channels) === count($sourceParams) + 1) {
                         break 3;
                     }
                 }
