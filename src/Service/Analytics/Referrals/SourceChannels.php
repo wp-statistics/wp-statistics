@@ -13,7 +13,8 @@ class SourceChannels
         $channels = [
             'direct'        => esc_html__('Direct', 'wp-statistics'),
             'search'        => esc_html__('Organic Search', 'wp-statistics'),
-            'paid_search'   => esc_html__('Paid Search', 'wp-statistics')
+            'paid_search'   => esc_html__('Paid Search', 'wp-statistics'),
+            'display'       => esc_html__('Display', 'wp-statistics')
         ];
 
         return apply_filters('wp_statistics_source_channels_list', $channels);
