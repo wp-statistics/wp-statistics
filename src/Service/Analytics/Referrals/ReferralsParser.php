@@ -35,9 +35,6 @@ class ReferralsParser
             'ref'           => Url::getParam($pageUrl, 'ref')
         ]);
 
-        // Return false if self referral
-        if (Url::isInternal($referrerUrl)) return false;
-
         foreach ($this->referralsList['source_channels'] as $channelType => $channelData) {
             // check if rules don't match, skip to the next channel
             if (!$this->checkRules($channelData['rules'], $pageUrl)) {
