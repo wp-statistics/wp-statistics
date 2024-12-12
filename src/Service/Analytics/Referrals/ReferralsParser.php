@@ -51,13 +51,13 @@ class ReferralsParser
                 foreach ($channel['domains'] as $channelDomain) {
                     // Check if the current source matches any of the source parameters
                     foreach ($sourceParams as $key => $value) {
-                        if ($channelDomain === $value) {
+                        if ($this->checkDomain($channelDomain, $value)) {
                             $channels[$key] = $currentChannel;
                         }
                     }
 
                     // Check if the current source matches the referrer
-                    if ($channelDomain === $referrerUrl) {
+                    if ($this->checkDomain($channelDomain, $referrerUrl)) {
                         $channels['referrer'] = $currentChannel;
                     }
 
@@ -98,6 +98,27 @@ class ReferralsParser
         }
 
         return false;
+    }
+
+    /**
+     * Match a domain against a channel domain. The pattern can contain * as a wildcard character.
+     *
+     * @param string $pattern
+     * @param string $domain
+     *
+     * @return bool
+     */
+    private function checkDomain($pattern, $domain)
+    {
+        // If the pattern doesn't contain wildcards, perform a simple comparison
+        if (strpos($pattern, '*') === false) {
+            return strtolower($pattern) === strtolower($domain);
+        }
+
+        // Convert wildcard to regex pattern
+        $pattern = str_replace('\*', '.*', preg_quote($pattern, '/'));
+
+        return preg_match('/^' . $pattern . '$/i', $domain) === 1;
     }
 
     /**
