@@ -1,6 +1,6 @@
 [
   {
-    "source_channel": "direct",
+    "type": "direct",
     "description": "Direct traffic",
     "channels": [
       {
@@ -19,7 +19,7 @@
     ]
   },
   {
-    "source_channel": "paid_search",
+    "type": "paid_search",
     "description": "Paid traffic from search engine",
     "channels": [
       {
@@ -493,7 +493,7 @@
     ]
   },
   {
-    "source_channel": "search",
+    "type": "search",
     "description": "Organic traffic from search engines",
     "channels": [
       {
@@ -1113,7 +1113,7 @@
     "rules": []
   },
   {
-    "source_channel": "display",
+    "type": "display",
     "description": "Display",
     "channels": [
       {
@@ -1132,7 +1132,7 @@
     ]
   },
   {
-    "source_channel": "shopping",
+    "type": "shopping",
     "description": "Organic Shopping",
     "channels": [
       {
@@ -1271,7 +1271,7 @@
     "rules": []
   },
   {
-    "source_channel": "shopping",
+    "type": "shopping",
     "description": "Organic shopping",
     "channels": [
       {

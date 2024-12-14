@@ -35,7 +35,7 @@ class ReferralsParser
             'ref'           => Url::getParam($pageUrl, 'ref')
         ]);
 
-        foreach ($this->referralsList['source_channels'] as $channelType => $channelData) {
+        foreach ($this->referralsList as $channelData) {
             // check if rules don't match, skip to the next channel
             if (!$this->checkRules($channelData['rules'], $pageUrl)) {
                 continue;
@@ -45,7 +45,7 @@ class ReferralsParser
                 $currentChannel = [
                     'name'         => $channel['name'],
                     'identifier'   => $channel['identifier'],
-                    'channel'      => $channelType
+                    'channel'      => $channelData['type']
                 ];
 
                 foreach ($channel['domains'] as $channelDomain) {
