@@ -179,7 +179,7 @@
     "rules": [
       {
         "operator": "MATCH",
-        "pattern": "/utm_campaign=.*(([^a-df-z]|^)shop|shopping).*/i"
+        "pattern": "/[?&]utm_campaign=(.*?(?:(?<![a-df-z])shop|shopping).*)/i"
       },
       {
         "operator": "MATCH",
@@ -1005,7 +1005,7 @@
     "rules": [
       {
         "operator": "MATCH",
-        "pattern": "/utm_campaign=.*(([^a-df-z]|^)shop|shopping).*/i"
+        "pattern": "/[?&]utm_campaign=(.*?(?:(?<![a-df-z])shop|shopping).*)/i"
       }
     ]
   },
