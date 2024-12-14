@@ -664,8 +664,8 @@
   },
 
   {
-    "type": "video",
-    "description": "Organic Video",
+    "type": "paid_video",
+    "description": "Paid traffic from video platforms",
     "channels": [
       {
         "name": "Crackle",
