@@ -52,13 +52,15 @@ class ReferralsParser
                     // Check if the current source matches any of the source parameters
                     foreach ($sourceParams as $key => $value) {
                         if ($this->checkDomain($channelDomain, $value)) {
-                            $channels[$key] = $currentChannel;
+                            // Set the source channel if not already set
+                            $channels[$key] = empty($channels[$key]) ? $currentChannel : $channels[$key];
                         }
                     }
 
                     // Check if the current source matches the referrer
                     if ($this->checkDomain($channelDomain, $referrerUrl)) {
-                        $channels['referrer'] = $currentChannel;
+                        // Set the source channel if not already set
+                        $channels['referrer'] = empty($channels['referrer']) ? $currentChannel : $channels['referrer'];
                     }
 
                     // Break if all available params and referrer have channels
