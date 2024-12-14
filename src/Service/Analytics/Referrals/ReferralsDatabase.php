@@ -39,6 +39,8 @@ class ReferralsDatabase
 
             $result = $referralsList;
         } catch (Exception $e) {
+            WP_Statistics()->log($e->getMessage(), 'error');
+
             $result = [];
         }
 
