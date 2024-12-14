@@ -25,12 +25,12 @@ use WP_STATISTICS\Menus;
 
                         if ($viewingAuthors) {
                             foreach ($viewingAuthors as $author) : ?>
-                                <a class="wps-category-tabs__item" href="<?php echo esc_url(Menus::admin_url('author-analytics', ['type' => 'single-author', 'author_id' => $author->id])); ?>">
-                                    <div class="wps-category-tabs__item--image">
+                                <a class="wps-tabs-item" href="<?php echo esc_url(Menus::admin_url('author-analytics', ['type' => 'single-author', 'author_id' => $author->id])); ?>">
+                                    <div class="wps-content-tabs__item--image">
                                         <span># <?php echo esc_html($counter); ?></span>
                                         <img src="<?php echo esc_url(get_avatar_url($author->id)); ?>" alt="<?php echo esc_html($author->name); ?>"/>
                                     </div>
-                                    <div class="wps-category-tabs__item--content">
+                                    <div class="wps-content-tabs__item--content">
                                         <h3 class="wps-ellipsis-parent"><span class="wps-ellipsis-text"><?php echo esc_html($author->name); ?></span></h3>
                                         <span><?php echo esc_html(Helper::formatNumberWithUnit($author->total_views)); ?> <?php esc_html_e('content views', 'wp-statistics') ?></span>
                                     </div>
@@ -60,12 +60,12 @@ use WP_STATISTICS\Menus;
 
                         if ($publishingAuthors) {
                             foreach ($publishingAuthors as $author) : ?>
-                                <a class="wps-category-tabs__item" href="<?php echo esc_url(Menus::admin_url('author-analytics', ['type' => 'single-author', 'author_id' => $author->id])); ?>">
-                                    <div class="wps-category-tabs__item--image">
+                                <a class="wps-tabs-item" href="<?php echo esc_url(Menus::admin_url('author-analytics', ['type' => 'single-author', 'author_id' => $author->id])); ?>">
+                                    <div class="wps-content-tabs__item--image">
                                         <span># <?php echo esc_html($counter); ?></span>
                                         <img src="<?php echo esc_url(get_avatar_url($author->id)); ?>" alt="<?php echo esc_html($author->name); ?>"/>
                                     </div>
-                                    <div class="wps-category-tabs__item--content">
+                                    <div class="wps-content-tabs__item--content">
                                         <h3 class="wps-ellipsis-parent"><span class="wps-ellipsis-text"><?php echo esc_html($author->name); ?></span></h3>
                                         <span><?php echo esc_html(Helper::formatNumberWithUnit($author->post_count)); ?> <?php esc_html_e('content published', 'wp-statistics'); ?></span>
                                     </div>

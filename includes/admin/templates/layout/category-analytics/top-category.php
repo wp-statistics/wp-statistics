@@ -27,8 +27,8 @@ $taxonomy  = Request::get('tx', 'category');
                     if (!empty($data['viewing'])) {
                         $counter = 1;
                         foreach ($data['viewing'] as $term) : ?>
-                            <a class="wps-category-tabs__item" href="<?php echo esc_url(Menus::admin_url('category-analytics', ['type' => 'single', 'term_id' => $term->term_id])) ?>">
-                                <div class="wps-category-tabs__item--content">
+                            <a class="wps-tabs-item" href="<?php echo esc_url(Menus::admin_url('category-analytics', ['type' => 'single', 'term_id' => $term->term_id])) ?>">
+                                <div class="wps-content-tabs__item--content">
                                     <h3 class="wps-ellipsis-parent"><span class="wps-ellipsis-text"><?php echo esc_html($term->term_name); ?></span></h3>
                                     <span>
                                         <?php echo esc_html(Helper::formatNumberWithUnit($term->views)); ?>&nbsp;
@@ -55,8 +55,8 @@ $taxonomy  = Request::get('tx', 'category');
                     if (!empty($data['publishing'])) {
                         $counter = 1;
                         foreach ($data['publishing'] as $term) : ?>
-                            <a class="wps-category-tabs__item" href="<?php echo esc_url(Menus::admin_url('category-analytics', ['type' => 'single', 'term_id' => $term->term_id])) ?>">
-                                <div class="wps-category-tabs__item--content">
+                            <a class="wps-tabs-item" href="<?php echo esc_url(Menus::admin_url('category-analytics', ['type' => 'single', 'term_id' => $term->term_id])) ?>">
+                                <div class="wps-content-tabs__item--content">
                                     <h3 class="wps-ellipsis-parent"><span class="wps-ellipsis-text"><?php echo esc_html($term->term_name); ?></span></h3>
                                     <span>
                                         <?php echo esc_html(number_format_i18n($term->posts)); ?>&nbsp;

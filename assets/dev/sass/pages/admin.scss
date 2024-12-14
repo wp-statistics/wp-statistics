@@ -502,3 +502,82 @@ td:has(div.wps-admin-column__unlock){
 
   }
 }
+
+.wps-tabs-item {
+  display: flex;
+  gap: 8px;
+  padding: 5px 24px;
+
+  img {
+    width: 39px;
+    height: 39px;
+    border-radius: 50%;
+    display: inline-block;
+    overflow: hidden;
+  }
+
+  .wps-content-tabs__item--image{
+    position: relative;
+
+    svg {
+      width: 39px;
+      height: 39px;
+      border-radius: 50%;
+    }
+
+    span {
+      position: absolute;
+      color: #fff;
+      width: 39px;
+      height: 39px;
+      border-radius: 50%;
+      justify-content: center;
+      align-items: center;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 18.75px;
+      background: #1f192dcc;
+      display: none;
+    }
+  }
+
+  .wps-content-tabs__item--content{
+    display: flex;
+    flex-direction: column;
+    padding: 5px 0;
+    gap: 3px;
+
+    span {
+      display: block;
+      font-size: 12px;
+      font-weight: 400;
+      line-height: 14.06px;
+      color: #56585A;
+    }
+
+    h3 {
+      margin: 0;
+
+      span {
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 16.41px;
+        color: #0C0C0D;
+
+        word-break: break-word;
+      }
+    }
+  }
+
+  &:hover {
+    background: #EEEFF1;
+
+    h3 span {
+      color: #404BF2;
+    }
+
+    .wps-content-tabs__item--image span {
+      display: flex;
+    }
+  }
+}
