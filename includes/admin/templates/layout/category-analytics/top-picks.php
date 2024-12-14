@@ -19,10 +19,10 @@ $taxonomy = Request::get('tx', 'category');
     </div>
     <div class="wps-flex-container">
         <div class="wps-flex-half">
-            <div class="wps-category-tabs">
+            <div class="wps-tabs">
                 <input type="radio" name="tabs" id="category-most-popular" checked="checked">
                 <label for="category-most-popular"><?php esc_html_e('Most Popular', 'wp-statistics') ?></label>
-                <div class="wps-category-tabs__content">
+                <div class="wps-tabs__content">
                     <?php
                     if (!empty($data['top_viewing'])) {
                         $counter = 1;
@@ -47,7 +47,7 @@ $taxonomy = Request::get('tx', 'category');
 
                 <input type="radio" name="tabs" id="category-most-commented">
                 <label for="category-most-commented"><?php esc_html_e('Most Commented', 'wp-statistics') ?></label>
-                <div class="wps-category-tabs__content">
+                <div class="wps-tabs__content">
                     <?php
                     if (!empty($data['top_commented'])) {
                         $counter = 1;
@@ -72,10 +72,10 @@ $taxonomy = Request::get('tx', 'category');
             </div>
         </div>
         <div class="wps-flex-half">
-            <div class="wps-category-tabs">
+            <div class="wps-tabs">
                 <input type="radio" name="side-tabs" id="category-recent" checked="checked">
                 <label for="category-recent"><?php esc_html_e('Recent', 'wp-statistics') ?></label>
-                <div class="wps-category-tabs__content">
+                <div class="wps-tabs__content">
                     <?php
                     if (!empty($data['recent'])) {
                         $counter = 1;

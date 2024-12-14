@@ -14,10 +14,10 @@ use WP_STATISTICS\Menus;
     </div>
     <div class="wps-flex-container">
         <div class="wps-flex-half">
-            <div class="wps-category-tabs">
+            <div class="wps-tabs">
                 <input type="radio" name="views-tab" id="category-views" checked="checked">
                 <label for="category-views"><?php esc_html_e('Views', 'wp-statistics') ?></label>
-                <div class="wps-category-tabs__content">
+                <div class="wps-tabs__content">
                     <?php
                         /** @var stdClass[] */
                         $viewingAuthors = $data['viewing'];
@@ -49,10 +49,10 @@ use WP_STATISTICS\Menus;
              </div>
         </div>
         <div class="wps-flex-half">
-            <div class="wps-category-tabs">
+            <div class="wps-tabs">
                 <input type="radio" name="publishing-tabs" id="category-publishing" checked="checked">
                 <label for="category-publishing"><?php esc_html_e('Publishing', 'wp-statistics') ?></label>
-                <div class="wps-category-tabs__content">
+                <div class="wps-tabs__content">
                 <?php
                         /** @var stdClass[] */
                         $publishingAuthors = $data['publishing'];

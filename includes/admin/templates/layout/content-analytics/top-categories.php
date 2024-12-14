@@ -17,7 +17,7 @@ $postType = Helper::getPostTypeName(Request::get('tab', 'post'));
         </h2>
     </div>
     <div class="wps-flex-container">
-        <div class="wps-content-tabs wps-content-category">
+        <div class="wps-tabs wps-content-category">
             <?php 
                 if (!empty($taxonomies)) :
                     $counter = 1; 
@@ -30,7 +30,7 @@ $postType = Helper::getPostTypeName(Request::get('tab', 'post'));
                         <input type="radio" name="content-category" id="<?php echo esc_attr('tax-' . $counter) ?>" <?php checked($counter, 1) ?>>
                         <label for="<?php echo esc_attr('tax-' . $counter) ?>"><?php echo esc_html($taxName) ?></label>
     
-                        <div class="wps-content-tabs__content">
+                        <div class="wps-tabs__content">
                             <?php foreach ($terms as $term) : ?>
                                 <a class="wps-content-tabs__item" href="<?php echo esc_url(Menus::admin_url('category-analytics', ['type' => 'single', 'term_id' => $term['term_id']])) ?>">
                                     <div class="wps-content-tabs__item--content">

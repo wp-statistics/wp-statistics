@@ -19,10 +19,10 @@ $postType = Request::get('tab', 'post');
     </div>
     <div class="wps-flex-container">
         <div class="wps-flex-half">
-            <div class="wps-content-tabs">
+            <div class="wps-tabs">
                 <input type="radio" name="tabs" id="content-most-popular" checked="checked">
                 <label for="content-most-popular"><?php esc_html_e('Most Popular', 'wp-statistics') ?></label>
-                <div class="wps-content-tabs__content">
+                <div class="wps-tabs__content">
                     <?php
                     if (!empty($data['top_viewing'])) {
                         $counter = 1;
@@ -49,7 +49,7 @@ $postType = Request::get('tab', 'post');
                 <?php if (post_type_supports($postType, 'comments')) : ?>
                     <input type="radio" name="tabs" id="content-most-commented">
                     <label for="content-most-commented"><?php esc_html_e('Most Commented', 'wp-statistics') ?></label>
-                    <div class="wps-content-tabs__content">
+                    <div class="wps-tabs__content">
                         <?php
                         if (!empty($data['top_commented'])) {
                             $counter = 1;
@@ -75,10 +75,10 @@ $postType = Request::get('tab', 'post');
             </div>
         </div>
         <div class="wps-flex-half">
-            <div class="wps-content-tabs">
+            <div class="wps-tabs">
                 <input type="radio" name="side-tabs" id="content-recent" checked="checked">
                 <label for="content-recent"><?php esc_html_e('Recent', 'wp-statistics') ?></label>
-                <div class="wps-content-tabs__content">
+                <div class="wps-tabs__content">
                     <?php
                     if (!empty($data['recent'])) {
                         $counter = 1;

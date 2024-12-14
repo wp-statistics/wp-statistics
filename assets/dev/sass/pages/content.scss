@@ -3,20 +3,6 @@
 
     .wps-content-category {
       margin-bottom: 0!important;
-
-      .wps-content-tabs__content{
-        height: unset!important;
-
-        .wps-count{
-          margin-right: 3px;
-          display: inline-block;
-
-          .rtl &{
-            margin-left: 3px;
-            margin-right: unset;
-          }
-        }
-      }
     }
 
   }
@@ -28,110 +14,7 @@
   }
 
 
-  .wps-flex-container {
-    margin-left: -24px;
-    margin-right: -24px;
-    flex-direction: column;
-    display: flex;
 
-    .wps-flex-half:first-child .wps-content-tabs {
-      border-bottom: 1px solid #DADCE0;
-      margin-bottom: 0;
-      padding-bottom: 20px;
-      @media (min-width: 1192px) {
-        border-right: 1px solid #DADCE0;
-        border-bottom: 0;
-        margin-bottom: 20px;
-        padding-bottom: 0;
-        .rtl &{
-          border-right: unset;
-          border-left: 1px solid #DADCE0;
-        }
-      }
-    }
-
-
-    .wps-content-tabs {
-      margin-top: 20px;
-      margin-bottom: 20px;
-
-      & > label:first-of-type {
-        margin-left: 15px;
-        .rtl &{
-          margin-right: 15px;
-          margin-left: 0;
-        }
-      }
-
-      & > label:last-of-type {
-        margin-right: 15px;
-      }
-    }
-
-    @media (min-width: 1192px) {
-      flex-direction: row;
-      .wps-flex-half {
-        flex: 1;
-      }
-      .wps-content-tabs {
-        & > label:first-of-type {
-          margin-left: 24px;
-          .rtl &{
-            margin-right: 24px;
-            margin-left: 0;
-          }
-        }
-      }
-    }
-  }
-
-  .wps-content-tabs {
-    display: flex;
-    flex-wrap: wrap;
-
-    label {
-      order: 1;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      cursor: pointer;
-      transition: background ease 0.3s;
-      font-size: 13px;
-      font-weight: 500;
-      line-height: 24px;
-      text-align: left;
-      color: #5F636C !important;
-      padding: 0 6px 6px;
-      @media (min-width: 376px) {
-        padding: 0 12px 6px;
-      }
-    }
-
-    .wps-content-tabs__content {
-      order: 9;
-      flex-grow: 1;
-      width: 100%;
-      height: 100%;
-      display: none;
-      background: #fff;
-      padding-top: 20px;
-    }
-
-    input[type="radio"] {
-      display: none;
-    }
-
-    input[type="radio"]:checked + label {
-      color: #0C0C0D !important;
-      border-bottom: 1px solid #404BF2
-    }
-
-
-
-    input[type="radio"]:checked + label + .wps-content-tabs__content {
-      display: block;
-    }
-  }
 
   td .wps-ellipsis-parent {
     max-width: 250px;
