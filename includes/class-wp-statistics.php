@@ -11,6 +11,7 @@ use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Service\Admin\Posts\PostsManager;
 use WP_Statistics\Service\Admin\PrivacyAudit\PrivacyAuditManager;
 use WP_Statistics\Service\Admin\CategoryAnalytics\CategoryAnalyticsManager;
+use WP_Statistics\Service\Admin\TrackerDebugger\TrackerDebuggerManager;
 use WP_Statistics\Service\Analytics\AnalyticsManager;
 use WP_Statistics\Service\Integrations\IntegrationsManager;
 use WP_Statistics\Service\Admin\Devices\DevicesManager;
@@ -187,6 +188,7 @@ final class WP_Statistics
             $visitorInsights     = new VisitorInsightsManager();
             $integrationsManager = new IntegrationsManager();
             $licenseManager      = new LicenseManagementManager();
+            $trackerDebugger     = new TrackerDebuggerManager();
         }
 
         $hooksManager = new HooksManager();
