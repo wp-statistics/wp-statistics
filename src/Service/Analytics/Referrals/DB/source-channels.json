@@ -18,6 +18,176 @@
       }
     ]
   },
+
+  {
+    "type": "paid_shopping",
+    "description": "Paid traffic from shopping websites",
+    "channels": [
+      {
+        "name": "Amazon",
+        "identifier": "amazon",
+        "domains": [
+          "amazon.com",
+          "amazon.co.uk",
+          "s3.amazonaws.com",
+          "aax.amazon-adsystem.com",
+          "aax-us-east.amazon-adsystem.com"
+        ]
+      },
+      {
+        "name": "Alibaba",
+        "identifier": "alibaba",
+        "domains": [
+          "alibaba.com",
+          "m.alibaba.com",
+          "offer.alibaba.com",
+          "message.alibaba.com"
+        ]
+      },
+      {
+        "name": "eBay",
+        "identifier": "ebay",
+        "domains": [
+          "ebay.com",
+          "ebay.de",
+          "ebay.co.uk",
+          "ebay.com.au"
+        ]
+      },
+      {
+        "name": "Etsy",
+        "identifier": "etsy",
+        "domains": [
+          "etsy.com"
+        ]
+      },
+      {
+        "name": "Shopify",
+        "identifier": "shopify",
+        "domains": [
+          "shopify.com",
+          "apps.shopify.com",
+          "checkout.shopify.com",
+          "partners.shopify.com"
+        ]
+      },
+      {
+        "name": "Shop",
+        "identifier": "shop",
+        "domains": [
+          "shop.app"
+        ]
+      },
+      {
+        "name": "Shopping",
+        "identifier": "shopping",
+        "domains": [
+          "uk.shopping.net",
+          "nl.shopping.net",
+          "no.shopping.net",
+          "se.shopping.net"
+        ]
+      },
+      {
+        "name": "Shopzilla",
+        "identifier": "shopzilla",
+        "domains": [
+          "shopzilla.com"
+        ]
+      },
+      {
+        "name": "SimplyCodes",
+        "identifier": "simplycodes",
+        "domains": [
+          "simplycodes.com"
+        ]
+      },
+      {
+        "name": "Stripe",
+        "identifier": "stripe",
+        "domains": [
+          "stripe.com",
+          "checkout.stripe.com"
+        ]
+      },
+      {
+        "name": "MercadoLibre",
+        "identifier": "mercadolibre",
+        "domains": [
+          "mercadolibre.com",
+          "mercadolibre.com.ar",
+          "mercadolibre.com.mx"
+        ]
+      },
+      {
+        "name": "Naver",
+        "identifier": "naver",
+        "domains": [
+          "shopping.naver.com",
+          "m.shopping.naver.com",
+          "msearch.shopping.naver.com",
+          "cr.shopping.naver.com",
+          "cr2.shopping.naver.com"
+        ]
+      },
+      {
+        "name": "Yahoo",
+        "identifier": "yahoo",
+        "domains": [
+          "shopping.yahoo.com",
+          "shopping.yahoo.co.jp",
+          "order.shopping.yahoo.co.jp",
+          "store.shopping.yahoo.co.jp"
+        ]
+      },
+      {
+        "name": "Walmart",
+        "identifier": "walmart",
+        "domains": [
+          "walmart.com",
+          "one.walmart.com"
+        ]
+      },
+      {
+        "name": "Temu",
+        "identifier": "temu",
+        "domains": [
+          "temu.com"
+        ]
+      }
+    ],
+    "rules": [
+      {
+        "operator": "MATCH",
+        "pattern": "/utm_medium=(.*cp.*|ppc|retargeting|paid.*)(?:&|$)/i"
+      }
+    ]
+  },
+
+  {
+    "type": "paid_shopping",
+    "description": "Paid traffic from shopping websites",
+    "channels": [
+      {
+        "name": "Paid Shopping",
+        "identifier": "paid_shopping",
+        "domains": [
+          "*"
+        ]
+      }
+    ],
+    "rules": [
+      {
+        "operator": "MATCH",
+        "pattern": "/utm_campaign=.*(([^a-df-z]|^)shop|shopping).*/i"
+      },
+      {
+        "operator": "MATCH",
+        "pattern": "/utm_medium=(.*cp.*|ppc|retargeting|paid.*)(?:&|$)/i"
+      }
+    ]
+  },
+
   {
     "type": "paid_search",
     "description": "Paid traffic from search engine",
@@ -488,10 +658,11 @@
     "rules": [
       {
         "operator": "MATCH",
-        "pattern": "/\\b(gclid|gad_source|msclkid)\\b|utm_medium=(.*cp.*|ppc|retargeting|paid.*)(?:&|$)/"
+        "pattern": "/\\b(gclid|gad_source|msclkid)\\b|utm_medium=(.*cp.*|ppc|retargeting|paid.*)(?:&|$)/i"
       }
     ]
   },
+
   {
     "type": "search",
     "description": "Organic traffic from search engines",
@@ -1112,6 +1283,7 @@
     ],
     "rules": []
   },
+
   {
     "type": "display",
     "description": "Display",
@@ -1127,10 +1299,11 @@
     "rules": [
       {
         "operator": "MATCH",
-        "pattern": "/utm_medium=.*(display|banner|expandable|interstitial|cpm)$/"
+        "pattern": "/utm_medium=.*(display|banner|expandable|interstitial|cpm)$/i"
       }
     ]
   },
+
   {
     "type": "shopping",
     "description": "Organic Shopping",
@@ -1270,6 +1443,7 @@
     ],
     "rules": []
   },
+
   {
     "type": "shopping",
     "description": "Organic shopping",
@@ -1285,7 +1459,7 @@
     "rules": [
       {
         "operator": "MATCH",
-        "pattern": "/utm_campaign=.*(([^a-df-z]|^)shop|shopping).*/"
+        "pattern": "/utm_campaign=.*(([^a-df-z]|^)shop|shopping).*/i"
       }
     ]
   }
