@@ -160,6 +160,26 @@ add_thickbox();
         </tr>
 
         <tr valign="top">
+            <th scope="row"><label for="wps_geoip_location_detection_method"><?php esc_html_e('Location Detection Method', 'wp-statistics'); ?></label></th>
+            <td>
+                <select name="wps_geoip_location_detection_method" id="geoip_location_detection_method">
+                    <option value="cf" <?php selected(WP_STATISTICS\Option::get('geoip_location_detection_method'), 'cf'); ?>><?php esc_html_e('Cloudflare IP Geolocation', 'wp-statistics'); ?></option>
+                    <option value="maxmind" <?php selected(WP_STATISTICS\Option::get('geoip_location_detection_method'), 'maxmind'); ?>><?php esc_html_e('MaxMind GeoIP', 'wp-statistics'); ?></option>
+                </select>
+
+                <p class="description">
+                    <?php 
+                        echo sprintf(
+                            /* translators: %s: Link to learn about Cloudflare Geolocation */
+                            esc_html__('Select the method to detect location data for visitors. For better performance, we recommend using the Cloudflare IP Geolocation method, which requires your domain to be on Cloudflare with \'Visitor Location Headers\' enabled. %s', 'wp-statistics'),
+                            '<a href="#" class="wps-text-decoration-underline">' . esc_html__('Learn more about setting up Cloudflare Geolocation', 'wp-statistics') . '</a>'
+                        );                      
+                    ?>
+                </p>
+            </td>
+        </tr>
+
+        <tr valign="top">
             <th scope="row"><label for="wps_geoip_license_type"><?php esc_html_e('GeoIP Database Update Source', 'wp-statistics'); ?></label></th>
             <td>
                 <select name="wps_geoip_license_type" id="geoip_license_type">
