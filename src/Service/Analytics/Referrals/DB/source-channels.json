@@ -664,6 +664,173 @@
   },
 
   {
+    "type": "video",
+    "description": "Organic Video",
+    "channels": [
+      {
+        "name": "Crackle",
+        "identifier": "crackle",
+        "domains": [
+          "crackle",
+          "crackle.com"
+        ]
+      },
+      {
+        "name": "CuriosityStream",
+        "identifier": "curiositystream",
+        "domains": [
+          "curiositystream",
+          "curiositystream.com"
+        ]
+      },
+      {
+        "name": "D.tube",
+        "identifier": "d.tube",
+        "domains": [
+          "d.tube"
+        ]
+      },
+      {
+        "name": "Dailymotion",
+        "identifier": "dailymotion",
+        "domains": [
+          "dailymotion",
+          "dailymotion.com"
+        ]
+      },
+      {
+        "name": "DisneyPlus",
+        "identifier": "disneyplus",
+        "domains": [
+          "disneyplus",
+          "disneyplus.com"
+        ]
+      },
+      {
+        "name": "Hulu",
+        "identifier": "hulu",
+        "domains": [
+          "hulu",
+          "hulu.com",
+          "help.hulu.com"
+        ]
+      },
+      {
+        "name": "iqiyi",
+        "identifier": "iqiyi",
+        "domains": [
+          "iqiyi",
+          "iqiyi.com",
+          "iq.com"
+        ]
+      },
+      {
+        "name": "Twitch",
+        "identifier": "twitch",
+        "domains": [
+          "twitch",
+          "twitch.tv",
+          "m.twitch.tv",
+          "blog.twitch.tv",
+          "id.twitch.tv",
+          "player.twitch.tv",
+          "dashboard.twitch.tv"
+        ]
+      },
+      {
+        "name": "Ted",
+        "identifier": "ted",
+        "domains": [
+          "ted",
+          "ted.com"
+        ]
+      },
+      {
+        "name": "Netflix",
+        "identifier": "netflix",
+        "domains": [
+          "netflix",
+          "netflix.com",
+          "help.netflix.com",
+          "jobs.netflix.com"
+        ]
+      },
+      {
+        "name": "Youtube",
+        "identifier": "youtube",
+        "domains": [
+          "youtube",
+          "youtube.com",
+          "m.youtube.com",
+          "music.youtube.com"
+        ]
+      },
+      {
+        "name": "Wistia",
+        "identifier": "wistia",
+        "domains": [
+          "wistia",
+          "wistia.com",
+          "fast.wistia.net"
+        ]
+      },
+      {
+        "name": "Youku",
+        "identifier": "youku",
+        "domains": [
+          "youku",
+          "youku.com"
+        ]
+      },
+      {
+        "name": "Vimeo",
+        "identifier": "vimeo",
+        "domains": [
+          "vimeo",
+          "vimeo.com",
+          "player.vimeo.com"
+        ]
+      },
+      {
+        "name": "Veoh",
+        "identifier": "veoh",
+        "domains": [
+          "veoh",
+          "veoh.com"
+        ]
+      },
+      {
+        "name": "Utreon",
+        "identifier": "utreon",
+        "domains": [
+          "utreon",
+          "utreon.com"
+        ]
+      },
+      {
+        "name": "JDN",
+        "identifier": "jdn",
+        "domains": [
+          "viadeo.journaldunet.com"
+        ]
+      },
+      {
+        "name": "Justin.tv",
+        "identifier": "justin.tv",
+        "domains": [
+          "justin.tv"
+        ]
+      }
+    ],
+    "rules": [
+      {
+        "operator": "MATCH",
+        "pattern": "/utm_medium=(.*cp.*|ppc|retargeting|paid.*)(?:&|$)/i"
+      }
+    ]
+  },
+
+  {
     "type": "search",
     "description": "Organic traffic from search engines",
     "channels": [
