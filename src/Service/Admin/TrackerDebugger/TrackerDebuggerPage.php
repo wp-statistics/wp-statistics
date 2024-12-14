@@ -10,7 +10,7 @@ use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 
 class TrackerDebuggerPage extends BasePage
 {
-    protected $pageSlug = 'privacy-audit';
+    protected $pageSlug = 'tracker-debugger';
 
     public function __construct()
     {
