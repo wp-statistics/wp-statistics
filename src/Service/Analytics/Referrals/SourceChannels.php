@@ -16,7 +16,8 @@ class SourceChannels
             'paid_search'   => esc_html__('Paid Search', 'wp-statistics'),
             'display'       => esc_html__('Display', 'wp-statistics'),
             'shopping'      => esc_html__('Organic Shopping', 'wp-statistics'),
-            'paid_shopping' => esc_html__('Paid Shopping', 'wp-statistics')
+            'paid_shopping' => esc_html__('Paid Shopping', 'wp-statistics'),
+            'video'         => esc_html__('Organic Video', 'wp-statistics'),
         ];
 
         return apply_filters('wp_statistics_source_channels_list', $channels);
