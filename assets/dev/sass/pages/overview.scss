@@ -75,7 +75,24 @@ body.toplevel_page_wps_overview_page {
     }
   }
 }
-
+#traffic_hour{
+  .wps-postbox-chart--items{
+    column-gap: 12px;
+  }
+  .current-data {
+    display: flex;
+    gap: 6px;
+    flex-direction: row;
+    align-items: center;
+    cursor: pointer;
+    .wps-postbox-chart--item--color{
+      width: 6px;
+      display: inline-block;
+      border: 3px solid;
+      border-radius: 3px;
+    }
+  }
+}
 .toplevel_page_wps_overview_page #screen-meta-links {
   position: absolute;
   z-index: 2;
