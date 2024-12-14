@@ -1132,7 +1132,7 @@
     ]
   },
   {
-    "source_channel": "organic_shopping",
+    "source_channel": "shopping",
     "description": "Organic Shopping",
     "channels": [
       {
@@ -1265,6 +1265,20 @@
         "identifier": "temu",
         "domains": [
           "temu.com"
+        ]
+      }
+    ],
+    "rules": []
+  },
+  {
+    "source_channel": "shopping",
+    "description": "Organic shopping",
+    "channels": [
+      {
+        "name": "Shopping",
+        "identifier": "shopping",
+        "domains": [
+          "*"
         ]
       }
     ],
