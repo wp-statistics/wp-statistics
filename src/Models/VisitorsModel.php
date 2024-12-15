@@ -30,7 +30,8 @@ class VisitorsModel extends BaseModel
             'country'       => '',
             'user_id'       => '',
             'ip'            => '',
-            'logged_in'     => false
+            'logged_in'     => false,
+            'user_role'     => ''
         ]);
 
         $query = Query::select('COUNT(visitor.id) as total_visitors')
@@ -46,6 +47,12 @@ class VisitorsModel extends BaseModel
         if ($args['logged_in'] === true) {
             $query->where('visitor.user_id', '!=', 0);
             $query->whereNotNull('visitor.user_id');
+
+            if (!empty($args['user_role'])) {
+                $query->join('usermeta', ['visitor.user_id', 'usermeta.user_id']);
+                $query->where('usermeta.meta_key', '=', "wp_capabilities");
+                $query->where('usermeta.meta_value', 'LIKE', "%{$args['user_role']}%");
+            }
         }
 
         $filteredArgs = array_filter($args);
@@ -102,7 +109,8 @@ class VisitorsModel extends BaseModel
             'country'       => '',
             'user_id'       => '',
             'logged_in'     => false,
-            'include_hits'  => false
+            'include_hits'  => false,
+            'user_role'     => ''
         ]);
 
         $additionalFields = !empty($args['include_hits']) ? ['SUM(visitor.hits) as hits'] : [];
@@ -120,6 +128,12 @@ class VisitorsModel extends BaseModel
         if ($args['logged_in'] === true) {
             $query->where('visitor.user_id', '!=', 0);
             $query->whereNotNull('visitor.user_id');
+
+            if (!empty($args['user_role'])) {
+                $query->join('usermeta', ['visitor.user_id', 'usermeta.user_id']);
+                $query->where('usermeta.meta_key', '=', "wp_capabilities");
+                $query->where('usermeta.meta_value', 'LIKE', "%{$args['user_role']}%");
+            }
         }
 
         $filteredArgs = array_filter($args);
@@ -377,7 +391,8 @@ class VisitorsModel extends BaseModel
             'page_info'   => false,
             'user_info'   => false,
             'date_field'  => 'visitor.last_counter',
-            'logged_in'   => false
+            'logged_in'   => false,
+            'user_role'   => ''
         ]);
 
         $additionalFields = [];
@@ -445,6 +460,12 @@ class VisitorsModel extends BaseModel
         if ($args['logged_in'] === true) {
             $query->where('visitor.user_id', '!=', 0);
             $query->whereNotNull('visitor.user_id');
+
+            if (!empty($args['user_role'])) {
+                $query->join('usermeta', ['visitor.user_id', 'usermeta.user_id']);
+                $query->where('usermeta.meta_key', '=', "wp_capabilities");
+                $query->where('usermeta.meta_value', 'LIKE', "%{$args['user_role']}%");
+            }
         }
 
         // If last page is true, get last page the visitor has visited

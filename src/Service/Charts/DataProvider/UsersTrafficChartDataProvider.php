@@ -9,6 +9,7 @@ use WP_Statistics\Models\VisitorsModel;
 use WP_Statistics\Service\Charts\AbstractChartDataProvider;
 use WP_Statistics\Service\Charts\Traits\LineChartResponseTrait;
 use WP_STATISTICS\TimeZone;
+use WP_Statistics\Utils\Request;
 
 class UsersTrafficChartDataProvider extends AbstractChartDataProvider
 {
@@ -46,7 +47,7 @@ class UsersTrafficChartDataProvider extends AbstractChartDataProvider
         $currentPeriod  = $this->args['date'] ?? DateRange::get();
         $currentDates   = array_keys(TimeZone::getListDays($currentPeriod));
 
-        $loggedInData   = $this->visitorsModel->countDailyVisitors(array_merge($this->args, ['logged_in' => true]));
+        $loggedInData   = $this->visitorsModel->countDailyVisitors(array_merge($this->args, ['logged_in' => true, 'user_role' => Request::get('role', '')]));
         $anonymousData  = $this->visitorsModel->countDailyVisitors(array_merge($this->args, ['user_id' => '0']));
 
         $data = $this->parseData($currentDates, ['logged_in' => $loggedInData, 'anonymous' => $anonymousData]);
@@ -62,7 +63,7 @@ class UsersTrafficChartDataProvider extends AbstractChartDataProvider
         $prevPeriod     = DateRange::getPrevPeriod($currentPeriod);
         $prevDates      = array_keys(TimeZone::getListDays($prevPeriod));
 
-        $loggedInData   = $this->visitorsModel->countDailyVisitors(array_merge($this->args, ['logged_in' => true, 'date' => $prevPeriod]));
+        $loggedInData   = $this->visitorsModel->countDailyVisitors(array_merge($this->args, ['logged_in' => true, 'user_role' => Request::get('role', ''), 'date' => $prevPeriod]));
         $anonymousData  = $this->visitorsModel->countDailyVisitors(array_merge($this->args, ['user_id' => '0', 'date' => $prevPeriod]));
 
         $data = $this->parseData($prevDates, ['logged_in' => $loggedInData, 'anonymous' => $anonymousData]);
