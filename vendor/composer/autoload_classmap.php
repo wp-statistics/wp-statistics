@@ -226,6 +226,7 @@ return array(
     'WP_Statistics\\Service\\Charts\\DataProvider\\PublishOverviewChartDataProvider' => $baseDir . '/src/Service/Charts/DataProvider/PublishOverviewChartDataProvider.php',
     'WP_Statistics\\Service\\Charts\\DataProvider\\SearchEngineChartDataProvider' => $baseDir . '/src/Service/Charts/DataProvider/SearchEngineChartDataProvider.php',
     'WP_Statistics\\Service\\Charts\\DataProvider\\TrafficChartDataProvider' => $baseDir . '/src/Service/Charts/DataProvider/TrafficChartDataProvider.php',
+    'WP_Statistics\\Service\\Charts\\DataProvider\\UsersTrafficChartDataProvider' => $baseDir . '/src/Service/Charts/DataProvider/UsersTrafficChartDataProvider.php',
     'WP_Statistics\\Service\\Charts\\Traits\\BarChartResponseTrait' => $baseDir . '/src/Service/Charts/Traits/BarChartResponseTrait.php',
     'WP_Statistics\\Service\\Charts\\Traits\\BaseChartResponseTrait' => $baseDir . '/src/Service/Charts/Traits/BaseChartResponseTrait.php',
     'WP_Statistics\\Service\\Charts\\Traits\\LineChartResponseTrait' => $baseDir . '/src/Service/Charts/Traits/LineChartResponseTrait.php',

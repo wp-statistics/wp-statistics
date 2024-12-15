@@ -5,6 +5,7 @@ namespace WP_Statistics\Service\Charts;
 use WP_Statistics\Service\Charts\DataProvider\PerformanceChartDataProvider;
 use WP_Statistics\Service\Charts\DataProvider\SearchEngineChartDataProvider;
 use WP_Statistics\Service\Charts\DataProvider\TrafficChartDataProvider;
+use WP_Statistics\Service\Charts\DataProvider\UsersTrafficChartDataProvider;
 use WP_Statistics\Service\Charts\DataProvider\PlatformChartDataProvider;
 use WP_Statistics\Service\Charts\DataProvider\PublishOverviewChartDataProvider;
 use WP_Statistics\Service\Charts\DataProvider\AuthorsPostViewsChartDataProvider;
@@ -42,6 +43,17 @@ class ChartDataProviderFactory
     public static function trafficChart($args)
     {
         return new TrafficChartDataProvider($args);
+    }
+
+    /**
+     * Returns a new instance of UsersTrafficChartDataProvider.
+     *
+     * @param array $args The arguments to pass to the UsersTrafficChartDataProvider constructor.
+     * @return UsersTrafficChartDataProvider
+     */
+    public static function usersTrafficChart($args)
+    {
+        return new UsersTrafficChartDataProvider($args);
     }
 
     /**

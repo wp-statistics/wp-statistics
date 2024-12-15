@@ -20,7 +20,8 @@ class TabsView extends BaseTabView
         'visitors',
         'views',
         'online',
-        'top-visitors'
+        'top-visitors',
+        'logged-in-users'
     ];
 
     public function __construct()
@@ -54,6 +55,13 @@ class TabsView extends BaseTabView
     public function getTopVisitorsData()
     {
         return $this->dataProvider->getTopVisitorsData();
+    }
+
+    public function getLoggedInUsersData()
+    {
+        wp_localize_script(Admin_Assets::$prefix, 'Wp_Statistics_Visitors_Object', $this->dataProvider->getLoggedInChartsData());
+
+        return $this->dataProvider->getLoggedInUsersData();
     }
 
     public function render()

@@ -140,7 +140,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
 
     // Add Traffic Trends chart
     if (document.getElementById('LoggedInUsersChart')) {
-        const data = [];
+        const data = Wp_Statistics_Visitors_Object.logged_in_chart_data;
         wps_js.new_line_chart(data, 'LoggedInUsersChart', null);
     }
 }

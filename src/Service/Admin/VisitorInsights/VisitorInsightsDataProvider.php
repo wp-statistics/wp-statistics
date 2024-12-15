@@ -31,6 +31,13 @@ class VisitorInsightsDataProvider
         ];
     }
 
+    public function getLoggedInChartsData()
+    {
+        return [
+            'logged_in_chart_data' => ChartDataProviderFactory::usersTrafficChart($this->args)->getData()
+        ];
+    }
+
     public function getVisitorsData()
     {
         return [
@@ -82,6 +89,22 @@ class VisitorInsightsDataProvider
         return [
             'visitor'           => $visitorInfo,
             'visitor_journey'   => $visitorJourney
+        ];
+    }
+
+    public function getLoggedInUsersData()
+    {
+        return [
+            'data'  => $this->visitorsModel->getVisitorsData(array_merge($this->args, [
+                'page_info' => true,
+                'user_info' => true,
+                'logged_in' => true,
+                'order_by'  => 'visitor.ID',
+                'order'     => 'DESC',
+                'page'      => Admin_Template::getCurrentPaged(),
+                'per_page'  => Admin_Template::$item_per_page,
+            ])),
+            'total' => $this->visitorsModel->countVisitors(array_merge($this->args, ['logged_in' => true]))
         ];
     }
 }
