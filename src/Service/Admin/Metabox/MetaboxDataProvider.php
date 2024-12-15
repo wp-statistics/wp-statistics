@@ -63,6 +63,11 @@ class MetaboxDataProvider
         return $visitors;
     }
 
+    public function getOnlineVisitorsData($args = [])
+    {
+        return $this->onlineModel->getOnlineVisitorsData($args);
+    }
+
     public function getTopCountiesData($args = [])
     {
         return $this->visitorsModel->getVisitorsGeoData(array_merge($args, ['per_page' => 10, 'not_null' => 'location']));

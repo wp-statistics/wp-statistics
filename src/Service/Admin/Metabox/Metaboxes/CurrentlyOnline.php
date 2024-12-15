@@ -17,25 +17,23 @@ class CurrentlyOnline extends BaseMetabox
 
     public function getDescription()
     {
-        return esc_html__('', 'wp-statistics');
+        return '';
     }
 
     public function getOptions()
     {
         return [
             'datepicker'    => false,
-            'button'        => View::load('metabox/action-button',['link'=> Menus::admin_url('visitors', ['tab' => 'online']) ,'title'=>'View Online Visitors'],true)
+            'button'        => View::load('metabox/action-button',[
+                'link'  => Menus::admin_url('visitors', ['tab' => 'online']) ,
+                'title' => esc_html__('View Online Visitors', 'wp-statistics')
+            ],true)
         ];
     }
 
     public function getData()
     {
-        $args = [
-            'ignore_date' => true
-        ];
-
-        //  @todo  Add data
-        $data = [];
+        $data = $this->dataProvider->getOnlineVisitorsData();
 
         $output = View::load('metabox/currently-online', ['data' => $data], true);
 
