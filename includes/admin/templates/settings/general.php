@@ -22,6 +22,12 @@
     });
 </script>
 
+<?php
+
+use WP_STATISTICS\Menus;
+
+?>
+
 
 <div class="postbox">
     <table class="form-table">
@@ -128,6 +134,17 @@
                 <input id="bypass_ad_blockers" type="checkbox" value="1" name="wps_bypass_ad_blockers" <?php echo WP_STATISTICS\Option::get('bypass_ad_blockers') == true ? "checked='checked'" : ''; ?>>
                 <label for="bypass_ad_blockers"><?php esc_html_e('Enable', 'wp-statistics'); ?></label>
                 <p class="description"><?php esc_html_e('Dynamically load the tracking script with a unique name and address to bypass ad blockers.', 'wp-statistics'); ?></p>
+            </td>
+        </tr>
+
+        <tr valign="top" id="bypass_ad_blockers_row">
+            <th scope="row">
+                <label for="bypass_ad_blockers"><?php esc_html_e('Tracker Debugger', 'wp-statistics'); ?></label>
+            </th>
+
+            <td>
+                <a class="button button-primary" href="<?php echo esc_url(Menus::admin_url('wps_tracker-debugger_page')); ?>" ><?php esc_html_e('Open Debugger', 'wp-statistics'); ?></a>
+                 <p class="description"><?php esc_html_e('Use the Tracker Debugger to inspect and troubleshoot your tracking script, ensuring accurate data collection.', 'wp-statistics'); ?></p>
             </td>
         </tr>
         </tbody>
