@@ -44,7 +44,11 @@ class GeolocationFactory
      */
     public static function getProviderInstance()
     {   
-        if ( 'cf' === Option::get('geoip_location_detection_method') && ! empty(IP::getCloudflareIp()) ) {
+        if (
+            'cf' === Option::get('geoip_location_detection_method') &&
+            method_exists( IP::class, 'getCloudflareIp') &&
+            ! empty(IP::getCloudflareIp())
+        ) {
             $geoIpProvider = CloudflareGeolocationProvider::class;
         } else {
             $geoIpProvider = MaxmindGeoIPProvider::class;

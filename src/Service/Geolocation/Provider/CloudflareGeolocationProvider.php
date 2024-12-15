@@ -5,6 +5,7 @@ namespace WP_Statistics\Service\Geolocation\Provider;
 use WP_STATISTICS\Country;
 use WP_STATISTICS\IP;
 use WP_Statistics\Service\Geolocation\AbstractGeoIPProvider;
+use Exception;
 
 class CloudflareGeolocationProvider extends AbstractGeoIPProvider
 {
@@ -43,11 +44,12 @@ class CloudflareGeolocationProvider extends AbstractGeoIPProvider
      *
      * @param string $ipAddress
      * @return array
+     * @throws Exception
      */
     public function fetchGeolocationData(string $ipAddress)
     {
         if (! self::isAvailable()) {
-            return $this->getDefaultLocation();
+            throw new Exception('Cloudflare geolocation service is not available.');
         }
 
         $rawData       = $this->getCloudflareHeaders();
