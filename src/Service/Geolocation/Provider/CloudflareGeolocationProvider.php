@@ -48,10 +48,6 @@ class CloudflareGeolocationProvider extends AbstractGeoIPProvider
      */
     public function fetchGeolocationData(string $ipAddress)
     {
-        if (! self::isAvailable()) {
-            throw new Exception('Cloudflare geolocation service is not available.');
-        }
-
         $rawData       = $this->getCloudflareHeaders();
         $sanitizedData = $this->sanitizeHeaderData($rawData);
 

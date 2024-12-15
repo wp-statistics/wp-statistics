@@ -46,8 +46,8 @@ class GeolocationFactory
     {   
         if (
             'cf' === Option::get('geoip_location_detection_method') &&
-            method_exists( IP::class, 'getCloudflareIp') &&
-            ! empty(IP::getCloudflareIp())
+            method_exists( CloudflareGeolocationProvider::class, 'isAvailable') &&
+            CloudflareGeolocationProvider::isAvailable()
         ) {
             $geoIpProvider = CloudflareGeolocationProvider::class;
         } else {
