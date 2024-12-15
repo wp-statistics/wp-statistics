@@ -3,8 +3,9 @@
 namespace WP_Statistics\Service\Geolocation;
 
 use WP_Error;
+use WP_STATISTICS\IP;
 use WP_STATISTICS\Option;
-use WP_Statistics\Service\Geolocation\Provider\CloudflareGeoIPProvider;
+use WP_Statistics\Service\Geolocation\Provider\CloudflareGeolocationProvider;
 use WP_Statistics\Service\Geolocation\Provider\MaxmindGeoIPProvider;
 
 class GeolocationFactory
@@ -42,11 +43,9 @@ class GeolocationFactory
      * @return MaxmindGeoIPProvider
      */
     public static function getProviderInstance()
-    {
-        $cfIp = filter_input(INPUT_SERVER, 'HTTP_CF_CONNECTING_IP', FILTER_VALIDATE_IP);
-                
-        if ( 'cf' === Option::get('geoip_location_detection_method') && ! empty($cfIp) ) {
-            $geoIpProvider = CloudflareGeoIPProvider::class;
+    {   
+        if ( 'cf' === Option::get('geoip_location_detection_method') && ! empty(IP::getCloudflareIp()) ) {
+            $geoIpProvider = CloudflareGeolocationProvider::class;
         } else {
             $geoIpProvider = MaxmindGeoIPProvider::class;
         }

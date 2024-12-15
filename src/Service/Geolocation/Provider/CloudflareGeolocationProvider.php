@@ -3,10 +3,41 @@
 namespace WP_Statistics\Service\Geolocation\Provider;
 
 use WP_STATISTICS\Country;
+use WP_STATISTICS\IP;
 use WP_Statistics\Service\Geolocation\AbstractGeoIPProvider;
 
-class CloudflareGeoIPProvider extends AbstractGeoIPProvider
+class CloudflareGeolocationProvider extends AbstractGeoIPProvider
 {
+    /**
+    * Static method to check if Cloudflare geolocation headers are available
+    *
+    * @return bool 
+    */
+    public static function isAvailable(): bool
+    {
+        if (empty(IP::getCloudflareIp())) {
+            return false;
+        }
+
+        $headers = [
+            'HTTP_CF_IPCOUNTRY',
+            'HTTP_CF_IPCONTINENT', 
+            'HTTP_CF_REGION',
+            'HTTP_CF_IPCITY',
+            'HTTP_CF_IPLATITUDE',
+            'HTTP_CF_IPLONGITUDE',
+            'HTTP_CF_POSTAL_CODE'
+        ];
+
+        foreach ($headers as $header) {
+            if (empty(filter_input(INPUT_SERVER, $header))) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     /**
      * Fetch geolocation data.
      *
@@ -15,6 +46,10 @@ class CloudflareGeoIPProvider extends AbstractGeoIPProvider
      */
     public function fetchGeolocationData(string $ipAddress)
     {
+        if (! self::isAvailable()) {
+            return $this->getDefaultLocation();
+        }
+
         $rawData       = $this->getCloudflareHeaders();
         $sanitizedData = $this->sanitizeHeaderData($rawData);
 

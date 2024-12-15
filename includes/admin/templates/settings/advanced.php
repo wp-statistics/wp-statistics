@@ -3,6 +3,7 @@
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\IP;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
+use WP_Statistics\Service\Geolocation\Provider\CloudflareGeolocationProvider;
 use WP_STATISTICS\TimeZone;
 
 // Get IP Method
@@ -158,7 +159,7 @@ add_thickbox();
                 <h3><?php esc_html_e('GeoIP Settings', 'wp-statistics'); ?></h3>
             </th>
         </tr>
-
+        <?php if(! empty(IP::getCloudflareIp())): ?>
         <tr valign="top">
             <th scope="row"><label for="wps_geoip_location_detection_method"><?php esc_html_e('Location Detection Method', 'wp-statistics'); ?></label></th>
             <td>
@@ -178,6 +179,7 @@ add_thickbox();
                 </p>
             </td>
         </tr>
+        <?php endif; ?> 
 
         <tr valign="top">
             <th scope="row"><label for="wps_geoip_license_type"><?php esc_html_e('GeoIP Database Update Source', 'wp-statistics'); ?></label></th>
