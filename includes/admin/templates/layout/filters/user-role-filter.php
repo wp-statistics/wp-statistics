@@ -7,20 +7,22 @@ $role           = Request::get($queryKey, '');
 $roles          = wp_roles()->role_names;
 $defaultUrl     = remove_query_arg([$queryKey]);
 ?>
-
-<div class="wps-filter-user-role wps-head-filters__item loading">
+<div class="wps-head-filters__item loading">
     <div class="wps-dropdown">
-        <label for="wps-user-role" class="selectedItemLabel"><?php esc_html_e('User Role', 'wp-statistics'); ?>:</label>
-        <select id="wps-user-role" class="wps-select2" data-type-show="select2">
-            <option value="<?php echo esc_url($defaultUrl) ?>" <?php selected($role, '') ?>>
-              <?php esc_html_e('All', 'wp-statistics'); ?>
-            </option>
+        <label class="selectedItemLabel"><?php esc_html_e('User Role', 'wp-statistics'); ?>: </label>
+        <button type="button" class="dropbtn"><span><?php echo !empty($role) ? esc_html($role) : esc_html__('All', 'wp-statistics'); ?></span></button>
 
+        <div class="dropdown-content">
+            <input type="text" class="wps-search-dropdown">
+            <a href="<?php echo esc_url($defaultUrl); ?>" data-index="0" class="<?php echo !isset($role) ? 'selected' : '' ?>">
+                <?php esc_html_e('All', 'wp-statistics'); ?>
+            </a>
             <?php foreach ($roles as $key => $value) : ?>
-                <option <?php selected($role, $key) ?> value="<?php echo esc_url(add_query_arg([$queryKey => $key])) ?>">
+                <a href="<?php echo esc_url(add_query_arg([$queryKey => $key])) ?>" class="dropdown-item <?php echo $role === $key ? 'selected' : ''; ?>">
                     <?php echo esc_html($value); ?>
-                </option>
+                </a>
             <?php endforeach; ?>
-        </select>
+        </div>
     </div>
 </div>
+
