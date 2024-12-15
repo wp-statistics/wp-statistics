@@ -8,14 +8,19 @@ wps_js.render_global_visitor_distribution = function (response, key){
             if (params.hasOwnProperty('codes') && params.codes.length > 0) {
                 const countryData = {};
                 params.codes.forEach((code, index) => {
+                    let visitors = Number(params.data[index]);
+                    if (isNaN(visitors) || !isFinite(visitors)) {
+                        visitors = 0;
+                    }
                     countryData[code.toLowerCase()] = {
                         label: params.labels[index],
                         flag: params.flags[index],
-                        visitors: Number(params.data[index])
+                        visitors: visitors
                     };
                 });
 
-                const maxVisitors = Math.max(...Object.values(countryData).map(country => country.visitors));
+                const maxVisitors = Math.max(...Object.values(countryData).map(country => country.visitors), 1);
+
                 Object.keys(countryData).forEach(code => {
                     const country = countryData[code];
 

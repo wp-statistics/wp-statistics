@@ -332,9 +332,18 @@ if (!wps_js.isset(wps_js.global, 'request_params', 'page') || wps_js.global.requ
             let dateFilterTitle =wps_js._(`str_30days`);
             let dateFilterType = wps_js._(`str_30days`);
             if (response?.filters && response.filters.date && response.filters.date.filter) {
-                dateFilterType = response.filters.date.type === 'custom' ? response.filters.date.filter : wps_js._(`str_${response.filters.date.filter}`);
-                startDateResponse = response.filters.date.from;
-                endDateResponse = response.filters.date.to;
+                const dateFormat = wps_js.isset(wps_js.global, 'options', 'wp_date_format') ? wps_js.global['options']['wp_date_format'] : 'MM/DD/YYYY';
+                let momentDateFormat = phpToMomentFormat(dateFormat);
+                const startDateFormat = momentDateFormat.replace(/,?\s?(YYYY|YY)[-/\s]?,?|[-/\s]?(YYYY|YY)[-/\s]?,?/g, "");
+                const fromDate = moment(response.filters.date.from);
+                const toDate = moment(response.filters.date.to);
+                if (fromDate.year() === toDate.year()) {
+                    startDateResponse = fromDate.format(startDateFormat);
+                } else {
+                    startDateResponse = fromDate.format(momentDateFormat);
+                }
+                endDateResponse = toDate.format(momentDateFormat);
+                dateFilterType = response.filters.date.type === 'custom' ? startDateResponse + ' _ ' + endDateResponse  : wps_js._(`str_${response.filters.date.filter}`);
                 dateFilterTitle = response.filters.date.type === 'custom' ? wps_js._('str_custom') : wps_js._(`str_${response.filters.date.filter}`)
             }
 
