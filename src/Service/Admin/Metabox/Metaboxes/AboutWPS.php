@@ -21,6 +21,15 @@ class AboutWPS extends BaseMetabox
         ];
     }
 
+    public function getKey()
+    {
+        if ($this->settings['custom_widget'] === 'yes') {
+            return "custom_{$this->key}";
+        }
+
+        return $this->key;
+    }
+
     public function getName()
     {
         if ($this->settings['custom_widget'] === 'yes' && !empty($this->settings['title'])) {
