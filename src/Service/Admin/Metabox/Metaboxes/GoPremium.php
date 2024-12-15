@@ -11,6 +11,7 @@ class GoPremium extends BaseMetabox
     protected $key = 'go_premium';
     protected $priority = 'side';
     protected $dismissible = true;
+    protected $static = true;
 
     public function getName()
     {

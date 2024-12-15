@@ -12,6 +12,7 @@ abstract class BaseMetabox
 {
     protected $key;
     protected $priority;
+    protected $static = false;
     protected $dismissible = false;
     protected $dataProvider;
 
@@ -85,6 +86,15 @@ abstract class BaseMetabox
         $dismissedWidgets = Option::getOptionGroup('dismissed_widgets');
 
         return in_array($this->getKey(), $dismissedWidgets);
+    }
+
+    /**
+     * Is the widget statically rendered, or not (static widgets don't have any dynamic data)
+     * @return bool
+     */
+    public function isStatic()
+    {
+        return $this->static;
     }
 
     /**
@@ -177,7 +187,11 @@ abstract class BaseMetabox
      */
     public function register()
     {
-        Ajax::register($this->getKey() . '_metabox_get_data', [$this, 'getResponse'], false);
+        // If widget is not static, register ajax callback to get dynamic data
+        if (!$this->isStatic()) {
+            Ajax::register($this->getKey() . '_metabox_get_data', [$this, 'getResponse'], false);
+        }
+
         add_meta_box($this->getKey(), $this->getName(), [$this, 'render'], $this->getScreen(), $this->getPriority());
     }
 }

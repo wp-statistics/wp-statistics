@@ -497,7 +497,9 @@ class Admin_Assets
 
         // Meta Box List
         $metaBoxList        = MetaboxHelper::getActiveMetaboxes();
-        $list['meta_boxes'] = array_keys($metaBoxList);
+        $list['meta_boxes'] = array_keys(array_filter($metaBoxList, function($metabox) {
+            return !$metabox->isStatic();
+        }));
 
         /**
          * Filter: wp_statistics_admin_assets
