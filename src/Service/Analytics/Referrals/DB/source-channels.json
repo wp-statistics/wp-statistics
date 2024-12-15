@@ -14,7 +14,7 @@
     "rules": [
       {
         "operator": "NOT MATCH",
-        "pattern": "/\\b(gclid|fbclid|msclkid|li_fat_id|twclid|ttclid|yclid|dclid|ref|source|utm_source|utm_medium|gad_source)\\b/"
+        "pattern": "/\\b(ref|source|utm_source)\\b/"
       }
     ]
   },
