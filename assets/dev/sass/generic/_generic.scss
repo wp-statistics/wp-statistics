@@ -1077,3 +1077,10 @@
     right: auto;
   }
 }
+
+
+@media screen and (max-width: 782px) {
+  .wps-wrap .postbox .handlediv {
+    margin-top: 0;
+  }
+}

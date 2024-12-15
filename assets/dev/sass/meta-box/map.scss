@@ -1,8 +1,8 @@
 // https://github.com/10bestdesign/jqvmap
 #wp-statistics-visitors-map {
   direction: ltr;
-  height: 300px;
   width: 100%;
+  height: 100%;
 
   .jqvmap-zoomin, .jqvmap-zoomout {
     background: #EEEFF1 !important;
@@ -33,7 +33,10 @@
     border-top: 0;
   }
 }
-
+#wp-statistics-visitors-map__container{
+  height: 300px;
+  width: 100%;
+}
 .wps-map-info{
   display: flex;
   gap: 4px;

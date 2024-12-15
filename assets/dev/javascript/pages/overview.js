@@ -1,4 +1,4 @@
-if (!wps_js.isset(wps_js.global, 'request_params', 'page') || wps_js.global.request_params.page === "overview") {
+if (wps_js.global.page.file === "index.php" || wps_js.is_active('overview_page') || wps_js.global.page.file === "post-new.php" || (wps_js.global.page.file === "post.php" && wps_js.isset(wps_js.global, 'page', 'ID'))) {
 
     class DateManager {
         static getDateRange(filter) {
@@ -296,20 +296,33 @@ if (!wps_js.isset(wps_js.global, 'request_params', 'page') || wps_js.global.requ
     };
 
     // Initialize meta boxes
-    meta_list.forEach((metaBoxKey) => {
+
+    if (wps_js.global.page.file === "index.php" || wps_js.is_active('overview_page')) {
+        meta_list.forEach((metaBoxKey) => {
+
+            if (metaBoxKey !== "post_latest_visitors") {
+                loadMetaBoxData(metaBoxKey).then(response => {
+                    wps_js.handleMetaBoxRender(response, metaBoxKey);
+                });
+            }
+            jQuery(document).on('click', `#${metaBoxKey} .wps-refresh`, function () {
+                wps_js.showLoadingSkeleton(metaBoxKey);
+                loadMetaBoxData(metaBoxKey).then(response => {
+                    wps_js.handleMetaBoxRender(response, metaBoxKey);
+                });
+            });
+        });
+    }
+
+    if (wps_js.global.page.file === "post-new.php" ||
+        (wps_js.global.page.file === "post.php" && wps_js.isset(wps_js.global, 'page', 'ID'))) {
+        const metaBoxKey = "post_latest_visitors";
         loadMetaBoxData(metaBoxKey).then(response => {
             wps_js.handleMetaBoxRender(response, metaBoxKey);
         });
+    }
 
-        jQuery(document).on('click', `#${metaBoxKey} .wps-refresh`, function () {
-            wps_js.showLoadingSkeleton(metaBoxKey);
-            loadMetaBoxData(metaBoxKey).then(response => {
-                wps_js.handleMetaBoxRender(response, metaBoxKey);
-            });
-        });
-    });
-
-    // Export utility functions
+        // Export utility functions
     wps_js.metaBoxInner = key => jQuery('#' + key + ' .inside');
     
     wps_js.showLoadingSkeleton = function(metaBoxKey) {
