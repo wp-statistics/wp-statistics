@@ -7169,14 +7169,25 @@
         ]
       }
     ],
+    "rules": []
+  },
+
+  {
+    "type": "email",
+    "description": "Email traffic",
+    "channels": [
+      {
+        "name": "Email",
+        "identifier": "email",
+        "domains": [
+          "*"
+        ]
+      }
+    ],
     "rules": [
       {
         "operator": "MATCH",
-        "pattern": "/(?:ref|source|utm_source)=(email|e[-_ ]mail)(?:&|$)/i"
-      },
-      {
-        "operator": "MATCH",
-        "pattern": "/utm_medium=(email|e[-_ ]mail)(?:&|$)/i"
+        "pattern": "/(?:ref|source|utm_source|utm_medium)=(email|e(%20|\\+| |_|-)mail)(?:&|$)/i"
       }
     ]
   }
