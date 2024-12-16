@@ -18,6 +18,7 @@
       }
     ]
   },
+
   {
     "type": "paid_shopping",
     "description": "Paid traffic from shopping websites",
@@ -185,6 +186,7 @@
       }
     ]
   },
+
   {
     "type": "paid_search",
     "description": "Paid traffic from search engine",
@@ -659,6 +661,7 @@
       }
     ]
   },
+
   {
     "type": "paid_video",
     "description": "Paid traffic from video platforms",
@@ -825,6 +828,7 @@
       }
     ]
   },
+
   {
     "type": "display",
     "description": "Display",
@@ -844,6 +848,7 @@
       }
     ]
   },
+
   {
     "type": "shopping",
     "description": "Organic Shopping",
@@ -983,6 +988,7 @@
     ],
     "rules": []
   },
+
   {
     "type": "shopping",
     "description": "Organic shopping",
@@ -1002,787 +1008,7 @@
       }
     ]
   },
-  {
-    "type": "search",
-    "description": "Organic traffic from search engines",
-    "channels": [
-      {
-        "name": "Google",
-        "identifier": "google",
-        "domains": [
-          "google",
-          "google-play",
-          "google.com",
-          "google.ad",
-          "google.ae",
-          "google.com.af",
-          "google.com.ag",
-          "google.al",
-          "google.am",
-          "google.co.ao",
-          "google.com.ar",
-          "google.as",
-          "google.at",
-          "google.com.au",
-          "google.az",
-          "google.ba",
-          "google.com.bd",
-          "google.be",
-          "google.bf",
-          "google.bg",
-          "google.com.bh",
-          "google.bi",
-          "google.bj",
-          "google.com.bn",
-          "google.com.bo",
-          "google.com.br",
-          "google.bs",
-          "google.bt",
-          "google.co.bw",
-          "google.by",
-          "google.com.bz",
-          "google.ca",
-          "google.cd",
-          "google.cf",
-          "google.cg",
-          "google.ch",
-          "google.ci",
-          "google.co.ck",
-          "google.cl",
-          "google.cm",
-          "google.cn",
-          "google.com.co",
-          "google.co.cr",
-          "google.com.cu",
-          "google.cv",
-          "google.com.cy",
-          "google.cz",
-          "google.de",
-          "google.dj",
-          "google.dk",
-          "google.dm",
-          "google.com.do",
-          "google.dz",
-          "google.com.ec",
-          "google.ee",
-          "google.com.eg",
-          "google.es",
-          "google.com.et",
-          "google.fi",
-          "google.com.fj",
-          "google.fm",
-          "google.fr",
-          "google.ga",
-          "google.ge",
-          "google.gg",
-          "google.com.gh",
-          "google.com.gi",
-          "google.gl",
-          "google.gm",
-          "google.gr",
-          "google.com.gt",
-          "google.gy",
-          "google.com.hk",
-          "google.hn",
-          "google.hr",
-          "google.ht",
-          "google.hu",
-          "google.co.id",
-          "google.ie",
-          "google.co.il",
-          "google.im",
-          "google.co.in",
-          "google.iq",
-          "google.is",
-          "google.it",
-          "google.je",
-          "google.com.jm",
-          "google.jo",
-          "google.co.jp",
-          "google.co.ke",
-          "google.com.kh",
-          "google.ki",
-          "google.kg",
-          "google.co.kr",
-          "google.com.kw",
-          "google.kz",
-          "google.la",
-          "google.com.lb",
-          "google.li",
-          "google.lk",
-          "google.co.ls",
-          "google.lt",
-          "google.lu",
-          "google.lv",
-          "google.com.ly",
-          "google.co.ma",
-          "google.md",
-          "google.me",
-          "google.mg",
-          "google.mk",
-          "google.ml",
-          "google.com.mm",
-          "google.mn",
-          "google.com.mt",
-          "google.mu",
-          "google.mv",
-          "google.mw",
-          "google.com.mx",
-          "google.com.my",
-          "google.co.mz",
-          "google.com.na",
-          "google.com.ng",
-          "google.com.ni",
-          "google.ne",
-          "google.nl",
-          "google.no",
-          "google.com.np",
-          "google.nr",
-          "google.nu",
-          "google.co.nz",
-          "google.com.om",
-          "google.com.pa",
-          "google.com.pe",
-          "google.com.pg",
-          "google.com.ph",
-          "google.com.pk",
-          "google.pl",
-          "google.pn",
-          "google.com.pr",
-          "google.ps",
-          "google.pt",
-          "google.com.py",
-          "google.com.qa",
-          "google.ro",
-          "google.ru",
-          "google.rw",
-          "google.com.sa",
-          "google.com.sb",
-          "google.sc",
-          "google.se",
-          "google.com.sg",
-          "google.sh",
-          "google.si",
-          "google.sk",
-          "google.com.sl",
-          "google.sn",
-          "google.so",
-          "google.sm",
-          "google.sr",
-          "google.st",
-          "google.com.sv",
-          "google.td",
-          "google.tg",
-          "google.co.th",
-          "google.com.tj",
-          "google.tl",
-          "google.tm",
-          "google.tn",
-          "google.to",
-          "google.com.tr",
-          "google.tt",
-          "google.com.tw",
-          "google.co.tz",
-          "google.com.ua",
-          "google.co.ug",
-          "google.co.uk",
-          "google.com.uy",
-          "google.co.uz",
-          "google.com.vc",
-          "google.co.ve",
-          "google.co.vi",
-          "google.com.vn",
-          "google.vu",
-          "google.ws",
-          "google.rs",
-          "google.co.za",
-          "google.co.zm",
-          "google.co.zw",
-          "google.cat",
-          "lens.google.com",
-          "news.google.com",
-          "play.google.com",
-          "search.google.com"
-        ]
-      },
-      {
-        "name": "Bing",
-        "identifier": "bing",
-        "domains": [
-          "bing",
-          "bing.com",
-          "cn.bing.com"
-        ]
-      },
-      {
-        "name": "Yahoo",
-        "identifier": "yahoo",
-        "domains": [
-          "yahoo",
-          "yahoo.com",
-          "yahoo.co.jp",
-          "espanol.search.yahoo.com",
-          "malaysia.search.yahoo.com",
-          "ar.search.yahoo.com",
-          "at.search.yahoo.com",
-          "au.search.yahoo.com",
-          "br.search.yahoo.com",
-          "ca.search.yahoo.com",
-          "ch.search.yahoo.com",
-          "cl.search.yahoo.com",
-          "co.search.yahoo.com",
-          "de.search.yahoo.com",
-          "dk.search.yahoo.com",
-          "es.search.yahoo.com",
-          "fi.search.yahoo.com",
-          "fr.search.yahoo.com",
-          "hk.search.yahoo.com",
-          "id.search.yahoo.com",
-          "in.search.yahoo.com",
-          "it.search.yahoo.com",
-          "mx.search.yahoo.com",
-          "nl.search.yahoo.com",
-          "no.search.yahoo.com",
-          "nz.search.yahoo.com",
-          "pe.search.yahoo.com",
-          "ph.search.yahoo.com",
-          "pl.search.yahoo.com",
-          "se.search.yahoo.com",
-          "sg.search.yahoo.com",
-          "th.search.yahoo.com",
-          "tr.search.yahoo.com",
-          "tw.search.yahoo.com",
-          "uk.search.yahoo.com",
-          "us.search.yahoo.com",
-          "vn.search.yahoo.com"
-        ]
-      },
-      {
-        "name": "Yandex",
-        "identifier": "yandex",
-        "domains": [
-          "yandex",
-          "yandex.by",
-          "yandex.com",
-          "yandex.com.tr",
-          "yandex.fr",
-          "yandex.kz",
-          "yandex.ru",
-          "yandex.ua",
-          "yandex.uz",
-          "yandex.eu",
-          "ya.ru",
-          "webmaster.yandex.ru",
-          "zen.yandex.ru"
-        ]
-      },
-      {
-        "name": "DuckDuckGo",
-        "identifier": "duckduckgo",
-        "domains": [
-          "duckduckgo",
-          "duckduckgo.com"
-        ]
-      },
-      {
-        "name": "Biglobe",
-        "identifier": "biglobe",
-        "domains": [
-          "biglobe",
-          "biglobe.co.jp",
-          "biglobe.ne.jp"
-        ]
-      },
-      {
-        "name": "Centrum",
-        "identifier": "centrum",
-        "domains": [
-          "search.centrum.cz"
-        ]
-      },
-      {
-        "name": "Daum",
-        "identifier": "daum",
-        "domains": [
-          "daum",
-          "daum.net"
-        ]
-      },
-      {
-        "name": "Dogpile",
-        "identifier": "dogpile",
-        "domains": [
-          "dogpile",
-          "dogpile.com"
-        ]
-      },
-      {
-        "name": "Ecosia",
-        "identifier": "ecosia",
-        "domains": [
-          "ecosia.org"
-        ]
-      },
-      {
-        "name": "Excite",
-        "identifier": "excite",
-        "domains": [
-          "excite.com",
-          "results.excite.com"
-        ]
-      },
-      {
-        "name": "Qwant",
-        "identifier": "qwant",
-        "domains": [
-          "qwant",
-          "qwant.com",
-          "lite.qwant.com"
-        ]
-      },
-      {
-        "name": "Baidu",
-        "identifier": "baidu",
-        "domains": [
-          "baidu",
-          "baidu.com",
-          "m.baidu.com"
-        ]
-      },
-      {
-        "name": "Ask.com",
-        "identifier": "ask",
-        "domains": [
-          "ask",
-          "ask.com"
-        ]
-      },
-      {
-        "name": "Naver",
-        "identifier": "naver",
-        "domains": [
-          "naver",
-          "m.naver.com",
-          "m.search.naver.com",
-          "naver.com",
-          "search.naver.com"
-        ]
-      },
-      {
-        "name": "Sogou",
-        "identifier": "sogou",
-        "domains": [
-          "sogou",
-          "m.sogou.com",
-          "sogou.com",
-          "wap.sogou.com"
-        ]
-      },
-      {
-        "name": "AOL",
-        "identifier": "aol",
-        "domains": [
-          "aol",
-          "search.aol.co.uk",
-          "search.aol.com",
-          "suche.aol.de"
-        ]
-      },
-      {
-        "name": "Rakuten",
-        "identifier": "rakuten",
-        "domains": [
-          "rakuten",
-          "rakuten.co.jp",
-          "search.rakuten.co.jp",
-          "websearch.rakuten.co.jp"
-        ]
-      },
-      {
-        "name": "Onet",
-        "identifier": "onet",
-        "domains": [
-          "onet",
-          "onet.pl",
-          "szukaj.onet.pl"
-        ]
-      },
-      {
-        "name": "Rambler",
-        "identifier": "rambler",
-        "domains": [
-          "rambler",
-          "rambler.ru",
-          "nova.rambler.ru"
-        ]
-      },
-      {
-        "name": "UKR",
-        "identifier": "ukr",
-        "domains": [
-          "ukr",
-          "search.ukr.net",
-          "secureurl.ukr.net"
-        ]
-      },
-      {
-        "name": "AuOne",
-        "identifier": "auone",
-        "domains": [
-          "auone",
-          "sp-web.search.auone.jp"
-        ]
-      },
-      {
-        "name": "Docomo",
-        "identifier": "docomo",
-        "domains": [
-          "service.smt.docomo.ne.jp",
-          "search.smt.docomo.ne.jp"
-        ]
-      },
-      {
-        "name": "Seznam",
-        "identifier": "seznam",
-        "domains": [
-          "seznam",
-          "seznam.cz",
-          "search.seznam.cz"
-        ]
-      },
-      {
-        "name": "So",
-        "identifier": "so",
-        "domains": [
-          "so.com"
-        ]
-      },
-      {
-        "name": "Startsiden",
-        "identifier": "startsiden",
-        "domains": [
-          "startsiden",
-          "startsiden.no"
-        ]
-      },
-      {
-        "name": "ChatGPT",
-        "identifier": "chatgpt",
-        "domains": [
-          "chatgpt.com"
-        ]
-      },
-      {
-        "name": "Perplexity",
-        "identifier": "perplexity",
-        "domains": [
-          "perplexity.ai"
-        ]
-      },
-      {
-        "name": "360",
-        "identifier": "360",
-        "domains": [
-          "360.cn"
-        ]
-      },
-      {
-        "name": "Alice",
-        "identifier": "alice",
-        "domains": [
-          "alice"
-        ]
-      },
-      {
-        "name": "Avg",
-        "identifier": "avg",
-        "domains": [
-          "avg"
-        ]
-      },
-      {
-        "name": "Babylon",
-        "identifier": "babylon",
-        "domains": [
-          "babylon"
-        ]
-      },
-      {
-        "name": "Centrum",
-        "identifier": "centrum",
-        "domains": [
-          "centrum.cz"
-        ]
-      },
-      {
-        "name": "CNN",
-        "identifier": "cnn",
-        "domains": [
-          "cnn"
-        ]
-      },
-      {
-        "name": "Comcast",
-        "identifier": "comcast",
-        "domains": [
-          "comcast"
-        ]
-      },
-      {
-        "name": "Conduit",
-        "identifier": "conduit",
-        "domains": [
-          "conduit"
-        ]
-      },
-      {
-        "name": "Eniro",
-        "identifier": "eniro",
-        "domains": [
-          "eniro"
-        ]
-      },
-      {
-        "name": "Exalead",
-        "identifier": "exalead",
-        "domains": [
-          "exalead.com"
-        ]
-      },
-      {
-        "name": "Firmy",
-        "identifier": "firmy",
-        "domains": [
-          "firmy.cz"
-        ]
-      },
-      {
-        "name": "Globo",
-        "identifier": "globo",
-        "domains": [
-          "globo"
-        ]
-      },
-      {
-        "name": "Incredimail",
-        "identifier": "incredimail",
-        "domains": [
-          "incredimail"
-        ]
-      },
-      {
-        "name": "Kvasir",
-        "identifier": "kvasir",
-        "domains": [
-          "kvasir"
-        ]
-      },
-      {
-        "name": "Lycos",
-        "identifier": "lycos",
-        "domains": [
-          "lycos"
-        ]
-      },
-      {
-        "name": "Najdi",
-        "identifier": "najdi",
-        "domains": [
-          "najdi"
-        ]
-      },
-      {
-        "name": "Search-Results",
-        "identifier": "search-results",
-        "domains": [
-          "search-results"
-        ]
-      },
-      {
-        "name": "Terra",
-        "identifier": "terra",
-        "domains": [
-          "terra"
-        ]
-      },
-      {
-        "name": "Tut",
-        "identifier": "tut",
-        "domains": [
-          "tut.by"
-        ]
-      },
-      {
-        "name": "Virgilio",
-        "identifier": "virgilio",
-        "domains": [
-          "virgilio"
-        ]
-      }
-    ],
-    "rules": []
-  },
-  {
-    "type": "video",
-    "description": "Organic Video",
-    "channels": [
-      {
-        "name": "Crackle",
-        "identifier": "crackle",
-        "domains": [
-          "crackle",
-          "crackle.com"
-        ]
-      },
-      {
-        "name": "CuriosityStream",
-        "identifier": "curiositystream",
-        "domains": [
-          "curiositystream",
-          "curiositystream.com"
-        ]
-      },
-      {
-        "name": "D.tube",
-        "identifier": "d.tube",
-        "domains": [
-          "d.tube"
-        ]
-      },
-      {
-        "name": "Dailymotion",
-        "identifier": "dailymotion",
-        "domains": [
-          "dailymotion",
-          "dailymotion.com"
-        ]
-      },
-      {
-        "name": "DisneyPlus",
-        "identifier": "disneyplus",
-        "domains": [
-          "disneyplus",
-          "disneyplus.com"
-        ]
-      },
-      {
-        "name": "Hulu",
-        "identifier": "hulu",
-        "domains": [
-          "hulu",
-          "hulu.com",
-          "help.hulu.com"
-        ]
-      },
-      {
-        "name": "iqiyi",
-        "identifier": "iqiyi",
-        "domains": [
-          "iqiyi",
-          "iqiyi.com",
-          "iq.com"
-        ]
-      },
-      {
-        "name": "Twitch",
-        "identifier": "twitch",
-        "domains": [
-          "twitch",
-          "twitch.tv",
-          "m.twitch.tv",
-          "blog.twitch.tv",
-          "id.twitch.tv",
-          "player.twitch.tv",
-          "dashboard.twitch.tv"
-        ]
-      },
-      {
-        "name": "Ted",
-        "identifier": "ted",
-        "domains": [
-          "ted",
-          "ted.com"
-        ]
-      },
-      {
-        "name": "Netflix",
-        "identifier": "netflix",
-        "domains": [
-          "netflix",
-          "netflix.com",
-          "help.netflix.com",
-          "jobs.netflix.com"
-        ]
-      },
-      {
-        "name": "Youtube",
-        "identifier": "youtube",
-        "domains": [
-          "youtube",
-          "youtube.com",
-          "m.youtube.com",
-          "music.youtube.com"
-        ]
-      },
-      {
-        "name": "Wistia",
-        "identifier": "wistia",
-        "domains": [
-          "wistia",
-          "wistia.com",
-          "fast.wistia.net"
-        ]
-      },
-      {
-        "name": "Youku",
-        "identifier": "youku",
-        "domains": [
-          "youku",
-          "youku.com"
-        ]
-      },
-      {
-        "name": "Vimeo",
-        "identifier": "vimeo",
-        "domains": [
-          "vimeo",
-          "vimeo.com",
-          "player.vimeo.com"
-        ]
-      },
-      {
-        "name": "Veoh",
-        "identifier": "veoh",
-        "domains": [
-          "veoh",
-          "veoh.com"
-        ]
-      },
-      {
-        "name": "Utreon",
-        "identifier": "utreon",
-        "domains": [
-          "utreon",
-          "utreon.com"
-        ]
-      },
-      {
-        "name": "JDN",
-        "identifier": "jdn",
-        "domains": [
-          "viadeo.journaldunet.com"
-        ]
-      },
-      {
-        "name": "Justin.tv",
-        "identifier": "justin.tv",
-        "domains": [
-          "justin.tv"
-        ]
-      }
-    ],
-    "rules": []
-  },
+
   {
     "type": "social",
     "description": "Organic Social",
@@ -4306,6 +3532,809 @@
         "identifier": "androidcentral",
         "domains": [
           "forums.androidcentral.com"
+        ]
+      }
+    ],
+    "rules": []
+  },
+
+  {
+    "type": "social",
+    "description": "Social",
+    "channels": [
+      {
+        "name": "Social",
+        "identifier": "social",
+        "domains": [
+          "*"
+        ]
+      }
+    ],
+    "rules": [
+      {
+        "operator": "MATCH",
+        "pattern": "/utm_medium=.*(social|social-network|social-media|sm|social network|social media)$/i"
+      }
+    ]
+  },
+
+  {
+    "type": "video",
+    "description": "Organic Video",
+    "channels": [
+      {
+        "name": "Crackle",
+        "identifier": "crackle",
+        "domains": [
+          "crackle",
+          "crackle.com"
+        ]
+      },
+      {
+        "name": "CuriosityStream",
+        "identifier": "curiositystream",
+        "domains": [
+          "curiositystream",
+          "curiositystream.com"
+        ]
+      },
+      {
+        "name": "D.tube",
+        "identifier": "d.tube",
+        "domains": [
+          "d.tube"
+        ]
+      },
+      {
+        "name": "Dailymotion",
+        "identifier": "dailymotion",
+        "domains": [
+          "dailymotion",
+          "dailymotion.com"
+        ]
+      },
+      {
+        "name": "DisneyPlus",
+        "identifier": "disneyplus",
+        "domains": [
+          "disneyplus",
+          "disneyplus.com"
+        ]
+      },
+      {
+        "name": "Hulu",
+        "identifier": "hulu",
+        "domains": [
+          "hulu",
+          "hulu.com",
+          "help.hulu.com"
+        ]
+      },
+      {
+        "name": "iqiyi",
+        "identifier": "iqiyi",
+        "domains": [
+          "iqiyi",
+          "iqiyi.com",
+          "iq.com"
+        ]
+      },
+      {
+        "name": "Twitch",
+        "identifier": "twitch",
+        "domains": [
+          "twitch",
+          "twitch.tv",
+          "m.twitch.tv",
+          "blog.twitch.tv",
+          "id.twitch.tv",
+          "player.twitch.tv",
+          "dashboard.twitch.tv"
+        ]
+      },
+      {
+        "name": "Ted",
+        "identifier": "ted",
+        "domains": [
+          "ted",
+          "ted.com"
+        ]
+      },
+      {
+        "name": "Netflix",
+        "identifier": "netflix",
+        "domains": [
+          "netflix",
+          "netflix.com",
+          "help.netflix.com",
+          "jobs.netflix.com"
+        ]
+      },
+      {
+        "name": "Youtube",
+        "identifier": "youtube",
+        "domains": [
+          "youtube",
+          "youtube.com",
+          "m.youtube.com",
+          "music.youtube.com"
+        ]
+      },
+      {
+        "name": "Wistia",
+        "identifier": "wistia",
+        "domains": [
+          "wistia",
+          "wistia.com",
+          "fast.wistia.net"
+        ]
+      },
+      {
+        "name": "Youku",
+        "identifier": "youku",
+        "domains": [
+          "youku",
+          "youku.com"
+        ]
+      },
+      {
+        "name": "Vimeo",
+        "identifier": "vimeo",
+        "domains": [
+          "vimeo",
+          "vimeo.com",
+          "player.vimeo.com"
+        ]
+      },
+      {
+        "name": "Veoh",
+        "identifier": "veoh",
+        "domains": [
+          "veoh",
+          "veoh.com"
+        ]
+      },
+      {
+        "name": "Utreon",
+        "identifier": "utreon",
+        "domains": [
+          "utreon",
+          "utreon.com"
+        ]
+      },
+      {
+        "name": "JDN",
+        "identifier": "jdn",
+        "domains": [
+          "viadeo.journaldunet.com"
+        ]
+      },
+      {
+        "name": "Justin.tv",
+        "identifier": "justin.tv",
+        "domains": [
+          "justin.tv"
+        ]
+      }
+    ],
+    "rules": []
+  },
+
+  {
+    "type": "search",
+    "description": "Organic traffic from search engines",
+    "channels": [
+      {
+        "name": "Google",
+        "identifier": "google",
+        "domains": [
+          "google",
+          "google-play",
+          "google.com",
+          "google.ad",
+          "google.ae",
+          "google.com.af",
+          "google.com.ag",
+          "google.al",
+          "google.am",
+          "google.co.ao",
+          "google.com.ar",
+          "google.as",
+          "google.at",
+          "google.com.au",
+          "google.az",
+          "google.ba",
+          "google.com.bd",
+          "google.be",
+          "google.bf",
+          "google.bg",
+          "google.com.bh",
+          "google.bi",
+          "google.bj",
+          "google.com.bn",
+          "google.com.bo",
+          "google.com.br",
+          "google.bs",
+          "google.bt",
+          "google.co.bw",
+          "google.by",
+          "google.com.bz",
+          "google.ca",
+          "google.cd",
+          "google.cf",
+          "google.cg",
+          "google.ch",
+          "google.ci",
+          "google.co.ck",
+          "google.cl",
+          "google.cm",
+          "google.cn",
+          "google.com.co",
+          "google.co.cr",
+          "google.com.cu",
+          "google.cv",
+          "google.com.cy",
+          "google.cz",
+          "google.de",
+          "google.dj",
+          "google.dk",
+          "google.dm",
+          "google.com.do",
+          "google.dz",
+          "google.com.ec",
+          "google.ee",
+          "google.com.eg",
+          "google.es",
+          "google.com.et",
+          "google.fi",
+          "google.com.fj",
+          "google.fm",
+          "google.fr",
+          "google.ga",
+          "google.ge",
+          "google.gg",
+          "google.com.gh",
+          "google.com.gi",
+          "google.gl",
+          "google.gm",
+          "google.gr",
+          "google.com.gt",
+          "google.gy",
+          "google.com.hk",
+          "google.hn",
+          "google.hr",
+          "google.ht",
+          "google.hu",
+          "google.co.id",
+          "google.ie",
+          "google.co.il",
+          "google.im",
+          "google.co.in",
+          "google.iq",
+          "google.is",
+          "google.it",
+          "google.je",
+          "google.com.jm",
+          "google.jo",
+          "google.co.jp",
+          "google.co.ke",
+          "google.com.kh",
+          "google.ki",
+          "google.kg",
+          "google.co.kr",
+          "google.com.kw",
+          "google.kz",
+          "google.la",
+          "google.com.lb",
+          "google.li",
+          "google.lk",
+          "google.co.ls",
+          "google.lt",
+          "google.lu",
+          "google.lv",
+          "google.com.ly",
+          "google.co.ma",
+          "google.md",
+          "google.me",
+          "google.mg",
+          "google.mk",
+          "google.ml",
+          "google.com.mm",
+          "google.mn",
+          "google.com.mt",
+          "google.mu",
+          "google.mv",
+          "google.mw",
+          "google.com.mx",
+          "google.com.my",
+          "google.co.mz",
+          "google.com.na",
+          "google.com.ng",
+          "google.com.ni",
+          "google.ne",
+          "google.nl",
+          "google.no",
+          "google.com.np",
+          "google.nr",
+          "google.nu",
+          "google.co.nz",
+          "google.com.om",
+          "google.com.pa",
+          "google.com.pe",
+          "google.com.pg",
+          "google.com.ph",
+          "google.com.pk",
+          "google.pl",
+          "google.pn",
+          "google.com.pr",
+          "google.ps",
+          "google.pt",
+          "google.com.py",
+          "google.com.qa",
+          "google.ro",
+          "google.ru",
+          "google.rw",
+          "google.com.sa",
+          "google.com.sb",
+          "google.sc",
+          "google.se",
+          "google.com.sg",
+          "google.sh",
+          "google.si",
+          "google.sk",
+          "google.com.sl",
+          "google.sn",
+          "google.so",
+          "google.sm",
+          "google.sr",
+          "google.st",
+          "google.com.sv",
+          "google.td",
+          "google.tg",
+          "google.co.th",
+          "google.com.tj",
+          "google.tl",
+          "google.tm",
+          "google.tn",
+          "google.to",
+          "google.com.tr",
+          "google.tt",
+          "google.com.tw",
+          "google.co.tz",
+          "google.com.ua",
+          "google.co.ug",
+          "google.co.uk",
+          "google.com.uy",
+          "google.co.uz",
+          "google.com.vc",
+          "google.co.ve",
+          "google.co.vi",
+          "google.com.vn",
+          "google.vu",
+          "google.ws",
+          "google.rs",
+          "google.co.za",
+          "google.co.zm",
+          "google.co.zw",
+          "google.cat",
+          "lens.google.com",
+          "news.google.com",
+          "play.google.com",
+          "search.google.com"
+        ]
+      },
+      {
+        "name": "Bing",
+        "identifier": "bing",
+        "domains": [
+          "bing",
+          "bing.com",
+          "cn.bing.com"
+        ]
+      },
+      {
+        "name": "Yahoo",
+        "identifier": "yahoo",
+        "domains": [
+          "yahoo",
+          "yahoo.com",
+          "yahoo.co.jp",
+          "espanol.search.yahoo.com",
+          "malaysia.search.yahoo.com",
+          "ar.search.yahoo.com",
+          "at.search.yahoo.com",
+          "au.search.yahoo.com",
+          "br.search.yahoo.com",
+          "ca.search.yahoo.com",
+          "ch.search.yahoo.com",
+          "cl.search.yahoo.com",
+          "co.search.yahoo.com",
+          "de.search.yahoo.com",
+          "dk.search.yahoo.com",
+          "es.search.yahoo.com",
+          "fi.search.yahoo.com",
+          "fr.search.yahoo.com",
+          "hk.search.yahoo.com",
+          "id.search.yahoo.com",
+          "in.search.yahoo.com",
+          "it.search.yahoo.com",
+          "mx.search.yahoo.com",
+          "nl.search.yahoo.com",
+          "no.search.yahoo.com",
+          "nz.search.yahoo.com",
+          "pe.search.yahoo.com",
+          "ph.search.yahoo.com",
+          "pl.search.yahoo.com",
+          "se.search.yahoo.com",
+          "sg.search.yahoo.com",
+          "th.search.yahoo.com",
+          "tr.search.yahoo.com",
+          "tw.search.yahoo.com",
+          "uk.search.yahoo.com",
+          "us.search.yahoo.com",
+          "vn.search.yahoo.com"
+        ]
+      },
+      {
+        "name": "Yandex",
+        "identifier": "yandex",
+        "domains": [
+          "yandex",
+          "yandex.by",
+          "yandex.com",
+          "yandex.com.tr",
+          "yandex.fr",
+          "yandex.kz",
+          "yandex.ru",
+          "yandex.ua",
+          "yandex.uz",
+          "yandex.eu",
+          "ya.ru",
+          "webmaster.yandex.ru",
+          "zen.yandex.ru"
+        ]
+      },
+      {
+        "name": "DuckDuckGo",
+        "identifier": "duckduckgo",
+        "domains": [
+          "duckduckgo",
+          "duckduckgo.com"
+        ]
+      },
+      {
+        "name": "Biglobe",
+        "identifier": "biglobe",
+        "domains": [
+          "biglobe",
+          "biglobe.co.jp",
+          "biglobe.ne.jp"
+        ]
+      },
+      {
+        "name": "Centrum",
+        "identifier": "centrum",
+        "domains": [
+          "search.centrum.cz"
+        ]
+      },
+      {
+        "name": "Daum",
+        "identifier": "daum",
+        "domains": [
+          "daum",
+          "daum.net"
+        ]
+      },
+      {
+        "name": "Dogpile",
+        "identifier": "dogpile",
+        "domains": [
+          "dogpile",
+          "dogpile.com"
+        ]
+      },
+      {
+        "name": "Ecosia",
+        "identifier": "ecosia",
+        "domains": [
+          "ecosia.org"
+        ]
+      },
+      {
+        "name": "Excite",
+        "identifier": "excite",
+        "domains": [
+          "excite.com",
+          "results.excite.com"
+        ]
+      },
+      {
+        "name": "Qwant",
+        "identifier": "qwant",
+        "domains": [
+          "qwant",
+          "qwant.com",
+          "lite.qwant.com"
+        ]
+      },
+      {
+        "name": "Baidu",
+        "identifier": "baidu",
+        "domains": [
+          "baidu",
+          "baidu.com",
+          "m.baidu.com"
+        ]
+      },
+      {
+        "name": "Ask.com",
+        "identifier": "ask",
+        "domains": [
+          "ask",
+          "ask.com"
+        ]
+      },
+      {
+        "name": "Naver",
+        "identifier": "naver",
+        "domains": [
+          "naver",
+          "m.naver.com",
+          "m.search.naver.com",
+          "naver.com",
+          "search.naver.com"
+        ]
+      },
+      {
+        "name": "Sogou",
+        "identifier": "sogou",
+        "domains": [
+          "sogou",
+          "m.sogou.com",
+          "sogou.com",
+          "wap.sogou.com"
+        ]
+      },
+      {
+        "name": "AOL",
+        "identifier": "aol",
+        "domains": [
+          "aol",
+          "search.aol.co.uk",
+          "search.aol.com",
+          "suche.aol.de"
+        ]
+      },
+      {
+        "name": "Rakuten",
+        "identifier": "rakuten",
+        "domains": [
+          "rakuten",
+          "rakuten.co.jp",
+          "search.rakuten.co.jp",
+          "websearch.rakuten.co.jp"
+        ]
+      },
+      {
+        "name": "Onet",
+        "identifier": "onet",
+        "domains": [
+          "onet",
+          "onet.pl",
+          "szukaj.onet.pl"
+        ]
+      },
+      {
+        "name": "Rambler",
+        "identifier": "rambler",
+        "domains": [
+          "rambler",
+          "rambler.ru",
+          "nova.rambler.ru"
+        ]
+      },
+      {
+        "name": "UKR",
+        "identifier": "ukr",
+        "domains": [
+          "ukr",
+          "search.ukr.net",
+          "secureurl.ukr.net"
+        ]
+      },
+      {
+        "name": "AuOne",
+        "identifier": "auone",
+        "domains": [
+          "auone",
+          "sp-web.search.auone.jp"
+        ]
+      },
+      {
+        "name": "Docomo",
+        "identifier": "docomo",
+        "domains": [
+          "service.smt.docomo.ne.jp",
+          "search.smt.docomo.ne.jp"
+        ]
+      },
+      {
+        "name": "Seznam",
+        "identifier": "seznam",
+        "domains": [
+          "seznam",
+          "seznam.cz",
+          "search.seznam.cz"
+        ]
+      },
+      {
+        "name": "So",
+        "identifier": "so",
+        "domains": [
+          "so.com"
+        ]
+      },
+      {
+        "name": "Startsiden",
+        "identifier": "startsiden",
+        "domains": [
+          "startsiden",
+          "startsiden.no"
+        ]
+      },
+      {
+        "name": "ChatGPT",
+        "identifier": "chatgpt",
+        "domains": [
+          "chatgpt.com"
+        ]
+      },
+      {
+        "name": "Perplexity",
+        "identifier": "perplexity",
+        "domains": [
+          "perplexity.ai"
+        ]
+      },
+      {
+        "name": "360",
+        "identifier": "360",
+        "domains": [
+          "360.cn"
+        ]
+      },
+      {
+        "name": "Alice",
+        "identifier": "alice",
+        "domains": [
+          "alice"
+        ]
+      },
+      {
+        "name": "Avg",
+        "identifier": "avg",
+        "domains": [
+          "avg"
+        ]
+      },
+      {
+        "name": "Babylon",
+        "identifier": "babylon",
+        "domains": [
+          "babylon"
+        ]
+      },
+      {
+        "name": "Centrum",
+        "identifier": "centrum",
+        "domains": [
+          "centrum.cz"
+        ]
+      },
+      {
+        "name": "CNN",
+        "identifier": "cnn",
+        "domains": [
+          "cnn"
+        ]
+      },
+      {
+        "name": "Comcast",
+        "identifier": "comcast",
+        "domains": [
+          "comcast"
+        ]
+      },
+      {
+        "name": "Conduit",
+        "identifier": "conduit",
+        "domains": [
+          "conduit"
+        ]
+      },
+      {
+        "name": "Eniro",
+        "identifier": "eniro",
+        "domains": [
+          "eniro"
+        ]
+      },
+      {
+        "name": "Exalead",
+        "identifier": "exalead",
+        "domains": [
+          "exalead.com"
+        ]
+      },
+      {
+        "name": "Firmy",
+        "identifier": "firmy",
+        "domains": [
+          "firmy.cz"
+        ]
+      },
+      {
+        "name": "Globo",
+        "identifier": "globo",
+        "domains": [
+          "globo"
+        ]
+      },
+      {
+        "name": "Incredimail",
+        "identifier": "incredimail",
+        "domains": [
+          "incredimail"
+        ]
+      },
+      {
+        "name": "Kvasir",
+        "identifier": "kvasir",
+        "domains": [
+          "kvasir"
+        ]
+      },
+      {
+        "name": "Lycos",
+        "identifier": "lycos",
+        "domains": [
+          "lycos"
+        ]
+      },
+      {
+        "name": "Najdi",
+        "identifier": "najdi",
+        "domains": [
+          "najdi"
+        ]
+      },
+      {
+        "name": "Search-Results",
+        "identifier": "search-results",
+        "domains": [
+          "search-results"
+        ]
+      },
+      {
+        "name": "Terra",
+        "identifier": "terra",
+        "domains": [
+          "terra"
+        ]
+      },
+      {
+        "name": "Tut",
+        "identifier": "tut",
+        "domains": [
+          "tut.by"
+        ]
+      },
+      {
+        "name": "Virgilio",
+        "identifier": "virgilio",
+        "domains": [
+          "virgilio"
         ]
       }
     ],
