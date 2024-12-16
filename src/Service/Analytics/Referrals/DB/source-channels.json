@@ -7290,5 +7290,25 @@
         "pattern": "/(?:ref|source|utm_source|utm_medium)=(sms)(?:&|$)/i"
       }
     ]
+  },
+
+  {
+    "type": "mobile_notification",
+    "description": "Traffic from mobile push notification",
+    "channels": [
+      {
+        "name": "Mobile Notification",
+        "identifier": "mobile_notification",
+        "domains": [
+          "*"
+        ]
+      }
+    ],
+    "rules": [
+      {
+        "operator": "MATCH",
+        "pattern": "/utm_medium=.*push$|utm_medium=.*(mobile|notification)|(?:utm_source|source|ref)=firebase(?:&|$)/i"
+      }
+    ]
   }
 ]
