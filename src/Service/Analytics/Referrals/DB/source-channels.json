@@ -7210,5 +7210,25 @@
         "pattern": "/(?:ref|source|utm_source|utm_medium)=(email|e(%20|\\+| |_|-)mail)(?:&|$)/i"
       }
     ]
+  },
+
+  {
+    "type": "affiliates",
+    "description": "Affiliate traffic",
+    "channels": [
+      {
+        "name": "Affiliates",
+        "identifier": "affiliates",
+        "domains": [
+          "*"
+        ]
+      }
+    ],
+    "rules": [
+      {
+        "operator": "MATCH",
+        "pattern": "/utm_medium=.*(affiliate)$/i"
+      }
+    ]
   }
 ]
