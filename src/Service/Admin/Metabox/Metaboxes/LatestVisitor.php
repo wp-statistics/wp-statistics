@@ -30,12 +30,7 @@ class LatestVisitor extends BaseMetabox
 
     public function getData()
     {
-        $args = [
-            'ignore_date' => true
-        ];
-
-        //  @todo  Add data
-        $data = [];
+        $data = $this->dataProvider->getLatestVisitorsData();
 
         $output = View::load('metabox/latest-visitor', ['data' => $data], true);
 

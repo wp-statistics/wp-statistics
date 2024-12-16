@@ -63,6 +63,18 @@ class MetaboxDataProvider
         return $visitors;
     }
 
+    public function getLatestVisitorsData($args = [])
+    {
+        return $this->visitorsModel->getVisitorsData(array_merge($args, [
+            'page_info' => true,
+            'user_info' => true,
+            'order_by'  => 'visitor.ID',
+            'order'     => 'DESC',
+            'page'      => 1,
+            'per_page'  => 10
+        ]));
+    }
+
     public function getOnlineVisitorsData($args = [])
     {
         return $this->onlineModel->getOnlineVisitorsData($args);
