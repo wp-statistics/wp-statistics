@@ -4339,5 +4339,310 @@
       }
     ],
     "rules": []
+  },
+
+  {
+    "type": "email",
+    "description": "Email traffic",
+    "channels": [
+      {
+        "name": "126 Mail",
+        "identifier": "126mail",
+        "domains": [
+          "mail.126.com"
+        ]
+      },
+      {
+        "name": "163 Mail",
+        "identifier": "163mail",
+        "domains": [
+          "mail.163.com"
+        ]
+      },
+      {
+        "name": "2degrees",
+        "identifier": "2degrees",
+        "domains": [
+          "webmail.2degreesbroadband.co.nz"
+        ]
+      },
+      {
+        "name": "Adam Internet",
+        "identifier": "adaminternet",
+        "domains": [
+          "webmail.adam.com.au"
+        ]
+      },
+      {
+        "name": "AOL Mail",
+        "identifier": "aolmail",
+        "domains": [
+          "mail.aol.com",
+          "com.aol.mobile.aolapp"
+        ]
+      },
+      {
+        "name": "Beeline",
+        "identifier": "beeline",
+        "domains": [
+          "post.ru"
+        ]
+      },
+      {
+        "name": "Bigpond",
+        "identifier": "bigpond",
+        "domains": [
+          "webmail.bigpond.com",
+          "webmail2.bigpond.com",
+          "email.telstra.com",
+          "basic.messaging.bigpond.com"
+        ]
+      },
+      {
+        "name": "Commander",
+        "identifier": "commander",
+        "domains": [
+          "webmail.commander.net.au"
+        ]
+      },
+      {
+        "name": "Daum Mail",
+        "identifier": "daummail",
+        "domains": [
+          "mail2.daum.net",
+          "mail.daum.net"
+        ]
+      },
+      {
+        "name": "Dodo",
+        "identifier": "dodo",
+        "domains": [
+          "webmail.dodo.com.au"
+        ]
+      },
+      {
+        "name": "E1.ru",
+        "identifier": "e1.ru",
+        "domains": [
+          "mail.e1.ru"
+        ]
+      },
+      {
+        "name": "earthlink",
+        "identifier": "earthlink",
+        "domains": [
+          "com.earthlink.myearthlink"
+        ]
+      },
+      {
+        "name": "Freenet",
+        "identifier": "freenet",
+        "domains": [
+          "webmail.freenet.de"
+        ]
+      },
+      {
+        "name": "Gmail",
+        "identifier": "gmail",
+        "domains": [
+          "mail.google.com",
+          "com.google.android.gm",
+          "inbox.google.com"
+        ]
+      },
+      {
+        "name": "iiNet",
+        "identifier": "iinet",
+        "domains": [
+          "webmail.iinet.net.au",
+          "mail.iinet.net.au"
+        ]
+      },
+      {
+        "name": "Inbox.com",
+        "identifier": "inbox.com",
+        "domains": [
+          "inbox.com"
+        ]
+      },
+      {
+        "name": "iPrimus",
+        "identifier": "iprimus",
+        "domains": [
+          "webmail.iprimus.com.au"
+        ]
+      },
+      {
+        "name": "Mail.ru",
+        "identifier": "mail.ru",
+        "domains": [
+          "e.mail.ru",
+          "touch.mail.ru"
+        ]
+      },
+      {
+        "name": "Mailchimp",
+        "identifier": "mailchimp",
+        "domains": [
+          "com.mailchimp.mailchimp"
+        ]
+      },
+      {
+        "name": "Mastermail",
+        "identifier": "mastermail",
+        "domains": [
+          "mastermail.ru",
+          "m.mastermail.ru"
+        ]
+      },
+      {
+        "name": "Mynet Mail",
+        "identifier": "mynetmail",
+        "domains": [
+          "mail.mynet.com"
+        ]
+      },
+      {
+        "name": "Naver Mail",
+        "identifier": "navermail",
+        "domains": [
+          "mail.naver.com"
+        ]
+      },
+      {
+        "name": "Netspace",
+        "identifier": "netspace",
+        "domains": [
+          "webmail.netspace.net.au"
+        ]
+      },
+      {
+        "name": "Optus Zoo",
+        "identifier": "optuszoo",
+        "domains": [
+          "webmail.optuszoo.com.au",
+          "webmail.optusnet.com.au"
+        ]
+      },
+      {
+        "name": "Orange Webmail",
+        "identifier": "orangewebmail",
+        "domains": [
+          "orange.fr/webmail"
+        ]
+      },
+      {
+        "name": "Outlook.com",
+        "identifier": "outlook.com",
+        "domains": [
+          "mail.live.com",
+          "outlook.live.com",
+          "com.microsoft.office.outlook"
+        ]
+      },
+      {
+        "name": "QIP",
+        "identifier": "qip",
+        "domains": [
+          "mail.qip.ru"
+        ]
+      },
+      {
+        "name": "QQ Mail",
+        "identifier": "qqmail",
+        "domains": [
+          "mail.qq.com",
+          "exmail.qq.com"
+        ]
+      },
+      {
+        "name": "Rambler",
+        "identifier": "rambler",
+        "domains": [
+          "mail.rambler.ru"
+        ]
+      },
+      {
+        "name": "Seznam Mail",
+        "identifier": "seznammail",
+        "domains": [
+          "email.seznam.cz"
+        ]
+      },
+      {
+        "name": "Sibmail",
+        "identifier": "sibmail",
+        "domains": [
+          "sibmail.com"
+        ]
+      },
+      {
+        "name": "Ukr.net",
+        "identifier": "ukr.net",
+        "domains": [
+          "mail.ukr.net"
+        ]
+      },
+      {
+        "name": "Virgin",
+        "identifier": "virgin",
+        "domains": [
+          "webmail.virginbroadband.com.au"
+        ]
+      },
+      {
+        "name": "Vodafone",
+        "identifier": "vodafone",
+        "domains": [
+          "webmail.vodafone.co.nz"
+        ]
+      },
+      {
+        "name": "Westnet",
+        "identifier": "westnet",
+        "domains": [
+          "webmail.westnet.com.au"
+        ]
+      },
+      {
+        "name": "Yandex",
+        "identifier": "yandex",
+        "domains": [
+          "mail.yandex.ru",
+          "mail.yandex.com",
+          "mail.yandex.kz",
+          "mail.yandex.ua",
+          "mail.yandex.by"
+        ]
+      },
+      {
+        "name": "Yahoo! Mail",
+        "identifier": "yahoo",
+        "domains": [
+          "mail.yahoo.net",
+          "mail.yahoo.com",
+          "mail.yahoo.co.uk",
+          "mail.yahoo.co.jp",
+          "com.yahoo.mobile.client.android.mail"
+        ]
+      },
+      {
+        "name": "Zoho",
+        "identifier": "zoho",
+        "domains": [
+          "mail.zoho.com"
+        ]
+      }
+    ],
+    "rules": [
+      {
+        "operator": "MATCH",
+        "pattern": "/(?:ref|source|utm_source)=(email|e[-_ ]mail)(?:&|$)/i"
+      },
+      {
+        "operator": "MATCH",
+        "pattern": "/utm_medium=(email|e[-_ ]mail)(?:&|$)/i"
+      }
+    ]
   }
 ]
