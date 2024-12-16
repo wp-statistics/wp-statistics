@@ -6897,6 +6897,26 @@
   },
 
   {
+    "type": "referral",
+    "description": "Referral traffic",
+    "channels": [
+      {
+        "name": "Referral",
+        "identifier": "referral",
+        "domains": [
+          "*"
+        ]
+      }
+    ],
+    "rules": [
+      {
+        "operator": "MATCH",
+        "pattern": "/utm_medium=.*(referral|app|link)$/i"
+      }
+    ]
+  }
+
+  {
     "type": "email",
     "description": "Email traffic",
     "channels": [
