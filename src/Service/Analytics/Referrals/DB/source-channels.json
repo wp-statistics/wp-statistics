@@ -6914,7 +6914,7 @@
         "pattern": "/utm_medium=.*(referral|app|link)$/i"
       }
     ]
-  }
+  },
 
   {
     "type": "email",
