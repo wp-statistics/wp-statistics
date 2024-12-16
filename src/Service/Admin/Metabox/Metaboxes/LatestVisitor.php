@@ -23,7 +23,7 @@ class LatestVisitor extends BaseMetabox
     public function getOptions()
     {
         return [
-            'datepicker'    => true,
+            'datepicker'    => false,
             'button'        => View::load('metabox/action-button',['link'=> Menus::admin_url('visitors') ,'title'=>'View Latest Visitor Breakdown'],true)
         ];
     }
