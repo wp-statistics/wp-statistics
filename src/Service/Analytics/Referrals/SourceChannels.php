@@ -19,7 +19,7 @@ class SourceChannels
             'paid_shopping'         => esc_html__('Paid Shopping', 'wp-statistics'),
             'video'                 => esc_html__('Organic Video', 'wp-statistics'),
             'paid_video'            => esc_html__('Paid Video', 'wp-statistics'),
-            'social'                => esc_html__('Social', 'wp-statistics'),
+            'social'                => esc_html__('Organic Social', 'wp-statistics'),
             'paid_social'           => esc_html__('Paid Social', 'wp-statistics'),
             'paid_other'            => esc_html__('Paid Other', 'wp-statistics'),
             'email'                 => esc_html__('Email', 'wp-statistics'),
