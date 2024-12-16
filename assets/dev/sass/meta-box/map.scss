@@ -52,6 +52,10 @@
     background: linear-gradient(90deg, #EBF5FF 0%, #3288D7 100%);
     width: 177px;
     height: 8px;
+
+    .rtl &{
+      background: linear-gradient(270deg, #EBF5FF 0%, #3288D7 100%);
+    }
   }
 }
 
