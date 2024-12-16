@@ -3553,7 +3553,7 @@
     "rules": [
       {
         "operator": "MATCH",
-        "pattern": "/utm_medium=.*(social|social-network|social-media|sm|social network|social media)$/i"
+        "pattern": "/utm_medium=.*(social|social-network|social-media|sm|social(%20|\\+| )network|social(%20|\\+| )media)$/i"
       }
     ]
   },
