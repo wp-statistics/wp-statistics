@@ -164,6 +164,11 @@ abstract class BaseMetabox
      */
     public function getResponse()
     {
+        // Check nonce
+        if (!wp_verify_nonce(Request::get('wps_nonce'), 'wp_rest')) {
+            throw new \Exception('Invalid nonce.');
+        }
+
         $this->storeFilters();
 
         $response = [
