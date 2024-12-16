@@ -3385,6 +3385,26 @@
   },
 
   {
+    "type": "paid_other",
+    "description": "Paid traffic from other platforms",
+    "channels": [
+      {
+        "name": "Paid Other",
+        "identifier": "paid_other",
+        "domains": [
+          "*"
+        ]
+      }
+    ],
+    "rules": [
+      {
+        "operator": "MATCH",
+        "pattern": "/utm_medium=(.*cp.*|ppc|retargeting|paid.*)(?:&|$)/i"
+      }
+    ]
+  },
+
+  {
     "type": "shopping",
     "description": "Organic Shopping",
     "channels": [
