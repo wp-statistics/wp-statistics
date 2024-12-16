@@ -3,6 +3,7 @@
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\IP;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
+use WP_Statistics\Service\Geolocation\Provider\CloudflareGeolocationProvider;
 use WP_STATISTICS\TimeZone;
 
 // Get IP Method
@@ -158,6 +159,27 @@ add_thickbox();
                 <h3><?php esc_html_e('GeoIP Settings', 'wp-statistics'); ?></h3>
             </th>
         </tr>
+        <?php if(! empty(IP::getCloudflareIp())): ?>
+        <tr valign="top">
+            <th scope="row"><label for="wps_geoip_location_detection_method"><?php esc_html_e('Location Detection Method', 'wp-statistics'); ?></label></th>
+            <td>
+                <select name="wps_geoip_location_detection_method" id="geoip_location_detection_method">
+                    <option value="cf" <?php selected(WP_STATISTICS\Option::get('geoip_location_detection_method'), 'cf'); ?><?php echo CloudflareGeolocationProvider::isAvailable() ? '' : 'disabled'; ?>><?php esc_html_e('Cloudflare IP Geolocation', 'wp-statistics'); ?></option>
+                    <option value="maxmind" <?php selected(WP_STATISTICS\Option::get('geoip_location_detection_method'), 'maxmind'); ?>><?php esc_html_e('MaxMind GeoIP', 'wp-statistics'); ?></option>
+                </select>
+
+                <p class="description">
+                    <?php 
+                        echo sprintf(
+                            /* translators: %s: Link to learn about Cloudflare Geolocation */
+                            esc_html__('Select the method to detect location data for visitors. For better performance, we recommend using the Cloudflare IP Geolocation method, which requires your domain to be on Cloudflare with \'Visitor Location Headers\' enabled. %s', 'wp-statistics'),
+                            '<a href="https://wp-statistics.com/resources/how-to-enable-cloudflare-ip-geolocation/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" class="wps-text-decoration-underline" target="_blank">' . esc_html__('Learn more about setting up Cloudflare Geolocation', 'wp-statistics') . '</a>'
+                        );                      
+                    ?>
+                </p>
+            </td>
+        </tr>
+        <?php endif; ?> 
 
         <tr valign="top">
             <th scope="row"><label for="wps_geoip_license_type"><?php esc_html_e('GeoIP Database Update Source', 'wp-statistics'); ?></label></th>

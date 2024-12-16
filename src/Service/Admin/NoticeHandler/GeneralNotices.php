@@ -4,9 +4,11 @@ namespace WP_Statistics\Service\Admin\NoticeHandler;
 
 use WP_STATISTICS\DB;
 use WP_STATISTICS\Helper;
+use WP_STATISTICS\IP;
 use WP_STATISTICS\Menus;
 use WP_STATISTICS\Option;
 use WP_STATISTICS\Schedule;
+use WP_Statistics\Service\Geolocation\Provider\CloudflareGeolocationProvider;
 use WP_STATISTICS\User;
 use WP_Statistics\Traits\TransientCacheTrait;
 
@@ -24,7 +26,8 @@ class GeneralNotices
         'performanceAndCleanUp',
         'memoryLimitCheck',
         'emailReportSchedule',
-        'notifyDeprecatedHoneypotOption'
+        'notifyDeprecatedHoneypotOption',
+        'checkCloudflareGeolocatin'
     ];
 
     /**
@@ -244,6 +247,49 @@ class GeneralNotices
             ),
             'deprecated_honeypot',
             'warning'
+        );
+    }
+
+    /**
+     * Notifies users about clouldflare geolocation feature.
+     * 
+     * @return void
+     */
+    public function checkCloudflareGeolocatin() {
+        if (Notice::isNoticeDismissed('cloudflare_geolocation')) {
+            return;
+        }
+
+        if (! Menus::in_plugin_page() || empty(IP::getCloudflareIp())) {
+            return;
+        }
+
+        if (CloudflareGeolocationProvider::isAvailable()) {
+            return;
+        }
+
+        Notice::addNotice(
+            sprintf(
+                wp_kses(
+                    /* translators: %1$s: opening strong tag, %2$s: closing strong tag, %3$s: suggestion text, %4$s: opening link tag, %5$s: link text, %6$s: closing link tag */
+                    '%1$sSuggestion:%2$s %3$s %4$s%5$s%6$s.',
+                    [
+                        'strong' => [],
+                        'a' => [
+                            'href' => [],
+                            'target' => [],
+                        ],
+                    ]
+                ),
+                '<strong>',
+                '</strong>',
+                esc_html__("You're using Cloudflare. To improve performance, enable the IP Geolocation feature in your Cloudflare account. This allows the plugin to use Cloudflare's geolocation instead of GeoIP MaxMind", 'wp-statistics'),
+                '<a href="https://developers.cloudflare.com/rules/transform/managed-transforms/reference/#add-visitor-location-headers" target="_blank">',
+                esc_html__('Click here', 'wp-statistics'),
+                '</a>'
+            ),
+            'cloudflare_geolocation',
+            'info'
         );
     }
 }
