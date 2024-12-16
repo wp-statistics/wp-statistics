@@ -664,8 +664,8 @@
   },
 
   {
-    "type": "social",
-    "description": "Organic Social",
+    "type": "paid_social",
+    "description": "Paid Social",
     "channels": [
       {
         "name": "43things",
