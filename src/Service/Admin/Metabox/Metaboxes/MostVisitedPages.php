@@ -33,14 +33,10 @@ class MostVisitedPages extends BaseMetabox
 
     public function getData()
     {
-        $args = [
-            'ignore_date' => true
-        ];
+        $args = $this->getFilters();
+        $data = $this->dataProvider->getTopPages($args);
 
-        //  @todo  Add data
-        $data = [];
-
-        $output = View::load('metabox/most-visited', ['data' => $data], true);
+        $output = View::load('metabox/most-visited-pages', ['data' => $data, 'args' => $args], true);
 
         return $output;
     }

@@ -2,6 +2,7 @@
 namespace WP_Statistics\Service\Admin\Metabox;
 
 use WP_Statistics\Models\OnlineModel;
+use WP_Statistics\Models\PostsModel;
 use WP_Statistics\Models\VisitorsModel;
 use WP_Statistics\Models\ViewsModel;
 use WP_Statistics\Service\Charts\ChartDataProviderFactory;
@@ -11,12 +12,14 @@ class MetaboxDataProvider
     protected $visitorsModel;
     protected $viewsModel;
     protected $onlineModel;
+    protected $postsModel;
 
     public function __construct()
     {
         $this->visitorsModel    = new VisitorsModel();
         $this->viewsModel       = new ViewsModel();
         $this->onlineModel      = new OnlineModel();
+        $this->postsModel       = new PostsModel();
     }
 
     public function getTrafficSummaryData($args = [])
@@ -72,6 +75,13 @@ class MetaboxDataProvider
             'order'     => 'DESC',
             'page'      => 1,
             'per_page'  => 10
+        ]));
+    }
+
+    public function getTopPages($args = [])
+    {
+        return $this->postsModel->getPostsViewsData(array_merge($args, [
+            'per_page' => 10
         ]));
     }
 
