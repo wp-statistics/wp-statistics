@@ -396,11 +396,11 @@ if (wps_js.global.page.file === "index.php" || wps_js.is_active('overview_page')
         html += `</div></div>`;
 
         if(response.meta && response.meta.description){
-            let selector = "#" + key + " h2.hndle";
-            if (!jQuery('#' + key + ' .wps-tooltip').length) {
+            let selector = jQuery("#" + key + " h2.hndle");
+            if (selector.length && !selector.find('.wps-tooltip').length) {
                 const tooltip = response.meta.description;
                 const newTitle = '<a href="#" class="wps-tooltip" title="' + tooltip + '"><i class="wps-tooltip-icon"></i></a>';
-                if (tooltip) jQuery(selector).append(newTitle);
+                if (tooltip) selector.append(newTitle);
             }
         }
 
