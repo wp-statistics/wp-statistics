@@ -7250,5 +7250,25 @@
         "pattern": "/utm_medium=.*(affiliate)$/i"
       }
     ]
+  },
+
+  {
+    "type": "audio",
+    "description": "Audio traffic",
+    "channels": [
+      {
+        "name": "Audio",
+        "identifier": "audio",
+        "domains": [
+          "*"
+        ]
+      }
+    ],
+    "rules": [
+      {
+        "operator": "MATCH",
+        "pattern": "/utm_medium=.*(audio)$/i"
+      }
+    ]
   }
 ]
