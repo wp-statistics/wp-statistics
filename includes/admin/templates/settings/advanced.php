@@ -173,7 +173,7 @@ add_thickbox();
                         echo sprintf(
                             /* translators: %s: Link to learn about Cloudflare Geolocation */
                             esc_html__('Select the method to detect location data for visitors. For better performance, we recommend using the Cloudflare IP Geolocation method, which requires your domain to be on Cloudflare with \'Visitor Location Headers\' enabled. %s', 'wp-statistics'),
-                            '<a href="#" class="wps-text-decoration-underline">' . esc_html__('Learn more about setting up Cloudflare Geolocation', 'wp-statistics') . '</a>'
+                            '<a href="https://wp-statistics.com/resources/how-to-enable-cloudflare-ip-geolocation/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" class="wps-text-decoration-underline" target="_blank">' . esc_html__('Learn more about setting up Cloudflare Geolocation', 'wp-statistics') . '</a>'
                         );                      
                     ?>
                 </p>
