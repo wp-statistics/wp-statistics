@@ -251,7 +251,8 @@ if (wps_js.global.page.file === "index.php" || wps_js.is_active('overview_page')
         return new Promise((resolve, reject) => {
             let data = {
                 'action': `wp_statistics_${metaBoxKey}_metabox_get_data`,
-                'wps_nonce': wps_js.global.rest_api_nonce
+                'wps_nonce': wps_js.global.rest_api_nonce,
+                'current_page' :wps_js.global.page
             };
 
             if (date_filter) {
