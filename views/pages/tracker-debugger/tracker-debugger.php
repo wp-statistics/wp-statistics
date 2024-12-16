@@ -185,6 +185,80 @@ use WP_Statistics\Components\View;
                 <p><?php echo esc_html_e('Get detailed logs of recent user visits for accurate debugging.', 'wp-statistics'); ?></p>
             </div>
             <div class="wps-postbox-tracker__activity-table">
+                <div class="o-table-wrapper">
+                    <table width="100%" class="o-table wps-new-table">
+                        <thead>
+                        <tr>
+                            <th class="wps-pd-l">
+                                <?php echo esc_html_e('Timestamp', 'wp-statistics'); ?>
+                            </th>
+                            <th class="wps-pd-l">
+                                <?php echo esc_html_e('Visitor Information', 'wp-statistics'); ?>
+                            </th>
+                            <th class="wps-pd-l start">
+                                <?php echo esc_html_e('Location', 'wp-statistics'); ?>
+                            </th>
+                         </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="wps-pd-l">
+                                    25 seconds ago
+                                </td>
+                                <td class="wps-pd-l">
+<!--                                    --><?php
+//                                    View::load("components/visitor-information", ['visitor' => [$visitor]]);
+//                                    ?>
+                                </td>
+                                <td class="wps-pd-l">
+                                    <div class="wps-country-flag wps-ellipsis-parent">
+                                        <a target="" href="" class="wps-tooltip tooltipstered">
+                                            <img src="<?php echo esc_url(WP_STATISTICS_URL . '/assets/images/flags/de.svg') ?> " alt="Hesse, Frankfurt am Main" width="15" height="15">
+                                        </a>
+                                        <span class="wps-ellipsis-text" title="Hesse, Frankfurt am Main">Hesse, Frankfurt am Main</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="wps-pd-l">
+                                    25 seconds ago
+                                </td>
+                                <td class="wps-pd-l">
+                                    <!--                                    --><?php
+                                    //                                    View::load("components/visitor-information", ['visitor' => [$visitor]]);
+                                    //                                    ?>
+                                </td>
+                                <td class="wps-pd-l">
+                                    <div class="wps-country-flag wps-ellipsis-parent">
+                                        <a target="" href="" class="wps-tooltip tooltipstered">
+                                            <img src="<?php echo esc_url(WP_STATISTICS_URL . '/assets/images/flags/de.svg') ?> " alt="Hesse, Frankfurt am Main" width="15" height="15">
+                                        </a>
+                                        <span class="wps-ellipsis-text" title="Hesse, Frankfurt am Main">Hesse, Frankfurt am Main</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="wps-pd-l">
+                                    25 seconds ago
+                                </td>
+                                <td class="wps-pd-l">
+                                    <!--                                    --><?php
+                                    //                                    View::load("components/visitor-information", ['visitor' => [$visitor]]);
+                                    //                                    ?>
+                                </td>
+                                <td class="wps-pd-l">
+                                    <div class="wps-country-flag wps-ellipsis-parent">
+                                        <a target="" href="" class="wps-tooltip tooltipstered">
+                                            <img src="<?php echo esc_url(WP_STATISTICS_URL . '/assets/images/flags/de.svg') ?> " alt="Hesse, Frankfurt am Main" width="15" height="15">
+                                        </a>
+                                        <span class="wps-ellipsis-text" title="Hesse, Frankfurt am Main">Hesse, Frankfurt am Main</span>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
             </div>
         </div>
 

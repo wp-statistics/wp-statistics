@@ -104,5 +104,25 @@
         padding: 0;
       }
     }
+
+    &-table{
+      .o-table-wrapper{
+        border: 1px solid #EEEFF1;
+        border-radius: 8px;
+        tbody{
+          tr{
+            td:first-child{
+              font-size: 13px;
+              font-weight: 500;
+              line-height: 15.23px;
+            }
+
+            td .wps-country-flag .wps-ellipsis-text{
+              max-width: 400px!important;
+            }
+          }
+        }
+      }
+    }
   }
 }

@@ -35,12 +35,25 @@
       &__top {
         display: flex;
         justify-content: space-between;
+
+        @media(max-width: 650px){
+            flex-direction: column;
+            gap: 12px;
+
+          .wps-audit-card__status{
+            align-self: flex-end;
+          }
+        }
       }
 
       &__details {
         display: flex;
         align-items: center;
         gap: 12px;
+        
+        @media (max-width: 650px) {
+          align-items: flex-start;
+        }
 
         .wps-audit-card__icon {
           width: 44px;
