@@ -1,5 +1,15 @@
 <?php
 use WP_STATISTICS\Menus;
+use WP_Statistics\Utils\Request;
+
+$page = Request::get('current_page', [], 'array');
+$page = $page['file'] ?? '';
+
+if (strpos($page, 'overview') !== false) {
+    $viewTitle = esc_html__('View Content', 'wp-statistics');
+} else {
+    $viewTitle = esc_html__('View', 'wp-statistics');
+}
 ?>
 
 <div class="o-table-wrapper">
@@ -25,7 +35,7 @@ use WP_STATISTICS\Menus;
                         </td>
 
                         <td class="wps-pd-l wps-middle-vertical">
-                            <a target="_blank" class="wps-view-content" href="<?php the_permalink($item->ID) ?>"><?php esc_html_e('View', 'wp-statistics'); ?></a>
+                            <a target="_blank" class="wps-view-content" href="<?php the_permalink($item->ID) ?>"><?php echo esc_html($viewTitle); ?></a>
                         </td>
                     </tr>
                 <?php endforeach; ?>
