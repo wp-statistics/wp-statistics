@@ -753,6 +753,14 @@ class VisitorsModel extends BaseModel
     public function getVisitorsGeoData($args = [])
     {
         $args = $this->parseArgs($args, [
+            'fields'      => [
+                'visitor.city as city',
+                'visitor.location as country',
+                'visitor.region as region',
+                'visitor.continent as continent',
+                'COUNT(visitor.ID) as visitors',
+                'SUM(visitor.hits) as views', // All views are counted and results can't be filtered by author, post type, etc...
+            ],
             'date'        => '',
             'country'     => '',
             'city'        => '',
@@ -772,14 +780,7 @@ class VisitorsModel extends BaseModel
             'order'       => 'DESC',
         ]);
 
-        $query = Query::select([
-            'visitor.city as city',
-            'visitor.location as country',
-            'visitor.region as region',
-            'visitor.continent as continent',
-            'COUNT(DISTINCT visitor.ID) as visitors',
-            'SUM(visitor.hits) as views', // All views are counted and results can't be filtered by author, post type, etc...
-        ])
+        $query = Query::select($args['fields'])
             ->from('visitor')
             ->where('visitor.location', 'IN', $args['country'])
             ->where('visitor.city', 'IN', $args['city'])

@@ -26,9 +26,17 @@ class MapChartDataProvider extends AbstractChartDataProvider
 
     public function getData()
     {
+        $args = array_merge($this->args, [
+            'fields' => [
+                'visitor.location as country',
+                'COUNT(visitor.ID) as visitors'
+            ],
+            'order_by' => [],
+        ]);
+
         $this->initChartData();
 
-        $data       = $this->visitorsModel->getVisitorsGeoData($this->args);
+        $data       = $this->visitorsModel->getVisitorsGeoData($args);
         $parsedData = $this->parseData($data);
 
         $labels = wp_list_pluck($parsedData, 'label');
