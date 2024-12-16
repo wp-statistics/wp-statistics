@@ -1,4 +1,24 @@
-<div class="wps-flex wps-privacy-head">
+
+
+<div class="wps-privacy-audit__head">
+
+    <span class="wps-privacy-audit__status-icon"></span>
+    <div class="wps-privacy-audit__status-title">
+        <span>
+             <?php esc_html_e('Privacy Status', 'wp-statistics'); ?>
+        </span>
+        <h3>
+            <?php esc_html_e('Good', 'wp-statistics'); ?>
+        </h3>
+    </div>
+    <div class="wps-privacy-audit__status-description">
+        <?php esc_html_e('The Privacy Audit ensures WP Statistics settings comply with privacy standards, offering insights and actionable steps to protect user data.', 'wp-statistics'); ?>
+        <a href=""><?php esc_html_e('Learn more', 'wp-statistics'); ?></a>
+    </div>
+    <div  class="wps-privacy-audit__status-bar">
+
+    </div>
+
     <div class="postbox-container wps-half-card">
         <div class="postbox wps-postbox-wrap wps-privacy-mode">
             <div class="postbox-header">
