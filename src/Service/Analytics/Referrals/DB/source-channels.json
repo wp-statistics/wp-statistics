@@ -7270,5 +7270,25 @@
         "pattern": "/utm_medium=.*(audio)$/i"
       }
     ]
+  },
+
+  {
+    "type": "sms",
+    "description": "SMS traffic",
+    "channels": [
+      {
+        "name": "SMS",
+        "identifier": "sms",
+        "domains": [
+          "*"
+        ]
+      }
+    ],
+    "rules": [
+      {
+        "operator": "MATCH",
+        "pattern": "/(?:ref|source|utm_source|utm_medium)=(sms)(?:&|$)/i"
+      }
+    ]
   }
 ]
