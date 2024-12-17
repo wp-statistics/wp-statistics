@@ -2,11 +2,12 @@
 
 namespace WP_Statistics\Service\Admin\Overview;
 
+use WP_STATISTICS\Menus;
+use WP_Statistics\Utils\Request;
 use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Components\View;
 use WP_Statistics\Abstracts\BasePage;
-use WP_STATISTICS\Menus;
-use WP_Statistics\Utils\Request;
+use WP_Statistics\Service\Admin\ModalHandler\Modal;
 
 class OverviewPage extends BasePage
 {
@@ -25,6 +26,8 @@ class OverviewPage extends BasePage
             'title'     => esc_html__('Overview', 'wp-statistics'),
             'tooltip'   => esc_html__('Quickly view your website’s traffic and visitor analytics.', 'wp-statistics')
         ];
+
+        Modal::showOnce('welcome-premium');
 
         Admin_Template::get_template(['layout/header', 'layout/title'], $args);
         View::load(['pages/overview/overview'], $args);
