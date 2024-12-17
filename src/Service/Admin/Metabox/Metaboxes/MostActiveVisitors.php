@@ -8,7 +8,7 @@ use WP_STATISTICS\Menus;
 class MostActiveVisitors extends BaseMetabox
 {
     protected $key = 'most_active_visitors';
-    protected $priority = 'normal';
+    protected $context = 'normal';
 
     public function getName()
     {

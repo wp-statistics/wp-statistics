@@ -8,7 +8,7 @@ use WP_STATISTICS\Menus;
 class MostVisitedPages extends BaseMetabox
 {
     protected $key = 'most_visited_pages';
-    protected $priority = 'normal';
+    protected $context = 'normal';
 
     public function getName()
     {

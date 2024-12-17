@@ -11,7 +11,8 @@ use WP_Statistics\Utils\Request;
 abstract class BaseMetabox
 {
     protected $key;
-    protected $priority;
+    protected $context = 'normal';
+    protected $priority = 'default';
     protected $static = false;
     protected $dismissible = false;
     protected $dataProvider;
@@ -56,12 +57,31 @@ abstract class BaseMetabox
     }
 
     /**
-     * Returns the priority of the metabox (side, normal, advanced)
+     * Returns the context of the metabox (side, normal, advanced)
+     * @return string
+     */
+    public function getContext()
+    {
+        return $this->context;
+    }
+
+    /**
+     * Returns the priority of the metabox (low, default, high)
      * @return string
      */
     public function getPriority()
     {
         return $this->priority;
+    }
+
+
+    /**
+     * Returns the arguments for the metabox callback function (if any)
+     * @return array|null
+     */
+    public function getCallbackArgs()
+    {
+        return null;
     }
 
     /**
@@ -197,6 +217,6 @@ abstract class BaseMetabox
             Ajax::register($this->getKey() . '_metabox_get_data', [$this, 'getResponse'], false);
         }
 
-        add_meta_box($this->getKey(), $this->getName(), [$this, 'render'], $this->getScreen(), $this->getPriority());
+        add_meta_box($this->getKey(), $this->getName(), [$this, 'render'], $this->getScreen(), $this->getContext(), $this->getPriority(), $this->getCallbackArgs());
     }
 }

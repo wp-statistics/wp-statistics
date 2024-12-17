@@ -9,7 +9,7 @@ use WP_STATISTICS\Menus;
 class GlobalVisitorDistribution extends BaseMetabox
 {
     protected $key = 'global_visitor_distribution';
-    protected $priority = 'normal';
+    protected $context = 'normal';
 
     public function getName()
     {

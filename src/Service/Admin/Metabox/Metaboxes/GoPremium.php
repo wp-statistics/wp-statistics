@@ -9,7 +9,7 @@ use WP_STATISTICS\Option;
 class GoPremium extends BaseMetabox
 {
     protected $key = 'go_premium';
-    protected $priority = 'side';
+    protected $context = 'side';
     protected $dismissible = true;
     protected $static = true;
 

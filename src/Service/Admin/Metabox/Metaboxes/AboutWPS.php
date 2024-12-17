@@ -10,7 +10,7 @@ class AboutWPS extends BaseMetabox
 {
     protected $settings = [];
     protected $key = 'about_wps';
-    protected $priority = 'side';
+    protected $context = 'side';
     protected $static = true;
 
     public function __construct()
