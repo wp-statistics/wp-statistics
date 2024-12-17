@@ -658,7 +658,7 @@
     "rules": [
       {
         "operator": "MATCH",
-        "pattern": "/\\b(gclid|gad_source|msclkid)\\b|utm_medium=(.*cp.*|ppc|retargeting|paid.*)(?:&|$)/i"
+        "pattern": "/\\b(gclid|gad_source|msclkid|yclid|dclid)\\b|utm_medium=(.*cp.*|ppc|retargeting|paid.*)(?:&|$)/i"
       }
     ]
   },
@@ -3171,7 +3171,7 @@
     "rules": [
       {
         "operator": "MATCH",
-        "pattern": "/utm_medium=(.*cp.*|ppc|retargeting|paid.*)(?:&|$)/i"
+        "pattern": "/\\b(fbclid|li_fat_id|twclid|ttclid)\\b|utm_medium=(.*cp.*|ppc|retargeting|paid.*)(?:&|$)/i"
       }
     ]
   },
