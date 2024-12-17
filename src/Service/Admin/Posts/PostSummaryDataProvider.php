@@ -41,13 +41,13 @@ class PostSummaryDataProvider
      *
      * @throws  \Exception
      */
-    public function __construct($post)
+    public function __construct($postId)
     {
-        if (empty($post) || !$post instanceof \WP_Post) {
+        if (empty($postId)) {
             throw new \Exception('Invalid post!');
         }
 
-        $this->postId = $post->ID;
+        $this->postId = $postId;
 
         $this->setFrom(TimeZone::getTimeAgo(7));
         $this->setTo(TimeZone::getTimeAgo());

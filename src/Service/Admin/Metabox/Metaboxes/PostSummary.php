@@ -15,13 +15,6 @@ class PostSummary extends BaseMetabox
     protected $static = true;
     protected $data = [];
 
-    public function __construct()
-    {
-        parent::__construct();
-
-        $this->data = $this->dataProvider->getPostSummaryData();
-    }
-
     public function getName()
     {
         return esc_html__('Statistics - Summary', 'wp-statistics');
@@ -34,13 +27,18 @@ class PostSummary extends BaseMetabox
 
     public function getData()
     {
-        return false;
+        if (!empty($this->data)) return $this->data;
+
+        $this->data = $this->dataProvider->getPostSummaryData();
+        return $this->data;
     }
 
 
     public function isActive()
     {
-        return function_exists('get_current_screen') && get_current_screen()->base === 'post' && Request::compare('action', 'edit') && Request::has('post');
+        global $pagenow;
+
+        return $pagenow === 'post.php' && Request::compare('action', 'edit') && Request::has('post');
     }
 
     public function getScreen()
@@ -59,7 +57,7 @@ class PostSummary extends BaseMetabox
     {
         $styleFileName  = is_rtl() ? 'style-post-summary-rtl.css' : 'style-post-summary.css';
 
-        Assets::script('editor-sidebar', 'blocks/post-summary/post-summary.js', ['wp-plugins', 'wp-editor'], $this->data);
+        Assets::script('editor-sidebar', 'blocks/post-summary/post-summary.js', ['wp-plugins', 'wp-editor'], $this->getData());
         Assets::style('editor-sidebar', "blocks/post-summary/$styleFileName");
     }
 
@@ -74,6 +72,6 @@ class PostSummary extends BaseMetabox
             return;
         }
 
-        View::load('components/meta-box/post-summary', ['summary' => $this->data]);
+        View::load('components/meta-box/post-summary', ['summary' => $this->getData()]);
     }
 }

@@ -172,12 +172,12 @@ class PostsManager
      *  - `postChartSettings`
      *  - `contentAnalyticsUrl`
      */
-    public static function getPostStatisticsSummary($post)
+    public static function getPostStatisticsSummary($postId)
     {
         $dataProvider    = null;
         $miniChartHelper = new MiniChartHelper();
         try {
-            $dataProvider = new PostSummaryDataProvider($post);
+            $dataProvider = new PostSummaryDataProvider($postId);
         } catch (\Exception $e) {
             return null;
         }

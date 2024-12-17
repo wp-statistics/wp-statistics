@@ -155,7 +155,6 @@ final class WP_Statistics
 
         $referrals      = new ReferralsManager();
         $postsManager   = new PostsManager();
-        $metaboxManager = new MetaboxManager();
         $userOnline     = new \WP_STATISTICS\UserOnline();
 
         // Admin classes
@@ -190,6 +189,7 @@ final class WP_Statistics
             $integrationsManager = new IntegrationsManager();
             $licenseManager      = new LicenseManagementManager();
             $overviewManager     = new OverviewManager();
+            $metaboxManager      = new MetaboxManager();
         }
 
         $hooksManager = new HooksManager();

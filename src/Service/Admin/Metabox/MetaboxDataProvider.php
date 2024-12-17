@@ -98,8 +98,8 @@ class MetaboxDataProvider
 
     public function getPostSummaryData($args = [])
     {
-        global $post;
-        return PostsManager::getPostStatisticsSummary($post);
+        $postId = Request::get('post', '', 'number');
+        return PostsManager::getPostStatisticsSummary($postId);
     }
 
     public function getSinglePostData($args = [])
