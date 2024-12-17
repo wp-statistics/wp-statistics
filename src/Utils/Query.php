@@ -12,6 +12,7 @@ class Query
 {
     use TransientCacheTrait;
 
+    private $queries = [];
     private $operation;
     private $table;
     private $fields = '*';
@@ -60,6 +61,14 @@ class Query
         return $instance;
     }
 
+    public static function union($queries)
+    {
+        $instance            = new self();
+        $instance->operation = 'union';
+        $instance->queries   = $queries;
+
+        return $instance;
+    }
 
     public function set($values)
     {
@@ -669,6 +678,29 @@ class Query
         if (!empty($this->rawWhereClause)) {
             $query .= empty($this->whereClauses) ? ' WHERE ' : ' ';
             $query .= implode(' ', $this->rawWhereClause);
+        }
+
+        return $query;
+    }
+
+    protected function unionQuery()
+    {
+        $query = '';
+
+        foreach ($this->queries as $key => $value) {
+            $this->queries[$key] = "($value)";
+        }
+
+        $query = implode(' UNION ', $this->queries);
+
+        // Append ORDER clauses
+        if (!empty($this->orderClause)) {
+            $query .= ' ' . $this->orderClause;
+        }
+
+        // Append LIMIT clauses
+        if (!empty($this->limitClause)) {
+            $query .= ' ' . $this->limitClause;
         }
 
         return $query;
