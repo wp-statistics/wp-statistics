@@ -51,26 +51,26 @@
                             <div class="wps-audit-card__recommended-list">
                                 <span class="wps-audit-card__recommended-icon wps-audit-card__recommended-icon__complianz"></span>
                                 <div class="wps-audit-card__recommended-detail">
-                                    <a href=""><?php echo esc_html__('Complianz GDPR/CCPA', 'wp-statistics') ?></a>
+                                    <a href="" target="_blank" class="wps-external-link"><?php echo esc_html__('Complianz GDPR/CCPA', 'wp-statistics') ?></a>
                                     <p><?php echo esc_html__('A comprehensive solution for cookie consent, privacy policies, and compliance.', 'wp-statistics') ?></p>
                                 </div>
                             </div>
                             <div class="wps-audit-card__recommended-list">
                                 <span class="wps-audit-card__recommended-icon wps-audit-card__recommended-icon__cookiebot"></span>
                                 <div class="wps-audit-card__recommended-detail">
-                                    <a href=""><?php echo esc_html__('Cookiebot', 'wp-statistics') ?></a>
+                                    <a href="" target="_blank" class="wps-external-link"><?php echo esc_html__('Cookiebot', 'wp-statistics') ?></a>
                                     <p><?php echo esc_html__('Simplifies cookie consent automation and user preference tracking.', 'wp-statistics') ?></p>
                                 </div>
                             </div>
                             <div class="wps-audit-card__recommended-list">
                                 <span class="wps-audit-card__recommended-icon wps-audit-card__recommended-icon__compliance"></span>
                                 <div class="wps-audit-card__recommended-detail">
-                                    <a href=""><?php echo esc_html__('GDPR Cookie Compliance', 'wp-statistics') ?></a>
+                                    <a href="" target="_blank" class="wps-external-link"><?php echo esc_html__('GDPR Cookie Compliance', 'wp-statistics') ?></a>
                                     <p><?php echo esc_html__('Customizable and user-friendly cookie banners for GDPR/CCPA compliance.', 'wp-statistics') ?></p>
                                 </div>
                             </div>
                         </div>
-                        <a href="" class="wps-audit-card__recommended-link">View Full List of Recommended Plugins</a>
+                        <a href="" class="wps-audit-card__recommended-link wps-external-link">View Full List of Recommended Plugins</a>
                     </div>
 
                 </div>
