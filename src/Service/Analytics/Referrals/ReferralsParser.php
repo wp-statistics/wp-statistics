@@ -134,7 +134,7 @@ class ReferralsParser
     public function checkRules($rules, $pageUrl)
     {
         // If pageUrl is empty, set it to empty string
-        $pageUrl = !empty($pageUrl) ? $pageUrl : '';
+        $pageUrl = !empty($pageUrl) ? strtolower($pageUrl) : '';
 
         foreach ($rules as $rule) {
             switch ($rule['operator']) {
