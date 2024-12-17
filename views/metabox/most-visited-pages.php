@@ -50,7 +50,7 @@ if (strpos($page, 'overview') !== false) {
                         </td>
 
                         <td class="wps-pd-l wps-middle-vertical">
-                            <a target="_blank" class="wps-view-content" href="<?php $page['link'] ?>"><?php echo esc_html($viewTitle); ?></a>
+                            <a target="_blank" class="wps-view-content" href="<?php echo esc_url($page['link']) ?>"><?php echo esc_html($viewTitle); ?></a>
                         </td>
                     </tr>
                 <?php endforeach; ?>
