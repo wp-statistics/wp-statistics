@@ -18,6 +18,7 @@ use WP_Statistics\Service\Admin\Metabox\Metaboxes\OperatingSystems;
 use WP_Statistics\Service\Admin\Metabox\Metaboxes\AboutWPS;
 use WP_Statistics\Service\Admin\Metabox\Metaboxes\GoPremium;
 use WP_Statistics\Service\Admin\Metabox\Metaboxes\GlobalVisitorDistribution;
+use WP_Statistics\Service\Admin\Metabox\Metaboxes\PostSummary;
 
 class MetaboxHelper
 {
@@ -38,6 +39,7 @@ class MetaboxHelper
         AboutWPS::class,
         GoPremium::class,
         GlobalVisitorDistribution::class,
+        PostSummary::class
     ];
 
     /**

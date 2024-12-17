@@ -1,13 +1,14 @@
 <?php
 namespace WP_Statistics\Service\Admin\Metabox;
 
-use WP_Statistics\Components\DateRange;
-use WP_Statistics\Models\OnlineModel;
-use WP_Statistics\Models\PostsModel;
-use WP_Statistics\Models\VisitorsModel;
-use WP_Statistics\Models\ViewsModel;
-use WP_Statistics\Service\Charts\ChartDataProviderFactory;
 use WP_Statistics\Utils\Request;
+use WP_Statistics\Models\PostsModel;
+use WP_Statistics\Models\ViewsModel;
+use WP_Statistics\Models\OnlineModel;
+use WP_Statistics\Components\DateRange;
+use WP_Statistics\Models\VisitorsModel;
+use WP_Statistics\Service\Admin\Posts\PostsManager;
+use WP_Statistics\Service\Charts\ChartDataProviderFactory;
 
 class MetaboxDataProvider
 {
@@ -93,6 +94,12 @@ class MetaboxDataProvider
     public function getTopCountiesData($args = [])
     {
         return $this->visitorsModel->getVisitorsGeoData(array_merge($args, ['per_page' => 10, 'not_null' => 'location']));
+    }
+
+    public function getPostSummaryData($args = [])
+    {
+        global $post;
+        return PostsManager::getPostStatisticsSummary($post);
     }
 
     public function getSinglePostData($args = [])
