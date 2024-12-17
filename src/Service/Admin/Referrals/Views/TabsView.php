@@ -89,13 +89,23 @@ class TabsView extends BaseTabView
                         'link'  => Menus::admin_url('referrals', ['tab' => 'search-engines']),
                         'title' => esc_html__('Search Engines', 'wp-statistics'),
                         'class' => $this->isTab('search-engines') ? 'current' : '',
-                    ]
+                    ],
+                    [
+                        'link'  => Menus::admin_url('referrals', ['tab' => 'source-categories']),
+                        'title' => esc_html__('Source Categories', 'wp-statistics'),
+                        'class' => $this->isTab('source-categories') ? 'current' : '',
+                    ],
                 ]
             ];
 
             // Add referrer filter if tab is referred visitors
             if ($this->isTab('referred-visitors')) {
                 array_unshift($args['filters'], 'referrer');
+            }
+
+            // Remove source channels filter if tab is source categories
+            if ($this->isTab('source-categories')) {
+                $args['filters'] = array_values(array_diff($args['filters'], ['source-channels']));
             }
 
             Admin_Template::get_template(['layout/header', 'layout/tabbed-page-header'], $args);
