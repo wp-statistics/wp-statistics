@@ -1,11 +1,6 @@
 wps_js.set_content = function(response, key) {
     if (response && response.response) {
-        if(key !== 'post_latest_visitors'){
-            wps_js.metaBoxInner(key).html(response.response);
-
-        }else {
-            wps_js.metaBoxInner('wp-statistics-post-widget').html(response.response);
-        }
+        wps_js.metaBoxInner(key).html(response.response);
         wps_js.initDatePickerHandlers();
     }
 };
