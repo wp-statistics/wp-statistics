@@ -5,9 +5,6 @@ use WP_Statistics\Components\View;
 use WP_Statistics\Abstracts\BaseMetabox;
 use WP_Statistics\Components\Assets;
 use WP_STATISTICS\Helper;
-use WP_STATISTICS\Menus;
-use WP_STATISTICS\Option;
-use WP_Statistics\Service\Admin\Posts\PostsManager;
 use WP_Statistics\Utils\Request;
 
 class PostSummary extends BaseMetabox
