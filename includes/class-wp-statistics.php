@@ -153,9 +153,10 @@ final class WP_Statistics
         // Ajax area
         require_once WP_STATISTICS_DIR . 'includes/admin/class-wp-statistics-admin-template.php';
 
-        $referrals    = new ReferralsManager();
-        $postsManager = new PostsManager();
-        $userOnline   = new \WP_STATISTICS\UserOnline();
+        $referrals      = new ReferralsManager();
+        $postsManager   = new PostsManager();
+        $metaboxManager = new MetaboxManager();
+        $userOnline     = new \WP_STATISTICS\UserOnline();
 
         // Admin classes
         if (is_admin()) {
@@ -188,7 +189,6 @@ final class WP_Statistics
             $visitorInsights     = new VisitorInsightsManager();
             $integrationsManager = new IntegrationsManager();
             $licenseManager      = new LicenseManagementManager();
-            $metaboxManager      = new MetaboxManager();
             $overviewManager     = new OverviewManager();
         }
 

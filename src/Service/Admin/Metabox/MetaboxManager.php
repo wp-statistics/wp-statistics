@@ -8,7 +8,7 @@ class MetaboxManager
 {
     public function __construct()
     {
-        add_action('admin_init', [$this, 'registerMetaboxes']);
+        add_action('add_meta_boxes', [$this, 'registerMetaboxes'], 99999);
     }
 
     /**
