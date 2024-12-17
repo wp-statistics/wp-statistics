@@ -80,9 +80,7 @@ class MetaboxDataProvider
 
     public function getTopPages($args = [])
     {
-        return $this->postsModel->getPostsViewsData(array_merge($args, [
-            'per_page' => 10
-        ]));
+        return $this->viewsModel->getResourcesViews();
     }
 
     public function getOnlineVisitorsData($args = [])

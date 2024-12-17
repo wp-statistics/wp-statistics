@@ -243,4 +243,51 @@ class ViewsModel extends BaseModel
 
         return $results;
     }
+
+    public function getResourcesViews($args = [])
+    {
+        $args = $this->parseArgs($args, [
+            'fields'        => ['id', 'uri', 'type', 'SUM(count) as views'],
+            'resource_id'   => '',
+            'resource_type' => '',
+            'date'          => '',
+            'page'          => 1,
+            'per_page'      => 10
+        ]);
+
+        // If resource_id and resource_type are empty, get all views including 404, categories, home, etc...
+        if (empty($args['resource_id']) && empty($args['resource_type'])) {
+            $queries = [];
+
+            $queries[] = Query::select($args['fields'])
+                ->from('pages')
+                ->where('id', '!=', '0')
+                ->whereDate('date', $args['date'])
+                ->groupBy('id')
+                ->getQuery();
+
+            $queries[] = Query::select($args['fields'])
+                ->from('pages')
+                ->where('id', '=', '0')
+                ->whereDate('date', $args['date'])
+                ->groupBy(['uri', 'type'])
+                ->getQuery();
+
+            $results = Query::union($queries)
+                ->perPage($args['page'], $args['per_page'])
+                ->orderBy('views', 'DESC')
+                ->getAll();
+        } else {
+            $results = Query::select($args['fields'])
+                ->from('pages')
+                ->where('id', '=', $args['resource_id'])
+                ->where('type', 'IN', $args['resource_type'])
+                ->whereDate('date', $args['date'])
+                ->perPage($args['page'], $args['per_page'])
+                ->groupBy('id')
+                ->getAll();
+        }
+
+        return $results;
+    }
 }
