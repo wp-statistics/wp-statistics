@@ -620,6 +620,7 @@ body .o-table-wrapper table.wps-new-table {
 
             &:hover {
               border-bottom: 0.5px solid #0C0C0D;
+              cursor: pointer;
 
               span {
                 &:first-child, &:last-child {
