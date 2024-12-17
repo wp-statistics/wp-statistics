@@ -31,7 +31,8 @@ class Referrals
             $referrer = urldecode($referrer);
         }
 
-        return $referrer;
+        // Return empty string if referrer is internal, otherwise return the referrer
+        return !Url::isInternal($referrer) ? $referrer : '';
     }
 
     /**
@@ -47,7 +48,7 @@ class Referrals
         $referrer = empty($referrer) ? self::getRawUrl() : $referrer;
 
         // If referrer is empty, or internal, return
-        if (empty($referrer) || Url::isInternal($referrer)) return '';
+        if (empty($referrer)) return '';
 
         // Sanitize url
         $referrer = sanitize_url($referrer);

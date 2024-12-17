@@ -103,7 +103,6 @@ class Schedule
         //Construct Event
         add_action('wp_statistics_geoip_hook', array($this, 'geoip_event'));
         add_action('wp_statistics_report_hook', array($this, 'send_report'));
-        add_action('wp_statistics_referrals_db_hook', [$this, 'referrals_db_event']);
         add_action('wp_statistics_licenses_hook', [$this, 'migrateOldLicenses']);
 
         Event::schedule('wp_statistics_check_licenses_status', time(), 'weekly', [$this, 'check_licenses_status']);
@@ -266,15 +265,6 @@ class Schedule
     {
         $purge_days = intval(Option::get('schedule_dbmaint_days', false));
         Purge::purge_data($purge_days);
-    }
-
-    /**
-     * Download Referrals Database
-     */
-    public function referrals_db_event()
-    {
-        $referralsDatabase = new ReferralsDatabase();
-        $referralsDatabase->download();
     }
 
     public function getEmailSubject()

@@ -680,6 +680,9 @@ class Install
         if (function_exists('wp_clear_scheduled_hook')) {
             // Remove unused cron job for purging high hit count visitors daily
             wp_clear_scheduled_hook('wp_statistics_dbmaint_visitor_hook');
+
+            // Remove referral db update cron
+            wp_clear_scheduled_hook('wp_statistics_referrals_db_hook');
         }
 
         /**

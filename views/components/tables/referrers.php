@@ -28,9 +28,13 @@ use WP_Statistics\Service\Analytics\Referrals\SourceChannels;
                             <?php /** @var ReferralDecorator $referrer */ ?>
                             <tr>
                                 <td class="wps-pd-l">
-                                    <a href="<?php echo esc_url($referrer->getReferrer()) ?>" title="<?php echo esc_html($referrer->getRawReferrer()) ?>" target="_blank" class="wps-link-arrow">
-                                        <span><?php echo esc_html($referrer->getRawReferrer()) ?></span>
-                                    </a>
+                                    <?php if (!empty($referrer->getRawReferrer())) : ?>
+                                        <a href="<?php echo esc_url($referrer->getReferrer()) ?>" title="<?php echo esc_html($referrer->getRawReferrer()) ?>" target="_blank" class="wps-link-arrow">
+                                            <span><?php echo esc_html($referrer->getRawReferrer()) ?></span>
+                                        </a>
+                                    <?php else : ?>
+                                        <?php echo Admin_Template::UnknownColumn() ?>
+                                    <?php endif; ?>
                                 </td>
 
                                 <td class="wps-pd-l">

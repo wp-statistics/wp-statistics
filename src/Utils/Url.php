@@ -73,6 +73,28 @@ class Url
     }
 
     /**
+     * Checks if a specified query parameter exists in a given URL and returns its value.
+     *
+     * @param string $url The URL to check.
+     * @param string $param The query parameter to search for.
+     * @return mixed The value of the query parameter if found, or null if not.
+     */
+    public static function getParam($url, $param)
+    {
+        // Parse URL
+        $parsedUrl = wp_parse_url($url);
+
+        // If query param is empty, return early
+        if (empty($parsedUrl['query'])) return null;
+
+        // Parse query string
+        parse_str($parsedUrl['query'], $params);
+
+        // Return the query parameter value
+        return $params[$param] ?? null;
+    }
+
+    /**
      * Checks if a given URL is internal by comparing its domain to the current website domain.
      *
      * @param string $url The URL to check.

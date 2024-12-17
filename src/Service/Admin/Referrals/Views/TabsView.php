@@ -98,6 +98,11 @@ class TabsView extends BaseTabView
                 array_unshift($args['filters'], 'referrer');
             }
 
+            // Add search channels filter if tab is search engines
+            if ($this->isTab('search-engines')) {
+                $args['filters'] = ['search-channels'];
+            }
+
             Admin_Template::get_template(['layout/header', 'layout/tabbed-page-header'], $args);
             View::load("pages/referrals/$template", $args);
             Admin_Template::get_template(['layout/postbox.hide', 'layout/referrer.filter', 'layout/footer'], $args);
