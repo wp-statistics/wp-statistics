@@ -204,7 +204,7 @@ class PostsManager
         if (empty(is_post_type_viewable($postType))) {
             return;
         }
-        
+
         if ($this->shouldDisplaySummaryMetabox()) {
             add_meta_box(
                 Meta_Box::getMetaBoxKey('post-summary'),
@@ -214,21 +214,6 @@ class PostsManager
                 'side',
                 'high',
                 ['__back_compat_meta_box' => false]
-            );
-        }
-
-        if ($this->shouldDisplayLatestVisitorsMetabox()) {
-            add_meta_box(
-                Meta_Box::getMetaBoxKey('post'),
-                Meta_Box::getList('post')['name'],
-                Meta_Box::LoadMetaBox('post'),
-                $postType,
-                'normal',
-                'high',
-                [
-                    '__block_editor_compatible_meta_box' => true,
-                    '__back_compat_meta_box'             => false,
-                ]
             );
         }
     }
