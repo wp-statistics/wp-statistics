@@ -1,11 +1,13 @@
 <?php
 namespace WP_Statistics\Service\Admin\Metabox;
 
+use WP_Statistics\Components\DateRange;
 use WP_Statistics\Models\OnlineModel;
 use WP_Statistics\Models\PostsModel;
 use WP_Statistics\Models\VisitorsModel;
 use WP_Statistics\Models\ViewsModel;
 use WP_Statistics\Service\Charts\ChartDataProviderFactory;
+use WP_Statistics\Utils\Request;
 
 class MetaboxDataProvider
 {
@@ -91,6 +93,23 @@ class MetaboxDataProvider
     public function getTopCountiesData($args = [])
     {
         return $this->visitorsModel->getVisitorsGeoData(array_merge($args, ['per_page' => 10, 'not_null' => 'location']));
+    }
+
+    public function getSinglePostData($args = [])
+    {
+        $currentPage = Request::get('current_page', [], 'array');
+
+        $args = [
+            'post_id'       => $currentPage['ID'] ?? 0,
+            'date_field'    => 'pages.date',
+            'date'          => DateRange::get('14days'),
+            'page_info'     => true,
+            'user_info'     => true,
+            'page'          => 1,
+            'per_page'      => 15,
+        ];
+
+        return $this->visitorsModel->getVisitorsData($args);
     }
 
     public function getTrafficChartData($args = [])
