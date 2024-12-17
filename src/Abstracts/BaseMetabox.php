@@ -140,6 +140,18 @@ abstract class BaseMetabox
     }
 
     /**
+     * Enqueues the required scripts and styles for the metabox.
+     *
+     * This can be overridden in child classes to enqueue custom assets.
+     *
+     * @return void
+     */
+    public function enqueueAssets()
+    {
+
+    }
+
+    /**
      * Stores the filters for the metabox.
      *
      * @return void
@@ -212,6 +224,8 @@ abstract class BaseMetabox
      */
     public function register()
     {
+        $this->enqueueAssets();
+
         // If widget is not static, register ajax callback to get dynamic data
         if (!$this->isStatic()) {
             Ajax::register($this->getKey() . '_metabox_get_data', [$this, 'getResponse'], false);
