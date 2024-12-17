@@ -465,6 +465,7 @@ class Admin_Assets
             'view'                         => __('View', 'wp-statistics'),
             'waiting'                      => __('Waiting', 'wp-statistics'),
             'continue_to_next_step'        => __('Continue to Next Step', 'wp-statistics'),
+            'action_required'              => __('Action Required', 'wp-statistics'),
             'start_of_week'                => get_option('start_of_week', 0)
         );
 

@@ -96,11 +96,15 @@ class PrivacyAuditDataProvider
             if (empty($auditState)) continue;
 
             $auditItem = [
-                'name'      => $key, 
-                'title'     => $auditState['title'], 
-                'notes'     => $auditState['notes'],
-                'status'    => $auditState['status'], 
-                'compliance'=> $auditState['compliance'],
+                'name'             => $key,
+                'title'            => $auditState['title'],
+                'notes'            => $auditState['notes'],
+                'status'           => $auditState['status'],
+                'compliance'       => $auditState['compliance'],
+                'suggestion_title' => $auditState['suggestion_title'],
+                'info_title'       => $auditState['info_title'],
+                'info'             => $auditState['info'],
+                'suggestion'       => $auditState['suggestion'],
             ];
 
             // If audit has action in the current state, add it to the audit item array.
@@ -132,10 +136,15 @@ class PrivacyAuditDataProvider
             if (empty($faq)) continue;
 
             $list[] = [
-                'title'     => $faq['title'], 
-                'summary'   => $faq['summary'], 
-                'notes'     => $faq['notes'],
-                'status'    => $faq['status']
+                'title'            => $faq['title'],
+                'summary'          => $faq['summary'],
+                'notes'            => $faq['notes'],
+                'status'           => $faq['status'],
+                'suggestion_title' => $faq['suggestion_title'],
+                'info_title'       => $faq['info_title'],
+                'info'             => $faq['info'],
+                'suggestion'       => $faq['suggestion'],
+                'icon'             => $faq['icon'],
             ];
         }
 

@@ -89,21 +89,29 @@ abstract class ResolvableAudit extends BaseAudit
         $unpassedInfo   = static::getUnpassedStateInfo();
 
         return [
-            'passed' => [
-                'status'     => 'success',
-                'title'      => $passedInfo['title'],
-                'notes'      => $passedInfo['notes'],
-                'compliance' => [
+            'passed'          => [
+                'status'           => 'success',
+                'title'            => $passedInfo['title'],
+                'notes'            => $passedInfo['notes'],
+                'suggestion'       => $passedInfo['suggestion'],
+                'suggestion_title' => $passedInfo['suggestion_title'],
+                'info'             => $passedInfo['info'],
+                'info_title'       => $passedInfo['info_title'],
+                'compliance'       => [
                     'key'   => 'passed',
                     'value' => esc_html__('Passed', 'wp-statistics'),
                 ],
             ],
-            'resolved' => [
-                'status'        => 'success',
-                'title'         => $unpassedInfo['title'],
-                'notes'         => $unpassedInfo['notes'],
-                'compliance'    => [
-                    'key'   =>'resolved',
+            'resolved'        => [
+                'status'           => 'success',
+                'title'            => $unpassedInfo['title'],
+                'notes'            => $unpassedInfo['notes'],
+                'suggestion'       => $unpassedInfo['suggestion'],
+                'suggestion_title' => $unpassedInfo['suggestion_title'],
+                'info'             => $unpassedInfo['info'],
+                'info_title'       => $unpassedInfo['info_title'],
+                'compliance'       => [
+                    'key'   => 'resolved',
                     'value' => esc_html__('Resolved', 'wp-statistics'),
                 ],
                 'action'    => [
@@ -112,10 +120,15 @@ abstract class ResolvableAudit extends BaseAudit
                 ]
             ],
             'action_required' => [
-                'status'        => 'warning',
-                'title'         => $unpassedInfo['title'],
-                'notes'         => $unpassedInfo['notes'],
-                'compliance'    => [
+                'status'           => 'warning',
+                'title'            => $unpassedInfo['title'],
+                'notes'            => $unpassedInfo['notes'],
+                'suggestion'       => $unpassedInfo['suggestion'],
+                'suggestion_title' => $unpassedInfo['suggestion_title'],
+                'info'             => $unpassedInfo['info'],
+                'info_title'       => $unpassedInfo['info_title'],
+
+                'compliance' => [
                     'key'   => 'action_required',
                     'value' => esc_html__('Action Required', 'wp-statistics'),
                 ],
