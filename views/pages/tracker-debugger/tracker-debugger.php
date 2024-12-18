@@ -149,13 +149,37 @@ use WP_Statistics\Components\View;
                                 </svg>',
                     'title'       => __('No Filters or Exceptions are Applied', 'wp-statistics'),
                     'description' => __('All visitors are being tracked without exclusions.', 'wp-statistics'),
-                    'content'     => __('<ul>
-                                    <li>IP Addresses: [List of IPs]</li>   
-                                    <li>Roles: [List of roles]</li>   
-                                    <li>Countries: [List of countries]</li>   
-                                    <li>URLs: [List of URLs]</li>   
-                                    </ul>', 'wp-statistics'),
-                    'suggestion'  => __('Review these filters in Settings > Filtering & Exceptions. Update if necessary. Learn more.', 'wp-statistics'),
+                    'content'     => __('<div class="wps-postbox-tracker__filter-lists">
+                                            <div class="wps-postbox-tracker__filter-list">
+                                                <h3 class="wps-postbox-tracker__filter-title">IP Addresses:</h3>
+                                                <div class="wps-postbox-tracker__filter-content">
+                                                    <p>192.168.1.1</p>
+                                                    <p>192.168.1.2</p>
+                                                </div>
+                                            </div>
+                                            <div class="wps-postbox-tracker__filter-list">
+                                                <h3 class="wps-postbox-tracker__filter-title">Roles:</h3>
+                                                <div class="wps-postbox-tracker__filter-content">
+                                                    <p>Administrator</p>
+                                                </div>
+                                            </div>
+                                            <div class="wps-postbox-tracker__filter-list">
+                                                <h3 class="wps-postbox-tracker__filter-title">Countries:</h3>
+                                                <div class="wps-postbox-tracker__filter-content">
+                                                    <p>South Africa</p>
+                                                    <p>Brazil</p>
+                                                </div>
+                                            </div>
+                                            <div class="wps-postbox-tracker__filter-list">
+                                                <h3 class="wps-postbox-tracker__filter-title">URLs:</h3>
+                                                <div class="wps-postbox-tracker__filter-content">
+                                                    <p>veronalabs.com</p>
+                                                    <p>wp-sms-pro.com</p>
+                                                    <p>wp-statistics.com</p>
+                                                </div>
+                                            </div>
+                                        </div>', 'wp-statistics'),
+                    'suggestion'  => __('Review these filters in Settings > Filtering & Exceptions. Update if necessary. <a href="">Learn more</a>  .', 'wp-statistics'),
                     'status'      => 'success'
                 ];
                 View::load("components/audit-card", $item);
