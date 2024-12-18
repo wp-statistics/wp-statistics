@@ -301,7 +301,7 @@ if (wps_js.global.page.file === "index.php" || wps_js.is_active('overview_page')
     if (wps_js.global.page.file === "index.php" || wps_js.is_active('overview_page')) {
         meta_list.forEach((metaBoxKey) => {
 
-            if (metaBoxKey !== "post_latest_visitors") {
+            if (metaBoxKey !== "post_latest_visitors" || metaBoxKey !== "post_latest_visitors_locked ") {
                 loadMetaBoxData(metaBoxKey).then(response => {
                     wps_js.handleMetaBoxRender(response, metaBoxKey);
                 });
@@ -317,11 +317,16 @@ if (wps_js.global.page.file === "index.php" || wps_js.is_active('overview_page')
 
     if (wps_js.global.page.file === "post-new.php" ||
         (wps_js.global.page.file === "post.php" && wps_js.isset(wps_js.global, 'page', 'ID'))) {
-        const metaBoxKey = "post_latest_visitors";
-        loadMetaBoxData(metaBoxKey).then(response => {
-            wps_js.handleMetaBoxRender(response, metaBoxKey);
+
+        const metaBoxKeys = ["post_latest_visitors", "post_latest_visitors_locked"];
+
+        metaBoxKeys.forEach((metaBoxKey) => {
+            loadMetaBoxData(metaBoxKey).then(response => {
+                wps_js.handleMetaBoxRender(response, metaBoxKey);
+            });
         });
     }
+
 
         // Export utility functions
     wps_js.metaBoxInner = key => jQuery('#' + key + ' .inside');
