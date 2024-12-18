@@ -181,63 +181,6 @@ wps_js.redirect = function (url) {
     window.location.replace(url);
 };
 
-/**
- * Create Line Chart JS
- */
-wps_js.line_chart = function (tag_id, title, label, data, newOptions) {
-
-    // Get Element By ID
-    let ctx = document.getElementById(tag_id).getContext('2d');
-
-    // Check is RTL Mode
-    if (wps_js.is_active('rtl')) {
-        Chart.defaults.global = {
-            defaultFontFamily: "Tahoma"
-        }
-    }
-
-    const defaultOptions = {
-        type: 'line',
-        data: {
-            labels: label,
-            datasets: data
-        },
-        options: {
-            responsive: true,
-            legend: {
-                position: 'bottom',
-            },
-            animation: {
-                duration: 1500,
-            },
-            title: {
-                display: true,
-                text: title
-            },
-            tooltips: {
-                mode: 'index',
-                intersect: false,
-            },
-            interaction: {
-                intersect: false,
-                mode: 'index',
-            },
-            scales: {
-                y: {
-                    ticks: {
-                        stepSize: 1,
-                    }
-                },
-            }
-        }
-    };
-
-    const options = Object.assign({}, defaultOptions, newOptions);
-
-    // Create Chart
-    new Chart(ctx, options);
-};
-
 
 /**
  * Create Horizontal Bar Chart
@@ -309,42 +252,6 @@ wps_js.horizontal_bar = function (tag_id, labels, data, imageUrls) {
  */
 wps_js.chart_id = function (meta_box) {
     return 'wp-statistics-' + meta_box + '-meta-box-chart';
-};
-
-/**
- * Generate Flat Random Color
- */
-wps_js.random_color = function (i = false) {
-    let colors = [
-        [243, 156, 18, "#f39c12"],
-        [52, 152, 219, "#3498db"],
-        [192, 57, 43, "#c0392b"],
-        [155, 89, 182, "#9b59b6"],
-        [39, 174, 96, "#27ae60"],
-        [230, 126, 34, "#e67e22"],
-        [142, 68, 173, "#8e44ad"],
-        [46, 204, 113, "#2ecc71"],
-        [41, 128, 185, "#2980b9"],
-        [22, 160, 133, "#16a085"],
-        [211, 84, 0, "#d35400"],
-        [44, 62, 80, "#2c3e50"],
-        [241, 196, 15, "#f1c40f"],
-        [231, 76, 60, "#e74c3c"],
-        [26, 188, 156, "#1abc9c"],
-        [46, 204, 113, "#2ecc71"],
-        [52, 152, 219, "#3498db"],
-        [155, 89, 182, "#9b59b6"],
-        [52, 73, 94, "#34495e"],
-        [22, 160, 133, "#16a085"],
-        [39, 174, 96, "#27ae60"],
-        [44, 62, 80, "#2c3e50"],
-        [241, 196, 15, "#f1c40f"],
-        [230, 126, 34, "#e67e22"],
-        [231, 76, 60, "#e74c3c"],
-        [236, 240, 241, "#9b9e9f"],
-        [149, 165, 166, "#a65d20"]
-    ];
-    return colors[(i === false ? Math.floor(Math.random() * colors.length) : i)];
 };
 
 /**
