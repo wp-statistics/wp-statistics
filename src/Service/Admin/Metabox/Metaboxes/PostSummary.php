@@ -1,11 +1,12 @@
 <?php
 namespace WP_Statistics\Service\Admin\Metabox\Metaboxes;
 
-use WP_Statistics\Components\View;
-use WP_Statistics\Abstracts\BaseMetabox;
-use WP_Statistics\Components\Assets;
+use WP_STATISTICS\Option;
 use WP_STATISTICS\Helper;
 use WP_Statistics\Utils\Request;
+use WP_Statistics\Components\View;
+use WP_Statistics\Components\Assets;
+use WP_Statistics\Abstracts\BaseMetabox;
 
 class PostSummary extends BaseMetabox
 {
@@ -38,7 +39,7 @@ class PostSummary extends BaseMetabox
     {
         global $pagenow;
 
-        return $pagenow === 'post.php' && Request::compare('action', 'edit') && Request::has('post');
+        return $pagenow === 'post.php' && Request::compare('action', 'edit') && Request::has('post') && !Option::get('disable_editor');
     }
 
     public function getScreen()
