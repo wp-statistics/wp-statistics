@@ -22,6 +22,11 @@ class PostVisitorsLocked extends BaseMetabox
         return '';
     }
 
+    public function getScreen()
+    {
+        return Helper::getPostTypes();
+    }
+
     public function isActive()
     {
         return !Helper::isAddOnActive('data-plus');

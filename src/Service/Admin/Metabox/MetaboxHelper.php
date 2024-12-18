@@ -15,7 +15,6 @@ use WP_Statistics\Service\Admin\Metabox\Metaboxes\TrafficSummary;
 use WP_Statistics\Service\Admin\Metabox\Metaboxes\CurrentlyOnline;
 use WP_Statistics\Service\Admin\Metabox\Metaboxes\MostVisitedPages;
 use WP_Statistics\Service\Admin\Metabox\Metaboxes\OperatingSystems;
-use WP_Statistics\Service\Admin\Metabox\Metaboxes\SinglePostLocked;
 use WP_Statistics\Service\Admin\Metabox\Metaboxes\DailyTrafficTrend;
 use WP_Statistics\Service\Admin\Metabox\Metaboxes\MostActiveVisitors;
 use WP_Statistics\Service\Admin\Metabox\Metaboxes\DeviceUsageBreakdown;
