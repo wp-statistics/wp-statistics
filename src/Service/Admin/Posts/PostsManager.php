@@ -243,7 +243,7 @@ class PostsManager
         $dataProvider->setTo(TimeZone::getTimeAgo());
 
         return [
-            'postId'                     => $post->ID,
+            'postId'                     => $postId,
             'fromString'                 => $dataProvider->getFromString('', true),
             'toString'                   => $dataProvider->getToString('', true),
             'publishDateString'          => $publishDate,
