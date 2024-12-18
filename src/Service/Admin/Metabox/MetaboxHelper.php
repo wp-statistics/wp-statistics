@@ -2,23 +2,25 @@
 namespace WP_Statistics\Service\Admin\Metabox;
 
 use WP_Statistics\Abstracts\BaseMetabox;
-use WP_Statistics\Service\Admin\Metabox\Metaboxes\DailyTrafficTrend;
-use WP_Statistics\Service\Admin\Metabox\Metaboxes\TrafficSummary;
-use WP_Statistics\Service\Admin\Metabox\Metaboxes\SearchEngines;
-use WP_Statistics\Service\Admin\Metabox\Metaboxes\MostVisitedPages;
-use WP_Statistics\Service\Admin\Metabox\Metaboxes\MostActiveVisitors;
-use WP_Statistics\Service\Admin\Metabox\Metaboxes\LatestVisitor;
-use WP_Statistics\Service\Admin\Metabox\Metaboxes\TopCountries;
-use WP_Statistics\Service\Admin\Metabox\Metaboxes\TopReferring;
-use WP_Statistics\Service\Admin\Metabox\Metaboxes\BrowserUsage;
-use WP_Statistics\Service\Admin\Metabox\Metaboxes\DeviceUsageBreakdown;
-use WP_Statistics\Service\Admin\Metabox\Metaboxes\CurrentlyOnline;
-use WP_Statistics\Service\Admin\Metabox\Metaboxes\TopDeviceModel;
-use WP_Statistics\Service\Admin\Metabox\Metaboxes\OperatingSystems;
 use WP_Statistics\Service\Admin\Metabox\Metaboxes\AboutWPS;
 use WP_Statistics\Service\Admin\Metabox\Metaboxes\GoPremium;
-use WP_Statistics\Service\Admin\Metabox\Metaboxes\GlobalVisitorDistribution;
 use WP_Statistics\Service\Admin\Metabox\Metaboxes\PostSummary;
+use WP_Statistics\Service\Admin\Metabox\Metaboxes\BrowserUsage;
+use WP_Statistics\Service\Admin\Metabox\Metaboxes\TopCountries;
+use WP_Statistics\Service\Admin\Metabox\Metaboxes\TopReferring;
+use WP_Statistics\Service\Admin\Metabox\Metaboxes\LatestVisitor;
+use WP_Statistics\Service\Admin\Metabox\Metaboxes\SearchEngines;
+use WP_Statistics\Service\Admin\Metabox\Metaboxes\TopDeviceModel;
+use WP_Statistics\Service\Admin\Metabox\Metaboxes\TrafficSummary;
+use WP_Statistics\Service\Admin\Metabox\Metaboxes\CurrentlyOnline;
+use WP_Statistics\Service\Admin\Metabox\Metaboxes\MostVisitedPages;
+use WP_Statistics\Service\Admin\Metabox\Metaboxes\OperatingSystems;
+use WP_Statistics\Service\Admin\Metabox\Metaboxes\SinglePostLocked;
+use WP_Statistics\Service\Admin\Metabox\Metaboxes\DailyTrafficTrend;
+use WP_Statistics\Service\Admin\Metabox\Metaboxes\MostActiveVisitors;
+use WP_Statistics\Service\Admin\Metabox\Metaboxes\DeviceUsageBreakdown;
+use WP_Statistics\Service\Admin\Metabox\Metaboxes\GlobalVisitorDistribution;
+use WP_Statistics\Service\Admin\Metabox\Metaboxes\PostVisitorsLocked;
 
 class MetaboxHelper
 {
@@ -39,7 +41,8 @@ class MetaboxHelper
         AboutWPS::class,
         GoPremium::class,
         GlobalVisitorDistribution::class,
-        PostSummary::class
+        PostSummary::class,
+        PostVisitorsLocked::class
     ];
 
     /**
