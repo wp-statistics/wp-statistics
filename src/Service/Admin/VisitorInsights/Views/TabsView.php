@@ -5,8 +5,8 @@ namespace WP_Statistics\Service\Admin\VisitorInsights\Views;
 use Exception;
 use WP_Statistics\Components\View;
 use WP_STATISTICS\Menus;
+use WP_STATISTICS\Option;
 use WP_STATISTICS\Admin_Assets;
-use WP_STATISTICS\TimeZone;
 use WP_Statistics\Utils\Request;
 use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Abstracts\BaseTabView;
@@ -107,6 +107,7 @@ class TabsView extends BaseTabView
                         'title'   => esc_html__('Logged-in Users', 'wp-statistics'),
                         'tooltip' => esc_html__('Track engagement from logged-in users.', 'wp-statistics'),
                         'class'   => $this->isTab('logged-in-users') ? 'current' : '',
+                        'hidden'  => empty(Option::get('visitors_log'))
                     ]
                 ]
             ];
