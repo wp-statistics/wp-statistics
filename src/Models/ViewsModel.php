@@ -142,6 +142,25 @@ class ViewsModel extends BaseModel
         return $result ?? [];
     }
 
+    public function getHourlyViews($args = [])
+    {
+        $args = $this->parseArgs($args, [
+            'date' => ''
+        ]);
+
+        $result = Query::select([
+            'HOUR(date) as hour',
+            'COUNT(DISTINCT visitor_id) as visitors',
+            'COUNT(visitor_id) as views'
+            ])
+            ->from('visitor_relationships')
+            ->whereDate('visitor_relationships.date', $args['date'])
+            ->groupBy('hour')
+            ->getAll();
+
+        return $result;
+    }
+
     public function getViewsSummary($args = [])
     {
         if (empty($args['ignore_date'])) {
