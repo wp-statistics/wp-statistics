@@ -5,7 +5,6 @@ use WP_STATISTICS\Option;
 use WP_STATISTICS\Helper;
 use WP_Statistics\Utils\Request;
 use WP_Statistics\Components\View;
-use WP_Statistics\Components\Assets;
 use WP_Statistics\Abstracts\BaseMetabox;
 
 class PostSummary extends BaseMetabox
@@ -13,7 +12,6 @@ class PostSummary extends BaseMetabox
     protected $key = 'post_summary';
     protected $context = 'side';
     protected $priority = 'high';
-    protected $static = true;
 
     public function getName()
     {
