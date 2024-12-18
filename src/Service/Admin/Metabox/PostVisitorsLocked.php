@@ -34,6 +34,6 @@ class PostVisitorsLocked extends BaseMetabox
 
     public function render()
     {
-        View::load('metabox/metabox-skeleton', []);
+        View::load('metabox/pages-visitors-preview', []);
     }
 }
