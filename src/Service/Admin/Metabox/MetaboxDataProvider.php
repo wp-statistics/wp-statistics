@@ -1,17 +1,22 @@
 <?php
 namespace WP_Statistics\Service\Admin\Metabox;
 
+use WP_STATISTICS\Helper;
 use WP_Statistics\Utils\Request;
 use WP_Statistics\Models\PostsModel;
 use WP_Statistics\Models\ViewsModel;
 use WP_Statistics\Models\OnlineModel;
 use WP_Statistics\Components\DateRange;
+use WP_Statistics\Models\AuthorsModel;
+use WP_Statistics\Models\TaxonomyModel;
 use WP_Statistics\Models\VisitorsModel;
 use WP_Statistics\Service\Admin\Posts\PostsManager;
 use WP_Statistics\Service\Charts\ChartDataProviderFactory;
 
 class MetaboxDataProvider
 {
+    protected $taxonomyModel;
+    protected $authorsModel;
     protected $visitorsModel;
     protected $viewsModel;
     protected $onlineModel;
@@ -20,9 +25,11 @@ class MetaboxDataProvider
     public function __construct()
     {
         $this->visitorsModel    = new VisitorsModel();
+        $this->authorsModel     = new AuthorsModel();
         $this->viewsModel       = new ViewsModel();
         $this->onlineModel      = new OnlineModel();
         $this->postsModel       = new PostsModel();
+        $this->taxonomyModel    = new TaxonomyModel();
     }
 
     public function getTrafficSummaryData($args = [])
@@ -117,6 +124,60 @@ class MetaboxDataProvider
         ];
 
         return $this->visitorsModel->getVisitorsData($args);
+    }
+
+    public function getWeeklyPerformanceData($args = [])
+    {
+        $thisWeek = DateRange::get('this_week');
+        $lastWeek = DateRange::get('last_week');
+
+        $data = [
+            'visitors'  => [
+                'this_week' => $this->visitorsModel->countVisitors(['date' => $thisWeek]),
+                'last_week' => $this->visitorsModel->countVisitors(['date' => $lastWeek])
+            ],
+            'visits'    => [
+                'this_week' => $this->viewsModel->countViews(['date' => $thisWeek]),
+                'last_week' => $this->viewsModel->countViews(['date' => $lastWeek])
+            ],
+            'posts'     => [
+                'this_week' => $this->postsModel->countPosts(['date' => $thisWeek]),
+                'last_week' => $this->postsModel->countPosts(['date' => $lastWeek])
+            ],
+            'referrals' => [
+                'this_week' => $this->visitorsModel->countReferrers(['date' => $thisWeek]),
+                'last_week' => $this->visitorsModel->countReferrers(['date' => $lastWeek])
+            ]
+        ];
+
+        foreach ($data as $key => $value) {
+            $data[$key]['diff_percentage'] = Helper::calculatePercentageChange($value['last_week'], $value['this_week']);
+            if ($data[$key]['diff_percentage'] > 0) {
+                $data[$key]['diff_type'] = 'plus';
+            } elseif ($data[$key]['diff_percentage'] < 0) {
+                $data[$key]['diff_type'] = 'minus';
+            } else {
+                $data[$key]['diff_type'] = 'equal';
+            }
+
+            $data[$key]['diff_percentage'] = abs($data[$key]['diff_percentage']);
+        }
+
+        $data['onlines']      = $this->onlineModel->countOnlines();
+
+        $topReferrer          = $this->visitorsModel->getReferrers(['per_page' => 1, 'decorate' => true, 'date' => $thisWeek]);
+        $data['top_referrer'] = $topReferrer[0] ?? '';
+
+        $topAuthor            = $this->authorsModel->getTopViewingAuthors(['date' => $thisWeek, 'per_page' => 1]);
+        $data['top_author']   = $topAuthor[0] ?? '';
+
+        $topCategory          = $this->taxonomyModel->getTermsData(['date' => $thisWeek, 'per_page' => 5, 'taxonomy' => Helper::get_list_taxonomy()]);
+        $data['top_category'] = $topCategory[0] ?? '';
+
+        $topContent           = $this->postsModel->getPostsViewsData(['date' => $thisWeek, 'per_page' => 1]);
+        $data['top_content']  = $topContent[0] ?? '';
+
+        return $data;
     }
 
     public function getTrafficChartData($args = [])
