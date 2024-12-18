@@ -14,7 +14,6 @@ class PostSummary extends BaseMetabox
     protected $context = 'side';
     protected $priority = 'high';
     protected $static = true;
-    protected $data = [];
 
     public function getName()
     {
@@ -25,15 +24,6 @@ class PostSummary extends BaseMetabox
     {
         return '';
     }
-
-    public function getData()
-    {
-        if (!empty($this->data)) return $this->data;
-
-        $this->data = $this->dataProvider->getPostSummaryData();
-        return $this->data;
-    }
-
 
     public function isActive()
     {
@@ -47,32 +37,17 @@ class PostSummary extends BaseMetabox
         return Helper::getPostTypes();
     }
 
-    public function getCallbackArgs()
+    public function getData()
     {
-        return [
-            '__back_compat_meta_box' => false
-        ];
-    }
+        $data = $this->dataProvider->getPostSummaryData();
 
-    public function enqueueAssets()
-    {
-        $styleFileName  = is_rtl() ? 'style-post-summary-rtl.css' : 'style-post-summary.css';
+        $output = View::load('components/meta-box/post-summary', ['summary' => $data], true);
 
-        Assets::script('editor-sidebar', 'blocks/post-summary/post-summary.js', ['wp-plugins', 'wp-editor'], $this->getData());
-        Assets::style('editor-sidebar', "blocks/post-summary/$styleFileName");
+        return $output;
     }
 
     public function render()
     {
-        $postId = Request::get('post', 0, 'number');
-        $post   = get_post($postId);
-
-        // Check if post ID is set
-        if (empty($postId) || empty($post) || $post->post_status != 'publish' || $post->post_status == 'private') {
-            esc_html_e('This post is not yet published.', 'wp-statistics');
-            return;
-        }
-
-        View::load('components/meta-box/post-summary', ['summary' => $this->getData()]);
+        View::load('metabox/metabox-skeleton');
     }
 }
