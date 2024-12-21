@@ -115,12 +115,13 @@ class MetaboxDataProvider
     public function getSinglePostData($args = [])
     {
         $currentPage = Request::get('current_page', [], 'array');
+        $postId = $currentPage['ID'] ?? 0;
 
         $args = [
-            'post_id'       => $currentPage['ID'] ?? 0,
+            'resource_id'   => $postId,
+            'resource_type' => get_post_type($postId) ?? '',
             'date_field'    => 'pages.date',
             'date'          => DateRange::get('14days'),
-            'page_info'     => true,
             'user_info'     => true,
             'page'          => 1,
             'per_page'      => 15,

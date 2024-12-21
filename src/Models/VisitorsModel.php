@@ -345,26 +345,28 @@ class VisitorsModel extends BaseModel
     public function getVisitorsData($args = [])
     {
         $args = $this->parseArgs($args, [
-            'date'        => '',
-            'post_type'   => '',
-            'author_id'   => '',
-            'post_id'     => '',
-            'country'     => '',
-            'agent'       => '',
-            'platform'    => '',
-            'user_id'     => '',
-            'ip'          => '',
-            'query_param' => '',
-            'taxonomy'    => '',
-            'term'        => '',
-            'order_by'    => 'visitor.ID',
-            'order'       => 'DESC',
-            'page'        => '',
-            'per_page'    => '',
-            'page_info'   => false,
-            'user_info'   => false,
-            'date_field'  => 'visitor.last_counter',
-            'fields'      => []
+            'date'          => '',
+            'resource_type' => '',
+            'resource_id'   => '',
+            'post_type'     => '',
+            'author_id'     => '',
+            'post_id'       => '',
+            'country'       => '',
+            'agent'         => '',
+            'platform'      => '',
+            'user_id'       => '',
+            'ip'            => '',
+            'query_param'   => '',
+            'taxonomy'      => '',
+            'term'          => '',
+            'order_by'      => 'visitor.ID',
+            'order'         => 'DESC',
+            'page'          => '',
+            'per_page'      => '',
+            'page_info'     => false,
+            'user_info'     => false,
+            'date_field'    => 'visitor.last_counter',
+            'fields'        => []
         ]);
 
         // Set default fields
@@ -441,6 +443,15 @@ class VisitorsModel extends BaseModel
 
         $filteredArgs = array_filter($args);
 
+        if (array_intersect(['resource_type', 'resource_id', 'query_param'], array_keys($filteredArgs))) {
+            $query
+                ->join('visitor_relationships', ['visitor_relationships.visitor_id', 'visitor.ID'])
+                ->join('pages', ['visitor_relationships.page_id', 'pages.page_id'], [], 'LEFT')
+                ->where('pages.type', 'IN', $args['resource_type'])
+                ->where('pages.id', '=', $args['resource_id'])
+                ->where('pages.uri', '=', $args['query_param']);
+        }
+
         if (array_intersect(['post_type', 'post_id', 'query_param', 'taxonomy', 'term'], array_keys($filteredArgs))) {
             $query
                 ->join('visitor_relationships', ['visitor_relationships.visitor_id', 'visitor.ID'])
@@ -448,8 +459,7 @@ class VisitorsModel extends BaseModel
                 ->join('posts', ['posts.ID', 'pages.id'], [], 'LEFT')
                 ->where('post_type', 'IN', $args['post_type'])
                 ->where('post_author', '=', $args['author_id'])
-                ->where('posts.ID', '=', $args['post_id'])
-                ->where('pages.uri', '=', $args['query_param']);
+                ->where('posts.ID', '=', $args['post_id']);
 
             if (array_intersect(['taxonomy', 'term'], array_keys($filteredArgs))) {
                 $taxQuery = Query::select(['DISTINCT object_id'])
