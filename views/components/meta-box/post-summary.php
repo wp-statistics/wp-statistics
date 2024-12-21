@@ -68,3 +68,8 @@ $thisPeriodTopReferrerLabel = !empty($thisPeriodTopReferrerLabel) && !empty($thi
 
     ?>
 </p>
+<?php if(isset($summary)): ?>
+    <div class="c-wps-post-summary-panel-chart">
+        <canvas id="postSummaryChart" height="100"></canvas>
+    </div>
+<?php endif; ?>

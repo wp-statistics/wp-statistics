@@ -308,6 +308,8 @@ if (wps_js.global.page.file === "index.php" || wps_js.is_active('overview_page')
                     activeOptions.push(optionId);
                 }
             });
+        }else{
+            activeOptions = meta_list;
         }
         return activeOptions;
     }
