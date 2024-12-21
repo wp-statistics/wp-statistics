@@ -33,7 +33,7 @@ class exclusions_page extends Singleton
         global $wpdb;
 
         // Page title
-        $args['title'] = __('Statistics on Excluded Data', 'wp-statistics');
+        $args['title'] = __('Excluded Data Overview', 'wp-statistics');
 
         // Get Current Page Url
         $args['pageName']   = Menus::get_page_slug('exclusions');
