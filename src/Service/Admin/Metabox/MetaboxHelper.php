@@ -47,7 +47,7 @@ class MetaboxHelper
     /**
      * Retrieves a list of all metaboxes.
      *
-     * @return BaseMetabox[]
+     * @return BaseMetabox[]|string[]
      */
     public static function getMetaboxes()
     {
@@ -75,5 +75,21 @@ class MetaboxHelper
         }
 
         return $activeMetaboxes;
+    }
+
+    /**
+     * Returns a list of dynamic metaboxes which are specific to the current screen.
+     *
+     * @return BaseMetabox[]
+     */
+    public static function getScreenMetaboxes()
+    {
+        $screenMetaboxes = array_filter(self::getActiveMetaboxes(), function($metabox) {
+            return function_exists('get_current_screen')
+                && in_array(get_current_screen()->id, $metabox->getScreen())
+                && !$metabox->isStatic();
+        });
+
+        return $screenMetaboxes;
     }
 }

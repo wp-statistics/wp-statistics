@@ -496,10 +496,7 @@ class Admin_Assets
         $list['meta_box_api']        = admin_url('admin-ajax.php?action=wp_statistics_admin_meta_box');
 
         // Meta Box List
-        $metaBoxList        = MetaboxHelper::getActiveMetaboxes();
-        $list['meta_boxes'] = array_keys(array_filter($metaBoxList, function($metabox) {
-            return !$metabox->isStatic();
-        }));
+        $list['meta_boxes'] = array_keys(MetaboxHelper::getScreenMetaboxes());
 
         /**
          * Filter: wp_statistics_admin_assets
