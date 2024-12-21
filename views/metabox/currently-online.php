@@ -35,7 +35,7 @@ use WP_STATISTICS\Menus;
             </thead>
 
             <tbody>
-                <?php foreach ($data as $visitor) : ?>
+                <?php foreach ($data['visitors'] as $visitor) : ?>
                     <?php /** @var VisitorDecorator $visitor */ ?>
                     <tr>
                         <td class="wps-pd-l"><?php echo $visitor->getLastView() ?></td>

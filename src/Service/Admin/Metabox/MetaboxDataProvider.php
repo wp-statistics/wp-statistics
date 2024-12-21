@@ -95,7 +95,10 @@ class MetaboxDataProvider
 
     public function getOnlineVisitorsData($args = [])
     {
-        return $this->onlineModel->getOnlineVisitorsData($args);
+        return [
+            'visitors'  => $this->onlineModel->getOnlineVisitorsData(array_merge($args, ['per_page' => 10])),
+            'total'     => $this->onlineModel->countOnlines($args)
+        ];
     }
 
     public function getTopCountiesData($args = [])
