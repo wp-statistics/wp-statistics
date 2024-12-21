@@ -5,7 +5,8 @@ use WP_Statistics\Components\View;
 use WP_Statistics\Decorators\VisitorDecorator;
 use WP_STATISTICS\Menus;
 
-$linksTarget = !empty($open_links_in_new_tab) ? '_blank' : '';
+$linksTarget    = !empty($open_links_in_new_tab) ? '_blank' : '';
+$viewTitle      = !empty($view_column_title) ? $view_column_title : esc_html__('Last View', 'wp-statistics')
 ?>
 
 <div class="inside">
@@ -15,7 +16,7 @@ $linksTarget = !empty($open_links_in_new_tab) ? '_blank' : '';
                 <thead>
                     <tr>
                         <th class="wps-pd-l">
-                            <span class="wps-order"><?php esc_html_e('Last View', 'wp-statistics'); ?></span>
+                            <span class="wps-order"><?php echo esc_html($viewTitle); ?></span>
                         </th>
                         <th class="wps-pd-l">
                             <?php esc_html_e('Visitor Information', 'wp-statistics'); ?>
