@@ -6,7 +6,7 @@ use WP_STATISTICS\Menus;
 ?>
 
 <div class="o-table-wrapper">
-    <?php if (!empty($data)) : ?>
+    <?php if (!empty($data['visitors'])) : ?>
         <table width="100%" class="o-table wps-new-table">
             <thead>
                 <tr>
