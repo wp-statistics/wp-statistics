@@ -25,9 +25,7 @@ class PostSummary extends BaseMetabox
 
     public function isActive()
     {
-        global $pagenow;
-
-        return $pagenow === 'post.php' && Request::compare('action', 'edit') && Request::has('post') && !Option::get('disable_editor');
+        return !Option::get('disable_editor');
     }
 
     public function getScreen()
@@ -41,7 +39,10 @@ class PostSummary extends BaseMetabox
 
         $output = View::load('components/meta-box/post-summary', ['summary' => $data], true);
 
-        return $output;
+        return [
+            'output'    => $output,
+            'data'      => $data
+        ];
     }
 
     public function render()

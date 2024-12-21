@@ -109,6 +109,11 @@ class MetaboxDataProvider
     public function getPostSummaryData($args = [])
     {
         $postId = Request::get('post', '', 'number');
+
+        if (empty($postId) && Request::has('current_page')) {
+            $postId = Request::get('current_page', [], 'array')['ID'] ?? 0;
+        }
+
         return PostsManager::getPostStatisticsSummary($postId);
     }
 
