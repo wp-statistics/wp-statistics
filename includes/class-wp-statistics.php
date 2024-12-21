@@ -176,7 +176,6 @@ final class WP_Statistics
             // Admin Pages List
             require_once WP_STATISTICS_DIR . 'includes/admin/pages/class-wp-statistics-admin-page-settings.php';
             require_once WP_STATISTICS_DIR . 'includes/admin/pages/class-wp-statistics-admin-page-optimization.php';
-            require_once WP_STATISTICS_DIR . 'includes/admin/pages/class-wp-statistics-admin-page-exclusions.php';
 
             $analytics           = new AnalyticsManager();
             $authorAnalytics     = new AuthorAnalyticsManager();

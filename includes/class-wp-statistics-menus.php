@@ -170,15 +170,7 @@ class Menus
                 'page_url' => 'optimization',
                 'method'   => 'optimization',
                 'priority' => 110,
-            ),
-            'exclusions'   => array(
-                'require'  => array('record_exclusions' => true),
-                'sub'      => 'overview',
-                'title'    => __('Exclusions', 'wp-statistics'),
-                'page_url' => 'exclusions',
-                'method'   => 'exclusions',
-                'priority' => 120,
-            ),
+            )
         );
 
         /**
