@@ -132,7 +132,8 @@ class DateRange
 
             // Only applicable for periods that their last day is today, like 7days, 30days, etc...
             if ($period !== 'today' && $range['to'] === date(DateTime::$defaultDateFormat)) {
-                $range['to'] = date(DateTime::$defaultDateFormat, strtotime('-1 day'));
+                $range['from']  = date(DateTime::$defaultDateFormat, strtotime('-1 day', strtotime($range['from'])));
+                $range['to']    = date(DateTime::$defaultDateFormat, strtotime('-1 day'));
             }
         }
 
