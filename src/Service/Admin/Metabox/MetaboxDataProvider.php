@@ -120,8 +120,7 @@ class MetaboxDataProvider
         $args = [
             'resource_id'   => $postId,
             'resource_type' => get_post_type($postId) ?? '',
-            'date_field'    => 'pages.date',
-            'date'          => DateRange::get('14days'),
+            'ignore_date'   => true,
             'user_info'     => true,
             'page'          => 1,
             'per_page'      => 15,
