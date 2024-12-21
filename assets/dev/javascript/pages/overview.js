@@ -296,26 +296,55 @@ if (wps_js.global.page.file === "index.php" || wps_js.is_active('overview_page')
         }
     };
 
-    // Initialize meta boxes
-
-        meta_list.forEach((metaBoxKey) => {
-
-            if (metaBoxKey !== "post_latest_visitors" || metaBoxKey !== "post_latest_visitors_locked ") {
-                loadMetaBoxData(metaBoxKey).then(response => {
-                    wps_js.handleMetaBoxRender(response, metaBoxKey);
-                });
-            }
-            jQuery(document).on('click', `#${metaBoxKey} .wps-refresh`, function () {
-                wps_js.showLoadingSkeleton(metaBoxKey);
-                loadMetaBoxData(metaBoxKey).then(response => {
-                    wps_js.handleMetaBoxRender(response, metaBoxKey);
-                });
+    function handleScreenOptionsChange() {
+        let activeOptions = [];
+        // Check if the screen options element exists
+        if ($('#adv-settings').length > 0) {
+            // Loop through screen options checkboxes
+            $('#adv-settings input[type="checkbox"]').each(function () {
+                if ($(this).is(':checked')) {
+                    // Get the ID and remove the '-hide' suffix
+                    let optionId = $(this).attr('id').replace('-hide', '');
+                    activeOptions.push(optionId);
+                }
             });
+        }
+        return activeOptions;
+    }
+
+     function refreshMetaBox(metaBoxKey) {
+        // Refresh the data for the specific meta box
+        loadMetaBoxData(metaBoxKey).then(response => {
+            wps_js.handleMetaBoxRender(response, metaBoxKey);
         });
+    }
 
+   // Initialize meta boxes on page load
+    let activeOptions = handleScreenOptionsChange();
+    meta_list.forEach((metaBoxKey) => {
+        if (activeOptions.includes(metaBoxKey)) {
+            // Load the data only for active meta boxes
+            refreshMetaBox(metaBoxKey);
+        }
+    });
 
+     jQuery(document).on('change', '#adv-settings input[type="checkbox"]', function () {
+         let metaBoxKey = $(this).attr('id').replace('-hide', '');
 
-        // Export utility functions
+        if ($(this).is(':checked')) {
+             refreshMetaBox(metaBoxKey);
+        }
+    });
+
+    // Bind refresh button event for manual refresh
+    meta_list.forEach((metaBoxKey) => {
+        jQuery(document).on('click', `#${metaBoxKey} .wps-refresh`, function () {
+            wps_js.showLoadingSkeleton(metaBoxKey);
+            refreshMetaBox(metaBoxKey);
+        });
+    });
+
+    // Export utility functions
     wps_js.metaBoxInner = key => jQuery('#' + key + ' .inside');
     
     wps_js.showLoadingSkeleton = function(metaBoxKey) {
