@@ -298,7 +298,6 @@ if (wps_js.global.page.file === "index.php" || wps_js.is_active('overview_page')
 
     // Initialize meta boxes
 
-    if (wps_js.global.page.file === "index.php" || wps_js.is_active('overview_page')) {
         meta_list.forEach((metaBoxKey) => {
 
             if (metaBoxKey !== "post_latest_visitors" || metaBoxKey !== "post_latest_visitors_locked ") {
@@ -313,19 +312,7 @@ if (wps_js.global.page.file === "index.php" || wps_js.is_active('overview_page')
                 });
             });
         });
-    }
 
-    if (wps_js.global.page.file === "post-new.php" ||
-        (wps_js.global.page.file === "post.php" && wps_js.isset(wps_js.global, 'page', 'ID'))) {
-
-        const metaBoxKeys = ["post_latest_visitors", "post_latest_visitors_locked"];
-
-        metaBoxKeys.forEach((metaBoxKey) => {
-            loadMetaBoxData(metaBoxKey).then(response => {
-                wps_js.handleMetaBoxRender(response, metaBoxKey);
-            });
-        });
-    }
 
 
         // Export utility functions
@@ -399,10 +386,20 @@ if (wps_js.global.page.file === "index.php" || wps_js.is_active('overview_page')
             html += response.options.button;
         }
         html += `</div></div>`;
+        let selector = jQuery("#" + key + " h2.hndle");
+
+        if (key==='currently_online'){
+            const current_online =  jQuery(".wps-currently-online") ;
+            if(current_online.length && current_online.text() > 0 && !selector.find('h2.hndle .wps-wps-currently-online__container').length){
+                const online = `<span class="wps-wps-currently-online__container"><span class="wps-wps-currently-online__dot"></span><span class="wps-wps-currently-online__text">${current_online.text()}</span></span>`;
+                selector.append(online);
+
+            }
+        }
+
 
         if(response.meta && response.meta.description){
-            let selector = jQuery("#" + key + " h2.hndle");
-            if (selector.length && !selector.find('.wps-tooltip').length) {
+             if (selector.length && !selector.find('.wps-tooltip').length) {
                 const tooltip = response.meta.description;
                 const newTitle = '<a href="#" class="wps-tooltip" title="' + tooltip + '"><i class="wps-tooltip-icon"></i></a>';
                 if (tooltip) selector.append(newTitle);

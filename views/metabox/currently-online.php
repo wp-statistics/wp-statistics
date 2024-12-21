@@ -4,7 +4,9 @@ use WP_Statistics\Components\View;
 use WP_Statistics\Decorators\VisitorDecorator;
 use WP_STATISTICS\Menus;
 ?>
-
+<?php if (!empty($data['total'])) : ?>
+<span class="wps-currently-online"><?php echo $data['total']?></span>
+<?php endif; ?>
 <div class="o-table-wrapper">
     <?php if (!empty($data['visitors'])) : ?>
         <table width="100%" class="o-table wps-new-table">
