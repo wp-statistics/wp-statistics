@@ -131,30 +131,30 @@ class MetaboxDataProvider
 
     public function getWeeklyPerformanceData($args = [])
     {
-        $thisWeek = DateRange::get('this_week');
-        $lastWeek = DateRange::get('last_week');
+        $currentPeriod  = DateRange::get('7days', true);
+        $prevPeriod     = DateRange::getPrevPeriod('7days');
 
         $data = [
             'visitors'  => [
-                'this_week' => $this->visitorsModel->countVisitors(['date' => $thisWeek]),
-                'last_week' => $this->visitorsModel->countVisitors(['date' => $lastWeek])
+                'current_period' => $this->visitorsModel->countVisitors(['date' => $currentPeriod]),
+                'prev_period'    => $this->visitorsModel->countVisitors(['date' => $prevPeriod])
             ],
             'visits'    => [
-                'this_week' => $this->viewsModel->countViews(['date' => $thisWeek]),
-                'last_week' => $this->viewsModel->countViews(['date' => $lastWeek])
+                'current_period' => $this->viewsModel->countViews(['date' => $currentPeriod]),
+                'prev_period'    => $this->viewsModel->countViews(['date' => $prevPeriod])
             ],
             'posts'     => [
-                'this_week' => $this->postsModel->countPosts(['date' => $thisWeek]),
-                'last_week' => $this->postsModel->countPosts(['date' => $lastWeek])
+                'current_period' => $this->postsModel->countPosts(['date' => $currentPeriod]),
+                'prev_period'    => $this->postsModel->countPosts(['date' => $prevPeriod])
             ],
             'referrals' => [
-                'this_week' => $this->visitorsModel->countReferrers(['date' => $thisWeek]),
-                'last_week' => $this->visitorsModel->countReferrers(['date' => $lastWeek])
+                'current_period' => $this->visitorsModel->countReferrers(['date' => $currentPeriod]),
+                'prev_period'    => $this->visitorsModel->countReferrers(['date' => $prevPeriod])
             ]
         ];
 
         foreach ($data as $key => $value) {
-            $data[$key]['diff_percentage'] = Helper::calculatePercentageChange($value['last_week'], $value['this_week']);
+            $data[$key]['diff_percentage'] = Helper::calculatePercentageChange($value['current_period'], $value['prev_period']);
             if ($data[$key]['diff_percentage'] > 0) {
                 $data[$key]['diff_type'] = 'plus';
             } elseif ($data[$key]['diff_percentage'] < 0) {
@@ -166,18 +166,16 @@ class MetaboxDataProvider
             $data[$key]['diff_percentage'] = abs($data[$key]['diff_percentage']);
         }
 
-        $data['onlines']      = $this->onlineModel->countOnlines();
+        $onlineUsers    = $this->onlineModel->countOnlines();
+        $topReferrer    = $this->visitorsModel->getReferrers(['per_page' => 1, 'decorate' => true, 'date' => $currentPeriod]);
+        $topAuthor      = $this->authorsModel->getTopViewingAuthors(['date' => $currentPeriod, 'per_page' => 1]);
+        $topCategory    = $this->taxonomyModel->getTermsData(['date' => $currentPeriod, 'per_page' => 5, 'taxonomy' => Helper::get_list_taxonomy()]);
+        $topContent     = $this->postsModel->getPostsViewsData(['date' => $currentPeriod, 'per_page' => 1]);
 
-        $topReferrer          = $this->visitorsModel->getReferrers(['per_page' => 1, 'decorate' => true, 'date' => $thisWeek]);
-        $data['top_referrer'] = $topReferrer[0] ?? '';
-
-        $topAuthor            = $this->authorsModel->getTopViewingAuthors(['date' => $thisWeek, 'per_page' => 1]);
+        $data['onlines']      = $onlineUsers ?? 0;
         $data['top_author']   = $topAuthor[0] ?? '';
-
-        $topCategory          = $this->taxonomyModel->getTermsData(['date' => $thisWeek, 'per_page' => 5, 'taxonomy' => Helper::get_list_taxonomy()]);
+        $data['top_referrer'] = $topReferrer[0] ?? '';
         $data['top_category'] = $topCategory[0] ?? '';
-
-        $topContent           = $this->postsModel->getPostsViewsData(['date' => $thisWeek, 'per_page' => 1]);
         $data['top_content']  = $topContent[0] ?? '';
 
         return $data;
