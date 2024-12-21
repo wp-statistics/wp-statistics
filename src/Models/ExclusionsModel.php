@@ -14,14 +14,14 @@ class ExclusionsModel extends BaseModel
             'reason'    => ''
         ]);
 
-        $result = Query::select(['COUNT(id)'])
+        $result = Query::select(['SUM(count) as count'])
             ->from('exclusions')
             ->where('reason', '=', $args['reason'])
             ->whereDate('date', $args['date'])
             ->orderBy('date')
-            ->getAll();
+            ->getVar();
 
-        return $result;
+        return $result ?? 0;
     }
 
     public function getExclusions($args = [])
@@ -37,6 +37,7 @@ class ExclusionsModel extends BaseModel
 
         $result = Query::select([
             'reason',
+            'date',
             'SUM(count) as count'
         ])
             ->from('exclusions')

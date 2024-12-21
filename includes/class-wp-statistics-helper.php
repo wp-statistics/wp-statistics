@@ -2114,4 +2114,22 @@ class Helper
         $length = strlen($string);
         return $length >= $minLength && $length <= $maxLength;
     }
+
+
+    /**
+     * Calculate the percentage of the given number based on total number.
+     *
+     * @param int $number
+     * @param int $totalNumber
+     *
+     * @return float
+     */
+    public static function calculatePercentage($number, $totalNumber)
+    {
+        if ($totalNumber == 0) {
+            return 0;
+        }
+
+        return round(($number / $totalNumber) * 100, 2);
+    }
 }
