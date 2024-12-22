@@ -2,6 +2,7 @@
 use WP_Statistics\Components\DateRange;
 use WP_STATISTICS\Menus;
 use WP_STATISTICS\Option;
+use WP_Statistics\Components\View;
 ?>
 
 <div class="wps-meta-traffic-summary">
@@ -41,15 +42,7 @@ use WP_STATISTICS\Option;
         </table>
     </div>
 
-    <?php if (!Option::get('time_report')) : ?>
-        <div class="wp-quickstats-widget__enable-email">
-            <div class="wp-quickstats-widget__enable-email__desc"><span class="wp-quickstats-widget__enable-email__icon"></span>
-                <div>
-                    <p><?php esc_html_e('Receive Weekly Email Reports', 'wp-statistics'); ?></p>
-                    <a href="<?php echo Menus::admin_url('settings', ['tab' => 'notifications-settings']) ?>" title="<?php esc_attr_e('Enable Now', 'wp-statistics'); ?>"><?php esc_html_e('Enable Now', 'wp-statistics'); ?></a>
-                </div>
-            </div>
-            <div class="wp-quickstats-widget__enable-email__close"><span class="wp-close" title="Close" onclick="this.parentElement.parentElement.remove()"></span></div>
-        </div>
-    <?php endif; ?>
+    <?php if (!Option::get('time_report'))  {
+        View::load("components/meta-box/enable-mail", ['url' => Menus::admin_url('settings')]);
+    } ?>
 </div>

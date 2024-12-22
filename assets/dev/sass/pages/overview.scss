@@ -186,21 +186,29 @@ body.toplevel_page_wps_overview_page .postbox-header:has(.wps-wps-currently-onli
 
 }
 
-#currently_online .o-table-wrapper table.wps-new-table tbody tr:nth-child(10){
-  td{
-    background: transparent!important;
-    position: relative;
-
-    &:after{
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, #FFFFFF 100%);
+#currently_online{
+  .postbox-header{
+    h2.hndle{
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
     }
   }
+  .o-table-wrapper table.wps-new-table tbody tr:nth-child(10){
+    td{
+      background: transparent!important;
+      position: relative;
 
+      &:after{
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, #FFFFFF 100%);
+      }
+    }
+  }
 }
 

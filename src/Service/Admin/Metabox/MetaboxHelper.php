@@ -12,6 +12,7 @@ use WP_Statistics\Service\Admin\Metabox\Metaboxes\LatestVisitor;
 use WP_Statistics\Service\Admin\Metabox\Metaboxes\SearchEngines;
 use WP_Statistics\Service\Admin\Metabox\Metaboxes\TopDeviceModel;
 use WP_Statistics\Service\Admin\Metabox\Metaboxes\TrafficSummary;
+use WP_Statistics\Service\Admin\Metabox\Metaboxes\TrafficOverview;
 use WP_Statistics\Service\Admin\Metabox\Metaboxes\CurrentlyOnline;
 use WP_Statistics\Service\Admin\Metabox\Metaboxes\MostVisitedPages;
 use WP_Statistics\Service\Admin\Metabox\Metaboxes\OperatingSystems;
@@ -25,6 +26,7 @@ class MetaboxHelper
 {
     public static $metaboxes = [
         TrafficSummary::class,
+        TrafficOverview::class,
         BrowserUsage::class,
         OperatingSystems::class,
         DeviceUsageBreakdown::class,
