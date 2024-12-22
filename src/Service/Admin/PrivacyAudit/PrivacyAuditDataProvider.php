@@ -23,7 +23,7 @@ class PrivacyAuditDataProvider
 {
     /**
      * Get list of privacy faq items
-     * 
+     *
      * @return AbstractFaq[] $faqs
      */
     public function getFaqs()
@@ -38,10 +38,10 @@ class PrivacyAuditDataProvider
         return apply_filters('wp_statistics_privacy_faqs_list', $faqs);
     }
 
-    
+
     /**
      * Get list of all privacy audit items
-     * 
+     *
      * @return BaseAudit[] $audits
      */
     public function getAudits()
@@ -62,7 +62,7 @@ class PrivacyAuditDataProvider
 
     /**
      * Find privacy audit class by name
-     * 
+     *
      * @param string $auditName
      * @return BaseAudit $auditClass
      * @throws InvalidArgumentException if audit class is not found.
@@ -70,7 +70,7 @@ class PrivacyAuditDataProvider
     public function getAudit($auditName)
     {
         $audits = $this->getAudits();
-        
+
         if (!isset($audits[$auditName])) {
             throw new InvalidArgumentException(esc_html__(sprintf("%s is not a valid audit item.", $auditName), 'wp-statistics'));
         }
@@ -81,7 +81,7 @@ class PrivacyAuditDataProvider
 
     /**
      * Get privacy audits status
-     * 
+     *
      * @return array $audits
      */
     public function getAuditsStatus()
@@ -118,10 +118,18 @@ class PrivacyAuditDataProvider
         return $list;
     }
 
+    public function getAuditsByStatus($status)
+    {
+        $audits = $this->getAuditsStatus();
+
+        return array_filter($audits, function ($audit) use ($status) {
+            return $audit['status'] === $status;
+        });
+    }
 
     /**
      * Get privacy faqs status
-     * 
+     *
      * @return array $faqs
      */
     public function getFaqsStatus()
@@ -154,7 +162,7 @@ class PrivacyAuditDataProvider
 
     /**
      * Get privacy compliance status
-     * 
+     *
      * @return array $complianceStatus
      */
     public function getComplianceStatus()
