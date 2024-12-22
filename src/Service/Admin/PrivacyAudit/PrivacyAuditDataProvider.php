@@ -101,10 +101,10 @@ class PrivacyAuditDataProvider
                 'notes'            => $auditState['notes'],
                 'status'           => $auditState['status'],
                 'compliance'       => $auditState['compliance'],
-                'suggestion_title' => $auditState['suggestion_title'],
-                'info_title'       => $auditState['info_title'],
-                'info'             => $auditState['info'],
-                'suggestion'       => $auditState['suggestion'],
+                'suggestion'       => $auditState['suggestion'] ?? '',
+                'suggestion_title' => $auditState['suggestion_title'] ?? '',
+                'info'             => $auditState['info'] ?? '',
+                'info_title'       => $auditState['info_title'] ?? '',
             ];
 
             // If audit has action in the current state, add it to the audit item array.
