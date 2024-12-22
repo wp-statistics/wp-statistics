@@ -15,17 +15,23 @@ use WP_Statistics\Service\Admin\VisitorInsights\VisitorInsightsDataProvider;
 
 class TabsView extends BaseTabView
 {
+    private $isTrackLoggedInUsersEnabled;
     protected $defaultTab = 'visitors';
     protected $tabs = [
         'visitors',
         'views',
         'online',
-        'top-visitors',
-        'logged-in-users'
+        'top-visitors'
     ];
 
     public function __construct()
     {
+        $this->isTrackLoggedInUsersEnabled = Option::get('visitors_log') ? true : false;
+
+        if ($this->isTrackLoggedInUsersEnabled) {
+            $this->tabs[] = 'logged-in-users';
+        }
+
         $this->dataProvider = new VisitorInsightsDataProvider([
             'country'  => Request::get('location', ''),
             'agent'    => Request::get('agent', ''),
@@ -33,6 +39,8 @@ class TabsView extends BaseTabView
             'user_id'  => Request::get('user_id', ''),
             'ip'       => Request::get('ip', '')
         ]);
+
+        parent::__construct();
     }
 
     public function getViewsData()
@@ -107,7 +115,7 @@ class TabsView extends BaseTabView
                         'title'   => esc_html__('Logged-in Users', 'wp-statistics'),
                         'tooltip' => esc_html__('Track engagement from logged-in users.', 'wp-statistics'),
                         'class'   => $this->isTab('logged-in-users') ? 'current' : '',
-                        'hidden'  => empty(Option::get('visitors_log'))
+                        'hidden'  => !$this->isTrackLoggedInUsersEnabled
                     ]
                 ]
             ];
