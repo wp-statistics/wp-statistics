@@ -22,7 +22,8 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                 updateComplianceInfo(data.compliance_status);
 
                 // Append audit items to the page.
-                loadAudits(data.audit_list);
+                if(data.unpassed_audits)  LoadUnPassed(data.unpassed_audits);
+                if(data.passed_audits)  loadPassed(data.passed_audits);
 
                 // Append faq items to the page.
                 loadFaqs(data.faq_list);
@@ -140,16 +141,29 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
     }
 
 
-    function loadAudits(auditList) {
-        const privacyItemsWrapper = jQuery('.wps-privacy-list .wps-audit-cards__container');
-        privacyItemsWrapper.html('');
-        privacyItemsWrapper.removeClass('loading');
+   
 
-        auditList.forEach(auditData => {
-            const auditElement = generateAuditElement(auditData);
-            privacyItemsWrapper.append(auditElement);
-        });
-    }
+   function loadAuditItems(auditList, selector) {
+       const privacyItemsWrapper = jQuery(selector);
+       privacyItemsWrapper.html('');
+       privacyItemsWrapper.removeClass('loading');
+   
+       // Convert object to an array
+       const auditArray = Array.isArray(auditList) ? auditList : Object.values(auditList);
+   
+       auditArray.forEach(auditData => {
+           const auditElement = generateAuditElement(auditData);
+           privacyItemsWrapper.append(auditElement);
+       });
+   }
+   
+   function loadPassed(auditList) {
+       loadAuditItems(auditList, '.wps-privacy-passed .wps-audit-cards__container');
+   }
+   
+   function LoadUnPassed(auditList) {
+       loadAuditItems(auditList, '.wps-privacy-unpassed .wps-audit-cards__container');
+   }
 
     const generateSection = (title, content) => {
         if (!content) return '';
