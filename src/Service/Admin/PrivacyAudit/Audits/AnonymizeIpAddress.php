@@ -1,4 +1,4 @@
-<?php 
+<?php
 namespace WP_Statistics\Service\Admin\PrivacyAudit\Audits;
 
 use WP_Statistics\Service\Admin\PrivacyAudit\Audits\Abstracts\ResolvableAudit;
@@ -46,5 +46,5 @@ class AnonymizeIpAddress extends ResolvableAudit
         ];
     }
 
-    
+
 }
