@@ -421,10 +421,9 @@ if (wps_js.global.page.file === "index.php" || wps_js.is_active('overview_page')
 
         if (key==='currently_online'){
             const current_online =  jQuery(".wps-currently-online") ;
-            if(current_online.length && current_online.text() > 0 && !selector.find('h2.hndle .wps-wps-currently-online__container').length){
+            if(current_online.length && current_online.text() > 0 && !selector.find('.wps-wps-currently-online__container').length){
                 const online = `<span class="wps-wps-currently-online__container"><span class="wps-wps-currently-online__dot"></span><span class="wps-wps-currently-online__text">${current_online.text()}</span></span>`;
                 selector.append(online);
-
             }
         }
 
