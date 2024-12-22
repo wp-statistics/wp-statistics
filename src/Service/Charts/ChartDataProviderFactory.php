@@ -11,6 +11,7 @@ use WP_Statistics\Service\Charts\DataProvider\AuthorsPostViewsChartDataProvider;
 use WP_Statistics\Service\Charts\DataProvider\BrowserChartDataProvider;
 use WP_Statistics\Service\Charts\DataProvider\OsChartDataProvider;
 use WP_Statistics\Service\Charts\DataProvider\DeviceChartDataProvider;
+use WP_Statistics\Service\Charts\DataProvider\ExclusionsChartDataProvider;
 use WP_Statistics\Service\Charts\DataProvider\MapChartDataProvider;
 use WP_Statistics\Service\Charts\DataProvider\ModelChartDataProvider;
 
@@ -135,5 +136,16 @@ class ChartDataProviderFactory
     public static function mapChart($args)
     {
         return new MapChartDataProvider($args);
+    }
+
+    /**
+     * Returns a new instance of MapChartDataProvider.
+     *
+     * @param array $args
+     * @return ExclusionsChartDataProvider
+     */
+    public static function exclusionsChart($args)
+    {
+        return new ExclusionsChartDataProvider($args);
     }
 }

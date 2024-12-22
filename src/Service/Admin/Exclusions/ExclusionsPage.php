@@ -26,9 +26,7 @@ class ExclusionsPage extends BasePage
 
     public function getData()
     {
-        wp_localize_script(Admin_Assets::$prefix, 'Wp_Statistics_Exclusions_Object', [
-            'exclusions_chart_data' => $this->dataProvider->getChartData()
-        ]);
+        wp_localize_script(Admin_Assets::$prefix, 'Wp_Statistics_Exclusions_Object', $this->dataProvider->getChartData());
 
         return $this->dataProvider->getExclusionsData();
     }
