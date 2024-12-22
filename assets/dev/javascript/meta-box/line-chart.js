@@ -20,7 +20,7 @@ wps_js.render_daily_traffic_trend = wps_js.render_line_chart;
 
 wps_js.render_traffic_hour = function(response, key) {
 
-    const hourTooltipHandler = (context, dataset, colors, data, dateLabels ) => {
+    const hourTooltipHandler = (context, dataset, colors, data) => {
         const {chart, tooltip} = context;
         const tooltipEl = getOrCreateTooltip(chart);
         if (tooltip.opacity === 0) {
@@ -31,52 +31,72 @@ wps_js.render_traffic_hour = function(response, key) {
             const dataIndex = tooltip.dataPoints[0].dataIndex;
             const datasets = chart.data.datasets;
             let innerHtml = `<div>`;
-            datasets.forEach((dataset, index) => {
-                const meta = chart.getDatasetMeta(index);
-                const value = dataset.data[dataIndex];
-                const isPrevious = dataset.label.includes('(Previous)');
-                if (!meta.hidden && !isPrevious) {
-                    innerHtml += `
-                <div class="current-data">
-                    <div>
-                        <span class="current-data__color" style="background-color: ${dataset.backgroundColor};"></span>
-                        ${dataset.label}
-                    </div>
-                    <span class="current-data__value">${value.toLocaleString()}</span>
-                </div>`;
-                }
-            });
+            const currentDatasets = datasets.filter(d => !d.label.includes('(Previous)'));
+            const previousDatasets = datasets.filter(d => d.label.includes('(Previous)'));
+            const currentHour = new Date().getHours();
+            const hoveredHour = data.data.labels[dataIndex].hour;
+            const hoveredHourNum = parseInt(hoveredHour.match(/\d+/)[0]);
+            const isPM = hoveredHour.includes('PM');
+            // Convert to 24-hour format
+            const hoveredHour24 = hoveredHourNum === 12 ? 
+                (isPM ? 12 : 0) : 
+                (isPM ? hoveredHourNum + 12 : hoveredHourNum);
+
+            // Check if current period has any non-zero values
+            const hasCurrentValues = currentDatasets.some(dataset => 
+                dataset.data[dataIndex] > 0
+            );
+            const hasPreviousValues = previousDatasets.some(dataset =>
+                dataset.data[dataIndex] > 0
+            );
+            const shouldShowCurrent = hoveredHour24 <= currentHour;
+            const dateToShow = shouldShowCurrent && (hasCurrentValues || (!hasCurrentValues && !hasPreviousValues)) ?
+                data.data.labels[dataIndex].formatted_date + '(' + data.data.labels[dataIndex].hour + ')' :
+                data.previousData.labels[dataIndex].formatted_date + '(' + data.data.labels[dataIndex].hour + ')';
+
+            innerHtml += `<div class="chart-title">${dateToShow}</div>`;
+
+            if (shouldShowCurrent && (hasCurrentValues || (!hasCurrentValues && !hasPreviousValues))) {
+                currentDatasets.forEach(dataset => {
+                    const meta = chart.getDatasetMeta(datasets.indexOf(dataset));
+                    if (!meta.hidden) {
+                        const value = dataset.data[dataIndex];
+                        innerHtml += `
+                        <div class="current-data">
+                            <div>
+                                <span class="current-data__color" style="background-color: ${dataset.backgroundColor};"></span>
+                                ${dataset.label}
+                            </div>
+                            <span class="current-data__value">${value.toLocaleString()}</span>
+                        </div>`;
+                    }
+                });
+            }
+            if (!shouldShowCurrent || hasPreviousValues) {
+                const colorValues = Object.values(colors);
+                previousDatasets.forEach((dataset, index) => {
+                    const meta = chart.getDatasetMeta(datasets.indexOf(dataset));
+                    const prevLabel = dataset.label.replace(' (Previous)', '');
+                    if (!meta.hidden) {
+                         const value = dataset.data[dataIndex];
+                        innerHtml += `
+                        <div class="previous-data">
+                            <div>
+                                 <span class="previous-data__colors">
+                                    <span class="previous-data__color" style="background-color:${wps_js.hex_to_rgba(colorValues[index], 0.5)};"></span>
+                                    <span class="previous-data__color" style="background-color: ${wps_js.hex_to_rgba(colorValues[index], 0.5)}"></span>
+                                 </span>
+                                 ${prevLabel} 
+                            </div>
+                            <span class="current-data__value">${value.toLocaleString()}</span>
+                        </div>`;
+                    }
+                });
+            }
 
             innerHtml += `</div>`;
-
             tooltipEl.innerHTML = innerHtml;
-            const {offsetLeft: chartLeft, offsetTop: chartTop, clientWidth: chartWidth, clientHeight: chartHeight} = chart.canvas;
-            const {caretX, caretY} = tooltip;
-
-            const tooltipWidth = tooltipEl.offsetWidth;
-            const tooltipHeight = tooltipEl.offsetHeight;
-
-            const margin = 16;
-            let tooltipX = chartLeft + caretX + margin;
-            let tooltipY = chartTop + caretY - tooltipHeight / 2;
-
-            if (tooltipX + tooltipWidth + margin > chartLeft + chartWidth) {
-                tooltipX = chartLeft + caretX - tooltipWidth - margin;
-            }
-
-            if (tooltipX < chartLeft + margin) {
-                tooltipX = chartLeft + margin;
-            }
-
-            if (tooltipY < chartTop + margin) {
-                tooltipY = chartTop + margin;
-            }
-            if (tooltipY + tooltipHeight + margin > chartTop + chartHeight) {
-                tooltipY = chartTop + chartHeight - tooltipHeight - margin;
-            }
-            tooltipEl.style.opacity = 1;
-            tooltipEl.style.left = tooltipX + 'px';
-            tooltipEl.style.top = tooltipY + 'px';
+            wps_js.setTooltipPosition(tooltipEl, chart, tooltip);
         }
     };
     function createPattern(color) {
@@ -84,27 +104,21 @@ wps_js.render_traffic_hour = function(response, key) {
         const ctx = canvas.getContext('2d');
         canvas.width = 5;
         canvas.height = 5;
-
-        // Base fill color
         ctx.fillStyle = color;
         ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-        // Stripe line
         ctx.strokeStyle = 'white';
         ctx.lineWidth = 2;
         ctx.beginPath();
         ctx.moveTo(canvas.width, 0);
         ctx.lineTo(0, canvas.height);
         ctx.stroke();
-
         return ctx.createPattern(canvas, 'repeat');
     }
 
     if (response && response.response) {
         wps_js.metaBoxInner(key).html(response.response.output);
     }
-    wps_js.metaBoxInner(key).html(response.response.output);
-    if (response.response?.data) {
+     if (response.response?.data) {
         let params = response.response.data;
         const data = {
             data: params['data'],
@@ -117,9 +131,7 @@ wps_js.render_traffic_hour = function(response, key) {
          };
          const datasets = [];
          Object.keys(data.data.datasets).forEach((key, index) => {
-
             let color = colors[data.data.datasets[key].label];
-
               datasets.push({
                 type: 'bar',
                 label: data.data.datasets[key].label,
@@ -135,7 +147,6 @@ wps_js.render_traffic_hour = function(response, key) {
             Object.keys(data.previousData.datasets).forEach((key, index) => {
                 const dataset = data.previousData.datasets[key];
                 const colorKey = dataset.label;
-                 // Previous data dataset
                 datasets.push({
                     type: 'bar',
                     label: `${data.previousData.datasets[key].label} (Previous)`,
@@ -153,7 +164,7 @@ wps_js.render_traffic_hour = function(response, key) {
             maintainAspectRatio: false,
             resizeDelay: 200,
             animation: {
-                duration: 0,  // Disable animation
+                duration: 0,
             },
             responsive: true,
             interaction: {
@@ -164,7 +175,7 @@ wps_js.render_traffic_hour = function(response, key) {
                 legend: false,
                 tooltip: {
                     enabled: false,
-                    external: (context) => hourTooltipHandler(context, datasets, colors, data, data.data.labels),
+                    external: (context) => hourTooltipHandler(context, datasets, colors, data),
                     callbacks: {
                         title: (tooltipItems) => tooltipItems[0].label,
                         label: (tooltipItem) => tooltipItem.formattedValue
@@ -235,11 +246,12 @@ wps_js.render_traffic_hour = function(response, key) {
                 }
             },
         };
- 
+         let dateLabels = data.data.labels.map(dateObj => dateObj.hour);
+
          const lineChart = new Chart(ctx_line, {
             type: 'bar',
             data: {
-                labels: data.data.labels,
+                labels: dateLabels,
                 datasets: datasets,
             },
             options: defaultOptions

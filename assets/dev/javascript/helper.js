@@ -428,6 +428,36 @@ const getOrCreateTooltip = (chart) => {
     return tooltipEl;
 };
 
+ wps_js.setTooltipPosition =function(tooltipEl , chart , tooltip) {
+    const {offsetLeft: chartLeft, offsetTop: chartTop, clientWidth: chartWidth, clientHeight: chartHeight} = chart.canvas;
+    const {caretX, caretY} = tooltip;
+
+    const tooltipWidth = tooltipEl.offsetWidth;
+    const tooltipHeight = tooltipEl.offsetHeight;
+
+    const margin = 16;
+    let tooltipX = chartLeft + caretX + margin;
+    let tooltipY = chartTop + caretY - tooltipHeight / 2;
+
+    if (tooltipX + tooltipWidth + margin > chartLeft + chartWidth) {
+        tooltipX = chartLeft + caretX - tooltipWidth - margin;
+    }
+
+    if (tooltipX < chartLeft + margin) {
+        tooltipX = chartLeft + margin;
+    }
+
+    if (tooltipY < chartTop + margin) {
+        tooltipY = chartTop + margin;
+    }
+    if (tooltipY + tooltipHeight + margin > chartTop + chartHeight) {
+        tooltipY = chartTop + chartHeight - tooltipHeight - margin;
+    }
+    tooltipEl.style.opacity = 1;
+    tooltipEl.style.left = tooltipX + 'px';
+    tooltipEl.style.top = tooltipY + 'px';
+}
+
 const externalTooltipHandler = (context, dataset, colors, data, unitTime, dateLabels , prevDateLabels, monthTooltip ,prevMonthTooltip) => {
     const {chart, tooltip} = context;
     const tooltipEl = getOrCreateTooltip(chart);
@@ -505,41 +535,8 @@ const externalTooltipHandler = (context, dataset, colors, data, unitTime, dateLa
         });
 
         innerHtml += `</div>`;
-
         tooltipEl.innerHTML = innerHtml;
-        const {offsetLeft: chartLeft, offsetTop: chartTop, clientWidth: chartWidth, clientHeight: chartHeight} = chart.canvas;
-        const {caretX, caretY} = tooltip;
-
-        // Calculate tooltip position
-        const tooltipWidth = tooltipEl.offsetWidth;
-        const tooltipHeight = tooltipEl.offsetHeight;
-
-        const margin = 16;
-        // Default tooltip position to the right of the point
-        let tooltipX = chartLeft + caretX + margin;
-        let tooltipY = chartTop + caretY - tooltipHeight / 2;
-
-        // Check if tooltip exceeds right boundary
-        if (tooltipX + tooltipWidth + margin > chartLeft + chartWidth) {
-            // Not enough space on the right, position to the left
-            tooltipX = chartLeft + caretX - tooltipWidth - margin;
-        }
-
-        // Ensure tooltip does not overflow horizontally
-        if (tooltipX < chartLeft + margin) {
-            tooltipX = chartLeft + margin;
-        }
-
-        // Ensure tooltip does not overflow vertically
-        if (tooltipY < chartTop + margin) {
-            tooltipY = chartTop + margin;
-        }
-        if (tooltipY + tooltipHeight + margin > chartTop + chartHeight) {
-            tooltipY = chartTop + chartHeight - tooltipHeight - margin;
-        }
-        tooltipEl.style.opacity = 1;
-        tooltipEl.style.left = tooltipX + 'px';
-        tooltipEl.style.top = tooltipY + 'px';
+        wps_js.setTooltipPosition(tooltipEl , chart , tooltip);
     }
 };
 
