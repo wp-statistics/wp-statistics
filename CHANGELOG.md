@@ -1,4 +1,4 @@
-= 14.11.4 - 2024-12-09 =
+14.11.4 - 2024-12-09
 - **Enhancement:** Made the Global Visitor Distribution widget load faster on the Overview page.
 - **Enhancement:** Added geolocation validation to improve debugging accuracy.
 - **Enhancement:** Reduced unnecessary database requests and improved performance in exclusion settings.
