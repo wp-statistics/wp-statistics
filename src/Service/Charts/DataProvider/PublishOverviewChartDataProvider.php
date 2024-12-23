@@ -12,12 +12,11 @@ class PublishOverviewChartDataProvider extends AbstractChartDataProvider
 {
     use BaseChartResponseTrait;
 
-    public $args;
     protected $postsModel;
 
     public function __construct($args)
     {
-        $this->args = $args;
+        parent::__construct($args);
 
         $this->postsModel = new PostsModel();
     }

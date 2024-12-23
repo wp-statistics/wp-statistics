@@ -12,12 +12,11 @@ class OsChartDataProvider extends AbstractChartDataProvider
 {
     use BarChartResponseTrait;
 
-    public $args;
     protected $visitorsModel;
 
     public function __construct($args)
     {
-        $this->args = $args;
+        parent::__construct($args);
 
         $this->args = array_merge($this->args, [
             'fields' => ['visitor.platform']

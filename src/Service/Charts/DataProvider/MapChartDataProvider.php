@@ -14,12 +14,11 @@ class MapChartDataProvider extends AbstractChartDataProvider
 {
     use MapChartResponseTrait;
 
-    public $args;
     protected $visitorsModel;
 
     public function __construct($args)
     {
-        $this->args = $args;
+        parent::__construct($args);
 
         $this->visitorsModel = new VisitorsModel();
     }
