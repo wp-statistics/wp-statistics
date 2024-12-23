@@ -35,6 +35,7 @@ class ExclusionsPage extends BasePage
     {
         $args = [
             'title'         => esc_html__('Excluded Data Overview', 'wp-statistics'),
+            'tooltip'       => esc_html__('Track and analyze the logs of excluded traffic based on your Filtering & Exceptions settings.', 'wp-statistics'),
             'pageName'      => Menus::get_page_slug('exclusions'),
             'DateRang'      => Admin_Template::DateRange(),
             'hasDateRang'   => true,
