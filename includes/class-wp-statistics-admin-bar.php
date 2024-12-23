@@ -88,8 +88,6 @@ class AdminBar
             }
 
             if (!Helper::isAddOnActive('mini-chart') && $view_type && $view_title) {
-                $viewsModel = new ViewsModel();
-                $hit_number = $viewsModel->countViewsFromPagesOnly(['post_id' => $object_id, 'resource_type' => $view_type]);
 
                 $pageLink = '';
                 if (in_array($view_type, ['category', 'post_tag', 'tax'])) {
@@ -101,8 +99,13 @@ class AdminBar
                 }
                 $pageLink = wp_make_link_relative($pageLink);
 
-                $historicalModel = new HistoricalModel();
-                $hit_number      += $historicalModel->countUris(['page_id' => $object_id, 'uri' => $pageLink]);
+                $viewsModel = new ViewsModel();
+                $hit_number = $viewsModel->countViewsFromPagesOnly([
+                    'post_id' => $object_id,
+                    'resource_type' => $view_type,
+                    'uri' => $pageLink,
+                    'ignore_date' => true,
+                ]);
 
                 $menu_title .= sprintf('%s: %s', $view_title, number_format($hit_number));
                 $menu_title .= ' - ';

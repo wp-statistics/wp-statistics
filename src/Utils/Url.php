@@ -122,4 +122,49 @@ class Url
 
         return $url;
     }
+
+    /**
+     * Get relative path for any post type or taxonomy term
+     *
+     * @param int    $id   The post ID or term ID
+     * @param string $type Post type or taxonomy name
+     * @return string Relative path or empty string
+     */
+    public static function getRelativePath($id, $type) {
+        if (!$type || !$id) {
+            return '';
+        }
+
+        if ($type === 'author') {
+            $author = get_user_by('id', $id);
+
+            if (!$author) {
+                return '';
+            }
+
+            return wp_make_link_relative(get_author_posts_url($id));
+        }
+
+        if (taxonomy_exists($type)) {
+            $term = get_term($id, $type);
+
+            if (is_wp_error($term) || !$term) {
+                return '';
+            }
+
+            return wp_make_link_relative(get_term_link($term));
+        }
+
+        if (!post_type_exists($type)) {
+            return '';
+        }
+
+        $post = get_post($id);
+
+        if (!$post || $post->post_type !== $type) {
+            return '';
+        }
+
+        return wp_make_link_relative(get_permalink($post));
+    }
 }

@@ -324,8 +324,7 @@ class HitColumnHandler
                 $uri = empty($term) ? get_permalink($objectId) : get_term_link(intval($term->term_id), $term->taxonomy);
                 $uri = !is_wp_error($uri) ? wp_make_link_relative($uri) : '';
 
-                $historicalModel = new HistoricalModel();
-                $hitCount       += $historicalModel->countUris(['page_id' => $objectId, 'uri' => $uri]);
+                $hitCount = $viewsModel->countViewsFromPagesOnly(array_merge($hitArgs, ['post_id' => $objectId, 'uri' => $uri, 'ignore_date' => true]));      
             }
         }
 
