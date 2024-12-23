@@ -159,7 +159,7 @@ class Url
         if (post_type_exists($type)) {
             $post = get_post($id);
 
-            if (!$post || $post->post_type !== $type || is_wp_error($post)) {
+            if (is_wp_error($post) || !$post || $post->post_type !== $type) {
                 return '';
             }
 
