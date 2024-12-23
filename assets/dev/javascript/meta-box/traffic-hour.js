@@ -31,8 +31,8 @@ wps_js.render_traffic_hour = function (response, key) {
             );
             const shouldShowCurrent = hoveredHour24 <= currentHour;
             const dateToShow = shouldShowCurrent && (hasCurrentValues || (!hasCurrentValues && !hasPreviousValues)) ?
-                data.data.labels[dataIndex].formatted_date + '(' + data.data.labels[dataIndex].hour + ')' :
-                data.previousData.labels[dataIndex].formatted_date + '(' + data.data.labels[dataIndex].hour + ')';
+                data.data.labels[dataIndex].formatted_date + ' (' + data.data.labels[dataIndex].hour + ')' :
+                data.previousData.labels[dataIndex].formatted_date + ' (' + data.data.labels[dataIndex].hour + ')';
 
             innerHtml += `<div class="chart-title">${dateToShow}</div>`;
 
