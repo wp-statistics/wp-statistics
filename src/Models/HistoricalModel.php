@@ -135,7 +135,8 @@ class HistoricalModel
      * }
      * @return int Total number of historical visitors.
      */
-    public function getVisitors($args) {
+    public function getVisitors($args)
+    {
         $this->parseArgs($args);
         
         if(empty($this->parsedArgs['ignore_date'])){
