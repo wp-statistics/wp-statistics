@@ -7,15 +7,35 @@ use WP_Statistics\Components\View;
 ?>
 
 <div class="wps-meta-traffic-summary">
-
     <div class="o-wrap">
         <div class="wps-postbox-chart--data">
             <div class="wps-postbox-chart--items"></div>
             <div class="wps-postbox-chart--items">
                 <div class="wps-postbox-chart--item">
-                    <span><?php esc_html_e('Online', 'wp-statistics'); ?></span>
+                    <span><span class="wps-postbox-chart--item--color"></span><?php esc_html_e('Visitors', 'wp-statistics'); ?></span>
                     <div>
-                        <div class="current-data">1</div>
+                        <div class="current-data">
+                            <span>75K</span>
+                            <span class="current-data-percent current-data-percent__success">2%</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="wps-postbox-chart--item">
+                    <span><span class="wps-postbox-chart--item--color"></span><?php esc_html_e('Views', 'wp-statistics'); ?></span>
+                    <div>
+                        <div class="current-data">
+                            <span>75K</span>
+                            <span class="current-data-percent current-data-percent__danger">45%</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="wps-postbox-chart--item wps-postbox-chart--item__active">
+                    <span><?php esc_html_e('Active now', 'wp-statistics'); ?></span>
+                    <div>
+                        <div class="current-data">
+                            <span class="dot"></span>
+                            <span>15</span>
+                        </div>
                     </div>
                 </div>
 

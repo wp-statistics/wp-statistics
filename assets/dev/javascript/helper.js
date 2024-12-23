@@ -1027,8 +1027,9 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
         }
     };
     updateLegend();
-    wps_js.new_line_chart.aggregateData = aggregateData
-};
+    wps_js.new_line_chart.aggregateData = aggregateData;
+    return lineChart;
+ };
 
 
 // Head filters drop down

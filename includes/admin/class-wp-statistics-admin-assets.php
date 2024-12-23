@@ -471,6 +471,7 @@ class Admin_Assets
             'apply'                        => __('Apply'),
             'reset'                        => __('Reset'),
             'loading'                      => __('Loading'),
+            'go_to_overview'                      => __('Go to Overview'),
             'continue_to_next_step'        => __('Continue to Next Step', 'wp-statistics'),
             'start_of_week'                => get_option('start_of_week', 0)
         );

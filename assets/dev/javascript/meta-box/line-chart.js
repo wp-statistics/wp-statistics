@@ -11,7 +11,6 @@ wps_js.render_line_chart = function (response, key) {
                 wps_js.new_line_chart(data, `wps_${key}_meta_chart`);
             }else{
                 const trafficOptions = {
-
                     scales: {
                         x: {
                             offset:  1,
@@ -74,7 +73,29 @@ wps_js.render_line_chart = function (response, key) {
                         }
                     },
                 };
-                wps_js.new_line_chart(data, `wps_${key}_meta_chart` , trafficOptions);
+                 const trafficChart = wps_js.new_line_chart(data, `wps_${key}_meta_chart`, trafficOptions);
+
+                 function toggleDataset(datasetIndex) {
+                    const meta = trafficChart.getDatasetMeta(datasetIndex);
+                    meta.hidden = !meta.hidden;
+                    trafficChart.update();
+                }
+
+                const visitorsElement = document.querySelector('#traffic_overview .wps-postbox-chart--items:nth-child(2) .wps-postbox-chart--item:nth-child(1) .current-data');
+                const viewsElement = document.querySelector('#traffic_overview .wps-postbox-chart--items:nth-child(2) .wps-postbox-chart--item:nth-child(2) .current-data');
+                if (visitorsElement) {
+                    visitorsElement.addEventListener('click', function () {
+                        this.querySelector('span:first-child').classList.toggle('wps-line-through');
+                        toggleDataset(0);
+                    });
+                }
+                if (viewsElement) {
+                    viewsElement.addEventListener('click', function () {
+                        this.querySelector('span:first-child').classList.toggle('wps-line-through');
+                        toggleDataset(1);
+                    });
+                }
+
             }
         }
         wps_js.initDatePickerHandlers();
