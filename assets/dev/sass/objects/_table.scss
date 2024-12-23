@@ -734,7 +734,7 @@
               font-size: 12px;
               font-weight: 400;
               align-self: flex-end;
-              line-height: 14px;
+              line-height :unset;
 
               &__success {
                 color: #196140;
