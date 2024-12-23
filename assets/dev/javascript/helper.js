@@ -473,7 +473,9 @@ const externalTooltipHandler = (context, dataset, colors, data, unitTime, dateLa
         titleLines.forEach(title => {
             const {date, day} = (data.data) ? data.data.labels[dataIndex] : data.labels[dataIndex];
             if (unitTime === 'day') {
-                innerHtml += `<div class="chart-title">${date} (${day})</div>`;
+                const phpDateFormat = wps_js.isset(wps_js.global, 'options', 'wp_date_format') ? wps_js.global['options']['wp_date_format'] : 'MM/DD/YYYY';
+                let momentDateFormat = phpToMomentFormat(phpDateFormat);
+                innerHtml += `<div class="chart-title">${moment(date).format(momentDateFormat)} (${day})</div>`;
             } else if (unitTime === 'month') {
                 innerHtml += `<div class="chart-title">${monthTooltip[dataIndex]} </div>`;
             } else {
@@ -513,7 +515,9 @@ const externalTooltipHandler = (context, dataset, colors, data, unitTime, dateLa
                     let previousValue = previousDataset.data[dataIndex];
                     let previousLabel = null;
                      if (unitTime === 'day') {
-                        previousLabel = data.previousData.labels[dataIndex].date
+                         const phpDateFormat = wps_js.isset(wps_js.global, 'options', 'wp_date_format') ? wps_js.global['options']['wp_date_format'] : 'MM/DD/YYYY';
+                         let momentDateFormat = phpToMomentFormat(phpDateFormat);
+                        previousLabel = moment(data.previousData.labels[dataIndex].date).format(momentDateFormat)
                     } else if (unitTime === 'month') {
                          previousLabel=prevMonthTooltip[dataIndex];
                     } else {
