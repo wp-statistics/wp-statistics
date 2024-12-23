@@ -1,9 +1,15 @@
 <?php
 
+use WP_Statistics\Components\DateRange;
 use WP_STATISTICS\Menus;
 use WP_STATISTICS\Option;
 use WP_Statistics\Components\View;
+use WP_STATISTICS\Helper;
 
+$visitors       = $data['total']['visitors']['current'];
+$prevVisitors   = $data['total']['visitors']['prev'];
+$views          = $data['total']['views']['current'];
+$prevViews      = $data['total']['views']['prev'];
 ?>
 
 <div class="wps-meta-traffic-summary">
@@ -15,8 +21,8 @@ use WP_Statistics\Components\View;
                     <span><span class="wps-postbox-chart--item--color"></span><?php esc_html_e('Visitors', 'wp-statistics'); ?></span>
                     <div>
                         <div class="current-data">
-                            <span>75K</span>
-                            <span class="current-data-percent current-data-percent__success">2%</span>
+                            <span><?php echo esc_html($visitors) ?></span>
+                            <span class="current-data-percent <?php echo ($visitors > $prevVisitors) ? 'current-data-percent__success' : 'current-data-percent__danger' ?>"><?php echo esc_html(Helper::calculatePercentageChange($prevVisitors, $visitors)) ?>%</span>
                         </div>
                     </div>
                 </div>
@@ -24,8 +30,8 @@ use WP_Statistics\Components\View;
                     <span><span class="wps-postbox-chart--item--color"></span><?php esc_html_e('Views', 'wp-statistics'); ?></span>
                     <div>
                         <div class="current-data">
-                            <span>75K</span>
-                            <span class="current-data-percent current-data-percent__danger">45%</span>
+                            <span><?php echo esc_html($views) ?></span>
+                            <span class="current-data-percent <?php echo ($views > $prevViews) ? 'current-data-percent__success' : 'current-data-percent__danger' ?>"><?php echo esc_html(Helper::calculatePercentageChange($prevViews, $views)) ?>%</span>
                         </div>
                     </div>
                 </div>
@@ -34,7 +40,7 @@ use WP_Statistics\Components\View;
                     <div>
                         <div class="current-data">
                             <span class="dot"></span>
-                            <span>15</span>
+                            <span><?php echo esc_html($data['online']); ?></span>
                         </div>
                     </div>
                 </div>
@@ -49,42 +55,42 @@ use WP_Statistics\Components\View;
     <div class="o-table-wrapper">
         <table width="100%" class="o-table o-table--wps-summary-stats">
             <thead>
-            <tr>
-                <th width="50%"></th>
-                <th><?php esc_html_e('Visitors', 'wp-statistics'); ?></th>
-                <th><?php esc_html_e('Views', 'wp-statistics'); ?></th>
-            </tr>
+                <tr>
+                    <th width="50%"></th>
+                    <th><?php esc_html_e('Visitors', 'wp-statistics'); ?></th>
+                    <th><?php esc_html_e('Views', 'wp-statistics'); ?></th>
+                </tr>
             </thead>
             <tbody>
                 <tr>
                     <td><b><?php esc_html_e('Today', 'wp-statistics'); ?></b></td>
-                    <td><a href=""><span class="quickstats-values">1</span></a></td>
-                    <td><a href=""><span class="quickstats-values">2</span></a></td>
+                    <td><a href="<?php echo Menus::admin_url('visitors', array_merge(['tab' => 'visitors'], DateRange::get('today'))) ?>"><span class="quickstats-values"><?php echo esc_html($data['visitors']['today']['visitors']) ?></span></a></td>
+                    <td><a href="<?php echo Menus::admin_url('visitors', array_merge(['tab' => 'views'], DateRange::get('today'))) ?>"><span class="quickstats-values"><?php echo esc_html($data['views']['today']['views']) ?></span></a></td>
                 </tr>
                 <tr>
                     <td><b><?php esc_html_e('Yesterday', 'wp-statistics'); ?></b></td>
-                    <td><a href=""><span class="quickstats-values">1</span></a></td>
-                    <td><a href=""><span class="quickstats-values">2</span></a></td>
+                    <td><a href="<?php echo Menus::admin_url('visitors', array_merge(['tab' => 'visitors'], DateRange::get('yesterday'))) ?>"><span class="quickstats-values"><?php echo esc_html($data['visitors']['yesterday']['visitors']) ?></span></a></td>
+                    <td><a href="<?php echo Menus::admin_url('visitors', array_merge(['tab' => 'views'], DateRange::get('yesterday'))) ?>"><span class="quickstats-values"><?php echo esc_html($data['views']['yesterday']['views']) ?></span></a></td>
                 </tr>
                 <tr>
                     <td><b><?php esc_html_e('Last 7 days', 'wp-statistics'); ?></b></td>
-                    <td><a href=""><span class="quickstats-values">1</span></a></td>
-                    <td><a href=""><span class="quickstats-values">2</span></a></td>
+                    <td><a href="<?php echo Menus::admin_url('visitors', array_merge(['tab' => 'visitors'], DateRange::get('7days'))) ?>"><span class="quickstats-values"><?php echo esc_html($data['visitors']['7days']['visitors']) ?></span></a></td>
+                    <td><a href="<?php echo Menus::admin_url('visitors', array_merge(['tab' => 'views'], DateRange::get('7days'))) ?>"><span class="quickstats-values"><?php echo esc_html($data['views']['7days']['views']) ?></span></a></td>
                 </tr>
                 <tr>
                     <td><b><?php esc_html_e('Last 30 days', 'wp-statistics'); ?></b></td>
-                    <td><a href=""><span class="quickstats-values">1</span></a></td>
-                    <td><a href=""><span class="quickstats-values">2</span></a></td>
+                    <td><a href="<?php echo Menus::admin_url('visitors', array_merge(['tab' => 'visitors'], DateRange::get('30days'))) ?>"><span class="quickstats-values"><?php echo esc_html($data['visitors']['30days']['visitors']) ?></span></a></td>
+                    <td><a href="<?php echo Menus::admin_url('visitors', array_merge(['tab' => 'views'], DateRange::get('30days'))) ?>"><span class="quickstats-values"><?php echo esc_html($data['views']['30days']['views']) ?></span></a></td>
                 </tr>
                 <tr>
                     <td><b><?php esc_html_e('This year (Jan-Today)', 'wp-statistics'); ?></b></td>
-                    <td><a href=""><span class="quickstats-values">1</span></a></td>
-                    <td><a href=""><span class="quickstats-values">2</span></a></td>
+                    <td><a href="<?php echo Menus::admin_url('visitors', array_merge(['tab' => 'visitors'], DateRange::get('this_year'))) ?>"><span class="quickstats-values"><?php echo esc_html($data['visitors']['this_year']['visitors']) ?></span></a></td>
+                    <td><a href="<?php echo Menus::admin_url('visitors', array_merge(['tab' => 'views'], DateRange::get('this_year'))) ?>"><span class="quickstats-values"><?php echo esc_html($data['views']['this_year']['views']) ?></span></a></td>
                 </tr>
                 <tr>
                     <td><b><?php esc_html_e('Total', 'wp-statistics'); ?></b></td>
-                    <td><a href=""><span class="quickstats-values">1</span></a></td>
-                    <td><a href=""><span class="quickstats-values">2</span></a></td>
+                    <td><a href="<?php echo Menus::admin_url('visitors', array_merge(['tab' => 'visitors'], DateRange::get('total'))) ?>"><span class="quickstats-values"><?php echo esc_html($data['visitors']['total']['visitors']) ?></span></a></td>
+                    <td><a href="<?php echo Menus::admin_url('visitors', array_merge(['tab' => 'views'], DateRange::get('total'))) ?>"><span class="quickstats-values"><?php echo esc_html($data['views']['total']['views']) ?></span></a></td>
                 </tr>
             </tbody>
         </table>

@@ -3,6 +3,7 @@ namespace WP_Statistics\Service\Admin\Metabox\Metaboxes;
 
 use WP_Statistics\Components\View;
 use WP_Statistics\Abstracts\BaseMetabox;
+use WP_Statistics\Components\DateRange;
 use WP_STATISTICS\Menus;
 
 class TrafficOverview extends BaseMetabox
@@ -28,67 +29,32 @@ class TrafficOverview extends BaseMetabox
     public function getData()
     {
         $args = [
-            'ignore_date'       => true,
-            'ignore_post_type'  => true
+            'ignore_post_type'  => true,
+            'prev_data'         => true,
+            'date'              => DateRange::get('15days')
         ];
 
-        $data = [
-            "data" => [
-                "labels" => [
-                    [
-                        "formatted_date" => "Dec 9",
-                        "date" => "2024-12-09",
-                        "day" => "Monday"
-                    ],
-                    [
-                        "formatted_date" => "Dec 10",
-                        "date" => "2024-12-10",
-                        "day" => "Tuesday"
-                    ],
-                    [
-                        "formatted_date" => "Dec 11",
-                        "date" => "2024-12-11",
-                        "day" => "Wednesday"
-                    ],
-                    [
-                        "formatted_date" => "Dec 12",
-                        "date" => "2024-12-12",
-                        "day" => "Thursday"
-                    ],
-                    [
-                        "formatted_date" => "Dec 13",
-                        "date" => "2024-12-13",
-                        "day" => "Friday"
-                    ],
-                    [
-                        "formatted_date" => "Dec 14",
-                        "date" => "2024-12-14",
-                        "day" => "Saturday"
-                    ],
-                    [
-                        "formatted_date" => "Dec 15",
-                        "date" => "2024-12-15",
-                        "day" => "Sunday"
-                    ]
+        $chartData  = $this->dataProvider->getTrafficChartData($args);
+        $data       = $this->dataProvider->getTrafficOverviewData($args);
+
+        // Merge chart data with template data
+        $data = array_merge($data, [
+            'total' => [
+                'visitors'  => [
+                    'current'   => array_sum($chartData['data']['datasets'][0]['data']),
+                    'prev'      => array_sum($chartData['previousData']['datasets'][0]['data'])
                 ],
-                "datasets" => [
-                    [
-                        "label" => "Visitors",
-                        "data" => [1, 0, 0, 0, 0, 0, 0]
-                    ],
-                    [
-                        "label" => "Views",
-                        "data" => [1, 0, 0, 0, 0, 0, 0]
-                    ]
+                'views'     => [
+                    'current'   => array_sum($chartData['data']['datasets'][1]['data']),
+                    'prev'      => array_sum($chartData['previousData']['datasets'][1]['data'])
                 ]
-            ],
-        ];
-
+            ]
+        ]);
 
         $output = View::load('metabox/traffic-overview', ['data' => $data], true);
 
         return [
-            'data'      => $data,
+            'data'      => $chartData,
             'output'    => $output
         ];
     }

@@ -48,6 +48,17 @@ class MetaboxDataProvider
         return $data;
     }
 
+    public function getTrafficOverviewData($args = [])
+    {
+        $data = [
+            'online'    => $this->onlineModel->countOnlines($args),
+            'visitors'  => $this->visitorsModel->getVisitorsSummary($args),
+            'views'     => $this->viewsModel->getViewsSummary($args)
+        ];
+
+        return $data;
+    }
+
     public function getReferrersData($args = [])
     {
         $args = array_merge(

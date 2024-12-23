@@ -1816,7 +1816,7 @@ class Helper
      *
      * @return  float
      */
-    public static function calculatePercentageChange($firstNumber, $secondNumber)
+    public static function calculatePercentageChange($firstNumber, $secondNumber, $decimals = 2)
     {
         $firstNumber  = intval($firstNumber);
         $secondNumber = intval($secondNumber);
@@ -1839,7 +1839,7 @@ class Helper
         $result *= 100;
         $result *= $multiply;
 
-        return $result;
+        return round($result, $decimals);
     }
 
     /**
