@@ -159,13 +159,12 @@ add_thickbox();
                 <h3><?php esc_html_e('GeoIP Settings', 'wp-statistics'); ?></h3>
             </th>
         </tr>
-        <?php if(! empty(IP::getCloudflareIp())): ?>
         <tr valign="top">
             <th scope="row"><label for="wps_geoip_location_detection_method"><?php esc_html_e('Location Detection Method', 'wp-statistics'); ?></label></th>
             <td>
                 <select name="wps_geoip_location_detection_method" id="geoip_location_detection_method">
-                    <option value="cf" <?php selected(WP_STATISTICS\Option::get('geoip_location_detection_method'), 'cf'); ?><?php echo CloudflareGeolocationProvider::isAvailable() ? '' : 'disabled'; ?>><?php esc_html_e('Cloudflare IP Geolocation', 'wp-statistics'); ?></option>
-                    <option value="maxmind" <?php selected(WP_STATISTICS\Option::get('geoip_location_detection_method'), 'maxmind'); ?>><?php esc_html_e('MaxMind GeoIP', 'wp-statistics'); ?></option>
+                    <option value="cf" <?php selected(WP_STATISTICS\Option::get('geoip_location_detection_method', 'maxmind'), 'cf'); ?><?php echo CloudflareGeolocationProvider::isAvailable() ? '' : 'disabled'; ?>><?php esc_html_e('Cloudflare IP Geolocation', 'wp-statistics'); ?></option>
+                    <option value="maxmind" <?php selected(WP_STATISTICS\Option::get('geoip_location_detection_method', 'maxmind'), 'maxmind'); ?>><?php esc_html_e('MaxMind GeoIP', 'wp-statistics'); ?></option>
                 </select>
 
                 <p class="description">
@@ -179,7 +178,6 @@ add_thickbox();
                 </p>
             </td>
         </tr>
-        <?php endif; ?> 
 
         <tr valign="top">
             <th scope="row"><label for="wps_geoip_license_type"><?php esc_html_e('GeoIP Database Update Source', 'wp-statistics'); ?></label></th>

@@ -284,7 +284,7 @@ class GeneralNotices
                 '<strong>',
                 '</strong>',
                 esc_html__("You're using Cloudflare. To improve performance, enable the IP Geolocation feature in your Cloudflare account. This allows the plugin to use Cloudflare's geolocation instead of GeoIP MaxMind", 'wp-statistics'),
-                '<a href="https://developers.cloudflare.com/rules/transform/managed-transforms/reference/#add-visitor-location-headers" target="_blank">',
+                sprintf('<a href="%s" target="_blank">', esc_url(admin_url('admin.php?page=wps_settings_page&tab=advanced-settings'))),
                 esc_html__('Click here', 'wp-statistics'),
                 '</a>'
             ),
