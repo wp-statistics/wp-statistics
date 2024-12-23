@@ -2,6 +2,7 @@
 
 namespace WP_Statistics\Service\Admin\Posts;
 
+use WP_STATISTICS\Helper;
 use WP_STATISTICS\Menus;
 use WP_Statistics\Models\ViewsModel;
 use WP_Statistics\Models\VisitorsModel;
@@ -53,7 +54,8 @@ class PostSummaryDataProvider
         $this->setTo(TimeZone::getTimeAgo());
 
         $this->argsTotal = [
-            'post_id' => $this->postId,
+            'resource_id'   => $this->postId,
+            'resource_type' => Helper::getPostTypes(),
             'date'    => [
                 'from' => $this->getPublishDate(),
                 'to'   => date('Y-m-d'),
@@ -72,7 +74,8 @@ class PostSummaryDataProvider
     private function setArgs()
     {
         $this->args = [
-            'post_id' => $this->postId,
+            'resource_id'   => $this->postId,
+            'resource_type' => Helper::getPostTypes(),
             'date'    => [
                 'from' => $this->fromDate,
                 'to'   => $this->toDate,
@@ -221,7 +224,9 @@ class PostSummaryDataProvider
      */
     public function getViews($isTotal = false)
     {
-        return intval($this->viewsModel->countViews($isTotal ? $this->argsTotal : $this->args));
+        $args = $isTotal ? $this->argsTotal : $this->args;
+
+        return intval($this->viewsModel->countViews(array_merge($args, ['post_id' => $this->args['resource_id']])));
     }
 
     /**
@@ -253,7 +258,9 @@ class PostSummaryDataProvider
      */
     public function getTopReferrerAndCount($isTotal = false)
     {
-        $topReferrer = $this->visitorsModel->getReferrers($isTotal ? $this->argsTotal : $this->args);
+        $args = $isTotal ? $this->argsTotal : $this->args;
+
+        $topReferrer = $this->visitorsModel->getReferrers(array_merge($args, ['post_id' => $this->args['resource_id']]));
 
         if (empty($topReferrer) && empty($topReferrer[0]->referred)) {
             return [
