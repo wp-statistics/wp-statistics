@@ -30,12 +30,11 @@ class TrafficOverview extends BaseMetabox
     {
         $args = [
             'ignore_post_type'  => true,
-            'prev_data'         => true,
-            'date'              => DateRange::get('15days')
+            'prev_data'         => true
         ];
 
-        $chartData  = $this->dataProvider->getTrafficChartData($args);
-        $data       = $this->dataProvider->getTrafficOverviewData($args);
+        $chartData  = $this->dataProvider->getTrafficChartData(array_merge($args, ['date' => DateRange::get('15days')]));
+        $data       = $this->dataProvider->getTrafficOverviewData(array_merge($args, ['ignore_date' => true]));
 
         // Merge chart data with template data
         $data = array_merge($data, [
