@@ -20,6 +20,11 @@ class TrafficOverview extends BaseMetabox
         return esc_html__('', 'wp-statistics');
     }
 
+    public function getScreen()
+    {
+        return ['dashboard'];
+    }
+
     public function getData()
     {
         $args = [
