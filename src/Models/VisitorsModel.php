@@ -78,7 +78,7 @@ class VisitorsModel extends BaseModel
         $result = $query->getVar();
         $total  = $result ? intval($result) : 0;
 
-        $total += $this->historicalModel->getVisitors();
+        $total += $this->historicalModel->getVisitors($args);
 
         return $total;
     }

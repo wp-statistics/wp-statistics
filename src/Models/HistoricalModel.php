@@ -127,9 +127,21 @@ class HistoricalModel
     /**
      * Get the total number of historical visitors.
      *
+     * @param array $args {
+     *     Optional. An array of arguments for filtering historical visitor data.
+     *
+     *     @type bool $ignore_date  Whether to ignore date constraints when counting visitors.
+     *                             Default false. When false, returns 0.
+     * }
      * @return int Total number of historical visitors.
      */
-    public function getVisitors() {
+    public function getVisitors($args) {
+        $this->parseArgs($args);
+        
+        if(empty($this->parsedArgs['ignore_date'])){
+            return 0;
+        }
+
         $query = Query::select('SUM(`value`) AS `historical_views`')
             ->from('historical')
             ->where('category', '=', 'visitors');
@@ -175,12 +187,6 @@ class HistoricalModel
     /**
      * Returns historical views of a page by its URL.
      *
-     * @param array $args {
-     *     Arguments for counting URIs.
-     *
-     *     @type int    $post_id Post ID
-     *     @type string $uri     Resource URI
-     * }
      * @return int Total number of historical views
      */
     private function countUris()
