@@ -32,6 +32,8 @@ class ExclusionsModel extends BaseModel
             'exclusion_id'  => '',
             'per_page'      => '',
             'page'          => 1,
+            'order_by'      => 'count',
+            'order'         => 'DESC',
             'group_by'      => 'reason',
         ]);
 
@@ -46,7 +48,7 @@ class ExclusionsModel extends BaseModel
             ->whereDate('date', $args['date'])
             ->perPage($args['page'], $args['per_page'])
             ->groupBy($args['group_by'])
-            ->orderBy('date')
+            ->orderBy($args['order_by'], $args['order'])
             ->getAll();
 
         return $result;

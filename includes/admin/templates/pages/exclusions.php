@@ -44,7 +44,7 @@ use WP_STATISTICS\Helper;
                                             <?php echo esc_html(number_format_i18n($item->count)); ?>
                                         </td>
                                         <td class="wps-pd-l">
-                                            <?php echo Helper::calculatePercentage($item->count, $data['total']) ?>
+                                            <?php echo esc_html(Helper::calculatePercentage($item->count, $data['total']) . '%') ?>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>
