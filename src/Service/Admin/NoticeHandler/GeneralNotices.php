@@ -269,24 +269,33 @@ class GeneralNotices
         }
 
         Notice::addNotice(
-            sprintf(
-                wp_kses(
-                    /* translators: %1$s: opening strong tag, %2$s: closing strong tag, %3$s: suggestion text, %4$s: opening link tag, %5$s: link text, %6$s: closing link tag */
+            wp_kses(
+                sprintf(
+                    /* translators: %1$s: opening strong tag, %2$s: closing strong tag, %3$s: suggestion text about Cloudflare, %4$s: opening link tag with href and title, %5$s: link text, %6$s: closing link tag */
                     '%1$sSuggestion:%2$s %3$s %4$s%5$s%6$s.',
-                    [
-                        'strong' => [],
-                        'a' => [
-                            'href' => [],
-                            'target' => [],
-                        ],
-                    ]
+                    '<strong>',
+                    '</strong>',
+                    esc_html__(
+                        "You're using Cloudflare. To improve performance, enable the IP Geolocation feature in your Cloudflare account. This allows the plugin to use Cloudflare's geolocation instead of GeoIP MaxMind", 
+                        'wp-statistics'
+                    ),
+                    sprintf(
+                        /* translators: %1$s: URL to advanced settings page, %2$s: Title attribute for the link tooltip */
+                        '<a href="%1$s" title="%2$s">', 
+                        esc_url(admin_url('admin.php?page=wps_settings_page&tab=advanced-settings')),
+                        esc_attr__('Go to WP Statistics Advanced Settings', 'wp-statistics')
+                    ),
+                    esc_html__('Click here', 'wp-statistics'),
+                    '</a>'
                 ),
-                '<strong>',
-                '</strong>',
-                esc_html__("You're using Cloudflare. To improve performance, enable the IP Geolocation feature in your Cloudflare account. This allows the plugin to use Cloudflare's geolocation instead of GeoIP MaxMind", 'wp-statistics'),
-                sprintf('<a href="%s" target="_blank">', esc_url(admin_url('admin.php?page=wps_settings_page&tab=advanced-settings'))),
-                esc_html__('Click here', 'wp-statistics'),
-                '</a>'
+                [
+                    'strong' => [],
+                    'a' => [
+                        'href' => [],
+                        'target' => [],
+                        'title' => [],
+                    ],
+                ]
             ),
             'cloudflare_geolocation',
             'info'
