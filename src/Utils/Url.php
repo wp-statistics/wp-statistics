@@ -130,7 +130,8 @@ class Url
      * @param string $type Post type or taxonomy name
      * @return string Relative path or empty string
      */
-    public static function getRelativePath($id, $type) {
+    public static function getPath($id, $type)
+    {
         if (!$type || !$id) {
             return '';
         }
@@ -155,16 +156,16 @@ class Url
             return wp_make_link_relative(get_term_link($term));
         }
 
-        if (!post_type_exists($type)) {
-            return '';
+        if (post_type_exists($type)) {
+            $post = get_post($id);
+
+            if (!$post || $post->post_type !== $type || is_wp_error($post)) {
+                return '';
+            }
+
+            return wp_make_link_relative(get_permalink($post));
         }
 
-        $post = get_post($id);
-
-        if (!$post || $post->post_type !== $type) {
-            return '';
-        }
-
-        return wp_make_link_relative(get_permalink($post));
+        return '';
     }
 }

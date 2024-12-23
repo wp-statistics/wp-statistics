@@ -76,8 +76,11 @@ class VisitorsModel extends BaseModel
         }
 
         $result = $query->getVar();
+        $total  = $result ? intval($result) : 0;
 
-        return $result ? intval($result) : 0;
+        $total += $this->historicalModel->getVisitors();
+
+        return $total;
     }
 
     public function countDailyVisitors($args = [])

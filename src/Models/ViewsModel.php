@@ -9,20 +9,6 @@ use WP_Statistics\Components\DateRange;
 
 class ViewsModel extends BaseModel
 {
-    /**
-     * Instance of HistoricalModel for historical page view data
-     * 
-     * @var HistoricalModel
-     */
-    private $historicalModel; 
-
-    public function __construct()
-    {
-        if (empty($this->historicalModel)) {
-            $this->historicalModel = new HistoricalModel();
-        }
-    }
-
     public function countViews($args = [])
     {
         $args = $this->parseArgs($args, [
