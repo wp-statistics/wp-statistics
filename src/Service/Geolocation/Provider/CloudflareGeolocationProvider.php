@@ -10,10 +10,10 @@ use Exception;
 class CloudflareGeolocationProvider extends AbstractGeoIPProvider
 {
     /**
-    * Static method to check if Cloudflare geolocation headers are available
-    *
-    * @return bool 
-    */
+     * Static method to check if Cloudflare geolocation headers are available
+     *
+     * @return bool 
+     */
     public static function isAvailable(): bool
     {
         if (empty(IP::getCloudflareIp())) {
@@ -22,7 +22,7 @@ class CloudflareGeolocationProvider extends AbstractGeoIPProvider
 
         $headers = [
             'HTTP_CF_IPCOUNTRY',
-            'HTTP_CF_IPCONTINENT', 
+            'HTTP_CF_IPCONTINENT',
             'HTTP_CF_REGION',
             'HTTP_CF_IPCITY',
             'HTTP_CF_IPLATITUDE',
@@ -63,7 +63,7 @@ class CloudflareGeolocationProvider extends AbstractGeoIPProvider
         ];
     }
 
-   /**
+    /**
      * Get all Cloudflare headers using filter_input.
      *
      * @return array Raw header data
@@ -90,10 +90,10 @@ class CloudflareGeolocationProvider extends AbstractGeoIPProvider
     private function sanitizeHeaderData(array $data): array
     {
         $stringFields = ['country_code', 'continent', 'region', 'city', 'postal_code'];
-        
+
         foreach ($stringFields as $field) {
-            $data[$field] = $data[$field] ? 
-                htmlspecialchars($data[$field], ENT_QUOTES, 'UTF-8') : 
+            $data[$field] = $data[$field] ?
+                htmlspecialchars($data[$field], ENT_QUOTES, 'UTF-8') :
                 null;
         }
 
@@ -107,11 +107,12 @@ class CloudflareGeolocationProvider extends AbstractGeoIPProvider
      * 
      * @return string|null Continent name or null.
      */
-    protected function getContinentName( $code ) {
-        if ( empty( $code ) ) {
+    protected function getContinentName($code)
+    {
+        if (empty($code)) {
             return null;
         }
-    
+
         $continents = [
             'AF' => 'Africa',
             'AN' => 'Antarctica',
@@ -125,7 +126,8 @@ class CloudflareGeolocationProvider extends AbstractGeoIPProvider
         return $continents[$code] ?? null;
     }
 
-    public function getDownloadUrl(){
+    public function getDownloadUrl()
+    {
         return '';
     }
 
