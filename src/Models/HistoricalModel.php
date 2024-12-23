@@ -141,7 +141,7 @@ class HistoricalModel extends BaseModel
     public function countUris($args = [])
     {
         $args = $this->parseArgs($args, [
-            'page_id' => '',
+            'post_id' => '',
             'uri'     => '',
         ]);
 
