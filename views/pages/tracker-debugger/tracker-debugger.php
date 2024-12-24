@@ -202,43 +202,72 @@ $excludeCountries   = $options->getExcludedCountries();
 
                 View::load("components/audit-card", $cacheData);
 
+                $itemFilters = [];
 
-                $itemFilters = [
-                    [
-                        'title'   => __('P Addresses:', 'wp-statistics'),
+                if (! empty($excludedIPs)) {
+                    $itemFilters[] = [
+                        'title'   => __('IP Addresses', 'wp-statistics'),
                         'content' => $options->formatValuesAsHtml($excludedIPs, 'p'),
-                    ],
-                    [
-                        'title'   => __('Roles:', 'wp-statistics'),
-                        'content' => $options->formatValuesAsHtml($userRoleExclusions, 'p'),
-                    ],
-                    [
-                        'title'   => __('Exclude Countries:', 'wp-statistics'),
-                        'content' => $options->formatValuesAsHtml($excludeCountries, 'p'),
-                    ],
-                    [
-                        'title'   => __('URLs:', 'wp-statistics'),
-                        'content' => $options->formatValuesAsHtml($excludedUrls, 'p'),
-                    ],
-                ];
+                    ];
+                }
 
+                if (! empty($userRoleExclusions)) {
+                    $itemFilters[] = [
+                        'title'   => __('Roles', 'wp-statistics'),
+                        'content' => $options->formatValuesAsHtml($userRoleExclusions, 'p'),
+                    ];
+                }
+
+                if (! empty($includCountries)) {
+                    $itemFilters[] = [
+                        'title'   => __('Include Countries', 'wp-statistics'),
+                        'content' => $options->formatValuesAsHtml($includCountries, 'p'),
+                    ];
+                }
+
+                if (! empty($excludeCountries)) {
+                    $itemFilters[] = [
+                        'title'   => __('Exclude Countries', 'wp-statistics'),
+                        'content' => $options->formatValuesAsHtml($excludeCountries, 'p'),
+                    ];
+                }
+
+                if (! empty($excludedUrls)) {
+                    $itemFilters[] = [
+                        'title'   => __('URLs', 'wp-statistics'),
+                        'content' => $options->formatValuesAsHtml($excludedUrls, 'p'),
+                    ];
+                }
+
+                $filtersIcon = '<svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M1.75 4.375C1.75 2.92526 2.92526 1.75 4.375 1.75H16.625C18.0748 1.75 19.25 2.92526 19.25 4.375V5.40012C19.25 6.09632 18.9734 6.76399 18.4811 7.25628L13.3813 12.3561C13.2172 12.5203 13.125 12.7428 13.125 12.9748V15.0251C13.125 15.7213 12.8484 16.389 12.3561 16.8813L10.4294 18.808C9.48675 19.7507 7.875 19.083 7.875 17.75V12.9748C7.875 12.7428 7.78281 12.5203 7.61872 12.3561L2.51884 7.25628C2.02656 6.76399 1.75 6.09632 1.75 5.40012V4.375Z" fill="#019939"/>
+                    </svg>';
 
                 ob_start();
                 View::load('components/objects/tracker-filter-list', ['filters' => $itemFilters]);
                 $itemFilterListsHtml = ob_get_clean();
 
-                $item = [
-                    'svg'         => '<svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd" clip-rule="evenodd" d="M1.75 4.375C1.75 2.92526 2.92526 1.75 4.375 1.75H16.625C18.0748 1.75 19.25 2.92526 19.25 4.375V5.40012C19.25 6.09632 18.9734 6.76399 18.4811 7.25628L13.3813 12.3561C13.2172 12.5203 13.125 12.7428 13.125 12.9748V15.0251C13.125 15.7213 12.8484 16.389 12.3561 16.8813L10.4294 18.808C9.48675 19.7507 7.875 19.083 7.875 17.75V12.9748C7.875 12.7428 7.78281 12.5203 7.61872 12.3561L2.51884 7.25628C2.02656 6.76399 1.75 6.09632 1.75 5.40012V4.375Z" fill="#019939"/>
-                        </svg>',
+                $filterData = [
+                    'svg'         => $filtersIcon,
                     'title'       => __('No Filters or Exceptions are Applied', 'wp-statistics'),
                     'description' => __('All visitors are being tracked without exclusions.', 'wp-statistics'),
-                    'content'     => $itemFilterListsHtml,
+                    'content'     => '',
                     'suggestion'  => __('Review these filters in Settings > Filtering & Exceptions. Update if necessary. <a href="">Learn more</a>  .', 'wp-statistics'),
                     'status'      => 'success'
                 ];
 
-                View::load("components/audit-card", $item);
+                if (count($itemFilters) > 0) {
+                    $filterData = [
+                        'svg'         => $filtersIcon,
+                        'title'       => __('Filters or Exceptions are Applied', 'wp-statistics'),
+                        'description' => '',
+                        'content'     => $itemFilterListsHtml,
+                        'suggestion'  => esc_html__('Review these filters in Settings > Filtering & Exceptions. Update if necessary. Learn more.', 'wp-statistics'),
+                        'status'      => 'info'
+                    ];
+                }
+
+                View::load("components/audit-card", $filterData);
 
                 $errorIcon = '<svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M10.5 19.6875C15.5741 19.6875 19.6875 15.5741 19.6875 10.5C19.6875 5.42588 15.5741 1.3125 10.5 1.3125C5.42588 1.3125 1.3125 5.42588 1.3125 10.5C1.3125 15.5741 5.42588 19.6875 10.5 19.6875Z" fill="#019939"/>
@@ -258,7 +287,7 @@ $excludeCountries   = $options->getExcludedCountries();
                 if (count($errors->getErrors()) > 0) {
                     $filters = [
                         [
-                            'content' => $errors->printLogs(),
+                            'content' => $errors->printError(),
                         ],
                     ];
 
@@ -289,44 +318,49 @@ $excludeCountries   = $options->getExcludedCountries();
                 <div class="o-table-wrapper">
                     <table width="100%" class="o-table wps-new-table">
                         <thead>
-                        <tr>
-                            <th class="wps-pd-l">
-                                <?php echo esc_html_e('Timestamp', 'wp-statistics'); ?>
-                            </th>
-                            <th class="wps-pd-l">
-                                <?php echo esc_html_e('Visitor Information', 'wp-statistics'); ?>
-                            </th>
-                            <th class="wps-pd-l start">
-                                <?php echo esc_html_e('Location', 'wp-statistics'); ?>
-                            </th>
-                        </tr>
+                            <tr>
+                                <th class="wps-pd-l">
+                                    <?php echo esc_html_e('Timestamp', 'wp-statistics'); ?>
+                                </th>
+                                <th class="wps-pd-l">
+                                    <?php echo esc_html_e('Visitor Information', 'wp-statistics'); ?>
+                                </th>
+                                <th class="wps-pd-l start">
+                                    <?php echo esc_html_e('Location', 'wp-statistics'); ?>
+                                </th>
+                            </tr>
                         </thead>
                         <tbody>
-                        <?php foreach ($visitor->getLatestVisitors() as $visitor) : ?>
-                            <tr>
-                                <td class="wps-pd-l">
-                                    <?php
-                                    $visitDate = new DateTime($visitor->getLastView());
+                            <?php foreach ($visitors->getLatestVisitors() as $visitor) : ?>
+                                <tr>
+                                    <td class="wps-pd-l">
+                                        <?php
+                                        $visitDate = new DateTime($visitor->getLastView());
 
-                                    echo TimeZone::getElapsedTime($currentDate, $visitDate); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-                                    ?>
-                                </td>
-                                <td class="wps-pd-l">
-                                    <?php View::load("components/visitor-information", ['visitor' => $visitor]); ?>
-                                </td>
-                                <td class="wps-pd-l">
-                                    <div class="wps-country-flag wps-ellipsis-parent">
-                                        <a target="" href="<?php echo esc_url(Menus::admin_url('geographic', ['type' => 'single-country', 'country' => $visitor->getLocation()->getCountryCode()])) ?>" class="wps-tooltip tooltipstered">
-                                            <img src="<?php echo esc_url($visitor->getLocation()->getCountryFlag()) ?>" alt="Hesse, Frankfurt am Main" width="15" height="15">
-                                        </a>
-                                        <?php $location = Admin_Template::locationColumn($visitor->getLocation()->getCountryCode(), $visitor->getLocation()->getRegion(), $visitor->getLocation()->getCity()); ?>
-                                        <span class="wps-ellipsis-text" title="<?php echo esc_attr($location) ?>"><?php echo esc_html($location) ?></span>
-                                    </div>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
+                                        echo TimeZone::getElapsedTime($currentDate, $visitDate); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                                        ?>
+                                    </td>
+                                    <td class="wps-pd-l">
+                                        <?php View::load("components/visitor-information", ['visitor' => $visitor]); ?>
+                                    </td>
+                                    <td class="wps-pd-l">
+                                        <div class="wps-country-flag wps-ellipsis-parent">
+                                            <a target="" href="<?php echo esc_url(Menus::admin_url('geographic', ['type' => 'single-country', 'country' => $visitor->getLocation()->getCountryCode()])) ?>" class="wps-tooltip tooltipstered">
+                                                <img src="<?php echo esc_url($visitor->getLocation()->getCountryFlag()) ?>" alt="Hesse, Frankfurt am Main" width="15" height="15">
+                                            </a>
+                                            <?php $location = Admin_Template::locationColumn($visitor->getLocation()->getCountryCode(), $visitor->getLocation()->getRegion(), $visitor->getLocation()->getCity()); ?>
+                                            <span class="wps-ellipsis-text" title="<?php echo esc_attr($location) ?>"><?php echo esc_html($location) ?></span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
                         </tbody>
                     </table>
+                    <?php if (count($visitors->getVisitor()) < 1) : ?>
+                        <div class="o-wrap o-wrap--no-data wps-center">
+                            <?php esc_html_e('No recent data available.', 'wp-statistics'); ?>
+                        </div>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>

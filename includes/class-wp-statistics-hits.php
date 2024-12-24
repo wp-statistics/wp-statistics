@@ -154,7 +154,7 @@ class Hits extends Singleton
          */
         if ($exclusion['exclusion_match'] === true) {
             Exclusion::record($exclusion);
-            self::logError();
+            self::errorListener();
 
             throw new Exception($exclusion['exclusion_reason'], 200);
         }
@@ -194,7 +194,7 @@ class Hits extends Singleton
          */
         self::recordOnline($visitorProfile, $exclusion, $pageId);
 
-        self::logError();
+        self::errorListener();
         
         return $exclusion;
     }
@@ -227,7 +227,7 @@ class Hits extends Singleton
         if ($exclusion['exclusion_match'] === true) {
             Exclusion::record($exclusion);
 
-            self::logError();
+            self::errorListener();
             
             throw new Exception($exclusion['exclusion_reason'], 200);
         }
@@ -238,7 +238,7 @@ class Hits extends Singleton
         }
 
         UserOnline::record($visitorProfile, $args);
-        self::logError();
+        self::errorListener();
 
         return $exclusion;
     }
@@ -254,8 +254,7 @@ class Hits extends Singleton
             try {
                 self::record();
             } catch (Exception $e) {
-
-                self::logError();
+                self::errorListener();
             }
         }
     }
@@ -279,8 +278,7 @@ class Hits extends Singleton
             }
 
         } catch (Exception $e) {
-
-            self::logError();
+            self::errorListener();
         }
     }
 }

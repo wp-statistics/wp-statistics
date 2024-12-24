@@ -19,14 +19,14 @@ class OptionsProvider extends AbstractDebuggerProvider
      *
      * @var array
      */
-    private array $savedOptions = [];
+    private $savedOptions = [];
 
     /**
      * Stores specific formatted options for the debugger
      *
      * @var array
      */
-    private array $options;
+    private $options;
 
     /**
      * Initialize the provider with necessary options
@@ -106,7 +106,7 @@ class OptionsProvider extends AbstractDebuggerProvider
         }
 
         return wp_kses_post($html);
-}
+    }
 
     /**
      * Gets list of excluded IP addresses from saved options
@@ -155,10 +155,10 @@ class OptionsProvider extends AbstractDebuggerProvider
     }
 
     /**
-    * Get array of excluded countries from options.
-    * 
-    * @return array Array of excluded country codes in uppercase format
-    */
+     * Get array of excluded countries from options.
+     * 
+     * @return array Array of excluded country codes in uppercase format
+     */
     public function getExcludedCountries()
     {
         $countries = $this->getOption('excluded_countries');
@@ -172,10 +172,10 @@ class OptionsProvider extends AbstractDebuggerProvider
     }
 
     /**
-    * Get array of included countries from options.
+     * Get array of included countries from options.
 
-    * @return array Array of included country codes in uppercase format
-    */
+     * @return array Array of included country codes in uppercase format
+     */
     public function getIncludedCountries()
     {
         $countries = $this->getOption('included_countries');
@@ -185,11 +185,11 @@ class OptionsProvider extends AbstractDebuggerProvider
         }
 
         $included_countries_string = trim(strtoupper(str_replace("\r\n", "\n", $countries)));
-        
+
         if ($included_countries_string == '') {
             return [];
         }
-        
+
         $included_countries = explode("\n", $included_countries_string);
         return array_filter($included_countries);
     }

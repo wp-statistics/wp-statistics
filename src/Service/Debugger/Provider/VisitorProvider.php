@@ -12,14 +12,18 @@ use WP_STATISTICS\TimeZone;
 class VisitorProvider extends AbstractDebuggerProvider
 {
     /**
-     * Stores visitor statistics data
+     * Stores visitor statistics data.
+     * 
+     * @var array|null
      */
-    private array $visitors;
+    private $visitors;
 
     /**
-     * Instance of VisitorsModel for data retrieval
+     * Instance of VisitorsModel for data retrieval.
+     * 
+     * @var VisitorsModel
      */
-    private VisitorsModel $visitorsModel;
+    private $visitorsModel;
 
     /**
      * Initialize provider
@@ -30,13 +34,13 @@ class VisitorProvider extends AbstractDebuggerProvider
     }
 
     /**
-    * Get stored visitor data
-    * 
-    * @return array Array of visitor statistics data
-    */
-    public function getVisitorData(): array
+     * Get stored visitor data
+     * 
+     * @return array Array of visitor statistics data
+     */
+    public function getVisitor(): array
     {
-        return $this->visitors;
+        return $this->visitors ?? [];
     }
 
     /**
@@ -44,7 +48,7 @@ class VisitorProvider extends AbstractDebuggerProvider
      */
     public function getLatestVisitors(): array
     {
-        return $this->visitorsModel->getVisitorsData([
+        $this->visitors = $this->visitorsModel->getVisitorsData([
             'page_info' => true,
             'user_info' => true,
             'order_by' => 'visitor.ID',
@@ -56,5 +60,7 @@ class VisitorProvider extends AbstractDebuggerProvider
                 'to' => TimeZone::getCurrentDate("Y-m-d")
             ]
         ]);
+
+        return $this->visitors;
     }
 }

@@ -65,7 +65,7 @@ class DebuggerFactory
         return [
             'options' => $this->createOptionsProvider(),
             'tracker' => $this->createTrackerProvider(),
-            'visitor' => $this->createVisitorProvider(),
+            'visitors' => $this->createVisitorProvider(),
             'errors' => $this->createErrorDetectorProvider(),
         ];
     }

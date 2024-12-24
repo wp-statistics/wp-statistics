@@ -5,12 +5,12 @@ namespace WP_Statistics\Service\Debugger;
 use WP_Statistics\Service\Debugger\DebuggerServiceProviderInterface;
 
 /**
-* Abstract base class for debugger service providers
-* 
-* This abstract class provides default implementations of the DebuggerServiceProviderInterface.
-* Classes extending this can override these methods to provide specific functionality.
-* All methods return empty arrays by default to ensure a consistent interface.
-*/
+ * Abstract base class for debugger service providers
+ * 
+ * This abstract class provides default implementations of the DebuggerServiceProviderInterface.
+ * Classes extending this can override these methods to provide specific functionality.
+ * All methods return empty arrays by default to ensure a consistent interface.
+ */
 abstract class AbstractDebuggerProvider implements DebuggerServiceProviderInterface
 {
     /**

@@ -31,15 +31,17 @@ class TrackerProvider extends AbstractDebuggerProvider
 
     /**
      * RemoteRequest instance for checking tracker file
-     * Used to perform HEAD requests to verify file accessibility
+     * Used to perform HEAD requests to verify file accessibility.
+     * 
+     * @var RemoteRequest
      */
-    private RemoteRequest $remoteRequest;
+    private $remoteRequest;
 
     /**
      * Initialize tracker provider with necessary setup
      */
     public function __construct()
-    {   
+    {
         $this->trackerPath = Assets::getSrc('js/tracker.js', Option::get('bypass_ad_blockers'));
         $this->remoteRequest = new RemoteRequest($this->trackerPath, 'HEAD');
         $this->initializeData();
@@ -61,7 +63,6 @@ class TrackerProvider extends AbstractDebuggerProvider
      */
     private function initializeData(): void
     {
-        $trackerFile = $this->remoteRequest->execute(false, false, HOUR_IN_SECONDS, true);
         $this->trackerStatus = [
             'exists' => $this->executeTrackerCheck(),
             'path' => $this->trackerPath,

@@ -27,12 +27,12 @@ trait ErrorLoggerTrait
     *
     * @return void
     */
-   protected static function logError()
+   protected static function errorListener()
    {
        if (self::$errorDetector === null) {
            self::$errorDetector = new ErrorDetectorProvider();
        }
        
-       self::$errorDetector->setError();
+       self::$errorDetector->errorListener();
    }
 }
