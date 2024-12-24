@@ -2,7 +2,7 @@
 
 namespace WP_Statistics\Service\Debugger;
 
-use WP_Statistics\Service\Debugger\Provider\ErrorDetectorProvider;
+use WP_Statistics\Service\Debugger\Provider\ErrorsDetectorProvider;
 use WP_Statistics\Service\Debugger\Provider\OptionsProvider;
 use WP_Statistics\Service\Debugger\Provider\TrackerProvider;
 use WP_Statistics\Service\Debugger\Provider\VisitorProvider;
@@ -46,13 +46,13 @@ class DebuggerFactory
     }
 
     /**
-     * Creates an instance of the ErrorDetectorProvider.
+     * Creates an instance of the ErrorsDetectorProvider.
      *
-     * @return DebuggerServiceProviderInterface An instance of ErrorDetectorProvider.
+     * @return DebuggerServiceProviderInterface An instance of ErrorsDetectorProvider.
      */
     public function createErrorDetectorProvider()
     {
-        return new ErrorDetectorProvider();
+        return new ErrorsDetectorProvider();
     }
 
     /**

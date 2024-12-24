@@ -15,7 +15,7 @@ use WP_Statistics\Service\Logger\LoggerServiceProvider;
  * (First In, First Out) system that maintains up to 10 recent error entries.
  * The class uses WordPress options to persistently store error logs.
  */
-class ErrorDetectorProvider extends AbstractDebuggerProvider
+class ErrorsDetectorProvider extends AbstractDebuggerProvider
 {
     const ERROR_LOG_OPTION = 'tracker_js_errors';
 

@@ -1,7 +1,7 @@
 <?php
 namespace WP_Statistics\Traits;
 
-use WP_Statistics\Service\Debugger\Provider\ErrorDetectorProvider;
+use WP_Statistics\Service\Debugger\Provider\ErrorsDetectorProvider;
 
 /**
 * Trait for handling error logging functionality.
@@ -15,22 +15,22 @@ trait ErrorLoggerTrait
    /**
     * Cached instance of ErrorDetectorProvider.
     *
-    * @var ErrorDetectorProvider|null
+    * @var ErrorsDetectorProvider|null
     */
    private static $errorDetector = null;
 
    /**
-    * Log errors using ErrorDetectorProvider
+    * Log errors using ErrorsDetectorProvider
     * 
     * Logs the most recent PHP error using a cached instance 
-    * of ErrorDetectorProvider to avoid multiple instantiations.
+    * of ErrorsDetectorProvider to avoid multiple instantiations.
     *
     * @return void
     */
    protected static function errorListener()
    {
        if (self::$errorDetector === null) {
-           self::$errorDetector = new ErrorDetectorProvider();
+           self::$errorDetector = new ErrorsDetectorProvider();
        }
        
        self::$errorDetector->errorListener();
