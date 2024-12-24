@@ -419,6 +419,11 @@ class VisitorsModel extends BaseModel
             $args['fields'][] = 'users.user_email';
         }
 
+        // When retrieving data for a single resource, get the page view date
+        if (!empty($args['resource_id']) && ($args['resource_type'])) {
+            $args['fields'][] = 'visitor_relationships.date as page_view';
+        }
+
         $query = Query::select($args['fields'])
             ->from('visitor')
             ->where('agent', '=', $args['agent'])

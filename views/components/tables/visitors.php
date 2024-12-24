@@ -6,7 +6,7 @@ use WP_Statistics\Decorators\VisitorDecorator;
 use WP_STATISTICS\Menus;
 
 $linksTarget    = !empty($open_links_in_new_tab) ? '_blank' : '';
-$viewTitle      = !empty($view_column_title) ? $view_column_title : esc_html__('Last View', 'wp-statistics')
+$viewTitle      = !empty($single_post) ? esc_html__('Page View', 'wp-statistics') : esc_html__('Last View', 'wp-statistics')
 ?>
 
 <div class="inside">
@@ -42,7 +42,13 @@ $viewTitle      = !empty($view_column_title) ? $view_column_title : esc_html__('
                     <?php foreach ($data as $visitor) : ?>
                         <?php /** @var VisitorDecorator $visitor */ ?>
                         <tr>
-                            <td class="wps-pd-l"><?php echo esc_html($visitor->getLastView()); ?></td>
+                            <td class="wps-pd-l">
+                                <?php if ($single_post) : ?>
+                                    <?php echo esc_html($visitor->getPageView()); ?>
+                                <?php else : ?>
+                                    <?php echo esc_html($visitor->getLastView()); ?>
+                                <?php endif; ?>
+                            </td>
 
                             <td class="wps-pd-l">
                                 <?php View::load("components/visitor-information", ['visitor' => $visitor]); ?>
