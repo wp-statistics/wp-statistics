@@ -15,26 +15,26 @@ interface DebuggerServiceProviderInterface
      *
      * @return array An array of debugger options.
      */
-    public function getOptions(): array;
+    public function getOptions();
 
     /**
      * Retrieves the tracker status.
      *
      * @return array An array representing the tracker status.
      */
-    public function getTrackerStatus(): array;
+    public function getTrackerStatus();
 
     /**
      * Retrieves the visitor data.
      *
      * @return array An array containing visitor data.
      */
-    public function getVisitorData(): array;
+    public function getVisitorData();
 
     /**
      * Retrieves the log data.
      *
      * @return array An array containing logs data.
      */
-    public function getErrors(): array;
+    public function getErrors();
 }

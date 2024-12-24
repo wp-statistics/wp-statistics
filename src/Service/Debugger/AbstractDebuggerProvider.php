@@ -6,7 +6,7 @@ use WP_Statistics\Service\Debugger\DebuggerServiceProviderInterface;
 
 /**
  * Abstract base class for debugger service providers
- * 
+ *
  * This abstract class provides default implementations of the DebuggerServiceProviderInterface.
  * Classes extending this can override these methods to provide specific functionality.
  * All methods return empty arrays by default to ensure a consistent interface.
@@ -18,7 +18,7 @@ abstract class AbstractDebuggerProvider implements DebuggerServiceProviderInterf
      *
      * @return array An empty array as default implementation
      */
-    public function getOptions(): array
+    public function getOptions()
     {
         return [];
     }
@@ -28,7 +28,7 @@ abstract class AbstractDebuggerProvider implements DebuggerServiceProviderInterf
      *
      * @return array An empty array as default implementation
      */
-    public function getTrackerStatus(): array
+    public function getTrackerStatus()
     {
         return [];
     }
@@ -38,7 +38,7 @@ abstract class AbstractDebuggerProvider implements DebuggerServiceProviderInterf
      *
      * @return array An empty array as default implementation
      */
-    public function getVisitorData(): array
+    public function getVisitorData()
     {
         return [];
     }
@@ -48,7 +48,7 @@ abstract class AbstractDebuggerProvider implements DebuggerServiceProviderInterf
      *
      * @return array An empty array as default implementation
      */
-    public function getErrors(): array
+    public function getErrors()
     {
         return [];
     }

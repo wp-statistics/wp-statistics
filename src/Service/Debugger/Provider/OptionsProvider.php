@@ -40,7 +40,7 @@ class OptionsProvider extends AbstractDebuggerProvider
      * Sets saved options from WordPress database
      * Only fetches options if they haven't been loaded yet
      */
-    private function setSavedOptions(): void
+    private function setSavedOptions()
     {
         if (empty($this->savedOptions)) {
             $this->savedOptions = Option::getOptions();
@@ -52,7 +52,7 @@ class OptionsProvider extends AbstractDebuggerProvider
      *
      * @return array All plugin options from database
      */
-    public function getSavedOptions(): array
+    public function getSavedOptions()
     {
         return $this->savedOptions;
     }
@@ -64,7 +64,7 @@ class OptionsProvider extends AbstractDebuggerProvider
      * @param mixed $default Default value if option doesn't exist
      * @return mixed The option value or default if not found
      */
-    public function getOption(string $index, $default = false)
+    public function getOption($index, $default = false)
     {
         if (empty($this->savedOptions)) {
             return false;
@@ -78,7 +78,7 @@ class OptionsProvider extends AbstractDebuggerProvider
      *
      * @return array Formatted options array
      */
-    public function getOptions(): array
+    public function getOptions()
     {
         return $this->options;
     }
@@ -92,7 +92,7 @@ class OptionsProvider extends AbstractDebuggerProvider
      * @param string $class Element CSS class
      * @return string Formatted HTML string of values or empty string
      */
-    public function formatValuesAsHtml($values, $tag, $class = ''): string
+    public function formatValuesAsHtml($values, $tag, $class = '')
     {
         $html = '';
 
@@ -113,7 +113,7 @@ class OptionsProvider extends AbstractDebuggerProvider
      *
      * @return array Array of excluded IP addresses, empty if none set
      */
-    public function getExcludedIPs(): array
+    public function getExcludedIPs()
     {
         return !empty($this->savedOptions['exclude_ip'])
             ? explode("\n", $this->savedOptions['exclude_ip'])
@@ -125,7 +125,7 @@ class OptionsProvider extends AbstractDebuggerProvider
      *
      * @return array An array of excluded URLs.
      */
-    public function getExcludedUrls(): array
+    public function getExcludedUrls()
     {
         return !empty($this->savedOptions['excluded_urls'])
             ? explode("\n", $this->savedOptions['excluded_urls'])
@@ -173,7 +173,7 @@ class OptionsProvider extends AbstractDebuggerProvider
 
     /**
      * Get array of included countries from options.
-
+     *
      * @return array Array of included country codes in uppercase format
      */
     public function getIncludedCountries()

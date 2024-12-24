@@ -20,7 +20,7 @@ class DebuggerFactory
      *
      * @return DebuggerServiceProviderInterface An instance of OptionsProvider.
      */
-    public function createOptionsProvider(): DebuggerServiceProviderInterface
+    public function createOptionsProvider()
     {
         return new OptionsProvider();
     }
@@ -30,7 +30,7 @@ class DebuggerFactory
      *
      * @return DebuggerServiceProviderInterface An instance of TrackerProvider.
      */
-    public function createTrackerProvider(): DebuggerServiceProviderInterface
+    public function createTrackerProvider()
     {
         return new TrackerProvider();
     }
@@ -40,7 +40,7 @@ class DebuggerFactory
      *
      * @return DebuggerServiceProviderInterface An instance of VisitorProvider.
      */
-    public function createVisitorProvider(): DebuggerServiceProviderInterface
+    public function createVisitorProvider()
     {
         return new VisitorProvider();
     }
@@ -50,7 +50,7 @@ class DebuggerFactory
      *
      * @return DebuggerServiceProviderInterface An instance of ErrorDetectorProvider.
      */
-    public function createErrorDetectorProvider(): DebuggerServiceProviderInterface
+    public function createErrorDetectorProvider()
     {
         return new ErrorDetectorProvider();
     }
@@ -60,7 +60,7 @@ class DebuggerFactory
      *
      * @return array An associative array of debugger service providers.
      */
-    public function getAllProviders(): array
+    public function getAllProviders()
     {
         return [
             'options' => $this->createOptionsProvider(),

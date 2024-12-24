@@ -13,14 +13,14 @@ class VisitorProvider extends AbstractDebuggerProvider
 {
     /**
      * Stores visitor statistics data.
-     * 
+     *
      * @var array|null
      */
     private $visitors;
 
     /**
      * Instance of VisitorsModel for data retrieval.
-     * 
+     *
      * @var VisitorsModel
      */
     private $visitorsModel;
@@ -35,18 +35,20 @@ class VisitorProvider extends AbstractDebuggerProvider
 
     /**
      * Get stored visitor data
-     * 
+     *
      * @return array Array of visitor statistics data
      */
-    public function getVisitor(): array
+    public function getVisitor()
     {
         return $this->visitors ?? [];
     }
 
     /**
      * Get latest visitors data with pagination
+     *
+     * @return array Array of latest visitor data
      */
-    public function getLatestVisitors(): array
+    public function getLatestVisitors()
     {
         $this->visitors = $this->visitorsModel->getVisitorsData([
             'page_info' => true,
