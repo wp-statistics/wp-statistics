@@ -140,7 +140,7 @@ class HistoricalModel
     {
         $args = $this->parseArgs($args);
 
-        if (empty($args['ignore_date'])) {
+        if (is_null($args)) {
             return 0;
         }
 
