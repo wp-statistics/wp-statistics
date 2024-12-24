@@ -156,8 +156,8 @@ class MetaboxDataProvider
                 'prev_period'    => $this->visitorsModel->countVisitors(['date' => $prevPeriod])
             ],
             'visits'    => [
-                'current_period' => $this->viewsModel->countViews(['date' => $currentPeriod]),
-                'prev_period'    => $this->viewsModel->countViews(['date' => $prevPeriod])
+                'current_period' => $this->viewsModel->countViewsFromPagesOnly(['date' => $currentPeriod]),
+                'prev_period'    => $this->viewsModel->countViewsFromPagesOnly(['date' => $prevPeriod])
             ],
             'posts'     => [
                 'current_period' => $this->postsModel->countPosts(['date' => $currentPeriod]),
@@ -170,7 +170,7 @@ class MetaboxDataProvider
         ];
 
         foreach ($data as $key => $value) {
-            $data[$key]['diff_percentage'] = Helper::calculatePercentageChange($value['current_period'], $value['prev_period']);
+            $data[$key]['diff_percentage'] = Helper::calculatePercentageChange($value['prev_period'], $value['current_period']);
             if ($data[$key]['diff_percentage'] > 0) {
                 $data[$key]['diff_type'] = 'plus';
             } elseif ($data[$key]['diff_percentage'] < 0) {
@@ -182,13 +182,11 @@ class MetaboxDataProvider
             $data[$key]['diff_percentage'] = abs($data[$key]['diff_percentage']);
         }
 
-        $onlineUsers    = $this->onlineModel->countOnlines();
         $topReferrer    = $this->visitorsModel->getReferrers(['per_page' => 1, 'decorate' => true, 'date' => $currentPeriod]);
         $topAuthor      = $this->authorsModel->getTopViewingAuthors(['date' => $currentPeriod, 'per_page' => 1]);
         $topCategory    = $this->taxonomyModel->getTermsData(['date' => $currentPeriod, 'per_page' => 5, 'taxonomy' => Helper::get_list_taxonomy()]);
         $topContent     = $this->postsModel->getPostsViewsData(['date' => $currentPeriod, 'per_page' => 1]);
 
-        $data['onlines']      = $onlineUsers ?? 0;
         $data['top_author']   = $topAuthor[0] ?? '';
         $data['top_referrer'] = $topReferrer[0] ?? '';
         $data['top_category'] = $topCategory[0] ?? '';
