@@ -148,7 +148,7 @@ class MetaboxDataProvider
     public function getWeeklyPerformanceData($args = [])
     {
         $currentPeriod  = DateRange::get('7days', true);
-        $prevPeriod     = DateRange::getPrevPeriod('7days');
+        $prevPeriod     = DateRange::getPrevPeriod('7days', true);
 
         $data = [
             'visitors'  => [
