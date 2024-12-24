@@ -1,4 +1,5 @@
 <?php
+
 namespace WP_Statistics\Models;
 
 use WP_Statistics\Utils\Query;
@@ -21,33 +22,31 @@ class HistoricalModel
      */
     private $type = null;
 
-   /**
-     * Store the parsed arguments.
-     *
-     * @var array
-     */
-    private $parsedArgs = [];
-
     /**
      * Parse and cache the arguments for reuse.
      *
-     * @param array $args Arguments to be parsed.
-     * @return array Parsed arguments with default values.
+     * @param array $args Arguments to be parsed. Must contain either 'historical' or 'ignore_date'.
+     * @param array $defaults Optional. Default values to merge with provided arguments.
+     * @return array|null Parsed and enhanced arguments, or null if required arguments are missing.
      */
-    private function parseArgs($args)
+    private function parseArgs($args, $defaults = [])
     {
-        if (! empty($this->parsedArgs)) {
-            return $this->parsedArgs;
+        if (empty($args['historical']) && empty($args['ignore_date'])) {
+            return null;
         }
 
-        $this->parsedArgs = wp_parse_args($args, [
-            'post_id' => $this->getResourceId($args),
-            'uri'     => $this->getResourceUri($args),
-        ]);
+        $args = wp_parse_args($args, $defaults);
 
-        return $this->parsedArgs;
+        $args['resource_id'] = $this->getResourceId($args);
+        $args['uri']         = $this->getResourceUri($args);
+
+        if (! empty($args['uri']) && ! empty($args['resource_id'])) {
+            $args['category'] = 'uri';
+        }
+
+        return $args;
     }
-    
+
     /**
      * Get the ID value from a resource array argument.
      *
@@ -59,7 +58,7 @@ class HistoricalModel
      *     @type int $author_id  Optional. Author ID to retrieve.
      * }
      * @return int|null The ID of the first found resource, or null if no resource ID specified
-    */
+     */
     public function getResourceId($args)
     {
         if (!empty($args['post_id'])) {
@@ -111,11 +110,11 @@ class HistoricalModel
         if ($this->type === 'taxonomy') {
             return Url::getPath($this->resourceId, $args['taxonomy']);
         }
-        
+
         if ($this->type === 'author') {
             return Url::getPath($this->resourceId, 'author');
         }
-        
+
         if ($this->type === 'post') {
             $postType = strtolower(Helper::getPostTypeName(get_post_type($this->resourceId), true));
             return Url::getPath($this->resourceId, $postType);
@@ -137,17 +136,18 @@ class HistoricalModel
      */
     public function getVisitors($args)
     {
-        $this->parseArgs($args);
-        
-        if(empty($this->parsedArgs['ignore_date'])){
+        $args = $this->parseArgs($args);
+
+        if (empty($args['ignore_date'])) {
             return 0;
         }
 
-        $query = Query::select('SUM(`value`) AS `historical_views`')
+        $result = Query::select('SUM(`value`) AS `historical_views`')
             ->from('historical')
-            ->where('category', '=', 'visitors');
+            ->where('category', '=', 'visitors')
+            ->getVar();
 
-        return ! empty($query->getVar()) ? intval($query->getVar()) : 0;
+        return $result ?? 0;
     }
 
     /**
@@ -165,38 +165,23 @@ class HistoricalModel
      */
     public function getViews($args)
     {
-        $this->parseArgs($args);
+        $args = $this->parseArgs($args, [
+            'resource_id' => '',
+            'uri'         => '',
+            'category'    => 'visits',
+        ]);
 
-        if (! empty($this->parsedArgs['type']) && 'uri' === $this->parsedArgs['type']) {
-            if (
-                empty($this->parsedArgs['post_id']) ||
-                (empty($this->parsedArgs['ignore_date']) && empty($this->parsedArgs['uri']))
-            ) {
-                return 0;
-            }
-
-            return $this->countUris();
+        if (is_null($args)) {
+            return 0;
         }
 
-        $query = Query::select('SUM(`value`) AS `historical_views`')
+        $result = Query::select('SUM(`value`) AS `historical_views`')
             ->from('historical')
-            ->where('category', '=', 'visits');
+            ->where('page_id', '=', intval($args['resource_id']))
+            ->where('uri', '=', $args['uri'])
+            ->where('category', '=', $args['category'])
+            ->getVar();
 
-        return ! empty($query->getVar()) ? intval($query->getVar()) : 0;
-    }
-
-    /**
-     * Returns historical views of a page by its URL.
-     *
-     * @return int Total number of historical views
-     */
-    private function countUris()
-    {
-        $query = Query::select('SUM(`value`) AS `historical_views`')
-            ->from('historical')
-            ->where('page_id', '=', intval($this->parsedArgs['post_id']))
-            ->where('uri', '=', $this->parsedArgs['uri']);
-
-        return intval($query->getVar());
+        return $result ?? 0;
     }
 }

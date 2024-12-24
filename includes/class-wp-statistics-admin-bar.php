@@ -88,7 +88,6 @@ class AdminBar
             }
 
             if (!Helper::isAddOnActive('mini-chart') && $view_type && $view_title) {
-
                 $pageLink = '';
                 if (in_array($view_type, ['category', 'post_tag', 'tax'])) {
                     $term     = get_term($object_id);
@@ -101,10 +100,9 @@ class AdminBar
 
                 $viewsModel = new ViewsModel();
                 $hit_number = $viewsModel->countViewsFromPagesOnly([
-                    'post_id' => $object_id,
+                    'post_id'       => $object_id,
                     'resource_type' => $view_type,
-                    'uri' => $pageLink,
-                    'ignore_date' => true,
+                    'uri'           => $pageLink,
                 ]);
 
                 $menu_title .= sprintf('%s: %s', $view_title, number_format($hit_number));
