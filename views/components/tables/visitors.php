@@ -43,7 +43,7 @@ $viewTitle      = !empty($single_post) ? esc_html__('Page View', 'wp-statistics'
                         <?php /** @var VisitorDecorator $visitor */ ?>
                         <tr>
                             <td class="wps-pd-l">
-                                <?php if ($single_post) : ?>
+                                <?php if (!empty($single_post)) : ?>
                                     <?php echo esc_html($visitor->getPageView()); ?>
                                 <?php else : ?>
                                     <?php echo esc_html($visitor->getLastView()); ?>
