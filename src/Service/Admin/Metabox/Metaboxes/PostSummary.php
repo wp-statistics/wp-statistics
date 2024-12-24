@@ -23,9 +23,14 @@ class PostSummary extends BaseMetabox
         return '';
     }
 
-    public function isActive()
+    public function isOptionEnabled()
     {
         return !Option::get('disable_editor');
+    }
+
+    public function isActive()
+    {
+        return $this->isOptionEnabled() && $this->isSinglePost();
     }
 
     public function getScreen()

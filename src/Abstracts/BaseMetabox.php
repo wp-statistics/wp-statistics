@@ -131,6 +131,25 @@ abstract class BaseMetabox
     }
 
     /**
+     * Check if the request is coming from a single post
+     * @return bool
+     */
+    public function isSinglePost()
+    {
+        $isSingle = false;
+
+        // Check if the post has ID
+        if (Request::isFrom('ajax')) {
+            $currentPage = Request::get('current_page', [], 'array');
+            $isSingle    = !empty($currentPage['ID']) && !empty($currentPage['file']) && $currentPage['file'] === 'post.php';
+        } else {
+            $isSingle = Request::has('post');
+        }
+
+        return $isSingle;
+    }
+
+    /**
      * Returns the screens the metabox is active on
      * @return array
      */
