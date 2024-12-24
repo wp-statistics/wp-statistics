@@ -6,7 +6,7 @@ use WP_STATISTICS\Helper;
 use WP_STATISTICS\Menus;
 use WP_STATISTICS\TimeZone;
 
-$currentDate  = new DateTime(date_i18n(Helper::getDefaultDateFormat(true, true, false, ', '), strtotime(TimeZone::getRealCurrentDate())));
+$currentDate = new DateTime(date_i18n(Helper::getDefaultDateFormat(true, true, false, ', '), strtotime(TimeZone::getRealCurrentDate())));
 
 $excludedIPs        = $options->getExcludedIPs();
 $userRoleExclusions = $options->getUserRoleExclusions();
@@ -35,7 +35,7 @@ $excludeCountries   = $options->getExcludedCountries();
                     <path fill-rule="evenodd" clip-rule="evenodd" d="M8.75 19.25H12.25C15.5498 19.25 17.1998 19.25 18.2248 18.2248C19.25 17.1998 19.25 15.5498 19.25 12.25V11.8675C19.25 11.1038 19.25 10.5301 19.2127 10.0626H15.75H15.667C14.707 10.0627 13.8587 10.0628 13.1748 9.9708C12.4336 9.87114 11.6925 9.64232 11.0877 9.03744C10.4828 8.4326 10.254 7.69149 10.1543 6.95026C10.0623 6.26644 10.0624 5.41806 10.0625 4.4581L10.0705 1.978C10.0708 1.90586 10.077 1.83452 10.0887 1.76458C9.73122 1.75 9.30633 1.75 8.77608 1.75C5.45885 1.75 3.80026 1.75 2.77512 2.77512C1.75 3.80026 1.75 5.45017 1.75 8.75V12.25C1.75 15.5498 1.75 17.1998 2.77512 18.2248C3.80026 19.25 5.45017 19.25 8.75 19.25ZM9.59849 13.536C9.85477 13.2797 10.2702 13.2797 10.5265 13.536L11.4015 14.411C11.6578 14.6673 11.6578 15.0827 11.4015 15.339L10.5265 16.214C10.2702 16.4703 9.85477 16.4703 9.59849 16.214C9.3422 15.9577 9.3422 15.5423 9.59849 15.286L10.0094 14.875L9.59849 14.464C9.3422 14.2077 9.3422 13.7923 9.59849 13.536ZM9.36442 12.4804C9.49174 12.1411 9.3198 11.7628 8.98039 11.6356C8.64106 11.5083 8.26279 11.6802 8.13553 12.0196L6.82303 15.5196C6.69577 15.8589 6.86772 16.2372 7.20708 16.3644C7.54644 16.4917 7.92471 16.3198 8.05197 15.9804L9.36442 12.4804ZM6.58904 11.786C6.84532 12.0423 6.84532 12.4577 6.58904 12.714L6.17808 13.125L6.58904 13.536C6.84532 13.7923 6.84532 14.2077 6.58904 14.464C6.33276 14.7203 5.91724 14.7203 5.66096 14.464L4.78596 13.589C4.52968 13.3327 4.52968 12.9173 4.78596 12.661L5.66096 11.786C5.91724 11.5297 6.33276 11.5297 6.58904 11.786Z" fill="#019939"/>
                     </svg>
                     ';
-                
+
                 $trackerData = [
                     'svg'         => $trackerIcon,
                     'title'       => __('Tracker.js Not Found', 'wp-statistics'),
@@ -50,7 +50,7 @@ $excludeCountries   = $options->getExcludedCountries();
                         'svg'         => $trackerIcon,
                         'title'       => __('Tracker.js Status: Loaded Successfully', 'wp-statistics'),
                         'description' => '',
-                        'content'     => esc_html__('Your tracker.js file is loading correctly with a status code of 200. No issues detected here.',  'wp-statistics'),
+                        'content'     => esc_html__('Your tracker.js file is loading correctly with a status code of 200. No issues detected here.', 'wp-statistics'),
                         'status'      => 'success'
                     ];
                 }
@@ -80,7 +80,7 @@ $excludeCountries   = $options->getExcludedCountries();
                     'status'      => 'info'
                 ];
 
-                if (! $options->getOption('do_not_track')) {
+                if (!$options->getOption('do_not_track')) {
                     $dntData = [
                         'svg'         => $dntIcon,
                         'title'       => esc_html__('Do Not Track (DNT) is Disabled', 'wp-statistics'),
@@ -92,7 +92,7 @@ $excludeCountries   = $options->getExcludedCountries();
 
                 View::load("components/audit-card", $dntData);
 
-                $atIcon  = '<svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+                $atIcon = '<svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd" clip-rule="evenodd" d="M11.8689 2.13321C11.5449 2 11.1341 2 10.3125 2C9.49087 2 9.08006 2 8.75605 2.13321C8.32397 2.31083 7.9807 2.65151 7.80174 3.0803C7.72004 3.27605 7.68807 3.50369 7.67555 3.83574C7.65717 4.32372 7.40501 4.7754 6.9789 5.01956C6.55278 5.26372 6.03256 5.2546 5.59755 5.02641C5.30153 4.87114 5.0869 4.78479 4.87524 4.75714C4.41158 4.69656 3.94266 4.82125 3.57164 5.1038C3.29337 5.31571 3.08796 5.66879 2.67716 6.37494C2.26636 7.0811 2.06096 7.43417 2.01518 7.7793C1.95413 8.23945 2.07978 8.70483 2.36448 9.07306C2.49443 9.24115 2.67705 9.38237 2.96049 9.55912C3.37717 9.819 3.64528 10.2617 3.64525 10.75C3.64523 11.2383 3.37713 11.6809 2.96049 11.9407C2.677 12.1175 2.49435 12.2589 2.36439 12.4269C2.07969 12.7951 1.95405 13.2605 2.01509 13.7206C2.06087 14.0657 2.26628 14.4189 2.67707 15.125C3.08788 15.8311 3.29328 16.1843 3.57155 16.3961C3.94257 16.6786 4.41149 16.8033 4.87515 16.7428C5.08681 16.7151 5.30142 16.6288 5.59741 16.4736C6.03245 16.2454 6.55271 16.2362 6.97885 16.4804C7.40499 16.7246 7.65716 17.1763 7.67555 17.6643C7.68807 17.9963 7.72004 18.224 7.80174 18.4197C7.9807 18.8485 8.32397 19.1892 8.75605 19.3668C9.08006 19.5 9.49087 19.5 10.3125 19.5C11.1341 19.5 11.5449 19.5 11.8689 19.3668C12.301 19.1892 12.6443 18.8485 12.8232 18.4197C12.9049 18.224 12.937 17.9963 12.9495 17.6643C12.9679 17.1763 13.2199 16.7246 13.6461 16.4804C14.0722 16.2362 14.5925 16.2454 15.0275 16.4736C15.3235 16.6288 15.5381 16.7151 15.7497 16.7427C16.2134 16.8033 16.6823 16.6786 17.0533 16.3961C17.3317 16.1842 17.537 15.8311 17.9478 15.1249C18.3586 14.4188 18.564 14.0657 18.6099 13.7206C18.6708 13.2605 18.5452 12.795 18.2606 12.4269C18.1305 12.2588 17.9479 12.1174 17.6644 11.9407C17.2478 11.6809 16.9797 11.2382 16.9797 10.7499C16.9797 10.2616 17.2478 9.81909 17.6644 9.5593C17.948 9.38246 18.1306 9.24124 18.2606 9.07306C18.5453 8.70489 18.6709 8.23951 18.6099 7.77935C18.5641 7.43423 18.3587 7.08115 17.9479 6.375C17.5371 5.66885 17.3317 5.31577 17.0534 5.10386C16.6824 4.82131 16.2135 4.69662 15.7498 4.7572C15.5382 4.78485 15.3235 4.87119 15.0276 5.02645C14.5926 5.25464 14.0723 5.26377 13.6462 5.01959C13.22 4.77542 12.9679 4.3237 12.9494 3.8357C12.9369 3.50367 12.9049 3.27604 12.8232 3.0803C12.6443 2.65151 12.301 2.31083 11.8689 2.13321ZM10.3125 13.375C11.7733 13.375 12.9574 12.1998 12.9574 10.75C12.9574 9.30021 11.7733 8.125 10.3125 8.125C8.85169 8.125 7.66751 9.30021 7.66751 10.75C7.66751 12.1998 8.85169 13.375 10.3125 13.375Z" fill="#019939"/>
                     </svg>';
 
@@ -105,8 +105,8 @@ $excludeCountries   = $options->getExcludedCountries();
                     'status'      => 'info'
                 ];
 
-                if (! Helper::shouldTrackAnonymously()) {
-                    if (! $options->getOption('do_not_track')) {
+                if (!Helper::shouldTrackAnonymously()) {
+                    if (!$options->getOption('do_not_track')) {
                         $atData = [
                             'svg'         => $atIcon,
                             'title'       => __('Anonymous Tracking is Enabled', 'wp-statistics'),
@@ -124,7 +124,7 @@ $excludeCountries   = $options->getExcludedCountries();
                         ];
                     }
                 }
-               
+
                 View::load("components/audit-card", $atData);
                 ?>
             </div>
@@ -145,7 +145,7 @@ $excludeCountries   = $options->getExcludedCountries();
                     'title'       => __('Ad-blocker Bypass is Disabled', 'wp-statistics'),
                     'description' => __('Visitors using ad-blockers may prevent tracker.js from loading, affecting your analytics data.', 'wp-statistics'),
                     'content'     => '',
-                    'suggestion'  => esc_html__( 'Enable the "Bypass Ad-blocker" option to ensure tracker.js loads for all visitors. Refer to our Ad-blocker Bypass guide for instructions.', 'wp-statistics'),
+                    'suggestion'  => esc_html__('Enable the "Bypass Ad-blocker" option to ensure tracker.js loads for all visitors. Refer to our Ad-blocker Bypass guide for instructions.', 'wp-statistics'),
                     'status'      => 'info'
                 ];
 
@@ -158,9 +158,9 @@ $excludeCountries   = $options->getExcludedCountries();
                         'status'      => 'success'
                     ];
                 }
-               
+
                 View::load("components/audit-card", $adBlockerData);
-               
+
                 $cacheIcon = '<svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M15.4109 12.2852C13.4213 12.2852 11.8027 13.9037 11.8027 15.8933C11.8027 17.883 13.4213 19.5015 15.4109 19.5015C17.4005 19.5015 19.0191 17.883 19.0191 15.8933C19.0191 13.9037 17.4008 12.2852 15.4109 12.2852ZM15.4109 18.9002C13.753 18.9002 12.4041 17.5513 12.4041 15.8933C12.4041 14.2354 13.753 12.8865 15.4109 12.8865C17.0689 12.8865 18.4177 14.2354 18.4177 15.8933C18.4177 17.5513 17.0689 18.9002 15.4109 18.9002Z" fill="#019939"/>
                     <path d="M17.2151 15.5892H15.7117V14.0858C15.7117 13.9196 15.5773 13.7852 15.411 13.7852C15.2448 13.7852 15.1104 13.9196 15.1104 14.0858V15.8899C15.1104 16.0562 15.2448 16.1906 15.411 16.1906H17.2151C17.3814 16.1906 17.5158 16.0562 17.5158 15.8899C17.5158 15.7237 17.3814 15.5892 17.2151 15.5892Z" fill="#019939"/>
@@ -180,24 +180,52 @@ $excludeCountries   = $options->getExcludedCountries();
                 ];
 
                 if ($tracker->getCacheStatus()) {
+                    $filters = [
+                        [
+                            'content' => $tracker->getCachePlugin(),
+                        ],
+                    ];
+
+                    ob_start();
+                    View::load('components/objects/tracker-filter-list', ['filters' => $filters]);
+                    $filterListsHtml = ob_get_clean();
+
                     $cacheData = [
                         'svg'         => $cacheIcon,
                         'title'       => __('Caching Plugins Detected', 'wp-statistics'),
                         'description' => __('We have detected the following caching plugin(s) active on your site:', 'wp-statistics'),
-                        'content'     => __('<div class="wps-postbox-tracker__filter-lists">
-                                                <div class="wps-postbox-tracker__filter-list">
-                                                    <div class="wps-postbox-tracker__filter-content">
-                                                        <p>'. $tracker->getCachePlugin() .'</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            Caching may interfere with tracker.js loading properly.', 'wp-statistics'),
+                        'content'     => $filterListsHtml + __('Caching may interfere with tracker.js loading properly.', 'wp-statistics'),
                         'suggestion'  => esc_html__('Configure your caching plugin to exclude tracker.js from being cached. See our Caching Compatibility guide for detailed steps.', 'wp-statistics'),
                         'status'      => 'info'
-                    ];    
+                    ];
                 }
 
                 View::load("components/audit-card", $cacheData);
+
+
+                $itemFilters = [
+                    [
+                        'title'   => __('P Addresses:', 'wp-statistics'),
+                        'content' => $options->formatValuesAsHtml($excludedIPs, 'p'),
+                    ],
+                    [
+                        'title'   => __('Roles:', 'wp-statistics'),
+                        'content' => $options->formatValuesAsHtml($userRoleExclusions, 'p'),
+                    ],
+                    [
+                        'title'   => __('Exclude Countries:', 'wp-statistics'),
+                        'content' => $options->formatValuesAsHtml($excludeCountries, 'p'),
+                    ],
+                    [
+                        'title'   => __('URLs:', 'wp-statistics'),
+                        'content' => $options->formatValuesAsHtml($excludedUrls, 'p'),
+                    ],
+                ];
+
+
+                ob_start();
+                View::load('components/objects/tracker-filter-list', ['filters' => $itemFilters]);
+                $itemFilterListsHtml = ob_get_clean();
 
                 $item = [
                     'svg'         => '<svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -205,38 +233,7 @@ $excludeCountries   = $options->getExcludedCountries();
                         </svg>',
                     'title'       => __('No Filters or Exceptions are Applied', 'wp-statistics'),
                     'description' => __('All visitors are being tracked without exclusions.', 'wp-statistics'),
-                    'content'     => __('<div class="wps-postbox-tracker__filter-lists">
-                                            <div class="wps-postbox-tracker__filter-list">
-                                                <h3 class="wps-postbox-tracker__filter-title">IP Addresses:</h3>
-                                                <div class="wps-postbox-tracker__filter-content">
-                                                    '. $options->formatValuesAsHtml( $excludedIPs, 'p' ) .'
-                                                </div>
-                                            </div>
-                                            <div class="wps-postbox-tracker__filter-list">
-                                                <h3 class="wps-postbox-tracker__filter-title">Roles:</h3>
-                                                <div class="wps-postbox-tracker__filter-content">
-                                                    '. $options->formatValuesAsHtml( $userRoleExclusions, 'p' ) .'
-                                                </div>
-                                            </div>
-                                            <div class="wps-postbox-tracker__filter-list">
-                                                <h3 class="wps-postbox-tracker__filter-title">Exclude Countries:</h3>
-                                                <div class="wps-postbox-tracker__filter-content">
-                                                    '. $options->formatValuesAsHtml( $excludeCountries, 'p' ) .'
-                                                </div>
-                                            </div>
-                                            <div class="wps-postbox-tracker__filter-list">
-                                                <h3 class="wps-postbox-tracker__filter-title">Include Countries:</h3>
-                                                <div class="wps-postbox-tracker__filter-content">
-                                                      '. $options->formatValuesAsHtml( $includCountries, 'p' ) .'
-                                                </div>
-                                            </div>
-                                            <div class="wps-postbox-tracker__filter-list">
-                                                <h3 class="wps-postbox-tracker__filter-title">URLs:</h3>
-                                                <div class="wps-postbox-tracker__filter-content">
-                                                    '. $options->formatValuesAsHtml( $excludedUrls, 'p' ) .'
-                                                </div>
-                                            </div>
-                                        </div>', 'wp-statistics'),
+                    'content'     => $itemFilterListsHtml,
                     'suggestion'  => __('Review these filters in Settings > Filtering & Exceptions. Update if necessary. <a href="">Learn more</a>  .', 'wp-statistics'),
                     'status'      => 'success'
                 ];
@@ -259,24 +256,26 @@ $excludeCountries   = $options->getExcludedCountries();
                 ];
 
                 if (count($errors->getErrors()) > 0) {
-                    $errorData = [
-                        'svg'     => $errorIcon,
-                        'title'   => __('PHP Errors Detected in tracker.js', 'wp-statistics'),
+                    $filters = [
+                        [
+                            'content' => $errors->printLogs(),
+                        ],
+                    ];
+
+                    ob_start();
+                    View::load('components/objects/tracker-filter-list', ['filters' => $filters]);
+                    $filterListsHtml = ob_get_clean();
+                    $errorData       = [
+                        'svg'         => $errorIcon,
+                        'title'       => __('PHP Errors Detected in tracker.js', 'wp-statistics'),
                         'description' => esc_html__('We found the following error:', 'wp-statistics'),
-                        'content' => '<div class="wps-postbox-tracker__filter-lists">
-                                <div class="wps-postbox-tracker__filter-list">
-                                    <div class="wps-postbox-tracker__filter-content">
-                                      '. $errors->printLogs() .'
-                                    </div>
-                                </div>
-                            </div>',
+                        'content'     => $filterListsHtml,
                         'suggestion'  => esc_html__('Suggestion: Please refer to our Error Troubleshooting guide to resolve these issues.', 'wp-statistics'),
-                        'status'  => 'warning'
+                        'status'      => 'warning'
                     ];
                 }
-               
-                View::load("components/audit-card", $errorData);
 
+                View::load("components/audit-card", $errorData);
                 ?>
             </div>
         </div>
@@ -300,32 +299,32 @@ $excludeCountries   = $options->getExcludedCountries();
                             <th class="wps-pd-l start">
                                 <?php echo esc_html_e('Location', 'wp-statistics'); ?>
                             </th>
-                         </tr>
+                        </tr>
                         </thead>
                         <tbody>
                         <?php foreach ($visitor->getLatestVisitors() as $visitor) : ?>
-                                <tr>
-                                    <td class="wps-pd-l">
-                                       <?php
-                                        $visitDate = new DateTime($visitor->getLastView());
+                            <tr>
+                                <td class="wps-pd-l">
+                                    <?php
+                                    $visitDate = new DateTime($visitor->getLastView());
 
-                                        echo TimeZone::getElapsedTime( $currentDate, $visitDate ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-                                       ?>
-                                    </td>
-                                    <td class="wps-pd-l">
-                                        <?php View::load("components/visitor-information", ['visitor' => $visitor]); ?>
-                                    </td>
-                                    <td class="wps-pd-l">
-                                        <div class="wps-country-flag wps-ellipsis-parent">
-                                            <a target="" href="<?php echo esc_url(Menus::admin_url('geographic', ['type' => 'single-country', 'country' => $visitor->getLocation()->getCountryCode()])) ?>" class="wps-tooltip tooltipstered">
-                                                <img src="<?php echo esc_url($visitor->getLocation()->getCountryFlag()) ?>" alt="Hesse, Frankfurt am Main" width="15" height="15">
-                                            </a>
-                                            <?php $location = Admin_Template::locationColumn($visitor->getLocation()->getCountryCode(), $visitor->getLocation()->getRegion(), $visitor->getLocation()->getCity()); ?>
-                                            <span class="wps-ellipsis-text" title="<?php echo esc_attr($location) ?>"><?php echo esc_html($location) ?></span>
-                                        </div>
-                                    </td>
-                                </tr>
-                            <?php endforeach; ?>
+                                    echo TimeZone::getElapsedTime($currentDate, $visitDate); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                                    ?>
+                                </td>
+                                <td class="wps-pd-l">
+                                    <?php View::load("components/visitor-information", ['visitor' => $visitor]); ?>
+                                </td>
+                                <td class="wps-pd-l">
+                                    <div class="wps-country-flag wps-ellipsis-parent">
+                                        <a target="" href="<?php echo esc_url(Menus::admin_url('geographic', ['type' => 'single-country', 'country' => $visitor->getLocation()->getCountryCode()])) ?>" class="wps-tooltip tooltipstered">
+                                            <img src="<?php echo esc_url($visitor->getLocation()->getCountryFlag()) ?>" alt="Hesse, Frankfurt am Main" width="15" height="15">
+                                        </a>
+                                        <?php $location = Admin_Template::locationColumn($visitor->getLocation()->getCountryCode(), $visitor->getLocation()->getRegion(), $visitor->getLocation()->getCity()); ?>
+                                        <span class="wps-ellipsis-text" title="<?php echo esc_attr($location) ?>"><?php echo esc_html($location) ?></span>
+                                    </div>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
                         </tbody>
                     </table>
                 </div>
