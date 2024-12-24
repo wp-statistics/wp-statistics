@@ -27,6 +27,7 @@ class HistoricalModel
      *
      * @param array $args Arguments to be parsed. Must contain either 'historical' or 'ignore_date'.
      * @param array $defaults Optional. Default values to merge with provided arguments.
+     * 
      * @return array|null Parsed and enhanced arguments, or null if required arguments are missing.
      */
     private function parseArgs($args, $defaults = [])
@@ -57,6 +58,7 @@ class HistoricalModel
      *     @type int $term       Optional. Term ID to retrieve.
      *     @type int $author_id  Optional. Author ID to retrieve.
      * }
+     *
      * @return int|null The ID of the first found resource, or null if no resource ID specified
      */
     public function getResourceId($args)
