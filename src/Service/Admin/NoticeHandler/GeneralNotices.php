@@ -39,7 +39,7 @@ class GeneralNotices
     {
         $this->coreNotices = apply_filters('wp_statistics_admin_notices', $this->coreNotices);
 
-        if ( ! is_admin() ) {
+        if (! is_admin()) {
             return;
         }
 
@@ -182,12 +182,12 @@ class GeneralNotices
         if (!wp_next_scheduled('wp_statistics_report_hook')) {
             return;
         }
-        
+
         $timeReports       = Option::get('time_report');
         $schedulesInterval = Schedule::getSchedules();
 
         if (isset($schedulesInterval[$timeReports])) {
-           return;
+            return;
         }
 
         Notice::addNotice(
@@ -213,7 +213,8 @@ class GeneralNotices
      * 
      * @return void
      */
-    public function notifyDeprecatedHoneypotOption() {
+    public function notifyDeprecatedHoneypotOption()
+    {
         if (Notice::isNoticeDismissed('deprecated_honeypot')) {
             return;
         }
@@ -226,18 +227,18 @@ class GeneralNotices
             return;
         }
 
-        Notice::addNotice( 
+        Notice::addNotice(
             sprintf(
                 wp_kses(
                     /* translators: %1$s: opening strong tag, %2$s: closing strong tag, %3$s: opening link tag, %4$s: Learn more text, %5$s: closing link tag */
                     esc_html__('The WP Statistics %1$sHoney Pot Trap Page%2$s option will be removed in version 14.13. %3$s%4$s%5$s.', 'wp-statistics'),
-                   [
+                    [
                         'strong' => [],
                         'a' => [
                             'href' => [],
                             'target' => [],
                         ],
-                   ]
+                    ]
                 ),
                 '<strong>',
                 '</strong>',
@@ -255,7 +256,8 @@ class GeneralNotices
      * 
      * @return void
      */
-    public function checkCloudflareGeolocatin() {
+    public function checkCloudflareGeolocatin()
+    {
         if (Notice::isNoticeDismissed('cloudflare_geolocation')) {
             return;
         }
@@ -276,12 +278,12 @@ class GeneralNotices
                     '<strong>',
                     '</strong>',
                     esc_html__(
-                        "You're using Cloudflare. For better performance, you can switch to using Cloudflare's Geolocation feature instead of MaxMind's GeoIP database. Enable this option in WP Statistics settings.", 
+                        "You're using Cloudflare. For better performance, you can switch to using Cloudflare's Geolocation feature instead of MaxMind's GeoIP database. Enable this option in WP Statistics settings.",
                         'wp-statistics'
                     ),
                     sprintf(
                         /* translators: %1$s: URL to advanced settings page, %2$s: Title attribute for the link tooltip */
-                        '<a href="%1$s" title="%2$s">', 
+                        '<a href="%1$s" title="%2$s">',
                         esc_url(admin_url('admin.php?page=wps_settings_page&tab=advanced-settings')),
                         esc_attr__('Go to WP Statistics Advanced Settings', 'wp-statistics')
                     ),
