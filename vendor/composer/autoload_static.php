@@ -267,6 +267,8 @@ class ComposerStaticInit0c58b92c1859559503021091c91f6640
         'WP_Statistics\\Service\\Admin\\Referrals\\ReferralsPage' => __DIR__ . '/../..' . '/src/Service/Admin/Referrals/ReferralsPage.php',
         'WP_Statistics\\Service\\Admin\\Referrals\\Views\\TabsView' => __DIR__ . '/../..' . '/src/Service/Admin/Referrals/Views/TabsView.php',
         'WP_Statistics\\Service\\Admin\\SiteHealthInfo' => __DIR__ . '/../..' . '/src/Service/Admin/SiteHealthInfo.php',
+        'WP_Statistics\\Service\\Admin\\TrackerDebugger\\TrackerDebuggerManager' => __DIR__ . '/../..' . '/src/Service/Admin/TrackerDebugger/TrackerDebuggerManager.php',
+        'WP_Statistics\\Service\\Admin\\TrackerDebugger\\TrackerDebuggerPage' => __DIR__ . '/../..' . '/src/Service/Admin/TrackerDebugger/TrackerDebuggerPage.php',
         'WP_Statistics\\Service\\Admin\\VisitorInsights\\Views\\SingleVisitorView' => __DIR__ . '/../..' . '/src/Service/Admin/VisitorInsights/Views/SingleVisitorView.php',
         'WP_Statistics\\Service\\Admin\\VisitorInsights\\Views\\TabsView' => __DIR__ . '/../..' . '/src/Service/Admin/VisitorInsights/Views/TabsView.php',
         'WP_Statistics\\Service\\Admin\\VisitorInsights\\VisitorInsightsDataProvider' => __DIR__ . '/../..' . '/src/Service/Admin/VisitorInsights/VisitorInsightsDataProvider.php',

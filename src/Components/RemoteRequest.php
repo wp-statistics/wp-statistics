@@ -89,7 +89,7 @@ class RemoteRequest
      *
      * @throws Exception
      */
-    public function execute($throwFailedHttpCodeResponse = true, $useCache = true, $cacheExpiration = HOUR_IN_SECONDS)
+    public function execute($throwFailedHttpCodeResponse = true, $useCache = true, $cacheExpiration = HOUR_IN_SECONDS, $getStatus = false)
     {
         // Generate the cache key
         $cacheKey = $this->generateCacheKey();
@@ -132,6 +132,10 @@ class RemoteRequest
             if ($this->isRequestSuccessful($responseCode) && (is_object($resultToCache) || is_array($resultToCache))) {
                 $this->setCachedResult($cacheKey, $resultToCache, $cacheExpiration);
             }
+        }
+
+        if ($getStatus) {
+            return $this->isRequestSuccessful($responseCode);
         }
 
         return $resultToCache;

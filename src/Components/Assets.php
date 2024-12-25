@@ -126,7 +126,7 @@ class Assets
      *
      * @return  string
      */
-    private static function getSrc($src, $obfuscate = false, $plugin_url = null)
+    public static function getSrc($src, $obfuscate = false, $plugin_url = null)
     {
         if ($obfuscate) {
             $file = $plugin_url ? Helper::urlToDir($plugin_url) : self::$plugin_dir;

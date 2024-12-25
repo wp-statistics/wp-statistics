@@ -318,4 +318,62 @@ class TimeZone
         return $countryCode;
     }
 
+    /**
+    * Convert timestamp to "time ago" format
+    *
+    * @param DateTime $currentDate Current date and time
+    * @param DateTime $visitDate Visit date and time
+    * @return string Formatted time difference
+    */
+    public static function getElapsedTime($currentDate, $visitDate) {
+        $diffMinutes = round(($currentDate->getTimestamp() - $visitDate->getTimestamp()) / 60);
+    
+        if ($diffMinutes >= 60) {
+            $hours = floor($diffMinutes / 60);
+            $minutes = $diffMinutes % 60;
+    
+            if ($minutes > 0) {
+                return sprintf(
+                    esc_html(
+                        /* translators: 1: number of hours, 2: number of minutes */
+                        _n(
+                            '%1$d hour %2$d minute ago',
+                            '%1$d hours %2$d minutes ago',
+                            absint($hours),
+                            'wp-statistics'
+                        )
+                    ),
+                    absint($hours),
+                    absint($minutes)
+                );
+            }
+    
+            return sprintf(
+                esc_html(
+                    /* translators: %d: number of hours */
+                    _n(
+                        '%d hour ago',
+                        '%d hours ago',
+                        absint($hours),
+                        'wp-statistics'
+                    )
+                ),
+                absint($hours)
+            );
+        }
+    
+        return sprintf(
+            esc_html(
+                /* translators: %d: number of minutes */
+                _n(
+                    '%d minute ago',
+                    '%d minutes ago',
+                    absint($diffMinutes),
+                    'wp-statistics'
+                )
+            ),
+            absint($diffMinutes)
+        );
+    }
+
 }

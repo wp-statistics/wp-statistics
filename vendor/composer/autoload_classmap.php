@@ -206,6 +206,8 @@ return array(
     'WP_Statistics\\Service\\Admin\\Referrals\\ReferralsPage' => $baseDir . '/src/Service/Admin/Referrals/ReferralsPage.php',
     'WP_Statistics\\Service\\Admin\\Referrals\\Views\\TabsView' => $baseDir . '/src/Service/Admin/Referrals/Views/TabsView.php',
     'WP_Statistics\\Service\\Admin\\SiteHealthInfo' => $baseDir . '/src/Service/Admin/SiteHealthInfo.php',
+    'WP_Statistics\\Service\\Admin\\TrackerDebugger\\TrackerDebuggerManager' => $baseDir . '/src/Service/Admin/TrackerDebugger/TrackerDebuggerManager.php',
+    'WP_Statistics\\Service\\Admin\\TrackerDebugger\\TrackerDebuggerPage' => $baseDir . '/src/Service/Admin/TrackerDebugger/TrackerDebuggerPage.php',
     'WP_Statistics\\Service\\Admin\\VisitorInsights\\Views\\SingleVisitorView' => $baseDir . '/src/Service/Admin/VisitorInsights/Views/SingleVisitorView.php',
     'WP_Statistics\\Service\\Admin\\VisitorInsights\\Views\\TabsView' => $baseDir . '/src/Service/Admin/VisitorInsights/Views/TabsView.php',
     'WP_Statistics\\Service\\Admin\\VisitorInsights\\VisitorInsightsDataProvider' => $baseDir . '/src/Service/Admin/VisitorInsights/VisitorInsightsDataProvider.php',
