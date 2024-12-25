@@ -99,16 +99,16 @@ class PrivacyAuditDataProvider
 
             $auditItem = [
                 'name'             => $key,
-                'icon'             => $auditState['icon'],
-                'summary'          => $auditState['summary'],
+                'icon'             => $auditState['icon'] ?? '',
+                'summary'          => $auditState['summary'] ?? '',
                 'title'            => $auditState['title'],
                 'notes'            => $auditState['notes'],
                 'status'           => $auditState['status'],
                 'compliance'       => $auditState['compliance'],
-                'suggestion'       => $auditState['suggestion'],
-                'suggestion_title' => $auditState['suggestion_title'],
-                'info'             => $auditState['info'],
-                'info_title'       => $auditState['info_title'],
+                'suggestion'       => $auditState['suggestion'] ?? '',
+                'suggestion_title' => $auditState['suggestion_title'] ?? '',
+                'info'             => $auditState['info'] ?? '',
+                'info_title'       => $auditState['info_title'] ?? '',
             ];
 
             // If audit has action in the current state, add it to the audit item array.
