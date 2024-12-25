@@ -433,7 +433,6 @@ class Admin_Assets
             'rest_connect'                 => __('Failed to retrieve data. Please check the browser console and the XHR request under Network → XHR for details.', 'wp-statistics'),
             'privacy_compliant'            => __('Your WP Statistics settings are privacy-compliant.', 'wp-statistics'),
             'non_privacy_compliant'        => __('Your WP Statistics settings are not privacy-compliant. Please update your settings.', 'wp-statistics'),
-            'privacy_resolve_alert'        => __('By manually resolving this item, please ensure your website’s privacy policy is updated to accurately reflect this setting. This is essential for maintaining compliance and transparency with your users.', 'wp-statistics'),
             'no_result'                    => __('No recent data available.', 'wp-statistics'),
             'published'                    => __('Published', 'wp-statistics'),
             'author'                       => __('Author', 'wp-statistics'),
@@ -465,6 +464,7 @@ class Admin_Assets
             'view'                         => __('View', 'wp-statistics'),
             'waiting'                      => __('Waiting', 'wp-statistics'),
             'continue_to_next_step'        => __('Continue to Next Step', 'wp-statistics'),
+            'action_required'              => __('Action Required', 'wp-statistics'),
             'start_of_week'                => get_option('start_of_week', 0)
         );
 

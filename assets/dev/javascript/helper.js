@@ -1221,21 +1221,4 @@ jQuery(document).ready(function () {
         targetElement.parentNode.insertBefore(noticeElement, targetElement.nextSibling);
     }
 
-    jQuery(document).on('click', '.wps-privacy-list__item .wps-privacy-list__title', (e) => {
-        const title = jQuery(e.currentTarget);
-        const content = title.siblings('.wps-privacy-list__content');
-
-        // If the action button is clicked, don't expand the item
-        if (jQuery(e.target).is('.wps-privacy-list__button')) {
-            return;
-        }
-
-        title.toggleClass('open');
-
-        if (content.hasClass('show')) {
-            content.removeClass('show');
-        } else {
-            content.addClass('show');
-        }
-    });
 });
