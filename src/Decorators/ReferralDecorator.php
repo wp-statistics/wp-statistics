@@ -41,7 +41,7 @@ class ReferralDecorator
      */
     public function getSourceChannel()
     {
-        return SourceChannels::getName($this->item->source_channel) ?? null;
+        return SourceChannels::getName($this->item->source_channel) ?? esc_html__('Unassigned Traffic', 'wp-statistics');
     }
 
     /**

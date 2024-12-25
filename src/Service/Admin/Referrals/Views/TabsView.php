@@ -51,6 +51,13 @@ class TabsView extends BaseTabView
         return $this->dataProvider->getSearchEngineReferrals();
     }
 
+    public function getSourceCategoriesData()
+    {
+        // wp_localize_script(Admin_Assets::$prefix, 'Wp_Statistics_Referrals_Object', $this->dataProvider->getChartsData());
+
+        return $this->dataProvider->getSourceCategories();
+    }
+
     public function render()
     {
         try {
