@@ -19,7 +19,7 @@ class TrackerDebuggerManager
     public function addMenuItem($items)
     {
         $items['tracker_debugger'] = [
-            'sub'       => 'overview',
+            'sub'       => 'settings',
             'title'     => '',
             'page_url'  => 'tracker-debugger',
             'callback'  => TrackerDebuggerPage::class,

@@ -143,6 +143,7 @@ https://www.youtube.com/watch?v=jxYLVtBdhEc
 
 = 14.11.x
 - **New:** Added "404 Reports" under the "Page Insights".
+- **New:** Added the Tracker Debugger feature.
 - **Fix:** Resolved issue with showing not queryable post-types in Content Analytics
 
 = 14.11.2 - 2024-11-05 =
