@@ -24,7 +24,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                 // Append audit items to the page.
                 if (data.unpassed_audits) LoadUnPassed(data.unpassed_audits);
                 if (data.passed_audits) loadPassed(data.passed_audits);
-                if (data.recommended_audits) loadRecommended(data.recommended_audits);
+                if (data.recommended_audits.length>0) loadRecommended(data.recommended_audits);
 
                 // Append faq items to the page.
                 loadFaqs(data.faq_list);
@@ -177,7 +177,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
 
     function loadRecommended(auditList) {
         loadAuditItems(auditList, '.wps-privacy-recommended .wps-audit-cards__container');
-        document.querySelector('.wps-privacy-recommended').css('display' , 'bolock')
+        document.querySelector('.wps-privacy-recommended').style.display = 'block';
     }
 
     const generateSection = (title, content) => {

@@ -42,6 +42,9 @@
 
 .wps-privacy-recommended{
   display: none;
+  .wps-audit-card__icon{
+    background: #4D4E50!important;
+  }
 }
 
 .wps-privacy-audit{
@@ -537,6 +540,12 @@
     background: linear-gradient(90deg, transparent, hsla(0, 0%, 100%, 0.4), transparent);
     -webkit-animation: skeleton-animate-wave 1.75s linear infinite;
     animation: skeleton-animate-wave 1.75s linear infinite;
+  }
+}
+
+.wps-privacy-unpassed .wps-audit-card--warning{
+  .wps-audit-card__icon{
+    background: #4D4E50!important;
   }
 }
 
