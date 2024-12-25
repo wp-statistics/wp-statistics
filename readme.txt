@@ -140,6 +140,7 @@ https://www.youtube.com/watch?v=jxYLVtBdhEc
 
 = 14.12
 - **New:** Added "Source Categories" report under the "Referrals".
+- **New:** Redesigned "Privacy Audit" page.
 
 = 14.11.x
 - **New:** Added "404 Reports" under the "Page Insights".
