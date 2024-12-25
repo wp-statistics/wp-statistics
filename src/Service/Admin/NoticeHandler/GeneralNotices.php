@@ -272,11 +272,11 @@ class GeneralNotices
             wp_kses(
                 sprintf(
                     /* translators: %1$s: opening strong tag, %2$s: closing strong tag, %3$s: suggestion text about Cloudflare, %4$s: opening link tag with href and title, %5$s: link text, %6$s: closing link tag */
-                    '%1$sSuggestion:%2$s %3$s %4$s%5$s%6$s.',
+                    '%1$sSuggestion:%2$s %3$s %4$s%5$s%6$s',
                     '<strong>',
                     '</strong>',
                     esc_html__(
-                        "You're using Cloudflare. To improve performance, enable the IP Geolocation feature in your Cloudflare account. This allows the plugin to use Cloudflare's geolocation instead of GeoIP MaxMind", 
+                        "You're using Cloudflare. For better performance, you can switch to using Cloudflare's Geolocation feature instead of MaxMind's GeoIP database. Enable this option in WP Statistics settings.", 
                         'wp-statistics'
                     ),
                     sprintf(
@@ -285,7 +285,7 @@ class GeneralNotices
                         esc_url(admin_url('admin.php?page=wps_settings_page&tab=advanced-settings')),
                         esc_attr__('Go to WP Statistics Advanced Settings', 'wp-statistics')
                     ),
-                    esc_html__('Click here', 'wp-statistics'),
+                    esc_html__('Enable this option', 'wp-statistics'),
                     '</a>'
                 ),
                 [

@@ -37,8 +37,10 @@ class GeolocationFactory
      *
      * @return bool|WP_Error
      */
-    public static function downloadDatabase()
+    public static function downloadDatabase($provider = null)
     {
+        self::$forcedProvider = $provider;
+        
         $provider           = self::getProviderInstance();
         $geolocationService = new GeolocationService($provider);
 
