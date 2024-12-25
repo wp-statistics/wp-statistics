@@ -5,6 +5,7 @@ namespace WP_Statistics\Service\Admin\PrivacyAudit;
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Option;
 use WP_Statistics\Service\Admin\PrivacyAudit\Audits\Abstracts\ResolvableAudit;
+use WP_STATISTICS\User;
 
 class PrivacyAuditManager
 {
@@ -57,6 +58,7 @@ class PrivacyAuditManager
             'title'    => esc_html__('Privacy Audit', 'wp-statistics'),
             'page_url' => 'privacy-audit',
             'callback' => PrivacyAuditPage::class,
+            'cap' => User::ExistCapability(Option::get('manage_capability', 'manage_options')),
             'priority'  => 91,
         ];
 

@@ -192,63 +192,6 @@ wps_js.redirect = function (url) {
     window.location.replace(url);
 };
 
-/**
- * Create Line Chart JS
- */
-wps_js.line_chart = function (tag_id, title, label, data, newOptions) {
-
-    // Get Element By ID
-    let ctx = document.getElementById(tag_id).getContext('2d');
-
-    // Check is RTL Mode
-    if (wps_js.is_active('rtl')) {
-        Chart.defaults.global = {
-            defaultFontFamily: "Tahoma"
-        }
-    }
-
-    const defaultOptions = {
-        type: 'line',
-        data: {
-            labels: label,
-            datasets: data
-        },
-        options: {
-            responsive: true,
-            legend: {
-                position: 'bottom',
-            },
-            animation: {
-                duration: 1500,
-            },
-            title: {
-                display: true,
-                text: title
-            },
-            tooltips: {
-                mode: 'index',
-                intersect: false,
-            },
-            interaction: {
-                intersect: false,
-                mode: 'index',
-            },
-            scales: {
-                y: {
-                    ticks: {
-                        stepSize: 1,
-                    }
-                },
-            }
-        }
-    };
-
-    const options = Object.assign({}, defaultOptions, newOptions);
-
-    // Create Chart
-    new Chart(ctx, options);
-};
-
 
 /**
  * Create Horizontal Bar Chart
@@ -320,42 +263,6 @@ wps_js.horizontal_bar = function (tag_id, labels, data, imageUrls) {
  */
 wps_js.chart_id = function (meta_box) {
     return 'wp-statistics-' + meta_box + '-meta-box-chart';
-};
-
-/**
- * Generate Flat Random Color
- */
-wps_js.random_color = function (i = false) {
-    let colors = [
-        [243, 156, 18, "#f39c12"],
-        [52, 152, 219, "#3498db"],
-        [192, 57, 43, "#c0392b"],
-        [155, 89, 182, "#9b59b6"],
-        [39, 174, 96, "#27ae60"],
-        [230, 126, 34, "#e67e22"],
-        [142, 68, 173, "#8e44ad"],
-        [46, 204, 113, "#2ecc71"],
-        [41, 128, 185, "#2980b9"],
-        [22, 160, 133, "#16a085"],
-        [211, 84, 0, "#d35400"],
-        [44, 62, 80, "#2c3e50"],
-        [241, 196, 15, "#f1c40f"],
-        [231, 76, 60, "#e74c3c"],
-        [26, 188, 156, "#1abc9c"],
-        [46, 204, 113, "#2ecc71"],
-        [52, 152, 219, "#3498db"],
-        [155, 89, 182, "#9b59b6"],
-        [52, 73, 94, "#34495e"],
-        [22, 160, 133, "#16a085"],
-        [39, 174, 96, "#27ae60"],
-        [44, 62, 80, "#2c3e50"],
-        [241, 196, 15, "#f1c40f"],
-        [230, 126, 34, "#e67e22"],
-        [231, 76, 60, "#e74c3c"],
-        [236, 240, 241, "#9b9e9f"],
-        [149, 165, 166, "#a65d20"]
-    ];
-    return colors[(i === false ? Math.floor(Math.random() * colors.length) : i)];
 };
 
 /**
@@ -532,7 +439,37 @@ const getOrCreateTooltip = (chart) => {
     return tooltipEl;
 };
 
-const externalTooltipHandler = (context, dataset, colors, data, unitTime, dateLabels, monthTooltip) => {
+ wps_js.setTooltipPosition =function(tooltipEl , chart , tooltip) {
+    const {offsetLeft: chartLeft, offsetTop: chartTop, clientWidth: chartWidth, clientHeight: chartHeight} = chart.canvas;
+    const {caretX, caretY} = tooltip;
+
+    const tooltipWidth = tooltipEl.offsetWidth;
+    const tooltipHeight = tooltipEl.offsetHeight;
+
+    const margin = 16;
+    let tooltipX = chartLeft + caretX + margin;
+    let tooltipY = chartTop + caretY - tooltipHeight / 2;
+
+    if (tooltipX + tooltipWidth + margin > chartLeft + chartWidth) {
+        tooltipX = chartLeft + caretX - tooltipWidth - margin;
+    }
+
+    if (tooltipX < chartLeft + margin) {
+        tooltipX = chartLeft + margin;
+    }
+
+    if (tooltipY < chartTop + margin) {
+        tooltipY = chartTop + margin;
+    }
+    if (tooltipY + tooltipHeight + margin > chartTop + chartHeight) {
+        tooltipY = chartTop + chartHeight - tooltipHeight - margin;
+    }
+    tooltipEl.style.opacity = 1;
+    tooltipEl.style.left = tooltipX + 'px';
+    tooltipEl.style.top = tooltipY + 'px';
+}
+
+const externalTooltipHandler = (context, dataset, colors, data, unitTime, dateLabels , prevDateLabels, monthTooltip ,prevMonthTooltip) => {
     const {chart, tooltip} = context;
     const tooltipEl = getOrCreateTooltip(chart);
     if (tooltip.opacity === 0) {
@@ -547,7 +484,9 @@ const externalTooltipHandler = (context, dataset, colors, data, unitTime, dateLa
         titleLines.forEach(title => {
             const {date, day} = (data.data) ? data.data.labels[dataIndex] : data.labels[dataIndex];
             if (unitTime === 'day') {
-                innerHtml += `<div class="chart-title">${date} (${day})</div>`;
+                const phpDateFormat = wps_js.isset(wps_js.global, 'options', 'wp_date_format') ? wps_js.global['options']['wp_date_format'] : 'MM/DD/YYYY';
+                let momentDateFormat = phpToMomentFormat(phpDateFormat);
+                innerHtml += `<div class="chart-title">${moment(date).format(momentDateFormat)} (${day})</div>`;
             } else if (unitTime === 'month') {
                 innerHtml += `<div class="chart-title">${monthTooltip[dataIndex]} </div>`;
             } else {
@@ -590,8 +529,17 @@ const externalTooltipHandler = (context, dataset, colors, data, unitTime, dateLa
 
                 if (previousDataset !== undefined && previousDataset !== '' && previousDataset.data && !isPrevious && !isPreviousHidden) {
                     let previousValue = previousDataset.data[dataIndex];
-                    const previousLabel = data.previousData.labels[dataIndex].date;
-                    innerHtml += `
+                    let previousLabel = null;
+                     if (unitTime === 'day') {
+                         const phpDateFormat = wps_js.isset(wps_js.global, 'options', 'wp_date_format') ? wps_js.global['options']['wp_date_format'] : 'MM/DD/YYYY';
+                         let momentDateFormat = phpToMomentFormat(phpDateFormat);
+                        previousLabel = moment(data.previousData.labels[dataIndex].date).format(momentDateFormat)
+                    } else if (unitTime === 'month') {
+                         previousLabel=prevMonthTooltip[dataIndex];
+                    } else {
+                        previousLabel =prevDateLabels[dataIndex];
+                    }
+                     innerHtml += `
                     <div class="previous-data">
                         <div>
                             <span class="previous-data__colors">
@@ -607,41 +555,8 @@ const externalTooltipHandler = (context, dataset, colors, data, unitTime, dateLa
         });
 
         innerHtml += `</div>`;
-
         tooltipEl.innerHTML = innerHtml;
-        const {offsetLeft: chartLeft, offsetTop: chartTop, clientWidth: chartWidth, clientHeight: chartHeight} = chart.canvas;
-        const {caretX, caretY} = tooltip;
-
-        // Calculate tooltip position
-        const tooltipWidth = tooltipEl.offsetWidth;
-        const tooltipHeight = tooltipEl.offsetHeight;
-
-        const margin = 16;
-        // Default tooltip position to the right of the point
-        let tooltipX = chartLeft + caretX + margin;
-        let tooltipY = chartTop + caretY - tooltipHeight / 2;
-
-        // Check if tooltip exceeds right boundary
-        if (tooltipX + tooltipWidth + margin > chartLeft + chartWidth) {
-            // Not enough space on the right, position to the left
-            tooltipX = chartLeft + caretX - tooltipWidth - margin;
-        }
-
-        // Ensure tooltip does not overflow horizontally
-        if (tooltipX < chartLeft + margin) {
-            tooltipX = chartLeft + margin;
-        }
-
-        // Ensure tooltip does not overflow vertically
-        if (tooltipY < chartTop + margin) {
-            tooltipY = chartTop + margin;
-        }
-        if (tooltipY + tooltipHeight + margin > chartTop + chartHeight) {
-            tooltipY = chartTop + chartHeight - tooltipHeight - margin;
-        }
-        tooltipEl.style.opacity = 1;
-        tooltipEl.style.left = tooltipX + 'px';
-        tooltipEl.style.top = tooltipY + 'px';
+        wps_js.setTooltipPosition(tooltipEl , chart , tooltip);
     }
 };
 
@@ -748,25 +663,30 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
 
 // Determine whether to aggregate by day, week, or month
     let dateLabels = data.data.labels.map(dateObj => dateObj.formatted_date);
+    let prevDateLabels = [];
     let monthTooltip = [];
+    let prevMonthTooltip = [];
     const length = dateLabels.length;
     const containsPostsLabel = type === 'performance' && data.data.datasets.length > 2;
     const threshold = type === 'performance' ? 30 : 60;
     let unitTime = length <= threshold ? 'day' : length <= 180 ? 'week' : 'month';
-
+    if (data.previousData && data.previousData.datasets.length > 0) {
+         prevDateLabels = data.previousData.labels.map(dateObj => dateObj.formatted_date);
+    }
 // Aggregate data for week or month view
     if (unitTime === 'week' || unitTime === 'month') {
         const aggregatedData = aggregateData(data.data.labels, data.data.datasets, unitTime);
-
         dateLabels = aggregatedData.aggregatedLabels;
         data.data.datasets.forEach((dataset, idx) => {
             dataset.data = aggregatedData.aggregatedData[idx];
         });
         if (data.previousData && data.previousData.datasets.length > 0) {
-            const aggregatedPreviousData = aggregateData(data.data.labels, data.previousData.datasets, unitTime);
+            const aggregatedPreviousData = aggregateData(data.previousData.labels, data.previousData.datasets, unitTime);
+             prevDateLabels = aggregatedPreviousData.aggregatedLabels;
             data.previousData.datasets.forEach((dataset, idx) => {
                 dataset.data = aggregatedPreviousData.aggregatedData[idx];
-            });
+             });
+            prevMonthTooltip = aggregatedPreviousData.monthTooltipTitle;
         }
         monthTooltip = aggregatedData.monthTooltipTitle;
     }
@@ -878,7 +798,7 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
             legend: false,
             tooltip: {
                 enabled: false,
-                external: (context) => externalTooltipHandler(context, datasets, colors, data, unitTime, dateLabels, monthTooltip),
+                external: (context) => externalTooltipHandler(context, datasets, colors, data, unitTime, dateLabels , prevDateLabels, monthTooltip ,prevMonthTooltip),
                 callbacks: {
                     title: (tooltipItems) => tooltipItems[0].label,
                     label: (tooltipItem) => tooltipItem.formattedValue
@@ -1165,7 +1085,9 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
         }
     };
     updateLegend();
-};
+    wps_js.new_line_chart.aggregateData = aggregateData;
+    return lineChart;
+ };
 
 
 // Head filters drop down

@@ -102,6 +102,18 @@ class DateTime
         return self::getDateFormat() . $separator . self::getTimeFormat();
     }
 
+    /**
+     * Subtract a given number of days from a date string.
+     *
+     * @param string|int $date The date string to subtract from.
+     * @param int $days The number of days to subtract.
+     * @param string $format The format to use for the returned date string. Default 'Y-m-d'.
+     * @return string The date string with the specified number of days subtracted.
+     */
+    public static function subtract($date, $days, $format = 'Y-m-d')
+    {
+        return date($format, strtotime("-$days day", strtotime($date)));
+    }
 
     /**
      * Formats a given date string according to WordPress settings and provided arguments.

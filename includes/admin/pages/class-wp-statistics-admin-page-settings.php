@@ -350,7 +350,13 @@ class settings_page extends Singleton
     {
         $wps_option_list = array('wps_read_capability', 'wps_manage_capability');
         foreach ($wps_option_list as $option) {
-            $wp_statistics_options[self::input_name_to_option($option)] = (isset($_POST[$option]) ? $_POST[$option] : '');
+            $capability = ! empty($_POST[$option]) ? sanitize_text_field($_POST[$option]) : '';
+
+            if (!User::checkUserCapability($capability)) {
+                continue;
+            }
+
+            $wp_statistics_options[self::input_name_to_option($option)] = $capability;
         }
 
         return $wp_statistics_options;

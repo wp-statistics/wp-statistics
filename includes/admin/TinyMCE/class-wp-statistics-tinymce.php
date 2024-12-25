@@ -37,6 +37,7 @@ class TinyMCE
             'visits'         => __('Views', 'wp-statistics'),
             'visitors'       => __('Visitors', 'wp-statistics'),
             'pagevisits'     => __('Number of Page Views', 'wp-statistics'),
+            'pagevisitors'     => __('Number of Page Visitors', 'wp-statistics'),
             'searches'       => __('Searches', 'wp-statistics'),
             'postcount'      => __('Total Number of Posts', 'wp-statistics'),
             'pagecount'      => __('Total Number of Pages', 'wp-statistics'),

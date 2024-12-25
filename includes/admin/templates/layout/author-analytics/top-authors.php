@@ -3,10 +3,11 @@
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Menus;
 use WP_Statistics\Utils\Request;
-use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 use WP_Statistics\Components\View;
+use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHandler;
 
-$isLicenseValid       = LicenseHelper::isPluginLicenseValid('wp-statistics-data-plus');
+$pluginHandler        = new PluginHandler();
+$showPreview          = !$pluginHandler->isPluginActive('wp-statistics-data-plus');
 $postType             = Request::get('pt', 'post');
 $postTypeNameSingular = Helper::getPostTypeName($postType, true);
 $postTypeNamePlural   = Helper::getPostTypeName($postType);
@@ -36,12 +37,12 @@ $postTypeNamePlural   = Helper::getPostTypeName($postType);
                     if ($viewingAuthors) {
                         foreach ($viewingAuthors as $author) :
                             View::load("components/author-box", [
-                                'is_license_valid' => $isLicenseValid,
-                                'author_id'        => $author->id,
-                                'author_name'      => $author->name,
-                                'count'            => $author->total_views,
-                                'counter'          => $counter,
-                                'count_label'      => sprintf(esc_html__('%s views', 'wp-statistics'), strtolower($postTypeNameSingular)),
+                                'show_preview'  => $showPreview,
+                                'author_id'     => $author->id,
+                                'author_name'   => $author->name,
+                                'count'         => $author->total_views,
+                                'counter'       => $counter,
+                                'count_label'   => sprintf(esc_html__('%s views', 'wp-statistics'), strtolower($postTypeNameSingular)),
                             ]);
                             $counter++;
                         endforeach;
@@ -66,12 +67,12 @@ $postTypeNamePlural   = Helper::getPostTypeName($postType);
                     if ($publishingAuthors) {
                         foreach ($publishingAuthors as $author) :
                             View::load("components/author-box", [
-                                'is_license_valid' => $isLicenseValid,
-                                'author_id'        => $author->id,
-                                'author_name'      => $author->name,
-                                'count'            => $author->post_count,
-                                'counter'          => $counter,
-                                'count_label'      => sprintf(esc_html__('%s published', 'wp-statistics'), strtolower($postTypeNamePlural)),
+                                'show_preview'  => $showPreview,
+                                'author_id'     => $author->id,
+                                'author_name'   => $author->name,
+                                'count'         => $author->post_count,
+                                'counter'       => $counter,
+                                'count_label'   => sprintf(esc_html__('%s published', 'wp-statistics'), strtolower($postTypeNamePlural)),
                             ]);
                             $counter++;
                         endforeach;
@@ -99,12 +100,12 @@ $postTypeNamePlural   = Helper::getPostTypeName($postType);
                     if ($topByViewsPerPost) {
                         foreach ($topByViewsPerPost as $author) :
                             View::load("components/author-box", [
-                                'is_license_valid' => $isLicenseValid,
-                                'author_id'        => $author->id,
-                                'author_name'      => $author->name,
-                                'count'            => $author->average_views,
-                                'counter'          => $counter,
-                                'count_label'      => sprintf(esc_html__('views/%s', 'wp-statistics'), strtolower($postTypeNameSingular)),
+                                'show_preview'  => $showPreview,
+                                'author_id'     => $author->id,
+                                'author_name'   => $author->name,
+                                'count'         => $author->average_views,
+                                'counter'       => $counter,
+                                'count_label'   => sprintf(esc_html__('views/%s', 'wp-statistics'), strtolower($postTypeNameSingular)),
                             ]);
                             $counter++;
                         endforeach;
@@ -130,12 +131,12 @@ $postTypeNamePlural   = Helper::getPostTypeName($postType);
                         if ($topByCommentsPerPost) {
                             foreach ($topByCommentsPerPost as $author) :
                                 View::load("components/author-box", [
-                                    'is_license_valid' => $isLicenseValid,
-                                    'author_id'        => $author->id,
-                                    'author_name'      => $author->name,
-                                    'count'            => $author->average_comments,
-                                    'counter'          => $counter,
-                                    'count_label'      => sprintf(esc_html__('comments/%s', 'wp-statistics'), strtolower($postTypeNameSingular)),
+                                    'show_preview'  => $showPreview,
+                                    'author_id'     => $author->id,
+                                    'author_name'   => $author->name,
+                                    'count'         => $author->average_comments,
+                                    'counter'       => $counter,
+                                    'count_label'   => sprintf(esc_html__('comments/%s', 'wp-statistics'), strtolower($postTypeNameSingular)),
                                 ]);
                                 $counter++;
                             endforeach;
@@ -161,12 +162,12 @@ $postTypeNamePlural   = Helper::getPostTypeName($postType);
                     if ($topByWordsPerPost) {
                         foreach ($topByWordsPerPost as $author) :
                             View::load("components/author-box", [
-                                'is_license_valid' => $isLicenseValid,
-                                'author_id'        => $author->id,
-                                'author_name'      => $author->name,
-                                'count'            => $author->average_words,
-                                'counter'          => $counter,
-                                'count_label'      => sprintf(esc_html__('words/%s', 'wp-statistics'), strtolower($postTypeNameSingular)),
+                                'show_preview'  => $showPreview,
+                                'author_id'     => $author->id,
+                                'author_name'   => $author->name,
+                                'count'         => $author->average_words,
+                                'counter'       => $counter,
+                                'count_label'   => sprintf(esc_html__('words/%s', 'wp-statistics'), strtolower($postTypeNameSingular)),
                             ]);
                             $counter++;
                         endforeach;

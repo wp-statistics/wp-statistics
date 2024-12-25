@@ -9,6 +9,12 @@ use WP_Statistics\Service\Charts\DataProvider\UsersTrafficChartDataProvider;
 use WP_Statistics\Service\Charts\DataProvider\PlatformChartDataProvider;
 use WP_Statistics\Service\Charts\DataProvider\PublishOverviewChartDataProvider;
 use WP_Statistics\Service\Charts\DataProvider\AuthorsPostViewsChartDataProvider;
+use WP_Statistics\Service\Charts\DataProvider\BrowserChartDataProvider;
+use WP_Statistics\Service\Charts\DataProvider\OsChartDataProvider;
+use WP_Statistics\Service\Charts\DataProvider\DeviceChartDataProvider;
+use WP_Statistics\Service\Charts\DataProvider\ExclusionsChartDataProvider;
+use WP_Statistics\Service\Charts\DataProvider\MapChartDataProvider;
+use WP_Statistics\Service\Charts\DataProvider\ModelChartDataProvider;
 
 class ChartDataProviderFactory
 {
@@ -21,6 +27,50 @@ class ChartDataProviderFactory
     public static function performanceChart($args)
     {
         return new PerformanceChartDataProvider($args);
+    }
+
+    /**
+     * Returns a new instance of BrowserChartDataProvider.
+     *
+     * @param array $args
+     * @return BrowserChartDataProvider
+     */
+    public static function browserChart($args)
+    {
+        return new BrowserChartDataProvider($args);
+    }
+
+    /**
+     * Returns a new instance of DeviceChartDataProvider.
+     *
+     * @param array $args
+     * @return DeviceChartDataProvider
+     */
+    public static function deviceChart($args)
+    {
+        return new DeviceChartDataProvider($args);
+    }
+
+    /**
+     * Returns a new instance of OsChartDataProvider.
+     *
+     * @param array $args
+     * @return OsChartDataProvider
+     */
+    public static function osChart($args)
+    {
+        return new OsChartDataProvider($args);
+    }
+
+    /**
+     * Returns a new instance of ModelChartDataProvider.
+     *
+     * @param array $args
+     * @return ModelChartDataProvider
+     */
+    public static function modelChart($args)
+    {
+        return new ModelChartDataProvider($args);
     }
 
     /**
@@ -87,5 +137,27 @@ class ChartDataProviderFactory
     public static function authorsPostViews($args)
     {
         return new AuthorsPostViewsChartDataProvider($args);
+    }
+
+    /**
+     * Returns a new instance of MapChartDataProvider.
+     *
+     * @param array $args
+     * @return MapChartDataProvider
+     */
+    public static function mapChart($args)
+    {
+        return new MapChartDataProvider($args);
+    }
+
+    /**
+     * Returns a new instance of MapChartDataProvider.
+     *
+     * @param array $args
+     * @return ExclusionsChartDataProvider
+     */
+    public static function exclusionsChart($args)
+    {
+        return new ExclusionsChartDataProvider($args);
     }
 }

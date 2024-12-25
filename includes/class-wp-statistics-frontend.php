@@ -3,6 +3,7 @@
 namespace WP_STATISTICS;
 
 use WP_Statistics\Components\Assets;
+use WP_Statistics\Models\ViewsModel;
 use WP_Statistics\Service\Integrations\WpConsentApi;
 
 class Frontend
@@ -123,8 +124,18 @@ class Frontend
             return $content;
         }
 
+        // Check post type
+        $post_type = Pages::get_post_type($post_id);
+
         // Get post hits
-        $hits      = wp_statistics_pages('total', "", $post_id);
+        $viewsModel = new ViewsModel();
+        $hits       = $viewsModel->countViews([
+            'resource_type' => $post_type,
+            'post_id'       => $post_id,
+            'date'          => 'total',
+            'post_type'     => '',
+        ]);
+
         $hits_html = '<p>' . sprintf(__('Views: %s', 'wp-statistics'), $hits) . '</p>';
 
         // Check hits position

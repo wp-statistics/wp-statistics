@@ -298,27 +298,27 @@ class Admin_Template
         $region   = self::isUnknown($region) ? '' : $region;
         $city     = self::isUnknown($city) ? '' : $city;
 
-        // If location, region, and city are not set 
+        // If location, region, and city are not set
         if (empty($location) && empty($region) && empty($city)) {
             $result = esc_html__('(location not set)', 'wp-statistics');
         }
 
-        // If region, and city are not set 
+        // If region, and city are not set
         if (!empty($location) && empty($region) && empty($city)) {
             $result = esc_html__('(region/city not set)', 'wp-statistics');
         }
 
-        // If only region is set 
+        // If only region is set
         if (!empty($location) && !empty($region) && empty($city)) {
             $result = $region;
         }
 
-        // If only city is set 
+        // If only city is set
         if (!empty($location) && empty($region) && !empty($city)) {
             $result = $city;
         }
 
-        return $result;
+        return apply_filters('wp_statistics_location_column_value', $result, $location, $region, $city);
     }
 
 }
