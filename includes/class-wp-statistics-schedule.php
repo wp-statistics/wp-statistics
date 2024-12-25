@@ -108,7 +108,6 @@ class Schedule
         if ('maxmind' === Option::get('location_detection_method', 'maxmind')) {
             add_action('wp_statistics_geoip_hook', array($this, 'geoip_event'));
         }
-
         add_action('wp_statistics_report_hook', array($this, 'send_report'));
         add_action('wp_statistics_referrals_db_hook', [$this, 'referrals_db_event']);
         add_action('wp_statistics_licenses_hook', [$this, 'migrateOldLicenses']);
