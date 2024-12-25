@@ -140,6 +140,7 @@ https://www.youtube.com/watch?v=jxYLVtBdhEc
 
 = 14.11.5 - 2024-**-** =
 - **Fix:** Resolved early translation loading issue.
+- **Enhancement:** Added `Location Detection Method` option for geolocation.
 - **Enhancement:** Improve source detection method to support sources from the query parameter.
 - **Enhancement:** Updated models to ensure consideration of historical data in the models.
 - **Fix:** Resolved issue with undefined array key `robot_threshold`.
