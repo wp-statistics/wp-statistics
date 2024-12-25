@@ -99,6 +99,8 @@ class PrivacyAuditDataProvider
 
             $auditItem = [
                 'name'             => $key,
+                'icon'             => $auditState['icon'],
+                'summary'          => $auditState['summary'],
                 'title'            => $auditState['title'],
                 'notes'            => $auditState['notes'],
                 'status'           => $auditState['status'],

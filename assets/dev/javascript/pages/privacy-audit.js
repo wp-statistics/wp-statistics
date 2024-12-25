@@ -24,6 +24,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                 // Append audit items to the page.
                 if (data.unpassed_audits) LoadUnPassed(data.unpassed_audits);
                 if (data.passed_audits) loadPassed(data.passed_audits);
+                if (data.recommended_audits) loadRecommended(data.recommended_audits);
 
                 // Append faq items to the page.
                 loadFaqs(data.faq_list);
@@ -174,6 +175,11 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         loadAuditItems(auditList, '.wps-privacy-unpassed .wps-audit-cards__container');
     }
 
+    function loadRecommended(auditList) {
+        loadAuditItems(auditList, '.wps-privacy-recommended .wps-audit-cards__container');
+        document.querySelector('.wps-privacy-recommended').css('display' , 'bolock')
+    }
+
     const generateSection = (title, content) => {
         if (!content) return '';
         return `
@@ -216,9 +222,9 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                 <div class="wps-audit-card__top">
                     <div class="wps-audit-card__details">
                          ${generateIcon(data?.icon)}
-                         <div>
+                          <div>
                             <h3 class="wps-audit-card__title">${data.title}</h3>
-                        </div>
+                          </div>
                     </div>
                     <div class="wps-audit-card__status">`;
         if (!data.hasOwnProperty('action')) {
