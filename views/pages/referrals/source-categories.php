@@ -41,16 +41,16 @@ use WP_STATISTICS\Menus;
                             </thead>
 
                             <tbody>
-                                <?php foreach($data['categories'] as $category) : ?>
-                                    <?php /** @var ReferralDecorator $category */ ?>
+                                <?php foreach($data['categories'] as $referral) : ?>
+                                    <?php /** @var ReferralDecorator $referral */ ?>
                                     <tr>
-                                        <td class="wps-pd-l"><?php echo esc_html($category->getSourceChannel()) ?></td>
+                                        <td class="wps-pd-l"><?php echo esc_html($referral->getSourceChannel()) ?></td>
 
                                         <td class="wps-pd-l start">
-                                            <a href=""><?php echo esc_html($category->getTotalReferrals()) ?></a>
+                                            <a href=""><?php echo esc_html($referral->getTotalReferralsRaw()) ?></a>
                                         </td>
 
-                                        <td class=" wps-pd-l">33%</td>
+                                        <td class=" wps-pd-l"><?php echo Helper::calculatePercentage($referral->getTotalReferralsRaw(), $data['total']) ?></td>
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>
