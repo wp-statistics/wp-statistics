@@ -138,6 +138,9 @@ Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest versio
 == Changelog ==
 https://www.youtube.com/watch?v=jxYLVtBdhEc
 
+= 14.12
+- **New:** Added "Source Categories" report under the "Referrals".
+
 = 14.11.x
 - **New:** Added "404 Reports" under the "Page Insights".
 - **Fix:** Resolved issue with showing not queryable post-types in Content Analytics
