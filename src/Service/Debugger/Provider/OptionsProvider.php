@@ -94,6 +94,7 @@ class OptionsProvider extends AbstractDebuggerProvider
      */
     public function formatValuesAsHtml($values, $tag, $class = '')
     {
+        $values = array_slice($values, 0, 10);
         $html = '';
 
         foreach ($values as $value) {
@@ -102,6 +103,14 @@ class OptionsProvider extends AbstractDebuggerProvider
                 esc_attr($tag),
                 esc_attr($class),
                 esc_html($value)
+            );
+        }
+
+        if (count($values) >= 10) {
+            $html .= sprintf(
+                '<%1$s class="%2$s">...</%1$s>',
+                esc_attr($tag),
+                esc_attr($class)
             );
         }
 

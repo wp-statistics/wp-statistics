@@ -109,6 +109,10 @@ class RemoteRequest
         );
 
         if (is_wp_error($response)) {
+            if (empty($throwFailedHttpCodeResponse)) {
+                return false;
+            }
+
             throw new Exception(esc_html($response->get_error_message()));
         }
 
