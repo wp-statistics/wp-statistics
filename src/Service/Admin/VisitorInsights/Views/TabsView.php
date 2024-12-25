@@ -5,8 +5,8 @@ namespace WP_Statistics\Service\Admin\VisitorInsights\Views;
 use Exception;
 use WP_Statistics\Components\View;
 use WP_STATISTICS\Menus;
+use WP_STATISTICS\Option;
 use WP_STATISTICS\Admin_Assets;
-use WP_STATISTICS\TimeZone;
 use WP_Statistics\Utils\Request;
 use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Abstracts\BaseTabView;
@@ -15,6 +15,7 @@ use WP_Statistics\Service\Admin\VisitorInsights\VisitorInsightsDataProvider;
 
 class TabsView extends BaseTabView
 {
+    private $isTrackLoggedInUsersEnabled;
     protected $defaultTab = 'visitors';
     protected $tabs = [
         'visitors',
@@ -25,6 +26,12 @@ class TabsView extends BaseTabView
 
     public function __construct()
     {
+        $this->isTrackLoggedInUsersEnabled = Option::get('visitors_log') ? true : false;
+
+        if ($this->isTrackLoggedInUsersEnabled) {
+            $this->tabs[] = 'logged-in-users';
+        }
+
         $this->dataProvider = new VisitorInsightsDataProvider([
             'country'  => Request::get('location', ''),
             'agent'    => Request::get('agent', ''),
@@ -32,6 +39,8 @@ class TabsView extends BaseTabView
             'user_id'  => Request::get('user_id', ''),
             'ip'       => Request::get('ip', '')
         ]);
+
+        parent::__construct();
     }
 
     public function getViewsData()
@@ -54,6 +63,13 @@ class TabsView extends BaseTabView
     public function getTopVisitorsData()
     {
         return $this->dataProvider->getTopVisitorsData();
+    }
+
+    public function getLoggedInUsersData()
+    {
+        wp_localize_script(Admin_Assets::$prefix, 'Wp_Statistics_Visitors_Object', $this->dataProvider->getLoggedInChartsData());
+
+        return $this->dataProvider->getLoggedInUsersData();
     }
 
     public function render()
@@ -99,6 +115,7 @@ class TabsView extends BaseTabView
                         'title'   => esc_html__('Logged-in Users', 'wp-statistics'),
                         'tooltip' => esc_html__('Track engagement from logged-in users.', 'wp-statistics'),
                         'class'   => $this->isTab('logged-in-users') ? 'current' : '',
+                        'hidden'  => !$this->isTrackLoggedInUsersEnabled
                     ]
                 ]
             ];

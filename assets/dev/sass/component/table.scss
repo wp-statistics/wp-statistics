@@ -307,6 +307,14 @@ td .wps-tooltip-icon.info {
 
 .wps-new-table{
 
+  thead th:has(.wps-tooltip)  {
+    .wps-tooltip-icon{
+      width: 12px;
+      height: 12px;
+      margin-bottom: -2px;
+    }
+  }
+
   &--404{
     tbody{
       tr{

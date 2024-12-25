@@ -289,6 +289,7 @@ class ComposerStaticInit0c58b92c1859559503021091c91f6640
         'WP_Statistics\\Service\\Charts\\DataProvider\\PublishOverviewChartDataProvider' => __DIR__ . '/../..' . '/src/Service/Charts/DataProvider/PublishOverviewChartDataProvider.php',
         'WP_Statistics\\Service\\Charts\\DataProvider\\SearchEngineChartDataProvider' => __DIR__ . '/../..' . '/src/Service/Charts/DataProvider/SearchEngineChartDataProvider.php',
         'WP_Statistics\\Service\\Charts\\DataProvider\\TrafficChartDataProvider' => __DIR__ . '/../..' . '/src/Service/Charts/DataProvider/TrafficChartDataProvider.php',
+        'WP_Statistics\\Service\\Charts\\DataProvider\\UsersTrafficChartDataProvider' => __DIR__ . '/../..' . '/src/Service/Charts/DataProvider/UsersTrafficChartDataProvider.php',
         'WP_Statistics\\Service\\Charts\\Traits\\BarChartResponseTrait' => __DIR__ . '/../..' . '/src/Service/Charts/Traits/BarChartResponseTrait.php',
         'WP_Statistics\\Service\\Charts\\Traits\\BaseChartResponseTrait' => __DIR__ . '/../..' . '/src/Service/Charts/Traits/BaseChartResponseTrait.php',
         'WP_Statistics\\Service\\Charts\\Traits\\LineChartResponseTrait' => __DIR__ . '/../..' . '/src/Service/Charts/Traits/LineChartResponseTrait.php',
