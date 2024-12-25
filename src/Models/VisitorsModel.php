@@ -641,6 +641,7 @@ class VisitorsModel extends BaseModel
             $visitorId = Query::select(['ID'])
                 ->from('visitor')
                 ->where('ip', '=', $args['ip'])
+                ->orderBy('visitor.last_counter')
                 ->getVar();
 
             $args['visitor_id'] = $visitorId ?? '';
