@@ -24,6 +24,7 @@ class PrivacyAuditController
 
         // Get the compliance, audit and faq list status
         $response['compliance_status']  = $this->dataProvider->getComplianceStatus();
+        $response['recommended_audits'] = $this->dataProvider->getAuditsByStatus('recommended');
         $response['passed_audits']      = $this->dataProvider->getAuditsByStatus('success');
         $response['unpassed_audits']    = $this->dataProvider->getAuditsByStatus('warning');
         $response['faq_list']           = $this->dataProvider->getFaqsStatus();
