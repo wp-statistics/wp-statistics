@@ -141,6 +141,8 @@ https://www.youtube.com/watch?v=jxYLVtBdhEc
 = 14.11.5 - 2024-**-** =
 - **Fix:** Resolved early translation loading issue.
 - **Enhancement:** Added `Location Detection Method` option for geolocation.
+- **Enhancement:** Improve source detection method to support sources from the query parameter.
+- **Fix:** Resolved issue with undefined array key `robot_threshold`.
 
 = 14.11.4 - 2024-12-09 =
 - **Enhancement:** Made the Global Visitor Distribution widget load faster on the Overview page.
@@ -161,9 +163,9 @@ https://www.youtube.com/watch?v=jxYLVtBdhEc
 - **Fix:** Fixed a bug in Roles & Permissions to prevent users from assigning higher permissions than they have.
 - **Fix:** Made the `views` column sortable again.
 - **Fix:** Resolved a PHP deprecation warning for better compatibility.
-- **Dev:** Added new filters for developers:  
-  - `wp_statistics_geolocation_download_url`  
-  - `wp_statistics_injection_patterns`  
+- **Dev:** Added new filters for developers:
+  - `wp_statistics_geolocation_download_url`
+  - `wp_statistics_injection_patterns`
   - `wp_statistics_location_column_value`
 
 = 14.11.3 - 2024-11-17 =
