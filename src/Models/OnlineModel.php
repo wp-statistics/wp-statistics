@@ -23,7 +23,7 @@ class OnlineModel extends BaseModel
     public function getOnlineVisitorsData($args = [])
     {
         $args = $this->parseArgs($args, [
-            'page'      => '',
+            'page'      => 1,
             'per_page'  => '',
             'order_by'  => '',
             'order'     => '',

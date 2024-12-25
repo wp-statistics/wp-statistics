@@ -21,13 +21,14 @@ class Modal {
      * Shows the modal if the user has not seen it before.
      *
      * @param string $modalId The name of the modal to show.
+     * @param array $args
      *
      * @return void
      */
-    public static function showOnce($modalId)
+    public static function showOnce($modalId, $args = [])
     {
         if (empty(self::getState($modalId))) {
-            self::show($modalId);
+            self::show($modalId, $args);
         }
     }
 
@@ -35,13 +36,14 @@ class Modal {
      * Shows the modal and updates the state. (stateful modal)
      *
      * @param string $modalId The name of the modal to show.
+     * @param array $args
      *
      * @return void
      */
-    public static function show($modalId)
+    public static function show($modalId, $args = [])
     {
         self::updateState($modalId);
-        self::render($modalId);
+        self::render($modalId, $args);
     }
 
 
@@ -49,12 +51,13 @@ class Modal {
      * Renders the modal with the given ID. (stateless modal)
      *
      * @param string $modalId The ID of the modal to render.
+     * @param array $args
      *
      * @return void
      */
-    public static function render($modalId)
+    public static function render($modalId, $args = [])
     {
-        View::load(self::getModalsDir() . "/{$modalId}/{$modalId}-modal");
+        View::load(self::getModalsDir() . "/{$modalId}/{$modalId}-modal", $args);
     }
 
     /**

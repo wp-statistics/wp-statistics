@@ -31,7 +31,7 @@ jQuery(document).ready(function () {
     }
 
     if (datePickerBtn.length && datePickerElement.length && datePickerForm.length) {
-        datePickerBtn.on('click', function () {
+         datePickerBtn.on('click', function () {
             datePickerElement.trigger('click');
         });
 
@@ -50,7 +50,8 @@ jQuery(document).ready(function () {
         };
 
         if (datePickerBtn.hasClass('js-date-range-picker-all-time')) {
-            ranges['All Time'] = [moment(0), moment()];
+          const post_date = wps_js.global.initial_post_date ? moment(wps_js.global.initial_post_date) : moment(0);
+            ranges['All Time'] = [post_date, moment()];
         }
 
         const phpDateFormat = datePickerBtn.attr('data-date-format') ? datePickerBtn.attr('data-date-format') : 'MM/DD/YYYY';

@@ -12,6 +12,7 @@ class Query
 {
     use TransientCacheTrait;
 
+    private $queries = [];
     private $operation;
     private $table;
     private $fields = '*';
@@ -60,6 +61,14 @@ class Query
         return $instance;
     }
 
+    public static function union($queries)
+    {
+        $instance            = new self();
+        $instance->operation = 'union';
+        $instance->queries   = $queries;
+
+        return $instance;
+    }
 
     public function set($values)
     {
@@ -258,7 +267,10 @@ class Query
             case '<=':
             case 'LIKE':
             case 'NOT LIKE':
-                if (is_numeric($value) || !empty($value)) {
+                // For LIKE and NOT LIKE, remove the '%' from the value
+                $rawValue = str_replace('%', '', $value);
+
+                if (is_numeric($rawValue) || !empty($rawValue)) {
                     $condition = "$field $operator %s";
                     $values[]  = $value;
                 }
@@ -268,6 +280,11 @@ class Query
             case 'NOT IN':
                 if (is_string($value)) {
                     $value = explode(',', $value);
+                }
+
+                if (!empty($value) && is_array($value) && count($value) == 1) {
+                    $operator = ($operator == 'IN') ? '=' : '!=';
+                    return $this->generateCondition($field, $operator, reset($value));
                 }
 
                 if (!empty($value) && is_array($value)) {
@@ -311,7 +328,7 @@ class Query
         $result = $this->db->get_var($query);
 
         if ($this->allowCaching) {
-            $this->setCachedResult($query, $result);
+            $this->setCachedResult($query, $result, WEEK_IN_SECONDS);
         }
 
         return $result;
@@ -338,7 +355,7 @@ class Query
         $result = $this->db->get_results($query);
 
         if ($this->allowCaching) {
-            $this->setCachedResult($query, $result);
+            $this->setCachedResult($query, $result, WEEK_IN_SECONDS);
         }
 
         return $this->maybeDecorate($result);
@@ -397,7 +414,7 @@ class Query
         $result = $this->db->get_col($query);
 
         if ($this->allowCaching) {
-            $this->setCachedResult($query, $result);
+            $this->setCachedResult($query, $result, WEEK_IN_SECONDS);
         }
 
         return $result;
@@ -418,7 +435,7 @@ class Query
         $result = $this->db->get_row($query);
 
         if ($this->allowCaching) {
-            $this->setCachedResult($query, $result);
+            $this->setCachedResult($query, $result, WEEK_IN_SECONDS);
         }
 
         return $this->maybeDecorate($result);
@@ -661,6 +678,29 @@ class Query
         if (!empty($this->rawWhereClause)) {
             $query .= empty($this->whereClauses) ? ' WHERE ' : ' ';
             $query .= implode(' ', $this->rawWhereClause);
+        }
+
+        return $query;
+    }
+
+    protected function unionQuery()
+    {
+        $query = '';
+
+        foreach ($this->queries as $key => $value) {
+            $this->queries[$key] = "($value)";
+        }
+
+        $query = implode(' UNION ', $this->queries);
+
+        // Append ORDER clauses
+        if (!empty($this->orderClause)) {
+            $query .= ' ' . $this->orderClause;
+        }
+
+        // Append LIMIT clauses
+        if (!empty($this->limitClause)) {
+            $query .= ' ' . $this->limitClause;
         }
 
         return $query;

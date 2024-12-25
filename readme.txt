@@ -4,7 +4,7 @@ Donate link: https://wp-statistics.com/donate/
 Tags: analytics, google analytics, insights, stats, site visitors
 Requires at least: 5.0
 Tested up to: 6.7
-Stable tag: 14.11.2
+Stable tag: 14.11.4
 Requires PHP: 7.2
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -139,12 +139,46 @@ Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest versio
 https://www.youtube.com/watch?v=jxYLVtBdhEc
 
 = 14.12
+- **Enhancement:** Optimized metabox widgets.
 - **New:** Added "Source Categories" report under the "Referrals".
-
-= 14.11.x
 - **New:** Added "404 Reports" under the "Page Insights".
 - **New:** Added the Tracker Debugger feature.
 - **Fix:** Resolved issue with showing not queryable post-types in Content Analytics
+- **New:** Redesigned "Privacy Audit" page.
+
+= 14.11.4 - 2024-12-** =
+- **New:** Added a reset button to the referral filter for easier resetting.
+- **Enhancement:** Optimized performance for the Global Visitor Distribution widget.
+- **Enhancement:** Added geolocation validation to site info for more accurate debugging.
+- **Enhancement:** Reduced database requests and eliminated redundant operations in exclusions.
+- **Enhancement:** Added deprecated notice for the "Activate Honey Pot" option.
+- **Enhancement:** Updated styles for referral and visitor filters for a more streamlined UI.
+- **Enhancement:** Increased cache expiration for previous period data from 1 day to 1 week.
+- **Enhancement:** Updated visibility of `Add-ons` and `Privacy Audit` menu items based on the `Minimum Role to Manage Settings`.
+- **Fix:** Corrected tooltip behavior for previous period data on monthly and weekly charts.
+- **Fix:** Fixed shortcode logic to properly retrieve the correct resource ID.
+- **Fix:** Resolved issue loading `tracker.js` when "Bypass Ad Blockers" is enabled in Bedrock Boilerplate.
+- **Fix:** Fixed display of summary stats widget and views column for private post types.
+- **Fix:** Fixed issue with visitor hash search functionality.
+- **Fix:** Resolved current page issue with mini charts.
+- **Fix:** Corrected default network option behavior.
+- **Fix:** Fixed device model percentage calculation issue.
+- **Fix:** Resolved issues in the Roles & Permissions section to prevent assigning higher capabilities than the current user.
+- **Dev:** Added new filters: `wp_statistics_geolocation_download_url`, `wp_statistics_injection_patterns`, and `wp_statistics_location_column_value`.
+
+= 14.11.3 - 2024-11-17 =
+- **New:** Added support for tracking unique visitors in shortcodes.
+- **Enhancement:** Updated the minimum required WordPress version to 5.3.
+- **Enhancement:** Added date tooltips to charts for easier monthly navigation.
+- **Enhancement:** Disabled GeoIP update notifications by default to reduce distractions.
+- **Enhancement:** Implemented minor performance and usability improvements for a smoother experience.
+- **Enhancement:** Recognize `chatgpt.com` as an Organic Search engine.
+- **Fix:** Resolved translation loading issue to ensure compatibility with WordPress v6.7.
+- **Fix:** Non-queryable post types no longer appear in Content Analytics reports.
+- **Fix:** Addressed issues with the Quick Edit feature in the content list.
+- **Fix:** Corrected display errors for page views in specific cases.
+- **Fix:** Resolved issue with Overview Screen Options not saving properly.
+- **Fix:** Improved background process handling to prevent duplicate initialization.
 
 = 14.11.2 - 2024-11-05 =
 - **Fix:** Resolved memory usage issue in Firefox within the Overview page.

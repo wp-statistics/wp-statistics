@@ -3,7 +3,6 @@
 #wp-statistics-countries-widget,
 #wp-statistics-hitsmap-widget,
 #wp-statistics-hits-widget,
-#wp-statistics-comparison-widget,
 #wp-statistics-recent-widget,
 #wp-statistics-referring-widget,
 #wp-statistics-search-widget,
@@ -240,7 +239,6 @@
 }
 
 #wp_statistics_editor_meta_box,
-#wp-statistics-comparison-widget,
 #wp-statistics-browsers-widget,
 #wp-statistics-countries-widget,
 #wp-statistics-hitsmap-widget,
@@ -276,7 +274,6 @@
 
 #wp_statistics_editor_meta_box,
 #wp-statistics-browsers-widget,
-#wp-statistics-comparison-widget,
 #wp-statistics-countries-widget,
 #wp-statistics-hitsmap-widget,
 #wp-statistics-hits-widget,
@@ -343,9 +340,7 @@
   margin: 2em 0;
 }
 
-#wp-statistics-comparison-widget {
-  overflow: hidden !important;
-}
+
 
 .wps_page {
 
@@ -369,7 +364,7 @@
 }
 
 // Customization - Add-on
-#wp-statistics-about-widget {
+#about_wps {
   .inside {
     margin-bottom: 24px !important;
 
@@ -1091,6 +1086,18 @@
   }
 }
 
+@keyframes animated_online {
+  0% {
+    transform: scale(1);
+  }
+  5%, 20%, 35%, 50%, 65%, 80%, 95% {
+    transform: scale(1.3);
+  }
+  10%, 25%, 40%, 55%, 70%, 85%, 100% {
+    transform: scale(1);
+  }
+}
+
 .v-image-lazy {
   transition: all .5s ease-in 0s;
 }
@@ -1122,5 +1129,12 @@
         filter: brightness(0);
       }
     }
+  }
+}
+
+
+@media screen and (max-width: 782px) {
+  .wps-wrap .postbox .handlediv {
+    margin-top: 0;
   }
 }

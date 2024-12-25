@@ -1,19 +1,23 @@
 // https://github.com/10bestdesign/jqvmap
 #wp-statistics-visitors-map {
   direction: ltr;
-  height: 300px;
   width: 100%;
+  height: 100%;
 
   .jqvmap-zoomin, .jqvmap-zoomout {
-    background: #FFFFFF !important;
-    border: 1px solid #EEEFF1 !important;
-    border-radius: 0 0 2px 2px;
+    background: #EEEFF1 !important;
+    border-radius: 0 0 4px 4px;
     color: #0C0C0D;
     margin: 0 !important;
     font-size: 16px;
-    width: 18.6px;
-    height: 18.6px;
+    width: 24px;
+    height: 24px;
     transition: 0.15s;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
 
     &:hover {
       background-color: #f2f2f2 !important;
@@ -21,12 +25,37 @@
   }
 
   .jqvmap-zoomin {
-    border-radius: 2px 2px 0 0;
+    border-radius: 4px 4px 0 0;
   }
 
   .jqvmap-zoomout {
-    top: 35px;
+    top: 36px;
     border-top: 0;
+  }
+}
+#wp-statistics-visitors-map__container{
+  height: 300px;
+  width: 100%;
+}
+.wps-map-info{
+  display: flex;
+  gap: 4px;
+  align-items: center;
+
+  span:last-child, span:first-child{
+    color: #0C0C0D;
+    font-size: 11px;
+    font-weight: 400;
+    line-height: 12.89px;
+  }
+  &__color{
+    background: linear-gradient(90deg, #EBF5FF 0%, #3288D7 100%);
+    width: 177px;
+    height: 8px;
+
+    .rtl &{
+      background: linear-gradient(270deg, #EBF5FF 0%, #3288D7 100%);
+    }
   }
 }
 
@@ -49,6 +78,7 @@
 
 .jqvmap-label {
   z-index: 10000;
+  border:0.5px solid #DADCE0;
 }
 
 .jqvmap-zoomin, .jqvmap-zoomout {

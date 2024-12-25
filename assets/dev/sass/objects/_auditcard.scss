@@ -222,13 +222,13 @@
         }
       }
 
-      &.wps-audit-card--success {
+      &.wps-audit-card--success , &.wps-audit-card--recommended{
 
         .wps-audit-card__status-indicator {
           background: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTUiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNSAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTIuNSA4LjM4MTk0TDUuNTc2OTMgMTEuNDM3NUwxMi41IDQuNTYyNSIgc3Ryb2tlPSIjMDE5OTM5IiBzdHJva2Utd2lkdGg9IjEuNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+Cjwvc3ZnPgo=") center center no-repeat;
         }
 
-        .wps-audit-card__status-text , .wps-privacy-list__button--success{
+        .wps-audit-card__status-text , .wps-privacy-list__button--success , .wps-privacy-list__button--recommended{
           color: #019939;
         }
 
@@ -344,7 +344,7 @@
       background: #0CA1EC14;
     }
 
-    &.wps-audit-card--success {
+    &.wps-audit-card--success  , &.wps-audit-card--recommended  {
       background: #01993914;
       border: 1px solid #01993966
     }

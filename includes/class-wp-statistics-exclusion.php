@@ -8,6 +8,15 @@ use WP_Statistics\Utils\Request;
 class Exclusion
 {
     /**
+     * Array for storing options.
+     *
+     * @access private
+     * @var array
+     * @static
+     */
+    private static $options = [];
+
+    /**
      * Get Exclusion List
      *
      * @return array
@@ -60,6 +69,10 @@ class Exclusion
 
         // Get List Of Exclusion WP Statistics
         $exclusion_list = apply_filters('wp_statistics_exclusion_list', array_keys(Exclusion::exclusion_list()));
+
+        if (empty(self::$options)) {
+            self::$options = Option::getOptions();
+        }
 
         // Check Exclusion
         foreach ($exclusion_list as $list) {
@@ -168,8 +181,19 @@ class Exclusion
      */
     public static function exclusion_honeypot($visitorProfile)
     {
+        if (empty(self::$options['use_honeypot'])) {
+            return false;
+        }
+
+        $honeypotPostId = self::$options['honeypot_postid'] ?? 0;
+
+        if (empty($honeypotPostId)) {
+            return false;
+        }
+
         $current_page = $visitorProfile->getCurrentPageType();
-        return (Option::get('use_honeypot') && Option::get('honeypot_postid') > 0 && Option::get('honeypot_postid') == $current_page['id'] && $current_page['id'] > 0);
+
+        return ($honeypotPostId == $current_page['id'] && $current_page['id'] > 0);
     }
 
     /**
@@ -178,9 +202,19 @@ class Exclusion
      */
     public static function exclusion_robot_threshold($visitorProfile)
     {
+        $robotThreshold = intval(self::$options['robot_threshold']);
+
+        if ($robotThreshold <= 0) {
+            return false;
+        }
+
         $visitor = $visitorProfile->isIpActiveToday();
 
-        return ($visitor != false and Option::get('robot_threshold') > 0 && $visitor->hits + 1 > Option::get('robot_threshold'));
+        if (!$visitor) {
+            return false;
+        }
+
+        return ($visitor->hits + 1 > $robotThreshold);
     }
 
     /**
@@ -203,15 +237,13 @@ class Exclusion
         if ($current_user) {
             foreach ($current_user->roles as $role) {
                 $option_name = 'exclude_' . str_replace(' ', '_', strtolower($role));
-
-                if (Option::get($option_name) == true) {
+                if (!empty(self::$options[$option_name])) {
                     return true;
                 }
             }
         } else {
             // Guest visitor
-
-            if (Option::get('exclude_anonymous_users') == true) {
+            if (!empty(self::$options['exclude_anonymous_users'])) {
                 return true;
             }
         }
@@ -228,7 +260,8 @@ class Exclusion
      */
     public static function exclusion_excluded_url($visitorProfile)
     {
-        $excludedUrls = Option::get('excluded_urls');
+        $excludedUrls = self::$options['excluded_urls'] ?? '';
+
         if (!empty($excludedUrls)) {
             $requestUri = $visitorProfile->getRequestUri();
             $delimiter  = strpos($requestUri, '?');
@@ -281,11 +314,11 @@ class Exclusion
     public static function exclusion_referrer_spam($visitorProfile)
     {
         // Check to see if we're excluding referrer spam.
-        if (Option::get('referrerspam')) {
+        if (!empty(self::$options['referrerspam'])) {
             $referrer = $visitorProfile->getReferrer();
 
             // Pull the referrer spam list from the database.
-            $referrer_spam_list = explode("\n", Option::get('referrerspamlist'));
+            $referrer_spam_list = explode("\n", self::$options['referrerspamlist'] ?? '');
 
             // Check to see if we match any of the robots.
             foreach ($referrer_spam_list as $item) {
@@ -349,9 +382,12 @@ class Exclusion
      */
     public static function exclusion_iP_match()
     {
+        if (empty(self::$options['exclude_ip'])) {
+            return false;
+        }
 
         // Pull the sub nets from the database.
-        $SubNets = explode("\n", Option::get('exclude_ip'));
+        $SubNets = explode("\n", self::$options['exclude_ip']);
 
         // Check in Loop
         foreach ($SubNets as $subnet) {
@@ -409,7 +445,7 @@ class Exclusion
     {
 
         // Pull the robots from the database.
-        $robots = explode("\n", Option::get('robotlist'));
+        $robots = explode("\n", self::$options['robotlist'] ?? '');
 
         // Check to see if we match any of the robots.
         foreach ($robots as $robot) {
@@ -449,32 +485,44 @@ class Exclusion
      */
     public static function exclusion_geoip($visitorProfile)
     {
-        // Get User Location
+        static $excludedCountries = null;
+        static $includedCountries = null;
+
+        if ($excludedCountries === null) {
+            $excluded_option   = self::$options['excluded_countries'] ?? '';
+            $excludedCountries = empty($excluded_option) ? [] :
+                array_flip(array_filter(explode("\n", strtoupper(str_replace("\r\n", "\n", $excluded_option)))));
+        }
+
+        if ($includedCountries === null) {
+            $included_option = self::$options['included_countries'] ?? '';
+
+            if (empty($included_option)) {
+                $includedCountries = [];
+            } else {
+                $included_countries_string = trim(strtoupper(str_replace("\r\n", "\n", $included_option)));
+                $includedCountries = $included_countries_string === '' ? [] :
+                    array_flip(array_filter(explode("\n", $included_countries_string)));
+            }
+        }
+
+        if ( empty($excludedCountries) && empty($includedCountries) ) {
+            return false;
+        }
+
         $location = $visitorProfile->getCountry();
 
-        // Grab the excluded/included countries lists, force the country codes to be in upper case to match what the GeoIP code uses.
-        $excluded_countries        = explode("\n", strtoupper(str_replace("\r\n", "\n", Option::get('excluded_countries'))));
-        $included_countries_string = trim(strtoupper(str_replace("\r\n", "\n", Option::get('included_countries'))));
-
-        // We need to be really sure this isn't an empty string or explode will return an array with one entry instead of none.
-        if ($included_countries_string == '') {
-            $included_countries = array();
-        } else {
-            $included_countries = explode("\n", $included_countries_string);
+        if (empty($location)) {
+            return false;
         }
 
-        $excluded_countries = array_filter($excluded_countries);
-        $included_countries = array_filter($included_countries);
+        $location = strtoupper($location);
 
-        // Check to see if the current location is in the excluded countries list.
-        if (in_array($location, $excluded_countries)) {
-            return true;
-        } // Check to see if the current location is not the included countries list.
-        else if (!in_array($location, $included_countries) && count($included_countries) > 0) {
+        if (isset($excludedCountries[$location])) {
             return true;
         }
 
-        return false;
+        return !empty($includedCountries) && !isset($includedCountries[$location]);
     }
 
     /**
@@ -484,7 +532,7 @@ class Exclusion
     public static function exclusion_hostname($visitorProfile)
     {
         // Get Host name List
-        $excluded_host = explode("\n", Option::get('excluded_hosts'));
+        $excluded_host = explode("\n", self::$options['excluded_hosts'] ?? '');
 
         // If there's nothing in the excluded host list, don't do anything.
         if (count($excluded_host) > 0) {

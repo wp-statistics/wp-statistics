@@ -4,9 +4,11 @@ namespace WP_Statistics\Service\Admin\LicenseManagement;
 
 use Exception;
 use WP_Statistics;
+use WP_STATISTICS\Option;
 use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginActions;
 use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHandler;
 use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginUpdater;
+use WP_STATISTICS\User;
 
 class LicenseManagementManager
 {
@@ -35,6 +37,7 @@ class LicenseManagementManager
             'name'     => '<span class="wps-text-warning">' . __('Add-Ons', 'wp-statistics') . '</span>',
             'page_url' => 'plugins',
             'callback' => LicenseManagerPage::class,
+            'cap' => User::ExistCapability(Option::get('manage_capability', 'manage_options')),
             'priority' => 90,
             'break'    => true,
         ];

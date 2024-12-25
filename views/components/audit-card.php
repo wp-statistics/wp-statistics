@@ -6,7 +6,7 @@
                 <div>
                     <h3 class="wps-audit-card__title"><?php echo esc_html($title) ?></h3>
                     <?php if (isset($description)) : ?>
-                    <p class="wps-audit-card__summary"><?php echo esc_html($description) ?></p>
+                        <p class="wps-audit-card__summary"><?php echo esc_html($description) ?></p>
                     <?php endif; ?>
                 </div>
 
@@ -14,7 +14,7 @@
             <div class="wps-audit-card__status">
                 <span class="wps-audit-card__status-indicator"></span>
                 <?php if (($status === 'danger') || ($status === 'warning')) : ?>
-                <span class="wps-audit-card__status-text"> <?php echo $status === 'danger' ? esc_html__('Attention Needed', 'wp-statistics'): esc_html__('Warning', 'wp-statistics') ?> </span>
+                    <span class="wps-audit-card__status-text"> <?php echo $status === 'danger' ? esc_html__('Attention Needed', 'wp-statistics'): esc_html__('Warning', 'wp-statistics') ?> </span>
                 <?php endif; ?>
 
                 <button class="wps-audit-card__toggle" aria-expanded="false"></button>

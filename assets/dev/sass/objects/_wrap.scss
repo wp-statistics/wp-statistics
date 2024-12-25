@@ -3,15 +3,15 @@
 }
 
 .o-wrap--no-data {
-  padding: 13px 24px 0!important;
+  padding: 13px 24px 0 !important;
 }
 
-#overview-widgets .o-wrap--no-data , #overview-widgets .wps-wrap--no-content{
-  padding: 0 24px!important;
+#overview-widgets .o-wrap--no-data, #overview-widgets .wps-wrap--no-content {
+  padding: 0 24px !important;
 }
 
 .wps-wrap--no-content {
-  padding: 13px 24px 0!important;
+  padding: 13px 24px 0 !important;
 }
 
 .rtl {
@@ -21,6 +21,47 @@
 
     p {
       margin: 0 !important;
+    }
+  }
+}
+
+#overview-widgets {
+  .o-wrap {
+    padding: 12px 24px !important;
+    padding-top: 0 !important;
+
+    .wps-postbox-chart--data {
+      margin-top: 0 !important;
+    }
+  }
+
+  .o-table.wps-new-table {
+    margin-top: 0;
+
+  }
+
+  #top_referring{
+    tr td .wps-link-arrow{
+      max-width: 200px;
+    }
+  }
+
+  #top_referring , #top_countries{
+    .o-table.wps-new-table td.wps-middle-vertical a {
+      color: #404bf2 !important;
+      font-weight: 500;
+    }
+  }
+
+  #top_countries {
+    .wps-country-flag .wps-ellipsis-text {
+      max-width: 400px;
+    }
+  }
+
+  #daily_traffic_trend {
+    #wps_daily_traffic_trend_meta_chart, #wps_search_engines_meta_chart {
+      min-height: 262px
     }
   }
 }

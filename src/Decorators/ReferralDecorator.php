@@ -41,7 +41,7 @@ class ReferralDecorator
      */
     public function getSourceChannel()
     {
-        return SourceChannels::getName($this->item->source_channel) ?? esc_html__('Unassigned Traffic', 'wp-statistics');
+        return !empty($this->item->source_channel) ? SourceChannels::getName($this->item->source_channel) : esc_html__('Unassigned Traffic', 'wp-statistics');
     }
 
     /**
@@ -59,8 +59,10 @@ class ReferralDecorator
      *
      * @return int
      */
-    public function getTotalReferrals()
+    public function getTotalReferrals($formatNumber = true)
     {
-        return $this->item->visitors ? number_format_i18n($this->item->visitors) : 0;
+        if (empty($this->item->visitors)) return 0;
+
+        return $formatNumber ? number_format_i18n($this->item->visitors) : $this->item->visitors;
     }
 }

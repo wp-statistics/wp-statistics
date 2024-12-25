@@ -1,3 +1,17 @@
+14.11.3 - 2024-11-17
+- **New:** Added support for tracking unique visitors in shortcodes.
+- **Enhancement:** Updated the minimum required WordPress version to 5.3.
+- **Enhancement:** Added date tooltips to charts for easier monthly navigation.
+- **Enhancement:** Disabled GeoIP update notifications by default to reduce distractions.
+- **Enhancement:** Implemented minor performance and usability improvements for a smoother experience.
+- **Enhancement:** Recognize `chatgpt.com` as an Organic Search engine.
+- **Fix:** Resolved translation loading issue to ensure compatibility with WordPress v6.7.
+- **Fix:** Non-queryable post types no longer appear in Content Analytics reports.
+- **Fix:** Addressed issues with the Quick Edit feature in the content list.
+- **Fix:** Corrected display errors for page views in specific cases.
+- **Fix:** Resolved issue with Overview Screen Options not saving properly.
+- **Fix:** Improved background process handling to prevent duplicate initialization.
+
 14.11.2 - 2024-11-05
 - **Fix:** Resolved memory usage issue in Firefox within the Overview page.
 - **Fix:** Fixed logged-in user views issue in the users list.
@@ -45,25 +59,6 @@
 - **Fix**: Resolved an issue where the Post Summary sidebar didn’t work with the Gutenberg editor in WordPress versions below 6.5.5.
 - **Fix**: Fixed the ‘tinyMCE is not defined’ error caused by the Avada Builder.
 - **Dev**: Added a new filter `wp_statistics_assets_handle` to manage assets more effectively.
-
-14.10.1 - 11.09.2024
-* **Enhancement:** UX improvement for visitor information when users are logged in.
-* **Enhancement:** Corrected sorting issues in bar charts.
-* **Enhancement:** Fixed font override conflicts.
-* **Enhancement:** Enhanced object cache handling for better performance.
-* **Enhancement:** Improved compatibility with PHP versions 5.6 ~ 7.2.
-* **Enhancement:** Resolved style tweaks in charts and fixed various JavaScript issues.
-* **Fix:** Resolved issue with showing previous period data on hover when turned off.
-* **Fix:** Resolved chart shrinking issue in Chrome.
-* **Fix:** Fixed the “User Online” link in the Traffic Overview section.
-* **Fix:** Addressed issue where the top referral was not displaying in the “Your Performance at a Glance” section.
-* **Fix:** Resolved an issue with the report email option during some upgrades.
-* **Fix:** Fixed date filter issue on the “Single Browser” and “Visitor Insights” pages.
-* **Fix:** Fixed incorrect dates in the `monthly` schedule.
-* **Fix:** Fixed incorrect order in taxonomy lists when sorted by hits.
-* **Update:** Upgraded ChartJS to v4.4.4.
-* **Dev:** Added function `wp_statistics_needs_consent()` to check if user consent is required.
-* **Dev:** Removed `Admin_Post` and `Admin_Taxonomy` classes and replaced them with `HitColumnHandler`.
 
 14.10.1 - 11.09.2024
 * **Enhancement:** UX improvement for visitor information when users are logged in.

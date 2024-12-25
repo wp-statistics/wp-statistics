@@ -109,9 +109,11 @@ class MaxmindGeoIPProvider extends AbstractGeoIPProvider
             ? Option::get('geoip_license_key')
             : null;
 
-        return $licenseKey
+        $defaultUrl = $licenseKey
             ? "https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-City&license_key={$licenseKey}&suffix=tar.gz"
             : 'https://cdn.jsdelivr.net/npm/geolite2-city/GeoLite2-City.mmdb.gz';
+
+        return $this->getFilteredDownloadUrl($defaultUrl);
     }
 
     /**
@@ -252,5 +254,37 @@ class MaxmindGeoIPProvider extends AbstractGeoIPProvider
         }
 
         return $reader->metadata()->databaseType;
+    }
+
+    /**
+     * Check the integrity and functionality of the GeoIP database.
+     *
+     * @return bool|WP_Error True if the database is valid, or WP_Error on failure.
+     */
+    public function validateDatabaseFile()
+    {
+        try {
+            // Ensure the database file exists
+            if (!$this->isDatabaseExist()) {
+                throw new Exception(__('GeoIP database does not exist.', 'wp-statistics'));
+            }
+
+            if (empty($this->reader) || !method_exists($this->reader, 'metadata')) {
+                throw new Exception(
+                    sprintf(__('Failed to initialize GeoIP reader or invalid database file. Please remove the existing database file at %s and let the plugin redownload it.', 'wp-statistics'), $this->getDatabasePath())
+                );
+            }
+
+            // Verify the database type and metadata
+            $databaseType = $this->reader->metadata()->databaseType;
+            if ($databaseType !== 'GeoLite2-City') {
+                throw new Exception(sprintf(__('Unexpected database type %s', 'wp-statistics'), $databaseType));
+            }
+
+            return true;
+
+        } catch (Exception $e) {
+            return new WP_Error('error', $e->getMessage());
+        }
     }
 }

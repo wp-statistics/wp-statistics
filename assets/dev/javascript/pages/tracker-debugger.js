@@ -2,7 +2,11 @@ document.addEventListener('click', function (e) {
     if (wps_js.isset(wps_js.global, 'request_params', 'page') &&
         (wps_js.global.request_params.page === "privacy-audit" || wps_js.global.request_params.page === "tracker-debugger")) {
 
-        const header = e.target.closest('.wps-audit-card__header');
+         if (e.target.closest('.js-openModal-wps-modal-privacy-audit-confirmation') || (e.target.closest('a[data-action]'))) {
+                return;
+            }
+
+         const header = e.target.closest('.wps-audit-card__header');
         if (header) {
             e.preventDefault();
             const auditCard = header.closest('.wps-audit-card');
