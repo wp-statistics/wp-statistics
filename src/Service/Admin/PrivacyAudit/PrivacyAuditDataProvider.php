@@ -2,22 +2,23 @@
 
 namespace WP_Statistics\Service\Admin\PrivacyAudit;
 
-use InvalidArgumentException;
 use WP_STATISTICS\Menus;
-use WP_Statistics\Service\Admin\PrivacyAudit\Audits\Abstracts\BaseAudit;
-use WP_Statistics\Service\Admin\PrivacyAudit\Audits\Abstracts\ResolvableAudit;
-use WP_Statistics\Service\Admin\PrivacyAudit\Audits\AnonymizeIpAddress;
-use WP_Statistics\Service\Admin\PrivacyAudit\Audits\HashIpAddress;
-use WP_Statistics\Service\Admin\PrivacyAudit\Audits\RecordUserPageVisits;
-use WP_Statistics\Service\Admin\PrivacyAudit\Audits\StoredUserAgentStringData;
-use WP_Statistics\Service\Admin\PrivacyAudit\Audits\StoredUserIdData;
-use WP_Statistics\Service\Admin\PrivacyAudit\Audits\StoreUserAgentString;
-use WP_Statistics\Service\Admin\PrivacyAudit\Audits\UnhashedIpAddress;
+use InvalidArgumentException;
 use WP_Statistics\Service\Admin\PrivacyAudit\Faqs\AbstractFaq;
-use WP_Statistics\Service\Admin\PrivacyAudit\Faqs\RequireConsent;
-use WP_Statistics\Service\Admin\PrivacyAudit\Faqs\RequireCookieBanner;
-use WP_Statistics\Service\Admin\PrivacyAudit\Faqs\RequireMention;
 use WP_Statistics\Service\Admin\PrivacyAudit\Faqs\TransferData;
+use WP_Statistics\Service\Admin\PrivacyAudit\Faqs\RequireConsent;
+use WP_Statistics\Service\Admin\PrivacyAudit\Faqs\RequireMention;
+use WP_Statistics\Service\Admin\PrivacyAudit\Audits\HashIpAddress;
+use WP_Statistics\Service\Admin\PrivacyAudit\Audits\RecommendConsent;
+use WP_Statistics\Service\Admin\PrivacyAudit\Audits\StoredUserIdData;
+use WP_Statistics\Service\Admin\PrivacyAudit\Audits\UnhashedIpAddress;
+use WP_Statistics\Service\Admin\PrivacyAudit\Faqs\RequireCookieBanner;
+use WP_Statistics\Service\Admin\PrivacyAudit\Audits\AnonymizeIpAddress;
+use WP_Statistics\Service\Admin\PrivacyAudit\Audits\Abstracts\BaseAudit;
+use WP_Statistics\Service\Admin\PrivacyAudit\Audits\RecordUserPageVisits;
+use WP_Statistics\Service\Admin\PrivacyAudit\Audits\StoreUserAgentString;
+use WP_Statistics\Service\Admin\PrivacyAudit\Audits\Abstracts\ResolvableAudit;
+use WP_Statistics\Service\Admin\PrivacyAudit\Audits\StoredUserAgentStringData;
 
 class PrivacyAuditDataProvider
 {
@@ -54,6 +55,7 @@ class PrivacyAuditDataProvider
             'stored_user_agent_string_data' => StoredUserAgentStringData::class,
             'unhashed_ip_address'           => UnhashedIpAddress::class,
             'stored_user_id_data'           => StoredUserIdData::class,
+            'recommend_consent'             => RecommendConsent::class
         ];
 
         return apply_filters('wp_statistics_privacy_audits_list', $audits);
