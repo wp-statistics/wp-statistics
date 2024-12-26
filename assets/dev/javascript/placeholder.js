@@ -40,17 +40,6 @@ wps_js.line_placeholder = function (number = 1) {
 /**
  * Default Circle PlaceHolder
  */
-wps_js.circle_placeholder = function () {
-    return `
-<div class="wps-ph-item">
-     ${wps_js.placeholder_content('circle')}
-</div>
-`;
-};
-
-/**
- * Default Circle PlaceHolder
- */
 wps_js.rectangle_placeholder = function (cls = '') {
     return `
 <div class="wps-ph-item` + (cls.length > 0 ? ' ' + cls : '') + `">

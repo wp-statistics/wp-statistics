@@ -5,7 +5,8 @@ use WP_Statistics\Components\View;
 use WP_Statistics\Decorators\VisitorDecorator;
 use WP_STATISTICS\Menus;
 
-$linksTarget = !empty($open_links_in_new_tab) ? '_blank' : '';
+$linksTarget    = !empty($open_links_in_new_tab) ? '_blank' : '';
+$viewTitle      = !empty($single_post) ? esc_html__('Page View', 'wp-statistics') : esc_html__('Last View', 'wp-statistics')
 ?>
 
 <div class="inside">
@@ -15,7 +16,7 @@ $linksTarget = !empty($open_links_in_new_tab) ? '_blank' : '';
                 <thead>
                     <tr>
                         <th class="wps-pd-l">
-                            <span class="wps-order"><?php esc_html_e('Last View', 'wp-statistics'); ?></span>
+                            <span class="wps-order"><?php echo esc_html($viewTitle); ?></span>
                         </th>
                         <th class="wps-pd-l">
                             <?php esc_html_e('Visitor Information', 'wp-statistics'); ?>
@@ -41,7 +42,13 @@ $linksTarget = !empty($open_links_in_new_tab) ? '_blank' : '';
                     <?php foreach ($data as $visitor) : ?>
                         <?php /** @var VisitorDecorator $visitor */ ?>
                         <tr>
-                            <td class="wps-pd-l"><?php echo esc_html($visitor->getLastView()); ?></td>
+                            <td class="wps-pd-l">
+                                <?php if (!empty($single_post)) : ?>
+                                    <?php echo esc_html($visitor->getPageView()); ?>
+                                <?php else : ?>
+                                    <?php echo esc_html($visitor->getLastView()); ?>
+                                <?php endif; ?>
+                            </td>
 
                             <td class="wps-pd-l">
                                 <?php View::load("components/visitor-information", ['visitor' => $visitor]); ?>
@@ -58,11 +65,13 @@ $linksTarget = !empty($open_links_in_new_tab) ? '_blank' : '';
                             </td>
 
                             <td class="wps-pd-l">
-                                <?php if ($visitor->getReferral()->getReferrer()) :
-                                    View::load("components/objects/external-link", ['url' => $visitor->getReferral()->getReferrer(), 'title' => $visitor->getReferral()->getRawReferrer()]);
-                                else : ?>
-                                    <?php echo Admin_Template::UnknownColumn() ?>
-                                <?php endif; ?>
+                                <?php
+                                    View::load("components/objects/referrer-link", [
+                                        'label' => $visitor->getReferral()->getSourceChannel(),
+                                        'url'   => $visitor->getReferral()->getReferrer() ,
+                                        'title' => $visitor->getReferral()->getRawReferrer()
+                                    ]);
+                                ?>
                             </td>
 
                             <td class="wps-pd-l">

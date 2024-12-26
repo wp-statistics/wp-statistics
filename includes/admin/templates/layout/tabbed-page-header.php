@@ -70,6 +70,8 @@ use WP_STATISTICS\Helper;
     <?php if (!empty($tabs) && is_array($tabs)) { ?>
         <ul class="wps-tabs">
             <?php foreach ($tabs as $tab) { ?>
+                <?php if (!empty($tab['hidden'])) continue; ?>
+
                 <li class="wps-tab-link <?php echo esc_attr($tab['class']); ?>">
                     <?php if (isset($tab['coming_soon'])): ?>
                         <span class="wps-tooltip wps-tooltip--coming_soon" title="<?php echo esc_html__('Coming soon', 'wp-statistics') ?>"><?php echo esc_html($tab['title']); ?> <i class="wps-tooltip-icon coming-soon"></i></span>

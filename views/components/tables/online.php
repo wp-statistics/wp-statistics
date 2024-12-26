@@ -59,11 +59,13 @@ use WP_STATISTICS\Menus;
                             </td>
 
                             <td class="wps-pd-l">
-                                <?php if ($visitor->getReferral()->getReferrer()) :
-                                    View::load("components/objects/external-link", ['url' => $visitor->getReferral()->getReferrer() , 'title' => $visitor->getReferral()->getRawReferrer() ]);
-                                else : ?>
-                                    <?php echo Admin_Template::UnknownColumn(); ?>
-                                <?php endif; ?>
+                                <?php
+                                    View::load("components/objects/referrer-link", [
+                                        'label' => $visitor->getReferral()->getSourceChannel(),
+                                        'url'   => $visitor->getReferral()->getReferrer() ,
+                                        'title' => $visitor->getReferral()->getRawReferrer()
+                                    ]);
+                                ?>
                             </td>
 
                             <td class="wps-pd-l">

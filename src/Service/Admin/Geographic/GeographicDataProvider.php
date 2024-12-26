@@ -143,7 +143,7 @@ class GeographicDataProvider
                 'data'  => $cities,
                 'total' => $citiesTotal
             ],
-            'referrers' => $referrers,
+            'referrers' => $referrers
         ];
     }
 
@@ -151,13 +151,15 @@ class GeographicDataProvider
     {
         $platformDataProvider       = ChartDataProviderFactory::platformCharts($this->args);
         $searchEngineDataProvider   = ChartDataProviderFactory::searchEngineChart($this->args);
+        $trafficTrendsDataProvider  = ChartDataProviderFactory::trafficChart($this->args);
 
         return [
             'search_engine_chart_data'  => $searchEngineDataProvider->getData(),
             'os_chart_data'             => $platformDataProvider->getOsData(),
             'browser_chart_data'        => $platformDataProvider->getBrowserData(),
             'device_chart_data'         => $platformDataProvider->getDeviceData(),
-            'model_chart_data'          => $platformDataProvider->getModelData()
+            'model_chart_data'          => $platformDataProvider->getModelData(),
+            'traffic_chart_data'        => $trafficTrendsDataProvider->getData()
         ];
     }
 }

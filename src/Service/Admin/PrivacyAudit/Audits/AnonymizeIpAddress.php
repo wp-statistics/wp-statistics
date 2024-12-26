@@ -1,4 +1,4 @@
-<?php 
+<?php
 namespace WP_Statistics\Service\Admin\PrivacyAudit\Audits;
 
 use WP_Statistics\Service\Admin\PrivacyAudit\Audits\Abstracts\ResolvableAudit;
@@ -10,7 +10,7 @@ class AnonymizeIpAddress extends ResolvableAudit
     public static function getPassedStateInfo()
     {
         return [
-            'title' => esc_html__('The “Anonymize IP Addresses” feature is currently enabled on your website.', 'wp-statistics'),
+            'title' => esc_html__(' The “Anonymize IP Addresses” feature is currently enabled on your website.', 'wp-statistics'),
             'notes' => __('<p>This setting ensures that the IP addresses of your visitors are anonymized by masking the last segment of their IP addresses before any processing or storage occurs. This significantly reduces the risk of personally identifying your users through their IP addresses.</p><p><b>How It Works?</b></p>
             <ol>
                 <li><b>IPv4 Anonymization:</b> An IP address like 192.168.1.123 is transformed into 192.168.1.0.</li>
@@ -46,5 +46,5 @@ class AnonymizeIpAddress extends ResolvableAudit
         ];
     }
 
-    
+
 }

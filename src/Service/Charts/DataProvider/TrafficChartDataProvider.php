@@ -14,13 +14,12 @@ class TrafficChartDataProvider extends AbstractChartDataProvider
 {
     use LineChartResponseTrait;
 
-    public $args;
     protected $visitorsModel;
     protected $viewsModel;
 
     public function __construct($args)
     {
-        $this->args = $args;
+        parent::__construct($args);
 
         $this->visitorsModel    = new VisitorsModel();
         $this->viewsModel       = new ViewsModel();
@@ -46,9 +45,8 @@ class TrafficChartDataProvider extends AbstractChartDataProvider
         $currentPeriod  = $this->args['date'] ?? DateRange::get();
         $currentDates   = array_keys(TimeZone::getListDays($currentPeriod));
 
-        $visitors   = $this->visitorsModel->countDailyVisitors($this->args);
-        $views      = $this->viewsModel->countDailyViews(array_merge($this->args, ['ignore_post_type' => true]));
-        $data       = $this->parseData($currentDates, ['visitors' => $visitors, 'views' => $views]);
+        $data = $this->visitorsModel->countDailyVisitors(array_merge($this->args, ['include_hits' => true]));
+        $data = $this->parseData($currentDates, $data);
 
         $this->setChartLabels($data['labels']);
         $this->addChartDataset(esc_html__('Visitors', 'wp-statistics'), $data['visitors']);
@@ -61,9 +59,8 @@ class TrafficChartDataProvider extends AbstractChartDataProvider
         $prevPeriod     = DateRange::getPrevPeriod($currentPeriod);
         $prevDates      = array_keys(TimeZone::getListDays($prevPeriod));
 
-        $prevVisitors   = $this->visitorsModel->countDailyVisitors(array_merge($this->args, ['date' => $prevPeriod]));
-        $prevViews      = $this->viewsModel->countDailyViews(array_merge($this->args, ['date' => $prevPeriod, 'ignore_post_type' => true]));
-        $data           = $this->parseData($prevDates, ['visitors' => $prevVisitors, 'views' => $prevViews]);
+        $data = $this->visitorsModel->countDailyVisitors(array_merge($this->args, ['include_hits' => true, 'date' => $prevPeriod]));
+        $data = $this->parseData($prevDates, $data);
 
         $this->setChartPreviousLabels($data['labels']);
         $this->addChartPreviousDataset(esc_html__('Visitors', 'wp-statistics'), $data['visitors']);
@@ -72,8 +69,8 @@ class TrafficChartDataProvider extends AbstractChartDataProvider
 
     protected function parseData($dates, $data)
     {
-        $visitors = wp_list_pluck($data['visitors'], 'visitors', 'date');
-        $views    = wp_list_pluck($data['views'], 'views', 'date');
+        $visitors = wp_list_pluck($data, 'visitors', 'date');
+        $views    = wp_list_pluck($data, 'hits', 'date');
 
         $parsedData = [];
         foreach ($dates as $date) {

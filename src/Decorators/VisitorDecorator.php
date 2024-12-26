@@ -237,6 +237,20 @@ class VisitorDecorator
     }
 
     /**
+     * Retrieves the date a certain page has been viewed
+     *
+     * @return string|null The last page viewed by the visitor, or null if not available.
+     */
+    public function getPageView()
+    {
+        return !empty($this->visitor->page_view) ? DateTime::format($this->visitor->page_view, [
+            'include_time'  => true,
+            'exclude_year'  => true,
+            'separator'     => ', '
+        ]) : null;
+    }
+
+    /**
      * Retrieves the online time of the visitor.
      *
      * @return string|null The online time in 'H:i:s' format, or null if not available.

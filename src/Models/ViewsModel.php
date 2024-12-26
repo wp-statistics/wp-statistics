@@ -145,11 +145,32 @@ class ViewsModel extends BaseModel
         return $result ?? [];
     }
 
+    public function getHourlyViews($args = [])
+    {
+        $args = $this->parseArgs($args, [
+            'date' => ''
+        ]);
+
+        $result = Query::select([
+            'HOUR(date) as hour',
+            'COUNT(DISTINCT visitor_id) as visitors',
+            'COUNT(visitor_id) as views'
+            ])
+            ->from('visitor_relationships')
+            ->whereDate('visitor_relationships.date', $args['date'])
+            ->groupBy('hour')
+            ->getAll();
+
+        return $result;
+    }
+
     public function getViewsSummary($args = [])
     {
-        $result = $this->countDailyViews(array_merge($args, [
-            'date' => DateRange::get('this_year')
-        ]));
+        if (empty($args['ignore_date'])) {
+            $args = array_merge($args, ['date' => DateRange::get('this_year')]);
+        }
+
+        $result = $this->countDailyViews($args);
 
         $summary = [
             'today'      => ['label' => esc_html__('Today', 'wp-statistics'), 'views' => 0],
@@ -164,6 +185,10 @@ class ViewsModel extends BaseModel
             '6months'    => ['label' => esc_html__('Last 6 Months', 'wp-statistics'), 'views' => 0],
             'this_year'  => ['label' => esc_html__('This year (Jan - Today)', 'wp-statistics'), 'views' => 0],
         ];
+
+        if (!empty($args['ignore_date'])) {
+            $summary['total'] = ['label' => esc_html__('Total', 'wp-statistics'), 'views' => 0];
+        }
 
         foreach ($result as $record) {
             $date   = $record->date;
@@ -212,6 +237,10 @@ class ViewsModel extends BaseModel
             if (DateRange::compare($date, 'in', 'this_year')) {
                 $summary['this_year']['views'] += $views;
             }
+
+            if (!empty($args['ignore_date'])) {
+                $summary['total']['views'] += $views;
+            }
         }
 
         return $summary;
@@ -233,6 +262,53 @@ class ViewsModel extends BaseModel
             ->groupBy('uri')
             ->orderBy('total')
             ->getAll();
+
+        return $results;
+    }
+
+    public function getResourcesViews($args = [])
+    {
+        $args = $this->parseArgs($args, [
+            'fields'        => ['id', 'uri', 'type', 'SUM(count) as views'],
+            'resource_id'   => '',
+            'resource_type' => '',
+            'date'          => '',
+            'page'          => 1,
+            'per_page'      => 10
+        ]);
+
+        // If resource_id and resource_type are empty, get all views including 404, categories, home, etc...
+        if (empty($args['resource_id']) && empty($args['resource_type'])) {
+            $queries = [];
+
+            $queries[] = Query::select($args['fields'])
+                ->from('pages')
+                ->where('id', '!=', '0')
+                ->whereDate('date', $args['date'])
+                ->groupBy('id')
+                ->getQuery();
+
+            $queries[] = Query::select($args['fields'])
+                ->from('pages')
+                ->where('id', '=', '0')
+                ->whereDate('date', $args['date'])
+                ->groupBy(['uri', 'type'])
+                ->getQuery();
+
+            $results = Query::union($queries)
+                ->perPage($args['page'], $args['per_page'])
+                ->orderBy('views', 'DESC')
+                ->getAll();
+        } else {
+            $results = Query::select($args['fields'])
+                ->from('pages')
+                ->where('id', '=', $args['resource_id'])
+                ->where('type', 'IN', $args['resource_type'])
+                ->whereDate('date', $args['date'])
+                ->perPage($args['page'], $args['per_page'])
+                ->groupBy('id')
+                ->getAll();
+        }
 
         return $results;
     }

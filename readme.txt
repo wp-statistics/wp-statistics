@@ -138,7 +138,13 @@ Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest versio
 == Changelog ==
 https://www.youtube.com/watch?v=jxYLVtBdhEc
 
-= 14.11.5 - 2024-**-** =
+= 14.12
+- **Enhancement:** Optimized metabox widgets.
+- **New:** Added "Source Categories" report under the "Referrals".
+- **New:** Added "404 Reports" under the "Page Insights".
+- **New:** Added the Tracker Debugger feature.
+- **Fix:** Resolved issue with showing not queryable post-types in Content Analytics
+- **New:** Redesigned "Privacy Audit" page.
 - **Fix:** Resolved early translation loading issue.
 - **Enhancement:** Added `Location Detection Method` option for geolocation.
 - **Enhancement:** Improve source detection method to support sources from the query parameter.

@@ -1,6 +1,7 @@
 <?php
 
 namespace WP_Statistics\Service\Admin\Referrals;
+use WP_Statistics\Decorators\ReferralDecorator;
 use WP_Statistics\Models\VisitorsModel;
 use WP_Statistics\Service\Charts\ChartDataProviderFactory;
 use WP_Statistics\Utils\Request;
@@ -33,6 +34,23 @@ class ReferralsDataProvider
                 'group_by' => ['visitor.referred', 'visitor.source_channel']
             ])),
             'total'     => $this->visitorsModel->countReferrers($this->args)
+        ];
+    }
+
+    public function getSourceCategories()
+    {
+        $sourceCategories = $this->visitorsModel->getReferrers(array_merge($this->args, [
+            'group_by' => ['visitor.source_channel']
+        ]));
+
+        $total = array_sum(array_column($sourceCategories, 'visitors'));
+        foreach ($sourceCategories as $key => $value) {
+            $sourceCategories[$key] = new ReferralDecorator($value);
+        }
+
+        return [
+            'categories' => $sourceCategories,
+            'total'      => $total
         ];
     }
 
