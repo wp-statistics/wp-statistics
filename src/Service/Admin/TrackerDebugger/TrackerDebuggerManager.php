@@ -20,7 +20,7 @@ class TrackerDebuggerManager
     {
         $items['tracker_debugger'] = [
             'sub'       => 'settings',
-            'title'     => '',
+            'title'    => esc_html__('Tracker Debugger', 'wp-statistics'),
             'page_url'  => 'tracker-debugger',
             'callback'  => TrackerDebuggerPage::class,
             'priority'  => 100,
