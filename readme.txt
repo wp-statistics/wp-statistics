@@ -4,7 +4,7 @@ Donate link: https://wp-statistics.com/donate/
 Tags: analytics, google analytics, insights, stats, site visitors
 Requires at least: 5.0
 Tested up to: 6.7
-Stable tag: 14.11.4
+Stable tag: 14.12
 Requires PHP: 7.2
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -138,8 +138,18 @@ Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest versio
 == Changelog ==
 https://www.youtube.com/watch?v=jxYLVtBdhEc
 
-= 14.11.5 - 2024-**-** =
+= 14.12
+- **Enhancement:** Optimized metabox widgets.
+- **New:** Added "Source Categories" report under the "Referrals".
+- **New:** Added "404 Reports" under the "Page Insights".
+- **New:** Added the Tracker Debugger feature.
+- **Fix:** Resolved issue with showing not queryable post-types in Content Analytics
+- **New:** Redesigned "Privacy Audit" page.
 - **Fix:** Resolved early translation loading issue.
+- **Enhancement:** Added `Location Detection Method` option for geolocation.
+- **Enhancement:** Improve source detection method to support sources from the query parameter.
+- **Enhancement:** Updated models to ensure consideration of historical data in the models.
+- **Fix:** Resolved issue with undefined array key `robot_threshold`.
 
 = 14.11.4 - 2024-12-09 =
 - **Enhancement:** Made the Global Visitor Distribution widget load faster on the Overview page.
@@ -160,9 +170,9 @@ https://www.youtube.com/watch?v=jxYLVtBdhEc
 - **Fix:** Fixed a bug in Roles & Permissions to prevent users from assigning higher permissions than they have.
 - **Fix:** Made the `views` column sortable again.
 - **Fix:** Resolved a PHP deprecation warning for better compatibility.
-- **Dev:** Added new filters for developers:  
-  - `wp_statistics_geolocation_download_url`  
-  - `wp_statistics_injection_patterns`  
+- **Dev:** Added new filters for developers:
+  - `wp_statistics_geolocation_download_url`
+  - `wp_statistics_injection_patterns`
   - `wp_statistics_location_column_value`
 
 = 14.11.3 - 2024-11-17 =

@@ -38,7 +38,6 @@
 #wp-statistics-quickstats-widget,
 #wp-statistics-devices-widget,
 #wp-statistics-useronline-widget,
-#wp-statistics-comparison-widget,
 .wps-wrap {
   #normal-sortables .wps-refresh {
     line-height: unset !important;
@@ -56,7 +55,6 @@
     height: auto;
     padding: 5px;
     position: relative;
-    top: -2px;
     border-radius: 100%;
   }
 
@@ -66,7 +64,6 @@
     height: auto;
     padding: 5px;
     position: relative;
-    top: -2px;
     border-radius: 100%;
   }
 
@@ -283,7 +280,6 @@ a.wps-tooltip:hover{
 #wp-statistics-platforms-widget,
 #wp-statistics-quickstats-widget,
 #wp-statistics-devices-widget,
-#wp-statistics-comparison-widget,
 #wp-statistics-useronline-widget {
   overflow: visible;
 }
@@ -373,7 +369,6 @@ a.wps-tooltip:hover{
 #wp-statistics-platforms-widget,
 #wp-statistics-quickstats-widget,
 #wp-statistics-devices-widget,
-#wp-statistics-comparison-widget,
 #wp-statistics-useronline-widget,
 .wps-wrap {
   .handle-order-higher,
@@ -494,7 +489,7 @@ a.wps-tooltip:hover{
   .o-wrap .wps-postbox-chart--data{
     margin-top: 0!important;
   }
-  #wp-statistics-hits-meta-box-chart{
+  #wps_daily_traffic_trend_meta_chart{
     height: auto;
     max-height: 262px;
     width: 100%;
@@ -505,14 +500,9 @@ a.wps-tooltip:hover{
     .inside{
       margin-top: 24px!important;
     }
-    #wp-statistics-hits-meta-box-chart{
+    #wps_daily_traffic_trend_meta_chart{
        max-height: 462px;
     }
   }
 }
 
-#wp-statistics-search-widget{
-  #wp-statistics-search-meta-box-chart{
-    max-height: 262px;
-  }
-}

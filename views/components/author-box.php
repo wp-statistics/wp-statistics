@@ -2,14 +2,14 @@
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\Menus;
 use WP_Statistics\Components\View;
-
 ?>
- <?php if ($show_preview) : ?>
+
+<?php if ($show_preview) : ?>
     <div class="disabled wps-tooltip-premium">
         <div class="wps-author-tabs__item">
             <div class="wps-author-tabs__item--image">
-                <span><a href="<?php echo esc_url(Menus::admin_url('author-analytics', ['type' => 'single-author', 'author_id' => esc_html($author_id)]))?>"></a></span>
-                <img src="<?php echo esc_url(get_avatar_url($author_id)); ?>" alt="<?php echo esc_html($author_name); ?>"/>
+                <span><a href="<?php echo esc_url(Menus::admin_url('author-analytics', ['type' => 'single-author', 'author_id' => esc_html($author_id)])) ?>"></a></span>
+                <img src="<?php echo esc_url(get_avatar_url($author_id)); ?>" alt="<?php echo esc_html($author_name); ?>" />
             </div>
             <div class="wps-author-tabs__item--content">
                 <h3><?php echo esc_html($author_name); ?></h3>
@@ -18,17 +18,17 @@ use WP_Statistics\Components\View;
         </div>
 
         <?php
-            View::load("components/lock-sections/tooltip-premium", [
-                'class'         => 'tooltip-premium--side tooltip-premium--left' ,
-                'addon_name'    => 'wp-statistics-data-plus',
-            ]);
+        View::load("components/lock-sections/tooltip-premium", [
+            'class'         => 'tooltip-premium--side tooltip-premium--left',
+            'addon_name'    => 'wp-statistics-data-plus',
+        ]);
         ?>
     </div>
 <?php else: ?>
-    <a class="wps-author-tabs__item" href="<?php echo esc_url(Menus::admin_url('author-analytics', ['type' => 'single-author', 'author_id' => esc_html($author_id)]))?>">
+    <a class="wps-author-tabs__item" href="<?php echo esc_url(Menus::admin_url('author-analytics', ['type' => 'single-author', 'author_id' => esc_html($author_id)])) ?>">
         <div class="wps-author-tabs__item--image">
             <span># <?php echo esc_html($counter); ?></span>
-            <img src="<?php echo esc_url(get_avatar_url($author_id)); ?>" alt="<?php echo esc_html($author_name); ?>"/>
+            <img src="<?php echo esc_url(get_avatar_url($author_id)); ?>" alt="<?php echo esc_html($author_name); ?>" />
         </div>
         <div class="wps-author-tabs__item--content">
             <h3><?php echo esc_html($author_name); ?></h3>

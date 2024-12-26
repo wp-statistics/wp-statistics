@@ -132,14 +132,13 @@ $postTypePlural   = Helper::getPostTypeName($postType);
             'tooltip' => esc_html__('From today to last year, a breakdown of visitors and views.', 'wp-statistics'),
             'data'    => $data['visits_summary']
         ];
-        Admin_Template::get_template(['layout/content-analytics/summary'], $summary);
+        View::load("components/tables/summary", $summary);
 
         $topCountries = [
-            'title'   => esc_html__('Top Countries', 'wp-statistics'),
             'tooltip' => esc_html__('The countries from which the most visitors are coming.', 'wp-statistics'),
             'data'    => $data['visitors_country']
         ];
-        Admin_Template::get_template(['layout/content-analytics/top-countries'], $topCountries);
+        View::load("components/tables/top-countries", $topCountries);
 
         $engines = [
             'title'     => esc_html__('Search Engines', 'wp-statistics'),
@@ -149,7 +148,6 @@ $postTypePlural   = Helper::getPostTypeName($postType);
         View::load("components/charts/search-engines", $engines);
 
         $topReferring = [
-            'title'   => esc_html__('Top Referring', 'wp-statistics'),
             'tooltip' => esc_html__('The top referring domains.', 'wp-statistics'),
             'data'    => $data['referrers']
         ];

@@ -6,9 +6,12 @@ use Exception;
 use WP_Statistics\Components\Singleton;
 use WP_Statistics\Service\Analytics\VisitorProfile;
 use WP_Statistics\Service\Integrations\WpConsentApi;
+use WP_Statistics\Traits\ErrorLoggerTrait;
 
 class Hits extends Singleton
 {
+    use ErrorLoggerTrait;
+
     /**
      * Rest-APi Hit Record Params Key
      *
@@ -151,6 +154,7 @@ class Hits extends Singleton
          */
         if ($exclusion['exclusion_match'] === true) {
             Exclusion::record($exclusion);
+            self::errorListener();
 
             throw new Exception($exclusion['exclusion_reason'], 200);
         }
@@ -190,6 +194,8 @@ class Hits extends Singleton
          */
         self::recordOnline($visitorProfile, $exclusion, $pageId);
 
+        self::errorListener();
+        
         return $exclusion;
     }
 
@@ -221,6 +227,8 @@ class Hits extends Singleton
         if ($exclusion['exclusion_match'] === true) {
             Exclusion::record($exclusion);
 
+            self::errorListener();
+            
             throw new Exception($exclusion['exclusion_reason'], 200);
         }
 
@@ -230,6 +238,7 @@ class Hits extends Singleton
         }
 
         UserOnline::record($visitorProfile, $args);
+        self::errorListener();
 
         return $exclusion;
     }
@@ -245,7 +254,7 @@ class Hits extends Singleton
             try {
                 self::record();
             } catch (Exception $e) {
-
+                self::errorListener();
             }
         }
     }
@@ -269,7 +278,7 @@ class Hits extends Singleton
             }
 
         } catch (Exception $e) {
-
+            self::errorListener();
         }
     }
 }

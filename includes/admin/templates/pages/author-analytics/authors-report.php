@@ -15,7 +15,7 @@ $postTypeNameSingular  = Helper::getPostTypeName($postType, true);
                 <div class="inside">
                     <?php if (!empty($data)) : ?>
                         <div class="o-table-wrapper">
-                            <table width="100%" class="o-table wps-authors-table">
+                            <table width="100%" class="o-table wps-new-table">
                                 <thead>
                                     <tr>
                                         <th class="wps-pd-l">

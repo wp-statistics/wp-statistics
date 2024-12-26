@@ -1,11 +1,12 @@
 <?php
-use WP_STATISTICS\Helper;
 use WP_Statistics\Service\Analytics\Referrals\SourceChannels;
 use WP_Statistics\Utils\Request;
 
 $selected       = Request::get('source_channel');
-$channels       = Helper::filterArrayByKeys(SourceChannels::getList(), ['search', 'paid_search']);
+$channels       = SourceChannels::getList();
 $selectedTitle  = $channels[$selected] ?? null;
+
+unset($channels['direct']);
 ?>
 
 <div class="wps-head-filters__item loading">

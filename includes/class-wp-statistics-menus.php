@@ -155,19 +155,6 @@ class Menus
          *
          */
         $list = array(
-            'top'          => array(
-                'title'    => __('Statistics', 'wp-statistics'),
-                'page_url' => 'overview',
-                'method'   => 'log',
-                'icon'     => 'dashicons-chart-pie',
-                'priority' => 10,
-            ),
-            'overview'     => array(
-                'sub'      => 'overview',
-                'title'    => __('Overview', 'wp-statistics'),
-                'page_url' => 'overview',
-                'priority' => 20,
-            ),
             'settings'     => array(
                 'sub'      => 'overview',
                 'title'    => __('Settings', 'wp-statistics'),
@@ -183,15 +170,7 @@ class Menus
                 'page_url' => 'optimization',
                 'method'   => 'optimization',
                 'priority' => 110,
-            ),
-            'exclusions'   => array(
-                'require'  => array('record_exclusions' => true),
-                'sub'      => 'overview',
-                'title'    => __('Exclusions', 'wp-statistics'),
-                'page_url' => 'exclusions',
-                'method'   => 'exclusions',
-                'priority' => 120,
-            ),
+            )
         );
 
         /**

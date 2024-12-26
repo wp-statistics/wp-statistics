@@ -1,39 +1,61 @@
-<div class="postbox-container" id="wps-big-postbox">
-    <div class="metabox-holder">
-        <div class="meta-box-sortables">
-            <div class="postbox" id="<?php echo esc_attr(\WP_STATISTICS\Meta_Box::getMetaBoxKey('exclusions')); ?>">
-                <div class="inside">
-                    <!-- Do Js -->
-                </div>
-            </div>
+<?php
+use WP_Statistics\Components\View;
+use WP_STATISTICS\Helper;
+?>
+
+<div class="postbox-container wps-postbox-full">
+    <div class="postbox mb-8">
+        <div class="postbox-header--table-title">
+            <h2>
+                <?php esc_html_e('Exclusions Over Time', 'wp-statistics'); ?>
+            </h2>
+        </div>
+        <div class="inside">
+            <?php View::load("components/charts/exclusions"); ?>
         </div>
     </div>
 </div>
 
 <div class="postbox-container wps-postbox-full">
-    <div class="metabox-holder">
-        <div class="meta-box-sortables">
-            <div class="postbox">
-                <div class="inside">
-                    <table width="auto" class="widefat table-stats wps-summary-stats" id="summary-stats" data-table="exclusions">
-                        <tbody>
-                        <tr>
-                            <th></th>
-                            <th class="th-center"><?php esc_html_e('Exclusions', 'wp-statistics'); ?></th>
-                        </tr>
-
-                        <tr>
-                            <th><?php esc_html_e('Chart Total', 'wp-statistics'); ?>:</th>
-                            <th class="th-center"><span id="number-total-chart-exclusions"></span></th>
-                        </tr>
-
-                        <tr>
-                            <th class="wps-text-muted"><?php esc_html_e('All Time Total', 'wp-statistics'); ?>:</th>
-                            <th class="th-center"><span style="color: #DC3545 !important;"><?php echo esc_html(number_format_i18n($total_exclusions)); ?></span></th>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
+    <div class="meta-box-sortables">
+        <div class="postbox">
+            <div class="inside">
+                <?php if (!empty($data['data'])) : ?>
+                    <div class="o-table-wrapper">
+                        <table width="100%" class="o-table wps-new-table wps-new-table--referrers">
+                            <thead>
+                                <tr>
+                                    <th class="wps-pd-l">
+                                        <span><?php esc_html_e('Type', 'wp-statistics') ?></span>
+                                    </th>
+                                    <th class="wps-pd-l start">
+                                        <span class="wps-order"><?php esc_html_e('Exclusions', 'wp-statistics') ?></span>
+                                    </th>
+                                    <th class="wps-pd-l"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($data['data'] as $item) : ?>
+                                    <tr>
+                                        <td class="wps-pd-l">
+                                            <b><?php echo esc_html(ucwords($item->reason)) ?></b>
+                                        </td>
+                                        <td class="wps-pd-l start">
+                                            <?php echo esc_html(number_format_i18n($item->count)); ?>
+                                        </td>
+                                        <td class="wps-pd-l">
+                                            <?php echo esc_html(Helper::calculatePercentage($item->count, $data['total']) . '%') ?>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                <?php else : ?>
+                    <div class="o-wrap o-wrap--no-data wps-center">
+                        <?php esc_html_e('No recent data available.', 'wp-statistics') ?>
+                    </div>
+                <?php endif; ?>
             </div>
         </div>
     </div>

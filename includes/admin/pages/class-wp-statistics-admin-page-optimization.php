@@ -6,6 +6,7 @@ use WP_Statistics\Async\BackgroundProcessFactory;
 use WP_Statistics\Components\Singleton;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
+use WP_Statistics\Service\Geolocation\Provider\MaxmindGeoIPProvider;
 
 class optimization_page extends Singleton
 {
@@ -24,12 +25,13 @@ class optimization_page extends Singleton
 
         // Add Class inf
         $args['class'] = 'wp-statistics-settings';
+        $args['title'] =  __('Optimization', 'wp-statistics');
 
         // Get List Table
         $args['list_table'] = DB::table('all');
         $args['result']     = DB::getTableRows();
 
-        Admin_Template::get_template(array('layout/header', 'layout/title-after', 'optimization', 'layout/footer'), $args);
+        Admin_Template::get_template(array('layout/header', 'layout/title', 'optimization', 'layout/footer'), $args);
     }
 
     public function processForms()
@@ -49,7 +51,7 @@ class optimization_page extends Singleton
         // Update All GEO IP Country
         if (isset($_POST['update_location_action']) && intval($_POST['update_location_action']) == 1) {
             // First download/update the GeoIP database
-            GeolocationFactory::downloadDatabase();
+            GeolocationFactory::downloadDatabase(MaxmindGeoIPProvider::class);
 
             // Update GeoIP data for visitors with incomplete information
             BackgroundProcessFactory::batchUpdateIncompleteGeoIpForVisitors();

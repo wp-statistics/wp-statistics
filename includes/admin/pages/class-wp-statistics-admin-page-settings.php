@@ -33,6 +33,7 @@ class settings_page extends Singleton
 
         // Add Class inf
         $args['class'] = 'wp-statistics-settings';
+        $args['title'] =  __('Settings', 'wp-statistics');
 
         // Check User Access To Save Setting
         $args['wps_admin'] = false;
@@ -50,7 +51,7 @@ class settings_page extends Singleton
         $args['wp_statistics_options'] = Option::getOptions();
 
         // Load Template
-        Admin_Template::get_template(array('layout/header', 'layout/title-after', 'settings', 'layout/footer'), $args);
+        Admin_Template::get_template(array('layout/header', 'layout/title', 'settings', 'layout/footer'), $args);
     }
 
     /**
@@ -252,6 +253,7 @@ class settings_page extends Singleton
 
         $wps_option_list = array(
             'wps_geoip_license_type',
+            'wps_geoip_location_detection_method',
             'wps_geoip_license_key',
             'wps_update_geoip',
             'wps_schedule_geoip',

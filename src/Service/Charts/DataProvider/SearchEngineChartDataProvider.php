@@ -13,11 +13,12 @@ class SearchEngineChartDataProvider extends AbstractChartDataProvider
 {
     use LineChartResponseTrait;
 
-    public $args;
     protected $visitorsModel;
 
     public function __construct($args)
     {
+        parent::__construct($args);
+
         // Set default values
         $this->args = wp_parse_args($args, [
             'source_channel' => ['search', 'paid_search'],
@@ -28,6 +29,9 @@ class SearchEngineChartDataProvider extends AbstractChartDataProvider
 
         // Rest per_page to get all results
         $this->args['per_page'] = false;
+
+        // Filter by source_channel
+        $this->args['not_null'] = 'source_channel';
 
         $this->visitorsModel = new VisitorsModel();
     }

@@ -5,6 +5,13 @@ use WP_STATISTICS\Option;
 
 abstract class AbstractChartDataProvider
 {
+    protected $args;
+
+    public function __construct($args = [])
+    {
+        $this->args = $args;
+    }
+
     /**
      * Determines if previous data is enabled for charts.
      *
@@ -12,6 +19,10 @@ abstract class AbstractChartDataProvider
      */
     protected function isPreviousDataEnabled()
     {
+        if (!empty($this->args['prev_data'])) {
+            return true;
+        }
+
         return Option::get('charts_previous_period', 1) ? true : false;
     }
 }
