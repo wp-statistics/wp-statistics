@@ -253,6 +253,7 @@ class settings_page extends Singleton
 
         $wps_option_list = array(
             'wps_geoip_license_type',
+            'wps_geoip_location_detection_method',
             'wps_geoip_license_key',
             'wps_update_geoip',
             'wps_schedule_geoip',

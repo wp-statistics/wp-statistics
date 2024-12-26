@@ -3,6 +3,7 @@
 namespace WP_Statistics\Service\Admin\Posts;
 
 use WP_STATISTICS\DB;
+use WP_STATISTICS\Helper;
 use WP_STATISTICS\Menus;
 use WP_Statistics\MiniChart\WP_Statistics_Mini_Chart_Settings;
 use WP_Statistics\Models\HistoricalModel;
@@ -29,6 +30,8 @@ class HitColumnHandler
      */
     private $miniChartHelper;
 
+    private $initialPostDate;
+
     /**
      * Hits column name.
      *
@@ -49,6 +52,8 @@ class HitColumnHandler
             $this->columnName = 'wp-statistics-tax-hits';
         }
 
+        $this->initialPostDate = Helper::getInitialPostDate();
+
         $this->miniChartHelper = new MiniChartHelper();
     }
 
@@ -68,7 +73,7 @@ class HitColumnHandler
         if (! empty($postType) && empty(is_post_type_viewable($postType))) {
             return $columns;
         }
-        
+
         // Handle WooCommerce sortable UI
         if (isset($columns['handle'])) {
             $cols = [];
@@ -286,7 +291,7 @@ class HitColumnHandler
         $hitArgs = [
             'resource_type' => Pages::checkIfPageIsHome($objectId) ? 'home' : $this->getCache('postType'),
             'date'          => [
-                'from' => date('Y-m-d', 0),
+                'from' => date('Y-m-d', strtotime($this->initialPostDate)),
                 'to'   => date('Y-m-d'),
             ],
         ];
@@ -319,8 +324,7 @@ class HitColumnHandler
                 $uri = empty($term) ? get_permalink($objectId) : get_term_link(intval($term->term_id), $term->taxonomy);
                 $uri = !is_wp_error($uri) ? wp_make_link_relative($uri) : '';
 
-                $historicalModel = new HistoricalModel();
-                $hitCount       += $historicalModel->countUris(['page_id' => $objectId, 'uri' => $uri]);
+                $hitCount = $viewsModel->countViewsFromPagesOnly(array_merge($hitArgs, ['post_id' => $objectId, 'uri' => $uri, 'historical' => true]));      
             }
         }
 

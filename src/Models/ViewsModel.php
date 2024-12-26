@@ -9,7 +9,6 @@ use WP_Statistics\Components\DateRange;
 
 class ViewsModel extends BaseModel
 {
-
     public function countViews($args = [])
     {
         $args = $this->parseArgs($args, [
@@ -53,6 +52,8 @@ class ViewsModel extends BaseModel
 
         $total = $query->getVar();
 
+        $total += $this->historicalModel->getViews($args);
+
         return $total ? intval($total) : 0;
     }
 
@@ -86,6 +87,8 @@ class ViewsModel extends BaseModel
         }
 
         $total = $query->getVar();
+
+        $total += $this->historicalModel->getViews($args);
 
         return $total ? intval($total) : 0;
     }

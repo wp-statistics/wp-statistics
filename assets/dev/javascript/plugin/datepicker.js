@@ -49,8 +49,18 @@ jQuery(document).ready(function () {
             'This Year': [moment().startOf('year'), moment().endOf('year')]
         };
 
+        function hasTypeParameter() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('post_id');
+        }
+
         if (datePickerBtn.hasClass('js-date-range-picker-all-time')) {
-          const post_date = wps_js.global.initial_post_date ? moment(wps_js.global.initial_post_date) : moment(0);
+            let post_date = moment(0) ;
+            if (hasTypeParameter()) {
+                post_date=wps_js.global.post_creation_date ? moment(wps_js.global.post_creation_date) : moment(0);
+            }else{
+                post_date=wps_js.global.initial_post_date ? moment(wps_js.global.initial_post_date) : moment(0);
+            }
             ranges['All Time'] = [post_date, moment()];
         }
 
@@ -68,7 +78,10 @@ jQuery(document).ready(function () {
         });
 
         if (wps_js.isset(wps_js.global, 'request_params', 'from') && wps_js.isset(wps_js.global, 'request_params', 'to')) {
-            const requestFromDate = wps_js.global.request_params.from;
+            let requestFromDate = wps_js.global.request_params.from;
+            if (hasTypeParameter() && wps_js.global.post_creation_date ) {
+                requestFromDate =  wps_js.global.post_creation_date;
+            }
             const requestToDate = wps_js.global.request_params.to;
             datePickerElement.data('daterangepicker').setStartDate(moment(requestFromDate).format('MM/DD/YYYY'));
             datePickerElement.data('daterangepicker').setEndDate(moment(requestToDate).format('MM/DD/YYYY'));

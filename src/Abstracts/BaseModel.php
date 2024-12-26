@@ -4,9 +4,30 @@ namespace WP_Statistics\Abstracts;
 
 use WP_Statistics\Utils\Query;
 use WP_Statistics\Components\DateRange;
+use WP_Statistics\Models\HistoricalModel;
 
 abstract class BaseModel
 {
+    /**
+     * Instance of HistoricalModel for historical page view data
+     * 
+     * @var HistoricalModel
+     */
+    protected $historicalModel; 
+
+    /**
+     * Initialize the BaseModel class.
+     *
+     * Creates a new instance of HistoricalModel if one hasn't been set yet.
+     * This ensures we have access to historical data throughout the model.
+     */
+    public function __construct()
+    {
+        if (empty($this->historicalModel)) {
+            $this->historicalModel = new HistoricalModel();
+        }
+    }
+
     /**
      * @param $args
      * @param $defaults

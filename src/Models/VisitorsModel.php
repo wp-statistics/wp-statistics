@@ -90,8 +90,11 @@ class VisitorsModel extends BaseModel
         }
 
         $result = $query->getVar();
+        $total  = $result ? intval($result) : 0;
 
-        return $result ? intval($result) : 0;
+        $total += $this->historicalModel->getVisitors($args);
+
+        return $total;
     }
 
     public function countDailyVisitors($args = [])
@@ -615,7 +618,13 @@ class VisitorsModel extends BaseModel
             ->where('source_name', '=', $args['source_name'])
             ->where('referred', '=', $args['referrer'])
             ->whereDate('visitor.last_counter', $args['date'])
-            ->whereNotNull('visitor.referred')
+            ->whereRaw("
+                AND (
+                    (visitor.referred != '' AND visitor.referred IS NOT NULL)
+                    OR
+                    (visitor.source_channel IS NOT NULL AND visitor.source_channel != '' AND visitor.source_channel != 'direct')
+                )
+            ")
             ->perPage($args['page'], $args['per_page'])
             ->orderBy($args['order_by'], $args['order'])
             ->decorate(VisitorDecorator::class)
@@ -639,7 +648,12 @@ class VisitorsModel extends BaseModel
             ->where('source_name', '=', $args['source_name'])
             ->where('referred', '=', $args['referrer'])
             ->whereDate('visitor.last_counter', $args['date'])
-            ->whereNotNull('visitor.referred')
+            ->whereRaw("
+                AND (
+                    (visitor.referred != '' AND visitor.referred IS NOT NULL)
+                    OR (visitor.source_channel IS NOT NULL AND visitor.source_channel != '' AND visitor.source_channel != 'direct')
+                )
+            ")
             ->getVar();
 
         return $result ?? [];
@@ -951,6 +965,7 @@ class VisitorsModel extends BaseModel
             'term'          => '',
             'referrer'      => '',
             'group_by'      => 'visitor.referred',
+            'not_null'      => 'visitor.referred',
             'page'          => 1,
             'per_page'      => 10,
             'decorate'      => false
@@ -968,7 +983,7 @@ class VisitorsModel extends BaseModel
             ->from('visitor')
             ->where('source_channel', 'IN', $args['source_channel'])
             ->where('visitor.location', '=', $args['country'])
-            ->whereNotNull('visitor.referred')
+            ->whereNotNull($args['not_null'])
             ->groupBy($args['group_by'])
             ->orderBy('visitors')
             ->perPage($args['page'], $args['per_page']);
@@ -1026,6 +1041,7 @@ class VisitorsModel extends BaseModel
             'query_param'   => '',
             'taxonomy'      => '',
             'term'          => '',
+            'not_null'      => 'visitor.referred'
         ]);
 
         $filteredArgs = array_filter($args);
@@ -1035,7 +1051,7 @@ class VisitorsModel extends BaseModel
         ])
             ->from('visitor')
             ->where('source_channel', 'IN', $args['source_channel'])
-            ->whereNotNull('visitor.referred');
+            ->whereNotNull($args['not_null']);
 
         // When date is passed, but all other parameters below are empty, compare the given date with `visitor.last_counter`
         if (!empty($args['date']) && !array_intersect(['post_type', 'post_id', 'query_param', 'taxonomy', 'term'], array_keys($filteredArgs))) {

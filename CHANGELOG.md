@@ -1,3 +1,27 @@
+14.11.4 - 2024-12-09
+- **Enhancement:** Made the Global Visitor Distribution widget load faster on the Overview page.
+- **Enhancement:** Added geolocation validation to improve debugging accuracy.
+- **Enhancement:** Reduced unnecessary database requests and improved performance in exclusion settings.
+- **Enhancement:** Added a notice for the upcoming removal of the "Activate Honey Pot" option.
+- **Enhancement:** Updated referral and visitor filter styles for a cleaner look.
+- **Enhancement:** Increased cache duration for previous period data from 1 day to 1 week.
+- **Enhancement:** Adjusted visibility of `Add-ons` and `Privacy Audit` menu items based on user roles.
+- **Fix:** Fixed tooltips not showing correctly on monthly and weekly charts.
+- **Fix:** Corrected shortcode behavior to fetch the right resource ID.
+- **Fix:** Resolved an issue with `tracker.js` not loading when "Bypass Ad Blockers" is enabled in Bedrock Boilerplate.
+- **Fix:** Fixed the summary stats widget and views column for private post types.
+- **Fix:** Fixed issues with the visitor hash search.
+- **Fix:** Resolved incorrect data display on Mini Charts for the current page.
+- **Fix:** Fixed default behavior of network options when settings were not configured.
+- **Fix:** Corrected percentage calculations for device models.
+- **Fix:** Fixed a bug in Roles & Permissions to prevent users from assigning higher permissions than they have.
+- **Fix:** Made the `views` column sortable again.
+- **Fix:** Resolved a PHP deprecation warning for better compatibility.
+- **Dev:** Added new filters for developers:  
+  - `wp_statistics_geolocation_download_url`  
+  - `wp_statistics_injection_patterns`  
+  - `wp_statistics_location_column_value`
+
 14.11.3 - 2024-11-17
 - **New:** Added support for tracking unique visitors in shortcodes.
 - **Enhancement:** Updated the minimum required WordPress version to 5.3.

@@ -113,6 +113,10 @@ class TabsView extends BaseTabView
             // Remove source channels filter if tab is source categories
             if ($this->isTab('source-categories')) {
                 $args['filters'] = array_values(array_diff($args['filters'], ['source-channels']));
+
+            // Add search channels filter if tab is search engines
+            if ($this->isTab('search-engines')) {
+                $args['filters'] = ['search-channels'];
             }
 
             Admin_Template::get_template(['layout/header', 'layout/tabbed-page-header'], $args);
