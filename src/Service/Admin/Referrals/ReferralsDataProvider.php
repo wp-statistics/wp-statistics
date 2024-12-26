@@ -68,7 +68,7 @@ class ReferralsDataProvider
         ];
     }
 
-    public function getChartsData()
+    public function getSearchEnginesChartsData()
     {
         $args = [
             'source_channel' => Request::get('source_channel', ['search', 'paid_search']),
@@ -78,6 +78,15 @@ class ReferralsDataProvider
 
         return [
             'search_engine_chart_data' => $searchEngineChart->getData()
+        ];
+    }
+
+    public function getSourceCategoryChartsData()
+    {
+        $searchEngineChart = ChartDataProviderFactory::sourceCategoryChart($this->args);
+
+        return [
+            'source_category_chart_data' => $searchEngineChart->getData()
         ];
     }
 }

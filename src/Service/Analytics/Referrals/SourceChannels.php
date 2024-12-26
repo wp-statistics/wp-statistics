@@ -42,6 +42,6 @@ class SourceChannels
     public static function getName($key)
     {
         $channels = self::getList();
-        return $channels[$key] ?? false;
+        return $channels[$key] ?? esc_html__('Unassigned Traffic', 'wp-statistics');
     }
 }
