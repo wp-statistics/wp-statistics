@@ -36,7 +36,7 @@ class Test_DateRange extends WP_UnitTestCase {
     public function test_getPeriod_excluding_today() {
 
         $range = [
-            'from'  => date('Y-m-d', strtotime('-29 days')),
+            'from'  => date('Y-m-d', strtotime('-30 days')),
             'to'    => date('Y-m-d', strtotime('yesterday'))
         ];
         $period = DateRange::get('30days', true);
