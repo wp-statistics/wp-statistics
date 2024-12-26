@@ -50,7 +50,7 @@ use WP_STATISTICS\Menus;
                                             <a href=""><?php echo esc_html($referral->getTotalReferrals()) ?></a>
                                         </td>
 
-                                        <td class=" wps-pd-l"><?php echo Helper::calculatePercentage($referral->getTotalReferrals(false), $data['total']) ?></td>
+                                        <td class=" wps-pd-l"><?php echo Helper::calculatePercentage($referral->getTotalReferrals(true), $data['total']) ?></td>
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>

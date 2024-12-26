@@ -40,12 +40,13 @@ class ReferralsDataProvider
     public function getSourceCategories()
     {
         $sourceCategories = $this->visitorsModel->getReferrers(array_merge($this->args, [
-            'group_by' => ['visitor.source_channel']
+            'group_by' => ['visitor.source_channel'],
+            'decorate' => true
         ]));
 
-        $total = array_sum(array_column($sourceCategories, 'visitors'));
-        foreach ($sourceCategories as $key => $value) {
-            $sourceCategories[$key] = new ReferralDecorator($value);
+        $total = 0;
+        foreach ($sourceCategories as $sourceCategory) {
+            $total += $sourceCategory->getTotalReferrals(true);
         }
 
         return [

@@ -57,12 +57,13 @@ class ReferralDecorator
     /**
      * Get the total number of referrals.
      *
-     * @return int
+     * @param bool $raw Whether return raw value or formatted.
+     * @return int|string
      */
-    public function getTotalReferrals($formatNumber = true)
+    public function getTotalReferrals($raw = false)
     {
         if (empty($this->item->visitors)) return 0;
 
-        return $formatNumber ? number_format_i18n($this->item->visitors) : $this->item->visitors;
+        return $raw ? $this->item->visitors : number_format_i18n($this->item->visitors);
     }
 }
