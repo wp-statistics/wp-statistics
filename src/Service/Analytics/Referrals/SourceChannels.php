@@ -13,7 +13,7 @@ class SourceChannels
         $channels = [
             'direct'                => esc_html__('Direct Traffic', 'wp-statistics'),
             'search'                => esc_html__('Organic Search', 'wp-statistics'),
-            'paid_search'           => esc_html__('Paid Search', 'wp-statistics')
+            'paid_search'           => esc_html__('Paid Search', 'wp-statistics'),
             'affiliates'            => esc_html__('Affiliates', 'wp-statistics'),
             'audio'                 => esc_html__('Audio', 'wp-statistics'),
             'display'               => esc_html__('Display', 'wp-statistics'),
