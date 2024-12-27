@@ -7,7 +7,7 @@
 </div>
 <div class="wps-audit-cards wps-privacy-unpassed">
     <h2 class="wps-audit-cards__title wps-audit-cards__title--dark">
-        <?php esc_html_e('critical issue', 'wp-statistics'); ?>
+        <?php esc_html_e('Action Required', 'wp-statistics'); ?>
     </h2>
     <div class="wps-audit-cards__container loading">
     </div>

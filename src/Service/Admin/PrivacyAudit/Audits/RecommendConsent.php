@@ -62,7 +62,7 @@ class RecommendConsent extends BaseAudit
                 'info_title'        => $unpassedInfo['info_title'] ?? '',
                 'compliance'        => [
                     'key'   => 'action_required',
-                    'value' => esc_html__('Required', 'wp-statistics'),
+                    'value' => esc_html__('Action Required', 'wp-statistics'),
                 ]
             ]
         ];
