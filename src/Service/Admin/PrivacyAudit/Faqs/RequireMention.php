@@ -9,7 +9,7 @@ use WP_Statistics\Service\Admin\PrivacyAudit\Audits\StoreUserAgentString;
 
 class RequireMention extends AbstractFaq
 {
-    static public function getStates()
+    public static function getStates()
     {
         $status = self::getStatus();
         $title  = esc_html__('Do I need to mention WP Statistics in my privacy policy?', 'wp-statistics');
@@ -33,7 +33,7 @@ class RequireMention extends AbstractFaq
         ];
     }
 
-    static public function getStatus()
+    public static function getStatus()
     {
         $requirements = [
             RecordUserPageVisits::isOptionPassed(),

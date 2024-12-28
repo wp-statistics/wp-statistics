@@ -9,7 +9,7 @@ use WP_Statistics\Service\Admin\PrivacyAudit\Audits\StoreUserAgentString;
 
 class RequireConsent extends AbstractFaq
 {
-    static public function getStates()
+    public static function getStates()
     {
         $status = self::getStatus();
         $title  = esc_html__('Does WP Statistics require consent?', 'wp-statistics');
@@ -33,7 +33,7 @@ class RequireConsent extends AbstractFaq
         ];
     }
 
-    static public function getStatus()
+    public static function getStatus()
     {
         $requirements = [
             RecordUserPageVisits::isOptionPassed(),

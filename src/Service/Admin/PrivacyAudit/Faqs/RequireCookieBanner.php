@@ -6,12 +6,12 @@ use WP_Statistics\Components\View;
 
 class RequireCookieBanner extends AbstractFaq
 {
-    static public function getStatus()
+    public static function getStatus()
     {
         return 'success';
     }
 
-    static public function getStates()
+    public static function getStates()
     {
         return [
             'success' => [
