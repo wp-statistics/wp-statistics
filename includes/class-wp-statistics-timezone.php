@@ -319,19 +319,24 @@ class TimeZone
     }
 
     /**
-    * Convert timestamp to "time ago" format
-    *
-    * @param DateTime $currentDate Current date and time
-    * @param DateTime $visitDate Visit date and time
-    * @return string Formatted time difference
-    */
-    public static function getElapsedTime($currentDate, $visitDate) {
+     * Convert timestamp to "time ago" format
+     *
+     * @param DateTime $currentDate Current date and time
+     * @param DateTime $visitDate Visit date and time
+     * @param string $originalDate Formatted original date to display if difference is more than 24 hours
+     * @return string Formatted time difference
+     */
+    public static function getElapsedTime($currentDate, $visitDate, $originalDate)
+    {
         $diffMinutes = round(($currentDate->getTimestamp() - $visitDate->getTimestamp()) / 60);
-    
+
+        if ($diffMinutes >= 1440) {
+            return $originalDate;
+        }
+
         if ($diffMinutes >= 60) {
             $hours = floor($diffMinutes / 60);
             $minutes = $diffMinutes % 60;
-    
             if ($minutes > 0) {
                 return sprintf(
                     esc_html(
@@ -347,7 +352,7 @@ class TimeZone
                     absint($minutes)
                 );
             }
-    
+
             return sprintf(
                 esc_html(
                     /* translators: %d: number of hours */
@@ -361,7 +366,6 @@ class TimeZone
                 absint($hours)
             );
         }
-    
         return sprintf(
             esc_html(
                 /* translators: %d: number of minutes */
@@ -375,5 +379,4 @@ class TimeZone
             absint($diffMinutes)
         );
     }
-
 }

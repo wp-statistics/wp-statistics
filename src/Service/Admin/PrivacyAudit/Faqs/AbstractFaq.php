@@ -1,13 +1,13 @@
-<?php 
+<?php
 namespace WP_Statistics\Service\Admin\PrivacyAudit\Faqs;
 
-abstract class AbstractFaq 
+abstract class AbstractFaq
 {
-    abstract static public function getStatus();
-    
-    abstract static public function getStates();
-    
-    static public function getState() {
+    abstract public static function getStatus();
+
+    abstract public static function getStates();
+
+    public static function getState() {
         $states = static::getStates();
         $status = static::getStatus();
 

@@ -41,7 +41,7 @@ $excludeCountries   = $options->getExcludedCountries();
                     'title'       => __('Tracker.js Not Found', 'wp-statistics'),
                     'description' => __('The tracker.js file is missing or incorrectly placed.', 'wp-statistics'),
                     'content'     => __('Oops! We couldn\'t find your tracker.js file. This means it might be missing or the path is incorrect.', 'wp-statistics'),
-                    'suggestion'  => __('Please ensure that the tracker.js file exists in the correct directory. Refer to our <a href="" target="_blank" rel="noopener">documentation</a> for guidance.', 'wp-statistics'),
+                    'suggestion'  => sprintf(__('Please ensure that the tracker.js file exists in the correct directory. Refer to our <a href="%s" target="_blank" rel="noopener">documentation</a> for guidance.', 'wp-statistics'),esc_url(WP_STATISTICS_SITE_URL.'/documentation/')),
                     'status'      => 'danger'
                 ];
 
@@ -76,7 +76,7 @@ $excludeCountries   = $options->getExcludedCountries();
                     'title'       => __('Do Not Track (DNT) is Enabled', 'wp-statistics'),
                     'description' => esc_html__('Some visitors are excluded from tracking based on their browser settings.', 'wp-statistics'),
                     'content'     => __('Your site respects visitors\' browser settings to not track their web activity. This may result in a lower number of tracked visitors.', 'wp-statistics'),
-                    'suggestion'  => __('For more details, visit our DNT feature <a href="" target="_blank" rel="noopener">documentation</a> .', 'wp-statistics'),
+                    'suggestion'  => sprintf(__('For more details, visit our DNT feature <a href="%s" target="_blank" rel="noopener">documentation</a> .', 'wp-statistics'),esc_url(WP_STATISTICS_SITE_URL.'/documentation/')),
                     'status'      => 'info'
                 ];
 
@@ -336,8 +336,7 @@ $excludeCountries   = $options->getExcludedCountries();
                                     <td class="wps-pd-l">
                                         <?php
                                         $visitDate = new DateTime($visitor->getLastView());
-
-                                        echo TimeZone::getElapsedTime($currentDate, $visitDate); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                                        echo esc_html(TimeZone::getElapsedTime($currentDate, $visitDate, $visitor->getLastView()));
                                         ?>
                                     </td>
                                     <td class="wps-pd-l">
@@ -345,7 +344,7 @@ $excludeCountries   = $options->getExcludedCountries();
                                     </td>
                                     <td class="wps-pd-l">
                                         <div class="wps-country-flag wps-ellipsis-parent">
-                                            <a target="" href="<?php echo esc_url(Menus::admin_url('geographic', ['type' => 'single-country', 'country' => $visitor->getLocation()->getCountryCode()])) ?>" class="wps-tooltip tooltipstered">
+                                            <a href="<?php echo esc_url(Menus::admin_url('geographic', ['type' => 'single-country', 'country' => $visitor->getLocation()->getCountryCode()])) ?>" class="wps-tooltip tooltipstered">
                                                 <img src="<?php echo esc_url($visitor->getLocation()->getCountryFlag()) ?>" alt="Hesse, Frankfurt am Main" width="15" height="15">
                                             </a>
                                             <?php $location = Admin_Template::locationColumn($visitor->getLocation()->getCountryCode(), $visitor->getLocation()->getRegion(), $visitor->getLocation()->getCity()); ?>
@@ -354,13 +353,18 @@ $excludeCountries   = $options->getExcludedCountries();
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
+                            <?php if (count($visitors->getVisitor()) < 1) : ?>
+                                <tr>
+                                    <td colspan="3">
+                                        <div class="o-wrap o-wrap--no-data wps-center">
+                                            <?php esc_html_e('No recent data available.', 'wp-statistics'); ?>
+                                        </div>
+                                    </td>
+                                </tr>
+                             <?php endif; ?>
                         </tbody>
                     </table>
-                    <?php if (count($visitors->getVisitor()) < 1) : ?>
-                        <div class="o-wrap o-wrap--no-data wps-center">
-                            <?php esc_html_e('No recent data available.', 'wp-statistics'); ?>
-                        </div>
-                    <?php endif; ?>
+
                 </div>
             </div>
         </div>
@@ -371,11 +375,11 @@ $excludeCountries   = $options->getExcludedCountries();
                 <?php
                 echo sprintf(
                     __(
-                        'If tracker.js is still not working, visit our <a href="%s">troubleshooting guide</a> for detailed steps or <a href="%s">contact our support team</a> for assistance.',
+                        'If tracker.js is still not working, visit our <a target="_blank" href="%s">troubleshooting guide</a> for detailed steps or <a target="_blank" href="%s">contact our support team</a> for assistance.',
                         'wp-statistics'
                     ),
-                    esc_url('/troubleshooting-guide'),
-                    esc_url('/contact-support')
+                    esc_url(WP_STATISTICS_SITE_URL.'/resources-category/troubleshooting/?utm_source=wp-statistics&utm_medium=link&utm_campaign=tracker-debugger'),
+                    esc_url(WP_STATISTICS_SITE_URL.'/contact-us/?utm_source=wp-statistics&utm_medium=link&utm_campaign=tracker-debugger')
                 );
                 ?>
             </p>
