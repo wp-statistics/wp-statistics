@@ -40,27 +40,27 @@
 
   }
 
-  #top_referring{
+  #wp_statistics_ttop_referring_metabox {
     tr td .wps-link-arrow{
       max-width: 200px;
     }
   }
 
-  #top_referring , #top_countries{
+  #wp_statistics_top_referring_metabox  , #wp_statistics_top_countries_metabox {
     .o-table.wps-new-table td.wps-middle-vertical a {
       color: #404bf2 !important;
       font-weight: 500;
     }
   }
 
-  #top_countries {
+  #wp_statistics_top_countries_metabox {
     .wps-country-flag .wps-ellipsis-text {
       max-width: 400px;
     }
   }
 
-  #daily_traffic_trend {
-    #wps_daily_traffic_trend_meta_chart, #wps_search_engines_meta_chart {
+  #wp_statistics_daily_traffic_trend_metabox {
+    #wp_statistics_daily_traffic_trend_metabox_chart, #wp_statistics_search_engines_metabox_chart {
       min-height: 262px
     }
   }

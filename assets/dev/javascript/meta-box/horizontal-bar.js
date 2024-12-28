@@ -21,18 +21,18 @@ wps_js.render_horizontal_bar_data = function(response, key) {
 };
 
 // Alias functions for backward compatibility
-wps_js.render_browser_usage = function(response, key) {
+wps_js.render_wp_statistics_browser_usage_metabox = function(response, key) {
     wps_js.render_horizontal_bar_data(response, key);
 };
 
-wps_js.render_most_used_operating_systems = function(response, key) {
+wps_js.render_wp_statistics_most_used_operating_systems_metabox = function(response, key) {
     wps_js.render_horizontal_bar_data(response, key);
 };
 
-wps_js.render_device_usage_breakdown = function(response, key) {
+wps_js.render_wp_statistics_device_usage_breakdown_metabox = function(response, key) {
     wps_js.render_horizontal_bar_data(response, key);
 };
 
-wps_js.render_top_device_model = function(response, key) {
+wps_js.render_wp_statistics_top_device_model_metabox = function(response, key) {
     wps_js.render_horizontal_bar_data(response, key);
 };

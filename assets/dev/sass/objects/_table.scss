@@ -585,18 +585,22 @@
     }
   }
 
-  #traffic_summary, #traffic_overview, #daily_traffic_trend, #search_engines, #top_countries, #most_visited_pages,
-  #browser_usage, #most_used_operating_systems, #device_usage_breakdown, #top_device_model,
-  #top_referring, #most_active_visitors, #latest_visitor_breakdown, #currently_online, #global_visitor_distribution {
+  #wp_statistics_traffic_summary_metabox, #wp_statistics_traffic_overview_metabox, #wp_statistics_daily_traffic_trend_metabox, #wp_statistics_search_engines_metabox, #wp_statistics_top_countries_metabox, #wp_statistics_most_visited_pages_metabox,
+  #wp_statistics_browser_usage_metabox, #wp_statistics_most_used_operating_systems_metabox, #wp_statistics_device_usage_breakdown_metabox, #wp_statistics_top_device_model_metabox,
+  #wp_statistics_top_referring_metabox, #wp_statistics_most_active_visitors_metabox, #wp_statistics_latest_visitor_breakdown_metabox, #wp_statistics_currently_online_metabox, #wp_statistics_global_visitor_distribution_metabox {
 
     .handle-order-lower, .handle-order-higher {
       display: none;
     }
 
+    .c-footer{
+      padding: 20px 12px 0;
+    }
+
     &.postbox .inside {
       padding-right: 0;
       padding-left: 0;
-      margin-bottom: 24px;
+      margin-bottom: 12px;
       padding-bottom: 0;
 
       a {
@@ -614,7 +618,7 @@
     }
 
     .o-wrap {
-      padding: 0 24px;
+      padding: 0 12px;
     }
 
     .o-table-wrapper {
@@ -625,13 +629,13 @@
     }
   }
 
-  #browser_usage, #most_used_operating_systems, #device_usage_breakdown, #top_device_model {
+  #wp_statistics_browser_usage_metabox, #wp_statistics_most_used_operating_systems_metabox, #wp_statistics_device_usage_breakdown_metabox, #wp_statistics_top_device_model_metabox {
     &.postbox .inside {
       margin-top: 20px;
     }
   }
 
-  #top_countries, #top_referring, #most_visited_pages, #most_active_visitors, #latest_visitor_breakdown, #currently_online {
+  #wp_statistics_top_countries_metabox, #wp_statistics_top_referring_metabox, #wp_statistics_most_visited_pages_metabox, #wp_statistics_most_active_visitors_metabox, #wp_statistics_latest_visitor_breakdown_metabox, #wp_statistics_currently_online_metabox {
     th:last-child, td:last-child {
       text-align: right !important;
       padding-right: 24px;
@@ -644,7 +648,7 @@
     }
   }
 
-  #top_countries, #top_referring {
+  #wp_statistics_top_countries_metabox, #wp_statistics_top_referring_metabox {
     tbody {
       tr {
         td {
@@ -663,7 +667,7 @@
 
   }
 
-  #traffic_overview {
+  #wp_statistics_traffic_overview_metabox {
 
     .inside{
       margin-bottom: 12px!important;
@@ -800,7 +804,7 @@
     }
   }
 
-  #daily_traffic_trend, #search_engines, #global_visitor_distribution {
+  #wp_statistics_daily_traffic_trend_metabox, #wp_statistics_search_engines_metabox, #wp_statistics_global_visitor_distribution_metabox {
     .o-wrap {
       padding: 12px 24px !important;
       padding-top: 0 !important;

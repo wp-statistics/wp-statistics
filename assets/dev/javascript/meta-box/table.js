@@ -7,14 +7,14 @@ wps_js.set_content = function(response, key) {
 
 wps_js.render_table_content = wps_js.set_content;
 
-wps_js.render_top_countries = wps_js.render_table_content;
-wps_js.render_traffic_summary = wps_js.render_table_content;
-wps_js.render_top_referring = wps_js.render_table_content;
-wps_js.render_most_visited_pages = wps_js.render_table_content;
-wps_js.render_most_active_visitors = wps_js.render_table_content;
-wps_js.render_latest_visitor_breakdown = wps_js.render_table_content;
-wps_js.render_currently_online = wps_js.render_table_content;
-wps_js.render_go_premium = wps_js.render_table_content;
-wps_js.render_about_wps = wps_js.render_table_content;
-wps_js.render_weekly_performance = wps_js.render_table_content;
-wps_js.render_post_latest_visitors = wps_js.render_table_content;
+wps_js.render_wp_statistics_top_countries_metabox = wps_js.render_table_content;
+wps_js.render_wp_statistics_traffic_summary_metabox = wps_js.render_table_content;
+wps_js.render_wp_statistics_top_referring_metabox = wps_js.render_table_content;
+wps_js.render_wp_statistics_most_visited_pages_metabox = wps_js.render_table_content;
+wps_js.render_wp_statistics_most_active_visitors_metabox = wps_js.render_table_content;
+wps_js.render_wp_statistics_latest_visitor_breakdown_metabox = wps_js.render_table_content;
+wps_js.render_wp_statistics_currently_online_metabox = wps_js.render_table_content;
+wps_js.render_wp_statistics_go_premium_metabox = wps_js.render_table_content;
+wps_js.render_wp_statistics_about_wps_metabox = wps_js.render_table_content;
+wps_js.render_wp_statistics_weekly_performance_metabox = wps_js.render_table_content;
+wps_js.render_wp_statistics_post_latest_visitors_metabox = wps_js.render_table_content;

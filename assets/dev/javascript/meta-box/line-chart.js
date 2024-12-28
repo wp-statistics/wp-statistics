@@ -8,7 +8,7 @@ wps_js.render_line_chart = function (response, key) {
                 previousData: params['previousData']
             };
             if(key !== 'traffic_overview'){
-                wps_js.new_line_chart(data, `wps_${key}_meta_chart`);
+                wps_js.new_line_chart(data, `${key}_chart`);
             }else{
                 const trafficOptions = {
                     scales: {
@@ -103,7 +103,7 @@ wps_js.render_line_chart = function (response, key) {
 };
 
 
-wps_js.render_search_engines = wps_js.render_line_chart;
-wps_js.render_daily_traffic_trend = wps_js.render_line_chart;
-wps_js.render_traffic_overview = wps_js.render_line_chart;
+wps_js.render_wp_statistics_search_engines_metabox = wps_js.render_line_chart;
+wps_js.render_wp_statistics_daily_traffic_trend_metabox = wps_js.render_line_chart;
+wps_js.render_wp_statistics_traffic_overview_metabox = wps_js.render_line_chart;
 

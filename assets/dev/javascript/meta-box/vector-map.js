@@ -1,4 +1,4 @@
-wps_js.render_global_visitor_distribution = function (response, key) {
+wps_js.render_wp_statistics_global_visitor_distribution_metabox = function (response, key) {
     if (!response?.response) return;
     const {output, data: params} = response.response;
     let pin = Array();
