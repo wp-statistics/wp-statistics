@@ -5,7 +5,6 @@ namespace WP_Statistics\Service\Charts\DataProvider;
 use WP_Statistics\Components\DateRange;
 use WP_STATISTICS\Helper;
 use WP_Statistics\Models\VisitorsModel;
-use WP_Statistics\Service\Analytics\Referrals\SourceChannels;
 use WP_Statistics\Service\Charts\AbstractChartDataProvider;
 use WP_Statistics\Service\Charts\Traits\LineChartResponseTrait;
 use WP_STATISTICS\TimeZone;
@@ -21,6 +20,7 @@ class SourceCategoryChartDataProvider extends AbstractChartDataProvider
         parent::__construct($args);
 
         $this->args['group_by'] = ['visitor.source_channel', 'visitor.last_counter'];
+        $this->args['decorate'] = true;
 
         $this->visitorsModel = new VisitorsModel();
     }
@@ -55,9 +55,9 @@ class SourceCategoryChartDataProvider extends AbstractChartDataProvider
         $data = $this->visitorsModel->getReferrers($this->args);
 
         foreach ($data as $item) {
-            $visitors       = intval($item->visitors);
-            $sourceChannel  = SourceChannels::getName($item->source_channel);
-            $date           = $item->last_counter;
+            $visitors       = $item->getTotalReferrals(true);
+            $sourceChannel  = $item->getSourceChannel();
+            $date           = $item->getDate();
 
             $thisParsedData[$sourceChannel][$date] = $visitors;
             $thisPeriodTotal[$date]                += $visitors;

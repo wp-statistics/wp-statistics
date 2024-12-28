@@ -41,7 +41,7 @@ class ReferralDecorator
      */
     public function getSourceChannel()
     {
-        return SourceChannels::getName($this->item->source_channel);
+        return SourceChannels::getName($this->getRawSourceChannel());
     }
 
     /**
@@ -65,6 +65,16 @@ class ReferralDecorator
     }
 
     /**
+     * Get the date of the referral.
+     *
+     * @return string
+     */
+    public function getDate()
+    {
+        return $this->item->last_counter ?? null;
+    }
+
+    /**
      * Get the total number of referrals.
      *
      * @param bool $raw Whether return raw value or formatted.
@@ -74,6 +84,6 @@ class ReferralDecorator
     {
         if (empty($this->item->visitors)) return 0;
 
-        return $raw ? $this->item->visitors : number_format_i18n($this->item->visitors);
+        return $raw ? intval($this->item->visitors) : number_format_i18n($this->item->visitors);
     }
 }

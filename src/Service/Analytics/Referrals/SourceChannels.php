@@ -28,6 +28,7 @@ class SourceChannels
             'paid_other'            => esc_html__('Paid Other', 'wp-statistics'),
             'referral'              => esc_html__('Referral', 'wp-statistics'),
             'sms'                   => esc_html__('SMS', 'wp-statistics'),
+            'unassigned'            => esc_html__('Unassigned Traffic', 'wp-statistics')
         ];
 
         return apply_filters('wp_statistics_source_channels_list', $channels);
@@ -42,6 +43,6 @@ class SourceChannels
     public static function getName($key)
     {
         $channels = self::getList();
-        return $channels[$key] ?? esc_html__('Unassigned Traffic', 'wp-statistics');
+        return $channels[$key];
     }
 }
