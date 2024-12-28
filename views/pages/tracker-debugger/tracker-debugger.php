@@ -336,7 +336,7 @@ $excludeCountries   = $options->getExcludedCountries();
                                     <td class="wps-pd-l">
                                         <?php
                                         $visitDate = new DateTime($visitor->getLastView());
-                                        echo TimeZone::getElapsedTime($currentDate, $visitDate); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                                        echo esc_html(TimeZone::getElapsedTime($currentDate, $visitDate, $visitor->getLastView()));
                                         ?>
                                     </td>
                                     <td class="wps-pd-l">
