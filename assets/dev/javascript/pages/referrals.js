@@ -26,7 +26,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         const sourceCategoriesData = Wp_Statistics_Referrals_Object.source_category_chart_data;
         renderChart('sourceCategoriesChart', sourceCategoriesData);
 
-        const socialMedia = Wp_Statistics_Referrals_Object.search_engine_chart_data;
+        const socialMedia = Wp_Statistics_Referrals_Object.social_media_chart_data;
         renderChart('socialMediaChart', socialMedia);
 
         const incomeVisitorData = Wp_Statistics_Referrals_Object.search_engine_chart_data;
