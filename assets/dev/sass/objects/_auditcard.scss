@@ -127,7 +127,7 @@
         width: 11px;
         height: 11px;
         display: inline-block;
-        background: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTEiIGhlaWdodD0iMTIiIHZpZXdCb3g9IjAgMCAxMSAxMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0wLjE2MDc3MyAzLjE3NDc5Qy0wLjA1MzU4NjUgMy4zOTc0OCAtMC4wNTM1ODY1IDMuNzU4MDUgMC4xNjA3NzMgMy45ODAxOEw0LjcwNTczIDguNjg5ODJDNS4xMzUgOS4xMzQ2NCA1LjgzMTM5IDkuMTM0NjQgNi4yNjA2NiA4LjY4OTgyTDEwLjgzOTEgMy45NDYwN0MxMS4wNTEzIDMuNzI1NjYgMTEuMDU0MSAzLjM2OTU4IDEwLjg0NDYgMy4xNDYzMkMxMC42MzA4IDIuOTE3OTMgMTAuMjc4NSAyLjkxNTc0IDEwLjA2MTQgMy4xNDAxNEw1Ljg3MjA3IDcuNDgxODZDNS42NTcxNiA3LjcwNDU2IDUuMzA5MjMgNy43MDQ1NiA1LjA5NDMyIDcuNDgxODZMMC45Mzc5NjIgMy4xNzQ3OUMwLjcyMzYwMyAyLjk1MjA5IDAuMzc1MTMyIDIuOTUyMDkgMC4xNjA3NzMgMy4xNzQ3OVoiIGZpbGw9IiMwQzBDMEQiIC8+Cjwvc3ZnPgo=") center center no-repeat;
+        background: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTEiIGhlaWdodD0iMTIiIHZpZXdCb3g9IjAgMCAxMSAxMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGcgY2xpcC1wYXRoPSJ1cmwoI2NsaXAwXzIwMjQ0XzM4NTcxKSI+CjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNMi42NzY3NCAxMS4zMzkyQzIuODk5NDMgMTEuNTUzNiAzLjI2MDAxIDExLjU1MzYgMy40ODIxMyAxMS4zMzkyTDguMTkxNzggNi43OTQyN0M4LjYzNjYgNi4zNjUgOC42MzY2IDUuNjY4NjEgOC4xOTE3OCA1LjIzOTM0TDMuNDQ4MDMgMC42NjA4NTNDMy4yMjc2MiAwLjQ0ODY5MyAyLjg3MTUzIDAuNDQ1OTQ0IDIuNjQ4MjcgMC42NTUzNTdDMi40MTk4OCAwLjg2OTE2NiAyLjQxNzcgMS4yMjE0OCAyLjY0MjEgMS40Mzg1OUw2Ljk4MzgyIDUuNjI3OTNDNy4yMDY1MSA1Ljg0Mjg0IDcuMjA2NTEgNi4xOTA3NyA2Ljk4MzgyIDYuNDA1NjhMMi42NzY3NCAxMC41NjJDMi40NTQwNCAxMC43NzY0IDIuNDU0MDQgMTEuMTI0OSAyLjY3Njc0IDExLjMzOTJaIiBmaWxsPSIjMEMwQzBEIiAgLz4KPC9nPgo8ZGVmcz4KPGNsaXBQYXRoIGlkPSJjbGlwMF8yMDI0NF8zODU3MSI+CjxyZWN0IHdpZHRoPSIxMSIgaGVpZ2h0PSIxMSIgZmlsbD0id2hpdGUiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDExIDAuNSkgcm90YXRlKDkwKSIvPgo8L2NsaXBQYXRoPgo8L2RlZnM+Cjwvc3ZnPgo=") center center no-repeat;
         opacity: 30%;
         border: none !important;
         outline: none !important;
@@ -198,7 +198,8 @@
       }
 
       &.wps-audit-card--info {
-        border: 1px solid #EEEFF1;
+        border: 1px solid #0CA1EC40;
+        background: #0CA1EC05;
 
         .wps-audit-card__status-indicator {
           background: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTUiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNSAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0xMy43NSA4QzEzLjc1IDExLjQ1MTcgMTAuOTUxNyAxNC4yNSA3LjUgMTQuMjVDNC4wNDgyMiAxNC4yNSAxLjI1IDExLjQ1MTcgMS4yNSA4QzEuMjUgNC41NDgyMiA0LjA0ODIyIDEuNzUgNy41IDEuNzVDMTAuOTUxNyAxLjc1IDEzLjc1IDQuNTQ4MjIgMTMuNzUgOFpNNy41IDExLjU5MzhDNy43NTg4NyAxMS41OTM4IDcuOTY4NzUgMTEuMzgzOSA3Ljk2ODc1IDExLjEyNVY3LjM3NUM3Ljk2ODc1IDcuMTE2MTMgNy43NTg4NyA2LjkwNjI1IDcuNSA2LjkwNjI1QzcuMjQxMTMgNi45MDYyNSA3LjAzMTI1IDcuMTE2MTMgNy4wMzEyNSA3LjM3NVYxMS4xMjVDNy4wMzEyNSAxMS4zODM5IDcuMjQxMTMgMTEuNTkzOCA3LjUgMTEuNTkzOFpNNy41IDQuODc1QzcuODQ1MTkgNC44NzUgOC4xMjUgNS4xNTQ4MiA4LjEyNSA1LjVDOC4xMjUgNS44NDUxNyA3Ljg0NTE5IDYuMTI1IDcuNSA2LjEyNUM3LjE1NDgxIDYuMTI1IDYuODc1IDUuODQ1MTcgNi44NzUgNS41QzYuODc1IDUuMTU0ODIgNy4xNTQ4MSA0Ljg3NSA3LjUgNC44NzVaIiBmaWxsPSIjMENBMUVDIi8+Cjwvc3ZnPgo=") center center no-repeat;
@@ -218,11 +219,12 @@
           svg, path {
             fill: #0CA1EC;
           }
-
         }
       }
 
       &.wps-audit-card--success , &.wps-audit-card--recommended{
+        background: #01993905;
+        border: 1px solid #01993940;
 
         .wps-audit-card__status-indicator {
           background: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTUiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNSAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTIuNSA4LjM4MTk0TDUuNTc2OTMgMTEuNDM3NUwxMi41IDQuNTYyNSIgc3Ryb2tlPSIjMDE5OTM5IiBzdHJva2Utd2lkdGg9IjEuNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+Cjwvc3ZnPgo=") center center no-repeat;
@@ -321,7 +323,7 @@
 
     .wps-audit-card__toggle {
       opacity: 1;
-      transform: rotate(-90deg);
+      transform: rotate(90deg);
     }
 
     .wps-audit-card__body {
@@ -348,6 +350,5 @@
       background: #01993914;
       border: 1px solid #01993966
     }
-
   }
 }

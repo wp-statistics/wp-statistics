@@ -101,7 +101,7 @@ class MetaboxDataProvider
 
     public function getTopPages($args = [])
     {
-        return $this->viewsModel->getResourcesViews();
+        return $this->viewsModel->getResourcesViews($args);
     }
 
     public function getOnlineVisitorsData($args = [])
