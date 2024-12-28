@@ -4,6 +4,7 @@ namespace WP_STATISTICS;
 
 use WP_Statistics\Components\AssetNameObfuscator;
 use WP_Statistics\Components\Event;
+use WP_Statistics\Service\Admin\Metabox\MetaboxHelper;
 
 class Install
 {
@@ -637,6 +638,24 @@ class Install
          */
         if (Option::get('schedule_geoip') && version_compare($installed_version, '14.11', '<')) {
             Event::reschedule('wp_statistics_geoip_hook', 'monthly');
+        }
+
+        /**
+         * Hide dashboard widgets by default
+         */
+        if (version_compare($installed_version, '14.12', '<')) {
+            $hiddenMetaboxKey   = 'metaboxhidden_dashboard';
+            $userId             = User::get_user_id();
+
+            $hiddenWidgets      = get_user_meta($userId, $hiddenMetaboxKey, true);
+            $hiddenWidgets      = is_array($hiddenWidgets) ? $hiddenWidgets : [];
+
+            foreach (MetaboxHelper::getMetaboxes() as $metabox) {
+                $metabox            = new $metabox();
+                $hiddenWidgets[]    = $metabox->getKey();
+            }
+
+            update_user_meta($userId, $hiddenMetaboxKey, $hiddenWidgets);
         }
 
         /**
