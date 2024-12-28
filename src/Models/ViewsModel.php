@@ -187,7 +187,7 @@ class ViewsModel extends BaseModel
         ];
 
         if (!empty($args['ignore_date'])) {
-            $summary['total'] = ['label' => esc_html__('Total', 'wp-statistics'), 'views' => 0];
+            $summary['total'] = ['label' => esc_html__('Total', 'wp-statistics'), 'views' => $this->historicalModel->getViews($args)];
         }
 
         foreach ($result as $record) {

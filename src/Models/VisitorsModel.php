@@ -320,7 +320,7 @@ class VisitorsModel extends BaseModel
         ];
 
         if (!empty($args['ignore_date'])) {
-            $summary['total'] = ['label' => esc_html__('Total', 'wp-statistics'), 'visitors' => 0];
+            $summary['total'] = ['label' => esc_html__('Total', 'wp-statistics'), 'visitors' => $this->historicalModel->getVisitors($args)];
         }
 
         foreach ($result as $record) {
