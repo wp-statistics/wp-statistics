@@ -184,15 +184,6 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
 
     }
 
-    const generateSection = (title, content) => {
-        if (!content) return '';
-        return `
-            <div class="wps-audit-card__suggestion">
-                <div class="wps-audit-card__suggestion-head">${title}</div>
-                <p class="wps-audit-card__suggestion-text">${content}</p>
-            </div>`;
-    };
-
     const generateIcon = (svg) => {
         if (!svg) return '';
         return `
@@ -242,8 +233,6 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             </div>
             <div class="wps-audit-card__body">
                 <div class="wps-audit-card__content-text">${data.notes}</div>
-                ${generateSection(data.suggestion_title, data.suggestion)}
-                ${generateSection(data.info_title, data.info)}
             </div>
         </div>`;
         return auditElement;
@@ -287,8 +276,6 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             </div>
             <div class="wps-audit-card__body">
                 <div class="wps-audit-card__content-text">${data.notes}</div> 
-                ${generateSection(data.suggestion_title, data.suggestion)}
-                ${generateSection(data.info_title, data.info)}
             </div>
         </div>`;
 
