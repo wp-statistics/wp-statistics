@@ -1,9 +1,11 @@
 <?php
-
 namespace WP_STATISTICS;
-use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 
-
+/**
+ * DEPRECATED: This class is not supported anymore. Please do not use it in your code.
+ *
+ * @deprecated since 14.12
+ */
 class Meta_Box
 {
     /**
