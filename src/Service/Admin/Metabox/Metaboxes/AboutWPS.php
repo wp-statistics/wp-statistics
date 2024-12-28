@@ -25,7 +25,7 @@ class AboutWPS extends BaseMetabox
     public function getKey()
     {
         if ($this->settings['custom_widget'] === 'yes') {
-            return "wp_statistics_custom_{$this->key}_metabox";
+            $this->key = "custom_{$this->key}";
         }
 
         return "wp_statistics_{$this->key}_metabox";

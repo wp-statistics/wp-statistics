@@ -201,9 +201,6 @@ final class WP_Statistics
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-shortcode.php';
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-widget.php';
 
-        // Meta Box List
-        \WP_STATISTICS\Meta_Box::includes();
-
         // Rest-Api
         require_once WP_STATISTICS_DIR . 'includes/api/v2/class-wp-statistics-api-hit.php';
         require_once WP_STATISTICS_DIR . 'includes/api/v2/class-wp-statistics-api-meta-box.php';
