@@ -40,12 +40,13 @@ class ReferralsDataProvider
     public function getSourceCategories()
     {
         $sourceCategories = $this->visitorsModel->getReferrers(array_merge($this->args, [
-            'group_by' => ['visitor.source_channel']
+            'group_by' => ['visitor.source_channel'],
+            'decorate' => true
         ]));
 
-        $total = array_sum(array_column($sourceCategories, 'visitors'));
-        foreach ($sourceCategories as $key => $value) {
-            $sourceCategories[$key] = new ReferralDecorator($value);
+        $total = 0;
+        foreach ($sourceCategories as $sourceCategory) {
+            $total += $sourceCategory->getTotalReferrals(true);
         }
 
         return [
@@ -67,7 +68,7 @@ class ReferralsDataProvider
         ];
     }
 
-    public function getChartsData()
+    public function getSearchEnginesChartsData()
     {
         $args = [
             'source_channel' => Request::get('source_channel', ['search', 'paid_search']),
@@ -77,6 +78,15 @@ class ReferralsDataProvider
 
         return [
             'search_engine_chart_data' => $searchEngineChart->getData()
+        ];
+    }
+
+    public function getSourceCategoryChartsData()
+    {
+        $searchEngineChart = ChartDataProviderFactory::sourceCategoryChart($this->args);
+
+        return [
+            'source_category_chart_data' => $searchEngineChart->getData()
         ];
     }
 }

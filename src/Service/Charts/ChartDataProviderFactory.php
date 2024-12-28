@@ -2,19 +2,20 @@
 
 namespace WP_Statistics\Service\Charts;
 
-use WP_Statistics\Service\Charts\DataProvider\PerformanceChartDataProvider;
-use WP_Statistics\Service\Charts\DataProvider\SearchEngineChartDataProvider;
-use WP_Statistics\Service\Charts\DataProvider\TrafficChartDataProvider;
-use WP_Statistics\Service\Charts\DataProvider\UsersTrafficChartDataProvider;
-use WP_Statistics\Service\Charts\DataProvider\PlatformChartDataProvider;
-use WP_Statistics\Service\Charts\DataProvider\PublishOverviewChartDataProvider;
-use WP_Statistics\Service\Charts\DataProvider\AuthorsPostViewsChartDataProvider;
-use WP_Statistics\Service\Charts\DataProvider\BrowserChartDataProvider;
 use WP_Statistics\Service\Charts\DataProvider\OsChartDataProvider;
-use WP_Statistics\Service\Charts\DataProvider\DeviceChartDataProvider;
-use WP_Statistics\Service\Charts\DataProvider\ExclusionsChartDataProvider;
 use WP_Statistics\Service\Charts\DataProvider\MapChartDataProvider;
 use WP_Statistics\Service\Charts\DataProvider\ModelChartDataProvider;
+use WP_Statistics\Service\Charts\DataProvider\DeviceChartDataProvider;
+use WP_Statistics\Service\Charts\DataProvider\BrowserChartDataProvider;
+use WP_Statistics\Service\Charts\DataProvider\TrafficChartDataProvider;
+use WP_Statistics\Service\Charts\DataProvider\PlatformChartDataProvider;
+use WP_Statistics\Service\Charts\DataProvider\ExclusionsChartDataProvider;
+use WP_Statistics\Service\Charts\DataProvider\PerformanceChartDataProvider;
+use WP_Statistics\Service\Charts\DataProvider\SearchEngineChartDataProvider;
+use WP_Statistics\Service\Charts\DataProvider\UsersTrafficChartDataProvider;
+use WP_Statistics\Service\Charts\DataProvider\SourceCategoryChartDataProvider;
+use WP_Statistics\Service\Charts\DataProvider\PublishOverviewChartDataProvider;
+use WP_Statistics\Service\Charts\DataProvider\AuthorsPostViewsChartDataProvider;
 
 class ChartDataProviderFactory
 {
@@ -159,5 +160,16 @@ class ChartDataProviderFactory
     public static function exclusionsChart($args)
     {
         return new ExclusionsChartDataProvider($args);
+    }
+
+    /**
+     * Returns a new instance of SourceCategoryChartDataProvider.
+     *
+     * @param array $args
+     * @return SourceCategoryChartDataProvider
+     */
+    public static function sourceCategoryChart($args)
+    {
+        return new SourceCategoryChartDataProvider($args);
     }
 }

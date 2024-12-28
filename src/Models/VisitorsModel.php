@@ -586,7 +586,7 @@ class VisitorsModel extends BaseModel
             ->groupBy('visitor_id')
             ->getQuery();
 
-        $result = Query::select([
+        $query = Query::select([
             'visitor.ID',
             'visitor.ip',
             'visitor.platform',
@@ -614,21 +614,30 @@ class VisitorsModel extends BaseModel
             ->join('users', ['visitor.user_id', 'users.ID'], [], 'LEFT')
             ->joinQuery($firstHitQuery, ['visitor.ID', 'first_hit.visitor_id'], 'first_hit', 'LEFT')
             ->joinQuery($lastHitQuery, ['visitor.ID', 'last_hit.visitor_id'], 'last_hit', 'LEFT')
-            ->where('source_channel', '=', $args['source_channel'])
             ->where('source_name', '=', $args['source_name'])
             ->where('referred', '=', $args['referrer'])
             ->whereDate('visitor.last_counter', $args['date'])
+            ->perPage($args['page'], $args['per_page'])
+            ->orderBy($args['order_by'], $args['order'])
+            ->decorate(VisitorDecorator::class);
+
+        // When source_channel is `unassigned`, only get visitors without source_channel
+        if ($args['source_channel'] === 'unassigned') {
+            $query
+                ->whereNotNull('visitor.referred')
+                ->whereNull('visitor.source_channel');
+        } else {
+            $query
+            ->where('source_channel', '=', $args['source_channel'])
             ->whereRaw("
                 AND (
                     (visitor.referred != '' AND visitor.referred IS NOT NULL)
-                    OR
-                    (visitor.source_channel IS NOT NULL AND visitor.source_channel != '' AND visitor.source_channel != 'direct')
+                    OR (visitor.source_channel IS NOT NULL AND visitor.source_channel != '' AND visitor.source_channel != 'direct')
                 )
-            ")
-            ->perPage($args['page'], $args['per_page'])
-            ->orderBy($args['order_by'], $args['order'])
-            ->decorate(VisitorDecorator::class)
-            ->getAll();
+            ");
+        }
+
+        $result = $query->getAll();
 
         return $result ?? [];
     }
@@ -642,9 +651,8 @@ class VisitorsModel extends BaseModel
             'referrer'          => ''
         ]);
 
-        $result = Query::select('COUNT(visitor.ID)')
+        $query = Query::select('COUNT(visitor.ID)')
             ->from('visitor')
-            ->where('source_channel', '=', $args['source_channel'])
             ->where('source_name', '=', $args['source_name'])
             ->where('referred', '=', $args['referrer'])
             ->whereDate('visitor.last_counter', $args['date'])
@@ -653,10 +661,25 @@ class VisitorsModel extends BaseModel
                     (visitor.referred != '' AND visitor.referred IS NOT NULL)
                     OR (visitor.source_channel IS NOT NULL AND visitor.source_channel != '' AND visitor.source_channel != 'direct')
                 )
-            ")
-            ->getVar();
+            ");
 
-        return $result ?? [];
+        // When source_channel is `unassigned`, only get visitors without source_channel
+        if ($args['source_channel'] === 'unassigned') {
+            $query
+                ->whereNotNull('visitor.referred')
+                ->whereNull('visitor.source_channel');
+        } else {
+            $query
+                ->where('source_channel', '=', $args['source_channel'])
+                ->whereRaw("
+                    AND (
+                        (visitor.referred != '' AND visitor.referred IS NOT NULL)
+                        OR (visitor.source_channel IS NOT NULL AND visitor.source_channel != '' AND visitor.source_channel != 'direct')
+                    )
+                ");
+        }
+
+        return $query->getVar() ?? 0;
     }
 
     public function searchVisitors($args = [])
