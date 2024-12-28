@@ -194,7 +194,7 @@ $excludeCountries   = $options->getExcludedCountries();
                         'svg'         => $cacheIcon,
                         'title'       => __('Caching Plugins Detected', 'wp-statistics'),
                         'description' => __('We have detected the following caching plugin(s) active on your site:', 'wp-statistics'),
-                        'content'     => $filterListsHtml + __('Caching may interfere with tracker.js loading properly.', 'wp-statistics'),
+                        'content'     => $filterListsHtml . __('Caching may interfere with tracker.js loading properly.', 'wp-statistics'),
                         'suggestion'  => esc_html__('Configure your caching plugin to exclude tracker.js from being cached. See our Caching Compatibility guide for detailed steps.', 'wp-statistics'),
                         'status'      => 'info'
                     ];
