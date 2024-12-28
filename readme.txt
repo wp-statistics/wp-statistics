@@ -150,6 +150,7 @@ https://www.youtube.com/watch?v=jxYLVtBdhEc
 - **Enhancement:** Improve source detection method to support sources from the query parameter.
 - **Enhancement:** Updated models to ensure consideration of historical data in the models.
 - **Fix:** Resolved issue with undefined array key `robot_threshold`.
+- **Fix:** Resolved the zero-views issue on the home page.
 
 = 14.11.4 - 2024-12-09 =
 - **Enhancement:** Made the Global Visitor Distribution widget load faster on the Overview page.
