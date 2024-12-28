@@ -46,14 +46,14 @@ class TabsView extends BaseTabView
 
     public function getSearchEnginesData()
     {
-        wp_localize_script(Admin_Assets::$prefix, 'Wp_Statistics_Referrals_Object', $this->dataProvider->getChartsData());
+        wp_localize_script(Admin_Assets::$prefix, 'Wp_Statistics_Referrals_Object', $this->dataProvider->getSearchEnginesChartsData());
 
         return $this->dataProvider->getSearchEngineReferrals();
     }
 
     public function getSourceCategoriesData()
     {
-        // wp_localize_script(Admin_Assets::$prefix, 'Wp_Statistics_Referrals_Object', $this->dataProvider->getChartsData());
+        wp_localize_script(Admin_Assets::$prefix, 'Wp_Statistics_Referrals_Object', $this->dataProvider->getSourceCategoryChartsData());
 
         return $this->dataProvider->getSourceCategories();
     }
@@ -113,6 +113,7 @@ class TabsView extends BaseTabView
             // Remove source channels filter if tab is source categories
             if ($this->isTab('source-categories')) {
                 $args['filters'] = array_values(array_diff($args['filters'], ['source-channels']));
+            }
 
             // Add search channels filter if tab is search engines
             if ($this->isTab('search-engines')) {

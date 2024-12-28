@@ -13,7 +13,7 @@ class SourceChannels
         $channels = [
             'direct'                => esc_html__('Direct Traffic', 'wp-statistics'),
             'search'                => esc_html__('Organic Search', 'wp-statistics'),
-            'paid_search'           => esc_html__('Paid Search', 'wp-statistics')
+            'paid_search'           => esc_html__('Paid Search', 'wp-statistics'),
             'affiliates'            => esc_html__('Affiliates', 'wp-statistics'),
             'audio'                 => esc_html__('Audio', 'wp-statistics'),
             'display'               => esc_html__('Display', 'wp-statistics'),
@@ -28,6 +28,7 @@ class SourceChannels
             'paid_other'            => esc_html__('Paid Other', 'wp-statistics'),
             'referral'              => esc_html__('Referral', 'wp-statistics'),
             'sms'                   => esc_html__('SMS', 'wp-statistics'),
+            'unassigned'            => esc_html__('Unassigned Traffic', 'wp-statistics')
         ];
 
         return apply_filters('wp_statistics_source_channels_list', $channels);
@@ -42,6 +43,6 @@ class SourceChannels
     public static function getName($key)
     {
         $channels = self::getList();
-        return $channels[$key] ?? false;
+        return $channels[$key];
     }
 }
