@@ -336,7 +336,7 @@ $excludeCountries   = $options->getExcludedCountries();
                                     <td class="wps-pd-l">
                                         <?php
                                         $visitDate = new DateTime($visitor->getLastView());
-                                        echo TimeZone::getElapsedTime($currentDate, $visitDate); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                                        echo esc_html(TimeZone::getElapsedTime($currentDate, $visitDate, $visitor->getLastView()));
                                         ?>
                                     </td>
                                     <td class="wps-pd-l">
@@ -378,8 +378,8 @@ $excludeCountries   = $options->getExcludedCountries();
                         'If tracker.js is still not working, visit our <a target="_blank" href="%s">troubleshooting guide</a> for detailed steps or <a target="_blank" href="%s">contact our support team</a> for assistance.',
                         'wp-statistics'
                     ),
-                    esc_url(WP_STATISTICS_SITE_URL.'/contact-us/'),
-                    esc_url(WP_STATISTICS_SITE_URL.'/resources-category/troubleshooting/')
+                    esc_url(WP_STATISTICS_SITE_URL.'/resources-category/troubleshooting/?utm_source=wp-statistics&utm_medium=link&utm_campaign=tracker-debugger'),
+                    esc_url(WP_STATISTICS_SITE_URL.'/contact-us/?utm_source=wp-statistics&utm_medium=link&utm_campaign=tracker-debugger')
                 );
                 ?>
             </p>

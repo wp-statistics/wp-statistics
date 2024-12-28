@@ -21,10 +21,11 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             }
         }
     }
-    const sourceCategoriesData = Wp_Statistics_Referrals_Object.source_category_chart_data;
-    renderChart('sourceCategoriesChart', sourceCategoriesData);
 
     if (typeof Wp_Statistics_Referrals_Object !== 'undefined') {
+        const sourceCategoriesData = Wp_Statistics_Referrals_Object.source_category_chart_data;
+        renderChart('sourceCategoriesChart', sourceCategoriesData);
+
         const incomeVisitorData = Wp_Statistics_Referrals_Object.search_engine_chart_data;
         renderChart('incomeVisitorChart', incomeVisitorData);
     }

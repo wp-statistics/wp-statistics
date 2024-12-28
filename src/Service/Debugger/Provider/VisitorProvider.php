@@ -51,16 +51,12 @@ class VisitorProvider extends AbstractDebuggerProvider
     public function getLatestVisitors()
     {
         $this->visitors = $this->visitorsModel->getVisitorsData([
-            'page_info' => true,
-            'user_info' => true,
+            'page_info' => false,
+            'user_info' => false,
             'order_by' => 'visitor.ID',
             'order' => 'DESC',
             'page' => 1,
-            'per_page' => 3,
-            'date' => [
-                'from' => TimeZone::getTimeAgo(0),
-                'to' => TimeZone::getCurrentDate("Y-m-d")
-            ]
+            'per_page' => 5,
         ]);
 
         return $this->visitors;

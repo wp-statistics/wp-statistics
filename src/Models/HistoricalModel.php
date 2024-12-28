@@ -27,7 +27,7 @@ class HistoricalModel
      *
      * @param array $args Arguments to be parsed. Must contain either 'historical' or 'ignore_date'.
      * @param array $defaults Optional. Default values to merge with provided arguments.
-     * 
+     *
      * @return array|null Parsed and enhanced arguments, or null if required arguments are missing.
      */
     private function parseArgs($args, $defaults = [])
@@ -179,7 +179,7 @@ class HistoricalModel
 
         $result = Query::select('SUM(`value`) AS `historical_views`')
             ->from('historical')
-            ->where('page_id', '=', intval($args['resource_id']))
+            ->where('page_id', '=', $args['resource_id'])
             ->where('uri', '=', $args['uri'])
             ->where('category', '=', $args['category'])
             ->getVar();
