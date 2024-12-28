@@ -1,5 +1,5 @@
 <div class="wps-mb-16"><?php echo esc_html__('This setting means that IP addresses could be stored or processed in their complete form, potentially allowing for the identification of individual users based on their IP addresses.', 'wp-statistics') ?></div>
-<div class="wps-audit-card__suggestion">
+<div class="wps-audit-card__suggestion wps-mb-16">
     <div class="wps-audit-card__suggestion-head"><?php echo esc_html__('Implications', 'wp-statistics') ?></div>
     <div class="wps-audit-card__suggestion-text">
         <ol>

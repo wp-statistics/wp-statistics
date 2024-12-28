@@ -1,4 +1,4 @@
-<p class="wps-mb-16"><?php echo esc_html__('This default setting ensures that extensive details about your visitors’ browsing environments are not recorded, aligning with best practices for user privacy and data minimization.', 'wp-statistics') ?></p>
+<div class="wps-mb-16"><?php echo esc_html__('This default setting ensures that extensive details about your visitors’ browsing environments are not recorded, aligning with best practices for user privacy and data minimization.', 'wp-statistics') ?></div>
 <div class="wps-audit-card__suggestion wps-mb-16">
     <div class="wps-audit-card__suggestion-head"><?php echo esc_html__('Why This Matters?', 'wp-statistics') ?></div>
     <div class="wps-audit-card__suggestion-text">

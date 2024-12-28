@@ -1,4 +1,4 @@
-<p class="wps-mb-16"><?php echo esc_html__('Unlike many analytics solutions that rely on cookies to track users across a website, WP Statistics employs a method of counting unique visitors that does not involve the use of cookies. This approach ensures privacy compliance and minimizes the need for user consent related to cookie usage.', 'wp-statistics') ?></p>
+<div class="wps-mb-16"><?php echo esc_html__('Unlike many analytics solutions that rely on cookies to track users across a website, WP Statistics employs a method of counting unique visitors that does not involve the use of cookies. This approach ensures privacy compliance and minimizes the need for user consent related to cookie usage.', 'wp-statistics') ?></div>
 <div class="wps-audit-card__suggestion wps-mb-16">
     <div class="wps-audit-card__suggestion-head"><?php echo esc_html__('Why a Cookie Banner is Not Required', 'wp-statistics') ?></div>
     <div class="wps-audit-card__suggestion-text">
