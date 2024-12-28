@@ -35,13 +35,23 @@ class ReferralDecorator
     }
 
     /**
-     * Get the source channel (e.g., direct, search, etc.).
+     * Get the source channel name (e.g., Direct, Organic Search, etc.).
      *
      * @return string|null
      */
     public function getSourceChannel()
     {
         return SourceChannels::getName($this->item->source_channel);
+    }
+
+    /**
+     * Get the raw source channel value (e.g., direct, search, etc.).
+     *
+     * @return string|null
+     */
+    public function getRawSourceChannel()
+    {
+        return $this->item->source_channel ?? 'unassigned';
     }
 
     /**

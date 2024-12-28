@@ -47,10 +47,10 @@ use WP_STATISTICS\Menus;
                                         <td class="wps-pd-l"><?php echo esc_html($referral->getSourceChannel()) ?></td>
 
                                         <td class="wps-pd-l start">
-                                            <a href=""><?php echo esc_html($referral->getTotalReferrals()) ?></a>
+                                            <a href="<?php echo Menus::admin_url('referrals', ['tab' => 'referred-visitors', 'source_channel' => $referral->getRawSourceChannel()]) ?>"><?php echo esc_html($referral->getTotalReferrals()) ?></a>
                                         </td>
 
-                                        <td class=" wps-pd-l"><?php echo Helper::calculatePercentage($referral->getTotalReferrals(true), $data['total']) ?></td>
+                                        <td class=" wps-pd-l"><?php echo esc_html(Helper::calculatePercentage($referral->getTotalReferrals(true), $data['total']) . '%') ?></td>
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>
