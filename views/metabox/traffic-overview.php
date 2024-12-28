@@ -74,23 +74,23 @@ $prevViews      = $data['total']['views']['prev'];
                 </tr>
                 <tr>
                     <td><b><?php esc_html_e('Last 7 days', 'wp-statistics'); ?></b></td>
-                    <td><a href="<?php echo Menus::admin_url('visitors', array_merge(['tab' => 'visitors'], DateRange::get('7days'))) ?>"><span class="quickstats-values"><?php echo esc_html($data['visitors']['7days']['visitors']) ?></span></a></td>
-                    <td><a href="<?php echo Menus::admin_url('visitors', array_merge(['tab' => 'views'], DateRange::get('7days'))) ?>"><span class="quickstats-values"><?php echo esc_html($data['views']['7days']['views']) ?></span></a></td>
+                    <td><a href="<?php echo Menus::admin_url('visitors', array_merge(['tab' => 'visitors'], DateRange::get('7days'))) ?>"><span class="quickstats-values"><?php echo esc_html(number_format_i18n($data['visitors']['7days']['visitors'])) ?></span></a></td>
+                    <td><a href="<?php echo Menus::admin_url('visitors', array_merge(['tab' => 'views'], DateRange::get('7days'))) ?>"><span class="quickstats-values"><?php echo esc_html(number_format_i18n($data['views']['7days']['views'])) ?></span></a></td>
                 </tr>
                 <tr>
                     <td><b><?php esc_html_e('Last 30 days', 'wp-statistics'); ?></b></td>
-                    <td><a href="<?php echo Menus::admin_url('visitors', array_merge(['tab' => 'visitors'], DateRange::get('30days'))) ?>"><span class="quickstats-values"><?php echo esc_html($data['visitors']['30days']['visitors']) ?></span></a></td>
-                    <td><a href="<?php echo Menus::admin_url('visitors', array_merge(['tab' => 'views'], DateRange::get('30days'))) ?>"><span class="quickstats-values"><?php echo esc_html($data['views']['30days']['views']) ?></span></a></td>
+                    <td><a href="<?php echo Menus::admin_url('visitors', array_merge(['tab' => 'visitors'], DateRange::get('30days'))) ?>"><span class="quickstats-values"><?php echo esc_html(number_format_i18n($data['visitors']['30days']['visitors'])) ?></span></a></td>
+                    <td><a href="<?php echo Menus::admin_url('visitors', array_merge(['tab' => 'views'], DateRange::get('30days'))) ?>"><span class="quickstats-values"><?php echo esc_html(number_format_i18n($data['views']['30days']['views'])) ?></span></a></td>
                 </tr>
                 <tr>
                     <td><b><?php esc_html_e('This year (Jan-Today)', 'wp-statistics'); ?></b></td>
-                    <td><a href="<?php echo Menus::admin_url('visitors', array_merge(['tab' => 'visitors'], DateRange::get('this_year'))) ?>"><span class="quickstats-values"><?php echo esc_html($data['visitors']['this_year']['visitors']) ?></span></a></td>
-                    <td><a href="<?php echo Menus::admin_url('visitors', array_merge(['tab' => 'views'], DateRange::get('this_year'))) ?>"><span class="quickstats-values"><?php echo esc_html($data['views']['this_year']['views']) ?></span></a></td>
+                    <td><a href="<?php echo Menus::admin_url('visitors', array_merge(['tab' => 'visitors'], DateRange::get('this_year'))) ?>"><span class="quickstats-values"><?php echo esc_html(number_format_i18n($data['visitors']['this_year']['visitors'])) ?></span></a></td>
+                    <td><a href="<?php echo Menus::admin_url('visitors', array_merge(['tab' => 'views'], DateRange::get('this_year'))) ?>"><span class="quickstats-values"><?php echo esc_html(number_format_i18n($data['views']['this_year']['views'])) ?></span></a></td>
                 </tr>
                 <tr>
                     <td><b><?php esc_html_e('Total', 'wp-statistics'); ?></b></td>
-                    <td><a href="<?php echo Menus::admin_url('visitors', array_merge(['tab' => 'visitors'], DateRange::get('total'))) ?>"><span class="quickstats-values"><?php echo esc_html($data['visitors']['total']['visitors']) ?></span></a></td>
-                    <td><a href="<?php echo Menus::admin_url('visitors', array_merge(['tab' => 'views'], DateRange::get('total'))) ?>"><span class="quickstats-values"><?php echo esc_html($data['views']['total']['views']) ?></span></a></td>
+                    <td><a href="<?php echo Menus::admin_url('visitors', array_merge(['tab' => 'visitors'], DateRange::get('total'))) ?>"><span class="quickstats-values"><?php echo esc_html(number_format_i18n($data['visitors']['total']['visitors'])) ?></span></a></td>
+                    <td><a href="<?php echo Menus::admin_url('visitors', array_merge(['tab' => 'views'], DateRange::get('total'))) ?>"><span class="quickstats-values"><?php echo esc_html(number_format_i18n($data['views']['total']['views'])) ?></span></a></td>
                 </tr>
             </tbody>
         </table>
