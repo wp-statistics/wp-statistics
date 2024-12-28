@@ -53,7 +53,7 @@ abstract class BaseMetabox
      */
     public function getKey()
     {
-        return $this->key;
+        return "wp_statistics_{$this->key}_metabox";
     }
 
     /**
