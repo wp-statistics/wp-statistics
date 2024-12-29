@@ -438,9 +438,17 @@ if (wps_js.global.page.file === "index.php" || wps_js.is_active('overview_page')
 
 
         if (key === 'traffic_overview') {
+            const selector=jQuery("#" + key + " div.handle-actions");
             if (selector.length && !selector.find('.wps-overview-btn').length) {
-               const link = `<a href="${ wps_js.global.admin_url}'/admin.php?page=wps_overview_page" class="wps-overview-btn">${wps_js._('go_to_overview') }</a>`;
-               selector.append(link);
+               const link = `<a href="${wps_js.global.admin_url}admin.php?page=wps_overview_page" class="wps-overview-btn">${wps_js._('go_to_overview') }</a>`;
+               selector.prepend(link);
+                const overviewBtn = selector.find('.wps-overview-btn');
+                if (overviewBtn.length) {
+                    overviewBtn.on('click', function(e) {
+                        e.preventDefault();
+                        window.location.href = this.href;
+                    });
+                }
             }
         }
 
