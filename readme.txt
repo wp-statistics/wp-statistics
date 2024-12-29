@@ -141,6 +141,7 @@ https://www.youtube.com/watch?v=jxYLVtBdhEc
 = 14.12
 - **Enhancement:** Optimized metabox widgets.
 - **New:** Added "Source Categories" report under the "Referrals".
+- **New:** Added "Social Media" report under the "Referrals".
 - **New:** Added "404 Reports" under the "Page Insights".
 - **New:** Added the Tracker Debugger feature.
 - **Fix:** Resolved issue with showing not queryable post-types in Content Analytics
