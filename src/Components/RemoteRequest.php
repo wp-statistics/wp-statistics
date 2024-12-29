@@ -176,7 +176,6 @@ class RemoteRequest
     /**
      * Validate if response is a valid JSON array
      *
-     * @param mixed $response The response to validate
      * @return bool Returns true if valid JSON array, false otherwise
      */
     public function isValidJsonResponse()
