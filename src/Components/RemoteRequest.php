@@ -82,7 +82,6 @@ class RemoteRequest
     /**
      * Checks if the given HTTP response code indicates a successful request.
      *
-     * @param int $responseCode The HTTP response code.
      * @return bool True if the response code indicates a successful request, false otherwise.
      */
     public function isRequestSuccessful()
