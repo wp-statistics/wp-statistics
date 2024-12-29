@@ -140,6 +140,7 @@ https://www.youtube.com/watch?v=jxYLVtBdhEc
 
 = 14.12 - 2024-12-** =
 - **New:** Added "Source Categories" report under the "Referrals".
+- **New:** Added "Social Media" report under the "Referrals".
 - **New:** Added "404 Reports" under the "Page Insights".
 - **New:** Added "Logged-in Users" under "Visitor Insights".
 - **New:** Added the Tracker Debugger feature.

@@ -27,7 +27,7 @@ class StoredUserAgentStringData extends BaseAudit
             'action_required' => [
                 'status'        => 'warning',
                 'title'         => esc_html__('Previous Use of “Store Entire User Agent String” Detected', 'wp-statistics'),
-                'notes' => View::load('components/privacy-audit/stored-user-agent', [], true),
+                'notes'         => View::load('components/privacy-audit/stored-user-agent', [], true),
                 'compliance'    => [
                     'key'   => 'action_required',
                     'value' => esc_html__('Action Required', 'wp-statistics'),
