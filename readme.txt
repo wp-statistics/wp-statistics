@@ -154,6 +154,7 @@ https://www.youtube.com/watch?v=jxYLVtBdhEc
 - **Fix:** Resolved issue with showing not queryable post-types in Content Analytics
 - **Fix:** Resolved early translation loading issue.
 - **Fix:** Resolved issue with undefined array key `robot_threshold`.
+- **Fix:** Resolved the zero-views issue on the home page.
 - **Fix:** Resolved the Content Analytics zero-views issue for custom post types.
 
 = 14.11.4 - 2024-12-09 =
