@@ -20,6 +20,7 @@ class SourceCategoryChartDataProvider extends AbstractChartDataProvider
         parent::__construct($args);
 
         $this->args['group_by'] = ['visitor.source_channel', 'visitor.last_counter'];
+        $this->args['per_page'] = false;
         $this->args['decorate'] = true;
 
         $this->visitorsModel = new VisitorsModel();
@@ -108,7 +109,7 @@ class SourceCategoryChartDataProvider extends AbstractChartDataProvider
         $prevPeriodTotal = array_fill_keys($prevPeriodDates, 0);
 
         foreach ($data as $item) {
-            $prevPeriodTotal[$item->last_counter] += intval($item->visitors);
+            $prevPeriodTotal[$item->getDate()] += $item->getTotalReferrals(true);
         }
 
         if (!empty($prevPeriodTotal)) {

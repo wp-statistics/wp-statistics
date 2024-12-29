@@ -1003,9 +1003,14 @@ class VisitorsModel extends BaseModel
             'visitor.last_counter'
         ])
             ->from('visitor')
-            ->where('source_channel', 'IN', $args['source_channel'])
             ->where('visitor.location', '=', $args['country'])
-            ->whereNotNull('visitor.referred')
+            ->where('source_channel', 'IN', $args['source_channel'])
+            ->whereRaw("
+                AND (
+                    (visitor.referred != '' AND visitor.referred IS NOT NULL)
+                    OR (visitor.source_channel IS NOT NULL AND visitor.source_channel != '')
+                )
+            ")
             ->groupBy($args['group_by'])
             ->orderBy('visitors')
             ->perPage($args['page'], $args['per_page']);
@@ -1072,7 +1077,12 @@ class VisitorsModel extends BaseModel
         ])
             ->from('visitor')
             ->where('source_channel', 'IN', $args['source_channel'])
-            ->whereNotNull('visitor.referred');
+            ->whereRaw("
+                AND (
+                    (visitor.referred != '' AND visitor.referred IS NOT NULL)
+                    OR (visitor.source_channel IS NOT NULL AND visitor.source_channel != '')
+                )
+            ");
 
         // When date is passed, but all other parameters below are empty, compare the given date with `visitor.last_counter`
         if (!empty($args['date']) && !array_intersect(['post_type', 'post_id', 'query_param', 'taxonomy', 'term'], array_keys($filteredArgs))) {
