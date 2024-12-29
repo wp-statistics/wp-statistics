@@ -49,14 +49,14 @@ class PrivacyAuditDataProvider
     public function getAudits()
     {
         $audits = [
+            'recommend_consent'             => RecommendConsent::class,
             'record_user_page_visits'       => RecordUserPageVisits::class,
             'anonymize_ip_address'          => AnonymizeIpAddress::class,
             'hash_ip_address'               => HashIpAddress::class,
             'store_user_agent_string'       => StoreUserAgentString::class,
             'stored_user_agent_string_data' => StoredUserAgentStringData::class,
             'unhashed_ip_address'           => UnhashedIpAddress::class,
-            'stored_user_id_data'           => StoredUserIdData::class,
-            'recommend_consent'             => RecommendConsent::class
+            'stored_user_id_data'           => StoredUserIdData::class
         ];
 
         return apply_filters('wp_statistics_privacy_audits_list', $audits);
