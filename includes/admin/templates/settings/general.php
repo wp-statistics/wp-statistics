@@ -143,7 +143,7 @@ use WP_STATISTICS\Menus;
             </th>
 
             <td>
-                <a class="button button-primary" href="<?php echo esc_url(Menus::admin_url('wps_tracker-debugger_page')); ?>"><?php esc_html_e('Open Debugger', 'wp-statistics'); ?></a>
+                <a class="button button-primary" href="<?php echo esc_url(Menus::admin_url('wps_tracker-debugger_page')); ?>" target="_blank"><?php esc_html_e('Open Debugger', 'wp-statistics'); ?></a>
                 <p class="description"><?php esc_html_e('Use the Tracker Debugger to inspect and troubleshoot your tracking script, ensuring accurate data collection.', 'wp-statistics'); ?></p>
             </td>
         </tr>
