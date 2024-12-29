@@ -3,6 +3,7 @@ use WP_Statistics\Components\DateRange;
 use WP_STATISTICS\Menus;
 use WP_STATISTICS\Option;
 use WP_Statistics\Components\View;
+use WP_STATISTICS\Helper;
 ?>
 
 <div class="wps-meta-traffic-summary">
@@ -34,8 +35,8 @@ use WP_Statistics\Components\View;
                 ?>
                     <tr>
                         <td><b><?php echo esc_html($label); ?></b></td>
-                        <td><a href="<?php echo Menus::admin_url('visitors', array_merge(['tab' => 'visitors'], DateRange::get($key))); ?>"><span class="quickstats-values"><?php echo esc_html(number_format_i18n($visitors)) ?></span></a></td>
-                        <td><a href="<?php echo Menus::admin_url('visitors', array_merge(['tab' => 'views'], DateRange::get($key))); ?>"><span class="quickstats-values"><?php echo esc_html(number_format_i18n($views)) ?></span></a></td>
+                        <td><a href="<?php echo Menus::admin_url('visitors', array_merge(['tab' => 'visitors'], DateRange::get($key))); ?>"><span class="quickstats-values"><?php echo esc_html(Helper::formatNumberWithUnit($visitors, 1)) ?></span></a></td>
+                        <td><a href="<?php echo Menus::admin_url('visitors', array_merge(['tab' => 'views'], DateRange::get($key))); ?>"><span class="quickstats-values"><?php echo esc_html(Helper::formatNumberWithUnit($views, 1)) ?></span></a></td>
                     </tr>
                 <?php endfor; ?>
             </tbody>
