@@ -132,6 +132,11 @@ class TabsView extends BaseTabView
                 $args['filters'] = ['search-channels'];
             }
 
+            // Add social channels filter if tab is it's social media tab
+            if ($this->isTab('social-media')) {
+                $args['filters'] = ['social-channels'];
+            }
+
             Admin_Template::get_template(['layout/header', 'layout/tabbed-page-header'], $args);
             View::load("pages/referrals/$template", $args);
             Admin_Template::get_template(['layout/postbox.hide', 'layout/referrer.filter', 'layout/footer'], $args);
