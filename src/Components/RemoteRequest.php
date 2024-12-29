@@ -112,7 +112,6 @@ class RemoteRequest
                 return $cachedResponse;
             }
         }
-        $this->parsedArgs['sslverify'] = false;
 
         // Execute the request if no cached result exists or caching is disabled
         $response = wp_remote_request(
