@@ -21,7 +21,7 @@ class AnonymizeIpAddress extends ResolvableAudit
     {
         return [
             'title' => esc_html__('The “Anonymize IP Addresses” feature is currently disabled on your website.', 'wp-statistics'),
-            'notes' => View::load('components/privacy-audit/anonymize-ips', [], true),
+            'notes' => View::load('components/privacy-audit/anonymize-ips-unpassed', [], true),
         ];
     }
 

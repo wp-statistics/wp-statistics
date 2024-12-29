@@ -29,7 +29,7 @@ class RecordUserPageVisits extends ResolvableAudit
         return [
             'title'   => esc_html__('The “Track Logged-In User Activity” feature is currently enabled on your website.', 'wp-statistics'),
             'summary' => esc_html__('User Consent Required.', 'wp-statistics'),
-            'notes'   => View::load('components/privacy-audit/visitors-log', [], true),
+            'notes'   => View::load('components/privacy-audit/visitors-log-unpassed', [], true),
         ];
     }
 }

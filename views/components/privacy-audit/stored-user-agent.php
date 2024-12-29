@@ -1,18 +1,31 @@
-<div class="wps-mb-16"><?php echo esc_html__('Our system has detected remnants of full user agent strings in your database, indicating that the “Store Entire User Agent String” feature was enabled at some point in the past. To align with best practices for user privacy, we recommend clearing this data if it is no longer necessary for diagnostic purposes.') ?> </div>
+<div class="wps-mb-16"><?php echo esc_html__('This default setting ensures that extensive details about your visitors’ browsing environments are not recorded, aligning with best practices for user privacy and data minimization.') ?> </div>
 <div class="wps-audit-card__suggestion wps-mb-16">
-    <div class="wps-audit-card__suggestion-head"><?php echo esc_html__('How to Clear User Agent String Data?', 'wp-statistics') ?></div>
+    <div class="wps-audit-card__suggestion-head"><?php echo esc_html__('Why This Matters?', 'wp-statistics') ?></div>
     <div class="wps-audit-card__suggestion-text">
-        <?php echo __('<ol>
-                <li>Navigate to the <b>Optimization</b> tab.</li>
-                <li>Select <b>Data Cleanup</b>.</li>
-                <li>Click on <b>Clear User Agent Strings</b> to initiate the cleanup process.</li>
-            </ol>
-            <p>This action will remove all previously stored full user agent strings from your database, enhancing privacy and data protection on your website.</p>', 'wp-statistics') ?>
+        <ol>
+            <li><?php echo wp_kses(
+                    __('<b>Privacy Preservation:</b> Disabling this feature helps prevent the collection of data that could potentially identify individuals, fostering a safer and more private browsing experience.', 'wp-statistics'),
+                    array('b' => array())
+                ); ?></li>
+            <li><?php echo wp_kses(
+                    __('<b>Compliance with Privacy Laws:</b> Keeping this setting disabled by default supports compliance with stringent privacy regulations by avoiding the unnecessary collection of detailed user information.', 'wp-statistics'),
+                    array('b' => array())
+                ); ?></li>
+        </ol>
     </div>
 </div>
 <div class="wps-audit-card__suggestion">
-    <div class="wps-audit-card__suggestion-head"><?php echo esc_html__('Need More Information?', 'wp-statistics') ?></div>
+    <div class="wps-audit-card__suggestion-head"><?php echo esc_html__('Recommendations for Use:', 'wp-statistics') ?></div>
     <div class="wps-audit-card__suggestion-text">
-        <?php echo __('<p>For detailed instructions and further information on the importance of this cleanup process, please visit our dedicated resource: <a target="_blank" href="https://wp-statistics.com/resources/how-to-clear-user-agent-strings/?utm_source=wp-statistics&utm_medium=link&utm_campaign=privacy">How to Clear User Agent Strings</a>.</p>', 'wp-statistics') ?>
+        <ol>
+            <li><?php echo wp_kses(
+                    __('<b>Considerations for Enabling:</b> Should you need to enable this feature for debugging or optimization purposes, ensure it’s used judiciously and for a limited time only.', 'wp-statistics'),
+                    array('b' => array())
+                ); ?></li>
+            <li><?php echo wp_kses(
+                    __('<b>Transparency with Users:</b> If activated, update your privacy policy to reflect the temporary collection of full user agent strings, including the purpose and scope of data collection.', 'wp-statistics'),
+                    array('b' => array())
+                ); ?></li>
+        </ol>
     </div>
 </div>
