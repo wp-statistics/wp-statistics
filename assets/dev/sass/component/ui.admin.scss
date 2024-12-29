@@ -2902,6 +2902,12 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
 
     &:hover {
       opacity: 1;
+      box-shadow: none!important;
+      outline: none!important;
+    }
+    &:focus ,&:active{
+       box-shadow: none!important;
+      outline: none!important;
     }
   }
 }
