@@ -8,7 +8,7 @@ wps_js.render_line_chart = function (response, key) {
                 data: params['data'],
                 previousData: params['previousData']
             };
-            if(keyName !== 'wp-statistics-quickstats-widget'){
+            if(keyName !== 'wp_statistics_quickstats_metabox'){
                 wps_js.new_line_chart(data, `${keyName}-chart`);
             }else{
                 const trafficOptions = {
@@ -107,3 +107,4 @@ wps_js.render_line_chart = function (response, key) {
 wps_js.render_wp_statistics_search_widget = wps_js.render_line_chart;
 wps_js.render_wp_statistics_hits_widget = wps_js.render_line_chart;
 wps_js.render_wp_statistics_traffic_summary_widget = wps_js.render_line_chart;
+wps_js.render_wp_statistics_quickstats_widget = wps_js.render_line_chart;
