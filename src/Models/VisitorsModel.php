@@ -628,13 +628,13 @@ class VisitorsModel extends BaseModel
                 ->whereNull('visitor.source_channel');
         } else {
             $query
-            ->where('source_channel', '=', $args['source_channel'])
-            ->whereRaw("
-                AND (
-                    (visitor.referred != '' AND visitor.referred IS NOT NULL)
-                    OR (visitor.source_channel IS NOT NULL AND visitor.source_channel != '' AND visitor.source_channel != 'direct')
-                )
-            ");
+                ->where('source_channel', '=', $args['source_channel'])
+                ->whereRaw("
+                    AND (
+                        (visitor.referred != '' AND visitor.referred IS NOT NULL)
+                        OR (visitor.source_channel IS NOT NULL AND visitor.source_channel != '' AND visitor.source_channel != 'direct')
+                    )
+                ");
         }
 
         $result = $query->getAll();
