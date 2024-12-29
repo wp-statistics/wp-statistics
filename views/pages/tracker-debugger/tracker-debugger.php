@@ -41,7 +41,7 @@ $excludeCountries   = $options->getExcludedCountries();
                     'title'       => __('Tracker.js Not Found', 'wp-statistics'),
                     'description' => __('The tracker.js file is missing or incorrectly placed.', 'wp-statistics'),
                     'content'     => __('Oops! We couldn\'t find your tracker.js file. This means it might be missing or the path is incorrect.', 'wp-statistics'),
-                    'suggestion'  => sprintf(__('Please ensure that the tracker.js file exists in the correct directory. Refer to our <a href="%s" target="_blank" rel="noopener">documentation</a> for guidance.', 'wp-statistics'), esc_url(WP_STATISTICS_SITE_URL . '/documentation/?utm_source=wp-statistics&utm_medium=link&utm_campaign=tracker-debugger')),
+                    'suggestion'  => sprintf(__('Please ensure that the tracker.js file exists in the correct directory. Refer to our <a href="%s" target="_blank" rel="noopener">documentation</a> for guidance.', 'wp-statistics'), esc_url(WP_STATISTICS_SITE_URL . '/resources/troubleshoot-the-tracker/?utm_source=wp-statistics&utm_medium=link&utm_campaign=tracker-debugger')),
                     'status'      => 'danger'
                 ];
 
@@ -76,7 +76,7 @@ $excludeCountries   = $options->getExcludedCountries();
                     'title'       => __('Do Not Track (DNT) is Enabled', 'wp-statistics'),
                     'description' => esc_html__('Some visitors are excluded from tracking based on their browser settings.', 'wp-statistics'),
                     'content'     => __('Your site respects visitors\' browser settings to not track their web activity. This may result in a lower number of tracked visitors.', 'wp-statistics'),
-                    'suggestion'  => sprintf(__('For more details, visit our DNT feature <a href="%s" target="_blank" rel="noopener">documentation</a> .', 'wp-statistics'), esc_url(WP_STATISTICS_SITE_URL . '/documentation/?utm_source=wp-statistics&utm_medium=link&utm_campaign=tracker-debugger')),
+                    'suggestion'  => sprintf(__('For more details, visit our DNT feature <a href="%s" target="_blank" rel="noopener">documentation</a>.', 'wp-statistics'), esc_url(WP_STATISTICS_SITE_URL . '/resources/do-not-track/?utm_source=wp-statistics&utm_medium=link&utm_campaign=tracker-debugger')),
                     'status'      => 'info'
                 ];
 
@@ -252,7 +252,7 @@ $excludeCountries   = $options->getExcludedCountries();
                     'title'       => __('No Filters or Exceptions are Applied', 'wp-statistics'),
                     'description' => __('All visitors are being tracked without exclusions.', 'wp-statistics'),
                     'content'     => '',
-                    'suggestion'  => __('Review these filters in Settings > Filtering & Exceptions. Update if necessary. <a target="_blank" href="' . esc_url(WP_STATISTICS_SITE_URL . '/resources/filtering-exceptions-settings/?utm_source=wp-statistics&utm_medium=link&utm_campaign=tracker-debugger') . '">Learn more</a>  .', 'wp-statistics'),
+                    'suggestion'  => __('Review these filters in Settings > Filtering & Exceptions. Update if necessary.<a target="_blank" href="' . esc_url(WP_STATISTICS_SITE_URL . '/resources/filtering-exceptions-settings/?utm_source=wp-statistics&utm_medium=link&utm_campaign=tracker-debugger') . '">Learn more</a>  .', 'wp-statistics'),
                     'status'      => 'success'
                 ];
 
@@ -262,7 +262,7 @@ $excludeCountries   = $options->getExcludedCountries();
                         'title'       => __('Filters or Exceptions are Applied', 'wp-statistics'),
                         'description' => '',
                         'content'     => $itemFilterListsHtml,
-                        'suggestion'  => esc_html__('Review these filters in Settings > Filtering & Exceptions. Update if necessary. Learn more.', 'wp-statistics'),
+                        'suggestion'  => __('Review these filters in Settings > Filtering & Exceptions. Update if necessary.<a target="_blank" href="' . esc_url(WP_STATISTICS_SITE_URL . '/resources/filtering-exceptions-settings/?utm_source=wp-statistics&utm_medium=link&utm_campaign=tracker-debugger') . '">Learn more</a>  .', 'wp-statistics'),
                         'status'      => 'info'
                     ];
                 }
