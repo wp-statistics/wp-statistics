@@ -308,15 +308,15 @@ class VisitorsModel extends BaseModel
         $summary = [
             'today'      => ['label' => esc_html__('Today', 'wp-statistics'), 'visitors' => 0],
             'yesterday'  => ['label' => esc_html__('Yesterday', 'wp-statistics'), 'visitors' => 0],
-            'this_week'  => ['label' => esc_html__('This Week', 'wp-statistics'), 'visitors' => 0],
-            'last_week'  => ['label' => esc_html__('Last Week', 'wp-statistics'), 'visitors' => 0],
-            'this_month' => ['label' => esc_html__('This Month', 'wp-statistics'), 'visitors' => 0],
-            'last_month' => ['label' => esc_html__('Last Month', 'wp-statistics'), 'visitors' => 0],
+            'this_week'  => ['label' => esc_html__('This week', 'wp-statistics'), 'visitors' => 0],
+            'last_week'  => ['label' => esc_html__('Last week', 'wp-statistics'), 'visitors' => 0],
+            'this_month' => ['label' => esc_html__('This month', 'wp-statistics'), 'visitors' => 0],
+            'last_month' => ['label' => esc_html__('Last month', 'wp-statistics'), 'visitors' => 0],
             '7days'      => ['label' => esc_html__('Last 7 days', 'wp-statistics'), 'visitors' => 0],
             '30days'     => ['label' => esc_html__('Last 30 days', 'wp-statistics'), 'visitors' => 0],
             '90days'     => ['label' => esc_html__('Last 90 days', 'wp-statistics'), 'visitors' => 0],
-            '6months'    => ['label' => esc_html__('Last 6 Months', 'wp-statistics'), 'visitors' => 0],
-            'this_year'  => ['label' => esc_html__('This year (Jan - Today)', 'wp-statistics'), 'visitors' => 0],
+            '6months'    => ['label' => esc_html__('Last 6 months', 'wp-statistics'), 'visitors' => 0],
+            'this_year'  => ['label' => esc_html__('This year (Jan-Today)', 'wp-statistics'), 'visitors' => 0],
         ];
 
         if (!empty($args['ignore_date'])) {
