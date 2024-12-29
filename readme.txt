@@ -140,11 +140,13 @@ https://www.youtube.com/watch?v=jxYLVtBdhEc
 
 = 14.12 - 2024-12-** =
 - **New:** Added "Source Categories" report under the "Referrals".
+- **New:** Added "Social Media" report under the "Referrals".
 - **New:** Added "404 Reports" under the "Page Insights".
 - **New:** Added "Logged-in Users" under "Visitor Insights".
 - **New:** Added the Tracker Debugger feature.
 - **New:** Redesigned "Privacy Audit" page.
 - **New:** Added Visitor Chart on the Single Country Report
+- **New:** Added `Location Detection Method` feature to Site Health.
 - **Enhancement:** Optimized metabox widgets, better performance and support cache handling for better performance
 - **Enhancement:** Added `Location Detection Method` option in geolocation and Cloudflare Geolocation Autodetect
 - **Enhancement:** Improved source detection method to support sources from the query parameter.
