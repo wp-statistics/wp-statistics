@@ -52,6 +52,58 @@ class TrackerProvider extends AbstractDebuggerProvider
     }
 
     /**
+     * Check if AJAX hit recording is blocked.
+     *
+     * @return bool
+     */
+    public function checkHitRecording()
+    {
+        $adBlocker = Option::get('bypass_ad_blockers', false);
+
+        return $adBlocker ? $this->checkAjaxHit() : $this->checkRestHit();
+    }
+
+    /**
+     * Check AJAX endpoint for hit recording
+     *
+     * @return bool Returns true if request works, false if blocked or invalid
+     */
+    private function checkAjaxHit()
+    {
+        $ajax_url = admin_url('admin-ajax.php');
+        $remoteRequest = new RemoteRequest(
+            $ajax_url,
+            'POST',
+            [
+                'action' => 'wp_statistics_hit_record'
+            ]
+        );
+
+        $remoteRequest->execute(false, false);
+
+        return $remoteRequest->isValidJsonResponse();
+    }
+
+    /**
+     * Check REST API endpoint for hit recording
+     *
+     * @return bool Returns true if request works, false if blocked or invalid
+     */
+    private function checkRestHit()
+    {
+        $rest_url = site_url('index.php?rest_route=/wp-statistics/v2/hit');
+        $remoteRequest = new RemoteRequest(
+            $rest_url,
+            'POST',
+            []
+        );
+
+        $remoteRequest->execute(false, false);
+
+        return $remoteRequest->isValidJsonResponse();
+    }
+
+    /**
      * Get tracker status information
      *
      * @return array Array containing tracker existence, path and cache status
@@ -67,10 +119,13 @@ class TrackerProvider extends AbstractDebuggerProvider
      */
     private function initializeData()
     {
+        $fileExists = $this->executeTrackerCheck();
+
         $this->trackerStatus = [
-            'exists' => $this->executeTrackerCheck(),
+            'exists' => $fileExists,
             'path' => $this->trackerPath,
-            'cacheStatus' => $this->getCacheStatus()
+            'cacheStatus' => $this->getCacheStatus(),
+            'hitRecordingStatus' => $fileExists ? $this->checkHitRecording() : false
         ];
     }
 
@@ -82,8 +137,9 @@ class TrackerProvider extends AbstractDebuggerProvider
      */
     public function executeTrackerCheck()
     {
-        $trackerFile = $this->remoteRequest->execute(false, false, HOUR_IN_SECONDS, true);
-        return !empty($trackerFile);
+        $this->remoteRequest->execute(false, false);
+
+        return $this->remoteRequest->isRequestSuccessful();
     }
 
     /**

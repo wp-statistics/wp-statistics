@@ -13,6 +13,18 @@ class RemoteRequest
     private $parsedArgs = [];
 
     /**
+     * Response body from the request.
+     * @var string|null
+     */
+    private $responseCode;
+
+    /**
+     * Response body from the request.
+     * @var string|null
+     */
+    private $responseBody;
+
+    /**
      * @param string $url
      * @param string $method
      * @param array $params URL parameters.
@@ -73,9 +85,9 @@ class RemoteRequest
      * @param int $responseCode The HTTP response code.
      * @return bool True if the response code indicates a successful request, false otherwise.
      */
-    public function isRequestSuccessful($responseCode)
+    public function isRequestSuccessful()
     {
-        return in_array($responseCode, [200, 201, 202]);
+        return in_array($this->responseCode, [200, 201, 202]);
     }
 
     /**
@@ -89,7 +101,7 @@ class RemoteRequest
      *
      * @throws Exception
      */
-    public function execute($throwFailedHttpCodeResponse = true, $useCache = true, $cacheExpiration = HOUR_IN_SECONDS, $getStatus = false)
+    public function execute($throwFailedHttpCodeResponse = true, $useCache = true, $cacheExpiration = HOUR_IN_SECONDS)
     {
         // Generate the cache key
         $cacheKey = $this->generateCacheKey();
@@ -101,6 +113,7 @@ class RemoteRequest
                 return $cachedResponse;
             }
         }
+        $this->parsedArgs['sslverify'] = false;
 
         // Execute the request if no cached result exists or caching is disabled
         $response = wp_remote_request(
@@ -116,32 +129,68 @@ class RemoteRequest
             throw new Exception(esc_html($response->get_error_message()));
         }
 
-        $responseCode = wp_remote_retrieve_response_code($response);
-        $responseBody = wp_remote_retrieve_body($response);
+        $this->responseCode = wp_remote_retrieve_response_code($response);
+        $this->responseBody = wp_remote_retrieve_body($response);
 
-        if ($throwFailedHttpCodeResponse && !$this->isRequestSuccessful($responseCode)) {
+        if ($throwFailedHttpCodeResponse && !$this->isRequestSuccessful()) {
             throw new Exception(sprintf(
                 esc_html__('Failed to get success response. URL: %s, Method: %s, Status Code: %s', 'wp-statistics'),
                 esc_html($this->requestUrl),
                 esc_html($this->parsedArgs['method'] ?? 'GET'),
-                esc_html($responseCode)
+                esc_html($this->responseCode)
             ));
         }
 
-        $responseJson = json_decode($responseBody);
+        $responseJson = json_decode($this->responseBody);
 
         // Cache the result if caching is enabled
-        $resultToCache = ($responseJson === null) ? $responseBody : $responseJson;
+        $resultToCache = ($responseJson === null) ? $this->responseBody : $responseJson;
         if ($useCache) {
-            if ($this->isRequestSuccessful($responseCode) && (is_object($resultToCache) || is_array($resultToCache))) {
+            if ($this->isRequestSuccessful() && (is_object($resultToCache) || is_array($resultToCache))) {
                 $this->setCachedResult($cacheKey, $resultToCache, $cacheExpiration);
             }
         }
 
-        if ($getStatus) {
-            return $this->isRequestSuccessful($responseCode);
+        return $resultToCache;
+    }
+
+    /**
+     * Returns the response body from the executed request
+     * 
+     * @return string|null The response body or null if no request has been executed
+     */
+    public function getResponseBody()
+    {
+        return $this->responseBody;
+    }
+
+    /**
+     * Returns the HTTP response code from the last executed request
+     * 
+     * @return int|null The HTTP response code or null if no request has been executed
+     */
+    public function getResponseCode()
+    {
+        return $this->responseCode;
+    }
+
+    /**
+     * Validate if response is a valid JSON array
+     *
+     * @param mixed $response The response to validate
+     * @return bool Returns true if valid JSON array, false otherwise
+     */
+    public function isValidJsonResponse()
+    {
+        if (
+            !empty($this->responseBody) &&
+            is_string($this->responseBody) &&
+            is_array(json_decode($this->responseBody, true)) &&
+            json_last_error() == 0
+        ) {
+            return true;
         }
 
-        return $resultToCache;
+        return false;
     }
 }
