@@ -23,8 +23,9 @@ class OverviewPage extends BasePage
     public function view()
     {
         $args = [
-            'title'     => esc_html__('Overview', 'wp-statistics'),
-            'tooltip'   => esc_html__('Quickly view your website’s traffic and visitor analytics.', 'wp-statistics')
+            'title'             => esc_html__('Overview', 'wp-statistics'),
+            'tooltip'           => esc_html__('Quickly view your website’s traffic and visitor analytics.', 'wp-statistics'),
+            'real_time_button'  => true
         ];
 
         Modal::showOnce('welcome-premium');

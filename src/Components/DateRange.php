@@ -393,7 +393,7 @@ class DateRange
 
             'total'     => [
                 'period' => [
-                    'from'  => DateTime::get(0),
+                    'from'  => Helper::getInitialPostDate(),
                     'to'    => DateTime::get()
                 ],
                 'prev_period' => [
