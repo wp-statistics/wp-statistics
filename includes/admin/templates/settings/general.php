@@ -5,7 +5,7 @@
 
     function ToggleBypassAdBlockers() {
         var trackingMethod = jQuery('#use_cache_plugin').val();
-        var bypassAdBlockersRow = jQuery('#bypass_ad_blockers_row');
+        var bypassAdBlockersRow = jQuery('.bypass_ad_blockers_row');
         var bypassAdBlockersCheckbox = jQuery('#bypass_ad_blockers');
 
         if (trackingMethod === '0') {
@@ -125,7 +125,7 @@ use WP_STATISTICS\Menus;
             </td>
         </tr>
 
-        <tr valign="top" id="bypass_ad_blockers_row">
+        <tr valign="top" class="bypass_ad_blockers_row">
             <th scope="row">
                 <label for="bypass_ad_blockers"><?php esc_html_e('Bypass Ad Blockers', 'wp-statistics'); ?></label>
             </th>
@@ -137,7 +137,7 @@ use WP_STATISTICS\Menus;
             </td>
         </tr>
 
-        <tr valign="top" id="bypass_ad_blockers_row">
+        <tr valign="top" class="bypass_ad_blockers_row">
             <th scope="row">
                 <label for="bypass_ad_blockers"><?php esc_html_e('Tracker Debugger', 'wp-statistics'); ?></label>
             </th>

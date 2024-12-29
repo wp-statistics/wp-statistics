@@ -117,7 +117,10 @@
               font-weight: 500;
               line-height: 15.23px;
             }
-
+            .o-wrap--no-data{
+              padding-top:0!important;
+              font-weight: 400;
+            }
             td .wps-country-flag .wps-ellipsis-text{
               max-width: 400px!important;
             }

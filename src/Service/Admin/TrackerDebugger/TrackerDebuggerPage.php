@@ -28,7 +28,6 @@ class TrackerDebuggerPage extends BasePage
 
         $args = [
             'title'     => esc_html__('Tracker Debugger', 'wp-statistics'),
-            'tooltip'   => esc_html__('tooltip', 'wp-statistics'),
             'pageName'  => Menus::get_page_slug('tracker_debugger'),
         ];
 

@@ -56,11 +56,7 @@ class VisitorProvider extends AbstractDebuggerProvider
             'order_by' => 'visitor.ID',
             'order' => 'DESC',
             'page' => 1,
-            'per_page' => 3,
-            'date' => [
-                'from' => TimeZone::getTimeAgo(0),
-                'to' => TimeZone::getCurrentDate("Y-m-d")
-            ]
+            'per_page' => 5,
         ]);
 
         return $this->visitors;
