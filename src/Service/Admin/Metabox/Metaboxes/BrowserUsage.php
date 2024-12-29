@@ -7,7 +7,7 @@ use WP_STATISTICS\Menus;
 
 class BrowserUsage extends BaseMetabox
 {
-    protected $key = 'browser_usage';
+    protected $key = 'browsers';
     protected $context = 'side';
 
     public function getName()

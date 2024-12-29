@@ -9,7 +9,7 @@ use WP_Statistics\Abstracts\BaseMetabox;
 
 class PostSummary extends BaseMetabox
 {
-    protected $key = 'post_summary';
+    protected $key = 'post-summary';
     protected $context = 'side';
     protected $priority = 'high';
 

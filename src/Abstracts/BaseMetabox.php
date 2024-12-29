@@ -53,7 +53,7 @@ abstract class BaseMetabox
      */
     public function getKey()
     {
-        return "wp_statistics_{$this->key}_metabox";
+        return "wp-statistics-{$this->key}-widget";
     }
 
     /**
@@ -247,7 +247,8 @@ abstract class BaseMetabox
 
         // If widget is not static, register ajax callback to get dynamic data
         if (!$this->isStatic()) {
-            Ajax::register($this->getKey() . '_metabox_get_data', [$this, 'getResponse'], false);
+            $key = str_replace($this->getKey(), '-', '_');
+            Ajax::register("{$key}_get_data", [$this, 'getResponse'], false);
         }
 
         add_meta_box($this->getKey(), $this->getName(), [$this, 'render'], $this->getScreen(), $this->getContext(), $this->getPriority(), $this->getCallbackArgs());

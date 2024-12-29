@@ -7,7 +7,7 @@ use WP_STATISTICS\Menus;
 
 class TopDeviceModel extends BaseMetabox
 {
-    protected $key = 'top_device_model';
+    protected $key = 'models';
     protected $context = 'side';
 
     public function getName()

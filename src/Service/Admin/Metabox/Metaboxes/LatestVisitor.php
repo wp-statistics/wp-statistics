@@ -7,7 +7,7 @@ use WP_STATISTICS\Menus;
 
 class LatestVisitor extends BaseMetabox
 {
-    protected $key = 'latest_visitor_breakdown';
+    protected $key = 'recent';
     protected $context = 'normal';
 
     public function getName()

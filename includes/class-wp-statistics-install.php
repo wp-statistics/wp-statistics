@@ -641,24 +641,6 @@ class Install
         }
 
         /**
-         * Hide dashboard widgets by default
-         */
-        if (version_compare($installed_version, '14.12', '<')) {
-            $hiddenMetaboxKey   = 'metaboxhidden_dashboard';
-            $userId             = User::get_user_id();
-
-            $hiddenWidgets      = get_user_meta($userId, $hiddenMetaboxKey, true);
-            $hiddenWidgets      = is_array($hiddenWidgets) ? $hiddenWidgets : [];
-
-            foreach (MetaboxHelper::getMetaboxes() as $metabox) {
-                $metabox            = new $metabox();
-                $hiddenWidgets[]    = $metabox->getKey();
-            }
-
-            update_user_meta($userId, $hiddenMetaboxKey, $hiddenWidgets);
-        }
-
-        /**
          * Removes duplicate entries from the visitor_relationships table.
          *
          * @version 14.4

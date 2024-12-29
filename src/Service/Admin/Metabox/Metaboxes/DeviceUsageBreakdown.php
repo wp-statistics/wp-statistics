@@ -7,7 +7,7 @@ use WP_STATISTICS\Menus;
 
 class DeviceUsageBreakdown extends BaseMetabox
 {
-    protected $key = 'device_usage_breakdown';
+    protected $key = 'devices';
     protected $context = 'side';
 
     public function getName()
