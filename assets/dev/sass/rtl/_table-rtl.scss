@@ -1,11 +1,6 @@
 #wp_statistics_editor_meta_box,
-#wp-statistics-browsers-widget,
 #wp-statistics-countries-widget,
 #wp-statistics-hitsmap-widget,
-#wp-statistics-hits-widget,
-#wp-statistics-pages-widget,
-#wp-statistics-referring-widget,
-#wp-statistics-search-widget,
 #wp-statistics-summary-widget,
 #wp-statistics-words-widget,
 #wps_hits_postbox,
@@ -19,11 +14,7 @@
 #wps_browsers_postbox,
 #wps_referring_postbox,
 #wps_countries_postbox,
-#wps_pages_postbox,
-#wp-statistics-models-widget,
-#wp-statistics-platforms-widget,
-#wp-statistics-quickstats-widget,
-#wp-statistics-devices-widge {
+#wps_pages_postbox{
 
   table.o-table {
 
@@ -68,33 +59,6 @@
 }
 
 
-
-#wp-statistics-pages-widget,
-#wp-statistics-countries-widget,
-#wp-statistics-referring-widget {
-  .inside {
-    table tbody tr td a.wps-link-arrow{
-      display: inline-flex !important;
-    }
-    table.o-table {
-      tr {
-        td:last-child, th:last-child {
-          text-align: left !important;
-
-
-          svg {
-            transform: rotate(180deg) !important;
-            margin-left: 0 !important;
-            margin-right: 2px !important;
-          }
-        }
-      }
-    }
-  }
-}
-
-
-
 .o-table-wrapper table.wps-new-table{
   thead th:last-child ,tbody td:last-child {
     &:not(.start){
@@ -113,21 +77,5 @@
 
   tbody tr td .wps-link-arrow:after, tbody tr td.view-more.view-more__arrow a:after{
     transform: rotateY(180deg)
-  }
-}
-
-#wp-statistics-countries-widget, #wp-statistics-pages-widget {
-
-  .inside table.o-table tr {
-    td:last-child, th:last-child {
-
-      a:hover {
-
-        svg {
-
-          transform: rotate(180deg) translateX(3px) !important;
-        }
-      }
-    }
   }
 }

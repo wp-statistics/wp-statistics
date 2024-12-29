@@ -1,14 +1,15 @@
 wps_js.render_line_chart = function (response, key) {
+    const keyName = key.replace(/_/g, '-');
     if (response && response.response) {
-        wps_js.metaBoxInner(key).html(response.response.output);
+        wps_js.metaBoxInner(keyName).html(response.response.output);
         if (response.response?.data) {
             let params = response.response.data;
             const data = {
                 data: params['data'],
                 previousData: params['previousData']
             };
-            if(key !== 'traffic_overview'){
-                wps_js.new_line_chart(data, `${key}_chart`);
+            if(keyName !== 'wp-statistics-quickstats-widget'){
+                wps_js.new_line_chart(data, `${keyName}-chart`);
             }else{
                 const trafficOptions = {
                     scales: {
@@ -73,7 +74,7 @@ wps_js.render_line_chart = function (response, key) {
                         }
                     },
                 };
-                 const trafficChart = wps_js.new_line_chart(data, `wps_${key}_meta_chart`, trafficOptions);
+                 const trafficChart = wps_js.new_line_chart(data, `wps_${keyName}_meta_chart`, trafficOptions);
 
                  function toggleDataset(datasetIndex) {
                     const meta = trafficChart.getDatasetMeta(datasetIndex);
@@ -81,8 +82,8 @@ wps_js.render_line_chart = function (response, key) {
                     trafficChart.update();
                 }
 
-                const visitorsElement = document.querySelector('#traffic_overview .wps-postbox-chart--items:nth-child(2) .wps-postbox-chart--item:nth-child(1) .current-data');
-                const viewsElement = document.querySelector('#traffic_overview .wps-postbox-chart--items:nth-child(2) .wps-postbox-chart--item:nth-child(2) .current-data');
+                const visitorsElement = document.querySelector('#wp-statistics-quickstats-widget .wps-postbox-chart--items:nth-child(2) .wps-postbox-chart--item:nth-child(1) .current-data');
+                const viewsElement = document.querySelector('#wp-statistics-quickstats-widget .wps-postbox-chart--items:nth-child(2) .wps-postbox-chart--item:nth-child(2) .current-data');
                 if (visitorsElement) {
                     visitorsElement.addEventListener('click', function () {
                         this.querySelector('span:first-child').classList.toggle('wps-line-through');
@@ -103,7 +104,6 @@ wps_js.render_line_chart = function (response, key) {
 };
 
 
-wps_js.render_wp_statistics_search_engines_metabox = wps_js.render_line_chart;
-wps_js.render_wp_statistics_daily_traffic_trend_metabox = wps_js.render_line_chart;
-wps_js.render_wp_statistics_traffic_overview_metabox = wps_js.render_line_chart;
-
+wps_js.render_wp_statistics_search_widget = wps_js.render_line_chart;
+wps_js.render_wp_statistics_hits_widget = wps_js.render_line_chart;
+wps_js.render_wp_statistics_traffic_summary_widget = wps_js.render_line_chart;

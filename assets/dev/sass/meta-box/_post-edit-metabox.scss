@@ -1,5 +1,5 @@
 
-#post_latest_visitors{
+#wp-statistics-post-visitors-widget{
   .inside{
     .inside{
       padding: 0;
@@ -12,12 +12,16 @@
       padding: 15px !important;
       text-align: center;
     }
-
     .o-table.wps-new-table{
       width: 100%;
       border-collapse: collapse;
     }
-
+    .o-table-wrapper{
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      scrollbar-width: thin;
+      scrollbar-color: rgb(218, 220, 224) rgb(250, 250, 251);
+    }
   }
 
   thead{
@@ -126,7 +130,7 @@
   }
 }
 .edit-post-meta-boxes-area {
-  .ui-sortable #post_latest_visitors {
+  .ui-sortable #wp-statistics-post-visitors-widget {
     background: $white-color !important;
 
      .postbox-header {

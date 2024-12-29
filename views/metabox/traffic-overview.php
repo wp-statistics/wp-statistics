@@ -48,7 +48,7 @@ $prevViews      = $data['total']['views']['prev'];
             </div>
         </div>
         <div class="wps-postbox-chart--container">
-            <canvas id="wp_statistics_traffic_overview_metabox_chart" height="166"></canvas>
+            <canvas id="wp-statistics-quickstats-widget-chart" height="166"></canvas>
         </div>
     </div>
 

@@ -1,9 +1,10 @@
-wps_js.render_wp_statistics_global_visitor_distribution_metabox = function (response, key) {
+wps_js.render_wp_statistics_hitsmap_widget = function (response, key) {
     if (!response?.response) return;
+    const keyName = key.replace(/_/g, '-');
     const {output, data: params} = response.response;
     let pin = Array();
     let colors = {};
-    wps_js.metaBoxInner(key).html(output);
+    wps_js.metaBoxInner(keyName).html(output);
 
     if (params?.codes?.length > 0) {
         const countryData = {};

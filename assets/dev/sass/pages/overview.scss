@@ -4,12 +4,6 @@ body.toplevel_page_wps_overview_page {
     display: none !important;
   }
 
-  #wp-statistics-search-widget{
-    .wps-postbox-chart--data{
-      margin-top: 0!important;
-    }
-  }
-
   #side-sortables {
     .postbox {
 
@@ -54,28 +48,8 @@ body.toplevel_page_wps_overview_page {
       }
     }
   }
-
-  #normal-sortables #wp-statistics-top-visitors-widget {
-    table {
-
-      tr {
-        td:not(:first-child), th:not(:first-child) {
-          @media screen and (min-width: 1120px) and (max-width: 1500px) {
-            padding: 14px 0 14px 26px;
-          }
-        }
-
-        td:nth-child(2), th:nth-child(2) {
-          @media screen and (min-width: 1120px) and (max-width: 1500px) {
-            padding: 14px 0 14px 26px;
-            width: 60px;
-          }
-        }
-      }
-    }
-  }
 }
-#traffic_hour{
+#wp-statistics-hourly-usage-widget{
   .wps-postbox-chart--items{
     column-gap: 12px;
   }
@@ -101,13 +75,6 @@ body.toplevel_page_wps_overview_page {
 
 body.toplevel_page_wps_overview_page,
 #dashboard-widgets-wrap {
-
-  #wp-statistics-quickstats-widget , #wp-statistics-search-widget{
-    .o-wrap{
-      padding: 12px 24px !important;
-      padding-top: 0 !important;
-    }
-  }
 
   .postbox-header:has(.wps-tooltip) {
     h2.hndle {

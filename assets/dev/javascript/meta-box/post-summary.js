@@ -1,4 +1,4 @@
-wps_js.render_post_summary = function(response, key){
+wps_js.render_wp_statistics_post_summary_widget = function(response, key){
     const post_summary_chart =   (elementId, args = []) => {
         let postChartData = args.postChartData;
         let postChartSettings = [];
