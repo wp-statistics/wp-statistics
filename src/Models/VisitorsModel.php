@@ -988,7 +988,6 @@ class VisitorsModel extends BaseModel
             'term'          => '',
             'referrer'      => '',
             'group_by'      => 'visitor.referred',
-            'not_null'      => 'visitor.referred',
             'page'          => 1,
             'per_page'      => 10,
             'decorate'      => false
@@ -1006,7 +1005,7 @@ class VisitorsModel extends BaseModel
             ->from('visitor')
             ->where('source_channel', 'IN', $args['source_channel'])
             ->where('visitor.location', '=', $args['country'])
-            ->whereNotNull($args['not_null'])
+            ->whereNotNull('visitor.referred')
             ->groupBy($args['group_by'])
             ->orderBy('visitors')
             ->perPage($args['page'], $args['per_page']);
@@ -1063,8 +1062,7 @@ class VisitorsModel extends BaseModel
             'country'       => '',
             'query_param'   => '',
             'taxonomy'      => '',
-            'term'          => '',
-            'not_null'      => 'visitor.referred'
+            'term'          => ''
         ]);
 
         $filteredArgs = array_filter($args);
@@ -1074,7 +1072,7 @@ class VisitorsModel extends BaseModel
         ])
             ->from('visitor')
             ->where('source_channel', 'IN', $args['source_channel'])
-            ->whereNotNull($args['not_null']);
+            ->whereNotNull('visitor.referred');
 
         // When date is passed, but all other parameters below are empty, compare the given date with `visitor.last_counter`
         if (!empty($args['date']) && !array_intersect(['post_type', 'post_id', 'query_param', 'taxonomy', 'term'], array_keys($filteredArgs))) {
