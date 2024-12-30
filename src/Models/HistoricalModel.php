@@ -23,6 +23,16 @@ class HistoricalModel
     private $type = null;
 
     /**
+     * Keys allowed for visitor argument parsing.
+     */
+    private const VALID_VISITOR_KEYS = [
+        'ignore_post_type',
+        'ignore_date',
+        'historical',
+        'prev_data'
+    ];
+
+    /**
      * Parse and validate the arguments for processing visitors data.
      *
      * This method ensures that the arguments meet the required criteria 
@@ -42,8 +52,10 @@ class HistoricalModel
             return null;
         }
 
+        $args = wp_parse_args($args, $defaults);
+
         foreach ($args as $key => $value) {
-            if ('historical' === $key || 'ignore_date' === $key) {
+            if (in_array($key, self::VALID_VISITOR_KEYS, true)) {
                 continue;
             }
 
