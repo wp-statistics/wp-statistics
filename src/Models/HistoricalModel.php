@@ -23,16 +23,6 @@ class HistoricalModel
     private $type = null;
 
     /**
-     * Keys allowed for visitor argument parsing.
-     */
-    private const VALID_VISITOR_KEYS = [
-        'ignore_post_type',
-        'ignore_date',
-        'historical',
-        'prev_data'
-    ];
-
-    /**
      * Parse and validate the arguments for processing visitors data.
      *
      * This method ensures that the arguments meet the required criteria 
@@ -45,6 +35,7 @@ class HistoricalModel
      *                        Defaults to an empty array.
      *
      * @return array|null Parsed arguments if valid; null otherwise.
+     * @todo We have to migrate to the baseModel. we have to add a list of the allowed arguments to prevent passing extra args.
      */
     private function parseVisitorsArgs($args, $defaults = [])
     {
@@ -55,7 +46,7 @@ class HistoricalModel
         $args = wp_parse_args($args, $defaults);
 
         foreach ($args as $key => $value) {
-            if (in_array($key, self::VALID_VISITOR_KEYS, true)) {
+            if (in_array($key, ['ignore_post_type', 'ignore_date', 'historical'], true)) {
                 continue;
             }
 
