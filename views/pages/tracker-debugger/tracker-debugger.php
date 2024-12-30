@@ -6,7 +6,7 @@ use WP_STATISTICS\Helper;
 use WP_STATISTICS\Menus;
 use WP_STATISTICS\TimeZone;
 
-$currentDate = new DateTime(date_i18n(Helper::getDefaultDateFormat(true, true, false, ', '), strtotime(TimeZone::getRealCurrentDate())));
+$currentDate = TimeZone::getCurrentDate();
 
 $excludedIPs        = $options->getExcludedIPs();
 $userRoleExclusions = $options->getUserRoleExclusions();
@@ -45,7 +45,7 @@ $trackerStatus      = $tracker->getTrackerStatus();
                     'suggestion'  => sprintf(__('Please ensure that the tracker.js file exists in the correct directory. Refer to our <a href="%s" target="_blank" rel="noopener">documentation</a> for guidance.', 'wp-statistics'), esc_url(WP_STATISTICS_SITE_URL . '/resources/troubleshoot-the-tracker/?utm_source=wp-statistics&utm_medium=link&utm_campaign=tracker-debugger')),
                     'status'      => 'danger'
                 ];
-                
+
                 if (! empty($trackerStatus['exists'])) {
                     $trackerData = [
                         'svg'         => $trackerIcon,
@@ -119,7 +119,10 @@ $trackerStatus      = $tracker->getTrackerStatus();
                     'title'       => __('Consent Plugin Integration is Active', 'wp-statistics'),
                     'description' => esc_html__('Visitors must give consent before tracker.js runs.', 'wp-statistics'),
                     'content'     => __('Tracker.js will not run until visitors provide consent. This may result in up to 50% of visitors not being tracked.', 'wp-statistics'),
-                    'suggestion'  => __('Consider enabling "Anonymous Tracking" to track all visitors anonymously. Learn more in our <a target="_blank" href="' . esc_url(WP_STATISTICS_SITE_URL . '/resources/wp-consent-level-integration/?utm_source=wp-statistics&utm_medium=link&utm_campaign=tracker-debugger') . '">Consent Integration guide</a>.', 'wp-statistics'),
+                    'suggestion' => sprintf(
+                        __('Consider enabling "Anonymous Tracking" to track all visitors anonymously. Learn more in our <a target="_blank" href="%s">Consent Integration guide</a>.', 'wp-statistics'),
+                        esc_url(WP_STATISTICS_SITE_URL . '/resources/wp-consent-level-integration/?utm_source=wp-statistics&utm_medium=link&utm_campaign=tracker-debugger')
+                    ),
                     'status'      => 'info'
                 ];
 
@@ -270,7 +273,10 @@ $trackerStatus      = $tracker->getTrackerStatus();
                     'title'       => __('No Filters or Exceptions are Applied', 'wp-statistics'),
                     'description' => __('All visitors are being tracked without exclusions.', 'wp-statistics'),
                     'content'     => '',
-                    'suggestion'  => __('Review these filters in Settings > Filtering & Exceptions. Update if necessary.<a target="_blank" href="' . esc_url(WP_STATISTICS_SITE_URL . '/resources/filtering-exceptions-settings/?utm_source=wp-statistics&utm_medium=link&utm_campaign=tracker-debugger') . '">Learn more</a>  .', 'wp-statistics'),
+                    'suggestion'  => sprintf(
+                        __('Review these filters in Settings > Filtering & Exceptions. Update if necessary. <a target="_blank" href="%s">Learn more</a>.', 'wp-statistics'),
+                        esc_url(WP_STATISTICS_SITE_URL . '/resources/filtering-exceptions-settings/?utm_source=wp-statistics&utm_medium=link&utm_campaign=tracker-debugger')
+                    ),
                     'status'      => 'success'
                 ];
 
@@ -280,7 +286,10 @@ $trackerStatus      = $tracker->getTrackerStatus();
                         'title'       => __('Filters or Exceptions are Applied', 'wp-statistics'),
                         'description' => '',
                         'content'     => $itemFilterListsHtml,
-                        'suggestion'  => __('Review these filters in Settings > Filtering & Exceptions. Update if necessary.<a target="_blank" href="' . esc_url(WP_STATISTICS_SITE_URL . '/resources/filtering-exceptions-settings/?utm_source=wp-statistics&utm_medium=link&utm_campaign=tracker-debugger') . '">Learn more</a>  .', 'wp-statistics'),
+                        'suggestion'  => sprintf(
+                            __('Review these filters in Settings > Filtering & Exceptions. Update if necessary. <a target="_blank" href="%s">Learn more</a>.', 'wp-statistics'),
+                            esc_url(WP_STATISTICS_SITE_URL . '/resources/filtering-exceptions-settings/?utm_source=wp-statistics&utm_medium=link&utm_campaign=tracker-debugger')
+                        ),
                         'status'      => 'info'
                     ];
                 }
@@ -353,8 +362,8 @@ $trackerStatus      = $tracker->getTrackerStatus();
                                 <tr>
                                     <td class="wps-pd-l">
                                         <?php
-                                        $visitDate = new DateTime($visitor->getLastView());
-                                        echo esc_html(TimeZone::getElapsedTime($currentDate, $visitDate, $visitor->getLastView()));
+                                        $visitDate = new DateTime($visitor->getLastView(true));
+                                        echo esc_html(TimeZone::getElapsedTime($currentDate, $visitDate, $visitor->getLastView(true)));
                                         ?>
                                     </td>
                                     <td class="wps-pd-l">
