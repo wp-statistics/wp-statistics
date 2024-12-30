@@ -138,7 +138,11 @@ class HistoricalModel
      */
     public function getVisitors($args)
     {
-        $args = $this->parseArgs($args);
+        $args = $this->parseArgs($args, [
+            'resource_id' => '',
+            'uri'         => '',
+            'category'    => 'visitors',
+        ]);
 
         if (is_null($args)) {
             return 0;
@@ -146,7 +150,9 @@ class HistoricalModel
 
         $result = Query::select('SUM(`value`) AS `historical_views`')
             ->from('historical')
-            ->where('category', '=', 'visitors')
+            ->where('page_id', '=', $args['resource_id'])
+            ->where('uri', '=', $args['uri'])
+            ->where('category', '=', $args['category'])
             ->getVar();
 
         return $result ?? 0;
