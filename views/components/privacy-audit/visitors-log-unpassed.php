@@ -2,7 +2,7 @@
 <div class="wps-audit-card__suggestion wps-mb-16">
     <div class="wps-audit-card__suggestion-head"><?php echo esc_html__('Why is this important?', 'wp-statistics') ?></div>
     <div class="wps-audit-card__suggestion-text">
-        <?php echo esc_html__('<p>Enabling this feature necessitates a careful approach to privacy and data protection. To maintain compliance with privacy laws such as GDPR and CCPA, and to uphold user trust, please ensure the following:</p><br>') ?>
+        <?php echo __('<p>Enabling this feature necessitates a careful approach to privacy and data protection. To maintain compliance with privacy laws such as GDPR and CCPA, and to uphold user trust, please ensure the following:</p>') ?>
         <ol>
             <li><?php echo __('<b>Transparency:</b> Your website’s privacy policy should clearly describe the data collection practices, including the specific types of data collected and their intended use.', 'wp-statistics') ?></li>
             <li><?php echo __('<b>Informed Consent:</b> Adequate measures are in place to inform users about the data collection and to obtain their consent where necessary. This may include consent banners, notifications, or other user interfaces that clearly communicate this information.', 'wp-statistics') ?></li>

@@ -20,15 +20,15 @@ class RequireMention extends AbstractFaq
                 'status'  => $status,
                 'title'   => $title,
                 'icon'    => $icon,
-                'summary' => esc_html__('Mentioning Required', 'wp-statistics'),
-                'notes'   => __('<p>Your configuration indicates that WP Statistics collects personal data. In this scenario, it is crucial to mention WP Statistics in your privacy policy. This should include information on the type of data collected, its purpose, and how it is processed. Being transparent about the use of WP Statistics and its data handling practices is essential to comply with privacy regulations and to maintain trust with your website visitors</p><br><p>For more information on adjusting your settings to enhance privacy and for specifics on what to include in your privacy policy, please see the Privacy Audit section of this page</p>', 'wp-statistics')
+                'summary' => esc_html__('Mentioning Not Strictly Necessary', 'wp-statistics'),
+                'notes'   => __('<p>According to your current setup, WP Statistics is not configured to record any personal data. This means that technically, you do not need to mention WP Statistics in your privacy policy. However, to foster an environment of utmost transparency with your users, we still encourage mentioning the use of WP Statistics. This helps inform users about the analytics tools employed by your site, reinforcing trust through transparency.</p>', 'wp-statistics')
             ],
             'warning' => [
                 'status'  => $status,
                 'title'   => $title,
                 'icon'    => $icon,
                 'summary' => esc_html__('Mentioning Required', 'wp-statistics'),
-                'notes'   => __('<p>Your configuration indicates that WP Statistics collects personal data. In this scenario, it is crucial to mention WP Statistics in your privacy policy. This should include information on the type of data collected, its purpose, and how it is processed. Being transparent about the use of WP Statistics and its data handling practices is essential to comply with privacy regulations and to maintain trust with your website visitors</p><br><p>For more information on adjusting your settings to enhance privacy and for specifics on what to include in your privacy policy, please see the Privacy Audit section of this page</p>', 'wp-statistics')
+                'notes'   => __('<p>Your configuration indicates that WP Statistics collects personal data. In this scenario, it is crucial to mention WP Statistics in your privacy policy. This should include information on the type of data collected, its purpose, and how it is processed. Being transparent about the use of WP Statistics and its data handling practices is essential to comply with privacy regulations and to maintain trust with your website visitors</p><p>For more information on adjusting your settings to enhance privacy and for specifics on what to include in your  <b>privacy policy</b>, please see the Privacy Audit section of this page</p>', 'wp-statistics')
             ],
         ];
     }
