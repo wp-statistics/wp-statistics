@@ -47,6 +47,10 @@ abstract class BaseModel
     private function parseResourceTypeArg($args)
     {
         if (!empty($args['resource_type'])) {
+            if (is_string($args['resource_type'])) {
+                $args['resource_type'] = [$args['resource_type']];
+            }
+
             foreach ($args['resource_type'] as $key => $value) {
                 if (!in_array($value, Helper::getPostTypes())) {
                     continue;
