@@ -308,15 +308,15 @@ class VisitorsModel extends BaseModel
         $summary = [
             'today'      => ['label' => esc_html__('Today', 'wp-statistics'), 'visitors' => 0],
             'yesterday'  => ['label' => esc_html__('Yesterday', 'wp-statistics'), 'visitors' => 0],
-            'this_week'  => ['label' => esc_html__('This Week', 'wp-statistics'), 'visitors' => 0],
-            'last_week'  => ['label' => esc_html__('Last Week', 'wp-statistics'), 'visitors' => 0],
-            'this_month' => ['label' => esc_html__('This Month', 'wp-statistics'), 'visitors' => 0],
-            'last_month' => ['label' => esc_html__('Last Month', 'wp-statistics'), 'visitors' => 0],
+            'this_week'  => ['label' => esc_html__('This week', 'wp-statistics'), 'visitors' => 0],
+            'last_week'  => ['label' => esc_html__('Last week', 'wp-statistics'), 'visitors' => 0],
+            'this_month' => ['label' => esc_html__('This month', 'wp-statistics'), 'visitors' => 0],
+            'last_month' => ['label' => esc_html__('Last month', 'wp-statistics'), 'visitors' => 0],
             '7days'      => ['label' => esc_html__('Last 7 days', 'wp-statistics'), 'visitors' => 0],
             '30days'     => ['label' => esc_html__('Last 30 days', 'wp-statistics'), 'visitors' => 0],
             '90days'     => ['label' => esc_html__('Last 90 days', 'wp-statistics'), 'visitors' => 0],
-            '6months'    => ['label' => esc_html__('Last 6 Months', 'wp-statistics'), 'visitors' => 0],
-            'this_year'  => ['label' => esc_html__('This year (Jan - Today)', 'wp-statistics'), 'visitors' => 0],
+            '6months'    => ['label' => esc_html__('Last 6 months', 'wp-statistics'), 'visitors' => 0],
+            'this_year'  => ['label' => esc_html__('This year (Jan-Today)', 'wp-statistics'), 'visitors' => 0],
         ];
 
         if (!empty($args['ignore_date'])) {
@@ -628,13 +628,13 @@ class VisitorsModel extends BaseModel
                 ->whereNull('visitor.source_channel');
         } else {
             $query
-            ->where('source_channel', '=', $args['source_channel'])
-            ->whereRaw("
-                AND (
-                    (visitor.referred != '' AND visitor.referred IS NOT NULL)
-                    OR (visitor.source_channel IS NOT NULL AND visitor.source_channel != '' AND visitor.source_channel != 'direct')
-                )
-            ");
+                ->where('source_channel', '=', $args['source_channel'])
+                ->whereRaw("
+                    AND (
+                        (visitor.referred != '' AND visitor.referred IS NOT NULL)
+                        OR (visitor.source_channel IS NOT NULL AND visitor.source_channel != '' AND visitor.source_channel != 'direct')
+                    )
+                ");
         }
 
         $result = $query->getAll();
@@ -988,7 +988,6 @@ class VisitorsModel extends BaseModel
             'term'          => '',
             'referrer'      => '',
             'group_by'      => 'visitor.referred',
-            'not_null'      => 'visitor.referred',
             'page'          => 1,
             'per_page'      => 10,
             'decorate'      => false
@@ -1004,9 +1003,14 @@ class VisitorsModel extends BaseModel
             'visitor.last_counter'
         ])
             ->from('visitor')
-            ->where('source_channel', 'IN', $args['source_channel'])
             ->where('visitor.location', '=', $args['country'])
-            ->whereNotNull($args['not_null'])
+            ->where('source_channel', 'IN', $args['source_channel'])
+            ->whereRaw("
+                AND (
+                    (visitor.referred != '' AND visitor.referred IS NOT NULL)
+                    OR (visitor.source_channel IS NOT NULL AND visitor.source_channel != '')
+                )
+            ")
             ->groupBy($args['group_by'])
             ->orderBy('visitors')
             ->perPage($args['page'], $args['per_page']);
@@ -1063,8 +1067,7 @@ class VisitorsModel extends BaseModel
             'country'       => '',
             'query_param'   => '',
             'taxonomy'      => '',
-            'term'          => '',
-            'not_null'      => 'visitor.referred'
+            'term'          => ''
         ]);
 
         $filteredArgs = array_filter($args);
@@ -1074,7 +1077,12 @@ class VisitorsModel extends BaseModel
         ])
             ->from('visitor')
             ->where('source_channel', 'IN', $args['source_channel'])
-            ->whereNotNull($args['not_null']);
+            ->whereRaw("
+                AND (
+                    (visitor.referred != '' AND visitor.referred IS NOT NULL)
+                    OR (visitor.source_channel IS NOT NULL AND visitor.source_channel != '')
+                )
+            ");
 
         // When date is passed, but all other parameters below are empty, compare the given date with `visitor.last_counter`
         if (!empty($args['date']) && !array_intersect(['post_type', 'post_id', 'query_param', 'taxonomy', 'term'], array_keys($filteredArgs))) {

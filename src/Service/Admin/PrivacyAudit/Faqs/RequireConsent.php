@@ -20,15 +20,15 @@ class RequireConsent extends AbstractFaq
                 'status'  => $status,
                 'icon'    => $icon,
                 'title'   => $title,
-                'summary' => esc_html__('sub-heading.', 'wp-statistics'),
-                'notes'   => __('<p>Your current settings indicate that WP Statistics is configured to collect personal data. In this case, it is essential to obtain user consent to comply with privacy laws and regulations. For detailed information on which settings may necessitate user consent and how to adjust them, please refer to the Privacy Audit section of this page.</p><p>To have consent for WP Statistics on your site, read WP Consent Level Integration.</p>', 'wp-statistics')
+                'summary' => esc_html__('User Consent Not Required.', 'wp-statistics'),
+                'notes'   => __('<p>Based on your current configuration, WP Statistics is not recording any personal data. Consequently, under these settings, your use of WP Statistics does not require obtaining user consent. This approach aligns with privacy-focused analytics, minimizing compliance burdens while respecting user privacy.</p>', 'wp-statistics')
             ],
             'warning' => [
                 'icon'    => $icon,
                 'status'  => $status,
                 'title'   => $title,
-                'summary' => esc_html__('sub-heading.', 'wp-statistics'),
-                'notes'   => __('<p>Your current settings indicate that WP Statistics is configured to collect personal data. In this case, it is essential to obtain user consent to comply with privacy laws and regulations. For detailed information on which settings may necessitate user consent and how to adjust them, please refer to the Privacy Audit section of this page.</p><p>To have consent for WP Statistics on your site, read WP Consent Level Integration.</p>', 'wp-statistics')
+                'summary' => esc_html__('User Consent Required.', 'wp-statistics'),
+                'notes'   => __('<p>Your current settings indicate that WP Statistics is configured to collect personal data. In this case, it is essential to obtain user consent to comply with privacy laws and regulations. For detailed information on which settings may necessitate user consent and how to adjust them, please refer to the <b>Privacy Audit</b> section of this page.</p><p>To have consent for WP Statistics on your site, read <a target="_blank" href="https://wp-statistics.com/resources/wp-consent-level-integration/?utm_source=wp-statistics&utm_medium=link&utm_campaign=privacy">WP Consent Level Integration</a>.</p>', 'wp-statistics')
             ],
         ];
     }

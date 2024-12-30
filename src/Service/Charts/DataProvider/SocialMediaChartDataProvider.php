@@ -9,7 +9,7 @@ use WP_Statistics\Service\Charts\AbstractChartDataProvider;
 use WP_Statistics\Service\Charts\Traits\LineChartResponseTrait;
 use WP_STATISTICS\TimeZone;
 
-class SearchEngineChartDataProvider extends AbstractChartDataProvider
+class SocialMediaChartDataProvider extends AbstractChartDataProvider
 {
     use LineChartResponseTrait;
 
@@ -21,7 +21,7 @@ class SearchEngineChartDataProvider extends AbstractChartDataProvider
 
         // Set default values
         $this->args = wp_parse_args($args, [
-            'source_channel' => ['search', 'paid_search'],
+            'source_channel' => ['social', 'paid_social'],
         ]);
 
         // Group by source_name
@@ -29,6 +29,9 @@ class SearchEngineChartDataProvider extends AbstractChartDataProvider
 
         // Rest per_page to get all results
         $this->args['per_page'] = false;
+
+        // Filter by source_channel
+        $this->args['not_null'] = 'source_channel';
 
         $this->visitorsModel = new VisitorsModel();
     }
@@ -68,24 +71,24 @@ class SearchEngineChartDataProvider extends AbstractChartDataProvider
             $thisPeriodTotal[$item->last_counter]                    += $visitors;
         }
 
-        // Sort data by search engine referrals number
+        // Sort data by referrals number
         uasort($thisParsedData, function($a, $b) {
             return array_sum($b) - array_sum($a);
         });
 
-        // Get top 3 search engines
-        $topSearchEngines = array_slice($thisParsedData, 0, 3, true);
+        // Get top 3
+        $topData = array_slice($thisParsedData, 0, 3, true);
 
-        foreach ($topSearchEngines as $searchEngine => &$data) {
+        foreach ($topData as $socialMedia => &$data) {
             // Fill out missing visitors with 0
             $data = array_merge(array_fill_keys($thisPeriodDates, 0), $data);
 
             // Sort data by date
             ksort($data);
 
-            // Add search engine data as dataset
+            // Add data as dataset
             $this->addChartDataset(
-                ucfirst($searchEngine),
+                ucfirst($socialMedia),
                 array_values($data)
             );
         }

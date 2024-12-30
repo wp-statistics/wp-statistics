@@ -11,6 +11,7 @@ use WP_Statistics\Service\Charts\DataProvider\TrafficChartDataProvider;
 use WP_Statistics\Service\Charts\DataProvider\PlatformChartDataProvider;
 use WP_Statistics\Service\Charts\DataProvider\ExclusionsChartDataProvider;
 use WP_Statistics\Service\Charts\DataProvider\PerformanceChartDataProvider;
+use WP_Statistics\Service\Charts\DataProvider\SocialMediaChartDataProvider;
 use WP_Statistics\Service\Charts\DataProvider\SearchEngineChartDataProvider;
 use WP_Statistics\Service\Charts\DataProvider\UsersTrafficChartDataProvider;
 use WP_Statistics\Service\Charts\DataProvider\SourceCategoryChartDataProvider;
@@ -83,6 +84,17 @@ class ChartDataProviderFactory
     public static function searchEngineChart($args)
     {
         return new SearchEngineChartDataProvider($args);
+    }
+
+    /**
+     * Returns a new instance of SocialMediaChartDataProvider.
+     *
+     * @param array $args The arguments to pass to the SocialMediaChartDataProvider constructor.
+     * @return SocialMediaChartDataProvider
+     */
+    public static function socialMediaChart($args)
+    {
+        return new SocialMediaChartDataProvider($args);
     }
 
     /**

@@ -21,7 +21,7 @@ class HashIpAddress extends ResolvableAudit
     {
         return [
             'title'      => esc_html__('The “Hash IP Addresses” feature is currently disabled on your website.', 'wp-statistics'),
-            'info_title' => esc_html__('How to Enable This Feature', 'wp-statistics\''),
+            'notes' => View::load('components/privacy-audit/hash-ips-unpassed', [], true),
         ];
     }
 }

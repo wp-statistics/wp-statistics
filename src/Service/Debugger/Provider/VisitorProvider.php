@@ -51,8 +51,8 @@ class VisitorProvider extends AbstractDebuggerProvider
     public function getLatestVisitors()
     {
         $this->visitors = $this->visitorsModel->getVisitorsData([
-            'page_info' => false,
-            'user_info' => false,
+            'page_info' => true,
+            'user_info' => true,
             'order_by' => 'visitor.ID',
             'order' => 'DESC',
             'page' => 1,

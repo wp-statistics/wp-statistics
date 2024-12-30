@@ -2,6 +2,8 @@
 
 namespace WP_Statistics\Service\Admin\TrackerDebugger;
 
+use WP_STATISTICS\Option;
+
 class TrackerDebuggerManager
 {
 
@@ -18,6 +20,10 @@ class TrackerDebuggerManager
      */
     public function addMenuItem($items)
     {
+        if (empty(Option::get('use_cache_plugin'))) {
+            return $items;
+        }
+
         $items['tracker_debugger'] = [
             'sub'       => 'settings',
             'title'    => esc_html__('Tracker Debugger', 'wp-statistics'),

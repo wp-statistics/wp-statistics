@@ -15,6 +15,7 @@ use WP_Statistics\Service\Admin\PrivacyAudit\Audits\UnhashedIpAddress;
 use WP_Statistics\Service\Admin\PrivacyAudit\Faqs\RequireCookieBanner;
 use WP_Statistics\Service\Admin\PrivacyAudit\Audits\AnonymizeIpAddress;
 use WP_Statistics\Service\Admin\PrivacyAudit\Audits\Abstracts\BaseAudit;
+use WP_Statistics\Service\Admin\PrivacyAudit\Audits\Abstracts\RecommendedAudit;
 use WP_Statistics\Service\Admin\PrivacyAudit\Audits\RecordUserPageVisits;
 use WP_Statistics\Service\Admin\PrivacyAudit\Audits\StoreUserAgentString;
 use WP_Statistics\Service\Admin\PrivacyAudit\Audits\Abstracts\ResolvableAudit;
@@ -48,14 +49,14 @@ class PrivacyAuditDataProvider
     public function getAudits()
     {
         $audits = [
+            'recommend_consent'             => RecommendConsent::class,
             'record_user_page_visits'       => RecordUserPageVisits::class,
             'anonymize_ip_address'          => AnonymizeIpAddress::class,
             'hash_ip_address'               => HashIpAddress::class,
             'store_user_agent_string'       => StoreUserAgentString::class,
             'stored_user_agent_string_data' => StoredUserAgentStringData::class,
             'unhashed_ip_address'           => UnhashedIpAddress::class,
-            'stored_user_id_data'           => StoredUserIdData::class,
-            'recommend_consent'             => RecommendConsent::class
+            'stored_user_id_data'           => StoredUserIdData::class
         ];
 
         return apply_filters('wp_statistics_privacy_audits_list', $audits);
@@ -169,11 +170,23 @@ class PrivacyAuditDataProvider
         $passed         = 0;
 
         foreach ($audits as $audit) {
-            // If audit is not resolvable, skip showing it in the status
-            if (!is_subclass_of($audit, ResolvableAudit::class)) continue;
+            // If audit is resolvable and is not resolved, count it
+            if (is_subclass_of($audit, ResolvableAudit::class)) {
+                $rulesMapped++;
+                in_array($audit::getStatus(), ['passed', 'resolved'])  ? $passed++ : $actionRequired++;
+            }
 
-            $rulesMapped++;
-            in_array($audit::getStatus(), ['passed', 'resolved'])  ? $passed++ : $actionRequired++;
+            if (is_subclass_of($audit, RecommendedAudit::class)) {
+                if ($audit::getStatus() === 'action_required') {
+                    $rulesMapped++;
+                    $actionRequired++;
+                }
+
+                if ($audit::getStatus() === 'passed') {
+                    $rulesMapped++;
+                    $passed++;
+                }
+            }
         }
 
         return [
