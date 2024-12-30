@@ -42,12 +42,24 @@ class TrackerProvider extends AbstractDebuggerProvider
     private $remoteRequest;
 
     /**
+     * Arguments array for making remote requests.
+     * Contains configuration options and parameters used when performing requests.
+     *
+     * @var array Configuration arguments for remote requests
+     */
+    private $args = [];
+
+    /**
      * Initialize tracker provider with necessary setup
      */
     public function __construct()
     {
+        $this->args = [
+            'sslverify' => apply_filters('https_local_ssl_verify', false),
+        ];
+
         $this->trackerPath = Assets::getSrc('js/tracker.js', Option::get('bypass_ad_blockers'));
-        $this->remoteRequest = new RemoteRequest($this->trackerPath, 'HEAD');
+        $this->remoteRequest = new RemoteRequest($this->trackerPath, 'HEAD', [], $this->args);
         $this->initializeData();
     }
 
@@ -76,7 +88,8 @@ class TrackerProvider extends AbstractDebuggerProvider
             'POST',
             [
                 'action' => 'wp_statistics_hit_record'
-            ]
+            ],
+            $this->args
         );
 
         $remoteRequest->execute(false, false);
@@ -95,7 +108,8 @@ class TrackerProvider extends AbstractDebuggerProvider
         $remoteRequest = new RemoteRequest(
             $rest_url,
             'POST',
-            []
+            [],
+            $this->args
         );
 
         $remoteRequest->execute(false, false);
