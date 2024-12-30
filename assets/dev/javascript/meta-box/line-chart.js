@@ -8,13 +8,13 @@ wps_js.render_line_chart = function (response, key) {
                 data: params['data'],
                 previousData: params['previousData']
             };
-            if(keyName !== 'wp_statistics_quickstats_metabox'){
+            if (keyName !== 'wp_statistics_quickstats_metabox') {
                 wps_js.new_line_chart(data, `${keyName}-chart`);
-            }else{
+            } else {
                 const trafficOptions = {
                     scales: {
                         x: {
-                            offset:  1,
+                            offset: 1,
                             grid: {
                                 display: false,
                                 drawBorder: false,
@@ -31,7 +31,7 @@ wps_js.render_line_chart = function (response, key) {
                                 maxTicksLimit: 3,
                                 font: {
                                     color: '#AAABAE',
-                                     weight: 'lighter',
+                                    weight: 'lighter',
                                     size: 11
                                 },
                                 padding: 8,
@@ -74,9 +74,9 @@ wps_js.render_line_chart = function (response, key) {
                         }
                     },
                 };
-                 const trafficChart = wps_js.new_line_chart(data, `wps_${keyName}_meta_chart`, trafficOptions);
+                const trafficChart = wps_js.new_line_chart(data, `wps_${keyName}_meta_chart`, trafficOptions);
 
-                 function toggleDataset(datasetIndex) {
+                function toggleDataset(datasetIndex) {
                     const meta = trafficChart.getDatasetMeta(datasetIndex);
                     meta.hidden = !meta.hidden;
                     trafficChart.update();
