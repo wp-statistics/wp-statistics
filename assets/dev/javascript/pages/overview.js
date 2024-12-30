@@ -249,8 +249,9 @@ if (wps_js.global.page.file === "index.php" || wps_js.is_active('overview_page')
 
     function loadMetaBoxData(metaBoxKey, startDate = null, endDate = null, date_filter = null) {
         return new Promise((resolve, reject) => {
+            const keyName = metaBoxKey.replace(/-/g, '_').replace('widget', 'metabox');
             let data = {
-                'action': `wp_statistics_${metaBoxKey}_metabox_get_data`,
+                'action': `${keyName}_get_data`,
                 'wps_nonce': wps_js.global.rest_api_nonce,
                 'current_page' :wps_js.global.page
             };
@@ -289,8 +290,9 @@ if (wps_js.global.page.file === "index.php" || wps_js.is_active('overview_page')
     }
 
     wps_js.handleMetaBoxRender = function(response, metaBoxKey) {
-        if (typeof wps_js[`render_${metaBoxKey}`] === 'function') {
-            wps_js[`render_${metaBoxKey}`](response, metaBoxKey);
+        const keyName = metaBoxKey.replace(/-/g, '_');
+        if (typeof wps_js[`render_${keyName}`] === 'function') {
+            wps_js[`render_${keyName}`](response, metaBoxKey);
             wps_js.handelReloadButton(metaBoxKey);
             wps_js.handelMetaBoxFooter(metaBoxKey, response);
         }
@@ -300,7 +302,6 @@ if (wps_js.global.page.file === "index.php" || wps_js.is_active('overview_page')
         let activeOptions = [];
         // Check if the screen options element exists
         if ($('#adv-settings').length > 0) {
-            // Loop through screen options checkboxes
             $('#adv-settings input[type="checkbox"]').each(function () {
                 if ($(this).is(':checked')) {
                     // Get the ID and remove the '-hide' suffix

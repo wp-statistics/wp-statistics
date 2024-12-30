@@ -7,7 +7,7 @@ use WP_STATISTICS\Menus;
 
 class TopReferring extends BaseMetabox
 {
-    protected $key = 'top_referring';
+    protected $key = 'referring';
     protected $context = 'side';
 
     public function getName()

@@ -7,7 +7,7 @@ use WP_STATISTICS\Menus;
 
 class TrafficSummary extends BaseMetabox
 {
-    protected $key = 'traffic_summary';
+    protected $key = 'traffic-summary';
     protected $context = 'side';
 
     public function getName()

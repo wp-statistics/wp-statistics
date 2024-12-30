@@ -7,7 +7,7 @@ use WP_STATISTICS\Menus;
 
 class DailyTrafficTrend extends BaseMetabox
 {
-    protected $key = 'daily_traffic_trend';
+    protected $key = 'hits';
     protected $context = 'normal';
 
     public function getName()

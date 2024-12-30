@@ -7,7 +7,7 @@ use WP_STATISTICS\Menus;
 
 class CurrentlyOnline extends BaseMetabox
 {
-    protected $key = 'currently_online';
+    protected $key = 'useronline';
     protected $context = 'normal';
 
     public function getName()

@@ -8,7 +8,7 @@ use WP_STATISTICS\Menus;
 
 class TrafficOverview extends BaseMetabox
 {
-    protected $key = 'traffic_overview';
+    protected $key = 'quickstats';
     protected $context = 'side';
 
     public function getName()

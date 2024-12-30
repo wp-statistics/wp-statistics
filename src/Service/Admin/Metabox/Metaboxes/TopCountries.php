@@ -7,7 +7,7 @@ use WP_STATISTICS\Menus;
 
 class TopCountries extends BaseMetabox
 {
-    protected $key = 'top_countries';
+    protected $key = 'countries';
     protected $context = 'side';
 
     public function getName()
