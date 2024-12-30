@@ -42,13 +42,79 @@ class TrackerProvider extends AbstractDebuggerProvider
     private $remoteRequest;
 
     /**
+     * Arguments array for making remote requests.
+     * Contains configuration options and parameters used when performing requests.
+     *
+     * @var array Configuration arguments for remote requests
+     */
+    private $args = [];
+
+    /**
      * Initialize tracker provider with necessary setup
      */
     public function __construct()
     {
+        $this->args = [
+            'sslverify' => apply_filters('https_local_ssl_verify', false),
+        ];
+
         $this->trackerPath = Assets::getSrc('js/tracker.js', Option::get('bypass_ad_blockers'));
-        $this->remoteRequest = new RemoteRequest($this->trackerPath, 'HEAD');
+        $this->remoteRequest = new RemoteRequest($this->trackerPath, 'HEAD', [], $this->args);
         $this->initializeData();
+    }
+
+    /**
+     * Check if AJAX hit recording is blocked.
+     *
+     * @return bool
+     */
+    public function checkHitRecording()
+    {
+        $adBlocker = Option::get('bypass_ad_blockers', false);
+
+        return $adBlocker ? $this->checkAjaxHit() : $this->checkRestHit();
+    }
+
+    /**
+     * Check AJAX endpoint for hit recording
+     *
+     * @return bool Returns true if request works, false if blocked or invalid
+     */
+    private function checkAjaxHit()
+    {
+        $ajax_url = admin_url('admin-ajax.php');
+        $remoteRequest = new RemoteRequest(
+            $ajax_url,
+            'POST',
+            [
+                'action' => 'wp_statistics_hit_record'
+            ],
+            $this->args
+        );
+
+        $remoteRequest->execute(false, false);
+
+        return $remoteRequest->isValidJsonResponse();
+    }
+
+    /**
+     * Check REST API endpoint for hit recording
+     *
+     * @return bool Returns true if request works, false if blocked or invalid
+     */
+    private function checkRestHit()
+    {
+        $rest_url = site_url('index.php?rest_route=/wp-statistics/v2/hit');
+        $remoteRequest = new RemoteRequest(
+            $rest_url,
+            'POST',
+            [],
+            $this->args
+        );
+
+        $remoteRequest->execute(false, false);
+
+        return $remoteRequest->isValidJsonResponse();
     }
 
     /**
@@ -67,10 +133,13 @@ class TrackerProvider extends AbstractDebuggerProvider
      */
     private function initializeData()
     {
+        $fileExists = $this->executeTrackerCheck();
+
         $this->trackerStatus = [
-            'exists' => $this->executeTrackerCheck(),
+            'exists' => $fileExists,
             'path' => $this->trackerPath,
-            'cacheStatus' => $this->getCacheStatus()
+            'cacheStatus' => $this->getCacheStatus(),
+            'hitRecordingStatus' => $fileExists ? $this->checkHitRecording() : false
         ];
     }
 
@@ -82,8 +151,9 @@ class TrackerProvider extends AbstractDebuggerProvider
      */
     public function executeTrackerCheck()
     {
-        $trackerFile = $this->remoteRequest->execute(false, false, HOUR_IN_SECONDS, true);
-        return !empty($trackerFile);
+        $this->remoteRequest->execute(false, false);
+
+        return $this->remoteRequest->isRequestSuccessful();
     }
 
     /**

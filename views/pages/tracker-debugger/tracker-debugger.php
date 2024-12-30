@@ -6,13 +6,14 @@ use WP_STATISTICS\Helper;
 use WP_STATISTICS\Menus;
 use WP_STATISTICS\TimeZone;
 
-$currentDate = new DateTime(date_i18n(Helper::getDefaultDateFormat(true, true, false, ', '), strtotime(TimeZone::getRealCurrentDate())));
+$currentDate = TimeZone::getCurrentDate();
 
 $excludedIPs        = $options->getExcludedIPs();
 $userRoleExclusions = $options->getUserRoleExclusions();
 $excludedUrls       = $options->getExcludedUrls();
 $includCountries    = $options->getIncludedCountries();
 $excludeCountries   = $options->getExcludedCountries();
+$trackerStatus      = $tracker->getTrackerStatus();
 ?>
 
 <div class="postbox-container wps-postbox-tracker__container">
@@ -45,7 +46,7 @@ $excludeCountries   = $options->getExcludedCountries();
                     'status'      => 'danger'
                 ];
 
-                if ($tracker->executeTrackerCheck()) {
+                if (! empty($trackerStatus['exists'])) {
                     $trackerData = [
                         'svg'         => $trackerIcon,
                         'title'       => __('Tracker.js Status: Loaded Successfully', 'wp-statistics'),
@@ -56,6 +57,23 @@ $excludeCountries   = $options->getExcludedCountries();
                 }
 
                 View::load("components/audit-card", $trackerData);
+
+                if (! empty($trackerStatus['exists']) && empty($trackerStatus['hitRecordingStatus'])) {
+                    $trackerData = [
+                        'svg'         => $trackerIcon,
+                        'title'       => esc_html__('Hit Endpoint Status: Unexpected Response', 'wp-statistics'),
+                        'description' => esc_html__('Hit recording is not responding as expected.', 'wp-statistics'),
+                        'suggestion' => sprintf(
+                            /* translators: %1$s: request type (AJAX or REST API), %2$s: documentation URL */
+                            esc_html__('Please check your security plugins, firewall settings, or any third-party services that might be affecting the %1$s request. You may need to review your configuration or whitelist the endpoint. For more information, please visit our %2$s.', 'wp-statistics'),
+                            $type,
+                            '<a href="https://wp-statistics.com/resources/troubleshoot-the-tracker/?utm_source=wp-statistics&utm_medium=link&utm_campaign=tracker-debugger" target="_blank">' . esc_html__('troubleshooting guide', 'wp-statistics') . '</a>'
+                        ),
+                        'status' => 'danger',
+                    ];
+
+                    View::load("components/audit-card", $trackerData);
+                }
                 ?>
             </div>
         </div>
@@ -101,7 +119,10 @@ $excludeCountries   = $options->getExcludedCountries();
                     'title'       => __('Consent Plugin Integration is Active', 'wp-statistics'),
                     'description' => esc_html__('Visitors must give consent before tracker.js runs.', 'wp-statistics'),
                     'content'     => __('Tracker.js will not run until visitors provide consent. This may result in up to 50% of visitors not being tracked.', 'wp-statistics'),
-                    'suggestion'  => __('Consider enabling "Anonymous Tracking" to track all visitors anonymously. Learn more in our <a target="_blank" href="' . esc_url(WP_STATISTICS_SITE_URL . '/resources/wp-consent-level-integration/?utm_source=wp-statistics&utm_medium=link&utm_campaign=tracker-debugger') . '">Consent Integration guide</a>.', 'wp-statistics'),
+                    'suggestion' => sprintf(
+                        __('Consider enabling "Anonymous Tracking" to track all visitors anonymously. Learn more in our <a target="_blank" href="%s">Consent Integration guide</a>.', 'wp-statistics'),
+                        esc_url(WP_STATISTICS_SITE_URL . '/resources/wp-consent-level-integration/?utm_source=wp-statistics&utm_medium=link&utm_campaign=tracker-debugger')
+                    ),
                     'status'      => 'info'
                 ];
 
@@ -252,7 +273,10 @@ $excludeCountries   = $options->getExcludedCountries();
                     'title'       => __('No Filters or Exceptions are Applied', 'wp-statistics'),
                     'description' => __('All visitors are being tracked without exclusions.', 'wp-statistics'),
                     'content'     => '',
-                    'suggestion'  => __('Review these filters in Settings > Filtering & Exceptions. Update if necessary.<a target="_blank" href="' . esc_url(WP_STATISTICS_SITE_URL . '/resources/filtering-exceptions-settings/?utm_source=wp-statistics&utm_medium=link&utm_campaign=tracker-debugger') . '">Learn more</a>  .', 'wp-statistics'),
+                    'suggestion'  => sprintf(
+                        __('Review these filters in Settings > Filtering & Exceptions. Update if necessary. <a target="_blank" href="%s">Learn more</a>.', 'wp-statistics'),
+                        esc_url(WP_STATISTICS_SITE_URL . '/resources/filtering-exceptions-settings/?utm_source=wp-statistics&utm_medium=link&utm_campaign=tracker-debugger')
+                    ),
                     'status'      => 'success'
                 ];
 
@@ -262,7 +286,10 @@ $excludeCountries   = $options->getExcludedCountries();
                         'title'       => __('Filters or Exceptions are Applied', 'wp-statistics'),
                         'description' => '',
                         'content'     => $itemFilterListsHtml,
-                        'suggestion'  => __('Review these filters in Settings > Filtering & Exceptions. Update if necessary.<a target="_blank" href="' . esc_url(WP_STATISTICS_SITE_URL . '/resources/filtering-exceptions-settings/?utm_source=wp-statistics&utm_medium=link&utm_campaign=tracker-debugger') . '">Learn more</a>  .', 'wp-statistics'),
+                        'suggestion'  => sprintf(
+                            __('Review these filters in Settings > Filtering & Exceptions. Update if necessary. <a target="_blank" href="%s">Learn more</a>.', 'wp-statistics'),
+                            esc_url(WP_STATISTICS_SITE_URL . '/resources/filtering-exceptions-settings/?utm_source=wp-statistics&utm_medium=link&utm_campaign=tracker-debugger')
+                        ),
                         'status'      => 'info'
                     ];
                 }
@@ -335,8 +362,8 @@ $excludeCountries   = $options->getExcludedCountries();
                                 <tr>
                                     <td class="wps-pd-l">
                                         <?php
-                                        $visitDate = new DateTime($visitor->getLastView());
-                                        echo esc_html(TimeZone::getElapsedTime($currentDate, $visitDate, $visitor->getLastView()));
+                                        $visitDate = new DateTime($visitor->getLastView(true));
+                                        echo esc_html(TimeZone::getElapsedTime($currentDate, $visitDate, $visitor->getLastView(true)));
                                         ?>
                                     </td>
                                     <td class="wps-pd-l">
