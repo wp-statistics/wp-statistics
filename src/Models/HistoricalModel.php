@@ -144,8 +144,8 @@ class HistoricalModel
             return 0;
         }
 
-        foreach($args as $key => $value) {
-            if ( 'historical' === $key || 'ignore_date' === $key ) {
+        foreach ($args as $key => $value) {
+            if ('historical' === $key || 'ignore_date' === $key) {
                 continue;
             }
 
