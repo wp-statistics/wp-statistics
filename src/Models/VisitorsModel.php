@@ -987,6 +987,7 @@ class VisitorsModel extends BaseModel
             'taxonomy'      => '',
             'term'          => '',
             'referrer'      => '',
+            'not_null'      => '',
             'group_by'      => 'visitor.referred',
             'page'          => 1,
             'per_page'      => 10,
@@ -1005,6 +1006,7 @@ class VisitorsModel extends BaseModel
             ->from('visitor')
             ->where('visitor.location', '=', $args['country'])
             ->where('source_channel', 'IN', $args['source_channel'])
+            ->whereNotNull($args['not_null'])
             ->whereRaw("
                 AND (
                     (visitor.referred != '' AND visitor.referred IS NOT NULL)
