@@ -12,7 +12,7 @@
         printf(
             __('<p>%s to configure the WP Consent API and connect with a compatible consent plugin.</p>Browse the %s to ensure compliance and smooth integration.', 'wp-statistics'),
             '<a target="_blank" href="' . esc_url(WP_STATISTICS_SITE_URL . '/resources/wp-consent-level-integration/?utm_source=wp-statistics&utm_medium=link&utm_campaign=privacy') . '">' . __('Follow this guide', 'wp-statistics') . '</a>',
-            '<a target="_blank" href="' . esc_url(WP_STATISTICS_SITE_URL . '/resources/wp-consent-level-integration/?utm_source=wp-statistics&utm_medium=link&utm_campaign=privacy') . '">' . __('list of compatible consent plugins', 'wp-statistics') . '</a>'
+            '<a target="_blank" href="' . esc_url(WP_STATISTICS_SITE_URL . '/resources/compatible-consent-plugins-with-wp-statistics/?utm_source=wp-statistics&utm_medium=link&utm_campaign=privacy') . '">' . __('list of compatible consent plugins', 'wp-statistics') . '</a>'
         );
         ?>
     </div>
