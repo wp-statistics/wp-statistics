@@ -645,6 +645,14 @@
       margin-bottom: 12px!important;
     }
 
+    .handle-actions.hide-if-no-js{
+      display: flex;
+      align-items: center;
+      .wps-refresh{
+        top: 0;
+      }
+    }
+
     .wps-overview-btn{
       background: #2271B1;
       padding: 4px 12px;
@@ -654,6 +662,8 @@
       font-weight: 600;
       line-height: 22px;
       text-decoration: none;
+      margin: 8px 12px;
+
       &:hover{
         background-color: #1e27bf;
       }
@@ -671,6 +681,7 @@
             display: flex;
             gap: 8px;
             align-items: center;
+            font-style: normal;
           }
 
           .wps-postbox-chart--item--color {

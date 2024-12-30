@@ -61,14 +61,12 @@ class MetaboxDataProvider
 
     public function getReferrersData($args = [])
     {
-        $args = array_merge(
-            $args,
-            [
-                'decorate'  => true,
-                'per_page'  => 10,
-                'page'      => 1
-            ]
-        );
+        $args = array_merge($args, [
+            'decorate'  => true,
+            'per_page'  => 10,
+            'page'      => 1,
+            'not_null'  => 'visitor.referred'
+        ]);
 
         return $this->visitorsModel->getReferrers($args);
     }
