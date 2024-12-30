@@ -13,6 +13,7 @@ $userRoleExclusions = $options->getUserRoleExclusions();
 $excludedUrls       = $options->getExcludedUrls();
 $includCountries    = $options->getIncludedCountries();
 $excludeCountries   = $options->getExcludedCountries();
+$trackerStatus      = $tracker->getTrackerStatus();
 ?>
 
 <div class="postbox-container wps-postbox-tracker__container">
@@ -44,8 +45,8 @@ $excludeCountries   = $options->getExcludedCountries();
                     'suggestion'  => sprintf(__('Please ensure that the tracker.js file exists in the correct directory. Refer to our <a href="%s" target="_blank" rel="noopener">documentation</a> for guidance.', 'wp-statistics'), esc_url(WP_STATISTICS_SITE_URL . '/resources/troubleshoot-the-tracker/?utm_source=wp-statistics&utm_medium=link&utm_campaign=tracker-debugger')),
                     'status'      => 'danger'
                 ];
-
-                if ($tracker->executeTrackerCheck()) {
+                
+                if (! empty($trackerStatus['exists'])) {
                     $trackerData = [
                         'svg'         => $trackerIcon,
                         'title'       => __('Tracker.js Status: Loaded Successfully', 'wp-statistics'),
@@ -56,6 +57,23 @@ $excludeCountries   = $options->getExcludedCountries();
                 }
 
                 View::load("components/audit-card", $trackerData);
+
+                if (! empty($trackerStatus['exists']) && empty($trackerStatus['hitRecordingStatus'])) {
+                    $trackerData = [
+                        'svg'         => $trackerIcon,
+                        'title'       => esc_html__('Hit Endpoint Status: Unexpected Response', 'wp-statistics'),
+                        'description' => esc_html__('Hit recording is not responding as expected.', 'wp-statistics'),
+                        'suggestion' => sprintf(
+                            /* translators: %1$s: request type (AJAX or REST API), %2$s: documentation URL */
+                            esc_html__('Please check your security plugins, firewall settings, or any third-party services that might be affecting the %1$s request. You may need to review your configuration or whitelist the endpoint. For more information, please visit our %2$s.', 'wp-statistics'),
+                            $type,
+                            '<a href="https://wp-statistics.com/resources/troubleshoot-the-tracker/?utm_source=wp-statistics&utm_medium=link&utm_campaign=tracker-debugger" target="_blank">' . esc_html__('troubleshooting guide', 'wp-statistics') . '</a>'
+                        ),
+                        'status' => 'danger',
+                    ];
+
+                    View::load("components/audit-card", $trackerData);
+                }
                 ?>
             </div>
         </div>
