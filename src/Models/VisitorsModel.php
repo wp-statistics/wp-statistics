@@ -1178,7 +1178,7 @@ class VisitorsModel extends BaseModel
 
             if (!empty($args['resource_type'])) {
                 $query
-                    ->where('pages.type', '=', $args['resource_type']);
+                    ->where('pages.type', 'IN', $args['resource_type']);
 
                 if (is_numeric($args['post_id'])) {
                     $query->where('pages.ID', '=', intval($args['post_id']));

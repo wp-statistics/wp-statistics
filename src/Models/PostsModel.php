@@ -185,18 +185,13 @@ class PostsModel extends BaseModel
         $args = $this->parseArgs($args, [
             'date'          => '',
             'post_type'     => Helper::get_list_post_type(),
-            'resource_type' => array_merge(Helper::get_list_post_type(), ['home']),
+            'resource_type' => Helper::get_list_post_type(),
             'order_by'      => 'title',
             'order'         => 'DESC',
             'page'          => 1,
             'per_page'      => 5,
             'author_id'     => ''
         ]);
-
-        // added 'home' type, since type of homepage in pages table is 'home'
-        if ($args['resource_type'] === 'page') {
-            $args['resource_type'] = ['home', 'page'];
-        }
 
         $commentsQuery = Query::select(['comment_post_ID', 'COUNT(comment_ID) AS total_comments'])
             ->from('comments')
