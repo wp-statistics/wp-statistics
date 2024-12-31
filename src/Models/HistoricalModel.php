@@ -25,8 +25,8 @@ class HistoricalModel
     /**
      * Parse and validate the arguments for processing visitors data.
      *
-     * This method ensures that the arguments meet the required criteria 
-     * by checking for the presence of either 'historical' or 'ignore_date' 
+     * This method ensures that the arguments meet the required criteria
+     * by checking for the presence of either 'historical' or 'ignore_date'
      * keys. If any additional keys are non-empty, the method returns null.
      *
      * @param array $args     Associative array of arguments to parse. Must include
@@ -43,10 +43,11 @@ class HistoricalModel
             return null;
         }
 
-        $args = wp_parse_args($args, $defaults);
+        $args           = wp_parse_args($args, $defaults);
+        $allowedArgs    = ['ignore_post_type', 'ignore_date', 'historical', 'include_total'];
 
         foreach ($args as $key => $value) {
-            if (in_array($key, ['ignore_post_type', 'ignore_date', 'historical'], true)) {
+            if (in_array($key, $allowedArgs, true)) {
                 continue;
             }
 
