@@ -365,7 +365,7 @@ $trackerStatus      = $tracker->getTrackerStatus();
                                     <td class="wps-pd-l">
                                         <?php
                                         $visitDate = new DateTime($visitor->getLastView(true));
-                                        echo esc_html(TimeZone::getElapsedTime($currentDate, $visitDate, $visitor->getLastView(true)));
+                                        echo esc_html(TimeZone::getElapsedTime($currentDate, $visitDate, $visitor->getLastView()));
                                         ?>
                                     </td>
                                     <td class="wps-pd-l">
