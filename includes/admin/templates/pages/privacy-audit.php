@@ -3,7 +3,7 @@ use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Service\Admin\ModalHandler\Modal;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 
-$isCompliant = $data['compliance_status']['percentage_ready'] === 100;
+$isCompliant = $data['compliance_status']['percentage_ready'] == 100;
 
 Modal::render('privacy-audit-confirmation', [
     'title'               => __('Are you sure you want manually resolve this item?', 'wp-statistics'),
