@@ -379,7 +379,7 @@
   }
 }
 
-.wps-audit-cards__container{
+.wps-audit-cards__container , .wps-audit-cards{
   &.loading{
     position: relative;
     overflow: hidden;
@@ -403,6 +403,13 @@
     }
   }
 }
+
+.wps-audit-cards.loading{
+  h2.wps-audit-cards__title, .wps-audit-cards__title--light{
+    color: transparent!important;
+  }
+}
+
 
 .wps-privacy-status {
   &.loading {
