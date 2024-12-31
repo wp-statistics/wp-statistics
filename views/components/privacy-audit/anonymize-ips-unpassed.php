@@ -20,6 +20,6 @@
 <div class="wps-audit-card__suggestion">
     <div class="wps-audit-card__suggestion-head"><?php echo esc_html__('How to Enable This Feature', 'wp-statistics') ?></div>
     <div class="wps-audit-card__suggestion-text">
-        <p><?php echo esc_html__('To enable this feature, navigate to Settings -> Privacy & Data Protection -> Hash IP Addresses and check "Enable".', 'wp-statistics'); ?></p>
+        <p><?php echo esc_html__('To enable this feature, navigate to Settings -> Privacy & Data Protection -> Anonymize IP Addresses and check "Enable".', 'wp-statistics'); ?></p>
     </div>
 </div>
