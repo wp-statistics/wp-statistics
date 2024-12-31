@@ -390,7 +390,7 @@ if (wps_js.global.page.file === "index.php" || wps_js.is_active('overview_page')
                 <div class="c-footer__filters">
                     <div class="c-footer__filters__current-filter">
                         <span class="c-footer__current-filter__title js-filter-title">` + dateFilterTitle + `</span>
-                         <span class="c-footer__current-filter__date-range hs-filter-range">` + startDateResponse + ' _ ' + endDateResponse + `</span>
+                         <span class="c-footer__current-filter__date-range hs-filter-range">` + startDateResponse + ' - ' + endDateResponse + `</span>
                     </div>
                     <div class="c-footer__filters__list">
                         <button data-metabox-key="${key}" data-filter="today" class="c-footer__filters__list-item">` + wps_js._('str_today') + `</button>
