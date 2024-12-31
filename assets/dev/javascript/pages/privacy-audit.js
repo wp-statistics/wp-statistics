@@ -76,7 +76,6 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
                 }
             });
         }
-
     });
 
 
@@ -142,7 +141,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
     function loadAuditItems(auditList, selector) {
         const privacyItemsWrapper = jQuery(selector);
         privacyItemsWrapper.html('');
-        privacyItemsWrapper.removeClass('loading');
+        privacyItemsWrapper.parent().removeClass('loading');
 
         // Convert object to an array
         const auditArray = Array.isArray(auditList) ? auditList : Object.values(auditList);
@@ -151,6 +150,13 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
             const auditElement = generateAuditElement(auditData);
             privacyItemsWrapper.append(auditElement);
         });
+
+        if (auditArray.length === 0) {
+            jQuery(selector).parent().css('display', 'none');
+        } else {
+            jQuery(selector).parent().css('display', 'block');
+        }
+
     }
 
     function loadPassed(auditList) {
@@ -162,7 +168,6 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
     }
 
     function loadRecommended(auditList) {
-
         loadAuditItems(auditList, '.wps-privacy-recommended .wps-audit-cards__container');
         if(Object.keys(auditList).length > 0){
             document.querySelector('.wps-privacy-recommended').style.display = 'block';
