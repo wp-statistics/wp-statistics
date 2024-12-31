@@ -49,6 +49,9 @@ class TrafficOverview extends BaseMetabox
             ]
         ]);
 
+        // Prevent previous data from being sent to the js
+        unset($chartData['previousData']);
+
         $output = View::load('metabox/traffic-overview', ['data' => $data], true);
 
         return [
