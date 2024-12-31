@@ -25,8 +25,8 @@ class HistoricalModel
     /**
      * Parse and validate the arguments for processing visitors data.
      *
-     * This method ensures that the arguments meet the required criteria 
-     * by checking for the presence of either 'historical' or 'ignore_date' 
+     * This method ensures that the arguments meet the required criteria
+     * by checking for the presence of either 'historical' or 'ignore_date'
      * keys. If any additional keys are non-empty, the method returns null.
      *
      * @param array $args     Associative array of arguments to parse. Must include
@@ -39,7 +39,7 @@ class HistoricalModel
      */
     private function parseVisitorsArgs($args, $defaults = [])
     {
-        if (empty($args['historical']) && empty($args['ignore_date'])) {
+        if (!empty($args['date']) || empty($args['historical']) || empty($args['ignore_date'])) {
             return null;
         }
 
@@ -68,7 +68,7 @@ class HistoricalModel
      */
     private function parseViewsArgs($args, $defaults = [])
     {
-        if (empty($args['historical']) && empty($args['ignore_date'])) {
+        if (!empty($args['date']) || empty($args['historical']) || empty($args['ignore_date'])) {
             return null;
         }
 
