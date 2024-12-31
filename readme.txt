@@ -158,6 +158,7 @@ https://www.youtube.com/watch?v=jxYLVtBdhEc
 - **Fix:** Fixed a bug with an undefined array key in the Robot Threshold setting.
 - **Fix:** Addressed the issue of zero views showing on the home page.
 - **Fix:** Fixed the zero-views issue in Content Analytics for custom post types.
+- **Fix:** Resolved Customization widget rendering issue.
 
 = 14.11.4 - 2024-12-09 =
 - **Enhancement:** Made the Global Visitor Distribution widget load faster on the Overview page.
