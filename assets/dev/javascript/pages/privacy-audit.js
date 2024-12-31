@@ -69,21 +69,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
 
                     // If request is not successful, return early
                     if (success == false) return console.log(data);
-
-                    // Remove loading
-                    button.removeClass('loading');
-                    document.querySelector('#privacy-audit-confirmation').classList.remove('wps-modal--open');
-
-                    // Update compliance data
-                    updateComplianceInfo(data.compliance_status);
-
-                    // Load faq items
-                    loadFaqs(data.faq_list);
-
-                    // If audit item data is not null, update it with new data
-                    if (data.audit_item) {
-                        updateAuditElement(auditElement, data.audit_item);
-                    }
+                    location.reload();
                 },
                 error: function (xhr, status, error) {
                     console.log(error);

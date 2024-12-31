@@ -138,6 +138,7 @@
         .rtl & {
           margin-right: 9px;
           margin-left: 0;
+          transform: rotate(180deg);
         }
 
         &:hover {
@@ -323,7 +324,7 @@
 
     .wps-audit-card__toggle {
       opacity: 1;
-      transform: rotate(90deg);
+      transform: rotate(90deg)!important;
     }
 
     .wps-audit-card__body {
