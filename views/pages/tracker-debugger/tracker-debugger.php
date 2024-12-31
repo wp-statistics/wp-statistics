@@ -128,7 +128,7 @@ $trackerStatus      = $tracker->getTrackerStatus();
 
                 $consentLevel = $options->getOption('consent_level_integration', 'disabled');
 
-                if (empty($options->getOption('anonymous_tracking', false)) && ('disabled' === $consentLevel || empty($consentLevel)) ) {
+                if (empty($options->getOption('anonymous_tracking', false)) && ('disabled' === $consentLevel || empty($consentLevel))) {
                     $atData = [
                         'svg'         => $atIcon,
                         'title'       => __('Consent Management is Disabled', 'wp-statistics'),
