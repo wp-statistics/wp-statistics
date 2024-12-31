@@ -346,10 +346,12 @@ class VisitorsModel extends BaseModel
             ]
         ];
 
-        if (!empty($args['ignore_date'])) {
+        if (!empty($args['include_total'])) {
+            unset($args['include_total']);
+
             $summary['total'] = [
                 'label'     => esc_html__('Total', 'wp-statistics'),
-                'visitors'  => $this->countVisitors($args)
+                'visitors'  => $this->countVisitors(array_merge($args, ['ignore_date' => true, 'historical' => true]))
             ];
         }
 
