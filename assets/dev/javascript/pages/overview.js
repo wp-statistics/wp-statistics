@@ -420,9 +420,9 @@ if (wps_js.global.page.file === "index.php" || wps_js.is_active('overview_page')
         html += `</div></div>`;
         let selector = jQuery("#" + key + " h2.hndle");
 
-        if (key === 'currently_online') {
+        if (key === 'wp-statistics-useronline-widget') {
             const current_online = jQuery(".wps-currently-online");
-            if (current_online.length && current_online.text() > 0) {
+            if (current_online.length && current_online.text() >= 0) {
                 const container = selector.find('.wps-wps-currently-online__container');
 
                 if (container.length) {
@@ -434,6 +434,8 @@ if (wps_js.global.page.file === "index.php" || wps_js.is_active('overview_page')
                             </span>`;
                     selector.append(online);
                 }
+            }else{
+                selector.find('.wps-wps-currently-online__container').remove()
             }
         }
 
