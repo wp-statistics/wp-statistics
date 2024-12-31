@@ -8,6 +8,6 @@
 <div class="wps-audit-card__suggestion">
     <div class="wps-audit-card__suggestion-head"><?php echo esc_html__('More Information', 'wp-statistics') ?></div>
     <div class="wps-audit-card__suggestion-text">
-        <?php echo __('For a comprehensive understanding of how WP Statistics counts unique visitors without cookies, and the advantages of this approach, please refer to our detailed documentation: <a href="' . esc_url(WP_STATISTICS_SITE_URL . '/resources/counting-unique-visitors-without-cookies/?utm_source=wp-statistics&utm_medium=link&utm_campaign=privacy') . '">Counting Unique Visitors Without Cookies</a>.') ?>
+        <?php echo __('For a comprehensive understanding of how WP Statistics counts unique visitors without cookies, and the advantages of this approach, please refer to our detailed documentation: <a href="' . esc_url(WP_STATISTICS_SITE_URL . '/resources/counting-unique-visitors-without-cookies/?utm_source=wp-statistics&utm_medium=link&utm_campaign=privacy') . '" target="_blank">Counting Unique Visitors Without Cookies</a>.') ?>
     </div>
 </div>
