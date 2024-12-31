@@ -53,6 +53,8 @@ class Frontend
 
             /**
              * Handle the bypass ad blockers
+             * 
+             * @todo This should be refactored in a service related to option. note that all the options with same functionality should be updated.
              */
             if (Option::get('bypass_ad_blockers', false)) {
                 // AJAX params

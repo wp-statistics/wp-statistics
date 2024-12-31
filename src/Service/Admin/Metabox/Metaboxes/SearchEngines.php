@@ -7,7 +7,7 @@ use WP_STATISTICS\Menus;
 
 class SearchEngines extends BaseMetabox
 {
-    protected $key = 'search_engines';
+    protected $key = 'search';
     protected $context = 'normal';
 
     public function getName()

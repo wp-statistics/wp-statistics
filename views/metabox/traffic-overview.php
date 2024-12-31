@@ -48,7 +48,7 @@ $prevViews      = $data['total']['views']['prev'];
             </div>
         </div>
         <div class="wps-postbox-chart--container">
-            <canvas id="wps_traffic_overview_meta_chart" height="166"></canvas>
+            <canvas id="wp-statistics-quickstats-widget-chart" height="166"></canvas>
         </div>
     </div>
 
@@ -96,7 +96,9 @@ $prevViews      = $data['total']['views']['prev'];
         </table>
     </div>
 
-    <?php if (!Option::get('time_report')) {
-        View::load("components/meta-box/enable-mail", ['url' => Menus::admin_url('settings')]);
-    } ?>
+    <?php
+        if (!Option::get('time_report') && !in_array('enable_email_metabox_notice', Option::getOptionGroup('dismissed_notices', '', [])))  {
+            View::load("components/meta-box/enable-mail", ['url' => Menus::admin_url('settings')]);
+        }
+    ?>
 </div>

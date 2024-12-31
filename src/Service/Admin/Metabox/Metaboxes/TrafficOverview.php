@@ -8,7 +8,7 @@ use WP_STATISTICS\Menus;
 
 class TrafficOverview extends BaseMetabox
 {
-    protected $key = 'traffic_overview';
+    protected $key = 'quickstats';
     protected $context = 'side';
 
     public function getName()
@@ -29,11 +29,10 @@ class TrafficOverview extends BaseMetabox
     public function getData()
     {
         $args = [
-            'ignore_post_type'  => true,
-            'prev_data'         => true
+            'ignore_post_type' => true,
         ];
 
-        $chartData  = $this->dataProvider->getTrafficChartData(array_merge($args, ['date' => DateRange::get('15days')]));
+        $chartData  = $this->dataProvider->getTrafficChartData(array_merge($args, ['date' => DateRange::get('15days'), 'prev_data' => true]));
         $data       = $this->dataProvider->getTrafficOverviewData(array_merge($args, ['ignore_date' => true, 'historical' => true]));
 
         // Merge chart data with template data

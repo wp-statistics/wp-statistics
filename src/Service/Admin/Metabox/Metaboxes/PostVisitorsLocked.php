@@ -7,7 +7,7 @@ use WP_STATISTICS\Helper;
 
 class PostVisitorsLocked extends BaseMetabox
 {
-    protected $key = 'post_latest_visitors_locked';
+    protected $key = 'post-visitors-locked';
     protected $context = 'normal';
     protected $priority = 'high';
     protected $static = true;

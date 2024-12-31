@@ -1,4 +1,4 @@
-wps_js.render_traffic_hour = function (response, key) {
+wps_js.render_wp_statistics_hourly_usage_widget = function (response, key) {
 
     const hourTooltipHandler = (context, dataset, colors, data) => {
         const {chart, tooltip} = context;

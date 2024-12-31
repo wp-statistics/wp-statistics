@@ -23,6 +23,42 @@ class HistoricalModel
     private $type = null;
 
     /**
+     * Parse and validate the arguments for processing visitors data.
+     *
+     * This method ensures that the arguments meet the required criteria 
+     * by checking for the presence of either 'historical' or 'ignore_date' 
+     * keys. If any additional keys are non-empty, the method returns null.
+     *
+     * @param array $args     Associative array of arguments to parse. Must include
+     *                        either 'historical' or 'ignore_date' as a key.
+     * @param array $defaults Optional. Default values to merge with the provided arguments.
+     *                        Defaults to an empty array.
+     *
+     * @return array|null Parsed arguments if valid; null otherwise.
+     * @todo We have to migrate to the baseModel. we have to add a list of the allowed arguments to prevent passing extra args.
+     */
+    private function parseVisitorsArgs($args, $defaults = [])
+    {
+        if (empty($args['historical']) && empty($args['ignore_date'])) {
+            return null;
+        }
+
+        $args = wp_parse_args($args, $defaults);
+
+        foreach ($args as $key => $value) {
+            if (in_array($key, ['ignore_post_type', 'ignore_date', 'historical'], true)) {
+                continue;
+            }
+
+            if (! empty($value)) {
+                return null;
+            }
+        }
+
+        return $args;
+    }
+
+    /**
      * Parse and cache the arguments for reuse.
      *
      * @param array $args Arguments to be parsed. Must contain either 'historical' or 'ignore_date'.
@@ -30,7 +66,7 @@ class HistoricalModel
      *
      * @return array|null Parsed and enhanced arguments, or null if required arguments are missing.
      */
-    private function parseArgs($args, $defaults = [])
+    private function parseViewsArgs($args, $defaults = [])
     {
         if (empty($args['historical']) && empty($args['ignore_date'])) {
             return null;
@@ -138,7 +174,7 @@ class HistoricalModel
      */
     public function getVisitors($args)
     {
-        $args = $this->parseArgs($args);
+        $args = $this->parseVisitorsArgs($args);
 
         if (is_null($args)) {
             return 0;
@@ -167,7 +203,7 @@ class HistoricalModel
      */
     public function getViews($args)
     {
-        $args = $this->parseArgs($args, [
+        $args = $this->parseViewsArgs($args, [
             'resource_id' => '',
             'uri'         => '',
             'category'    => 'visits',

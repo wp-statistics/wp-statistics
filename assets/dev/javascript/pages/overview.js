@@ -4,10 +4,10 @@ if (wps_js.global.page.file === "index.php" || wps_js.is_active('overview_page')
         static getDateRange(filter) {
             const today = moment().format('YYYY-MM-DD');
             const currentWeekEnd = moment().endOf('week').format('YYYY-MM-DD');
-            
+
             const ranges = {
-                'today': { start: today, end: today },
-                'yesterday': { 
+                'today': {start: today, end: today},
+                'yesterday': {
                     start: moment().subtract(1, 'days').format('YYYY-MM-DD'),
                     end: moment().subtract(1, 'days').format('YYYY-MM-DD')
                 },
@@ -49,7 +49,7 @@ if (wps_js.global.page.file === "index.php" || wps_js.is_active('overview_page')
                 }
             };
 
-            return ranges[filter] || { start: null, end: null };
+            return ranges[filter] || {start: null, end: null};
         }
 
         static formatDateRange(startDate, endDate) {
@@ -96,7 +96,7 @@ if (wps_js.global.page.file === "index.php" || wps_js.is_active('overview_page')
                 jQuery('.postbox').removeClass('has-focus');
                 $target.closest('.js-widget-filters').toggleClass('is-active');
                 $target.closest('.postbox').toggleClass('has-focus');
-                
+
                 const targetTopPosition = $target[0].getBoundingClientRect().top;
                 if (targetTopPosition < 350) {
                     $target.closest('.js-widget-filters').addClass('is-down');
@@ -117,7 +117,7 @@ if (wps_js.global.page.file === "index.php" || wps_js.is_active('overview_page')
         }
 
         initializeDatePicker() {
-            jQuery('.js-datepicker-input').each(function() {
+            jQuery('.js-datepicker-input').each(function () {
                 if (!jQuery(this).data('daterangepicker')) {
                     jQuery(this).daterangepicker({
                         autoUpdateInput: false,
@@ -240,7 +240,7 @@ if (wps_js.global.page.file === "index.php" || wps_js.is_active('overview_page')
 
     // Initialize DatePickerHandler
     wps_js.datePickerHandler = new DatePickerHandler();
-    wps_js.initDatePickerHandlers = function() {
+    wps_js.initDatePickerHandlers = function () {
         wps_js.datePickerHandler.initializeEventListeners();
     };
 
@@ -249,10 +249,11 @@ if (wps_js.global.page.file === "index.php" || wps_js.is_active('overview_page')
 
     function loadMetaBoxData(metaBoxKey, startDate = null, endDate = null, date_filter = null) {
         return new Promise((resolve, reject) => {
+            const keyName = metaBoxKey.replace(/-/g, '_').replace('widget', 'metabox');
             let data = {
-                'action': `wp_statistics_${metaBoxKey}_metabox_get_data`,
+                'action': `${keyName}_get_data`,
                 'wps_nonce': wps_js.global.rest_api_nonce,
-                'current_page' :wps_js.global.page
+                'current_page': wps_js.global.page
             };
 
             if (date_filter) {
@@ -288,9 +289,10 @@ if (wps_js.global.page.file === "index.php" || wps_js.is_active('overview_page')
         });
     }
 
-    wps_js.handleMetaBoxRender = function(response, metaBoxKey) {
-        if (typeof wps_js[`render_${metaBoxKey}`] === 'function') {
-            wps_js[`render_${metaBoxKey}`](response, metaBoxKey);
+    wps_js.handleMetaBoxRender = function (response, metaBoxKey) {
+        const keyName = metaBoxKey.replace(/-/g, '_');
+        if (typeof wps_js[`render_${keyName}`] === 'function') {
+            wps_js[`render_${keyName}`](response, metaBoxKey);
             wps_js.handelReloadButton(metaBoxKey);
             wps_js.handelMetaBoxFooter(metaBoxKey, response);
         }
@@ -300,7 +302,6 @@ if (wps_js.global.page.file === "index.php" || wps_js.is_active('overview_page')
         let activeOptions = [];
         // Check if the screen options element exists
         if ($('#adv-settings').length > 0) {
-            // Loop through screen options checkboxes
             $('#adv-settings input[type="checkbox"]').each(function () {
                 if ($(this).is(':checked')) {
                     // Get the ID and remove the '-hide' suffix
@@ -308,20 +309,20 @@ if (wps_js.global.page.file === "index.php" || wps_js.is_active('overview_page')
                     activeOptions.push(optionId);
                 }
             });
-        }else{
+        } else {
             activeOptions = meta_list;
         }
         return activeOptions;
     }
 
-     function refreshMetaBox(metaBoxKey) {
+    function refreshMetaBox(metaBoxKey) {
         // Refresh the data for the specific meta box
         loadMetaBoxData(metaBoxKey).then(response => {
             wps_js.handleMetaBoxRender(response, metaBoxKey);
         });
     }
 
-   // Initialize meta boxes on page load
+    // Initialize meta boxes on page load
     let activeOptions = handleScreenOptionsChange();
     meta_list.forEach((metaBoxKey) => {
         if (activeOptions.includes(metaBoxKey)) {
@@ -330,11 +331,11 @@ if (wps_js.global.page.file === "index.php" || wps_js.is_active('overview_page')
         }
     });
 
-     jQuery(document).on('change', '#adv-settings input[type="checkbox"]', function () {
-         let metaBoxKey = $(this).attr('id').replace('-hide', '');
+    jQuery(document).on('change', '#adv-settings input[type="checkbox"]', function () {
+        let metaBoxKey = $(this).attr('id').replace('-hide', '');
 
         if ($(this).is(':checked')) {
-             refreshMetaBox(metaBoxKey);
+            refreshMetaBox(metaBoxKey);
         }
     });
 
@@ -348,8 +349,8 @@ if (wps_js.global.page.file === "index.php" || wps_js.is_active('overview_page')
 
     // Export utility functions
     wps_js.metaBoxInner = key => jQuery('#' + key + ' .inside');
-    
-    wps_js.showLoadingSkeleton = function(metaBoxKey) {
+
+    wps_js.showLoadingSkeleton = function (metaBoxKey) {
         let metaBoxInner = jQuery('#' + metaBoxKey + ' .inside');
         metaBoxInner.html('<div class="wps-skeleton-container"><div class="wps-skeleton-container__skeleton wps-skeleton-container__skeleton--full wps-skeleton-container__skeleton--h-150"></div></div>');
     };
@@ -361,12 +362,12 @@ if (wps_js.global.page.file === "index.php" || wps_js.is_active('overview_page')
         }
     };
 
-    wps_js.handelMetaBoxFooter = function (key,response){
+    wps_js.handelMetaBoxFooter = function (key, response) {
         let html = '<div class="c-footer"><div class="c-footer__filter js-widget-filters">';
         if (response.options && response.options.datepicker) {
             let startDateResponse;
             let endDateResponse;
-            let dateFilterTitle =wps_js._(`str_30days`);
+            let dateFilterTitle = wps_js._(`str_30days`);
             let dateFilterType = wps_js._(`str_30days`);
             if (response?.filters && response.filters.date && response.filters.date.filter) {
                 const dateFormat = wps_js.isset(wps_js.global, 'options', 'wp_date_format') ? wps_js.global['options']['wp_date_format'] : 'MM/DD/YYYY';
@@ -380,7 +381,7 @@ if (wps_js.global.page.file === "index.php" || wps_js.is_active('overview_page')
                     startDateResponse = fromDate.format(momentDateFormat);
                 }
                 endDateResponse = toDate.format(momentDateFormat);
-                dateFilterType = response.filters.date.type === 'custom' ? startDateResponse + ' _ ' + endDateResponse  : wps_js._(`str_${response.filters.date.filter}`);
+                dateFilterType = response.filters.date.type === 'custom' ? startDateResponse + ' _ ' + endDateResponse : wps_js._(`str_${response.filters.date.filter}`);
                 dateFilterTitle = response.filters.date.type === 'custom' ? wps_js._('str_custom') : wps_js._(`str_${response.filters.date.filter}`)
             }
 
@@ -389,7 +390,7 @@ if (wps_js.global.page.file === "index.php" || wps_js.is_active('overview_page')
                 <div class="c-footer__filters">
                     <div class="c-footer__filters__current-filter">
                         <span class="c-footer__current-filter__title js-filter-title">` + dateFilterTitle + `</span>
-                         <span class="c-footer__current-filter__date-range hs-filter-range">` + startDateResponse + ' _ ' + endDateResponse + `</span>
+                         <span class="c-footer__current-filter__date-range hs-filter-range">` + startDateResponse + ' - ' + endDateResponse + `</span>
                     </div>
                     <div class="c-footer__filters__list">
                         <button data-metabox-key="${key}" data-filter="today" class="c-footer__filters__list-item">` + wps_js._('str_today') + `</button>
@@ -419,9 +420,9 @@ if (wps_js.global.page.file === "index.php" || wps_js.is_active('overview_page')
         html += `</div></div>`;
         let selector = jQuery("#" + key + " h2.hndle");
 
-        if (key === 'currently_online') {
+        if (key === 'wp-statistics-useronline-widget') {
             const current_online = jQuery(".wps-currently-online");
-            if (current_online.length && current_online.text() > 0) {
+            if (current_online.length && current_online.text() >= 0) {
                 const container = selector.find('.wps-wps-currently-online__container');
 
                 if (container.length) {
@@ -433,18 +434,20 @@ if (wps_js.global.page.file === "index.php" || wps_js.is_active('overview_page')
                             </span>`;
                     selector.append(online);
                 }
+            } else {
+                selector.find('.wps-wps-currently-online__container').remove()
             }
         }
 
 
-        if (key === 'traffic_overview') {
-            const selector=jQuery("#" + key + " div.handle-actions");
+        if (key === 'wp-statistics-quickstats-widget') {
+            const selector = jQuery("#" + key + " div.handle-actions");
             if (selector.length && !selector.find('.wps-overview-btn').length) {
-               const link = `<a href="${wps_js.global.admin_url}admin.php?page=wps_overview_page" class="wps-overview-btn">${wps_js._('go_to_overview') }</a>`;
-               selector.prepend(link);
+                const link = `<a href="${wps_js.global.admin_url}admin.php?page=wps_overview_page" class="wps-overview-btn">${wps_js._('go_to_overview')}</a>`;
+                selector.prepend(link);
                 const overviewBtn = selector.find('.wps-overview-btn');
                 if (overviewBtn.length) {
-                    overviewBtn.on('click', function(e) {
+                    overviewBtn.on('click', function (e) {
                         e.preventDefault();
                         window.location.href = this.href;
                     });
@@ -453,8 +456,8 @@ if (wps_js.global.page.file === "index.php" || wps_js.is_active('overview_page')
         }
 
 
-        if(response.meta && response.meta.description){
-             if (selector.length && !selector.find('.wps-tooltip').length) {
+        if (response.meta && response.meta.description) {
+            if (selector.length && !selector.find('.wps-tooltip').length) {
                 const tooltip = response.meta.description;
                 const newTitle = '<a href="#" class="wps-tooltip" title="' + tooltip + '"><i class="wps-tooltip-icon"></i></a>';
                 if (tooltip) selector.append(newTitle);
@@ -463,4 +466,31 @@ if (wps_js.global.page.file === "index.php" || wps_js.is_active('overview_page')
 
         wps_js.metaBoxInner(key).append(html);
     }
+
+
+    document.addEventListener('click', function (event) {
+        if (event.target && event.target.id === 'js-close-widget') {
+            let params = {
+                'action': `wp_statistics_dismiss_notice`,
+                'wps_nonce': wps_js.global.rest_api_nonce,
+                'notice_id': 'enable_email_metabox_notice'
+            };
+
+            jQuery.ajax({
+                url: wps_js.global.admin_url + 'admin-ajax.php',
+                type: 'POST',
+                dataType: 'json',
+                data: params,
+                timeout: 30000,
+                success: function ({data, success}) {
+                    if (success === false) return console.log(data);
+                    event.target.parentElement.parentElement.style.display = 'none';
+                },
+                error: function (xhr, status, error) {
+                    console.log(error);
+                }
+            });
+        }
+    });
+
 }

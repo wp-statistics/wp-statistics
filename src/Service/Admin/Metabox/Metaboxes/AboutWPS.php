@@ -9,7 +9,7 @@ use WP_STATISTICS\Option;
 class AboutWPS extends BaseMetabox
 {
     protected $settings = [];
-    protected $key = 'about_wps';
+    protected $key = 'about';
     protected $context = 'side';
     protected $static = true;
 
@@ -25,10 +25,10 @@ class AboutWPS extends BaseMetabox
     public function getKey()
     {
         if ($this->settings['custom_widget'] === 'yes') {
-            return "custom_{$this->key}";
+            $this->key = "custom-{$this->key}";
         }
 
-        return $this->key;
+        return "wp-statistics-{$this->key}-metabox";
     }
 
     public function getName()

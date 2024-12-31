@@ -4,6 +4,7 @@ namespace WP_STATISTICS;
 
 use WP_Statistics\Components\AssetNameObfuscator;
 use WP_Statistics\Components\Event;
+use WP_Statistics\Service\Admin\Metabox\MetaboxHelper;
 
 class Install
 {

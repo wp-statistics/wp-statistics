@@ -1,4 +1,4 @@
-.statistics_page_wps_privacy-audit_page .wp-statistics-notice.privacy-notice{
+.wp-statistics-notice.privacy-notice{
   width: 774px;
   max-width: 100%;
   border: 1px solid #E68C3F80!important;
@@ -187,6 +187,7 @@
             .rtl &{
               margin-left: 0;
               margin-right: 5px;
+              transform: rotate(180deg);
             }
           }
 
@@ -378,7 +379,7 @@
   }
 }
 
-.wps-audit-cards__container{
+.wps-audit-cards__container , .wps-audit-cards{
   &.loading{
     position: relative;
     overflow: hidden;
@@ -402,6 +403,13 @@
     }
   }
 }
+
+.wps-audit-cards.loading{
+  h2.wps-audit-cards__title, .wps-audit-cards__title--light{
+    color: transparent!important;
+  }
+}
+
 
 .wps-privacy-status {
   &.loading {
@@ -522,6 +530,12 @@
 .wps-privacy-unpassed .wps-audit-card--warning{
   .wps-audit-card__icon{
     background: #4D4E50!important;
+  }
+}
+
+.wps-privacy-questions{
+  .wps-audit-card__status-text{
+    display: none!important;
   }
 }
 

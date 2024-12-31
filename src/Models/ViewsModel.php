@@ -51,10 +51,11 @@ class ViewsModel extends BaseModel
         }
 
         $total = $query->getVar();
+        $total = $total ? intval($total) : 0;
 
         $total += $this->historicalModel->getViews($args);
 
-        return $total ? intval($total) : 0;
+        return $total;
     }
 
     /**
@@ -87,10 +88,11 @@ class ViewsModel extends BaseModel
         }
 
         $total = $query->getVar();
+        $total = $total ? intval($total) : 0;
 
         $total += $this->historicalModel->getViews($args);
 
-        return $total ? intval($total) : 0;
+        return $total;
     }
 
     public function countDailyViews($args = [])

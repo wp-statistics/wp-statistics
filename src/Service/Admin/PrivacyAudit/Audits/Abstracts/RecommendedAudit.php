@@ -41,7 +41,6 @@ abstract class RecommendedAudit extends BaseAudit
                 'icon'       => $unpassedInfo['icon'],
                 'title'      => $unpassedInfo['title'],
                 'notes'      => $unpassedInfo['notes'],
-                'summary'    => $unpassedInfo['summary'],
                 'compliance' => [
                     'key'   => 'action_required',
                     'value' => esc_html__('Action Required', 'wp-statistics'),
@@ -52,7 +51,6 @@ abstract class RecommendedAudit extends BaseAudit
                 'icon'       => $recommendedInfo['icon'],
                 'title'      => $recommendedInfo['title'],
                 'notes'      => $recommendedInfo['notes'],
-                'summary'    => $recommendedInfo['summary'],
                 'compliance' => [
                     'key'   => 'recommended',
                     'value' => esc_html__('Recommended', 'wp-statistics'),
@@ -63,7 +61,6 @@ abstract class RecommendedAudit extends BaseAudit
                 'icon'       => $passedInfo['icon'],
                 'title'      => $passedInfo['title'],
                 'notes'      => $passedInfo['notes'],
-                'summary'    => $passedInfo['summary'],
                 'compliance' => [
                     'key'   => 'passed',
                     'value' => esc_html__('Passed', 'wp-statistics'),

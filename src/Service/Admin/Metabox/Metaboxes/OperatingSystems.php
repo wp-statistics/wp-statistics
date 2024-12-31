@@ -7,7 +7,7 @@ use WP_STATISTICS\Menus;
 
 class OperatingSystems extends BaseMetabox
 {
-    protected $key = 'most_used_operating_systems';
+    protected $key = 'platforms';
     protected $context = 'side';
 
     public function getName()

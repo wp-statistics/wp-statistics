@@ -4,6 +4,7 @@ namespace WP_STATISTICS;
 
 use WP_Statistics\Components\DateRange;
 use WP_Statistics\Models\VisitorsModel;
+use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Service\Analytics\DeviceDetection\DeviceHelper;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
 use WP_Statistics\Service\Geolocation\Provider\MaxmindGeoIPProvider;
@@ -93,6 +94,11 @@ class Ajax
             [
                 'class'  => $this,
                 'action' => 'store_date_range',
+                'public' => false
+            ],
+            [
+                'class'  => $this,
+                'action' => 'dismiss_notice',
                 'public' => false
             ]
         ];
@@ -635,6 +641,30 @@ class Ajax
 
             wp_send_json_success(['message' => esc_html__('Date range has been stored successfully.', 'wp-statistics')]);
 
+        }
+
+        exit;
+    }
+
+    public function dismiss_notice_action_callback()
+    {
+        if (!Request::isFrom('ajax')) exit;
+
+        check_ajax_referer('wp_rest', 'wps_nonce');
+
+        $noticeId = Request::get('notice_id');
+
+        if (!empty($noticeId)) {
+            $dismissedNotices = get_option('wp_statistics_dismissed_notices', []);
+
+            if (!in_array($noticeId, $dismissedNotices)) {
+                $dismissedNotices[] = $noticeId;
+                update_option('wp_statistics_dismissed_notices', $dismissedNotices);
+            }
+
+            wp_send_json_success(['message' => esc_html__('Notice dismissed.', 'wp-statistics')]);
+        } else {
+            wp_send_json_error(['message' => esc_html__('Invalid Notice ID.', 'wp-statistics')]);
         }
 
         exit;
