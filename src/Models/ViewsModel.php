@@ -168,81 +168,58 @@ class ViewsModel extends BaseModel
 
     public function getViewsSummary($args = [])
     {
-        if (empty($args['ignore_date'])) {
-            $args = array_merge($args, ['date' => DateRange::get('this_year')]);
-        }
-
-        $result = $this->countDailyViews($args);
-
         $summary = [
-            'today'      => ['label' => esc_html__('Today', 'wp-statistics'), 'views' => 0],
-            'yesterday'  => ['label' => esc_html__('Yesterday', 'wp-statistics'), 'views' => 0],
-            'this_week'  => ['label' => esc_html__('This week', 'wp-statistics'), 'views' => 0],
-            'last_week'  => ['label' => esc_html__('Last week', 'wp-statistics'), 'views' => 0],
-            'this_month' => ['label' => esc_html__('This month', 'wp-statistics'), 'views' => 0],
-            'last_month' => ['label' => esc_html__('Last month', 'wp-statistics'), 'views' => 0],
-            '7days'      => ['label' => esc_html__('Last 7 days', 'wp-statistics'), 'views' => 0],
-            '30days'     => ['label' => esc_html__('Last 30 days', 'wp-statistics'), 'views' => 0],
-            '90days'     => ['label' => esc_html__('Last 90 days', 'wp-statistics'), 'views' => 0],
-            '6months'    => ['label' => esc_html__('Last 6 months', 'wp-statistics'), 'views' => 0],
-            'this_year'  => ['label' => esc_html__('This year (Jan-Today)', 'wp-statistics'), 'views' => 0],
+            'today'      => [
+                'label'     => esc_html__('Today', 'wp-statistics'),
+                'views'     => $this->countViews(array_merge($args, ['date' => DateRange::get('today')]))
+            ],
+            'yesterday'  => [
+                'label'     => esc_html__('Yesterday', 'wp-statistics'),
+                'views'     => $this->countViews(array_merge($args, ['date' => DateRange::get('yesterday')]))
+            ],
+            'this_week'  => [
+                'label'     => esc_html__('This week', 'wp-statistics'),
+                'views'     => $this->countViews(array_merge($args, ['date' => DateRange::get('this_week')]))
+            ],
+            'last_week'  => [
+                'label'     => esc_html__('Last week', 'wp-statistics'),
+                'views'     => $this->countViews(array_merge($args, ['date' => DateRange::get('last_week')]))
+            ],
+            'this_month' => [
+                'label'     => esc_html__('This month', 'wp-statistics'),
+                'views'     => $this->countViews(array_merge($args, ['date' => DateRange::get('this_month')]))
+            ],
+            'last_month' => [
+                'label'     => esc_html__('Last month', 'wp-statistics'),
+                'views'     => $this->countViews(array_merge($args, ['date' => DateRange::get('last_month')]))
+            ],
+            '7days'      => [
+                'label'     => esc_html__('Last 7 days', 'wp-statistics'),
+                'views'     => $this->countViews(array_merge($args, ['date' => DateRange::get('7days')]))
+            ],
+            '30days'     => [
+                'label'     => esc_html__('Last 30 days', 'wp-statistics'),
+                'views'     => $this->countViews(array_merge($args, ['date' => DateRange::get('30days')]))
+            ],
+            '90days'     => [
+                'label'     => esc_html__('Last 90 days', 'wp-statistics'),
+                'views'     => $this->countViews(array_merge($args, ['date' => DateRange::get('90days')]))
+            ],
+            '6months'    => [
+                'label'     => esc_html__('Last 6 months', 'wp-statistics'),
+                'views'     => $this->countViews(array_merge($args, ['date' => DateRange::get('6months')]))
+            ],
+            'this_year'  => [
+                'label'     => esc_html__('This year (Jan-Today)', 'wp-statistics'),
+                'views'     => $this->countViews(array_merge($args, ['date' => DateRange::get('this_year')]))
+            ]
         ];
 
         if (!empty($args['ignore_date'])) {
-            $summary['total'] = ['label' => esc_html__('Total', 'wp-statistics'), 'views' => $this->historicalModel->getViews($args)];
-        }
-
-        foreach ($result as $record) {
-            $date   = $record->date;
-            $views  = $record->views;
-
-            if (DateRange::compare($date, '=', 'today')) {
-                $summary['today']['views'] += $views;
-            }
-
-            if (DateRange::compare($date, '=', 'yesterday')) {
-                $summary['yesterday']['views'] += $views;
-            }
-
-            if (DateRange::compare($date, 'in', 'this_week')) {
-                $summary['this_week']['views'] += $views;
-            }
-
-            if (DateRange::compare($date, 'in', 'last_week')) {
-                $summary['last_week']['views'] += $views;
-            }
-
-            if (DateRange::compare($date, 'in', 'this_month')) {
-                $summary['this_month']['views'] += $views;
-            }
-
-            if (DateRange::compare($date, 'in', 'last_month')) {
-                $summary['last_month']['views'] += $views;
-            }
-
-            if (DateRange::compare($date, 'in', '7days')) {
-                $summary['7days']['views'] += $views;
-            }
-
-            if (DateRange::compare($date, 'in', '30days')) {
-                $summary['30days']['views'] += $views;
-            }
-
-            if (DateRange::compare($date, 'in', '90days')) {
-                $summary['90days']['views'] += $views;
-            }
-
-            if (DateRange::compare($date, 'in', '6months')) {
-                $summary['6months']['views'] += $views;
-            }
-
-            if (DateRange::compare($date, 'in', 'this_year')) {
-                $summary['this_year']['views'] += $views;
-            }
-
-            if (!empty($args['ignore_date'])) {
-                $summary['total']['views'] += $views;
-            }
+            $summary['total'] = [
+                'label'     => esc_html__('Total', 'wp-statistics'),
+                'views'     => $this->countViews($args)
+            ];
         }
 
         return $summary;
