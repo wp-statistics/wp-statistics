@@ -321,13 +321,18 @@ class TimeZone
     /**
      * Convert timestamp to "time ago" format
      *
-     * @param DateTime $currentDate Current date and time
+     * @param string   $currentDate Current date and time
      * @param DateTime $visitDate Visit date and time
-     * @param string $originalDate Formatted original date to display if difference is more than 24 hours
+     * @param string   $originalDate Formatted original date to display if difference is more than 24 hours
+     * 
      * @return string Formatted time difference
      */
     public static function getElapsedTime($currentDate, $visitDate, $originalDate)
     {
+        if (!($currentDate instanceof \DateTime)) {
+            $currentDate = new \DateTime($currentDate);
+        }
+
         $diffMinutes = round(($currentDate->getTimestamp() - $visitDate->getTimestamp()) / 60);
 
         if ($diffMinutes >= 1440) {
