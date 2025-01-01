@@ -215,10 +215,10 @@ class ViewsModel extends BaseModel
             ]
         ];
 
-        if (!empty($args['ignore_date'])) {
+        if (!empty($args['include_total'])) {
             $summary['total'] = [
                 'label'     => esc_html__('Total', 'wp-statistics'),
-                'views'     => $this->countViews($args)
+                'views'     => $this->countViews(array_merge($args, ['ignore_date' => true, 'historical' => true]))
             ];
         }
 

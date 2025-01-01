@@ -28,9 +28,8 @@ class TrafficSummary extends BaseMetabox
     public function getData()
     {
         $args = [
-            'ignore_date'       => true,
             'ignore_post_type'  => true,
-            'historical'        => true
+            'include_total'     => true
         ];
 
         $data = $this->dataProvider->getTrafficSummaryData($args);

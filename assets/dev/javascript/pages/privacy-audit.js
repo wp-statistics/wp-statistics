@@ -91,6 +91,7 @@ if (wps_js.isset(wps_js.global, 'request_params', 'page') && wps_js.global.reque
         complianceStatusWrapper.find('.wps-privacy-status__percent-value').text(complianceData.percentage_ready);
         complianceStatusWrapper.find('.wps-privacy-status__rules-mapped-value').text(complianceData.rules_mapped);
         complianceStatusWrapper.find('.wps-privacy-status__passed-value').text(complianceData.summary.passed);
+        complianceStatusWrapper.find('.wps-privacy-status__final-value').text(complianceData.rules_mapped);
 
         // Update elements that depend on action required audits 
         if (complianceData.summary.action_required > 0) {
