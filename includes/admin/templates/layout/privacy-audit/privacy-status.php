@@ -26,7 +26,7 @@
                         <span class="wps-privacy-status__percent-value"></span><?php esc_html_e('% Ready', 'wp-statistics'); ?>
                     </div>
                     <div class="wps-privacy-status__mapped">
-                        <span class="dot"></span> <span class="wps-privacy-status__passed-value"></span> <?php esc_html_e('rules mapped', 'wp-statistics'); ?>
+                        <span class="dot"></span> <span class="wps-privacy-status__passed-value"></span> <?php esc_html_e('of', 'wp-statistics'); ?> <span class="wps-privacy-status__final-value"></span> <?php esc_html_e('Rules Passed', 'wp-statistics'); ?>
                     </div>
                 </div>
                 <div class="wps-privacy-status__bars">
