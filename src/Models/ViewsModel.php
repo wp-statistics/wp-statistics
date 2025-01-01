@@ -12,14 +12,15 @@ class ViewsModel extends BaseModel
     public function countViews($args = [])
     {
         $args = $this->parseArgs($args, [
-            'post_type'     => Helper::get_list_post_type(),
-            'resource_type' => '',
-            'date'          => '',
-            'author_id'     => '',
-            'post_id'       => '',
-            'query_param'   => '',
-            'taxonomy'      => '',
-            'term'          => '',
+            'post_type'         => Helper::get_list_post_type(),
+            'resource_type'     => '',
+            'date'              => '',
+            'author_id'         => '',
+            'post_id'           => '',
+            'query_param'       => '',
+            'taxonomy'          => '',
+            'term'              => '',
+            'ignore_post_type'  => false
         ]);
 
         $viewsQuery = Query::select(['id', 'date', 'SUM(count) AS count'])
@@ -31,23 +32,27 @@ class ViewsModel extends BaseModel
             ->getQuery();
 
         $query = Query::select('SUM(pages.count) as total_views')
-            ->fromQuery($viewsQuery, 'pages')
-            ->join('posts', ['pages.id', 'posts.ID'])
-            ->where('post_type', 'IN', $args['post_type'])
-            ->where('post_author', '=', $args['author_id'])
-            ->where('posts.ID', '=', $args['post_id']);
+            ->fromQuery($viewsQuery, 'pages');
 
-        if (!empty($args['taxonomy']) || !empty($args['term'])) {
-            $taxQuery = Query::select(['DISTINCT object_id'])
-                ->from('term_relationships')
-                ->join('term_taxonomy', ['term_relationships.term_taxonomy_id', 'term_taxonomy.term_taxonomy_id'])
-                ->join('terms', ['term_taxonomy.term_id', 'terms.term_id'])
-                ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy'])
-                ->where('terms.term_id', '=', $args['term'])
-                ->getQuery();
-
+        if (!empty($args['author_id']) || !empty($args['post_id']) || !empty($args['taxonomy']) || !empty($args['term']) || (!empty($args['post_type']) && !$args['ignore_post_type'])) {
             $query
-                ->joinQuery($taxQuery, ['posts.ID', 'tax.object_id'], 'tax');
+                ->join('posts', ['pages.id', 'posts.ID'])
+                ->where('post_type', 'IN', $args['post_type'])
+                ->where('post_author', '=', $args['author_id'])
+                ->where('posts.ID', '=', $args['post_id']);
+
+            if (!empty($args['taxonomy']) || !empty($args['term'])) {
+                $taxQuery = Query::select(['DISTINCT object_id'])
+                    ->from('term_relationships')
+                    ->join('term_taxonomy', ['term_relationships.term_taxonomy_id', 'term_taxonomy.term_taxonomy_id'])
+                    ->join('terms', ['term_taxonomy.term_id', 'terms.term_id'])
+                    ->where('term_taxonomy.taxonomy', 'IN', $args['taxonomy'])
+                    ->where('terms.term_id', '=', $args['term'])
+                    ->getQuery();
+
+                $query
+                    ->joinQuery($taxQuery, ['posts.ID', 'tax.object_id'], 'tax');
+            }
         }
 
         $total = $query->getVar();
