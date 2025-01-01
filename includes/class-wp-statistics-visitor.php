@@ -199,18 +199,17 @@ class Visitor
          * However, since the table was not considered a unique key at first for these fields, As they say, "Fools tie knots, and wise men loose them :)" we manually check for the record's existence,
          *
          */
-        $exist = $wpdb->get_var(
-            $wpdb->prepare("SELECT COUNT(*) FROM `" . $tableName . "` WHERE `visitor_id` = %d AND `page_id` = %d AND DATE(`date`) = %s", $visitor_id, $page_id, $currentDate)
+        $row = $wpdb->get_row(
+            $wpdb->prepare("SELECT ID, page_id FROM `" . $tableName . "` WHERE `visitor_id` = %d AND DATE(`date`) = %s ORDER BY `date` DESC LIMIT 1", $visitor_id, $currentDate)
         );
 
         /**
          * If a record exists, update its date to the current date.
          * Otherwise, insert a new record with the visitor ID, page ID, and current date.
          */
-        if ($exist) {
-
+        if ($row->page_id == $page_id) {
             $result = $wpdb->query(
-                $wpdb->prepare("UPDATE `" . $tableName . "` SET `date` = %s WHERE DATE(`date`) = %s AND `visitor_id` = %d AND `page_id` = %d", TimeZone::getCurrentDate(), $currentDate, $visitor_id, $page_id)
+                $wpdb->prepare("UPDATE `" . $tableName . "` SET `date` = %s WHERE `ID` = %d", TimeZone::getCurrentDate(), $row->ID)
             );
 
         } else {
