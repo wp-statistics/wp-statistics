@@ -21,11 +21,15 @@ class Purge
             $table_name  = DB::table('visit');
             $date_string = TimeZone::getCurrentDate('Y-m-d', '-' . $purge_days);
 
-            $result = $wpdb->query($wpdb->prepare("DELETE FROM {$table_name} WHERE `last_counter` < %s", $date_string));
+            // Get sum of visits
+            $result = $wpdb->get_var($wpdb->prepare("SELECT SUM(visit) FROM {$table_name} WHERE `last_counter` < %s", $date_string));
+
+            // Delete visit records from database
+            $wpdb->query($wpdb->prepare("DELETE FROM {$table_name} WHERE `last_counter` < %s", $date_string));
 
             if ($result) {
                 // Update the historical count with what we purged.
-                $historical_result = $wpdb->query($wpdb->prepare("UPDATE {$historical_table} SET value = value + %d WHERE `category` = 'visits'", $result));
+                $historical_result = $wpdb->query($wpdb->prepare("UPDATE {$historical_table} SET value = value + %d WHERE `category` = 'visits'", intval($result)));
 
                 // Insert
                 if ($historical_result == 0) {
