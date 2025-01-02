@@ -1046,7 +1046,8 @@ class VisitorsModel extends BaseModel
             'country'       => '',
             'query_param'   => '',
             'taxonomy'      => '',
-            'term'          => ''
+            'term'          => '',
+            'not_null'      => ''
         ]);
 
         $filteredArgs = array_filter($args);
@@ -1056,6 +1057,7 @@ class VisitorsModel extends BaseModel
         ])
             ->from('visitor')
             ->where('source_channel', 'IN', $args['source_channel'])
+            ->whereNotNull($args['not_null'])
             ->whereRaw("
                 AND (
                     (visitor.referred != '' AND visitor.referred IS NOT NULL)
