@@ -98,7 +98,7 @@ $prevViews      = $data['total']['views']['prev'];
 
     <?php
         if (!Option::get('time_report') && !in_array('enable_email_metabox_notice', get_option('wp_statistics_dismissed_notices', [])))  {
-            View::load("components/meta-box/enable-mail", ['url' => Menus::admin_url('settings')]);
+            View::load("components/meta-box/enable-mail");
         }
     ?>
 </div>
