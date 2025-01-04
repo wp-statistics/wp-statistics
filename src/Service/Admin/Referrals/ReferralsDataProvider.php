@@ -31,12 +31,9 @@ class ReferralsDataProvider
         return [
             'referrers' => $this->visitorsModel->getReferrers(array_merge($this->args, [
                 'decorate' => true,
-                'not_null' => 'visitor.referred',
                 'group_by' => ['visitor.referred', 'visitor.source_channel']
             ])),
-            'total'     => $this->visitorsModel->countReferrers(array_merge($this->args, [
-                'not_null' => 'visitor.referred'
-            ]))
+            'total'     => $this->visitorsModel->countReferrers($this->args)
         ];
     }
 
@@ -75,7 +72,6 @@ class ReferralsDataProvider
         return [
             'referrers' => $this->visitorsModel->getReferrers(array_merge($this->args, [
                 'source_channel'    => Request::get('source_channel', ['social', 'paid_social']),
-                'not_null'          => 'source_channel',
                 'decorate'          => true,
                 'group_by'          => ['visitor.referred', 'visitor.source_channel']
             ])),
@@ -86,7 +82,7 @@ class ReferralsDataProvider
     public function getSearchEnginesChartsData()
     {
         $args = [
-            'source_channel' => Request::get('source_channel', ['search', 'paid_search']),
+            'source_channel' => Request::get('source_channel', ['search', 'paid_search'])
         ];
 
         $searchEngineChart = ChartDataProviderFactory::searchEngineChart(array_merge($this->args, $args));
@@ -99,7 +95,7 @@ class ReferralsDataProvider
     public function getSocialMediaChartsData()
     {
         $args = [
-            'source_channel' => Request::get('source_channel', ['social', 'paid_social']),
+            'source_channel' => Request::get('source_channel', ['social', 'paid_social'])
         ];
 
         $socialMediaChart = ChartDataProviderFactory::socialMediaChart(array_merge($this->args, $args));

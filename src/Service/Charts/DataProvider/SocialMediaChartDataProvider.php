@@ -30,9 +30,6 @@ class SocialMediaChartDataProvider extends AbstractChartDataProvider
         // Rest per_page to get all results
         $this->args['per_page'] = false;
 
-        // Filter by source_channel
-        $this->args['not_null'] = 'source_channel';
-
         $this->visitorsModel = new VisitorsModel();
     }
 
