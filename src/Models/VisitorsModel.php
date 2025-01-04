@@ -593,6 +593,7 @@ class VisitorsModel extends BaseModel
             ->joinQuery($lastHitQuery, ['visitor.ID', 'last_hit.visitor_id'], 'last_hit', 'LEFT')
             ->where('source_name', '=', $args['source_name'])
             ->where('referred', '=', $args['referrer'])
+            ->whereNotNull('visitor.referred')
             ->whereDate('visitor.last_counter', $args['date'])
             ->perPage($args['page'], $args['per_page'])
             ->orderBy($args['order_by'], $args['order'])
@@ -601,17 +602,10 @@ class VisitorsModel extends BaseModel
         // When source_channel is `unassigned`, only get visitors without source_channel
         if ($args['source_channel'] === 'unassigned') {
             $query
-                ->whereNotNull('visitor.referred')
                 ->whereNull('visitor.source_channel');
         } else {
             $query
-                ->where('source_channel', '=', $args['source_channel'])
-                ->whereRaw("
-                    AND (
-                        (visitor.referred != '' AND visitor.referred IS NOT NULL)
-                        OR (visitor.source_channel IS NOT NULL AND visitor.source_channel != '' AND visitor.source_channel != 'direct')
-                    )
-                ");
+                ->where('source_channel', '=', $args['source_channel']);
         }
 
         $result = $query->getAll();
@@ -633,27 +627,15 @@ class VisitorsModel extends BaseModel
             ->where('source_name', '=', $args['source_name'])
             ->where('referred', '=', $args['referrer'])
             ->whereDate('visitor.last_counter', $args['date'])
-            ->whereRaw("
-                AND (
-                    (visitor.referred != '' AND visitor.referred IS NOT NULL)
-                    OR (visitor.source_channel IS NOT NULL AND visitor.source_channel != '' AND visitor.source_channel != 'direct')
-                )
-            ");
+            ->whereNotNull('visitor.referred');
 
         // When source_channel is `unassigned`, only get visitors without source_channel
         if ($args['source_channel'] === 'unassigned') {
             $query
-                ->whereNotNull('visitor.referred')
                 ->whereNull('visitor.source_channel');
         } else {
             $query
-                ->where('source_channel', '=', $args['source_channel'])
-                ->whereRaw("
-                    AND (
-                        (visitor.referred != '' AND visitor.referred IS NOT NULL)
-                        OR (visitor.source_channel IS NOT NULL AND visitor.source_channel != '' AND visitor.source_channel != 'direct')
-                    )
-                ");
+                ->where('source_channel', '=', $args['source_channel']);
         }
 
         return $query->getVar() ?? 0;
