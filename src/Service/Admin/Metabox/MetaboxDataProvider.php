@@ -64,8 +64,7 @@ class MetaboxDataProvider
         $args = array_merge($args, [
             'decorate'  => true,
             'per_page'  => 10,
-            'page'      => 1,
-            'not_null'  => 'visitor.referred'
+            'page'      => 1
         ]);
 
         return $this->visitorsModel->getReferrers($args);
@@ -162,8 +161,8 @@ class MetaboxDataProvider
                 'prev_period'    => $this->postsModel->countPosts(['date' => $prevPeriod])
             ],
             'referrals' => [
-                'current_period' => $this->visitorsModel->countReferrers(['date' => $currentPeriod, 'not_null' => 'visitor.referred']),
-                'prev_period'    => $this->visitorsModel->countReferrers(['date' => $prevPeriod, 'not_null' => 'visitor.referred'])
+                'current_period' => $this->visitorsModel->countReferrers(['date' => $currentPeriod]),
+                'prev_period'    => $this->visitorsModel->countReferrers(['date' => $prevPeriod])
             ]
         ];
 
@@ -180,7 +179,7 @@ class MetaboxDataProvider
             $data[$key]['diff_percentage'] = abs($data[$key]['diff_percentage']);
         }
 
-        $topReferrer    = $this->visitorsModel->getReferrers(['per_page' => 1, 'decorate' => true, 'date' => $currentPeriod, 'not_null' => 'visitor.referred']);
+        $topReferrer    = $this->visitorsModel->getReferrers(['per_page' => 1, 'decorate' => true, 'date' => $currentPeriod]);
         $topAuthor      = $this->authorsModel->getTopViewingAuthors(['date' => $currentPeriod, 'per_page' => 1]);
         $topCategory    = $this->taxonomyModel->getTermsData(['date' => $currentPeriod, 'per_page' => 5, 'taxonomy' => Helper::get_list_taxonomy()]);
         $topContent     = $this->postsModel->getPostsViewsData(['date' => $currentPeriod, 'per_page' => 1]);

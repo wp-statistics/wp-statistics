@@ -693,6 +693,7 @@ class VisitorsModel extends BaseModel
             ->joinQuery($lastHitQuery, ['visitor.ID', 'last_hit.visitor_id'], 'last_hit', 'LEFT')
             ->where('source_name', '=', $args['source_name'])
             ->where('referred', '=', $args['referrer'])
+            ->whereNotNull('visitor.referred')
             ->whereDate('visitor.last_counter', $args['date'])
             ->perPage($args['page'], $args['per_page'])
             ->orderBy($args['order_by'], $args['order'])
@@ -701,17 +702,10 @@ class VisitorsModel extends BaseModel
         // When source_channel is `unassigned`, only get visitors without source_channel
         if ($args['source_channel'] === 'unassigned') {
             $query
-                ->whereNotNull('visitor.referred')
                 ->whereNull('visitor.source_channel');
         } else {
             $query
-                ->where('source_channel', '=', $args['source_channel'])
-                ->whereRaw("
-                    AND (
-                        (visitor.referred != '' AND visitor.referred IS NOT NULL)
-                        OR (visitor.source_channel IS NOT NULL AND visitor.source_channel != '' AND visitor.source_channel != 'direct')
-                    )
-                ");
+                ->where('source_channel', '=', $args['source_channel']);
         }
 
         $result = $query->getAll();
@@ -733,27 +727,15 @@ class VisitorsModel extends BaseModel
             ->where('source_name', '=', $args['source_name'])
             ->where('referred', '=', $args['referrer'])
             ->whereDate('visitor.last_counter', $args['date'])
-            ->whereRaw("
-                AND (
-                    (visitor.referred != '' AND visitor.referred IS NOT NULL)
-                    OR (visitor.source_channel IS NOT NULL AND visitor.source_channel != '' AND visitor.source_channel != 'direct')
-                )
-            ");
+            ->whereNotNull('visitor.referred');
 
         // When source_channel is `unassigned`, only get visitors without source_channel
         if ($args['source_channel'] === 'unassigned') {
             $query
-                ->whereNotNull('visitor.referred')
                 ->whereNull('visitor.source_channel');
         } else {
             $query
-                ->where('source_channel', '=', $args['source_channel'])
-                ->whereRaw("
-                    AND (
-                        (visitor.referred != '' AND visitor.referred IS NOT NULL)
-                        OR (visitor.source_channel IS NOT NULL AND visitor.source_channel != '' AND visitor.source_channel != 'direct')
-                    )
-                ");
+                ->where('source_channel', '=', $args['source_channel']);
         }
 
         return $query->getVar() ?? 0;
@@ -1064,7 +1046,7 @@ class VisitorsModel extends BaseModel
             'taxonomy'      => '',
             'term'          => '',
             'referrer'      => '',
-            'not_null'      => '',
+            'not_null'      => 'visitor.referred',
             'group_by'      => 'visitor.referred',
             'page'          => 1,
             'per_page'      => 10,
@@ -1084,15 +1066,19 @@ class VisitorsModel extends BaseModel
             ->where('visitor.location', '=', $args['country'])
             ->where('source_channel', 'IN', $args['source_channel'])
             ->whereNotNull($args['not_null'])
-            ->whereRaw("
+            ->groupBy($args['group_by'])
+            ->orderBy('visitors')
+            ->perPage($args['page'], $args['per_page']);
+
+        // If not null is not set, get all referrers including those coming with just UTM without any source
+        if (empty($args['not_null'])) {
+            $query->whereRaw("
                 AND (
                     (visitor.referred != '' AND visitor.referred IS NOT NULL)
                     OR (visitor.source_channel IS NOT NULL AND visitor.source_channel != '')
                 )
-            ")
-            ->groupBy($args['group_by'])
-            ->orderBy('visitors')
-            ->perPage($args['page'], $args['per_page']);
+            ");
+        }
 
         if (!empty($args['referrer'])) {
             $query->where('visitor.referred', 'LIKE', "%{$args['referrer']}%");
@@ -1147,7 +1133,7 @@ class VisitorsModel extends BaseModel
             'query_param'   => '',
             'taxonomy'      => '',
             'term'          => '',
-            'not_null'      => ''
+            'not_null'      => 'visitor.referred'
         ]);
 
         $filteredArgs = array_filter($args);
@@ -1157,13 +1143,17 @@ class VisitorsModel extends BaseModel
         ])
             ->from('visitor')
             ->where('source_channel', 'IN', $args['source_channel'])
-            ->whereNotNull($args['not_null'])
-            ->whereRaw("
+            ->whereNotNull($args['not_null']);
+
+        // If not null is not set, get all referrers including those coming with just UTM without any source
+        if (empty($args['not_null'])) {
+            $query->whereRaw("
                 AND (
                     (visitor.referred != '' AND visitor.referred IS NOT NULL)
                     OR (visitor.source_channel IS NOT NULL AND visitor.source_channel != '')
                 )
             ");
+        }
 
         // When date is passed, but all other parameters below are empty, compare the given date with `visitor.last_counter`
         if (!empty($args['date']) && !array_intersect(['post_type', 'post_id', 'query_param', 'taxonomy', 'term'], array_keys($filteredArgs))) {
