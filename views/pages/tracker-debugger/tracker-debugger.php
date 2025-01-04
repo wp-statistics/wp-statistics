@@ -63,13 +63,14 @@ $trackerStatus      = $tracker->getTrackerStatus();
                         'svg'         => $trackerIcon,
                         'title'       => esc_html__('Hit Endpoint Status: Unexpected Response', 'wp-statistics'),
                         'description' => esc_html__('Hit recording is not responding as expected.', 'wp-statistics'),
-                        'suggestion' => sprintf(
+                        'content'     => '',
+                        'suggestion'  => sprintf(
                             /* translators: %1$s: request type (AJAX or REST API), %2$s: documentation URL */
                             esc_html__('Please check your security plugins, firewall settings, or any third-party services that might be affecting the %1$s request. You may need to review your configuration or whitelist the endpoint. For more information, please visit our %2$s.', 'wp-statistics'),
                             $type,
                             '<a href="https://wp-statistics.com/resources/troubleshoot-the-tracker/?utm_source=wp-statistics&utm_medium=link&utm_campaign=tracker-debugger" target="_blank">' . esc_html__('troubleshooting guide', 'wp-statistics') . '</a>'
                         ),
-                        'status' => 'danger',
+                        'status'      => 'danger',
                     ];
 
                     View::load("components/audit-card", $trackerData);

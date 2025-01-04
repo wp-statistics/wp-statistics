@@ -25,6 +25,12 @@ class RemoteRequest
     private $responseBody;
 
     /**
+     * Complete WordPress HTTP API response object
+     * @var array|null
+     */
+    private $response;
+
+    /**
      * @param string $url
      * @param string $method
      * @param array $params URL parameters.
@@ -119,6 +125,8 @@ class RemoteRequest
             $this->parsedArgs
         );
 
+        $this->response = $response;
+
         if (is_wp_error($response)) {
             if (empty($throwFailedHttpCodeResponse)) {
                 return false;
@@ -170,6 +178,16 @@ class RemoteRequest
     public function getResponseCode()
     {
         return $this->responseCode;
+    }
+
+    /**
+     * Retrieves the complete WordPress HTTP API response object
+     *
+     * @return array|null Complete response array or null if no request executed
+     */
+    public function getResponse()
+    {
+        return $this->response;
     }
 
     /**
