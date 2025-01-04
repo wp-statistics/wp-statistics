@@ -65,32 +65,32 @@ $prevViews      = $data['total']['views']['prev'];
                 <tr>
                     <td><b><?php esc_html_e('Today', 'wp-statistics'); ?></b></td>
                     <td><a href="<?php echo Menus::admin_url('visitors', array_merge(['tab' => 'visitors'], DateRange::get('today'))) ?>"><span class="quickstats-values"><?php echo esc_html(Helper::formatNumberWithUnit($data['visitors']['today']['visitors'], 1)) ?></span></a></td>
-                    <td><a href="<?php echo Menus::admin_url('visitors', array_merge(['tab' => 'views'], DateRange::get('today'))) ?>"><span class="quickstats-values"><?php echo esc_html(Helper::formatNumberWithUnit($data['views']['today']['views'], 1)) ?></span></a></td>
+                    <td><a href="<?php echo Menus::admin_url('visitors', array_merge(['tab' => 'views'], DateRange::get('today'))) ?>"><span class="quickstats-values"><?php echo esc_html(Helper::formatNumberWithUnit($data['hits']['today']['hits'], 1)) ?></span></a></td>
                 </tr>
                 <tr>
                     <td><b><?php esc_html_e('Yesterday', 'wp-statistics'); ?></b></td>
                     <td><a href="<?php echo Menus::admin_url('visitors', array_merge(['tab' => 'visitors'], DateRange::get('yesterday'))) ?>"><span class="quickstats-values"><?php echo esc_html(Helper::formatNumberWithUnit($data['visitors']['yesterday']['visitors'], 1)) ?></span></a></td>
-                    <td><a href="<?php echo Menus::admin_url('visitors', array_merge(['tab' => 'views'], DateRange::get('yesterday'))) ?>"><span class="quickstats-values"><?php echo esc_html(Helper::formatNumberWithUnit($data['views']['yesterday']['views'], 1)) ?></span></a></td>
+                    <td><a href="<?php echo Menus::admin_url('visitors', array_merge(['tab' => 'views'], DateRange::get('yesterday'))) ?>"><span class="quickstats-values"><?php echo esc_html(Helper::formatNumberWithUnit($data['hits']['yesterday']['hits'], 1)) ?></span></a></td>
                 </tr>
                 <tr>
                     <td><b><?php esc_html_e('Last 7 days', 'wp-statistics'); ?></b></td>
                     <td><a href="<?php echo Menus::admin_url('visitors', array_merge(['tab' => 'visitors'], DateRange::get('7days'))) ?>"><span class="quickstats-values"><?php echo esc_html(Helper::formatNumberWithUnit($data['visitors']['7days']['visitors'], 1)) ?></span></a></td>
-                    <td><a href="<?php echo Menus::admin_url('visitors', array_merge(['tab' => 'views'], DateRange::get('7days'))) ?>"><span class="quickstats-values"><?php echo esc_html(Helper::formatNumberWithUnit($data['views']['7days']['views'], 1)) ?></span></a></td>
+                    <td><a href="<?php echo Menus::admin_url('visitors', array_merge(['tab' => 'views'], DateRange::get('7days'))) ?>"><span class="quickstats-values"><?php echo esc_html(Helper::formatNumberWithUnit($data['hits']['7days']['hits'], 1)) ?></span></a></td>
                 </tr>
                 <tr>
                     <td><b><?php esc_html_e('Last 30 days', 'wp-statistics'); ?></b></td>
                     <td><a href="<?php echo Menus::admin_url('visitors', array_merge(['tab' => 'visitors'], DateRange::get('30days'))) ?>"><span class="quickstats-values"><?php echo esc_html(Helper::formatNumberWithUnit($data['visitors']['30days']['visitors'], 1)) ?></span></a></td>
-                    <td><a href="<?php echo Menus::admin_url('visitors', array_merge(['tab' => 'views'], DateRange::get('30days'))) ?>"><span class="quickstats-values"><?php echo esc_html(Helper::formatNumberWithUnit($data['views']['30days']['views'], 1)) ?></span></a></td>
+                    <td><a href="<?php echo Menus::admin_url('visitors', array_merge(['tab' => 'views'], DateRange::get('30days'))) ?>"><span class="quickstats-values"><?php echo esc_html(Helper::formatNumberWithUnit($data['hits']['30days']['hits'], 1)) ?></span></a></td>
                 </tr>
                 <tr>
                     <td><b><?php esc_html_e('This year (Jan-Today)', 'wp-statistics'); ?></b></td>
                     <td><a href="<?php echo Menus::admin_url('visitors', array_merge(['tab' => 'visitors'], DateRange::get('this_year'))) ?>"><span class="quickstats-values"><?php echo esc_html(Helper::formatNumberWithUnit($data['visitors']['this_year']['visitors'], 1)) ?></span></a></td>
-                    <td><a href="<?php echo Menus::admin_url('visitors', array_merge(['tab' => 'views'], DateRange::get('this_year'))) ?>"><span class="quickstats-values"><?php echo esc_html(Helper::formatNumberWithUnit($data['views']['this_year']['views'], 1)) ?></span></a></td>
+                    <td><a href="<?php echo Menus::admin_url('visitors', array_merge(['tab' => 'views'], DateRange::get('this_year'))) ?>"><span class="quickstats-values"><?php echo esc_html(Helper::formatNumberWithUnit($data['hits']['this_year']['hits'], 1)) ?></span></a></td>
                 </tr>
                 <tr>
                     <td><b><?php esc_html_e('Total', 'wp-statistics'); ?></b></td>
                     <td><a href="<?php echo Menus::admin_url('visitors', array_merge(['tab' => 'visitors'], DateRange::get('total'))) ?>"><span class="quickstats-values"><?php echo esc_html(Helper::formatNumberWithUnit($data['visitors']['total']['visitors'], 1)) ?></span></a></td>
-                    <td><a href="<?php echo Menus::admin_url('visitors', array_merge(['tab' => 'views'], DateRange::get('total'))) ?>"><span class="quickstats-values"><?php echo esc_html(Helper::formatNumberWithUnit($data['views']['total']['views'], 1)) ?></span></a></td>
+                    <td><a href="<?php echo Menus::admin_url('visitors', array_merge(['tab' => 'views'], DateRange::get('total'))) ?>"><span class="quickstats-values"><?php echo esc_html(Helper::formatNumberWithUnit($data['hits']['total']['hits'], 1)) ?></span></a></td>
                 </tr>
             </tbody>
         </table>
