@@ -180,7 +180,7 @@ class MetaboxDataProvider
             $data[$key]['diff_percentage'] = abs($data[$key]['diff_percentage']);
         }
 
-        $topReferrer    = $this->visitorsModel->getReferrers(['per_page' => 1, 'decorate' => true, 'date' => $currentPeriod]);
+        $topReferrer    = $this->visitorsModel->getReferrers(['per_page' => 1, 'decorate' => true, 'date' => $currentPeriod, 'not_null' => 'visitor.referred']);
         $topAuthor      = $this->authorsModel->getTopViewingAuthors(['date' => $currentPeriod, 'per_page' => 1]);
         $topCategory    = $this->taxonomyModel->getTermsData(['date' => $currentPeriod, 'per_page' => 5, 'taxonomy' => Helper::get_list_taxonomy()]);
         $topContent     = $this->postsModel->getPostsViewsData(['date' => $currentPeriod, 'per_page' => 1]);
