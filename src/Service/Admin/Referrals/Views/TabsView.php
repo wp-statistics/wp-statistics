@@ -105,15 +105,15 @@ class TabsView extends BaseTabView
                         'class' => $this->isTab('search-engines') ? 'current' : '',
                     ],
                     [
-                        'link'  => Menus::admin_url('referrals', ['tab' => 'source-categories']),
-                        'title' => esc_html__('Source Categories', 'wp-statistics'),
-                        'class' => $this->isTab('source-categories') ? 'current' : '',
-                    ],
-                    [
                         'link'  => Menus::admin_url('referrals', ['tab' => 'social-media']),
                         'title' => esc_html__('Social Media', 'wp-statistics'),
                         'class' => $this->isTab('social-media') ? 'current' : '',
                     ],
+                    [
+                        'link'  => Menus::admin_url('referrals', ['tab' => 'source-categories']),
+                        'title' => esc_html__('Source Categories', 'wp-statistics'),
+                        'class' => $this->isTab('source-categories') ? 'current' : '',
+                    ]
                 ]
             ];
 

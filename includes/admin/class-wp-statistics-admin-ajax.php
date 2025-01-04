@@ -98,7 +98,7 @@ class Ajax
             ],
             [
                 'class'  => $this,
-                'action' => 'dismiss_notice',
+                'action' => 'dismiss_notices',
                 'public' => false
             ]
         ];
@@ -646,7 +646,7 @@ class Ajax
         exit;
     }
 
-    public function dismiss_notice_action_callback()
+    public function dismiss_notices_action_callback()
     {
         if (!Request::isFrom('ajax')) exit;
 

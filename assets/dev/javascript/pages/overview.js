@@ -469,9 +469,9 @@ if (wps_js.global.page.file === "index.php" || wps_js.is_active('overview_page')
 
 
     document.addEventListener('click', function (event) {
-        if (event.target && event.target.id === 'js-close-widget') {
+        if (event.target && event.target.id === 'js-close-notice') {
             let params = {
-                'action': `wp_statistics_dismiss_notice`,
+                'action': 'wp_statistics_dismiss_notices',
                 'wps_nonce': wps_js.global.rest_api_nonce,
                 'notice_id': 'enable_email_metabox_notice'
             };

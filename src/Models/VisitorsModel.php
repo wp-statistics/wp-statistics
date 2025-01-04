@@ -299,81 +299,58 @@ class VisitorsModel extends BaseModel
 
     public function getVisitorsSummary($args = [])
     {
-        if (empty($args['ignore_date'])) {
-            $args = array_merge($args, ['date' => DateRange::get('this_year')]);
-        }
-
-        $result = $this->countDailyVisitors($args);
-
         $summary = [
-            'today'      => ['label' => esc_html__('Today', 'wp-statistics'), 'visitors' => 0],
-            'yesterday'  => ['label' => esc_html__('Yesterday', 'wp-statistics'), 'visitors' => 0],
-            'this_week'  => ['label' => esc_html__('This week', 'wp-statistics'), 'visitors' => 0],
-            'last_week'  => ['label' => esc_html__('Last week', 'wp-statistics'), 'visitors' => 0],
-            'this_month' => ['label' => esc_html__('This month', 'wp-statistics'), 'visitors' => 0],
-            'last_month' => ['label' => esc_html__('Last month', 'wp-statistics'), 'visitors' => 0],
-            '7days'      => ['label' => esc_html__('Last 7 days', 'wp-statistics'), 'visitors' => 0],
-            '30days'     => ['label' => esc_html__('Last 30 days', 'wp-statistics'), 'visitors' => 0],
-            '90days'     => ['label' => esc_html__('Last 90 days', 'wp-statistics'), 'visitors' => 0],
-            '6months'    => ['label' => esc_html__('Last 6 months', 'wp-statistics'), 'visitors' => 0],
-            'this_year'  => ['label' => esc_html__('This year (Jan-Today)', 'wp-statistics'), 'visitors' => 0],
+            'today'      => [
+                'label'     => esc_html__('Today', 'wp-statistics'),
+                'visitors'  => $this->countVisitors(array_merge($args, ['date' => DateRange::get('today')]))
+            ],
+            'yesterday'  => [
+                'label'     => esc_html__('Yesterday', 'wp-statistics'),
+                'visitors'  => $this->countVisitors(array_merge($args, ['date' => DateRange::get('yesterday')]))
+            ],
+            'this_week'  => [
+                'label'     => esc_html__('This week', 'wp-statistics'),
+                'visitors'  => $this->countVisitors(array_merge($args, ['date' => DateRange::get('this_week')]))
+            ],
+            'last_week'  => [
+                'label'     => esc_html__('Last week', 'wp-statistics'),
+                'visitors'  => $this->countVisitors(array_merge($args, ['date' => DateRange::get('last_week')]))
+            ],
+            'this_month' => [
+                'label'     => esc_html__('This month', 'wp-statistics'),
+                'visitors'  => $this->countVisitors(array_merge($args, ['date' => DateRange::get('this_month')]))
+            ],
+            'last_month' => [
+                'label'     => esc_html__('Last month', 'wp-statistics'),
+                'visitors'  => $this->countVisitors(array_merge($args, ['date' => DateRange::get('last_month')]))
+            ],
+            '7days'      => [
+                'label'     => esc_html__('Last 7 days', 'wp-statistics'),
+                'visitors'  => $this->countVisitors(array_merge($args, ['date' => DateRange::get('7days')]))
+            ],
+            '30days'     => [
+                'label'     => esc_html__('Last 30 days', 'wp-statistics'),
+                'visitors'  => $this->countVisitors(array_merge($args, ['date' => DateRange::get('30days')]))
+            ],
+            '90days'     => [
+                'label'     => esc_html__('Last 90 days', 'wp-statistics'),
+                'visitors'  => $this->countVisitors(array_merge($args, ['date' => DateRange::get('90days')]))
+            ],
+            '6months'    => [
+                'label'     => esc_html__('Last 6 months', 'wp-statistics'),
+                'visitors'  => $this->countVisitors(array_merge($args, ['date' => DateRange::get('6months')]))
+            ],
+            'this_year'  => [
+                'label'     => esc_html__('This year (Jan-Today)', 'wp-statistics'),
+                'visitors'  => $this->countVisitors(array_merge($args, ['date' => DateRange::get('this_year')]))
+            ]
         ];
 
-        if (!empty($args['ignore_date'])) {
-            $summary['total'] = ['label' => esc_html__('Total', 'wp-statistics'), 'visitors' => $this->historicalModel->getVisitors($args)];
-        }
-
-        foreach ($result as $record) {
-            $date     = $record->date;
-            $visitors = $record->visitors;
-
-            if (DateRange::compare($date, '=', 'today')) {
-                $summary['today']['visitors'] += $visitors;
-            }
-
-            if (DateRange::compare($date, '=', 'yesterday')) {
-                $summary['yesterday']['visitors'] += $visitors;
-            }
-
-            if (DateRange::compare($date, 'in', 'this_week')) {
-                $summary['this_week']['visitors'] += $visitors;
-            }
-
-            if (DateRange::compare($date, 'in', 'last_week')) {
-                $summary['last_week']['visitors'] += $visitors;
-            }
-
-            if (DateRange::compare($date, 'in', 'this_month')) {
-                $summary['this_month']['visitors'] += $visitors;
-            }
-
-            if (DateRange::compare($date, 'in', 'last_month')) {
-                $summary['last_month']['visitors'] += $visitors;
-            }
-
-            if (DateRange::compare($date, 'in', '7days')) {
-                $summary['7days']['visitors'] += $visitors;
-            }
-
-            if (DateRange::compare($date, 'in', '30days')) {
-                $summary['30days']['visitors'] += $visitors;
-            }
-
-            if (DateRange::compare($date, 'in', '90days')) {
-                $summary['90days']['visitors'] += $visitors;
-            }
-
-            if (DateRange::compare($date, 'in', '6months')) {
-                $summary['6months']['visitors'] += $visitors;
-            }
-
-            if (DateRange::compare($date, 'in', 'this_year')) {
-                $summary['this_year']['visitors'] += $visitors;
-            }
-
-            if (!empty($args['ignore_date'])) {
-                $summary['total']['visitors'] += $visitors;
-            }
+        if (!empty($args['include_total'])) {
+            $summary['total'] = [
+                'label'     => esc_html__('Total', 'wp-statistics'),
+                'visitors'  => $this->countVisitors(array_merge($args, ['ignore_date' => true, 'historical' => true]))
+            ];
         }
 
         return $summary;
@@ -1069,7 +1046,8 @@ class VisitorsModel extends BaseModel
             'country'       => '',
             'query_param'   => '',
             'taxonomy'      => '',
-            'term'          => ''
+            'term'          => '',
+            'not_null'      => ''
         ]);
 
         $filteredArgs = array_filter($args);
@@ -1079,6 +1057,7 @@ class VisitorsModel extends BaseModel
         ])
             ->from('visitor')
             ->where('source_channel', 'IN', $args['source_channel'])
+            ->whereNotNull($args['not_null'])
             ->whereRaw("
                 AND (
                     (visitor.referred != '' AND visitor.referred IS NOT NULL)
@@ -1178,7 +1157,7 @@ class VisitorsModel extends BaseModel
 
             if (!empty($args['resource_type'])) {
                 $query
-                    ->where('pages.type', '=', $args['resource_type']);
+                    ->where('pages.type', 'IN', $args['resource_type']);
 
                 if (is_numeric($args['post_id'])) {
                     $query->where('pages.ID', '=', intval($args['post_id']));

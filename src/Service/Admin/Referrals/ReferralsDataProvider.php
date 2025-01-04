@@ -31,9 +31,12 @@ class ReferralsDataProvider
         return [
             'referrers' => $this->visitorsModel->getReferrers(array_merge($this->args, [
                 'decorate' => true,
+                'not_null' => 'visitor.referred',
                 'group_by' => ['visitor.referred', 'visitor.source_channel']
             ])),
-            'total'     => $this->visitorsModel->countReferrers($this->args)
+            'total'     => $this->visitorsModel->countReferrers(array_merge($this->args, [
+                'not_null' => 'visitor.referred'
+            ]))
         ];
     }
 

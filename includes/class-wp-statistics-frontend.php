@@ -127,12 +127,12 @@ class Frontend
         }
 
         // Check post type
-        $post_type = Pages::get_post_type($post_id);
+        $post_type = get_post_type($post_id);
 
         // Get post hits
         $viewsModel = new ViewsModel();
         $hits       = $viewsModel->countViews([
-            'resource_type' => Pages::checkIfPageIsHome($post_id) ? 'home' : $post_type,
+            'resource_type' => $post_type,
             'post_id'       => $post_id,
             'date'          => 'total',
             'post_type'     => '',

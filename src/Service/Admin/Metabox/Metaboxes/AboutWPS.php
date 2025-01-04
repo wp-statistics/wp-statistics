@@ -1,22 +1,33 @@
 <?php
+
 namespace WP_Statistics\Service\Admin\Metabox\Metaboxes;
 
 use WP_Statistics\Components\View;
 use WP_Statistics\Abstracts\BaseMetabox;
+use WP_STATISTICS\Helper;
 use WP_STATISTICS\Menus;
 use WP_STATISTICS\Option;
 
 class AboutWPS extends BaseMetabox
 {
-    protected $settings = [];
+    protected $settings = [
+        'custom_widget' => '',
+        'title'         => '',
+        'content'       => ''
+    ];
+
     protected $key = 'about';
     protected $context = 'side';
     protected $static = true;
 
     public function __construct()
     {
+        if (! Helper::isAddOnActive('customization')) {
+            return;
+        }
+
         $this->settings = [
-            'custom_widget' => Option::getByAddon('show_wps_about_widget_overview', 'customization', 'no'),
+            'custom_widget' => Option::getByAddon('show_wps_about_widget_overview', 'customization', 'yes'),
             'title'         => Option::getByAddon('wps_about_widget_title', 'customization', ''),
             'content'       => Option::getByAddon('wps_about_widget_content', 'customization', ''),
         ];

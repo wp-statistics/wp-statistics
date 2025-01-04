@@ -47,7 +47,7 @@ class AdminBar
 
             if ((is_single() || is_page() || is_front_page()) && !empty($object_id)) {
 
-                $view_type  = Pages::get_post_type($object_id);
+                $view_type  = get_post_type($object_id);
                 $view_title = __('Page Views', 'wp-statistics');
                 $footerText = __('View Page Performance', 'wp-statistics');
                 $footerLink = esc_url(Menus::admin_url('content-analytics', ['type' => 'single', 'post_id' => $object_id]));
