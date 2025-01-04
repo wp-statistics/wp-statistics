@@ -138,7 +138,7 @@ Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest versio
 == Changelog ==
 https://www.youtube.com/watch?v=jxYLVtBdhEc
 
-= 14.12 - 2024-12-** =
+= 14.12 - 2024-12-05 =
 - **New:** Introduced the "Source Categories" report under the "Referrals" section.
 - **New:** Introduced the "Social Media" report under the "Referrals" section.
 - **New:** Introduced the "404 Reports" under the "Page Insights" section.
@@ -146,7 +146,6 @@ https://www.youtube.com/watch?v=jxYLVtBdhEc
 - **New:** Added the Tracker Debugger for troubleshooting.
 - **New:** Redesigned the "Privacy Audit" page with a more user-friendly interface.
 - **New:** Added a Visitor Chart to the Single Country Report page.
-- **New:** Charts now support selecting a range with options for Daily, Weekly, or Monthly views.
 - **Enhancement:** Optimized metabox widgets for faster performance and improved cache handling.
 - **Enhancement:** Added a "Location Detection Method" option in geolocation, including Cloudflare Geolocation Autodetect.
 - **Enhancement:** Expanded traffic categorization for referral visitors, now supporting Organic and Paid Social traffic, among others.

@@ -1,3 +1,25 @@
+14.12 - 2024-12-05
+- **New:** Introduced the "Source Categories" report under the "Referrals" section.
+- **New:** Introduced the "Social Media" report under the "Referrals" section.
+- **New:** Introduced the "404 Reports" under the "Page Insights" section.
+- **New:** Introduced the "Logged-in Users" report under "Visitor Insights."
+- **New:** Added the Tracker Debugger for troubleshooting.
+- **New:** Redesigned the "Privacy Audit" page with a more user-friendly interface.
+- **New:** Added a Visitor Chart to the Single Country Report page.
+- **Enhancement:** Optimized metabox widgets for faster performance and improved cache handling.
+- **Enhancement:** Added a "Location Detection Method" option in geolocation, including Cloudflare Geolocation Autodetect.
+- **Enhancement:** Expanded traffic categorization for referral visitors, now supporting Organic and Paid Social traffic, among others.
+- **Enhancement:** Redesigned the Exclusions report with the updated design system.
+- **Enhancement:** Improved data models to include historical data for more accurate insights.
+- **Enhancement:** Prevented unrelated notices from appearing on the overview and analytics pages.
+- **Fix:** Fixed an issue with non-queryable post types appearing in Content Analytics.
+- **Fix:** Resolved an issue with early translation loading.
+- **Fix:** Fixed a bug with an undefined array key in the Robot Threshold setting.
+- **Fix:** Addressed the issue of zero views showing on the home page.
+- **Fix:** Fixed the zero-views issue in Content Analytics for custom post types.
+- **Fix:** Resolved Customization widget rendering issue.
+- **Fix:** Fixed recording inaccurate historical data while purging "visit" table.
+
 14.11.4 - 2024-12-09
 - **Enhancement:** Made the Global Visitor Distribution widget load faster on the Overview page.
 - **Enhancement:** Added geolocation validation to improve debugging accuracy.
