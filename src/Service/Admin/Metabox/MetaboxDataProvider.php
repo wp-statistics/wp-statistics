@@ -162,8 +162,8 @@ class MetaboxDataProvider
                 'prev_period'    => $this->postsModel->countPosts(['date' => $prevPeriod])
             ],
             'referrals' => [
-                'current_period' => $this->visitorsModel->countReferrers(['date' => $currentPeriod]),
-                'prev_period'    => $this->visitorsModel->countReferrers(['date' => $prevPeriod])
+                'current_period' => $this->visitorsModel->countReferrers(['date' => $currentPeriod, 'not_null' => 'visitor.referred']),
+                'prev_period'    => $this->visitorsModel->countReferrers(['date' => $prevPeriod, 'not_null' => 'visitor.referred'])
             ]
         ];
 
