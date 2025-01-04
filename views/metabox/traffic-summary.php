@@ -31,12 +31,12 @@ use WP_STATISTICS\Helper;
                     $key        = $data['keys'][$i];
                     $label      = $data['labels'][$i];
                     $visitors   = $data['visitors'][$i];
-                    $views      = $data['views'][$i];
+                    $hits       = $data['hits'][$i];
                 ?>
                     <tr>
                         <td><b><?php echo esc_html($label); ?></b></td>
                         <td><a href="<?php echo Menus::admin_url('visitors', array_merge(['tab' => 'visitors'], DateRange::get($key))); ?>"><span class="quickstats-values"><?php echo esc_html(Helper::formatNumberWithUnit($visitors, 1)) ?></span></a></td>
-                        <td><a href="<?php echo Menus::admin_url('visitors', array_merge(['tab' => 'views'], DateRange::get($key))); ?>"><span class="quickstats-values"><?php echo esc_html(Helper::formatNumberWithUnit($views, 1)) ?></span></a></td>
+                        <td><a href="<?php echo Menus::admin_url('visitors', array_merge(['tab' => 'views'], DateRange::get($key))); ?>"><span class="quickstats-values"><?php echo esc_html(Helper::formatNumberWithUnit($hits, 1)) ?></span></a></td>
                     </tr>
                 <?php endfor; ?>
             </tbody>
