@@ -202,7 +202,7 @@ class Exclusion
      */
     public static function exclusion_robot_threshold($visitorProfile)
     {
-        $robotThreshold = intval(self::$options['robot_threshold']);
+        $robotThreshold = ! empty(self::$options['robot_threshold']) ? intval(self::$options['robot_threshold']) : 0;
 
         if ($robotThreshold <= 0) {
             return false;

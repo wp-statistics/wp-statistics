@@ -215,12 +215,18 @@ class VisitorDecorator
     /**
      * Retrieves the last view time of the visitor.
      *
+     * @param bool $raw Whether return raw value or formatted.
      * @return string The time of the last view, or null if not available.
      */
-    public function getLastView()
+    public function getLastView($raw = false)
     {
         // Get date from last_view (DateTime), if not set use last_counter (Date)
         $date = $this->visitor->last_view ?? $this->visitor->last_counter;
+
+        if ($raw) {
+            return $date;
+        }
+
         $date = date_i18n(Helper::getDefaultDateFormat(true, true, false, ', '), strtotime($date));
 
         return $date ?? null;
@@ -234,6 +240,20 @@ class VisitorDecorator
     public function getLastPage()
     {
         return $this->visitor->last_page ? Visitor::get_page_by_id($this->visitor->last_page) : null;
+    }
+
+    /**
+     * Retrieves the date a certain page has been viewed
+     *
+     * @return string|null The last page viewed by the visitor, or null if not available.
+     */
+    public function getPageView()
+    {
+        return !empty($this->visitor->page_view) ? DateTime::format($this->visitor->page_view, [
+            'include_time'  => true,
+            'exclude_year'  => true,
+            'separator'     => ', '
+        ]) : null;
     }
 
     /**

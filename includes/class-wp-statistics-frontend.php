@@ -53,6 +53,8 @@ class Frontend
 
             /**
              * Handle the bypass ad blockers
+             * 
+             * @todo This should be refactored in a service related to option. note that all the options with same functionality should be updated.
              */
             if (Option::get('bypass_ad_blockers', false)) {
                 // AJAX params
@@ -125,7 +127,7 @@ class Frontend
         }
 
         // Check post type
-        $post_type = Pages::get_post_type($post_id);
+        $post_type = get_post_type($post_id);
 
         // Get post hits
         $viewsModel = new ViewsModel();

@@ -110,7 +110,7 @@ class HitColumnHandler
 
         // Initialize class attributes only once (since all posts in the list have the same post type)
         if (!$this->isCacheSet('postType')) {
-            $this->setCache('postType', Pages::get_post_type($postId));
+            $this->setCache('postType', get_post_type($postId));
         }
 
         $hitCount = $this->calculateHitCount($postId);
@@ -289,7 +289,7 @@ class HitColumnHandler
         }
 
         $hitArgs = [
-            'resource_type' => Pages::checkIfPageIsHome($objectId) ? 'home' : $this->getCache('postType'),
+            'resource_type' => $this->getCache('postType'),
             'date'          => [
                 'from' => date('Y-m-d', strtotime($this->initialPostDate)),
                 'to'   => date('Y-m-d'),
@@ -324,8 +324,7 @@ class HitColumnHandler
                 $uri = empty($term) ? get_permalink($objectId) : get_term_link(intval($term->term_id), $term->taxonomy);
                 $uri = !is_wp_error($uri) ? wp_make_link_relative($uri) : '';
 
-                $historicalModel = new HistoricalModel();
-                $hitCount       += $historicalModel->countUris(['page_id' => $objectId, 'uri' => $uri]);
+                $hitCount = $viewsModel->countViewsFromPagesOnly(array_merge($hitArgs, ['post_id' => $objectId, 'uri' => $uri, 'historical' => true]));
             }
         }
 

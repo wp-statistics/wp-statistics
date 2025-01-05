@@ -4,28 +4,21 @@ body.toplevel_page_wps_overview_page {
     display: none !important;
   }
 
-  #wp-statistics-search-widget{
-    .wps-postbox-chart--data{
-      margin-top: 0!important;
-    }
-  }
-
   #side-sortables {
     .postbox {
 
       .c-footer {
         @media screen and (min-width: 758px) and (max-width: 900px) {
-          padding: 24px 4px 0 16px !important;
+          padding: 24px 24px 0 24px !important;
         }
 
         @media screen and (min-width: 758px) and (max-width: 1300px) {
-          padding: 24px 4px 0 16px !important;
-          flex-direction: column;
-          align-items: flex-start;
+           flex-direction: column;
+           align-items: flex-start;
         }
 
         @media screen and (min-width: 900px) and (max-width: 1420px) {
-          padding: 32px 12px 4px 16px !important;
+          padding: 24px 24px 4px 24px !important;
         }
       }
     }
@@ -55,28 +48,25 @@ body.toplevel_page_wps_overview_page {
       }
     }
   }
-
-  #normal-sortables #wp-statistics-top-visitors-widget {
-    table {
-
-      tr {
-        td:not(:first-child), th:not(:first-child) {
-          @media screen and (min-width: 1120px) and (max-width: 1500px) {
-            padding: 14px 0 14px 26px;
-          }
-        }
-
-        td:nth-child(2), th:nth-child(2) {
-          @media screen and (min-width: 1120px) and (max-width: 1500px) {
-            padding: 14px 0 14px 26px;
-            width: 60px;
-          }
-        }
-      }
+}
+#wp-statistics-hourly-usage-widget{
+  .wps-postbox-chart--items{
+    column-gap: 12px;
+  }
+  .current-data {
+    display: flex;
+    gap: 6px;
+    flex-direction: row;
+    align-items: center;
+    cursor: pointer;
+    .wps-postbox-chart--item--color{
+      width: 6px;
+      display: inline-block;
+      border: 3px solid;
+      border-radius: 3px;
     }
   }
 }
-
 .toplevel_page_wps_overview_page #screen-meta-links {
   position: absolute;
   z-index: 2;
@@ -86,24 +76,106 @@ body.toplevel_page_wps_overview_page {
 body.toplevel_page_wps_overview_page,
 #dashboard-widgets-wrap {
 
-  #wp-statistics-quickstats-widget , #wp-statistics-search-widget{
-    .o-wrap{
-      padding: 12px 24px !important;
-      padding-top: 0 !important;
-    }
-  }
-
   .postbox-header:has(.wps-tooltip) {
     h2.hndle {
       display: block;
       position: relative;
+      font-weight: 500;
+      font-size: 14px;
+      margin: 0;
+      line-height: 16.41px;
 
       a.wps-tooltip {
         display: inline-block;
-         position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
+        position: relative;
+        top: unset;
+        transform: translateY(2px);
       }
     }
   }
 }
+.wps-currently-online{
+  display: none
+}
+body.toplevel_page_wps_overview_page .postbox-header:has(.wps-wps-currently-online__container) h2.hndle,
+#dashboard-widgets-wrap .postbox-header:has(.wps-wps-currently-online__container) h2.hndle {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 16.41px
+}
+
+.wps-wps-currently-online__container{
+  position: relative;
+  margin-left: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7.5px;
+
+  .rtl &{
+    margin-left: 0;
+    margin-right: 10px;
+  }
+
+  .wps-wps-currently-online__dot{
+    width: 6px;
+    height: 6px;
+    background: #196140;
+    border-radius: 100%;
+    position: relative;
+    display: inline-block;
+
+    &:before{
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: inline-block;
+      width: 11px;
+      height: 11px;
+      box-sizing: border-box;
+      border-radius: 50%;
+      background: rgba(25, 97, 64, .1019607843);
+      animation: animated_bg_coparison 45s ease infinite;
+      margin-top: -2.5px;
+      margin-left: -2.5px;
+    }
+  }
+
+
+
+  .wps-wps-currently-online__text{
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 16.41px;
+    color: #196140;
+  }
+
+}
+
+#currently_online{
+  .postbox-header{
+    h2.hndle{
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+    }
+  }
+  .o-table-wrapper table.wps-new-table tbody tr:nth-child(10){
+    td{
+      background: transparent!important;
+      position: relative;
+
+      &:after{
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, #FFFFFF 100%);
+      }
+    }
+  }
+}
+

@@ -7,14 +7,18 @@ use WP_Statistics\Async\SourceChannelUpdater;
 use WP_Statistics\Service\Admin\AuthorAnalytics\AuthorAnalyticsManager;
 use WP_Statistics\Service\Admin\ContentAnalytics\ContentAnalyticsManager;
 use WP_Statistics\Service\Admin\Geographic\GeographicManager;
+use WP_Statistics\Service\Admin\Metabox\MetaboxManager;
+use WP_Statistics\Service\Admin\Overview\OverviewManager;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Service\Admin\Posts\PostsManager;
 use WP_Statistics\Service\Admin\PrivacyAudit\PrivacyAuditManager;
 use WP_Statistics\Service\Admin\CategoryAnalytics\CategoryAnalyticsManager;
+use WP_Statistics\Service\Admin\TrackerDebugger\TrackerDebuggerManager;
 use WP_Statistics\Service\Analytics\AnalyticsManager;
 use WP_Statistics\Service\Integrations\IntegrationsManager;
 use WP_Statistics\Service\Admin\Devices\DevicesManager;
 use WP_Statistics\Service\Admin\LicenseManagement\LicenseManagementManager;
+use WP_Statistics\Service\Admin\Exclusions\ExclusionsManager;
 use WP_Statistics\Service\Admin\VisitorInsights\VisitorInsightsManager;
 use WP_Statistics\Service\Admin\PageInsights\PageInsightsManager;
 use WP_Statistics\Service\Admin\Referrals\ReferralsManager;
@@ -151,9 +155,9 @@ final class WP_Statistics
         // Ajax area
         require_once WP_STATISTICS_DIR . 'includes/admin/class-wp-statistics-admin-template.php';
 
-        $referrals    = new ReferralsManager();
-        $postsManager = new PostsManager();
-        $userOnline   = new \WP_STATISTICS\UserOnline();
+        $referrals      = new ReferralsManager();
+        $postsManager   = new PostsManager();
+        $userOnline     = new \WP_STATISTICS\UserOnline();
 
         // Admin classes
         if (is_admin()) {
@@ -174,8 +178,6 @@ final class WP_Statistics
             // Admin Pages List
             require_once WP_STATISTICS_DIR . 'includes/admin/pages/class-wp-statistics-admin-page-settings.php';
             require_once WP_STATISTICS_DIR . 'includes/admin/pages/class-wp-statistics-admin-page-optimization.php';
-            require_once WP_STATISTICS_DIR . 'includes/admin/pages/class-wp-statistics-admin-page-overview.php';
-            require_once WP_STATISTICS_DIR . 'includes/admin/pages/class-wp-statistics-admin-page-exclusions.php';
 
             $analytics           = new AnalyticsManager();
             $authorAnalytics     = new AuthorAnalyticsManager();
@@ -187,6 +189,10 @@ final class WP_Statistics
             $visitorInsights     = new VisitorInsightsManager();
             $integrationsManager = new IntegrationsManager();
             $licenseManager      = new LicenseManagementManager();
+            $trackerDebugger     = new TrackerDebuggerManager();
+            $overviewManager     = new OverviewManager();
+            $metaboxManager      = new MetaboxManager();
+            $exclusionsManager   = new ExclusionsManager();
         }
 
         $hooksManager = new HooksManager();
@@ -194,9 +200,6 @@ final class WP_Statistics
         // WordPress ShortCode and Widget
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-shortcode.php';
         require_once WP_STATISTICS_DIR . 'includes/class-wp-statistics-widget.php';
-
-        // Meta Box List
-        \WP_STATISTICS\Meta_Box::includes();
 
         // Rest-Api
         require_once WP_STATISTICS_DIR . 'includes/api/v2/class-wp-statistics-api-hit.php';

@@ -6,6 +6,7 @@ use WP_Statistics\Utils\Request;
 use WP_Statistics\Components\Assets;
 use WP_Statistics\Components\DateRange;
 use WP_Statistics\Components\DateTime;
+use WP_Statistics\Service\Admin\Metabox\MetaboxHelper;
 
 class Admin_Assets
 {
@@ -437,7 +438,6 @@ class Admin_Assets
             'rest_connect'                 => __('Failed to retrieve data. Please check the browser console and the XHR request under Network → XHR for details.', 'wp-statistics'),
             'privacy_compliant'            => __('Your WP Statistics settings are privacy-compliant.', 'wp-statistics'),
             'non_privacy_compliant'        => __('Your WP Statistics settings are not privacy-compliant. Please update your settings.', 'wp-statistics'),
-            'privacy_resolve_alert'        => __('By manually resolving this item, please ensure your website’s privacy policy is updated to accurately reflect this setting. This is essential for maintaining compliance and transparency with your users.', 'wp-statistics'),
             'no_result'                    => __('No recent data available.', 'wp-statistics'),
             'published'                    => __('Published', 'wp-statistics'),
             'author'                       => __('Author', 'wp-statistics'),
@@ -470,7 +470,9 @@ class Admin_Assets
             'apply'                        => __('Apply'),
             'reset'                        => __('Reset'),
             'loading'                      => __('Loading'),
+            'go_to_overview'                      => __('Go to Overview'),
             'continue_to_next_step'        => __('Continue to Next Step', 'wp-statistics'),
+            'action_required'              => __('Action Required', 'wp-statistics'),
             'start_of_week'                => get_option('start_of_week', 0)
         );
 
@@ -495,41 +497,7 @@ class Admin_Assets
         $list['meta_box_api']        = admin_url('admin-ajax.php?action=wp_statistics_admin_meta_box');
 
         // Meta Box List
-        $meta_boxes_list    = Meta_Box::getList();
-        $list['meta_boxes'] = array();
-
-        foreach ($meta_boxes_list as $meta_box => $value) {
-
-            // Add Post ID Params To Post Widget Link
-            if ($meta_box == "post" and isset($post) and isset($post->ID) and in_array($post->post_status, array("publish", "private"))) {
-
-                $value['page_url'] = add_query_arg(array(
-                    'ID'   => $post->ID,
-                    'type' => Pages::get_post_type($post->ID),
-                ), $value['page_url']);
-
-                /**
-                 * Convert ? to & because ? is appending in the prefix of page_url out side of functionality.
-                 * @note Annoying architecture...
-                 * @since 13.0.7
-                 */
-                $value['page_url'] = str_replace('?', '&', $value['page_url']);
-            }
-
-            // Remove unnecessary params
-            foreach (array('show_on_dashboard', 'hidden', 'place', 'require', 'js', 'disable_overview') as $param) {
-                unset($value[$param]);
-            }
-
-            // Add Meta Box Lang
-            $class = Meta_Box::getMetaBoxClass($meta_box);
-            if (method_exists($class, 'lang')) {
-                $value['lang'] = $class::lang();
-            }
-
-            //Push to List
-            $list['meta_boxes'][$meta_box] = $value;
-        }
+        $list['meta_boxes'] = array_keys(MetaboxHelper::getScreenMetaboxes());
 
         /**
          * Filter: wp_statistics_admin_assets

@@ -64,10 +64,10 @@ class AnalyticsController
     private function checkSignature()
     {
         if (Helper::isRequestSignatureEnabled()) {
-            $signature = sanitize_text_field($_REQUEST['signature']);
+            $signature = ! empty($_REQUEST['signature']) ? sanitize_text_field($_REQUEST['signature']) : '';
             $payload   = [
-                sanitize_text_field($_REQUEST['source_type']),
-                (int)sanitize_text_field($_REQUEST['source_id']),
+                ! empty($_REQUEST['source_type']) ? sanitize_text_field($_REQUEST['source_type']) : '',
+                ! empty($_REQUEST['source_id']) ? (int)sanitize_text_field($_REQUEST['source_id']) : 0,
             ];
 
             if (!Signature::check($payload, $signature)) {

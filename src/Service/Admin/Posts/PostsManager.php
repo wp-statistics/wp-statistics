@@ -36,16 +36,6 @@ class PostsManager
 
         // Remove term hits on term delete
         add_action('delete_term', [$this, 'deleteTermHits'], 10, 2);
-
-        // Add meta-boxes and blocks only in edit mode if the user has access
-        global $pagenow;
-        if (User::Access('read') && $pagenow !== 'post-new.php') {
-            if (!Option::get('disable_editor')) {
-                add_action('enqueue_block_editor_assets', [$this, 'enqueueSidebarPanelAssets']);
-            }
-
-            add_action('add_meta_boxes', [$this, 'addPostMetaBoxes']);
-        }
     }
 
     /**
@@ -164,108 +154,6 @@ class PostsManager
     }
 
     /**
-     * Enqueues assets for "Statistics - Summary" panel in the Gutenberg editor sidebar.
-     *
-     * @return	void
-     *
-     * @hooked	action: `enqueue_block_editor_assets` - 10
-     */
-    public function enqueueSidebarPanelAssets()
-    {
-        // Do not display the block on WP v6.5.5 or older, since PluginDocumentSettingPanel causes "React error #130"
-        if (version_compare(get_bloginfo('version'), '6.5.5', '<=')) {
-            return;
-        }
-
-        global $post;
-        if (empty($post)) {
-            return;
-        }
-
-        $postSummary = self::getPostStatisticsSummary($post);
-        if (empty($postSummary)) {
-            return;
-        }
-
-        Assets::script('editor-sidebar', 'blocks/post-summary/post-summary.js', ['wp-plugins', 'wp-editor'], $postSummary);
-
-        $styleFileName = is_rtl() ? 'style-post-summary-rtl.css' : 'style-post-summary.css';
-        Assets::style('editor-sidebar', "blocks/post-summary/$styleFileName");
-    }
-
-    /**
-     * Adds meta-boxes for the post in the classic editor mode.
-     *
-     * @param string $postType Current post type.
-     *
-     * @return	void
-     *
-     * @hooked	action: `add_meta_boxes` - 10
-     */
-    public function addPostMetaBoxes($postType)
-    {
-        if (empty(is_post_type_viewable($postType))) {
-            return;
-        }
-        
-        if ($this->shouldDisplaySummaryMetabox()) {
-            add_meta_box(
-                Meta_Box::getMetaBoxKey('post-summary'),
-                Meta_Box::getList('post-summary')['name'],
-                Meta_Box::LoadMetaBox('post-summary'),
-                $postType,
-                'side',
-                'high',
-                ['__back_compat_meta_box' => false]
-            );
-        }
-
-        if ($this->shouldDisplayLatestVisitorsMetabox()) {
-            add_meta_box(
-                Meta_Box::getMetaBoxKey('post'),
-                Meta_Box::getList('post')['name'],
-                Meta_Box::LoadMetaBox('post'),
-                $postType,
-                'normal',
-                'high',
-                [
-                    '__block_editor_compatible_meta_box' => true,
-                    '__back_compat_meta_box'             => false,
-                ]
-            );
-        }
-    }
-
-    /**
-     * Checks if any of the conditions for displaying "Statistics - Summary" meta-box are met.
-     *
-     * Conditions are:
-     * - `disable_editor` option is disabled.
-     * - User is in classic editor.
-     * - Installed WordPress version is v6.5.5 or lower (to prevent "React error #130" caused by `PluginDocumentSettingPanel`).
-     *
-     * @return  bool
-     */
-    private function shouldDisplaySummaryMetabox()
-    {
-        return !Option::get('disable_editor') && (!Helper::is_gutenberg() || version_compare(get_bloginfo('version'), '6.5.5', '<='));
-    }
-
-    /**
-     * Checks if any of the conditions for displaying "Statistics - Latest Visitors" meta-box are met.
-     *
-     * Conditions are:
-     * - DataPlus add-on is active and `latest_visitors_metabox` option is enabled.
-     * - DataPlus add-on is not active and `disable_editor` is disabled.
-     *
-     * @return  bool
-     */
-    private function shouldDisplayLatestVisitorsMetabox()
-    {
-        return Helper::isAddOnActive('data-plus') ? Option::getByAddon('latest_visitors_metabox', 'data_plus', '1') === '1' : !Option::get('disable_editor');
-    }
-
-    /**
      * Returns the data needed for "Statistics - Summary" widget/panel in edit posts.
      *
      * @param   \WP_Post    $post
@@ -287,12 +175,12 @@ class PostsManager
      *  - `postChartSettings`
      *  - `contentAnalyticsUrl`
      */
-    public static function getPostStatisticsSummary($post)
+    public static function getPostStatisticsSummary($postId)
     {
         $dataProvider    = null;
         $miniChartHelper = new MiniChartHelper();
         try {
-            $dataProvider = new PostSummaryDataProvider($post);
+            $dataProvider = new PostSummaryDataProvider($postId);
         } catch (\Exception $e) {
             return null;
         }
@@ -358,7 +246,7 @@ class PostsManager
         $dataProvider->setTo(TimeZone::getTimeAgo());
 
         return [
-            'postId'                     => $post->ID,
+            'postId'                     => $postId,
             'fromString'                 => $dataProvider->getFromString('', true),
             'toString'                   => $dataProvider->getToString('', true),
             'publishDateString'          => $publishDate,

@@ -25,10 +25,10 @@ $postTypeNamePlural   = Helper::getPostTypeName($postType);
 
     <div class="wps-flex-container">
         <div class="wps-flex-half">
-            <div class="wps-author-tabs">
+            <div class="wps-tabs">
                 <input type="radio" name="tabs" id="author-views" checked="checked">
                 <label for="author-views"><?php esc_html_e('Views', 'wp-statistics') ?></label>
-                <div class="wps-author-tabs__content">
+                <div class="wps-tabs__content">
                     <?php
                     /** @var stdClass[] */
                     $viewingAuthors = $data['authors']['top_viewing'];
@@ -57,7 +57,7 @@ $postTypeNamePlural   = Helper::getPostTypeName($postType);
                 </div>
                 <input type="radio" name="tabs" id="author-publishing">
                 <label for="author-publishing"><?php esc_html_e('Publishing', 'wp-statistics') ?></label>
-                <div class="wps-author-tabs__content">
+                <div class="wps-tabs__content">
                     <?php
 
                     /** @var stdClass[] */
@@ -88,10 +88,10 @@ $postTypeNamePlural   = Helper::getPostTypeName($postType);
             </div>
         </div>
         <div class="wps-flex-half">
-            <div class="wps-author-tabs">
+            <div class="wps-tabs">
                 <input type="radio" name="side-tabs" id="views-post" checked>
                 <label for="views-post"><?php echo sprintf(esc_html__('Views/%s', 'wp-statistics'), $postTypeNameSingular) ?></label>
-                <div class="wps-author-tabs__content">
+                <div class="wps-tabs__content">
                     <?php
                     /** @var stdClass[] */
                     $topByViewsPerPost = $data['authors']['top_by_views'];
@@ -122,7 +122,7 @@ $postTypeNamePlural   = Helper::getPostTypeName($postType);
                 <?php if (post_type_supports($postType, 'comments')) : ?>
                     <input type="radio" name="side-tabs" id="comments-post">
                     <label for="comments-post"><?php echo sprintf(esc_html__('Comments/%s', 'wp-statistics'), $postTypeNameSingular) ?></label>
-                    <div class="wps-author-tabs__content">
+                    <div class="wps-tabs__content">
                         <?php
                         /** @var stdClass[] */
                         $topByCommentsPerPost = $data['authors']['top_by_comments'];
@@ -153,7 +153,7 @@ $postTypeNamePlural   = Helper::getPostTypeName($postType);
 
                 <input type="radio" name="side-tabs" id="words-post">
                 <label for="words-post"><?php echo sprintf(esc_html__('Words/%s', 'wp-statistics'), $postTypeNameSingular) ?></label>
-                <div class="wps-author-tabs__content">
+                <div class="wps-tabs__content">
                     <?php
                     /** @var stdClass[] */
                     $topByWordsPerPost = $data['authors']['top_by_words'];
@@ -183,9 +183,10 @@ $postTypeNamePlural   = Helper::getPostTypeName($postType);
             </div>
         </div>
     </div>
-    <div class="c-footer">
-        <div class="c-footer__more">
-            <a href="<?php echo esc_url(Menus::admin_url('author-analytics', ['type' => 'authors', 'pt' => $postType])); ?>" class="c-footer__more__link" title="<?php esc_html_e('See all authors', 'wp-statistics') ?>"><?php esc_html_e('See all authors', 'wp-statistics') ?></a>
-        </div>
-    </div>
+    <?php
+    View::load("components/objects/view-more", [
+        'href'  => Menus::admin_url('author-analytics', ['type' => 'authors', 'pt' => $postType]),
+        'title' => __('See all authors', 'wp-statistics'),
+    ]);
+    ?>
 </div>

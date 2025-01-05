@@ -7,7 +7,7 @@ $postTypeLabelSingular  = Helper::getPostTypeName(Request::get('pt', 'post'), tr
 $postTypeLabelPlural    = Helper::getPostTypeName(Request::get('pt', 'post'));
 ?>
 
-<div class="wps-card wps-card__sums <?php echo isset($active) ? 'wps-card__sums--authors' : ''; ?>  <?php echo isset($total_type) ? 'wps-card__sums--two-row' : ''; ?>">
+<div class="wps-card wps-card__sums <?php echo isset($active) ? 'wps-card__sums--two-row' : ''; ?>  <?php echo isset($total_type) ? 'wps-card__sums--two-row' : ''; ?>">
     <div class="wps-card__title">
         <h2>
             <?php echo esc_html($title); ?>
@@ -25,19 +25,19 @@ $postTypeLabelPlural    = Helper::getPostTypeName(Request::get('pt', 'post'));
         </div>
 
         <?php if (isset($active)) : ?>
-            <div class="wps-card__summary--active">
+            <div class="wps-card__summary--avg">
                 <span><?php echo esc_html($active) ?></span>
                 <span><?php esc_html_e('Active', 'wp-statistics') ?></span>
             </div>
         <?php endif ?>
 
         <?php if (isset($published)) : ?>
-            <div class="wps-card__summary--publish">
+            <div class="wps-card__summary--total">
                 <span><?php echo esc_html($published) ?></span>
                 <span title="<?php echo sprintf(esc_attr__('Published %s', 'wp-statistics'), $postTypeLabelPlural) ?>"><?php echo sprintf(esc_html__('Published %s', 'wp-statistics'), $postTypeLabelPlural) ?></span>
             </div>
         <?php endif ?>
-            <div class="wps-card__summary--avg">
+            <div class="wps-card__summary--total-avg">
                 <?php if (isset($avg)) : ?>
                     <span><?php echo esc_html($avg) ?></span>
                 <?php endif ?>

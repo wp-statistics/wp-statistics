@@ -3,6 +3,7 @@
 use WP_STATISTICS\Helper;
 use WP_STATISTICS\IP;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
+use WP_Statistics\Service\Geolocation\Provider\CloudflareGeolocationProvider;
 use WP_STATISTICS\TimeZone;
 
 // Get IP Method
@@ -158,8 +159,27 @@ add_thickbox();
                 <h3><?php esc_html_e('GeoIP Settings', 'wp-statistics'); ?></h3>
             </th>
         </tr>
-
         <tr valign="top">
+            <th scope="row"><label for="wps_geoip_location_detection_method"><?php esc_html_e('Location Detection Method', 'wp-statistics'); ?></label></th>
+            <td>
+                <select name="wps_geoip_location_detection_method" id="geoip_location_detection_method">
+                    <option value="cf" <?php selected(WP_STATISTICS\Option::get('geoip_location_detection_method', 'maxmind'), 'cf'); ?><?php echo CloudflareGeolocationProvider::isAvailable() ? '' : 'disabled'; ?>><?php esc_html_e('Cloudflare IP Geolocation', 'wp-statistics'); ?></option>
+                    <option value="maxmind" <?php selected(WP_STATISTICS\Option::get('geoip_location_detection_method', 'maxmind'), 'maxmind'); ?>><?php esc_html_e('MaxMind GeoIP', 'wp-statistics'); ?></option>
+                </select>
+
+                <p class="description">
+                    <?php 
+                        echo sprintf(
+                            /* translators: %s: Link to learn about Cloudflare Geolocation */
+                            esc_html__('Select the method to detect location data for visitors. For better performance, we recommend using the Cloudflare IP Geolocation method, which requires your domain to be on Cloudflare with \'Visitor Location Headers\' enabled. %s', 'wp-statistics'),
+                            '<a href="https://wp-statistics.com/resources/how-to-enable-cloudflare-ip-geolocation/?utm_source=wp-statistics&utm_medium=link&utm_campaign=settings" class="wps-text-decoration-underline" target="_blank">' . esc_html__('Learn more about setting up Cloudflare Geolocation', 'wp-statistics') . '</a>'
+                        );                      
+                    ?>
+                </p>
+            </td>
+        </tr>
+
+        <tr valign="top" id="geoip_license_type_option">
             <th scope="row"><label for="wps_geoip_license_type"><?php esc_html_e('GeoIP Database Update Source', 'wp-statistics'); ?></label></th>
             <td>
                 <select name="wps_geoip_license_type" id="geoip_license_type">
@@ -181,7 +201,7 @@ add_thickbox();
             </td>
         </tr>
 
-        <tr valign="top">
+        <tr valign="top" id="enable_geoip_option">
             <th scope="row">
                 <label for="geoip-enable"><?php esc_html_e('Manual Update of GeoIP Database', 'wp-statistics'); ?></label>
             </th>
@@ -195,7 +215,7 @@ add_thickbox();
             </td>
         </tr>
 
-        <tr valign="top">
+        <tr valign="top" id="schedule_geoip_option">
             <th scope="row">
                 <label for="geoip-schedule"><?php esc_html_e('Schedule Monthly Update of GeoIP Database', 'wp-statistics'); ?></label>
             </th>
@@ -219,7 +239,7 @@ add_thickbox();
             </td>
         </tr>
 
-        <tr valign="top">
+        <tr valign="top" id="geoip_auto_pop_option">
             <th scope="row">
                 <label for="geoip-schedule"><?php esc_html_e('Update Missing GeoIP Data', 'wp-statistics'); ?></label>
             </th>
@@ -247,7 +267,6 @@ add_thickbox();
 
                 // Show and hide user license input base on license type option
                 function handle_geoip_license_key_field() {
-                    console.log(jQuery("#geoip_license_type").val())
                     if (jQuery("#geoip_license_type").val() == "user-license") {
                         jQuery("#geoip_license_key_option").show();
                     } else {
@@ -257,6 +276,30 @@ add_thickbox();
 
                 handle_geoip_license_key_field();
                 jQuery("#geoip_license_type").on('change', handle_geoip_license_key_field);
+
+                function handle_maxmind_fields() {
+                    var isMaxmind = jQuery("#geoip_location_detection_method").val() === "maxmind";
+                    var isUserLicense = jQuery("#geoip_license_type").val() === "user-license";
+                    
+                    var elements = [
+                        "#geoip_license_type_option", 
+                        "#geoip_license_key_option", 
+                        "#enable_geoip_option", 
+                        "#schedule_geoip_option", 
+                        "#geoip_auto_pop_option"
+                    ];
+
+                    jQuery.each(elements, function(index, element) {
+                        if (element === "#geoip_license_key_option" && !isUserLicense) {
+                            return; 
+                        }
+
+                        isMaxmind ? jQuery(element).show() : jQuery(element).hide();
+                    });
+                }
+
+                handle_maxmind_fields();
+                jQuery("#geoip_location_detection_method").on('change', handle_maxmind_fields);
 
                 // Ajax function for updating database
                 jQuery("input[name = 'update_geoip']").click(function (event) {

@@ -1816,7 +1816,7 @@ class Helper
      *
      * @return  float
      */
-    public static function calculatePercentageChange($firstNumber, $secondNumber)
+    public static function calculatePercentageChange($firstNumber, $secondNumber, $decimals = 2)
     {
         $firstNumber  = intval($firstNumber);
         $secondNumber = intval($secondNumber);
@@ -1839,7 +1839,7 @@ class Helper
         $result *= 100;
         $result *= $multiply;
 
-        return $result;
+        return round($result, $decimals);
     }
 
     /**
@@ -2113,5 +2113,23 @@ class Helper
     {
         $length = strlen($string);
         return $length >= $minLength && $length <= $maxLength;
+    }
+
+
+    /**
+     * Calculate the percentage of the given number based on total number.
+     *
+     * @param int $number
+     * @param int $totalNumber
+     *
+     * @return float
+     */
+    public static function calculatePercentage($number, $totalNumber)
+    {
+        if ($totalNumber == 0) {
+            return 0;
+        }
+
+        return round(($number / $totalNumber) * 100, 2);
     }
 }

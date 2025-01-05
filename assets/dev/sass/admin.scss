@@ -34,6 +34,8 @@ $image_path: "../images";
 @import "component/search";
 @import "component/filters-modal";
 @import "component/premium-modal";
+@import "component/skeleton";
+@import "component/modal";
 
 // WordPress Admin Page
 @import "pages/setting";
@@ -48,13 +50,13 @@ $image_path: "../images";
 @import "pages/visitors";
 @import "pages/privacy";
 @import "pages/lock-page";
+@import "pages/tracker";
 
 // Load WordPress Meta Box
 @import "meta-box/about";
 @import "meta-box/summary";
 @import "meta-box/map";
 @import "meta-box/referring";
-@import "meta-box/country";
 @import "meta-box/post-edit-metabox";
 
 // UI styles

@@ -31,7 +31,7 @@ jQuery(document).ready(function () {
     }
 
     if (datePickerBtn.length && datePickerElement.length && datePickerForm.length) {
-        datePickerBtn.on('click', function () {
+         datePickerBtn.on('click', function () {
             datePickerElement.trigger('click');
         });
 

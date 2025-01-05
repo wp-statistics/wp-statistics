@@ -7,6 +7,7 @@ use WP_Statistics\Models\VisitorsModel;
 use WP_STATISTICS\Option;
 use WP_Statistics\Service\Admin\NoticeHandler\Notice;
 use WP_Statistics\Service\Geolocation\GeolocationFactory;
+use WP_Statistics\Service\Geolocation\Provider\MaxmindGeoIPProvider;
 use WP_STATISTICS\WP_Background_Process;
 
 class IncompleteGeoIpUpdater extends WP_Background_Process
@@ -47,7 +48,7 @@ class IncompleteGeoIpUpdater extends WP_Background_Process
                 'fields'     => ['visitor.ip']
             ]);
 
-            $location   = GeolocationFactory::getLocation($visitor->getIP());
+            $location = GeolocationFactory::getLocation($visitor->getIP(), MaxmindGeoIPProvider::class);
 
             $visitorModel->updateVisitor($visitorId, [
                 'location'  => $location['country_code'],
@@ -60,6 +61,11 @@ class IncompleteGeoIpUpdater extends WP_Background_Process
         return false;
     }
 
+    public function is_initiated()
+    {
+        return Option::getOptionGroup('jobs', 'update_geoip_process_initiated');
+    }
+
     /**
      * Complete processing.
      *
@@ -69,9 +75,6 @@ class IncompleteGeoIpUpdater extends WP_Background_Process
     protected function complete()
     {
         parent::complete();
-
-        // Delete option
-        Option::deleteOptionGroup('geo_ip_process_started', 'jobs');
 
         // Show notice to user
         Notice::addFlashNotice(__('GeoIP update for incomplete visitors processed successfully.', 'wp-statistics'));

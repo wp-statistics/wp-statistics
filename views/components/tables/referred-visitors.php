@@ -20,9 +20,6 @@ use WP_STATISTICS\Menus;
                             <span><?php esc_html_e('Referrer', 'wp-statistics') ?></span>
                         </th>
                         <th class="wps-pd-l">
-                            <?php esc_html_e('Source Category', 'wp-statistics') ?>
-                        </th>
-                        <th class="wps-pd-l">
                             <?php esc_html_e('Visitor Information', 'wp-statistics') ?>
                         </th>
                         <th class="wps-pd-l">
@@ -46,17 +43,13 @@ use WP_STATISTICS\Menus;
                             </td>
 
                             <td class="wps-pd-l">
-                                <a href="<?php echo esc_url($visitor->getReferral()->getReferrer()) ?>" title="<?php echo esc_attr($visitor->getReferral()->getReferrer()) ?>" target="_blank" class="wps-link-arrow">
-                                    <span><?php echo esc_html($visitor->getReferral()->getRawReferrer()) ?></span>
-                                </a>
-                            </td>
-
-                            <td class="wps-pd-l">
-                                <div class="wps-ellipsis-parent">
-                                    <?php
-                                        echo $visitor->getReferral()->getSourceChannel() ? esc_html($visitor->getReferral()->getSourceChannel()) : Admin_Template::UnknownColumn();
-                                    ?>
-                                </div>
+                                <?php
+                                View::load("components/objects/referrer-link", [
+                                    'label' => $visitor->getReferral()->getSourceChannel(),
+                                    'url'   => $visitor->getReferral()->getReferrer() ,
+                                    'title' => $visitor->getReferral()->getRawReferrer()
+                                ]);
+                                ?>
                             </td>
 
                             <td class="wps-pd-l">

@@ -1,0 +1,168 @@
+.wps-postbox-tracker {
+
+  &__container {
+    width: 774px;
+    max-width: 100%;
+    float: left;
+    margin-right: 20px;
+
+    .rtl & {
+      float: right;
+      margin-right: 0;
+      margin-left: 20px;
+    }
+  }
+
+  &__box {
+    background: #FFFFFF;
+    border: 1px solid #DADCE0;
+    padding: 32px;
+    gap: 48px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__info {
+    display: flex;
+    gap: 24px;
+    flex-direction: column;
+
+    div {
+      display: flex;
+      gap: 10px;
+      flex-direction: column;
+
+      * {
+        padding: 0;
+        margin: 0;
+      }
+
+      h3 {
+        font-size: 18px;
+        font-weight: 600;
+        line-height: 21.09px;
+        color: #292D32;
+      }
+
+      p {
+        color: #56585A;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 22px;
+      }
+    }
+
+  }
+
+  &__help{
+    border-top: 1px solid #EEEFF1;
+    h4{
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 16.41px;
+      padding: 0;
+      margin-top: 32px;
+      margin-bottom: 16px;
+    }
+    p{
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 21px;
+      color:#56585A;
+
+      a{
+        text-decoration: underline;
+        font-weight: 400;
+      }
+    }
+  }
+
+  &__activity{
+    display: flex;
+    gap: 24px;
+    flex-direction: column;
+
+    &-head{
+      display: flex;
+      gap: 8px;
+      flex-direction: column;
+
+      h4{
+        color:#0C0C0D;
+        font-size: 16px;
+        font-weight: 500;
+      }
+
+      p{
+        font-size: 13px;
+        font-weight: 400;
+        line-height: 15.23px;
+        color:#56585A;
+      }
+      *{
+        margin: 0;
+        padding: 0;
+      }
+    }
+
+    &-table{
+      .o-table-wrapper{
+        border: 1px solid #EEEFF1;
+        border-radius: 8px;
+        tbody{
+          tr{
+            td:first-child{
+              font-size: 13px;
+              font-weight: 500;
+              line-height: 15.23px;
+            }
+            .o-wrap--no-data{
+              padding-top:0!important;
+              font-weight: 400;
+            }
+            td .wps-country-flag .wps-ellipsis-text{
+              max-width: 400px!important;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  &__filter-lists{
+    display: flex;
+    gap: 6px;
+    flex-direction: column;
+
+    .wps-postbox-tracker__filter-list{
+      h3{
+        color: #292D32;
+        margin: 0 0 6px;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 24px;
+      }
+      .wps-postbox-tracker__filter-content{
+        border: 1px solid #EEEFF1;
+        background: #FFFFFF99;
+        padding: 12px;
+        border-radius: 4px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        min-height: 42px;
+        box-sizing: border-box;
+
+        p{
+          font-family: "Roboto Mono", "Monaco", "Consolas", "Courier New", monospace;
+          font-size: 11px;
+          font-weight: 400;
+          line-height: 16.5px;
+          color: #292D32;
+          padding: 0;
+        }
+      }
+    }
+  }
+}

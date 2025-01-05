@@ -407,4 +407,16 @@ class IP
         return count($resultUpdate);
     }
 
+    /**
+     * Gets visitor's IP address from Cloudflare header.
+     * 
+     * @return string Sanitized IP address or empty string
+     */
+    public static function getCloudflareIp() {
+        if (empty($_SERVER['HTTP_CF_CONNECTING_IP'])) {
+            return '';
+        }
+
+        return IP::check_sanitize_ip($_SERVER['HTTP_CF_CONNECTING_IP']);
+    }
 }

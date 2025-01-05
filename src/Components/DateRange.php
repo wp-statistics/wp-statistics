@@ -129,10 +129,10 @@ class DateRange
         }
 
         if (!empty($range) && $excludeToday) {
-
             // Only applicable for periods that their last day is today, like 7days, 30days, etc...
-            if ($period !== 'today' && $range['to'] === date(DateTime::$defaultDateFormat)) {
-                $range['to'] = date(DateTime::$defaultDateFormat, strtotime('-1 day'));
+            if ($period !== 'today' && self::compare($range['to'], 'is', 'today')) {
+                $range['from']  = DateTime::subtract($range['from'], 1);
+                $range['to']    = DateTime::subtract($range['to'], 1);
             }
         }
 
@@ -144,9 +144,10 @@ class DateRange
      * By default it returns result based on the stored period in usermeta.
      *
      * @param mixed $period The name of the period (e.g., '30days', 'this_month') or custom date range.
+     * @param bool $excludeToday Whether to exclude today from date calculations. Defaults to false.
      * @return array The previous period's date range.
      */
-    public static function getPrevPeriod($period = false)
+    public static function getPrevPeriod($period = false, $excludeToday = false)
     {
         // If period is not provided, retrieve it
         if (!$period) {
@@ -157,7 +158,16 @@ class DateRange
         // Check if the period name exists in the predefined periods
         $periods = self::getPeriods();
         if (is_string($period) && isset($periods[$period])) {
-            return $periods[$period]['prev_period'];
+            $currentRange   = $periods[$period]['period'];
+            $prevRange      = $periods[$period]['prev_period'];
+
+            // Only applicable for periods that their last day is today, like 7days, 30days, etc...
+            if ($excludeToday && self::compare($currentRange['to'], '=', 'today')) {
+                $prevRange['from']  = DateTime::subtract($prevRange['from'], 1);
+                $prevRange['to']    = DateTime::subtract($prevRange['to'], 1);
+            }
+
+            return $prevRange;
         }
 
         // If it's a custom date range, calculate the previous period dynamically
@@ -168,7 +178,16 @@ class DateRange
 
             $periodName = self::getPeriodFromRange($range);
             if ($periodName) {
-                return $periods[$periodName]['prev_period'];
+                $currentRange   = $periods[$periodName]['period'];
+                $prevRange      = $periods[$periodName]['prev_period'];
+
+                // Only applicable for periods that their last day is today, like 7days, 30days, etc...
+                if ($excludeToday && self::compare($currentRange['to'], 'is', 'today')) {
+                    $prevRange['from']  = DateTime::subtract($prevRange['from'], 1);
+                    $prevRange['to']    = DateTime::subtract($prevRange['to'], 1);
+                }
+
+                return $prevRange;
             }
 
             // Calculate the number of days in the current period
@@ -295,6 +314,17 @@ class DateRange
                 ]
             ],
 
+            '15days'    => [
+                'period' => [
+                    'from'  => DateTime::get('-14 days'),
+                    'to'    => DateTime::get()
+                ],
+                'prev_period' => [
+                    'from'  => DateTime::get('-29 days'),
+                    'to'    => DateTime::get('-15 days')
+                ]
+            ],
+
             '30days'    => [
                 'period' => [
                     'from'  => DateTime::get('-29 days'),
@@ -363,7 +393,7 @@ class DateRange
 
             'total'     => [
                 'period' => [
-                    'from'  => DateTime::get(0),
+                    'from'  => Helper::getInitialPostDate(),
                     'to'    => DateTime::get()
                 ],
                 'prev_period' => [
