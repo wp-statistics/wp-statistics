@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-01-01T13:55:34+00:00\n"
+"POT-Creation-Date: 2025-01-05T06:58:02+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: wp-statistics\n"
@@ -181,7 +181,8 @@ msgstr ""
 #: includes/admin/class-wp-statistics-admin-assets.php:408
 #: includes/admin/TinyMCE/class-wp-statistics-tinymce.php:55
 #: src/Models/ViewsModel.php:178
-#: src/Models/VisitorsModel.php:304
+#: src/Models/VisitorsModel.php:345
+#: src/Models/VisitorsModel.php:404
 #: views/metabox/traffic-overview.php:66
 msgid "Today"
 msgstr ""
@@ -294,7 +295,8 @@ msgstr ""
 #: includes/admin/class-wp-statistics-admin-assets.php:409
 #: includes/admin/TinyMCE/class-wp-statistics-tinymce.php:56
 #: src/Models/ViewsModel.php:182
-#: src/Models/VisitorsModel.php:308
+#: src/Models/VisitorsModel.php:349
+#: src/Models/VisitorsModel.php:408
 #: views/metabox/traffic-overview.php:71
 msgid "Yesterday"
 msgstr ""
@@ -303,20 +305,23 @@ msgstr ""
 #: includes/admin/class-wp-statistics-admin-assets.php:375
 #: includes/admin/class-wp-statistics-admin-assets.php:414
 #: src/Models/ViewsModel.php:202
-#: src/Models/VisitorsModel.php:328
+#: src/Models/VisitorsModel.php:369
+#: src/Models/VisitorsModel.php:428
 #: views/metabox/traffic-overview.php:76
 msgid "Last 7 days"
 msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-assets.php:370
 #: src/Models/ViewsModel.php:186
-#: src/Models/VisitorsModel.php:312
+#: src/Models/VisitorsModel.php:353
+#: src/Models/VisitorsModel.php:412
 msgid "This week"
 msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-assets.php:371
 #: src/Models/ViewsModel.php:190
-#: src/Models/VisitorsModel.php:316
+#: src/Models/VisitorsModel.php:357
+#: src/Models/VisitorsModel.php:416
 msgid "Last week"
 msgstr ""
 
@@ -324,20 +329,23 @@ msgstr ""
 #: includes/admin/class-wp-statistics-admin-assets.php:376
 #: includes/admin/class-wp-statistics-admin-assets.php:415
 #: src/Models/ViewsModel.php:206
-#: src/Models/VisitorsModel.php:332
+#: src/Models/VisitorsModel.php:373
+#: src/Models/VisitorsModel.php:432
 #: views/metabox/traffic-overview.php:81
 msgid "Last 30 days"
 msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-assets.php:373
 #: src/Models/ViewsModel.php:194
-#: src/Models/VisitorsModel.php:320
+#: src/Models/VisitorsModel.php:361
+#: src/Models/VisitorsModel.php:420
 msgid "This month"
 msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-assets.php:374
 #: src/Models/ViewsModel.php:198
-#: src/Models/VisitorsModel.php:324
+#: src/Models/VisitorsModel.php:365
+#: src/Models/VisitorsModel.php:424
 msgid "Last month"
 msgstr ""
 
@@ -348,14 +356,16 @@ msgstr ""
 #: includes/admin/class-wp-statistics-admin-assets.php:378
 #: includes/admin/class-wp-statistics-admin-assets.php:416
 #: src/Models/ViewsModel.php:210
-#: src/Models/VisitorsModel.php:336
+#: src/Models/VisitorsModel.php:377
+#: src/Models/VisitorsModel.php:436
 msgid "Last 90 days"
 msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-assets.php:379
 #: includes/admin/class-wp-statistics-admin-assets.php:417
 #: src/Models/ViewsModel.php:214
-#: src/Models/VisitorsModel.php:340
+#: src/Models/VisitorsModel.php:381
+#: src/Models/VisitorsModel.php:440
 msgid "Last 6 months"
 msgstr ""
 
@@ -365,7 +375,8 @@ msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-assets.php:381
 #: src/Models/ViewsModel.php:218
-#: src/Models/VisitorsModel.php:344
+#: src/Models/VisitorsModel.php:385
+#: src/Models/VisitorsModel.php:444
 #: views/metabox/traffic-overview.php:86
 msgid "This year (Jan-Today)"
 msgstr ""
@@ -388,14 +399,15 @@ msgstr ""
 #: includes/admin/templates/pages/content-analytics/single.php:28
 #: includes/admin/TinyMCE/class-wp-statistics-tinymce.php:60
 #: src/Models/ViewsModel.php:225
-#: src/Models/VisitorsModel.php:351
+#: src/Models/VisitorsModel.php:392
+#: src/Models/VisitorsModel.php:451
 #: src/Service/Charts/DataProvider/ExclusionsChartDataProvider.php:91
 #: src/Service/Charts/DataProvider/SearchEngineChartDataProvider.php:95
 #: src/Service/Charts/DataProvider/SearchEngineChartDataProvider.php:121
-#: src/Service/Charts/DataProvider/SocialMediaChartDataProvider.php:98
-#: src/Service/Charts/DataProvider/SocialMediaChartDataProvider.php:124
-#: src/Service/Charts/DataProvider/SourceCategoryChartDataProvider.php:91
-#: src/Service/Charts/DataProvider/SourceCategoryChartDataProvider.php:117
+#: src/Service/Charts/DataProvider/SocialMediaChartDataProvider.php:95
+#: src/Service/Charts/DataProvider/SocialMediaChartDataProvider.php:121
+#: src/Service/Charts/DataProvider/SourceCategoryChartDataProvider.php:92
+#: src/Service/Charts/DataProvider/SourceCategoryChartDataProvider.php:118
 #: views/metabox/traffic-overview.php:91
 msgid "Total"
 msgstr ""
@@ -691,7 +703,7 @@ msgstr ""
 #: views/metabox/top-countries.php:39
 #: views/metabox/top-referring.php:32
 #: views/pages/referrals/source-categories.php:61
-#: views/pages/tracker-debugger/tracker-debugger.php:389
+#: views/pages/tracker-debugger/tracker-debugger.php:397
 msgid "No recent data available."
 msgstr ""
 
@@ -713,12 +725,12 @@ msgid "View Detailed Analytics"
 msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-assets.php:445
-#: views/components/meta-box/enable-mail.php:5
+#: views/components/meta-box/enable-mail.php:9
 msgid "Enable Now"
 msgstr ""
 
 #: includes/admin/class-wp-statistics-admin-assets.php:446
-#: views/components/meta-box/enable-mail.php:4
+#: views/components/meta-box/enable-mail.php:8
 msgid "Receive Weekly Email Reports"
 msgstr ""
 
@@ -809,7 +821,7 @@ msgstr ""
 #: views/metabox/currently-online.php:22
 #: views/metabox/latest-visitor.php:20
 #: views/metabox/most-active-visitors.php:20
-#: views/pages/tracker-debugger/tracker-debugger.php:358
+#: views/pages/tracker-debugger/tracker-debugger.php:366
 msgid "Location"
 msgstr ""
 
@@ -3549,7 +3561,7 @@ msgid "GeoIP Exclusions"
 msgstr ""
 
 #: includes/admin/templates/settings/exclusions.php:116
-#: views/pages/tracker-debugger/tracker-debugger.php:253
+#: views/pages/tracker-debugger/tracker-debugger.php:261
 msgid "Exclude Countries"
 msgstr ""
 
@@ -3558,7 +3570,7 @@ msgid "Enter the country codes of the countries you want to exclude from trackin
 msgstr ""
 
 #: includes/admin/templates/settings/exclusions.php:124
-#: views/pages/tracker-debugger/tracker-debugger.php:246
+#: views/pages/tracker-debugger/tracker-debugger.php:254
 msgid "Include Countries"
 msgstr ""
 
@@ -4816,7 +4828,7 @@ msgstr ""
 msgid "Invalid date passed as argument."
 msgstr ""
 
-#: src/Components/RemoteRequest.php:135
+#: src/Components/RemoteRequest.php:143
 msgid "Failed to get success response. URL: %s, Method: %s, Status Code: %s"
 msgstr ""
 
@@ -5679,11 +5691,11 @@ msgid "Referred Visitors"
 msgstr ""
 
 #: src/Service/Admin/Referrals/Views/TabsView.php:109
-msgid "Source Categories"
+msgid "Social Media"
 msgstr ""
 
 #: src/Service/Admin/Referrals/Views/TabsView.php:114
-msgid "Social Media"
+msgid "Source Categories"
 msgstr ""
 
 #: src/Service/Admin/SiteHealthInfo.php:45
@@ -6707,7 +6719,7 @@ msgstr ""
 #: views/components/tables/referred-visitors.php:23
 #: views/components/tables/top-visitors.php:20
 #: views/components/tables/visitors.php:22
-#: views/pages/tracker-debugger/tracker-debugger.php:355
+#: views/pages/tracker-debugger/tracker-debugger.php:363
 msgid "Visitor Information"
 msgstr ""
 
@@ -6943,209 +6955,216 @@ msgstr ""
 msgid "Your tracker.js file is loading correctly with a status code of 200. No issues detected here."
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:64
-msgid "Hit Endpoint Status: Unexpected Response"
+#: views/pages/tracker-debugger/tracker-debugger.php:63
+msgid "Hit Endpoint Status: Successful"
 msgstr ""
 
 #: views/pages/tracker-debugger/tracker-debugger.php:65
+msgid "Hit recording is responding as expected."
+msgstr ""
+
+#: views/pages/tracker-debugger/tracker-debugger.php:72
+msgid "Hit Endpoint Status: Unexpected Response"
+msgstr ""
+
+#: views/pages/tracker-debugger/tracker-debugger.php:73
 msgid "Hit recording is not responding as expected."
 msgstr ""
 
-#. translators: %1$s: request type (AJAX or REST API), %2$s: documentation URL
-#: views/pages/tracker-debugger/tracker-debugger.php:68
-msgid "Please check your security plugins, firewall settings, or any third-party services that might be affecting the %1$s request. You may need to review your configuration or whitelist the endpoint. For more information, please visit our %2$s."
+#: views/pages/tracker-debugger/tracker-debugger.php:77
+msgid "Please check your security plugins, firewall settings, or any third-party services that might be affecting the request. You may need to review your configuration or whitelist the endpoint. For more information, please visit our %1$s."
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:70
+#: views/pages/tracker-debugger/tracker-debugger.php:78
 msgid "troubleshooting guide"
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:82
+#: views/pages/tracker-debugger/tracker-debugger.php:90
 msgid "Helpful Notes"
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:94
+#: views/pages/tracker-debugger/tracker-debugger.php:102
 msgid "Do Not Track (DNT) is Enabled"
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:95
+#: views/pages/tracker-debugger/tracker-debugger.php:103
 msgid "Some visitors are excluded from tracking based on their browser settings."
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:96
+#: views/pages/tracker-debugger/tracker-debugger.php:104
 msgid "Your site respects visitors' browser settings to not track their web activity. This may result in a lower number of tracked visitors."
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:97
+#: views/pages/tracker-debugger/tracker-debugger.php:105
 msgid "For more details, visit our DNT feature <a href=\"%s\" target=\"_blank\" rel=\"noopener\">documentation</a>."
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:104
+#: views/pages/tracker-debugger/tracker-debugger.php:112
 msgid "Do Not Track (DNT) is Disabled"
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:106
+#: views/pages/tracker-debugger/tracker-debugger.php:114
 msgid "All visitors will be tracked regardless of their browser's DNT settings."
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:119
+#: views/pages/tracker-debugger/tracker-debugger.php:127
 msgid "Consent Plugin Integration is Active"
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:120
+#: views/pages/tracker-debugger/tracker-debugger.php:128
 msgid "Visitors must give consent before tracker.js runs."
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:121
+#: views/pages/tracker-debugger/tracker-debugger.php:129
 msgid "Tracker.js will not run until visitors provide consent. This may result in up to 50% of visitors not being tracked."
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:123
+#: views/pages/tracker-debugger/tracker-debugger.php:131
 msgid "Consider enabling \"Anonymous Tracking\" to track all visitors anonymously. Learn more in our <a target=\"_blank\" href=\"%s\">Consent Integration guide</a>."
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:134
+#: views/pages/tracker-debugger/tracker-debugger.php:142
 msgid "Consent Management is Disabled"
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:136
+#: views/pages/tracker-debugger/tracker-debugger.php:144
 msgid "Tracker.js runs for all visitors immediately. If you require consent management, please enable it in the settings."
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:144
+#: views/pages/tracker-debugger/tracker-debugger.php:152
 msgid "Anonymous Tracking is Enabled"
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:146
+#: views/pages/tracker-debugger/tracker-debugger.php:154
 msgid "All visitors will be tracked anonymously, even without explicit consent, ensuring privacy compliance while collecting essential data."
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:157
+#: views/pages/tracker-debugger/tracker-debugger.php:165
 msgid "Verified Items"
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:168
+#: views/pages/tracker-debugger/tracker-debugger.php:176
 msgid "Ad-blocker Bypass is Disabled"
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:169
+#: views/pages/tracker-debugger/tracker-debugger.php:177
 msgid "Visitors using ad-blockers may prevent tracker.js from loading, affecting your analytics data."
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:171
+#: views/pages/tracker-debugger/tracker-debugger.php:179
 msgid "Enable the \"Bypass Ad-blocker\" option to ensure tracker.js loads for all visitors. Refer to our Ad-blocker Bypass guide for instructions."
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:178
+#: views/pages/tracker-debugger/tracker-debugger.php:186
 msgid "Ad-blocker Bypass is Enabled"
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:179
+#: views/pages/tracker-debugger/tracker-debugger.php:187
 msgid "Tracker.js is working for all visitors, including those using ad-blockers."
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:180
+#: views/pages/tracker-debugger/tracker-debugger.php:188
 msgid "Tracker.js is configured to load even for visitors using ad-blockers."
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:198
+#: views/pages/tracker-debugger/tracker-debugger.php:206
 msgid "No Known Caching Plugins Detected"
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:199
+#: views/pages/tracker-debugger/tracker-debugger.php:207
 msgid "No recognized caching plugins were detected."
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:200
+#: views/pages/tracker-debugger/tracker-debugger.php:208
 msgid "We didn't detect any known caching plugins. If you're using a caching solution that's not recognized, it might still affect tracker.js."
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:201
+#: views/pages/tracker-debugger/tracker-debugger.php:209
 msgid "Review your caching settings and consult our Caching guide for more information."
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:218
+#: views/pages/tracker-debugger/tracker-debugger.php:226
 msgid "Caching Plugins Detected"
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:219
+#: views/pages/tracker-debugger/tracker-debugger.php:227
 msgid "We have detected the following caching plugin(s) active on your site:"
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:220
+#: views/pages/tracker-debugger/tracker-debugger.php:228
 msgid "Caching may interfere with tracker.js loading properly."
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:221
+#: views/pages/tracker-debugger/tracker-debugger.php:229
 msgid "Configure your caching plugin to exclude tracker.js from being cached. See our Caching Compatibility guide for detailed steps."
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:232
+#: views/pages/tracker-debugger/tracker-debugger.php:240
 msgid "IP Addresses"
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:239
+#: views/pages/tracker-debugger/tracker-debugger.php:247
 msgid "Roles"
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:260
+#: views/pages/tracker-debugger/tracker-debugger.php:268
 msgid "URLs"
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:275
+#: views/pages/tracker-debugger/tracker-debugger.php:283
 msgid "No Filters or Exceptions are Applied"
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:276
+#: views/pages/tracker-debugger/tracker-debugger.php:284
 msgid "All visitors are being tracked without exclusions."
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:279
-#: views/pages/tracker-debugger/tracker-debugger.php:292
+#: views/pages/tracker-debugger/tracker-debugger.php:287
+#: views/pages/tracker-debugger/tracker-debugger.php:300
 msgid "Review these filters in Settings > Filtering & Exceptions. Update if necessary. <a target=\"_blank\" href=\"%s\">Learn more</a>."
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:288
+#: views/pages/tracker-debugger/tracker-debugger.php:296
 msgid "Filters or Exceptions are Applied"
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:311
+#: views/pages/tracker-debugger/tracker-debugger.php:319
 msgid "No PHP Errors Detected"
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:312
+#: views/pages/tracker-debugger/tracker-debugger.php:320
 msgid "Tracker.js is functioning without any PHP errors."
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:328
+#: views/pages/tracker-debugger/tracker-debugger.php:336
 msgid "PHP Errors Detected in tracker.js"
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:329
+#: views/pages/tracker-debugger/tracker-debugger.php:337
 msgid "We found the following error:"
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:331
+#: views/pages/tracker-debugger/tracker-debugger.php:339
 msgid "Suggestion: Please refer to our Error Troubleshooting guide to resolve these issues."
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:343
+#: views/pages/tracker-debugger/tracker-debugger.php:351
 msgid "Recent Tracker Activity"
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:344
+#: views/pages/tracker-debugger/tracker-debugger.php:352
 msgid "Get detailed logs of recent user visits for accurate debugging."
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:352
+#: views/pages/tracker-debugger/tracker-debugger.php:360
 msgid "Timestamp"
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:402
+#: views/pages/tracker-debugger/tracker-debugger.php:410
 msgid "Need More Help?"
 msgstr ""
 
-#: views/pages/tracker-debugger/tracker-debugger.php:406
+#: views/pages/tracker-debugger/tracker-debugger.php:414
 msgid "If tracker.js is still not working, visit our <a target=\"_blank\" href=\"%s\">troubleshooting guide</a> for detailed steps or <a target=\"_blank\" href=\"%s\">contact our support team</a> for assistance."
 msgstr ""
 
