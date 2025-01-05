@@ -1,4 +1,4 @@
-14.12 - 2024-12-05
+14.12 - 2025-01-05
 - **New:** Introduced the "Source Categories" report under the "Referrals" section.
 - **New:** Introduced the "Social Media" report under the "Referrals" section.
 - **New:** Introduced the "404 Reports" under the "Page Insights" section.
