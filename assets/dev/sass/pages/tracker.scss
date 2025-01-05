@@ -21,6 +21,10 @@
     border-radius: 8px;
     display: flex;
     flex-direction: column;
+
+    @media(max-width:650px ){
+      padding: 32px 15px;
+    }
   }
 
   &__info {

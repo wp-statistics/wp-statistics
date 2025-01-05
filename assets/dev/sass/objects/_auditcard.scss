@@ -28,6 +28,10 @@
       padding: 0 16px;
       border-radius: 8px;
 
+      @media (max-width: 650px) {
+        padding: 0 10px;
+      }
+
       &__header {
         padding: 16px 0;
         cursor: pointer;
@@ -69,6 +73,10 @@
           path[stroke="#EC980C"]{
             fill: none!important;
           }
+
+          @media (max-width: 650px) {
+            display: none!important;
+          }
         }
 
 
@@ -85,6 +93,12 @@
             line-height: 16.41px;
             padding: 0;
             margin: 0;
+
+            &>span{
+              @media(max-width: 650px){
+                display: none;
+              }
+            }
           }
 
           .wps-audit-card__title {
@@ -269,6 +283,14 @@
       font-weight: 400;
       line-height: 24px;
       word-break: break-word;
+
+
+      .wps-debugger-desc{
+        display: none;
+        @media (max-width: 650px) {
+          display: block;
+        }
+      }
 
       p{
         margin:0;
