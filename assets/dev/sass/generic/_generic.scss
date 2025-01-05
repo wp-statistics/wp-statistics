@@ -519,7 +519,6 @@
     gap: 6px;
     align-items: center;
     white-space: nowrap;
-    margin-bottom: 24px;
 
     &:before {
       content: "- -";
@@ -563,6 +562,14 @@
         }
       }
     }
+  }
+
+  &--info{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 24px;
   }
 }
 

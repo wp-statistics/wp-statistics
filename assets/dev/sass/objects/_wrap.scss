@@ -1,5 +1,9 @@
 .o-wrap {
   padding: 12px 32px;
+
+  &.wps-p-0{
+    padding: 0;
+  }
 }
 
 .o-wrap--no-data {
