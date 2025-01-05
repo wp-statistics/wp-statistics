@@ -59,7 +59,7 @@ $trackerStatus      = $tracker->getTrackerStatus();
                 View::load("components/audit-card", $trackerData);
 
                 $trackerData = [
-                    'svg'         => $trackerIcon, // Define an appropriate success icon.
+                    'svg'         => $trackerIcon,
                     'title'       => esc_html__('Hit Endpoint Status: Successful', 'wp-statistics'),
                     'description' => '',
                     'content'     => esc_html__('Hit recording is responding as expected.', 'wp-statistics'),
