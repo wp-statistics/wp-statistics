@@ -34,14 +34,6 @@ class TrackerProvider extends AbstractDebuggerProvider
     private $trackerStatus;
 
     /**
-     * RemoteRequest instance for checking tracker file
-     * Used to perform HEAD requests to verify file accessibility.
-     *
-     * @var RemoteRequest
-     */
-    private $remoteRequest;
-
-    /**
      * Arguments array for making remote requests.
      * Contains configuration options and parameters used when performing requests.
      *
