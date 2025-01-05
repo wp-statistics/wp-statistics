@@ -11,7 +11,7 @@ $currentDate = TimeZone::getCurrentDate();
 $excludedIPs        = $options->getExcludedIPs();
 $userRoleExclusions = $options->getUserRoleExclusions();
 $excludedUrls       = $options->getExcludedUrls();
-$includCountries    = $options->getIncludedCountries();
+$includeCountries   = $options->getIncludedCountries();
 $excludeCountries   = $options->getExcludedCountries();
 $trackerStatus      = $tracker->getTrackerStatus();
 ?>
@@ -249,10 +249,10 @@ $trackerStatus      = $tracker->getTrackerStatus();
                     ];
                 }
 
-                if (!empty($includCountries)) {
+                if (!empty($includeCountries)) {
                     $itemFilters[] = [
                         'title'   => __('Include Countries', 'wp-statistics'),
-                        'content' => $options->formatValuesAsHtml($includCountries, 'p'),
+                        'content' => $options->formatValuesAsHtml($includeCountries, 'p'),
                     ];
                 }
 
