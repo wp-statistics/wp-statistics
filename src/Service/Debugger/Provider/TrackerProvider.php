@@ -166,7 +166,7 @@ class TrackerProvider extends AbstractDebuggerProvider
             'exists' => $fileExists,
             'path' => $this->trackerPath,
             'cacheStatus' => $this->getCacheStatus(),
-            'hitRecordingStatus' => $fileExists ? $this->checkHitRecording() : false
+            'hitRecordingStatus' => $this->checkHitRecording()
         ];
     }
 

@@ -58,7 +58,15 @@ $trackerStatus      = $tracker->getTrackerStatus();
 
                 View::load("components/audit-card", $trackerData);
 
-                if (! empty($trackerStatus['exists']) && empty($trackerStatus['hitRecordingStatus'])) {
+                $trackerData = [
+                    'svg'         => $trackerIcon, // Define an appropriate success icon.
+                    'title'       => esc_html__('Hit Endpoint Status: Successful', 'wp-statistics'),
+                    'description' => '',
+                    'content'     => esc_html__('Hit recording is responding as expected.', 'wp-statistics'),
+                    'status'      => 'success',
+                ];
+
+                if (empty($trackerStatus['hitRecordingStatus'])) {
                     $trackerData = [
                         'svg'         => $trackerIcon,
                         'title'       => esc_html__('Hit Endpoint Status: Unexpected Response', 'wp-statistics'),
@@ -71,9 +79,9 @@ $trackerStatus      = $tracker->getTrackerStatus();
                         ),
                         'status'      => 'danger',
                     ];
-
-                    View::load("components/audit-card", $trackerData);
                 }
+
+                View::load("components/audit-card", $trackerData);
                 ?>
             </div>
         </div>
