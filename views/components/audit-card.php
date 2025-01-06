@@ -6,7 +6,7 @@
                 <div>
                     <h3 class="wps-audit-card__title"><?php echo esc_html($title) ?></h3>
                     <?php if (isset($description)) : ?>
-                        <p class="wps-audit-card__summary"><?php echo $description ?></p>
+                        <p class="wps-audit-card__summary"><?php echo esc_html($description) ?></p>
                     <?php endif; ?>
                 </div>
 
