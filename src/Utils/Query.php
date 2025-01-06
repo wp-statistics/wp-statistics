@@ -26,7 +26,7 @@ class Query
     private $whereClauses = [];
     private $rawWhereClause = [];
     private $valuesToPrepare = [];
-    private $allowCaching = false;
+    private $allowCaching = true;
     private $decorator;
 
     /** @var wpdb $db */
