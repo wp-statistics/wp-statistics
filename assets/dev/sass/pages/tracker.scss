@@ -22,9 +22,16 @@
     display: flex;
     flex-direction: column;
 
-    @media(max-width: 650px) {
+    @media(max-width: $breakpoint-audit-mobile) {
       padding: 32px 15px;
     }
+
+    .wps-audit-card__summary {
+      @media(max-width: $breakpoint-audit-mobile) {
+        display: none;
+      }
+    }
+
   }
 
   &__info {

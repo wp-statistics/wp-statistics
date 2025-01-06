@@ -1,3 +1,5 @@
+$breakpoint-audit-mobile: 650px;
+
 .wps-audit-cards {
 
   &__title {
@@ -28,7 +30,7 @@
       padding: 0 16px;
       border-radius: 8px;
 
-      @media (max-width: 650px) {
+      @media (max-width: $breakpoint-audit-mobile) {
         padding: 0 10px;
       }
 
@@ -41,7 +43,7 @@
         display: flex;
         justify-content: space-between;
 
-        @media(max-width: 650px) {
+        @media(max-width: $breakpoint-audit-mobile) {
           flex-direction: column;
           gap: 12px;
           .wps-audit-card__status {
@@ -55,7 +57,7 @@
         align-items: center;
         gap: 12px;
 
-        @media (max-width: 650px) {
+        @media (max-width: $breakpoint-audit-mobile) {
           align-items: flex-start;
         }
 
@@ -76,7 +78,7 @@
             fill: none !important;
           }
 
-          @media (max-width: 650px) {
+          @media (max-width: $breakpoint-audit-mobile) {
             display: none;
           }
         }
@@ -95,12 +97,6 @@
             line-height: 16.41px;
             padding: 0;
             margin: 0;
-
-            span {
-              @media(max-width: 650px) {
-                display: none;
-              }
-            }
           }
 
           .wps-audit-card__title {
@@ -290,7 +286,7 @@
 
       .wps-debugger-desc {
         display: none;
-        @media (max-width: 650px) {
+        @media (max-width: $breakpoint-audit-mobile) {
           display: block;
         }
       }
