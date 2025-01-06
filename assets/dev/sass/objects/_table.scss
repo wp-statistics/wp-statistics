@@ -997,9 +997,13 @@
 
     .wps-postbox-chart--item > div {
       cursor: default;
+    }
 
-      .current-data span:first-child{
-        cursor: pointer;
+    .wps-postbox-chart--item__data {
+      .wps-postbox-chart--item > div {
+        .current-data span:first-child {
+          cursor: pointer;
+        }
       }
     }
 
