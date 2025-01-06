@@ -21,6 +21,17 @@
     border-radius: 8px;
     display: flex;
     flex-direction: column;
+
+    @media(max-width: $breakpoint-audit-mobile) {
+      padding: 32px 15px;
+    }
+
+    .wps-audit-card__summary {
+      @media(max-width: $breakpoint-audit-mobile) {
+        display: none;
+      }
+    }
+
   }
 
   &__info {
@@ -55,9 +66,10 @@
 
   }
 
-  &__help{
+  &__help {
     border-top: 1px solid #EEEFF1;
-    h4{
+
+    h4 {
       font-size: 14px;
       font-weight: 500;
       line-height: 16.41px;
@@ -65,64 +77,69 @@
       margin-top: 32px;
       margin-bottom: 16px;
     }
-    p{
+
+    p {
       font-size: 14px;
       font-weight: 400;
       line-height: 21px;
-      color:#56585A;
+      color: #56585A;
 
-      a{
+      a {
         text-decoration: underline;
         font-weight: 400;
       }
     }
   }
 
-  &__activity{
+  &__activity {
     display: flex;
     gap: 24px;
     flex-direction: column;
 
-    &-head{
+    &-head {
       display: flex;
       gap: 8px;
       flex-direction: column;
 
-      h4{
-        color:#0C0C0D;
+      h4 {
+        color: #0C0C0D;
         font-size: 16px;
         font-weight: 500;
       }
 
-      p{
+      p {
         font-size: 13px;
         font-weight: 400;
         line-height: 15.23px;
-        color:#56585A;
+        color: #56585A;
       }
-      *{
+
+      * {
         margin: 0;
         padding: 0;
       }
     }
 
-    &-table{
-      .o-table-wrapper{
+    &-table {
+      .o-table-wrapper {
         border: 1px solid #EEEFF1;
         border-radius: 8px;
-        tbody{
-          tr{
-            td:first-child{
+
+        tbody {
+          tr {
+            td:first-child {
               font-size: 13px;
               font-weight: 500;
               line-height: 15.23px;
             }
-            .o-wrap--no-data{
-              padding-top:0!important;
+
+            .o-wrap--no-data {
+              padding-top: 0 !important;
               font-weight: 400;
             }
-            td .wps-country-flag .wps-ellipsis-text{
-              max-width: 400px!important;
+
+            td .wps-country-flag .wps-ellipsis-text {
+              max-width: 400px !important;
             }
           }
         }
@@ -130,20 +147,21 @@
     }
   }
 
-  &__filter-lists{
+  &__filter-lists {
     display: flex;
     gap: 6px;
     flex-direction: column;
 
-    .wps-postbox-tracker__filter-list{
-      h3{
+    .wps-postbox-tracker__filter-list {
+      h3 {
         color: #292D32;
         margin: 0 0 6px;
         font-size: 14px;
         font-weight: 400;
         line-height: 24px;
       }
-      .wps-postbox-tracker__filter-content{
+
+      .wps-postbox-tracker__filter-content {
         border: 1px solid #EEEFF1;
         background: #FFFFFF99;
         padding: 12px;
@@ -154,7 +172,7 @@
         min-height: 42px;
         box-sizing: border-box;
 
-        p{
+        p {
           font-family: "Roboto Mono", "Monaco", "Consolas", "Courier New", monospace;
           font-size: 11px;
           font-weight: 400;
