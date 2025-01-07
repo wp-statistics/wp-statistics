@@ -197,26 +197,30 @@ const phpToMomentFormat = (phpFormat) => {
     return phpFormat.replace(/([a-zA-Z])/g, (match) => formatMap[match] || match);
 }
 
-
-function formatDateRange(startDate, endDate, unit, momentDateFormat, isInsideDashboardWidgets) {
+const formatDateRange = (startDate, endDate, unit, momentDateFormat, isInsideDashboardWidgets) => {
     const startDateFormat = momentDateFormat.replace(/,?\s?(YYYY|YY)[-/\s]?,?|[-/\s]?(YYYY|YY)[-/\s]?,?/g, "");
+
     if (unit === 'month') {
         return moment(startDate).format('MMM YYYY');
     } else {
-        if (isInsideDashboardWidgets) {
-            return `${moment(startDate).format(startDateFormat)} to ${moment(endDate).format(startDateFormat)}`;
-        } else {
+        if (moment(startDate).year() === moment(endDate).year()) {
             return `${moment(startDate).format(startDateFormat)} to ${moment(endDate).format(momentDateFormat)}`;
+        } else {
+            return `${moment(startDate).format(momentDateFormat)} to ${moment(endDate).format(momentDateFormat)}`;
         }
     }
 }
 
-function setMonthDateRange(startDate, endDate, momentDateFormat) {
+const setMonthDateRange = (startDate, endDate, momentDateFormat) => {
     const startDateFormat = momentDateFormat.replace(/,?\s?(YYYY|YY)[-/\s]?,?|[-/\s]?(YYYY|YY)[-/\s]?,?/g, "");
-    return `${moment(startDate).format(startDateFormat)} to ${moment(endDate).format(momentDateFormat)}`;
+    if (moment(startDate).year() === moment(endDate).year()) {
+        return `${moment(startDate).format(startDateFormat)} to ${moment(endDate).format(momentDateFormat)}`;
+    } else {
+        return `${moment(startDate).format(momentDateFormat)} to ${moment(endDate).format(momentDateFormat)}`;
+    }
 }
 
-function aggregateData(labels, datasets, unit, momentDateFormat, isInsideDashboardWidgets) {
+const aggregateData = (labels, datasets, unit, momentDateFormat, isInsideDashboardWidgets) => {
     if (!labels || !labels.length || !datasets || !datasets.length) {
         console.error("Invalid input: labels or datasets are empty.");
         return {
@@ -225,6 +229,7 @@ function aggregateData(labels, datasets, unit, momentDateFormat, isInsideDashboa
             monthTooltipTitle: [],
         };
     }
+
     if (unit === 'day') {
         return {
             aggregatedLabels: labels.map(label => label.formatted_date),
@@ -232,54 +237,108 @@ function aggregateData(labels, datasets, unit, momentDateFormat, isInsideDashboa
             monthTooltipTitle: [],
         };
     }
+
     const aggregatedLabels = [];
     const aggregatedData = datasets.map(() => []);
     const monthTooltipTitle = [];
     const groupedData = {};
 
-    // Group data by month
-    labels.forEach((label, i) => {
-        const date = moment(label.date);
-        if (!date.isValid()) {
-            console.error(`Invalid date found at index ${i}:`, label.date);
-            return;
+    if (unit === 'week') {
+        // Get the overall date range for current period
+        const startDate = moment(labels[0].date);
+        const endDate = moment(labels[labels.length - 1].date);
+
+        // Create an array of all weeks between start and end date
+        const weeks = [];
+        let currentWeekStart = startDate.clone();
+
+        while (currentWeekStart.isSameOrBefore(endDate)) {
+            let weekEnd = currentWeekStart.clone().add(6, 'days');
+
+            // For the last week, if it would go beyond endDate, adjust it
+            if (weekEnd.isAfter(endDate)) {
+                weekEnd = endDate.clone();
+            }
+
+            weeks.push({
+                start: currentWeekStart.clone(),
+                end: weekEnd,
+                key: currentWeekStart.format('YYYY-[W]WW'),
+                data: datasets.map(() => 0)
+            });
+
+            // Move to next week's start
+            currentWeekStart = currentWeekStart.clone().add(7, 'days');
+
+            // Break if we've processed all dates
+            if (currentWeekStart.isAfter(endDate)) {
+                break;
+            }
         }
 
-        const monthKey = date.format('YYYY-MM'); // Group by year and month
-        if (!groupedData[monthKey]) {
-            groupedData[monthKey] = {
-                startDate: date,
-                endDate: date,
-                indices: [],
-            };
-        } else {
-            groupedData[monthKey].endDate = date;
-        }
-        groupedData[monthKey].indices.push(i);
-    });
-    // Aggregate data for each month
-    Object.keys(groupedData).forEach(monthKey => {
-        const {startDate, endDate, indices} = groupedData[monthKey];
+        // Map data points to their respective weeks
+        labels.forEach((label, i) => {
+            const date = moment(label.date);
+            const week = weeks.find(w =>
+                date.isSameOrAfter(w.start, 'day') &&
+                date.isSameOrBefore(w.end, 'day')
+            );
 
-        // Format the label for the month
-        const label = formatDateRange(startDate, endDate, unit, momentDateFormat, isInsideDashboardWidgets);
-        aggregatedLabels.push(label);
-
-        // Calculate the total for each dataset
-        datasets.forEach((dataset, idx) => {
-            const total = indices.reduce((sum, i) => sum + (dataset.data[i] || 0), 0);
-            aggregatedData[idx].push(total);
+            if (week) {
+                datasets.forEach((dataset, datasetIndex) => {
+                    week.data[datasetIndex] += dataset.data[i] || 0;
+                });
+            }
         });
 
-        // Add the month tooltip title
-        monthTooltipTitle.push(setMonthDateRange(startDate, endDate, momentDateFormat));
-    });
+        // Build the output arrays
+        weeks.forEach(week => {
+            const label = formatDateRange(week.start, week.end, unit, momentDateFormat, isInsideDashboardWidgets);
+            aggregatedLabels.push(label);
+            monthTooltipTitle.push(setMonthDateRange(week.start, week.end, momentDateFormat));
+            week.data.forEach((total, datasetIndex) => {
+                if (!aggregatedData[datasetIndex]) {
+                    aggregatedData[datasetIndex] = [];
+                }
+                aggregatedData[datasetIndex].push(total);
+            });
+        });
+    } else if (unit === 'month') {
+        labels.forEach((label, i) => {
+            const date = moment(label.date);
+            if (!date.isValid()) {
+                console.error(`Invalid date found at index ${i}:`, label.date);
+                return;
+            }
+            const monthKey = date.format('YYYY-MM');
+            if (!groupedData[monthKey]) {
+                groupedData[monthKey] = {
+                    startDate: date.clone().startOf('month'),
+                    endDate: date.clone().endOf('month'),
+                    indices: [],
+                };
+            }
+            groupedData[monthKey].indices.push(i);
+        });
+
+        // Aggregate data for each month
+        Object.keys(groupedData).forEach(monthKey => {
+            const {startDate, endDate, indices} = groupedData[monthKey];
+            const label = formatDateRange(startDate, endDate, unit, momentDateFormat, isInsideDashboardWidgets);
+            aggregatedLabels.push(label);
+            datasets.forEach((dataset, idx) => {
+                const total = indices.reduce((sum, i) => sum + (dataset.data[i] || 0), 0);
+                aggregatedData[idx].push(total);
+            });
+            monthTooltipTitle.push(setMonthDateRange(startDate, endDate, momentDateFormat));
+        });
+    }
 
     return {aggregatedLabels, aggregatedData, monthTooltipTitle};
-
 }
 
-function updateLegend(lineChart, datasets, tag_id, data) {
+
+const updateLegend = (lineChart, datasets, tag_id, data) => {
     const chartElement = document.getElementById(tag_id);
     const legendContainer = chartElement.parentElement.parentElement.querySelector('.wps-postbox-chart--items');
 
@@ -412,8 +471,18 @@ function updateLegend(lineChart, datasets, tag_id, data) {
 
 const deepCopy = (obj) => JSON.parse(JSON.stringify(obj));
 
-
 const chartInstances = {};
+
+const getDisplayTextForUnitTime = (unitTime, tag_id) => {
+    const select = document.querySelector(`#${tag_id}`).closest('.o-wrap').querySelector('.js-unitTimeSelect');
+    if (select) {
+        const option = select.querySelector(`.wps-unit-time-chart__option[data-value="${unitTime}"]`);
+        if (option) {
+            return option.textContent.trim();
+        }
+    }
+    return unitTime;
+}
 
 wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line') {
     const realdata = deepCopy(data);
@@ -434,7 +503,7 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
     if (select) {
         const selectedItem = select.querySelector('.wps-unit-time-chart__selected-item');
         if (selectedItem) {
-            selectedItem.textContent = unitTime;
+            selectedItem.textContent = getDisplayTextForUnitTime(unitTime, tag_id);
         }
         const options = select.querySelectorAll('.wps-unit-time-chart__option');
         options.forEach(opt => {
@@ -451,18 +520,59 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
     const week = aggregateData(realdata.data.labels, realdata.data.datasets, 'week', momentDateFormat, isInsideDashboardWidgets);
     const month = aggregateData(realdata.data.labels, realdata.data.datasets, 'month', momentDateFormat, isInsideDashboardWidgets);
 
+    const prevDay = realdata.previousData
+        ? aggregateData(realdata.previousData.labels, realdata.previousData.datasets, 'day', momentDateFormat, isInsideDashboardWidgets)
+        : null;
+    const prevWeek = realdata.previousData
+        ? aggregateData(realdata.previousData.labels, realdata.previousData.datasets, 'week', momentDateFormat, isInsideDashboardWidgets)
+        : null;
+    const prevMonth = realdata.previousData
+        ? aggregateData(realdata.previousData.labels, realdata.previousData.datasets, 'month', momentDateFormat, isInsideDashboardWidgets)
+        : null;
 
-    const prevDay = realdata.previousData ? aggregateData(realdata.previousData.labels, realdata.previousData.datasets, 'day', momentDateFormat, isInsideDashboardWidgets) : null;
-    const prevWeek = realdata.previousData ? aggregateData(realdata.previousData.labels, realdata.previousData.datasets, 'week', momentDateFormat, isInsideDashboardWidgets) : null;
-    const prevMonth = realdata.previousData ? aggregateData(realdata.previousData.labels, realdata.previousData.datasets, 'month', momentDateFormat, isInsideDashboardWidgets) : null;
+// Initialize dateLabels based on the selected unitTime
+    let dateLabels = unitTime === 'day'
+        ? day.aggregatedLabels
+        : unitTime === 'week'
+            ? week.aggregatedLabels
+            : month.aggregatedLabels;
 
-    let dateLabels = unitTime === 'day' ? day.aggregatedLabels : unitTime === 'week' ? week.aggregatedLabels : month.aggregatedLabels;
-    let prevDateLabels = unitTime === 'day' ? (prevDay ? prevDay.aggregatedLabels : []) : unitTime === 'week' ? (prevWeek ? prevWeek.aggregatedLabels : []) : (prevMonth ? prevMonth.aggregatedLabels : []);
-    let monthTooltip = unitTime === 'day' ? day.monthTooltipTitle : unitTime === 'week' ? week.monthTooltipTitle : month.monthTooltipTitle;
-    let prevMonthTooltip = unitTime === 'day' ? (prevDay ? prevDay.monthTooltipTitle : []) : unitTime === 'week' ? (prevWeek ? prevWeek.monthTooltipTitle : []) : (prevMonth ? prevMonth.monthTooltipTitle : []);
+// Initialize monthTooltip and prevMonthTooltip
+    let monthTooltip = unitTime === 'day'
+        ? day.monthTooltipTitle
+        : unitTime === 'week'
+            ? week.monthTooltipTitle
+            : month.monthTooltipTitle;
 
+    let prevMonthTooltip = unitTime === 'day'
+        ? (prevDay ? prevDay.monthTooltipTitle : [])
+        : unitTime === 'week'
+            ? (prevWeek ? prevWeek.monthTooltipTitle : [])
+            : (prevMonth ? prevMonth.monthTooltipTitle : []);
+    let prevDateLabels = [];
+    let prevAggregatedData = [];
+
+    if (prevWeek) {
+        prevDateLabels = prevWeek.aggregatedLabels;
+        prevAggregatedData = prevWeek.aggregatedData;
+        while (prevDateLabels.length < dateLabels.length) {
+            prevDateLabels.push("N/A");
+            prevAggregatedData.forEach(dataset => dataset.push(0));
+        }
+    } else {
+        prevDateLabels = Array(dateLabels.length).fill("N/A");
+        prevAggregatedData = datasets.map(() => Array(dateLabels.length).fill(0));
+    }
 
     function updateChart(unitTime) {
+        const displayText = getDisplayTextForUnitTime(unitTime, tag_id);
+        const select = document.querySelector(`#${tag_id}`).closest('.o-wrap').querySelector('.js-unitTimeSelect');
+        if (select) {
+            const selectedItem = select.querySelector('.wps-unit-time-chart__selected-item');
+            if (selectedItem) {
+                selectedItem.textContent = displayText;
+            }
+        }
         let aggregatedData, prevAggregatedData;
         switch (unitTime) {
             case 'day':
@@ -558,6 +668,8 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
                     ? 7
                     : 9;
         lineChart.options.plugins.tooltip.unitTime = unitTime;
+        lineChart.options.plugins.tooltip.external = (context) =>
+            externalTooltipHandler(context, realdata, dateLabels, prevDateLabels, monthTooltip, prevMonthTooltip);
         lineChart.update();
     }
 
@@ -821,7 +933,7 @@ document.body.addEventListener('click', function (event) {
         if (select) {
             const selectedItem = select.querySelector('.wps-unit-time-chart__selected-item');
             if (selectedItem) {
-                selectedItem.textContent = selectedValue;
+                selectedItem.textContent = option.textContent.trim();
             }
             const options = select.querySelectorAll('.wps-unit-time-chart__option');
             options.forEach(opt => opt.classList.remove('selected'));
