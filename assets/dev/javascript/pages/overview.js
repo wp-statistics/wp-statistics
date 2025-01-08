@@ -46,6 +46,10 @@ if (wps_js.global.page.file === "index.php" || wps_js.is_active('overview_page')
                 'this_year': {
                     start: moment().startOf('year').format('YYYY-MM-DD'),
                     end: moment().endOf('year').format('YYYY-MM-DD')
+                },
+                'last_year': {
+                    start: moment().subtract(1, 'year').startOf('year').format('YYYY-MM-DD'),
+                    end: moment().subtract(1, 'year').endOf('year').format('YYYY-MM-DD')
                 }
             };
 
@@ -406,6 +410,7 @@ if (wps_js.global.page.file === "index.php" || wps_js.is_active('overview_page')
                             <button data-metabox-key="${key}" data-filter="90days" class="c-footer__filters__list-item">` + wps_js._('str_90days') + `</button>
                             <button data-metabox-key="${key}" data-filter="6months" class="c-footer__filters__list-item">` + wps_js._('str_6months') + `</button>
                             <button data-metabox-key="${key}" data-filter="this_year" class="c-footer__filters__list-item">` + wps_js._('str_this_year') + `</button>
+                            <button data-metabox-key="${key}" data-filter="last_year" class="c-footer__filters__list-item">` + wps_js._('str_last_year') + `</button>
                             <button class="c-footer__filters__close-more-filters js-close-more-filters">` + wps_js._('str_back') + `</button>
                         </div>
                         <input type="text" class="c-footer__filters__custom-date-input js-datepicker-input"/>
