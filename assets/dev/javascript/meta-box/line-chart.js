@@ -8,7 +8,7 @@ wps_js.render_line_chart = function (response, key) {
                 data: params['data'],
                 previousData: params['previousData']
             };
-            if (keyName !== 'wp_statistics_quickstats_metabox') {
+            if (keyName !== 'wp-statistics-quickstats-widget') {
                 wps_js.new_line_chart(data, `${keyName}-chart`);
             } else {
                 const trafficOptions = {
@@ -74,7 +74,7 @@ wps_js.render_line_chart = function (response, key) {
                         }
                     },
                 };
-                const trafficChart = wps_js.new_line_chart(data, `wps_${keyName}_meta_chart`, trafficOptions);
+                const trafficChart = wps_js.new_line_chart(data, `wp-statistics-quickstats-widget-chart`, trafficOptions);
 
                 function toggleDataset(datasetIndex) {
                     const meta = trafficChart.getDatasetMeta(datasetIndex);
@@ -82,20 +82,16 @@ wps_js.render_line_chart = function (response, key) {
                     trafficChart.update();
                 }
 
-                const visitorsElement = document.querySelector('#wp-statistics-quickstats-widget .wps-postbox-chart--items:nth-child(2) .wps-postbox-chart--item:nth-child(1) .current-data');
-                const viewsElement = document.querySelector('#wp-statistics-quickstats-widget .wps-postbox-chart--items:nth-child(2) .wps-postbox-chart--item:nth-child(2) .current-data');
-                if (visitorsElement) {
-                    visitorsElement.addEventListener('click', function () {
-                        this.querySelector('span:first-child').classList.toggle('wps-line-through');
-                        toggleDataset(0);
+                document.querySelectorAll('#wp-statistics-quickstats-widget .wps-postbox-chart--items:nth-child(2) .wps-postbox-chart--item')
+                    .forEach((item, index) => {
+                        const spanElement = item.querySelector('.current-data span:first-child');
+                        if (spanElement) {
+                            item.addEventListener('click', () => {
+                                spanElement.classList.toggle('wps-line-through');
+                                toggleDataset(index);
+                            });
+                        }
                     });
-                }
-                if (viewsElement) {
-                    viewsElement.addEventListener('click', function () {
-                        this.querySelector('span:first-child').classList.toggle('wps-line-through');
-                        toggleDataset(1);
-                    });
-                }
 
             }
         }
