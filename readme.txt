@@ -139,6 +139,7 @@ Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest versio
 = 14.12.1 =
 - **Fix:** Corrected the number formatting issue in the "Global Visitor Distribution" widget to ensure consistent and accurate display of visitor data.
 - **New:** Added a "Last Year" filter to metaboxes on the Overview page, allowing users to view analytics data for the previous year.
+- **Enhancement:** Enhanced IP/Hash filter functionality on the Visitor Insights page.
 
 = 14.12 - 2025-01-05 =
 - **New:** Introduced the "Source Categories" report under the "Referrals" section.
