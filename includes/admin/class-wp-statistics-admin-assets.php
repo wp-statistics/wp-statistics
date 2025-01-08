@@ -417,6 +417,7 @@ class Admin_Assets
             'str_6months'                  => __('Last 6 months', 'wp-statistics'),
             'str_year'                     => __('This year', 'wp-statistics'),
             'str_this_year'                => __('This year', 'wp-statistics'),
+            'str_last_year'                => __('Last year', 'wp-statistics'),
             'str_back'                     => __('Go Back', 'wp-statistics'),
             'str_custom'                   => __('Select Custom Range...', 'wp-statistics'),
             'str_more'                     => __('Additional Date Ranges', 'wp-statistics'),
