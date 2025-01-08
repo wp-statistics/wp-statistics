@@ -26,7 +26,7 @@ class MapChartDataProvider extends AbstractChartDataProvider
     public function getData()
     {
         $args = array_merge($this->args, [
-            'fields' => [
+            'fields'   => [
                 'visitor.location as country',
                 'COUNT(visitor.ID) as visitors'
             ],
@@ -38,15 +38,17 @@ class MapChartDataProvider extends AbstractChartDataProvider
         $data       = $this->visitorsModel->getVisitorsGeoData($args);
         $parsedData = $this->parseData($data);
 
-        $labels = wp_list_pluck($parsedData, 'label');
-        $flags  = wp_list_pluck($parsedData, 'flag');
-        $codes  = wp_list_pluck($parsedData, 'code');
-        $data   = wp_list_pluck($parsedData, 'visitors');
+        $labels  = wp_list_pluck($parsedData, 'label');
+        $flags   = wp_list_pluck($parsedData, 'flag');
+        $codes   = wp_list_pluck($parsedData, 'code');
+        $data    = wp_list_pluck($parsedData, 'visitors');
+        $rawData = wp_list_pluck($parsedData, 'visitors_raw');
 
         $this->setChartLabels($labels);
         $this->setChartFlags($flags);
         $this->setChartCountryCodes($codes);
         $this->setChartData($data);
+        $this->setChartRawData($rawData);
 
         return $this->getChartData();
     }
@@ -58,11 +60,15 @@ class MapChartDataProvider extends AbstractChartDataProvider
         foreach ($data as $item) {
             if (empty($item->country)) continue;
 
+            // Format the visitors count
+            $formattedVisitors = number_format($item->visitors);
+
             $parsedData[] = [
-                'label'    => Country::getName($item->country),
-                'code'     => $item->country,
-                'visitors' => $item->visitors,
-                'flag'     => Country::flag($item->country)
+                'label'        => Country::getName($item->country),
+                'code'         => $item->country,
+                'visitors'     => $formattedVisitors,
+                'visitors_raw' => $item->visitors,
+                'flag'         => Country::flag($item->country)
             ];
         }
 
