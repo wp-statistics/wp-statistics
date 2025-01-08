@@ -716,6 +716,7 @@
           .current-data {
             line-height: unset;
             height: 22px;
+            cursor: default;
 
             .current-data-percent {
               font-size: 12px;
@@ -725,11 +726,14 @@
 
               &__success {
                 color: #196140;
-
               }
 
               &__danger {
                 color: #D54037;
+              }
+
+              &__neutral {
+                color: #A9AAAE
               }
             }
           }
@@ -737,7 +741,7 @@
           &__active {
             cursor: default;
             .current-data {
-              gap: 7px;
+              gap: 7.5px;
               display: flex;
               align-items: center;
               cursor: default;
@@ -989,6 +993,29 @@
   #wp-statistics-quickstats-widget {
     .inside {
       padding: 0
+    }
+
+    .wps-postbox-chart--item > div {
+      cursor: default;
+    }
+
+    .wps-postbox-chart--item__data {
+      .wps-postbox-chart--item > div {
+        .current-data span:first-child {
+          cursor: pointer;
+        }
+      }
+    }
+
+    .wps-postbox-chart--items {
+      justify-content: space-between;
+      width: 100%;
+
+      .wps-postbox-chart--item__data {
+        display: flex;
+        gap: 32px;
+        align-items: center;
+      }
     }
   }
 }
