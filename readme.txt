@@ -136,6 +136,9 @@ To ensure the plugin works correctly, please clear your cache because some reque
 Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest version.
 
 == Changelog ==
+= 14.12.1 =
+- **Fix:** Corrected the number formatting issue in the "Global Visitor Distribution" widget to ensure consistent and accurate display of visitor data.
+
 = 14.12 - 2025-01-05 =
 - **New:** Introduced the "Source Categories" report under the "Referrals" section.
 - **New:** Introduced the "Social Media" report under the "Referrals" section.
