@@ -26,7 +26,9 @@ class Request
             case 'text':
                 return sanitize_textarea_field($value);
             case 'array':
-                return array_map('sanitize_text_field', $value);
+                if (is_array($value)) {
+                    return array_map('sanitize_text_field', $value);
+                }
             case 'string':
                 return sanitize_text_field($value);
             case 'raw':
