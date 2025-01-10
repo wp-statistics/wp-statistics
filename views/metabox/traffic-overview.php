@@ -17,26 +17,46 @@ $prevViews      = $data['total']['views']['prev'];
         <div class="wps-postbox-chart--data">
             <div class="wps-postbox-chart--items"></div>
             <div class="wps-postbox-chart--items">
-                <div class="wps-postbox-chart--item">
-                    <span><span class="wps-postbox-chart--item--color"></span><?php esc_html_e('Visitors', 'wp-statistics'); ?></span>
-                    <div>
-                        <div class="current-data">
-                            <span><?php echo esc_html(Helper::formatNumberWithUnit($visitors, 1)) ?></span>
-                            <span class="current-data-percent <?php echo ($visitors > $prevVisitors) ? 'current-data-percent__success' : 'current-data-percent__danger' ?>"><?php echo esc_html(Helper::calculatePercentageChange($prevVisitors, $visitors)) ?>%</span>
+                <div class="wps-postbox-chart--item__data">
+                    <div class="wps-postbox-chart--item">
+                        <span><span class="wps-postbox-chart--item--color"></span><?php esc_html_e('Visitors', 'wp-statistics'); ?></span>
+                        <div>
+                            <div class="current-data">
+                                <span><?php echo esc_html(Helper::formatNumberWithUnit($visitors, 1)) ?></span>
+                                <span class="current-data-percent
+                                    <?php
+                                    if ($visitors == 0) {
+                                        echo 'current-data-percent__neutral';
+                                    } else {
+                                        echo ($visitors > $prevVisitors) ? 'current-data-percent__success' : 'current-data-percent__danger';
+                                    }
+                                    ?>">
+                                    <?php echo esc_html(Helper::calculatePercentageChange($prevVisitors, $visitors)) ?>%
+                                </span>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="wps-postbox-chart--item">
-                    <span><span class="wps-postbox-chart--item--color"></span><?php esc_html_e('Views', 'wp-statistics'); ?></span>
-                    <div>
-                        <div class="current-data">
-                            <span><?php echo esc_html(Helper::formatNumberWithUnit($views, 1)) ?></span>
-                            <span class="current-data-percent <?php echo ($views > $prevViews) ? 'current-data-percent__success' : 'current-data-percent__danger' ?>"><?php echo esc_html(Helper::calculatePercentageChange($prevViews, $views)) ?>%</span>
+                    <div class="wps-postbox-chart--item">
+                        <span><span class="wps-postbox-chart--item--color"></span><?php esc_html_e('Views', 'wp-statistics'); ?></span>
+                        <div>
+                            <div class="current-data">
+                                <span><?php echo esc_html(Helper::formatNumberWithUnit($views, 1)) ?></span>
+                                <span class="current-data-percent
+                                    <?php
+                                        if ($views == 0) {
+                                            echo 'current-data-percent__neutral';
+                                        } else {
+                                            echo ($views > $prevViews) ? 'current-data-percent__success' : 'current-data-percent__danger';
+                                        }
+                                        ?>">
+                                    <?php echo esc_html(Helper::calculatePercentageChange($prevViews, $views)) ?>%
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="wps-postbox-chart--item wps-postbox-chart--item__active">
-                    <span><?php esc_html_e('Active now', 'wp-statistics'); ?></span>
+                    <span><?php esc_html_e('Online Visitors', 'wp-statistics'); ?></span>
                     <div>
                         <div class="current-data">
                             <span class="dot"></span>
