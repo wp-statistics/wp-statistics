@@ -23,7 +23,7 @@ use WP_STATISTICS\Admin_Template;
                                         <th scope="col" class="wps-pd-l">
                                             <?php esc_html_e('View Count', 'wp-statistics') ?>
                                         </th>
-                                        <th class="wps-pd-l">
+                                        <th scope="col" class="wps-pd-l">
                                             <?php esc_html_e('Percent Share', 'wp-statistics') ?>
                                         </th>
                                     </tr>

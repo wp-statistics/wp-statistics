@@ -21,8 +21,10 @@ $isActive       = $pluginHandler->isPluginActive('wp-statistics-data-plus');
                                         <th scope="col" class="wps-pd-l">
                                             <?php esc_html_e('Country', 'wp-statistics') ?>
                                         </th>
-                                        <th scope="col" class="wps-order">
-                                            <?php esc_html_e('Visitor Count', 'wp-statistics') ?>
+                                        <th scope="col" class="wps-pd-l">
+                                            <span class="wps-order">
+                                                <?php esc_html_e('Visitor Count', 'wp-statistics') ?>
+                                            </span>
                                         </th>
                                         <th scope="col" class="wps-pd-l">
                                             <?php esc_html_e('View Count', 'wp-statistics') ?>
