@@ -9,20 +9,22 @@ wps_js.render_wp_statistics_hitsmap_widget = function (response, key) {
     if (params?.codes?.length > 0) {
         const countryData = {};
         params.codes.forEach((code, index) => {
-            const visitors = Number(params.data[index]) || 0;
+            const visitors_raw = Number(params.raw_data[index]) || 0;
+            const visitors = params.data[index];
             countryData[code.toLowerCase()] = {
                 label: params.labels[index],
                 flag: params.flags[index],
+                visitors_raw,
                 visitors
             };
         });
 
-        const maxVisitors = Math.max(1, ...Object.values(countryData).map(country => country.visitors));
+        const maxVisitors = Math.max(1, ...Object.values(countryData).map(country => country.visitors_raw));
 
         Object.keys(countryData).forEach(code => {
             const country = countryData[code];
 
-            const intensity = country.visitors / maxVisitors;
+            const intensity = country.visitors_raw / maxVisitors;
             // #EBF5FF to #3288D7
             const r = Math.round(235 - (185 * intensity));  // From 235 to 50
             const g = Math.round(245 - (109 * intensity));  // From 245 to 136

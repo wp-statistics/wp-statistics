@@ -1,4 +1,5 @@
 <?php
+
 namespace WP_Statistics\Service\Admin\Metabox\Metaboxes;
 
 use WP_Statistics\Components\View;
@@ -23,8 +24,8 @@ class BrowserUsage extends BaseMetabox
     public function getOptions()
     {
         return [
-            'datepicker'    => true,
-            'button'        => View::load('metabox/action-button',[
+            'datepicker' => true,
+            'button'     => View::load('metabox/action-button', [
                 'link'  => Menus::admin_url('devices', ['tab' => 'browsers']),
                 'title' => esc_html__('View Browser Usage', 'wp-statistics')
             ], true)
@@ -38,14 +39,15 @@ class BrowserUsage extends BaseMetabox
         $data = $this->dataProvider->getBrowsersChartData($args);
 
         $data = array_merge($data, [
-            'tag_id' => 'wps-browser-usage'
+            'tag_id' => 'wps-browser-usage',
+            'url'    => WP_STATISTICS_URL . 'assets/images/no-data/vector-3.svg'
         ]);
 
         $output = View::load('metabox/horizontal-bar', ['data' => $data], true);
 
         return [
-            'output'    => $output,
-            'data'      => $data
+            'output' => $output,
+            'data'   => $data
         ];
     }
 

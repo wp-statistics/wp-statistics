@@ -37,6 +37,7 @@ class TopDeviceModel extends BaseMetabox
 
         $data = array_merge($this->dataProvider->getModelChartData($args), [
             'tag_id' => 'wps-top-device-model',
+            'url'    => WP_STATISTICS_URL . 'assets/images/no-data/vector-1.svg'
         ]);
 
         $output = View::load('metabox/horizontal-bar', ['data' => $data], true);
