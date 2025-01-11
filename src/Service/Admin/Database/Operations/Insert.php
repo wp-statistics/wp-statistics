@@ -70,7 +70,7 @@ class Insert extends AbstractTableOperation
             throw new RuntimeException("Mapping is required for migration.");
         }
 
-        $batchSize = $this->args['batch_size'] ?? 100;
+        $batchSize = $this->args['batch_size'] ?? 50;
         $offset = $this->args['offset'] ?? 0;
 
         $sourceColumns = implode(', ', array_values($mapping));
@@ -87,7 +87,7 @@ class Insert extends AbstractTableOperation
         if ($rows === null || $rows === false) {
             throw new RuntimeException("Failed to fetch rows: {$this->wpdb->last_error}");
         }
-        
+
         foreach ($rows as $row) {
             $mappedRow = [];
             foreach ($mapping as $targetColumn => $sourceColumn) {

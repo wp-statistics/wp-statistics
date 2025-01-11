@@ -45,7 +45,7 @@ class MigrationHandler
 
         $process = WP_Statistics()->getBackgroundProcess('schema_migration_process');
 
-        if ($process->isActive()) {
+        if ($process->is_active()) {
             return;
         }
 
@@ -68,7 +68,7 @@ class MigrationHandler
                     if ('data' === $instance->getName()) {
                         $manualTasks[$version][$method] = get_class($instance);
                     } else {
-                        $process->pushToQueue([
+                        $process->push_to_queue([
                             'class' => get_class($instance),
                             'method' => $method,
                             'version' => $version,
@@ -151,7 +151,7 @@ class MigrationHandler
 
         $process = WP_Statistics()->getBackgroundProcess('data_migration_process');
 
-        if ($process->isActive()) {
+        if ($process->is_active()) {
             return;
         }
 
@@ -174,7 +174,7 @@ class MigrationHandler
                 }
 
                 foreach ($tasks as $task) {
-                    $process->pushToQueue([
+                    $process->push_to_queue([
                         'class' => $class,
                         'method' => $method,
                         'version' => $version,
