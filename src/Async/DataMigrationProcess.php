@@ -29,18 +29,37 @@ class DataMigrationProcess extends WP_Background_Process
         $method  = $data['method'] ?? null;
         $version = $data['version'] ?? null;
         $task    = $data['task'] ?? null;
+        $type    = $data['type'] ?? null;
 
-        if (!$class || !$method || !$version || !$task) {
+        if (!$class || !$method || !$version) {
             return false;
         }
 
-        if ( !class_exists($class)) {
+        if (!class_exists($class)) {
             return;
         }
 
         $instance = new $class();
 
-        if (!method_exists($instance, 'setMethod') || !method_exists($task, 'execute')) {
+        if (!method_exists($instance, 'setMethod')) {
+            return false;
+        }
+
+        if ('schema' === $type) {
+            if (!method_exists($instance, $method)) {
+                return false;
+            }
+
+            $instance->setMethod($method, $version);
+            $instance->$method($version);
+            return false;
+        }
+
+        if (! $task) {
+            return false;
+        }
+        
+        if (!method_exists($task, 'execute')) {
             return false;
         }
 
