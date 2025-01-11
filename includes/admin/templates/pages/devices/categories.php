@@ -16,10 +16,12 @@ use WP_STATISTICS\Helper;
                                         <?php esc_html_e('Category', 'wp-statistics'); ?>
                                     </th>
                                     <th class="wps-pd-l">
-                                        <span class="wps-order"><?php esc_html_e('Visitors', 'wp-statistics'); ?></span>
+                                        <span class="wps-order">
+                                            <?php esc_html_e('Visitor Count', 'wp-statistics'); ?>
+                                        </span>
                                     </th>
                                     <th class="wps-pd-l">
-                                        %
+                                        <?php esc_html_e('Percent Share', 'wp-statistics'); ?>
                                     </th>
                                 </tr>
                                 </thead>

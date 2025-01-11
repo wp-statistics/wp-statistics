@@ -17,10 +17,12 @@ use WP_Statistics\Service\Analytics\DeviceDetection\DeviceHelper;
                                             <?php esc_html_e('Browser', 'wp-statistics'); ?>
                                         </th>
                                         <th class="wps-pd-l">
-                                            <span class="wps-order"><?php esc_html_e('Visitors', 'wp-statistics'); ?></span>
+                                            <span class="wps-order">
+                                                <?php esc_html_e('Visitor Count', 'wp-statistics'); ?>
+                                            </span>
                                         </th>
                                         <th class="wps-pd-l">
-                                            %
+                                            <?php esc_html_e('Percent Share', 'wp-statistics'); ?>
                                         </th>
                                         <th scope="col">
                                             <span class="screen-reader-text"><?php esc_html_e('View browser detail', 'wp-statistics'); ?></span>

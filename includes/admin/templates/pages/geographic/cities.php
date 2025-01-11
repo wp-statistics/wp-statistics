@@ -22,11 +22,16 @@ use WP_STATISTICS\Admin_Template;
                                         <th scope="col" class="wps-pd-l">
                                             <?php esc_html_e('Country', 'wp-statistics') ?>
                                         </th>
-                                        <th scope="col" class="wps-pd-l" style="width: 15%">
-                                            <?php esc_html_e('Visitors', 'wp-statistics') ?>
+                                        <th class="wps-pd-l" style="width: 15%">
+                                            <span class="wps-order">
+                                                <?php esc_html_e('Visitor Count', 'wp-statistics') ?>
+                                            </span>
                                         </th>
-                                        <th scope="col" class="wps-pd-l" style="width: 15%">
-                                            <?php esc_html_e('Views', 'wp-statistics') ?>
+                                        <th class="wps-pd-l" style="width: 15%">
+                                            <?php esc_html_e('View Count', 'wp-statistics') ?>
+                                        </th>
+                                        <th class="wps-pd-l">
+                                            <?php esc_html_e('Percent Share', 'wp-statistics') ?>
                                         </th>
                                     </tr>
                                 </thead>
