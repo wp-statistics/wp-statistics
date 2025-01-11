@@ -1,8 +1,9 @@
-<?php 
-use WP_STATISTICS\Helper; 
+<?php
+use WP_STATISTICS\Helper;
 use WP_STATISTICS\Menus;
 use WP_STATISTICS\Admin_Template;
 use WP_Statistics\Utils\Request;
+use WP_Statistics\Components\View;
 
 ?>
 <div class="wps-wrap__top <?php echo isset($real_time_button) ? 'wps-wrap__top--has__realtime' : ''; ?>">
@@ -14,7 +15,7 @@ use WP_Statistics\Utils\Request;
         <h2 class="wps_title <?php echo isset($install_addon_btn_txt) ? 'wps_plugins_page-title' : '' ?>">
             <?php if (isset($flagImage)): ?>
                 <img class="wps-flag" src="<?php echo esc_url($flagImage) ?>" alt="<?php echo esc_attr($title) ?>">
-             <?php endif ?>
+            <?php endif ?>
             <?php echo(isset($title) ? esc_attr($title) : (function_exists('get_admin_page_title') ? get_admin_page_title() : '')); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	 ?>
             <?php if (!empty($tooltip)) : ?>
                 <span class="wps-tooltip" title="<?php echo esc_attr($tooltip); ?>"><i class="wps-tooltip-icon info"></i></span>
@@ -24,14 +25,19 @@ use WP_Statistics\Utils\Request;
                 <a href="<?php echo esc_attr($install_addon_btn_link); ?>" class="wps-install-addon-btn">
                     <span><?php echo esc_attr($install_addon_btn_txt); ?></span>
                 </a>
-             <?php endif; ?>
+            <?php endif; ?>
         </h2>
     <?php endif ?>
 
     <?php
+
     if (Menus::in_page('content-analytics') && Request::compare('type', 'single')) {
         Admin_Template::get_template(['layout/content-analytics/post-type-header']);
     }
+    if ((Menus::in_page('download_tracker') || Menus::in_page('link_tracker')) && Request::compare('type', 'single')) {
+        View::load("components/headers/tracker");
+    }
+
     ?>
 
     <?php do_action('wp_statistics_after_admin_page_title'); ?>
@@ -46,7 +52,7 @@ use WP_Statistics\Utils\Request;
                 <?php esc_html_e('Realtime', 'wp-statistics'); ?>
             </a>
         <?php else: ?>
-            <button class="wps-realtime-btn disabled wps-tooltip-premium" >
+            <button class="wps-realtime-btn disabled wps-tooltip-premium">
                 <?php esc_html_e('Realtime', 'wp-statistics'); ?>
                 <span class="wps-tooltip_templates tooltip-premium tooltip-premium--bottom tooltip-premium--right">
                     <span id="tooltip_realtime">
@@ -69,7 +75,7 @@ use WP_Statistics\Utils\Request;
     <?php endif ?>
 
     <?php if (isset($hasDateRang) || isset($filters) || isset($searchBoxTitle) || isset($filter)): ?>
-        <div class="wps-head-filters">
+        <div class="<?php echo (Menus::in_page('content-analytics') || Menus::in_page('category-analytics') || Menus::in_page('author-analytics') || Menus::in_page('download_tracker') || Menus::in_page('link_tracker')) && (Request::compare('type', 'single') || Request::compare('type', 'single-author')) ? 'wps-head-filters wps-head-filters--custom' : 'wps-head-filters' ?>">
             <?php
             if (!empty($hasDateRang)) {
                 include 'date.range.php';

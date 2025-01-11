@@ -2219,6 +2219,18 @@ body.wps_page.toplevel_page_wps_overview_page #screen-meta-links {
   flex-wrap: wrap;
   justify-content: flex-end;
 
+  &.wps-head-filters--custom {
+    top: 30px;
+    @media(max-width: 1162px) {
+      margin-top: 20px;
+      position: relative;
+      transform: none;
+      right: unset !important;
+      left: unset !important;
+      top: unset;
+    }
+  }
+
   @media(max-width: 1122px) {
     margin-top: 20px;
     position: relative;
