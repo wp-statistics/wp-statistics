@@ -112,7 +112,6 @@ class DateTime
      */
     public static function subtract($date, $days, $format = 'Y-m-d')
     {
-        $date = self::get($date);
         return date($format, strtotime("-$days day", strtotime($date)));
     }
 
