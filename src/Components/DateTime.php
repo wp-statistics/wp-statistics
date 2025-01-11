@@ -143,9 +143,11 @@ class DateTime
             'time_format'   => self::getTimeFormat()
         ]);
 
-        $timestamp  = is_numeric($date) ? $date : strtotime($date);
+        $timestamp  = is_numeric($date) ? intval($date) : strtotime($date);
         if ($timestamp === false) {
             throw new ErrorException(esc_html__('Invalid date passed as argument.', 'wp-statistics'));
+        } else {
+            $timestamp += self::getTimeZoneOffset();
         }
 
         $format = $args['date_format'];
@@ -181,5 +183,31 @@ class DateTime
         }
 
         return false;
+    }
+
+
+    /**
+     * Returns the timezone offset from GMT in seconds.
+     *
+     * If the timezone is set to a string, it will use the timezone string to determine the offset.
+     * If the timezone is set to a GMT offset, it will use the GMT offset to determine the offset.
+     *
+     * @return int The timezone offset in seconds.
+     */
+    public static function getTimeZoneOffset()
+    {
+        $gmtOffset = get_option('gmt_offset');
+        $timeZone  = get_option('timezone_string');
+
+        if ($timeZone) {
+            return timezone_offset_get(
+                new \DateTimeZone($timeZone),
+                new \DateTime()
+            );
+        } elseif ($gmtOffset) {
+            return intval($gmtOffset) * HOUR_IN_SECONDS;
+        }
+
+        return 0;
     }
 }
