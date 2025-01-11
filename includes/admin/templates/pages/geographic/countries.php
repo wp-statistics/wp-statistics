@@ -1,7 +1,6 @@
 <?php
 use WP_STATISTICS\Country;
 use WP_STATISTICS\Menus;
-use WP_Statistics\Service\Admin\LicenseManagement\LicenseHelper;
 use WP_Statistics\Service\Admin\LicenseManagement\Plugin\PluginHandler;
 
 $pluginHandler  = new PluginHandler();
@@ -25,11 +24,10 @@ $isActive       = $pluginHandler->isPluginActive('wp-statistics-data-plus');
                                             <span class="wps-order">
                                                 <?php esc_html_e('Visitor Count', 'wp-statistics') ?>
                                             </span>
-                                        </th>
                                         <th scope="col" class="wps-pd-l">
                                             <?php esc_html_e('View Count', 'wp-statistics') ?>
                                         </th>
-                                        <th class="wps-pd-l">
+                                        <th scope="col" class="wps-pd-l">
                                             <?php esc_html_e('Percent Share', 'wp-statistics') ?>
                                         </th>
                                         <th scope="col">
