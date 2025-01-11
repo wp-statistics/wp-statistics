@@ -92,6 +92,16 @@ class DateTime
     }
 
     /**
+     * Returns the timezone object based on the current WordPress setting.
+     *
+     * @return \DateTimeZone
+     */
+    public static function getTimezone()
+    {
+        return new \DateTimeZone(wp_timezone_string());
+    }
+
+    /**
      * Gets the date and time format string from WordPress settings.
      *
      * @param string $separator (optional) The separator to use between date and time.
@@ -148,8 +158,7 @@ class DateTime
             $date = "@$date";
         }
 
-        $timezone = new \DateTimeZone(wp_timezone_string());
-        $dateTime = new \DateTime($date, $timezone);
+        $dateTime = new \DateTime($date, self::getTimezone());
 
         $format = $args['date_format'];
         if ($args['include_time'] === true) {
