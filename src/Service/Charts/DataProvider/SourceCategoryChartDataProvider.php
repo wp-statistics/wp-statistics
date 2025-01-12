@@ -20,7 +20,6 @@ class SourceCategoryChartDataProvider extends AbstractChartDataProvider
         parent::__construct($args);
 
         $this->args['group_by'] = ['visitor.source_channel', 'visitor.last_counter'];
-        $this->args['not_null'] = false;
         $this->args['per_page'] = false;
         $this->args['decorate'] = true;
 
