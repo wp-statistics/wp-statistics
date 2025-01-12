@@ -36,6 +36,8 @@ class MigrationHandler
     public static function init()
     {
         add_action('admin_post_' . self::MIGRATION_ACTION, [self::class, 'processManualMigrations']);
+
+        self::handleMigrationStatusNotices();
         self::runMigrations();
     }
 
@@ -80,8 +82,8 @@ class MigrationHandler
      */
     private static function collectMigrationData()
     {
-        $currentVersion = Option::get('db_version', '0.0.0');
-        $allVersions = [];
+        $currentVersion  = Option::get('db_version', '0.0.0');
+        $allVersions     = [];
         $versionMappings = [];
 
         foreach (DatabaseFactory::Migration() as $instance) {
@@ -91,6 +93,7 @@ class MigrationHandler
                 }
 
                 $allVersions[] = $version;
+
                 $versionMappings[$version][] = [
                     'class' => get_class($instance),
                     'methods' => $methods,
@@ -100,7 +103,11 @@ class MigrationHandler
         }
 
         usort($allVersions, 'version_compare');
-        return ['versions' => $allVersions, 'mappings' => $versionMappings];
+
+        return [
+            'versions' => $allVersions,
+            'mappings' => $versionMappings
+        ];
     }
 
     /**
@@ -116,7 +123,7 @@ class MigrationHandler
         $manualTasks = Option::get('manual_migration_tasks', []);
 
         foreach ($versions as $version) {
-            $migrations = $mappings[$version];
+            $migrations       = $mappings[$version];
             $hasDataMigration = self::hasDataMigration($migrations);
 
             foreach ($migrations as $migration) {
@@ -206,34 +213,15 @@ class MigrationHandler
             return;
         }
 
-        $taskList = self::buildTaskList($manualTasks);
-        $actionUrl = self::buildActionUrl();
-        $message = self::buildNoticeMessage($taskList, $actionUrl);
+        $details = Option::get('migration_status_detail', null);
+
+        if (! empty($details['status']) && 'failed' === $details['status']) {
+            return;
+        }
+
+        $message = self::buildNoticeMessage();
 
         Notice::addNotice($message, 'database_manual_migration', 'warning');
-    }
-
-    /**
-     * Build an HTML list of pending tasks.
-     *
-     * @param array $manualTasks Pending manual tasks.
-     * @return string HTML list of tasks.
-     */
-    private static function buildTaskList($manualTasks)
-    {
-        $taskList = '';
-        foreach ($manualTasks as $version => $methods) {
-            foreach ($methods as $method => $info) {
-                $taskList .= sprintf(
-                    '<li>%s - %s (%s) => Class --> %s</li>',
-                    esc_html($version),
-                    esc_html($method),
-                    esc_html($info['type']),
-                    $info['class']
-                );
-            }
-        }
-        return $taskList;
     }
 
     /**
@@ -255,18 +243,29 @@ class MigrationHandler
     /**
      * Build the complete notice message HTML.
      *
-     * @param string $taskList HTML list of tasks.
-     * @param string $actionUrl URL for the action button.
+     * @todo The docs link should be updated.
      * @return string Notice message HTML.
      */
-    private static function buildNoticeMessage($taskList, $actionUrl)
+    private static function buildNoticeMessage()
     {
+        $actionUrl = self::buildActionUrl();
+        $documentationUrl = 'https://veronalabs.com/';
+
         return sprintf(
-            '<p>%s</p><ul>%s</ul><p><a href="%s" class="button button-primary">%s</a></p>',
-            esc_html__('The following manual database migrations are required:', 'wp-statistics'),
-            $taskList,
+            '<p>
+                <strong>%1$s</strong>
+                </br>%2$s
+                </br>%3$s
+                </br><a href="%4$s" class="button button-primary">%5$s</a>
+                <a href="%6$s" target="_blank" style="margin-left: 10px">%7$s</a>
+            </p>',
+            esc_html__('Action Required: Upgrade Needed for WP Statistics', 'wp-statistics'),
+            esc_html__('The Database Upgrade process needs to be run to ensure WP Statistics works seamlessly with the latest updates.', 'wp-statistics'),
+            esc_html__('Running this process will [specific benefits, e.g., “add new features” or “optimize data”].', 'wp-statistics'),
             esc_url($actionUrl),
-            esc_html__('Run Migrations', 'wp-statistics')
+            esc_html__('Run Process Now', 'wp-statistics'),
+            esc_url($documentationUrl),
+            esc_html__('For more details, see our documentation.', 'wp-statistics')
         );
     }
 
@@ -442,5 +441,85 @@ class MigrationHandler
         $referer = wp_get_referer();
         wp_redirect($referer ?: admin_url());
         exit;
+    }
+
+    /**
+     * Handles displaying notices based on the current migration status.
+     *
+     * This method checks the `migration_status_detail` option to determine the
+     * current status of the migration process. It displays appropriate notices
+     * for progress, completion, or failure of the migration.
+     *
+     * @return void
+     */
+    private static function handleMigrationStatusNotices()
+    {
+        $details = Option::get('migration_status_detail', null);
+
+        if (empty($details['status'])) {
+            return;
+        }
+
+        $status = $details['status'];
+
+        if ($status === 'progress') {
+            $message = sprintf(
+                '
+                    <p>
+                        <strong>%1$s</strong>
+                        </br>%2$s
+                        </br>%3$s
+                    </p>
+                ',
+                esc_html__('WP Statistics: Process Running', 'wp-statistics'),
+                esc_html__('The Database Migration process is running in the background. This may take a few minutes depending on your site’s data size.', 'wp-statistics'),
+                esc_html__('Please wait while the process completes. You can continue working in the admin area.', 'wp-statistics')
+            );
+
+            Notice::addNotice($message, 'database_manual_migration_progress', 'info');
+            return;
+        }
+
+        if ($status === 'done') {
+            $message = sprintf(
+                '
+                    <p>
+                        <strong>%1$s</strong>
+                        </br>%2$s
+                        </br><strong>%3$s</strong>
+                        </br>%4$s
+                    </p>
+                ',
+                esc_html__('WP Statistics: Process Complete', 'wp-statistics'),
+                esc_html__('The Database Migration process has been completed successfully.', 'wp-statistics'),
+                esc_html__('Your WP Statistics plugin is now fully updated and optimized. 🎉', 'wp-statistics'),
+                esc_html__('Thank you for keeping WP Statistics up-to-date!', 'wp-statistics')
+            );
+
+            Notice::addFlashNotice($message, 'success');
+            Option::update('migration_status_detail', null);
+            return;
+        }
+
+        if ($status === 'failed') {
+            $message = sprintf(
+                '
+                    <p>
+                        <strong>%1$s</strong>
+                        </br>%2$s
+                        </br><strong>%3$s</strong> %4$s
+                        </br><a href="%5$s">%6$s</a>
+                    </p>
+                ',
+                esc_html__('WP Statistics: Process Failed', 'wp-statistics'),
+                esc_html__('The Database Migration process encountered an error and could not be completed.', 'wp-statistics'),
+                esc_html__('Error:', 'wp-statistics'),
+                esc_html($details['message'] ?? ''),
+                esc_url('https://wp-statistics.com/support/?utm_source=wp-statistics&utm_medium=link&utm_campaign=db-error'),
+                esc_html__('Contact Support', 'wp-statistics')
+            );
+
+            Notice::addNotice($message, 'database_manual_migration_failed', 'error');
+        }
     }
 }

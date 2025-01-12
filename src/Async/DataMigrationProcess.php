@@ -18,6 +18,23 @@ class DataMigrationProcess extends WP_Background_Process
     protected $action = 'data_migration_process';
 
     /**
+     * Is the background process currently running?
+     *
+     * @return bool
+     */
+    public function is_processing()
+    {
+        if (get_site_transient($this->identifier . '_process_lock')) {
+            Option::update('migration_status_detail', [
+                'status' => 'progress'
+            ]);
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * Process a single data migration task.
      * 
      * @param array $data
@@ -58,7 +75,7 @@ class DataMigrationProcess extends WP_Background_Process
         if (! $task) {
             return false;
         }
-        
+
         if (!method_exists($task, 'execute')) {
             return false;
         }
@@ -78,5 +95,8 @@ class DataMigrationProcess extends WP_Background_Process
 
         Option::deleteOptionGroup('data_migration_process_started', 'jobs');
         Option::update('db_migrated', true);
+        Option::update('migration_status_detail', [
+            'status' => 'done'
+        ]);
     }
 }

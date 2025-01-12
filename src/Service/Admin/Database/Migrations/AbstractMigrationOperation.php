@@ -113,4 +113,18 @@ abstract class AbstractMigrationOperation extends AbstractDatabaseOperation
     {
         return $this->migrationSteps;
     }
+
+    /**
+     * Sets the migration status to "failed" with an error message.
+     * 
+     * @param string $message The error message describing why the migration failed.
+     * @return void
+     */
+    protected function setErrorStatus($message)
+    {
+        Option::update('migration_status_detail', [
+            'status' => 'failed',
+            'message' => $message
+        ]);
+    }
 }
