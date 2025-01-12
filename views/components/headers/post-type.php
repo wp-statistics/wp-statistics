@@ -80,7 +80,7 @@ $postTypeSingular = Helper::getPostTypeName($postType, true);
             <?php
             if ($termCount > 8) {
                 printf(
-                    '<a href="" class="wps-content-analytics-header__tags--more">%s</a>',
+                    '<a class="wps-content-analytics-header__tags--more js-toggle-content-tags">%s</a>',
                     esc_html__('Show more', 'wp-statistics')
                 );
             }

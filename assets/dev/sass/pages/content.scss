@@ -161,6 +161,15 @@
         font-size: 12px;
         line-height: 14.06px;
         font-weight: 400;
+        word-break: break-word;
+        cursor: pointer;
+
+        &.extra-item {
+          display: none;
+          &.show{
+            display: inline-block;
+          }
+        }
 
         &:hover {
           color: #56585A;
