@@ -33,9 +33,6 @@ jQuery(document).ready(function () {
         }
     }
 
-    const localTime = getLocalTime();
-
-
     // Update the week start day based on WordPress setting
     if (datePickerBtn.length) {
         moment.updateLocale('en', {
@@ -45,6 +42,7 @@ jQuery(document).ready(function () {
         });
     }
 
+    const localTime = getLocalTime();
 
     function phpToMomentFormat(phpFormat) {
         const formatMap = {
