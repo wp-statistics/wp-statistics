@@ -3,6 +3,29 @@ jQuery(document).ready(function () {
     const datePickerElement = jQuery('.js-date-range-picker-input');
     const datePickerForm = jQuery('.js-date-range-picker-form');
     const datePickerField = jQuery('.wps-js-calendar-field');
+    const wpTimezone = wps_js.isset(wps_js.global, 'options', 'wp_timezone') ? wps_js.global['options']['wp_timezone'] : null;
+    if (wpTimezone) {
+        let momentTime;
+
+        if (wpTimezone.startsWith('UTC') || wpTimezone.startsWith('+') || wpTimezone.startsWith('-')) {
+            const offset = wpTimezone.replace('UTC', ''); // Remove "UTC" prefix if present
+            const [hours, minutes] = offset.split(':').map(Number);
+            const totalOffsetMinutes = (hours * 60) + (minutes || 0);
+            momentTime = moment().utcOffset(totalOffsetMinutes).format('YYYY-MM-DD HH:mm:ss');
+        } else {
+            // Handle named timezones (e.g., "Pacific/Honolulu")
+            if (moment.tz.zone(wpTimezone)) {
+                moment.tz.setDefault(wpTimezone);
+                momentTime = moment().tz(wpTimezone).format('YYYY-MM-DD HH:mm:ss');
+            } else {
+                momentTime = moment().utc().format('YYYY-MM-DD HH:mm:ss');
+            }
+        }
+
+    } else {
+        momentTime = moment().utc().format('YYYY-MM-DD HH:mm:ss');
+    }
+
 
     // Update the week start day based on WordPress setting
     if (datePickerBtn.length) {
@@ -69,7 +92,6 @@ jQuery(document).ready(function () {
         // Default dates for the date picker
         let defaultStartDate = wps_js.global.user_date_range.from;
         let defaultEndDate = wps_js.global.user_date_range.to;
-
         datePickerElement.daterangepicker({
             "autoApply": true,
             "ranges": ranges,
