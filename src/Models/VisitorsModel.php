@@ -1207,10 +1207,7 @@ class VisitorsModel extends BaseModel
     public function getDailyStats($args = [])
     {
         $args = $this->parseArgs($args, [
-            'date'          => [
-                'from' => date('Y-m-d', strtotime('-30 days')),
-                'to'   => date('Y-m-d'),
-            ],
+            'date'          => DateRange::get('30days'),
             'post_type'     => '',
             'post_id'       => '',
             'resource_type' => '',
