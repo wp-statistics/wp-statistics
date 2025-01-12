@@ -138,6 +138,7 @@ Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest versio
 == Changelog ==
 = 14.12.1 =
 - **Fix:** Corrected the number formatting issue in the "Global Visitor Distribution" widget to ensure consistent and accurate display of visitor data.
+- **Fix:** Resolved the tracker file detection issue in the tracker debugger for sites in subfolders.
 - **New:** Added a "Last Year" filter to metaboxes on the Overview page, allowing users to view analytics data for the previous year.
 - **Enhancement:** Enhanced IP/Hash filter functionality on the Visitor Insights page.
 
