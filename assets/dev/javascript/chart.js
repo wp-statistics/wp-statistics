@@ -199,10 +199,18 @@ const phpToMomentFormat = (phpFormat) => {
 
 const formatDateRange = (startDate, endDate, unit, momentDateFormat, isInsideDashboardWidgets) => {
     const startDateFormat = momentDateFormat.replace(/,?\s?(YYYY|YY)[-/\s]?,?|[-/\s]?(YYYY|YY)[-/\s]?,?/g, "");
+     if (unit === 'month') {
+         const monthFormat = momentDateFormat
+             .replace(/D+/g, '')
+             .replace(/\/\//g, '/')
+             .replace(/^\//, '')
+             .replace(/\/$/, '')
+             .replace(/\s*,/, '')
+             .replace(/-$/, '')
+             .trim();
+         return moment(startDate).format(monthFormat);
 
-    if (unit === 'month') {
-        return moment(startDate).format('MMM YYYY');
-    } else {
+     } else {
         if (moment(startDate).year() === moment(endDate).year()) {
             return `${moment(startDate).format(startDateFormat)} to ${moment(endDate).format(momentDateFormat)}`;
         } else {
@@ -304,39 +312,47 @@ const aggregateData = (labels, datasets, unit, momentDateFormat, isInsideDashboa
             });
         });
     } else if (unit === 'month') {
-        labels.forEach((label, i) => {
-            const date = moment(label.date);
-            if (!date.isValid()) {
-                console.error(`Invalid date found at index ${i}:`, label.date);
-                return;
-            }
-            const monthKey = date.format('YYYY-MM');
+        const startDate = moment(labels[0].date);
+        const endDate = moment(labels[labels.length - 1].date);
+        let currentDate = startDate.clone();
+        while (currentDate.isSameOrBefore(endDate, 'month')) {
+            const monthKey = currentDate.format('YYYY-MM');
             if (!groupedData[monthKey]) {
                 groupedData[monthKey] = {
-                    startDate: date.clone().startOf('month'),
-                    endDate: date.clone().endOf('month'),
+                    startDate: currentDate.clone().startOf('month'),
+                    endDate: currentDate.clone().endOf('month'),
                     indices: [],
                 };
             }
-            groupedData[monthKey].indices.push(i);
+            currentDate.add(1, 'month');
+        }
+        labels.forEach((label, i) => {
+            const date = moment(label.date);
+            const monthKey = date.format('YYYY-MM');
+            if (groupedData[monthKey]) {
+                groupedData[monthKey].indices.push(i);
+            }
         });
 
         // Aggregate data for each month
         Object.keys(groupedData).forEach(monthKey => {
-            const {startDate, endDate, indices} = groupedData[monthKey];
-            const label = formatDateRange(startDate, endDate, unit, momentDateFormat, isInsideDashboardWidgets);
-            aggregatedLabels.push(label);
-            datasets.forEach((dataset, idx) => {
-                const total = indices.reduce((sum, i) => sum + (dataset.data[i] || 0), 0);
-                aggregatedData[idx].push(total);
-            });
-            monthTooltipTitle.push(setMonthDateRange(startDate, endDate, momentDateFormat));
+            const { startDate, endDate, indices } = groupedData[monthKey];
+            const actualStartDate = moment.max(startDate, moment(labels[0].date));
+            const actualEndDate = moment.min(endDate, moment(labels[labels.length - 1].date));
+            if (indices.length > 0) {
+                const label = formatDateRange(actualStartDate, actualEndDate, unit, momentDateFormat, isInsideDashboardWidgets);
+                aggregatedLabels.push(label);
+                datasets.forEach((dataset, idx) => {
+                    const total = indices.reduce((sum, i) => sum + (dataset.data[i] || 0), 0);
+                    aggregatedData[idx].push(total);
+                });
+                 monthTooltipTitle.push(setMonthDateRange(actualStartDate, actualEndDate, momentDateFormat));
+            }
         });
     }
 
     return {aggregatedLabels, aggregatedData, monthTooltipTitle};
 }
-
 
 const updateLegend = (lineChart, datasets, tag_id, data) => {
     const chartElement = document.getElementById(tag_id);
@@ -561,7 +577,9 @@ wps_js.new_line_chart = function (data, tag_id, newOptions = null, type = 'line'
         }
     } else {
         prevDateLabels = Array(dateLabels.length).fill("N/A");
-        prevAggregatedData = datasets.map(() => Array(dateLabels.length).fill(0));
+        if (datasets  && datasets.length > 0 && Array.isArray(datasets)) {
+            prevAggregatedData = datasets.map(() => Array(dateLabels.length).fill(0));
+        }
     }
 
     function updateChart(unitTime) {
