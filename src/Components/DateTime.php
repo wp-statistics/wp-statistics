@@ -13,12 +13,12 @@ class DateTime
     /**
      * Returns a formatted date string.
      *
-     * @param string $date Human readable date string passed to strtotime() function. Defaults to 'today'
+     * @param string $date Human readable date string passed to strtotime() function. Defaults to 'now'
      * @param string $format The format string to use for the date. Default is 'Y-m-d'.
      *
      * @return string The formatted date string.
      */
-    public static function get($date = 'today', $format = 'Y-m-d')
+    public static function get($date = 'now', $format = 'Y-m-d')
     {
         return DateTime::format($date, ['date_format' => $format]);
     }
