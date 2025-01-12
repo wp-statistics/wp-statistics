@@ -32,33 +32,9 @@ class DateTime
     public static function getStartOfWeek($return = 'name')
     {
         $dayNumber = intval(get_option('start_of_week', 0));
+        $weekDays  = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
-        switch ($dayNumber) {
-            case 0:
-                $dayName = 'Sunday';
-                break;
-            case 1:
-                $dayName = 'Monday';
-                break;
-            case 2:
-                $dayName = 'Tuesday';
-                break;
-            case 3:
-                $dayName = 'Wednesday';
-                break;
-            case 4:
-                $dayName = 'Thursday';
-                break;
-            case 5:
-                $dayName = 'Friday';
-                break;
-            case 6:
-                $dayName = 'Saturday';
-                break;
-            default:
-                $dayName = 'Monday';
-                break;
-        }
+        $dayName = $weekDays[$dayNumber] ?? 'Monday';
 
         // Return the name of the day, the number of the day, or both.
         switch ($return) {
