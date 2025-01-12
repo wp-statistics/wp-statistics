@@ -141,6 +141,8 @@ Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest versio
 - **Fix:** Resolved the tracker file detection issue in the tracker debugger for sites in subfolders.
 - **New:** Added a "Last Year" filter to metaboxes on the Overview page, allowing users to view analytics data for the previous year.
 - **Enhancement:** Enhanced IP/Hash filter functionality on the Visitor Insights page.
+- **Fix:** Compatibility issue with "Discount Rules for WooCommerce" plugin.
+- **Fix:** Timezone issue in the "Traffic Summary" widget.
 
 = 14.12 - 2025-01-05 =
 - **New:** Introduced the "Source Categories" report under the "Referrals" section.
