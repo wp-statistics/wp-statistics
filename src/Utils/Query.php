@@ -5,8 +5,8 @@ namespace WP_Statistics\Utils;
 use WP_Statistics\Components\DateRange;
 use WP_Statistics\Traits\TransientCacheTrait;
 use WP_STATISTICS\DB;
-use WP_STATISTICS\TimeZone;
 use InvalidArgumentException;
+use WP_Statistics\Components\DateTime;
 
 class Query
 {
@@ -740,7 +740,7 @@ class Query
      */
     protected function canUseCacheForDateRange($to)
     {
-        $today = date('Y-m-d');
+        $today = DateTime::get();
 
         // Cache should be used if the date range does not include today
         if ($to < $today) {
