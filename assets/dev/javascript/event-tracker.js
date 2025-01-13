@@ -14,12 +14,7 @@ const WpStatisticsEventTracker = {
             return;
         }
 
-        this.ajaxUrl                = WP_Statistics_Event_Object.eventAjaxUrl;
-        this.linkTrackerEnabled     = WP_Statistics_Event_Object.linkTrackerEnabled;
-        this.downloadTrackerEnabled = WP_Statistics_Event_Object.downloadTrackerEnabled;
-
         this.captureEvent();
-        // Additional initialization code can go here
     },
 
     captureEvent: function () {
@@ -106,7 +101,7 @@ const WpStatisticsEventTracker = {
         // If it's a click event
         if (eventData.en === 'click') {
             // If link tracker is disabled, skip tracking
-            if (!this.linkTrackerEnabled) return false;
+            if (!WP_Statistics_Event_Object.linkTrackerEnabled) return false;
 
             // If target link is internal, skip tracking
             if (targetUrl.toLowerCase().includes(window.location.host)) return false;
@@ -115,7 +110,7 @@ const WpStatisticsEventTracker = {
         // If it's a download event
         if (eventData.en === 'file_download') {
             // If download tracker is disabled, skip tracking
-            if (!this.downloadTrackerEnabled) return false;
+            if (!WP_Statistics_Event_Object.downloadTrackerEnabled) return false;
         }
 
         return eventData;
@@ -128,7 +123,7 @@ const WpStatisticsEventTracker = {
         }
 
         try {
-            const response = await fetch(this.ajaxUrl, {
+            const response = await fetch(WP_Statistics_Event_Object.eventAjaxUrl, {
                 method: 'POST',
                 body: formData
             });
