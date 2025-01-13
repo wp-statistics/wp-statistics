@@ -17,7 +17,7 @@ class Frontend
         add_action('wp_footer', array($this, 'add_honeypot'));
 
         # Enqueue scripts & styles
-        add_action('wp_enqueue_scripts', array($this, 'enqueue_scripts'));
+        add_action('wp_enqueue_scripts', array($this, 'enqueue_scripts'), 11);
 
         # Print out the WP Statistics HTML comment
         add_action('wp_head', array($this, 'print_out_plugin_html'));
