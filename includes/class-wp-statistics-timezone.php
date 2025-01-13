@@ -336,7 +336,7 @@ class TimeZone
         $diffMinutes = round(($currentDate->getTimestamp() - $visitDate->getTimestamp()) / 60);
 
         if ($diffMinutes < 1) {
-            return 'now';
+            return esc_html__('Now', 'wp-statistics');
         }
 
         if ($diffMinutes >= 1440) {
