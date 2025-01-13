@@ -4,7 +4,7 @@ Donate link: https://wp-statistics.com/donate/
 Tags: analytics, google analytics, insights, stats, site visitors
 Requires at least: 5.0
 Tested up to: 6.7
-Stable tag: 14.12
+Stable tag: 14.12.1
 Requires PHP: 7.2
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -136,13 +136,13 @@ To ensure the plugin works correctly, please clear your cache because some reque
 Update add-ons DataPlus, Advanced Reporting, and Mini-Chart to the latest version.
 
 == Changelog ==
-= 14.12.1 =
-- **Fix:** Corrected the number formatting issue in the "Global Visitor Distribution" widget to ensure consistent and accurate display of visitor data.
-- **Fix:** Resolved the tracker file detection issue in the tracker debugger for sites in subfolders.
-- **New:** Added a "Last Year" filter to metaboxes on the Overview page, allowing users to view analytics data for the previous year.
-- **Enhancement:** Enhanced IP/Hash filter functionality on the Visitor Insights page.
-- **Fix:** Compatibility issue with "Discount Rules for WooCommerce" plugin.
-- **Fix:** Timezone issue in the "Traffic Summary" widget.
+= 14.12.1 - 2025-01-13 =
+- **New:** Added "Last Year" filter to metaboxes on the Overview page for yearly data.
+- **Enhancement:** Improved IP/Hash filter on the Visitor Insights page.
+- **Fix:** Resolved number formatting in the "Global Visitor Distribution" widget.
+- **Fix:** Fixed tracker detection issue for sites in subfolders.
+- **Fix:** Addressed compatibility issue with "Discount Rules for WooCommerce."
+- **Fix:** Corrected timezone mismatch in the "Traffic Summary" widget.
 
 = 14.12 - 2025-01-05 =
 - **New:** Introduced the "Source Categories" report under the "Referrals" section.
